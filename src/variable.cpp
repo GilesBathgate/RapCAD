@@ -22,6 +22,10 @@ Variable::Variable()
 {
 }
 
+Variable::~Variable()
+{
+}
+
 QString Variable::getName()
 {
     return this->name;

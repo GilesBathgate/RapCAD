@@ -22,12 +22,22 @@ Module::Module()
 {
 }
 
+Module::~Module()
+{
+    if(parameters)
+	for(int i=0; i<parameters->size(); i++)
+	    delete parameters->at(i);
+    delete parameters;
+
+    delete context;
+}
+
 QString Module::toString()
 {
     QString result;
     result.append("Module: ");
     result.append(this->name);
-    result.append("\n");
+    result.append(" {\n");
     result.append("Parameters: ");
     QVector<Parameter*>* params = this->parameters;
     if(params)
@@ -45,7 +55,7 @@ QString Module::toString()
 	    result.append(decls->at(i)->toString());
 	result.append(")\n");
     }
-
+    result.append("}\n");
     return result;
 }
 

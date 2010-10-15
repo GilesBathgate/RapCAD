@@ -22,6 +22,10 @@ Declaration::Declaration()
 {
 }
 
+Declaration::~Declaration()
+{
+}
+
 QString Declaration::toString()
 {
     return "Unknown";

@@ -20,6 +20,15 @@
 
 ModuleContext::ModuleContext()
 {
+    declarations=NULL;
+}
+
+ModuleContext::~ModuleContext()
+{
+    if(declarations)
+	for(int i=0; i<declarations->size(); i++)
+	    delete declarations->at(i);
+    delete declarations;
 }
 
  void ModuleContext::setDeclarations(QVector<Declaration*>* decls)

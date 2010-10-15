@@ -25,6 +25,7 @@ class Declaration
 {
 public:
     Declaration();
+    virtual ~Declaration();
     virtual QString toString();
 };
 

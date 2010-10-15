@@ -27,6 +27,7 @@ class Argument
 {
 public:
     Argument();
+    ~Argument();
     void setVariable(Variable*);
     Variable* getVariable();
     void setExpression(Expression*);

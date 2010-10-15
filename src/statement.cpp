@@ -16,24 +16,12 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BINARYEXPRESSION_H
-#define BINARYEXPRESSION_H
+#include "statement.h"
 
-#include "expression.h"
-
-class BinaryExpression : public Expression
+Statement::Statement()
 {
-public:
-    BinaryExpression();
-    ~BinaryExpression();
-    Expression* getLeft();
-    void setLeft(Expression*);
-    Expression* getRight();
-    void setRight(Expression*);
-    QString toString();
-private:
-    Expression* left;
-    Expression* right;
-};
+}
 
-#endif // BINARYEXPRESSION_H
+Statement::~Statement()
+{
+}

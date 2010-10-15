@@ -22,6 +22,10 @@ DependencyBuilder::DependencyBuilder()
 {
 }
 
+DependencyBuilder::~DependencyBuilder()
+{
+}
+
 void DependencyBuilder::BuildScript(QVector<Declaration*>*)
 {
 }
@@ -42,6 +46,11 @@ QVector<Declaration*>* DependencyBuilder::BuildDeclarations(QVector<Declaration*
 }
 
 QVector<Declaration*>* DependencyBuilder::BuildDeclarations(Declaration*)
+{
+    return NULL;
+}
+
+Statement* DependencyBuilder::BuildStatement(Statement*)
 {
     return NULL;
 }
@@ -67,6 +76,16 @@ Instance* DependencyBuilder::BuildInstance(Instance*)
 }
 
 Instance* DependencyBuilder::BuildInstance(QString,QVector<Argument*>*)
+{
+    return NULL;
+}
+
+Instance* DependencyBuilder::BuildInstance(Instance*,QVector<Instance*>*)
+{
+    return NULL;
+}
+
+QVector<Instance*>* DependencyBuilder::BuildInstances(Instance*)
 {
     return NULL;
 }

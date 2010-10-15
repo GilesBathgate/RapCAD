@@ -30,6 +30,7 @@ class Module : public Declaration
 {
 public:
      Module();
+     ~Module();
      QString getName();
      void setName(QString);
      QVector<Parameter*>* getParameters();

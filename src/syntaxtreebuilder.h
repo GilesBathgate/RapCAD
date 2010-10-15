@@ -25,16 +25,20 @@ class SyntaxTreeBuilder : public AbstractSyntaxTreeBuilder
 {
 public:
     SyntaxTreeBuilder();
+    ~SyntaxTreeBuilder();
     void BuildScript(QVector<Declaration*>*);
     QVector<Declaration*>* BuildDeclarations();
     QVector<Declaration*>* BuildDeclarations(Declaration*);
     QVector<Declaration*>* BuildDeclarations(QVector<Declaration*>*);
     QVector<Declaration*>* BuildDeclarations(QVector<Declaration*>*,Declaration*);
+    Statement* BuildStatement(Statement*);
     Declaration* BuildModule(QString name,QVector<Parameter*>*,Context*);
     Context* BuildContext(QVector<Declaration*>*);
     Context* BuildContext(Instance*);
     Instance* BuildInstance(Instance*);
     Instance* BuildInstance(QString,QVector<Argument*>*);
+    Instance* BuildInstance(Instance*,QVector<Instance*>*);
+    QVector<Instance*>* BuildInstances(Instance*);
     QVector<Parameter*>* BuildParameters();
     QVector<Parameter*>* BuildParameters(Parameter*);
     QVector<Parameter*>* BuildParameters(QVector<Parameter*>*,Parameter*);

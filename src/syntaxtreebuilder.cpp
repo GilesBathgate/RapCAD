@@ -24,6 +24,14 @@ SyntaxTreeBuilder::SyntaxTreeBuilder()
     declarations=NULL;
 }
 
+SyntaxTreeBuilder::~SyntaxTreeBuilder()
+{
+    if(declarations)
+	for(int i =0; i<declarations->size(); i++)
+	    delete declarations->at(i);
+    delete declarations;
+}
+
 void SyntaxTreeBuilder::BuildScript(QVector<Declaration*>* decls)
 {
     declarations = decls;
@@ -50,6 +58,11 @@ QVector<Declaration*>* SyntaxTreeBuilder::BuildDeclarations(Declaration* decl)
     QVector<Declaration*>* result = new QVector<Declaration*>();
     result->append(decl);
     return result;
+}
+
+Statement* SyntaxTreeBuilder::BuildStatement(Statement* stmt)
+{
+    return stmt;
 }
 
 Declaration* SyntaxTreeBuilder::BuildModule(QString name, QVector<Parameter*>* params, Context* ctx)
@@ -87,6 +100,19 @@ Instance* SyntaxTreeBuilder::BuildInstance(QString name,QVector<Argument*>* args
     Instance* result = new Instance();
     result->setName(name);
     result->setArguments(args);
+    return result;
+}
+
+Instance* SyntaxTreeBuilder::BuildInstance(Instance* inst,QVector<Instance*>* insts)
+{
+    inst->setChildren(insts);
+    return inst;
+}
+
+QVector<Instance*>* SyntaxTreeBuilder::BuildInstances(Instance* inst)
+{
+    QVector<Instance*>* result = new QVector<Instance*>();
+    result->append(inst);
     return result;
 }
 

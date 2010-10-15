@@ -20,6 +20,14 @@
 
 Argument::Argument()
 {
+    variable=NULL;
+    expression=NULL;
+}
+
+Argument::~Argument()
+{
+    delete variable;
+    delete expression;
 }
 
 void Argument::setVariable(Variable* var)

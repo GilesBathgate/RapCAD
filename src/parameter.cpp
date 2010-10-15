@@ -23,6 +23,11 @@ Parameter::Parameter()
     expression=NULL;
 }
 
+Parameter::~Parameter()
+{
+    delete expression;
+}
+
 QString Parameter::toString()
 {
     QString result;

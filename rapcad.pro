@@ -46,7 +46,8 @@ SOURCES += src/main.cpp\
     src/modulecontext.cpp \
     src/dependencybuilder.cpp \
     src/instance.cpp \
-    src/argument.cpp
+    src/argument.cpp \
+    src/statement.cpp
 
 HEADERS  += src/mainwindow.h \
     src/module.h \
@@ -62,7 +63,8 @@ HEADERS  += src/mainwindow.h \
     src/abstractsyntaxtreebuilder.h \
     src/dependencybuilder.h \
     src/instance.h \
-    src/argument.h
+    src/argument.h \
+    src/statement.h
 
 FORMS    += src/mainwindow.ui   
 

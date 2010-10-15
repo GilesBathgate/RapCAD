@@ -23,6 +23,7 @@ class Context
 {
 public:
     Context();
+    virtual ~Context();
 };
 
 #endif // CONTEXT_H

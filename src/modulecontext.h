@@ -27,6 +27,7 @@ class ModuleContext : public Context
 {
 public:
     ModuleContext();
+    ~ModuleContext();
     QVector<Declaration*>* getDeclarations();
     void setDeclarations(QVector<Declaration*>*);
 private:

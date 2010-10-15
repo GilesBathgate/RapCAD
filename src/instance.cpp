@@ -20,6 +20,21 @@
 
 Instance::Instance()
 {
+    arguments=NULL;
+    children=NULL;
+}
+
+Instance::~Instance()
+{
+    if(arguments)
+	for(int i=0; i<arguments->size(); i++)
+	    delete arguments->at(i);
+    delete arguments;
+
+    if(children)
+	for(int i=0; i<children->size(); i++)
+	    delete children->at(i);
+    delete children;
 }
 
 void Instance::setName(QString name)
@@ -42,6 +57,16 @@ QVector<Argument*>* Instance::getArguments()
     return this->arguments;
 }
 
+void Instance::setChildren(QVector <Instance*>* childs)
+{
+    this->children = childs;
+}
+
+QVector <Instance*>* Instance::getChildren()
+{
+    return this->children;
+}
+
 QString Instance::toString()
 {
     QString result;
@@ -51,6 +76,14 @@ QString Instance::toString()
     if(arguments)
 	for(int i=0; i<arguments->size(); i++)
 	    result.append(arguments->at(i)->toString());
+
+    if(children)
+    {
+	result.append("Children: ( ");
+	for(int i=0; i<children->size(); i++)
+	    result.append(children->at(i)->toString());
+	result.append(")");
+    }
 
     return result;
 }

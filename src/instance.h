@@ -21,21 +21,25 @@
 
 #include <QString>
 #include <QVector>
-#include "declaration.h"
+#include "statement.h"
 #include "argument.h"
 
-class Instance : public Declaration
+class Instance : public Statement
 {
 public:
     Instance();
+    ~Instance();
     void setName(QString);
     QString getName();
     void setArguments(QVector<Argument*>*);
     QVector<Argument*>* getArguments();
+    void setChildren(QVector <Instance*>* childs);
+    QVector <Instance*>* getChildren();
     QString toString();
 private:
     QString name;
     QVector<Argument*>* arguments;
+    QVector <Instance*>* children;
 };
 
 #endif // INSTANCE_H

@@ -20,6 +20,14 @@
 
 BinaryExpression::BinaryExpression()
 {
+    left=NULL;
+    right=NULL;
+}
+
+BinaryExpression::~BinaryExpression()
+{
+    delete left;
+    delete right;
 }
 
 QString BinaryExpression::toString()

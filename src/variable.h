@@ -26,6 +26,7 @@ class Variable : public Expression
 {
 public:
     Variable();
+    ~Variable();
     QString getName();
     void setName(QString);
     QString toString();

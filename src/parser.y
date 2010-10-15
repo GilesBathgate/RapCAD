@@ -25,10 +25,14 @@
 #include "syntaxtreebuilder.h"
 #include "dependencybuilder.h"
 #include "declaration.h"
-#include "expression.h"
 #include "parameter.h"
-#include "context.h"
 #include "argument.h"
+#include "expression.h"
+#include "context.h"
+#include "instance.h"
+#include "variable.h"
+#include "statement.h"
+
 
 void parsererror(char const *);
 int parserlex();
@@ -51,14 +55,17 @@ AbstractSyntaxTreeBuilder *builder;
 	unsigned int count;
 	class Declaration* decl;
 	class QVector<Declaration*>* decls;
-	class Expression* expr;
-	class QVector<Parameter*>* params;
 	class Parameter* param;
-	class Context* ctx;
-	class Instance* inst;
-	class Variable* var;
-	class QVector<Argument*>* args;
+	class QVector<Parameter*>* params;
 	class Argument* arg;
+	class QVector<Argument*>* args;
+	class Instance* inst;
+	class QVector<Instance*>* insts;
+	class Expression* expr;
+	class Context* ctx;
+	class Variable* var;
+	class Statement* stmt;
+	class QVector<Statement*>* stmts;
 }
 
 %token MODULE FUNCTION
@@ -84,17 +91,20 @@ AbstractSyntaxTreeBuilder *builder;
 %left '[' ']'
 %left '.'
 
+%type <count> optional_commas
 %type <decl>  declaration
 %type <decls>  declaration_list compound_declaration
 %type <param> parameter
 %type <params> parameters
-%type <expr>  expression
-%type <ctx>  module_context
-%type <inst>  module_instance single_instance
-%type <var>  variable
 %type <arg> argument
 %type <args> arguments
-%type <count> optional_commas
+%type <expr> expression
+%type <ctx> module_context
+%type <inst> module_instance single_instance
+%type <insts> compound_instance instance_list
+%type <var> variable
+%type <stmt> statement single_statement
+%type <stmts> compound_statement statement_list
 
 %%
 input
@@ -119,7 +129,7 @@ compound_declaration
 
 declaration
 	: single_statement
-	{ }
+	{ $$ = builder->BuildStatement($1); }
 	| MODULE IDENTIFIER '(' parameters ')' module_context
 	{ $$ = builder->BuildModule($2,$4,$6); }
 	| FUNCTION IDENTIFIER '(' parameters ')' function_context
@@ -140,14 +150,20 @@ function_context
 
 statement
 	: single_statement
+	{ $$ = builder->BuildStatement($1); }
 	| compound_statement
+	{ }
 	;
 
 single_statement
 	: module_instance
+	{ $$ = builder->BuildInstance($1); }
 	| assign_statement ';'
+	{ }
 	| ifelse_statement
+	{ }
 	| for_statement
+	{ }
 	;
 
 compound_statement
@@ -269,20 +285,25 @@ parameter
 
 compound_instance
 	: '{' '}'
+	{ }//$$ = builder->BuildInstances(); }
 	| '{' instance_list '}'
+	{ }//$$ = builder->BuildInstances($2); }
 	| module_instance
+	{ $$ = builder->BuildInstances($1); }
 	;
 
 module_instance
 	: single_instance ';'
 	{ $$ = builder->BuildInstance($1); }
 	| single_instance compound_instance
-	{ /*$$ = builder->BuildInstance($1,$2);*/ }
+	{ $$ = builder->BuildInstance($1,$2); }
 	;
 
 instance_list
 	: module_instance
+	{ $$ = builder->BuildInstances($1); }
 	| instance_list module_instance
+	{ }//$$ = builder->BuildInstances($1,$2); }
 	;
 
 single_instance
@@ -351,4 +372,7 @@ void parse(const char *input,bool file)
 	}
 
 	((SyntaxTreeBuilder*)builder)->Print();
+
+	//For now we just delete the builder.
+	delete builder;
 }

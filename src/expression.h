@@ -42,6 +42,7 @@ public:
     };
 
     Expression();
+    virtual ~Expression();
     Operator_e getOp();
     void setOp(Operator_e);
     virtual QString toString();

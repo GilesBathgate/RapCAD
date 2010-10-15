@@ -21,3 +21,7 @@
 Context::Context()
 {
 }
+
+Context::~Context()
+{
+}

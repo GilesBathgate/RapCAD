@@ -24,9 +24,8 @@
 class Literal : public Expression
 {
 public:
-
-
     Literal();
+    ~Literal();
     void setValue(bool);
     void setValue(double);
     void setValue(QString);

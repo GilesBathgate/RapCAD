@@ -22,6 +22,10 @@ Literal::Literal()
 {
 }
 
+Literal::~Literal()
+{
+}
+
 QString Literal::toString()
 {
     QString result;

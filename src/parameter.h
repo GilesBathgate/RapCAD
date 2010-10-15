@@ -25,6 +25,7 @@ class Parameter
 {
 public:
     Parameter();
+    ~Parameter();
     QString getName();
     void setName(QString);
     Expression* getExpression();
