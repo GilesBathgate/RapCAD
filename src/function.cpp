@@ -40,7 +40,7 @@ QString Function::toString()
     QString result;
     result.append("Function: ");
     result.append(this->name);
-    result.append(" {\n");
+    result.append("\n");
     result.append("Parameters: ");
     QVector<Parameter*>* params = this->parameters;
     if(params)
@@ -48,8 +48,9 @@ QString Function::toString()
 	for(int i=0; i<params->size(); i++)
 	    result.append(params->at(i)->toString());
     }
-
-
+    result.append(" =\n");
+    result.append(context->toString());
+    result.append("\n");
     return result;
 }
 

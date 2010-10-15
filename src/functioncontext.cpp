@@ -20,13 +20,49 @@
 
 FunctionContext::FunctionContext()
 {
+    statements=NULL;
+    expression=NULL;
 }
 
 FunctionContext::~FunctionContext()
 {
+    if(statements)
+	for(int i=0; i<statements->size(); i++)
+	    delete statements->at(i);
+    delete statements;
+
+    delete expression;
+}
+
+void FunctionContext::setExpression(Expression * exp)
+{
+    this->expression = exp;
+}
+
+Expression* FunctionContext::getExpression()
+{
+    return this->expression;
+}
+
+void FunctionContext::setStatements(QVector<Statement *> * stmts)
+{
+    this->statements = stmts;
+}
+
+QVector<Statement *> * FunctionContext::getStatements()
+{
+    return this->statements;
 }
 
 QString FunctionContext::toString()
 {
-    return "TODO";
+    QString result;
+    if(statements)
+	for(int i=0; i<statements->size(); i++)
+	    result.append(statements->at(i)->toString());
+
+    if(expression)
+	result.append(expression->toString());
+
+    return result;
 }

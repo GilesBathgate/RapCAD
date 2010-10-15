@@ -65,6 +65,29 @@ Statement* SyntaxTreeBuilder::BuildStatement(Statement* stmt)
     return stmt;
 }
 
+QVector<Statement*>* SyntaxTreeBuilder::BuildStatements()
+{
+    return NULL;
+}
+
+QVector<Statement*>* SyntaxTreeBuilder::BuildStatements(Statement* stmt)
+{
+    QVector<Statement*>* result = new QVector<Statement*>();
+    result->append(stmt);
+    return result;
+}
+
+QVector<Statement*>* SyntaxTreeBuilder::BuildStatements(QVector<Statement*>* stmts)
+{
+    return stmts;
+}
+
+QVector<Statement*>* SyntaxTreeBuilder::BuildStatements(QVector<Statement*>* stmts,Statement* stmt)
+{
+    stmts->append(stmt);
+    return stmts;
+}
+
 Declaration* SyntaxTreeBuilder::BuildModule(QString name, QVector<Parameter*>* params, Context* ctx)
 {
     Module* result = new Module();
@@ -96,6 +119,20 @@ Context* SyntaxTreeBuilder::BuildContext(Instance* inst)
     QVector<Declaration*>* decls = new QVector<Declaration*>();
     decls->append(inst);
     result->setDeclarations(decls);
+    return result;
+}
+
+Context* SyntaxTreeBuilder::BuildContext(Expression* expr)
+{
+    FunctionContext* result = new FunctionContext();
+    result->setExpression(expr);
+    return result;
+}
+
+Context* SyntaxTreeBuilder::BuildContext(QVector<Statement*>* stmts)
+{
+    FunctionContext* result = new FunctionContext();
+    result->setStatements(stmts);
     return result;
 }
 

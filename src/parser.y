@@ -145,9 +145,9 @@ module_context
 
 function_context
 	: '=' expression ';'
-	{}
+	{ $$ = builder->BuildContext($2); }
 	| compound_statement
-	{}
+	{ $$ = builder->BuildContext($1); }
 	;
 
 statement
@@ -170,16 +170,16 @@ single_statement
 
 compound_statement
 	: '{' '}'
-	{}
+	{ $$ = builder->BuildStatements(); }
 	| '{' statement_list '}'
-	{}
+	{ $$ = builder->BuildStatements($2); }
 	;
 
 statement_list
 	: statement
-	{}
+	{ $$ = builder->BuildStatements($1); }
 	| statement_list statement
-	{}
+	{ $$ = builder->BuildStatements($1,$2); }
 	;
 
 assign_statement

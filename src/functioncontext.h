@@ -29,6 +29,10 @@ class FunctionContext : public Context
 public:
     FunctionContext();
     ~FunctionContext();
+    void setExpression(Expression*);
+    Expression* getExpression();
+    void setStatements(QVector<Statement*>*);
+    QVector<Statement*>* getStatements();
     QString toString();
 private:
     Expression* expression;

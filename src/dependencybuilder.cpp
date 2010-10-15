@@ -55,6 +55,26 @@ Statement* DependencyBuilder::BuildStatement(Statement*)
     return NULL;
 }
 
+QVector<Statement*>* DependencyBuilder::BuildStatements()
+{
+    return NULL;
+}
+
+QVector<Statement*>* DependencyBuilder::BuildStatements(Statement*)
+{
+    return NULL;
+}
+
+QVector<Statement*>* DependencyBuilder::BuildStatements(QVector<Statement*>*)
+{
+    return NULL;
+}
+
+QVector<Statement*>* DependencyBuilder::BuildStatements(QVector<Statement*>*,Statement*)
+{
+    return NULL;
+}
+
 Declaration* DependencyBuilder::BuildModule(QString, QVector<Parameter*>*, Context*)
 {
     return NULL;
@@ -71,6 +91,16 @@ Context* DependencyBuilder::BuildContext(QVector<Declaration*>*)
 }
 
 Context* DependencyBuilder::BuildContext(Instance*)
+{
+    return NULL;
+}
+
+Context* DependencyBuilder::BuildContext(Expression*)
+{
+    return NULL;
+}
+
+Context* DependencyBuilder::BuildContext(QVector<Statement*>*)
 {
     return NULL;
 }

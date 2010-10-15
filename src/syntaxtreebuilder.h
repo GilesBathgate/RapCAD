@@ -32,10 +32,16 @@ public:
     QVector<Declaration*>* BuildDeclarations(QVector<Declaration*>*);
     QVector<Declaration*>* BuildDeclarations(QVector<Declaration*>*,Declaration*);
     Statement* BuildStatement(Statement*);
+    QVector<Statement*>* BuildStatements();
+    QVector<Statement*>* BuildStatements(Statement*);
+    QVector<Statement*>* BuildStatements(QVector<Statement*>*);
+    QVector<Statement*>* BuildStatements(QVector<Statement*>*,Statement*);
     Declaration* BuildModule(QString,QVector<Parameter*>*,Context*);
     Declaration* BuildFunction(QString,QVector<Parameter*>*,Context*);
     Context* BuildContext(QVector<Declaration*>*);
     Context* BuildContext(Instance*);
+    Context* BuildContext(Expression*);
+    Context* BuildContext(QVector<Statement*>*);
     Instance* BuildInstance(Instance*);
     Instance* BuildInstance(QString,QVector<Argument*>*);
     Instance* BuildInstance(Instance*,QVector<Instance*>*);
