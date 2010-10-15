@@ -109,11 +109,27 @@ Instance* SyntaxTreeBuilder::BuildInstance(Instance* inst,QVector<Instance*>* in
     return inst;
 }
 
+QVector<Instance*>* SyntaxTreeBuilder::BuildInstances()
+{
+    return NULL;
+}
+
 QVector<Instance*>* SyntaxTreeBuilder::BuildInstances(Instance* inst)
 {
     QVector<Instance*>* result = new QVector<Instance*>();
     result->append(inst);
     return result;
+}
+
+QVector<Instance*>* SyntaxTreeBuilder::BuildInstances(QVector<Instance*>* insts)
+{
+    return insts;
+}
+
+QVector<Instance*>* SyntaxTreeBuilder::BuildInstances(QVector<Instance*>* insts,Instance* inst)
+{
+    insts->append(inst);
+    return insts;
 }
 
 QVector<Parameter*>* SyntaxTreeBuilder::BuildParameters()

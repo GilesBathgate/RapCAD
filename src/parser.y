@@ -285,9 +285,9 @@ parameter
 
 compound_instance
 	: '{' '}'
-	{ }//$$ = builder->BuildInstances(); }
+	{ $$ = builder->BuildInstances(); }
 	| '{' instance_list '}'
-	{ }//$$ = builder->BuildInstances($2); }
+	{ $$ = builder->BuildInstances($2); }
 	| module_instance
 	{ $$ = builder->BuildInstances($1); }
 	;
@@ -303,7 +303,7 @@ instance_list
 	: module_instance
 	{ $$ = builder->BuildInstances($1); }
 	| instance_list module_instance
-	{ }//$$ = builder->BuildInstances($1,$2); }
+	{ $$ = builder->BuildInstances($1,$2); }
 	;
 
 single_instance
