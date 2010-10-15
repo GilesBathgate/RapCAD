@@ -41,3 +41,16 @@ ModuleContext::~ModuleContext()
      return this->declarations;
  }
 
+ QString ModuleContext::toString()
+ {
+     QString result;
+     if(declarations)
+     {
+	 result.append("\nContext: (\n");
+	 for(int i=0; i<declarations->size(); i++)
+	     result.append(declarations->at(i)->toString());
+	 result.append(")\n");
+     }
+     return result;
+ }
+

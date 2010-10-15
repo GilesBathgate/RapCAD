@@ -24,7 +24,6 @@
 #include "parameter.h"
 #include "declaration.h"
 #include "context.h"
-#include "modulecontext.h"
 
 class Module : public Declaration
 {

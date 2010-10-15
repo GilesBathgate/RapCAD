@@ -32,7 +32,8 @@ public:
     QVector<Declaration*>* BuildDeclarations(QVector<Declaration*>*);
     QVector<Declaration*>* BuildDeclarations(QVector<Declaration*>*,Declaration*);
     Statement* BuildStatement(Statement*);
-    Declaration* BuildModule(QString name,QVector<Parameter*>*,Context*);
+    Declaration* BuildModule(QString,QVector<Parameter*>*,Context*);
+    Declaration* BuildFunction(QString,QVector<Parameter*>*,Context*);
     Context* BuildContext(QVector<Declaration*>*);
     Context* BuildContext(Instance*);
     Instance* BuildInstance(Instance*);

@@ -60,6 +60,11 @@ Declaration* DependencyBuilder::BuildModule(QString, QVector<Parameter*>*, Conte
     return NULL;
 }
 
+Declaration* DependencyBuilder::BuildFunction(QString,QVector<Parameter*>*,Context*)
+{
+    return NULL;
+}
+
 Context* DependencyBuilder::BuildContext(QVector<Declaration*>*)
 {
     return NULL;

@@ -16,15 +16,16 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "module.h"
+#include "function.h"
+#include "functioncontext.h"
 
-Module::Module()
+Function::Function()
 {
     parameters=NULL;
     context=NULL;
 }
 
-Module::~Module()
+Function::~Function()
 {
     if(parameters)
 	for(int i=0; i<parameters->size(); i++)
@@ -34,10 +35,10 @@ Module::~Module()
     delete context;
 }
 
-QString Module::toString()
+QString Function::toString()
 {
     QString result;
-    result.append("Module: ");
+    result.append("Function: ");
     result.append(this->name);
     result.append(" {\n");
     result.append("Parameters: ");
@@ -48,33 +49,32 @@ QString Module::toString()
 	    result.append(params->at(i)->toString());
     }
 
-    result.append(context->toString());
-    result.append("}\n");
+
     return result;
 }
 
-QString Module::getName()
+QString Function::getName()
 {
     return this->name;
 }
 
-void Module::setName(QString name)
+void Function::setName(QString name)
 {
     this->name = name;
 }
 
 
-QVector<Parameter*>* Module::getParameters()
+QVector<Parameter*>* Function::getParameters()
 {
     return this->parameters;
 }
 
-void Module::setParameters(QVector<Parameter *> * params)
+void Function::setParameters(QVector<Parameter *> * params)
 {
     this->parameters = params;
 }
 
-void Module::setContext(Context * ctx)
+void Function::setContext(Context * ctx)
 {
     this->context = ctx;
 }

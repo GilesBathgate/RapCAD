@@ -74,6 +74,15 @@ Declaration* SyntaxTreeBuilder::BuildModule(QString name, QVector<Parameter*>* p
     return result;
 }
 
+Declaration* SyntaxTreeBuilder::BuildFunction(QString name, QVector<Parameter*>* params, Context* ctx)
+{
+    Function* result = new Function();
+    result->setName(name);
+    result->setParameters(params);
+    result->setContext(ctx);
+    return result;
+}
+
 Context* SyntaxTreeBuilder::BuildContext(QVector<Declaration*>* decls)
 {
     ModuleContext* result = new ModuleContext();

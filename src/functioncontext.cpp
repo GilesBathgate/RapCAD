@@ -16,17 +16,17 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CONTEXT_H
-#define CONTEXT_H
+#include "functioncontext.h"
 
-#include <QString>
-
-class Context
+FunctionContext::FunctionContext()
 {
-public:
-    Context();
-    virtual ~Context();
-    virtual QString toString()=0;
-};
+}
 
-#endif // CONTEXT_H
+FunctionContext::~FunctionContext()
+{
+}
+
+QString FunctionContext::toString()
+{
+    return "TODO";
+}

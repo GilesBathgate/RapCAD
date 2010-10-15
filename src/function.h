@@ -16,17 +16,32 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CONTEXT_H
-#define CONTEXT_H
+#ifndef FUNCTION_H
+#define FUNCTION_H
 
 #include <QString>
+#include <QVector>
+#include "declaration.h"
+#include "parameter.h"
+#include "declaration.h"
+#include "context.h"
 
-class Context
+class Function : public Declaration
 {
 public:
-    Context();
-    virtual ~Context();
-    virtual QString toString()=0;
+    Function();
+    ~Function();
+    QString getName();
+    void setName(QString);
+    QVector<Parameter*>* getParameters();
+    void setParameters(QVector<Parameter*>*);
+    Context* getContext();
+    void setContext(Context*);
+    QString toString();
+private:
+    QString name;
+    QVector<Parameter*>* parameters;
+    Context* context;
 };
 
-#endif // CONTEXT_H
+#endif // FUNCTION_H

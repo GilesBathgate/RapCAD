@@ -99,7 +99,7 @@ AbstractSyntaxTreeBuilder *builder;
 %type <arg> argument
 %type <args> arguments
 %type <expr> expression
-%type <ctx> module_context
+%type <ctx> module_context function_context
 %type <inst> module_instance single_instance
 %type <insts> compound_instance instance_list
 %type <var> variable
@@ -133,7 +133,7 @@ declaration
 	| MODULE IDENTIFIER '(' parameters ')' module_context
 	{ $$ = builder->BuildModule($2,$4,$6); }
 	| FUNCTION IDENTIFIER '(' parameters ')' function_context
-	{ }
+	{ $$ = builder->BuildFunction($2,$4,$6); }
 	;
 
 module_context
@@ -145,7 +145,9 @@ module_context
 
 function_context
 	: '=' expression ';'
+	{}
 	| compound_statement
+	{}
 	;
 
 statement
@@ -168,12 +170,16 @@ single_statement
 
 compound_statement
 	: '{' '}'
+	{}
 	| '{' statement_list '}'
+	{}
 	;
 
 statement_list
 	: statement
+	{}
 	| statement_list statement
+	{}
 	;
 
 assign_statement
