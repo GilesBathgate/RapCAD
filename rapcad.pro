@@ -9,10 +9,12 @@ QT       += core gui
 TARGET = rapcad
 TEMPLATE = app
 
+LEXSOURCES += 
+YACCSOURCES += src/parser.y
 
 SOURCES += src/main.cpp\
         src/mainwindow.cpp
 
 HEADERS  += src/mainwindow.h
 
-FORMS    += src/mainwindow.ui
+FORMS    += src/mainwindow.ui   
