@@ -9,7 +9,7 @@ QT       += core gui
 TARGET = rapcad
 TEMPLATE = app
 
-LEXSOURCES += 
+LEXSOURCES += src/lexer.l
 YACCSOURCES += src/parser.y
 
 SOURCES += src/main.cpp\
