@@ -20,12 +20,24 @@
 void parsererror(char const *);
 int parserlex();
 int lexerlex();
+int parse();
 %}
 
+%token NUM
 
 %%
 input:    /* empty */
-     ;
+     |  input line
+;
+
+line: '\n'
+    | exp '\n'
+;
+
+exp: NUM
+
+;
+
 %%
 
 int parserlex(void)
