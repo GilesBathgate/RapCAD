@@ -22,10 +22,11 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui opengl
 
 TARGET = rapcad
 TEMPLATE = app
+INCLUDEPATH += src
 
 LEXSOURCES += src/lexer.l
 YACCSOURCES += src/parser.y
