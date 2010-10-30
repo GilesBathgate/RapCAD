@@ -36,3 +36,8 @@ int parserlex(void)
 void parsererror(char const *)
 {
 }
+
+int parse()
+{
+    parserparse();
+}
