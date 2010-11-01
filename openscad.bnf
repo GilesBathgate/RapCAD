@@ -10,9 +10,13 @@
 
 <statement> ::= ';'
 	| '{' <body> '}'
+	| <module_instantiation>
 	| <identifier> '=' <expression> ';'
 	| "module" <identifier> '(' <parameters> <optional_commas> ')' <statement>
 	| "function" <identifier> '(' <parameters> <optional_commas> ')' '=' <expression> ';'
+--Optional commas in the above two seem strange to me. We can have for e.g. module foo(a,,,,,,b){} how on earth can this be useful?
+--I agree that is makes sence for a module instantiation because we might want to pass undef, but for declarations its just a way
+--of ensuring we don't have access to unnamed module parameters, so why have them at all?
 
 <children_instantiation> ::= <module_instantiation>
 	| '{' <module_instantiation_list> '}'
