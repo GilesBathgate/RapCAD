@@ -18,7 +18,7 @@
 
 #include <QtGui/QApplication>
 #include "mainwindow.h"
-extern int parse();
+extern int parse(const char *text);
 
 int main(int argc, char *argv[])
 {
@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 
     if(args.length()>1)
     {
-        parse();
+        parse("test");
     }
     else
     {

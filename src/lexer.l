@@ -17,11 +17,15 @@
  */
 
 %{
-
+#include "parser_yacc.h"
 %}
 
 %option noyywrap
 
 %%
-
+"module"    return MODULE;
+"function"  return FUNCTION;
+"true"      return TRUE;
+"false"     return FALSE;
+"undef"     return UNDEF;
 %%
