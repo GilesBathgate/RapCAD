@@ -30,6 +30,8 @@ int parse();
 
 %token MODULE FUNCTION
 %token IF ELSE
+%token FOR
+%token CONST PARAM
 %token <text> IDENTIFIER
 %token <text> STRING
 %token NUMBER
@@ -80,6 +82,7 @@ single_statement
 	: module_instance
 	| assign_statement
 	| ifelse_statement
+	| for_statement
 	;
 
 compound_statement
@@ -93,6 +96,8 @@ statement_list
 	;
 
 assign_statement
+	: CONST IDENTIFIER '=' expression
+	: PARAM IDENTIFIER '=' expression
 	: IDENTIFIER '=' expression
 	;
 
@@ -102,7 +107,7 @@ ifelse_statement
 	;
 
 for_statement
-	: 
+	: FOR '(' expression ')' statement
 	;
 
 expression
