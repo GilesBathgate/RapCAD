@@ -19,13 +19,15 @@
 %{
 #include "parser_yacc.h"
 %}
-
 %option noyywrap
-
 %%
-"module"    return MODULE;
-"function"  return FUNCTION;
-"true"      return TRUE;
-"false"     return FALSE;
-"undef"     return UNDEF;
+"module"		{ return MODULE; }
+"function"		{ return FUNCTION; }
+"true"			{ return TRUE; }
+"false"			{ return FALSE; }
+"undef"			{ return UNDEF; }
+[ \t\n\r]+		//ignore whitespace
+[{}()]			{ return yytext[0]; }
+"$"?[a-zA-Z0-9_]+	{ parserlval.text = strdup(yytext); return IDENTIFIER; }
+.			{ printf("illegal token %s",yytext);  }
 %%

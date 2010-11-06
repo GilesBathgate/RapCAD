@@ -32,7 +32,11 @@ int main(int argc, char *argv[])
 
     if(args.length()>1)
     {
-        parse("test");
+	if(args.at(1)=="-f")
+	{
+	    QString filename = args.at(2);
+	    parse(filename.toAscii());
+	}
     }
     else
     {

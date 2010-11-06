@@ -17,11 +17,12 @@
  */
 
 %{
+#include <stdio.h>
 void parsererror(char const *);
 int parserlex();
 int lexerlex(void);
-void lexererror(char const *);
 int parse();
+extern FILE* lexerin;
 %}
 
 %union {
@@ -60,6 +61,7 @@ input
 declaration
 	: single_statement
 	| MODULE IDENTIFIER '(' parameters ')' module_body
+	{ printf("module %s",$2); }
 	| FUNCTION IDENTIFIER '(' parameters ')' function_body
 	;
 
@@ -97,8 +99,8 @@ statement_list
 
 assign_statement
 	: CONST IDENTIFIER '=' expression
-	: PARAM IDENTIFIER '=' expression
-	: IDENTIFIER '=' expression
+	| PARAM IDENTIFIER '=' expression
+	| IDENTIFIER '=' expression
 	;
 
 ifelse_statement
@@ -180,16 +182,18 @@ argument
 
 int parserlex(void)
 {
-    return lexerlex();
+	return lexerlex();
 }
 
-void parsererror(char const *)
+void parsererror(char const *s)
 {
+	fprintf (stderr, "%s\n", s);
 }
 
-int parse(const char *text)
+int parse(const char *file)
 {
-    parserparse();
-
-    return 0;
+	lexerin = fopen(file,"r");
+ 	parserparse();
+	printf("\nDone.\n");
+	return 0;
 }
