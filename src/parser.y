@@ -18,15 +18,22 @@
 
 %{
 #include <stdio.h>
+#include <QVector>
+#include "syntaxtreebuilder.h"
+#include "parameter.h"
 void parsererror(char const *);
 int parserlex();
 int lexerlex(void);
 int parse();
 extern FILE* lexerin;
+
+SyntaxTreeBuilder *builder;
 %}
 
 %union {
         char *text;
+	class QVector<Parameter*>* params;
+	class Parameter* param;
 }
 
 %token MODULE FUNCTION
@@ -36,7 +43,7 @@ extern FILE* lexerin;
 %token <text> IDENTIFIER
 %token <text> STRING
 %token NUMBER
-%token TRUE FALSE UNDEF
+%token TOK_TRUE TOK_FALSE UNDEF
 %token LE GE EQ NE AND OR
 
 %right '?' ':'
@@ -52,6 +59,9 @@ extern FILE* lexerin;
 %left '[' ']'
 %left '.'
 
+%type <params> parameters
+%type <param> parameter
+
 %%
 input
 	: //empty
@@ -61,7 +71,8 @@ input
 declaration
 	: single_statement
 	| MODULE IDENTIFIER '(' parameters ')' module_body
-	{ printf("module %s",$2); }
+	{ builder->StartModule($2,$4);
+	}
 	| FUNCTION IDENTIFIER '(' parameters ')' function_body
 	;
 
@@ -113,8 +124,8 @@ for_statement
 	;
 
 expression
-	: TRUE
-	| FALSE
+	: TOK_TRUE
+	| TOK_FALSE
 	| UNDEF
 	| IDENTIFIER
 	| expression '.' IDENTIFIER
@@ -139,11 +150,13 @@ expression
 parameters
 	: //empty
 	| parameter 
+	{ $$ = builder->StartParameters($1); }
 	| parameter ',' parameters
 	;
 
 parameter
 	: IDENTIFIER
+	{ $$ = builder->StartParameter($1); }
 	| IDENTIFIER '=' expression
 	;
 
@@ -192,6 +205,7 @@ void parsererror(char const *s)
 
 int parse(const char *file)
 {
+	builder = new SyntaxTreeBuilder();
 	lexerin = fopen(file,"r");
  	parserparse();
 	printf("\nDone.\n");

@@ -32,9 +32,17 @@ LEXSOURCES += src/lexer.l
 YACCSOURCES += src/parser.y
 
 SOURCES += src/main.cpp\
-        src/mainwindow.cpp
+        src/mainwindow.cpp \
+    src/module.cpp \
+    src/syntaxtreebuilder.cpp \
+    src/parameter.cpp \
+    src/expression.cpp
 
-HEADERS  += src/mainwindow.h
+HEADERS  += src/mainwindow.h \
+    src/module.h \
+    src/syntaxtreebuilder.h \
+    src/parameter.h \
+    src/expression.h
 
 FORMS    += src/mainwindow.ui   
 

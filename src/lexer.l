@@ -23,8 +23,8 @@
 %%
 "module"		{ return MODULE; }
 "function"		{ return FUNCTION; }
-"true"			{ return TRUE; }
-"false"			{ return FALSE; }
+"true"			{ return TOK_TRUE; }
+"false"			{ return TOK_FALSE; }
 "undef"			{ return UNDEF; }
 [ \t\n\r]+		//ignore whitespace
 [{}()]			{ return yytext[0]; }
