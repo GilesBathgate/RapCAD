@@ -44,14 +44,30 @@ Parameter* SyntaxTreeBuilder::BuildParameter(QString name,Expression* expr)
     return result;
 }
 
-Expression* SyntaxTreeBuilder::BuildExpression(bool value)
+Expression* SyntaxTreeBuilder::BuildLiteral()
 {
-    return new Expression();
+    return new Literal();
 }
 
-Expression* SyntaxTreeBuilder::BuildExpression(double value)
+Expression* SyntaxTreeBuilder::BuildLiteral(bool value)
 {
-    return new Expression();
+    Literal* result = new Literal();
+    //Set Value
+    return result;
+}
+
+Expression* SyntaxTreeBuilder::BuildLiteral(double value)
+{
+    Literal* result = new Literal();
+    //Set Value
+    return result;
+}
+
+Expression* SyntaxTreeBuilder::BuildVariable(QString name)
+{
+    Variable* result = new Variable();
+    result->name = name;
+    return result;
 }
 
 Expression* SyntaxTreeBuilder::BuildExpression(Expression* left ,Expression* right)

@@ -129,15 +129,17 @@ for_statement
 
 expression
 	: TOK_TRUE
-	{ $$ = builder->BuildExpression(true); }
+	{ $$ = builder->BuildLiteral(true); }
 	| TOK_FALSE
-	{ $$ = builder->BuildExpression(false); }
+	{ $$ = builder->BuildLiteral(false); }
 	| UNDEF
+	{ $$ = builder->BuildLiteral(); }
 	| IDENTIFIER
+	{ $$ = builder->BuildVariable($1); }
 	| expression '.' IDENTIFIER
 	| STRING
 	| NUMBER
-	{ $$ = builder->BuildExpression($1); }
+	{ $$ = builder->BuildLiteral($1); }
 	| '[' expression ':' expression ']'
 	| expression '*' expression
 	{ $$ = builder->BuildExpression($1,$3); }

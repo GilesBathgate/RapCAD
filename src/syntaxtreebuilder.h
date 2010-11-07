@@ -4,6 +4,8 @@
 #include <QVector>
 #include "module.h"
 #include "parameter.h"
+#include "literal.h"
+#include "variable.h"
 #include "expression.h"
 #include "binaryexpression.h"
 
@@ -17,8 +19,10 @@ public:
     QVector<Parameter*>* BuildParameters(QVector<Parameter*>*,Parameter*);
     Parameter* BuildParameter(QString);
     Parameter* BuildParameter(QString,Expression*);
-    Expression* BuildExpression(bool);
-    Expression* BuildExpression(double value);
+    Expression* BuildLiteral();
+    Expression* BuildLiteral(bool);
+    Expression* BuildLiteral(double value);
+    Expression* BuildVariable(QString name);
     Expression* BuildExpression(Expression*,Expression*);
 private:
     Module * current_module;
