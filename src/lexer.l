@@ -17,9 +17,11 @@
  */
 
 %{
+#include "parameter.h"
 #include "parser_yacc.h"
 %}
 %option noyywrap
+D [0-9]
 %%
 "module"		{ return MODULE; }
 "function"		{ return FUNCTION; }
@@ -27,7 +29,8 @@
 "false"			{ return TOK_FALSE; }
 "undef"			{ return UNDEF; }
 [ \t\n\r]+		//ignore whitespace
-[{}()]			{ return yytext[0]; }
+[{}()=*]		{ return yytext[0]; }
+{D}+|{D}*\.{D}+|{D}+\.{D}* { parserlval.number = QString(yytext).toDouble(); return NUMBER; }
 "$"?[a-zA-Z0-9_]+	{ parserlval.text = strdup(yytext); return IDENTIFIER; }
 .			{ printf("illegal token %s",yytext);  }
 %%

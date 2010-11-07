@@ -21,6 +21,8 @@
 #include <QVector>
 #include "syntaxtreebuilder.h"
 #include "parameter.h"
+#include "expression.h"
+
 void parsererror(char const *);
 int parserlex();
 int lexerlex(void);
@@ -32,6 +34,8 @@ SyntaxTreeBuilder *builder;
 
 %union {
         char *text;
+	double number;
+	class Expression* expr;
 	class QVector<Parameter*>* params;
 	class Parameter* param;
 }
@@ -42,7 +46,7 @@ SyntaxTreeBuilder *builder;
 %token CONST PARAM
 %token <text> IDENTIFIER
 %token <text> STRING
-%token NUMBER
+%token <number> NUMBER
 %token TOK_TRUE TOK_FALSE UNDEF
 %token LE GE EQ NE AND OR
 
@@ -61,18 +65,18 @@ SyntaxTreeBuilder *builder;
 
 %type <params> parameters
 %type <param> parameter
+%type <expr>  expression
 
 %%
 input
 	: //empty
-	|  declaration input
+	|  input declaration
 	;
 
 declaration
 	: single_statement
 	| MODULE IDENTIFIER '(' parameters ')' module_body
-	{ builder->StartModule($2,$4);
-	}
+	{ builder->BuildModule($2,$4); }
 	| FUNCTION IDENTIFIER '(' parameters ')' function_body
 	;
 
@@ -125,14 +129,18 @@ for_statement
 
 expression
 	: TOK_TRUE
+	{ $$ = builder->BuildExpression(true); }
 	| TOK_FALSE
+	{ $$ = builder->BuildExpression(false); }
 	| UNDEF
 	| IDENTIFIER
 	| expression '.' IDENTIFIER
 	| STRING
 	| NUMBER
+	{ $$ = builder->BuildExpression($1); }
 	| '[' expression ':' expression ']'
 	| expression '*' expression
+	{ $$ = builder->BuildExpression($1,$3); }
 	| expression '/' expression
 	| expression '%' expression
 	| expression '+' expression
@@ -149,21 +157,28 @@ expression
 
 parameters
 	: //empty
+	{ $$ = builder->BuildParameters(); }
 	| parameter 
-	{ $$ = builder->StartParameters($1); }
-	| parameter ',' parameters
+	{ $$ = builder->BuildParameters($1); }
+	| parameters ',' parameter
+	{ $$ = builder->BuildParameters($1,$3); }
 	;
 
 parameter
 	: IDENTIFIER
-	{ $$ = builder->StartParameter($1); }
+	{ $$ = builder->BuildParameter($1); }
 	| IDENTIFIER '=' expression
+	{ $$ = builder->BuildParameter($1,$3); }
+	;
+
+compound_instance
+	: module_instance
+	| '{' instance_list '}'
 	;
 
 module_instance
 	: single_instance ';'
-	| single_instance module_instance
-	| single_instance '{' instance_list '}'
+	| single_instance compound_instance
 	;
 
 instance_list
@@ -178,7 +193,7 @@ single_instance
 arguments
 	: //empty
 	| argument
-	| argument ',' optional_commas arguments
+	| arguments ',' optional_commas argument
 	;
 
 optional_commas

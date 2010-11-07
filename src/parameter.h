@@ -7,7 +7,7 @@ class Parameter
 {
 public:
     QString name;
-    Expression expression;
+    Expression* expression;
     Parameter();
 };
 

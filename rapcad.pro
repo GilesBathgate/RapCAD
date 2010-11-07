@@ -36,13 +36,15 @@ SOURCES += src/main.cpp\
     src/module.cpp \
     src/syntaxtreebuilder.cpp \
     src/parameter.cpp \
-    src/expression.cpp
+    src/expression.cpp \
+    src/binaryexpression.cpp
 
 HEADERS  += src/mainwindow.h \
     src/module.h \
     src/syntaxtreebuilder.h \
     src/parameter.h \
-    src/expression.h
+    src/expression.h \
+    src/binaryexpression.h
 
 FORMS    += src/mainwindow.ui   
 
