@@ -138,6 +138,7 @@ expression
 	{ $$ = builder->BuildVariable($1); }
 	| expression '.' IDENTIFIER
 	| STRING
+	{ $$ = builder->BuildLiteral($1); }
 	| NUMBER
 	{ $$ = builder->BuildLiteral($1); }
 	| '[' expression ':' expression ']'
@@ -204,7 +205,7 @@ optional_commas
 	;
 
 argument
-	: IDENTIFIER
+	: expression
 	| IDENTIFIER '=' expression
 	;
 

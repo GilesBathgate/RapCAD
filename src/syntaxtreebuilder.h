@@ -22,6 +22,7 @@ public:
     Expression* BuildLiteral();
     Expression* BuildLiteral(bool);
     Expression* BuildLiteral(double value);
+    Expression* BuildLiteral(char* value);
     Expression* BuildVariable(QString name);
     Expression* BuildExpression(Expression*,Expression*);
 private:

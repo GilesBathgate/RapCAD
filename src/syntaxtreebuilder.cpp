@@ -52,14 +52,24 @@ Expression* SyntaxTreeBuilder::BuildLiteral()
 Expression* SyntaxTreeBuilder::BuildLiteral(bool value)
 {
     Literal* result = new Literal();
-    //Set Value
+    result->Type = Literal::Boolean;
+    result->Value.Boolean = value;
     return result;
 }
 
 Expression* SyntaxTreeBuilder::BuildLiteral(double value)
 {
     Literal* result = new Literal();
-    //Set Value
+    result->Type = Literal::Number;
+    result->Value.Number = value;
+    return result;
+}
+
+Expression* SyntaxTreeBuilder::BuildLiteral(char* value)
+{
+    Literal* result = new Literal();
+    result->Type = Literal::String;
+    result->Value.String = value;
     return result;
 }
 
