@@ -24,7 +24,7 @@ public:
     Expression* BuildLiteral(double value);
     Expression* BuildLiteral(char* value);
     Expression* BuildVariable(QString name);
-    Expression* BuildExpression(Expression*,Expression*);
+    Expression* BuildExpression(Expression*,Expression::Operator_e,Expression*);
 private:
     Module * current_module;
     QVector<Module*>  module_stack;

@@ -3,3 +3,8 @@
 Expression::Expression()
 {
 }
+
+QString Expression::toString()
+{
+    return "Empty";
+}

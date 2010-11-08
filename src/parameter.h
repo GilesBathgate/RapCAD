@@ -8,6 +8,8 @@ class Parameter
 public:
     QString name;
     Expression* expression;
+
+    QString toString();
     Parameter();
 };
 

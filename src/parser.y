@@ -143,9 +143,11 @@ expression
 	{ $$ = builder->BuildLiteral($1); }
 	| '[' expression ':' expression ']'
 	| expression '*' expression
-	{ $$ = builder->BuildExpression($1,$3); }
+	{ $$ = builder->BuildExpression($1,Expression::Multiply,$3); }
 	| expression '/' expression
+	{ $$ = builder->BuildExpression($1,Expression::Divide,$3); }
 	| expression '%' expression
+	{ $$ = builder->BuildExpression($1,Expression::Modulus,$3); }
 	| expression '+' expression
 	| expression '-' expression
 	| expression '<' expression

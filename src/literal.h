@@ -24,6 +24,7 @@ public:
 
     Value_t Value;
 
+    QString toString();
     Literal();
 };
 

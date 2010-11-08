@@ -30,6 +30,7 @@ D [0-9]
 "undef"			{ return UNDEF; }
 [ \t\n\r]+		//ignore whitespace
 [{}()=*]		{ return yytext[0]; }
+","			{ return ','; }
 {D}+|{D}*\.{D}+|{D}+\.{D}* { parserlval.number = QString(yytext).toDouble(); return NUMBER; }
 "$"?[a-zA-Z0-9_]+	{ parserlval.text = strdup(yytext); return IDENTIFIER; }
 .			{ printf("illegal token %s",yytext);  }

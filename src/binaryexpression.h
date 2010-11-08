@@ -8,6 +8,9 @@ class BinaryExpression : public Expression
 public:
     Expression* left;
     Expression* right;
+    Operator_e op;
+
+    QString toString();
     BinaryExpression();
 };
 

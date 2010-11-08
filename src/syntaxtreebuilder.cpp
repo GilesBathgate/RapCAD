@@ -1,4 +1,5 @@
 #include "syntaxtreebuilder.h"
+#include <stdio.h>
 
 SyntaxTreeBuilder::SyntaxTreeBuilder()
 {
@@ -9,6 +10,8 @@ void SyntaxTreeBuilder::BuildModule(QString name, QVector<Parameter*>* params)
     current_module = new Module();
     current_module->name = name;
     current_module->parameters = params;
+
+    printf(current_module->toString().toAscii());
 }
 
 QVector<Parameter*>* SyntaxTreeBuilder::BuildParameters()
@@ -80,10 +83,11 @@ Expression* SyntaxTreeBuilder::BuildVariable(QString name)
     return result;
 }
 
-Expression* SyntaxTreeBuilder::BuildExpression(Expression* left ,Expression* right)
+Expression* SyntaxTreeBuilder::BuildExpression(Expression* left ,Expression::Operator_e op, Expression* right)
 {
     BinaryExpression* result = new BinaryExpression();
     result->left = left;
     result->right = right;
+    result->op = op;
     return result;
 }
