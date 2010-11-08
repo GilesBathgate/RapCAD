@@ -25,8 +25,56 @@ BinaryExpression::BinaryExpression()
 QString BinaryExpression::toString()
 {
     QString result;
-    result.append("Expression: ");
+    result.append("Expression: (");
     result.append(this->left->toString());
+    result.append("Operator: ");
+    switch(this->op)
+    {
+
+    case Multiply:
+	result.append("*");
+	break;
+    case Divide:
+	result.append("/");
+	break;
+    case Modulus:
+	result.append("%%"); //remember we need to escape % as %%
+	break;
+    case Add:
+	result.append("+");
+	break;
+    case Subtract:
+	result.append("-");
+	break;
+    case LessThan:
+	result.append("<");
+	break;
+    case LessOrEqual:
+	result.append("<=");
+	break;
+    case Equal:
+	result.append("==");
+	break;
+    case NotEqual:
+	result.append("!=");
+	break;
+    case GreaterOrEqual:
+	result.append(">=");
+	break;
+    case GreaterThan:
+	result.append(">");
+	break;
+    case LogicalAnd:
+	result.append("&&");
+	break;
+    case LogicalOr:
+	result.append("||");
+	break;
+    default:
+	result.append("Unknown");
+    }
+    result.append(" ");
     result.append(this->right->toString());
+    result.append(") ");
     return result;
 }

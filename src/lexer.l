@@ -29,8 +29,15 @@ D [0-9]
 "false"			{ return TOK_FALSE; }
 "undef"			{ return UNDEF; }
 [ \t\n\r]+		//ignore whitespace
-[{}()=*]		{ return yytext[0]; }
-","			{ return ','; }
+[{}(),=*/%\+-]		{ return yytext[0]; }
+"<"			{ return '<'; }
+"<="			{ return LE;  }
+">"			{ return '>'; }
+">="			{ return GE;  }
+"=="			{ return EQ;  }
+"!="			{ return NE;  }
+"&&"			{ return AND; }
+"||"			{ return OR;  }
 {D}+|{D}*\.{D}+|{D}+\.{D}* { parserlval.number = QString(yytext).toDouble(); return NUMBER; }
 "$"?[a-zA-Z0-9_]+	{ parserlval.text = strdup(yytext); return IDENTIFIER; }
 .			{ printf("illegal token %s",yytext);  }

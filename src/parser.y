@@ -149,15 +149,25 @@ expression
 	| expression '%' expression
 	{ $$ = builder->BuildExpression($1,Expression::Modulus,$3); }
 	| expression '+' expression
+	{ $$ = builder->BuildExpression($1,Expression::Add,$3); }
 	| expression '-' expression
+	{ $$ = builder->BuildExpression($1,Expression::Subtract,$3); }
 	| expression '<' expression
+	{ $$ = builder->BuildExpression($1,Expression::LessThan,$3); }
 	| expression LE expression
+	{ $$ = builder->BuildExpression($1,Expression::LessOrEqual,$3); }
 	| expression EQ expression
+	{ $$ = builder->BuildExpression($1,Expression::Equal,$3); }
 	| expression NE expression
+	{ $$ = builder->BuildExpression($1,Expression::NotEqual,$3); }
 	| expression GE expression
+	{ $$ = builder->BuildExpression($1,Expression::GreaterOrEqual,$3); }
 	| expression '>' expression
+	{ $$ = builder->BuildExpression($1,Expression::GreaterThan,$3); }
 	| expression AND expression
+	{ $$ = builder->BuildExpression($1,Expression::LogicalAnd,$3); }
 	| expression OR expression
+	{ $$ = builder->BuildExpression($1,Expression::LogicalOr,$3); }
 	;
 
 parameters

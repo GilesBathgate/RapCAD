@@ -26,11 +26,19 @@ class Expression
 public:
     enum Operator_e
     {
-	Add,
-	Subtract,
 	Multiply,
 	Divide,
-	Modulus
+	Modulus,
+	Add,
+	Subtract,
+	LessThan,
+	LessOrEqual,
+	Equal,
+	NotEqual,
+	GreaterOrEqual,
+	GreaterThan,
+	LogicalAnd,
+	LogicalOr
     };
 
     virtual QString toString();
