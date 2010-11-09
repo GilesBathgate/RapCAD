@@ -168,6 +168,13 @@ expression
 	{ $$ = builder->BuildExpression($1,Expression::LogicalAnd,$3); }
 	| expression OR expression
 	{ $$ = builder->BuildExpression($1,Expression::LogicalOr,$3); }
+	| '+' expression
+	| '-' expression
+	| '!' expression
+	| '(' expression ')'
+	| expression '?' expression ':' expression
+	| expression '[' expression ']'
+	| IDENTIFIER '(' arguments ')'
 	;
 
 parameters

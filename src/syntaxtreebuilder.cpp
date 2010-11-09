@@ -26,8 +26,8 @@ SyntaxTreeBuilder::SyntaxTreeBuilder()
 void SyntaxTreeBuilder::BuildModule(QString name, QVector<Parameter*>* params)
 {
     current_module = new Module();
-    current_module->name = name;
-    current_module->parameters = params;
+    current_module->setName(name);
+    current_module->setParameters(params);
 
     printf(current_module->toString().toAscii());
 }
@@ -53,15 +53,15 @@ QVector<Parameter*>* SyntaxTreeBuilder::BuildParameters(QVector<Parameter*>* par
 Parameter* SyntaxTreeBuilder::BuildParameter(QString name)
 {
     Parameter* result = new Parameter();
-    result->name = name;
+    result->setName(name);
     return result;
 }
 
 Parameter* SyntaxTreeBuilder::BuildParameter(QString name,Expression* expr)
 {
     Parameter* result = new Parameter();
-    result->name = name;
-    result->expression = expr;
+    result->setName(name);
+    result->setExpression(expr);
     return result;
 }
 
@@ -73,39 +73,36 @@ Expression* SyntaxTreeBuilder::BuildLiteral()
 Expression* SyntaxTreeBuilder::BuildLiteral(bool value)
 {
     Literal* result = new Literal();
-    result->Type = Literal::Boolean;
-    result->Value.Boolean = value;
+    result->setValue(value);
     return result;
 }
 
 Expression* SyntaxTreeBuilder::BuildLiteral(double value)
 {
     Literal* result = new Literal();
-    result->Type = Literal::Number;
-    result->Value.Number = value;
+    result->setValue(value);
     return result;
 }
 
 Expression* SyntaxTreeBuilder::BuildLiteral(char* value)
 {
     Literal* result = new Literal();
-    result->Type = Literal::String;
-    result->Value.String = value;
+    result->setValue(QString(value));
     return result;
 }
 
 Expression* SyntaxTreeBuilder::BuildVariable(QString name)
 {
     Variable* result = new Variable();
-    result->name = name;
+    result->setName(name);
     return result;
 }
 
 Expression* SyntaxTreeBuilder::BuildExpression(Expression* left ,Expression::Operator_e op, Expression* right)
 {
     BinaryExpression* result = new BinaryExpression();
-    result->left = left;
-    result->right = right;
-    result->op = op;
+    result->setLeft(left);
+    result->setRight(right);
+    result->setOp(op);
     return result;
 }

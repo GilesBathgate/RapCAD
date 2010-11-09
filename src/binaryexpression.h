@@ -24,12 +24,15 @@
 class BinaryExpression : public Expression
 {
 public:
+    BinaryExpression();
+    Expression* getLeft();
+    void setLeft(Expression*);
+    Expression* getRight();
+    void setRight(Expression*);
+    QString toString();
+private:
     Expression* left;
     Expression* right;
-    Operator_e op;
-
-    QString toString();
-    BinaryExpression();
 };
 
 #endif // BINARYEXPRESSION_H

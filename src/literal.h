@@ -24,6 +24,15 @@
 class Literal : public Expression
 {
 public:
+
+
+    Literal();
+    void setValue(bool);
+    void setValue(double);
+    void setValue(QString);
+    QString toString();
+
+private:
     enum Type_e
     {
 	Boolean,
@@ -31,19 +40,15 @@ public:
 	String
     };
 
-    Type_e Type;
-
     union Value_t
     {
-    bool Boolean;
-    double Number;
-    char* String;
+	bool Boolean;
+	double Number;
     };
 
-    Value_t Value;
-
-    QString toString();
-    Literal();
+    Value_t value;
+    QString value_text;
+    Type_e type;
 };
 
 #endif // LITERAL_H

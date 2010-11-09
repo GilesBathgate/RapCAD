@@ -26,10 +26,15 @@
 class Module
 {
 public:
+     Module();
+     QString getName();
+     void setName(QString);
+     QVector<Parameter*>* getParameters();
+     void setParameters(QVector<Parameter*>*);
+     QString toString();
+private:
     QString name;
     QVector<Parameter*>* parameters;
-    QString toString();
-    Module();
 };
 
 #endif // MODULE_H

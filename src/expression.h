@@ -41,8 +41,12 @@ public:
 	LogicalOr
     };
 
-    virtual QString toString();
     Expression();
+    Operator_e getOp();
+    void setOp(Operator_e);
+    virtual QString toString();
+private:
+    Operator_e op;
 };
 
 #endif // EXPRESSION_H

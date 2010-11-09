@@ -25,8 +25,11 @@
 class Variable : public Expression
 {
 public:
-    QString name;
     Variable();
+    QString getName();
+    void setName(QString);
+private:
+    QString name;
 };
 
 #endif // VARIABLE_H

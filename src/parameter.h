@@ -24,11 +24,15 @@
 class Parameter
 {
 public:
+    Parameter();
+    QString getName();
+    void setName(QString);
+    Expression* getExpression();
+    void setExpression(Expression*);
+    QString toString();
+private:
     QString name;
     Expression* expression;
-
-    QString toString();
-    Parameter();
 };
 
 #endif // PARAMETER_H

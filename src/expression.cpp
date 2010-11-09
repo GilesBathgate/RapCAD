@@ -26,3 +26,13 @@ QString Expression::toString()
 {
     return "Empty";
 }
+
+void Expression::setOp(Operator_e op)
+{
+    this->op = op;
+}
+
+Expression::Operator_e Expression::getOp()
+{
+    return this->op;
+}

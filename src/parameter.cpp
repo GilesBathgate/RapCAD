@@ -33,3 +33,23 @@ QString Parameter::toString()
 	result.append(this->expression->toString());
     return result;
 }
+
+QString Parameter::getName()
+{
+    return this->name;
+}
+
+void Parameter::setName(QString name)
+{
+    this->name = name;
+}
+
+Expression* Parameter::getExpression()
+{
+    return this->expression;
+}
+
+void Parameter::setExpression(Expression * expr)
+{
+    this->expression = expr;
+}

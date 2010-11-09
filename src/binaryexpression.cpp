@@ -28,7 +28,7 @@ QString BinaryExpression::toString()
     result.append("Expression: (");
     result.append(this->left->toString());
     result.append("Operator: ");
-    switch(this->op)
+    switch(this->getOp())
     {
 
     case Multiply:
@@ -77,4 +77,24 @@ QString BinaryExpression::toString()
     result.append(this->right->toString());
     result.append(") ");
     return result;
+}
+
+Expression* BinaryExpression::getLeft()
+{
+    return this->left;
+}
+
+void BinaryExpression::setLeft(Expression * left)
+{
+    this->left = left;
+}
+
+Expression* BinaryExpression::getRight()
+{
+    return this->right;
+}
+
+void BinaryExpression::setRight(Expression * right)
+{
+    this->right = right;
 }

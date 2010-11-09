@@ -26,8 +26,41 @@ QString Literal::toString()
 {
     QString result;
     result.append("Literal: ");
-    QString str = QString("%1").arg(this->Value.Number);
+    QString str;
+    switch(this->type)
+    {
+    case Literal::Boolean:
+	if(this->value.Boolean)
+	    str="true";
+	else
+	    str="false";
+	break;
+    case Literal::Number:
+	str=QString("%1").arg(this->value.Number);
+	break;
+    case Literal::String:
+	str=value_text;
+	break;
+    }
     result.append(str);
     result.append(" ");
     return result;
+}
+
+void Literal::setValue(bool value)
+{
+    this->type = Literal::Boolean;
+    this->value.Boolean = value;
+}
+
+void Literal::setValue(double value)
+{
+    this->type = Literal::Number;
+    this->value.Number = value;
+}
+
+void Literal::setValue(QString value)
+{
+    this->type = Literal::String;
+    this->value_text = value;
 }

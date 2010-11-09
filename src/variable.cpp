@@ -21,3 +21,13 @@
 Variable::Variable()
 {
 }
+
+QString Variable::getName()
+{
+    return this->name;
+}
+
+void Variable::setName(QString name)
+{
+    this->name = name;
+}
