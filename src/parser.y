@@ -70,7 +70,17 @@ SyntaxTreeBuilder *builder;
 %%
 input
 	: //empty
-	|  input declaration
+	| declaration_list
+	;
+
+declaration_list
+	: declaration
+	| declaration_list declaration
+	;
+
+compound_declaration
+	: '{' '}'
+	| '{' declaration_list '}'
 	;
 
 declaration
@@ -81,8 +91,8 @@ declaration
 	;
 
 module_body
-	: compound_statement
-	| module_instance
+	: compound_declaration
+	| module_instance ';'
 	;
 
 function_body
@@ -142,6 +152,7 @@ expression
 	| NUMBER
 	{ $$ = builder->BuildLiteral($1); }
 	| '[' expression ':' expression ']'
+	{ }
 	| expression '*' expression
 	{ $$ = builder->BuildExpression($1,Expression::Multiply,$3); }
 	| expression '/' expression
@@ -169,12 +180,19 @@ expression
 	| expression OR expression
 	{ $$ = builder->BuildExpression($1,Expression::LogicalOr,$3); }
 	| '+' expression
+	{ }
 	| '-' expression
+	{ }
 	| '!' expression
+	{ }
 	| '(' expression ')'
+	{ }
 	| expression '?' expression ':' expression
+	{ }
 	| expression '[' expression ']'
+	{ }
 	| IDENTIFIER '(' arguments ')'
+	{ }
 	;
 
 parameters
@@ -194,17 +212,17 @@ parameter
 	;
 
 compound_instance
-	: module_instance
+	: '{' '}'
 	| '{' instance_list '}'
 	;
 
 module_instance
-	: single_instance ';'
+	: single_instance
 	| single_instance compound_instance
 	;
 
 instance_list
-	: //empty
+	: module_instance
 	| instance_list module_instance
 	;
 
