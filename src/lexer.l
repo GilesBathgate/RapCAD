@@ -20,6 +20,7 @@
 #include "parameter.h"
 #include "parser_yacc.h"
 %}
+%option yylineno
 %option noyywrap
 D [0-9]
 %%
@@ -30,6 +31,7 @@ D [0-9]
 "undef"			{ return UNDEF; }
 [ \t\n\r]+		//ignore whitespace
 [{}(),=*/%\+-]		{ return yytext[0]; }
+";"			{ return ';'; }
 "<"			{ return '<'; }
 "<="			{ return LE;  }
 ">"			{ return '>'; }
@@ -40,5 +42,5 @@ D [0-9]
 "||"			{ return OR;  }
 {D}+|{D}*\.{D}+|{D}+\.{D}* { parserlval.number = QString(yytext).toDouble(); return NUMBER; }
 "$"?[a-zA-Z0-9_]+	{ parserlval.text = strdup(yytext); return IDENTIFIER; }
-.			{ printf("illegal token %s",yytext);  }
+.			{ fprintf(stderr,"%d: illegal token %s",yylineno,yytext);  }
 %%

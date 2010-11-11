@@ -26,7 +26,8 @@
 #include "expression.h"
 #include "parameter.h"
 #include "context.h"
-
+extern int lexerlineno;
+extern char *lexertext;
 void parsererror(char const *);
 int parserlex();
 int lexerlex(void);
@@ -280,7 +281,7 @@ int parserlex(void)
 
 void parsererror(char const *s)
 {
-	fprintf (stderr, "%s\n", s);
+	fprintf(stderr,"%d: %s at %s\n", lexerlineno, s, lexertext);
 }
 
 int parse(const char *file)
@@ -289,6 +290,5 @@ int parse(const char *file)
 	lexerin = fopen(file,"r");
  	parserparse();
 	builder->Print();
-	printf("\nDone.\n");
 	return 0;
 }

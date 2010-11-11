@@ -21,6 +21,7 @@
 
 SyntaxTreeBuilder::SyntaxTreeBuilder()
 {
+    declarations=NULL;
 }
 
 void SyntaxTreeBuilder::BuildScript(QVector<Declaration*>* decls)
@@ -144,6 +145,9 @@ Expression* SyntaxTreeBuilder::BuildExpression(Expression* left ,Expression::Ope
 
 void SyntaxTreeBuilder::Print()
 {
-    for(int i=0; i<declarations->size(); i++)
-	printf(declarations->at(i)->toString().toAscii());
+    if(declarations)
+	for(int i=0; i<declarations->size(); i++)
+	    printf(declarations->at(i)->toString().toAscii());
+
+    printf("\nDone.\n");
 }
