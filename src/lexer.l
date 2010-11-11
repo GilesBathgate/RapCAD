@@ -24,6 +24,7 @@ void lexererror();
 
 %option yylineno
 %option noyywrap
+%option nounput
 %x comment
 D [0-9]
 

@@ -147,7 +147,7 @@ void SyntaxTreeBuilder::Print()
 {
     if(declarations)
 	for(int i=0; i<declarations->size(); i++)
-	    printf(declarations->at(i)->toString().toAscii());
+	    printf("%s",declarations->at(i)->toString().toAscii().constData());
 
     printf("\nDone.\n");
 }
