@@ -19,10 +19,14 @@
 %{
 #include "parameter.h"
 #include "parser_yacc.h"
+void lexererror();
 %}
+
 %option yylineno
 %option noyywrap
+%x comment
 D [0-9]
+
 %%
 "module"		{ return MODULE; }
 "function"		{ return FUNCTION; }
@@ -30,7 +34,7 @@ D [0-9]
 "false"			{ return TOK_FALSE; }
 "undef"			{ return UNDEF; }
 [ \t\n\r]+		//ignore whitespace
-[{}(),=*/%\+-]		{ return yytext[0]; }
+[{}(),=*/%\+-]		{ return lexertext[0]; }
 ";"			{ return ';'; }
 "<"			{ return '<'; }
 "<="			{ return LE;  }
@@ -40,7 +44,17 @@ D [0-9]
 "!="			{ return NE;  }
 "&&"			{ return AND; }
 "||"			{ return OR;  }
-{D}+|{D}*\.{D}+|{D}+\.{D}* { parserlval.number = QString(yytext).toDouble(); return NUMBER; }
-"$"?[a-zA-Z0-9_]+	{ parserlval.text = strdup(yytext); return IDENTIFIER; }
-.			{ fprintf(stderr,"%d: illegal token %s",yylineno,yytext);  }
+{D}+|{D}*\.{D}+|{D}+\.{D}* { parserlval.number = QString(lexertext).toDouble(); return NUMBER; }
+"$"?[a-zA-Z0-9_]+	{ parserlval.text = strdup(lexertext); return IDENTIFIER; }
+"//"[^\n]*\n?		//ignore one line comments
+"/*"			{ BEGIN(comment); }
+<comment>[^*]*		//ignore anything that's not a '*'
+<comment>"*"+[^/]*	//ignore '*'s not followed by '/'s
+<comment>"*/"		{ BEGIN(INITIAL); }
+.			{ lexererror();  }
 %%
+
+void lexererror()
+{
+    fprintf(stderr,"%d: illegal token %s",lexerlineno,lexertext);
+}

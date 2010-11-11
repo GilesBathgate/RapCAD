@@ -26,13 +26,18 @@
 #include "expression.h"
 #include "parameter.h"
 #include "context.h"
-extern int lexerlineno;
-extern char *lexertext;
+
 void parsererror(char const *);
 int parserlex();
 int lexerlex(void);
-int parse();
+void parse();
+
 extern FILE* lexerin;
+extern int lexerlineno;
+extern char *lexertext;
+struct yy_buffer_state;
+extern yy_buffer_state* lexer_scan_string(const char *);
+extern void lexer_delete_buffer(yy_buffer_state*);
 
 SyntaxTreeBuilder *builder;
 %}
@@ -284,11 +289,22 @@ void parsererror(char const *s)
 	fprintf(stderr,"%d: %s at %s\n", lexerlineno, s, lexertext);
 }
 
-int parse(const char *file)
+void parse(const char *input,bool file)
 {
 	builder = new SyntaxTreeBuilder();
-	lexerin = fopen(file,"r");
- 	parserparse();
+
+	if(file)
+	{
+	    lexerin = fopen(input,"r");
+	    parserparse();
+	    fclose(lexerin);
+	}
+	else
+	{
+	    yy_buffer_state* str_buffer = lexer_scan_string(input);
+	    parserparse();
+	    lexer_delete_buffer(str_buffer);
+	}
+
 	builder->Print();
-	return 0;
 }
