@@ -22,8 +22,11 @@
 #include <QString>
 #include <QVector>
 #include "parameter.h"
+#include "declaration.h"
+#include "context.h"
+#include "modulecontext.h"
 
-class Module
+class Module : public Declaration
 {
 public:
      Module();
@@ -31,10 +34,13 @@ public:
      void setName(QString);
      QVector<Parameter*>* getParameters();
      void setParameters(QVector<Parameter*>*);
+     Context* getContext();
+     void setContext(Context*);
      QString toString();
 private:
     QString name;
     QVector<Parameter*>* parameters;
+    Context* context;
 };
 
 #endif // MODULE_H

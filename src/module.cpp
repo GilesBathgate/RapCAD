@@ -30,8 +30,21 @@ QString Module::toString()
     result.append("\n");
     result.append("Parameters: ");
     QVector<Parameter*>* params = this->parameters;
-    for(int i=0; i<params->size(); i++)
-	result.append(params->at(i)->toString());
+    if(params)
+    {
+	for(int i=0; i<params->size(); i++)
+	    result.append(params->at(i)->toString());
+    }
+
+    ModuleContext* ctx = (ModuleContext*)this->context;
+    QVector<Declaration*>* decls = ctx->getDeclarations();
+    if(decls)
+    {
+	result.append("\nContext: (\n");
+	for(int i=0; i<decls->size(); i++)
+	    result.append(decls->at(i)->toString());
+	result.append(")\n");
+    }
 
     return result;
 }
@@ -55,4 +68,9 @@ QVector<Parameter*>* Module::getParameters()
 void Module::setParameters(QVector<Parameter *> * params)
 {
     this->parameters = params;
+}
+
+void Module::setContext(Context * ctx)
+{
+    this->context = ctx;
 }

@@ -26,12 +26,21 @@
 #include "variable.h"
 #include "expression.h"
 #include "binaryexpression.h"
+#include "declaration.h"
+#include "context.h"
+#include "modulecontext.h"
 
 class SyntaxTreeBuilder
 {
 public:
     SyntaxTreeBuilder();
-    void BuildModule(QString name,QVector<Parameter*>*);
+    void BuildScript(QVector<Declaration*>*);
+    QVector<Declaration*>* BuildDeclarations();
+    QVector<Declaration*>* BuildDeclarations(Declaration*);
+    QVector<Declaration*>* BuildDeclarations(QVector<Declaration*>*);
+    QVector<Declaration*>* BuildDeclarations(QVector<Declaration*>*,Declaration*);
+    Declaration* BuildModule(QString name,QVector<Parameter*>*,Context*);
+    Context* BuildContext(QVector<Declaration*>*);
     QVector<Parameter*>* BuildParameters();
     QVector<Parameter*>* BuildParameters(Parameter*);
     QVector<Parameter*>* BuildParameters(QVector<Parameter*>*,Parameter*);
@@ -43,9 +52,10 @@ public:
     Expression* BuildLiteral(char* value);
     Expression* BuildVariable(QString name);
     Expression* BuildExpression(Expression*,Expression::Operator_e,Expression*);
+
+    void Print();
 private:
-    Module * current_module;
-    QVector<Module*>  module_stack;
+    QVector<Declaration*>* declarations;
 };
 
 #endif // SYNTAXTREEBUILDER_H

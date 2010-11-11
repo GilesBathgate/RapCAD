@@ -16,12 +16,16 @@
  *   along with this program.  If not, see http://www.gnu.org/licenses/.
  */
 
+%expect 1 // Dangling else problem causes 1 shift/reduce conflict
+
 %{
 #include <stdio.h>
 #include <QVector>
 #include "syntaxtreebuilder.h"
-#include "parameter.h"
+#include "declaration.h"
 #include "expression.h"
+#include "parameter.h"
+#include "context.h"
 
 void parsererror(char const *);
 int parserlex();
@@ -35,9 +39,12 @@ SyntaxTreeBuilder *builder;
 %union {
         char *text;
 	double number;
+	class Declaration* decl;
+	class QVector<Declaration*>* decls;
 	class Expression* expr;
 	class QVector<Parameter*>* params;
 	class Parameter* param;
+	class Context* ctx;
 }
 
 %token MODULE FUNCTION
@@ -63,51 +70,64 @@ SyntaxTreeBuilder *builder;
 %left '[' ']'
 %left '.'
 
-%type <params> parameters
+%type <decl>  declaration
+%type <decls>  declaration_list
+%type <decls>  compound_declaration
 %type <param> parameter
+%type <params> parameters
 %type <expr>  expression
+%type <ctx>  module_context
 
 %%
 input
 	: //empty
 	| declaration_list
+	{ builder->BuildScript($1); }
 	;
 
 declaration_list
 	: declaration
+	{ $$ = builder->BuildDeclarations($1); }
 	| declaration_list declaration
+	{ $$ = builder->BuildDeclarations($1,$2); }
 	;
 
 compound_declaration
 	: '{' '}'
+	{ $$ = builder->BuildDeclarations(); }
 	| '{' declaration_list '}'
+	{ $$ = builder->BuildDeclarations($2); }
 	;
 
 declaration
 	: single_statement
-	| MODULE IDENTIFIER '(' parameters ')' module_body
-	{ builder->BuildModule($2,$4); }
-	| FUNCTION IDENTIFIER '(' parameters ')' function_body
+	{ }
+	| MODULE IDENTIFIER '(' parameters ')' module_context
+	{ $$ = builder->BuildModule($2,$4,$6); }
+	| FUNCTION IDENTIFIER '(' parameters ')' function_context
+	{ }
 	;
 
-module_body
+module_context
 	: compound_declaration
-	| module_instance ';'
+	{ $$ = builder->BuildContext($1); }
+	| module_instance
+	{ }
 	;
 
-function_body
+function_context
 	: '=' expression ';'
 	| compound_statement
 	;
 
 statement
-	: single_statement ';'
+	: single_statement
 	| compound_statement
 	;
 
 single_statement
 	: module_instance
-	| assign_statement
+	| assign_statement ';'
 	| ifelse_statement
 	| for_statement
 	;
@@ -214,10 +234,11 @@ parameter
 compound_instance
 	: '{' '}'
 	| '{' instance_list '}'
+	| module_instance
 	;
 
 module_instance
-	: single_instance
+	: single_instance ';'
 	| single_instance compound_instance
 	;
 
@@ -228,6 +249,10 @@ instance_list
 
 single_instance
 	: IDENTIFIER '(' arguments ')'
+	| '!' single_instance
+	| '#' single_instance
+	| '%' single_instance
+	| '*' single_instance
 	;
 
 arguments
@@ -263,6 +288,7 @@ int parse(const char *file)
 	builder = new SyntaxTreeBuilder();
 	lexerin = fopen(file,"r");
  	parserparse();
+	builder->Print();
 	printf("\nDone.\n");
 	return 0;
 }

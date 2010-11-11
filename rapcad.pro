@@ -39,7 +39,10 @@ SOURCES += src/main.cpp\
     src/expression.cpp \
     src/binaryexpression.cpp \
     src/literal.cpp \
-    src/variable.cpp
+    src/variable.cpp \
+    src/declaration.cpp \
+    src/context.cpp \
+    src/modulecontext.cpp
 
 HEADERS  += src/mainwindow.h \
     src/module.h \
@@ -48,7 +51,10 @@ HEADERS  += src/mainwindow.h \
     src/expression.h \
     src/binaryexpression.h \
     src/literal.h \
-    src/variable.h
+    src/variable.h \
+    src/declaration.h \
+    src/context.h \
+    src/modulecontext.h
 
 FORMS    += src/mainwindow.ui   
 
