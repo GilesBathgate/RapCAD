@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>656</width>
     <height>600</height>
    </rect>
   </property>
@@ -16,13 +16,13 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QSplitter" name="splitter_2">
+     <widget class="QSplitter" name="vSplitter">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
       <widget class="QTreeView" name="treeView"/>
       <widget class="QTabWidget" name="tabWidget">
-       <widget class="QWidget" name="tab_7">
+       <widget class="QWidget" name="scriptTab">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -30,25 +30,20 @@
          </sizepolicy>
         </property>
         <attribute name="title">
-         <string>Tab 1</string>
+         <string>[New]</string>
         </attribute>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <layout class="QHBoxLayout" name="editorLayout">
          <item>
-          <widget class="QTextEdit" name="textEdit"/>
+          <widget class="QTextEdit" name="scriptEditor"/>
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="tab_8">
-        <attribute name="title">
-         <string>Tab 2</string>
-        </attribute>
-       </widget>
       </widget>
-      <widget class="QSplitter" name="splitter">
+      <widget class="QSplitter" name="hSplitter">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
-       <widget class="QTextEdit" name="textEdit_2"/>
+       <widget class="QTextEdit" name="glView"/>
        <widget class="QWidget" name="widget" native="true"/>
       </widget>
      </widget>
@@ -60,7 +55,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>656</width>
      <height>25</height>
     </rect>
    </property>
