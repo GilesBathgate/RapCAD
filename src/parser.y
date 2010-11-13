@@ -21,7 +21,9 @@
 %{
 #include <stdio.h>
 #include <QVector>
+#include "abstractsyntaxtreebuilder.h"
 #include "syntaxtreebuilder.h"
+#include "dependencybuilder.h"
 #include "declaration.h"
 #include "expression.h"
 #include "parameter.h"
@@ -29,11 +31,11 @@
 
 void parsererror(char const *);
 int parserlex();
-int lexerlex(void);
 void parse();
 
 extern FILE* lexerin;
 extern int lexerlineno;
+extern int lexerlex(void);
 extern char *lexertext;
 struct yy_buffer_state;
 extern yy_buffer_state* lexer_scan_string(const char *);
@@ -51,6 +53,7 @@ AbstractSyntaxTreeBuilder *builder;
 	class QVector<Parameter*>* params;
 	class Parameter* param;
 	class Context* ctx;
+	class Instance* inst;
 }
 
 %token MODULE FUNCTION
@@ -83,6 +86,8 @@ AbstractSyntaxTreeBuilder *builder;
 %type <params> parameters
 %type <expr>  expression
 %type <ctx>  module_context
+%type <inst>  module_instance
+%type <inst>  single_instance
 
 %%
 input
@@ -108,6 +113,8 @@ compound_declaration
 declaration
 	: single_statement
 	{ }
+	| PARAM IDENTIFIER
+	{ }
 	| MODULE IDENTIFIER '(' parameters ')' module_context
 	{ $$ = builder->BuildModule($2,$4,$6); }
 	| FUNCTION IDENTIFIER '(' parameters ')' function_context
@@ -118,7 +125,7 @@ module_context
 	: compound_declaration
 	{ $$ = builder->BuildContext($1); }
 	| module_instance
-	{ }
+	{ $$ = builder->BuildContext($1); }
 	;
 
 function_context
@@ -150,8 +157,8 @@ statement_list
 
 assign_statement
 	: CONST IDENTIFIER '=' expression
-	| PARAM IDENTIFIER '=' expression
 	| IDENTIFIER '=' expression
+	| '$' IDENTIFIER '=' expression
 	;
 
 ifelse_statement
@@ -245,7 +252,9 @@ compound_instance
 
 module_instance
 	: single_instance ';'
+	{ $$ = builder->BuildInstance($1); }
 	| single_instance compound_instance
+	{ /*$$ = builder->BuildInstance($1,$2);*/ }
 	;
 
 instance_list
@@ -255,10 +264,15 @@ instance_list
 
 single_instance
 	: IDENTIFIER '(' arguments ')'
+	{}
 	| '!' single_instance
+	{}
 	| '#' single_instance
+	{}
 	| '%' single_instance
+	{}
 	| '*' single_instance
+	{}
 	;
 
 arguments
@@ -274,7 +288,7 @@ optional_commas
 
 argument
 	: expression
-	| IDENTIFIER '=' expression
+	| assign_statement
 	;
 
 %%

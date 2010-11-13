@@ -56,6 +56,16 @@ Context* DependencyBuilder::BuildContext(QVector<Declaration*>*)
     return NULL;
 }
 
+Context* DependencyBuilder::BuildContext(Instance*)
+{
+    return NULL;
+}
+
+Instance* DependencyBuilder::BuildInstance(Instance*)
+{
+    return NULL;
+}
+
 QVector<Parameter*>* DependencyBuilder::BuildParameters()
 {
     return NULL;

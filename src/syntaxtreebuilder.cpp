@@ -68,6 +68,17 @@ Context* SyntaxTreeBuilder::BuildContext(QVector<Declaration*>* decls)
     return result;
 }
 
+Context* SyntaxTreeBuilder::BuildContext(Instance*)
+{
+    //TODO implement
+    return NULL;
+}
+
+Instance* SyntaxTreeBuilder::BuildInstance(Instance* inst)
+{
+    return inst;
+}
+
 QVector<Parameter*>* SyntaxTreeBuilder::BuildParameters()
 {
     return NULL;

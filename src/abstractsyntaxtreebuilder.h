@@ -29,6 +29,7 @@
 #include "declaration.h"
 #include "context.h"
 #include "modulecontext.h"
+#include "instance.h"
 
 class AbstractSyntaxTreeBuilder
 {
@@ -40,6 +41,8 @@ public:
     virtual QVector<Declaration*>* BuildDeclarations(QVector<Declaration*>*,Declaration*)=0;
     virtual Declaration* BuildModule(QString name,QVector<Parameter*>*,Context*)=0;
     virtual Context* BuildContext(QVector<Declaration*>*)=0;
+    virtual Context* BuildContext(Instance*)=0;
+    virtual Instance* BuildInstance(Instance*)=0;
     virtual QVector<Parameter*>* BuildParameters()=0;
     virtual QVector<Parameter*>* BuildParameters(Parameter*)=0;
     virtual QVector<Parameter*>* BuildParameters(QVector<Parameter*>*,Parameter*)=0;

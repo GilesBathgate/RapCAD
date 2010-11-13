@@ -46,7 +46,7 @@ D [0-9]
 "&&"			{ return AND; }
 "||"			{ return OR;  }
 {D}+|{D}*\.{D}+|{D}+\.{D}* { parserlval.number = QString(lexertext).toDouble(); return NUMBER; }
-"$"?[a-zA-Z0-9_]+	{ parserlval.text = strdup(lexertext); return IDENTIFIER; }
+[a-zA-Z0-9_]+		{ parserlval.text = strdup(lexertext); return IDENTIFIER; }
 "//"[^\n]*\n?		//ignore one line comments
 "/*"			{ BEGIN(comment); }
 <comment>[^*]*		//ignore anything that's not a '*'
