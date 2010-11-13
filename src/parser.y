@@ -39,7 +39,7 @@ struct yy_buffer_state;
 extern yy_buffer_state* lexer_scan_string(const char *);
 extern void lexer_delete_buffer(yy_buffer_state*);
 
-SyntaxTreeBuilder *builder;
+AbstractSyntaxTreeBuilder *builder;
 %}
 
 %union {
@@ -306,5 +306,5 @@ void parse(const char *input,bool file)
 	    lexer_delete_buffer(str_buffer);
 	}
 
-	builder->Print();
+	((SyntaxTreeBuilder*)builder)->Print();
 }

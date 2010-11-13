@@ -16,15 +16,15 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SYNTAXTREEBUILDER_H
-#define SYNTAXTREEBUILDER_H
+#ifndef DEPENDENCYBUILDER_H
+#define DEPENDENCYBUILDER_H
 
 #include "abstractsyntaxtreebuilder.h"
 
-class SyntaxTreeBuilder : public AbstractSyntaxTreeBuilder
+class DependencyBuilder : public AbstractSyntaxTreeBuilder
 {
 public:
-    SyntaxTreeBuilder();
+    DependencyBuilder();
     void BuildScript(QVector<Declaration*>*);
     QVector<Declaration*>* BuildDeclarations();
     QVector<Declaration*>* BuildDeclarations(Declaration*);
@@ -43,10 +43,6 @@ public:
     Expression* BuildLiteral(char* value);
     Expression* BuildVariable(QString name);
     Expression* BuildExpression(Expression*,Expression::Operator_e,Expression*);
-
-    void Print();
-private:
-    QVector<Declaration*>* declarations;
 };
 
-#endif // SYNTAXTREEBUILDER_H
+#endif // DEPENDENCYBUILDER_H
