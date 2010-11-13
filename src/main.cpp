@@ -37,6 +37,11 @@ int main(int argc, char *argv[])
 	    QString filename = args.at(2);
 	    parse(filename.toAscii(),true);
 	}
+	if(args.at(1)=="-l")
+	{
+	    QString text = args.at(2);
+	    parse(text.toAscii(),false);
+	}
     }
     else
     {
