@@ -27,7 +27,8 @@ QT       += core gui opengl
 TARGET = rapcad
 TEMPLATE = app
 INCLUDEPATH += src
-
+QMAKE_YACC = bison
+QMAKE_DEL_FILE = rm -f
 LEXSOURCES += src/lexer.l
 YACCSOURCES += src/parser.y
 
