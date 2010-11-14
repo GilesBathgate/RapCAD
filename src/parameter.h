@@ -20,19 +20,18 @@
 #define PARAMETER_H
 #include <QString>
 #include "expression.h"
-#include "variable.h"
 
 class Parameter
 {
 public:
     Parameter();
-    Variable* getVariable();
-    void setVariable(Variable*);
+    QString getName();
+    void setName(QString);
     Expression* getExpression();
     void setExpression(Expression*);
     QString toString();
 private:
-    Variable* variable;
+    QString name;
     Expression* expression;
 };
 

@@ -27,21 +27,21 @@ QString Parameter::toString()
 {
     QString result;
     result.append("Param: ");
-    result.append(this->variable->toString());
+    result.append(this->name);
     result.append(" ");
     if(this->expression)
 	result.append(this->expression->toString());
     return result;
 }
 
-Variable* Parameter::getVariable()
+QString Parameter::getName()
 {
-    return this->variable;
+    return this->name;
 }
 
-void Parameter::setVariable(Variable* var)
+void Parameter::setName(QString name)
 {
-    this->variable = var;
+    this->name = name;
 }
 
 Expression* Parameter::getExpression()

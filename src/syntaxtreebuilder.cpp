@@ -100,16 +100,14 @@ QVector<Parameter*>* SyntaxTreeBuilder::BuildParameters(QVector<Parameter*>* par
 Parameter* SyntaxTreeBuilder::BuildParameter(QString name)
 {
     Parameter* result = new Parameter();
-    Variable* var = new Variable();
-    var->setName(name);
-    result->setVariable(var);
+    result->setName(name);
     return result;
 }
 
-Parameter* SyntaxTreeBuilder::BuildParameter(Variable* var,Expression* expr)
+Parameter* SyntaxTreeBuilder::BuildParameter(QString name,Expression* expr)
 {
     Parameter* result = new Parameter();
-    result->setVariable(var);
+    result->setName(name);
     result->setExpression(expr);
     return result;
 }

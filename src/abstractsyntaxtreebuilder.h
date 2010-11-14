@@ -47,7 +47,7 @@ public:
     virtual QVector<Parameter*>* BuildParameters(Parameter*)=0;
     virtual QVector<Parameter*>* BuildParameters(QVector<Parameter*>*,Parameter*)=0;
     virtual Parameter* BuildParameter(QString)=0;
-    virtual Parameter* BuildParameter(Variable*,Expression*)=0;
+    virtual Parameter* BuildParameter(QString,Expression*)=0;
     virtual Expression* BuildLiteral()=0;
     virtual Expression* BuildLiteral(bool)=0;
     virtual Expression* BuildLiteral(double value)=0;

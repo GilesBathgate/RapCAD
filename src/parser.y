@@ -244,7 +244,7 @@ parameters
 parameter
 	: IDENTIFIER
 	{ $$ = builder->BuildParameter($1); }
-	| variable '=' expression
+	| IDENTIFIER '=' expression
 	{ $$ = builder->BuildParameter($1,$3); }
 	;
 

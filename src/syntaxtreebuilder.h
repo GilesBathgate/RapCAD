@@ -38,7 +38,7 @@ public:
     QVector<Parameter*>* BuildParameters(Parameter*);
     QVector<Parameter*>* BuildParameters(QVector<Parameter*>*,Parameter*);
     Parameter* BuildParameter(QString);
-    Parameter* BuildParameter(Variable*,Expression*);
+    Parameter* BuildParameter(QString,Expression*);
     Expression* BuildLiteral();
     Expression* BuildLiteral(bool);
     Expression* BuildLiteral(double value);
