@@ -38,12 +38,13 @@ public:
     QVector<Parameter*>* BuildParameters(Parameter*);
     QVector<Parameter*>* BuildParameters(QVector<Parameter*>*,Parameter*);
     Parameter* BuildParameter(QString);
-    Parameter* BuildParameter(QString,Expression*);
+    Parameter* BuildParameter(Variable*,Expression*);
     Expression* BuildLiteral();
     Expression* BuildLiteral(bool);
     Expression* BuildLiteral(double value);
     Expression* BuildLiteral(char* value);
-    Expression* BuildVariable(QString name);
+    Variable* BuildVariable(QString name);
+    Expression* BuildVariable(Variable*);
     Expression* BuildExpression(Expression*,Expression::Operator_e,Expression*);
 
     void Print();

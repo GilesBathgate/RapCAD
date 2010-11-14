@@ -28,6 +28,7 @@ public:
     Variable();
     QString getName();
     void setName(QString);
+    QString toString();
 private:
     QString name;
 };

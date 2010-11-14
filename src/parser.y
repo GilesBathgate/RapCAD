@@ -54,6 +54,7 @@ AbstractSyntaxTreeBuilder *builder;
 	class Parameter* param;
 	class Context* ctx;
 	class Instance* inst;
+	class Variable* var;
 }
 
 %token MODULE FUNCTION
@@ -65,7 +66,7 @@ AbstractSyntaxTreeBuilder *builder;
 %token <number> NUMBER
 %token TOK_TRUE TOK_FALSE UNDEF
 %token LE GE EQ NE AND OR
-
+%right '='
 %right '?' ':'
 
 %left OR
@@ -88,6 +89,7 @@ AbstractSyntaxTreeBuilder *builder;
 %type <ctx>  module_context
 %type <inst>  module_instance
 %type <inst>  single_instance
+%type <var>  variable
 
 %%
 input
@@ -113,7 +115,7 @@ compound_declaration
 declaration
 	: single_statement
 	{ }
-	| PARAM IDENTIFIER
+	| PARAM IDENTIFIER '=' expression
 	{ }
 	| MODULE IDENTIFIER '(' parameters ')' module_context
 	{ $$ = builder->BuildModule($2,$4,$6); }
@@ -140,7 +142,7 @@ statement
 
 single_statement
 	: module_instance
-	| assign_statement ';'
+	| variable '=' expression ';'
 	| ifelse_statement
 	| for_statement
 	;
@@ -155,12 +157,6 @@ statement_list
 	| statement_list statement
 	;
 
-assign_statement
-	: CONST IDENTIFIER '=' expression
-	| IDENTIFIER '=' expression
-	| '$' IDENTIFIER '=' expression
-	;
-
 ifelse_statement
 	: IF '(' expression ')' statement
 	| IF '(' expression ')' statement ELSE statement
@@ -170,6 +166,12 @@ for_statement
 	: FOR '(' expression ')' statement
 	;
 
+variable
+	: IDENTIFIER
+	{ $$ = builder->BuildVariable($1); }
+	| '$' IDENTIFIER
+	;
+
 expression
 	: TOK_TRUE
 	{ $$ = builder->BuildLiteral(true); }
@@ -177,8 +179,10 @@ expression
 	{ $$ = builder->BuildLiteral(false); }
 	| UNDEF
 	{ $$ = builder->BuildLiteral(); }
-	| IDENTIFIER
+	| variable
 	{ $$ = builder->BuildVariable($1); }
+	| CONST IDENTIFIER
+	{ /*$$ = builder->BuildConstant($1);*/ }
 	| expression '.' IDENTIFIER
 	| STRING
 	{ $$ = builder->BuildLiteral($1); }
@@ -240,7 +244,7 @@ parameters
 parameter
 	: IDENTIFIER
 	{ $$ = builder->BuildParameter($1); }
-	| IDENTIFIER '=' expression
+	| variable '=' expression
 	{ $$ = builder->BuildParameter($1,$3); }
 	;
 
@@ -288,7 +292,7 @@ optional_commas
 
 argument
 	: expression
-	| assign_statement
+	| variable '=' expression
 	;
 
 %%

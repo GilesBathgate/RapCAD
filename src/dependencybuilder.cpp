@@ -111,7 +111,12 @@ Expression* DependencyBuilder::BuildLiteral(char*)
     return NULL;
 }
 
-Expression* DependencyBuilder::BuildVariable(QString)
+Variable* DependencyBuilder::BuildVariable(QString)
+{
+    return NULL;
+}
+
+Expression* DependencyBuilder::BuildVariable(Variable*)
 {
     return NULL;
 }

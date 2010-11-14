@@ -31,3 +31,8 @@ void Variable::setName(QString name)
 {
     this->name = name;
 }
+
+QString Variable::toString()
+{
+    return this->name;
+}

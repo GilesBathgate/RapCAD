@@ -43,7 +43,8 @@ public:
     Expression* BuildLiteral(bool);
     Expression* BuildLiteral(double value);
     Expression* BuildLiteral(char* value);
-    Expression* BuildVariable(QString name);
+    Variable* BuildVariable(QString name);
+    Expression* BuildVariable(Variable*)=0;
     Expression* BuildExpression(Expression*,Expression::Operator_e,Expression*);
 };
 
