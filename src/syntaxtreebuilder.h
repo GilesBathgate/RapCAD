@@ -42,9 +42,11 @@ public:
     Parameter* BuildParameter(QString,Expression*);
     QVector<Argument*>* BuildArguments();
     QVector<Argument*>* BuildArguments(Argument*);
-    QVector<Argument*>* BuildArguments(QVector<Argument*>*,Argument*);
+    QVector<Argument*>* BuildArguments(QVector<Argument*>*,unsigned int,Argument*);
     Argument* BuildArgument(Expression*);
     Argument* BuildArgument(Variable*,Expression*);
+    unsigned int BuildOptionalCommas();
+    unsigned int BuildOptionalCommas(unsigned int);
     Expression* BuildLiteral();
     Expression* BuildLiteral(bool);
     Expression* BuildLiteral(double value);

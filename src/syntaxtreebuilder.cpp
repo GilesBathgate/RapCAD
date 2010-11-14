@@ -135,8 +135,10 @@ QVector<Argument*>* SyntaxTreeBuilder::BuildArguments(Argument* arg)
     return result;
 }
 
-QVector<Argument*>* SyntaxTreeBuilder::BuildArguments(QVector<Argument*>* args,Argument* arg)
+QVector<Argument*>* SyntaxTreeBuilder::BuildArguments(QVector<Argument*>* args,unsigned int count,Argument* arg)
 {
+    for(unsigned int i=0; i<count; i++)
+	args->append(new Argument());
     args->append(arg);
     return args;
 }
@@ -154,6 +156,16 @@ Argument* SyntaxTreeBuilder::BuildArgument(Variable* var,Expression* exp)
     result->setVariable(var);
     result->setExpression(exp);
     return result;
+}
+
+unsigned int SyntaxTreeBuilder::BuildOptionalCommas()
+{
+    return 0;
+}
+
+unsigned int SyntaxTreeBuilder::BuildOptionalCommas(unsigned int count)
+{
+    return count+1;
 }
 
 Expression* SyntaxTreeBuilder::BuildLiteral()

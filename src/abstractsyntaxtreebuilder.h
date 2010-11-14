@@ -52,7 +52,9 @@ public:
     virtual Parameter* BuildParameter(QString,Expression*)=0;
     virtual QVector<Argument*>* BuildArguments()=0;
     virtual QVector<Argument*>* BuildArguments(Argument*)=0;
-    virtual QVector<Argument*>* BuildArguments(QVector<Argument*>*,Argument*)=0;
+    virtual QVector<Argument*>* BuildArguments(QVector<Argument*>*,unsigned int,Argument*)=0;
+    virtual unsigned int BuildOptionalCommas()=0;
+    virtual unsigned int BuildOptionalCommas(unsigned int)=0;
     virtual Argument* BuildArgument(Expression*)=0;
     virtual Argument* BuildArgument(Variable*,Expression*)=0;
     virtual Expression* BuildLiteral()=0;

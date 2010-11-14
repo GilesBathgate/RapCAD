@@ -48,6 +48,7 @@ AbstractSyntaxTreeBuilder *builder;
 %union {
         char *text;
 	double number;
+	unsigned int count;
 	class Declaration* decl;
 	class QVector<Declaration*>* decls;
 	class Expression* expr;
@@ -93,6 +94,7 @@ AbstractSyntaxTreeBuilder *builder;
 %type <var>  variable
 %type <arg> argument
 %type <args> arguments
+%type <count> optional_commas
 
 %%
 input
@@ -198,6 +200,10 @@ expression
 	{ $$ = builder->BuildLiteral($1); }
 	| '[' expression ':' expression ']'
 	{ }
+	| '[' expression ':' expression ':' expression ']'
+	{ }
+	| '[' vector_expression ']'
+	{ }
 	| expression '*' expression
 	{ $$ = builder->BuildExpression($1,Expression::Multiply,$3); }
 	| expression '/' expression
@@ -238,6 +244,11 @@ expression
 	{ }
 	| IDENTIFIER '(' arguments ')'
 	{ }
+	;
+
+vector_expression
+	: expression
+	| vector_expression ',' optional_commas expression
 	;
 
 parameters
@@ -293,13 +304,14 @@ arguments
 	| argument
 	{ $$ = builder->BuildArguments($1); }
 	| arguments ',' optional_commas argument
-	{ //TODO do optional commas.
-	$$ = builder->BuildArguments($1,$4); }
+	{ $$ = builder->BuildArguments($1,$3,$4); }
 	;
 
 optional_commas
 	: //empty
+	{ $$ = builder->BuildOptionalCommas(); }
 	| ',' optional_commas
+	{ $$ = builder->BuildOptionalCommas($2); }
 	;
 
 argument

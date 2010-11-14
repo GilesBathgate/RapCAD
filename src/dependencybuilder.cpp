@@ -106,7 +106,7 @@ QVector<Argument*>* DependencyBuilder::BuildArguments(Argument*)
     return NULL;
 }
 
-QVector<Argument*>* DependencyBuilder::BuildArguments(QVector<Argument*>*,Argument*)
+QVector<Argument*>* DependencyBuilder::BuildArguments(QVector<Argument*>*,unsigned int,Argument*)
 {
     return NULL;
 }
@@ -117,6 +117,16 @@ Argument* DependencyBuilder::BuildArgument(Expression*)
 }
 
 Argument* DependencyBuilder::BuildArgument(Variable*,Expression*)
+{
+    return NULL;
+}
+
+unsigned int DependencyBuilder::BuildOptionalCommas()
+{
+    return NULL;
+}
+
+unsigned int DependencyBuilder::BuildOptionalCommas(unsigned int)
 {
     return NULL;
 }
