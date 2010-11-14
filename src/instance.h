@@ -21,6 +21,7 @@
 
 #include <QString>
 #include "declaration.h"
+#include "argument.h"
 
 class Instance : public Declaration
 {
@@ -28,9 +29,12 @@ public:
     Instance();
     void setName(QString);
     QString getName();
+    void setArguments(QVector<Argument*>*);
+    QVector<Argument*>* getArguments();
     QString toString();
 private:
     QString name;
+    QVector<Argument*>* arguments;
 };
 
 #endif // INSTANCE_H

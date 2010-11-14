@@ -96,6 +96,21 @@ Parameter* DependencyBuilder::BuildParameter(QString,Expression*)
     return NULL;
 }
 
+QVector<Argument*>* DependencyBuilder::BuildArguments()
+{
+    return NULL;
+}
+
+QVector<Argument*>* DependencyBuilder::BuildArguments(Argument*)
+{
+    return NULL;
+}
+
+QVector<Argument*>* DependencyBuilder::BuildArguments(QVector<Argument*>*,Argument*)
+{
+    return NULL;
+}
+
 Expression* DependencyBuilder::BuildLiteral()
 {
     return NULL;

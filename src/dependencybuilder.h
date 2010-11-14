@@ -40,6 +40,9 @@ public:
     QVector<Parameter*>* BuildParameters(QVector<Parameter*>*,Parameter*);
     Parameter* BuildParameter(QString);
     Parameter* BuildParameter(QString,Expression*);
+    QVector<Argument*>* BuildArguments();
+    QVector<Argument*>* BuildArguments(Argument*);
+    QVector<Argument*>* BuildArguments(QVector<Argument*>*,Argument*);
     Expression* BuildLiteral();
     Expression* BuildLiteral(bool);
     Expression* BuildLiteral(double value);

@@ -32,6 +32,16 @@ QString Instance::getName()
     return this->name;
 }
 
+void Instance::setArguments(QVector<Argument*>* args)
+{
+    this->arguments = args;
+}
+
+QVector<Argument*>* Instance::getArguments()
+{
+    return this->arguments;
+}
+
 QString Instance::toString()
 {
     QString result;

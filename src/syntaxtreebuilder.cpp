@@ -82,11 +82,11 @@ Instance* SyntaxTreeBuilder::BuildInstance(Instance* inst)
     return inst;
 }
 
-Instance* SyntaxTreeBuilder::BuildInstance(QString name,QVector<Argument*>*)
+Instance* SyntaxTreeBuilder::BuildInstance(QString name,QVector<Argument*>* args)
 {
     Instance* result = new Instance();
     result->setName(name);
-    //TODO add args
+    result->setArguments(args);
     return result;
 }
 
@@ -121,6 +121,24 @@ Parameter* SyntaxTreeBuilder::BuildParameter(QString name,Expression* expr)
     result->setName(name);
     result->setExpression(expr);
     return result;
+}
+
+QVector<Argument*>* SyntaxTreeBuilder::BuildArguments()
+{
+    return NULL;
+}
+
+QVector<Argument*>* SyntaxTreeBuilder::BuildArguments(Argument* arg)
+{
+    QVector<Argument*>* result = new QVector<Argument*>();
+    result->append(arg);
+    return result;
+}
+
+QVector<Argument*>* SyntaxTreeBuilder::BuildArguments(QVector<Argument*>* args,Argument* arg)
+{
+    args->append(arg);
+    return args;
 }
 
 Expression* SyntaxTreeBuilder::BuildLiteral()

@@ -179,6 +179,7 @@ variable
 	: IDENTIFIER
 	{ $$ = builder->BuildVariable($1); }
 	| '$' IDENTIFIER
+	{ }
 	;
 
 expression
@@ -288,8 +289,12 @@ single_instance
 
 arguments
 	: //empty
+	{ $$ = builder->BuildArguments(); }
 	| argument
+	{ $$ = builder->BuildArguments($1); }
 	| arguments ',' optional_commas argument
+	{ //TODO do optional commas.
+	$$ = builder->BuildArguments($1,$4); }
 	;
 
 optional_commas
@@ -299,7 +304,9 @@ optional_commas
 
 argument
 	: expression
+	{}
 	| variable '=' expression
+	{}
 	;
 
 %%
