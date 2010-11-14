@@ -68,15 +68,26 @@ Context* SyntaxTreeBuilder::BuildContext(QVector<Declaration*>* decls)
     return result;
 }
 
-Context* SyntaxTreeBuilder::BuildContext(Instance*)
+Context* SyntaxTreeBuilder::BuildContext(Instance* inst)
 {
-    //TODO implement
-    return NULL;
+    ModuleContext* result = new ModuleContext();
+    QVector<Declaration*>* decls = new QVector<Declaration*>();
+    decls->append(inst);
+    result->setDeclarations(decls);
+    return result;
 }
 
 Instance* SyntaxTreeBuilder::BuildInstance(Instance* inst)
 {
     return inst;
+}
+
+Instance* SyntaxTreeBuilder::BuildInstance(QString name,QVector<Argument*>*)
+{
+    Instance* result = new Instance();
+    result->setName(name);
+    //TODO add args
+    return result;
 }
 
 QVector<Parameter*>* SyntaxTreeBuilder::BuildParameters()

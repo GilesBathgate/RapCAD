@@ -28,6 +28,7 @@
 #include "expression.h"
 #include "parameter.h"
 #include "context.h"
+#include "argument.h"
 
 void parsererror(char const *);
 int parserlex();
@@ -55,6 +56,8 @@ AbstractSyntaxTreeBuilder *builder;
 	class Context* ctx;
 	class Instance* inst;
 	class Variable* var;
+	class QVector<Argument*>* args;
+	class Argument* arg;
 }
 
 %token MODULE FUNCTION
@@ -81,15 +84,15 @@ AbstractSyntaxTreeBuilder *builder;
 %left '.'
 
 %type <decl>  declaration
-%type <decls>  declaration_list
-%type <decls>  compound_declaration
+%type <decls>  declaration_list compound_declaration
 %type <param> parameter
 %type <params> parameters
 %type <expr>  expression
 %type <ctx>  module_context
-%type <inst>  module_instance
-%type <inst>  single_instance
+%type <inst>  module_instance single_instance
 %type <var>  variable
+%type <arg> argument
+%type <args> arguments
 
 %%
 input
@@ -156,7 +159,7 @@ statement_list
 	;
 
 assign_statement
-	: variable '=' expression ';'
+	: variable '=' expression
 	| CONST IDENTIFIER '=' expression
 	{ /*$$ = builder->BuildConstant($1);*/ }
 	| PARAM IDENTIFIER '=' expression
@@ -272,7 +275,7 @@ instance_list
 
 single_instance
 	: IDENTIFIER '(' arguments ')'
-	{}
+	{ $$ = builder->BuildInstance($1,$3); }
 	| '!' single_instance
 	{}
 	| '#' single_instance

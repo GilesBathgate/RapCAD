@@ -16,21 +16,13 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INSTANCE_H
-#define INSTANCE_H
+#ifndef ARGUMENT_H
+#define ARGUMENT_H
 
-#include <QString>
-#include "declaration.h"
-
-class Instance : public Declaration
+class Argument
 {
 public:
-    Instance();
-    void setName(QString);
-    QString getName();
-    QString toString();
-private:
-    QString name;
+    Argument();
 };
 
-#endif // INSTANCE_H
+#endif // ARGUMENT_H

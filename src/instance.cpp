@@ -21,3 +21,22 @@
 Instance::Instance()
 {
 }
+
+void Instance::setName(QString name)
+{
+    this->name = name;
+}
+
+QString Instance::getName()
+{
+    return this->name;
+}
+
+QString Instance::toString()
+{
+    QString result;
+    result.append("Instance: ");
+    result.append(this->name);
+
+    return result;
+}

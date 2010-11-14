@@ -30,6 +30,7 @@
 #include "context.h"
 #include "modulecontext.h"
 #include "instance.h"
+#include "argument.h"
 
 class AbstractSyntaxTreeBuilder
 {
@@ -43,6 +44,7 @@ public:
     virtual Context* BuildContext(QVector<Declaration*>*)=0;
     virtual Context* BuildContext(Instance*)=0;
     virtual Instance* BuildInstance(Instance*)=0;
+    virtual Instance* BuildInstance(QString,QVector<Argument*>*)=0;
     virtual QVector<Parameter*>* BuildParameters()=0;
     virtual QVector<Parameter*>* BuildParameters(Parameter*)=0;
     virtual QVector<Parameter*>* BuildParameters(QVector<Parameter*>*,Parameter*)=0;

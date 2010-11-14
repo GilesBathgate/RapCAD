@@ -34,6 +34,7 @@ public:
     Context* BuildContext(QVector<Declaration*>*);
     Context* BuildContext(Instance*);
     Instance* BuildInstance(Instance*);
+    Instance* BuildInstance(QString,QVector<Argument*>*);
     QVector<Parameter*>* BuildParameters();
     QVector<Parameter*>* BuildParameters(Parameter*);
     QVector<Parameter*>* BuildParameters(QVector<Parameter*>*,Parameter*);

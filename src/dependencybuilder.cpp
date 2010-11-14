@@ -66,6 +66,11 @@ Instance* DependencyBuilder::BuildInstance(Instance*)
     return NULL;
 }
 
+Instance* DependencyBuilder::BuildInstance(QString,QVector<Argument*>*)
+{
+    return NULL;
+}
+
 QVector<Parameter*>* DependencyBuilder::BuildParameters()
 {
     return NULL;
