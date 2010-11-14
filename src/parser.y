@@ -304,9 +304,9 @@ optional_commas
 
 argument
 	: expression
-	{}
+	{ $$ = builder->BuildArgument($1); }
 	| variable '=' expression
-	{}
+	{ $$ = builder->BuildArgument($1,$3); }
 	;
 
 %%

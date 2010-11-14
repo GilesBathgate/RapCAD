@@ -111,6 +111,16 @@ QVector<Argument*>* DependencyBuilder::BuildArguments(QVector<Argument*>*,Argume
     return NULL;
 }
 
+Argument* DependencyBuilder::BuildArgument(Expression*)
+{
+    return NULL;
+}
+
+Argument* DependencyBuilder::BuildArgument(Variable*,Expression*)
+{
+    return NULL;
+}
+
 Expression* DependencyBuilder::BuildLiteral()
 {
     return NULL;

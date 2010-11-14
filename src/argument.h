@@ -19,10 +19,22 @@
 #ifndef ARGUMENT_H
 #define ARGUMENT_H
 
+#include <QString>
+#include "expression.h"
+#include "variable.h"
+
 class Argument
 {
 public:
     Argument();
+    void setVariable(Variable*);
+    Variable* getVariable();
+    void setExpression(Expression*);
+    Expression* getExpression();
+    QString toString();
+private:
+    Variable* variable;
+    Expression* expression;
 };
 
 #endif // ARGUMENT_H

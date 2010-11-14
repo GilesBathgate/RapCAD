@@ -53,6 +53,8 @@ public:
     virtual QVector<Argument*>* BuildArguments()=0;
     virtual QVector<Argument*>* BuildArguments(Argument*)=0;
     virtual QVector<Argument*>* BuildArguments(QVector<Argument*>*,Argument*)=0;
+    virtual Argument* BuildArgument(Expression*)=0;
+    virtual Argument* BuildArgument(Variable*,Expression*)=0;
     virtual Expression* BuildLiteral()=0;
     virtual Expression* BuildLiteral(bool)=0;
     virtual Expression* BuildLiteral(double value)=0;

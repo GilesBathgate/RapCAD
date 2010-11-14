@@ -43,6 +43,8 @@ public:
     QVector<Argument*>* BuildArguments();
     QVector<Argument*>* BuildArguments(Argument*);
     QVector<Argument*>* BuildArguments(QVector<Argument*>*,Argument*);
+    Argument* BuildArgument(Expression*);
+    Argument* BuildArgument(Variable*,Expression*);
     Expression* BuildLiteral();
     Expression* BuildLiteral(bool);
     Expression* BuildLiteral(double value);

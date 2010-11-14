@@ -141,6 +141,21 @@ QVector<Argument*>* SyntaxTreeBuilder::BuildArguments(QVector<Argument*>* args,A
     return args;
 }
 
+Argument* SyntaxTreeBuilder::BuildArgument(Expression* exp)
+{
+    Argument* result = new Argument();
+    result->setExpression(exp);
+    return result;
+}
+
+Argument* SyntaxTreeBuilder::BuildArgument(Variable* var,Expression* exp)
+{
+    Argument* result = new Argument();
+    result->setVariable(var);
+    result->setExpression(exp);
+    return result;
+}
+
 Expression* SyntaxTreeBuilder::BuildLiteral()
 {
     return new Literal();

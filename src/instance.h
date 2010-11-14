@@ -20,6 +20,7 @@
 #define INSTANCE_H
 
 #include <QString>
+#include <QVector>
 #include "declaration.h"
 #include "argument.h"
 

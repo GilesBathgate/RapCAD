@@ -47,6 +47,10 @@ QString Instance::toString()
     QString result;
     result.append("Instance: ");
     result.append(this->name);
+    result.append(" ");
+    if(arguments)
+	for(int i=0; i<arguments->size(); i++)
+	    result.append(arguments->at(i)->toString());
 
     return result;
 }

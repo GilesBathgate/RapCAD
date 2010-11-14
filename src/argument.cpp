@@ -21,3 +21,37 @@
 Argument::Argument()
 {
 }
+
+void Argument::setVariable(Variable* var)
+{
+    this->variable = var;
+}
+
+Variable* Argument::getVariable()
+{
+    return this->variable;
+}
+
+void Argument::setExpression(Expression* exp)
+{
+    this->expression = exp;
+}
+
+Expression* Argument::getExpression()
+{
+    return this->expression;
+}
+
+QString Argument::toString()
+{
+    QString result;
+    result.append("Argument: ");
+    if(variable)
+	result.append(this->variable->toString());
+
+    result.append(" ");
+    if(expression)
+	result.append(this->expression->toString());
+
+    return result;
+}
