@@ -115,8 +115,6 @@ compound_declaration
 declaration
 	: single_statement
 	{ }
-	| PARAM IDENTIFIER '=' expression
-	{ }
 	| MODULE IDENTIFIER '(' parameters ')' module_context
 	{ $$ = builder->BuildModule($2,$4,$6); }
 	| FUNCTION IDENTIFIER '(' parameters ')' function_context
@@ -142,7 +140,7 @@ statement
 
 single_statement
 	: module_instance
-	| variable '=' expression ';'
+	| assign_statement ';'
 	| ifelse_statement
 	| for_statement
 	;
@@ -155,6 +153,14 @@ compound_statement
 statement_list
 	: statement
 	| statement_list statement
+	;
+
+assign_statement
+	: variable '=' expression ';'
+	| CONST IDENTIFIER '=' expression
+	{ /*$$ = builder->BuildConstant($1);*/ }
+	| PARAM IDENTIFIER '=' expression
+	{ }
 	;
 
 ifelse_statement
@@ -181,8 +187,6 @@ expression
 	{ $$ = builder->BuildLiteral(); }
 	| variable
 	{ $$ = builder->BuildVariable($1); }
-	| CONST IDENTIFIER
-	{ /*$$ = builder->BuildConstant($1);*/ }
 	| expression '.' IDENTIFIER
 	| STRING
 	{ $$ = builder->BuildLiteral($1); }
