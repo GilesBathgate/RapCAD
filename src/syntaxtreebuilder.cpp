@@ -320,6 +320,14 @@ Expression* SyntaxTreeBuilder::BuildVariable(Value* var)
     return var;
 }
 
+Value* SyntaxTreeBuilder::BuildVariable(QString name,Value::Type_e type)
+{
+    Value* result = new Value();
+    result->setType(type);
+    result->setName(name);
+    return result;
+}
+
 Expression* SyntaxTreeBuilder::BuildExpression(Expression* left ,Expression::Operator_e op, Expression* right)
 {
     BinaryExpression* result = new BinaryExpression();

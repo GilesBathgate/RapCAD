@@ -203,7 +203,7 @@ variable
 	: IDENTIFIER
 	{ $$ = builder->BuildVariable($1); }
 	| '$' IDENTIFIER
-	{ }
+	{ $$ = builder->BuildVariable($2,Value::Special); }
 	;
 
 expression

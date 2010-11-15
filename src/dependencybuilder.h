@@ -69,7 +69,8 @@ public:
     Expression* BuildLiteral(double value);
     Expression* BuildLiteral(char* value);
     Value* BuildVariable(QString name);
-    Expression* BuildVariable(Value*)=0;
+    Expression* BuildVariable(Value*);
+    Value* BuildVariable(QString,Value::Type_e);
     Expression* BuildExpression(Expression*,Expression::Operator_e,Expression*);
 };
 

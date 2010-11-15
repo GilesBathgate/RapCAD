@@ -28,6 +28,7 @@ public:
     enum Type_e
     {
 	Var,
+	Special,
 	Const,
 	Param
     };

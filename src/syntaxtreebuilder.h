@@ -70,6 +70,7 @@ public:
     Expression* BuildLiteral(char* value);
     Value* BuildVariable(QString name);
     Expression* BuildVariable(Value*);
+    Value* BuildVariable(QString,Value::Type_e);
     Expression* BuildExpression(Expression*,Expression::Operator_e,Expression*);
 
     void Print();

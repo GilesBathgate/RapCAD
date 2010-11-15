@@ -85,6 +85,7 @@ public:
     virtual Expression* BuildLiteral(char* value)=0;
     virtual Value* BuildVariable(QString name)=0;
     virtual Expression* BuildVariable(Value*)=0;
+    virtual Value* BuildVariable(QString,Value::Type_e)=0;
     virtual Expression* BuildExpression(Expression*,Expression::Operator_e,Expression*)=0;
 };
 

@@ -20,6 +20,7 @@
 
 Value::Value()
 {
+    type=Value::Var;
 }
 
 Value::~Value()
