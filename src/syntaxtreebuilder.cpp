@@ -65,6 +65,21 @@ Statement* SyntaxTreeBuilder::BuildStatement(Statement* stmt)
     return stmt;
 }
 
+Statement* SyntaxTreeBuilder::BuildStatement(QVector<Statement*>* stmts)
+{
+    CompoundStatement* result = new CompoundStatement();
+    result->setChildren(stmts);
+    return result;
+}
+
+Statement* SyntaxTreeBuilder::BuildStatement(Variable* var,Expression* exp)
+{
+    AssignStatement* result = new AssignStatement();
+    result->variable = var;
+    result->expression = exp;
+    return result;
+}
+
 QVector<Statement*>* SyntaxTreeBuilder::BuildStatements()
 {
     return NULL;

@@ -55,6 +55,16 @@ Statement* DependencyBuilder::BuildStatement(Statement*)
     return NULL;
 }
 
+Statement* DependencyBuilder::BuildStatement(QVector<Statement*>*)
+{
+    return NULL;
+}
+
+Statement* DependencyBuilder::BuildStatement(Variable*,Expression*)
+{
+    return NULL;
+}
+
 QVector<Statement*>* DependencyBuilder::BuildStatements()
 {
     return NULL;

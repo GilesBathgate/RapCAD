@@ -103,7 +103,7 @@ AbstractSyntaxTreeBuilder *builder;
 %type <inst> module_instance single_instance
 %type <insts> compound_instance instance_list
 %type <var> variable
-%type <stmt> statement single_statement
+%type <stmt> statement single_statement assign_statement
 %type <stmts> compound_statement statement_list
 
 %%
@@ -154,7 +154,7 @@ statement
 	: single_statement
 	{ $$ = builder->BuildStatement($1); }
 	| compound_statement
-	{ }
+	{ $$ = builder->BuildStatement($1); }
 	;
 
 single_statement
@@ -184,6 +184,7 @@ statement_list
 
 assign_statement
 	: variable '=' expression
+	{ $$ = builder->BuildStatement($1,$3); }
 	| CONST IDENTIFIER '=' expression
 	{ /*$$ = builder->BuildConstant($1);*/ }
 	| PARAM IDENTIFIER '=' expression

@@ -33,6 +33,9 @@
 #include "instance.h"
 #include "argument.h"
 #include "function.h"
+#include "statement.h"
+#include "compoundstatement.h"
+#include "assignstatement.h"
 
 class AbstractSyntaxTreeBuilder
 {
@@ -44,6 +47,8 @@ public:
     virtual QVector<Declaration*>* BuildDeclarations(QVector<Declaration*>*)=0;
     virtual QVector<Declaration*>* BuildDeclarations(QVector<Declaration*>*,Declaration*)=0;
     virtual Statement* BuildStatement(Statement*)=0;
+    virtual Statement* BuildStatement(QVector<Statement*>*)=0;
+    virtual Statement* BuildStatement(Variable*,Expression*)=0;
     virtual QVector<Statement*>* BuildStatements()=0;
     virtual QVector<Statement*>* BuildStatements(Statement*)=0;
     virtual QVector<Statement*>* BuildStatements(QVector<Statement*>*)=0;

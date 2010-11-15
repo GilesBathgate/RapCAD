@@ -32,6 +32,8 @@ public:
     QVector<Declaration*>* BuildDeclarations(QVector<Declaration*>*);
     QVector<Declaration*>* BuildDeclarations(QVector<Declaration*>*,Declaration*);
     Statement* BuildStatement(Statement*);
+    Statement* BuildStatement(QVector<Statement*>*);
+    Statement* BuildStatement(Variable*,Expression*);
     QVector<Statement*>* BuildStatements();
     QVector<Statement*>* BuildStatements(Statement*);
     QVector<Statement*>* BuildStatements(QVector<Statement*>*);

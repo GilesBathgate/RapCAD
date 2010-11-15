@@ -49,7 +49,9 @@ SOURCES += src/main.cpp\
     src/argument.cpp \
     src/statement.cpp \
     src/function.cpp \
-    src/functioncontext.cpp
+    src/functioncontext.cpp \
+    src/compoundstatement.cpp \
+    src/assignstatement.cpp
 
 HEADERS  += src/mainwindow.h \
     src/module.h \
@@ -68,7 +70,9 @@ HEADERS  += src/mainwindow.h \
     src/argument.h \
     src/statement.h \
     src/function.h \
-    src/functioncontext.h
+    src/functioncontext.h \
+    src/compoundstatement.h \
+    src/assignstatement.h
 
 FORMS    += src/mainwindow.ui   
 

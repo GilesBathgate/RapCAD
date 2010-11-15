@@ -16,30 +16,38 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "variable.h"
+#include "compoundstatement.h"
 
-Variable::Variable()
+CompoundStatement::CompoundStatement()
 {
+    children=NULL;
 }
 
-Variable::~Variable()
+CompoundStatement::~CompoundStatement()
 {
+    if(children)
+	for(int i=0; i<children->size(); i++)
+	    delete children->at(i);
+    delete children;
 }
 
-QString Variable::getName()
+void CompoundStatement::setChildren(QVector<Statement*>* stmts)
 {
-    return this->name;
+    this->children = stmts;
 }
 
-void Variable::setName(QString name)
+QVector<Statement*>* CompoundStatement::getChildren()
 {
-    this->name = name;
+    return this->children;
 }
 
-QString Variable::toString()
+QString CompoundStatement::toString()
 {
     QString result;
-    result.append("Variable: ");
-    result.append(this->name);
+    if(children)
+	for(int i=0; i<children->size(); i++)
+	    result.append(children->at(i)->toString());
+
     return result;
+
 }

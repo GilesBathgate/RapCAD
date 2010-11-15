@@ -16,30 +16,29 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "variable.h"
+#include "assignstatement.h"
 
-Variable::Variable()
+AssignStatement::AssignStatement()
 {
+    variable=NULL;
+    expression=NULL;
 }
 
-Variable::~Variable()
+AssignStatement::~AssignStatement()
 {
+    delete variable;
+    delete expression;
 }
 
-QString Variable::getName()
-{
-    return this->name;
-}
-
-void Variable::setName(QString name)
-{
-    this->name = name;
-}
-
-QString Variable::toString()
+QString AssignStatement::toString()
 {
     QString result;
-    result.append("Variable: ");
-    result.append(this->name);
+    result.append("Assign: ");
+    if(variable)
+	result.append(variable->toString());
+
+    if(expression)
+	result.append(expression->toString());
+
     return result;
 }
