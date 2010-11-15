@@ -37,7 +37,7 @@ D [0-9]
 "const"			{ return CONST; }
 "param"			{ return PARAM; }
 [ \t\n\r]+		//ignore whitespace
-[{}(),=*/%\+-]		{ return lexertext[0]; }
+[${}(),=*/%\+-]		{ return lexertext[0]; }
 ";"			{ return ';'; }
 "<"			{ return '<'; }
 "<="			{ return LE;  }

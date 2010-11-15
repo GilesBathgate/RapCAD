@@ -62,7 +62,8 @@ QString Value::toString()
 	result.append("Value: ");
 	break;
     }
-
+    if(type==Special)
+	result.append("$");
     result.append(this->name);
     result.append(" ");
     return result;
