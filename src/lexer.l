@@ -34,6 +34,8 @@ D [0-9]
 "true"			{ return TOK_TRUE; }
 "false"			{ return TOK_FALSE; }
 "undef"			{ return UNDEF; }
+"const"			{ return CONST; }
+"param"			{ return PARAM; }
 [ \t\n\r]+		//ignore whitespace
 [{}(),=*/%\+-]		{ return lexertext[0]; }
 ";"			{ return ';'; }

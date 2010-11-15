@@ -27,12 +27,11 @@
 #include "declaration.h"
 #include "parameter.h"
 #include "argument.h"
+#include "instance.h"
+#include "statement.h"
 #include "expression.h"
 #include "context.h"
-#include "instance.h"
 #include "variable.h"
-#include "statement.h"
-
 
 void parsererror(char const *);
 int parserlex();
@@ -61,11 +60,11 @@ AbstractSyntaxTreeBuilder *builder;
 	class QVector<Argument*>* args;
 	class Instance* inst;
 	class QVector<Instance*>* insts;
+	class Statement* stmt;
+	class QVector<Statement*>* stmts;
 	class Expression* expr;
 	class Context* ctx;
 	class Variable* var;
-	class Statement* stmt;
-	class QVector<Statement*>* stmts;
 }
 
 %token MODULE FUNCTION
@@ -161,7 +160,7 @@ single_statement
 	: module_instance
 	{ $$ = builder->BuildInstance($1); }
 	| assign_statement ';'
-	{ }
+	{ $$ = builder->BuildStatement($1); }
 	| ifelse_statement
 	{ }
 	| for_statement
@@ -186,9 +185,9 @@ assign_statement
 	: variable '=' expression
 	{ $$ = builder->BuildStatement($1,$3); }
 	| CONST IDENTIFIER '=' expression
-	{ /*$$ = builder->BuildConstant($1);*/ }
+	{ $$ = builder->BuildStatement($2,AssignStatement::Const,$4); }
 	| PARAM IDENTIFIER '=' expression
-	{ }
+	{ $$ = builder->BuildStatement($2,AssignStatement::Param,$4); }
 	;
 
 ifelse_statement

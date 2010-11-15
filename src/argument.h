@@ -21,20 +21,20 @@
 
 #include <QString>
 #include "expression.h"
-#include "variable.h"
+#include "value.h"
 
 class Argument
 {
 public:
     Argument();
     ~Argument();
-    void setVariable(Variable*);
-    Variable* getVariable();
+    void setVariable(Value*);
+    Value* getVariable();
     void setExpression(Expression*);
     Expression* getExpression();
     QString toString();
 private:
-    Variable* variable;
+    Value* variable;
     Expression* expression;
 };
 

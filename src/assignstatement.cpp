@@ -20,13 +20,13 @@
 
 AssignStatement::AssignStatement()
 {
-    variable=NULL;
+    value=NULL;
     expression=NULL;
 }
 
 AssignStatement::~AssignStatement()
 {
-    delete variable;
+    delete value;
     delete expression;
 }
 
@@ -34,8 +34,9 @@ QString AssignStatement::toString()
 {
     QString result;
     result.append("Assign: ");
-    if(variable)
-	result.append(variable->toString());
+
+    if(value)
+	result.append(value->toString());
 
     if(expression)
 	result.append(expression->toString());

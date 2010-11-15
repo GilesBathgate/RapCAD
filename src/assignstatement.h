@@ -20,7 +20,7 @@
 #define ASSIGNSTATEMENT_H
 
 #include "statement.h"
-#include "variable.h"
+#include "value.h"
 #include "expression.h"
 
 class AssignStatement : public Statement
@@ -29,7 +29,7 @@ public:
     AssignStatement();
     ~AssignStatement();
     QString toString();
-    Variable* variable;
+    Value* value;
     Expression* expression;
 };
 

@@ -16,30 +16,43 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "variable.h"
+#include "value.h"
 
-Variable::Variable()
+Value::Value()
 {
 }
 
-Variable::~Variable()
+Value::~Value()
 {
 }
 
-QString Variable::getName()
+QString Value::getName()
 {
     return this->name;
 }
 
-void Variable::setName(QString name)
+void Value::setName(QString name)
 {
     this->name = name;
 }
 
-QString Variable::toString()
+QString Value::toString()
 {
     QString result;
-    result.append("Variable: ");
+    switch(type)
+    {
+    case Const:
+	result.append("ConstValue: ");
+	break;
+    case Param:
+	result.append("ParamValue: ");
+	break;
+    default:
+	result.append("Value: ");
+	break;
+    }
+
     result.append(this->name);
+    result.append(" ");
     return result;
 }

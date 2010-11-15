@@ -33,7 +33,8 @@ public:
     QVector<Declaration*>* BuildDeclarations(QVector<Declaration*>*,Declaration*);
     Statement* BuildStatement(Statement*);
     Statement* BuildStatement(QVector<Statement*>*);
-    Statement* BuildStatement(Variable*,Expression*);
+    Statement* BuildStatement(Value*,Expression*);
+    Statement* BuildStatement(QString,Value::Type_e,Expression*);
     QVector<Statement*>* BuildStatements();
     QVector<Statement*>* BuildStatements(Statement*);
     QVector<Statement*>* BuildStatements(QVector<Statement*>*);
@@ -60,15 +61,15 @@ public:
     QVector<Argument*>* BuildArguments(Argument*);
     QVector<Argument*>* BuildArguments(QVector<Argument*>*,unsigned int,Argument*);
     Argument* BuildArgument(Expression*);
-    Argument* BuildArgument(Variable*,Expression*);
+    Argument* BuildArgument(Value*,Expression*);
     unsigned int BuildOptionalCommas();
     unsigned int BuildOptionalCommas(unsigned int);
     Expression* BuildLiteral();
     Expression* BuildLiteral(bool);
     Expression* BuildLiteral(double value);
     Expression* BuildLiteral(char* value);
-    Variable* BuildVariable(QString name);
-    Expression* BuildVariable(Variable*)=0;
+    Value* BuildVariable(QString name);
+    Expression* BuildVariable(Value*)=0;
     Expression* BuildExpression(Expression*,Expression::Operator_e,Expression*);
 };
 

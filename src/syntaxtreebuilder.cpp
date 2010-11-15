@@ -72,10 +72,21 @@ Statement* SyntaxTreeBuilder::BuildStatement(QVector<Statement*>* stmts)
     return result;
 }
 
-Statement* SyntaxTreeBuilder::BuildStatement(Variable* var,Expression* exp)
+Statement* SyntaxTreeBuilder::BuildStatement(Value* var,Expression* exp)
 {
     AssignStatement* result = new AssignStatement();
-    result->variable = var;
+    result->value = var;
+    result->expression = exp;
+    return result;
+}
+
+Statement* SyntaxTreeBuilder::BuildStatement(QString name,Value::Type_e type, Expression* exp)
+{
+    AssignStatement* result = new AssignStatement();
+    Value* var = new Value();
+    var->setName(name);
+    var->type = type;
+    result->value = var;
     result->expression = exp;
     return result;
 }
@@ -253,7 +264,7 @@ Argument* SyntaxTreeBuilder::BuildArgument(Expression* exp)
     return result;
 }
 
-Argument* SyntaxTreeBuilder::BuildArgument(Variable* var,Expression* exp)
+Argument* SyntaxTreeBuilder::BuildArgument(Value* var,Expression* exp)
 {
     Argument* result = new Argument();
     result->setVariable(var);
@@ -297,14 +308,14 @@ Expression* SyntaxTreeBuilder::BuildLiteral(char* value)
     return result;
 }
 
-Variable* SyntaxTreeBuilder::BuildVariable(QString name)
+Value* SyntaxTreeBuilder::BuildVariable(QString name)
 {
-    Variable* result = new Variable();
+    Value* result = new Value();
     result->setName(name);
     return result;
 }
 
-Expression* SyntaxTreeBuilder::BuildVariable(Variable* var)
+Expression* SyntaxTreeBuilder::BuildVariable(Value* var)
 {
     return var;
 }

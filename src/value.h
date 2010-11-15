@@ -22,14 +22,23 @@
 #include <QString>
 #include "expression.h"
 
-class Variable : public Expression
+class Value : public Expression
 {
 public:
-    Variable();
-    ~Variable();
+    enum Type_e
+    {
+	Var,
+	Const,
+	Param
+    };
+
+    Value();
+    ~Value();
     QString getName();
     void setName(QString);
     QString toString();
+
+     Type_e type;
 private:
     QString name;
 };
