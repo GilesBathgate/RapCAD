@@ -20,8 +20,9 @@
 #define CONTEXT_H
 
 #include <QString>
+#include "statement.h"
 
-class Context
+class Context : public Statement
 {
 public:
     Context();

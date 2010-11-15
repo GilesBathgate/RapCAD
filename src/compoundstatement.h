@@ -20,9 +20,9 @@
 #define COMPOUNDSTATEMENT_H
 
 #include <QVector>
-#include "statement.h"
+#include "context.h"
 
-class CompoundStatement : public Statement
+class CompoundStatement : public Context
 {
 public:
     CompoundStatement();
