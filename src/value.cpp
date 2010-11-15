@@ -36,6 +36,16 @@ void Value::setName(QString name)
     this->name = name;
 }
 
+void Value::setType(Type_e type)
+{
+    this->type = type;
+}
+
+Value::Type_e Value::getType()
+{
+    return this->type;
+}
+
 QString Value::toString()
 {
     QString result;

@@ -31,7 +31,7 @@
 #include "statement.h"
 #include "expression.h"
 #include "context.h"
-#include "variable.h"
+#include "value.h"
 
 void parsererror(char const *);
 int parserlex();
@@ -64,7 +64,7 @@ AbstractSyntaxTreeBuilder *builder;
 	class QVector<Statement*>* stmts;
 	class Expression* expr;
 	class Context* ctx;
-	class Variable* var;
+	class Value* var;
 }
 
 %token MODULE FUNCTION
@@ -185,9 +185,9 @@ assign_statement
 	: variable '=' expression
 	{ $$ = builder->BuildStatement($1,$3); }
 	| CONST IDENTIFIER '=' expression
-	{ $$ = builder->BuildStatement($2,AssignStatement::Const,$4); }
+	{ $$ = builder->BuildStatement($2,Value::Const,$4); }
 	| PARAM IDENTIFIER '=' expression
-	{ $$ = builder->BuildStatement($2,AssignStatement::Param,$4); }
+	{ $$ = builder->BuildStatement($2,Value::Param,$4); }
 	;
 
 ifelse_statement

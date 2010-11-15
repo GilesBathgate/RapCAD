@@ -37,10 +37,11 @@ public:
     QString getName();
     void setName(QString);
     QString toString();
-
-     Type_e type;
+    void setType(Type_e);
+    Type_e getType();
 private:
     QString name;
+    Type_e type;
 };
 
 #endif // VARIABLE_H

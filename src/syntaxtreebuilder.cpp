@@ -85,7 +85,7 @@ Statement* SyntaxTreeBuilder::BuildStatement(QString name,Value::Type_e type, Ex
     AssignStatement* result = new AssignStatement();
     Value* var = new Value();
     var->setName(name);
-    var->type = type;
+    var->setType(type);
     result->value = var;
     result->expression = exp;
     return result;
