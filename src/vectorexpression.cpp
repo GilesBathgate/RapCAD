@@ -16,50 +16,24 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "assignstatement.h"
+#include "vectorexpression.h"
 
-AssignStatement::AssignStatement()
+VectorExpression::VectorExpression()
 {
-    value=NULL;
-    expression=NULL;
+    children=NULL;
 }
 
-AssignStatement::~AssignStatement()
+VectorExpression::~VectorExpression()
 {
-    delete value;
-    delete expression;
 }
 
-void AssignStatement::setValue(Value* val)
-{
-    this->value = val;
-}
-
-Value* AssignStatement::getValue()
-{
-    return this->value;
-}
-
-void AssignStatement::setExpression(Expression* exp)
-{
-    this->expression = exp;
-}
-
-Expression* AssignStatement::getExpression()
-{
-    return this->expression;
-}
-
-QString AssignStatement::toString()
+QString VectorExpression::toString()
 {
     QString result;
-    result.append("Assign: ");
-
-    if(value)
-	result.append(value->toString());
-
-    if(expression)
-	result.append(expression->toString());
+    if(children)
+	for(int i=0; i<children->size(); i++)
+	    result.append(children->at(i)->toString());
 
     return result;
+
 }

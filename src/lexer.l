@@ -47,6 +47,8 @@ D [0-9]
 "!="			{ return NE;  }
 "&&"			{ return AND; }
 "||"			{ return OR;  }
+"["			{ return '['; }
+"]"			{ return ']'; }
 {D}+|{D}*\.{D}+|{D}+\.{D}* { parserlval.number = QString(lexertext).toDouble(); return NUMBER; }
 [a-zA-Z0-9_]+		{ parserlval.text = strdup(lexertext); return IDENTIFIER; }
 "//"[^\n]*\n?		//ignore one line comments

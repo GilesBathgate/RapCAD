@@ -28,7 +28,12 @@ class AssignStatement : public Statement
 public:
     AssignStatement();
     ~AssignStatement();
+    void setValue(Value*);
+    Value* getValue();
+    void setExpression(Expression*);
+    Expression* getExpression();
     QString toString();
+private:
     Value* value;
     Expression* expression;
 };

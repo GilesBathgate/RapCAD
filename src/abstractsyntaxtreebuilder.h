@@ -36,6 +36,7 @@
 #include "statement.h"
 #include "compoundstatement.h"
 #include "assignstatement.h"
+#include "vectorexpression.h"
 
 class AbstractSyntaxTreeBuilder
 {
@@ -87,6 +88,10 @@ public:
     virtual Expression* BuildVariable(Value*)=0;
     virtual Value* BuildVariable(QString,Value::Type_e)=0;
     virtual Expression* BuildExpression(Expression*,Expression::Operator_e,Expression*)=0;
+    virtual Expression* BuildExpression(QVector<Expression*>*)=0;
+    virtual QVector<Expression*>* BuildVector()=0;
+    virtual QVector<Expression*>* BuildVector(Expression*)=0;
+    virtual QVector<Expression*>* BuildVector(QVector<Expression*>*,Expression*)=0;
 };
 
 #endif // ABSTRACTSYNTAXTREEBUILDER_H

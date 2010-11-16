@@ -72,6 +72,10 @@ public:
     Expression* BuildVariable(Value*);
     Value* BuildVariable(QString,Value::Type_e);
     Expression* BuildExpression(Expression*,Expression::Operator_e,Expression*);
+    Expression* BuildExpression(QVector<Expression*>*);
+    QVector<Expression*>* BuildVector();
+    QVector<Expression*>* BuildVector(Expression*);
+    QVector<Expression*>* BuildVector(QVector<Expression*>*,Expression*);
 };
 
 #endif // DEPENDENCYBUILDER_H

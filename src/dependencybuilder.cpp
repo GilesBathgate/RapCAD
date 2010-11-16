@@ -255,3 +255,22 @@ Expression* DependencyBuilder::BuildExpression(Expression*,Expression::Operator_
     return NULL;
 }
 
+Expression* DependencyBuilder::BuildExpression(QVector<Expression*>*)
+{
+    return NULL;
+}
+
+QVector<Expression*>* DependencyBuilder::BuildVector()
+{
+    return NULL;
+}
+
+QVector<Expression*>* DependencyBuilder::BuildVector(Expression*)
+{
+    return NULL;
+}
+
+QVector<Expression*>* DependencyBuilder::BuildVector(QVector<Expression*>*,Expression*)
+{
+    return NULL;
+}

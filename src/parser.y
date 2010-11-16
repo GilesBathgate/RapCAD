@@ -63,6 +63,7 @@ AbstractSyntaxTreeBuilder *builder;
 	class Statement* stmt;
 	class QVector<Statement*>* stmts;
 	class Expression* expr;
+	class QVector<Expression*>* exprs;
 	class Context* ctx;
 	class Value* var;
 }
@@ -98,6 +99,7 @@ AbstractSyntaxTreeBuilder *builder;
 %type <arg> argument
 %type <args> arguments
 %type <expr> expression
+%type <exprs> vector_expression
 %type <ctx> module_context function_context
 %type <inst> module_instance single_instance
 %type <insts> compound_instance instance_list
@@ -225,7 +227,7 @@ expression
 	| '[' expression ':' expression ':' expression ']'
 	{ }
 	| '[' vector_expression ']'
-	{ }
+	{ $$ = builder->BuildExpression($2); }
 	| expression '*' expression
 	{ $$ = builder->BuildExpression($1,Expression::Multiply,$3); }
 	| expression '/' expression
@@ -269,8 +271,12 @@ expression
 	;
 
 vector_expression
-	: expression
+	: //empty
+	{ $$ = builder->BuildVector(); }
+	| expression
+	{ $$ = builder->BuildVector($1); }
 	| vector_expression ',' optional_commas expression
+	{ $$ = builder->BuildVector($1,$4); }
 	;
 
 parameters

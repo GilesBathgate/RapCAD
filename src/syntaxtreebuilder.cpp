@@ -75,8 +75,8 @@ Statement* SyntaxTreeBuilder::BuildStatement(QVector<Statement*>* stmts)
 Statement* SyntaxTreeBuilder::BuildStatement(Value* var,Expression* exp)
 {
     AssignStatement* result = new AssignStatement();
-    result->value = var;
-    result->expression = exp;
+    result->setValue(var);
+    result->setExpression(exp);
     return result;
 }
 
@@ -86,8 +86,8 @@ Statement* SyntaxTreeBuilder::BuildStatement(QString name,Value::Type_e type, Ex
     Value* var = new Value();
     var->setName(name);
     var->setType(type);
-    result->value = var;
-    result->expression = exp;
+    result->setValue(var);
+    result->setExpression(exp);
     return result;
 }
 
@@ -335,6 +335,31 @@ Expression* SyntaxTreeBuilder::BuildExpression(Expression* left ,Expression::Ope
     result->setRight(right);
     result->setOp(op);
     return result;
+}
+
+Expression* SyntaxTreeBuilder::BuildExpression(QVector<Expression*>* exps)
+{
+    VectorExpression* result = new VectorExpression();
+    result->children = exps;
+    return result;
+}
+
+QVector<Expression*>* SyntaxTreeBuilder::BuildVector()
+{
+    return NULL;
+}
+
+QVector<Expression*>* SyntaxTreeBuilder::BuildVector(Expression* exp)
+{
+    QVector<Expression*>* result = new QVector<Expression*>();
+    result->append(exp);
+    return result;
+}
+
+QVector<Expression*>* SyntaxTreeBuilder::BuildVector(QVector<Expression*>* exprs,Expression* expr)
+{
+    exprs->append(expr);
+    return exprs;
 }
 
 void SyntaxTreeBuilder::Print()
