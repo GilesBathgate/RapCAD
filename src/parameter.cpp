@@ -54,7 +54,7 @@ Expression* Parameter::getExpression()
     return this->expression;
 }
 
-void Parameter::setExpression(Expression * expr)
+void Parameter::setExpression(Expression* expr)
 {
     this->expression = expr;
 }

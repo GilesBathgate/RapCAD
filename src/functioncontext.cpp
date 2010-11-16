@@ -44,12 +44,12 @@ Expression* FunctionContext::getExpression()
     return this->expression;
 }
 
-void FunctionContext::setStatements(QVector<Statement *> * stmts)
+void FunctionContext::setStatements(QVector<Statement*>* stmts)
 {
     this->statements = stmts;
 }
 
-QVector<Statement *> * FunctionContext::getStatements()
+QVector<Statement*>* FunctionContext::getStatements()
 {
     return this->statements;
 }

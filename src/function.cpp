@@ -70,7 +70,7 @@ QVector<Parameter*>* Function::getParameters()
     return this->parameters;
 }
 
-void Function::setParameters(QVector<Parameter *> * params)
+void Function::setParameters(QVector<Parameter*>* params)
 {
     this->parameters = params;
 }
