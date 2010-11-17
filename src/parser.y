@@ -49,7 +49,7 @@ AbstractSyntaxTreeBuilder *builder;
 %}
 
 %union {
-        char *text;
+	QString* text;
 	double number;
 	unsigned int count;
 	class Declaration* decl;

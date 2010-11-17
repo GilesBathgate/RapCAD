@@ -50,7 +50,7 @@ D [0-9]
 "["			{ return '['; }
 "]"			{ return ']'; }
 {D}+|{D}*\.{D}+|{D}+\.{D}* { parserlval.number = QString(lexertext).toDouble(); return NUMBER; }
-[a-zA-Z0-9_]+		{ parserlval.text = strdup(lexertext); return IDENTIFIER; }
+[a-zA-Z0-9_]+		{ parserlval.text = new QString(lexertext); return IDENTIFIER; }
 \"(\\[tnr\"\\]|[^\\"])*\" { QString str(lexertext+1);
 			  str.chop(1);
 			  str=str.replace("\\\\","\\");
@@ -58,7 +58,7 @@ D [0-9]
 			  str=str.replace("\\t","\t");
 			  str=str.replace("\\n","\n");
 			  str=str.replace("\\r","\r");
-			  parserlval.text = strdup(str.toAscii().data());
+			  parserlval.text = new QString(str);
 			  return STRING; }
 "//"[^\n]*\n?		//ignore one line comments
 "/*"			{ BEGIN(comment); }

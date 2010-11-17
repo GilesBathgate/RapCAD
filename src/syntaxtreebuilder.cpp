@@ -79,11 +79,12 @@ Statement* SyntaxTreeBuilder::BuildStatement(Value* var,Expression* exp)
     return result;
 }
 
-Statement* SyntaxTreeBuilder::BuildStatement(QString name,Value::Type_e type, Expression* exp)
+Statement* SyntaxTreeBuilder::BuildStatement(QString* name,Value::Type_e type, Expression* exp)
 {
     AssignStatement* result = new AssignStatement();
     Value* var = new Value();
-    var->setName(name);
+    var->setName(*name);
+    delete name;
     var->setType(type);
     result->setValue(var);
     result->setExpression(exp);
@@ -113,20 +114,22 @@ QVector<Statement*>* SyntaxTreeBuilder::BuildStatements(QVector<Statement*>* stm
     return stmts;
 }
 
-Declaration* SyntaxTreeBuilder::BuildModule(QString name, QVector<Parameter*>* params, Context* ctx)
+Declaration* SyntaxTreeBuilder::BuildModule(QString* name, QVector<Parameter*>* params, Context* ctx)
 {
     Module* result = new Module();
-    result->setName(name);
+    result->setName(*name);
+    delete name;
     result->setParameters(*params);
     delete params;
     result->setContext(ctx);
     return result;
 }
 
-Declaration* SyntaxTreeBuilder::BuildFunction(QString name, QVector<Parameter*>* params, Context* ctx)
+Declaration* SyntaxTreeBuilder::BuildFunction(QString* name, QVector<Parameter*>* params, Context* ctx)
 {
     Function* result = new Function();
-    result->setName(name);
+    result->setName(*name);
+    delete name;
     result->setParameters(*params);
     delete params;
     result->setContext(ctx);
@@ -169,10 +172,11 @@ Instance* SyntaxTreeBuilder::BuildInstance(Instance* inst)
     return inst;
 }
 
-Instance* SyntaxTreeBuilder::BuildInstance(QString name,QVector<Argument*>* args)
+Instance* SyntaxTreeBuilder::BuildInstance(QString* name,QVector<Argument*>* args)
 {
     Instance* result = new Instance();
-    result->setName(name);
+    result->setName(*name);
+    delete name;
     result->setArguments(*args);
     delete args;
     return result;
@@ -226,17 +230,19 @@ QVector<Parameter*>* SyntaxTreeBuilder::BuildParameters(QVector<Parameter*>* par
     return params;
 }
 
-Parameter* SyntaxTreeBuilder::BuildParameter(QString name)
+Parameter* SyntaxTreeBuilder::BuildParameter(QString* name)
 {
     Parameter* result = new Parameter();
-    result->setName(name);
+    result->setName(*name);
+    delete name;
     return result;
 }
 
-Parameter* SyntaxTreeBuilder::BuildParameter(QString name,Expression* expr)
+Parameter* SyntaxTreeBuilder::BuildParameter(QString* name,Expression* expr)
 {
     Parameter* result = new Parameter();
-    result->setName(name);
+    result->setName(*name);
+    delete name;
     result->setExpression(expr);
     return result;
 }
@@ -305,17 +311,19 @@ Expression* SyntaxTreeBuilder::BuildLiteral(double value)
     return result;
 }
 
-Expression* SyntaxTreeBuilder::BuildLiteral(char* value)
+Expression* SyntaxTreeBuilder::BuildLiteral(QString* value)
 {
     Literal* result = new Literal();
-    result->setValue(QString(value));
+    result->setValue(*value);
+    delete value;
     return result;
 }
 
-Value* SyntaxTreeBuilder::BuildVariable(QString name)
+Value* SyntaxTreeBuilder::BuildVariable(QString* name)
 {
     Value* result = new Value();
-    result->setName(name);
+    result->setName(*name);
+    delete name;
     return result;
 }
 
@@ -324,11 +332,12 @@ Expression* SyntaxTreeBuilder::BuildVariable(Value* var)
     return var;
 }
 
-Value* SyntaxTreeBuilder::BuildVariable(QString name,Value::Type_e type)
+Value* SyntaxTreeBuilder::BuildVariable(QString* name,Value::Type_e type)
 {
     Value* result = new Value();
     result->setType(type);
-    result->setName(name);
+    result->setName(*name);
+    delete name;
     return result;
 }
 

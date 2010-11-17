@@ -65,7 +65,7 @@ Statement* DependencyBuilder::BuildStatement(Value*,Expression*)
     return NULL;
 }
 
-Statement* DependencyBuilder::BuildStatement(QString,Value::Type_e,Expression*)
+Statement* DependencyBuilder::BuildStatement(QString*,Value::Type_e,Expression*)
 {
     return NULL;
 }
@@ -90,12 +90,12 @@ QVector<Statement*>* DependencyBuilder::BuildStatements(QVector<Statement*>*,Sta
     return NULL;
 }
 
-Declaration* DependencyBuilder::BuildModule(QString, QVector<Parameter*>*, Context*)
+Declaration* DependencyBuilder::BuildModule(QString*, QVector<Parameter*>*, Context*)
 {
     return NULL;
 }
 
-Declaration* DependencyBuilder::BuildFunction(QString,QVector<Parameter*>*,Context*)
+Declaration* DependencyBuilder::BuildFunction(QString*,QVector<Parameter*>*,Context*)
 {
     return NULL;
 }
@@ -125,7 +125,7 @@ Instance* DependencyBuilder::BuildInstance(Instance*)
     return NULL;
 }
 
-Instance* DependencyBuilder::BuildInstance(QString,QVector<Argument*>*)
+Instance* DependencyBuilder::BuildInstance(QString*,QVector<Argument*>*)
 {
     return NULL;
 }
@@ -170,12 +170,12 @@ QVector<Parameter*>* DependencyBuilder::BuildParameters(QVector<Parameter*>*,Par
     return NULL;
 }
 
-Parameter* DependencyBuilder::BuildParameter(QString)
+Parameter* DependencyBuilder::BuildParameter(QString*)
 {
     return NULL;
 }
 
-Parameter* DependencyBuilder::BuildParameter(QString,Expression*)
+Parameter* DependencyBuilder::BuildParameter(QString*,Expression*)
 {
     return NULL;
 }
@@ -230,12 +230,12 @@ Expression* DependencyBuilder::BuildLiteral(double)
     return NULL;
 }
 
-Expression* DependencyBuilder::BuildLiteral(char*)
+Expression* DependencyBuilder::BuildLiteral(QString*)
 {
     return NULL;
 }
 
-Value* DependencyBuilder::BuildVariable(QString)
+Value* DependencyBuilder::BuildVariable(QString*)
 {
     return NULL;
 }
@@ -245,7 +245,7 @@ Expression* DependencyBuilder::BuildVariable(Value*)
     return NULL;
 }
 
-Value* DependencyBuilder::BuildVariable(QString,Value::Type_e)
+Value* DependencyBuilder::BuildVariable(QString*,Value::Type_e)
 {
     return NULL;
 }
