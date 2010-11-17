@@ -51,6 +51,15 @@ D [0-9]
 "]"			{ return ']'; }
 {D}+|{D}*\.{D}+|{D}+\.{D}* { parserlval.number = QString(lexertext).toDouble(); return NUMBER; }
 [a-zA-Z0-9_]+		{ parserlval.text = strdup(lexertext); return IDENTIFIER; }
+\"(\\[tnr\"\\]|[^\\"])*\" { QString str(lexertext+1);
+			  str.chop(1);
+			  str=str.replace("\\\\","\\");
+			  str=str.replace("\\\"","\"");
+			  str=str.replace("\\t","\t");
+			  str=str.replace("\\n","\n");
+			  str=str.replace("\\r","\r");
+			  parserlval.text = strdup(str.toAscii().data());
+			  return STRING; }
 "//"[^\n]*\n?		//ignore one line comments
 "/*"			{ BEGIN(comment); }
 <comment>[^*]*		//ignore anything that's not a '*'
