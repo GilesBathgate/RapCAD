@@ -33,14 +33,14 @@ public:
     ~Function();
     QString getName();
     void setName(QString);
-    QVector<Parameter*>* getParameters();
-    void setParameters(QVector<Parameter*>*);
+    QVector<Parameter*> getParameters();
+    void setParameters(QVector<Parameter*>);
     Context* getContext();
     void setContext(Context*);
     QString toString();
 private:
     QString name;
-    QVector<Parameter*>* parameters;
+    QVector<Parameter*> parameters;
     Context* context;
 };
 

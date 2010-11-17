@@ -21,16 +21,13 @@
 
 Function::Function()
 {
-    parameters=NULL;
     context=NULL;
 }
 
 Function::~Function()
 {
-    if(parameters)
-	for(int i=0; i<parameters->size(); i++)
-	    delete parameters->at(i);
-    delete parameters;
+    for(int i=0; i<parameters.size(); i++)
+	delete parameters.at(i);
 
     delete context;
 }
@@ -42,12 +39,8 @@ QString Function::toString()
     result.append(this->name);
     result.append("\n");
     result.append("Parameters: ");
-    QVector<Parameter*>* params = this->parameters;
-    if(params)
-    {
-	for(int i=0; i<params->size(); i++)
-	    result.append(params->at(i)->toString());
-    }
+    for(int i=0; i<parameters.size(); i++)
+	    result.append(parameters.at(i)->toString());
     result.append(" =\n");
     result.append(context->toString());
     result.append("\n");
@@ -65,12 +58,12 @@ void Function::setName(QString name)
 }
 
 
-QVector<Parameter*>* Function::getParameters()
+QVector<Parameter*> Function::getParameters()
 {
     return this->parameters;
 }
 
-void Function::setParameters(QVector<Parameter*>* params)
+void Function::setParameters(QVector<Parameter*> params)
 {
     this->parameters = params;
 }

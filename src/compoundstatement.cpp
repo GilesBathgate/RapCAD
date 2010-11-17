@@ -20,23 +20,20 @@
 
 CompoundStatement::CompoundStatement()
 {
-    children=NULL;
 }
 
 CompoundStatement::~CompoundStatement()
 {
-    if(children)
-	for(int i=0; i<children->size(); i++)
-	    delete children->at(i);
-    delete children;
+    for(int i=0; i<children.size(); i++)
+	delete children.at(i);
 }
 
-void CompoundStatement::setChildren(QVector<Statement*>* stmts)
+void CompoundStatement::setChildren(QVector<Statement*> stmts)
 {
     this->children = stmts;
 }
 
-QVector<Statement*>* CompoundStatement::getChildren()
+QVector<Statement*> CompoundStatement::getChildren()
 {
     return this->children;
 }
@@ -44,9 +41,8 @@ QVector<Statement*>* CompoundStatement::getChildren()
 QString CompoundStatement::toString()
 {
     QString result;
-    if(children)
-	for(int i=0; i<children->size(); i++)
-	    result.append(children->at(i)->toString());
+    for(int i=0; i<children.size(); i++)
+	result.append(children.at(i)->toString());
 
     return result;
 

@@ -20,23 +20,20 @@
 
 ModuleContext::ModuleContext()
 {
-    declarations=NULL;
 }
 
 ModuleContext::~ModuleContext()
 {
-    if(declarations)
-	for(int i=0; i<declarations->size(); i++)
-	    delete declarations->at(i);
-    delete declarations;
+    for(int i=0; i<declarations.size(); i++)
+	delete declarations.at(i);
 }
 
- void ModuleContext::setDeclarations(QVector<Declaration*>* decls)
+ void ModuleContext::setDeclarations(QVector<Declaration*> decls)
  {
      this->declarations = decls;
  }
 
- QVector<Declaration*>* ModuleContext::getDeclarations()
+ QVector<Declaration*> ModuleContext::getDeclarations()
  {
      return this->declarations;
  }
@@ -44,13 +41,10 @@ ModuleContext::~ModuleContext()
  QString ModuleContext::toString()
  {
      QString result;
-     if(declarations)
-     {
-	 result.append("\nContext: (\n");
-	 for(int i=0; i<declarations->size(); i++)
-	     result.append(declarations->at(i)->toString());
-	 result.append(")\n");
-     }
+     result.append("\nContext: (\n");
+	 for(int i=0; i<declarations.size(); i++)
+	     result.append(declarations.at(i)->toString());
+     result.append(")\n");
      return result;
  }
 

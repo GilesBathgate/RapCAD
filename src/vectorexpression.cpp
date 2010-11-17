@@ -20,20 +20,27 @@
 
 VectorExpression::VectorExpression()
 {
-    children=NULL;
 }
 
 VectorExpression::~VectorExpression()
 {
 }
 
+void VectorExpression::setChildren(QVector<Expression*> exp)
+{
+    this->children = exp;
+}
+
+QVector<Expression*> VectorExpression::getChildren()
+{
+    return this->children;
+}
+
 QString VectorExpression::toString()
 {
     QString result;
-    if(children)
-	for(int i=0; i<children->size(); i++)
-	    result.append(children->at(i)->toString());
+    for(int i=0; i<children.size(); i++)
+	result.append(children.at(i)->toString());
 
     return result;
-
 }

@@ -31,12 +31,12 @@ public:
     ~FunctionContext();
     void setExpression(Expression*);
     Expression* getExpression();
-    void setStatements(QVector<Statement*>*);
-    QVector<Statement*>* getStatements();
+    void setStatements(QVector<Statement*>);
+    QVector<Statement*> getStatements();
     QString toString();
 private:
     Expression* expression;
-    QVector<Statement*>* statements;
+    QVector<Statement*> statements;
 };
 
 #endif // FUNCTIONCONTEXT_H

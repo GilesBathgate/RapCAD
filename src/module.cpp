@@ -20,16 +20,13 @@
 
 Module::Module()
 {
-    parameters=NULL;
     context=NULL;
 }
 
 Module::~Module()
 {
-    if(parameters)
-	for(int i=0; i<parameters->size(); i++)
-	    delete parameters->at(i);
-    delete parameters;
+    for(int i=0; i<parameters.size(); i++)
+	delete parameters.at(i);
 
     delete context;
 }
@@ -41,12 +38,8 @@ QString Module::toString()
     result.append(this->name);
     result.append(" {\n");
     result.append("Parameters: ");
-    QVector<Parameter*>* params = this->parameters;
-    if(params)
-    {
-	for(int i=0; i<params->size(); i++)
-	    result.append(params->at(i)->toString());
-    }
+    for(int i=0; i<parameters.size(); i++)
+	result.append(parameters.at(i)->toString());
 
     result.append(context->toString());
     result.append("}\n");
@@ -64,12 +57,12 @@ void Module::setName(QString name)
 }
 
 
-QVector<Parameter*>* Module::getParameters()
+QVector<Parameter*> Module::getParameters()
 {
     return this->parameters;
 }
 
-void Module::setParameters(QVector<Parameter*>* params)
+void Module::setParameters(QVector<Parameter*> params)
 {
     this->parameters = params;
 }

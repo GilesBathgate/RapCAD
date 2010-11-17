@@ -27,8 +27,11 @@ class VectorExpression : public Expression
 public:
     VectorExpression();
     ~VectorExpression();
+    void setChildren(QVector<Expression*>);
+    QVector<Expression*> getChildren();
     QString toString();
-    QVector<Expression*>* children;
+private:
+    QVector<Expression*> children;
 };
 
 #endif // VECTOREXPRESSION_H

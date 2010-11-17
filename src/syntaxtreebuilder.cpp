@@ -21,25 +21,23 @@
 
 SyntaxTreeBuilder::SyntaxTreeBuilder()
 {
-    declarations=NULL;
 }
 
 SyntaxTreeBuilder::~SyntaxTreeBuilder()
 {
-    if(declarations)
-	for(int i =0; i<declarations->size(); i++)
-	    delete declarations->at(i);
-    delete declarations;
+    for(int i =0; i<declarations.size(); i++)
+	delete declarations.at(i);
 }
 
 void SyntaxTreeBuilder::BuildScript(QVector<Declaration*>* decls)
 {
-    declarations = decls;
+    declarations = *decls;
+    delete decls;
 }
 
 QVector<Declaration*>* SyntaxTreeBuilder::BuildDeclarations()
 {
-    return NULL;
+    return new QVector<Declaration*>();
 }
 
 QVector<Declaration*>* SyntaxTreeBuilder::BuildDeclarations(QVector<Declaration*>* decls,Declaration* decl)
@@ -68,7 +66,8 @@ Statement* SyntaxTreeBuilder::BuildStatement(Statement* stmt)
 Statement* SyntaxTreeBuilder::BuildStatement(QVector<Statement*>* stmts)
 {
     CompoundStatement* result = new CompoundStatement();
-    result->setChildren(stmts);
+    result->setChildren(*stmts);
+    delete stmts;
     return result;
 }
 
@@ -93,7 +92,7 @@ Statement* SyntaxTreeBuilder::BuildStatement(QString name,Value::Type_e type, Ex
 
 QVector<Statement*>* SyntaxTreeBuilder::BuildStatements()
 {
-    return NULL;
+    return new QVector<Statement*>();
 }
 
 QVector<Statement*>* SyntaxTreeBuilder::BuildStatements(Statement* stmt)
@@ -118,7 +117,8 @@ Declaration* SyntaxTreeBuilder::BuildModule(QString name, QVector<Parameter*>* p
 {
     Module* result = new Module();
     result->setName(name);
-    result->setParameters(params);
+    result->setParameters(*params);
+    delete params;
     result->setContext(ctx);
     return result;
 }
@@ -127,7 +127,8 @@ Declaration* SyntaxTreeBuilder::BuildFunction(QString name, QVector<Parameter*>*
 {
     Function* result = new Function();
     result->setName(name);
-    result->setParameters(params);
+    result->setParameters(*params);
+    delete params;
     result->setContext(ctx);
     return result;
 }
@@ -135,15 +136,15 @@ Declaration* SyntaxTreeBuilder::BuildFunction(QString name, QVector<Parameter*>*
 Context* SyntaxTreeBuilder::BuildContext(QVector<Declaration*>* decls)
 {
     ModuleContext* result = new ModuleContext();
-    result->setDeclarations(decls);
+    result->setDeclarations(*decls);
+    delete decls;
     return result;
 }
 
 Context* SyntaxTreeBuilder::BuildContext(Instance* inst)
 {
     ModuleContext* result = new ModuleContext();
-    QVector<Declaration*>* decls = new QVector<Declaration*>();
-    decls->append(inst);
+    QVector<Declaration*> decls(1,inst);
     result->setDeclarations(decls);
     return result;
 }
@@ -158,7 +159,8 @@ Context* SyntaxTreeBuilder::BuildContext(Expression* expr)
 Context* SyntaxTreeBuilder::BuildContext(QVector<Statement*>* stmts)
 {
     FunctionContext* result = new FunctionContext();
-    result->setStatements(stmts);
+    result->setStatements(*stmts);
+    delete stmts;
     return result;
 }
 
@@ -171,19 +173,21 @@ Instance* SyntaxTreeBuilder::BuildInstance(QString name,QVector<Argument*>* args
 {
     Instance* result = new Instance();
     result->setName(name);
-    result->setArguments(args);
+    result->setArguments(*args);
+    delete args;
     return result;
 }
 
 Instance* SyntaxTreeBuilder::BuildInstance(Instance* inst,QVector<Instance*>* insts)
 {
-    inst->setChildren(insts);
+    inst->setChildren(*insts);
+    delete insts;
     return inst;
 }
 
 QVector<Instance*>* SyntaxTreeBuilder::BuildInstances()
 {
-    return NULL;
+    return new QVector<Instance*>();
 }
 
 QVector<Instance*>* SyntaxTreeBuilder::BuildInstances(Instance* inst)
@@ -206,7 +210,7 @@ QVector<Instance*>* SyntaxTreeBuilder::BuildInstances(QVector<Instance*>* insts,
 
 QVector<Parameter*>* SyntaxTreeBuilder::BuildParameters()
 {
-    return NULL;
+    return new QVector<Parameter*>();
 }
 
 QVector<Parameter*>* SyntaxTreeBuilder::BuildParameters(Parameter* param)
@@ -239,7 +243,7 @@ Parameter* SyntaxTreeBuilder::BuildParameter(QString name,Expression* expr)
 
 QVector<Argument*>* SyntaxTreeBuilder::BuildArguments()
 {
-    return NULL;
+    return new QVector<Argument*>();
 }
 
 QVector<Argument*>* SyntaxTreeBuilder::BuildArguments(Argument* arg)
@@ -340,13 +344,14 @@ Expression* SyntaxTreeBuilder::BuildExpression(Expression* left ,Expression::Ope
 Expression* SyntaxTreeBuilder::BuildExpression(QVector<Expression*>* exps)
 {
     VectorExpression* result = new VectorExpression();
-    result->children = exps;
+    result->setChildren(*exps);
+    delete exps;
     return result;
 }
 
 QVector<Expression*>* SyntaxTreeBuilder::BuildVector()
 {
-    return NULL;
+    return new QVector<Expression*>();
 }
 
 QVector<Expression*>* SyntaxTreeBuilder::BuildVector(Expression* exp)
@@ -364,9 +369,8 @@ QVector<Expression*>* SyntaxTreeBuilder::BuildVector(QVector<Expression*>* exprs
 
 void SyntaxTreeBuilder::Print()
 {
-    if(declarations)
-	for(int i=0; i<declarations->size(); i++)
-	    printf("%s",declarations->at(i)->toString().toAscii().constData());
+    for(int i=0; i<declarations.size(); i++)
+	printf("%s",declarations.at(i)->toString().toAscii().constData());
 
     printf("\nDone.\n");
 }

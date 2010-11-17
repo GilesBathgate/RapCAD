@@ -79,7 +79,7 @@ public:
 
     void Print();
 private:
-    QVector<Declaration*>* declarations;
+    QVector<Declaration*> declarations;
 };
 
 #endif // SYNTAXTREEBUILDER_H

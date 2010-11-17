@@ -20,16 +20,13 @@
 
 FunctionContext::FunctionContext()
 {
-    statements=NULL;
     expression=NULL;
 }
 
 FunctionContext::~FunctionContext()
 {
-    if(statements)
-	for(int i=0; i<statements->size(); i++)
-	    delete statements->at(i);
-    delete statements;
+    for(int i=0; i<statements.size(); i++)
+	delete statements.at(i);
 
     delete expression;
 }
@@ -44,12 +41,12 @@ Expression* FunctionContext::getExpression()
     return this->expression;
 }
 
-void FunctionContext::setStatements(QVector<Statement*>* stmts)
+void FunctionContext::setStatements(QVector<Statement*> stmts)
 {
     this->statements = stmts;
 }
 
-QVector<Statement*>* FunctionContext::getStatements()
+QVector<Statement*> FunctionContext::getStatements()
 {
     return this->statements;
 }
@@ -57,9 +54,8 @@ QVector<Statement*>* FunctionContext::getStatements()
 QString FunctionContext::toString()
 {
     QString result;
-    if(statements)
-	for(int i=0; i<statements->size(); i++)
-	    result.append(statements->at(i)->toString());
+    for(int i=0; i<statements.size(); i++)
+	result.append(statements.at(i)->toString());
 
     if(expression)
 	result.append(expression->toString());

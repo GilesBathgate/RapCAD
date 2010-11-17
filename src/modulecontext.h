@@ -28,11 +28,11 @@ class ModuleContext : public Context
 public:
     ModuleContext();
     ~ModuleContext();
-    QVector<Declaration*>* getDeclarations();
-    void setDeclarations(QVector<Declaration*>*);
+    QVector<Declaration*> getDeclarations();
+    void setDeclarations(QVector<Declaration*>);
     QString toString();
 private:
-    QVector<Declaration*>* declarations;
+    QVector<Declaration*> declarations;
 };
 
 #endif // MODULECONTEXT_H

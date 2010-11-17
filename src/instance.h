@@ -31,15 +31,15 @@ public:
     ~Instance();
     void setName(QString);
     QString getName();
-    void setArguments(QVector<Argument*>*);
-    QVector<Argument*>* getArguments();
-    void setChildren(QVector <Instance*>* childs);
-    QVector <Instance*>* getChildren();
+    void setArguments(QVector<Argument*>);
+    QVector<Argument*> getArguments();
+    void setChildren(QVector <Instance*> childs);
+    QVector <Instance*> getChildren();
     QString toString();
 private:
     QString name;
-    QVector<Argument*>* arguments;
-    QVector <Instance*>* children;
+    QVector<Argument*> arguments;
+    QVector<Instance*> children;
 };
 
 #endif // INSTANCE_H

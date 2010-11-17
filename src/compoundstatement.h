@@ -27,12 +27,12 @@ class CompoundStatement : public Context
 public:
     CompoundStatement();
     ~CompoundStatement();
-    void setChildren(QVector<Statement*>*);
-    QVector<Statement*>* getChildren();
+    void setChildren(QVector<Statement*>);
+    QVector<Statement*> getChildren();
 
     QString toString();
 private:
-    QVector<Statement*>* children;
+    QVector<Statement*> children;
 };
 
 #endif // COMPOUNDSTATEMENT_H
