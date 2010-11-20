@@ -27,6 +27,14 @@
 class Instance : public Statement
 {
 public:
+    enum Type_e
+    {
+	Root,
+	Debug,
+	Background,
+	Disable
+    };
+
     Instance();
     ~Instance();
     void setName(QString);
@@ -34,12 +42,14 @@ public:
     void setArguments(QVector<Argument*>);
     QVector<Argument*> getArguments();
     void setChildren(QVector <Instance*> childs);
+    void setType(Type_e);
     QVector <Instance*> getChildren();
     QString toString();
 private:
     QString name;
     QVector<Argument*> arguments;
     QVector<Instance*> children;
+    Type_e type;
 };
 
 #endif // INSTANCE_H

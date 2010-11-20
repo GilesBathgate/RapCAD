@@ -172,6 +172,12 @@ Instance* SyntaxTreeBuilder::BuildInstance(Instance* inst)
     return inst;
 }
 
+Instance* SyntaxTreeBuilder::BuildInstance(Instance::Type_e type,Instance* inst)
+{
+    inst->setType(type);
+    return inst;
+}
+
 Instance* SyntaxTreeBuilder::BuildInstance(QString* name,QVector<Argument*>* args)
 {
     Instance* result = new Instance();

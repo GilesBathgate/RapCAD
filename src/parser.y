@@ -20,6 +20,7 @@
 
 %{
 #include <stdio.h>
+#include <QString>
 #include <QVector>
 #include "abstractsyntaxtreebuilder.h"
 #include "syntaxtreebuilder.h"
@@ -322,13 +323,13 @@ single_instance
 	: IDENTIFIER '(' arguments ')'
 	{ $$ = builder->BuildInstance($1,$3); }
 	| '!' single_instance
-	{}
+	{ $$ = builder->BuildInstance(Instance::Root,$2); }
 	| '#' single_instance
-	{}
+	{ $$ = builder->BuildInstance(Instance::Debug,$2); }
 	| '%' single_instance
-	{}
+	{ $$ = builder->BuildInstance(Instance::Background,$2); }
 	| '*' single_instance
-	{}
+	{ $$ = builder->BuildInstance(Instance::Disable,$2); }
 	;
 
 arguments

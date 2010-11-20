@@ -62,6 +62,7 @@ public:
     virtual Context* BuildContext(Expression*)=0;
     virtual Context* BuildContext(QVector<Statement*>*)=0;
     virtual Instance* BuildInstance(Instance*)=0;
+    virtual Instance* BuildInstance(Instance::Type_e,Instance*)=0;
     virtual Instance* BuildInstance(QString*,QVector<Argument*>*)=0;
     virtual Instance* BuildInstance(Instance*,QVector<Instance*>*)=0;
     virtual QVector<Instance*>* BuildInstances()=0;

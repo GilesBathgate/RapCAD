@@ -56,6 +56,11 @@ void Instance::setChildren(QVector <Instance*> childs)
     this->children = childs;
 }
 
+void Instance::setType(Type_e t)
+{
+    this->type = t;
+}
+
 QVector <Instance*> Instance::getChildren()
 {
     return this->children;
@@ -64,6 +69,22 @@ QVector <Instance*> Instance::getChildren()
 QString Instance::toString()
 {
     QString result;
+    switch(type)
+    {
+    case Root:
+	result.append("Root ");
+	break;
+    case Debug:
+	result.append("Debug ");
+	break;
+    case Background:
+	result.append("Background ");
+	break;
+    case Disable:
+	result.append("Disabled ");
+	break;
+    }
+
     result.append("Instance: ");
     result.append(this->name);
     result.append(" ");
