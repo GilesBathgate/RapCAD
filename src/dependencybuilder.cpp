@@ -70,6 +70,21 @@ Statement* DependencyBuilder::BuildStatement(QString*,Value::Type_e,Expression*)
     return NULL;
 }
 
+Statement* DependencyBuilder::BuildStatement(IfElseStatement*)
+{
+    return NULL;
+}
+
+IfElseStatement* DependencyBuilder::BuildIfElseStatement(Expression*,Statement*)
+{
+    return NULL;
+}
+
+IfElseStatement* DependencyBuilder::BuildIfElseStatement(Expression*,Statement*,Statement*)
+{
+    return NULL;
+}
+
 QVector<Statement*>* DependencyBuilder::BuildStatements()
 {
     return NULL;

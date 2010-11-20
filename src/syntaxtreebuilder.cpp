@@ -91,6 +91,28 @@ Statement* SyntaxTreeBuilder::BuildStatement(QString* name,Value::Type_e type, E
     return result;
 }
 
+Statement* SyntaxTreeBuilder::BuildStatement(IfElseStatement* ifelse)
+{
+    return ifelse;
+}
+
+IfElseStatement* SyntaxTreeBuilder::BuildIfElseStatement(Expression* expr,Statement* stmt)
+{
+    IfElseStatement* result = new IfElseStatement();
+    result->setExpression(expr);
+    result->setTrueStatement(stmt);
+    return result;
+}
+
+IfElseStatement* SyntaxTreeBuilder::BuildIfElseStatement(Expression* expr,Statement* truestmt ,Statement* falsestmt)
+{
+    IfElseStatement* result = new IfElseStatement();
+    result->setExpression(expr);
+    result->setTrueStatement(truestmt);
+    result->setFalseStatement(falsestmt);;
+    return result;
+}
+
 QVector<Statement*>* SyntaxTreeBuilder::BuildStatements()
 {
     return new QVector<Statement*>();

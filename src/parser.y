@@ -65,6 +65,7 @@ AbstractSyntaxTreeBuilder *builder;
 	class QVector<Statement*>* stmts;
 	class Expression* expr;
 	class QVector<Expression*>* exprs;
+	class IfElseStatement* ifelse;
 	class Context* ctx;
 	class Value* var;
 }
@@ -107,6 +108,7 @@ AbstractSyntaxTreeBuilder *builder;
 %type <var> variable
 %type <stmt> statement single_statement assign_statement
 %type <stmts> compound_statement statement_list
+%type <ifelse> ifelse_statement
 
 %%
 input
@@ -165,7 +167,7 @@ single_statement
 	| assign_statement ';'
 	{ $$ = builder->BuildStatement($1); }
 	| ifelse_statement
-	{ }
+	{ $$ = builder->BuildStatement($1); }
 	| for_statement
 	{ }
 	;
@@ -195,7 +197,9 @@ assign_statement
 
 ifelse_statement
 	: IF '(' expression ')' statement
+	{ $$ = builder->BuildIfElseStatement($3,$5); }
 	| IF '(' expression ')' statement ELSE statement
+	{ $$ = builder->BuildIfElseStatement($3,$5,$7); }
 	;
 
 for_statement

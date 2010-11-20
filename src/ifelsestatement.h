@@ -16,41 +16,28 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INSTANCE_H
-#define INSTANCE_H
+#ifndef IFELSESTATEMENT_H
+#define IFELSESTATEMENT_H
 
 #include <QString>
-#include <QVector>
 #include "statement.h"
-#include "argument.h"
+#include "expression.h"
 
-class Instance : public Statement
+class IfElseStatement : public Statement
 {
 public:
-    enum Type_e
-    {
-	Default,
-	Root,
-	Debug,
-	Background,
-	Disable
-    };
+    IfElseStatement();
+    ~IfElseStatement();
+    void setExpression(Expression*);
 
-    Instance();
-    ~Instance();
-    void setName(QString);
-    QString getName();
-    void setArguments(QVector<Argument*>);
-    QVector<Argument*> getArguments();
-    void setChildren(QVector <Instance*> childs);
-    void setType(Type_e);
-    QVector <Instance*> getChildren();
+    void setTrueStatement(Statement*);
+
+    void setFalseStatement(Statement*);
     QString toString();
 private:
-    QString name;
-    QVector<Argument*> arguments;
-    QVector<Instance*> children;
-    Type_e type;
+    Expression* expression;
+    Statement* trueStatement;
+    Statement* falseStatement;
 };
 
-#endif // INSTANCE_H
+#endif // IFELSESTATEMENT_H

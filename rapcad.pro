@@ -52,7 +52,8 @@ SOURCES += src/main.cpp\
     src/functioncontext.cpp \
     src/compoundstatement.cpp \
     src/assignstatement.cpp \
-    src/vectorexpression.cpp
+    src/vectorexpression.cpp \
+    src/ifelsestatement.cpp
 
 HEADERS  += src/mainwindow.h \
     src/module.h \
@@ -74,7 +75,8 @@ HEADERS  += src/mainwindow.h \
     src/functioncontext.h \
     src/compoundstatement.h \
     src/assignstatement.h \
-    src/vectorexpression.h
+    src/vectorexpression.h \
+    src/ifelsestatement.h
 
 FORMS    += src/mainwindow.ui   
 

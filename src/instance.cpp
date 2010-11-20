@@ -20,6 +20,7 @@
 
 Instance::Instance()
 {
+    type = Default;
 }
 
 Instance::~Instance()
@@ -82,6 +83,8 @@ QString Instance::toString()
 	break;
     case Disable:
 	result.append("Disabled ");
+	break;
+    default:
 	break;
     }
 

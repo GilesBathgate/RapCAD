@@ -37,6 +37,7 @@
 #include "compoundstatement.h"
 #include "assignstatement.h"
 #include "vectorexpression.h"
+#include "ifelsestatement.h"
 
 class AbstractSyntaxTreeBuilder
 {
@@ -51,6 +52,9 @@ public:
     virtual Statement* BuildStatement(QVector<Statement*>*)=0;
     virtual Statement* BuildStatement(Value*,Expression*)=0;
     virtual Statement* BuildStatement(QString*,Value::Type_e,Expression*)=0;
+    virtual Statement* BuildStatement(IfElseStatement*)=0;
+    virtual IfElseStatement* BuildIfElseStatement(Expression*,Statement*)=0;
+    virtual IfElseStatement* BuildIfElseStatement(Expression*,Statement*,Statement*)=0;
     virtual QVector<Statement*>* BuildStatements()=0;
     virtual QVector<Statement*>* BuildStatements(Statement*)=0;
     virtual QVector<Statement*>* BuildStatements(QVector<Statement*>*)=0;

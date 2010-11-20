@@ -36,6 +36,9 @@ D [0-9]
 "undef"			{ return UNDEF; }
 "const"			{ return CONST; }
 "param"			{ return PARAM; }
+"if"			{ return IF; }
+"else"			{ return ELSE; }
+"for"			{ return FOR; }
 [ \t\n\r]+		//ignore whitespace
 [!;#${}(),=*/%\+-]	{ return lexertext[0]; }
 "<"			{ return '<'; }
