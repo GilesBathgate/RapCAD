@@ -38,6 +38,7 @@ public:
     Statement* BuildStatement(IfElseStatement*);
     IfElseStatement* BuildIfElseStatement(Expression*,Statement*);
     IfElseStatement* BuildIfElseStatement(Expression*,Statement*,Statement*);
+    ForStatement* BuildForStatement(QVector<Argument*>*,Statement*);
     QVector<Statement*>* BuildStatements();
     QVector<Statement*>* BuildStatements(Statement*);
     QVector<Statement*>* BuildStatements(QVector<Statement*>*);

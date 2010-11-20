@@ -85,6 +85,11 @@ IfElseStatement* DependencyBuilder::BuildIfElseStatement(Expression*,Statement*,
     return NULL;
 }
 
+ForStatement* DependencyBuilder::BuildForStatement(QVector<Argument*>*,Statement*)
+{
+    return NULL;
+}
+
 QVector<Statement*>* DependencyBuilder::BuildStatements()
 {
     return NULL;

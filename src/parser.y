@@ -31,6 +31,8 @@
 #include "instance.h"
 #include "statement.h"
 #include "expression.h"
+#include "ifelsestatement.h"
+#include "forstatement.h"
 #include "context.h"
 #include "value.h"
 
@@ -66,6 +68,7 @@ AbstractSyntaxTreeBuilder *builder;
 	class Expression* expr;
 	class QVector<Expression*>* exprs;
 	class IfElseStatement* ifelse;
+	class ForStatement* forstmt;
 	class Context* ctx;
 	class Value* var;
 }
@@ -109,6 +112,7 @@ AbstractSyntaxTreeBuilder *builder;
 %type <stmt> statement single_statement assign_statement
 %type <stmts> compound_statement statement_list
 %type <ifelse> ifelse_statement
+%type <forstmt> for_statement
 
 %%
 input
@@ -169,7 +173,7 @@ single_statement
 	| ifelse_statement
 	{ $$ = builder->BuildStatement($1); }
 	| for_statement
-	{ }
+	{ $$ = builder->BuildStatement($1); }
 	;
 
 compound_statement
@@ -203,7 +207,8 @@ ifelse_statement
 	;
 
 for_statement
-	: FOR '(' expression ')' statement
+	: FOR '(' arguments ')' statement
+	{ $$ = builder->BuildForStatement($3,$5); }
 	;
 
 variable

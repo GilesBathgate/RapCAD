@@ -38,6 +38,7 @@
 #include "assignstatement.h"
 #include "vectorexpression.h"
 #include "ifelsestatement.h"
+#include "forstatement.h"
 
 class AbstractSyntaxTreeBuilder
 {
@@ -55,6 +56,7 @@ public:
     virtual Statement* BuildStatement(IfElseStatement*)=0;
     virtual IfElseStatement* BuildIfElseStatement(Expression*,Statement*)=0;
     virtual IfElseStatement* BuildIfElseStatement(Expression*,Statement*,Statement*)=0;
+    virtual ForStatement* BuildForStatement(QVector<Argument*>*,Statement*)=0;
     virtual QVector<Statement*>* BuildStatements()=0;
     virtual QVector<Statement*>* BuildStatements(Statement*)=0;
     virtual QVector<Statement*>* BuildStatements(QVector<Statement*>*)=0;

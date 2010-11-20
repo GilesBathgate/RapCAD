@@ -113,6 +113,15 @@ IfElseStatement* SyntaxTreeBuilder::BuildIfElseStatement(Expression* expr,Statem
     return result;
 }
 
+ForStatement* SyntaxTreeBuilder::BuildForStatement(QVector<Argument*>* args,Statement* stmt)
+{
+    ForStatement* result = new ForStatement();
+    result->setArguments(*args);
+    delete args;
+    result->setStatement(stmt);
+    return result;
+}
+
 QVector<Statement*>* SyntaxTreeBuilder::BuildStatements()
 {
     return new QVector<Statement*>();

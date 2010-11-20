@@ -16,38 +16,36 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "modulecontext.h"
+#include "forstatement.h"
 
-ModuleContext::ModuleContext()
+ForStatement::ForStatement()
 {
+    statement=NULL;
 }
 
-ModuleContext::~ModuleContext()
+ForStatement::~ForStatement()
 {
-    for(int i=0; i<declarations.size(); i++)
-	delete declarations.at(i);
+    delete statement;
 }
 
- void ModuleContext::setDeclarations(QVector<Declaration*> decls)
- {
-     this->declarations = decls;
- }
+void ForStatement::setArguments(QVector<Argument*> args)
+{
+    this->arguments = args;
+}
 
- QVector<Declaration*> ModuleContext::getDeclarations()
- {
-     return this->declarations;
- }
+void ForStatement::setStatement(Statement* stmt)
+{
+    this->statement = stmt;
+}
 
- QString ModuleContext::toString()
- {
-     QString result;
-     result.append("\nContext: (\n");
-	 for(int i=0; i<declarations.size(); i++)
-	 {
-	     result.append(declarations.at(i)->toString());
-	     result.append("\n");
-	 }
-     result.append(")\n");
-     return result;
- }
+QString ForStatement::toString()
+{
+    QString result;
+    result.append("For: (");
+    for(int i=0; i<arguments.size(); i++)
+	result.append(arguments[i]->toString());
+    result.append(") ");
+    result.append(statement->toString());
 
+    return result;
+}
