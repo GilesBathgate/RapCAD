@@ -17,7 +17,7 @@
  */
 
 %{
-#include "parameter.h"
+#include <QString>
 #include "parser_yacc.h"
 void lexererror();
 %}
