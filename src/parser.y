@@ -233,9 +233,9 @@ expression
 	| NUMBER
 	{ $$ = builder->BuildLiteral($1); }
 	| '[' expression ':' expression ']'
-	{ }
+	{ $$ = builder->BuildRange($2,$4); }
 	| '[' expression ':' expression ':' expression ']'
-	{ }
+	{ $$ = builder->BuildRange($2,$4,$6); }
 	| '[' vector_expression ']'
 	{ $$ = builder->BuildExpression($2); }
 	| expression '*' expression

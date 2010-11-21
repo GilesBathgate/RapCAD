@@ -81,6 +81,8 @@ public:
     QVector<Expression*>* BuildVector();
     QVector<Expression*>* BuildVector(Expression*);
     QVector<Expression*>* BuildVector(QVector<Expression*>*,Expression*);
+    Expression* BuildRange(Expression*,Expression*);
+    Expression* BuildRange(Expression*,Expression*,Expression*);
 
     void Print();
 private:

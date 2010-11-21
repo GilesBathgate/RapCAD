@@ -299,3 +299,13 @@ QVector<Expression*>* DependencyBuilder::BuildVector(QVector<Expression*>*,Expre
 {
     return NULL;
 }
+
+Expression* DependencyBuilder::BuildRange(Expression*,Expression*)
+{
+    return NULL;
+}
+
+Expression* DependencyBuilder::BuildRange(Expression*,Expression*,Expression*)
+{
+    return NULL;
+}

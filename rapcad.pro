@@ -54,7 +54,8 @@ SOURCES += src/main.cpp\
     src/assignstatement.cpp \
     src/vectorexpression.cpp \
     src/ifelsestatement.cpp \
-    src/forstatement.cpp
+    src/forstatement.cpp \
+    src/rangeexpression.cpp
 
 HEADERS  += src/mainwindow.h \
     src/module.h \
@@ -78,7 +79,8 @@ HEADERS  += src/mainwindow.h \
     src/assignstatement.h \
     src/vectorexpression.h \
     src/ifelsestatement.h \
-    src/forstatement.h
+    src/forstatement.h \
+    src/rangeexpression.h
 
 FORMS    += src/mainwindow.ui   
 

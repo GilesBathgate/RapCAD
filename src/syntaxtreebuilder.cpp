@@ -413,6 +413,23 @@ QVector<Expression*>* SyntaxTreeBuilder::BuildVector(QVector<Expression*>* exprs
     return exprs;
 }
 
+Expression* SyntaxTreeBuilder::BuildRange(Expression* srt,Expression* fin)
+{
+    RangeExpression* result = new RangeExpression();
+    result->setStart(srt);
+    result->setFinish(fin);
+    return result;
+}
+
+Expression* SyntaxTreeBuilder::BuildRange(Expression* srt,Expression* stp,Expression* fin)
+{
+    RangeExpression* result = new RangeExpression();
+    result->setStart(srt);
+    result->setFinish(fin);
+    result->setStep(stp);
+    return result;
+}
+
 void SyntaxTreeBuilder::Print()
 {
     for(int i=0; i<declarations.size(); i++)
