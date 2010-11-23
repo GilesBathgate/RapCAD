@@ -29,6 +29,7 @@ public:
 	Multiply,
 	Divide,
 	Modulus,
+        Dot,
 	Add,
 	Subtract,
 	LessThan,

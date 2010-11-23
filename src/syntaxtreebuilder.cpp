@@ -378,6 +378,18 @@ Value* SyntaxTreeBuilder::BuildVariable(QString* name,Value::Type_e type)
     return result;
 }
 
+Expression* SyntaxTreeBuilder::BuildExpression(Expression* exp,QString* name)
+{
+    BinaryExpression* result = new BinaryExpression();
+    result->setLeft(exp);
+    Value* val = new Value();
+    val->setName(*name);
+    delete name;
+    result->setRight(val);
+    result->setOp(Expression::Dot);
+    return result;
+}
+
 Expression* SyntaxTreeBuilder::BuildExpression(Expression* left ,Expression::Operator_e op, Expression* right)
 {
     BinaryExpression* result = new BinaryExpression();

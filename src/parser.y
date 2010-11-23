@@ -228,6 +228,7 @@ expression
 	| variable
 	{ $$ = builder->BuildVariable($1); }
 	| expression '.' IDENTIFIER
+	{ $$ = builder->BuildExpression($1,$3); }
 	| STRING
 	{ $$ = builder->BuildLiteral($1); }
 	| NUMBER
@@ -265,11 +266,14 @@ expression
 	| expression OR expression
 	{ $$ = builder->BuildExpression($1,Expression::LogicalOr,$3); }
 	| '+' expression
-	{ }
+        { //$$ = builder->BuildExpression(Expression::Add,$2);
+        }
 	| '-' expression
-	{ }
+        { //$$ = builder->BuildExpression(Expression::Subtract,$2);
+        }
 	| '!' expression
-	{ }
+        { //$$ = builder->BuildExpression(Expression::Invert,$2);
+        }
 	| '(' expression ')'
 	{ }
 	| expression '?' expression ':' expression

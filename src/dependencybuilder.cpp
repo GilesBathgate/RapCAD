@@ -275,6 +275,11 @@ Value* DependencyBuilder::BuildVariable(QString*,Value::Type_e)
     return NULL;
 }
 
+Expression* DependencyBuilder::BuildExpression(Expression*,QString*)
+{
+    return NULL;
+}
+
 Expression* DependencyBuilder::BuildExpression(Expression*,Expression::Operator_e, Expression*)
 {
     return NULL;

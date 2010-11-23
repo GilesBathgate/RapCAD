@@ -48,6 +48,9 @@ QString BinaryExpression::toString()
     case Modulus:
 	result.append("%%"); //remember we need to escape % as %%
 	break;
+    case Dot:
+        result.append(".");
+        break;
     case Add:
 	result.append("+");
 	break;

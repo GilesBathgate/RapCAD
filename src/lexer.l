@@ -40,7 +40,7 @@ D [0-9]
 "else"			{ return ELSE; }
 "for"			{ return FOR; }
 [ \t\n\r]+		//ignore whitespace
-[:!;#${}(),=*/%\+-]	{ return lexertext[0]; }
+[.:!;#${}(),=*/%\+-]	{ return lexertext[0]; }
 "<"			{ return '<'; }
 "<="			{ return LE;  }
 ">"			{ return '>'; }
