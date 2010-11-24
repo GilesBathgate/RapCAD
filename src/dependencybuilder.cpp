@@ -280,6 +280,11 @@ Expression* DependencyBuilder::BuildExpression(Expression*,QString*)
     return NULL;
 }
 
+Expression* DependencyBuilder::BuildExpression(Expression*)
+{
+    return NULL;
+}
+
 Expression* DependencyBuilder::BuildExpression(Expression::Operator_e,Expression*)
 {
     return NULL;

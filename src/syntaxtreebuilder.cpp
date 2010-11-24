@@ -390,6 +390,11 @@ Expression* SyntaxTreeBuilder::BuildExpression(Expression* exp,QString* name)
     return result;
 }
 
+Expression* SyntaxTreeBuilder::BuildExpression(Expression* exp)
+{
+    return exp;
+}
+
 Expression* SyntaxTreeBuilder::BuildExpression(Expression::Operator_e op,Expression* exp)
 {
     UnaryExpression* result = new UnaryExpression();

@@ -97,6 +97,7 @@ public:
     virtual Expression* BuildVariable(Value*)=0;
     virtual Value* BuildVariable(QString*,Value::Type_e)=0;
     virtual Expression* BuildExpression(Expression*,QString*)=0;
+    virtual Expression* BuildExpression(Expression*)=0;
     virtual Expression* BuildExpression(Expression::Operator_e,Expression*)=0;
     virtual Expression* BuildExpression(Expression*,Expression::Operator_e,Expression*)=0;
     virtual Expression* BuildExpression(QVector<Expression*>*)=0;

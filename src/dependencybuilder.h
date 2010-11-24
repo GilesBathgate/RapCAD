@@ -77,6 +77,7 @@ public:
     Expression* BuildVariable(Value*);
     Value* BuildVariable(QString*,Value::Type_e);
     Expression* BuildExpression(Expression*,QString*);
+    Expression* BuildExpression(Expression*);
     Expression* BuildExpression(Expression::Operator_e,Expression*);
     Expression* BuildExpression(Expression*,Expression::Operator_e,Expression*);
     Expression* BuildExpression(QVector<Expression*>*);

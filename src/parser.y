@@ -272,7 +272,7 @@ expression
 	| '!' expression
         { $$ = builder->BuildExpression(Expression::Invert,$2); }
 	| '(' expression ')'
-	{ }
+        { $$ = builder->BuildExpression($2); }
 	| expression '?' expression ':' expression
 	{ }
 	| expression '[' expression ']'
