@@ -39,7 +39,8 @@ public:
 	GreaterOrEqual,
 	GreaterThan,
 	LogicalAnd,
-	LogicalOr
+        LogicalOr,
+        Invert
     };
 
     Expression();

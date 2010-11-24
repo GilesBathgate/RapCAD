@@ -79,6 +79,9 @@ QString Expression::getOpString()
     case LogicalOr:
         result.append("||");
         break;
+    case Invert:
+        result.append("!");
+        break;
     default:
         result.append("Unknown");
     }

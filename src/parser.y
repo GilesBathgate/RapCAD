@@ -270,8 +270,7 @@ expression
 	| '-' expression
         { $$ = builder->BuildExpression(Expression::Subtract,$2); }
 	| '!' expression
-        { //$$ = builder->BuildExpression(Expression::Invert,$2);
-        }
+        { $$ = builder->BuildExpression(Expression::Invert,$2); }
 	| '(' expression ')'
 	{ }
 	| expression '?' expression ':' expression
