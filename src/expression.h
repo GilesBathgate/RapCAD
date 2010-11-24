@@ -40,7 +40,8 @@ public:
 	GreaterThan,
 	LogicalAnd,
         LogicalOr,
-        Invert
+        Invert,
+        Index
     };
 
     Expression();

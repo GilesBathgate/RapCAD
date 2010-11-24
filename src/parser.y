@@ -276,9 +276,10 @@ expression
 	| expression '?' expression ':' expression
 	{ }
 	| expression '[' expression ']'
-	{ }
+        { $$ = builder->BuildExpression($1,Expression::Index,$3); }
 	| IDENTIFIER '(' arguments ')'
-	{ }
+        { //$$ = builder->BuildInvocation($1,$3);
+        }
 	;
 
 vector_expression

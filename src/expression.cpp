@@ -82,6 +82,9 @@ QString Expression::getOpString()
     case Invert:
         result.append("!");
         break;
+    case Index:
+        result.append("[]");
+        break;
     default:
         result.append("Unknown");
     }
