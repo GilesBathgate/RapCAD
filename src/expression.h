@@ -47,6 +47,8 @@ public:
     Operator_e getOp();
     void setOp(Operator_e);
     virtual QString toString();
+protected:
+    QString getOpString();
 private:
     Operator_e op;
 };

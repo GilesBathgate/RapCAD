@@ -28,7 +28,61 @@ Expression::~Expression()
 
 QString Expression::toString()
 {
-    return "Empty";
+    return "Unknown";
+}
+
+QString Expression::getOpString()
+{
+    QString result;
+    switch(this->getOp())
+    {
+
+    case Multiply:
+        result.append("*");
+        break;
+    case Divide:
+        result.append("/");
+        break;
+    case Modulus:
+        result.append("%%"); //remember we need to escape % as %%
+        break;
+    case Dot:
+        result.append(".");
+        break;
+    case Add:
+        result.append("+");
+        break;
+    case Subtract:
+        result.append("-");
+        break;
+    case LessThan:
+        result.append("<");
+        break;
+    case LessOrEqual:
+        result.append("<=");
+        break;
+    case Equal:
+        result.append("==");
+        break;
+    case NotEqual:
+        result.append("!=");
+        break;
+    case GreaterOrEqual:
+        result.append(">=");
+        break;
+    case GreaterThan:
+        result.append(">");
+        break;
+    case LogicalAnd:
+        result.append("&&");
+        break;
+    case LogicalOr:
+        result.append("||");
+        break;
+    default:
+        result.append("Unknown");
+    }
+    return result;
 }
 
 void Expression::setOp(Operator_e op)

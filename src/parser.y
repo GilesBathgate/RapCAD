@@ -266,11 +266,9 @@ expression
 	| expression OR expression
 	{ $$ = builder->BuildExpression($1,Expression::LogicalOr,$3); }
 	| '+' expression
-        { //$$ = builder->BuildExpression(Expression::Add,$2);
-        }
+        { $$ = builder->BuildExpression(Expression::Add,$2); }
 	| '-' expression
-        { //$$ = builder->BuildExpression(Expression::Subtract,$2);
-        }
+        { $$ = builder->BuildExpression(Expression::Subtract,$2); }
 	| '!' expression
         { //$$ = builder->BuildExpression(Expression::Invert,$2);
         }

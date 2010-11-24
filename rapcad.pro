@@ -55,7 +55,8 @@ SOURCES += src/main.cpp\
     src/vectorexpression.cpp \
     src/ifelsestatement.cpp \
     src/forstatement.cpp \
-    src/rangeexpression.cpp
+    src/rangeexpression.cpp \
+    src/unaryexpression.cpp
 
 HEADERS  += src/mainwindow.h \
     src/module.h \
@@ -80,7 +81,8 @@ HEADERS  += src/mainwindow.h \
     src/vectorexpression.h \
     src/ifelsestatement.h \
     src/forstatement.h \
-    src/rangeexpression.h
+    src/rangeexpression.h \
+    src/unaryexpression.h
 
 FORMS    += src/mainwindow.ui   
 
