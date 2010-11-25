@@ -455,6 +455,16 @@ Expression* SyntaxTreeBuilder::BuildRange(Expression* srt,Expression* stp,Expres
     return result;
 }
 
+Expression* SyntaxTreeBuilder::BuildInvocation(QString* name,QVector<Argument*>* args)
+{
+    Invocation* result = new Invocation();
+    result->setName(*name);
+    delete name;
+    result->setArguments(*args);
+    delete args;
+    return result;
+}
+
 void SyntaxTreeBuilder::Print()
 {
     for(int i=0; i<declarations.size(); i++)

@@ -324,3 +324,8 @@ Expression* DependencyBuilder::BuildRange(Expression*,Expression*,Expression*)
 {
     return NULL;
 }
+
+Expression* DependencyBuilder::BuildInvocation(QString*,QVector<Argument*>*)
+{
+    return NULL;
+}

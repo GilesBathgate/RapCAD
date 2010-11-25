@@ -41,6 +41,7 @@
 #include "ifelsestatement.h"
 #include "forstatement.h"
 #include "rangeexpression.h"
+#include "invocation.h"
 
 class AbstractSyntaxTreeBuilder
 {
@@ -106,6 +107,7 @@ public:
     virtual QVector<Expression*>* BuildVector(QVector<Expression*>*,Expression*)=0;
     virtual Expression* BuildRange(Expression*,Expression*)=0;
     virtual Expression* BuildRange(Expression*,Expression*,Expression*)=0;
+    virtual Expression* BuildInvocation(QString*,QVector<Argument*>*)=0;
 };
 
 #endif // ABSTRACTSYNTAXTREEBUILDER_H

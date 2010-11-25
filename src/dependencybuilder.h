@@ -86,6 +86,7 @@ public:
     QVector<Expression*>* BuildVector(QVector<Expression*>*,Expression*);
     Expression* BuildRange(Expression*,Expression*);
     Expression* BuildRange(Expression*,Expression*,Expression*);
+    Expression* BuildInvocation(QString*,QVector<Argument*>*);
 };
 
 #endif // DEPENDENCYBUILDER_H
