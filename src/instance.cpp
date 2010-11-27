@@ -52,7 +52,7 @@ QVector<Argument*> Instance::getArguments()
     return this->arguments;
 }
 
-void Instance::setChildren(QVector <Instance*> childs)
+void Instance::setChildren(QVector <Statement*> childs)
 {
     this->children = childs;
 }
@@ -62,7 +62,7 @@ void Instance::setType(Type_e t)
     this->type = t;
 }
 
-QVector <Instance*> Instance::getChildren()
+QVector <Statement*> Instance::getChildren()
 {
     return this->children;
 }

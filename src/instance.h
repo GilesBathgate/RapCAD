@@ -42,14 +42,14 @@ public:
     QString getName();
     void setArguments(QVector<Argument*>);
     QVector<Argument*> getArguments();
-    void setChildren(QVector <Instance*> childs);
+    void setChildren(QVector <Statement*> childs);
     void setType(Type_e);
-    QVector <Instance*> getChildren();
+    QVector <Statement*> getChildren();
     QString toString();
 private:
     QString name;
     QVector<Argument*> arguments;
-    QVector<Instance*> children;
+    QVector<Statement*> children;
     Type_e type;
 };
 

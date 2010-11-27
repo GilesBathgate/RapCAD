@@ -28,13 +28,13 @@
 #include "declaration.h"
 #include "parameter.h"
 #include "argument.h"
-#include "instance.h"
 #include "statement.h"
 #include "expression.h"
 #include "binaryexpression.h"
 #include "ternaryexpression.h"
 #include "ifelsestatement.h"
 #include "forstatement.h"
+#include "instance.h"
 #include "context.h"
 #include "value.h"
 
@@ -57,20 +57,19 @@ AbstractSyntaxTreeBuilder *builder;
 	QString* text;
 	double number;
 	unsigned int count;
-        class Declaration* decl;
-        QVector<Declaration*>* decls;
-        class Parameter* param;
-        QVector<Parameter*>* params;
-        class Argument* arg;
-        QVector<Argument*>* args;
-        class Instance* inst;
-        QVector<Instance*>* insts;
-        class Statement* stmt;
-        QVector<Statement*>* stmts;
-        class Expression* expr;
-        QVector<Expression*>* exprs;
-        class Context* ctx;
-        class Value* var;
+	class Declaration* decl;
+	QVector<Declaration*>* decls;
+	class Parameter* param;
+	QVector<Parameter*>* params;
+	class Argument* arg;
+	QVector<Argument*>* args;
+	class Statement* stmt;
+	QVector<Statement*>* stmts;
+	class Expression* expr;
+	QVector<Expression*>* exprs;
+	class Instance* inst;
+	class Context* ctx;
+	class Value* var;
 }
 
 %token MODULE FUNCTION
@@ -108,10 +107,9 @@ AbstractSyntaxTreeBuilder *builder;
 %type <exprs> vector_expression
 %type <ctx> module_context function_context
 %type <inst> module_instance single_instance
-%type <insts> compound_instance instance_list
 %type <var> variable
 %type <stmt> statement single_statement assign_statement return_statement ifelse_statement for_statement
-%type <stmts> compound_statement statement_list
+%type <stmts> compound_statement statement_list compound_instance
 
 %%
 input
@@ -313,11 +311,11 @@ parameter
 
 compound_instance
 	: '{' '}'
-	{ $$ = builder->BuildInstances(); }
-	| '{' instance_list '}'
-	{ $$ = builder->BuildInstances($2); }
+	{ $$ = builder->BuildStatements(); }
+	| '{' statement_list '}'
+	{ $$ = builder->BuildStatements($2); }
 	| module_instance
-	{ $$ = builder->BuildInstances($1); }
+	{ $$ = builder->BuildStatements($1); }
 	;
 
 module_instance
@@ -325,13 +323,6 @@ module_instance
 	{ $$ = builder->BuildInstance($1); }
 	| single_instance compound_instance
 	{ $$ = builder->BuildInstance($1,$2); }
-	;
-
-instance_list
-	: module_instance
-	{ $$ = builder->BuildInstances($1); }
-	| instance_list module_instance
-	{ $$ = builder->BuildInstances($1,$2); }
 	;
 
 single_instance

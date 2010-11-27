@@ -53,11 +53,7 @@ public:
     Instance* BuildInstance(Instance*);
     Instance* BuildInstance(Instance::Type_e,Instance*);
     Instance* BuildInstance(QString*,QVector<Argument*>*);
-    Instance* BuildInstance(Instance*,QVector<Instance*>*);
-    QVector<Instance*>* BuildInstances();
-    QVector<Instance*>* BuildInstances(Instance*);
-    QVector<Instance*>* BuildInstances(QVector<Instance*>*);
-    QVector<Instance*>* BuildInstances(QVector<Instance*>*,Instance*);
+    Instance* BuildInstance(Instance*,QVector<Statement*>*);
     QVector<Parameter*>* BuildParameters();
     QVector<Parameter*>* BuildParameters(Parameter*);
     QVector<Parameter*>* BuildParameters(QVector<Parameter*>*,Parameter*);

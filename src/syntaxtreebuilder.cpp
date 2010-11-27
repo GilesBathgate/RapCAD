@@ -226,34 +226,11 @@ Instance* SyntaxTreeBuilder::BuildInstance(QString* name,QVector<Argument*>* arg
     return result;
 }
 
-Instance* SyntaxTreeBuilder::BuildInstance(Instance* inst,QVector<Instance*>* insts)
+Instance* SyntaxTreeBuilder::BuildInstance(Instance* inst,QVector<Statement*>* smts)
 {
-    inst->setChildren(*insts);
-    delete insts;
+    inst->setChildren(*smts);
+    delete smts;
     return inst;
-}
-
-QVector<Instance*>* SyntaxTreeBuilder::BuildInstances()
-{
-    return new QVector<Instance*>();
-}
-
-QVector<Instance*>* SyntaxTreeBuilder::BuildInstances(Instance* inst)
-{
-    QVector<Instance*>* result = new QVector<Instance*>();
-    result->append(inst);
-    return result;
-}
-
-QVector<Instance*>* SyntaxTreeBuilder::BuildInstances(QVector<Instance*>* insts)
-{
-    return insts;
-}
-
-QVector<Instance*>* SyntaxTreeBuilder::BuildInstances(QVector<Instance*>* insts,Instance* inst)
-{
-    insts->append(inst);
-    return insts;
 }
 
 QVector<Parameter*>* SyntaxTreeBuilder::BuildParameters()

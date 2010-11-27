@@ -160,27 +160,7 @@ Instance* DependencyBuilder::BuildInstance(QString*,QVector<Argument*>*)
     return NULL;
 }
 
-Instance* DependencyBuilder::BuildInstance(Instance*,QVector<Instance*>*)
-{
-    return NULL;
-}
-
-QVector<Instance*>* DependencyBuilder::BuildInstances()
-{
-    return NULL;
-}
-
-QVector<Instance*>* DependencyBuilder::BuildInstances(Instance*)
-{
-    return NULL;
-}
-
-QVector<Instance*>* DependencyBuilder::BuildInstances(QVector<Instance*>*)
-{
-    return NULL;
-}
-
-QVector<Instance*>* DependencyBuilder::BuildInstances(QVector<Instance*>*,Instance*)
+Instance* DependencyBuilder::BuildInstance(Instance*,QVector<Statement*>*)
 {
     return NULL;
 }

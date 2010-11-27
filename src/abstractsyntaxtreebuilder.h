@@ -76,11 +76,7 @@ public:
     virtual Instance* BuildInstance(Instance*)=0;
     virtual Instance* BuildInstance(Instance::Type_e,Instance*)=0;
     virtual Instance* BuildInstance(QString*,QVector<Argument*>*)=0;
-    virtual Instance* BuildInstance(Instance*,QVector<Instance*>*)=0;
-    virtual QVector<Instance*>* BuildInstances()=0;
-    virtual QVector<Instance*>* BuildInstances(Instance*)=0;
-    virtual QVector<Instance*>* BuildInstances(QVector<Instance*>*)=0;
-    virtual QVector<Instance*>* BuildInstances(QVector<Instance*>*,Instance*)=0;
+    virtual Instance* BuildInstance(Instance*,QVector<Statement*>*)=0;
     virtual QVector<Parameter*>* BuildParameters()=0;
     virtual QVector<Parameter*>* BuildParameters(Parameter*)=0;
     virtual QVector<Parameter*>* BuildParameters(QVector<Parameter*>*,Parameter*)=0;
