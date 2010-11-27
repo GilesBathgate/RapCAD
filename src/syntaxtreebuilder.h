@@ -81,6 +81,7 @@ public:
     Expression* BuildExpression(Expression*);
     Expression* BuildExpression(Expression::Operator_e,Expression*);
     Expression* BuildExpression(Expression*,Expression::Operator_e,Expression*);
+    Expression* BuildTernaryExpression(Expression*,Expression*,Expression*);
     Expression* BuildExpression(QVector<Expression*>*);
     QVector<Expression*>* BuildVector();
     QVector<Expression*>* BuildVector(Expression*);

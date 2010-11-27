@@ -31,6 +31,8 @@
 #include "instance.h"
 #include "statement.h"
 #include "expression.h"
+#include "binaryexpression.h"
+#include "ternaryexpression.h"
 #include "ifelsestatement.h"
 #include "forstatement.h"
 #include "context.h"
@@ -55,20 +57,20 @@ AbstractSyntaxTreeBuilder *builder;
 	QString* text;
 	double number;
 	unsigned int count;
-        Declaration* decl;
+        class Declaration* decl;
         QVector<Declaration*>* decls;
-        Parameter* param;
+        class Parameter* param;
         QVector<Parameter*>* params;
-        Argument* arg;
+        class Argument* arg;
         QVector<Argument*>* args;
-        Instance* inst;
+        class Instance* inst;
         QVector<Instance*>* insts;
-        Statement* stmt;
+        class Statement* stmt;
         QVector<Statement*>* stmts;
-        Expression* expr;
+        class Expression* expr;
         QVector<Expression*>* exprs;
-        Context* ctx;
-        Value* var;
+        class Context* ctx;
+        class Value* var;
 }
 
 %token MODULE FUNCTION
@@ -277,7 +279,7 @@ expression
 	| '(' expression ')'
         { $$ = builder->BuildExpression($2); }
 	| expression '?' expression ':' expression
-	{ }
+        { $$ = builder->BuildTernaryExpression($1,$3,$5); }
 	| expression '[' expression ']'
         { $$ = builder->BuildExpression($1,Expression::Index,$3); }
 	| IDENTIFIER '(' arguments ')'

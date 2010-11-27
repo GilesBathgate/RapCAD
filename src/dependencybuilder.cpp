@@ -300,6 +300,11 @@ Expression* DependencyBuilder::BuildExpression(Expression*,Expression::Operator_
     return NULL;
 }
 
+Expression* DependencyBuilder::BuildTernaryExpression(Expression*,Expression*,Expression*)
+{
+    return NULL;
+}
+
 Expression* DependencyBuilder::BuildExpression(QVector<Expression*>*)
 {
     return NULL;

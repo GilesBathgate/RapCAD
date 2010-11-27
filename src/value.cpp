@@ -53,13 +53,13 @@ QString Value::toString()
     switch(type)
     {
     case Const:
-	result.append("ConstValue: ");
+        result.append("Constant: ");
 	break;
     case Param:
-	result.append("ParamValue: ");
+        result.append("Parametric: ");
 	break;
     default:
-	result.append("Value: ");
+        result.append("Variable: ");
 	break;
     }
     if(type==Special)

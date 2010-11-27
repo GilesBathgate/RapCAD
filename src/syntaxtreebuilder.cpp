@@ -419,6 +419,15 @@ Expression* SyntaxTreeBuilder::BuildExpression(Expression* left ,Expression::Ope
     return result;
 }
 
+Expression* SyntaxTreeBuilder::BuildTernaryExpression(Expression* cond,Expression* trueexp ,Expression* falseexp)
+{
+    TernaryExpression* result = new TernaryExpression();
+    result->setCondition(cond);
+    result->setTrueExpression(trueexp);
+    result->setFalseExpression(falseexp);
+    return result;
+}
+
 Expression* SyntaxTreeBuilder::BuildExpression(QVector<Expression*>* exps)
 {
     VectorExpression* result = new VectorExpression();

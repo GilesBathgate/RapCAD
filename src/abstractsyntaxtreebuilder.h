@@ -26,6 +26,7 @@
 #include "value.h"
 #include "expression.h"
 #include "binaryexpression.h"
+#include "ternaryexpression.h"
 #include "unaryexpression.h"
 #include "declaration.h"
 #include "context.h"
@@ -103,6 +104,7 @@ public:
     virtual Expression* BuildExpression(Expression*)=0;
     virtual Expression* BuildExpression(Expression::Operator_e,Expression*)=0;
     virtual Expression* BuildExpression(Expression*,Expression::Operator_e,Expression*)=0;
+    virtual Expression* BuildTernaryExpression(Expression*,Expression*,Expression*)=0;
     virtual Expression* BuildExpression(QVector<Expression*>*)=0;
     virtual QVector<Expression*>* BuildVector()=0;
     virtual QVector<Expression*>* BuildVector(Expression*)=0;

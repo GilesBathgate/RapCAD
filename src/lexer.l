@@ -41,7 +41,7 @@ D [0-9]
 "for"			{ return FOR; }
 "return"                { return RETURN; }
 [ \t\n\r]+		//ignore whitespace
-[.:!;#${}(),=*/%\+-]	{ return lexertext[0]; }
+[.:!;#${}(),=*/%?\+-]	{ return lexertext[0]; }
 "<"			{ return '<'; }
 "<="			{ return LE;  }
 ">"			{ return '>'; }
