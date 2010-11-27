@@ -36,6 +36,7 @@ public:
     Statement* BuildStatement(Value*,Expression*);
     Statement* BuildStatement(QString*,Value::Type_e,Expression*);
     Statement* BuildStatement(IfElseStatement*);
+    ReturnStatement* BuildReturnStatement(Expression*);
     IfElseStatement* BuildIfElseStatement(Expression*,Statement*);
     IfElseStatement* BuildIfElseStatement(Expression*,Statement*,Statement*);
     ForStatement* BuildForStatement(QVector<Argument*>*,Statement*);

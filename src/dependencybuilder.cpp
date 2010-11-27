@@ -75,6 +75,11 @@ Statement* DependencyBuilder::BuildStatement(IfElseStatement*)
     return NULL;
 }
 
+ReturnStatement* DependencyBuilder::BuildReturnStatement(Expression*)
+{
+    return NULL;
+}
+
 IfElseStatement* DependencyBuilder::BuildIfElseStatement(Expression*,Statement*)
 {
     return NULL;

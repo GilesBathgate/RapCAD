@@ -57,7 +57,8 @@ SOURCES += src/main.cpp\
     src/forstatement.cpp \
     src/rangeexpression.cpp \
     src/unaryexpression.cpp \
-    src/invocation.cpp
+    src/invocation.cpp \
+    src/returnstatement.cpp
 
 HEADERS  += src/mainwindow.h \
     src/module.h \
@@ -84,7 +85,8 @@ HEADERS  += src/mainwindow.h \
     src/forstatement.h \
     src/rangeexpression.h \
     src/unaryexpression.h \
-    src/invocation.h
+    src/invocation.h \
+    src/returnstatement.h
 
 FORMS    += src/mainwindow.ui   
 

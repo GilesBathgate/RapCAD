@@ -96,6 +96,13 @@ Statement* SyntaxTreeBuilder::BuildStatement(IfElseStatement* ifelse)
     return ifelse;
 }
 
+ReturnStatement* SyntaxTreeBuilder::BuildReturnStatement(Expression* exp)
+{
+    ReturnStatement* result = new ReturnStatement();
+    result->setExpression(exp);
+    return result;
+}
+
 IfElseStatement* SyntaxTreeBuilder::BuildIfElseStatement(Expression* expr,Statement* stmt)
 {
     IfElseStatement* result = new IfElseStatement();

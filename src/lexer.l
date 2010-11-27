@@ -39,6 +39,7 @@ D [0-9]
 "if"			{ return IF; }
 "else"			{ return ELSE; }
 "for"			{ return FOR; }
+"return"                { return RETURN; }
 [ \t\n\r]+		//ignore whitespace
 [.:!;#${}(),=*/%\+-]	{ return lexertext[0]; }
 "<"			{ return '<'; }

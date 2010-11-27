@@ -55,22 +55,20 @@ AbstractSyntaxTreeBuilder *builder;
 	QString* text;
 	double number;
 	unsigned int count;
-	class Declaration* decl;
-	class QVector<Declaration*>* decls;
-	class Parameter* param;
-	class QVector<Parameter*>* params;
-	class Argument* arg;
-	class QVector<Argument*>* args;
-	class Instance* inst;
-	class QVector<Instance*>* insts;
-	class Statement* stmt;
-	class QVector<Statement*>* stmts;
-	class Expression* expr;
-	class QVector<Expression*>* exprs;
-	class IfElseStatement* ifelse;
-	class ForStatement* forstmt;
-	class Context* ctx;
-	class Value* var;
+        Declaration* decl;
+        QVector<Declaration*>* decls;
+        Parameter* param;
+        QVector<Parameter*>* params;
+        Argument* arg;
+        QVector<Argument*>* args;
+        Instance* inst;
+        QVector<Instance*>* insts;
+        Statement* stmt;
+        QVector<Statement*>* stmts;
+        Expression* expr;
+        QVector<Expression*>* exprs;
+        Context* ctx;
+        Value* var;
 }
 
 %token MODULE FUNCTION
@@ -81,7 +79,8 @@ AbstractSyntaxTreeBuilder *builder;
 %token <text> STRING
 %token <number> NUMBER
 %token TOK_TRUE TOK_FALSE UNDEF
-%token LE GE EQ NE AND OR
+
+%right RETURN
 %right '='
 %right '?' ':'
 
@@ -109,10 +108,8 @@ AbstractSyntaxTreeBuilder *builder;
 %type <inst> module_instance single_instance
 %type <insts> compound_instance instance_list
 %type <var> variable
-%type <stmt> statement single_statement assign_statement
+%type <stmt> statement single_statement assign_statement return_statement ifelse_statement for_statement
 %type <stmts> compound_statement statement_list
-%type <ifelse> ifelse_statement
-%type <forstmt> for_statement
 
 %%
 input
@@ -174,6 +171,12 @@ single_statement
 	{ $$ = builder->BuildStatement($1); }
 	| for_statement
 	{ $$ = builder->BuildStatement($1); }
+        | return_statement;
+        ;
+
+return_statement
+        : RETURN expression ';'
+        { $$ = builder->BuildReturnStatement($2); }
 	;
 
 compound_statement

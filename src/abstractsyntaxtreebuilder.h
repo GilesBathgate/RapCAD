@@ -42,6 +42,7 @@
 #include "forstatement.h"
 #include "rangeexpression.h"
 #include "invocation.h"
+#include "returnstatement.h"
 
 class AbstractSyntaxTreeBuilder
 {
@@ -57,6 +58,7 @@ public:
     virtual Statement* BuildStatement(Value*,Expression*)=0;
     virtual Statement* BuildStatement(QString*,Value::Type_e,Expression*)=0;
     virtual Statement* BuildStatement(IfElseStatement*)=0;
+    virtual ReturnStatement* BuildReturnStatement(Expression*)=0;
     virtual IfElseStatement* BuildIfElseStatement(Expression*,Statement*)=0;
     virtual IfElseStatement* BuildIfElseStatement(Expression*,Statement*,Statement*)=0;
     virtual ForStatement* BuildForStatement(QVector<Argument*>*,Statement*)=0;
