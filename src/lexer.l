@@ -66,7 +66,7 @@ D [0-9]
 "//"[^\n]*\n?		//ignore one line comments
 "/*"			{ BEGIN(comment); }
 <comment>[^*]*		//ignore anything that's not a '*'
-<comment>"*"+[^/]*	//ignore '*'s not followed by '/'s
+<comment>"*"+[^*/]*	//ignore '*'s not followed by '/'s
 <comment>"*/"		{ BEGIN(INITIAL); }
 .			{ lexererror();  }
 %%
