@@ -81,7 +81,7 @@ public:
     Expression* BuildExpression(QVector<Expression*>*);
     QVector<Expression*>* BuildVector();
     QVector<Expression*>* BuildVector(Expression*);
-    QVector<Expression*>* BuildVector(QVector<Expression*>*,Expression*);
+    QVector<Expression*>* BuildVector(QVector<Expression*>*,unsigned int,Expression*);
     Expression* BuildRange(Expression*,Expression*);
     Expression* BuildRange(Expression*,Expression*,Expression*);
     Expression* BuildInvocation(QString*,QVector<Argument*>*);

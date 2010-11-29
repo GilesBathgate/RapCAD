@@ -282,8 +282,13 @@ QVector<Argument*>* SyntaxTreeBuilder::BuildArguments(Argument* arg)
 
 QVector<Argument*>* SyntaxTreeBuilder::BuildArguments(QVector<Argument*>* args,unsigned int count,Argument* arg)
 {
+    //if we are passed an empty list then we know that the first argument was blank.
+    if(args->size()==0)
+	args->append(new Argument());
+
     for(unsigned int i=0; i<count; i++)
 	args->append(new Argument());
+
     args->append(arg);
     return args;
 }
@@ -310,7 +315,7 @@ unsigned int SyntaxTreeBuilder::BuildOptionalCommas()
 
 unsigned int SyntaxTreeBuilder::BuildOptionalCommas(unsigned int count)
 {
-    return count+1;
+    return ++count;
 }
 
 Expression* SyntaxTreeBuilder::BuildLiteral()
@@ -425,8 +430,13 @@ QVector<Expression*>* SyntaxTreeBuilder::BuildVector(Expression* exp)
     return result;
 }
 
-QVector<Expression*>* SyntaxTreeBuilder::BuildVector(QVector<Expression*>* exprs,Expression* expr)
+QVector<Expression*>* SyntaxTreeBuilder::BuildVector(QVector<Expression*>* exprs,unsigned int count,Expression* expr)
 {
+    if(exprs->size()==0)
+	exprs->append(new Value());
+
+    for(unsigned int i=0; i<count; i++)
+	exprs->append(new Value());
     exprs->append(expr);
     return exprs;
 }

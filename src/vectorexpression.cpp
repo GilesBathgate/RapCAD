@@ -39,6 +39,7 @@ QVector<Expression*> VectorExpression::getChildren()
 QString VectorExpression::toString()
 {
     QString result;
+    result.append("Vector: ");
     for(int i=0; i<children.size(); i++)
 	result.append(children.at(i)->toString());
 

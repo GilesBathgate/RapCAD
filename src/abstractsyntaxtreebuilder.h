@@ -104,7 +104,7 @@ public:
     virtual Expression* BuildExpression(QVector<Expression*>*)=0;
     virtual QVector<Expression*>* BuildVector()=0;
     virtual QVector<Expression*>* BuildVector(Expression*)=0;
-    virtual QVector<Expression*>* BuildVector(QVector<Expression*>*,Expression*)=0;
+    virtual QVector<Expression*>* BuildVector(QVector<Expression*>*,unsigned int,Expression*)=0;
     virtual Expression* BuildRange(Expression*,Expression*)=0;
     virtual Expression* BuildRange(Expression*,Expression*,Expression*)=0;
     virtual Expression* BuildInvocation(QString*,QVector<Argument*>*)=0;

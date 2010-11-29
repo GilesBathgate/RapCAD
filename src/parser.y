@@ -290,7 +290,7 @@ vector_expression
 	| expression
 	{ $$ = builder->BuildVector($1); }
 	| vector_expression ',' optional_commas expression
-	{ $$ = builder->BuildVector($1,$4); }
+	{ $$ = builder->BuildVector($1,$3,$4); }
 	;
 
 parameters

@@ -300,7 +300,7 @@ QVector<Expression*>* DependencyBuilder::BuildVector(Expression*)
     return NULL;
 }
 
-QVector<Expression*>* DependencyBuilder::BuildVector(QVector<Expression*>*,Expression*)
+QVector<Expression*>* DependencyBuilder::BuildVector(QVector<Expression*>*,unsigned int,Expression*)
 {
     return NULL;
 }
