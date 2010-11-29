@@ -44,11 +44,13 @@
 #include "rangeexpression.h"
 #include "invocation.h"
 #include "returnstatement.h"
+#include "moduleimport.h"
 
 class AbstractSyntaxTreeBuilder
 {
 public:
     virtual ~AbstractSyntaxTreeBuilder(){}
+    virtual void BuildScript(QString*)=0;
     virtual void BuildScript(QVector<Declaration*>*)=0;
     virtual QVector<Declaration*>* BuildDeclarations()=0;
     virtual QVector<Declaration*>* BuildDeclarations(Declaration*)=0;

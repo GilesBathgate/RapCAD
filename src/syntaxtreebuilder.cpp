@@ -29,6 +29,14 @@ SyntaxTreeBuilder::~SyntaxTreeBuilder()
 	delete declarations.at(i);
 }
 
+void SyntaxTreeBuilder::BuildScript(QString* imp)
+{
+    ModuleImport* result = new ModuleImport();
+    result->setImport(*imp);
+    delete imp;
+    declarations.prepend(result);
+}
+
 void SyntaxTreeBuilder::BuildScript(QVector<Declaration*>* decls)
 {
     declarations = *decls;

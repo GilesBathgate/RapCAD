@@ -20,15 +20,23 @@
 #include <QString>
 #include "parser_yacc.h"
 void lexererror();
+void lexerinclude(const char*);
 %}
 
 %option yylineno
 %option noyywrap
 %option nounput
+%x include
+%x use
 %x comment
 D [0-9]
-
+WS [ \t\r\n]
 %%
+"include"{WS}*"<"	BEGIN(include);
+"use"{WS}*"<"		BEGIN(use);
+<include>[^\t\r\n>]+	{ lexerinclude(lexertext); }
+<use>[^\t\r\n>]+	{ parserlval.text = new QString(lexertext); return USE; }
+<include,use>">"	BEGIN(INITIAL);
 "module"		{ return MODULE; }
 "function"		{ return FUNCTION; }
 "true"			{ return TOK_TRUE; }
@@ -40,7 +48,7 @@ D [0-9]
 "else"			{ return ELSE; }
 "for"			{ return FOR; }
 "return"                { return RETURN; }
-[ \t\n\r]+		//ignore whitespace
+{WS}+			//ignore whitespace
 [.:!;#${}(),=*/%?\+-]	{ return lexertext[0]; }
 "<"			{ return '<'; }
 "<="			{ return LE;  }
@@ -74,4 +82,8 @@ D [0-9]
 void lexererror()
 {
     fprintf(stderr,"%d: illegal token %s",lexerlineno,lexertext);
+}
+
+void lexerinclude(const char*)
+{
 }

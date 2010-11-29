@@ -26,6 +26,7 @@ class DependencyBuilder : public AbstractSyntaxTreeBuilder
 public:
     DependencyBuilder();
     ~DependencyBuilder();
+    void BuildScript(QString*);
     void BuildScript(QVector<Declaration*>*);
     QVector<Declaration*>* BuildDeclarations();
     QVector<Declaration*>* BuildDeclarations(Declaration*);

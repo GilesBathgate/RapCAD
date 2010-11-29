@@ -71,7 +71,7 @@ AbstractSyntaxTreeBuilder *builder;
 	class Context* ctx;
 	class Value* var;
 }
-
+%token <text> USE
 %token MODULE FUNCTION
 %token IF ELSE
 %token FOR
@@ -114,6 +114,8 @@ AbstractSyntaxTreeBuilder *builder;
 %%
 input
 	: //empty
+	| USE input
+	{ builder->BuildScript($1); }
 	| declaration_list
 	{ builder->BuildScript($1); }
 	;

@@ -26,6 +26,7 @@ class SyntaxTreeBuilder : public AbstractSyntaxTreeBuilder
 public:
     SyntaxTreeBuilder();
     ~SyntaxTreeBuilder();
+    void BuildScript(QString*);
     void BuildScript(QVector<Declaration*>*);
     QVector<Declaration*>* BuildDeclarations();
     QVector<Declaration*>* BuildDeclarations(Declaration*);
