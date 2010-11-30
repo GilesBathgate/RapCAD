@@ -20,7 +20,9 @@
 #include <QString>
 #include "parser_yacc.h"
 void lexererror();
-void lexerinclude(const char*);
+char* filename;
+void startinclude(const char*);
+void endinclude();
 %}
 
 %option yylineno
@@ -32,11 +34,15 @@ void lexerinclude(const char*);
 D [0-9]
 WS [ \t\r\n]
 %%
-"include"{WS}*"<"	BEGIN(include);
-"use"{WS}*"<"		BEGIN(use);
-<include>[^\t\r\n>]+	{ lexerinclude(lexertext); }
+"include"{WS}*"<"	{ BEGIN(include); }
+<include>[^\t\r\n>]+	{ startinclude(lexertext); }
+<include>">"		{ BEGIN(INITIAL); endinclude(); }
+"use"{WS}*"<"		{ BEGIN(use); }
 <use>[^\t\r\n>]+	{ parserlval.text = new QString(lexertext); return USE; }
-<include,use>">"	BEGIN(INITIAL);
+<use>">"		{ BEGIN(INITIAL); }
+<<EOF>>			{ lexerpop_buffer_state();
+			  if(!YY_CURRENT_BUFFER)
+			    yyterminate(); }
 "module"		{ return MODULE; }
 "function"		{ return FUNCTION; }
 "true"			{ return TOK_TRUE; }
@@ -84,6 +90,21 @@ void lexererror()
     fprintf(stderr,"%d: illegal token %s",lexerlineno,lexertext);
 }
 
-void lexerinclude(const char*)
+void startinclude(const char* s)
 {
+    filename = strdup(s);
+}
+
+void endinclude()
+{
+    FILE* newinput=fopen(filename,"r");
+    if(!newinput)
+	fprintf(stderr,"%d: Can't open input file `%s'.\n",lexerlineno,filename);
+    else
+    {
+	lexerin=newinput;
+	lexerpush_buffer_state(lexer_create_buffer( lexerin, YY_BUF_SIZE ));
+	BEGIN(INITIAL);
+    }
+    free(filename);
 }
