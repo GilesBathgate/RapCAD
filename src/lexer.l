@@ -21,6 +21,7 @@
 #include "parser_yacc.h"
 void lexererror();
 QString filename;
+QString* stringcontents;
 void startinclude(QString);
 void endinclude();
 %}
@@ -67,20 +68,23 @@ WS [ \t\r\n]
 "]"			{ return ']'; }
 {D}+|{D}*\.{D}+|{D}+\.{D}* { parserlval.number = QString(lexertext).toDouble(); return NUMBER; }
 [a-zA-Z0-9_]+		{ parserlval.text = new QString(lexertext); return IDENTIFIER; }
-\"(\\[tnr\"\\]|[^\\"])*\" { QString str(lexertext+1);
-			  str.chop(1);
-			  str=str.replace("\\\\","\\");
-			  str=str.replace("\\\"","\"");
-			  str=str.replace("\\t","\t");
-			  str=str.replace("\\n","\n");
-			  str=str.replace("\\r","\r");
-			  parserlval.text = new QString(str);
-			  return STRING; }
+\"			{ BEGIN(string); stringcontents = new QString(); }
+<string>{
+\\n			{ stringcontents->append('\n'); }
+\\t			{ stringcontents->append('\t'); }
+\\r			{ stringcontents->append('\r'); }
+\\\\			{ stringcontents->append('\\'); }
+\\\"			{ stringcontents->append('"'); }
+[^\\\n\"]+		{ stringcontents->append(lexertext); }
+\"			{ BEGIN(INITIAL); parserlval.text = stringcontents; return STRING; }
+}
 "//"[^\n]*\n?		//ignore one line comments
 "/*"			{ BEGIN(comment); }
-<comment>[^*]*		//ignore anything that's not a '*'
-<comment>"*"+[^*/]*	//ignore '*'s not followed by '/'s
-<comment>"*/"		{ BEGIN(INITIAL); }
+<comment>{
+[^*]*			//ignore anything that's not a '*'
+"*"+[^*/]*		//ignore '*'s not followed by '/'s
+"*/"			{ BEGIN(INITIAL); }
+}
 .			{ lexererror();  }
 %%
 
