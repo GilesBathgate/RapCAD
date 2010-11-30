@@ -20,17 +20,16 @@
 #include <QString>
 #include "parser_yacc.h"
 void lexererror();
-char* filename;
-void startinclude(const char*);
+QString filename;
+void startinclude(QString);
 void endinclude();
 %}
 
 %option yylineno
 %option noyywrap
 %option nounput
-%x include
-%x use
-%x comment
+%x include use
+%x comment string
 D [0-9]
 WS [ \t\r\n]
 %%
@@ -90,21 +89,20 @@ void lexererror()
     fprintf(stderr,"%d: illegal token %s",lexerlineno,lexertext);
 }
 
-void startinclude(const char* s)
+void startinclude(QString s)
 {
-    filename = strdup(s);
+    filename = s;
 }
 
 void endinclude()
 {
-    FILE* newinput=fopen(filename,"r");
+    const char* f = filename.toLocal8Bit();
+    FILE* newinput=fopen(f,"r");
     if(!newinput)
-	fprintf(stderr,"%d: Can't open input file `%s'.\n",lexerlineno,filename);
+	fprintf(stderr,"%d: Can't open input file `%s'.\n",lexerlineno,f);
     else
     {
 	lexerin=newinput;
 	lexerpush_buffer_state(lexer_create_buffer( lexerin, YY_BUF_SIZE ));
-	BEGIN(INITIAL);
     }
-    free(filename);
 }
