@@ -18,29 +18,40 @@
 
 %{
 #include <QString>
+#include <QStack>
+#include <QDir>
 #include "parser_yacc.h"
 void lexererror();
 QString filename;
+QStack<QDir> path_stack;
+bool haspath;
 QString* stringcontents;
-void startinclude(QString);
-void endinclude();
+void includefile();
+void pushstack(QString);
+void popstack();
+void setfilename(QString);
+QDir currentpath();
 %}
 
 %option yylineno
 %option noyywrap
 %option nounput
-%x include use
+%x include use path
 %x comment string
 D [0-9]
 WS [ \t\r\n]
 %%
 "include"{WS}*"<"	{ BEGIN(include); }
-<include>[^\t\r\n>]+	{ startinclude(lexertext); }
-<include>">"		{ BEGIN(INITIAL); endinclude(); }
+<include>{
+[^\t\r\n>]+[\\/]	{ BEGIN(path); pushstack(lexertext); }
+<path>[^\t\r\n>\\/]+	{ setfilename(lexertext); }
+<path>">"		{ BEGIN(INITIAL); includefile(); }
+}
 "use"{WS}*"<"		{ BEGIN(use); }
 <use>[^\t\r\n>]+	{ parserlval.text = new QString(lexertext); return USE; }
 <use>">"		{ BEGIN(INITIAL); }
-<<EOF>>			{ lexerpop_buffer_state();
+<<EOF>>			{ popstack();
+			  lexerpop_buffer_state();
 			  if(!YY_CURRENT_BUFFER)
 			    yyterminate(); }
 "module"		{ return MODULE; }
@@ -93,20 +104,46 @@ void lexererror()
     fprintf(stderr,"%d: illegal token %s",lexerlineno,lexertext);
 }
 
-void startinclude(QString s)
+void pushstack(QString p)
 {
-    filename = s;
+	haspath=true;
+	path_stack.push(QDir(p));
 }
 
-void endinclude()
+void popstack()
 {
-    const char* f = filename.toLocal8Bit();
-    FILE* newinput=fopen(f,"r");
+    if(!path_stack.isEmpty())
+	path_stack.pop();
+}
+
+QDir currentpath()
+{
+    QDir curpath;
+    if(!path_stack.isEmpty())
+	curpath = path_stack.top();
+
+    return curpath;
+}
+
+void setfilename(QString file)
+{
+    if(!haspath)
+	path_stack.push(currentpath());
+    filename = file;
+    haspath=false;
+}
+
+void includefile()
+{
+    QFileInfo finfo(currentpath(),filename);
+    const char* fullpath = finfo.absoluteFilePath().toLocal8Bit();
+
+    FILE* newinput=fopen(fullpath,"r");
     if(!newinput)
-	fprintf(stderr,"%d: Can't open input file `%s'.\n",lexerlineno,f);
+	fprintf(stderr,"%d: Can't open input file `%s'.\n",lexerlineno,fullpath);
     else
     {
 	lexerin=newinput;
-	lexerpush_buffer_state(lexer_create_buffer( lexerin, YY_BUF_SIZE ));
+	lexerpush_buffer_state(lexer_create_buffer(lexerin, YY_BUF_SIZE));
     }
 }
