@@ -21,16 +21,16 @@
 #include <QStack>
 #include <QDir>
 #include "parser_yacc.h"
+
 void lexererror();
-QString filename;
-QStack<QDir> path_stack;
-bool haspath;
-QString* stringcontents;
+void setsourcepath(QDir);
 void includefile();
-void pushstack(QString);
-void popstack();
-void setfilename(QString);
-QDir currentpath();
+
+QString* stringcontents;
+QString filename;
+QString filepath;
+QStack<QDir> path_stack;
+
 %}
 
 %option yylineno
@@ -43,14 +43,14 @@ WS [ \t\r\n]
 %%
 "include"{WS}*"<"	{ BEGIN(include); }
 <include>{
-[^\t\r\n>]+[\\/]	{ BEGIN(path); pushstack(lexertext); }
-<path>[^\t\r\n>\\/]+	{ setfilename(lexertext); }
+[^\t\r\n>]+"/"		{ BEGIN(path); filepath = lexertext; }
+<path>[^\t\r\n>/]+	{ filename = lexertext; }
 <path>">"		{ BEGIN(INITIAL); includefile(); }
 }
 "use"{WS}*"<"		{ BEGIN(use); }
 <use>[^\t\r\n>]+	{ parserlval.text = new QString(lexertext); return USE; }
 <use>">"		{ BEGIN(INITIAL); }
-<<EOF>>			{ popstack();
+<<EOF>>			{ path_stack.pop();
 			  lexerpop_buffer_state();
 			  if(!YY_CURRENT_BUFFER)
 			    yyterminate(); }
@@ -104,46 +104,37 @@ void lexererror()
     fprintf(stderr,"%d: illegal token %s",lexerlineno,lexertext);
 }
 
-void pushstack(QString p)
+void setsourcepath(QDir pth)
 {
-	haspath=true;
-	path_stack.push(QDir(p));
-}
-
-void popstack()
-{
-    if(!path_stack.isEmpty())
-	path_stack.pop();
-}
-
-QDir currentpath()
-{
-    QDir curpath;
-    if(!path_stack.isEmpty())
-	curpath = path_stack.top();
-
-    return curpath;
-}
-
-void setfilename(QString file)
-{
-    if(!haspath)
-	path_stack.push(currentpath());
-    filename = file;
-    haspath=false;
+    path_stack.push(pth);
 }
 
 void includefile()
 {
-    QFileInfo finfo(currentpath(),filename);
-    const char* fullpath = finfo.absoluteFilePath().toLocal8Bit();
+    if(filename.isEmpty())
+	return;
 
-    FILE* newinput=fopen(fullpath,"r");
-    if(!newinput)
-	fprintf(stderr,"%d: Can't open input file `%s'.\n",lexerlineno,fullpath);
-    else
-    {
-	lexerin=newinput;
-	lexerpush_buffer_state(lexer_create_buffer(lexerin, YY_BUF_SIZE));
+    QDir currentpath = path_stack.top();
+    if(filepath.isEmpty()) {
+	path_stack.push(currentpath);
+    } else {
+	QFileInfo dirinfo(currentpath,filepath);
+	path_stack.push(dirinfo.dir());
+	filepath.clear();
     }
+
+    currentpath = path_stack.top();
+    QFileInfo fileinfo(currentpath,filename);
+    filename.clear();
+
+    const char* fullpath = fileinfo.absoluteFilePath().toLocal8Bit();
+    FILE* newinput=fopen(fullpath,"r");
+    if(!newinput) {
+	fprintf(stderr,"%d: Can't open input file `%s'.\n",lexerlineno,fullpath);
+	return;
+    }
+
+    lexerin=newinput;
+    lexerpush_buffer_state(lexer_create_buffer(lexerin, YY_BUF_SIZE));
+
 }

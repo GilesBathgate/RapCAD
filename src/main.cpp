@@ -18,7 +18,7 @@
 
 #include <QtGui/QApplication>
 #include "mainwindow.h"
-extern int parse(const char *,bool);
+extern int parse(QString,bool);
 
 int main(int argc, char *argv[])
 {
@@ -35,12 +35,12 @@ int main(int argc, char *argv[])
 	if(args.at(1)=="-f")
 	{
 	    QString filename = args.at(2);
-	    parse(filename.toAscii(),true);
+	    parse(filename,true);
 	}
 	if(args.at(1)=="-l")
 	{
 	    QString text = args.at(2);
-	    parse(text.toAscii(),false);
+	    parse(text,false);
 	}
     }
     else

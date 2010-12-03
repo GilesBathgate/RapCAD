@@ -22,6 +22,8 @@
 #include <stdio.h>
 #include <QString>
 #include <QVector>
+#include <QDir>
+
 #include "abstractsyntaxtreebuilder.h"
 #include "syntaxtreebuilder.h"
 #include "dependencybuilder.h"
@@ -38,10 +40,6 @@
 #include "context.h"
 #include "value.h"
 
-void parsererror(char const *);
-int parserlex();
-void parse();
-
 extern FILE* lexerin;
 extern int lexerlineno;
 extern int lexerlex(void);
@@ -49,6 +47,11 @@ extern char *lexertext;
 struct yy_buffer_state;
 extern yy_buffer_state* lexer_scan_string(const char *);
 extern void lexer_delete_buffer(yy_buffer_state*);
+extern void setsourcepath(QDir);
+
+void parsererror(char const *);
+int parserlex();
+void parse(QString,bool);
 
 AbstractSyntaxTreeBuilder *builder;
 %}
@@ -375,19 +378,24 @@ void parsererror(char const *s)
 	fprintf(stderr,"%d: %s at %s\n", lexerlineno, s, lexertext);
 }
 
-void parse(const char *input,bool file)
+void parse(QString input,bool file)
 {
 	builder = new SyntaxTreeBuilder();
 
 	if(file)
 	{
-	    lexerin = fopen(input,"r");
+	    QFileInfo fileinfo(input);
+	    setsourcepath(fileinfo.absoluteDir());
+	    const char* fullpath = fileinfo.absoluteFilePath().toLocal8Bit();
+	    lexerin = fopen(fullpath,"r");
 	    parserparse();
 	    fclose(lexerin);
 	}
 	else
 	{
-	    yy_buffer_state* str_buffer = lexer_scan_string(input);
+	    QDir current;
+	    setsourcepath(current);
+	    yy_buffer_state* str_buffer = lexer_scan_string(input.toLocal8Bit());
 	    parserparse();
 	    lexer_delete_buffer(str_buffer);
 	}
