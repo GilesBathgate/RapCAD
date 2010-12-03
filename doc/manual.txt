@@ -1,0 +1,44 @@
+////
+ *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
+ *   Copyright (C) 2010  Giles Bathgate
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+////
+
+RapCAD Manual
+=============
+Giles Bathgate <gilesbathgate.nospam@gmail.com>
+version 0.1
+
+Vector expressions
+------------------
+.Syntax
+******************************
+expression::
+	[ vector_expression ]
+
+vector_expression::
+	expression +
+	vector_expression , expression
+******************************
+
+.Examples
+------------------------------
+a=[,10,10]; //means [undef,10,10]
+b=[10,10]; //means [10,10]
+c=[10,,10]; //means [10,undef,10]
+d=[10,10,]; //syntax error use [10,10,undef] <1>
+------------------------------
+
+<1> Since index out of bounds errors are not desired, RapCAD will treat vectors containing less elements than expected as though the elements exist but are undefined. Thus if we expect a 3D vector, but are given a 2D vector such as [10,10] RapCAD will treat this as [10,10,undef] you can therefore treat [10,10,undef] as synonymous to [10,10] so in the example above you could simply write d=[10,10] if you prefer.
