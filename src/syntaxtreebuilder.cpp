@@ -161,54 +161,54 @@ QVector<Statement*>* SyntaxTreeBuilder::BuildStatements(QVector<Statement*>* stm
     return stmts;
 }
 
-Declaration* SyntaxTreeBuilder::BuildModule(QString* name, QVector<Parameter*>* params, Context* ctx)
+Declaration* SyntaxTreeBuilder::BuildModule(QString* name, QVector<Parameter*>* params, Scope* scp)
 {
     Module* result = new Module();
     result->setName(*name);
     delete name;
     result->setParameters(*params);
     delete params;
-    result->setContext(ctx);
+    result->setScope(scp);
     return result;
 }
 
-Declaration* SyntaxTreeBuilder::BuildFunction(QString* name, QVector<Parameter*>* params, Context* ctx)
+Declaration* SyntaxTreeBuilder::BuildFunction(QString* name, QVector<Parameter*>* params, Scope* scp)
 {
     Function* result = new Function();
     result->setName(*name);
     delete name;
     result->setParameters(*params);
     delete params;
-    result->setContext(ctx);
+    result->setScope(scp);
     return result;
 }
 
-Context* SyntaxTreeBuilder::BuildContext(QVector<Declaration*>* decls)
+Scope* SyntaxTreeBuilder::BuildScope(QVector<Declaration*>* decls)
 {
-    ModuleContext* result = new ModuleContext();
+    ModuleScope* result = new ModuleScope();
     result->setDeclarations(*decls);
     delete decls;
     return result;
 }
 
-Context* SyntaxTreeBuilder::BuildContext(Instance* inst)
+Scope* SyntaxTreeBuilder::BuildScope(Instance* inst)
 {
-    ModuleContext* result = new ModuleContext();
+    ModuleScope* result = new ModuleScope();
     QVector<Declaration*> decls(1,inst);
     result->setDeclarations(decls);
     return result;
 }
 
-Context* SyntaxTreeBuilder::BuildContext(Expression* expr)
+Scope* SyntaxTreeBuilder::BuildScope(Expression* expr)
 {
-    FunctionContext* result = new FunctionContext();
+    FunctionScope* result = new FunctionScope();
     result->setExpression(expr);
     return result;
 }
 
-Context* SyntaxTreeBuilder::BuildContext(QVector<Statement*>* stmts)
+Scope* SyntaxTreeBuilder::BuildScope(QVector<Statement*>* stmts)
 {
-    FunctionContext* result = new FunctionContext();
+    FunctionScope* result = new FunctionScope();
     result->setStatements(*stmts);
     delete stmts;
     return result;

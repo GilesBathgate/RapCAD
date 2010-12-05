@@ -26,10 +26,10 @@ PrettyPrinter::~PrettyPrinter()
 {
 }
 
-void PrettyPrinter::visit(ModuleContext * ctx)
+void PrettyPrinter::visit(ModuleScope * scp)
 {
-    result.append("\nContext: (\n");
-    QVector<Declaration*> declarations = ctx->getDeclarations();
+    result.append("\nScope: (\n");
+    QVector<Declaration*> declarations = scp->getDeclarations();
 	for(int i=0; i<declarations.size(); i++)
 	{
 	    declarations.at(i)->accept(this);
@@ -83,7 +83,7 @@ void PrettyPrinter::visit(Module* mod)
     for(int i=0; i<parameters.size(); i++)
 	parameters.at(i)->accept(this);
 
-    mod->getContext()->accept(this);
+    mod->getScope()->accept(this);
     result.append("}\n");
 }
 
@@ -98,17 +98,17 @@ void PrettyPrinter::visit(Function * func)
 	    parameters.at(i)->accept(this);
 
     result.append(" =\n");
-    func->getContext()->accept(this);
+    func->getScope()->accept(this);
     result.append("\n");
 }
 
-void PrettyPrinter::visit(FunctionContext * ctx)
+void PrettyPrinter::visit(FunctionScope * scp)
 {
-    QVector<Statement*> statements = ctx->getStatements();
+    QVector<Statement*> statements = scp->getStatements();
     for(int i=0; i<statements.size(); i++)
 	statements.at(i)->accept(this);
 
-    Expression* expression = ctx->getExpression();
+    Expression* expression = scp->getExpression();
     if(expression)
 	expression->accept(this);
 }

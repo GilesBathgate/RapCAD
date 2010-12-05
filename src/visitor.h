@@ -24,10 +24,10 @@ class Visitor
 public:
     virtual ~Visitor() {}
     virtual void visit(class Module*)=0;
-    virtual void visit(class ModuleContext*)=0;
+    virtual void visit(class ModuleScope*)=0;
     virtual void visit(class Instance*)=0;
     virtual void visit(class Function*)=0;
-    virtual void visit(class FunctionContext*)=0;
+    virtual void visit(class FunctionScope*)=0;
     virtual void visit(class CompoundStatement*)=0;
     virtual void visit(class IfElseStatement*)=0;
     virtual void visit(class ForStatement*)=0;

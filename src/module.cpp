@@ -20,7 +20,7 @@
 
 Module::Module()
 {
-    context=NULL;
+    scope=NULL;
 }
 
 Module::~Module()
@@ -28,7 +28,7 @@ Module::~Module()
     for(int i=0; i<parameters.size(); i++)
 	delete parameters.at(i);
 
-    delete context;
+    delete scope;
 }
 
 QString Module::getName()
@@ -52,14 +52,14 @@ void Module::setParameters(QVector<Parameter*> params)
     this->parameters = params;
 }
 
-void Module::setContext(Context * ctx)
+void Module::setScope(Scope * scp)
 {
-    this->context = ctx;
+    this->scope = scp;
 }
 
-Context* Module::getContext()
+Scope* Module::getScope()
 {
-    return this->context;
+    return this->scope;
 }
 
 void Module::accept(Visitor *v)

@@ -119,32 +119,32 @@ QVector<Statement*>* DependencyBuilder::BuildStatements(QVector<Statement*>*,Sta
     return NULL;
 }
 
-Declaration* DependencyBuilder::BuildModule(QString*, QVector<Parameter*>*, Context*)
+Declaration* DependencyBuilder::BuildModule(QString*, QVector<Parameter*>*, Scope*)
 {
     return NULL;
 }
 
-Declaration* DependencyBuilder::BuildFunction(QString*,QVector<Parameter*>*,Context*)
+Declaration* DependencyBuilder::BuildFunction(QString*,QVector<Parameter*>*,Scope*)
 {
     return NULL;
 }
 
-Context* DependencyBuilder::BuildContext(QVector<Declaration*>*)
+Scope* DependencyBuilder::BuildScope(QVector<Declaration*>*)
 {
     return NULL;
 }
 
-Context* DependencyBuilder::BuildContext(Instance*)
+Scope* DependencyBuilder::BuildScope(Instance*)
 {
     return NULL;
 }
 
-Context* DependencyBuilder::BuildContext(Expression*)
+Scope* DependencyBuilder::BuildScope(Expression*)
 {
     return NULL;
 }
 
-Context* DependencyBuilder::BuildContext(QVector<Statement*>*)
+Scope* DependencyBuilder::BuildScope(QVector<Statement*>*)
 {
     return NULL;
 }

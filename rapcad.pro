@@ -42,14 +42,14 @@ SOURCES += src/main.cpp\
     src/literal.cpp \
     src/value.cpp \
     src/declaration.cpp \
-    src/context.cpp \
-    src/modulecontext.cpp \
+    src/scope.cpp \
+    src/modulescope.cpp \
     src/dependencybuilder.cpp \
     src/instance.cpp \
     src/argument.cpp \
     src/statement.cpp \
     src/function.cpp \
-    src/functioncontext.cpp \
+    src/functionscope.cpp \
     src/compoundstatement.cpp \
     src/assignstatement.cpp \
     src/vectorexpression.cpp \
@@ -72,15 +72,15 @@ HEADERS  += src/mainwindow.h \
     src/literal.h \
     src/value.h \
     src/declaration.h \
-    src/context.h \
-    src/modulecontext.h \
+    src/scope.h \
+    src/modulescope.h \
     src/abstractsyntaxtreebuilder.h \
     src/dependencybuilder.h \
     src/instance.h \
     src/argument.h \
     src/statement.h \
     src/function.h \
-    src/functioncontext.h \
+    src/functionscope.h \
     src/compoundstatement.h \
     src/assignstatement.h \
     src/vectorexpression.h \

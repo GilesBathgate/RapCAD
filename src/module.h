@@ -23,7 +23,7 @@
 #include <QVector>
 #include "parameter.h"
 #include "declaration.h"
-#include "context.h"
+#include "scope.h"
 
 class Module : public Declaration
 {
@@ -34,13 +34,13 @@ public:
      void setName(QString);
      QVector<Parameter*> getParameters();
      void setParameters(QVector<Parameter*>);
-     Context* getContext();
-     void setContext(Context*);
+     Scope* getScope();
+     void setScope(Scope*);
      void accept(Visitor *v);
 private:
     QString name;
     QVector<Parameter*> parameters;
-    Context* context;
+    Scope* scope;
 };
 
 #endif // MODULE_H

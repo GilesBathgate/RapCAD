@@ -20,14 +20,14 @@
 #define MODULECONTEXT_H
 
 #include <QVector>
-#include "context.h"
+#include "scope.h"
 #include "declaration.h"
 
-class ModuleContext : public Context
+class ModuleScope : public Scope
 {
 public:
-    ModuleContext();
-    ~ModuleContext();
+    ModuleScope();
+    ~ModuleScope();
     QVector<Declaration*> getDeclarations();
     void setDeclarations(QVector<Declaration*>);
     void accept(Visitor *v);

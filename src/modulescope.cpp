@@ -16,27 +16,29 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FUNCTIONCONTEXT_H
-#define FUNCTIONCONTEXT_H
+#include "modulescope.h"
 
-#include <QVector>
-#include "context.h"
-#include "expression.h"
-#include "statement.h"
-
-class FunctionContext : public Context
+ModuleScope::ModuleScope()
 {
-public:
-    FunctionContext();
-    ~FunctionContext();
-    void setExpression(Expression*);
-    Expression* getExpression();
-    void setStatements(QVector<Statement*>);
-    QVector<Statement*> getStatements();
-    void accept(Visitor *v);
-private:
-    Expression* expression;
-    QVector<Statement*> statements;
-};
+}
 
-#endif // FUNCTIONCONTEXT_H
+ModuleScope::~ModuleScope()
+{
+    for(int i=0; i<declarations.size(); i++)
+	delete declarations.at(i);
+}
+
+ void ModuleScope::setDeclarations(QVector<Declaration*> decls)
+ {
+     this->declarations = decls;
+ }
+
+ QVector<Declaration*> ModuleScope::getDeclarations()
+ {
+     return this->declarations;
+ }
+
+ void ModuleScope::accept(Visitor *v)
+ {
+     v->visit(this);
+ }

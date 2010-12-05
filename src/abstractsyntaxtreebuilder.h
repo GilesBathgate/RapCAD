@@ -29,9 +29,9 @@
 #include "ternaryexpression.h"
 #include "unaryexpression.h"
 #include "declaration.h"
-#include "context.h"
-#include "modulecontext.h"
-#include "functioncontext.h"
+#include "scope.h"
+#include "modulescope.h"
+#include "functionscope.h"
 #include "instance.h"
 #include "argument.h"
 #include "function.h"
@@ -69,12 +69,12 @@ public:
     virtual QVector<Statement*>* BuildStatements(Statement*)=0;
     virtual QVector<Statement*>* BuildStatements(QVector<Statement*>*)=0;
     virtual QVector<Statement*>* BuildStatements(QVector<Statement*>*,Statement*)=0;
-    virtual Declaration* BuildModule(QString*,QVector<Parameter*>*,Context*)=0;
-    virtual Declaration* BuildFunction(QString*,QVector<Parameter*>*,Context*)=0;
-    virtual Context* BuildContext(QVector<Declaration*>*)=0;
-    virtual Context* BuildContext(Instance*)=0;
-    virtual Context* BuildContext(Expression*)=0;
-    virtual Context* BuildContext(QVector<Statement*>*)=0;
+    virtual Declaration* BuildModule(QString*,QVector<Parameter*>*,Scope*)=0;
+    virtual Declaration* BuildFunction(QString*,QVector<Parameter*>*,Scope*)=0;
+    virtual Scope* BuildScope(QVector<Declaration*>*)=0;
+    virtual Scope* BuildScope(Instance*)=0;
+    virtual Scope* BuildScope(Expression*)=0;
+    virtual Scope* BuildScope(QVector<Statement*>*)=0;
     virtual Instance* BuildInstance(Instance*)=0;
     virtual Instance* BuildInstance(Instance::Type_e,Instance*)=0;
     virtual Instance* BuildInstance(QString*,QVector<Argument*>*)=0;

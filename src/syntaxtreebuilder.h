@@ -45,12 +45,12 @@ public:
     QVector<Statement*>* BuildStatements(Statement*);
     QVector<Statement*>* BuildStatements(QVector<Statement*>*);
     QVector<Statement*>* BuildStatements(QVector<Statement*>*,Statement*);
-    Declaration* BuildModule(QString*,QVector<Parameter*>*,Context*);
-    Declaration* BuildFunction(QString*,QVector<Parameter*>*,Context*);
-    Context* BuildContext(QVector<Declaration*>*);
-    Context* BuildContext(Instance*);
-    Context* BuildContext(Expression*);
-    Context* BuildContext(QVector<Statement*>*);
+    Declaration* BuildModule(QString*,QVector<Parameter*>*,Scope*);
+    Declaration* BuildFunction(QString*,QVector<Parameter*>*,Scope*);
+    Scope* BuildScope(QVector<Declaration*>*);
+    Scope* BuildScope(Instance*);
+    Scope* BuildScope(Expression*);
+    Scope* BuildScope(QVector<Statement*>*);
     Instance* BuildInstance(Instance*);
     Instance* BuildInstance(Instance::Type_e,Instance*);
     Instance* BuildInstance(QString*,QVector<Argument*>*);

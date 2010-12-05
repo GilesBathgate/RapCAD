@@ -16,42 +16,12 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "functioncontext.h"
+#include "scope.h"
 
-FunctionContext::FunctionContext()
+Scope::Scope()
 {
-    expression=NULL;
 }
 
-FunctionContext::~FunctionContext()
+Scope::~Scope()
 {
-    for(int i=0; i<statements.size(); i++)
-	delete statements.at(i);
-
-    delete expression;
-}
-
-void FunctionContext::setExpression(Expression * exp)
-{
-    this->expression = exp;
-}
-
-Expression* FunctionContext::getExpression()
-{
-    return this->expression;
-}
-
-void FunctionContext::setStatements(QVector<Statement*> stmts)
-{
-    this->statements = stmts;
-}
-
-QVector<Statement*> FunctionContext::getStatements()
-{
-    return this->statements;
-}
-
-void FunctionContext::accept(Visitor *v)
-{
-    v->visit(this);
 }

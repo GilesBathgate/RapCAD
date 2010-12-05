@@ -37,7 +37,7 @@
 #include "ifelsestatement.h"
 #include "forstatement.h"
 #include "instance.h"
-#include "context.h"
+#include "scope.h"
 #include "value.h"
 
 extern FILE* lexerin;
@@ -71,7 +71,7 @@ AbstractSyntaxTreeBuilder *builder;
 	class Expression* expr;
 	QVector<Expression*>* exprs;
 	class Instance* inst;
-	class Context* ctx;
+	class Scope* scp;
 	class Value* var;
 }
 %token <text> USE
@@ -108,7 +108,7 @@ AbstractSyntaxTreeBuilder *builder;
 %type <args> arguments
 %type <expr> expression
 %type <exprs> vector_expression
-%type <ctx> module_context function_context
+%type <scp> module_scope function_scope
 %type <inst> module_instance single_instance
 %type <var> variable
 %type <stmt> statement single_statement assign_statement return_statement ifelse_statement for_statement
@@ -140,24 +140,24 @@ compound_declaration
 declaration
 	: single_statement
 	{ $$ = builder->BuildStatement($1); }
-	| MODULE IDENTIFIER '(' parameters ')' module_context
+	| MODULE IDENTIFIER '(' parameters ')' module_scope
 	{ $$ = builder->BuildModule($2,$4,$6); }
-	| FUNCTION IDENTIFIER '(' parameters ')' function_context
+	| FUNCTION IDENTIFIER '(' parameters ')' function_scope
 	{ $$ = builder->BuildFunction($2,$4,$6); }
 	;
 
-module_context
+module_scope
 	: compound_declaration
-	{ $$ = builder->BuildContext($1); }
+	{ $$ = builder->BuildScope($1); }
 	| module_instance
-	{ $$ = builder->BuildContext($1); }
+	{ $$ = builder->BuildScope($1); }
 	;
 
-function_context
+function_scope
 	: '=' expression ';'
-	{ $$ = builder->BuildContext($2); }
+	{ $$ = builder->BuildScope($2); }
 	| compound_statement
-	{ $$ = builder->BuildContext($1); }
+	{ $$ = builder->BuildScope($1); }
 	;
 
 statement

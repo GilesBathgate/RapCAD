@@ -16,17 +16,27 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CONTEXT_H
-#define CONTEXT_H
+#ifndef FUNCTIONCONTEXT_H
+#define FUNCTIONCONTEXT_H
 
-#include <QString>
+#include <QVector>
+#include "scope.h"
+#include "expression.h"
 #include "statement.h"
 
-class Context : public Statement
+class FunctionScope : public Scope
 {
 public:
-    Context();
-    virtual ~Context();
+    FunctionScope();
+    ~FunctionScope();
+    void setExpression(Expression*);
+    Expression* getExpression();
+    void setStatements(QVector<Statement*>);
+    QVector<Statement*> getStatements();
+    void accept(Visitor *v);
+private:
+    Expression* expression;
+    QVector<Statement*> statements;
 };
 
-#endif // CONTEXT_H
+#endif // FUNCTIONCONTEXT_H

@@ -17,11 +17,11 @@
  */
 
 #include "function.h"
-#include "functioncontext.h"
+#include "functionscope.h"
 
 Function::Function()
 {
-    context=NULL;
+    scope=NULL;
 }
 
 Function::~Function()
@@ -29,7 +29,7 @@ Function::~Function()
     for(int i=0; i<parameters.size(); i++)
 	delete parameters.at(i);
 
-    delete context;
+    delete scope;
 }
 
 QString Function::getName()
@@ -53,14 +53,14 @@ void Function::setParameters(QVector<Parameter*> params)
     this->parameters = params;
 }
 
-void Function::setContext(Context * ctx)
+void Function::setScope(Scope * scp)
 {
-    this->context = ctx;
+    this->scope = scp;
 }
 
-Context* Function::getContext()
+Scope* Function::getScope()
 {
-    return this->context;
+    return this->scope;
 }
 
 void Function::accept(Visitor *v)

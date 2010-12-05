@@ -22,10 +22,10 @@
 #include "visitor.h"
 #include "declaration.h"
 #include "module.h"
-#include "modulecontext.h"
+#include "modulescope.h"
 #include "instance.h"
 #include "function.h"
-#include "functioncontext.h"
+#include "functionscope.h"
 #include "compoundstatement.h"
 #include "ifelsestatement.h"
 #include "forstatement.h"
@@ -50,10 +50,10 @@ public:
     PrettyPrinter();
     ~PrettyPrinter();
     void visit(Module*);
-    void visit(ModuleContext*);
+    void visit(ModuleScope*);
     void visit(Instance*);
     void visit(Function*);
-    void visit(FunctionContext*);
+    void visit(FunctionScope*);
     void visit(CompoundStatement*);
     void visit(IfElseStatement*);
     void visit(ForStatement*);
