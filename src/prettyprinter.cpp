@@ -20,22 +20,26 @@
 
 PrettyPrinter::PrettyPrinter()
 {
+    indent=0;
 }
 
 PrettyPrinter::~PrettyPrinter()
 {
 }
 
+void PrettyPrinter::createIndent()
+{
+    for(unsigned int i=0; i<indent; i++)
+	result.append(" ");
+}
+
 void PrettyPrinter::visit(ModuleScope * scp)
 {
-    result.append("\nScope: (\n");
+    ++indent;
     QVector<Declaration*> declarations = scp->getDeclarations();
 	for(int i=0; i<declarations.size(); i++)
-	{
-	    declarations.at(i)->accept(this);
-	    result.append("\n");
-	}
-    result.append(")\n");
+	    { createIndent(); declarations.at(i)->accept(this); }
+    --indent;
 }
 
 void PrettyPrinter::visit(Instance * inst)
@@ -66,25 +70,27 @@ void PrettyPrinter::visit(Instance * inst)
 	arguments.at(i)->accept(this);
 
     QVector<Statement*> children = inst->getChildren();
-    result.append("Children: ( ");
+    result.append("\n");
+    createIndent(); result.append("Children: {");
     for(int i=0; i<children.size(); i++)
-	children.at(i)->accept(this);
-
-    result.append(")");
+	{ createIndent(); children.at(i)->accept(this); }
+    result.append("\n");
+    createIndent(); result.append("}");
 }
 
 void PrettyPrinter::visit(Module* mod)
 {
     result.append("Module: ");
     result.append(mod->getName());
-    result.append(" {\n");
-    result.append("Parameters: ");
+    result.append(" Parameters: (");
     QVector<Parameter*> parameters = mod->getParameters();
     for(int i=0; i<parameters.size(); i++)
 	parameters.at(i)->accept(this);
 
+    result.append(") {\n");
     mod->getScope()->accept(this);
-    result.append("}\n");
+    result.append("\n");
+    createIndent(); result.append("}\n");
 }
 
 void PrettyPrinter::visit(Function * func)
@@ -174,7 +180,7 @@ void PrettyPrinter::visit(BinaryExpression * exp)
 
 void PrettyPrinter::visit(Argument * arg)
 {
-    result.append("Argument: ");
+    result.append("Argument: (");
     Value* variable = arg->getVariable();
     if(variable)
 	variable->accept(this);
@@ -183,6 +189,7 @@ void PrettyPrinter::visit(Argument * arg)
     Expression* expression = arg->getExpression();
     if(expression)
 	expression->accept(this);
+    result.append(")");
 }
 
 void PrettyPrinter::visit(AssignStatement * stmt)

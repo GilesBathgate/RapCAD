@@ -73,7 +73,9 @@ public:
 
     QString getResult();
 private:
+    void createIndent();
     QString result;
+    unsigned int indent;
 };
 
 #endif // PRETTYPRINTER_H
