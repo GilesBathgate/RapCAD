@@ -31,8 +31,10 @@ public:
     ~ForStatement();
 
     void setArguments(QVector<Argument*>);
+    QVector<Argument*> getArguments();
     void setStatement(Statement*);
-    QString toString();
+    Statement* getStatement();
+    void accept(Visitor *v);
 private:
     QVector<Argument*> arguments;
     Statement* statement;

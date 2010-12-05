@@ -37,9 +37,19 @@ void RangeExpression::setStart(Expression* srt)
     this->start = srt;
 }
 
+Expression* RangeExpression::getStart()
+{
+    return this->start;
+}
+
 void RangeExpression::setFinish(Expression* fin)
 {
     this->finish = fin;
+}
+
+Expression* RangeExpression::getFinish()
+{
+    return this->finish;
 }
 
 void RangeExpression::setStep(Expression* stp)
@@ -47,18 +57,12 @@ void RangeExpression::setStep(Expression* stp)
     this->step = stp;
 }
 
-QString RangeExpression::toString()
+Expression* RangeExpression::getStep()
 {
-    QString result;
-    result.append("Range: [ ");
-    if(start)
-	result.append(start->toString());
+    return this->step;
+}
 
-    if(step)
-	result.append(step->toString());
-
-    if(finish)
-	result.append(finish->toString());
-    result.append("] ");
-    return result;
+void RangeExpression::accept(Visitor *v)
+{
+    v->visit(this);
 }

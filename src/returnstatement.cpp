@@ -15,11 +15,12 @@ void ReturnStatement::setExpression(Expression* exp)
     this->expression = exp;
 }
 
-QString ReturnStatement::toString()
+Expression* ReturnStatement::getExpression()
 {
-    QString result;
-    result.append("Return: ");
-    if(this->expression)
-        result.append(this->expression->toString());
-    return result;
+    return this->expression;
+}
+
+void ReturnStatement::accept(Visitor *v)
+{
+    v->visit(this);
 }

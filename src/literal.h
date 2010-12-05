@@ -29,8 +29,8 @@ public:
     void setValue(bool);
     void setValue(double);
     void setValue(QString);
-    QString toString();
-
+    QString getValueString();
+    void accept(Visitor *v);
 private:
     enum Type_e
     {

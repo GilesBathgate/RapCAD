@@ -11,7 +11,8 @@ public:
     ReturnStatement();
     ~ReturnStatement();
     void setExpression(Expression*);
-    QString toString();
+    Expression* getExpression();
+    void accept(Visitor *v);
 private:
     Expression* expression;
 };

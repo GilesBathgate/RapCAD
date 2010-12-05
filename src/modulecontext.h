@@ -30,7 +30,7 @@ public:
     ~ModuleContext();
     QVector<Declaration*> getDeclarations();
     void setDeclarations(QVector<Declaration*>);
-    QString toString();
+    void accept(Visitor *v);
 private:
     QVector<Declaration*> declarations;
 };

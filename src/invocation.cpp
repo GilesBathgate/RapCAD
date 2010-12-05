@@ -13,19 +13,22 @@ void Invocation::setName(QString name)
     this->name = name;
 }
 
+QString Invocation::getName()
+{
+    return this->name;
+}
+
 void Invocation::setArguments(QVector<Argument*> args)
 {
     this->arguments = args;
 }
 
-QString Invocation::toString()
+QVector<Argument*> Invocation::getArguments()
 {
-    QString result;
-    result.append("Invocation: ");
-    result.append(name);
-    result.append(" (");
-    for(int i=0; i<this->arguments.size(); i++)
-        result.append(this->arguments.at(i)->toString());
-    result.append(")\n");
-    return result;
+    return this->arguments;
+}
+
+void Invocation::accept(Visitor *v)
+{
+    v->visit(this);
 }

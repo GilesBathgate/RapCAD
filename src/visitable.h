@@ -16,27 +16,17 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ARGUMENT_H
-#define ARGUMENT_H
+#ifndef VISITABLE_H
+#define VISITABLE_H
 
-#include <QString>
-#include "expression.h"
-#include "value.h"
-#include "visitable.h"
+#include "visitor.h"
 
-class Argument : public Visitable
+class Visitable
 {
 public:
-    Argument();
-    ~Argument();
-    void setVariable(Value*);
-    Value* getVariable();
-    void setExpression(Expression*);
-    Expression* getExpression();
-    void accept(Visitor *v);
-private:
-    Value* variable;
-    Expression* expression;
+    virtual ~Visitable(){}
+    virtual void accept(Visitor* v)=0;
+
 };
 
-#endif // ARGUMENT_H
+#endif // VISITABLE_H

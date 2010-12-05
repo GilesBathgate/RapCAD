@@ -33,7 +33,7 @@ public:
     Expression* getExpression();
     void setStatements(QVector<Statement*>);
     QVector<Statement*> getStatements();
-    QString toString();
+    void accept(Visitor *v);
 private:
     Expression* expression;
     QVector<Statement*> statements;

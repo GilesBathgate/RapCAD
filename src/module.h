@@ -36,7 +36,7 @@ public:
      void setParameters(QVector<Parameter*>);
      Context* getContext();
      void setContext(Context*);
-     QString toString();
+     void accept(Visitor *v);
 private:
     QString name;
     QVector<Parameter*> parameters;

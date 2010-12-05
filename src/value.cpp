@@ -47,24 +47,7 @@ Value::Type_e Value::getType()
     return this->type;
 }
 
-QString Value::toString()
+void Value::accept(Visitor *v)
 {
-    QString result;
-    switch(type)
-    {
-    case Const:
-        result.append("Constant: ");
-	break;
-    case Param:
-        result.append("Parametric: ");
-	break;
-    default:
-        result.append("Variable: ");
-	break;
-    }
-    if(type==Special)
-	result.append("$");
-    result.append(this->name);
-    result.append(" ");
-    return result;
+    v->visit(this);
 }

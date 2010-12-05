@@ -31,12 +31,12 @@ void ModuleImport::setImport(QString imp)
     this->import = imp;
 }
 
-QString ModuleImport::toString()
+QString ModuleImport::getImport()
 {
-    QString result;
-    result.append("Use: <");
-    result.append(this->import);
-    result.append(">\n");
+    return this->import;
+}
 
-    return result;
+void ModuleImport::accept(Visitor *v)
+{
+    v->visit(this);
 }

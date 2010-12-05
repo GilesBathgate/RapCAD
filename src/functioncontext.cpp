@@ -51,14 +51,7 @@ QVector<Statement*> FunctionContext::getStatements()
     return this->statements;
 }
 
-QString FunctionContext::toString()
+void FunctionContext::accept(Visitor *v)
 {
-    QString result;
-    for(int i=0; i<statements.size(); i++)
-	result.append(statements.at(i)->toString());
-
-    if(expression)
-	result.append(expression->toString());
-
-    return result;
+    v->visit(this);
 }

@@ -30,7 +30,7 @@ public:
     void setLeft(Expression*);
     Expression* getRight();
     void setRight(Expression*);
-    QString toString();
+    void accept(Visitor *v);
 private:
     Expression* left;
     Expression* right;

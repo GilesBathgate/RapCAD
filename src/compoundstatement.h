@@ -29,8 +29,7 @@ public:
     ~CompoundStatement();
     void setChildren(QVector<Statement*>);
     QVector<Statement*> getChildren();
-
-    QString toString();
+    void accept(Visitor *v);
 private:
     QVector<Statement*> children;
 };

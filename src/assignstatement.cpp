@@ -50,16 +50,7 @@ Expression* AssignStatement::getExpression()
     return this->expression;
 }
 
-QString AssignStatement::toString()
+void AssignStatement::accept(Visitor *v)
 {
-    QString result;
-    result.append("Assign: ");
-
-    if(value)
-	result.append(value->toString());
-
-    if(expression)
-	result.append(expression->toString());
-
-    return result;
+    v->visit(this);
 }

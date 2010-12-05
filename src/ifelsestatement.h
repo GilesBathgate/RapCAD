@@ -29,11 +29,12 @@ public:
     IfElseStatement();
     ~IfElseStatement();
     void setExpression(Expression*);
-
+    Expression* getExpression();
     void setTrueStatement(Statement*);
-
+    Statement* getTrueStatement();
     void setFalseStatement(Statement*);
-    QString toString();
+    Statement* getFalseStatement();
+    void accept(Visitor *v);
 private:
     Expression* expression;
     Statement* trueStatement;

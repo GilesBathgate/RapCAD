@@ -38,12 +38,7 @@ QVector<Statement*> CompoundStatement::getChildren()
     return this->children;
 }
 
-QString CompoundStatement::toString()
+void CompoundStatement::accept(Visitor *v)
 {
-    QString result;
-    for(int i=0; i<children.size(); i++)
-	result.append(children.at(i)->toString());
-
-    return result;
-
+    v->visit(this);
 }

@@ -28,9 +28,12 @@ public:
     RangeExpression();
     ~RangeExpression();
     void setStart(Expression*);
+    Expression* getStart();
     void setFinish(Expression*);
+    Expression* getFinish();
     void setStep(Expression*);
-    QString toString();
+    Expression* getStep();
+    void accept(Visitor *v);
 private:
     Expression* start;
     Expression* finish;

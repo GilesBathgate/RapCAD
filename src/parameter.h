@@ -20,8 +20,9 @@
 #define PARAMETER_H
 #include <QString>
 #include "expression.h"
+#include "visitable.h"
 
-class Parameter
+class Parameter : public Visitable
 {
 public:
     Parameter();
@@ -30,7 +31,7 @@ public:
     void setName(QString);
     Expression* getExpression();
     void setExpression(Expression*);
-    QString toString();
+    void accept(Visitor *v);
 private:
     QString name;
     Expression* expression;

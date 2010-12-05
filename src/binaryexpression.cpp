@@ -30,19 +30,6 @@ BinaryExpression::~BinaryExpression()
     delete right;
 }
 
-QString BinaryExpression::toString()
-{
-    QString result;
-    result.append("Expression: (");
-    result.append(this->left->toString());
-    result.append("Operator: ");
-    result.append(this->getOpString());
-    result.append(" ");
-    result.append(this->right->toString());
-    result.append(") ");
-    return result;
-}
-
 Expression* BinaryExpression::getLeft()
 {
     return this->left;
@@ -61,4 +48,9 @@ Expression* BinaryExpression::getRight()
 void BinaryExpression::setRight(Expression * right)
 {
     this->right = right;
+}
+
+void BinaryExpression::accept(Visitor *v)
+{
+    v->visit(this);
 }

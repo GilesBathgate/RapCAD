@@ -27,7 +27,6 @@ class Context : public Statement
 public:
     Context();
     virtual ~Context();
-    virtual QString toString()=0;
 };
 
 #endif // CONTEXT_H

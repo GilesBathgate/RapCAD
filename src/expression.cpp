@@ -26,11 +26,6 @@ Expression::~Expression()
 {
 }
 
-QString Expression::toString()
-{
-    return "Unknown";
-}
-
 QString Expression::getOpString()
 {
     QString result;

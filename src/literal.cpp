@@ -26,31 +26,6 @@ Literal::~Literal()
 {
 }
 
-QString Literal::toString()
-{
-    QString result;
-    result.append("Literal: ");
-    QString str;
-    switch(this->type)
-    {
-    case Literal::Boolean:
-	if(this->value.Boolean)
-	    str="true";
-	else
-	    str="false";
-	break;
-    case Literal::Number:
-	str=QString("%1").arg(this->value.Number);
-	break;
-    case Literal::String:
-	str=value_text;
-	break;
-    }
-    result.append(str);
-    result.append(" ");
-    return result;
-}
-
 void Literal::setValue(bool value)
 {
     this->type = Literal::Boolean;
@@ -67,4 +42,31 @@ void Literal::setValue(QString value)
 {
     this->type = Literal::String;
     this->value_text = value;
+}
+
+QString Literal::getValueString()
+{
+    QString result;
+    switch(this->type)
+    {
+    case Boolean:
+	if(this->value.Boolean)
+	    result="true";
+	else
+	    result="false";
+	break;
+    case Number:
+	result=QString("%1").arg(this->value.Number);
+	break;
+    case String:
+	result=value_text;
+	break;
+    }
+
+    return result;
+}
+
+void Literal::accept(Visitor *v)
+{
+    v->visit(this);
 }

@@ -50,16 +50,7 @@ Expression* Argument::getExpression()
     return this->expression;
 }
 
-QString Argument::toString()
+void Argument::accept(Visitor *v)
 {
-    QString result;
-    result.append("Argument: ");
-    if(variable)
-	result.append(this->variable->toString());
-
-    result.append(" ");
-    if(expression)
-	result.append(this->expression->toString());
-
-    return result;
+    v->visit(this);
 }

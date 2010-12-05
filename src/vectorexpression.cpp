@@ -36,12 +36,7 @@ QVector<Expression*> VectorExpression::getChildren()
     return this->children;
 }
 
-QString VectorExpression::toString()
+void VectorExpression::accept(Visitor *v)
 {
-    QString result;
-    result.append("Vector: ");
-    for(int i=0; i<children.size(); i++)
-	result.append(children.at(i)->toString());
-
-    return result;
+    v->visit(this);
 }

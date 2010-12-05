@@ -37,9 +37,19 @@ void IfElseStatement::setExpression(Expression* expr)
     this->expression = expr;
 }
 
+Expression* IfElseStatement::getExpression()
+{
+    return this->expression;
+}
+
 void IfElseStatement::setTrueStatement(Statement* stmt)
 {
     this->trueStatement = stmt;
+}
+
+Statement* IfElseStatement::getTrueStatement()
+{
+    return this->trueStatement;
 }
 
 void IfElseStatement::setFalseStatement(Statement* stmt)
@@ -47,23 +57,12 @@ void IfElseStatement::setFalseStatement(Statement* stmt)
     this->falseStatement = stmt;
 }
 
-QString IfElseStatement::toString()
+Statement* IfElseStatement::getFalseStatement()
 {
-    QString result;
-    result.append("If: (");
-    if(expression)
-	result.append(expression->toString());
-    result.append(") ");
+    return this->falseStatement;
+}
 
-    if(trueStatement)
-	result.append(trueStatement->toString());
-
-    if(falseStatement)
-    {
-	result.append("Else: ");
-	result.append(falseStatement->toString());
-    }
-
-    return result;
-
+void IfElseStatement::accept(Visitor *v)
+{
+    v->visit(this);
 }

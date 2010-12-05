@@ -32,21 +32,6 @@ Function::~Function()
     delete context;
 }
 
-QString Function::toString()
-{
-    QString result;
-    result.append("Function: ");
-    result.append(this->name);
-    result.append("\n");
-    result.append("Parameters: ");
-    for(int i=0; i<parameters.size(); i++)
-	    result.append(parameters.at(i)->toString());
-    result.append(" =\n");
-    result.append(context->toString());
-    result.append("\n");
-    return result;
-}
-
 QString Function::getName()
 {
     return this->name;
@@ -71,4 +56,14 @@ void Function::setParameters(QVector<Parameter*> params)
 void Function::setContext(Context * ctx)
 {
     this->context = ctx;
+}
+
+Context* Function::getContext()
+{
+    return this->context;
+}
+
+void Function::accept(Visitor *v)
+{
+    v->visit(this);
 }

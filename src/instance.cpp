@@ -62,43 +62,17 @@ void Instance::setType(Type_e t)
     this->type = t;
 }
 
+Instance::Type_e Instance::getType()
+{
+    return this->type;
+}
+
 QVector <Statement*> Instance::getChildren()
 {
     return this->children;
 }
 
-QString Instance::toString()
+void Instance::accept(Visitor *v)
 {
-    QString result;
-    switch(type)
-    {
-    case Root:
-	result.append("Root ");
-	break;
-    case Debug:
-	result.append("Debug ");
-	break;
-    case Background:
-	result.append("Background ");
-	break;
-    case Disable:
-	result.append("Disabled ");
-	break;
-    default:
-	break;
-    }
-
-    result.append("Instance: ");
-    result.append(this->name);
-    result.append(" ");
-    for(int i=0; i<arguments.size(); i++)
-	result.append(arguments.at(i)->toString());
-
-    result.append("Children: ( ");
-    for(int i=0; i<children.size(); i++)
-	result.append(children.at(i)->toString());
-
-    result.append(")");
-
-    return result;
+    v->visit(this);
 }

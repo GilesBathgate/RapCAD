@@ -35,11 +35,11 @@ public:
 
     Value();
     ~Value();
-    QString getName();
     void setName(QString);
-    QString toString();
+    QString getName();
     void setType(Type_e);
     Type_e getType();
+    void accept(Visitor *v);
 private:
     QString name;
     Type_e type;

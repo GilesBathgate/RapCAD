@@ -13,12 +13,12 @@ void UnaryExpression::setExpression(Expression* exp)
     this->expression = exp;
 }
 
-QString UnaryExpression::toString()
+Expression* UnaryExpression::getExpression()
 {
-    QString result;
-    result.append("Unary: ");
-    result.append(this->getOpString());
-    result.append(" ");
-    result.append(this->expression->toString());
-    return result;
+    return this->expression;
+}
+
+void UnaryExpression::accept(Visitor *v)
+{
+    v->visit(this);
 }

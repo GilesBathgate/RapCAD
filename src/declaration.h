@@ -20,13 +20,13 @@
 #define DECLARATION_H
 
 #include <QString>
+#include "visitable.h"
 
-class Declaration
+class Declaration : public Visitable
 {
 public:
     Declaration();
     virtual ~Declaration();
-    virtual QString toString();
 };
 
 #endif // DECLARATION_H

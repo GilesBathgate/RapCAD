@@ -31,21 +31,6 @@ Module::~Module()
     delete context;
 }
 
-QString Module::toString()
-{
-    QString result;
-    result.append("Module: ");
-    result.append(this->name);
-    result.append(" {\n");
-    result.append("Parameters: ");
-    for(int i=0; i<parameters.size(); i++)
-	result.append(parameters.at(i)->toString());
-
-    result.append(context->toString());
-    result.append("}\n");
-    return result;
-}
-
 QString Module::getName()
 {
     return this->name;
@@ -70,4 +55,14 @@ void Module::setParameters(QVector<Parameter*> params)
 void Module::setContext(Context * ctx)
 {
     this->context = ctx;
+}
+
+Context* Module::getContext()
+{
+    return this->context;
+}
+
+void Module::accept(Visitor *v)
+{
+    v->visit(this);
 }

@@ -13,8 +13,10 @@ public:
     ~Invocation();
 
     void setName(QString);
+    QString getName();
     void setArguments(QVector<Argument*>);
-    QString toString();
+    QVector<Argument*> getArguments();
+    void accept(Visitor *v);
 private:
     QString name;
     QVector<Argument*> arguments;

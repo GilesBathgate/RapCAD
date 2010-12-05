@@ -20,8 +20,9 @@
 #define EXPRESSION_H
 
 #include <QString>
+#include "visitable.h"
 
-class Expression
+class Expression : public Visitable
 {
 public:
     enum Operator_e
@@ -48,8 +49,6 @@ public:
     virtual ~Expression();
     Operator_e getOp();
     void setOp(Operator_e);
-    virtual QString toString();
-protected:
     QString getOpString();
 private:
     Operator_e op;

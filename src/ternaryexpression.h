@@ -10,9 +10,12 @@ public:
     TernaryExpression();
     ~TernaryExpression();
     void setCondition(Expression*);
+    Expression* getCondition();
     void setTrueExpression(Expression*);
+    Expression* getTrueExpression();
     void setFalseExpression(Expression*);
-    QString toString();
+    Expression* getFalseExpression();
+    void accept(Visitor *v);
 private:
     Expression* condition;
     Expression* trueExpression;

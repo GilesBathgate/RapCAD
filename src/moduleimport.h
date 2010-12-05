@@ -28,7 +28,8 @@ public:
     ModuleImport();
     ~ModuleImport();
     void setImport(QString);
-    QString toString();
+    QString getImport();
+    void accept(Visitor *v);
 private:
     QString import;
 };

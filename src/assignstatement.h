@@ -32,7 +32,7 @@ public:
     Value* getValue();
     void setExpression(Expression*);
     Expression* getExpression();
-    QString toString();
+    void accept(Visitor *v);
 private:
     Value* value;
     Expression* expression;

@@ -33,19 +33,22 @@ void ForStatement::setArguments(QVector<Argument*> args)
     this->arguments = args;
 }
 
+QVector<Argument*> ForStatement::getArguments()
+{
+    return this->arguments;
+}
+
 void ForStatement::setStatement(Statement* stmt)
 {
     this->statement = stmt;
 }
 
-QString ForStatement::toString()
+Statement* ForStatement::getStatement()
 {
-    QString result;
-    result.append("For: (");
-    for(int i=0; i<arguments.size(); i++)
-	result.append(arguments[i]->toString());
-    result.append(") ");
-    result.append(statement->toString());
+    return this->statement;
+}
 
-    return result;
+void ForStatement::accept(Visitor *v)
+{
+    v->visit(this);
 }

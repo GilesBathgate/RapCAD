@@ -43,9 +43,10 @@ public:
     void setArguments(QVector<Argument*>);
     QVector<Argument*> getArguments();
     void setChildren(QVector <Statement*> childs);
-    void setType(Type_e);
     QVector <Statement*> getChildren();
-    QString toString();
+    void setType(Type_e);
+    Type_e getType();
+    void accept(Visitor *v);
 private:
     QString name;
     QVector<Argument*> arguments;

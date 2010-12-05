@@ -19,9 +19,19 @@ void TernaryExpression::setCondition(Expression* exp)
     this->condition = exp;
 }
 
+Expression* TernaryExpression::getCondition()
+{
+    return this->condition;
+}
+
 void TernaryExpression::setTrueExpression(Expression* exp)
 {
     this->trueExpression = exp;
+}
+
+Expression* TernaryExpression::getTrueExpression()
+{
+    return this->trueExpression;
 }
 
 void TernaryExpression::setFalseExpression(Expression* exp)
@@ -29,18 +39,12 @@ void TernaryExpression::setFalseExpression(Expression* exp)
    this->falseExpression = exp;
 }
 
-QString TernaryExpression::toString()
+Expression* TernaryExpression::getFalseExpression()
 {
-    QString result;
-    result.append("Ternary: ");
-    if(this->condition)
-        result.append(this->condition->toString());
+    return this->falseExpression;
+}
 
-    if(this->trueExpression)
-        result.append(this->trueExpression->toString());
-
-    if(this->falseExpression)
-        result.append(this->falseExpression->toString());
-
-    return result;
+void TernaryExpression::accept(Visitor *v)
+{
+    v->visit(this);
 }
