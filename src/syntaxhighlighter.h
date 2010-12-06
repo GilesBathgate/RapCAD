@@ -16,30 +16,36 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef SYNTAXHIGHLIGHTER_H
+#define SYNTAXHIGHLIGHTER_H
 
-#include <QMainWindow>
-#include <QStandardItemModel>
-#include "syntaxhighlighter.h"
+#include <QSyntaxHighlighter>
 
-namespace Ui {
-    class MainWindow;
-}
+class SyntaxHighlighter : public QSyntaxHighlighter
+ {
+     Q_OBJECT
 
-class MainWindow : public QMainWindow
-{
-    Q_OBJECT
+ public:
+     SyntaxHighlighter(QTextDocument *parent = 0);
 
-public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+ protected:
+     void highlightBlock(const QString &text);
 
-private:
-    Ui::MainWindow *ui;
-    QStandardItemModel *myModel;
-    void setupEditor();
-    SyntaxHighlighter *highlighter;
-};
+ private:
+     struct HighlightingRule
+     {
+	 QRegExp pattern;
+	 QTextCharFormat format;
+     };
+     QVector<HighlightingRule> highlightingRules;
 
-#endif // MAINWINDOW_H
+     QRegExp commentStartExpression;
+     QRegExp commentEndExpression;
+
+     QTextCharFormat keywordFormat;
+     QTextCharFormat singleLineCommentFormat;
+     QTextCharFormat multiLineCommentFormat;
+     QTextCharFormat quotationFormat;
+     QTextCharFormat identifierFormat;
+ };
+#endif // SYNTAXHIGHLIGHTER_H

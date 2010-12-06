@@ -18,10 +18,11 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QFile>
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+	QMainWindow(parent),
+	ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
@@ -32,13 +33,27 @@ MainWindow::MainWindow(QWidget *parent) :
     QStandardItem *parentItem = myModel->invisibleRootItem();
 
     for (int i = 0; i < 4; ++i) {
-         QStandardItem *item = new QStandardItem(QString("item %0").arg(i));
-         parentItem->appendRow(item);
-         parentItem = item;
-     }
+	QStandardItem *item = new QStandardItem(QString("item %0").arg(i));
+	parentItem->appendRow(item);
+	parentItem = item;
+    }
 
     ui->treeView->setModel(myModel);
 
+    setupEditor();
+
+}
+
+void MainWindow::setupEditor()
+{
+    QFont font;
+    font.setFamily("Courier");
+    font.setFixedPitch(true);
+    font.setPointSize(10);
+
+    ui->scriptEditor->setFont(font);
+
+    highlighter = new SyntaxHighlighter(ui->scriptEditor->document());
 }
 
 MainWindow::~MainWindow()

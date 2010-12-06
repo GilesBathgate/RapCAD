@@ -62,7 +62,8 @@ SOURCES += src/main.cpp\
     src/ternaryexpression.cpp \
     src/moduleimport.cpp \
     src/prettyprinter.cpp \
-    src/script.cpp
+    src/script.cpp \
+    src/syntaxhighlighter.cpp
 
 HEADERS  += src/mainwindow.h \
     src/module.h \
@@ -96,7 +97,8 @@ HEADERS  += src/mainwindow.h \
     src/visitor.h \
     src/prettyprinter.h \
     src/visitable.h \
-    src/script.h
+    src/script.h \
+    src/syntaxhighlighter.h
 
 FORMS    += src/mainwindow.ui   
 
