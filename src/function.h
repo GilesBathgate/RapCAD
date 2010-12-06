@@ -37,7 +37,7 @@ public:
     void setParameters(QVector<Parameter*>);
     Scope* getScope();
     void setScope(Scope*);
-    void accept(Visitor *v);
+    void accept(Visitor&);
 private:
     QString name;
     QVector<Parameter*> parameters;

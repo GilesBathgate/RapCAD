@@ -39,7 +39,7 @@ public:
     QString getName();
     void setType(Type_e);
     Type_e getType();
-    void accept(Visitor *v);
+    void accept(Visitor&);
 private:
     QString name;
     Type_e type;

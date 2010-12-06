@@ -66,7 +66,7 @@ QString Literal::getValueString()
     return result;
 }
 
-void Literal::accept(Visitor *v)
+void Literal::accept(Visitor& v)
 {
-    v->visit(this);
+    v.visit(this);
 }

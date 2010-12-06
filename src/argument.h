@@ -33,7 +33,7 @@ public:
     Value* getVariable();
     void setExpression(Expression*);
     Expression* getExpression();
-    void accept(Visitor *v);
+    void accept(Visitor&);
 private:
     Value* variable;
     Expression* expression;

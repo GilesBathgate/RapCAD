@@ -30,7 +30,7 @@ public:
     void setValue(double);
     void setValue(QString);
     QString getValueString();
-    void accept(Visitor *v);
+    void accept(Visitor&);
 private:
     enum Type_e
     {

@@ -51,7 +51,7 @@ QVector<Statement*> FunctionScope::getStatements()
     return this->statements;
 }
 
-void FunctionScope::accept(Visitor *v)
+void FunctionScope::accept(Visitor& v)
 {
-    v->visit(this);
+    v.visit(this);
 }

@@ -62,7 +62,7 @@ Scope* Module::getScope()
     return this->scope;
 }
 
-void Module::accept(Visitor *v)
+void Module::accept(Visitor& v)
 {
-    v->visit(this);
+    v.visit(this);
 }

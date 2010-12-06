@@ -20,6 +20,7 @@
 #define PRETTYPRINTER_H
 
 #include "visitor.h"
+#include "script.h"
 #include "declaration.h"
 #include "module.h"
 #include "modulescope.h"
@@ -47,7 +48,7 @@
 class PrettyPrinter : public Visitor
 {
 public:
-    PrettyPrinter();
+    PrettyPrinter(Script*);
     ~PrettyPrinter();
     void visit(Module*);
     void visit(ModuleScope*);
@@ -71,8 +72,9 @@ public:
     void visit(Literal*);
     void visit(Value*);
 
-    QString getResult();
+    void Print();
 private:
+    Script* script;
     void createIndent();
     QString result;
     unsigned int indent;

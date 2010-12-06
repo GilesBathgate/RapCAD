@@ -34,7 +34,7 @@ public:
     QVector<Argument*> getArguments();
     void setStatement(Statement*);
     Statement* getStatement();
-    void accept(Visitor *v);
+    void accept(Visitor&);
 private:
     QVector<Argument*> arguments;
     Statement* statement;

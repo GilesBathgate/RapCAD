@@ -45,6 +45,7 @@
 #include "invocation.h"
 #include "returnstatement.h"
 #include "moduleimport.h"
+#include "script.h"
 
 class AbstractSyntaxTreeBuilder
 {

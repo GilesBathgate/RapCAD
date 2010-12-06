@@ -30,7 +30,7 @@ public:
     void setLeft(Expression*);
     Expression* getRight();
     void setRight(Expression*);
-    void accept(Visitor *v);
+    void accept(Visitor&);
 private:
     Expression* left;
     Expression* right;

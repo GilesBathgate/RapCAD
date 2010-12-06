@@ -34,7 +34,7 @@ public:
     Statement* getTrueStatement();
     void setFalseStatement(Statement*);
     Statement* getFalseStatement();
-    void accept(Visitor *v);
+    void accept(Visitor&);
 private:
     Expression* expression;
     Statement* trueStatement;

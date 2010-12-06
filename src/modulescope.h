@@ -30,7 +30,7 @@ public:
     ~ModuleScope();
     QVector<Declaration*> getDeclarations();
     void setDeclarations(QVector<Declaration*>);
-    void accept(Visitor *v);
+    void accept(Visitor&);
 private:
     QVector<Declaration*> declarations;
 };

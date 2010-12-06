@@ -31,7 +31,7 @@ public:
     void setName(QString);
     Expression* getExpression();
     void setExpression(Expression*);
-    void accept(Visitor *v);
+    void accept(Visitor&);
 private:
     QString name;
     Expression* expression;

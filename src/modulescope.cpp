@@ -38,7 +38,7 @@ ModuleScope::~ModuleScope()
      return this->declarations;
  }
 
- void ModuleScope::accept(Visitor *v)
+ void ModuleScope::accept(Visitor& v)
  {
-     v->visit(this);
+     v.visit(this);
  }

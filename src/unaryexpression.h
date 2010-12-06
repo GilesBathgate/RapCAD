@@ -12,7 +12,7 @@ public:
 
     void setExpression(Expression*);
     Expression* getExpression();
-    void accept(Visitor *v);
+    void accept(Visitor&);
 private:
     Expression* expression;
 };

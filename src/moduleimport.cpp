@@ -36,7 +36,7 @@ QString ModuleImport::getImport()
     return this->import;
 }
 
-void ModuleImport::accept(Visitor *v)
+void ModuleImport::accept(Visitor& v)
 {
-    v->visit(this);
+    v.visit(this);
 }

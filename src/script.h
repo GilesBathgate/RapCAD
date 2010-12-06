@@ -16,27 +16,22 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "vectorexpression.h"
+#ifndef SCRIPT_H
+#define SCRIPT_H
 
-VectorExpression::VectorExpression()
-{
-}
+#include <QVector>
+#include "declaration.h"
 
-VectorExpression::~VectorExpression()
+class Script
 {
-}
+public:
+    Script();
+    ~Script();
 
-void VectorExpression::setChildren(QVector<Expression*> exp)
-{
-    this->children = exp;
-}
+    void setDeclarations(QVector<Declaration*>);
+    QVector<Declaration*> getDeclarations();
+private:
+    QVector<Declaration*> declarations;
+};
 
-QVector<Expression*> VectorExpression::getChildren()
-{
-    return this->children;
-}
-
-void VectorExpression::accept(Visitor& v)
-{
-    v.visit(this);
-}
+#endif // SCRIPT_H

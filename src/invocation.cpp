@@ -28,7 +28,7 @@ QVector<Argument*> Invocation::getArguments()
     return this->arguments;
 }
 
-void Invocation::accept(Visitor *v)
+void Invocation::accept(Visitor& v)
 {
-    v->visit(this);
+    v.visit(this);
 }

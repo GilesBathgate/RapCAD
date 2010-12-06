@@ -62,7 +62,7 @@ Expression* RangeExpression::getStep()
     return this->step;
 }
 
-void RangeExpression::accept(Visitor *v)
+void RangeExpression::accept(Visitor& v)
 {
-    v->visit(this);
+    v.visit(this);
 }

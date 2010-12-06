@@ -17,10 +17,12 @@
  */
 
 #include "prettyprinter.h"
+#include <stdio.h>
 
-PrettyPrinter::PrettyPrinter()
+PrettyPrinter::PrettyPrinter(Script* sc)
 {
-    indent=0;
+    this->script = sc;
+    this->indent=0;
 }
 
 PrettyPrinter::~PrettyPrinter()
@@ -38,7 +40,7 @@ void PrettyPrinter::visit(ModuleScope * scp)
     ++indent;
     QVector<Declaration*> declarations = scp->getDeclarations();
 	for(int i=0; i<declarations.size(); i++)
-	    { createIndent(); declarations.at(i)->accept(this); }
+	    { createIndent(); declarations.at(i)->accept(*this); }
     --indent;
 }
 
@@ -67,13 +69,13 @@ void PrettyPrinter::visit(Instance * inst)
     result.append(" ");
     QVector<Argument*> arguments = inst->getArguments();
     for(int i=0; i<arguments.size(); i++)
-	arguments.at(i)->accept(this);
+	arguments.at(i)->accept(*this);
 
     QVector<Statement*> children = inst->getChildren();
     result.append("\n");
     createIndent(); result.append("Children: {");
     for(int i=0; i<children.size(); i++)
-	{ createIndent(); children.at(i)->accept(this); }
+	{ createIndent(); children.at(i)->accept(*this); }
     result.append("\n");
     createIndent(); result.append("}");
 }
@@ -85,10 +87,10 @@ void PrettyPrinter::visit(Module* mod)
     result.append(" Parameters: (");
     QVector<Parameter*> parameters = mod->getParameters();
     for(int i=0; i<parameters.size(); i++)
-	parameters.at(i)->accept(this);
+	parameters.at(i)->accept(*this);
 
     result.append(") {\n");
-    mod->getScope()->accept(this);
+    mod->getScope()->accept(*this);
     result.append("\n");
     createIndent(); result.append("}\n");
 }
@@ -101,10 +103,10 @@ void PrettyPrinter::visit(Function * func)
     result.append("Parameters: ");
     QVector<Parameter*> parameters = func->getParameters();
     for(int i=0; i<parameters.size(); i++)
-	    parameters.at(i)->accept(this);
+	    parameters.at(i)->accept(*this);
 
     result.append(" =\n");
-    func->getScope()->accept(this);
+    func->getScope()->accept(*this);
     result.append("\n");
 }
 
@@ -112,18 +114,18 @@ void PrettyPrinter::visit(FunctionScope * scp)
 {
     QVector<Statement*> statements = scp->getStatements();
     for(int i=0; i<statements.size(); i++)
-	statements.at(i)->accept(this);
+	statements.at(i)->accept(*this);
 
     Expression* expression = scp->getExpression();
     if(expression)
-	expression->accept(this);
+	expression->accept(*this);
 }
 
 void PrettyPrinter::visit(CompoundStatement * stmt)
 {
     QVector<Statement*> children = stmt->getChildren();
     for(int i=0; i<children.size(); i++)
-	children.at(i)->accept(this);
+	children.at(i)->accept(*this);
 }
 
 void PrettyPrinter::visit(IfElseStatement * ifelse)
@@ -131,18 +133,18 @@ void PrettyPrinter::visit(IfElseStatement * ifelse)
     result.append("If: (");
     Expression* expression = ifelse->getExpression();
     if(expression)
-	expression->accept(this);
+	expression->accept(*this);
     result.append(") ");
 
     Statement* trueStatement = ifelse->getTrueStatement();
     if(trueStatement)
-	trueStatement->accept(this);
+	trueStatement->accept(*this);
 
     Statement* falseStatement = ifelse->getFalseStatement();
     if(falseStatement)
     {
 	result.append("Else: ");
-	falseStatement->accept(this);
+	falseStatement->accept(*this);
     }
 }
 
@@ -151,10 +153,10 @@ void PrettyPrinter::visit(ForStatement * forstmt)
     result.append("For: (");
     QVector<Argument*> arguments = forstmt->getArguments();
     for(int i=0; i<arguments.size(); i++)
-	arguments[i]->accept(this);
+	arguments[i]->accept(*this);
     result.append(") ");
     Statement* statement = forstmt->getStatement();
-    statement->accept(this);
+    statement->accept(*this);
 }
 
 void PrettyPrinter::visit(Parameter * param)
@@ -164,17 +166,17 @@ void PrettyPrinter::visit(Parameter * param)
     result.append(" ");
     Expression* expression = param->getExpression();
     if(expression)
-	expression->accept(this);
+	expression->accept(*this);
 }
 
 void PrettyPrinter::visit(BinaryExpression * exp)
 {
     result.append("Expression: (");
-    exp->getLeft()->accept(this);
+    exp->getLeft()->accept(*this);
     result.append("Operator: ");
     result.append(exp->getOpString());
     result.append(" ");
-    exp->getRight()->accept(this);
+    exp->getRight()->accept(*this);
     result.append(") ");
 }
 
@@ -183,12 +185,12 @@ void PrettyPrinter::visit(Argument * arg)
     result.append("Argument: (");
     Value* variable = arg->getVariable();
     if(variable)
-	variable->accept(this);
+	variable->accept(*this);
 
     result.append(" ");
     Expression* expression = arg->getExpression();
     if(expression)
-	expression->accept(this);
+	expression->accept(*this);
     result.append(")");
 }
 
@@ -198,11 +200,11 @@ void PrettyPrinter::visit(AssignStatement * stmt)
 
     Value* value = stmt->getValue();
     if(value)
-	value->accept(this);
+	value->accept(*this);
 
     Expression* expression = stmt->getExpression();
     if(expression)
-	expression->accept(this);
+	expression->accept(*this);
 }
 
 void PrettyPrinter::visit(VectorExpression * exp)
@@ -210,7 +212,7 @@ void PrettyPrinter::visit(VectorExpression * exp)
     result.append("Vector: ");
     QVector<Expression*> children = exp->getChildren();
     for(int i=0; i<children.size(); i++)
-	children.at(i)->accept(this);
+	children.at(i)->accept(*this);
 }
 
 void PrettyPrinter::visit(RangeExpression * exp)
@@ -218,15 +220,15 @@ void PrettyPrinter::visit(RangeExpression * exp)
     result.append("Range: [ ");
     Expression* start = exp->getStart();
     if(start)
-	start->accept(this);
+	start->accept(*this);
 
     Expression* step = exp->getStep();
     if(step)
-	step->accept(this);
+	step->accept(*this);
 
     Expression* finish = exp->getFinish();
     if(finish)
-	finish->accept(this);
+	finish->accept(*this);
     result.append("] ");
 }
 
@@ -236,7 +238,7 @@ void PrettyPrinter::visit(UnaryExpression * exp)
     result.append(exp->getOpString());
     result.append(" ");
     Expression* expression = exp->getExpression();
-    expression->accept(this);
+    expression->accept(*this);
 }
 
 void PrettyPrinter::visit(ReturnStatement * stmt)
@@ -244,7 +246,7 @@ void PrettyPrinter::visit(ReturnStatement * stmt)
     result.append("Return: ");
     Expression* expression = stmt->getExpression();
     if(expression)
-	expression->accept(this);
+	expression->accept(*this);
 }
 
 void PrettyPrinter::visit(TernaryExpression * exp)
@@ -252,15 +254,15 @@ void PrettyPrinter::visit(TernaryExpression * exp)
     result.append("Ternary: ");
     Expression* condition = exp->getCondition();
     if(condition)
-	condition->accept(this);
+	condition->accept(*this);
 
     Expression* trueExpression = exp->getTrueExpression();
     if(trueExpression)
-	trueExpression->accept(this);
+	trueExpression->accept(*this);
 
     Expression* falseExpression = exp->getFalseExpression();
     if(falseExpression)
-	falseExpression->accept(this);
+	falseExpression->accept(*this);
 }
 
 void PrettyPrinter::visit(Invocation * stmt)
@@ -270,7 +272,7 @@ void PrettyPrinter::visit(Invocation * stmt)
     result.append(" (");
     QVector<Argument*> arguments = stmt->getArguments();
     for(int i=0; i<arguments.size(); i++)
-	arguments.at(i)->accept(this);
+	arguments.at(i)->accept(*this);
     result.append(")\n");
 }
 
@@ -308,7 +310,12 @@ void PrettyPrinter::visit(Value * val)
     result.append(" ");
 }
 
-QString PrettyPrinter::getResult()
+void PrettyPrinter::Print()
 {
-    return result;
+    QVector<Declaration*> declarations = script->getDeclarations();
+
+    for(int i=0; i<declarations.size(); i++)
+	    declarations.at(i)->accept(*this);
+
+    printf("%s",result.toLocal8Bit().constData());
 }

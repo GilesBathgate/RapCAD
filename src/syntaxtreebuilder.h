@@ -89,7 +89,7 @@ public:
 
     void Print();
 private:
-    QVector<Declaration*> declarations;
+   Script* script;
 };
 
 #endif // SYNTAXTREEBUILDER_H

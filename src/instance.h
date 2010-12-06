@@ -46,7 +46,7 @@ public:
     QVector <Statement*> getChildren();
     void setType(Type_e);
     Type_e getType();
-    void accept(Visitor *v);
+    void accept(Visitor&);
 private:
     QString name;
     QVector<Argument*> arguments;

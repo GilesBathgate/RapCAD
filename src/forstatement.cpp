@@ -48,7 +48,7 @@ Statement* ForStatement::getStatement()
     return this->statement;
 }
 
-void ForStatement::accept(Visitor *v)
+void ForStatement::accept(Visitor& v)
 {
-    v->visit(this);
+    v.visit(this);
 }

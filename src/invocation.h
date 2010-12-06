@@ -16,7 +16,7 @@ public:
     QString getName();
     void setArguments(QVector<Argument*>);
     QVector<Argument*> getArguments();
-    void accept(Visitor *v);
+    void accept(Visitor&);
 private:
     QString name;
     QVector<Argument*> arguments;

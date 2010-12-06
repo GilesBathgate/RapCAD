@@ -38,7 +38,7 @@ QVector<Statement*> CompoundStatement::getChildren()
     return this->children;
 }
 
-void CompoundStatement::accept(Visitor *v)
+void CompoundStatement::accept(Visitor& v)
 {
-    v->visit(this);
+    v.visit(this);
 }

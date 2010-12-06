@@ -72,7 +72,7 @@ QVector <Statement*> Instance::getChildren()
     return this->children;
 }
 
-void Instance::accept(Visitor *v)
+void Instance::accept(Visitor& v)
 {
-    v->visit(this);
+    v.visit(this);
 }

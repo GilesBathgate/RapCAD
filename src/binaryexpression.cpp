@@ -50,7 +50,7 @@ void BinaryExpression::setRight(Expression * right)
     this->right = right;
 }
 
-void BinaryExpression::accept(Visitor *v)
+void BinaryExpression::accept(Visitor& v)
 {
-    v->visit(this);
+    v.visit(this);
 }

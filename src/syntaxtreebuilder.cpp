@@ -17,7 +17,6 @@
  */
 
 #include "syntaxtreebuilder.h"
-#include <stdio.h>
 #include "prettyprinter.h"
 
 SyntaxTreeBuilder::SyntaxTreeBuilder()
@@ -26,8 +25,7 @@ SyntaxTreeBuilder::SyntaxTreeBuilder()
 
 SyntaxTreeBuilder::~SyntaxTreeBuilder()
 {
-    for(int i =0; i<declarations.size(); i++)
-	delete declarations.at(i);
+
 }
 
 void SyntaxTreeBuilder::BuildScript(QString* imp)
@@ -35,12 +33,12 @@ void SyntaxTreeBuilder::BuildScript(QString* imp)
     ModuleImport* result = new ModuleImport();
     result->setImport(*imp);
     delete imp;
-    declarations.prepend(result);
+    script->getDeclarations().prepend(result);
 }
 
 void SyntaxTreeBuilder::BuildScript(QVector<Declaration*>* decls)
 {
-    declarations = *decls;
+    script->setDeclarations(*decls);
     delete decls;
 }
 
@@ -479,10 +477,6 @@ Expression* SyntaxTreeBuilder::BuildInvocation(QString* name,QVector<Argument*>*
 
 void SyntaxTreeBuilder::Print()
 {
-    PrettyPrinter* p = new PrettyPrinter();
-
-    for(int i=0; i<declarations.size(); i++)
-	    declarations.at(i)->accept(p);
-
-    printf("%s",p->getResult().toLocal8Bit().constData());
+    PrettyPrinter p(script);
+    p.Print();
 }

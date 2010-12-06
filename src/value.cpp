@@ -47,7 +47,7 @@ Value::Type_e Value::getType()
     return this->type;
 }
 
-void Value::accept(Visitor *v)
+void Value::accept(Visitor& v)
 {
-    v->visit(this);
+    v.visit(this);
 }

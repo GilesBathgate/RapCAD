@@ -50,7 +50,7 @@ Expression* AssignStatement::getExpression()
     return this->expression;
 }
 
-void AssignStatement::accept(Visitor *v)
+void AssignStatement::accept(Visitor& v)
 {
-    v->visit(this);
+    v.visit(this);
 }

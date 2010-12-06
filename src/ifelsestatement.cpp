@@ -62,7 +62,7 @@ Statement* IfElseStatement::getFalseStatement()
     return this->falseStatement;
 }
 
-void IfElseStatement::accept(Visitor *v)
+void IfElseStatement::accept(Visitor& v)
 {
-    v->visit(this);
+    v.visit(this);
 }
