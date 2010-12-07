@@ -28,17 +28,21 @@ MainWindow::MainWindow(QWidget *parent) :
 
     myModel = new QStandardItemModel();
     QStringList headers;
-    headers.append(QString("Projects"));
+    headers << "Projects";
     myModel->setHorizontalHeaderLabels(headers);
     QStandardItem *parentItem = myModel->invisibleRootItem();
 
-    for (int i = 0; i < 4; ++i) {
-	QStandardItem *item = new QStandardItem(QString("item %0").arg(i));
-	parentItem->appendRow(item);
-	parentItem = item;
-    }
+    QStandardItem *item = new QStandardItem("New Project.rpro");
+    parentItem->appendRow(item);
+    item->appendRow(new QStandardItem("New.rcad"));
 
     ui->treeView->setModel(myModel);
+    ui->treeView->expandAll();
+
+    //TODO there must be a better way than this
+    QList<int> sizes;
+    sizes << 160 << 540 << 300;
+    ui->vSplitter->setSizes(sizes);
 
     setupEditor();
 
@@ -46,17 +50,20 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::setupEditor()
 {
+    QTextEdit* editor = ui->scriptEditor;
+
     QFont font;
     font.setFamily("Courier");
     font.setFixedPitch(true);
     font.setPointSize(10);
 
-    ui->scriptEditor->setFont(font);
+    editor->setFont(font);
 
-    highlighter = new SyntaxHighlighter(ui->scriptEditor->document());
+    highlighter = new SyntaxHighlighter(editor->document());
 }
 
 MainWindow::~MainWindow()
 {
+    delete highlighter;
     delete ui;
 }
