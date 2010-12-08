@@ -21,11 +21,12 @@
 
 SyntaxTreeBuilder::SyntaxTreeBuilder()
 {
+    script = new Script(); //TODO create the script here for now
 }
 
 SyntaxTreeBuilder::~SyntaxTreeBuilder()
 {
-
+    delete script; //TODO just delete this for now
 }
 
 void SyntaxTreeBuilder::BuildScript(QString* imp)
