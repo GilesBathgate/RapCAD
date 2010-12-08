@@ -35,6 +35,12 @@ void PrettyPrinter::createIndent()
 	result.append(" ");
 }
 
+void PrettyPrinter::indentNewLine()
+{
+    result.append("\n");
+    createIndent();
+}
+
 void PrettyPrinter::visit(ModuleScope * scp)
 {
     ++indent;
@@ -72,12 +78,15 @@ void PrettyPrinter::visit(Instance * inst)
 	arguments.at(i)->accept(*this);
 
     QVector<Statement*> children = inst->getChildren();
-    result.append("\n");
-    createIndent(); result.append("Children: {");
-    for(int i=0; i<children.size(); i++)
-	{ createIndent(); children.at(i)->accept(*this); }
-    result.append("\n");
-    createIndent(); result.append("}");
+    if(children.size()>0)
+    {
+	indentNewLine();
+	result.append("Children: {");
+	for(int i=0; i<children.size(); i++)
+	    { createIndent(); children.at(i)->accept(*this); }
+	indentNewLine();
+	result.append("}");
+    }
 }
 
 void PrettyPrinter::visit(Module* mod)
@@ -91,8 +100,10 @@ void PrettyPrinter::visit(Module* mod)
 
     result.append(") {\n");
     mod->getScope()->accept(*this);
-    result.append("\n");
-    createIndent(); result.append("}\n");
+    indentNewLine();
+    result.append("}");
+    if(indent==0)
+	result.append("\n");
 }
 
 void PrettyPrinter::visit(Function * func)
