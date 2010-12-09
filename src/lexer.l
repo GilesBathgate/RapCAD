@@ -36,16 +36,16 @@ QStack<QDir> path_stack;
 %option yylineno
 %option noyywrap
 %option nounput
-%x include use path
+%x include use
 %x comment string
 D [0-9]
 WS [ \t\r\n]
 %%
 "include"{WS}*"<"	{ BEGIN(include); }
 <include>{
-[^\t\r\n>]+"/"		{ BEGIN(path); filepath = lexertext; }
-<path>[^\t\r\n>/]+	{ filename = lexertext; }
-<path>">"		{ BEGIN(INITIAL); includefile(); }
+[^\t\r\n>]+"/"		{ filepath = lexertext; }
+[^\t\r\n>/]+		{ filename = lexertext; }
+">"			{ BEGIN(INITIAL); includefile(); }
 }
 "use"{WS}*"<"		{ BEGIN(use); }
 <use>[^\t\r\n>]+	{ parserlval.text = new QString(lexertext); return USE; }
@@ -66,17 +66,15 @@ WS [ \t\r\n]
 "for"			{ return FOR; }
 "return"                { return RETURN; }
 {WS}+			//ignore whitespace
-[.:!;#${}(),=*/%?\+-]	{ return lexertext[0]; }
-"<"			{ return '<'; }
+[\[\]<>.:!;#${}(),=*/%?\+\-] %{
+			{ return lexertext[0]; }
+			%}
 "<="			{ return LE;  }
-">"			{ return '>'; }
 ">="			{ return GE;  }
 "=="			{ return EQ;  }
 "!="			{ return NE;  }
 "&&"			{ return AND; }
 "||"			{ return OR;  }
-"["			{ return '['; }
-"]"			{ return ']'; }
 {D}+|{D}*\.{D}+|{D}+\.{D}* { parserlval.number = QString(lexertext).toDouble(); return NUMBER; }
 [a-zA-Z0-9_]+		{ parserlval.text = new QString(lexertext); return IDENTIFIER; }
 \"			{ BEGIN(string); stringcontents = new QString(); }
