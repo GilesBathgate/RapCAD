@@ -86,6 +86,8 @@ public:
     Expression* BuildRange(Expression*,Expression*);
     Expression* BuildRange(Expression*,Expression*,Expression*);
     Expression* BuildInvocation(QString*,QVector<Argument*>*);
+
+    Script* getResult();
 };
 
 #endif // DEPENDENCYBUILDER_H

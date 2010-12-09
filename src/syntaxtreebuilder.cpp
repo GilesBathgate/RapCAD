@@ -17,16 +17,14 @@
  */
 
 #include "syntaxtreebuilder.h"
-#include "prettyprinter.h"
 
 SyntaxTreeBuilder::SyntaxTreeBuilder()
 {
-    script = new Script(); //TODO create the script here for now
+    script = new Script();
 }
 
 SyntaxTreeBuilder::~SyntaxTreeBuilder()
 {
-    delete script; //TODO just delete this for now
 }
 
 void SyntaxTreeBuilder::BuildScript(QString* imp)
@@ -476,8 +474,7 @@ Expression* SyntaxTreeBuilder::BuildInvocation(QString* name,QVector<Argument*>*
     return result;
 }
 
-void SyntaxTreeBuilder::Print()
+Script* SyntaxTreeBuilder::getResult()
 {
-    PrettyPrinter p(script);
-    p.Print();
+    return script;
 }

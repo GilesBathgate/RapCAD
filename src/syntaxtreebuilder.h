@@ -87,7 +87,7 @@ public:
     Expression* BuildRange(Expression*,Expression*,Expression*);
     Expression* BuildInvocation(QString*,QVector<Argument*>*);
 
-    void Print();
+    Script* getResult();
 private:
    Script* script;
 };

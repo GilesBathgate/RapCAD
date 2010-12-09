@@ -111,6 +111,8 @@ public:
     virtual Expression* BuildRange(Expression*,Expression*)=0;
     virtual Expression* BuildRange(Expression*,Expression*,Expression*)=0;
     virtual Expression* BuildInvocation(QString*,QVector<Argument*>*)=0;
+
+    virtual Script* getResult()=0;
 };
 
 #endif // ABSTRACTSYNTAXTREEBUILDER_H

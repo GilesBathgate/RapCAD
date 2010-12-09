@@ -323,3 +323,8 @@ Expression* DependencyBuilder::BuildInvocation(QString*,QVector<Argument*>*)
 {
     return NULL;
 }
+
+Script* DependencyBuilder::getResult()
+{
+    return NULL;
+}

@@ -39,6 +39,8 @@
 #include "instance.h"
 #include "scope.h"
 #include "value.h"
+#include "script.h"
+#include "prettyprinter.h"
 
 extern FILE* lexerin;
 extern int lexerlineno;
@@ -400,8 +402,12 @@ void parse(QString input,bool file)
 	    lexer_delete_buffer(str_buffer);
 	}
 
-	((SyntaxTreeBuilder*)builder)->Print();
-
-	//For now we just delete the builder.
+	Script* s = builder->getResult();
 	delete builder;
+
+	PrettyPrinter p(s);
+	p.Print();
+
+	//TODO just delete the script for now
+	delete s;
 }
