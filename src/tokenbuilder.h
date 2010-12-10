@@ -32,7 +32,9 @@ public:
     void BuildIncludeFile(QString);
     void BuildIncludePath(QString);
     void BuildIncludeFinish();
+    void BuildUseStart();
     unsigned int BuildUse(QString);
+    void BuildUseFinish();
     unsigned int BuildModule();
     unsigned int BuildFunction();
     unsigned int BuildTrue();
@@ -50,13 +52,17 @@ public:
     unsigned int BuildNotEqual();
     unsigned int BuildAnd();
     unsigned int BuildOr();
+    unsigned int BuildLegalChar(unsigned int);
     unsigned int BuildNumber(QString);
     unsigned int BuildIdentifier(QString);
     void BuildStringStart();
     void BuildString(QChar);
     void BuildString(QString);
     unsigned int BuildStringFinish();
+    void BuildCommentStart();
     unsigned int BuildComment(QString);
+    void BuildCommentFinish();
+    void BuildWhiteSpaceError();
     void BuildFileStart(QDir);
     void BuildFileFinish();
 private:

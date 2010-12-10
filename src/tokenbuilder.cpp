@@ -26,6 +26,10 @@ TokenBuilder::TokenBuilder()
 {
 }
 
+void TokenBuilder::BuildIncludeStart()
+{
+}
+
 void TokenBuilder::BuildIncludeFile(QString str)
 {
     filename = str;
@@ -59,9 +63,17 @@ void TokenBuilder::BuildIncludeFinish()
 
 }
 
+void TokenBuilder::BuildUseStart()
+{
+}
+
 unsigned int TokenBuilder::BuildUse(QString str)
 {
     parserlval.text = new QString(str); return USE;
+}
+
+void TokenBuilder::BuildUseFinish()
+{
 }
 
 unsigned int TokenBuilder::BuildModule()
@@ -149,6 +161,11 @@ unsigned int TokenBuilder::BuildOr()
     return OR;
 }
 
+unsigned int TokenBuilder::BuildLegalChar(unsigned int c)
+{
+    return c;
+}
+
 unsigned int TokenBuilder::BuildNumber(QString str)
 {
     parserlval.number = str.toDouble(); return NUMBER;
@@ -179,9 +196,21 @@ unsigned int TokenBuilder::BuildStringFinish()
     parserlval.text = stringcontents; return STRING;
 }
 
+void TokenBuilder::BuildCommentStart()
+{
+}
+
 unsigned int TokenBuilder::BuildComment(QString)
 {
     return YY_NULL;
+}
+
+void TokenBuilder::BuildCommentFinish()
+{
+}
+
+void TokenBuilder::BuildWhiteSpaceError()
+{
 }
 
 void TokenBuilder::BuildFileStart(QDir pth)

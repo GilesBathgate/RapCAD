@@ -34,15 +34,15 @@ TokenBuilder* tbuilder;
 D [0-9]
 WS [ \t\r\n]
 %%
-"include"{WS}*"<"	{ BEGIN(include); }
+"include"{WS}*"<"	{ BEGIN(include); tbuilder->BuildIncludeStart(); }
 <include>{
 [^\t\r\n>]+"/"		{ tbuilder->BuildIncludePath(lexertext); }
 [^\t\r\n>/]+		{ tbuilder->BuildIncludeFile(lexertext); }
 ">"			{ BEGIN(INITIAL); tbuilder->BuildIncludeFinish(); }
 }
-"use"{WS}*"<"		{ BEGIN(use); }
+"use"{WS}*"<"		{ BEGIN(use); tbuilder->BuildUseStart(); }
 <use>[^\t\r\n>]+	{ return tbuilder->BuildUse(lexertext); }
-<use>">"		{ BEGIN(INITIAL); }
+<use>">"		{ BEGIN(INITIAL); tbuilder->BuildUseFinish(); }
 <<EOF>>			{ tbuilder->BuildFileFinish();
 			  lexerpop_buffer_state();
 			  if(!YY_CURRENT_BUFFER)
@@ -58,16 +58,15 @@ WS [ \t\r\n]
 "else"			{ return tbuilder->BuildElse(); }
 "for"			{ return tbuilder->BuildFor(); }
 "return"		{ return tbuilder->BuildReturn(); }
-{WS}+			//ignore whitespace
-[\[\]<>.:!;#${}(),=*/%?\+\-] %{
-			{ return lexertext[0]; }
-			%}
 "<="			{ return tbuilder->BuildLessEqual();  }
 ">="			{ return tbuilder->BuildGreatEqual();  }
 "=="			{ return tbuilder->BuildEqual();  }
 "!="			{ return tbuilder->BuildNotEqual();  }
 "&&"			{ return tbuilder->BuildAnd(); }
 "||"			{ return tbuilder->BuildOr();  }
+[\[\]<>.:!;#${}(),=*/%?\+\-] %{
+			{ return tbuilder->BuildLegalChar(lexertext[0]); }
+			%}
 {D}+|{D}*\.{D}+|{D}+\.{D}* { return tbuilder->BuildNumber(lexertext); }
 [a-zA-Z0-9_]+		{ return tbuilder->BuildIdentifier(lexertext); }
 \"			{ BEGIN(string); tbuilder->BuildStringStart(); }
@@ -81,18 +80,20 @@ WS [ \t\r\n]
 \"			{ BEGIN(INITIAL); return tbuilder->BuildStringFinish(); }
 }
 "//"[^\n]*\n?		{ tbuilder->BuildComment(lexertext); }
-"/*"			{ BEGIN(comment); }
+"/*"			{ BEGIN(comment); tbuilder->BuildCommentStart(); }
 <comment>{
-[^*]*			//ignore anything that's not a '*'
-"*"+[^*/]*		//ignore '*'s not followed by '/'s
-"*/"			{ BEGIN(INITIAL); }
+[^*]*			{ tbuilder->BuildComment(lexertext); }
+"*"+[^*/]*		{ tbuilder->BuildComment(lexertext); }
+"*/"			{ BEGIN(INITIAL); tbuilder->BuildCommentFinish(); }
 }
+[ \t]+\n		{ tbuilder->BuildWhiteSpaceError(); }
+{WS}+			//ignore whitespace
 .			{ lexererror();  }
 %%
 
 void lexererror()
 {
-    fprintf(stderr,"%d: illegal token %s",lexerlineno,lexertext);
+    fprintf(stderr,"%d: illegal token `%s'.\n",lexerlineno,lexertext);
 }
 
 void lexerinit(QDir sourcepath)
