@@ -20,6 +20,20 @@
 #define SYNTAXTREEBUILDER_H
 
 #include "abstractsyntaxtreebuilder.h"
+#include "moduleimport.h"
+#include "compoundstatement.h"
+#include "assignstatement.h"
+#include "module.h"
+#include "modulescope.h"
+#include "function.h"
+#include "functionscope.h"
+#include "literal.h"
+#include "binaryexpression.h"
+#include "unaryexpression.h"
+#include "ternaryexpression.h"
+#include "vectorexpression.h"
+#include "rangeexpression.h"
+#include "invocation.h"
 
 class SyntaxTreeBuilder : public AbstractSyntaxTreeBuilder
 {
