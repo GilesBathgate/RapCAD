@@ -63,7 +63,8 @@ SOURCES += src/main.cpp\
     src/moduleimport.cpp \
     src/prettyprinter.cpp \
     src/script.cpp \
-    src/syntaxhighlighter.cpp
+    src/syntaxhighlighter.cpp \
+    src/tokenbuilder.cpp
 
 HEADERS  += src/mainwindow.h \
     src/module.h \
@@ -98,7 +99,8 @@ HEADERS  += src/mainwindow.h \
     src/prettyprinter.h \
     src/visitable.h \
     src/script.h \
-    src/syntaxhighlighter.h
+    src/syntaxhighlighter.h \
+    src/tokenbuilder.h
 
 FORMS    += src/mainwindow.ui   
 

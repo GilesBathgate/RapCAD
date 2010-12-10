@@ -27,18 +27,6 @@
 #include "abstractsyntaxtreebuilder.h"
 #include "syntaxtreebuilder.h"
 #include "dependencybuilder.h"
-#include "declaration.h"
-#include "parameter.h"
-#include "argument.h"
-#include "statement.h"
-#include "expression.h"
-#include "binaryexpression.h"
-#include "ternaryexpression.h"
-#include "ifelsestatement.h"
-#include "forstatement.h"
-#include "instance.h"
-#include "scope.h"
-#include "value.h"
 #include "script.h"
 #include "prettyprinter.h"
 
@@ -63,15 +51,15 @@ AbstractSyntaxTreeBuilder *builder;
 	double number;
 	unsigned int count;
 	class Declaration* decl;
-	QVector<Declaration*>* decls;
+	class QVector<Declaration*>* decls;
 	class Parameter* param;
-	QVector<Parameter*>* params;
+	class QVector<Parameter*>* params;
 	class Argument* arg;
-	QVector<Argument*>* args;
+	class QVector<Argument*>* args;
 	class Statement* stmt;
-	QVector<Statement*>* stmts;
+	class QVector<Statement*>* stmts;
 	class Expression* expr;
-	QVector<Expression*>* exprs;
+	class QVector<Expression*>* exprs;
 	class Instance* inst;
 	class Scope* scp;
 	class Value* var;

@@ -20,7 +20,7 @@
 #include <QString>
 #include <QStack>
 #include <QDir>
-#include "parser_yacc.h"
+#include "tokenbuilder.h"
 
 void lexererror();
 void setsourcepath(QDir);
@@ -31,6 +31,7 @@ QString filename;
 QString filepath;
 QStack<QDir> path_stack;
 
+TokenBuilder* tbuilder;
 %}
 
 %option yylineno
@@ -48,35 +49,35 @@ WS [ \t\r\n]
 ">"			{ BEGIN(INITIAL); includefile(); }
 }
 "use"{WS}*"<"		{ BEGIN(use); }
-<use>[^\t\r\n>]+	{ parserlval.text = new QString(lexertext); return USE; }
+<use>[^\t\r\n>]+	{ return tbuilder->BuildUse(lexertext); }
 <use>">"		{ BEGIN(INITIAL); }
 <<EOF>>			{ path_stack.pop();
 			  lexerpop_buffer_state();
 			  if(!YY_CURRENT_BUFFER)
 			    yyterminate(); }
-"module"		{ return MODULE; }
-"function"		{ return FUNCTION; }
-"true"			{ return TOK_TRUE; }
-"false"			{ return TOK_FALSE; }
-"undef"			{ return UNDEF; }
-"const"			{ return CONST; }
-"param"			{ return PARAM; }
-"if"			{ return IF; }
-"else"			{ return ELSE; }
-"for"			{ return FOR; }
-"return"                { return RETURN; }
+"module"		{ return tbuilder->BuildModule(); }
+"function"		{ return tbuilder->BuildFunction(); }
+"true"			{ return tbuilder->BuildTrue(); }
+"false"		{ return tbuilder->BuildFalse(); }
+"undef"		{ return tbuilder->BuildUndef(); }
+"const"		{ return tbuilder->BuildConst(); }
+"param"		{ return tbuilder->BuildParam(); }
+"if"			{ return tbuilder->BuildIf(); }
+"else"			{ return tbuilder->BuildElse(); }
+"for"			{ return tbuilder->BuildFor(); }
+"return"		{ return tbuilder->BuildReturn(); }
 {WS}+			//ignore whitespace
 [\[\]<>.:!;#${}(),=*/%?\+\-] %{
 			{ return lexertext[0]; }
 			%}
-"<="			{ return LE;  }
-">="			{ return GE;  }
-"=="			{ return EQ;  }
-"!="			{ return NE;  }
-"&&"			{ return AND; }
-"||"			{ return OR;  }
-{D}+|{D}*\.{D}+|{D}+\.{D}* { parserlval.number = QString(lexertext).toDouble(); return NUMBER; }
-[a-zA-Z0-9_]+		{ parserlval.text = new QString(lexertext); return IDENTIFIER; }
+"<="			{ return tbuilder->BuildLessEqual();  }
+">="			{ return tbuilder->BuildGreatEqual();  }
+"=="			{ return tbuilder->BuildEqual();  }
+"!="			{ return tbuilder->BuildNotEqual();  }
+"&&"			{ return tbuilder->BuildAnd(); }
+"||"			{ return tbuilder->BuildOr();  }
+{D}+|{D}*\.{D}+|{D}+\.{D}* { return tbuilder->BuildNumber(lexertext); }
+[a-zA-Z0-9_]+		{ return tbuilder->BuildIdentifier(lexertext); }
 \"			{ BEGIN(string); stringcontents = new QString(); }
 <string>{
 \\n			{ stringcontents->append('\n'); }
@@ -85,9 +86,9 @@ WS [ \t\r\n]
 \\\\			{ stringcontents->append('\\'); }
 \\\"			{ stringcontents->append('"'); }
 [^\\\n\"]+		{ stringcontents->append(lexertext); }
-\"			{ BEGIN(INITIAL); parserlval.text = stringcontents; return STRING; }
+\"			{ BEGIN(INITIAL); return tbuilder->BuildString(stringcontents); }
 }
-"//"[^\n]*\n?		//ignore one line comments
+"//"[^\n]*\n?		{ tbuilder->BuildComment(lexertext); }
 "/*"			{ BEGIN(comment); }
 <comment>{
 [^*]*			//ignore anything that's not a '*'
@@ -105,6 +106,9 @@ void lexererror()
 void setsourcepath(QDir pth)
 {
     path_stack.push(pth);
+
+    //TODO initialise builder here for now
+    tbuilder = new TokenBuilder();
 }
 
 void includefile()
