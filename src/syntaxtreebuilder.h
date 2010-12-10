@@ -55,7 +55,6 @@ public:
     Statement* BuildStatement(QVector<Statement*>*);
     Statement* BuildStatement(Value*,Expression*);
     Statement* BuildStatement(QString*,Value::Type_e,Expression*);
-    Statement* BuildStatement(IfElseStatement*);
     Statement* BuildReturnStatement(Expression*);
     Statement* BuildIfElseStatement(Expression*,Statement*);
     Statement* BuildIfElseStatement(Expression*,Statement*,Statement*);

@@ -113,11 +113,6 @@ Statement* SyntaxTreeBuilder::BuildStatement(QString* name,Value::Type_e type, E
     return result;
 }
 
-Statement* SyntaxTreeBuilder::BuildStatement(IfElseStatement* ifelse)
-{
-    return ifelse;
-}
-
 Statement* SyntaxTreeBuilder::BuildReturnStatement(Expression* exp)
 {
     ReturnStatement* result = new ReturnStatement();

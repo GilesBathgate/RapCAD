@@ -84,11 +84,6 @@ Statement* DependencyBuilder::BuildStatement(QString*,Value::Type_e,Expression*)
     return NULL;
 }
 
-Statement* DependencyBuilder::BuildStatement(IfElseStatement*)
-{
-    return NULL;
-}
-
 Statement* DependencyBuilder::BuildReturnStatement(Expression*)
 {
     return NULL;
