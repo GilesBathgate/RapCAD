@@ -161,6 +161,16 @@ unsigned int TokenBuilder::BuildOr()
     return OR;
 }
 
+unsigned int TokenBuilder::BuildComponentwiseMultiply()
+{
+    return CM;
+}
+
+unsigned int TokenBuilder::BuildComponentwiseDivide()
+{
+    return CD;
+}
+
 unsigned int TokenBuilder::BuildLegalChar(unsigned int c)
 {
     return c;

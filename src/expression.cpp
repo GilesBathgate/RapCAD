@@ -33,55 +33,61 @@ QString Expression::getOpString()
     {
 
     case Multiply:
-        result.append("*");
+	result.append('*');
         break;
+    case ComponentwiseMultiply:
+	result.append(".*");
+	break;
     case Divide:
-        result.append("/");
+	result.append('/');
         break;
+    case ComponentwiseDivide:
+	result.append("./");
+	break;
     case Modulus:
-        result.append("%%"); //remember we need to escape % as %%
+	result.append('%');
         break;
     case Dot:
-        result.append(".");
+	result.append('.');
         break;
     case Add:
-        result.append("+");
+	result.append('+');
         break;
     case Subtract:
-        result.append("-");
+	result.append('-');
         break;
     case LessThan:
-        result.append("<");
+	result.append('<');
         break;
     case LessOrEqual:
-        result.append("<=");
+	result.append("<=");
         break;
     case Equal:
-        result.append("==");
+	result.append("==");
         break;
     case NotEqual:
-        result.append("!=");
+	result.append("!=");
         break;
     case GreaterOrEqual:
-        result.append(">=");
+	result.append(">=");
         break;
     case GreaterThan:
-        result.append(">");
+	result.append('>');
         break;
     case LogicalAnd:
-        result.append("&&");
+	result.append("&&");
         break;
     case LogicalOr:
-        result.append("||");
+	result.append("||");
         break;
     case Invert:
-        result.append("!");
+	result.append('!');
         break;
     case Index:
-        result.append("[]");
+	result.append("[]");
         break;
     default:
-        result.append("Unknown");
+	result.append("Unknown");
     }
     return result;
 }

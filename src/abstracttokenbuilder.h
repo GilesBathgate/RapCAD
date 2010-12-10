@@ -51,6 +51,8 @@ public:
     virtual unsigned int BuildNotEqual()=0;
     virtual unsigned int BuildAnd()=0;
     virtual unsigned int BuildOr()=0;
+    virtual unsigned int BuildComponentwiseMultiply()=0;
+    virtual unsigned int BuildComponentwiseDivide()=0;
     virtual unsigned int BuildLegalChar(unsigned int)=0;
     virtual unsigned int BuildNumber(QString)=0;
     virtual unsigned int BuildIdentifier(QString)=0;

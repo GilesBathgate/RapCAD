@@ -28,7 +28,9 @@ public:
     enum Operator_e
     {
 	Multiply,
+	ComponentwiseMultiply,
 	Divide,
+	ComponentwiseDivide,
 	Modulus,
         Dot,
 	Add,

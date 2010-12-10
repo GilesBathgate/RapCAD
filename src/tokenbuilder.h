@@ -53,6 +53,8 @@ public:
     unsigned int BuildNotEqual();
     unsigned int BuildAnd();
     unsigned int BuildOr();
+    unsigned int BuildComponentwiseMultiply();
+    unsigned int BuildComponentwiseDivide();
     unsigned int BuildLegalChar(unsigned int);
     unsigned int BuildNumber(QString);
     unsigned int BuildIdentifier(QString);
