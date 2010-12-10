@@ -20,6 +20,7 @@
 #define TOKENBUILDER_H
 
 #include <QString>
+#include <QChar>
 
 class TokenBuilder
 {
@@ -45,8 +46,13 @@ public:
     unsigned int BuildOr();
     unsigned int BuildNumber(QString);
     unsigned int BuildIdentifier(QString);
-    unsigned int BuildString(QString*);
+    void BuildStringStart();
+    void BuildString(QChar);
+    void BuildString(QString);
+    unsigned int BuildStringFinish();
     unsigned int BuildComment(QString);
+private:
+    QString* stringcontents;
 };
 
 #endif // TOKENBUILDER_H

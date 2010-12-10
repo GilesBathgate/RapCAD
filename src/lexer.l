@@ -26,7 +26,6 @@ void lexererror();
 void setsourcepath(QDir);
 void includefile();
 
-QString* stringcontents;
 QString filename;
 QString filepath;
 QStack<QDir> path_stack;
@@ -78,15 +77,15 @@ WS [ \t\r\n]
 "||"			{ return tbuilder->BuildOr();  }
 {D}+|{D}*\.{D}+|{D}+\.{D}* { return tbuilder->BuildNumber(lexertext); }
 [a-zA-Z0-9_]+		{ return tbuilder->BuildIdentifier(lexertext); }
-\"			{ BEGIN(string); stringcontents = new QString(); }
+\"			{ BEGIN(string); tbuilder->BuildStringStart(); }
 <string>{
-\\n			{ stringcontents->append('\n'); }
-\\t			{ stringcontents->append('\t'); }
-\\r			{ stringcontents->append('\r'); }
-\\\\			{ stringcontents->append('\\'); }
-\\\"			{ stringcontents->append('"'); }
-[^\\\n\"]+		{ stringcontents->append(lexertext); }
-\"			{ BEGIN(INITIAL); return tbuilder->BuildString(stringcontents); }
+\\n			{ tbuilder->BuildString('\n'); }
+\\t			{ tbuilder->BuildString('\t'); }
+\\r			{ tbuilder->BuildString('\r'); }
+\\\\			{ tbuilder->BuildString('\\'); }
+\\\"			{ tbuilder->BuildString('"'); }
+[^\\\n\"]+		{ tbuilder->BuildString(lexertext); }
+\"			{ BEGIN(INITIAL); return tbuilder->BuildStringFinish(); }
 }
 "//"[^\n]*\n?		{ tbuilder->BuildComment(lexertext); }
 "/*"			{ BEGIN(comment); }

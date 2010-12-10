@@ -126,9 +126,24 @@ unsigned int TokenBuilder::BuildIdentifier(QString str)
     parserlval.text = new QString(str); return IDENTIFIER;
 }
 
-unsigned int TokenBuilder::BuildString(QString* contents)
+void TokenBuilder::BuildStringStart()
 {
-    parserlval.text = contents; return STRING;
+    stringcontents = new QString();
+}
+
+void TokenBuilder::BuildString(QChar c)
+{
+    stringcontents->append(c);
+}
+
+void TokenBuilder::BuildString(QString s)
+{
+    stringcontents->append(s);
+}
+
+unsigned int TokenBuilder::BuildStringFinish()
+{
+    parserlval.text = stringcontents; return STRING;
 }
 
 unsigned int TokenBuilder::BuildComment(QString)
