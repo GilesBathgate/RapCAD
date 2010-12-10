@@ -23,6 +23,9 @@
 #include "moduleimport.h"
 #include "compoundstatement.h"
 #include "assignstatement.h"
+#include "ifelsestatement.h"
+#include "returnstatement.h"
+#include "forstatement.h"
 #include "module.h"
 #include "modulescope.h"
 #include "function.h"
@@ -53,10 +56,10 @@ public:
     Statement* BuildStatement(Value*,Expression*);
     Statement* BuildStatement(QString*,Value::Type_e,Expression*);
     Statement* BuildStatement(IfElseStatement*);
-    ReturnStatement* BuildReturnStatement(Expression*);
-    IfElseStatement* BuildIfElseStatement(Expression*,Statement*);
-    IfElseStatement* BuildIfElseStatement(Expression*,Statement*,Statement*);
-    ForStatement* BuildForStatement(QVector<Argument*>*,Statement*);
+    Statement* BuildReturnStatement(Expression*);
+    Statement* BuildIfElseStatement(Expression*,Statement*);
+    Statement* BuildIfElseStatement(Expression*,Statement*,Statement*);
+    Statement* BuildForStatement(QVector<Argument*>*,Statement*);
     QVector<Statement*>* BuildStatements();
     QVector<Statement*>* BuildStatements(Statement*);
     QVector<Statement*>* BuildStatements(QVector<Statement*>*);

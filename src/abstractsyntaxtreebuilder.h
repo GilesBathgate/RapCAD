@@ -24,9 +24,6 @@
 #include "statement.h"
 #include "value.h"
 #include "expression.h"
-#include "ifelsestatement.h"
-#include "returnstatement.h"
-#include "forstatement.h"
 #include "argument.h"
 #include "parameter.h"
 #include "scope.h"
@@ -50,10 +47,10 @@ public:
     virtual Statement* BuildStatement(Value*,Expression*)=0;
     virtual Statement* BuildStatement(QString*,Value::Type_e,Expression*)=0;
     virtual Statement* BuildStatement(IfElseStatement*)=0;
-    virtual ReturnStatement* BuildReturnStatement(Expression*)=0;
-    virtual IfElseStatement* BuildIfElseStatement(Expression*,Statement*)=0;
-    virtual IfElseStatement* BuildIfElseStatement(Expression*,Statement*,Statement*)=0;
-    virtual ForStatement* BuildForStatement(QVector<Argument*>*,Statement*)=0;
+    virtual Statement* BuildReturnStatement(Expression*)=0;
+    virtual Statement* BuildIfElseStatement(Expression*,Statement*)=0;
+    virtual Statement* BuildIfElseStatement(Expression*,Statement*,Statement*)=0;
+    virtual Statement* BuildForStatement(QVector<Argument*>*,Statement*)=0;
     virtual QVector<Statement*>* BuildStatements()=0;
     virtual QVector<Statement*>* BuildStatements(Statement*)=0;
     virtual QVector<Statement*>* BuildStatements(QVector<Statement*>*)=0;

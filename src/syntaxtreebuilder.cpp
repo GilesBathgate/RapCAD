@@ -118,14 +118,14 @@ Statement* SyntaxTreeBuilder::BuildStatement(IfElseStatement* ifelse)
     return ifelse;
 }
 
-ReturnStatement* SyntaxTreeBuilder::BuildReturnStatement(Expression* exp)
+Statement* SyntaxTreeBuilder::BuildReturnStatement(Expression* exp)
 {
     ReturnStatement* result = new ReturnStatement();
     result->setExpression(exp);
     return result;
 }
 
-IfElseStatement* SyntaxTreeBuilder::BuildIfElseStatement(Expression* expr,Statement* stmt)
+Statement* SyntaxTreeBuilder::BuildIfElseStatement(Expression* expr,Statement* stmt)
 {
     IfElseStatement* result = new IfElseStatement();
     result->setExpression(expr);
@@ -133,7 +133,7 @@ IfElseStatement* SyntaxTreeBuilder::BuildIfElseStatement(Expression* expr,Statem
     return result;
 }
 
-IfElseStatement* SyntaxTreeBuilder::BuildIfElseStatement(Expression* expr,Statement* truestmt ,Statement* falsestmt)
+Statement* SyntaxTreeBuilder::BuildIfElseStatement(Expression* expr,Statement* truestmt ,Statement* falsestmt)
 {
     IfElseStatement* result = new IfElseStatement();
     result->setExpression(expr);
@@ -142,7 +142,7 @@ IfElseStatement* SyntaxTreeBuilder::BuildIfElseStatement(Expression* expr,Statem
     return result;
 }
 
-ForStatement* SyntaxTreeBuilder::BuildForStatement(QVector<Argument*>* args,Statement* stmt)
+Statement* SyntaxTreeBuilder::BuildForStatement(QVector<Argument*>* args,Statement* stmt)
 {
     ForStatement* result = new ForStatement();
     result->setArguments(*args);

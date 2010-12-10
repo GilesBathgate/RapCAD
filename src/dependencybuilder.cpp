@@ -89,22 +89,22 @@ Statement* DependencyBuilder::BuildStatement(IfElseStatement*)
     return NULL;
 }
 
-ReturnStatement* DependencyBuilder::BuildReturnStatement(Expression*)
+Statement* DependencyBuilder::BuildReturnStatement(Expression*)
 {
     return NULL;
 }
 
-IfElseStatement* DependencyBuilder::BuildIfElseStatement(Expression*,Statement*)
+Statement* DependencyBuilder::BuildIfElseStatement(Expression*,Statement*)
 {
     return NULL;
 }
 
-IfElseStatement* DependencyBuilder::BuildIfElseStatement(Expression*,Statement*,Statement*)
+Statement* DependencyBuilder::BuildIfElseStatement(Expression*,Statement*,Statement*)
 {
     return NULL;
 }
 
-ForStatement* DependencyBuilder::BuildForStatement(QVector<Argument*>*,Statement*)
+Statement* DependencyBuilder::BuildForStatement(QVector<Argument*>*,Statement*)
 {
     return NULL;
 }
