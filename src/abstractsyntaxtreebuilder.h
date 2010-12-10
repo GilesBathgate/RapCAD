@@ -51,8 +51,10 @@ class AbstractSyntaxTreeBuilder
 {
 public:
     virtual ~AbstractSyntaxTreeBuilder(){}
-    virtual void BuildScript(QString*)=0;
+    virtual void BuildScript(Declaration*)=0;
     virtual void BuildScript(QVector<Declaration*>*)=0;
+    virtual Declaration* BuildUse(QString*)=0;
+    virtual Declaration* BuildUse(QString*,QString*)=0;
     virtual QVector<Declaration*>* BuildDeclarations()=0;
     virtual QVector<Declaration*>* BuildDeclarations(Declaration*)=0;
     virtual QVector<Declaration*>* BuildDeclarations(QVector<Declaration*>*)=0;

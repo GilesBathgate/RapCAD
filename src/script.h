@@ -30,6 +30,7 @@ public:
 
     void setDeclarations(QVector<Declaration*>);
     QVector<Declaration*> getDeclarations();
+    void addDeclaration(Declaration*);
 private:
     QVector<Declaration*> declarations;
 };

@@ -291,7 +291,14 @@ void PrettyPrinter::visit(ModuleImport * decl)
 {
     result.append("Use: <");
     result.append(decl->getImport());
-    result.append(">\n");
+    result.append(">");
+    QString name = decl->getNamespace();
+    if(!name.isEmpty())
+    {
+	result.append(" as ");
+	result.append(name);
+    }
+    result.append("\n");
 }
 
 void PrettyPrinter::visit(Literal * lit)

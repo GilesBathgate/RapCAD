@@ -36,6 +36,16 @@ QString ModuleImport::getImport()
     return this->import;
 }
 
+void ModuleImport::setNamespace(QString name)
+{
+    this->name_space = name;
+}
+
+QString ModuleImport::getNamespace()
+{
+    return this->name_space;
+}
+
 void ModuleImport::accept(Visitor& v)
 {
     v.visit(this);

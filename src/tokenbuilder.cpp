@@ -116,6 +116,11 @@ unsigned int TokenBuilder::BuildIf()
     return IF;
 }
 
+unsigned int TokenBuilder::BuildAs()
+{
+    return AS;
+}
+
 unsigned int TokenBuilder::BuildElse()
 {
     return ELSE;

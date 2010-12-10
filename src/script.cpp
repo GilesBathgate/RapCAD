@@ -37,3 +37,8 @@ QVector<Declaration*> Script::getDeclarations()
 {
     return this->declarations;
 }
+
+void Script::addDeclaration(Declaration* dec)
+{
+    declarations.append(dec);
+}

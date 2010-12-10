@@ -27,12 +27,28 @@ SyntaxTreeBuilder::~SyntaxTreeBuilder()
 {
 }
 
-void SyntaxTreeBuilder::BuildScript(QString* imp)
+void SyntaxTreeBuilder::BuildScript(Declaration* dec)
+{
+    script->addDeclaration(dec);
+}
+
+Declaration* SyntaxTreeBuilder::BuildUse(QString* imp)
 {
     ModuleImport* result = new ModuleImport();
     result->setImport(*imp);
     delete imp;
-    script->getDeclarations().prepend(result);
+    return result;
+}
+
+Declaration* SyntaxTreeBuilder::BuildUse(QString* imp,QString* name)
+{
+    ModuleImport* result = new ModuleImport();
+    result->setImport(*imp);
+    delete imp;
+    result->setNamespace(*name);
+    delete name;
+
+    return result;
 }
 
 void SyntaxTreeBuilder::BuildScript(QVector<Declaration*>* decls)

@@ -55,6 +55,7 @@ WS [ \t\r\n]
 "const"		{ return tbuilder->BuildConst(); }
 "param"		{ return tbuilder->BuildParam(); }
 "if"			{ return tbuilder->BuildIf(); }
+"as"			{ return tbuilder->BuildAs(); }
 "else"			{ return tbuilder->BuildElse(); }
 "for"			{ return tbuilder->BuildFor(); }
 "return"		{ return tbuilder->BuildReturn(); }

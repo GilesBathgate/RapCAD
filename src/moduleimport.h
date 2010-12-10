@@ -29,9 +29,12 @@ public:
     ~ModuleImport();
     void setImport(QString);
     QString getImport();
+    void setNamespace(QString);
+    QString getNamespace();
     void accept(Visitor&);
 private:
     QString import;
+    QString name_space;
 };
 
 #endif // MODULEIMPORT_H

@@ -26,12 +26,22 @@ DependencyBuilder::~DependencyBuilder()
 {
 }
 
-void DependencyBuilder::BuildScript(QString*)
+void DependencyBuilder::BuildScript(Declaration*)
 {
 }
 
 void DependencyBuilder::BuildScript(QVector<Declaration*>*)
 {
+}
+
+Declaration* DependencyBuilder::BuildUse(QString*)
+{
+    return NULL;
+}
+
+Declaration* DependencyBuilder::BuildUse(QString*,QString*)
+{
+    return NULL;
 }
 
 QVector<Declaration*>* DependencyBuilder::BuildDeclarations()

@@ -73,6 +73,7 @@ AbstractSyntaxTreeBuilder *builder;
 %token <text> STRING
 %token <number> NUMBER
 %token TOK_TRUE TOK_FALSE UNDEF
+%token AS
 
 %right RETURN
 %right '='
@@ -91,7 +92,7 @@ AbstractSyntaxTreeBuilder *builder;
 %left '.'
 
 %type <count> optional_commas
-%type <decl>  declaration
+%type <decl>  declaration use_declaration
 %type <decls>  declaration_list compound_declaration
 %type <param> parameter
 %type <params> parameters
@@ -108,10 +109,17 @@ AbstractSyntaxTreeBuilder *builder;
 %%
 input
 	: //empty
-	| USE input
+	| use_declaration input
 	{ builder->BuildScript($1); }
 	| declaration_list
 	{ builder->BuildScript($1); }
+	;
+
+use_declaration
+	: USE
+	{ $$ = builder->BuildUse($1); }
+	| USE AS IDENTIFIER ';'
+	{ $$ = builder->BuildUse($1,$3); }
 	;
 
 declaration_list

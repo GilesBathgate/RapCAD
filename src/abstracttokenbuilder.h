@@ -42,6 +42,7 @@ public:
     virtual unsigned int BuildConst()=0;
     virtual unsigned int BuildParam()=0;
     virtual unsigned int BuildIf()=0;
+    virtual unsigned int BuildAs()=0;
     virtual unsigned int BuildElse()=0;
     virtual unsigned int BuildFor()=0;
     virtual unsigned int BuildReturn()=0;

@@ -44,6 +44,7 @@ public:
     unsigned int BuildConst();
     unsigned int BuildParam();
     unsigned int BuildIf();
+    unsigned int BuildAs();
     unsigned int BuildElse();
     unsigned int BuildFor();
     unsigned int BuildReturn();
