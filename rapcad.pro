@@ -100,7 +100,8 @@ HEADERS  += src/mainwindow.h \
     src/visitable.h \
     src/script.h \
     src/syntaxhighlighter.h \
-    src/tokenbuilder.h
+    src/tokenbuilder.h \
+    src/abstracttokenbuilder.h
 
 FORMS    += src/mainwindow.ui   
 

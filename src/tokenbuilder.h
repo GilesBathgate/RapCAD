@@ -23,8 +23,9 @@
 #include <QChar>
 #include <QStack>
 #include <QDir>
+#include "abstracttokenbuilder.h"
 
-class TokenBuilder
+class TokenBuilder : AbstractTokenBuilder
 {
 public:
     TokenBuilder();
@@ -67,8 +68,6 @@ public:
     void BuildFileFinish();
 private:
     QString* stringcontents;
-    void includefile();
-
     QString filename;
     QString filepath;
     QStack<QDir> path_stack;
