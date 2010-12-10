@@ -17,18 +17,11 @@
  */
 
 %{
-#include <QString>
-#include <QStack>
-#include <QDir>
 #include "tokenbuilder.h"
 
 void lexererror();
-void setsourcepath(QDir);
-void includefile();
-
-QString filename;
-QString filepath;
-QStack<QDir> path_stack;
+void lexerinclude(const char*);
+void lexerinit(QDir sourcepath);
 
 TokenBuilder* tbuilder;
 %}
@@ -43,14 +36,14 @@ WS [ \t\r\n]
 %%
 "include"{WS}*"<"	{ BEGIN(include); }
 <include>{
-[^\t\r\n>]+"/"		{ filepath = lexertext; }
-[^\t\r\n>/]+		{ filename = lexertext; }
-">"			{ BEGIN(INITIAL); includefile(); }
+[^\t\r\n>]+"/"		{ tbuilder->BuildIncludePath(lexertext); }
+[^\t\r\n>/]+		{ tbuilder->BuildIncludeFile(lexertext); }
+">"			{ BEGIN(INITIAL); tbuilder->BuildIncludeFinish(); }
 }
 "use"{WS}*"<"		{ BEGIN(use); }
 <use>[^\t\r\n>]+	{ return tbuilder->BuildUse(lexertext); }
 <use>">"		{ BEGIN(INITIAL); }
-<<EOF>>			{ path_stack.pop();
+<<EOF>>			{ tbuilder->BuildFileFinish();
 			  lexerpop_buffer_state();
 			  if(!YY_CURRENT_BUFFER)
 			    yyterminate(); }
@@ -102,33 +95,14 @@ void lexererror()
     fprintf(stderr,"%d: illegal token %s",lexerlineno,lexertext);
 }
 
-void setsourcepath(QDir pth)
+void lexerinit(QDir sourcepath)
 {
-    path_stack.push(pth);
-
-    //TODO initialise builder here for now
     tbuilder = new TokenBuilder();
+    tbuilder->BuildFileStart(sourcepath);
 }
 
-void includefile()
+void lexerinclude(const char* fullpath)
 {
-    if(filename.isEmpty())
-	return;
-
-    QDir currentpath = path_stack.top();
-    if(filepath.isEmpty()) {
-	path_stack.push(currentpath);
-    } else {
-	QFileInfo dirinfo(currentpath,filepath);
-	path_stack.push(dirinfo.dir());
-	filepath.clear();
-    }
-
-    currentpath = path_stack.top();
-    QFileInfo fileinfo(currentpath,filename);
-    filename.clear();
-
-    const char* fullpath = fileinfo.absoluteFilePath().toLocal8Bit();
     FILE* newinput=fopen(fullpath,"r");
     if(!newinput) {
 	fprintf(stderr,"%d: Can't open input file `%s'.\n",lexerlineno,fullpath);
@@ -137,5 +111,4 @@ void includefile()
 
     lexerin=newinput;
     lexerpush_buffer_state(lexer_create_buffer(lexerin, YY_BUF_SIZE));
-
 }

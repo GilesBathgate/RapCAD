@@ -21,11 +21,17 @@
 
 #include <QString>
 #include <QChar>
+#include <QStack>
+#include <QDir>
 
 class TokenBuilder
 {
 public:
     TokenBuilder();
+    void BuildIncludeStart();
+    void BuildIncludeFile(QString);
+    void BuildIncludePath(QString);
+    void BuildIncludeFinish();
     unsigned int BuildUse(QString);
     unsigned int BuildModule();
     unsigned int BuildFunction();
@@ -51,8 +57,15 @@ public:
     void BuildString(QString);
     unsigned int BuildStringFinish();
     unsigned int BuildComment(QString);
+    void BuildFileStart(QDir);
+    void BuildFileFinish();
 private:
     QString* stringcontents;
+    void includefile();
+
+    QString filename;
+    QString filepath;
+    QStack<QDir> path_stack;
 };
 
 #endif // TOKENBUILDER_H

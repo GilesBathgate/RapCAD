@@ -19,13 +19,46 @@
 #include "tokenbuilder.h"
 #include "parser_yacc.h"
 #define YY_NULL 0
-extern int yy_start;
-#define BEGIN (yy_start) = 1 + 2 *
+extern void lexerinclude(const char*);
 
 
 TokenBuilder::TokenBuilder()
 {
 }
+
+void TokenBuilder::BuildIncludeFile(QString str)
+{
+    filename = str;
+}
+
+void TokenBuilder::BuildIncludePath(QString str)
+{
+    filepath = str;
+}
+
+void TokenBuilder::BuildIncludeFinish()
+{
+    if(filename.isEmpty())
+	return;
+
+    QDir currentpath = path_stack.top();
+    if(filepath.isEmpty()) {
+	path_stack.push(currentpath);
+    } else {
+	QFileInfo dirinfo(currentpath,filepath);
+	path_stack.push(dirinfo.dir());
+	filepath.clear();
+    }
+
+    currentpath = path_stack.top();
+    QFileInfo fileinfo(currentpath,filename);
+    filename.clear();
+
+    const char* fullpath = fileinfo.absoluteFilePath().toLocal8Bit();
+    lexerinclude(fullpath);
+
+}
+
 unsigned int TokenBuilder::BuildUse(QString str)
 {
     parserlval.text = new QString(str); return USE;
@@ -151,3 +184,12 @@ unsigned int TokenBuilder::BuildComment(QString)
     return YY_NULL;
 }
 
+void TokenBuilder::BuildFileStart(QDir pth)
+{
+    path_stack.push(pth);
+}
+
+void TokenBuilder::BuildFileFinish()
+{
+    path_stack.pop();
+}

@@ -37,7 +37,7 @@ extern char *lexertext;
 struct yy_buffer_state;
 extern yy_buffer_state* lexer_scan_string(const char *);
 extern void lexer_delete_buffer(yy_buffer_state*);
-extern void setsourcepath(QDir);
+extern void lexerinit(QDir);
 
 void parsererror(char const *);
 int parserlex();
@@ -375,7 +375,7 @@ void parse(QString input,bool file)
 	if(file)
 	{
 	    QFileInfo fileinfo(input);
-	    setsourcepath(fileinfo.absoluteDir());
+	    lexerinit(fileinfo.absoluteDir());
 	    const char* fullpath = fileinfo.absoluteFilePath().toLocal8Bit();
 	    lexerin = fopen(fullpath,"r");
 	    parserparse();
@@ -384,7 +384,7 @@ void parse(QString input,bool file)
 	else
 	{
 	    QDir current;
-	    setsourcepath(current);
+	    lexerinit(current);
 	    yy_buffer_state* str_buffer = lexer_scan_string(input.toLocal8Bit());
 	    parserparse();
 	    lexer_delete_buffer(str_buffer);
