@@ -56,6 +56,10 @@ void TokenBuilder::BuildIncludeFinish()
 
     currentpath = path_stack.top();
     QFileInfo fileinfo(currentpath,filename);
+
+    if(!fileinfo.exists())
+	path_stack.pop();
+
     filename.clear();
 
     const char* fullpath = fileinfo.absoluteFilePath().toLocal8Bit();
