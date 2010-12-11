@@ -21,7 +21,7 @@
 
 #include <QString>
 #include "expression.h"
-#include "value.h"
+#include "variable.h"
 #include "visitable.h"
 
 class Argument : public Visitable
@@ -29,13 +29,13 @@ class Argument : public Visitable
 public:
     Argument();
     ~Argument();
-    void setVariable(Value*);
-    Value* getVariable();
+    void setVariable(Variable*);
+    Variable* getVariable();
     void setExpression(Expression*);
     Expression* getExpression();
     void accept(Visitor&);
 private:
-    Value* variable;
+    Variable* variable;
     Expression* expression;
 };
 

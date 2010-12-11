@@ -43,7 +43,7 @@
 #include "invocation.h"
 #include "moduleimport.h"
 #include "literal.h"
-#include "value.h"
+#include "variable.h"
 
 class PrettyPrinter : public Visitor
 {
@@ -70,7 +70,7 @@ public:
     void visit(Invocation*);
     void visit(ModuleImport*);
     void visit(Literal*);
-    void visit(Value*);
+    void visit(Variable*);
 
     void Print();
 private:

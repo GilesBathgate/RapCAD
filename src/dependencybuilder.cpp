@@ -74,12 +74,12 @@ Statement* DependencyBuilder::BuildStatement(QVector<Statement*>*)
     return NULL;
 }
 
-Statement* DependencyBuilder::BuildStatement(Value*,Expression*)
+Statement* DependencyBuilder::BuildStatement(Variable*,Expression*)
 {
     return NULL;
 }
 
-Statement* DependencyBuilder::BuildStatement(QString*,Value::Type_e,Expression*)
+Statement* DependencyBuilder::BuildStatement(QString*,Variable::Type_e,Expression*)
 {
     return NULL;
 }
@@ -224,7 +224,7 @@ Argument* DependencyBuilder::BuildArgument(Expression*)
     return NULL;
 }
 
-Argument* DependencyBuilder::BuildArgument(Value*,Expression*)
+Argument* DependencyBuilder::BuildArgument(Variable*,Expression*)
 {
     return NULL;
 }
@@ -259,17 +259,17 @@ Expression* DependencyBuilder::BuildLiteral(QString*)
     return NULL;
 }
 
-Value* DependencyBuilder::BuildVariable(QString*)
+Variable* DependencyBuilder::BuildVariable(QString*)
 {
     return NULL;
 }
 
-Expression* DependencyBuilder::BuildVariable(Value*)
+Expression* DependencyBuilder::BuildVariable(Variable*)
 {
     return NULL;
 }
 
-Value* DependencyBuilder::BuildVariable(QString*,Value::Type_e)
+Variable* DependencyBuilder::BuildVariable(QString*,Variable::Type_e)
 {
     return NULL;
 }

@@ -16,38 +16,38 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "value.h"
+#include "variable.h"
 
-Value::Value()
+Variable::Variable()
 {
-    type=Value::Var;
+    type=Variable::Var;
 }
 
-Value::~Value()
+Variable::~Variable()
 {
 }
 
-QString Value::getName()
+QString Variable::getName()
 {
     return this->name;
 }
 
-void Value::setName(QString name)
+void Variable::setName(QString name)
 {
     this->name = name;
 }
 
-void Value::setType(Type_e type)
+void Variable::setType(Type_e type)
 {
     this->type = type;
 }
 
-Value::Type_e Value::getType()
+Variable::Type_e Variable::getType()
 {
     return this->type;
 }
 
-void Value::accept(Visitor& v)
+void Variable::accept(Visitor& v)
 {
     v.visit(this);
 }

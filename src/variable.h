@@ -22,7 +22,7 @@
 #include <QString>
 #include "expression.h"
 
-class Value : public Expression
+class Variable : public Expression
 {
 public:
     enum Type_e
@@ -33,8 +33,8 @@ public:
 	Param
     };
 
-    Value();
-    ~Value();
+    Variable();
+    ~Variable();
     void setName(QString);
     QString getName();
     void setType(Type_e);

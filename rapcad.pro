@@ -40,7 +40,7 @@ SOURCES += src/main.cpp\
     src/expression.cpp \
     src/binaryexpression.cpp \
     src/literal.cpp \
-    src/value.cpp \
+    src/variable.cpp \
     src/declaration.cpp \
     src/scope.cpp \
     src/modulescope.cpp \
@@ -73,7 +73,7 @@ HEADERS  += src/mainwindow.h \
     src/expression.h \
     src/binaryexpression.h \
     src/literal.h \
-    src/value.h \
+    src/variable.h \
     src/declaration.h \
     src/scope.h \
     src/modulescope.h \

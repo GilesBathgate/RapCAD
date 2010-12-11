@@ -20,7 +20,7 @@
 #define ASSIGNSTATEMENT_H
 
 #include "statement.h"
-#include "value.h"
+#include "variable.h"
 #include "expression.h"
 
 class AssignStatement : public Statement
@@ -28,13 +28,13 @@ class AssignStatement : public Statement
 public:
     AssignStatement();
     ~AssignStatement();
-    void setValue(Value*);
-    Value* getValue();
+    void setVariable(Variable*);
+    Variable* getVariable();
     void setExpression(Expression*);
     Expression* getExpression();
     void accept(Visitor&);
 private:
-    Value* value;
+    Variable* variable;
     Expression* expression;
 };
 

@@ -22,7 +22,7 @@
 #include <QVector>
 #include "declaration.h"
 #include "statement.h"
-#include "value.h"
+#include "variable.h"
 #include "expression.h"
 #include "argument.h"
 #include "parameter.h"
@@ -44,8 +44,8 @@ public:
     virtual QVector<Declaration*>* BuildDeclarations(QVector<Declaration*>*,Declaration*)=0;
     virtual Statement* BuildStatement(Statement*)=0;
     virtual Statement* BuildStatement(QVector<Statement*>*)=0;
-    virtual Statement* BuildStatement(Value*,Expression*)=0;
-    virtual Statement* BuildStatement(QString*,Value::Type_e,Expression*)=0;
+    virtual Statement* BuildStatement(Variable*,Expression*)=0;
+    virtual Statement* BuildStatement(QString*,Variable::Type_e,Expression*)=0;
     virtual Statement* BuildReturnStatement(Expression*)=0;
     virtual Statement* BuildIfElseStatement(Expression*,Statement*)=0;
     virtual Statement* BuildIfElseStatement(Expression*,Statement*,Statement*)=0;
@@ -76,14 +76,14 @@ public:
     virtual unsigned int BuildOptionalCommas()=0;
     virtual unsigned int BuildOptionalCommas(unsigned int)=0;
     virtual Argument* BuildArgument(Expression*)=0;
-    virtual Argument* BuildArgument(Value*,Expression*)=0;
+    virtual Argument* BuildArgument(Variable*,Expression*)=0;
     virtual Expression* BuildLiteral()=0;
     virtual Expression* BuildLiteral(bool)=0;
     virtual Expression* BuildLiteral(double value)=0;
     virtual Expression* BuildLiteral(QString* value)=0;
-    virtual Value* BuildVariable(QString* name)=0;
-    virtual Expression* BuildVariable(Value*)=0;
-    virtual Value* BuildVariable(QString*,Value::Type_e)=0;
+    virtual Variable* BuildVariable(QString* name)=0;
+    virtual Expression* BuildVariable(Variable*)=0;
+    virtual Variable* BuildVariable(QString*,Variable::Type_e)=0;
     virtual Expression* BuildExpression(Expression*,QString*)=0;
     virtual Expression* BuildExpression(Expression*)=0;
     virtual Expression* BuildExpression(Expression::Operator_e,Expression*)=0;

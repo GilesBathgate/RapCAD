@@ -30,12 +30,12 @@ Argument::~Argument()
     delete expression;
 }
 
-void Argument::setVariable(Value* var)
+void Argument::setVariable(Variable* var)
 {
     this->variable = var;
 }
 
-Value* Argument::getVariable()
+Variable* Argument::getVariable()
 {
     return this->variable;
 }

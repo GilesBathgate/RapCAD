@@ -62,7 +62,7 @@ AbstractSyntaxTreeBuilder *builder;
 	class QVector<Expression*>* exprs;
 	class Instance* inst;
 	class Scope* scp;
-	class Value* var;
+	class Variable* var;
 }
 %token <text> USE
 %token MODULE FUNCTION
@@ -201,9 +201,9 @@ assign_statement
 	: variable '=' expression
 	{ $$ = builder->BuildStatement($1,$3); }
 	| CONST IDENTIFIER '=' expression
-	{ $$ = builder->BuildStatement($2,Value::Const,$4); }
+	{ $$ = builder->BuildStatement($2,Variable::Const,$4); }
 	| PARAM IDENTIFIER '=' expression
-	{ $$ = builder->BuildStatement($2,Value::Param,$4); }
+	{ $$ = builder->BuildStatement($2,Variable::Param,$4); }
 	;
 
 ifelse_statement
@@ -222,7 +222,7 @@ variable
 	: IDENTIFIER
 	{ $$ = builder->BuildVariable($1); }
 	| '$' IDENTIFIER
-	{ $$ = builder->BuildVariable($2,Value::Special); }
+	{ $$ = builder->BuildVariable($2,Variable::Special); }
 	;
 
 expression

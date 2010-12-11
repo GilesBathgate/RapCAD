@@ -20,24 +20,24 @@
 
 AssignStatement::AssignStatement()
 {
-    value=NULL;
+    variable=NULL;
     expression=NULL;
 }
 
 AssignStatement::~AssignStatement()
 {
-    delete value;
+    delete variable;
     delete expression;
 }
 
-void AssignStatement::setValue(Value* val)
+void AssignStatement::setVariable(Variable* var)
 {
-    this->value = val;
+    this->variable = var;
 }
 
-Value* AssignStatement::getValue()
+Variable* AssignStatement::getVariable()
 {
-    return this->value;
+    return this->variable;
 }
 
 void AssignStatement::setExpression(Expression* exp)

@@ -93,22 +93,22 @@ Statement* SyntaxTreeBuilder::BuildStatement(QVector<Statement*>* stmts)
     return result;
 }
 
-Statement* SyntaxTreeBuilder::BuildStatement(Value* var,Expression* exp)
+Statement* SyntaxTreeBuilder::BuildStatement(Variable* var,Expression* exp)
 {
     AssignStatement* result = new AssignStatement();
-    result->setValue(var);
+    result->setVariable(var);
     result->setExpression(exp);
     return result;
 }
 
-Statement* SyntaxTreeBuilder::BuildStatement(QString* name,Value::Type_e type, Expression* exp)
+Statement* SyntaxTreeBuilder::BuildStatement(QString* name,Variable::Type_e type, Expression* exp)
 {
     AssignStatement* result = new AssignStatement();
-    Value* var = new Value();
+    Variable* var = new Variable();
     var->setName(*name);
     delete name;
     var->setType(type);
-    result->setValue(var);
+    result->setVariable(var);
     result->setExpression(exp);
     return result;
 }
@@ -324,7 +324,7 @@ Argument* SyntaxTreeBuilder::BuildArgument(Expression* exp)
     return result;
 }
 
-Argument* SyntaxTreeBuilder::BuildArgument(Value* var,Expression* exp)
+Argument* SyntaxTreeBuilder::BuildArgument(Variable* var,Expression* exp)
 {
     Argument* result = new Argument();
     result->setVariable(var);
@@ -369,22 +369,22 @@ Expression* SyntaxTreeBuilder::BuildLiteral(QString* value)
     return result;
 }
 
-Value* SyntaxTreeBuilder::BuildVariable(QString* name)
+Variable* SyntaxTreeBuilder::BuildVariable(QString* name)
 {
-    Value* result = new Value();
+    Variable* result = new Variable();
     result->setName(*name);
     delete name;
     return result;
 }
 
-Expression* SyntaxTreeBuilder::BuildVariable(Value* var)
+Expression* SyntaxTreeBuilder::BuildVariable(Variable* var)
 {
     return var;
 }
 
-Value* SyntaxTreeBuilder::BuildVariable(QString* name,Value::Type_e type)
+Variable* SyntaxTreeBuilder::BuildVariable(QString* name,Variable::Type_e type)
 {
-    Value* result = new Value();
+    Variable* result = new Variable();
     result->setType(type);
     result->setName(*name);
     delete name;
@@ -395,7 +395,7 @@ Expression* SyntaxTreeBuilder::BuildExpression(Expression* exp,QString* name)
 {
     BinaryExpression* result = new BinaryExpression();
     result->setLeft(exp);
-    Value* val = new Value();
+    Variable* val = new Variable();
     val->setName(*name);
     delete name;
     result->setRight(val);
@@ -457,10 +457,10 @@ QVector<Expression*>* SyntaxTreeBuilder::BuildVector(Expression* exp)
 QVector<Expression*>* SyntaxTreeBuilder::BuildVector(QVector<Expression*>* exprs,unsigned int count,Expression* expr)
 {
     if(exprs->size()==0)
-	exprs->append(new Value());
+	exprs->append(new Variable());
 
     for(unsigned int i=0; i<count; i++)
-	exprs->append(new Value());
+	exprs->append(new Variable());
     exprs->append(expr);
     return exprs;
 }

@@ -200,7 +200,7 @@ void PrettyPrinter::visit(BinaryExpression * exp)
 void PrettyPrinter::visit(Argument * arg)
 {
     result.append("Argument: (");
-    Value* variable = arg->getVariable();
+    Variable* variable = arg->getVariable();
     if(variable)
 	variable->accept(*this);
 
@@ -215,9 +215,9 @@ void PrettyPrinter::visit(AssignStatement * stmt)
 {
     result.append("Assign: ");
 
-    Value* value = stmt->getValue();
-    if(value)
-	value->accept(*this);
+    Variable* var = stmt->getVariable();
+    if(var)
+	var->accept(*this);
 
     Expression* expression = stmt->getExpression();
     if(expression)
@@ -314,21 +314,21 @@ void PrettyPrinter::visit(Literal * lit)
     result.append(" ");
 }
 
-void PrettyPrinter::visit(Value * val)
+void PrettyPrinter::visit(Variable * val)
 {
     switch(val->getType())
     {
-    case Value::Const:
+    case Variable::Const:
 	result.append("Constant: ");
 	break;
-    case Value::Param:
+    case Variable::Param:
 	result.append("Parametric: ");
 	break;
     default:
 	result.append("Variable: ");
 	break;
     }
-    if(val->getType()==Value::Special)
+    if(val->getType()==Variable::Special)
 	result.append("$");
     result.append(val->getName());
     result.append(" ");
