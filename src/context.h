@@ -16,17 +16,18 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SCOPE_H
-#define SCOPE_H
+#ifndef CONTEXT_H
+#define CONTEXT_H
 
-#include <QString>
-#include "statement.h"
+#include <QHash>
+#include "value.h"
 
-class Scope : public Statement
+class Context
 {
 public:
-    Scope();
-    virtual ~Scope();
+    Context();
+
+    QHash<QString, Value*> variables;
 };
 
-#endif // SCOPE_H
+#endif // CONTEXT_H

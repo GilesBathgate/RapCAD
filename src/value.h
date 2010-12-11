@@ -16,17 +16,13 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SCOPE_H
-#define SCOPE_H
+#ifndef VALUE_H
+#define VALUE_H
 
-#include <QString>
-#include "statement.h"
-
-class Scope : public Statement
+class Value
 {
 public:
-    Scope();
-    virtual ~Scope();
+    Value();
 };
 
-#endif // SCOPE_H
+#endif // VALUE_H

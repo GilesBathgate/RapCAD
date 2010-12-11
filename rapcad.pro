@@ -64,7 +64,10 @@ SOURCES += src/main.cpp\
     src/prettyprinter.cpp \
     src/script.cpp \
     src/syntaxhighlighter.cpp \
-    src/tokenbuilder.cpp
+    src/tokenbuilder.cpp \
+    src/evaluator.cpp \
+    src/context.cpp \
+    src/value.cpp
 
 HEADERS  += src/mainwindow.h \
     src/module.h \
@@ -101,7 +104,10 @@ HEADERS  += src/mainwindow.h \
     src/script.h \
     src/syntaxhighlighter.h \
     src/tokenbuilder.h \
-    src/abstracttokenbuilder.h
+    src/abstracttokenbuilder.h \
+    src/evaluator.h \
+    src/context.h \
+    src/value.h
 
 FORMS    += src/mainwindow.ui   
 

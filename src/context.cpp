@@ -16,17 +16,8 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SCOPE_H
-#define SCOPE_H
+#include "context.h"
 
-#include <QString>
-#include "statement.h"
-
-class Scope : public Statement
+Context::Context()
 {
-public:
-    Scope();
-    virtual ~Scope();
-};
-
-#endif // SCOPE_H
+}

@@ -16,8 +16,8 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MODULECONTEXT_H
-#define MODULECONTEXT_H
+#ifndef MODULESCOPE_H
+#define MODULESCOPE_H
 
 #include <QVector>
 #include "scope.h"
@@ -35,4 +35,4 @@ private:
     QVector<Declaration*> declarations;
 };
 
-#endif // MODULECONTEXT_H
+#endif // MODULESCOPE_H

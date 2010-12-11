@@ -16,8 +16,8 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FUNCTIONCONTEXT_H
-#define FUNCTIONCONTEXT_H
+#ifndef FUNCTIONSCOPE_H
+#define FUNCTIONSCOPE_H
 
 #include <QVector>
 #include "scope.h"
@@ -39,4 +39,4 @@ private:
     QVector<Statement*> statements;
 };
 
-#endif // FUNCTIONCONTEXT_H
+#endif // FUNCTIONSCOPE_H
