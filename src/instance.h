@@ -46,12 +46,15 @@ public:
     QVector <Statement*> getChildren();
     void setType(Type_e);
     Type_e getType();
+    void setNamespace(QString);
+    QString getNamespace();
     void accept(Visitor&);
 private:
     QString name;
     QVector<Argument*> arguments;
     QVector<Statement*> children;
     Type_e type;
+    QString name_space;
 };
 
 #endif // INSTANCE_H

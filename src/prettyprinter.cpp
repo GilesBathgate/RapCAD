@@ -71,6 +71,12 @@ void PrettyPrinter::visit(Instance * inst)
     }
 
     result.append("Instance: ");
+    QString name = inst->getNamespace();
+    if(!name.isEmpty())
+    {
+	result.append(name);
+	result.append(":");
+    }
     result.append(inst->getName());
     result.append(" ");
     QVector<Argument*> arguments = inst->getArguments();

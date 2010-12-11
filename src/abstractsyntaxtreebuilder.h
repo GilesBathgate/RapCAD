@@ -61,6 +61,7 @@ public:
     virtual Scope* BuildScope(Expression*)=0;
     virtual Scope* BuildScope(QVector<Statement*>*)=0;
     virtual Instance* BuildInstance(Instance*)=0;
+    virtual Instance* BuildInstance(QString*,Instance*)=0;
     virtual Instance* BuildInstance(Instance::Type_e,Instance*)=0;
     virtual Instance* BuildInstance(QString*,QVector<Argument*>*)=0;
     virtual Instance* BuildInstance(Instance*,QVector<Statement*>*)=0;

@@ -334,7 +334,9 @@ module_instance
 	;
 
 single_instance
-	: IDENTIFIER '(' arguments ')'
+	: IDENTIFIER ':' single_instance
+	{ $$ = builder->BuildInstance($1,$3); }
+	| IDENTIFIER '(' arguments ')'
 	{ $$ = builder->BuildInstance($1,$3); }
 	| '!' single_instance
 	{ $$ = builder->BuildInstance(Instance::Root,$2); }

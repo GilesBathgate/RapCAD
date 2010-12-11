@@ -53,6 +53,7 @@ public:
     Scope* BuildScope(Expression*);
     Scope* BuildScope(QVector<Statement*>*);
     Instance* BuildInstance(Instance*);
+    Instance* BuildInstance(QString*,Instance*);
     Instance* BuildInstance(Instance::Type_e,Instance*);
     Instance* BuildInstance(QString*,QVector<Argument*>*);
     Instance* BuildInstance(Instance*,QVector<Statement*>*);

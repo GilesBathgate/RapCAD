@@ -72,6 +72,16 @@ QVector <Statement*> Instance::getChildren()
     return this->children;
 }
 
+void Instance::setNamespace(QString name)
+{
+    this->name_space = name;
+}
+
+QString Instance::getNamespace()
+{
+    return this->name_space;
+}
+
 void Instance::accept(Visitor& v)
 {
     v.visit(this);

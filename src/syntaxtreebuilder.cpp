@@ -227,6 +227,13 @@ Instance* SyntaxTreeBuilder::BuildInstance(Instance* inst)
     return inst;
 }
 
+Instance* SyntaxTreeBuilder::BuildInstance(QString* name,Instance* inst)
+{
+    inst->setNamespace(*name);
+    delete name;
+    return inst;
+}
+
 Instance* SyntaxTreeBuilder::BuildInstance(Instance::Type_e type,Instance* inst)
 {
     inst->setType(type);
