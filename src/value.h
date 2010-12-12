@@ -19,10 +19,16 @@
 #ifndef VALUE_H
 #define VALUE_H
 
+#include "literal.h"
+
 class Value
 {
 public:
     Value();
+    void setValue(Literal*);
+    Literal* getValue() const;
+private:
+    Literal* literalvalue;
 };
 
 #endif // VALUE_H

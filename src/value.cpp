@@ -21,3 +21,15 @@
 Value::Value()
 {
 }
+
+void Value::setValue(Literal* lit)
+{
+    this->literalvalue = lit;
+}
+
+Literal* Value::getValue() const
+{
+    return this->literalvalue;
+}
+
+

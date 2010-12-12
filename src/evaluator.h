@@ -44,6 +44,7 @@
 #include "literal.h"
 #include "variable.h"
 #include "context.h"
+#include "value.h"
 
 class Evaluator : public Visitor
 {
@@ -71,8 +72,13 @@ public:
     void visit(ModuleImport*);
     void visit(Literal*);
     void visit(Variable*);
+
+    void Evaluate();
 private:
     QStack<Context*> context_stack;
+    Value* workingvalue;
+    QString workingname;
+    Script* script;
 };
 
 #endif // EVALUATOR_H

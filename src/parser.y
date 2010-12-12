@@ -29,6 +29,7 @@
 #include "dependencybuilder.h"
 #include "script.h"
 #include "prettyprinter.h"
+#include "evaluator.h"
 
 extern FILE* lexerin;
 extern int lexerlineno;
@@ -410,6 +411,9 @@ void parse(QString input,bool file)
 
 	PrettyPrinter p(s);
 	p.Print();
+
+	Evaluator e(s);
+	e.Evaluate();
 
 	//TODO just delete the script for now
 	delete s;

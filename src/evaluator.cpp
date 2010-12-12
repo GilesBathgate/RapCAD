@@ -17,10 +17,13 @@
  */
 
 #include "evaluator.h"
+#include <stdio.h>
 
 Evaluator::Evaluator(Script* sc)
 {
-    //this->script = sc;
+    workingvalue=NULL;
+    this->script = sc;
+    context_stack.push(new Context());
 }
 
 Evaluator::~Evaluator()
@@ -33,6 +36,18 @@ void Evaluator::visit(ModuleScope * scp)
 
 void Evaluator::visit(Instance * inst)
 {
+    QString name = inst->getName();
+    if(name=="echo")
+    {
+	Argument* arg0 = inst->getArguments().at(0);
+	arg0->accept(*this);
+
+
+	Literal* lit = workingvalue->getValue();
+	const char* t = lit->getValueString().toLocal8Bit();
+	printf("ECHO: %s\n",t);
+
+    }
 }
 
 void Evaluator::visit(Module* mod)
@@ -69,10 +84,18 @@ void Evaluator::visit(BinaryExpression * exp)
 
 void Evaluator::visit(Argument * arg)
 {
+    //arg->getVariable()->accept(*this);
+    arg->getExpression()->accept(*this);
 }
 
 void Evaluator::visit(AssignStatement * stmt)
 {
+    QHash<QString,Value*>* vars = &context_stack.top()->variables;
+    stmt->getVariable()->accept(*this);
+
+    stmt->getExpression()->accept(*this);
+
+    vars->insert(workingname,workingvalue);
 }
 
 void Evaluator::visit(VectorExpression * exp)
@@ -105,8 +128,23 @@ void Evaluator::visit(ModuleImport * decl)
 
 void Evaluator::visit(Literal * lit)
 {
+    workingvalue = new Value();
+    workingvalue->setValue(lit);
 }
 
-void Evaluator::visit(Variable * val)
+void Evaluator::visit(Variable * var)
 {
+    workingname = var->getName();
+    QHash<QString,Value*> vars = context_stack.top()->variables;
+    if(vars.contains(workingname)) {
+	workingvalue=vars[workingname];
+    }
+}
+
+void Evaluator::Evaluate()
+{
+    QVector<Declaration*> declarations = script->getDeclarations();
+
+    for(int i=0; i<declarations.size(); i++)
+	    declarations.at(i)->accept(*this);
 }
