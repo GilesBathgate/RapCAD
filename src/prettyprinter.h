@@ -76,7 +76,6 @@ public:
 private:
     Script* script;
     void createIndent();
-    void indentNewLine();
     QString result;
     unsigned int indent;
 };
