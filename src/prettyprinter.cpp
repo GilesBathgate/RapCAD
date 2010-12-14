@@ -237,10 +237,13 @@ void PrettyPrinter::visit(ForStatement * forstmt)
 void PrettyPrinter::visit(Parameter * param)
 {
     result.append(param->getName());
-    result.append("=");
+
     Expression* expression = param->getExpression();
     if(expression)
+    {
+	result.append("=");
 	expression->accept(*this);
+    }
 }
 
 void PrettyPrinter::visit(BinaryExpression * exp)
