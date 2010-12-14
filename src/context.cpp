@@ -17,7 +17,29 @@
  */
 
 #include "context.h"
+#include "modulescope.h"
 
 Context::Context()
 {
+    currentvalue=NULL;
+    currentscope=NULL;
+}
+
+Module* Context::lookupmodule(QString name)
+{
+    if(!modules.contains(name))
+    {
+	ModuleScope* scp = dynamic_cast<ModuleScope*>(currentscope);
+	if(scp)
+	{
+	    foreach(Declaration* d,scp->getDeclarations())
+	    {
+		Module* mod = dynamic_cast<Module*>(d);
+		if(mod && mod->getName() == name)
+		    modules.insert(name,mod);
+	    }
+	}
+    }
+
+    return modules[name];
 }

@@ -21,6 +21,7 @@
 
 #include <QHash>
 #include "value.h"
+#include "module.h"
 
 class Context
 {
@@ -28,6 +29,13 @@ public:
     Context();
 
     QHash<QString, Value*> variables;
+    Value* currentvalue;
+    QString currentname;
+    Scope* currentscope;
+
+    Module* lookupmodule(QString);
+private:
+    QHash<QString,Module*> modules;
 };
 
 #endif // CONTEXT_H

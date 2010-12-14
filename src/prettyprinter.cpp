@@ -38,9 +38,8 @@ void PrettyPrinter::createIndent()
 void PrettyPrinter::visit(ModuleScope * scp)
 {
     ++indent;
-    QVector<Declaration*> declarations = scp->getDeclarations();
-    for(int i=0; i<declarations.size(); i++)
-    { createIndent(); declarations.at(i)->accept(*this); }
+    foreach(Declaration* d, scp->getDeclarations())
+	{ createIndent(); d->accept(*this); }
     --indent;
 }
 
@@ -224,9 +223,8 @@ void PrettyPrinter::visit(IfElseStatement * ifelse)
 void PrettyPrinter::visit(ForStatement * forstmt)
 {
     result.append("for(");
-    QVector<Argument*> arguments = forstmt->getArguments();
-    for(int i=0; i<arguments.size(); i++)
-	arguments[i]->accept(*this);
+    foreach(Argument* a, forstmt->getArguments())
+	a->accept(*this);
     result.append(")");
     Statement* statement = forstmt->getStatement();
     statement->accept(*this);
@@ -388,10 +386,8 @@ void PrettyPrinter::visit(Variable * var)
 
 void PrettyPrinter::Print()
 {
-    QVector<Declaration*> declarations = script->getDeclarations();
-
-    for(int i=0; i<declarations.size(); i++)
-	declarations.at(i)->accept(*this);
+    foreach(Declaration* d, script->getDeclarations())
+	d->accept(*this);
 
     printf("%s",result.toLocal8Bit().constData());
 }

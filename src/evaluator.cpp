@@ -21,21 +21,35 @@
 
 Evaluator::Evaluator(Script* sc)
 {
-    workingvalue=NULL;
     this->script = sc;
-    context_stack.push(new Context());
+    startcontext();
 }
 
 Evaluator::~Evaluator()
 {
 }
 
+void Evaluator::startcontext()
+{
+    context = new Context();
+    context_stack.push(context);
+}
+
+void Evaluator::finishcontext()
+{
+    context_stack.pop();
+    context=context_stack.top();
+}
+
 void Evaluator::visit(ModuleScope * scp)
 {
-    QVector<Declaration*> declarations = scp->getDeclarations();
+    startcontext();
+    context->currentscope = scp;
 
-    for(int i=0; i<declarations.size(); i++)
-	    declarations.at(i)->accept(*this);
+    foreach(Declaration* d, scp->getDeclarations())
+	d->accept(*this);
+
+    finishcontext();
 }
 
 void Evaluator::visit(Instance * inst)
@@ -47,16 +61,22 @@ void Evaluator::visit(Instance * inst)
 	arg0->accept(*this);
 
 
-	Literal* lit = workingvalue->getValue();
+	Literal* lit = context->currentvalue->getValue();
 	const char* t = lit->getValueString().toLocal8Bit();
 	printf("ECHO: %s\n",t);
 
     }
+
+    Module* mod = context->lookupmodule(name);
+
+
+    foreach(Statement* s, inst->getChildren())
+	s->accept(*this);
 }
 
 void Evaluator::visit(Module* mod)
 {
-    workingname = mod->getName();
+    context->currentname = mod->getName();
     mod->getScope()->accept(*this);
 }
 
@@ -70,6 +90,8 @@ void Evaluator::visit(FunctionScope * scp)
 
 void Evaluator::visit(CompoundStatement * stmt)
 {
+    foreach(Statement* s, stmt->getChildren())
+	s->accept(*this);
 }
 
 void Evaluator::visit(IfElseStatement * ifelse)
@@ -96,12 +118,10 @@ void Evaluator::visit(Argument * arg)
 
 void Evaluator::visit(AssignStatement * stmt)
 {
-    QHash<QString,Value*>* vars = &context_stack.top()->variables;
     stmt->getVariable()->accept(*this);
-
     stmt->getExpression()->accept(*this);
-
-    vars->insert(workingname,workingvalue);
+    QHash<QString,Value*>* vars = &context_stack.top()->variables;
+    vars->insert(context->currentname,context->currentvalue);
 }
 
 void Evaluator::visit(VectorExpression * exp)
@@ -134,23 +154,21 @@ void Evaluator::visit(ModuleImport * decl)
 
 void Evaluator::visit(Literal * lit)
 {
-    workingvalue = new Value();
-    workingvalue->setValue(lit);
+    context->currentvalue->setValue(lit);
 }
 
 void Evaluator::visit(Variable * var)
 {
-    workingname = var->getName();
+    context->currentname = var->getName();
     QHash<QString,Value*> vars = context_stack.top()->variables;
-    if(vars.contains(workingname)) {
-	workingvalue=vars[workingname];
-    }
+    if(vars.contains(context->currentname))
+	context->currentvalue=vars[context->currentname];
+    else
+	context->currentvalue=new Value();
 }
 
 void Evaluator::Evaluate()
 {
-    QVector<Declaration*> declarations = script->getDeclarations();
-
-    for(int i=0; i<declarations.size(); i++)
-	    declarations.at(i)->accept(*this);
+    foreach(Declaration* d, script->getDeclarations())
+	d->accept(*this);
 }

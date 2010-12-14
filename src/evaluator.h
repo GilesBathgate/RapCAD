@@ -75,9 +75,11 @@ public:
 
     void Evaluate();
 private:
+    void startcontext();
+    void finishcontext();
+
+    Context* context;
     QStack<Context*> context_stack;
-    Value* workingvalue;
-    QString workingname;
     Script* script;
 };
 
