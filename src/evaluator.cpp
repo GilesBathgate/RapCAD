@@ -32,6 +32,10 @@ Evaluator::~Evaluator()
 
 void Evaluator::visit(ModuleScope * scp)
 {
+    QVector<Declaration*> declarations = scp->getDeclarations();
+
+    for(int i=0; i<declarations.size(); i++)
+	    declarations.at(i)->accept(*this);
 }
 
 void Evaluator::visit(Instance * inst)
@@ -52,6 +56,8 @@ void Evaluator::visit(Instance * inst)
 
 void Evaluator::visit(Module* mod)
 {
+    workingname = mod->getName();
+    mod->getScope()->accept(*this);
 }
 
 void Evaluator::visit(Function * func)
