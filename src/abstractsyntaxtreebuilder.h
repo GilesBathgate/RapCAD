@@ -38,6 +38,7 @@ public:
     virtual void BuildScript(QVector<Declaration*>*)=0;
     virtual Declaration* BuildUse(QString*)=0;
     virtual Declaration* BuildUse(QString*,QString*)=0;
+    virtual Declaration* BuildDeclaration(Declaration*)=0;
     virtual QVector<Declaration*>* BuildDeclarations()=0;
     virtual QVector<Declaration*>* BuildDeclarations(Declaration*)=0;
     virtual QVector<Declaration*>* BuildDeclarations(QVector<Declaration*>*)=0;

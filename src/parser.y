@@ -93,8 +93,8 @@ AbstractSyntaxTreeBuilder *builder;
 %left '.'
 
 %type <count> optional_commas
-%type <decl>  declaration use_declaration
-%type <decls>  declaration_list compound_declaration
+%type <decl>  declaration use_declaration single_declaration define_declaration
+%type <decls>  declaration_list single_declaration_list compound_declaration
 %type <param> parameter
 %type <params> parameters
 %type <arg> argument
@@ -112,7 +112,7 @@ input
 	: //empty
 	| use_declaration input
 	{ builder->BuildScript($1); }
-	| declaration_list
+	| single_declaration_list
 	{ builder->BuildScript($1); }
 	;
 
@@ -121,6 +121,13 @@ use_declaration
 	{ $$ = builder->BuildUse($1); }
 	| USE AS IDENTIFIER ';'
 	{ $$ = builder->BuildUse($1,$3); }
+	;
+
+single_declaration_list
+	: single_declaration
+	{ $$ = builder->BuildDeclarations($1); }
+	| single_declaration_list single_declaration
+	{ $$ = builder->BuildDeclarations($1,$2); }
 	;
 
 declaration_list
@@ -137,10 +144,22 @@ compound_declaration
 	{ $$ = builder->BuildDeclarations($2); }
 	;
 
-declaration
+single_declaration
 	: single_statement
 	{ $$ = builder->BuildStatement($1); }
-	| MODULE IDENTIFIER '(' parameters ')' module_scope
+	| define_declaration
+	{ $$ = builder->BuildDeclaration($1); }
+	;
+
+declaration
+	: statement
+	{ $$ = builder->BuildStatement($1); }
+	| define_declaration
+	{ $$ = builder->BuildDeclaration($1); }
+	;
+
+define_declaration
+	: MODULE IDENTIFIER '(' parameters ')' module_scope
 	{ $$ = builder->BuildModule($2,$4,$6); }
 	| FUNCTION IDENTIFIER '(' parameters ')' function_scope
 	{ $$ = builder->BuildFunction($2,$4,$6); }

@@ -57,6 +57,11 @@ void SyntaxTreeBuilder::BuildScript(QVector<Declaration*>* decls)
     delete decls;
 }
 
+Declaration* SyntaxTreeBuilder::BuildDeclaration(Declaration* dec)
+{
+    return dec;
+}
+
 QVector<Declaration*>* SyntaxTreeBuilder::BuildDeclarations()
 {
     return new QVector<Declaration*>();
