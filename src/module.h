@@ -24,6 +24,7 @@
 #include "parameter.h"
 #include "declaration.h"
 #include "scope.h"
+class Context;
 
 class Module : public Declaration
 {
@@ -37,6 +38,7 @@ public:
      Scope* getScope();
      void setScope(Scope*);
      void accept(Visitor&);
+     void evaluate(Context *ctx);
 private:
     QString name;
     QVector<Parameter*> parameters;

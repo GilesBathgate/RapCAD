@@ -49,7 +49,7 @@
 class Evaluator : public Visitor
 {
 public:
-    Evaluator(Script*);
+    Evaluator();
     ~Evaluator();
     void visit(Module*);
     void visit(ModuleScope*);
@@ -72,15 +72,13 @@ public:
     void visit(ModuleImport*);
     void visit(Literal*);
     void visit(Variable*);
-
-    void Evaluate();
+    void visit(Script*);
 private:
     void startcontext();
     void finishcontext();
 
     Context* context;
     QStack<Context*> context_stack;
-    Script* script;
 };
 
 #endif // EVALUATOR_H

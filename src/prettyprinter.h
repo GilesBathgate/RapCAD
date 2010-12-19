@@ -48,7 +48,7 @@
 class PrettyPrinter : public Visitor
 {
 public:
-    PrettyPrinter(Script*);
+    PrettyPrinter();
     ~PrettyPrinter();
     void visit(Module*);
     void visit(ModuleScope*);
@@ -71,10 +71,8 @@ public:
     void visit(ModuleImport*);
     void visit(Literal*);
     void visit(Variable*);
-
-    void Print();
+    void visit(Script*);
 private:
-    Script* script;
     void createIndent();
     QString result;
     unsigned int indent;

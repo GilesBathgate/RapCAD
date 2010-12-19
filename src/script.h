@@ -21,8 +21,9 @@
 
 #include <QVector>
 #include "declaration.h"
+#include "scope.h"
 
-class Script
+class Script : public Scope
 {
 public:
     Script();
@@ -31,6 +32,7 @@ public:
     void setDeclarations(QVector<Declaration*>);
     QVector<Declaration*> getDeclarations();
     void addDeclaration(Declaration*);
+    void accept(Visitor&);
 private:
     QVector<Declaration*> declarations;
 };

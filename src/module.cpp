@@ -17,6 +17,8 @@
  */
 
 #include "module.h"
+#include "context.h"
+#include <stdio.h>
 
 Module::Module()
 {
@@ -65,4 +67,16 @@ Scope* Module::getScope()
 void Module::accept(Visitor& v)
 {
     v.visit(this);
+}
+
+void Module::evaluate(Context *ctx)
+{
+    //TODO implement the "builtin" in the base class for now.
+    printf("Evaluating %s\n",name.toLocal8Bit().constData());
+    if(name=="echo")
+    {
+	Literal* lit = ctx->currentvalue->getValue();
+	const char* t = lit->getValueString().toLocal8Bit();
+	printf("ECHO: %s\n",t);
+    }
 }

@@ -19,9 +19,8 @@
 #include "prettyprinter.h"
 #include <stdio.h>
 
-PrettyPrinter::PrettyPrinter(Script* sc)
+PrettyPrinter::PrettyPrinter()
 {
-    this->script = sc;
     this->indent=0;
 }
 
@@ -377,6 +376,8 @@ void PrettyPrinter::visit(Variable * var)
     case Variable::Param:
 	result.append("param ");
 	break;
+    default:
+	break;
     }
 
     if(var->getType()==Variable::Special)
@@ -384,9 +385,9 @@ void PrettyPrinter::visit(Variable * var)
     result.append(var->getName());
 }
 
-void PrettyPrinter::Print()
+void PrettyPrinter::visit(Script* sc)
 {
-    foreach(Declaration* d, script->getDeclarations())
+    foreach(Declaration* d, sc->getDeclarations())
 	d->accept(*this);
 
     printf("%s",result.toLocal8Bit().constData());

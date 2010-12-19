@@ -17,11 +17,9 @@
  */
 
 #include "evaluator.h"
-#include <stdio.h>
 
-Evaluator::Evaluator(Script* sc)
+Evaluator::Evaluator()
 {
-    this->script = sc;
     startcontext();
 }
 
@@ -55,29 +53,35 @@ void Evaluator::visit(ModuleScope * scp)
 void Evaluator::visit(Instance * inst)
 {
     QString name = inst->getName();
-    if(name=="echo")
+
+    //TODO for now visit the first argument and leave the value
+    //of the argument in context.currentvalue
+    QVector<Argument*> args = inst->getArguments();
+    if(args.size()>0)
     {
-	Argument* arg0 = inst->getArguments().at(0);
+	Argument* arg0 = args.at(0);
 	arg0->accept(*this);
-
-
-	Literal* lit = context->currentvalue->getValue();
-	const char* t = lit->getValueString().toLocal8Bit();
-	printf("ECHO: %s\n",t);
-
     }
 
     Module* mod = context->lookupmodule(name);
-
-
-    foreach(Statement* s, inst->getChildren())
-	s->accept(*this);
+    if(mod)
+    {
+	mod->evaluate(context);
+	Scope* scp = mod->getScope();
+	if(scp)
+	    foreach(Declaration* d, scp->getDeclarations())
+		d->accept(*this);
+    }
 }
 
 void Evaluator::visit(Module* mod)
 {
+
     context->currentname = mod->getName();
-    mod->getScope()->accept(*this);
+    context->addmodule(mod);
+    Scope* scp = mod->getScope();
+    if(scp)
+	scp->accept(*this);
 }
 
 void Evaluator::visit(Function * func)
@@ -167,8 +171,14 @@ void Evaluator::visit(Variable * var)
 	context->currentvalue=new Value();
 }
 
-void Evaluator::Evaluate()
+void Evaluator::visit(Script* sc)
 {
-    foreach(Declaration* d, script->getDeclarations())
+    //TODO add our "builtin" here for now
+    Module* echo = new Module();
+    echo->setName("echo");
+    sc->addDeclaration(echo);
+
+    context->currentscope = sc;
+    foreach(Declaration* d, sc->getDeclarations())
 	d->accept(*this);
 }

@@ -25,3 +25,8 @@ Scope::Scope()
 Scope::~Scope()
 {
 }
+
+QVector<Declaration*> Scope::getDeclarations()
+{
+    return QVector<Declaration*>();
+}

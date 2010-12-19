@@ -22,18 +22,19 @@
 #include <QHash>
 #include "value.h"
 #include "module.h"
+#include "scope.h"
 
 class Context
 {
 public:
     Context();
-
     QHash<QString, Value*> variables;
     Value* currentvalue;
     QString currentname;
     Scope* currentscope;
 
     Module* lookupmodule(QString);
+    void addmodule(Module* mod);
 private:
     QHash<QString,Module*> modules;
 };

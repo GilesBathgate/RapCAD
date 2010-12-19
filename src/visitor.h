@@ -44,6 +44,7 @@ public:
     virtual void visit(class ModuleImport*)=0;
     virtual void visit(class Literal*)=0;
     virtual void visit(class Variable*)=0;
+    virtual void visit(class Script*)=0;
 };
 
 #endif // VISITOR_H

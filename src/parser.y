@@ -428,11 +428,11 @@ void parse(QString input,bool file)
 	Script* s = builder->getResult();
 	delete builder;
 
-	PrettyPrinter p(s);
-	p.Print();
+	PrettyPrinter p;
+	s->accept(p);
 
-	Evaluator e(s);
-	e.Evaluate();
+	Evaluator e;
+	s->accept(e);
 
 	//TODO just delete the script for now
 	delete s;

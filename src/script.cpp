@@ -42,3 +42,8 @@ void Script::addDeclaration(Declaration* dec)
 {
     declarations.append(dec);
 }
+
+void Script::accept(Visitor& v)
+{
+    v.visit(this);
+}

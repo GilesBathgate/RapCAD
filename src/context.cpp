@@ -29,17 +29,21 @@ Module* Context::lookupmodule(QString name)
 {
     if(!modules.contains(name))
     {
-	ModuleScope* scp = dynamic_cast<ModuleScope*>(currentscope);
-	if(scp)
+	foreach(Declaration* d,currentscope->getDeclarations())
 	{
-	    foreach(Declaration* d,scp->getDeclarations())
+	    Module* mod = dynamic_cast<Module*>(d);
+	    if(mod && mod->getName() == name)
 	    {
-		Module* mod = dynamic_cast<Module*>(d);
-		if(mod && mod->getName() == name)
-		    modules.insert(name,mod);
+		modules.insert(name,mod);
+		break;
 	    }
 	}
     }
 
     return modules[name];
+}
+
+void Context::addmodule(Module *mod)
+{
+    modules.insert(mod->getName(),mod);
 }
