@@ -22,6 +22,16 @@ Value::Value()
 {
 }
 
+void Value::setName(QString name)
+{
+    this->name = name;
+}
+
+QString Value::getName()
+{
+    return this->name;
+}
+
 void Value::setValue(Literal* lit)
 {
     this->literalvalue = lit;

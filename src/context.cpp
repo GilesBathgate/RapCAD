@@ -21,6 +21,7 @@
 
 Context::Context()
 {
+    parent=NULL;
     currentvalue=NULL;
     currentscope=NULL;
 }
@@ -38,12 +39,39 @@ Module* Context::lookupmodule(QString name)
 		break;
 	    }
 	}
+	if(parent)
+	    return parent->lookupmodule(name);
     }
 
-    return modules[name];
+    return modules.value(name);
+}
+
+Function* Context::lookupfunction(QString name)
+{
+    if(!functions.contains(name))
+    {
+	foreach(Declaration* d,currentscope->getDeclarations())
+	{
+	    Function* func = dynamic_cast<Function*>(d);
+	    if(func && func->getName() == name)
+	    {
+		functions.insert(name,func);
+		break;
+	    }
+	}
+    }
+
+    return functions.value(name);
 }
 
 void Context::addmodule(Module *mod)
 {
     modules.insert(mod->getName(),mod);
+}
+
+void Context::args(QVector<Value*> args, QVector<Value*> params)
+{
+	for (int i=0; i<params.size(); i++) {
+		variables.insert(args.at(i)->getName(), args.at(i));
+	}
 }

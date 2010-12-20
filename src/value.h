@@ -19,16 +19,20 @@
 #ifndef VALUE_H
 #define VALUE_H
 
+#include <QString>
 #include "literal.h"
 
 class Value
 {
 public:
     Value();
+    void setName(QString);
+    QString getName();
     void setValue(Literal*);
     Literal* getValue() const;
 private:
     Literal* literalvalue;
+    QString name;
 };
 
 #endif // VALUE_H

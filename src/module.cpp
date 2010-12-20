@@ -18,6 +18,7 @@
 
 #include "module.h"
 #include "context.h"
+#include "argument.h"
 #include <stdio.h>
 
 Module::Module()
@@ -75,8 +76,17 @@ void Module::evaluate(Context *ctx)
     printf("Evaluating %s\n",name.toLocal8Bit().constData());
     if(name=="echo")
     {
-	Literal* lit = ctx->currentvalue->getValue();
-	const char* t = lit->getValueString().toLocal8Bit();
+	QString msg;
+	for(int i=0; i<ctx->arguments.size(); i++)
+	{
+	  if(i>0)
+	      msg.append(",");
+	  Value* a=ctx->arguments.at(i);
+	  msg.append(a->getName());
+	  msg.append("=");
+	  msg.append(a->getValue()->getValueString());
+	}
+	const char* t = msg.toLocal8Bit();
 	printf("ECHO: %s\n",t);
     }
 }
