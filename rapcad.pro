@@ -67,7 +67,8 @@ SOURCES += src/main.cpp\
     src/tokenbuilder.cpp \
     src/evaluator.cpp \
     src/context.cpp \
-    src/value.cpp
+    src/value.cpp \
+    src/echomodule.cpp
 
 HEADERS  += src/mainwindow.h \
     src/module.h \
@@ -107,7 +108,8 @@ HEADERS  += src/mainwindow.h \
     src/abstracttokenbuilder.h \
     src/evaluator.h \
     src/context.h \
-    src/value.h
+    src/value.h \
+    src/echomodule.h
 
 FORMS    += src/mainwindow.ui   
 

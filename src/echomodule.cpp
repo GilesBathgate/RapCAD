@@ -16,57 +16,25 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "module.h"
+#include "echomodule.h"
+#include "context.h"
+#include <stdio.h>
 
-Module::Module()
+EchoModule::EchoModule()
 {
-    scope=NULL;
+    setName("echo");
 }
 
-Module::~Module()
+void EchoModule::evaluate(Context* ctx,Instance*)
 {
-    for(int i=0; i<parameters.size(); i++)
-	delete parameters.at(i);
-
-    delete scope;
-}
-
-QString Module::getName()
-{
-    return this->name;
-}
-
-void Module::setName(QString name)
-{
-    this->name = name;
-}
-
-
-QVector<Parameter*> Module::getParameters()
-{
-    return this->parameters;
-}
-
-void Module::setParameters(QVector<Parameter*> params)
-{
-    this->parameters = params;
-}
-
-void Module::setScope(Scope * scp)
-{
-    this->scope = scp;
-}
-
-Scope* Module::getScope()
-{
-    return this->scope;
-}
-
-void Module::accept(Visitor& v)
-{
-    v.visit(this);
-}
-
-void Module::evaluate(Context*,Instance*)
-{
+    QString msg;
+    for(int i=0; i<ctx->arguments.size(); i++)
+    {
+	if(i>0)
+	    msg.append(",");
+	Value* a=ctx->arguments.at(i);
+	msg.append(a->getValue()->getValueString());
+    }
+    const char* t = msg.toLocal8Bit();
+    printf("ECHO: %s\n",t);
 }

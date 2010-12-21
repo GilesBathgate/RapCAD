@@ -23,6 +23,7 @@
 #include <QVector>
 #include "parameter.h"
 #include "declaration.h"
+#include "instance.h"
 #include "scope.h"
 class Context;
 
@@ -38,7 +39,7 @@ public:
      Scope* getScope();
      void setScope(Scope*);
      void accept(Visitor&);
-     void evaluate(Context *ctx);
+     virtual void evaluate(Context*,Instance*);
 private:
     QString name;
     QVector<Parameter*> parameters;

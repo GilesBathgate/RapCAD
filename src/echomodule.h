@@ -16,57 +16,16 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef ECHOMODULE_H
+#define ECHOMODULE_H
+
 #include "module.h"
 
-Module::Module()
+class EchoModule : public Module
 {
-    scope=NULL;
-}
+public:
+    EchoModule();
+    void evaluate(Context*,Instance*);
+};
 
-Module::~Module()
-{
-    for(int i=0; i<parameters.size(); i++)
-	delete parameters.at(i);
-
-    delete scope;
-}
-
-QString Module::getName()
-{
-    return this->name;
-}
-
-void Module::setName(QString name)
-{
-    this->name = name;
-}
-
-
-QVector<Parameter*> Module::getParameters()
-{
-    return this->parameters;
-}
-
-void Module::setParameters(QVector<Parameter*> params)
-{
-    this->parameters = params;
-}
-
-void Module::setScope(Scope * scp)
-{
-    this->scope = scp;
-}
-
-Scope* Module::getScope()
-{
-    return this->scope;
-}
-
-void Module::accept(Visitor& v)
-{
-    v.visit(this);
-}
-
-void Module::evaluate(Context*,Instance*)
-{
-}
+#endif // ECHOMODULE_H

@@ -17,6 +17,7 @@
  */
 
 #include "evaluator.h"
+#include "echomodule.h"
 
 Evaluator::Evaluator()
 {
@@ -70,11 +71,11 @@ void Evaluator::visit(Instance * inst)
 	foreach(Parameter* p, mod->getParameters())
 	    p->accept(*this);
 
-	mod->evaluate(context);
-
 	Scope* scp = mod->getScope();
 	if(scp)
 	    scp->accept(*this);
+	else
+	    mod->evaluate(context,inst);
 
 	context->arguments.clear();
 	context->parameters.clear();
@@ -208,10 +209,7 @@ void Evaluator::visit(Variable * var)
 
 void Evaluator::visit(Script* sc)
 {
-    //TODO add our "builtin" here for now
-    Module* echo = new Module();
-    echo->setName("echo");
-    sc->addDeclaration(echo);
+    sc->addDeclaration(new EchoModule());
 
     context->currentscope = sc;
     foreach(Declaration* d, sc->getDeclarations())
