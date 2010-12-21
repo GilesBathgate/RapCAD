@@ -110,15 +110,18 @@ void Evaluator::visit(ForStatement * forstmt)
 
 void Evaluator::visit(Parameter * param)
 {
+    Value* v;
     Expression* e = param->getExpression();
-    if(e)
+    if(e) {
 	e->accept(*this);
-    else
-	context->currentvalue = new Value();
+	v = context->currentvalue;
+    } else {
+	v = new Value();
+    }
 
-    context->currentvalue->setName(param->getName());
+    v->setName(param->getName());
 
-    context->parameters.append(context->currentvalue);
+    context->parameters.append(v);
 }
 
 void Evaluator::visit(BinaryExpression * exp)
@@ -127,22 +130,27 @@ void Evaluator::visit(BinaryExpression * exp)
 
 void Evaluator::visit(Argument * arg)
 {
+    arg->getExpression()->accept(*this);
+    Value* v = context->currentvalue;
+
     Variable* var = arg->getVariable();
     if(var)
 	var->accept(*this);
+    else
+	v->setName("");
 
-    arg->getExpression()->accept(*this);
-    Value* v = context->currentvalue;
-    if(v)
-	context->arguments.append(v);
+    context->arguments.append(v);
 }
 
 void Evaluator::visit(AssignStatement * stmt)
 {
     stmt->getVariable()->accept(*this);
+    QString name = context->currentname;
+
     stmt->getExpression()->accept(*this);
     Value* v = context->currentvalue;
-    context->variables.insert(v->getName(),v);
+
+    context->variables.insert(name,v);
 }
 
 void Evaluator::visit(VectorExpression * exp)
@@ -175,22 +183,27 @@ void Evaluator::visit(ModuleImport * decl)
 
 void Evaluator::visit(Literal * lit)
 {
-    context->currentvalue->setValue(lit);
+    Value* v=context->currentvalue;
+    if(!v)
+	v=new Value();
+
+    v->setValue(lit);
+
+    context->currentvalue=v;
 }
 
 void Evaluator::visit(Variable * var)
 {
     QString name = var->getName();
-    QHash<QString,Value*> vars = context->variables;
+    QHash<QString,Value*> vars=context->variables;
     Value* v;
-    if(vars.contains(name)) {
+    if(vars.contains(name))
 	v=vars.value(name);
-    } else {
-	v=new Value();
-	v->setName(name);
-    }
+    else
+	v=new Value(); //undef
 
     context->currentvalue=v;
+    context->currentname=name;
 }
 
 void Evaluator::visit(Script* sc)

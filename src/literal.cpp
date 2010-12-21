@@ -49,6 +49,9 @@ QString Literal::getValueString()
     QString result;
     switch(this->type)
     {
+    case Undef:
+	result="undef";
+	break;
     case Boolean:
 	if(this->value.Boolean)
 	    result="true";

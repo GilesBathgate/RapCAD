@@ -37,6 +37,7 @@ public:
     QVector<Value*> parameters;
     Value* currentvalue;
     Scope* currentscope;
+    QString currentname;
 
     Module* lookupmodule(QString);
     void addmodule(Module* mod);
@@ -46,6 +47,7 @@ public:
 private:
     QHash<QString,Module*> modules;
     QHash<QString,Function*> functions;
+    bool contains(QVector<Value*>,QString);
 };
 
 #endif // CONTEXT_H

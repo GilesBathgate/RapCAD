@@ -82,8 +82,6 @@ void Module::evaluate(Context *ctx)
 	  if(i>0)
 	      msg.append(",");
 	  Value* a=ctx->arguments.at(i);
-	  msg.append(a->getName());
-	  msg.append("=");
 	  msg.append(a->getValue()->getValueString());
 	}
 	const char* t = msg.toLocal8Bit();

@@ -34,6 +34,7 @@ public:
 private:
     enum Type_e
     {
+	Undef,
 	Boolean,
 	Number,
 	String

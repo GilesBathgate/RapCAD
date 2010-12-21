@@ -72,6 +72,16 @@ void Context::addmodule(Module *mod)
 void Context::args(QVector<Value*> args, QVector<Value*> params)
 {
 	for (int i=0; i<params.size(); i++) {
-		variables.insert(args.at(i)->getName(), args.at(i));
+	    QString name = args.at(i)->getName();
+	    if(name.isEmpty() || contains(params,name))
+		variables.insert(params.at(i)->getName(), args.at(i));
 	}
+}
+
+bool Context::contains(QVector<Value*> params,QString name)
+{
+    foreach(Value* p, params)
+	if(p->getName() == name)
+	    return true;
+    return false;
 }
