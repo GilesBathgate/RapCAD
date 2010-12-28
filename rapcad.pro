@@ -109,7 +109,8 @@ HEADERS  += src/mainwindow.h \
     src/evaluator.h \
     src/context.h \
     src/value.h \
-    src/echomodule.h
+    src/echomodule.h \
+    src/tau.h
 
 FORMS    += src/mainwindow.ui   
 
