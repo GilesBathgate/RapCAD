@@ -64,6 +64,21 @@ Function* Context::lookupfunction(QString name)
     return functions.value(name);
 }
 
+void Context::addvariable(Value* v)
+{
+    variables.insert(v->getName(),v);
+}
+
+Value* Context::lookupvariable(QString name)
+{
+    if(variables.contains(name))
+	return variables.value(name);
+    else if(parent)
+	return parent->lookupvariable(name);
+    else
+	return new Value(); //undef
+}
+
 void Context::addmodule(Module *mod)
 {
     modules.insert(mod->getName(),mod);

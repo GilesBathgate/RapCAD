@@ -32,12 +32,15 @@ public:
 
     Context* parent;
 
-    QHash<QString, Value*> variables;
+
     QVector<Value*> arguments;
     QVector<Value*> parameters;
     Value* currentvalue;
     Scope* currentscope;
     QString currentname;
+
+    void addvariable(Value*);
+    Value* lookupvariable(QString);
 
     Module* lookupmodule(QString);
     void addmodule(Module* mod);
@@ -45,6 +48,7 @@ public:
 
     void args(QVector<Value*>,QVector<Value*>);
 private:
+    QHash<QString, Value*> variables;
     QHash<QString,Module*> modules;
     QHash<QString,Function*> functions;
     bool contains(QVector<Value*>,QString);

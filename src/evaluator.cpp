@@ -111,6 +111,8 @@ void Evaluator::visit(ForStatement * forstmt)
 
 void Evaluator::visit(Parameter * param)
 {
+    QString name = param->getName();
+
     Value* v;
     Expression* e = param->getExpression();
     if(e) {
@@ -120,8 +122,7 @@ void Evaluator::visit(Parameter * param)
 	v = new Value();
     }
 
-    v->setName(param->getName());
-
+    v->setName(name);
     context->parameters.append(v);
 }
 
@@ -131,15 +132,19 @@ void Evaluator::visit(BinaryExpression * exp)
 
 void Evaluator::visit(Argument * arg)
 {
+    QString name;
+    Variable* var = arg->getVariable();
+    if(var) {
+	var->accept(*this);
+	name=context->currentname;
+    } else {
+	name="";
+    }
+
     arg->getExpression()->accept(*this);
     Value* v = context->currentvalue;
 
-    Variable* var = arg->getVariable();
-    if(var)
-	var->accept(*this);
-    else
-	v->setName("");
-
+    v->setName(name);
     context->arguments.append(v);
 }
 
@@ -151,7 +156,8 @@ void Evaluator::visit(AssignStatement * stmt)
     stmt->getExpression()->accept(*this);
     Value* v = context->currentvalue;
 
-    context->variables.insert(name,v);
+    v->setName(name);
+    context->addvariable(v);
 }
 
 void Evaluator::visit(VectorExpression * exp)
@@ -196,12 +202,7 @@ void Evaluator::visit(Literal * lit)
 void Evaluator::visit(Variable * var)
 {
     QString name = var->getName();
-    QHash<QString,Value*> vars=context->variables;
-    Value* v;
-    if(vars.contains(name))
-	v=vars.value(name);
-    else
-	v=new Value(); //undef
+    Value* v=context->lookupvariable(name);
 
     context->currentvalue=v;
     context->currentname=name;
@@ -209,6 +210,7 @@ void Evaluator::visit(Variable * var)
 
 void Evaluator::visit(Script* sc)
 {
+    //TODO add our "builtin" here for now
     sc->addDeclaration(new EchoModule());
 
     context->currentscope = sc;
