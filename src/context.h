@@ -39,12 +39,14 @@ public:
     Scope* currentscope;
     QString currentname;
 
-    void addvariable(Value*);
     Value* lookupvariable(QString);
+    void addvariable(Value*);
 
     Module* lookupmodule(QString);
     void addmodule(Module* mod);
+
     Function* lookupfunction(QString);
+    void addfunction(Function*);
 
     void args(QVector<Value*>,QVector<Value*>);
 private:

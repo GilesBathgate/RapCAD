@@ -58,6 +58,8 @@ Function* Context::lookupfunction(QString name)
 		functions.insert(name,func);
 		break;
 	    }
+	    if(parent)
+		return parent->lookupfunction(name);
 	}
     }
 
@@ -79,9 +81,14 @@ Value* Context::lookupvariable(QString name)
 	return new Value(); //undef
 }
 
-void Context::addmodule(Module *mod)
+void Context::addmodule(Module* mod)
 {
     modules.insert(mod->getName(),mod);
+}
+
+void Context::addfunction(Function* func)
+{
+    functions.insert(func->getName(),func);
 }
 
 void Context::args(QVector<Value*> args, QVector<Value*> params)

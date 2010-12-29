@@ -87,12 +87,30 @@ void Evaluator::visit(Module* mod)
     context->addmodule(mod);
 }
 
-void Evaluator::visit(Function * func)
+void Evaluator::visit(Function* func)
 {
+    context->addfunction(func);
 }
 
 void Evaluator::visit(FunctionScope * scp)
 {
+    QVector<Value*> arguments = context->arguments;
+    QVector<Value*> parameters = context->parameters;
+
+    startcontext();
+    context->currentscope = scp;
+
+    context->args(arguments,parameters);
+
+    Expression* e=scp->getExpression();
+    e->accept(*this);
+    //foreach(Statement* s, scp->getStatements())
+	//s->accept(*this);
+
+    //"pop" our return value
+    Value* v = context->currentvalue;
+    finishcontext();
+    context->currentvalue=v;
 }
 
 void Evaluator::visit(CompoundStatement * stmt)
@@ -182,6 +200,23 @@ void Evaluator::visit(TernaryExpression * exp)
 
 void Evaluator::visit(Invocation * stmt)
 {
+    QString name = stmt->getName();
+    Function* func = context->lookupfunction(name);
+    if(func)
+    {
+	foreach(Argument* arg, stmt->getArguments())
+	    arg->accept(*this);
+
+	foreach(Parameter* p, func->getParameters())
+	    p->accept(*this);
+
+	Scope* scp = func->getScope();
+	if(scp)
+	    scp->accept(*this);
+
+	context->arguments.clear();
+	context->parameters.clear();
+    }
 }
 
 void Evaluator::visit(ModuleImport * decl)
