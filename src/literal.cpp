@@ -17,6 +17,9 @@
  */
 
 #include "literal.h"
+#include "booleanvalue.h"
+#include "numbervalue.h"
+#include "textvalue.h"
 
 Literal::Literal()
 {
@@ -28,45 +31,50 @@ Literal::~Literal()
 
 void Literal::setValue(bool value)
 {
-    this->type = Literal::Boolean;
-    this->value.Boolean = value;
+    this->type=Literal::Boolean;
+    this->boolean = value;
 }
 
 void Literal::setValue(double value)
 {
     this->type = Literal::Number;
-    this->value.Number = value;
+    this->number = value;
 }
 
 void Literal::setValue(QString value)
 {
-    this->type = Literal::String;
-    this->value_text = value;
+    this->type = Literal::Text;
+    this->text = value;
 }
 
 QString Literal::getValueString()
 {
-    QString result;
     switch(this->type)
     {
-    case Undef:
-	result="undef";
-	break;
     case Boolean:
-	if(this->value.Boolean)
-	    result="true";
-	else
-	    result="false";
-	break;
+	return this->boolean ? "true" : "false";
     case Number:
-	result=QString("%1").arg(this->value.Number);
-	break;
-    case String:
-	result=value_text;
-	break;
+	return QString().setNum(this->number,'g',16);
+    case Text:
+	return text;
+    default:
+	return "undef";
     }
+}
 
-    return result;
+Value* Literal::getValue()
+{
+    switch(this->type)
+    {
+    case Boolean:
+	return new BooleanValue(boolean);
+    case Number:
+	return new NumberValue(number);
+    case Text:
+	return new TextValue(text);
+    default:
+	return new Value();
+    }
 }
 
 void Literal::accept(Visitor& v)

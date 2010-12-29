@@ -68,7 +68,10 @@ SOURCES += src/main.cpp\
     src/evaluator.cpp \
     src/context.cpp \
     src/value.cpp \
-    src/echomodule.cpp
+    src/echomodule.cpp \
+    src/numbervalue.cpp \
+    src/booleanvalue.cpp \
+    src/textvalue.cpp
 
 HEADERS  += src/mainwindow.h \
     src/module.h \
@@ -110,7 +113,10 @@ HEADERS  += src/mainwindow.h \
     src/context.h \
     src/value.h \
     src/echomodule.h \
-    src/tau.h
+    src/tau.h \
+    src/numbervalue.h \
+    src/booleanvalue.h \
+    src/textvalue.h
 
 FORMS    += src/mainwindow.ui   
 

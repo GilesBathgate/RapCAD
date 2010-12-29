@@ -16,23 +16,18 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef TEXTVALUE_H
+#define TEXTVALUE_H
+
 #include "value.h"
 
-Value::Value()
+class TextValue : public Value
 {
-}
+public:
+    TextValue(QString);
+    QString getValueString();
+private:
+    QString text;
+};
 
-void Value::setName(QString name)
-{
-    this->name = name;
-}
-
-QString Value::getName()
-{
-    return this->name;
-}
-
-QString Value::getValueString()
-{
-    return "undef";
-}
+#endif // TEXTVALUE_H

@@ -225,11 +225,7 @@ void Evaluator::visit(ModuleImport * decl)
 
 void Evaluator::visit(Literal * lit)
 {
-    Value* v=context->currentvalue;
-    if(!v)
-	v=new Value();
-
-    v->setValue(lit);
+    Value* v= lit->getValue();
 
     context->currentvalue=v;
 }

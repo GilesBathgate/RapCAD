@@ -16,23 +16,14 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "value.h"
+#include "textvalue.h"
 
-Value::Value()
+TextValue::TextValue(QString value)
 {
+    this->text=value;
 }
 
-void Value::setName(QString name)
+QString TextValue::getValueString()
 {
-    this->name = name;
-}
-
-QString Value::getName()
-{
-    return this->name;
-}
-
-QString Value::getValueString()
-{
-    return "undef";
+    return this->text;
 }

@@ -16,23 +16,14 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "value.h"
+#include "booleanvalue.h"
 
-Value::Value()
+BooleanValue::BooleanValue(bool value)
 {
+    this->boolean=value;
 }
 
-void Value::setName(QString name)
+QString BooleanValue::getValueString()
 {
-    this->name = name;
-}
-
-QString Value::getName()
-{
-    return this->name;
-}
-
-QString Value::getValueString()
-{
-    return "undef";
+    return this->boolean ? "true" : "false";
 }

@@ -20,6 +20,7 @@
 #define LITERAL_H
 
 #include "expression.h"
+#include "value.h"
 
 class Literal : public Expression
 {
@@ -30,25 +31,23 @@ public:
     void setValue(double);
     void setValue(QString);
     QString getValueString();
+
+    Value* getValue();
+
     void accept(Visitor&);
 private:
-    enum Type_e
+    enum DataType
     {
 	Undef,
 	Boolean,
 	Number,
-	String
+	Text
     };
 
-    union Value_t
-    {
-	bool Boolean;
-	double Number;
-    };
-
-    Value_t value;
-    QString value_text;
-    Type_e type;
+    bool boolean;
+    double number;
+    QString text;
+    DataType type;
 };
 
 #endif // LITERAL_H

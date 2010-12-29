@@ -16,23 +16,18 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef NUMBERVALUE_H
+#define NUMBERVALUE_H
+
 #include "value.h"
 
-Value::Value()
+class NumberValue : public Value
 {
-}
+public:
+    NumberValue(double);
+    QString getValueString();
+private:
+    double num;
+};
 
-void Value::setName(QString name)
-{
-    this->name = name;
-}
-
-QString Value::getName()
-{
-    return this->name;
-}
-
-QString Value::getValueString()
-{
-    return "undef";
-}
+#endif // NUMBERVALUE_H

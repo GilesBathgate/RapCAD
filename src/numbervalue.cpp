@@ -16,23 +16,14 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "value.h"
+#include "numbervalue.h"
 
-Value::Value()
+NumberValue::NumberValue(double value)
 {
+    this->num=value;
 }
 
-void Value::setName(QString name)
+QString NumberValue::getValueString()
 {
-    this->name = name;
-}
-
-QString Value::getName()
-{
-    return this->name;
-}
-
-QString Value::getValueString()
-{
-    return "undef";
+    return QString().setNum(num,'g',16);
 }

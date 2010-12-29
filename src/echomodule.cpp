@@ -33,7 +33,7 @@ void EchoModule::evaluate(Context* ctx,Instance*)
 	if(i>0)
 	    msg.append(",");
 	Value* a=ctx->arguments.at(i);
-	msg.append(a->getValue()->getValueString());
+	msg.append(a->getValueString());
     }
     const char* t = msg.toLocal8Bit();
     printf("ECHO: %s\n",t);

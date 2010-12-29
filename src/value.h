@@ -20,7 +20,6 @@
 #define VALUE_H
 
 #include <QString>
-#include "literal.h"
 
 class Value
 {
@@ -28,10 +27,8 @@ public:
     Value();
     void setName(QString);
     QString getName();
-    void setValue(Literal*);
-    Literal* getValue() const;
+    virtual QString getValueString();
 private:
-    Literal* literalvalue;
     QString name;
 };
 

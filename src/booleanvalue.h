@@ -16,23 +16,18 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef BOOLEANVALUE_H
+#define BOOLEANVALUE_H
+
 #include "value.h"
 
-Value::Value()
+class BooleanValue : public Value
 {
-}
+public:
+    BooleanValue(bool);
+    QString getValueString();
+private:
+    bool boolean;
+};
 
-void Value::setName(QString name)
-{
-    this->name = name;
-}
-
-QString Value::getName()
-{
-    return this->name;
-}
-
-QString Value::getValueString()
-{
-    return "undef";
-}
+#endif // BOOLEANVALUE_H
