@@ -34,62 +34,62 @@ TokenBuilder* tbuilder;
 D [0-9]
 WS [ \t\r\n]
 %%
-"include"{WS}*"<"	{ BEGIN(include); tbuilder->BuildIncludeStart(); }
+"include"{WS}*"<"	{ BEGIN(include); tbuilder->buildIncludeStart(); }
 <include>{
-[^\t\r\n>]+"/"		{ tbuilder->BuildIncludePath(lexertext); }
-[^\t\r\n>/]+		{ tbuilder->BuildIncludeFile(lexertext); }
-">"			{ BEGIN(INITIAL); tbuilder->BuildIncludeFinish(); }
+[^\t\r\n>]+"/"		{ tbuilder->buildIncludePath(lexertext); }
+[^\t\r\n>/]+		{ tbuilder->buildIncludeFile(lexertext); }
+">"			{ BEGIN(INITIAL); tbuilder->buildIncludeFinish(); }
 }
-"use"{WS}*"<"		{ BEGIN(use); tbuilder->BuildUseStart(); }
-<use>[^\t\r\n>]+	{ return tbuilder->BuildUse(lexertext); }
-<use>">"		{ BEGIN(INITIAL); tbuilder->BuildUseFinish(); }
-<<EOF>>			{ tbuilder->BuildFileFinish();
+"use"{WS}*"<"		{ BEGIN(use); tbuilder->buildUseStart(); }
+<use>[^\t\r\n>]+	{ return tbuilder->buildUse(lexertext); }
+<use>">"		{ BEGIN(INITIAL); tbuilder->buildUseFinish(); }
+<<EOF>>			{ tbuilder->buildFileFinish();
 			  lexerpop_buffer_state();
 			  if(!YY_CURRENT_BUFFER)
 			    yyterminate(); }
-"module"		{ return tbuilder->BuildModule(); }
-"function"		{ return tbuilder->BuildFunction(); }
-"true"			{ return tbuilder->BuildTrue(); }
-"false"		{ return tbuilder->BuildFalse(); }
-"undef"		{ return tbuilder->BuildUndef(); }
-"const"		{ return tbuilder->BuildConst(); }
-"param"		{ return tbuilder->BuildParam(); }
-"if"			{ return tbuilder->BuildIf(); }
-"as"			{ return tbuilder->BuildAs(); }
-"else"			{ return tbuilder->BuildElse(); }
-"for"			{ return tbuilder->BuildFor(); }
-"return"		{ return tbuilder->BuildReturn(); }
-"<="			{ return tbuilder->BuildLessEqual();  }
-">="			{ return tbuilder->BuildGreatEqual();  }
-"=="			{ return tbuilder->BuildEqual();  }
-"!="			{ return tbuilder->BuildNotEqual();  }
-"&&"			{ return tbuilder->BuildAnd(); }
-"||"			{ return tbuilder->BuildOr();  }
-".*"			{ return tbuilder->BuildComponentwiseMultiply(); }
-"./"			{ return tbuilder->BuildComponentwiseDivide(); }
+"module"		{ return tbuilder->buildModule(); }
+"function"		{ return tbuilder->buildFunction(); }
+"true"			{ return tbuilder->buildTrue(); }
+"false"		{ return tbuilder->buildFalse(); }
+"undef"		{ return tbuilder->buildUndef(); }
+"const"		{ return tbuilder->buildConst(); }
+"param"		{ return tbuilder->buildParam(); }
+"if"			{ return tbuilder->buildIf(); }
+"as"			{ return tbuilder->buildAs(); }
+"else"			{ return tbuilder->buildElse(); }
+"for"			{ return tbuilder->buildFor(); }
+"return"		{ return tbuilder->buildReturn(); }
+"<="			{ return tbuilder->buildLessEqual();  }
+">="			{ return tbuilder->buildGreatEqual();  }
+"=="			{ return tbuilder->buildEqual();  }
+"!="			{ return tbuilder->buildNotEqual();  }
+"&&"			{ return tbuilder->buildAnd(); }
+"||"			{ return tbuilder->buildOr();  }
+".*"			{ return tbuilder->buildComponentwiseMultiply(); }
+"./"			{ return tbuilder->buildComponentwiseDivide(); }
 [\[\]<>.:!;#${}(),=*/%?\+\-] %{
-			{ return tbuilder->BuildLegalChar(lexertext[0]); }
+			{ return tbuilder->buildLegalChar(lexertext[0]); }
 			%}
-{D}+|{D}*\.{D}+|{D}+\.{D}* { return tbuilder->BuildNumber(lexertext); }
-[a-zA-Z0-9_]+		{ return tbuilder->BuildIdentifier(lexertext); }
-\"			{ BEGIN(string); tbuilder->BuildStringStart(); }
+{D}+|{D}*\.{D}+|{D}+\.{D}* { return tbuilder->buildNumber(lexertext); }
+[a-zA-Z0-9_]+		{ return tbuilder->buildIdentifier(lexertext); }
+\"			{ BEGIN(string); tbuilder->buildStringStart(); }
 <string>{
-\\n			{ tbuilder->BuildString('\n'); }
-\\t			{ tbuilder->BuildString('\t'); }
-\\r			{ tbuilder->BuildString('\r'); }
-\\\\			{ tbuilder->BuildString('\\'); }
-\\\"			{ tbuilder->BuildString('"'); }
-[^\\\n\"]+		{ tbuilder->BuildString(lexertext); }
-\"			{ BEGIN(INITIAL); return tbuilder->BuildStringFinish(); }
+\\n			{ tbuilder->buildString('\n'); }
+\\t			{ tbuilder->buildString('\t'); }
+\\r			{ tbuilder->buildString('\r'); }
+\\\\			{ tbuilder->buildString('\\'); }
+\\\"			{ tbuilder->buildString('"'); }
+[^\\\n\"]+		{ tbuilder->buildString(lexertext); }
+\"			{ BEGIN(INITIAL); return tbuilder->buildStringFinish(); }
 }
-"//"[^\n]*\n?		{ tbuilder->BuildComment(lexertext); }
-"/*"			{ BEGIN(comment); tbuilder->BuildCommentStart(); }
+"//"[^\n]*\n?		{ tbuilder->buildComment(lexertext); }
+"/*"			{ BEGIN(comment); tbuilder->buildCommentStart(); }
 <comment>{
-[^*]*			{ tbuilder->BuildComment(lexertext); }
-"*"+[^*/]*		{ tbuilder->BuildComment(lexertext); }
-"*/"			{ BEGIN(INITIAL); tbuilder->BuildCommentFinish(); }
+[^*]*			{ tbuilder->buildComment(lexertext); }
+"*"+[^*/]*		{ tbuilder->buildComment(lexertext); }
+"*/"			{ BEGIN(INITIAL); tbuilder->buildCommentFinish(); }
 }
-[ \t]+\n		{ tbuilder->BuildWhiteSpaceError(); }
+[ \t]+\n		{ tbuilder->buildWhiteSpaceError(); }
 {WS}+			//ignore whitespace
 .			{ lexererror();  }
 %%
@@ -102,7 +102,7 @@ void lexererror()
 void lexerinit(QDir sourcepath)
 {
     tbuilder = new TokenBuilder();
-    tbuilder->BuildFileStart(sourcepath);
+    tbuilder->buildFileStart(sourcepath);
 }
 
 void lexerinclude(const char* fullpath)
