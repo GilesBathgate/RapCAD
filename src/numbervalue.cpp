@@ -31,11 +31,13 @@ QString NumberValue::getValueString()
 Value* NumberValue::add(Value* v)
 {
     NumberValue* that = dynamic_cast<NumberValue*>(v);
-    return new NumberValue(this->number + that->number);
+    if(that)
+	return new NumberValue(this->number + that->number);
 }
 
 Value* NumberValue::subtract(Value* v)
 {
     NumberValue* that = dynamic_cast<NumberValue*>(v);
-    return new NumberValue(this->number - that->number);
+    if(that)
+	return new NumberValue(this->number - that->number);
 }

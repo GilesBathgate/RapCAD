@@ -27,3 +27,10 @@ QString TextValue::getValueString()
 {
 	return this->text;
 }
+
+Value* TextValue::add(Value* v)
+{
+    TextValue* that=dynamic_cast<TextValue*>(v);
+    if(that)
+	return new TextValue(this->text.append(that->text));
+}

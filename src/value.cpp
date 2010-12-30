@@ -37,12 +37,12 @@ QString Value::getValueString()
 	return "undef";
 }
 
-Value* Value::add(Value* v)
+Value* Value::add(Value*)
 {
-    return v;
+    return this;
 }
 
-Value* Value::subtract(Value* v)
+Value* Value::subtract(Value*)
 {
-    return v;
+    return this;
 }
