@@ -29,8 +29,7 @@ Expression::~Expression()
 QString Expression::getOpString()
 {
 	QString result;
-	switch(this->getOp())
-	{
+	switch(this->getOp()) {
 
 	case Multiply:
 		result.append('*');

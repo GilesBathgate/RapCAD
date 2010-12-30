@@ -63,8 +63,7 @@ void Evaluator::visit(Instance * inst)
 {
 	QString name = inst->getName();
 	Module* mod = context->lookupmodule(name);
-	if(mod)
-	{
+	if(mod) {
 		foreach(Argument* arg, inst->getArguments())
 		arg->accept(*this);
 
@@ -202,8 +201,7 @@ void Evaluator::visit(Invocation * stmt)
 {
 	QString name = stmt->getName();
 	Function* func = context->lookupfunction(name);
-	if(func)
-	{
+	if(func) {
 		foreach(Argument* arg, stmt->getArguments())
 		arg->accept(*this);
 

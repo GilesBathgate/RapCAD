@@ -25,8 +25,7 @@
 class Variable : public Expression
 {
 public:
-	enum Type_e
-	{
+	enum Type_e {
 		Var,
 		Special,
 		Const,

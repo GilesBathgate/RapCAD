@@ -30,21 +30,16 @@ int main(int argc, char *argv[])
 	//can use getopt
 	QStringList args = QApplication::arguments();
 
-	if(args.length()>1)
-	{
-		if(args.at(1)=="-f")
-		{
+	if(args.length()>1) {
+		if(args.at(1)=="-f") {
 			QString filename = args.at(2);
 			parse(filename,true);
 		}
-		if(args.at(1)=="-l")
-		{
+		if(args.at(1)=="-l") {
 			QString text = args.at(2);
 			parse(text,false);
 		}
-	}
-	else
-	{
+	} else {
 		MainWindow w;
 		w.show();
 

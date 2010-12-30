@@ -28,8 +28,7 @@ EchoModule::EchoModule()
 void EchoModule::evaluate(Context* ctx,Instance*)
 {
 	QString msg;
-	for(int i=0; i<ctx->arguments.size(); i++)
-	{
+	for(int i=0; i<ctx->arguments.size(); i++) {
 		if(i>0)
 			msg.append(",");
 		Value* a=ctx->arguments.at(i);

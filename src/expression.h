@@ -25,8 +25,7 @@
 class Expression : public Visitable
 {
 public:
-	enum Operator_e
-	{
+	enum Operator_e {
 		Multiply,
 		ComponentwiseMultiply,
 		Divide,

@@ -27,8 +27,7 @@
 class Instance : public Statement
 {
 public:
-	enum Type_e
-	{
+	enum Type_e {
 		Default,
 		Root,
 		Debug,

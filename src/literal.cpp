@@ -49,8 +49,7 @@ void Literal::setValue(QString value)
 
 QString Literal::getValueString()
 {
-	switch(this->type)
-	{
+	switch(this->type) {
 	case Boolean:
 		return this->boolean ? "true" : "false";
 	case Number:
@@ -64,8 +63,7 @@ QString Literal::getValueString()
 
 Value* Literal::getValue()
 {
-	switch(this->type)
-	{
+	switch(this->type) {
 	case Boolean:
 		return new BooleanValue(boolean);
 	case Number:

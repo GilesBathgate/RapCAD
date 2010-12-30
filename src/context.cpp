@@ -28,13 +28,10 @@ Context::Context()
 
 Module* Context::lookupmodule(QString name)
 {
-	if(!modules.contains(name))
-	{
-		foreach(Declaration* d,currentscope->getDeclarations())
-		{
+	if(!modules.contains(name)) {
+		foreach(Declaration* d,currentscope->getDeclarations()) {
 			Module* mod = dynamic_cast<Module*>(d);
-			if(mod && mod->getName() == name)
-			{
+			if(mod && mod->getName() == name) {
 				modules.insert(name,mod);
 				break;
 			}
@@ -48,13 +45,10 @@ Module* Context::lookupmodule(QString name)
 
 Function* Context::lookupfunction(QString name)
 {
-	if(!functions.contains(name))
-	{
-		foreach(Declaration* d,currentscope->getDeclarations())
-		{
+	if(!functions.contains(name)) {
+		foreach(Declaration* d,currentscope->getDeclarations()) {
 			Function* func = dynamic_cast<Function*>(d);
-			if(func && func->getName() == name)
-			{
+			if(func && func->getName() == name) {
 				functions.insert(name,func);
 				break;
 			}

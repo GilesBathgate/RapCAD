@@ -36,8 +36,7 @@ public:
 
 	void accept(Visitor&);
 private:
-	enum DataType
-	{
+	enum DataType {
 		Undef,
 		Boolean,
 		Number,

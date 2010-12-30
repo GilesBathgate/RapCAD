@@ -23,7 +23,8 @@
 #include <QStandardItemModel>
 #include "syntaxhighlighter.h"
 
-namespace Ui {
+namespace Ui
+{
 class MainWindow;
 }
 
