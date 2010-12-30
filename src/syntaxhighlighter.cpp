@@ -40,7 +40,7 @@ SyntaxHighlighter::SyntaxHighlighter(QTextDocument* parent)
 			<< "\\bfor\\b"
 			<< "\\breturn\\b";
 
-	foreach (const QString &pattern, keywordPatterns) {
+	foreach(const QString &pattern, keywordPatterns) {
 		rule.pattern = QRegExp(pattern);
 		rule.format = keywordFormat;
 		highlightingRules.append(rule);
@@ -64,10 +64,10 @@ SyntaxHighlighter::SyntaxHighlighter(QTextDocument* parent)
 
 void SyntaxHighlighter::highlightBlock(const QString& text)
 {
-	foreach (const HighlightingRule &rule, highlightingRules) {
+	foreach(const HighlightingRule &rule, highlightingRules) {
 		QRegExp expression(rule.pattern);
 		int index = expression.indexIn(text);
-		while (index >= 0) {
+		while(index >= 0) {
 			int length = expression.matchedLength();
 			setFormat(index, length, rule.format);
 			index = expression.indexIn(text, index + length);
@@ -77,13 +77,13 @@ void SyntaxHighlighter::highlightBlock(const QString& text)
 	setCurrentBlockState(0);
 
 	int startIndex = 0;
-	if (previousBlockState() != 1)
+	if(previousBlockState() != 1)
 		startIndex = commentStartExpression.indexIn(text);
 
-	while (startIndex >= 0) {
+	while(startIndex >= 0) {
 		int endIndex = commentEndExpression.indexIn(text, startIndex);
 		int commentLength;
-		if (endIndex == -1) {
+		if(endIndex == -1) {
 			setCurrentBlockState(1);
 			commentLength = text.length() - startIndex;
 		} else {

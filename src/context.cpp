@@ -87,7 +87,7 @@ void Context::addfunction(Function* func)
 
 void Context::args(QVector<Value*> args, QVector<Value*> params)
 {
-	for (int i=0; i<params.size(); i++) {
+	for(int i=0; i<params.size(); i++) {
 		QString name = args.at(i)->getName();
 		if(name.isEmpty() || contains(params,name))
 			variables.insert(params.at(i)->getName(), args.at(i));
