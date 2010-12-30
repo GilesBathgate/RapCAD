@@ -55,7 +55,7 @@ QString Literal::getValueString()
 	case Number:
 		return QString().setNum(this->number,'g',16);
 	case Text:
-		return text;
+		return QString("\"%1\"").arg(text);
 	default:
 		return "undef";
 	}
