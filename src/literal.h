@@ -25,29 +25,29 @@
 class Literal : public Expression
 {
 public:
-    Literal();
-    ~Literal();
-    void setValue(bool);
-    void setValue(double);
-    void setValue(QString);
-    QString getValueString();
+	Literal();
+	~Literal();
+	void setValue(bool);
+	void setValue(double);
+	void setValue(QString);
+	QString getValueString();
 
-    Value* getValue();
+	Value* getValue();
 
-    void accept(Visitor&);
+	void accept(Visitor&);
 private:
-    enum DataType
-    {
-	Undef,
-	Boolean,
-	Number,
-	Text
-    };
+	enum DataType
+	{
+		Undef,
+		Boolean,
+		Number,
+		Text
+	};
 
-    bool boolean;
-    double number;
-    QString text;
-    DataType type;
+	bool boolean;
+	double number;
+	QString text;
+	DataType type;
 };
 
 #endif // LITERAL_H

@@ -24,21 +24,21 @@ CompoundStatement::CompoundStatement()
 
 CompoundStatement::~CompoundStatement()
 {
-    for(int i=0; i<children.size(); i++)
-	delete children.at(i);
+	for(int i=0; i<children.size(); i++)
+		delete children.at(i);
 }
 
 void CompoundStatement::setChildren(QVector<Statement*> stmts)
 {
-    this->children = stmts;
+	this->children = stmts;
 }
 
 QVector<Statement*> CompoundStatement::getChildren()
 {
-    return this->children;
+	return this->children;
 }
 
 void CompoundStatement::accept(Visitor& v)
 {
-    v.visit(this);
+	v.visit(this);
 }

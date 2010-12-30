@@ -24,26 +24,26 @@ Script::Script()
 
 Script::~Script()
 {
-    for(int i =0; i<declarations.size(); i++)
-	delete declarations.at(i);
+	for(int i =0; i<declarations.size(); i++)
+		delete declarations.at(i);
 }
 
 void Script::setDeclarations(QVector<Declaration*> decls)
 {
-    this->declarations = decls;
+	this->declarations = decls;
 }
 
 QVector<Declaration*> Script::getDeclarations()
 {
-    return this->declarations;
+	return this->declarations;
 }
 
 void Script::addDeclaration(Declaration* dec)
 {
-    declarations.append(dec);
+	declarations.append(dec);
 }
 
 void Script::accept(Visitor& v)
 {
-    v.visit(this);
+	v.visit(this);
 }

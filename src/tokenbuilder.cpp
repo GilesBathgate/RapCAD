@@ -32,38 +32,38 @@ void TokenBuilder::BuildIncludeStart()
 
 void TokenBuilder::BuildIncludeFile(QString str)
 {
-    filename = str;
+	filename = str;
 }
 
 void TokenBuilder::BuildIncludePath(QString str)
 {
-    filepath = str;
+	filepath = str;
 }
 
 void TokenBuilder::BuildIncludeFinish()
 {
-    if(filename.isEmpty())
-	return;
+	if(filename.isEmpty())
+		return;
 
-    QDir currentpath = path_stack.top();
-    if(filepath.isEmpty()) {
-	path_stack.push(currentpath);
-    } else {
-	QFileInfo dirinfo(currentpath,filepath);
-	path_stack.push(dirinfo.dir());
-	filepath.clear();
-    }
+	QDir currentpath = path_stack.top();
+	if(filepath.isEmpty()) {
+		path_stack.push(currentpath);
+	} else {
+		QFileInfo dirinfo(currentpath,filepath);
+		path_stack.push(dirinfo.dir());
+		filepath.clear();
+	}
 
-    currentpath = path_stack.top();
-    QFileInfo fileinfo(currentpath,filename);
+	currentpath = path_stack.top();
+	QFileInfo fileinfo(currentpath,filename);
 
-    if(!fileinfo.exists())
-	path_stack.pop();
+	if(!fileinfo.exists())
+		path_stack.pop();
 
-    filename.clear();
+	filename.clear();
 
-    const char* fullpath = fileinfo.absoluteFilePath().toLocal8Bit();
-    lexerinclude(fullpath);
+	const char* fullpath = fileinfo.absoluteFilePath().toLocal8Bit();
+	lexerinclude(fullpath);
 
 }
 
@@ -73,7 +73,8 @@ void TokenBuilder::BuildUseStart()
 
 unsigned int TokenBuilder::BuildUse(QString str)
 {
-    parserlval.text = new QString(str); return USE;
+	parserlval.text = new QString(str);
+	return USE;
 }
 
 void TokenBuilder::BuildUseFinish()
@@ -82,137 +83,140 @@ void TokenBuilder::BuildUseFinish()
 
 unsigned int TokenBuilder::BuildModule()
 {
-    return MODULE;
+	return MODULE;
 }
 
 unsigned int TokenBuilder::BuildFunction()
 {
-    return FUNCTION;
+	return FUNCTION;
 }
 
 unsigned int TokenBuilder::BuildTrue()
 {
-    return TOK_TRUE;
+	return TOK_TRUE;
 }
 
 unsigned int TokenBuilder::BuildFalse()
 {
-    return TOK_FALSE;
+	return TOK_FALSE;
 }
 
 unsigned int TokenBuilder::BuildUndef()
 {
-    return UNDEF;
+	return UNDEF;
 }
 
 unsigned int TokenBuilder::BuildConst()
 {
-    return CONST;
+	return CONST;
 }
 
 unsigned int TokenBuilder::BuildParam()
 {
-    return PARAM;
+	return PARAM;
 }
 
 unsigned int TokenBuilder::BuildIf()
 {
-    return IF;
+	return IF;
 }
 
 unsigned int TokenBuilder::BuildAs()
 {
-    return AS;
+	return AS;
 }
 
 unsigned int TokenBuilder::BuildElse()
 {
-    return ELSE;
+	return ELSE;
 }
 
 unsigned int TokenBuilder::BuildFor()
 {
-    return FOR;
+	return FOR;
 }
 
 unsigned int TokenBuilder::BuildReturn()
 {
-    return RETURN;
+	return RETURN;
 }
 
 unsigned int TokenBuilder::BuildLessEqual()
 {
-    return LE;
+	return LE;
 }
 
 unsigned int TokenBuilder::BuildGreatEqual()
 {
-    return GE;
+	return GE;
 }
 
 unsigned int TokenBuilder::BuildEqual()
 {
-    return EQ;
+	return EQ;
 }
 
 unsigned int TokenBuilder::BuildNotEqual()
 {
-    return NE;
+	return NE;
 }
 
 unsigned int TokenBuilder::BuildAnd()
 {
-    return AND;
+	return AND;
 }
 
 unsigned int TokenBuilder::BuildOr()
 {
-    return OR;
+	return OR;
 }
 
 unsigned int TokenBuilder::BuildComponentwiseMultiply()
 {
-    return CM;
+	return CM;
 }
 
 unsigned int TokenBuilder::BuildComponentwiseDivide()
 {
-    return CD;
+	return CD;
 }
 
 unsigned int TokenBuilder::BuildLegalChar(unsigned int c)
 {
-    return c;
+	return c;
 }
 
 unsigned int TokenBuilder::BuildNumber(QString str)
 {
-    parserlval.number = str.toDouble(); return NUMBER;
+	parserlval.number = str.toDouble();
+	return NUMBER;
 }
 
 unsigned int TokenBuilder::BuildIdentifier(QString str)
 {
-    parserlval.text = new QString(str); return IDENTIFIER;
+	parserlval.text = new QString(str);
+	return IDENTIFIER;
 }
 
 void TokenBuilder::BuildStringStart()
 {
-    stringcontents = new QString();
+	stringcontents = new QString();
 }
 
 void TokenBuilder::BuildString(QChar c)
 {
-    stringcontents->append(c);
+	stringcontents->append(c);
 }
 
 void TokenBuilder::BuildString(QString s)
 {
-    stringcontents->append(s);
+	stringcontents->append(s);
 }
 
 unsigned int TokenBuilder::BuildStringFinish()
 {
-    parserlval.text = stringcontents; return STRING;
+	parserlval.text = stringcontents;
+	return STRING;
 }
 
 void TokenBuilder::BuildCommentStart()
@@ -221,7 +225,7 @@ void TokenBuilder::BuildCommentStart()
 
 unsigned int TokenBuilder::BuildComment(QString)
 {
-    return YY_NULL;
+	return YY_NULL;
 }
 
 void TokenBuilder::BuildCommentFinish()
@@ -234,10 +238,10 @@ void TokenBuilder::BuildWhiteSpaceError()
 
 void TokenBuilder::BuildFileStart(QDir pth)
 {
-    path_stack.push(pth);
+	path_stack.push(pth);
 }
 
 void TokenBuilder::BuildFileFinish()
 {
-    path_stack.pop();
+	path_stack.pop();
 }

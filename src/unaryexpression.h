@@ -7,14 +7,14 @@
 class UnaryExpression : public Expression
 {
 public:
-    UnaryExpression();
-    ~UnaryExpression();
+	UnaryExpression();
+	~UnaryExpression();
 
-    void setExpression(Expression*);
-    Expression* getExpression();
-    void accept(Visitor&);
+	void setExpression(Expression*);
+	Expression* getExpression();
+	void accept(Visitor&);
 private:
-    Expression* expression;
+	Expression* expression;
 };
 
 #endif // UNARYEXPRESSION_H

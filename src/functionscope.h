@@ -27,16 +27,16 @@
 class FunctionScope : public Scope
 {
 public:
-    FunctionScope();
-    ~FunctionScope();
-    void setExpression(Expression*);
-    Expression* getExpression();
-    void setStatements(QVector<Statement*>);
-    QVector<Statement*> getStatements();
-    void accept(Visitor&);
+	FunctionScope();
+	~FunctionScope();
+	void setExpression(Expression*);
+	Expression* getExpression();
+	void setStatements(QVector<Statement*>);
+	QVector<Statement*> getStatements();
+	void accept(Visitor&);
 private:
-    Expression* expression;
-    QVector<Statement*> statements;
+	Expression* expression;
+	QVector<Statement*> statements;
 };
 
 #endif // FUNCTIONSCOPE_H

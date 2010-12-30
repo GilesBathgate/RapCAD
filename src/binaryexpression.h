@@ -24,16 +24,16 @@
 class BinaryExpression : public Expression
 {
 public:
-    BinaryExpression();
-    ~BinaryExpression();
-    Expression* getLeft();
-    void setLeft(Expression*);
-    Expression* getRight();
-    void setRight(Expression*);
-    void accept(Visitor&);
+	BinaryExpression();
+	~BinaryExpression();
+	Expression* getLeft();
+	void setLeft(Expression*);
+	Expression* getRight();
+	void setRight(Expression*);
+	void accept(Visitor&);
 private:
-    Expression* left;
-    Expression* right;
+	Expression* left;
+	Expression* right;
 };
 
 #endif // BINARYEXPRESSION_H

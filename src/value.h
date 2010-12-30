@@ -24,12 +24,12 @@
 class Value
 {
 public:
-    Value();
-    void setName(QString);
-    QString getName();
-    virtual QString getValueString();
+	Value();
+	void setName(QString);
+	QString getName();
+	virtual QString getValueString();
 private:
-    QString name;
+	QString name;
 };
 
 #endif // VALUE_H

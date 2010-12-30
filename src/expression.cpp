@@ -28,76 +28,76 @@ Expression::~Expression()
 
 QString Expression::getOpString()
 {
-    QString result;
-    switch(this->getOp())
-    {
+	QString result;
+	switch(this->getOp())
+	{
 
-    case Multiply:
-	result.append('*');
-        break;
-    case ComponentwiseMultiply:
-	result.append(".*");
-	break;
-    case Divide:
-	result.append('/');
-        break;
-    case ComponentwiseDivide:
-	result.append("./");
-	break;
-    case Modulus:
-	result.append('%');
-        break;
-    case Dot:
-	result.append('.');
-        break;
-    case Add:
-	result.append('+');
-        break;
-    case Subtract:
-	result.append('-');
-        break;
-    case LessThan:
-	result.append('<');
-        break;
-    case LessOrEqual:
-	result.append("<=");
-        break;
-    case Equal:
-	result.append("==");
-        break;
-    case NotEqual:
-	result.append("!=");
-        break;
-    case GreaterOrEqual:
-	result.append(">=");
-        break;
-    case GreaterThan:
-	result.append('>');
-        break;
-    case LogicalAnd:
-	result.append("&&");
-        break;
-    case LogicalOr:
-	result.append("||");
-        break;
-    case Invert:
-	result.append('!');
-        break;
-    case Index:
-	result.append("[]");
-        break;
-    default:
-	result.append("Unknown");
-    }
-    return result;
+	case Multiply:
+		result.append('*');
+		break;
+	case ComponentwiseMultiply:
+		result.append(".*");
+		break;
+	case Divide:
+		result.append('/');
+		break;
+	case ComponentwiseDivide:
+		result.append("./");
+		break;
+	case Modulus:
+		result.append('%');
+		break;
+	case Dot:
+		result.append('.');
+		break;
+	case Add:
+		result.append('+');
+		break;
+	case Subtract:
+		result.append('-');
+		break;
+	case LessThan:
+		result.append('<');
+		break;
+	case LessOrEqual:
+		result.append("<=");
+		break;
+	case Equal:
+		result.append("==");
+		break;
+	case NotEqual:
+		result.append("!=");
+		break;
+	case GreaterOrEqual:
+		result.append(">=");
+		break;
+	case GreaterThan:
+		result.append('>');
+		break;
+	case LogicalAnd:
+		result.append("&&");
+		break;
+	case LogicalOr:
+		result.append("||");
+		break;
+	case Invert:
+		result.append('!');
+		break;
+	case Index:
+		result.append("[]");
+		break;
+	default:
+		result.append("Unknown");
+	}
+	return result;
 }
 
 void Expression::setOp(Operator_e op)
 {
-    this->op = op;
+	this->op = op;
 }
 
 Expression::Operator_e Expression::getOp()
 {
-    return this->op;
+	return this->op;
 }

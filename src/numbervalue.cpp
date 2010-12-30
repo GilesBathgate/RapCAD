@@ -20,10 +20,10 @@
 
 NumberValue::NumberValue(double value)
 {
-    this->num=value;
+	this->num=value;
 }
 
 QString NumberValue::getValueString()
 {
-    return QString().setNum(num,'g',16);
+	return QString().setNum(num,'g',16);
 }

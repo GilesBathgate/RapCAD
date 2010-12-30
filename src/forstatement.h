@@ -27,17 +27,17 @@
 class ForStatement : public Statement
 {
 public:
-    ForStatement();
-    ~ForStatement();
+	ForStatement();
+	~ForStatement();
 
-    void setArguments(QVector<Argument*>);
-    QVector<Argument*> getArguments();
-    void setStatement(Statement*);
-    Statement* getStatement();
-    void accept(Visitor&);
+	void setArguments(QVector<Argument*>);
+	QVector<Argument*> getArguments();
+	void setStatement(Statement*);
+	Statement* getStatement();
+	void accept(Visitor&);
 private:
-    QVector<Argument*> arguments;
-    Statement* statement;
+	QVector<Argument*> arguments;
+	Statement* statement;
 
 };
 

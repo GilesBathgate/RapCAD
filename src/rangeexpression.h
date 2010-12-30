@@ -25,19 +25,19 @@
 class RangeExpression : public Expression
 {
 public:
-    RangeExpression();
-    ~RangeExpression();
-    void setStart(Expression*);
-    Expression* getStart();
-    void setFinish(Expression*);
-    Expression* getFinish();
-    void setStep(Expression*);
-    Expression* getStep();
-    void accept(Visitor&);
+	RangeExpression();
+	~RangeExpression();
+	void setStart(Expression*);
+	Expression* getStart();
+	void setFinish(Expression*);
+	Expression* getFinish();
+	void setStep(Expression*);
+	Expression* getStep();
+	void accept(Visitor&);
 private:
-    Expression* start;
-    Expression* finish;
-    Expression* step;
+	Expression* start;
+	Expression* finish;
+	Expression* step;
 };
 
 #endif // RANGEEXPRESSION_H

@@ -29,19 +29,19 @@
 class Function : public Declaration
 {
 public:
-    Function();
-    ~Function();
-    QString getName();
-    void setName(QString);
-    QVector<Parameter*> getParameters();
-    void setParameters(QVector<Parameter*>);
-    Scope* getScope();
-    void setScope(Scope*);
-    void accept(Visitor&);
+	Function();
+	~Function();
+	QString getName();
+	void setName(QString);
+	QVector<Parameter*> getParameters();
+	void setParameters(QVector<Parameter*>);
+	Scope* getScope();
+	void setScope(Scope*);
+	void accept(Visitor&);
 private:
-    QString name;
-    QVector<Parameter*> parameters;
-    Scope* scope;
+	QString name;
+	QVector<Parameter*> parameters;
+	Scope* scope;
 };
 
 #endif // FUNCTION_H

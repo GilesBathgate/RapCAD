@@ -24,10 +24,10 @@
 class TextValue : public Value
 {
 public:
-    TextValue(QString);
-    QString getValueString();
+	TextValue(QString);
+	QString getValueString();
 private:
-    QString text;
+	QString text;
 };
 
 #endif // TEXTVALUE_H

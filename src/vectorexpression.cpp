@@ -28,15 +28,15 @@ VectorExpression::~VectorExpression()
 
 void VectorExpression::setChildren(QVector<Expression*> exp)
 {
-    this->children = exp;
+	this->children = exp;
 }
 
 QVector<Expression*> VectorExpression::getChildren()
 {
-    return this->children;
+	return this->children;
 }
 
 void VectorExpression::accept(Visitor& v)
 {
-    v.visit(this);
+	v.visit(this);
 }

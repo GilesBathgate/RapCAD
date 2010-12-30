@@ -20,35 +20,35 @@
 
 Parameter::Parameter()
 {
-    expression=NULL;
+	expression=NULL;
 }
 
 Parameter::~Parameter()
 {
-    delete expression;
+	delete expression;
 }
 
 QString Parameter::getName()
 {
-    return this->name;
+	return this->name;
 }
 
 void Parameter::setName(QString name)
 {
-    this->name = name;
+	this->name = name;
 }
 
 Expression* Parameter::getExpression()
 {
-    return this->expression;
+	return this->expression;
 }
 
 void Parameter::setExpression(Expression* expr)
 {
-    this->expression = expr;
+	this->expression = expr;
 }
 
 void Parameter::accept(Visitor& v)
 {
-    v.visit(this);
+	v.visit(this);
 }

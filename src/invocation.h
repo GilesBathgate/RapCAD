@@ -9,17 +9,17 @@
 class Invocation : public Expression
 {
 public:
-    Invocation();
-    ~Invocation();
+	Invocation();
+	~Invocation();
 
-    void setName(QString);
-    QString getName();
-    void setArguments(QVector<Argument*>);
-    QVector<Argument*> getArguments();
-    void accept(Visitor&);
+	void setName(QString);
+	QString getName();
+	void setArguments(QVector<Argument*>);
+	QVector<Argument*> getArguments();
+	void accept(Visitor&);
 private:
-    QString name;
-    QVector<Argument*> arguments;
+	QString name;
+	QVector<Argument*> arguments;
 };
 
 #endif // INVOCATION_H

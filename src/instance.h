@@ -27,34 +27,34 @@
 class Instance : public Statement
 {
 public:
-    enum Type_e
-    {
-	Default,
-	Root,
-	Debug,
-	Background,
-	Disable
-    };
+	enum Type_e
+	{
+		Default,
+		Root,
+		Debug,
+		Background,
+		Disable
+	};
 
-    Instance();
-    ~Instance();
-    void setName(QString);
-    QString getName();
-    void setArguments(QVector<Argument*>);
-    QVector<Argument*> getArguments();
-    void setChildren(QVector <Statement*> childs);
-    QVector <Statement*> getChildren();
-    void setType(Type_e);
-    Type_e getType();
-    void setNamespace(QString);
-    QString getNamespace();
-    void accept(Visitor&);
+	Instance();
+	~Instance();
+	void setName(QString);
+	QString getName();
+	void setArguments(QVector<Argument*>);
+	QVector<Argument*> getArguments();
+	void setChildren(QVector <Statement*> childs);
+	QVector <Statement*> getChildren();
+	void setType(Type_e);
+	Type_e getType();
+	void setNamespace(QString);
+	QString getNamespace();
+	void accept(Visitor&);
 private:
-    QString name;
-    QVector<Argument*> arguments;
-    QVector<Statement*> children;
-    Type_e type;
-    QString name_space;
+	QString name;
+	QVector<Argument*> arguments;
+	QVector<Statement*> children;
+	Type_e type;
+	QString name_space;
 };
 
 #endif // INSTANCE_H

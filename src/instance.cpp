@@ -20,69 +20,69 @@
 
 Instance::Instance()
 {
-    type = Default;
+	type = Default;
 }
 
 Instance::~Instance()
 {
-    for(int i=0; i<arguments.size(); i++)
-	delete arguments.at(i);
+	for(int i=0; i<arguments.size(); i++)
+		delete arguments.at(i);
 
-    for(int i=0; i<children.size(); i++)
-	delete children.at(i);
+	for(int i=0; i<children.size(); i++)
+		delete children.at(i);
 }
 
 void Instance::setName(QString name)
 {
-    this->name = name;
+	this->name = name;
 }
 
 QString Instance::getName()
 {
-    return this->name;
+	return this->name;
 }
 
 void Instance::setArguments(QVector<Argument*> args)
 {
-    this->arguments = args;
+	this->arguments = args;
 }
 
 QVector<Argument*> Instance::getArguments()
 {
-    return this->arguments;
+	return this->arguments;
 }
 
 void Instance::setChildren(QVector <Statement*> childs)
 {
-    this->children = childs;
+	this->children = childs;
 }
 
 void Instance::setType(Type_e t)
 {
-    this->type = t;
+	this->type = t;
 }
 
 Instance::Type_e Instance::getType()
 {
-    return this->type;
+	return this->type;
 }
 
 QVector <Statement*> Instance::getChildren()
 {
-    return this->children;
+	return this->children;
 }
 
 void Instance::setNamespace(QString name)
 {
-    this->name_space = name;
+	this->name_space = name;
 }
 
 QString Instance::getNamespace()
 {
-    return this->name_space;
+	return this->name_space;
 }
 
 void Instance::accept(Visitor& v)
 {
-    v.visit(this);
+	v.visit(this);
 }

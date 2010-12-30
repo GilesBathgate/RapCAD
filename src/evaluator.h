@@ -49,36 +49,36 @@
 class Evaluator : public Visitor
 {
 public:
-    Evaluator();
-    ~Evaluator();
-    void visit(Module*);
-    void visit(ModuleScope*);
-    void visit(Instance*);
-    void visit(Function*);
-    void visit(FunctionScope*);
-    void visit(CompoundStatement*);
-    void visit(IfElseStatement*);
-    void visit(ForStatement*);
-    void visit(Parameter*);
-    void visit(BinaryExpression*);
-    void visit(Argument*);
-    void visit(AssignStatement*);
-    void visit(VectorExpression*);
-    void visit(RangeExpression*);
-    void visit(UnaryExpression*);
-    void visit(ReturnStatement*);
-    void visit(TernaryExpression*);
-    void visit(Invocation*);
-    void visit(ModuleImport*);
-    void visit(Literal*);
-    void visit(Variable*);
-    void visit(Script*);
+	Evaluator();
+	~Evaluator();
+	void visit(Module*);
+	void visit(ModuleScope*);
+	void visit(Instance*);
+	void visit(Function*);
+	void visit(FunctionScope*);
+	void visit(CompoundStatement*);
+	void visit(IfElseStatement*);
+	void visit(ForStatement*);
+	void visit(Parameter*);
+	void visit(BinaryExpression*);
+	void visit(Argument*);
+	void visit(AssignStatement*);
+	void visit(VectorExpression*);
+	void visit(RangeExpression*);
+	void visit(UnaryExpression*);
+	void visit(ReturnStatement*);
+	void visit(TernaryExpression*);
+	void visit(Invocation*);
+	void visit(ModuleImport*);
+	void visit(Literal*);
+	void visit(Variable*);
+	void visit(Script*);
 private:
-    void startcontext();
-    void finishcontext();
+	void startcontext();
+	void finishcontext();
 
-    Context* context;
-    QStack<Context*> context_stack;
+	Context* context;
+	QStack<Context*> context_stack;
 };
 
 #endif // EVALUATOR_H

@@ -20,10 +20,10 @@
 
 BooleanValue::BooleanValue(bool value)
 {
-    this->boolean=value;
+	this->boolean=value;
 }
 
 QString BooleanValue::getValueString()
 {
-    return this->boolean ? "true" : "false";
+	return this->boolean ? "true" : "false";
 }

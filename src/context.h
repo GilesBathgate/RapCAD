@@ -28,32 +28,32 @@
 class Context
 {
 public:
-    Context();
+	Context();
 
-    Context* parent;
+	Context* parent;
 
 
-    QVector<Value*> arguments;
-    QVector<Value*> parameters;
-    Value* currentvalue;
-    Scope* currentscope;
-    QString currentname;
+	QVector<Value*> arguments;
+	QVector<Value*> parameters;
+	Value* currentvalue;
+	Scope* currentscope;
+	QString currentname;
 
-    Value* lookupvariable(QString);
-    void addvariable(Value*);
+	Value* lookupvariable(QString);
+	void addvariable(Value*);
 
-    Module* lookupmodule(QString);
-    void addmodule(Module* mod);
+	Module* lookupmodule(QString);
+	void addmodule(Module* mod);
 
-    Function* lookupfunction(QString);
-    void addfunction(Function*);
+	Function* lookupfunction(QString);
+	void addfunction(Function*);
 
-    void args(QVector<Value*>,QVector<Value*>);
+	void args(QVector<Value*>,QVector<Value*>);
 private:
-    QHash<QString, Value*> variables;
-    QHash<QString,Module*> modules;
-    QHash<QString,Function*> functions;
-    bool contains(QVector<Value*>,QString);
+	QHash<QString, Value*> variables;
+	QHash<QString,Module*> modules;
+	QHash<QString,Function*> functions;
+	bool contains(QVector<Value*>,QString);
 };
 
 #endif // CONTEXT_H

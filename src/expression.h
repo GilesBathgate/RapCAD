@@ -25,35 +25,35 @@
 class Expression : public Visitable
 {
 public:
-    enum Operator_e
-    {
-	Multiply,
-	ComponentwiseMultiply,
-	Divide,
-	ComponentwiseDivide,
-	Modulus,
-        Dot,
-	Add,
-	Subtract,
-	LessThan,
-	LessOrEqual,
-	Equal,
-	NotEqual,
-	GreaterOrEqual,
-	GreaterThan,
-	LogicalAnd,
-        LogicalOr,
-        Invert,
-        Index
-    };
+	enum Operator_e
+	{
+		Multiply,
+		ComponentwiseMultiply,
+		Divide,
+		ComponentwiseDivide,
+		Modulus,
+		Dot,
+		Add,
+		Subtract,
+		LessThan,
+		LessOrEqual,
+		Equal,
+		NotEqual,
+		GreaterOrEqual,
+		GreaterThan,
+		LogicalAnd,
+		LogicalOr,
+		Invert,
+		Index
+	};
 
-    Expression();
-    virtual ~Expression();
-    Operator_e getOp();
-    void setOp(Operator_e);
-    QString getOpString();
+	Expression();
+	virtual ~Expression();
+	Operator_e getOp();
+	void setOp(Operator_e);
+	QString getOpString();
 private:
-    Operator_e op;
+	Operator_e op;
 };
 
 #endif // EXPRESSION_H

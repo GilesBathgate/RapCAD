@@ -21,49 +21,49 @@
 
 Function::Function()
 {
-    scope=NULL;
+	scope=NULL;
 }
 
 Function::~Function()
 {
-    for(int i=0; i<parameters.size(); i++)
-	delete parameters.at(i);
+	for(int i=0; i<parameters.size(); i++)
+		delete parameters.at(i);
 
-    delete scope;
+	delete scope;
 }
 
 QString Function::getName()
 {
-    return this->name;
+	return this->name;
 }
 
 void Function::setName(QString name)
 {
-    this->name = name;
+	this->name = name;
 }
 
 
 QVector<Parameter*> Function::getParameters()
 {
-    return this->parameters;
+	return this->parameters;
 }
 
 void Function::setParameters(QVector<Parameter*> params)
 {
-    this->parameters = params;
+	this->parameters = params;
 }
 
 void Function::setScope(Scope * scp)
 {
-    this->scope = scp;
+	this->scope = scp;
 }
 
 Scope* Function::getScope()
 {
-    return this->scope;
+	return this->scope;
 }
 
 void Function::accept(Visitor& v)
 {
-    v.visit(this);
+	v.visit(this);
 }

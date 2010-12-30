@@ -7,19 +7,19 @@
 class TernaryExpression : public Expression
 {
 public:
-    TernaryExpression();
-    ~TernaryExpression();
-    void setCondition(Expression*);
-    Expression* getCondition();
-    void setTrueExpression(Expression*);
-    Expression* getTrueExpression();
-    void setFalseExpression(Expression*);
-    Expression* getFalseExpression();
-    void accept(Visitor&);
+	TernaryExpression();
+	~TernaryExpression();
+	void setCondition(Expression*);
+	Expression* getCondition();
+	void setTrueExpression(Expression*);
+	Expression* getTrueExpression();
+	void setFalseExpression(Expression*);
+	Expression* getFalseExpression();
+	void accept(Visitor&);
 private:
-    Expression* condition;
-    Expression* trueExpression;
-    Expression* falseExpression;
+	Expression* condition;
+	Expression* trueExpression;
+	Expression* falseExpression;
 };
 
 #endif // TERNARYEXPRESSION_H

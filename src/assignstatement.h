@@ -26,16 +26,16 @@
 class AssignStatement : public Statement
 {
 public:
-    AssignStatement();
-    ~AssignStatement();
-    void setVariable(Variable*);
-    Variable* getVariable();
-    void setExpression(Expression*);
-    Expression* getExpression();
-    void accept(Visitor&);
+	AssignStatement();
+	~AssignStatement();
+	void setVariable(Variable*);
+	Variable* getVariable();
+	void setExpression(Expression*);
+	Expression* getExpression();
+	void accept(Visitor&);
 private:
-    Variable* variable;
-    Expression* expression;
+	Variable* variable;
+	Expression* expression;
 };
 
 #endif // ASSIGNSTATEMENT_H

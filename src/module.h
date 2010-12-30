@@ -30,20 +30,20 @@ class Context;
 class Module : public Declaration
 {
 public:
-     Module();
-     ~Module();
-     QString getName();
-     void setName(QString);
-     QVector<Parameter*> getParameters();
-     void setParameters(QVector<Parameter*>);
-     Scope* getScope();
-     void setScope(Scope*);
-     void accept(Visitor&);
-     virtual void evaluate(Context*,Instance*);
+	Module();
+	~Module();
+	QString getName();
+	void setName(QString);
+	QVector<Parameter*> getParameters();
+	void setParameters(QVector<Parameter*>);
+	Scope* getScope();
+	void setScope(Scope*);
+	void accept(Visitor&);
+	virtual void evaluate(Context*,Instance*);
 private:
-    QString name;
-    QVector<Parameter*> parameters;
-    Scope* scope;
+	QString name;
+	QVector<Parameter*> parameters;
+	Scope* scope;
 };
 
 #endif // MODULE_H

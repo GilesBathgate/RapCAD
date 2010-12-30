@@ -25,16 +25,16 @@
 class Parameter : public Visitable
 {
 public:
-    Parameter();
-    ~Parameter();
-    QString getName();
-    void setName(QString);
-    Expression* getExpression();
-    void setExpression(Expression*);
-    void accept(Visitor&);
+	Parameter();
+	~Parameter();
+	QString getName();
+	void setName(QString);
+	Expression* getExpression();
+	void setExpression(Expression*);
+	void accept(Visitor&);
 private:
-    QString name;
-    Expression* expression;
+	QString name;
+	Expression* expression;
 };
 
 #endif // PARAMETER_H

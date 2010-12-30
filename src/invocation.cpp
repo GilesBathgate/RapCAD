@@ -10,25 +10,25 @@ Invocation::~Invocation()
 
 void Invocation::setName(QString name)
 {
-    this->name = name;
+	this->name = name;
 }
 
 QString Invocation::getName()
 {
-    return this->name;
+	return this->name;
 }
 
 void Invocation::setArguments(QVector<Argument*> args)
 {
-    this->arguments = args;
+	this->arguments = args;
 }
 
 QVector<Argument*> Invocation::getArguments()
 {
-    return this->arguments;
+	return this->arguments;
 }
 
 void Invocation::accept(Visitor& v)
 {
-    v.visit(this);
+	v.visit(this);
 }

@@ -20,49 +20,49 @@
 
 RangeExpression::RangeExpression()
 {
-    start=NULL;
-    finish=NULL;
-    step=NULL;
+	start=NULL;
+	finish=NULL;
+	step=NULL;
 }
 
 RangeExpression::~RangeExpression()
 {
-    delete start;
-    delete finish;
-    delete step;
+	delete start;
+	delete finish;
+	delete step;
 }
 
 void RangeExpression::setStart(Expression* srt)
 {
-    this->start = srt;
+	this->start = srt;
 }
 
 Expression* RangeExpression::getStart()
 {
-    return this->start;
+	return this->start;
 }
 
 void RangeExpression::setFinish(Expression* fin)
 {
-    this->finish = fin;
+	this->finish = fin;
 }
 
 Expression* RangeExpression::getFinish()
 {
-    return this->finish;
+	return this->finish;
 }
 
 void RangeExpression::setStep(Expression* stp)
 {
-    this->step = stp;
+	this->step = stp;
 }
 
 Expression* RangeExpression::getStep()
 {
-    return this->step;
+	return this->step;
 }
 
 void RangeExpression::accept(Visitor& v)
 {
-    v.visit(this);
+	v.visit(this);
 }

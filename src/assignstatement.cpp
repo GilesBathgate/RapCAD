@@ -20,37 +20,37 @@
 
 AssignStatement::AssignStatement()
 {
-    variable=NULL;
-    expression=NULL;
+	variable=NULL;
+	expression=NULL;
 }
 
 AssignStatement::~AssignStatement()
 {
-    delete variable;
-    delete expression;
+	delete variable;
+	delete expression;
 }
 
 void AssignStatement::setVariable(Variable* var)
 {
-    this->variable = var;
+	this->variable = var;
 }
 
 Variable* AssignStatement::getVariable()
 {
-    return this->variable;
+	return this->variable;
 }
 
 void AssignStatement::setExpression(Expression* exp)
 {
-    this->expression = exp;
+	this->expression = exp;
 }
 
 Expression* AssignStatement::getExpression()
 {
-    return this->expression;
+	return this->expression;
 }
 
 void AssignStatement::accept(Visitor& v)
 {
-    v.visit(this);
+	v.visit(this);
 }

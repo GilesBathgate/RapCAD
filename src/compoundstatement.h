@@ -25,13 +25,13 @@
 class CompoundStatement : public Scope
 {
 public:
-    CompoundStatement();
-    ~CompoundStatement();
-    void setChildren(QVector<Statement*>);
-    QVector<Statement*> getChildren();
-    void accept(Visitor&);
+	CompoundStatement();
+	~CompoundStatement();
+	void setChildren(QVector<Statement*>);
+	QVector<Statement*> getChildren();
+	void accept(Visitor&);
 private:
-    QVector<Statement*> children;
+	QVector<Statement*> children;
 };
 
 #endif // COMPOUNDSTATEMENT_H

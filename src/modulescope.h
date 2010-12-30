@@ -26,13 +26,13 @@
 class ModuleScope : public Scope
 {
 public:
-    ModuleScope();
-    ~ModuleScope();
-    QVector<Declaration*> getDeclarations();
-    void setDeclarations(QVector<Declaration*>);
-    void accept(Visitor&);
+	ModuleScope();
+	~ModuleScope();
+	QVector<Declaration*> getDeclarations();
+	void setDeclarations(QVector<Declaration*>);
+	void accept(Visitor&);
 private:
-    QVector<Declaration*> declarations;
+	QVector<Declaration*> declarations;
 };
 
 #endif // MODULESCOPE_H

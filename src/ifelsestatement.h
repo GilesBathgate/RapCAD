@@ -26,19 +26,19 @@
 class IfElseStatement : public Statement
 {
 public:
-    IfElseStatement();
-    ~IfElseStatement();
-    void setExpression(Expression*);
-    Expression* getExpression();
-    void setTrueStatement(Statement*);
-    Statement* getTrueStatement();
-    void setFalseStatement(Statement*);
-    Statement* getFalseStatement();
-    void accept(Visitor&);
+	IfElseStatement();
+	~IfElseStatement();
+	void setExpression(Expression*);
+	Expression* getExpression();
+	void setTrueStatement(Statement*);
+	Statement* getTrueStatement();
+	void setFalseStatement(Statement*);
+	Statement* getFalseStatement();
+	void accept(Visitor&);
 private:
-    Expression* expression;
-    Statement* trueStatement;
-    Statement* falseStatement;
+	Expression* expression;
+	Statement* trueStatement;
+	Statement* falseStatement;
 };
 
 #endif // IFELSESTATEMENT_H

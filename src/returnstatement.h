@@ -8,13 +8,13 @@
 class ReturnStatement : public Statement
 {
 public:
-    ReturnStatement();
-    ~ReturnStatement();
-    void setExpression(Expression*);
-    Expression* getExpression();
-    void accept(Visitor&);
+	ReturnStatement();
+	~ReturnStatement();
+	void setExpression(Expression*);
+	Expression* getExpression();
+	void accept(Visitor&);
 private:
-    Expression* expression;
+	Expression* expression;
 };
 
 #endif // RETURNSTATEMENT_H

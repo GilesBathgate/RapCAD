@@ -27,16 +27,16 @@
 class Argument : public Visitable
 {
 public:
-    Argument();
-    ~Argument();
-    void setVariable(Variable*);
-    Variable* getVariable();
-    void setExpression(Expression*);
-    Expression* getExpression();
-    void accept(Visitor&);
+	Argument();
+	~Argument();
+	void setVariable(Variable*);
+	Variable* getVariable();
+	void setExpression(Expression*);
+	Expression* getExpression();
+	void accept(Visitor&);
 private:
-    Variable* variable;
-    Expression* expression;
+	Variable* variable;
+	Expression* expression;
 };
 
 #endif // ARGUMENT_H

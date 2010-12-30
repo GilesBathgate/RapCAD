@@ -21,89 +21,89 @@
 
 Context::Context()
 {
-    parent=NULL;
-    currentvalue=NULL;
-    currentscope=NULL;
+	parent=NULL;
+	currentvalue=NULL;
+	currentscope=NULL;
 }
 
 Module* Context::lookupmodule(QString name)
 {
-    if(!modules.contains(name))
-    {
-	foreach(Declaration* d,currentscope->getDeclarations())
+	if(!modules.contains(name))
 	{
-	    Module* mod = dynamic_cast<Module*>(d);
-	    if(mod && mod->getName() == name)
-	    {
-		modules.insert(name,mod);
-		break;
-	    }
+		foreach(Declaration* d,currentscope->getDeclarations())
+		{
+			Module* mod = dynamic_cast<Module*>(d);
+			if(mod && mod->getName() == name)
+			{
+				modules.insert(name,mod);
+				break;
+			}
+		}
+		if(parent)
+			return parent->lookupmodule(name);
 	}
-	if(parent)
-	    return parent->lookupmodule(name);
-    }
 
-    return modules.value(name);
+	return modules.value(name);
 }
 
 Function* Context::lookupfunction(QString name)
 {
-    if(!functions.contains(name))
-    {
-	foreach(Declaration* d,currentscope->getDeclarations())
+	if(!functions.contains(name))
 	{
-	    Function* func = dynamic_cast<Function*>(d);
-	    if(func && func->getName() == name)
-	    {
-		functions.insert(name,func);
-		break;
-	    }
-	    if(parent)
-		return parent->lookupfunction(name);
+		foreach(Declaration* d,currentscope->getDeclarations())
+		{
+			Function* func = dynamic_cast<Function*>(d);
+			if(func && func->getName() == name)
+			{
+				functions.insert(name,func);
+				break;
+			}
+			if(parent)
+				return parent->lookupfunction(name);
+		}
 	}
-    }
 
-    return functions.value(name);
+	return functions.value(name);
 }
 
 void Context::addvariable(Value* v)
 {
-    variables.insert(v->getName(),v);
+	variables.insert(v->getName(),v);
 }
 
 Value* Context::lookupvariable(QString name)
 {
-    if(variables.contains(name))
-	return variables.value(name);
-    else if(parent)
-	return parent->lookupvariable(name);
-    else
-	return new Value(); //undef
+	if(variables.contains(name))
+		return variables.value(name);
+	else if(parent)
+		return parent->lookupvariable(name);
+	else
+		return new Value(); //undef
 }
 
 void Context::addmodule(Module* mod)
 {
-    modules.insert(mod->getName(),mod);
+	modules.insert(mod->getName(),mod);
 }
 
 void Context::addfunction(Function* func)
 {
-    functions.insert(func->getName(),func);
+	functions.insert(func->getName(),func);
 }
 
 void Context::args(QVector<Value*> args, QVector<Value*> params)
 {
 	for (int i=0; i<params.size(); i++) {
-	    QString name = args.at(i)->getName();
-	    if(name.isEmpty() || contains(params,name))
-		variables.insert(params.at(i)->getName(), args.at(i));
+		QString name = args.at(i)->getName();
+		if(name.isEmpty() || contains(params,name))
+			variables.insert(params.at(i)->getName(), args.at(i));
 	}
 }
 
 bool Context::contains(QVector<Value*> params,QString name)
 {
-    foreach(Value* p, params)
+	foreach(Value* p, params)
 	if(p->getName() == name)
-	    return true;
-    return false;
+		return true;
+	return false;
 }

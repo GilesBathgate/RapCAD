@@ -23,31 +23,31 @@ extern int parse(QString,bool);
 int main(int argc, char *argv[])
 {
 
-    QApplication a(argc, argv);
+	QApplication a(argc, argv);
 
-    //Use QApplication::arguments for now,
-    //if we need something more powerful we
-    //can use getopt
-    QStringList args = QApplication::arguments();
+	//Use QApplication::arguments for now,
+	//if we need something more powerful we
+	//can use getopt
+	QStringList args = QApplication::arguments();
 
-    if(args.length()>1)
-    {
-	if(args.at(1)=="-f")
+	if(args.length()>1)
 	{
-	    QString filename = args.at(2);
-	    parse(filename,true);
+		if(args.at(1)=="-f")
+		{
+			QString filename = args.at(2);
+			parse(filename,true);
+		}
+		if(args.at(1)=="-l")
+		{
+			QString text = args.at(2);
+			parse(text,false);
+		}
 	}
-	if(args.at(1)=="-l")
+	else
 	{
-	    QString text = args.at(2);
-	    parse(text,false);
-	}
-    }
-    else
-    {
-        MainWindow w;
-        w.show();
+		MainWindow w;
+		w.show();
 
-        return a.exec();
-    }
+		return a.exec();
+	}
 }

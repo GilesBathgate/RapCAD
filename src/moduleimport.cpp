@@ -28,25 +28,25 @@ ModuleImport::~ModuleImport()
 
 void ModuleImport::setImport(QString imp)
 {
-    this->import = imp;
+	this->import = imp;
 }
 
 QString ModuleImport::getImport()
 {
-    return this->import;
+	return this->import;
 }
 
 void ModuleImport::setNamespace(QString name)
 {
-    this->name_space = name;
+	this->name_space = name;
 }
 
 QString ModuleImport::getNamespace()
 {
-    return this->name_space;
+	return this->name_space;
 }
 
 void ModuleImport::accept(Visitor& v)
 {
-    v.visit(this);
+	v.visit(this);
 }

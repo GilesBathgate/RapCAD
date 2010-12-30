@@ -20,38 +20,38 @@
 
 FunctionScope::FunctionScope()
 {
-    expression=NULL;
+	expression=NULL;
 }
 
 FunctionScope::~FunctionScope()
 {
-    for(int i=0; i<statements.size(); i++)
-	delete statements.at(i);
+	for(int i=0; i<statements.size(); i++)
+		delete statements.at(i);
 
-    delete expression;
+	delete expression;
 }
 
 void FunctionScope::setExpression(Expression * exp)
 {
-    this->expression = exp;
+	this->expression = exp;
 }
 
 Expression* FunctionScope::getExpression()
 {
-    return this->expression;
+	return this->expression;
 }
 
 void FunctionScope::setStatements(QVector<Statement*> stmts)
 {
-    this->statements = stmts;
+	this->statements = stmts;
 }
 
 QVector<Statement*> FunctionScope::getStatements()
 {
-    return this->statements;
+	return this->statements;
 }
 
 void FunctionScope::accept(Visitor& v)
 {
-    v.visit(this);
+	v.visit(this);
 }

@@ -25,8 +25,8 @@
 class Declaration : public Visitable
 {
 public:
-    Declaration();
-    virtual ~Declaration();
+	Declaration();
+	virtual ~Declaration();
 };
 
 #endif // DECLARATION_H

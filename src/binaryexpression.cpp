@@ -20,37 +20,37 @@
 
 BinaryExpression::BinaryExpression()
 {
-    left=NULL;
-    right=NULL;
+	left=NULL;
+	right=NULL;
 }
 
 BinaryExpression::~BinaryExpression()
 {
-    delete left;
-    delete right;
+	delete left;
+	delete right;
 }
 
 Expression* BinaryExpression::getLeft()
 {
-    return this->left;
+	return this->left;
 }
 
 void BinaryExpression::setLeft(Expression * left)
 {
-    this->left = left;
+	this->left = left;
 }
 
 Expression* BinaryExpression::getRight()
 {
-    return this->right;
+	return this->right;
 }
 
 void BinaryExpression::setRight(Expression * right)
 {
-    this->right = right;
+	this->right = right;
 }
 
 void BinaryExpression::accept(Visitor& v)
 {
-    v.visit(this);
+	v.visit(this);
 }

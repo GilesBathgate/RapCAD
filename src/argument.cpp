@@ -20,37 +20,37 @@
 
 Argument::Argument()
 {
-    variable=NULL;
-    expression=NULL;
+	variable=NULL;
+	expression=NULL;
 }
 
 Argument::~Argument()
 {
-    delete variable;
-    delete expression;
+	delete variable;
+	delete expression;
 }
 
 void Argument::setVariable(Variable* var)
 {
-    this->variable = var;
+	this->variable = var;
 }
 
 Variable* Argument::getVariable()
 {
-    return this->variable;
+	return this->variable;
 }
 
 void Argument::setExpression(Expression* exp)
 {
-    this->expression = exp;
+	this->expression = exp;
 }
 
 Expression* Argument::getExpression()
 {
-    return this->expression;
+	return this->expression;
 }
 
 void Argument::accept(Visitor& v)
 {
-    v.visit(this);
+	v.visit(this);
 }

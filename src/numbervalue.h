@@ -24,10 +24,10 @@
 class NumberValue : public Value
 {
 public:
-    NumberValue(double);
-    QString getValueString();
+	NumberValue(double);
+	QString getValueString();
 private:
-    double num;
+	double num;
 };
 
 #endif // NUMBERVALUE_H

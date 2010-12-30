@@ -24,46 +24,46 @@ MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 
-    myModel = new QStandardItemModel();
-    QStringList headers;
-    headers << "Projects";
-    myModel->setHorizontalHeaderLabels(headers);
-    QStandardItem *parentItem = myModel->invisibleRootItem();
+	myModel = new QStandardItemModel();
+	QStringList headers;
+	headers << "Projects";
+	myModel->setHorizontalHeaderLabels(headers);
+	QStandardItem *parentItem = myModel->invisibleRootItem();
 
-    QStandardItem *item = new QStandardItem("New Project.rpro");
-    parentItem->appendRow(item);
-    item->appendRow(new QStandardItem("New.rcad"));
+	QStandardItem *item = new QStandardItem("New Project.rpro");
+	parentItem->appendRow(item);
+	item->appendRow(new QStandardItem("New.rcad"));
 
-    ui->treeView->setModel(myModel);
-    ui->treeView->expandAll();
+	ui->treeView->setModel(myModel);
+	ui->treeView->expandAll();
 
-    //TODO there must be a better way than this
-    QList<int> sizes;
-    sizes << 160 << 540 << 300;
-    ui->vSplitter->setSizes(sizes);
+	//TODO there must be a better way than this
+	QList<int> sizes;
+	sizes << 160 << 540 << 300;
+	ui->vSplitter->setSizes(sizes);
 
-    setupEditor();
+	setupEditor();
 
 }
 
 void MainWindow::setupEditor()
 {
-    QTextEdit* editor = ui->scriptEditor;
+	QTextEdit* editor = ui->scriptEditor;
 
-    QFont font;
-    font.setFamily("Courier");
-    font.setFixedPitch(true);
-    font.setPointSize(10);
+	QFont font;
+	font.setFamily("Courier");
+	font.setFixedPitch(true);
+	font.setPointSize(10);
 
-    editor->setFont(font);
+	editor->setFont(font);
 
-    highlighter = new SyntaxHighlighter(editor->document());
+	highlighter = new SyntaxHighlighter(editor->document());
 }
 
 MainWindow::~MainWindow()
 {
-    delete highlighter;
-    delete ui;
+	delete highlighter;
+	delete ui;
 }

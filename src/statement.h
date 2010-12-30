@@ -24,8 +24,8 @@
 class Statement : public Declaration
 {
 public:
-    Statement();
-    virtual ~Statement();
+	Statement();
+	virtual ~Statement();
 };
 
 #endif // STATEMENT_H

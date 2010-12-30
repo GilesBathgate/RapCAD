@@ -20,7 +20,7 @@
 
 Variable::Variable()
 {
-    type=Variable::Var;
+	type=Variable::Var;
 }
 
 Variable::~Variable()
@@ -29,25 +29,25 @@ Variable::~Variable()
 
 QString Variable::getName()
 {
-    return this->name;
+	return this->name;
 }
 
 void Variable::setName(QString name)
 {
-    this->name = name;
+	this->name = name;
 }
 
 void Variable::setType(Type_e type)
 {
-    this->type = type;
+	this->type = type;
 }
 
 Variable::Type_e Variable::getType()
 {
-    return this->type;
+	return this->type;
 }
 
 void Variable::accept(Visitor& v)
 {
-    v.visit(this);
+	v.visit(this);
 }

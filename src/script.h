@@ -26,15 +26,15 @@
 class Script : public Scope
 {
 public:
-    Script();
-    ~Script();
+	Script();
+	~Script();
 
-    void setDeclarations(QVector<Declaration*>);
-    QVector<Declaration*> getDeclarations();
-    void addDeclaration(Declaration*);
-    void accept(Visitor&);
+	void setDeclarations(QVector<Declaration*>);
+	QVector<Declaration*> getDeclarations();
+	void addDeclaration(Declaration*);
+	void accept(Visitor&);
 private:
-    QVector<Declaration*> declarations;
+	QVector<Declaration*> declarations;
 };
 
 #endif // SCRIPT_H

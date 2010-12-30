@@ -25,13 +25,13 @@
 class VectorExpression : public Expression
 {
 public:
-    VectorExpression();
-    ~VectorExpression();
-    void setChildren(QVector<Expression*>);
-    QVector<Expression*> getChildren();
-    void accept(Visitor&);
+	VectorExpression();
+	~VectorExpression();
+	void setChildren(QVector<Expression*>);
+	QVector<Expression*> getChildren();
+	void accept(Visitor&);
 private:
-    QVector<Expression*> children;
+	QVector<Expression*> children;
 };
 
 #endif // VECTOREXPRESSION_H

@@ -24,10 +24,10 @@
 class BooleanValue : public Value
 {
 public:
-    BooleanValue(bool);
-    QString getValueString();
+	BooleanValue(bool);
+	QString getValueString();
 private:
-    bool boolean;
+	bool boolean;
 };
 
 #endif // BOOLEANVALUE_H

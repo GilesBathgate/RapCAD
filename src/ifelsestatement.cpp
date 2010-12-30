@@ -20,49 +20,49 @@
 
 IfElseStatement::IfElseStatement()
 {
-    expression=NULL;
-    trueStatement=NULL;
-    falseStatement=NULL;
+	expression=NULL;
+	trueStatement=NULL;
+	falseStatement=NULL;
 }
 
 IfElseStatement::~IfElseStatement()
 {
-    delete expression;
-    delete trueStatement;
-    delete falseStatement;
+	delete expression;
+	delete trueStatement;
+	delete falseStatement;
 }
 
 void IfElseStatement::setExpression(Expression* expr)
 {
-    this->expression = expr;
+	this->expression = expr;
 }
 
 Expression* IfElseStatement::getExpression()
 {
-    return this->expression;
+	return this->expression;
 }
 
 void IfElseStatement::setTrueStatement(Statement* stmt)
 {
-    this->trueStatement = stmt;
+	this->trueStatement = stmt;
 }
 
 Statement* IfElseStatement::getTrueStatement()
 {
-    return this->trueStatement;
+	return this->trueStatement;
 }
 
 void IfElseStatement::setFalseStatement(Statement* stmt)
 {
-    this->falseStatement = stmt;
+	this->falseStatement = stmt;
 }
 
 Statement* IfElseStatement::getFalseStatement()
 {
-    return this->falseStatement;
+	return this->falseStatement;
 }
 
 void IfElseStatement::accept(Visitor& v)
 {
-    v.visit(this);
+	v.visit(this);
 }

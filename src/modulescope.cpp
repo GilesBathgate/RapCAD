@@ -24,21 +24,21 @@ ModuleScope::ModuleScope()
 
 ModuleScope::~ModuleScope()
 {
-    for(int i=0; i<declarations.size(); i++)
-	delete declarations.at(i);
+	for(int i=0; i<declarations.size(); i++)
+		delete declarations.at(i);
 }
 
- void ModuleScope::setDeclarations(QVector<Declaration*> decls)
- {
-     this->declarations = decls;
- }
+void ModuleScope::setDeclarations(QVector<Declaration*> decls)
+{
+	this->declarations = decls;
+}
 
- QVector<Declaration*> ModuleScope::getDeclarations()
- {
-     return this->declarations;
- }
+QVector<Declaration*> ModuleScope::getDeclarations()
+{
+	return this->declarations;
+}
 
- void ModuleScope::accept(Visitor& v)
- {
-     v.visit(this);
- }
+void ModuleScope::accept(Visitor& v)
+{
+	v.visit(this);
+}

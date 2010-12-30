@@ -20,51 +20,51 @@
 
 Module::Module()
 {
-    scope=NULL;
+	scope=NULL;
 }
 
 Module::~Module()
 {
-    for(int i=0; i<parameters.size(); i++)
-	delete parameters.at(i);
+	for(int i=0; i<parameters.size(); i++)
+		delete parameters.at(i);
 
-    delete scope;
+	delete scope;
 }
 
 QString Module::getName()
 {
-    return this->name;
+	return this->name;
 }
 
 void Module::setName(QString name)
 {
-    this->name = name;
+	this->name = name;
 }
 
 
 QVector<Parameter*> Module::getParameters()
 {
-    return this->parameters;
+	return this->parameters;
 }
 
 void Module::setParameters(QVector<Parameter*> params)
 {
-    this->parameters = params;
+	this->parameters = params;
 }
 
 void Module::setScope(Scope * scp)
 {
-    this->scope = scp;
+	this->scope = scp;
 }
 
 Scope* Module::getScope()
 {
-    return this->scope;
+	return this->scope;
 }
 
 void Module::accept(Visitor& v)
 {
-    v.visit(this);
+	v.visit(this);
 }
 
 void Module::evaluate(Context*,Instance*)

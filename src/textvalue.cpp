@@ -20,10 +20,10 @@
 
 TextValue::TextValue(QString value)
 {
-    this->text=value;
+	this->text=value;
 }
 
 QString TextValue::getValueString()
 {
-    return this->text;
+	return this->text;
 }

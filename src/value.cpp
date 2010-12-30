@@ -24,15 +24,15 @@ Value::Value()
 
 void Value::setName(QString name)
 {
-    this->name = name;
+	this->name = name;
 }
 
 QString Value::getName()
 {
-    return this->name;
+	return this->name;
 }
 
 QString Value::getValueString()
 {
-    return "undef";
+	return "undef";
 }

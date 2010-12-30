@@ -10,15 +10,15 @@ UnaryExpression::~UnaryExpression()
 
 void UnaryExpression::setExpression(Expression* exp)
 {
-    this->expression = exp;
+	this->expression = exp;
 }
 
 Expression* UnaryExpression::getExpression()
 {
-    return this->expression;
+	return this->expression;
 }
 
 void UnaryExpression::accept(Visitor& v)
 {
-    v.visit(this);
+	v.visit(this);
 }

@@ -24,22 +24,22 @@
 #include "syntaxhighlighter.h"
 
 namespace Ui {
-    class MainWindow;
+class MainWindow;
 }
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+	explicit MainWindow(QWidget *parent = 0);
+	~MainWindow();
 
 private:
-    Ui::MainWindow *ui;
-    QStandardItemModel *myModel;
-    void setupEditor();
-    SyntaxHighlighter *highlighter;
+	Ui::MainWindow *ui;
+	QStandardItemModel *myModel;
+	void setupEditor();
+	SyntaxHighlighter *highlighter;
 };
 
 #endif // MAINWINDOW_H

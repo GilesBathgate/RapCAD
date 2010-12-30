@@ -24,8 +24,8 @@
 class Visitable
 {
 public:
-    virtual ~Visitable(){}
-    virtual void accept(Visitor&)=0;
+	virtual ~Visitable() {}
+	virtual void accept(Visitor&)=0;
 
 };
 

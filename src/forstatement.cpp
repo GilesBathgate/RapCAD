@@ -20,35 +20,35 @@
 
 ForStatement::ForStatement()
 {
-    statement=NULL;
+	statement=NULL;
 }
 
 ForStatement::~ForStatement()
 {
-    delete statement;
+	delete statement;
 }
 
 void ForStatement::setArguments(QVector<Argument*> args)
 {
-    this->arguments = args;
+	this->arguments = args;
 }
 
 QVector<Argument*> ForStatement::getArguments()
 {
-    return this->arguments;
+	return this->arguments;
 }
 
 void ForStatement::setStatement(Statement* stmt)
 {
-    this->statement = stmt;
+	this->statement = stmt;
 }
 
 Statement* ForStatement::getStatement()
 {
-    return this->statement;
+	return this->statement;
 }
 
 void ForStatement::accept(Visitor& v)
 {
-    v.visit(this);
+	v.visit(this);
 }

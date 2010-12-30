@@ -22,19 +22,19 @@
 
 EchoModule::EchoModule()
 {
-    setName("echo");
+	setName("echo");
 }
 
 void EchoModule::evaluate(Context* ctx,Instance*)
 {
-    QString msg;
-    for(int i=0; i<ctx->arguments.size(); i++)
-    {
-	if(i>0)
-	    msg.append(",");
-	Value* a=ctx->arguments.at(i);
-	msg.append(a->getValueString());
-    }
-    const char* t = msg.toLocal8Bit();
-    printf("ECHO: %s\n",t);
+	QString msg;
+	for(int i=0; i<ctx->arguments.size(); i++)
+	{
+		if(i>0)
+			msg.append(",");
+		Value* a=ctx->arguments.at(i);
+		msg.append(a->getValueString());
+	}
+	const char* t = msg.toLocal8Bit();
+	printf("ECHO: %s\n",t);
 }

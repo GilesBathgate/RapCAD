@@ -26,9 +26,9 @@
 class Scope : public Statement
 {
 public:
-    Scope();
-    virtual ~Scope();
-    virtual QVector<Declaration*> getDeclarations();
+	Scope();
+	virtual ~Scope();
+	virtual QVector<Declaration*> getDeclarations();
 };
 
 #endif // SCOPE_H

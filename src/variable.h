@@ -25,24 +25,24 @@
 class Variable : public Expression
 {
 public:
-    enum Type_e
-    {
-	Var,
-	Special,
-	Const,
-	Param
-    };
+	enum Type_e
+	{
+		Var,
+		Special,
+		Const,
+		Param
+	};
 
-    Variable();
-    ~Variable();
-    void setName(QString);
-    QString getName();
-    void setType(Type_e);
-    Type_e getType();
-    void accept(Visitor&);
+	Variable();
+	~Variable();
+	void setName(QString);
+	QString getName();
+	void setType(Type_e);
+	Type_e getType();
+	void accept(Visitor&);
 private:
-    QString name;
-    Type_e type;
+	QString name;
+	Type_e type;
 };
 
 #endif // VARIABLE_H
