@@ -111,284 +111,284 @@ AbstractSyntaxTreeBuilder *builder;
 input
 	: //empty
 	| use_declaration input
-	{ builder->BuildScript($1); }
+	{ builder->buildScript($1); }
 	| single_declaration_list
-	{ builder->BuildScript($1); }
+	{ builder->buildScript($1); }
 	;
 
 use_declaration
 	: USE
-	{ $$ = builder->BuildUse($1); }
+	{ $$ = builder->buildUse($1); }
 	| USE AS IDENTIFIER ';'
-	{ $$ = builder->BuildUse($1,$3); }
+	{ $$ = builder->buildUse($1,$3); }
 	;
 
 single_declaration_list
 	: single_declaration
-	{ $$ = builder->BuildDeclarations($1); }
+	{ $$ = builder->buildDeclarations($1); }
 	| single_declaration_list single_declaration
-	{ $$ = builder->BuildDeclarations($1,$2); }
+	{ $$ = builder->buildDeclarations($1,$2); }
 	;
 
 declaration_list
 	: declaration
-	{ $$ = builder->BuildDeclarations($1); }
+	{ $$ = builder->buildDeclarations($1); }
 	| declaration_list declaration
-	{ $$ = builder->BuildDeclarations($1,$2); }
+	{ $$ = builder->buildDeclarations($1,$2); }
 	;
 
 compound_declaration
 	: '{' '}'
-	{ $$ = builder->BuildDeclarations(); }
+	{ $$ = builder->buildDeclarations(); }
 	| '{' declaration_list '}'
-	{ $$ = builder->BuildDeclarations($2); }
+	{ $$ = builder->buildDeclarations($2); }
 	;
 
 single_declaration
 	: single_statement
-	{ $$ = builder->BuildStatement($1); }
+	{ $$ = builder->buildStatement($1); }
 	| define_declaration
-	{ $$ = builder->BuildDeclaration($1); }
+	{ $$ = builder->buildDeclaration($1); }
 	;
 
 declaration
 	: statement
-	{ $$ = builder->BuildStatement($1); }
+	{ $$ = builder->buildStatement($1); }
 	| define_declaration
-	{ $$ = builder->BuildDeclaration($1); }
+	{ $$ = builder->buildDeclaration($1); }
 	;
 
 define_declaration
 	: MODULE IDENTIFIER '(' parameters ')' module_scope
-	{ $$ = builder->BuildModule($2,$4,$6); }
+	{ $$ = builder->buildModule($2,$4,$6); }
 	| FUNCTION IDENTIFIER '(' parameters ')' function_scope
-	{ $$ = builder->BuildFunction($2,$4,$6); }
+	{ $$ = builder->buildFunction($2,$4,$6); }
 	;
 
 module_scope
 	: compound_declaration
-	{ $$ = builder->BuildScope($1); }
+	{ $$ = builder->buildScope($1); }
 	| module_instance
-	{ $$ = builder->BuildScope($1); }
+	{ $$ = builder->buildScope($1); }
 	;
 
 function_scope
 	: '=' expression ';'
-	{ $$ = builder->BuildScope($2); }
+	{ $$ = builder->buildScope($2); }
 	| compound_statement
-	{ $$ = builder->BuildScope($1); }
+	{ $$ = builder->buildScope($1); }
 	;
 
 statement
 	: single_statement
-	{ $$ = builder->BuildStatement($1); }
+	{ $$ = builder->buildStatement($1); }
 	| compound_statement
-	{ $$ = builder->BuildStatement($1); }
+	{ $$ = builder->buildStatement($1); }
 	;
 
 single_statement
 	: module_instance
-	{ $$ = builder->BuildInstance($1); }
+	{ $$ = builder->buildInstance($1); }
 	| assign_statement ';'
-	{ $$ = builder->BuildStatement($1); }
+	{ $$ = builder->buildStatement($1); }
 	| ifelse_statement
-	{ $$ = builder->BuildStatement($1); }
+	{ $$ = builder->buildStatement($1); }
 	| for_statement
-	{ $$ = builder->BuildStatement($1); }
+	{ $$ = builder->buildStatement($1); }
         | return_statement;
         ;
 
 return_statement
         : RETURN expression ';'
-        { $$ = builder->BuildReturnStatement($2); }
+	{ $$ = builder->buildReturnStatement($2); }
 	;
 
 compound_statement
 	: '{' '}'
-	{ $$ = builder->BuildStatements(); }
+	{ $$ = builder->buildStatements(); }
 	| '{' statement_list '}'
-	{ $$ = builder->BuildStatements($2); }
+	{ $$ = builder->buildStatements($2); }
 	;
 
 statement_list
 	: statement
-	{ $$ = builder->BuildStatements($1); }
+	{ $$ = builder->buildStatements($1); }
 	| statement_list statement
-	{ $$ = builder->BuildStatements($1,$2); }
+	{ $$ = builder->buildStatements($1,$2); }
 	;
 
 assign_statement
 	: variable '=' expression
-	{ $$ = builder->BuildStatement($1,$3); }
+	{ $$ = builder->buildStatement($1,$3); }
 	| CONST IDENTIFIER '=' expression
-	{ $$ = builder->BuildStatement($2,Variable::Const,$4); }
+	{ $$ = builder->buildStatement($2,Variable::Const,$4); }
 	| PARAM IDENTIFIER '=' expression
-	{ $$ = builder->BuildStatement($2,Variable::Param,$4); }
+	{ $$ = builder->buildStatement($2,Variable::Param,$4); }
 	;
 
 ifelse_statement
 	: IF '(' expression ')' statement
-	{ $$ = builder->BuildIfElseStatement($3,$5); }
+	{ $$ = builder->buildIfElseStatement($3,$5); }
 	| IF '(' expression ')' statement ELSE statement
-	{ $$ = builder->BuildIfElseStatement($3,$5,$7); }
+	{ $$ = builder->buildIfElseStatement($3,$5,$7); }
 	;
 
 for_statement
 	: FOR '(' arguments ')' statement
-	{ $$ = builder->BuildForStatement($3,$5); }
+	{ $$ = builder->buildForStatement($3,$5); }
 	;
 
 variable
 	: IDENTIFIER
-	{ $$ = builder->BuildVariable($1); }
+	{ $$ = builder->buildVariable($1); }
 	| '$' IDENTIFIER
-	{ $$ = builder->BuildVariable($2,Variable::Special); }
+	{ $$ = builder->buildVariable($2,Variable::Special); }
 	;
 
 expression
 	: TOK_TRUE
-	{ $$ = builder->BuildLiteral(true); }
+	{ $$ = builder->buildLiteral(true); }
 	| TOK_FALSE
-	{ $$ = builder->BuildLiteral(false); }
+	{ $$ = builder->buildLiteral(false); }
 	| UNDEF
-	{ $$ = builder->BuildLiteral(); }
+	{ $$ = builder->buildLiteral(); }
 	| variable
-	{ $$ = builder->BuildVariable($1); }
+	{ $$ = builder->buildVariable($1); }
 	| expression '.' IDENTIFIER
-	{ $$ = builder->BuildExpression($1,$3); }
+	{ $$ = builder->buildExpression($1,$3); }
 	| STRING
-	{ $$ = builder->BuildLiteral($1); }
+	{ $$ = builder->buildLiteral($1); }
 	| NUMBER
-	{ $$ = builder->BuildLiteral($1); }
+	{ $$ = builder->buildLiteral($1); }
 	| '[' expression ':' expression ']'
-	{ $$ = builder->BuildRange($2,$4); }
+	{ $$ = builder->buildRange($2,$4); }
 	| '[' expression ':' expression ':' expression ']'
-	{ $$ = builder->BuildRange($2,$4,$6); }
+	{ $$ = builder->buildRange($2,$4,$6); }
 	| '[' vector_expression ']'
-	{ $$ = builder->BuildExpression($2); }
+	{ $$ = builder->buildExpression($2); }
 	| expression '*' expression
-	{ $$ = builder->BuildExpression($1,Expression::Multiply,$3); }
+	{ $$ = builder->buildExpression($1,Expression::Multiply,$3); }
 	| expression CM expression
-	{ $$ = builder->BuildExpression($1,Expression::ComponentwiseMultiply,$3); }
+	{ $$ = builder->buildExpression($1,Expression::ComponentwiseMultiply,$3); }
 	| expression '/' expression
-	{ $$ = builder->BuildExpression($1,Expression::Divide,$3); }
+	{ $$ = builder->buildExpression($1,Expression::Divide,$3); }
 	| expression CD expression
-	{ $$ = builder->BuildExpression($1,Expression::ComponentwiseDivide,$3); }
+	{ $$ = builder->buildExpression($1,Expression::ComponentwiseDivide,$3); }
 	| expression '%' expression
-	{ $$ = builder->BuildExpression($1,Expression::Modulus,$3); }
+	{ $$ = builder->buildExpression($1,Expression::Modulus,$3); }
 	| expression '+' expression
-	{ $$ = builder->BuildExpression($1,Expression::Add,$3); }
+	{ $$ = builder->buildExpression($1,Expression::Add,$3); }
 	| expression '-' expression
-	{ $$ = builder->BuildExpression($1,Expression::Subtract,$3); }
+	{ $$ = builder->buildExpression($1,Expression::Subtract,$3); }
 	| expression '<' expression
-	{ $$ = builder->BuildExpression($1,Expression::LessThan,$3); }
+	{ $$ = builder->buildExpression($1,Expression::LessThan,$3); }
 	| expression LE expression
-	{ $$ = builder->BuildExpression($1,Expression::LessOrEqual,$3); }
+	{ $$ = builder->buildExpression($1,Expression::LessOrEqual,$3); }
 	| expression EQ expression
-	{ $$ = builder->BuildExpression($1,Expression::Equal,$3); }
+	{ $$ = builder->buildExpression($1,Expression::Equal,$3); }
 	| expression NE expression
-	{ $$ = builder->BuildExpression($1,Expression::NotEqual,$3); }
+	{ $$ = builder->buildExpression($1,Expression::NotEqual,$3); }
 	| expression GE expression
-	{ $$ = builder->BuildExpression($1,Expression::GreaterOrEqual,$3); }
+	{ $$ = builder->buildExpression($1,Expression::GreaterOrEqual,$3); }
 	| expression '>' expression
-	{ $$ = builder->BuildExpression($1,Expression::GreaterThan,$3); }
+	{ $$ = builder->buildExpression($1,Expression::GreaterThan,$3); }
 	| expression AND expression
-	{ $$ = builder->BuildExpression($1,Expression::LogicalAnd,$3); }
+	{ $$ = builder->buildExpression($1,Expression::LogicalAnd,$3); }
 	| expression OR expression
-	{ $$ = builder->BuildExpression($1,Expression::LogicalOr,$3); }
+	{ $$ = builder->buildExpression($1,Expression::LogicalOr,$3); }
 	| '+' expression
-        { $$ = builder->BuildExpression(Expression::Add,$2); }
+	{ $$ = builder->buildExpression(Expression::Add,$2); }
 	| '-' expression
-        { $$ = builder->BuildExpression(Expression::Subtract,$2); }
+	{ $$ = builder->buildExpression(Expression::Subtract,$2); }
 	| '!' expression
-        { $$ = builder->BuildExpression(Expression::Invert,$2); }
+	{ $$ = builder->buildExpression(Expression::Invert,$2); }
 	| '(' expression ')'
-        { $$ = builder->BuildExpression($2); }
+	{ $$ = builder->buildExpression($2); }
 	| expression '?' expression ':' expression
-        { $$ = builder->BuildTernaryExpression($1,$3,$5); }
+	{ $$ = builder->buildExpression($1,$3,$5); }
 	| expression '[' expression ']'
-        { $$ = builder->BuildExpression($1,Expression::Index,$3); }
+	{ $$ = builder->buildExpression($1,Expression::Index,$3); }
 	| IDENTIFIER '(' arguments ')'
-        { $$ = builder->BuildInvocation($1,$3); }
+	{ $$ = builder->buildInvocation($1,$3); }
 	;
 
 vector_expression
 	: //empty
-	{ $$ = builder->BuildVector(); }
+	{ $$ = builder->buildVector(); }
 	| expression
-	{ $$ = builder->BuildVector($1); }
+	{ $$ = builder->buildVector($1); }
 	| vector_expression ',' optional_commas expression
-	{ $$ = builder->BuildVector($1,$3,$4); }
+	{ $$ = builder->buildVector($1,$3,$4); }
 	;
 
 parameters
 	: //empty
-	{ $$ = builder->BuildParameters(); }
+	{ $$ = builder->buildParameters(); }
 	| parameter 
-	{ $$ = builder->BuildParameters($1); }
+	{ $$ = builder->buildParameters($1); }
 	| parameters ',' parameter
-	{ $$ = builder->BuildParameters($1,$3); }
+	{ $$ = builder->buildParameters($1,$3); }
 	;
 
 parameter
 	: IDENTIFIER
-	{ $$ = builder->BuildParameter($1); }
+	{ $$ = builder->buildParameter($1); }
 	| IDENTIFIER '=' expression
-	{ $$ = builder->BuildParameter($1,$3); }
+	{ $$ = builder->buildParameter($1,$3); }
 	;
 
 compound_instance
 	: '{' '}'
-	{ $$ = builder->BuildStatements(); }
+	{ $$ = builder->buildStatements(); }
 	| '{' statement_list '}'
-	{ $$ = builder->BuildStatements($2); }
+	{ $$ = builder->buildStatements($2); }
 	| module_instance
-	{ $$ = builder->BuildStatements($1); }
+	{ $$ = builder->buildStatements($1); }
 	;
 
 module_instance
 	: single_instance ';'
-	{ $$ = builder->BuildInstance($1); }
+	{ $$ = builder->buildInstance($1); }
 	| single_instance compound_instance
-	{ $$ = builder->BuildInstance($1,$2); }
+	{ $$ = builder->buildInstance($1,$2); }
 	;
 
 single_instance
 	: IDENTIFIER ':' single_instance
-	{ $$ = builder->BuildInstance($1,$3); }
+	{ $$ = builder->buildInstance($1,$3); }
 	| IDENTIFIER '(' arguments ')'
-	{ $$ = builder->BuildInstance($1,$3); }
+	{ $$ = builder->buildInstance($1,$3); }
 	| '!' single_instance
-	{ $$ = builder->BuildInstance(Instance::Root,$2); }
+	{ $$ = builder->buildInstance(Instance::Root,$2); }
 	| '#' single_instance
-	{ $$ = builder->BuildInstance(Instance::Debug,$2); }
+	{ $$ = builder->buildInstance(Instance::Debug,$2); }
 	| '%' single_instance
-	{ $$ = builder->BuildInstance(Instance::Background,$2); }
+	{ $$ = builder->buildInstance(Instance::Background,$2); }
 	| '*' single_instance
-	{ $$ = builder->BuildInstance(Instance::Disable,$2); }
+	{ $$ = builder->buildInstance(Instance::Disable,$2); }
 	;
 
 arguments
 	: //empty
-	{ $$ = builder->BuildArguments(); }
+	{ $$ = builder->buildArguments(); }
 	| argument
-	{ $$ = builder->BuildArguments($1); }
+	{ $$ = builder->buildArguments($1); }
 	| arguments ',' optional_commas argument
-	{ $$ = builder->BuildArguments($1,$3,$4); }
+	{ $$ = builder->buildArguments($1,$3,$4); }
 	;
 
 optional_commas
 	: //empty
-	{ $$ = builder->BuildOptionalCommas(); }
+	{ $$ = builder->buildOptionalCommas(); }
 	| ',' optional_commas
-	{ $$ = builder->BuildOptionalCommas($2); }
+	{ $$ = builder->buildOptionalCommas($2); }
 	;
 
 argument
 	: expression
-	{ $$ = builder->BuildArgument($1); }
+	{ $$ = builder->buildArgument($1); }
 	| variable '=' expression
-	{ $$ = builder->BuildArgument($1,$3); }
+	{ $$ = builder->buildArgument($1,$3); }
 	;
 
 %%
