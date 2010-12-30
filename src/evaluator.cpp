@@ -43,7 +43,7 @@ void Evaluator::finishcontext()
 	context=context_stack.top();
 }
 
-void Evaluator::visit(ModuleScope * scp)
+void Evaluator::visit(ModuleScope* scp)
 {
 	QVector<Value*> arguments = context->arguments;
 	QVector<Value*> parameters = context->parameters;
@@ -59,7 +59,7 @@ void Evaluator::visit(ModuleScope * scp)
 	finishcontext();
 }
 
-void Evaluator::visit(Instance * inst)
+void Evaluator::visit(Instance* inst)
 {
 	QString name = inst->getName();
 	Module* mod = context->lookupmodule(name);
@@ -91,7 +91,7 @@ void Evaluator::visit(Function* func)
 	context->addfunction(func);
 }
 
-void Evaluator::visit(FunctionScope * scp)
+void Evaluator::visit(FunctionScope* scp)
 {
 	QVector<Value*> arguments = context->arguments;
 	QVector<Value*> parameters = context->parameters;
@@ -112,21 +112,21 @@ void Evaluator::visit(FunctionScope * scp)
 	context->currentvalue=v;
 }
 
-void Evaluator::visit(CompoundStatement * stmt)
+void Evaluator::visit(CompoundStatement* stmt)
 {
 	foreach(Statement* s, stmt->getChildren())
 	s->accept(*this);
 }
 
-void Evaluator::visit(IfElseStatement * ifelse)
+void Evaluator::visit(IfElseStatement* ifelse)
 {
 }
 
-void Evaluator::visit(ForStatement * forstmt)
+void Evaluator::visit(ForStatement* forstmt)
 {
 }
 
-void Evaluator::visit(Parameter * param)
+void Evaluator::visit(Parameter* param)
 {
 	QString name = param->getName();
 
@@ -143,11 +143,11 @@ void Evaluator::visit(Parameter * param)
 	context->parameters.append(v);
 }
 
-void Evaluator::visit(BinaryExpression * exp)
+void Evaluator::visit(BinaryExpression* exp)
 {
 }
 
-void Evaluator::visit(Argument * arg)
+void Evaluator::visit(Argument* arg)
 {
 	QString name;
 	Variable* var = arg->getVariable();
@@ -165,7 +165,7 @@ void Evaluator::visit(Argument * arg)
 	context->arguments.append(v);
 }
 
-void Evaluator::visit(AssignStatement * stmt)
+void Evaluator::visit(AssignStatement* stmt)
 {
 	stmt->getVariable()->accept(*this);
 	QString name = context->currentname;
@@ -177,27 +177,27 @@ void Evaluator::visit(AssignStatement * stmt)
 	context->addvariable(v);
 }
 
-void Evaluator::visit(VectorExpression * exp)
+void Evaluator::visit(VectorExpression* exp)
 {
 }
 
-void Evaluator::visit(RangeExpression * exp)
+void Evaluator::visit(RangeExpression* exp)
 {
 }
 
-void Evaluator::visit(UnaryExpression * exp)
+void Evaluator::visit(UnaryExpression* exp)
 {
 }
 
-void Evaluator::visit(ReturnStatement * stmt)
+void Evaluator::visit(ReturnStatement* stmt)
 {
 }
 
-void Evaluator::visit(TernaryExpression * exp)
+void Evaluator::visit(TernaryExpression* exp)
 {
 }
 
-void Evaluator::visit(Invocation * stmt)
+void Evaluator::visit(Invocation* stmt)
 {
 	QString name = stmt->getName();
 	Function* func = context->lookupfunction(name);
@@ -217,18 +217,18 @@ void Evaluator::visit(Invocation * stmt)
 	}
 }
 
-void Evaluator::visit(ModuleImport * decl)
+void Evaluator::visit(ModuleImport* decl)
 {
 }
 
-void Evaluator::visit(Literal * lit)
+void Evaluator::visit(Literal* lit)
 {
 	Value* v= lit->getValue();
 
 	context->currentvalue=v;
 }
 
-void Evaluator::visit(Variable * var)
+void Evaluator::visit(Variable* var)
 {
 	QString name = var->getName();
 	Value* v=context->lookupvariable(name);

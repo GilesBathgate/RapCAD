@@ -34,7 +34,7 @@ void PrettyPrinter::createIndent()
 		result.append("  ");
 }
 
-void PrettyPrinter::visit(ModuleScope * scp)
+void PrettyPrinter::visit(ModuleScope* scp)
 {
 	++indent;
 	foreach(Declaration* d, scp->getDeclarations()) {
@@ -44,7 +44,7 @@ void PrettyPrinter::visit(ModuleScope * scp)
 	--indent;
 }
 
-void PrettyPrinter::visit(Instance * inst)
+void PrettyPrinter::visit(Instance* inst)
 {
 
 	switch(inst->getType()) {
@@ -121,7 +121,7 @@ void PrettyPrinter::visit(Module* mod)
 	result.append("}\n");
 }
 
-void PrettyPrinter::visit(Function * func)
+void PrettyPrinter::visit(Function* func)
 {
 	result.append("function ");
 	result.append(func->getName());
@@ -139,7 +139,7 @@ void PrettyPrinter::visit(Function * func)
 	result.append("\n");
 }
 
-void PrettyPrinter::visit(FunctionScope * scp)
+void PrettyPrinter::visit(FunctionScope* scp)
 {
 	Expression* expression = scp->getExpression();
 	if(expression) {
@@ -167,7 +167,7 @@ void PrettyPrinter::visit(FunctionScope * scp)
 	result.append("\n");
 }
 
-void PrettyPrinter::visit(CompoundStatement * stmt)
+void PrettyPrinter::visit(CompoundStatement* stmt)
 {
 	QVector<Statement*> children = stmt->getChildren();
 	int c = children.size();
@@ -191,7 +191,7 @@ void PrettyPrinter::visit(CompoundStatement * stmt)
 
 }
 
-void PrettyPrinter::visit(IfElseStatement * ifelse)
+void PrettyPrinter::visit(IfElseStatement* ifelse)
 {
 	result.append("if(");
 	ifelse->getExpression()->accept(*this);
@@ -211,7 +211,7 @@ void PrettyPrinter::visit(IfElseStatement * ifelse)
 	result.append("\n");
 }
 
-void PrettyPrinter::visit(ForStatement * forstmt)
+void PrettyPrinter::visit(ForStatement* forstmt)
 {
 	result.append("for(");
 	foreach(Argument* a, forstmt->getArguments())
@@ -223,7 +223,7 @@ void PrettyPrinter::visit(ForStatement * forstmt)
 	result.append("\n");
 }
 
-void PrettyPrinter::visit(Parameter * param)
+void PrettyPrinter::visit(Parameter* param)
 {
 	result.append(param->getName());
 
@@ -234,7 +234,7 @@ void PrettyPrinter::visit(Parameter * param)
 	}
 }
 
-void PrettyPrinter::visit(BinaryExpression * exp)
+void PrettyPrinter::visit(BinaryExpression* exp)
 {
 	result.append("(");
 	exp->getLeft()->accept(*this);
@@ -243,7 +243,7 @@ void PrettyPrinter::visit(BinaryExpression * exp)
 	result.append(")");
 }
 
-void PrettyPrinter::visit(Argument * arg)
+void PrettyPrinter::visit(Argument* arg)
 {
 	Variable* variable = arg->getVariable();
 	if(variable) {
@@ -254,7 +254,7 @@ void PrettyPrinter::visit(Argument * arg)
 	arg->getExpression()->accept(*this);
 }
 
-void PrettyPrinter::visit(AssignStatement * stmt)
+void PrettyPrinter::visit(AssignStatement* stmt)
 {
 	Variable* var = stmt->getVariable();
 	if(var)
@@ -267,7 +267,7 @@ void PrettyPrinter::visit(AssignStatement * stmt)
 	result.append(";\n");
 }
 
-void PrettyPrinter::visit(VectorExpression * exp)
+void PrettyPrinter::visit(VectorExpression* exp)
 {
 	result.append("[");
 	QVector<Expression*> children = exp->getChildren();
@@ -280,7 +280,7 @@ void PrettyPrinter::visit(VectorExpression * exp)
 	result.append("]");
 }
 
-void PrettyPrinter::visit(RangeExpression * exp)
+void PrettyPrinter::visit(RangeExpression* exp)
 {
 	result.append("[");
 	exp->getStart()->accept(*this);
@@ -296,20 +296,20 @@ void PrettyPrinter::visit(RangeExpression * exp)
 	result.append("]");
 }
 
-void PrettyPrinter::visit(UnaryExpression * exp)
+void PrettyPrinter::visit(UnaryExpression* exp)
 {
 	result.append(exp->getOpString());
 	exp->getExpression()->accept(*this);
 }
 
-void PrettyPrinter::visit(ReturnStatement * stmt)
+void PrettyPrinter::visit(ReturnStatement* stmt)
 {
 	result.append("return ");
 	stmt->getExpression()->accept(*this);
 	result.append(";\n");
 }
 
-void PrettyPrinter::visit(TernaryExpression * exp)
+void PrettyPrinter::visit(TernaryExpression* exp)
 {
 	result.append("(");
 	exp->getCondition()->accept(*this);
@@ -320,7 +320,7 @@ void PrettyPrinter::visit(TernaryExpression * exp)
 	result.append(")");
 }
 
-void PrettyPrinter::visit(Invocation * stmt)
+void PrettyPrinter::visit(Invocation* stmt)
 {
 	result.append(stmt->getName());
 	result.append("(");
@@ -334,7 +334,7 @@ void PrettyPrinter::visit(Invocation * stmt)
 	result.append(")");
 }
 
-void PrettyPrinter::visit(ModuleImport * decl)
+void PrettyPrinter::visit(ModuleImport* decl)
 {
 	result.append("use <");
 	result.append(decl->getImport());
@@ -347,12 +347,12 @@ void PrettyPrinter::visit(ModuleImport * decl)
 	result.append("\n");
 }
 
-void PrettyPrinter::visit(Literal * lit)
+void PrettyPrinter::visit(Literal* lit)
 {
 	result.append(lit->getValueString());
 }
 
-void PrettyPrinter::visit(Variable * var)
+void PrettyPrinter::visit(Variable* var)
 {
 	switch(var->getType()) {
 	case Variable::Const:

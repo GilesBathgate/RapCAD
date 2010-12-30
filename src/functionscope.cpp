@@ -31,7 +31,7 @@ FunctionScope::~FunctionScope()
 	delete expression;
 }
 
-void FunctionScope::setExpression(Expression * exp)
+void FunctionScope::setExpression(Expression* exp)
 {
 	this->expression = exp;
 }

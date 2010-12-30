@@ -17,7 +17,7 @@
  */
 
 #include "syntaxhighlighter.h"
-SyntaxHighlighter::SyntaxHighlighter(QTextDocument *parent)
+SyntaxHighlighter::SyntaxHighlighter(QTextDocument* parent)
 	: QSyntaxHighlighter(parent)
 {
 	HighlightingRule rule;
@@ -62,7 +62,7 @@ SyntaxHighlighter::SyntaxHighlighter(QTextDocument *parent)
 	commentEndExpression = QRegExp("\\*/");
 }
 
-void SyntaxHighlighter::highlightBlock(const QString &text)
+void SyntaxHighlighter::highlightBlock(const QString& text)
 {
 	foreach (const HighlightingRule &rule, highlightingRules) {
 		QRegExp expression(rule.pattern);

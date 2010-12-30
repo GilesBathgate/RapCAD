@@ -33,14 +33,14 @@ class MainWindow : public QMainWindow
 	Q_OBJECT
 
 public:
-	explicit MainWindow(QWidget *parent = 0);
+	explicit MainWindow(QWidget* parent = 0);
 	~MainWindow();
 
 private:
-	Ui::MainWindow *ui;
-	QStandardItemModel *myModel;
+	Ui::MainWindow* ui;
+	QStandardItemModel* myModel;
 	void setupEditor();
-	SyntaxHighlighter *highlighter;
+	SyntaxHighlighter* highlighter;
 };
 
 #endif // MAINWINDOW_H

@@ -20,7 +20,7 @@
 #include "ui_mainwindow.h"
 #include <QFile>
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow)
 {
@@ -30,9 +30,9 @@ MainWindow::MainWindow(QWidget *parent) :
 	QStringList headers;
 	headers << "Projects";
 	myModel->setHorizontalHeaderLabels(headers);
-	QStandardItem *parentItem = myModel->invisibleRootItem();
+	QStandardItem* parentItem = myModel->invisibleRootItem();
 
-	QStandardItem *item = new QStandardItem("New Project.rpro");
+	QStandardItem* item = new QStandardItem("New Project.rpro");
 	parentItem->appendRow(item);
 	item->appendRow(new QStandardItem("New.rcad"));
 

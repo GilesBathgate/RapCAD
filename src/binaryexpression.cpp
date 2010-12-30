@@ -35,7 +35,7 @@ Expression* BinaryExpression::getLeft()
 	return this->left;
 }
 
-void BinaryExpression::setLeft(Expression * left)
+void BinaryExpression::setLeft(Expression* left)
 {
 	this->left = left;
 }
@@ -45,7 +45,7 @@ Expression* BinaryExpression::getRight()
 	return this->right;
 }
 
-void BinaryExpression::setRight(Expression * right)
+void BinaryExpression::setRight(Expression* right)
 {
 	this->right = right;
 }

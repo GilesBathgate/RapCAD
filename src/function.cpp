@@ -53,7 +53,7 @@ void Function::setParameters(QVector<Parameter*> params)
 	this->parameters = params;
 }
 
-void Function::setScope(Scope * scp)
+void Function::setScope(Scope* scp)
 {
 	this->scope = scp;
 }
