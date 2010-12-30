@@ -18,6 +18,7 @@
 
 #include "evaluator.h"
 #include "echomodule.h"
+#include "vectorvalue.h"
 
 Evaluator::Evaluator()
 {
@@ -54,7 +55,7 @@ void Evaluator::visit(ModuleScope* scp)
 	context->args(arguments,parameters);
 
 	foreach(Declaration* d, scp->getDeclarations())
-	d->accept(*this);
+	    d->accept(*this);
 
 	finishcontext();
 }
@@ -65,10 +66,10 @@ void Evaluator::visit(Instance* inst)
 	Module* mod = context->lookupmodule(name);
 	if(mod) {
 		foreach(Argument* arg, inst->getArguments())
-		arg->accept(*this);
+		    arg->accept(*this);
 
 		foreach(Parameter* p, mod->getParameters())
-		p->accept(*this);
+		    p->accept(*this);
 
 		Scope* scp = mod->getScope();
 		if(scp)
@@ -115,7 +116,7 @@ void Evaluator::visit(FunctionScope* scp)
 void Evaluator::visit(CompoundStatement* stmt)
 {
 	foreach(Statement* s, stmt->getChildren())
-	s->accept(*this);
+	    s->accept(*this);
 }
 
 void Evaluator::visit(IfElseStatement* ifelse)
@@ -179,6 +180,14 @@ void Evaluator::visit(AssignStatement* stmt)
 
 void Evaluator::visit(VectorExpression* exp)
 {
+	QVector<Value*> childvalues;
+	foreach(Expression* e, exp->getChildren()) {
+		e->accept(*this);
+		childvalues.append(context->currentvalue);
+	}
+
+	Value* v = new VectorValue(childvalues);
+	context->currentvalue=v;
 }
 
 void Evaluator::visit(RangeExpression* exp)
@@ -203,10 +212,10 @@ void Evaluator::visit(Invocation* stmt)
 	Function* func = context->lookupfunction(name);
 	if(func) {
 		foreach(Argument* arg, stmt->getArguments())
-		arg->accept(*this);
+		    arg->accept(*this);
 
 		foreach(Parameter* p, func->getParameters())
-		p->accept(*this);
+		    p->accept(*this);
 
 		Scope* scp = func->getScope();
 		if(scp)
@@ -244,5 +253,5 @@ void Evaluator::visit(Script* sc)
 
 	context->currentscope = sc;
 	foreach(Declaration* d, sc->getDeclarations())
-	d->accept(*this);
+	    d->accept(*this);
 }

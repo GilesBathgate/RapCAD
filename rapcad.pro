@@ -71,7 +71,8 @@ SOURCES += src/main.cpp\
     src/echomodule.cpp \
     src/numbervalue.cpp \
     src/booleanvalue.cpp \
-    src/textvalue.cpp
+    src/textvalue.cpp \
+    src/vectorvalue.cpp
 
 HEADERS  += src/mainwindow.h \
     src/module.h \
@@ -116,7 +117,8 @@ HEADERS  += src/mainwindow.h \
     src/tau.h \
     src/numbervalue.h \
     src/booleanvalue.h \
-    src/textvalue.h
+    src/textvalue.h \
+    src/vectorvalue.h
 
 FORMS    += src/mainwindow.ui   
 
