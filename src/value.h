@@ -28,6 +28,8 @@ public:
 	void setName(QString);
 	QString getName();
 	virtual QString getValueString();
+	virtual Value* add(Value*);
+	virtual Value* subtract(Value*);
 private:
 	QString name;
 };

@@ -146,6 +146,26 @@ void Evaluator::visit(Parameter* param)
 
 void Evaluator::visit(BinaryExpression* exp)
 {
+    exp->getLeft()->accept(*this);
+    Value* left=context->currentvalue;
+
+    exp->getRight()->accept(*this);
+    Value* right=context->currentvalue;
+
+    Value* result;
+    switch(exp->getOp())
+    {
+    case Expression::Add:
+	result = left->add(right);
+	break;
+    case Expression::Subtract:
+	result = left->subtract(right);
+	break;
+    default:
+	result=new Value();
+    }
+
+    context->currentvalue=result;
 }
 
 void Evaluator::visit(Argument* arg)

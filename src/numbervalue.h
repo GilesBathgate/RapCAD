@@ -26,8 +26,10 @@ class NumberValue : public Value
 public:
 	NumberValue(double);
 	QString getValueString();
+	Value* add(Value*);
+	Value* subtract(Value*);
 private:
-	double num;
+	double number;
 };
 
 #endif // NUMBERVALUE_H

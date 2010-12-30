@@ -36,3 +36,13 @@ QString Value::getValueString()
 {
 	return "undef";
 }
+
+Value* Value::add(Value* v)
+{
+    return v;
+}
+
+Value* Value::subtract(Value* v)
+{
+    return v;
+}
