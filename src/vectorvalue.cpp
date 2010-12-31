@@ -17,6 +17,7 @@
  */
 
 #include "vectorvalue.h"
+#include "numbervalue.h"
 
 VectorValue::VectorValue(QVector<Value*> values)
 {
@@ -34,4 +35,36 @@ QString VectorValue::getValueString()
 	}
 	result.append("]");
 	return result;
+}
+
+Value* VectorValue::operator+(const Value& v)
+{
+    QVector<Value*> result;
+    const VectorValue* that = dynamic_cast<const VectorValue*>(&v);
+    if(that) {
+	for (int i=0; i<children.size() && i<that->children.size(); i++)
+	    result.append(*this->children.at(i) + *that->children.at(i));
+    }
+    const NumberValue* num = dynamic_cast<const NumberValue*>(&v);
+    if(num) {
+	for (int i=0; i<children.size(); i++)
+	    result.append(*this->children.at(i) + *num);
+    }
+    return new VectorValue(result);
+}
+
+Value* VectorValue::operator-(const Value& v)
+{
+    QVector<Value*> result;
+    const VectorValue* that = dynamic_cast<const VectorValue*>(&v);
+    if(that) {
+	for (int i=0; i<children.size() && i<that->children.size(); i++)
+	    result.append(*this->children.at(i) - *that->children.at(i));
+    }
+    const NumberValue* num = dynamic_cast<const NumberValue*>(&v);
+    if(num) {
+	for (int i=0; i<children.size(); i++)
+	    result.append(*this->children.at(i) - *num);
+    }
+    return new VectorValue(result);
 }

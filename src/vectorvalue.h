@@ -27,6 +27,8 @@ class VectorValue : public Value
 public:
 	VectorValue(QVector<Value*>);
 	QString getValueString();
+	Value* operator+(const Value&);
+	Value* operator-(const Value&);
 private:
 	QVector<Value*> children;
 };
