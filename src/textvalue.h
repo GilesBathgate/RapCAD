@@ -26,7 +26,7 @@ class TextValue : public Value
 public:
 	TextValue(QString);
 	QString getValueString();
-	Value* add(Value*);
+	Value* operator+(const Value&);
 private:
 	QString text;
 };

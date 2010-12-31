@@ -28,16 +28,16 @@ QString NumberValue::getValueString()
 	return QString().setNum(this->number,'g',16);
 }
 
-Value* NumberValue::add(Value* v)
+Value* NumberValue::operator+(const Value& v)
 {
-    NumberValue* that = dynamic_cast<NumberValue*>(v);
+    const NumberValue* that = dynamic_cast<const NumberValue*>(&v);
     if(that)
 	return new NumberValue(this->number + that->number);
 }
 
-Value* NumberValue::subtract(Value* v)
+Value* NumberValue::operator-(const Value& v)
 {
-    NumberValue* that = dynamic_cast<NumberValue*>(v);
+    const NumberValue* that = dynamic_cast<const NumberValue*>(&v);
     if(that)
 	return new NumberValue(this->number - that->number);
 }

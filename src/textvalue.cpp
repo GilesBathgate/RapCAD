@@ -28,9 +28,9 @@ QString TextValue::getValueString()
 	return this->text;
 }
 
-Value* TextValue::add(Value* v)
+Value* TextValue::operator+(const Value& v)
 {
-    TextValue* that=dynamic_cast<TextValue*>(v);
+    const TextValue* that=dynamic_cast<const TextValue*>(&v);
     if(that)
 	return new TextValue(this->text.append(that->text));
 }

@@ -26,8 +26,8 @@ class NumberValue : public Value
 public:
 	NumberValue(double);
 	QString getValueString();
-	Value* add(Value*);
-	Value* subtract(Value*);
+	Value* operator+(const Value&);
+	Value* operator-(const Value&);
 private:
 	double number;
 };
