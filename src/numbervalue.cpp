@@ -29,6 +29,21 @@ QString NumberValue::getValueString()
 	return QString().setNum(this->number,'g',16);
 }
 
+Value* NumberValue::operator*(Value& v)
+{
+    return operation(v,Expression::Multiply);
+}
+
+Value* NumberValue::operator/(Value& v)
+{
+    return operation(v,Expression::Divide);
+}
+
+Value* NumberValue::operator%(Value& v)
+{
+    return operation(v,Expression::Modulus);
+}
+
 Value* NumberValue::operator+(Value& v)
 {
     return operation(v,Expression::Add);

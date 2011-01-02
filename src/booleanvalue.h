@@ -26,6 +26,7 @@ class BooleanValue : public Value
 public:
 	BooleanValue(bool);
 	QString getValueString();
+	Value* operator*(Value&);
 	Value* operator+(Value&);
 	Value* operator-(Value&);
 	Value* operator&&(Value&);

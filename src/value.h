@@ -21,6 +21,7 @@
 
 #include <QString>
 #include "expression.h"
+#include "math.h"
 
 class Value
 {
@@ -29,6 +30,11 @@ public:
 	void setName(QString);
 	QString getName();
 	virtual QString getValueString();
+	virtual Value* operator*(Value&);
+	virtual Value* componentwiseMultiply(Value&);
+	virtual Value* operator/(Value&);
+	virtual Value* componentwiseDivide(Value&);
+	virtual Value* operator%(Value&);
 	virtual Value* operator+(Value&);
 	virtual Value* operator-(Value&);
 	virtual Value* operator&&(Value&);
@@ -47,14 +53,34 @@ T Value::basicOperation(T left, Expression::Operator_e e, T right)
 {
     switch(e)
     {
+    case Expression::Multiply:
+	    return left*right;
+    case Expression::Divide:
+	    return left/right;
+    case Expression::Modulus:
+	    return fmod(left,right);
     case Expression::Add:
-	return left+right;
+	    return left+right;
     case Expression::Subtract:
-	return left-right;
+	    return left-right;
+    case Expression::LessThan:
+	    return left<right;
+    case Expression::LessOrEqual:
+	    return left<=right;
+    case Expression::Equal:
+	    return left==right;
+    case Expression::NotEqual:
+	    return left!=right;
+    case Expression::GreaterOrEqual:
+	    return left>=right;
+    case Expression::GreaterThan:
+	    return left>right;
     case Expression::LogicalAnd:
-	return left&&right;
+	    return left&&right;
     case Expression::LogicalOr:
-	return left||right;
+	    return left||right;
+    default:
+	    return left;
     }
 }
 #endif // VALUE_H

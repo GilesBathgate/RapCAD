@@ -27,10 +27,15 @@ class VectorValue : public Value
 public:
 	VectorValue(QVector<Value*>);
 	QString getValueString();
+	Value* operator*(Value&);
+	Value* componentwiseMultiply(Value&);
+	Value* operator/(Value&);
+	Value* componentwiseDivide(Value&);
 	Value* operator+(Value&);
 	Value* operator-(Value&);
 private:
 	Value* operation(Value&,Expression::Operator_e);
+	Expression::Operator_e convertOperation(Expression::Operator_e);
 	QVector<Value*> children;
 };
 

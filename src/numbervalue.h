@@ -26,6 +26,9 @@ class NumberValue : public Value
 public:
 	NumberValue(double);
 	QString getValueString();
+	Value* operator*(Value&);
+	Value* operator/(Value&);
+	Value* operator%(Value&);
 	Value* operator+(Value&);
 	Value* operator-(Value&);
 private:

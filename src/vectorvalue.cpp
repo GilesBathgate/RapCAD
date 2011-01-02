@@ -37,6 +37,26 @@ QString VectorValue::getValueString()
 	return result;
 }
 
+Value* VectorValue::operator*(Value& v)
+{
+    return operation(v,Expression::Multiply);
+}
+
+Value* VectorValue::componentwiseMultiply(Value& v)
+{
+    return operation(v,Expression::ComponentwiseMultiply);
+}
+
+Value* VectorValue::operator/(Value& v)
+{
+    return operation(v,Expression::Divide);
+}
+
+Value* VectorValue::componentwiseDivide(Value& v)
+{
+    return operation(v,Expression::ComponentwiseDivide);
+}
+
 Value* VectorValue::operator+(Value& v)
 {
     return operation(v,Expression::Add);
@@ -52,13 +72,32 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
     QVector<Value*> result;
     VectorValue* that = dynamic_cast<VectorValue*>(&v);
     if(that) {
-	for (int i=0; i<children.size() && i<that->children.size(); i++)
-	    result.append(Value::operation(this->children.at(i),e,that->children.at(i)));
+	if(e==Expression::Multiply||e==Expression::Divide) {
+	    for(int i=0;i<that->children.size();i++)
+		result.append(Value::operation(this,e,that->children.at(i)));
+	} else {
+	    e=convertOperation(e);
+	    for (int i=0; i<children.size() && i<that->children.size(); i++)
+		result.append(Value::operation(this->children.at(i),e,that->children.at(i)));
+	}
     }
+
     NumberValue* num = dynamic_cast<NumberValue*>(&v);
     if(num) {
+	e=convertOperation(e);
 	for (int i=0; i<children.size(); i++)
 	    result.append(Value::operation(this->children.at(i),e,num));
     }
     return new VectorValue(result);
+}
+
+Expression::Operator_e VectorValue::convertOperation(Expression::Operator_e e)
+{
+    switch(e)
+    {
+    case Expression::ComponentwiseMultiply:
+	return Expression::Multiply;
+    case Expression::ComponentwiseDivide:
+	return Expression::Divide;
+    }
 }
