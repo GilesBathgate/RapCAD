@@ -30,32 +30,32 @@ QString BooleanValue::getValueString()
 
 Value* BooleanValue::operator*(Value& v)
 {
-    return operation(v,Expression::Multiply);
+	return operation(v,Expression::Multiply);
 }
 
 Value* BooleanValue::operator+(Value& v)
 {
-    return operation(v,Expression::Add);
+	return operation(v,Expression::Add);
 }
 
 Value* BooleanValue::operator-(Value& v)
 {
-    return operation(v,Expression::Subtract);
+	return operation(v,Expression::Subtract);
 }
 
 Value* BooleanValue::operator&&(Value& v)
 {
-    return operation(v,Expression::LogicalAnd);
+	return operation(v,Expression::LogicalAnd);
 }
 
 Value* BooleanValue::operator||(Value& v)
 {
-    return operation(v,Expression::LogicalOr);
+	return operation(v,Expression::LogicalOr);
 }
 
 Value* BooleanValue::operation(Value& v,Expression::Operator_e e)
 {
-    BooleanValue* that = dynamic_cast<BooleanValue*>(&v);
-    if(that)
-	return new BooleanValue(Value::basicOperation<bool>(this->boolean,e,that->boolean));
+	BooleanValue* that = dynamic_cast<BooleanValue*>(&v);
+	if(that)
+		return new BooleanValue(Value::basicOperation<bool>(this->boolean,e,that->boolean));
 }

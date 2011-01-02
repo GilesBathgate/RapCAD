@@ -30,21 +30,20 @@ QString TextValue::getValueString()
 
 Value* TextValue::operator+(Value& v)
 {
-    return operation(v,Expression::Add);
+	return operation(v,Expression::Add);
 }
 
 Value* TextValue::operation(Value& v,Expression::Operator_e e)
 {
-    TextValue* that=dynamic_cast<TextValue*>(&v);
-    if(that)
-	return new TextValue(operation(this->text,e,that->text));
+	TextValue* that=dynamic_cast<TextValue*>(&v);
+	if(that)
+		return new TextValue(operation(this->text,e,that->text));
 }
 
 QString TextValue::operation(QString left, Expression::Operator_e e, QString right)
 {
-    switch(e)
-    {
-    case Expression::Add:
-	return left.append(right);
-    }
+	switch(e) {
+	case Expression::Add:
+		return left.append(right);
+	}
 }

@@ -97,7 +97,7 @@ void Context::args(QVector<Value*> args, QVector<Value*> params)
 bool Context::contains(QVector<Value*> params,QString name)
 {
 	foreach(Value* p, params)
-	if(p->getName() == name)
-		return true;
+		if(p->getName() == name)
+			return true;
 	return false;
 }

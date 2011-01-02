@@ -39,103 +39,102 @@ QString Value::getValueString()
 
 Value* Value::operator*(Value&)
 {
-    return this;
+	return this;
 }
 
 Value* Value::componentwiseMultiply(Value&)
 {
-    return this;
+	return this;
 }
 
 Value* Value::operator/(Value&)
 {
-    return this;
+	return this;
 }
 
 Value* Value::componentwiseDivide(Value&)
 {
-    return this;
+	return this;
 }
 
 Value* Value::operator%(Value&)
 {
-    return this;
+	return this;
 }
 
 Value* Value::operator+(Value&)
 {
-    return this;
+	return this;
 }
 
 Value* Value::operator-(Value&)
 {
-    return this;
+	return this;
 }
 
 Value* Value::operator&&(Value&)
 {
-    return this;
+	return this;
 }
 
 Value* Value::operator||(Value&)
 {
-    return this;
+	return this;
 }
 
 Value* Value::operation(Value* p_left, Expression::Operator_e e, Value* p_right)
 {
-    Value& left=*p_left;
-    Value& right=*p_right;
-    Value* result;
-    switch(e)
-    {
-    case Expression::Multiply:
-	    result=left*right;
-	    break;
-    case Expression::ComponentwiseMultiply:
-	    result=p_left->componentwiseMultiply(right);
-	    break;
-    case Expression::Divide:
-	    result=left/right;
-	    break;
-    case Expression::ComponentwiseDivide:
-	    result=p_left->componentwiseDivide(right);
-	    break;
-    case Expression::Modulus:
-	    result=left%right;
-	    break;
-    case Expression::Add:
-	    result=left+right;
-	    break;
-    case Expression::Subtract:
-	    result=left-right;
-	    break;
-    case Expression::LessThan:
-	    throw; //result=left<right;
-	    break;
-    case Expression::LessOrEqual:
-	    throw; //result=left<=right;
-	    break;
-    case Expression::Equal:
-	    throw; //result=left==right;
-	    break;
-    case Expression::NotEqual:
-	    throw; //result=left!=right;
-	    break;
-    case Expression::GreaterOrEqual:
-	    throw; //result=left>=right;
-	    break;
-    case Expression::GreaterThan:
-	    throw; //result=left>right;
-	    break;
-    case Expression::LogicalAnd:
-	    result=left&&right;
-	    break;
-    case Expression::LogicalOr:
-	    result=left||right;
-	    break;
-    default:
-	    result=&left;
-    }
-    result=result;
+	Value& left=*p_left;
+	Value& right=*p_right;
+	Value* result;
+	switch(e) {
+	case Expression::Multiply:
+		result=left*right;
+		break;
+	case Expression::ComponentwiseMultiply:
+		result=p_left->componentwiseMultiply(right);
+		break;
+	case Expression::Divide:
+		result=left/right;
+		break;
+	case Expression::ComponentwiseDivide:
+		result=p_left->componentwiseDivide(right);
+		break;
+	case Expression::Modulus:
+		result=left%right;
+		break;
+	case Expression::Add:
+		result=left+right;
+		break;
+	case Expression::Subtract:
+		result=left-right;
+		break;
+	case Expression::LessThan:
+		throw; //result=left<right;
+		break;
+	case Expression::LessOrEqual:
+		throw; //result=left<=right;
+		break;
+	case Expression::Equal:
+		throw; //result=left==right;
+		break;
+	case Expression::NotEqual:
+		throw; //result=left!=right;
+		break;
+	case Expression::GreaterOrEqual:
+		throw; //result=left>=right;
+		break;
+	case Expression::GreaterThan:
+		throw; //result=left>right;
+		break;
+	case Expression::LogicalAnd:
+		result=left&&right;
+		break;
+	case Expression::LogicalOr:
+		result=left||right;
+		break;
+	default:
+		result=&left;
+	}
+	result=result;
 }

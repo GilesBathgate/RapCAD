@@ -31,38 +31,38 @@ QString NumberValue::getValueString()
 
 Value* NumberValue::operator*(Value& v)
 {
-    return operation(v,Expression::Multiply);
+	return operation(v,Expression::Multiply);
 }
 
 Value* NumberValue::operator/(Value& v)
 {
-    return operation(v,Expression::Divide);
+	return operation(v,Expression::Divide);
 }
 
 Value* NumberValue::operator%(Value& v)
 {
-    return operation(v,Expression::Modulus);
+	return operation(v,Expression::Modulus);
 }
 
 Value* NumberValue::operator+(Value& v)
 {
-    return operation(v,Expression::Add);
+	return operation(v,Expression::Add);
 }
 
 Value* NumberValue::operator-(Value& v)
 {
-    return operation(v,Expression::Subtract);
+	return operation(v,Expression::Subtract);
 }
 
 Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 {
-    NumberValue* that = dynamic_cast<NumberValue*>(&v);
-    if(that){
-	double result=basicOperation<double>(this->number,e,that->number);
-	return new NumberValue(result);
-    }
-    VectorValue* vec = dynamic_cast<VectorValue*>(&v);
-    if(vec) {
-	return Value::operation(vec,e,this);
-    }
+	NumberValue* that = dynamic_cast<NumberValue*>(&v);
+	if(that) {
+		double result=basicOperation<double>(this->number,e,that->number);
+		return new NumberValue(result);
+	}
+	VectorValue* vec = dynamic_cast<VectorValue*>(&v);
+	if(vec) {
+		return Value::operation(vec,e,this);
+	}
 }

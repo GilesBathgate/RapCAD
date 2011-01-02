@@ -215,7 +215,7 @@ void PrettyPrinter::visit(ForStatement* forstmt)
 {
 	result.append("for(");
 	foreach(Argument* a, forstmt->getArguments())
-	    a->accept(*this);
+		a->accept(*this);
 	result.append(")");
 	Statement* statement = forstmt->getStatement();
 	statement->accept(*this);
@@ -373,7 +373,7 @@ void PrettyPrinter::visit(Variable* var)
 void PrettyPrinter::visit(Script* sc)
 {
 	foreach(Declaration* d, sc->getDeclarations())
-	    d->accept(*this);
+		d->accept(*this);
 
 	printf("%s",result.toLocal8Bit().constData());
 }
