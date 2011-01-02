@@ -37,12 +37,45 @@ QString Value::getValueString()
 	return "undef";
 }
 
-Value* Value::operator+(const Value&)
+Value* Value::operator+(Value&)
 {
     return this;
 }
 
-Value* Value::operator-(const Value&)
+Value* Value::operator-(Value&)
 {
     return this;
+}
+
+Value* Value::operator&&(Value&)
+{
+    return this;
+}
+
+Value* Value::operator||(Value&)
+{
+    return this;
+}
+
+Value* Value::operation(Value* p_left, Expression::Operator_e e, Value* p_right)
+{
+    Value& left=*p_left;
+    Value& right=*p_right;
+    Value* result;
+    switch(e)
+    {
+    case Expression::Add:
+	result=left+right;
+	break;
+    case Expression::Subtract:
+	result=left-right;
+	break;
+    case Expression::LogicalAnd:
+	result=left&&right;
+	break;
+    case Expression::LogicalOr:
+	result=left||right;
+	break;
+    }
+    return result;
 }

@@ -27,3 +27,30 @@ QString BooleanValue::getValueString()
 {
 	return this->boolean ? "true" : "false";
 }
+
+Value* BooleanValue::operator+(Value& v)
+{
+    return operation(v,Expression::Add);
+}
+
+Value* BooleanValue::operator-(Value& v)
+{
+    return operation(v,Expression::Subtract);
+}
+
+Value* BooleanValue::operator&&(Value& v)
+{
+    return operation(v,Expression::LogicalAnd);
+}
+
+Value* BooleanValue::operator||(Value& v)
+{
+    return operation(v,Expression::LogicalOr);
+}
+
+Value* BooleanValue::operation(Value& v,Expression::Operator_e e)
+{
+    BooleanValue* that = dynamic_cast<BooleanValue*>(&v);
+    if(that)
+	return new BooleanValue(Value::basicOperation<bool>(this->boolean,e,that->boolean));
+}

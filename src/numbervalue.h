@@ -26,9 +26,10 @@ class NumberValue : public Value
 public:
 	NumberValue(double);
 	QString getValueString();
-	Value* operator+(const Value&);
-	Value* operator-(const Value&);
+	Value* operator+(Value&);
+	Value* operator-(Value&);
 private:
+	Value* operation(Value&,Expression::Operator_e);
 	double number;
 };
 

@@ -37,34 +37,28 @@ QString VectorValue::getValueString()
 	return result;
 }
 
-Value* VectorValue::operator+(const Value& v)
+Value* VectorValue::operator+(Value& v)
 {
-    QVector<Value*> result;
-    const VectorValue* that = dynamic_cast<const VectorValue*>(&v);
-    if(that) {
-	for (int i=0; i<children.size() && i<that->children.size(); i++)
-	    result.append(*this->children.at(i) + *that->children.at(i));
-    }
-    const NumberValue* num = dynamic_cast<const NumberValue*>(&v);
-    if(num) {
-	for (int i=0; i<children.size(); i++)
-	    result.append(*this->children.at(i) + *num);
-    }
-    return new VectorValue(result);
+    return operation(v,Expression::Add);
 }
 
-Value* VectorValue::operator-(const Value& v)
+Value* VectorValue::operator-(Value& v)
+{
+    return operation(v,Expression::Subtract);
+}
+
+Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 {
     QVector<Value*> result;
-    const VectorValue* that = dynamic_cast<const VectorValue*>(&v);
+    VectorValue* that = dynamic_cast<VectorValue*>(&v);
     if(that) {
 	for (int i=0; i<children.size() && i<that->children.size(); i++)
-	    result.append(*this->children.at(i) - *that->children.at(i));
+	    result.append(Value::operation(this->children.at(i),e,that->children.at(i)));
     }
-    const NumberValue* num = dynamic_cast<const NumberValue*>(&v);
+    NumberValue* num = dynamic_cast<NumberValue*>(&v);
     if(num) {
 	for (int i=0; i<children.size(); i++)
-	    result.append(*this->children.at(i) - *num);
+	    result.append(Value::operation(this->children.at(i),e,num));
     }
     return new VectorValue(result);
 }

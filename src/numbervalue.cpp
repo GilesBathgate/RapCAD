@@ -17,6 +17,7 @@
  */
 
 #include "numbervalue.h"
+#include "vectorvalue.h"
 
 NumberValue::NumberValue(double value)
 {
@@ -28,16 +29,25 @@ QString NumberValue::getValueString()
 	return QString().setNum(this->number,'g',16);
 }
 
-Value* NumberValue::operator+(const Value& v)
+Value* NumberValue::operator+(Value& v)
 {
-    const NumberValue* that = dynamic_cast<const NumberValue*>(&v);
-    if(that)
-	return new NumberValue(this->number + that->number);
+    return operation(v,Expression::Add);
 }
 
-Value* NumberValue::operator-(const Value& v)
+Value* NumberValue::operator-(Value& v)
 {
-    const NumberValue* that = dynamic_cast<const NumberValue*>(&v);
-    if(that)
-	return new NumberValue(this->number - that->number);
+    return operation(v,Expression::Subtract);
+}
+
+Value* NumberValue::operation(Value& v, Expression::Operator_e e)
+{
+    NumberValue* that = dynamic_cast<NumberValue*>(&v);
+    if(that){
+	double result=basicOperation<double>(this->number,e,that->number);
+	return new NumberValue(result);
+    }
+    VectorValue* vec = dynamic_cast<VectorValue*>(&v);
+    if(vec) {
+	return Value::operation(vec,e,this);
+    }
 }

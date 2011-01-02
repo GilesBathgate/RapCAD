@@ -20,6 +20,7 @@
 #define VALUE_H
 
 #include <QString>
+#include "expression.h"
 
 class Value
 {
@@ -28,10 +29,32 @@ public:
 	void setName(QString);
 	QString getName();
 	virtual QString getValueString();
-	virtual Value* operator+(const Value&);
-	virtual Value* operator-(const Value&);
+	virtual Value* operator+(Value&);
+	virtual Value* operator-(Value&);
+	virtual Value* operator&&(Value&);
+	virtual Value* operator||(Value&);
+
+	static Value* operation(Value*,Expression::Operator_e,Value*);
+
+	template <class T>
+	static T basicOperation(T,Expression::Operator_e,T);
 private:
 	QString name;
 };
 
+template <class T>
+T Value::basicOperation(T left, Expression::Operator_e e, T right)
+{
+    switch(e)
+    {
+    case Expression::Add:
+	return left+right;
+    case Expression::Subtract:
+	return left-right;
+    case Expression::LogicalAnd:
+	return left&&right;
+    case Expression::LogicalOr:
+	return left||right;
+    }
+}
 #endif // VALUE_H
