@@ -148,77 +148,55 @@ Value* Value::operation(Value* p_left, Expression::Operator_e e, Value* p_right)
 {
 	Value& left=*p_left;
 	Value& right=*p_right;
-	Value* result;
 	switch(e) {
 	case Expression::Multiply:
-		result=left*right;
-		break;
+		return left*right;
 	case Expression::ComponentwiseMultiply:
-		result=p_left->componentwiseMultiply(right);
-		break;
+		return left.componentwiseMultiply(right);
 	case Expression::Divide:
-		result=left/right;
-		break;
+		return left/right;
 	case Expression::ComponentwiseDivide:
-		result=p_left->componentwiseDivide(right);
-		break;
+		return left.componentwiseDivide(right);
 	case Expression::Modulus:
-		result=left%right;
-		break;
+		return left%right;
 	case Expression::Add:
-		result=left+right;
-		break;
+		return left+right;
 	case Expression::Subtract:
-		result=left-right;
-		break;
+		return left-right;
 	case Expression::LessThan:
-		result=left<right;
-		break;
+		return left<right;
 	case Expression::LessOrEqual:
-		result=left<=right;
-		break;
+		return left<=right;
 	case Expression::Equal:
-		result=left==right;
-		break;
+		return left==right;
 	case Expression::NotEqual:
-		result=left!=right;
-		break;
+		return left!=right;
 	case Expression::GreaterOrEqual:
-		result=left>=right;
-		break;
+		return left>=right;
 	case Expression::GreaterThan:
-		result=left>right;
-		break;
+		return left>right;
 	case Expression::LogicalAnd:
-		result=left&&right;
-		break;
+		return left&&right;
 	case Expression::LogicalOr:
-		result=left||right;
-		break;
+		return left||right;
 	default:
-		result=&left;
+		return &left;
 	}
-	return result;
 }
 
 Value* Value::operation(Value* p_left, Expression::Operator_e e)
 {
 	Value& left=*p_left;
-	Value* result;
 	switch(e) {
 	case Expression::Add:
-		result=+left;
-		break;
+		return +left;
 	case Expression::Subtract:
-		result=-left;
-		break;
+		return -left;
 	case Expression::Invert:
-		result=!left;
-		break;
+		return !left;
 	default:
-		result=&left;
+		return &left;
 	}
-	return result;
 }
 
 bool Value::isComparison(Expression::Operator_e e)
