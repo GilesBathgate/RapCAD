@@ -17,6 +17,7 @@
  */
 
 #include "value.h"
+#include "math.h"
 
 Value::Value()
 {
@@ -62,12 +63,52 @@ Value* Value::operator%(Value&)
 	return this;
 }
 
+Value* Value::operator+()
+{
+	return this;
+}
+
 Value* Value::operator+(Value&)
 {
 	return this;
 }
 
+Value* Value::operator-()
+{
+	return this;
+}
+
 Value* Value::operator-(Value&)
+{
+	return this;
+}
+
+Value* Value::operator<(Value&)
+{
+	return this;
+}
+
+Value* Value::operator<=(Value&)
+{
+	return this;
+}
+
+Value* Value::operator==(Value&)
+{
+	return this;
+}
+
+Value* Value::operator!=(Value&)
+{
+	return this;
+}
+
+Value* Value::operator>=(Value&)
+{
+	return this;
+}
+
+Value* Value::operator>(Value&)
 {
 	return this;
 }
@@ -80,6 +121,16 @@ Value* Value::operator&&(Value&)
 Value* Value::operator||(Value&)
 {
 	return this;
+}
+
+Value* Value::operator!()
+{
+	return this;
+}
+
+double Value::modulus(double left, double right)
+{
+	return fmod(left, right);
 }
 
 Value* Value::operation(Value* p_left, Expression::Operator_e e, Value* p_right)
@@ -110,22 +161,22 @@ Value* Value::operation(Value* p_left, Expression::Operator_e e, Value* p_right)
 		result=left-right;
 		break;
 	case Expression::LessThan:
-		throw; //result=left<right;
+		result=left<right;
 		break;
 	case Expression::LessOrEqual:
-		throw; //result=left<=right;
+		result=left<=right;
 		break;
 	case Expression::Equal:
-		throw; //result=left==right;
+		result=left==right;
 		break;
 	case Expression::NotEqual:
-		throw; //result=left!=right;
+		result=left!=right;
 		break;
 	case Expression::GreaterOrEqual:
-		throw; //result=left>=right;
+		result=left>=right;
 		break;
 	case Expression::GreaterThan:
-		throw; //result=left>right;
+		result=left>right;
 		break;
 	case Expression::LogicalAnd:
 		result=left&&right;
@@ -137,4 +188,39 @@ Value* Value::operation(Value* p_left, Expression::Operator_e e, Value* p_right)
 		result=&left;
 	}
 	result=result;
+}
+
+Value* Value::operation(Value* p_left, Expression::Operator_e e)
+{
+	Value& left=*p_left;
+	Value* result;
+	switch(e) {
+	case Expression::Add:
+		result=+left;
+		break;
+	case Expression::Subtract:
+		result=-left;
+		break;
+	case Expression::Invert:
+		result=!left;
+		break;
+	default:
+		result=&left;
+	}
+	return result;
+}
+
+bool Value::isComparison(Expression::Operator_e e)
+{
+	switch(e) {
+	case Expression::LessThan:
+	case Expression::LessOrEqual:
+	case Expression::Equal:
+	case Expression::NotEqual:
+	case Expression::GreaterOrEqual:
+	case Expression::GreaterThan:
+		return true;
+	default:
+		return false;
+	}
 }

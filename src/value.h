@@ -21,7 +21,6 @@
 
 #include <QString>
 #include "expression.h"
-#include "math.h"
 
 class Value
 {
@@ -35,21 +34,46 @@ public:
 	virtual Value* operator/(Value&);
 	virtual Value* componentwiseDivide(Value&);
 	virtual Value* operator%(Value&);
+	virtual Value* operator+();
 	virtual Value* operator+(Value&);
+	virtual Value* operator-();
 	virtual Value* operator-(Value&);
+	virtual Value* operator<(Value&);
+	virtual Value* operator<=(Value&);
+	virtual Value* operator==(Value&);
+	virtual Value* operator!=(Value&);
+	virtual Value* operator>=(Value&);
+	virtual Value* operator>(Value&);
 	virtual Value* operator&&(Value&);
 	virtual Value* operator||(Value&);
+	virtual Value* operator!();
 
+	static Value* operation(Value*,Expression::Operator_e);
 	static Value* operation(Value*,Expression::Operator_e,Value*);
 
-	template <class T>
-	static T basicOperation(T,Expression::Operator_e,T);
+	template <class A, class B>
+	static A basicOperation(B,Expression::Operator_e,B);
+
+	template <class A, class B>
+	static A basicOperation(B,Expression::Operator_e);
+protected:
+	bool isComparison(Expression::Operator_e);
 private:
 	QString name;
+
+	template<class T>
+	static T modulus(T left, T right);
+	static double modulus(double left, double right);
 };
 
-template <class T>
-T Value::basicOperation(T left, Expression::Operator_e e, T right)
+template<class T>
+T Value::modulus(T left, T right)
+{
+	return left%right;
+}
+
+template <class A, class B>
+A Value::basicOperation(B left, Expression::Operator_e e, B right)
 {
 	switch(e) {
 	case Expression::Multiply:
@@ -57,7 +81,7 @@ T Value::basicOperation(T left, Expression::Operator_e e, T right)
 	case Expression::Divide:
 		return left/right;
 	case Expression::Modulus:
-		return fmod(left,right);
+		return modulus(left,right);
 	case Expression::Add:
 		return left+right;
 	case Expression::Subtract:
@@ -78,6 +102,21 @@ T Value::basicOperation(T left, Expression::Operator_e e, T right)
 		return left&&right;
 	case Expression::LogicalOr:
 		return left||right;
+	default:
+		return left;
+	}
+}
+
+template <class A, class B>
+A Value::basicOperation(B left, Expression::Operator_e e)
+{
+	switch(e) {
+	case Expression::Add:
+		return +left;
+	case Expression::Subtract:
+		return -left;
+	case Expression::Invert:
+		return !left;
 	default:
 		return left;
 	}

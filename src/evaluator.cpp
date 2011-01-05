@@ -205,6 +205,12 @@ void Evaluator::visit(RangeExpression* exp)
 
 void Evaluator::visit(UnaryExpression* exp)
 {
+	exp->getExpression()->accept(*this);
+	Value* left=context->currentvalue;
+
+	Value* result = Value::operation(left,exp->getOp());
+
+	context->currentvalue=result;
 }
 
 void Evaluator::visit(ReturnStatement* stmt)
