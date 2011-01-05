@@ -35,7 +35,7 @@ Value* BooleanValue::operator*(Value& v)
 
 Value* BooleanValue::operator+()
 {
-    return operation(Expression::Add);
+	return operation(Expression::Add);
 }
 
 Value* BooleanValue::operator+(Value& v)
@@ -45,7 +45,7 @@ Value* BooleanValue::operator+(Value& v)
 
 Value* BooleanValue::operator-()
 {
-    return operation(Expression::Subtract);
+	return operation(Expression::Subtract);
 }
 
 Value* BooleanValue::operator-(Value& v)
@@ -65,13 +65,13 @@ Value* BooleanValue::operator||(Value& v)
 
 Value* BooleanValue::operator!()
 {
-    return operation(Expression::Invert);
+	return operation(Expression::Invert);
 }
 
 Value* BooleanValue::operation(Expression::Operator_e e)
 {
-    bool result = Value::basicOperation<bool,bool>(this->boolean,e);
-    return new BooleanValue(result);
+	bool result = Value::basicOperation<bool,bool>(this->boolean,e);
+	return new BooleanValue(result);
 }
 
 Value* BooleanValue::operation(Value& v,Expression::Operator_e e)

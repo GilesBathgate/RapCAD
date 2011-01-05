@@ -47,7 +47,7 @@ Value* NumberValue::operator%(Value& v)
 
 Value* NumberValue::operator+()
 {
-    return operation(Expression::Add);
+	return operation(Expression::Add);
 }
 
 Value* NumberValue::operator+(Value& v)
@@ -97,13 +97,13 @@ Value* NumberValue::operator>(Value& v)
 
 Value* NumberValue::operator!()
 {
-    return operation(Expression::Invert);
+	return operation(Expression::Invert);
 }
 
 Value* NumberValue::operation(Expression::Operator_e e)
 {
-    double result = Value::basicOperation<double,double>(this->number,e);
-    return new NumberValue(result);
+	double result = Value::basicOperation<double,double>(this->number,e);
+	return new NumberValue(result);
 }
 
 Value* NumberValue::operation(Value& v, Expression::Operator_e e)
