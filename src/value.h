@@ -29,24 +29,24 @@ public:
 	void setName(QString);
 	QString getName();
 	virtual QString getValueString();
-	virtual Value* operator*(Value&);
-	virtual Value* componentwiseMultiply(Value&);
-	virtual Value* operator/(Value&);
-	virtual Value* componentwiseDivide(Value&);
-	virtual Value* operator%(Value&);
-	virtual Value* operator+();
-	virtual Value* operator+(Value&);
-	virtual Value* operator-();
-	virtual Value* operator-(Value&);
-	virtual Value* operator<(Value&);
-	virtual Value* operator<=(Value&);
-	virtual Value* operator==(Value&);
-	virtual Value* operator!=(Value&);
-	virtual Value* operator>=(Value&);
-	virtual Value* operator>(Value&);
-	virtual Value* operator&&(Value&);
-	virtual Value* operator||(Value&);
-	virtual Value* operator!();
+	Value* operator*(Value&);
+	Value* componentwiseMultiply(Value&);
+	Value* operator/(Value&);
+	Value* componentwiseDivide(Value&);
+	Value* operator%(Value&);
+	Value* operator+();
+	Value* operator+(Value&);
+	Value* operator-();
+	Value* operator-(Value&);
+	Value* operator<(Value&);
+	Value* operator<=(Value&);
+	Value* operator==(Value&);
+	Value* operator!=(Value&);
+	Value* operator>=(Value&);
+	Value* operator>(Value&);
+	Value* operator&&(Value&);
+	Value* operator||(Value&);
+	Value* operator!();
 
 	static Value* operation(Value*,Expression::Operator_e);
 	static Value* operation(Value*,Expression::Operator_e,Value*);
@@ -60,7 +60,8 @@ protected:
 	bool isComparison(Expression::Operator_e);
 private:
 	QString name;
-
+	virtual Value* operation(Expression::Operator_e);
+	virtual Value* operation(Value&,Expression::Operator_e);
 	template<class T>
 	static T modulus(T left, T right);
 	static double modulus(double left, double right);

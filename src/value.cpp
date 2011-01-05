@@ -38,99 +38,110 @@ QString Value::getValueString()
 	return "undef";
 }
 
-Value* Value::operator*(Value&)
+
+Value* Value::operator*(Value& v)
 {
-	return this;
+	return operation(v,Expression::Multiply);
 }
 
-Value* Value::componentwiseMultiply(Value&)
+Value* Value::componentwiseMultiply(Value& v)
 {
-	return this;
+	return operation(v,Expression::ComponentwiseMultiply);
 }
 
-Value* Value::operator/(Value&)
+Value* Value::operator/(Value& v)
 {
-	return this;
+	return operation(v,Expression::Divide);
 }
 
-Value* Value::componentwiseDivide(Value&)
+Value* Value::componentwiseDivide(Value& v)
 {
-	return this;
+	return operation(v,Expression::ComponentwiseDivide);
 }
 
-Value* Value::operator%(Value&)
+Value* Value::operator%(Value& v)
 {
-	return this;
+	return operation(v,Expression::Modulus);
 }
 
 Value* Value::operator+()
 {
-	return this;
+	return operation(Expression::Add);
 }
 
-Value* Value::operator+(Value&)
+Value* Value::operator+(Value& v)
 {
-	return this;
+	return operation(v,Expression::Add);
 }
 
 Value* Value::operator-()
 {
-	return this;
+	return operation(Expression::Subtract);
 }
 
-Value* Value::operator-(Value&)
+Value* Value::operator-(Value& v)
 {
-	return this;
+	return operation(v,Expression::Subtract);
 }
 
-Value* Value::operator<(Value&)
+Value* Value::operator<(Value& v)
 {
-	return this;
+	return operation(v,Expression::LessThan);
 }
 
-Value* Value::operator<=(Value&)
+Value* Value::operator<=(Value& v)
 {
-	return this;
+	return operation(v,Expression::LessOrEqual);
 }
 
-Value* Value::operator==(Value&)
+Value* Value::operator==(Value& v)
 {
-	return this;
+	return operation(v,Expression::Equal);
 }
 
-Value* Value::operator!=(Value&)
+Value* Value::operator!=(Value& v)
 {
-	return this;
+	return operation(v,Expression::NotEqual);
 }
 
-Value* Value::operator>=(Value&)
+Value* Value::operator>=(Value& v)
 {
-	return this;
+	return operation(v,Expression::GreaterOrEqual);
 }
 
-Value* Value::operator>(Value&)
+Value* Value::operator>(Value& v)
 {
-	return this;
+	return operation(v,Expression::GreaterThan);
 }
 
-Value* Value::operator&&(Value&)
+Value* Value::operator&&(Value& v)
 {
-	return this;
+	return operation(v,Expression::LogicalAnd);
 }
 
-Value* Value::operator||(Value&)
+Value* Value::operator||(Value& v)
 {
-	return this;
+	return operation(v,Expression::LogicalOr);
 }
 
 Value* Value::operator!()
 {
-	return this;
+	return operation(Expression::Invert);
 }
 
 double Value::modulus(double left, double right)
 {
 	return fmod(left, right);
+}
+
+Value* Value::operation(Expression::Operator_e)
+{
+	return this;
+}
+
+Value* Value::operation(Value&, Expression::Operator_e)
+{
+	return this;
 }
 
 Value* Value::operation(Value* p_left, Expression::Operator_e e, Value* p_right)
@@ -187,7 +198,7 @@ Value* Value::operation(Value* p_left, Expression::Operator_e e, Value* p_right)
 	default:
 		result=&left;
 	}
-	result=result;
+	return result;
 }
 
 Value* Value::operation(Value* p_left, Expression::Operator_e e)

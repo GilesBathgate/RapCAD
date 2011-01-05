@@ -28,46 +28,6 @@ QString BooleanValue::getValueString()
 	return this->boolean ? "true" : "false";
 }
 
-Value* BooleanValue::operator*(Value& v)
-{
-	return operation(v,Expression::Multiply);
-}
-
-Value* BooleanValue::operator+()
-{
-	return operation(Expression::Add);
-}
-
-Value* BooleanValue::operator+(Value& v)
-{
-	return operation(v,Expression::Add);
-}
-
-Value* BooleanValue::operator-()
-{
-	return operation(Expression::Subtract);
-}
-
-Value* BooleanValue::operator-(Value& v)
-{
-	return operation(v,Expression::Subtract);
-}
-
-Value* BooleanValue::operator&&(Value& v)
-{
-	return operation(v,Expression::LogicalAnd);
-}
-
-Value* BooleanValue::operator||(Value& v)
-{
-	return operation(v,Expression::LogicalOr);
-}
-
-Value* BooleanValue::operator!()
-{
-	return operation(Expression::Invert);
-}
-
 Value* BooleanValue::operation(Expression::Operator_e e)
 {
 	bool result = Value::basicOperation<bool,bool>(this->boolean,e);

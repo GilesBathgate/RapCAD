@@ -37,36 +37,6 @@ QString VectorValue::getValueString()
 	return result;
 }
 
-Value* VectorValue::operator*(Value& v)
-{
-	return operation(v,Expression::Multiply);
-}
-
-Value* VectorValue::componentwiseMultiply(Value& v)
-{
-	return operation(v,Expression::ComponentwiseMultiply);
-}
-
-Value* VectorValue::operator/(Value& v)
-{
-	return operation(v,Expression::Divide);
-}
-
-Value* VectorValue::componentwiseDivide(Value& v)
-{
-	return operation(v,Expression::ComponentwiseDivide);
-}
-
-Value* VectorValue::operator+(Value& v)
-{
-	return operation(v,Expression::Add);
-}
-
-Value* VectorValue::operator-(Value& v)
-{
-	return operation(v,Expression::Subtract);
-}
-
 Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 {
 	QVector<Value*> result;
