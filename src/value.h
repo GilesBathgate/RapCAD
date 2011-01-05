@@ -61,8 +61,8 @@ private:
 	virtual Value* operation(Expression::Operator_e);
 	virtual Value* operation(Value&,Expression::Operator_e);
 	template<class T>
-	static T modulus(T left, T right);
-	static double modulus(double left, double right);
+	T modulus(T left, T right);
+	double modulus(double left, double right);
 };
 
 template<class T>
