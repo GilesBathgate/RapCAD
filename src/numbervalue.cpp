@@ -32,7 +32,7 @@ QString NumberValue::getValueString()
 
 Value* NumberValue::operation(Expression::Operator_e e)
 {
-	double result = Value::basicOperation<double,double>(this->number,e);
+	double result = basicOperation<double,double>(this->number,e);
 	return new NumberValue(result);
 }
 

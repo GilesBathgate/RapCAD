@@ -50,14 +50,12 @@ public:
 
 	static Value* operation(Value*,Expression::Operator_e);
 	static Value* operation(Value*,Expression::Operator_e,Value*);
-
-	template <class A, class B>
-	static A basicOperation(B,Expression::Operator_e,B);
-
-	template <class A, class B>
-	static A basicOperation(B,Expression::Operator_e);
 protected:
 	bool isComparison(Expression::Operator_e);
+	template <class A, class B>
+	A basicOperation(B,Expression::Operator_e,B);
+	template <class A, class B>
+	A basicOperation(B,Expression::Operator_e);
 private:
 	QString name;
 	virtual Value* operation(Expression::Operator_e);
