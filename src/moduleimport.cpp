@@ -46,6 +46,16 @@ QString ModuleImport::getNamespace()
 	return this->name_space;
 }
 
+void ModuleImport::setParameters(QVector<Parameter*> params)
+{
+	this->parameters = params;
+}
+
+QVector<Parameter*> ModuleImport::getParameters()
+{
+	return this->parameters;
+}
+
 void ModuleImport::accept(Visitor& v)
 {
 	v.visit(this);

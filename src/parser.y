@@ -121,6 +121,8 @@ use_declaration
 	{ $$ = builder->buildUse($1); }
 	| USE AS IDENTIFIER ';'
 	{ $$ = builder->buildUse($1,$3); }
+	| USE AS IDENTIFIER '(' parameters ')' ';'
+	{ $$ = builder->buildUse($1,$3,$5); }
 	;
 
 single_declaration_list

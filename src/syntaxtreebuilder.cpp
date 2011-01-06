@@ -51,6 +51,19 @@ Declaration* SyntaxTreeBuilder::buildUse(QString* imp,QString* name)
 	return result;
 }
 
+Declaration* SyntaxTreeBuilder::buildUse(QString* imp,QString* name,QVector<Parameter*>* params)
+{
+	ModuleImport* result = new ModuleImport();
+	result->setImport(*imp);
+	delete imp;
+	result->setNamespace(*name);
+	delete name;
+	result->setParameters(*params);
+	delete params;
+
+	return result;
+}
+
 void SyntaxTreeBuilder::buildScript(QVector<Declaration*>* decls)
 {
 	script->setDeclarations(*decls);

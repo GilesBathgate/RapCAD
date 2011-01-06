@@ -20,7 +20,9 @@
 #define MODULEIMPORT_H
 
 #include <QString>
+#include <QVector>
 #include "declaration.h"
+#include "parameter.h"
 
 class ModuleImport : public Declaration
 {
@@ -32,9 +34,12 @@ public:
 	void setNamespace(QString);
 	QString getNamespace();
 	void accept(Visitor&);
+	void setParameters(QVector<Parameter*>);
+	QVector<Parameter*> getParameters();
 private:
 	QString import;
 	QString name_space;
+	QVector<Parameter*> parameters;
 };
 
 #endif // MODULEIMPORT_H

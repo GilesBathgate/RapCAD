@@ -30,6 +30,7 @@ public:
 	void buildScript(QVector<Declaration*>*);
 	Declaration* buildUse(QString*);
 	Declaration* buildUse(QString*,QString*);
+	Declaration* buildUse(QString*,QString*,QVector<Parameter*>*);
 	Declaration* buildDeclaration(Declaration*);
 	QVector<Declaration*>* buildDeclarations();
 	QVector<Declaration*>* buildDeclarations(Declaration*);

@@ -344,7 +344,19 @@ void PrettyPrinter::visit(ModuleImport* decl)
 		result.append(" as ");
 		result.append(name);
 	}
-	result.append("\n");
+	QVector<Parameter*> parameters = decl->getParameters();
+	int s = parameters.size();
+	if(s>0) {
+		result.append("(");
+		for(int i=0; i<s; i++) {
+			parameters.at(i)->accept(*this);
+			if(i+1<s)
+				result.append(",");
+		}
+
+		result.append(")");
+	}
+	result.append(";\n");
 }
 
 void PrettyPrinter::visit(Literal* lit)
