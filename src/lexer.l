@@ -65,6 +65,7 @@ WS [ \t\r\n]
 "!="			{ return tbuilder->buildNotEqual();  }
 "&&"			{ return tbuilder->buildAnd(); }
 "||"			{ return tbuilder->buildOr();  }
+"**"			{ return tbuilder->buildOuterProduct(); }
 ".*"			{ return tbuilder->buildComponentwiseMultiply(); }
 "./"			{ return tbuilder->buildComponentwiseDivide(); }
 [\[\]<>.:!;#${}(),=*/%?\+\-] %{

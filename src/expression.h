@@ -31,6 +31,7 @@ public:
 		ComponentwiseMultiply,
 		Divide,
 		ComponentwiseDivide,
+		OuterProduct,
 		Modulus,
 		Dot,
 		Add,

@@ -88,7 +88,7 @@ AbstractSyntaxTreeBuilder *builder;
 
 %left '!' '+' '-'
 %left '*' '/' '%'
-%left CM CD
+%left CM CD CP
 %left '[' ']'
 %left '.'
 
@@ -276,6 +276,8 @@ expression
 	{ $$ = builder->buildExpression($1,Expression::Divide,$3); }
 	| expression CD expression
 	{ $$ = builder->buildExpression($1,Expression::ComponentwiseDivide,$3); }
+	| expression CP expression
+	{ $$ = builder->buildExpression($1,Expression::OuterProduct,$3); }
 	| expression '%' expression
 	{ $$ = builder->buildExpression($1,Expression::Modulus,$3); }
 	| expression '+' expression

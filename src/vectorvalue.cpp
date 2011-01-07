@@ -42,9 +42,12 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 	QVector<Value*> result;
 	VectorValue* that = dynamic_cast<VectorValue*>(&v);
 	if(that) {
-		if(e==Expression::Multiply||e==Expression::Divide) {
+		if(e==Expression::OuterProduct) {
 			for(int i=0; i<that->children.size(); i++)
 				result.append(Value::operation(this,e,that->children.at(i)));
+		} else if(e==Expression::Multiply || e==Expression::Divide) {
+			//TODO implement multiply and divide
+			return this;
 		} else {
 			e=convertOperation(e);
 			for(int i=0; i<children.size() && i<that->children.size(); i++)
@@ -68,5 +71,7 @@ Expression::Operator_e VectorValue::convertOperation(Expression::Operator_e e)
 		return Expression::Multiply;
 	case Expression::ComponentwiseDivide:
 		return Expression::Divide;
+	case Expression::OuterProduct:
+		return Expression::Multiply;
 	}
 }

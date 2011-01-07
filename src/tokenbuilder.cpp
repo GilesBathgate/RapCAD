@@ -181,6 +181,11 @@ unsigned int TokenBuilder::buildComponentwiseDivide()
 	return CD;
 }
 
+unsigned int TokenBuilder::buildOuterProduct()
+{
+	return CP;
+}
+
 unsigned int TokenBuilder::buildLegalChar(unsigned int c)
 {
 	return c;

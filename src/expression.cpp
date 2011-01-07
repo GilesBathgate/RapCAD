@@ -43,6 +43,9 @@ QString Expression::getOpString()
 	case ComponentwiseDivide:
 		result.append("./");
 		break;
+	case OuterProduct:
+		result.append("**");
+		break;
 	case Modulus:
 		result.append('%');
 		break;

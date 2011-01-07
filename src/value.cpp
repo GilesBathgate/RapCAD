@@ -59,6 +59,11 @@ Value* Value::componentwiseDivide(Value& v)
 	return operation(v,Expression::ComponentwiseDivide);
 }
 
+Value* Value::outerProduct(Value& v)
+{
+	return operation(v,Expression::OuterProduct);
+}
+
 Value* Value::operator%(Value& v)
 {
 	return operation(v,Expression::Modulus);
@@ -157,6 +162,8 @@ Value* Value::operation(Value* p_left, Expression::Operator_e e, Value* p_right)
 		return left/right;
 	case Expression::ComponentwiseDivide:
 		return left.componentwiseDivide(right);
+	case Expression::OuterProduct:
+		return left.outerProduct(right);
 	case Expression::Modulus:
 		return left%right;
 	case Expression::Add:
