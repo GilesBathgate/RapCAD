@@ -35,22 +35,22 @@ public:
 
 	QVector<Value*> arguments;
 	QVector<Value*> parameters;
-	Value* currentvalue;
-	Scope* currentscope;
-	QString currentname;
+	Value* currentValue;
+	Scope* currentScope;
+	QString currentName;
 
-	Value* lookupvariable(QString);
-	void addvariable(Value*);
+	Value* lookupVariable(QString);
+	void addVariable(Value*);
 
-	Module* lookupmodule(QString);
-	void addmodule(Module* mod);
+	Module* lookupModule(QString);
+	void addModule(Module* mod);
 
-	Function* lookupfunction(QString);
-	void addfunction(Function*);
+	Function* lookupFunction(QString);
+	void addFunction(Function*);
 
-	void args(QVector<Value*>,QVector<Value*>);
+	void setArguments(QVector<Value*>,QVector<Value*>);
 private:
-	QHash<QString, Value*> variables;
+	QHash<QString,Value*> variables;
 	QHash<QString,Module*> modules;
 	QHash<QString,Function*> functions;
 	bool contains(QVector<Value*>,QString);

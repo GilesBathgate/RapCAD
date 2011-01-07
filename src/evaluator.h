@@ -74,11 +74,11 @@ public:
 	void visit(Variable*);
 	void visit(Script*);
 private:
-	void startcontext();
-	void finishcontext();
+	void startContext();
+	void finishContext();
 
 	Context* context;
-	QStack<Context*> context_stack;
+	QStack<Context*> contextStack;
 };
 
 #endif // EVALUATOR_H

@@ -22,14 +22,14 @@
 Context::Context()
 {
 	parent=NULL;
-	currentvalue=NULL;
-	currentscope=NULL;
+	currentValue=NULL;
+	currentScope=NULL;
 }
 
-Module* Context::lookupmodule(QString name)
+Module* Context::lookupModule(QString name)
 {
 	if(!modules.contains(name)) {
-		foreach(Declaration* d,currentscope->getDeclarations()) {
+		foreach(Declaration* d,currentScope->getDeclarations()) {
 			Module* mod = dynamic_cast<Module*>(d);
 			if(mod && mod->getName() == name) {
 				modules.insert(name,mod);
@@ -37,55 +37,55 @@ Module* Context::lookupmodule(QString name)
 			}
 		}
 		if(parent)
-			return parent->lookupmodule(name);
+			return parent->lookupModule(name);
 	}
 
 	return modules.value(name);
 }
 
-Function* Context::lookupfunction(QString name)
+Function* Context::lookupFunction(QString name)
 {
 	if(!functions.contains(name)) {
-		foreach(Declaration* d,currentscope->getDeclarations()) {
+		foreach(Declaration* d,currentScope->getDeclarations()) {
 			Function* func = dynamic_cast<Function*>(d);
 			if(func && func->getName() == name) {
 				functions.insert(name,func);
 				break;
 			}
 			if(parent)
-				return parent->lookupfunction(name);
+				return parent->lookupFunction(name);
 		}
 	}
 
 	return functions.value(name);
 }
 
-void Context::addvariable(Value* v)
+void Context::addVariable(Value* v)
 {
 	variables.insert(v->getName(),v);
 }
 
-Value* Context::lookupvariable(QString name)
+Value* Context::lookupVariable(QString name)
 {
 	if(variables.contains(name))
 		return variables.value(name);
 	else if(parent)
-		return parent->lookupvariable(name);
+		return parent->lookupVariable(name);
 	else
 		return new Value(); //undef
 }
 
-void Context::addmodule(Module* mod)
+void Context::addModule(Module* mod)
 {
 	modules.insert(mod->getName(),mod);
 }
 
-void Context::addfunction(Function* func)
+void Context::addFunction(Function* func)
 {
 	functions.insert(func->getName(),func);
 }
 
-void Context::args(QVector<Value*> args, QVector<Value*> params)
+void Context::setArguments(QVector<Value*> args, QVector<Value*> params)
 {
 	for(int i=0; i<params.size(); i++) {
 		QString name = args.at(i)->getName();

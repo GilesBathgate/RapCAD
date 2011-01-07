@@ -23,25 +23,25 @@
 Evaluator::Evaluator()
 {
 	context=NULL;
-	startcontext();
+	startContext();
 }
 
 Evaluator::~Evaluator()
 {
 }
 
-void Evaluator::startcontext()
+void Evaluator::startContext()
 {
 	Context* parent = context;
 	context = new Context();
 	context->parent = parent;
-	context_stack.push(context);
+	contextStack.push(context);
 }
 
-void Evaluator::finishcontext()
+void Evaluator::finishContext()
 {
-	context_stack.pop();
-	context=context_stack.top();
+	contextStack.pop();
+	context=contextStack.top();
 }
 
 void Evaluator::visit(ModuleScope* scp)
@@ -49,21 +49,21 @@ void Evaluator::visit(ModuleScope* scp)
 	QVector<Value*> arguments = context->arguments;
 	QVector<Value*> parameters = context->parameters;
 
-	startcontext();
-	context->currentscope = scp;
+	startContext();
+	context->currentScope = scp;
 
-	context->args(arguments,parameters);
+	context->setArguments(arguments,parameters);
 
 	foreach(Declaration* d, scp->getDeclarations())
 		d->accept(*this);
 
-	finishcontext();
+	finishContext();
 }
 
 void Evaluator::visit(Instance* inst)
 {
 	QString name = inst->getName();
-	Module* mod = context->lookupmodule(name);
+	Module* mod = context->lookupModule(name);
 	if(mod) {
 		foreach(Argument* arg, inst->getArguments())
 			arg->accept(*this);
@@ -84,12 +84,12 @@ void Evaluator::visit(Instance* inst)
 
 void Evaluator::visit(Module* mod)
 {
-	context->addmodule(mod);
+	context->addModule(mod);
 }
 
 void Evaluator::visit(Function* func)
 {
-	context->addfunction(func);
+	context->addFunction(func);
 }
 
 void Evaluator::visit(FunctionScope* scp)
@@ -97,10 +97,10 @@ void Evaluator::visit(FunctionScope* scp)
 	QVector<Value*> arguments = context->arguments;
 	QVector<Value*> parameters = context->parameters;
 
-	startcontext();
-	context->currentscope = scp;
+	startContext();
+	context->currentScope = scp;
 
-	context->args(arguments,parameters);
+	context->setArguments(arguments,parameters);
 
 	Expression* e=scp->getExpression();
 	e->accept(*this);
@@ -108,9 +108,9 @@ void Evaluator::visit(FunctionScope* scp)
 	//s->accept(*this);
 
 	//"pop" our return value
-	Value* v = context->currentvalue;
-	finishcontext();
-	context->currentvalue=v;
+	Value* v = context->currentValue;
+	finishContext();
+	context->currentValue=v;
 }
 
 void Evaluator::visit(CompoundStatement* stmt)
@@ -135,7 +135,7 @@ void Evaluator::visit(Parameter* param)
 	Expression* e = param->getExpression();
 	if(e) {
 		e->accept(*this);
-		v = context->currentvalue;
+		v = context->currentValue;
 	} else {
 		v = new Value();
 	}
@@ -147,14 +147,14 @@ void Evaluator::visit(Parameter* param)
 void Evaluator::visit(BinaryExpression* exp)
 {
 	exp->getLeft()->accept(*this);
-	Value* left=context->currentvalue;
+	Value* left=context->currentValue;
 
 	exp->getRight()->accept(*this);
-	Value* right=context->currentvalue;
+	Value* right=context->currentValue;
 
 	Value* result = Value::operation(left,exp->getOp(),right);
 
-	context->currentvalue=result;
+	context->currentValue=result;
 }
 
 void Evaluator::visit(Argument* arg)
@@ -163,13 +163,13 @@ void Evaluator::visit(Argument* arg)
 	Variable* var = arg->getVariable();
 	if(var) {
 		var->accept(*this);
-		name=context->currentname;
+		name=context->currentName;
 	} else {
 		name="";
 	}
 
 	arg->getExpression()->accept(*this);
-	Value* v = context->currentvalue;
+	Value* v = context->currentValue;
 
 	v->setName(name);
 	context->arguments.append(v);
@@ -178,13 +178,13 @@ void Evaluator::visit(Argument* arg)
 void Evaluator::visit(AssignStatement* stmt)
 {
 	stmt->getVariable()->accept(*this);
-	QString name = context->currentname;
+	QString name = context->currentName;
 
 	stmt->getExpression()->accept(*this);
-	Value* v = context->currentvalue;
+	Value* v = context->currentValue;
 
 	v->setName(name);
-	context->addvariable(v);
+	context->addVariable(v);
 }
 
 void Evaluator::visit(VectorExpression* exp)
@@ -192,11 +192,11 @@ void Evaluator::visit(VectorExpression* exp)
 	QVector<Value*> childvalues;
 	foreach(Expression* e, exp->getChildren()) {
 		e->accept(*this);
-		childvalues.append(context->currentvalue);
+		childvalues.append(context->currentValue);
 	}
 
 	Value* v = new VectorValue(childvalues);
-	context->currentvalue=v;
+	context->currentValue=v;
 }
 
 void Evaluator::visit(RangeExpression* exp)
@@ -206,11 +206,11 @@ void Evaluator::visit(RangeExpression* exp)
 void Evaluator::visit(UnaryExpression* exp)
 {
 	exp->getExpression()->accept(*this);
-	Value* left=context->currentvalue;
+	Value* left=context->currentValue;
 
 	Value* result = Value::operation(left,exp->getOp());
 
-	context->currentvalue=result;
+	context->currentValue=result;
 }
 
 void Evaluator::visit(ReturnStatement* stmt)
@@ -224,7 +224,7 @@ void Evaluator::visit(TernaryExpression* exp)
 void Evaluator::visit(Invocation* stmt)
 {
 	QString name = stmt->getName();
-	Function* func = context->lookupfunction(name);
+	Function* func = context->lookupFunction(name);
 	if(func) {
 		foreach(Argument* arg, stmt->getArguments())
 			arg->accept(*this);
@@ -249,16 +249,16 @@ void Evaluator::visit(Literal* lit)
 {
 	Value* v= lit->getValue();
 
-	context->currentvalue=v;
+	context->currentValue=v;
 }
 
 void Evaluator::visit(Variable* var)
 {
 	QString name = var->getName();
-	Value* v=context->lookupvariable(name);
+	Value* v=context->lookupVariable(name);
 
-	context->currentvalue=v;
-	context->currentname=name;
+	context->currentValue=v;
+	context->currentName=name;
 }
 
 void Evaluator::visit(Script* sc)
@@ -266,7 +266,7 @@ void Evaluator::visit(Script* sc)
 	//TODO add our "builtin" here for now
 	sc->addDeclaration(new EchoModule());
 
-	context->currentscope = sc;
+	context->currentScope = sc;
 	foreach(Declaration* d, sc->getDeclarations())
 		d->accept(*this);
 }
