@@ -1,0 +1,56 @@
+//Not
+echo("===Not===");
+echo(!false);
+echo(!true);
+
+//Negate
+echo("===Negate===");
+echo(-false);
+echo(-true);
+
+//Unary Plus
+echo("===Unary Plus===");
+echo(+false);
+echo(+true);
+
+//Add
+echo("===Add===");
+echo(false+false);
+echo(false+true);
+echo(true+false);
+echo(true+true);
+
+//Subtract
+echo("===Subtract===");
+echo(false-false);
+echo(false-true);
+echo(true-false);
+echo(true-true);
+
+//And
+echo("===And===");
+echo(false&&false);
+echo(false&&true);
+echo(true&&false);
+echo(true&&true);
+
+//Or
+echo("===Or===");
+echo(false||false);
+echo(false||true);
+echo(true||false);
+echo(true||true);
+
+//Multiply
+echo("===Multiply===");
+echo(false*false);
+echo(false*true);
+echo(true*false);
+echo(true*true);
+
+//Divide
+echo("===Divide===");
+//echo(false/false); divide by zero
+echo(false/true);
+//echo(true/false); divide by zero
+echo(true/true);
