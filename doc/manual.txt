@@ -16,20 +16,34 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////
 
-RapCAD Manual
-=============
+RapCAD(1) Manual Page
+=====================
+:doctype: manpage
 Giles Bathgate <gilesbathgate.nospam@gmail.com>
 version 0.1
 
-Echo
+OPTIONS
+-------
+*-f* 'FILE'::
+    Parse and evaluate the given file. Any output will be printed on stdout.
+
+*-t* 'TEXT'::
+    Parse and evaluate the text supplied on the commandline. Any output will be printed on stdout. 
+
+ECHO
 ----
 
-The echo module allows you to debug values that are evaluated as part of your script. You can pass more than one parameter to echo and it will be output to the console. Named parameters are allowed but the names will not be echo'ed.
+The echo module allows you to debug values that are evaluated as part of your script. You can pass more than one argument to echo and it will be output to the console. Named arguments are allowed but the names will not be echo'ed.
 
 .Syntax
 ******************************
-echo(<expression>);
-echo(<expression>,<expression>...);
+<argument> ::= ::
+	<expression> +
+	<identifier> = <expression>
+
+<echo> ::= ::
+	echo(<argument>); +
+	echo(<argument> , <argument>...);
 ******************************
 
 .Examples
@@ -40,16 +54,16 @@ echo(a=1,b=2);
 ------------------------------
 
 
-Vector expressions
+VECTOR EXPRESSIONS
 ------------------
 .Syntax
 ******************************
-expression::
-	[ vector_expression ]
+<expression> ::=::
+	[ <vector_expression> ]
 
-vector_expression::
-	expression +
-	vector_expression , expression
+<vector_expression> ::=::
+	<expression> +
+	<vector_expression> , <expression>
 ******************************
 
 .Examples
