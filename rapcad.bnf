@@ -1,0 +1,188 @@
+input
+	: //empty
+	| use_declaration input
+	| single_declaration_list
+	;
+
+use_declaration
+	: USE
+	| USE AS IDENTIFIER ';'
+	| USE AS IDENTIFIER '(' parameters ')' ';'
+	;
+
+single_declaration_list
+	: single_declaration
+	| single_declaration_list single_declaration
+	;
+
+declaration_list
+	: declaration
+	| declaration_list declaration
+	;
+
+compound_declaration
+	: '{' '}'
+	| '{' declaration_list '}'
+	;
+
+single_declaration
+	: single_statement
+	| define_declaration
+	;
+
+declaration
+	: statement
+	| define_declaration
+	;
+
+define_declaration
+	: MODULE IDENTIFIER '(' parameters ')' module_scope
+	| FUNCTION IDENTIFIER '(' parameters ')' function_scope
+	;
+
+module_scope
+	: compound_declaration
+	| module_instance
+	;
+
+function_scope
+	: '=' expression ';'
+	| compound_statement
+	;
+
+statement
+	: single_statement
+	| compound_statement
+	;
+
+single_statement
+	: module_instance
+	| assign_statement ';'
+	| ifelse_statement
+	| for_statement
+        | return_statement;
+        ;
+
+return_statement
+        : RETURN expression ';'
+	;
+
+compound_statement
+	: '{' '}'
+	| '{' statement_list '}'
+	;
+
+statement_list
+	: statement
+	| statement_list statement
+	;
+
+assign_statement
+	: variable '=' expression
+	| CONST IDENTIFIER '=' expression
+	| PARAM IDENTIFIER '=' expression
+	;
+
+ifelse_statement
+	: IF '(' expression ')' statement
+	| IF '(' expression ')' statement ELSE statement
+	;
+
+for_statement
+	: FOR '(' arguments ')' statement
+	;
+
+variable
+	: IDENTIFIER
+	| '$' IDENTIFIER
+	;
+
+expression
+	: TOK_TRUE
+	| TOK_FALSE
+	| UNDEF
+	| variable
+	| expression '.' IDENTIFIER
+	| STRING
+	| NUMBER
+	| '[' expression ':' expression ']'
+	| '[' expression ':' expression ':' expression ']'
+	| '[' vector_expression ']'
+	| expression '*' expression
+	| expression CM expression
+	| expression '/' expression
+	| expression CD expression
+	| expression CP expression
+	| expression '%' expression
+	| expression '+' expression
+	| expression '-' expression
+	| expression '<' expression
+	| expression LE expression
+	| expression EQ expression
+	| expression NE expression
+	| expression GE expression
+	| expression '>' expression
+	| expression AND expression
+	| expression OR expression
+	| '+' expression
+	| '-' expression
+	| '!' expression
+	| '(' expression ')'
+	| expression '?' expression ':' expression
+	| expression '[' expression ']'
+	| IDENTIFIER '(' arguments ')'
+	;
+
+vector_expression
+	: //empty
+	| expression
+	| vector_expression ',' optional_commas expression
+	;
+
+parameters
+	: //empty
+	| parameter 
+	| parameters ',' parameter
+	;
+
+parameter
+	: IDENTIFIER
+	| IDENTIFIER '=' expression
+	;
+
+compound_instance
+	: '{' '}'
+	| '{' statement_list '}'
+	| module_instance
+	;
+
+module_instance
+	: single_instance ';'
+	| single_instance compound_instance
+	;
+
+single_instance
+	: IDENTIFIER ':' single_instance
+	| IDENTIFIER '(' arguments ')'
+	| '!' single_instance
+	| '#' single_instance
+	| '%' single_instance
+	| '*' single_instance
+	;
+
+arguments
+	: //empty
+	| argument
+	| arguments ',' optional_commas argument
+	;
+
+optional_commas
+	: //empty
+	| ',' optional_commas
+	;
+
+argument
+	: expression
+	| variable '=' expression
+	;
+
