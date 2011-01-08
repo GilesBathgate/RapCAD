@@ -21,6 +21,25 @@ RapCAD Manual
 Giles Bathgate <gilesbathgate.nospam@gmail.com>
 version 0.1
 
+Echo
+----
+
+The echo module allows you to debug values that are evaluated as part of your script. You can pass more than one parameter to echo and it will be output to the console. Named parameters are allowed but the names will not be echo'ed.
+
+.Syntax
+******************************
+echo(<expression>);
+echo(<expression>,<expression>...);
+******************************
+
+.Examples
+------------------------------
+echo(53+9);
+echo([32,24,10]);
+echo(a=1,b=2);
+------------------------------
+
+
 Vector expressions
 ------------------
 .Syntax
