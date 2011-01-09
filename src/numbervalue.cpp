@@ -32,7 +32,7 @@ QString NumberValue::getValueString()
 
 bool NumberValue::isTrue()
 {
-    return this->number!=0;
+	return this->number!=0;
 }
 
 Value* NumberValue::operation(Expression::Operator_e e)

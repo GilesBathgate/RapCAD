@@ -135,12 +135,12 @@ void Evaluator::visit(CompoundStatement* stmt)
 
 void Evaluator::visit(IfElseStatement* ifelse)
 {
-    ifelse->getExpression()->accept(*this);
-    Value* v = context->currentValue;
-    if(v->isTrue())
-	ifelse->getTrueStatement()->accept(*this);
-    else
-	ifelse->getFalseStatement()->accept(*this);
+	ifelse->getExpression()->accept(*this);
+	Value* v = context->currentValue;
+	if(v->isTrue())
+		ifelse->getTrueStatement()->accept(*this);
+	else
+		ifelse->getFalseStatement()->accept(*this);
 }
 
 void Evaluator::visit(ForStatement* forstmt)
@@ -242,6 +242,13 @@ void Evaluator::visit(ReturnStatement* stmt)
 
 void Evaluator::visit(TernaryExpression* exp)
 {
+	exp->getCondition()->accept(*this);
+	Value* v = context->currentValue;
+	if(v->isTrue())
+		exp->getTrueExpression()->accept(*this);
+	else
+		exp->getFalseExpression()->accept(*this);
+
 }
 
 void Evaluator::visit(Invocation* stmt)

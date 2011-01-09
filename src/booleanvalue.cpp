@@ -30,7 +30,7 @@ QString BooleanValue::getValueString()
 
 bool BooleanValue::isTrue()
 {
-    return this->boolean;
+	return this->boolean;
 }
 
 Value* BooleanValue::operation(Expression::Operator_e e)

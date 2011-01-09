@@ -30,7 +30,7 @@ QString TextValue::getValueString()
 
 bool TextValue::isTrue()
 {
-    return !this->text.isEmpty();
+	return !this->text.isEmpty();
 }
 
 Value* TextValue::operation(Value& v,Expression::Operator_e e)

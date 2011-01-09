@@ -39,7 +39,7 @@ QString VectorValue::getValueString()
 
 bool VectorValue::isTrue()
 {
-    return this->children.size()>0;
+	return this->children.size()>0;
 }
 
 Value* VectorValue::operation(Value& v, Expression::Operator_e e)
