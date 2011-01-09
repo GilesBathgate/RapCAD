@@ -6,5 +6,10 @@ function body(a)
 	return b;
 }
 
+function noreturn()
+{
+}
+
 echo(inline(5));
 echo(body(3));
+echo(noreturn());

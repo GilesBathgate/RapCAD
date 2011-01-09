@@ -120,6 +120,9 @@ void Evaluator::visit(FunctionScope* scp)
 
 	//"pop" our return value
 	Value* v = context->returnValue;
+	if(!v)
+	    v=new Value();
+
 	finishContext();
 	context->currentValue=v;
 }
