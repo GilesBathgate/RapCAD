@@ -36,6 +36,7 @@ public:
 	QVector<Value*> arguments;
 	QVector<Value*> parameters;
 	Value* currentValue;
+	Value* returnValue;
 	Scope* currentScope;
 	QString currentName;
 

@@ -1,0 +1,10 @@
+function inline(a) = a+1;
+
+function body(a)
+{
+	b=a+1;
+	return b;
+}
+
+echo(inline(5));
+echo(body(3));

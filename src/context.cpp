@@ -23,6 +23,7 @@ Context::Context()
 {
 	parent=NULL;
 	currentValue=NULL;
+	returnValue=NULL;
 	currentScope=NULL;
 }
 

@@ -19,6 +19,7 @@
 #include "evaluator.h"
 #include "echomodule.h"
 #include "vectorvalue.h"
+#include <stdio.h>
 
 Evaluator::Evaluator()
 {
@@ -56,6 +57,9 @@ void Evaluator::visit(ModuleScope* scp)
 
 	foreach(Declaration* d, scp->getDeclarations())
 		d->accept(*this);
+
+	if(context->returnValue)
+	    printf("Warning: return statement not valid inside module scope.\n");
 
 	finishContext();
 }
@@ -103,12 +107,19 @@ void Evaluator::visit(FunctionScope* scp)
 	context->setArguments(arguments,parameters);
 
 	Expression* e=scp->getExpression();
-	e->accept(*this);
-	//foreach(Statement* s, scp->getStatements())
-	//s->accept(*this);
+	if(e) {
+	    e->accept(*this);
+	    context->returnValue = context->currentValue;
+	} else {
+	    foreach(Statement* s, scp->getStatements()) {
+		s->accept(*this);
+		if(context->returnValue)
+		    break;
+	    }
+	}
 
 	//"pop" our return value
-	Value* v = context->currentValue;
+	Value* v = context->returnValue;
 	finishContext();
 	context->currentValue=v;
 }
@@ -215,6 +226,9 @@ void Evaluator::visit(UnaryExpression* exp)
 
 void Evaluator::visit(ReturnStatement* stmt)
 {
+    Expression* e = stmt->getExpression();
+    e->accept(*this);
+    context->returnValue = context->currentValue;
 }
 
 void Evaluator::visit(TernaryExpression* exp)
@@ -269,4 +283,7 @@ void Evaluator::visit(Script* sc)
 	context->currentScope = sc;
 	foreach(Declaration* d, sc->getDeclarations())
 		d->accept(*this);
+
+	if(context->returnValue)
+	    printf("Warning: return statement not valid inside global scope.\n");
 }
