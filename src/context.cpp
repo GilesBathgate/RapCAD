@@ -46,22 +46,22 @@ Module* Context::lookupModule(QString name)
 
 Function* Context::lookupFunction(QString name)
 {
-    if(!functions.contains(name)) {
-	//We are not looking for the function within the function
-	//scope (which is invalid syntax) but rather in the current
-	//scope which could be a module or script
-	foreach(Declaration* d,currentScope->getDeclarations()) {
-	    Function* func = dynamic_cast<Function*>(d);
-	    if(func && func->getName() == name) {
-		functions.insert(name,func);
-		return func;
-	    }
+	if(!functions.contains(name)) {
+		//We are not looking for the function within the function
+		//scope (which is invalid syntax) but rather in the current
+		//scope which could be a module or script
+		foreach(Declaration* d,currentScope->getDeclarations()) {
+			Function* func = dynamic_cast<Function*>(d);
+			if(func && func->getName() == name) {
+				functions.insert(name,func);
+				return func;
+			}
+		}
+		if(parent)
+			return parent->lookupFunction(name);
 	}
-	if(parent)
-	    return parent->lookupFunction(name);
-    }
 
-    return functions.value(name);
+	return functions.value(name);
 }
 
 void Context::addVariable(Value* v)

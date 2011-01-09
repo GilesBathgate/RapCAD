@@ -59,7 +59,7 @@ void Evaluator::visit(ModuleScope* scp)
 		d->accept(*this);
 
 	if(context->returnValue)
-	    printf("Warning: return statement not valid inside module scope.\n");
+		printf("Warning: return statement not valid inside module scope.\n");
 
 	finishContext();
 }
@@ -108,20 +108,20 @@ void Evaluator::visit(FunctionScope* scp)
 
 	Expression* e=scp->getExpression();
 	if(e) {
-	    e->accept(*this);
-	    context->returnValue = context->currentValue;
+		e->accept(*this);
+		context->returnValue = context->currentValue;
 	} else {
-	    foreach(Statement* s, scp->getStatements()) {
-		s->accept(*this);
-		if(context->returnValue)
-		    break;
-	    }
+		foreach(Statement* s, scp->getStatements()) {
+			s->accept(*this);
+			if(context->returnValue)
+				break;
+		}
 	}
 
 	//"pop" our return value
 	Value* v = context->returnValue;
 	if(!v)
-	    v=new Value();
+		v=new Value();
 
 	finishContext();
 	context->currentValue=v;
@@ -229,9 +229,9 @@ void Evaluator::visit(UnaryExpression* exp)
 
 void Evaluator::visit(ReturnStatement* stmt)
 {
-    Expression* e = stmt->getExpression();
-    e->accept(*this);
-    context->returnValue = context->currentValue;
+	Expression* e = stmt->getExpression();
+	e->accept(*this);
+	context->returnValue = context->currentValue;
 }
 
 void Evaluator::visit(TernaryExpression* exp)
@@ -288,5 +288,5 @@ void Evaluator::visit(Script* sc)
 		d->accept(*this);
 
 	if(context->returnValue)
-	    printf("Warning: return statement not valid inside global scope.\n");
+		printf("Warning: return statement not valid inside global scope.\n");
 }
