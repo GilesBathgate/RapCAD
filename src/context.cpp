@@ -34,7 +34,7 @@ Module* Context::lookupModule(QString name)
 			Module* mod = dynamic_cast<Module*>(d);
 			if(mod && mod->getName() == name) {
 				modules.insert(name,mod);
-				break;
+				return mod;
 			}
 		}
 		if(parent)
@@ -51,7 +51,7 @@ Function* Context::lookupFunction(QString name)
 			Function* func = dynamic_cast<Function*>(d);
 			if(func && func->getName() == name) {
 				functions.insert(name,func);
-				break;
+				return func;
 			}
 			if(parent)
 				return parent->lookupFunction(name);

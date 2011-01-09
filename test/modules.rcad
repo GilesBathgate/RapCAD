@@ -1,0 +1,10 @@
+module first(a,b)
+{
+	second(a,b);
+	module second(c,d)
+	{
+		echo(c,d);
+	}
+}
+
+first(1,2);
