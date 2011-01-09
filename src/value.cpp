@@ -38,6 +38,10 @@ QString Value::getValueString()
 	return "undef";
 }
 
+bool Value::isTrue()
+{
+	return false;
+}
 
 Value* Value::operator*(Value& v)
 {

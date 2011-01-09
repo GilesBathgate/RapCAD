@@ -28,6 +28,11 @@ QString BooleanValue::getValueString()
 	return this->boolean ? "true" : "false";
 }
 
+bool BooleanValue::isTrue()
+{
+    return this->boolean;
+}
+
 Value* BooleanValue::operation(Expression::Operator_e e)
 {
 	bool result = Value::basicOperation<bool,bool>(this->boolean,e);

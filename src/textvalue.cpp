@@ -28,9 +28,9 @@ QString TextValue::getValueString()
 	return this->text;
 }
 
-Value* TextValue::operator+(Value& v)
+bool TextValue::isTrue()
 {
-	return operation(v,Expression::Add);
+    return !this->text.isEmpty();
 }
 
 Value* TextValue::operation(Value& v,Expression::Operator_e e)

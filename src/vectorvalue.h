@@ -27,6 +27,7 @@ class VectorValue : public Value
 public:
 	VectorValue(QVector<Value*>);
 	QString getValueString();
+	bool isTrue();
 private:
 	Value* operation(Value&,Expression::Operator_e);
 	Expression::Operator_e convertOperation(Expression::Operator_e);

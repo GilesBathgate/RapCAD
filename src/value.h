@@ -29,6 +29,7 @@ public:
 	void setName(QString);
 	QString getName();
 	virtual QString getValueString();
+	virtual bool isTrue();
 	Value* operator*(Value&);
 	Value* componentwiseMultiply(Value&);
 	Value* operator/(Value&);

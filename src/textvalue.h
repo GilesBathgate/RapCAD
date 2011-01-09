@@ -26,7 +26,7 @@ class TextValue : public Value
 public:
 	TextValue(QString);
 	QString getValueString();
-	Value* operator+(Value&);
+	bool isTrue();
 private:
 	Value* operation(Value&,Expression::Operator_e);
 	QString operation(QString,Expression::Operator_e,QString);

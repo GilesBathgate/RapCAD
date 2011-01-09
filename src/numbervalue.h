@@ -26,6 +26,7 @@ class NumberValue : public Value
 public:
 	NumberValue(double);
 	QString getValueString();
+	bool isTrue();
 private:
 	Value* operation(Expression::Operator_e);
 	Value* operation(Value&,Expression::Operator_e);

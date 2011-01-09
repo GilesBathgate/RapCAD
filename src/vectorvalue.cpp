@@ -37,6 +37,11 @@ QString VectorValue::getValueString()
 	return result;
 }
 
+bool VectorValue::isTrue()
+{
+    return this->children.size()>0;
+}
+
 Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 {
 	QVector<Value*> result;

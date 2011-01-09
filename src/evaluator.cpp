@@ -135,6 +135,12 @@ void Evaluator::visit(CompoundStatement* stmt)
 
 void Evaluator::visit(IfElseStatement* ifelse)
 {
+    ifelse->getExpression()->accept(*this);
+    Value* v = context->currentValue;
+    if(v->isTrue())
+	ifelse->getTrueStatement()->accept(*this);
+    else
+	ifelse->getFalseStatement()->accept(*this);
 }
 
 void Evaluator::visit(ForStatement* forstmt)
