@@ -18,10 +18,16 @@
 
 #include "rangeiterator.h"
 
-RangeIterator::RangeIterator(RangeValue* range)
+RangeIterator::RangeIterator(RangeValue* rng)
 {
-	this->range=range;
-	this->defaultStep=new NumberValue(1);
+	range=rng;
+	step = range->getStep();
+	if(!step) {
+		defaultStep=new NumberValue(1);
+		step=defaultStep;
+	} else {
+		defaultStep=NULL;
+	}
 }
 
 RangeIterator::~RangeIterator()
@@ -31,27 +37,22 @@ RangeIterator::~RangeIterator()
 
 void RangeIterator::first()
 {
-	this->index=this->range->getStart();
+	index=range->getStart();
 }
 
 void RangeIterator::next()
 {
-	Value& i = *this->index;
-
-	Value* step = this->range->getStep();
-	if(!step)
-		step = defaultStep;
-
-	Value& s = *step;
-	this->index=i+s;
+	Value& i=*index;
+	Value& s=*step;
+	index=i+s;
 }
 
 bool RangeIterator::isDone()
 {
-	Value& f = *this->range->getFinish();
-	Value& i = *this->index;
+	Value& f=*range->getFinish();
+	Value& i=*index;
 
-	Value* v = i>f;
+	Value* v=i>f;
 
 	return v->isTrue();
 }

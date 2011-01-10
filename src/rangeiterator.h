@@ -36,6 +36,7 @@ public:
 private:
 	RangeValue* range;
 	Value* index;
+	Value* step;
 	NumberValue* defaultStep;
 };
 
