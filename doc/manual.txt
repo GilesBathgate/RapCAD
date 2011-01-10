@@ -19,7 +19,7 @@
 RapCAD(1) Manual Page
 =====================
 :doctype: manpage
-Giles Bathgate <gilesbathgate.nospam@gmail.com>
+Giles Bathgate <giles.bathgate@gmail.com>
 version 0.1
 
 OPTIONS
