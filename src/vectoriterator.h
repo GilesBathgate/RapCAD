@@ -16,38 +16,24 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "textvalue.h"
+#ifndef VECTORITERATOR_H
+#define VECTORITERATOR_H
 
-TextValue::TextValue(QString value)
+#include <QVector>
+#include "iterator.h"
+#include "value.h"
+
+class VectorIterator : public Iterator<Value*>
 {
-	this->text=value;
-}
+public:
+	VectorIterator(QVector<Value*> items);
+	void first();
+	void next();
+	bool isDone();
+	Value* currentItem() const;
+private:
+	QVector<Value*> items;
+	int index;
+};
 
-QString TextValue::getValueString()
-{
-	return this->text;
-}
-
-bool TextValue::isTrue()
-{
-	return !this->text.isEmpty();
-}
-
-Value* TextValue::operation(Value& v,Expression::Operator_e e)
-{
-	TextValue* that=dynamic_cast<TextValue*>(&v);
-	if(that)
-		return new TextValue(operation(this->text,e,that->text));
-
-	return this;
-}
-
-QString TextValue::operation(QString left, Expression::Operator_e e, QString right)
-{
-	switch(e) {
-	case Expression::Add:
-		return left.append(right);
-	default:
-		return this->text;
-	}
-}
+#endif // VECTORITERATOR_H

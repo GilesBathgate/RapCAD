@@ -1,0 +1,21 @@
+for(i=1) echo(i);
+
+for(i="Pass") echo(i);
+
+for(r=[1:10]) echo(r);
+
+for(j=[0:2:10]) echo(j);
+
+//Test multiple statements inside for
+for(i=[1,2,3]){
+echo(i);
+echo(i*2);
+echo("Pass");
+}
+
+//Test assignment inside for
+a=5;
+for(i=[1:3]){
+a=a+1;
+echo(a);
+}

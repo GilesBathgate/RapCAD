@@ -28,6 +28,7 @@ public:
 	VectorValue(QVector<Value*>);
 	QString getValueString();
 	bool isTrue();
+	Iterator<Value*>* createIterator();
 private:
 	Value* operation(Value&,Expression::Operator_e);
 	Expression::Operator_e convertOperation(Expression::Operator_e);

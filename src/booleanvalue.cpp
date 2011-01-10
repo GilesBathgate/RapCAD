@@ -46,4 +46,6 @@ Value* BooleanValue::operation(Value& v,Expression::Operator_e e)
 		bool result = Value::basicOperation<bool,bool>(this->boolean,e,that->boolean);
 		return new BooleanValue(result);
 	}
+
+	return this;
 }

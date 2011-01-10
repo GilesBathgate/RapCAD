@@ -18,6 +18,7 @@
 
 #include "vectorvalue.h"
 #include "numbervalue.h"
+#include "vectoriterator.h"
 
 VectorValue::VectorValue(QVector<Value*> values)
 {
@@ -40,6 +41,11 @@ QString VectorValue::getValueString()
 bool VectorValue::isTrue()
 {
 	return this->children.size()>0;
+}
+
+Iterator<Value*>* VectorValue::createIterator()
+{
+	return new VectorIterator(this->children);
 }
 
 Value* VectorValue::operation(Value& v, Expression::Operator_e e)
@@ -78,5 +84,7 @@ Expression::Operator_e VectorValue::convertOperation(Expression::Operator_e e)
 		return Expression::Divide;
 	case Expression::OuterProduct:
 		return Expression::Multiply;
+	default:
+		return e;
 	}
 }

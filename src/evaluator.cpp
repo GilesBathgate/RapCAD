@@ -19,6 +19,7 @@
 #include "evaluator.h"
 #include "echomodule.h"
 #include "vectorvalue.h"
+#include "rangevalue.h"
 #include <stdio.h>
 
 Evaluator::Evaluator()
@@ -145,6 +146,30 @@ void Evaluator::visit(IfElseStatement* ifelse)
 
 void Evaluator::visit(ForStatement* forstmt)
 {
+	foreach(Argument* arg, forstmt->getArguments())
+		arg->accept(*this);
+
+	//TODO for now just consider the first arg.
+	Value* first = context->arguments.at(0);
+	Scope* scp = context->currentScope;
+	startContext();
+	context->currentScope=scp;
+
+	Iterator<Value*>* i = first->createIterator();
+	for(i->first(); !i->isDone(); i->next()) {
+
+		Value* v = i->currentItem();
+		v->setName(first->getName());
+		context->addVariable(v);
+
+		forstmt->getStatement()->accept(*this);
+
+	}
+	delete i;
+
+	finishContext();
+
+	context->arguments.clear();
 }
 
 void Evaluator::visit(Parameter* param)
@@ -221,6 +246,21 @@ void Evaluator::visit(VectorExpression* exp)
 
 void Evaluator::visit(RangeExpression* exp)
 {
+	exp->getStart()->accept(*this);
+	Value* start = context->currentValue;
+
+	Value* increment = NULL;
+	Expression* step = exp->getStep();
+	if(step) {
+		step->accept(*this);
+		increment=context->currentValue;
+	}
+
+	exp->getFinish()->accept(*this);
+	Value* finish=context->currentValue;
+
+	Value* result = new RangeValue(start,increment,finish);
+	context->currentValue=result;
 }
 
 void Evaluator::visit(UnaryExpression* exp)
@@ -271,8 +311,9 @@ void Evaluator::visit(Invocation* stmt)
 	}
 }
 
-void Evaluator::visit(ModuleImport* decl)
+void Evaluator::visit(ModuleImport*)
 {
+	//TODO
 }
 
 void Evaluator::visit(Literal* lit)

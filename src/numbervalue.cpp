@@ -59,4 +59,6 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 		// [1,2,3]-1  is the same as 1 - [1,2,3]
 		return Value::operation(vec,e,this);
 	}
+
+	return this;
 }

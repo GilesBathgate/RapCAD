@@ -16,38 +16,46 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "textvalue.h"
+#include "rangevalue.h"
+#include "rangeiterator.h"
 
-TextValue::TextValue(QString value)
+RangeValue::RangeValue(Value* start,Value* step, Value* finish)
 {
-	this->text=value;
+	this->start=start;
+	this->step=step;
+	this->finish=finish;
 }
 
-QString TextValue::getValueString()
+QString RangeValue::getValueString()
 {
-	return this->text;
-}
-
-bool TextValue::isTrue()
-{
-	return !this->text.isEmpty();
-}
-
-Value* TextValue::operation(Value& v,Expression::Operator_e e)
-{
-	TextValue* that=dynamic_cast<TextValue*>(&v);
-	if(that)
-		return new TextValue(operation(this->text,e,that->text));
-
-	return this;
-}
-
-QString TextValue::operation(QString left, Expression::Operator_e e, QString right)
-{
-	switch(e) {
-	case Expression::Add:
-		return left.append(right);
-	default:
-		return this->text;
+	QString result="[";
+	result.append(this->start->getValueString());
+	result.append(":");
+	if(this->step) {
+		result.append(this->step->getValueString());
+		result.append(":");
 	}
+	result.append(this->finish->getValueString());
+	result.append("]");
+	return result;
+}
+
+Iterator<Value*>* RangeValue::createIterator()
+{
+	return new RangeIterator(this);
+}
+
+Value* RangeValue::getStart()
+{
+	return this->start;
+}
+
+Value* RangeValue::getStep()
+{
+	return this->step;
+}
+
+Value* RangeValue::getFinish()
+{
+	return this->finish;
 }

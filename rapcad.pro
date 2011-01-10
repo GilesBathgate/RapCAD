@@ -72,7 +72,11 @@ SOURCES += src/main.cpp\
     src/numbervalue.cpp \
     src/booleanvalue.cpp \
     src/textvalue.cpp \
-    src/vectorvalue.cpp
+    src/vectorvalue.cpp \
+    src/rangevalue.cpp \
+    src/valueiterator.cpp \
+    src/vectoriterator.cpp \
+    src/rangeiterator.cpp
 
 HEADERS  += src/mainwindow.h \
     src/module.h \
@@ -118,7 +122,12 @@ HEADERS  += src/mainwindow.h \
     src/numbervalue.h \
     src/booleanvalue.h \
     src/textvalue.h \
-    src/vectorvalue.h
+    src/vectorvalue.h \
+    src/rangevalue.h \
+    src/iterator.h \
+    src/valueiterator.h \
+    src/vectoriterator.h \
+    src/rangeiterator.h
 
 FORMS    += src/mainwindow.ui   
 

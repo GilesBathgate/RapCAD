@@ -20,6 +20,7 @@
 #define VALUE_H
 
 #include <QString>
+#include "iterator.h"
 #include "expression.h"
 
 class Value
@@ -30,6 +31,7 @@ public:
 	QString getName();
 	virtual QString getValueString();
 	virtual bool isTrue();
+	virtual Iterator<Value*>* createIterator();
 	Value* operator*(Value&);
 	Value* componentwiseMultiply(Value&);
 	Value* operator/(Value&);

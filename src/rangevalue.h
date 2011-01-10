@@ -16,38 +16,25 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "textvalue.h"
+#ifndef RANGEVALUE_H
+#define RANGEVALUE_H
 
-TextValue::TextValue(QString value)
+#include "value.h"
+
+class RangeValue : public Value
 {
-	this->text=value;
-}
+public:
+	RangeValue(Value*,Value*,Value*);
+	QString getValueString();
+	Iterator<Value*>* createIterator();
 
-QString TextValue::getValueString()
-{
-	return this->text;
-}
+	Value* getStart();
+	Value* getStep();
+	Value* getFinish();
+private:
+	Value* start;
+	Value* step;
+	Value* finish;
+};
 
-bool TextValue::isTrue()
-{
-	return !this->text.isEmpty();
-}
-
-Value* TextValue::operation(Value& v,Expression::Operator_e e)
-{
-	TextValue* that=dynamic_cast<TextValue*>(&v);
-	if(that)
-		return new TextValue(operation(this->text,e,that->text));
-
-	return this;
-}
-
-QString TextValue::operation(QString left, Expression::Operator_e e, QString right)
-{
-	switch(e) {
-	case Expression::Add:
-		return left.append(right);
-	default:
-		return this->text;
-	}
-}
+#endif // RANGEVALUE_H

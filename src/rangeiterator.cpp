@@ -16,38 +16,47 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "textvalue.h"
+#include "rangeiterator.h"
 
-TextValue::TextValue(QString value)
+RangeIterator::RangeIterator(RangeValue* range)
 {
-	this->text=value;
+	this->range=range;
+	this->defaultStep=new NumberValue(1);
 }
 
-QString TextValue::getValueString()
+RangeIterator::~RangeIterator()
 {
-	return this->text;
+	delete defaultStep;
 }
 
-bool TextValue::isTrue()
+void RangeIterator::first()
 {
-	return !this->text.isEmpty();
+	this->index=this->range->getStart();
 }
 
-Value* TextValue::operation(Value& v,Expression::Operator_e e)
+void RangeIterator::next()
 {
-	TextValue* that=dynamic_cast<TextValue*>(&v);
-	if(that)
-		return new TextValue(operation(this->text,e,that->text));
+	Value& i = *this->index;
 
-	return this;
+	Value* step = this->range->getStep();
+	if(!step)
+		step = defaultStep;
+
+	Value& s = *step;
+	this->index=i+s;
 }
 
-QString TextValue::operation(QString left, Expression::Operator_e e, QString right)
+bool RangeIterator::isDone()
 {
-	switch(e) {
-	case Expression::Add:
-		return left.append(right);
-	default:
-		return this->text;
-	}
+	Value& f = *this->range->getFinish();
+	Value& i = *this->index;
+
+	Value* v = i>f;
+
+	return v->isTrue();
+}
+
+Value* RangeIterator::currentItem() const
+{
+	return index;
 }

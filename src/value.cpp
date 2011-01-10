@@ -18,6 +18,7 @@
 
 #include "value.h"
 #include "math.h"
+#include "valueiterator.h"
 
 Value::Value()
 {
@@ -41,6 +42,11 @@ QString Value::getValueString()
 bool Value::isTrue()
 {
 	return false;
+}
+
+Iterator<Value*>* Value::createIterator()
+{
+	return new ValueIterator(this);
 }
 
 Value* Value::operator*(Value& v)
