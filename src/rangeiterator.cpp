@@ -54,7 +54,8 @@ void RangeIterator::next()
 	Value& i=*index;
 	Value& s=*step;
 	Value* r=i+s;
-	if(*r==i)
+	Value* c=*r==i;
+	if(c->isTrue())
 		done=true;
 	index=r;
 }
