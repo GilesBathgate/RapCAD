@@ -38,6 +38,7 @@ private:
 	Value* index;
 	Value* step;
 	NumberValue* defaultStep;
+	bool reverse;
 };
 
 #endif // RANGEITERATOR_H

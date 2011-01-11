@@ -21,9 +21,17 @@
 RangeIterator::RangeIterator(RangeValue* rng)
 {
 	range=rng;
-	step = range->getStep();
+
+	Value& s=*range->getStart();
+	Value& f=*range->getFinish();
+
+	Value* v=s>f;
+	reverse=v->isTrue();
+
+	step=range->getStep();
 	if(!step) {
-		defaultStep=new NumberValue(1);
+		double i=reverse?-1.0:1.0;
+		defaultStep=new NumberValue(i);
 		step=defaultStep;
 	} else {
 		defaultStep=NULL;
@@ -49,12 +57,21 @@ void RangeIterator::next()
 
 bool RangeIterator::isDone()
 {
+	Value& s=*range->getStart();
 	Value& f=*range->getFinish();
 	Value& i=*index;
 
-	Value* v=i>f;
+	Value* lower;
+	Value* upper;
+	if(reverse) {
+		lower=i<f;
+		upper=i>s;
+	} else {
+		lower=i<s;
+		upper=i>f;
+	}
 
-	return v->isTrue();
+	return lower->isTrue() || upper->isTrue();
 }
 
 Value* RangeIterator::currentItem() const
