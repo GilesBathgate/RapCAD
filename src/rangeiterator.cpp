@@ -46,17 +46,24 @@ RangeIterator::~RangeIterator()
 void RangeIterator::first()
 {
 	index=range->getStart();
+	done=false;
 }
 
 void RangeIterator::next()
 {
 	Value& i=*index;
 	Value& s=*step;
-	index=i+s;
+	Value* r=i+s;
+	if(*r==i)
+		done=true;
+	index=r;
 }
 
 bool RangeIterator::isDone()
 {
+	if(done)
+		return true;
+
 	Value& s=*range->getStart();
 	Value& f=*range->getFinish();
 	Value& i=*index;

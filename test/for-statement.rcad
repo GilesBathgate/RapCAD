@@ -28,3 +28,9 @@ for(i=[10:1])echo(i);
 
 //Test negative range with positive step
 for(i=[10:1:1])echo(i);
+
+//Test for step that doesn't actually increment
+for(i=[10:true:1])echo(i);
+
+//Test for step that doesn't actually increment
+for(i=[10:0:1])echo(i);
