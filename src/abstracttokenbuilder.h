@@ -34,6 +34,9 @@ public:
 	virtual void buildUseStart()=0;
 	virtual unsigned int buildUse(QString)=0;
 	virtual void buildUseFinish()=0;
+	virtual void buildImportStart()=0;
+	virtual unsigned int buildImport(QString)=0;
+	virtual void buildImportFinish()=0;
 	virtual unsigned int buildModule()=0;
 	virtual unsigned int buildFunction()=0;
 	virtual unsigned int buildTrue()=0;

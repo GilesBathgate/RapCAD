@@ -29,7 +29,7 @@ TokenBuilder* tbuilder;
 %option yylineno
 %option noyywrap
 %option nounput
-%x include use
+%x include use import
 %x comment string
 D [0-9]
 WS [ \t\r\n]
@@ -43,6 +43,9 @@ WS [ \t\r\n]
 "use"{WS}*"<"		{ BEGIN(use); tbuilder->buildUseStart(); }
 <use>[^\t\r\n>]+	{ return tbuilder->buildUse(lexertext); }
 <use>">"		{ BEGIN(INITIAL); tbuilder->buildUseFinish(); }
+"import"{WS}*"<"	{ BEGIN(import); tbuilder->buildImportStart(); }
+<import>[^\t\r\n>]+	{ return tbuilder->buildImport(lexertext); }
+<import>">"		{ BEGIN(INITIAL); tbuilder->buildImportFinish(); }
 <<EOF>>			{ tbuilder->buildFileFinish();
 			  lexerpop_buffer_state();
 			  if(!YY_CURRENT_BUFFER)

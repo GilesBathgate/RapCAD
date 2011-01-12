@@ -31,14 +31,14 @@ public:
 	~ModuleImport();
 	void setImport(QString);
 	QString getImport();
-	void setNamespace(QString);
-	QString getNamespace();
+	void setName(QString);
+	QString getName();
 	void accept(Visitor&);
 	void setParameters(QVector<Parameter*>);
 	QVector<Parameter*> getParameters();
 private:
 	QString import;
-	QString name_space;
+	QString name;
 	QVector<Parameter*> parameters;
 };
 

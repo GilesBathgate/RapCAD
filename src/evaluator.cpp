@@ -316,6 +316,11 @@ void Evaluator::visit(ModuleImport*)
 	//TODO
 }
 
+void Evaluator::visit(ScriptImport*)
+{
+	//TODO
+}
+
 void Evaluator::visit(Literal* lit)
 {
 	Value* v= lit->getValue();

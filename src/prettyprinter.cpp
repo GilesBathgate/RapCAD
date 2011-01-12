@@ -336,10 +336,10 @@ void PrettyPrinter::visit(Invocation* stmt)
 
 void PrettyPrinter::visit(ModuleImport* decl)
 {
-	result.append("use <");
+	result.append("import <");
 	result.append(decl->getImport());
 	result.append(">");
-	QString name = decl->getNamespace();
+	QString name = decl->getName();
 	if(!name.isEmpty()) {
 		result.append(" as ");
 		result.append(name);
@@ -357,6 +357,20 @@ void PrettyPrinter::visit(ModuleImport* decl)
 		result.append(")");
 	}
 	result.append(";\n");
+}
+
+void PrettyPrinter::visit(ScriptImport* decl)
+{
+	result.append("use <");
+	result.append(decl->getImport());
+	result.append(">");
+	QString name = decl->getNamespace();
+	if(!name.isEmpty()) {
+		result.append(" as ");
+		result.append(name);
+		result.append(";");
+	}
+	result.append("\n");
 }
 
 void PrettyPrinter::visit(Literal* lit)

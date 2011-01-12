@@ -16,47 +16,24 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "moduleimport.h"
+#ifndef SCRIPTIMPORT_H
+#define SCRIPTIMPORT_H
 
-ModuleImport::ModuleImport()
-{
-}
+#include "declaration.h"
 
-ModuleImport::~ModuleImport()
+class ScriptImport : public Declaration
 {
-}
+public:
+	ScriptImport();
+	~ScriptImport();
+	void setImport(QString);
+	QString getImport();
+	void setNamespace(QString);
+	QString getNamespace();
+	void accept(Visitor&);
+private:
+	QString import;
+	QString name_space;
+};
 
-void ModuleImport::setImport(QString imp)
-{
-	this->import = imp;
-}
-
-QString ModuleImport::getImport()
-{
-	return this->import;
-}
-
-void ModuleImport::setName(QString name)
-{
-	this->name = name;
-}
-
-QString ModuleImport::getName()
-{
-	return this->name;
-}
-
-void ModuleImport::setParameters(QVector<Parameter*> params)
-{
-	this->parameters = params;
-}
-
-QVector<Parameter*> ModuleImport::getParameters()
-{
-	return this->parameters;
-}
-
-void ModuleImport::accept(Visitor& v)
-{
-	v.visit(this);
-}
+#endif // SCRIPTIMPORT_H

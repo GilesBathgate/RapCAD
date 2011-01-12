@@ -36,6 +36,9 @@ public:
 	void buildUseStart();
 	unsigned int buildUse(QString);
 	void buildUseFinish();
+	void buildImportStart();
+	unsigned int buildImport(QString);
+	void buildImportFinish();
 	unsigned int buildModule();
 	unsigned int buildFunction();
 	unsigned int buildTrue();

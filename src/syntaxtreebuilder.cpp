@@ -34,7 +34,7 @@ void SyntaxTreeBuilder::buildScript(Declaration* dec)
 
 Declaration* SyntaxTreeBuilder::buildUse(QString* imp)
 {
-	ModuleImport* result = new ModuleImport();
+	ScriptImport* result = new ScriptImport();
 	result->setImport(*imp);
 	delete imp;
 	return result;
@@ -42,21 +42,31 @@ Declaration* SyntaxTreeBuilder::buildUse(QString* imp)
 
 Declaration* SyntaxTreeBuilder::buildUse(QString* imp,QString* name)
 {
-	ModuleImport* result = new ModuleImport();
+	ScriptImport* result = new ScriptImport();
 	result->setImport(*imp);
 	delete imp;
 	result->setNamespace(*name);
+	delete name;
+	return result;
+}
+
+Declaration* SyntaxTreeBuilder::buildImport(QString* imp,QString* name)
+{
+	ModuleImport* result = new ModuleImport();
+	result->setImport(*imp);
+	delete imp;
+	result->setName(*name);
 	delete name;
 
 	return result;
 }
 
-Declaration* SyntaxTreeBuilder::buildUse(QString* imp,QString* name,QVector<Parameter*>* params)
+Declaration* SyntaxTreeBuilder::buildImport(QString* imp,QString* name,QVector<Parameter*>* params)
 {
 	ModuleImport* result = new ModuleImport();
 	result->setImport(*imp);
 	delete imp;
-	result->setNamespace(*name);
+	result->setName(*name);
 	delete name;
 	result->setParameters(*params);
 	delete params;

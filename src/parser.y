@@ -66,6 +66,7 @@ AbstractSyntaxTreeBuilder *builder;
 	class Variable* var;
 }
 %token <text> USE
+%token <text> IMPORT
 %token MODULE FUNCTION
 %token IF ELSE
 %token FOR
@@ -93,7 +94,7 @@ AbstractSyntaxTreeBuilder *builder;
 %left '.'
 
 %type <count> optional_commas
-%type <decl>  declaration use_declaration single_declaration define_declaration
+%type <decl>  declaration use_declaration import_declaration single_declaration define_declaration
 %type <decls>  declaration_list single_declaration_list compound_declaration
 %type <param> parameter
 %type <params> parameters
@@ -112,6 +113,8 @@ input
 	: //empty
 	| use_declaration input
 	{ builder->buildScript($1); }
+	| import_declaration input
+	{ builder->buildScript($1); }
 	| single_declaration_list
 	{ builder->buildScript($1); }
 	;
@@ -121,9 +124,15 @@ use_declaration
 	{ $$ = builder->buildUse($1); }
 	| USE AS IDENTIFIER ';'
 	{ $$ = builder->buildUse($1,$3); }
-	| USE AS IDENTIFIER '(' parameters ')' ';'
-	{ $$ = builder->buildUse($1,$3,$5); }
 	;
+
+import_declaration
+	: IMPORT AS IDENTIFIER ';'
+	{ $$ = builder->buildImport($1,$3); }
+	| IMPORT AS IDENTIFIER '(' parameters ')' ';'
+	{ $$ = builder->buildImport($1,$3,$5); }
+	;
+
 
 single_declaration_list
 	: single_declaration

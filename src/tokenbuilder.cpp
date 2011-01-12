@@ -81,6 +81,20 @@ void TokenBuilder::buildUseFinish()
 {
 }
 
+void TokenBuilder::buildImportStart()
+{
+}
+
+unsigned int TokenBuilder::buildImport(QString str)
+{
+	parserlval.text = new QString(str);
+	return IMPORT;
+}
+
+void TokenBuilder::buildImportFinish()
+{
+}
+
 unsigned int TokenBuilder::buildModule()
 {
 	return MODULE;

@@ -41,6 +41,7 @@
 #include "ternaryexpression.h"
 #include "invocation.h"
 #include "moduleimport.h"
+#include "scriptimport.h"
 #include "literal.h"
 #include "variable.h"
 #include "context.h"
@@ -70,6 +71,7 @@ public:
 	void visit(TernaryExpression*);
 	void visit(Invocation*);
 	void visit(ModuleImport*);
+	void visit(ScriptImport*);
 	void visit(Literal*);
 	void visit(Variable*);
 	void visit(Script*);

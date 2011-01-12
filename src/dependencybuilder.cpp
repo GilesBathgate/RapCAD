@@ -44,7 +44,12 @@ Declaration* DependencyBuilder::buildUse(QString*,QString*)
 	return NULL;
 }
 
-Declaration* DependencyBuilder::buildUse(QString*,QString*,QVector<Parameter*>*)
+Declaration* DependencyBuilder::buildImport(QString*,QString*)
+{
+	return NULL;
+}
+
+Declaration* DependencyBuilder::buildImport(QString*,QString*,QVector<Parameter*>*)
 {
 	return NULL;
 }
