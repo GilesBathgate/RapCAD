@@ -1,14 +1,20 @@
 input
 	: //empty
 	| use_declaration input
+	| import_declaration input
 	| single_declaration_list
 	;
 
 use_declaration
 	: USE
 	| USE AS IDENTIFIER ';'
-	| USE AS IDENTIFIER '(' parameters ')' ';'
 	;
+
+import_declaration
+	: IMPORT AS IDENTIFIER ';'
+	| IMPORT AS IDENTIFIER '(' parameters ')' ';'
+	;
+
 
 single_declaration_list
 	: single_declaration

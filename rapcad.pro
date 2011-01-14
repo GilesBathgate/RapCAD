@@ -76,7 +76,8 @@ SOURCES += src/main.cpp\
     src/rangevalue.cpp \
     src/valueiterator.cpp \
     src/vectoriterator.cpp \
-    src/rangeiterator.cpp
+    src/rangeiterator.cpp \
+    src/scriptimport.cpp
 
 HEADERS  += src/mainwindow.h \
     src/module.h \
@@ -127,7 +128,8 @@ HEADERS  += src/mainwindow.h \
     src/iterator.h \
     src/valueiterator.h \
     src/vectoriterator.h \
-    src/rangeiterator.h
+    src/rangeiterator.h \
+    src/scriptimport.h
 
 FORMS    += src/mainwindow.ui   
 
