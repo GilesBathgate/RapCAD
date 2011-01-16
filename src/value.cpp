@@ -225,6 +225,10 @@ bool Value::isComparison(Expression::Operator_e e)
 	case Expression::NotEqual:
 	case Expression::GreaterOrEqual:
 	case Expression::GreaterThan:
+	//The following are not really comparisons but
+	//we expect them to return a boolean result
+	case Expression::LogicalAnd:
+	case Expression::LogicalOr:
 		return true;
 	default:
 		return false;
