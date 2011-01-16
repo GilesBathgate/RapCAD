@@ -206,8 +206,8 @@ single_statement
 	{ $$ = builder->buildStatement($1); }
 	| for_statement
 	{ $$ = builder->buildStatement($1); }
-        | return_statement;
-        ;
+	| return_statement
+	;
 
 return_statement
         : RETURN expression ';'
@@ -337,7 +337,7 @@ vector_expression
 parameters
 	: //empty
 	{ $$ = builder->buildParameters(); }
-	| parameter 
+	| parameter
 	{ $$ = builder->buildParameters($1); }
 	| parameters ',' parameter
 	{ $$ = builder->buildParameters($1,$3); }
