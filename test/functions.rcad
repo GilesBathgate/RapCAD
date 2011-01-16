@@ -10,6 +10,14 @@ function noreturn()
 {
 }
 
+function tworeturns(a)
+{
+	if(a)
+		return "Pass1";
+	else
+		return "Pass2";
+}
+
 function first(a) = second(a);
 
 //Late declaration
@@ -19,3 +27,5 @@ echo(inline(5));
 echo(body(3));
 echo(noreturn());
 echo(first(8));
+echo(tworeturns(true));
+echo(tworeturns(false));
