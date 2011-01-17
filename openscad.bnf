@@ -1,98 +1,111 @@
-<empty> ::= 
--- empty is the null string.
+<input> ::=
+	<empty>
+	<use> <input>
+	<statement> <input>
 
-<input> ::= <empty>
-	| <use> <input>
-	| <statement> <input>
+<body>	::=
+	<empty>
+	<statement> <body>
 
-<body>	::= <empty>
-	| <statement> <body>
-
-<statement> ::= ';'
-	| '{' <body> '}'
-	| <module_instantiation>
-	| <identifier> '=' <expression> ';'
-	| "module" <identifier> '(' <parameters> <optional_commas> ')' <statement>
-	| "function" <identifier> '(' <parameters> <optional_commas> ')' '=' <expression> ';'
+<statement> ::=
+	';'
+	'{' <body> '}'
+	<module_instantiation>
+	<identifier> '=' <expression> ';'
+	"module" <identifier> '(' <parameters> <optional_commas> ')' <statement>
+	"function" <identifier> '(' <parameters> <optional_commas> ')' '=' <expression> ';'
 --Optional commas in the above two seem strange to me. We can have for e.g. module foo(a,,,,,,b){} how on earth can this be useful?
 --I agree that is makes sence for a module instantiation because we might want to pass undef, but for declarations its just a way
 --of ensuring we don't have access to unnamed module parameters, so why have them at all?
 
-<children_instantiation> ::= <module_instantiation>
-	| '{' <module_instantiation_list> '}'
+<children_instantiation> ::=
+	<module_instantiation>
+	'{' <module_instantiation_list> '}'
 
-<if_statement> ::= "if" '(' <expression> ')' <children_instantiation> 
--- why can't we just have statements in our if  why is the following invalid!? if(true) { a=1; cube([10,a,10]); } 
+<if_statement> ::=
+	"if" '(' <expression> ')' <children_instantiation>
+-- why can't we just have statements in our if  why is the following invalid!? if(true) { a=1; cube([10,a,10]); }
 
-<ifelse_statement> ::= <if_statement>
-	| <if_statement> "else" <children_instantiation>
+<ifelse_statement> ::=
+	<if_statement>
+	<if_statement> "else" <children_instantiation>
 
-<module_instantiation> ::= <single_module_instantiation> ';'
-	| <single_module_instantiation> <children_instantiation>
-	| <ifelse_statement>
+<module_instantiation> ::=
+	<single_module_instantiation> ';'
+	<single_module_instantiation> <children_instantiation>
+	<ifelse_statement>
 
-<module_instantiation_list> :== <empty>
-	| <module_instantiation_list> <module_instantiation> 
+<module_instantiation_list> ::=
+	<empty>
+	<module_instantiation_list> <module_instantiation>
 
-<single_module_instantiation> ::= <identifier> '(' <arguments> ')'
-	| <identifier> ':' <single_module_instantiation>  
+<single_module_instantiation> ::=
+	<identifier> '(' <arguments> ')'
+	<identifier> ':' <single_module_instantiation>
 -- this is interesting, you can have a label before a module instantiation e.g. foo: cube([10,10,10]); although what this is for I have no idea.
-	| '!' <single_module_instantiation>
-	| '#' <single_module_instantiation>
-	| '%' <single_module_instantiation>
-	| '*' <single_module_instantiation>
+	'!' <single_module_instantiation>
+	'#' <single_module_instantiation>
+	'%' <single_module_instantiation>
+	'*' <single_module_instantiation>
 
-<expression> ::= "true"
-	| "false"
-	| "undef"
-	| <identifier> --variable
-	| <expression> '.' <identifier>
-	| <string>
-	| <number>
-	| '[' <expression> ':' <expression> ']'
-	| '[' <expression> ':' <expression> ':' <expression> ']'
-	| '[' <optional_commas> ']'
-	| '[' <vector_expression> <optional_commas> ']'
-	| <expression> '*' <expression>
-	| <expression> '/' <expression>
-	| <expression> '%' <expression>
-	| <expression> '+' <expression>
-	| <expression> '-' <expression>
-	| <expression> '<' <expression>
-	| <expression> "<=" <expression>
-	| <expression> "==" <expression>
-	| <expression> "!=" <expression>
-	| <expression> ">=" <expression>
-	| <expression> '>' <expression>
-	| <expression> "&&" <expression>
-	| <expression> "||" <expression>
-	| '+' <expression>
-	| '-' <expression>
-	| '!' <expression>
-	| '(' <expression> ')'
-	| <expression> '?' <expression> ':' <expression>
-	| <expression> '[' <expression> ']'
-	| <identifier> '(' <arguments> ')'
+<expression> ::=
+	"true"
+	"false"
+	"undef"
+	<identifier> --variable
+	<expression> '.' <identifier>
+	<string>
+	<number>
+	'[' <expression> ':' <expression> ']'
+	'[' <expression> ':' <expression> ':' <expression> ']'
+	'[' <optional_commas> ']'
+	'[' <vector_expression> <optional_commas> ']'
+	<expression> '*' <expression>
+	<expression> '/' <expression>
+	<expression> '%' <expression>
+	<expression> '+' <expression>
+	<expression> '-' <expression>
+	<expression> '<' <expression>
+	<expression> "<=" <expression>
+	<expression> "==" <expression>
+	<expression> "!=" <expression>
+	<expression> ">=" <expression>
+	<expression> '>' <expression>
+	<expression> "&&" <expression>
+	<expression> "||" <expression>
+	'+' <expression>
+	'-' <expression>
+	'!' <expression>
+	'(' <expression> ')'
+	<expression> '?' <expression> ':' <expression>
+	<expression> '[' <expression> ']'
+	<identifier> '(' <arguments> ')'
 
-<optional_commas> ::= <empty>
-	| ',' <optional_commas> 
+<optional_commas> ::=
+	<empty>
+	',' <optional_commas>
 
-<vector_expr> ::= <expression>
-	| <vector_expr> ',' <optional_commas> <expression>
+<vector_expr> ::=
+	<expression>
+	<vector_expr> ',' <optional_commas> <expression>
 
-<parameters> ::= <empty>
-	| <parameter>
-	| <parameters> ',' <optional_commas> <parameter>
+<parameters> ::=
+	<empty>
+	<parameter>
+	<parameters> ',' <optional_commas> <parameter>
 
-<parameter> ::== <identifier>
-	| <identifier> '=' <expression>
+<parameter> ::=
+	<identifier>
+	<identifier> '=' <expression>
 	
-<arguments> ::= <empty>
-	| <argument> 
-	| <arguments> ',' <optional_commas> <argument>
+<arguments> ::=
+	<empty>
+	<argument>
+	<arguments> ',' <optional_commas> <argument>
 
-<argument> ::= <expression>
-	| <identifier> '=' <expression>
+<argument> ::=
+	<expression>
+	<identifier> '=' <expression>
 
 
 
