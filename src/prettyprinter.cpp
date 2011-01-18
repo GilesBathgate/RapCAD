@@ -67,7 +67,7 @@ void PrettyPrinter::visit(Instance* inst)
 	QString name = inst->getNamespace();
 	if(!name.isEmpty()) {
 		result.append(name);
-		result.append(":");
+		result.append("::");
 	}
 	result.append(inst->getName());
 	result.append("(");
@@ -322,6 +322,11 @@ void PrettyPrinter::visit(TernaryExpression* exp)
 
 void PrettyPrinter::visit(Invocation* stmt)
 {
+	QString nameSpace = stmt->getNamespace();
+	if(!nameSpace.isEmpty()) {
+		result.append(nameSpace);
+		result.append("::");
+	}
 	result.append(stmt->getName());
 	result.append("(");
 	QVector<Argument*> arguments = stmt->getArguments();

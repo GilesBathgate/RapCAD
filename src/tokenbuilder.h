@@ -60,6 +60,7 @@ public:
 	unsigned int buildComponentwiseMultiply();
 	unsigned int buildComponentwiseDivide();
 	unsigned int buildOuterProduct();
+	unsigned int buildNamespace();
 	unsigned int buildLegalChar(unsigned int);
 	unsigned int buildNumber(QString);
 	unsigned int buildIdentifier(QString);

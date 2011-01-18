@@ -29,6 +29,7 @@
 #include "scope.h"
 #include "instance.h"
 #include "script.h"
+#include "invocation.h"
 
 class AbstractSyntaxTreeBuilder
 {
@@ -98,7 +99,8 @@ public:
 	virtual QVector<Expression*>* buildVector(QVector<Expression*>*,unsigned int,Expression*)=0;
 	virtual Expression* buildRange(Expression*,Expression*)=0;
 	virtual Expression* buildRange(Expression*,Expression*,Expression*)=0;
-	virtual Expression* buildInvocation(QString*,QVector<Argument*>*)=0;
+	virtual Invocation* buildInvocation(QString*,QVector<Argument*>*)=0;
+	virtual Invocation* buildInvocation(QString*,Invocation*)=0;
 
 	virtual Script* getResult()=0;
 };

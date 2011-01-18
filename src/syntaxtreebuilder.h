@@ -108,7 +108,8 @@ public:
 	QVector<Expression*>* buildVector(QVector<Expression*>*,unsigned int,Expression*);
 	Expression* buildRange(Expression*,Expression*);
 	Expression* buildRange(Expression*,Expression*,Expression*);
-	Expression* buildInvocation(QString*,QVector<Argument*>*);
+	Invocation* buildInvocation(QString*,QVector<Argument*>*);
+	Invocation* buildInvocation(QString*,Invocation*);
 
 	Script* getResult();
 private:

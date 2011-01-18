@@ -71,6 +71,7 @@ WS [ \t\r\n]
 "**"			{ return tbuilder->buildOuterProduct(); }
 ".*"			{ return tbuilder->buildComponentwiseMultiply(); }
 "./"			{ return tbuilder->buildComponentwiseDivide(); }
+"::"			{ return tbuilder->buildNamespace(); }
 [\[\]<>.:!;#${}(),=*/%?\+\-] %{
 			{ return tbuilder->buildLegalChar(lexertext[0]); }
 			%}

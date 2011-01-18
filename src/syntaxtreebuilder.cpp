@@ -510,7 +510,7 @@ Expression* SyntaxTreeBuilder::buildRange(Expression* srt,Expression* stp,Expres
 	return result;
 }
 
-Expression* SyntaxTreeBuilder::buildInvocation(QString* name,QVector<Argument*>* args)
+Invocation* SyntaxTreeBuilder::buildInvocation(QString* name,QVector<Argument*>* args)
 {
 	Invocation* result = new Invocation();
 	result->setName(*name);
@@ -518,6 +518,13 @@ Expression* SyntaxTreeBuilder::buildInvocation(QString* name,QVector<Argument*>*
 	result->setArguments(*args);
 	delete args;
 	return result;
+}
+
+Invocation* SyntaxTreeBuilder::buildInvocation(QString* name,Invocation* inv)
+{
+	inv->setNamespace(*name);
+	delete name;
+	return inv;
 }
 
 Script* SyntaxTreeBuilder::getResult()

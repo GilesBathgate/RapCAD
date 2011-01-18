@@ -200,6 +200,11 @@ unsigned int TokenBuilder::buildOuterProduct()
 	return CP;
 }
 
+unsigned int TokenBuilder::buildNamespace()
+{
+	return NS;
+}
+
 unsigned int TokenBuilder::buildLegalChar(unsigned int c)
 {
 	return c;

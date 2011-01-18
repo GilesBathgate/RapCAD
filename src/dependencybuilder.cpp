@@ -344,7 +344,12 @@ Expression* DependencyBuilder::buildRange(Expression*,Expression*,Expression*)
 	return NULL;
 }
 
-Expression* DependencyBuilder::buildInvocation(QString*,QVector<Argument*>*)
+Invocation* DependencyBuilder::buildInvocation(QString*,QVector<Argument*>*)
+{
+	return NULL;
+}
+
+Invocation* DependencyBuilder::buildInvocation(QString*,Invocation*)
 {
 	return NULL;
 }

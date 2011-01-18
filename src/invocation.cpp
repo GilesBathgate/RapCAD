@@ -18,6 +18,16 @@ QString Invocation::getName()
 	return this->name;
 }
 
+void Invocation::setNamespace(QString name)
+{
+	this->nameSpace = name;
+}
+
+QString Invocation::getNamespace()
+{
+	return this->nameSpace;
+}
+
 void Invocation::setArguments(QVector<Argument*> args)
 {
 	this->arguments = args;

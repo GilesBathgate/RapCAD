@@ -14,11 +14,14 @@ public:
 
 	void setName(QString);
 	QString getName();
+	void setNamespace(QString);
+	QString getNamespace();
 	void setArguments(QVector<Argument*>);
 	QVector<Argument*> getArguments();
 	void accept(Visitor&);
 private:
 	QString name;
+	QString nameSpace;
 	QVector<Argument*> arguments;
 };
 

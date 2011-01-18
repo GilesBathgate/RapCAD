@@ -64,6 +64,7 @@ AbstractSyntaxTreeBuilder *builder;
 	class Instance* inst;
 	class Scope* scp;
 	class Variable* var;
+	class Invocation* inv;
 }
 %token <text> USE
 %token <text> IMPORT
@@ -75,7 +76,7 @@ AbstractSyntaxTreeBuilder *builder;
 %token <text> STRING
 %token <number> NUMBER
 %token TOK_TRUE TOK_FALSE UNDEF
-%token AS
+%token AS NS
 
 %right RETURN
 %right '='
@@ -107,6 +108,7 @@ AbstractSyntaxTreeBuilder *builder;
 %type <var> variable
 %type <stmt> statement single_statement assign_statement return_statement ifelse_statement for_statement
 %type <stmts> compound_statement statement_list compound_instance
+%type <inv> invocation
 
 %%
 input
@@ -321,6 +323,13 @@ expression
 	{ $$ = builder->buildExpression($1,$3,$5); }
 	| expression '[' expression ']'
 	{ $$ = builder->buildExpression($1,Expression::Index,$3); }
+	| invocation
+	{ $$ = builder->buildExpression($1); }
+	;
+
+invocation
+	: IDENTIFIER NS invocation
+	{ $$ = builder->buildInvocation($1,$3); }
 	| IDENTIFIER '(' arguments ')'
 	{ $$ = builder->buildInvocation($1,$3); }
 	;
@@ -367,7 +376,7 @@ module_instance
 	;
 
 single_instance
-	: IDENTIFIER ':' single_instance
+	: IDENTIFIER NS single_instance
 	{ $$ = builder->buildInstance($1,$3); }
 	| IDENTIFIER '(' arguments ')'
 	{ $$ = builder->buildInstance($1,$3); }
