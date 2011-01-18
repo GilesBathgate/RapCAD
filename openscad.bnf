@@ -9,6 +9,7 @@
 
 <statement> ::=
 	';'
+--Null operation statement is superfluous
 	'{' <body> '}'
 	<module_instantiation>
 	<identifier> '=' <expression> ';'
