@@ -1,4 +1,19 @@
 #!/bin/bash
 
 sed -n '/^%%$/,/^%%$/p' src/parser.y | sed '/^.*{.*}$/d; /^%%$/d; /^\t;$/d; s/^\t| /\t/; s@//@@; s/TOK_//' | \
-sed '/^[A-Za-z_]\+$/{N; s/\n.*: \(.*\)/ ::=\n\t\1/}; s/ CM / ".*" /; s/ CD / ".\/" /; s/ CP / "**" /; s/ LE / "<=" /; s/ EQ / "==" /; s/ NE / "!=" /; s/ GE / ">=" /; s/ AND / "\&\&" /; s/ OR / "||" /; s/\([a-z_]\+\)/<\1>/g; s/STRING/<string>/; s/NUMBER/<number>/; s/IDENTIFIER/<identifier>/; s/[[:upper:]]\+/"\L&\E"/g' > rapcad.bnf
+sed '/^[A-Za-z_]\+$/{N; s/\n.*: \(.*\)/ ::=\n\t\1/};
+s/ CM / ".*" /;
+s/ CD / ".\/" /;
+s/ CP / "**" /;
+s/ LE / "<=" /;
+s/ EQ / "==" /;
+s/ NE / "!=" /;
+s/ GE / ">=" /;
+s/ NS / "::" /;
+s/ AND / "\&\&" /;
+s/ OR / "||" /;
+s/\([a-z_]\+\)/<\1>/g;
+s/STRING/<string>/;
+s/NUMBER/<number>/;
+s/IDENTIFIER/<identifier>/;
+s/[[:upper:]]\+/"\L&\E"/g' > rapcad.bnf

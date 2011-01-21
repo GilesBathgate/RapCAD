@@ -116,6 +116,10 @@
 	'(' <expression> ')'
 	<expression> '?' <expression> ':' <expression>
 	<expression> '[' <expression> ']'
+	<invocation>
+
+<invocation> ::=
+	<identifier> "::" <invocation>
 	<identifier> '(' <arguments> ')'
 
 <vector_expression> ::=
@@ -142,7 +146,7 @@
 	<single_instance> <compound_instance>
 
 <single_instance> ::=
-	<identifier> ':' <single_instance>
+	<identifier> "::" <single_instance>
 	<identifier> '(' <arguments> ')'
 	'!' <single_instance>
 	'#' <single_instance>
