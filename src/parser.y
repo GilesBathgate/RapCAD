@@ -425,27 +425,15 @@ void parsererror(char const *s)
 	fprintf(stderr,"%d: %s at %s\n", lexerlineno, s, lexertext);
 }
 
-void parse(QString input,bool file)
+void parse(QString input)
 {
 	builder = new SyntaxTreeBuilder();
 
-	if(file)
-	{
-	    QFileInfo fileinfo(input);
-	    lexerinit(fileinfo.absoluteDir());
-	    const char* fullpath = fileinfo.absoluteFilePath().toLocal8Bit();
-	    lexerin = fopen(fullpath,"r");
-	    parserparse();
-	    fclose(lexerin);
-	}
-	else
-	{
-	    QDir current;
-	    lexerinit(current);
-	    yy_buffer_state* str_buffer = lexer_scan_string(input.toLocal8Bit());
-	    parserparse();
-	    lexer_delete_buffer(str_buffer);
-	}
+	QFileInfo fileinfo(input);
+	lexerinit(fileinfo.absoluteDir());
+	const char* fullpath = fileinfo.absoluteFilePath().toLocal8Bit();
+	lexerin = fopen(fullpath,"r");
+	parserparse();
 
 	Script* s = builder->getResult();
 	delete builder;

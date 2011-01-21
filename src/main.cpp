@@ -18,18 +18,15 @@
 
 #include <QtGui/QApplication>
 #include "mainwindow.h"
-extern int parse(QString,bool);
+extern int parse(QString);
 
 int main(int argc, char* argv[])
 {
 	int opt;
-	while((opt = getopt(argc, argv, "f:l:")) != -1) {
+	while((opt = getopt(argc, argv, "f:")) != -1) {
 		switch(opt) {
 		case 'f':
-			parse(QString(optarg),true);
-			return 0;
-		case 'l':
-			parse(QString(optarg),false);
+			parse(QString(optarg));
 			return 0;
 		}
 	}
