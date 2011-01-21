@@ -22,25 +22,21 @@ extern int parse(QString,bool);
 
 int main(int argc, char* argv[])
 {
-    int opt;
-    while ((opt = getopt(argc, argv, "f:l:")) != -1)
-    {
-	switch(opt)
-	{
-	case 'f':
-	    parse(QString(optarg),true);
-	    break;
-	case 'l':
-	    parse(QString(optarg),false);
-	    break;
-	default:
-	    {
-	    QApplication a(argc, argv);
-	    MainWindow w;
-	    w.show();
-
-	    return a.exec();
-	    }
+	int opt;
+	while((opt = getopt(argc, argv, "f:l:")) != -1) {
+		switch(opt) {
+		case 'f':
+			parse(QString(optarg),true);
+			return 0;
+		case 'l':
+			parse(QString(optarg),false);
+			return 0;
+		}
 	}
-    }
+
+	QApplication a(argc, argv);
+	MainWindow w;
+	w.show();
+
+	return a.exec();
 }
