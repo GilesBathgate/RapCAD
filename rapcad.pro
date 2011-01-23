@@ -135,3 +135,12 @@ FORMS    += src/mainwindow.ui
 
 OTHER_FILES += \
     COPYING
+
+unix {
+  isEmpty(PREFIX) {
+    PREFIX = /usr
+  }
+  BINDIR = $$PREFIX/bin
+  INSTALLS += target
+  target.path =$$BINDIR
+}
