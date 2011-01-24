@@ -19,7 +19,7 @@ build-stamp: Makefile
 	$(MAKE)
 	touch $@
 
-clean:
+clean: Makefile
 	dh_testdir
 	dh_testroot
 	rm -f build-stamp
