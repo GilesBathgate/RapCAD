@@ -17,13 +17,14 @@
  */
 
 %{
+#include "abstracttokenbuilder.h"
 #include "tokenbuilder.h"
 
 void lexererror();
 void lexerinclude(const char*);
-void lexerinit(QDir sourcepath);
+void lexerinit(QString path);
 
-TokenBuilder* tbuilder;
+AbstractTokenBuilder* tbuilder;
 %}
 
 %option yylineno
@@ -104,10 +105,13 @@ void lexererror()
     fprintf(stderr,"%d: illegal token `%s'.\n",lexerlineno,lexertext);
 }
 
-void lexerinit(QDir sourcepath)
+void lexerinit(QString path)
 {
+    QFileInfo fileinfo(path);
+    const char* fullpath = fileinfo.absoluteFilePath().toLocal8Bit();
+    lexerin = fopen(fullpath,"r");
     tbuilder = new TokenBuilder();
-    tbuilder->buildFileStart(sourcepath);
+    tbuilder->buildFileStart(fileinfo.absoluteDir());
 }
 
 void lexerinclude(const char* fullpath)

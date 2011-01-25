@@ -25,7 +25,7 @@
 #include <QDir>
 #include "abstracttokenbuilder.h"
 
-class TokenBuilder : AbstractTokenBuilder
+class TokenBuilder : public AbstractTokenBuilder
 {
 public:
 	TokenBuilder();

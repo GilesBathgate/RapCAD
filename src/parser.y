@@ -31,14 +31,10 @@
 #include "prettyprinter.h"
 #include "evaluator.h"
 
-extern FILE* lexerin;
 extern int lexerlineno;
 extern int lexerlex(void);
 extern char *lexertext;
-struct yy_buffer_state;
-extern yy_buffer_state* lexer_scan_string(const char *);
-extern void lexer_delete_buffer(yy_buffer_state*);
-extern void lexerinit(QDir);
+extern void lexerinit(QString);
 
 void parsererror(char const *);
 int parserlex();
@@ -425,14 +421,12 @@ void parsererror(char const *s)
 	fprintf(stderr,"%d: %s at %s\n", lexerlineno, s, lexertext);
 }
 
-void parse(QString input)
+void parse(QString path)
 {
 	builder = new SyntaxTreeBuilder();
 
-	QFileInfo fileinfo(input);
-	lexerinit(fileinfo.absoluteDir());
-	const char* fullpath = fileinfo.absoluteFilePath().toLocal8Bit();
-	lexerin = fopen(fullpath,"r");
+	lexerinit(path);
+
 	parserparse();
 
 	Script* s = builder->getResult();
