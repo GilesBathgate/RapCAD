@@ -61,6 +61,7 @@ public:
 	unsigned int buildComponentwiseDivide();
 	unsigned int buildOuterProduct();
 	unsigned int buildNamespace();
+	unsigned int buildAssign();
 	unsigned int buildLegalChar(unsigned int);
 	unsigned int buildNumber(QString);
 	unsigned int buildIdentifier(QString);
@@ -72,6 +73,7 @@ public:
 	unsigned int buildComment(QString);
 	void buildCommentFinish();
 	void buildWhiteSpaceError();
+	void buildWhiteSpace();
 	void buildFileStart(QDir);
 	void buildFileFinish();
 private:

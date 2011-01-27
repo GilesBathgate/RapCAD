@@ -20,31 +20,69 @@
 #define SYNTAXHIGHLIGHTER_H
 
 #include <QSyntaxHighlighter>
+#include "abstracttokenbuilder.h"
 
-class SyntaxHighlighter : public QSyntaxHighlighter
+class SyntaxHighlighter : public QSyntaxHighlighter, private AbstractTokenBuilder
 {
 	Q_OBJECT
-
 public:
 	SyntaxHighlighter(QTextDocument* parent = 0);
-
 protected:
 	void highlightBlock(const QString& text);
-
 private:
-	struct HighlightingRule {
-		QRegExp pattern;
-		QTextCharFormat format;
-	};
-	QVector<HighlightingRule> highlightingRules;
-
-	QRegExp commentStartExpression;
-	QRegExp commentEndExpression;
+	void buildIncludeStart();
+	void buildIncludeFile(QString);
+	void buildIncludePath(QString);
+	void buildIncludeFinish();
+	void buildUseStart();
+	unsigned int buildUse(QString);
+	void buildUseFinish();
+	void buildImportStart();
+	unsigned int buildImport(QString);
+	void buildImportFinish();
+	unsigned int buildModule();
+	unsigned int buildFunction();
+	unsigned int buildTrue();
+	unsigned int buildFalse();
+	unsigned int buildUndef();
+	unsigned int buildConst();
+	unsigned int buildParam();
+	unsigned int buildIf();
+	unsigned int buildAs();
+	unsigned int buildElse();
+	unsigned int buildFor();
+	unsigned int buildReturn();
+	unsigned int buildLessEqual();
+	unsigned int buildGreatEqual();
+	unsigned int buildEqual();
+	unsigned int buildNotEqual();
+	unsigned int buildAnd();
+	unsigned int buildOr();
+	unsigned int buildComponentwiseMultiply();
+	unsigned int buildComponentwiseDivide();
+	unsigned int buildOuterProduct();
+	unsigned int buildNamespace();
+	unsigned int buildAssign();
+	unsigned int buildLegalChar(unsigned int);
+	unsigned int buildNumber(QString);
+	unsigned int buildIdentifier(QString);
+	void buildStringStart();
+	void buildString(QChar);
+	void buildString(QString);
+	unsigned int buildStringFinish();
+	void buildCommentStart();
+	unsigned int buildComment(QString);
+	void buildCommentFinish();
+	void buildWhiteSpaceError();
+	void buildWhiteSpace();
+	void buildFileStart(QDir);
+	void buildFileFinish();
 
 	QTextCharFormat keywordFormat;
-	QTextCharFormat singleLineCommentFormat;
-	QTextCharFormat multiLineCommentFormat;
-	QTextCharFormat quotationFormat;
-	QTextCharFormat identifierFormat;
+	QTextCharFormat	numberFormat;
+	QTextCharFormat stringFormat;
+	QTextCharFormat operatorFormat;
+	int startIndex;
+	int stringStart;
 };
 #endif // SYNTAXHIGHLIGHTER_H

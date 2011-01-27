@@ -205,6 +205,11 @@ unsigned int TokenBuilder::buildNamespace()
 	return NS;
 }
 
+unsigned int TokenBuilder::buildAssign()
+{
+	return '=';
+}
+
 unsigned int TokenBuilder::buildLegalChar(unsigned int c)
 {
 	return c;
@@ -257,6 +262,10 @@ void TokenBuilder::buildCommentFinish()
 }
 
 void TokenBuilder::buildWhiteSpaceError()
+{
+}
+
+void TokenBuilder::buildWhiteSpace()
 {
 }
 

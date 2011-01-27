@@ -25,6 +25,7 @@
 #include <QDir>
 
 #include "abstractsyntaxtreebuilder.h"
+#include "tokenbuilder.h"
 #include "syntaxtreebuilder.h"
 #include "dependencybuilder.h"
 #include "script.h"
@@ -34,7 +35,7 @@
 extern int lexerlineno;
 extern int lexerlex(void);
 extern char *lexertext;
-extern void lexerinit(QString);
+extern void lexerinit(AbstractTokenBuilder*,QString,bool);
 
 void parsererror(char const *);
 int parserlex();
@@ -423,13 +424,14 @@ void parsererror(char const *s)
 
 void parse(QString path)
 {
-	builder = new SyntaxTreeBuilder();
+	builder=new SyntaxTreeBuilder();
 
-	lexerinit(path);
-
+	TokenBuilder* tokenizer=new TokenBuilder();
+	lexerinit(tokenizer,path,true);
 	parserparse();
+	delete tokenizer;
 
-	Script* s = builder->getResult();
+	Script* s=builder->getResult();
 	delete builder;
 
 	PrettyPrinter p;

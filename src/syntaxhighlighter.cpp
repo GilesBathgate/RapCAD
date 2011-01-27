@@ -17,81 +17,279 @@
  */
 
 #include "syntaxhighlighter.h"
+
+extern void lexerinit(AbstractTokenBuilder*,QString,bool);
+extern int lexerlex();
+extern int lexerleng;
+#define YY_CONTINUE 1;
+
 SyntaxHighlighter::SyntaxHighlighter(QTextDocument* parent)
 	: QSyntaxHighlighter(parent)
 {
-	HighlightingRule rule;
-
 	keywordFormat.setForeground(Qt::darkBlue);
 	keywordFormat.setFontWeight(QFont::Bold);
-	QStringList keywordPatterns;
-	keywordPatterns
-			<< "\\buse\\b"
-			<< "\\binclude\\b"
-			<< "\\bmodule\\b"
-			<< "\\bfunction\\b"
-			<< "\\btrue\\b"
-			<< "\\bfalse\\b"
-			<< "\\bundef\\b"
-			<< "\\bconst\\b"
-			<< "\\bparam\\b"
-			<< "\\bif\\b"
-			<< "\\belse\\b"
-			<< "\\bfor\\b"
-			<< "\\breturn\\b";
 
-	foreach(const QString &pattern, keywordPatterns) {
-		rule.pattern = QRegExp(pattern);
-		rule.format = keywordFormat;
-		highlightingRules.append(rule);
-	}
+	numberFormat.setForeground(Qt::red);
 
-	quotationFormat.setForeground(Qt::darkGreen);
-	rule.pattern = QRegExp("\".*\"");
-	rule.format = quotationFormat;
-	highlightingRules.append(rule);
+	operatorFormat.setForeground(Qt::darkMagenta);
 
-	singleLineCommentFormat.setForeground(Qt::red);
-	rule.pattern = QRegExp("//[^\n]*");
-	rule.format = singleLineCommentFormat;
-	highlightingRules.append(rule);
-
-	multiLineCommentFormat.setForeground(Qt::red);
-
-	commentStartExpression = QRegExp("/\\*");
-	commentEndExpression = QRegExp("\\*/");
+	stringFormat.setForeground(Qt::darkGreen);
 }
 
 void SyntaxHighlighter::highlightBlock(const QString& text)
 {
-	foreach(const HighlightingRule &rule, highlightingRules) {
-		QRegExp expression(rule.pattern);
-		int index = expression.indexIn(text);
-		while(index >= 0) {
-			int length = expression.matchedLength();
-			setFormat(index, length, rule.format);
-			index = expression.indexIn(text, index + length);
-		}
-	}
-
-	setCurrentBlockState(0);
-
-	int startIndex = 0;
-	if(previousBlockState() != 1)
-		startIndex = commentStartExpression.indexIn(text);
-
-	while(startIndex >= 0) {
-		int endIndex = commentEndExpression.indexIn(text, startIndex);
-		int commentLength;
-		if(endIndex == -1) {
-			setCurrentBlockState(1);
-			commentLength = text.length() - startIndex;
-		} else {
-			commentLength = endIndex - startIndex
-							+ commentEndExpression.matchedLength();
-		}
-		setFormat(startIndex, commentLength, multiLineCommentFormat);
-		startIndex = commentStartExpression.indexIn(text, startIndex + commentLength);
-	}
+	startIndex=0;
+	lexerinit(this,text,false);
+	while(lexerlex())
+		startIndex+=lexerleng;
 }
 
+void SyntaxHighlighter::buildIncludeStart()
+{
+}
+
+void SyntaxHighlighter::buildIncludeFile(QString)
+{
+}
+
+void SyntaxHighlighter::buildIncludePath(QString)
+{
+}
+
+void SyntaxHighlighter::buildIncludeFinish()
+{
+}
+
+void SyntaxHighlighter::buildUseStart()
+{
+}
+
+unsigned int SyntaxHighlighter::buildUse(QString)
+{
+	return YY_CONTINUE;
+}
+
+void SyntaxHighlighter::buildUseFinish()
+{
+}
+
+void SyntaxHighlighter::buildImportStart()
+{
+}
+
+unsigned int SyntaxHighlighter::buildImport(QString)
+{
+	return YY_CONTINUE;
+}
+
+void SyntaxHighlighter::buildImportFinish()
+{
+}
+
+unsigned int SyntaxHighlighter::buildModule()
+{
+	setFormat(startIndex,lexerleng,keywordFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildFunction()
+{
+	setFormat(startIndex,lexerleng,keywordFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildTrue()
+{
+	setFormat(startIndex,lexerleng,keywordFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildFalse()
+{
+	setFormat(startIndex,lexerleng,keywordFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildUndef()
+{
+	setFormat(startIndex,lexerleng,keywordFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildConst()
+{
+	setFormat(startIndex,lexerleng,keywordFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildParam()
+{
+	setFormat(startIndex,lexerleng,keywordFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildIf()
+{
+	setFormat(startIndex,lexerleng,keywordFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildAs()
+{
+	setFormat(startIndex,lexerleng,keywordFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildElse()
+{
+	setFormat(startIndex,lexerleng,keywordFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildFor()
+{
+	setFormat(startIndex,lexerleng,keywordFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildReturn()
+{
+	setFormat(startIndex,lexerleng,keywordFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildLessEqual()
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildGreatEqual()
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildEqual()
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildNotEqual()
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildAnd()
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildOr()
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildComponentwiseMultiply()
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildComponentwiseDivide()
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildOuterProduct()
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildNamespace()
+{
+	setFormat(startIndex,lexerleng,keywordFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildAssign()
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildLegalChar(unsigned int)
+{
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildNumber(QString)
+{
+	setFormat(startIndex,lexerleng,numberFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildIdentifier(QString)
+{
+	return YY_CONTINUE;
+}
+
+void SyntaxHighlighter::buildStringStart()
+{
+	stringStart=startIndex;
+	startIndex++;
+}
+
+void SyntaxHighlighter::buildString(QChar)
+{
+	startIndex++;
+}
+
+void SyntaxHighlighter::buildString(QString)
+{
+	startIndex+=lexerleng;
+}
+
+unsigned int SyntaxHighlighter::buildStringFinish()
+{
+	int stringLen=(startIndex+1)-stringStart;
+	setFormat(stringStart,stringLen,stringFormat);
+	return YY_CONTINUE;
+}
+
+void SyntaxHighlighter::buildCommentStart()
+{
+}
+
+unsigned int SyntaxHighlighter::buildComment(QString)
+{
+	setFormat(startIndex,lexerleng,stringFormat);
+	return YY_CONTINUE;
+}
+
+void SyntaxHighlighter::buildCommentFinish()
+{
+}
+
+void SyntaxHighlighter::buildWhiteSpaceError()
+{
+}
+
+void SyntaxHighlighter::buildWhiteSpace()
+{
+	startIndex+=lexerleng;
+}
+
+void SyntaxHighlighter::buildFileStart(QDir)
+{
+}
+
+void SyntaxHighlighter::buildFileFinish()
+{
+}

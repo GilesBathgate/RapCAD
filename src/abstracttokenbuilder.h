@@ -59,6 +59,7 @@ public:
 	virtual unsigned int buildComponentwiseDivide()=0;
 	virtual unsigned int buildOuterProduct()=0;
 	virtual unsigned int buildNamespace()=0;
+	virtual unsigned int buildAssign()=0;
 	virtual unsigned int buildLegalChar(unsigned int)=0;
 	virtual unsigned int buildNumber(QString)=0;
 	virtual unsigned int buildIdentifier(QString)=0;
@@ -70,6 +71,7 @@ public:
 	virtual unsigned int buildComment(QString)=0;
 	virtual void buildCommentFinish()=0;
 	virtual void buildWhiteSpaceError()=0;
+	virtual void buildWhiteSpace()=0;
 	virtual void buildFileStart(QDir)=0;
 	virtual void buildFileFinish()=0;
 };

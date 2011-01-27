@@ -18,11 +18,10 @@
 
 %{
 #include "abstracttokenbuilder.h"
-#include "tokenbuilder.h"
 
 void lexererror();
 void lexerinclude(const char*);
-void lexerinit(QString path);
+void lexerinit(AbstractTokenBuilder*,QString,bool);
 
 AbstractTokenBuilder* tbuilder;
 %}
@@ -73,7 +72,8 @@ WS [ \t\r\n]
 ".*"			{ return tbuilder->buildComponentwiseMultiply(); }
 "./"			{ return tbuilder->buildComponentwiseDivide(); }
 "::"			{ return tbuilder->buildNamespace(); }
-[\[\]<>.:!;#${}(),=*/%?\+\-] %{
+"="			{ return tbuilder->buildAssign(); }
+[\[\]<>.:!;#${}(),*/%?\+\-] %{
 			{ return tbuilder->buildLegalChar(lexertext[0]); }
 			%}
 {D}+|{D}*\.{D}+|{D}+\.{D}* { return tbuilder->buildNumber(lexertext); }
@@ -96,7 +96,7 @@ WS [ \t\r\n]
 "*/"			{ BEGIN(INITIAL); tbuilder->buildCommentFinish(); }
 }
 [ \t]+\n		{ tbuilder->buildWhiteSpaceError(); }
-{WS}+			//ignore whitespace
+{WS}+			{ tbuilder->buildWhiteSpace(); }
 .			{ lexererror();  }
 %%
 
@@ -105,13 +105,20 @@ void lexererror()
     fprintf(stderr,"%d: illegal token `%s'.\n",lexerlineno,lexertext);
 }
 
-void lexerinit(QString path)
+void lexerinit(AbstractTokenBuilder* b,QString input,bool file)
 {
-    QFileInfo fileinfo(path);
-    const char* fullpath = fileinfo.absoluteFilePath().toLocal8Bit();
-    lexerin = fopen(fullpath,"r");
-    tbuilder = new TokenBuilder();
-    tbuilder->buildFileStart(fileinfo.absoluteDir());
+    BEGIN(INITIAL);
+    tbuilder = b;
+
+    if(file) {
+	QFileInfo fileinfo(input);
+	const char* fullpath = fileinfo.absoluteFilePath().toLocal8Bit();
+	lexerin = fopen(fullpath,"r");
+	tbuilder->buildFileStart(fileinfo.absoluteDir());
+    } else {
+	const char* t = input.toLocal8Bit();
+	lexer_scan_string(t);
+    }
 }
 
 void lexerinclude(const char* fullpath)
