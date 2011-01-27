@@ -22,8 +22,9 @@
 void lexererror();
 void lexerinclude(const char*);
 void lexerinit(AbstractTokenBuilder*,QString,bool);
+void lexerbegin();
 
-AbstractTokenBuilder* tbuilder;
+AbstractTokenBuilder* tokenizer;
 %}
 
 %option yylineno
@@ -34,69 +35,69 @@ AbstractTokenBuilder* tbuilder;
 D [0-9]
 WS [ \t\r\n]
 %%
-"include"{WS}*"<"	{ BEGIN(include); tbuilder->buildIncludeStart(); }
+"include"{WS}*"<"	{ BEGIN(include); tokenizer->buildIncludeStart(); }
 <include>{
-[^\t\r\n>]+"/"		{ tbuilder->buildIncludePath(lexertext); }
-[^\t\r\n>/]+		{ tbuilder->buildIncludeFile(lexertext); }
-">"			{ BEGIN(INITIAL); tbuilder->buildIncludeFinish(); }
+[^\t\r\n>]+"/"		{ tokenizer->buildIncludePath(lexertext); }
+[^\t\r\n>/]+		{ tokenizer->buildIncludeFile(lexertext); }
+">"			{ BEGIN(INITIAL); tokenizer->buildIncludeFinish(); }
 }
-"use"{WS}*"<"		{ BEGIN(use); tbuilder->buildUseStart(); }
-<use>[^\t\r\n>]+	{ return tbuilder->buildUse(lexertext); }
-<use>">"		{ BEGIN(INITIAL); tbuilder->buildUseFinish(); }
-"import"{WS}*"<"	{ BEGIN(import); tbuilder->buildImportStart(); }
-<import>[^\t\r\n>]+	{ return tbuilder->buildImport(lexertext); }
-<import>">"		{ BEGIN(INITIAL); tbuilder->buildImportFinish(); }
-<<EOF>>			{ tbuilder->buildFileFinish();
+"use"{WS}*"<"		{ BEGIN(use); tokenizer->buildUseStart(); }
+<use>[^\t\r\n>]+	{ return tokenizer->buildUse(lexertext); }
+<use>">"		{ BEGIN(INITIAL); tokenizer->buildUseFinish(); }
+"import"{WS}*"<"	{ BEGIN(import); tokenizer->buildImportStart(); }
+<import>[^\t\r\n>]+	{ return tokenizer->buildImport(lexertext); }
+<import>">"		{ BEGIN(INITIAL); tokenizer->buildImportFinish(); }
+<<EOF>>			{ tokenizer->buildFileFinish();
 			  lexerpop_buffer_state();
 			  if(!YY_CURRENT_BUFFER)
 			    yyterminate(); }
-"module"		{ return tbuilder->buildModule(); }
-"function"		{ return tbuilder->buildFunction(); }
-"true"			{ return tbuilder->buildTrue(); }
-"false"		{ return tbuilder->buildFalse(); }
-"undef"		{ return tbuilder->buildUndef(); }
-"const"		{ return tbuilder->buildConst(); }
-"param"		{ return tbuilder->buildParam(); }
-"if"			{ return tbuilder->buildIf(); }
-"as"			{ return tbuilder->buildAs(); }
-"else"			{ return tbuilder->buildElse(); }
-"for"			{ return tbuilder->buildFor(); }
-"return"		{ return tbuilder->buildReturn(); }
-"<="			{ return tbuilder->buildLessEqual();  }
-">="			{ return tbuilder->buildGreatEqual();  }
-"=="			{ return tbuilder->buildEqual();  }
-"!="			{ return tbuilder->buildNotEqual();  }
-"&&"			{ return tbuilder->buildAnd(); }
-"||"			{ return tbuilder->buildOr();  }
-"**"			{ return tbuilder->buildOuterProduct(); }
-".*"			{ return tbuilder->buildComponentwiseMultiply(); }
-"./"			{ return tbuilder->buildComponentwiseDivide(); }
-"::"			{ return tbuilder->buildNamespace(); }
-"="			{ return tbuilder->buildAssign(); }
+"module"		{ return tokenizer->buildModule(); }
+"function"		{ return tokenizer->buildFunction(); }
+"true"			{ return tokenizer->buildTrue(); }
+"false"		{ return tokenizer->buildFalse(); }
+"undef"		{ return tokenizer->buildUndef(); }
+"const"		{ return tokenizer->buildConst(); }
+"param"		{ return tokenizer->buildParam(); }
+"if"			{ return tokenizer->buildIf(); }
+"as"			{ return tokenizer->buildAs(); }
+"else"			{ return tokenizer->buildElse(); }
+"for"			{ return tokenizer->buildFor(); }
+"return"		{ return tokenizer->buildReturn(); }
+"<="			{ return tokenizer->buildLessEqual();  }
+">="			{ return tokenizer->buildGreatEqual();  }
+"=="			{ return tokenizer->buildEqual();  }
+"!="			{ return tokenizer->buildNotEqual();  }
+"&&"			{ return tokenizer->buildAnd(); }
+"||"			{ return tokenizer->buildOr();  }
+"**"			{ return tokenizer->buildOuterProduct(); }
+".*"			{ return tokenizer->buildComponentwiseMultiply(); }
+"./"			{ return tokenizer->buildComponentwiseDivide(); }
+"::"			{ return tokenizer->buildNamespace(); }
+"="			{ return tokenizer->buildAssign(); }
 [\[\]<>.:!;#${}(),*/%?\+\-] %{
-			{ return tbuilder->buildLegalChar(lexertext[0]); }
+			{ return tokenizer->buildLegalChar(lexertext[0]); }
 			%}
-{D}+|{D}*\.{D}+|{D}+\.{D}* { return tbuilder->buildNumber(lexertext); }
-[a-zA-Z0-9_]+		{ return tbuilder->buildIdentifier(lexertext); }
-\"			{ BEGIN(string); tbuilder->buildStringStart(); }
+{D}+|{D}*\.{D}+|{D}+\.{D}* { return tokenizer->buildNumber(lexertext); }
+[a-zA-Z0-9_]+		{ return tokenizer->buildIdentifier(lexertext); }
+\"			{ BEGIN(string); tokenizer->buildStringStart(); }
 <string>{
-\\n			{ tbuilder->buildString('\n'); }
-\\t			{ tbuilder->buildString('\t'); }
-\\r			{ tbuilder->buildString('\r'); }
-\\\\			{ tbuilder->buildString('\\'); }
-\\\"			{ tbuilder->buildString('"'); }
-[^\\\n\"]+		{ tbuilder->buildString(lexertext); }
-\"			{ BEGIN(INITIAL); return tbuilder->buildStringFinish(); }
+\\n			{ tokenizer->buildString('\n'); }
+\\t			{ tokenizer->buildString('\t'); }
+\\r			{ tokenizer->buildString('\r'); }
+\\\\			{ tokenizer->buildString('\\'); }
+\\\"			{ tokenizer->buildString('"'); }
+[^\\\n\"]+		{ tokenizer->buildString(lexertext); }
+\"			{ BEGIN(INITIAL); return tokenizer->buildStringFinish(); }
 }
-"//"[^\n]*\n?		{ tbuilder->buildComment(lexertext); }
-"/*"			{ BEGIN(comment); tbuilder->buildCommentStart(); }
+"//"[^\n]*\n?		{ tokenizer->buildComment(lexertext); }
+"/*"			{ BEGIN(comment); tokenizer->buildCommentStart(); }
 <comment>{
-[^*]*			{ tbuilder->buildComment(lexertext); }
-"*"+[^*/]*		{ tbuilder->buildComment(lexertext); }
-"*/"			{ BEGIN(INITIAL); tbuilder->buildCommentFinish(); }
+[^*]*			{ tokenizer->buildComment(lexertext); }
+"*"+[^*/]*		{ tokenizer->buildComment(lexertext); }
+"*/"			{ BEGIN(INITIAL); tokenizer->buildCommentFinish(); }
 }
-[ \t]+\n		{ tbuilder->buildWhiteSpaceError(); }
-{WS}+			{ tbuilder->buildWhiteSpace(); }
+[ \t]+\n		{ tokenizer->buildWhiteSpaceError(); }
+{WS}+			{ tokenizer->buildWhiteSpace(); }
 .			{ lexererror();  }
 %%
 
@@ -107,18 +108,22 @@ void lexererror()
 
 void lexerinit(AbstractTokenBuilder* b,QString input,bool file)
 {
-    BEGIN(INITIAL);
-    tbuilder = b;
+    tokenizer = b;
 
     if(file) {
 	QFileInfo fileinfo(input);
 	const char* fullpath = fileinfo.absoluteFilePath().toLocal8Bit();
 	lexerin = fopen(fullpath,"r");
-	tbuilder->buildFileStart(fileinfo.absoluteDir());
+	tokenizer->buildFileStart(fileinfo.absoluteDir());
     } else {
 	const char* t = input.toLocal8Bit();
 	lexer_scan_string(t);
     }
+}
+
+void lexerbegin()
+{
+    BEGIN(INITIAL);
 }
 
 void lexerinclude(const char* fullpath)

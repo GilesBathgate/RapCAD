@@ -20,6 +20,7 @@
 
 extern void lexerinit(AbstractTokenBuilder*,QString,bool);
 extern int lexerlex();
+extern void lexerbegin();
 extern int lexerleng;
 #define YY_CONTINUE 1;
 
@@ -38,6 +39,10 @@ SyntaxHighlighter::SyntaxHighlighter(QTextDocument* parent)
 
 void SyntaxHighlighter::highlightBlock(const QString& text)
 {
+	if(previousBlockState()!=1)
+		lexerbegin();
+
+	setCurrentBlockState(0);
 	startIndex=0;
 	lexerinit(this,text,false);
 	while(lexerlex())
@@ -265,16 +270,21 @@ unsigned int SyntaxHighlighter::buildStringFinish()
 
 void SyntaxHighlighter::buildCommentStart()
 {
+	setCurrentBlockState(1);
 }
 
 unsigned int SyntaxHighlighter::buildComment(QString)
 {
-	setFormat(startIndex,lexerleng,stringFormat);
+	if(this->previousBlockState()==1)
+		this->setCurrentBlockState(1);
+
+	setFormat(startIndex,lexerleng+2,stringFormat);
 	return YY_CONTINUE;
 }
 
 void SyntaxHighlighter::buildCommentFinish()
 {
+	setCurrentBlockState(0);
 }
 
 void SyntaxHighlighter::buildWhiteSpaceError()
