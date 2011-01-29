@@ -51,44 +51,59 @@ void SyntaxHighlighter::highlightBlock(const QString& text)
 
 void SyntaxHighlighter::buildIncludeStart()
 {
+	setFormat(startIndex,lexerleng-1,keywordFormat);
+	startIndex+=lexerleng;
 }
 
 void SyntaxHighlighter::buildIncludeFile(QString)
 {
+	setFormat(startIndex,lexerleng,stringFormat);
+	startIndex+=lexerleng;
 }
 
 void SyntaxHighlighter::buildIncludePath(QString)
 {
+	setFormat(startIndex,lexerleng,stringFormat);
+	startIndex+=lexerleng;
 }
 
 void SyntaxHighlighter::buildIncludeFinish()
 {
+	startIndex++;
 }
 
 void SyntaxHighlighter::buildUseStart()
 {
+	setFormat(startIndex,lexerleng-1,keywordFormat);
+	startIndex+=lexerleng;
 }
 
 unsigned int SyntaxHighlighter::buildUse(QString)
 {
+	setFormat(startIndex,lexerleng,stringFormat);
 	return YY_CONTINUE;
 }
 
 void SyntaxHighlighter::buildUseFinish()
 {
+	startIndex++;
 }
 
 void SyntaxHighlighter::buildImportStart()
 {
+	setFormat(startIndex,lexerleng-1,keywordFormat);
+	startIndex+=lexerleng;
 }
 
 unsigned int SyntaxHighlighter::buildImport(QString)
 {
+	setFormat(startIndex,lexerleng,stringFormat);
 	return YY_CONTINUE;
 }
 
 void SyntaxHighlighter::buildImportFinish()
 {
+	startIndex++;
 }
 
 unsigned int SyntaxHighlighter::buildModule()
