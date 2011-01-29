@@ -22,16 +22,72 @@ RapCAD(1) Manual Page
 Giles Bathgate <giles.bathgate@gmail.com>
 version 0.1
 
-OPTIONS
--------
+Command line options
+--------------------
+
 *-f* 'FILE'::
     Parse and evaluate the given file. Any output will be printed on stdout.
 
-*-t* 'TEXT'::
-    Parse and evaluate the text supplied on the commandline. Any output will be printed on stdout. 
+3D Primitives
+-------------
 
-ECHO
-----
+Cube
+~~~~
+.Examples
+------------------------------
+cube(size,center);
+cube(s,c);
+------------------------------
+
+Sphere
+~~~~~~
+.Examples
+------------------------------
+sphere(radius);
+sphere(r);
+------------------------------
+
+Cylinder
+~~~~~~~~
+.Examples
+------------------------------
+cylinder(radius,height,center);
+cylinder(r,h,c);
+------------------------------
+
+Cone
+~~~~
+.Examples
+------------------------------
+cone(radius1,radius2,center);
+cone(r1,r2,c);
+------------------------------
+
+2D primitives
+-------------
+
+Square
+~~~~~~
+.Examples
+------------------------------
+square(size,center);
+square(s,c);
+------------------------------
+
+Circle
+~~~~~~
+.Examples
+------------------------------
+circle(radius);
+circle(r);
+------------------------------
+
+
+Control modules
+---------------
+
+Echo
+~~~~
 
 The echo module allows you to debug values that are evaluated as part of your script. You can pass more than one argument to echo and it will be output to the console. Named arguments are allowed but the names will not be echo'ed.
 
@@ -54,7 +110,7 @@ echo(a=1,b=2);
 ------------------------------
 
 
-VECTOR EXPRESSIONS
+Vector Expressions
 ------------------
 .Syntax
 ******************************
