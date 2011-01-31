@@ -27,13 +27,19 @@ QT       += core gui opengl
 TARGET = rapcad
 TEMPLATE = app
 INCLUDEPATH += src
-QMAKE_YACC = bison
-QMAKE_DEL_FILE = rm -f
 LEXSOURCES += src/lexer.l
 YACCSOURCES += src/parser.y
+LIBS += -lCGAL -lmpfr -lgmp
 
-SOURCES += src/main.cpp\
-        src/mainwindow.cpp \
+QMAKE_CXXFLAGS += -frounding-math
+QMAKE_YACC = bison
+win32 {
+QMAKE_DEL_FILE = rm -f
+}
+
+SOURCES += \
+    src/main.cpp \
+    src/mainwindow.cpp \
     src/module.cpp \
     src/syntaxtreebuilder.cpp \
     src/parameter.cpp \
@@ -79,7 +85,8 @@ SOURCES += src/main.cpp\
     src/rangeiterator.cpp \
     src/scriptimport.cpp
 
-HEADERS  += src/mainwindow.h \
+HEADERS  += \
+    src/mainwindow.h \
     src/module.h \
     src/syntaxtreebuilder.h \
     src/parameter.h \
@@ -129,9 +136,11 @@ HEADERS  += src/mainwindow.h \
     src/valueiterator.h \
     src/vectoriterator.h \
     src/rangeiterator.h \
-    src/scriptimport.h
+    src/scriptimport.h \
+    src/cgal.h
 
-FORMS    += src/mainwindow.ui   
+FORMS += \
+    src/mainwindow.ui
 
 OTHER_FILES += \
     COPYING
