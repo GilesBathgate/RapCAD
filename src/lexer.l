@@ -54,10 +54,10 @@ WS [ \t\r\n]
 "module"		{ return tokenizer->buildModule(); }
 "function"		{ return tokenizer->buildFunction(); }
 "true"			{ return tokenizer->buildTrue(); }
-"false"		{ return tokenizer->buildFalse(); }
-"undef"		{ return tokenizer->buildUndef(); }
-"const"		{ return tokenizer->buildConst(); }
-"param"		{ return tokenizer->buildParam(); }
+"false"			{ return tokenizer->buildFalse(); }
+"undef"			{ return tokenizer->buildUndef(); }
+"const"			{ return tokenizer->buildConst(); }
+"param"			{ return tokenizer->buildParam(); }
 "if"			{ return tokenizer->buildIf(); }
 "as"			{ return tokenizer->buildAs(); }
 "else"			{ return tokenizer->buildElse(); }
@@ -74,7 +74,9 @@ WS [ \t\r\n]
 "./"			{ return tokenizer->buildComponentwiseDivide(); }
 "::"			{ return tokenizer->buildNamespace(); }
 "="			{ return tokenizer->buildAssign(); }
-[\[\]<>.:!;#${}(),*/%?\+\-] %{
+"+"			{ return tokenizer->buildAdd(); }
+"-"			{ return tokenizer->buildSubtract(); }
+[\[\]<>.:!;#${}(),*/%?] %{
 			{ return tokenizer->buildLegalChar(lexertext[0]); }
 			%}
 {D}+|{D}*\.{D}+|{D}+\.{D}* { return tokenizer->buildNumber(lexertext); }

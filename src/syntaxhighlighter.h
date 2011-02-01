@@ -63,6 +63,8 @@ private:
 	unsigned int buildOuterProduct();
 	unsigned int buildNamespace();
 	unsigned int buildAssign();
+	unsigned int buildAdd();
+	unsigned int buildSubtract();
 	unsigned int buildLegalChar(unsigned int);
 	unsigned int buildNumber(QString);
 	unsigned int buildIdentifier(QString);

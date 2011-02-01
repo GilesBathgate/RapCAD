@@ -244,6 +244,18 @@ unsigned int SyntaxHighlighter::buildAssign()
 	return YY_CONTINUE;
 }
 
+unsigned int SyntaxHighlighter::buildAdd()
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildSubtract()
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
 unsigned int SyntaxHighlighter::buildLegalChar(unsigned int)
 {
 	return YY_CONTINUE;

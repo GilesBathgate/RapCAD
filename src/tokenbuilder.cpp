@@ -210,6 +210,16 @@ unsigned int TokenBuilder::buildAssign()
 	return '=';
 }
 
+unsigned int TokenBuilder::buildAdd()
+{
+	return '+';
+}
+
+unsigned int TokenBuilder::buildSubtract()
+{
+	return '-';
+}
+
 unsigned int TokenBuilder::buildLegalChar(unsigned int c)
 {
 	return c;

@@ -60,6 +60,8 @@ public:
 	virtual unsigned int buildOuterProduct()=0;
 	virtual unsigned int buildNamespace()=0;
 	virtual unsigned int buildAssign()=0;
+	virtual unsigned int buildAdd()=0;
+	virtual unsigned int buildSubtract()=0;
 	virtual unsigned int buildLegalChar(unsigned int)=0;
 	virtual unsigned int buildNumber(QString)=0;
 	virtual unsigned int buildIdentifier(QString)=0;
