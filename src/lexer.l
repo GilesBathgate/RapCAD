@@ -76,7 +76,9 @@ WS [ \t\r\n]
 "="			{ return tokenizer->buildAssign(); }
 "+"			{ return tokenizer->buildAdd(); }
 "-"			{ return tokenizer->buildSubtract(); }
-[\[\]<>.:!;#${}(),*/%?] %{
+"?"			{ return tokenizer->buildTernaryCondition(); }
+":"			{ return tokenizer->buildTernaryAlternate(); }
+[\[\]<>.!;#${}(),*/%] %{
 			{ return tokenizer->buildLegalChar(lexertext[0]); }
 			%}
 {D}+|{D}*\.{D}+|{D}+\.{D}* { return tokenizer->buildNumber(lexertext); }

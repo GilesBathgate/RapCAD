@@ -256,6 +256,18 @@ unsigned int SyntaxHighlighter::buildSubtract()
 	return YY_CONTINUE;
 }
 
+unsigned int SyntaxHighlighter::buildTernaryCondition()
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildTernaryAlternate()
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
 unsigned int SyntaxHighlighter::buildLegalChar(unsigned int)
 {
 	return YY_CONTINUE;

@@ -220,6 +220,16 @@ unsigned int TokenBuilder::buildSubtract()
 	return '-';
 }
 
+unsigned int TokenBuilder::buildTernaryCondition()
+{
+	return '?';
+}
+
+unsigned int  TokenBuilder::buildTernaryAlternate()
+{
+	return ':';
+}
+
 unsigned int TokenBuilder::buildLegalChar(unsigned int c)
 {
 	return c;
