@@ -230,6 +230,11 @@ unsigned int  TokenBuilder::buildTernaryAlternate()
 	return ':';
 }
 
+unsigned int TokenBuilder::buildNot()
+{
+	return '!';
+}
+
 unsigned int TokenBuilder::buildLegalChar(unsigned int c)
 {
 	return c;

@@ -268,6 +268,12 @@ unsigned int SyntaxHighlighter::buildTernaryAlternate()
 	return YY_CONTINUE;
 }
 
+unsigned int SyntaxHighlighter::buildNot()
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
 unsigned int SyntaxHighlighter::buildLegalChar(unsigned int)
 {
 	return YY_CONTINUE;

@@ -67,6 +67,7 @@ private:
 	unsigned int buildSubtract();
 	unsigned int buildTernaryCondition();
 	unsigned int buildTernaryAlternate();
+	unsigned int buildNot();
 	unsigned int buildLegalChar(unsigned int);
 	unsigned int buildNumber(QString);
 	unsigned int buildIdentifier(QString);
