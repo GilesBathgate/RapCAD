@@ -280,6 +280,12 @@ unsigned int SyntaxHighlighter::buildMultiply()
 	return YY_CONTINUE;
 }
 
+unsigned int SyntaxHighlighter::buildDivide()
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
 unsigned int SyntaxHighlighter::buildLegalChar(unsigned int)
 {
 	return YY_CONTINUE;

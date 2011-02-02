@@ -240,6 +240,11 @@ unsigned int TokenBuilder::buildMultiply()
 	return '*';
 }
 
+unsigned int TokenBuilder::buildDivide()
+{
+	return '/';
+}
+
 unsigned int TokenBuilder::buildLegalChar(unsigned int c)
 {
 	return c;

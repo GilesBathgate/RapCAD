@@ -80,7 +80,8 @@ WS [ \t\r\n]
 ":"			{ return tokenizer->buildTernaryAlternate(); }
 "!"			{ return tokenizer->buildNot(); }
 "*"			{ return tokenizer->buildMultiply(); }
-[\[\]<>.;#${}(),/%] %{
+"/"			{ return tokenizer->buildDivide(); }
+[\[\]<>.;#${}(),%] %{
 			{ return tokenizer->buildLegalChar(lexertext[0]); }
 			%}
 {D}+|{D}*\.{D}+|{D}+\.{D}* { return tokenizer->buildNumber(lexertext); }
