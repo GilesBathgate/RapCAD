@@ -274,6 +274,12 @@ unsigned int SyntaxHighlighter::buildNot()
 	return YY_CONTINUE;
 }
 
+unsigned int SyntaxHighlighter::buildMultiply()
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
 unsigned int SyntaxHighlighter::buildLegalChar(unsigned int)
 {
 	return YY_CONTINUE;

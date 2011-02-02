@@ -65,6 +65,7 @@ public:
 	virtual unsigned int buildTernaryCondition()=0;
 	virtual unsigned int buildTernaryAlternate()=0;
 	virtual unsigned int buildNot()=0;
+	virtual unsigned int buildMultiply()=0;
 	virtual unsigned int buildLegalChar(unsigned int)=0;
 	virtual unsigned int buildNumber(QString)=0;
 	virtual unsigned int buildIdentifier(QString)=0;

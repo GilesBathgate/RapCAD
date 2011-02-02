@@ -235,6 +235,11 @@ unsigned int TokenBuilder::buildNot()
 	return '!';
 }
 
+unsigned int TokenBuilder::buildMultiply()
+{
+	return '*';
+}
+
 unsigned int TokenBuilder::buildLegalChar(unsigned int c)
 {
 	return c;
