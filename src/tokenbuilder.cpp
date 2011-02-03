@@ -245,6 +245,11 @@ unsigned int TokenBuilder::buildDivide()
 	return '/';
 }
 
+unsigned int TokenBuilder::buildModulus()
+{
+	return '%';
+}
+
 unsigned int TokenBuilder::buildLegalChar(unsigned int c)
 {
 	return c;

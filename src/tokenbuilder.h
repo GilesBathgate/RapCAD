@@ -69,6 +69,7 @@ public:
 	unsigned int buildNot();
 	unsigned int buildMultiply();
 	unsigned int buildDivide();
+	unsigned int buildModulus();
 	unsigned int buildLegalChar(unsigned int);
 	unsigned int buildNumber(QString);
 	unsigned int buildIdentifier(QString);

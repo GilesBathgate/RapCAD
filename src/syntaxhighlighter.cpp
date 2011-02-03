@@ -286,6 +286,12 @@ unsigned int SyntaxHighlighter::buildDivide()
 	return YY_CONTINUE;
 }
 
+unsigned int SyntaxHighlighter::buildModulus()
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
 unsigned int SyntaxHighlighter::buildLegalChar(unsigned int)
 {
 	return YY_CONTINUE;
