@@ -35,11 +35,13 @@
 extern int lexerlineno;
 extern int lexerlex(void);
 extern char *lexertext;
+extern int lexerleng;
 extern void lexerinit(AbstractTokenBuilder*,QString,bool);
 
 void parsererror(char const *);
 int parserlex();
 void parse(QString,bool);
+int parserpos=0;
 
 AbstractSyntaxTreeBuilder *builder;
 %}
@@ -414,12 +416,13 @@ argument
 
 int parserlex(void)
 {
+	parserpos+=lexerleng;
 	return lexerlex();
 }
 
 void parsererror(char const *s)
 {
-	fprintf(stderr,"%d: %s at %s\n", lexerlineno, s, lexertext);
+	fprintf(stderr,"line %d: %s at character %i: '%s'\n", lexerlineno, s, parserpos, lexertext);
 }
 
 void parse(QString path)
