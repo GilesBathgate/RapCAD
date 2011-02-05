@@ -258,6 +258,7 @@ unsigned int TokenBuilder::buildLegalChar(unsigned int c)
 unsigned int TokenBuilder::buildIllegalChar()
 {
 	lexererror();
+	return YY_NULL;
 }
 
 unsigned int TokenBuilder::buildNumber(QString str)
