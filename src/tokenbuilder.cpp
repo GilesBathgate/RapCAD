@@ -20,7 +20,7 @@
 #include "parser_yacc.h"
 #define YY_NULL 0
 extern void lexerinclude(const char*);
-
+extern void lexererror();
 
 TokenBuilder::TokenBuilder()
 {
@@ -253,6 +253,11 @@ unsigned int TokenBuilder::buildModulus()
 unsigned int TokenBuilder::buildLegalChar(unsigned int c)
 {
 	return c;
+}
+
+unsigned int TokenBuilder::buildIllegalChar()
+{
+	lexererror();
 }
 
 unsigned int TokenBuilder::buildNumber(QString str)

@@ -34,6 +34,8 @@ SyntaxHighlighter::SyntaxHighlighter(QTextDocument* parent)
 
 	operatorFormat.setForeground(Qt::darkMagenta);
 
+	errorFormat.setBackground(Qt::red);
+
 	stringFormat.setForeground(Qt::darkGreen);
 }
 
@@ -297,6 +299,12 @@ unsigned int SyntaxHighlighter::buildLegalChar(unsigned int)
 	return YY_CONTINUE;
 }
 
+unsigned int SyntaxHighlighter::buildIllegalChar()
+{
+	setFormat(startIndex,lexerleng,errorFormat);
+	return YY_CONTINUE;
+}
+
 unsigned int SyntaxHighlighter::buildNumber(QString)
 {
 	setFormat(startIndex,lexerleng,numberFormat);
@@ -352,6 +360,7 @@ void SyntaxHighlighter::buildCommentFinish()
 
 void SyntaxHighlighter::buildWhiteSpaceError()
 {
+	setFormat(startIndex,lexerleng,errorFormat);
 }
 
 void SyntaxHighlighter::buildWhiteSpace()

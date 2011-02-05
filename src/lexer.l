@@ -104,12 +104,12 @@ WS [ \t\r\n]
 }
 {WS}+$				{ tokenizer->buildWhiteSpaceError(); }
 {WS}+				{ tokenizer->buildWhiteSpace(); }
-.				{ lexererror();  }
+.				{ return tokenizer->buildIllegalChar();  }
 %%
 
 void lexererror()
 {
-	fprintf(stderr,"%d: illegal token `%s'.\n",lexerlineno,lexertext);
+	fprintf(stderr,"%d: illegal token '%s'.\n",lexerlineno,lexertext);
 }
 
 void lexerinit(AbstractTokenBuilder* b,QString input,bool file)
