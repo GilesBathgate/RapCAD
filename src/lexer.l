@@ -50,7 +50,7 @@ WS [ \t\r\n]
 <<EOF>>				{ tokenizer->buildFileFinish();
 					lexerpop_buffer_state();
 					if(!YY_CURRENT_BUFFER)
-					yyterminate(); }
+						yyterminate(); }
 "module"			{ return tokenizer->buildModule(); }
 "function"			{ return tokenizer->buildFunction(); }
 "true"				{ return tokenizer->buildTrue(); }
@@ -82,9 +82,7 @@ WS [ \t\r\n]
 "*"				{ return tokenizer->buildMultiply(); }
 "/"				{ return tokenizer->buildDivide(); }
 "%"				{ return tokenizer->buildModulus(); }
-[\[\]<>.;#${}(),]		%{
-				{ return tokenizer->buildLegalChar(lexertext[0]); }
-				%}
+[\[\]<>.;#${}(),]		{ return tokenizer->buildLegalChar(lexertext[0]); }
 {D}+|{D}*\.{D}+|{D}+\.{D}*	{ return tokenizer->buildNumber(lexertext); }
 [a-zA-Z0-9_]+			{ return tokenizer->buildIdentifier(lexertext); }
 \"				{ BEGIN(string); tokenizer->buildStringStart(); }
