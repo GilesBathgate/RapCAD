@@ -29,7 +29,6 @@
 #include "prettyprinter.h"
 #include "evaluator.h"
 
-extern int lexerlineno;
 extern char *lexertext;
 extern void lexerinit(AbstractTokenBuilder*,QString,bool);
 
@@ -417,7 +416,8 @@ int parserlex()
 void parsererror(char const *s)
 {
 	int pos=ptokenizer->getPosition();
-	fprintf(stderr,"line %d: %s at character %i: '%s'\n", lexerlineno, s, pos, lexertext);
+	int line=ptokenizer->getLineNumber();
+	fprintf(stderr,"line %d: %s at character %i: '%s'\n", line, s, pos, lexertext);
 }
 
 void parse(QString path)

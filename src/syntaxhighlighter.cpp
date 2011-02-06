@@ -63,6 +63,12 @@ int SyntaxHighlighter::getPosition()
 	return startIndex;
 }
 
+int SyntaxHighlighter::getLineNumber()
+{
+	return 1; /*TODO for now we don't really care what line
+	we are on for syntax highlighting */
+}
+
 void SyntaxHighlighter::buildIncludeStart()
 {
 	setFormat(startIndex,lexerleng-1,keywordFormat);

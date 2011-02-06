@@ -29,6 +29,7 @@ public:
 	virtual ~AbstractTokenBuilder() {}
 	virtual int nextToken()=0;
 	virtual int getPosition()=0;
+	virtual int getLineNumber()=0;
 	virtual void buildIncludeStart()=0;
 	virtual void buildIncludeFile(QString)=0;
 	virtual void buildIncludePath(QString)=0;

@@ -31,6 +31,7 @@ public:
 	TokenBuilder();
 	int nextToken();
 	int getPosition();
+	int getLineNumber();
 	void buildIncludeStart();
 	void buildIncludeFile(QString);
 	void buildIncludePath(QString);

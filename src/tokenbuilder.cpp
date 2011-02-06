@@ -23,6 +23,7 @@ extern void lexerinclude(const char*);
 extern void lexererror();
 extern int lexerlex();
 extern int lexerleng;
+extern int lexerlineno;
 
 TokenBuilder::TokenBuilder()
 {
@@ -38,6 +39,11 @@ int TokenBuilder::nextToken()
 int TokenBuilder::getPosition()
 {
 	return position;
+}
+
+int TokenBuilder::getLineNumber()
+{
+	return lexerlineno;
 }
 
 void TokenBuilder::buildIncludeStart()
