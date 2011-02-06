@@ -30,6 +30,8 @@ public:
 protected:
 	void highlightBlock(const QString& text);
 private:
+	int nextToken();
+	int getPosition();
 	void buildIncludeStart();
 	void buildIncludeFile(QString);
 	void buildIncludePath(QString);
@@ -84,6 +86,7 @@ private:
 	void buildCommentFinish();
 	void buildWhiteSpaceError();
 	void buildWhiteSpace();
+	void buildNewLine();
 	void buildFileStart(QDir);
 	void buildFileFinish();
 

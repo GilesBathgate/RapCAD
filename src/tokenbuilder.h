@@ -29,6 +29,8 @@ class TokenBuilder : public AbstractTokenBuilder
 {
 public:
 	TokenBuilder();
+	int nextToken();
+	int getPosition();
 	void buildIncludeStart();
 	void buildIncludeFile(QString);
 	void buildIncludePath(QString);
@@ -83,6 +85,7 @@ public:
 	void buildCommentFinish();
 	void buildWhiteSpaceError();
 	void buildWhiteSpace();
+	void buildNewLine();
 	void buildFileStart(QDir);
 	void buildFileFinish();
 private:
@@ -90,6 +93,7 @@ private:
 	QString filename;
 	QString filepath;
 	QStack<QDir> path_stack;
+	int position;
 };
 
 #endif // TOKENBUILDER_H

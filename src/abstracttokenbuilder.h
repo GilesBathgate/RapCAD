@@ -27,6 +27,8 @@ class AbstractTokenBuilder
 {
 public:
 	virtual ~AbstractTokenBuilder() {}
+	virtual int nextToken()=0;
+	virtual int getPosition()=0;
 	virtual void buildIncludeStart()=0;
 	virtual void buildIncludeFile(QString)=0;
 	virtual void buildIncludePath(QString)=0;
@@ -81,6 +83,7 @@ public:
 	virtual void buildCommentFinish()=0;
 	virtual void buildWhiteSpaceError()=0;
 	virtual void buildWhiteSpace()=0;
+	virtual void buildNewLine()=0;
 	virtual void buildFileStart(QDir)=0;
 	virtual void buildFileFinish()=0;
 };

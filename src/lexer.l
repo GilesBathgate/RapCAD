@@ -33,7 +33,8 @@ AbstractTokenBuilder* tokenizer;
 %x include use import
 %x comment string
 D [0-9]
-WS [ \t\r\n]
+WS [ \t]
+NL \n|\r\n
 %%
 "include"{WS}*"<"		{ BEGIN(include); tokenizer->buildIncludeStart(); }
 <include>{
@@ -104,6 +105,7 @@ WS [ \t\r\n]
 }
 {WS}+$				{ tokenizer->buildWhiteSpaceError(); }
 {WS}+				{ tokenizer->buildWhiteSpace(); }
+{NL}				{ tokenizer->buildNewLine(); }
 .				{ return tokenizer->buildIllegalChar();  }
 %%
 

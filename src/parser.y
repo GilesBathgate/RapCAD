@@ -22,28 +22,23 @@
 #include <stdio.h>
 #include <QString>
 #include <QVector>
-#include <QDir>
 
-#include "abstractsyntaxtreebuilder.h"
-#include "tokenbuilder.h"
 #include "syntaxtreebuilder.h"
-#include "dependencybuilder.h"
+#include "tokenbuilder.h"
 #include "script.h"
 #include "prettyprinter.h"
 #include "evaluator.h"
 
 extern int lexerlineno;
-extern int lexerlex(void);
 extern char *lexertext;
-extern int lexerleng;
 extern void lexerinit(AbstractTokenBuilder*,QString,bool);
 
 void parsererror(char const *);
 int parserlex();
 void parse(QString,bool);
-int parserpos=0;
 
 AbstractSyntaxTreeBuilder *builder;
+AbstractTokenBuilder* ptokenizer;
 %}
 
 %union {
@@ -414,25 +409,25 @@ argument
 
 %%
 
-int parserlex(void)
+int parserlex()
 {
-	parserpos+=lexerleng;
-	return lexerlex();
+	return ptokenizer->nextToken();
 }
 
 void parsererror(char const *s)
 {
-	fprintf(stderr,"line %d: %s at character %i: '%s'\n", lexerlineno, s, parserpos, lexertext);
+	int pos=ptokenizer->getPosition();
+	fprintf(stderr,"line %d: %s at character %i: '%s'\n", lexerlineno, s, pos, lexertext);
 }
 
 void parse(QString path)
 {
 	builder=new SyntaxTreeBuilder();
 
-	TokenBuilder* tokenizer=new TokenBuilder();
-	lexerinit(tokenizer,path,true);
+	ptokenizer=new TokenBuilder();
+	lexerinit(ptokenizer,path,true);
 	parserparse();
-	delete tokenizer;
+	delete ptokenizer;
 
 	Script* s=builder->getResult();
 	delete builder;

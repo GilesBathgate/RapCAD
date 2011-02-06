@@ -47,8 +47,20 @@ void SyntaxHighlighter::highlightBlock(const QString& text)
 	setCurrentBlockState(0);
 	startIndex=0;
 	lexerinit(this,text,false);
-	while(lexerlex())
-		startIndex+=lexerleng;
+	while(nextToken());
+
+}
+
+int SyntaxHighlighter::nextToken()
+{
+	int res=lexerlex();
+	startIndex+=lexerleng;
+	return res;
+}
+
+int SyntaxHighlighter::getPosition()
+{
+	return startIndex;
 }
 
 void SyntaxHighlighter::buildIncludeStart()
@@ -366,6 +378,10 @@ void SyntaxHighlighter::buildWhiteSpaceError()
 void SyntaxHighlighter::buildWhiteSpace()
 {
 	startIndex+=lexerleng;
+}
+
+void SyntaxHighlighter::buildNewLine()
+{
 }
 
 void SyntaxHighlighter::buildFileStart(QDir)

@@ -21,9 +21,23 @@
 #define YY_NULL 0
 extern void lexerinclude(const char*);
 extern void lexererror();
+extern int lexerlex();
+extern int lexerleng;
 
 TokenBuilder::TokenBuilder()
 {
+	position=1;
+}
+
+int TokenBuilder::nextToken()
+{
+	position+=lexerleng;
+	return lexerlex();
+}
+
+int TokenBuilder::getPosition()
+{
+	return position;
 }
 
 void TokenBuilder::buildIncludeStart()
@@ -313,6 +327,12 @@ void TokenBuilder::buildWhiteSpaceError()
 
 void TokenBuilder::buildWhiteSpace()
 {
+	position+=lexerleng;
+}
+
+void TokenBuilder::buildNewLine()
+{
+	position=1;
 }
 
 void TokenBuilder::buildFileStart(QDir pth)
