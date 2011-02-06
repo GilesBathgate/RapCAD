@@ -16,24 +16,28 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VECTORVALUE_H
-#define VECTORVALUE_H
+#ifndef ABSTRACTPOLYHEDRON_H
+#define ABSTRACTPOLYHEDRON_H
 
 #include <QVector>
-#include "value.h"
+#include <QString>
 
-class VectorValue : public Value
+class AbstractPolyhedron
 {
 public:
-	VectorValue(QVector<Value*>);
-	QString getValueString();
-	bool isTrue();
-	void getXYZ(double& x,double& y,double& z);
-	Iterator<Value*>* createIterator();
-private:
-	Value* operation(Value&,Expression::Operator_e);
-	Expression::Operator_e convertOperation(Expression::Operator_e);
-	QVector<Value*> children;
+	struct Point {
+		double x, y, z;
+		Point() : x(0), y(0), z(0) { }
+		Point(double x,double y,double z) : x(x), y(y), z(z) { }
+	};
+	typedef QVector<Point> Polygon;
+
+	AbstractPolyhedron();
+	void createPolygon();
+	void appendVertex(double x, double y, double z);
+	QString toString();
+
+	QVector<Polygon> polygons;
 };
 
-#endif // VECTORVALUE_H
+#endif // ABSTRACTPOLYHEDRON_H

@@ -18,6 +18,7 @@
 
 #include "evaluator.h"
 #include "echomodule.h"
+#include "cubemodule.h"
 #include "vectorvalue.h"
 #include "rangevalue.h"
 #include <stdio.h>
@@ -341,6 +342,7 @@ void Evaluator::visit(Script* sc)
 {
 	//TODO add our "builtin" here for now
 	sc->addDeclaration(new EchoModule());
+	sc->addDeclaration(new CubeModule());
 
 	context->currentScope = sc;
 	foreach(Declaration* d, sc->getDeclarations())

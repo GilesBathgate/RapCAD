@@ -27,6 +27,7 @@ public:
 	NumberValue(double);
 	QString getValueString();
 	bool isTrue();
+	double getNumber();
 private:
 	Value* operation(Expression::Operator_e);
 	Value* operation(Value&,Expression::Operator_e);

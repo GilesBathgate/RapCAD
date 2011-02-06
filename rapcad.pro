@@ -83,7 +83,9 @@ SOURCES += \
     src/valueiterator.cpp \
     src/vectoriterator.cpp \
     src/rangeiterator.cpp \
-    src/scriptimport.cpp
+    src/scriptimport.cpp \
+    src/abstractpolyhedron.cpp \
+    src/cubemodule.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -137,7 +139,9 @@ HEADERS  += \
     src/vectoriterator.h \
     src/rangeiterator.h \
     src/scriptimport.h \
-    src/cgal.h
+    src/cgal.h \
+    src/abstractpolyhedron.h \
+    src/cubemodule.h
 
 FORMS += \
     src/mainwindow.ui

@@ -16,24 +16,19 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VECTORVALUE_H
-#define VECTORVALUE_H
+#ifndef CUBEMODULE_H
+#define CUBEMODULE_H
 
-#include <QVector>
-#include "value.h"
+#include "module.h"
 
-class VectorValue : public Value
+class CubeModule : public Module
 {
 public:
-	VectorValue(QVector<Value*>);
-	QString getValueString();
-	bool isTrue();
-	void getXYZ(double& x,double& y,double& z);
-	Iterator<Value*>* createIterator();
+	CubeModule();
+	void evaluate(Context*,Instance*);
 private:
-	Value* operation(Value&,Expression::Operator_e);
-	Expression::Operator_e convertOperation(Expression::Operator_e);
-	QVector<Value*> children;
+	bool center;
+	double x,y,z;
 };
 
-#endif // VECTORVALUE_H
+#endif // CUBEMODULE_H

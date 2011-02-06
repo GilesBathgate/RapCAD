@@ -43,6 +43,18 @@ bool VectorValue::isTrue()
 	return this->children.size()>0;
 }
 
+void VectorValue::getXYZ(double& x, double& y, double& z)
+{
+	NumberValue* nx = dynamic_cast<NumberValue*>(children.at(0));
+	NumberValue* ny = dynamic_cast<NumberValue*>(children.at(1));
+	NumberValue* nz = dynamic_cast<NumberValue*>(children.at(2));
+	if(nx&&ny&&nz) {
+		x=nx->getNumber();
+		y=ny->getNumber();
+		z=nz->getNumber();
+	}
+}
+
 Iterator<Value*>* VectorValue::createIterator()
 {
 	return new VectorIterator(this->children);

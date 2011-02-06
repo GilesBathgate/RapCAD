@@ -35,6 +35,11 @@ bool NumberValue::isTrue()
 	return this->number!=0;
 }
 
+double NumberValue::getNumber()
+{
+	return this->number;
+}
+
 Value* NumberValue::operation(Expression::Operator_e e)
 {
 	double result = basicOperation<double,double>(this->number,e);
