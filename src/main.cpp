@@ -18,7 +18,24 @@
 
 #include <QtGui/QApplication>
 #include "mainwindow.h"
-extern int parse(QString);
+#include "script.h"
+#include "prettyprinter.h"
+#include "evaluator.h"
+
+extern Script* parse(QString);
+
+void evaluate(QString path)
+{
+    Script* s=parse(path);
+    PrettyPrinter p;
+    s->accept(p);
+
+    Evaluator e;
+    s->accept(e);
+
+    //TODO just delete the script for now
+    delete s;
+}
 
 int main(int argc, char* argv[])
 {
@@ -26,7 +43,7 @@ int main(int argc, char* argv[])
 	while((opt = getopt(argc, argv, "f:")) != -1) {
 		switch(opt) {
 		case 'f':
-			parse(QString(optarg));
+			evaluate(QString(optarg));
 			return 0;
 		}
 	}

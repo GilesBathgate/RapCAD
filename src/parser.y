@@ -22,19 +22,16 @@
 #include <stdio.h>
 #include <QString>
 #include <QVector>
-
 #include "syntaxtreebuilder.h"
 #include "tokenbuilder.h"
 #include "script.h"
-#include "prettyprinter.h"
-#include "evaluator.h"
 
 extern char *lexertext;
 extern void lexerinit(AbstractTokenBuilder*,QString,bool);
 
 void parsererror(char const *);
 int parserlex();
-void parse(QString,bool);
+Script* parse(QString,bool);
 
 AbstractSyntaxTreeBuilder *builder;
 AbstractTokenBuilder* ptokenizer;
@@ -420,7 +417,7 @@ void parsererror(char const *s)
 	fprintf(stderr,"line %d: %s at character %i: '%s'\n", line, s, pos, lexertext);
 }
 
-void parse(QString path)
+Script* parse(QString path)
 {
 	builder=new SyntaxTreeBuilder();
 
@@ -432,12 +429,5 @@ void parse(QString path)
 	Script* s=builder->getResult();
 	delete builder;
 
-	PrettyPrinter p;
-	s->accept(p);
-
-	Evaluator e;
-	s->accept(e);
-
-	//TODO just delete the script for now
-	delete s;
+	return s;
 }
