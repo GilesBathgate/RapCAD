@@ -30,7 +30,7 @@ INCLUDEPATH += src
 LEXSOURCES += src/lexer.l
 YACCSOURCES += src/parser.y
 LIBS += -lCGAL -lmpfr -lgmp
-
+#LIBS += -L$$PWD/librapcad -lrapcad
 QMAKE_CXXFLAGS += -frounding-math
 QMAKE_YACC = bison
 win32 {
