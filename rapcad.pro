@@ -85,7 +85,8 @@ SOURCES += \
     src/rangeiterator.cpp \
     src/scriptimport.cpp \
     src/abstractpolyhedron.cpp \
-    src/cubemodule.cpp
+    src/cubemodule.cpp \
+    src/differencemodule.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -141,7 +142,8 @@ HEADERS  += \
     src/scriptimport.h \
     src/cgal.h \
     src/abstractpolyhedron.h \
-    src/cubemodule.h
+    src/cubemodule.h \
+    src/differencemodule.h
 
 FORMS += \
     src/mainwindow.ui
