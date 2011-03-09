@@ -48,6 +48,10 @@ Iterator<Value*>* Value::createIterator()
 {
 	return new ValueIterator(this);
 }
+Value* Value::operator^(Value& v)
+{
+    return operation(v,Expression::Exponent);
+}
 
 Value* Value::operator*(Value& v)
 {
@@ -146,7 +150,12 @@ Value* Value::operator!()
 
 double Value::modulus(double left, double right)
 {
-	return fmod(left, right);
+	return fmod(left,right);
+}
+
+double Value::exponent(double left, double right)
+{
+	return pow(left,right);
 }
 
 Value* Value::operation(Expression::Operator_e)
@@ -164,6 +173,8 @@ Value* Value::operation(Value* p_left, Expression::Operator_e e, Value* p_right)
 	Value& left=*p_left;
 	Value& right=*p_right;
 	switch(e) {
+	case Expression::Exponent:
+		return left^right;
 	case Expression::Multiply:
 		return left*right;
 	case Expression::ComponentwiseMultiply:

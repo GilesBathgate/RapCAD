@@ -15,59 +15,71 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+module println(msg)
+{
+echo(msg,"\n");
+}
+
 //Not
-echo("===Not===");
-echo(!false);
-echo(!true);
+println("===Not===");
+println(!false);
+println(!true);
 
 //Negate
-echo("===Negate===");
-echo(-false);
-echo(-true);
+println("===Negate===");
+println(-false);
+println(-true);
 
 //Unary Plus
-echo("===Unary Plus===");
-echo(+false);
-echo(+true);
+println("===Unary Plus===");
+println(+false);
+println(+true);
 
 //Add
-echo("===Add===");
-echo(false+false);
-echo(false+true);
-echo(true+false);
-echo(true+true);
+println("===Add===");
+println(false+false);
+println(false+true);
+println(true+false);
+println(true+true);
 
 //Subtract
-echo("===Subtract===");
-echo(false-false);
-echo(false-true);
-echo(true-false);
-echo(true-true);
+println("===Subtract===");
+println(false-false);
+println(false-true);
+println(true-false);
+println(true-true);
 
 //And
-echo("===And===");
-echo(false&&false);
-echo(false&&true);
-echo(true&&false);
-echo(true&&true);
+println("===And===");
+println(false&&false);
+println(false&&true);
+println(true&&false);
+println(true&&true);
 
 //Or
-echo("===Or===");
-echo(false||false);
-echo(false||true);
-echo(true||false);
-echo(true||true);
+println("===Or===");
+println(false||false);
+println(false||true);
+println(true||false);
+println(true||true);
+
+//Exponent
+println("===Exponent===");
+println(false^false);
+println(false^true);
+println(true^false);
+println(true^true);
 
 //Multiply
-echo("===Multiply===");
-echo(false*false);
-echo(false*true);
-echo(true*false);
-echo(true*true);
+println("===Multiply===");
+println(false*false);
+println(false*true);
+println(true*false);
+println(true*true);
 
 //Divide
-echo("===Divide===");
-//echo(false/false); divide by zero
-echo(false/true);
-//echo(true/false); divide by zero
-echo(true/true);
+println("===Divide===");
+//println(false/false); divide by zero
+println(false/true);
+//println(true/false); divide by zero
+println(true/true);

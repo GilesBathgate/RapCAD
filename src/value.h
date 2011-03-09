@@ -32,6 +32,7 @@ public:
 	virtual QString getValueString();
 	virtual bool isTrue();
 	virtual Iterator<Value*>* createIterator();
+	Value* operator^(Value&);
 	Value* operator*(Value&);
 	Value* componentwiseMultiply(Value&);
 	Value* operator/(Value&);
@@ -67,6 +68,9 @@ private:
 	template<class T>
 	T modulus(T left, T right);
 	double modulus(double left, double right);
+	template<class T>
+	T exponent(T left, T right);
+	double exponent(double left, double right);
 };
 
 template<class T>
@@ -75,10 +79,18 @@ T Value::modulus(T left, T right)
 	return left%right;
 }
 
+template<class T>
+T Value::exponent(T left, T right)
+{
+	return left^right;
+}
+
 template <class A, class B>
 A Value::basicOperation(B left, Expression::Operator_e e, B right)
 {
 	switch(e) {
+	case Expression::Exponent:
+		return exponent(left,right);
 	case Expression::Multiply:
 		return left*right;
 	case Expression::Divide:
