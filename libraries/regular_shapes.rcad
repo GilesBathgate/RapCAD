@@ -20,16 +20,22 @@
 
 // 2D regular shapes
 
+//equivalent to r*sin(30)
+function sin30(r) = r/2;
+
+//equivalent to r*cos(30)
+function cos30(r) = r*sqrt(3)/2;
+
 module triangle(radius)
 {
-  o=radius/2;		//equivalent to radius*sin(30)
-  a=radius*sqrt(3)/2;	//equivalent to radius*cos(30)
+  o=sin30(radius);
+  a=cos30(radius);
   polygon(points=[[-a,-o],[0,radius],[a,-o]],paths=[[0,1,2]]);
 }
 
 module reg_polygon(sides,radius)
 {
-  function dia(r) = sqrt(pow(r*2,2)/2);  //sqrt(r*2^2/2) if only we had an exponention op
+  function dia(r) = sqrt(r*2^2/2);
   if(sides<2) square([radius,0]);
   if(sides==3) triangle(radius);
   if(sides==4) square([dia(radius),dia(radius)],center=true);
@@ -74,6 +80,26 @@ module hendecagon(radius)
 module dodecagon(radius)
 {
   reg_polygon(12,radius);
+}
+
+module tridecagon(radius)
+{
+  reg_polygon(13,radius);
+}
+
+module tetradecagon(radius)
+{
+  reg_polygon(14,radius);
+}
+
+module pentadecagon(radius)
+{
+  reg_polygon(15,radius);
+}
+
+module hexadecagon(radius)
+{
+  reg_polygon(16,radius);
 }
 
 //3D regular shapes
@@ -175,29 +201,14 @@ module torus(outerRadius, innerRadius)
 
 module triangle_pyramid(radius)
 {
-  o=radius/2;		//equivalent to radius*sin(30)
-  a=radius*sqrt(3)/2;	//equivalent to radius*cos(30)
+  o=sin30(radius);
+  a=cos30(radius);
   polyhedron(points=[[-a,-o,-o],[a,-o,-o],[0,radius,-o],[0,0,radius]],triangles=[[0,1,2],[1,2,3],[0,1,3],[0,2,3]]);
 }
 
-module square_pyramid(width,height,depth)
+module square_pyramid(width,depth,height)
 {
   w=width/2;
-  h=height/2;
-  polyhedron(points=[[-w,-h,0],[-w,h,0],[w,h,0],[w,-h,0],[0,0,depth]],triangles=[[0,1,2],[0,1,4],[0,1,3],[0,2,3]]);
+  d=depth/2;
+  polyhedron(points=[[-w,-d,0],[-w,d,0],[w,d,0],[w,-d,0],[0,0,height]],triangles=[[0,3,2], [0,1,4], [1,2,4], [2,3,4], [3,0,4]]);
 }
-
-module example()
-{
-	//linear_extrude(50) reg_polygon(4,20);
-
-	//oval_tube(50,20,10,3);
-	
-	//triangle_tube(50,20,1);
-	
-	//torus(60,30);
-
-	//square_pyramid(20,20,40);
-}
-
-//example();

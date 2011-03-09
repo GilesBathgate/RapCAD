@@ -24,8 +24,8 @@
 class DifferenceModule : public Module
 {
 public:
-    DifferenceModule();
-    void evaluate(Context*, Instance*);
+	DifferenceModule();
+	void evaluate(Context*, Instance*);
 };
 
 #endif // DIFFERENCEMODULE_H

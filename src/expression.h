@@ -27,6 +27,7 @@ class Expression : public Visitable
 public:
 	enum Operator_e {
 		None,
+		Exponent,
 		Multiply,
 		ComponentwiseMultiply,
 		Divide,

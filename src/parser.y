@@ -71,16 +71,14 @@ AbstractTokenBuilder* ptokenizer;
 %right RETURN
 %right '='
 %right '?' ':'
-
 %left OR
 %left AND
-
 %left '<' LE GE '>'
 %left EQ NE
-
 %left '!' '+' '-'
 %left '*' '/' '%'
 %left CM CD CP
+%right '^'
 %left '[' ']'
 %left '.'
 
@@ -269,6 +267,8 @@ expression
 	{ $$ = builder->buildRange($2,$4,$6); }
 	| '[' vector_expression ']'
 	{ $$ = builder->buildExpression($2); }
+	| expression '^' expression
+	{ $$ = builder->buildExpression($1,Expression::Exponent,$3); }
 	| expression '*' expression
 	{ $$ = builder->buildExpression($1,Expression::Multiply,$3); }
 	| expression CM expression

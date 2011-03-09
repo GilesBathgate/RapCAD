@@ -30,7 +30,9 @@ QString Expression::getOpString()
 {
 	QString result;
 	switch(this->getOp()) {
-
+	case Exponent:
+		result.append('^');
+		break;
 	case Multiply:
 		result.append('*');
 		break;
