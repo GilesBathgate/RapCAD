@@ -210,5 +210,10 @@ module square_pyramid(width,depth,height)
 {
   w=width/2;
   d=depth/2;
-  polyhedron(points=[[-w,-d,0],[-w,d,0],[w,d,0],[w,-d,0],[0,0,height]],triangles=[[0,3,2], [0,1,4], [1,2,4], [2,3,4], [3,0,4]]);
+ polyhedron(points=[[-w,-d,0],[-w,d,0],[w,d,0],[w,-d,0],[0,0,height]],triangles=[[0,3,2,1], [0,1,4], [1,2,4], [2,3,4], [3,0,4]]);
+/*
+Above is probably the most daft name for a parameter ever thought of, triangles, when you can actually pass
+polygons?!
+  polyhedron(points=[[-w,-d,0],[-w,d,0],[w,d,0],[w,-d,0],[0,0,height]],polygons=[[0,3,2,1], [0,1,4], [1,2,4], [2,3,4], [3,0,4]]);
+*/
 }
