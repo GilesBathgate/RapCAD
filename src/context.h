@@ -49,6 +49,8 @@ public:
 	Function* lookupFunction(QString);
 	void addFunction(Function*);
 
+	Context* getVariableContext(QString);
+
 	void setArguments(QVector<Value*>,QVector<Value*>);
 private:
 	QHash<QString,Value*> variables;
