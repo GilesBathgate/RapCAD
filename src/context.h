@@ -52,7 +52,10 @@ public:
 	Context* getVariableContext(QString);
 
 	void setArguments(QVector<Value*>,QVector<Value*>);
+	Value* getArgument(int,QString);
+	Value* getArgument(int,QString,QString);
 private:
+	Value* getArgument(bool,int,QString);
 	QHash<QString,Value*> variables;
 	QHash<QString,Module*> modules;
 	QHash<QString,Function*> functions;

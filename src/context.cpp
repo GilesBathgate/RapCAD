@@ -18,6 +18,7 @@
 
 #include "context.h"
 #include "modulescope.h"
+#include <stdio.h>
 
 Context::Context()
 {
@@ -114,4 +115,40 @@ bool Context::contains(QVector<Value*> params,QString name)
 		if(p->getName() == name)
 			return true;
 	return false;
+}
+
+Value* Context::getArgument(int index, QString name)
+{
+	return getArgument(true,index,name);
+}
+
+Value* Context::getArgument(int index, QString name, QString deprecated)
+{
+	Value* v = getArgument(true,index,name);
+	if(!v) {
+		v = getArgument(false,index,deprecated);
+		if(v)
+			printf("Warning '%s' parameter is deprecated use '%s' instead\n",deprecated.toLocal8Bit().constData(),name.toLocal8Bit().constData());
+	}
+
+	return v;
+}
+
+Value* Context::getArgument(bool allowChar, int index, QString name)
+{
+	if(index >= arguments.size())
+		return NULL;
+
+	Value* arg = arguments.at(index);
+	QString argName = arg->getName();
+	if(argName.isEmpty() || (allowChar && argName.at(0)==name.at(0)) || argName==name)
+		return arg;
+
+	foreach(Value* namedArg,arguments) {
+		QString namedArgName = namedArg->getName();
+		if((allowChar && namedArgName.at(0)==name.at(0)) || namedArgName==name)
+			return namedArg;
+	}
+
+	return NULL;
 }

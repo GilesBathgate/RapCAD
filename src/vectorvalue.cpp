@@ -60,6 +60,11 @@ Iterator<Value*>* VectorValue::createIterator()
 	return new VectorIterator(this->children);
 }
 
+QVector<Value*> VectorValue::getChildren()
+{
+	return this->children;
+}
+
 Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 {
 	QVector<Value*> result;

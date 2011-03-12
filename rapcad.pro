@@ -86,7 +86,8 @@ SOURCES += \
     src/scriptimport.cpp \
     src/abstractpolyhedron.cpp \
     src/cubemodule.cpp \
-    src/differencemodule.cpp
+    src/differencemodule.cpp \
+    src/polyhedronmodule.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -143,7 +144,8 @@ HEADERS  += \
     src/cgal.h \
     src/abstractpolyhedron.h \
     src/cubemodule.h \
-    src/differencemodule.h
+    src/differencemodule.h \
+    src/polyhedronmodule.h
 
 FORMS += \
     src/mainwindow.ui

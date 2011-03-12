@@ -50,7 +50,7 @@ Iterator<Value*>* Value::createIterator()
 }
 Value* Value::operator^(Value& v)
 {
-    return operation(v,Expression::Exponent);
+	return operation(v,Expression::Exponent);
 }
 
 Value* Value::operator*(Value& v)

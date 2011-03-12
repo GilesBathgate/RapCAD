@@ -16,25 +16,16 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VECTORVALUE_H
-#define VECTORVALUE_H
+#ifndef POLYHEDRONMODULE_H
+#define POLYHEDRONMODULE_H
 
-#include <QVector>
-#include "value.h"
+#include "module.h"
 
-class VectorValue : public Value
+class PolyhedronModule : public Module
 {
 public:
-	VectorValue(QVector<Value*>);
-	QString getValueString();
-	bool isTrue();
-	void getXYZ(double& x,double& y,double& z);
-	Iterator<Value*>* createIterator();
-	QVector<Value*> getChildren();
-private:
-	Value* operation(Value&,Expression::Operator_e);
-	Expression::Operator_e convertOperation(Expression::Operator_e);
-	QVector<Value*> children;
+	PolyhedronModule();
+	void evaluate(Context*,Instance*);
 };
 
-#endif // VECTORVALUE_H
+#endif // POLYHEDRONMODULE_H

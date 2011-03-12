@@ -20,6 +20,7 @@
 #include "abstractpolyhedron.h"
 #include "context.h"
 #include "vectorvalue.h"
+#include "booleanvalue.h"
 #include <stdio.h>
 
 CubeModule::CubeModule()
@@ -30,7 +31,11 @@ CubeModule::CubeModule()
 
 void CubeModule::evaluate(Context* ctx, Instance*)
 {
-	VectorValue* size=dynamic_cast<VectorValue*>(ctx->arguments.at(0));
+	VectorValue* size=dynamic_cast<VectorValue*>(ctx->getArgument(0,"size"));
+	BooleanValue* center=dynamic_cast<BooleanValue*>(ctx->getArgument(1,"center"));
+	if(center)
+		this->center = center->isTrue();
+
 	size->getXYZ(this->x,this->y,this->z);
 
 	AbstractPolyhedron* p=new AbstractPolyhedron();
