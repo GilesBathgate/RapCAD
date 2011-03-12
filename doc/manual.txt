@@ -49,6 +49,8 @@ sphere(r);
 
 Cylinder
 ~~~~~~~~
+RapCAD suports legacy 'r1' and 'r2' parameters on cylinder. The 'Cone' module is more appropriate for drawing cones.
+
 .Examples
 ------------------------------
 cylinder(radius,height,center);
@@ -61,6 +63,16 @@ Cone
 ------------------------------
 cone(radius1,radius2,center);
 cone(r1,r2,c);
+------------------------------
+
+Polyhedron
+~~~~~~~~~~
+RapCAD supports a legacy 'triangles' parameter, but the name is a bit misleading since polygons with more than three points can be specified using this parameter. The name 'surfaces' was chosen in preference to 'polygons' so as not to have a single letter name conflict with 'points'.
+
+.Examples
+------------------------------
+polyhedron(points,surfaces);
+polyhedron(p,s);
 ------------------------------
 
 2D primitives
@@ -80,6 +92,16 @@ Circle
 ------------------------------
 circle(radius);
 circle(r);
+------------------------------
+
+Polygon
+~~~~~~
+RapCAD supports a legacy parameter 'paths' this however conflicts with the single letter parameter name 'points'.
+
+.Examples
+------------------------------
+polygon(points,lines);
+polygon(p,l);
 ------------------------------
 
 
