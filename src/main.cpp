@@ -20,15 +20,22 @@
 #include "mainwindow.h"
 #include "script.h"
 #include "prettyprinter.h"
+#include "solidpython.h"
 #include "evaluator.h"
 
 extern Script* parse(QString);
 
-void evaluate(QString path)
+void evaluate(QString path, QString format)
 {
 	Script* s=parse(path);
-	PrettyPrinter p;
-	s->accept(p);
+
+	if(format =="solidpython") {
+		SolidPython p;
+		s->accept(p);
+	} else {
+		PrettyPrinter p;
+		s->accept(p);
+	}
 
 	Evaluator e;
 	s->accept(e);
@@ -40,17 +47,30 @@ void evaluate(QString path)
 int main(int argc, char* argv[])
 {
 	int opt;
-	while((opt = getopt(argc, argv, "f:")) != -1) {
+	QString filename;
+	QString printformat="default";
+	bool useGUI=true;
+
+	while((opt = getopt(argc, argv, "f:p:")) != -1) {
 		switch(opt) {
 		case 'f':
-			evaluate(QString(optarg));
-			return 0;
+			useGUI=false;
+			filename=QString(optarg);
+			break;
+		case 'p':
+			printformat=QString(optarg);
+			break;
 		}
 	}
 
-	QApplication a(argc, argv);
-	MainWindow w;
-	w.show();
+	if(!useGUI) {
+		evaluate(filename,printformat);
+		return 0;
+	} else {
+		QApplication a(argc, argv);
+		MainWindow w;
+		w.show();
 
-	return a.exec();
+		return a.exec();
+	}
 }

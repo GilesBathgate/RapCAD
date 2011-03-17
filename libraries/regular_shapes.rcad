@@ -106,7 +106,7 @@ module hexadecagon(radius)
 
 module cone(height, radius, center = false) 
 {
-  cylinder(height, radius, 0, center);
+  cylinder(h=height, r1=radius, r2=0, center=center);
 }
 
 module oval_prism(height, rx, ry, center = false) 

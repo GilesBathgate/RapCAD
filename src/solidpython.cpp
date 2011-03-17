@@ -19,11 +19,11 @@
 #include "solidpython.h"
 #include <stdio.h>
 
-class NotImplementedException{};
+class NotImplementedException {};
 
 SolidPython::SolidPython()
 {
-    this->indent=0;
+	this->indent=0;
 }
 
 SolidPython::~SolidPython()
@@ -32,337 +32,338 @@ SolidPython::~SolidPython()
 
 void SolidPython::createIndent()
 {
-    for(unsigned int i=0; i<indent; i++)
-	result.append("  ");
+	for(unsigned int i=0; i<indent; i++)
+		result.append("  ");
 }
 
 void SolidPython::visit(ModuleScope* scp)
 {
-    ++indent;
-    foreach(Declaration* d, scp->getDeclarations()) {
-	createIndent();
-	Instance* inst = dynamic_cast<Instance*>(d);
-	if(inst)
-	    result.append("return ");
-	d->accept(*this);
-    }
-    --indent;
+	++indent;
+	foreach(Declaration* d, scp->getDeclarations()) {
+		createIndent();
+		Instance* inst = dynamic_cast<Instance*>(d);
+		if(inst)
+			result.append("return ");
+		d->accept(*this);
+	}
+	--indent;
 }
 
 void SolidPython::visit(Instance* inst)
 {
-    result.append(inst->getName());
-    result.append("(");
-    QVector<Argument*> arguments = inst->getArguments();
-    int s = arguments.size();
-    for(int i=0; i<s; i++) {
-	arguments.at(i)->accept(*this);
-	if(i+1<s)
-	    result.append(",");
-    }
-    result.append(")");
-
-    QVector<Statement*> children = inst->getChildren();
-    int c = children.size();
-    if(c>0) {
-	result.append("(\n");
-	++indent;
-	for(int i=0; i<c; i++) {
-	    if(i>0 && i<=c) {
-		result.append(",\n");
-		createIndent();
-	    } else
-		createIndent();
-	    children.at(i)->accept(*this);
+	result.append(inst->getName());
+	result.append("(");
+	QVector<Argument*> arguments = inst->getArguments();
+	int s = arguments.size();
+	for(int i=0; i<s; i++) {
+		arguments.at(i)->accept(*this);
+		if(i+1<s)
+			result.append(",");
 	}
-	result.append("\n");
-	--indent;
-	createIndent();
 	result.append(")");
-    }
+
+	QVector<Statement*> children = inst->getChildren();
+	int c = children.size();
+	if(c>0) {
+		result.append("(\n");
+		++indent;
+		for(int i=0; i<c; i++) {
+			if(i>0 && i<=c) {
+				result.append(",\n");
+				createIndent();
+			} else
+				createIndent();
+			children.at(i)->accept(*this);
+		}
+		result.append("\n");
+		--indent;
+		createIndent();
+		result.append(")");
+	}
 }
 
 void SolidPython::visit(Module* mod)
 {
-    result.append("def ");
-    result.append(mod->getName());
-    result.append("(");
-    QVector<Parameter*> parameters = mod->getParameters();
-    int s = parameters.size();
-    for(int i=0; i<s; i++) {
-	parameters.at(i)->accept(*this);
-	if(i+1<s)
-	    result.append(",");
-    }
-    result.append("):\n");
-    mod->getScope()->accept(*this);
-    result.append("\n\n");
+	result.append("def ");
+	result.append(mod->getName());
+	result.append("(");
+	QVector<Parameter*> parameters = mod->getParameters();
+	int s = parameters.size();
+	for(int i=0; i<s; i++) {
+		parameters.at(i)->accept(*this);
+		if(i+1<s)
+			result.append(",");
+	}
+	result.append("):\n");
+	mod->getScope()->accept(*this);
+	result.append("\n\n");
 }
 
 void SolidPython::visit(Function* func)
 {
-    result.append("def ");
-    result.append(func->getName());
-    result.append("(");
-    QVector<Parameter*> parameters = func->getParameters();
-    int s = parameters.size();
-    for(int i=0; i<s; i++) {
-	parameters.at(i)->accept(*this);
-	if(i+1<s)
-	    result.append(",");
-    }
+	result.append("def ");
+	result.append(func->getName());
+	result.append("(");
+	QVector<Parameter*> parameters = func->getParameters();
+	int s = parameters.size();
+	for(int i=0; i<s; i++) {
+		parameters.at(i)->accept(*this);
+		if(i+1<s)
+			result.append(",");
+	}
 
-    result.append("):\n");
-    func->getScope()->accept(*this);
-    result.append("\n\n");
+	result.append("):\n");
+	func->getScope()->accept(*this);
+	result.append("\n\n");
 }
 
 void SolidPython::visit(FunctionScope* scp)
 {
-    Expression* expression = scp->getExpression();
-    if(expression) {
-	++indent;
-	createIndent(); result.append("return ");
-	expression->accept(*this);
-	--indent;
-	return;
-    }
-
-    QVector<Statement*> statements = scp->getStatements();
-    int s = statements.size();
-    if(s>0) {
-	++indent;
-	for(int i=0; i<s; i++) {
-	    createIndent();
-	    statements.at(i)->accept(*this);
+	Expression* expression = scp->getExpression();
+	if(expression) {
+		++indent;
+		createIndent();
+		result.append("return ");
+		expression->accept(*this);
+		--indent;
+		return;
 	}
-	--indent;
-    }
+
+	QVector<Statement*> statements = scp->getStatements();
+	int s = statements.size();
+	if(s>0) {
+		++indent;
+		for(int i=0; i<s; i++) {
+			createIndent();
+			statements.at(i)->accept(*this);
+		}
+		--indent;
+	}
 }
 
 void SolidPython::visit(CompoundStatement* stmt)
 {
-    QVector<Statement*> children = stmt->getChildren();
-    int c = children.size();
-    if(c>0) {
-	if(c>1) {
-	    result.append("\n");
-	    ++indent;
+	QVector<Statement*> children = stmt->getChildren();
+	int c = children.size();
+	if(c>0) {
+		if(c>1) {
+			result.append("\n");
+			++indent;
+		}
+		for(int i=0; i<c; i++) {
+			if(c>1)
+				createIndent();
+			children.at(i)->accept(*this);
+		}
+		if(c>1) {
+			--indent;
+			createIndent();
+		}
 	}
-	for(int i=0; i<c; i++) {
-	    if(c>1)
-		createIndent();
-	    children.at(i)->accept(*this);
-	}
-	if(c>1) {
-	    --indent;
-	    createIndent();
-	}
-    }
 }
 
 void SolidPython::visit(IfElseStatement* ifelse)
 {
-    result.append("if ");
-    ifelse->getExpression()->accept(*this);
-    result.append(":\n");
-    Statement* trueStatement = ifelse->getTrueStatement();
-    if(trueStatement) {
-	++indent;
-	createIndent();
-	trueStatement->accept(*this);
-	--indent;
-    }
+	result.append("if ");
+	ifelse->getExpression()->accept(*this);
+	result.append(":\n");
+	Statement* trueStatement = ifelse->getTrueStatement();
+	if(trueStatement) {
+		++indent;
+		createIndent();
+		trueStatement->accept(*this);
+		--indent;
+	}
 
-    Statement* falseStatement = ifelse->getFalseStatement();
-    if(falseStatement) {
-	result.append("\n");
-	createIndent();
-	result.append("else:\n");
-	++indent;
-	createIndent();
-	falseStatement->accept(*this);
-	--indent;
-    }
+	Statement* falseStatement = ifelse->getFalseStatement();
+	if(falseStatement) {
+		result.append("\n");
+		createIndent();
+		result.append("else:\n");
+		++indent;
+		createIndent();
+		falseStatement->accept(*this);
+		--indent;
+	}
 }
 
 void SolidPython::visit(ForStatement* forstmt)
 {
-    int levels=0;
-    QVector<Argument*> args = forstmt->getArguments();
-    int c = args.size();
-    for(int i=0; i<c; i++) {
-	Argument* a = args.at(i);
+	int levels=0;
+	QVector<Argument*> args = forstmt->getArguments();
+	int c = args.size();
+	for(int i=0; i<c; i++) {
+		Argument* a = args.at(i);
 
-	if(i>0) {
-	    ++indent;
-	    ++levels;
-	    createIndent();
+		if(i>0) {
+			++indent;
+			++levels;
+			createIndent();
+		}
+		result.append("for ");
+		Variable* variable = a->getVariable();
+		if(variable) {
+			variable->accept(*this);
+			result.append(" in ");
+		}
+
+		a->getExpression()->accept(*this);
+		result.append(":\n");
 	}
-	result.append("for ");
-	Variable* variable = a->getVariable();
-	if(variable) {
-	    variable->accept(*this);
-	    result.append(" in ");
-	}
 
-	a->getExpression()->accept(*this);
-	result.append(":\n");
-    }
+	++indent;
+	createIndent();
+	Statement* statement = forstmt->getStatement();
+	statement->accept(*this);
+	--indent;
 
-    ++indent;
-    createIndent();
-    Statement* statement = forstmt->getStatement();
-    statement->accept(*this);
-    --indent;
-
-    indent-=levels;
+	indent-=levels;
 }
 
 void SolidPython::visit(Parameter* param)
 {
-    result.append(param->getName());
+	result.append(param->getName());
 
-    Expression* expression = param->getExpression();
-    if(expression) {
-	result.append("=");
-	expression->accept(*this);
-    }
+	Expression* expression = param->getExpression();
+	if(expression) {
+		result.append("=");
+		expression->accept(*this);
+	}
 }
 
 void SolidPython::visit(BinaryExpression* exp)
 {
-    result.append("(");
-    exp->getLeft()->accept(*this);
-    result.append(exp->getOpString());
-    exp->getRight()->accept(*this);
-    result.append(")");
+	result.append("(");
+	exp->getLeft()->accept(*this);
+	result.append(exp->getOpString());
+	exp->getRight()->accept(*this);
+	result.append(")");
 }
 
 void SolidPython::visit(Argument* arg)
 {
-    Variable* variable = arg->getVariable();
-    if(variable) {
-	variable->accept(*this);
-	result.append("=");
-    }
+	Variable* variable = arg->getVariable();
+	if(variable) {
+		variable->accept(*this);
+		result.append("=");
+	}
 
-    arg->getExpression()->accept(*this);
+	arg->getExpression()->accept(*this);
 }
 
 void SolidPython::visit(AssignStatement* stmt)
 {
-    Variable* var = stmt->getVariable();
-    if(var)
-	var->accept(*this);
-    result.append("=");
-    Expression* expression = stmt->getExpression();
-    if(expression)
-	expression->accept(*this);
+	Variable* var = stmt->getVariable();
+	if(var)
+		var->accept(*this);
+	result.append("=");
+	Expression* expression = stmt->getExpression();
+	if(expression)
+		expression->accept(*this);
 
-    result.append("\n");
+	result.append("\n");
 }
 
 void SolidPython::visit(VectorExpression* exp)
 {
-    result.append("[");
-    QVector<Expression*> children = exp->getChildren();
-    int s = children.size();
-    for(int i=0; i<s; i++) {
-	children.at(i)->accept(*this);
-	if(i+1<s)
-	    result.append(",");
-    }
-    result.append("]");
+	result.append("[");
+	QVector<Expression*> children = exp->getChildren();
+	int s = children.size();
+	for(int i=0; i<s; i++) {
+		children.at(i)->accept(*this);
+		if(i+1<s)
+			result.append(",");
+	}
+	result.append("]");
 }
 
 void SolidPython::visit(RangeExpression* exp)
 {
-    result.append("range(");
-    exp->getStart()->accept(*this);
-    result.append(",");
-
-    exp->getFinish()->accept(*this);
-
-    Expression* step = exp->getStep();
-    if(step) {
+	result.append("range(");
+	exp->getStart()->accept(*this);
 	result.append(",");
-	step->accept(*this);
-    }
 
-    result.append(")");
+	exp->getFinish()->accept(*this);
+
+	Expression* step = exp->getStep();
+	if(step) {
+		result.append(",");
+		step->accept(*this);
+	}
+
+	result.append(")");
 }
 
 void SolidPython::visit(UnaryExpression* exp)
 {
-    result.append(exp->getOpString());
-    exp->getExpression()->accept(*this);
+	result.append(exp->getOpString());
+	exp->getExpression()->accept(*this);
 }
 
 void SolidPython::visit(ReturnStatement* stmt)
 {
-    result.append("return ");
-    stmt->getExpression()->accept(*this);
-    result.append("\n");
+	result.append("return ");
+	stmt->getExpression()->accept(*this);
+	result.append("\n");
 }
 
 void SolidPython::visit(TernaryExpression* exp)
 {
-    result.append("(");
-    exp->getCondition()->accept(*this);
-    result.append("?");
-    exp->getTrueExpression()->accept(*this);
-    result.append(":");
-    exp->getFalseExpression()->accept(*this);
-    result.append(")");
+	result.append("(");
+	exp->getCondition()->accept(*this);
+	result.append("?");
+	exp->getTrueExpression()->accept(*this);
+	result.append(":");
+	exp->getFalseExpression()->accept(*this);
+	result.append(")");
 }
 
 void SolidPython::visit(Invocation* stmt)
 {
-    result.append(stmt->getName());
-    result.append("(");
-    QVector<Argument*> arguments = stmt->getArguments();
-    int s = arguments.size();
-    for(int i=0; i<s; i++) {
-	arguments.at(i)->accept(*this);
-	if(i+1<s)
-	    result.append(",");
-    }
-    result.append(")");
+	result.append(stmt->getName());
+	result.append("(");
+	QVector<Argument*> arguments = stmt->getArguments();
+	int s = arguments.size();
+	for(int i=0; i<s; i++) {
+		arguments.at(i)->accept(*this);
+		if(i+1<s)
+			result.append(",");
+	}
+	result.append(")");
 }
 
 void SolidPython::visit(ModuleImport*)
 {
-    throw NotImplementedException();
+	throw NotImplementedException();
 }
 
 void SolidPython::visit(ScriptImport*)
 {
-    throw NotImplementedException();
+	throw NotImplementedException();
 }
 
 void SolidPython::visit(Literal* lit)
 {
-    QString val = lit->getValueString();
-    if(val=="false")
-	val="False";
-    if(val=="true")
-	val="True";
+	QString val = lit->getValueString();
+	if(val=="false")
+		val="False";
+	if(val=="true")
+		val="True";
 
-    result.append(val);
+	result.append(val);
 }
 
 void SolidPython::visit(Variable* var)
 {
-    if(var->getType()==Variable::Special)
-	result.append("$");
-    result.append(var->getName());
+	if(var->getType()==Variable::Special)
+		result.append("$");
+	result.append(var->getName());
 }
 
 void SolidPython::visit(Script* sc)
 {
-    foreach(Declaration* d, sc->getDeclarations())
-	d->accept(*this);
+	foreach(Declaration* d, sc->getDeclarations())
+		d->accept(*this);
 
-    printf("%s",result.toLocal8Bit().constData());
+	printf("%s",result.toLocal8Bit().constData());
 }

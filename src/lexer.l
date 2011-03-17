@@ -120,8 +120,9 @@ void lexerinit(AbstractTokenBuilder* b,QString input,bool file)
 
 	if(file) {
 		QFileInfo fileinfo(input);
-		const char* fullpath = fileinfo.absoluteFilePath().toLocal8Bit();
+		char* fullpath = strdup(fileinfo.absoluteFilePath().toLocal8Bit());
 		lexerin = fopen(fullpath,"r");
+		free(fullpath);
 		tokenizer->buildFileStart(fileinfo.absoluteDir());
 	} else {
 		const char* t = input.toLocal8Bit();
