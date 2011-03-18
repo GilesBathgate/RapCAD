@@ -17,6 +17,7 @@
  */
 
 #include "solidpython.h"
+#include "numbervalue.h"
 #include <stdio.h>
 
 class NotImplementedException {};
@@ -39,12 +40,58 @@ void SolidPython::createIndent()
 void SolidPython::visit(ModuleScope* scp)
 {
 	++indent;
-	foreach(Declaration* d, scp->getDeclarations()) {
-		createIndent();
+	char varname = 'a';
+	QVector<Instance*> instances;
+	QVector<Declaration*> decls = scp->getDeclarations();
+	bool lastinstance=false;
+	foreach(Declaration* d, decls) {
 		Instance* inst = dynamic_cast<Instance*>(d);
-		if(inst)
-			result.append("return ");
-		d->accept(*this);
+		if(inst) {
+			instances.append(inst);
+			lastinstance=true;
+		} else {
+			lastinstance=false;
+		}
+	}
+
+	if(lastinstance&&instances.size()==1) {
+		foreach(Declaration* d, decls) {
+			createIndent();
+			Instance* inst = dynamic_cast<Instance*>(d);
+			if(inst) {
+				result.append("return ");
+			}
+			d->accept(*this);
+		}
+	} else {
+
+		foreach(Declaration* d, decls) {
+			createIndent();
+			Instance* inst = dynamic_cast<Instance*>(d);
+			if(inst) {
+				result.append("__");
+				result.append(varname);
+				result.append(" = ");
+				++varname;
+				if(varname>'z')
+					throw new NotImplementedException();
+			}
+			d->accept(*this);
+			if(inst)
+				result.append("\n");
+		}
+		if(instances.size()>0) {
+			createIndent();
+			result.append("return union()(");
+			char var='a';
+			for(int i=0; var<varname; var++,i++) {
+				if(i>0)
+					result.append(",");
+				result.append("__");
+				result.append(var);
+			}
+			result.append(")\n");
+		}
 	}
 	--indent;
 }
@@ -172,17 +219,18 @@ void SolidPython::visit(IfElseStatement* ifelse)
 		++indent;
 		createIndent();
 		trueStatement->accept(*this);
+		result.append("\n");
 		--indent;
 	}
 
 	Statement* falseStatement = ifelse->getFalseStatement();
 	if(falseStatement) {
-		result.append("\n");
 		createIndent();
 		result.append("else:\n");
 		++indent;
 		createIndent();
 		falseStatement->accept(*this);
+		result.append("\n");
 		--indent;
 	}
 }
@@ -283,7 +331,22 @@ void SolidPython::visit(RangeExpression* exp)
 	exp->getStart()->accept(*this);
 	result.append(",");
 
-	exp->getFinish()->accept(*this);
+	Expression* fin = exp->getFinish();
+	Literal* val = dynamic_cast<Literal*>(fin);
+	if(val) {
+		NumberValue* num = dynamic_cast<NumberValue*>(val->getValue());
+		if(num) {
+			double n = num->getNumber();
+			QString ns = QString().number(n+1,'g',16);
+			result.append(ns);
+		} else {
+			fin->accept(*this);
+			result.append("+1");
+		}
+	} else {
+		fin->accept(*this);
+		result.append("+1");
+	}
 
 	Expression* step = exp->getStep();
 	if(step) {
@@ -337,9 +400,11 @@ void SolidPython::visit(ModuleImport*)
 	throw NotImplementedException();
 }
 
-void SolidPython::visit(ScriptImport*)
+void SolidPython::visit(ScriptImport* imp)
 {
-	throw NotImplementedException();
+	result.append("use(");
+	result.append(imp->getImport());
+	result.append(")\n");
 }
 
 void SolidPython::visit(Literal* lit)
