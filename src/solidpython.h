@@ -75,9 +75,13 @@ public:
 	void visit(Variable*);
 	void visit(Script*);
 private:
+	QString getVariable();
 	void createIndent();
 	QString result;
 	unsigned int indent;
+	QVector<QString> varnames;
+	QString varname;
+	int varlevel;
 };
 
 #endif // SOLIDPYTHON_H

@@ -37,14 +37,28 @@ void SolidPython::createIndent()
 		result.append("  ");
 }
 
+QString SolidPython::getVariable()
+{
+	for(char var='a'; var<'z'; var++) {
+		QChar v = var;
+		if(!varnames.contains(v)) {
+			varnames.append(v);
+			return v;
+		}
+	}
+}
+
 void SolidPython::visit(ModuleScope* scp)
 {
 	++indent;
-	char varname = 'a';
 	QVector<Instance*> instances;
 	QVector<Declaration*> decls = scp->getDeclarations();
 	bool lastinstance=false;
+
+	QString saveResult = result;
 	foreach(Declaration* d, decls) {
+		d->accept(*this);
+
 		Instance* inst = dynamic_cast<Instance*>(d);
 		if(inst) {
 			instances.append(inst);
@@ -53,8 +67,10 @@ void SolidPython::visit(ModuleScope* scp)
 			lastinstance=false;
 		}
 	}
+	result=saveResult;
 
-	if(lastinstance&&instances.size()==1) {
+	int c = instances.size();
+	if(lastinstance&&c==1) {
 		foreach(Declaration* d, decls) {
 			createIndent();
 			Instance* inst = dynamic_cast<Instance*>(d);
@@ -64,33 +80,33 @@ void SolidPython::visit(ModuleScope* scp)
 			d->accept(*this);
 		}
 	} else {
-
+		QVector<QString> vars;
 		foreach(Declaration* d, decls) {
 			createIndent();
 			Instance* inst = dynamic_cast<Instance*>(d);
 			if(inst) {
-				result.append("__");
-				result.append(varname);
-				result.append(" = ");
-				++varname;
-				if(varname>'z')
-					throw new NotImplementedException();
+				QString v;
+				v=getVariable();
+				result.append(v);
+				vars.append(v);
+				result.append("=");
 			}
 			d->accept(*this);
 			if(inst)
 				result.append("\n");
 		}
-		if(instances.size()>0) {
+		if(c>0) {
 			createIndent();
-			result.append("return union()(");
-			char var='a';
-			for(int i=0; var<varname; var++,i++) {
+			result.append("return ");
+			if(c>1)
+				result.append("union()(");
+			for(int i=0; i<vars.size(); i++) {
 				if(i>0)
 					result.append(",");
-				result.append("__");
-				result.append(var);
+				result.append(vars.at(i));
 			}
-			result.append(")\n");
+			if(c>1)
+				result.append(")\n");
 		}
 	}
 	--indent;
@@ -131,6 +147,7 @@ void SolidPython::visit(Instance* inst)
 
 void SolidPython::visit(Module* mod)
 {
+	varnames.clear();
 	result.append("def ");
 	result.append(mod->getName());
 	result.append("(");
@@ -270,7 +287,9 @@ void SolidPython::visit(ForStatement* forstmt)
 
 void SolidPython::visit(Parameter* param)
 {
-	result.append(param->getName());
+	QString v = param->getName();
+	result.append(v);
+	varnames.append(v);
 
 	Expression* expression = param->getExpression();
 	if(expression) {
@@ -422,7 +441,9 @@ void SolidPython::visit(Variable* var)
 {
 	if(var->getType()==Variable::Special)
 		result.append("$");
-	result.append(var->getName());
+	QString v = var->getName();
+	result.append(v);
+	varnames.append(v);
 }
 
 void SolidPython::visit(Script* sc)
