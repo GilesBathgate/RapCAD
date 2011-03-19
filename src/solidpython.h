@@ -81,7 +81,6 @@ private:
 	unsigned int indent;
 	QVector<QString> varnames;
 	QString varname;
-	int varlevel;
 };
 
 #endif // SOLIDPYTHON_H

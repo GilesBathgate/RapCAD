@@ -69,8 +69,7 @@ void SolidPython::visit(ModuleScope* scp)
 	}
 	result=saveResult;
 
-	int c = instances.size();
-	if(lastinstance&&c==1) {
+	if(lastinstance&&instances.size()==1) {
 		foreach(Declaration* d, decls) {
 			createIndent();
 			Instance* inst = dynamic_cast<Instance*>(d);
@@ -85,22 +84,30 @@ void SolidPython::visit(ModuleScope* scp)
 			createIndent();
 			Instance* inst = dynamic_cast<Instance*>(d);
 			if(inst) {
-				QString v;
-				v=getVariable();
-				result.append(v);
-				vars.append(v);
+				varname=getVariable();
+				result.append(varname);
+				vars.append(varname);
 				result.append("=");
+			}
+			ForStatement* forstmt = dynamic_cast<ForStatement*>(d);
+			if(forstmt) {
+				varname=getVariable();
+				vars.append(varname);
+				result.append(varname);
+				result.append("=union()\n");
+				createIndent();
 			}
 			d->accept(*this);
 			if(inst)
 				result.append("\n");
 		}
+		int c=vars.size();
 		if(c>0) {
 			createIndent();
 			result.append("return ");
 			if(c>1)
 				result.append("union()(");
-			for(int i=0; i<vars.size(); i++) {
+			for(int i=0; i<c; i++) {
 				if(i>0)
 					result.append(",");
 				result.append(vars.at(i));
@@ -278,8 +285,11 @@ void SolidPython::visit(ForStatement* forstmt)
 
 	++indent;
 	createIndent();
+	result.append(varname);
+	result.append(".add(");
 	Statement* statement = forstmt->getStatement();
 	statement->accept(*this);
+	result.append(")\n");
 	--indent;
 
 	indent-=levels;
@@ -448,6 +458,10 @@ void SolidPython::visit(Variable* var)
 
 void SolidPython::visit(Script* sc)
 {
+	result.append("#!/usr/bin/python\n");
+	result.append("import sys,os\n");
+	result.append("from pyopenscad import *\n");
+	result.append("\n");
 	foreach(Declaration* d, sc->getDeclarations())
 		d->accept(*this);
 
