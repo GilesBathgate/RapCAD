@@ -128,27 +128,29 @@ module oval_tube(height,rx,ry,wall,center=false)
   difference() {
     scale([1,ry/rx,1])
       cylinder(h=height,r=rx,center=center);
-    scale([(rx-wall)/rx,(ry-wall)/rx,1])
-      cylinder(h=height,r=rx,center=center);
+    scale([(rx-wall)/rx,(ry-wall)/rx,2])
+      translate([0,0,-height/4])
+        cylinder(h=height,r=rx,center=center);
   }
 }
 
 module cylinder_tube(height,radius,wall,center=false)
 {
-  tubify(radius,wall)
+  tubify(radius,wall,height)
     cylinder(h=height,r=radius,center=center);
 }
 
 /**
 * Tubifies any regular prism
 */
-module tubify(radius,wall)
+module tubify(radius,wall,height)
 {
   difference()
   {
     child(0);
-    scale([(radius-wall)/radius,(radius-wall)/radius,1])
-      child(0);
+    scale([(radius-wall)/radius,(radius-wall)/radius,2])
+      translate([0,0,-height/4])
+        child(0);
   }
 }
 
@@ -160,7 +162,7 @@ module triangle_prism(height,radius)
 
 module triangle_tube(height,radius,wall)
 {
-   tubify(radius,wall)
+   tubify(radius,wall,height)
     triangle_prism(height,radius);
 }
 
@@ -172,7 +174,7 @@ module pentagon_prism(height,radius)
 
 module pentagon_tube(height,radius,wall)
 {
-  tubify(radius,wall)
+  tubify(radius,wall,height)
     pentagon_prism(height,radius);
 }
 
@@ -184,7 +186,7 @@ module hexagon_prism(height,radius)
 
 module hexagon_tube(height,radius,wall)
 {
-  tubify(radius,wall)
+  tubify(radius,wall,height)
     hexagon_prism(height,radius);
 }
 
@@ -196,7 +198,7 @@ module heptagon_prism(height,radius)
 
 module heptagon_tube(height,radius,wall)
 {
-  tubify(radius,wall)
+  tubify(radius,wall,height)
     heptagon_prism(height,radius);
 }
 
@@ -208,7 +210,7 @@ module octagon_prism(height,radius)
 
 module octagon_tube(height,radius,wall)
 {
-  tubify(radius,wall)
+  tubify(radius,wall,height)
     octagon_prism(height,radius);
 }
 
@@ -220,7 +222,7 @@ module nonagon_prism(height,radius)
 
 module nonagon_tube(height,radius,wall)
 {
-  tubify(radius,wall)
+  tubify(radius,wall,height)
     nonagon_prism(height,radius);
 }
 
@@ -232,7 +234,7 @@ module decagon_prism(height,radius)
 
 module decagon_tube(height,radius,wall)
 {
-  tubify(radius,wall)
+  tubify(radius,wall,height)
     decagon_prism(height,radius);
 }
 
@@ -244,7 +246,7 @@ module hendecagon_prism(height,radius)
 
 module hendecagon_tube(height,radius,wall)
 {
-  tubify(radius,wall)
+  tubify(radius,wall,height)
     hendecagon_prism(height,radius);
 }
 
@@ -256,7 +258,7 @@ module dodecagon_prism(height,radius)
 
 module dodecagon_tube(height,radius,wall)
 {
-  tubify(radius,wall)
+  tubify(radius,wall,height)
     dodecagon_prism(height,radius);
 }
 
@@ -268,7 +270,7 @@ module tridecagon_prism(height,radius)
 
 module tridecagon_tube(height,radius,wall)
 {
-  tubify(radius,wall)
+  tubify(radius,wall,height)
     tridecagon_prism(height,radius);
 }
 
@@ -280,7 +282,7 @@ module tetradecagon_prism(height,radius)
 
 module tetradecagon_tube(height,radius,wall)
 {
-  tubify(radius,wall)
+  tubify(radius,wall,height)
     tetradecagon_prism(height,radius);
 }
 
@@ -292,7 +294,7 @@ module pentadecagon_prism(height,radius)
 
 module pentadecagon_tube(height,radius,wall)
 {
-  tubify(radius,wall)
+  tubify(radius,wall,height)
     pentadecagon_prism(height,radius);
 }
 
@@ -304,7 +306,7 @@ module hexadecagon_prism(height,radius)
 
 module hexadecagon_tube(height,radius,wall)
 {
-  tubify(radius,wall)
+  tubify(radius,wall,height)
     hexadecagon_prism(height,radius);
 }
 
