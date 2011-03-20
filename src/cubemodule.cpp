@@ -26,32 +26,33 @@
 CubeModule::CubeModule()
 {
 	setName("cube");
-	center=false;
 }
 
 void CubeModule::evaluate(Context* ctx, Instance*)
 {
 	VectorValue* size=dynamic_cast<VectorValue*>(ctx->getArgument(0,"size"));
-	BooleanValue* center=dynamic_cast<BooleanValue*>(ctx->getArgument(1,"center"));
-	if(center)
-		this->center = center->isTrue();
+	BooleanValue* centerValue=dynamic_cast<BooleanValue*>(ctx->getArgument(1,"center"));
+	double center=false;
+	if(centerValue)
+		center = centerValue->isTrue();
 
-	size->getXYZ(this->x,this->y,this->z);
+	double x,y,z;
+	size->getXYZ(x,y,z);
 
 	AbstractPolyhedron* p=new AbstractPolyhedron();
 	double x1, x2, y1, y2, z1, z2;
-	if(this->center) {
-		x1 = -this->x/2;
-		x2 = +this->x/2;
-		y1 = -this->y/2;
-		y2 = +this->y/2;
-		z1 = -this->z/2;
-		z2 = +this->z/2;
+	if(center) {
+		x1 = -x/2;
+		x2 = +x/2;
+		y1 = -y/2;
+		y2 = +y/2;
+		z1 = -z/2;
+		z2 = +z/2;
 	} else {
 		x1 = y1 = z1 = 0;
-		x2 = this->x;
-		y2 = this->y;
-		z2 = this->z;
+		x2 = x;
+		y2 = y;
+		z2 = z;
 	}
 
 	p->createPolygon(); // top

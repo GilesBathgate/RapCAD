@@ -88,7 +88,9 @@ SOURCES += \
     src/cubemodule.cpp \
     src/differencemodule.cpp \
     src/polyhedronmodule.cpp \
-    src/solidpython.cpp
+    src/solidpython.cpp \
+    src/cylindermodule.cpp \
+    src/primitivemodule.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -147,7 +149,9 @@ HEADERS  += \
     src/cubemodule.h \
     src/differencemodule.h \
     src/polyhedronmodule.h \
-    src/solidpython.h
+    src/solidpython.h \
+    src/cylindermodule.h \
+    src/primitivemodule.h
 
 FORMS += \
     src/mainwindow.ui

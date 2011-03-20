@@ -19,16 +19,13 @@
 #ifndef CUBEMODULE_H
 #define CUBEMODULE_H
 
-#include "module.h"
+#include "primitivemodule.h"
 
-class CubeModule : public Module
+class CubeModule : public PrimitiveModule
 {
 public:
 	CubeModule();
 	void evaluate(Context*,Instance*);
-private:
-	bool center;
-	double x,y,z;
 };
 
 #endif // CUBEMODULE_H

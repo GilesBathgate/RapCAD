@@ -16,16 +16,45 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef POLYHEDRONMODULE_H
-#define POLYHEDRONMODULE_H
-
 #include "primitivemodule.h"
+#include "tau.h"
 
-class PolyhedronModule : public PrimitiveModule
+PrimitiveModule::PrimitiveModule()
 {
-public:
-	PolyhedronModule();
-	void evaluate(Context*,Instance*);
-};
+}
 
-#endif // POLYHEDRONMODULE_H
+/**
+* Get the number of fragments of a circle, given radius and
+* the three special variables $fn, $fs and $fa
+*/
+int PrimitiveModule::getFragments(double r, double fn, double fs, double fa)
+{
+    const double GRID_FINE = 0.000001;
+    if (r < GRID_FINE)
+	return 0;
+
+    if (fn > 0.0)
+	return (int)fn;
+
+    return (int)ceil(fmax(fmin(360.0 / fa, r*M_PI / fs), 5));
+}
+
+
+AbstractPolyhedron::Polygon PrimitiveModule::getCircle(double r, double f)
+{
+    AbstractPolyhedron::Polygon circle;
+    for (int i=0; i<f; i++) {
+	double phi = (M_TAU*i) / f;
+	AbstractPolyhedron::Point p;
+	if (r > 0) {
+	    p.x = r*cos(phi);
+	    p.y = r*sin(phi);
+	} else {
+	    p.x=0;
+	    p.y=0;
+	}
+	circle.append(p);
+    }
+
+    return circle;
+}

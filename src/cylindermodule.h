@@ -16,16 +16,16 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef POLYHEDRONMODULE_H
-#define POLYHEDRONMODULE_H
+#ifndef CYLINDERMODULE_H
+#define CYLINDERMODULE_H
 
 #include "primitivemodule.h"
 
-class PolyhedronModule : public PrimitiveModule
+class CylinderModule : public PrimitiveModule
 {
 public:
-	PolyhedronModule();
-	void evaluate(Context*,Instance*);
+    CylinderModule();
+    void evaluate(Context*,Instance*);
 };
 
-#endif // POLYHEDRONMODULE_H
+#endif // CYLINDERMODULE_H

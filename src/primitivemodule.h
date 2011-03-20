@@ -16,16 +16,18 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef POLYHEDRONMODULE_H
-#define POLYHEDRONMODULE_H
+#ifndef PRIMITIVEMODULE_H
+#define PRIMITIVEMODULE_H
 
-#include "primitivemodule.h"
+#include "module.h"
+#include "abstractpolyhedron.h"
 
-class PolyhedronModule : public PrimitiveModule
+class PrimitiveModule : public Module
 {
 public:
-	PolyhedronModule();
-	void evaluate(Context*,Instance*);
+    PrimitiveModule();
+    int getFragments(double,double,double,double);
+    AbstractPolyhedron::Polygon getCircle(double,double);
 };
 
-#endif // POLYHEDRONMODULE_H
+#endif // PRIMITIVEMODULE_H
