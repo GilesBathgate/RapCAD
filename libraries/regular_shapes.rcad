@@ -22,30 +22,17 @@
  * 2D regular shapes
  */
 
-/**
- * equivalent to r*sin(30)
- */
-function sin30(r) = r/2;
-
-/**
- * equivalent to r*cos(30)
- */
-function cos30(r) = r*sqrt(3)/2;
+module reg_polygon(sides,radius)
+{
+  if(sides>2)
+    circle(r=radius,$fn=sides);
+  else
+    echo("Sides must be greater than 2");
+}
 
 module triangle(radius)
 {
-  o=sin30(radius);
-  a=cos30(radius);
-  polygon(points=[[-a,-o],[0,radius],[a,-o]],paths=[[0,1,2]]);
-}
-
-module reg_polygon(sides,radius)
-{
-  function dia(r) = sqrt(r*2^2/2);
-  if(sides<2) square([radius,0]);
-  if(sides==3) triangle(radius);
-  if(sides==4) square([dia(radius),dia(radius)],center=true);
-  if(sides>4) circle(r=radius,$fn=sides);
+   reg_polygon(3,radius);
 }
 
 module pentagon(radius)
