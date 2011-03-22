@@ -1,0 +1,94 @@
+/*
+ *  RapCAD Transform Library (www.rapcad.org)
+ *  Copyright (C) 2010-2011  Giles Bathgate
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ *
+ */
+
+function scale_m(x,y,z) = [
+    [x,0,0,0],
+    [0,y,0,0],
+    [0,0,z,0],
+    [0,0,0,1]
+];
+
+module scale(v) {
+  multmatrix(scale_m(v.x,v.y,v.z)) child();
+}
+
+function translate_m(x,y,z) = [
+    [1,0,0,0],
+    [0,1,0,0],
+    [0,0,1,0],
+    [x,y,z,1]
+];
+
+module translate(v) {
+   multmatrix(translate_m(v.x,v.y,v.z)) child();
+}
+
+function rotate_mx(t) = [
+    [cos(t),sin(t),0],
+    [-sin(t),cos(t),0],
+    [0,0,1]
+];
+
+function rotate_my(t) = [
+    [1,0,0],
+    [0,cos(t),sin(t)],
+    [0,-sin(t),cos(t)]
+];
+
+function rotate_mz(t) = [
+    [cos(t),0,-sin(t)],
+    [0,1,0],
+    [sin(t),0,cos(t)]
+];
+
+module rotate_z(angle) {
+  multmatrix(rotate_mx(angle)) child();
+}
+
+module rotate_x(angle) {
+  multmatrix(rotate_my(angle)) child();
+}
+
+module rotate_y(angle) {
+  multmatrix(rotate_mz(angle)) child();
+}
+
+function shear_m(xy,xz,yx,yz,zx,zy) = [
+    [1,xy,xz,0],
+    [yx,1,yz,0],
+    [zx,zy,1,0],
+    [0,0,0,1]
+];
+
+module shear(xy,xz,yx,yz,zx,zy) {
+  multmatrix(shear_m(xy,xz,yx,yz,zx,zy)) child();
+}
+
+module shear_z(x,y) {
+  multmatrix(shear_m(0,0,0,0,x,y)) child();
+}
+
+module shear_x(y,z) {
+  multmatrix(shear_m(x,y,0,0,0,0)) child();
+}
+
+module shear_y(x,z) {
+  multmatrix(shear_m(0,0,x,y,0,0)) child();
+}
