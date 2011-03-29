@@ -20,14 +20,14 @@
 #define PRIMITIVEMODULE_H
 
 #include "module.h"
-#include "abstractpolyhedron.h"
+#include "primitivenode.h"
 
 class PrimitiveModule : public Module
 {
 public:
     PrimitiveModule();
     int getFragments(double,double,double,double);
-    AbstractPolyhedron::Polygon getCircle(double,double);
+    PrimitiveNode::Polygon getCircle(double,double);
 };
 
 #endif // PRIMITIVEMODULE_H

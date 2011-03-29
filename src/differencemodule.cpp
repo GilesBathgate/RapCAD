@@ -17,6 +17,7 @@
  */
 
 #include "differencemodule.h"
+#include "operationnode.h"
 
 DifferenceModule::DifferenceModule()
 {
@@ -24,5 +25,5 @@ DifferenceModule::DifferenceModule()
 
 void DifferenceModule::evaluate(Context*, Instance*)
 {
-
+    OperationNode foo;
 }

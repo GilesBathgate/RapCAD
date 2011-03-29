@@ -20,7 +20,7 @@
 #include "context.h"
 #include "vectorvalue.h"
 #include "numbervalue.h"
-#include "abstractpolyhedron.h"
+#include "primitivenode.h"
 #include <stdio.h>
 
 PolyhedronModule::PolyhedronModule()
@@ -35,7 +35,7 @@ void PolyhedronModule::evaluate(Context* ctx,Instance*)
 
 	QVector<Value*> children = points->getChildren();
 
-	AbstractPolyhedron* p=new AbstractPolyhedron();
+        PrimitiveNode* p=new PrimitiveNode();
 	foreach(Value* s,surfaces->getChildren()) {
 		p->createPolygon();
 		VectorValue* surface=dynamic_cast<VectorValue*>(s);

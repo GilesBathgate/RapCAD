@@ -17,7 +17,7 @@
  */
 
 #include "cubemodule.h"
-#include "abstractpolyhedron.h"
+#include "primitivenode.h"
 #include "context.h"
 #include "vectorvalue.h"
 #include "booleanvalue.h"
@@ -39,7 +39,7 @@ void CubeModule::evaluate(Context* ctx, Instance*)
 	double x,y,z;
 	size->getXYZ(x,y,z);
 
-	AbstractPolyhedron* p=new AbstractPolyhedron();
+        PrimitiveNode* p=new PrimitiveNode();
 	double x1, x2, y1, y2, z1, z2;
 	if(center) {
 		x1 = -x/2;

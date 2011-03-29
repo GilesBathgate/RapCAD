@@ -20,7 +20,7 @@
 #include "context.h"
 #include "numbervalue.h"
 #include "booleanvalue.h"
-#include "abstractpolyhedron.h"
+#include "primitivenode.h"
 #include "tau.h"
 #include <stdio.h>
 
@@ -65,9 +65,9 @@ fn=0.0;
 fs=1.0;
 fa=12.0;
     int f = getFragments(r,fn,fs,fa);
-    AbstractPolyhedron::Polygon c1 = getCircle(r1,f);
-    AbstractPolyhedron::Polygon c2 = getCircle(r2,f);
-    AbstractPolyhedron p;
+    PrimitiveNode::Polygon c1 = getCircle(r1,f);
+    PrimitiveNode::Polygon c2 = getCircle(r2,f);
+    PrimitiveNode p;
 
     for (int i=0; i<f; i++) {
 	int j=(i+1)%f;

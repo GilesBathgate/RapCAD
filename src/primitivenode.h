@@ -16,37 +16,29 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "abstractpolyhedron.h"
+#ifndef PRIMITIVENODE_H
+#define PRIMITIVENODE_H
 
-AbstractPolyhedron::AbstractPolyhedron()
+#include <QVector>
+#include <QString>
+#include "abstractnode.h"
+
+class PrimitiveNode : AbstractNode
 {
-}
+public:
+	struct Point {
+		double x, y, z;
+		Point() : x(0), y(0), z(0) { }
+		Point(double x,double y,double z) : x(x), y(y), z(z) { }
+	};
+	typedef QVector<Point> Polygon;
 
-void AbstractPolyhedron::createPolygon()
-{
-	polygons.append(Polygon());
-}
+	PrimitiveNode();
+	void createPolygon();
+	void appendVertex(double x, double y, double z);
+	QString toString();
+private:
+	QVector<Polygon> polygons;
+};
 
-void AbstractPolyhedron::appendVertex(double x, double y, double z)
-{
-	polygons.last().append(Point(x,y,z));
-}
-
-QString AbstractPolyhedron::toString()
-{
-	QString res;
-	foreach(Polygon pg, polygons) {
-		res.append("[");
-		foreach(Point p, pg)
-			res.append(
-				QString("[%1,%2,%3]")
-				.arg(p.x,0,'g',16)
-				.arg(p.y,0,'g',16)
-				.arg(p.z,0,'g',16)
-			);
-
-		res.append("]\n");
-	}
-
-	return res;
-}
+#endif // PRIMITIVENODE_H

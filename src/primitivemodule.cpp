@@ -40,12 +40,12 @@ int PrimitiveModule::getFragments(double r, double fn, double fs, double fa)
 }
 
 
-AbstractPolyhedron::Polygon PrimitiveModule::getCircle(double r, double f)
+PrimitiveNode::Polygon PrimitiveModule::getCircle(double r, double f)
 {
-    AbstractPolyhedron::Polygon circle;
+    PrimitiveNode::Polygon circle;
     for (int i=0; i<f; i++) {
 	double phi = (M_TAU*i) / f;
-	AbstractPolyhedron::Point p;
+        PrimitiveNode::Point p;
 	if (r > 0) {
 	    p.x = r*cos(phi);
 	    p.y = r*sin(phi);

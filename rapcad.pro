@@ -84,13 +84,15 @@ SOURCES += \
     src/vectoriterator.cpp \
     src/rangeiterator.cpp \
     src/scriptimport.cpp \
-    src/abstractpolyhedron.cpp \
+    src/primitivenode.cpp \
     src/cubemodule.cpp \
     src/differencemodule.cpp \
     src/polyhedronmodule.cpp \
     src/solidpython.cpp \
     src/cylindermodule.cpp \
-    src/primitivemodule.cpp
+    src/primitivemodule.cpp \
+    src/transformationnode.cpp \
+    src/operationnode.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -145,13 +147,16 @@ HEADERS  += \
     src/rangeiterator.h \
     src/scriptimport.h \
     src/cgal.h \
-    src/abstractpolyhedron.h \
+    src/primitivenode.h \
     src/cubemodule.h \
     src/differencemodule.h \
     src/polyhedronmodule.h \
     src/solidpython.h \
     src/cylindermodule.h \
-    src/primitivemodule.h
+    src/primitivemodule.h \
+    src/abstractnode.h \
+    src/transformationnode.h \
+    src/operationnode.h
 
 FORMS += \
     src/mainwindow.ui
