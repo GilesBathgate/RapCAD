@@ -25,6 +25,8 @@
 #include "declaration.h"
 #include "instance.h"
 #include "scope.h"
+#include "abstractnode.h"
+
 class Context;
 
 class Module : public Declaration
@@ -39,7 +41,7 @@ public:
 	Scope* getScope();
 	void setScope(Scope*);
 	void accept(Visitor&);
-	virtual void evaluate(Context*,Instance*);
+	virtual AbstractNode* evaluate(Context*,Instance*);
 private:
 	QString name;
 	QVector<Parameter*> parameters;

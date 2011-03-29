@@ -25,7 +25,7 @@ class EchoModule : public Module
 {
 public:
 	EchoModule();
-	void evaluate(Context*,Instance*);
+	AbstractNode* evaluate(Context*,Instance*);
 };
 
 #endif // ECHOMODULE_H

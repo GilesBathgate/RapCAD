@@ -28,7 +28,7 @@ CubeModule::CubeModule()
 	setName("cube");
 }
 
-void CubeModule::evaluate(Context* ctx, Instance*)
+AbstractNode* CubeModule::evaluate(Context* ctx, Instance*)
 {
 	VectorValue* size=dynamic_cast<VectorValue*>(ctx->getArgument(0,"size"));
 	BooleanValue* centerValue=dynamic_cast<BooleanValue*>(ctx->getArgument(1,"center"));
@@ -39,7 +39,7 @@ void CubeModule::evaluate(Context* ctx, Instance*)
 	double x,y,z;
 	size->getXYZ(x,y,z);
 
-        PrimitiveNode* p=new PrimitiveNode();
+	PrimitiveNode* p=new PrimitiveNode();
 	double x1, x2, y1, y2, z1, z2;
 	if(center) {
 		x1 = -x/2;
@@ -92,5 +92,7 @@ void CubeModule::evaluate(Context* ctx, Instance*)
 	p->appendVertex(x1, y1, z1);
 
 	printf("CUBE:\n%s",p->toString().toLocal8Bit().constData());
+
+	return p;
 
 }

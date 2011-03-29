@@ -29,32 +29,32 @@ PrimitiveModule::PrimitiveModule()
 */
 int PrimitiveModule::getFragments(double r, double fn, double fs, double fa)
 {
-    const double GRID_FINE = 0.000001;
-    if (r < GRID_FINE)
-	return 0;
+	const double GRID_FINE = 0.000001;
+	if(r < GRID_FINE)
+		return 0;
 
-    if (fn > 0.0)
-	return (int)fn;
+	if(fn > 0.0)
+		return (int)fn;
 
-    return (int)ceil(fmax(fmin(360.0 / fa, r*M_PI / fs), 5));
+	return (int)ceil(fmax(fmin(360.0 / fa, r*M_PI / fs), 5));
 }
 
 
 PrimitiveNode::Polygon PrimitiveModule::getCircle(double r, double f)
 {
-    PrimitiveNode::Polygon circle;
-    for (int i=0; i<f; i++) {
-	double phi = (M_TAU*i) / f;
-        PrimitiveNode::Point p;
-	if (r > 0) {
-	    p.x = r*cos(phi);
-	    p.y = r*sin(phi);
-	} else {
-	    p.x=0;
-	    p.y=0;
+	PrimitiveNode::Polygon circle;
+	for(int i=0; i<f; i++) {
+		double phi = (M_TAU*i) / f;
+		PrimitiveNode::Point p;
+		if(r > 0) {
+			p.x = r*cos(phi);
+			p.y = r*sin(phi);
+		} else {
+			p.x=0;
+			p.y=0;
+		}
+		circle.append(p);
 	}
-	circle.append(p);
-    }
 
-    return circle;
+	return circle;
 }

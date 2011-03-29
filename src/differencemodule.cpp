@@ -23,7 +23,9 @@ DifferenceModule::DifferenceModule()
 {
 }
 
-void DifferenceModule::evaluate(Context*, Instance*)
+AbstractNode* DifferenceModule::evaluate(Context*, Instance*)
 {
-    OperationNode foo;
+	OperationNode* d = new OperationNode();
+	d->setName("difference");
+	return d;
 }

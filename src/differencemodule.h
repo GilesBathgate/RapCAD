@@ -25,7 +25,7 @@ class DifferenceModule : public Module
 {
 public:
 	DifferenceModule();
-	void evaluate(Context*, Instance*);
+	AbstractNode* evaluate(Context*, Instance*);
 };
 
 #endif // DIFFERENCEMODULE_H

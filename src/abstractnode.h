@@ -4,7 +4,7 @@
 class AbstractNode
 {
 public:
-    AbstractNode() {};
+	AbstractNode() {};
 };
 
 #endif // ABSTRACTNODE_H

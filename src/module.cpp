@@ -67,6 +67,7 @@ void Module::accept(Visitor& v)
 	v.visit(this);
 }
 
-void Module::evaluate(Context*,Instance*)
+AbstractNode* Module::evaluate(Context*,Instance*)
 {
+	return NULL;
 }

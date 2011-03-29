@@ -6,7 +6,7 @@
 class TransformationNode : public AbstractNode
 {
 public:
-    TransformationNode();
+	TransformationNode();
 };
 
 #endif // TRANSFORMATIONNODE_H

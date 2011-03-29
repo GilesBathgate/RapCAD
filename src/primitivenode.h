@@ -23,7 +23,7 @@
 #include <QString>
 #include "abstractnode.h"
 
-class PrimitiveNode : AbstractNode
+class PrimitiveNode : public AbstractNode
 {
 public:
 	struct Point {

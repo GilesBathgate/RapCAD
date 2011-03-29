@@ -25,7 +25,7 @@ EchoModule::EchoModule()
 	setName("echo");
 }
 
-void EchoModule::evaluate(Context* ctx,Instance*)
+AbstractNode* EchoModule::evaluate(Context* ctx,Instance*)
 {
 	QString msg;
 	for(int i=0; i<ctx->arguments.size(); i++) {

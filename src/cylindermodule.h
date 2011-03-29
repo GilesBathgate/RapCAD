@@ -24,8 +24,8 @@
 class CylinderModule : public PrimitiveModule
 {
 public:
-    CylinderModule();
-    void evaluate(Context*,Instance*);
+	CylinderModule();
+	AbstractNode* evaluate(Context*,Instance*);
 };
 
 #endif // CYLINDERMODULE_H

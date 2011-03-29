@@ -25,7 +25,7 @@ class CubeModule : public PrimitiveModule
 {
 public:
 	CubeModule();
-	void evaluate(Context*,Instance*);
+	AbstractNode* evaluate(Context*,Instance*);
 };
 
 #endif // CUBEMODULE_H

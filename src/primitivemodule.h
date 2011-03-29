@@ -25,9 +25,10 @@
 class PrimitiveModule : public Module
 {
 public:
-    PrimitiveModule();
-    int getFragments(double,double,double,double);
-    PrimitiveNode::Polygon getCircle(double,double);
+	PrimitiveModule();
+protected:
+	int getFragments(double,double,double,double);
+	PrimitiveNode::Polygon getCircle(double,double);
 };
 
 #endif // PRIMITIVEMODULE_H

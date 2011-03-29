@@ -28,14 +28,14 @@ PolyhedronModule::PolyhedronModule()
 	setName("polyhedron");
 }
 
-void PolyhedronModule::evaluate(Context* ctx,Instance*)
+AbstractNode* PolyhedronModule::evaluate(Context* ctx,Instance*)
 {
 	VectorValue* points=dynamic_cast<VectorValue*>(ctx->getArgument(0,"points"));
 	VectorValue* surfaces=dynamic_cast<VectorValue*>(ctx->getArgument(1,"surfaces","triangles"));
 
 	QVector<Value*> children = points->getChildren();
 
-        PrimitiveNode* p=new PrimitiveNode();
+	PrimitiveNode* p=new PrimitiveNode();
 	foreach(Value* s,surfaces->getChildren()) {
 		p->createPolygon();
 		VectorValue* surface=dynamic_cast<VectorValue*>(s);
@@ -51,5 +51,7 @@ void PolyhedronModule::evaluate(Context* ctx,Instance*)
 	}
 
 	printf("POLY:\n%s",p->toString().toLocal8Bit().constData());
+
+	return p;
 
 }
