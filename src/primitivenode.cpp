@@ -35,6 +35,7 @@ void PrimitiveNode::appendVertex(double x, double y, double z)
 QString PrimitiveNode::toString()
 {
 	QString res;
+	res.append("primitive(");
 	foreach(Polygon pg, polygons) {
 		res.append("[");
 		foreach(Point p, pg)
@@ -47,6 +48,6 @@ QString PrimitiveNode::toString()
 
 		res.append("]\n");
 	}
-
+	res.append(")");
 	return res;
 }

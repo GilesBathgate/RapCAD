@@ -21,11 +21,13 @@
 
 DifferenceModule::DifferenceModule()
 {
+	this->setName("difference");
 }
 
-AbstractNode* DifferenceModule::evaluate(Context*, Instance*)
+AbstractNode* DifferenceModule::evaluate(Context*,QVector<AbstractNode*> childs)
 {
 	OperationNode* d = new OperationNode();
 	d->setName("difference");
+	d->setChildren(childs);
 	return d;
 }

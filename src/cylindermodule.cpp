@@ -29,7 +29,7 @@ CylinderModule::CylinderModule()
 	setName("cylinder");
 }
 
-AbstractNode* CylinderModule::evaluate(Context* ctx, Instance*)
+AbstractNode* CylinderModule::evaluate(Context* ctx,QVector<AbstractNode*>)
 {
 	NumberValue* heightValue = dynamic_cast<NumberValue*>(ctx->getArgument(0,"height"));
 	double h = heightValue->getNumber();
@@ -104,8 +104,6 @@ AbstractNode* CylinderModule::evaluate(Context* ctx, Instance*)
 		for(int i=0; i<f; i++)
 			p->appendVertex(c2.at(i).x, c2.at(i).y, z2);
 	}
-
-	printf("CYLINDER:\n%s",p->toString().toLocal8Bit().constData());
 
 	return p;
 }

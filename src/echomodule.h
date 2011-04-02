@@ -25,7 +25,7 @@ class EchoModule : public Module
 {
 public:
 	EchoModule();
-	AbstractNode* evaluate(Context*,Instance*);
+	AbstractNode* evaluate(Context*,QVector<AbstractNode*>);
 };
 
 #endif // ECHOMODULE_H

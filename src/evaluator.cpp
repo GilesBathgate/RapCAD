@@ -23,6 +23,8 @@
 #include "polyhedronmodule.h"
 #include "vectorvalue.h"
 #include "rangevalue.h"
+#include "operationnode.h"
+#include "differencemodule.h"
 #include <stdio.h>
 
 Evaluator::Evaluator()
@@ -59,18 +61,36 @@ void Evaluator::visit(ModuleScope* scp)
 
 	context->setArguments(arguments,parameters);
 
-	foreach(Declaration* d, scp->getDeclarations())
+	QVector<AbstractNode*> childnodes;
+	foreach(Declaration* d, scp->getDeclarations()) {
+		context->currentNode=NULL;
 		d->accept(*this);
+		if(context->currentNode)
+			childnodes.append(context->currentNode);
+	}
 
 	if(context->returnValue)
 		printf("Warning: return statement not valid inside module scope.\n");
 
 	finishContext();
+
+	OperationNode* u = new OperationNode();
+	u->setName("union");
+	u->setChildren(childnodes);
+	context->currentNode = u;
 }
 
 void Evaluator::visit(Instance* inst)
 {
 	QString name = inst->getName();
+	QVector<AbstractNode*> childnodes;
+	foreach(Statement* s, inst->getChildren()) {
+		context->currentNode=NULL;
+		s->accept(*this);
+		if(context->currentNode)
+			childnodes.append(context->currentNode);
+	}
+
 	Module* mod = context->lookupModule(name);
 	if(mod) {
 		foreach(Argument* arg, inst->getArguments())
@@ -83,7 +103,7 @@ void Evaluator::visit(Instance* inst)
 		if(scp)
 			scp->accept(*this);
 		else
-			mod->evaluate(context,inst);
+			context->currentNode = mod->evaluate(context,childnodes);
 
 		context->arguments.clear();
 		context->parameters.clear();
@@ -347,6 +367,7 @@ void Evaluator::visit(Script* sc)
 	sc->addDeclaration(new CubeModule());
 	sc->addDeclaration(new CylinderModule());
 	sc->addDeclaration(new PolyhedronModule());
+	sc->addDeclaration(new DifferenceModule());
 
 	context->currentScope = sc;
 	foreach(Declaration* d, sc->getDeclarations())
@@ -354,4 +375,10 @@ void Evaluator::visit(Script* sc)
 
 	if(context->returnValue)
 		printf("Warning: return statement not valid inside global scope.\n");
+
+	if(context->currentNode) {
+		AbstractNode* n = context->currentNode;
+
+		printf("%s",n->toString().toLocal8Bit().constData());
+	}
 }

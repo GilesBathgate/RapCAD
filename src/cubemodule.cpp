@@ -21,14 +21,13 @@
 #include "context.h"
 #include "vectorvalue.h"
 #include "booleanvalue.h"
-#include <stdio.h>
 
 CubeModule::CubeModule()
 {
 	setName("cube");
 }
 
-AbstractNode* CubeModule::evaluate(Context* ctx, Instance*)
+AbstractNode* CubeModule::evaluate(Context* ctx,QVector<AbstractNode*>)
 {
 	VectorValue* size=dynamic_cast<VectorValue*>(ctx->getArgument(0,"size"));
 	BooleanValue* centerValue=dynamic_cast<BooleanValue*>(ctx->getArgument(1,"center"));
@@ -36,8 +35,9 @@ AbstractNode* CubeModule::evaluate(Context* ctx, Instance*)
 	if(centerValue)
 		center = centerValue->isTrue();
 
-	double x,y,z;
-	size->getXYZ(x,y,z);
+	double x=0,y=0,z=0;
+	if(size)
+		size->getXYZ(x,y,z);
 
 	PrimitiveNode* p=new PrimitiveNode();
 	double x1, x2, y1, y2, z1, z2;
@@ -90,8 +90,6 @@ AbstractNode* CubeModule::evaluate(Context* ctx, Instance*)
 	p->appendVertex(x2, y2, z1);
 	p->appendVertex(x2, y1, z1);
 	p->appendVertex(x1, y1, z1);
-
-	printf("CUBE:\n%s",p->toString().toLocal8Bit().constData());
 
 	return p;
 

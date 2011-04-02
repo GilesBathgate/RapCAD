@@ -41,7 +41,7 @@ public:
 	Scope* getScope();
 	void setScope(Scope*);
 	void accept(Visitor&);
-	virtual AbstractNode* evaluate(Context*,Instance*);
+	virtual AbstractNode* evaluate(Context*,QVector<AbstractNode*>);
 private:
 	QString name;
 	QVector<Parameter*> parameters;

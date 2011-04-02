@@ -25,7 +25,7 @@ class CubeModule : public PrimitiveModule
 {
 public:
 	CubeModule();
-	AbstractNode* evaluate(Context*,Instance*);
+	AbstractNode* evaluate(Context*,QVector<AbstractNode*>);
 };
 
 #endif // CUBEMODULE_H
