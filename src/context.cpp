@@ -67,17 +67,7 @@ Function* Context::lookupFunction(QString name)
 
 void Context::addVariable(Value* v)
 {
-	QString name = v->getName();
-	Context* ctx = getVariableContext(name);
-	ctx->variables.insert(name,v);
-}
-
-Context* Context::getVariableContext(QString name)
-{
-	if(parent && !variables.contains(name))
-		return parent->getVariableContext(name);
-	else
-		return this;
+	variables.insert(v->getName(),v);
 }
 
 Value* Context::lookupVariable(QString name)

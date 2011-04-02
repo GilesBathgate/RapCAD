@@ -50,8 +50,6 @@ public:
 	Function* lookupFunction(QString);
 	void addFunction(Function*);
 
-	Context* getVariableContext(QString);
-
 	void setArguments(QVector<Value*>,QVector<Value*>);
 	Value* getArgument(int,QString);
 	Value* getArgument(int,QString,QString);
