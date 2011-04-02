@@ -36,4 +36,6 @@ AbstractNode* EchoModule::evaluate(Context* ctx,QVector<AbstractNode*>)
 	}
 	const char* t = msg.toLocal8Bit();
 	printf(t);
+
+	return NULL;
 }
