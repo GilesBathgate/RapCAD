@@ -79,17 +79,25 @@ AbstractNode* CylinderModule::evaluate(Context* ctx,QVector<AbstractNode*>)
 		double c1jy = c1.at(j).y;
 		double c2jx = c2.at(j).x;
 		double c2jy = c2.at(j).y;
-		if(r1 > 0) {
+		if(r1=r2) {
 			p->createPolygon();
 			p->appendVertex(c1ix,c1iy,z1);
 			p->appendVertex(c2ix,c2iy,z2);
-			p->appendVertex(c1jx,c1jy,z1);
-		}
-		if(r2 > 0) {
-			p->createPolygon();
-			p->appendVertex(c2ix,c2iy,z2);
 			p->appendVertex(c2jx,c2jy,z2);
 			p->appendVertex(c1jx,c1jy,z1);
+		} else {
+			if(r1 > 0) {
+				p->createPolygon();
+				p->appendVertex(c1ix,c1iy,z1);
+				p->appendVertex(c2ix,c2iy,z2);
+				p->appendVertex(c1jx,c1jy,z1);
+			}
+			if(r2 > 0) {
+				p->createPolygon();
+				p->appendVertex(c2ix,c2iy,z2);
+				p->appendVertex(c2jx,c2jy,z2);
+				p->appendVertex(c1jx,c1jy,z1);
+			}
 		}
 	}
 
@@ -101,7 +109,7 @@ AbstractNode* CylinderModule::evaluate(Context* ctx,QVector<AbstractNode*>)
 
 	if(r2 > 0) {
 		p->createPolygon();
-		for(int i=0; i<f; i++)
+		for(int i=f-1; i>=0; i--)
 			p->appendVertex(c2.at(i).x, c2.at(i).y, z2);
 	}
 

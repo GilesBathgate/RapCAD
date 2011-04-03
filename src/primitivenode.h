@@ -38,6 +38,9 @@ public:
 	void appendVertex(double x, double y, double z);
 	QString toString();
 private:
+	QString toString(Point);
+	QString toString(double);
+
 	QVector<Polygon> polygons;
 };
 
