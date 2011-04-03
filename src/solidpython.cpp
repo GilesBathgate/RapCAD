@@ -46,6 +46,8 @@ QString SolidPython::getVariable()
 			return v;
 		}
 	}
+	//TODO create double letter variable names
+	throw new NotImplementedException();
 }
 
 void SolidPython::visit(ModuleScope* scp)

@@ -18,9 +18,9 @@ QString OperationNode::toString()
 {
 	QString result;
 	result.append(name);
-	result.append("(");
+	result.append("(){");
 	foreach(AbstractNode* n,children)
 		result.append(n->toString());
-	result.append(")");
+	result.append("}");
 	return result;
 }
