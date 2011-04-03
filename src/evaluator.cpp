@@ -30,18 +30,18 @@
 Evaluator::Evaluator()
 {
 	context=NULL;
-	startContext();
 }
 
 Evaluator::~Evaluator()
 {
 }
 
-void Evaluator::startContext()
+void Evaluator::startContext(Scope* scp)
 {
 	Context* parent = context;
 	context = new Context();
 	context->parent = parent;
+	context->currentScope=scp;
 	contextStack.push(context);
 }
 
@@ -56,8 +56,7 @@ void Evaluator::visit(ModuleScope* scp)
 	QVector<Value*> arguments = context->arguments;
 	QVector<Value*> parameters = context->parameters;
 
-	startContext();
-	context->currentScope = scp;
+	startContext(scp);
 
 	context->setArguments(arguments,parameters);
 
@@ -83,6 +82,9 @@ void Evaluator::visit(ModuleScope* scp)
 void Evaluator::visit(Instance* inst)
 {
 	QString name = inst->getName();
+
+	startContext(context->currentScope);
+
 	QVector<AbstractNode*> childnodes;
 	foreach(Statement* s, inst->getChildren()) {
 		context->currentNode=NULL;
@@ -90,6 +92,7 @@ void Evaluator::visit(Instance* inst)
 		if(context->currentNode)
 			childnodes.append(context->currentNode);
 	}
+	finishContext();
 
 	Module* mod = context->lookupModule(name);
 	if(mod) {
@@ -125,8 +128,7 @@ void Evaluator::visit(FunctionScope* scp)
 	QVector<Value*> arguments = context->arguments;
 	QVector<Value*> parameters = context->parameters;
 
-	startContext();
-	context->currentScope = scp;
+	startContext(scp);
 
 	context->setArguments(arguments,parameters);
 
@@ -174,9 +176,7 @@ void Evaluator::visit(ForStatement* forstmt)
 
 	//TODO for now just consider the first arg.
 	Value* first = context->arguments.at(0);
-	Scope* scp = context->currentScope;
-	startContext();
-	context->currentScope=scp;
+	startContext(context->currentScope);
 
 	Iterator<Value*>* i = first->createIterator();
 	for(i->first(); !i->isDone(); i->next()) {
@@ -369,7 +369,7 @@ void Evaluator::visit(Script* sc)
 	sc->addDeclaration(new PolyhedronModule());
 	sc->addDeclaration(new DifferenceModule());
 
-	context->currentScope = sc;
+	startContext(sc);
 	foreach(Declaration* d, sc->getDeclarations())
 		d->accept(*this);
 

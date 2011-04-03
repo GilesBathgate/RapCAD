@@ -76,7 +76,7 @@ public:
 	void visit(Variable*);
 	void visit(Script*);
 private:
-	void startContext();
+	void startContext(Scope*);
 	void finishContext();
 
 	Context* context;
