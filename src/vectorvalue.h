@@ -32,6 +32,7 @@ public:
 	Iterator<Value*>* createIterator();
 	QVector<Value*> getChildren();
 private:
+	Value* operation(Expression::Operator_e);
 	Value* operation(Value&,Expression::Operator_e);
 	Expression::Operator_e convertOperation(Expression::Operator_e);
 	QVector<Value*> children;

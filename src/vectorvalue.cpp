@@ -65,6 +65,14 @@ QVector<Value*> VectorValue::getChildren()
 	return this->children;
 }
 
+Value* VectorValue::operation(Expression::Operator_e e)
+{
+	QVector<Value*> result;
+	for(int i=0; i<this->children.size(); i++)
+		result.append(Value::operation(this->children.at(i),e));
+	return new VectorValue(result);
+}
+
 Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 {
 	QVector<Value*> result;
