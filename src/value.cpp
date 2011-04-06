@@ -93,6 +93,11 @@ Value* Value::operator+(Value& v)
 	return operation(v,Expression::Add);
 }
 
+Value* Value::operator++(int)
+{
+	return operation(Expression::Increment);
+}
+
 Value* Value::operator-()
 {
 	return operation(Expression::Subtract);
@@ -101,6 +106,11 @@ Value* Value::operator-()
 Value* Value::operator-(Value& v)
 {
 	return operation(v,Expression::Subtract);
+}
+
+Value* Value::operator--(int)
+{
+	return operation(Expression::Decrement);
 }
 
 Value* Value::operator<(Value& v)
@@ -222,6 +232,10 @@ Value* Value::operation(Value* p_left, Expression::Operator_e e)
 		return -left;
 	case Expression::Invert:
 		return !left;
+	case Expression::Increment:
+		return left++;
+	case Expression::Decrement:
+		return left--;
 	default:
 		return &left;
 	}

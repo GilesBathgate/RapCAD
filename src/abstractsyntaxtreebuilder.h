@@ -47,6 +47,7 @@ public:
 	virtual QVector<Declaration*>* buildDeclarations(QVector<Declaration*>*)=0;
 	virtual QVector<Declaration*>* buildDeclarations(QVector<Declaration*>*,Declaration*)=0;
 	virtual Statement* buildStatement(Statement*)=0;
+	virtual Statement* buildStatement(Variable*,Expression::Operator_e)=0;
 	virtual Statement* buildStatement(QVector<Statement*>*)=0;
 	virtual Statement* buildStatement(Variable*,Expression*)=0;
 	virtual Statement* buildStatement(QString*,Variable::Type_e,Expression*)=0;

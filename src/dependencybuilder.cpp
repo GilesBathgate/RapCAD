@@ -84,6 +84,11 @@ Statement* DependencyBuilder::buildStatement(Statement*)
 	return NULL;
 }
 
+Statement* DependencyBuilder::buildStatement(Variable*,Expression::Operator_e)
+{
+	return NULL;
+}
+
 Statement* DependencyBuilder::buildStatement(QVector<Statement*>*)
 {
 	return NULL;

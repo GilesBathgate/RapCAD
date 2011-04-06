@@ -246,6 +246,18 @@ unsigned int SyntaxHighlighter::buildComponentwiseDivide()
 	return YY_CONTINUE;
 }
 
+unsigned int SyntaxHighlighter::buildIncrement()
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildDecrement()
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
 unsigned int SyntaxHighlighter::buildOuterProduct()
 {
 	setFormat(startIndex,lexerleng,operatorFormat);

@@ -70,6 +70,8 @@ NL \n|\r\n
 "!="				{ return tokenizer->buildNotEqual();  }
 "&&"				{ return tokenizer->buildAnd(); }
 "||"				{ return tokenizer->buildOr();  }
+"++"				{ return tokenizer->buildIncrement(); }
+"--"				{ return tokenizer->buildDecrement(); }
 "**"				{ return tokenizer->buildOuterProduct(); }
 ".*"				{ return tokenizer->buildComponentwiseMultiply(); }
 "./"				{ return tokenizer->buildComponentwiseDivide(); }

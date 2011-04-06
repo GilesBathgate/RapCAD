@@ -22,6 +22,7 @@ AssignStatement::AssignStatement()
 {
 	variable=NULL;
 	expression=NULL;
+	operation=Expression::None;
 }
 
 AssignStatement::~AssignStatement()
@@ -48,6 +49,16 @@ void AssignStatement::setExpression(Expression* exp)
 Expression* AssignStatement::getExpression()
 {
 	return this->expression;
+}
+
+void AssignStatement::setOperation(Expression::Operator_e op)
+{
+	this->operation=op;
+}
+
+Expression::Operator_e AssignStatement::getOperation()
+{
+	return this->operation;
 }
 
 void AssignStatement::accept(Visitor& v)

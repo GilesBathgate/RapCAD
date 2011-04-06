@@ -215,6 +215,16 @@ unsigned int TokenBuilder::buildComponentwiseDivide()
 	return CD;
 }
 
+unsigned int TokenBuilder::buildIncrement()
+{
+	return INC;
+}
+
+unsigned int TokenBuilder::buildDecrement()
+{
+	return DEC;
+}
+
 unsigned int TokenBuilder::buildOuterProduct()
 {
 	return CP;

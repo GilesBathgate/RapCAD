@@ -113,6 +113,14 @@ Statement* SyntaxTreeBuilder::buildStatement(Statement* stmt)
 	return stmt;
 }
 
+Statement* SyntaxTreeBuilder::buildStatement(Variable* var,Expression::Operator_e op)
+{
+	AssignStatement* result = new AssignStatement();
+	result->setVariable(var);
+	result->setOperation(op);
+	return result;
+}
+
 Statement* SyntaxTreeBuilder::buildStatement(QVector<Statement*>* stmts)
 {
 	CompoundStatement* result = new CompoundStatement();

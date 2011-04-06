@@ -248,11 +248,29 @@ void Evaluator::visit(AssignStatement* stmt)
 	stmt->getVariable()->accept(*this);
 	QString name = context->currentName;
 
-	stmt->getExpression()->accept(*this);
-	Value* v = context->currentValue;
+	Value* result;
+	switch(stmt->getOperation()) {
+	case Expression::Increment: {
+		Value* v = context->lookupVariable(name);
+		result=Value::operation(v,Expression::Increment);
+		break;
+	}
+	case Expression::Decrement: {
+		Value* v = context->lookupVariable(name);
+		result=Value::operation(v,Expression::Decrement);
+		break;
+	}
+	default: {
+		Expression* expression = stmt->getExpression();
+		if(expression) {
+			expression->accept(*this);
+			result = context->currentValue;
+		}
+	}
+	}
 
-	v->setName(name);
-	context->addVariable(v);
+	result->setName(name);
+	context->addVariable(result);
 }
 
 void Evaluator::visit(VectorExpression* exp)

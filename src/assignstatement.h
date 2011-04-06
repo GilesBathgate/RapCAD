@@ -32,10 +32,13 @@ public:
 	Variable* getVariable();
 	void setExpression(Expression*);
 	Expression* getExpression();
+	void setOperation(Expression::Operator_e);
+	Expression::Operator_e getOperation();
 	void accept(Visitor&);
 private:
 	Variable* variable;
 	Expression* expression;
+	Expression::Operator_e operation;
 };
 
 #endif // ASSIGNSTATEMENT_H

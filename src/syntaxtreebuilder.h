@@ -56,6 +56,7 @@ public:
 	QVector<Declaration*>* buildDeclarations(QVector<Declaration*>*);
 	QVector<Declaration*>* buildDeclarations(QVector<Declaration*>*,Declaration*);
 	Statement* buildStatement(Statement*);
+	Statement* buildStatement(Variable*,Expression::Operator_e);
 	Statement* buildStatement(QVector<Statement*>*);
 	Statement* buildStatement(Variable*,Expression*);
 	Statement* buildStatement(QString*,Variable::Type_e,Expression*);

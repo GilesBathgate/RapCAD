@@ -41,8 +41,10 @@ public:
 	Value* operator%(Value&);
 	Value* operator+();
 	Value* operator+(Value&);
+	Value* operator++(int);
 	Value* operator-();
 	Value* operator-(Value&);
+	Value* operator--(int);
 	Value* operator<(Value&);
 	Value* operator<=(Value&);
 	Value* operator==(Value&);
@@ -132,6 +134,10 @@ A Value::basicOperation(B left, Expression::Operator_e e)
 		return -left;
 	case Expression::Invert:
 		return !left;
+	case Expression::Increment:
+		return left+1;
+	case Expression::Decrement:
+		return left-1;
 	default:
 		return left;
 	}

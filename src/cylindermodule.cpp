@@ -79,7 +79,7 @@ AbstractNode* CylinderModule::evaluate(Context* ctx,QVector<AbstractNode*>)
 		double c1jy = c1.at(j).y;
 		double c2jx = c2.at(j).x;
 		double c2jy = c2.at(j).y;
-		if(r1=r2) {
+		if(r1==r2) {
 			p->createPolygon();
 			p->appendVertex(c1ix,c1iy,z1);
 			p->appendVertex(c2ix,c2iy,z2);

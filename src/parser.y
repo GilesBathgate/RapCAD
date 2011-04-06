@@ -77,6 +77,7 @@ AbstractTokenBuilder* ptokenizer;
 %left EQ NE
 %left '!' '+' '-'
 %left '*' '/' '%'
+%left INC DEC
 %left CM CD CP
 %right '^'
 %left '[' ']'
@@ -221,6 +222,10 @@ statement_list
 assign_statement
 	: variable '=' expression
 	{ $$ = builder->buildStatement($1,$3); }
+	| variable INC
+	{ $$ = builder->buildStatement($1,Expression::Increment); }
+	| variable DEC
+	{ $$ = builder->buildStatement($1,Expression::Decrement); }
 	| CONST IDENTIFIER '=' expression
 	{ $$ = builder->buildStatement($2,Variable::Const,$4); }
 	| PARAM IDENTIFIER '=' expression
@@ -301,6 +306,10 @@ expression
 	{ $$ = builder->buildExpression($1,Expression::LogicalAnd,$3); }
 	| expression OR expression
 	{ $$ = builder->buildExpression($1,Expression::LogicalOr,$3); }
+	| expression INC
+	{ $$ = builder->buildExpression(Expression::Increment,$1); }
+	| expression DEC
+	{ $$ = builder->buildExpression(Expression::Decrement,$1); }
 	| '+' expression
 	{ $$ = builder->buildExpression(Expression::Add,$2); }
 	| '-' expression

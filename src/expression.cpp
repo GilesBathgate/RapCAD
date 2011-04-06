@@ -45,6 +45,12 @@ QString Expression::getOpString()
 	case ComponentwiseDivide:
 		result.append("./");
 		break;
+	case Increment:
+		result.append("++");
+		break;
+	case Decrement:
+		result.append("--");
+		break;
 	case OuterProduct:
 		result.append("**");
 		break;
@@ -94,6 +100,11 @@ QString Expression::getOpString()
 		result.append("Unknown");
 	}
 	return result;
+}
+
+bool Expression::postFix()
+{
+	return op==Increment||op==Decrement;
 }
 
 void Expression::setOp(Operator_e op)

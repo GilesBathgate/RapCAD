@@ -32,6 +32,8 @@ public:
 		ComponentwiseMultiply,
 		Divide,
 		ComponentwiseDivide,
+		Increment,
+		Decrement,
 		OuterProduct,
 		Modulus,
 		Dot,
@@ -54,6 +56,7 @@ public:
 	Operator_e getOp();
 	void setOp(Operator_e);
 	QString getOpString();
+	bool postFix();
 private:
 	Operator_e op;
 };

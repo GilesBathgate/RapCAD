@@ -60,6 +60,8 @@ public:
 	virtual unsigned int buildOr()=0;
 	virtual unsigned int buildComponentwiseMultiply()=0;
 	virtual unsigned int buildComponentwiseDivide()=0;
+	virtual unsigned int buildIncrement()=0;
+	virtual unsigned int buildDecrement()=0;
 	virtual unsigned int buildOuterProduct()=0;
 	virtual unsigned int buildNamespace()=0;
 	virtual unsigned int buildAssign()=0;

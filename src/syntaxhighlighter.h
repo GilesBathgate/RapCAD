@@ -63,6 +63,8 @@ private:
 	unsigned int buildOr();
 	unsigned int buildComponentwiseMultiply();
 	unsigned int buildComponentwiseDivide();
+	unsigned int buildIncrement();
+	unsigned int buildDecrement();
 	unsigned int buildOuterProduct();
 	unsigned int buildNamespace();
 	unsigned int buildAssign();

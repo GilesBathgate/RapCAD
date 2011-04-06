@@ -259,10 +259,21 @@ void PrettyPrinter::visit(AssignStatement* stmt)
 	Variable* var = stmt->getVariable();
 	if(var)
 		var->accept(*this);
-	result.append("=");
-	Expression* expression = stmt->getExpression();
-	if(expression)
-		expression->accept(*this);
+
+	switch(stmt->getOperation()) {
+	case Expression::Increment:
+		result.append("++");
+		break;
+	case Expression::Decrement:
+		result.append("--");
+		break;
+	default: {
+		result.append("=");
+		Expression* expression = stmt->getExpression();
+		if(expression)
+			expression->accept(*this);
+	}
+	}
 
 	result.append(";\n");
 }
@@ -298,8 +309,13 @@ void PrettyPrinter::visit(RangeExpression* exp)
 
 void PrettyPrinter::visit(UnaryExpression* exp)
 {
-	result.append(exp->getOpString());
+	QString op = exp->getOpString();
+	bool p = exp->postFix();
+	if(!p)
+		result.append(op);
 	exp->getExpression()->accept(*this);
+	if(p)
+		result.append(op);
 }
 
 void PrettyPrinter::visit(ReturnStatement* stmt)
