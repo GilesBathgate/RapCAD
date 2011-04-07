@@ -25,14 +25,14 @@
 
 extern Script* parse(QString);
 
-void evaluate(QString path, QString format)
+void evaluate(QString path, bool print, QString format)
 {
 	Script* s=parse(path);
 
 	if(format =="solidpython") {
 		SolidPython p;
 		s->accept(p);
-	} else {
+	} else if(print){
 		PrettyPrinter p;
 		s->accept(p);
 	}
@@ -48,23 +48,25 @@ int main(int argc, char* argv[])
 {
 	int opt;
 	QString filename;
-	QString printformat="default";
+	bool print=false;
+	QString printformat;
 	bool useGUI=true;
 
-	while((opt = getopt(argc, argv, "f:p:")) != -1) {
+	while((opt = getopt(argc, argv, "f:p::")) != -1) {
 		switch(opt) {
 		case 'f':
 			useGUI=false;
 			filename=QString(optarg);
 			break;
 		case 'p':
+			print=true;
 			printformat=QString(optarg);
 			break;
 		}
 	}
 
 	if(!useGUI) {
-		evaluate(filename,printformat);
+		evaluate(filename,print,printformat);
 		return 0;
 	} else {
 		QApplication a(argc, argv);
