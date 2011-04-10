@@ -28,13 +28,12 @@
 
 extern char *lexertext;
 extern void lexerinit(AbstractTokenBuilder*,QString,bool);
-
-void parsererror(char const *);
-int parserlex();
 Script* parse(QString,bool);
 
-AbstractSyntaxTreeBuilder *builder;
-AbstractTokenBuilder* ptokenizer;
+static void parsererror(char const *);
+static int parserlex();
+static AbstractSyntaxTreeBuilder *builder;
+static AbstractTokenBuilder* tokenizer;
 %}
 
 %union {
@@ -414,15 +413,15 @@ argument
 
 %%
 
-int parserlex()
+static int parserlex()
 {
-	return ptokenizer->nextToken();
+	return tokenizer->nextToken();
 }
 
-void parsererror(char const *s)
+static void parsererror(char const *s)
 {
-	int pos=ptokenizer->getPosition();
-	int line=ptokenizer->getLineNumber();
+	int pos=tokenizer->getPosition();
+	int line=tokenizer->getLineNumber();
 	fprintf(stderr,"line %d: %s at character %i: '%s'\n", line, s, pos, lexertext);
 }
 
@@ -430,10 +429,10 @@ Script* parse(QString path)
 {
 	builder=new SyntaxTreeBuilder();
 
-	ptokenizer=new TokenBuilder();
-	lexerinit(ptokenizer,path,true);
+	tokenizer=new TokenBuilder();
+	lexerinit(tokenizer,path,true);
 	parserparse();
-	delete ptokenizer;
+	delete tokenizer;
 
 	Script* s=builder->getResult();
 	delete builder;

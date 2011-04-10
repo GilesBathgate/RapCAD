@@ -24,7 +24,7 @@ void lexerinclude(const char*);
 void lexerinit(AbstractTokenBuilder*,QString,bool);
 void lexerbegin();
 
-AbstractTokenBuilder* tokenizer;
+static AbstractTokenBuilder* tokenizer;
 %}
 
 %option yylineno
