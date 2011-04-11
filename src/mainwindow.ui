@@ -62,7 +62,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QTextEdit" name="textEdit"/>
+          <widget class="GLView" name="view" native="true"/>
          </item>
         </layout>
        </widget>
@@ -214,6 +214,14 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>GLView</class>
+   <extends>QWidget</extends>
+   <header>GLView.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

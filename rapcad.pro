@@ -92,7 +92,8 @@ SOURCES += \
     src/cylindermodule.cpp \
     src/primitivemodule.cpp \
     src/transformationnode.cpp \
-    src/operationnode.cpp
+    src/operationnode.cpp \
+    src/glview.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -156,7 +157,8 @@ HEADERS  += \
     src/primitivemodule.h \
     src/abstractnode.h \
     src/transformationnode.h \
-    src/operationnode.h
+    src/operationnode.h \
+    src/GLView.h
 
 FORMS += \
     src/mainwindow.ui
