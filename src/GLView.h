@@ -20,6 +20,7 @@
 #define GLVIEW_H
 
 #include <QGLWidget>
+#include <QMouseEvent>
 
 class GLView : public QGLWidget
 {
@@ -30,8 +31,19 @@ private:
 	void resizeGL(int w, int h);
 	void paintGL();
 
+	void mousePressEvent(QMouseEvent* event);
+	void mouseMoveEvent(QMouseEvent* event);
+	void mouseReleaseEvent(QMouseEvent* event);
+
+	void NormalizeAngle(double&);
+
 	double distance;
 	bool showaxes;
+	bool mouseDrag;
+	QPoint last;
+	double rotateX;
+	double rotateY;
+	double rotateZ;
 };
 
 #endif // GLVIEW_H
