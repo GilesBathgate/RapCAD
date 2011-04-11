@@ -24,11 +24,14 @@
 class GLView : public QGLWidget
 {
 public:
-    GLView(QWidget *parent = NULL);
+	GLView(QWidget* parent = NULL);
 private:
-    void initializeGL();
-    void resizeGL(int w, int h);
-    void paintGL();
+	void initializeGL();
+	void resizeGL(int w, int h);
+	void paintGL();
+
+	double distance;
+	bool showaxes;
 };
 
 #endif // GLVIEW_H

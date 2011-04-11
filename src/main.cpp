@@ -32,7 +32,7 @@ void evaluate(QString path, bool print, QString format)
 	if(format =="solidpython") {
 		SolidPython p;
 		s->accept(p);
-	} else if(print){
+	} else if(print) {
 		PrettyPrinter p;
 		s->accept(p);
 	}

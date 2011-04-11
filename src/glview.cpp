@@ -18,21 +18,36 @@
 
 #include "GLView.h"
 
-GLView::GLView(QWidget *parent) : QGLWidget(parent)
+GLView::GLView(QWidget* parent) : QGLWidget(parent)
 {
+	distance=500;
+	showaxes=true;
 }
 
 void GLView::initializeGL()
 {
-    glClearColor(1.0, 1.0, 1.0, 0.0);
+	glClearColor(1.0, 1.0, 1.0, 0.0);
 }
 
 void GLView::resizeGL(int w, int h)
 {
-    glViewport(0, 0, (GLint)w, (GLint)h);
+	glViewport(0, 0, (GLint)w, (GLint)h);
 }
 
 void GLView::paintGL()
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+	if(showaxes) {
+		glLineWidth(1);
+		glColor3d(0.5, 0.5, 0.5);
+		glBegin(GL_LINES);
+		glVertex3d(-distance/10, 0, 0);
+		glVertex3d(+distance/10, 0, 0);
+		glVertex3d(0, -distance/10, 0);
+		glVertex3d(0, +distance/10, 0);
+		glVertex3d(0, 0, -distance/10);
+		glVertex3d(0, 0, +distance/10);
+		glEnd();
+	}
 }
