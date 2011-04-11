@@ -40,9 +40,11 @@ MainWindow::MainWindow(QWidget* parent) :
 	ui->treeView->expandAll();
 
 	//TODO there must be a better way than this
-	QList<int> sizes;
-	sizes << 160 << 540 << 300;
-	ui->vSplitter->setSizes(sizes);
+	QList<int> hSizes,vSizes;
+	hSizes << 160 << 540 << 300;
+	ui->vSplitter->setSizes(hSizes);
+	vSizes << 150 << 10;
+	ui->hSplitter->setSizes(vSizes);
 
 	setupEditor();
 
