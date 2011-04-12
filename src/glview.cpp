@@ -17,6 +17,7 @@
  */
 
 #include "GLView.h"
+#include "math.h"
 
 static const double farfarAway=100000.0;
 static const double rotMulti=0.7;
@@ -38,6 +39,21 @@ void GLView::setRenderer(Renderer* r)
 void GLView::initializeGL()
 {
 	glClearColor(1.0, 1.0, 1.0, 0.0);
+	GLfloat light_diffuse[] = {1.0, 1.0, 1.0, 1.0};
+	GLfloat light_position0[] = {-1.0, -1.0, +1.0, 0.0};
+	GLfloat light_position1[] = {+1.0, +1.0, -1.0, 0.0};
+
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position0);
+	glEnable(GL_LIGHT0);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse);
+	glLightfv(GL_LIGHT1, GL_POSITION, light_position1);
+	glEnable(GL_LIGHT1);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_NORMALIZE);
+
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+	glEnable(GL_COLOR_MATERIAL);
 }
 
 void GLView::resizeGL(int w, int h)
@@ -46,6 +62,7 @@ void GLView::resizeGL(int w, int h)
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
+
 	gluPerspective(45.0, (GLdouble)w/(GLdouble)h, +10.0, +farfarAway);
 }
 
@@ -57,6 +74,7 @@ void GLView::paintGL()
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+
 	glRotated(rotateX, 1.0, 0.0, 0.0);
 	glRotated(rotateY, 0.0, 1.0, 0.0);
 	glRotated(rotateZ, 0.0, 0.0, 1.0);
@@ -75,7 +93,13 @@ void GLView::paintGL()
 	}
 
 	if(render)
-	    render->draw(false,true);
+	    render->draw(false,false);
+}
+
+void GLView::wheelEvent(QWheelEvent *event)
+{
+	distance *= pow(0.9, event->delta() / 120.0);
+	updateGL();
 }
 
 void GLView::mousePressEvent(QMouseEvent* event)

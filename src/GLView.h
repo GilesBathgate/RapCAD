@@ -21,6 +21,7 @@
 
 #include <QGLWidget>
 #include <QMouseEvent>
+#include <QWheelEvent>
 #include "renderer.h"
 
 class GLView : public QGLWidget
@@ -36,6 +37,7 @@ private:
 	void mousePressEvent(QMouseEvent* event);
 	void mouseMoveEvent(QMouseEvent* event);
 	void mouseReleaseEvent(QMouseEvent* event);
+	void wheelEvent(QWheelEvent *event);
 
 	void NormalizeAngle(double&);
 
