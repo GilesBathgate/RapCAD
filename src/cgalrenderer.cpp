@@ -17,17 +17,27 @@
  */
 
 #include "cgalrenderer.h"
-using CGAL::OGL::SNC_BOUNDARY;
 
-class NotImplementedException{};
+using CGAL::OGL::Nef3_Converter;
 
-CGALRenderer::CGALRenderer()
+CGALRenderer::CGALRenderer(const NefPolyhedron3& p)
 {
+	//TODO read in colors from preferences instead of
+	//hard coded constants.
+	setColor(VertexColor,true,CGAL::Color(0xb7,0xe8,0x5c));
+	setColor(VertexColor,false,CGAL::Color(0xff,0xf6,0x7c));
+	setColor(EdgeColor,true,CGAL::Color(0xab,0xd8,0x56));
+	setColor(EdgeColor,false,CGAL::Color(0xff,0xec,0x5e));
+	setColor(FacetColor,true,CGAL::Color(0x9d,0xcb,0x51));
+	setColor(FacetColor,false,CGAL::Color(0xf9,0xd7,0x2c));
+
+	Nef3_Converter<NefPolyhedron3>::convert_to_OGLPolyhedron(p,this);
+	init();
 }
 
-void CGALRenderer::draw(bool showedges) const
+void CGALRenderer::draw(bool skeleton, bool showedges) const
 {
-	if(this->style == SNC_BOUNDARY) {
+	if(!skeleton) {
 		glCallList(this->object_list_+2);
 		if(showedges) {
 			glDisable(GL_LIGHTING);
@@ -41,17 +51,32 @@ void CGALRenderer::draw(bool showedges) const
 	}
 }
 
-CGAL::Color CGALRenderer::getVertexColor(Vertex_iterator) const
+void CGALRenderer::setColor(Color_e t,bool marked,CGAL::Color c)
 {
-    throw new NotImplementedException();
+	switch(t) {
+	case VertexColor:
+		marked ? markedVertexColor=c : vertexColor=c;
+		return;
+	case EdgeColor:
+		marked ? markedEdgeColor=c : edgeColor=c;
+		return;
+	case FacetColor:
+		marked ? markedFacetColor=c : facetColor=c;
+		return;
+	}
 }
 
-CGAL::Color CGALRenderer::getEdgeColor(Edge_iterator) const
+CGAL::Color CGALRenderer::getVertexColor(Vertex_iterator v) const
 {
-    throw new NotImplementedException();
+	return v->mark() ? markedVertexColor : vertexColor;
 }
 
-CGAL::Color CGALRenderer::getFacetColor(Halffacet_iterator) const
+CGAL::Color CGALRenderer::getEdgeColor(Edge_iterator e) const
 {
-    throw new NotImplementedException();
+	return e->mark() ? markedEdgeColor : edgeColor;
+}
+
+CGAL::Color CGALRenderer::getFacetColor(Halffacet_iterator f) const
+{
+	return f->mark() ? markedFacetColor : facetColor;
 }

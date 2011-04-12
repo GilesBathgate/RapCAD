@@ -20,15 +20,29 @@
 #define CGALRENDERER_H
 
 #include "OGL_helper.h"
+#include "cgal.h"
 
-class CGALRenderer : public CGAL::OGL::Polyhedron
+class CGALRenderer : private CGAL::OGL::Polyhedron
 {
 public:
-	CGALRenderer();
-	void draw(bool showedges) const;
+	CGALRenderer(const NefPolyhedron3&);
+	void draw(bool,bool) const;
+private:
+	enum Color_e {
+		VertexColor,
+		EdgeColor,
+		FacetColor
+	};
+	void setColor(Color_e,bool,CGAL::Color);
 	CGAL::Color getVertexColor(Vertex_iterator v) const;
 	CGAL::Color getEdgeColor(Edge_iterator e) const;
 	CGAL::Color getFacetColor(Halffacet_iterator f) const;
+	CGAL::Color markedVertexColor;
+	CGAL::Color vertexColor;
+	CGAL::Color markedEdgeColor;
+	CGAL::Color edgeColor;
+	CGAL::Color markedFacetColor;
+	CGAL::Color facetColor;
 };
 
 #endif // CGALRENDERER_H
