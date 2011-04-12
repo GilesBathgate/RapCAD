@@ -30,6 +30,11 @@ GLView::GLView(QWidget* parent) : QGLWidget(parent)
 	rotateZ=35.0;
 }
 
+void GLView::setRenderer(Renderer* r)
+{
+	render=r;
+}
+
 void GLView::initializeGL()
 {
 	glClearColor(1.0, 1.0, 1.0, 0.0);
@@ -68,6 +73,9 @@ void GLView::paintGL()
 		glVertex3d(0, 0, +distance/10);
 		glEnd();
 	}
+
+	if(render)
+	    render->draw(false,true);
 }
 
 void GLView::mousePressEvent(QMouseEvent* event)

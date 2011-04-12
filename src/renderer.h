@@ -16,34 +16,14 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CGALRENDERER_H
-#define CGALRENDERER_H
+#ifndef RENDERER_H
+#define RENDERER_H
 
-#include "OGL_helper.h"
-#include "renderer.h"
-#include "cgal.h"
-
-class CGALRenderer : public Renderer, private CGAL::OGL::Polyhedron
+class Renderer
 {
 public:
-	CGALRenderer(const NefPolyhedron3&);
-	void draw(bool,bool);
-private:
-	enum Color_e {
-		VertexColor,
-		EdgeColor,
-		FacetColor
-	};
-	void setColor(Color_e,bool,CGAL::Color);
-	CGAL::Color getVertexColor(Vertex_iterator v) const;
-	CGAL::Color getEdgeColor(Edge_iterator e) const;
-	CGAL::Color getFacetColor(Halffacet_iterator f) const;
-	CGAL::Color markedVertexColor;
-	CGAL::Color vertexColor;
-	CGAL::Color markedEdgeColor;
-	CGAL::Color edgeColor;
-	CGAL::Color markedFacetColor;
-	CGAL::Color facetColor;
+    virtual ~Renderer(){}
+    virtual void draw(bool,bool)=0;
 };
 
-#endif // CGALRENDERER_H
+#endif // RENDERER_H

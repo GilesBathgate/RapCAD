@@ -161,7 +161,8 @@ HEADERS  += \
     src/operationnode.h \
     src/GLView.h \
     src/cgalrenderer.h \
-    src/OGL_helper.h
+    src/OGL_helper.h \
+    src/renderer.h
 
 FORMS += \
     src/mainwindow.ui

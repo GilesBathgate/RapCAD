@@ -21,11 +21,13 @@
 
 #include <QGLWidget>
 #include <QMouseEvent>
+#include "renderer.h"
 
 class GLView : public QGLWidget
 {
 public:
 	GLView(QWidget* parent = NULL);
+	void setRenderer(Renderer* r);
 private:
 	void initializeGL();
 	void resizeGL(int w, int h);
@@ -37,6 +39,7 @@ private:
 
 	void NormalizeAngle(double&);
 
+	Renderer* render;
 	double distance;
 	bool showaxes;
 	bool mouseDrag;

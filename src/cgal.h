@@ -19,11 +19,15 @@
 #ifndef CGAL_H
 #define CGAL_H
 
-#include <CGAL/Gmpz.h>
-#include <CGAL/Extended_homogeneous.h>
+#include <CGAL/Gmpq.h>
+#include <CGAL/Cartesian.h>
+#include <CGAL/Polyhedron_3.h>
 #include <CGAL/Nef_polyhedron_3.h>
 
-typedef CGAL::Extended_homogeneous<CGAL::Gmpz>  Kernel;
-typedef CGAL::Nef_polyhedron_3<Kernel>  NefPolyhedron3;
+typedef CGAL::Cartesian<CGAL::Gmpq> Kernel3;
+typedef CGAL::Polyhedron_3<Kernel3> Polyhedron3;
+typedef CGAL::Nef_polyhedron_3<Kernel3> NefPolyhedron3;
+typedef Kernel3::Point_3 Point3;
+
 
 #endif // CGAL_H

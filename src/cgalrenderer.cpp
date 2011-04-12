@@ -32,11 +32,11 @@ CGALRenderer::CGALRenderer(const NefPolyhedron3& p)
 	setColor(FacetColor,false,CGAL::Color(0xf9,0xd7,0x2c));
 
 	Nef3_Converter<NefPolyhedron3>::convert_to_OGLPolyhedron(p,this);
-	init();
 }
 
-void CGALRenderer::draw(bool skeleton, bool showedges) const
+void CGALRenderer::draw(bool skeleton, bool showedges)
 {
+	init();
 	if(!skeleton) {
 		glCallList(this->object_list_+2);
 		if(showedges) {
