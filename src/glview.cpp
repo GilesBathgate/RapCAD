@@ -105,18 +105,11 @@ void GLView::paintGL()
 	if(showBase) {
 		glLineWidth(1);
 		glColor3d(0.0, 0.0, 1.0);
-		glBegin(GL_LINES);
+		glBegin(GL_LINE_LOOP);
 		glVertex3d(-baseX, -baseY, 0);
 		glVertex3d(+baseX, -baseY, 0);
-
-		glVertex3d(+baseX, -baseY, 0);
-		glVertex3d(+baseX, +baseY, 0);
-
 		glVertex3d(+baseX, +baseY, 0);
 		glVertex3d(-baseX, +baseY, 0);
-
-		glVertex3d(-baseX, +baseY, 0);
-		glVertex3d(-baseX, -baseY, 0);
 		glEnd();
 	}
 
