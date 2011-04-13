@@ -24,6 +24,7 @@ static const double rotMulti=0.7;
 
 GLView::GLView(QWidget* parent) : QGLWidget(parent)
 {
+	render=NULL;
 	distance=500;
 	showaxes=true;
 	rotateX=35.0;
@@ -93,10 +94,10 @@ void GLView::paintGL()
 	}
 
 	if(render)
-	    render->draw(false,false);
+		render->draw(false,false);
 }
 
-void GLView::wheelEvent(QWheelEvent *event)
+void GLView::wheelEvent(QWheelEvent* event)
 {
 	distance *= pow(0.9, event->delta() / 120.0);
 	updateGL();
