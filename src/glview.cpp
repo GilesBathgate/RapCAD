@@ -59,7 +59,9 @@ void GLView::initializeGL()
 
 void GLView::resizeGL(int w, int h)
 {
-	glViewport(0, 0, (GLint)w, (GLint)h);
+	viewportW=(GLint)w;
+	viewportH=(GLint)h;
+	glViewport(viewportX,viewportY,viewportW,viewportH);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -72,6 +74,7 @@ void GLView::paintGL()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 	gluLookAt(0.0, -distance, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+	glViewport(viewportX,viewportY,viewportW,viewportH);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -111,7 +114,7 @@ void GLView::mousePressEvent(QMouseEvent* event)
 	setFocus();
 }
 
-void GLView::NormalizeAngle(double& angle)
+void GLView::normalizeAngle(GLdouble& angle)
 {
 	while(angle < 0)
 		angle += 360;
@@ -126,11 +129,17 @@ void GLView::mouseMoveEvent(QMouseEvent* event)
 		return;
 
 	QPoint current = event->globalPos();
-
-	rotateX += (current.y()-last.y()) * rotMulti;
-	rotateZ += (current.x()-last.x()) * rotMulti;
-	NormalizeAngle(rotateX);
-	NormalizeAngle(rotateZ);
+	int dx = current.x()-last.x();
+	int dy = current.y()-last.y();
+	if(event->buttons() & Qt::LeftButton) {
+		rotateX += (GLdouble)(dy * rotMulti);
+		rotateZ += (GLdouble)(dx * rotMulti);
+		normalizeAngle(rotateX);
+		normalizeAngle(rotateZ);
+	} else {
+		viewportX += (GLint)dx;
+		viewportY -= (GLint)dy;
+	}
 	updateGL();
 
 	last = current;

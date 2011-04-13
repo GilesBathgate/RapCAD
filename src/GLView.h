@@ -39,16 +39,20 @@ private:
 	void mouseReleaseEvent(QMouseEvent* event);
 	void wheelEvent(QWheelEvent* event);
 
-	void NormalizeAngle(double&);
+	void normalizeAngle(GLdouble&);
 
 	Renderer* render;
 	double distance;
 	bool showaxes;
 	bool mouseDrag;
 	QPoint last;
-	double rotateX;
-	double rotateY;
-	double rotateZ;
+	GLdouble rotateX;
+	GLdouble rotateY;
+	GLdouble rotateZ;
+	GLint viewportX;
+	GLint viewportY;
+	GLint viewportW;
+	GLint viewportH;
 };
 
 #endif // GLVIEW_H
