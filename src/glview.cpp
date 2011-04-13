@@ -21,7 +21,6 @@
 #include "GLView.h"
 
 static const double farfarAway=100000.0;
-static const double rotMulti=0.7;
 static const int baseWidth=232;
 static const int baseX=baseWidth/2;
 static const int baseLength=200; //check this
@@ -30,8 +29,9 @@ static const int baseY=baseLength/2;
 GLView::GLView(QWidget* parent) : QGLWidget(parent)
 {
 	render=NULL;
-	distance=500;
-	showaxes=true;
+	distance=500.0;
+	showAxes=true;
+	showBase=true;
 	rotateX=35.0;
 	rotateY=0.0;
 	rotateZ=35.0;
@@ -90,7 +90,7 @@ void GLView::paintGL()
 	glRotated(rotateY, 0.0, 1.0, 0.0);
 	glRotated(rotateZ, 0.0, 0.0, 1.0);
 
-	if(showaxes) {
+	if(showAxes) {
 		glLineWidth(1);
 		glColor3d(0.5, 0.5, 0.5);
 		glBegin(GL_LINES);
@@ -102,7 +102,7 @@ void GLView::paintGL()
 		glVertex3d(0, 0, +distance/2);
 		glEnd();
 	}
-	if(true) { //showbase) {
+	if(showBase) {
 		glLineWidth(1);
 		glColor3d(0.0, 0.0, 1.0);
 		glBegin(GL_LINES);
@@ -157,10 +157,10 @@ void GLView::mouseMoveEvent(QMouseEvent* event)
 	int dy = current.y()-last.y();
 	if(event->buttons() & Qt::LeftButton) {
 		if(QApplication::keyboardModifiers() & Qt::ShiftModifier) {
-			distance += dy;
+			distance += (GLdouble)dy;
 		} else {
-			rotateX += (GLdouble)(dy * rotMulti);
-			rotateZ += (GLdouble)(dx * rotMulti);
+			rotateX += (GLdouble)dy;
+			rotateZ += (GLdouble)dx;
 			normalizeAngle(rotateX);
 			normalizeAngle(rotateZ);
 		}

@@ -42,8 +42,9 @@ private:
 	void normalizeAngle(GLdouble&);
 
 	Renderer* render;
-	double distance;
-	bool showaxes;
+	GLdouble distance;
+	bool showAxes;
+	bool showBase;
 	bool mouseDrag;
 	QPoint last;
 	GLdouble rotateX;
