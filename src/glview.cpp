@@ -16,11 +16,16 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QApplication>
+#include <math.h>
 #include "GLView.h"
-#include "math.h"
 
 static const double farfarAway=100000.0;
 static const double rotMulti=0.7;
+static const int baseWidth=232;
+static const int baseX=baseWidth/2;
+static const int baseLength=200; //check this
+static const int baseY=baseLength/2;
 
 GLView::GLView(QWidget* parent) : QGLWidget(parent)
 {
@@ -30,6 +35,8 @@ GLView::GLView(QWidget* parent) : QGLWidget(parent)
 	rotateX=35.0;
 	rotateY=0.0;
 	rotateZ=35.0;
+	viewportX=0;
+	viewportY=0;
 }
 
 void GLView::setRenderer(Renderer* r)
@@ -71,13 +78,13 @@ void GLView::resizeGL(int w, int h)
 
 void GLView::paintGL()
 {
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 	gluLookAt(0.0, -distance, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
 	glViewport(viewportX,viewportY,viewportW,viewportH);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
 
 	glRotated(rotateX, 1.0, 0.0, 0.0);
 	glRotated(rotateY, 0.0, 1.0, 0.0);
@@ -87,12 +94,29 @@ void GLView::paintGL()
 		glLineWidth(1);
 		glColor3d(0.5, 0.5, 0.5);
 		glBegin(GL_LINES);
-		glVertex3d(-distance/10, 0, 0);
-		glVertex3d(+distance/10, 0, 0);
-		glVertex3d(0, -distance/10, 0);
-		glVertex3d(0, +distance/10, 0);
-		glVertex3d(0, 0, -distance/10);
-		glVertex3d(0, 0, +distance/10);
+		glVertex3d(-distance/2, 0, 0);
+		glVertex3d(+distance/2, 0, 0);
+		glVertex3d(0, -distance/2, 0);
+		glVertex3d(0, +distance/2, 0);
+		glVertex3d(0, 0, -distance/2);
+		glVertex3d(0, 0, +distance/2);
+		glEnd();
+	}
+	if(true) { //showbase) {
+		glLineWidth(1);
+		glColor3d(0.0, 0.0, 1.0);
+		glBegin(GL_LINES);
+		glVertex3d(-baseX, -baseY, 0);
+		glVertex3d(+baseX, -baseY, 0);
+
+		glVertex3d(+baseX, -baseY, 0);
+		glVertex3d(+baseX, +baseY, 0);
+
+		glVertex3d(+baseX, +baseY, 0);
+		glVertex3d(-baseX, +baseY, 0);
+
+		glVertex3d(-baseX, +baseY, 0);
+		glVertex3d(-baseX, -baseY, 0);
 		glEnd();
 	}
 
@@ -132,10 +156,14 @@ void GLView::mouseMoveEvent(QMouseEvent* event)
 	int dx = current.x()-last.x();
 	int dy = current.y()-last.y();
 	if(event->buttons() & Qt::LeftButton) {
-		rotateX += (GLdouble)(dy * rotMulti);
-		rotateZ += (GLdouble)(dx * rotMulti);
-		normalizeAngle(rotateX);
-		normalizeAngle(rotateZ);
+		if(QApplication::keyboardModifiers() & Qt::ShiftModifier) {
+			distance += dy;
+		} else {
+			rotateX += (GLdouble)(dy * rotMulti);
+			rotateZ += (GLdouble)(dx * rotMulti);
+			normalizeAngle(rotateX);
+			normalizeAngle(rotateZ);
+		}
 	} else {
 		viewportX += (GLint)dx;
 		viewportY -= (GLint)dy;
