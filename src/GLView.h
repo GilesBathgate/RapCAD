@@ -51,9 +51,7 @@ private:
 	GLdouble rotateY;
 	GLdouble rotateZ;
 	GLint viewportX;
-	GLint viewportY;
-	GLint viewportW;
-	GLint viewportH;
+	GLint viewportZ;
 };
 
 #endif // GLVIEW_H

@@ -23,7 +23,7 @@
 static const double farfarAway=100000.0;
 static const int baseWidth=232;
 static const int baseX=baseWidth/2;
-static const int baseLength=200; //check this
+static const int baseLength=230;
 static const int baseY=baseLength/2;
 
 GLView::GLView(QWidget* parent) : QGLWidget(parent)
@@ -36,7 +36,7 @@ GLView::GLView(QWidget* parent) : QGLWidget(parent)
 	rotateY=0.0;
 	rotateZ=35.0;
 	viewportX=0;
-	viewportY=0;
+	viewportZ=0;
 }
 
 void GLView::setRenderer(Renderer* r)
@@ -66,9 +66,7 @@ void GLView::initializeGL()
 
 void GLView::resizeGL(int w, int h)
 {
-	viewportW=(GLint)w;
-	viewportH=(GLint)h;
-	glViewport(viewportX,viewportY,viewportW,viewportH);
+	glViewport(0,0,(GLint)w,(GLint)h);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -83,8 +81,7 @@ void GLView::paintGL()
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-	gluLookAt(0.0, -distance, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
-	glViewport(viewportX,viewportY,viewportW,viewportH);
+	gluLookAt(-viewportX, -distance, -viewportZ, -viewportX, 0.0, -viewportZ, 0.0, 0.0, 1.0);
 
 	glRotated(rotateX, 1.0, 0.0, 0.0);
 	glRotated(rotateY, 0.0, 1.0, 0.0);
@@ -119,7 +116,8 @@ void GLView::paintGL()
 
 void GLView::wheelEvent(QWheelEvent* event)
 {
-	distance *= pow(0.9, event->delta() / 120.0);
+	//Increment distance 10 units per wheel step
+	distance += (GLdouble)(event->delta() / 12.0);
 	updateGL();
 }
 
@@ -159,7 +157,7 @@ void GLView::mouseMoveEvent(QMouseEvent* event)
 		}
 	} else {
 		viewportX += (GLint)dx;
-		viewportY -= (GLint)dy;
+		viewportZ -= (GLint)dy;
 	}
 	updateGL();
 
