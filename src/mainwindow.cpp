@@ -26,28 +26,54 @@ MainWindow::MainWindow(QWidget* parent) :
 {
 	ui->setupUi(this);
 
-	myModel = new QStandardItemModel();
-	QStringList headers;
-	headers << "Projects";
-	myModel->setHorizontalHeaderLabels(headers);
-	QStandardItem* parentItem = myModel->invisibleRootItem();
+	setupLayout();
 
-	QStandardItem* item = new QStandardItem("New Project.rpro");
-	parentItem->appendRow(item);
-	item->appendRow(new QStandardItem("New.rcad"));
+	setupToolbar();
 
-	ui->treeView->setModel(myModel);
-	ui->treeView->expandAll();
-
-	//TODO there must be a better way than this
-	QList<int> hSizes,vSizes;
-	hSizes << 160 << 540 << 300;
-	ui->vSplitter->setSizes(hSizes);
-	vSizes << 150 << 10;
-	ui->hSplitter->setSizes(vSizes);
+	setupTreeview();
 
 	setupEditor();
+}
 
+void MainWindow::setupToolbar()
+{
+    ui->actionNew->setIcon(QIcon::fromTheme("document-new"));
+    ui->actionOpen->setIcon(QIcon::fromTheme("document-open"));
+    ui->actionSave->setIcon(QIcon::fromTheme("document-save"));
+    ui->actionPrint->setIcon(QIcon::fromTheme("document-print"));
+
+    ui->actionUndo->setIcon(QIcon::fromTheme("edit-undo"));
+    ui->actionRedo->setIcon(QIcon::fromTheme("edit-redo"));
+
+    ui->actionCut->setIcon(QIcon::fromTheme("edit-cut"));
+    ui->actionCopy->setIcon(QIcon::fromTheme("edit-copy"));
+    ui->actionPaste->setIcon(QIcon::fromTheme("edit-paste"));
+}
+
+void MainWindow::setupLayout()
+{
+    //TODO there must be a better way than this
+    QList<int> hSizes,vSizes;
+    hSizes << 160 << 540 << 300;
+    ui->vSplitter->setSizes(hSizes);
+    vSizes << 150 << 10;
+    ui->hSplitter->setSizes(vSizes);
+}
+
+void MainWindow::setupTreeview()
+{
+    myModel = new QStandardItemModel();
+    QStringList headers;
+    headers << "Projects";
+    myModel->setHorizontalHeaderLabels(headers);
+    QStandardItem* parentItem = myModel->invisibleRootItem();
+
+    QStandardItem* item = new QStandardItem("New Project.rpro");
+    parentItem->appendRow(item);
+    item->appendRow(new QStandardItem("New.rcad"));
+
+    ui->treeView->setModel(myModel);
+    ui->treeView->expandAll();
 }
 
 void MainWindow::setupEditor()

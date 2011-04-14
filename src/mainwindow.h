@@ -39,7 +39,10 @@ public:
 private:
 	Ui::MainWindow* ui;
 	QStandardItemModel* myModel;
+	void setupLayout();
+	void setupToolbar();
 	void setupEditor();
+	void setupTreeview();
 	SyntaxHighlighter* highlighter;
 };
 
