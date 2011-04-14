@@ -45,9 +45,16 @@ void MainWindow::setupToolbar()
     ui->actionUndo->setIcon(QIcon::fromTheme("edit-undo"));
     ui->actionRedo->setIcon(QIcon::fromTheme("edit-redo"));
 
+    connect(ui->actionUndo,SIGNAL(triggered()),ui->scriptEditor,SLOT(undo()));
+    connect(ui->actionRedo,SIGNAL(triggered()),ui->scriptEditor,SLOT(redo()));
+
     ui->actionCut->setIcon(QIcon::fromTheme("edit-cut"));
     ui->actionCopy->setIcon(QIcon::fromTheme("edit-copy"));
     ui->actionPaste->setIcon(QIcon::fromTheme("edit-paste"));
+
+    connect(ui->actionCut,SIGNAL(triggered()),ui->scriptEditor,SLOT(cut()));
+    connect(ui->actionCopy,SIGNAL(triggered()),ui->scriptEditor,SLOT(copy()));
+    connect(ui->actionPaste,SIGNAL(triggered()),ui->scriptEditor,SLOT(paste()));
 }
 
 void MainWindow::setupLayout()
