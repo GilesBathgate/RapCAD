@@ -18,13 +18,11 @@
 
 #ifndef CGAL_H
 #define CGAL_H
-
-#include <CGAL/Gmpq.h>
-#include <CGAL/Cartesian.h>
+#include <CGAL/Exact_predicates_exact_constructions_kernel.h>
 #include <CGAL/Polyhedron_3.h>
 #include <CGAL/Nef_polyhedron_3.h>
 
-typedef CGAL::Cartesian<CGAL::Gmpq> Kernel3;
+typedef CGAL::Exact_predicates_exact_constructions_kernel Kernel3;
 typedef CGAL::Polyhedron_3<Kernel3> Polyhedron3;
 typedef CGAL::Nef_polyhedron_3<Kernel3> NefPolyhedron3;
 typedef Kernel3::Point_3 Point3;
