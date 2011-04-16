@@ -16,26 +16,59 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PRIMITIVENODE_H
-#define PRIMITIVENODE_H
-
-#include <QVector>
-#include <QString>
-#include "abstractnode.h"
 #include "point.h"
 
-class PrimitiveNode : public AbstractNode
+bool Point::operator ==(const Point that) const
 {
-public:
-	typedef QVector<Point> Polygon;
+	return this->x==that.x&&this->y==that.y&&this->z==that.z;
+}
 
-	PrimitiveNode();
-	void createPolygon();
-	void appendVertex(double x, double y, double z);
-	void appendVertex(Point p);
-	QString toString();
-private:
-	QVector<Polygon> polygons;
-};
+double Point::getX() const
+{
+	return x;
+}
 
-#endif // PRIMITIVENODE_H
+double Point::getY() const
+{
+	return y;
+}
+
+double Point::getZ() const
+{
+	return z;
+}
+
+QString Point::toString() const
+{
+	QString res;
+	res.append("[");
+	res.append(toString(x));
+	res.append(",");
+	res.append(toString(y));
+	res.append(",");
+	res.append(toString(z));
+	res.append("]");
+
+	return res;
+}
+
+QString Point::toString(const double d) const
+{
+	QString res;
+	res.setNum(d,'f',16);
+	int j=0;
+	//Trim trailing zeros. res will always be
+	//in the form X.XX.. so we can cheat here
+	for(int i=res.size()-1; i>=0; i--) {
+		if(res.at(i)!='0') {
+			if(res.at(i)=='.')
+				j++;
+			break;
+		} else {
+			j++;
+		}
+	}
+	res.chop(j);
+
+	return res;
+}

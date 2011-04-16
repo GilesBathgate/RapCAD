@@ -94,7 +94,8 @@ SOURCES += \
     src/transformationnode.cpp \
     src/operationnode.cpp \
     src/glview.cpp \
-    src/cgalrenderer.cpp
+    src/cgalrenderer.cpp \
+    src/point.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -162,7 +163,8 @@ HEADERS  += \
     src/GLView.h \
     src/cgalrenderer.h \
     src/OGL_helper.h \
-    src/renderer.h
+    src/renderer.h \
+    src/point.h
 
 FORMS += \
     src/mainwindow.ui

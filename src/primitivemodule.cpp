@@ -40,19 +40,20 @@ int PrimitiveModule::getFragments(double r, double fn, double fs, double fa)
 }
 
 
-PrimitiveNode::Polygon PrimitiveModule::getCircle(double r, double f)
+PrimitiveNode::Polygon PrimitiveModule::getCircle(double r, double f, double z)
 {
 	PrimitiveNode::Polygon circle;
 	for(int i=0; i<f; i++) {
 		double phi = (M_TAU*i) / f;
-		PrimitiveNode::Point p;
+		double x,y;
 		if(r > 0) {
-			p.x = r*cos(phi);
-			p.y = r*sin(phi);
+			x = r*cos(phi);
+			y = r*sin(phi);
 		} else {
-			p.x=0;
-			p.y=0;
+			x=0;
+			y=0;
 		}
+		Point p(x,y,z);
 		circle.append(p);
 	}
 

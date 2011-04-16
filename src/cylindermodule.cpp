@@ -65,20 +65,20 @@ AbstractNode* CylinderModule::evaluate(Context* ctx,QVector<AbstractNode*>)
 	fs=1.0;
 	fa=12.0;
 	int f = getFragments(r,fn,fs,fa);
-	PrimitiveNode::Polygon c1 = getCircle(r1,f);
-	PrimitiveNode::Polygon c2 = getCircle(r2,f);
+	PrimitiveNode::Polygon c1 = getCircle(r1,f,z1);
+	PrimitiveNode::Polygon c2 = getCircle(r2,f,z2);
 	PrimitiveNode* p = new PrimitiveNode();
 
 	for(int i=0; i<f; i++) {
 		int j=(i+1)%f;
-		double c1ix = c1.at(i).x;
-		double c1iy = c1.at(i).y;
-		double c2ix = c2.at(i).x;
-		double c2iy = c2.at(i).y;
-		double c1jx = c1.at(j).x;
-		double c1jy = c1.at(j).y;
-		double c2jx = c2.at(j).x;
-		double c2jy = c2.at(j).y;
+		double c1ix = c1.at(i).getX();
+		double c1iy = c1.at(i).getY();
+		double c2ix = c2.at(i).getX();
+		double c2iy = c2.at(i).getY();
+		double c1jx = c1.at(j).getX();
+		double c1jy = c1.at(j).getY();
+		double c2jx = c2.at(j).getX();
+		double c2jy = c2.at(j).getY();
 		if(r1==r2) {
 			p->createPolygon();
 			p->appendVertex(c1ix,c1iy,z1);
@@ -104,13 +104,13 @@ AbstractNode* CylinderModule::evaluate(Context* ctx,QVector<AbstractNode*>)
 	if(r1 > 0) {
 		p->createPolygon();
 		for(int i=0; i<f; i++)
-			p->appendVertex(c1.at(i).x, c1.at(i).y, z1);
+			p->appendVertex(c1.at(i));
 	}
 
 	if(r2 > 0) {
 		p->createPolygon();
 		for(int i=f-1; i>=0; i--)
-			p->appendVertex(c2.at(i).x, c2.at(i).y, z2);
+			p->appendVertex(c2.at(i));
 	}
 
 	return p;

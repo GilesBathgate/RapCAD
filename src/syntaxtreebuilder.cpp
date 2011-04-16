@@ -238,7 +238,8 @@ Scope* SyntaxTreeBuilder::buildScope(QVector<Declaration*>* decls)
 Scope* SyntaxTreeBuilder::buildScope(Instance* inst)
 {
 	ModuleScope* result = new ModuleScope();
-	QVector<Declaration*> decls(1,inst);
+	QVector<Declaration*> decls;
+	decls.append(inst);
 	result->setDeclarations(decls);
 	return result;
 }

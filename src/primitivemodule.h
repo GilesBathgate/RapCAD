@@ -28,7 +28,7 @@ public:
 	PrimitiveModule();
 protected:
 	int getFragments(double,double,double,double);
-	PrimitiveNode::Polygon getCircle(double,double);
+	PrimitiveNode::Polygon getCircle(double,double,double);
 };
 
 #endif // PRIMITIVEMODULE_H

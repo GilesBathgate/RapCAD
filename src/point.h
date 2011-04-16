@@ -16,14 +16,24 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef RENDERER_H
-#define RENDERER_H
+#ifndef POINT_H
+#define POINT_H
 
-class Renderer
+#include <QString>
+
+class Point
 {
 public:
-	virtual ~Renderer() {}
-	virtual void draw(bool,bool)=0;
+	Point() : x(0), y(0), z(0) { }
+	Point(double x,double y,double z) : x(x), y(y), z(z) { }
+	bool operator==(const Point that) const;
+	QString toString() const;
+	double getX() const;
+	double getY() const;
+	double getZ() const;
+private:
+	QString toString(const double) const;
+	double x, y, z;
 };
 
-#endif // RENDERER_H
+#endif // POINT_H

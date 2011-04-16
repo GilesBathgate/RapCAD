@@ -29,24 +29,29 @@ void PrimitiveNode::createPolygon()
 
 void PrimitiveNode::appendVertex(double x, double y, double z)
 {
-	polygons.last().append(Point(x,y,z));
+	appendVertex(Point(x,y,z));
+}
+
+void PrimitiveNode::appendVertex(Point p)
+{
+	polygons.last().append(p);
 }
 
 QString PrimitiveNode::toString()
 {
 	QString res;
 	res.append("polyhedron([");
-	QVector<QString> ptlist;
+	QVector<Point> ptlist;
 	foreach(Polygon pg, polygons) {
 		foreach(Point p, pg) {
-			QString pt = toString(p);
-			if(!ptlist.contains(pt))
-				ptlist.append(pt);
+			if(!ptlist.contains(p))
+				ptlist.append(p);
 		}
 	}
 
 	for(int i=0; i<ptlist.size(); i++) {
-		QString pt = ptlist.at(i);
+		Point p = ptlist.at(i);
+		QString pt = p.toString();
 		if(i>0)
 			res.append(",");
 		res.append(pt);
@@ -62,47 +67,11 @@ QString PrimitiveNode::toString()
 			if(j>0)
 				res.append(",");
 			Point p = pg.at(j);
-			QString pt = toString(p);
-			int i = ptlist.indexOf(pt);
+			int i = ptlist.indexOf(p);
 			res.append(QString().setNum(i));
 		}
 		res.append("]");
 	}
 	res.append("]);");
-	return res;
-}
-
-QString PrimitiveNode::toString(Point p)
-{
-	QString res;
-	res.append("[");
-	res.append(toString(p.x));
-	res.append(",");
-	res.append(toString(p.y));
-	res.append(",");
-	res.append(toString(p.z));
-	res.append("]");
-
-	return res;
-}
-
-QString PrimitiveNode::toString(double d)
-{
-	QString res;
-	res.setNum(d,'f',16);
-	int j=0;
-	//Trim trailing zeros. res will always be
-	//in the form X.XX.. so we can cheat here
-	for(int i=res.size()-1; i>=0; i--) {
-		if(res.at(i)!='0') {
-			if(res.at(i)=='.')
-				j++;
-			break;
-		} else {
-			j++;
-		}
-	}
-	res.chop(j);
-
 	return res;
 }
