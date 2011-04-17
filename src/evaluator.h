@@ -20,6 +20,7 @@
 #define EVALUATOR_H
 
 #include <QStack>
+#include <QTextStream>
 #include "treevisitor.h"
 #include "script.h"
 #include "module.h"
@@ -50,7 +51,7 @@
 class Evaluator : public TreeVisitor
 {
 public:
-	Evaluator();
+	Evaluator(QTextStream&);
 	~Evaluator();
 	void visit(Module*);
 	void visit(ModuleScope*);
@@ -84,6 +85,7 @@ private:
 	Context* context;
 	QStack<Context*> contextStack;
 	Node* rootNode;
+	QTextStream& output;
 };
 
 #endif // EVALUATOR_H

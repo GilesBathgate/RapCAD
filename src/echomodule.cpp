@@ -18,24 +18,20 @@
 
 #include "echomodule.h"
 #include "context.h"
-#include <stdio.h>
 
-EchoModule::EchoModule()
+EchoModule::EchoModule(QTextStream& s) : output(s)
 {
 	setName("echo");
 }
 
 Node* EchoModule::evaluate(Context* ctx,QVector<Node*>)
 {
-	QString msg;
 	for(int i=0; i<ctx->arguments.size(); i++) {
 		if(i>0)
-			msg.append(" ");
+			output << " ";
 		Value* a=ctx->arguments.at(i);
-		msg.append(a->getValueString());
+		output << a->getValueString();
 	}
-	const char* t = msg.toLocal8Bit();
-	printf("%s",t);
 
 	return NULL;
 }

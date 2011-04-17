@@ -24,6 +24,7 @@
 #include "solidpython.h"
 #include "evaluator.h"
 #include "nodeprinter.h"
+#include "nodeevaluator.h"
 
 extern Script* parse(QString);
 
@@ -41,15 +42,16 @@ void evaluate(QString path, bool print, QString format)
 		s->accept(p);
 	}
 
-	Evaluator e;
+	Evaluator e(out);
 	s->accept(e);
+	delete s;
 
 	Node* n = e.getRootNode();
 	NodePrinter p(out);
 	n->accept(p);
 
 	delete n;
-	delete s;
+
 }
 
 int main(int argc, char* argv[])

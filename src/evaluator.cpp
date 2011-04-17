@@ -26,9 +26,8 @@
 #include "operationnode.h"
 #include "differencemodule.h"
 #include "nodeprinter.h"
-#include <stdio.h>
 
-Evaluator::Evaluator()
+Evaluator::Evaluator(QTextStream& s) : output(s)
 {
 	context=NULL;
 	rootNode=NULL;
@@ -71,7 +70,7 @@ void Evaluator::visit(ModuleScope* scp)
 	}
 
 	if(context->returnValue)
-		printf("Warning: return statement not valid inside module scope.\n");
+		output << "Warning: return statement not valid inside module scope.\n";
 
 	finishContext();
 
@@ -383,7 +382,7 @@ void Evaluator::visit(Variable* var)
 void Evaluator::visit(Script* sc)
 {
 	//TODO add our "builtin" here for now
-	sc->addDeclaration(new EchoModule());
+	sc->addDeclaration(new EchoModule(output));
 	sc->addDeclaration(new CubeModule());
 	sc->addDeclaration(new CylinderModule());
 	sc->addDeclaration(new PolyhedronModule());
@@ -394,7 +393,7 @@ void Evaluator::visit(Script* sc)
 		d->accept(*this);
 
 	if(context->returnValue)
-		printf("Warning: return statement not valid inside global scope.\n");
+		output << "Warning: return statement not valid inside global scope.\n";
 
 	rootNode=context->currentNode;
 }

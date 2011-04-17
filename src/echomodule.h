@@ -19,13 +19,16 @@
 #ifndef ECHOMODULE_H
 #define ECHOMODULE_H
 
+#include <QTextStream>
 #include "module.h"
 
 class EchoModule : public Module
 {
 public:
-	EchoModule();
+	EchoModule(QTextStream&);
 	Node* evaluate(Context*,QVector<Node*>);
+private:
+	QTextStream& output;
 };
 
 #endif // ECHOMODULE_H
