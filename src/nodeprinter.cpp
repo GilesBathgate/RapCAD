@@ -17,23 +17,14 @@
  */
 
 #include "nodeprinter.h"
-#include <stdio.h>
 
-NodePrinter::NodePrinter()
+NodePrinter::NodePrinter(QTextStream& s) : result(s)
 {
-}
-
-void NodePrinter::visit(Node* n)
-{
-	foreach(Node* c,n->getChildren())
-		c->accept(*this);
-
-	printf("%s",result.toLocal8Bit().constData());
 }
 
 void NodePrinter::visit(PrimitiveNode* n)
 {
-	result.append("polyhedron([");
+	result << "polyhedron([";
 	QVector<Point> ptlist;
 	QVector<Polygon> polygons=n->getPolygons();
 	foreach(Polygon pg, polygons) {
@@ -47,35 +38,35 @@ void NodePrinter::visit(PrimitiveNode* n)
 		Point p = ptlist.at(i);
 		QString pt = p.toString();
 		if(i>0)
-			result.append(",");
-		result.append(pt);
+			result << ",";
+		result << pt;
 	}
-	result.append("],[");
+	result << "],[";
 
 	for(int i=0; i<polygons.size(); i++) {
 		Polygon pg = polygons.at(i);
 		if(i>0)
-			result.append(",");
-		result.append("[");
+			result << ",";
+		result << "[";
 		for(int j=0; j<pg.size(); j++) {
 			if(j>0)
-				result.append(",");
+				result << ",";
 			Point p = pg.at(j);
 			int i = ptlist.indexOf(p);
-			result.append(QString().setNum(i));
+			result << QString().setNum(i);
 		}
-		result.append("]");
+		result << "]";
 	}
-	result.append("]);");
+	result << "]);";
 }
 
 void NodePrinter::visit(OperationNode* n)
 {
-	result.append(n->getName());
-	result.append("(){");
+	result << n->getName();
+	result << "(){";
 	foreach(Node* c,n->getChildren())
 		c->accept(*this);
-	result.append("}");
+	result << "}";
 }
 
 void NodePrinter::visit(TransformationNode*)

@@ -75,12 +75,15 @@ public:
 	void visit(Literal*);
 	void visit(Variable*);
 	void visit(Script*);
+
+	Node* getRootNode() const;
 private:
 	void startContext(Scope*);
 	void finishContext();
 
 	Context* context;
 	QStack<Context*> contextStack;
+	Node* rootNode;
 };
 
 #endif // EVALUATOR_H

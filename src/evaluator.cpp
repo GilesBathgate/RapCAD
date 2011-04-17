@@ -31,6 +31,7 @@
 Evaluator::Evaluator()
 {
 	context=NULL;
+	rootNode=NULL;
 }
 
 Evaluator::~Evaluator()
@@ -395,9 +396,10 @@ void Evaluator::visit(Script* sc)
 	if(context->returnValue)
 		printf("Warning: return statement not valid inside global scope.\n");
 
-	if(context->currentNode) {
-		Node* n = context->currentNode;
-		NodePrinter* p = new NodePrinter();
-		p->visit(n);
-	}
+	rootNode=context->currentNode;
+}
+
+Node* Evaluator::getRootNode() const
+{
+	return rootNode;
 }

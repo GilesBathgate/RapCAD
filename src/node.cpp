@@ -31,8 +31,3 @@ QVector<Node*> Node::getChildren() const
 {
 	return children;
 }
-
-void Node::accept(NodeVisitor& n)
-{
-	n.visit(this);
-}

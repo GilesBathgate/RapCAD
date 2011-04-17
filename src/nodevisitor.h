@@ -23,7 +23,6 @@ class NodeVisitor
 {
 public:
 	virtual ~NodeVisitor() {}
-	virtual void visit(class Node*)=0;
 	virtual void visit(class PrimitiveNode*)=0;
 	virtual void visit(class OperationNode*)=0;
 	virtual void visit(class TransformationNode*)=0;

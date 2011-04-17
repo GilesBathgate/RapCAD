@@ -22,15 +22,11 @@ NodeEvaluator::NodeEvaluator()
 {
 }
 
-void NodeEvaluator::visit(Node* n)
+void NodeEvaluator::visit(PrimitiveNode*)
 {
 }
 
-void NodeEvaluator::visit(PrimitiveNode* n)
-{
-}
-
-void NodeEvaluator::visit(OperationNode* n)
+void NodeEvaluator::visit(OperationNode*)
 {
 }
 

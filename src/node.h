@@ -26,7 +26,6 @@ class Node : public VisitableNode
 {
 public:
 	Node();
-	void accept(NodeVisitor&);
 	void setChildren(QVector<Node*>);
 	QVector<Node*> getChildren() const;
 private:

@@ -17,16 +17,20 @@
  */
 
 #include <QtGui/QApplication>
+#include <QTextStream>
 #include "mainwindow.h"
 #include "script.h"
 #include "treeprinter.h"
 #include "solidpython.h"
 #include "evaluator.h"
+#include "nodeprinter.h"
 
 extern Script* parse(QString);
 
 void evaluate(QString path, bool print, QString format)
 {
+	QTextStream out(stdout);
+
 	Script* s=parse(path);
 
 	if(format =="solidpython") {
@@ -40,7 +44,11 @@ void evaluate(QString path, bool print, QString format)
 	Evaluator e;
 	s->accept(e);
 
-	//TODO just delete the script for now
+	Node* n = e.getRootNode();
+	NodePrinter p(out);
+	n->accept(p);
+
+	delete n;
 	delete s;
 }
 

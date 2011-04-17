@@ -19,9 +19,8 @@
 #ifndef NODEPRINTER_H
 #define NODEPRINTER_H
 
-#include <QString>
+#include <QTextStream>
 #include "nodevisitor.h"
-#include "node.h"
 #include "primitivenode.h"
 #include "operationnode.h"
 #include "transformationnode.h"
@@ -29,13 +28,12 @@
 class NodePrinter : public NodeVisitor
 {
 public:
-	NodePrinter();
-	void visit(Node*);
+	NodePrinter(QTextStream&);
 	void visit(PrimitiveNode*);
 	void visit(OperationNode*);
 	void visit(TransformationNode*);
 private:
-	QString result;
+	QTextStream& result;
 };
 
 #endif // NODEPRINTER_H
