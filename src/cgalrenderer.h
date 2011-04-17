@@ -26,7 +26,7 @@
 class CGALRenderer : public Renderer, private CGAL::OGL::Polyhedron
 {
 public:
-	CGALRenderer(const NefPolyhedron3&);
+	CGALRenderer(const CGAL::NefPolyhedron3&);
 	void draw(bool,bool);
 private:
 	enum Color_e {

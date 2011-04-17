@@ -22,10 +22,12 @@
 #include <CGAL/Polyhedron_3.h>
 #include <CGAL/Nef_polyhedron_3.h>
 
+namespace CGAL
+{
 typedef CGAL::Exact_predicates_exact_constructions_kernel Kernel3;
 typedef CGAL::Polyhedron_3<Kernel3> Polyhedron3;
 typedef CGAL::Nef_polyhedron_3<Kernel3> NefPolyhedron3;
 typedef Kernel3::Point_3 Point3;
-
+}
 
 #endif // CGAL_H
