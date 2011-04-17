@@ -97,6 +97,7 @@ SOURCES += \
     src/glview.cpp \
     src/cgalrenderer.cpp \
     src/point.cpp \
+    src/nodeprinter.cpp \
     src/nodeevaluator.cpp
 
 HEADERS  += \
@@ -169,6 +170,7 @@ HEADERS  += \
     src/point.h \
     src/nodevisitor.h \
     src/visitablenode.h \
+    src/nodeprinter.h \
     src/nodeevaluator.h \
     src/polygon.h
 

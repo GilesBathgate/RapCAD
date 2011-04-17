@@ -16,24 +16,26 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "nodeevaluator.h"
+#ifndef NODEPRINTER_H
+#define NODEPRINTER_H
 
-NodeEvaluator::NodeEvaluator()
-{
-}
+#include <QString>
+#include "nodevisitor.h"
+#include "node.h"
+#include "primitivenode.h"
+#include "operationnode.h"
+#include "transformationnode.h"
 
-void NodeEvaluator::visit(Node* n)
+class NodePrinter : public NodeVisitor
 {
-}
+public:
+	NodePrinter();
+	void visit(Node*);
+	void visit(PrimitiveNode*);
+	void visit(OperationNode*);
+	void visit(TransformationNode*);
+private:
+	QString result;
+};
 
-void NodeEvaluator::visit(PrimitiveNode* n)
-{
-}
-
-void NodeEvaluator::visit(OperationNode* n)
-{
-}
-
-void NodeEvaluator::visit(TransformationNode*)
-{
-}
+#endif // NODEPRINTER_H

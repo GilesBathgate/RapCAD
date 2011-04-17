@@ -25,7 +25,7 @@
 #include "rangevalue.h"
 #include "operationnode.h"
 #include "differencemodule.h"
-#include "nodeevaluator.h"
+#include "nodeprinter.h"
 #include <stdio.h>
 
 Evaluator::Evaluator()
@@ -397,7 +397,7 @@ void Evaluator::visit(Script* sc)
 
 	if(context->currentNode) {
 		Node* n = context->currentNode;
-		NodeEvaluator* e = new NodeEvaluator();
-		e->visit(n);
+		NodePrinter* p = new NodePrinter();
+		p->visit(n);
 	}
 }
