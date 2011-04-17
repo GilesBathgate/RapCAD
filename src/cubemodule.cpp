@@ -36,9 +36,10 @@ AbstractNode* CubeModule::evaluate(Context* ctx,QVector<AbstractNode*>)
 		center = centerValue->isTrue();
 
 	double x=0,y=0,z=0;
-	if(size)
-		size->getXYZ(x,y,z);
-
+	if(size) {
+		Point p = size->getPoint();
+		p.getXYZ(x,y,z);
+	}
 	PrimitiveNode* p=new PrimitiveNode();
 	double x1, x2, y1, y2, z1, z2;
 	if(center) {

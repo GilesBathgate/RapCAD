@@ -28,6 +28,8 @@ public:
 	Point(double x,double y,double z) : x(x), y(y), z(z) { }
 	bool operator==(const Point that) const;
 	QString toString() const;
+	void getXYZ(double& x, double& y, double& z) const;
+	void getXY(double& x, double& y) const;
 	double getX() const;
 	double getY() const;
 	double getZ() const;

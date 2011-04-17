@@ -43,9 +43,8 @@ AbstractNode* PolyhedronModule::evaluate(Context* ctx,QVector<AbstractNode*>)
 			NumberValue* indexNum=dynamic_cast<NumberValue*>(indexVal);
 			double index = indexNum->getNumber();
 			VectorValue* point=dynamic_cast<VectorValue*>(children.at(index));
-			double x,y,z;
-			point->getXYZ(x,y,z);
-			p->appendVertex(x,y,z);
+			Point pt = point->getPoint();
+			p->appendVertex(pt);
 		}
 
 	}

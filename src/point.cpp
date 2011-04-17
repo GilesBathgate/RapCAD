@@ -38,6 +38,19 @@ double Point::getZ() const
 	return z;
 }
 
+void Point::getXYZ(double& x, double& y, double& z) const
+{
+    x=this->x;
+    y=this->y;
+    z=this->z;
+}
+
+void Point::getXY(double& x, double& y) const
+{
+    x=this->x;
+    y=this->y;
+}
+
 QString Point::toString() const
 {
 	QString res;

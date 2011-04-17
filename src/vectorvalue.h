@@ -21,6 +21,7 @@
 
 #include <QVector>
 #include "value.h"
+#include "point.h"
 
 class VectorValue : public Value
 {
@@ -28,7 +29,7 @@ public:
 	VectorValue(QVector<Value*>);
 	QString getValueString();
 	bool isTrue();
-	void getXYZ(double& x,double& y,double& z);
+	Point getPoint();
 	Iterator<Value*>* createIterator();
 	QVector<Value*> getChildren();
 private:

@@ -71,32 +71,24 @@ AbstractNode* CylinderModule::evaluate(Context* ctx,QVector<AbstractNode*>)
 
 	for(int i=0; i<f; i++) {
 		int j=(i+1)%f;
-		double c1ix = c1.at(i).getX();
-		double c1iy = c1.at(i).getY();
-		double c2ix = c2.at(i).getX();
-		double c2iy = c2.at(i).getY();
-		double c1jx = c1.at(j).getX();
-		double c1jy = c1.at(j).getY();
-		double c2jx = c2.at(j).getX();
-		double c2jy = c2.at(j).getY();
 		if(r1==r2) {
 			p->createPolygon();
-			p->appendVertex(c1ix,c1iy,z1);
-			p->appendVertex(c2ix,c2iy,z2);
-			p->appendVertex(c2jx,c2jy,z2);
-			p->appendVertex(c1jx,c1jy,z1);
+			p->appendVertex(c1.at(i));
+			p->appendVertex(c2.at(i));
+			p->appendVertex(c2.at(j));
+			p->appendVertex(c1.at(j));
 		} else {
 			if(r1 > 0) {
 				p->createPolygon();
-				p->appendVertex(c1ix,c1iy,z1);
-				p->appendVertex(c2ix,c2iy,z2);
-				p->appendVertex(c1jx,c1jy,z1);
+				p->appendVertex(c1.at(i));
+				p->appendVertex(c2.at(i));
+				p->appendVertex(c1.at(j));
 			}
 			if(r2 > 0) {
 				p->createPolygon();
-				p->appendVertex(c2ix,c2iy,z2);
-				p->appendVertex(c2jx,c2jy,z2);
-				p->appendVertex(c1jx,c1jy,z1);
+				p->appendVertex(c2.at(i));
+				p->appendVertex(c2.at(j));
+				p->appendVertex(c1.at(j));
 			}
 		}
 	}
