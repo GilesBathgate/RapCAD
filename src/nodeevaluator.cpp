@@ -17,22 +17,68 @@
  */
 
 #include "nodeevaluator.h"
+#include <stdio.h>
 
 NodeEvaluator::NodeEvaluator()
 {
 }
 
-void NodeEvaluator::visit(PrimitiveNode*)
+void NodeEvaluator::visit(Node* n)
 {
+	foreach(Node* c,n->getChildren())
+		c->accept(*this);
 
+	printf("%s",result.toLocal8Bit().constData());
 }
 
-void NodeEvaluator::visit(OperationNode*)
+void NodeEvaluator::visit(PrimitiveNode* n)
 {
+	result.append("polyhedron([");
+	QVector<Point> ptlist;
+	QVector<Polygon> polygons=n->getPolygons();
+	foreach(Polygon pg, polygons) {
+		foreach(Point p, pg) {
+			if(!ptlist.contains(p))
+				ptlist.append(p);
+		}
+	}
 
+	for(int i=0; i<ptlist.size(); i++) {
+		Point p = ptlist.at(i);
+		QString pt = p.toString();
+		if(i>0)
+			result.append(",");
+		result.append(pt);
+	}
+	result.append("],[");
+
+	for(int i=0; i<polygons.size(); i++) {
+		Polygon pg = polygons.at(i);
+		if(i>0)
+			result.append(",");
+		result.append("[");
+		for(int j=0; j<pg.size(); j++) {
+			if(j>0)
+				result.append(",");
+			Point p = pg.at(j);
+			int i = ptlist.indexOf(p);
+			result.append(QString().setNum(i));
+		}
+		result.append("]");
+	}
+	result.append("]);");
+}
+
+void NodeEvaluator::visit(OperationNode* n)
+{
+	result.append(n->getName());
+	result.append("(){");
+	foreach(Node* c,n->getChildren())
+		c->accept(*this);
+	result.append("}");
 }
 
 void NodeEvaluator::visit(TransformationNode*)
 {
-
+	//TODO not implemented
 }

@@ -29,7 +29,7 @@ CylinderModule::CylinderModule()
 	setName("cylinder");
 }
 
-AbstractNode* CylinderModule::evaluate(Context* ctx,QVector<AbstractNode*>)
+Node* CylinderModule::evaluate(Context* ctx,QVector<Node*>)
 {
 	NumberValue* heightValue = dynamic_cast<NumberValue*>(ctx->getArgument(0,"height"));
 	double h = heightValue->getNumber();
@@ -65,8 +65,8 @@ AbstractNode* CylinderModule::evaluate(Context* ctx,QVector<AbstractNode*>)
 	fs=1.0;
 	fa=12.0;
 	int f = getFragments(r,fn,fs,fa);
-	PrimitiveNode::Polygon c1 = getCircle(r1,f,z1);
-	PrimitiveNode::Polygon c2 = getCircle(r2,f,z2);
+	Polygon c1 = getCircle(r1,f,z1);
+	Polygon c2 = getCircle(r2,f,z2);
 	PrimitiveNode* p = new PrimitiveNode();
 
 	for(int i=0; i<f; i++) {

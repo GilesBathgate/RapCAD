@@ -9,18 +9,12 @@ void OperationNode::setName(QString n)
 	name=n;
 }
 
-void OperationNode::setChildren(QVector<AbstractNode*> childs)
+QString OperationNode::getName()
 {
-	children=childs;
+	return name;
 }
 
-QString OperationNode::toString()
+void OperationNode::accept(NodeVisitor& v)
 {
-	QString result;
-	result.append(name);
-	result.append("(){");
-	foreach(AbstractNode* n,children)
-		result.append(n->toString());
-	result.append("}");
-	return result;
+	v.visit(this);
 }

@@ -67,7 +67,7 @@ void Module::accept(TreeVisitor& v)
 	v.visit(this);
 }
 
-AbstractNode* Module::evaluate(Context*,QVector<AbstractNode*>)
+Node* Module::evaluate(Context*,QVector<Node*>)
 {
 	return NULL;
 }

@@ -16,17 +16,21 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NODEVISITOR_H
-#define NODEVISITOR_H
+#ifndef NODE_H
+#define NODE_H
 
-class NodeVisitor
+#include <QVector>
+#include "visitablenode.h"
+
+class Node : public VisitableNode
 {
 public:
-	virtual ~NodeVisitor() {}
-	virtual void visit(class Node*)=0;
-	virtual void visit(class PrimitiveNode*)=0;
-	virtual void visit(class OperationNode*)=0;
-	virtual void visit(class TransformationNode*)=0;
+	Node();
+	void accept(NodeVisitor&);
+	void setChildren(QVector<Node*>);
+	QVector<Node*> getChildren();
+private:
+	QVector<Node*> children;
 };
 
-#endif // NODEVISITOR_H
+#endif // NODE_H

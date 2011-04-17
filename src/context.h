@@ -39,7 +39,7 @@ public:
 	Value* returnValue;
 	Scope* currentScope;
 	QString currentName;
-	AbstractNode* currentNode;
+	Node* currentNode;
 
 	Value* lookupVariable(QString);
 	void addVariable(Value*);

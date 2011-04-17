@@ -21,19 +21,19 @@
 
 #include <QVector>
 #include <QString>
-#include "abstractnode.h"
+#include "node.h"
 #include "point.h"
+#include "polygon.h"
 
-class PrimitiveNode : public AbstractNode
+class PrimitiveNode : public Node
 {
 public:
-	typedef QVector<Point> Polygon;
-
 	PrimitiveNode();
 	void createPolygon();
 	void appendVertex(double x, double y, double z);
 	void appendVertex(Point p);
-	QString toString();
+	QVector<Polygon> getPolygons() const;
+	void accept(NodeVisitor&);
 private:
 	QVector<Polygon> polygons;
 };

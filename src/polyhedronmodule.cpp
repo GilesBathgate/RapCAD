@@ -28,7 +28,7 @@ PolyhedronModule::PolyhedronModule()
 	setName("polyhedron");
 }
 
-AbstractNode* PolyhedronModule::evaluate(Context* ctx,QVector<AbstractNode*>)
+Node* PolyhedronModule::evaluate(Context* ctx,QVector<Node*>)
 {
 	VectorValue* points=dynamic_cast<VectorValue*>(ctx->getArgument(0,"points"));
 	VectorValue* surfaces=dynamic_cast<VectorValue*>(ctx->getArgument(1,"surfaces","triangles"));
@@ -48,8 +48,6 @@ AbstractNode* PolyhedronModule::evaluate(Context* ctx,QVector<AbstractNode*>)
 		}
 
 	}
-
-	printf("POLY:\n%s",p->toString().toLocal8Bit().constData());
 
 	return p;
 

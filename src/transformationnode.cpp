@@ -4,7 +4,3 @@ TransformationNode::TransformationNode()
 {
 }
 
-QString TransformationNode::toString()
-{
-	return "Transform";
-}

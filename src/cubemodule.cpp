@@ -27,7 +27,7 @@ CubeModule::CubeModule()
 	setName("cube");
 }
 
-AbstractNode* CubeModule::evaluate(Context* ctx,QVector<AbstractNode*>)
+Node* CubeModule::evaluate(Context* ctx,QVector<Node*>)
 {
 	VectorValue* size=dynamic_cast<VectorValue*>(ctx->getArgument(0,"size"));
 	BooleanValue* centerValue=dynamic_cast<BooleanValue*>(ctx->getArgument(1,"center"));

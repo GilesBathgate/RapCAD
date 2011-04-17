@@ -1,13 +1,12 @@
 #ifndef TRANSFORMATIONNODE_H
 #define TRANSFORMATIONNODE_H
 
-#include "abstractnode.h"
+#include "node.h"
 
-class TransformationNode : public AbstractNode
+class TransformationNode : public Node
 {
 public:
 	TransformationNode();
-	QString toString();
 };
 
 #endif // TRANSFORMATIONNODE_H

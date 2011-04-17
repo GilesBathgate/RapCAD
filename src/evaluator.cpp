@@ -25,6 +25,7 @@
 #include "rangevalue.h"
 #include "operationnode.h"
 #include "differencemodule.h"
+#include "nodeevaluator.h"
 #include <stdio.h>
 
 Evaluator::Evaluator()
@@ -60,7 +61,7 @@ void Evaluator::visit(ModuleScope* scp)
 
 	context->setArguments(arguments,parameters);
 
-	QVector<AbstractNode*> childnodes;
+	QVector<Node*> childnodes;
 	foreach(Declaration* d, scp->getDeclarations()) {
 		context->currentNode=NULL;
 		d->accept(*this);
@@ -85,7 +86,7 @@ void Evaluator::visit(Instance* inst)
 
 	startContext(context->currentScope);
 
-	QVector<AbstractNode*> childnodes;
+	QVector<Node*> childnodes;
 	foreach(Statement* s, inst->getChildren()) {
 		context->currentNode=NULL;
 		s->accept(*this);
@@ -395,8 +396,8 @@ void Evaluator::visit(Script* sc)
 		printf("Warning: return statement not valid inside global scope.\n");
 
 	if(context->currentNode) {
-		AbstractNode* n = context->currentNode;
-
-		printf("%s",n->toString().toLocal8Bit().constData());
+		Node* n = context->currentNode;
+		NodeEvaluator* e = new NodeEvaluator();
+		e->visit(n);
 	}
 }

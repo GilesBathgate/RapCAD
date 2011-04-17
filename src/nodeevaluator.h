@@ -19,7 +19,9 @@
 #ifndef NODEEVALUATOR_H
 #define NODEEVALUATOR_H
 
+#include <QString>
 #include "nodevisitor.h"
+#include "node.h"
 #include "primitivenode.h"
 #include "operationnode.h"
 #include "transformationnode.h"
@@ -28,9 +30,12 @@ class NodeEvaluator : public NodeVisitor
 {
 public:
 	NodeEvaluator();
+	void visit(Node*);
 	void visit(PrimitiveNode*);
 	void visit(OperationNode*);
 	void visit(TransformationNode*);
+private:
+	QString result;
 };
 
 #endif // NODEEVALUATOR_H

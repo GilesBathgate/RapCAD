@@ -91,6 +91,7 @@ SOURCES += \
     src/solidpython.cpp \
     src/cylindermodule.cpp \
     src/primitivemodule.cpp \
+    src/node.cpp \
     src/transformationnode.cpp \
     src/operationnode.cpp \
     src/glview.cpp \
@@ -158,7 +159,7 @@ HEADERS  += \
     src/solidpython.h \
     src/cylindermodule.h \
     src/primitivemodule.h \
-    src/abstractnode.h \
+    src/node.h \
     src/transformationnode.h \
     src/operationnode.h \
     src/GLView.h \
@@ -168,7 +169,8 @@ HEADERS  += \
     src/point.h \
     src/nodevisitor.h \
     src/visitablenode.h \
-    src/nodeevaluator.h
+    src/nodeevaluator.h \
+    src/polygon.h
 
 FORMS += \
     src/mainwindow.ui

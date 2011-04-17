@@ -25,7 +25,7 @@
 #include "declaration.h"
 #include "instance.h"
 #include "scope.h"
-#include "abstractnode.h"
+#include "node.h"
 
 class Context;
 
@@ -41,7 +41,7 @@ public:
 	Scope* getScope();
 	void setScope(Scope*);
 	void accept(TreeVisitor&);
-	virtual AbstractNode* evaluate(Context*,QVector<AbstractNode*>);
+	virtual Node* evaluate(Context*,QVector<Node*>);
 private:
 	QString name;
 	QVector<Parameter*> parameters;

@@ -3,18 +3,17 @@
 
 #include <QString>
 #include <QVector>
-#include "abstractnode.h"
+#include "node.h"
 
-class OperationNode : public AbstractNode
+class OperationNode : public Node
 {
 public:
 	OperationNode();
 	void setName(QString);
-	void setChildren(QVector<AbstractNode*>);
-	QString toString();
+	QString getName();
+	void accept(NodeVisitor&);
 private:
 	QString name;
-	QVector<AbstractNode*> children;
 };
 
 #endif // OPERATIONNODE_H

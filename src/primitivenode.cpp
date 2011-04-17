@@ -37,41 +37,12 @@ void PrimitiveNode::appendVertex(Point p)
 	polygons.last().append(p);
 }
 
-QString PrimitiveNode::toString()
+QVector<Polygon> PrimitiveNode::getPolygons() const
 {
-	QString res;
-	res.append("polyhedron([");
-	QVector<Point> ptlist;
-	foreach(Polygon pg, polygons) {
-		foreach(Point p, pg) {
-			if(!ptlist.contains(p))
-				ptlist.append(p);
-		}
-	}
+	return polygons;
+}
 
-	for(int i=0; i<ptlist.size(); i++) {
-		Point p = ptlist.at(i);
-		QString pt = p.toString();
-		if(i>0)
-			res.append(",");
-		res.append(pt);
-	}
-	res.append("],[");
-
-	for(int i=0; i<polygons.size(); i++) {
-		Polygon pg = polygons.at(i);
-		if(i>0)
-			res.append(",");
-		res.append("[");
-		for(int j=0; j<pg.size(); j++) {
-			if(j>0)
-				res.append(",");
-			Point p = pg.at(j);
-			int i = ptlist.indexOf(p);
-			res.append(QString().setNum(i));
-		}
-		res.append("]");
-	}
-	res.append("]);");
-	return res;
+void PrimitiveNode::accept(NodeVisitor& v)
+{
+	v.visit(this);
 }
