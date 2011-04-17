@@ -19,7 +19,7 @@
 #include <QtGui/QApplication>
 #include "mainwindow.h"
 #include "script.h"
-#include "prettyprinter.h"
+#include "treeprinter.h"
 #include "solidpython.h"
 #include "evaluator.h"
 
@@ -33,7 +33,7 @@ void evaluate(QString path, bool print, QString format)
 		SolidPython p;
 		s->accept(p);
 	} else if(print) {
-		PrettyPrinter p;
+		TreePrinter p;
 		s->accept(p);
 	}
 

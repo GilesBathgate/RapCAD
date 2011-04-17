@@ -16,25 +16,25 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "prettyprinter.h"
+#include "treeprinter.h"
 #include <stdio.h>
 
-PrettyPrinter::PrettyPrinter()
+TreePrinter::TreePrinter()
 {
 	this->indent=0;
 }
 
-PrettyPrinter::~PrettyPrinter()
+TreePrinter::~TreePrinter()
 {
 }
 
-void PrettyPrinter::createIndent()
+void TreePrinter::createIndent()
 {
 	for(unsigned int i=0; i<indent; i++)
 		result.append("  ");
 }
 
-void PrettyPrinter::visit(ModuleScope* scp)
+void TreePrinter::visit(ModuleScope* scp)
 {
 	++indent;
 	foreach(Declaration* d, scp->getDeclarations()) {
@@ -44,7 +44,7 @@ void PrettyPrinter::visit(ModuleScope* scp)
 	--indent;
 }
 
-void PrettyPrinter::visit(Instance* inst)
+void TreePrinter::visit(Instance* inst)
 {
 
 	switch(inst->getType()) {
@@ -103,7 +103,7 @@ void PrettyPrinter::visit(Instance* inst)
 	result.append("\n");
 }
 
-void PrettyPrinter::visit(Module* mod)
+void TreePrinter::visit(Module* mod)
 {
 	result.append("module ");
 	result.append(mod->getName());
@@ -121,7 +121,7 @@ void PrettyPrinter::visit(Module* mod)
 	result.append("}\n");
 }
 
-void PrettyPrinter::visit(Function* func)
+void TreePrinter::visit(Function* func)
 {
 	result.append("function ");
 	result.append(func->getName());
@@ -139,7 +139,7 @@ void PrettyPrinter::visit(Function* func)
 	result.append("\n");
 }
 
-void PrettyPrinter::visit(FunctionScope* scp)
+void TreePrinter::visit(FunctionScope* scp)
 {
 	Expression* expression = scp->getExpression();
 	if(expression) {
@@ -167,7 +167,7 @@ void PrettyPrinter::visit(FunctionScope* scp)
 	result.append("\n");
 }
 
-void PrettyPrinter::visit(CompoundStatement* stmt)
+void TreePrinter::visit(CompoundStatement* stmt)
 {
 	QVector<Statement*> children = stmt->getChildren();
 	int c = children.size();
@@ -191,7 +191,7 @@ void PrettyPrinter::visit(CompoundStatement* stmt)
 
 }
 
-void PrettyPrinter::visit(IfElseStatement* ifelse)
+void TreePrinter::visit(IfElseStatement* ifelse)
 {
 	result.append("if(");
 	ifelse->getExpression()->accept(*this);
@@ -211,7 +211,7 @@ void PrettyPrinter::visit(IfElseStatement* ifelse)
 	result.append("\n");
 }
 
-void PrettyPrinter::visit(ForStatement* forstmt)
+void TreePrinter::visit(ForStatement* forstmt)
 {
 	result.append("for(");
 	foreach(Argument* a, forstmt->getArguments())
@@ -223,7 +223,7 @@ void PrettyPrinter::visit(ForStatement* forstmt)
 	result.append("\n");
 }
 
-void PrettyPrinter::visit(Parameter* param)
+void TreePrinter::visit(Parameter* param)
 {
 	result.append(param->getName());
 
@@ -234,7 +234,7 @@ void PrettyPrinter::visit(Parameter* param)
 	}
 }
 
-void PrettyPrinter::visit(BinaryExpression* exp)
+void TreePrinter::visit(BinaryExpression* exp)
 {
 	result.append("(");
 	exp->getLeft()->accept(*this);
@@ -243,7 +243,7 @@ void PrettyPrinter::visit(BinaryExpression* exp)
 	result.append(")");
 }
 
-void PrettyPrinter::visit(Argument* arg)
+void TreePrinter::visit(Argument* arg)
 {
 	Variable* variable = arg->getVariable();
 	if(variable) {
@@ -254,7 +254,7 @@ void PrettyPrinter::visit(Argument* arg)
 	arg->getExpression()->accept(*this);
 }
 
-void PrettyPrinter::visit(AssignStatement* stmt)
+void TreePrinter::visit(AssignStatement* stmt)
 {
 	Variable* var = stmt->getVariable();
 	if(var)
@@ -278,7 +278,7 @@ void PrettyPrinter::visit(AssignStatement* stmt)
 	result.append(";\n");
 }
 
-void PrettyPrinter::visit(VectorExpression* exp)
+void TreePrinter::visit(VectorExpression* exp)
 {
 	result.append("[");
 	QVector<Expression*> children = exp->getChildren();
@@ -291,7 +291,7 @@ void PrettyPrinter::visit(VectorExpression* exp)
 	result.append("]");
 }
 
-void PrettyPrinter::visit(RangeExpression* exp)
+void TreePrinter::visit(RangeExpression* exp)
 {
 	result.append("[");
 	exp->getStart()->accept(*this);
@@ -307,7 +307,7 @@ void PrettyPrinter::visit(RangeExpression* exp)
 	result.append("]");
 }
 
-void PrettyPrinter::visit(UnaryExpression* exp)
+void TreePrinter::visit(UnaryExpression* exp)
 {
 	QString op = exp->getOpString();
 	bool p = exp->postFix();
@@ -318,14 +318,14 @@ void PrettyPrinter::visit(UnaryExpression* exp)
 		result.append(op);
 }
 
-void PrettyPrinter::visit(ReturnStatement* stmt)
+void TreePrinter::visit(ReturnStatement* stmt)
 {
 	result.append("return ");
 	stmt->getExpression()->accept(*this);
 	result.append(";\n");
 }
 
-void PrettyPrinter::visit(TernaryExpression* exp)
+void TreePrinter::visit(TernaryExpression* exp)
 {
 	result.append("(");
 	exp->getCondition()->accept(*this);
@@ -336,7 +336,7 @@ void PrettyPrinter::visit(TernaryExpression* exp)
 	result.append(")");
 }
 
-void PrettyPrinter::visit(Invocation* stmt)
+void TreePrinter::visit(Invocation* stmt)
 {
 	QString nameSpace = stmt->getNamespace();
 	if(!nameSpace.isEmpty()) {
@@ -355,7 +355,7 @@ void PrettyPrinter::visit(Invocation* stmt)
 	result.append(")");
 }
 
-void PrettyPrinter::visit(ModuleImport* decl)
+void TreePrinter::visit(ModuleImport* decl)
 {
 	result.append("import <");
 	result.append(decl->getImport());
@@ -380,7 +380,7 @@ void PrettyPrinter::visit(ModuleImport* decl)
 	result.append(";\n");
 }
 
-void PrettyPrinter::visit(ScriptImport* decl)
+void TreePrinter::visit(ScriptImport* decl)
 {
 	result.append("use <");
 	result.append(decl->getImport());
@@ -394,12 +394,12 @@ void PrettyPrinter::visit(ScriptImport* decl)
 	result.append("\n");
 }
 
-void PrettyPrinter::visit(Literal* lit)
+void TreePrinter::visit(Literal* lit)
 {
 	result.append(lit->getValueString());
 }
 
-void PrettyPrinter::visit(Variable* var)
+void TreePrinter::visit(Variable* var)
 {
 	switch(var->getType()) {
 	case Variable::Const:
@@ -417,7 +417,7 @@ void PrettyPrinter::visit(Variable* var)
 	result.append(var->getName());
 }
 
-void PrettyPrinter::visit(Script* sc)
+void TreePrinter::visit(Script* sc)
 {
 	foreach(Declaration* d, sc->getDeclarations())
 		d->accept(*this);

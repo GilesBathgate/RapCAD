@@ -16,8 +16,8 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PRETTYPRINTER_H
-#define PRETTYPRINTER_H
+#ifndef TREEPRINTER_H
+#define TREEPRINTER_H
 
 #include "treevisitor.h"
 #include "script.h"
@@ -46,11 +46,11 @@
 #include "literal.h"
 #include "variable.h"
 
-class PrettyPrinter : public TreeVisitor
+class TreePrinter : public TreeVisitor
 {
 public:
-	PrettyPrinter();
-	~PrettyPrinter();
+	TreePrinter();
+	~TreePrinter();
 	void visit(Module*);
 	void visit(ModuleScope*);
 	void visit(Instance*);
@@ -80,4 +80,4 @@ private:
 	unsigned int indent;
 };
 
-#endif // PRETTYPRINTER_H
+#endif // TREEPRINTER_H

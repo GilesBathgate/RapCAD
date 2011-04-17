@@ -67,7 +67,7 @@ SOURCES += \
     src/returnstatement.cpp \
     src/ternaryexpression.cpp \
     src/moduleimport.cpp \
-    src/prettyprinter.cpp \
+    src/treeprinter.cpp \
     src/script.cpp \
     src/syntaxhighlighter.cpp \
     src/tokenbuilder.cpp \
@@ -130,7 +130,7 @@ HEADERS  += \
     src/ternaryexpression.h \
     src/moduleimport.h \
     src/treevisitor.h \
-    src/prettyprinter.h \
+    src/treeprinter.h \
     src/visitabletree.h \
     src/script.h \
     src/syntaxhighlighter.h \
