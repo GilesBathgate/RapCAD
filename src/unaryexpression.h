@@ -11,7 +11,7 @@ public:
 	~UnaryExpression();
 
 	void setExpression(Expression*);
-	Expression* getExpression();
+	Expression* getExpression() const;
 	void accept(TreeVisitor&);
 private:
 	Expression* expression;

@@ -31,7 +31,7 @@ Module::~Module()
 	delete scope;
 }
 
-QString Module::getName()
+QString Module::getName() const
 {
 	return this->name;
 }
@@ -42,7 +42,7 @@ void Module::setName(QString name)
 }
 
 
-QVector<Parameter*> Module::getParameters()
+QVector<Parameter*> Module::getParameters() const
 {
 	return this->parameters;
 }
@@ -57,7 +57,7 @@ void Module::setScope(Scope* scp)
 	this->scope = scp;
 }
 
-Scope* Module::getScope()
+Scope* Module::getScope() const
 {
 	return this->scope;
 }

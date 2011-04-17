@@ -28,7 +28,7 @@ class Scope : public Statement
 public:
 	Scope();
 	virtual ~Scope();
-	virtual QVector<Declaration*> getDeclarations();
+	virtual QVector<Declaration*> getDeclarations() const;
 };
 
 #endif // SCOPE_H

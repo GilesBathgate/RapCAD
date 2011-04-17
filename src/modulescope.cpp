@@ -33,7 +33,7 @@ void ModuleScope::setDeclarations(QVector<Declaration*> decls)
 	this->declarations = decls;
 }
 
-QVector<Declaration*> ModuleScope::getDeclarations()
+QVector<Declaration*> ModuleScope::getDeclarations() const
 {
 	return this->declarations;
 }

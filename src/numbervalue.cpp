@@ -25,17 +25,17 @@ NumberValue::NumberValue(double value)
 	this->number=value;
 }
 
-QString NumberValue::getValueString()
+QString NumberValue::getValueString() const
 {
 	return QString().setNum(this->number,'g',16);
 }
 
-bool NumberValue::isTrue()
+bool NumberValue::isTrue() const
 {
 	return this->number!=0;
 }
 
-double NumberValue::getNumber()
+double NumberValue::getNumber() const
 {
 	return this->number;
 }

@@ -25,9 +25,9 @@ class NumberValue : public Value
 {
 public:
 	NumberValue(double);
-	QString getValueString();
-	bool isTrue();
-	double getNumber();
+	QString getValueString() const;
+	bool isTrue() const;
+	double getNumber() const;
 private:
 	Value* operation(Expression::Operator_e);
 	Value* operation(Value&,Expression::Operator_e);

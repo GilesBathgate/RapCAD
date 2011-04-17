@@ -36,7 +36,7 @@ void AssignStatement::setVariable(Variable* var)
 	this->variable = var;
 }
 
-Variable* AssignStatement::getVariable()
+Variable* AssignStatement::getVariable() const
 {
 	return this->variable;
 }
@@ -46,7 +46,7 @@ void AssignStatement::setExpression(Expression* exp)
 	this->expression = exp;
 }
 
-Expression* AssignStatement::getExpression()
+Expression* AssignStatement::getExpression() const
 {
 	return this->expression;
 }
@@ -56,7 +56,7 @@ void AssignStatement::setOperation(Expression::Operator_e op)
 	this->operation=op;
 }
 
-Expression::Operator_e AssignStatement::getOperation()
+Expression::Operator_e AssignStatement::getOperation() const
 {
 	return this->operation;
 }

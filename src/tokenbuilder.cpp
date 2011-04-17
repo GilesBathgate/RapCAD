@@ -36,12 +36,12 @@ int TokenBuilder::nextToken()
 	return lexerlex();
 }
 
-int TokenBuilder::getPosition()
+int TokenBuilder::getPosition() const
 {
 	return position;
 }
 
-int TokenBuilder::getLineNumber()
+int TokenBuilder::getLineNumber() const
 {
 	return lexerlineno;
 }

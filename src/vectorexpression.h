@@ -28,7 +28,7 @@ public:
 	VectorExpression();
 	~VectorExpression();
 	void setChildren(QVector<Expression*>);
-	QVector<Expression*> getChildren();
+	QVector<Expression*> getChildren() const;
 	void accept(TreeVisitor&);
 private:
 	QVector<Expression*> children;

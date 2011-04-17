@@ -26,9 +26,9 @@ class BinaryExpression : public Expression
 public:
 	BinaryExpression();
 	~BinaryExpression();
-	Expression* getLeft();
+	Expression* getLeft() const;
 	void setLeft(Expression*);
-	Expression* getRight();
+	Expression* getRight() const;
 	void setRight(Expression*);
 	void accept(TreeVisitor&);
 private:

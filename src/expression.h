@@ -53,9 +53,9 @@ public:
 
 	Expression();
 	virtual ~Expression();
-	Operator_e getOp();
+	Operator_e getOp() const;
 	void setOp(Operator_e);
-	QString getOpString();
+	QString getOpString() const;
 	bool postFix();
 private:
 	Operator_e op;

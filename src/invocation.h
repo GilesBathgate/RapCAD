@@ -13,11 +13,11 @@ public:
 	~Invocation();
 
 	void setName(QString);
-	QString getName();
+	QString getName() const;
 	void setNamespace(QString);
-	QString getNamespace();
+	QString getNamespace() const;
 	void setArguments(QVector<Argument*>);
-	QVector<Argument*> getArguments();
+	QVector<Argument*> getArguments() const;
 	void accept(TreeVisitor&);
 private:
 	QString name;

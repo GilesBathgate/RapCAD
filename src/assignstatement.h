@@ -29,11 +29,11 @@ public:
 	AssignStatement();
 	~AssignStatement();
 	void setVariable(Variable*);
-	Variable* getVariable();
+	Variable* getVariable() const;
 	void setExpression(Expression*);
-	Expression* getExpression();
+	Expression* getExpression() const;
 	void setOperation(Expression::Operator_e);
-	Expression::Operator_e getOperation();
+	Expression::Operator_e getOperation() const;
 	void accept(TreeVisitor&);
 private:
 	Variable* variable;

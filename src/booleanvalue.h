@@ -25,7 +25,7 @@ class BooleanValue : public Value
 {
 public:
 	BooleanValue(bool);
-	QString getValueString();
+	QString getValueString() const;
 	bool isTrue();
 private:
 	Value* operation(Expression::Operator_e);

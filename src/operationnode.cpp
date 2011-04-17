@@ -9,7 +9,7 @@ void OperationNode::setName(QString n)
 	name=n;
 }
 
-QString OperationNode::getName()
+QString OperationNode::getName() const
 {
 	return name;
 }

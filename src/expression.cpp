@@ -26,7 +26,7 @@ Expression::~Expression()
 {
 }
 
-QString Expression::getOpString()
+QString Expression::getOpString() const
 {
 	QString result;
 	switch(this->getOp()) {
@@ -112,7 +112,7 @@ void Expression::setOp(Operator_e op)
 	this->op = op;
 }
 
-Expression::Operator_e Expression::getOp()
+Expression::Operator_e Expression::getOp() const
 {
 	return this->op;
 }

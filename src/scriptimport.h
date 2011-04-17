@@ -27,9 +27,9 @@ public:
 	ScriptImport();
 	~ScriptImport();
 	void setImport(QString);
-	QString getImport();
+	QString getImport() const;
 	void setNamespace(QString);
-	QString getNamespace();
+	QString getNamespace() const;
 	void accept(TreeVisitor&);
 private:
 	QString import;

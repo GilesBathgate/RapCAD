@@ -37,50 +37,50 @@ MainWindow::MainWindow(QWidget* parent) :
 
 void MainWindow::setupToolbar()
 {
-    ui->actionNew->setIcon(QIcon::fromTheme("document-new"));
-    ui->actionOpen->setIcon(QIcon::fromTheme("document-open"));
-    ui->actionSave->setIcon(QIcon::fromTheme("document-save"));
-    ui->actionPrint->setIcon(QIcon::fromTheme("document-print"));
+	ui->actionNew->setIcon(QIcon::fromTheme("document-new"));
+	ui->actionOpen->setIcon(QIcon::fromTheme("document-open"));
+	ui->actionSave->setIcon(QIcon::fromTheme("document-save"));
+	ui->actionPrint->setIcon(QIcon::fromTheme("document-print"));
 
-    ui->actionUndo->setIcon(QIcon::fromTheme("edit-undo"));
-    ui->actionRedo->setIcon(QIcon::fromTheme("edit-redo"));
+	ui->actionUndo->setIcon(QIcon::fromTheme("edit-undo"));
+	ui->actionRedo->setIcon(QIcon::fromTheme("edit-redo"));
 
-    connect(ui->actionUndo,SIGNAL(triggered()),ui->scriptEditor,SLOT(undo()));
-    connect(ui->actionRedo,SIGNAL(triggered()),ui->scriptEditor,SLOT(redo()));
+	connect(ui->actionUndo,SIGNAL(triggered()),ui->scriptEditor,SLOT(undo()));
+	connect(ui->actionRedo,SIGNAL(triggered()),ui->scriptEditor,SLOT(redo()));
 
-    ui->actionCut->setIcon(QIcon::fromTheme("edit-cut"));
-    ui->actionCopy->setIcon(QIcon::fromTheme("edit-copy"));
-    ui->actionPaste->setIcon(QIcon::fromTheme("edit-paste"));
+	ui->actionCut->setIcon(QIcon::fromTheme("edit-cut"));
+	ui->actionCopy->setIcon(QIcon::fromTheme("edit-copy"));
+	ui->actionPaste->setIcon(QIcon::fromTheme("edit-paste"));
 
-    connect(ui->actionCut,SIGNAL(triggered()),ui->scriptEditor,SLOT(cut()));
-    connect(ui->actionCopy,SIGNAL(triggered()),ui->scriptEditor,SLOT(copy()));
-    connect(ui->actionPaste,SIGNAL(triggered()),ui->scriptEditor,SLOT(paste()));
+	connect(ui->actionCut,SIGNAL(triggered()),ui->scriptEditor,SLOT(cut()));
+	connect(ui->actionCopy,SIGNAL(triggered()),ui->scriptEditor,SLOT(copy()));
+	connect(ui->actionPaste,SIGNAL(triggered()),ui->scriptEditor,SLOT(paste()));
 }
 
 void MainWindow::setupLayout()
 {
-    //TODO there must be a better way than this
-    QList<int> hSizes,vSizes;
-    hSizes << 160 << 540 << 300;
-    ui->vSplitter->setSizes(hSizes);
-    vSizes << 150 << 10;
-    ui->hSplitter->setSizes(vSizes);
+	//TODO there must be a better way than this
+	QList<int> hSizes,vSizes;
+	hSizes << 160 << 540 << 300;
+	ui->vSplitter->setSizes(hSizes);
+	vSizes << 150 << 10;
+	ui->hSplitter->setSizes(vSizes);
 }
 
 void MainWindow::setupTreeview()
 {
-    myModel = new QStandardItemModel();
-    QStringList headers;
-    headers << "Projects";
-    myModel->setHorizontalHeaderLabels(headers);
-    QStandardItem* parentItem = myModel->invisibleRootItem();
+	myModel = new QStandardItemModel();
+	QStringList headers;
+	headers << "Projects";
+	myModel->setHorizontalHeaderLabels(headers);
+	QStandardItem* parentItem = myModel->invisibleRootItem();
 
-    QStandardItem* item = new QStandardItem("New Project.rpro");
-    parentItem->appendRow(item);
-    item->appendRow(new QStandardItem("New.rcad"));
+	QStandardItem* item = new QStandardItem("New Project.rpro");
+	parentItem->appendRow(item);
+	item->appendRow(new QStandardItem("New.rcad"));
 
-    ui->treeView->setModel(myModel);
-    ui->treeView->expandAll();
+	ui->treeView->setModel(myModel);
+	ui->treeView->expandAll();
 }
 
 void MainWindow::setupEditor()

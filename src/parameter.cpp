@@ -28,7 +28,7 @@ Parameter::~Parameter()
 	delete expression;
 }
 
-QString Parameter::getName()
+QString Parameter::getName() const
 {
 	return this->name;
 }
@@ -38,7 +38,7 @@ void Parameter::setName(QString name)
 	this->name = name;
 }
 
-Expression* Parameter::getExpression()
+Expression* Parameter::getExpression() const
 {
 	return this->expression;
 }

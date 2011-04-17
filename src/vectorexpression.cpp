@@ -31,7 +31,7 @@ void VectorExpression::setChildren(QVector<Expression*> exp)
 	this->children = exp;
 }
 
-QVector<Expression*> VectorExpression::getChildren()
+QVector<Expression*> VectorExpression::getChildren() const
 {
 	return this->children;
 }

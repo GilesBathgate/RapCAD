@@ -33,7 +33,7 @@ void CompoundStatement::setChildren(QVector<Statement*> stmts)
 	this->children = stmts;
 }
 
-QVector<Statement*> CompoundStatement::getChildren()
+QVector<Statement*> CompoundStatement::getChildren() const
 {
 	return this->children;
 }

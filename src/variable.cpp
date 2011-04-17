@@ -27,7 +27,7 @@ Variable::~Variable()
 {
 }
 
-QString Variable::getName()
+QString Variable::getName() const
 {
 	return this->name;
 }
@@ -42,7 +42,7 @@ void Variable::setType(Type_e type)
 	this->type = type;
 }
 
-Variable::Type_e Variable::getType()
+Variable::Type_e Variable::getType() const
 {
 	return this->type;
 }

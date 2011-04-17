@@ -30,12 +30,12 @@ public:
 	ModuleImport();
 	~ModuleImport();
 	void setImport(QString);
-	QString getImport();
+	QString getImport() const;
 	void setName(QString);
-	QString getName();
+	QString getName() const;
 	void accept(TreeVisitor&);
 	void setParameters(QVector<Parameter*>);
-	QVector<Parameter*> getParameters();
+	QVector<Parameter*> getParameters() const;
 private:
 	QString import;
 	QString name;

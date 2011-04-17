@@ -28,7 +28,7 @@ class ModuleScope : public Scope
 public:
 	ModuleScope();
 	~ModuleScope();
-	QVector<Declaration*> getDeclarations();
+	QVector<Declaration*> getDeclarations() const;
 	void setDeclarations(QVector<Declaration*>);
 	void accept(TreeVisitor&);
 private:

@@ -30,8 +30,8 @@ class TokenBuilder : public AbstractTokenBuilder
 public:
 	TokenBuilder();
 	int nextToken();
-	int getPosition();
-	int getLineNumber();
+	int getPosition() const;
+	int getLineNumber() const;
 	void buildIncludeStart();
 	void buildIncludeFile(QString);
 	void buildIncludePath(QString);

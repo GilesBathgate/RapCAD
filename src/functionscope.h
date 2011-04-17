@@ -30,9 +30,9 @@ public:
 	FunctionScope();
 	~FunctionScope();
 	void setExpression(Expression*);
-	Expression* getExpression();
+	Expression* getExpression() const;
 	void setStatements(QVector<Statement*>);
-	QVector<Statement*> getStatements();
+	QVector<Statement*> getStatements() const;
 	void accept(TreeVisitor&);
 private:
 	Expression* expression;

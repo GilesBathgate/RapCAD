@@ -359,7 +359,7 @@ Invocation* DependencyBuilder::buildInvocation(QString*,Invocation*)
 	return NULL;
 }
 
-Script* DependencyBuilder::getResult()
+Script* DependencyBuilder::getResult() const
 {
 	return NULL;
 }

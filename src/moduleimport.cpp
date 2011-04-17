@@ -31,7 +31,7 @@ void ModuleImport::setImport(QString imp)
 	this->import = imp;
 }
 
-QString ModuleImport::getImport()
+QString ModuleImport::getImport() const
 {
 	return this->import;
 }
@@ -41,7 +41,7 @@ void ModuleImport::setName(QString name)
 	this->name = name;
 }
 
-QString ModuleImport::getName()
+QString ModuleImport::getName() const
 {
 	return this->name;
 }
@@ -51,7 +51,7 @@ void ModuleImport::setParameters(QVector<Parameter*> params)
 	this->parameters = params;
 }
 
-QVector<Parameter*> ModuleImport::getParameters()
+QVector<Parameter*> ModuleImport::getParameters() const
 {
 	return this->parameters;
 }

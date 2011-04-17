@@ -29,11 +29,11 @@ public:
 	IfElseStatement();
 	~IfElseStatement();
 	void setExpression(Expression*);
-	Expression* getExpression();
+	Expression* getExpression() const;
 	void setTrueStatement(Statement*);
-	Statement* getTrueStatement();
+	Statement* getTrueStatement() const;
 	void setFalseStatement(Statement*);
-	Statement* getFalseStatement();
+	Statement* getFalseStatement() const;
 	void accept(TreeVisitor&);
 private:
 	Expression* expression;

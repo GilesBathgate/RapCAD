@@ -23,7 +23,7 @@ BooleanValue::BooleanValue(bool value)
 	this->boolean=value;
 }
 
-QString BooleanValue::getValueString()
+QString BooleanValue::getValueString() const
 {
 	return this->boolean ? "true" : "false";
 }

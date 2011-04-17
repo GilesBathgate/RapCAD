@@ -27,11 +27,11 @@ class VectorValue : public Value
 {
 public:
 	VectorValue(QVector<Value*>);
-	QString getValueString();
-	bool isTrue();
-	Point getPoint();
+	QString getValueString() const;
+	bool isTrue() const;
+	Point getPoint() const;
 	Iterator<Value*>* createIterator();
-	QVector<Value*> getChildren();
+	QVector<Value*> getChildren() const;
 private:
 	Value* operation(Expression::Operator_e);
 	Value* operation(Value&,Expression::Operator_e);

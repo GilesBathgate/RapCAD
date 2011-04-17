@@ -38,15 +38,15 @@ public:
 	Instance();
 	~Instance();
 	void setName(QString);
-	QString getName();
+	QString getName() const;
 	void setArguments(QVector<Argument*>);
-	QVector<Argument*> getArguments();
+	QVector<Argument*> getArguments() const;
 	void setChildren(QVector <Statement*> childs);
-	QVector <Statement*> getChildren();
+	QVector <Statement*> getChildren() const;
 	void setType(Type_e);
-	Type_e getType();
+	Type_e getType() const;
 	void setNamespace(QString);
-	QString getNamespace();
+	QString getNamespace() const;
 	void accept(TreeVisitor&);
 private:
 	QString name;

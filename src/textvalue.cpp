@@ -23,12 +23,12 @@ TextValue::TextValue(QString value)
 	this->text=value;
 }
 
-QString TextValue::getValueString()
+QString TextValue::getValueString() const
 {
 	return this->text;
 }
 
-bool TextValue::isTrue()
+bool TextValue::isTrue() const
 {
 	return !this->text.isEmpty();
 }

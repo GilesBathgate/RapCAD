@@ -26,7 +26,7 @@ RangeValue::RangeValue(Value* start,Value* step, Value* finish)
 	this->finish=finish;
 }
 
-QString RangeValue::getValueString()
+QString RangeValue::getValueString() const
 {
 	QString result="[";
 	result.append(this->start->getValueString());
@@ -45,17 +45,17 @@ Iterator<Value*>* RangeValue::createIterator()
 	return new RangeIterator(this);
 }
 
-Value* RangeValue::getStart()
+Value* RangeValue::getStart() const
 {
 	return this->start;
 }
 
-Value* RangeValue::getStep()
+Value* RangeValue::getStep() const
 {
 	return this->step;
 }
 
-Value* RangeValue::getFinish()
+Value* RangeValue::getFinish() const
 {
 	return this->finish;
 }

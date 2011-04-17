@@ -28,9 +28,9 @@ class Value
 public:
 	Value();
 	void setName(QString);
-	QString getName();
-	virtual QString getValueString();
-	virtual bool isTrue();
+	QString getName() const;
+	virtual QString getValueString() const;
+	virtual bool isTrue() const;
 	virtual Iterator<Value*>* createIterator();
 	Value* operator^(Value&);
 	Value* operator*(Value&);

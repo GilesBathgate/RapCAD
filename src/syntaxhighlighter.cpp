@@ -58,12 +58,12 @@ int SyntaxHighlighter::nextToken()
 	return res;
 }
 
-int SyntaxHighlighter::getPosition()
+int SyntaxHighlighter::getPosition() const
 {
 	return startIndex;
 }
 
-int SyntaxHighlighter::getLineNumber()
+int SyntaxHighlighter::getLineNumber() const
 {
 	return 1; /*TODO for now we don't really care what line
 	we are on for syntax highlighting */

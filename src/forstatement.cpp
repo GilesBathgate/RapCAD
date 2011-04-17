@@ -33,7 +33,7 @@ void ForStatement::setArguments(QVector<Argument*> args)
 	this->arguments = args;
 }
 
-QVector<Argument*> ForStatement::getArguments()
+QVector<Argument*> ForStatement::getArguments() const
 {
 	return this->arguments;
 }
@@ -43,7 +43,7 @@ void ForStatement::setStatement(Statement* stmt)
 	this->statement = stmt;
 }
 
-Statement* ForStatement::getStatement()
+Statement* ForStatement::getStatement() const
 {
 	return this->statement;
 }

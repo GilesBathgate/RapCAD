@@ -31,7 +31,7 @@ void ScriptImport::setImport(QString imp)
 	this->import = imp;
 }
 
-QString ScriptImport::getImport()
+QString ScriptImport::getImport() const
 {
 	return this->import;
 }
@@ -41,7 +41,7 @@ void ScriptImport::setNamespace(QString name)
 	this->name_space = name;
 }
 
-QString ScriptImport::getNamespace()
+QString ScriptImport::getNamespace() const
 {
 	return this->name_space;
 }

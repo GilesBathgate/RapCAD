@@ -31,8 +31,8 @@ protected:
 	void highlightBlock(const QString& text);
 private:
 	int nextToken();
-	int getPosition();
-	int getLineNumber();
+	int getPosition() const;
+	int getLineNumber() const;
 	void buildIncludeStart();
 	void buildIncludeFile(QString);
 	void buildIncludePath(QString);

@@ -27,9 +27,9 @@ class Parameter : public VisitableTree
 public:
 	Parameter();
 	~Parameter();
-	QString getName();
+	QString getName() const;
 	void setName(QString);
-	Expression* getExpression();
+	Expression* getExpression() const;
 	void setExpression(Expression*);
 	void accept(TreeVisitor&);
 private:

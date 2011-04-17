@@ -112,7 +112,7 @@ public:
 	Invocation* buildInvocation(QString*,QVector<Argument*>*);
 	Invocation* buildInvocation(QString*,Invocation*);
 
-	Script* getResult();
+	Script* getResult() const;
 private:
 	Script* script;
 };

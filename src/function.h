@@ -31,11 +31,11 @@ class Function : public Declaration
 public:
 	Function();
 	~Function();
-	QString getName();
+	QString getName() const;
 	void setName(QString);
-	QVector<Parameter*> getParameters();
+	QVector<Parameter*> getParameters() const;
 	void setParameters(QVector<Parameter*>);
-	Scope* getScope();
+	Scope* getScope() const;
 	void setScope(Scope*);
 	void accept(TreeVisitor&);
 private:

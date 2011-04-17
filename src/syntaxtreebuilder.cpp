@@ -536,7 +536,7 @@ Invocation* SyntaxTreeBuilder::buildInvocation(QString* name,Invocation* inv)
 	return inv;
 }
 
-Script* SyntaxTreeBuilder::getResult()
+Script* SyntaxTreeBuilder::getResult() const
 {
 	return script;
 }

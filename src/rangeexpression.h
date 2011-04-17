@@ -28,11 +28,11 @@ public:
 	RangeExpression();
 	~RangeExpression();
 	void setStart(Expression*);
-	Expression* getStart();
+	Expression* getStart() const;
 	void setFinish(Expression*);
-	Expression* getFinish();
+	Expression* getFinish() const;
 	void setStep(Expression*);
-	Expression* getStep();
+	Expression* getStep() const;
 	void accept(TreeVisitor&);
 private:
 	Expression* start;

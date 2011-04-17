@@ -33,7 +33,7 @@ void Script::setDeclarations(QVector<Declaration*> decls)
 	this->declarations = decls;
 }
 
-QVector<Declaration*> Script::getDeclarations()
+QVector<Declaration*> Script::getDeclarations() const
 {
 	return this->declarations;
 }

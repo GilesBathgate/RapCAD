@@ -28,7 +28,7 @@ public:
 	Node();
 	void accept(NodeVisitor&);
 	void setChildren(QVector<Node*>);
-	QVector<Node*> getChildren();
+	QVector<Node*> getChildren() const;
 private:
 	QVector<Node*> children;
 };

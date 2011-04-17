@@ -29,17 +29,17 @@ void Value::setName(QString name)
 	this->name = name;
 }
 
-QString Value::getName()
+QString Value::getName() const
 {
 	return this->name;
 }
 
-QString Value::getValueString()
+QString Value::getValueString() const
 {
 	return "undef";
 }
 
-bool Value::isTrue()
+bool Value::isTrue() const
 {
 	return false;
 }

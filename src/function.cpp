@@ -32,7 +32,7 @@ Function::~Function()
 	delete scope;
 }
 
-QString Function::getName()
+QString Function::getName() const
 {
 	return this->name;
 }
@@ -43,7 +43,7 @@ void Function::setName(QString name)
 }
 
 
-QVector<Parameter*> Function::getParameters()
+QVector<Parameter*> Function::getParameters() const
 {
 	return this->parameters;
 }
@@ -58,7 +58,7 @@ void Function::setScope(Scope* scp)
 	this->scope = scp;
 }
 
-Scope* Function::getScope()
+Scope* Function::getScope() const
 {
 	return this->scope;
 }

@@ -36,7 +36,7 @@ void FunctionScope::setExpression(Expression* exp)
 	this->expression = exp;
 }
 
-Expression* FunctionScope::getExpression()
+Expression* FunctionScope::getExpression() const
 {
 	return this->expression;
 }
@@ -46,7 +46,7 @@ void FunctionScope::setStatements(QVector<Statement*> stmts)
 	this->statements = stmts;
 }
 
-QVector<Statement*> FunctionScope::getStatements()
+QVector<Statement*> FunctionScope::getStatements() const
 {
 	return this->statements;
 }

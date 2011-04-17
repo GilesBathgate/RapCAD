@@ -47,7 +47,7 @@ void Literal::setValue(QString value)
 	this->text = value;
 }
 
-QString Literal::getValueString()
+QString Literal::getValueString() const
 {
 	switch(this->type) {
 	case Boolean:
@@ -61,7 +61,7 @@ QString Literal::getValueString()
 	}
 }
 
-Value* Literal::getValue()
+Value* Literal::getValue() const
 {
 	switch(this->type) {
 	case Boolean:

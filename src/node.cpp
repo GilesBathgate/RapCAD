@@ -27,7 +27,7 @@ void Node::setChildren(QVector<Node*> c)
 	children = c;
 }
 
-QVector<Node*> Node::getChildren()
+QVector<Node*> Node::getChildren() const
 {
 	return children;
 }

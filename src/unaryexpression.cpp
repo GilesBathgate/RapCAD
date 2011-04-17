@@ -13,7 +13,7 @@ void UnaryExpression::setExpression(Expression* exp)
 	this->expression = exp;
 }
 
-Expression* UnaryExpression::getExpression()
+Expression* UnaryExpression::getExpression() const
 {
 	return this->expression;
 }

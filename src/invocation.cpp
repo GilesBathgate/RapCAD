@@ -13,7 +13,7 @@ void Invocation::setName(QString name)
 	this->name = name;
 }
 
-QString Invocation::getName()
+QString Invocation::getName() const
 {
 	return this->name;
 }
@@ -23,7 +23,7 @@ void Invocation::setNamespace(QString name)
 	this->nameSpace = name;
 }
 
-QString Invocation::getNamespace()
+QString Invocation::getNamespace() const
 {
 	return this->nameSpace;
 }
@@ -33,7 +33,7 @@ void Invocation::setArguments(QVector<Argument*> args)
 	this->arguments = args;
 }
 
-QVector<Argument*> Invocation::getArguments()
+QVector<Argument*> Invocation::getArguments() const
 {
 	return this->arguments;
 }

@@ -37,7 +37,7 @@ void IfElseStatement::setExpression(Expression* expr)
 	this->expression = expr;
 }
 
-Expression* IfElseStatement::getExpression()
+Expression* IfElseStatement::getExpression() const
 {
 	return this->expression;
 }
@@ -47,7 +47,7 @@ void IfElseStatement::setTrueStatement(Statement* stmt)
 	this->trueStatement = stmt;
 }
 
-Statement* IfElseStatement::getTrueStatement()
+Statement* IfElseStatement::getTrueStatement() const
 {
 	return this->trueStatement;
 }
@@ -57,7 +57,7 @@ void IfElseStatement::setFalseStatement(Statement* stmt)
 	this->falseStatement = stmt;
 }
 
-Statement* IfElseStatement::getFalseStatement()
+Statement* IfElseStatement::getFalseStatement() const
 {
 	return this->falseStatement;
 }

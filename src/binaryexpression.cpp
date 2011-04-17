@@ -30,7 +30,7 @@ BinaryExpression::~BinaryExpression()
 	delete right;
 }
 
-Expression* BinaryExpression::getLeft()
+Expression* BinaryExpression::getLeft() const
 {
 	return this->left;
 }
@@ -40,7 +40,7 @@ void BinaryExpression::setLeft(Expression* left)
 	this->left = left;
 }
 
-Expression* BinaryExpression::getRight()
+Expression* BinaryExpression::getRight() const
 {
 	return this->right;
 }

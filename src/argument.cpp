@@ -35,7 +35,7 @@ void Argument::setVariable(Variable* var)
 	this->variable = var;
 }
 
-Variable* Argument::getVariable()
+Variable* Argument::getVariable() const
 {
 	return this->variable;
 }
@@ -45,7 +45,7 @@ void Argument::setExpression(Expression* exp)
 	this->expression = exp;
 }
 
-Expression* Argument::getExpression()
+Expression* Argument::getExpression() const
 {
 	return this->expression;
 }

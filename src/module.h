@@ -34,11 +34,11 @@ class Module : public Declaration
 public:
 	Module();
 	~Module();
-	QString getName();
+	QString getName() const;
 	void setName(QString);
-	QVector<Parameter*> getParameters();
+	QVector<Parameter*> getParameters() const;
 	void setParameters(QVector<Parameter*>);
-	Scope* getScope();
+	Scope* getScope() const;
 	void setScope(Scope*);
 	void accept(TreeVisitor&);
 	virtual Node* evaluate(Context*,QVector<Node*>);

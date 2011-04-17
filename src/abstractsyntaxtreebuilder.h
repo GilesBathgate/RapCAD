@@ -103,7 +103,7 @@ public:
 	virtual Invocation* buildInvocation(QString*,QVector<Argument*>*)=0;
 	virtual Invocation* buildInvocation(QString*,Invocation*)=0;
 
-	virtual Script* getResult()=0;
+	virtual Script* getResult() const=0;
 };
 
 #endif // ABSTRACTSYNTAXTREEBUILDER_H

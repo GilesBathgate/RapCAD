@@ -10,11 +10,11 @@ public:
 	TernaryExpression();
 	~TernaryExpression();
 	void setCondition(Expression*);
-	Expression* getCondition();
+	Expression* getCondition() const;
 	void setTrueExpression(Expression*);
-	Expression* getTrueExpression();
+	Expression* getTrueExpression() const;
 	void setFalseExpression(Expression*);
-	Expression* getFalseExpression();
+	Expression* getFalseExpression() const;
 	void accept(TreeVisitor&);
 private:
 	Expression* condition;

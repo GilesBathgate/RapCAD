@@ -25,12 +25,12 @@ class RangeValue : public Value
 {
 public:
 	RangeValue(Value*,Value*,Value*);
-	QString getValueString();
+	QString getValueString() const;
 	Iterator<Value*>* createIterator();
 
-	Value* getStart();
-	Value* getStep();
-	Value* getFinish();
+	Value* getStart() const;
+	Value* getStep() const;
+	Value* getFinish() const;
 private:
 	Value* start;
 	Value* step;

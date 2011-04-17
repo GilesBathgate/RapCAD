@@ -35,9 +35,9 @@ public:
 	Variable();
 	~Variable();
 	void setName(QString);
-	QString getName();
+	QString getName() const;
 	void setType(Type_e);
-	Type_e getType();
+	Type_e getType() const;
 	void accept(TreeVisitor&);
 private:
 	QString name;

@@ -30,7 +30,7 @@ public:
 	~Script();
 
 	void setDeclarations(QVector<Declaration*>);
-	QVector<Declaration*> getDeclarations();
+	QVector<Declaration*> getDeclarations() const;
 	void addDeclaration(Declaration*);
 	void accept(TreeVisitor&);
 private:

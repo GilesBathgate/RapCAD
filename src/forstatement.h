@@ -31,9 +31,9 @@ public:
 	~ForStatement();
 
 	void setArguments(QVector<Argument*>);
-	QVector<Argument*> getArguments();
+	QVector<Argument*> getArguments() const;
 	void setStatement(Statement*);
-	Statement* getStatement();
+	Statement* getStatement() const;
 	void accept(TreeVisitor&);
 private:
 	QVector<Argument*> arguments;

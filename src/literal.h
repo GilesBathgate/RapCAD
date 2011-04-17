@@ -30,9 +30,9 @@ public:
 	void setValue(bool);
 	void setValue(double);
 	void setValue(QString);
-	QString getValueString();
+	QString getValueString() const;
 
-	Value* getValue();
+	Value* getValue() const;
 
 	void accept(TreeVisitor&);
 private:

@@ -37,7 +37,7 @@ void RangeExpression::setStart(Expression* srt)
 	this->start = srt;
 }
 
-Expression* RangeExpression::getStart()
+Expression* RangeExpression::getStart() const
 {
 	return this->start;
 }
@@ -47,7 +47,7 @@ void RangeExpression::setFinish(Expression* fin)
 	this->finish = fin;
 }
 
-Expression* RangeExpression::getFinish()
+Expression* RangeExpression::getFinish() const
 {
 	return this->finish;
 }
@@ -57,7 +57,7 @@ void RangeExpression::setStep(Expression* stp)
 	this->step = stp;
 }
 
-Expression* RangeExpression::getStep()
+Expression* RangeExpression::getStep() const
 {
 	return this->step;
 }

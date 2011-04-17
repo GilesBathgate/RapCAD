@@ -25,7 +25,7 @@ VectorValue::VectorValue(QVector<Value*> values)
 	this->children=values;
 }
 
-QString VectorValue::getValueString()
+QString VectorValue::getValueString() const
 {
 	QString result;
 	result.append("[");
@@ -38,12 +38,12 @@ QString VectorValue::getValueString()
 	return result;
 }
 
-bool VectorValue::isTrue()
+bool VectorValue::isTrue() const
 {
 	return this->children.size()>0;
 }
 
-Point VectorValue::getPoint()
+Point VectorValue::getPoint() const
 {
 	double x=0,y=0,z=0;
 	NumberValue* nx = dynamic_cast<NumberValue*>(children.at(0));
@@ -66,7 +66,7 @@ Iterator<Value*>* VectorValue::createIterator()
 	return new VectorIterator(this->children);
 }
 
-QVector<Value*> VectorValue::getChildren()
+QVector<Value*> VectorValue::getChildren() const
 {
 	return this->children;
 }

@@ -28,7 +28,7 @@ public:
 	CompoundStatement();
 	~CompoundStatement();
 	void setChildren(QVector<Statement*>);
-	QVector<Statement*> getChildren();
+	QVector<Statement*> getChildren() const;
 	void accept(TreeVisitor&);
 private:
 	QVector<Statement*> children;

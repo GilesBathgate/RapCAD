@@ -37,7 +37,7 @@ void Instance::setName(QString name)
 	this->name = name;
 }
 
-QString Instance::getName()
+QString Instance::getName() const
 {
 	return this->name;
 }
@@ -47,7 +47,7 @@ void Instance::setArguments(QVector<Argument*> args)
 	this->arguments = args;
 }
 
-QVector<Argument*> Instance::getArguments()
+QVector<Argument*> Instance::getArguments() const
 {
 	return this->arguments;
 }
@@ -62,12 +62,12 @@ void Instance::setType(Type_e t)
 	this->type = t;
 }
 
-Instance::Type_e Instance::getType()
+Instance::Type_e Instance::getType() const
 {
 	return this->type;
 }
 
-QVector <Statement*> Instance::getChildren()
+QVector <Statement*> Instance::getChildren() const
 {
 	return this->children;
 }
@@ -77,7 +77,7 @@ void Instance::setNamespace(QString name)
 	this->name_space = name;
 }
 
-QString Instance::getNamespace()
+QString Instance::getNamespace() const
 {
 	return this->name_space;
 }

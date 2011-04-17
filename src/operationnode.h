@@ -10,7 +10,7 @@ class OperationNode : public Node
 public:
 	OperationNode();
 	void setName(QString);
-	QString getName();
+	QString getName() const;
 	void accept(NodeVisitor&);
 private:
 	QString name;

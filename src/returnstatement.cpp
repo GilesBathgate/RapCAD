@@ -15,7 +15,7 @@ void ReturnStatement::setExpression(Expression* exp)
 	this->expression = exp;
 }
 
-Expression* ReturnStatement::getExpression()
+Expression* ReturnStatement::getExpression() const
 {
 	return this->expression;
 }
