@@ -33,7 +33,7 @@ public:
 	Expression* getFinish();
 	void setStep(Expression*);
 	Expression* getStep();
-	void accept(Visitor&);
+	void accept(TreeVisitor&);
 private:
 	Expression* start;
 	Expression* finish;

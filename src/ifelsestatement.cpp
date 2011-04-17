@@ -62,7 +62,7 @@ Statement* IfElseStatement::getFalseStatement()
 	return this->falseStatement;
 }
 
-void IfElseStatement::accept(Visitor& v)
+void IfElseStatement::accept(TreeVisitor& v)
 {
 	v.visit(this);
 }

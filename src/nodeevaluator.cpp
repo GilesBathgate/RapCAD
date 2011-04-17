@@ -16,25 +16,23 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PARAMETER_H
-#define PARAMETER_H
-#include <QString>
-#include "expression.h"
-#include "visitabletree.h"
+#include "nodeevaluator.h"
 
-class Parameter : public VisitableTree
+NodeEvaluator::NodeEvaluator()
 {
-public:
-	Parameter();
-	~Parameter();
-	QString getName();
-	void setName(QString);
-	Expression* getExpression();
-	void setExpression(Expression*);
-	void accept(TreeVisitor&);
-private:
-	QString name;
-	Expression* expression;
-};
+}
 
-#endif // PARAMETER_H
+void NodeEvaluator::visit(PrimitiveNode*)
+{
+
+}
+
+void NodeEvaluator::visit(OperationNode*)
+{
+
+}
+
+void NodeEvaluator::visit(TransformationNode*)
+{
+
+}

@@ -61,7 +61,7 @@ Expression::Operator_e AssignStatement::getOperation()
 	return this->operation;
 }
 
-void AssignStatement::accept(Visitor& v)
+void AssignStatement::accept(TreeVisitor& v)
 {
 	v.visit(this);
 }

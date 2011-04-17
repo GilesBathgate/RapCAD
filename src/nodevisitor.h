@@ -16,17 +16,16 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VISITABLE_H
-#define VISITABLE_H
+#ifndef NODEVISITOR_H
+#define NODEVISITOR_H
 
-#include "visitor.h"
-
-class Visitable
+class NodeVisitor
 {
 public:
-	virtual ~Visitable() {}
-	virtual void accept(Visitor&)=0;
-
+	virtual ~NodeVisitor() {}
+	virtual void visit(class PrimitiveNode*)=0;
+	virtual void visit(class OperationNode*)=0;
+	virtual void visit(class TransformationNode*)=0;
 };
 
-#endif // VISITABLE_H
+#endif // NODEVISITOR_H

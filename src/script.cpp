@@ -43,7 +43,7 @@ void Script::addDeclaration(Declaration* dec)
 	declarations.append(dec);
 }
 
-void Script::accept(Visitor& v)
+void Script::accept(TreeVisitor& v)
 {
 	v.visit(this);
 }

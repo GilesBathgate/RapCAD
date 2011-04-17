@@ -20,9 +20,9 @@
 #define EXPRESSION_H
 
 #include <QString>
-#include "visitable.h"
+#include "visitabletree.h"
 
-class Expression : public Visitable
+class Expression : public VisitableTree
 {
 public:
 	enum Operator_e {

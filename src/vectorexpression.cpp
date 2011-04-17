@@ -36,7 +36,7 @@ QVector<Expression*> VectorExpression::getChildren()
 	return this->children;
 }
 
-void VectorExpression::accept(Visitor& v)
+void VectorExpression::accept(TreeVisitor& v)
 {
 	v.visit(this);
 }

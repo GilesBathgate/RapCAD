@@ -75,7 +75,7 @@ Value* Literal::getValue()
 	}
 }
 
-void Literal::accept(Visitor& v)
+void Literal::accept(TreeVisitor& v)
 {
 	v.visit(this);
 }

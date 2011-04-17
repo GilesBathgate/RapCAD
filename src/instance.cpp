@@ -82,7 +82,7 @@ QString Instance::getNamespace()
 	return this->name_space;
 }
 
-void Instance::accept(Visitor& v)
+void Instance::accept(TreeVisitor& v)
 {
 	v.visit(this);
 }

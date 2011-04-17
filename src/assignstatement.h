@@ -34,7 +34,7 @@ public:
 	Expression* getExpression();
 	void setOperation(Expression::Operator_e);
 	Expression::Operator_e getOperation();
-	void accept(Visitor&);
+	void accept(TreeVisitor&);
 private:
 	Variable* variable;
 	Expression* expression;

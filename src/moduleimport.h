@@ -33,7 +33,7 @@ public:
 	QString getImport();
 	void setName(QString);
 	QString getName();
-	void accept(Visitor&);
+	void accept(TreeVisitor&);
 	void setParameters(QVector<Parameter*>);
 	QVector<Parameter*> getParameters();
 private:

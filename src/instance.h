@@ -47,7 +47,7 @@ public:
 	Type_e getType();
 	void setNamespace(QString);
 	QString getNamespace();
-	void accept(Visitor&);
+	void accept(TreeVisitor&);
 private:
 	QString name;
 	QVector<Argument*> arguments;

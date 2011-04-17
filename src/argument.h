@@ -22,9 +22,9 @@
 #include <QString>
 #include "expression.h"
 #include "variable.h"
-#include "visitable.h"
+#include "visitabletree.h"
 
-class Argument : public Visitable
+class Argument : public VisitableTree
 {
 public:
 	Argument();
@@ -33,7 +33,7 @@ public:
 	Variable* getVariable();
 	void setExpression(Expression*);
 	Expression* getExpression();
-	void accept(Visitor&);
+	void accept(TreeVisitor&);
 private:
 	Variable* variable;
 	Expression* expression;

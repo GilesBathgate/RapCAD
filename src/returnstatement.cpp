@@ -20,7 +20,7 @@ Expression* ReturnStatement::getExpression()
 	return this->expression;
 }
 
-void ReturnStatement::accept(Visitor& v)
+void ReturnStatement::accept(TreeVisitor& v)
 {
 	v.visit(this);
 }

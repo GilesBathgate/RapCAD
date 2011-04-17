@@ -38,7 +38,7 @@ public:
 	QString getName();
 	void setType(Type_e);
 	Type_e getType();
-	void accept(Visitor&);
+	void accept(TreeVisitor&);
 private:
 	QString name;
 	Type_e type;

@@ -56,7 +56,7 @@ QVector<Parameter*> ModuleImport::getParameters()
 	return this->parameters;
 }
 
-void ModuleImport::accept(Visitor& v)
+void ModuleImport::accept(TreeVisitor& v)
 {
 	v.visit(this);
 }

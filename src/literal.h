@@ -34,7 +34,7 @@ public:
 
 	Value* getValue();
 
-	void accept(Visitor&);
+	void accept(TreeVisitor&);
 private:
 	enum DataType {
 		Undef,

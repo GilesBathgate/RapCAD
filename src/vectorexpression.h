@@ -29,7 +29,7 @@ public:
 	~VectorExpression();
 	void setChildren(QVector<Expression*>);
 	QVector<Expression*> getChildren();
-	void accept(Visitor&);
+	void accept(TreeVisitor&);
 private:
 	QVector<Expression*> children;
 };

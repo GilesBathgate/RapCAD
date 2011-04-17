@@ -95,7 +95,8 @@ SOURCES += \
     src/operationnode.cpp \
     src/glview.cpp \
     src/cgalrenderer.cpp \
-    src/point.cpp
+    src/point.cpp \
+    src/nodeevaluator.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -127,9 +128,9 @@ HEADERS  += \
     src/returnstatement.h \
     src/ternaryexpression.h \
     src/moduleimport.h \
-    src/visitor.h \
+    src/treevisitor.h \
     src/prettyprinter.h \
-    src/visitable.h \
+    src/visitabletree.h \
     src/script.h \
     src/syntaxhighlighter.h \
     src/tokenbuilder.h \
@@ -164,7 +165,10 @@ HEADERS  += \
     src/cgalrenderer.h \
     src/OGL_helper.h \
     src/renderer.h \
-    src/point.h
+    src/point.h \
+    src/nodevisitor.h \
+    src/visitablenode.h \
+    src/nodeevaluator.h
 
 FORMS += \
     src/mainwindow.ui

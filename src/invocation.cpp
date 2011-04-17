@@ -38,7 +38,7 @@ QVector<Argument*> Invocation::getArguments()
 	return this->arguments;
 }
 
-void Invocation::accept(Visitor& v)
+void Invocation::accept(TreeVisitor& v)
 {
 	v.visit(this);
 }

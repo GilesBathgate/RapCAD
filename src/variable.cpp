@@ -47,7 +47,7 @@ Variable::Type_e Variable::getType()
 	return this->type;
 }
 
-void Variable::accept(Visitor& v)
+void Variable::accept(TreeVisitor& v)
 {
 	v.visit(this);
 }

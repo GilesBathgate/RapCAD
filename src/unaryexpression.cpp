@@ -18,7 +18,7 @@ Expression* UnaryExpression::getExpression()
 	return this->expression;
 }
 
-void UnaryExpression::accept(Visitor& v)
+void UnaryExpression::accept(TreeVisitor& v)
 {
 	v.visit(this);
 }

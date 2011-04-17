@@ -20,7 +20,7 @@
 #define EVALUATOR_H
 
 #include <QStack>
-#include "visitor.h"
+#include "treevisitor.h"
 #include "script.h"
 #include "module.h"
 #include "modulescope.h"
@@ -47,7 +47,7 @@
 #include "context.h"
 #include "value.h"
 
-class Evaluator : public Visitor
+class Evaluator : public TreeVisitor
 {
 public:
 	Evaluator();

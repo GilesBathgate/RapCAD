@@ -48,7 +48,7 @@ void Parameter::setExpression(Expression* expr)
 	this->expression = expr;
 }
 
-void Parameter::accept(Visitor& v)
+void Parameter::accept(TreeVisitor& v)
 {
 	v.visit(this);
 }

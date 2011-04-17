@@ -18,7 +18,7 @@ public:
 	QString getNamespace();
 	void setArguments(QVector<Argument*>);
 	QVector<Argument*> getArguments();
-	void accept(Visitor&);
+	void accept(TreeVisitor&);
 private:
 	QString name;
 	QString nameSpace;

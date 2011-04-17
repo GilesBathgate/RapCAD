@@ -38,7 +38,7 @@ QVector<Declaration*> ModuleScope::getDeclarations()
 	return this->declarations;
 }
 
-void ModuleScope::accept(Visitor& v)
+void ModuleScope::accept(TreeVisitor& v)
 {
 	v.visit(this);
 }

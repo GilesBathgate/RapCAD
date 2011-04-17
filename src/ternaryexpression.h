@@ -15,7 +15,7 @@ public:
 	Expression* getTrueExpression();
 	void setFalseExpression(Expression*);
 	Expression* getFalseExpression();
-	void accept(Visitor&);
+	void accept(TreeVisitor&);
 private:
 	Expression* condition;
 	Expression* trueExpression;

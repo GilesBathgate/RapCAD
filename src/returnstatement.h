@@ -12,7 +12,7 @@ public:
 	~ReturnStatement();
 	void setExpression(Expression*);
 	Expression* getExpression();
-	void accept(Visitor&);
+	void accept(TreeVisitor&);
 private:
 	Expression* expression;
 };

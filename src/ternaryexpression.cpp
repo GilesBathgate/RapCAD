@@ -44,7 +44,7 @@ Expression* TernaryExpression::getFalseExpression()
 	return this->falseExpression;
 }
 
-void TernaryExpression::accept(Visitor& v)
+void TernaryExpression::accept(TreeVisitor& v)
 {
 	v.visit(this);
 }

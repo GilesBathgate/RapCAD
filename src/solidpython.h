@@ -19,7 +19,7 @@
 #ifndef SOLIDPYTHON_H
 #define SOLIDPYTHON_H
 
-#include "visitor.h"
+#include "treevisitor.h"
 #include "script.h"
 #include "declaration.h"
 #include "module.h"
@@ -46,7 +46,7 @@
 #include "literal.h"
 #include "variable.h"
 
-class SolidPython : public Visitor
+class SolidPython : public TreeVisitor
 {
 public:
 	SolidPython();

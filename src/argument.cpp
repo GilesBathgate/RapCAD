@@ -50,7 +50,7 @@ Expression* Argument::getExpression()
 	return this->expression;
 }
 
-void Argument::accept(Visitor& v)
+void Argument::accept(TreeVisitor& v)
 {
 	v.visit(this);
 }

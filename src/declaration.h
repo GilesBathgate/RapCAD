@@ -20,9 +20,9 @@
 #define DECLARATION_H
 
 #include <QString>
-#include "visitable.h"
+#include "visitabletree.h"
 
-class Declaration : public Visitable
+class Declaration : public VisitableTree
 {
 public:
 	Declaration();

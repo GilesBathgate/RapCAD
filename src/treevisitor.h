@@ -16,13 +16,13 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VISITOR_H
-#define VISITOR_H
+#ifndef TREEVISITOR_H
+#define TREEVISITOR_H
 
-class Visitor
+class TreeVisitor
 {
 public:
-	virtual ~Visitor() {}
+	virtual ~TreeVisitor() {}
 	virtual void visit(class Module*)=0;
 	virtual void visit(class ModuleScope*)=0;
 	virtual void visit(class Instance*)=0;
@@ -48,4 +48,4 @@ public:
 	virtual void visit(class Script*)=0;
 };
 
-#endif // VISITOR_H
+#endif // TREEVISITOR_H

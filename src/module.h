@@ -40,7 +40,7 @@ public:
 	void setParameters(QVector<Parameter*>);
 	Scope* getScope();
 	void setScope(Scope*);
-	void accept(Visitor&);
+	void accept(TreeVisitor&);
 	virtual AbstractNode* evaluate(Context*,QVector<AbstractNode*>);
 private:
 	QString name;

@@ -30,7 +30,7 @@ public:
 	QString getImport();
 	void setNamespace(QString);
 	QString getNamespace();
-	void accept(Visitor&);
+	void accept(TreeVisitor&);
 private:
 	QString import;
 	QString name_space;

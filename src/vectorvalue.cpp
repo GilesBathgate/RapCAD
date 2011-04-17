@@ -45,20 +45,20 @@ bool VectorValue::isTrue()
 
 Point VectorValue::getPoint()
 {
-    double x=0,y=0,z=0;
-    NumberValue* nx = dynamic_cast<NumberValue*>(children.at(0));
-    NumberValue* ny = dynamic_cast<NumberValue*>(children.at(1));
-    NumberValue* nz = dynamic_cast<NumberValue*>(children.at(2));
-    if(nx)  {
-	x=nx->getNumber();
-    }
-    if(ny) {
-	y=ny->getNumber();
-    }
-    if(nz) {
-	z=nz->getNumber();
-    }
-    return Point(x,y,z);
+	double x=0,y=0,z=0;
+	NumberValue* nx = dynamic_cast<NumberValue*>(children.at(0));
+	NumberValue* ny = dynamic_cast<NumberValue*>(children.at(1));
+	NumberValue* nz = dynamic_cast<NumberValue*>(children.at(2));
+	if(nx)  {
+		x=nx->getNumber();
+	}
+	if(ny) {
+		y=ny->getNumber();
+	}
+	if(nz) {
+		z=nz->getNumber();
+	}
+	return Point(x,y,z);
 }
 
 Iterator<Value*>* VectorValue::createIterator()
