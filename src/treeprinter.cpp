@@ -17,9 +17,8 @@
  */
 
 #include "treeprinter.h"
-#include <stdio.h>
 
-TreePrinter::TreePrinter()
+TreePrinter::TreePrinter(QTextStream& s) : result(s)
 {
 	this->indent=0;
 }
@@ -31,7 +30,7 @@ TreePrinter::~TreePrinter()
 void TreePrinter::createIndent()
 {
 	for(unsigned int i=0; i<indent; i++)
-		result.append("  ");
+		result << "  ";
 }
 
 void TreePrinter::visit(ModuleScope* scp)
@@ -49,16 +48,16 @@ void TreePrinter::visit(Instance* inst)
 
 	switch(inst->getType()) {
 	case Instance::Root:
-		result.append("!");
+		result << "!";
 		break;
 	case Instance::Debug:
-		result.append("#");
+		result << "#";
 		break;
 	case Instance::Background:
-		result.append("%");
+		result << "%";
 		break;
 	case Instance::Disable:
-		result.append("*");
+		result << "*";
 		break;
 	default:
 		break;
@@ -66,25 +65,25 @@ void TreePrinter::visit(Instance* inst)
 
 	QString name = inst->getNamespace();
 	if(!name.isEmpty()) {
-		result.append(name);
-		result.append("::");
+		result << name;
+		result << "::";
 	}
-	result.append(inst->getName());
-	result.append("(");
+	result << inst->getName();
+	result << "(";
 	QVector<Argument*> arguments = inst->getArguments();
 	int s = arguments.size();
 	for(int i=0; i<s; i++) {
 		arguments.at(i)->accept(*this);
 		if(i+1<s)
-			result.append(",");
+			result << ",";
 	}
-	result.append(")");
+	result << ")";
 
 	QVector<Statement*> children = inst->getChildren();
 	int c = children.size();
 	if(c>0) {
 		if(c>1) {
-			result.append("{\n");
+			result << "{\n";
 			++indent;
 		}
 		for(int i=0; i<c; i++) {
@@ -95,64 +94,64 @@ void TreePrinter::visit(Instance* inst)
 		if(c>1) {
 			--indent;
 			createIndent();
-			result.append("}");
+			result << "}";
 		}
 	} else
-		result.append(";");
+		result << ";";
 
-	result.append("\n");
+	result << "\n";
 }
 
 void TreePrinter::visit(Module* mod)
 {
-	result.append("module ");
-	result.append(mod->getName());
-	result.append("(");
+	result << "module ";
+	result << mod->getName();
+	result << "(";
 	QVector<Parameter*> parameters = mod->getParameters();
 	int s = parameters.size();
 	for(int i=0; i<s; i++) {
 		parameters.at(i)->accept(*this);
 		if(i+1<s)
-			result.append(",");
+			result << ",";
 	}
-	result.append("){\n");
+	result << "){\n";
 	mod->getScope()->accept(*this);
 	createIndent();
-	result.append("}\n");
+	result << "}\n";
 }
 
 void TreePrinter::visit(Function* func)
 {
-	result.append("function ");
-	result.append(func->getName());
-	result.append("(");
+	result << "function ";
+	result << func->getName();
+	result << "(";
 	QVector<Parameter*> parameters = func->getParameters();
 	int s = parameters.size();
 	for(int i=0; i<s; i++) {
 		parameters.at(i)->accept(*this);
 		if(i+1<s)
-			result.append(",");
+			result << ",";
 	}
 
-	result.append(")");
+	result << ")";
 	func->getScope()->accept(*this);
-	result.append("\n");
+	result << "\n";
 }
 
 void TreePrinter::visit(FunctionScope* scp)
 {
 	Expression* expression = scp->getExpression();
 	if(expression) {
-		result.append("=");
+		result << "=";
 		expression->accept(*this);
-		result.append(";\n");
+		result << ";\n";
 		return;
 	}
 
 	QVector<Statement*> statements = scp->getStatements();
 	int s = statements.size();
 	if(s>0) {
-		result.append("{\n");
+		result << "{\n";
 		++indent;
 		for(int i=0; i<s; i++) {
 			createIndent();
@@ -160,11 +159,11 @@ void TreePrinter::visit(FunctionScope* scp)
 		}
 		--indent;
 		createIndent();
-		result.append("}");
+		result << "}";
 	} else
-		result.append(";");
+		result << ";";
 
-	result.append("\n");
+	result << "\n";
 }
 
 void TreePrinter::visit(CompoundStatement* stmt)
@@ -173,7 +172,7 @@ void TreePrinter::visit(CompoundStatement* stmt)
 	int c = children.size();
 	if(c>0) {
 		if(c>1) {
-			result.append("{\n");
+			result << "{\n";
 			++indent;
 		}
 		for(int i=0; i<c; i++) {
@@ -184,63 +183,63 @@ void TreePrinter::visit(CompoundStatement* stmt)
 		if(c>1) {
 			--indent;
 			createIndent();
-			result.append("}");
+			result << "}";
 		}
 	} else
-		result.append(";");
+		result << ";";
 
 }
 
 void TreePrinter::visit(IfElseStatement* ifelse)
 {
-	result.append("if(");
+	result << "if(";
 	ifelse->getExpression()->accept(*this);
-	result.append(")");
+	result << ")";
 	Statement* trueStatement = ifelse->getTrueStatement();
 	if(trueStatement)
 		trueStatement->accept(*this);
 
 	Statement* falseStatement = ifelse->getFalseStatement();
 	if(falseStatement) {
-		result.append("\n");
+		result << "\n";
 		createIndent();
-		result.append("else ");
+		result << "else ";
 		falseStatement->accept(*this);
 	}
 
-	result.append("\n");
+	result << "\n";
 }
 
 void TreePrinter::visit(ForStatement* forstmt)
 {
-	result.append("for(");
+	result << "for(";
 	foreach(Argument* a, forstmt->getArguments())
 		a->accept(*this);
-	result.append(")");
+	result << ")";
 	Statement* statement = forstmt->getStatement();
 	statement->accept(*this);
 
-	result.append("\n");
+	result << "\n";
 }
 
 void TreePrinter::visit(Parameter* param)
 {
-	result.append(param->getName());
+	result << param->getName();
 
 	Expression* expression = param->getExpression();
 	if(expression) {
-		result.append("=");
+		result << "=";
 		expression->accept(*this);
 	}
 }
 
 void TreePrinter::visit(BinaryExpression* exp)
 {
-	result.append("(");
+	result << "(";
 	exp->getLeft()->accept(*this);
-	result.append(exp->getOpString());
+	result << exp->getOpString();
 	exp->getRight()->accept(*this);
-	result.append(")");
+	result << ")";
 }
 
 void TreePrinter::visit(Argument* arg)
@@ -248,7 +247,7 @@ void TreePrinter::visit(Argument* arg)
 	Variable* variable = arg->getVariable();
 	if(variable) {
 		variable->accept(*this);
-		result.append("=");
+		result << "=";
 	}
 
 	arg->getExpression()->accept(*this);
@@ -262,49 +261,49 @@ void TreePrinter::visit(AssignStatement* stmt)
 
 	switch(stmt->getOperation()) {
 	case Expression::Increment:
-		result.append("++");
+		result << "++";
 		break;
 	case Expression::Decrement:
-		result.append("--");
+		result << "--";
 		break;
 	default: {
-		result.append("=");
+		result << "=";
 		Expression* expression = stmt->getExpression();
 		if(expression)
 			expression->accept(*this);
 	}
 	}
 
-	result.append(";\n");
+	result << ";\n";
 }
 
 void TreePrinter::visit(VectorExpression* exp)
 {
-	result.append("[");
+	result << "[";
 	QVector<Expression*> children = exp->getChildren();
 	int s = children.size();
 	for(int i=0; i<s; i++) {
 		children.at(i)->accept(*this);
 		if(i+1<s)
-			result.append(",");
+			result << ",";
 	}
-	result.append("]");
+	result << "]";
 }
 
 void TreePrinter::visit(RangeExpression* exp)
 {
-	result.append("[");
+	result << "[";
 	exp->getStart()->accept(*this);
 
-	result.append(":");
+	result << ":";
 	Expression* step = exp->getStep();
 	if(step) {
 		step->accept(*this);
-		result.append(":");
+		result << ":";
 	}
 
 	exp->getFinish()->accept(*this);
-	result.append("]");
+	result << "]";
 }
 
 void TreePrinter::visit(UnaryExpression* exp)
@@ -312,115 +311,113 @@ void TreePrinter::visit(UnaryExpression* exp)
 	QString op = exp->getOpString();
 	bool p = exp->postFix();
 	if(!p)
-		result.append(op);
+		result << op;
 	exp->getExpression()->accept(*this);
 	if(p)
-		result.append(op);
+		result << op;
 }
 
 void TreePrinter::visit(ReturnStatement* stmt)
 {
-	result.append("return ");
+	result << "return ";
 	stmt->getExpression()->accept(*this);
-	result.append(";\n");
+	result << ";\n";
 }
 
 void TreePrinter::visit(TernaryExpression* exp)
 {
-	result.append("(");
+	result << "(";
 	exp->getCondition()->accept(*this);
-	result.append("?");
+	result << "?";
 	exp->getTrueExpression()->accept(*this);
-	result.append(":");
+	result << ":";
 	exp->getFalseExpression()->accept(*this);
-	result.append(")");
+	result << ")";
 }
 
 void TreePrinter::visit(Invocation* stmt)
 {
 	QString nameSpace = stmt->getNamespace();
 	if(!nameSpace.isEmpty()) {
-		result.append(nameSpace);
-		result.append("::");
+		result << nameSpace;
+		result << "::";
 	}
-	result.append(stmt->getName());
-	result.append("(");
+	result << stmt->getName();
+	result << "(";
 	QVector<Argument*> arguments = stmt->getArguments();
 	int s = arguments.size();
 	for(int i=0; i<s; i++) {
 		arguments.at(i)->accept(*this);
 		if(i+1<s)
-			result.append(",");
+			result << ",";
 	}
-	result.append(")");
+	result << ")";
 }
 
 void TreePrinter::visit(ModuleImport* decl)
 {
-	result.append("import <");
-	result.append(decl->getImport());
-	result.append(">");
+	result << "import <";
+	result << decl->getImport();
+	result << ">";
 	QString name = decl->getName();
 	if(!name.isEmpty()) {
-		result.append(" as ");
-		result.append(name);
+		result << " as ";
+		result << name;
 	}
 	QVector<Parameter*> parameters = decl->getParameters();
 	int s = parameters.size();
 	if(s>0) {
-		result.append("(");
+		result << "(";
 		for(int i=0; i<s; i++) {
 			parameters.at(i)->accept(*this);
 			if(i+1<s)
-				result.append(",");
+				result << ",";
 		}
 
-		result.append(")");
+		result << ")";
 	}
-	result.append(";\n");
+	result << ";\n";
 }
 
 void TreePrinter::visit(ScriptImport* decl)
 {
-	result.append("use <");
-	result.append(decl->getImport());
-	result.append(">");
+	result << "use <";
+	result << decl->getImport();
+	result << ">";
 	QString name = decl->getNamespace();
 	if(!name.isEmpty()) {
-		result.append(" as ");
-		result.append(name);
-		result.append(";");
+		result << " as ";
+		result << name;
+		result << ";";
 	}
-	result.append("\n");
+	result << "\n";
 }
 
 void TreePrinter::visit(Literal* lit)
 {
-	result.append(lit->getValueString());
+	result << lit->getValueString();
 }
 
 void TreePrinter::visit(Variable* var)
 {
 	switch(var->getType()) {
 	case Variable::Const:
-		result.append("const ");
+		result << "const ";
 		break;
 	case Variable::Param:
-		result.append("param ");
+		result << "param ";
 		break;
 	default:
 		break;
 	}
 
 	if(var->getType()==Variable::Special)
-		result.append("$");
-	result.append(var->getName());
+		result << "$";
+	result << var->getName();
 }
 
 void TreePrinter::visit(Script* sc)
 {
 	foreach(Declaration* d, sc->getDeclarations())
 		d->accept(*this);
-
-	printf("%s",result.toLocal8Bit().constData());
 }

@@ -19,6 +19,7 @@
 #ifndef TREEPRINTER_H
 #define TREEPRINTER_H
 
+#include <QTextStream>
 #include "treevisitor.h"
 #include "script.h"
 #include "declaration.h"
@@ -49,7 +50,7 @@
 class TreePrinter : public TreeVisitor
 {
 public:
-	TreePrinter();
+	TreePrinter(QTextStream&);
 	~TreePrinter();
 	void visit(Module*);
 	void visit(ModuleScope*);
@@ -76,7 +77,7 @@ public:
 	void visit(Script*);
 private:
 	void createIndent();
-	QString result;
+	QTextStream& result;
 	unsigned int indent;
 };
 

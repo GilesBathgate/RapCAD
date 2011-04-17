@@ -37,7 +37,7 @@ void evaluate(QString path, bool print, QString format)
 		SolidPython p;
 		s->accept(p);
 	} else if(print) {
-		TreePrinter p;
+		TreePrinter p(out);
 		s->accept(p);
 	}
 
