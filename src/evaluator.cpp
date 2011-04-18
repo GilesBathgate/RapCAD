@@ -74,10 +74,7 @@ void Evaluator::visit(ModuleScope* scp)
 
 	finishContext();
 
-	OperationNode* u = new OperationNode();
-	u->setName("union");
-	u->setChildren(childnodes);
-	context->currentNode = u;
+	createUnion(childnodes);
 }
 
 void Evaluator::visit(Instance* inst)
@@ -379,6 +376,18 @@ void Evaluator::visit(Variable* var)
 	context->currentName=name;
 }
 
+void Evaluator::createUnion(QVector<Node*> childnodes)
+{
+	if(childnodes.size()==1) {
+		context->currentNode=childnodes.at(0);
+	} else {
+		OperationNode* u=new OperationNode();
+		u->setName("union");
+		u->setChildren(childnodes);
+		context->currentNode=u;
+	}
+}
+
 void Evaluator::visit(Script* sc)
 {
 	//TODO add our "builtin" here for now
@@ -389,12 +398,18 @@ void Evaluator::visit(Script* sc)
 	sc->addDeclaration(new DifferenceModule());
 
 	startContext(sc);
-	foreach(Declaration* d, sc->getDeclarations())
+	QVector<Node*> childnodes;
+	foreach(Declaration* d, sc->getDeclarations()) {
+		context->currentNode=NULL;
 		d->accept(*this);
+		if(context->currentNode)
+			childnodes.append(context->currentNode);
+	}
 
 	if(context->returnValue)
 		output << "Warning: return statement not valid inside global scope.\n";
 
+	createUnion(childnodes);
 	rootNode=context->currentNode;
 }
 

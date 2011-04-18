@@ -81,6 +81,7 @@ public:
 private:
 	void startContext(Scope*);
 	void finishContext();
+	void createUnion(QVector<Node*>);
 
 	Context* context;
 	QStack<Context*> contextStack;
