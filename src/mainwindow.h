@@ -46,8 +46,10 @@ private:
 	void setupTreeview();
 	SyntaxHighlighter* highlighter;
 	TextEditIODevice* console;
+	QString fileName;
 private slots:
-	void CompileAndRender();
+	void compileAndRender();
+	void saveFile();
 };
 
 #endif // MAINWINDOW_H

@@ -17,6 +17,7 @@
  */
 
 #include <QTextStream>
+#include <QFileDialog>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "backgroundworker.h"
@@ -50,6 +51,8 @@ void MainWindow::setupToolbar()
 	ui->actionSave->setIcon(QIcon::fromTheme("document-save"));
 	ui->actionPrint->setIcon(QIcon::fromTheme("document-print"));
 
+	connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(saveFile()));
+
 	ui->actionUndo->setIcon(QIcon::fromTheme("edit-undo"));
 	ui->actionRedo->setIcon(QIcon::fromTheme("edit-redo"));
 
@@ -67,7 +70,7 @@ void MainWindow::setupToolbar()
 	ui->actionCompileAndRender->setIcon(QIcon::fromTheme("system-run"));
 	ui->actionGenerateGcode->setIcon(QIcon::fromTheme("format-justify-fill"));
 
-	connect(ui->actionCompileAndRender,SIGNAL(triggered()),this,SLOT(CompileAndRender()));
+	connect(ui->actionCompileAndRender,SIGNAL(triggered()),this,SLOT(compileAndRender()));
 }
 
 void MainWindow::setupLayout()
@@ -115,15 +118,22 @@ void MainWindow::setupEditor()
 	console=new TextEditIODevice(c,this);
 }
 
-void MainWindow::CompileAndRender()
+void MainWindow::saveFile()
+{
+	fileName=QFileDialog::getSaveFileName();
+}
+
+void MainWindow::compileAndRender()
 {
 	//Stop the syntax highlighter to prevent a crash
 	//It will start again automatically.
 	highlighter->stop();
 
-	console->clear();
+	//if(ui->scriptEditor->document()->isModified())
+
+
 	QTextStream out(console);
 	BackgroundWorker b(out);
 	//TODO get file path
-	//b.doWork("/home/giles/rapcad/test/test.rcad",false,"");
+	b.evaluate(fileName,false,"");
 }
