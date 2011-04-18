@@ -36,20 +36,26 @@ class MainWindow : public QMainWindow
 public:
 	explicit MainWindow(QWidget* parent = 0);
 	~MainWindow();
-
+private slots:
+	bool maybeSave();
+	void newFile();
+	bool saveFile();
+	bool saveAsFile();
+	void openFile();
+	void compileAndRender();
 private:
-	Ui::MainWindow* ui;
-	QStandardItemModel* myModel;
 	void setupLayout();
 	void setupToolbar();
 	void setupEditor();
 	void setupTreeview();
+	bool load(const QString&);
+	void setCurrentFileName(const QString&);
+	Ui::MainWindow* ui;
+	QStandardItemModel* myModel;
 	SyntaxHighlighter* highlighter;
 	TextEditIODevice* console;
 	QString fileName;
-private slots:
-	void compileAndRender();
-	void saveFile();
+
 };
 
 #endif // MAINWINDOW_H
