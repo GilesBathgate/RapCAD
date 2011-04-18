@@ -58,6 +58,8 @@ void MainWindow::setupToolbar()
 	connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(saveFile()));
 	connect(ui->actionSaveAs,SIGNAL(triggered()),this,SLOT(saveAsFile()));
 
+	connect(ui->actionQuit,SIGNAL(triggered()),this,SLOT(close()));
+
 	ui->actionUndo->setIcon(QIcon::fromTheme("edit-undo"));
 	ui->actionRedo->setIcon(QIcon::fromTheme("edit-redo"));
 
@@ -121,6 +123,14 @@ void MainWindow::setupEditor()
 	font.setPointSize(8);
 	c->setFont(font);
 	console=new TextEditIODevice(c,this);
+}
+
+void MainWindow::closeEvent(QCloseEvent* e)
+{
+	if(maybeSave())
+		e->accept();
+	else
+		e->ignore();
 }
 
 bool MainWindow::load(const QString& f)
