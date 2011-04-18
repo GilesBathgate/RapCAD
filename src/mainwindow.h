@@ -40,7 +40,7 @@ protected:
 	virtual void closeEvent(QCloseEvent*);
 private slots:
 	void clipboardDataChanged();
-	bool maybeSave();
+	bool maybeSave(bool);
 	void newFile();
 	bool saveFile();
 	bool saveAsFile();
@@ -48,7 +48,7 @@ private slots:
 	void compileAndRender();
 private:
 	void setupLayout();
-	void setupToolbar();
+	void setupActions();
 	void setupEditor();
 	void setupTreeview();
 	bool load(const QString&);

@@ -34,7 +34,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
 	setupLayout();
 
-	setupToolbar();
+	setupActions();
 
 	setupTreeview();
 
@@ -48,46 +48,53 @@ MainWindow::~MainWindow()
 	delete ui;
 }
 
-void MainWindow::setupToolbar()
+void MainWindow::setupActions()
 {
 	ui->actionNew->setIcon(QIcon::fromTheme("document-new"));
+	connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newFile()));
+
 	ui->actionOpen->setIcon(QIcon::fromTheme("document-open"));
+	connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(openFile()));
+
 	ui->actionSave->setIcon(QIcon::fromTheme("document-save"));
+	ui->actionSave->setEnabled(false);
+	connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(saveFile()));
+	connect(ui->scriptEditor->document(), SIGNAL(modificationChanged(bool)),ui->actionSave, SLOT(setEnabled(bool)));
+
 	ui->actionPrint->setIcon(QIcon::fromTheme("document-print"));
 
-	connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newFile()));
-	connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(openFile()));
-	connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(saveFile()));
 	connect(ui->actionSaveAs,SIGNAL(triggered()),this,SLOT(saveAsFile()));
-
 	connect(ui->actionQuit,SIGNAL(triggered()),this,SLOT(close()));
 
 	ui->actionUndo->setIcon(QIcon::fromTheme("edit-undo"));
-	ui->actionRedo->setIcon(QIcon::fromTheme("edit-redo"));
-
+	ui->actionUndo->setEnabled(ui->scriptEditor->document()->isUndoAvailable());
 	connect(ui->actionUndo,SIGNAL(triggered()),ui->scriptEditor,SLOT(undo()));
+	connect(ui->scriptEditor->document(), SIGNAL(undoAvailable(bool)),ui->actionUndo, SLOT(setEnabled(bool)));
+
+	ui->actionRedo->setIcon(QIcon::fromTheme("edit-redo"));
+	ui->actionRedo->setEnabled(ui->scriptEditor->document()->isRedoAvailable());
 	connect(ui->actionRedo,SIGNAL(triggered()),ui->scriptEditor,SLOT(redo()));
+	connect(ui->scriptEditor->document(), SIGNAL(redoAvailable(bool)),ui->actionRedo, SLOT(setEnabled(bool)));
 
 	ui->actionCut->setIcon(QIcon::fromTheme("edit-cut"));
 	ui->actionCut->setEnabled(false);
+	connect(ui->scriptEditor, SIGNAL(copyAvailable(bool)), ui->actionCut, SLOT(setEnabled(bool)));
+	connect(ui->actionCut,SIGNAL(triggered()),ui->scriptEditor,SLOT(cut()));
+
 	ui->actionCopy->setIcon(QIcon::fromTheme("edit-copy"));
 	ui->actionCopy->setEnabled(false);
-	ui->actionPaste->setIcon(QIcon::fromTheme("edit-paste"));
-
-	connect(ui->scriptEditor, SIGNAL(copyAvailable(bool)), ui->actionCut, SLOT(setEnabled(bool)));
 	connect(ui->scriptEditor, SIGNAL(copyAvailable(bool)), ui->actionCopy, SLOT(setEnabled(bool)));
-	connect(QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(clipboardDataChanged()));
-
-	connect(ui->actionCut,SIGNAL(triggered()),ui->scriptEditor,SLOT(cut()));
 	connect(ui->actionCopy,SIGNAL(triggered()),ui->scriptEditor,SLOT(copy()));
+
+	ui->actionPaste->setIcon(QIcon::fromTheme("edit-paste"));
 	connect(ui->actionPaste,SIGNAL(triggered()),ui->scriptEditor,SLOT(paste()));
+	connect(QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(clipboardDataChanged()));
+	clipboardDataChanged();
 
 	ui->actionCompileAndRender->setIcon(QIcon::fromTheme("system-run"));
-	ui->actionGenerateGcode->setIcon(QIcon::fromTheme("format-justify-fill"));
-
 	connect(ui->actionCompileAndRender,SIGNAL(triggered()),this,SLOT(compileAndRender()));
 
-	clipboardDataChanged();
+	ui->actionGenerateGcode->setIcon(QIcon::fromTheme("format-justify-fill"));
 }
 
 void MainWindow::setupLayout()
@@ -144,7 +151,7 @@ void MainWindow::clipboardDataChanged()
 
 void MainWindow::closeEvent(QCloseEvent* e)
 {
-	if(maybeSave())
+	if(maybeSave(true))
 		e->accept();
 	else
 		e->ignore();
@@ -166,16 +173,20 @@ bool MainWindow::load(const QString& f)
 	return true;
 }
 
-bool MainWindow::maybeSave()
+bool MainWindow::maybeSave(bool closing)
 {
 	if(!ui->scriptEditor->document()->isModified())
 		return true;
+
+	int buttons=QMessageBox::Save | QMessageBox::Cancel;
+	if(closing)
+		buttons |= QMessageBox::Discard;
+
 	QMessageBox::StandardButton ret;
 	ret = QMessageBox::warning(this, tr("RapCAD"),
 		tr("The document has been modified.\n"
 		"Do you want to save your changes?"),
-		QMessageBox::Save | QMessageBox::Discard
-		| QMessageBox::Cancel);
+		(QMessageBox::StandardButton)buttons);
 	if(ret == QMessageBox::Save)
 		return saveFile();
 	else if(ret == QMessageBox::Cancel)
@@ -186,7 +197,7 @@ bool MainWindow::maybeSave()
 
 void MainWindow::newFile()
 {
-	if(maybeSave()) {
+	if(maybeSave(true)) {
 		ui->scriptEditor->clear();
 		setCurrentFileName(QString());
 	}
@@ -238,7 +249,7 @@ void MainWindow::compileAndRender()
 	//It will start again automatically.
 	highlighter->stop();
 
-	if(maybeSave()) {
+	if(maybeSave(false)) {
 		QTextStream out(console);
 		BackgroundWorker b(out);
 		b.evaluate(fileName,false,"");
