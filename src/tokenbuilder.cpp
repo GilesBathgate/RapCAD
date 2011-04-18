@@ -19,6 +19,7 @@
 #include "tokenbuilder.h"
 #include "parser_yacc.h"
 #define YY_NULL 0
+extern int lexerlex_destroy();
 extern void lexerinclude(const char*);
 extern void lexererror();
 extern int lexerlex();
@@ -28,6 +29,11 @@ extern int lexerlineno;
 TokenBuilder::TokenBuilder()
 {
 	position=1;
+}
+
+TokenBuilder::~TokenBuilder()
+{
+	lexerlex_destroy();
 }
 
 int TokenBuilder::nextToken()

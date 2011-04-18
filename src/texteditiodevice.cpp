@@ -16,42 +16,27 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtGui/QApplication>
-#include <QTextStream>
-#include "mainwindow.h"
-#include "backgroundworker.h"
+#include "texteditiodevice.h"
 
-int main(int argc, char* argv[])
+TextEditIODevice::TextEditIODevice(QTextEdit* textEdit,QObject* parent) :
+	QIODevice(parent)
+	, textEdit(textEdit)
 {
-	int opt;
-	QString filename;
-	bool print=false;
-	QString printformat;
-	bool useGUI=true;
+	open(QIODevice::WriteOnly|QIODevice::Text);
+}
 
-	while((opt = getopt(argc, argv, "f:p::")) != -1) {
-		switch(opt) {
-		case 'f':
-			useGUI=false;
-			filename=QString(optarg);
-			break;
-		case 'p':
-			print=true;
-			printformat=QString(optarg);
-			break;
-		}
-	}
+void TextEditIODevice::clear()
+{
+	textEdit->clear();
+}
 
-	if(!useGUI) {
-		QTextStream out(stdout);
-		BackgroundWorker b(out);
-		b.evaluate(filename,print,printformat);
-		return 0;
-	} else {
-		QApplication a(argc, argv);
-		MainWindow w;
-		w.show();
+qint64 TextEditIODevice::readData(char*,qint64)
+{
+	return 0;
+}
 
-		return a.exec();
-	}
+qint64 TextEditIODevice::writeData(const char* data, qint64 maxSize)
+{
+	textEdit->append(data);
+	return maxSize;
 }

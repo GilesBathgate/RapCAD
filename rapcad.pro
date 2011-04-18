@@ -98,7 +98,9 @@ SOURCES += \
     src/cgalrenderer.cpp \
     src/point.cpp \
     src/nodeprinter.cpp \
-    src/nodeevaluator.cpp
+    src/nodeevaluator.cpp \
+    src/texteditiodevice.cpp \
+    src/backgroundworker.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -172,7 +174,9 @@ HEADERS  += \
     src/visitablenode.h \
     src/nodeprinter.h \
     src/nodeevaluator.h \
-    src/polygon.h
+    src/polygon.h \
+    src/texteditiodevice.h \
+    src/backgroundworker.h
 
 FORMS += \
     src/mainwindow.ui

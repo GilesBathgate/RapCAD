@@ -16,9 +16,10 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QTextStream>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QFile>
+#include "backgroundworker.h"
 
 MainWindow::MainWindow(QWidget* parent) :
 	QMainWindow(parent),
@@ -33,6 +34,13 @@ MainWindow::MainWindow(QWidget* parent) :
 	setupTreeview();
 
 	setupEditor();
+}
+
+MainWindow::~MainWindow()
+{
+	delete highlighter;
+	delete console;
+	delete ui;
 }
 
 void MainWindow::setupToolbar()
@@ -55,6 +63,11 @@ void MainWindow::setupToolbar()
 	connect(ui->actionCut,SIGNAL(triggered()),ui->scriptEditor,SLOT(cut()));
 	connect(ui->actionCopy,SIGNAL(triggered()),ui->scriptEditor,SLOT(copy()));
 	connect(ui->actionPaste,SIGNAL(triggered()),ui->scriptEditor,SLOT(paste()));
+
+	ui->actionCompileAndRender->setIcon(QIcon::fromTheme("system-run"));
+	ui->actionGenerateGcode->setIcon(QIcon::fromTheme("format-justify-fill"));
+
+	connect(ui->actionCompileAndRender,SIGNAL(triggered()),this,SLOT(CompileAndRender()));
 }
 
 void MainWindow::setupLayout()
@@ -95,10 +108,22 @@ void MainWindow::setupEditor()
 	editor->setFont(font);
 
 	highlighter = new SyntaxHighlighter(editor->document());
+
+	QTextEdit* c=(QTextEdit*)ui->plainTextEdit;
+	font.setPointSize(8);
+	c->setFont(font);
+	console=new TextEditIODevice(c,this);
 }
 
-MainWindow::~MainWindow()
+void MainWindow::CompileAndRender()
 {
-	delete highlighter;
-	delete ui;
+	//Stop the syntax highlighter to prevent a crash
+	//It will start again automatically.
+	highlighter->stop();
+
+	console->clear();
+	QTextStream out(console);
+	BackgroundWorker b(out);
+	//TODO get file path
+	//b.doWork("/home/giles/rapcad/test/test.rcad",false,"");
 }

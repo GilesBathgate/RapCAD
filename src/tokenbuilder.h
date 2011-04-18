@@ -29,6 +29,7 @@ class TokenBuilder : public AbstractTokenBuilder
 {
 public:
 	TokenBuilder();
+	~TokenBuilder();
 	int nextToken();
 	int getPosition() const;
 	int getLineNumber() const;

@@ -16,42 +16,41 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtGui/QApplication>
-#include <QTextStream>
-#include "mainwindow.h"
 #include "backgroundworker.h"
+#include "script.h"
+#include "treeprinter.h"
+#include "solidpython.h"
+#include "evaluator.h"
+#include "nodeprinter.h"
+#include "nodeevaluator.h"
 
-int main(int argc, char* argv[])
+extern Script* parse(QString);
+
+BackgroundWorker::BackgroundWorker(QTextStream& s,QObject* parent) :
+	QObject(parent)
+	, output(s)
 {
-	int opt;
-	QString filename;
-	bool print=false;
-	QString printformat;
-	bool useGUI=true;
+}
 
-	while((opt = getopt(argc, argv, "f:p::")) != -1) {
-		switch(opt) {
-		case 'f':
-			useGUI=false;
-			filename=QString(optarg);
-			break;
-		case 'p':
-			print=true;
-			printformat=QString(optarg);
-			break;
-		}
+void BackgroundWorker::evaluate(QString path, bool print, QString format)
+{
+	Script* s=parse(path);
+
+	if(format =="solidpython") {
+		SolidPython p;
+		s->accept(p);
+	} else if(print) {
+		TreePrinter p(output);
+		s->accept(p);
 	}
 
-	if(!useGUI) {
-		QTextStream out(stdout);
-		BackgroundWorker b(out);
-		b.evaluate(filename,print,printformat);
-		return 0;
-	} else {
-		QApplication a(argc, argv);
-		MainWindow w;
-		w.show();
+	Evaluator e(output);
+	s->accept(e);
+	delete s;
 
-		return a.exec();
-	}
+	Node* n = e.getRootNode();
+	NodePrinter p(output);
+	n->accept(p);
+
+	delete n;
 }

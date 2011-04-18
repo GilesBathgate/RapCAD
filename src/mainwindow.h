@@ -22,6 +22,7 @@
 #include <QMainWindow>
 #include <QStandardItemModel>
 #include "syntaxhighlighter.h"
+#include "texteditiodevice.h"
 
 namespace Ui
 {
@@ -44,6 +45,9 @@ private:
 	void setupEditor();
 	void setupTreeview();
 	SyntaxHighlighter* highlighter;
+	TextEditIODevice* console;
+private slots:
+	void CompileAndRender();
 };
 
 #endif // MAINWINDOW_H

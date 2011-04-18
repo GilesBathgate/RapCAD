@@ -187,7 +187,15 @@
     <addaction name="actionCopy"/>
     <addaction name="actionPaste"/>
    </widget>
+   <widget class="QMenu" name="menuDesign">
+    <property name="title">
+     <string>Design</string>
+    </property>
+    <addaction name="actionCompileAndRender"/>
+    <addaction name="actionGenerateGcode"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuDesign"/>
    <addaction name="menu_Edit"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
@@ -209,6 +217,9 @@
    <addaction name="actionCut"/>
    <addaction name="actionCopy"/>
    <addaction name="actionPaste"/>
+   <addaction name="separator"/>
+   <addaction name="actionCompileAndRender"/>
+   <addaction name="actionGenerateGcode"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNew">
@@ -353,6 +364,34 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+V</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionCompileAndRender">
+   <property name="text">
+    <string>Compile and &amp;Render</string>
+   </property>
+   <property name="toolTip">
+    <string>Compile and Render</string>
+   </property>
+   <property name="shortcut">
+    <string>F6</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionGenerateGcode">
+   <property name="text">
+    <string>Generate GCODE</string>
+   </property>
+   <property name="toolTip">
+    <string>Generate GCODE</string>
+   </property>
+   <property name="shortcut">
+    <string>F7</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>

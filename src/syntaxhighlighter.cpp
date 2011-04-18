@@ -18,6 +18,7 @@
 
 #include "syntaxhighlighter.h"
 
+extern int lexerlex_destroy();
 extern void lexerinit(AbstractTokenBuilder*,QString,bool);
 extern int lexerlex();
 extern void lexerbegin();
@@ -48,7 +49,11 @@ void SyntaxHighlighter::highlightBlock(const QString& text)
 	startIndex=0;
 	lexerinit(this,text,false);
 	while(nextToken());
+}
 
+void SyntaxHighlighter::stop()
+{
+	lexerlex_destroy();
 }
 
 int SyntaxHighlighter::nextToken()
