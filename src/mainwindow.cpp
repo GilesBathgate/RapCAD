@@ -20,6 +20,8 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QTextDocumentWriter>
+#include <QMimeData>
+#include <QClipboard>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "backgroundworker.h"
@@ -67,8 +69,14 @@ void MainWindow::setupToolbar()
 	connect(ui->actionRedo,SIGNAL(triggered()),ui->scriptEditor,SLOT(redo()));
 
 	ui->actionCut->setIcon(QIcon::fromTheme("edit-cut"));
+	ui->actionCut->setEnabled(false);
 	ui->actionCopy->setIcon(QIcon::fromTheme("edit-copy"));
+	ui->actionCopy->setEnabled(false);
 	ui->actionPaste->setIcon(QIcon::fromTheme("edit-paste"));
+
+	connect(ui->scriptEditor, SIGNAL(copyAvailable(bool)), ui->actionCut, SLOT(setEnabled(bool)));
+	connect(ui->scriptEditor, SIGNAL(copyAvailable(bool)), ui->actionCopy, SLOT(setEnabled(bool)));
+	connect(QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(clipboardDataChanged()));
 
 	connect(ui->actionCut,SIGNAL(triggered()),ui->scriptEditor,SLOT(cut()));
 	connect(ui->actionCopy,SIGNAL(triggered()),ui->scriptEditor,SLOT(copy()));
@@ -78,6 +86,8 @@ void MainWindow::setupToolbar()
 	ui->actionGenerateGcode->setIcon(QIcon::fromTheme("format-justify-fill"));
 
 	connect(ui->actionCompileAndRender,SIGNAL(triggered()),this,SLOT(compileAndRender()));
+
+	clipboardDataChanged();
 }
 
 void MainWindow::setupLayout()
@@ -124,6 +134,13 @@ void MainWindow::setupEditor()
 	c->setFont(font);
 	console=new TextEditIODevice(c,this);
 }
+
+void MainWindow::clipboardDataChanged()
+{
+	if(const QMimeData* md = QApplication::clipboard()->mimeData())
+		ui->actionPaste->setEnabled(md->hasText());
+}
+
 
 void MainWindow::closeEvent(QCloseEvent* e)
 {

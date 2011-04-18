@@ -39,6 +39,7 @@ public:
 protected:
 	virtual void closeEvent(QCloseEvent*);
 private slots:
+	void clipboardDataChanged();
 	bool maybeSave();
 	void newFile();
 	bool saveFile();
