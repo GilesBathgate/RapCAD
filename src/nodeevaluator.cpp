@@ -17,13 +17,16 @@
  */
 
 #include "nodeevaluator.h"
+#include "cgalbuilder.h"
 
 NodeEvaluator::NodeEvaluator()
 {
 }
 
-void NodeEvaluator::visit(PrimitiveNode*)
+void NodeEvaluator::visit(PrimitiveNode* n)
 {
+	CGALBuilder b(n);
+	result = b.build();
 }
 
 void NodeEvaluator::visit(OperationNode*)
@@ -32,4 +35,9 @@ void NodeEvaluator::visit(OperationNode*)
 
 void NodeEvaluator::visit(TransformationNode*)
 {
+}
+
+CGAL::NefPolyhedron3 NodeEvaluator::getResult() const
+{
+    return result;
 }

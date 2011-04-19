@@ -42,10 +42,12 @@ GLView::GLView(QWidget* parent) : QGLWidget(parent)
 void GLView::setRenderer(Renderer* r)
 {
 	render=r;
+	updateGL();
 }
 
 void GLView::initializeGL()
 {
+	glEnable(GL_DEPTH_TEST);
 	glClearColor(1.0, 1.0, 1.0, 0.0);
 	GLfloat light_diffuse[] = {1.0, 1.0, 1.0, 1.0};
 	GLfloat light_position0[] = {-1.0, -1.0, +1.0, 0.0};

@@ -100,7 +100,8 @@ SOURCES += \
     src/nodeprinter.cpp \
     src/nodeevaluator.cpp \
     src/texteditiodevice.cpp \
-    src/backgroundworker.cpp
+    src/backgroundworker.cpp \
+    src/cgalbuilder.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -176,7 +177,8 @@ HEADERS  += \
     src/nodeevaluator.h \
     src/polygon.h \
     src/texteditiodevice.h \
-    src/backgroundworker.h
+    src/backgroundworker.h \
+    src/cgalbuilder.h
 
 FORMS += \
     src/mainwindow.ui

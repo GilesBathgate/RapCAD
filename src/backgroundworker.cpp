@@ -16,6 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QTime>
 #include "backgroundworker.h"
 #include "script.h"
 #include "treeprinter.h"
@@ -32,8 +33,11 @@ BackgroundWorker::BackgroundWorker(QTextStream& s,QObject* parent) :
 {
 }
 
-void BackgroundWorker::evaluate(QString path, bool print, QString format)
+CGAL::NefPolyhedron3 BackgroundWorker::evaluate(QString path, bool print, QString format)
 {
+	QTime t;
+	t.start();
+
 	Script* s=parse(path);
 
 	if(format =="solidpython") {
@@ -49,8 +53,16 @@ void BackgroundWorker::evaluate(QString path, bool print, QString format)
 	delete s;
 
 	Node* n = e.getRootNode();
-	NodePrinter p(output);
-	n->accept(p);
+	if(print) {
+		NodePrinter p(output);
+		n->accept(p);
+	}
 
+	NodeEvaluator ne;
+	n->accept(ne);
 	delete n;
+
+	output << QString("Total rendering time: %1ms").arg(t.elapsed());;
+
+	return ne.getResult();
 }

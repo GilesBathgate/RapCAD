@@ -20,6 +20,7 @@
 #define NODEEVALUATOR_H
 
 #include <QString>
+#include "cgal.h"
 #include "nodevisitor.h"
 #include "primitivenode.h"
 #include "operationnode.h"
@@ -32,8 +33,9 @@ public:
 	void visit(PrimitiveNode*);
 	void visit(OperationNode*);
 	void visit(TransformationNode*);
+	CGAL::NefPolyhedron3 getResult() const;
 private:
-	QString result;
+	CGAL::NefPolyhedron3 result;
 };
 
 #endif // NODEEVALUATOR_H

@@ -16,19 +16,20 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CGAL_H
-#define CGAL_H
-#include <CGAL/Exact_predicates_exact_constructions_kernel.h>
-#include <CGAL/Polyhedron_3.h>
-#include <CGAL/Nef_polyhedron_3.h>
+#ifndef CGALBUILDER_H
+#define CGALBUILDER_H
 
-namespace CGAL
+#include "cgal.h"
+#include "primitivenode.h"
+
+class CGALBuilder : public CGAL::Modifier_base<CGAL::HalfedgeDS>
 {
-typedef CGAL::Exact_predicates_exact_constructions_kernel Kernel3;
-typedef CGAL::Polyhedron_3<Kernel3> Polyhedron3;
-typedef Polyhedron3::HalfedgeDS HalfedgeDS;
-typedef CGAL::Nef_polyhedron_3<Kernel3> NefPolyhedron3;
-typedef Kernel3::Point_3 Point3;
-}
+public:
+	CGALBuilder(PrimitiveNode*);
+	CGAL::NefPolyhedron3 build();
+private:
+	void operator()(CGAL::HalfedgeDS&);
+	PrimitiveNode* polyNode;
+};
 
-#endif // CGAL_H
+#endif // CGALBUILDER_H
