@@ -28,7 +28,7 @@ QString BooleanValue::getValueString() const
 	return this->boolean ? "true" : "false";
 }
 
-bool BooleanValue::isTrue()
+bool BooleanValue::isTrue() const
 {
 	return this->boolean;
 }
