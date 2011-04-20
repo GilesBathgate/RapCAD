@@ -163,10 +163,13 @@ void Evaluator::visit(IfElseStatement* ifelse)
 {
 	ifelse->getExpression()->accept(*this);
 	Value* v = context->currentValue;
-	if(v->isTrue())
+	if(v->isTrue()) {
 		ifelse->getTrueStatement()->accept(*this);
-	else
-		ifelse->getFalseStatement()->accept(*this);
+	} else {
+		Statement* f=ifelse->getFalseStatement();
+		if(f)
+			f->accept(*this);
+	}
 }
 
 void Evaluator::visit(ForStatement* forstmt)
