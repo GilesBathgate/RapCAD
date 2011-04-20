@@ -64,20 +64,19 @@ void Evaluator::visit(ModuleScope* scp)
 
 	context->setArguments(arguments,parameters);
 
-	QVector<Node*> childnodes;
 	foreach(Declaration* d, scp->getDeclarations()) {
-		context->currentNode=NULL;
 		d->accept(*this);
-		if(context->currentNode)
-			childnodes.append(context->currentNode);
 	}
 
 	if(context->returnValue)
 		output << "Warning: return statement not valid inside module scope.\n";
 
+	//"pop" our child nodes.
+	QVector<Node*> childnodes=context->currentNodes;
 	finishContext();
 
-	createUnion(childnodes);
+	Node* n=createUnion(childnodes);
+	context->currentNodes.append(n);
 }
 
 void Evaluator::visit(Instance* inst)
@@ -86,13 +85,11 @@ void Evaluator::visit(Instance* inst)
 
 	startContext(context->currentScope);
 
-	QVector<Node*> childnodes;
 	foreach(Statement* s, inst->getChildren()) {
-		context->currentNode=NULL;
 		s->accept(*this);
-		if(context->currentNode)
-			childnodes.append(context->currentNode);
 	}
+	//"pop" our child nodes.
+	QVector<Node*> childnodes=context->currentNodes;
 	finishContext();
 
 	Module* mod = context->lookupModule(name);
@@ -104,10 +101,12 @@ void Evaluator::visit(Instance* inst)
 			p->accept(*this);
 
 		Scope* scp = mod->getScope();
-		if(scp)
+		if(scp) {
 			scp->accept(*this);
-		else
-			context->currentNode = mod->evaluate(context,childnodes);
+		} else {
+			Node* n= mod->evaluate(context,childnodes);
+			context->currentNodes.append(n);
+		}
 
 		context->arguments.clear();
 		context->parameters.clear();
@@ -190,8 +189,10 @@ void Evaluator::visit(ForStatement* forstmt)
 
 	}
 	delete i;
-
+	QVector<Node*> childnodes=context->currentNodes;
 	finishContext();
+	foreach(Node* n,childnodes)
+		context->currentNodes.append(n);
 
 	context->arguments.clear();
 }
@@ -379,14 +380,14 @@ void Evaluator::visit(Variable* var)
 	context->currentName=name;
 }
 
-void Evaluator::createUnion(QVector<Node*> childnodes)
+Node* Evaluator::createUnion(QVector<Node*> childnodes)
 {
 	if(childnodes.size()==1) {
-		context->currentNode=childnodes.at(0);
+		return childnodes.at(0);
 	} else {
 		UnionNode* u=new UnionNode();
 		u->setChildren(childnodes);
-		context->currentNode=u;
+		return u;
 	}
 }
 
@@ -402,19 +403,15 @@ void Evaluator::visit(Script* sc)
 	sc->addDeclaration(new IntersectionModule());
 
 	startContext(sc);
-	QVector<Node*> childnodes;
 	foreach(Declaration* d, sc->getDeclarations()) {
-		context->currentNode=NULL;
 		d->accept(*this);
-		if(context->currentNode)
-			childnodes.append(context->currentNode);
 	}
+	QVector<Node*> childnodes=context->currentNodes;
 
 	if(context->returnValue)
 		output << "Warning: return statement not valid inside global scope.\n";
 
-	createUnion(childnodes);
-	rootNode=context->currentNode;
+	rootNode=createUnion(childnodes);
 }
 
 Node* Evaluator::getRootNode() const

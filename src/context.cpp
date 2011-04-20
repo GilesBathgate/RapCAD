@@ -26,7 +26,6 @@ Context::Context()
 	currentValue=NULL;
 	returnValue=NULL;
 	currentScope=NULL;
-	currentNode=NULL;
 }
 
 Module* Context::lookupModule(QString name)
