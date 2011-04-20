@@ -24,9 +24,8 @@
 #include "tau.h"
 #include <stdio.h>
 
-CylinderModule::CylinderModule()
+CylinderModule::CylinderModule() : PrimitiveModule("cylinder")
 {
-	setName("cylinder");
 }
 
 Node* CylinderModule::evaluate(Context* ctx,QVector<Node*>)

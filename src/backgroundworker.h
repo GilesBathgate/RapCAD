@@ -29,7 +29,7 @@ class BackgroundWorker : public QObject
 public:
 	BackgroundWorker(QTextStream&,QObject* parent = 0);
 public slots:
-	CGAL::NefPolyhedron3 evaluate(QString path, bool print, QString format);
+	CGAL::NefPolyhedron3* evaluate(QString path, bool print, QString format);
 private:
 	QTextStream& output;
 };

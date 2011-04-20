@@ -25,12 +25,11 @@ CGALBuilder::CGALBuilder(PrimitiveNode* n)
 	polyNode=n;
 }
 
-CGAL::NefPolyhedron3 CGALBuilder::build()
+CGAL::NefPolyhedron3* CGALBuilder::build()
 {
 	CGAL::Polyhedron3 poly;
 	poly.delegate(*this);
-	CGAL::NefPolyhedron3 nefPoly(poly);
-	return nefPoly;
+	return new CGAL::NefPolyhedron3(poly);
 }
 
 void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)

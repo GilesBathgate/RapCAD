@@ -25,7 +25,7 @@
 class PrimitiveModule : public Module
 {
 public:
-	PrimitiveModule();
+	PrimitiveModule(const QString);
 protected:
 	int getFragments(double,double,double,double);
 	Polygon getCircle(double,double,double);

@@ -33,9 +33,9 @@ public:
 	void visit(PrimitiveNode*);
 	void visit(OperationNode*);
 	void visit(TransformationNode*);
-	CGAL::NefPolyhedron3 getResult() const;
+	CGAL::NefPolyhedron3* getResult() const;
 private:
-	CGAL::NefPolyhedron3 result;
+	CGAL::NefPolyhedron3* result;
 };
 
 #endif // NODEEVALUATOR_H

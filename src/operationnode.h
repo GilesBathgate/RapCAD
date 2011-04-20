@@ -8,8 +8,7 @@
 class OperationNode : public Node
 {
 public:
-	OperationNode();
-	void setName(QString);
+	OperationNode(const QString);
 	QString getName() const;
 	void accept(NodeVisitor&);
 private:

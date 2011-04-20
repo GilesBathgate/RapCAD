@@ -17,15 +17,18 @@
  */
 
 #include "evaluator.h"
+#include "vectorvalue.h"
+#include "rangevalue.h"
+
 #include "echomodule.h"
 #include "cubemodule.h"
 #include "cylindermodule.h"
 #include "polyhedronmodule.h"
-#include "vectorvalue.h"
-#include "rangevalue.h"
-#include "operationnode.h"
 #include "differencemodule.h"
-#include "nodeprinter.h"
+#include "unionmodule.h"
+#include "intersectionmodule.h"
+
+#include "unionnode.h"
 
 Evaluator::Evaluator(QTextStream& s) : output(s)
 {
@@ -381,8 +384,7 @@ void Evaluator::createUnion(QVector<Node*> childnodes)
 	if(childnodes.size()==1) {
 		context->currentNode=childnodes.at(0);
 	} else {
-		OperationNode* u=new OperationNode();
-		u->setName("union");
+		UnionNode* u=new UnionNode();
 		u->setChildren(childnodes);
 		context->currentNode=u;
 	}
@@ -396,6 +398,8 @@ void Evaluator::visit(Script* sc)
 	sc->addDeclaration(new CylinderModule());
 	sc->addDeclaration(new PolyhedronModule());
 	sc->addDeclaration(new DifferenceModule());
+	sc->addDeclaration(new UnionModule());
+	sc->addDeclaration(new IntersectionModule());
 
 	startContext(sc);
 	QVector<Node*> childnodes;

@@ -33,6 +33,7 @@ class Module : public Declaration
 {
 public:
 	Module();
+	Module(const QString);
 	~Module();
 	QString getName() const;
 	void setName(QString);

@@ -101,7 +101,12 @@ SOURCES += \
     src/nodeevaluator.cpp \
     src/texteditiodevice.cpp \
     src/backgroundworker.cpp \
-    src/cgalbuilder.cpp
+    src/cgalbuilder.cpp \
+    src/differencenode.cpp \
+    src/unionnode.cpp \
+    src/unionmodule.cpp \
+    src/intersectionmodule.cpp \
+    src/intersectionnode.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -178,7 +183,12 @@ HEADERS  += \
     src/polygon.h \
     src/texteditiodevice.h \
     src/backgroundworker.h \
-    src/cgalbuilder.h
+    src/cgalbuilder.h \
+    src/differencenode.h \
+    src/unionnode.h \
+    src/unionmodule.h \
+    src/intersectionmodule.h \
+    src/intersectionnode.h
 
 FORMS += \
     src/mainwindow.ui

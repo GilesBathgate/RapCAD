@@ -26,18 +26,35 @@ NodeEvaluator::NodeEvaluator()
 void NodeEvaluator::visit(PrimitiveNode* n)
 {
 	CGALBuilder b(n);
-	result = b.build();
+	result=b.build();
 }
 
-void NodeEvaluator::visit(OperationNode*)
+void NodeEvaluator::visit(OperationNode* op)
 {
+	QString name=op->getName();
+	CGAL::NefPolyhedron3* first=NULL;
+	foreach(Node* n, op->getChildren()) {
+		n->accept(*this);
+		if(!first) {
+			first=result;
+		} else {
+			if(name=="union")
+				*first=first->join(*result);
+			else if(name=="difference")
+				*first=first->difference(*result);
+			else if(name=="intersection")
+				*first=first->intersection(*result);
+		}
+	}
+
+	result=first;
 }
 
 void NodeEvaluator::visit(TransformationNode*)
 {
 }
 
-CGAL::NefPolyhedron3 NodeEvaluator::getResult() const
+CGAL::NefPolyhedron3* NodeEvaluator::getResult() const
 {
-    return result;
+	return result;
 }

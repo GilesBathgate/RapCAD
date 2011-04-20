@@ -19,9 +19,8 @@
 #include "echomodule.h"
 #include "context.h"
 
-EchoModule::EchoModule(QTextStream& s) : output(s)
+EchoModule::EchoModule(QTextStream& s) : Module("echo"), output(s)
 {
-	setName("echo");
 }
 
 Node* EchoModule::evaluate(Context* ctx,QVector<Node*>)

@@ -22,9 +22,8 @@
 #include "vectorvalue.h"
 #include "booleanvalue.h"
 
-CubeModule::CubeModule()
+CubeModule::CubeModule() : PrimitiveModule("cube")
 {
-	setName("cube");
 }
 
 Node* CubeModule::evaluate(Context* ctx,QVector<Node*>)

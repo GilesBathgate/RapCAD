@@ -23,9 +23,8 @@
 #include "primitivenode.h"
 #include <stdio.h>
 
-PolyhedronModule::PolyhedronModule()
+PolyhedronModule::PolyhedronModule() : PrimitiveModule("polyhedron")
 {
-	setName("polyhedron");
 }
 
 Node* PolyhedronModule::evaluate(Context* ctx,QVector<Node*>)

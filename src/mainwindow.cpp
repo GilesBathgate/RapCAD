@@ -254,8 +254,8 @@ void MainWindow::compileAndRender()
 	if(maybeSave(false)) {
 		QTextStream out(console);
 		BackgroundWorker b(out);
-		CGAL::NefPolyhedron3 n=b.evaluate(fileName,false,"");
-		CGALRenderer* r = new CGALRenderer(n);
+		CGAL::NefPolyhedron3* n=b.evaluate(fileName,false,"");
+		CGALRenderer* r = new CGALRenderer(*n);
 		ui->view->setRenderer(r);
 	}
 }

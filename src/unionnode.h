@@ -16,63 +16,15 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "module.h"
+#ifndef UNIONNODE_H
+#define UNIONNODE_H
 
-Module::Module()
+#include "operationnode.h"
+
+class UnionNode : public OperationNode
 {
-	scope=NULL;
-}
+public:
+	UnionNode();
+};
 
-Module::Module(const QString n) : name(n)
-{
-	scope=NULL;
-}
-
-Module::~Module()
-{
-	for(int i=0; i<parameters.size(); i++)
-		delete parameters.at(i);
-
-	delete scope;
-}
-
-QString Module::getName() const
-{
-	return this->name;
-}
-
-void Module::setName(QString name)
-{
-	this->name = name;
-}
-
-
-QVector<Parameter*> Module::getParameters() const
-{
-	return this->parameters;
-}
-
-void Module::setParameters(QVector<Parameter*> params)
-{
-	this->parameters = params;
-}
-
-void Module::setScope(Scope* scp)
-{
-	this->scope = scp;
-}
-
-Scope* Module::getScope() const
-{
-	return this->scope;
-}
-
-void Module::accept(TreeVisitor& v)
-{
-	v.visit(this);
-}
-
-Node* Module::evaluate(Context*,QVector<Node*>)
-{
-	return NULL;
-}
+#endif // UNIONNODE_H

@@ -1,12 +1,7 @@
 #include "operationnode.h"
 
-OperationNode::OperationNode()
+OperationNode::OperationNode(const QString n) : name(n)
 {
-}
-
-void OperationNode::setName(QString n)
-{
-	name=n;
 }
 
 QString OperationNode::getName() const

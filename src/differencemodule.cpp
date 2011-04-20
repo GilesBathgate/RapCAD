@@ -17,17 +17,15 @@
  */
 
 #include "differencemodule.h"
-#include "operationnode.h"
+#include "differencenode.h"
 
-DifferenceModule::DifferenceModule()
+DifferenceModule::DifferenceModule() : Module("difference")
 {
-	this->setName("difference");
 }
 
 Node* DifferenceModule::evaluate(Context*,QVector<Node*> childs)
 {
-	OperationNode* d = new OperationNode();
-	d->setName("difference");
+	DifferenceNode* d = new DifferenceNode();
 	d->setChildren(childs);
 	return d;
 }

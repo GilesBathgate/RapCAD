@@ -19,7 +19,7 @@
 #include "primitivemodule.h"
 #include "tau.h"
 
-PrimitiveModule::PrimitiveModule()
+PrimitiveModule::PrimitiveModule(const QString n) : Module(n)
 {
 }
 
