@@ -32,6 +32,11 @@ void NodeEvaluator::visit(PrimitiveNode* n)
 void NodeEvaluator::visit(OperationNode* op)
 {
 	QString name=op->getName();
+	evaluate(op,name);
+}
+
+void NodeEvaluator::evaluate(Node* op,QString name)
+{
 	CGAL::NefPolyhedron3* first=NULL;
 	foreach(Node* n, op->getChildren()) {
 		n->accept(*this);
@@ -50,8 +55,16 @@ void NodeEvaluator::visit(OperationNode* op)
 	result=first;
 }
 
-void NodeEvaluator::visit(TransformationNode*)
+void NodeEvaluator::visit(TransformationNode* tr)
 {
+	evaluate(tr,"union");
+	double* m=tr->matrix;
+	CGAL::AffTransformation3 t(
+		m[0], m[4], m[ 8], m[12],
+		m[1], m[5], m[ 9], m[13],
+		m[2], m[6], m[10], m[14], m[15]);
+
+	result->transform(t);
 }
 
 CGAL::NefPolyhedron3* NodeEvaluator::getResult() const

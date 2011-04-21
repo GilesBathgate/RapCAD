@@ -16,27 +16,36 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NODEEVALUATOR_H
-#define NODEEVALUATOR_H
-
-#include <QString>
-#include "cgal.h"
-#include "nodevisitor.h"
-#include "primitivenode.h"
-#include "operationnode.h"
+#include "translatemodule.h"
+#include "context.h"
+#include "vectorvalue.h"
 #include "transformationnode.h"
 
-class NodeEvaluator : public NodeVisitor
+TranslateModule::TranslateModule() : TransformationModule("translate")
 {
-public:
-	NodeEvaluator();
-	void visit(PrimitiveNode*);
-	void visit(OperationNode*);
-	void evaluate(Node*,QString);
-	void visit(TransformationNode*);
-	CGAL::NefPolyhedron3* getResult() const;
-private:
-	CGAL::NefPolyhedron3* result;
-};
+}
 
-#endif // NODEEVALUATOR_H
+Node* TranslateModule::evaluate(Context* ctx,QVector<Node*> childs)
+{
+	Point v;
+	VectorValue* vec=dynamic_cast<VectorValue*>(ctx->getArgument(0,"vector"));
+	if(vec)
+		v=vec->getPoint();
+
+	double x=0,y=0,z=0;
+	v.getXYZ(x,y,z);
+
+	double m[16] = {
+	1,0,0,0,
+	0,1,0,0,
+	0,0,1,0,
+	x,y,z,1
+	};
+
+	TransformationNode* n=new TransformationNode();
+	for(int i=0; i<16; i++)
+		n->matrix[i]=m[i];
+
+	n->setChildren(childs);
+	return n;
+}

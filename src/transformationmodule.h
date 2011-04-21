@@ -16,27 +16,15 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NODEEVALUATOR_H
-#define NODEEVALUATOR_H
+#ifndef TRANSFORMATIONMODULE_H
+#define TRANSFORMATIONMODULE_H
 
-#include <QString>
-#include "cgal.h"
-#include "nodevisitor.h"
-#include "primitivenode.h"
-#include "operationnode.h"
-#include "transformationnode.h"
+#include "module.h"
 
-class NodeEvaluator : public NodeVisitor
+class TransformationModule : public Module
 {
 public:
-	NodeEvaluator();
-	void visit(PrimitiveNode*);
-	void visit(OperationNode*);
-	void evaluate(Node*,QString);
-	void visit(TransformationNode*);
-	CGAL::NefPolyhedron3* getResult() const;
-private:
-	CGAL::NefPolyhedron3* result;
+	TransformationModule(const QString);
 };
 
-#endif // NODEEVALUATOR_H
+#endif // TRANSFORMATIONMODULE_H

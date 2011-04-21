@@ -106,7 +106,9 @@ SOURCES += \
     src/unionnode.cpp \
     src/unionmodule.cpp \
     src/intersectionmodule.cpp \
-    src/intersectionnode.cpp
+    src/intersectionnode.cpp \
+    src/translatemodule.cpp \
+    src/transformationmodule.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -188,7 +190,9 @@ HEADERS  += \
     src/unionnode.h \
     src/unionmodule.h \
     src/intersectionmodule.h \
-    src/intersectionnode.h
+    src/intersectionnode.h \
+    src/translatemodule.h \
+    src/transformationmodule.h
 
 FORMS += \
     src/mainwindow.ui

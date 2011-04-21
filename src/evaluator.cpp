@@ -27,6 +27,7 @@
 #include "differencemodule.h"
 #include "unionmodule.h"
 #include "intersectionmodule.h"
+#include "translatemodule.h"
 
 #include "unionnode.h"
 
@@ -162,13 +163,13 @@ void Evaluator::visit(CompoundStatement* stmt)
 void Evaluator::visit(IfElseStatement* ifelse)
 {
 	ifelse->getExpression()->accept(*this);
-	Value* v = context->currentValue;
+	Value* v=context->currentValue;
 	if(v->isTrue()) {
 		ifelse->getTrueStatement()->accept(*this);
 	} else {
-		Statement* f=ifelse->getFalseStatement();
-		if(f)
-			f->accept(*this);
+		Statement* falseStmt=ifelse->getFalseStatement();
+		if(falseStmt)
+			falseStmt->accept(*this);
 	}
 }
 
@@ -404,6 +405,7 @@ void Evaluator::visit(Script* sc)
 	sc->addDeclaration(new DifferenceModule());
 	sc->addDeclaration(new UnionModule());
 	sc->addDeclaration(new IntersectionModule());
+	sc->addDeclaration(new TranslateModule());
 
 	startContext(sc);
 	foreach(Declaration* d, sc->getDeclarations()) {
