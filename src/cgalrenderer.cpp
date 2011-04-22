@@ -38,12 +38,8 @@ void CGALRenderer::draw(bool skeleton, bool showedges)
 	init();
 	if(!skeleton) {
 		glCallList(this->object_list_+2);
-		if(showedges) {
-			glDisable(GL_LIGHTING);
-			glCallList(this->object_list_+1);
-			glCallList(this->object_list_);
-		}
-	} else {
+	}
+	if(skeleton||showedges) {
 		glDisable(GL_LIGHTING);
 		glCallList(this->object_list_+1);
 		glCallList(this->object_list_);
