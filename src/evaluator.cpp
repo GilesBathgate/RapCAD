@@ -28,6 +28,7 @@
 #include "unionmodule.h"
 #include "intersectionmodule.h"
 #include "translatemodule.h"
+#include "symmetricdifferencemodule.h"
 
 #include "unionnode.h"
 
@@ -406,6 +407,7 @@ void Evaluator::visit(Script* sc)
 	sc->addDeclaration(new UnionModule());
 	sc->addDeclaration(new IntersectionModule());
 	sc->addDeclaration(new TranslateModule());
+	sc->addDeclaration(new SymmetricDifferenceModule());
 
 	startContext(sc);
 	foreach(Declaration* d, sc->getDeclarations()) {

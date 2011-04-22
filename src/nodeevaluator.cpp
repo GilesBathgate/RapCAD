@@ -49,6 +49,8 @@ void NodeEvaluator::evaluate(Node* op,QString name)
 				*first=first->difference(*result);
 			else if(name=="intersection")
 				*first=first->intersection(*result);
+			else if(name=="symmetric_difference")
+				*first=first->symmetric_difference(*result);
 		}
 	}
 

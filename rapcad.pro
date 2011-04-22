@@ -108,7 +108,9 @@ SOURCES += \
     src/intersectionmodule.cpp \
     src/intersectionnode.cpp \
     src/translatemodule.cpp \
-    src/transformationmodule.cpp
+    src/transformationmodule.cpp \
+    src/symmetricdifferencemodule.cpp \
+    src/symmetricdifferencenode.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -192,7 +194,9 @@ HEADERS  += \
     src/intersectionmodule.h \
     src/intersectionnode.h \
     src/translatemodule.h \
-    src/transformationmodule.h
+    src/transformationmodule.h \
+    src/symmetricdifferencemodule.h \
+    src/symmetricdifferencenode.h
 
 FORMS += \
     src/mainwindow.ui
