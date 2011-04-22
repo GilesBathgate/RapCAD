@@ -25,8 +25,8 @@
 class CGALBuilder : public CGAL::Modifier_base<CGAL::HalfedgeDS>
 {
 public:
-	CGALBuilder(PrimitiveNode*);
-	CGAL::NefPolyhedron3* build();
+	CGALBuilder();
+	void setPrimitive(PrimitiveNode*);
 private:
 	void operator()(CGAL::HalfedgeDS&);
 	PrimitiveNode* polyNode;

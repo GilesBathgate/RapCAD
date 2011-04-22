@@ -17,7 +17,6 @@
  */
 
 #include "nodeevaluator.h"
-#include "cgalbuilder.h"
 
 NodeEvaluator::NodeEvaluator()
 {
@@ -25,8 +24,10 @@ NodeEvaluator::NodeEvaluator()
 
 void NodeEvaluator::visit(PrimitiveNode* n)
 {
-	CGALBuilder b(n);
-	result=b.build();
+	this->setPrimitive(n);
+	CGAL::Polyhedron3 poly;
+	poly.delegate(*this);
+	result=new CGAL::NefPolyhedron3(poly);
 }
 
 void NodeEvaluator::visit(OperationNode* op)

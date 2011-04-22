@@ -20,13 +20,13 @@
 #define NODEEVALUATOR_H
 
 #include <QString>
-#include "cgal.h"
+#include "cgalbuilder.h"
 #include "nodevisitor.h"
 #include "primitivenode.h"
 #include "operationnode.h"
 #include "transformationnode.h"
 
-class NodeEvaluator : public NodeVisitor
+class NodeEvaluator : public NodeVisitor, private CGALBuilder
 {
 public:
 	NodeEvaluator();

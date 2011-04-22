@@ -20,16 +20,13 @@
 #include "cgalbuilder.h"
 typedef CGAL::HalfedgeDS::Vertex Vertex;
 
-CGALBuilder::CGALBuilder(PrimitiveNode* n)
+CGALBuilder::CGALBuilder()
 {
-	polyNode=n;
 }
 
-CGAL::NefPolyhedron3* CGALBuilder::build()
+void CGALBuilder::setPrimitive(PrimitiveNode* n)
 {
-	CGAL::Polyhedron3 poly;
-	poly.delegate(*this);
-	return new CGAL::NefPolyhedron3(poly);
+	polyNode=n;
 }
 
 void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
