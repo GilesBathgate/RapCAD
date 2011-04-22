@@ -27,7 +27,8 @@ void NodeEvaluator::visit(PrimitiveNode* n)
 	this->setPrimitive(n);
 	CGAL::Polyhedron3 poly;
 	poly.delegate(*this);
-	result=new CGAL::NefPolyhedron3(poly);
+	CGAL::NefPolyhedron3* nefPoly=new CGAL::NefPolyhedron3(poly);
+	result=new CGALPrimitive(nefPoly);
 }
 
 void NodeEvaluator::visit(OperationNode* op)
@@ -38,20 +39,20 @@ void NodeEvaluator::visit(OperationNode* op)
 
 void NodeEvaluator::evaluate(Node* op,QString name)
 {
-	CGAL::NefPolyhedron3* first=NULL;
+	CGALPrimitive* first=NULL;
 	foreach(Node* n, op->getChildren()) {
 		n->accept(*this);
 		if(!first) {
 			first=result;
 		} else {
 			if(name=="union")
-				*first=first->join(*result);
+				first=first->join(result);
 			else if(name=="difference")
-				*first=first->difference(*result);
+				first=first->difference(result);
 			else if(name=="intersection")
-				*first=first->intersection(*result);
+				first=first->intersection(result);
 			else if(name=="symmetric_difference")
-				*first=first->symmetric_difference(*result);
+				first=first->symmetric_difference(result);
 		}
 	}
 
@@ -70,7 +71,7 @@ void NodeEvaluator::visit(TransformationNode* tr)
 	result->transform(t);
 }
 
-CGAL::NefPolyhedron3* NodeEvaluator::getResult() const
+CGALPrimitive* NodeEvaluator::getResult() const
 {
 	return result;
 }

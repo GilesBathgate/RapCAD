@@ -33,7 +33,7 @@ BackgroundWorker::BackgroundWorker(QTextStream& s,QObject* parent) :
 {
 }
 
-CGAL::NefPolyhedron3* BackgroundWorker::evaluate(QString path, bool print, QString format)
+CGALPrimitive* BackgroundWorker::evaluate(QString path, bool print, QString format)
 {
 	QTime t;
 	t.start();

@@ -18,12 +18,21 @@
 
 #ifndef CGAL_H
 #define CGAL_H
+
+#include <CGAL/Gmpq.h>
+#include <CGAL/Extended_cartesian.h>
 #include <CGAL/Exact_predicates_exact_constructions_kernel.h>
+#include <CGAL/Aff_transformation_2.h>
 #include <CGAL/Polyhedron_3.h>
+#include <CGAL/Nef_polyhedron_2.h>
 #include <CGAL/Nef_polyhedron_3.h>
 
 namespace CGAL
 {
+typedef CGAL::Extended_cartesian<CGAL::Gmpq> Kernel2;
+typedef CGAL::Nef_polyhedron_2<Kernel2> NefPolyhedron2;
+typedef CGAL::Aff_transformation_2<Kernel2> AffTransformation2;
+
 typedef CGAL::Exact_predicates_exact_constructions_kernel Kernel3;
 typedef CGAL::Polyhedron_3<Kernel3> Polyhedron3;
 typedef Polyhedron3::HalfedgeDS HalfedgeDS;

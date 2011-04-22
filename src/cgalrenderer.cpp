@@ -20,7 +20,7 @@
 
 using CGAL::OGL::Nef3_Converter;
 
-CGALRenderer::CGALRenderer(const CGAL::NefPolyhedron3& p)
+CGALRenderer::CGALRenderer(const CGALPrimitive& p)
 {
 	//TODO read in colors from preferences instead of
 	//hard coded constants.
@@ -30,8 +30,7 @@ CGALRenderer::CGALRenderer(const CGAL::NefPolyhedron3& p)
 	setColor(EdgeColor,false,CGAL::Color(0xff,0xec,0x5e));
 	setColor(FacetColor,true,CGAL::Color(0x9d,0xcb,0x51));
 	setColor(FacetColor,false,CGAL::Color(0xf9,0xd7,0x2c));
-
-	Nef3_Converter<CGAL::NefPolyhedron3>::convert_to_OGLPolyhedron(p,this);
+	Nef3_Converter<CGAL::NefPolyhedron3>::convert_to_OGLPolyhedron(p.getPoly3(),this);
 }
 
 void CGALRenderer::draw(bool skeleton, bool showedges)

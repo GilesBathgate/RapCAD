@@ -21,6 +21,7 @@
 
 #include <QString>
 #include "cgalbuilder.h"
+#include "cgalprimitive.h"
 #include "nodevisitor.h"
 #include "primitivenode.h"
 #include "operationnode.h"
@@ -34,9 +35,9 @@ public:
 	void visit(OperationNode*);
 	void evaluate(Node*,QString);
 	void visit(TransformationNode*);
-	CGAL::NefPolyhedron3* getResult() const;
+	CGALPrimitive* getResult() const;
 private:
-	CGAL::NefPolyhedron3* result;
+	CGALPrimitive* result;
 };
 
 #endif // NODEEVALUATOR_H

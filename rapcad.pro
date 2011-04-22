@@ -110,7 +110,8 @@ SOURCES += \
     src/translatemodule.cpp \
     src/transformationmodule.cpp \
     src/symmetricdifferencemodule.cpp \
-    src/symmetricdifferencenode.cpp
+    src/symmetricdifferencenode.cpp \
+    src/cgalprimitive.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -196,7 +197,8 @@ HEADERS  += \
     src/translatemodule.h \
     src/transformationmodule.h \
     src/symmetricdifferencemodule.h \
-    src/symmetricdifferencenode.h
+    src/symmetricdifferencenode.h \
+    src/cgalprimitive.h
 
 FORMS += \
     src/mainwindow.ui

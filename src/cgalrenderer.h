@@ -21,12 +21,12 @@
 
 #include "OGL_helper.h"
 #include "renderer.h"
-#include "cgal.h"
+#include "cgalprimitive.h"
 
 class CGALRenderer : public Renderer, private CGAL::OGL::Polyhedron
 {
 public:
-	CGALRenderer(const CGAL::NefPolyhedron3&);
+	CGALRenderer(const CGALPrimitive&);
 	void draw(bool,bool);
 private:
 	enum Color_e {

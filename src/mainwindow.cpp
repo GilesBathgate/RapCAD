@@ -25,7 +25,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "backgroundworker.h"
-#include "cgal.h"
+#include "cgalprimitive.h"
 #include "cgalrenderer.h"
 
 MainWindow::MainWindow(QWidget* parent) :
@@ -254,7 +254,7 @@ void MainWindow::compileAndRender()
 	if(maybeSave(false)) {
 		QTextStream out(console);
 		BackgroundWorker b(out);
-		CGAL::NefPolyhedron3* n=b.evaluate(fileName,false,"");
+		CGALPrimitive* n=b.evaluate(fileName,false,"");
 		CGALRenderer* r = new CGALRenderer(*n);
 		ui->view->setRenderer(r);
 	}
