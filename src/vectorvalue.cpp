@@ -46,7 +46,7 @@ bool VectorValue::isTrue() const
 Point VectorValue::getPoint() const
 {
 
-	NumberValue *nx=NULL,*ny=NULL,*nz=NULL;
+	NumberValue* nx=NULL,*ny=NULL,*nz=NULL;
 	int s=children.size();
 	if(s>0)
 		nx=dynamic_cast<NumberValue*>(children.at(0));

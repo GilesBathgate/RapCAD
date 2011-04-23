@@ -16,21 +16,17 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CGAL_H
-#define CGAL_H
+#ifndef CIRCLEMODULE_H
+#define CIRCLEMODULE_H
 
-#include <CGAL/Exact_predicates_exact_constructions_kernel.h>
-#include <CGAL/Polyhedron_3.h>
-#include <CGAL/Nef_polyhedron_3.h>
+#include "primitivemodule.h"
+#include "context.h"
 
-namespace CGAL
+class CircleModule : public PrimitiveModule
 {
-typedef CGAL::Exact_predicates_exact_constructions_kernel Kernel3;
-typedef CGAL::Polyhedron_3<Kernel3> Polyhedron3;
-typedef Polyhedron3::HalfedgeDS HalfedgeDS;
-typedef CGAL::Nef_polyhedron_3<Kernel3> NefPolyhedron3;
-typedef Kernel3::Point_3 Point3;
-typedef NefPolyhedron3::Aff_transformation_3 AffTransformation3;
-}
+public:
+	CircleModule();
+	Node* evaluate(Context*,QVector<Node*>);
+};
 
-#endif // CGAL_H
+#endif // CIRCLEMODULE_H

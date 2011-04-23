@@ -112,7 +112,8 @@ SOURCES += \
     src/symmetricdifferencemodule.cpp \
     src/symmetricdifferencenode.cpp \
     src/cgalprimitive.cpp \
-    src/squaremodule.cpp
+    src/squaremodule.cpp \
+    src/circlemodule.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -200,7 +201,8 @@ HEADERS  += \
     src/symmetricdifferencemodule.h \
     src/symmetricdifferencenode.h \
     src/cgalprimitive.h \
-    src/squaremodule.h
+    src/squaremodule.h \
+    src/circlemodule.h
 
 FORMS += \
     src/mainwindow.ui

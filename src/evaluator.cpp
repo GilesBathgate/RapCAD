@@ -24,6 +24,7 @@
 #include "cubemodule.h"
 #include "squaremodule.h"
 #include "cylindermodule.h"
+#include "circlemodule.h"
 #include "polyhedronmodule.h"
 
 #include "differencemodule.h"
@@ -405,6 +406,7 @@ void Evaluator::visit(Script* sc)
 	sc->addDeclaration(new CubeModule());
 	sc->addDeclaration(new SquareModule());
 	sc->addDeclaration(new CylinderModule());
+	sc->addDeclaration(new CircleModule());
 	sc->addDeclaration(new PolyhedronModule());
 	sc->addDeclaration(new DifferenceModule());
 	sc->addDeclaration(new UnionModule());

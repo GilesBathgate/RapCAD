@@ -16,21 +16,35 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CGAL_H
-#define CGAL_H
+#include "circlemodule.h"
+#include "numbervalue.h"
 
-#include <CGAL/Exact_predicates_exact_constructions_kernel.h>
-#include <CGAL/Polyhedron_3.h>
-#include <CGAL/Nef_polyhedron_3.h>
-
-namespace CGAL
+CircleModule::CircleModule() : PrimitiveModule("circle")
 {
-typedef CGAL::Exact_predicates_exact_constructions_kernel Kernel3;
-typedef CGAL::Polyhedron_3<Kernel3> Polyhedron3;
-typedef Polyhedron3::HalfedgeDS HalfedgeDS;
-typedef CGAL::Nef_polyhedron_3<Kernel3> NefPolyhedron3;
-typedef Kernel3::Point_3 Point3;
-typedef NefPolyhedron3::Aff_transformation_3 AffTransformation3;
 }
 
-#endif // CGAL_H
+Node* CircleModule::evaluate(Context* ctx,QVector<Node*>)
+{
+	NumberValue* rValue=dynamic_cast<NumberValue*>(ctx->getArgument(0,"radius"));
+
+	double r,fn,fs,fa;
+	if(rValue) {
+
+		r=rValue->getNumber();
+	}
+
+	fn=0.0;
+	fs=1.0;
+	fa=12.0;
+	int f = getFragments(r,fn,fs,fa);
+	Polygon c = getCircle(r,f,0);
+	PrimitiveNode* p = new PrimitiveNode();
+
+	if(r > 0) {
+		p->createPolygon();
+		for(int i=0; i<f; i++)
+			p->appendVertex(c.at(i));
+	}
+
+	return p;
+}

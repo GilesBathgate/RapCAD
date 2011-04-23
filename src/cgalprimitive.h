@@ -7,17 +7,14 @@ class CGALPrimitive
 {
 public:
 	CGALPrimitive(CGAL::NefPolyhedron3*);
-	CGALPrimitive* join(CGALPrimitive*);
-	CGALPrimitive* intersection(CGALPrimitive*);
-	CGALPrimitive* difference(CGALPrimitive*);
-	CGALPrimitive* symmetric_difference(CGALPrimitive*);
-	void transform(const CGAL::AffTransformation2&);
+	CGALPrimitive* join(const CGALPrimitive*);
+	CGALPrimitive* intersection(const CGALPrimitive*);
+	CGALPrimitive* difference(const CGALPrimitive*);
+	CGALPrimitive* symmetric_difference(const CGALPrimitive*);
 	void transform(const CGAL::AffTransformation3&);
 	const CGAL::NefPolyhedron3& getPoly3() const;
 private:
-	int dimentions;
 	CGAL::NefPolyhedron3* poly3;
-	CGAL::NefPolyhedron2* poly2;
 };
 
 #endif // CGALPRIMITIVE_H
