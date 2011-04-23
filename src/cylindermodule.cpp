@@ -38,7 +38,7 @@ Node* CylinderModule::evaluate(Context* ctx,QVector<Node*>)
 	BooleanValue* centerValue;
 
 	double r=0,r1=0,r2=0,fn,fs,fa;
-	if(!r1Value||!r2Value) {
+	if(!r1Value) {
 		NumberValue* rValue = dynamic_cast<NumberValue*>(ctx->getArgument(1,"radius"));
 		centerValue = dynamic_cast<BooleanValue*>(ctx->getArgument(2,"center"));
 		if(rValue)
