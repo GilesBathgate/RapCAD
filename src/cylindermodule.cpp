@@ -33,20 +33,23 @@ Node* CylinderModule::evaluate(Context* ctx,QVector<Node*>)
 	NumberValue* heightValue = dynamic_cast<NumberValue*>(ctx->getArgument(0,"height"));
 	double h = heightValue->getNumber();
 
-	NumberValue* rValue = dynamic_cast<NumberValue*>(ctx->getArgument(1,"radius"));
+	NumberValue* r1Value = dynamic_cast<NumberValue*>(ctx->getArgument(1,"radius1",true));
+	NumberValue* r2Value = dynamic_cast<NumberValue*>(ctx->getArgument(2,"radius2",true));
 	BooleanValue* centerValue;
 
-	double r,r1,r2,fn,fs,fa;
-	if(!rValue) {
-		NumberValue* r1Value = dynamic_cast<NumberValue*>(ctx->getArgument(1,"radius1"));
-		NumberValue* r2Value = dynamic_cast<NumberValue*>(ctx->getArgument(2,"radius2"));
-		centerValue = dynamic_cast<BooleanValue*>(ctx->getArgument(3,"center"));
-		r1=r1Value->getNumber();
-		r2=r2Value->getNumber();
-		r=fmax(r1,r2);
-	} else {
+	double r=0,r1=0,r2=0,fn,fs,fa;
+	if(!r1Value||!r2Value) {
+		NumberValue* rValue = dynamic_cast<NumberValue*>(ctx->getArgument(1,"radius"));
 		centerValue = dynamic_cast<BooleanValue*>(ctx->getArgument(2,"center"));
-		r1=r2=r=rValue->getNumber();
+		if(rValue)
+			r1=r2=r=rValue->getNumber();
+	} else {
+		if(r1Value)
+			r1=r1Value->getNumber();
+		if(r2Value)
+			r2=r2Value->getNumber();
+		centerValue = dynamic_cast<BooleanValue*>(ctx->getArgument(3,"center"));
+		r=fmax(r1,r2);
 	}
 	bool center = false;
 	if(centerValue)
@@ -70,26 +73,11 @@ Node* CylinderModule::evaluate(Context* ctx,QVector<Node*>)
 
 	for(int i=0; i<f; i++) {
 		int j=(i+1)%f;
-		if(r1==r2) {
-			p->createPolygon();
-			p->appendVertex(c1.at(i));
-			p->appendVertex(c2.at(i));
-			p->appendVertex(c2.at(j));
-			p->appendVertex(c1.at(j));
-		} else {
-			if(r1 > 0) {
-				p->createPolygon();
-				p->appendVertex(c1.at(i));
-				p->appendVertex(c2.at(i));
-				p->appendVertex(c1.at(j));
-			}
-			if(r2 > 0) {
-				p->createPolygon();
-				p->appendVertex(c2.at(i));
-				p->appendVertex(c2.at(j));
-				p->appendVertex(c1.at(j));
-			}
-		}
+		p->createPolygon();
+		p->appendVertex(c1.at(i));
+		p->appendVertex(c2.at(i));
+		p->appendVertex(c2.at(j));
+		p->appendVertex(c1.at(j));
 	}
 
 	if(r1 > 0) {

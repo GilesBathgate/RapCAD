@@ -52,9 +52,11 @@ public:
 
 	void setArguments(QVector<Value*>,QVector<Value*>);
 	Value* getArgument(int,QString);
+	Value* getArgument(int,QString,bool);
 	Value* getArgument(int,QString,QString);
 private:
-	Value* getArgument(bool,int,QString);
+	Value* matchArgument(bool,bool,int,QString);
+	bool match(bool,bool,QString,QString);
 	QHash<QString,Value*> variables;
 	QHash<QString,Module*> modules;
 	QHash<QString,Function*> functions;

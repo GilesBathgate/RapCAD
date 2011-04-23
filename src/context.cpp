@@ -109,14 +109,19 @@ bool Context::contains(QVector<Value*> params,QString name)
 
 Value* Context::getArgument(int index, QString name)
 {
-	return getArgument(true,index,name);
+	return matchArgument(true,false,index,name);
+}
+
+Value* Context::getArgument(int index,QString name,bool matchLast)
+{
+	return matchArgument(true,matchLast,index,name);
 }
 
 Value* Context::getArgument(int index, QString name, QString deprecated)
 {
-	Value* v = getArgument(true,index,name);
+	Value* v = matchArgument(true,false,index,name);
 	if(!v) {
-		v = getArgument(false,index,deprecated);
+		v = matchArgument(false,false,index,deprecated);
 		if(v)
 			printf("Warning '%s' parameter is deprecated use '%s' instead\n",deprecated.toLocal8Bit().constData(),name.toLocal8Bit().constData());
 	}
@@ -124,21 +129,32 @@ Value* Context::getArgument(int index, QString name, QString deprecated)
 	return v;
 }
 
-Value* Context::getArgument(bool allowChar, int index, QString name)
+Value* Context::matchArgument(bool allowChar,bool matchLast, int index, QString name)
 {
 	if(index >= arguments.size())
 		return NULL;
 
 	Value* arg = arguments.at(index);
 	QString argName = arg->getName();
-	if(argName.isEmpty() || (allowChar && argName.at(0)==name.at(0)) || argName==name)
+	if(argName.isEmpty() || match(allowChar,matchLast,argName,name))
 		return arg;
 
 	foreach(Value* namedArg,arguments) {
 		QString namedArgName = namedArg->getName();
-		if((allowChar && namedArgName.at(0)==name.at(0)) || namedArgName==name)
+		if(match(allowChar,matchLast,namedArgName,name))
 			return namedArg;
 	}
 
 	return NULL;
+}
+
+bool Context::match(bool allowChar,bool matchLast, QString a,QString n)
+{
+	if(allowChar) {
+		if(matchLast)
+			return a.left(1)==n.left(1) && a.right(1)==n.right(1);
+		else
+			return a.left(1)==n.left(1);
+	}
+	return a==n;
 }
