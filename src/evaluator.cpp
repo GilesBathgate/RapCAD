@@ -22,8 +22,10 @@
 
 #include "echomodule.h"
 #include "cubemodule.h"
+#include "squaremodule.h"
 #include "cylindermodule.h"
 #include "polyhedronmodule.h"
+
 #include "differencemodule.h"
 #include "unionmodule.h"
 #include "intersectionmodule.h"
@@ -401,6 +403,7 @@ void Evaluator::visit(Script* sc)
 	//TODO add our "builtin" here for now
 	sc->addDeclaration(new EchoModule(output));
 	sc->addDeclaration(new CubeModule());
+	sc->addDeclaration(new SquareModule());
 	sc->addDeclaration(new CylinderModule());
 	sc->addDeclaration(new PolyhedronModule());
 	sc->addDeclaration(new DifferenceModule());

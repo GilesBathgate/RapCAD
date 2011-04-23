@@ -111,7 +111,8 @@ SOURCES += \
     src/transformationmodule.cpp \
     src/symmetricdifferencemodule.cpp \
     src/symmetricdifferencenode.cpp \
-    src/cgalprimitive.cpp
+    src/cgalprimitive.cpp \
+    src/squaremodule.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -198,7 +199,8 @@ HEADERS  += \
     src/transformationmodule.h \
     src/symmetricdifferencemodule.h \
     src/symmetricdifferencenode.h \
-    src/cgalprimitive.h
+    src/cgalprimitive.h \
+    src/squaremodule.h
 
 FORMS += \
     src/mainwindow.ui
