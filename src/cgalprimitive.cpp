@@ -1,4 +1,5 @@
 #include "cgalprimitive.h"
+#include <CGAL/minkowski_sum_3.h>
 
 CGALPrimitive::CGALPrimitive(CGAL::NefPolyhedron3* n)
 {
@@ -26,6 +27,12 @@ CGALPrimitive* CGALPrimitive::difference(const CGALPrimitive* that)
 CGALPrimitive* CGALPrimitive::symmetric_difference(const CGALPrimitive* that)
 {
 	*poly3=poly3->symmetric_difference(*that->poly3);
+	return this;
+}
+
+CGALPrimitive* CGALPrimitive::minkowski(const CGALPrimitive* that)
+{
+	*poly3=CGAL::minkowski_sum_3(*poly3,*that->poly3);
 	return this;
 }
 

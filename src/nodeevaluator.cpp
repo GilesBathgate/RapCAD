@@ -53,6 +53,8 @@ void NodeEvaluator::evaluate(Node* op,QString name)
 				first=first->intersection(result);
 			else if(name=="symmetric_difference")
 				first=first->symmetric_difference(result);
+			else if(name=="minkowski")
+				first=first->minkowski(result);
 		}
 	}
 

@@ -113,7 +113,9 @@ SOURCES += \
     src/symmetricdifferencenode.cpp \
     src/cgalprimitive.cpp \
     src/squaremodule.cpp \
-    src/circlemodule.cpp
+    src/circlemodule.cpp \
+    src/minkowskimodule.cpp \
+    src/minkowskinode.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -202,7 +204,9 @@ HEADERS  += \
     src/symmetricdifferencenode.h \
     src/cgalprimitive.h \
     src/squaremodule.h \
-    src/circlemodule.h
+    src/circlemodule.h \
+    src/minkowskimodule.h \
+    src/minkowskinode.h
 
 FORMS += \
     src/mainwindow.ui

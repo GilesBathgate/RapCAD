@@ -11,6 +11,7 @@ public:
 	CGALPrimitive* intersection(const CGALPrimitive*);
 	CGALPrimitive* difference(const CGALPrimitive*);
 	CGALPrimitive* symmetric_difference(const CGALPrimitive*);
+	CGALPrimitive* minkowski(const CGALPrimitive*);
 	void transform(const CGAL::AffTransformation3&);
 	const CGAL::NefPolyhedron3& getPoly3() const;
 private:
