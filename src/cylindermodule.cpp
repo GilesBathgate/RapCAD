@@ -73,13 +73,26 @@ Node* CylinderModule::evaluate(Context* ctx,QVector<Node*>)
 
 	for(int i=0; i<f; i++) {
 		int j=(i+1)%f;
-		p->createPolygon();
-		p->appendVertex(c1.at(i));
-		p->appendVertex(c2.at(i));
-		if(r2>0)
+		if(r1 == r2) {
+			p->createPolygon();
+			p->appendVertex(c1.at(i));
+			p->appendVertex(c2.at(i));
 			p->appendVertex(c2.at(j));
-		if(r1>0)
 			p->appendVertex(c1.at(j));
+		} else {
+			if(r1 > 0) {
+				p->createPolygon();
+				p->appendVertex(c1.at(i));
+				p->appendVertex(c2.at(i));
+				p->appendVertex(c1.at(j));
+			}
+			if(r2 > 0) {
+				p->createPolygon();
+				p->appendVertex(c2.at(i));
+				p->appendVertex(c2.at(j));
+				p->appendVertex(c1.at(j));
+			}
+		}
 	}
 
 	if(r1 > 0) {
