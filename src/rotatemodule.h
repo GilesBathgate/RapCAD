@@ -16,15 +16,17 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TRANSFORMATIONMODULE_H
-#define TRANSFORMATIONMODULE_H
+#ifndef ROTATEMODULE_H
+#define ROTATEMODULE_H
 
 #include "module.h"
+#include "context.h"
 
-class TransformationModule : public Module
+class RotateModule : public Module
 {
 public:
-	TransformationModule(const QString);
+	RotateModule();
+	Node* evaluate(Context*,QList<Node*>);
 };
 
-#endif // TRANSFORMATIONMODULE_H
+#endif // ROTATEMODULE_H

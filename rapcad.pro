@@ -108,14 +108,14 @@ SOURCES += \
     src/intersectionmodule.cpp \
     src/intersectionnode.cpp \
     src/translatemodule.cpp \
-    src/transformationmodule.cpp \
     src/symmetricdifferencemodule.cpp \
     src/symmetricdifferencenode.cpp \
     src/cgalprimitive.cpp \
     src/squaremodule.cpp \
     src/circlemodule.cpp \
     src/minkowskimodule.cpp \
-    src/minkowskinode.cpp
+    src/minkowskinode.cpp \
+    src/rotatemodule.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -199,14 +199,14 @@ HEADERS  += \
     src/intersectionmodule.h \
     src/intersectionnode.h \
     src/translatemodule.h \
-    src/transformationmodule.h \
     src/symmetricdifferencemodule.h \
     src/symmetricdifferencenode.h \
     src/cgalprimitive.h \
     src/squaremodule.h \
     src/circlemodule.h \
     src/minkowskimodule.h \
-    src/minkowskinode.h
+    src/minkowskinode.h \
+    src/rotatemodule.h
 
 FORMS += \
     src/mainwindow.ui

@@ -19,9 +19,9 @@
 #ifndef TRANSLATEMODULE_H
 #define TRANSLATEMODULE_H
 
-#include "transformationmodule.h"
+#include "module.h"
 
-class TranslateModule : public TransformationModule
+class TranslateModule : public Module
 {
 public:
 	TranslateModule();
