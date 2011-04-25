@@ -34,7 +34,11 @@
         </attribute>
         <layout class="QHBoxLayout" name="editorLayout">
          <item>
-          <widget class="QTextEdit" name="scriptEditor"/>
+          <widget class="QTextEdit" name="scriptEditor">
+           <property name="tabStopWidth">
+            <number>40</number>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
