@@ -150,7 +150,7 @@ Value* Context::matchArgument(bool allowChar,bool matchLast, int index, QString 
 
 bool Context::match(bool allowChar,bool matchLast, QString a,QString n)
 {
-	if(allowChar){
+	if(allowChar) {
 		if(matchLast&&a.length()==2)
 			return a.left(1)==n.left(1) && a.right(1)==n.right(1);
 		if(!matchLast&&a.length()==1)

@@ -79,6 +79,8 @@ public:
 
 	Node* getRootNode() const;
 private:
+	void initBuiltins(Script*);
+	void saveBuiltins(Script*);
 	void startContext(Scope*);
 	void finishContext();
 	Node* createUnion(QVector<Node*>);
@@ -87,6 +89,7 @@ private:
 	QStack<Context*> contextStack;
 	Node* rootNode;
 	QTextStream& output;
+	static QVector<Declaration*> builtins;
 };
 
 #endif // EVALUATOR_H

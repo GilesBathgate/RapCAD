@@ -32,6 +32,7 @@ public:
 	void setDeclarations(QVector<Declaration*>);
 	QVector<Declaration*> getDeclarations() const;
 	void addDeclaration(Declaration*);
+	void removeDeclaration(Declaration*);
 	void accept(TreeVisitor&);
 private:
 	QVector<Declaration*> declarations;

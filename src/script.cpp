@@ -43,6 +43,11 @@ void Script::addDeclaration(Declaration* dec)
 	declarations.append(dec);
 }
 
+void Script::removeDeclaration(Declaration* dec)
+{
+	declarations.remove(declarations.indexOf(dec));
+}
+
 void Script::accept(TreeVisitor& v)
 {
 	v.visit(this);

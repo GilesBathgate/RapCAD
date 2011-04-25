@@ -46,6 +46,33 @@ Evaluator::~Evaluator()
 {
 }
 
+QVector<Declaration*> Evaluator::builtins;
+
+/**
+  Add the builtins to a static container so that they
+  can be reused in subsequent evaluators.
+*/
+void Evaluator::initBuiltins(Script* sc)
+{
+	if(Evaluator::builtins.empty()) {
+		Evaluator::builtins.append(new EchoModule(output));
+		Evaluator::builtins.append(new CubeModule());
+		Evaluator::builtins.append(new SquareModule());
+		Evaluator::builtins.append(new CylinderModule());
+		Evaluator::builtins.append(new CircleModule());
+		Evaluator::builtins.append(new PolyhedronModule());
+		Evaluator::builtins.append(new DifferenceModule());
+		Evaluator::builtins.append(new UnionModule());
+		Evaluator::builtins.append(new IntersectionModule());
+		Evaluator::builtins.append(new TranslateModule());
+		Evaluator::builtins.append(new SymmetricDifferenceModule());
+		Evaluator::builtins.append(new MinkowskiModule());
+
+	}
+	foreach(Declaration* d,Evaluator::builtins)
+		sc->addDeclaration(d);
+}
+
 void Evaluator::startContext(Scope* scp)
 {
 	Context* parent = context;
@@ -402,19 +429,7 @@ Node* Evaluator::createUnion(QVector<Node*> childnodes)
 
 void Evaluator::visit(Script* sc)
 {
-	//TODO add our "builtin" here for now
-	sc->addDeclaration(new EchoModule(output));
-	sc->addDeclaration(new CubeModule());
-	sc->addDeclaration(new SquareModule());
-	sc->addDeclaration(new CylinderModule());
-	sc->addDeclaration(new CircleModule());
-	sc->addDeclaration(new PolyhedronModule());
-	sc->addDeclaration(new DifferenceModule());
-	sc->addDeclaration(new UnionModule());
-	sc->addDeclaration(new IntersectionModule());
-	sc->addDeclaration(new TranslateModule());
-	sc->addDeclaration(new SymmetricDifferenceModule());
-	sc->addDeclaration(new MinkowskiModule());
+	initBuiltins(sc);
 
 	startContext(sc);
 	foreach(Declaration* d, sc->getDeclarations()) {
@@ -426,6 +441,18 @@ void Evaluator::visit(Script* sc)
 		output << "Warning: return statement not valid inside global scope.\n";
 
 	rootNode=createUnion(childnodes);
+
+	saveBuiltins(sc);
+}
+
+/**
+  To ensure that the builtins do not get deleted when the script
+  is deleted we remove them from the script.
+*/
+void Evaluator::saveBuiltins(Script* sc)
+{
+	foreach(Declaration* d,Evaluator::builtins)
+		sc->removeDeclaration(d);
 }
 
 Node* Evaluator::getRootNode() const
