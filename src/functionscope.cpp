@@ -41,12 +41,12 @@ Expression* FunctionScope::getExpression() const
 	return this->expression;
 }
 
-void FunctionScope::setStatements(QVector<Statement*> stmts)
+void FunctionScope::setStatements(QList<Statement*> stmts)
 {
 	this->statements = stmts;
 }
 
-QVector<Statement*> FunctionScope::getStatements() const
+QList<Statement*> FunctionScope::getStatements() const
 {
 	return this->statements;
 }

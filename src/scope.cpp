@@ -26,7 +26,7 @@ Scope::~Scope()
 {
 }
 
-QVector<Declaration*> Scope::getDeclarations() const
+QList<Declaration*> Scope::getDeclarations() const
 {
-	return QVector<Declaration*>();
+	return QList<Declaration*>();
 }

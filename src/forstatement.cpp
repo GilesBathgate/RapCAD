@@ -28,12 +28,12 @@ ForStatement::~ForStatement()
 	delete statement;
 }
 
-void ForStatement::setArguments(QVector<Argument*> args)
+void ForStatement::setArguments(QList<Argument*> args)
 {
 	this->arguments = args;
 }
 
-QVector<Argument*> ForStatement::getArguments() const
+QList<Argument*> ForStatement::getArguments() const
 {
 	return this->arguments;
 }

@@ -28,12 +28,12 @@ CompoundStatement::~CompoundStatement()
 		delete children.at(i);
 }
 
-void CompoundStatement::setChildren(QVector<Statement*> stmts)
+void CompoundStatement::setChildren(QList<Statement*> stmts)
 {
 	this->children = stmts;
 }
 
-QVector<Statement*> CompoundStatement::getChildren() const
+QList<Statement*> CompoundStatement::getChildren() const
 {
 	return this->children;
 }

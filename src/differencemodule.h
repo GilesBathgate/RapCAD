@@ -25,7 +25,7 @@ class DifferenceModule : public Module
 {
 public:
 	DifferenceModule();
-	Node* evaluate(Context*,QVector<Node*>);
+	Node* evaluate(Context*,QList<Node*>);
 };
 
 #endif // DIFFERENCEMODULE_H

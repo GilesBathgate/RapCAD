@@ -25,7 +25,7 @@ TranslateModule::TranslateModule() : TransformationModule("translate")
 {
 }
 
-Node* TranslateModule::evaluate(Context* ctx,QVector<Node*> childs)
+Node* TranslateModule::evaluate(Context* ctx,QList<Node*> childs)
 {
 	Point v;
 	VectorValue* vec=dynamic_cast<VectorValue*>(ctx->getArgument(0,"vector"));

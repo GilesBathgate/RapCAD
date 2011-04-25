@@ -19,7 +19,7 @@
 #ifndef VECTOREXPRESSION_H
 #define VECTOREXPRESSION_H
 
-#include <QVector>
+#include <QList>
 #include "expression.h"
 
 class VectorExpression : public Expression
@@ -27,11 +27,11 @@ class VectorExpression : public Expression
 public:
 	VectorExpression();
 	~VectorExpression();
-	void setChildren(QVector<Expression*>);
-	QVector<Expression*> getChildren() const;
+	void setChildren(QList<Expression*>);
+	QList<Expression*> getChildren() const;
 	void accept(TreeVisitor&);
 private:
-	QVector<Expression*> children;
+	QList<Expression*> children;
 };
 
 #endif // VECTOREXPRESSION_H

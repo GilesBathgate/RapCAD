@@ -43,12 +43,12 @@ void Function::setName(QString name)
 }
 
 
-QVector<Parameter*> Function::getParameters() const
+QList<Parameter*> Function::getParameters() const
 {
 	return this->parameters;
 }
 
-void Function::setParameters(QVector<Parameter*> params)
+void Function::setParameters(QList<Parameter*> params)
 {
 	this->parameters = params;
 }

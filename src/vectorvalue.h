@@ -19,24 +19,24 @@
 #ifndef VECTORVALUE_H
 #define VECTORVALUE_H
 
-#include <QVector>
+#include <QList>
 #include "value.h"
 #include "point.h"
 
 class VectorValue : public Value
 {
 public:
-	VectorValue(QVector<Value*>);
+	VectorValue(QList<Value*>);
 	QString getValueString() const;
 	bool isTrue() const;
 	Point getPoint() const;
 	Iterator<Value*>* createIterator();
-	QVector<Value*> getChildren() const;
+	QList<Value*> getChildren() const;
 private:
 	Value* operation(Expression::Operator_e);
 	Value* operation(Value&,Expression::Operator_e);
 	Expression::Operator_e convertOperation(Expression::Operator_e);
-	QVector<Value*> children;
+	QList<Value*> children;
 };
 
 #endif // VECTORVALUE_H

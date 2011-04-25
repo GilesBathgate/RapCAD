@@ -20,7 +20,7 @@
 #define SCOPE_H
 
 #include <QString>
-#include <QVector>
+#include <QList>
 #include "statement.h"
 
 class Scope : public Statement
@@ -28,7 +28,7 @@ class Scope : public Statement
 public:
 	Scope();
 	virtual ~Scope();
-	virtual QVector<Declaration*> getDeclarations() const;
+	virtual QList<Declaration*> getDeclarations() const;
 };
 
 #endif // SCOPE_H

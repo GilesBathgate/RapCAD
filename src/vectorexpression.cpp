@@ -26,12 +26,12 @@ VectorExpression::~VectorExpression()
 {
 }
 
-void VectorExpression::setChildren(QVector<Expression*> exp)
+void VectorExpression::setChildren(QList<Expression*> exp)
 {
 	this->children = exp;
 }
 
-QVector<Expression*> VectorExpression::getChildren() const
+QList<Expression*> VectorExpression::getChildren() const
 {
 	return this->children;
 }

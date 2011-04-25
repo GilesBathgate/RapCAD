@@ -25,8 +25,8 @@ NodePrinter::NodePrinter(QTextStream& s) : result(s)
 void NodePrinter::visit(PrimitiveNode* n)
 {
 	result << "polyhedron([";
-	QVector<Point> ptlist;
-	QVector<Polygon> polygons=n->getPolygons();
+	QList<Point> ptlist;
+	QList<Polygon> polygons=n->getPolygons();
 	foreach(Polygon pg, polygons) {
 		foreach(Point p, pg) {
 			if(!ptlist.contains(p))

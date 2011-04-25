@@ -23,7 +23,7 @@ DifferenceModule::DifferenceModule() : Module("difference")
 {
 }
 
-Node* DifferenceModule::evaluate(Context*,QVector<Node*> childs)
+Node* DifferenceModule::evaluate(Context*,QList<Node*> childs)
 {
 	DifferenceNode* d = new DifferenceNode();
 	d->setChildren(childs);

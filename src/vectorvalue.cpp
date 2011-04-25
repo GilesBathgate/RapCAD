@@ -20,7 +20,7 @@
 #include "numbervalue.h"
 #include "vectoriterator.h"
 
-VectorValue::VectorValue(QVector<Value*> values)
+VectorValue::VectorValue(QList<Value*> values)
 {
 	this->children=values;
 }
@@ -73,14 +73,14 @@ Iterator<Value*>* VectorValue::createIterator()
 	return new VectorIterator(this->children);
 }
 
-QVector<Value*> VectorValue::getChildren() const
+QList<Value*> VectorValue::getChildren() const
 {
 	return this->children;
 }
 
 Value* VectorValue::operation(Expression::Operator_e e)
 {
-	QVector<Value*> result;
+	QList<Value*> result;
 	for(int i=0; i<this->children.size(); i++)
 		result.append(Value::operation(this->children.at(i),e));
 	return new VectorValue(result);
@@ -88,7 +88,7 @@ Value* VectorValue::operation(Expression::Operator_e e)
 
 Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 {
-	QVector<Value*> result;
+	QList<Value*> result;
 	VectorValue* that = dynamic_cast<VectorValue*>(&v);
 	if(that) {
 		if(e==Expression::OuterProduct) {

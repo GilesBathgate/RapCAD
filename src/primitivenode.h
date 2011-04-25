@@ -19,7 +19,7 @@
 #ifndef PRIMITIVENODE_H
 #define PRIMITIVENODE_H
 
-#include <QVector>
+#include <QList>
 #include <QString>
 #include "node.h"
 #include "point.h"
@@ -32,10 +32,10 @@ public:
 	void createPolygon();
 	void appendVertex(double x, double y, double z);
 	void appendVertex(Point p);
-	QVector<Polygon> getPolygons() const;
+	QList<Polygon> getPolygons() const;
 	void accept(NodeVisitor&);
 private:
-	QVector<Polygon> polygons;
+	QList<Polygon> polygons;
 };
 
 #endif // PRIMITIVENODE_H

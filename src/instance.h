@@ -20,7 +20,7 @@
 #define INSTANCE_H
 
 #include <QString>
-#include <QVector>
+#include <QList>
 #include "statement.h"
 #include "argument.h"
 
@@ -39,10 +39,10 @@ public:
 	~Instance();
 	void setName(QString);
 	QString getName() const;
-	void setArguments(QVector<Argument*>);
-	QVector<Argument*> getArguments() const;
-	void setChildren(QVector <Statement*> childs);
-	QVector <Statement*> getChildren() const;
+	void setArguments(QList<Argument*>);
+	QList<Argument*> getArguments() const;
+	void setChildren(QList <Statement*> childs);
+	QList <Statement*> getChildren() const;
 	void setType(Type_e);
 	Type_e getType() const;
 	void setNamespace(QString);
@@ -50,8 +50,8 @@ public:
 	void accept(TreeVisitor&);
 private:
 	QString name;
-	QVector<Argument*> arguments;
-	QVector<Statement*> children;
+	QList<Argument*> arguments;
+	QList<Statement*> children;
 	Type_e type;
 	QString name_space;
 };

@@ -20,7 +20,7 @@
 #define FUNCTION_H
 
 #include <QString>
-#include <QVector>
+#include <QList>
 #include "declaration.h"
 #include "parameter.h"
 #include "declaration.h"
@@ -33,14 +33,14 @@ public:
 	~Function();
 	QString getName() const;
 	void setName(QString);
-	QVector<Parameter*> getParameters() const;
-	void setParameters(QVector<Parameter*>);
+	QList<Parameter*> getParameters() const;
+	void setParameters(QList<Parameter*>);
 	Scope* getScope() const;
 	void setScope(Scope*);
 	void accept(TreeVisitor&);
 private:
 	QString name;
-	QVector<Parameter*> parameters;
+	QList<Parameter*> parameters;
 	Scope* scope;
 };
 

@@ -19,7 +19,7 @@
 #ifndef ABSTRACTSYNTAXTREEBUILDER_H
 #define ABSTRACTSYNTAXTREEBUILDER_H
 
-#include <QVector>
+#include <QList>
 #include "declaration.h"
 #include "statement.h"
 #include "variable.h"
@@ -36,48 +36,48 @@ class AbstractSyntaxTreeBuilder
 public:
 	virtual ~AbstractSyntaxTreeBuilder() {}
 	virtual void buildScript(Declaration*)=0;
-	virtual void buildScript(QVector<Declaration*>*)=0;
+	virtual void buildScript(QList<Declaration*>*)=0;
 	virtual Declaration* buildUse(QString*)=0;
 	virtual Declaration* buildUse(QString*,QString*)=0;
 	virtual Declaration* buildImport(QString*,QString*)=0;
-	virtual Declaration* buildImport(QString*,QString*,QVector<Parameter*>*)=0;
+	virtual Declaration* buildImport(QString*,QString*,QList<Parameter*>*)=0;
 	virtual Declaration* buildDeclaration(Declaration*)=0;
-	virtual QVector<Declaration*>* buildDeclarations()=0;
-	virtual QVector<Declaration*>* buildDeclarations(Declaration*)=0;
-	virtual QVector<Declaration*>* buildDeclarations(QVector<Declaration*>*)=0;
-	virtual QVector<Declaration*>* buildDeclarations(QVector<Declaration*>*,Declaration*)=0;
+	virtual QList<Declaration*>* buildDeclarations()=0;
+	virtual QList<Declaration*>* buildDeclarations(Declaration*)=0;
+	virtual QList<Declaration*>* buildDeclarations(QList<Declaration*>*)=0;
+	virtual QList<Declaration*>* buildDeclarations(QList<Declaration*>*,Declaration*)=0;
 	virtual Statement* buildStatement(Statement*)=0;
 	virtual Statement* buildStatement(Variable*,Expression::Operator_e)=0;
-	virtual Statement* buildStatement(QVector<Statement*>*)=0;
+	virtual Statement* buildStatement(QList<Statement*>*)=0;
 	virtual Statement* buildStatement(Variable*,Expression*)=0;
 	virtual Statement* buildStatement(QString*,Variable::Type_e,Expression*)=0;
 	virtual Statement* buildReturnStatement(Expression*)=0;
 	virtual Statement* buildIfElseStatement(Expression*,Statement*)=0;
 	virtual Statement* buildIfElseStatement(Expression*,Statement*,Statement*)=0;
-	virtual Statement* buildForStatement(QVector<Argument*>*,Statement*)=0;
-	virtual QVector<Statement*>* buildStatements()=0;
-	virtual QVector<Statement*>* buildStatements(Statement*)=0;
-	virtual QVector<Statement*>* buildStatements(QVector<Statement*>*)=0;
-	virtual QVector<Statement*>* buildStatements(QVector<Statement*>*,Statement*)=0;
-	virtual Declaration* buildModule(QString*,QVector<Parameter*>*,Scope*)=0;
-	virtual Declaration* buildFunction(QString*,QVector<Parameter*>*,Scope*)=0;
-	virtual Scope* buildScope(QVector<Declaration*>*)=0;
+	virtual Statement* buildForStatement(QList<Argument*>*,Statement*)=0;
+	virtual QList<Statement*>* buildStatements()=0;
+	virtual QList<Statement*>* buildStatements(Statement*)=0;
+	virtual QList<Statement*>* buildStatements(QList<Statement*>*)=0;
+	virtual QList<Statement*>* buildStatements(QList<Statement*>*,Statement*)=0;
+	virtual Declaration* buildModule(QString*,QList<Parameter*>*,Scope*)=0;
+	virtual Declaration* buildFunction(QString*,QList<Parameter*>*,Scope*)=0;
+	virtual Scope* buildScope(QList<Declaration*>*)=0;
 	virtual Scope* buildScope(Instance*)=0;
 	virtual Scope* buildScope(Expression*)=0;
-	virtual Scope* buildScope(QVector<Statement*>*)=0;
+	virtual Scope* buildScope(QList<Statement*>*)=0;
 	virtual Instance* buildInstance(Instance*)=0;
 	virtual Instance* buildInstance(QString*,Instance*)=0;
 	virtual Instance* buildInstance(Instance::Type_e,Instance*)=0;
-	virtual Instance* buildInstance(QString*,QVector<Argument*>*)=0;
-	virtual Instance* buildInstance(Instance*,QVector<Statement*>*)=0;
-	virtual QVector<Parameter*>* buildParameters()=0;
-	virtual QVector<Parameter*>* buildParameters(Parameter*)=0;
-	virtual QVector<Parameter*>* buildParameters(QVector<Parameter*>*,Parameter*)=0;
+	virtual Instance* buildInstance(QString*,QList<Argument*>*)=0;
+	virtual Instance* buildInstance(Instance*,QList<Statement*>*)=0;
+	virtual QList<Parameter*>* buildParameters()=0;
+	virtual QList<Parameter*>* buildParameters(Parameter*)=0;
+	virtual QList<Parameter*>* buildParameters(QList<Parameter*>*,Parameter*)=0;
 	virtual Parameter* buildParameter(QString*)=0;
 	virtual Parameter* buildParameter(QString*,Expression*)=0;
-	virtual QVector<Argument*>* buildArguments()=0;
-	virtual QVector<Argument*>* buildArguments(Argument*)=0;
-	virtual QVector<Argument*>* buildArguments(QVector<Argument*>*,unsigned int,Argument*)=0;
+	virtual QList<Argument*>* buildArguments()=0;
+	virtual QList<Argument*>* buildArguments(Argument*)=0;
+	virtual QList<Argument*>* buildArguments(QList<Argument*>*,unsigned int,Argument*)=0;
 	virtual unsigned int buildOptionalCommas()=0;
 	virtual unsigned int buildOptionalCommas(unsigned int)=0;
 	virtual Argument* buildArgument(Expression*)=0;
@@ -94,13 +94,13 @@ public:
 	virtual Expression* buildExpression(Expression::Operator_e,Expression*)=0;
 	virtual Expression* buildExpression(Expression*,Expression::Operator_e,Expression*)=0;
 	virtual Expression* buildExpression(Expression*,Expression*,Expression*)=0;
-	virtual Expression* buildExpression(QVector<Expression*>*)=0;
-	virtual QVector<Expression*>* buildVector()=0;
-	virtual QVector<Expression*>* buildVector(Expression*)=0;
-	virtual QVector<Expression*>* buildVector(QVector<Expression*>*,unsigned int,Expression*)=0;
+	virtual Expression* buildExpression(QList<Expression*>*)=0;
+	virtual QList<Expression*>* buildVector()=0;
+	virtual QList<Expression*>* buildVector(Expression*)=0;
+	virtual QList<Expression*>* buildVector(QList<Expression*>*,unsigned int,Expression*)=0;
 	virtual Expression* buildRange(Expression*,Expression*)=0;
 	virtual Expression* buildRange(Expression*,Expression*,Expression*)=0;
-	virtual Invocation* buildInvocation(QString*,QVector<Argument*>*)=0;
+	virtual Invocation* buildInvocation(QString*,QList<Argument*>*)=0;
 	virtual Invocation* buildInvocation(QString*,Invocation*)=0;
 
 	virtual Script* getResult() const=0;

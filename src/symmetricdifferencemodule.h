@@ -25,7 +25,7 @@ class SymmetricDifferenceModule : public Module
 {
 public:
 	SymmetricDifferenceModule();
-	Node* evaluate(Context*,QVector<Node*>);
+	Node* evaluate(Context*,QList<Node*>);
 };
 
 #endif // SYMMETRICDIFFERENCEMODULE_H

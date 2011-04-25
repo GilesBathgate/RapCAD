@@ -26,7 +26,7 @@ class MinkowskiModule : public Module
 {
 public:
 	MinkowskiModule();
-	Node* evaluate(Context*,QVector<Node*>);
+	Node* evaluate(Context*,QList<Node*>);
 };
 
 #endif // MINKOWSKIMODULE_H

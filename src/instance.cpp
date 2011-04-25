@@ -42,17 +42,17 @@ QString Instance::getName() const
 	return this->name;
 }
 
-void Instance::setArguments(QVector<Argument*> args)
+void Instance::setArguments(QList<Argument*> args)
 {
 	this->arguments = args;
 }
 
-QVector<Argument*> Instance::getArguments() const
+QList<Argument*> Instance::getArguments() const
 {
 	return this->arguments;
 }
 
-void Instance::setChildren(QVector <Statement*> childs)
+void Instance::setChildren(QList <Statement*> childs)
 {
 	this->children = childs;
 }
@@ -67,7 +67,7 @@ Instance::Type_e Instance::getType() const
 	return this->type;
 }
 
-QVector <Statement*> Instance::getChildren() const
+QList <Statement*> Instance::getChildren() const
 {
 	return this->children;
 }

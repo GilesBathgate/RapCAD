@@ -30,7 +30,7 @@ void DependencyBuilder::buildScript(Declaration*)
 {
 }
 
-void DependencyBuilder::buildScript(QVector<Declaration*>*)
+void DependencyBuilder::buildScript(QList<Declaration*>*)
 {
 }
 
@@ -49,7 +49,7 @@ Declaration* DependencyBuilder::buildImport(QString*,QString*)
 	return NULL;
 }
 
-Declaration* DependencyBuilder::buildImport(QString*,QString*,QVector<Parameter*>*)
+Declaration* DependencyBuilder::buildImport(QString*,QString*,QList<Parameter*>*)
 {
 	return NULL;
 }
@@ -59,22 +59,22 @@ Declaration* DependencyBuilder::buildDeclaration(Declaration*)
 	return NULL;
 }
 
-QVector<Declaration*>* DependencyBuilder::buildDeclarations()
+QList<Declaration*>* DependencyBuilder::buildDeclarations()
 {
 	return NULL;
 }
 
-QVector<Declaration*>* DependencyBuilder::buildDeclarations(QVector<Declaration*>*,Declaration*)
+QList<Declaration*>* DependencyBuilder::buildDeclarations(QList<Declaration*>*,Declaration*)
 {
 	return NULL;
 }
 
-QVector<Declaration*>* DependencyBuilder::buildDeclarations(QVector<Declaration*>*)
+QList<Declaration*>* DependencyBuilder::buildDeclarations(QList<Declaration*>*)
 {
 	return NULL;
 }
 
-QVector<Declaration*>* DependencyBuilder::buildDeclarations(Declaration*)
+QList<Declaration*>* DependencyBuilder::buildDeclarations(Declaration*)
 {
 	return NULL;
 }
@@ -89,7 +89,7 @@ Statement* DependencyBuilder::buildStatement(Variable*,Expression::Operator_e)
 	return NULL;
 }
 
-Statement* DependencyBuilder::buildStatement(QVector<Statement*>*)
+Statement* DependencyBuilder::buildStatement(QList<Statement*>*)
 {
 	return NULL;
 }
@@ -119,42 +119,42 @@ Statement* DependencyBuilder::buildIfElseStatement(Expression*,Statement*,Statem
 	return NULL;
 }
 
-Statement* DependencyBuilder::buildForStatement(QVector<Argument*>*,Statement*)
+Statement* DependencyBuilder::buildForStatement(QList<Argument*>*,Statement*)
 {
 	return NULL;
 }
 
-QVector<Statement*>* DependencyBuilder::buildStatements()
+QList<Statement*>* DependencyBuilder::buildStatements()
 {
 	return NULL;
 }
 
-QVector<Statement*>* DependencyBuilder::buildStatements(Statement*)
+QList<Statement*>* DependencyBuilder::buildStatements(Statement*)
 {
 	return NULL;
 }
 
-QVector<Statement*>* DependencyBuilder::buildStatements(QVector<Statement*>*)
+QList<Statement*>* DependencyBuilder::buildStatements(QList<Statement*>*)
 {
 	return NULL;
 }
 
-QVector<Statement*>* DependencyBuilder::buildStatements(QVector<Statement*>*,Statement*)
+QList<Statement*>* DependencyBuilder::buildStatements(QList<Statement*>*,Statement*)
 {
 	return NULL;
 }
 
-Declaration* DependencyBuilder::buildModule(QString*, QVector<Parameter*>*, Scope*)
+Declaration* DependencyBuilder::buildModule(QString*, QList<Parameter*>*, Scope*)
 {
 	return NULL;
 }
 
-Declaration* DependencyBuilder::buildFunction(QString*,QVector<Parameter*>*,Scope*)
+Declaration* DependencyBuilder::buildFunction(QString*,QList<Parameter*>*,Scope*)
 {
 	return NULL;
 }
 
-Scope* DependencyBuilder::buildScope(QVector<Declaration*>*)
+Scope* DependencyBuilder::buildScope(QList<Declaration*>*)
 {
 	return NULL;
 }
@@ -169,7 +169,7 @@ Scope* DependencyBuilder::buildScope(Expression*)
 	return NULL;
 }
 
-Scope* DependencyBuilder::buildScope(QVector<Statement*>*)
+Scope* DependencyBuilder::buildScope(QList<Statement*>*)
 {
 	return NULL;
 }
@@ -189,27 +189,27 @@ Instance* DependencyBuilder::buildInstance(Instance::Type_e,Instance*)
 	return NULL;
 }
 
-Instance* DependencyBuilder::buildInstance(QString*,QVector<Argument*>*)
+Instance* DependencyBuilder::buildInstance(QString*,QList<Argument*>*)
 {
 	return NULL;
 }
 
-Instance* DependencyBuilder::buildInstance(Instance*,QVector<Statement*>*)
+Instance* DependencyBuilder::buildInstance(Instance*,QList<Statement*>*)
 {
 	return NULL;
 }
 
-QVector<Parameter*>* DependencyBuilder::buildParameters()
+QList<Parameter*>* DependencyBuilder::buildParameters()
 {
 	return NULL;
 }
 
-QVector<Parameter*>* DependencyBuilder::buildParameters(Parameter*)
+QList<Parameter*>* DependencyBuilder::buildParameters(Parameter*)
 {
 	return NULL;
 }
 
-QVector<Parameter*>* DependencyBuilder::buildParameters(QVector<Parameter*>*,Parameter*)
+QList<Parameter*>* DependencyBuilder::buildParameters(QList<Parameter*>*,Parameter*)
 {
 	return NULL;
 }
@@ -224,17 +224,17 @@ Parameter* DependencyBuilder::buildParameter(QString*,Expression*)
 	return NULL;
 }
 
-QVector<Argument*>* DependencyBuilder::buildArguments()
+QList<Argument*>* DependencyBuilder::buildArguments()
 {
 	return NULL;
 }
 
-QVector<Argument*>* DependencyBuilder::buildArguments(Argument*)
+QList<Argument*>* DependencyBuilder::buildArguments(Argument*)
 {
 	return NULL;
 }
 
-QVector<Argument*>* DependencyBuilder::buildArguments(QVector<Argument*>*,unsigned int,Argument*)
+QList<Argument*>* DependencyBuilder::buildArguments(QList<Argument*>*,unsigned int,Argument*)
 {
 	return NULL;
 }
@@ -319,22 +319,22 @@ Expression* DependencyBuilder::buildExpression(Expression*,Expression*,Expressio
 	return NULL;
 }
 
-Expression* DependencyBuilder::buildExpression(QVector<Expression*>*)
+Expression* DependencyBuilder::buildExpression(QList<Expression*>*)
 {
 	return NULL;
 }
 
-QVector<Expression*>* DependencyBuilder::buildVector()
+QList<Expression*>* DependencyBuilder::buildVector()
 {
 	return NULL;
 }
 
-QVector<Expression*>* DependencyBuilder::buildVector(Expression*)
+QList<Expression*>* DependencyBuilder::buildVector(Expression*)
 {
 	return NULL;
 }
 
-QVector<Expression*>* DependencyBuilder::buildVector(QVector<Expression*>*,unsigned int,Expression*)
+QList<Expression*>* DependencyBuilder::buildVector(QList<Expression*>*,unsigned int,Expression*)
 {
 	return NULL;
 }
@@ -349,7 +349,7 @@ Expression* DependencyBuilder::buildRange(Expression*,Expression*,Expression*)
 	return NULL;
 }
 
-Invocation* DependencyBuilder::buildInvocation(QString*,QVector<Argument*>*)
+Invocation* DependencyBuilder::buildInvocation(QString*,QList<Argument*>*)
 {
 	return NULL;
 }

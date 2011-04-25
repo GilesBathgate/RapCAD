@@ -23,7 +23,7 @@ EchoModule::EchoModule(QTextStream& s) : Module("echo"), output(s)
 {
 }
 
-Node* EchoModule::evaluate(Context* ctx,QVector<Node*>)
+Node* EchoModule::evaluate(Context* ctx,QList<Node*>)
 {
 	for(int i=0; i<ctx->arguments.size(); i++) {
 		if(i>0)

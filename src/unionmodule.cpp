@@ -23,7 +23,7 @@ UnionModule::UnionModule() : Module("union")
 {
 }
 
-Node* UnionModule::evaluate(Context*,QVector<Node*> childs)
+Node* UnionModule::evaluate(Context*,QList<Node*> childs)
 {
 	UnionNode* d = new UnionNode();
 	d->setChildren(childs);

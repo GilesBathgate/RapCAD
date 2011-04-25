@@ -28,12 +28,12 @@ QString Invocation::getNamespace() const
 	return this->nameSpace;
 }
 
-void Invocation::setArguments(QVector<Argument*> args)
+void Invocation::setArguments(QList<Argument*> args)
 {
 	this->arguments = args;
 }
 
-QVector<Argument*> Invocation::getArguments() const
+QList<Argument*> Invocation::getArguments() const
 {
 	return this->arguments;
 }

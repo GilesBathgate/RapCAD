@@ -21,7 +21,7 @@
 %{
 #include <stdio.h>
 #include <QString>
-#include <QVector>
+#include <QList>
 #include "syntaxtreebuilder.h"
 #include "tokenbuilder.h"
 #include "script.h"
@@ -41,15 +41,15 @@ static AbstractTokenBuilder* tokenizer;
 	double number;
 	unsigned int count;
 	class Declaration* decl;
-	class QVector<Declaration*>* decls;
+	class QList<Declaration*>* decls;
 	class Parameter* param;
-	class QVector<Parameter*>* params;
+	class QList<Parameter*>* params;
 	class Argument* arg;
-	class QVector<Argument*>* args;
+	class QList<Argument*>* args;
 	class Statement* stmt;
-	class QVector<Statement*>* stmts;
+	class QList<Statement*>* stmts;
 	class Expression* expr;
-	class QVector<Expression*>* exprs;
+	class QList<Expression*>* exprs;
 	class Instance* inst;
 	class Scope* scp;
 	class Variable* var;

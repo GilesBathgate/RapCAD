@@ -25,7 +25,7 @@ class UnionModule : public Module
 {
 public:
 	UnionModule();
-	Node* evaluate(Context*,QVector<Node*>);
+	Node* evaluate(Context*,QList<Node*>);
 };
 
 #endif // UNIONMODULE_H

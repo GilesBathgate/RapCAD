@@ -6,7 +6,7 @@ SquareModule::SquareModule() : PrimitiveModule("square")
 {
 }
 
-Node* SquareModule::evaluate(Context* ctx,QVector<Node*>)
+Node* SquareModule::evaluate(Context* ctx,QList<Node*>)
 {
 	VectorValue* size=dynamic_cast<VectorValue*>(ctx->getArgument(0,"size"));
 	BooleanValue* centerValue=dynamic_cast<BooleanValue*>(ctx->getArgument(1,"center"));

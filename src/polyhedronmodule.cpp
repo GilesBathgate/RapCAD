@@ -27,12 +27,12 @@ PolyhedronModule::PolyhedronModule() : PrimitiveModule("polyhedron")
 {
 }
 
-Node* PolyhedronModule::evaluate(Context* ctx,QVector<Node*>)
+Node* PolyhedronModule::evaluate(Context* ctx,QList<Node*>)
 {
 	VectorValue* points=dynamic_cast<VectorValue*>(ctx->getArgument(0,"points"));
 	VectorValue* surfaces=dynamic_cast<VectorValue*>(ctx->getArgument(1,"surfaces","triangles"));
 
-	QVector<Value*> children = points->getChildren();
+	QList<Value*> children = points->getChildren();
 
 	PrimitiveNode* p=new PrimitiveNode();
 	foreach(Value* s,surfaces->getChildren()) {

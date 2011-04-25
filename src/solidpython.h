@@ -79,7 +79,7 @@ private:
 	void createIndent();
 	QString result;
 	unsigned int indent;
-	QVector<QString> varnames;
+	QList<QString> varnames;
 	QString varname;
 };
 

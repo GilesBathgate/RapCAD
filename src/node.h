@@ -19,17 +19,17 @@
 #ifndef NODE_H
 #define NODE_H
 
-#include <QVector>
+#include <QList>
 #include "visitablenode.h"
 
 class Node : public VisitableNode
 {
 public:
 	Node();
-	void setChildren(QVector<Node*>);
-	QVector<Node*> getChildren() const;
+	void setChildren(QList<Node*>);
+	QList<Node*> getChildren() const;
 private:
-	QVector<Node*> children;
+	QList<Node*> children;
 };
 
 #endif // NODE_H

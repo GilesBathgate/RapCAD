@@ -25,7 +25,7 @@ class PolyhedronModule : public PrimitiveModule
 {
 public:
 	PolyhedronModule();
-	Node* evaluate(Context*,QVector<Node*>);
+	Node* evaluate(Context*,QList<Node*>);
 };
 
 #endif // POLYHEDRONMODULE_H

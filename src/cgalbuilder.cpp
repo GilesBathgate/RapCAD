@@ -32,8 +32,8 @@ void CGALBuilder::setPrimitive(PrimitiveNode* n)
 void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
 {
 
-	QVector<Point> vertices;
-	QVector<Polygon> polygons=polyNode->getPolygons();
+	QList<Point> vertices;
+	QList<Polygon> polygons=polyNode->getPolygons();
 	foreach(Polygon pg, polygons) {
 		foreach(Point p, pg) {
 			if(!vertices.contains(p))

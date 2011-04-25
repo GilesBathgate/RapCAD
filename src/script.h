@@ -19,7 +19,7 @@
 #ifndef SCRIPT_H
 #define SCRIPT_H
 
-#include <QVector>
+#include <QList>
 #include "declaration.h"
 #include "scope.h"
 
@@ -29,13 +29,13 @@ public:
 	Script();
 	~Script();
 
-	void setDeclarations(QVector<Declaration*>);
-	QVector<Declaration*> getDeclarations() const;
+	void setDeclarations(QList<Declaration*>);
+	QList<Declaration*> getDeclarations() const;
 	void addDeclaration(Declaration*);
 	void removeDeclaration(Declaration*);
 	void accept(TreeVisitor&);
 private:
-	QVector<Declaration*> declarations;
+	QList<Declaration*> declarations;
 };
 
 #endif // SCRIPT_H

@@ -19,7 +19,7 @@
 #ifndef MODULESCOPE_H
 #define MODULESCOPE_H
 
-#include <QVector>
+#include <QList>
 #include "scope.h"
 #include "declaration.h"
 
@@ -28,11 +28,11 @@ class ModuleScope : public Scope
 public:
 	ModuleScope();
 	~ModuleScope();
-	QVector<Declaration*> getDeclarations() const;
-	void setDeclarations(QVector<Declaration*>);
+	QList<Declaration*> getDeclarations() const;
+	void setDeclarations(QList<Declaration*>);
 	void accept(TreeVisitor&);
 private:
-	QVector<Declaration*> declarations;
+	QList<Declaration*> declarations;
 };
 
 #endif // MODULESCOPE_H

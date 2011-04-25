@@ -90,7 +90,7 @@ void Context::addFunction(Function* func)
 	functions.insert(func->getName(),func);
 }
 
-void Context::setArguments(QVector<Value*> args, QVector<Value*> params)
+void Context::setArguments(QList<Value*> args, QList<Value*> params)
 {
 	for(int i=0; i<params.size(); i++) {
 		QString name = args.at(i)->getName();
@@ -99,7 +99,7 @@ void Context::setArguments(QVector<Value*> args, QVector<Value*> params)
 	}
 }
 
-bool Context::contains(QVector<Value*> params,QString name)
+bool Context::contains(QList<Value*> params,QString name)
 {
 	foreach(Value* p, params)
 		if(p->getName() == name)

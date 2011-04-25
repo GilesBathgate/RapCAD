@@ -2,7 +2,7 @@
 #define OPERATIONNODE_H
 
 #include <QString>
-#include <QVector>
+#include <QList>
 #include "node.h"
 
 class OperationNode : public Node

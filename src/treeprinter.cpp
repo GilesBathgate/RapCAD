@@ -70,7 +70,7 @@ void TreePrinter::visit(Instance* inst)
 	}
 	result << inst->getName();
 	result << "(";
-	QVector<Argument*> arguments = inst->getArguments();
+	QList<Argument*> arguments = inst->getArguments();
 	int s = arguments.size();
 	for(int i=0; i<s; i++) {
 		arguments.at(i)->accept(*this);
@@ -79,7 +79,7 @@ void TreePrinter::visit(Instance* inst)
 	}
 	result << ")";
 
-	QVector<Statement*> children = inst->getChildren();
+	QList<Statement*> children = inst->getChildren();
 	int c = children.size();
 	if(c>0) {
 		if(c>1) {
@@ -107,7 +107,7 @@ void TreePrinter::visit(Module* mod)
 	result << "module ";
 	result << mod->getName();
 	result << "(";
-	QVector<Parameter*> parameters = mod->getParameters();
+	QList<Parameter*> parameters = mod->getParameters();
 	int s = parameters.size();
 	for(int i=0; i<s; i++) {
 		parameters.at(i)->accept(*this);
@@ -125,7 +125,7 @@ void TreePrinter::visit(Function* func)
 	result << "function ";
 	result << func->getName();
 	result << "(";
-	QVector<Parameter*> parameters = func->getParameters();
+	QList<Parameter*> parameters = func->getParameters();
 	int s = parameters.size();
 	for(int i=0; i<s; i++) {
 		parameters.at(i)->accept(*this);
@@ -148,7 +148,7 @@ void TreePrinter::visit(FunctionScope* scp)
 		return;
 	}
 
-	QVector<Statement*> statements = scp->getStatements();
+	QList<Statement*> statements = scp->getStatements();
 	int s = statements.size();
 	if(s>0) {
 		result << "{\n";
@@ -168,7 +168,7 @@ void TreePrinter::visit(FunctionScope* scp)
 
 void TreePrinter::visit(CompoundStatement* stmt)
 {
-	QVector<Statement*> children = stmt->getChildren();
+	QList<Statement*> children = stmt->getChildren();
 	int c = children.size();
 	if(c>0) {
 		if(c>1) {
@@ -280,7 +280,7 @@ void TreePrinter::visit(AssignStatement* stmt)
 void TreePrinter::visit(VectorExpression* exp)
 {
 	result << "[";
-	QVector<Expression*> children = exp->getChildren();
+	QList<Expression*> children = exp->getChildren();
 	int s = children.size();
 	for(int i=0; i<s; i++) {
 		children.at(i)->accept(*this);
@@ -344,7 +344,7 @@ void TreePrinter::visit(Invocation* stmt)
 	}
 	result << stmt->getName();
 	result << "(";
-	QVector<Argument*> arguments = stmt->getArguments();
+	QList<Argument*> arguments = stmt->getArguments();
 	int s = arguments.size();
 	for(int i=0; i<s; i++) {
 		arguments.at(i)->accept(*this);
@@ -364,7 +364,7 @@ void TreePrinter::visit(ModuleImport* decl)
 		result << " as ";
 		result << name;
 	}
-	QVector<Parameter*> parameters = decl->getParameters();
+	QList<Parameter*> parameters = decl->getParameters();
 	int s = parameters.size();
 	if(s>0) {
 		result << "(";

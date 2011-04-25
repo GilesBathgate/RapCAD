@@ -22,12 +22,12 @@ Node::Node()
 {
 }
 
-void Node::setChildren(QVector<Node*> c)
+void Node::setChildren(QList<Node*> c)
 {
 	children = c;
 }
 
-QVector<Node*> Node::getChildren() const
+QList<Node*> Node::getChildren() const
 {
 	return children;
 }

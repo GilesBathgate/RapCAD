@@ -23,7 +23,7 @@ SymmetricDifferenceModule::SymmetricDifferenceModule() : Module("symmetric_diffe
 {
 }
 
-Node* SymmetricDifferenceModule::evaluate(Context*,QVector<Node*> childs)
+Node* SymmetricDifferenceModule::evaluate(Context*,QList<Node*> childs)
 {
 	SymmetricDifferenceNode* d = new SymmetricDifferenceNode();
 	d->setChildren(childs);

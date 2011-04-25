@@ -46,12 +46,12 @@ QString ModuleImport::getName() const
 	return this->name;
 }
 
-void ModuleImport::setParameters(QVector<Parameter*> params)
+void ModuleImport::setParameters(QList<Parameter*> params)
 {
 	this->parameters = params;
 }
 
-QVector<Parameter*> ModuleImport::getParameters() const
+QList<Parameter*> ModuleImport::getParameters() const
 {
 	return this->parameters;
 }

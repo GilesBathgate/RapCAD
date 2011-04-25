@@ -20,7 +20,7 @@
 #define FORSTATEMENT_H
 
 #include <QString>
-#include <QVector>
+#include <QList>
 #include "statement.h"
 #include "argument.h"
 
@@ -30,13 +30,13 @@ public:
 	ForStatement();
 	~ForStatement();
 
-	void setArguments(QVector<Argument*>);
-	QVector<Argument*> getArguments() const;
+	void setArguments(QList<Argument*>);
+	QList<Argument*> getArguments() const;
 	void setStatement(Statement*);
 	Statement* getStatement() const;
 	void accept(TreeVisitor&);
 private:
-	QVector<Argument*> arguments;
+	QList<Argument*> arguments;
 	Statement* statement;
 
 };

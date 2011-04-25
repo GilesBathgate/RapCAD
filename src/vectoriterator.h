@@ -19,20 +19,20 @@
 #ifndef VECTORITERATOR_H
 #define VECTORITERATOR_H
 
-#include <QVector>
+#include <QList>
 #include "iterator.h"
 #include "value.h"
 
 class VectorIterator : public Iterator<Value*>
 {
 public:
-	VectorIterator(QVector<Value*> items);
+	VectorIterator(QList<Value*> items);
 	void first();
 	void next();
 	bool isDone();
 	Value* currentItem() const;
 private:
-	QVector<Value*> items;
+	QList<Value*> items;
 	int index;
 };
 

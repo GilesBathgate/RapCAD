@@ -20,7 +20,7 @@
 #define MODULE_H
 
 #include <QString>
-#include <QVector>
+#include <QList>
 #include "parameter.h"
 #include "declaration.h"
 #include "instance.h"
@@ -37,15 +37,15 @@ public:
 	~Module();
 	QString getName() const;
 	void setName(QString);
-	QVector<Parameter*> getParameters() const;
-	void setParameters(QVector<Parameter*>);
+	QList<Parameter*> getParameters() const;
+	void setParameters(QList<Parameter*>);
 	Scope* getScope() const;
 	void setScope(Scope*);
 	void accept(TreeVisitor&);
-	virtual Node* evaluate(Context*,QVector<Node*>);
+	virtual Node* evaluate(Context*,QList<Node*>);
 private:
 	QString name;
-	QVector<Parameter*> parameters;
+	QList<Parameter*> parameters;
 	Scope* scope;
 };
 

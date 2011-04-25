@@ -18,9 +18,9 @@
 
 #ifndef POLYGON_H
 #define POLYGON_H
-#include <QVector>
+#include <QList>
 #include "point.h"
 
-typedef QVector<Point> Polygon;
+typedef QList<Point> Polygon;
 
 #endif // POLYGON_H

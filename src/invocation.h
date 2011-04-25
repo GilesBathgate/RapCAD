@@ -2,7 +2,7 @@
 #define INVOCATION_H
 
 #include <QString>
-#include <QVector>
+#include <QList>
 #include "expression.h"
 #include "argument.h"
 
@@ -16,13 +16,13 @@ public:
 	QString getName() const;
 	void setNamespace(QString);
 	QString getNamespace() const;
-	void setArguments(QVector<Argument*>);
-	QVector<Argument*> getArguments() const;
+	void setArguments(QList<Argument*>);
+	QList<Argument*> getArguments() const;
 	void accept(TreeVisitor&);
 private:
 	QString name;
 	QString nameSpace;
-	QVector<Argument*> arguments;
+	QList<Argument*> arguments;
 };
 
 #endif // INVOCATION_H

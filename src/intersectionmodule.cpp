@@ -23,7 +23,7 @@ IntersectionModule::IntersectionModule() : Module("intersection")
 {
 }
 
-Node* IntersectionModule::evaluate(Context*,QVector<Node*> childs)
+Node* IntersectionModule::evaluate(Context*,QList<Node*> childs)
 {
 	IntersectionNode* d = new IntersectionNode();
 	d->setChildren(childs);

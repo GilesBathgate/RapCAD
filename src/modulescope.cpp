@@ -28,12 +28,12 @@ ModuleScope::~ModuleScope()
 		delete declarations.at(i);
 }
 
-void ModuleScope::setDeclarations(QVector<Declaration*> decls)
+void ModuleScope::setDeclarations(QList<Declaration*> decls)
 {
 	this->declarations = decls;
 }
 
-QVector<Declaration*> ModuleScope::getDeclarations() const
+QList<Declaration*> ModuleScope::getDeclarations() const
 {
 	return this->declarations;
 }

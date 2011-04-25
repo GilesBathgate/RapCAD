@@ -33,13 +33,13 @@ public:
 	Context* parent;
 
 
-	QVector<Value*> arguments;
-	QVector<Value*> parameters;
+	QList<Value*> arguments;
+	QList<Value*> parameters;
 	Value* currentValue;
 	Value* returnValue;
 	Scope* currentScope;
 	QString currentName;
-	QVector<Node*> currentNodes;
+	QList<Node*> currentNodes;
 
 	Value* lookupVariable(QString);
 	void addVariable(Value*);
@@ -50,7 +50,7 @@ public:
 	Function* lookupFunction(QString);
 	void addFunction(Function*);
 
-	void setArguments(QVector<Value*>,QVector<Value*>);
+	void setArguments(QList<Value*>,QList<Value*>);
 	Value* getArgument(int,QString);
 	Value* getArgument(int,QString,bool);
 	Value* getArgument(int,QString,QString);
@@ -60,7 +60,7 @@ private:
 	QHash<QString,Value*> variables;
 	QHash<QString,Module*> modules;
 	QHash<QString,Function*> functions;
-	bool contains(QVector<Value*>,QString);
+	bool contains(QList<Value*>,QString);
 };
 
 #endif // CONTEXT_H

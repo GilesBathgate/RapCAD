@@ -25,7 +25,7 @@ class IntersectionModule : public Module
 {
 public:
 	IntersectionModule();
-	Node* evaluate(Context*,QVector<Node*>);
+	Node* evaluate(Context*,QList<Node*>);
 };
 
 #endif // INTERSECTIONMODULE_H

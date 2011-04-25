@@ -20,7 +20,7 @@
 #define MODULEIMPORT_H
 
 #include <QString>
-#include <QVector>
+#include <QList>
 #include "declaration.h"
 #include "parameter.h"
 
@@ -34,12 +34,12 @@ public:
 	void setName(QString);
 	QString getName() const;
 	void accept(TreeVisitor&);
-	void setParameters(QVector<Parameter*>);
-	QVector<Parameter*> getParameters() const;
+	void setParameters(QList<Parameter*>);
+	QList<Parameter*> getParameters() const;
 private:
 	QString import;
 	QString name;
-	QVector<Parameter*> parameters;
+	QList<Parameter*> parameters;
 };
 
 #endif // MODULEIMPORT_H

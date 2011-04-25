@@ -28,12 +28,12 @@ Script::~Script()
 		delete declarations.at(i);
 }
 
-void Script::setDeclarations(QVector<Declaration*> decls)
+void Script::setDeclarations(QList<Declaration*> decls)
 {
 	this->declarations = decls;
 }
 
-QVector<Declaration*> Script::getDeclarations() const
+QList<Declaration*> Script::getDeclarations() const
 {
 	return this->declarations;
 }
@@ -45,7 +45,7 @@ void Script::addDeclaration(Declaration* dec)
 
 void Script::removeDeclaration(Declaration* dec)
 {
-	declarations.remove(declarations.indexOf(dec));
+	declarations.removeAll(dec);
 }
 
 void Script::accept(TreeVisitor& v)

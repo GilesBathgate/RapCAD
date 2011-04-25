@@ -53,8 +53,8 @@ QString SolidPython::getVariable()
 void SolidPython::visit(ModuleScope* scp)
 {
 	++indent;
-	QVector<Instance*> instances;
-	QVector<Declaration*> decls = scp->getDeclarations();
+	QList<Instance*> instances;
+	QList<Declaration*> decls = scp->getDeclarations();
 	bool lastinstance=false;
 
 	QString saveResult = result;
@@ -81,7 +81,7 @@ void SolidPython::visit(ModuleScope* scp)
 			d->accept(*this);
 		}
 	} else {
-		QVector<QString> vars;
+		QList<QString> vars;
 		foreach(Declaration* d, decls) {
 			createIndent();
 			Instance* inst = dynamic_cast<Instance*>(d);
@@ -125,7 +125,7 @@ void SolidPython::visit(Instance* inst)
 {
 	result.append(inst->getName());
 	result.append("(");
-	QVector<Argument*> arguments = inst->getArguments();
+	QList<Argument*> arguments = inst->getArguments();
 	int s = arguments.size();
 	for(int i=0; i<s; i++) {
 		arguments.at(i)->accept(*this);
@@ -134,7 +134,7 @@ void SolidPython::visit(Instance* inst)
 	}
 	result.append(")");
 
-	QVector<Statement*> children = inst->getChildren();
+	QList<Statement*> children = inst->getChildren();
 	int c = children.size();
 	if(c>0) {
 		result.append("(\n");
@@ -160,7 +160,7 @@ void SolidPython::visit(Module* mod)
 	result.append("def ");
 	result.append(mod->getName());
 	result.append("(");
-	QVector<Parameter*> parameters = mod->getParameters();
+	QList<Parameter*> parameters = mod->getParameters();
 	int s = parameters.size();
 	for(int i=0; i<s; i++) {
 		parameters.at(i)->accept(*this);
@@ -177,7 +177,7 @@ void SolidPython::visit(Function* func)
 	result.append("def ");
 	result.append(func->getName());
 	result.append("(");
-	QVector<Parameter*> parameters = func->getParameters();
+	QList<Parameter*> parameters = func->getParameters();
 	int s = parameters.size();
 	for(int i=0; i<s; i++) {
 		parameters.at(i)->accept(*this);
@@ -202,7 +202,7 @@ void SolidPython::visit(FunctionScope* scp)
 		return;
 	}
 
-	QVector<Statement*> statements = scp->getStatements();
+	QList<Statement*> statements = scp->getStatements();
 	int s = statements.size();
 	if(s>0) {
 		++indent;
@@ -216,7 +216,7 @@ void SolidPython::visit(FunctionScope* scp)
 
 void SolidPython::visit(CompoundStatement* stmt)
 {
-	QVector<Statement*> children = stmt->getChildren();
+	QList<Statement*> children = stmt->getChildren();
 	int c = children.size();
 	if(c>0) {
 		if(c>1) {
@@ -264,7 +264,7 @@ void SolidPython::visit(IfElseStatement* ifelse)
 void SolidPython::visit(ForStatement* forstmt)
 {
 	int levels=0;
-	QVector<Argument*> args = forstmt->getArguments();
+	QList<Argument*> args = forstmt->getArguments();
 	int c = args.size();
 	for(int i=0; i<c; i++) {
 		Argument* a = args.at(i);
@@ -346,7 +346,7 @@ void SolidPython::visit(AssignStatement* stmt)
 void SolidPython::visit(VectorExpression* exp)
 {
 	result.append("[");
-	QVector<Expression*> children = exp->getChildren();
+	QList<Expression*> children = exp->getChildren();
 	int s = children.size();
 	for(int i=0; i<s; i++) {
 		children.at(i)->accept(*this);
@@ -416,7 +416,7 @@ void SolidPython::visit(Invocation* stmt)
 {
 	result.append(stmt->getName());
 	result.append("(");
-	QVector<Argument*> arguments = stmt->getArguments();
+	QList<Argument*> arguments = stmt->getArguments();
 	int s = arguments.size();
 	for(int i=0; i<s; i++) {
 		arguments.at(i)->accept(*this);

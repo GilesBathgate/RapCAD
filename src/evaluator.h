@@ -83,13 +83,13 @@ private:
 	void saveBuiltins(Script*);
 	void startContext(Scope*);
 	void finishContext();
-	Node* createUnion(QVector<Node*>);
+	Node* createUnion(QList<Node*>);
 
 	Context* context;
 	QStack<Context*> contextStack;
 	Node* rootNode;
 	QTextStream& output;
-	static QVector<Declaration*> builtins;
+	static QList<Declaration*> builtins;
 };
 
 #endif // EVALUATOR_H

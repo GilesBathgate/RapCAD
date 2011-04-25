@@ -19,7 +19,7 @@
 #ifndef COMPOUNDSTATEMENT_H
 #define COMPOUNDSTATEMENT_H
 
-#include <QVector>
+#include <QList>
 #include "scope.h"
 
 class CompoundStatement : public Scope
@@ -27,11 +27,11 @@ class CompoundStatement : public Scope
 public:
 	CompoundStatement();
 	~CompoundStatement();
-	void setChildren(QVector<Statement*>);
-	QVector<Statement*> getChildren() const;
+	void setChildren(QList<Statement*>);
+	QList<Statement*> getChildren() const;
 	void accept(TreeVisitor&);
 private:
-	QVector<Statement*> children;
+	QList<Statement*> children;
 };
 
 #endif // COMPOUNDSTATEMENT_H

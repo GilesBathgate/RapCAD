@@ -19,7 +19,7 @@
 #ifndef FUNCTIONSCOPE_H
 #define FUNCTIONSCOPE_H
 
-#include <QVector>
+#include <QList>
 #include "scope.h"
 #include "expression.h"
 #include "statement.h"
@@ -31,12 +31,12 @@ public:
 	~FunctionScope();
 	void setExpression(Expression*);
 	Expression* getExpression() const;
-	void setStatements(QVector<Statement*>);
-	QVector<Statement*> getStatements() const;
+	void setStatements(QList<Statement*>);
+	QList<Statement*> getStatements() const;
 	void accept(TreeVisitor&);
 private:
 	Expression* expression;
-	QVector<Statement*> statements;
+	QList<Statement*> statements;
 };
 
 #endif // FUNCTIONSCOPE_H

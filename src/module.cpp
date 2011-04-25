@@ -47,12 +47,12 @@ void Module::setName(QString name)
 }
 
 
-QVector<Parameter*> Module::getParameters() const
+QList<Parameter*> Module::getParameters() const
 {
 	return this->parameters;
 }
 
-void Module::setParameters(QVector<Parameter*> params)
+void Module::setParameters(QList<Parameter*> params)
 {
 	this->parameters = params;
 }
@@ -72,7 +72,7 @@ void Module::accept(TreeVisitor& v)
 	v.visit(this);
 }
 
-Node* Module::evaluate(Context*,QVector<Node*>)
+Node* Module::evaluate(Context*,QList<Node*>)
 {
 	return NULL;
 }

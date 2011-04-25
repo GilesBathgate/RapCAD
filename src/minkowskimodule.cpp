@@ -23,7 +23,7 @@ MinkowskiModule::MinkowskiModule() : Module("minkowski")
 {
 }
 
-Node* MinkowskiModule::evaluate(Context*,QVector<Node*> childs)
+Node* MinkowskiModule::evaluate(Context*,QList<Node*> childs)
 {
 	MinkowskiNode* d = new MinkowskiNode();
 	d->setChildren(childs);

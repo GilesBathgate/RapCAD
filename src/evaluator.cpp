@@ -46,7 +46,7 @@ Evaluator::~Evaluator()
 {
 }
 
-QVector<Declaration*> Evaluator::builtins;
+QList<Declaration*> Evaluator::builtins;
 
 /**
   Add the builtins to a static container so that they
@@ -90,8 +90,8 @@ void Evaluator::finishContext()
 
 void Evaluator::visit(ModuleScope* scp)
 {
-	QVector<Value*> arguments = context->arguments;
-	QVector<Value*> parameters = context->parameters;
+	QList<Value*> arguments = context->arguments;
+	QList<Value*> parameters = context->parameters;
 
 	startContext(scp);
 
@@ -105,7 +105,7 @@ void Evaluator::visit(ModuleScope* scp)
 		output << "Warning: return statement not valid inside module scope.\n";
 
 	//"pop" our child nodes.
-	QVector<Node*> childnodes=context->currentNodes;
+	QList<Node*> childnodes=context->currentNodes;
 	finishContext();
 
 	Node* n=createUnion(childnodes);
@@ -122,7 +122,7 @@ void Evaluator::visit(Instance* inst)
 		s->accept(*this);
 	}
 	//"pop" our child nodes.
-	QVector<Node*> childnodes=context->currentNodes;
+	QList<Node*> childnodes=context->currentNodes;
 	finishContext();
 
 	Module* mod = context->lookupModule(name);
@@ -158,8 +158,8 @@ void Evaluator::visit(Function* func)
 
 void Evaluator::visit(FunctionScope* scp)
 {
-	QVector<Value*> arguments = context->arguments;
-	QVector<Value*> parameters = context->parameters;
+	QList<Value*> arguments = context->arguments;
+	QList<Value*> parameters = context->parameters;
 
 	startContext(scp);
 
@@ -225,7 +225,7 @@ void Evaluator::visit(ForStatement* forstmt)
 
 	}
 	delete i;
-	QVector<Node*> childnodes=context->currentNodes;
+	QList<Node*> childnodes=context->currentNodes;
 	finishContext();
 	foreach(Node* n,childnodes)
 		context->currentNodes.append(n);
@@ -313,7 +313,7 @@ void Evaluator::visit(AssignStatement* stmt)
 
 void Evaluator::visit(VectorExpression* exp)
 {
-	QVector<Value*> childvalues;
+	QList<Value*> childvalues;
 	foreach(Expression* e, exp->getChildren()) {
 		e->accept(*this);
 		childvalues.append(context->currentValue);
@@ -416,7 +416,7 @@ void Evaluator::visit(Variable* var)
 	context->currentName=name;
 }
 
-Node* Evaluator::createUnion(QVector<Node*> childnodes)
+Node* Evaluator::createUnion(QList<Node*> childnodes)
 {
 	if(childnodes.size()==1) {
 		return childnodes.at(0);
@@ -435,7 +435,7 @@ void Evaluator::visit(Script* sc)
 	foreach(Declaration* d, sc->getDeclarations()) {
 		d->accept(*this);
 	}
-	QVector<Node*> childnodes=context->currentNodes;
+	QList<Node*> childnodes=context->currentNodes;
 
 	if(context->returnValue)
 		output << "Warning: return statement not valid inside global scope.\n";

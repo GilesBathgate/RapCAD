@@ -28,7 +28,7 @@ CylinderModule::CylinderModule() : PrimitiveModule("cylinder")
 {
 }
 
-Node* CylinderModule::evaluate(Context* ctx,QVector<Node*>)
+Node* CylinderModule::evaluate(Context* ctx,QList<Node*>)
 {
 	NumberValue* heightValue = dynamic_cast<NumberValue*>(ctx->getArgument(0,"height"));
 	double h = heightValue->getNumber();
