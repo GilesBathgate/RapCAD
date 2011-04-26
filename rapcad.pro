@@ -116,7 +116,8 @@ SOURCES += \
     src/minkowskimodule.cpp \
     src/minkowskinode.cpp \
     src/rotatemodule.cpp \
-    src/mirrormodule.cpp
+    src/mirrormodule.cpp \
+    src/scalemodule.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -208,7 +209,8 @@ HEADERS  += \
     src/minkowskimodule.h \
     src/minkowskinode.h \
     src/rotatemodule.h \
-    src/mirrormodule.h
+    src/mirrormodule.h \
+    src/scalemodule.h
 
 FORMS += \
     src/mainwindow.ui

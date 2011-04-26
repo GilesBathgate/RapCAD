@@ -35,6 +35,7 @@
 #include "minkowskimodule.h"
 #include "rotatemodule.h"
 #include "mirrormodule.h"
+#include "scalemodule.h"
 
 #include "unionnode.h"
 
@@ -71,6 +72,7 @@ void Evaluator::initBuiltins(Script* sc)
 		Evaluator::builtins.append(new MinkowskiModule());
 		Evaluator::builtins.append(new RotateModule());
 		Evaluator::builtins.append(new MirrorModule());
+		Evaluator::builtins.append(new ScaleModule());
 	}
 	foreach(Declaration* d,Evaluator::builtins)
 		sc->addDeclaration(d);
