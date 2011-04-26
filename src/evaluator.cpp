@@ -34,6 +34,7 @@
 #include "symmetricdifferencemodule.h"
 #include "minkowskimodule.h"
 #include "rotatemodule.h"
+#include "mirrormodule.h"
 
 #include "unionnode.h"
 
@@ -69,6 +70,7 @@ void Evaluator::initBuiltins(Script* sc)
 		Evaluator::builtins.append(new SymmetricDifferenceModule());
 		Evaluator::builtins.append(new MinkowskiModule());
 		Evaluator::builtins.append(new RotateModule());
+		Evaluator::builtins.append(new MirrorModule());
 	}
 	foreach(Declaration* d,Evaluator::builtins)
 		sc->addDeclaration(d);
