@@ -36,7 +36,6 @@
 #include "rotatemodule.h"
 #include "mirrormodule.h"
 #include "scalemodule.h"
-#include "childmodule.h"
 
 #include "unionnode.h"
 
@@ -74,7 +73,6 @@ void Evaluator::initBuiltins(Script* sc)
 		Evaluator::builtins.append(new RotateModule());
 		Evaluator::builtins.append(new MirrorModule());
 		Evaluator::builtins.append(new ScaleModule());
-		Evaluator::builtins.append(new ChildModule());
 	}
 	foreach(Declaration* d,Evaluator::builtins)
 		sc->addDeclaration(d);
@@ -99,12 +97,10 @@ void Evaluator::visit(ModuleScope* scp)
 {
 	QList<Value*> arguments = context->arguments;
 	QList<Value*> parameters = context->parameters;
-	QList<Node*> childnodes = context->currentNodes;
 
 	startContext(scp);
 
 	context->setArguments(arguments,parameters);
-	context->currentNodes = childnodes;
 
 	foreach(Declaration* d, scp->getDeclarations()) {
 		d->accept(*this);
@@ -114,8 +110,9 @@ void Evaluator::visit(ModuleScope* scp)
 		output << "Warning: return statement not valid inside module scope.\n";
 
 	//"pop" our child nodes.
-	childnodes=context->currentNodes;
+	QList<Node*> childnodes=context->currentNodes;
 	finishContext();
+
 	Node* n=createUnion(childnodes);
 	context->currentNodes.append(n);
 }
@@ -124,19 +121,14 @@ void Evaluator::visit(Instance* inst)
 {
 	QString name = inst->getName();
 
-	QList<Statement*> instances = inst->getChildren();
-	if(instances.size()>0) {
-		startContext(context->currentScope);
+	startContext(context->currentScope);
 
-		foreach(Statement* s, instances) {
-			s->accept(*this);
-		}
-
-		//"pop" our child nodes.
-		QList<Node*> childnodes=context->currentNodes;
-		finishContext();
-		context->currentNodes=childnodes;
+	foreach(Statement* s, inst->getChildren()) {
+		s->accept(*this);
 	}
+	//"pop" our child nodes.
+	QList<Node*> childnodes=context->currentNodes;
+	finishContext();
 
 	Module* mod = context->lookupModule(name);
 	if(mod) {
@@ -150,7 +142,7 @@ void Evaluator::visit(Instance* inst)
 		if(scp) {
 			scp->accept(*this);
 		} else {
-			Node* n= mod->evaluate(context,context->currentNodes);
+			Node* n= mod->evaluate(context,childnodes);
 			context->currentNodes.append(n);
 		}
 
