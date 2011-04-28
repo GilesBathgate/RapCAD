@@ -255,7 +255,9 @@ void MainWindow::compileAndRender()
 		QTextStream out(console);
 		BackgroundWorker b(out);
 		CGALPrimitive* n=b.evaluate(fileName,false,"");
-		CGALRenderer* r = new CGALRenderer(*n);
-		ui->view->setRenderer(r);
+		if(n) {
+			CGALRenderer* r = new CGALRenderer(*n);
+			ui->view->setRenderer(r);
+		}
 	}
 }

@@ -62,7 +62,11 @@ CGALPrimitive* BackgroundWorker::evaluate(QString path, bool print, QString form
 	n->accept(ne);
 	delete n;
 
-	output << QString("Total rendering time: %1ms").arg(t.elapsed());;
+	CGALPrimitive* result=ne.getResult();
+	if(!result)
+		output << "Warning: No top level object.\n";
 
-	return ne.getResult();
+	output << QString("Total rendering time: %1ms.\n").arg(t.elapsed());;
+
+	return result;
 }

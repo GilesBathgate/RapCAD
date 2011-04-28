@@ -148,6 +148,8 @@ void Evaluator::visit(Instance* inst)
 
 		context->arguments.clear();
 		context->parameters.clear();
+	} else {
+		output << "Warning: cannot find module '" << name << "'.\n";
 	}
 }
 
