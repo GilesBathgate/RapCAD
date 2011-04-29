@@ -118,7 +118,8 @@ SOURCES += \
     src/rotatemodule.cpp \
     src/mirrormodule.cpp \
     src/scalemodule.cpp \
-    src/childmodule.cpp
+    src/childmodule.cpp \
+    src/spheremodule.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -212,7 +213,8 @@ HEADERS  += \
     src/rotatemodule.h \
     src/mirrormodule.h \
     src/scalemodule.h \
-    src/childmodule.h
+    src/childmodule.h \
+    src/spheremodule.h
 
 FORMS += \
     src/mainwindow.ui

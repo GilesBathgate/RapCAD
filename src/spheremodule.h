@@ -16,27 +16,17 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PRIMITIVENODE_H
-#define PRIMITIVENODE_H
+#ifndef SPHEREMODULE_H
+#define SPHEREMODULE_H
 
-#include <QList>
-#include <QString>
-#include "node.h"
-#include "point.h"
-#include "polygon.h"
+#include "primitivemodule.h"
+#include "context.h"
 
-class PrimitiveNode : public Node
+class SphereModule : public PrimitiveModule
 {
 public:
-	PrimitiveNode();
-	void createPolygon();
-	void appendVertex(double x, double y, double z);
-	void appendVertex(Point p);
-	void prependVertex(Point p);
-	QList<Polygon> getPolygons() const;
-	void accept(NodeVisitor&);
-private:
-	QList<Polygon> polygons;
+	SphereModule();
+	Node* evaluate(Context*,QList<Node*>);
 };
 
-#endif // PRIMITIVENODE_H
+#endif // SPHEREMODULE_H

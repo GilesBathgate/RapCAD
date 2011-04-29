@@ -103,8 +103,8 @@ Node* CylinderModule::evaluate(Context* ctx,QList<Node*>)
 
 	if(r2 > 0) {
 		p->createPolygon();
-		for(int i=f-1; i>=0; i--)
-			p->appendVertex(c2.at(i));
+		for(int i=0; i<f; i++)
+			p->prependVertex(c2.at(i));
 	}
 
 	return p;

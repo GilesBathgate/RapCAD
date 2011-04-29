@@ -37,6 +37,11 @@ void PrimitiveNode::appendVertex(Point p)
 	polygons.last().append(p);
 }
 
+void PrimitiveNode::prependVertex(Point p)
+{
+	polygons.last().prepend(p);
+}
+
 QList<Polygon> PrimitiveNode::getPolygons() const
 {
 	return polygons;
