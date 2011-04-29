@@ -25,6 +25,8 @@
 #include "nodeprinter.h"
 #include "nodeevaluator.h"
 
+#include "CGAL/exceptions.h"
+
 extern Script* parse(QString);
 
 BackgroundWorker::BackgroundWorker(QTextStream& s,QObject* parent) :
@@ -59,8 +61,12 @@ CGALPrimitive* BackgroundWorker::evaluate(QString path, bool print, QString form
 	}
 
 	NodeEvaluator ne;
-	n->accept(ne);
-	delete n;
+	try {
+		n->accept(ne);
+		delete n;
+	} catch(CGAL::Assertion_exception e) {
+		output << "Error: " << QString::fromStdString(e.expression()) << "\n";
+	}
 
 	CGALPrimitive* result=ne.getResult();
 	if(!result)
