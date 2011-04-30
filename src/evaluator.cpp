@@ -144,8 +144,9 @@ void Evaluator::visit(Instance* inst)
 		if(scp) {
 			scp->accept(*this);
 		} else {
-			Node* n= mod->evaluate(context,childnodes);
-			context->currentNodes.append(n);
+			Node* node=mod->evaluate(context,childnodes);
+			if(node)
+				context->currentNodes.append(node);
 		}
 
 		context->arguments.clear();

@@ -61,6 +61,7 @@ void Worker::doWork()
 	Evaluator e(output);
 	s->accept(e);
 	delete s;
+	output.flush();
 
 	Node* n = e.getRootNode();
 	if(print) {
