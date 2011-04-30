@@ -19,6 +19,7 @@
 #ifndef BACKGROUNDWORKER_H
 #define BACKGROUNDWORKER_H
 
+#include <QThread>
 #include "worker.h"
 
 class BackgroundWorker : public Worker

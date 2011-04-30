@@ -16,7 +16,6 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QThread>
 #include "backgroundworker.h"
 
 BackgroundWorker::BackgroundWorker(QTextStream& s,QObject* parent) :
