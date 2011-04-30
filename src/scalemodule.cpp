@@ -31,14 +31,24 @@ Node* ScaleModule::evaluate(Context* ctx,QList<Node*> childs)
 	if(vecVal)
 		vec=vecVal->getPoint();
 
+	Point ref;
+	VectorValue* refVal=dynamic_cast<VectorValue*>(ctx->getArgument(1,"reference"));
+	if(refVal)
+		ref=refVal->getPoint();
+
 	double x=0,y=0,z=0;
 	vec.getXYZ(x,y,z);
 
+	double a=0,b=0,c=0;
+	ref.getXYZ(a,b,c);
+
+	//Derived reference translation using
+	//http://tinyurl.com/3zhnpkw
 	double m[16] = {
 		x,0,0,0,
 		0,y,0,0,
 		0,0,z,0,
-		0,0,0,1
+		a-(a*x),b-(b*x),c-(c*x),1
 	};
 
 	TransformationNode* n=new TransformationNode();
