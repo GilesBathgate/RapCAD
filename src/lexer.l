@@ -38,7 +38,7 @@ NL \n|\r\n
 %%
 "include"{WS}*"<"		{ BEGIN(include); tokenizer->buildIncludeStart(); }
 <include>{
-[^\t\r\n>]+"/"			{ tokenizer->buildIncludePath(lexertext); }
+[^\t\r\n>]*"/"			{ tokenizer->buildIncludePath(lexertext); }
 [^\t\r\n>/]+			{ tokenizer->buildIncludeFile(lexertext); }
 ">"				{ BEGIN(INITIAL); tokenizer->buildIncludeFinish(); }
 }
