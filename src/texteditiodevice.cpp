@@ -23,11 +23,7 @@ TextEditIODevice::TextEditIODevice(QTextEdit* textEdit,QObject* parent) :
 	, textEdit(textEdit)
 {
 	open(QIODevice::WriteOnly|QIODevice::Text);
-}
-
-void TextEditIODevice::clear()
-{
-	textEdit->clear();
+	connect(this,SIGNAL(textRecieved(QString)),this,SLOT(writeTextEdit(QString)));
 }
 
 qint64 TextEditIODevice::readData(char*,qint64)
@@ -37,6 +33,11 @@ qint64 TextEditIODevice::readData(char*,qint64)
 
 qint64 TextEditIODevice::writeData(const char* data, qint64 maxSize)
 {
-	textEdit->append(data);
+	emit textRecieved(data);
 	return maxSize;
+}
+
+void TextEditIODevice::writeTextEdit(QString data)
+{
+	textEdit->append(data);
 }

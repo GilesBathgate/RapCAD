@@ -24,7 +24,6 @@
 #include <QClipboard>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "backgroundworker.h"
 #include "cgalprimitive.h"
 #include "cgalrenderer.h"
 
@@ -142,6 +141,9 @@ void MainWindow::setupEditor()
 	font.setPointSize(8);
 	c->setFont(font);
 	console=new TextEditIODevice(c,this);
+	QTextStream* output=new QTextStream(console);
+	worker=new BackgroundWorker(true,*output);
+	connect(worker,SIGNAL(done(CGALPrimitive*)),this,SLOT(evaluationDone(CGALPrimitive*)));
 }
 
 void MainWindow::clipboardDataChanged()
@@ -252,12 +254,16 @@ void MainWindow::compileAndRender()
 	highlighter->stop();
 
 	if(maybeSave(false)) {
-		QTextStream out(console);
-		BackgroundWorker b(out);
-		CGALPrimitive* n=b.evaluate(fileName,false,"");
-		if(n) {
-			CGALRenderer* r = new CGALRenderer(*n);
-			ui->view->setRenderer(r);
-		}
+		worker->evaluate(fileName,false,"");
+		ui->actionCompileAndRender->setEnabled(false);
 	}
+}
+
+void MainWindow::evaluationDone(CGALPrimitive* n)
+{
+	if(n) {
+		CGALRenderer* r = new CGALRenderer(*n);
+		ui->view->setRenderer(r);
+	}
+	ui->actionCompileAndRender->setEnabled(true);
 }

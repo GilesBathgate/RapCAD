@@ -17,6 +17,7 @@
  */
 
 #include <QTime>
+#include <QThread>
 #include "backgroundworker.h"
 #include "script.h"
 #include "treeprinter.h"
@@ -29,13 +30,32 @@
 
 extern Script* parse(QString);
 
-BackgroundWorker::BackgroundWorker(QTextStream& s,QObject* parent) :
+BackgroundWorker::BackgroundWorker(bool b, QTextStream& s,QObject* parent) :
 	QObject(parent)
 	, output(s)
 {
+	background=b;
+	if(background) {
+		thread=new QThread();
+		connect(thread,SIGNAL(started()),this,SLOT(doWork()));
+		this->moveToThread(thread);
+	}
 }
 
-CGALPrimitive* BackgroundWorker::evaluate(QString path, bool print, QString format)
+void BackgroundWorker::evaluate(QString f, bool p, QString m)
+{
+	path=f;
+	print=p;
+	format=m;
+
+	if(background) {
+		thread->start();
+	} else {
+		doWork();
+	}
+}
+
+void BackgroundWorker::doWork()
 {
 	QTime t;
 	t.start();
@@ -48,6 +68,7 @@ CGALPrimitive* BackgroundWorker::evaluate(QString path, bool print, QString form
 	} else if(print) {
 		TreePrinter p(output);
 		s->accept(p);
+		output.flush();
 	}
 
 	Evaluator e(output);
@@ -58,6 +79,7 @@ CGALPrimitive* BackgroundWorker::evaluate(QString path, bool print, QString form
 	if(print) {
 		NodePrinter p(output);
 		n->accept(p);
+		output.flush();
 	}
 
 	NodeEvaluator ne;
@@ -73,6 +95,10 @@ CGALPrimitive* BackgroundWorker::evaluate(QString path, bool print, QString form
 		output << "Warning: No top level object.\n";
 
 	output << QString("Total rendering time: %1ms.\n").arg(t.elapsed());;
+	output.flush();
 
-	return result;
+	emit done(result);
+
+	if(background)
+		thread->quit();
 }

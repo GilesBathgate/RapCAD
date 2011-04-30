@@ -27,11 +27,19 @@ class BackgroundWorker : public QObject
 {
 	Q_OBJECT
 public:
-	BackgroundWorker(QTextStream&,QObject* parent = 0);
+	BackgroundWorker(bool,QTextStream&,QObject* parent = 0);
+	void evaluate(QString path, bool print, QString format);
+signals:
+	void done(CGALPrimitive*);
 public slots:
-	CGALPrimitive* evaluate(QString path, bool print, QString format);
+	void doWork();
 private:
 	QTextStream& output;
+	QThread* thread;
+	QString path;
+	bool print;
+	QString format;
+	bool background;
 };
 
 #endif // BACKGROUNDWORKER_H

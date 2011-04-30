@@ -23,6 +23,7 @@
 #include <QStandardItemModel>
 #include "syntaxhighlighter.h"
 #include "texteditiodevice.h"
+#include "backgroundworker.h"
 
 namespace Ui
 {
@@ -46,6 +47,7 @@ private slots:
 	bool saveAsFile();
 	void openFile();
 	void compileAndRender();
+	void evaluationDone(CGALPrimitive*);
 private:
 	void setupLayout();
 	void setupActions();
@@ -57,6 +59,7 @@ private:
 	QStandardItemModel* myModel;
 	SyntaxHighlighter* highlighter;
 	TextEditIODevice* console;
+	BackgroundWorker* worker;
 	QString fileName;
 
 };

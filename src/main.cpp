@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
 
 	if(!useGUI) {
 		QTextStream out(stdout);
-		BackgroundWorker b(out);
+		BackgroundWorker b(false,out);
 		b.evaluate(filename,print,printformat);
 		return 0;
 	} else {

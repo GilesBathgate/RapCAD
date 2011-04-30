@@ -27,10 +27,13 @@ class TextEditIODevice : public QIODevice
 	Q_OBJECT
 public:
 	TextEditIODevice(QTextEdit*,QObject* parent = 0);
-	void clear();
+signals:
+	void textRecieved(QString);
 protected:
 	qint64 readData(char*,qint64);
 	qint64 writeData(const char*,qint64);
+private slots:
+	void writeTextEdit(QString);
 private:
 	QTextEdit* textEdit;
 };
