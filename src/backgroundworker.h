@@ -19,27 +19,17 @@
 #ifndef BACKGROUNDWORKER_H
 #define BACKGROUNDWORKER_H
 
-#include <QObject>
-#include <QTextStream>
-#include "cgalprimitive.h"
+#include "worker.h"
 
-class BackgroundWorker : public QObject
+class BackgroundWorker : public Worker
 {
 	Q_OBJECT
 public:
-	BackgroundWorker(bool,QTextStream&,QObject* parent = 0);
-	void evaluate(QString path, bool print, QString format);
-signals:
-	void done(CGALPrimitive*);
-public slots:
-	void doWork();
+	BackgroundWorker(QTextStream&,QObject* parent = 0);
+	void evaluate(QString, bool, QString);
 private:
-	QTextStream& output;
+	void finish();
 	QThread* thread;
-	QString path;
-	bool print;
-	QString format;
-	bool background;
 };
 
 #endif // BACKGROUNDWORKER_H

@@ -16,30 +16,15 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QTime>
 #include <QThread>
 #include "backgroundworker.h"
-#include "script.h"
-#include "treeprinter.h"
-#include "solidpython.h"
-#include "evaluator.h"
-#include "nodeprinter.h"
-#include "nodeevaluator.h"
 
-#include "CGAL/exceptions.h"
-
-extern Script* parse(QString);
-
-BackgroundWorker::BackgroundWorker(bool b, QTextStream& s,QObject* parent) :
-	QObject(parent)
-	, output(s)
+BackgroundWorker::BackgroundWorker(QTextStream& s,QObject* parent) :
+	Worker(s,parent)
 {
-	background=b;
-	if(background) {
-		thread=new QThread();
-		connect(thread,SIGNAL(started()),this,SLOT(doWork()));
-		this->moveToThread(thread);
-	}
+	thread=new QThread();
+	connect(thread,SIGNAL(started()),this,SLOT(doWork()));
+	this->moveToThread(thread);
 }
 
 void BackgroundWorker::evaluate(QString f, bool p, QString m)
@@ -47,58 +32,10 @@ void BackgroundWorker::evaluate(QString f, bool p, QString m)
 	path=f;
 	print=p;
 	format=m;
-
-	if(background) {
-		thread->start();
-	} else {
-		doWork();
-	}
+	thread->start();
 }
 
-void BackgroundWorker::doWork()
+void BackgroundWorker::finish()
 {
-	QTime t;
-	t.start();
-
-	Script* s=parse(path);
-
-	if(format =="solidpython") {
-		SolidPython p;
-		s->accept(p);
-	} else if(print) {
-		TreePrinter p(output);
-		s->accept(p);
-		output.flush();
-	}
-
-	Evaluator e(output);
-	s->accept(e);
-	delete s;
-
-	Node* n = e.getRootNode();
-	if(print) {
-		NodePrinter p(output);
-		n->accept(p);
-		output.flush();
-	}
-
-	NodeEvaluator ne;
-	try {
-		n->accept(ne);
-		delete n;
-	} catch(CGAL::Assertion_exception e) {
-		output << "Error: " << QString::fromStdString(e.expression()) << "\n";
-	}
-
-	CGALPrimitive* result=ne.getResult();
-	if(!result)
-		output << "Warning: No top level object.\n";
-
-	output << QString("Total rendering time: %1ms.\n").arg(t.elapsed());;
-	output.flush();
-
-	emit done(result);
-
-	if(background)
-		thread->quit();
+	thread->quit();
 }

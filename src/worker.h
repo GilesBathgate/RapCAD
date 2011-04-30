@@ -16,42 +16,30 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtGui/QApplication>
+#ifndef WORKER_H
+#define WORKER_H
+
+#include <QObject>
 #include <QTextStream>
-#include "mainwindow.h"
-#include "backgroundworker.h"
+#include "cgalprimitive.h"
 
-int main(int argc, char* argv[])
+class Worker : public QObject
 {
-	int opt;
-	QString filename;
-	bool print=false;
-	QString printformat;
-	bool useGUI=true;
+	Q_OBJECT
+public:
+	Worker(QTextStream&,QObject* parent = 0);
+	virtual void evaluate(QString path, bool print, QString format);
+signals:
+	void done(CGALPrimitive*);
+protected slots:
+	void doWork();
+protected:
+	virtual void finish();
+	QString path;
+	bool print;
+	QString format;
+private:
+	QTextStream& output;
+};
 
-	while((opt = getopt(argc, argv, "f:p::")) != -1) {
-		switch(opt) {
-		case 'f':
-			useGUI=false;
-			filename=QString(optarg);
-			break;
-		case 'p':
-			print=true;
-			printformat=QString(optarg);
-			break;
-		}
-	}
-
-	if(!useGUI) {
-		QTextStream out(stdout);
-		Worker b(out);
-		b.evaluate(filename,print,printformat);
-		return 0;
-	} else {
-		QApplication a(argc, argv);
-		MainWindow w;
-		w.show();
-
-		return a.exec();
-	}
-}
+#endif // WORKER_H

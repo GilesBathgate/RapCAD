@@ -142,7 +142,7 @@ void MainWindow::setupEditor()
 	c->setFont(font);
 	console=new TextEditIODevice(c,this);
 	QTextStream* output=new QTextStream(console);
-	worker=new BackgroundWorker(true,*output);
+	worker=new BackgroundWorker(*output);
 	connect(worker,SIGNAL(done(CGALPrimitive*)),this,SLOT(evaluationDone(CGALPrimitive*)));
 }
 
