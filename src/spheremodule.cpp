@@ -35,8 +35,13 @@ Node* SphereModule::evaluate(Context* ctx,QList<Node*>)
 		center=centerValue->isTrue();
 
 	double r=1;
-	if(rValue)
+	if(rValue) {
 		r=rValue->getNumber();
+	} else {
+		NumberValue* dValue = dynamic_cast<NumberValue*>(ctx->getArgument(0,"diameter"));
+		if(dValue)
+			r=(dValue->getNumber()/2.0);
+	}
 
 	double fn=0.0;
 	double fs=1.0;
