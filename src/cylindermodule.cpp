@@ -41,8 +41,13 @@ Node* CylinderModule::evaluate(Context* ctx,QList<Node*>)
 	if(!r1Value) {
 		NumberValue* rValue = dynamic_cast<NumberValue*>(ctx->getArgument(1,"radius"));
 		centerValue = dynamic_cast<BooleanValue*>(ctx->getArgument(2,"center"));
-		if(rValue)
+		if(rValue) {
 			r1=r2=r=rValue->getNumber();
+		} else {
+			NumberValue* dValue = dynamic_cast<NumberValue*>(ctx->getArgument(1,"diameter"));
+			if(dValue)
+				r1=r2=r=(dValue->getNumber()/2.0);
+		}
 	} else {
 		if(r1Value)
 			r1=r1Value->getNumber();
