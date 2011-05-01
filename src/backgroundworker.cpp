@@ -26,6 +26,11 @@ BackgroundWorker::BackgroundWorker(QTextStream& s,QObject* parent) :
 	this->moveToThread(thread);
 }
 
+BackgroundWorker::~BackgroundWorker()
+{
+	delete thread;
+}
+
 void BackgroundWorker::evaluate(QString f, bool p, QString m)
 {
 	path=f;

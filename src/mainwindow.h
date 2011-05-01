@@ -21,6 +21,7 @@
 
 #include <QMainWindow>
 #include <QStandardItemModel>
+#include <QTextStream>
 #include "syntaxhighlighter.h"
 #include "texteditiodevice.h"
 #include "backgroundworker.h"
@@ -58,6 +59,7 @@ private:
 	Ui::MainWindow* ui;
 	QStandardItemModel* myModel;
 	SyntaxHighlighter* highlighter;
+	QTextStream* output;
 	TextEditIODevice* console;
 	BackgroundWorker* worker;
 	QString fileName;

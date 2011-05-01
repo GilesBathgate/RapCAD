@@ -16,7 +16,6 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QTextStream>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QTextDocumentWriter>
@@ -46,6 +45,8 @@ MainWindow::~MainWindow()
 {
 	delete highlighter;
 	delete console;
+	delete output;
+	delete worker;
 	delete ui;
 }
 
@@ -141,7 +142,7 @@ void MainWindow::setupEditor()
 	font.setPointSize(8);
 	c->setFont(font);
 	console=new TextEditIODevice(c,this);
-	QTextStream* output=new QTextStream(console);
+	output=new QTextStream(console);
 	worker=new BackgroundWorker(*output);
 	connect(worker,SIGNAL(done(CGALPrimitive*)),this,SLOT(evaluationDone(CGALPrimitive*)));
 }
