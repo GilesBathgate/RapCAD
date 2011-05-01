@@ -18,9 +18,8 @@
 
 #include "context.h"
 #include "modulescope.h"
-#include <stdio.h>
 
-Context::Context()
+Context::Context(QTextStream& s) : output(s)
 {
 	parent=NULL;
 	currentValue=NULL;
@@ -123,7 +122,7 @@ Value* Context::getArgument(int index, QString name, QString deprecated)
 	if(!v) {
 		v = matchArgument(false,false,index,deprecated);
 		if(v)
-			printf("Warning '%s' parameter is deprecated use '%s' instead\n",deprecated.toLocal8Bit().constData(),name.toLocal8Bit().constData());
+			output << "Warning '" << deprecated << "' parameter is deprecated use '" << name << "' instead\n";
 	}
 
 	return v;

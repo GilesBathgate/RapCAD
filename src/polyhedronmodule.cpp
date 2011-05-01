@@ -21,7 +21,6 @@
 #include "vectorvalue.h"
 #include "numbervalue.h"
 #include "primitivenode.h"
-#include <stdio.h>
 
 PolyhedronModule::PolyhedronModule() : PrimitiveModule("polyhedron")
 {

@@ -83,7 +83,7 @@ void Evaluator::initBuiltins(Script* sc)
 void Evaluator::startContext(Scope* scp)
 {
 	Context* parent = context;
-	context = new Context();
+	context = new Context(output);
 	context->parent = parent;
 	context->currentScope=scp;
 	contextStack.push(context);

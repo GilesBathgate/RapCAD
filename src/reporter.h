@@ -16,33 +16,20 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef WORKER_H
-#define WORKER_H
+#ifndef REPORTER_H
+#define REPORTER_H
 
-#include <QObject>
 #include <QTextStream>
-#include "cgalprimitive.h"
-#include "reporter.h"
+#include "abstracttokenbuilder.h"
 
-class Worker : public QObject
+class Reporter
 {
-	Q_OBJECT
 public:
-	Worker(QTextStream&,QObject* parent = 0);
-	virtual void evaluate(QString path, bool print, QString format);
-	virtual ~Worker();
-signals:
-	void done(CGALPrimitive*);
-protected slots:
-	void doWork();
-protected:
-	virtual void finish();
-	QString path;
-	bool print;
-	QString format;
+	Reporter(QTextStream& s);
+	void reportSyntaxError(AbstractTokenBuilder*,QString,QString);
+	void reportLexicalError(AbstractTokenBuilder*,QString);
 private:
 	QTextStream& output;
-	Reporter* reporter;
 };
 
-#endif // WORKER_H
+#endif // REPORTER_H

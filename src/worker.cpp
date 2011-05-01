@@ -27,13 +27,20 @@
 
 #include "CGAL/exceptions.h"
 
-extern Script* parse(QString);
+extern Script* parse(QString,Reporter*);
 
-Worker::Worker(QTextStream& s, QObject *parent) :
+Worker::Worker(QTextStream& s, QObject* parent) :
 	QObject(parent),
 	output(s)
 {
+	reporter=new Reporter(output);
 }
+
+Worker::~Worker()
+{
+	delete reporter;
+}
+
 void Worker::evaluate(QString f, bool p, QString m)
 {
 	path=f;
@@ -47,7 +54,7 @@ void Worker::doWork()
 	QTime t;
 	t.start();
 
-	Script* s=parse(path);
+	Script* s=parse(path,reporter);
 
 	if(format =="solidpython") {
 		SolidPython p;
@@ -86,7 +93,7 @@ void Worker::doWork()
 	output.flush();
 
 	emit done(result);
-	
+
 	finish();
 }
 

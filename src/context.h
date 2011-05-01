@@ -20,6 +20,7 @@
 #define CONTEXT_H
 
 #include <QHash>
+#include <QTextStream>
 #include "value.h"
 #include "module.h"
 #include "function.h"
@@ -28,7 +29,7 @@
 class Context
 {
 public:
-	Context();
+	Context(QTextStream& s);
 
 	Context* parent;
 
@@ -61,6 +62,7 @@ private:
 	QHash<QString,Module*> modules;
 	QHash<QString,Function*> functions;
 	bool contains(QList<Value*>,QString);
+	QTextStream& output;
 };
 
 #endif // CONTEXT_H

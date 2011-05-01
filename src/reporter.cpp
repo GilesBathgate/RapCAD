@@ -16,33 +16,21 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef WORKER_H
-#define WORKER_H
-
-#include <QObject>
-#include <QTextStream>
-#include "cgalprimitive.h"
 #include "reporter.h"
 
-class Worker : public QObject
+Reporter::Reporter(QTextStream& s) : output(s)
 {
-	Q_OBJECT
-public:
-	Worker(QTextStream&,QObject* parent = 0);
-	virtual void evaluate(QString path, bool print, QString format);
-	virtual ~Worker();
-signals:
-	void done(CGALPrimitive*);
-protected slots:
-	void doWork();
-protected:
-	virtual void finish();
-	QString path;
-	bool print;
-	QString format;
-private:
-	QTextStream& output;
-	Reporter* reporter;
-};
+}
 
-#endif // WORKER_H
+void Reporter::reportSyntaxError(AbstractTokenBuilder* t, QString msg, QString text)
+{
+	int pos=t->getPosition();
+	int line=t->getLineNumber();
+	output << "line " << line << ": " << msg << " at character " << pos << ": '" << text << "'.\n";
+}
+
+void Reporter::reportLexicalError(AbstractTokenBuilder* t, QString text)
+{
+	int line=t->getLineNumber();
+	output << line << ": illegal token '" << text << "'.\n";
+}

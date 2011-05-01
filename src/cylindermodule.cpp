@@ -22,7 +22,6 @@
 #include "booleanvalue.h"
 #include "primitivenode.h"
 #include "tau.h"
-#include <stdio.h>
 
 CylinderModule::CylinderModule() : PrimitiveModule("cylinder")
 {

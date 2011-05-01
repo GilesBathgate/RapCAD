@@ -18,13 +18,15 @@
 
 %{
 #include "abstracttokenbuilder.h"
+#include "reporter.h"
 
 void lexererror();
 void lexerinclude(const char*);
-void lexerinit(AbstractTokenBuilder*,QString,bool);
+void lexerinit(AbstractTokenBuilder*,Reporter*,QString,bool);
 void lexerbegin();
 
 static AbstractTokenBuilder* tokenizer;
+static Reporter* reporter;
 %}
 
 %option yylineno
@@ -113,12 +115,14 @@ NL \n|\r\n
 
 void lexererror()
 {
-	fprintf(stderr,"%d: illegal token '%s'.\n",lexerlineno,lexertext);
+	if(reporter) //Reporter can be null
+		reporter->reportLexicalError(tokenizer,lexertext);
 }
 
-void lexerinit(AbstractTokenBuilder* b,QString input,bool file)
+void lexerinit(AbstractTokenBuilder* b,Reporter* r, QString input,bool file)
 {
-	tokenizer = b;
+	reporter=r;
+	tokenizer=b;
 
 	if(file) {
 		QFileInfo fileinfo(input);

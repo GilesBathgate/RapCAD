@@ -19,21 +19,22 @@
 %expect 1 // Dangling else problem causes 1 shift/reduce conflict
 
 %{
-#include <stdio.h>
 #include <QString>
 #include <QList>
 #include "syntaxtreebuilder.h"
 #include "tokenbuilder.h"
 #include "script.h"
+#include "reporter.h"
 
 extern char *lexertext;
-extern void lexerinit(AbstractTokenBuilder*,QString,bool);
-Script* parse(QString,bool);
+extern void lexerinit(AbstractTokenBuilder*,Reporter*,QString,bool);
+Script* parse(QString,Reporter*);
 
 static void parsererror(char const *);
 static int parserlex();
 static AbstractSyntaxTreeBuilder *builder;
 static AbstractTokenBuilder* tokenizer;
+static Reporter* reporter;
 %}
 
 %union {
@@ -420,17 +421,16 @@ static int parserlex()
 
 static void parsererror(char const *s)
 {
-	int pos=tokenizer->getPosition();
-	int line=tokenizer->getLineNumber();
-	fprintf(stderr,"line %d: %s at character %i: '%s'\n", line, s, pos, lexertext);
+	reporter->reportSyntaxError(tokenizer,s,lexertext);
 }
 
-Script* parse(QString path)
+Script* parse(QString path, Reporter* r)
 {
+	reporter=r;
 	builder=new SyntaxTreeBuilder();
 
 	tokenizer=new TokenBuilder();
-	lexerinit(tokenizer,path,true);
+	lexerinit(tokenizer,reporter,path,true);
 	parserparse();
 	delete tokenizer;
 
