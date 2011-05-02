@@ -19,12 +19,13 @@
 #ifndef INTERSECTIONNODE_H
 #define INTERSECTIONNODE_H
 
-#include "operationnode.h"
+#include "node.h"
 
-class IntersectionNode : public OperationNode
+class IntersectionNode : public Node
 {
 public:
 	IntersectionNode();
+	void accept(NodeVisitor&);
 };
 
 #endif // INTERSECTIONNODE_H

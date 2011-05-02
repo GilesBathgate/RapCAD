@@ -18,6 +18,11 @@
 
 #include "symmetricdifferencenode.h"
 
-SymmetricDifferenceNode::SymmetricDifferenceNode() : OperationNode("symmetric_difference")
+SymmetricDifferenceNode::SymmetricDifferenceNode()
 {
+}
+
+void SymmetricDifferenceNode::accept(NodeVisitor& v)
+{
+	v.visit(this);
 }

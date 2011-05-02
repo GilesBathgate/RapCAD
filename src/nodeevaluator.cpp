@@ -31,13 +31,32 @@ void NodeEvaluator::visit(PrimitiveNode* n)
 	result=new CGALPrimitive(nefPoly);
 }
 
-void NodeEvaluator::visit(OperationNode* op)
+void NodeEvaluator::visit(UnionNode* op)
 {
-	QString name=op->getName();
-	evaluate(op,name);
+	evaluate(op,Union);
 }
 
-void NodeEvaluator::evaluate(Node* op,QString name)
+void NodeEvaluator::visit(DifferenceNode* op)
+{
+	evaluate(op,Difference);
+}
+
+void NodeEvaluator::visit(IntersectionNode* op)
+{
+	evaluate(op,Intersection);
+}
+
+void NodeEvaluator::visit(SymmetricDifferenceNode* op)
+{
+	evaluate(op,SymmetricDifference);
+}
+
+void NodeEvaluator::visit(MinkowskiNode* op)
+{
+	evaluate(op,Minkowski);
+}
+
+void NodeEvaluator::evaluate(Node* op,Operation_e type)
 {
 	CGALPrimitive* first=NULL;
 	foreach(Node* n, op->getChildren()) {
@@ -45,16 +64,23 @@ void NodeEvaluator::evaluate(Node* op,QString name)
 		if(!first) {
 			first=result;
 		} else {
-			if(name=="union")
+			switch(type) {
+			case Union:
 				first=first->join(result);
-			else if(name=="difference")
+				break;
+			case Difference:
 				first=first->difference(result);
-			else if(name=="intersection")
+				break;
+			case Intersection:
 				first=first->intersection(result);
-			else if(name=="symmetric_difference")
+				break;
+			case SymmetricDifference:
 				first=first->symmetric_difference(result);
-			else if(name=="minkowski")
+				break;
+			case Minkowski:
 				first=first->minkowski(result);
+				break;
+			}
 		}
 	}
 
@@ -63,7 +89,7 @@ void NodeEvaluator::evaluate(Node* op,QString name)
 
 void NodeEvaluator::visit(TransformationNode* tr)
 {
-	evaluate(tr,"union");
+	evaluate(tr,Union);
 	double* m=tr->matrix;
 	CGAL::AffTransformation3 t(
 		m[0], m[4], m[ 8], m[12],

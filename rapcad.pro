@@ -93,7 +93,6 @@ SOURCES += \
     src/primitivemodule.cpp \
     src/node.cpp \
     src/transformationnode.cpp \
-    src/operationnode.cpp \
     src/glview.cpp \
     src/cgalrenderer.cpp \
     src/point.cpp \
@@ -185,7 +184,6 @@ HEADERS  += \
     src/primitivemodule.h \
     src/node.h \
     src/transformationnode.h \
-    src/operationnode.h \
     src/GLView.h \
     src/cgalrenderer.h \
     src/OGL_helper.h \

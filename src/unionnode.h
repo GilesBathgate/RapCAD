@@ -19,12 +19,13 @@
 #ifndef UNIONNODE_H
 #define UNIONNODE_H
 
-#include "operationnode.h"
+#include "node.h"
 
-class UnionNode : public OperationNode
+class UnionNode : public Node
 {
 public:
 	UnionNode();
+	void accept(NodeVisitor&);
 };
 
 #endif // UNIONNODE_H

@@ -19,12 +19,13 @@
 #ifndef MINKOWSKINODE_H
 #define MINKOWSKINODE_H
 
-#include "operationnode.h"
+#include "node.h"
 
-class MinkowskiNode : public OperationNode
+class MinkowskiNode : public Node
 {
 public:
 	MinkowskiNode();
+	void accept(NodeVisitor&);
 };
 
 #endif // MINKOWSKINODE_H

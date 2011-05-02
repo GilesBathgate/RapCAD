@@ -18,6 +18,11 @@
 
 #include "minkowskinode.h"
 
-MinkowskiNode::MinkowskiNode() : OperationNode("minkowski")
+MinkowskiNode::MinkowskiNode()
 {
+}
+
+void MinkowskiNode::accept(NodeVisitor& v)
+{
+	v.visit(this);
 }

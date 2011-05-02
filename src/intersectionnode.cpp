@@ -18,6 +18,11 @@
 
 #include "intersectionnode.h"
 
-IntersectionNode::IntersectionNode() : OperationNode("intersection")
+IntersectionNode::IntersectionNode()
 {
+}
+
+void IntersectionNode::accept(NodeVisitor& v)
+{
+	v.visit(this);
 }

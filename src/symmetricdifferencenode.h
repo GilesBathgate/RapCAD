@@ -19,12 +19,13 @@
 #ifndef SYMMETRICDIFFERENCENODE_H
 #define SYMMETRICDIFFERENCENODE_H
 
-#include "operationnode.h"
+#include "node.h"
 
-class SymmetricDifferenceNode : public OperationNode
+class SymmetricDifferenceNode : public Node
 {
 public:
 	SymmetricDifferenceNode();
+	void accept(NodeVisitor&);
 };
 
 #endif // SYMMETRICDIFFERENCENODE_H

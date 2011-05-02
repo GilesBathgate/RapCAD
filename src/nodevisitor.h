@@ -24,7 +24,11 @@ class NodeVisitor
 public:
 	virtual ~NodeVisitor() {}
 	virtual void visit(class PrimitiveNode*)=0;
-	virtual void visit(class OperationNode*)=0;
+	virtual void visit(class UnionNode*)=0;
+	virtual void visit(class DifferenceNode*)=0;
+	virtual void visit(class IntersectionNode*)=0;
+	virtual void visit(class SymmetricDifferenceNode*)=0;
+	virtual void visit(class MinkowskiNode*)=0;
 	virtual void visit(class TransformationNode*)=0;
 };
 

@@ -60,9 +60,34 @@ void NodePrinter::visit(PrimitiveNode* n)
 	result << "]);";
 }
 
-void NodePrinter::visit(OperationNode* n)
+void NodePrinter::visit(UnionNode* n)
 {
-	result << n->getName();
+	printOperation(n,"union");
+}
+
+void NodePrinter::visit(DifferenceNode* n)
+{
+	printOperation(n,"difference");
+}
+
+void NodePrinter::visit(IntersectionNode* n)
+{
+	printOperation(n,"intersection");
+}
+
+void NodePrinter::visit(SymmetricDifferenceNode* n)
+{
+	printOperation(n,"symmetric_difference");
+}
+
+void NodePrinter::visit(MinkowskiNode* n)
+{
+	printOperation(n,"minkowski");
+}
+
+void NodePrinter::printOperation(Node* n,QString name)
+{
+	result << name;
 	result << "(){";
 	foreach(Node* c,n->getChildren())
 		c->accept(*this);

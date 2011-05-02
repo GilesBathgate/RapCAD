@@ -24,16 +24,32 @@
 #include "cgalprimitive.h"
 #include "nodevisitor.h"
 #include "primitivenode.h"
-#include "operationnode.h"
+#include "unionnode.h"
+#include "differencenode.h"
+#include "intersectionnode.h"
+#include "symmetricdifferencenode.h"
+#include "minkowskinode.h"
 #include "transformationnode.h"
 
 class NodeEvaluator : public NodeVisitor, private CGALBuilder
 {
 public:
+	enum Operation_e {
+		Union,
+		Difference,
+		Intersection,
+		SymmetricDifference,
+		Minkowski
+	};
+
 	NodeEvaluator();
 	void visit(PrimitiveNode*);
-	void visit(OperationNode*);
-	void evaluate(Node*,QString);
+	void visit(UnionNode*);
+	void visit(DifferenceNode*);
+	void visit(IntersectionNode*);
+	void visit(SymmetricDifferenceNode*);
+	void visit(MinkowskiNode*);
+	void evaluate(Node*,Operation_e);
 	void visit(TransformationNode*);
 	CGALPrimitive* getResult() const;
 private:

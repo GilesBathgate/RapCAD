@@ -22,7 +22,11 @@
 #include <QTextStream>
 #include "nodevisitor.h"
 #include "primitivenode.h"
-#include "operationnode.h"
+#include "unionnode.h"
+#include "differencenode.h"
+#include "intersectionnode.h"
+#include "symmetricdifferencenode.h"
+#include "minkowskinode.h"
 #include "transformationnode.h"
 
 class NodePrinter : public NodeVisitor
@@ -30,7 +34,12 @@ class NodePrinter : public NodeVisitor
 public:
 	NodePrinter(QTextStream&);
 	void visit(PrimitiveNode*);
-	void visit(OperationNode*);
+	void visit(UnionNode*);
+	void visit(DifferenceNode*);
+	void visit(IntersectionNode*);
+	void visit(SymmetricDifferenceNode*);
+	void visit(MinkowskiNode*);
+	void printOperation(Node*,QString name);
 	void visit(TransformationNode*);
 private:
 	QTextStream& result;

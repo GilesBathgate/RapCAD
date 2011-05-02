@@ -19,12 +19,13 @@
 #ifndef DIFFERENCENODE_H
 #define DIFFERENCENODE_H
 
-#include "operationnode.h"
+#include "node.h"
 
-class DifferenceNode : public OperationNode
+class DifferenceNode : public Node
 {
 public:
 	DifferenceNode();
+	void accept(NodeVisitor&);
 };
 
 #endif // DIFFERENCENODE_H

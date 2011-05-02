@@ -18,6 +18,11 @@
 
 #include "unionnode.h"
 
-UnionNode::UnionNode() : OperationNode("union")
+UnionNode::UnionNode()
 {
+}
+
+void UnionNode::accept(NodeVisitor& v)
+{
+	v.visit(this);
 }
