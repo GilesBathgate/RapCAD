@@ -28,6 +28,11 @@ public:
 	~DependencyBuilder();
 	void buildScript(Declaration*);
 	void buildScript(QList<Declaration*>*);
+	void buildScript(QList<CodeDoc*>*);
+	QList<CodeDoc*>* buildCodeDoc(QList<CodeDoc*>*);
+	QList<CodeDoc*>* buildCodeDoc();
+	QList<CodeDoc*>* buildCodeDoc(QString*,QList<CodeDoc*>*);
+	QList<CodeDoc*>* buildCodeDoc(QString*,QString*,QList<CodeDoc*>*);
 	Declaration* buildUse(QString*);
 	Declaration* buildUse(QString*,QString*);
 	Declaration* buildImport(QString*,QString*);

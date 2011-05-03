@@ -437,6 +437,10 @@ Node* Evaluator::createUnion(QList<Node*> childnodes)
 	}
 }
 
+void Evaluator::visit(CodeDoc*)
+{
+}
+
 void Evaluator::visit(Script* sc)
 {
 	initBuiltins(sc);

@@ -87,6 +87,10 @@ public:
 	void buildCommentStart();
 	unsigned int buildComment(QString);
 	void buildCommentFinish();
+	unsigned int buildCodeDocStart();
+	unsigned int buildCodeDoc(QString);
+	unsigned int buildCodeDocParam(QString);
+	unsigned int buildCodeDocFinish();
 	void buildWhiteSpaceError();
 	void buildWhiteSpace();
 	void buildNewLine();

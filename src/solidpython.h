@@ -73,6 +73,7 @@ public:
 	void visit(ScriptImport*);
 	void visit(Literal*);
 	void visit(Variable*);
+	void visit(CodeDoc*);
 	void visit(Script*);
 private:
 	QString getVariable();

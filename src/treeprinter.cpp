@@ -416,8 +416,22 @@ void TreePrinter::visit(Variable* var)
 	result << var->getName();
 }
 
+void TreePrinter::visit(CodeDoc* cd)
+{
+	result << cd->getName() << " " << cd->getText() << "\n";
+}
+
 void TreePrinter::visit(Script* sc)
 {
 	foreach(Declaration* d, sc->getDeclarations())
 		d->accept(*this);
+
+	foreach(QList<CodeDoc*> docs, sc->getDocumentation()) {
+		result << "/**\n";
+
+		foreach(CodeDoc* doc, docs)
+			doc->accept(*this);
+
+		result << "*/\n";
+	}
 }

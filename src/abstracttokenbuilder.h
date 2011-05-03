@@ -84,6 +84,10 @@ public:
 	virtual void buildCommentStart()=0;
 	virtual unsigned int buildComment(QString)=0;
 	virtual void buildCommentFinish()=0;
+	virtual unsigned int buildCodeDocStart()=0;
+	virtual unsigned int buildCodeDoc(QString)=0;
+	virtual unsigned int buildCodeDocParam(QString)=0;
+	virtual unsigned int buildCodeDocFinish()=0;
 	virtual void buildWhiteSpaceError()=0;
 	virtual void buildWhiteSpace()=0;
 	virtual void buildNewLine()=0;

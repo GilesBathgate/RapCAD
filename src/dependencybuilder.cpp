@@ -34,6 +34,30 @@ void DependencyBuilder::buildScript(QList<Declaration*>*)
 {
 }
 
+void DependencyBuilder::buildScript(QList<CodeDoc*>*)
+{
+}
+
+QList<CodeDoc*>* DependencyBuilder::buildCodeDoc(QList<CodeDoc*>*)
+{
+	return NULL;
+}
+
+QList<CodeDoc*>* DependencyBuilder::buildCodeDoc()
+{
+	return NULL;
+}
+
+QList<CodeDoc*>* DependencyBuilder::buildCodeDoc(QString*,QList<CodeDoc*>*)
+{
+	return NULL;
+}
+
+QList<CodeDoc*>* DependencyBuilder::buildCodeDoc(QString*,QString*,QList<CodeDoc*>*)
+{
+	return NULL;
+}
+
 Declaration* DependencyBuilder::buildUse(QString*)
 {
 	return NULL;
@@ -251,12 +275,12 @@ Argument* DependencyBuilder::buildArgument(Variable*,Expression*)
 
 unsigned int DependencyBuilder::buildOptionalCommas()
 {
-	return NULL;
+	return 1;
 }
 
-unsigned int DependencyBuilder::buildOptionalCommas(unsigned int)
+unsigned int DependencyBuilder::buildOptionalCommas(unsigned int c)
 {
-	return NULL;
+	return c;
 }
 
 Expression* DependencyBuilder::buildLiteral()

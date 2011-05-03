@@ -343,6 +343,28 @@ void TokenBuilder::buildCommentFinish()
 {
 }
 
+unsigned int TokenBuilder::buildCodeDocStart()
+{
+	return DOCSTART;
+}
+
+unsigned int TokenBuilder::buildCodeDoc(QString s)
+{
+	parserlval.text = new QString(s.trimmed());
+	return DOCTEXT;
+}
+
+unsigned int TokenBuilder::buildCodeDocParam(QString s)
+{
+	parserlval.text = new QString(s.trimmed());
+	return DOCPARAM;
+}
+
+unsigned int TokenBuilder::buildCodeDocFinish()
+{
+	return DOCEND;
+}
+
 void TokenBuilder::buildWhiteSpaceError()
 {
 }

@@ -46,6 +46,7 @@
 #include "scriptimport.h"
 #include "literal.h"
 #include "variable.h"
+#include "codedoc.h"
 
 class TreePrinter : public TreeVisitor
 {
@@ -74,6 +75,7 @@ public:
 	void visit(ScriptImport*);
 	void visit(Literal*);
 	void visit(Variable*);
+	void visit(CodeDoc*);
 	void visit(Script*);
 private:
 	void createIndent();

@@ -23,6 +23,8 @@ extern int lexerlex_destroy();
 extern void lexerinit(AbstractTokenBuilder*,Reporter*,QString,bool);
 extern int lexerlex();
 extern void lexerbegin();
+extern void lexercomment();
+extern void lexercodedoc();
 extern int lexerleng;
 #define YY_CONTINUE 1;
 
@@ -39,17 +41,33 @@ SyntaxHighlighter::SyntaxHighlighter(QTextDocument* parent)
 	errorFormat.setBackground(Qt::red);
 
 	stringFormat.setForeground(Qt::darkGreen);
+
+	codeDocFormat.setForeground(Qt::darkBlue);
+
+	codeDocParamFormat.setForeground(Qt::blue);
+	codeDocParamFormat.setFontWeight(QFont::Bold);
 }
 
 void SyntaxHighlighter::highlightBlock(const QString& text)
 {
-	if(previousBlockState()!=1)
-		lexerbegin();
-
-	setCurrentBlockState(0);
 	startIndex=0;
 	lexerinit(this,NULL,text,false);
+
+	//Force lexer into correct state
+	switch(previousBlockState()) {
+	case Initial:
+		lexerbegin();
+		break;
+	case Comment:
+		lexercomment();
+		break;
+	case CodeDoc:
+		lexercodedoc();
+		break;
+	}
+
 	while(nextToken());
+
 }
 
 void SyntaxHighlighter::stop()
@@ -377,21 +395,55 @@ unsigned int SyntaxHighlighter::buildStringFinish()
 
 void SyntaxHighlighter::buildCommentStart()
 {
-	setCurrentBlockState(1);
+	setCurrentBlockState(Comment);
+	setFormat(startIndex,2,stringFormat);
+	startIndex+=2;
 }
 
 unsigned int SyntaxHighlighter::buildComment(QString)
 {
-	if(this->previousBlockState()==1)
-		this->setCurrentBlockState(1);
+	if(previousBlockState()==Comment)
+		setCurrentBlockState(Comment);
 
-	setFormat(startIndex,lexerleng+2,stringFormat);
+	setFormat(startIndex,lexerleng,stringFormat);
 	return YY_CONTINUE;
 }
 
 void SyntaxHighlighter::buildCommentFinish()
 {
-	setCurrentBlockState(0);
+	setCurrentBlockState(Initial);
+	setFormat(startIndex,2,stringFormat);
+	startIndex+=2;
+}
+
+unsigned int SyntaxHighlighter::buildCodeDocStart()
+{
+	setCurrentBlockState(CodeDoc);
+	setFormat(startIndex,lexerleng,codeDocFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildCodeDoc(QString)
+{
+	if(previousBlockState()==CodeDoc)
+		setCurrentBlockState(CodeDoc);
+
+	setFormat(startIndex,lexerleng,codeDocFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildCodeDocParam(QString)
+{
+	setFormat(startIndex,lexerleng,codeDocParamFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildCodeDocFinish()
+{
+	setCurrentBlockState(Initial);
+	setFormat(startIndex,2,codeDocFormat);
+	startIndex+=2;
+	return YY_CONTINUE;
 }
 
 void SyntaxHighlighter::buildWhiteSpaceError()

@@ -458,6 +458,10 @@ void SolidPython::visit(Variable* var)
 	varnames.append(v);
 }
 
+void SolidPython::visit(CodeDoc*)
+{
+}
+
 void SolidPython::visit(Script* sc)
 {
 	result.append("#!/usr/bin/python\n");

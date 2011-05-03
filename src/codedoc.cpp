@@ -16,30 +16,33 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SCRIPT_H
-#define SCRIPT_H
-
-#include <QList>
-#include "declaration.h"
-#include "scope.h"
 #include "codedoc.h"
 
-class Script : public Scope
+CodeDoc::CodeDoc()
 {
-public:
-	Script();
-	~Script();
+}
 
-	void setDeclarations(QList<Declaration*>);
-	QList<Declaration*> getDeclarations() const;
-	void addDeclaration(Declaration*);
-	void removeDeclaration(Declaration*);
-	void addDocumentation(QList<CodeDoc*>);
-	QList<QList<CodeDoc*> > getDocumentation();
-	void accept(TreeVisitor&);
-private:
-	QList<Declaration*> declarations;
-	QList<QList<CodeDoc*> > documentation;
-};
+void CodeDoc::setName(QString n)
+{
+	name=n;
+}
 
-#endif // SCRIPT_H
+QString CodeDoc::getName() const
+{
+	return name;
+}
+
+void CodeDoc::setText(QString t)
+{
+	text=t;
+}
+
+QString CodeDoc::getText() const
+{
+	return text;
+}
+
+void CodeDoc::accept(TreeVisitor& v)
+{
+	v.visit(this);
+}

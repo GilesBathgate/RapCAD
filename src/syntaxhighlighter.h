@@ -31,6 +31,12 @@ public:
 protected:
 	void highlightBlock(const QString& text);
 private:
+	enum Blockstate_e {
+		Initial=-1,
+		Comment,
+		CodeDoc
+	};
+
 	int nextToken();
 	int getPosition() const;
 	int getLineNumber() const;
@@ -88,6 +94,10 @@ private:
 	void buildCommentStart();
 	unsigned int buildComment(QString);
 	void buildCommentFinish();
+	unsigned int buildCodeDocStart();
+	unsigned int buildCodeDoc(QString);
+	unsigned int buildCodeDocParam(QString);
+	unsigned int buildCodeDocFinish();
 	void buildWhiteSpaceError();
 	void buildWhiteSpace();
 	void buildNewLine();
@@ -99,6 +109,8 @@ private:
 	QTextCharFormat stringFormat;
 	QTextCharFormat errorFormat;
 	QTextCharFormat operatorFormat;
+	QTextCharFormat codeDocFormat;
+	QTextCharFormat codeDocParamFormat;
 	int startIndex;
 	int stringStart;
 };

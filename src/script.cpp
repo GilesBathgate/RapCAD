@@ -48,6 +48,16 @@ void Script::removeDeclaration(Declaration* dec)
 	declarations.removeAll(dec);
 }
 
+void Script::addDocumentation(QList<CodeDoc*> docs)
+{
+	documentation.append(docs);
+}
+
+QList<QList<CodeDoc*> > Script::getDocumentation()
+{
+	return documentation;
+}
+
 void Script::accept(TreeVisitor& v)
 {
 	v.visit(this);

@@ -120,7 +120,8 @@ SOURCES += \
     src/childmodule.cpp \
     src/spheremodule.cpp \
     src/worker.cpp \
-    src/reporter.cpp
+    src/reporter.cpp \
+    src/codedoc.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -216,7 +217,8 @@ HEADERS  += \
     src/childmodule.h \
     src/spheremodule.h \
     src/worker.h \
-    src/reporter.h
+    src/reporter.h \
+    src/codedoc.h
 
 FORMS += \
     src/mainwindow.ui

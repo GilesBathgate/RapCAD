@@ -55,7 +55,11 @@ static Reporter* reporter;
 	class Scope* scp;
 	class Variable* var;
 	class Invocation* inv;
+	class QList<class CodeDoc*>* cdocs;
 }
+%token DOCSTART DOCEND
+%token <text> DOCPARAM
+%token <text> DOCTEXT
 %token <text> USE
 %token <text> IMPORT
 %token MODULE FUNCTION
@@ -83,6 +87,7 @@ static Reporter* reporter;
 %left '[' ']'
 %left '.'
 
+%type <cdocs> codedoc codedoc_param
 %type <count> optional_commas
 %type <decl>  declaration use_declaration import_declaration single_declaration define_declaration
 %type <decls>  declaration_list single_declaration_list compound_declaration
@@ -108,6 +113,22 @@ input
 	{ builder->buildScript($1); }
 	| single_declaration_list
 	{ builder->buildScript($1); }
+	| codedoc input
+	{ builder->buildScript($1); }
+	;
+
+codedoc
+	: DOCSTART codedoc_param DOCEND
+	{ $$ = builder->buildCodeDoc($2); }
+	;
+
+codedoc_param
+	: //empty
+	{ $$ = builder->buildCodeDoc(); }
+	| DOCTEXT codedoc_param
+	{ $$ = builder->buildCodeDoc($1,$2); }
+	| DOCPARAM DOCTEXT codedoc_param
+	{ $$ = builder->buildCodeDoc($1,$2,$3); }
 	;
 
 use_declaration
@@ -161,8 +182,8 @@ declaration
 	;
 
 define_declaration
-	: MODULE IDENTIFIER '(' parameters ')' module_scope
-	{ $$ = builder->buildModule($2,$4,$6); }
+	: codedoc MODULE IDENTIFIER '(' parameters ')' module_scope
+	{ $$ = builder->buildModule($3,$5,$7); }
 	| FUNCTION IDENTIFIER '(' parameters ')' function_scope
 	{ $$ = builder->buildFunction($2,$4,$6); }
 	;
@@ -201,7 +222,7 @@ single_statement
 	;
 
 return_statement
-        : RETURN expression ';'
+	: RETURN expression ';'
 	{ $$ = builder->buildReturnStatement($2); }
 	;
 

@@ -24,6 +24,8 @@ void lexererror();
 void lexerinclude(const char*);
 void lexerinit(AbstractTokenBuilder*,Reporter*,QString,bool);
 void lexerbegin();
+void lexercomment();
+void lexercodedoc();
 
 static AbstractTokenBuilder* tokenizer;
 static Reporter* reporter;
@@ -33,7 +35,9 @@ static Reporter* reporter;
 %option noyywrap
 %option nounput
 %x include use import
+%x codedoc
 %x comment string
+I [a-zA-Z0-9_]
 D [0-9]
 WS [ \t]
 NL \n|\r\n
@@ -89,7 +93,7 @@ NL \n|\r\n
 "%"				{ return tokenizer->buildModulus(); }
 [\[\]<>.;#${}(),^]		{ return tokenizer->buildLegalChar(lexertext[0]); }
 {D}+|{D}*\.{D}+|{D}+\.{D}*	{ return tokenizer->buildNumber(lexertext); }
-[a-zA-Z0-9_]+			{ return tokenizer->buildIdentifier(lexertext); }
+{I}+				{ return tokenizer->buildIdentifier(lexertext); }
 \"				{ BEGIN(string); tokenizer->buildStringStart(); }
 <string>{
 \\n				{ tokenizer->buildString('\n'); }
@@ -101,6 +105,13 @@ NL \n|\r\n
 \"				{ BEGIN(INITIAL); return tokenizer->buildStringFinish(); }
 }
 "//"[^\n]*\n?			{ tokenizer->buildComment(lexertext); }
+"/**"				{ BEGIN(codedoc); return tokenizer->buildCodeDocStart(); }
+<codedoc>{
+"@"{I}+{WS}+			{ return tokenizer->buildCodeDocParam(lexertext); }
+[^*@]*				{ return tokenizer->buildCodeDoc(lexertext); }
+"*"+[^*/@]*			{ return tokenizer->buildCodeDoc(lexertext); }
+"*/"				{ BEGIN(INITIAL); return tokenizer->buildCodeDocFinish(); }
+}
 "/*"				{ BEGIN(comment); tokenizer->buildCommentStart(); }
 <comment>{
 [^*]*				{ tokenizer->buildComment(lexertext); }
@@ -139,6 +150,16 @@ void lexerinit(AbstractTokenBuilder* b,Reporter* r, QString input,bool file)
 void lexerbegin()
 {
 	BEGIN(INITIAL);
+}
+
+void lexercomment()
+{
+	BEGIN(comment);
+}
+
+void lexercodedoc()
+{
+	BEGIN(codedoc);
 }
 
 void lexerinclude(const char* fullpath)

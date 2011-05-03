@@ -32,6 +32,42 @@ void SyntaxTreeBuilder::buildScript(Declaration* dec)
 	script->addDeclaration(dec);
 }
 
+void SyntaxTreeBuilder::buildScript(QList<CodeDoc*>* cdocs)
+{
+	script->addDocumentation(*cdocs);
+}
+
+QList<CodeDoc*>* SyntaxTreeBuilder::buildCodeDoc(QList<CodeDoc*>* cdocs)
+{
+	return cdocs;
+}
+
+QList<CodeDoc*>* SyntaxTreeBuilder::buildCodeDoc()
+{
+	return new QList<CodeDoc*>();
+}
+
+QList<CodeDoc*>* SyntaxTreeBuilder::buildCodeDoc(QString* t,QList<CodeDoc*>* cdocs)
+{
+	CodeDoc* cdoc = new CodeDoc();
+	cdoc->setName("@description");
+	cdoc->setText(*t);
+	delete t;
+	cdocs->prepend(cdoc);
+	return cdocs;
+}
+
+QList<CodeDoc*>* SyntaxTreeBuilder::buildCodeDoc(QString* n,QString* t,QList<CodeDoc*>* cdocs)
+{
+	CodeDoc* cdoc = new CodeDoc();
+	cdoc->setName(*n);
+	delete n;
+	cdoc->setText(*t);
+	delete t;
+	cdocs->prepend(cdoc);
+	return cdocs;
+}
+
 Declaration* SyntaxTreeBuilder::buildUse(QString* imp)
 {
 	ScriptImport* result = new ScriptImport();
