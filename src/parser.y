@@ -182,8 +182,8 @@ declaration
 	;
 
 define_declaration
-	: codedoc MODULE IDENTIFIER '(' parameters ')' module_scope
-	{ $$ = builder->buildModule($3,$5,$7); }
+	: MODULE IDENTIFIER '(' parameters ')' module_scope
+	{ $$ = builder->buildModule($2,$4,$6); }
 	| FUNCTION IDENTIFIER '(' parameters ')' function_scope
 	{ $$ = builder->buildFunction($2,$4,$6); }
 	;
