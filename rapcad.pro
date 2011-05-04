@@ -29,7 +29,7 @@ TEMPLATE = app
 INCLUDEPATH += src
 LEXSOURCES += src/lexer.l
 YACCSOURCES += src/parser.y
-LIBS += -lCGAL -lmpfr -lgmp
+LIBS += -lCGAL -lmpfr -lgmp -ldxflib
 #LIBS += -L$$PWD/librapcad -lrapcad
 QMAKE_CXXFLAGS += -frounding-math
 QMAKE_YACC = bison
@@ -121,7 +121,8 @@ SOURCES += \
     src/spheremodule.cpp \
     src/worker.cpp \
     src/reporter.cpp \
-    src/codedoc.cpp
+    src/codedoc.cpp \
+    src/dxfbuilder.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -218,7 +219,8 @@ HEADERS  += \
     src/spheremodule.h \
     src/worker.h \
     src/reporter.h \
-    src/codedoc.h
+    src/codedoc.h \
+    src/dxfbuilder.h
 
 FORMS += \
     src/mainwindow.ui
