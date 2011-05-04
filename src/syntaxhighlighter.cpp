@@ -432,6 +432,12 @@ unsigned int SyntaxHighlighter::buildCodeDoc(QString)
 	return YY_CONTINUE;
 }
 
+void SyntaxHighlighter::buildCodeDoc()
+{
+	setFormat(startIndex,lexerleng,codeDocFormat);
+	startIndex+=lexerleng;
+}
+
 unsigned int SyntaxHighlighter::buildCodeDocParam(QString)
 {
 	setFormat(startIndex,lexerleng,codeDocParamFormat);

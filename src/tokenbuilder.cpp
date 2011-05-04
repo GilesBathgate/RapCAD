@@ -354,6 +354,10 @@ unsigned int TokenBuilder::buildCodeDoc(QString s)
 	return DOCTEXT;
 }
 
+void TokenBuilder::buildCodeDoc()
+{
+}
+
 unsigned int TokenBuilder::buildCodeDocParam(QString s)
 {
 	parserlval.text = new QString(s.trimmed());

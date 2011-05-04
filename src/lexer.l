@@ -109,7 +109,7 @@ NL \n|\r\n
 <codedoc>{
 "@"{I}+{WS}+			{ return tokenizer->buildCodeDocParam(lexertext); }
 [^*@]*				{ return tokenizer->buildCodeDoc(lexertext); }
-"*"+[^*/@]*			{ return tokenizer->buildCodeDoc(lexertext); }
+"*"+[^*/@]*|"@"			{ tokenizer->buildCodeDoc(); }
 "*/"				{ BEGIN(INITIAL); return tokenizer->buildCodeDocFinish(); }
 }
 "/*"				{ BEGIN(comment); tokenizer->buildCommentStart(); }
