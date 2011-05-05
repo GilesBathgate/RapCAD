@@ -39,6 +39,7 @@
 #include "scalemodule.h"
 #include "shearmodule.h"
 #include "spheremodule.h"
+#include "childmodule.h"
 
 #include "unionnode.h"
 
@@ -79,6 +80,7 @@ void Evaluator::initBuiltins(Script* sc)
 		Evaluator::builtins.append(new ScaleModule());
 		Evaluator::builtins.append(new ShearModule());
 		Evaluator::builtins.append(new SphereModule());
+		Evaluator::builtins.append(new ChildModule());
 	}
 	foreach(Declaration* d,Evaluator::builtins)
 		sc->addDeclaration(d);
@@ -103,10 +105,12 @@ void Evaluator::visit(ModuleScope* scp)
 {
 	QList<Value*> arguments = context->arguments;
 	QList<Value*> parameters = context->parameters;
+	QList<Node*> childnodes = context->inputNodes;
 
 	startContext(scp);
 
 	context->setArguments(arguments,parameters);
+	context->inputNodes=childnodes;
 
 	foreach(Declaration* d, scp->getDeclarations()) {
 		d->accept(*this);
@@ -116,7 +120,7 @@ void Evaluator::visit(ModuleScope* scp)
 		output << "Warning: return statement not valid inside module scope.\n";
 
 	//"pop" our child nodes.
-	QList<Node*> childnodes=context->currentNodes;
+	childnodes=context->currentNodes;
 	finishContext();
 
 	Node* n=createUnion(childnodes);
@@ -127,14 +131,18 @@ void Evaluator::visit(Instance* inst)
 {
 	QString name = inst->getName();
 
-	startContext(context->currentScope);
+	QList <Statement*> stmts = inst->getChildren();
+	if(stmts.size()>0){
+		startContext(context->currentScope);
 
-	foreach(Statement* s, inst->getChildren()) {
-		s->accept(*this);
+		foreach(Statement* s,stmts) {
+			s->accept(*this);
+		}
+		//"pop" our child nodes.
+		QList<Node*> childnodes=context->currentNodes;
+		finishContext();
+		context->inputNodes=childnodes;
 	}
-	//"pop" our child nodes.
-	QList<Node*> childnodes=context->currentNodes;
-	finishContext();
 
 	Module* mod = context->lookupModule(name);
 	if(mod) {
@@ -148,7 +156,7 @@ void Evaluator::visit(Instance* inst)
 		if(scp) {
 			scp->accept(*this);
 		} else {
-			Node* node=mod->evaluate(context,childnodes);
+			Node* node=mod->evaluate(context,context->inputNodes);
 			if(node)
 				context->currentNodes.append(node);
 		}

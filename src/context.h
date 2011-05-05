@@ -41,6 +41,7 @@ public:
 	Scope* currentScope;
 	QString currentName;
 	QList<Node*> currentNodes;
+	QList<Node*> inputNodes;
 
 	Value* lookupVariable(QString);
 	void addVariable(Value*);
