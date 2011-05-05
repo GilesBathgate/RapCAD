@@ -16,18 +16,8 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UNIONMODULE_H
-#define UNIONMODULE_H
+#include "groupmodule.h"
 
-#include "module.h"
-
-class UnionModule : public Module
+GroupModule::GroupModule() : UnionModule("group")
 {
-public:
-	UnionModule();
-	Node* evaluate(Context*,QList<Node*>);
-protected:
-	UnionModule(const QString s);
-};
-
-#endif // UNIONMODULE_H
+}

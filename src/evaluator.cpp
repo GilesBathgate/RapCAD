@@ -29,6 +29,7 @@
 
 #include "differencemodule.h"
 #include "unionmodule.h"
+#include "groupmodule.h"
 #include "intersectionmodule.h"
 #include "translatemodule.h"
 #include "symmetricdifferencemodule.h"
@@ -68,6 +69,7 @@ void Evaluator::initBuiltins(Script* sc)
 		Evaluator::builtins.append(new PolyhedronModule());
 		Evaluator::builtins.append(new DifferenceModule());
 		Evaluator::builtins.append(new UnionModule());
+		Evaluator::builtins.append(new GroupModule());
 		Evaluator::builtins.append(new IntersectionModule());
 		Evaluator::builtins.append(new TranslateModule());
 		Evaluator::builtins.append(new SymmetricDifferenceModule());

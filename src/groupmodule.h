@@ -16,18 +16,15 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UNIONMODULE_H
-#define UNIONMODULE_H
+#ifndef GROUPMODULE_H
+#define GROUPMODULE_H
 
-#include "module.h"
+#include "unionmodule.h"
 
-class UnionModule : public Module
+class GroupModule : public UnionModule
 {
 public:
-	UnionModule();
-	Node* evaluate(Context*,QList<Node*>);
-protected:
-	UnionModule(const QString s);
+	GroupModule();
 };
 
-#endif // UNIONMODULE_H
+#endif // GROUPMODULE_H

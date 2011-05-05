@@ -23,6 +23,10 @@ UnionModule::UnionModule() : Module("union")
 {
 }
 
+UnionModule::UnionModule(const QString s) : Module(s)
+{
+}
+
 Node* UnionModule::evaluate(Context*,QList<Node*> childs)
 {
 	UnionNode* d = new UnionNode();

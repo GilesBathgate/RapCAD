@@ -123,7 +123,8 @@ SOURCES += \
     src/reporter.cpp \
     src/codedoc.cpp \
     src/dxfbuilder.cpp \
-    src/shearmodule.cpp
+    src/shearmodule.cpp \
+    src/groupmodule.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -222,7 +223,8 @@ HEADERS  += \
     src/reporter.h \
     src/codedoc.h \
     src/dxfbuilder.h \
-    src/shearmodule.h
+    src/shearmodule.h \
+    src/groupmodule.h
 
 FORMS += \
     src/mainwindow.ui
