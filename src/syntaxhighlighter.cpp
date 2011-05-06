@@ -396,8 +396,8 @@ unsigned int SyntaxHighlighter::buildStringFinish()
 void SyntaxHighlighter::buildCommentStart()
 {
 	setCurrentBlockState(Comment);
-	setFormat(startIndex,2,stringFormat);
-	startIndex+=2;
+	setFormat(startIndex,lexerleng,stringFormat);
+	startIndex+=lexerleng;
 }
 
 unsigned int SyntaxHighlighter::buildComment(QString)
@@ -412,8 +412,8 @@ unsigned int SyntaxHighlighter::buildComment(QString)
 void SyntaxHighlighter::buildCommentFinish()
 {
 	setCurrentBlockState(Initial);
-	setFormat(startIndex,2,stringFormat);
-	startIndex+=2;
+	setFormat(startIndex,lexerleng,stringFormat);
+	startIndex+=lexerleng;
 }
 
 unsigned int SyntaxHighlighter::buildCodeDocStart()
@@ -434,6 +434,9 @@ unsigned int SyntaxHighlighter::buildCodeDoc(QString)
 
 void SyntaxHighlighter::buildCodeDoc()
 {
+	if(previousBlockState()==CodeDoc)
+		setCurrentBlockState(CodeDoc);
+
 	setFormat(startIndex,lexerleng,codeDocFormat);
 	startIndex+=lexerleng;
 }
@@ -447,8 +450,7 @@ unsigned int SyntaxHighlighter::buildCodeDocParam(QString)
 unsigned int SyntaxHighlighter::buildCodeDocFinish()
 {
 	setCurrentBlockState(Initial);
-	setFormat(startIndex,2,codeDocFormat);
-	startIndex+=2;
+	setFormat(startIndex,lexerleng,codeDocFormat);
 	return YY_CONTINUE;
 }
 
