@@ -30,6 +30,7 @@
 #include "symmetricdifferencenode.h"
 #include "minkowskinode.h"
 #include "transformationnode.h"
+#include "hullnode.h"
 
 class NodeEvaluator : public NodeVisitor, private CGALBuilder
 {
@@ -49,6 +50,7 @@ public:
 	void visit(IntersectionNode*);
 	void visit(SymmetricDifferenceNode*);
 	void visit(MinkowskiNode*);
+	void visit(HullNode*);
 	void evaluate(Node*,Operation_e);
 	void visit(TransformationNode*);
 	CGALPrimitive* getResult() const;

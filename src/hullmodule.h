@@ -16,21 +16,16 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NODEVISITOR_H
-#define NODEVISITOR_H
+#ifndef HULLMODULE_H
+#define HULLMODULE_H
 
-class NodeVisitor
+#include "module.h"
+
+class HullModule : public Module
 {
 public:
-	virtual ~NodeVisitor() {}
-	virtual void visit(class PrimitiveNode*)=0;
-	virtual void visit(class UnionNode*)=0;
-	virtual void visit(class DifferenceNode*)=0;
-	virtual void visit(class IntersectionNode*)=0;
-	virtual void visit(class SymmetricDifferenceNode*)=0;
-	virtual void visit(class MinkowskiNode*)=0;
-	virtual void visit(class HullNode*)=0;
-	virtual void visit(class TransformationNode*)=0;
+	HullModule();
+	Node* evaluate(Context*,QList<Node*>);
 };
 
-#endif // NODEVISITOR_H
+#endif // HULLMODULE_H

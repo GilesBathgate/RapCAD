@@ -16,21 +16,28 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NODEVISITOR_H
-#define NODEVISITOR_H
+#include "cgalexplorer.h"
+typedef CGAL::NefPolyhedron3::Volume_const_iterator VolumeIterator;
+typedef CGAL::NefPolyhedron3::Shell_entry_const_iterator ShellIterator;
 
-class NodeVisitor
+CGALExplorer::CGALExplorer(const CGAL::NefPolyhedron3& p) : poly(p)
 {
-public:
-	virtual ~NodeVisitor() {}
-	virtual void visit(class PrimitiveNode*)=0;
-	virtual void visit(class UnionNode*)=0;
-	virtual void visit(class DifferenceNode*)=0;
-	virtual void visit(class IntersectionNode*)=0;
-	virtual void visit(class SymmetricDifferenceNode*)=0;
-	virtual void visit(class MinkowskiNode*)=0;
-	virtual void visit(class HullNode*)=0;
-	virtual void visit(class TransformationNode*)=0;
-};
+}
 
-#endif // NODEVISITOR_H
+void CGALExplorer::visit(VertexHandle v)
+{
+	CGAL::Point3 p = v->point();
+	points.append(p);
+}
+
+QList<CGAL::Point3> CGALExplorer::getPoints()
+{
+	VolumeIterator c;
+	CGAL_forall_volumes(c,poly) {
+		ShellIterator it;
+		CGAL_forall_shells_of(it,c){
+			poly.visit_shell_objects(SFaceHandle(it),*this);
+		}
+	}
+	return points;
+}

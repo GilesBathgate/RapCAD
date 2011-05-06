@@ -126,7 +126,10 @@ SOURCES += \
     src/shearmodule.cpp \
     src/groupmodule.cpp \
     src/codeeditor.cpp \
-    src/linenumberarea.cpp
+    src/linenumberarea.cpp \
+    src/cgalexplorer.cpp \
+    src/hullmodule.cpp \
+    src/hullnode.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -228,7 +231,10 @@ HEADERS  += \
     src/shearmodule.h \
     src/groupmodule.h \
     src/CodeEditor.h \
-    src/linenumberarea.h
+    src/linenumberarea.h \
+    src/cgalexplorer.h \
+    src/hullmodule.h \
+    src/hullnode.h
 
 FORMS += \
     src/mainwindow.ui

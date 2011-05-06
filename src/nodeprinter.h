@@ -28,6 +28,7 @@
 #include "symmetricdifferencenode.h"
 #include "minkowskinode.h"
 #include "transformationnode.h"
+#include "hullnode.h"
 
 class NodePrinter : public NodeVisitor
 {
@@ -39,6 +40,7 @@ public:
 	void visit(IntersectionNode*);
 	void visit(SymmetricDifferenceNode*);
 	void visit(MinkowskiNode*);
+	void visit(HullNode*);
 	void printOperation(Node*,QString name);
 	void visit(TransformationNode*);
 private:

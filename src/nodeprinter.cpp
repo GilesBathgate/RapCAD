@@ -85,6 +85,11 @@ void NodePrinter::visit(MinkowskiNode* n)
 	printOperation(n,"minkowski");
 }
 
+void NodePrinter::visit(HullNode* n)
+{
+	printOperation(n,"hull");
+}
+
 void NodePrinter::printOperation(Node* n,QString name)
 {
 	result << name;

@@ -16,7 +16,9 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <CGAL/convex_hull_3.h>
 #include "nodeevaluator.h"
+#include "cgalexplorer.h"
 
 NodeEvaluator::NodeEvaluator()
 {
@@ -54,6 +56,20 @@ void NodeEvaluator::visit(SymmetricDifferenceNode* op)
 void NodeEvaluator::visit(MinkowskiNode* op)
 {
 	evaluate(op,Minkowski);
+}
+
+void NodeEvaluator::visit(HullNode* n)
+{
+	evaluate(n,Union);
+	CGALExplorer explorer(result->getPoly3());
+	QList<CGAL::Point3> points = explorer.getPoints();
+
+	CGAL::Object hull;
+	CGAL::convex_hull_3(points.begin(),points.end(),hull);
+
+	CGAL::Polyhedron3 poly=CGAL::object_cast<CGAL::Polyhedron3>(hull);
+	CGAL::NefPolyhedron3* nefPoly=new CGAL::NefPolyhedron3(poly);
+	result=new CGALPrimitive(nefPoly);
 }
 
 void NodeEvaluator::evaluate(Node* op,Operation_e type)
