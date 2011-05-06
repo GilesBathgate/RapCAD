@@ -127,7 +127,7 @@ void MainWindow::setupTreeview()
 
 void MainWindow::setupEditor()
 {
-	QTextEdit* editor = ui->scriptEditor;
+	QPlainTextEdit* editor = ui->scriptEditor;
 
 	QFont font;
 	font.setFamily("Courier");
