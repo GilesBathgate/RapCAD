@@ -34,7 +34,7 @@
         </attribute>
         <layout class="QHBoxLayout" name="editorLayout">
          <item>
-          <widget class="QPlainTextEdit" name="scriptEditor">
+          <widget class="CodeEditor" name="scriptEditor">
            <property name="tabStopWidth">
             <number>40</number>
            </property>
@@ -408,6 +408,12 @@
    <class>GLView</class>
    <extends>QWidget</extends>
    <header>GLView.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CodeEditor</class>
+   <extends>QPlainTextEdit</extends>
+   <header>CodeEditor.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

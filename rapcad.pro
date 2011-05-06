@@ -124,7 +124,9 @@ SOURCES += \
     src/codedoc.cpp \
     src/dxfbuilder.cpp \
     src/shearmodule.cpp \
-    src/groupmodule.cpp
+    src/groupmodule.cpp \
+    src/codeeditor.cpp \
+    src/linenumberarea.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -224,7 +226,9 @@ HEADERS  += \
     src/codedoc.h \
     src/dxfbuilder.h \
     src/shearmodule.h \
-    src/groupmodule.h
+    src/groupmodule.h \
+    src/CodeEditor.h \
+    src/linenumberarea.h
 
 FORMS += \
     src/mainwindow.ui
