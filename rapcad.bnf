@@ -3,6 +3,15 @@
 	<use_declaration> <input>
 	<import_declaration> <input>
 	<single_declaration_list>
+	<codedoc> <input>
+
+<codedoc> ::=
+	"/**" <codedoc_param> "*/"
+
+<codedoc_param> ::=
+	<empty>
+	<doctext> <codedoc_param>
+	"@" <doctext> <codedoc_param>
 
 <use_declaration> ::=
 	"use"
@@ -69,6 +78,8 @@
 
 <assign_statement> ::=
 	<variable> '=' <expression>
+	<variable> "++"
+	<variable> "--"
 	"const" <identifier> '=' <expression>
 	"param" <identifier> '=' <expression>
 
@@ -94,6 +105,7 @@
 	'[' <expression> ':' <expression> ']'
 	'[' <expression> ':' <expression> ':' <expression> ']'
 	'[' <vector_expression> ']'
+	<expression> '^' <expression>
 	<expression> '*' <expression>
 	<expression> ".*" <expression>
 	<expression> '/' <expression>
@@ -110,6 +122,8 @@
 	<expression> '>' <expression>
 	<expression> "&&" <expression>
 	<expression> "||" <expression>
+	<expression> "++"
+	<expression> "--"
 	'+' <expression>
 	'-' <expression>
 	'!' <expression>
