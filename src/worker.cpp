@@ -77,7 +77,7 @@ void Worker::doWork()
 		output.flush();
 	}
 
-	NodeEvaluator ne;
+	NodeEvaluator ne(output);
 	try {
 		n->accept(ne);
 		delete n;

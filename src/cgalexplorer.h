@@ -37,6 +37,7 @@ public:
 
 	CGALExplorer(const CGAL::NefPolyhedron3&);
 	Polygon getPoints();
+	CGAL::Bbox_3 getBounds();
 	void visit(VertexHandle);
 	void visit(HalfEdgeHandle) {}
 	void visit(HalfFacetHandle) {}

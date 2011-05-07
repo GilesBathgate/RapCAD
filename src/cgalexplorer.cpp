@@ -17,6 +17,8 @@
  */
 
 #include "cgalexplorer.h"
+#include "float.h"
+
 typedef CGAL::NefPolyhedron3::Volume_const_iterator VolumeIterator;
 typedef CGAL::NefPolyhedron3::Shell_entry_const_iterator ShellIterator;
 
@@ -45,4 +47,26 @@ CGALExplorer::Polygon CGALExplorer::getPoints()
 {
 	evaluate();
 	return points;
+}
+
+CGAL::Bbox_3 CGALExplorer::getBounds()
+{
+	evaluate();
+
+	double minX=DBL_MAX,maxX=-DBL_MAX;
+	double minY=DBL_MAX,maxY=-DBL_MAX;
+	double minZ=DBL_MAX,maxZ=-DBL_MAX;
+	foreach(CGAL::Point3 pt,points) {
+		double x=to_double(pt.x());
+		double y=to_double(pt.y());
+		double z=to_double(pt.z());
+		minX=fmin(x,minX);
+		maxX=fmax(x,maxX);
+		minY=fmin(y,minY);
+		maxY=fmax(y,maxY);
+		minZ=fmin(z,minZ);
+		maxZ=fmax(z,maxZ);
+	}
+
+	return CGAL::Bbox_3(minX,minY,minZ,maxX,maxY,maxZ);
 }

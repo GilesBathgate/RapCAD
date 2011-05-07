@@ -30,6 +30,7 @@
 #include "transformationnode.h"
 #include "linearextrudenode.h"
 #include "hullnode.h"
+#include "boundsnode.h"
 
 class NodePrinter : public NodeVisitor
 {
@@ -43,6 +44,7 @@ public:
 	void visit(MinkowskiNode*);
 	void visit(HullNode*);
 	void visit(LinearExtrudeNode*);
+	void visit(BoundsNode*);
 	void printOperation(Node*,QString name);
 	void visit(TransformationNode*);
 private:

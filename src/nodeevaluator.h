@@ -20,6 +20,7 @@
 #define NODEEVALUATOR_H
 
 #include <QString>
+#include <QTextStream>
 #include "cgalbuilder.h"
 #include "cgalprimitive.h"
 #include "nodevisitor.h"
@@ -32,6 +33,7 @@
 #include "transformationnode.h"
 #include "hullnode.h"
 #include "linearextrudenode.h"
+#include "boundsnode.h"
 #include "cgalexplorer.h"
 
 class NodeEvaluator : public NodeVisitor, private CGALBuilder
@@ -45,7 +47,7 @@ public:
 		Minkowski
 	};
 
-	NodeEvaluator();
+	NodeEvaluator(QTextStream&);
 	void visit(PrimitiveNode*);
 	void visit(UnionNode*);
 	void visit(DifferenceNode*);
@@ -56,10 +58,12 @@ public:
 	void convert(PrimitiveNode*,CGALExplorer::Polygon,double);
 	void evaluate(Node*,Operation_e);
 	void visit(LinearExtrudeNode*);
+	void visit(BoundsNode*);
 	void visit(TransformationNode*);
 	CGALPrimitive* getResult() const;
 private:
 	CGALPrimitive* result;
+	QTextStream& output;
 };
 
 #endif // NODEEVALUATOR_H

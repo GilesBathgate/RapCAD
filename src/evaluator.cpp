@@ -42,6 +42,7 @@
 #include "shearmodule.h"
 #include "spheremodule.h"
 #include "childmodule.h"
+#include "boundsmodule.h"
 
 #include "unionnode.h"
 
@@ -85,6 +86,7 @@ void Evaluator::initBuiltins(Script* sc)
 		Evaluator::builtins.append(new ShearModule());
 		Evaluator::builtins.append(new SphereModule());
 		Evaluator::builtins.append(new ChildModule());
+		Evaluator::builtins.append(new BoundsModule());
 	}
 	foreach(Declaration* d,Evaluator::builtins)
 		sc->addDeclaration(d);

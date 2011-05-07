@@ -95,6 +95,11 @@ void NodePrinter::visit(LinearExtrudeNode* n)
 	printOperation(n,"linear_extrude");
 }
 
+void NodePrinter::visit(BoundsNode* n)
+{
+	printOperation(n,"bounds");
+}
+
 void NodePrinter::printOperation(Node* n,QString name)
 {
 	result << name;

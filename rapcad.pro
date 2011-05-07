@@ -131,7 +131,9 @@ SOURCES += \
     src/hullmodule.cpp \
     src/hullnode.cpp \
     src/linearextrudemodule.cpp \
-    src/linearextrudenode.cpp
+    src/linearextrudenode.cpp \
+    src/boundsmodule.cpp \
+    src/boundsnode.cpp
 
 
 HEADERS  += \
@@ -239,7 +241,9 @@ HEADERS  += \
     src/hullmodule.h \
     src/hullnode.h \
     src/linearextrudemodule.h \
-    src/linearextrudenode.h
+    src/linearextrudenode.h \
+    src/boundsmodule.h \
+    src/boundsnode.h
 
 FORMS += \
     src/mainwindow.ui

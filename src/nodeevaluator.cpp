@@ -18,7 +18,7 @@
 
 #include "nodeevaluator.h"
 
-NodeEvaluator::NodeEvaluator()
+NodeEvaluator::NodeEvaluator(QTextStream& s) : output(s)
 {
 }
 
@@ -176,6 +176,24 @@ void NodeEvaluator::evaluate(Node* op,Operation_e type)
 	}
 
 	result=first;
+}
+
+void NodeEvaluator::visit(BoundsNode* n)
+{
+	evaluate(n,Union);
+
+	CGALExplorer explorer(result->getPoly3());
+	CGAL::Bbox_3 b=explorer.getBounds();
+
+	//TODO move this warning into gcode generation routines when they exist.
+	if(b.zmin()!=0.0) {
+		QString where = b.zmin()<0.0?" below ":" above ";
+		output << "Warning: The model is " << b.zmin() << where << "the build platform.\n";
+	}
+
+	output << "Bounds: ";
+	output << "[" << b.xmin() << "," << b.ymin() << "," << b.zmin() << "] ";
+	output << "[" << b.xmax() << "," << b.ymax() << "," << b.zmax() << "]\n";
 }
 
 void NodeEvaluator::visit(TransformationNode* tr)
