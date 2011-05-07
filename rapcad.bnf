@@ -1,182 +1,182 @@
 <input> ::=
 	<empty>
-	<use_declaration> <input>
-	<import_declaration> <input>
-	<single_declaration_list>
-	<codedoc> <input>
+	| <use_declaration> <input>
+	| <import_declaration> <input>
+	| <single_declaration_list>
+	| <codedoc> <input>
 
 <codedoc> ::=
 	"/**" <codedoc_param> "*/"
 
 <codedoc_param> ::=
 	<empty>
-	<doctext> <codedoc_param>
-	"@" <doctext> <codedoc_param>
+	| <doctext> <codedoc_param>
+	| "@" <doctext> <codedoc_param>
 
 <use_declaration> ::=
 	"use"
-	"use" "as" <identifier> ';'
+	| "use" "as" <identifier> ';'
 
 <import_declaration> ::=
 	"import" "as" <identifier> ';'
-	"import" "as" <identifier> '(' <parameters> ')' ';'
+	| "import" "as" <identifier> '(' <parameters> ')' ';'
 
 
 <single_declaration_list> ::=
 	<single_declaration>
-	<single_declaration_list> <single_declaration>
+	| <single_declaration_list> <single_declaration>
 
 <declaration_list> ::=
 	<declaration>
-	<declaration_list> <declaration>
+	| <declaration_list> <declaration>
 
 <compound_declaration> ::=
 	'{' '}'
-	'{' <declaration_list> '}'
+	| '{' <declaration_list> '}'
 
 <single_declaration> ::=
 	<single_statement>
-	<define_declaration>
+	| <define_declaration>
 
 <declaration> ::=
 	<statement>
-	<define_declaration>
+	| <define_declaration>
 
 <define_declaration> ::=
 	"module" <identifier> '(' <parameters> ')' <module_scope>
-	"function" <identifier> '(' <parameters> ')' <function_scope>
+	| "function" <identifier> '(' <parameters> ')' <function_scope>
 
 <module_scope> ::=
 	<compound_declaration>
-	<module_instance>
+	| <module_instance>
 
 <function_scope> ::=
 	'=' <expression> ';'
-	<compound_statement>
+	| <compound_statement>
 
 <statement> ::=
 	<single_statement>
-	<compound_statement>
+	| <compound_statement>
 
 <single_statement> ::=
 	<module_instance>
-	<assign_statement> ';'
-	<ifelse_statement>
-	<for_statement>
-	<return_statement>
+	| <assign_statement> ';'
+	| <ifelse_statement>
+	| <for_statement>
+	| <return_statement>
 
 <return_statement> ::=
 	"return" <expression> ';'
 
 <compound_statement> ::=
 	'{' '}'
-	'{' <statement_list> '}'
+	| '{' <statement_list> '}'
 
 <statement_list> ::=
 	<statement>
-	<statement_list> <statement>
+	| <statement_list> <statement>
 
 <assign_statement> ::=
 	<variable> '=' <expression>
-	<variable> "++"
-	<variable> "--"
-	"const" <identifier> '=' <expression>
-	"param" <identifier> '=' <expression>
+	| <variable> "++"
+	| <variable> "--"
+	| "const" <identifier> '=' <expression>
+	| "param" <identifier> '=' <expression>
 
 <ifelse_statement> ::=
 	"if" '(' <expression> ')' <statement>
-	"if" '(' <expression> ')' <statement> "else" <statement>
+	| "if" '(' <expression> ')' <statement> "else" <statement>
 
 <for_statement> ::=
 	"for" '(' <arguments> ')' <statement>
 
 <variable> ::=
 	<identifier>
-	'$' <identifier>
+	| '$' <identifier>
 
 <expression> ::=
 	"true"
-	"false"
-	"undef"
-	<variable>
-	<expression> '.' <identifier>
-	<string>
-	<number>
-	'[' <expression> ':' <expression> ']'
-	'[' <expression> ':' <expression> ':' <expression> ']'
-	'[' <vector_expression> ']'
-	<expression> '^' <expression>
-	<expression> '*' <expression>
-	<expression> ".*" <expression>
-	<expression> '/' <expression>
-	<expression> "./" <expression>
-	<expression> "**" <expression>
-	<expression> '%' <expression>
-	<expression> '+' <expression>
-	<expression> '-' <expression>
-	<expression> '<' <expression>
-	<expression> "<=" <expression>
-	<expression> "==" <expression>
-	<expression> "!=" <expression>
-	<expression> ">=" <expression>
-	<expression> '>' <expression>
-	<expression> "&&" <expression>
-	<expression> "||" <expression>
-	<expression> "++"
-	<expression> "--"
-	'+' <expression>
-	'-' <expression>
-	'!' <expression>
-	'(' <expression> ')'
-	<expression> '?' <expression> ':' <expression>
-	<expression> '[' <expression> ']'
-	<invocation>
+	| "false"
+	| "undef"
+	| <variable>
+	| <expression> '.' <identifier>
+	| <string>
+	| <number>
+	| '[' <expression> ':' <expression> ']'
+	| '[' <expression> ':' <expression> ':' <expression> ']'
+	| '[' <vector_expression> ']'
+	| <expression> '^' <expression>
+	| <expression> '*' <expression>
+	| <expression> ".*" <expression>
+	| <expression> '/' <expression>
+	| <expression> "./" <expression>
+	| <expression> "**" <expression>
+	| <expression> '%' <expression>
+	| <expression> '+' <expression>
+	| <expression> '-' <expression>
+	| <expression> '<' <expression>
+	| <expression> "<=" <expression>
+	| <expression> "==" <expression>
+	| <expression> "!=" <expression>
+	| <expression> ">=" <expression>
+	| <expression> '>' <expression>
+	| <expression> "&&" <expression>
+	| <expression> "||" <expression>
+	| <expression> "++"
+	| <expression> "--"
+	| '+' <expression>
+	| '-' <expression>
+	| '!' <expression>
+	| '(' <expression> ')'
+	| <expression> '?' <expression> ':' <expression>
+	| <expression> '[' <expression> ']'
+	| <invocation>
 
 <invocation> ::=
 	<identifier> "::" <invocation>
-	<identifier> '(' <arguments> ')'
+	| <identifier> '(' <arguments> ')'
 
 <vector_expression> ::=
 	<empty>
-	<expression>
-	<vector_expression> ',' <optional_commas> <expression>
+	| <expression>
+	| <vector_expression> ',' <optional_commas> <expression>
 
 <parameters> ::=
 	<empty>
-	<parameter>
-	<parameters> ',' <parameter>
+	| <parameter>
+	| <parameters> ',' <parameter>
 
 <parameter> ::=
 	<identifier>
-	<identifier> '=' <expression>
+	| <identifier> '=' <expression>
 
 <compound_instance> ::=
 	'{' '}'
-	'{' <statement_list> '}'
-	<module_instance>
+	| '{' <statement_list> '}'
+	| <module_instance>
 
 <module_instance> ::=
 	<single_instance> ';'
-	<single_instance> <compound_instance>
+	| <single_instance> <compound_instance>
 
 <single_instance> ::=
 	<identifier> "::" <single_instance>
-	<identifier> '(' <arguments> ')'
-	'!' <single_instance>
-	'#' <single_instance>
-	'%' <single_instance>
-	'*' <single_instance>
+	| <identifier> '(' <arguments> ')'
+	| '!' <single_instance>
+	| '#' <single_instance>
+	| '%' <single_instance>
+	| '*' <single_instance>
 
 <arguments> ::=
 	<empty>
-	<argument>
-	<arguments> ',' <optional_commas> <argument>
+	| <argument>
+	| <arguments> ',' <optional_commas> <argument>
 
 <optional_commas> ::=
 	<empty>
-	',' <optional_commas>
+	| ',' <optional_commas>
 
 <argument> ::=
 	<expression>
-	<variable> '=' <expression>
+	| <variable> '=' <expression>
 
