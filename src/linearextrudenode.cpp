@@ -16,37 +16,24 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NODEPRINTER_H
-#define NODEPRINTER_H
-
-#include <QTextStream>
-#include "nodevisitor.h"
-#include "primitivenode.h"
-#include "unionnode.h"
-#include "differencenode.h"
-#include "intersectionnode.h"
-#include "symmetricdifferencenode.h"
-#include "minkowskinode.h"
-#include "transformationnode.h"
 #include "linearextrudenode.h"
-#include "hullnode.h"
 
-class NodePrinter : public NodeVisitor
+LinearExtrudeNode::LinearExtrudeNode()
 {
-public:
-	NodePrinter(QTextStream&);
-	void visit(PrimitiveNode*);
-	void visit(UnionNode*);
-	void visit(DifferenceNode*);
-	void visit(IntersectionNode*);
-	void visit(SymmetricDifferenceNode*);
-	void visit(MinkowskiNode*);
-	void visit(HullNode*);
-	void visit(LinearExtrudeNode*);
-	void printOperation(Node*,QString name);
-	void visit(TransformationNode*);
-private:
-	QTextStream& result;
-};
+}
 
-#endif // NODEPRINTER_H
+void LinearExtrudeNode::setHeight(double h)
+{
+	height=h;
+}
+
+double LinearExtrudeNode::getHeight() const
+{
+	return height;
+}
+
+
+void LinearExtrudeNode::accept(NodeVisitor& v)
+{
+	v.visit(this);
+}

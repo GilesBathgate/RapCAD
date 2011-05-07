@@ -34,6 +34,7 @@
 #include "translatemodule.h"
 #include "symmetricdifferencemodule.h"
 #include "minkowskimodule.h"
+#include "linearextrudemodule.h"
 #include "hullmodule.h"
 #include "rotatemodule.h"
 #include "mirrormodule.h"
@@ -77,6 +78,7 @@ void Evaluator::initBuiltins(Script* sc)
 		Evaluator::builtins.append(new SymmetricDifferenceModule());
 		Evaluator::builtins.append(new MinkowskiModule());
 		Evaluator::builtins.append(new HullModule());
+		Evaluator::builtins.append(new LinearExtrudeModule());
 		Evaluator::builtins.append(new RotateModule());
 		Evaluator::builtins.append(new MirrorModule());
 		Evaluator::builtins.append(new ScaleModule());
@@ -134,7 +136,7 @@ void Evaluator::visit(Instance* inst)
 	QString name = inst->getName();
 
 	QList <Statement*> stmts = inst->getChildren();
-	if(stmts.size()>0){
+	if(stmts.size()>0) {
 		startContext(context->currentScope);
 
 		foreach(Statement* s,stmts) {

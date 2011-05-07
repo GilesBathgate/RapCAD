@@ -30,14 +30,19 @@ void CGALExplorer::visit(VertexHandle v)
 	points.append(p);
 }
 
-QList<CGAL::Point3> CGALExplorer::getPoints()
+void CGALExplorer::evaluate()
 {
 	VolumeIterator c;
 	CGAL_forall_volumes(c,poly) {
 		ShellIterator it;
-		CGAL_forall_shells_of(it,c){
+		CGAL_forall_shells_of(it,c) {
 			poly.visit_shell_objects(SFaceHandle(it),*this);
 		}
 	}
+}
+
+CGALExplorer::Polygon CGALExplorer::getPoints()
+{
+	evaluate();
 	return points;
 }

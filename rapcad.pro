@@ -129,7 +129,10 @@ SOURCES += \
     src/linenumberarea.cpp \
     src/cgalexplorer.cpp \
     src/hullmodule.cpp \
-    src/hullnode.cpp
+    src/hullnode.cpp \
+    src/linearextrudemodule.cpp \
+    src/linearextrudenode.cpp
+
 
 HEADERS  += \
     src/mainwindow.h \
@@ -234,7 +237,9 @@ HEADERS  += \
     src/linenumberarea.h \
     src/cgalexplorer.h \
     src/hullmodule.h \
-    src/hullnode.h
+    src/hullnode.h \
+    src/linearextrudemodule.h \
+    src/linearextrudenode.h
 
 FORMS += \
     src/mainwindow.ui

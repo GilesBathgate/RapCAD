@@ -90,6 +90,11 @@ void NodePrinter::visit(HullNode* n)
 	printOperation(n,"hull");
 }
 
+void NodePrinter::visit(LinearExtrudeNode* n)
+{
+	printOperation(n,"linear_extrude");
+}
+
 void NodePrinter::printOperation(Node* n,QString name)
 {
 	result << name;
@@ -99,7 +104,8 @@ void NodePrinter::printOperation(Node* n,QString name)
 	result << "}";
 }
 
-void NodePrinter::visit(TransformationNode*)
+void NodePrinter::visit(TransformationNode* n)
 {
-	//TODO not implemented
+	//TODO needs to print arguments
+	printOperation(n,"multmatrix");
 }

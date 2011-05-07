@@ -23,27 +23,30 @@
 #include "point.h"
 #include "cgal.h"
 
-typedef CGAL::NefPolyhedron3::Vertex_const_handle VertexHandle;
-typedef CGAL::NefPolyhedron3::Halfedge_const_handle HalfedgeHandle;
-typedef CGAL::NefPolyhedron3::Halffacet_const_handle HalffacetHandle;
-typedef CGAL::NefPolyhedron3::SHalfedge_const_handle SHalfedgeHandle;
-typedef CGAL::NefPolyhedron3::SHalfloop_const_handle SHalfloopHandle;
-typedef CGAL::NefPolyhedron3::SFace_const_handle SFaceHandle;
-
 class CGALExplorer
 {
+private:
+	typedef CGAL::NefPolyhedron3::Vertex_const_handle VertexHandle;
+	typedef CGAL::NefPolyhedron3::Halfedge_const_handle HalfEdgeHandle;
+	typedef CGAL::NefPolyhedron3::Halffacet_const_handle HalfFacetHandle;
+	typedef CGAL::NefPolyhedron3::SHalfedge_const_handle SHalfEdgeHandle;
+	typedef CGAL::NefPolyhedron3::SHalfloop_const_handle SHalfLoopHandle;
+	typedef CGAL::NefPolyhedron3::SFace_const_handle SFaceHandle;
 public:
+	typedef QList<CGAL::Point3> Polygon;
+
 	CGALExplorer(const CGAL::NefPolyhedron3&);
-	QList<CGAL::Point3> getPoints();
+	Polygon getPoints();
 	void visit(VertexHandle);
-	void visit(HalfedgeHandle) {}
-	void visit(HalffacetHandle) {}
-	void visit(SHalfedgeHandle) {}
-	void visit(SHalfloopHandle) {}
+	void visit(HalfEdgeHandle) {}
+	void visit(HalfFacetHandle) {}
+	void visit(SHalfEdgeHandle) {}
+	void visit(SHalfLoopHandle) {}
 	void visit(SFaceHandle) {}
 private:
+	void evaluate();
 	const CGAL::NefPolyhedron3& poly;
-	QList<CGAL::Point3> points;
+	Polygon points;
 };
 
 #endif // CGALEXPLORER_H

@@ -16,37 +16,17 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NODEPRINTER_H
-#define NODEPRINTER_H
+#ifndef LINEAREXTRUDEMODULE_H
+#define LINEAREXTRUDEMODULE_H
 
-#include <QTextStream>
-#include "nodevisitor.h"
-#include "primitivenode.h"
-#include "unionnode.h"
-#include "differencenode.h"
-#include "intersectionnode.h"
-#include "symmetricdifferencenode.h"
-#include "minkowskinode.h"
-#include "transformationnode.h"
-#include "linearextrudenode.h"
-#include "hullnode.h"
+#include "module.h"
+#include "context.h"
 
-class NodePrinter : public NodeVisitor
+class LinearExtrudeModule : public Module
 {
 public:
-	NodePrinter(QTextStream&);
-	void visit(PrimitiveNode*);
-	void visit(UnionNode*);
-	void visit(DifferenceNode*);
-	void visit(IntersectionNode*);
-	void visit(SymmetricDifferenceNode*);
-	void visit(MinkowskiNode*);
-	void visit(HullNode*);
-	void visit(LinearExtrudeNode*);
-	void printOperation(Node*,QString name);
-	void visit(TransformationNode*);
-private:
-	QTextStream& result;
+	LinearExtrudeModule();
+	Node* evaluate(Context*,QList<Node*>);
 };
 
-#endif // NODEPRINTER_H
+#endif // LINEAREXTRUDEMODULE_H

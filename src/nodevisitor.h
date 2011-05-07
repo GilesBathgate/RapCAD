@@ -30,6 +30,7 @@ public:
 	virtual void visit(class SymmetricDifferenceNode*)=0;
 	virtual void visit(class MinkowskiNode*)=0;
 	virtual void visit(class HullNode*)=0;
+	virtual void visit(class LinearExtrudeNode*)=0;
 	virtual void visit(class TransformationNode*)=0;
 };
 

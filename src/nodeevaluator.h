@@ -31,6 +31,8 @@
 #include "minkowskinode.h"
 #include "transformationnode.h"
 #include "hullnode.h"
+#include "linearextrudenode.h"
+#include "cgalexplorer.h"
 
 class NodeEvaluator : public NodeVisitor, private CGALBuilder
 {
@@ -51,7 +53,9 @@ public:
 	void visit(SymmetricDifferenceNode*);
 	void visit(MinkowskiNode*);
 	void visit(HullNode*);
+	void convert(PrimitiveNode*,CGALExplorer::Polygon,double);
 	void evaluate(Node*,Operation_e);
+	void visit(LinearExtrudeNode*);
 	void visit(TransformationNode*);
 	CGALPrimitive* getResult() const;
 private:

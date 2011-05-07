@@ -16,37 +16,23 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NODEPRINTER_H
-#define NODEPRINTER_H
-
-#include <QTextStream>
-#include "nodevisitor.h"
-#include "primitivenode.h"
-#include "unionnode.h"
-#include "differencenode.h"
-#include "intersectionnode.h"
-#include "symmetricdifferencenode.h"
-#include "minkowskinode.h"
-#include "transformationnode.h"
+#include "linearextrudemodule.h"
 #include "linearextrudenode.h"
-#include "hullnode.h"
+#include "numbervalue.h"
 
-class NodePrinter : public NodeVisitor
+LinearExtrudeModule::LinearExtrudeModule() : Module("linear_extrude")
 {
-public:
-	NodePrinter(QTextStream&);
-	void visit(PrimitiveNode*);
-	void visit(UnionNode*);
-	void visit(DifferenceNode*);
-	void visit(IntersectionNode*);
-	void visit(SymmetricDifferenceNode*);
-	void visit(MinkowskiNode*);
-	void visit(HullNode*);
-	void visit(LinearExtrudeNode*);
-	void printOperation(Node*,QString name);
-	void visit(TransformationNode*);
-private:
-	QTextStream& result;
-};
+}
 
-#endif // NODEPRINTER_H
+Node* LinearExtrudeModule::evaluate(Context* ctx,QList<Node*> childs)
+{
+	double h=0;
+	NumberValue* height=dynamic_cast<NumberValue*>(ctx->getArgument(0,"height"));
+	if(height)
+		h=height->getNumber();
+
+	LinearExtrudeNode* d = new LinearExtrudeNode();
+	d->setHeight(h);
+	d->setChildren(childs);
+	return d;
+}
