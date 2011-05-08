@@ -22,6 +22,7 @@
 #include <CGAL/Exact_predicates_exact_constructions_kernel.h>
 #include <CGAL/Polyhedron_3.h>
 #include <CGAL/Nef_polyhedron_3.h>
+#include <CGAL/convex_hull_3.h>
 
 namespace CGAL
 {

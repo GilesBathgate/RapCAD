@@ -16,7 +16,6 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <CGAL/convex_hull_3.h>
 #include "nodeevaluator.h"
 
 NodeEvaluator::NodeEvaluator()
