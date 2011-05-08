@@ -21,10 +21,19 @@
 #include "GLView.h"
 
 static const double farfarAway=100000.0;
+static const int baseX=-16;
+static const int baseY=-30;
 static const int baseWidth=232;
-static const int baseX=baseWidth/2;
 static const int baseLength=230;
-static const int baseY=baseLength/2;
+static const int notchX=130;
+static const int notchWidth=40;
+static const int notchLength=30;
+
+static const int printX=0;
+static const int printY=0;
+static const int printWidth=200;
+static const int printLength=200;
+
 static const int rulerLength=200;
 
 GLView::GLView(QWidget* parent) : QGLWidget(parent)
@@ -33,6 +42,7 @@ GLView::GLView(QWidget* parent) : QGLWidget(parent)
 	distance=500.0;
 	showAxes=true;
 	showBase=true;
+	showPrintArea=true;
 	showTicks=true;
 	rotateX=35.0;
 	rotateY=0.0;
@@ -108,10 +118,24 @@ void GLView::paintGL()
 		glLineWidth(1);
 		glColor3d(0.0, 0.0, 1.0);
 		glBegin(GL_LINE_LOOP);
-		glVertex3i(-baseX, -baseY, 0);
-		glVertex3i(+baseX, -baseY, 0);
-		glVertex3i(+baseX, +baseY, 0);
-		glVertex3i(-baseX, +baseY, 0);
+		glVertex3i(baseX, baseY, 0);
+		glVertex3i(baseX+notchX, baseY, 0);
+		glVertex3i(baseX+notchX, baseY+notchLength, 0);
+		glVertex3i(baseX+notchX+notchWidth, baseY+notchLength, 0);
+		glVertex3i(baseX+notchX+notchWidth, baseY, 0);
+		glVertex3i(baseX+baseWidth, baseY, 0);
+		glVertex3i(baseX+baseWidth, baseY+baseLength, 0);
+		glVertex3i(baseX, baseY+baseLength, 0);
+		glEnd();
+	}
+	if(showPrintArea) {
+		glLineWidth(1);
+		glColor3d(0.0, 1.0, 0.0);
+		glBegin(GL_LINE_LOOP);
+		glVertex3i(printX, printY, 0);
+		glVertex3i(printWidth-printX,printY, 0);
+		glVertex3i(printWidth-printX,printLength-printY, 0);
+		glVertex3i(printX, printLength-printY, 0);
 		glEnd();
 	}
 	if(showTicks) {
