@@ -25,6 +25,7 @@ static const int baseWidth=232;
 static const int baseX=baseWidth/2;
 static const int baseLength=230;
 static const int baseY=baseLength/2;
+static const int rulerLength=200;
 
 GLView::GLView(QWidget* parent) : QGLWidget(parent)
 {
@@ -32,6 +33,7 @@ GLView::GLView(QWidget* parent) : QGLWidget(parent)
 	distance=500.0;
 	showAxes=true;
 	showBase=true;
+	showTicks=true;
 	rotateX=35.0;
 	rotateY=0.0;
 	rotateZ=35.0;
@@ -109,6 +111,28 @@ void GLView::paintGL()
 		glVertex3d(+baseX, -baseY, 0);
 		glVertex3d(+baseX, +baseY, 0);
 		glVertex3d(-baseX, +baseY, 0);
+		glEnd();
+	}
+	if(showTicks) {
+		glLineWidth(1);
+		glColor3d(0.2, 0.2, 0.2);
+		glBegin(GL_LINES);
+		int k=distance<200?1:10; //Only show milimeters when close up
+		for(int i=-rulerLength; i<rulerLength; i+=k) {
+			int j=i%10?2:5;
+			glVertex3i(i, 0, 0);
+			glVertex3i(i, j, 0);
+		}
+		for(int i=-rulerLength; i<rulerLength; i+=k) {
+			int j=i%10?2:5;
+			glVertex3i(0, i, 0);
+			glVertex3i(j, i, 0);
+		}
+		for(int i=-rulerLength; i<rulerLength; i+=k) {
+			int j=i%10?2:5;
+			glVertex3i(0, 0, i);
+			glVertex3i(j, 0, i);
+		}
 		glEnd();
 	}
 

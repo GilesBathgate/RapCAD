@@ -45,6 +45,7 @@ private:
 	GLdouble distance;
 	bool showAxes;
 	bool showBase;
+	bool showTicks;
 	bool mouseDrag;
 	QPoint last;
 	GLdouble rotateX;
