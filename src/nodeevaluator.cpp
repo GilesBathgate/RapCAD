@@ -58,9 +58,13 @@ void NodeEvaluator::visit(MinkowskiNode* op)
 
 void NodeEvaluator::visit(HullNode* n)
 {
-	evaluate(n,Union);
-	CGALExplorer explorer(result->getPoly3());
-	CGALExplorer::Polygon points = explorer.getPoints();
+	CGALExplorer::Polygon points;
+	foreach(Node* c,n->getChildren()) {
+		c->accept(*this);
+		CGALExplorer explorer(result->getPoly3());
+		foreach(CGAL::Point3 pt,explorer.getPoints())
+			points.append(pt);
+	}
 
 	CGAL::Object hull;
 	CGAL::convex_hull_3(points.begin(),points.end(),hull);
