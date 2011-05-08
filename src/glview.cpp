@@ -95,22 +95,23 @@ void GLView::paintGL()
 		glLineWidth(1);
 		glColor3d(0.5, 0.5, 0.5);
 		glBegin(GL_LINES);
-		glVertex3d(-distance/2, 0, 0);
-		glVertex3d(+distance/2, 0, 0);
-		glVertex3d(0, -distance/2, 0);
-		glVertex3d(0, +distance/2, 0);
-		glVertex3d(0, 0, -distance/2);
-		glVertex3d(0, 0, +distance/2);
+		double c=fmax(distance/2,rulerLength);
+		glVertex3d(-c, 0, 0);
+		glVertex3d(+c, 0, 0);
+		glVertex3d(0, -c, 0);
+		glVertex3d(0, +c, 0);
+		glVertex3d(0, 0, -c);
+		glVertex3d(0, 0, +c);
 		glEnd();
 	}
 	if(showBase) {
 		glLineWidth(1);
 		glColor3d(0.0, 0.0, 1.0);
 		glBegin(GL_LINE_LOOP);
-		glVertex3d(-baseX, -baseY, 0);
-		glVertex3d(+baseX, -baseY, 0);
-		glVertex3d(+baseX, +baseY, 0);
-		glVertex3d(-baseX, +baseY, 0);
+		glVertex3i(-baseX, -baseY, 0);
+		glVertex3i(+baseX, -baseY, 0);
+		glVertex3i(+baseX, +baseY, 0);
+		glVertex3i(-baseX, +baseY, 0);
 		glEnd();
 	}
 	if(showTicks) {
