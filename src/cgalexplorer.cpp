@@ -18,7 +18,6 @@
 
 #include "cgalexplorer.h"
 #include "float.h"
-//#include <stdio.h>
 
 CGALExplorer::CGALExplorer(const CGAL::NefPolyhedron3& p) : poly(p)
 {
@@ -26,11 +25,11 @@ CGALExplorer::CGALExplorer(const CGAL::NefPolyhedron3& p) : poly(p)
 
 void CGALExplorer::evaluate()
 {
-	typedef typename CGAL::NefPolyhedron3::SNC_structure SNC;
-	typedef typename SNC::Halffacet_const_iterator HalfFacetIterator;
-	typedef typename SNC::Halffacet_cycle_const_iterator HalfFacetCycleIterator;
-	typedef typename SNC::SHalfedge_const_handle SHalfEdgeHandle;
-	typedef typename SNC::SHalfedge_around_facet_const_circulator SHalfEdgeCirculator;
+	typedef CGAL::NefPolyhedron3::SNC_structure SNC;
+	typedef SNC::Halffacet_const_iterator HalfFacetIterator;
+	typedef SNC::Halffacet_cycle_const_iterator HalfFacetCycleIterator;
+	typedef SNC::SHalfedge_const_handle SHalfEdgeHandle;
+	typedef SNC::SHalfedge_around_facet_const_circulator SHalfEdgeCirculator;
 
 	HalfFacetIterator f;
 	CGAL_forall_facets(f,*poly.sncp()) {
@@ -38,12 +37,9 @@ void CGALExplorer::evaluate()
 		CGAL_forall_facet_cycles_of(fc,f) {
 			SHalfEdgeHandle h = fc;
 			SHalfEdgeCirculator hc(h), he(hc);
-			//printf("Polygon\n");
 			CGAL_For_all(hc,he) {
 				CGAL::Point3 sp = hc->source()->source()->point();
 				points.append(sp);
-				double x=to_double(sp.x()),y=to_double(sp.y()),z=to_double(sp.z());
-				//printf("Point: [%f,%f,%f]\n",x,y,z);
 			}
 		}
 	}
