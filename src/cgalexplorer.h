@@ -20,34 +20,18 @@
 #define CGALEXPLORER_H
 
 #include <QList>
-#include "point.h"
 #include "cgal.h"
 
 class CGALExplorer
 {
-private:
-	typedef CGAL::NefPolyhedron3::Vertex_const_handle VertexHandle;
-	typedef CGAL::NefPolyhedron3::Halfedge_const_handle HalfEdgeHandle;
-	typedef CGAL::NefPolyhedron3::Halffacet_const_handle HalfFacetHandle;
-	typedef CGAL::NefPolyhedron3::SHalfedge_const_handle SHalfEdgeHandle;
-	typedef CGAL::NefPolyhedron3::SHalfloop_const_handle SHalfLoopHandle;
-	typedef CGAL::NefPolyhedron3::SFace_const_handle SFaceHandle;
 public:
-	typedef QList<CGAL::Point3> Polygon;
-
 	CGALExplorer(const CGAL::NefPolyhedron3&);
-	Polygon getPoints();
+	QList<CGAL::Point3> getPoints();
 	CGAL::Bbox_3 getBounds();
-	void visit(VertexHandle);
-	void visit(HalfEdgeHandle) {}
-	void visit(HalfFacetHandle) {}
-	void visit(SHalfEdgeHandle) {}
-	void visit(SHalfLoopHandle) {}
-	void visit(SFaceHandle) {}
 private:
 	void evaluate();
 	const CGAL::NefPolyhedron3& poly;
-	Polygon points;
+	QList<CGAL::Point3> points;
 };
 
 #endif // CGALEXPLORER_H

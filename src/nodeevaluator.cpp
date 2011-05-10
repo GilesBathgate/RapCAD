@@ -58,7 +58,7 @@ void NodeEvaluator::visit(MinkowskiNode* op)
 
 void NodeEvaluator::visit(HullNode* n)
 {
-	CGALExplorer::Polygon points;
+	QList<CGAL::Point3> points;
 	foreach(Node* c,n->getChildren()) {
 		c->accept(*this);
 		CGALExplorer explorer(result->getPoly3());
@@ -99,7 +99,7 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 
 	} else {
 		CGALExplorer explorer(r);
-		CGALExplorer::Polygon points = explorer.getPoints();
+		QList<CGAL::Point3> points = explorer.getPoints();
 
 		PrimitiveNode* n = new PrimitiveNode();
 		double z=op->getHeight();
@@ -131,7 +131,7 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 
 }
 
-void NodeEvaluator::convert(PrimitiveNode* n,CGALExplorer::Polygon points,double z)
+void NodeEvaluator::convert(PrimitiveNode* n,QList<CGAL::Point3> points,double z)
 {
 	n->createPolygon();
 	//bool first=true;
