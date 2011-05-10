@@ -20,9 +20,6 @@
 #include "float.h"
 //#include <stdio.h>
 
-typedef CGAL::NefPolyhedron3::Volume_const_iterator VolumeIterator;
-typedef CGAL::NefPolyhedron3::Shell_entry_const_iterator ShellIterator;
-
 CGALExplorer::CGALExplorer(const CGAL::NefPolyhedron3& p) : poly(p)
 {
 }

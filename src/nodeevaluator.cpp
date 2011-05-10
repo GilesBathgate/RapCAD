@@ -103,48 +103,45 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 
 		PrimitiveNode* n = new PrimitiveNode();
 		double z=op->getHeight();
-		convert(n,points,0.0);
-		/*
+
+		n->createPolygon();
+		foreach(CGAL::Point3 pt,points) {
+			Point p=convert(pt,0.0);
+			n->appendVertex(p);
+		}
+
 		int s=points.size();
 		for(int i=0; i<s; i++) {
 			int j=(i+1)%s;
 			n->createPolygon();
-			Point pi1(to_double(points.at(i).x()),to_double(points.at(i).y()),to_double(points.at(i).z()));
-			n->appendVertex(pi1);
-			Point pi2(to_double(points.at(i).x()),to_double(points.at(i).y()),to_double(points.at(i).z())+z);
+			Point pi2=convert(points.at(i),z);
 			n->appendVertex(pi2);
-			Point pj2(to_double(points.at(j).x()),to_double(points.at(j).y()),to_double(points.at(j).z())+z);
+			Point pj2=convert(points.at(j),z);
 			n->appendVertex(pj2);
-			Point pj1(to_double(points.at(j).x()),to_double(points.at(j).y()),to_double(points.at(j).z()));
+			Point pj1=convert(points.at(j),0.0);
 			n->appendVertex(pj1);
+			Point pi1=convert(points.at(i),0.0);
+			n->appendVertex(pi1);
 		}
-		*/
-		convert(n,points,z);
+
+		n->createPolygon();
+		foreach(CGAL::Point3 pt,points) {
+			Point p = convert(pt,z);
+			n->prependVertex(p);
+		}
 
 		this->setPrimitive(n);
 		CGAL::Polyhedron3 poly;
 		poly.delegate(*this);
 		CGAL::NefPolyhedron3* nefPoly=new CGAL::NefPolyhedron3(poly);
 		result=new CGALPrimitive(nefPoly);
-
 	}
 
 }
 
-void NodeEvaluator::convert(PrimitiveNode* n,QList<CGAL::Point3> points,double z)
+Point NodeEvaluator::convert(const CGAL::Point3& p,double z)
 {
-	n->createPolygon();
-	//bool first=true;
-	//Point fp;
-	foreach(CGAL::Point3 pt,points) {
-		Point p(to_double(pt.x()),to_double(pt.y()),to_double(pt.z())+z);
-		//if(first) {
-		//	fp=p;
-		//	first=false;
-		//}
-		n->appendVertex(p);
-	}
-	//n->prependVertex(fp);
+	return Point(to_double(p.x()),to_double(p.y()),to_double(p.z())+z);
 }
 
 void NodeEvaluator::evaluate(Node* op,Operation_e type)

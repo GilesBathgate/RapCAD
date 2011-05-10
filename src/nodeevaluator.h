@@ -55,7 +55,7 @@ public:
 	void visit(SymmetricDifferenceNode*);
 	void visit(MinkowskiNode*);
 	void visit(HullNode*);
-	void convert(PrimitiveNode*,QList<CGAL::Point3>,double);
+	Point convert(const CGAL::Point3&,double);
 	void evaluate(Node*,Operation_e);
 	void visit(LinearExtrudeNode*);
 	void visit(BoundsNode*);
