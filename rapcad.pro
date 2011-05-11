@@ -133,7 +133,9 @@ SOURCES += \
     src/linearextrudemodule.cpp \
     src/linearextrudenode.cpp \
     src/boundsmodule.cpp \
-    src/boundsnode.cpp
+    src/boundsnode.cpp \
+    src/subdivisionmodule.cpp \
+    src/subdivisionnode.cpp
 
 
 HEADERS  += \
@@ -243,7 +245,9 @@ HEADERS  += \
     src/linearextrudemodule.h \
     src/linearextrudenode.h \
     src/boundsmodule.h \
-    src/boundsnode.h
+    src/boundsnode.h \
+    src/subdivisionmodule.h \
+    src/subdivisionnode.h
 
 FORMS += \
     src/mainwindow.ui

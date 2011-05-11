@@ -82,7 +82,7 @@ void Worker::doWork()
 		n->accept(ne);
 		delete n;
 	} catch(CGAL::Assertion_exception e) {
-		output << "Error: " << QString::fromStdString(e.expression()) << "\n";
+		output << "What: " << QString::fromStdString(e.what()) << "\n";
 	}
 
 	CGALPrimitive* result=ne.getResult();

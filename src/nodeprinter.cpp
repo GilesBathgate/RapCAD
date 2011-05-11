@@ -100,6 +100,11 @@ void NodePrinter::visit(BoundsNode* n)
 	printOperation(n,"bounds");
 }
 
+void NodePrinter::visit(SubDivisionNode* n)
+{
+	printOperation(n,"subdiv");
+}
+
 void NodePrinter::printOperation(Node* n,QString name)
 {
 	result << name;

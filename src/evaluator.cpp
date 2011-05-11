@@ -43,6 +43,7 @@
 #include "spheremodule.h"
 #include "childmodule.h"
 #include "boundsmodule.h"
+#include "subdivisionmodule.h"
 
 #include "unionnode.h"
 
@@ -87,6 +88,7 @@ void Evaluator::initBuiltins(Script* sc)
 		Evaluator::builtins.append(new SphereModule());
 		Evaluator::builtins.append(new ChildModule());
 		Evaluator::builtins.append(new BoundsModule());
+		Evaluator::builtins.append(new SubDivisionModule());
 	}
 	foreach(Declaration* d,Evaluator::builtins)
 		sc->addDeclaration(d);

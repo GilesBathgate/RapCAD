@@ -17,6 +17,8 @@
  */
 
 #include "nodeevaluator.h"
+#include <QPair>
+#include <CGAL/Subdivision_method_3.h>
 
 NodeEvaluator::NodeEvaluator(QTextStream& s) : output(s)
 {
@@ -82,8 +84,8 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 
 	if(r.number_of_facets()>1) {
 		typedef CGAL::Point3* PointIterator;
-		typedef std::pair<PointIterator,PointIterator>  PointRange;
-		typedef std::list<PointRange> PolyLine;
+		typedef QPair<PointIterator,PointIterator>  PointRange;
+		typedef QList<PointRange> PolyLine;
 
 		PolyLine poly;
 		CGAL::Point3 pl[2] = {
@@ -191,6 +193,25 @@ void NodeEvaluator::visit(BoundsNode* n)
 	output << "Bounds: ";
 	output << "[" << b.xmin() << "," << b.ymin() << "," << b.zmin() << "] ";
 	output << "[" << b.xmax() << "," << b.ymax() << "," << b.zmax() << "]\n";
+}
+
+void NodeEvaluator::visit(SubDivisionNode* n)
+{
+	evaluate(n,Union);
+
+	CGAL::Polyhedron3 p;
+	result->getPoly3().convert_to_Polyhedron(p);
+
+	CGAL::Subdivision_method_3::CatmullClark_subdivision(p,n->getLevel());
+
+	//TODO For some reason the resulting CGAL::Polyhedron3 will not convert
+	//back to a Nef Poly!
+	if(p.is_closed()) {
+		CGAL::NefPolyhedron3* nefPoly=new CGAL::NefPolyhedron3(p);
+		result=new CGALPrimitive(nefPoly);
+	} else {
+		output << "Polygon is not closed";
+	}
 }
 
 void NodeEvaluator::visit(TransformationNode* tr)
