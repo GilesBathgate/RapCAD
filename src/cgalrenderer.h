@@ -19,7 +19,7 @@
 #ifndef CGALRENDERER_H
 #define CGALRENDERER_H
 
-#include "OGL_helper.h"
+#include "contrib/OGL_helper.h"
 #include "renderer.h"
 #include "cgalprimitive.h"
 

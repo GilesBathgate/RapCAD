@@ -1,19 +1,19 @@
 #-------------------------------------------------------------------------
-#    RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
-#    Copyright (C) 2010-2011 Giles Bathgate
+#	RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
+#	Copyright (C) 2010-2011 Giles Bathgate
 #
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
+#	This program is free software: you can redistribute it and/or modify
+#	it under the terms of the GNU General Public License as published by
+#	the Free Software Foundation, either version 3 of the License, or
+#	(at your option) any later version.
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+#	This program is distributed in the hope that it will be useful,
+#	but WITHOUT ANY WARRANTY; without even the implied warranty of
+#	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#	GNU General Public License for more details.
 #
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#	You should have received a copy of the GNU General Public License
+#	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------
 
 #-------------------------------------------------
@@ -22,7 +22,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl
+QT	+= core gui opengl
 
 TARGET = rapcad
 TEMPLATE = app
@@ -38,228 +38,228 @@ QMAKE_DEL_FILE = rm -f
 }
 
 SOURCES += \
-    src/main.cpp \
-    src/mainwindow.cpp \
-    src/module.cpp \
-    src/syntaxtreebuilder.cpp \
-    src/parameter.cpp \
-    src/expression.cpp \
-    src/binaryexpression.cpp \
-    src/literal.cpp \
-    src/variable.cpp \
-    src/declaration.cpp \
-    src/scope.cpp \
-    src/modulescope.cpp \
-    src/dependencybuilder.cpp \
-    src/instance.cpp \
-    src/argument.cpp \
-    src/statement.cpp \
-    src/function.cpp \
-    src/functionscope.cpp \
-    src/compoundstatement.cpp \
-    src/assignstatement.cpp \
-    src/vectorexpression.cpp \
-    src/ifelsestatement.cpp \
-    src/forstatement.cpp \
-    src/rangeexpression.cpp \
-    src/unaryexpression.cpp \
-    src/invocation.cpp \
-    src/returnstatement.cpp \
-    src/ternaryexpression.cpp \
-    src/moduleimport.cpp \
-    src/treeprinter.cpp \
-    src/script.cpp \
-    src/syntaxhighlighter.cpp \
-    src/tokenbuilder.cpp \
-    src/evaluator.cpp \
-    src/context.cpp \
-    src/value.cpp \
-    src/echomodule.cpp \
-    src/numbervalue.cpp \
-    src/booleanvalue.cpp \
-    src/textvalue.cpp \
-    src/vectorvalue.cpp \
-    src/rangevalue.cpp \
-    src/valueiterator.cpp \
-    src/vectoriterator.cpp \
-    src/rangeiterator.cpp \
-    src/scriptimport.cpp \
-    src/primitivenode.cpp \
-    src/cubemodule.cpp \
-    src/differencemodule.cpp \
-    src/polyhedronmodule.cpp \
-    src/solidpython.cpp \
-    src/cylindermodule.cpp \
-    src/primitivemodule.cpp \
-    src/node.cpp \
-    src/transformationnode.cpp \
-    src/glview.cpp \
-    src/cgalrenderer.cpp \
-    src/point.cpp \
-    src/nodeprinter.cpp \
-    src/nodeevaluator.cpp \
-    src/texteditiodevice.cpp \
-    src/backgroundworker.cpp \
-    src/cgalbuilder.cpp \
-    src/differencenode.cpp \
-    src/unionnode.cpp \
-    src/unionmodule.cpp \
-    src/intersectionmodule.cpp \
-    src/intersectionnode.cpp \
-    src/translatemodule.cpp \
-    src/symmetricdifferencemodule.cpp \
-    src/symmetricdifferencenode.cpp \
-    src/cgalprimitive.cpp \
-    src/squaremodule.cpp \
-    src/circlemodule.cpp \
-    src/minkowskimodule.cpp \
-    src/minkowskinode.cpp \
-    src/rotatemodule.cpp \
-    src/mirrormodule.cpp \
-    src/scalemodule.cpp \
-    src/childmodule.cpp \
-    src/spheremodule.cpp \
-    src/worker.cpp \
-    src/reporter.cpp \
-    src/codedoc.cpp \
-    src/dxfbuilder.cpp \
-    src/shearmodule.cpp \
-    src/groupmodule.cpp \
-    src/codeeditor.cpp \
-    src/linenumberarea.cpp \
-    src/cgalexplorer.cpp \
-    src/hullmodule.cpp \
-    src/hullnode.cpp \
-    src/linearextrudemodule.cpp \
-    src/linearextrudenode.cpp \
-    src/boundsmodule.cpp \
-    src/boundsnode.cpp \
-    src/subdivisionmodule.cpp \
-    src/subdivisionnode.cpp
+	src/main.cpp \
+	src/mainwindow.cpp \
+	src/module.cpp \
+	src/syntaxtreebuilder.cpp \
+	src/parameter.cpp \
+	src/expression.cpp \
+	src/binaryexpression.cpp \
+	src/literal.cpp \
+	src/variable.cpp \
+	src/declaration.cpp \
+	src/scope.cpp \
+	src/modulescope.cpp \
+	src/dependencybuilder.cpp \
+	src/instance.cpp \
+	src/argument.cpp \
+	src/statement.cpp \
+	src/function.cpp \
+	src/functionscope.cpp \
+	src/compoundstatement.cpp \
+	src/assignstatement.cpp \
+	src/vectorexpression.cpp \
+	src/ifelsestatement.cpp \
+	src/forstatement.cpp \
+	src/rangeexpression.cpp \
+	src/unaryexpression.cpp \
+	src/invocation.cpp \
+	src/returnstatement.cpp \
+	src/ternaryexpression.cpp \
+	src/moduleimport.cpp \
+	src/treeprinter.cpp \
+	src/script.cpp \
+	src/syntaxhighlighter.cpp \
+	src/tokenbuilder.cpp \
+	src/evaluator.cpp \
+	src/context.cpp \
+	src/value.cpp \
+	src/module/echomodule.cpp \
+	src/numbervalue.cpp \
+	src/booleanvalue.cpp \
+	src/textvalue.cpp \
+	src/vectorvalue.cpp \
+	src/rangevalue.cpp \
+	src/valueiterator.cpp \
+	src/vectoriterator.cpp \
+	src/rangeiterator.cpp \
+	src/scriptimport.cpp \
+	src/primitivenode.cpp \
+	src/module/cubemodule.cpp \
+	src/module/differencemodule.cpp \
+	src/module/polyhedronmodule.cpp \
+	src/solidpython.cpp \
+	src/module/cylindermodule.cpp \
+	src/module/primitivemodule.cpp \
+	src/node.cpp \
+	src/transformationnode.cpp \
+	src/glview.cpp \
+	src/cgalrenderer.cpp \
+	src/point.cpp \
+	src/nodeprinter.cpp \
+	src/nodeevaluator.cpp \
+	src/texteditiodevice.cpp \
+	src/backgroundworker.cpp \
+	src/cgalbuilder.cpp \
+	src/differencenode.cpp \
+	src/unionnode.cpp \
+	src/module/unionmodule.cpp \
+	src/module/intersectionmodule.cpp \
+	src/intersectionnode.cpp \
+	src/module/translatemodule.cpp \
+	src/module/symmetricdifferencemodule.cpp \
+	src/symmetricdifferencenode.cpp \
+	src/cgalprimitive.cpp \
+	src/module/squaremodule.cpp \
+	src/module/circlemodule.cpp \
+	src/module/minkowskimodule.cpp \
+	src/minkowskinode.cpp \
+	src/module/rotatemodule.cpp \
+	src/module/mirrormodule.cpp \
+	src/module/scalemodule.cpp \
+	src/module/childmodule.cpp \
+	src/module/spheremodule.cpp \
+	src/worker.cpp \
+	src/reporter.cpp \
+	src/codedoc.cpp \
+	src/dxfbuilder.cpp \
+	src/module/shearmodule.cpp \
+	src/module/groupmodule.cpp \
+	src/codeeditor.cpp \
+	src/linenumberarea.cpp \
+	src/cgalexplorer.cpp \
+	src/module/hullmodule.cpp \
+	src/hullnode.cpp \
+	src/module/linearextrudemodule.cpp \
+	src/linearextrudenode.cpp \
+	src/module/boundsmodule.cpp \
+	src/boundsnode.cpp \
+	src/module/subdivisionmodule.cpp \
+	src/subdivisionnode.cpp
 
 
 HEADERS  += \
-    src/mainwindow.h \
-    src/module.h \
-    src/syntaxtreebuilder.h \
-    src/parameter.h \
-    src/expression.h \
-    src/binaryexpression.h \
-    src/literal.h \
-    src/variable.h \
-    src/declaration.h \
-    src/scope.h \
-    src/modulescope.h \
-    src/abstractsyntaxtreebuilder.h \
-    src/dependencybuilder.h \
-    src/instance.h \
-    src/argument.h \
-    src/statement.h \
-    src/function.h \
-    src/functionscope.h \
-    src/compoundstatement.h \
-    src/assignstatement.h \
-    src/vectorexpression.h \
-    src/ifelsestatement.h \
-    src/forstatement.h \
-    src/rangeexpression.h \
-    src/unaryexpression.h \
-    src/invocation.h \
-    src/returnstatement.h \
-    src/ternaryexpression.h \
-    src/moduleimport.h \
-    src/treevisitor.h \
-    src/treeprinter.h \
-    src/visitabletree.h \
-    src/script.h \
-    src/syntaxhighlighter.h \
-    src/tokenbuilder.h \
-    src/abstracttokenbuilder.h \
-    src/evaluator.h \
-    src/context.h \
-    src/value.h \
-    src/echomodule.h \
-    src/tau.h \
-    src/numbervalue.h \
-    src/booleanvalue.h \
-    src/textvalue.h \
-    src/vectorvalue.h \
-    src/rangevalue.h \
-    src/iterator.h \
-    src/valueiterator.h \
-    src/vectoriterator.h \
-    src/rangeiterator.h \
-    src/scriptimport.h \
-    src/cgal.h \
-    src/primitivenode.h \
-    src/cubemodule.h \
-    src/differencemodule.h \
-    src/polyhedronmodule.h \
-    src/solidpython.h \
-    src/cylindermodule.h \
-    src/primitivemodule.h \
-    src/node.h \
-    src/transformationnode.h \
-    src/GLView.h \
-    src/cgalrenderer.h \
-    src/OGL_helper.h \
-    src/renderer.h \
-    src/point.h \
-    src/nodevisitor.h \
-    src/visitablenode.h \
-    src/nodeprinter.h \
-    src/nodeevaluator.h \
-    src/polygon.h \
-    src/texteditiodevice.h \
-    src/backgroundworker.h \
-    src/cgalbuilder.h \
-    src/differencenode.h \
-    src/unionnode.h \
-    src/unionmodule.h \
-    src/intersectionmodule.h \
-    src/intersectionnode.h \
-    src/translatemodule.h \
-    src/symmetricdifferencemodule.h \
-    src/symmetricdifferencenode.h \
-    src/cgalprimitive.h \
-    src/squaremodule.h \
-    src/circlemodule.h \
-    src/minkowskimodule.h \
-    src/minkowskinode.h \
-    src/rotatemodule.h \
-    src/mirrormodule.h \
-    src/scalemodule.h \
-    src/childmodule.h \
-    src/spheremodule.h \
-    src/worker.h \
-    src/reporter.h \
-    src/codedoc.h \
-    src/dxfbuilder.h \
-    src/shearmodule.h \
-    src/groupmodule.h \
-    src/CodeEditor.h \
-    src/linenumberarea.h \
-    src/cgalexplorer.h \
-    src/hullmodule.h \
-    src/hullnode.h \
-    src/linearextrudemodule.h \
-    src/linearextrudenode.h \
-    src/boundsmodule.h \
-    src/boundsnode.h \
-    src/subdivisionmodule.h \
-    src/subdivisionnode.h
+	src/mainwindow.h \
+	src/module.h \
+	src/syntaxtreebuilder.h \
+	src/parameter.h \
+	src/expression.h \
+	src/binaryexpression.h \
+	src/literal.h \
+	src/variable.h \
+	src/declaration.h \
+	src/scope.h \
+	src/modulescope.h \
+	src/abstractsyntaxtreebuilder.h \
+	src/dependencybuilder.h \
+	src/instance.h \
+	src/argument.h \
+	src/statement.h \
+	src/function.h \
+	src/functionscope.h \
+	src/compoundstatement.h \
+	src/assignstatement.h \
+	src/vectorexpression.h \
+	src/ifelsestatement.h \
+	src/forstatement.h \
+	src/rangeexpression.h \
+	src/unaryexpression.h \
+	src/invocation.h \
+	src/returnstatement.h \
+	src/ternaryexpression.h \
+	src/moduleimport.h \
+	src/treevisitor.h \
+	src/treeprinter.h \
+	src/visitabletree.h \
+	src/script.h \
+	src/syntaxhighlighter.h \
+	src/tokenbuilder.h \
+	src/abstracttokenbuilder.h \
+	src/evaluator.h \
+	src/context.h \
+	src/value.h \
+	src/module/echomodule.h \
+	src/tau.h \
+	src/numbervalue.h \
+	src/booleanvalue.h \
+	src/textvalue.h \
+	src/vectorvalue.h \
+	src/rangevalue.h \
+	src/iterator.h \
+	src/valueiterator.h \
+	src/vectoriterator.h \
+	src/rangeiterator.h \
+	src/scriptimport.h \
+	src/cgal.h \
+	src/primitivenode.h \
+	src/module/cubemodule.h \
+	src/module/differencemodule.h \
+	src/module/polyhedronmodule.h \
+	src/solidpython.h \
+	src/module/cylindermodule.h \
+	src/module/primitivemodule.h \
+	src/node.h \
+	src/transformationnode.h \
+	src/GLView.h \
+	src/cgalrenderer.h \
+	contrib/OGL_helper.h \
+	src/renderer.h \
+	src/point.h \
+	src/nodevisitor.h \
+	src/visitablenode.h \
+	src/nodeprinter.h \
+	src/nodeevaluator.h \
+	src/polygon.h \
+	src/texteditiodevice.h \
+	src/backgroundworker.h \
+	src/cgalbuilder.h \
+	src/differencenode.h \
+	src/unionnode.h \
+	src/module/unionmodule.h \
+	src/module/intersectionmodule.h \
+	src/intersectionnode.h \
+	src/module/translatemodule.h \
+	src/module/symmetricdifferencemodule.h \
+	src/symmetricdifferencenode.h \
+	src/cgalprimitive.h \
+	src/module/squaremodule.h \
+	src/module/circlemodule.h \
+	src/module/minkowskimodule.h \
+	src/minkowskinode.h \
+	src/module/rotatemodule.h \
+	src/module/mirrormodule.h \
+	src/module/scalemodule.h \
+	src/module/childmodule.h \
+	src/module/spheremodule.h \
+	src/worker.h \
+	src/reporter.h \
+	src/codedoc.h \
+	src/dxfbuilder.h \
+	src/module/shearmodule.h \
+	src/module/groupmodule.h \
+	src/CodeEditor.h \
+	src/linenumberarea.h \
+	src/cgalexplorer.h \
+	src/module/hullmodule.h \
+	src/hullnode.h \
+	src/module/linearextrudemodule.h \
+	src/linearextrudenode.h \
+	src/module/boundsmodule.h \
+	src/boundsnode.h \
+	src/module/subdivisionmodule.h \
+	src/subdivisionnode.h
 
 FORMS += \
-    src/mainwindow.ui
+	src/mainwindow.ui
 
 OTHER_FILES += \
-    COPYING
+	COPYING
 
 unix {
-  isEmpty(PREFIX) {
-    PREFIX = /usr
-  }
-  BINDIR = $$PREFIX/bin
-  INSTALLS += target
-  target.path =$$BINDIR
+	isEmpty(PREFIX) {
+		PREFIX = /usr
+	}
+	BINDIR = $$PREFIX/bin
+	INSTALLS += target
+	target.path =$$BINDIR
 }
