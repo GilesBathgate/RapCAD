@@ -214,6 +214,12 @@ void NodeEvaluator::visit(SubDivisionNode* n)
 	}
 }
 
+void NodeEvaluator::visit(InsetNode* n)
+{
+	evaluate(n,Union);
+	output << "Error: Inset not implemented!";
+}
+
 void NodeEvaluator::visit(TransformationNode* tr)
 {
 	evaluate(tr,Union);

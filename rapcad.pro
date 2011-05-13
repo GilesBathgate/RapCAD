@@ -135,7 +135,9 @@ SOURCES += \
 	src/module/boundsmodule.cpp \
 	src/boundsnode.cpp \
 	src/module/subdivisionmodule.cpp \
-	src/subdivisionnode.cpp
+	src/subdivisionnode.cpp \
+	src/module/insetmodule.cpp \
+	src/insetnode.cpp
 
 
 HEADERS  += \
@@ -247,7 +249,9 @@ HEADERS  += \
 	src/module/boundsmodule.h \
 	src/boundsnode.h \
 	src/module/subdivisionmodule.h \
-	src/subdivisionnode.h
+	src/subdivisionnode.h \
+	src/module/insetmodule.h \
+	src/insetnode.h
 
 FORMS += \
 	src/mainwindow.ui

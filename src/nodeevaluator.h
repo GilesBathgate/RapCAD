@@ -35,6 +35,7 @@
 #include "linearextrudenode.h"
 #include "boundsnode.h"
 #include "subdivisionnode.h"
+#include "insetnode.h"
 #include "cgalexplorer.h"
 
 class NodeEvaluator : public NodeVisitor, private CGALBuilder
@@ -61,6 +62,7 @@ public:
 	void visit(LinearExtrudeNode*);
 	void visit(BoundsNode*);
 	void visit(SubDivisionNode*);
+	void visit(InsetNode*);
 	void visit(TransformationNode*);
 	CGALPrimitive* getResult() const;
 private:

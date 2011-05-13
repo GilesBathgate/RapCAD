@@ -32,6 +32,7 @@
 #include "hullnode.h"
 #include "boundsnode.h"
 #include "subdivisionnode.h"
+#include "insetnode.h"
 
 class NodePrinter : public NodeVisitor
 {
@@ -47,6 +48,7 @@ public:
 	void visit(LinearExtrudeNode*);
 	void visit(BoundsNode*);
 	void visit(SubDivisionNode*);
+	void visit(InsetNode*);
 	void printOperation(Node*,QString name);
 	void visit(TransformationNode*);
 private:

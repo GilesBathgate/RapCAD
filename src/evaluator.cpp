@@ -44,6 +44,7 @@
 #include "module/childmodule.h"
 #include "module/boundsmodule.h"
 #include "module/subdivisionmodule.h"
+#include "module/insetmodule.h"
 
 #include "unionnode.h"
 
@@ -89,6 +90,7 @@ void Evaluator::initBuiltins(Script* sc)
 		Evaluator::builtins.append(new ChildModule());
 		Evaluator::builtins.append(new BoundsModule());
 		Evaluator::builtins.append(new SubDivisionModule());
+		Evaluator::builtins.append(new InsetModule());
 	}
 	foreach(Declaration* d,Evaluator::builtins)
 		sc->addDeclaration(d);

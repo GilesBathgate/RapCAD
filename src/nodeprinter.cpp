@@ -105,6 +105,11 @@ void NodePrinter::visit(SubDivisionNode* n)
 	printOperation(n,"subdiv");
 }
 
+void NodePrinter::visit(InsetNode* n)
+{
+	printOperation(n,"inset");
+}
+
 void NodePrinter::printOperation(Node* n,QString name)
 {
 	result << name;
