@@ -64,6 +64,18 @@ void GLView::makeImage(const QString& filename)
 	pbuffer.doneCurrent();
 }
 
+void GLView::setSkeleton(bool skel)
+{
+	skeleton=skel;
+	updateGL();
+}
+
+void GLView::setShowEdges(bool edges)
+{
+	showEdges=edges;
+	updateGL();
+}
+
 void GLView::setRenderer(Renderer* r)
 {
 	render=r;
@@ -175,7 +187,7 @@ void GLView::paintGL()
 	}
 
 	if(render)
-		render->draw(false,false);
+		render->draw(skeleton,showEdges);
 }
 
 void GLView::wheelEvent(QWheelEvent* event)

@@ -43,6 +43,7 @@ void CGALRenderer::draw(bool skeleton, bool showedges)
 		glDisable(GL_LIGHTING);
 		glCallList(this->object_list_+1);
 		glCallList(this->object_list_);
+		glEnable(GL_LIGHTING);
 	}
 }
 

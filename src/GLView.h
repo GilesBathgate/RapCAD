@@ -27,10 +27,15 @@
 
 class GLView : public QGLWidget
 {
+	Q_OBJECT
+
 public:
 	GLView(QWidget* parent = NULL);
 	void setRenderer(Renderer* r);
 	void makeImage(const QString&);
+public slots:
+	void setSkeleton(bool);
+	void setShowEdges(bool);
 private:
 	void initializeGL();
 	void resizeGL(int w, int h);
@@ -49,6 +54,9 @@ private:
 	bool showBase;
 	bool showPrintArea;
 	bool showTicks;
+	bool showEdges;
+	bool skeleton;
+
 	bool mouseDrag;
 	QPoint last;
 	GLdouble rotateX;
