@@ -34,6 +34,10 @@ public:
 	void setRenderer(Renderer* r);
 	void makeImage(const QString&);
 public slots:
+	void setShowAxes(bool);
+	void setShowRulers(bool);
+	void setShowBase(bool);
+	void setShowPrintArea(bool);
 	void setSkeleton(bool);
 	void setShowEdges(bool);
 private:
@@ -53,7 +57,7 @@ private:
 	bool showAxes;
 	bool showBase;
 	bool showPrintArea;
-	bool showTicks;
+	bool showRulers;
 	bool showEdges;
 	bool skeleton;
 

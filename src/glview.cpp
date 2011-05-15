@@ -43,7 +43,7 @@ GLView::GLView(QWidget* parent) : QGLWidget(parent)
 	showAxes=true;
 	showBase=true;
 	showPrintArea=true;
-	showTicks=true;
+	showRulers=true;
 	rotateX=35.0;
 	rotateY=0.0;
 	rotateZ=35.0;
@@ -73,6 +73,30 @@ void GLView::setSkeleton(bool skel)
 void GLView::setShowEdges(bool edges)
 {
 	showEdges=edges;
+	updateGL();
+}
+
+void GLView::setShowAxes(bool axes)
+{
+	showAxes=axes;
+	updateGL();
+}
+
+void GLView::setShowRulers(bool rulers)
+{
+	showRulers=rulers;
+	updateGL();
+}
+
+void GLView::setShowBase(bool base)
+{
+	showBase=base;
+	updateGL();
+}
+
+void GLView::setShowPrintArea(bool print)
+{
+	showPrintArea=print;
 	updateGL();
 }
 
@@ -163,7 +187,7 @@ void GLView::paintGL()
 		glVertex3i(printX, printLength-printY, 0);
 		glEnd();
 	}
-	if(showTicks) {
+	if(showRulers) {
 		glLineWidth(1);
 		glColor3d(0.2, 0.2, 0.2);
 		glBegin(GL_LINES);

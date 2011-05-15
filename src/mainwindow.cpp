@@ -93,13 +93,29 @@ void MainWindow::setupActions()
 	connect(QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(clipboardDataChanged()));
 	clipboardDataChanged();
 
+	//Make sure when axis is toggled rulers are disabled but not vice versa
+	connect(ui->actionShowAxes,SIGNAL(triggered(bool)),this,SLOT(disableRulers(bool)));
+
 	connect(ui->actionShowEdges,SIGNAL(triggered(bool)),ui->view,SLOT(setShowEdges(bool)));
 	connect(ui->actionSkeleton,SIGNAL(triggered(bool)),ui->view,SLOT(setSkeleton(bool)));
+	connect(ui->actionShowAxes,SIGNAL(triggered(bool)),ui->view,SLOT(setShowAxes(bool)));
+	connect(ui->actionShowBase,SIGNAL(triggered(bool)),ui->view,SLOT(setShowBase(bool)));
+	connect(ui->actionShowPrintArea,SIGNAL(triggered(bool)),ui->view,SLOT(setShowPrintArea(bool)));
+	connect(ui->actionShowRulers,SIGNAL(triggered(bool)),ui->view,SLOT(setShowRulers(bool)));
 
 	ui->actionCompileAndRender->setIcon(QIcon::fromTheme("system-run"));
 	connect(ui->actionCompileAndRender,SIGNAL(triggered()),this,SLOT(compileAndRender()));
 
 	ui->actionGenerateGcode->setIcon(QIcon::fromTheme("format-justify-fill"));
+}
+
+void MainWindow::disableRulers(bool checked)
+{
+	if(!checked)
+		ui->actionShowRulers->setChecked(checked);
+
+	ui->view->setShowRulers(ui->actionShowRulers->isChecked());
+	ui->actionShowRulers->setEnabled(checked);
 }
 
 void MainWindow::setupLayout()
