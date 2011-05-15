@@ -22,6 +22,7 @@
 #include <QTextStream>
 #include "nodevisitor.h"
 #include "primitivenode.h"
+#include "polylinenode.h"
 #include "unionnode.h"
 #include "differencenode.h"
 #include "intersectionnode.h"
@@ -39,6 +40,7 @@ class NodePrinter : public NodeVisitor
 public:
 	NodePrinter(QTextStream&);
 	void visit(PrimitiveNode*);
+	void visit(PolylineNode*);
 	void visit(UnionNode*);
 	void visit(DifferenceNode*);
 	void visit(IntersectionNode*);

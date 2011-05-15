@@ -25,6 +25,7 @@
 #include "cgalprimitive.h"
 #include "nodevisitor.h"
 #include "primitivenode.h"
+#include "polylinenode.h"
 #include "unionnode.h"
 #include "differencenode.h"
 #include "intersectionnode.h"
@@ -51,6 +52,8 @@ public:
 
 	NodeEvaluator(QTextStream&);
 	void visit(PrimitiveNode*);
+	void visit(PolylineNode*);
+	CGALPrimitive* getPolyLine(Polygon);
 	void visit(UnionNode*);
 	void visit(DifferenceNode*);
 	void visit(IntersectionNode*);

@@ -17,6 +17,7 @@
  */
 
 #include "nodeevaluator.h"
+#include <QVector>
 #include <QPair>
 #include <CGAL/Subdivision_method_3.h>
 
@@ -31,6 +32,32 @@ void NodeEvaluator::visit(PrimitiveNode* n)
 	poly.delegate(*this);
 	CGAL::NefPolyhedron3* nefPoly=new CGAL::NefPolyhedron3(poly);
 	result=new CGALPrimitive(nefPoly);
+}
+
+void NodeEvaluator::visit(PolylineNode* n)
+{
+	result=getPolyLine(n->getPoints());
+}
+
+CGALPrimitive* NodeEvaluator::getPolyLine(Polygon points)
+{
+	typedef CGAL::Point3* PointIterator;
+	typedef QPair<PointIterator,PointIterator>  PointRange;
+	typedef QList<PointRange> PolyLine;
+
+	QVector<CGAL::Point3> pl;
+	foreach(Point p, points) {
+		double x,y,z;
+		p.getXYZ(x,y,z);
+		pl.append(CGAL::Point3(x,y,z));
+	}
+	PointRange p(pl.begin(),pl.end());
+
+	PolyLine poly;
+	poly.push_back(p);
+	CGAL::NefPolyhedron3* nefPoly;
+	nefPoly=new CGAL::NefPolyhedron3(poly.begin(), poly.end(), CGAL::NefPolyhedron3::Polylines_tag());
+	return new CGALPrimitive(nefPoly);
 }
 
 void NodeEvaluator::visit(UnionNode* op)
@@ -83,20 +110,10 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 	CGAL::NefPolyhedron3 r=result->getPoly3();
 
 	if(r.number_of_facets()>1) {
-		typedef CGAL::Point3* PointIterator;
-		typedef QPair<PointIterator,PointIterator>  PointRange;
-		typedef QList<PointRange> PolyLine;
-
-		PolyLine poly;
-		CGAL::Point3 pl[2] = {
-			CGAL::Point3(0,0,0),
-			CGAL::Point3(0,0,op->getHeight())
-		};
-		PointRange p(pl,pl+2);
-		poly.push_back(p);
-		CGAL::NefPolyhedron3* nefPoly;
-		nefPoly=new CGAL::NefPolyhedron3(poly.begin(), poly.end(), CGAL::NefPolyhedron3::Polylines_tag());
-		CGALPrimitive* prim = new CGALPrimitive(nefPoly);
+		QList<Point> pl;
+		pl.append(Point(0,0,0));
+		pl.append(Point(0,0,op->getHeight()));
+		CGALPrimitive* prim=getPolyLine(pl);
 		result=result->minkowski(prim);
 
 	} else {

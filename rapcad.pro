@@ -137,7 +137,9 @@ SOURCES += \
 	src/module/subdivisionmodule.cpp \
 	src/subdivisionnode.cpp \
 	src/module/insetmodule.cpp \
-	src/insetnode.cpp
+	src/insetnode.cpp \
+	src/module/polylinemodule.cpp \
+	src/polylinenode.cpp
 
 
 HEADERS  += \
@@ -251,7 +253,9 @@ HEADERS  += \
 	src/module/subdivisionmodule.h \
 	src/subdivisionnode.h \
 	src/module/insetmodule.h \
-	src/insetnode.h
+	src/insetnode.h \
+	src/module/polylinemodule.h \
+	src/polylinenode.h
 
 FORMS += \
 	src/mainwindow.ui

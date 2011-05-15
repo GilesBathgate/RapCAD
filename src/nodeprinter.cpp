@@ -60,6 +60,11 @@ void NodePrinter::visit(PrimitiveNode* n)
 	result << "]);";
 }
 
+void NodePrinter::visit(PolylineNode* n)
+{
+	printOperation(n,"polyline");
+}
+
 void NodePrinter::visit(UnionNode* n)
 {
 	printOperation(n,"union");

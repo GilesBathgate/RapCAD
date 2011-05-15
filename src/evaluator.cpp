@@ -26,6 +26,7 @@
 #include "module/cylindermodule.h"
 #include "module/circlemodule.h"
 #include "module/polyhedronmodule.h"
+#include "module/polylinemodule.h"
 
 #include "module/differencemodule.h"
 #include "module/unionmodule.h"
@@ -73,6 +74,7 @@ void Evaluator::initBuiltins(Script* sc)
 		Evaluator::builtins.append(new CylinderModule());
 		Evaluator::builtins.append(new CircleModule());
 		Evaluator::builtins.append(new PolyhedronModule());
+		Evaluator::builtins.append(new PolylineModule());
 		Evaluator::builtins.append(new DifferenceModule());
 		Evaluator::builtins.append(new UnionModule());
 		Evaluator::builtins.append(new GroupModule());
