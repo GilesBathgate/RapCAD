@@ -16,10 +16,10 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "nodeevaluator.h"
 #include <QVector>
-#include <QPair>
 #include <CGAL/Subdivision_method_3.h>
+#include "nodeevaluator.h"
+#include "cgalassembler.h"
 
 NodeEvaluator::NodeEvaluator(QTextStream& s) : output(s)
 {
@@ -27,11 +27,7 @@ NodeEvaluator::NodeEvaluator(QTextStream& s) : output(s)
 
 void NodeEvaluator::visit(PrimitiveNode* n)
 {
-	this->setPrimitive(n);
-	CGAL::Polyhedron3 poly;
-	poly.delegate(*this);
-	CGAL::NefPolyhedron3* nefPoly=new CGAL::NefPolyhedron3(poly);
-	result=new CGALPrimitive(nefPoly);
+	result=new CGALPrimitive(n);
 }
 
 void NodeEvaluator::visit(PolylineNode* n)
@@ -42,20 +38,7 @@ void NodeEvaluator::visit(PolylineNode* n)
 		p.getXYZ(x,y,z);
 		pl.append(CGAL::Point3(x,y,z));
 	}
-	result=getPolyLine(pl);
-}
-
-CGALPrimitive* NodeEvaluator::getPolyLine(QVector<CGAL::Point3> pl)
-{
-	typedef QPair<CGAL::Point3*,CGAL::Point3*>  PointRange;
-	typedef QList<PointRange> PolyLine;
-
-	PointRange p(pl.begin(),pl.end());
-	PolyLine poly;
-	poly.push_back(p);
-	CGAL::NefPolyhedron3* nefPoly;
-	nefPoly=new CGAL::NefPolyhedron3(poly.begin(), poly.end(), CGAL::NefPolyhedron3::Polylines_tag());
-	return new CGALPrimitive(nefPoly);
+	result=new CGALPrimitive(pl);
 }
 
 void NodeEvaluator::visit(UnionNode* op)
@@ -102,7 +85,7 @@ void NodeEvaluator::visit(GlideNode* op)
 			if(op->getClosed())
 				pl.append(fp);
 
-			first=this->getPolyLine(pl);
+			first=new CGALPrimitive(pl);
 		} else {
 			first=first->minkowski(result);
 		}
@@ -125,8 +108,7 @@ void NodeEvaluator::visit(HullNode* n)
 	CGAL::convex_hull_3(points.begin(),points.end(),hull);
 
 	CGAL::Polyhedron3 poly=CGAL::object_cast<CGAL::Polyhedron3>(hull);
-	CGAL::NefPolyhedron3* nefPoly=new CGAL::NefPolyhedron3(poly);
-	result=new CGALPrimitive(nefPoly);
+	result=new CGALPrimitive(poly);
 }
 
 void NodeEvaluator::visit(LinearExtrudeNode* op)
@@ -139,7 +121,7 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 		QVector<CGAL::Point3> pl;
 		pl.append(CGAL::Point3(0,0,0));
 		pl.append(CGAL::Point3(0,0,op->getHeight()));
-		CGALPrimitive* prim=getPolyLine(pl);
+		CGALPrimitive* prim=new CGALPrimitive(pl);
 		result=result->minkowski(prim);
 
 	} else {
@@ -175,11 +157,7 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 			n->prependVertex(p);
 		}
 
-		this->setPrimitive(n);
-		CGAL::Polyhedron3 poly;
-		poly.delegate(*this);
-		CGAL::NefPolyhedron3* nefPoly=new CGAL::NefPolyhedron3(poly);
-		result=new CGALPrimitive(nefPoly);
+		result=new CGALPrimitive(n);
 	}
 
 }
@@ -250,8 +228,7 @@ void NodeEvaluator::visit(SubDivisionNode* n)
 	//TODO For some reason the resulting CGAL::Polyhedron3 will not convert
 	//back to a Nef Poly!
 	if(p.is_closed()) {
-		CGAL::NefPolyhedron3* nefPoly=new CGAL::NefPolyhedron3(p);
-		result=new CGALPrimitive(nefPoly);
+		result=new CGALPrimitive(p);
 	} else {
 		output << "Polygon is not closed";
 	}

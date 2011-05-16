@@ -21,7 +21,6 @@
 
 #include <QString>
 #include <QTextStream>
-#include "cgalbuilder.h"
 #include "cgalprimitive.h"
 #include "nodevisitor.h"
 #include "primitivenode.h"
@@ -40,7 +39,7 @@
 #include "insetnode.h"
 #include "cgalexplorer.h"
 
-class NodeEvaluator : public NodeVisitor, private CGALBuilder
+class NodeEvaluator : public NodeVisitor
 {
 public:
 	enum Operation_e {
@@ -68,7 +67,6 @@ public:
 	void visit(InsetNode*);
 	void visit(TransformationNode*);
 
-	CGALPrimitive* getPolyLine(QVector<CGAL::Point3>);
 	Point convert(const CGAL::Point3&,double);
 	void evaluate(Node*,Operation_e);
 	CGALPrimitive* getResult() const;

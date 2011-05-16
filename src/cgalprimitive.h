@@ -1,12 +1,16 @@
 #ifndef CGALPRIMITIVE_H
 #define CGALPRIMITIVE_H
 
-#include "cgal.h"
+#include <QVector>
+#include "cgalbuilder.h"
+#include "primitivenode.h"
 
-class CGALPrimitive
+class CGALPrimitive : private CGALBuilder
 {
 public:
-	CGALPrimitive(CGAL::NefPolyhedron3*);
+	CGALPrimitive(PrimitiveNode* n);
+	CGALPrimitive(QVector<CGAL::Point3> pl);
+	CGALPrimitive(CGAL::Polyhedron3 poly);
 	CGALPrimitive* join(const CGALPrimitive*);
 	CGALPrimitive* intersection(const CGALPrimitive*);
 	CGALPrimitive* difference(const CGALPrimitive*);
