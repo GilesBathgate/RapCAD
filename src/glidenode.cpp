@@ -16,27 +16,22 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NODEVISITOR_H
-#define NODEVISITOR_H
+#include "glidenode.h"
 
-class NodeVisitor
+GlideNode::GlideNode()
 {
-public:
-	virtual ~NodeVisitor() {}
-	virtual void visit(class PrimitiveNode*)=0;
-	virtual void visit(class PolylineNode*)=0;
-	virtual void visit(class UnionNode*)=0;
-	virtual void visit(class DifferenceNode*)=0;
-	virtual void visit(class IntersectionNode*)=0;
-	virtual void visit(class SymmetricDifferenceNode*)=0;
-	virtual void visit(class MinkowskiNode*)=0;
-	virtual void visit(class GlideNode*)=0;
-	virtual void visit(class HullNode*)=0;
-	virtual void visit(class LinearExtrudeNode*)=0;
-	virtual void visit(class BoundsNode*)=0;
-	virtual void visit(class SubDivisionNode*)=0;
-	virtual void visit(class InsetNode*)=0;
-	virtual void visit(class TransformationNode*)=0;
-};
+}
+void GlideNode::setClosed(bool c)
+{
+	closed=c;
+}
 
-#endif // NODEVISITOR_H
+bool GlideNode::getClosed() const
+{
+	return closed;
+}
+
+void GlideNode::accept(NodeVisitor& v)
+{
+	v.visit(this);
+}

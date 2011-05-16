@@ -16,27 +16,23 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NODEVISITOR_H
-#define NODEVISITOR_H
+#include "glidemodule.h"
+#include "glidenode.h"
+#include "booleanvalue.h"
 
-class NodeVisitor
+GlideModule::GlideModule() : Module("glide")
 {
-public:
-	virtual ~NodeVisitor() {}
-	virtual void visit(class PrimitiveNode*)=0;
-	virtual void visit(class PolylineNode*)=0;
-	virtual void visit(class UnionNode*)=0;
-	virtual void visit(class DifferenceNode*)=0;
-	virtual void visit(class IntersectionNode*)=0;
-	virtual void visit(class SymmetricDifferenceNode*)=0;
-	virtual void visit(class MinkowskiNode*)=0;
-	virtual void visit(class GlideNode*)=0;
-	virtual void visit(class HullNode*)=0;
-	virtual void visit(class LinearExtrudeNode*)=0;
-	virtual void visit(class BoundsNode*)=0;
-	virtual void visit(class SubDivisionNode*)=0;
-	virtual void visit(class InsetNode*)=0;
-	virtual void visit(class TransformationNode*)=0;
-};
+}
 
-#endif // NODEVISITOR_H
+Node* GlideModule::evaluate(Context* ctx,QList<Node*> childs)
+{
+	bool close=false;
+	BooleanValue* closeVal=dynamic_cast<BooleanValue*>(ctx->getArgument(0,"closed"));
+	if(closeVal)
+		close=closeVal->isTrue();
+
+	GlideNode* n=new GlideNode();
+	n->setClosed(close);
+	n->setChildren(childs);
+	return n;
+}

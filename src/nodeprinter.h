@@ -28,6 +28,7 @@
 #include "intersectionnode.h"
 #include "symmetricdifferencenode.h"
 #include "minkowskinode.h"
+#include "glidenode.h"
 #include "transformationnode.h"
 #include "linearextrudenode.h"
 #include "hullnode.h"
@@ -46,6 +47,7 @@ public:
 	void visit(IntersectionNode*);
 	void visit(SymmetricDifferenceNode*);
 	void visit(MinkowskiNode*);
+	void visit(GlideNode*);
 	void visit(HullNode*);
 	void visit(LinearExtrudeNode*);
 	void visit(BoundsNode*);

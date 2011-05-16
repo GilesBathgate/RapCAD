@@ -139,7 +139,9 @@ SOURCES += \
 	src/module/insetmodule.cpp \
 	src/insetnode.cpp \
 	src/module/polylinemodule.cpp \
-	src/polylinenode.cpp
+	src/polylinenode.cpp \
+	src/module/glidemodule.cpp \
+	src/glidenode.cpp
 
 
 HEADERS  += \
@@ -255,7 +257,9 @@ HEADERS  += \
 	src/module/insetmodule.h \
 	src/insetnode.h \
 	src/module/polylinemodule.h \
-	src/polylinenode.h
+	src/polylinenode.h \
+	src/module/glidemodule.h \
+	src/glidenode.h
 
 FORMS += \
 	src/mainwindow.ui

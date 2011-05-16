@@ -31,6 +31,7 @@
 #include "intersectionnode.h"
 #include "symmetricdifferencenode.h"
 #include "minkowskinode.h"
+#include "glidenode.h"
 #include "transformationnode.h"
 #include "hullnode.h"
 #include "linearextrudenode.h"
@@ -51,22 +52,25 @@ public:
 	};
 
 	NodeEvaluator(QTextStream&);
+
 	void visit(PrimitiveNode*);
 	void visit(PolylineNode*);
-	CGALPrimitive* getPolyLine(Polygon);
 	void visit(UnionNode*);
 	void visit(DifferenceNode*);
 	void visit(IntersectionNode*);
 	void visit(SymmetricDifferenceNode*);
 	void visit(MinkowskiNode*);
+	void visit(GlideNode*);
 	void visit(HullNode*);
-	Point convert(const CGAL::Point3&,double);
-	void evaluate(Node*,Operation_e);
 	void visit(LinearExtrudeNode*);
 	void visit(BoundsNode*);
 	void visit(SubDivisionNode*);
 	void visit(InsetNode*);
 	void visit(TransformationNode*);
+
+	CGALPrimitive* getPolyLine(QVector<CGAL::Point3>);
+	Point convert(const CGAL::Point3&,double);
+	void evaluate(Node*,Operation_e);
 	CGALPrimitive* getResult() const;
 private:
 	CGALPrimitive* result;

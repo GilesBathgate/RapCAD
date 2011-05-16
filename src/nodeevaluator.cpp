@@ -36,23 +36,21 @@ void NodeEvaluator::visit(PrimitiveNode* n)
 
 void NodeEvaluator::visit(PolylineNode* n)
 {
-	result=getPolyLine(n->getPoints());
-}
-
-CGALPrimitive* NodeEvaluator::getPolyLine(Polygon points)
-{
-	typedef CGAL::Point3* PointIterator;
-	typedef QPair<PointIterator,PointIterator>  PointRange;
-	typedef QList<PointRange> PolyLine;
-
 	QVector<CGAL::Point3> pl;
-	foreach(Point p, points) {
+	foreach(Point p,n->getPoints()) {
 		double x,y,z;
 		p.getXYZ(x,y,z);
 		pl.append(CGAL::Point3(x,y,z));
 	}
-	PointRange p(pl.begin(),pl.end());
+	result=getPolyLine(pl);
+}
 
+CGALPrimitive* NodeEvaluator::getPolyLine(QVector<CGAL::Point3> pl)
+{
+	typedef QPair<CGAL::Point3*,CGAL::Point3*>  PointRange;
+	typedef QList<PointRange> PolyLine;
+
+	PointRange p(pl.begin(),pl.end());
 	PolyLine poly;
 	poly.push_back(p);
 	CGAL::NefPolyhedron3* nefPoly;
@@ -85,6 +83,34 @@ void NodeEvaluator::visit(MinkowskiNode* op)
 	evaluate(op,Minkowski);
 }
 
+void NodeEvaluator::visit(GlideNode* op)
+{
+	CGALPrimitive* first=NULL;
+	foreach(Node* n, op->getChildren()) {
+		n->accept(*this);
+		if(!first) {
+			CGALExplorer explorer(result->getPoly3());
+			QList<CGAL::Point3> points = explorer.getPoints();
+
+			QVector<CGAL::Point3> pl;
+			CGAL::Point3 fp;
+			for(int i=0; i<points.size(); i++){
+				if(i==0)
+					fp=points.at(i);
+				pl.append(points.at(i));
+			}
+			if(op->getClosed())
+				pl.append(fp);
+
+			first=this->getPolyLine(pl);
+		} else {
+			first=first->minkowski(result);
+		}
+	}
+
+	result=first;
+}
+
 void NodeEvaluator::visit(HullNode* n)
 {
 	QList<CGAL::Point3> points;
@@ -110,9 +136,9 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 	CGAL::NefPolyhedron3 r=result->getPoly3();
 
 	if(r.number_of_facets()>1) {
-		QList<Point> pl;
-		pl.append(Point(0,0,0));
-		pl.append(Point(0,0,op->getHeight()));
+		QVector<CGAL::Point3> pl;
+		pl.append(CGAL::Point3(0,0,0));
+		pl.append(CGAL::Point3(0,0,op->getHeight()));
 		CGALPrimitive* prim=getPolyLine(pl);
 		result=result->minkowski(prim);
 

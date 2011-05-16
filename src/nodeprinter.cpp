@@ -90,6 +90,11 @@ void NodePrinter::visit(MinkowskiNode* n)
 	printOperation(n,"minkowski");
 }
 
+void NodePrinter::visit(GlideNode* n)
+{
+	printOperation(n,"glide");
+}
+
 void NodePrinter::visit(HullNode* n)
 {
 	printOperation(n,"hull");

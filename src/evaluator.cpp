@@ -35,6 +35,7 @@
 #include "module/translatemodule.h"
 #include "module/symmetricdifferencemodule.h"
 #include "module/minkowskimodule.h"
+#include "module/glidemodule.h"
 #include "module/linearextrudemodule.h"
 #include "module/hullmodule.h"
 #include "module/rotatemodule.h"
@@ -82,6 +83,7 @@ void Evaluator::initBuiltins(Script* sc)
 		Evaluator::builtins.append(new TranslateModule());
 		Evaluator::builtins.append(new SymmetricDifferenceModule());
 		Evaluator::builtins.append(new MinkowskiModule());
+		Evaluator::builtins.append(new GlideModule());
 		Evaluator::builtins.append(new HullModule());
 		Evaluator::builtins.append(new LinearExtrudeModule());
 		Evaluator::builtins.append(new RotateModule());
