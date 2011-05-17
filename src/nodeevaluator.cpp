@@ -19,7 +19,6 @@
 #include <QVector>
 #include <CGAL/Subdivision_method_3.h>
 #include "nodeevaluator.h"
-#include "cgalassembler.h"
 
 NodeEvaluator::NodeEvaluator(QTextStream& s) : output(s)
 {
