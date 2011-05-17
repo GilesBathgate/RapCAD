@@ -16,44 +16,35 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QList>
 #include <CGAL/Polyhedron_incremental_builder_3.h>
 #include "cgalbuilder.h"
-typedef CGAL::HalfedgeDS::Vertex Vertex;
 
 CGALBuilder::CGALBuilder()
 {
 }
 
-void CGALBuilder::setPrimitive(PrimitiveNode* n)
+void CGALBuilder::setPrimitive(CGALPrimitive* p)
 {
-	polyNode=n;
+	primitive=p;
 }
 
 void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
 {
-
-	QList<Point> vertices;
-	QList<Polygon> polygons=polyNode->getPolygons();
-	foreach(Polygon pg, polygons) {
-		foreach(Point p, pg) {
-			if(!vertices.contains(p))
-				vertices.append(p);
-		}
-	}
+	QList<CGAL::Point3> points=primitive->getPoints();
+	QList<CGALPolygon> polygons=primitive->getPolygons();
 
 	CGAL::Polyhedron_incremental_builder_3<CGAL::HalfedgeDS> builder(hds,true);
-	builder.begin_surface(vertices.size(), polygons.size());
+	builder.begin_surface(points.size(), polygons.size());
 
-	foreach(Point p, vertices) {
-		double x,y,z;
-		p.getXYZ(x,y,z);
-		builder.add_vertex(Vertex::Point(x,y,z));
+	foreach(CGAL::Point3 p, points) {
+		builder.add_vertex(p);
 	}
 
-	foreach(Polygon pg, polygons) {
+	foreach(CGALPolygon pg, polygons) {
 		builder.begin_facet();
-		foreach(Point p, pg) {
-			int index = vertices.indexOf(p);
+		foreach(CGAL::Point3 p, pg) {
+			int index = points.indexOf(p);
 			builder.add_vertex_to_facet(index);
 		}
 		builder.end_facet();

@@ -19,17 +19,16 @@
 #ifndef CGALBUILDER_H
 #define CGALBUILDER_H
 
-#include "cgal.h"
-#include "primitivenode.h"
+#include "cgalprimitive.h"
 
 class CGALBuilder : public CGAL::Modifier_base<CGAL::HalfedgeDS>
 {
 public:
 	CGALBuilder();
-	void setPrimitive(PrimitiveNode*);
+	void setPrimitive(CGALPrimitive*);
 private:
 	void operator()(CGAL::HalfedgeDS&);
-	PrimitiveNode* polyNode;
+	CGALPrimitive* primitive;
 };
 
 #endif // CGALBUILDER_H

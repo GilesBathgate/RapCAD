@@ -1,13 +1,10 @@
 #include "cgalprimitive.h"
 #include <QPair>
 #include <CGAL/minkowski_sum_3.h>
+#include "cgalbuilder.h"
 
-CGALPrimitive::CGALPrimitive(PrimitiveNode* n)
+CGALPrimitive::CGALPrimitive()
 {
-	this->setPrimitive(n);
-	CGAL::Polyhedron3 poly;
-	poly.delegate(*this);
-	poly3=new CGAL::NefPolyhedron3(poly);
 }
 
 CGALPrimitive::CGALPrimitive(QVector<CGAL::Point3> pl)
@@ -18,50 +15,89 @@ CGALPrimitive::CGALPrimitive(QVector<CGAL::Point3> pl)
 	PointRange p(pl.begin(),pl.end());
 	PolyLine poly;
 	poly.push_back(p);
-	poly3=new CGAL::NefPolyhedron3(poly.begin(), poly.end(), CGAL::NefPolyhedron3::Polylines_tag());
+	nefPolyhedron=new CGAL::NefPolyhedron3(poly.begin(), poly.end(), CGAL::NefPolyhedron3::Polylines_tag());
 }
 
 CGALPrimitive::CGALPrimitive(CGAL::Polyhedron3 poly)
 {
-	poly3=new CGAL::NefPolyhedron3(poly);
+	nefPolyhedron=new CGAL::NefPolyhedron3(poly);
+}
+
+CGALPrimitive* CGALPrimitive::buildVolume()
+{
+	CGALBuilder b;
+	b.setPrimitive(this);
+	CGAL::Polyhedron3 poly;
+	poly.delegate(b);
+	nefPolyhedron=new CGAL::NefPolyhedron3(poly);
+	return this;
+}
+
+void CGALPrimitive::createPolygon()
+{
+	polygons.append(CGALPolygon());
+}
+
+void CGALPrimitive::appendVertex(CGAL::Point3 p)
+{
+	if(!points.contains(p))
+		points.append(p);
+	polygons.last().append(p);
+}
+
+void CGALPrimitive::prependVertex(CGAL::Point3 p)
+{
+	if(!points.contains(p))
+		points.append(p);
+	polygons.last().prepend(p);
+}
+
+QList<CGALPolygon> CGALPrimitive::getPolygons() const
+{
+	return polygons;
+}
+
+QList<CGAL::Point3> CGALPrimitive::getPoints() const
+{
+	return points;
 }
 
 CGALPrimitive* CGALPrimitive::join(const CGALPrimitive* that)
 {
-	*poly3=poly3->join(*that->poly3);
+	*nefPolyhedron=nefPolyhedron->join(*that->nefPolyhedron);
 	return this;
 }
 
 CGALPrimitive* CGALPrimitive::intersection(const CGALPrimitive* that)
 {
-	*poly3=poly3->intersection(*that->poly3);
+	*nefPolyhedron=nefPolyhedron->intersection(*that->nefPolyhedron);
 	return this;
 }
 
 CGALPrimitive* CGALPrimitive::difference(const CGALPrimitive* that)
 {
-	*poly3=poly3->difference(*that->poly3);
+	*nefPolyhedron=nefPolyhedron->difference(*that->nefPolyhedron);
 	return this;
 }
 
 CGALPrimitive* CGALPrimitive::symmetric_difference(const CGALPrimitive* that)
 {
-	*poly3=poly3->symmetric_difference(*that->poly3);
+	*nefPolyhedron=nefPolyhedron->symmetric_difference(*that->nefPolyhedron);
 	return this;
 }
 
 CGALPrimitive* CGALPrimitive::minkowski(const CGALPrimitive* that)
 {
-	*poly3=CGAL::minkowski_sum_3(*poly3,*that->poly3);
+	*nefPolyhedron=CGAL::minkowski_sum_3(*nefPolyhedron,*that->nefPolyhedron);
 	return this;
 }
 
 void CGALPrimitive::transform(const CGAL::AffTransformation3& t)
 {
-	poly3->transform(t);
+	nefPolyhedron->transform(t);
 }
 
 const CGAL::NefPolyhedron3& CGALPrimitive::getPoly3() const
 {
-	return *poly3;
+	return *nefPolyhedron;
 }

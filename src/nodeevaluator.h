@@ -67,7 +67,7 @@ public:
 	void visit(InsetNode*);
 	void visit(TransformationNode*);
 
-	Point convert(const CGAL::Point3&,double);
+	CGAL::Point3 offset(const CGAL::Point3&,CGAL::Kernel3::FT);
 	void evaluate(Node*,Operation_e);
 	CGALPrimitive* getResult() const;
 private:

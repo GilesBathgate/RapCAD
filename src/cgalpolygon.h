@@ -16,22 +16,12 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CGALEXPLORER_H
-#define CGALEXPLORER_H
+#ifndef CGALPOLYGON_H
+#define CGALPOLYGON_H
 
 #include <QList>
-#include "cgalprimitive.h"
+#include "cgal.h"
 
-class CGALExplorer
-{
-public:
-	CGALExplorer(const CGAL::NefPolyhedron3&);
-	QList<CGAL::Point3> getPoints();
-	CGAL::Bbox_3 getBounds();
-private:
-	void evaluate();
-	const CGAL::NefPolyhedron3& poly;
-	CGALPrimitive* primitive;
-};
+typedef QList<CGAL::Point3> CGALPolygon;
 
-#endif // CGALEXPLORER_H
+#endif // CGALPOLYGON_H

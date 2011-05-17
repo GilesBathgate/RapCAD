@@ -27,7 +27,16 @@ NodeEvaluator::NodeEvaluator(QTextStream& s) : output(s)
 
 void NodeEvaluator::visit(PrimitiveNode* n)
 {
-	result=new CGALPrimitive(n);
+	CGALPrimitive* cp = new CGALPrimitive();
+	foreach(Polygon p, n->getPolygons()) {
+		cp->createPolygon();
+		foreach(Point pt, p) {
+			double x,y,z;
+			pt.getXYZ(x,y,z);
+			cp->appendVertex(CGAL::Point3(x,y,z));
+		}
+	}
+	result=cp->buildVolume();
 }
 
 void NodeEvaluator::visit(PolylineNode* n)
@@ -128,43 +137,38 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 		CGALExplorer explorer(r);
 		QList<CGAL::Point3> points = explorer.getPoints();
 
-		PrimitiveNode* n = new PrimitiveNode();
-		double z=op->getHeight();
+		CGALPrimitive* n = new CGALPrimitive();
+		CGAL::Kernel3::FT z=op->getHeight();
 
 		n->createPolygon();
 		foreach(CGAL::Point3 pt,points) {
-			Point p=convert(pt,0.0);
-			n->appendVertex(p);
+			n->appendVertex(pt);
 		}
 
 		int s=points.size();
 		for(int i=0; i<s; i++) {
 			int j=(i+1)%s;
 			n->createPolygon();
-			Point pi2=convert(points.at(i),z);
-			n->appendVertex(pi2);
-			Point pj2=convert(points.at(j),z);
-			n->appendVertex(pj2);
-			Point pj1=convert(points.at(j),0.0);
-			n->appendVertex(pj1);
-			Point pi1=convert(points.at(i),0.0);
-			n->appendVertex(pi1);
+			n->appendVertex(offset(points.at(i),z));
+			n->appendVertex(offset(points.at(j),z));
+			n->appendVertex(points.at(j));
+			n->appendVertex(points.at(i));
 		}
 
 		n->createPolygon();
 		foreach(CGAL::Point3 pt,points) {
-			Point p = convert(pt,z);
-			n->prependVertex(p);
+			n->prependVertex(offset(pt,z));
 		}
 
-		result=new CGALPrimitive(n);
+		result=n->buildVolume();
 	}
 
 }
 
-Point NodeEvaluator::convert(const CGAL::Point3& p,double z)
+CGAL::Point3 NodeEvaluator::offset(const CGAL::Point3& p,CGAL::Kernel3::FT z)
 {
-	return Point(to_double(p.x()),to_double(p.y()),to_double(p.z())+z);
+	z+=p.z();
+	return CGAL::Point3(p.x(),p.y(),z);
 }
 
 void NodeEvaluator::evaluate(Node* op,Operation_e type)

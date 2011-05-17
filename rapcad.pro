@@ -259,7 +259,8 @@ HEADERS  += \
 	src/module/polylinemodule.h \
 	src/polylinenode.h \
 	src/module/glidemodule.h \
-	src/glidenode.h
+	src/glidenode.h \
+	src/cgalpolygon.h
 
 FORMS += \
 	src/mainwindow.ui

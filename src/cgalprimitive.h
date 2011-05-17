@@ -2,24 +2,31 @@
 #define CGALPRIMITIVE_H
 
 #include <QVector>
-#include "cgalbuilder.h"
-#include "primitivenode.h"
+#include "cgalpolygon.h"
 
-class CGALPrimitive : private CGALBuilder
+class CGALPrimitive
 {
 public:
-	CGALPrimitive(PrimitiveNode* n);
+	CGALPrimitive();
 	CGALPrimitive(QVector<CGAL::Point3> pl);
 	CGALPrimitive(CGAL::Polyhedron3 poly);
+	void createPolygon();
+	void appendVertex(CGAL::Point3);
+	void prependVertex(CGAL::Point3);
+	CGALPrimitive* buildVolume();
 	CGALPrimitive* join(const CGALPrimitive*);
 	CGALPrimitive* intersection(const CGALPrimitive*);
 	CGALPrimitive* difference(const CGALPrimitive*);
 	CGALPrimitive* symmetric_difference(const CGALPrimitive*);
 	CGALPrimitive* minkowski(const CGALPrimitive*);
 	void transform(const CGAL::AffTransformation3&);
+	QList<CGALPolygon> getPolygons() const;
+	QList<CGAL::Point3> getPoints() const;
 	const CGAL::NefPolyhedron3& getPoly3() const;
 private:
-	CGAL::NefPolyhedron3* poly3;
+	QList<CGALPolygon> polygons;
+	QList<CGAL::Point3> points;
+	CGAL::NefPolyhedron3* nefPolyhedron;
 };
 
 #endif // CGALPRIMITIVE_H
