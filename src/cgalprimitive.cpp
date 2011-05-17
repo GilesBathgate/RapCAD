@@ -2,6 +2,7 @@
 #include <QPair>
 #include <CGAL/minkowski_sum_3.h>
 #include "cgalbuilder.h"
+#include "cgalassembler.h"
 
 CGALPrimitive::CGALPrimitive()
 {
@@ -91,6 +92,14 @@ CGALPrimitive* CGALPrimitive::minkowski(const CGALPrimitive* that)
 	*nefPolyhedron=CGAL::minkowski_sum_3(*nefPolyhedron,*that->nefPolyhedron);
 	return this;
 }
+
+CGALPrimitive* CGALPrimitive::inset(double amount)
+{
+	CGALAssembler a;
+	CGALPrimitive* p=a.buildInsetPolygons(this,amount);
+	return p->buildVolume();
+}
+
 
 void CGALPrimitive::transform(const CGAL::AffTransformation3& t)
 {

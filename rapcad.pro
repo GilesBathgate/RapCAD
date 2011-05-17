@@ -29,7 +29,7 @@ TEMPLATE = app
 INCLUDEPATH += src
 LEXSOURCES += src/lexer.l
 YACCSOURCES += src/parser.y
-LIBS += -lCGAL -lmpfr -lgmp -ldxflib
+LIBS += -lCGAL -lCGAL_Core -lmpfr -lgmp -ldxflib
 #LIBS += -L$$PWD/librapcad -lrapcad
 QMAKE_CXXFLAGS += -frounding-math
 QMAKE_YACC = bison
@@ -141,7 +141,8 @@ SOURCES += \
 	src/module/polylinemodule.cpp \
 	src/polylinenode.cpp \
 	src/module/glidemodule.cpp \
-	src/glidenode.cpp
+	src/glidenode.cpp \
+	src/cgalassembler.cpp
 
 
 HEADERS  += \
@@ -260,7 +261,8 @@ HEADERS  += \
 	src/polylinenode.h \
 	src/module/glidemodule.h \
 	src/glidenode.h \
-	src/cgalpolygon.h
+	src/cgalpolygon.h \
+	src/cgalassembler.h
 
 FORMS += \
 	src/mainwindow.ui

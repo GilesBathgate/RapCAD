@@ -14,6 +14,7 @@ Node* InsetModule::evaluate(Context* ctx,QList<Node*> childs)
 		a=amountVal->getNumber();
 
 	InsetNode* n = new InsetNode();
+	n->setAmount(a);
 	n->setChildren(childs);
 	return n;
 }

@@ -19,6 +19,7 @@ public:
 	CGALPrimitive* difference(const CGALPrimitive*);
 	CGALPrimitive* symmetric_difference(const CGALPrimitive*);
 	CGALPrimitive* minkowski(const CGALPrimitive*);
+	CGALPrimitive* inset(double);
 	void transform(const CGAL::AffTransformation3&);
 	QList<CGALPolygon> getPolygons() const;
 	QList<CGAL::Point3> getPoints() const;
