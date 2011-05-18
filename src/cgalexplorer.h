@@ -26,6 +26,7 @@ class CGALExplorer
 {
 public:
 	CGALExplorer(const CGAL::NefPolyhedron3&);
+	CGALPrimitive* getPrimitive();
 	QList<CGAL::Point3> getPoints();
 	CGAL::Bbox_3 getBounds();
 private:

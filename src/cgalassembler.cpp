@@ -39,10 +39,13 @@ CGALPrimitive* CGALAssembler::buildInsetPolygons(CGALPrimitive* result, double a
 
 	Polygon poly;
 	CGALExplorer e(result->getPoly3());
-	QList<CGAL::Point3> points = e.getPoints();
+	CGALPrimitive* prim = e.getPrimitive();
 
-	foreach(CGAL::Point3 pt,points)
-		poly.push_back(Point2(to_double(pt.x()),to_double(pt.y())));
+	foreach(CGALPolygon points,prim->getPolygons()) {
+		foreach(CGAL::Point3 pt,points){
+			poly.push_back(Point2(to_double(pt.x()),to_double(pt.y())));
+		}
+	}
 
 	FT offset = amount;
 	PolygonPtrVector polies = CGAL::create_interior_skeleton_and_offset_polygons_2(offset,poly);

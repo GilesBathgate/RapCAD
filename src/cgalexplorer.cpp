@@ -30,21 +30,35 @@ void CGALExplorer::evaluate()
 	typedef SNC::Halffacet_cycle_const_iterator HalfFacetCycleIterator;
 	typedef SNC::SHalfedge_const_handle SHalfEdgeHandle;
 	typedef SNC::SHalfedge_around_facet_const_circulator SHalfEdgeCirculator;
+	typedef SNC::Vector_3 Vector3;
 
 	primitive = new CGALPrimitive();
 	HalfFacetIterator f;
 	CGAL_forall_facets(f,*poly.sncp()) {
 		primitive->createPolygon();
+
+		Vector3 v = f->plane().orthogonal_vector();
+		bool up=(v.z()>0);
+
 		HalfFacetCycleIterator fc;
 		CGAL_forall_facet_cycles_of(fc,f) {
 			SHalfEdgeHandle h = fc;
 			SHalfEdgeCirculator hc(h), he(hc);
 			CGAL_For_all(hc,he) {
 				CGAL::Point3 sp = hc->source()->source()->point();
-				primitive->appendVertex(sp);
+				if(up)
+					primitive->appendVertex(sp);
+				else
+					primitive->prependVertex(sp);
 			}
 		}
 	}
+}
+
+CGALPrimitive* CGALExplorer::getPrimitive()
+{
+	evaluate();
+	return primitive;
 }
 
 QList<CGAL::Point3> CGALExplorer::getPoints()
