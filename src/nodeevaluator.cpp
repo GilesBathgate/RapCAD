@@ -125,7 +125,9 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 
 	CGAL::NefPolyhedron3 r=result->getPoly3();
 
-	if(r.number_of_facets()>1) {
+	//For fully dimentional polyhedra there are always two volumes the outer
+	//volume and the inner volume. So check volumes > 1
+	if(r.number_of_volumes()>1) {
 		QVector<CGAL::Point3> pl;
 		pl.append(CGAL::Point3(0,0,0));
 		pl.append(CGAL::Point3(0,0,op->getHeight()));
@@ -133,33 +135,42 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 		result=result->minkowski(prim);
 
 	} else {
-		CGALExplorer explorer(r);
-		QList<CGAL::Point3> points = explorer.getPoints();
-
-		CGALPrimitive* n = new CGALPrimitive();
 		CGAL::Kernel3::FT z=op->getHeight();
+		CGALExplorer explorer(r);
+		CGALPrimitive* prim=explorer.getPrimitive();
+		QList<CGALPolygon> polys=prim->getPolygons();
+		int c=polys.size();
+		foreach(CGALPolygon points,polys){
 
-		n->createPolygon();
-		foreach(CGAL::Point3 pt,points) {
-			n->appendVertex(pt);
-		}
+			CGALPrimitive* n = new CGALPrimitive();
 
-		int s=points.size();
-		for(int i=0; i<s; i++) {
-			int j=(i+1)%s;
 			n->createPolygon();
-			n->appendVertex(offset(points.at(i),z));
-			n->appendVertex(offset(points.at(j),z));
-			n->appendVertex(points.at(j));
-			n->appendVertex(points.at(i));
-		}
+			foreach(CGAL::Point3 pt,points) {
+				n->appendVertex(pt);
+			}
 
-		n->createPolygon();
-		foreach(CGAL::Point3 pt,points) {
-			n->prependVertex(offset(pt,z));
-		}
+			int s=points.size();
+			for(int i=0; i<s; i++) {
+				int j=(i+1)%s;
+				n->createPolygon();
+				n->appendVertex(offset(points.at(i),z));
+				n->appendVertex(offset(points.at(j),z));
+				n->appendVertex(points.at(j));
+				n->appendVertex(points.at(i));
+			}
 
-		result=n->buildVolume();
+			n->createPolygon();
+			foreach(CGAL::Point3 pt,points) {
+				n->prependVertex(offset(pt,z));
+			}
+
+			if(c>1)
+				//TODO if this polygon is oriented the oposite way to
+				//the previous one then its a hole so difference it
+				result=result->join(n->buildVolume());
+			else
+				result=n->buildVolume();
+		}
 	}
 
 }
