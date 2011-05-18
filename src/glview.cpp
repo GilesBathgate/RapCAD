@@ -44,6 +44,8 @@ GLView::GLView(QWidget* parent) : QGLWidget(parent)
 	showBase=true;
 	showPrintArea=true;
 	showRulers=true;
+	showEdges=false;
+	skeleton=false;
 	rotateX=35.0;
 	rotateY=0.0;
 	rotateZ=35.0;
