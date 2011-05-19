@@ -19,12 +19,9 @@
 #include <QList>
 #include <CGAL/Polyhedron_incremental_builder_3.h>
 #include "cgalbuilder.h"
+#include "cgalexplorer.h"
 
-CGALBuilder::CGALBuilder()
-{
-}
-
-void CGALBuilder::setPrimitive(CGALPrimitive* p)
+CGALBuilder::CGALBuilder(CGALPrimitive* p)
 {
 	primitive=p;
 }
@@ -51,4 +48,42 @@ void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
 	}
 
 	builder.end_surface();
+}
+
+CGALPrimitive* CGALBuilder::buildInsetPolygons(double amount)
+{
+	typedef CGAL::Kernel3::FT FT;
+	typedef boost::shared_ptr<CGAL::Polygon2> PolygonPtr;
+	typedef std::vector<PolygonPtr> PolygonPtrVector;
+	typedef PolygonPtrVector::const_iterator PolygonIterator;
+	typedef CGAL::Polygon2::Vertex_const_iterator VertexIterator;
+
+	CGAL::Polygon2 poly;
+	CGALExplorer e(primitive->getPoly3());
+	CGALPrimitive* prim = e.getPrimitive();
+
+	foreach(CGALPolygon* pg,prim->getPolygons()) {
+		foreach(CGAL::Point3 pt,pg->getPoints()){
+			CGAL::Point2 p2(pt.x(),pt.y());
+			poly.push_back(p2);
+		}
+		if(pg->getNormal().z()<0)
+			poly.reverse_orientation();
+	}
+
+	FT offset = amount;
+	PolygonPtrVector polies = CGAL::create_interior_skeleton_and_offset_polygons_2(offset,poly);
+
+	CGALPrimitive* insetPoly = new CGALPrimitive();
+	FT z=0.0;
+	for(PolygonIterator pi=polies.begin(); pi!=polies.end(); pi++) {
+		insetPoly->createPolygon();
+		CGAL::Polygon2 pp=**pi;
+		for(VertexIterator vi=pp.vertices_begin(); vi!=pp.vertices_end(); vi++) {
+			CGAL::Point2 p2 =*vi;
+			insetPoly->appendVertex(CGAL::Point3(p2.x(),p2.y(),z));
+		}
+	}
+
+	return insetPoly;
 }

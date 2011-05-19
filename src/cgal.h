@@ -21,16 +21,20 @@
 
 #include <CGAL/Exact_predicates_exact_constructions_kernel.h>
 #include <CGAL/Polyhedron_3.h>
+#include <CGAL/Polygon_2.h>
 #include <CGAL/Nef_polyhedron_3.h>
 #include <CGAL/convex_hull_3.h>
+#include <CGAL/create_offset_polygons_2.h>
 
 namespace CGAL
 {
 typedef CGAL::Exact_predicates_exact_constructions_kernel Kernel3;
+typedef CGAL::Polygon_2<Kernel3> Polygon2;
 typedef CGAL::Polyhedron_3<Kernel3> Polyhedron3;
 typedef Polyhedron3::HalfedgeDS HalfedgeDS;
 typedef CGAL::Nef_polyhedron_3<Kernel3> NefPolyhedron3;
 typedef Kernel3::Point_3 Point3;
+typedef Kernel3::Point_2 Point2;
 typedef CGAL::Vector_3<Kernel3> Vector3;
 typedef NefPolyhedron3::Aff_transformation_3 AffTransformation3;
 }
