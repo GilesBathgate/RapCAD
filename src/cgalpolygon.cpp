@@ -16,39 +16,33 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QList>
-#include <CGAL/Polyhedron_incremental_builder_3.h>
-#include "cgalbuilder.h"
+#include "cgalpolygon.h"
 
-CGALBuilder::CGALBuilder()
+CGALPolygon::CGALPolygon()
 {
 }
 
-void CGALBuilder::setPrimitive(CGALPrimitive* p)
+void CGALPolygon::append(CGAL::Point3 p)
 {
-	primitive=p;
+	points.append(p);
 }
 
-void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
+void CGALPolygon::prepend(CGAL::Point3 p)
 {
-	QList<CGAL::Point3> points=primitive->getPoints();
-	QList<CGALPolygon*> polygons=primitive->getPolygons();
+	points.prepend(p);
+}
 
-	CGAL::Polyhedron_incremental_builder_3<CGAL::HalfedgeDS> builder(hds,true);
-	builder.begin_surface(points.size(), polygons.size());
+QList<CGAL::Point3> CGALPolygon::getPoints() const
+{
+	return points;
+}
 
-	foreach(CGAL::Point3 p, points) {
-		builder.add_vertex(p);
-	}
+void CGALPolygon::setNormal(CGAL::Vector3 v)
+{
+	normal=v;
+}
 
-	foreach(CGALPolygon* pg, polygons) {
-		builder.begin_facet();
-		foreach(CGAL::Point3 p, pg->getPoints()) {
-			int index = points.indexOf(p);
-			builder.add_vertex_to_facet(index);
-		}
-		builder.end_facet();
-	}
-
-	builder.end_surface();
+CGAL::Vector3 CGALPolygon::getNormal()
+{
+	return normal;
 }

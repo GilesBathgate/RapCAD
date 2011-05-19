@@ -35,10 +35,10 @@ void CGALExplorer::evaluate()
 	primitive = new CGALPrimitive();
 	HalfFacetIterator f;
 	CGAL_forall_facets(f,*poly.sncp()) {
-		primitive->createPolygon();
+		CGALPolygon* pg=primitive->createPolygon();
 
 		Vector3 v = f->plane().orthogonal_vector();
-		bool up=(v.z()>0);
+		pg->setNormal(v);
 
 		HalfFacetCycleIterator fc;
 		CGAL_forall_facet_cycles_of(fc,f) {
@@ -46,10 +46,7 @@ void CGALExplorer::evaluate()
 			SHalfEdgeCirculator hc(h), he(hc);
 			CGAL_For_all(hc,he) {
 				CGAL::Point3 sp = hc->source()->source()->point();
-				if(up)
-					primitive->appendVertex(sp);
-				else
-					primitive->prependVertex(sp);
+				primitive->appendVertex(sp);
 			}
 		}
 	}

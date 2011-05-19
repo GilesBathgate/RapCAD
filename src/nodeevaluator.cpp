@@ -138,13 +138,14 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 		CGAL::Kernel3::FT z=op->getHeight();
 		CGALExplorer explorer(r);
 		CGALPrimitive* prim=explorer.getPrimitive();
-		QList<CGALPolygon> polys=prim->getPolygons();
+		QList<CGALPolygon*> polys=prim->getPolygons();
 		int c=polys.size();
-		foreach(CGALPolygon points,polys){
+		foreach(CGALPolygon* pg,polys){
 
 			CGALPrimitive* n = new CGALPrimitive();
 
 			n->createPolygon();
+			QList<CGAL::Point3> points=pg->getPoints();
 			foreach(CGAL::Point3 pt,points) {
 				n->appendVertex(pt);
 			}
@@ -152,11 +153,13 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 			int s=points.size();
 			for(int i=0; i<s; i++) {
 				int j=(i+1)%s;
+				CGAL::Point3 pi = points.at(i);
+				CGAL::Point3 pj = points.at(j);
 				n->createPolygon();
-				n->appendVertex(offset(points.at(i),z));
-				n->appendVertex(offset(points.at(j),z));
-				n->appendVertex(points.at(j));
-				n->appendVertex(points.at(i));
+				n->appendVertex(offset(pi,z));
+				n->appendVertex(offset(pj,z));
+				n->appendVertex(pj);
+				n->appendVertex(pi);
 			}
 
 			n->createPolygon();

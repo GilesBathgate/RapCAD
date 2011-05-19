@@ -41,10 +41,13 @@ CGALPrimitive* CGALAssembler::buildInsetPolygons(CGALPrimitive* result, double a
 	CGALExplorer e(result->getPoly3());
 	CGALPrimitive* prim = e.getPrimitive();
 
-	foreach(CGALPolygon points,prim->getPolygons()) {
-		foreach(CGAL::Point3 pt,points){
-			poly.push_back(Point2(to_double(pt.x()),to_double(pt.y())));
+	foreach(CGALPolygon* pg,prim->getPolygons()) {
+		foreach(CGAL::Point3 pt,pg->getPoints()){
+			Point2 p2(to_double(pt.x()),to_double(pt.y()));
+			poly.push_back(p2);
 		}
+		if(pg->getNormal().z()<0)
+			poly.reverse_orientation();
 	}
 
 	FT offset = amount;

@@ -142,7 +142,8 @@ SOURCES += \
 	src/polylinenode.cpp \
 	src/module/glidemodule.cpp \
 	src/glidenode.cpp \
-	src/cgalassembler.cpp
+	src/cgalassembler.cpp \
+	src/cgalpolygon.cpp
 
 
 HEADERS  += \

@@ -22,6 +22,18 @@
 #include <QList>
 #include "cgal.h"
 
-typedef QList<CGAL::Point3> CGALPolygon;
-
+class CGALPolygon
+{
+public:
+	CGALPolygon();
+	QList<CGAL::Point3> getPoints() const;
+	void append(CGAL::Point3);
+	void prepend(CGAL::Point3);
+	CGAL::Vector3 getNormal();
+	void setNormal(CGAL::Vector3);
+	CGAL::Vector3 getNormal() const;
+private:
+	QList<CGAL::Point3> points;
+	CGAL::Vector3 normal;
+};
 #endif // CGALPOLYGON_H

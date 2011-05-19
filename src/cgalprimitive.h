@@ -10,7 +10,7 @@ public:
 	CGALPrimitive();
 	CGALPrimitive(QVector<CGAL::Point3> pl);
 	CGALPrimitive(CGAL::Polyhedron3 poly);
-	void createPolygon();
+	CGALPolygon* createPolygon();
 	void appendVertex(CGAL::Point3);
 	void prependVertex(CGAL::Point3);
 	CGALPrimitive* buildVolume();
@@ -21,11 +21,11 @@ public:
 	CGALPrimitive* minkowski(const CGALPrimitive*);
 	CGALPrimitive* inset(double);
 	void transform(const CGAL::AffTransformation3&);
-	QList<CGALPolygon> getPolygons() const;
+	QList<CGALPolygon*> getPolygons() const;
 	QList<CGAL::Point3> getPoints() const;
 	const CGAL::NefPolyhedron3& getPoly3() const;
 private:
-	QList<CGALPolygon> polygons;
+	QList<CGALPolygon*> polygons;
 	QList<CGAL::Point3> points;
 	CGAL::NefPolyhedron3* nefPolyhedron;
 };

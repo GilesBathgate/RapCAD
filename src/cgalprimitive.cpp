@@ -34,26 +34,28 @@ CGALPrimitive* CGALPrimitive::buildVolume()
 	return this;
 }
 
-void CGALPrimitive::createPolygon()
+CGALPolygon* CGALPrimitive::createPolygon()
 {
-	polygons.append(CGALPolygon());
+	CGALPolygon* pg = new CGALPolygon();
+	polygons.append(pg);
+	return pg;
 }
 
 void CGALPrimitive::appendVertex(CGAL::Point3 p)
 {
 	if(!points.contains(p))
 		points.append(p);
-	polygons.last().append(p);
+	polygons.last()->append(p);
 }
 
 void CGALPrimitive::prependVertex(CGAL::Point3 p)
 {
 	if(!points.contains(p))
 		points.append(p);
-	polygons.last().prepend(p);
+	polygons.last()->prepend(p);
 }
 
-QList<CGALPolygon> CGALPrimitive::getPolygons() const
+QList<CGALPolygon*> CGALPrimitive::getPolygons() const
 {
 	return polygons;
 }
