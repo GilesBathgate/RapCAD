@@ -28,7 +28,7 @@ class BackgroundWorker : public Worker
 public:
 	BackgroundWorker(QTextStream&,QObject* parent = 0);
 	virtual ~BackgroundWorker();
-	void evaluate(QString, bool, QString);
+	void evaluate(QString, bool);
 private:
 	void finish();
 	QThread* thread;

@@ -31,11 +31,10 @@ BackgroundWorker::~BackgroundWorker()
 	delete thread;
 }
 
-void BackgroundWorker::evaluate(QString f, bool p, QString m)
+void BackgroundWorker::evaluate(QString f, bool p)
 {
 	path=f;
 	print=p;
-	format=m;
 	thread->start();
 }
 

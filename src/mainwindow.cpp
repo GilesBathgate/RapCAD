@@ -274,7 +274,7 @@ void MainWindow::compileAndRender()
 	highlighter->stop();
 
 	if(maybeSave(false)) {
-		worker->evaluate(fileName,false,"");
+		worker->evaluate(fileName,false);
 		ui->actionCompileAndRender->setEnabled(false);
 	}
 }

@@ -29,7 +29,7 @@ class Worker : public QObject
 	Q_OBJECT
 public:
 	Worker(QTextStream&,QObject* parent = 0);
-	virtual void evaluate(QString path, bool print, QString format);
+	virtual void evaluate(QString path, bool print);
 	virtual ~Worker();
 signals:
 	void done(CGALPrimitive*);
@@ -39,7 +39,6 @@ protected:
 	virtual void finish();
 	QString path;
 	bool print;
-	QString format;
 private:
 	QTextStream& output;
 	Reporter* reporter;

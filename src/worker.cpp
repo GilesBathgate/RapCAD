@@ -20,7 +20,6 @@
 #include "worker.h"
 #include "script.h"
 #include "treeprinter.h"
-#include "solidpython.h"
 #include "evaluator.h"
 #include "nodeprinter.h"
 #include "nodeevaluator.h"
@@ -41,25 +40,21 @@ Worker::~Worker()
 	delete reporter;
 }
 
-void Worker::evaluate(QString f, bool p, QString m)
+void Worker::evaluate(QString f, bool p)
 {
 	path=f;
 	print=p;
-	format=m;
 	doWork();
 }
 
 void Worker::doWork()
 {
-	QTime t;
-	t.start();
+	QTime* t = new QTime();
+	t->start();
 
 	Script* s=parse(path,reporter);
 
-	if(format =="solidpython") {
-		SolidPython p;
-		s->accept(p);
-	} else if(print) {
+	if(print) {
 		TreePrinter p(output);
 		s->accept(p);
 		output.flush();
@@ -89,8 +84,9 @@ void Worker::doWork()
 	if(!result)
 		output << "Warning: No top level object.\n";
 
-	output << QString("Total rendering time: %1ms.\n").arg(t.elapsed());;
+	output << QString("Total rendering time: %1ms.\n").arg(t->elapsed());
 	output.flush();
+	delete t; //Need to delete t before finish() call.
 
 	emit done(result);
 

@@ -19,14 +19,14 @@
 #include <QtGui/QApplication>
 #include <QTextStream>
 #include "mainwindow.h"
-#include "backgroundworker.h"
+#include "worker.h"
+#include "getopt.h"
 
 int main(int argc, char* argv[])
 {
 	int opt;
 	QString filename;
 	bool print=false;
-	QString printformat;
 	bool useGUI=true;
 
 	while((opt = getopt(argc, argv, "f:p::")) != -1) {
@@ -37,7 +37,6 @@ int main(int argc, char* argv[])
 			break;
 		case 'p':
 			print=true;
-			printformat=QString(optarg);
 			break;
 		}
 	}
@@ -45,7 +44,7 @@ int main(int argc, char* argv[])
 	if(!useGUI) {
 		QTextStream out(stdout);
 		Worker b(out);
-		b.evaluate(filename,print,printformat);
+		b.evaluate(filename,print);
 		return 0;
 	} else {
 		QApplication a(argc, argv);
