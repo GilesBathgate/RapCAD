@@ -1,12 +1,14 @@
 Source: rapcad
 Section: unknown
 Priority: extra
-Maintainer: Giles Bathgate <giles.bathgate@gmail.com>
-Build-Depends: debhelper (>= 7)
-Standards-Version: 3.7.3
+Maintainer: Giles Bathgate <gilesbathgate@gmail.com>
+Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 3.9.1
 Homepage: http://www.rapcad.org
+Vcs-Git: git://git.rapcad.org/rapcad.git
+Vcs-Browser: http://git.rapcad.org/cgit.cgi/rapcad/
 
 Package: rapcad
-Architecture: i386
+Architecture: any
 Depends: libqtcore4 (>= 4.4.3)
 Description: RapCAD the rapid prototyping CAD IDE.
