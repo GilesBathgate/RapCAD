@@ -79,10 +79,12 @@ void Context::setVariable(Value* v)
 	variables.insert(v->getName(),v);
 }
 
-Value* Context::lookupVariable(QString name,Variable::Type_e type)
+Value* Context::lookupVariable(QString name,Variable::Type_e& type)
 {
 	if(variables.contains(name)) {
-		return variables.value(name);
+		Value* v=variables.value(name);
+		type=v->getType();
+		return v;
 	} else if(parent) {
 		return parent->lookupVariable(name,type);
 	} else {

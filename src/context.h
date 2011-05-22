@@ -32,8 +32,6 @@ public:
 	Context(QTextStream& s);
 
 	Context* parent;
-
-
 	QList<Value*> arguments;
 	QList<Value*> parameters;
 	Value* currentValue;
@@ -43,7 +41,7 @@ public:
 	QList<Node*> currentNodes;
 	QList<Node*> inputNodes;
 
-	Value* lookupVariable(QString,Variable::Type_e=Variable::Var);
+	Value* lookupVariable(QString,Variable::Type_e&);
 	bool addVariable(Value*);
 	void setVariable(Value*);
 
@@ -60,10 +58,10 @@ public:
 private:
 	Value* matchArgument(bool,bool,int,QString);
 	bool match(bool,bool,QString,QString);
+	bool contains(QList<Value*>,QString);
 	QHash<QString,Value*> variables;
 	QHash<QString,Module*> modules;
 	QHash<QString,Function*> functions;
-	bool contains(QList<Value*>,QString);
 	QTextStream& output;
 };
 

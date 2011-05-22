@@ -348,11 +348,11 @@ void Evaluator::visit(AssignStatement* stmt)
 	switch(lvalue->getType()){
 	case Variable::Const:
 		if(!context->addVariable(result))
-			output << "Warning: Attempt to alter const variable '" << name << "'\n";
+			output << "Warning: Attempt to alter constant variable '" << name << "'\n";
 		break;
 	case Variable::Param:
 		if(!context->addVariable(result))
-			output << "Warning: Attempt to alter param variable '" << name << "'\n";
+			output << "Warning: Attempt to alter parametric variable '" << name << "'\n";
 		break;
 	default:
 		context->setVariable(result);
@@ -459,8 +459,20 @@ void Evaluator::visit(Literal* lit)
 void Evaluator::visit(Variable* var)
 {
 	QString name = var->getName();
-	Variable::Type_e type=var->getType();
+	Variable::Type_e oldType=var->getType();
+	Variable::Type_e type=oldType;
 	Value* v=context->lookupVariable(name,type);
+	if(type!=oldType)
+	switch(oldType) {
+	case Variable::Const:
+		output << "Warning: Attempt to make previously non-constant variable '" << name << "' constant\n";
+		break;
+	case Variable::Param:
+		output << "Warning: Attempt to make previously non-parametric variable '" << name << "' parametric\n";
+		break;
+	default:
+		break;
+	}
 
 	context->currentValue=v;
 	context->currentName=name;
