@@ -79,7 +79,7 @@ http://downloads.sourceforge.net/project/boost/boost/1.46.1/boost_1_46_1.zip[boo
 -------------------------
 cd C:\boost_1_46_1\
 bootstrap.bat
-.\bjam toolset=gcc thread
+.\bjam toolset=gcc release thread
 -------------------------
 
 .CGAL
@@ -99,7 +99,7 @@ source.
 -------------------------------
 set PATH=%PATH%;"C:\Program Files\CMake 2.8\bin"
 cd "C:\CGAL-3.7\"
-cmake -G"MinGW Makefiles" -DBOOST_ROOT="C:\boost_1_46_1\" -DBOOST_LIBRARYDIR="boost_1_46_1\\bin.v2\\libs\\thread\\build\\gcc-mingw-4.5.2\\debug\\threading-multi" .
+cmake -G"MinGW Makefiles" -DBOOST_ROOT="C:\boost_1_46_1" -DBOOST_LIBRARYDIR="C:\boost_1_46_1\bin.v2\libs\thread\build\gcc-mingw-4.5.2\release\threading-multi\" .
 make
 -------------------------------
 
