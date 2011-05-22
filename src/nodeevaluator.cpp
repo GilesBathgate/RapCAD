@@ -236,7 +236,7 @@ void NodeEvaluator::visit(BoundsNode* n)
 void NodeEvaluator::visit(SubDivisionNode* n)
 {
 	evaluate(n,Union);
-
+/*
 	CGAL::Polyhedron3 p;
 	result->getPoly3().convert_to_Polyhedron(p);
 
@@ -249,6 +249,7 @@ void NodeEvaluator::visit(SubDivisionNode* n)
 	} else {
 		output << "Polygon is not closed";
 	}
+*/
 }
 
 void NodeEvaluator::visit(InsetNode* n)
