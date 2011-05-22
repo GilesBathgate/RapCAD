@@ -43,8 +43,9 @@ public:
 	QList<Node*> currentNodes;
 	QList<Node*> inputNodes;
 
-	Value* lookupVariable(QString);
-	void addVariable(Value*);
+	Value* lookupVariable(QString,Variable::Type_e=Variable::Var);
+	bool addVariable(Value*);
+	void setVariable(Value*);
 
 	Module* lookupModule(QString);
 	void addModule(Module* mod);

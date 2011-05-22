@@ -64,19 +64,32 @@ Function* Context::lookupFunction(QString name)
 	return functions.value(name);
 }
 
-void Context::addVariable(Value* v)
+bool Context::addVariable(Value* v)
+{
+	QString name=v->getName();
+	if(!variables.contains(name)) {
+		variables.insert(name,v);
+		return true;
+	}
+	return false;
+}
+
+void Context::setVariable(Value* v)
 {
 	variables.insert(v->getName(),v);
 }
 
-Value* Context::lookupVariable(QString name)
+Value* Context::lookupVariable(QString name,Variable::Type_e type)
 {
-	if(variables.contains(name))
+	if(variables.contains(name)) {
 		return variables.value(name);
-	else if(parent)
-		return parent->lookupVariable(name);
-	else
-		return new Value(); //undef
+	} else if(parent) {
+		return parent->lookupVariable(name,type);
+	} else {
+		Value* v=new Value(); //undef
+		v->setType(type);
+		return v;
+	}
 }
 
 void Context::addModule(Module* mod)

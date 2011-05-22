@@ -22,11 +22,14 @@
 #include <QString>
 #include "iterator.h"
 #include "expression.h"
+#include "variable.h"
 
 class Value
 {
 public:
 	Value();
+	void setType(Variable::Type_e);
+	Variable::Type_e getType() const;
 	void setName(QString);
 	QString getName() const;
 	virtual QString getValueString() const;
@@ -64,6 +67,7 @@ protected:
 	template <class A, class B>
 	A basicOperation(B,Expression::Operator_e);
 private:
+	Variable::Type_e type;
 	QString name;
 	virtual Value* operation(Expression::Operator_e);
 	virtual Value* operation(Value&,Expression::Operator_e);

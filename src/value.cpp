@@ -22,6 +22,17 @@
 
 Value::Value()
 {
+	type=Variable::Const;
+}
+
+void Value::setType(Variable::Type_e t)
+{
+	type=t;
+}
+
+Variable::Type_e Value::getType() const
+{
+	return type;
 }
 
 void Value::setName(QString name)

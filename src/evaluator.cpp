@@ -322,16 +322,16 @@ void Evaluator::visit(AssignStatement* stmt)
 	stmt->getVariable()->accept(*this);
 	QString name = context->currentName;
 
+	Value* lvalue = context->currentValue;
+
 	Value* result;
 	switch(stmt->getOperation()) {
 	case Expression::Increment: {
-		Value* v = context->lookupVariable(name);
-		result=Value::operation(v,Expression::Increment);
+		result=Value::operation(lvalue,Expression::Increment);
 		break;
 	}
 	case Expression::Decrement: {
-		Value* v = context->lookupVariable(name);
-		result=Value::operation(v,Expression::Decrement);
+		result=Value::operation(lvalue,Expression::Decrement);
 		break;
 	}
 	default: {
@@ -344,7 +344,20 @@ void Evaluator::visit(AssignStatement* stmt)
 	}
 
 	result->setName(name);
-	context->addVariable(result);
+	result->setType(lvalue->getType());
+	switch(lvalue->getType()){
+	case Variable::Const:
+		if(!context->addVariable(result))
+			output << "Warning: Attempt to alter const variable '" << name << "'\n";
+		break;
+	case Variable::Param:
+		if(!context->addVariable(result))
+			output << "Warning: Attempt to alter param variable '" << name << "'\n";
+		break;
+	default:
+		context->setVariable(result);
+		break;
+	}
 }
 
 void Evaluator::visit(VectorExpression* exp)
@@ -446,7 +459,8 @@ void Evaluator::visit(Literal* lit)
 void Evaluator::visit(Variable* var)
 {
 	QString name = var->getName();
-	Value* v=context->lookupVariable(name);
+	Variable::Type_e type=var->getType();
+	Value* v=context->lookupVariable(name,type);
 
 	context->currentValue=v;
 	context->currentName=name;
