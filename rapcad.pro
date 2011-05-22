@@ -26,16 +26,30 @@ QT	+= core gui opengl
 
 TARGET = rapcad
 TEMPLATE = app
-INCLUDEPATH += src
 LEXSOURCES += src/lexer.l
 YACCSOURCES += src/parser.y
+INCLUDEPATH += src
+win32{
+INCLUDEPATH += "..\\CGAL-3.7\\include"
+INCLUDEPATH += "..\\CGAL-3.7\\auxiliary\\gmp\\include"
+INCLUDEPATH += "..\\dxflib-2.2.0.0-1.src"
+INCLUDEPATH += "..\\boost_1_46_1"
+LIBS += -L"..\\boost_1_46_1\\bin.v2\\libs\\thread\\build\\gcc-mingw-4.5.2\\debug\\threading-multi" 
+LIBS += -llibboost_thread-mgw45-mt-d-1_46_1
+LIBS += -L"..\\CGAL-3.7\\lib" -lCGAL -lCGAL_Core
+LIBS += -L"..\\CGAL-3.7\\auxiliary\\gmp\\lib" -lmpfr-4 -lgmp-10
+LIBS += -L"..\\dxflib-2.2.0.0-1.src\\lib" -llibdxf
+QMAKE_YACC = "..\\MinGW\\msys\\1.0\\bin\\bison"
+QMAKE_YACCFLAGS += "-b y"
+QMAKE_LEX = "..\\MinGW\\msys\\1.0\\bin\\flex"
+QMAKE_MOVE = "..\\MinGW\\msys\\1.0\\bin\\mv"
+}
+unix{
 LIBS += -lCGAL -lCGAL_Core -lmpfr -lgmp -ldxflib
+QMAKE_YACC = bison
+}
 #LIBS += -L$$PWD/librapcad -lrapcad
 QMAKE_CXXFLAGS += -frounding-math
-QMAKE_YACC = bison
-win32 {
-QMAKE_DEL_FILE = rm -f
-}
 
 SOURCES += \
 	src/main.cpp \
