@@ -24,13 +24,13 @@ clean: Makefile
 	dh_testroot
 	rm -f build-stamp
 	# Add here commands to clean up after the build process.
-	$(MAKE) clean
+	$(MAKE) distclean
 	dh_clean
 
 install: build
 	dh_testdir
 	dh_testroot
-	dh_clean -k
+	dh_prep
 	dh_installdirs
 
 	# Add here commands to install the package into debian/rapcad.
