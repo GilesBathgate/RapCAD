@@ -2,7 +2,7 @@ Source: rapcad
 Section: unknown
 Priority: extra
 Maintainer: Giles Bathgate <gilesbathgate@gmail.com>
-Build-Depends: debhelper (>= 7.0.50~), libqtcore4 (>= 4.4.3), libcgal5 (>= 3.6.1-2)
+Build-Depends: debhelper (>= 7.0.50~), qt4-qmake
 Standards-Version: 3.9.1
 Homepage: http://www.rapcad.org
 Vcs-Git: git://git.rapcad.org/rapcad.git

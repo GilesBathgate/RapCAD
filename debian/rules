@@ -8,23 +8,24 @@
 
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
+APPNAME := rapcad
+DESTDIR := $(CURDIR)/debian/$(APPNAME)
+
 Makefile:
-	qmake-qt4 PREFIX=$(CURDIR)/debian/rapcad
+	qmake-qt4 PREFIX=/usr
 
 build: build-stamp
 
 build-stamp: Makefile
 	dh_testdir
-	# Add here commands to compile the package.
-	$(MAKE)
+	dh_auto_build
 	touch $@
 
 clean: Makefile
 	dh_testdir
 	dh_testroot
 	rm -f build-stamp
-	# Add here commands to clean up after the build process.
-	$(MAKE) distclean
+	dh_auto_clean
 	dh_clean
 
 install: build
@@ -32,9 +33,7 @@ install: build
 	dh_testroot
 	dh_prep
 	dh_installdirs
-
-	# Add here commands to install the package into debian/rapcad.
-	$(MAKE) PREFIX=$(CURDIR)/debian/rapcad install
+	$(MAKE) INSTALL_ROOT=$(DESTDIR) install
 
 
 # Build architecture-independent files here.
