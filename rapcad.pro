@@ -21,6 +21,7 @@
 # Project created by QtCreator 2010-10-25T09:57:37
 #
 #-------------------------------------------------
+VERSION = $$cat(VERSION)
 
 QT	+= core gui opengl
 
@@ -30,26 +31,32 @@ LEXSOURCES += src/lexer.l
 YACCSOURCES += src/parser.y
 INCLUDEPATH += src
 win32{
-INCLUDEPATH += "..\\CGAL-3.8\\include"
-INCLUDEPATH += "..\\CGAL-3.8\\auxiliary\\gmp\\include"
-INCLUDEPATH += "..\\dxflib-2.2.0.0-1.src"
-INCLUDEPATH += "..\\boost_1_46_1"
-LIBS += -L"..\\boost_1_46_1\\bin.v2\\libs\\thread\\build\\gcc-mingw-4.5.2\\release\\threading-multi"
-LIBS += -llibboost_thread-mgw45-mt-1_46_1
-LIBS += -L"..\\CGAL-3.8\\lib" -lCGAL -lCGAL_Core
-LIBS += -L"..\\CGAL-3.8\\auxiliary\\gmp\\lib" -lmpfr-4 -lgmp-10
-LIBS += -L"..\\dxflib-2.2.0.0-1.src\\lib" -llibdxf
-QMAKE_YACC = "..\\MinGW\\msys\\1.0\\bin\\bison"
-QMAKE_YACCFLAGS += "-b y"
-QMAKE_LEX = "..\\MinGW\\msys\\1.0\\bin\\flex"
-QMAKE_MOVE = "..\\MinGW\\msys\\1.0\\bin\\mv"
+	INCLUDEPATH += "..\\CGAL-3.8\\include"
+	INCLUDEPATH += "..\\CGAL-3.8\\auxiliary\\gmp\\include"
+	INCLUDEPATH += "..\\dxflib-2.2.0.0-1.src"
+	INCLUDEPATH += "..\\boost_1_46_1"
+	LIBS += -L"..\\boost_1_46_1\\bin.v2\\libs\\thread\\build\\gcc-mingw-4.5.2\\release\\threading-multi"
+	LIBS += -llibboost_thread-mgw45-mt-1_46_1
+	LIBS += -L"..\\CGAL-3.8\\lib" -lCGAL -lCGAL_Core
+	LIBS += -L"..\\CGAL-3.8\\auxiliary\\gmp\\lib" -lmpfr-4 -lgmp-10
+	LIBS += -L"..\\dxflib-2.2.0.0-1.src\\lib" -llibdxf
+	QMAKE_YACC = "..\\MinGW\\msys\\1.0\\bin\\bison"
+	QMAKE_YACCFLAGS += "-b y"
+	QMAKE_LEX = "..\\MinGW\\msys\\1.0\\bin\\flex"
+	QMAKE_MOVE = "..\\MinGW\\msys\\1.0\\bin\\mv"
+} else {
+	LIBS += -lCGAL -lCGAL_Core -lmpfr -lgmp -ldxflib
+	QMAKE_YACC = bison
 }
-unix{
-LIBS += -lCGAL -lCGAL_Core -lmpfr -lgmp -ldxflib
-QMAKE_YACC = bison
-}
+
 #LIBS += -L$$PWD/librapcad -lrapcad
 QMAKE_CXXFLAGS += -frounding-math
+
+CONFIG(official){
+	DEFINES += RAPCAD_VERSION=$$VERSION
+} else {
+	DEFINES += RAPCAD_VERSION=$$VERSION".git."$$system(git log -1 --pretty=format:%h)
+}
 
 SOURCES += \
 	src/main.cpp \

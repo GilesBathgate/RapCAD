@@ -22,14 +22,24 @@
 #include "worker.h"
 #include "getopt.h"
 
+#define STRINGIFY(x) #x
+#define TOSTRING(x) STRINGIFY(x)
+static void version(QTextStream& output)
+{
+	output << "RapCAD version: " << TOSTRING(RAPCAD_VERSION) << "\n";
+	output.flush();
+	exit(1);
+}
+
 int main(int argc, char* argv[])
 {
 	int opt;
 	QString filename;
 	bool print=false;
 	bool useGUI=true;
+	QTextStream out(stdout);
 
-	while((opt = getopt(argc, argv, "f:p::")) != -1) {
+	while((opt = getopt(argc, argv, "f:p::v")) != -1) {
 		switch(opt) {
 		case 'f':
 			useGUI=false;
@@ -38,11 +48,13 @@ int main(int argc, char* argv[])
 		case 'p':
 			print=true;
 			break;
+		case 'v':
+			version(out);
+			break;
 		}
 	}
 
 	if(!useGUI) {
-		QTextStream out(stdout);
 		Worker b(out);
 		b.evaluate(filename,print);
 		return 0;
