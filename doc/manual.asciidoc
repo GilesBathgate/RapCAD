@@ -27,6 +27,8 @@ Command line options
 
 *-f* 'FILE'::
     Parse and evaluate the given file. Any output will be printed on stdout.
+*-v*::
+    Display RapCAD version and exit.
 
 3D Primitives
 -------------
