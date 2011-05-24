@@ -54,7 +54,7 @@ public:
 	void setArguments(QList<Value*>,QList<Value*>);
 	Value* getArgument(int,QString);
 	Value* getArgument(int,QString,bool);
-	Value* getArgument(int,QString,QString);
+	Value* getArgumentDeprecated(int,QString,QString);
 private:
 	Value* matchArgument(bool,bool,int,QString);
 	bool match(bool,bool,QString,QString);

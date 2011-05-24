@@ -131,7 +131,7 @@ Value* Context::getArgument(int index,QString name,bool matchLast)
 	return matchArgument(true,matchLast,index,name);
 }
 
-Value* Context::getArgument(int index, QString name, QString deprecated)
+Value* Context::getArgumentDeprecated(int index, QString name, QString deprecated)
 {
 	Value* v = matchArgument(true,false,index,name);
 	if(!v) {
