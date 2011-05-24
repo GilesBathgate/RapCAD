@@ -55,7 +55,9 @@ QMAKE_CXXFLAGS += -frounding-math
 CONFIG(official){
 	DEFINES += RAPCAD_VERSION=$$VERSION
 } else {
-	DEFINES += RAPCAD_VERSION=$$VERSION".git."$$system(git log -1 --pretty=format:%h)
+	MAJOR=$$system(cut -d'.' -f1 VERSION)
+	MINOR=$$system(cut -d'.' -f2 VERSION)
+	DEFINES += RAPCAD_VERSION=$$MAJOR"."$$MINOR".git."$$system(git log -1 --pretty=format:%h)
 }
 
 SOURCES += \
