@@ -164,7 +164,8 @@ SOURCES += \
 	src/polylinenode.cpp \
 	src/module/glidemodule.cpp \
 	src/glidenode.cpp \
-	src/cgalpolygon.cpp
+	src/cgalpolygon.cpp \
+	src/module/beziersurfacemodule.cpp
 
 
 HEADERS  += \
@@ -282,7 +283,8 @@ HEADERS  += \
 	src/polylinenode.h \
 	src/module/glidemodule.h \
 	src/glidenode.h \
-	src/cgalpolygon.h
+	src/cgalpolygon.h \
+	src/module/beziersurfacemodule.h
 
 FORMS += \
 	src/mainwindow.ui
