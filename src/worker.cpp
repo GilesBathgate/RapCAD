@@ -84,7 +84,11 @@ void Worker::doWork()
 	if(!result)
 		output << "Warning: No top level object.\n";
 
-	output << QString("Total rendering time: %1ms.\n").arg(t->elapsed());
+	int ticks=t->elapsed();
+	int ms=ticks%1000;
+	int secs=ticks/1000;
+	int mins=secs/60;
+	output << QString("Total rendering time: %1m %2s %3ms.\n").arg(mins).arg(secs).arg(ms);
 	output.flush();
 	delete t; //Need to delete t before finish() call.
 
