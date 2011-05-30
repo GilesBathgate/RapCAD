@@ -140,6 +140,7 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 		CGALPrimitive* prim=explorer.getPrimitive();
 		QList<CGALPolygon*> polys=prim->getPolygons();
 		int c=polys.size();
+		int i=0;
 		foreach(CGALPolygon* pg,polys){
 
 			CGALPrimitive* n = new CGALPrimitive();
@@ -167,12 +168,15 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 				n->prependVertex(offset(pt,z));
 			}
 
-			if(c>1)
+			if(c>1) {
+				output << "Info: Extruding volume " << ++i << " of " << c;
+				output.flush();
 				//TODO if this polygon is oriented the oposite way to
 				//the previous one then its a hole so difference it
 				result=result->join(n->buildVolume());
-			else
+			} else {
 				result=n->buildVolume();
+			}
 		}
 	}
 
