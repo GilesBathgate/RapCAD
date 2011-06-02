@@ -39,6 +39,8 @@ MainWindow::MainWindow(QWidget* parent) :
 	setupTreeview();
 
 	setupEditor();
+
+	preferencesDialog=NULL;
 }
 
 MainWindow::~MainWindow()
@@ -47,6 +49,7 @@ MainWindow::~MainWindow()
 	delete console;
 	delete output;
 	delete worker;
+	delete preferencesDialog;
 	delete ui;
 }
 
@@ -107,6 +110,17 @@ void MainWindow::setupActions()
 	connect(ui->actionCompileAndRender,SIGNAL(triggered()),this,SLOT(compileAndRender()));
 
 	ui->actionGenerateGcode->setIcon(QIcon::fromTheme("format-justify-fill"));
+
+	ui->actionPreferences->setIcon(QIcon::fromTheme("document-properties"));
+	connect(ui->actionPreferences,SIGNAL(triggered()),this,SLOT(showPreferences()));
+}
+
+void MainWindow::showPreferences()
+{
+	if(!preferencesDialog)
+		preferencesDialog = new PreferencesDialog(this);
+
+	preferencesDialog->show();
 }
 
 void MainWindow::disableRulers(bool checked)

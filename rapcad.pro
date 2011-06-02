@@ -165,7 +165,9 @@ SOURCES += \
 	src/module/glidemodule.cpp \
 	src/glidenode.cpp \
 	src/cgalpolygon.cpp \
-	src/module/beziersurfacemodule.cpp
+	src/module/beziersurfacemodule.cpp \
+	src/preferencesdialog.cpp \
+	src/preferences.cpp
 
 
 HEADERS  += \
@@ -284,10 +286,13 @@ HEADERS  += \
 	src/module/glidemodule.h \
 	src/glidenode.h \
 	src/cgalpolygon.h \
-	src/module/beziersurfacemodule.h
+	src/module/beziersurfacemodule.h \
+	src/preferencesdialog.h \
+	src/preferences.h
 
 FORMS += \
-	src/mainwindow.ui
+	src/mainwindow.ui \
+	src/preferences.ui
 
 OTHER_FILES += \
 	COPYING

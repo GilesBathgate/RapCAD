@@ -25,6 +25,7 @@
 #include "syntaxhighlighter.h"
 #include "texteditiodevice.h"
 #include "backgroundworker.h"
+#include "preferencesdialog.h"
 
 namespace Ui
 {
@@ -41,6 +42,7 @@ public:
 protected:
 	virtual void closeEvent(QCloseEvent*);
 private slots:
+	void showPreferences();
 	void disableRulers(bool);
 	void clipboardDataChanged();
 	bool maybeSave(bool);
@@ -64,7 +66,7 @@ private:
 	TextEditIODevice* console;
 	BackgroundWorker* worker;
 	QString fileName;
-
+	PreferencesDialog* preferencesDialog;
 };
 
 #endif // MAINWINDOW_H

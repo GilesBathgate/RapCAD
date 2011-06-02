@@ -21,6 +21,7 @@
 #include "mainwindow.h"
 #include "worker.h"
 #include "getopt.h"
+#include "preferences.h"
 
 #define STRINGIFY(x) #x
 #define TOSTRING(x) STRINGIFY(x)
@@ -29,6 +30,22 @@ static void version(QTextStream& output)
 	output << "RapCAD version: " << TOSTRING(RAPCAD_VERSION) << "\n";
 	output.flush();
 	exit(1);
+}
+
+static int showUi(int argc, char* argv[])
+{
+	QCoreApplication::setOrganizationName("rapcad");
+	QCoreApplication::setOrganizationDomain("rapcad.org");
+	QCoreApplication::setApplicationName("RapCAD");
+	QCoreApplication::setApplicationVersion(TOSTRING(RAPCAD_VERSION));
+
+	QApplication a(argc, argv);
+	MainWindow w;
+	w.show();
+
+	int retcode=a.exec();
+	Preferences::syncDelete();
+	return retcode;
 }
 
 int main(int argc, char* argv[])
@@ -59,10 +76,6 @@ int main(int argc, char* argv[])
 		b.evaluate(filename,print);
 		return 0;
 	} else {
-		QApplication a(argc, argv);
-		MainWindow w;
-		w.show();
-
-		return a.exec();
+		return showUi(argc,argv);
 	}
 }

@@ -17,20 +17,20 @@
  */
 
 #include "cgalrenderer.h"
+#include "preferences.h"
 
 using CGAL::OGL::Nef3_Converter;
 
-CGALRenderer::CGALRenderer(const CGALPrimitive& p)
+CGALRenderer::CGALRenderer(const CGALPrimitive& prim)
 {
-	//TODO read in colors from preferences instead of
-	//hard coded constants.
-	setColor(VertexColor,true,CGAL::Color(0xb7,0xe8,0x5c));
-	setColor(VertexColor,false,CGAL::Color(0xff,0xf6,0x7c));
-	setColor(EdgeColor,true,CGAL::Color(0xab,0xd8,0x56));
-	setColor(EdgeColor,false,CGAL::Color(0xff,0xec,0x5e));
-	setColor(FacetColor,true,CGAL::Color(0x9d,0xcb,0x51));
-	setColor(FacetColor,false,CGAL::Color(0xf9,0xd7,0x2c));
-	Nef3_Converter<CGAL::NefPolyhedron3>::convert_to_OGLPolyhedron(p.getPoly3(),this);
+	Preferences* p = Preferences::getInstance();
+	setColor(VertexColor,true,p->getMarkedVertexColor());
+	setColor(VertexColor,false,p->getVertexColor());
+	setColor(EdgeColor,true,p->getMarkedEdgeColor());
+	setColor(EdgeColor,false,p->getEdgeColor());
+	setColor(FacetColor,true,p->getMarkedFacetColor());
+	setColor(FacetColor,false,p->getFacetColor());
+	Nef3_Converter<CGAL::NefPolyhedron3>::convert_to_OGLPolyhedron(prim.getPoly3(),this);
 }
 
 void CGALRenderer::draw(bool skeleton, bool showedges)
@@ -45,6 +45,12 @@ void CGALRenderer::draw(bool skeleton, bool showedges)
 		glCallList(this->object_list_);
 		glEnable(GL_LIGHTING);
 	}
+}
+
+void CGALRenderer::setColor(Color_e t,bool marked,QColor c)
+{
+	CGAL::Color cc(c.red(),c.green(),c.blue(),c.alpha());
+	setColor(t,marked,cc);
 }
 
 void CGALRenderer::setColor(Color_e t,bool marked,CGAL::Color c)

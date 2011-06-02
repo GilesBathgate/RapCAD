@@ -19,6 +19,7 @@
 #ifndef CGALRENDERER_H
 #define CGALRENDERER_H
 
+#include <QColor>
 #include "contrib/OGL_helper.h"
 #include "renderer.h"
 #include "cgalprimitive.h"
@@ -34,6 +35,7 @@ private:
 		EdgeColor,
 		FacetColor
 	};
+	void setColor(Color_e,bool,QColor);
 	void setColor(Color_e,bool,CGAL::Color);
 	CGAL::Color getVertexColor(Vertex_iterator v) const;
 	CGAL::Color getEdgeColor(Edge_iterator e) const;
