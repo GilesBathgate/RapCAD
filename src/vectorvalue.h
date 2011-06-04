@@ -29,6 +29,7 @@ public:
 	VectorValue(QList<Value*>);
 	QString getValueString() const;
 	bool isTrue() const;
+	VectorValue* toVector(int);
 	Point getPoint() const;
 	Iterator<Value*>* createIterator();
 	QList<Value*> getChildren() const;

@@ -18,7 +18,6 @@
 
 #include "spheremodule.h"
 #include "numbervalue.h"
-#include "booleanvalue.h"
 #include "tau.h"
 
 SphereModule::SphereModule() : PrimitiveModule("sphere")
@@ -27,8 +26,8 @@ SphereModule::SphereModule() : PrimitiveModule("sphere")
 
 Node* SphereModule::evaluate(Context* ctx,QList<Node*>)
 {
-	NumberValue* rValue = dynamic_cast<NumberValue*>(ctx->getArgument(0,"radius"));
-	BooleanValue* centerValue = dynamic_cast<BooleanValue*>(ctx->getArgument(1,"center"));
+	NumberValue* rValue=dynamic_cast<NumberValue*>(ctx->getArgument(0,"radius"));
+	Value* centerValue=ctx->getArgument(1,"center");
 
 	bool center=true;
 	if(centerValue)

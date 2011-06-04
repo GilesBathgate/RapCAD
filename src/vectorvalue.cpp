@@ -43,6 +43,11 @@ bool VectorValue::isTrue() const
 	return this->children.size()>0;
 }
 
+VectorValue* VectorValue::toVector(int)
+{
+	return this;
+}
+
 Point VectorValue::getPoint() const
 {
 

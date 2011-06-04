@@ -20,7 +20,6 @@
 #include "primitivenode.h"
 #include "context.h"
 #include "vectorvalue.h"
-#include "booleanvalue.h"
 
 CubeModule::CubeModule() : PrimitiveModule("cube")
 {
@@ -28,8 +27,8 @@ CubeModule::CubeModule() : PrimitiveModule("cube")
 
 Node* CubeModule::evaluate(Context* ctx,QList<Node*>)
 {
-	VectorValue* size=dynamic_cast<VectorValue*>(ctx->getArgument(0,"size"));
-	BooleanValue* centerValue=dynamic_cast<BooleanValue*>(ctx->getArgument(1,"center"));
+	VectorValue* size=ctx->getArgument(0,"size")->toVector(3);
+	Value* centerValue=ctx->getArgument(1,"center");
 	double center=false;
 	if(centerValue)
 		center = centerValue->isTrue();

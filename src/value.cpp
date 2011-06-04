@@ -19,6 +19,7 @@
 #include "value.h"
 #include "math.h"
 #include "valueiterator.h"
+#include "vectorvalue.h"
 
 Value::Value()
 {
@@ -53,6 +54,15 @@ QString Value::getValueString() const
 bool Value::isTrue() const
 {
 	return false;
+}
+
+VectorValue* Value::toVector(int size)
+{
+	QList<Value*> children;
+	for(int i=0;i<size;i++)
+		children.append(this);
+
+	return new VectorValue(children);
 }
 
 Iterator<Value*>* Value::createIterator()

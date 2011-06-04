@@ -18,7 +18,7 @@
 
 #include "glidemodule.h"
 #include "glidenode.h"
-#include "booleanvalue.h"
+#include "value.h"
 
 GlideModule::GlideModule() : Module("glide")
 {
@@ -27,7 +27,7 @@ GlideModule::GlideModule() : Module("glide")
 Node* GlideModule::evaluate(Context* ctx,QList<Node*> childs)
 {
 	bool close=false;
-	BooleanValue* closeVal=dynamic_cast<BooleanValue*>(ctx->getArgument(0,"closed"));
+	Value* closeVal=ctx->getArgument(0,"closed");
 	if(closeVal)
 		close=closeVal->isTrue();
 
