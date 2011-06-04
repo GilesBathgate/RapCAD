@@ -25,16 +25,17 @@ CGALExplorer::CGALExplorer(const CGAL::NefPolyhedron3& p) : poly(p)
 
 void CGALExplorer::evaluate()
 {
-	typedef CGAL::NefPolyhedron3::SNC_structure SNC;
-	typedef SNC::Halffacet_const_iterator HalfFacetIterator;
-	typedef SNC::Halffacet_cycle_const_iterator HalfFacetCycleIterator;
-	typedef SNC::SHalfedge_const_handle SHalfEdgeHandle;
-	typedef SNC::SHalfedge_around_facet_const_circulator SHalfEdgeCirculator;
-	typedef SNC::Vector_3 Vector3;
+	typedef CGAL::NefPolyhedron3 Nef;
+	typedef Nef::Halffacet_const_iterator HalfFacetIterator;
+	typedef Nef::Halffacet_cycle_const_iterator HalfFacetCycleIterator;
+	typedef Nef::SHalfedge_const_handle SHalfEdgeHandle;
+	typedef Nef::SHalfedge_around_facet_const_circulator SHalfEdgeCirculator;
+	typedef Nef::SVertex_const_handle SVertexHandle;
+	typedef Nef::Vector_3 Vector3;
 
 	primitive = new CGALPrimitive();
 	HalfFacetIterator f;
-	CGAL_forall_facets(f,*poly.sncp()) {
+	CGAL_forall_facets(f,poly) {
 		CGALPolygon* pg=primitive->createPolygon();
 
 		Vector3 v = f->plane().orthogonal_vector();
@@ -45,7 +46,8 @@ void CGALExplorer::evaluate()
 			SHalfEdgeHandle h = fc;
 			SHalfEdgeCirculator hc(h), he(hc);
 			CGAL_For_all(hc,he) {
-				CGAL::Point3 sp = hc->source()->source()->point();
+				SVertexHandle sv = hc->source();
+				CGAL::Point3 sp = sv->source()->point();
 				primitive->appendVertex(sp);
 			}
 		}
