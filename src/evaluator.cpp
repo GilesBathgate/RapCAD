@@ -257,7 +257,7 @@ void Evaluator::visit(ForStatement* forstmt)
 
 		Value* v = i->currentItem();
 		v->setName(first->getName());
-		context->addVariable(v);
+		context->setVariable(v);
 
 		forstmt->getStatement()->accept(*this);
 
