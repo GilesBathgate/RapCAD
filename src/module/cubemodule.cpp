@@ -27,17 +27,19 @@ CubeModule::CubeModule() : PrimitiveModule("cube")
 
 Node* CubeModule::evaluate(Context* ctx,QList<Node*>)
 {
-	VectorValue* size=ctx->getArgument(0,"size")->toVector(3);
-	Value* centerValue=ctx->getArgument(1,"center");
+	Value* sizeVal=ctx->getArgument(0,"size");
+	Value* centerVal=ctx->getArgument(1,"center");
 	double center=false;
-	if(centerValue)
-		center = centerValue->isTrue();
+	if(centerVal)
+		center = centerVal->isTrue();
 
-	double x=0,y=0,z=0;
-	if(size) {
+	double x=1.0,y=1.0,z=1.0;
+	if(sizeVal) {
+		VectorValue* size=sizeVal->toVector(3);
 		Point p = size->getPoint();
 		p.getXYZ(x,y,z);
 	}
+
 	PrimitiveNode* p=new PrimitiveNode();
 	double x1, x2, y1, y2, z1, z2;
 	if(center) {

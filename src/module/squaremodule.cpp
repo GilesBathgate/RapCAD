@@ -7,14 +7,15 @@ SquareModule::SquareModule() : PrimitiveModule("square")
 
 Node* SquareModule::evaluate(Context* ctx,QList<Node*>)
 {
-	VectorValue* size=ctx->getArgument(0,"size")->toVector(2);
-	Value* centerValue=ctx->getArgument(1,"center");
+	Value* sizeVal=ctx->getArgument(0,"size");
+	Value* centerVal=ctx->getArgument(1,"center");
 	double center=false;
-	if(centerValue)
-		center = centerValue->isTrue();
+	if(centerVal)
+		center = centerVal->isTrue();
 
-	double x=0,y=0;
-	if(size) {
+	double x=1.0,y=1.0;
+	if(sizeVal) {
+		VectorValue* size=sizeVal->toVector(2);
 		Point p = size->getPoint();
 		p.getXY(x,y);
 	}

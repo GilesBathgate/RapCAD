@@ -33,7 +33,7 @@ Node* SphereModule::evaluate(Context* ctx,QList<Node*>)
 	if(centerValue)
 		center=centerValue->isTrue();
 
-	double r=1;
+	double r=1.0;
 	if(rValue) {
 		r=rValue->getNumber();
 	} else {

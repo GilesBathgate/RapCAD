@@ -30,13 +30,15 @@ CylinderModule::CylinderModule() : PrimitiveModule("cylinder")
 Node* CylinderModule::evaluate(Context* ctx,QList<Node*>)
 {
 	NumberValue* heightValue = dynamic_cast<NumberValue*>(ctx->getArgument(0,"height"));
-	double h = heightValue->getNumber();
+	double h=1.0;
+	if(heightValue)
+		h=heightValue->getNumber();
 
 	NumberValue* r1Value = dynamic_cast<NumberValue*>(ctx->getArgument(1,"radius1",true));
 	NumberValue* r2Value = dynamic_cast<NumberValue*>(ctx->getArgument(2,"radius2",true));
 	BooleanValue* centerValue;
 
-	double r=0,r1=0,r2=0,fn,fs,fa;
+	double r=1.0,r1=1.0,r2=1.0,fn,fs,fa;
 	if(!r1Value) {
 		NumberValue* rValue = dynamic_cast<NumberValue*>(ctx->getArgument(1,"radius"));
 		centerValue = dynamic_cast<BooleanValue*>(ctx->getArgument(2,"center"));
@@ -64,7 +66,7 @@ Node* CylinderModule::evaluate(Context* ctx,QList<Node*>)
 		z1 = -h/2;
 		z2 = +h/2;
 	} else {
-		z1 = 0;
+		z1 = 0.0;
 		z2 = h;
 	}
 	fn=0.0;
