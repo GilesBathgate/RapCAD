@@ -96,7 +96,7 @@ CGALPrimitive* CGALPrimitive::minkowski(const CGALPrimitive* that)
 CGALPrimitive* CGALPrimitive::inset(double amount)
 {
 	CGALBuilder b(this);
-	CGALPrimitive* result=b.buildInsetPolygons(amount);
+	CGALPrimitive* result=b.buildOffsetPolygons(amount);
 	return result->buildVolume();
 }
 
@@ -106,7 +106,7 @@ void CGALPrimitive::transform(const CGAL::AffTransformation3& t)
 	nefPolyhedron->transform(t);
 }
 
-const CGAL::NefPolyhedron3& CGALPrimitive::getPoly3() const
+const CGAL::NefPolyhedron3& CGALPrimitive::getNefPolyhedron() const
 {
 	return *nefPolyhedron;
 }

@@ -30,7 +30,7 @@ CGALRenderer::CGALRenderer(const CGALPrimitive& prim)
 	setColor(EdgeColor,false,p->getEdgeColor());
 	setColor(FacetColor,true,p->getMarkedFacetColor());
 	setColor(FacetColor,false,p->getFacetColor());
-	Nef3_Converter<CGAL::NefPolyhedron3>::convert_to_OGLPolyhedron(prim.getPoly3(),this);
+	Nef3_Converter<CGAL::NefPolyhedron3>::convert_to_OGLPolyhedron(prim.getNefPolyhedron(),this);
 }
 
 void CGALRenderer::draw(bool skeleton, bool showedges)

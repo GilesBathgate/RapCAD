@@ -23,7 +23,7 @@ public:
 	void transform(const CGAL::AffTransformation3&);
 	QList<CGALPolygon*> getPolygons() const;
 	QList<CGAL::Point3> getPoints() const;
-	const CGAL::NefPolyhedron3& getPoly3() const;
+	const CGAL::NefPolyhedron3& getNefPolyhedron() const;
 private:
 	QList<CGALPolygon*> polygons;
 	QList<CGAL::Point3> points;
