@@ -85,7 +85,7 @@ void NodeEvaluator::visit(GlideNode* op)
 
 			QVector<CGAL::Point3> pl;
 			CGAL::Point3 fp;
-			for(int i=0; i<points.size(); i++){
+			for(int i=0; i<points.size(); i++) {
 				if(i==0)
 					fp=points.at(i);
 				pl.append(points.at(i));
@@ -141,7 +141,7 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 		QList<CGALPolygon*> polys=prim->getPolygons();
 		int c=polys.size();
 		int i=0;
-		foreach(CGALPolygon* pg,polys){
+		foreach(CGALPolygon* pg,polys) {
 
 			CGALPrimitive* n = new CGALPrimitive();
 
@@ -240,20 +240,20 @@ void NodeEvaluator::visit(BoundsNode* n)
 void NodeEvaluator::visit(SubDivisionNode* n)
 {
 	evaluate(n,Union);
-/*
-	CGAL::Polyhedron3 p;
-	result->getPoly3().convert_to_Polyhedron(p);
+	/*
+		CGAL::Polyhedron3 p;
+		result->getPoly3().convert_to_Polyhedron(p);
 
-	CGAL::Subdivision_method_3::CatmullClark_subdivision(p,n->getLevel());
+		CGAL::Subdivision_method_3::CatmullClark_subdivision(p,n->getLevel());
 
-	//TODO For some reason the resulting CGAL::Polyhedron3 will not convert
-	//back to a Nef Poly!
-	if(p.is_closed()) {
-		result=new CGALPrimitive(p);
-	} else {
-		output << "Polygon is not closed";
-	}
-*/
+		//TODO For some reason the resulting CGAL::Polyhedron3 will not convert
+		//back to a Nef Poly!
+		if(p.is_closed()) {
+			result=new CGALPrimitive(p);
+		} else {
+			output << "Polygon is not closed";
+		}
+	*/
 }
 
 void NodeEvaluator::visit(OffsetNode* n)

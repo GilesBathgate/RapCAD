@@ -88,11 +88,11 @@ Node* BezierSurfaceModule::evaluate(Context* ctx, QList<Node*>)
 	Mesh mesh;
 	VectorValue* meshVec=dynamic_cast<VectorValue*>(ctx->getArgument(0,"mesh"));
 	if(meshVec) {
-		foreach(Value* pointsVal,meshVec->getChildren()){
+		foreach(Value* pointsVal,meshVec->getChildren()) {
 			Points points;
 			VectorValue* pointsVec=dynamic_cast<VectorValue*>(pointsVal);
 			if(pointsVec)
-				foreach(Value* pointVal,pointsVec->getChildren()){
+				foreach(Value* pointVal,pointsVec->getChildren()) {
 					VectorValue* pointVec=dynamic_cast<VectorValue*>(pointVal);
 					points.append(pointVec->getPoint());
 				}
@@ -103,10 +103,8 @@ Node* BezierSurfaceModule::evaluate(Context* ctx, QList<Node*>)
 	int steps=24; //TODO use getfragments and $fn,$fa,$fs variables;
 
 	PrimitiveNode* p=new PrimitiveNode();
-	for (double ustep=0; ustep<steps; ustep++)
-	{
-		for (double vstep=0; vstep<steps; vstep++)
-		{
+	for(double ustep=0; ustep<steps; ustep++) {
+		for(double vstep=0; vstep<steps; vstep++) {
 			double ufrac1=ustep/steps;
 			double ufrac2=(ustep+1)/steps;
 			double vfrac1=vstep/steps;

@@ -347,7 +347,7 @@ void Evaluator::visit(AssignStatement* stmt)
 
 	result->setName(name);
 	result->setType(lvalue->getType());
-	switch(lvalue->getType()){
+	switch(lvalue->getType()) {
 	case Variable::Const:
 		if(!context->addVariable(result))
 			output << "Warning: Attempt to alter constant variable '" << name << "'\n";
@@ -465,16 +465,16 @@ void Evaluator::visit(Variable* var)
 	Variable::Type_e type=oldType;
 	Value* v=context->lookupVariable(name,type);
 	if(type!=oldType)
-	switch(oldType) {
-	case Variable::Const:
-		output << "Warning: Attempt to make previously non-constant variable '" << name << "' constant\n";
-		break;
-	case Variable::Param:
-		output << "Warning: Attempt to make previously non-parametric variable '" << name << "' parametric\n";
-		break;
-	default:
-		break;
-	}
+		switch(oldType) {
+		case Variable::Const:
+			output << "Warning: Attempt to make previously non-constant variable '" << name << "' constant\n";
+			break;
+		case Variable::Param:
+			output << "Warning: Attempt to make previously non-parametric variable '" << name << "' parametric\n";
+			break;
+		default:
+			break;
+		}
 
 	context->currentValue=v;
 	context->currentName=name;

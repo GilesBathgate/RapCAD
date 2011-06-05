@@ -63,7 +63,7 @@ CGALPrimitive* CGALBuilder::buildOffsetPolygons(double amount)
 	CGALPrimitive* prim = e.getPrimitive();
 
 	foreach(CGALPolygon* pg,prim->getPolygons()) {
-		foreach(CGAL::Point3 pt,pg->getPoints()){
+		foreach(CGAL::Point3 pt,pg->getPoints()) {
 			CGAL::Point2 p2(pt.x(),pt.y());
 			poly.push_back(p2);
 		}
