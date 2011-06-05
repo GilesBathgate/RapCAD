@@ -71,8 +71,15 @@ CGALPrimitive* CGALBuilder::buildInsetPolygons(double amount)
 			poly.reverse_orientation();
 	}
 
-	FT offset = amount;
-	PolygonPtrVector polies = CGAL::create_interior_skeleton_and_offset_polygons_2(offset,poly);
+
+	PolygonPtrVector polies;
+	if(amount<0) {
+		FT offset = -amount;
+		polies=CGAL::create_interior_skeleton_and_offset_polygons_2(offset,poly);
+	} else {
+		FT offset = amount;
+		polies=CGAL::create_exterior_skeleton_and_offset_polygons_2(offset,poly);
+	}
 
 	CGALPrimitive* insetPoly = new CGALPrimitive();
 	FT z=0.0;

@@ -158,8 +158,8 @@ SOURCES += \
 	src/boundsnode.cpp \
 	src/module/subdivisionmodule.cpp \
 	src/subdivisionnode.cpp \
-	src/module/insetmodule.cpp \
-	src/insetnode.cpp \
+	src/module/offsetmodule.cpp \
+	src/offsetnode.cpp \
 	src/module/polylinemodule.cpp \
 	src/polylinenode.cpp \
 	src/module/glidemodule.cpp \
@@ -279,8 +279,8 @@ HEADERS  += \
 	src/boundsnode.h \
 	src/module/subdivisionmodule.h \
 	src/subdivisionnode.h \
-	src/module/insetmodule.h \
-	src/insetnode.h \
+	src/module/offsetmodule.h \
+	src/offsetnode.h \
 	src/module/polylinemodule.h \
 	src/polylinenode.h \
 	src/module/glidemodule.h \

@@ -256,7 +256,7 @@ void NodeEvaluator::visit(SubDivisionNode* n)
 */
 }
 
-void NodeEvaluator::visit(InsetNode* n)
+void NodeEvaluator::visit(OffsetNode* n)
 {
 	evaluate(n,Union);
 

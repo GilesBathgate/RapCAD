@@ -35,7 +35,7 @@ public:
 	virtual void visit(class LinearExtrudeNode*)=0;
 	virtual void visit(class BoundsNode*)=0;
 	virtual void visit(class SubDivisionNode*)=0;
-	virtual void visit(class InsetNode*)=0;
+	virtual void visit(class OffsetNode*)=0;
 	virtual void visit(class TransformationNode*)=0;
 };
 

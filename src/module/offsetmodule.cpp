@@ -1,19 +1,19 @@
-#include "insetmodule.h"
-#include "insetnode.h"
+#include "offsetmodule.h"
+#include "offsetnode.h"
 #include "numbervalue.h"
 
-InsetModule::InsetModule() : Module("inset")
+OffsetModule::OffsetModule() : Module("offset")
 {
 }
 
-Node* InsetModule::evaluate(Context* ctx,QList<Node*> childs)
+Node* OffsetModule::evaluate(Context* ctx,QList<Node*> childs)
 {
 	double a=1.0;
 	NumberValue* amountVal=dynamic_cast<NumberValue*>(ctx->getArgument(0,"amount"));
 	if(amountVal)
 		a=amountVal->getNumber();
 
-	InsetNode* n = new InsetNode();
+	OffsetNode* n = new OffsetNode();
 	n->setAmount(a);
 	n->setChildren(childs);
 	return n;

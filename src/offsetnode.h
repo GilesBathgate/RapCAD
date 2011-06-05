@@ -1,12 +1,12 @@
-#ifndef INSETNODE_H
-#define INSETNODE_H
+#ifndef OFFSETNODE_H
+#define OFFSETNODE_H
 
 #include "node.h"
 
-class InsetNode : public Node
+class OffsetNode : public Node
 {
 public:
-	InsetNode();
+	OffsetNode();
 	void setAmount(double);
 	double getAmount() const;
 	void accept(NodeVisitor&);
@@ -14,4 +14,4 @@ private:
 	double amount;
 };
 
-#endif // INSETNODE_H
+#endif // OFFSETNODE_H

@@ -115,7 +115,7 @@ void NodePrinter::visit(SubDivisionNode* n)
 	printOperation(n,"subdiv");
 }
 
-void NodePrinter::visit(InsetNode* n)
+void NodePrinter::visit(OffsetNode* n)
 {
 	printOperation(n,"inset");
 }
