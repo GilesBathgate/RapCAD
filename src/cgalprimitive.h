@@ -24,6 +24,7 @@ public:
 	QList<CGALPolygon*> getPolygons() const;
 	QList<CGAL::Point3> getPoints() const;
 	const CGAL::NefPolyhedron3& getNefPolyhedron() const;
+	CGAL::Polyhedron3* getPolyhedron();
 private:
 	QList<CGALPolygon*> polygons;
 	QList<CGAL::Point3> points;

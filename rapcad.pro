@@ -167,7 +167,8 @@ SOURCES += \
 	src/cgalpolygon.cpp \
 	src/module/beziersurfacemodule.cpp \
 	src/preferencesdialog.cpp \
-	src/preferences.cpp
+	src/preferences.cpp \
+	src/cgalexport.cpp
 
 
 HEADERS  += \
@@ -288,7 +289,8 @@ HEADERS  += \
 	src/cgalpolygon.h \
 	src/module/beziersurfacemodule.h \
 	src/preferencesdialog.h \
-	src/preferences.h
+	src/preferences.h \
+	src/cgalexport.h
 
 FORMS += \
 	src/mainwindow.ui \

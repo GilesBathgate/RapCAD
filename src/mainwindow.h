@@ -42,6 +42,7 @@ public:
 protected:
 	virtual void closeEvent(QCloseEvent*);
 private slots:
+	void saveExport();
 	void showPreferences();
 	void disableRulers(bool);
 	void clipboardDataChanged();
@@ -67,6 +68,7 @@ private:
 	BackgroundWorker* worker;
 	QString fileName;
 	PreferencesDialog* preferencesDialog;
+	CGALPrimitive* primitive;
 };
 
 #endif // MAINWINDOW_H

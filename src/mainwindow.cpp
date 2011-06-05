@@ -25,6 +25,7 @@
 #include "ui_mainwindow.h"
 #include "cgalprimitive.h"
 #include "cgalrenderer.h"
+#include "cgalexport.h"
 
 MainWindow::MainWindow(QWidget* parent) :
 	QMainWindow(parent),
@@ -113,6 +114,20 @@ void MainWindow::setupActions()
 
 	ui->actionPreferences->setIcon(QIcon::fromTheme("document-properties"));
 	connect(ui->actionPreferences,SIGNAL(triggered()),this,SLOT(showPreferences()));
+
+	connect(ui->actionExportAsciiSTL,SIGNAL(triggered()),this,SLOT(saveExport()));
+}
+
+void MainWindow::saveExport()
+{
+	if(primitive){
+		QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
+					QString(), tr("STL Files (*.stl);;All Files (*)"));
+		if(!fn.endsWith(".stl", Qt::CaseInsensitive))
+			fn += ".stl"; // default
+		CGALExport exp;
+		exp.exportAsciiSTL(primitive,fn,true);
+	}
 }
 
 void MainWindow::showPreferences()
@@ -296,6 +311,7 @@ void MainWindow::compileAndRender()
 void MainWindow::evaluationDone(CGALPrimitive* n)
 {
 	if(n) {
+		primitive=n;
 		CGALRenderer* r = new CGALRenderer(*n);
 		ui->view->setRenderer(r);
 	}
