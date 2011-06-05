@@ -32,7 +32,7 @@ static void version(QTextStream& output)
 	exit(1);
 }
 
-static int showUi(int argc, char* argv[])
+static int showUi(int argc, char* argv[],QString filename)
 {
 	QCoreApplication::setOrganizationName("rapcad");
 	QCoreApplication::setOrganizationDomain("rapcad.org");
@@ -41,6 +41,10 @@ static int showUi(int argc, char* argv[])
 
 	QApplication a(argc, argv);
 	MainWindow w;
+
+	if(!filename.isEmpty())
+		w.load(filename);
+
 	w.show();
 
 	int retcode=a.exec();
@@ -76,6 +80,7 @@ int main(int argc, char* argv[])
 		b.evaluate(filename,print);
 		return 0;
 	} else {
-		return showUi(argc,argv);
+		filename=QString(argv[optind]);
+		return showUi(argc,argv,filename);
 	}
 }

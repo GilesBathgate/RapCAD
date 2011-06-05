@@ -39,6 +39,7 @@ class MainWindow : public QMainWindow
 public:
 	explicit MainWindow(QWidget* parent = 0);
 	~MainWindow();
+	bool load(const QString&);
 protected:
 	virtual void closeEvent(QCloseEvent*);
 private slots:
@@ -58,7 +59,6 @@ private:
 	void setupActions();
 	void setupEditor();
 	void setupTreeview();
-	bool load(const QString&);
 	void setCurrentFileName(const QString&);
 	Ui::MainWindow* ui;
 	QStandardItemModel* myModel;
