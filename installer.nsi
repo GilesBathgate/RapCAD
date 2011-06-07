@@ -12,6 +12,8 @@ File mingwm10.dll
 File QtCore4.dll
 File QtGui4.dll
 File QtOpenGL4.dll
+File libmpfr-4.dll
+File libgmp-10.dll
 CreateShortCut $SMPROGRAMS\RapCAD.lnk $INSTDIR\rapcad.exe
 WriteUninstaller $INSTDIR\Uninstall.exe
 WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\RapCAD" "DisplayName" "RapCAD (remove only)"
@@ -27,6 +29,8 @@ Delete $INSTDIR\mingwm10.dll
 Delete $INSTDIR\QtCore4.dll
 Delete $INSTDIR\QtGui4.dll
 Delete $INSTDIR\QtOpenGL4.dll
+Delete $INSTDIR\libmpfr-4.dll
+Delete $INSTDIR\libgmp-10.dll
 Delete $SMPROGRAMS\RapCAD.lnk
 DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\RapCAD"
 RMDir $INSTDIR
