@@ -250,7 +250,6 @@ void Evaluator::visit(ForStatement* forstmt)
 
 	//TODO for now just consider the first arg.
 	Value* first = context->arguments.at(0);
-	startContext(context->currentScope);
 
 	Iterator<Value*>* i = first->createIterator();
 	for(i->first(); !i->isDone(); i->next()) {
@@ -263,10 +262,6 @@ void Evaluator::visit(ForStatement* forstmt)
 
 	}
 	delete i;
-	QList<Node*> childnodes=context->currentNodes;
-	finishContext();
-	foreach(Node* n,childnodes)
-		context->currentNodes.append(n);
 
 	context->arguments.clear();
 }
