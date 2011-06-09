@@ -1,0 +1,20 @@
+User Interface
+--------------
+Add categories to preferences dialog.
+Add more preferences. 
+Need to work out better ways of sizing things using percentages or relative sizes.
+
+Evaluation
+----------
+For loops need to consider more than just the first argument.
+Module Import needs implementing
+Script Import needs implementing
+Implement multiply and divide operations for vectors
+Script prettyprinter needs to print arguments for multmatrix
+
+Modules
+-------
+bezier_surface need to use use and $fn,$fa,$fs variables for number of faces.
+linear_extrude optimisation problem, and also need to work out how to do holes properly.
+subdiv need to implement and fix
+
