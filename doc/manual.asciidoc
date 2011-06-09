@@ -106,6 +106,21 @@ polygon(points,lines);
 polygon(p,l);
 ------------------------------
 
+Polyline
+~~~~~~~~
+
+.Examples
+------------------------------
+polyline(points);
+------------------------------
+
+Bezier Surface
+~~~~~~~~~~~~~~
+
+.Examples
+------------------------------
+bezier_surface(mesh);
+------------------------------
 
 Control modules
 ---------------
@@ -133,6 +148,45 @@ echo([32,24,10]);
 echo(a=1,b=2);
 ------------------------------
 
+Bounds
+~~~~~~
+
+.Examples
+-------------------------------
+bounds()cube(10);
+-------------------------------
+
+Child
+~~~~~
+
+.Examples
+-------------------------------
+child();
+-------------------------------
+
+Operations
+----------
+
+Union
+Group
+Difference
+Symmetric Difference
+Intersection
+Minkowski Sum
+Glide
+Hull
+Sub Division
+
+Transformations
+---------------
+
+Linear Extrude
+Mirror
+Offset
+Rotate
+Scale
+Shear
+Translate
 
 Vector Expressions
 ------------------
