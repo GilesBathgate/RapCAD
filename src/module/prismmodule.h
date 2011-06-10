@@ -16,20 +16,17 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PRIMITIVEMODULE_H
-#define PRIMITIVEMODULE_H
+#ifndef PRISMMODULE_H
+#define PRISMMODULE_H
 
-#include "module.h"
-#include "primitivenode.h"
+#include "primitivemodule.h"
+#include "context.h"
 
-class PrimitiveModule : public Module
+class PrismModule : public PrimitiveModule
 {
 public:
-	PrimitiveModule(const QString);
-protected:
-	int getFragments(double,double,double,double);
-	Polygon getCircle(double,double,double);
-	Polygon getPolygon(double,double,double,double);
+	PrismModule();
+	Node* evaluate(Context*,QList<Node*>);
 };
 
-#endif // PRIMITIVEMODULE_H
+#endif // PRISMMODULE_H

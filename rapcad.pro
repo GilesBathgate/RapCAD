@@ -168,7 +168,8 @@ SOURCES += \
 	src/module/beziersurfacemodule.cpp \
 	src/preferencesdialog.cpp \
 	src/preferences.cpp \
-	src/cgalexport.cpp
+	src/cgalexport.cpp \
+	src/module/prismmodule.cpp
 
 
 HEADERS  += \
@@ -290,7 +291,8 @@ HEADERS  += \
 	src/module/beziersurfacemodule.h \
 	src/preferencesdialog.h \
 	src/preferences.h \
-	src/cgalexport.h
+	src/cgalexport.h \
+	src/module/prismmodule.h
 
 FORMS += \
 	src/mainwindow.ui \

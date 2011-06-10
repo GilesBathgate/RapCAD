@@ -24,6 +24,7 @@
 #include "module/cubemodule.h"
 #include "module/squaremodule.h"
 #include "module/cylindermodule.h"
+#include "module/prismmodule.h"
 #include "module/circlemodule.h"
 #include "module/polyhedronmodule.h"
 #include "module/polylinemodule.h"
@@ -74,6 +75,7 @@ void Evaluator::initBuiltins(Script* sc)
 		Evaluator::builtins.append(new CubeModule());
 		Evaluator::builtins.append(new SquareModule());
 		Evaluator::builtins.append(new CylinderModule());
+		Evaluator::builtins.append(new PrismModule());
 		Evaluator::builtins.append(new CircleModule());
 		Evaluator::builtins.append(new PolyhedronModule());
 		Evaluator::builtins.append(new PolylineModule());

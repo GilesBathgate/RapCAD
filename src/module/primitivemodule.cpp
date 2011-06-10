@@ -59,3 +59,50 @@ Polygon PrimitiveModule::getCircle(double r, double f, double z)
 
 	return circle;
 }
+
+Polygon PrimitiveModule::getPolygon(double a,double r, double n, double z)
+{
+	Polygon poly;
+	if(n==6) {
+		//TODO modify this to cater for all even values of n
+		double x,y;
+		double s=2*r*sin(M_PI/n);
+		double s2=s/2;
+		for(int i=0; i<n; i++){
+			switch(i) {
+			case 0: {
+				y=a;
+				x=-s2;
+				break;
+			}
+			case 1: {
+				x=s2;
+				break;
+			}
+			case 2: {
+				y=0;
+				x=r;
+				break;
+			}
+			case 3: {
+				y=-a;
+				x=s2;
+				break;
+			}
+			case 4: {
+				x=-s2;
+				break;
+			}
+			case 5: {
+				y=0;
+				x=-r;
+				break;
+			}
+			}
+			poly.append(Point(x,y,z));
+		}
+		return poly;
+	} else {
+		return getCircle(r,n,z);
+	}
+}
