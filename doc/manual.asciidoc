@@ -22,6 +22,13 @@ RapCAD(1) Manual Page
 Giles Bathgate <giles.bathgate@gmail.com>
 version 0.1
 
+Synopsis
+--------
+
+rapcad '[OPTIONS]'... '[FILE]'...
+
+Launches the rapcad grapical user interface and opens FILE for editing.
+
 Command line options
 --------------------
 
@@ -66,6 +73,15 @@ Cone
 cone(radius1,radius2,center);
 cone(r1,r2,c);
 ------------------------------
+
+Prism
+~~~~~
+
+.Examples
+-----------------------------
+prism(height,sides,apothem);
+prism(height,sides,radius);
+-----------------------------
 
 Polyhedron
 ~~~~~~~~~~
@@ -168,25 +184,41 @@ Operations
 ----------
 
 Union
+~~~~~
 Group
+~~~~~
 Difference
+~~~~~~~~~~
 Symmetric Difference
+~~~~~~~~~~~~~~~~~~~~
 Intersection
+~~~~~~~~~~~~
 Minkowski Sum
+~~~~~~~~~~~~~
 Glide
+~~~~~
 Hull
+~~~~
 Sub Division
+~~~~~~~~~~~~
 
 Transformations
 ---------------
 
 Linear Extrude
+~~~~~~~~~~~~~~
 Mirror
+~~~~~~
 Offset
+~~~~~~
 Rotate
+~~~~~~
 Scale
+~~~~~
 Shear
+~~~~~
 Translate
+~~~~~~~~~
 
 Vector Expressions
 ------------------
