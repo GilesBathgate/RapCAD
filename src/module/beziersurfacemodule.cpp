@@ -47,9 +47,10 @@ double BezierSurfaceModule::bez33(double u)
 
 Point BezierSurfaceModule::pointOnBez(Points cps, double u)
 {
-	double x=bez03(u)*cps[0].getX()+bez13(u)*cps[1].getX()+bez23(u)*cps[2].getX()+bez33(u)*cps[3].getX();
-	double y=bez03(u)*cps[0].getY()+bez13(u)*cps[1].getY()+bez23(u)*cps[2].getY()+bez33(u)*cps[3].getY();
-	double z=bez03(u)*cps[0].getZ()+bez13(u)*cps[1].getZ()+bez23(u)*cps[2].getZ()+bez33(u)*cps[3].getZ();
+	double a=bez03(u),b=bez13(u),c=bez23(u),d=bez33(u);
+	double x=a*cps[0].getX()+b*cps[1].getX()+c*cps[2].getX()+d*cps[3].getX();
+	double y=a*cps[0].getY()+b*cps[1].getY()+c*cps[2].getY()+d*cps[3].getY();
+	double z=a*cps[0].getZ()+b*cps[1].getZ()+c*cps[2].getZ()+d*cps[3].getZ();
 
 	return Point(x,y,z);
 }
