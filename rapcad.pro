@@ -170,7 +170,8 @@ SOURCES += \
 	src/preferences.cpp \
 	src/cgalexport.cpp \
 	src/module/prismmodule.cpp \
-	src/function/sqrtfunction.cpp
+	src/function/sqrtfunction.cpp \
+	src/function/sumfunction.cpp
 
 
 HEADERS  += \
@@ -294,7 +295,8 @@ HEADERS  += \
 	src/preferences.h \
 	src/cgalexport.h \
 	src/module/prismmodule.h \
-	src/function/sqrtfunction.h
+	src/function/sqrtfunction.h \
+	src/function/sumfunction.h
 
 FORMS += \
 	src/mainwindow.ui \

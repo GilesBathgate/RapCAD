@@ -16,22 +16,23 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "sqrtfunction.h"
+#include "sumfunction.h"
+#include "vectorvalue.h"
 #include "numbervalue.h"
-#include "math.h"
 
-SqrtFunction::SqrtFunction() : Function("sqrt")
+SumFunction::SumFunction() : Function("sum")
 {
 }
 
-Value* SqrtFunction::evaluate(Context* ctx)
+Value* SumFunction::evaluate(Context* ctx)
 {
-	double num,result;
-	NumberValue* numVal=dynamic_cast<NumberValue*>(ctx->getArgument(0,"number"));
-	if(numVal) {
-		num=numVal->getNumber();
-		result=sqrt(num);
-		return new NumberValue(result);
+	VectorValue* vecVal=dynamic_cast<VectorValue*>(ctx->getArgument(0,"values"));
+	if(vecVal) {
+		Value* resultVal = new NumberValue(0);
+		foreach(Value* child, vecVal->getChildren())
+			resultVal=Value::operation(resultVal,Expression::Add,child);
+
+		return resultVal;
 	}
 	return new Value();
 }

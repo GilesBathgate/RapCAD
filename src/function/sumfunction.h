@@ -16,22 +16,17 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "sqrtfunction.h"
-#include "numbervalue.h"
-#include "math.h"
+#ifndef SUMFUNCTION_H
+#define SUMFUNCTION_H
 
-SqrtFunction::SqrtFunction() : Function("sqrt")
-{
-}
+#include "function.h"
+#include "context.h"
 
-Value* SqrtFunction::evaluate(Context* ctx)
+class SumFunction : public Function
 {
-	double num,result;
-	NumberValue* numVal=dynamic_cast<NumberValue*>(ctx->getArgument(0,"number"));
-	if(numVal) {
-		num=numVal->getNumber();
-		result=sqrt(num);
-		return new NumberValue(result);
-	}
-	return new Value();
-}
+public:
+	SumFunction();
+	Value* evaluate(Context*);
+};
+
+#endif // SUMFUNCTION_H

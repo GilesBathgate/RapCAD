@@ -51,6 +51,7 @@
 #include "module/offsetmodule.h"
 
 #include "function/sqrtfunction.h"
+#include "function/sumfunction.h"
 
 #include "unionnode.h"
 
@@ -103,6 +104,7 @@ void Evaluator::initBuiltins(Script* sc)
 		Evaluator::builtins.append(new OffsetModule());
 
 		Evaluator::builtins.append(new SqrtFunction());
+		Evaluator::builtins.append(new SumFunction());
 	}
 	foreach(Declaration* d,Evaluator::builtins)
 		sc->addDeclaration(d);
