@@ -16,37 +16,23 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FUNCTION_H
-#define FUNCTION_H
+#include "sqrtfunction.h"
+#include "numbervalue.h"
+#include "math.h"
 
-#include <QString>
-#include <QList>
-#include "declaration.h"
-#include "parameter.h"
-#include "declaration.h"
-#include "scope.h"
-#include "value.h"
-
-class Context;
-
-class Function : public Declaration
+SqrtFunction::SqrtFunction() : Function("sqrt")
 {
-public:
-	Function();
-	Function(QString);
-	~Function();
-	QString getName() const;
-	void setName(QString);
-	QList<Parameter*> getParameters() const;
-	void setParameters(QList<Parameter*>);
-	Scope* getScope() const;
-	void setScope(Scope*);
-	void accept(TreeVisitor&);
-	virtual Value* evaluate(Context*);
-private:
-	QString name;
-	QList<Parameter*> parameters;
-	Scope* scope;
-};
 
-#endif // FUNCTION_H
+}
+
+Value* SqrtFunction::evaluate(Context* ctx)
+{
+	double num,result;
+	NumberValue* numVal=dynamic_cast<NumberValue*>(ctx->getArgument(0,"number"));
+	if(numVal) {
+		num=numVal->getNumber();
+		result=sqrt(num);
+		return new NumberValue(result);
+	}
+	return new Value();
+}

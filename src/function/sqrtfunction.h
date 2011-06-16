@@ -16,37 +16,17 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FUNCTION_H
-#define FUNCTION_H
+#ifndef SQRTFUNCTION_H
+#define SQRTFUNCTION_H
 
-#include <QString>
-#include <QList>
-#include "declaration.h"
-#include "parameter.h"
-#include "declaration.h"
-#include "scope.h"
-#include "value.h"
+#include "function.h"
+#include "context.h"
 
-class Context;
-
-class Function : public Declaration
+class SqrtFunction : public Function
 {
 public:
-	Function();
-	Function(QString);
-	~Function();
-	QString getName() const;
-	void setName(QString);
-	QList<Parameter*> getParameters() const;
-	void setParameters(QList<Parameter*>);
-	Scope* getScope() const;
-	void setScope(Scope*);
-	void accept(TreeVisitor&);
-	virtual Value* evaluate(Context*);
-private:
-	QString name;
-	QList<Parameter*> parameters;
-	Scope* scope;
+	SqrtFunction();
+	Value* evaluate(Context*);
 };
 
-#endif // FUNCTION_H
+#endif // SQRTFUNCTION_H

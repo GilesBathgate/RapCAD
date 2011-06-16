@@ -169,7 +169,8 @@ SOURCES += \
 	src/preferencesdialog.cpp \
 	src/preferences.cpp \
 	src/cgalexport.cpp \
-	src/module/prismmodule.cpp
+	src/module/prismmodule.cpp \
+	src/function/sqrtfunction.cpp
 
 
 HEADERS  += \
@@ -292,7 +293,8 @@ HEADERS  += \
 	src/preferencesdialog.h \
 	src/preferences.h \
 	src/cgalexport.h \
-	src/module/prismmodule.h
+	src/module/prismmodule.h \
+	src/function/sqrtfunction.h
 
 FORMS += \
 	src/mainwindow.ui \

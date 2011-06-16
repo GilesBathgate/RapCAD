@@ -24,6 +24,12 @@ Function::Function()
 	scope=NULL;
 }
 
+Function::Function(QString n)
+{
+	scope=NULL;
+	name=n;
+}
+
 Function::~Function()
 {
 	for(int i=0; i<parameters.size(); i++)
@@ -66,4 +72,9 @@ Scope* Function::getScope() const
 void Function::accept(TreeVisitor& v)
 {
 	v.visit(this);
+}
+
+Value* Function::evaluate(Context*)
+{
+	return NULL;
 }

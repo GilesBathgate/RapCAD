@@ -50,6 +50,8 @@
 #include "module/subdivisionmodule.h"
 #include "module/offsetmodule.h"
 
+#include "function/sqrtfunction.h"
+
 #include "unionnode.h"
 
 Evaluator::Evaluator(QTextStream& s) : output(s)
@@ -99,6 +101,8 @@ void Evaluator::initBuiltins(Script* sc)
 		Evaluator::builtins.append(new BoundsModule());
 		Evaluator::builtins.append(new SubDivisionModule());
 		Evaluator::builtins.append(new OffsetModule());
+
+		Evaluator::builtins.append(new SqrtFunction());
 	}
 	foreach(Declaration* d,Evaluator::builtins)
 		sc->addDeclaration(d);
@@ -430,8 +434,13 @@ void Evaluator::visit(Invocation* stmt)
 			p->accept(*this);
 
 		Scope* scp = func->getScope();
-		if(scp)
+		if(scp) {
 			scp->accept(*this);
+		} else {
+			Value* result=func->evaluate(context);
+			if(result)
+				context->currentValue=result;
+		}
 
 		context->arguments.clear();
 		context->parameters.clear();
