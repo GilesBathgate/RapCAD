@@ -131,6 +131,18 @@ void NodePrinter::printOperation(Node* n,QString name)
 
 void NodePrinter::visit(TransformationNode* n)
 {
-	//TODO needs to print arguments
-	printOperation(n,"multmatrix");
+	result << "multmatrix([[";
+	for(int i=0; i<16; i++) {
+		if(i>0)
+			if(i%4)
+				result << ",";
+			else
+				result << "],[";
+		result << n->matrix[i];
+
+	}
+	result << "]]){";
+	foreach(Node* c,n->getChildren())
+		c->accept(*this);
+	result << "}";
 }
