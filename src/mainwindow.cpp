@@ -116,6 +116,16 @@ void MainWindow::setupActions()
 	connect(ui->actionPreferences,SIGNAL(triggered()),this,SLOT(showPreferences()));
 
 	connect(ui->actionExportAsciiSTL,SIGNAL(triggered()),this,SLOT(saveExport()));
+
+	connect(ui->actionExportImage,SIGNAL(triggered()),this,SLOT(grabFrameBuffer()));
+}
+
+void MainWindow::grabFrameBuffer()
+{
+	QImage image = ui->view->grabFrameBuffer();
+	QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
+					QString(), tr("PNG Files (*.png)"));
+	image.save(fn);
 }
 
 void MainWindow::saveExport()

@@ -175,6 +175,7 @@
      </property>
      <addaction name="actionExportAsciiSTL"/>
      <addaction name="actionExportOFF"/>
+     <addaction name="actionExportImage"/>
     </widget>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
@@ -518,6 +519,14 @@
    </property>
    <property name="toolTip">
     <string>Export to OFF</string>
+   </property>
+  </action>
+  <action name="actionExportImage">
+   <property name="text">
+    <string>PNG Image</string>
+   </property>
+   <property name="toolTip">
+    <string>Export to PNG Image</string>
    </property>
   </action>
  </widget>

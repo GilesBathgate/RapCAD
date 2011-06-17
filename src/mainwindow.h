@@ -43,6 +43,7 @@ public:
 protected:
 	virtual void closeEvent(QCloseEvent*);
 private slots:
+	void grabFrameBuffer();
 	void saveExport();
 	void showPreferences();
 	void disableRulers(bool);
