@@ -255,9 +255,9 @@ void Evaluator::visit(ForStatement* forstmt)
 {
 	foreach(Argument* arg, forstmt->getArguments())
 		arg->accept(*this);
-
 	//TODO for now just consider the first arg.
 	Value* first = context->arguments.at(0);
+	context->arguments.clear();
 
 	Iterator<Value*>* i = first->createIterator();
 	for(i->first(); !i->isDone(); i->next()) {
@@ -270,8 +270,6 @@ void Evaluator::visit(ForStatement* forstmt)
 
 	}
 	delete i;
-
-	context->arguments.clear();
 }
 
 void Evaluator::visit(Parameter* param)
