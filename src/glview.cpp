@@ -53,19 +53,6 @@ GLView::GLView(QWidget* parent) : QGLWidget(parent)
 	viewportZ=0;
 }
 
-void GLView::makeImage(const QString& filename)
-{
-	QGLPixelBuffer pbuffer(1000,1000);
-	pbuffer.makeCurrent();
-	initializeGL();
-	resizeGL(1000,1000);
-	paintGL();
-
-	QImage i=pbuffer.toImage();
-	i.save(filename);
-	pbuffer.doneCurrent();
-}
-
 void GLView::setSkeleton(bool skel)
 {
 	skeleton=skel;

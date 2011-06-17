@@ -20,7 +20,6 @@
 #define GLVIEW_H
 
 #include <QGLWidget>
-#include <QGLPixelBuffer>
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include "renderer.h"
@@ -32,7 +31,6 @@ class GLView : public QGLWidget
 public:
 	GLView(QWidget* parent = NULL);
 	void setRenderer(Renderer* r);
-	void makeImage(const QString&);
 public slots:
 	void setShowAxes(bool);
 	void setShowRulers(bool);
