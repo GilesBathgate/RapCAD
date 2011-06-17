@@ -10,7 +10,6 @@ For loops need to consider more than just the first argument.
 Module Import needs implementing
 Script Import needs implementing
 Implement multiply and divide operations for vectors
-Script prettyprinter needs to print arguments for multmatrix
 
 Modules
 -------
