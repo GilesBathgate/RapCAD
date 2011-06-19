@@ -49,6 +49,11 @@ win32{
 	QMAKE_YACC = bison
 }
 
+macx {
+	INCLUDEPATH += /opt/local/include
+	LIBS += -L/opt/local/lib -lboost_thread-mt
+}
+
 #LIBS += -L$$PWD/librapcad -lrapcad
 QMAKE_CXXFLAGS += -frounding-math
 
