@@ -108,3 +108,37 @@ make
 ftp://anonymous:anonymous@ribbonsoft.com/archives/dxflib/dxflib-2.2.0.0-1.src.tar.gz
 ------------------------------------------------------------------------------------
 
+Mac OS X
+--------
+
+Install xcode and macports
+
+.Dependencies
+-------------------------------------------------------------
+sudo port install boost gmp mpfr cmake qt4-mac-devel git-core
+-------------------------------------------------------------
+
+.CGAL
+--------------------------------------------
+cd CGAL-3.8 &&
+cmake . -DCMAKE_INSTALL_PREFIX=/opt/local &&
+make &&
+sudo make install
+--------------------------------------------
+
+.dxflib
+-----------------------------------------------------------------------------------------
+tar -xzf dxflib-2.2.0.0-1.src.tar.gz &&
+cd dxflib-2.2.0.0-1.src &&
+./configure --prefix=/opt/local &&
+make depend &&
+make &&
+sudo make install
+-----------------------------------------------------------------------------------------
+
+.RapCAD
+-------------------------
+qmake
+make
+-------------------------
+
