@@ -18,14 +18,20 @@
 
 #include "cgalexplorer.h"
 #include "float.h"
+#include <QMap>
 
 CGALExplorer::CGALExplorer(const CGAL::NefPolyhedron3& p) : poly(p)
 {
+	evaluated=false;
+}
+
+static bool operator<(CGALExplorer::HalfEdgeHandle h1,CGALExplorer::HalfEdgeHandle h2)
+{
+ return &(*h1) < &(*h2);
 }
 
 void CGALExplorer::evaluate()
 {
-	typedef CGAL::NefPolyhedron3 Nef;
 	typedef Nef::Halffacet_const_iterator HalfFacetIterator;
 	typedef Nef::Halffacet_cycle_const_iterator HalfFacetCycleIterator;
 	typedef Nef::SHalfedge_const_handle SHalfEdgeHandle;
@@ -34,35 +40,57 @@ void CGALExplorer::evaluate()
 	typedef Nef::Vector_3 Vector3;
 
 	primitive = new CGALPrimitive();
+	QMap<HalfEdgeHandle,int> periMap;
 	HalfFacetIterator f;
-	CGAL_forall_facets(f,poly) {
-		CGALPolygon* pg=primitive->createPolygon();
-
-		Vector3 v = f->plane().orthogonal_vector();
-		pg->setNormal(v);
-
+	CGAL_forall_halffacets(f,poly) {
+		bool facet = !f->is_twin();
+		if(facet){
+			CGALPolygon* pg=primitive->createPolygon();
+			Vector3 v = f->plane().orthogonal_vector();
+			pg->setNormal(v);
+		}
 		HalfFacetCycleIterator fc;
 		CGAL_forall_facet_cycles_of(fc,f) {
-			SHalfEdgeHandle h = fc;
-			SHalfEdgeCirculator hc(h), he(hc);
-			CGAL_For_all(hc,he) {
-				SVertexHandle sv = hc->source();
-				CGAL::Point3 sp = sv->source()->point();
-				primitive->appendVertex(sp);
+			if(fc.is_shalfedge()) {
+				SHalfEdgeHandle h = fc;
+				SHalfEdgeCirculator hc(h), he(hc);
+				CGAL_For_all(hc,he) {
+					if(facet){
+						SVertexHandle sv = hc->source();
+						CGAL::Point3 sp = sv->source()->point();
+						primitive->appendVertex(sp);
+					}
+					HalfEdgeHandle h=hc->source();
+					h=h->is_twin()?h->twin():h;
+					periMap[h]++;
+				}
 			}
 		}
 	}
+
+	for (QMap<HalfEdgeHandle,int>::iterator
+		it=periMap.begin();it!=periMap.end();++it)
+		if (it.value()==2)
+			perimeter.append(it.key());
+
+	evaluated=true;
+}
+
+QList<CGALExplorer::HalfEdgeHandle> CGALExplorer::getPerimeter()
+{
+	if(!evaluated) evaluate();
+	return perimeter;
 }
 
 CGALPrimitive* CGALExplorer::getPrimitive()
 {
-	evaluate();
+	if(!evaluated) evaluate();
 	return primitive;
 }
 
 QList<CGAL::Point3> CGALExplorer::getPoints()
 {
-	evaluate();
+	if(!evaluated) evaluate();
 	return primitive->getPoints();
 }
 
