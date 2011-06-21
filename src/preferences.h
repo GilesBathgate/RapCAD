@@ -28,6 +28,24 @@ public:
 	QColor getFacetColor();
 	void setFacetColor(QColor);
 
+	bool getShowAxes();
+	void setShowAxes(bool);
+
+	bool getShowEdges();
+	void setShowEdges(bool);
+
+	bool getSkeleton();
+	void setSkeleton(bool);
+
+	bool getShowBase();
+	void setShowBase(bool);
+
+	bool getShowPrintArea();
+	void setShowPrintArea(bool);
+
+	bool getShowRulers();
+	void setShowRulers(bool);
+
 private:
 	Preferences();
 	static Preferences* instance;

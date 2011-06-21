@@ -75,6 +75,66 @@ void Preferences::setFacetColor(QColor c)
 	settings->setValue("FacetColor",c);
 }
 
+bool Preferences::getShowAxes()
+{
+	return settings->value("ShowAxes",true).toBool();
+}
+
+void Preferences::setShowAxes(bool show)
+{
+	settings->setValue("ShowAxes",show);
+}
+
+bool Preferences::getShowEdges()
+{
+	return settings->value("ShowEdges",false).toBool();
+}
+
+void Preferences::setShowEdges(bool show)
+{
+	settings->setValue("ShowEdges",show);
+}
+
+bool Preferences::getSkeleton()
+{
+	return settings->value("Skeleton",false).toBool();
+}
+
+void Preferences::setSkeleton(bool show)
+{
+	settings->setValue("Skeleton",show);
+}
+
+bool Preferences::getShowBase()
+{
+	return settings->value("ShowBase",true).toBool();
+}
+
+void Preferences::setShowBase(bool show)
+{
+	settings->setValue("ShowBase",show);
+}
+
+bool Preferences::getShowPrintArea()
+{
+	return settings->value("ShowPrintArea",true).toBool();
+}
+
+void Preferences::setShowPrintArea(bool show)
+{
+	settings->setValue("ShowPrintArea",show);
+}
+
+bool Preferences::getShowRulers()
+{
+	return settings->value("ShowRulers",true).toBool();
+}
+
+void Preferences::setShowRulers(bool show)
+{
+	settings->setValue("ShowRulers",show);
+}
+
 void Preferences::syncDelete()
 {
 	if(instance) {

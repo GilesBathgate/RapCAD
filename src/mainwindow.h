@@ -56,6 +56,8 @@ private slots:
 	void compileAndRender();
 	void evaluationDone(CGALPrimitive*);
 private:
+	void loadPreferences();
+	void savePreferences();
 	void setupLayout();
 	void setupActions();
 	void setupEditor();

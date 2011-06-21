@@ -26,6 +26,7 @@
 #include "cgalprimitive.h"
 #include "cgalrenderer.h"
 #include "cgalexport.h"
+#include "preferences.h"
 
 MainWindow::MainWindow(QWidget* parent) :
 	QMainWindow(parent),
@@ -42,6 +43,8 @@ MainWindow::MainWindow(QWidget* parent) :
 	setupEditor();
 
 	preferencesDialog=NULL;
+
+	loadPreferences();
 }
 
 MainWindow::~MainWindow()
@@ -52,6 +55,47 @@ MainWindow::~MainWindow()
 	delete worker;
 	delete preferencesDialog;
 	delete ui;
+}
+
+void MainWindow::savePreferences()
+{
+	Preferences* p=Preferences::getInstance();
+	p->setShowRulers(ui->actionShowRulers->isChecked());
+	p->setShowAxes(ui->actionShowAxes->isChecked());
+	p->setShowEdges(ui->actionShowEdges->isChecked());
+	p->setSkeleton(ui->actionSkeleton->isChecked());
+	p->setShowBase(ui->actionShowBase->isChecked());
+	p->setShowPrintArea(ui->actionShowPrintArea->isChecked());
+}
+
+void MainWindow::loadPreferences()
+{
+	Preferences* p=Preferences::getInstance();
+
+	bool showRulers=p->getShowRulers();
+	ui->actionShowRulers->setChecked(showRulers);
+	ui->view->setShowRulers(showRulers);
+
+	bool showAxes=p->getShowAxes();
+	ui->actionShowAxes->setChecked(showAxes);
+	ui->view->setShowAxes(showAxes);
+	disableRulers(showAxes);
+
+	bool showEdges=p->getShowEdges();
+	ui->actionShowEdges->setChecked(showEdges);
+	ui->view->setShowEdges(showEdges);
+
+	bool showSkeleton=p->getSkeleton();
+	ui->actionSkeleton->setChecked(showSkeleton);
+	ui->view->setSkeleton(showSkeleton);
+
+	bool showBase=p->getShowBase();
+	ui->actionShowBase->setChecked(showBase);
+	ui->view->setShowBase(showBase);
+
+	bool showPrintArea=p->getShowPrintArea();
+	ui->actionShowPrintArea->setChecked(showPrintArea);
+	ui->view->setShowPrintArea(showPrintArea);
 }
 
 void MainWindow::setupActions()
@@ -214,10 +258,12 @@ void MainWindow::clipboardDataChanged()
 
 void MainWindow::closeEvent(QCloseEvent* e)
 {
-	if(maybeSave(true))
+	if(maybeSave(true)) {
+		savePreferences();
 		e->accept();
-	else
+	} else {
 		e->ignore();
+	}
 }
 
 bool MainWindow::load(const QString& f)
