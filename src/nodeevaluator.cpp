@@ -139,45 +139,39 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 		CGALExplorer explorer(r);
 		CGALPrimitive* prim=explorer.getPrimitive();
 		QList<CGALPolygon*> polys=prim->getPolygons();
-		int c=polys.size();
-		int i=0;
+		CGALPrimitive* n = new CGALPrimitive();
+
 		foreach(CGALPolygon* pg,polys) {
-
-			CGALPrimitive* n = new CGALPrimitive();
-
 			n->createPolygon();
-			QList<CGAL::Point3> points=pg->getPoints();
-			foreach(CGAL::Point3 pt,points) {
-				n->appendVertex(pt);
-			}
-
-			int s=points.size();
-			for(int i=0; i<s; i++) {
-				int j=(i+1)%s;
-				CGAL::Point3 pi = points.at(i);
-				CGAL::Point3 pj = points.at(j);
-				n->createPolygon();
-				n->appendVertex(offset(pi,z));
-				n->appendVertex(offset(pj,z));
-				n->appendVertex(pj);
-				n->appendVertex(pi);
-			}
-
-			n->createPolygon();
-			foreach(CGAL::Point3 pt,points) {
-				n->prependVertex(offset(pt,z));
-			}
-
-			if(c>1) {
-				output << "Info: Extruding volume " << ++i << " of " << c;
-				output.flush();
-				//TODO if this polygon is oriented the oposite way to
-				//the previous one then its a hole so difference it
-				result=result->join(n->buildVolume());
-			} else {
-				result=n->buildVolume();
+			bool up =(pg->getNormal().z()>0);
+			foreach(CGAL::Point3 pt,pg->getPoints()) {
+				if(up)
+					n->appendVertex(pt);
+				else
+					n->prependVertex(pt);
 			}
 		}
+
+		foreach(CGALExplorer::HalfEdgeHandle h, explorer.getPerimeter()) {
+			n->createPolygon();
+			n->appendVertex(offset(h->source()->point(),z));
+			n->appendVertex(offset(h->target()->point(),z));
+			n->appendVertex(h->target()->point());
+			n->appendVertex(h->source()->point());
+		}
+
+		foreach(CGALPolygon* pg,polys) {
+			n->createPolygon();
+			bool up =(pg->getNormal().z()>0);
+			foreach(CGAL::Point3 pt,pg->getPoints()) {
+				if(up)
+					n->prependVertex(offset(pt,z));
+				else
+					n->appendVertex(offset(pt,z));
+			}
+		}
+
+		result=n->buildVolume();
 	}
 
 }

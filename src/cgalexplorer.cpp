@@ -30,6 +30,11 @@ static bool operator<(CGALExplorer::HalfEdgeHandle h1,CGALExplorer::HalfEdgeHand
 	return &(*h1) < &(*h2);
 }
 
+static CGALExplorer::HalfEdgeHandle getID(CGALExplorer::HalfEdgeHandle h)
+{
+	return h<h->twin()?h:h->twin();
+}
+
 void CGALExplorer::evaluate()
 {
 	typedef Nef::Halffacet_const_iterator HalfFacetIterator;
@@ -60,18 +65,36 @@ void CGALExplorer::evaluate()
 						CGAL::Point3 sp = sv->source()->point();
 						primitive->appendVertex(sp);
 					}
-					HalfEdgeHandle h=hc->source();
-					h=h->is_twin()?h->twin():h;
+					HalfEdgeHandle h=getID(hc->source());
 					periMap[h]++;
 				}
 			}
 		}
 	}
 
+	QList<HalfEdgeHandle> outEdges;
 	for(QMap<HalfEdgeHandle,int>::iterator
 			it=periMap.begin(); it!=periMap.end(); ++it)
 		if(it.value()==2)
-			perimeter.append(it.key());
+			outEdges.append(it.key());
+
+	HalfEdgeHandle current=outEdges.at(0);
+	QMap<HalfEdgeHandle,int> visited;
+	bool twin=false;
+	do {
+		foreach(HalfEdgeHandle h,outEdges) {
+			HalfEdgeHandle id=getID(h);
+			if(twin) h=h->twin();
+			if(h!=current && visited.value(id)==0 && current->target()->point() == h->source()->point()) {
+				current=h;
+				visited[id]++;
+				perimeter.append(h);
+				break;
+			}
+		}
+		twin=!twin;
+	} while(perimeter.size()<outEdges.size());
+
 
 	evaluated=true;
 }
