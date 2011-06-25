@@ -19,9 +19,18 @@
 #include "cgalexport.h"
 #include <QFile>
 #include <QTextStream>
+#include <CGAL/IO/Polyhedron_iostream.h>
 
 CGALExport::CGALExport()
 {
+}
+
+void CGALExport::exportOFF(CGALPrimitive* prim,QString filename)
+{
+	CGAL::Polyhedron3* poly=prim->getPolyhedron();
+	std::ofstream file(filename.toLocal8Bit().constData());
+	file << *poly;
+	file.close();
 }
 
 void CGALExport::exportAsciiSTL(CGALPrimitive* prim, QString filename, bool precise)

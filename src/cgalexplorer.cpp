@@ -27,7 +27,7 @@ CGALExplorer::CGALExplorer(const CGAL::NefPolyhedron3& p) : poly(p)
 
 static bool operator<(CGALExplorer::HalfEdgeHandle h1,CGALExplorer::HalfEdgeHandle h2)
 {
-	return h1 < h2;
+	return &(*h1) < &(*h2);
 }
 
 void CGALExplorer::evaluate()

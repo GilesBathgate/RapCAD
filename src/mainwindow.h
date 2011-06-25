@@ -44,7 +44,8 @@ protected:
 	virtual void closeEvent(QCloseEvent*);
 private slots:
 	void grabFrameBuffer();
-	void saveExport();
+	void exportAsciiSTL();
+	void exportOFF();
 	void showPreferences();
 	void disableRulers(bool);
 	void clipboardDataChanged();

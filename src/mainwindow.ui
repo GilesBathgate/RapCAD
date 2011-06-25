@@ -512,7 +512,7 @@
   </action>
   <action name="actionExportOFF">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>OFF</string>

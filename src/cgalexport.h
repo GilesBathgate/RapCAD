@@ -26,6 +26,7 @@ class CGALExport
 {
 public:
 	CGALExport();
+	void exportOFF(CGALPrimitive*,QString);
 	void exportAsciiSTL(CGALPrimitive*,QString,bool);
 };
 

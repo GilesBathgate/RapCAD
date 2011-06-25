@@ -159,7 +159,9 @@ void MainWindow::setupActions()
 	ui->actionPreferences->setIcon(QIcon::fromTheme("document-properties"));
 	connect(ui->actionPreferences,SIGNAL(triggered()),this,SLOT(showPreferences()));
 
-	connect(ui->actionExportAsciiSTL,SIGNAL(triggered()),this,SLOT(saveExport()));
+	connect(ui->actionExportAsciiSTL,SIGNAL(triggered()),this,SLOT(exportAsciiSTL()));
+
+	connect(ui->actionExportOFF,SIGNAL(triggered()),this,SLOT(exportOFF()));
 
 	connect(ui->actionExportImage,SIGNAL(triggered()),this,SLOT(grabFrameBuffer()));
 }
@@ -172,7 +174,7 @@ void MainWindow::grabFrameBuffer()
 	image.save(fn);
 }
 
-void MainWindow::saveExport()
+void MainWindow::exportAsciiSTL()
 {
 	if(primitive){
 		QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
@@ -181,6 +183,18 @@ void MainWindow::saveExport()
 			fn += ".stl"; // default
 		CGALExport exp;
 		exp.exportAsciiSTL(primitive,fn,true);
+	}
+}
+
+void MainWindow::exportOFF()
+{
+	if(primitive){
+		QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
+					QString(), tr("OFF Files (*.stl);;All Files (*)"));
+		if(!fn.endsWith(".off", Qt::CaseInsensitive))
+			fn += ".off"; // default
+		CGALExport exp;
+		exp.exportOFF(primitive,fn);
 	}
 }
 
