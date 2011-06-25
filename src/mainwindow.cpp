@@ -179,8 +179,6 @@ void MainWindow::exportAsciiSTL()
 	if(primitive){
 		QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
 					QString(), tr("STL Files (*.stl);;All Files (*)"));
-		if(!fn.endsWith(".stl", Qt::CaseInsensitive))
-			fn += ".stl"; // default
 		CGALExport exp;
 		exp.exportAsciiSTL(primitive,fn,true);
 	}
@@ -191,8 +189,6 @@ void MainWindow::exportOFF()
 	if(primitive){
 		QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
 					QString(), tr("OFF Files (*.stl);;All Files (*)"));
-		if(!fn.endsWith(".off", Qt::CaseInsensitive))
-			fn += ".off"; // default
 		CGALExport exp;
 		exp.exportOFF(primitive,fn);
 	}
@@ -346,8 +342,6 @@ bool MainWindow::saveAsFile()
 		QString(), tr("RapCAD Files (*.rcad);;All Files (*)"));
 	if(fn.isEmpty())
 		return false;
-	if(!fn.endsWith(".rcad", Qt::CaseInsensitive))
-		fn += ".rcad"; // default
 	setCurrentFileName(fn);
 	return saveFile();
 }
