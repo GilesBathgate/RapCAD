@@ -176,7 +176,7 @@ void MainWindow::grabFrameBuffer()
 
 void MainWindow::exportAsciiSTL()
 {
-	if(primitive){
+	if(primitive) {
 		QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
 					QString(), tr("STL Files (*.stl);;All Files (*)"));
 		CGALExport exp;
@@ -186,7 +186,7 @@ void MainWindow::exportAsciiSTL()
 
 void MainWindow::exportOFF()
 {
-	if(primitive){
+	if(primitive) {
 		QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
 					QString(), tr("OFF Files (*.stl);;All Files (*)"));
 		CGALExport exp;

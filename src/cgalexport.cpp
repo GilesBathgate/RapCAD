@@ -43,12 +43,12 @@ void CGALExport::exportAsciiSTL(CGALPrimitive* prim, QString filename, bool prec
 	typedef CGAL::Polyhedron3::Halfedge_around_facet_const_circulator HalffacetCirculator;
 
 	QFile data(filename);
-	if (!data.open(QFile::WriteOnly | QFile::Truncate)) {
+	if(!data.open(QFile::WriteOnly | QFile::Truncate)) {
 		//error
 		return;
 	}
 	QTextStream output(&data);
-	if(precise){
+	if(precise) {
 		//Technically we should not use a precision > 7 since the stl
 		//spec specifies single precision floating points but higher
 		//precisions seem to work with some apps here which is good
@@ -64,7 +64,7 @@ void CGALExport::exportAsciiSTL(CGALPrimitive* prim, QString filename, bool prec
 
 	output << "solid RapCAD_Model\n";
 
-	for (FacetIterator fi = poly->facets_begin(); fi != poly->facets_end(); ++fi) {
+	for(FacetIterator fi = poly->facets_begin(); fi != poly->facets_end(); ++fi) {
 		HalffacetCirculator hc = fi->facet_begin();
 		HalffacetCirculator he = hc;
 		Vertex v1, v2, v3;
@@ -77,7 +77,7 @@ void CGALExport::exportAsciiSTL(CGALPrimitive* prim, QString filename, bool prec
 			p1=v1.point();
 			p2=v2.point();
 			p3=v3.point();
-			if (p1 == p2 || p1 == p3 || p2 == p3)
+			if(p1 == p2 || p1 == p3 || p2 == p3)
 				continue;
 
 			double x1 = to_double(p1.x());
@@ -103,7 +103,7 @@ void CGALExport::exportAsciiSTL(CGALPrimitive* prim, QString filename, bool prec
 			output << "      vertex " << x3 << " " << y3 << " " << z3 << "\n";
 			output << "    endloop\n";
 			output << "  endfacet\n";
-		} while (hc != he);
+		} while(hc != he);
 	}
 
 	output << "endsolid RapCAD_Model\n";

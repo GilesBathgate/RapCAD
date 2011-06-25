@@ -44,7 +44,7 @@ void CGALExplorer::evaluate()
 	HalfFacetIterator f;
 	CGAL_forall_halffacets(f,poly) {
 		bool facet = !f->is_twin();
-		if(facet){
+		if(facet) {
 			CGALPolygon* pg=primitive->createPolygon();
 			Vector3 v = f->plane().orthogonal_vector();
 			pg->setNormal(v);
@@ -55,7 +55,7 @@ void CGALExplorer::evaluate()
 				SHalfEdgeHandle h = fc;
 				SHalfEdgeCirculator hc(h), he(hc);
 				CGAL_For_all(hc,he) {
-					if(facet){
+					if(facet) {
 						SVertexHandle sv = hc->source();
 						CGAL::Point3 sp = sv->source()->point();
 						primitive->appendVertex(sp);
@@ -68,9 +68,9 @@ void CGALExplorer::evaluate()
 		}
 	}
 
-	for (QMap<HalfEdgeHandle,int>::iterator
-		it=periMap.begin();it!=periMap.end();++it)
-		if (it.value()==2)
+	for(QMap<HalfEdgeHandle,int>::iterator
+			it=periMap.begin(); it!=periMap.end(); ++it)
+		if(it.value()==2)
 			perimeter.append(it.key());
 
 	evaluated=true;
