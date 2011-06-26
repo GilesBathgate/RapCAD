@@ -19,16 +19,19 @@
 #include "cgalexplorer.h"
 #include "float.h"
 #include <QMap>
+#include <CGAL/config.h>
 
 CGALExplorer::CGALExplorer(const CGAL::NefPolyhedron3& p) : poly(p)
 {
 	evaluated=false;
 }
 
+#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(3,7,0)
 static bool operator<(CGALExplorer::HalfEdgeHandle h1,CGALExplorer::HalfEdgeHandle h2)
 {
 	return &(*h1) < &(*h2);
 }
+#endif
 
 static CGALExplorer::HalfEdgeHandle getID(CGALExplorer::HalfEdgeHandle h)
 {
