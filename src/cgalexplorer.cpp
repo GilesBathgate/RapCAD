@@ -78,20 +78,22 @@ void CGALExplorer::evaluate()
 		if(it.value()==2)
 			outEdges.append(it.key());
 
-	HalfEdgeHandle current=outEdges.first();
-	bool twin=true;
-	do {
-		foreach(HalfEdgeHandle h,outEdges) {
-			if(twin) h=h->twin();
-			if(h!=current && h!=current->twin() &&
-			current->target()->point()==h->source()->point()) {
-				current=h;
-				perimeter.append(h);
-				break;
+	if(outEdges.size()>0) {
+		HalfEdgeHandle current=outEdges.first();
+		bool twin=true;
+		do {
+			foreach(HalfEdgeHandle h,outEdges) {
+				if(twin) h=h->twin();
+				if(h!=current && h!=current->twin() &&
+				current->target()->point()==h->source()->point()) {
+					current=h;
+					perimeter.append(h);
+					break;
+				}
 			}
-		}
-		twin=!twin;
-	} while(perimeter.size()<outEdges.size());
+			twin=!twin;
+		} while(perimeter.size()<outEdges.size());
+	}
 
 	evaluated=true;
 }
