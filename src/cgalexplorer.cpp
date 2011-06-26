@@ -78,23 +78,20 @@ void CGALExplorer::evaluate()
 		if(it.value()==2)
 			outEdges.append(it.key());
 
-	HalfEdgeHandle current=outEdges.at(0);
-	QMap<HalfEdgeHandle,int> visited;
-	bool twin=false;
+	HalfEdgeHandle current=outEdges.first();
+	bool twin=true;
 	do {
 		foreach(HalfEdgeHandle h,outEdges) {
-			HalfEdgeHandle id=getID(h);
 			if(twin) h=h->twin();
-			if(h!=current && visited.value(id)==0 && current->target()->point() == h->source()->point()) {
+			if(h!=current && h!=current->twin() &&
+			current->target()->point()==h->source()->point()) {
 				current=h;
-				visited[id]++;
 				perimeter.append(h);
 				break;
 			}
 		}
 		twin=!twin;
 	} while(perimeter.size()<outEdges.size());
-
 
 	evaluated=true;
 }
