@@ -1,7 +1,7 @@
 User Interface
 --------------
 Add categories to preferences dialog.
-Add more preferences. 
+Add more preferences. e.g. STL export compatability mode option.
 Need to work out better ways of sizing things using percentages or relative sizes.
 
 Evaluation
@@ -14,6 +14,10 @@ Implement multiply and divide operations for vectors
 Modules
 -------
 bezier_surface need to use use and $fn,$fa,$fs variables for number of faces.
-linear_extrude optimisation problem, and also need to work out how to do holes properly.
+linear_extrude is fast now but a bit buggy, and also need to work out how to do holes properly.
 subdiv need to implement and fix
+
+Functions
+---------
+Everything except sqrt and sum needs implementing!
 
