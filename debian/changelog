@@ -1,3 +1,9 @@
+rapcad (0.2.0) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Giles Bathgate <gilesbathgate@gmail.com>  Fri, 01 Jul 2011 19:36:32 +0100
+
 rapcad (0.1.0-1) unstable; urgency=low
 
   * Updates required to compile from source on build servers.
