@@ -360,6 +360,9 @@ void MainWindow::openFile()
 void MainWindow::setCurrentFileName(const QString& f)
 {
 	fileName=f;
+	QString n=QFileInfo(f).fileName();
+	int i=ui->tabWidget->indexOf(ui->scriptEditor);
+	ui->tabWidget->setTabText(i,n);
 	ui->scriptEditor->document()->setModified(false);
 }
 
