@@ -1,0 +1,17 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="icons/gnome">
+    <file alias="index.theme">icons/gnome/index.theme</file>
+    <file alias="22x22/document-new.png">icons/gnome/22x22/document-new.png</file>
+    <file alias="22x22/document-open.png">icons/gnome/22x22/document-open.png</file>
+    <file alias="22x22/document-save.png">icons/gnome/22x22/document-save.png</file>
+    <file alias="22x22/document-print.png">icons/gnome/22x22/document-print.png</file>
+    <file alias="22x22/edit-undo.png">icons/gnome/22x22/edit-undo.png</file>
+    <file alias="22x22/edit-redo.png">icons/gnome/22x22/edit-redo.png</file>
+    <file alias="22x22/edit-cut.png">icons/gnome/22x22/edit-cut.png</file>
+    <file alias="22x22/edit-copy.png">icons/gnome/22x22/edit-copy.png</file>
+    <file alias="22x22/edit-paste.png">icons/gnome/22x22/edit-paste.png</file>
+    <file alias="22x22/system-run.png">icons/gnome/22x22/system-run.png</file>
+    <file alias="22x22/format-justify-fill.png">icons/gnome/22x22/format-justify-fill.png</file>
+    <file alias="22x22/document-properties.png">icons/gnome/22x22/document-properties.png</file>
+</qresource>
+</RCC>

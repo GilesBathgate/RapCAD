@@ -30,7 +30,8 @@ TEMPLATE = app
 LEXSOURCES += src/lexer.l
 YACCSOURCES += src/parser.y
 INCLUDEPATH += src
-win32{
+
+win32 {
 	INCLUDEPATH += "..\\CGAL-3.8\\include"
 	INCLUDEPATH += "..\\CGAL-3.8\\auxiliary\\gmp\\include"
 	INCLUDEPATH += "..\\dxflib-2.2.0.0-1.src"
@@ -320,4 +321,9 @@ unix {
 	BINDIR = $$PREFIX/bin
 	INSTALLS += target
 	target.path =$$BINDIR
+}
+
+win32|macx {
+	RESOURCES += \
+	icons.qrc
 }

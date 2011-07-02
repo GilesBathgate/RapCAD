@@ -100,6 +100,10 @@ void MainWindow::loadPreferences()
 
 void MainWindow::setupActions()
 {
+	if (!QIcon::hasThemeIcon("document-open")) {
+		QIcon::setThemeName("gnome");
+	}
+
 	ui->actionNew->setIcon(QIcon::fromTheme("document-new"));
 	connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newFile()));
 
