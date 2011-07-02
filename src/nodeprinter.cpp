@@ -133,11 +133,12 @@ void NodePrinter::visit(TransformationNode* n)
 {
 	result << "multmatrix([[";
 	for(int i=0; i<16; i++) {
-		if(i>0)
+		if(i>0) {
 			if(i%4)
 				result << ",";
 			else
 				result << "],[";
+		}
 		result << n->matrix[i];
 
 	}
