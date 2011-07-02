@@ -33,17 +33,12 @@ MainWindow::MainWindow(QWidget* parent) :
 	ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
-
 	setupLayout();
-
 	setupActions();
-
 	setupTreeview();
-
-	setupEditor();
-
+	setupEditor(ui->scriptEditor);
+	setupConsole();
 	preferencesDialog=NULL;
-
 	loadPreferences();
 }
 
@@ -241,10 +236,8 @@ void MainWindow::setupTreeview()
 	ui->treeView->expandAll();
 }
 
-void MainWindow::setupEditor()
+void MainWindow::setupEditor(QPlainTextEdit* editor)
 {
-	QPlainTextEdit* editor = ui->scriptEditor;
-
 	QFont font;
 	font.setFamily("Courier");
 	font.setFixedPitch(true);
@@ -253,8 +246,15 @@ void MainWindow::setupEditor()
 	editor->setFont(font);
 
 	highlighter = new SyntaxHighlighter(editor->document());
+}
 
+void MainWindow::setupConsole()
+{
 	QTextEdit* c=(QTextEdit*)ui->plainTextEdit;
+
+	QFont font;
+	font.setFamily("Courier");
+	font.setFixedPitch(true);
 	font.setPointSize(8);
 	c->setFont(font);
 	console=new TextEditIODevice(c,this);
@@ -320,10 +320,9 @@ bool MainWindow::maybeSave(bool closing)
 
 void MainWindow::newFile()
 {
-	if(maybeSave(true)) {
-		ui->scriptEditor->clear();
-		setCurrentFileName(QString());
-	}
+	CodeEditor* e = new CodeEditor();
+	setupEditor(e);
+	ui->tabWidget->addTab(e,"[New]");
 }
 
 

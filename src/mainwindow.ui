@@ -22,25 +22,13 @@
       </property>
       <widget class="QTreeView" name="treeView"/>
       <widget class="QTabWidget" name="tabWidget">
-       <widget class="QWidget" name="scriptTab">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+       <widget class="CodeEditor" name="scriptEditor">
+        <property name="tabStopWidth">
+         <number>40</number>
         </property>
         <attribute name="title">
          <string>[New]</string>
         </attribute>
-        <layout class="QHBoxLayout" name="editorLayout">
-         <item>
-          <widget class="CodeEditor" name="scriptEditor">
-           <property name="tabStopWidth">
-            <number>40</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
        </widget>
       </widget>
       <widget class="QSplitter" name="hSplitter">

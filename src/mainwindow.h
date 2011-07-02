@@ -22,6 +22,7 @@
 #include <QMainWindow>
 #include <QStandardItemModel>
 #include <QTextStream>
+#include <QPlainTextEdit>
 #include "syntaxhighlighter.h"
 #include "texteditiodevice.h"
 #include "backgroundworker.h"
@@ -61,7 +62,8 @@ private:
 	void savePreferences();
 	void setupLayout();
 	void setupActions();
-	void setupEditor();
+	void setupEditor(QPlainTextEdit*);
+	void setupConsole();
 	void setupTreeview();
 	void setCurrentFileName(const QString&);
 	Ui::MainWindow* ui;
