@@ -2,7 +2,10 @@
 Name=Gnome
 Comment=Gnome default icon theme
 Inherits=default
-Directories=22x22
+Directories=22x22,16x16
 
 [22x22]
 Size=22
+
+[16x16]
+Size=16
