@@ -45,10 +45,13 @@ win32{
 	QMAKE_LEX = "..\\MinGW\\msys\\1.0\\bin\\flex"
 	QMAKE_MOVE = "..\\MinGW\\msys\\1.0\\bin\\mv"
 } else {
-	LIBS += -lCGAL -lCGAL_Core -lmpfr -lgmp -ldxflib -lboost_thread
+	LIBS += -lCGAL -lCGAL_Core -lmpfr -lgmp -ldxflib
 	QMAKE_YACC = bison
-}
 
+	!macx {
+		LIBS += -lboost_thread
+	}
+}
 macx {
 	INCLUDEPATH += /opt/local/include
 	LIBS += -L/opt/local/lib -lboost_thread-mt
