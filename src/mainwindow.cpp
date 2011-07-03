@@ -165,6 +165,12 @@ void MainWindow::setupActions()
 	connect(ui->actionExportOFF,SIGNAL(triggered()),this,SLOT(exportOFF()));
 
 	connect(ui->actionExportImage,SIGNAL(triggered()),this,SLOT(grabFrameBuffer()));
+
+	connect(ui->actionShowEditor,SIGNAL(triggered(bool)),ui->tabWidget,SLOT(setVisible(bool)));
+
+	connect(ui->actionShowConsole,SIGNAL(triggered(bool)),ui->plainTextEdit,SLOT(setVisible(bool)));
+
+	connect(ui->actionShowProjects,SIGNAL(triggered(bool)),ui->treeView,SLOT(setVisible(bool)));
 }
 
 void MainWindow::grabFrameBuffer()

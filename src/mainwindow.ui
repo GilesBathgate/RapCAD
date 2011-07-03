@@ -208,6 +208,10 @@
     <addaction name="actionShowBase"/>
     <addaction name="actionShowPrintArea"/>
     <addaction name="actionSkeleton"/>
+    <addaction name="separator"/>
+    <addaction name="actionShowEditor"/>
+    <addaction name="actionShowConsole"/>
+    <addaction name="actionShowProjects"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuDesign"/>
@@ -515,6 +519,39 @@
    </property>
    <property name="toolTip">
     <string>Export to PNG Image</string>
+   </property>
+  </action>
+  <action name="actionShowEditor">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Editor</string>
+   </property>
+  </action>
+  <action name="actionShowConsole">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Console</string>
+   </property>
+  </action>
+  <action name="actionShowProjects">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Projects</string>
    </property>
   </action>
  </widget>
