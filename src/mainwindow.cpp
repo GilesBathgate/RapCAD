@@ -33,6 +33,8 @@ MainWindow::MainWindow(QWidget* parent) :
 	ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
+	QIcon rapcadIcon(":/icons/rapcad-16x16.png");
+	this->setWindowIcon(rapcadIcon);
 	setupLayout();
 	setupActions();
 	setupTreeview();

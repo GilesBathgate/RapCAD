@@ -327,3 +327,6 @@ win32|macx {
 	RESOURCES += \
 	icons.qrc
 }
+
+RESOURCES += \
+rapcad.qrc
