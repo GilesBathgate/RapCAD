@@ -325,8 +325,8 @@ unix {
 
 win32|macx {
 	RESOURCES += \
-	icons.qrc
+	src/icons.qrc
 }
 
 RESOURCES += \
-rapcad.qrc
+src/rapcad.qrc
