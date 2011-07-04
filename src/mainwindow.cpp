@@ -63,6 +63,9 @@ void MainWindow::savePreferences()
 	p->setSkeleton(ui->actionSkeleton->isChecked());
 	p->setShowBase(ui->actionShowBase->isChecked());
 	p->setShowPrintArea(ui->actionShowPrintArea->isChecked());
+	p->setShowEditor(ui->actionShowEditor->isChecked());
+	p->setShowConsole(ui->actionShowConsole->isChecked());
+	p->setShowProjects(ui->actionShowProjects->isChecked());
 }
 
 void MainWindow::loadPreferences()
@@ -93,6 +96,18 @@ void MainWindow::loadPreferences()
 	bool showPrintArea=p->getShowPrintArea();
 	ui->actionShowPrintArea->setChecked(showPrintArea);
 	ui->view->setShowPrintArea(showPrintArea);
+
+	bool showEditor=p->getShowEditor();
+	ui->actionShowEditor->setChecked(showEditor);
+	ui->tabWidget->setVisible(showEditor);
+
+	bool showConsole=p->getShowConsole();
+	ui->actionShowConsole->setChecked(showConsole);
+	ui->plainTextEdit->setVisible(showConsole);
+
+	bool showProjects=p->getShowProjects();
+	ui->actionShowProjects->setChecked(showProjects);
+	ui->treeView->setVisible(showProjects);
 }
 
 void MainWindow::setupActions()

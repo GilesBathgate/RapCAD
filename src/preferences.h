@@ -46,6 +46,15 @@ public:
 	bool getShowRulers();
 	void setShowRulers(bool);
 
+	bool getShowEditor();
+	void setShowEditor(bool);
+
+	bool getShowConsole();
+	void setShowConsole(bool);
+
+	bool getShowProjects();
+	void setShowProjects(bool);
+
 private:
 	Preferences();
 	static Preferences* instance;

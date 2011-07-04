@@ -135,6 +135,36 @@ void Preferences::setShowRulers(bool show)
 	settings->setValue("ShowRulers",show);
 }
 
+bool Preferences::getShowEditor()
+{
+	return settings->value("ShowEditor",true).toBool();
+}
+
+void Preferences::setShowEditor(bool show)
+{
+	settings->setValue("ShowEditor",show);
+}
+
+bool Preferences::getShowConsole()
+{
+	return settings->value("ShowConsole",true).toBool();
+}
+
+void Preferences::setShowConsole(bool show)
+{
+	settings->setValue("ShowConsole",show);
+}
+
+bool Preferences::getShowProjects()
+{
+	return settings->value("ShowProjects",true).toBool();
+}
+
+void Preferences::setShowProjects(bool show)
+{
+	settings->setValue("ShowProjects",show);
+}
+
 void Preferences::syncDelete()
 {
 	if(instance) {
