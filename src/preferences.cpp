@@ -165,6 +165,26 @@ void Preferences::setShowProjects(bool show)
 	settings->setValue("ShowProjects",show);
 }
 
+QPoint Preferences::getWindowPosition()
+{
+	return settings->value("WindowPosition",QPoint(0,0)).toPoint();
+}
+
+void Preferences::setWindowPosition(QPoint p)
+{
+	settings->setValue("WindowPosition",p);
+}
+
+QSize Preferences::getWindowSize()
+{
+	return settings->value("WindowSize",QSize(1000,600)).toSize();
+}
+
+void Preferences::setWindowSize(QSize s)
+{
+	settings->setValue("WindowSize",s);
+}
+
 void Preferences::syncDelete()
 {
 	if(instance) {

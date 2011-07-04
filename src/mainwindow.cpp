@@ -66,6 +66,8 @@ void MainWindow::savePreferences()
 	p->setShowEditor(ui->actionShowEditor->isChecked());
 	p->setShowConsole(ui->actionShowConsole->isChecked());
 	p->setShowProjects(ui->actionShowProjects->isChecked());
+	p->setWindowPosition(pos());
+	p->setWindowSize(size());
 }
 
 void MainWindow::loadPreferences()
@@ -108,6 +110,8 @@ void MainWindow::loadPreferences()
 	bool showProjects=p->getShowProjects();
 	ui->actionShowProjects->setChecked(showProjects);
 	ui->treeView->setVisible(showProjects);
+	move(p->getWindowPosition());
+	resize(p->getWindowSize());
 }
 
 void MainWindow::setupActions()

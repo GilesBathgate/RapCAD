@@ -3,6 +3,8 @@
 
 #include <QSettings>
 #include <QColor>
+#include <QPoint>
+#include <QSize>
 
 class Preferences
 {
@@ -54,6 +56,12 @@ public:
 
 	bool getShowProjects();
 	void setShowProjects(bool);
+
+	void setWindowPosition(QPoint);
+	QPoint getWindowPosition();
+
+	void setWindowSize(QSize);
+	QSize getWindowSize();
 
 private:
 	Preferences();
