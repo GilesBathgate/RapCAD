@@ -180,7 +180,8 @@ SOURCES += \
 	src/cgalexport.cpp \
 	src/module/prismmodule.cpp \
 	src/function/sqrtfunction.cpp \
-	src/function/sumfunction.cpp
+	src/function/sumfunction.cpp \
+	src/function/randfunction.cpp
 
 
 HEADERS  += \
@@ -305,7 +306,8 @@ HEADERS  += \
 	src/cgalexport.h \
 	src/module/prismmodule.h \
 	src/function/sqrtfunction.h \
-	src/function/sumfunction.h
+	src/function/sumfunction.h \
+	src/function/randfunction.h
 
 FORMS += \
 	src/mainwindow.ui \

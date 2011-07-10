@@ -52,6 +52,7 @@
 
 #include "function/sqrtfunction.h"
 #include "function/sumfunction.h"
+#include "function/randfunction.h"
 
 #include "unionnode.h"
 
@@ -105,6 +106,7 @@ void Evaluator::initBuiltins(Script* sc)
 
 		Evaluator::builtins.append(new SqrtFunction());
 		Evaluator::builtins.append(new SumFunction());
+		Evaluator::builtins.append(new RandFunction());
 	}
 	foreach(Declaration* d,Evaluator::builtins)
 		sc->addDeclaration(d);
