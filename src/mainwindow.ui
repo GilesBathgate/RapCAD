@@ -574,7 +574,7 @@
     <string>Default</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+O</string>
+    <string>Ctrl+D</string>
    </property>
   </action>
   <action name="actionTop">
