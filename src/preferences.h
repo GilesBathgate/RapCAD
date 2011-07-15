@@ -12,6 +12,21 @@ public:
 	static Preferences* getInstance();
 	static void syncDelete();
 
+	double getDefaultRotationX();
+	void setDefaultRotationX(double d);
+
+	double getDefaultRotationZ();
+	void setDefaultRotationZ(double d);
+
+	double getDefaultX();
+	void setDefaultX(double d);
+
+	double getDefaultZ();
+	void setDefaultZ(double d);
+
+	double getDefaultDistance();
+	void setDefaultDistance(double d);
+
 	QColor getMarkedVertexColor();
 	void setMarkedVertexColor(QColor);
 

@@ -212,6 +212,16 @@
     <addaction name="actionShowEditor"/>
     <addaction name="actionShowConsole"/>
     <addaction name="actionShowProjects"/>
+    <addaction name="separator"/>
+    <addaction name="actionTop"/>
+    <addaction name="actionBottom"/>
+    <addaction name="actionLeft"/>
+    <addaction name="actionRight"/>
+    <addaction name="actionFront"/>
+    <addaction name="actionBack"/>
+    <addaction name="actionDefaultView"/>
+    <addaction name="separator"/>
+    <addaction name="actionSetViewport"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuDesign"/>
@@ -552,6 +562,67 @@
    </property>
    <property name="text">
     <string>Show Projects</string>
+   </property>
+  </action>
+  <action name="actionSetViewport">
+   <property name="text">
+    <string>Set Default View</string>
+   </property>
+  </action>
+  <action name="actionDefaultView">
+   <property name="text">
+    <string>Default</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionTop">
+   <property name="text">
+    <string>Top</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+4</string>
+   </property>
+  </action>
+  <action name="actionBottom">
+   <property name="text">
+    <string>Bottom</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+5</string>
+   </property>
+  </action>
+  <action name="actionLeft">
+   <property name="text">
+    <string>Left</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+6</string>
+   </property>
+  </action>
+  <action name="actionRight">
+   <property name="text">
+    <string>Right</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+7</string>
+   </property>
+  </action>
+  <action name="actionFront">
+   <property name="text">
+    <string>Front</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+8</string>
+   </property>
+  </action>
+  <action name="actionBack">
+   <property name="text">
+    <string>Back</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+9</string>
    </property>
   </action>
  </widget>

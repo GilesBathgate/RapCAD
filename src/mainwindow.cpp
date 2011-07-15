@@ -70,6 +70,18 @@ void MainWindow::savePreferences()
 	p->setWindowSize(size());
 }
 
+void MainWindow::setDefaultViewport()
+{
+	Preferences* p=Preferences::getInstance();
+	double rx,rz,x,z,d;
+	ui->view->getViewport(rx,rz,x,z,d);
+	p->setDefaultRotationX(rx);
+	p->setDefaultRotationZ(rz);
+	p->setDefaultX(x);
+	p->setDefaultZ(z);
+	p->setDefaultDistance(d);
+}
+
 void MainWindow::loadPreferences()
 {
 	Preferences* p=Preferences::getInstance();
@@ -112,6 +124,20 @@ void MainWindow::loadPreferences()
 	ui->treeView->setVisible(showProjects);
 	move(p->getWindowPosition());
 	resize(p->getWindowSize());
+
+	getDefaultViewport();
+}
+
+void MainWindow::getDefaultViewport()
+{
+	Preferences* p=Preferences::getInstance();
+	double rx,rz,x,z,d;
+	rx=p->getDefaultRotationX();
+	rz=p->getDefaultRotationZ();
+	x=p->getDefaultX();
+	z=p->getDefaultZ();
+	d=p->getDefaultDistance();
+	ui->view->setViewport(rx,rz,x,z,d);
 }
 
 void MainWindow::setupActions()
@@ -190,6 +216,10 @@ void MainWindow::setupActions()
 	connect(ui->actionShowConsole,SIGNAL(triggered(bool)),ui->plainTextEdit,SLOT(setVisible(bool)));
 
 	connect(ui->actionShowProjects,SIGNAL(triggered(bool)),ui->treeView,SLOT(setVisible(bool)));
+
+	connect(ui->actionSetViewport,SIGNAL(triggered()),this,SLOT(setDefaultViewport()));
+
+	connect(ui->actionDefaultView,SIGNAL(triggered()),this,SLOT(getDefaultViewport()));
 }
 
 void MainWindow::grabFrameBuffer()

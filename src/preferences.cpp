@@ -15,6 +15,56 @@ Preferences* Preferences::getInstance()
 	return instance;
 }
 
+double Preferences::getDefaultRotationX()
+{
+	return settings->value("DefaultRotationX",35.0).toDouble();
+}
+
+double Preferences::getDefaultRotationZ()
+{
+	return settings->value("DefaultRotationZ",35.0).toDouble();
+}
+
+double Preferences::getDefaultX()
+{
+	return settings->value("DefaultX",0.0).toDouble();
+}
+
+double Preferences::getDefaultZ()
+{
+	return settings->value("DefaultZ",0.0).toDouble();
+}
+
+double Preferences::getDefaultDistance()
+{
+	return settings->value("DefaultDistance",500.0).toDouble();
+}
+
+void Preferences::setDefaultRotationX(double x)
+{
+	settings->setValue("DefaultRotationX",x);
+}
+
+void Preferences::setDefaultRotationZ(double z)
+{
+	settings->setValue("DefaultRotationZ",z);
+}
+
+void Preferences::setDefaultX(double x)
+{
+	settings->setValue("DefaultX",x);
+}
+
+void Preferences::setDefaultZ(double z)
+{
+	settings->setValue("DefaultZ",z);
+}
+
+void Preferences::setDefaultDistance(double d)
+{
+	settings->setValue("DefaultDistance",d);
+}
+
 QColor Preferences::getMarkedVertexColor()
 {
 	return settings->value("MarkedVertexColor",QColor(0xb7,0xe8,0x5c)).value<QColor>();

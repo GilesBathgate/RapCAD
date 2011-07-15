@@ -32,6 +32,8 @@ public:
 	GLView(QWidget* parent = NULL);
 	void setRenderer(Renderer* r);
 public slots:
+	void setViewport(double,double,double,double,double);
+	void getViewport(double&,double&,double&,double&,double&);
 	void setShowAxes(bool);
 	void setShowRulers(bool);
 	void setShowBase(bool);

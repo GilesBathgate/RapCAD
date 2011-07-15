@@ -44,6 +44,8 @@ public:
 protected:
 	virtual void closeEvent(QCloseEvent*);
 private slots:
+	void getDefaultViewport();
+	void setDefaultViewport();
 	void grabFrameBuffer();
 	void exportAsciiSTL();
 	void exportOFF();
