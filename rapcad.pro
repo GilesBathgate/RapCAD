@@ -181,7 +181,8 @@ SOURCES += \
 	src/module/prismmodule.cpp \
 	src/function/sqrtfunction.cpp \
 	src/function/sumfunction.cpp \
-	src/function/randfunction.cpp
+	src/function/randfunction.cpp \
+	src/module/cylindersurfacemodule.cpp
 
 
 HEADERS  += \
@@ -307,7 +308,8 @@ HEADERS  += \
 	src/module/prismmodule.h \
 	src/function/sqrtfunction.h \
 	src/function/sumfunction.h \
-	src/function/randfunction.h
+	src/function/randfunction.h \
+	src/module/cylindersurfacemodule.h
 
 FORMS += \
 	src/mainwindow.ui \
