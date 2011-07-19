@@ -257,6 +257,25 @@ void NodeEvaluator::visit(OffsetNode* n)
 	result=result->inset(n->getAmount());
 }
 
+void NodeEvaluator::visit(OutlineNode* op)
+{
+	evaluate(op,Union);
+
+	CGALExplorer explorer(result->getNefPolyhedron());
+	QList<CGAL::Point3> points = explorer.getPoints();
+
+	QVector<CGAL::Point3> pl;
+	CGAL::Point3 fp;
+	for(int i=0; i<points.size(); i++) {
+		if(i==0)
+			fp=points.at(i);
+		pl.append(points.at(i));
+	}
+	pl.append(fp);
+
+	result=new CGALPrimitive(pl);
+}
+
 void NodeEvaluator::visit(TransformationNode* tr)
 {
 	evaluate(tr,Union);

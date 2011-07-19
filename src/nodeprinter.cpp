@@ -120,6 +120,11 @@ void NodePrinter::visit(OffsetNode* n)
 	printOperation(n,"offset");
 }
 
+void NodePrinter::visit(OutlineNode* n)
+{
+	printOperation(n,"outline");
+}
+
 void NodePrinter::printOperation(Node* n,QString name)
 {
 	result << name;

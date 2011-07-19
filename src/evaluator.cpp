@@ -50,6 +50,7 @@
 #include "module/boundsmodule.h"
 #include "module/subdivisionmodule.h"
 #include "module/offsetmodule.h"
+#include "module/outlinemodule.h"
 
 #include "function/sqrtfunction.h"
 #include "function/sumfunction.h"
@@ -105,6 +106,7 @@ void Evaluator::initBuiltins(Script* sc)
 		Evaluator::builtins.append(new BoundsModule());
 		Evaluator::builtins.append(new SubDivisionModule());
 		Evaluator::builtins.append(new OffsetModule());
+		Evaluator::builtins.append(new OutlineModule());
 
 		Evaluator::builtins.append(new SqrtFunction());
 		Evaluator::builtins.append(new SumFunction());

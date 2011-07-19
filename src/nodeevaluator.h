@@ -37,6 +37,7 @@
 #include "boundsnode.h"
 #include "subdivisionnode.h"
 #include "offsetnode.h"
+#include "outlinenode.h"
 #include "cgalexplorer.h"
 
 class NodeEvaluator : public NodeVisitor
@@ -65,6 +66,7 @@ public:
 	void visit(BoundsNode*);
 	void visit(SubDivisionNode*);
 	void visit(OffsetNode*);
+	void visit(OutlineNode*);
 	void visit(TransformationNode*);
 
 	CGAL::Point3 offset(const CGAL::Point3&,CGAL::Kernel3::FT);

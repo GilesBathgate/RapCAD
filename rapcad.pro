@@ -182,7 +182,9 @@ SOURCES += \
 	src/function/sqrtfunction.cpp \
 	src/function/sumfunction.cpp \
 	src/function/randfunction.cpp \
-	src/module/cylindersurfacemodule.cpp
+	src/module/cylindersurfacemodule.cpp \
+	src/module/outlinemodule.cpp \
+	src/outlinenode.cpp
 
 
 HEADERS  += \
@@ -309,7 +311,9 @@ HEADERS  += \
 	src/function/sqrtfunction.h \
 	src/function/sumfunction.h \
 	src/function/randfunction.h \
-	src/module/cylindersurfacemodule.h
+	src/module/cylindersurfacemodule.h \
+	src/module/outlinemodule.h \
+	src/outlinenode.h
 
 FORMS += \
 	src/mainwindow.ui \

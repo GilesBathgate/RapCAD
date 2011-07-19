@@ -35,6 +35,7 @@
 #include "boundsnode.h"
 #include "subdivisionnode.h"
 #include "offsetnode.h"
+#include "outlinenode.h"
 
 class NodePrinter : public NodeVisitor
 {
@@ -53,6 +54,7 @@ public:
 	void visit(BoundsNode*);
 	void visit(SubDivisionNode*);
 	void visit(OffsetNode*);
+	void visit(OutlineNode*);
 	void printOperation(Node*,QString name);
 	void visit(TransformationNode*);
 private:
