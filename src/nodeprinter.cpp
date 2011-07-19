@@ -117,7 +117,7 @@ void NodePrinter::visit(SubDivisionNode* n)
 
 void NodePrinter::visit(OffsetNode* n)
 {
-	printOperation(n,"inset");
+	printOperation(n,"offset");
 }
 
 void NodePrinter::printOperation(Node* n,QString name)
