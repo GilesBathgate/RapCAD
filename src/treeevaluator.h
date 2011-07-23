@@ -80,8 +80,6 @@ public:
 
 	Node* getRootNode() const;
 private:
-	void initBuiltins(Script*);
-	void saveBuiltins(Script*);
 	void startContext(Scope*);
 	void finishContext();
 	Node* createUnion(QList<Node*>);
@@ -90,7 +88,6 @@ private:
 	QStack<Context*> contextStack;
 	Node* rootNode;
 	QTextStream& output;
-	static QList<Declaration*> builtins;
 };
 
 #endif // TREEEVALUATOR_H

@@ -185,7 +185,8 @@ SOURCES += \
 	src/module/cylindersurfacemodule.cpp \
 	src/module/outlinemodule.cpp \
 	src/outlinenode.cpp \
-	src/module/importmodule.cpp
+	src/module/importmodule.cpp \
+	src/builtincreator.cpp
 
 
 HEADERS  += \
@@ -315,7 +316,8 @@ HEADERS  += \
 	src/module/cylindersurfacemodule.h \
 	src/module/outlinemodule.h \
 	src/outlinenode.h \
-	src/module/importmodule.h
+	src/module/importmodule.h \
+	src/builtincreator.h
 
 FORMS += \
 	src/mainwindow.ui \

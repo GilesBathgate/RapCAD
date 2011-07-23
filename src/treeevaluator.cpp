@@ -19,45 +19,9 @@
 #include "treeevaluator.h"
 #include "vectorvalue.h"
 #include "rangevalue.h"
-
-#include "module/echomodule.h"
-#include "module/cubemodule.h"
-#include "module/squaremodule.h"
-#include "module/cylindermodule.h"
-#include "module/cylindersurfacemodule.h"
-#include "module/prismmodule.h"
-#include "module/circlemodule.h"
-#include "module/polyhedronmodule.h"
-#include "module/polylinemodule.h"
-#include "module/beziersurfacemodule.h"
-
-#include "module/differencemodule.h"
-#include "module/unionmodule.h"
-#include "module/groupmodule.h"
-#include "module/intersectionmodule.h"
-#include "module/translatemodule.h"
-#include "module/symmetricdifferencemodule.h"
-#include "module/minkowskimodule.h"
-#include "module/glidemodule.h"
-#include "module/linearextrudemodule.h"
-#include "module/hullmodule.h"
-#include "module/rotatemodule.h"
-#include "module/mirrormodule.h"
-#include "module/scalemodule.h"
-#include "module/shearmodule.h"
-#include "module/spheremodule.h"
-#include "module/childmodule.h"
-#include "module/boundsmodule.h"
-#include "module/subdivisionmodule.h"
-#include "module/offsetmodule.h"
-#include "module/outlinemodule.h"
-#include "module/importmodule.h"
-
-#include "function/sqrtfunction.h"
-#include "function/sumfunction.h"
-#include "function/randfunction.h"
-
 #include "unionnode.h"
+#include "builtincreator.h"
+#include "module/importmodule.h"
 
 TreeEvaluator::TreeEvaluator(QTextStream& s) : output(s)
 {
@@ -67,54 +31,6 @@ TreeEvaluator::TreeEvaluator(QTextStream& s) : output(s)
 
 TreeEvaluator::~TreeEvaluator()
 {
-}
-
-QList<Declaration*> TreeEvaluator::builtins;
-
-/**
-  Add the builtins to a static container so that they
-  can be reused in subsequent evaluators.
-*/
-void TreeEvaluator::initBuiltins(Script* sc)
-{
-	if(TreeEvaluator::builtins.empty()) {
-		TreeEvaluator::builtins.append(new EchoModule(output));
-		TreeEvaluator::builtins.append(new CubeModule());
-		TreeEvaluator::builtins.append(new SquareModule());
-		TreeEvaluator::builtins.append(new CylinderModule());
-		TreeEvaluator::builtins.append(new CylinderSurfaceModule());
-		TreeEvaluator::builtins.append(new PrismModule());
-		TreeEvaluator::builtins.append(new CircleModule());
-		TreeEvaluator::builtins.append(new PolyhedronModule());
-		TreeEvaluator::builtins.append(new PolylineModule());
-		TreeEvaluator::builtins.append(new BezierSurfaceModule());
-		TreeEvaluator::builtins.append(new DifferenceModule());
-		TreeEvaluator::builtins.append(new UnionModule());
-		TreeEvaluator::builtins.append(new GroupModule());
-		TreeEvaluator::builtins.append(new IntersectionModule());
-		TreeEvaluator::builtins.append(new TranslateModule());
-		TreeEvaluator::builtins.append(new SymmetricDifferenceModule());
-		TreeEvaluator::builtins.append(new MinkowskiModule());
-		TreeEvaluator::builtins.append(new GlideModule());
-		TreeEvaluator::builtins.append(new HullModule());
-		TreeEvaluator::builtins.append(new LinearExtrudeModule());
-		TreeEvaluator::builtins.append(new RotateModule());
-		TreeEvaluator::builtins.append(new MirrorModule());
-		TreeEvaluator::builtins.append(new ScaleModule());
-		TreeEvaluator::builtins.append(new ShearModule());
-		TreeEvaluator::builtins.append(new SphereModule());
-		TreeEvaluator::builtins.append(new ChildModule());
-		TreeEvaluator::builtins.append(new BoundsModule());
-		TreeEvaluator::builtins.append(new SubDivisionModule());
-		TreeEvaluator::builtins.append(new OffsetModule());
-		TreeEvaluator::builtins.append(new OutlineModule());
-
-		TreeEvaluator::builtins.append(new SqrtFunction());
-		TreeEvaluator::builtins.append(new SumFunction());
-		TreeEvaluator::builtins.append(new RandFunction());
-	}
-	foreach(Declaration* d,TreeEvaluator::builtins)
-		sc->addDeclaration(d);
 }
 
 void TreeEvaluator::startContext(Scope* scp)
@@ -512,7 +428,8 @@ void TreeEvaluator::visit(CodeDoc*)
 
 void TreeEvaluator::visit(Script* sc)
 {
-	initBuiltins(sc);
+	BuiltinCreator* b=BuiltinCreator::getInstance(output);
+	b->initBuiltins(sc);
 
 	startContext(sc);
 	foreach(Declaration* d, sc->getDeclarations()) {
@@ -525,17 +442,7 @@ void TreeEvaluator::visit(Script* sc)
 
 	rootNode=createUnion(childnodes);
 
-	saveBuiltins(sc);
-}
-
-/**
-  To ensure that the builtins do not get deleted when the script
-  is deleted we remove them from the script.
-*/
-void TreeEvaluator::saveBuiltins(Script* sc)
-{
-	foreach(Declaration* d,TreeEvaluator::builtins)
-		sc->removeDeclaration(d);
+	b->saveBuiltins(sc);
 }
 
 Node* TreeEvaluator::getRootNode() const
