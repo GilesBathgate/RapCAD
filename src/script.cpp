@@ -40,7 +40,7 @@ QList<Declaration*> Script::getDeclarations() const
 
 void Script::addDeclaration(Declaration* dec)
 {
-	declarations.append(dec);
+	declarations.prepend(dec);
 }
 
 void Script::removeDeclaration(Declaration* dec)
