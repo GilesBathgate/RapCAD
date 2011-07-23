@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "evaluator.h"
+#include "treeevaluator.h"
 #include "vectorvalue.h"
 #include "rangevalue.h"
 
@@ -59,65 +59,65 @@
 
 #include "unionnode.h"
 
-Evaluator::Evaluator(QTextStream& s) : output(s)
+TreeEvaluator::TreeEvaluator(QTextStream& s) : output(s)
 {
 	context=NULL;
 	rootNode=NULL;
 }
 
-Evaluator::~Evaluator()
+TreeEvaluator::~TreeEvaluator()
 {
 }
 
-QList<Declaration*> Evaluator::builtins;
+QList<Declaration*> TreeEvaluator::builtins;
 
 /**
   Add the builtins to a static container so that they
   can be reused in subsequent evaluators.
 */
-void Evaluator::initBuiltins(Script* sc)
+void TreeEvaluator::initBuiltins(Script* sc)
 {
-	if(Evaluator::builtins.empty()) {
-		Evaluator::builtins.append(new EchoModule(output));
-		Evaluator::builtins.append(new CubeModule());
-		Evaluator::builtins.append(new SquareModule());
-		Evaluator::builtins.append(new CylinderModule());
-		Evaluator::builtins.append(new CylinderSurfaceModule());
-		Evaluator::builtins.append(new PrismModule());
-		Evaluator::builtins.append(new CircleModule());
-		Evaluator::builtins.append(new PolyhedronModule());
-		Evaluator::builtins.append(new PolylineModule());
-		Evaluator::builtins.append(new BezierSurfaceModule());
-		Evaluator::builtins.append(new DifferenceModule());
-		Evaluator::builtins.append(new UnionModule());
-		Evaluator::builtins.append(new GroupModule());
-		Evaluator::builtins.append(new IntersectionModule());
-		Evaluator::builtins.append(new TranslateModule());
-		Evaluator::builtins.append(new SymmetricDifferenceModule());
-		Evaluator::builtins.append(new MinkowskiModule());
-		Evaluator::builtins.append(new GlideModule());
-		Evaluator::builtins.append(new HullModule());
-		Evaluator::builtins.append(new LinearExtrudeModule());
-		Evaluator::builtins.append(new RotateModule());
-		Evaluator::builtins.append(new MirrorModule());
-		Evaluator::builtins.append(new ScaleModule());
-		Evaluator::builtins.append(new ShearModule());
-		Evaluator::builtins.append(new SphereModule());
-		Evaluator::builtins.append(new ChildModule());
-		Evaluator::builtins.append(new BoundsModule());
-		Evaluator::builtins.append(new SubDivisionModule());
-		Evaluator::builtins.append(new OffsetModule());
-		Evaluator::builtins.append(new OutlineModule());
+	if(TreeEvaluator::builtins.empty()) {
+		TreeEvaluator::builtins.append(new EchoModule(output));
+		TreeEvaluator::builtins.append(new CubeModule());
+		TreeEvaluator::builtins.append(new SquareModule());
+		TreeEvaluator::builtins.append(new CylinderModule());
+		TreeEvaluator::builtins.append(new CylinderSurfaceModule());
+		TreeEvaluator::builtins.append(new PrismModule());
+		TreeEvaluator::builtins.append(new CircleModule());
+		TreeEvaluator::builtins.append(new PolyhedronModule());
+		TreeEvaluator::builtins.append(new PolylineModule());
+		TreeEvaluator::builtins.append(new BezierSurfaceModule());
+		TreeEvaluator::builtins.append(new DifferenceModule());
+		TreeEvaluator::builtins.append(new UnionModule());
+		TreeEvaluator::builtins.append(new GroupModule());
+		TreeEvaluator::builtins.append(new IntersectionModule());
+		TreeEvaluator::builtins.append(new TranslateModule());
+		TreeEvaluator::builtins.append(new SymmetricDifferenceModule());
+		TreeEvaluator::builtins.append(new MinkowskiModule());
+		TreeEvaluator::builtins.append(new GlideModule());
+		TreeEvaluator::builtins.append(new HullModule());
+		TreeEvaluator::builtins.append(new LinearExtrudeModule());
+		TreeEvaluator::builtins.append(new RotateModule());
+		TreeEvaluator::builtins.append(new MirrorModule());
+		TreeEvaluator::builtins.append(new ScaleModule());
+		TreeEvaluator::builtins.append(new ShearModule());
+		TreeEvaluator::builtins.append(new SphereModule());
+		TreeEvaluator::builtins.append(new ChildModule());
+		TreeEvaluator::builtins.append(new BoundsModule());
+		TreeEvaluator::builtins.append(new SubDivisionModule());
+		TreeEvaluator::builtins.append(new OffsetModule());
+		TreeEvaluator::builtins.append(new OutlineModule());
 
-		Evaluator::builtins.append(new SqrtFunction());
-		Evaluator::builtins.append(new SumFunction());
-		Evaluator::builtins.append(new RandFunction());
+		TreeEvaluator::builtins.append(new SqrtFunction());
+		TreeEvaluator::builtins.append(new SumFunction());
+		TreeEvaluator::builtins.append(new RandFunction());
 	}
-	foreach(Declaration* d,Evaluator::builtins)
+	foreach(Declaration* d,TreeEvaluator::builtins)
 		sc->addDeclaration(d);
 }
 
-void Evaluator::startContext(Scope* scp)
+void TreeEvaluator::startContext(Scope* scp)
 {
 	Context* parent = context;
 	context = new Context(output);
@@ -126,13 +126,13 @@ void Evaluator::startContext(Scope* scp)
 	contextStack.push(context);
 }
 
-void Evaluator::finishContext()
+void TreeEvaluator::finishContext()
 {
 	contextStack.pop();
 	context=contextStack.top();
 }
 
-void Evaluator::visit(ModuleScope* scp)
+void TreeEvaluator::visit(ModuleScope* scp)
 {
 	QList<Value*> arguments = context->arguments;
 	QList<Value*> parameters = context->parameters;
@@ -158,7 +158,7 @@ void Evaluator::visit(ModuleScope* scp)
 	context->currentNodes.append(n);
 }
 
-void Evaluator::visit(Instance* inst)
+void TreeEvaluator::visit(Instance* inst)
 {
 	QString name = inst->getName();
 
@@ -199,17 +199,17 @@ void Evaluator::visit(Instance* inst)
 	}
 }
 
-void Evaluator::visit(Module* mod)
+void TreeEvaluator::visit(Module* mod)
 {
 	context->addModule(mod);
 }
 
-void Evaluator::visit(Function* func)
+void TreeEvaluator::visit(Function* func)
 {
 	context->addFunction(func);
 }
 
-void Evaluator::visit(FunctionScope* scp)
+void TreeEvaluator::visit(FunctionScope* scp)
 {
 	QList<Value*> arguments = context->arguments;
 	QList<Value*> parameters = context->parameters;
@@ -239,13 +239,13 @@ void Evaluator::visit(FunctionScope* scp)
 	context->currentValue=v;
 }
 
-void Evaluator::visit(CompoundStatement* stmt)
+void TreeEvaluator::visit(CompoundStatement* stmt)
 {
 	foreach(Statement* s, stmt->getChildren())
 		s->accept(*this);
 }
 
-void Evaluator::visit(IfElseStatement* ifelse)
+void TreeEvaluator::visit(IfElseStatement* ifelse)
 {
 	ifelse->getExpression()->accept(*this);
 	Value* v=context->currentValue;
@@ -258,7 +258,7 @@ void Evaluator::visit(IfElseStatement* ifelse)
 	}
 }
 
-void Evaluator::visit(ForStatement* forstmt)
+void TreeEvaluator::visit(ForStatement* forstmt)
 {
 	foreach(Argument* arg, forstmt->getArguments())
 		arg->accept(*this);
@@ -279,7 +279,7 @@ void Evaluator::visit(ForStatement* forstmt)
 	delete i;
 }
 
-void Evaluator::visit(Parameter* param)
+void TreeEvaluator::visit(Parameter* param)
 {
 	QString name = param->getName();
 
@@ -296,7 +296,7 @@ void Evaluator::visit(Parameter* param)
 	context->parameters.append(v);
 }
 
-void Evaluator::visit(BinaryExpression* exp)
+void TreeEvaluator::visit(BinaryExpression* exp)
 {
 	exp->getLeft()->accept(*this);
 	Value* left=context->currentValue;
@@ -309,7 +309,7 @@ void Evaluator::visit(BinaryExpression* exp)
 	context->currentValue=result;
 }
 
-void Evaluator::visit(Argument* arg)
+void TreeEvaluator::visit(Argument* arg)
 {
 	QString name;
 	Variable* var = arg->getVariable();
@@ -327,7 +327,7 @@ void Evaluator::visit(Argument* arg)
 	context->arguments.append(v);
 }
 
-void Evaluator::visit(AssignStatement* stmt)
+void TreeEvaluator::visit(AssignStatement* stmt)
 {
 	stmt->getVariable()->accept(*this);
 	QString name = context->currentName;
@@ -370,7 +370,7 @@ void Evaluator::visit(AssignStatement* stmt)
 	}
 }
 
-void Evaluator::visit(VectorExpression* exp)
+void TreeEvaluator::visit(VectorExpression* exp)
 {
 	QList<Value*> childvalues;
 	foreach(Expression* e, exp->getChildren()) {
@@ -382,7 +382,7 @@ void Evaluator::visit(VectorExpression* exp)
 	context->currentValue=v;
 }
 
-void Evaluator::visit(RangeExpression* exp)
+void TreeEvaluator::visit(RangeExpression* exp)
 {
 	exp->getStart()->accept(*this);
 	Value* start = context->currentValue;
@@ -401,7 +401,7 @@ void Evaluator::visit(RangeExpression* exp)
 	context->currentValue=result;
 }
 
-void Evaluator::visit(UnaryExpression* exp)
+void TreeEvaluator::visit(UnaryExpression* exp)
 {
 	exp->getExpression()->accept(*this);
 	Value* left=context->currentValue;
@@ -411,14 +411,14 @@ void Evaluator::visit(UnaryExpression* exp)
 	context->currentValue=result;
 }
 
-void Evaluator::visit(ReturnStatement* stmt)
+void TreeEvaluator::visit(ReturnStatement* stmt)
 {
 	Expression* e = stmt->getExpression();
 	e->accept(*this);
 	context->returnValue = context->currentValue;
 }
 
-void Evaluator::visit(TernaryExpression* exp)
+void TreeEvaluator::visit(TernaryExpression* exp)
 {
 	exp->getCondition()->accept(*this);
 	Value* v = context->currentValue;
@@ -429,7 +429,7 @@ void Evaluator::visit(TernaryExpression* exp)
 
 }
 
-void Evaluator::visit(Invocation* stmt)
+void TreeEvaluator::visit(Invocation* stmt)
 {
 	QString name = stmt->getName();
 	Function* func = context->lookupFunction(name);
@@ -454,26 +454,26 @@ void Evaluator::visit(Invocation* stmt)
 	}
 }
 
-void Evaluator::visit(ModuleImport* imp)
+void TreeEvaluator::visit(ModuleImport* imp)
 {
 	ImportModule* mod=new ImportModule();
 	mod->setName(imp->getName());
 	context->addModule(mod);
 }
 
-void Evaluator::visit(ScriptImport*)
+void TreeEvaluator::visit(ScriptImport*)
 {
 	//TODO
 }
 
-void Evaluator::visit(Literal* lit)
+void TreeEvaluator::visit(Literal* lit)
 {
 	Value* v= lit->getValue();
 
 	context->currentValue=v;
 }
 
-void Evaluator::visit(Variable* var)
+void TreeEvaluator::visit(Variable* var)
 {
 	QString name = var->getName();
 	Variable::Type_e oldType=var->getType();
@@ -495,7 +495,7 @@ void Evaluator::visit(Variable* var)
 	context->currentName=name;
 }
 
-Node* Evaluator::createUnion(QList<Node*> childnodes)
+Node* TreeEvaluator::createUnion(QList<Node*> childnodes)
 {
 	if(childnodes.size()==1) {
 		return childnodes.at(0);
@@ -506,11 +506,11 @@ Node* Evaluator::createUnion(QList<Node*> childnodes)
 	}
 }
 
-void Evaluator::visit(CodeDoc*)
+void TreeEvaluator::visit(CodeDoc*)
 {
 }
 
-void Evaluator::visit(Script* sc)
+void TreeEvaluator::visit(Script* sc)
 {
 	initBuiltins(sc);
 
@@ -532,13 +532,13 @@ void Evaluator::visit(Script* sc)
   To ensure that the builtins do not get deleted when the script
   is deleted we remove them from the script.
 */
-void Evaluator::saveBuiltins(Script* sc)
+void TreeEvaluator::saveBuiltins(Script* sc)
 {
-	foreach(Declaration* d,Evaluator::builtins)
+	foreach(Declaration* d,TreeEvaluator::builtins)
 		sc->removeDeclaration(d);
 }
 
-Node* Evaluator::getRootNode() const
+Node* TreeEvaluator::getRootNode() const
 {
 	return rootNode;
 }

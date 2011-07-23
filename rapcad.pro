@@ -103,7 +103,7 @@ SOURCES += \
 	src/script.cpp \
 	src/syntaxhighlighter.cpp \
 	src/tokenbuilder.cpp \
-	src/evaluator.cpp \
+	src/treeevaluator.cpp \
 	src/context.cpp \
 	src/value.cpp \
 	src/module/echomodule.cpp \
@@ -225,7 +225,7 @@ HEADERS  += \
 	src/syntaxhighlighter.h \
 	src/tokenbuilder.h \
 	src/abstracttokenbuilder.h \
-	src/evaluator.h \
+	src/treeevaluator.h \
 	src/context.h \
 	src/value.h \
 	src/module/echomodule.h \

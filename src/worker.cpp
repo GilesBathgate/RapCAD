@@ -20,7 +20,7 @@
 #include "worker.h"
 #include "script.h"
 #include "treeprinter.h"
-#include "evaluator.h"
+#include "treeevaluator.h"
 #include "nodeprinter.h"
 #include "nodeevaluator.h"
 
@@ -60,7 +60,7 @@ void Worker::doWork()
 		output.flush();
 	}
 
-	Evaluator e(output);
+	TreeEvaluator e(output);
 	s->accept(e);
 	delete s;
 	output.flush();

@@ -16,8 +16,8 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef EVALUATOR_H
-#define EVALUATOR_H
+#ifndef TREEEVALUATOR_H
+#define TREEEVALUATOR_H
 
 #include <QStack>
 #include <QTextStream>
@@ -48,11 +48,11 @@
 #include "context.h"
 #include "value.h"
 
-class Evaluator : public TreeVisitor
+class TreeEvaluator : public TreeVisitor
 {
 public:
-	Evaluator(QTextStream&);
-	~Evaluator();
+	TreeEvaluator(QTextStream&);
+	~TreeEvaluator();
 	void visit(Module*);
 	void visit(ModuleScope*);
 	void visit(Instance*);
@@ -93,4 +93,4 @@ private:
 	static QList<Declaration*> builtins;
 };
 
-#endif // EVALUATOR_H
+#endif // TREEEVALUATOR_H
