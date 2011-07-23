@@ -51,6 +51,7 @@
 #include "module/subdivisionmodule.h"
 #include "module/offsetmodule.h"
 #include "module/outlinemodule.h"
+#include "module/importmodule.h"
 
 #include "function/sqrtfunction.h"
 #include "function/sumfunction.h"
@@ -453,9 +454,11 @@ void Evaluator::visit(Invocation* stmt)
 	}
 }
 
-void Evaluator::visit(ModuleImport*)
+void Evaluator::visit(ModuleImport* imp)
 {
-	//TODO
+	ImportModule* mod=new ImportModule();
+	mod->setName(imp->getName());
+	context->addModule(mod);
 }
 
 void Evaluator::visit(ScriptImport*)

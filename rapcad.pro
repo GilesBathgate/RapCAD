@@ -184,7 +184,8 @@ SOURCES += \
 	src/function/randfunction.cpp \
 	src/module/cylindersurfacemodule.cpp \
 	src/module/outlinemodule.cpp \
-	src/outlinenode.cpp
+	src/outlinenode.cpp \
+	src/module/importmodule.cpp
 
 
 HEADERS  += \
@@ -313,7 +314,8 @@ HEADERS  += \
 	src/function/randfunction.h \
 	src/module/cylindersurfacemodule.h \
 	src/module/outlinemodule.h \
-	src/outlinenode.h
+	src/outlinenode.h \
+	src/module/importmodule.h
 
 FORMS += \
 	src/mainwindow.ui \
