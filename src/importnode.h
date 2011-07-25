@@ -16,21 +16,20 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef IMPORTMODULE_H
-#define IMPORTMODULE_H
+#ifndef IMPORTNODE_H
+#define IMPORTNODE_H
 
 #include <QString>
-#include "module.h"
-#include "context.h"
+#include "node.h"
 
-class ImportModule : public Module
+class ImportNode : public Node
 {
 public:
-	ImportModule();
-	Node* evaluate(Context*,QList<Node*>);
-	void setImport(QString);
+	ImportNode(QString);
+	void accept(NodeVisitor&);
+	QString getImport();
 private:
 	QString import;
 };
 
-#endif // IMPORTMODULE_H
+#endif // IMPORTNODE_H

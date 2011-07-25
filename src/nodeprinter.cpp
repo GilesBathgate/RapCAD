@@ -125,6 +125,11 @@ void NodePrinter::visit(OutlineNode* n)
 	printOperation(n,"outline");
 }
 
+void NodePrinter::visit(ImportNode* n)
+{
+	printOperation(n,"import");
+}
+
 void NodePrinter::printOperation(Node* n,QString name)
 {
 	result << name;

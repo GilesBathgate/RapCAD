@@ -373,7 +373,9 @@ void TreeEvaluator::visit(Invocation* stmt)
 void TreeEvaluator::visit(ModuleImport* imp)
 {
 	ImportModule* mod=new ImportModule();
+	mod->setImport(imp->getImport());
 	mod->setName(imp->getName());
+	//TODO global import args.
 	context->addModule(mod);
 }
 

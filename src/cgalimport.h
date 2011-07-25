@@ -16,21 +16,17 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef IMPORTMODULE_H
-#define IMPORTMODULE_H
+#ifndef CGALIMPORT_H
+#define CGALIMPORT_H
 
 #include <QString>
-#include "module.h"
-#include "context.h"
+#include "cgalprimitive.h"
 
-class ImportModule : public Module
+class CGALImport
 {
 public:
-	ImportModule();
-	Node* evaluate(Context*,QList<Node*>);
-	void setImport(QString);
-private:
-	QString import;
+	CGALImport();
+	CGALPrimitive* importOFF(QString);
 };
 
-#endif // IMPORTMODULE_H
+#endif // CGALIMPORT_H

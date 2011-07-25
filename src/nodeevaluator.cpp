@@ -19,6 +19,7 @@
 #include <QVector>
 #include <CGAL/Subdivision_method_3.h>
 #include "nodeevaluator.h"
+#include "cgalimport.h"
 
 NodeEvaluator::NodeEvaluator(QTextStream& s) : output(s)
 {
@@ -274,6 +275,12 @@ void NodeEvaluator::visit(OutlineNode* op)
 	pl.append(fp);
 
 	result=new CGALPrimitive(pl);
+}
+
+void NodeEvaluator::visit(ImportNode* op)
+{
+	CGALImport i;
+	result=i.importOFF(op->getImport());
 }
 
 void NodeEvaluator::visit(TransformationNode* tr)

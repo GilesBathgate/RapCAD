@@ -17,6 +17,7 @@
  */
 
 #include "importmodule.h"
+#include "importnode.h"
 
 ImportModule::ImportModule()
 {
@@ -24,4 +25,11 @@ ImportModule::ImportModule()
 
 Node* ImportModule::evaluate(Context*,QList<Node*>)
 {
+	//TODO instance specific args
+	return new ImportNode(import);
+}
+
+void ImportModule::setImport(QString imp)
+{
+	import = imp;
 }

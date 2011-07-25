@@ -186,7 +186,9 @@ SOURCES += \
 	src/module/outlinemodule.cpp \
 	src/outlinenode.cpp \
 	src/module/importmodule.cpp \
-	src/builtincreator.cpp
+	src/builtincreator.cpp \
+	src/importnode.cpp \
+	src/cgalimport.cpp
 
 
 HEADERS  += \
@@ -317,7 +319,9 @@ HEADERS  += \
 	src/module/outlinemodule.h \
 	src/outlinenode.h \
 	src/module/importmodule.h \
-	src/builtincreator.h
+	src/builtincreator.h \
+	src/importnode.h \
+	src/cgalimport.h
 
 FORMS += \
 	src/mainwindow.ui \

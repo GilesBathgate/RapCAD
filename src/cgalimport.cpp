@@ -16,21 +16,19 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef IMPORTMODULE_H
-#define IMPORTMODULE_H
+#include "cgalimport.h"
+#include <CGAL/IO/Polyhedron_iostream.h>
 
-#include <QString>
-#include "module.h"
-#include "context.h"
-
-class ImportModule : public Module
+CGALImport::CGALImport()
 {
-public:
-	ImportModule();
-	Node* evaluate(Context*,QList<Node*>);
-	void setImport(QString);
-private:
-	QString import;
-};
+}
 
-#endif // IMPORTMODULE_H
+CGALPrimitive* CGALImport::importOFF(QString filename)
+{
+	CGAL::Polyhedron3 poly;
+	std::ifstream file(filename.toLocal8Bit().constData());
+	file >> poly;
+	file.close();
+
+	return new CGALPrimitive(poly);
+}
