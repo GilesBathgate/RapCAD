@@ -1,17 +1,29 @@
+0.3.0
+  * Basic support for importing off files as modules, and support code
+    that will facilitate importing stl's dxf's etc.
+  * Implemented 'outline' module which strokes an outline around a polygon, and
+    a 'cylinder_surface' which creates the sides of a cylinder with no top or
+    bottom.
+  * Added a 'rands' function that returns a vector of random numbers.
+  * Implemented actions to show/hide areas of the GUI. Window position, size
+    visibility, and default viewport is saved across sessions.
+  * Tab name now reflects the loaded file and 'New' button now creates new tabs.
+  * Added application icon and toolbar/menu icons for Windows and Mac OS X.
+
 0.2.0
-  Optimisation to 'linear_extrude' module.
-  Implemented OFF and STL export.
-  Export to PNG using view screen capture.
-  Added 'bezier_surface' and 'prism' modules.
-  New Preferences Dialog, and Preferences which are saved across sessions.
-  Improved 'for' so that the variables inside are not in a seperate context.
-  Basic types can be cast to vectors allowing for cube(10) to work.
-  Better handling when arguments are not supplied to modules.
-  Renamed 'inset' module as 'offset', must now supply negative values.
-  Support for file associations.
-  MacOS X support.
-  Added first builtin functions 'sqrt' and 'sum'.
+  * Optimisation to 'linear_extrude' module.
+  * Implemented OFF and STL export.
+  * Export to PNG using view screen capture.
+  * Added 'bezier_surface' and 'prism' modules.
+  * New Preferences Dialog, and Preferences which are saved across sessions.
+  * Improved 'for' so that the variables inside are not in a seperate context.
+  * Basic types can be cast to vectors allowing for cube(10) to work.
+  * Better handling when arguments are not supplied to modules.
+  * Renamed 'inset' module as 'offset', must now supply negative values.
+  * Support for file associations.
+  * MacOS X support.
+  * Added first builtin functions 'sqrt' and 'sum'.
 
 0.1.0
 
-  Initial Release
+  * Initial Release
