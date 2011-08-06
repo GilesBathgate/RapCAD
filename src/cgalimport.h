@@ -20,13 +20,17 @@
 #define CGALIMPORT_H
 
 #include <QString>
+#include <QFileInfo>
+#include <QTextStream>
 #include "cgalprimitive.h"
 
 class CGALImport
 {
 public:
 	CGALImport();
-	CGALPrimitive* importOFF(QString);
+	CGALPrimitive* import(QString,QTextStream&);
+private:
+	CGALPrimitive* importOFF(QFileInfo);
 };
 
 #endif // CGALIMPORT_H

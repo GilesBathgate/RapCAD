@@ -23,10 +23,22 @@ CGALImport::CGALImport()
 {
 }
 
-CGALPrimitive* CGALImport::importOFF(QString filename)
+CGALPrimitive* CGALImport::import(QString filename, QTextStream& output)
+{
+	QFileInfo file(filename);
+	output << "Info: Importing '" << file.absoluteFilePath() << "'\n";
+	output.flush();
+	if(file.completeSuffix() == "off")
+		return importOFF(file);
+
+	output << "Warning: Unknown import type '" << file.completeSuffix() << "'\n";
+	return NULL;
+}
+
+CGALPrimitive* CGALImport::importOFF(QFileInfo fileinfo)
 {
 	CGAL::Polyhedron3 poly;
-	std::ifstream file(filename.toLocal8Bit().constData());
+	std::ifstream file(fileinfo.absoluteFilePath().toLocal8Bit().constData());
 	file >> poly;
 	file.close();
 
