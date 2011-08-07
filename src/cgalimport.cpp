@@ -19,11 +19,11 @@
 #include "cgalimport.h"
 #include <CGAL/IO/Polyhedron_iostream.h>
 
-CGALImport::CGALImport()
+CGALImport::CGALImport(QTextStream& out) : output(out)
 {
 }
 
-CGALPrimitive* CGALImport::import(QString filename, QTextStream& output)
+CGALPrimitive* CGALImport::import(QString filename)
 {
 	QFileInfo file(filename);
 	output << "Info: Importing '" << file.absoluteFilePath() << "'\n";

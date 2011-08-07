@@ -27,10 +27,11 @@
 class CGALImport
 {
 public:
-	CGALImport();
-	CGALPrimitive* import(QString,QTextStream&);
+	CGALImport(QTextStream&);
+	CGALPrimitive* import(QString);
 private:
 	CGALPrimitive* importOFF(QFileInfo);
+	QTextStream& output;
 };
 
 #endif // CGALIMPORT_H

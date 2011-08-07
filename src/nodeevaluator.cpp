@@ -279,8 +279,8 @@ void NodeEvaluator::visit(OutlineNode* op)
 
 void NodeEvaluator::visit(ImportNode* op)
 {
-	CGALImport i;
-	result=i.import(op->getImport(),output);
+	CGALImport i(output);
+	result=i.import(op->getImport());
 }
 
 void NodeEvaluator::visit(TransformationNode* tr)
