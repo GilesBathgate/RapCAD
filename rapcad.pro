@@ -188,7 +188,9 @@ SOURCES += \
 	src/module/importmodule.cpp \
 	src/builtincreator.cpp \
 	src/importnode.cpp \
-	src/cgalimport.cpp
+	src/cgalimport.cpp \
+	src/module/resizemodule.cpp \
+	src/resizenode.cpp
 
 
 HEADERS  += \
@@ -321,7 +323,9 @@ HEADERS  += \
 	src/module/importmodule.h \
 	src/builtincreator.h \
 	src/importnode.h \
-	src/cgalimport.h
+	src/cgalimport.h \
+	src/module/resizemodule.h \
+	src/resizenode.h
 
 FORMS += \
 	src/mainwindow.ui \

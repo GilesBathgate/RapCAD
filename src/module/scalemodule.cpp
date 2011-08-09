@@ -26,10 +26,10 @@ ScaleModule::ScaleModule() : Module("scale")
 
 Node* ScaleModule::evaluate(Context* ctx,QList<Node*> childs)
 {
-	Point vec;
-	VectorValue* vecVal=dynamic_cast<VectorValue*>(ctx->getArgument(0,"vector"));
-	if(vecVal)
-		vec=vecVal->getPoint();
+	Point size;
+	VectorValue* sizeVal=dynamic_cast<VectorValue*>(ctx->getArgument(0,"size"));
+	if(sizeVal)
+		size=sizeVal->getPoint();
 
 	Point ref;
 	VectorValue* refVal=dynamic_cast<VectorValue*>(ctx->getArgument(1,"reference"));
@@ -37,7 +37,7 @@ Node* ScaleModule::evaluate(Context* ctx,QList<Node*> childs)
 		ref=refVal->getPoint();
 
 	double x=0,y=0,z=0;
-	vec.getXYZ(x,y,z);
+	size.getXYZ(x,y,z);
 
 	double a=0,b=0,c=0;
 	ref.getXYZ(a,b,c);

@@ -37,6 +37,7 @@
 #include "offsetnode.h"
 #include "outlinenode.h"
 #include "importnode.h"
+#include "resizenode.h"
 
 class NodePrinter : public NodeVisitor
 {
@@ -59,6 +60,7 @@ public:
 	void visit(ImportNode*);
 	void printOperation(Node*,QString name);
 	void visit(TransformationNode*);
+	void visit(ResizeNode*);
 private:
 	QTextStream& result;
 };

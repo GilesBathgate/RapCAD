@@ -50,6 +50,7 @@
 #include "module/offsetmodule.h"
 #include "module/outlinemodule.h"
 #include "module/importmodule.h"
+#include "module/resizemodule.h"
 
 #include "function/sqrtfunction.h"
 #include "function/sumfunction.h"
@@ -72,6 +73,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new GroupModule());
 	builtins.append(new IntersectionModule());
 	builtins.append(new TranslateModule());
+	builtins.append(new ResizeModule());
 	builtins.append(new SymmetricDifferenceModule());
 	builtins.append(new MinkowskiModule());
 	builtins.append(new GlideModule());

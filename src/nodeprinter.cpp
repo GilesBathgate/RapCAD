@@ -139,6 +139,11 @@ void NodePrinter::printOperation(Node* n,QString name)
 	result << "}";
 }
 
+void NodePrinter::visit(ResizeNode* n)
+{
+	printOperation(n,"resize");
+}
+
 void NodePrinter::visit(TransformationNode* n)
 {
 	result << "multmatrix([[";

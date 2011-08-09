@@ -295,6 +295,28 @@ void NodeEvaluator::visit(TransformationNode* tr)
 	result->transform(t);
 }
 
+void NodeEvaluator::visit(ResizeNode* n)
+{
+	evaluate(n,Union);
+
+	CGAL::NefPolyhedron3 r=result->getNefPolyhedron();
+	CGALExplorer e(r);
+	CGAL::Bbox_3 b=e.getBounds();
+	Point s=n->getSize();
+	double x,y,z;
+	s.getXYZ(x,y,z);
+	x/=(b.xmax()-b.xmin());
+	y/=(b.ymax()-b.ymin());
+	z/=(b.zmax()-b.zmin());
+
+	CGAL::AffTransformation3 t(
+		x, 0, 0, 0,
+		0, y, 0, 0,
+		0, 0, z, 0, 1);
+
+	result->transform(t);
+}
+
 CGALPrimitive* NodeEvaluator::getResult() const
 {
 	return result;
