@@ -305,9 +305,26 @@ void NodeEvaluator::visit(ResizeNode* n)
 	Point s=n->getSize();
 	double x,y,z;
 	s.getXYZ(x,y,z);
-	x/=(b.xmax()-b.xmin());
-	y/=(b.ymax()-b.ymin());
-	z/=(b.zmax()-b.zmin());
+
+	double autosize=1.0;
+	if(z!=0.0) {
+		z/=(b.zmax()-b.zmin());
+		autosize=z;
+	}
+	if(y!=0.0) {
+		y/=(b.ymax()-b.ymin());
+		autosize=y;
+	}
+	if(x!=0.0) {
+		x/=(b.xmax()-b.xmin());
+		autosize=x;
+	}
+	if(!n->getAutoSize())
+		autosize=1.0;
+
+	if(x==0.0) x=autosize;
+	if(y==0.0) y=autosize;
+	if(z==0.0) z=autosize;
 
 	CGAL::AffTransformation3 t(
 		x, 0, 0, 0,

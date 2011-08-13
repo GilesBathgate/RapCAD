@@ -11,8 +11,11 @@ public:
 	void accept(NodeVisitor&);
 	void setSize(Point);
 	Point getSize();
+	void setAutoSize(bool);
+	bool getAutoSize();
 private:
 	Point size;
+	bool autosize;
 };
 
 #endif // RESIZENODE_H
