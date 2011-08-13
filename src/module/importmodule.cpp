@@ -17,7 +17,7 @@
  */
 
 #include "importmodule.h"
-#include "importnode.h"
+#include "node/importnode.h"
 
 ImportModule::ImportModule()
 {

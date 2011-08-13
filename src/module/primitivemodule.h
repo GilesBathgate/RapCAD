@@ -20,7 +20,8 @@
 #define PRIMITIVEMODULE_H
 
 #include "module.h"
-#include "primitivenode.h"
+#include "polygon.h"
+#include "node/primitivenode.h"
 
 class PrimitiveModule : public Module
 {

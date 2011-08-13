@@ -116,14 +116,14 @@ SOURCES += \
 	src/vectoriterator.cpp \
 	src/rangeiterator.cpp \
 	src/scriptimport.cpp \
-	src/primitivenode.cpp \
+	src/node/primitivenode.cpp \
 	src/module/cubemodule.cpp \
 	src/module/differencemodule.cpp \
 	src/module/polyhedronmodule.cpp \
 	src/module/cylindermodule.cpp \
 	src/module/primitivemodule.cpp \
 	src/node.cpp \
-	src/transformationnode.cpp \
+	src/node/transformationnode.cpp \
 	src/glview.cpp \
 	src/cgalrenderer.cpp \
 	src/point.cpp \
@@ -132,19 +132,19 @@ SOURCES += \
 	src/texteditiodevice.cpp \
 	src/backgroundworker.cpp \
 	src/cgalbuilder.cpp \
-	src/differencenode.cpp \
-	src/unionnode.cpp \
+	src/node/differencenode.cpp \
+	src/node/unionnode.cpp \
 	src/module/unionmodule.cpp \
 	src/module/intersectionmodule.cpp \
-	src/intersectionnode.cpp \
+	src/node/intersectionnode.cpp \
 	src/module/translatemodule.cpp \
 	src/module/symmetricdifferencemodule.cpp \
-	src/symmetricdifferencenode.cpp \
+	src/node/symmetricdifferencenode.cpp \
 	src/cgalprimitive.cpp \
 	src/module/squaremodule.cpp \
 	src/module/circlemodule.cpp \
 	src/module/minkowskimodule.cpp \
-	src/minkowskinode.cpp \
+	src/node/minkowskinode.cpp \
 	src/module/rotatemodule.cpp \
 	src/module/mirrormodule.cpp \
 	src/module/scalemodule.cpp \
@@ -160,19 +160,19 @@ SOURCES += \
 	src/linenumberarea.cpp \
 	src/cgalexplorer.cpp \
 	src/module/hullmodule.cpp \
-	src/hullnode.cpp \
+	src/node/hullnode.cpp \
 	src/module/linearextrudemodule.cpp \
-	src/linearextrudenode.cpp \
+	src/node/linearextrudenode.cpp \
 	src/module/boundsmodule.cpp \
-	src/boundsnode.cpp \
+	src/node/boundsnode.cpp \
 	src/module/subdivisionmodule.cpp \
-	src/subdivisionnode.cpp \
+	src/node/subdivisionnode.cpp \
 	src/module/offsetmodule.cpp \
-	src/offsetnode.cpp \
+	src/node/offsetnode.cpp \
 	src/module/polylinemodule.cpp \
-	src/polylinenode.cpp \
+	src/node/polylinenode.cpp \
 	src/module/glidemodule.cpp \
-	src/glidenode.cpp \
+	src/node/glidenode.cpp \
 	src/cgalpolygon.cpp \
 	src/module/beziersurfacemodule.cpp \
 	src/preferencesdialog.cpp \
@@ -184,13 +184,13 @@ SOURCES += \
 	src/function/randfunction.cpp \
 	src/module/cylindersurfacemodule.cpp \
 	src/module/outlinemodule.cpp \
-	src/outlinenode.cpp \
+	src/node/outlinenode.cpp \
 	src/module/importmodule.cpp \
 	src/builtincreator.cpp \
-	src/importnode.cpp \
+	src/node/importnode.cpp \
 	src/cgalimport.cpp \
 	src/module/resizemodule.cpp \
-	src/resizenode.cpp
+	src/node/resizenode.cpp
 
 
 HEADERS  += \
@@ -246,14 +246,14 @@ HEADERS  += \
 	src/rangeiterator.h \
 	src/scriptimport.h \
 	src/cgal.h \
-	src/primitivenode.h \
+	src/node/primitivenode.h \
 	src/module/cubemodule.h \
 	src/module/differencemodule.h \
 	src/module/polyhedronmodule.h \
 	src/module/cylindermodule.h \
 	src/module/primitivemodule.h \
 	src/node.h \
-	src/transformationnode.h \
+	src/node/transformationnode.h \
 	src/GLView.h \
 	src/cgalrenderer.h \
 	contrib/OGL_helper.h \
@@ -267,19 +267,19 @@ HEADERS  += \
 	src/texteditiodevice.h \
 	src/backgroundworker.h \
 	src/cgalbuilder.h \
-	src/differencenode.h \
-	src/unionnode.h \
+	src/node/differencenode.h \
+	src/node/unionnode.h \
 	src/module/unionmodule.h \
 	src/module/intersectionmodule.h \
-	src/intersectionnode.h \
+	src/node/intersectionnode.h \
 	src/module/translatemodule.h \
 	src/module/symmetricdifferencemodule.h \
-	src/symmetricdifferencenode.h \
+	src/node/symmetricdifferencenode.h \
 	src/cgalprimitive.h \
 	src/module/squaremodule.h \
 	src/module/circlemodule.h \
 	src/module/minkowskimodule.h \
-	src/minkowskinode.h \
+	src/node/minkowskinode.h \
 	src/module/rotatemodule.h \
 	src/module/mirrormodule.h \
 	src/module/scalemodule.h \
@@ -295,19 +295,19 @@ HEADERS  += \
 	src/linenumberarea.h \
 	src/cgalexplorer.h \
 	src/module/hullmodule.h \
-	src/hullnode.h \
+	src/node/hullnode.h \
 	src/module/linearextrudemodule.h \
-	src/linearextrudenode.h \
+	src/node/linearextrudenode.h \
 	src/module/boundsmodule.h \
-	src/boundsnode.h \
+	src/node/boundsnode.h \
 	src/module/subdivisionmodule.h \
-	src/subdivisionnode.h \
+	src/node/subdivisionnode.h \
 	src/module/offsetmodule.h \
-	src/offsetnode.h \
+	src/node/offsetnode.h \
 	src/module/polylinemodule.h \
-	src/polylinenode.h \
+	src/node/polylinenode.h \
 	src/module/glidemodule.h \
-	src/glidenode.h \
+	src/node/glidenode.h \
 	src/cgalpolygon.h \
 	src/module/beziersurfacemodule.h \
 	src/preferencesdialog.h \
@@ -319,13 +319,13 @@ HEADERS  += \
 	src/function/randfunction.h \
 	src/module/cylindersurfacemodule.h \
 	src/module/outlinemodule.h \
-	src/outlinenode.h \
+	src/node/outlinenode.h \
 	src/module/importmodule.h \
 	src/builtincreator.h \
-	src/importnode.h \
+	src/node/importnode.h \
 	src/cgalimport.h \
 	src/module/resizemodule.h \
-	src/resizenode.h
+	src/node/resizenode.h
 
 FORMS += \
 	src/mainwindow.ui \

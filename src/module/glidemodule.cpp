@@ -17,7 +17,7 @@
  */
 
 #include "glidemodule.h"
-#include "glidenode.h"
+#include "node/glidenode.h"
 #include "value.h"
 
 GlideModule::GlideModule() : Module("glide")

@@ -1,5 +1,5 @@
 #include "offsetmodule.h"
-#include "offsetnode.h"
+#include "node/offsetnode.h"
 #include "numbervalue.h"
 
 OffsetModule::OffsetModule() : Module("offset")

@@ -17,7 +17,7 @@
  */
 
 #include "outlinemodule.h"
-#include "outlinenode.h"
+#include "node/outlinenode.h"
 
 OutlineModule::OutlineModule() : Module("outline")
 {

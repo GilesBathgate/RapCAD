@@ -17,7 +17,7 @@
  */
 
 #include "hullmodule.h"
-#include "hullnode.h"
+#include "node/hullnode.h"
 
 HullModule::HullModule() : Module("hull")
 {

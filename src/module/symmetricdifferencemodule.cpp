@@ -17,7 +17,7 @@
  */
 
 #include "symmetricdifferencemodule.h"
-#include "symmetricdifferencenode.h"
+#include "node/symmetricdifferencenode.h"
 
 SymmetricDifferenceModule::SymmetricDifferenceModule() : Module("symmetric_difference")
 {

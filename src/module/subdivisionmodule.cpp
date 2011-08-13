@@ -1,5 +1,5 @@
 #include "subdivisionmodule.h"
-#include "subdivisionnode.h"
+#include "node/subdivisionnode.h"
 #include "numbervalue.h"
 
 SubDivisionModule::SubDivisionModule() : Module("subdiv")

@@ -19,7 +19,7 @@
 #include "translatemodule.h"
 #include "context.h"
 #include "vectorvalue.h"
-#include "transformationnode.h"
+#include "node/transformationnode.h"
 
 TranslateModule::TranslateModule() : Module("translate")
 {

@@ -17,7 +17,7 @@
  */
 
 #include "boundsmodule.h"
-#include "boundsnode.h"
+#include "node/boundsnode.h"
 
 BoundsModule::BoundsModule() : Module("bounds")
 {

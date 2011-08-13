@@ -17,7 +17,7 @@
  */
 
 #include "linearextrudemodule.h"
-#include "linearextrudenode.h"
+#include "node/linearextrudenode.h"
 #include "numbervalue.h"
 
 LinearExtrudeModule::LinearExtrudeModule() : Module("linear_extrude")

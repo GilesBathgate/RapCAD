@@ -20,7 +20,7 @@
 #include "context.h"
 #include "numbervalue.h"
 #include "booleanvalue.h"
-#include "primitivenode.h"
+#include "node/primitivenode.h"
 #include "tau.h"
 
 CylinderModule::CylinderModule() : PrimitiveModule("cylinder")

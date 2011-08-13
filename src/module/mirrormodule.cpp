@@ -18,7 +18,7 @@
 
 #include "mirrormodule.h"
 #include "vectorvalue.h"
-#include "transformationnode.h"
+#include "node/transformationnode.h"
 #include "tau.h"
 
 MirrorModule::MirrorModule() : Module("mirror")

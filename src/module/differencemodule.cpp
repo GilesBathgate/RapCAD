@@ -17,7 +17,7 @@
  */
 
 #include "differencemodule.h"
-#include "differencenode.h"
+#include "node/differencenode.h"
 
 DifferenceModule::DifferenceModule() : Module("difference")
 {

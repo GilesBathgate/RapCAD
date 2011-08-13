@@ -18,7 +18,7 @@
 
 #include "beziersurfacemodule.h"
 #include "vectorvalue.h"
-#include "primitivenode.h"
+#include "node/primitivenode.h"
 #include "math.h"
 
 BezierSurfaceModule::BezierSurfaceModule() : Module("bezier_surface")

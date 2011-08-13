@@ -17,7 +17,7 @@
  */
 
 #include "cubemodule.h"
-#include "primitivenode.h"
+#include "node/primitivenode.h"
 #include "context.h"
 #include "vectorvalue.h"
 

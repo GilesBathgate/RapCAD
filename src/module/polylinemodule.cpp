@@ -17,7 +17,7 @@
  */
 
 #include "polylinemodule.h"
-#include "polylinenode.h"
+#include "node/polylinenode.h"
 #include "vectorvalue.h"
 
 PolylineModule::PolylineModule() : Module("polyline")

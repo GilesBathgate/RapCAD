@@ -1,7 +1,7 @@
 #include "resizemodule.h"
+#include "node/resizenode.h"
 #include "vectorvalue.h"
 #include "booleanvalue.h"
-#include "resizenode.h"
 
 ResizeModule::ResizeModule() : Module("resize")
 {

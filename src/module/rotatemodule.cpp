@@ -17,7 +17,7 @@
  */
 
 #include "rotatemodule.h"
-#include "transformationnode.h"
+#include "node/transformationnode.h"
 #include "numbervalue.h"
 #include "vectorvalue.h"
 #include "tau.h"

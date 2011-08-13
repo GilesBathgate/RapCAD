@@ -17,7 +17,7 @@
  */
 
 #include "unionmodule.h"
-#include "unionnode.h"
+#include "node/unionnode.h"
 
 UnionModule::UnionModule() : Module("union")
 {

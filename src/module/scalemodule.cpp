@@ -18,7 +18,7 @@
 
 #include "scalemodule.h"
 #include "vectorvalue.h"
-#include "transformationnode.h"
+#include "node/transformationnode.h"
 
 ScaleModule::ScaleModule() : Module("scale")
 {

@@ -19,7 +19,7 @@
 #include "treeevaluator.h"
 #include "vectorvalue.h"
 #include "rangevalue.h"
-#include "unionnode.h"
+#include "node/unionnode.h"
 #include "builtincreator.h"
 #include "module/importmodule.h"
 
