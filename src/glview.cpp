@@ -255,17 +255,22 @@ void GLView::mouseMoveEvent(QMouseEvent* event)
 	int dx = current.x()-last.x();
 	int dy = current.y()-last.y();
 	if(event->buttons() & Qt::LeftButton) {
+		rotateX += (GLdouble)dy;
+		if(QApplication::keyboardModifiers() & Qt::ShiftModifier) {
+			rotateY += (GLdouble)dx;
+		} else {
+			rotateZ += (GLdouble)dx;
+		}
+		normalizeAngle(rotateX);
+		normalizeAngle(rotateY);
+		normalizeAngle(rotateZ);
+	} else {
 		if(QApplication::keyboardModifiers() & Qt::ShiftModifier) {
 			distance += (GLdouble)dy;
 		} else {
-			rotateX += (GLdouble)dy;
-			rotateZ += (GLdouble)dx;
-			normalizeAngle(rotateX);
-			normalizeAngle(rotateZ);
+			viewportX += (GLint)dx;
+			viewportZ -= (GLint)dy;
 		}
-	} else {
-		viewportX += (GLint)dx;
-		viewportZ -= (GLint)dy;
 	}
 	updateGL();
 
