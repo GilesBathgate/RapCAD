@@ -286,6 +286,11 @@ unsigned int TokenBuilder::buildModulus()
 	return '%';
 }
 
+unsigned int TokenBuilder::buildConcatenate()
+{
+	return '~';
+}
+
 unsigned int TokenBuilder::buildLegalChar(unsigned int c)
 {
 	return c;

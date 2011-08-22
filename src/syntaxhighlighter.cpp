@@ -348,6 +348,12 @@ unsigned int SyntaxHighlighter::buildModulus()
 	return YY_CONTINUE;
 }
 
+unsigned int SyntaxHighlighter::buildConcatenate()
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
 unsigned int SyntaxHighlighter::buildLegalChar(unsigned int)
 {
 	return YY_CONTINUE;

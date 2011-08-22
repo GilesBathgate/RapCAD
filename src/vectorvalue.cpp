@@ -102,6 +102,10 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 		} else if(e==Expression::Multiply || e==Expression::Divide) {
 			//TODO implement multiply and divide
 			return this;
+		} else if(e==Expression::Concatenate) {
+			result=this->children;
+			foreach(Value* child,that->children)
+				result.append(child);
 		} else {
 			e=convertOperation(e);
 			for(int i=0; i<children.size() && i<that->children.size(); i++)
@@ -111,9 +115,14 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 
 	NumberValue* num = dynamic_cast<NumberValue*>(&v);
 	if(num) {
-		e=convertOperation(e);
-		for(int i=0; i<children.size(); i++)
-			result.append(Value::operation(this->children.at(i),e,num));
+		if(e==Expression::Concatenate) {
+			result=this->children;
+			result.append(num);
+		} else {
+			e=convertOperation(e);
+			for(int i=0; i<children.size(); i++)
+				result.append(Value::operation(this->children.at(i),e,num));
+		}
 	}
 	return new VectorValue(result);
 }

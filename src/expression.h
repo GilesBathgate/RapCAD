@@ -29,6 +29,7 @@ public:
 		None,
 		Exponent,
 		Multiply,
+		Concatenate,
 		ComponentwiseMultiply,
 		Divide,
 		ComponentwiseDivide,

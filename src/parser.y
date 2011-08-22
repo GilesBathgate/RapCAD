@@ -79,7 +79,7 @@ static Reporter* reporter;
 %left AND
 %left '<' LE GE '>'
 %left EQ NE
-%left '!' '+' '-'
+%left '!' '+' '-' '~'
 %left '*' '/' '%'
 %left INC DEC
 %left CM CD CP
@@ -297,6 +297,8 @@ expression
 	{ $$ = builder->buildExpression($1,Expression::Exponent,$3); }
 	| expression '*' expression
 	{ $$ = builder->buildExpression($1,Expression::Multiply,$3); }
+	| expression '~' expression
+	{ $$ = builder->buildExpression($1,Expression::Concatenate,$3); }
 	| expression CM expression
 	{ $$ = builder->buildExpression($1,Expression::ComponentwiseMultiply,$3); }
 	| expression '/' expression

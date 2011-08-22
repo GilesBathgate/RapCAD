@@ -76,6 +76,7 @@ public:
 	unsigned int buildMultiply();
 	unsigned int buildDivide();
 	unsigned int buildModulus();
+	unsigned int buildConcatenate();
 	unsigned int buildLegalChar(unsigned int);
 	unsigned int buildIllegalChar();
 	unsigned int buildNumber(QString);

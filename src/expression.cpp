@@ -36,6 +36,9 @@ QString Expression::getOpString() const
 	case Multiply:
 		result.append('*');
 		break;
+	case Concatenate:
+		result.append("~");
+		break;
 	case ComponentwiseMultiply:
 		result.append(".*");
 		break;

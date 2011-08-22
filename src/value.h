@@ -38,6 +38,7 @@ public:
 	virtual Iterator<Value*>* createIterator();
 	Value* operator^(Value&);
 	Value* operator*(Value&);
+	Value* concatenate(Value& v);
 	Value* componentwiseMultiply(Value&);
 	Value* operator/(Value&);
 	Value* componentwiseDivide(Value&);
