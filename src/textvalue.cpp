@@ -45,7 +45,7 @@ Value* TextValue::operation(Value& v,Expression::Operator_e e)
 QString TextValue::operation(QString left, Expression::Operator_e e, QString right)
 {
 	switch(e) {
-	case Expression::Add:
+	case Expression::Concatenate:
 		return left.append(right);
 	default:
 		return this->text;
