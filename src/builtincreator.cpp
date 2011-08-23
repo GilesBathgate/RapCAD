@@ -38,6 +38,7 @@
 #include "module/minkowskimodule.h"
 #include "module/glidemodule.h"
 #include "module/linearextrudemodule.h"
+#include "module/rotateextrudemodule.h"
 #include "module/hullmodule.h"
 #include "module/rotatemodule.h"
 #include "module/mirrormodule.h"
@@ -79,6 +80,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new GlideModule());
 	builtins.append(new HullModule());
 	builtins.append(new LinearExtrudeModule());
+	builtins.append(new RotateExtrudeModule());
 	builtins.append(new RotateModule());
 	builtins.append(new MirrorModule());
 	builtins.append(new ScaleModule());

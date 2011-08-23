@@ -190,7 +190,9 @@ SOURCES += \
 	src/node/importnode.cpp \
 	src/cgalimport.cpp \
 	src/module/resizemodule.cpp \
-	src/node/resizenode.cpp
+	src/node/resizenode.cpp \
+	src/module/rotateextrudemodule.cpp \
+	src/node/rotateextrudenode.cpp
 
 
 HEADERS  += \
@@ -325,7 +327,9 @@ HEADERS  += \
 	src/node/importnode.h \
 	src/cgalimport.h \
 	src/module/resizemodule.h \
-	src/node/resizenode.h
+	src/node/resizenode.h \
+	src/module/rotateextrudemodule.h \
+	src/node/rotateextrudenode.h
 
 FORMS += \
 	src/mainwindow.ui \

@@ -105,6 +105,11 @@ void NodePrinter::visit(LinearExtrudeNode* n)
 	printOperation(n,"linear_extrude");
 }
 
+void NodePrinter::visit(RotateExtrudeNode* n)
+{
+	printOperation(n,"rotate_extrude");
+}
+
 void NodePrinter::visit(BoundsNode* n)
 {
 	printOperation(n,"bounds");

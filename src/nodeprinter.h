@@ -31,6 +31,7 @@
 #include "node/glidenode.h"
 #include "node/transformationnode.h"
 #include "node/linearextrudenode.h"
+#include "node/rotateextrudenode.h"
 #include "node/hullnode.h"
 #include "node/boundsnode.h"
 #include "node/subdivisionnode.h"
@@ -53,6 +54,7 @@ public:
 	void visit(GlideNode*);
 	void visit(HullNode*);
 	void visit(LinearExtrudeNode*);
+	void visit(RotateExtrudeNode*);
 	void visit(BoundsNode*);
 	void visit(SubDivisionNode*);
 	void visit(OffsetNode*);

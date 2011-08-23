@@ -177,6 +177,10 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 
 }
 
+void NodeEvaluator::visit(RotateExtrudeNode*)
+{
+}
+
 CGAL::Point3 NodeEvaluator::offset(const CGAL::Point3& p,CGAL::Kernel3::FT z)
 {
 	z+=p.z();
