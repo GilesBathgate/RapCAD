@@ -60,9 +60,15 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 	}
 	VectorValue* vec = dynamic_cast<VectorValue*>(&v);
 	if(vec) {
-		//operations between scalars and vectors are commutative e.g.
-		// [1,2,3]-1  is the same as 1 - [1,2,3]
-		return Value::operation(vec,e,this);
+		if(e==Expression::Concatenate) {
+			QList<Value*> r=vec->getChildren();
+			r.prepend(this);
+			return new VectorValue(r);
+		} else {
+			//operations between scalars and vectors are commutative e.g.
+			// [1,2,3]-1  is the same as 1 - [1,2,3]
+			return Value::operation(vec,e,this);
+		}
 	}
 
 	return this;
