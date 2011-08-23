@@ -30,6 +30,7 @@ public:
 		Exponent,
 		Multiply,
 		Concatenate,
+		Append,
 		ComponentwiseMultiply,
 		Divide,
 		ComponentwiseDivide,

@@ -113,6 +113,11 @@ Statement* DependencyBuilder::buildStatement(Variable*,Expression::Operator_e)
 	return NULL;
 }
 
+Statement* DependencyBuilder::buildStatement(Variable*,Expression::Operator_e,Expression*)
+{
+	return NULL;
+}
+
 Statement* DependencyBuilder::buildStatement(QList<Statement*>*)
 {
 	return NULL;

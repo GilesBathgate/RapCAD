@@ -84,6 +84,7 @@ private:
 	unsigned int buildDivide();
 	unsigned int buildModulus();
 	unsigned int buildConcatenate();
+	unsigned int buildAppend();
 	unsigned int buildLegalChar(unsigned int);
 	unsigned int buildIllegalChar();
 	unsigned int buildNumber(QString);

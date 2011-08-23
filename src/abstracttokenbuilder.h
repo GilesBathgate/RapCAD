@@ -74,6 +74,7 @@ public:
 	virtual unsigned int buildDivide()=0;
 	virtual unsigned int buildModulus()=0;
 	virtual unsigned int buildConcatenate()=0;
+	virtual unsigned int buildAppend()=0;
 	virtual unsigned int buildLegalChar(unsigned int)=0;
 	virtual unsigned int buildIllegalChar()=0;
 	virtual unsigned int buildNumber(QString)=0;

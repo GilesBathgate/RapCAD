@@ -251,21 +251,32 @@ void TreeEvaluator::visit(AssignStatement* stmt)
 	Value* lvalue = context->currentValue;
 
 	Value* result;
-	switch(stmt->getOperation()) {
-	case Expression::Increment: {
-		result=Value::operation(lvalue,Expression::Increment);
+	Expression::Operator_e op=stmt->getOperation();
+	switch(op) {
+	case Expression::Increment:
+	case Expression::Decrement:
 		break;
-	}
-	case Expression::Decrement: {
-		result=Value::operation(lvalue,Expression::Decrement);
-		break;
-	}
 	default: {
 		Expression* expression = stmt->getExpression();
 		if(expression) {
 			expression->accept(*this);
 			result = context->currentValue;
 		}
+	}
+	}
+
+	switch(op) {
+	case Expression::Append: {
+		result=Value::operation(lvalue,op,result);
+		break;
+	}
+	case Expression::Increment: {
+		result=Value::operation(lvalue,op);
+		break;
+	}
+	case Expression::Decrement: {
+		result=Value::operation(lvalue,op);
+		break;
 	}
 	}
 

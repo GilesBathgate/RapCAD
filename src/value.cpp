@@ -213,6 +213,7 @@ Value* Value::operation(Value* p_left, Expression::Operator_e e, Value* p_right)
 		return left^right;
 	case Expression::Multiply:
 		return left*right;
+	case Expression::Append:
 	case Expression::Concatenate:
 		return left.concatenate(right);
 	case Expression::ComponentwiseMultiply:

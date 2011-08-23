@@ -354,6 +354,12 @@ unsigned int SyntaxHighlighter::buildConcatenate()
 	return YY_CONTINUE;
 }
 
+unsigned int SyntaxHighlighter::buildAppend()
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
 unsigned int SyntaxHighlighter::buildLegalChar(unsigned int)
 {
 	return YY_CONTINUE;

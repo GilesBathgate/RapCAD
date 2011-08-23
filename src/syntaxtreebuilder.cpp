@@ -157,6 +157,15 @@ Statement* SyntaxTreeBuilder::buildStatement(Variable* var,Expression::Operator_
 	return result;
 }
 
+Statement* SyntaxTreeBuilder::buildStatement(Variable* var,Expression::Operator_e op,Expression* exp)
+{
+	AssignStatement* result = new AssignStatement();
+	result->setVariable(var);
+	result->setOperation(op);
+	result->setExpression(exp);
+	return result;
+}
+
 Statement* SyntaxTreeBuilder::buildStatement(QList<Statement*>* stmts)
 {
 	CompoundStatement* result = new CompoundStatement();
