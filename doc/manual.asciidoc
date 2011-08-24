@@ -37,11 +37,67 @@ Command line options
 *-v*::
     Display RapCAD version and exit.
 
+Basic Values
+------------
+
+Number
+~~~~~~
+
+.Example
+------------------------------
+a=1;
+b=5.1;
+c=-0.6;
+------------------------------
+
+Text
+~~~~
+
+.Example
+------------------------------
+a="Hello World!";
+------------------------------
+
+Boolean
+~~~~~~~
+
+.Examples
+------------------------------
+a=True;
+b=False;
+------------------------------
+
+Vector
+~~~~~~
+
+In RapCAD commas are not allowed at the end of a vector because it it often a sign of error.
+
+.Examples
+------------------------------
+a=[,10,10]; // means [undef,10,10]
+b=[10,10];  // means [10,10]
+c=[10,,10]; // means [10,undef,10]
+d=[10,10,]; // syntax error use [10,10,undef] <1>
+------------------------------
+
+<1> Since index out of bounds errors are not desired, RapCAD will treat vectors containing less elements than expected as though the elements exist but are undefined. Thus if we expect a 3D vector, but are given a 2D vector such as [10,10] RapCAD will treat this as [10,10,undef] you can therefore treat [10,10,undef] as synonymous to [10,10] so in the example above you could simply write d=[10,10] if you prefer.
+
+Range
+~~~~~
+
+.Examples
+------------------------------
+a=[1:5];    // 1,2,3,4,5
+b=[0:2:10]; // 2,4,6,8,10
+------------------------------
+
 3D Primitives
 -------------
+RapCAD supports a set of built in 3D primitives. The primitives are modules that take arguments which specify the size and shape of the primitive. A module is instaciated by writing its name followed by parenthesis which enclose the arguments. Since it is also a statement it must be followed by a semicolon.
 
 Cube
 ~~~~
+
 .Examples
 ------------------------------
 cube(size,center);
@@ -219,25 +275,3 @@ Shear
 ~~~~~
 Translate
 ~~~~~~~~~
-
-Vector Expressions
-------------------
-.Syntax
-******************************
-<expression> ::=::
-	[ <vector_expression> ]
-
-<vector_expression> ::=::
-	<expression> +
-	<vector_expression> , <expression>
-******************************
-
-.Examples
-------------------------------
-a=[,10,10]; //means [undef,10,10]
-b=[10,10]; //means [10,10]
-c=[10,,10]; //means [10,undef,10]
-d=[10,10,]; //syntax error use [10,10,undef] <1>
-------------------------------
-
-<1> Since index out of bounds errors are not desired, RapCAD will treat vectors containing less elements than expected as though the elements exist but are undefined. Thus if we expect a 3D vector, but are given a 2D vector such as [10,10] RapCAD will treat this as [10,10,undef] you can therefore treat [10,10,undef] as synonymous to [10,10] so in the example above you could simply write d=[10,10] if you prefer.
