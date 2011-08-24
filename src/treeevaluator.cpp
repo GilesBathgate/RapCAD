@@ -278,6 +278,8 @@ void TreeEvaluator::visit(AssignStatement* stmt)
 		result=Value::operation(lvalue,op);
 		break;
 	}
+	default:
+		break;
 	}
 
 	result->setName(name);
