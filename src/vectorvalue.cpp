@@ -19,6 +19,7 @@
 #include "vectorvalue.h"
 #include "numbervalue.h"
 #include "vectoriterator.h"
+#include "rangevalue.h"
 
 VectorValue::VectorValue(QList<Value*> values)
 {
@@ -110,6 +111,16 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			e=convertOperation(e);
 			for(int i=0; i<children.size() && i<vec->children.size(); i++)
 				result.append(Value::operation(this->children.at(i),e,vec->children.at(i)));
+		}
+	}
+
+	RangeValue* rng=dynamic_cast<RangeValue*>(&v);
+	if(rng) {
+		if(e==Expression::Concatenate) {
+			result=this->children;
+			Iterator<Value*>* i=rng->createIterator();
+			for(i->first(); !i->isDone(); i->next())
+				result.append(i->currentItem());
 		}
 	}
 

@@ -18,6 +18,7 @@
 
 #include "rangevalue.h"
 #include "rangeiterator.h"
+#include "vectorvalue.h"
 
 RangeValue::RangeValue(Value* start,Value* step, Value* finish)
 {
@@ -58,4 +59,20 @@ Value* RangeValue::getStep() const
 Value* RangeValue::getFinish() const
 {
 	return this->finish;
+}
+
+Value* RangeValue::operation(Value& v,Expression::Operator_e e)
+{
+	VectorValue* vec=dynamic_cast<VectorValue*>(&v);
+	if(vec) {
+		if(e==Expression::Concatenate) {
+			QList<Value*> result;
+			Iterator<Value*>* i=this->createIterator();
+			for(i->first(); !i->isDone(); i->next())
+				result.append(i->currentItem());
+			foreach(Value* v, vec->getChildren())
+				result.append(v);
+			return new VectorValue(result);
+		}
+	}
 }
