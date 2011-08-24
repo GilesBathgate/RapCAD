@@ -70,7 +70,8 @@ b=False;
 Vector
 ~~~~~~
 
-In RapCAD commas are not allowed at the end of a vector because it it often a sign of error.
+In RapCAD commas are not allowed at the end of a vector because it it often a
+sign of error.
 
 .Examples
 ------------------------------
@@ -80,7 +81,12 @@ c=[10,,10]; // means [10,undef,10]
 d=[10,10,]; // syntax error use [10,10,undef] <1>
 ------------------------------
 
-<1> Since index out of bounds errors are not desired, RapCAD will treat vectors containing less elements than expected as though the elements exist but are undefined. Thus if we expect a 3D vector, but are given a 2D vector such as [10,10] RapCAD will treat this as [10,10,undef] you can therefore treat [10,10,undef] as synonymous to [10,10] so in the example above you could simply write d=[10,10] if you prefer.
+<1> Since index out of bounds errors are not desired, RapCAD will treat vectors
+containing less elements than expected as though the elements exist but are
+undefined. Thus if we expect a 3D vector, but are given a 2D vector such as
+[10,10] RapCAD will treat this as [10,10,undef] you can therefore treat
+[10,10,undef] as synonymous to [10,10] so in the example above you could simply
+write d=[10,10] if you prefer.
 
 Range
 ~~~~~
@@ -93,7 +99,10 @@ b=[0:2:10]; // 2,4,6,8,10
 
 3D Primitives
 -------------
-RapCAD supports a set of built in 3D primitives. The primitives are modules that take arguments which specify the size and shape of the primitive. A module is instaciated by writing its name followed by parenthesis which enclose the arguments. Since it is also a statement it must be followed by a semicolon.
+RapCAD supports a set of built in 3D primitives. The primitives are modules
+that take arguments which specify the size and shape of the primitive. A module
+is instanciated by writing its name followed by parenthesis which enclose the
+arguments. Since it is also a statement it must be followed by a semicolon.
 
 Cube
 ~~~~
@@ -114,7 +123,8 @@ sphere(r);
 
 Cylinder
 ~~~~~~~~
-RapCAD suports legacy 'r1' and 'r2' parameters on cylinder. The 'Cone' module is more appropriate for drawing cones.
+RapCAD suports legacy 'r1' and 'r2' parameters on cylinder. The 'Cone' module
+is more appropriate for drawing cones.
 
 .Examples
 ------------------------------
@@ -141,7 +151,10 @@ prism(height,sides,radius);
 
 Polyhedron
 ~~~~~~~~~~
-RapCAD supports a legacy 'triangles' parameter, but the name is a bit misleading since polygons with more than three points can be specified using this parameter. The name 'surfaces' was chosen in preference to 'polygons' so as not to have a single letter name conflict with 'points'.
+RapCAD supports a legacy 'triangles' parameter, but the name is a bit
+misleading since polygons with more than three points can be specified using
+this parameter. The name 'surfaces' was chosen in preference to 'polygons' so
+as not to have a single letter name conflict with 'points'.
 
 .Examples
 ------------------------------
@@ -170,7 +183,8 @@ circle(r);
 
 Polygon
 ~~~~~~
-RapCAD supports a legacy parameter 'paths' this however conflicts with the single letter parameter name 'points'.
+RapCAD supports a legacy parameter 'paths' this however conflicts with the
+single letter parameter name 'points'.
 
 .Examples
 ------------------------------
@@ -200,7 +214,9 @@ Control modules
 Echo
 ~~~~
 
-The echo module allows you to debug values that are evaluated as part of your script. You can pass more than one argument to echo and it will be output to the console. Named arguments are allowed but the names will not be echo'ed.
+The echo module allows you to debug values that are evaluated as part of your
+script. You can pass more than one argument to echo and it will be output to
+the console. Named arguments are allowed but the names will not be echo'ed.
 
 .Syntax
 ******************************
