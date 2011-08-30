@@ -20,6 +20,7 @@
 #define CODEEDITOR_H
 
 #include <QPlainTextEdit>
+#include "syntaxhighlighter.h"
 
 class CodeEditor : public QPlainTextEdit
 {
@@ -27,9 +28,12 @@ class CodeEditor : public QPlainTextEdit
 
 public:
 	CodeEditor(QWidget* parent=0);
+	~CodeEditor();
 
 	void lineNumberAreaPaintEvent(QPaintEvent*);
 	int lineNumberAreaWidth();
+
+	void stopHighlighting();
 
 protected:
 	void resizeEvent(QResizeEvent* event);
@@ -39,6 +43,7 @@ private slots:
 	void updateLineNumberArea(const QRect&, int);
 
 private:
+	SyntaxHighlighter* highlighter;
 	QWidget* lineNumberArea;
 };
 

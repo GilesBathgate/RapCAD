@@ -23,12 +23,24 @@
 
 CodeEditor::CodeEditor(QWidget* parent) : QPlainTextEdit(parent)
 {
+	QFont font;
+	font.setFamily("Courier");
+	font.setFixedPitch(true);
+	font.setPointSize(10);
+	this->setFont(font);
+	highlighter = new SyntaxHighlighter(this->document());
 	lineNumberArea = new LineNumberArea(this);
 
 	connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
 	connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
 
 	updateLineNumberAreaWidth(0);
+}
+
+CodeEditor::~CodeEditor()
+{
+	delete lineNumberArea;
+	delete highlighter;
 }
 
 int CodeEditor::lineNumberAreaWidth()
@@ -43,6 +55,11 @@ int CodeEditor::lineNumberAreaWidth()
 	int space = 3 + fontMetrics().width(QLatin1Char('9')) * digits;
 
 	return space;
+}
+
+void CodeEditor::stopHighlighting()
+{
+	highlighter->stop();
 }
 
 void CodeEditor::updateLineNumberAreaWidth(int /* newBlockCount */)

@@ -38,7 +38,6 @@ MainWindow::MainWindow(QWidget* parent) :
 	setupLayout();
 	setupActions();
 	setupTreeview();
-	setupEditor(ui->scriptEditor);
 	setupConsole();
 	preferencesDialog=NULL;
 	loadPreferences();
@@ -46,7 +45,6 @@ MainWindow::MainWindow(QWidget* parent) :
 
 MainWindow::~MainWindow()
 {
-	delete highlighter;
 	delete console;
 	delete output;
 	delete worker;
@@ -293,18 +291,6 @@ void MainWindow::setupTreeview()
 	ui->treeView->expandAll();
 }
 
-void MainWindow::setupEditor(QPlainTextEdit* editor)
-{
-	QFont font;
-	font.setFamily("Courier");
-	font.setFixedPitch(true);
-	font.setPointSize(10);
-
-	editor->setFont(font);
-
-	highlighter = new SyntaxHighlighter(editor->document());
-}
-
 void MainWindow::setupConsole()
 {
 	QTextEdit* c=(QTextEdit*)ui->plainTextEdit;
@@ -378,7 +364,6 @@ bool MainWindow::maybeSave(bool closing)
 void MainWindow::newFile()
 {
 	CodeEditor* e = new CodeEditor();
-	setupEditor(e);
 	ui->tabWidget->addTab(e,"[New]");
 }
 
@@ -427,7 +412,7 @@ void MainWindow::compileAndRender()
 {
 	//Stop the syntax highlighter to prevent a crash
 	//It will start again automatically.
-	highlighter->stop();
+	ui->scriptEditor->stopHighlighting();
 
 	if(maybeSave(false)) {
 		worker->evaluate(fileName,false);

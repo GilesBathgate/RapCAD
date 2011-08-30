@@ -23,7 +23,6 @@
 #include <QStandardItemModel>
 #include <QTextStream>
 #include <QPlainTextEdit>
-#include "syntaxhighlighter.h"
 #include "texteditiodevice.h"
 #include "backgroundworker.h"
 #include "preferencesdialog.h"
@@ -70,7 +69,6 @@ private:
 	void setCurrentFileName(const QString&);
 	Ui::MainWindow* ui;
 	QStandardItemModel* myModel;
-	SyntaxHighlighter* highlighter;
 	QTextStream* output;
 	TextEditIODevice* console;
 	BackgroundWorker* worker;
