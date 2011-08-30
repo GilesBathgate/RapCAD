@@ -39,7 +39,6 @@ CodeEditor::CodeEditor(QWidget* parent) : QPlainTextEdit(parent)
 
 CodeEditor::~CodeEditor()
 {
-	delete lineNumberArea;
 	delete highlighter;
 }
 
