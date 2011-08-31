@@ -34,7 +34,14 @@ public:
 	int lineNumberAreaWidth();
 
 	void stopHighlighting();
-
+	void setFileName(const QString&);
+	QString getFileName();
+	bool saveFile();
+	bool saveAsFile();
+	bool loadFile(const QString& f);
+	void openFile();
+signals:
+	void fileNameChanged(QString fileName);
 protected:
 	void resizeEvent(QResizeEvent* event);
 
@@ -45,6 +52,7 @@ private slots:
 private:
 	SyntaxHighlighter* highlighter;
 	QWidget* lineNumberArea;
+	QString fileName;
 };
 
 #endif // CODEEDITOR_H

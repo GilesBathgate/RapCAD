@@ -18,6 +18,8 @@
 
 #include <QPainter>
 #include <QTextBlock>
+#include <QTextDocumentWriter>
+#include <QFileDialog>
 #include "CodeEditor.h"
 #include "linenumberarea.h"
 
@@ -59,6 +61,66 @@ int CodeEditor::lineNumberAreaWidth()
 void CodeEditor::stopHighlighting()
 {
 	highlighter->stop();
+}
+
+void CodeEditor::setFileName(const QString& f)
+{
+	fileName=f;
+	this->document()->setModified(false);
+	emit fileNameChanged(f);
+}
+
+QString CodeEditor::getFileName()
+{
+	return fileName;
+}
+
+bool CodeEditor::saveFile()
+{
+	if(fileName.isEmpty())
+		return saveAsFile();
+
+	QTextDocumentWriter writer(fileName);
+	writer.setFormat("plaintext");
+	bool success = writer.write(this->document());
+	if(success)
+		this->document()->setModified(false);
+
+	return success;
+}
+
+bool CodeEditor::saveAsFile()
+{
+	QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
+		QString(), tr("RapCAD Files (*.rcad);;All Files (*)"));
+	if(fn.isEmpty())
+		return false;
+	setFileName(fn);
+	return saveFile();
+}
+
+bool CodeEditor::loadFile(const QString& f)
+{
+	if(!QFile::exists(f))
+		return false;
+	QFile file(f);
+	if(!file.open(QFile::ReadOnly))
+		return false;
+
+	QByteArray data=file.readAll();
+	QString str=QString::fromLocal8Bit(data);
+	this->setPlainText(str);
+
+	setFileName(f);
+	return true;
+}
+
+void CodeEditor::openFile()
+{
+	QString fn = QFileDialog::getOpenFileName(this, tr("Open File..."),
+		QString(), tr("RapCAD Files (*.rcad);;All Files (*)"));
+	if(!fn.isEmpty())
+		loadFile(fn);
 }
 
 void CodeEditor::updateLineNumberAreaWidth(int /* newBlockCount */)

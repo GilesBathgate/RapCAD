@@ -43,7 +43,7 @@ static int showUi(int argc, char* argv[],QString filename)
 	MainWindow w;
 
 	if(!filename.isEmpty())
-		w.load(filename);
+		w.loadFile(filename);
 
 	w.show();
 

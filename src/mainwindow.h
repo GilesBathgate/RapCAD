@@ -23,6 +23,7 @@
 #include <QStandardItemModel>
 #include <QTextStream>
 #include <QPlainTextEdit>
+#include "CodeEditor.h"
 #include "texteditiodevice.h"
 #include "backgroundworker.h"
 #include "preferencesdialog.h"
@@ -39,7 +40,7 @@ class MainWindow : public QMainWindow
 public:
 	explicit MainWindow(QWidget* parent = 0);
 	~MainWindow();
-	bool load(const QString&);
+	bool loadFile(const QString&);
 protected:
 	virtual void closeEvent(QCloseEvent*);
 private slots:
@@ -55,9 +56,11 @@ private slots:
 	void newFile();
 	bool saveFile();
 	bool saveAsFile();
+	bool saveAllFiles();
 	void openFile();
 	void compileAndRender();
 	void evaluationDone(CGALPrimitive*);
+	void setTabTitle(const QString&);
 private:
 	void loadPreferences();
 	void savePreferences();
@@ -66,13 +69,13 @@ private:
 	void setupEditor(QPlainTextEdit*);
 	void setupConsole();
 	void setupTreeview();
-	void setCurrentFileName(const QString&);
+	CodeEditor* currentEditor();
+
 	Ui::MainWindow* ui;
 	QStandardItemModel* myModel;
 	QTextStream* output;
 	TextEditIODevice* console;
 	BackgroundWorker* worker;
-	QString fileName;
 	PreferencesDialog* preferencesDialog;
 	CGALPrimitive* primitive;
 };

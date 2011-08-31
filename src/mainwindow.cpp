@@ -18,7 +18,6 @@
 
 #include <QFileDialog>
 #include <QMessageBox>
-#include <QTextDocumentWriter>
 #include <QMimeData>
 #include <QClipboard>
 #include "mainwindow.h"
@@ -155,6 +154,10 @@ void MainWindow::setupActions()
 	connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(saveFile()));
 	connect(ui->scriptEditor->document(), SIGNAL(modificationChanged(bool)),ui->actionSave, SLOT(setEnabled(bool)));
 
+	ui->actionSaveAll->setEnabled(false);
+	connect(ui->actionSaveAll,SIGNAL(triggered()),this,SLOT(saveAllFiles()));
+	connect(ui->scriptEditor->document(), SIGNAL(modificationChanged(bool)),ui->actionSaveAll, SLOT(setEnabled(bool)));
+
 	ui->actionPrint->setIcon(QIcon::fromTheme("document-print"));
 
 	connect(ui->actionSaveAs,SIGNAL(triggered()),this,SLOT(saveAsFile()));
@@ -218,6 +221,8 @@ void MainWindow::setupActions()
 	connect(ui->actionSetViewport,SIGNAL(triggered()),this,SLOT(setDefaultViewport()));
 
 	connect(ui->actionDefaultView,SIGNAL(triggered()),this,SLOT(getDefaultViewport()));
+
+	connect(ui->scriptEditor,SIGNAL(fileNameChanged(QString)),this,SLOT(setTabTitle(QString)));
 }
 
 void MainWindow::grabFrameBuffer()
@@ -323,20 +328,9 @@ void MainWindow::closeEvent(QCloseEvent* e)
 	}
 }
 
-bool MainWindow::load(const QString& f)
+bool MainWindow::loadFile(const QString& f)
 {
-	if(!QFile::exists(f))
-		return false;
-	QFile file(f);
-	if(!file.open(QFile::ReadOnly))
-		return false;
-
-	QByteArray data=file.readAll();
-	QString str=QString::fromLocal8Bit(data);
-	ui->scriptEditor->setPlainText(str);
-
-	setCurrentFileName(f);
-	return true;
+	return currentEditor()->loadFile(f);
 }
 
 bool MainWindow::maybeSave(bool closing)
@@ -360,62 +354,57 @@ bool MainWindow::maybeSave(bool closing)
 	return true;
 }
 
-
 void MainWindow::newFile()
 {
-	CodeEditor* e = new CodeEditor();
-	ui->tabWidget->addTab(e,"[New]");
-}
+	CodeEditor* e = new CodeEditor(this);
+	int i=ui->tabWidget->addTab(e,"[New]");
+	ui->tabWidget->setCurrentIndex(i);
 
+	connect(e,SIGNAL(fileNameChanged(QString)),this,SLOT(setTabTitle(QString)));
+}
 
 bool MainWindow::saveFile()
 {
-	if(fileName.isEmpty())
-		return saveAsFile();
-
-	QTextDocumentWriter writer(fileName);
-	writer.setFormat("plaintext");
-	bool success = writer.write(ui->scriptEditor->document());
-	if(success)
-		ui->scriptEditor->document()->setModified(false);
-	return success;
+	return currentEditor()->saveFile();
 }
 
 bool MainWindow::saveAsFile()
 {
-	QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
-		QString(), tr("RapCAD Files (*.rcad);;All Files (*)"));
-	if(fn.isEmpty())
-		return false;
-	setCurrentFileName(fn);
-	return saveFile();
+	return currentEditor()->saveAsFile();
+}
+
+bool MainWindow::saveAllFiles()
+{
+	//TODO
 }
 
 void MainWindow::openFile()
 {
-	QString fn = QFileDialog::getOpenFileName(this, tr("Open File..."),
-		QString(), tr("RapCAD Files (*.rcad);;All Files (*)"));
-	if(!fn.isEmpty())
-		load(fn);
+	currentEditor()->openFile();
 }
 
-void MainWindow::setCurrentFileName(const QString& f)
+void MainWindow::setTabTitle(const QString& fileName)
 {
-	fileName=f;
-	QString n=QFileInfo(f).fileName();
-	int i=ui->tabWidget->indexOf(ui->scriptEditor);
+	QWidget* editor=qobject_cast<QWidget*>(QObject::sender());
+	QString n=QFileInfo(fileName).fileName();
+	int i=ui->tabWidget->indexOf(editor);
 	ui->tabWidget->setTabText(i,n);
-	ui->scriptEditor->document()->setModified(false);
+}
+
+CodeEditor* MainWindow::currentEditor()
+{
+	return qobject_cast<CodeEditor*>(ui->tabWidget->currentWidget());
 }
 
 void MainWindow::compileAndRender()
 {
 	//Stop the syntax highlighter to prevent a crash
 	//It will start again automatically.
-	ui->scriptEditor->stopHighlighting();
+	CodeEditor* e=currentEditor();
+	e->stopHighlighting();
 
 	if(maybeSave(false)) {
-		worker->evaluate(fileName,false);
+		worker->evaluate(e->getFileName(),false);
 		ui->actionCompileAndRender->setEnabled(false);
 	}
 }
