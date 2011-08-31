@@ -22,7 +22,6 @@
 #include <QMainWindow>
 #include <QStandardItemModel>
 #include <QTextStream>
-#include <QPlainTextEdit>
 #include "CodeEditor.h"
 #include "texteditiodevice.h"
 #include "backgroundworker.h"
@@ -61,15 +60,22 @@ private slots:
 	void compileAndRender();
 	void evaluationDone(CGALPrimitive*);
 	void setTabTitle(const QString&);
+	void undo();
+	void redo();
+	void cut();
+	void copy();
+	void paste();
+	void tabChanged(int);
 private:
 	void loadPreferences();
 	void savePreferences();
 	void setupLayout();
 	void setupActions();
-	void setupEditor(QPlainTextEdit*);
+	void setupEditor(CodeEditor*);
 	void setupConsole();
 	void setupTreeview();
 	CodeEditor* currentEditor();
+	void disableActions(CodeEditor*);
 
 	Ui::MainWindow* ui;
 	QStandardItemModel* myModel;

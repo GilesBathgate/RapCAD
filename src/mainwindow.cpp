@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWidget* parent) :
 	this->setWindowIcon(rapcadIcon);
 	setupLayout();
 	setupActions();
+	setupEditor(ui->scriptEditor);
 	setupTreeview();
 	setupConsole();
 	preferencesDialog=NULL;
@@ -144,85 +145,53 @@ void MainWindow::setupActions()
 	}
 
 	ui->actionNew->setIcon(QIcon::fromTheme("document-new"));
-	connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newFile()));
-
 	ui->actionOpen->setIcon(QIcon::fromTheme("document-open"));
-	connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(openFile()));
-
 	ui->actionSave->setIcon(QIcon::fromTheme("document-save"));
-	ui->actionSave->setEnabled(false);
-	connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(saveFile()));
-	connect(ui->scriptEditor->document(), SIGNAL(modificationChanged(bool)),ui->actionSave, SLOT(setEnabled(bool)));
-
-	ui->actionSaveAll->setEnabled(false);
-	connect(ui->actionSaveAll,SIGNAL(triggered()),this,SLOT(saveAllFiles()));
-	connect(ui->scriptEditor->document(), SIGNAL(modificationChanged(bool)),ui->actionSaveAll, SLOT(setEnabled(bool)));
-
 	ui->actionPrint->setIcon(QIcon::fromTheme("document-print"));
+	ui->actionUndo->setIcon(QIcon::fromTheme("edit-undo"));
+	ui->actionRedo->setIcon(QIcon::fromTheme("edit-redo"));
+	ui->actionCut->setIcon(QIcon::fromTheme("edit-cut"));
+	ui->actionCopy->setIcon(QIcon::fromTheme("edit-copy"));
+	ui->actionPaste->setIcon(QIcon::fromTheme("edit-paste"));
+	ui->actionCompileAndRender->setIcon(QIcon::fromTheme("system-run"));
+	ui->actionGenerateGcode->setIcon(QIcon::fromTheme("format-justify-fill"));
+	ui->actionPreferences->setIcon(QIcon::fromTheme("document-properties"));
 
+	connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newFile()));
+	connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(openFile()));
+	connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(saveFile()));
+	connect(ui->actionSaveAll,SIGNAL(triggered()),this,SLOT(saveAllFiles()));
 	connect(ui->actionSaveAs,SIGNAL(triggered()),this,SLOT(saveAsFile()));
 	connect(ui->actionQuit,SIGNAL(triggered()),this,SLOT(close()));
+	connect(ui->actionUndo,SIGNAL(triggered()),this,SLOT(undo()));
+	connect(ui->actionRedo,SIGNAL(triggered()),this,SLOT(redo()));
+	connect(ui->actionCut,SIGNAL(triggered()),this,SLOT(cut()));
+	connect(ui->actionCopy,SIGNAL(triggered()),this,SLOT(copy()));
+	connect(ui->actionPaste,SIGNAL(triggered()),this,SLOT(paste()));
 
-	ui->actionUndo->setIcon(QIcon::fromTheme("edit-undo"));
-	ui->actionUndo->setEnabled(ui->scriptEditor->document()->isUndoAvailable());
-	connect(ui->actionUndo,SIGNAL(triggered()),ui->scriptEditor,SLOT(undo()));
-	connect(ui->scriptEditor->document(), SIGNAL(undoAvailable(bool)),ui->actionUndo, SLOT(setEnabled(bool)));
-
-	ui->actionRedo->setIcon(QIcon::fromTheme("edit-redo"));
-	ui->actionRedo->setEnabled(ui->scriptEditor->document()->isRedoAvailable());
-	connect(ui->actionRedo,SIGNAL(triggered()),ui->scriptEditor,SLOT(redo()));
-	connect(ui->scriptEditor->document(), SIGNAL(redoAvailable(bool)),ui->actionRedo, SLOT(setEnabled(bool)));
-
-	ui->actionCut->setIcon(QIcon::fromTheme("edit-cut"));
-	ui->actionCut->setEnabled(false);
-	connect(ui->scriptEditor, SIGNAL(copyAvailable(bool)), ui->actionCut, SLOT(setEnabled(bool)));
-	connect(ui->actionCut,SIGNAL(triggered()),ui->scriptEditor,SLOT(cut()));
-
-	ui->actionCopy->setIcon(QIcon::fromTheme("edit-copy"));
-	ui->actionCopy->setEnabled(false);
-	connect(ui->scriptEditor, SIGNAL(copyAvailable(bool)), ui->actionCopy, SLOT(setEnabled(bool)));
-	connect(ui->actionCopy,SIGNAL(triggered()),ui->scriptEditor,SLOT(copy()));
-
-	ui->actionPaste->setIcon(QIcon::fromTheme("edit-paste"));
-	connect(ui->actionPaste,SIGNAL(triggered()),ui->scriptEditor,SLOT(paste()));
-	connect(QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(clipboardDataChanged()));
 	clipboardDataChanged();
+	connect(QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(clipboardDataChanged()));
 
 	//Make sure when axis is toggled rulers are disabled but not vice versa
 	connect(ui->actionShowAxes,SIGNAL(triggered(bool)),this,SLOT(disableRulers(bool)));
-
 	connect(ui->actionShowEdges,SIGNAL(triggered(bool)),ui->view,SLOT(setShowEdges(bool)));
 	connect(ui->actionSkeleton,SIGNAL(triggered(bool)),ui->view,SLOT(setSkeleton(bool)));
 	connect(ui->actionShowAxes,SIGNAL(triggered(bool)),ui->view,SLOT(setShowAxes(bool)));
 	connect(ui->actionShowBase,SIGNAL(triggered(bool)),ui->view,SLOT(setShowBase(bool)));
 	connect(ui->actionShowPrintArea,SIGNAL(triggered(bool)),ui->view,SLOT(setShowPrintArea(bool)));
 	connect(ui->actionShowRulers,SIGNAL(triggered(bool)),ui->view,SLOT(setShowRulers(bool)));
-
-	ui->actionCompileAndRender->setIcon(QIcon::fromTheme("system-run"));
 	connect(ui->actionCompileAndRender,SIGNAL(triggered()),this,SLOT(compileAndRender()));
-
-	ui->actionGenerateGcode->setIcon(QIcon::fromTheme("format-justify-fill"));
-
-	ui->actionPreferences->setIcon(QIcon::fromTheme("document-properties"));
 	connect(ui->actionPreferences,SIGNAL(triggered()),this,SLOT(showPreferences()));
-
 	connect(ui->actionExportAsciiSTL,SIGNAL(triggered()),this,SLOT(exportAsciiSTL()));
-
 	connect(ui->actionExportOFF,SIGNAL(triggered()),this,SLOT(exportOFF()));
-
 	connect(ui->actionExportImage,SIGNAL(triggered()),this,SLOT(grabFrameBuffer()));
-
 	connect(ui->actionShowEditor,SIGNAL(triggered(bool)),ui->tabWidget,SLOT(setVisible(bool)));
-
 	connect(ui->actionShowConsole,SIGNAL(triggered(bool)),ui->plainTextEdit,SLOT(setVisible(bool)));
-
 	connect(ui->actionShowProjects,SIGNAL(triggered(bool)),ui->treeView,SLOT(setVisible(bool)));
-
 	connect(ui->actionSetViewport,SIGNAL(triggered()),this,SLOT(setDefaultViewport()));
-
 	connect(ui->actionDefaultView,SIGNAL(triggered()),this,SLOT(getDefaultViewport()));
 
-	connect(ui->scriptEditor,SIGNAL(fileNameChanged(QString)),this,SLOT(setTabTitle(QString)));
+	connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(tabChanged(int)));
 }
 
 void MainWindow::grabFrameBuffer()
@@ -296,6 +265,19 @@ void MainWindow::setupTreeview()
 	ui->treeView->expandAll();
 }
 
+void MainWindow::setupEditor(CodeEditor* editor)
+{
+	disableActions(editor);
+
+	connect(editor->document(), SIGNAL(modificationChanged(bool)),ui->actionSave, SLOT(setEnabled(bool)));
+	connect(editor->document(), SIGNAL(modificationChanged(bool)),ui->actionSaveAll, SLOT(setEnabled(bool)));
+	connect(editor->document(), SIGNAL(undoAvailable(bool)),ui->actionUndo, SLOT(setEnabled(bool)));
+	connect(editor->document(), SIGNAL(redoAvailable(bool)),ui->actionRedo, SLOT(setEnabled(bool)));
+	connect(editor,SIGNAL(copyAvailable(bool)), ui->actionCut, SLOT(setEnabled(bool)));
+	connect(editor,SIGNAL(copyAvailable(bool)), ui->actionCopy, SLOT(setEnabled(bool)));
+	connect(editor,SIGNAL(fileNameChanged(QString)),this,SLOT(setTabTitle(QString)));
+}
+
 void MainWindow::setupConsole()
 {
 	QTextEdit* c=(QTextEdit*)ui->plainTextEdit;
@@ -335,7 +317,7 @@ bool MainWindow::loadFile(const QString& f)
 
 bool MainWindow::maybeSave(bool closing)
 {
-	if(!ui->scriptEditor->document()->isModified())
+	if(!currentEditor()->document()->isModified())
 		return true;
 
 	int buttons=QMessageBox::Save | QMessageBox::Cancel;
@@ -360,7 +342,7 @@ void MainWindow::newFile()
 	int i=ui->tabWidget->addTab(e,"[New]");
 	ui->tabWidget->setCurrentIndex(i);
 
-	connect(e,SIGNAL(fileNameChanged(QString)),this,SLOT(setTabTitle(QString)));
+	setupEditor(e);
 }
 
 bool MainWindow::saveFile()
@@ -417,4 +399,50 @@ void MainWindow::evaluationDone(CGALPrimitive* n)
 		ui->view->setRenderer(r);
 	}
 	ui->actionCompileAndRender->setEnabled(true);
+}
+
+void MainWindow::undo()
+{
+	currentEditor()->undo();
+}
+
+void MainWindow::redo()
+{
+	currentEditor()->redo();
+}
+
+void MainWindow::cut()
+{
+	currentEditor()->cut();
+}
+
+void MainWindow::copy()
+{
+	currentEditor()->copy();
+}
+
+void MainWindow::paste()
+{
+	currentEditor()->paste();
+}
+
+void MainWindow::disableActions(CodeEditor* editor)
+{
+	ui->actionSave->setEnabled(false);
+	ui->actionSaveAll->setEnabled(false);
+	ui->actionUndo->setEnabled(editor->document()->isUndoAvailable());
+	ui->actionRedo->setEnabled(editor->document()->isRedoAvailable());
+	ui->actionCut->setEnabled(false);
+	ui->actionCopy->setEnabled(false);
+}
+
+void MainWindow::tabChanged(int i)
+{
+	//block signals from all the other tabs except
+	//the new one
+	for(int j=0; j<ui->tabWidget->count(); j++)
+		ui->tabWidget->widget(j)->blockSignals(true);
+	ui->tabWidget->widget(i)->blockSignals(false);
+
+	disableActions(currentEditor());
 }
