@@ -358,6 +358,7 @@ bool MainWindow::saveAsFile()
 bool MainWindow::saveAllFiles()
 {
 	//TODO
+	return true;
 }
 
 void MainWindow::openFile()
