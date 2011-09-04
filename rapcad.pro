@@ -192,7 +192,8 @@ SOURCES += \
 	src/module/resizemodule.cpp \
 	src/node/resizenode.cpp \
 	src/module/rotateextrudemodule.cpp \
-	src/node/rotateextrudenode.cpp
+	src/node/rotateextrudenode.cpp \
+	src/saveitemsdialog.cpp
 
 
 HEADERS  += \
@@ -329,11 +330,13 @@ HEADERS  += \
 	src/module/resizemodule.h \
 	src/node/resizenode.h \
 	src/module/rotateextrudemodule.h \
-	src/node/rotateextrudenode.h
+	src/node/rotateextrudenode.h \
+	src/saveitemsdialog.h
 
 FORMS += \
 	src/mainwindow.ui \
-	src/preferences.ui
+	src/preferences.ui \
+	src/saveitemsdialog.ui
 
 OTHER_FILES += \
 	COPYING

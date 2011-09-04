@@ -76,6 +76,7 @@ private:
 	void setupTreeview();
 	CodeEditor* currentEditor();
 	void disableActions(CodeEditor*);
+	bool saveSelectedFiles(QList<QString>);
 
 	Ui::MainWindow* ui;
 	QStandardItemModel* myModel;

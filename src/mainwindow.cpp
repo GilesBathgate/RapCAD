@@ -17,7 +17,6 @@
  */
 
 #include <QFileDialog>
-#include <QMessageBox>
 #include <QMimeData>
 #include <QClipboard>
 #include "mainwindow.h"
@@ -26,6 +25,7 @@
 #include "cgalrenderer.h"
 #include "cgalexport.h"
 #include "preferences.h"
+#include "saveitemsdialog.h"
 
 MainWindow::MainWindow(QWidget* parent) :
 	QMainWindow(parent),
@@ -317,23 +317,24 @@ bool MainWindow::loadFile(const QString& f)
 
 bool MainWindow::maybeSave(bool closing)
 {
-	if(!currentEditor()->document()->isModified())
-		return true;
+	bool modified=false;
+	QList<QString> files;
+	for(int i=0; i<ui->tabWidget->count(); i++) {
+		CodeEditor* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
+		files.append(c->getFileName());
+		if(c->document()->isModified())
+			modified=true;
+	}
+	if(!modified) return true;
 
-	int buttons=QMessageBox::Save | QMessageBox::Cancel;
-	if(closing)
-		buttons |= QMessageBox::Discard;
+	SaveItemsDialog s(this,closing,files);
 
-	QMessageBox::StandardButton ret;
-	ret = QMessageBox::warning(this, tr("RapCAD"),
-		tr("The document has been modified.\n"
-		"Do you want to save your changes?"),
-		(QMessageBox::StandardButton)buttons);
-	if(ret == QMessageBox::Save)
-		return saveFile();
-	else if(ret == QMessageBox::Cancel)
-		return false;
-	return true;
+	if(s.exec()==QDialog::Accepted) {
+		QList<QString> files=s.getItemsToSave();
+		return saveSelectedFiles(files);
+	}
+
+	return false;
 }
 
 void MainWindow::newFile()
@@ -357,8 +358,26 @@ bool MainWindow::saveAsFile()
 
 bool MainWindow::saveAllFiles()
 {
-	//TODO
-	return true;
+	QList<QString> all;
+	for(int i=0; i<ui->tabWidget->count(); i++) {
+		CodeEditor* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
+		QString file=c->getFileName();
+		all.append(file);
+	}
+	return saveSelectedFiles(all);
+}
+
+bool MainWindow::saveSelectedFiles(QList<QString> files)
+{
+	bool result=true;
+	for(int i=0; i<ui->tabWidget->count(); i++) {
+		CodeEditor* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
+		QString file=c->getFileName();
+		if(files.contains(file))
+			if(!c->saveFile())
+				result=false;
+	}
+	return result;
 }
 
 void MainWindow::openFile()
@@ -387,8 +406,11 @@ void MainWindow::compileAndRender()
 	e->stopHighlighting();
 
 	if(maybeSave(false)) {
-		worker->evaluate(e->getFileName(),false);
-		ui->actionCompileAndRender->setEnabled(false);
+		QString file=e->getFileName();
+		if(!file.isEmpty()) {
+			worker->evaluate(file,false);
+			ui->actionCompileAndRender->setEnabled(false);
+		}
 	}
 }
 
