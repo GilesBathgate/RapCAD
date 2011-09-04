@@ -56,6 +56,7 @@ private slots:
 	bool saveFile();
 	bool saveAsFile();
 	bool saveAllFiles();
+	bool closeFile();
 	void openFile();
 	void compileAndRender();
 	void evaluationDone(CGALPrimitive*);

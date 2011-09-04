@@ -162,6 +162,7 @@ void MainWindow::setupActions()
 	connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(saveFile()));
 	connect(ui->actionSaveAll,SIGNAL(triggered()),this,SLOT(saveAllFiles()));
 	connect(ui->actionSaveAs,SIGNAL(triggered()),this,SLOT(saveAsFile()));
+	connect(ui->actionClose,SIGNAL(triggered()),this,SLOT(closeFile()));
 	connect(ui->actionQuit,SIGNAL(triggered()),this,SLOT(close()));
 	connect(ui->actionUndo,SIGNAL(triggered()),this,SLOT(undo()));
 	connect(ui->actionRedo,SIGNAL(triggered()),this,SLOT(redo()));
@@ -354,6 +355,29 @@ bool MainWindow::saveFile()
 bool MainWindow::saveAsFile()
 {
 	return currentEditor()->saveAsFile();
+}
+
+bool MainWindow::closeFile()
+{
+	bool result;
+	CodeEditor* c=currentEditor();
+	if(c->document()->isModified()) {
+		QList<QString> files;
+		files.append(c->getFileName());
+		SaveItemsDialog s(this,true,files);
+		if(s.exec()==QDialog::Accepted) {
+			files=s.getItemsToSave();
+			result=saveSelectedFiles(files);
+		} else {
+			return false;
+		}
+	}
+
+	int i=ui->tabWidget->currentIndex();
+	ui->tabWidget->removeTab(i);
+	delete c;
+
+	return result;
 }
 
 bool MainWindow::saveAllFiles()

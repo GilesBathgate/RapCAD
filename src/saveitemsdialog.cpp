@@ -63,9 +63,13 @@ void SaveItemsDialog::discardAll()
 
 void SaveItemsDialog::updateSaveButton()
 {
-	int count = ui->treeWidget->selectedItems().count();
+	int count=ui->treeWidget->selectedItems().count();
 	QPushButton *button = ui->buttonBox->button(QDialogButtonBox::Save);
-	if (count == ui->treeWidget->topLevelItemCount()) {
+	int total=ui->treeWidget->topLevelItemCount();
+	if(total==1) {
+		button->setEnabled(true);
+		button->setText(tr("Save"));
+	} else if (count == total) {
 		button->setEnabled(true);
 		button->setText(tr("Save All"));
 	} else if (count == 0) {
