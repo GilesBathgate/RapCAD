@@ -1,3 +1,12 @@
+0.4.0
+  * Multiple files support.
+  * Dynamic arrays support using the concatinate operator ~ and the append
+    operator ~=
+  * Fixed mouse button assignments so that right mouse button controls pan and
+    zoom, and left mouse button to controls rotation.
+  * Added a resize module which is a more convenient way to scale, it also has an
+    autosize parameter.
+
 0.3.0
   * Basic support for importing off files as modules, and support code
     that will facilitate importing stl's dxf's etc.
