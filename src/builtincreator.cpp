@@ -26,6 +26,7 @@
 #include "module/prismmodule.h"
 #include "module/circlemodule.h"
 #include "module/polyhedronmodule.h"
+#include "module/polygonmodule.h"
 #include "module/polylinemodule.h"
 #include "module/beziersurfacemodule.h"
 
@@ -68,6 +69,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new PrismModule());
 	builtins.append(new CircleModule());
 	builtins.append(new PolyhedronModule());
+	builtins.append(new PolygonModule());
 	builtins.append(new PolylineModule());
 	builtins.append(new BezierSurfaceModule());
 	builtins.append(new DifferenceModule());

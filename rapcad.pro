@@ -194,7 +194,8 @@ SOURCES += \
 	src/module/rotateextrudemodule.cpp \
 	src/node/rotateextrudenode.cpp \
 	src/saveitemsdialog.cpp \
-	src/function/versionfunction.cpp
+	src/function/versionfunction.cpp \
+	src/module/polygonmodule.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -332,7 +333,8 @@ HEADERS  += \
 	src/module/rotateextrudemodule.h \
 	src/node/rotateextrudenode.h \
 	src/saveitemsdialog.h \
-	src/function/versionfunction.h
+	src/function/versionfunction.h \
+	src/module/polygonmodule.h
 
 FORMS += \
 	src/mainwindow.ui \
