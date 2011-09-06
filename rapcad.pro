@@ -193,8 +193,8 @@ SOURCES += \
 	src/node/resizenode.cpp \
 	src/module/rotateextrudemodule.cpp \
 	src/node/rotateextrudenode.cpp \
-	src/saveitemsdialog.cpp
-
+	src/saveitemsdialog.cpp \
+	src/function/versionfunction.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -331,7 +331,8 @@ HEADERS  += \
 	src/node/resizenode.h \
 	src/module/rotateextrudemodule.h \
 	src/node/rotateextrudenode.h \
-	src/saveitemsdialog.h
+	src/saveitemsdialog.h \
+	src/function/versionfunction.h
 
 FORMS += \
 	src/mainwindow.ui \
