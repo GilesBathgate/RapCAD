@@ -20,6 +20,7 @@
 #include "numbervalue.h"
 #include "vectoriterator.h"
 #include "rangevalue.h"
+#include "booleanvalue.h"
 
 VectorValue::VectorValue(QList<Value*> values)
 {
@@ -107,6 +108,14 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			result=this->children;
 			foreach(Value* child,vec->children)
 				result.append(child);
+		} else if(e==Expression::Equal) {
+			bool eq=(children.size()==vec->children.size());
+			if(eq) for(int i=0; i<children.size(); i++) {
+				Value* eqVec=Value::operation(this->children.at(i),e,vec->children.at(i));
+				if(!eqVec->isTrue())
+					eq=false;
+			}
+			return new BooleanValue(eq);
 		} else {
 			e=convertOperation(e);
 			for(int i=0; i<children.size() && i<vec->children.size(); i++)
