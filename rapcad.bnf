@@ -78,6 +78,7 @@
 
 <assign_statement> ::=
 	<variable> '=' <expression>
+	| <variable> "~=" <expression>
 	| <variable> "++"
 	| <variable> "--"
 	| "const" <identifier> '=' <expression>
@@ -107,6 +108,7 @@
 	| '[' <vector_expression> ']'
 	| <expression> '^' <expression>
 	| <expression> '*' <expression>
+	| <expression> '~' <expression>
 	| <expression> ".*" <expression>
 	| <expression> '/' <expression>
 	| <expression> "./" <expression>
@@ -151,8 +153,9 @@
 	| <identifier> '=' <expression>
 
 <compound_instance> ::=
-	'{' '}'
-	| '{' <statement_list> '}'
+	<compound_statement>
+	| <ifelse_statement>
+	| <for_statement>
 	| <module_instance>
 
 <module_instance> ::=

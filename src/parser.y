@@ -384,10 +384,12 @@ parameter
 	;
 
 compound_instance
-	: '{' '}'
-	{ $$ = builder->buildStatements(); }
-	| '{' statement_list '}'
-	{ $$ = builder->buildStatements($2); }
+	: compound_statement
+	{ $$ = builder->buildStatements($1); }
+	| ifelse_statement
+	{ $$ = builder->buildStatements($1); }
+	| for_statement
+	{ $$ = builder->buildStatements($1); }
 	| module_instance
 	{ $$ = builder->buildStatements($1); }
 	;

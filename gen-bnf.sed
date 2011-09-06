@@ -11,6 +11,7 @@ s/ INC/ "++"/;
 s/ DEC/ "--"/;
 s/DOCEND/"\*\/"/;
 s/DOCPARAM /"@" /;
+s/ AP / "~=" /;
 s/ CM / ".*" /;
 s/ CD / ".\/" /;
 s/ CP / "**" /;
