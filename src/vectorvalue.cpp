@@ -108,10 +108,14 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			result=this->children;
 			foreach(Value* child,vec->children)
 				result.append(child);
-		} else if(e==Expression::Equal) {
+		} else if(e==Expression::Equal||e==Expression::NotEqual) {
 			bool eq=(children.size()==vec->children.size());
+			if(e==Expression::NotEqual && !eq)
+				return new BooleanValue(true);
 			if(eq) for(int i=0; i<children.size(); i++) {
 				Value* eqVec=Value::operation(this->children.at(i),e,vec->children.at(i));
+				if(e==Expression::NotEqual && eqVec->isTrue())
+						return new BooleanValue(true);
 				if(!eqVec->isTrue())
 					eq=false;
 			}
