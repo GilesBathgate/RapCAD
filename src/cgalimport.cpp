@@ -28,7 +28,7 @@ CGALPrimitive* CGALImport::import(QString filename)
 	QFileInfo file(filename);
 	output << "Info: Importing '" << file.absoluteFilePath() << "'\n";
 	output.flush();
-	if(file.completeSuffix() == "off")
+	if(file.suffix().toLower()=="off")
 		return importOFF(file);
 
 	output << "Warning: Unknown import type '" << file.completeSuffix() << "'\n";
