@@ -178,21 +178,25 @@ void TreeEvaluator::visit(ForStatement* forstmt)
 {
 	foreach(Argument* arg, forstmt->getArguments())
 		arg->accept(*this);
-	//TODO for now just consider the first arg.
-	Value* first = context->arguments.at(0);
-	context->arguments.clear();
+	if(context->arguments.count()>0) {
+		//TODO for now just consider the first arg.
+		Value* first = context->arguments.at(0);
+		context->arguments.clear();
 
-	Iterator<Value*>* i = first->createIterator();
-	for(i->first(); !i->isDone(); i->next()) {
+		Iterator<Value*>* i = first->createIterator();
+		for(i->first(); !i->isDone(); i->next()) {
 
-		Value* v = i->currentItem();
-		v->setName(first->getName());
-		context->setVariable(v);
+			Value* v = i->currentItem();
+			v->setName(first->getName());
+			context->setVariable(v);
 
+			forstmt->getStatement()->accept(*this);
+
+		}
+		delete i;
+	} else {
 		forstmt->getStatement()->accept(*this);
-
 	}
-	delete i;
 }
 
 void TreeEvaluator::visit(Parameter* param)

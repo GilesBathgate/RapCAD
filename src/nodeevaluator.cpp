@@ -296,7 +296,8 @@ void NodeEvaluator::visit(TransformationNode* tr)
 		m[1], m[5], m[ 9], m[13],
 		m[2], m[6], m[10], m[14], m[15]);
 
-	result->transform(t);
+	if(result)
+		result->transform(t);
 }
 
 void NodeEvaluator::visit(ResizeNode* n)
