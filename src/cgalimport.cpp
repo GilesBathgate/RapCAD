@@ -18,6 +18,8 @@
 
 #include "cgalimport.h"
 #include <CGAL/IO/Polyhedron_iostream.h>
+#include <QRegExp>
+#include <QStringList>
 
 CGALImport::CGALImport(QTextStream& out) : output(out)
 {
@@ -28,10 +30,13 @@ CGALPrimitive* CGALImport::import(QString filename)
 	QFileInfo file(filename);
 	output << "Info: Importing '" << file.absoluteFilePath() << "'\n";
 	output.flush();
-	if(file.suffix().toLower()=="off")
+	QString suffix=file.suffix().toLower();
+	if(suffix=="off")
 		return importOFF(file);
+	if(suffix=="stl")
+		return importSTL(file);
 
-	output << "Warning: Unknown import type '" << file.completeSuffix() << "'\n";
+	output << "Warning: Unknown import type '" << suffix << "'\n";
 	return NULL;
 }
 
@@ -43,4 +48,71 @@ CGALPrimitive* CGALImport::importOFF(QFileInfo fileinfo)
 	file.close();
 
 	return new CGALPrimitive(poly);
+}
+
+CGALPrimitive* CGALImport::importSTL(QFileInfo fileinfo)
+{
+	CGALPrimitive* p=new CGALPrimitive();
+	QFile f(fileinfo.absoluteFilePath());
+	if(!f.open(QIODevice::ReadOnly)) {
+		output << "WARNING: Can't open import file '" << fileinfo.absoluteFilePath() << "'\n";
+		return p;
+	}
+
+	QByteArray header=f.read(5);
+	if(header.size()==5 && QString(header)=="solid") {
+		QTextStream data(&f);
+		QRegExp re=QRegExp("\\s*(vertex)?\\s+");
+		while(!data.atEnd()) {
+			QString line=data.readLine();
+			if(line.contains("solid") || line.contains("facet") || line.contains("endloop"))
+				continue;
+			if(line.contains("outer loop")) {
+				p->createPolygon();
+				continue;
+			}
+			if(line.contains("vertex")) {
+				QStringList tokens=line.split(re);
+				bool ok=false;
+				if(tokens.size()==4) {
+					double x,y,z;
+					bool ox,oy,oz;
+					x=tokens[1].toDouble(&ox);
+					y=tokens[2].toDouble(&oy);
+					z=tokens[3].toDouble(&oz);
+					if(ok=ox&&oy&&oz) {
+						CGAL::Point3 pt(x,y,z);
+						p->appendVertex(pt);
+					}
+				}
+				if(!ok) {
+					output << "WARNING: Can't parse vertex line '" << line << "'\n";
+				}
+			}
+		}
+	} else {
+		f.read(80-5+4);
+		while(1) {
+			struct {
+				float i, j, k;
+				float x1, y1, z1;
+				float x2, y2, z2;
+				float x3, y3, z3;
+				unsigned short acount;
+			}
+			__attribute__((packed))
+			data;
+
+			if(f.read((char*)&data, sizeof(data)) != sizeof(data))
+				break;
+			p->createPolygon();
+			CGAL::Point3 v1(data.x1,data.y1,data.z1);
+			p->appendVertex(v1);
+			CGAL::Point3 v2(data.x2,data.y2,data.z2);
+			p->appendVertex(v2);
+			CGAL::Point3 v3(data.x3,data.y3,data.z3);
+			p->appendVertex(v3);
+		}
+	}
+	return p->buildVolume();
 }

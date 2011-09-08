@@ -31,6 +31,7 @@ public:
 	CGALPrimitive* import(QString);
 private:
 	CGALPrimitive* importOFF(QFileInfo);
+	CGALPrimitive* importSTL(QFileInfo);
 	QTextStream& output;
 };
 
