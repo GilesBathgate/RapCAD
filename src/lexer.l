@@ -23,12 +23,14 @@
 void lexererror();
 void lexerinclude(const char*);
 void lexerinit(AbstractTokenBuilder*,Reporter*,QString,bool);
+void lexerdestroy();
 void lexerbegin();
 void lexercomment();
 void lexercodedoc();
 
 static AbstractTokenBuilder* tokenizer;
 static Reporter* reporter;
+static QList<FILE*> openfiles;
 %}
 
 %option yylineno
@@ -141,12 +143,19 @@ void lexerinit(AbstractTokenBuilder* b,Reporter* r, QString input,bool file)
 		QFileInfo fileinfo(input);
 		char* fullpath = strdup(fileinfo.absoluteFilePath().toLocal8Bit());
 		lexerin = fopen(fullpath,"r");
+		if(lexerin) openfiles.append(lexerin);
 		free(fullpath);
 		tokenizer->buildFileStart(fileinfo.absoluteDir());
 	} else {
 		const char* t = input.toLocal8Bit();
 		lexer_scan_string(t);
 	}
+}
+
+void lexerdestroy()
+{
+	for(int i=0; i<openfiles.count(); i++)
+		fclose(openfiles.at(i));
 }
 
 void lexerbegin()
@@ -170,6 +179,8 @@ void lexerinclude(const char* fullpath)
 	if(!newinput) {
 		fprintf(stderr,"%d: Can't open input file `%s'.\n",lexerlineno,fullpath);
 		return;
+	} else {
+		openfiles.append(newinput);
 	}
 
 	lexerin=newinput;

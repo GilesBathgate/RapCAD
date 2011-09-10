@@ -28,6 +28,7 @@
 
 extern char *lexertext;
 extern void lexerinit(AbstractTokenBuilder*,Reporter*,QString,bool);
+extern void lexerdestroy();
 Script* parse(QString,Reporter*);
 
 static void parsererror(char const *);
@@ -459,6 +460,7 @@ Script* parse(QString path, Reporter* r)
 	tokenizer=new TokenBuilder();
 	lexerinit(tokenizer,reporter,path,true);
 	parserparse();
+	lexerdestroy();
 	delete tokenizer;
 
 	Script* s=builder->getResult();
