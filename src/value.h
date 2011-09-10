@@ -63,16 +63,18 @@ public:
 	static Value* operation(Value*,Expression::Operator_e);
 	static Value* operation(Value*,Expression::Operator_e,Value*);
 protected:
+	bool defined;
+	bool isDefined();
 	bool isComparison(Expression::Operator_e);
 	template <class A, class B>
 	A basicOperation(B,Expression::Operator_e,B);
 	template <class A, class B>
 	A basicOperation(B,Expression::Operator_e);
+	virtual Value* operation(Expression::Operator_e);
+	virtual Value* operation(Value&,Expression::Operator_e);
 private:
 	Variable::Type_e type;
 	QString name;
-	virtual Value* operation(Expression::Operator_e);
-	virtual Value* operation(Value&,Expression::Operator_e);
 	template<class T>
 	T modulus(T left, T right);
 	double modulus(double left, double right);

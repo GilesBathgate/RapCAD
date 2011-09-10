@@ -20,10 +20,12 @@
 #include "math.h"
 #include "valueiterator.h"
 #include "vectorvalue.h"
+#include "booleanvalue.h"
 
 Value::Value()
 {
-	type=Variable::Const;
+	this->type=Variable::Const;
+	this->defined=false;
 }
 
 void Value::setType(Variable::Type_e t)
@@ -199,8 +201,20 @@ Value* Value::operation(Expression::Operator_e)
 	return this;
 }
 
-Value* Value::operation(Value&, Expression::Operator_e)
+bool Value::isDefined()
 {
+	return defined;
+}
+
+Value* Value::operation(Value& v, Expression::Operator_e e)
+{
+	if(isComparison(e)) {
+		bool left=this->isDefined();
+		bool right=v.isDefined();
+		bool result=basicOperation<bool>(left,e,right);
+		return new BooleanValue(result);
+	}
+
 	return this;
 }
 

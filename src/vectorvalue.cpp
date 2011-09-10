@@ -25,6 +25,7 @@
 VectorValue::VectorValue(QList<Value*> values)
 {
 	this->children=values;
+	this->defined=true;
 }
 
 QString VectorValue::getValueString() const
@@ -125,6 +126,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			for(int i=0; i<children.size() && i<vec->children.size(); i++)
 				result.append(Value::operation(this->children.at(i),e,vec->children.at(i)));
 		}
+		return new VectorValue(result);
 	}
 
 	RangeValue* rng=dynamic_cast<RangeValue*>(&v);
@@ -135,6 +137,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			for(i->first(); !i->isDone(); i->next())
 				result.append(i->currentItem());
 		}
+		return new VectorValue(result);
 	}
 
 	NumberValue* num = dynamic_cast<NumberValue*>(&v);
@@ -147,8 +150,10 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			for(int i=0; i<children.size(); i++)
 				result.append(Value::operation(this->children.at(i),e,num));
 		}
+		return new VectorValue(result);
 	}
-	return new VectorValue(result);
+
+	return Value::operation(v,e);
 }
 
 Expression::Operator_e VectorValue::convertOperation(Expression::Operator_e e)

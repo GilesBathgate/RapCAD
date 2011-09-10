@@ -25,6 +25,7 @@ RangeValue::RangeValue(Value* start,Value* step, Value* finish)
 	this->start=start;
 	this->step=step;
 	this->finish=finish;
+	this->defined=true;
 }
 
 QString RangeValue::getValueString() const
@@ -75,4 +76,6 @@ Value* RangeValue::operation(Value& v,Expression::Operator_e e)
 			return new VectorValue(result);
 		}
 	}
+
+	return Value::operation(v,e);
 }

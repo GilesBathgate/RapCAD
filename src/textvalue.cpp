@@ -21,6 +21,7 @@
 TextValue::TextValue(QString value)
 {
 	this->text=value;
+	this->defined=true;
 }
 
 QString TextValue::getValueString() const
@@ -39,7 +40,7 @@ Value* TextValue::operation(Value& v,Expression::Operator_e e)
 	if(that)
 		return new TextValue(operation(this->text,e,that->text));
 
-	return this;
+	return Value::operation(v,e);
 }
 
 QString TextValue::operation(QString left, Expression::Operator_e e, QString right)

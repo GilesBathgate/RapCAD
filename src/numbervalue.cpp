@@ -23,6 +23,7 @@
 NumberValue::NumberValue(double value)
 {
 	this->number=value;
+	this->defined=true;
 }
 
 QString NumberValue::getValueString() const
@@ -71,5 +72,5 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 		}
 	}
 
-	return this;
+	return Value::operation(v,e);
 }

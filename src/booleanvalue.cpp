@@ -21,6 +21,7 @@
 BooleanValue::BooleanValue(bool value)
 {
 	this->boolean=value;
+	this->defined=true;
 }
 
 QString BooleanValue::getValueString() const
@@ -47,5 +48,5 @@ Value* BooleanValue::operation(Value& v,Expression::Operator_e e)
 		return new BooleanValue(result);
 	}
 
-	return this;
+	return Value::operation(v,e);
 }
