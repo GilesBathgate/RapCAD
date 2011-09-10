@@ -28,6 +28,7 @@ public:
 	Reporter(QTextStream& s);
 	void reportSyntaxError(AbstractTokenBuilder*,QString,QString);
 	void reportLexicalError(AbstractTokenBuilder*,QString);
+	void reportFileMissingError(QString);
 private:
 	QTextStream& output;
 };

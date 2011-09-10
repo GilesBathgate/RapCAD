@@ -28,6 +28,7 @@ void lexerbegin();
 void lexercomment();
 void lexercodedoc();
 
+static bool openfile(const char*);
 static AbstractTokenBuilder* tokenizer;
 static Reporter* reporter;
 static QList<FILE*> openfiles;
@@ -142,8 +143,7 @@ void lexerinit(AbstractTokenBuilder* b,Reporter* r, QString input,bool file)
 	if(file) {
 		QFileInfo fileinfo(input);
 		char* fullpath = strdup(fileinfo.absoluteFilePath().toLocal8Bit());
-		lexerin = fopen(fullpath,"r");
-		if(lexerin) openfiles.append(lexerin);
+		openfile(fullpath);
 		free(fullpath);
 		tokenizer->buildFileStart(fileinfo.absoluteDir());
 	} else {
@@ -173,16 +173,21 @@ void lexercodedoc()
 	BEGIN(codedoc);
 }
 
-void lexerinclude(const char* fullpath)
+bool openfile(const char* fullpath)
 {
 	FILE* newinput=fopen(fullpath,"r");
 	if(!newinput) {
-		fprintf(stderr,"%d: Can't open input file `%s'.\n",lexerlineno,fullpath);
-		return;
-	} else {
-		openfiles.append(newinput);
+		if(reporter) //Reporter can be null
+			reporter->reportFileMissingError(fullpath);
+		return false;
 	}
-
+	openfiles.append(newinput);
 	lexerin=newinput;
-	lexerpush_buffer_state(lexer_create_buffer(lexerin, YY_BUF_SIZE));
+	return true;
+}
+
+void lexerinclude(const char* fullpath)
+{
+	if(openfile(fullpath))
+		lexerpush_buffer_state(lexer_create_buffer(lexerin, YY_BUF_SIZE));
 }

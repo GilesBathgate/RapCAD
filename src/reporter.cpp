@@ -34,3 +34,8 @@ void Reporter::reportLexicalError(AbstractTokenBuilder* t, QString text)
 	int line=t->getLineNumber();
 	output << line << ": illegal token '" << text << "'.\n";
 }
+
+void Reporter::reportFileMissingError(QString fullpath)
+{
+	output << "Can't open input file '" << fullpath << "'\n";
+}
