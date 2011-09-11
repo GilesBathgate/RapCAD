@@ -64,7 +64,6 @@ public:
 	static Value* operation(Value*,Expression::Operator_e,Value*);
 protected:
 	bool defined;
-	bool isDefined();
 	bool isComparison(Expression::Operator_e);
 	template <class A, class B>
 	A basicOperation(B,Expression::Operator_e,B);

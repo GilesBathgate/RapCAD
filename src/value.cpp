@@ -201,16 +201,11 @@ Value* Value::operation(Expression::Operator_e)
 	return this;
 }
 
-bool Value::isDefined()
-{
-	return defined;
-}
-
 Value* Value::operation(Value& v, Expression::Operator_e e)
 {
-	if(isComparison(e)) {
-		bool left=this->isDefined();
-		bool right=v.isDefined();
+	bool left=this->defined;
+	bool right=v.defined;
+	if((!left||!right) && isComparison(e)) {
 		bool result=basicOperation<bool>(left,e,right);
 		return new BooleanValue(result);
 	}
