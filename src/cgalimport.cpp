@@ -80,7 +80,7 @@ CGALPrimitive* CGALImport::importSTL(QFileInfo fileinfo)
 					x=tokens[1].toDouble(&ox);
 					y=tokens[2].toDouble(&oy);
 					z=tokens[3].toDouble(&oz);
-					if(ok=ox&&oy&&oz) {
+					if((ok=ox&&oy&&oz)) {
 						CGAL::Point3 pt(x,y,z);
 						p->appendVertex(pt);
 					}
