@@ -54,6 +54,7 @@
 #include "module/importmodule.h"
 #include "module/resizemodule.h"
 
+#include "function/lengthfunction.h"
 #include "function/sqrtfunction.h"
 #include "function/sumfunction.h"
 #include "function/randfunction.h"
@@ -95,6 +96,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new OffsetModule());
 	builtins.append(new OutlineModule());
 
+	builtins.append(new LengthFunction());
 	builtins.append(new SqrtFunction());
 	builtins.append(new SumFunction());
 	builtins.append(new RandFunction());
