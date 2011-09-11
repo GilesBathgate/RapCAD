@@ -104,6 +104,18 @@ that take arguments which specify the size and shape of the primitive. A module
 is instanciated by writing its name followed by parenthesis which enclose the
 arguments. Since it is also a statement it must be followed by a semicolon.
 
+.Syntax
+******************************
+<argument> ::= ::
+	<expression> +
+	| <identifier> = <expression>
+
+<instance> ::= ::
+	<identifier> ( <argument> ); +
+	| <identifier> ( <argument> , <argument>... );
+******************************
+
+
 Cube
 ~~~~
 
@@ -217,17 +229,6 @@ Echo
 The echo module allows you to debug values that are evaluated as part of your
 script. You can pass more than one argument to echo and it will be output to
 the console. Named arguments are allowed but the names will not be echo'ed.
-
-.Syntax
-******************************
-<argument> ::= ::
-	<expression> +
-	<identifier> = <expression>
-
-<echo> ::= ::
-	echo(<argument>); +
-	echo(<argument> , <argument>...);
-******************************
 
 .Examples
 ------------------------------
