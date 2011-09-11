@@ -374,6 +374,10 @@ bool MainWindow::closeFile()
 	}
 
 	int i=ui->tabWidget->currentIndex();
+
+	if(ui->tabWidget->count()<=1)
+		newFile();
+
 	ui->tabWidget->removeTab(i);
 	delete c;
 
@@ -406,7 +410,12 @@ bool MainWindow::saveSelectedFiles(QList<QString> files)
 
 void MainWindow::openFile()
 {
-	currentEditor()->openFile();
+	if(!currentEditor()->getFileName().isEmpty())
+		newFile();
+
+	//current editor could now be different
+	if(!currentEditor()->openFile())
+		closeFile();
 }
 
 void MainWindow::setTabTitle(const QString& fileName)

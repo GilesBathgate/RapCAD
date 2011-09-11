@@ -39,7 +39,7 @@ public:
 	bool saveFile();
 	bool saveAsFile();
 	bool loadFile(const QString& f);
-	void openFile();
+	bool openFile();
 signals:
 	void fileNameChanged(QString fileName);
 protected:

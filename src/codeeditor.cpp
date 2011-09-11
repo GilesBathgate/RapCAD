@@ -115,12 +115,16 @@ bool CodeEditor::loadFile(const QString& f)
 	return true;
 }
 
-void CodeEditor::openFile()
+bool CodeEditor::openFile()
 {
 	QString fn = QFileDialog::getOpenFileName(this, tr("Open File..."),
 		QString(), tr("RapCAD Files (*.rcad);;All Files (*)"));
 	if(!fn.isEmpty())
 		loadFile(fn);
+	else
+		return false;
+
+	return true;
 }
 
 void CodeEditor::updateLineNumberAreaWidth(int /* newBlockCount */)
