@@ -23,7 +23,6 @@
 #include "ui_mainwindow.h"
 #include "cgalprimitive.h"
 #include "cgalrenderer.h"
-#include "cgalexport.h"
 #include "preferences.h"
 #include "saveitemsdialog.h"
 
@@ -208,8 +207,7 @@ void MainWindow::exportAsciiSTL()
 	if(primitive) {
 		QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
 					QString(), tr("STL Files (*.stl);;All Files (*)"));
-		CGALExport exp;
-		exp.exportAsciiSTL(primitive,fn,true);
+		worker->exportAsciiSTL(primitive,fn);
 	}
 }
 
@@ -218,8 +216,7 @@ void MainWindow::exportOFF()
 	if(primitive) {
 		QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
 					QString(), tr("OFF Files (*.stl);;All Files (*)"));
-		CGALExport exp;
-		exp.exportOFF(primitive,fn);
+		worker->exportOFF(primitive,fn);
 	}
 }
 
@@ -441,7 +438,8 @@ void MainWindow::compileAndRender()
 	if(maybeSave(false)) {
 		QString file=e->getFileName();
 		if(!file.isEmpty()) {
-			worker->evaluate(file,false);
+			worker->setup(file);
+			worker->evaluate();
 			ui->actionCompileAndRender->setEnabled(false);
 		}
 	}

@@ -21,6 +21,7 @@
 
 #include <QObject>
 #include <QTextStream>
+#include "cgalexport.h"
 #include "cgalprimitive.h"
 #include "reporter.h"
 
@@ -29,7 +30,10 @@ class Worker : public QObject
 	Q_OBJECT
 public:
 	Worker(QTextStream&,QObject* parent = 0);
-	virtual void evaluate(QString path, bool print);
+	void setup(QString,QString,bool);
+	virtual void evaluate();
+	void exportAsciiSTL(CGALPrimitive*,QString);
+	void exportOFF(CGALPrimitive*,QString);
 	virtual ~Worker();
 signals:
 	void done(CGALPrimitive*);
@@ -37,9 +41,11 @@ protected slots:
 	void doWork();
 protected:
 	virtual void finish();
-	QString path;
+	QString inputFile;
+	QString outputFile;
 	bool print;
 private:
+	CGALExport* exporter;
 	QTextStream& output;
 	Reporter* reporter;
 };

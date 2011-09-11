@@ -32,8 +32,8 @@ Launches the rapcad grapical user interface and opens FILE for editing.
 Command line options
 --------------------
 
-*-f* 'FILE'::
-    Parse and evaluate the given file. Any output will be printed on stdout.
+*-o* 'FILE'::
+    Evaluate and export the result to the given file. Any output will be printed on stdout.
 *-v*::
     Display RapCAD version and exit.
 

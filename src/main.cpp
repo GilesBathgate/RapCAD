@@ -55,16 +55,16 @@ static int showUi(int argc, char* argv[],QString filename)
 int main(int argc, char* argv[])
 {
 	int opt;
-	QString filename;
+	QString outputFile;
 	bool print=false;
 	bool useGUI=true;
 	QTextStream out(stdout);
 
-	while((opt = getopt(argc, argv, "f:p::v")) != -1) {
+	while((opt = getopt(argc, argv, "o:p::v")) != -1) {
 		switch(opt) {
-		case 'f':
+		case 'o':
 			useGUI=false;
-			filename=QString(optarg);
+			outputFile=QString(optarg);
 			break;
 		case 'p':
 			print=true;
@@ -75,12 +75,15 @@ int main(int argc, char* argv[])
 		}
 	}
 
+	QString inputFile;
+	inputFile=QString(argv[optind]);
+
 	if(!useGUI) {
 		Worker b(out);
-		b.evaluate(filename,print);
+		b.setup(inputFile,outputFile,print);
+		b.evaluate();
 		return 0;
 	} else {
-		filename=QString(argv[optind]);
-		return showUi(argc,argv,filename);
+		return showUi(argc,argv,inputFile);
 	}
 }

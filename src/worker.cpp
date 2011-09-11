@@ -32,18 +32,25 @@ Worker::Worker(QTextStream& s, QObject* parent) :
 	QObject(parent),
 	output(s)
 {
+	exporter=new CGALExport();
 	reporter=new Reporter(output);
 }
 
 Worker::~Worker()
 {
+	delete exporter;
 	delete reporter;
 }
 
-void Worker::evaluate(QString f, bool p)
+void Worker::setup(QString i,QString o,bool p)
 {
-	path=f;
+	inputFile=i;
+	outputFile=o;
 	print=p;
+}
+
+void Worker::evaluate()
+{
 	doWork();
 }
 
@@ -52,7 +59,7 @@ void Worker::doWork()
 	QTime* t = new QTime();
 	t->start();
 
-	Script* s=parse(path,reporter);
+	Script* s=parse(inputFile,reporter);
 
 	if(print) {
 		TreePrinter p(output);
@@ -83,6 +90,9 @@ void Worker::doWork()
 	CGALPrimitive* result=ne.getResult();
 	if(!result)
 		output << "Warning: No top level object.\n";
+	else if (!outputFile.isEmpty()) {
+		exporter->exportResult(result,outputFile);
+	}
 
 	int ticks=t->elapsed();
 	int ms=ticks%1000;
@@ -99,4 +109,14 @@ void Worker::doWork()
 
 void Worker::finish()
 {
+}
+
+void Worker::exportAsciiSTL(CGALPrimitive* primitive, QString fn)
+{
+	exporter->exportAsciiSTL(primitive,fn,true);
+}
+
+void Worker::exportOFF(CGALPrimitive* primitive, QString fn)
+{
+	exporter->exportOFF(primitive,fn);
 }

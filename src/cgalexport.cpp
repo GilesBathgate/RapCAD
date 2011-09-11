@@ -18,11 +18,22 @@
 #include "cgal.h"
 #include "cgalexport.h"
 #include <QFile>
+#include <QFileInfo>
 #include <QTextStream>
 #include <CGAL/IO/Polyhedron_iostream.h>
 
 CGALExport::CGALExport()
 {
+}
+
+void CGALExport::exportResult(CGALPrimitive* primitive, QString filename)
+{
+	QFileInfo file(filename);
+	QString suffix=file.suffix().toLower();
+	if(suffix=="off")
+		return exportOFF(primitive,file.absoluteFilePath());
+	if(suffix=="stl")
+		return exportAsciiSTL(primitive,file.absoluteFilePath(),true);
 }
 
 void CGALExport::exportOFF(CGALPrimitive* prim,QString filename)
