@@ -196,7 +196,9 @@ SOURCES += \
 	src/saveitemsdialog.cpp \
 	src/function/versionfunction.cpp \
 	src/module/polygonmodule.cpp \
-	src/function/lengthfunction.cpp
+	src/function/lengthfunction.cpp \
+	src/printconsole.cpp
+
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -336,12 +338,14 @@ HEADERS  += \
 	src/saveitemsdialog.h \
 	src/function/versionfunction.h \
 	src/module/polygonmodule.h \
-	src/function/lengthfunction.h
+	src/function/lengthfunction.h \
+	src/printconsole.h
 
 FORMS += \
 	src/mainwindow.ui \
 	src/preferences.ui \
-	src/saveitemsdialog.ui
+	src/saveitemsdialog.ui \
+	src/printconsole.ui
 
 OTHER_FILES += \
 	COPYING

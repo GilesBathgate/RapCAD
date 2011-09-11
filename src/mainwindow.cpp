@@ -25,6 +25,7 @@
 #include "cgalrenderer.h"
 #include "preferences.h"
 #include "saveitemsdialog.h"
+#include "printconsole.h"
 
 MainWindow::MainWindow(QWidget* parent) :
 	QMainWindow(parent),
@@ -168,6 +169,8 @@ void MainWindow::setupActions()
 	connect(ui->actionCut,SIGNAL(triggered()),this,SLOT(cut()));
 	connect(ui->actionCopy,SIGNAL(triggered()),this,SLOT(copy()));
 	connect(ui->actionPaste,SIGNAL(triggered()),this,SLOT(paste()));
+
+	connect(ui->actionPrint,SIGNAL(triggered()),this,SLOT(print()));
 
 	clipboardDataChanged();
 	connect(QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(clipboardDataChanged()));
@@ -488,6 +491,12 @@ void MainWindow::disableActions(CodeEditor* editor)
 	ui->actionRedo->setEnabled(editor->document()->isRedoAvailable());
 	ui->actionCut->setEnabled(false);
 	ui->actionCopy->setEnabled(false);
+}
+
+void MainWindow::print()
+{
+	PrintConsole p;
+	p.exec();
 }
 
 void MainWindow::tabChanged(int i)
