@@ -156,6 +156,7 @@ void lexerdestroy()
 {
 	for(int i=0; i<openfiles.count(); i++)
 		fclose(openfiles.at(i));
+	openfiles.clear();
 }
 
 void lexerbegin()
