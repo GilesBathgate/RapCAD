@@ -16,26 +16,10 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////
 
-RapCAD(1) Manual Page
-=====================
-:doctype: manpage
+RapCAD User Guide
+=================
 Giles Bathgate <giles.bathgate@gmail.com>
 version 0.1
-
-Synopsis
---------
-
-rapcad '[OPTIONS]'... '[FILE]'...
-
-Launches the rapcad grapical user interface and opens FILE for editing.
-
-Command line options
---------------------
-
-*-o* 'FILE'::
-    Evaluate and export the result to the given file. Any output will be printed on stdout.
-*-v*::
-    Display RapCAD version and exit.
 
 Basic Values
 ------------
@@ -174,7 +158,7 @@ polyhedron(points,surfaces);
 polyhedron(p,s);
 ------------------------------
 
-2D primitives
+2D Primitives
 -------------
 
 Square
