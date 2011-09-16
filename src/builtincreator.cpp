@@ -59,6 +59,7 @@
 #include "function/sumfunction.h"
 #include "function/randfunction.h"
 #include "function/versionfunction.h"
+#include "function/strfunction.h"
 
 BuiltinCreator::BuiltinCreator(QTextStream& output)
 {
@@ -101,6 +102,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new SumFunction());
 	builtins.append(new RandFunction());
 	builtins.append(new VersionFunction());
+	builtins.append(new StrFunction());
 }
 
 BuiltinCreator* BuiltinCreator::instance=NULL;
