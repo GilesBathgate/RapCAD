@@ -21,6 +21,8 @@ RapCAD User Guide
 Giles Bathgate <giles.bathgate@gmail.com>
 version 0.1
 
+For command line options see the link:manual.html[RapCAD manual]
+
 Basic Values
 ------------
 
@@ -354,3 +356,5 @@ Translate
 -------------------------------
 translate([0,20,0]) module1();
 -------------------------------
+
+include::compiling.asciidoc[]

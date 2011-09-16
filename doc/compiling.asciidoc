@@ -1,5 +1,5 @@
 Compiling
-=========
+---------
 
 The following instructions will allow you to compile RapCAD from source on
 various platforms.
