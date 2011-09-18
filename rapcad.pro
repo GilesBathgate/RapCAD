@@ -198,7 +198,8 @@ SOURCES += \
 	src/module/polygonmodule.cpp \
 	src/function/lengthfunction.cpp \
 	src/printconsole.cpp \
-	src/function/strfunction.cpp
+	src/function/strfunction.cpp \
+	src/project.cpp
 
 
 HEADERS  += \
@@ -341,7 +342,8 @@ HEADERS  += \
 	src/module/polygonmodule.h \
 	src/function/lengthfunction.h \
 	src/printconsole.h \
-	src/function/strfunction.h
+	src/function/strfunction.h \
+	src/project.h
 
 FORMS += \
 	src/mainwindow.ui \
