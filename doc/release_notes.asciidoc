@@ -1,3 +1,15 @@
+0.5.0
+  * Added support for export via the command line, this removes the -f command
+    line option.
+  * Implemented STL import.
+  * Relaxed the grammar slightly to allow 'for' and 'if' to follow module instances.
+  * Added 'len' function to return the length of a vector or string and an
+    'str' function for backwards compatibility.
+  * Implemented a polygon module.
+  * Added a version function which returns the rapcad version triplicate as a
+    vector and equality/inequality operator for vectors.
+  * Various bug fixes and documentation improvements.
+
 0.4.0
   * Multiple files support.
   * Dynamic arrays support using the concatinate operator ~ and the append
