@@ -1,0 +1,6 @@
+Release Procedures
+------------------
+
+export DEBEMAIL=gilesbathgate@gmail.com
+
+dch -v x.x.x
