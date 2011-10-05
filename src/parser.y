@@ -90,8 +90,8 @@ static Reporter* reporter;
 
 %type <cdocs> codedoc codedoc_param
 %type <count> optional_commas
-%type <decl>  declaration use_declaration import_declaration single_declaration define_declaration
-%type <decls>  declaration_list single_declaration_list compound_declaration
+%type <decl> declaration use_declaration import_declaration single_declaration define_declaration
+%type <decls> declaration_list single_declaration_list compound_declaration
 %type <param> parameter
 %type <params> parameters
 %type <arg> argument
@@ -294,8 +294,8 @@ expression
 	{ $$ = builder->buildRange($2,$4); }
 	| '[' expression ':' expression ':' expression ']'
 	{ $$ = builder->buildRange($2,$4,$6); }
-	| '[' vector_expression ']'
-	{ $$ = builder->buildExpression($2); }
+	| '[' vector_expression optional_commas ']'
+	{ $$ = builder->buildExpression($2,$3); }
 	| expression '^' expression
 	{ $$ = builder->buildExpression($1,Expression::Exponent,$3); }
 	| expression '*' expression

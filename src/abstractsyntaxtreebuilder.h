@@ -100,7 +100,7 @@ public:
 	virtual Expression* buildExpression(Expression::Operator_e,Expression*)=0;
 	virtual Expression* buildExpression(Expression*,Expression::Operator_e,Expression*)=0;
 	virtual Expression* buildExpression(Expression*,Expression*,Expression*)=0;
-	virtual Expression* buildExpression(QList<Expression*>*)=0;
+	virtual Expression* buildExpression(QList<Expression*>*,int)=0;
 	virtual QList<Expression*>* buildVector()=0;
 	virtual QList<Expression*>* buildVector(Expression*)=0;
 	virtual QList<Expression*>* buildVector(QList<Expression*>*,unsigned int,Expression*)=0;

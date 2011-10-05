@@ -310,6 +310,9 @@ void TreeEvaluator::visit(VectorExpression* exp)
 		e->accept(*this);
 		childvalues.append(context->currentValue);
 	}
+	int commas=exp->getAdditionalCommas();
+	if(commas>0)
+		output << "Warning: " << commas << " additional comma(s) found at the end of vector expression.\n";
 
 	Value* v = new VectorValue(childvalues);
 	context->currentValue=v;

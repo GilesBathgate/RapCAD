@@ -516,10 +516,11 @@ Expression* SyntaxTreeBuilder::buildExpression(Expression* cond,Expression* true
 	return result;
 }
 
-Expression* SyntaxTreeBuilder::buildExpression(QList<Expression*>* exps)
+Expression* SyntaxTreeBuilder::buildExpression(QList<Expression*>* exps,int count)
 {
 	VectorExpression* result = new VectorExpression();
 	result->setChildren(*exps);
+	result->setAdditionalCommas(count);
 	delete exps;
 	return result;
 }

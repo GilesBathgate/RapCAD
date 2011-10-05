@@ -36,6 +36,16 @@ QList<Expression*> VectorExpression::getChildren() const
 	return this->children;
 }
 
+void VectorExpression::setAdditionalCommas(int count)
+{
+	additionalCommas=count;
+}
+
+int VectorExpression::getAdditionalCommas() const
+{
+	return additionalCommas;
+}
+
 void VectorExpression::accept(TreeVisitor& v)
 {
 	v.visit(this);

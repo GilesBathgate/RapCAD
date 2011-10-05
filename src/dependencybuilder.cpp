@@ -348,7 +348,7 @@ Expression* DependencyBuilder::buildExpression(Expression*,Expression*,Expressio
 	return NULL;
 }
 
-Expression* DependencyBuilder::buildExpression(QList<Expression*>*)
+Expression* DependencyBuilder::buildExpression(QList<Expression*>*,int)
 {
 	return NULL;
 }

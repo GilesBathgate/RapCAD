@@ -110,7 +110,7 @@ public:
 	Expression* buildExpression(Expression::Operator_e,Expression*);
 	Expression* buildExpression(Expression*,Expression::Operator_e,Expression*);
 	Expression* buildExpression(Expression*,Expression*,Expression*);
-	Expression* buildExpression(QList<Expression*>*);
+	Expression* buildExpression(QList<Expression*>*,int);
 	QList<Expression*>* buildVector();
 	QList<Expression*>* buildVector(Expression*);
 	QList<Expression*>* buildVector(QList<Expression*>*,unsigned int,Expression*);

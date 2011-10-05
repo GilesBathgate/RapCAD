@@ -29,9 +29,12 @@ public:
 	~VectorExpression();
 	void setChildren(QList<Expression*>);
 	QList<Expression*> getChildren() const;
+	void setAdditionalCommas(int);
+	int getAdditionalCommas() const;
 	void accept(TreeVisitor&);
 private:
 	QList<Expression*> children;
+	int additionalCommas;
 };
 
 #endif // VECTOREXPRESSION_H
