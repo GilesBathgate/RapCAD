@@ -58,7 +58,6 @@ public:
 private:
 	Value* matchArgument(bool,bool,int,QString);
 	bool match(bool,bool,QString,QString);
-	bool contains(QList<Value*>,QString);
 	QHash<QString,Value*> variables;
 	QHash<QString,Module*> modules;
 	QHash<QString,Function*> functions;

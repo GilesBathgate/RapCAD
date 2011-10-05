@@ -213,6 +213,11 @@ Value* Value::operation(Value& v, Expression::Operator_e e)
 	return this;
 }
 
+bool Value::isDefined() const
+{
+	return defined;
+}
+
 Value* Value::operation(Value* p_left, Expression::Operator_e e, Value* p_right)
 {
 	Value& left=*p_left;

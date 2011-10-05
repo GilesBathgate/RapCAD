@@ -107,18 +107,20 @@ void Context::addFunction(Function* func)
 void Context::setArguments(QList<Value*> args, QList<Value*> params)
 {
 	for(int i=0; i<params.size(); i++) {
-		QString name = args.at(i)->getName();
-		if(name.isEmpty() || contains(params,name))
-			variables.insert(params.at(i)->getName(), args.at(i));
+		Value* val=params.at(i);
+		QString paramName=val->getName();
+		for(int j=0; j<args.size(); j++) {
+			Value* arg=args.at(j);
+			QString argName=arg->getName();
+			if((i==j && argName.isEmpty()) || argName==paramName) {
+				if(arg->isDefined()) {
+					val=arg;
+					break;
+				}
+			}
+		}
+		variables.insert(paramName,val);
 	}
-}
-
-bool Context::contains(QList<Value*> params,QString name)
-{
-	foreach(Value* p, params)
-		if(p->getName() == name)
-			return true;
-	return false;
 }
 
 Value* Context::getArgument(int index, QString name)

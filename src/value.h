@@ -34,6 +34,7 @@ public:
 	QString getName() const;
 	virtual QString getValueString() const;
 	virtual bool isTrue() const;
+	bool isDefined() const;
 	virtual class VectorValue* toVector(int);
 	virtual Iterator<Value*>* createIterator();
 	Value* operator^(Value&);
