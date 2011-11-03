@@ -1,3 +1,7 @@
+0.6.0
+   * Allow for additional commas in Vector expressions, but raise a warning.
+   * Fixed implementation of default values for parameters.
+
 0.5.0
   * Added support for export via the command line, this removes the -f command
     line option.
