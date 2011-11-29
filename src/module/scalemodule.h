@@ -26,7 +26,7 @@ class ScaleModule : public Module
 {
 public:
 	ScaleModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 };
 
 #endif // SCALEMODULE_H

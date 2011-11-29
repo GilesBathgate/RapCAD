@@ -23,7 +23,7 @@ ImportModule::ImportModule()
 {
 }
 
-Node* ImportModule::evaluate(Context*,QList<Node*>)
+Node* ImportModule::evaluate(Context*)
 {
 	//TODO instance specific args
 	return new ImportNode(import);

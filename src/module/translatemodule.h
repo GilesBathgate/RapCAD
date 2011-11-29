@@ -25,7 +25,7 @@ class TranslateModule : public Module
 {
 public:
 	TranslateModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 };
 
 #endif // TRANSLATEMODULE_H

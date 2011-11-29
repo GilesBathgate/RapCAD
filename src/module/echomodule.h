@@ -26,7 +26,7 @@ class EchoModule : public Module
 {
 public:
 	EchoModule(QTextStream&);
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 private:
 	QTextStream& output;
 };

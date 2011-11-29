@@ -24,7 +24,7 @@ ScaleModule::ScaleModule() : Module("scale")
 {
 }
 
-Node* ScaleModule::evaluate(Context* ctx,QList<Node*> childs)
+Node* ScaleModule::evaluate(Context* ctx)
 {
 	Point size;
 	VectorValue* sizeVal=dynamic_cast<VectorValue*>(ctx->getArgument(0,"size"));
@@ -55,6 +55,6 @@ Node* ScaleModule::evaluate(Context* ctx,QList<Node*> childs)
 	for(int i=0; i<16; i++)
 		n->matrix[i]=m[i];
 
-	n->setChildren(childs);
+	n->setChildren(ctx->inputNodes);
 	return n;
 }

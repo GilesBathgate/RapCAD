@@ -7,7 +7,7 @@ ResizeModule::ResizeModule() : Module("resize")
 {
 }
 
-Node* ResizeModule::evaluate(Context* ctx, QList<Node *> childs)
+Node* ResizeModule::evaluate(Context* ctx)
 {
 	Point size;
 	VectorValue* sizeVal=dynamic_cast<VectorValue*>(ctx->getArgument(0,"size"));
@@ -21,7 +21,7 @@ Node* ResizeModule::evaluate(Context* ctx, QList<Node *> childs)
 
 	ResizeNode* n=new ResizeNode();
 	n->setSize(size);
-	n->setChildren(childs);
+	n->setChildren(ctx->inputNodes);
 	n->setAutoSize(autoSize);
 	return n;
 }

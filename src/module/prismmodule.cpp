@@ -24,7 +24,7 @@ PrismModule::PrismModule() : PrimitiveModule("prism")
 {
 }
 
-Node* PrismModule::evaluate(Context* ctx,QList<Node*>)
+Node* PrismModule::evaluate(Context* ctx)
 {
 	NumberValue* heightVal = dynamic_cast<NumberValue*>(ctx->getArgument(0,"height"));
 	double h=1.0;

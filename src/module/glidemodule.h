@@ -26,7 +26,7 @@ class GlideModule : public Module
 {
 public:
 	GlideModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 };
 
 #endif // GLIDEMODULE_H

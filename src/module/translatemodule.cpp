@@ -25,7 +25,7 @@ TranslateModule::TranslateModule() : Module("translate")
 {
 }
 
-Node* TranslateModule::evaluate(Context* ctx,QList<Node*> childs)
+Node* TranslateModule::evaluate(Context* ctx)
 {
 	Point v;
 	VectorValue* vec=dynamic_cast<VectorValue*>(ctx->getArgument(0,"vector"));
@@ -46,6 +46,6 @@ Node* TranslateModule::evaluate(Context* ctx,QList<Node*> childs)
 	for(int i=0; i<16; i++)
 		n->matrix[i]=m[i];
 
-	n->setChildren(childs);
+	n->setChildren(ctx->inputNodes);
 	return n;
 }

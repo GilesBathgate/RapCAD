@@ -24,7 +24,7 @@ PolylineModule::PolylineModule() : Module("polyline")
 {
 }
 
-Node* PolylineModule::evaluate(Context* ctx,QList<Node*>)
+Node* PolylineModule::evaluate(Context* ctx)
 {
 	VectorValue* points=dynamic_cast<VectorValue*>(ctx->getArgument(0,"points"));
 

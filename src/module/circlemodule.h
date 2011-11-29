@@ -26,7 +26,7 @@ class CircleModule : public PrimitiveModule
 {
 public:
 	CircleModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 };
 
 #endif // CIRCLEMODULE_H

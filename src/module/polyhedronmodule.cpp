@@ -26,7 +26,7 @@ PolyhedronModule::PolyhedronModule() : PrimitiveModule("polyhedron")
 {
 }
 
-Node* PolyhedronModule::evaluate(Context* ctx,QList<Node*>)
+Node* PolyhedronModule::evaluate(Context* ctx)
 {
 	VectorValue* points=dynamic_cast<VectorValue*>(ctx->getArgument(0,"points"));
 	VectorValue* surfaces=dynamic_cast<VectorValue*>(ctx->getArgumentDeprecated(1,"surfaces","triangles"));

@@ -5,7 +5,7 @@ SquareModule::SquareModule() : PrimitiveModule("square")
 {
 }
 
-Node* SquareModule::evaluate(Context* ctx,QList<Node*>)
+Node* SquareModule::evaluate(Context* ctx)
 {
 	Value* sizeVal=ctx->getArgument(0,"size");
 	Value* centerVal=ctx->getArgument(1,"center");

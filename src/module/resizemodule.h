@@ -8,7 +8,7 @@ class ResizeModule : public Module
 {
 public:
 	ResizeModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 };
 
 #endif // RESIZEMODULE_H

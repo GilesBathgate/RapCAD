@@ -23,9 +23,9 @@ SymmetricDifferenceModule::SymmetricDifferenceModule() : Module("symmetric_diffe
 {
 }
 
-Node* SymmetricDifferenceModule::evaluate(Context*,QList<Node*> childs)
+Node* SymmetricDifferenceModule::evaluate(Context* ctx)
 {
 	SymmetricDifferenceNode* d = new SymmetricDifferenceNode();
-	d->setChildren(childs);
+	d->setChildren(ctx->inputNodes);
 	return d;
 }

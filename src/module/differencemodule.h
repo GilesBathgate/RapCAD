@@ -20,12 +20,13 @@
 #define DIFFERENCEMODULE_H
 
 #include "module.h"
+#include "context.h"
 
 class DifferenceModule : public Module
 {
 public:
 	DifferenceModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 };
 
 #endif // DIFFERENCEMODULE_H

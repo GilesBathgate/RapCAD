@@ -26,7 +26,7 @@ class PolylineModule : public Module
 {
 public:
 	PolylineModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 };
 
 #endif // POLYLINEMODULE_H

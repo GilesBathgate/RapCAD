@@ -26,7 +26,7 @@ class LinearExtrudeModule : public Module
 {
 public:
 	LinearExtrudeModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 };
 
 #endif // LINEAREXTRUDEMODULE_H

@@ -26,7 +26,7 @@ class SphereModule : public PrimitiveModule
 {
 public:
 	SphereModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 };
 
 #endif // SPHEREMODULE_H

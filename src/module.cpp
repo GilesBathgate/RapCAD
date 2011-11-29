@@ -72,7 +72,7 @@ void Module::accept(TreeVisitor& v)
 	v.visit(this);
 }
 
-Node* Module::evaluate(Context*,QList<Node*>)
+Node* Module::evaluate(Context*)
 {
 	return NULL;
 }

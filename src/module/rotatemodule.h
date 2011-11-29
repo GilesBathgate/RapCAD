@@ -26,7 +26,7 @@ class RotateModule : public Module
 {
 public:
 	RotateModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 };
 
 #endif // ROTATEMODULE_H

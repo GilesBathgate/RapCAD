@@ -23,9 +23,9 @@ IntersectionModule::IntersectionModule() : Module("intersection")
 {
 }
 
-Node* IntersectionModule::evaluate(Context*,QList<Node*> childs)
+Node* IntersectionModule::evaluate(Context* ctx)
 {
 	IntersectionNode* d = new IntersectionNode();
-	d->setChildren(childs);
+	d->setChildren(ctx->inputNodes);
 	return d;
 }

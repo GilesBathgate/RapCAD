@@ -7,7 +7,7 @@ PolygonModule::PolygonModule() : Module("polygon")
 {
 }
 
-Node * PolygonModule::evaluate(Context* ctx, QList<Node*>)
+Node * PolygonModule::evaluate(Context* ctx)
 {
 	VectorValue* pointsVec=dynamic_cast<VectorValue*>(ctx->getArgument(0,"points"));
 	VectorValue* linesVec=dynamic_cast<VectorValue*>(ctx->getArgumentDeprecated(1,"lines","paths"));

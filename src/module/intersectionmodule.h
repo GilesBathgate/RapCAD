@@ -20,12 +20,13 @@
 #define INTERSECTIONMODULE_H
 
 #include "module.h"
+#include "context.h"
 
 class IntersectionModule : public Module
 {
 public:
 	IntersectionModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 };
 
 #endif // INTERSECTIONMODULE_H

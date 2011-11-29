@@ -8,7 +8,7 @@ class SquareModule : public PrimitiveModule
 {
 public:
 	SquareModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 };
 
 #endif // SQUAREMODULE_H

@@ -8,7 +8,7 @@ class PolygonModule : public Module
 {
 public:
 	PolygonModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 };
 
 #endif // POLYGONMODULE_H

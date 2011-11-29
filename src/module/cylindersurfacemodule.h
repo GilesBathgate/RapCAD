@@ -26,7 +26,7 @@ class CylinderSurfaceModule :  public PrimitiveModule
 {
 public:
 	CylinderSurfaceModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 };
 
 #endif // CYLINDERSURFACEMODULE_H

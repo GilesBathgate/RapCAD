@@ -84,7 +84,7 @@ BezierSurfaceModule::Points BezierSurfaceModule::getCurveQuad(Mesh mesh,Vector u
 	return p;
 }
 
-Node* BezierSurfaceModule::evaluate(Context* ctx, QList<Node*>)
+Node* BezierSurfaceModule::evaluate(Context* ctx)
 {
 	Mesh mesh;
 	VectorValue* meshVec=dynamic_cast<VectorValue*>(ctx->getArgument(0,"mesh"));

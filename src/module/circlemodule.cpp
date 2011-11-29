@@ -23,7 +23,7 @@ CircleModule::CircleModule() : PrimitiveModule("circle")
 {
 }
 
-Node* CircleModule::evaluate(Context* ctx,QList<Node*>)
+Node* CircleModule::evaluate(Context* ctx)
 {
 	NumberValue* rValue=dynamic_cast<NumberValue*>(ctx->getArgument(0,"radius"));
 

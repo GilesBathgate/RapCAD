@@ -23,9 +23,9 @@ DifferenceModule::DifferenceModule() : Module("difference")
 {
 }
 
-Node* DifferenceModule::evaluate(Context*,QList<Node*> childs)
+Node* DifferenceModule::evaluate(Context* ctx)
 {
 	DifferenceNode* d = new DifferenceNode();
-	d->setChildren(childs);
+	d->setChildren(ctx->inputNodes);
 	return d;
 }

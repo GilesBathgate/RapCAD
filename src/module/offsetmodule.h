@@ -8,7 +8,7 @@ class OffsetModule : public Module
 {
 public:
 	OffsetModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 };
 
 #endif // OFFSETMODULE_H

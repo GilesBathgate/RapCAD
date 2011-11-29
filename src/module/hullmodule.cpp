@@ -23,9 +23,9 @@ HullModule::HullModule() : Module("hull")
 {
 }
 
-Node* HullModule::evaluate(Context*,QList<Node*> childs)
+Node* HullModule::evaluate(Context* ctx)
 {
 	HullNode* d = new HullNode();
-	d->setChildren(childs);
+	d->setChildren(ctx->inputNodes);
 	return d;
 }

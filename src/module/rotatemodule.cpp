@@ -26,7 +26,7 @@ RotateModule::RotateModule() : Module("rotate")
 {
 }
 
-Node* RotateModule::evaluate(Context* ctx,QList<Node*> childs)
+Node* RotateModule::evaluate(Context* ctx)
 {
 	TransformationNode* n=new TransformationNode();
 
@@ -109,6 +109,6 @@ Node* RotateModule::evaluate(Context* ctx,QList<Node*> childs)
 		for(int i=0; i<16; i++)
 			n->matrix[i]=TxyTzRaTzTxy[i];
 	}
-	n->setChildren(childs);
+	n->setChildren(ctx->inputNodes);
 	return n;
 }

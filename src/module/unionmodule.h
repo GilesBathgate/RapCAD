@@ -20,12 +20,13 @@
 #define UNIONMODULE_H
 
 #include "module.h"
+#include "context.h"
 
 class UnionModule : public Module
 {
 public:
 	UnionModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 protected:
 	UnionModule(const QString s);
 };

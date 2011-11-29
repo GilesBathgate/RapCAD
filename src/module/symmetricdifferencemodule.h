@@ -20,12 +20,13 @@
 #define SYMMETRICDIFFERENCEMODULE_H
 
 #include "module.h"
+#include "context.h"
 
 class SymmetricDifferenceModule : public Module
 {
 public:
 	SymmetricDifferenceModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 };
 
 #endif // SYMMETRICDIFFERENCEMODULE_H

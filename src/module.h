@@ -42,7 +42,7 @@ public:
 	Scope* getScope() const;
 	void setScope(Scope*);
 	void accept(TreeVisitor&);
-	virtual Node* evaluate(Context*,QList<Node*>);
+	virtual Node* evaluate(Context*);
 private:
 	QString name;
 	QList<Parameter*> parameters;

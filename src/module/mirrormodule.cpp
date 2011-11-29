@@ -25,7 +25,7 @@ MirrorModule::MirrorModule() : Module("mirror")
 {
 }
 
-Node* MirrorModule::evaluate(Context* ctx,QList<Node*> childs)
+Node* MirrorModule::evaluate(Context* ctx)
 {
 	Point vec;
 	VectorValue* vecVal=dynamic_cast<VectorValue*>(ctx->getArgument(0,"vector"));
@@ -51,6 +51,6 @@ Node* MirrorModule::evaluate(Context* ctx,QList<Node*> childs)
 	for(int i=0; i<16; i++)
 		n->matrix[i]=m[i];
 
-	n->setChildren(childs);
+	n->setChildren(ctx->inputNodes);
 	return n;
 }

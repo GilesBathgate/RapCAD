@@ -6,7 +6,7 @@ SubDivisionModule::SubDivisionModule() : Module("subdiv")
 {
 }
 
-Node* SubDivisionModule::evaluate(Context* ctx,QList<Node*> childs)
+Node* SubDivisionModule::evaluate(Context* ctx)
 {
 	int level=0;
 	NumberValue* levelVal=dynamic_cast<NumberValue*>(ctx->getArgument(0,"level"));
@@ -14,7 +14,7 @@ Node* SubDivisionModule::evaluate(Context* ctx,QList<Node*> childs)
 		level=int(levelVal->getNumber());
 
 	SubDivisionNode* d = new SubDivisionNode();
-	d->setChildren(childs);
+	d->setChildren(ctx->inputNodes);
 	d->setLevel(level);
 	return d;
 }

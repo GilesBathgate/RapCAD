@@ -24,7 +24,7 @@ LinearExtrudeModule::LinearExtrudeModule() : Module("linear_extrude")
 {
 }
 
-Node* LinearExtrudeModule::evaluate(Context* ctx,QList<Node*> childs)
+Node* LinearExtrudeModule::evaluate(Context* ctx)
 {
 	double h=1.0;
 	NumberValue* height=dynamic_cast<NumberValue*>(ctx->getArgument(0,"height"));
@@ -33,6 +33,6 @@ Node* LinearExtrudeModule::evaluate(Context* ctx,QList<Node*> childs)
 
 	LinearExtrudeNode* d = new LinearExtrudeNode();
 	d->setHeight(h);
-	d->setChildren(childs);
+	d->setChildren(ctx->inputNodes);
 	return d;
 }

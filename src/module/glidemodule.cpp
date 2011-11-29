@@ -24,7 +24,7 @@ GlideModule::GlideModule() : Module("glide")
 {
 }
 
-Node* GlideModule::evaluate(Context* ctx,QList<Node*> childs)
+Node* GlideModule::evaluate(Context* ctx)
 {
 	bool close=false;
 	Value* closeVal=ctx->getArgument(0,"closed");
@@ -33,6 +33,6 @@ Node* GlideModule::evaluate(Context* ctx,QList<Node*> childs)
 
 	GlideNode* n=new GlideNode();
 	n->setClosed(close);
-	n->setChildren(childs);
+	n->setChildren(ctx->inputNodes);
 	return n;
 }

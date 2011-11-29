@@ -8,7 +8,7 @@ class SubDivisionModule : public Module
 {
 public:
 	SubDivisionModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 };
 
 #endif // SUBDIVISIONMODULE_H

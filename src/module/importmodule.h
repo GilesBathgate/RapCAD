@@ -27,7 +27,7 @@ class ImportModule : public Module
 {
 public:
 	ImportModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 	void setImport(QString);
 private:
 	QString import;

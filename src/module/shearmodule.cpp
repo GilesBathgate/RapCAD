@@ -24,7 +24,7 @@ ShearModule::ShearModule() : Module("shear")
 {
 }
 
-Node* ShearModule::evaluate(Context* ctx,QList<Node*> childs)
+Node* ShearModule::evaluate(Context* ctx)
 {
 	Point vecSx;
 	VectorValue* xVal=dynamic_cast<VectorValue*>(ctx->getArgument(0,"x"));
@@ -61,6 +61,6 @@ Node* ShearModule::evaluate(Context* ctx,QList<Node*> childs)
 	for(int i=0; i<16; i++)
 		n->matrix[i]=m[i];
 
-	n->setChildren(childs);
+	n->setChildren(ctx->inputNodes);
 	return n;
 }

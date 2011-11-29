@@ -20,12 +20,13 @@
 #define BOUNDSMODULE_H
 
 #include "module.h"
+#include "context.h"
 
 class BoundsModule : public Module
 {
 public:
 	BoundsModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 };
 
 #endif // BOUNDSMODULE_H

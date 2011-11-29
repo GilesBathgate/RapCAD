@@ -23,9 +23,9 @@ OutlineModule::OutlineModule() : Module("outline")
 {
 }
 
-Node* OutlineModule::evaluate(Context*,QList<Node*> childs)
+Node* OutlineModule::evaluate(Context* ctx)
 {
 	OutlineNode* n = new OutlineNode();
-	n->setChildren(childs);
+	n->setChildren(ctx->inputNodes);
 	return n;
 }

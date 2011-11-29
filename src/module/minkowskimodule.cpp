@@ -23,9 +23,9 @@ MinkowskiModule::MinkowskiModule() : Module("minkowski")
 {
 }
 
-Node* MinkowskiModule::evaluate(Context*,QList<Node*> childs)
+Node* MinkowskiModule::evaluate(Context* ctx)
 {
 	MinkowskiNode* d = new MinkowskiNode();
-	d->setChildren(childs);
+	d->setChildren(ctx->inputNodes);
 	return d;
 }

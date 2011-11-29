@@ -26,7 +26,7 @@ class PrismModule : public PrimitiveModule
 {
 public:
 	PrismModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 };
 
 #endif // PRISMMODULE_H

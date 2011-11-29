@@ -103,7 +103,7 @@ void TreeEvaluator::visit(Instance* inst)
 		if(scp) {
 			scp->accept(*this);
 		} else {
-			Node* node=mod->evaluate(context,context->inputNodes);
+			Node* node=mod->evaluate(context);
 			if(node)
 				context->currentNodes.append(node);
 		}

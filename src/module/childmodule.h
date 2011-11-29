@@ -8,7 +8,7 @@ class ChildModule : public Module
 {
 public:
 	ChildModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 };
 
 #endif // CHILDMODULE_H

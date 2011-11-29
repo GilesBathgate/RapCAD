@@ -26,7 +26,7 @@ class OutlineModule : public Module
 {
 public:
 	OutlineModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 };
 
 #endif // OUTLINEMODULE_H

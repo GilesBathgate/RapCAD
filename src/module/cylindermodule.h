@@ -25,7 +25,7 @@ class CylinderModule : public PrimitiveModule
 {
 public:
 	CylinderModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 };
 
 #endif // CYLINDERMODULE_H

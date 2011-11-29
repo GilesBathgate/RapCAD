@@ -23,9 +23,9 @@ BoundsModule::BoundsModule() : Module("bounds")
 {
 }
 
-Node* BoundsModule::evaluate(Context*,QList<Node*> childs)
+Node* BoundsModule::evaluate(Context* ctx)
 {
 	BoundsNode* n=new BoundsNode();
-	n->setChildren(childs);
+	n->setChildren(ctx->inputNodes);
 	return n;
 }

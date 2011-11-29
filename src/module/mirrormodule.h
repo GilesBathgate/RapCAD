@@ -26,7 +26,7 @@ class MirrorModule : public Module
 {
 public:
 	MirrorModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 };
 
 #endif // MIRRORMODULE_H

@@ -26,7 +26,7 @@ class ShearModule : public Module
 {
 public:
 	ShearModule();
-	Node* evaluate(Context*,QList<Node*>);
+	Node* evaluate(Context*);
 };
 
 #endif // SHEARMODULE_H

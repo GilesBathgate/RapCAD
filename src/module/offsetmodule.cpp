@@ -6,7 +6,7 @@ OffsetModule::OffsetModule() : Module("offset")
 {
 }
 
-Node* OffsetModule::evaluate(Context* ctx,QList<Node*> childs)
+Node* OffsetModule::evaluate(Context* ctx)
 {
 	double a=1.0;
 	NumberValue* amountVal=dynamic_cast<NumberValue*>(ctx->getArgument(0,"amount"));
@@ -15,6 +15,6 @@ Node* OffsetModule::evaluate(Context* ctx,QList<Node*> childs)
 
 	OffsetNode* n = new OffsetNode();
 	n->setAmount(a);
-	n->setChildren(childs);
+	n->setChildren(ctx->inputNodes);
 	return n;
 }
