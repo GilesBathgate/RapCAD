@@ -113,12 +113,12 @@ Mac OS X 10.6.3
 
 .xcode 3.2
 --------------------------------------------
-https://connect.apple.com/cgi-bin/WebObjects/MemberSite.woa/wa/getSoftware?bundleID=20588[Xcode 3.2.2]
+link:https://connect.apple.com/cgi-bin/WebObjects/MemberSite.woa/wa/getSoftware?bundleID=20588[Xcode 3.2.2]
 --------------------------------------------
 
 .macports
 --------------------------------------------
-https://distfiles.macports.org/MacPorts/MacPorts-2.0.3-10.6-SnowLeopard.dmg[MacPorts Installer]
+link:https://distfiles.macports.org/MacPorts/MacPorts-2.0.3-10.6-SnowLeopard.dmg[MacPorts Installer]
 --------------------------------------------
 
 .Dependencies
