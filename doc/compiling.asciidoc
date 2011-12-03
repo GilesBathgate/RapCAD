@@ -108,14 +108,22 @@ make
 ftp://anonymous:anonymous@ribbonsoft.com/archives/dxflib/dxflib-2.2.0.0-1.src.tar.gz
 ------------------------------------------------------------------------------------
 
-Mac OS X
---------
+Mac OS X 10.6.3
+---------------
 
-Install xcode and macports
+.xcode 3.2
+--------------------------------------------
+https://connect.apple.com/cgi-bin/WebObjects/MemberSite.woa/wa/getSoftware?bundleID=20588[Xcode 3.2.2]
+--------------------------------------------
+
+.macports
+--------------------------------------------
+https://distfiles.macports.org/MacPorts/MacPorts-2.0.3-10.6-SnowLeopard.dmg[MacPorts Installer]
+--------------------------------------------
 
 .Dependencies
 -------------------------------------------------------------
-sudo port install boost gmp mpfr cmake qt4-mac-devel git-core
+sudo port install boost gmp mpfr cmake qt4-mac git-core
 -------------------------------------------------------------
 
 .CGAL
