@@ -113,14 +113,14 @@ Mac OS X 10.6.3
 
 Xcode 3.2
 ~~~~~~~~~
-Register with apple and download Xcode 3.2
-link:https://connect.apple.com/cgi-bin/WebObjects/MemberSite.woa/wa/getSoftware?bundleID=20588[Xcode 3.2.2]
+Register with apple and download
+link:https://connect.apple.com/cgi-bin/WebObjects/MemberSite.woa/wa/getSoftware?bundleID=20588[Xcode 3.2.2].
 Install the package accepting the default options.
 
 MacPorts
 ~~~~~~~~
-Download the MacPorts installer 
-link:https://distfiles.macports.org/MacPorts/MacPorts-2.0.3-10.6-SnowLeopard.dmg[MacPorts Installer]
+Download the
+link:https://distfiles.macports.org/MacPorts/MacPorts-2.0.3-10.6-SnowLeopard.dmg[MacPorts Installer].
 Install the package accepting the default options.
 
 .Dependencies
@@ -150,5 +150,7 @@ sudo make install
 -------------------------
 qmake CONFIG+=official
 make
+macdeployqt -dmg
+hdiutil internet-enable -yes rapcad.dmg
 -------------------------
 
