@@ -111,15 +111,13 @@ ftp://anonymous:anonymous@ribbonsoft.com/archives/dxflib/dxflib-2.2.0.0-1.src.ta
 Mac OS X 10.6.3
 ---------------
 
-.xcode 3.2
---------------------------------------------
+Xcode 3.2
+~~~~~~~~~
 link:https://connect.apple.com/cgi-bin/WebObjects/MemberSite.woa/wa/getSoftware?bundleID=20588[Xcode 3.2.2]
---------------------------------------------
 
-.macports
---------------------------------------------
+MacPorts
+~~~~~~~~
 link:https://distfiles.macports.org/MacPorts/MacPorts-2.0.3-10.6-SnowLeopard.dmg[MacPorts Installer]
---------------------------------------------
 
 .Dependencies
 -------------------------------------------------------------
