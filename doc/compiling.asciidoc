@@ -108,7 +108,7 @@ make
 ftp://anonymous:anonymous@ribbonsoft.com/archives/dxflib/dxflib-2.2.0.0-1.src.tar.gz
 ------------------------------------------------------------------------------------
 
-Mac OS X 10.6.3
+Mac OS X 10.6.2
 ---------------
 
 Xcode 3.2
@@ -125,16 +125,8 @@ Install the package accepting the default options.
 
 .Dependencies
 -------------------------------------------------------------
-sudo port install boost gmp mpfr cmake qt4-mac git-core
+sudo port cgal qt4-mac
 -------------------------------------------------------------
-
-.CGAL
---------------------------------------------
-cd CGAL-3.8 &&
-cmake . -DCMAKE_INSTALL_PREFIX=/opt/local &&
-make &&
-sudo make install
---------------------------------------------
 
 .dxflib
 -----------------------------------------------------------------------------------------
@@ -150,7 +142,7 @@ sudo make install
 -------------------------
 qmake CONFIG+=official
 make
-macdeployqt -dmg
+macdeployqt rapcad.app -dmg
 hdiutil internet-enable -yes rapcad.dmg
 -------------------------
 

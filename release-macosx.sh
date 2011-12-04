@@ -2,5 +2,5 @@
 
 qmake CONFIG+=official
 make
-macdeployqt -dmg
+macdeployqt rapcad.app -dmg
 hdiutil internet-enable -yes rapcad.dmg
