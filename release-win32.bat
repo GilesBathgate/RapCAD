@@ -1,9 +1,12 @@
 @echo off
 
-qmake CONFIG+=official
-%comspec% /c make -f Makefile.Release
-%comspec% /c make clean
-copy installer.nsi release
-copy ..\rapcad-dlls\* release
-cd release
-"c:\Program Files\NSIS\makensis.exe" installer.nsi
+set PATH=%PATH%;%ProgramFiles%\NSIS
+
+qmake CONFIG+=official && ^
+make -f Makefile.Release && ^
+make clean && ^
+copy installer.nsi release && ^
+copy ..\rapcad-dlls\* release && ^
+pushd release && ^
+makensis.exe installer.nsi && ^
+popd
