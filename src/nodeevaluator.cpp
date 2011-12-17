@@ -113,11 +113,10 @@ void NodeEvaluator::visit(HullNode* n)
 			points.append(pt);
 	}
 
-	CGAL::Object hull;
+	CGAL::Polyhedron3 hull;
 	CGAL::convex_hull_3(points.begin(),points.end(),hull);
 
-	CGAL::Polyhedron3 poly=CGAL::object_cast<CGAL::Polyhedron3>(hull);
-	result=new CGALPrimitive(poly);
+	result=new CGALPrimitive(hull);
 }
 
 void NodeEvaluator::visit(LinearExtrudeNode* op)
