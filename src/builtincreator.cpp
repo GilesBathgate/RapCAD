@@ -60,6 +60,9 @@
 #include "function/randfunction.h"
 #include "function/versionfunction.h"
 #include "function/strfunction.h"
+#include "function/sinfunction.h"
+#include "function/cosfunction.h"
+#include "function/tanfunction.h"
 
 BuiltinCreator::BuiltinCreator(QTextStream& output)
 {
@@ -103,6 +106,9 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new RandFunction());
 	builtins.append(new VersionFunction());
 	builtins.append(new StrFunction());
+	builtins.append(new SinFunction());
+	builtins.append(new CosFunction());
+	builtins.append(new TanFunction());
 }
 
 BuiltinCreator* BuiltinCreator::instance=NULL;

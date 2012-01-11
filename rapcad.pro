@@ -199,7 +199,10 @@ SOURCES += \
 	src/function/lengthfunction.cpp \
 	src/printconsole.cpp \
 	src/function/strfunction.cpp \
-	src/project.cpp
+	src/project.cpp \
+	src/function/sinfunction.cpp \
+	src/function/cosfunction.cpp \
+	src/function/tanfunction.cpp
 
 
 HEADERS  += \
@@ -343,7 +346,10 @@ HEADERS  += \
 	src/function/lengthfunction.h \
 	src/printconsole.h \
 	src/function/strfunction.h \
-	src/project.h
+	src/project.h \
+	src/function/sinfunction.h \
+	src/function/cosfunction.h \
+	src/function/tanfunction.h
 
 FORMS += \
 	src/mainwindow.ui \
