@@ -387,6 +387,8 @@ void TreeEvaluator::visit(Invocation* stmt)
 
 		context->arguments.clear();
 		context->parameters.clear();
+	} else {
+		output << "Warning: cannot find function '" << name << "'.\n";
 	}
 }
 
