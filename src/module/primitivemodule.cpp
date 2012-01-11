@@ -65,7 +65,7 @@ Polygon PrimitiveModule::getPolygon(double a,double r, double n, double z)
 	Polygon poly;
 	if(n==6) {
 		//TODO modify this to cater for all even values of n
-		double x,y;
+		double x=0,y=0;
 		double s2=r*sin(M_PI/n);
 		for(int i=0; i<n; i++){
 			switch(i) {
