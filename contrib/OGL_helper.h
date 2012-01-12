@@ -356,17 +356,17 @@ namespace OGL {
     Bbox_3  bbox() const { return bbox_; }
     Bbox_3& bbox()       { return bbox_; }
 
-    virtual CGAL::Color getVertexColor(Vertex_iterator v) const
+    virtual CGAL::Color getVertexColor(bool mark) const
     {
 	CGAL::Color cf(CGAL_NEF3_MARKED_VERTEX_COLOR),
 	  ct(CGAL_NEF3_UNMARKED_VERTEX_COLOR); // more blue-ish
-	CGAL::Color c = v->mark() ? ct : cf;
+	CGAL::Color c = mark ? ct : cf;
 	return c;
     }
 
     void draw(Vertex_iterator v) const { 
       //      CGAL_NEF_TRACEN("drawing vertex "<<*v);
-      CGAL::Color c = getVertexColor(v);
+      CGAL::Color c = getVertexColor(v->mark());
       glPointSize(10);
       glColor3ub(c.red(), c.green(), c.blue());
       glBegin(GL_POINTS);
@@ -378,18 +378,18 @@ namespace OGL {
       glEnd();
     }
 
-    virtual CGAL::Color getEdgeColor(Edge_iterator e) const
+    virtual CGAL::Color getEdgeColor(bool mark) const
     {
 	CGAL::Color cf(CGAL_NEF3_MARKED_EDGE_COLOR),
 	  ct(CGAL_NEF3_UNMARKED_EDGE_COLOR); // more blue-ish
-	CGAL::Color c = e->mark() ? ct : cf;
+	CGAL::Color c = mark ? ct : cf;
 	return c;
     }
 
     void draw(Edge_iterator e) const { 
       //      CGAL_NEF_TRACEN("drawing edge "<<*e);
       Double_point p = e->source(), q = e->target();
-      CGAL::Color c = getEdgeColor(e);
+      CGAL::Color c = getEdgeColor(e->mark());
       glLineWidth(5);
       glColor3ub(c.red(),c.green(),c.blue());
       glBegin(GL_LINE_STRIP);
@@ -398,11 +398,11 @@ namespace OGL {
       glEnd();
     }
 
-    virtual CGAL::Color getFacetColor(Halffacet_iterator f) const
+    virtual CGAL::Color getFacetColor(bool mark) const
     {
 	CGAL::Color cf(CGAL_NEF3_MARKED_FACET_COLOR),
 	  ct(CGAL_NEF3_UNMARKED_FACET_COLOR); // more blue-ish
-	CGAL::Color c = (f->mark() ? ct : cf);
+	CGAL::Color c = (mark ? ct : cf);
 	return c;
     }
 
@@ -423,7 +423,7 @@ namespace OGL {
 		      GLU_TESS_WINDING_POSITIVE);
 
       DFacet::Coord_const_iterator cit;
-      CGAL::Color c = getFacetColor(f);
+      CGAL::Color c = getFacetColor(f->mark());
       glColor3ub(c.red(),c.green(),c.blue());
       gluTessBeginPolygon(tess_,f->normal());
       //      CGAL_NEF_TRACEN(" ");

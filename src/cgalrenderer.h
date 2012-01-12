@@ -37,9 +37,9 @@ private:
 	};
 	void setColor(Color_e,bool,QColor);
 	void setColor(Color_e,bool,CGAL::Color);
-	CGAL::Color getVertexColor(Vertex_iterator v) const;
-	CGAL::Color getEdgeColor(Edge_iterator e) const;
-	CGAL::Color getFacetColor(Halffacet_iterator f) const;
+	CGAL::Color getVertexColor(bool mark) const;
+	CGAL::Color getEdgeColor(bool mark) const;
+	CGAL::Color getFacetColor(bool mark) const;
 	CGAL::Color markedVertexColor;
 	CGAL::Color vertexColor;
 	CGAL::Color markedEdgeColor;

@@ -68,17 +68,17 @@ void CGALRenderer::setColor(Color_e t,bool marked,CGAL::Color c)
 	}
 }
 
-CGAL::Color CGALRenderer::getVertexColor(Vertex_iterator v) const
+CGAL::Color CGALRenderer::getVertexColor(bool mark) const
 {
-	return v->mark() ? markedVertexColor : vertexColor;
+	return mark ? markedVertexColor : vertexColor;
 }
 
-CGAL::Color CGALRenderer::getEdgeColor(Edge_iterator e) const
+CGAL::Color CGALRenderer::getEdgeColor(bool mark) const
 {
-	return e->mark() ? markedEdgeColor : edgeColor;
+	return mark ? markedEdgeColor : edgeColor;
 }
 
-CGAL::Color CGALRenderer::getFacetColor(Halffacet_iterator f) const
+CGAL::Color CGALRenderer::getFacetColor(bool mark) const
 {
-	return f->mark() ? markedFacetColor : facetColor;
+	return mark ? markedFacetColor : facetColor;
 }
