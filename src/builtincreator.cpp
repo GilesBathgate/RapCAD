@@ -63,6 +63,7 @@
 #include "function/sinfunction.h"
 #include "function/cosfunction.h"
 #include "function/tanfunction.h"
+#include "function/absfunction.h"
 
 BuiltinCreator::BuiltinCreator(QTextStream& output)
 {
@@ -109,6 +110,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new SinFunction());
 	builtins.append(new CosFunction());
 	builtins.append(new TanFunction());
+	builtins.append(new AbsFunction());
 }
 
 BuiltinCreator* BuiltinCreator::instance=NULL;
