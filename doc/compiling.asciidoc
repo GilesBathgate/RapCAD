@@ -125,7 +125,7 @@ Install the package accepting the default options.
 
 .Dependencies
 -------------------------------------------------------------
-sudo port cgal qt4-mac
+sudo port install cgal qt4-mac
 -------------------------------------------------------------
 
 .dxflib
