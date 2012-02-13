@@ -203,8 +203,8 @@ SOURCES += \
 	src/function/sinfunction.cpp \
 	src/function/cosfunction.cpp \
 	src/function/tanfunction.cpp \
-	src/function/absfunction.cpp
-
+	src/function/absfunction.cpp \
+	src/function/signfunction.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -351,7 +351,8 @@ HEADERS  += \
 	src/function/sinfunction.h \
 	src/function/cosfunction.h \
 	src/function/tanfunction.h \
-	src/function/absfunction.h
+	src/function/absfunction.h \
+	src/function/signfunction.h
 
 FORMS += \
 	src/mainwindow.ui \

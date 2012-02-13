@@ -64,6 +64,7 @@
 #include "function/cosfunction.h"
 #include "function/tanfunction.h"
 #include "function/absfunction.h"
+#include "function/signfunction.h"
 
 BuiltinCreator::BuiltinCreator(QTextStream& output)
 {
@@ -111,6 +112,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new CosFunction());
 	builtins.append(new TanFunction());
 	builtins.append(new AbsFunction());
+	builtins.append(new SignFunction());
 }
 
 BuiltinCreator* BuiltinCreator::instance=NULL;
