@@ -65,6 +65,8 @@
 #include "function/tanfunction.h"
 #include "function/absfunction.h"
 #include "function/signfunction.h"
+#include "function/minfunction.h"
+#include "function/maxfunction.h"
 
 BuiltinCreator::BuiltinCreator(QTextStream& output)
 {
@@ -113,6 +115,8 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new TanFunction());
 	builtins.append(new AbsFunction());
 	builtins.append(new SignFunction());
+	builtins.append(new MinFunction());
+	builtins.append(new MaxFunction());
 }
 
 BuiltinCreator* BuiltinCreator::instance=NULL;

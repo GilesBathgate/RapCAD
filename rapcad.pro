@@ -204,7 +204,9 @@ SOURCES += \
 	src/function/cosfunction.cpp \
 	src/function/tanfunction.cpp \
 	src/function/absfunction.cpp \
-	src/function/signfunction.cpp
+	src/function/signfunction.cpp \
+	src/function/minfunction.cpp \
+	src/function/maxfunction.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -352,7 +354,9 @@ HEADERS  += \
 	src/function/cosfunction.h \
 	src/function/tanfunction.h \
 	src/function/absfunction.h \
-	src/function/signfunction.h
+	src/function/signfunction.h \
+	src/function/minfunction.h \
+	src/function/maxfunction.h
 
 FORMS += \
 	src/mainwindow.ui \
