@@ -67,6 +67,7 @@
 #include "function/signfunction.h"
 #include "function/minfunction.h"
 #include "function/maxfunction.h"
+#include "function/roundfunction.h"
 
 BuiltinCreator::BuiltinCreator(QTextStream& output)
 {
@@ -117,6 +118,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new SignFunction());
 	builtins.append(new MinFunction());
 	builtins.append(new MaxFunction());
+	builtins.append(new RoundFunction());
 }
 
 BuiltinCreator* BuiltinCreator::instance=NULL;

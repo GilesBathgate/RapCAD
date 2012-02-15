@@ -206,7 +206,8 @@ SOURCES += \
 	src/function/absfunction.cpp \
 	src/function/signfunction.cpp \
 	src/function/minfunction.cpp \
-	src/function/maxfunction.cpp
+	src/function/maxfunction.cpp \
+	src/function/roundfunction.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -356,7 +357,8 @@ HEADERS  += \
 	src/function/absfunction.h \
 	src/function/signfunction.h \
 	src/function/minfunction.h \
-	src/function/maxfunction.h
+	src/function/maxfunction.h \
+	src/function/roundfunction.h
 
 FORMS += \
 	src/mainwindow.ui \
