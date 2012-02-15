@@ -68,6 +68,8 @@
 #include "function/minfunction.h"
 #include "function/maxfunction.h"
 #include "function/roundfunction.h"
+#include "function/ceilfunction.h"
+#include "function/floorfunction.h"
 
 BuiltinCreator::BuiltinCreator(QTextStream& output)
 {
@@ -119,6 +121,8 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new MinFunction());
 	builtins.append(new MaxFunction());
 	builtins.append(new RoundFunction());
+	builtins.append(new CeilFunction());
+	builtins.append(new FloorFunction());
 }
 
 BuiltinCreator* BuiltinCreator::instance=NULL;

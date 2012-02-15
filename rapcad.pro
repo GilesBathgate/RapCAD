@@ -207,7 +207,9 @@ SOURCES += \
 	src/function/signfunction.cpp \
 	src/function/minfunction.cpp \
 	src/function/maxfunction.cpp \
-	src/function/roundfunction.cpp
+	src/function/roundfunction.cpp \
+	src/function/ceilfunction.cpp \
+	src/function/floorfunction.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -358,7 +360,9 @@ HEADERS  += \
 	src/function/signfunction.h \
 	src/function/minfunction.h \
 	src/function/maxfunction.h \
-	src/function/roundfunction.h
+	src/function/roundfunction.h \
+	src/function/ceilfunction.h \
+	src/function/floorfunction.h
 
 FORMS += \
 	src/mainwindow.ui \
