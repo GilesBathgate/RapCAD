@@ -70,6 +70,7 @@
 #include "function/roundfunction.h"
 #include "function/ceilfunction.h"
 #include "function/floorfunction.h"
+#include "function/powfunction.h"
 
 BuiltinCreator::BuiltinCreator(QTextStream& output)
 {
@@ -123,6 +124,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new RoundFunction());
 	builtins.append(new CeilFunction());
 	builtins.append(new FloorFunction());
+	builtins.append(new PowFunction());
 }
 
 BuiltinCreator* BuiltinCreator::instance=NULL;
