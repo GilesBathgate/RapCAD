@@ -71,6 +71,7 @@
 #include "function/ceilfunction.h"
 #include "function/floorfunction.h"
 #include "function/powfunction.h"
+#include "function/expfunction.h"
 
 BuiltinCreator::BuiltinCreator(QTextStream& output)
 {
@@ -125,6 +126,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new CeilFunction());
 	builtins.append(new FloorFunction());
 	builtins.append(new PowFunction());
+	builtins.append(new ExpFunction());
 }
 
 BuiltinCreator* BuiltinCreator::instance=NULL;

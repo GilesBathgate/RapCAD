@@ -210,7 +210,8 @@ SOURCES += \
 	src/function/roundfunction.cpp \
 	src/function/ceilfunction.cpp \
 	src/function/floorfunction.cpp \
-	src/function/powfunction.cpp
+	src/function/powfunction.cpp \
+	src/function/expfunction.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -364,7 +365,8 @@ HEADERS  += \
 	src/function/roundfunction.h \
 	src/function/ceilfunction.h \
 	src/function/floorfunction.h \
-	src/function/powfunction.h
+	src/function/powfunction.h \
+	src/function/expfunction.h
 
 FORMS += \
 	src/mainwindow.ui \
