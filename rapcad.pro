@@ -56,6 +56,8 @@ win32 {
 macx {
 	INCLUDEPATH += /opt/local/include
 	LIBS += -L/opt/local/lib -lboost_thread-mt
+
+	QMAKE_MOC = $$[QT_INSTALL_BINS]\\moc -DBOOST_TT_HAS_OPERATOR_HPP_INCLUDED
 }
 
 #LIBS += -L$$PWD/librapcad -lrapcad
