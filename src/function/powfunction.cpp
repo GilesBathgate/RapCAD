@@ -11,4 +11,6 @@ Value* PowFunction::evaluate(Context* ctx)
 	Value* arg=ctx->getArgument(1,"exponent");
 	if(val&&arg)
 		return Value::operation(val,Expression::Exponent,arg);
+
+	return new Value();
 }
