@@ -6,7 +6,7 @@ SinFunction::SinFunction() : Function("sin")
 {
 }
 
-Value * SinFunction::evaluate(Context* ctx)
+Value* SinFunction::evaluate(Context* ctx)
 {
 	NumberValue* numVal=dynamic_cast<NumberValue*>(ctx->getArgument(0,"value"));
 	if(numVal) {

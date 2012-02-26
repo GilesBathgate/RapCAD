@@ -213,7 +213,8 @@ SOURCES += \
 	src/function/ceilfunction.cpp \
 	src/function/floorfunction.cpp \
 	src/function/powfunction.cpp \
-	src/function/expfunction.cpp
+	src/function/expfunction.cpp \
+	src/function/asinfunction.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -368,7 +369,8 @@ HEADERS  += \
 	src/function/ceilfunction.h \
 	src/function/floorfunction.h \
 	src/function/powfunction.h \
-	src/function/expfunction.h
+	src/function/expfunction.h \
+	src/function/asinfunction.h
 
 FORMS += \
 	src/mainwindow.ui \

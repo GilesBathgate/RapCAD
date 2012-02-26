@@ -72,6 +72,7 @@
 #include "function/floorfunction.h"
 #include "function/powfunction.h"
 #include "function/expfunction.h"
+#include "function/asinfunction.h"
 
 BuiltinCreator::BuiltinCreator(QTextStream& output)
 {
@@ -127,6 +128,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new FloorFunction());
 	builtins.append(new PowFunction());
 	builtins.append(new ExpFunction());
+	builtins.append(new AsinFunction());
 }
 
 BuiltinCreator* BuiltinCreator::instance=NULL;
