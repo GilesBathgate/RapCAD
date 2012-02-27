@@ -214,7 +214,8 @@ SOURCES += \
 	src/function/floorfunction.cpp \
 	src/function/powfunction.cpp \
 	src/function/expfunction.cpp \
-	src/function/asinfunction.cpp
+	src/function/asinfunction.cpp \
+	src/function/acosfunction.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -370,7 +371,8 @@ HEADERS  += \
 	src/function/floorfunction.h \
 	src/function/powfunction.h \
 	src/function/expfunction.h \
-	src/function/asinfunction.h
+	src/function/asinfunction.h \
+	src/function/acosfunction.h
 
 FORMS += \
 	src/mainwindow.ui \
