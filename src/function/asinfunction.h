@@ -7,8 +7,8 @@
 class AsinFunction : public Function
 {
 public:
-        AsinFunction();
-        Value* evaluate(Context*);
+	AsinFunction();
+	Value* evaluate(Context*);
 };
 
 #endif // ASINFUNCTION_H
