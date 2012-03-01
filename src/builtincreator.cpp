@@ -74,6 +74,7 @@
 #include "function/expfunction.h"
 #include "function/asinfunction.h"
 #include "function/acosfunction.h"
+#include "function/atan2function.h"
 
 BuiltinCreator::BuiltinCreator(QTextStream& output)
 {
@@ -131,6 +132,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new ExpFunction());
 	builtins.append(new AsinFunction());
 	builtins.append(new AcosFunction());
+	builtins.append(new Atan2Function());
 }
 
 BuiltinCreator* BuiltinCreator::instance=NULL;
