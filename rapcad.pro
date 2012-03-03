@@ -217,7 +217,8 @@ SOURCES += \
 	src/function/asinfunction.cpp \
 	src/function/acosfunction.cpp \
 	src/function/atan2function.cpp \
-	src/function/atanfunction.cpp
+	src/function/atanfunction.cpp \
+	src/function/coshfunction.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -376,7 +377,8 @@ HEADERS  += \
 	src/function/asinfunction.h \
 	src/function/acosfunction.h \
 	src/function/atan2function.h \
-	src/function/atanfunction.h
+	src/function/atanfunction.h \
+	src/function/coshfunction.h
 
 FORMS += \
 	src/mainwindow.ui \
