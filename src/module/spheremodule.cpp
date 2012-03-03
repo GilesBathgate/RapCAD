@@ -21,7 +21,6 @@
 #include "tau.h"
 
 /*TODO
--Center not working
 -Crashes rapcad on a zero radius value
 */
 SphereModule::SphereModule() : PrimitiveModule("sphere")
@@ -56,7 +55,7 @@ Node* SphereModule::evaluate(Context* ctx)
 	for(int i=0; i<ringCount; i++) {
 		double phi = (M_PI*(i+0.5)) / ringCount;
 		double r2 = r*sin(phi);
-		double z = r*cos(phi);
+		double z = r*cos(phi)+!center*r;
 		Polygon c = getCircle(r2,f,z);
 		rings.append(c);
 	}
