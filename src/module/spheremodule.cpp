@@ -20,6 +20,10 @@
 #include "numbervalue.h"
 #include "tau.h"
 
+/*TODO
+-Center not working
+-Crashes rapcad on a zero radius value
+*/
 SphereModule::SphereModule() : PrimitiveModule("sphere")
 {
 }
