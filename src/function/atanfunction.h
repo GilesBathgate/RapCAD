@@ -7,8 +7,8 @@
 class AtanFunction : public Function
 {
 public:
-        AtanFunction();
-        Value* evaluate(Context*);
+	AtanFunction();
+	Value* evaluate(Context*);
 };
 
 #endif // ATANFUNCTION_H

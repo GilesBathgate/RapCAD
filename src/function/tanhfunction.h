@@ -7,8 +7,8 @@
 class TanhFunction : public Function
 {
 public:
-        TanhFunction();
-        Value* evaluate(Context*);
+	TanhFunction();
+	Value* evaluate(Context*);
 };
 
 #endif // TANHFUNCTION_H

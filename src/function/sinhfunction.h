@@ -7,8 +7,8 @@
 class SinhFunction : public Function
 {
 public:
-        SinhFunction();
-        Value* evaluate(Context*);
+	SinhFunction();
+	Value* evaluate(Context*);
 };
 
 #endif // SINHFUNCTION_H
