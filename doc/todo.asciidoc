@@ -15,9 +15,18 @@ Modules
 -------
 bezier_surface need to use use and $fn,$fa,$fs variables for number of faces.
 linear_extrude is fast now but a bit buggy, and also need to work out how to do holes properly.
+rotate_extrude needs implementing
 subdiv need to implement and fix
+
+Printing
+--------
+Need to cache final model for slice and dice scripts (.rcam)
+
+Compatability
+-------------
+Implement dxf import
 
 Functions
 ---------
-Everything except sqrt and sum needs implementing!
+Some functions outstanding
 
