@@ -12,9 +12,7 @@ Value* TanhFunction::evaluate(Context* ctx)
 	if(numVal) {
 		double num=numVal->getNumber();
 
-		NumberValue* result;
-		result = new NumberValue(tanh(num));
-		return result;
+		return new NumberValue(tanh(num));
 	}
 	return new Value();
 }

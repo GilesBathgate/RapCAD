@@ -12,9 +12,7 @@ Value* ExpFunction::evaluate(Context* ctx)
 	if(numVal) {
 		double num=numVal->getNumber();
 
-		NumberValue* result;
-		result = new NumberValue(exp(num));
-		return result;
+		return new NumberValue(exp(num));
 	}
 	return new Value();
 }

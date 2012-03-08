@@ -12,9 +12,7 @@ Value* AcosFunction::evaluate(Context* ctx)
 	if(numVal) {
 		double num=numVal->getNumber();
 
-		NumberValue* result;
-		result = new NumberValue(acos(num));
-		return result;
+		return new NumberValue(acos(num));
 	}
 	return new Value();
 }

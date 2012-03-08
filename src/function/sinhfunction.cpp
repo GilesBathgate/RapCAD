@@ -12,9 +12,7 @@ Value* SinhFunction::evaluate(Context* ctx)
 	if(numVal) {
 		double num=numVal->getNumber();
 
-		NumberValue* result;
-		result = new NumberValue(sinh(num));
-		return result;
+		return new NumberValue(sinh(num));
 	}
 	return new Value();
 }

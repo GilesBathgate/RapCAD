@@ -12,9 +12,7 @@ Value* TanFunction::evaluate(Context* ctx)
 	if(numVal) {
 		double num=numVal->getNumber();
 
-		NumberValue* result;
-		result = new NumberValue(tan(num));
-		return result;
+		return new NumberValue(tan(num));
 	}
 	return new Value();
 }

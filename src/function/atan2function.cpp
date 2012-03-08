@@ -14,9 +14,7 @@ Value* Atan2Function::evaluate(Context* ctx)
 		double y=yVal->getNumber();
 		double x=xVal->getNumber();
 
-		NumberValue* result;
-		result = new NumberValue(atan2(y,x));
-		return result;
+		return new NumberValue(atan2(y,x));
 	}
 	return new Value();
 }

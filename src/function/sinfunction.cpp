@@ -12,9 +12,7 @@ Value* SinFunction::evaluate(Context* ctx)
 	if(numVal) {
 		double num=numVal->getNumber();
 
-		NumberValue* result;
-		result = new NumberValue(sin(num));
-		return result;
+		return new NumberValue(sin(num));
 	}
 	return new Value();
 }

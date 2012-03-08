@@ -12,9 +12,7 @@ Value* CeilFunction::evaluate(Context* ctx)
 	if(numVal) {
 		double num=numVal->getNumber();
 
-		NumberValue* result;
-		result = new NumberValue(ceil(num));
-		return result;
+		return new NumberValue(ceil(num));
 	}
 	return new Value();
 }

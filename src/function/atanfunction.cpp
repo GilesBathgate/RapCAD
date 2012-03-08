@@ -12,9 +12,7 @@ Value* AtanFunction::evaluate(Context* ctx)
 	if(numVal) {
 		double num=numVal->getNumber();
 
-		NumberValue* result;
-		result = new NumberValue(atan(num));
-		return result;
+		return new NumberValue(atan(num));
 	}
 	return new Value();
 }

@@ -16,9 +16,7 @@ Value* SignFunction::evaluate(Context* ctx)
 	if(numVal) {
 		double num=numVal->getNumber();
 
-		NumberValue* result;
-		result = new NumberValue(sign(num));
-		return result;
+		return new NumberValue(sign(num));
 	}
 	return new Value();
 }

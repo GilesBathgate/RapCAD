@@ -17,9 +17,7 @@ Value* RoundFunction::evaluate(Context* ctx)
 	if(numVal) {
 		double num=numVal->getNumber();
 
-		NumberValue* result;
-		result = new NumberValue(fround(num));
-		return result;
+		return new NumberValue(fround(num));
 	}
 	return new Value();
 }

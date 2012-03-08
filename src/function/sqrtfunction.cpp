@@ -26,12 +26,11 @@ SqrtFunction::SqrtFunction() : Function("sqrt")
 
 Value* SqrtFunction::evaluate(Context* ctx)
 {
-	double num,result;
 	NumberValue* numVal=dynamic_cast<NumberValue*>(ctx->getArgument(0,"number"));
 	if(numVal) {
-		num=numVal->getNumber();
-		result=sqrt(num);
-		return new NumberValue(result);
+		double num=numVal->getNumber();
+
+		return new NumberValue(sqrt(num));
 	}
 	return new Value();
 }

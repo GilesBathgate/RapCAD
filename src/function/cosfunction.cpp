@@ -12,9 +12,7 @@ Value* CosFunction::evaluate(Context* ctx)
 	if(numVal) {
 		double num=numVal->getNumber();
 
-		NumberValue* result;
-		result = new NumberValue(cos(num));
-		return result;
+		return new NumberValue(cos(num));
 	}
 	return new Value();
 }

@@ -14,9 +14,7 @@ Value* MaxFunction::evaluate(Context* ctx)
 		double a=aVal->getNumber();
 		double b=bVal->getNumber();
 
-		NumberValue* result;
-		result = new NumberValue(fmax(a,b));
-		return result;
+		return new NumberValue(fmax(a,b));
 	}
 	return new Value();
 }

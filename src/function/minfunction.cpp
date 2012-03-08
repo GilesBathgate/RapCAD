@@ -14,9 +14,7 @@ Value* MinFunction::evaluate(Context* ctx)
 		double a=aVal->getNumber();
 		double b=bVal->getNumber();
 
-		NumberValue* result;
-		result = new NumberValue(fmin(a,b));
-		return result;
+		return new NumberValue(fmin(a,b));
 	}
 	return new Value();
 }

@@ -12,9 +12,7 @@ Value* FloorFunction::evaluate(Context* ctx)
 	if(numVal) {
 		double num=numVal->getNumber();
 
-		NumberValue* result;
-		result = new NumberValue(floor(num));
-		return result;
+		return new NumberValue(floor(num));
 	}
 	return new Value();
 }

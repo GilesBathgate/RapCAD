@@ -12,9 +12,7 @@ Value* AsinFunction::evaluate(Context* ctx)
 	if(numVal) {
 		double num=numVal->getNumber();
 
-		NumberValue* result;
-		result = new NumberValue(asin(num));
-		return result;
+		return new NumberValue(asin(num));
 	}
 	return new Value();
 }
