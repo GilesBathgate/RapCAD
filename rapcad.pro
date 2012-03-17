@@ -46,7 +46,7 @@ win32 {
 	QMAKE_LEX = "..\\MinGW\\msys\\1.0\\bin\\flex"
 	QMAKE_MOVE = "..\\MinGW\\msys\\1.0\\bin\\mv"
 } else {
-	LIBS += -lCGAL -lCGAL_Core -lmpfr -lgmp -ldxflib
+	LIBS += -lCGAL -lCGAL_Core -lmpfr -lgmp -ldxflib -lGLU
 	QMAKE_YACC = bison
 
 	!macx {
