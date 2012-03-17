@@ -24,6 +24,7 @@
 #include <CGAL/Simple_cartesian.h>
 #include <CGAL/Nef_3/SNC_decorator.h>
 #include <qgl.h>
+#include <GL/glu.h>
 #include <cstdlib>
 
 #define CGAL_NEF3_MARKED_VERTEX_COLOR 183,232,92
