@@ -46,18 +46,15 @@ win32 {
 	QMAKE_LEX = "..\\MinGW\\msys\\1.0\\bin\\flex"
 	QMAKE_MOVE = "..\\MinGW\\msys\\1.0\\bin\\mv"
 } else {
-	LIBS += -lCGAL -lCGAL_Core -lmpfr -lgmp -ldxflib -lGLU
+	LIBS += -lCGAL -lCGAL_Core -lmpfr -lgmp -ldxflib
 	QMAKE_YACC = bison
-
-	!macx {
-		LIBS += -lboost_thread
-	}
-}
-macx {
+  macx {
 	INCLUDEPATH += /opt/local/include
 	LIBS += -L/opt/local/lib -lboost_thread-mt
-
 	QMAKE_MOC = $$[QT_INSTALL_BINS]\\moc -DBOOST_TT_HAS_OPERATOR_HPP_INCLUDED
+  } else {
+	LIBS += -lboost_thread -lGLU
+  }
 }
 
 #LIBS += -L$$PWD/librapcad -lrapcad
