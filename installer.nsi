@@ -12,6 +12,8 @@ File mingwm10.dll
 File QtCore4.dll
 File QtGui4.dll
 File QtOpenGL4.dll
+File libCGAL.dll
+File libCGAL_Core.dll
 File libmpfr-4.dll
 File libgmp-10.dll
 CreateShortCut $SMPROGRAMS\RapCAD.lnk $INSTDIR\rapcad.exe
@@ -29,6 +31,8 @@ Delete $INSTDIR\mingwm10.dll
 Delete $INSTDIR\QtCore4.dll
 Delete $INSTDIR\QtGui4.dll
 Delete $INSTDIR\QtOpenGL4.dll
+Delete $INSTDIR\libCGAL.dll
+Delete $INSTDIR\libCGAL_Core.dll
 Delete $INSTDIR\libmpfr-4.dll
 Delete $INSTDIR\libgmp-10.dll
 Delete $SMPROGRAMS\RapCAD.lnk
