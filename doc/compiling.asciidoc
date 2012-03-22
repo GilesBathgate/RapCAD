@@ -4,19 +4,22 @@ Compiling
 The following instructions will allow you to compile RapCAD from source on
 various platforms.
 
+Prerequisites
+~~~~~~~~~~~~~
+
+The source code is hosted in a git repository so you might want to install git first
+
+.linux
+-----------------------------
+sudo apt-get install git-core
+-----------------------------
+
 Linux
 -----
 
-.CGAL
+.Dependencies
 -------------------------------------------------------------------
-wget https://gforge.inria.fr/frs/download.php/28500/CGAL-3.8.tar.gz
-
-sudo apt-get install libboost-dev cmake libmpfr-dev libgmp3-dev &&
-tar -xzf CGAL-3.8.tar.gz &&
-cd CGAL-3.8 &&
-cmake . -DCMAKE_INSTALL_PREFIX=/usr &&
-make &&
-sudo make install
+sudo apt-get install g++ libcgal-dev libqt4-dev bison flex
 -------------------------------------------------------------------
 
 .dxflib
