@@ -8,8 +8,8 @@ set hostdir=h:\rapcad
 set build=%hostdir%\build.log
 set error=%hostdir%\error.log
 
-pushd c:\rapcad && ^
-set /p version= < VERSION && ^
+pushd c:\rapcad
+set /p version= < VERSION 
 echo Building RapCAD v%version% ^
   > %build% && ^
 git pull ^
