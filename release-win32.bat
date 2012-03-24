@@ -32,7 +32,7 @@ move rapcad_setup.exe rapcad_%version%_setup.exe ^
   >> %build% 2>> %error% && ^
 move release rapcad-%version% ^
   >> %build% 2>> %error% && ^
-zip rapcad_%version%.zip rapcad-%version% ^
+zip -r rapcad_%version%.zip rapcad-%version% ^
   >> %build% 2>> %error% && ^
 move rapcad_%version%_setup.exe %hostdir% ^
   >> %build% 2>> %error% && ^
