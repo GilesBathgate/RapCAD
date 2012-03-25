@@ -254,7 +254,7 @@ void TreeEvaluator::visit(AssignStatement* stmt)
 
 	Value* lvalue = context->currentValue;
 
-	Value* result;
+	Value* result=NULL;
 	Expression::Operator_e op=stmt->getOperation();
 	switch(op) {
 	case Expression::Increment:

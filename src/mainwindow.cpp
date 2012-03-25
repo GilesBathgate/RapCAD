@@ -359,7 +359,7 @@ bool MainWindow::saveAsFile()
 
 bool MainWindow::closeFile()
 {
-	bool result;
+	bool result=false;
 	CodeEditor* c=currentEditor();
 	if(c->document()->isModified()) {
 		QList<QString> files;
