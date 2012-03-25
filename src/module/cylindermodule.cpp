@@ -77,6 +77,15 @@ Node* CylinderModule::evaluate(Context* ctx)
 	Polygon c2 = getCircle(r2,f,z2);
 	PrimitiveNode* p = new PrimitiveNode();
 
+	if(r1 > 0) {
+		p->createPolygon();
+		for(int i=0; i<f; i++)
+			p->appendVertex(c1.at(i));
+	}
+
+	if(h==0.0)
+		return p;
+
 	for(int i=0; i<f; i++) {
 		int j=(i+1)%f;
 		if(r1 == r2) {
@@ -99,12 +108,6 @@ Node* CylinderModule::evaluate(Context* ctx)
 				p->appendVertex(c1.at(j));
 			}
 		}
-	}
-
-	if(r1 > 0) {
-		p->createPolygon();
-		for(int i=0; i<f; i++)
-			p->appendVertex(c1.at(i));
 	}
 
 	if(r2 > 0) {

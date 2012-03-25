@@ -62,6 +62,9 @@ Node* CubeModule::evaluate(Context* ctx)
 	p->appendVertex(x2, y2, z2);
 	p->appendVertex(x1, y2, z2);
 
+	if(z==0.0)
+		return p;
+
 	p->createPolygon(); // side1
 	p->appendVertex(x1, y1, z1);
 	p->appendVertex(x2, y1, z1);
