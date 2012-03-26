@@ -39,6 +39,7 @@
 #include "node/outlinenode.h"
 #include "node/importnode.h"
 #include "node/resizenode.h"
+#include "node/centernode.h"
 
 class NodePrinter : public NodeVisitor
 {
@@ -63,6 +64,7 @@ public:
 	void printOperation(Node*,QString name);
 	void visit(TransformationNode*);
 	void visit(ResizeNode*);
+	void visit(CenterNode*);
 private:
 	QTextStream& result;
 };

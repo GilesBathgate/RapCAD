@@ -222,7 +222,9 @@ SOURCES += \
 	src/function/atanfunction.cpp \
 	src/function/coshfunction.cpp \
 	src/function/sinhfunction.cpp \
-	src/function/tanhfunction.cpp
+	src/function/tanhfunction.cpp \
+	src/module/centermodule.cpp \
+	src/node/centernode.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -384,7 +386,9 @@ HEADERS  += \
 	src/function/atanfunction.h \
 	src/function/coshfunction.h \
 	src/function/sinhfunction.h \
-	src/function/tanhfunction.h
+	src/function/tanhfunction.h \
+	src/module/centermodule.h \
+	src/node/centernode.h
 
 FORMS += \
 	src/mainwindow.ui \

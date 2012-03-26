@@ -149,6 +149,11 @@ void NodePrinter::visit(ResizeNode* n)
 	printOperation(n,"resize");
 }
 
+void NodePrinter::visit(CenterNode* n)
+{
+	printOperation(n,"center");
+}
+
 void NodePrinter::visit(TransformationNode* n)
 {
 	result << "multmatrix([[";

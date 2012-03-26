@@ -53,6 +53,7 @@
 #include "module/outlinemodule.h"
 #include "module/importmodule.h"
 #include "module/resizemodule.h"
+#include "module/centermodule.h"
 
 #include "function/lengthfunction.h"
 #include "function/sqrtfunction.h"
@@ -99,6 +100,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new IntersectionModule());
 	builtins.append(new TranslateModule());
 	builtins.append(new ResizeModule());
+	builtins.append(new CenterModule());
 	builtins.append(new SymmetricDifferenceModule());
 	builtins.append(new MinkowskiModule());
 	builtins.append(new GlideModule());
