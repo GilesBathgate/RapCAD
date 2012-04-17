@@ -23,10 +23,12 @@
 // licensed under the Creative Commons - GNU GPL license.
 // http://www.thingiverse.com/thing:753
 
+import <example12.stl> as Mblock;
+
 difference()
 {
 	sphere(20);
 	
 	translate([ -2.92, 0.5, +20 ]) rotate([180, 0, 180])
-			import("example012.stl", convexity = 5);
+			Mblock();
 }
