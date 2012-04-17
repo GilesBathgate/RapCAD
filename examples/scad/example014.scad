@@ -19,7 +19,7 @@
  *
  */
 
-intersection_for(i = [
+intersection()for(i = [
 			[0, 0, 0],
 			[10, 20, 300],
 			[200, 40, 57],
