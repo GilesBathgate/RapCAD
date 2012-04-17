@@ -26,6 +26,7 @@
 //
 // Jonas Pfeil converted the file to binary
 // STL and duplicated its content.
+import <"example016.stl"> as Mblock;
 
 module blk1() {
 	cube([ 65, 28, 28 ], center = true);
@@ -41,7 +42,7 @@ module blk2() {
 
 module chop() {
 	translate([ -14, 0, 0 ])
-		import(file = "example016.stl", convexity = 12);
+		MBlock();
 }
 
 difference() {
