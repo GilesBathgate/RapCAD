@@ -1,0 +1,50 @@
+/*
+ *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
+ *   Copyright (C) 2010-2012 Giles Bathgate
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+//constants cannot be reassigned
+const half=2;
+
+half=300; //generates a warning but doesn't assign.
+
+//modules are declared like this and allow you to reuse parts parametrically
+module dome(d=5) {
+	difference() {
+		r=d/half; //Syntax error in OpenSCAD!
+		sphere(r);
+		translate([0,0,-r/half])cube([d,d,r],c=true);
+	}
+}
+
+//variables must appear before they are used.
+f=j; //f will be assigned to undef
+j=4;
+k=j; //this is ok
+
+for(i=[10:20:60]) {
+	j=j+1; //Syntax error in OpenSCAD also j=??? is a syntax error inside for.
+	k++; //OpenSCAD doesn't support increment either.
+	translate([10,i,0])widget(k);
+}
+
+//modules can be declared out of order
+module widget(h) {
+	difference() {
+		dome(d=10);
+		cylinder(d=h,h=20);
+	}
+}
