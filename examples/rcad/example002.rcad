@@ -24,7 +24,7 @@
 param hole=8;
 param thickness=3;
 
-module holes(dia,h,offset){
+module holes(dia,h,offset=0){
 	translate([0,0,-offset])cylinder(h=h+2*offset,d=dia);
 	translate([-15,6,7.5])rotate([0,90,30])cylinder(h=30+offset,d=dia);
 }
@@ -32,7 +32,7 @@ module holes(dia,h,offset){
 module vertex() {
 	difference(){
 		hull(){
-			holes(hole+thickness*2,15,0);
+			holes(hole+thickness*2,15);
 		}
 		holes(hole,16,7);
 	}
