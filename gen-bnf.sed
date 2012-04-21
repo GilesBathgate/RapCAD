@@ -9,6 +9,8 @@ s@//@@;
 s/DOCSTART /"\/\*\*" /;
 s/ INC/ "++"/;
 s/ DEC/ "--"/;
+s/ ADDA/ "+="/;
+s/ SUBA/ "-="/;
 s/DOCEND/"\*\/"/;
 s/DOCPARAM /"@" /;
 s/ AP / "~=" /;

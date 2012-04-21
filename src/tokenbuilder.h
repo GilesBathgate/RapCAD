@@ -65,6 +65,8 @@ public:
 	unsigned int buildComponentwiseDivide();
 	unsigned int buildIncrement();
 	unsigned int buildDecrement();
+	unsigned int buildAddAssign();
+	unsigned int buildSubtractAssign();
 	unsigned int buildOuterProduct();
 	unsigned int buildNamespace();
 	unsigned int buildAssign();

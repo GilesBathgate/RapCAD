@@ -36,6 +36,8 @@ public:
 		ComponentwiseDivide,
 		Increment,
 		Decrement,
+		AddAssign,
+		SubAssign,
 		OuterProduct,
 		Modulus,
 		Dot,

@@ -47,9 +47,11 @@ public:
 	Value* operator%(Value&);
 	Value* operator+();
 	Value* operator+(Value&);
+	Value* operator+=(Value&);
 	Value* operator++(int);
 	Value* operator-();
 	Value* operator-(Value&);
+	Value* operator-=(Value&);
 	Value* operator--(int);
 	Value* operator<(Value&);
 	Value* operator<=(Value&);
@@ -111,6 +113,10 @@ A Value::basicOperation(B left, Expression::Operator_e e, B right)
 		return left+right;
 	case Expression::Subtract:
 		return left-right;
+	case Expression::AddAssign:
+		return left+=right;
+	case Expression::SubAssign:
+		return left-=right;
 	case Expression::LessThan:
 		return left<right;
 	case Expression::LessOrEqual:

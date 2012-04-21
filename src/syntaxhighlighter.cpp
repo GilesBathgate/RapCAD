@@ -282,6 +282,18 @@ unsigned int SyntaxHighlighter::buildDecrement()
 	return YY_CONTINUE;
 }
 
+unsigned int SyntaxHighlighter::buildAddAssign()
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildSubtractAssign()
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
 unsigned int SyntaxHighlighter::buildOuterProduct()
 {
 	setFormat(startIndex,lexerleng,operatorFormat);

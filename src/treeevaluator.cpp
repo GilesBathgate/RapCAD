@@ -270,7 +270,9 @@ void TreeEvaluator::visit(AssignStatement* stmt)
 	}
 
 	switch(op) {
-	case Expression::Append: {
+	case Expression::Append:
+	case Expression::AddAssign:
+	case Expression::SubAssign: {
 		result=Value::operation(lvalue,op,result);
 		break;
 	}

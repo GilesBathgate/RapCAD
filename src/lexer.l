@@ -80,7 +80,9 @@ NL \n|\r\n
 "&&"				{ return tokenizer->buildAnd(); }
 "||"				{ return tokenizer->buildOr();  }
 "++"				{ return tokenizer->buildIncrement(); }
+"+="				{ return tokenizer->buildAddAssign(); }
 "--"				{ return tokenizer->buildDecrement(); }
+"-="				{ return tokenizer->buildSubtractAssign(); }
 "**"				{ return tokenizer->buildOuterProduct(); }
 ".*"				{ return tokenizer->buildComponentwiseMultiply(); }
 "./"				{ return tokenizer->buildComponentwiseDivide(); }

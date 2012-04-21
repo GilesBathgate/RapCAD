@@ -82,7 +82,7 @@ static Reporter* reporter;
 %left EQ NE
 %left '!' '+' '-' '~'
 %left '*' '/' '%'
-%left INC DEC
+%left INC DEC ADDA SUBA
 %left CM CD CP
 %right '^'
 %left '[' ']'
@@ -250,6 +250,10 @@ assign_statement
 	{ $$ = builder->buildStatement($1,Expression::Increment); }
 	| variable DEC
 	{ $$ = builder->buildStatement($1,Expression::Decrement); }
+	| variable ADDA expression
+	{ $$ = builder->buildStatement($1,Expression::AddAssign,$3); }
+	| variable SUBA expression
+	{ $$ = builder->buildStatement($1,Expression::SubAssign,$3); }
 	| CONST IDENTIFIER '=' expression
 	{ $$ = builder->buildStatement($2,Variable::Const,$4); }
 	| PARAM IDENTIFIER '=' expression

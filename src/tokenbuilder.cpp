@@ -231,6 +231,16 @@ unsigned int TokenBuilder::buildDecrement()
 	return DEC;
 }
 
+unsigned int TokenBuilder::buildAddAssign()
+{
+	return ADDA;
+}
+
+unsigned int TokenBuilder::buildSubtractAssign()
+{
+	return SUBA;
+}
+
 unsigned int TokenBuilder::buildOuterProduct()
 {
 	return CP;

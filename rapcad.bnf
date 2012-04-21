@@ -81,6 +81,8 @@
 	| <variable> "~=" <expression>
 	| <variable> "++"
 	| <variable> "--"
+	| <variable> "+=" <expression>
+	| <variable> "-=" <expression>
 	| "const" <identifier> '=' <expression>
 	| "param" <identifier> '=' <expression>
 
@@ -105,7 +107,7 @@
 	| <number>
 	| '[' <expression> ':' <expression> ']'
 	| '[' <expression> ':' <expression> ':' <expression> ']'
-	| '[' <vector_expression> ']'
+	| '[' <vector_expression> <optional_commas> ']'
 	| <expression> '^' <expression>
 	| <expression> '*' <expression>
 	| <expression> '~' <expression>
