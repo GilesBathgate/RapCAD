@@ -1,5 +1,5 @@
 #!/bin/bash
-version=`cat VERSION`
+version=$(cat VERSION)
 releasedir=rapcad-release-test
 windir=$releasedir/windows
 ppadir=$releasedir/ppa
@@ -13,32 +13,21 @@ if [ ! -d "$ppadir" ]; then
   mkdir -p $ppadir
 fi
 
-echo Building Precise version
-pushd rapcad-$version &&
-git reset --hard v$version &&
-sed "s/rapcad ($version) unstable/rapcad ($version~precise1) precise/" -i  debian/changelog &&
-debuild -S &&
-popd &&
-dput -s rapcad-ppa rapcad_$version~precise1_source.changes &&
-mv rapcad_$version~precise1* $ppadir
+ppa_build(){
+	echo Building $1 version
+	vname=$(echo $1 | tr "[A-Z]" "[a-z]")
+	pushd rapcad-$version &&
+	git reset --hard v$version &&
+	sed "s/rapcad ($version) unstable/rapcad ($version~"$vname"1) $vname/" -i  debian/changelog &&
+	debuild -S &&
+	popd &&
+	dput --simulate rapcad-ppa rapcad_$version~"$vname"1_source.changes &&
+	mv rapcad_$version~"$vname"1* $ppadir
+}
 
-echo Building Oneiric version
-pushd rapcad-$version &&
-git reset --hard v$version &&
-sed "s/rapcad ($version) unstable/rapcad ($version~oneiric1) oneiric/" -i  debian/changelog &&
-debuild -S &&
-popd &&
-dput -s rapcad-ppa rapcad_$version~oneiric1_source.changes &&
-mv rapcad_$version~oneiric1* $ppadir
-
-echo Building Natty version
-pushd rapcad-$version &&
-git reset --hard v$version &&
-sed "s/rapcad ($version) unstable/rapcad ($version~natty1) natty/" -i  debian/changelog &&
-debuild -S &&
-popd &&
-dput -s rapcad-ppa rapcad_$version~natty1_source.changes
-mv rapcad_$version~natty1* $ppadir
+ppa_build "Precise"
+ppa_build "Oneiric"
+ppa_build "Natty"
 
 rm -rf rapcad-$version
 popd
