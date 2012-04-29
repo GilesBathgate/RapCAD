@@ -1,6 +1,6 @@
 #!/bin/bash
 version=$(cat VERSION)
-releasedir=rapcad-release-test
+releasedir=rapcad-release
 windir=$releasedir/windows
 ppadir=$releasedir/ppa
 
@@ -21,7 +21,7 @@ ppa_build(){
 	sed "s/rapcad ($version) unstable/rapcad ($version~"$vname"1) $vname/" -i  debian/changelog &&
 	debuild -S &&
 	popd &&
-	dput --simulate rapcad-ppa rapcad_$version~"$vname"1_source.changes &&
+	dput rapcad-ppa rapcad_$version~"$vname"1_source.changes &&
 	mv rapcad_$version~"$vname"1* $ppadir
 }
 
