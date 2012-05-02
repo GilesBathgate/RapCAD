@@ -1,3 +1,15 @@
+0.7.0
+   * Implemented add assign (+=), and subtract assign (-=) operators.
+   * Added some simple examples.
+   * Implemented center() module for centering about the bounding box.
+   * Fix for cylinder and cube of zero height.
+   * Updated icons.
+   * Added support for non centered spheres
+   * Implemented new functions tanh() sinh() cosh() atan() atan2() acos()
+     asin() exp() pow() ceil() floor() round() min() max() sign() abs()
+     sin() cos() tan().
+   * Added warning when function cannot be found.
+
 0.6.0
    * Allow for additional commas in Vector expressions, but raise a warning.
    * Fixed implementation of default values for parameters.
