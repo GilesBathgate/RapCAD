@@ -120,3 +120,8 @@ void Worker::exportOFF(CGALPrimitive* primitive, QString fn)
 {
 	exporter->exportOFF(primitive,fn);
 }
+
+void Worker::exportAMF(CGALPrimitive* primitive, QString fn)
+{
+	exporter->exportAMF(primitive,fn);
+}

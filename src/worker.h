@@ -34,6 +34,7 @@ public:
 	virtual void evaluate();
 	void exportAsciiSTL(CGALPrimitive*,QString);
 	void exportOFF(CGALPrimitive*,QString);
+	void exportAMF(CGALPrimitive*,QString);
 	virtual ~Worker();
 signals:
 	void done(CGALPrimitive*);

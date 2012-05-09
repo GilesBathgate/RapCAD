@@ -22,6 +22,15 @@
       </property>
       <widget class="QTreeView" name="treeView"/>
       <widget class="QTabWidget" name="tabWidget">
+       <property name="tabShape">
+        <enum>QTabWidget::Rounded</enum>
+       </property>
+       <property name="tabsClosable">
+        <bool>false</bool>
+       </property>
+       <property name="movable">
+        <bool>false</bool>
+       </property>
        <widget class="CodeEditor" name="scriptEditor">
         <property name="tabStopWidth">
          <number>40</number>
@@ -162,6 +171,7 @@
       <string>Export</string>
      </property>
      <addaction name="actionExportAsciiSTL"/>
+     <addaction name="actionExportAMF"/>
      <addaction name="actionExportOFF"/>
      <addaction name="actionExportImage"/>
     </widget>
@@ -629,6 +639,11 @@
   <action name="actionSaveAll">
    <property name="text">
     <string>Save All</string>
+   </property>
+  </action>
+  <action name="actionExportAMF">
+   <property name="text">
+    <string>AMF</string>
    </property>
   </action>
  </widget>

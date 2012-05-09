@@ -29,6 +29,7 @@ public:
 	void exportResult(CGALPrimitive*,QString);
 	void exportOFF(CGALPrimitive*,QString);
 	void exportAsciiSTL(CGALPrimitive*,QString,bool);
+	void exportAMF(CGALPrimitive*,QString);
 };
 
 #endif // CGALEXPORT_H
