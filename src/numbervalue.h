@@ -25,6 +25,7 @@ class NumberValue : public Value
 {
 public:
 	NumberValue(double);
+	virtual ~NumberValue() {}
 	QString getValueString() const;
 	bool isTrue() const;
 	double getNumber() const;
