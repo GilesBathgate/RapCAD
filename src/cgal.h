@@ -34,6 +34,7 @@ typedef CGAL::Polyhedron_3<Kernel3> Polyhedron3;
 typedef Polyhedron3::HalfedgeDS HalfedgeDS;
 typedef CGAL::Nef_polyhedron_3<Kernel3> NefPolyhedron3;
 typedef Kernel3::Point_3 Point3;
+typedef Kernel3::Triangle_3 Triangle3;
 typedef Kernel3::Point_2 Point2;
 typedef CGAL::Vector_3<Kernel3> Vector3;
 typedef NefPolyhedron3::Aff_transformation_3 AffTransformation3;
