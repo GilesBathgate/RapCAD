@@ -101,30 +101,30 @@ module hexadecagon(radius)
 
 module cone(height,radius,center=false)
 {
-  cylinder(h=height,r1=radius,r2=0,center=center);
+  cylinder(h=height,r1=radius,r2=0,c=center);
 }
 
-module oval_prism(height,rx,ry,center=false)
+module oval_prism(height,rx,ry,c=false)
 {
   scale([1,rx/ry,1])
-    cylinder(h=height,r=ry,center=center);
+    cylinder(h=height,r=ry,c=center);
 }
 
 module oval_tube(height,rx,ry,wall,center=false)
 {
   difference() {
     scale([1,ry/rx,1])
-      cylinder(h=height,r=rx,center=center);
+      cylinder(h=height,r=rx,c=center);
     scale([(rx-wall)/rx,(ry-wall)/rx,2])
       translate([0,0,-height/4])
-        cylinder(h=height,r=rx,center=center);
+        cylinder(h=height,r=rx,c=center);
   }
 }
 
 module cylinder_tube(height,radius,wall,center=false)
 {
   tubify(radius,wall,height)
-    cylinder(h=height,r=radius,center=center);
+    cylinder(h=height,r=radius,c=center);
 }
 
 /**
@@ -132,8 +132,7 @@ module cylinder_tube(height,radius,wall,center=false)
 */
 module tubify(radius,wall,height)
 {
-  difference()
-  {
+  difference() {
     child(0);
     scale([(radius-wall)/radius,(radius-wall)/radius,2])
       translate([0,0,-height/4])
@@ -143,7 +142,7 @@ module tubify(radius,wall,height)
 
 module triangle_prism(height,radius)
 {
-  linear_extrude(height=height)
+  linear_extrude(h=height)
     triangle(radius);
 }
 
@@ -155,7 +154,7 @@ module triangle_tube(height,radius,wall)
 
 module pentagon_prism(height,radius)
 {
-  linear_extrude(height=height)
+  linear_extrude(h=height)
     pentagon(radius);
 }
 
@@ -167,7 +166,7 @@ module pentagon_tube(height,radius,wall)
 
 module hexagon_prism(height,radius) 
 {
-  linear_extrude(height=height)
+  linear_extrude(h=height)
     hexagon(radius);
 }
 
@@ -179,7 +178,7 @@ module hexagon_tube(height,radius,wall)
 
 module heptagon_prism(height,radius) 
 {
-  linear_extrude(height=height)
+  linear_extrude(h=height)
     heptagon(radius);
 }
 
@@ -191,7 +190,7 @@ module heptagon_tube(height,radius,wall)
 
 module octagon_prism(height,radius) 
 {
-  linear_extrude(height=height)
+  linear_extrude(h=height)
     octagon(radius);
 }
 
@@ -203,7 +202,7 @@ module octagon_tube(height,radius,wall)
 
 module nonagon_prism(height,radius)
 {
-  linear_extrude(height=height)
+  linear_extrude(h=height)
     nonagon(radius);
 }
 
@@ -215,7 +214,7 @@ module nonagon_tube(height,radius,wall)
 
 module decagon_prism(height,radius)
 {
-  linear_extrude(height=height)
+  linear_extrude(h=height)
     decagon(radius);
 }
 
@@ -227,7 +226,7 @@ module decagon_tube(height,radius,wall)
 
 module hendecagon_prism(height,radius)
 {
-  linear_extrude(height=height)
+  linear_extrude(h=height)
     hendecagon(radius);
 }
 
@@ -239,7 +238,7 @@ module hendecagon_tube(height,radius,wall)
 
 module dodecagon_prism(height,radius)
 {
-  linear_extrude(height=height)
+  linear_extrude(h=height)
     dodecagon(radius);
 }
 
@@ -251,7 +250,7 @@ module dodecagon_tube(height,radius,wall)
 
 module tridecagon_prism(height,radius)
 {
-  linear_extrude(height=height)
+  linear_extrude(h=height)
     tridecagon(radius);
 }
 
@@ -263,7 +262,7 @@ module tridecagon_tube(height,radius,wall)
 
 module tetradecagon_prism(height,radius)
 {
-  linear_extrude(height=height)
+  linear_extrude(h=height)
     tetradecagon(radius);
 }
 
@@ -275,7 +274,7 @@ module tetradecagon_tube(height,radius,wall)
 
 module pentadecagon_prism(height,radius)
 {
-  linear_extrude(height=height)
+  linear_extrude(h=height)
     pentadecagon(radius);
 }
 
@@ -287,7 +286,7 @@ module pentadecagon_tube(height,radius,wall)
 
 module hexadecagon_prism(height,radius)
 {
-  linear_extrude(height=height)
+  linear_extrude(h=height)
     hexadecagon(radius);
 }
 
@@ -319,15 +318,16 @@ module square_pyramid(width,depth,height)
   polyhedron(points=[[-w,-d,0],[-w,d,0],[w,d,0],[w,-d,0],[0,0,height]],surfaces=[[0,3,2,1],[0,1,4],[1,2,4],[2,3,4],[3,0,4]]);
 }
 
-module rounded_cube(w,h,d,dia){
-hull(){
-	sphere(d=dia);
-	translate([0,h,d])sphere(d=dia);
-	translate([w,0,d])sphere(d=dia);
-	translate([w,h,0])sphere(d=dia);
-	translate([w,h,d])sphere(d=dia);
-	translate([0,0,d])sphere(d=dia);
-	translate([w,0,0])sphere(d=dia);
-	translate([0,h,0])sphere(d=dia);
-	}
+module rounded_cube(width,depth,height,diameter)
+{
+  hull() {
+    sphere(d=diameter);
+    translate([0,height,depth])sphere(d=diameter);
+    translate([width,0,depth])sphere(d=diameter);
+    translate([width,height,0])sphere(d=diameter);
+    translate([width,height,depth])sphere(d=diameter);
+    translate([0,0,depth])sphere(d=diameter);
+    translate([width,0,0])sphere(d=diameter);
+    translate([0,height,0])sphere(d=diameter);
+  }
 }
