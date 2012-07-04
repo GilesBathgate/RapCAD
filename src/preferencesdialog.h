@@ -18,6 +18,8 @@ public:
 	~PreferencesDialog();
 private slots:
 	void colorButtonPressed(QWidget*);
+	void vertexSizeChanged(double);
+	void edgeSizeChanged(double);
 private:
 	Ui::Preferences* ui;
 	void setupColors();

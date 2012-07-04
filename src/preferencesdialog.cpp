@@ -26,6 +26,8 @@ void PreferencesDialog::setupColors()
 	setColor(ui->edgeColorFrame,p->getEdgeColor());
 	setColor(ui->markedFacetColorFrame,p->getMarkedFacetColor());
 	setColor(ui->facetColorFrame,p->getFacetColor());
+	ui->vertexSizeSpinBox->setValue(p->getVertexSize());
+	ui->edgeSizeSpinBox->setValue(p->getEdgeSize());
 }
 
 void PreferencesDialog::setColor(QWidget* w,QColor c)
@@ -52,6 +54,9 @@ void PreferencesDialog::setupButtons()
 	connect(this->ui->facetColorToolButton,SIGNAL(clicked()),signalMapper,SLOT(map()));
 
 	connect(signalMapper,SIGNAL(mapped(QWidget*)),this,SLOT(colorButtonPressed(QWidget*)));
+
+	connect(this->ui->vertexSizeSpinBox,SIGNAL(valueChanged(double)),SLOT(vertexSizeChanged(double)));
+	connect(this->ui->edgeSizeSpinBox,SIGNAL(valueChanged(double)),SLOT(edgeSizeChanged(double)));
 }
 
 void PreferencesDialog::colorButtonPressed(QWidget* frame)
@@ -72,6 +77,18 @@ void PreferencesDialog::colorButtonPressed(QWidget* frame)
 		p->setMarkedFacetColor(c);
 	else if(frame==ui->facetColorFrame)
 		p->setFacetColor(c);
+}
+
+void PreferencesDialog::vertexSizeChanged(double s)
+{
+	Preferences* p = Preferences::getInstance();
+	p->setVertexSize(s);
+}
+
+void PreferencesDialog::edgeSizeChanged(double s)
+{
+	Preferences* p = Preferences::getInstance();
+	p->setEdgeSize(s);
 }
 
 PreferencesDialog::~PreferencesDialog()

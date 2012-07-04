@@ -52,6 +52,13 @@
          <string>Model Colors</string>
         </attribute>
         <layout class="QGridLayout" name="gridLayout">
+         <item row="3" column="1">
+          <widget class="QToolButton" name="edgeColorToolButton">
+           <property name="text">
+            <string>...</string>
+           </property>
+          </widget>
+         </item>
          <item row="1" column="2">
           <widget class="QLabel" name="facetColorLabel">
            <property name="text">
@@ -193,13 +200,6 @@
            </property>
           </widget>
          </item>
-         <item row="3" column="1">
-          <widget class="QToolButton" name="edgeColorToolButton">
-           <property name="text">
-            <string>...</string>
-           </property>
-          </widget>
-         </item>
          <item row="4" column="1">
           <widget class="QToolButton" name="markedVertexColorToolButton">
            <property name="text">
@@ -211,6 +211,26 @@
           <widget class="QToolButton" name="vertexColorToolButton">
            <property name="text">
             <string>...</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0">
+          <widget class="QDoubleSpinBox" name="vertexSizeSpinBox"/>
+         </item>
+         <item row="7" column="0">
+          <widget class="QDoubleSpinBox" name="edgeSizeSpinBox"/>
+         </item>
+         <item row="6" column="2">
+          <widget class="QLabel" name="vertexSizeLabel">
+           <property name="text">
+            <string>Vertex Size</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="2">
+          <widget class="QLabel" name="edgeSizeLabel">
+           <property name="text">
+            <string>Edge Size</string>
            </property>
           </widget>
          </item>

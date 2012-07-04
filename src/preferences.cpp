@@ -235,6 +235,26 @@ void Preferences::setWindowSize(QSize s)
 	settings->setValue("WindowSize",s);
 }
 
+double Preferences::getVertexSize()
+{
+	return settings->value("VertexSize",10).toDouble();
+}
+
+void Preferences::setVertexSize(double s)
+{
+	settings->setValue("VertexSize",s);
+}
+
+double Preferences::getEdgeSize()
+{
+	return settings->value("EdgeSize",5).toDouble();
+}
+
+void Preferences::setEdgeSize(double s)
+{
+	settings->setValue("EdgeSize",s);
+}
+
 void Preferences::syncDelete()
 {
 	if(instance) {

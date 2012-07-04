@@ -365,10 +365,17 @@ namespace OGL {
 	return c;
     }
 
+    virtual double getVertexSize() const
+    {
+        return 10;
+    }
+
     void draw(Vertex_iterator v) const { 
       //      CGAL_NEF_TRACEN("drawing vertex "<<*v);
+      double p = getVertexSize();
+      if(p==0) return;
       CGAL::Color c = getVertexColor(v->mark());
-      glPointSize(10);
+      glPointSize(p);
       glColor3ub(c.red(), c.green(), c.blue());
       glBegin(GL_POINTS);
       glVertex3d(v->x(),v->y(),v->z());
@@ -387,11 +394,18 @@ namespace OGL {
 	return c;
     }
 
+    virtual double getEdgeSize() const
+    {
+        return 5;
+    }
+
     void draw(Edge_iterator e) const { 
       //      CGAL_NEF_TRACEN("drawing edge "<<*e);
+      double w = getEdgeSize();
+      if(w==0) return;
       Double_point p = e->source(), q = e->target();
       CGAL::Color c = getEdgeColor(e->mark());
-      glLineWidth(5);
+      glLineWidth(w);
       glColor3ub(c.red(),c.green(),c.blue());
       glBegin(GL_LINE_STRIP);
       glVertex3d(p.x(), p.y(), p.z());

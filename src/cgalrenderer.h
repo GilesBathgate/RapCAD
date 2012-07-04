@@ -30,22 +30,20 @@ public:
 	CGALRenderer(const CGALPrimitive&);
 	void draw(bool,bool);
 private:
-	enum Color_e {
-		VertexColor,
-		EdgeColor,
-		FacetColor
-	};
-	void setColor(Color_e,bool,QColor);
-	void setColor(Color_e,bool,CGAL::Color);
+	void setColor(CGAL::Color&,QColor);
 	CGAL::Color getVertexColor(bool mark) const;
 	CGAL::Color getEdgeColor(bool mark) const;
 	CGAL::Color getFacetColor(bool mark) const;
+	double getVertexSize() const;
+	double getEdgeSize() const;
 	CGAL::Color markedVertexColor;
 	CGAL::Color vertexColor;
 	CGAL::Color markedEdgeColor;
 	CGAL::Color edgeColor;
 	CGAL::Color markedFacetColor;
 	CGAL::Color facetColor;
+	double vertexSize;
+	double edgeSize;
 };
 
 #endif // CGALRENDERER_H

@@ -24,12 +24,14 @@ using CGAL::OGL::Nef3_Converter;
 CGALRenderer::CGALRenderer(const CGALPrimitive& prim)
 {
 	Preferences* p = Preferences::getInstance();
-	setColor(VertexColor,true,p->getMarkedVertexColor());
-	setColor(VertexColor,false,p->getVertexColor());
-	setColor(EdgeColor,true,p->getMarkedEdgeColor());
-	setColor(EdgeColor,false,p->getEdgeColor());
-	setColor(FacetColor,true,p->getMarkedFacetColor());
-	setColor(FacetColor,false,p->getFacetColor());
+	setColor(markedVertexColor,p->getMarkedVertexColor());
+	setColor(vertexColor,p->getVertexColor());
+	setColor(markedEdgeColor,p->getMarkedEdgeColor());
+	setColor(edgeColor,p->getEdgeColor());
+	setColor(markedFacetColor,p->getMarkedFacetColor());
+	setColor(facetColor,p->getFacetColor());
+	vertexSize=p->getVertexSize();
+	edgeSize=p->getEdgeSize();
 	Nef3_Converter<CGAL::NefPolyhedron3>::convert_to_OGLPolyhedron(prim.getNefPolyhedron(),this);
 }
 
@@ -47,25 +49,10 @@ void CGALRenderer::draw(bool skeleton, bool showedges)
 	}
 }
 
-void CGALRenderer::setColor(Color_e t,bool marked,QColor c)
+void CGALRenderer::setColor(CGAL::Color& t,QColor c)
 {
 	CGAL::Color cc(c.red(),c.green(),c.blue(),c.alpha());
-	setColor(t,marked,cc);
-}
-
-void CGALRenderer::setColor(Color_e t,bool marked,CGAL::Color c)
-{
-	switch(t) {
-	case VertexColor:
-		marked ? markedVertexColor=c : vertexColor=c;
-		return;
-	case EdgeColor:
-		marked ? markedEdgeColor=c : edgeColor=c;
-		return;
-	case FacetColor:
-		marked ? markedFacetColor=c : facetColor=c;
-		return;
-	}
+	t=cc;
 }
 
 CGAL::Color CGALRenderer::getVertexColor(bool mark) const
@@ -81,4 +68,14 @@ CGAL::Color CGALRenderer::getEdgeColor(bool mark) const
 CGAL::Color CGALRenderer::getFacetColor(bool mark) const
 {
 	return mark ? markedFacetColor : facetColor;
+}
+
+double CGALRenderer::getVertexSize() const
+{
+	return vertexSize;
+}
+
+double CGALRenderer::getEdgeSize() const
+{
+	return edgeSize;
 }

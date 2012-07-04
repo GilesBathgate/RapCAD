@@ -78,6 +78,12 @@ public:
 	void setWindowSize(QSize);
 	QSize getWindowSize();
 
+	void setVertexSize(double);
+	double getVertexSize();
+
+	void setEdgeSize(double);
+	double getEdgeSize();
+
 private:
 	Preferences();
 	static Preferences* instance;
