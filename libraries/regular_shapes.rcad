@@ -319,14 +319,15 @@ module square_pyramid(width,depth,height)
   polyhedron(points=[[-w,-d,0],[-w,d,0],[w,d,0],[w,-d,0],[0,0,height]],surfaces=[[0,3,2,1],[0,1,4],[1,2,4],[2,3,4],[3,0,4]]);
 }
 
-module rounded_cube(size,radius,sidesonly=true)
-{
-  d=radius*2;
-  minkowski() {
-    cube([size.x-d,size.y-d,size.z-d]);
-    if(sidesonly)
-      cylinder(h=d,r=radius);
-    else
-      sphere(r=radius);
-  }
+module rounded_cube(w,h,d,dia){
+hull(){
+	sphere(d=dia);
+	translate([0,h,d])sphere(d=dia);
+	translate([w,0,d])sphere(d=dia);
+	translate([w,h,0])sphere(d=dia);
+	translate([w,h,d])sphere(d=dia);
+	translate([0,0,d])sphere(d=dia);
+	translate([w,0,0])sphere(d=dia);
+	translate([0,h,0])sphere(d=dia);
+	}
 }
