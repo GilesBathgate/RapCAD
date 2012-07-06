@@ -267,6 +267,9 @@
    <property name="text">
     <string>&amp;New</string>
    </property>
+   <property name="toolTip">
+    <string>Create a new RapCAD document.</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
    </property>
@@ -281,6 +284,9 @@
    <property name="iconText">
     <string>Open</string>
    </property>
+   <property name="toolTip">
+    <string>Open an existing RapCAD document.</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
    </property>
@@ -291,6 +297,9 @@
   <action name="actionClose">
    <property name="text">
     <string>&amp;Close</string>
+   </property>
+   <property name="toolTip">
+    <string>Close the current document.</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+W</string>
@@ -303,6 +312,9 @@
    <property name="text">
     <string>&amp;Save</string>
    </property>
+   <property name="toolTip">
+    <string>Save the current document.</string>
+   </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
    </property>
@@ -311,6 +323,9 @@
    <property name="text">
     <string>Save &amp;As...</string>
    </property>
+   <property name="toolTip">
+    <string>Save the current document with a new file name.</string>
+   </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
    </property>
@@ -318,6 +333,9 @@
   <action name="actionQuit">
    <property name="text">
     <string>&amp;Quit</string>
+   </property>
+   <property name="toolTip">
+    <string>Quit RapCAD</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
@@ -331,7 +349,7 @@
     <string>&amp;Print...</string>
    </property>
    <property name="toolTip">
-    <string>Print</string>
+    <string>Open the print options.</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>
@@ -345,7 +363,7 @@
     <string>Undo</string>
    </property>
    <property name="toolTip">
-    <string>Undo</string>
+    <string>Undo the last action.</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Z</string>
@@ -359,7 +377,7 @@
     <string>Redo</string>
    </property>
    <property name="toolTip">
-    <string>Redo</string>
+    <string>Redo the last undone action.</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+Z</string>
@@ -373,7 +391,7 @@
     <string>Cut</string>
    </property>
    <property name="toolTip">
-    <string>Cut</string>
+    <string>Cut the selected text.</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+X</string>
@@ -387,7 +405,7 @@
     <string>Copy</string>
    </property>
    <property name="toolTip">
-    <string>Copy</string>
+    <string>Copy the selected text.</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+C</string>
@@ -401,7 +419,7 @@
     <string>&amp;Paste</string>
    </property>
    <property name="toolTip">
-    <string>Paste</string>
+    <string>Paste the clipboard text.</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+V</string>
@@ -415,7 +433,7 @@
     <string>Compile and &amp;Render</string>
    </property>
    <property name="toolTip">
-    <string>Compile and Render</string>
+    <string>Compile and Render the current document.</string>
    </property>
    <property name="shortcut">
     <string>F6</string>
@@ -429,7 +447,7 @@
     <string>Generate GCODE</string>
    </property>
    <property name="toolTip">
-    <string>Generate GCODE</string>
+    <string>Generate GCODE for the current document.</string>
    </property>
    <property name="shortcut">
     <string>F7</string>
