@@ -7,22 +7,28 @@ PolygonModule::PolygonModule() : Module("polygon")
 {
 }
 
-Node * PolygonModule::evaluate(Context* ctx)
+Node* PolygonModule::evaluate(Context* ctx)
 {
 	VectorValue* pointsVec=dynamic_cast<VectorValue*>(ctx->getArgument(0,"points"));
 	VectorValue* linesVec=dynamic_cast<VectorValue*>(ctx->getArgumentDeprecated(1,"lines","paths"));
 
+	PrimitiveNode* p=new PrimitiveNode();
+
+	if(!linesVec||!pointsVec)
+		return p;
+
 	QList<Value*> points=pointsVec->getChildren();
 	QList<Value*> lines=linesVec->getChildren();
 
-	PrimitiveNode* p=new PrimitiveNode();
-	p->createPolygon();
-
+	//This is to remove the need for double vector syntax in the lines argument
+	// e.g. lines=[[0,1,2,3]] can just be writtern as lines=[0,1,2,3]
 	VectorValue* line;
-	line=dynamic_cast<VectorValue*>(lines.at(0));
+	if(lines.count()>1)
+		line=dynamic_cast<VectorValue*>(lines.at(0));
 	if(!line)
 		line=linesVec;
 
+	p->createPolygon();
 	foreach(Value* indexVal,line->getChildren()) {
 		NumberValue* indexNum=dynamic_cast<NumberValue*>(indexVal);
 		double index = indexNum->getNumber();
