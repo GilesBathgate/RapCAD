@@ -26,7 +26,6 @@
 class VectorValue : public Value
 {
 public:
-	VectorValue();
 	VectorValue(QList<Value*>);
 	QString getValueString() const;
 	bool isTrue() const;
@@ -34,6 +33,8 @@ public:
 	Point getPoint() const;
 	Iterator<Value*>* createIterator();
 	virtual QList<Value*> getChildren();
+protected:
+	VectorValue();
 private:
 	Value* operation(Expression::Operator_e);
 	Value* operation(Value&,Expression::Operator_e);
