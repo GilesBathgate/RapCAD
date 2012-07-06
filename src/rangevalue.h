@@ -19,14 +19,15 @@
 #ifndef RANGEVALUE_H
 #define RANGEVALUE_H
 
-#include "value.h"
+#include "vectorvalue.h"
 
-class RangeValue : public Value
+class RangeValue : public VectorValue
 {
 public:
 	RangeValue(Value*,Value*,Value*);
 	QString getValueString() const;
 	Iterator<Value*>* createIterator();
+	QList<Value*> getChildren();
 
 	Value* getStart() const;
 	Value* getStep() const;

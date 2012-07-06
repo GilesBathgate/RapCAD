@@ -26,13 +26,14 @@
 class VectorValue : public Value
 {
 public:
+	VectorValue();
 	VectorValue(QList<Value*>);
 	QString getValueString() const;
 	bool isTrue() const;
 	VectorValue* toVector(int);
 	Point getPoint() const;
 	Iterator<Value*>* createIterator();
-	QList<Value*> getChildren() const;
+	virtual QList<Value*> getChildren();
 private:
 	Value* operation(Expression::Operator_e);
 	Value* operation(Value&,Expression::Operator_e);

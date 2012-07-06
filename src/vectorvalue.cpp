@@ -22,6 +22,10 @@
 #include "rangevalue.h"
 #include "booleanvalue.h"
 
+VectorValue::VectorValue()
+{
+}
+
 VectorValue::VectorValue(QList<Value*> values)
 {
 	this->children=values;
@@ -81,7 +85,7 @@ Iterator<Value*>* VectorValue::createIterator()
 	return new VectorIterator(this->children);
 }
 
-QList<Value*> VectorValue::getChildren() const
+QList<Value*> VectorValue::getChildren()
 {
 	return this->children;
 }

@@ -47,6 +47,16 @@ Iterator<Value*>* RangeValue::createIterator()
 	return new RangeIterator(this);
 }
 
+QList<Value*> RangeValue::getChildren()
+{
+	QList<Value*> result;
+	Iterator<Value*>* i=this->createIterator();
+	for(i->first(); !i->isDone(); i->next())
+		result.append(i->currentItem());
+
+	return result;
+}
+
 Value* RangeValue::getStart() const
 {
 	return this->start;
@@ -68,9 +78,8 @@ Value* RangeValue::operation(Value& v,Expression::Operator_e e)
 	if(vec) {
 		if(e==Expression::Concatenate) {
 			QList<Value*> result;
-			Iterator<Value*>* i=this->createIterator();
-			for(i->first(); !i->isDone(); i->next())
-				result.append(i->currentItem());
+			foreach(Value* v, this->getChildren())
+				result.append(v);
 			foreach(Value* v, vec->getChildren())
 				result.append(v);
 			return new VectorValue(result);
