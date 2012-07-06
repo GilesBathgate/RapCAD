@@ -1,0 +1,50 @@
+/*
+ *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
+ *   Copyright (C) 2010-2012 Giles Bathgate
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/** 
+ *  This example module demonstrates how array concatation can
+ *  be used to create polyline vectors. In this case a circle
+ *  @diameter The diameter for the circle outline 
+ */
+module circle_outline(diameter) {
+  const tau=6.28318531;
+  const fn=20;
+  const d=diameter;
+
+  a=[];
+  for(i=[0:tau/fn:tau])
+    a~=[[sin(i)*d,cos(i)*d,0]];
+  polyline(a);
+}
+
+circle_outline(10);
+
+/** 
+ *  This example module demonstrates how array concatation can
+ *  be used to create a sine wave.
+ */
+module sine_wave() {
+  const length=10;
+  const height=10;
+  a=[];
+  for(i=[0:0.5:length])
+    a~=[[sin(i)*height,i*length,0]];
+  polyline(a);
+}
+
+sine_wave();
