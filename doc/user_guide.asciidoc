@@ -27,7 +27,9 @@ Basic Values
 Number
 ^^^^^^
 
-.Example
+Examples
+++++++++
+[source,csharp]
 ------------------------------
 a=1;
 b=5.1;
@@ -37,7 +39,9 @@ c=-0.6;
 Text
 ^^^^
 
-.Example
+Examples
+++++++++
+[source,csharp]
 ------------------------------
 a="Hello World!";
 ------------------------------
@@ -45,7 +49,9 @@ a="Hello World!";
 Boolean
 ^^^^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 ------------------------------
 a=True;
 b=False;
@@ -57,7 +63,9 @@ Vector
 In RapCAD commas are not allowed at the end of a vector because it it often a
 sign of error.
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 ------------------------------
 a=[,10,10]; // means [undef,10,10]
 b=[10,10];  // means [10,10]
@@ -75,7 +83,9 @@ write d=[10,10] if you prefer.
 Range
 ^^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 ------------------------------
 a=[1:5];    // 1,2,3,4,5
 b=[0:2:10]; // 2,4,6,8,10
@@ -104,7 +114,9 @@ arguments. Since it is also a statement it must be followed by a semicolon.
 Cube
 ^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 ------------------------------
 cube(size,center);
 cube(s,c);
@@ -113,7 +125,9 @@ cube(s,c);
 Sphere
 ^^^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 ------------------------------
 sphere(radius);
 sphere(r);
@@ -125,7 +139,9 @@ Cylinder
 RapCAD suports legacy 'r1' and 'r2' parameters on cylinder. The 'Cone' module
 is more appropriate for drawing cones.
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 ------------------------------
 cylinder(radius,height,center);
 cylinder(r,h,c);
@@ -134,7 +150,9 @@ cylinder(r,h,c);
 Cone
 ^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 ------------------------------
 cone(radius1,radius2,center);
 cone(r1,r2,c);
@@ -143,7 +161,9 @@ cone(r1,r2,c);
 Prism
 ^^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 -----------------------------
 prism(height,sides,apothem);
 prism(height,sides,radius);
@@ -157,7 +177,9 @@ misleading since polygons with more than three points can be specified using
 this parameter. The name 'surfaces' was chosen in preference to 'polygons' so
 as not to have a single letter name conflict with 'points'.
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 ------------------------------
 polyhedron(points,surfaces);
 polyhedron(p,s);
@@ -169,7 +191,9 @@ polyhedron(p,s);
 Square
 ^^^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 ------------------------------
 square(size,center);
 square(s,c);
@@ -178,7 +202,9 @@ square(s,c);
 Circle
 ^^^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 ------------------------------
 circle(radius);
 circle(r);
@@ -190,7 +216,9 @@ Polygon
 RapCAD supports a legacy parameter 'paths' this however conflicts with the
 single letter parameter name 'points'.
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 ------------------------------
 polygon(points,lines);
 polygon(p,l);
@@ -199,7 +227,9 @@ polygon(p,l);
 Polyline
 ^^^^^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 ------------------------------
 polyline(points);
 ------------------------------
@@ -207,7 +237,9 @@ polyline(points);
 Bezier Surface
 ^^^^^^^^^^^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 ------------------------------
 bezier_surface(mesh);
 ------------------------------
@@ -222,7 +254,9 @@ The echo module allows you to debug values that are evaluated as part of your
 script. You can pass more than one argument to echo and it will be output to
 the console. Named arguments are allowed but the names will not be echo'ed.
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 ------------------------------
 echo(53+9);
 echo([32,24,10]);
@@ -232,7 +266,9 @@ echo(a=1,b=2);
 Bounds
 ^^^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 -------------------------------
 bounds()cube(10);
 -------------------------------
@@ -240,7 +276,9 @@ bounds()cube(10);
 Child
 ^^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 -------------------------------
 child();
 -------------------------------
@@ -251,7 +289,9 @@ Operations
 Union
 ^^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 -------------------------------
 union() { module1(); module2(); }
 -------------------------------
@@ -259,7 +299,9 @@ union() { module1(); module2(); }
 Group
 ^^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 -------------------------------
 group() { module1(); module2(); }
 -------------------------------
@@ -267,7 +309,9 @@ group() { module1(); module2(); }
 Difference
 ^^^^^^^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 -------------------------------
 difference() { module1(); module2(); }
 -------------------------------
@@ -275,7 +319,9 @@ difference() { module1(); module2(); }
 Symmetric Difference
 ^^^^^^^^^^^^^^^^^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 -------------------------------
 symmetric_difference() { module1(); module2(); }
 -------------------------------
@@ -283,7 +329,9 @@ symmetric_difference() { module1(); module2(); }
 Intersection
 ^^^^^^^^^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 -------------------------------
 intersection() { module1(); module2(); }
 -------------------------------
@@ -291,7 +339,9 @@ intersection() { module1(); module2(); }
 Minkowski Sum
 ^^^^^^^^^^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 -------------------------------
 minkowski() { module1(); module2(); }
 -------------------------------
@@ -299,7 +349,9 @@ minkowski() { module1(); module2(); }
 Glide
 ^^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 -------------------------------
 glide() { module1(); module2(); }
 -------------------------------
@@ -307,7 +359,9 @@ glide() { module1(); module2(); }
 Hull
 ^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 -------------------------------
 hull() { module1(); module2(); }
 -------------------------------
@@ -315,7 +369,9 @@ hull() { module1(); module2(); }
 Sub Division
 ^^^^^^^^^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 -------------------------------
 subdiv() module1();
 -------------------------------
@@ -326,7 +382,9 @@ Transformations
 Linear Extrude
 ^^^^^^^^^^^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 -------------------------------
 linear_extrude(h=10) square([10,10]);
 -------------------------------
@@ -334,7 +392,9 @@ linear_extrude(h=10) square([10,10]);
 Mirror
 ^^^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 -------------------------------
 mirror() translate([0,20,0]) cylinder(r=5,h=10);
 -------------------------------
@@ -342,7 +402,9 @@ mirror() translate([0,20,0]) cylinder(r=5,h=10);
 Offset
 ^^^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 -------------------------------
 offset() module1();
 -------------------------------
@@ -350,7 +412,9 @@ offset() module1();
 Rotate
 ^^^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 -------------------------------
 rotate([0,0,90]) module1();
 -------------------------------
@@ -358,7 +422,9 @@ rotate([0,0,90]) module1();
 Scale
 ^^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 -------------------------------
 scale([0.1,0.1,0.1]) module1();
 -------------------------------
@@ -366,7 +432,9 @@ scale([0.1,0.1,0.1]) module1();
 Shear
 ^^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 -------------------------------
 shear() module1();
 -------------------------------
@@ -374,7 +442,9 @@ shear() module1();
 Translate
 ^^^^^^^^^
 
-.Examples
+Examples
+++++++++
+[source,csharp]
 -------------------------------
 translate([0,20,0]) module1();
 -------------------------------
