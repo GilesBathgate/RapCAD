@@ -26,7 +26,21 @@ Value::Value()
 {
 	this->type=Variable::Const;
 	this->defined=false;
+	values.append(this);
 }
+
+void Value::cleanup(QTextStream& output)
+{
+	int i=0;
+	foreach(Value* val, values) {
+		i+=values.removeAll(val);
+		delete val;
+	}
+
+	output << "Cleaned up " << i << " values.";
+}
+
+QList<Value*> Value::values;
 
 void Value::setType(Variable::Type_e t)
 {
