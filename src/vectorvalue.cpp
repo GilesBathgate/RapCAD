@@ -103,56 +103,49 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 	QList<Value*> result;
 	VectorValue* vec=dynamic_cast<VectorValue*>(&v);
 	if(vec) {
+		QList<Value*> a=this->getChildren();
+		QList<Value*> b=vec->getChildren();
+
 		if(e==Expression::OuterProduct) {
-			for(int i=0; i<vec->children.size(); i++)
-				result.append(Value::operation(this,e,vec->children.at(i)));
+			for(int i=0; i<b.size(); i++)
+				result.append(Value::operation(this,e,b.at(i)));
 		} else if(e==Expression::Multiply || e==Expression::Divide) {
 			//TODO implement multiply and divide
 			return this;
 		} else if(e==Expression::Concatenate) {
-			result=this->children;
-			foreach(Value* child,vec->children)
-				result.append(child);
+			result=a;
+			result.append(b);
 		} else if(e==Expression::Equal||e==Expression::NotEqual) {
-			bool eq=(children.size()==vec->children.size());
+			bool eq=(a.size()==b.size());
 			if(e==Expression::NotEqual && !eq)
 				return new BooleanValue(true);
-			if(eq) for(int i=0; i<children.size(); i++) {
-				Value* eqVec=Value::operation(this->children.at(i),e,vec->children.at(i));
-				if(e==Expression::NotEqual && eqVec->isTrue())
+			if(eq)
+				for(int i=0; i<a.size(); i++) {
+					Value* eqVec=Value::operation(a.at(i),e,b.at(i));
+					if(e==Expression::NotEqual && eqVec->isTrue())
 						return new BooleanValue(true);
-				if(!eqVec->isTrue())
-					eq=false;
-			}
+					if(!eqVec->isTrue())
+						eq=false;
+				}
 			return new BooleanValue(eq);
 		} else {
 			e=convertOperation(e);
-			for(int i=0; i<children.size() && i<vec->children.size(); i++)
-				result.append(Value::operation(this->children.at(i),e,vec->children.at(i)));
-		}
-		return new VectorValue(result);
-	}
-
-	RangeValue* rng=dynamic_cast<RangeValue*>(&v);
-	if(rng) {
-		if(e==Expression::Concatenate) {
-			result=this->children;
-			Iterator<Value*>* i=rng->createIterator();
-			for(i->first(); !i->isDone(); i->next())
-				result.append(i->currentItem());
+			for(int i=0; i<a.size() && i<b.size(); i++)
+				result.append(Value::operation(a.at(i),e,b.at(i)));
 		}
 		return new VectorValue(result);
 	}
 
 	NumberValue* num = dynamic_cast<NumberValue*>(&v);
 	if(num) {
+		QList<Value*> a=this->getChildren();
 		if(e==Expression::Concatenate) {
-			result=this->children;
+			result=a;
 			result.append(num);
 		} else {
 			e=convertOperation(e);
-			for(int i=0; i<children.size(); i++)
-				result.append(Value::operation(this->children.at(i),e,num));
+			for(int i=0; i<a.size(); i++)
+				result.append(Value::operation(a.at(i),e,num));
 		}
 		return new VectorValue(result);
 	}

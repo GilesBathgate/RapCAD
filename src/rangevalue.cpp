@@ -71,20 +71,3 @@ Value* RangeValue::getFinish() const
 {
 	return this->finish;
 }
-
-Value* RangeValue::operation(Value& v,Expression::Operator_e e)
-{
-	VectorValue* vec=dynamic_cast<VectorValue*>(&v);
-	if(vec) {
-		if(e==Expression::Concatenate) {
-			QList<Value*> result;
-			foreach(Value* v, this->getChildren())
-				result.append(v);
-			foreach(Value* v, vec->getChildren())
-				result.append(v);
-			return new VectorValue(result);
-		}
-	}
-
-	return Value::operation(v,e);
-}
