@@ -12,18 +12,24 @@ Prerequisites
 
 The source code is hosted in a git repository so you might want to install git first
 
-.git
+git
++++
+[source,shell]
 -----------------------------
 sudo apt-get install git-core
 -----------------------------
 
 
-.Dependencies
+Dependencies
+++++++++++++
+[source,shell]
 -------------------------------------------------------------------
 sudo apt-get install g++ libcgal-dev libqt4-dev bison flex
 -------------------------------------------------------------------
 
-.dxflib
+dxflib
+++++++
+[source,shell]
 -----------------------------------------------------------------------------------------
 wget ftp://anonymous:anonymous@ribbonsoft.com/archives/dxflib/dxflib-2.2.0.0-1.src.tar.gz
 
@@ -39,7 +45,9 @@ sudo install -m 644 lib/libdxflib.so.2.2.0 /usr/lib &&
 sudo ldconfig -n /usr/lib
 -----------------------------------------------------------------------------------------
 
-.RapCAD
+RapCAD
+++++++
+[source,shell]
 -------------------------------------
 git clone git://git.rapcad.org/rapcad
 
@@ -85,8 +93,9 @@ http://downloads.sourceforge.net/project/boost/boost/1.49.0/boost_1_49_0.zip[boo
 * Extract all to +C:\+ (sources will end up in +C:\boost_1_49_0\+ )
 * Use the QT Development Command Prompt +
 +Start->Program Files->Qt by Nokia v4.8.0 (MinGW OpenSource)->QT 4.8.0 Command Prompt+
+[source,bat]
 -------------------------
-cd C:\boost_1_49_0\
+cd "C:\boost_1_49_0"
 bootstrap.bat
 .\bjam toolset=gcc release thread
 -------------------------
@@ -105,10 +114,11 @@ source.
 * Make sure 'CGAL_DIR' environment checked.
 * Use the QT Development Command Prompt +
 +Start->Program Files->Qt by Nokia v4.8.0 (MinGW OpenSource)->QT 4.8.0 Command Prompt+
+[source,bat]
 -------------------------------
 set PATH=%PATH%;"C:\Program Files\CMake 2.8\bin"
-cd "C:\CGAL-4.0\"
-cmake -G"MinGW Makefiles" -DBOOST_ROOT="C:\boost_1_49_0" -DBOOST_LIBRARYDIR="C:\boost_1_49_0\bin.v2\libs\thread\build\gcc-mingw-4.6.2\release\threading-multi\" .
+cd "C:\CGAL-4.0"
+cmake -G"MinGW Makefiles" -DBOOST_ROOT="C:\boost_1_49_0" -DBOOST_LIBRARYDIR="C:\boost_1_49_0\bin.v2\libs\thread\build\gcc-mingw-4.6.2\release\threading-multi" .
 make
 -------------------------------
 
@@ -134,12 +144,16 @@ Download the
 link:https://distfiles.macports.org/MacPorts/MacPorts-2.0.3-10.6-SnowLeopard.dmg[MacPorts Installer].
 Install the package accepting the default options.
 
-.Dependencies
+Dependencies
+++++++++++++
+[source,shell]
 -------------------------------------------------------------
 sudo port install cgal qt4-mac
 -------------------------------------------------------------
 
-.dxflib
+dxflib
+++++++
+[source,shell]
 -----------------------------------------------------------------------------------------
 tar -xzf dxflib-2.2.0.0-1.src.tar.gz &&
 cd dxflib-2.2.0.0-1.src &&
@@ -149,7 +163,9 @@ make &&
 sudo make install
 -----------------------------------------------------------------------------------------
 
-.RapCAD
+RapCAD
+++++++
+[source,shell]
 -------------------------
 qmake CONFIG+=official
 make
