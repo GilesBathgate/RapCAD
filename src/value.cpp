@@ -29,15 +29,16 @@ Value::Value()
 	values.append(this);
 }
 
-void Value::cleanup(QTextStream& output)
+Value::~Value()
 {
-	int i=0;
+	values.removeAll(this);
+}
+
+void Value::cleanup()
+{
 	foreach(Value* val, values) {
-		i+=values.removeAll(val);
 		delete val;
 	}
-
-	output << "Cleaned up " << i << " values.";
 }
 
 QList<Value*> Value::values;

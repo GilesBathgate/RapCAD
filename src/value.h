@@ -20,7 +20,6 @@
 #define VALUE_H
 
 #include <QString>
-#include <QTextStream>
 #include "iterator.h"
 #include "expression.h"
 #include "variable.h"
@@ -29,8 +28,8 @@ class Value
 {
 public:
 	Value();
-	virtual ~Value() {}
-	static void cleanup(QTextStream&);
+	virtual ~Value();
+	static void cleanup();
 	void setType(Variable::Type_e);
 	Variable::Type_e getType() const;
 	void setName(QString);

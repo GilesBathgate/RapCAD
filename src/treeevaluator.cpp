@@ -31,6 +31,7 @@ TreeEvaluator::TreeEvaluator(QTextStream& s) : output(s)
 
 TreeEvaluator::~TreeEvaluator()
 {
+	Value::cleanup();
 }
 
 void TreeEvaluator::startContext(Scope* scp)
@@ -469,9 +470,6 @@ void TreeEvaluator::visit(Script* sc)
 	rootNode=createUnion(childnodes);
 
 	b->saveBuiltins(sc);
-
-	//Clean up and dangling values. (disabled for now as still causing crashes)
-	//Value::cleanup(output);
 }
 
 Node* TreeEvaluator::getRootNode() const
