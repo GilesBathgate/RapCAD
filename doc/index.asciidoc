@@ -1,0 +1,7 @@
+RapCAD Documentation
+====================
+Giles Bathgate <giles.bathgate@gmail.com>
+version 0.1
+
+include::user_guide.asciidoc[]
+include::compiling.asciidoc[]

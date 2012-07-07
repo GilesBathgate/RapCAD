@@ -4,18 +4,19 @@ Compiling
 The following instructions will allow you to compile RapCAD from source on
 various platforms.
 
+Linux
+~~~~~
+
 Prerequisites
-~~~~~~~~~~~~~
+^^^^^^^^^^^^^
 
 The source code is hosted in a git repository so you might want to install git first
 
-.linux
+.git
 -----------------------------
 sudo apt-get install git-core
 -----------------------------
 
-Linux
------
 
 .Dependencies
 -------------------------------------------------------------------
@@ -48,9 +49,11 @@ make
 -------------------------------------
 
 Windows
--------
+~~~~~~~
+
 MinGW
-~~~~~~
+^^^^^
+
 * Download the MinGW Automated installer package
 http://sourceforge.net/projects/mingw/files/Installer/mingw-get-inst/mingw-get-inst-20111118/mingw-get-inst-20111118.exe[mingw-get-inst-20111118.exe]
 * Check the C++ compiler checkbox.
@@ -59,21 +62,24 @@ http://sourceforge.net/projects/mingw/files/Installer/mingw-get-inst/mingw-get-i
 
 
 Qt (MinGW)
-~~~~~~~~~~
+^^^^^^^^^^
+
 * Download Qt installer
 http://get.qt.nokia.com/qt/source/qt-win-opensource-4.8.0-mingw.exe[qt-win-opensource-4.8.0-mingw.exe]
 * Ignore warning about win32api version.
 * Install to default location +C:\Qt\+
 
 CMake
-~~~~~
+^^^^^
+
 * Download CMake installer
 http://www.cmake.org/files/v2.8/cmake-2.8.7-win32-x86.exe[cmake-2.8.7-win32-x86.exe]
 * Check the 'Add cmake to the system path for the current user' checkbox
 * Install to default location +C:\Program Files\CMake 2.8+
 
 Boost
-~~~~~
+^^^^^
+
 * Download Boost source
 http://downloads.sourceforge.net/project/boost/boost/1.49.0/boost_1_49_0.zip[boost_1_49_0.zip]
 * Extract all to +C:\+ (sources will end up in +C:\boost_1_49_0\+ )
@@ -112,16 +118,18 @@ ftp://anonymous:anonymous@ribbonsoft.com/archives/dxflib/dxflib-2.2.0.0-1.src.ta
 ------------------------------------------------------------------------------------
 
 Mac OS X 10.6.2
----------------
+~~~~~~~~~~~~~~~
 
 Xcode 3.2
-~~~~~~~~~
+^^^^^^^^^
+
 Register with apple and download
 link:https://connect.apple.com/cgi-bin/WebObjects/MemberSite.woa/wa/getSoftware?bundleID=20588[Xcode 3.2.2].
 Install the package accepting the default options.
 
 MacPorts
-~~~~~~~~
+^^^^^^^^
+
 Download the
 link:https://distfiles.macports.org/MacPorts/MacPorts-2.0.3-10.6-SnowLeopard.dmg[MacPorts Installer].
 Install the package accepting the default options.

@@ -16,18 +16,16 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////
 
-RapCAD User Guide
-=================
-Giles Bathgate <giles.bathgate@gmail.com>
-version 0.1
+User Guide
+----------
 
 For command line options see the link:manual.html[RapCAD manual]
 
 Basic Values
-------------
+~~~~~~~~~~~~
 
 Number
-~~~~~~
+^^^^^^
 
 .Example
 ------------------------------
@@ -37,7 +35,7 @@ c=-0.6;
 ------------------------------
 
 Text
-~~~~
+^^^^
 
 .Example
 ------------------------------
@@ -45,7 +43,7 @@ a="Hello World!";
 ------------------------------
 
 Boolean
-~~~~~~~
+^^^^^^^
 
 .Examples
 ------------------------------
@@ -54,7 +52,7 @@ b=False;
 ------------------------------
 
 Vector
-~~~~~~
+^^^^^^
 
 In RapCAD commas are not allowed at the end of a vector because it it often a
 sign of error.
@@ -75,7 +73,7 @@ undefined. Thus if we expect a 3D vector, but are given a 2D vector such as
 write d=[10,10] if you prefer.
 
 Range
-~~~~~
+^^^^^
 
 .Examples
 ------------------------------
@@ -84,7 +82,8 @@ b=[0:2:10]; // 2,4,6,8,10
 ------------------------------
 
 3D Primitives
--------------
+~~~~~~~~~~~~~
+
 RapCAD supports a set of built in 3D primitives. The primitives are modules
 that take arguments which specify the size and shape of the primitive. A module
 is instanciated by writing its name followed by parenthesis which enclose the
@@ -103,7 +102,7 @@ arguments. Since it is also a statement it must be followed by a semicolon.
 
 
 Cube
-~~~~
+^^^^
 
 .Examples
 ------------------------------
@@ -112,7 +111,8 @@ cube(s,c);
 ------------------------------
 
 Sphere
-~~~~~~
+^^^^^^
+
 .Examples
 ------------------------------
 sphere(radius);
@@ -120,7 +120,8 @@ sphere(r);
 ------------------------------
 
 Cylinder
-~~~~~~~~
+^^^^^^^
+
 RapCAD suports legacy 'r1' and 'r2' parameters on cylinder. The 'Cone' module
 is more appropriate for drawing cones.
 
@@ -131,7 +132,8 @@ cylinder(r,h,c);
 ------------------------------
 
 Cone
-~~~~
+^^^^
+
 .Examples
 ------------------------------
 cone(radius1,radius2,center);
@@ -139,7 +141,7 @@ cone(r1,r2,c);
 ------------------------------
 
 Prism
-~~~~~
+^^^^^
 
 .Examples
 -----------------------------
@@ -148,7 +150,8 @@ prism(height,sides,radius);
 -----------------------------
 
 Polyhedron
-~~~~~~~~~~
+^^^^^^^^^^
+
 RapCAD supports a legacy 'triangles' parameter, but the name is a bit
 misleading since polygons with more than three points can be specified using
 this parameter. The name 'surfaces' was chosen in preference to 'polygons' so
@@ -161,10 +164,11 @@ polyhedron(p,s);
 ------------------------------
 
 2D Primitives
--------------
+~~~~~~~~~~~~~
 
 Square
-~~~~~~
+^^^^^^
+
 .Examples
 ------------------------------
 square(size,center);
@@ -172,7 +176,8 @@ square(s,c);
 ------------------------------
 
 Circle
-~~~~~~
+^^^^^^
+
 .Examples
 ------------------------------
 circle(radius);
@@ -180,7 +185,8 @@ circle(r);
 ------------------------------
 
 Polygon
-~~~~~~
+^^^^^^^
+
 RapCAD supports a legacy parameter 'paths' this however conflicts with the
 single letter parameter name 'points'.
 
@@ -191,7 +197,7 @@ polygon(p,l);
 ------------------------------
 
 Polyline
-~~~~~~~~
+^^^^^^^^
 
 .Examples
 ------------------------------
@@ -199,7 +205,7 @@ polyline(points);
 ------------------------------
 
 Bezier Surface
-~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^
 
 .Examples
 ------------------------------
@@ -207,10 +213,10 @@ bezier_surface(mesh);
 ------------------------------
 
 Control modules
----------------
+~~~~~~~~~~~~~~~
 
 Echo
-~~~~
+^^^^
 
 The echo module allows you to debug values that are evaluated as part of your
 script. You can pass more than one argument to echo and it will be output to
@@ -224,7 +230,7 @@ echo(a=1,b=2);
 ------------------------------
 
 Bounds
-~~~~~~
+^^^^^^
 
 .Examples
 -------------------------------
@@ -232,7 +238,7 @@ bounds()cube(10);
 -------------------------------
 
 Child
-~~~~~
+^^^^^
 
 .Examples
 -------------------------------
@@ -240,118 +246,134 @@ child();
 -------------------------------
 
 Operations
-----------
+~~~~~~~~~~
 
 Union
-~~~~~
+^^^^^
+
 .Examples
 -------------------------------
 union() { module1(); module2(); }
 -------------------------------
 
 Group
-~~~~~
+^^^^^
+
 .Examples
 -------------------------------
 group() { module1(); module2(); }
 -------------------------------
 
 Difference
-~~~~~~~~~~
+^^^^^^^^^^
+
 .Examples
 -------------------------------
 difference() { module1(); module2(); }
 -------------------------------
 
 Symmetric Difference
-~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^
+
 .Examples
 -------------------------------
 symmetric_difference() { module1(); module2(); }
 -------------------------------
 
 Intersection
-~~~~~~~~~~~~
+^^^^^^^^^^^^
+
 .Examples
 -------------------------------
 intersection() { module1(); module2(); }
 -------------------------------
 
 Minkowski Sum
-~~~~~~~~~~~~~
+^^^^^^^^^^^^^
+
 .Examples
 -------------------------------
 minkowski() { module1(); module2(); }
 -------------------------------
 
 Glide
-~~~~~
+^^^^^
+
 .Examples
 -------------------------------
 glide() { module1(); module2(); }
 -------------------------------
 
 Hull
-~~~~
+^^^^
+
 .Examples
 -------------------------------
 hull() { module1(); module2(); }
 -------------------------------
 
 Sub Division
-~~~~~~~~~~~~
+^^^^^^^^^^^^
+
 .Examples
 -------------------------------
 subdiv() module1();
 -------------------------------
 
 Transformations
----------------
+~~~~~~~~~~~~~~~
 
 Linear Extrude
-~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^
+
 .Examples
 -------------------------------
 linear_extrude(h=10) square([10,10]);
 -------------------------------
 
 Mirror
-~~~~~~
+^^^^^^
+
 .Examples
 -------------------------------
 mirror() translate([0,20,0]) cylinder(r=5,h=10);
 -------------------------------
 
 Offset
-~~~~~~
+^^^^^^
+
 .Examples
 -------------------------------
 offset() module1();
 -------------------------------
 
 Rotate
-~~~~~~
+^^^^^^
+
 .Examples
 -------------------------------
 rotate([0,0,90]) module1();
 -------------------------------
 
 Scale
-~~~~~
+^^^^^
+
 .Examples
 -------------------------------
 scale([0.1,0.1,0.1]) module1();
 -------------------------------
 
 Shear
-~~~~~
+^^^^^
+
 .Examples
 -------------------------------
 shear() module1();
 -------------------------------
 
 Translate
-~~~~~~~~~
+^^^^^^^^^
+
 .Examples
 -------------------------------
 translate([0,20,0]) module1();
