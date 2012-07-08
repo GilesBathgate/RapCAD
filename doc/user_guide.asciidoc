@@ -21,11 +21,77 @@ User Guide
 
 For command line options see the link:manual.html[RapCAD manual]
 
-Basic Values
+Declarations
 ~~~~~~~~~~~~
+A declaration is used to announce the existence of the element within the
+document. They can be variables, constants, and parametric values.
+
+Variables
+^^^^^^^^^
+A variable stores a value *which can change*. Variables are declared by
+assigning them to a value. This could be a <<_literals,literal>> value, the
+result of a <<_functions,function>> or simply another variable.
+
+Examples
+++++++++
+[source,csharp]
+------------------------------
+a=1;
+b=a;
+a=2;
+------------------------------
+
+Constants
+^^^^^^^^^
+Constants are used to store values which should never change. A constant can be
+assigned to a value once, but subsequent attempts to change the value of the
+constant results in an error.
+
+Examples
+++++++++
+[source,csharp]
+------------------------------
+const a=1;
+b=a;
+a=2; //error
+------------------------------
+
+Parametric Values
+^^^^^^^^^^^^^^^^^
+Parametric values are values which are intended to be changed. They are used
+for variables that modify the design in a consistent way. For example if your
+design was describing a gear you might use a parameteric value to represent the
+number of teeth, but you would use a variable to store the value of the pitch.
+
+Example
++++++++
+[source,csharp]
+------------------------------
+param teeth=50;
+pitch=teeth*m/cos(u);
+------------------------------
+
+Literals
+~~~~~~~~
+Literals are basic values that can be writtern into the document to represent
+values that the design will use.
+
+Undefined
+^^^^^^^^^
+The special value of 'undef' allows you to assign or compare values to nothing.
+
+Examples
+++++++++
+[source,csharp]
+------------------------------
+a=undef;
+if(a==undef) ...
+------------------------------
 
 Number
 ^^^^^^
+Numbers can be used to represent any rational numerical value. They can be
+integers, decimals, or negative numbers.
 
 Examples
 ++++++++
@@ -33,17 +99,22 @@ Examples
 ------------------------------
 a=1;
 b=5.1;
-c=-0.6;
+c=-0.006;
+d=.5;
 ------------------------------
 
 Text
 ^^^^
+Text can be used to represent writtern words or characters. Escape sequences
+exist for tab, quote, return, newline and backslash.
 
 Examples
 ++++++++
 [source,csharp]
 ------------------------------
-a="Hello World!";
+a="Hello World!\n";
+a="The quick brown fox \tjumps \"over\" the lazy dog.\r\n";
+a="C:\\Documents\\Shape.stl"
 ------------------------------
 
 Boolean
@@ -59,19 +130,43 @@ b=False;
 
 Vector
 ^^^^^^
-
-In RapCAD commas are not allowed at the end of a vector because it it often a
-sign of error.
+Vectors are used to represent lists of values. Vectors can be nested inside
+other vectors. Vectors do not have to contain all values of the same type.
 
 Examples
 ++++++++
 [source,csharp]
-------------------------------
+-------------------------------------------------
+a=[1.1,10,1.5];
+b=[[1,2,3],[1,1,1],[15,12,2]];
+c=[5,"Hello",[1,2,3]];
+-------------------------------------------------
+
+[NOTE]
+===============================================================================
+In RapCAD commas are not allowed at the end of a vector because it it often a
+sign of error which arises from writing code in the following way.
+
+[source,csharp]
+---------------
+a=[ 1,
+    2,
+    3,
+  ];
+---------------
+
+This vector will have four elements instead of the intended three elements, the
+last elelement being undefined. In the unlikely event that you really do want a
+four element vector with the last element undefined then you can use the
+'undef' keyword explicitly.
+
+[source,csharp]
+-------------------------------------------------
 a=[,10,10]; // means [undef,10,10]
 b=[10,10];  // means [10,10]
 c=[10,,10]; // means [10,undef,10]
 d=[10,10,]; // syntax error use [10,10,undef] <1>
-------------------------------
+-------------------------------------------------
 
 <1> Since index out of bounds errors are not desired, RapCAD will treat vectors
 containing less elements than expected as though the elements exist but are
@@ -79,6 +174,7 @@ undefined. Thus if we expect a 3D vector, but are given a 2D vector such as
 [10,10] RapCAD will treat this as [10,10,undef] you can therefore treat
 [10,10,undef] as synonymous to [10,10] so in the example above you could simply
 write d=[10,10] if you prefer.
+===============================================================================
 
 Range
 ^^^^^
@@ -91,8 +187,13 @@ a=[1:5];    // 1,2,3,4,5
 b=[0:2:10]; // 2,4,6,8,10
 ------------------------------
 
-3D Primitives
-~~~~~~~~~~~~~
+Functions
+~~~~~~~~~
+
+Functions are used to group a set of statements together and calculate a value.
+
+3D Primitive Modules
+~~~~~~~~~~~~~~~~~~~~
 
 RapCAD supports a set of built in 3D primitives. The primitives are modules
 that take arguments which specify the size and shape of the primitive. A module
@@ -185,8 +286,8 @@ polyhedron(points,surfaces);
 polyhedron(p,s);
 ------------------------------
 
-2D Primitives
-~~~~~~~~~~~~~
+2D Primitive Modules
+~~~~~~~~~~~~~~~~~~~~
 
 Square
 ^^^^^^
@@ -244,7 +345,7 @@ Examples
 bezier_surface(mesh);
 ------------------------------
 
-Control modules
+Control Modules
 ~~~~~~~~~~~~~~~
 
 Echo
@@ -283,8 +384,8 @@ Examples
 child();
 -------------------------------
 
-Operations
-~~~~~~~~~~
+Operation Modules
+~~~~~~~~~~~~~~~~~
 
 Union
 ^^^^^
@@ -376,8 +477,8 @@ Examples
 subdiv() module1();
 -------------------------------
 
-Transformations
-~~~~~~~~~~~~~~~
+Transformation Modules
+~~~~~~~~~~~~~~~~~~~~~~
 
 Linear Extrude
 ^^^^^^^^^^^^^^
