@@ -119,6 +119,7 @@ a="C:\\Documents\\Shape.stl"
 
 Boolean
 ^^^^^^^
+Booleans can represent a value of true or false.
 
 Examples
 ++++++++
@@ -178,6 +179,10 @@ write d=[10,10] if you prefer.
 
 Range
 ^^^^^
+Range values are a more effficient way of representing a list of sequential
+values. Rather than having to specify every value in the list, only the start
+and end values need be specified. Optionally a value can be used to specify
+the step by which each value should be incremented.
 
 Examples
 ++++++++
@@ -191,6 +196,46 @@ Functions
 ~~~~~~~~~
 
 Functions are used to group a set of statements together and calculate a value.
+
+Function Declarations
+^^^^^^^^^^^^^^^^^^^^^
+There are two forms of function declaration. Inline functions can only perform
+one statement. Functions with bodies can perform a set of statements and must
+use the 'return' keyword to return a result.
+
+Examples
+++++++++
+[source,csharp]
+-------------------------------------
+function diameter_to_radius(d) = d/2;
+
+function calculate(c) {
+  const a=12;
+  b=c/a;
+  return b;
+}
+-------------------------------------
+
+Builtin Functions
+^^^^^^^^^^^^^^^^^
+
+Sqrt
+++++
+Returns the square root of a number. Negative values are not supported.
+
+Sin
++++
+Returns the sine of a number. Angles are given in radians.
+
+Cos
++++
+Returns the cosine of a number. Angles are given in radians.
+
+Tan
++++
+Returns the tangent of a number. Angles are given in radians.
+
+
 
 3D Primitive Modules
 ~~~~~~~~~~~~~~~~~~~~
@@ -237,7 +282,7 @@ sphere(r);
 Cylinder
 ^^^^^^^
 
-RapCAD suports legacy 'r1' and 'r2' parameters on cylinder. The 'Cone' module
+RapCAD suports legacy 'r1' and 'r2' parameters on cylinder. The <<_cone,cone>> module
 is more appropriate for drawing cones.
 
 Examples
