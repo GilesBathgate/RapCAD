@@ -1,12 +1,13 @@
 #include "printconsole.h"
 #include "ui_printconsole.h"
 
-PrintConsole::PrintConsole(QWidget *parent) :
+PrintConsole::PrintConsole(QWidget* parent) :
 	QDialog(parent),
 	ui(new Ui::PrintConsole)
 {
 	ui->setupUi(this);
-
+	QIcon rapcadIcon(":/icons/rapcad-16x16.png");
+	this->setWindowIcon(rapcadIcon);
 	QString start("#ff0");
 	QString finish("#cc0");
 	ui->xPlus100->setStyleSheet(getStyleString(start,finish));

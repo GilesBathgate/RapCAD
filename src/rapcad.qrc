@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file alias="icons/rapcad-16x16.png">../icons/rapcad-16x16.png</file>
+        <file alias="icons/rapcad-100x100.png">../icons/rapcad-100x100.png</file>
     </qresource>
 </RCC>

@@ -26,6 +26,7 @@
 #include "preferences.h"
 #include "saveitemsdialog.h"
 #include "printconsole.h"
+#include "aboutdialog.h"
 
 MainWindow::MainWindow(QWidget* parent) :
 	QMainWindow(parent),
@@ -196,6 +197,8 @@ void MainWindow::setupActions()
 	connect(ui->actionDefaultView,SIGNAL(triggered()),this,SLOT(getDefaultViewport()));
 
 	connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(tabChanged(int)));
+
+	connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(showAbout()));
 }
 
 void MainWindow::grabFrameBuffer()
@@ -509,6 +512,12 @@ void MainWindow::print()
 {
 	PrintConsole p;
 	p.exec();
+}
+
+void MainWindow::showAbout()
+{
+	AboutDialog about;
+	about.exec();
 }
 
 void MainWindow::tabChanged(int i)

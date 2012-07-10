@@ -69,6 +69,7 @@ private slots:
 	void paste();
 	void tabChanged(int);
 	void print();
+	void showAbout();
 private:
 	void loadPreferences();
 	void savePreferences();

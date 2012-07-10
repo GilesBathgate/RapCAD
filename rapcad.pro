@@ -224,7 +224,8 @@ SOURCES += \
 	src/function/sinhfunction.cpp \
 	src/function/tanhfunction.cpp \
 	src/module/centermodule.cpp \
-	src/node/centernode.cpp
+	src/node/centernode.cpp \
+	src/aboutdialog.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -388,13 +389,15 @@ HEADERS  += \
 	src/function/sinhfunction.h \
 	src/function/tanhfunction.h \
 	src/module/centermodule.h \
-	src/node/centernode.h
+	src/node/centernode.h \
+	src/aboutdialog.h
 
 FORMS += \
 	src/mainwindow.ui \
 	src/preferences.ui \
 	src/saveitemsdialog.ui \
-	src/printconsole.ui
+	src/printconsole.ui \
+	src/aboutdialog.ui
 
 OTHER_FILES += \
 	COPYING
