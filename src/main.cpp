@@ -32,13 +32,12 @@
 #include "worker.h"
 #include "tester.h"
 #include "comparer.h"
+#include "stringify.h"
 
-#define STRINGIFY(x) #x
-#define TOSTRING(x) STRINGIFY(x)
 static int version()
 {
 	QTextStream output(stdout);
-	output << "RapCAD version: " << TOSTRING(RAPCAD_VERSION) << "\n";
+	output << "RapCAD version: " << STRINGIFY(RAPCAD_VERSION) << "\n";
 	output.flush();
 	return 0;
 }
@@ -48,7 +47,7 @@ static int showUi(QApplication& a,QString filename)
 	QCoreApplication::setOrganizationName("rapcad");
 	QCoreApplication::setOrganizationDomain("rapcad.org");
 	QCoreApplication::setApplicationName("RapCAD");
-	QCoreApplication::setApplicationVersion(TOSTRING(RAPCAD_VERSION));
+	QCoreApplication::setApplicationVersion(STRINGIFY(RAPCAD_VERSION));
 
 	MainWindow w;
 

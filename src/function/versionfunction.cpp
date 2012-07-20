@@ -3,12 +3,11 @@
 #include "vectorvalue.h"
 #include "numbervalue.h"
 #include "textvalue.h"
+#include "stringify.h"
 
-#define STRINGIFY(x) #x
-#define TOSTRING(x) STRINGIFY(x)
 VersionFunction::VersionFunction() : Function("version")
 {
-	QString v=TOSTRING(RAPCAD_VERSION);
+	QString v=STRINGIFY(RAPCAD_VERSION);
 	QStringList parts=v.split(".");
 	int major=parts.at(0).toInt();
 	int minor=parts.at(1).toInt();
