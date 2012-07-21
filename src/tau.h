@@ -16,8 +16,6 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "math.h"
-
 /* Tau is a more useful constant than PI and is defined as 2*PI
  * See http://tauday.com/
  */
