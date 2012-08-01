@@ -1,3 +1,16 @@
+0.8.0
+   * Implemented amf export feature.
+   * Allow range values to be treated as though they are vector values.
+   * Implemented preferences for edge and vertex size.
+   * Added simple about box dialog that displays the RapCAD version number.
+   * Improved the tool tips in main window tool bar.
+   * Improve memory management for values.
+   * Improvements to array concatenation code and some tests.
+   * Fixed some defeferenced null pointer exceptions in polygon.
+   * Documentation Improvements.
+   * Added some more examples 
+   * Licensing updated.
+
 0.7.0
    * Implemented add assign (+=), and subtract assign (-=) operators.
    * Added some simple examples.
