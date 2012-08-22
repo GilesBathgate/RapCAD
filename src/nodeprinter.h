@@ -40,6 +40,7 @@
 #include "node/importnode.h"
 #include "node/resizenode.h"
 #include "node/centernode.h"
+#include "node/pointnode.h"
 
 class NodePrinter : public NodeVisitor
 {
@@ -65,6 +66,8 @@ public:
 	void visit(TransformationNode*);
 	void visit(ResizeNode*);
 	void visit(CenterNode*);
+	void visit(PointNode*);
+
 private:
 	QTextStream& result;
 };

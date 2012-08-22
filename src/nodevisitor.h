@@ -42,6 +42,7 @@ public:
 	virtual void visit(class TransformationNode*)=0;
 	virtual void visit(class ResizeNode*)=0;
 	virtual void visit(class CenterNode*)=0;
+	virtual void visit(class PointNode*)=0;
 };
 
 #endif // NODEVISITOR_H

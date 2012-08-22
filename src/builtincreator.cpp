@@ -54,6 +54,7 @@
 #include "module/importmodule.h"
 #include "module/resizemodule.h"
 #include "module/centermodule.h"
+#include "module/pointmodule.h"
 
 #include "function/lengthfunction.h"
 #include "function/sqrtfunction.h"
@@ -117,6 +118,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new SubDivisionModule());
 	builtins.append(new OffsetModule());
 	builtins.append(new OutlineModule());
+	builtins.append(new PointModule());
 
 	builtins.append(new LengthFunction());
 	builtins.append(new SqrtFunction());

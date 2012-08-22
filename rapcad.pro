@@ -225,7 +225,9 @@ SOURCES += \
 	src/function/tanhfunction.cpp \
 	src/module/centermodule.cpp \
 	src/node/centernode.cpp \
-	src/aboutdialog.cpp
+	src/aboutdialog.cpp \
+	src/module/pointmodule.cpp \
+	src/node/pointnode.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -390,7 +392,9 @@ HEADERS  += \
 	src/function/tanhfunction.h \
 	src/module/centermodule.h \
 	src/node/centernode.h \
-	src/aboutdialog.h
+	src/aboutdialog.h \
+	src/module/pointmodule.h \
+	src/node/pointnode.h
 
 FORMS += \
 	src/mainwindow.ui \

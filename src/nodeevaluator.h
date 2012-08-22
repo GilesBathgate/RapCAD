@@ -42,6 +42,7 @@
 #include "node/importnode.h"
 #include "node/resizenode.h"
 #include "node/centernode.h"
+#include "node/pointnode.h"
 #include "cgalexplorer.h"
 
 class NodeEvaluator : public NodeVisitor
@@ -76,6 +77,7 @@ public:
 	void visit(TransformationNode*);
 	void visit(ResizeNode*);
 	void visit(CenterNode*);
+	void visit(PointNode*);
 
 	CGAL::Point3 offset(const CGAL::Point3&,CGAL::Kernel3::FT);
 	void evaluate(Node*,Operation_e);

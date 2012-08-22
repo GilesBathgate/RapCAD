@@ -359,6 +359,23 @@ void NodeEvaluator::visit(CenterNode* n)
 	result->transform(t);
 }
 
+void NodeEvaluator::visit(PointNode* n)
+{
+	QVector<CGAL::Point3> pl1,pl2;
+	Point p = n->getPoint();
+	double x,y,z;
+	p.getXYZ(x,y,z);
+	pl1.append(CGAL::Point3(x,y,z));
+	pl1.append(CGAL::Point3(x+1,y,z));
+
+	pl2.append(CGAL::Point3(x,y,z));
+	pl2.append(CGAL::Point3(x,y+1,z));
+	CGALPrimitive* p1 = new CGALPrimitive(pl1);
+	CGALPrimitive* p2 = new CGALPrimitive(pl2);
+
+	result = p1->intersection(p2);
+}
+
 CGALPrimitive* NodeEvaluator::getResult() const
 {
 	return result;
