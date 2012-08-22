@@ -29,7 +29,9 @@ Node* PointModule::evaluate(Context* ctx)
 	VectorValue* location=dynamic_cast<VectorValue*>(ctx->getArgument(0,"location"));
 
 	PointNode* p=new PointNode();
-	Point pt = location->getPoint();
+	Point pt;
+	if(location)
+		pt = location->getPoint();
 	p->setPoint(pt);
 	return p;
 }
