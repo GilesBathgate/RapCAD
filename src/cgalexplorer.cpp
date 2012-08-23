@@ -38,15 +38,46 @@ static CGALExplorer::HalfEdgeHandle getID(CGALExplorer::HalfEdgeHandle h)
 	return h<h->twin()?h:h->twin();
 }
 
+typedef CGAL::NefPolyhedron3 Nef;
+typedef Nef::Volume_const_iterator VolumeIterator;
+typedef Nef::Shell_entry_const_iterator ShellEntryIterator;
+typedef Nef::Halffacet_const_handle HalfFacetHandle;
+typedef Nef::Halffacet_const_iterator HalfFacetIterator;
+typedef Nef::Halffacet_cycle_const_iterator HalfFacetCycleIterator;
+typedef Nef::Halfedge_const_handle HalfEdgeHandle;
+typedef Nef::SHalfedge_const_handle SHalfEdgeHandle;
+typedef Nef::SHalfloop_const_handle SHalfLoopHandle;
+typedef Nef::SFace_const_handle SFaceHandle;
+typedef Nef::SHalfedge_around_facet_const_circulator SHalfEdgeCirculator;
+typedef Nef::Vertex_const_handle VertexHandle;
+typedef Nef::SVertex_const_handle SVertexHandle;
+typedef Nef::Vector_3 Vector3;
+
+class ShellExplorer
+{
+	QList<CGAL::Point3> points;
+	const CGAL::NefPolyhedron3& poly;
+
+public:
+	ShellExplorer(const CGAL::NefPolyhedron3& p) : poly(p) {}
+
+	void visit(VertexHandle v) {
+		points.append(v->point());
+	}
+
+	void visit(HalfEdgeHandle) {}
+	void visit(HalfFacetHandle) {}
+	void visit(SHalfEdgeHandle) {}
+	void visit(SHalfLoopHandle) {}
+	void visit(SFaceHandle) {}
+
+	QList<CGAL::Point3> getPoints() {
+		return points;
+	}
+};
+
 void CGALExplorer::evaluate()
 {
-	typedef Nef::Halffacet_const_iterator HalfFacetIterator;
-	typedef Nef::Halffacet_cycle_const_iterator HalfFacetCycleIterator;
-	typedef Nef::SHalfedge_const_handle SHalfEdgeHandle;
-	typedef Nef::SHalfedge_around_facet_const_circulator SHalfEdgeCirculator;
-	typedef Nef::SVertex_const_handle SVertexHandle;
-	typedef Nef::Vector_3 Vector3;
-
 	primitive = new CGALPrimitive();
 	QMap<HalfEdgeHandle,int> periMap;
 	HalfFacetIterator f;
@@ -115,8 +146,15 @@ CGALPrimitive* CGALExplorer::getPrimitive()
 
 QList<CGAL::Point3> CGALExplorer::getPoints()
 {
-	if(!evaluated) evaluate();
-	return primitive->getPoints();
+	VolumeIterator vi;
+	ShellExplorer se(poly);
+	CGAL_forall_volumes(vi,poly) {
+		ShellEntryIterator si;
+		CGAL_forall_shells_of(si,vi) {
+			poly.visit_shell_objects(SFaceHandle(si),se);
+		}
+	}
+	return se.getPoints();
 }
 
 CGAL::Bbox_3 CGALExplorer::getBounds()
