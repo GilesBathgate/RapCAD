@@ -227,7 +227,9 @@ SOURCES += \
 	src/node/centernode.cpp \
 	src/aboutdialog.cpp \
 	src/module/pointmodule.cpp \
-	src/node/pointnode.cpp
+	src/node/pointnode.cpp \
+	src/module/slicemodule.cpp \
+	src/node/slicenode.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -394,7 +396,9 @@ HEADERS  += \
 	src/node/centernode.h \
 	src/aboutdialog.h \
 	src/module/pointmodule.h \
-	src/node/pointnode.h
+	src/node/pointnode.h \
+	src/module/slicemodule.h \
+	src/node/slicenode.h
 
 FORMS += \
 	src/mainwindow.ui \

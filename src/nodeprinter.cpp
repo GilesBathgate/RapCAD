@@ -156,7 +156,12 @@ void NodePrinter::visit(CenterNode* n)
 
 void NodePrinter::visit(PointNode* n)
 {
-	printOperation(n,"center");
+	printOperation(n,"point");
+}
+
+void NodePrinter::visit(SliceNode* n)
+{
+	printOperation(n,"slice");
 }
 
 void NodePrinter::visit(TransformationNode* n)

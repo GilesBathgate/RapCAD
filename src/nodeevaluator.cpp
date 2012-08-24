@@ -376,6 +376,27 @@ void NodeEvaluator::visit(PointNode* n)
 	result = p1->intersection(p2);
 }
 
+void NodeEvaluator::visit(SliceNode* n)
+{
+	evaluate(n,Union);
+
+	CGAL::NefPolyhedron3 r=result->getNefPolyhedron();
+	CGALExplorer e(r);
+	CGAL::Bbox_3 b=e.getBounds();
+
+	CGALPrimitive* cp = new CGALPrimitive();
+	cp->createPolygon();
+	double h = n->getHeight();
+	cp->appendVertex(CGAL::Point3(b.xmin(),b.ymin(),h));
+	cp->appendVertex(CGAL::Point3(b.xmin(),b.ymax(),h));
+	cp->appendVertex(CGAL::Point3(b.xmax(),b.ymax(),h));
+	cp->appendVertex(CGAL::Point3(b.xmax(),b.ymin(),h));
+
+	cp->buildVolume();
+
+	result=result->intersection(cp);
+}
+
 CGALPrimitive* NodeEvaluator::getResult() const
 {
 	return result;

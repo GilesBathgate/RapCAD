@@ -41,6 +41,7 @@
 #include "node/resizenode.h"
 #include "node/centernode.h"
 #include "node/pointnode.h"
+#include "node/slicenode.h"
 
 class NodePrinter : public NodeVisitor
 {
@@ -67,6 +68,7 @@ public:
 	void visit(ResizeNode*);
 	void visit(CenterNode*);
 	void visit(PointNode*);
+	void visit(SliceNode*);
 
 private:
 	QTextStream& result;
