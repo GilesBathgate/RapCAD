@@ -62,10 +62,12 @@ CGALPrimitive* CGALBuilder::buildOffsetPolygons(double amount)
 	CGALExplorer e(primitive->getNefPolyhedron());
 	CGALPrimitive* prim = e.getPrimitive();
 
+	FT z=0.0;
 	foreach(CGALPolygon* pg,prim->getPolygons()) {
 		foreach(CGAL::Point3 pt,pg->getPoints()) {
 			CGAL::Point2 p2(pt.x(),pt.y());
 			poly.push_back(p2);
+			z=pt.z();
 		}
 		if(pg->getNormal().z()<0)
 			poly.reverse_orientation();
@@ -82,7 +84,7 @@ CGALPrimitive* CGALBuilder::buildOffsetPolygons(double amount)
 	}
 
 	CGALPrimitive* offsetPrim = new CGALPrimitive();
-	FT z=0.0;
+
 	for(PolygonIterator pi=offsetPolys.begin(); pi!=offsetPolys.end(); pi++) {
 		offsetPrim->createPolygon();
 		CGAL::Polygon2 pp=**pi;
