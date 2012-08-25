@@ -17,7 +17,6 @@
  */
 
 #include <QVector>
-#include <CGAL/Subdivision_method_3.h>
 #include "nodeevaluator.h"
 #include "cgalimport.h"
 
@@ -247,20 +246,7 @@ void NodeEvaluator::visit(BoundsNode* n)
 void NodeEvaluator::visit(SubDivisionNode* n)
 {
 	evaluate(n,Union);
-	/*
-		CGAL::Polyhedron3 p;
-		result->getPoly3().convert_to_Polyhedron(p);
-
-		CGAL::Subdivision_method_3::CatmullClark_subdivision(p,n->getLevel());
-
-		//TODO For some reason the resulting CGAL::Polyhedron3 will not convert
-		//back to a Nef Poly!
-		if(p.is_closed()) {
-			result=new CGALPrimitive(p);
-		} else {
-			output << "Polygon is not closed";
-		}
-	*/
+	//TODO
 }
 
 void NodeEvaluator::visit(OffsetNode* n)
