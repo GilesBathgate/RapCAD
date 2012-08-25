@@ -89,8 +89,7 @@ void Worker::doWork()
 	if(!result)
 		output << "Warning: No top level object.\n";
 	else if(!outputFile.isEmpty()) {
-		CGALExport exporter(result);
-		exporter.exportResult(outputFile);
+		exportResult(result,outputFile);
 	}
 
 	int ticks=t->elapsed();
