@@ -398,7 +398,8 @@ HEADERS  += \
 	src/module/pointmodule.h \
 	src/node/pointnode.h \
 	src/module/slicemodule.h \
-	src/node/slicenode.h
+	src/node/slicenode.h \
+	src/primitive.h
 
 FORMS += \
 	src/mainwindow.ui \

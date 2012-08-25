@@ -60,7 +60,7 @@ private slots:
 	bool closeFile();
 	void openFile();
 	void compileAndRender();
-	void evaluationDone(CGALPrimitive*);
+	void evaluationDone(Primitive*);
 	void setTabTitle(const QString&);
 	void undo();
 	void redo();
@@ -88,7 +88,7 @@ private:
 	TextEditIODevice* console;
 	BackgroundWorker* worker;
 	PreferencesDialog* preferencesDialog;
-	CGALPrimitive* primitive;
+	Primitive* primitive;
 };
 
 #endif // MAINWINDOW_H

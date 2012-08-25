@@ -25,6 +25,7 @@
 #include "nodeevaluator.h"
 
 #include "CGAL/exceptions.h"
+#include "cgalexport.h"
 
 extern Script* parse(QString,Reporter*);
 
@@ -85,7 +86,7 @@ void Worker::doWork()
 		output << "What: " << QString::fromStdString(e.what()) << "\n";
 	}
 
-	CGALPrimitive* result=ne.getResult();
+	Primitive* result=ne.getResult();
 	if(!result)
 		output << "Warning: No top level object.\n";
 	else if(!outputFile.isEmpty()) {
@@ -109,7 +110,7 @@ void Worker::finish()
 {
 }
 
-void Worker::exportResult(CGALPrimitive* primitive, QString fn)
+void Worker::exportResult(Primitive* primitive, QString fn)
 {
 	CGALExport exporter(primitive);
 	exporter.exportResult(fn);

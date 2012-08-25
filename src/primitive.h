@@ -16,22 +16,13 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CGALEXPORT_H
-#define CGALEXPORT_H
+#ifndef PRIMITIVE_H
+#define PRIMITIVE_H
 
-#include <QString>
-#include "cgalprimitive.h"
-
-class CGALExport
+class Primitive
 {
 public:
-	CGALExport(Primitive*);
-	void exportResult(QString);
-private:
-	void exportOFF(QString);
-	void exportAsciiSTL(QString,bool);
-	void exportAMF(QString);
-	CGALPrimitive* primitive;
+	virtual ~Primitive(){}
 };
 
-#endif // CGALEXPORT_H
+#endif // PRIMITIVE_H

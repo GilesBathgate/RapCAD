@@ -21,7 +21,7 @@
 #include <QClipboard>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "cgalprimitive.h"
+#include "primitive.h"
 #include "cgalrenderer.h"
 #include "preferences.h"
 #include "saveitemsdialog.h"
@@ -310,7 +310,7 @@ void MainWindow::setupConsole()
 	console=new TextEditIODevice(c,this);
 	output=new QTextStream(console);
 	worker=new BackgroundWorker(*output);
-	connect(worker,SIGNAL(done(CGALPrimitive*)),this,SLOT(evaluationDone(CGALPrimitive*)));
+	connect(worker,SIGNAL(done(Primitive*)),this,SLOT(evaluationDone(Primitive*)));
 }
 
 void MainWindow::clipboardDataChanged()
@@ -467,11 +467,11 @@ void MainWindow::compileAndRender()
 	}
 }
 
-void MainWindow::evaluationDone(CGALPrimitive* n)
+void MainWindow::evaluationDone(Primitive* n)
 {
 	if(n) {
 		primitive=n;
-		CGALRenderer* r = new CGALRenderer(*n);
+		Renderer* r = new CGALRenderer(primitive);
 		ui->view->setRenderer(r);
 	}
 	ui->actionCompileAndRender->setEnabled(true);

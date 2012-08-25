@@ -20,8 +20,9 @@
 
 #include <QVector>
 #include "cgalpolygon.h"
+#include "primitive.h"
 
-class CGALPrimitive
+class CGALPrimitive : public Primitive
 {
 public:
 	CGALPrimitive();

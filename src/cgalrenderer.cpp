@@ -21,7 +21,7 @@
 
 using CGAL::OGL::Nef3_Converter;
 
-CGALRenderer::CGALRenderer(const CGALPrimitive& prim)
+CGALRenderer::CGALRenderer(Primitive* pr)
 {
 	Preferences* p = Preferences::getInstance();
 	setColor(markedVertexColor,p->getMarkedVertexColor());
@@ -32,7 +32,8 @@ CGALRenderer::CGALRenderer(const CGALPrimitive& prim)
 	setColor(facetColor,p->getFacetColor());
 	vertexSize=p->getVertexSize();
 	edgeSize=p->getEdgeSize();
-	Nef3_Converter<CGAL::NefPolyhedron3>::convert_to_OGLPolyhedron(prim.getNefPolyhedron(),this);
+	CGALPrimitive* prim=(CGALPrimitive*)pr;
+	Nef3_Converter<CGAL::NefPolyhedron3>::convert_to_OGLPolyhedron(prim->getNefPolyhedron(),this);
 }
 
 void CGALRenderer::draw(bool skeleton, bool showedges)
