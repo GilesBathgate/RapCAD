@@ -390,7 +390,7 @@ void NodeEvaluator::visit(SliceNode* n)
 	result=result->intersection(cp);
 }
 
-CGALPrimitive* NodeEvaluator::getResult() const
+Primitive* NodeEvaluator::getResult() const
 {
 	return result;
 }

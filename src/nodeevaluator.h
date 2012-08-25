@@ -83,7 +83,7 @@ public:
 
 	CGAL::Point3 offset(const CGAL::Point3&,CGAL::Kernel3::FT);
 	void evaluate(Node*,Operation_e);
-	CGALPrimitive* getResult() const;
+	Primitive* getResult() const;
 private:
 	CGALPrimitive* result;
 	QTextStream& output;
