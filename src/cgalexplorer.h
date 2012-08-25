@@ -27,7 +27,7 @@ class CGALExplorer
 public:
 	typedef CGAL::NefPolyhedron3::Halfedge_const_handle HalfEdgeHandle;
 
-	CGALExplorer(const CGAL::NefPolyhedron3&);
+	CGALExplorer(CGALPrimitive*);
 	QList<HalfEdgeHandle> getPerimeter();
 	CGALPrimitive* getPrimitive();
 	QList<CGAL::Point3> getPoints();
@@ -36,7 +36,6 @@ private:
 	void evaluate();
 	QList<HalfEdgeHandle> perimeter;
 	bool evaluated;
-	const CGAL::NefPolyhedron3& poly;
 	CGALPrimitive* primitive;
 };
 

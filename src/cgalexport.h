@@ -25,7 +25,7 @@
 class CGALExport
 {
 public:
-	CGALExport(Primitive*);
+	CGALExport(CGALPrimitive*);
 	void exportResult(QString);
 private:
 	void exportOFF(QString);

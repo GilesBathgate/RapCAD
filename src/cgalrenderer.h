@@ -27,7 +27,7 @@
 class CGALRenderer : public Renderer, private CGAL::OGL::Polyhedron
 {
 public:
-	CGALRenderer(Primitive*);
+	CGALRenderer(CGALPrimitive*);
 	void draw(bool,bool);
 private:
 	void setColor(CGAL::Color&,QColor);

@@ -81,7 +81,7 @@ void NodeEvaluator::visit(GlideNode* op)
 	foreach(Node* n, op->getChildren()) {
 		n->accept(*this);
 		if(!first) {
-			CGALExplorer explorer(result->getNefPolyhedron());
+			CGALExplorer explorer(result);
 			QList<CGAL::Point3> points = explorer.getPoints();
 
 			QVector<CGAL::Point3> pl;
@@ -108,7 +108,7 @@ void NodeEvaluator::visit(HullNode* n)
 	QList<CGAL::Point3> points;
 	foreach(Node* c,n->getChildren()) {
 		c->accept(*this);
-		CGALExplorer explorer(result->getNefPolyhedron());
+		CGALExplorer explorer(result);
 		foreach(CGAL::Point3 pt,explorer.getPoints())
 			points.append(pt);
 	}
@@ -123,11 +123,7 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 {
 	evaluate(op,Union);
 
-	CGAL::NefPolyhedron3 r=result->getNefPolyhedron();
-
-	//For fully dimentional polyhedra there are always two volumes the outer
-	//volume and the inner volume. So check volumes > 1
-	if(r.number_of_volumes()>1) {
+	if(result->isFullyDimentional()) {
 		QVector<CGAL::Point3> pl;
 		pl.append(CGAL::Point3(0,0,0));
 		pl.append(CGAL::Point3(0,0,op->getHeight()));
@@ -136,7 +132,7 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 
 	} else {
 		CGAL::Kernel3::FT z=op->getHeight();
-		CGALExplorer explorer(r);
+		CGALExplorer explorer(result);
 		CGALPrimitive* prim=explorer.getPrimitive();
 		QList<CGALPolygon*> polys=prim->getPolygons();
 		CGALPrimitive* n = new CGALPrimitive();
@@ -221,7 +217,7 @@ void NodeEvaluator::visit(BoundsNode* n)
 {
 	evaluate(n,Union);
 
-	CGALExplorer explorer(result->getNefPolyhedron());
+	CGALExplorer explorer(result);
 	CGAL::Bbox_3 b=explorer.getBounds();
 
 	//TODO move this warning into gcode generation routines when they exist.
@@ -265,7 +261,7 @@ void NodeEvaluator::visit(OutlineNode* op)
 {
 	evaluate(op,Union);
 
-	CGALExplorer explorer(result->getNefPolyhedron());
+	CGALExplorer explorer(result);
 	QList<CGAL::Point3> points = explorer.getPoints();
 
 	QVector<CGAL::Point3> pl;
@@ -303,8 +299,7 @@ void NodeEvaluator::visit(ResizeNode* n)
 {
 	evaluate(n,Union);
 
-	CGAL::NefPolyhedron3 r=result->getNefPolyhedron();
-	CGALExplorer e(r);
+	CGALExplorer e(result);
 	CGAL::Bbox_3 b=e.getBounds();
 	Point s=n->getSize();
 	double x,y,z;
@@ -342,8 +337,7 @@ void NodeEvaluator::visit(CenterNode* n)
 {
 	evaluate(n,Union);
 
-	CGAL::NefPolyhedron3 r=result->getNefPolyhedron();
-	CGALExplorer e(r);
+	CGALExplorer e(result);
 	CGAL::Bbox_3 b=e.getBounds();
 	double x,y,z;
 	x=(b.xmin()+b.xmax())/2;
@@ -380,8 +374,7 @@ void NodeEvaluator::visit(SliceNode* n)
 {
 	evaluate(n,Union);
 
-	CGAL::NefPolyhedron3 r=result->getNefPolyhedron();
-	CGALExplorer e(r);
+	CGALExplorer e(result);
 	CGAL::Bbox_3 b=e.getBounds();
 
 	CGALPrimitive* cp = new CGALPrimitive();

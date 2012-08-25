@@ -118,3 +118,10 @@ CGAL::Polyhedron3* CGALPrimitive::getPolyhedron()
 		nefPolyhedron->convert_to_polyhedron(*poly);
 	return poly;
 }
+
+bool CGALPrimitive::isFullyDimentional()
+{
+	//For fully dimentional polyhedra there are always two volumes the outer
+	//volume and the inner volume. So check volumes > 1
+	return nefPolyhedron->number_of_volumes()>1;
+}

@@ -24,9 +24,9 @@
 #include <QXmlStreamWriter>
 #include <CGAL/IO/Polyhedron_iostream.h>
 
-CGALExport::CGALExport(Primitive* p)
+CGALExport::CGALExport(CGALPrimitive* p)
 {
-	primitive=(CGALPrimitive*)p;
+	primitive=p;
 }
 
 void CGALExport::exportResult(QString filename)

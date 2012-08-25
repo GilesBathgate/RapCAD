@@ -21,8 +21,9 @@
 #include <QMap>
 #include <CGAL/config.h>
 
-CGALExplorer::CGALExplorer(const CGAL::NefPolyhedron3& p) : poly(p)
+CGALExplorer::CGALExplorer(CGALPrimitive* p)
 {
+	primitive=p;
 	evaluated=false;
 }
 
@@ -78,6 +79,7 @@ public:
 
 void CGALExplorer::evaluate()
 {
+	const CGAL::NefPolyhedron3& poly=primitive->getNefPolyhedron();
 	primitive = new CGALPrimitive();
 	QMap<HalfEdgeHandle,int> periMap;
 	HalfFacetIterator f;
@@ -146,6 +148,7 @@ CGALPrimitive* CGALExplorer::getPrimitive()
 
 QList<CGAL::Point3> CGALExplorer::getPoints()
 {
+	const CGAL::NefPolyhedron3& poly=primitive->getNefPolyhedron();
 	VolumeIterator vi;
 	ShellExplorer se(poly);
 	CGAL_forall_volumes(vi,poly) {

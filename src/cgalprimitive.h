@@ -43,6 +43,7 @@ public:
 	QList<CGAL::Point3> getPoints() const;
 	const CGAL::NefPolyhedron3& getNefPolyhedron() const;
 	CGAL::Polyhedron3* getPolyhedron();
+	bool isFullyDimentional();
 private:
 	QList<CGALPolygon*> polygons;
 	QList<CGAL::Point3> points;

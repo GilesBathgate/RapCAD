@@ -59,7 +59,7 @@ CGALPrimitive* CGALBuilder::buildOffsetPolygons(double amount)
 	typedef CGAL::Polygon2::Vertex_const_iterator VertexIterator;
 
 	CGAL::Polygon2 poly;
-	CGALExplorer e(primitive->getNefPolyhedron());
+	CGALExplorer e(primitive);
 	CGALPrimitive* prim = e.getPrimitive();
 
 	FT z=0.0;

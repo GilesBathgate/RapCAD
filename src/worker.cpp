@@ -121,14 +121,20 @@ void Worker::finish()
 void Worker::exportResult(Primitive* primitive, QString fn)
 {
 #if USE_CGAL
-	CGALExport exporter(primitive);
-	exporter.exportResult(fn);
+	CGALPrimitive* p = dynamic_cast<CGALPrimitive*>(primitive);
+	if(p) {
+		CGALExport exporter(p);
+		exporter.exportResult(fn);
+	}
 #endif
 }
 
-Renderer* Worker::getRenderer(Primitive* p)
+Renderer* Worker::getRenderer(Primitive* primitive)
 {
 #if USE_CGAL
-	return new CGALRenderer(p);
+	CGALPrimitive* p = dynamic_cast<CGALPrimitive*>(primitive);
+	if(p)
+		return new CGALRenderer(p);
 #endif
+	return NULL;
 }
