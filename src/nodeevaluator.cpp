@@ -27,6 +27,7 @@ NodeEvaluator::NodeEvaluator(QTextStream& s) : output(s)
 
 void NodeEvaluator::visit(PrimitiveNode* n)
 {
+#if USE_CGAL
 	CGALPrimitive* cp = new CGALPrimitive();
 	foreach(Polygon p, n->getPolygons()) {
 		cp->createPolygon();
@@ -37,10 +38,12 @@ void NodeEvaluator::visit(PrimitiveNode* n)
 		}
 	}
 	result=cp->buildVolume();
+#endif
 }
 
 void NodeEvaluator::visit(PolylineNode* n)
 {
+#if USE_CGAL
 	QVector<CGAL::Point3> pl;
 	foreach(Point p,n->getPoints()) {
 		double x,y,z;
@@ -48,6 +51,7 @@ void NodeEvaluator::visit(PolylineNode* n)
 		pl.append(CGAL::Point3(x,y,z));
 	}
 	result=new CGALPrimitive(pl);
+#endif
 }
 
 void NodeEvaluator::visit(UnionNode* op)
@@ -77,6 +81,7 @@ void NodeEvaluator::visit(MinkowskiNode* op)
 
 void NodeEvaluator::visit(GlideNode* op)
 {
+#if USE_CGAL
 	CGALPrimitive* first=NULL;
 	foreach(Node* n, op->getChildren()) {
 		n->accept(*this);
@@ -101,10 +106,12 @@ void NodeEvaluator::visit(GlideNode* op)
 	}
 
 	result=first;
+#endif
 }
 
 void NodeEvaluator::visit(HullNode* n)
 {
+#if USE_CGAL
 	QList<CGAL::Point3> points;
 	foreach(Node* c,n->getChildren()) {
 		c->accept(*this);
@@ -117,12 +124,13 @@ void NodeEvaluator::visit(HullNode* n)
 	CGAL::convex_hull_3(points.begin(),points.end(),hull);
 
 	result=new CGALPrimitive(hull);
+#endif
 }
 
 void NodeEvaluator::visit(LinearExtrudeNode* op)
 {
 	evaluate(op,Union);
-
+#if USE_CGAL
 	if(result->isFullyDimentional()) {
 		QVector<CGAL::Point3> pl;
 		pl.append(CGAL::Point3(0,0,0));
@@ -169,21 +177,24 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 
 		result=n->buildVolume();
 	}
-
+#endif
 }
 
 void NodeEvaluator::visit(RotateExtrudeNode*)
 {
 }
 
+#if USE_CGAL
 CGAL::Point3 NodeEvaluator::offset(const CGAL::Point3& p,CGAL::Kernel3::FT z)
 {
 	z+=p.z();
 	return CGAL::Point3(p.x(),p.y(),z);
 }
+#endif
 
 void NodeEvaluator::evaluate(Node* op,Operation_e type)
 {
+#if USE_CGAL
 	CGALPrimitive* first=NULL;
 	foreach(Node* n, op->getChildren()) {
 		n->accept(*this);
@@ -211,12 +222,13 @@ void NodeEvaluator::evaluate(Node* op,Operation_e type)
 	}
 
 	result=first;
+#endif
 }
 
 void NodeEvaluator::visit(BoundsNode* n)
 {
 	evaluate(n,Union);
-
+#if USE_CGAL
 	CGALExplorer explorer(result);
 	CGAL::Bbox_3 b=explorer.getBounds();
 
@@ -229,6 +241,7 @@ void NodeEvaluator::visit(BoundsNode* n)
 	output << "Bounds: ";
 	output << "[" << b.xmin() << "," << b.ymin() << "," << b.zmin() << "] ";
 	output << "[" << b.xmax() << "," << b.ymax() << "," << b.zmax() << "]\n";
+#endif
 }
 
 void NodeEvaluator::visit(SubDivisionNode* n)
@@ -253,14 +266,16 @@ void NodeEvaluator::visit(SubDivisionNode* n)
 void NodeEvaluator::visit(OffsetNode* n)
 {
 	evaluate(n,Union);
-
+#if USE_CGAL
 	result=result->inset(n->getAmount());
+#endif
 }
 
 void NodeEvaluator::visit(OutlineNode* op)
 {
 	evaluate(op,Union);
 
+#if USE_CGAL
 	CGALExplorer explorer(result);
 	QList<CGAL::Point3> points = explorer.getPoints();
 
@@ -274,17 +289,21 @@ void NodeEvaluator::visit(OutlineNode* op)
 	pl.append(fp);
 
 	result=new CGALPrimitive(pl);
+#endif
 }
 
 void NodeEvaluator::visit(ImportNode* op)
 {
+#if USE_CGAL
 	CGALImport i(output);
 	result=i.import(op->getImport());
+#endif
 }
 
 void NodeEvaluator::visit(TransformationNode* tr)
 {
 	evaluate(tr,Union);
+#if USE_CGAL
 	double* m=tr->matrix;
 	CGAL::AffTransformation3 t(
 		m[0], m[4], m[ 8], m[12],
@@ -293,12 +312,13 @@ void NodeEvaluator::visit(TransformationNode* tr)
 
 	if(result)
 		result->transform(t);
+#endif
 }
 
 void NodeEvaluator::visit(ResizeNode* n)
 {
 	evaluate(n,Union);
-
+#if USE_CGAL
 	CGALExplorer e(result);
 	CGAL::Bbox_3 b=e.getBounds();
 	Point s=n->getSize();
@@ -331,12 +351,13 @@ void NodeEvaluator::visit(ResizeNode* n)
 		0, 0, z, 0, 1);
 
 	result->transform(t);
+#endif
 }
 
 void NodeEvaluator::visit(CenterNode* n)
 {
 	evaluate(n,Union);
-
+#if USE_CGAL
 	CGALExplorer e(result);
 	CGAL::Bbox_3 b=e.getBounds();
 	double x,y,z;
@@ -351,10 +372,12 @@ void NodeEvaluator::visit(CenterNode* n)
 		0, 0, 1, -z, 1);
 
 	result->transform(t);
+#endif
 }
 
 void NodeEvaluator::visit(PointNode* n)
 {
+#if USE_CGAL
 	QVector<CGAL::Point3> pl1,pl2;
 	Point p = n->getPoint();
 	double x,y,z;
@@ -368,12 +391,13 @@ void NodeEvaluator::visit(PointNode* n)
 	CGALPrimitive* p2 = new CGALPrimitive(pl2);
 
 	result = p1->intersection(p2);
+#endif
 }
 
 void NodeEvaluator::visit(SliceNode* n)
 {
 	evaluate(n,Union);
-
+#if USE_CGAL
 	CGALExplorer e(result);
 	CGAL::Bbox_3 b=e.getBounds();
 
@@ -388,9 +412,12 @@ void NodeEvaluator::visit(SliceNode* n)
 	cp->buildVolume();
 
 	result=result->intersection(cp);
+#endif
 }
 
 Primitive* NodeEvaluator::getResult() const
 {
+#if USE_CGAL
 	return result;
+#endif
 }

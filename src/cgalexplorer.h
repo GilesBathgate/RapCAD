@@ -15,7 +15,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+#if USE_CGAL
 #ifndef CGALEXPLORER_H
 #define CGALEXPLORER_H
 
@@ -40,3 +40,4 @@ private:
 };
 
 #endif // CGALEXPLORER_H
+#endif

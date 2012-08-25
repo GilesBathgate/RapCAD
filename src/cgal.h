@@ -15,7 +15,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+#if USE_CGAL
 #ifndef CGAL_H
 #define CGAL_H
 
@@ -41,3 +41,4 @@ typedef NefPolyhedron3::Aff_transformation_3 AffTransformation3;
 }
 
 #endif // CGAL_H
+#endif

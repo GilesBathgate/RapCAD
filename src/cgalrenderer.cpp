@@ -15,7 +15,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+#if USE_CGAL
 #include "cgalrenderer.h"
 #include "preferences.h"
 
@@ -79,3 +79,4 @@ double CGALRenderer::getEdgeSize() const
 {
 	return edgeSize;
 }
+#endif

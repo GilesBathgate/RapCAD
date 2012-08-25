@@ -15,7 +15,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+#if USE_CGAL
 #include <QList>
 #include <CGAL/Polyhedron_incremental_builder_3.h>
 #include "cgalbuilder.h"
@@ -97,3 +97,4 @@ CGALPrimitive* CGALBuilder::buildOffsetPolygons(double amount)
 
 	return offsetPrim;
 }
+#endif

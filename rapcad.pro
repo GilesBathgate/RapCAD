@@ -62,7 +62,7 @@ win32 {
   }
 }
 
-#LIBS += -L$$PWD/librapcad -lrapcad
+DEFINES+=USE_CGAL
 QMAKE_CXXFLAGS += -frounding-math
 
 CONFIG(official){
@@ -72,8 +72,6 @@ CONFIG(official){
 	MINOR=$$system(cut -d'.' -f2 VERSION)
 	DEFINES += RAPCAD_VERSION=$$MAJOR"."$$MINOR".git."$$system(git log -1 --pretty=format:%h)
 }
-
-DEFINES+=USE_CGAL
 
 SOURCES += \
 	src/main.cpp \

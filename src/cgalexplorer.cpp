@@ -15,7 +15,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+#if USE_CGAL
 #include "cgalexplorer.h"
 #include "float.h"
 #include <QMap>
@@ -179,3 +179,4 @@ CGAL::Bbox_3 CGALExplorer::getBounds()
 
 	return CGAL::Bbox_3(minX,minY,minZ,maxX,maxY,maxZ);
 }
+#endif

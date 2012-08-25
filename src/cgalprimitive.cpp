@@ -1,3 +1,4 @@
+#if USE_CGAL
 #include "cgalprimitive.h"
 #include <QPair>
 #include <CGAL/minkowski_sum_3.h>
@@ -125,3 +126,4 @@ bool CGALPrimitive::isFullyDimentional()
 	//volume and the inner volume. So check volumes > 1
 	return nefPolyhedron->number_of_volumes()>1;
 }
+#endif

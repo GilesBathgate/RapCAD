@@ -15,7 +15,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+#if USE_CGAL
 #ifndef CGALBUILDER_H
 #define CGALBUILDER_H
 
@@ -32,3 +32,4 @@ private:
 };
 
 #endif // CGALBUILDER_H
+#endif

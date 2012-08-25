@@ -21,6 +21,7 @@
 
 #include <QString>
 #include <QTextStream>
+#include "primitive.h"
 #include "cgalprimitive.h"
 #include "nodevisitor.h"
 #include "node/primitivenode.h"
@@ -80,12 +81,15 @@ public:
 	void visit(CenterNode*);
 	void visit(PointNode*);
 	void visit(SliceNode*);
-
+#if USE_CGAL
 	CGAL::Point3 offset(const CGAL::Point3&,CGAL::Kernel3::FT);
+#endif
 	void evaluate(Node*,Operation_e);
 	Primitive* getResult() const;
 private:
+#if USE_CGAL
 	CGALPrimitive* result;
+#endif
 	QTextStream& output;
 };
 

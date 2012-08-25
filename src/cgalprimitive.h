@@ -15,6 +15,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#if USE_CGAL
 #ifndef CGALPRIMITIVE_H
 #define CGALPRIMITIVE_H
 
@@ -51,3 +52,4 @@ private:
 };
 
 #endif // CGALPRIMITIVE_H
+#endif
