@@ -32,9 +32,7 @@ public:
 	Worker(QTextStream&,QObject* parent = 0);
 	void setup(QString,QString,bool);
 	virtual void evaluate();
-	void exportAsciiSTL(CGALPrimitive*,QString);
-	void exportOFF(CGALPrimitive*,QString);
-	void exportAMF(CGALPrimitive*,QString);
+	void exportResult(CGALPrimitive*,QString);
 	virtual ~Worker();
 signals:
 	void done(CGALPrimitive*);
@@ -46,7 +44,6 @@ protected:
 	QString outputFile;
 	bool print;
 private:
-	CGALExport* exporter;
 	QTextStream& output;
 	Reporter* reporter;
 };

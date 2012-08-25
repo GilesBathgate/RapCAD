@@ -213,8 +213,10 @@ void MainWindow::exportAsciiSTL()
 {
 	if(primitive) {
 		QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
-					QString(), tr("STL Files (*.stl);;All Files (*)"));
-		worker->exportAsciiSTL(primitive,fn);
+					 QString(), tr("STL Files (*.stl);;All Files (*)"));
+		if(!fn.endsWith(".stl", Qt::CaseInsensitive))
+			fn.append(".stl");
+		worker->exportResult(primitive,fn);
 	}
 }
 
@@ -222,10 +224,10 @@ void MainWindow::exportAMF()
 {
 	if(primitive) {
 		QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
-					QString(), tr("AMF Files (*.amf);;All Files (*)"));
-			if(!fn.endsWith(".amf", Qt::CaseInsensitive))
-				fn.append(".amf");
-		worker->exportAMF(primitive,fn);
+					 QString(), tr("AMF Files (*.amf);;All Files (*)"));
+		if(!fn.endsWith(".amf", Qt::CaseInsensitive))
+			fn.append(".amf");
+		worker->exportResult(primitive,fn);
 	}
 }
 
@@ -233,8 +235,10 @@ void MainWindow::exportOFF()
 {
 	if(primitive) {
 		QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
-					QString(), tr("OFF Files (*.stl);;All Files (*)"));
-		worker->exportOFF(primitive,fn);
+					 QString(), tr("OFF Files (*.stl);;All Files (*)"));
+		if(!fn.endsWith(".off", Qt::CaseInsensitive))
+			fn.append(".off");
+		worker->exportResult(primitive,fn);
 	}
 }
 

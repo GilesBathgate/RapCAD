@@ -32,13 +32,11 @@ Worker::Worker(QTextStream& s, QObject* parent) :
 	QObject(parent),
 	output(s)
 {
-	exporter=new CGALExport();
 	reporter=new Reporter(output);
 }
 
 Worker::~Worker()
 {
-	delete exporter;
 	delete reporter;
 }
 
@@ -90,8 +88,9 @@ void Worker::doWork()
 	CGALPrimitive* result=ne.getResult();
 	if(!result)
 		output << "Warning: No top level object.\n";
-	else if (!outputFile.isEmpty()) {
-		exporter->exportResult(result,outputFile);
+	else if(!outputFile.isEmpty()) {
+		CGALExport exporter(result);
+		exporter.exportResult(outputFile);
 	}
 
 	int ticks=t->elapsed();
@@ -111,17 +110,8 @@ void Worker::finish()
 {
 }
 
-void Worker::exportAsciiSTL(CGALPrimitive* primitive, QString fn)
+void Worker::exportResult(CGALPrimitive* primitive, QString fn)
 {
-	exporter->exportAsciiSTL(primitive,fn,true);
-}
-
-void Worker::exportOFF(CGALPrimitive* primitive, QString fn)
-{
-	exporter->exportOFF(primitive,fn);
-}
-
-void Worker::exportAMF(CGALPrimitive* primitive, QString fn)
-{
-	exporter->exportAMF(primitive,fn);
+	CGALExport exporter(primitive);
+	exporter.exportResult(fn);
 }

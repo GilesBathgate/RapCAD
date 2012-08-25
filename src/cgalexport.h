@@ -25,11 +25,13 @@
 class CGALExport
 {
 public:
-	CGALExport();
-	void exportResult(CGALPrimitive*,QString);
-	void exportOFF(CGALPrimitive*,QString);
-	void exportAsciiSTL(CGALPrimitive*,QString,bool);
-	void exportAMF(CGALPrimitive*,QString);
+	CGALExport(CGALPrimitive*);
+	void exportResult(QString);
+private:
+	void exportOFF(QString);
+	void exportAsciiSTL(QString,bool);
+	void exportAMF(QString);
+	CGALPrimitive* primitive;
 };
 
 #endif // CGALEXPORT_H

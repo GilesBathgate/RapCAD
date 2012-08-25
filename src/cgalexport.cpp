@@ -24,26 +24,28 @@
 #include <QXmlStreamWriter>
 #include <CGAL/IO/Polyhedron_iostream.h>
 
-CGALExport::CGALExport()
+CGALExport::CGALExport(CGALPrimitive* p)
 {
+	primitive=p;
 }
 
-void CGALExport::exportResult(CGALPrimitive* primitive, QString filename)
+void CGALExport::exportResult(QString filename)
 {
 	QFileInfo file(filename);
 	QString suffix=file.suffix().toLower();
+	QString path=file.absoluteFilePath();
 	if(suffix=="off")
-		return exportOFF(primitive,file.absoluteFilePath());
+		return exportOFF(path);
 	if(suffix=="amf")
-		return exportAMF(primitive,file.absoluteFilePath());
+		return exportAMF(path);
 	if(suffix=="stl")
-		return exportAsciiSTL(primitive,file.absoluteFilePath(),true);
+		return exportAsciiSTL(path,true);
 }
 
-void CGALExport::exportOFF(CGALPrimitive* prim,QString filename)
+void CGALExport::exportOFF(QString filename)
 {
 	//http://people.sc.fsu.edu/~jburkardt/data/off/off.html
-	CGAL::Polyhedron3* poly=prim->getPolyhedron();
+	CGAL::Polyhedron3* poly=primitive->getPolyhedron();
 	std::ofstream file(filename.toLocal8Bit().constData());
 	file << *poly;
 	file.close();
@@ -54,9 +56,9 @@ typedef CGAL::Polyhedron3::Vertex_const_iterator VertexIterator;
 typedef CGAL::Polyhedron3::Facet_const_iterator FacetIterator;
 typedef CGAL::Polyhedron3::Halfedge_around_facet_const_circulator HalffacetCirculator;
 
-void CGALExport::exportAsciiSTL(CGALPrimitive* prim, QString filename, bool precise)
+void CGALExport::exportAsciiSTL(QString filename, bool precise)
 {
-	CGAL::Polyhedron3* poly=prim->getPolyhedron();
+	CGAL::Polyhedron3* poly=primitive->getPolyhedron();
 
 	QFile data(filename);
 	if(!data.open(QFile::WriteOnly | QFile::Truncate)) {
@@ -128,13 +130,13 @@ void CGALExport::exportAsciiSTL(CGALPrimitive* prim, QString filename, bool prec
 	data.close();
 }
 
-void CGALExport::exportAMF(CGALPrimitive* prim, QString filename)
+void CGALExport::exportAMF(QString filename)
 {
 	//currently does not support multi material - sk12/04/07
-	CGAL::Polyhedron3* poly=prim->getPolyhedron();
+	CGAL::Polyhedron3* poly=primitive->getPolyhedron();
 
 	QFile* file=new QFile(filename);
-	if (!file->open(QIODevice::WriteOnly)) {
+	if(!file->open(QIODevice::WriteOnly)) {
 		return;
 	}
 
@@ -209,7 +211,7 @@ void CGALExport::exportAMF(CGALPrimitive* prim, QString filename)
 		xml.writeTextElement("v1",QString().setNum(v1));
 		xml.writeTextElement("v2",QString().setNum(v2));
 		xml.writeTextElement("v3",QString().setNum(v3));
-        xml.writeEndElement(); //triangle
+		xml.writeEndElement(); //triangle
 	}
 	xml.writeEndElement(); //volume
 
