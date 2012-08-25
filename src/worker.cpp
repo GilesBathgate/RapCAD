@@ -24,8 +24,11 @@
 #include "nodeprinter.h"
 #include "nodeevaluator.h"
 
+#if USE_CGAL
 #include "CGAL/exceptions.h"
 #include "cgalexport.h"
+#include "cgalrenderer.h"
+#endif
 
 extern Script* parse(QString,Reporter*);
 
@@ -82,9 +85,14 @@ void Worker::doWork()
 	try {
 		n->accept(ne);
 		delete n;
+#if USE_CGAL
 	} catch(CGAL::Assertion_exception e) {
 		output << "What: " << QString::fromStdString(e.what()) << "\n";
 	}
+#else
+	} catch(...) {
+	}
+#endif
 
 	Primitive* result=ne.getResult();
 	if(!result)
@@ -112,6 +120,15 @@ void Worker::finish()
 
 void Worker::exportResult(Primitive* primitive, QString fn)
 {
+#if USE_CGAL
 	CGALExport exporter(primitive);
 	exporter.exportResult(fn);
+#endif
+}
+
+Renderer* Worker::getRenderer(Primitive* p)
+{
+#if USE_CGAL
+	return new CGALRenderer(p);
+#endif
 }

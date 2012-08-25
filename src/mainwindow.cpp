@@ -22,7 +22,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "primitive.h"
-#include "cgalrenderer.h"
+#include "renderer.h"
 #include "preferences.h"
 #include "saveitemsdialog.h"
 #include "printconsole.h"
@@ -471,7 +471,7 @@ void MainWindow::evaluationDone(Primitive* n)
 {
 	if(n) {
 		primitive=n;
-		Renderer* r = new CGALRenderer(primitive);
+		Renderer* r = worker->getRenderer(primitive);
 		ui->view->setRenderer(r);
 	}
 	ui->actionCompileAndRender->setEnabled(true);

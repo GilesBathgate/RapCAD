@@ -73,6 +73,8 @@ CONFIG(official){
 	DEFINES += RAPCAD_VERSION=$$MAJOR"."$$MINOR".git."$$system(git log -1 --pretty=format:%h)
 }
 
+DEFINES+=USE_CGAL
+
 SOURCES += \
 	src/main.cpp \
 	src/mainwindow.cpp \

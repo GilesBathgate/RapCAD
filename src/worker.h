@@ -22,6 +22,7 @@
 #include <QObject>
 #include <QTextStream>
 #include "primitive.h"
+#include "renderer.h"
 #include "reporter.h"
 
 class Worker : public QObject
@@ -32,6 +33,7 @@ public:
 	void setup(QString,QString,bool);
 	virtual void evaluate();
 	void exportResult(Primitive*,QString);
+	Renderer* getRenderer(Primitive*);
 	virtual ~Worker();
 signals:
 	void done(Primitive*);
