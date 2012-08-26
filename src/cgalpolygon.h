@@ -21,8 +21,9 @@
 
 #include <QList>
 #include "cgal.h"
+#include "polygon.h"
 
-class CGALPolygon
+class CGALPolygon : public Polygon
 {
 public:
 	CGALPolygon();

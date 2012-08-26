@@ -21,6 +21,12 @@
 #include <QMap>
 #include <CGAL/config.h>
 
+CGALExplorer::CGALExplorer(Primitive* p)
+{
+	primitive=(CGALPrimitive*)p;
+	evaluated=false;
+}
+
 CGALExplorer::CGALExplorer(CGALPrimitive* p)
 {
 	primitive=p;
@@ -86,7 +92,7 @@ void CGALExplorer::evaluate()
 	CGAL_forall_halffacets(f,poly) {
 		bool facet = !f->is_twin();
 		if(facet) {
-			CGALPolygon* pg=primitive->createPolygon();
+			CGALPolygon* pg=(CGALPolygon*)primitive->createPolygon();
 			Vector3 v = f->plane().orthogonal_vector();
 			pg->setNormal(v);
 		}

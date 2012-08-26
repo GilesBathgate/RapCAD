@@ -25,7 +25,7 @@ CGALImport::CGALImport(QTextStream& out) : output(out)
 {
 }
 
-CGALPrimitive* CGALImport::import(QString filename)
+Primitive* CGALImport::import(QString filename)
 {
 	QFileInfo file(filename);
 	output << "Info: Importing '" << file.absoluteFilePath() << "'\n";
@@ -40,7 +40,7 @@ CGALPrimitive* CGALImport::import(QString filename)
 	return NULL;
 }
 
-CGALPrimitive* CGALImport::importOFF(QFileInfo fileinfo)
+Primitive* CGALImport::importOFF(QFileInfo fileinfo)
 {
 	CGAL::Polyhedron3 poly;
 	std::ifstream file(fileinfo.absoluteFilePath().toLocal8Bit().constData());
@@ -50,7 +50,7 @@ CGALPrimitive* CGALImport::importOFF(QFileInfo fileinfo)
 	return new CGALPrimitive(poly);
 }
 
-CGALPrimitive* CGALImport::importSTL(QFileInfo fileinfo)
+Primitive* CGALImport::importSTL(QFileInfo fileinfo)
 {
 	CGALPrimitive* p=new CGALPrimitive();
 	QFile f(fileinfo.absoluteFilePath());

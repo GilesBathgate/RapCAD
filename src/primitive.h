@@ -19,10 +19,24 @@
 #ifndef PRIMITIVE_H
 #define PRIMITIVE_H
 
+#include "point.h"
+#include "polygon.h"
+
 class Primitive
 {
 public:
-	virtual ~Primitive(){}
+	virtual ~Primitive() {}
+	virtual Polygon* createPolygon()=0;
+	virtual void appendVertex(Point)=0;
+	virtual void prependVertex(Point)=0;
+	virtual Primitive* buildVolume()=0;
+	virtual Primitive* join(const Primitive*)=0;
+	virtual Primitive* intersection(const Primitive*)=0;
+	virtual Primitive* difference(const Primitive*)=0;
+	virtual Primitive* symmetric_difference(const Primitive*)=0;
+	virtual Primitive* minkowski(const Primitive*)=0;
+	virtual Primitive* inset(double)=0;
+	virtual bool isFullyDimentional()=0;
 };
 
 #endif // PRIMITIVE_H

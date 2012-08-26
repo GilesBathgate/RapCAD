@@ -18,7 +18,12 @@
 
 #include <QVector>
 #include "nodeevaluator.h"
+
+#if USE_CGAL
 #include "cgalimport.h"
+#include "cgalexplorer.h"
+#include "cgalprimitive.h"
+#endif
 
 NodeEvaluator::NodeEvaluator(QTextStream& s) : output(s)
 {
@@ -29,20 +34,23 @@ NodeEvaluator::~NodeEvaluator()
 	Node::cleanup();
 }
 
-void NodeEvaluator::visit(PrimitiveNode* n)
+Primitive* NodeEvaluator::newPrimitive()
 {
 #if USE_CGAL
-	CGALPrimitive* cp = new CGALPrimitive();
+	return new CGALPrimitive();
+#endif
+}
+
+void NodeEvaluator::visit(PrimitiveNode* n)
+{
+	Primitive* cp = newPrimitive();
 	foreach(Polygon p, n->getPolygons()) {
 		cp->createPolygon();
 		foreach(Point pt, p) {
-			double x,y,z;
-			pt.getXYZ(x,y,z);
-			cp->appendVertex(CGAL::Point3(x,y,z));
+			cp->appendVertex(pt);
 		}
 	}
 	result=cp->buildVolume();
-#endif
 }
 
 void NodeEvaluator::visit(PolylineNode* n)
@@ -85,8 +93,8 @@ void NodeEvaluator::visit(MinkowskiNode* op)
 
 void NodeEvaluator::visit(GlideNode* op)
 {
-#if USE_CGAL
-	CGALPrimitive* first=NULL;
+
+	Primitive* first=NULL;
 	foreach(Node* n, op->getChildren()) {
 		n->accept(*this);
 		if(!first) {
@@ -102,15 +110,15 @@ void NodeEvaluator::visit(GlideNode* op)
 			}
 			if(op->getClosed())
 				pl.append(fp);
-
+#if USE_CGAL
 			first=new CGALPrimitive(pl);
+#endif
 		} else {
 			first=first->minkowski(result);
 		}
 	}
 
 	result=first;
-#endif
 }
 
 void NodeEvaluator::visit(HullNode* n)
@@ -130,6 +138,14 @@ void NodeEvaluator::visit(HullNode* n)
 	result=new CGALPrimitive(hull);
 #endif
 }
+
+#if USE_CGAL
+static CGAL::Point3 offset(const CGAL::Point3& p,CGAL::Kernel3::FT z)
+{
+	z+=p.z();
+	return CGAL::Point3(p.x(),p.y(),z);
+}
+#endif
 
 void NodeEvaluator::visit(LinearExtrudeNode* op)
 {
@@ -188,18 +204,9 @@ void NodeEvaluator::visit(RotateExtrudeNode*)
 {
 }
 
-#if USE_CGAL
-CGAL::Point3 NodeEvaluator::offset(const CGAL::Point3& p,CGAL::Kernel3::FT z)
-{
-	z+=p.z();
-	return CGAL::Point3(p.x(),p.y(),z);
-}
-#endif
-
 void NodeEvaluator::evaluate(Node* op,Operation_e type)
 {
-#if USE_CGAL
-	CGALPrimitive* first=NULL;
+	Primitive* first=NULL;
 	foreach(Node* n, op->getChildren()) {
 		n->accept(*this);
 		if(!first) {
@@ -226,7 +233,6 @@ void NodeEvaluator::evaluate(Node* op,Operation_e type)
 	}
 
 	result=first;
-#endif
 }
 
 void NodeEvaluator::visit(BoundsNode* n)
@@ -257,9 +263,8 @@ void NodeEvaluator::visit(SubDivisionNode* n)
 void NodeEvaluator::visit(OffsetNode* n)
 {
 	evaluate(n,Union);
-#if USE_CGAL
+
 	result=result->inset(n->getAmount());
-#endif
 }
 
 void NodeEvaluator::visit(OutlineNode* op)
@@ -285,10 +290,8 @@ void NodeEvaluator::visit(OutlineNode* op)
 
 void NodeEvaluator::visit(ImportNode* op)
 {
-#if USE_CGAL
 	CGALImport i(output);
 	result=i.import(op->getImport());
-#endif
 }
 
 void NodeEvaluator::visit(TransformationNode* tr)
@@ -301,8 +304,9 @@ void NodeEvaluator::visit(TransformationNode* tr)
 		m[1], m[5], m[ 9], m[13],
 		m[2], m[6], m[10], m[14], m[15]);
 
-	if(result)
-		result->transform(t);
+	CGALPrimitive* pr=dynamic_cast<CGALPrimitive*>(result);
+	if(pr)
+		pr->transform(t);
 #endif
 }
 
@@ -341,7 +345,9 @@ void NodeEvaluator::visit(ResizeNode* n)
 		0, y, 0, 0,
 		0, 0, z, 0, 1);
 
-	result->transform(t);
+	CGALPrimitive* pr=dynamic_cast<CGALPrimitive*>(result);
+	if(pr)
+		pr->transform(t);
 #endif
 }
 
@@ -362,7 +368,9 @@ void NodeEvaluator::visit(CenterNode* n)
 		0, 1, 0, -y,
 		0, 0, 1, -z, 1);
 
-	result->transform(t);
+	CGALPrimitive* pr=dynamic_cast<CGALPrimitive*>(result);
+	if(pr)
+		pr->transform(t);
 #endif
 }
 
@@ -408,7 +416,5 @@ void NodeEvaluator::visit(SliceNode* n)
 
 Primitive* NodeEvaluator::getResult() const
 {
-#if USE_CGAL
 	return result;
-#endif
 }

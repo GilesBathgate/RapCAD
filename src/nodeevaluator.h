@@ -22,7 +22,6 @@
 #include <QString>
 #include <QTextStream>
 #include "primitive.h"
-#include "cgalprimitive.h"
 #include "nodevisitor.h"
 #include "node/primitivenode.h"
 #include "node/polylinenode.h"
@@ -45,7 +44,6 @@
 #include "node/centernode.h"
 #include "node/pointnode.h"
 #include "node/slicenode.h"
-#include "cgalexplorer.h"
 
 class NodeEvaluator : public NodeVisitor
 {
@@ -82,15 +80,12 @@ public:
 	void visit(CenterNode*);
 	void visit(PointNode*);
 	void visit(SliceNode*);
-#if USE_CGAL
-	CGAL::Point3 offset(const CGAL::Point3&,CGAL::Kernel3::FT);
-#endif
+
 	void evaluate(Node*,Operation_e);
 	Primitive* getResult() const;
 private:
-#if USE_CGAL
-	CGALPrimitive* result;
-#endif
+	Primitive* newPrimitive();
+	Primitive* result;
 	QTextStream& output;
 };
 
