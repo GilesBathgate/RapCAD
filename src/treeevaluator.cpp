@@ -32,6 +32,7 @@ TreeEvaluator::TreeEvaluator(QTextStream& s) : output(s)
 TreeEvaluator::~TreeEvaluator()
 {
 	Value::cleanup();
+	delete context;
 }
 
 void TreeEvaluator::startContext(Scope* scp)

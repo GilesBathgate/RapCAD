@@ -20,7 +20,21 @@
 
 Node::Node()
 {
+	nodes.append(this);
 }
+
+Node::~Node()
+{
+	nodes.removeAll(this);
+}
+
+void Node::cleanup()
+{
+	foreach(Node* n, nodes)
+		delete n;
+}
+
+QList<Node*> Node::nodes;
 
 void Node::setChildren(QList<Node*> c)
 {

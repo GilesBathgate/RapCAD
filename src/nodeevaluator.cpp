@@ -24,6 +24,11 @@ NodeEvaluator::NodeEvaluator(QTextStream& s) : output(s)
 {
 }
 
+NodeEvaluator::~NodeEvaluator()
+{
+	Node::cleanup();
+}
+
 void NodeEvaluator::visit(PrimitiveNode* n)
 {
 #if USE_CGAL

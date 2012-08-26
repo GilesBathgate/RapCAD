@@ -26,9 +26,12 @@ class Node : public VisitableNode
 {
 public:
 	Node();
+	~Node();
+	static void cleanup();
 	void setChildren(QList<Node*>);
 	QList<Node*> getChildren() const;
 private:
+	static QList<Node*> nodes;
 	QList<Node*> children;
 };
 
