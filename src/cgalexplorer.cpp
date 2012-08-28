@@ -23,7 +23,7 @@
 
 CGALExplorer::CGALExplorer(Primitive* p)
 {
-	primitive=(CGALPrimitive*)p;
+	primitive=static_cast<CGALPrimitive*>(p);
 	evaluated=false;
 }
 
@@ -92,7 +92,7 @@ void CGALExplorer::evaluate()
 	CGAL_forall_halffacets(f,poly) {
 		bool facet = !f->is_twin();
 		if(facet) {
-			CGALPolygon* pg=(CGALPolygon*)primitive->createPolygon();
+			CGALPolygon* pg=static_cast<CGALPolygon*>(primitive->createPolygon());
 			Vector3 v = f->plane().orthogonal_vector();
 			pg->setNormal(v);
 		}

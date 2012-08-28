@@ -34,16 +34,12 @@ NodeEvaluator::~NodeEvaluator()
 	Node::cleanup();
 }
 
-Primitive* NodeEvaluator::newPrimitive()
-{
-#if USE_CGAL
-	return new CGALPrimitive();
-#endif
-}
-
 void NodeEvaluator::visit(PrimitiveNode* n)
 {
-	Primitive* cp = newPrimitive();
+	Primitive* cp;
+#if USE_CGAL
+	cp=new CGALPrimitive();
+#endif
 	foreach(Polygon p, n->getPolygons()) {
 		cp->createPolygon();
 		foreach(Point pt, p) {
@@ -93,11 +89,11 @@ void NodeEvaluator::visit(MinkowskiNode* op)
 
 void NodeEvaluator::visit(GlideNode* op)
 {
-
 	Primitive* first=NULL;
 	foreach(Node* n, op->getChildren()) {
 		n->accept(*this);
 		if(!first) {
+#if USE_CGAL
 			CGALExplorer explorer(result);
 			QList<CGAL::Point3> points = explorer.getPoints();
 
@@ -110,7 +106,6 @@ void NodeEvaluator::visit(GlideNode* op)
 			}
 			if(op->getClosed())
 				pl.append(fp);
-#if USE_CGAL
 			first=new CGALPrimitive(pl);
 #endif
 		} else {
@@ -290,8 +285,10 @@ void NodeEvaluator::visit(OutlineNode* op)
 
 void NodeEvaluator::visit(ImportNode* op)
 {
+#if USE_CGAL
 	CGALImport i(output);
 	result=i.import(op->getImport());
+#endif
 }
 
 void NodeEvaluator::visit(TransformationNode* tr)

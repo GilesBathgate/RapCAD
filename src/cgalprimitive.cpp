@@ -82,35 +82,35 @@ QList<CGAL::Point3> CGALPrimitive::getPoints() const
 
 Primitive* CGALPrimitive::join(const Primitive* pr)
 {
-	const CGALPrimitive* that=(const CGALPrimitive*)pr;
+	const CGALPrimitive* that=static_cast<const CGALPrimitive*>(pr);
 	*nefPolyhedron=nefPolyhedron->join(*that->nefPolyhedron);
 	return this;
 }
 
 Primitive* CGALPrimitive::intersection(const Primitive* pr)
 {
-	const CGALPrimitive* that=(const CGALPrimitive*)pr;
+	const CGALPrimitive* that=static_cast<const CGALPrimitive*>(pr);
 	*nefPolyhedron=nefPolyhedron->intersection(*that->nefPolyhedron);
 	return this;
 }
 
 Primitive* CGALPrimitive::difference(const Primitive* pr)
 {
-	const CGALPrimitive* that=(const CGALPrimitive*)pr;
+	const CGALPrimitive* that=static_cast<const CGALPrimitive*>(pr);
 	*nefPolyhedron=nefPolyhedron->difference(*that->nefPolyhedron);
 	return this;
 }
 
 Primitive* CGALPrimitive::symmetric_difference(const Primitive* pr)
 {
-	const CGALPrimitive* that=(const CGALPrimitive*)pr;
+	const CGALPrimitive* that=static_cast<const CGALPrimitive*>(pr);
 	*nefPolyhedron=nefPolyhedron->symmetric_difference(*that->nefPolyhedron);
 	return this;
 }
 
 Primitive* CGALPrimitive::minkowski(const Primitive* pr)
 {
-	const CGALPrimitive* that=(const CGALPrimitive*)pr;
+	const CGALPrimitive* that=static_cast<const CGALPrimitive*>(pr);
 	*nefPolyhedron=CGAL::minkowski_sum_3(*nefPolyhedron,*that->nefPolyhedron);
 	return this;
 }
