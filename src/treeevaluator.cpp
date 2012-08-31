@@ -234,19 +234,19 @@ void TreeEvaluator::visit(BinaryExpression* exp)
 void TreeEvaluator::visit(Argument* arg)
 {
 	QString name;
+	Variable::Type_e type=Variable::Var;
 	Variable* var = arg->getVariable();
 	if(var) {
 		var->accept(*this);
 		name=context->currentName;
-	} else {
-		name="";
+		type=var->getType();
 	}
 
 	arg->getExpression()->accept(*this);
 	Value* v = context->currentValue;
 
 	v->setName(name);
-	v->setType(var->getType()); //TODO Investigate moving this to apply to all variables.
+	v->setType(type); //TODO Investigate moving this to apply to all variables.
 	context->arguments.append(v);
 }
 
