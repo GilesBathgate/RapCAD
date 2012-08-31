@@ -50,9 +50,8 @@ Node* CylinderSurfaceModule::evaluate(Context* ctx)
 		z1 = 0.0;
 		z2 = h;
 	}
-	fn=0.0;
-	fs=1.0;
-	fa=12.0;
+
+	getSpecialVariables(ctx,fn,fs,fa);
 	int f = getFragments(r,fn,fs,fa);
 	Polygon c1 = getCircle(r,f,z1);
 	Polygon c2 = getCircle(r,f,z2);

@@ -246,6 +246,7 @@ void TreeEvaluator::visit(Argument* arg)
 	Value* v = context->currentValue;
 
 	v->setName(name);
+	v->setType(var->getType()); //TODO Investigate moving this to apply to all variables.
 	context->arguments.append(v);
 }
 

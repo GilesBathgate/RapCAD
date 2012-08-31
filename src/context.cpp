@@ -125,19 +125,19 @@ void Context::setArguments(QList<Value*> args, QList<Value*> params)
 
 Value* Context::getArgument(int index, QString name)
 {
-	return matchArgument(true,false,index,name);
+	return matchArgumentIndex(true,false,index,name);
 }
 
 Value* Context::getArgument(int index,QString name,bool matchLast)
 {
-	return matchArgument(true,matchLast,index,name);
+	return matchArgumentIndex(true,matchLast,index,name);
 }
 
 Value* Context::getArgumentDeprecated(int index, QString name, QString deprecated)
 {
-	Value* v = matchArgument(true,false,index,name);
+	Value* v = matchArgumentIndex(true,false,index,name);
 	if(!v) {
-		v = matchArgument(false,false,index,deprecated);
+		v = matchArgumentIndex(false,false,index,deprecated);
 		if(v)
 			output << "Warning '" << deprecated << "' parameter is deprecated use '" << name << "' instead\n";
 	}
@@ -145,7 +145,16 @@ Value* Context::getArgumentDeprecated(int index, QString name, QString deprecate
 	return v;
 }
 
-Value* Context::matchArgument(bool allowChar,bool matchLast, int index, QString name)
+Value* Context::getArgumentSpecial(QString name)
+{
+	Value* v=matchArgument(false,false,name);
+	if(v && v->getType()==Variable::Special)
+		return v;
+
+	return NULL;
+}
+
+Value* Context::matchArgumentIndex(bool allowChar,bool matchLast, int index, QString name)
 {
 	if(index >= arguments.size())
 		return NULL;
@@ -155,6 +164,11 @@ Value* Context::matchArgument(bool allowChar,bool matchLast, int index, QString 
 	if(argName.isEmpty() || match(allowChar,matchLast,argName,name))
 		return arg;
 
+	return matchArgument(allowChar,matchLast,name);
+}
+
+Value* Context::matchArgument(bool allowChar,bool matchLast, QString name)
+{
 	foreach(Value* namedArg,arguments) {
 		QString namedArgName = namedArg->getName();
 		if(match(allowChar,matchLast,namedArgName,name))

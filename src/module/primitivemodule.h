@@ -28,6 +28,7 @@ class PrimitiveModule : public Module
 public:
 	PrimitiveModule(const QString);
 protected:
+	void getSpecialVariables(Context*,double&,double&,double&);
 	int getFragments(double,double,double,double);
 	Polygon getCircle(double,double,double);
 	Polygon getPolygon(double,double,double,double);

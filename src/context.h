@@ -54,9 +54,11 @@ public:
 	void setArguments(QList<Value*>,QList<Value*>);
 	Value* getArgument(int,QString);
 	Value* getArgument(int,QString,bool);
+	Value* getArgumentSpecial(QString);
 	Value* getArgumentDeprecated(int,QString,QString);
 private:
-	Value* matchArgument(bool,bool,int,QString);
+	Value* matchArgumentIndex(bool,bool,int,QString);
+	Value* matchArgument(bool,bool,QString);
 	bool match(bool,bool,QString,QString);
 	QHash<QString,Value*> variables;
 	QHash<QString,Module*> modules;

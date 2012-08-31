@@ -19,9 +19,27 @@
 #include <math.h>
 #include "primitivemodule.h"
 #include "tau.h"
+#include "context.h"
+#include "numbervalue.h"
 
 PrimitiveModule::PrimitiveModule(const QString n) : Module(n)
 {
+}
+
+void PrimitiveModule::getSpecialVariables(Context* ctx, double& fn, double& fs, double& fa)
+{
+	fn=0.0;
+	fs=1.0;
+	fa=12.0;
+	NumberValue* fnVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fn"));
+	if(fnVal)
+		fn=fnVal->getNumber();
+	NumberValue* fsVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fs"));
+	if(fsVal)
+		fs=fsVal->getNumber();
+	NumberValue* faVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fa"));
+	if(faVal)
+		fa=faVal->getNumber();
 }
 
 /**
@@ -68,7 +86,7 @@ Polygon PrimitiveModule::getPolygon(double a,double r, double n, double z)
 		//TODO modify this to cater for all even values of n
 		double x=0,y=0;
 		double s2=r*sin(M_PI/n);
-		for(int i=0; i<n; i++){
+		for(int i=0; i<n; i++) {
 			switch(i) {
 			case 0: {
 				y=a;
