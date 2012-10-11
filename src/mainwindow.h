@@ -76,6 +76,7 @@ private:
 	void setupLayout();
 	void setupActions();
 	void setupEditor(CodeEditor*);
+	void setupTabs(QTabWidget*);
 	void setupConsole();
 	void setupTreeview();
 	CodeEditor* currentEditor();

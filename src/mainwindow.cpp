@@ -39,6 +39,7 @@ MainWindow::MainWindow(QWidget* parent) :
 	setupActions();
 	setupEditor(ui->scriptEditor);
 	setupTreeview();
+	setupTabs(ui->tabWidget);
 	setupConsole();
 	preferencesDialog=NULL;
 	loadPreferences();
@@ -296,6 +297,12 @@ void MainWindow::setupEditor(CodeEditor* editor)
 	connect(editor,SIGNAL(copyAvailable(bool)), ui->actionCut, SLOT(setEnabled(bool)));
 	connect(editor,SIGNAL(copyAvailable(bool)), ui->actionCopy, SLOT(setEnabled(bool)));
 	connect(editor,SIGNAL(fileNameChanged(QString)),this,SLOT(setTabTitle(QString)));
+}
+
+void MainWindow::setupTabs(QTabWidget* tabWidget)
+{
+	tabWidget->setTabsClosable(true);
+	connect(tabWidget,SIGNAL(tabCloseRequested(int)),this,SLOT(closeFile()));
 }
 
 void MainWindow::setupConsole()
