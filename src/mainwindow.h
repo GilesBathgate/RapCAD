@@ -58,6 +58,7 @@ private slots:
 	bool saveAsFile();
 	bool saveAllFiles();
 	bool closeFile();
+	bool closeFile(int);
 	void openFile();
 	void compileAndRender();
 	void evaluationDone(Primitive*);
@@ -80,6 +81,7 @@ private:
 	void setupConsole();
 	void setupTreeview();
 	CodeEditor* currentEditor();
+	CodeEditor* getEditor(int i);
 	void disableActions(CodeEditor*);
 	bool saveSelectedFiles(QList<QString>);
 

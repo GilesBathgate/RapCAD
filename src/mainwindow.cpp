@@ -302,7 +302,7 @@ void MainWindow::setupEditor(CodeEditor* editor)
 void MainWindow::setupTabs(QTabWidget* tabWidget)
 {
 	tabWidget->setTabsClosable(true);
-	connect(tabWidget,SIGNAL(tabCloseRequested(int)),this,SLOT(closeFile()));
+	connect(tabWidget,SIGNAL(tabCloseRequested(int)),this,SLOT(closeFile(int)));
 }
 
 void MainWindow::setupConsole()
@@ -385,8 +385,13 @@ bool MainWindow::saveAsFile()
 
 bool MainWindow::closeFile()
 {
+	return closeFile(ui->tabWidget->currentIndex());
+}
+
+bool MainWindow::closeFile(int i)
+{
 	bool result=false;
-	CodeEditor* c=currentEditor();
+	CodeEditor* c=getEditor(i);
 	if(c->document()->isModified()) {
 		QList<QString> files;
 		files.append(c->getFileName());
@@ -398,8 +403,6 @@ bool MainWindow::closeFile()
 			return false;
 		}
 	}
-
-	int i=ui->tabWidget->currentIndex();
 
 	if(ui->tabWidget->count()<=1)
 		newFile();
@@ -455,6 +458,11 @@ void MainWindow::setTabTitle(const QString& fileName)
 CodeEditor* MainWindow::currentEditor()
 {
 	return qobject_cast<CodeEditor*>(ui->tabWidget->currentWidget());
+}
+
+CodeEditor* MainWindow::getEditor(int i)
+{
+	return qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
 }
 
 void MainWindow::compileAndRender()
