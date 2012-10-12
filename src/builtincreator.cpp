@@ -22,6 +22,7 @@
 #include "module/cubemodule.h"
 #include "module/squaremodule.h"
 #include "module/cylindermodule.h"
+#include "module/conemodule.h"
 #include "module/cylindersurfacemodule.h"
 #include "module/prismmodule.h"
 #include "module/circlemodule.h"
@@ -89,6 +90,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new CubeModule());
 	builtins.append(new SquareModule());
 	builtins.append(new CylinderModule());
+	builtins.append(new ConeModule());
 	builtins.append(new CylinderSurfaceModule());
 	builtins.append(new PrismModule());
 	builtins.append(new CircleModule());

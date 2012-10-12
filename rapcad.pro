@@ -229,7 +229,8 @@ SOURCES += \
 	src/module/pointmodule.cpp \
 	src/node/pointnode.cpp \
 	src/module/slicemodule.cpp \
-	src/node/slicenode.cpp
+	src/node/slicenode.cpp \
+	src/module/conemodule.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -399,7 +400,8 @@ HEADERS  += \
 	src/node/pointnode.h \
 	src/module/slicemodule.h \
 	src/node/slicenode.h \
-	src/primitive.h
+	src/primitive.h \
+	src/module/conemodule.h
 
 FORMS += \
 	src/mainwindow.ui \
