@@ -329,7 +329,7 @@ void MainWindow::clipboardDataChanged()
 
 void MainWindow::closeEvent(QCloseEvent* e)
 {
-	if(maybeSave(true)) {
+	if(maybeSave(false)) {
 		savePreferences();
 		e->accept();
 	} else {
@@ -342,7 +342,7 @@ bool MainWindow::loadFile(const QString& f)
 	return currentEditor()->loadFile(f);
 }
 
-bool MainWindow::maybeSave(bool closing)
+bool MainWindow::maybeSave(bool compiling)
 {
 	bool modified=false;
 	QList<QString> files;
@@ -354,9 +354,18 @@ bool MainWindow::maybeSave(bool closing)
 	}
 	if(!modified) return true;
 
-	SaveItemsDialog s(this,closing,files);
+	Preferences* p=Preferences::getInstance();
+
+	if(compiling && p->getAutoSaveOnCompile()) {
+		return saveSelectedFiles(files);
+	}
+
+	SaveItemsDialog s(this,compiling,files);
 
 	if(s.exec()==QDialog::Accepted) {
+		bool autoSave = s.getAutoSaveOnCompile();
+		p->setAutoSaveOnCompile(autoSave);
+
 		QList<QString> files=s.getItemsToSave();
 		return saveSelectedFiles(files);
 	}
@@ -472,7 +481,7 @@ void MainWindow::compileAndRender()
 	CodeEditor* e=currentEditor();
 	e->stopHighlighting();
 
-	if(maybeSave(false)) {
+	if(maybeSave(true)) {
 		QString file=e->getFileName();
 		if(!file.isEmpty()) {
 			worker->setup(file);

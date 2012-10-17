@@ -57,6 +57,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="checkBox">
+     <property name="text">
+      <string>Always save files before compile and render.</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

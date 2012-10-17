@@ -52,34 +52,6 @@
          <string>Model Colors</string>
         </attribute>
         <layout class="QGridLayout" name="gridLayout">
-         <item row="3" column="1">
-          <widget class="QToolButton" name="edgeColorToolButton">
-           <property name="text">
-            <string>...</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2">
-          <widget class="QLabel" name="facetColorLabel">
-           <property name="text">
-            <string>Facet Color</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="2">
-          <widget class="QLabel" name="markedEdgeColorLabel">
-           <property name="text">
-            <string>Marked Edge Color</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="2">
-          <widget class="QLabel" name="edgeColorLabel">
-           <property name="text">
-            <string>Edge Color</string>
-           </property>
-          </widget>
-         </item>
          <item row="4" column="2">
           <widget class="QLabel" name="markedVertexColorLabel">
            <property name="text">
@@ -87,19 +59,15 @@
            </property>
           </widget>
          </item>
-         <item row="5" column="2">
-          <widget class="QLabel" name="vertexColorLabel">
+         <item row="5" column="1">
+          <widget class="QToolButton" name="vertexColorToolButton">
            <property name="text">
-            <string>Vertex Color</string>
+            <string>...</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="2">
-          <widget class="QLabel" name="markedFacetColorLabel">
-           <property name="text">
-            <string>Marked Facet Color</string>
-           </property>
-          </widget>
+         <item row="7" column="0">
+          <widget class="QDoubleSpinBox" name="edgeSizeSpinBox"/>
          </item>
          <item row="1" column="0">
           <widget class="QFrame" name="facetColorFrame">
@@ -127,6 +95,41 @@
            </property>
           </widget>
          </item>
+         <item row="2" column="2">
+          <widget class="QLabel" name="markedEdgeColorLabel">
+           <property name="text">
+            <string>Marked Edge Color</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QToolButton" name="markedVertexColorToolButton">
+           <property name="text">
+            <string>...</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QToolButton" name="facetColorToolButton">
+           <property name="text">
+            <string>...</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QToolButton" name="edgeColorToolButton">
+           <property name="text">
+            <string>...</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="QLabel" name="edgeColorLabel">
+           <property name="text">
+            <string>Edge Color</string>
+           </property>
+          </widget>
+         </item>
          <item row="0" column="0">
           <widget class="QFrame" name="markedFacetColorFrame">
            <property name="styleSheet">
@@ -137,6 +140,20 @@
            </property>
            <property name="frameShadow">
             <enum>QFrame::Raised</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="2">
+          <widget class="QLabel" name="edgeSizeLabel">
+           <property name="text">
+            <string>Edge Size</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="markedFacetColorLabel">
+           <property name="text">
+            <string>Marked Facet Color</string>
            </property>
           </widget>
          </item>
@@ -153,18 +170,36 @@
            </property>
           </widget>
          </item>
-         <item row="4" column="0">
-          <widget class="QFrame" name="markedVertexColorFrame">
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
+         <item row="1" column="2">
+          <widget class="QLabel" name="facetColorLabel">
+           <property name="text">
+            <string>Facet Color</string>
            </property>
           </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QToolButton" name="markedEdgeColorToolButton">
+           <property name="text">
+            <string>...</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="2">
+          <widget class="QLabel" name="vertexSizeLabel">
+           <property name="text">
+            <string>Vertex Size</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QToolButton" name="markedFacetColorToolButton">
+           <property name="text">
+            <string>...</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0">
+          <widget class="QDoubleSpinBox" name="vertexSizeSpinBox"/>
          </item>
          <item row="5" column="0">
           <widget class="QFrame" name="vertexColorFrame">
@@ -179,58 +214,30 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QToolButton" name="markedFacetColorToolButton">
+         <item row="5" column="2">
+          <widget class="QLabel" name="vertexColorLabel">
            <property name="text">
-            <string>...</string>
+            <string>Vertex Color</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="1">
-          <widget class="QToolButton" name="facetColorToolButton">
-           <property name="text">
-            <string>...</string>
+         <item row="4" column="0">
+          <widget class="QFrame" name="markedVertexColorFrame">
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
            </property>
           </widget>
          </item>
-         <item row="2" column="1">
-          <widget class="QToolButton" name="markedEdgeColorToolButton">
+         <item row="8" column="0">
+          <widget class="QCheckBox" name="checkBox">
            <property name="text">
-            <string>...</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="1">
-          <widget class="QToolButton" name="markedVertexColorToolButton">
-           <property name="text">
-            <string>...</string>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="1">
-          <widget class="QToolButton" name="vertexColorToolButton">
-           <property name="text">
-            <string>...</string>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="0">
-          <widget class="QDoubleSpinBox" name="vertexSizeSpinBox"/>
-         </item>
-         <item row="7" column="0">
-          <widget class="QDoubleSpinBox" name="edgeSizeSpinBox"/>
-         </item>
-         <item row="6" column="2">
-          <widget class="QLabel" name="vertexSizeLabel">
-           <property name="text">
-            <string>Vertex Size</string>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="2">
-          <widget class="QLabel" name="edgeSizeLabel">
-           <property name="text">
-            <string>Edge Size</string>
+            <string>Always save files before compile and render</string>
            </property>
           </widget>
          </item>

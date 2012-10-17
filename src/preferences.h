@@ -101,6 +101,9 @@ public:
 	void setEdgeSize(double);
 	double getEdgeSize();
 
+	void setAutoSaveOnCompile(bool);
+	bool getAutoSaveOnCompile();
+
 private:
 	Preferences();
 	static Preferences* instance;

@@ -33,6 +33,7 @@ public:
 	~SaveItemsDialog();
 
 	QList<QString> getItemsToSave();
+	bool getAutoSaveOnCompile();
 
 private slots:
 	void collectItemsToSave();

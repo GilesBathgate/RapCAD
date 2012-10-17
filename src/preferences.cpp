@@ -255,6 +255,17 @@ void Preferences::setEdgeSize(double s)
 	settings->setValue("EdgeSize",s);
 }
 
+bool Preferences::getAutoSaveOnCompile()
+{
+	return settings->value("AutoSaveOnCompile",false).toBool();
+}
+
+void Preferences::setAutoSaveOnCompile(bool b)
+{
+	settings->setValue("AutoSaveOnCompile",b);
+}
+
+
 void Preferences::syncDelete()
 {
 	if(instance) {

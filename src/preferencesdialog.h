@@ -37,9 +37,10 @@ private slots:
 	void colorButtonPressed(QWidget*);
 	void vertexSizeChanged(double);
 	void edgeSizeChanged(double);
+	void autoSaveOnCompileChanged(int);
 private:
 	Ui::Preferences* ui;
-	void setupColors();
+	void setupWidgets();
 	void setColor(QWidget*,QColor);
 	void setupButtons();
 	QSignalMapper* signalMapper;

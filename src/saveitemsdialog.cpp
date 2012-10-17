@@ -3,12 +3,13 @@
 #include "saveitemsdialog.h"
 #include "ui_saveitemsdialog.h"
 
-SaveItemsDialog::SaveItemsDialog(QWidget *parent,bool closing,QList<QString> items) :
+SaveItemsDialog::SaveItemsDialog(QWidget *parent,bool compiling,QList<QString> items) :
 	QDialog(parent),
 	ui(new Ui::SaveItemsDialog)
 {
 	ui->setupUi(this);
-	if(closing) {
+	if(!compiling) {
+		ui->checkBox->hide();
 		QPushButton* discardButton=ui->buttonBox->addButton(tr("Do not Save"), QDialogButtonBox::DestructiveRole);
 		connect(discardButton, SIGNAL(clicked()), this, SLOT(discardAll()));
 	}
@@ -84,4 +85,9 @@ void SaveItemsDialog::updateSaveButton()
 QList<QString> SaveItemsDialog::getItemsToSave()
 {
 	return itemsToSave;
+}
+
+bool SaveItemsDialog::getAutoSaveOnCompile()
+{
+	return ui->checkBox->checkState() == Qt::Checked;
 }
