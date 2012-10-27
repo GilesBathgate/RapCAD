@@ -322,6 +322,9 @@
    <property name="toolTip">
     <string>Save the current document.</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
    </property>
@@ -332,6 +335,9 @@
    </property>
    <property name="toolTip">
     <string>Save the current document with a new file name.</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+Ctrl+S</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
