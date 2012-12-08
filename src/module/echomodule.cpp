@@ -25,10 +25,11 @@ EchoModule::EchoModule(QTextStream& s) : Module("echo"), output(s)
 
 Node* EchoModule::evaluate(Context* ctx)
 {
-	for(int i=0; i<ctx->arguments.size(); i++) {
+	QList<Value*> args=ctx->getArguments();
+	for(int i=0; i<args.size(); i++) {
 		if(i>0)
 			output << " ";
-		Value* a=ctx->arguments.at(i);
+		Value* a=args.at(i);
 		output << a->getValueString();
 	}
 

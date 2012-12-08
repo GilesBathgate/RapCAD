@@ -21,7 +21,7 @@ Node* ResizeModule::evaluate(Context* ctx)
 
 	ResizeNode* n=new ResizeNode();
 	n->setSize(size);
-	n->setChildren(ctx->inputNodes);
+	n->setChildren(ctx->getInputNodes());
 	n->setAutoSize(autoSize);
 	return n;
 }

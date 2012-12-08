@@ -33,6 +33,6 @@ Node* SliceModule::evaluate(Context* ctx)
 
 	SliceNode* d = new SliceNode();
 	d->setHeight(h);
-	d->setChildren(ctx->inputNodes);
+	d->setChildren(ctx->getInputNodes());
 	return d;
 }

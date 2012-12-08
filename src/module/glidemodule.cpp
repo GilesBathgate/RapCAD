@@ -33,6 +33,6 @@ Node* GlideModule::evaluate(Context* ctx)
 
 	GlideNode* n=new GlideNode();
 	n->setClosed(close);
-	n->setChildren(ctx->inputNodes);
+	n->setChildren(ctx->getInputNodes());
 	return n;
 }

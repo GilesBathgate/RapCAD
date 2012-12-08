@@ -33,6 +33,6 @@ Node* LinearExtrudeModule::evaluate(Context* ctx)
 
 	LinearExtrudeNode* d = new LinearExtrudeNode();
 	d->setHeight(h);
-	d->setChildren(ctx->inputNodes);
+	d->setChildren(ctx->getInputNodes());
 	return d;
 }

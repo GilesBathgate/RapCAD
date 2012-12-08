@@ -46,6 +46,6 @@ Node* TranslateModule::evaluate(Context* ctx)
 	for(int i=0; i<16; i++)
 		n->matrix[i]=m[i];
 
-	n->setChildren(ctx->inputNodes);
+	n->setChildren(ctx->getInputNodes());
 	return n;
 }

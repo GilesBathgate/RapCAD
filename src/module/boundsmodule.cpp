@@ -26,6 +26,6 @@ BoundsModule::BoundsModule() : Module("bounds")
 Node* BoundsModule::evaluate(Context* ctx)
 {
 	BoundsNode* n=new BoundsNode();
-	n->setChildren(ctx->inputNodes);
+	n->setChildren(ctx->getInputNodes());
 	return n;
 }

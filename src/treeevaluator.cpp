@@ -39,8 +39,8 @@ void TreeEvaluator::startContext(Scope* scp)
 {
 	Context* parent = context;
 	context = new Context(output);
-	context->parent = parent;
-	context->currentScope=scp;
+	context->setParent(parent);
+	context->setCurrentScope(scp);
 	contextStack.push(context);
 }
 
@@ -52,28 +52,28 @@ void TreeEvaluator::finishContext()
 
 void TreeEvaluator::visit(ModuleScope* scp)
 {
-	QList<Value*> arguments = context->arguments;
-	QList<Value*> parameters = context->parameters;
-	QList<Node*> childnodes = context->inputNodes;
+	QList<Value*> arguments = context->getArguments();
+	QList<Value*> parameters = context->getParameters();
+	QList<Node*> childnodes = context->getInputNodes();
 
 	startContext(scp);
 
 	context->setArguments(arguments,parameters);
-	context->inputNodes=childnodes;
+	context->setInputNodes(childnodes);
 
 	foreach(Declaration* d, scp->getDeclarations()) {
 		d->accept(*this);
 	}
 
-	if(context->returnValue)
+	if(context->getReturnValue())
 		output << "Warning: return statement not valid inside module scope.\n";
 
 	//"pop" our child nodes.
-	childnodes=context->currentNodes;
+	childnodes=context->getCurrentNodes();
 	finishContext();
 
 	Node* n=createUnion(childnodes);
-	context->currentNodes.append(n);
+	context->addCurrentNode(n);
 }
 
 void TreeEvaluator::visit(Instance* inst)
@@ -82,15 +82,15 @@ void TreeEvaluator::visit(Instance* inst)
 
 	QList <Statement*> stmts = inst->getChildren();
 	if(stmts.size()>0) {
-		startContext(context->currentScope);
+		startContext(context->getCurrentScope());
 
 		foreach(Statement* s,stmts) {
 			s->accept(*this);
 		}
 		//"pop" our child nodes.
-		QList<Node*> childnodes=context->currentNodes;
+		QList<Node*> childnodes=context->getCurrentNodes();
 		finishContext();
-		context->inputNodes=childnodes;
+		context->setInputNodes(childnodes);
 	}
 
 	Module* mod = context->lookupModule(name);
@@ -107,11 +107,11 @@ void TreeEvaluator::visit(Instance* inst)
 		} else {
 			Node* node=mod->evaluate(context);
 			if(node)
-				context->currentNodes.append(node);
+				context->addCurrentNode(node);
 		}
 
-		context->arguments.clear();
-		context->parameters.clear();
+		context->clearArguments();
+		context->clearParameters();
 	} else {
 		output << "Warning: cannot find module '" << name << "'.\n";
 	}
@@ -129,8 +129,8 @@ void TreeEvaluator::visit(Function* func)
 
 void TreeEvaluator::visit(FunctionScope* scp)
 {
-	QList<Value*> arguments = context->arguments;
-	QList<Value*> parameters = context->parameters;
+	QList<Value*> arguments = context->getArguments();
+	QList<Value*> parameters = context->getParameters();
 
 	startContext(scp);
 
@@ -139,22 +139,22 @@ void TreeEvaluator::visit(FunctionScope* scp)
 	Expression* e=scp->getExpression();
 	if(e) {
 		e->accept(*this);
-		context->returnValue = context->currentValue;
+		context->setReturnValue(context->getCurrentValue());
 	} else {
 		foreach(Statement* s, scp->getStatements()) {
 			s->accept(*this);
-			if(context->returnValue)
+			if(context->getReturnValue())
 				break;
 		}
 	}
 
 	//"pop" our return value
-	Value* v = context->returnValue;
+	Value* v = context->getReturnValue();
 	if(!v)
 		v=new Value();
 
 	finishContext();
-	context->currentValue=v;
+	context->setCurrentValue(v);
 }
 
 void TreeEvaluator::visit(CompoundStatement* stmt)
@@ -166,7 +166,7 @@ void TreeEvaluator::visit(CompoundStatement* stmt)
 void TreeEvaluator::visit(IfElseStatement* ifelse)
 {
 	ifelse->getExpression()->accept(*this);
-	Value* v=context->currentValue;
+	Value* v=context->getCurrentValue();
 	if(v->isTrue()) {
 		ifelse->getTrueStatement()->accept(*this);
 	} else {
@@ -180,10 +180,11 @@ void TreeEvaluator::visit(ForStatement* forstmt)
 {
 	foreach(Argument* arg, forstmt->getArguments())
 		arg->accept(*this);
-	if(context->arguments.count()>0) {
+	QList<Value*> args=context->getArguments();
+	if(args.count()>0) {
 		//TODO for now just consider the first arg.
-		Value* first = context->arguments.at(0);
-		context->arguments.clear();
+		Value* first = args.at(0);
+		context->clearArguments();
 
 		Iterator<Value*>* i = first->createIterator();
 		for(i->first(); !i->isDone(); i->next()) {
@@ -209,26 +210,26 @@ void TreeEvaluator::visit(Parameter* param)
 	Expression* e = param->getExpression();
 	if(e) {
 		e->accept(*this);
-		v = context->currentValue;
+		v = context->getCurrentValue();
 	} else {
 		v = new Value();
 	}
 
 	v->setName(name);
-	context->parameters.append(v);
+	context->addParameter(v);
 }
 
 void TreeEvaluator::visit(BinaryExpression* exp)
 {
 	exp->getLeft()->accept(*this);
-	Value* left=context->currentValue;
+	Value* left=context->getCurrentValue();
 
 	exp->getRight()->accept(*this);
-	Value* right=context->currentValue;
+	Value* right=context->getCurrentValue();
 
 	Value* result = Value::operation(left,exp->getOp(),right);
 
-	context->currentValue=result;
+	context->setCurrentValue(result);
 }
 
 void TreeEvaluator::visit(Argument* arg)
@@ -238,24 +239,24 @@ void TreeEvaluator::visit(Argument* arg)
 	Variable* var = arg->getVariable();
 	if(var) {
 		var->accept(*this);
-		name=context->currentName;
+		name=context->getCurrentName();
 		type=var->getType();
 	}
 
 	arg->getExpression()->accept(*this);
-	Value* v = context->currentValue;
+	Value* v = context->getCurrentValue();
 
 	v->setName(name);
 	v->setType(type); //TODO Investigate moving this to apply to all variables.
-	context->arguments.append(v);
+	context->addArgument(v);
 }
 
 void TreeEvaluator::visit(AssignStatement* stmt)
 {
 	stmt->getVariable()->accept(*this);
-	QString name = context->currentName;
+	QString name = context->getCurrentName();
 
-	Value* lvalue = context->currentValue;
+	Value* lvalue = context->getCurrentValue();
 
 	Value* result=NULL;
 	Expression::Operator_e op=stmt->getOperation();
@@ -267,7 +268,7 @@ void TreeEvaluator::visit(AssignStatement* stmt)
 		Expression* expression = stmt->getExpression();
 		if(expression) {
 			expression->accept(*this);
-			result = context->currentValue;
+			result = context->getCurrentValue();
 		}
 	}
 	}
@@ -313,56 +314,56 @@ void TreeEvaluator::visit(VectorExpression* exp)
 	QList<Value*> childvalues;
 	foreach(Expression* e, exp->getChildren()) {
 		e->accept(*this);
-		childvalues.append(context->currentValue);
+		childvalues.append(context->getCurrentValue());
 	}
 	int commas=exp->getAdditionalCommas();
 	if(commas>0)
 		output << "Warning: " << commas << " additional comma(s) found at the end of vector expression.\n";
 
 	Value* v = new VectorValue(childvalues);
-	context->currentValue=v;
+	context->setCurrentValue(v);
 }
 
 void TreeEvaluator::visit(RangeExpression* exp)
 {
 	exp->getStart()->accept(*this);
-	Value* start = context->currentValue;
+	Value* start = context->getCurrentValue();
 
 	Value* increment = NULL;
 	Expression* step = exp->getStep();
 	if(step) {
 		step->accept(*this);
-		increment=context->currentValue;
+		increment=context->getCurrentValue();
 	}
 
 	exp->getFinish()->accept(*this);
-	Value* finish=context->currentValue;
+	Value* finish=context->getCurrentValue();
 
 	Value* result = new RangeValue(start,increment,finish);
-	context->currentValue=result;
+	context->setCurrentValue(result);
 }
 
 void TreeEvaluator::visit(UnaryExpression* exp)
 {
 	exp->getExpression()->accept(*this);
-	Value* left=context->currentValue;
+	Value* left=context->getCurrentValue();
 
 	Value* result = Value::operation(left,exp->getOp());
 
-	context->currentValue=result;
+	context->setCurrentValue(result);
 }
 
 void TreeEvaluator::visit(ReturnStatement* stmt)
 {
 	Expression* e = stmt->getExpression();
 	e->accept(*this);
-	context->returnValue = context->currentValue;
+	context->setReturnValue(context->getCurrentValue());
 }
 
 void TreeEvaluator::visit(TernaryExpression* exp)
 {
 	exp->getCondition()->accept(*this);
-	Value* v = context->currentValue;
+	Value* v = context->getCurrentValue();
 	if(v->isTrue())
 		exp->getTrueExpression()->accept(*this);
 	else
@@ -387,11 +388,11 @@ void TreeEvaluator::visit(Invocation* stmt)
 		} else {
 			Value* result=func->evaluate(context);
 			if(result)
-				context->currentValue=result;
+				context->setCurrentValue(result);
 		}
 
-		context->arguments.clear();
-		context->parameters.clear();
+		context->clearArguments();
+		context->clearParameters();
 	} else {
 		output << "Warning: cannot find function '" << name << "'.\n";
 	}
@@ -415,7 +416,7 @@ void TreeEvaluator::visit(Literal* lit)
 {
 	Value* v= lit->getValue();
 
-	context->currentValue=v;
+	context->setCurrentValue(v);
 }
 
 void TreeEvaluator::visit(Variable* var)
@@ -436,8 +437,8 @@ void TreeEvaluator::visit(Variable* var)
 			break;
 		}
 
-	context->currentValue=v;
-	context->currentName=name;
+	context->setCurrentValue(v);
+	context->setCurrentName(name);
 }
 
 Node* TreeEvaluator::createUnion(QList<Node*> childnodes)
@@ -464,9 +465,9 @@ void TreeEvaluator::visit(Script* sc)
 	foreach(Declaration* d, sc->getDeclarations()) {
 		d->accept(*this);
 	}
-	QList<Node*> childnodes=context->currentNodes;
+	QList<Node*> childnodes=context->getCurrentNodes();
 
-	if(context->returnValue)
+	if(context->getReturnValue())
 		output << "Warning: return statement not valid inside global scope.\n";
 
 	rootNode=createUnion(childnodes);

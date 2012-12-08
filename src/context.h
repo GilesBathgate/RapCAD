@@ -31,15 +31,19 @@ class Context
 public:
 	Context(QTextStream& s);
 
-	Context* parent;
-	QList<Value*> arguments;
-	QList<Value*> parameters;
-	Value* currentValue;
-	Value* returnValue;
-	Scope* currentScope;
-	QString currentName;
-	QList<Node*> currentNodes;
-	QList<Node*> inputNodes;
+	void setParent(Context*);
+
+	void setCurrentScope(Scope*);
+	Scope* getCurrentScope();
+
+	void setReturnValue(Value*);
+	Value* getReturnValue();
+
+	Value* getCurrentValue();
+	void setCurrentValue(Value*);
+
+	QString getCurrentName();
+	void setCurrentName(QString);
 
 	Value* lookupVariable(QString,Variable::Type_e&);
 	bool addVariable(Value*);
@@ -52,11 +56,35 @@ public:
 	void addFunction(Function*);
 
 	void setArguments(QList<Value*>,QList<Value*>);
+	QList<Value*> getArguments();
+	void addArgument(Value*);
+	void clearArguments();
+
 	Value* getArgument(int,QString);
 	Value* getArgument(int,QString,bool);
 	Value* getArgumentSpecial(QString);
 	Value* getArgumentDeprecated(int,QString,QString);
+
+	QList<Value*> getParameters();
+	void clearParameters();
+	void addParameter(Value*);
+
+	void setInputNodes(QList<Node*>);
+	QList<Node*> getInputNodes();
+
+	void setCurrentNodes(QList<Node*>);
+	QList<Node*> getCurrentNodes();
+	void addCurrentNode(Node*);
 private:
+	Context* parent;
+	QList<Value*> arguments;
+	QList<Value*> parameters;
+	QList<Node*> currentNodes;
+	QList<Node*> inputNodes;
+	Value* currentValue;
+	Value* returnValue;
+	QString currentName;
+	Scope* currentScope;
 	Value* matchArgumentIndex(bool,bool,int,QString);
 	Value* matchArgument(bool,bool,QString);
 	bool match(bool,bool,QString,QString);

@@ -26,6 +26,6 @@ IntersectionModule::IntersectionModule() : Module("intersection")
 Node* IntersectionModule::evaluate(Context* ctx)
 {
 	IntersectionNode* d = new IntersectionNode();
-	d->setChildren(ctx->inputNodes);
+	d->setChildren(ctx->getInputNodes());
 	return d;
 }

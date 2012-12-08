@@ -30,6 +30,6 @@ UnionModule::UnionModule(const QString s) : Module(s)
 Node* UnionModule::evaluate(Context* ctx)
 {
 	UnionNode* d = new UnionNode();
-	d->setChildren(ctx->inputNodes);
+	d->setChildren(ctx->getInputNodes());
 	return d;
 }

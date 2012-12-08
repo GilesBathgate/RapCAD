@@ -27,6 +27,51 @@ Context::Context(QTextStream& s) : output(s)
 	currentScope=NULL;
 }
 
+void Context::setParent(Context* value)
+{
+	parent=value;
+}
+
+void Context::setCurrentScope(Scope* value)
+{
+	currentScope=value;
+}
+
+Scope* Context::getCurrentScope()
+{
+	return currentScope;
+}
+
+void Context::setReturnValue(Value* value)
+{
+	returnValue=value;
+}
+
+Value* Context::getReturnValue()
+{
+	return returnValue;
+}
+
+Value* Context::getCurrentValue()
+{
+	return currentValue;
+}
+
+void Context::setCurrentValue(Value* value)
+{
+	currentValue=value;
+}
+
+QString Context::getCurrentName()
+{
+	return currentName;
+}
+
+void Context::setCurrentName(QString value)
+{
+	currentName=value;
+}
+
 Module* Context::lookupModule(QString name)
 {
 	if(!modules.contains(name)) {
@@ -123,6 +168,21 @@ void Context::setArguments(QList<Value*> args, QList<Value*> params)
 	}
 }
 
+QList<Value*> Context::getArguments()
+{
+	return arguments;
+}
+
+void Context::addArgument(Value* value)
+{
+	arguments.append(value);
+}
+
+void Context::clearArguments()
+{
+	arguments.clear();
+}
+
 Value* Context::getArgument(int index, QString name)
 {
 	return matchArgumentIndex(true,false,index,name);
@@ -143,6 +203,46 @@ Value* Context::getArgumentDeprecated(int index, QString name, QString deprecate
 	}
 
 	return v;
+}
+
+QList<Value*> Context::getParameters()
+{
+	return parameters;
+}
+
+void Context::clearParameters()
+{
+	parameters.clear();
+}
+
+void Context::addParameter(Value* value)
+{
+	parameters.append(value);
+}
+
+void Context::setInputNodes(QList<Node*> value)
+{
+	inputNodes=value;
+}
+
+QList<Node*> Context::getInputNodes()
+{
+	return inputNodes;
+}
+
+void Context::setCurrentNodes(QList<Node*> value)
+{
+	currentNodes=value;
+}
+
+QList<Node*> Context::getCurrentNodes()
+{
+	return currentNodes;
+}
+
+void Context::addCurrentNode(Node* value)
+{
+	currentNodes.append(value);
 }
 
 Value* Context::getArgumentSpecial(QString name)

@@ -26,6 +26,6 @@ CenterModule::CenterModule() : Module("center")
 Node* CenterModule::evaluate(Context* ctx)
 {
 	CenterNode* n=new CenterNode();
-	n->setChildren(ctx->inputNodes);
+	n->setChildren(ctx->getInputNodes());
 	return n;
 }

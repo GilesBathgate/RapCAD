@@ -15,6 +15,6 @@ Node* OffsetModule::evaluate(Context* ctx)
 
 	OffsetNode* n = new OffsetNode();
 	n->setAmount(a);
-	n->setChildren(ctx->inputNodes);
+	n->setChildren(ctx->getInputNodes());
 	return n;
 }

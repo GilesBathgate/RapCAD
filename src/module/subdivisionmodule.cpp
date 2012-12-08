@@ -14,7 +14,7 @@ Node* SubDivisionModule::evaluate(Context* ctx)
 		level=int(levelVal->getNumber());
 
 	SubDivisionNode* d = new SubDivisionNode();
-	d->setChildren(ctx->inputNodes);
+	d->setChildren(ctx->getInputNodes());
 	d->setLevel(level);
 	return d;
 }
