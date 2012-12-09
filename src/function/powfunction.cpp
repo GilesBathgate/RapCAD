@@ -3,12 +3,14 @@
 
 PowFunction::PowFunction() : Function("pow")
 {
+	addParameter("value");
+	addParameter("exponent");
 }
 
 Value* PowFunction::evaluate(Context* ctx)
 {
-	Value* val=ctx->getArgument(0,"value");
-	Value* arg=ctx->getArgument(1,"exponent");
+	Value* val=getParameterArgument(ctx,0);
+	Value* arg=getParameterArgument(ctx,1);
 	if(val&&arg)
 		return Value::operation(val,Expression::Exponent,arg);
 

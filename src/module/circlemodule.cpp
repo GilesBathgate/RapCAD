@@ -21,11 +21,12 @@
 
 CircleModule::CircleModule() : PrimitiveModule("circle")
 {
+	addParameter("radius");
 }
 
 Node* CircleModule::evaluate(Context* ctx)
 {
-	NumberValue* rValue=dynamic_cast<NumberValue*>(ctx->getArgument(0,"radius"));
+	NumberValue* rValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 
 	double r,fn,fs,fa;
 	if(rValue) {

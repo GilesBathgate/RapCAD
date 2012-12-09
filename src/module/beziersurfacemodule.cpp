@@ -23,6 +23,7 @@
 
 BezierSurfaceModule::BezierSurfaceModule() : Module("bezier_surface")
 {
+	addParameter("mesh");
 }
 
 double BezierSurfaceModule::bez03(double u)
@@ -87,7 +88,7 @@ BezierSurfaceModule::Points BezierSurfaceModule::getCurveQuad(Mesh mesh,Vector u
 Node* BezierSurfaceModule::evaluate(Context* ctx)
 {
 	Mesh mesh;
-	VectorValue* meshVec=dynamic_cast<VectorValue*>(ctx->getArgument(0,"mesh"));
+	VectorValue* meshVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(meshVec) {
 		foreach(Value* pointsVal,meshVec->getChildren()) {
 			Points points;

@@ -61,7 +61,6 @@ public:
 	void clearArguments();
 
 	Value* getArgument(int,QString);
-	Value* getArgument(int,QString,bool);
 	Value* getArgumentSpecial(QString);
 	Value* getArgumentDeprecated(int,QString,QString);
 

@@ -18,6 +18,7 @@
 
 #include "function.h"
 #include "functionscope.h"
+#include "context.h"
 
 Function::Function()
 {
@@ -77,4 +78,17 @@ void Function::accept(TreeVisitor& v)
 Value* Function::evaluate(Context*)
 {
 	return NULL;
+}
+
+void Function::addParameter(QString name)
+{
+	Parameter* p = new Parameter();
+	p->setName(name);
+	parameters.append(p);
+}
+
+Value *Function::getParameterArgument(Context* ctx, int index)
+{
+	Parameter* p = parameters.at(index);
+	return ctx->getArgument(index,p->getName());
 }

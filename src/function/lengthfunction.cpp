@@ -5,15 +5,16 @@
 
 LengthFunction::LengthFunction() : Function("len")
 {
+	addParameter("value");
 }
 
 Value* LengthFunction::evaluate(Context* ctx)
 {
-	VectorValue* vecVal=dynamic_cast<VectorValue*>(ctx->getArgument(0,"value"));
+	VectorValue* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(vecVal) {
 		return new NumberValue(vecVal->getChildren().count());
 	}
-	TextValue* txtVal=dynamic_cast<TextValue*>(ctx->getArgument(0,"value"));
+	TextValue* txtVal=dynamic_cast<TextValue*>(getParameterArgument(ctx,0));
 	if(txtVal) {
 		return new NumberValue(txtVal->getValueString().length());
 	}

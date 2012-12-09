@@ -23,12 +23,13 @@
 
 TranslateModule::TranslateModule() : Module("translate")
 {
+	addParameter("vector");
 }
 
 Node* TranslateModule::evaluate(Context* ctx)
 {
 	Point v;
-	VectorValue* vec=dynamic_cast<VectorValue*>(ctx->getArgument(0,"vector"));
+	VectorValue* vec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(vec)
 		v=vec->getPoint();
 

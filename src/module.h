@@ -26,6 +26,7 @@
 #include "instance.h"
 #include "scope.h"
 #include "node.h"
+#include "value.h"
 
 class Context;
 
@@ -43,6 +44,9 @@ public:
 	void setScope(Scope*);
 	void accept(TreeVisitor&);
 	virtual Node* evaluate(Context*);
+protected:
+	void addParameter(QString);
+	Value* getParameterArgument(Context*,int);
 private:
 	QString name;
 	QList<Parameter*> parameters;

@@ -4,12 +4,14 @@
 
 Atan2Function::Atan2Function() : Function("atan2")
 {
+	addParameter("y");
+	addParameter("x");
 }
 
 Value* Atan2Function::evaluate(Context* ctx)
 {
-	NumberValue* yVal=dynamic_cast<NumberValue*>(ctx->getArgument(0,"y"));
-	NumberValue* xVal=dynamic_cast<NumberValue*>(ctx->getArgument(1,"x"));
+	NumberValue* yVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	NumberValue* xVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
 	if(yVal&&xVal) {
 		double y=yVal->getNumber();
 		double x=xVal->getNumber();

@@ -22,22 +22,25 @@
 
 CylinderSurfaceModule::CylinderSurfaceModule() : PrimitiveModule("cylinder_surface")
 {
+	addParameter("height");
+	addParameter("radius");
+	addParameter("center");
 }
 
 
 Node* CylinderSurfaceModule::evaluate(Context* ctx)
 {
-	NumberValue* heightValue = dynamic_cast<NumberValue*>(ctx->getArgument(0,"height"));
+	NumberValue* heightValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	double h=1.0;
 	if(heightValue)
 		h=heightValue->getNumber();
 
-	NumberValue* rValue = dynamic_cast<NumberValue*>(ctx->getArgument(1,"radius"));
+	NumberValue* rValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
 	double r=1.0,fn,fs,fa;
 	if(rValue)
 		r=rValue->getNumber();
 
-	BooleanValue* centerValue=dynamic_cast<BooleanValue*>(ctx->getArgument(2,"center"));
+	Value* centerValue=getParameterArgument(ctx,2);
 	bool center=false;
 	if(centerValue)
 		center=centerValue->isTrue();

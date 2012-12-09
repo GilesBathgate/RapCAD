@@ -19,6 +19,7 @@
 #include <QFileDialog>
 #include <QMimeData>
 #include <QClipboard>
+#include <QScrollBar>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "primitive.h"
@@ -27,6 +28,7 @@
 #include "saveitemsdialog.h"
 #include "printconsole.h"
 #include "aboutdialog.h"
+#include "builtincreator.h"
 
 MainWindow::MainWindow(QWidget* parent) :
 	QMainWindow(parent),
@@ -200,6 +202,8 @@ void MainWindow::setupActions()
 	connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(tabChanged(int)));
 
 	connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(showAbout()));
+	connect(ui->actionShowBuiltins,SIGNAL(triggered()),this,SLOT(showBuiltins()));
+
 }
 
 void MainWindow::grabFrameBuffer()
@@ -546,6 +550,31 @@ void MainWindow::showAbout()
 {
 	AboutDialog about;
 	about.exec();
+}
+
+void MainWindow::showBuiltins()
+{
+	CodeEditor* e = new CodeEditor(this);
+	int i=ui->tabWidget->addTab(e,"Built In");
+	ui->tabWidget->setCurrentIndex(i);
+
+	connect(e,SIGNAL(copyAvailable(bool)), ui->actionCopy, SLOT(setEnabled(bool)));
+
+	QTextEdit* c=(QTextEdit*)e;
+	QIODevice* t=new TextEditIODevice(c,this);
+	QTextStream out(t);
+	BuiltinCreator* b = BuiltinCreator::getInstance(out);
+	b->generateDocs(out);
+	out.flush();
+	delete t;
+
+	//Scroll back to top
+	QScrollBar *sb = e->verticalScrollBar();
+	sb->setValue(sb->minimum());
+
+	//Make sure the user cannot modify or save this document
+	e->setReadOnly(true);
+	e->document()->setModified(false);
 }
 
 void MainWindow::tabChanged(int i)

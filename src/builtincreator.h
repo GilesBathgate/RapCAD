@@ -29,6 +29,7 @@ public:
 	static BuiltinCreator* getInstance(QTextStream& output);
 	void initBuiltins(Script*);
 	void saveBuiltins(Script*);
+	void generateDocs(QTextStream&);
 private:
 	BuiltinCreator(QTextStream& output);
 	static BuiltinCreator* instance;

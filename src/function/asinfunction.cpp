@@ -4,11 +4,12 @@
 
 AsinFunction::AsinFunction() : Function("asin")
 {
+	addParameter("value");
 }
 
 Value* AsinFunction::evaluate(Context* ctx)
 {
-	NumberValue* numVal=dynamic_cast<NumberValue*>(ctx->getArgument(0,"value"));
+	NumberValue* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {
 		double num=numVal->getNumber();
 

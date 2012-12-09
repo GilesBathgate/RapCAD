@@ -4,12 +4,14 @@
 
 MaxFunction::MaxFunction() : Function("max")
 {
+	addParameter("a");
+	addParameter("b");
 }
 
 Value* MaxFunction::evaluate(Context* ctx)
 {
-	NumberValue* aVal=dynamic_cast<NumberValue*>(ctx->getArgument(0,"a"));
-	NumberValue* bVal=dynamic_cast<NumberValue*>(ctx->getArgument(1,"b"));
+	NumberValue* aVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	NumberValue* bVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
 	if(aVal&&bVal) {
 		double a=aVal->getNumber();
 		double b=bVal->getNumber();

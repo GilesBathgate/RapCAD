@@ -22,11 +22,12 @@
 
 SumFunction::SumFunction() : Function("sum")
 {
+	addParameter("values");
 }
 
 Value* SumFunction::evaluate(Context* ctx)
 {
-	VectorValue* vecVal=dynamic_cast<VectorValue*>(ctx->getArgument(0,"values"));
+	VectorValue* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(vecVal) {
 		Value* resultVal = new NumberValue(0);
 		foreach(Value* child, vecVal->getChildren())

@@ -114,9 +114,13 @@ void TreePrinter::visit(Module* mod)
 		if(i+1<s)
 			result << ",";
 	}
-	result << "){\n";
-	mod->getScope()->accept(*this);
-	createIndent();
+	result << "){";
+	Scope* scp=mod->getScope();
+	if(scp) {
+		result << "\n";
+		scp->accept(*this);
+		createIndent();
+	}
 	result << "}\n";
 }
 
@@ -134,7 +138,9 @@ void TreePrinter::visit(Function* func)
 	}
 
 	result << ")";
-	func->getScope()->accept(*this);
+	Scope* scp=func->getScope();
+	if(scp)
+			scp->accept(*this);
 	result << "\n";
 }
 

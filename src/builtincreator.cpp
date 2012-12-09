@@ -84,71 +84,74 @@
 #include "function/sinhfunction.h"
 #include "function/tanhfunction.h"
 
+
+#include "treeprinter.h"
+
 BuiltinCreator::BuiltinCreator(QTextStream& output)
 {
-	builtins.append(new EchoModule(output));
 	builtins.append(new CubeModule());
-	builtins.append(new SquareModule());
+	builtins.append(new SphereModule());
 	builtins.append(new CylinderModule());
 	builtins.append(new ConeModule());
-	builtins.append(new CylinderSurfaceModule());
 	builtins.append(new PrismModule());
-	builtins.append(new CircleModule());
 	builtins.append(new PolyhedronModule());
 	builtins.append(new PolygonModule());
 	builtins.append(new PolylineModule());
+	builtins.append(new PointModule());
+	builtins.append(new SquareModule());
+	builtins.append(new CircleModule());
+	builtins.append(new CylinderSurfaceModule());
 	builtins.append(new BezierSurfaceModule());
-	builtins.append(new DifferenceModule());
 	builtins.append(new UnionModule());
 	builtins.append(new GroupModule());
 	builtins.append(new IntersectionModule());
-	builtins.append(new TranslateModule());
-	builtins.append(new ResizeModule());
-	builtins.append(new CenterModule());
+	builtins.append(new DifferenceModule());
 	builtins.append(new SymmetricDifferenceModule());
 	builtins.append(new MinkowskiModule());
 	builtins.append(new GlideModule());
 	builtins.append(new HullModule());
 	builtins.append(new LinearExtrudeModule());
 	builtins.append(new RotateExtrudeModule());
+	builtins.append(new SubDivisionModule());
+	builtins.append(new OffsetModule());
+	builtins.append(new OutlineModule());
+	builtins.append(new SliceModule());
+	builtins.append(new TranslateModule());
 	builtins.append(new RotateModule());
 	builtins.append(new MirrorModule());
 	builtins.append(new ScaleModule());
 	builtins.append(new ShearModule());
-	builtins.append(new SphereModule());
+	builtins.append(new ResizeModule());
+	builtins.append(new CenterModule());
+	builtins.append(new EchoModule(output));
 	builtins.append(new ChildModule());
 	builtins.append(new BoundsModule());
-	builtins.append(new SubDivisionModule());
-	builtins.append(new OffsetModule());
-	builtins.append(new OutlineModule());
-	builtins.append(new PointModule());
-	builtins.append(new SliceModule());
 
-	builtins.append(new LengthFunction());
-	builtins.append(new SqrtFunction());
-	builtins.append(new SumFunction());
-	builtins.append(new RandFunction());
-	builtins.append(new VersionFunction());
-	builtins.append(new StrFunction());
-	builtins.append(new SinFunction());
-	builtins.append(new CosFunction());
-	builtins.append(new TanFunction());
 	builtins.append(new AbsFunction());
-	builtins.append(new SignFunction());
-	builtins.append(new MinFunction());
-	builtins.append(new MaxFunction());
-	builtins.append(new RoundFunction());
-	builtins.append(new CeilFunction());
-	builtins.append(new FloorFunction());
-	builtins.append(new PowFunction());
-	builtins.append(new ExpFunction());
-	builtins.append(new AsinFunction());
 	builtins.append(new AcosFunction());
-	builtins.append(new AtanFunction());
+	builtins.append(new AsinFunction());
 	builtins.append(new Atan2Function());
+	builtins.append(new AtanFunction());
+	builtins.append(new CeilFunction());
+	builtins.append(new CosFunction());
 	builtins.append(new CoshFunction());
+	builtins.append(new ExpFunction());
+	builtins.append(new FloorFunction());
+	builtins.append(new LengthFunction());
+	builtins.append(new MaxFunction());
+	builtins.append(new MinFunction());
+	builtins.append(new PowFunction());
+	builtins.append(new RandFunction());
+	builtins.append(new RoundFunction());
+	builtins.append(new SignFunction());
+	builtins.append(new SinFunction());
 	builtins.append(new SinhFunction());
+	builtins.append(new SqrtFunction());
+	builtins.append(new StrFunction());
+	builtins.append(new SumFunction());
+	builtins.append(new TanFunction());
 	builtins.append(new TanhFunction());
+	builtins.append(new VersionFunction());
 }
 
 BuiltinCreator* BuiltinCreator::instance=NULL;
@@ -178,4 +181,11 @@ void BuiltinCreator::saveBuiltins(Script* sc)
 {
 	foreach(Declaration* d,builtins)
 		sc->removeDeclaration(d);
+}
+
+void BuiltinCreator::generateDocs(QTextStream& output)
+{
+	TreePrinter p(output);
+	foreach(Declaration* d,builtins)
+		d->accept(p);
 }

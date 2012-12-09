@@ -22,12 +22,13 @@
 
 GlideModule::GlideModule() : Module("glide")
 {
+	addParameter("closed");
 }
 
 Node* GlideModule::evaluate(Context* ctx)
 {
 	bool close=false;
-	Value* closeVal=ctx->getArgument(0,"closed");
+	Value* closeVal=getParameterArgument(ctx,0);
 	if(closeVal)
 		close=closeVal->isTrue();
 

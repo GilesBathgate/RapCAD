@@ -24,6 +24,10 @@
 
 RandFunction::RandFunction() : Function("rands")
 {
+	addParameter("min");
+	addParameter("max");
+	addParameter("count");
+	addParameter("seed");
 }
 
 static double frand()
@@ -39,18 +43,18 @@ static double frand(double min, double max)
 Value* RandFunction::evaluate(Context* ctx)
 {
 	double min=0;
-	NumberValue* minVal=dynamic_cast<NumberValue*>(ctx->getArgument(0,"min"));
+	NumberValue* minVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(minVal)
 		min=minVal->getNumber();
 	double max=0;
-	NumberValue* maxVal=dynamic_cast<NumberValue*>(ctx->getArgument(1,"max"));
+	NumberValue* maxVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
 	if(maxVal)
 		max=maxVal->getNumber();
 	double count;
-	NumberValue* countVal=dynamic_cast<NumberValue*>(ctx->getArgument(2,"count"));
+	NumberValue* countVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));
 	if(countVal)
 		count=countVal->getNumber();
-	NumberValue* seedVal=dynamic_cast<NumberValue*>(ctx->getArgument(3,"seed"));
+	NumberValue* seedVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,3));
 	if(seedVal)
 		srand((unsigned int)seedVal->getNumber());
 	else

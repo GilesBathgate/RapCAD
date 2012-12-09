@@ -20,18 +20,21 @@
 #include "context.h"
 #include "math.h"
 #include "numbervalue.h"
-#include "booleanvalue.h"
 
 ConeModule::ConeModule() : PrimitiveModule("cone")
 {
+	addParameter("height");
+	addParameter("radius1");
+	addParameter("radius2");
+	addParameter("center");
 }
 
 Node *ConeModule::evaluate(Context* ctx)
 {
-	NumberValue* heightValue = dynamic_cast<NumberValue*>(ctx->getArgument(0,"height"));
-	NumberValue* r1Value = dynamic_cast<NumberValue*>(ctx->getArgument(1,"radius1",true));
-	NumberValue* r2Value = dynamic_cast<NumberValue*>(ctx->getArgument(2,"radius2",true));
-	BooleanValue* centerValue = dynamic_cast<BooleanValue*>(ctx->getArgument(3,"center"));
+	NumberValue* heightValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	NumberValue* r1Value = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
+	NumberValue* r2Value = dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));
+	Value* centerValue = getParameterArgument(ctx,3);
 
 	double h=1.0;
 	if(heightValue)

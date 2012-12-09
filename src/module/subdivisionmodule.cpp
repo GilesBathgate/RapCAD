@@ -4,12 +4,13 @@
 
 SubDivisionModule::SubDivisionModule() : Module("subdiv")
 {
+	addParameter("level");
 }
 
 Node* SubDivisionModule::evaluate(Context* ctx)
 {
 	int level=0;
-	NumberValue* levelVal=dynamic_cast<NumberValue*>(ctx->getArgument(0,"level"));
+	NumberValue* levelVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(levelVal)
 		level=int(levelVal->getNumber());
 

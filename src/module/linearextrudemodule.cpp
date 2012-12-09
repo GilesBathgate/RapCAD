@@ -22,12 +22,13 @@
 
 LinearExtrudeModule::LinearExtrudeModule() : Module("linear_extrude")
 {
+	addParameter("height");
 }
 
 Node* LinearExtrudeModule::evaluate(Context* ctx)
 {
 	double h=1.0;
-	NumberValue* height=dynamic_cast<NumberValue*>(ctx->getArgument(0,"height"));
+	NumberValue* height=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(height)
 		h=height->getNumber();
 

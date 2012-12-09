@@ -71,6 +71,7 @@ private slots:
 	void tabChanged(int);
 	void print();
 	void showAbout();
+	void showBuiltins();
 private:
 	void loadPreferences();
 	void savePreferences();

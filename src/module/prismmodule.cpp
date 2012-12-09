@@ -23,22 +23,25 @@
 
 PrismModule::PrismModule() : PrimitiveModule("prism")
 {
+	addParameter("height");
+	addParameter("sides");
+	addParameter("apothem");
 }
 
 Node* PrismModule::evaluate(Context* ctx)
 {
-	NumberValue* heightVal = dynamic_cast<NumberValue*>(ctx->getArgument(0,"height"));
+	NumberValue* heightVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	double h=1.0;
 	if(heightVal)
 		h=heightVal->getNumber();
 
 	int n=3;
-	NumberValue* sidesVal = dynamic_cast<NumberValue*>(ctx->getArgument(1,"sides"));
+	NumberValue* sidesVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
 	if(sidesVal)
 		n=sidesVal->getNumber();
 
 	double r=1.0,a=1.0;
-	NumberValue* apothemVal = dynamic_cast<NumberValue*>(ctx->getArgument(2,"apothem"));
+	NumberValue* apothemVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));
 	if(apothemVal) {
 		a=apothemVal->getNumber();
 		r=a/cos(M_PI/n);

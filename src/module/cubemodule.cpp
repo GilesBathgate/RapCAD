@@ -23,12 +23,14 @@
 
 CubeModule::CubeModule() : PrimitiveModule("cube")
 {
+	addParameter("size");
+	addParameter("center");
 }
 
 Node* CubeModule::evaluate(Context* ctx)
 {
-	Value* sizeVal=ctx->getArgument(0,"size");
-	Value* centerVal=ctx->getArgument(1,"center");
+	Value* sizeVal=getParameterArgument(ctx,0);
+	Value* centerVal=getParameterArgument(ctx,1);
 	double center=false;
 	if(centerVal)
 		center = centerVal->isTrue();

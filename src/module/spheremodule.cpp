@@ -26,12 +26,14 @@
 */
 SphereModule::SphereModule() : PrimitiveModule("sphere")
 {
+	addParameter("radius");
+	addParameter("center");
 }
 
 Node* SphereModule::evaluate(Context* ctx)
 {
-	NumberValue* rValue=dynamic_cast<NumberValue*>(ctx->getArgument(0,"radius"));
-	Value* centerValue=ctx->getArgument(1,"center");
+	NumberValue* rValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	Value* centerValue=getParameterArgument(ctx,1);
 
 	bool center=true;
 	if(centerValue)

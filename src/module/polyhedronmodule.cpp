@@ -24,11 +24,13 @@
 
 PolyhedronModule::PolyhedronModule() : PrimitiveModule("polyhedron")
 {
+	addParameter("points");
+	addParameter("surfaces");
 }
 
 Node* PolyhedronModule::evaluate(Context* ctx)
 {
-	VectorValue* points=dynamic_cast<VectorValue*>(ctx->getArgument(0,"points"));
+	VectorValue* points=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	VectorValue* surfaces=dynamic_cast<VectorValue*>(ctx->getArgumentDeprecated(1,"surfaces","triangles"));
 
 	QList<Value*> children = points->getChildren();

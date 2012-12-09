@@ -22,11 +22,12 @@
 
 PointModule::PointModule() : Module("point")
 {
+	addParameter("location");
 }
 
 Node* PointModule::evaluate(Context* ctx)
 {
-	VectorValue* location=dynamic_cast<VectorValue*>(ctx->getArgument(0,"location"));
+	VectorValue* location=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 
 	PointNode* p=new PointNode();
 	Point pt;

@@ -4,12 +4,13 @@
 
 OffsetModule::OffsetModule() : Module("offset")
 {
+	addParameter("amount");
 }
 
 Node* OffsetModule::evaluate(Context* ctx)
 {
 	double a=1.0;
-	NumberValue* amountVal=dynamic_cast<NumberValue*>(ctx->getArgument(0,"amount"));
+	NumberValue* amountVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(amountVal)
 		a=amountVal->getNumber();
 

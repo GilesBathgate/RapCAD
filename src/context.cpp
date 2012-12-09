@@ -185,11 +185,9 @@ void Context::clearArguments()
 
 Value* Context::getArgument(int index, QString name)
 {
-	return matchArgumentIndex(true,false,index,name);
-}
+	//TODO make matchLast work for name ending with any digit
+	bool matchLast = name.endsWith('1') || name.endsWith('2');
 
-Value* Context::getArgument(int index,QString name,bool matchLast)
-{
 	return matchArgumentIndex(true,matchLast,index,name);
 }
 

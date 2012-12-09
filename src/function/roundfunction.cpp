@@ -4,6 +4,7 @@
 
 RoundFunction::RoundFunction() : Function("round")
 {
+	addParameter("value");
 }
 
 static double fround(double a)
@@ -13,7 +14,7 @@ static double fround(double a)
 
 Value* RoundFunction::evaluate(Context* ctx)
 {
-	NumberValue* numVal=dynamic_cast<NumberValue*>(ctx->getArgument(0,"value"));
+	NumberValue* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {
 		double num=numVal->getNumber();
 

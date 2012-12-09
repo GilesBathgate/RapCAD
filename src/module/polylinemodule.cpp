@@ -22,11 +22,12 @@
 
 PolylineModule::PolylineModule() : Module("polyline")
 {
+	addParameter("points");
 }
 
 Node* PolylineModule::evaluate(Context* ctx)
 {
-	VectorValue* points=dynamic_cast<VectorValue*>(ctx->getArgument(0,"points"));
+	VectorValue* points=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 
 	PolylineNode* p=new PolylineNode();
 

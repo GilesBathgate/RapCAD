@@ -43,6 +43,9 @@ public:
 	void setScope(Scope*);
 	void accept(TreeVisitor&);
 	virtual Value* evaluate(Context*);
+protected:
+	void addParameter(QString);
+	Value* getParameterArgument(Context*,int);
 private:
 	QString name;
 	QList<Parameter*> parameters;

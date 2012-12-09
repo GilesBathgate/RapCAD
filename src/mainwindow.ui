@@ -208,6 +208,7 @@
     </property>
     <addaction name="actionCompileAndRender"/>
     <addaction name="actionGenerateGcode"/>
+    <addaction name="actionShowBuiltins"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -337,7 +338,7 @@
     <string>Save the current document with a new file name.</string>
    </property>
    <property name="shortcut">
-    <string>Shift+Ctrl+S</string>
+    <string>Ctrl+Shift+S</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
@@ -680,6 +681,14 @@
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionShowBuiltins">
+   <property name="text">
+    <string>Show Builtins</string>
+   </property>
+   <property name="toolTip">
+    <string>Show Built in Function and Module definitions</string>
    </property>
   </action>
  </widget>

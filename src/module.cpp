@@ -17,6 +17,7 @@
  */
 
 #include "module.h"
+#include "context.h"
 
 Module::Module()
 {
@@ -75,4 +76,17 @@ void Module::accept(TreeVisitor& v)
 Node* Module::evaluate(Context*)
 {
 	return NULL;
+}
+
+void Module::addParameter(QString name)
+{
+	Parameter* p = new Parameter();
+	p->setName(name);
+	parameters.append(p);
+}
+
+Value *Module::getParameterArgument(Context* ctx, int index)
+{
+	Parameter* p = parameters.at(index);
+	return ctx->getArgument(index,p->getName());
 }

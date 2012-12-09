@@ -5,17 +5,19 @@
 
 ResizeModule::ResizeModule() : Module("resize")
 {
+	addParameter("size");
+	addParameter("autosize");
 }
 
 Node* ResizeModule::evaluate(Context* ctx)
 {
 	Point size;
-	VectorValue* sizeVal=dynamic_cast<VectorValue*>(ctx->getArgument(0,"size"));
+	VectorValue* sizeVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(sizeVal)
 		size=sizeVal->getPoint();
 
 	bool autoSize=true;
-	BooleanValue* autoSizeVal=dynamic_cast<BooleanValue*>(ctx->getArgument(1,"autosize"));
+	BooleanValue* autoSizeVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,1));
 	if(autoSizeVal)
 		autoSize=autoSizeVal->isTrue();
 

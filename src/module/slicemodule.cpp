@@ -22,12 +22,13 @@
 
 SliceModule::SliceModule() : Module("slice")
 {
+	addParameter("height");
 }
 
 Node* SliceModule::evaluate(Context* ctx)
 {
 	double h=0.0;
-	NumberValue* height=dynamic_cast<NumberValue*>(ctx->getArgument(0,"height"));
+	NumberValue* height=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(height)
 		h=height->getNumber();
 

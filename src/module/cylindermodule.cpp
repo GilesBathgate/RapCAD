@@ -26,23 +26,26 @@
 
 CylinderModule::CylinderModule() : PrimitiveModule("cylinder")
 {
+	addParameter("height");
+	addParameter("radius");
+	addParameter("center");
 }
 
 Node* CylinderModule::evaluate(Context* ctx)
 {
-	NumberValue* heightValue = dynamic_cast<NumberValue*>(ctx->getArgument(0,"height"));
+	NumberValue* heightValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	double h=1.0;
 	if(heightValue)
 		h=heightValue->getNumber();
 
-	NumberValue* r1Value = dynamic_cast<NumberValue*>(ctx->getArgument(1,"radius1",true));
-	NumberValue* r2Value = dynamic_cast<NumberValue*>(ctx->getArgument(2,"radius2",true));
+	NumberValue* r1Value = dynamic_cast<NumberValue*>(ctx->getArgument(1,"radius1"));
+	NumberValue* r2Value = dynamic_cast<NumberValue*>(ctx->getArgument(2,"radius2"));
 	BooleanValue* centerValue;
 
 	double r1=1.0,r2=1.0,fn,fs,fa;
 	if(!r1Value) {
-		NumberValue* rValue = dynamic_cast<NumberValue*>(ctx->getArgument(1,"radius"));
-		centerValue = dynamic_cast<BooleanValue*>(ctx->getArgument(2,"center"));
+		NumberValue* rValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
+		centerValue = dynamic_cast<BooleanValue*>(getParameterArgument(ctx,2));
 		if(rValue) {
 			r1=r2=rValue->getNumber();
 		} else {

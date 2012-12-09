@@ -4,12 +4,13 @@
 
 RotateExtrudeModule::RotateExtrudeModule() : Module("rotate_extrude")
 {
+	addParameter("radius");
 }
 
 Node* RotateExtrudeModule::evaluate(Context* ctx)
 {
 	double r=1.0;
-	NumberValue* radius=dynamic_cast<NumberValue*>(ctx->getArgument(0,"radius"));
+	NumberValue* radius=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(radius)
 		r=radius->getNumber();
 

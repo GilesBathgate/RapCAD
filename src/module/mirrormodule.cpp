@@ -24,12 +24,13 @@
 
 MirrorModule::MirrorModule() : Module("mirror")
 {
+	addParameter("vector");
 }
 
 Node* MirrorModule::evaluate(Context* ctx)
 {
 	Point vec;
-	VectorValue* vecVal=dynamic_cast<VectorValue*>(ctx->getArgument(0,"vector"));
+	VectorValue* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(vecVal)
 		vec=vecVal->getPoint();
 

@@ -22,6 +22,9 @@
 
 ShearModule::ShearModule() : Module("shear")
 {
+	addParameter("x");
+	addParameter("y");
+	addParameter("z");
 }
 
 Node* ShearModule::evaluate(Context* ctx)

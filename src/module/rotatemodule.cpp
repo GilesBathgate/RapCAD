@@ -25,6 +25,8 @@
 
 RotateModule::RotateModule() : Module("rotate")
 {
+	addParameter("angle");
+	addParameter("vector");
 }
 
 Node* RotateModule::evaluate(Context* ctx)
@@ -34,10 +36,10 @@ Node* RotateModule::evaluate(Context* ctx)
 	bool origin;
 	Point vec;
 	double a=0.0;
-	NumberValue* angValue=dynamic_cast<NumberValue*>(ctx->getArgument(0,"angle"));
+	NumberValue* angValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(angValue) {
 		a=angValue->getNumber();
-		VectorValue* vecValue=dynamic_cast<VectorValue*>(ctx->getArgument(1,"vector"));
+		VectorValue* vecValue=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
 		if(vecValue)
 			vec=vecValue->getPoint();
 		origin=false;

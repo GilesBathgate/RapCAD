@@ -5,11 +5,13 @@
 
 PolygonModule::PolygonModule() : Module("polygon")
 {
+	addParameter("points");
+	addParameter("lines");
 }
 
 Node* PolygonModule::evaluate(Context* ctx)
 {
-	VectorValue* pointsVec=dynamic_cast<VectorValue*>(ctx->getArgument(0,"points"));
+	VectorValue* pointsVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	VectorValue* linesVec=dynamic_cast<VectorValue*>(ctx->getArgumentDeprecated(1,"lines","paths"));
 
 	PrimitiveNode* p=new PrimitiveNode();
