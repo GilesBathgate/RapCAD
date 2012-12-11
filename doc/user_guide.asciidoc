@@ -192,6 +192,72 @@ a=[1:5];    // 1,2,3,4,5
 b=[0:2:10]; // 2,4,6,8,10
 ------------------------------
 
+Operators
+~~~~~~~~~
+
+Add
+^^^
+
+Subtract
+^^^^^^^^
+
+Divide
+^^^^^^
+
+Statements
+~~~~~~~~~~
+
+Assign
+^^^^^^
+
+Assignment is simply done using the equals operator. As long as a variable is
+not declared const or param it can be re-assigned as many times as you like.
+
+Examples
+++++++++
+[source,csharp]
+-------------------------------------
+a=5;
+a=6;
+-------------------------------------
+
+Append
+^^^^^^
+Examples
+++++++++
+[source,csharp]
+-------------------------------------
+a="foo";
+a~="bar";
+
+b=[1,2,3];
+b~=[4,5,6];
+-------------------------------------
+
+
+If Else
+^^^^^^^
+Examples
+++++++++
+[source,csharp]
+-------------------------------------
+if(a>1)
+  echo("a is greater than 1);
+else
+  echo("a is not greater than 1);
+-------------------------------------
+
+
+For
+^^^
+Examples
+++++++++
+[source,csharp]
+-------------------------------------
+for(i=[0:10])
+  echo(i);
+-------------------------------------
+
 Functions
 ~~~~~~~~~
 
@@ -568,6 +634,12 @@ rotate([0,0,90]) module1();
 Scale
 ^^^^^
 
+The scale module makes the primitive bigger or smaller by the given scale
+vector. The values of the vector should be less than 1 to make the primitive
+smaller and greater than 1 to make the primitive bigger. The scale module also
+takes a reference argument, this specifies a point from which scaling should
+be performed, otherwise the origin is used.
+
 Examples
 ++++++++
 [source,csharp]
@@ -587,6 +659,9 @@ shear() module1();
 
 Translate
 ^^^^^^^^^
+
+The translate module moves a primitive by the amount specified by the vector
+argument.
 
 Examples
 ++++++++
