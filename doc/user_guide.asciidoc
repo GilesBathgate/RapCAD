@@ -242,9 +242,9 @@ Examples
 [source,csharp]
 -------------------------------------
 if(a>1)
-  echo("a is greater than 1);
+  echo("a is greater than 1");
 else
-  echo("a is not greater than 1);
+  echo("a is not greater than 1");
 -------------------------------------
 
 
@@ -322,6 +322,9 @@ arguments. Since it is also a statement it must be followed by a semicolon.
 	| <identifier> ( <argument> , <argument>... );
 ******************************
 
+RapCAD is very consistent when it comes to parameter names. The parameters for
+all built in modules take a either a long name, single letter name, or
+parameters can simply be specified by position. All parameters are optional.
 
 Cube
 ^^^^
@@ -330,8 +333,9 @@ Examples
 ++++++++
 [source,csharp]
 ------------------------------
-cube(size,center);
-cube(s,c);
+cube([10,10,10],true);
+cube(size=[10,10,10],center=true);
+cube(s=[10,10,10],c=true);
 ------------------------------
 
 Sphere
@@ -341,9 +345,11 @@ Examples
 ++++++++
 [source,csharp]
 ------------------------------
-sphere(radius);
-sphere(r);
+sphere(5);
+sphere(radius=5);
+sphere(r=5);
 ------------------------------
+
 
 Cylinder
 ^^^^^^^
@@ -355,8 +361,9 @@ Examples
 ++++++++
 [source,csharp]
 ------------------------------
-cylinder(radius,height,center);
-cylinder(r,h,c);
+cylinder(5,10,true);
+cylinder(radius=5,height=10,center=true);
+cylinder(r=5,h=10,c=true);
 ------------------------------
 
 Cone
@@ -366,8 +373,9 @@ Examples
 ++++++++
 [source,csharp]
 ------------------------------
-cone(radius1,radius2,center);
-cone(r1,r2,c);
+cone(5,7,true);
+cone(radius1=5,radius2=7,center=true);
+cone(r1=5,r2=7,c=true);
 ------------------------------
 
 Prism
@@ -377,8 +385,11 @@ Examples
 ++++++++
 [source,csharp]
 -----------------------------
-prism(height,sides,apothem);
-prism(height,sides,radius);
+prism(10,5,10);
+prism(height=10,sides=5,apothem=10);
+prism(height=10,sides=5,radius=10);
+prism(h=10,s=5,a=10);
+prism(h=10,s=5,r=10);
 -----------------------------
 
 Polyhedron
@@ -407,8 +418,8 @@ Examples
 ++++++++
 [source,csharp]
 ------------------------------
-square(size,center);
-square(s,c);
+square(size=[10,10],center=true);
+square(s=[10,10],c=true);
 ------------------------------
 
 Circle
@@ -418,8 +429,9 @@ Examples
 ++++++++
 [source,csharp]
 ------------------------------
-circle(radius);
-circle(r);
+circle(5);
+circle(radius=5);
+circle(r=5);
 ------------------------------
 
 Polygon
@@ -443,8 +455,22 @@ Examples
 ++++++++
 [source,csharp]
 ------------------------------
-polyline(points);
+polyline([[0,0,0],[10,10,10]]);
+polyline(points=[[0,0,0],[10,10,10]]);
+polyline(p=[[0,0,0],[10,10,10]]);
 ------------------------------
+
+Point
+^^^^^
+
+Examples
+++++++++
+[source,csharp]
+------------------------------
+point([10,10,10]);
+point(location=[10,10,10]);
+point(l=[10,10,10]);
+
 
 Bezier Surface
 ^^^^^^^^^^^^^^
@@ -454,6 +480,17 @@ Examples
 [source,csharp]
 ------------------------------
 bezier_surface(mesh);
+------------------------------
+
+Cylinder Surface
+^^^^^^^^^^^^^^^^
+Examples
+++++++++
+[source,csharp]
+------------------------------
+cylinder_surface(10,5,true);
+cylinder_surface(height=10,radius=5,center=true);
+cylinder_surface(h=10,r=5,c=true);
 ------------------------------
 
 Control Modules
@@ -492,7 +529,9 @@ Examples
 ++++++++
 [source,csharp]
 -------------------------------
-child();
+child(5);
+child(index=5);
+child(i=5);
 -------------------------------
 
 Operation Modules
@@ -566,6 +605,7 @@ Examples
 [source,csharp]
 -------------------------------
 glide() { module1(); module2(); }
+glide(closed=true) { module1(); module2(); }
 -------------------------------
 
 Hull
@@ -598,6 +638,8 @@ Examples
 ++++++++
 [source,csharp]
 -------------------------------
+linear_extrude(10) square([10,10]);
+linear_extrude(height=10) square([10,10]);
 linear_extrude(h=10) square([10,10]);
 -------------------------------
 
