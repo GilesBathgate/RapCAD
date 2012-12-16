@@ -470,6 +470,7 @@ Examples
 point([10,10,10]);
 point(location=[10,10,10]);
 point(l=[10,10,10]);
+------------------------------
 
 
 Bezier Surface
