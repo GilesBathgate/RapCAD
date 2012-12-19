@@ -125,8 +125,8 @@ Examples
 ++++++++
 [source,csharp]
 ------------------------------
-a=True;
-b=False;
+a=true;
+b=false;
 ------------------------------
 
 Vector
@@ -157,7 +157,7 @@ a=[ 1,
 ---------------
 
 This vector will have four elements instead of the intended three elements, the
-last elelement being undefined. In the unlikely event that you really do want a
+last element being undefined. In the unlikely event that you really do want a
 four element vector with the last element undefined then you can use the
 'undef' keyword explicitly.
 

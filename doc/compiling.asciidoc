@@ -42,26 +42,8 @@ Dependencies
 ++++++++++++
 [source,shell]
 -------------------------------------------------------------------
-sudo apt-get install g++ libcgal-dev libqt4-dev bison flex
+sudo apt-get install g++ libcgal-dev libqt4-dev bison flex libdxflib-dev
 -------------------------------------------------------------------
-
-dxflib
-++++++
-[source,shell]
------------------------------------------------------------------------------------------
-wget ftp://anonymous:anonymous@ribbonsoft.com/archives/dxflib/dxflib-2.2.0.0-1.src.tar.gz
-
-tar -xzf dxflib-2.2.0.0-1.src.tar.gz &&
-cd dxflib-2.2.0.0-1.src &&
-sed "s/<string>/<string.h>/" -i src/*.h &&
-CFLAGS=-fPIC ./configure --prefix=/usr &&
-make depend &&
-make &&
-gcc -shared -Wl,-soname,libdxflib.so.2 -o lib/libdxflib.so.2.2.0 src/*.o &&
-sudo make install &&
-sudo install -m 644 lib/libdxflib.so.2.2.0 /usr/lib &&
-sudo ldconfig -n /usr/lib
------------------------------------------------------------------------------------------
 
 RapCAD
 ++++++
