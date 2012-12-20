@@ -1,4 +1,8 @@
 #!/bin/bash
-
+files=$(git status -s | grep "^[^ ] .*\(h\|cpp\)$" | cut -d' ' -f3)
 #Apply astyle rules to files that would be commited. 
-astyle --options=astylerc $(git status -s | grep "^. .*\.h\|.cpp$" | cut -d' ' -f3)
+if [ -n "$files" ]; then
+  astyle --options=astylerc $files
+else
+  echo "You need to add some files to the index first!"
+fi
