@@ -36,7 +36,7 @@ Node* CylinderSurfaceModule::evaluate(Context* ctx)
 		h=heightValue->getNumber();
 
 	NumberValue* rValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
-	double r=1.0,fn,fs,fa;
+	double r=1.0;
 	if(rValue)
 		r=rValue->getNumber();
 
@@ -54,8 +54,7 @@ Node* CylinderSurfaceModule::evaluate(Context* ctx)
 		z2 = h;
 	}
 
-	getSpecialVariables(ctx,fn,fs,fa);
-	int f = getFragments(r,fn,fs,fa);
+	int f = getFragments(r,ctx);
 	Polygon c1 = getCircle(r,f,z1);
 	Polygon c2 = getCircle(r,f,z2);
 	PrimitiveNode* p = new PrimitiveNode();

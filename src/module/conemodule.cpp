@@ -29,7 +29,7 @@ ConeModule::ConeModule() : PrimitiveModule("cone")
 	addParameter("center");
 }
 
-Node *ConeModule::evaluate(Context* ctx)
+Node* ConeModule::evaluate(Context* ctx)
 {
 	NumberValue* heightValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	NumberValue* r1Value = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
@@ -59,11 +59,8 @@ Node *ConeModule::evaluate(Context* ctx)
 		z2 = h;
 	}
 
-	double fn,fs,fa;
-	getSpecialVariables(ctx,fn,fs,fa);
-
 	double r=fmax(r1,r2);
-	int f = getFragments(r,fn,fs,fa);
+	int f = getFragments(r,ctx);
 
 	Polygon c1 = getCircle(r1,f,z1);
 	Polygon c2 = getCircle(r2,f,z2);

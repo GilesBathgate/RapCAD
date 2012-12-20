@@ -42,7 +42,7 @@ Node* CylinderModule::evaluate(Context* ctx)
 	NumberValue* r2Value = dynamic_cast<NumberValue*>(ctx->getArgument(2,"radius2"));
 	BooleanValue* centerValue;
 
-	double r1=1.0,r2=1.0,fn,fs,fa;
+	double r1=1.0,r2=1.0;
 	if(!r1Value) {
 		NumberValue* rValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
 		centerValue = dynamic_cast<BooleanValue*>(getParameterArgument(ctx,2));
@@ -75,9 +75,8 @@ Node* CylinderModule::evaluate(Context* ctx)
 		z2 = h;
 	}
 
-	getSpecialVariables(ctx,fn,fs,fa);
 	double r=fmax(r1,r2);
-	int f = getFragments(r,fn,fs,fa);
+	int f = getFragments(r,ctx);
 	Polygon c1 = getCircle(r1,f,z1);
 	Polygon c2 = getCircle(r2,f,z2);
 	PrimitiveNode* p = new PrimitiveNode();

@@ -46,8 +46,10 @@ void PrimitiveModule::getSpecialVariables(Context* ctx, double& fn, double& fs, 
 * Get the number of fragments of a circle, given radius and
 * the three special variables $fn, $fs and $fa
 */
-int PrimitiveModule::getFragments(double r, double fn, double fs, double fa)
+int PrimitiveModule::getFragments(double r, Context* ctx)
 {
+	double fn,fs,fa;
+	getSpecialVariables(ctx,fn,fs,fa);
 	const double GRID_FINE = 0.000001;
 	if(r < GRID_FINE)
 		return 0;

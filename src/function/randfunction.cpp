@@ -50,7 +50,7 @@ Value* RandFunction::evaluate(Context* ctx)
 	NumberValue* maxVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
 	if(maxVal)
 		max=maxVal->getNumber();
-	double count;
+	double count=1;
 	NumberValue* countVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));
 	if(countVal)
 		count=countVal->getNumber();

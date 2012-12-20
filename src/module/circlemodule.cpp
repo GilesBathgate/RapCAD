@@ -28,14 +28,12 @@ Node* CircleModule::evaluate(Context* ctx)
 {
 	NumberValue* rValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 
-	double r,fn,fs,fa;
+	double r=1;
 	if(rValue) {
-
 		r=rValue->getNumber();
 	}
 
-	getSpecialVariables(ctx,fn,fs,fa);
-	int f = getFragments(r,fn,fs,fa);
+	int f = getFragments(r,ctx);
 	Polygon c = getCircle(r,f,0);
 	PrimitiveNode* p = new PrimitiveNode();
 

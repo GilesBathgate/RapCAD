@@ -29,6 +29,8 @@ Node* PolygonModule::evaluate(Context* ctx)
 		line=dynamic_cast<VectorValue*>(lines.at(0));
 	if(!line)
 		line=linesVec;
+	else
+		return p;
 
 	p->createPolygon();
 	foreach(Value* indexVal,line->getChildren()) {

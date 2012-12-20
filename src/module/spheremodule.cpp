@@ -39,7 +39,7 @@ Node* SphereModule::evaluate(Context* ctx)
 	if(centerValue)
 		center=centerValue->isTrue();
 
-	double r=1.0,fn,fs,fa;
+	double r=1.0;
 	if(rValue) {
 		r=rValue->getNumber();
 	} else {
@@ -48,8 +48,7 @@ Node* SphereModule::evaluate(Context* ctx)
 			r=(dValue->getNumber()/2.0);
 	}
 
-	getSpecialVariables(ctx,fn,fs,fa);
-	int f = getFragments(r,fn,fs,fa);
+	int f = getFragments(r,ctx);
 	int ringCount=f/2;
 
 	QList<Polygon> rings;
