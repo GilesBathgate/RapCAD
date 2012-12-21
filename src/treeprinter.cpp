@@ -406,7 +406,7 @@ void TreePrinter::visit(Literal* lit)
 
 void TreePrinter::visit(Variable* var)
 {
-	switch(var->getType()) {
+	switch(var->getStorageClass()) {
 	case Variable::Const:
 		result << "const ";
 		break;
@@ -417,7 +417,7 @@ void TreePrinter::visit(Variable* var)
 		break;
 	}
 
-	if(var->getType()==Variable::Special)
+	if(var->getStorageClass()==Variable::Special)
 		result << "$";
 	result << var->getName();
 }

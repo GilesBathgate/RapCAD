@@ -20,7 +20,7 @@
 
 Variable::Variable()
 {
-	type=Variable::Var;
+	storageClass=Variable::Var;
 }
 
 Variable::~Variable()
@@ -37,14 +37,14 @@ void Variable::setName(QString name)
 	this->name = name;
 }
 
-void Variable::setType(Type_e type)
+void Variable::setStorageClass(StorageClass_e c)
 {
-	this->type = type;
+	this->storageClass = c;
 }
 
-Variable::Type_e Variable::getType() const
+Variable::StorageClass_e Variable::getStorageClass() const
 {
-	return this->type;
+	return this->storageClass;
 }
 
 void Variable::accept(TreeVisitor& v)

@@ -235,19 +235,19 @@ void TreeEvaluator::visit(BinaryExpression* exp)
 void TreeEvaluator::visit(Argument* arg)
 {
 	QString name;
-	Variable::Type_e type=Variable::Var;
+	Variable::StorageClass_e c=Variable::Var;
 	Variable* var = arg->getVariable();
 	if(var) {
 		var->accept(*this);
 		name=context->getCurrentName();
-		type=var->getType();
+		c=var->getStorageClass();
 	}
 
 	arg->getExpression()->accept(*this);
 	Value* v = context->getCurrentValue();
 
 	v->setName(name);
-	v->setType(type); //TODO Investigate moving this to apply to all variables.
+	v->setStorageClass(c); //TODO Investigate moving this to apply to all variables.
 	context->addArgument(v);
 }
 
@@ -293,8 +293,10 @@ void TreeEvaluator::visit(AssignStatement* stmt)
 	}
 
 	result->setName(name);
-	result->setType(lvalue->getType());
-	switch(lvalue->getType()) {
+	Variable::StorageClass_e c;
+	c=lvalue->getStorageClass();
+	result->setStorageClass(c);
+	switch(c) {
 	case Variable::Const:
 		if(!context->addVariable(result))
 			output << "Warning: Attempt to alter constant variable '" << name << "'\n";
@@ -422,11 +424,11 @@ void TreeEvaluator::visit(Literal* lit)
 void TreeEvaluator::visit(Variable* var)
 {
 	QString name = var->getName();
-	Variable::Type_e oldType=var->getType();
-	Variable::Type_e type=oldType;
-	Value* v=context->lookupVariable(name,type);
-	if(type!=oldType)
-		switch(oldType) {
+	Variable::StorageClass_e oldClass=var->getStorageClass();
+	Variable::StorageClass_e currentClass=oldClass;
+	Value* v=context->lookupVariable(name,currentClass);
+	if(currentClass!=oldClass)
+		switch(oldClass) {
 		case Variable::Const:
 			output << "Warning: Attempt to make previously non-constant variable '" << name << "' constant\n";
 			break;

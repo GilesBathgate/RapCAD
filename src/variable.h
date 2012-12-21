@@ -25,7 +25,7 @@
 class Variable : public Expression
 {
 public:
-	enum Type_e {
+	enum StorageClass_e {
 		Var,
 		Special,
 		Const,
@@ -36,12 +36,12 @@ public:
 	~Variable();
 	void setName(QString);
 	QString getName() const;
-	void setType(Type_e);
-	Type_e getType() const;
+	void setStorageClass(StorageClass_e);
+	StorageClass_e getStorageClass() const;
 	void accept(TreeVisitor&);
 private:
 	QString name;
-	Type_e type;
+	StorageClass_e storageClass;
 };
 
 #endif // VARIABLE_H

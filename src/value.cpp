@@ -24,7 +24,7 @@
 
 Value::Value()
 {
-	this->type=Variable::Const;
+	this->storageClass=Variable::Const;
 	this->defined=false;
 	values.append(this);
 }
@@ -43,14 +43,14 @@ void Value::cleanup()
 
 QList<Value*> Value::values;
 
-void Value::setType(Variable::Type_e t)
+void Value::setStorageClass(Variable::StorageClass_e c)
 {
-	type=t;
+	this->storageClass=c;
 }
 
-Variable::Type_e Value::getType() const
+Variable::StorageClass_e Value::getStorageClass() const
 {
-	return type;
+	return storageClass;
 }
 
 void Value::setName(QString name)

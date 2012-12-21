@@ -30,8 +30,8 @@ public:
 	Value();
 	virtual ~Value();
 	static void cleanup();
-	void setType(Variable::Type_e);
-	Variable::Type_e getType() const;
+	void setStorageClass(Variable::StorageClass_e);
+	Variable::StorageClass_e getStorageClass() const;
 	void setName(QString);
 	QString getName() const;
 	virtual QString getValueString() const;
@@ -78,7 +78,7 @@ protected:
 	virtual Value* operation(Value&,Expression::Operator_e);
 private:
 	static QList<Value*> values;
-	Variable::Type_e type;
+	Variable::StorageClass_e storageClass;
 	QString name;
 	template<class T>
 	T modulus(T left, T right);
