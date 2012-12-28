@@ -123,8 +123,7 @@ void NodeEvaluator::visit(HullNode* n)
 	foreach(Node* c,n->getChildren()) {
 		c->accept(*this);
 		CGALExplorer explorer(result);
-		foreach(CGAL::Point3 pt,explorer.getPoints())
-			points.append(pt);
+		points.append(explorer.getPoints());
 	}
 
 	CGAL::Polyhedron3 hull;
