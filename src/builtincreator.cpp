@@ -83,7 +83,8 @@
 #include "function/coshfunction.h"
 #include "function/sinhfunction.h"
 #include "function/tanhfunction.h"
-
+#include "function/lnfunction.h"
+#include "function/logfunction.h"
 
 #include "treeprinter.h"
 
@@ -137,7 +138,9 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new CoshFunction());
 	builtins.append(new ExpFunction());
 	builtins.append(new FloorFunction());
+	builtins.append(new LnFunction());
 	builtins.append(new LengthFunction());
+	builtins.append(new LogFunction());
 	builtins.append(new MaxFunction());
 	builtins.append(new MinFunction());
 	builtins.append(new PowFunction());
