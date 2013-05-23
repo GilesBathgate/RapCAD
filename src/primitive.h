@@ -29,7 +29,7 @@ public:
 	virtual Polygon* createPolygon()=0;
 	virtual void appendVertex(Point)=0;
 	virtual void prependVertex(Point)=0;
-	virtual Primitive* buildVolume()=0;
+	virtual Primitive* buildPrimitive()=0;
 	virtual Primitive* join(const Primitive*)=0;
 	virtual Primitive* intersection(const Primitive*)=0;
 	virtual Primitive* difference(const Primitive*)=0;

@@ -33,33 +33,34 @@ NodeEvaluator::~NodeEvaluator()
 {
 	Node::cleanup();
 }
+Primitive* NodeEvaluator::createPrimitive()
+{
+#if USE_CGAL
+	return new CGALPrimitive();
+#else
+	return new Primitive();
+#endif
+}
 
 void NodeEvaluator::visit(PrimitiveNode* n)
 {
-	Primitive* cp;
-#if USE_CGAL
-	cp=new CGALPrimitive();
-#endif
+	Primitive* cp=createPrimitive();
 	foreach(Polygon p, n->getPolygons()) {
 		cp->createPolygon();
 		foreach(Point pt, p) {
 			cp->appendVertex(pt);
 		}
 	}
-	result=cp->buildVolume();
+	result=cp->buildPrimitive();
 }
 
 void NodeEvaluator::visit(PolylineNode* n)
 {
-#if USE_CGAL
-	QVector<CGAL::Point3> pl;
+	Primitive* cp=createPrimitive();
 	foreach(Point p,n->getPoints()) {
-		double x,y,z;
-		p.getXYZ(x,y,z);
-		pl.append(CGAL::Point3(x,y,z));
+		cp->appendVertex(p);
 	}
-	result=new CGALPrimitive(pl);
-#endif
+	result=cp->buildPrimitive();
 }
 
 void NodeEvaluator::visit(UnionNode* op)
@@ -97,16 +98,16 @@ void NodeEvaluator::visit(GlideNode* op)
 			CGALExplorer explorer(result);
 			QList<CGAL::Point3> points = explorer.getPoints();
 
-			QVector<CGAL::Point3> pl;
+			CGALPrimitive* cp=new CGALPrimitive();
 			CGAL::Point3 fp;
 			for(int i=0; i<points.size(); i++) {
 				if(i==0)
 					fp=points.at(i);
-				pl.append(points.at(i));
+				cp->appendVertex(points.at(i));
 			}
 			if(op->getClosed())
-				pl.append(fp);
-			first=new CGALPrimitive(pl);
+				cp->appendVertex(fp);
+			first=cp->buildPrimitive();
 #endif
 		} else {
 			first=first->minkowski(result);
@@ -146,12 +147,11 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 	evaluate(op,Union);
 #if USE_CGAL
 	if(result->isFullyDimentional()) {
-		QVector<CGAL::Point3> pl;
-		pl.append(CGAL::Point3(0,0,0));
-		pl.append(CGAL::Point3(0,0,op->getHeight()));
-		CGALPrimitive* prim=new CGALPrimitive(pl);
-		result=result->minkowski(prim);
-
+		CGALPrimitive* cp=new CGALPrimitive();
+		cp->appendVertex(CGAL::Point3(0,0,0));
+		cp->appendVertex(CGAL::Point3(0,0,op->getHeight()));
+		cp->buildPrimitive();
+		result=result->minkowski(cp);
 	} else {
 		CGAL::Kernel3::FT z=op->getHeight();
 		CGALExplorer explorer(result);
@@ -189,7 +189,7 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 			}
 		}
 
-		result=n->buildVolume();
+		result=n->buildPrimitive();
 	}
 #endif
 }
@@ -269,16 +269,16 @@ void NodeEvaluator::visit(OutlineNode* op)
 	CGALExplorer explorer(result);
 	QList<CGAL::Point3> points = explorer.getPoints();
 
-	QVector<CGAL::Point3> pl;
+	CGALPrimitive* cp=new CGALPrimitive();
 	CGAL::Point3 fp;
 	for(int i=0; i<points.size(); i++) {
 		if(i==0)
 			fp=points.at(i);
-		pl.append(points.at(i));
+		cp->appendVertex(points.at(i));
 	}
-	pl.append(fp);
+	cp->appendVertex(fp);
 
-	result=new CGALPrimitive(pl);
+	result=cp->buildPrimitive();
 #endif
 }
 
@@ -372,21 +372,9 @@ void NodeEvaluator::visit(CenterNode* n)
 
 void NodeEvaluator::visit(PointNode* n)
 {
-#if USE_CGAL
-	QVector<CGAL::Point3> pl1,pl2;
-	Point p = n->getPoint();
-	double x,y,z;
-	p.getXYZ(x,y,z);
-	pl1.append(CGAL::Point3(x,y,z));
-	pl1.append(CGAL::Point3(x+1,y,z));
-
-	pl2.append(CGAL::Point3(x,y,z));
-	pl2.append(CGAL::Point3(x,y+1,z));
-	CGALPrimitive* p1 = new CGALPrimitive(pl1);
-	CGALPrimitive* p2 = new CGALPrimitive(pl2);
-
-	result = p1->intersection(p2);
-#endif
+	Primitive* cp=createPrimitive();
+	cp->appendVertex(n->getPoint());
+	result=cp->buildPrimitive();
 }
 
 void NodeEvaluator::visit(SliceNode* n)
@@ -404,7 +392,7 @@ void NodeEvaluator::visit(SliceNode* n)
 	cp->appendVertex(CGAL::Point3(b.xmax(),b.ymax(),h));
 	cp->appendVertex(CGAL::Point3(b.xmax(),b.ymin(),h));
 
-	cp->buildVolume();
+	cp->buildPrimitive();
 
 	result=result->intersection(cp);
 #endif

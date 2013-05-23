@@ -8,7 +8,49 @@ CGALPrimitive::CGALPrimitive()
 {
 }
 
-CGALPrimitive::CGALPrimitive(QVector<CGAL::Point3> pl)
+CGALPrimitive::CGALPrimitive(CGAL::Polyhedron3 poly)
+{
+	nefPolyhedron=new CGAL::NefPolyhedron3(poly);
+}
+
+Primitive* CGALPrimitive::buildPrimitive()
+{
+	if(polygons.count()>0) {
+		CGALBuilder b(this);
+		CGAL::Polyhedron3 poly;
+		poly.delegate(b);
+		nefPolyhedron=new CGAL::NefPolyhedron3(poly);
+		return this;
+	} else if(points.count()>1) {
+		QVector<CGAL::Point3> pl;
+		foreach(CGAL::Point3 pt, points)
+			pl.append(pt);
+		nefPolyhedron=createPolyline(pl);
+		return this;
+	} else if(points.count()==1){
+		QVector<CGAL::Point3> pl1,pl2;
+
+		CGAL::Point3 p=points[0];
+		CGAL::Point3 p1=CGAL::Point3(p.x()+1,p.y(),p.z());
+		CGAL::Point3 p2=CGAL::Point3(p.x(),p.y()+1,p.z());
+
+		pl1.append(p);
+		pl1.append(p1);
+		nefPolyhedron=createPolyline(pl1);
+
+		pl2.append(p);
+		pl2.append(p2);
+		const CGAL::NefPolyhedron3* np=createPolyline(pl2);
+
+		*nefPolyhedron=nefPolyhedron->intersection(*np);
+		return this;
+	} else {
+		nefPolyhedron=new CGAL::NefPolyhedron3();
+		return this;
+	}
+}
+
+CGAL::NefPolyhedron3* CGALPrimitive::createPolyline(QVector<CGAL::Point3> pl)
 {
 	typedef QPair<CGAL::Point3*,CGAL::Point3*>  PointRange;
 	typedef QList<PointRange> PolyLine;
@@ -16,21 +58,7 @@ CGALPrimitive::CGALPrimitive(QVector<CGAL::Point3> pl)
 	PointRange p(pl.begin(),pl.end());
 	PolyLine poly;
 	poly.push_back(p);
-	nefPolyhedron=new CGAL::NefPolyhedron3(poly.begin(), poly.end(), CGAL::NefPolyhedron3::Polylines_tag());
-}
-
-CGALPrimitive::CGALPrimitive(CGAL::Polyhedron3 poly)
-{
-	nefPolyhedron=new CGAL::NefPolyhedron3(poly);
-}
-
-Primitive* CGALPrimitive::buildVolume()
-{
-	CGALBuilder b(this);
-	CGAL::Polyhedron3 poly;
-	poly.delegate(b);
-	nefPolyhedron=new CGAL::NefPolyhedron3(poly);
-	return this;
+	return new CGAL::NefPolyhedron3(poly.begin(), poly.end(), CGAL::NefPolyhedron3::Polylines_tag());
 }
 
 Polygon* CGALPrimitive::createPolygon()
@@ -52,7 +80,8 @@ void CGALPrimitive::appendVertex(CGAL::Point3 p)
 {
 	if(!points.contains(p))
 		points.append(p);
-	polygons.last()->append(p);
+	if(polygons.count()>0)
+		polygons.last()->append(p);
 }
 
 void CGALPrimitive::prependVertex(Point pt)
@@ -67,7 +96,8 @@ void CGALPrimitive::prependVertex(CGAL::Point3 p)
 {
 	if(!points.contains(p))
 		points.append(p);
-	polygons.last()->prepend(p);
+	if(polygons.count()>0)
+		polygons.last()->prepend(p);
 }
 
 QList<CGALPolygon*> CGALPrimitive::getPolygons() const
@@ -119,7 +149,7 @@ Primitive* CGALPrimitive::inset(double amount)
 {
 	CGALBuilder b(this);
 	CGALPrimitive* result=b.buildOffsetPolygons(amount);
-	return result->buildVolume();
+	return result->buildPrimitive();
 }
 
 

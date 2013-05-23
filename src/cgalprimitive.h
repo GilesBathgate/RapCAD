@@ -27,14 +27,13 @@ class CGALPrimitive : public Primitive
 {
 public:
 	CGALPrimitive();
-	CGALPrimitive(QVector<CGAL::Point3> pl);
 	CGALPrimitive(CGAL::Polyhedron3 poly);
 	Polygon* createPolygon();
 	void appendVertex(Point);
 	void appendVertex(CGAL::Point3);
 	void prependVertex(Point);
 	void prependVertex(CGAL::Point3);
-	Primitive* buildVolume();
+	Primitive* buildPrimitive();
 	Primitive* join(const Primitive*);
 	Primitive* intersection(const Primitive*);
 	Primitive* difference(const Primitive*);
@@ -48,6 +47,7 @@ public:
 	CGAL::Polyhedron3* getPolyhedron();
 	bool isFullyDimentional();
 private:
+	CGAL::NefPolyhedron3* createPolyline(QVector<CGAL::Point3> pl);
 	QList<CGALPolygon*> polygons;
 	QList<CGAL::Point3> points;
 	CGAL::NefPolyhedron3* nefPolyhedron;

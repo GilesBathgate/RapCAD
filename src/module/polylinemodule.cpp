@@ -30,13 +30,17 @@ Node* PolylineModule::evaluate(Context* ctx)
 	VectorValue* points=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 
 	PolylineNode* p=new PolylineNode();
+	if(!points)
+		return p;
 
 	Polygon polyline;
 	QList<Value*> children = points->getChildren();
 	foreach(Value* point, children) {
 		VectorValue* pointVec=dynamic_cast<VectorValue*>(point);
-		Point pt = pointVec->getPoint();
-		polyline.append(pt);
+		if(pointVec) {
+			Point pt = pointVec->getPoint();
+			polyline.append(pt);
+		}
 	}
 	p->setPoints(polyline);
 	return p;

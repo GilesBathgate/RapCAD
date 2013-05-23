@@ -114,6 +114,6 @@ Primitive* CGALImport::importSTL(QFileInfo fileinfo)
 			p->appendVertex(v3);
 		}
 	}
-	return p->buildVolume();
+	return p->buildPrimitive();
 }
 #endif

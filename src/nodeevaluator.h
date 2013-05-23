@@ -84,6 +84,7 @@ public:
 	void evaluate(Node*,Operation_e);
 	Primitive* getResult() const;
 private:
+	Primitive* createPrimitive();
 	Primitive* result;
 	QTextStream& output;
 };
