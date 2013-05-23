@@ -103,9 +103,13 @@ void Worker::doWork()
 
 	int ticks=t->elapsed();
 	int ms=ticks%1000;
-	int secs=ticks/1000;
-	int mins=secs/60;
-	output << QString("Total rendering time: %1m %2s %3ms.\n").arg(mins).arg(secs).arg(ms);
+	ticks/=1000;
+	int secs=ticks%60;
+	ticks/=60;
+	int mins=ticks%60;
+	ticks/=60;
+	int hours=ticks;
+	output << QString("Total rendering time: %1h %2m %3s %4ms.\n").arg(hours).arg(mins).arg(secs).arg(ms);
 	output.flush();
 	delete t; //Need to delete t before finish() call.
 
