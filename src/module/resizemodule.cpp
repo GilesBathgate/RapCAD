@@ -16,7 +16,7 @@ Node* ResizeModule::evaluate(Context* ctx)
 	if(sizeVal)
 		size=sizeVal->getPoint();
 
-	bool autoSize=true;
+	bool autoSize=false;
 	BooleanValue* autoSizeVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,1));
 	if(autoSizeVal)
 		autoSize=autoSizeVal->isTrue();
