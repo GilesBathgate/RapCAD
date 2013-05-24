@@ -23,6 +23,8 @@
 #include "cgalimport.h"
 #include "cgalexplorer.h"
 #include "cgalprimitive.h"
+#else
+#include "nullprimitive.h"
 #endif
 
 NodeEvaluator::NodeEvaluator(QTextStream& s) : output(s)
@@ -33,12 +35,13 @@ NodeEvaluator::~NodeEvaluator()
 {
 	Node::cleanup();
 }
+
 Primitive* NodeEvaluator::createPrimitive()
 {
 #if USE_CGAL
 	return new CGALPrimitive();
 #else
-	return new Primitive();
+	return new NullPrimitive();
 #endif
 }
 
@@ -145,14 +148,15 @@ static CGAL::Point3 offset(const CGAL::Point3& p,CGAL::Kernel3::FT z)
 void NodeEvaluator::visit(LinearExtrudeNode* op)
 {
 	evaluate(op,Union);
-#if USE_CGAL
+
 	if(result->isFullyDimentional()) {
-		CGALPrimitive* cp=new CGALPrimitive();
-		cp->appendVertex(CGAL::Point3(0,0,0));
-		cp->appendVertex(CGAL::Point3(0,0,op->getHeight()));
+		Primitive* cp=createPrimitive();
+		cp->appendVertex(Point());
+		cp->appendVertex(Point(0,0,op->getHeight()));
 		cp->buildPrimitive();
 		result=result->minkowski(cp);
 	} else {
+#if USE_CGAL
 		CGAL::Kernel3::FT z=op->getHeight();
 		CGALExplorer explorer(result);
 		CGALPrimitive* prim=explorer.getPrimitive();
@@ -190,8 +194,8 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 		}
 
 		result=n->buildPrimitive();
-	}
 #endif
+	}
 }
 
 void NodeEvaluator::visit(RotateExtrudeNode*)

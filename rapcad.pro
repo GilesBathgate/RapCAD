@@ -405,7 +405,8 @@ HEADERS  += \
 	src/primitive.h \
 	src/module/conemodule.h \
 	src/function/lnfunction.h \
-	src/function/logfunction.h
+	src/function/logfunction.h \
+	src/nullprimitive.h
 
 FORMS += \
 	src/mainwindow.ui \
