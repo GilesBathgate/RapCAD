@@ -224,10 +224,26 @@ void TreeEvaluator::visit(BinaryExpression* exp)
 	exp->getLeft()->accept(*this);
 	Value* left=context->getCurrentValue();
 
-	exp->getRight()->accept(*this);
-	Value* right=context->getCurrentValue();
+	bool shortc=false;
+	Expression::Operator_e op=exp->getOp();
 
-	Value* result = Value::operation(left,exp->getOp(),right);
+	switch(op){
+		case Expression::LogicalAnd:
+			shortc=!left->isTrue();
+			break;
+		case Expression::LogicalOr:
+			shortc=left->isTrue();
+			break;
+	}
+
+	Value* result;
+	if(shortc) {
+		result=left;
+	} else {
+		exp->getRight()->accept(*this);
+		Value* right=context->getCurrentValue();
+		result=Value::operation(left,op,right);
+	}
 
 	context->setCurrentValue(result);
 }
