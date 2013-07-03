@@ -9,7 +9,7 @@ fi
 currentversion=$(cat VERSION)
 
 export DEBEMAIL=gilesbathgate@gmail.com
-dch -v$newversion "New upstream version."
+dch --release-heuristic log -v$newversion "New upstream version."
 
 sed "s/^Version:.*$/Version:        $newversion/" -i suse/rapcad.spec
 

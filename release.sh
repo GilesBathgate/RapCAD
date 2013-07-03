@@ -25,9 +25,9 @@ ppa_build(){
 	mv rapcad_$version~"$vname"1* $ppadir
 }
 
-ppa_build "Quantal"
 ppa_build "Precise"
 ppa_build "Oneiric"
+ppa_build "Raring"
 
 rm -rf rapcad-$version
 
