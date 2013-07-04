@@ -26,7 +26,7 @@ ppa_build(){
 }
 
 ppa_build "Precise"
-ppa_build "Oneiric"
+ppa_build "Quantal"
 ppa_build "Raring"
 
 rm -rf rapcad-$version
