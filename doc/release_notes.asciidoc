@@ -1,3 +1,18 @@
+0.9.1
+   * Apply short-circuit for logical operations.
+   * Fixed compilation USE_CGAL undefined.
+   * Fixed display of human readable rendering time.
+   * Autosize should default to false.
+   * Added ln() and log() functions.
+   * Minor improvement to hull evaluation.
+   * Documentation updates.
+   * Add parameters to modules and added ability to dump builtin modules into ed
+   * Save [as] shortcut Ctrl+[Shift]+S
+   * Added option to auto save when compiling.
+   * Implemented cone module.
+   * Fix for cylinder that can produce a cone when only two unnamed parameters s
+   * Make the tabs closeable.
+
 0.9.0
    * Preliminary support for special variables $fn $fs and $fa.
    * Improve memory management for csg tree nodes.
