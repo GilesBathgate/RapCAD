@@ -206,6 +206,11 @@ Value* Value::operator||(Value& v)
 	return operation(v,Expression::LogicalOr);
 }
 
+Value* Value::operator[](Value& v)
+{
+	return operation(v,Expression::Index);
+}
+
 Value* Value::operator!()
 {
 	return operation(Expression::Invert);
@@ -289,6 +294,8 @@ Value* Value::operation(Value* p_left, Expression::Operator_e e, Value* p_right)
 		return left&&right;
 	case Expression::LogicalOr:
 		return left||right;
+	case Expression::Index:
+		return left[right];
 	default:
 		return &left;
 	}

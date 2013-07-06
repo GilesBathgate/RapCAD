@@ -63,6 +63,7 @@ public:
 	Value* operator>(Value&);
 	Value* operator&&(Value&);
 	Value* operator||(Value&);
+	Value* operator[](Value&);
 	Value* operator!();
 
 	static Value* operation(Value*,Expression::Operator_e);

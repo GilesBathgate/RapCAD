@@ -142,6 +142,8 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 		if(e==Expression::Concatenate) {
 			result=a;
 			result.append(num);
+		} else if(e==Expression::Index) {
+			return a.at(num->getNumber());
 		} else {
 			e=convertOperation(e);
 			for(int i=0; i<a.size(); i++)
