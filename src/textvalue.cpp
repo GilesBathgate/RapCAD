@@ -17,6 +17,7 @@
  */
 
 #include "textvalue.h"
+#include "numbervalue.h"
 
 TextValue::TextValue(QString value)
 {
@@ -39,6 +40,11 @@ Value* TextValue::operation(Value& v,Expression::Operator_e e)
 	TextValue* that=dynamic_cast<TextValue*>(&v);
 	if(that)
 		return new TextValue(operation(this->text,e,that->text));
+
+	NumberValue* num=dynamic_cast<NumberValue*>(&v);
+	if(num)
+		if(e==Expression::Index)
+			return new TextValue(this->text.at(num->getNumber()));
 
 	return Value::operation(v,e);
 }
