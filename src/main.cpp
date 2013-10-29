@@ -15,8 +15,14 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <QtGlobal>
 
-#include <QtGui/QApplication>
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+ #include <QApplication>
+#else
+ #include <QtGui/QApplication>
+#endif
+
 #include <QTextStream>
 #include "mainwindow.h"
 #include "worker.h"

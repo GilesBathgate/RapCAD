@@ -23,7 +23,11 @@
 #-------------------------------------------------
 VERSION = $$cat(VERSION)
 
-QT	+= core gui opengl
+QT  += core gui opengl
+
+greaterThan(QT_MAJOR_VERSION, 4) {
+    QT += widgets
+}
 
 TARGET = rapcad
 TEMPLATE = app
