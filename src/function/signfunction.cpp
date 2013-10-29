@@ -6,7 +6,7 @@ SignFunction::SignFunction() : Function("sign")
 	addParameter("value");
 }
 
-int SignFunction::sign(int num)
+double SignFunction::sign(double num)
 {
 	return num<0?-1.0:num>0?1.0:0.0;
 }
