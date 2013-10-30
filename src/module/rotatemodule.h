@@ -27,6 +27,10 @@ class RotateModule : public Module
 public:
 	RotateModule();
 	Node* evaluate(Context*);
+private:
+	double round(double);
+	double hardSin(double);
+	double hardCos(double);
 };
 
 #endif // ROTATEMODULE_H

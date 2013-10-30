@@ -29,6 +29,23 @@ RotateModule::RotateModule() : Module("rotate")
 	addParameter("vector");
 }
 
+double RotateModule::round(double a)
+{
+	return a<0?ceil(a-0.5):floor(a+0.5);
+}
+
+double RotateModule::hardCos(double a)
+{
+	double ca=cos(a*M_TAU/360.0);
+	return (int)a%90?ca:round(ca);
+}
+
+double RotateModule::hardSin(double a)
+{
+	double sa=sin(a*M_TAU/360.0);
+	return (int)a%90?sa:round(sa);
+}
+
 Node* RotateModule::evaluate(Context* ctx)
 {
 	TransformationNode* n=new TransformationNode();
@@ -57,17 +74,12 @@ Node* RotateModule::evaluate(Context* ctx)
 
 	if(origin) {
 
-		//Convert angles to radians
-		double rx=x*M_TAU/360.0;
-		double ry=y*M_TAU/360.0;
-		double rz=z*M_TAU/360.0;
-
-		double cx = cos(rx);
-		double cy = cos(ry);
-		double cz = cos(rz);
-		double sx = sin(rx);
-		double sy = sin(ry);
-		double sz = sin(rz);
+		double cx = hardCos(x);
+		double cy = hardCos(y);
+		double cz = hardCos(z);
+		double sx = hardSin(x);
+		double sy = hardSin(y);
+		double sz = hardSin(z);
 
 		/*
 		Given the three affine transformation matricies for anti-clockwise
@@ -93,9 +105,8 @@ Node* RotateModule::evaluate(Context* ctx)
 
 	} else {
 
-		double ra=a*M_TAU/360.0;
-		double c=cos(ra);
-		double s=sin(ra);
+		double c=hardCos(a);
+		double s=hardSin(a);
 
 		double mag = sqrt(x*x + y*y + z*z);
 		double u = x/mag;
