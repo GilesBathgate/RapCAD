@@ -138,10 +138,17 @@ void NodeEvaluator::visit(HullNode* n)
 }
 
 #if USE_CGAL
-static CGAL::Point3 offset(const CGAL::Point3& p,CGAL::Kernel3::FT z)
+static CGAL::Point3 transform(const CGAL::Point3& p,CGAL::Kernel3::FT z)
 {
 	z+=p.z();
 	return CGAL::Point3(p.x(),p.y(),z);
+}
+
+static CGAL::Point3 transform(const CGAL::Point3& p,CGAL::Kernel3::FT x,CGAL::Kernel3::FT z)
+{
+	x+=p.x();
+	z+=p.z();
+	return CGAL::Point3(x,p.y(),z);
 }
 #endif
 
@@ -176,8 +183,8 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 
 		foreach(CGALExplorer::HalfEdgeHandle h, explorer.getPerimeter()) {
 			n->createPolygon();
-			n->appendVertex(offset(h->source()->point(),z));
-			n->appendVertex(offset(h->target()->point(),z));
+			n->appendVertex(transform(h->source()->point(),z));
+			n->appendVertex(transform(h->target()->point(),z));
 			n->appendVertex(h->target()->point());
 			n->appendVertex(h->source()->point());
 		}
@@ -187,9 +194,9 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 			bool up =(pg->getNormal().z()>0);
 			foreach(CGAL::Point3 pt,pg->getPoints()) {
 				if(up)
-					n->prependVertex(offset(pt,z));
+					n->prependVertex(transform(pt,z));
 				else
-					n->appendVertex(offset(pt,z));
+					n->appendVertex(transform(pt,z));
 			}
 		}
 
@@ -198,8 +205,33 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 	}
 }
 
-void NodeEvaluator::visit(RotateExtrudeNode*)
+void NodeEvaluator::visit(RotateExtrudeNode* op)
 {
+	evaluate(op,Union);
+
+#if USE_CGAL
+		CGAL::Kernel3::FT z;
+		CGAL::Kernel3::FT x;
+		CGALExplorer explorer(result);
+		CGALPrimitive* prim=explorer.getPrimitive();
+		QList<CGALPolygon*> polys=prim->getPolygons();
+		CGALPrimitive* n = new CGALPrimitive();
+
+		for(int i=0; i<=360; i+=30) {
+			foreach(CGALPolygon* pg,polys) {
+				n->createPolygon();
+				foreach(CGAL::Point3 pt,pg->getPoints()) {
+					CGAL::Kernel3::FT h = pt.x();
+					z=sin(i*M_PI/180.0)*h;
+					x=(cos(i*M_PI/180.0)*h)-h;
+					n->appendVertex(transform(pt,x,z));
+				}
+			}
+		}
+
+
+		result=n->buildPrimitive();
+#endif
 }
 
 void NodeEvaluator::evaluate(Node* op,Operation_e type)
