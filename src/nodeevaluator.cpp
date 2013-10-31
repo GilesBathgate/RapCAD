@@ -210,8 +210,8 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 	evaluate(op,Union);
 
 #if USE_CGAL
-		CGAL::Kernel3::FT z;
-		CGAL::Kernel3::FT x;
+		CGAL::Kernel3::FT r=op->getRadius();;
+		CGAL::Kernel3::FT z,x,h;
 		CGALExplorer explorer(result);
 		CGALPrimitive* prim=explorer.getPrimitive();
 		QList<CGALPolygon*> polys=prim->getPolygons();
@@ -221,9 +221,10 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 			foreach(CGALPolygon* pg,polys) {
 				n->createPolygon();
 				foreach(CGAL::Point3 pt,pg->getPoints()) {
-					CGAL::Kernel3::FT h = pt.x();
+					x=pt.x();
+					h=x+r;
 					z=sin(i*M_PI/180.0)*h;
-					x=(cos(i*M_PI/180.0)*h)-h;
+					x=(cos(i*M_PI/180.0)*h)-x;
 					n->appendVertex(transform(pt,x,z));
 				}
 			}
