@@ -150,6 +150,16 @@ static CGAL::Point3 transform(const CGAL::Point3& p,CGAL::Kernel3::FT x,CGAL::Ke
 	z+=p.z();
 	return CGAL::Point3(x,p.y(),z);
 }
+
+static CGAL::Point3 rotate(const CGAL::Point3& p,int a,CGAL::Kernel3::FT r)
+{
+	CGAL::Kernel3::FT h,x,z;
+	x=p.x();
+	h=x+r;
+	z=sin(a*M_PI/180.0)*h;
+	x=(cos(a*M_PI/180.0)*h)-x;
+	return transform(p,x,z);
+}
 #endif
 
 void NodeEvaluator::visit(LinearExtrudeNode* op)
@@ -210,28 +220,28 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 	evaluate(op,Union);
 
 #if USE_CGAL
-		CGAL::Kernel3::FT r=op->getRadius();;
-		CGAL::Kernel3::FT z,x,h;
-		CGALExplorer explorer(result);
-		CGALPrimitive* prim=explorer.getPrimitive();
-		QList<CGALPolygon*> polys=prim->getPolygons();
-		CGALPrimitive* n = new CGALPrimitive();
+	CGAL::Kernel3::FT r=op->getRadius();
+	CGALExplorer explorer(result);
+	//CGALPrimitive* prim=explorer.getPrimitive();
+	//QList<CGALPolygon*> polys=prim->getPolygons();
+	CGALPrimitive* n = new CGALPrimitive();
 
-		for(int i=0; i<=360; i+=30) {
-			foreach(CGALPolygon* pg,polys) {
-				n->createPolygon();
-				foreach(CGAL::Point3 pt,pg->getPoints()) {
-					x=pt.x();
-					h=x+r;
-					z=sin(i*M_PI/180.0)*h;
-					x=(cos(i*M_PI/180.0)*h)-x;
-					n->appendVertex(transform(pt,x,z));
-				}
-			}
+	for(int a=0; a<=330; a+=30) {
+		foreach(CGALExplorer::HalfEdgeHandle h, explorer.getPerimeter()) {
+			n->createPolygon();
+			CGAL::Point3 q=h->source()->point();
+			CGAL::Point3 p=h->target()->point();
+
+			n->appendVertex(rotate(q,a+30,r));
+			n->appendVertex(rotate(p,a+30,r));
+			n->appendVertex(rotate(p,a,r));
+			n->appendVertex(rotate(q,a,r));
+
 		}
 
+	}
 
-		result=n->buildPrimitive();
+	result=n->buildPrimitive();
 #endif
 }
 
