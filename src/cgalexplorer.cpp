@@ -20,6 +20,7 @@
 #include "float.h"
 #include <QMap>
 #include <CGAL/config.h>
+#include <CGAL/normal_vector_newell_3.h>
 
 CGALExplorer::CGALExplorer(Primitive* p)
 {
@@ -144,6 +145,18 @@ QList<CGALExplorer::HalfEdgeHandle> CGALExplorer::getPerimeter()
 {
 	if(!evaluated) evaluate();
 	return perimeter;
+}
+
+CGAL::Vector3 CGALExplorer::getPerimeterNormal()
+{
+	if(!evaluated) evaluate();
+	CGAL::Vector3 n;
+	QList<CGAL::Point3> pl;
+	foreach(HalfEdgeHandle h, perimeter)
+		pl.append(h->point());
+
+	CGAL::normal_vector_newell_3(pl.begin(),pl.end(),n);
+	return n;
 }
 
 CGALPrimitive* CGALExplorer::getPrimitive()
