@@ -231,9 +231,10 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 			n->createPolygon();
 			CGAL::Point3 q=h->source()->point();
 			CGAL::Point3 p=h->target()->point();
-
-			n->appendVertex(rotate(q,a+30,r));
-			n->appendVertex(rotate(p,a+30,r));
+			int na=a+30;
+			if(na==360) na=0;
+			n->appendVertex(rotate(q,na,r));
+			n->appendVertex(rotate(p,na,r));
 			n->appendVertex(rotate(p,a,r));
 			n->appendVertex(rotate(q,a,r));
 
