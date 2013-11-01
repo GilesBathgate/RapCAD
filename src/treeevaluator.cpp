@@ -234,6 +234,8 @@ void TreeEvaluator::visit(BinaryExpression* exp)
 		case Expression::LogicalOr:
 			shortc=left->isTrue();
 			break;
+		default:
+			break;
 	}
 
 	Value* result;
