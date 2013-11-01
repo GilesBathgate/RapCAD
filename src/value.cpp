@@ -43,12 +43,12 @@ void Value::cleanup()
 
 QList<Value*> Value::values;
 
-void Value::setStorageClass(Variable::StorageClass_e c)
+void Value::setStorage(Variable::Storage_e c)
 {
 	this->storageClass=c;
 }
 
-Variable::StorageClass_e Value::getStorageClass() const
+Variable::Storage_e Value::getStorage() const
 {
 	return storageClass;
 }

@@ -128,7 +128,7 @@ Statement* DependencyBuilder::buildStatement(Variable*,Expression*)
 	return NULL;
 }
 
-Statement* DependencyBuilder::buildStatement(QString*,Variable::StorageClass_e,Expression*)
+Statement* DependencyBuilder::buildStatement(QString*,Variable::Storage_e,Expression*)
 {
 	return NULL;
 }
@@ -318,7 +318,7 @@ Expression* DependencyBuilder::buildVariable(Variable*)
 	return NULL;
 }
 
-Variable* DependencyBuilder::buildVariable(QString*,Variable::StorageClass_e)
+Variable* DependencyBuilder::buildVariable(QString*,Variable::Storage_e)
 {
 	return NULL;
 }

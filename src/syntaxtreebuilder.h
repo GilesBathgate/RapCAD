@@ -66,7 +66,7 @@ public:
 	Statement* buildStatement(Variable*,Expression::Operator_e,Expression*);
 	Statement* buildStatement(QList<Statement*>*);
 	Statement* buildStatement(Variable*,Expression*);
-	Statement* buildStatement(QString*,Variable::StorageClass_e,Expression*);
+	Statement* buildStatement(QString*,Variable::Storage_e,Expression*);
 	Statement* buildReturnStatement(Expression*);
 	Statement* buildIfElseStatement(Expression*,Statement*);
 	Statement* buildIfElseStatement(Expression*,Statement*,Statement*);
@@ -104,7 +104,7 @@ public:
 	Expression* buildLiteral(QString* value);
 	Variable* buildVariable(QString* name);
 	Expression* buildVariable(Variable*);
-	Variable* buildVariable(QString*,Variable::StorageClass_e);
+	Variable* buildVariable(QString*,Variable::Storage_e);
 	Expression* buildExpression(Expression*,QString*);
 	Expression* buildExpression(Expression*);
 	Expression* buildExpression(Expression::Operator_e,Expression*);

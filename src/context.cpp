@@ -124,17 +124,17 @@ void Context::setVariable(Value* v)
 	variables.insert(v->getName(),v);
 }
 
-Value* Context::lookupVariable(QString name,Variable::StorageClass_e& c)
+Value* Context::lookupVariable(QString name,Variable::Storage_e& c)
 {
 	if(variables.contains(name)) {
 		Value* v=variables.value(name);
-		c=v->getStorageClass();
+		c=v->getStorage();
 		return v;
 	} else if(parent) {
 		return parent->lookupVariable(name,c);
 	} else {
 		Value* v=new Value(); //undef
-		v->setStorageClass(c);
+		v->setStorage(c);
 		return v;
 	}
 }
@@ -246,7 +246,7 @@ void Context::addCurrentNode(Node* value)
 Value* Context::getArgumentSpecial(QString name)
 {
 	Value* v=matchArgument(false,false,name);
-	if(v && v->getStorageClass()==Variable::Special)
+	if(v && v->getStorage()==Variable::Special)
 		return v;
 
 	return NULL;

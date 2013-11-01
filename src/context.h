@@ -45,7 +45,7 @@ public:
 	QString getCurrentName();
 	void setCurrentName(QString);
 
-	Value* lookupVariable(QString,Variable::StorageClass_e&);
+	Value* lookupVariable(QString,Variable::Storage_e&);
 	bool addVariable(Value*);
 	void setVariable(Value*);
 
