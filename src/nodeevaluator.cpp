@@ -193,16 +193,18 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 
 		foreach(CGALExplorer::HalfEdgeHandle h, explorer.getPerimeter()) {
 			n->createPolygon();
+			CGAL::Point3 p=h->source()->point();
+			CGAL::Point3 q=h->target()->point();
 			if(explorer.getPerimeterNormal().z()>0) {
-				n->appendVertex(transform(h->source()->point(),z));
-				n->appendVertex(transform(h->target()->point(),z));
-				n->appendVertex(h->target()->point());
-				n->appendVertex(h->source()->point());
+				n->appendVertex(transform(p,z));
+				n->appendVertex(transform(q,z));
+				n->appendVertex(q);
+				n->appendVertex(p);
 			} else {
-				n->prependVertex(transform(h->source()->point(),z));
-				n->prependVertex(transform(h->target()->point(),z));
-				n->prependVertex(h->target()->point());
-				n->prependVertex(h->source()->point());
+				n->prependVertex(transform(p,z));
+				n->prependVertex(transform(q,z));
+				n->prependVertex(q);
+				n->prependVertex(p);
 			}
 		}
 

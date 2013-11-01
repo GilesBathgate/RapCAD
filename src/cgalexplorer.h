@@ -37,6 +37,7 @@ public:
 private:
 	void evaluate();
 	QList<HalfEdgeHandle> perimeter;
+	CGAL::Vector3 perimeterNormal;
 	bool evaluated;
 	CGALPrimitive* primitive;
 };

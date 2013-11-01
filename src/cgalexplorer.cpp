@@ -121,6 +121,7 @@ void CGALExplorer::evaluate()
 		if(it.value()==2)
 			outEdges.append(it.key());
 
+	QList<CGAL::Point3> perimeterPoints;
 	if(outEdges.size()>0) {
 		HalfEdgeHandle current=outEdges.first();
 		bool twin=true;
@@ -131,12 +132,15 @@ void CGALExplorer::evaluate()
 				current->target()->point()==h->source()->point()) {
 					current=h;
 					perimeter.append(h);
+					perimeterPoints.append(h->point());
 					break;
 				}
 			}
 			twin=!twin;
 		} while(perimeter.size()<outEdges.size());
 	}
+
+	CGAL::normal_vector_newell_3(perimeterPoints.begin(),perimeterPoints.end(),perimeterNormal);
 
 	evaluated=true;
 }
@@ -150,13 +154,7 @@ QList<CGALExplorer::HalfEdgeHandle> CGALExplorer::getPerimeter()
 CGAL::Vector3 CGALExplorer::getPerimeterNormal()
 {
 	if(!evaluated) evaluate();
-	CGAL::Vector3 n;
-	QList<CGAL::Point3> pl;
-	foreach(HalfEdgeHandle h, perimeter)
-		pl.append(h->point());
-
-	CGAL::normal_vector_newell_3(pl.begin(),pl.end(),n);
-	return n;
+	return perimeterNormal;
 }
 
 CGALPrimitive* CGALExplorer::getPrimitive()
