@@ -132,7 +132,7 @@ void CGALExplorer::evaluate()
 				current->target()->point()==h->source()->point()) {
 					current=h;
 					perimeter.append(h);
-					perimeterPoints.append(h->point());
+					perimeterPoints.append(h->source()->point());
 					break;
 				}
 			}

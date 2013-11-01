@@ -180,9 +180,10 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 		QList<CGALPolygon*> polys=prim->getPolygons();
 		CGALPrimitive* n = new CGALPrimitive();
 
+		bool up;
 		foreach(CGALPolygon* pg,polys) {
 			n->createPolygon();
-			bool up =(pg->getNormal().z()>0);
+			up=(pg->getNormal().z()>0);
 			foreach(CGAL::Point3 pt,pg->getPoints()) {
 				if(up)
 					n->appendVertex(pt);
@@ -191,11 +192,12 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 			}
 		}
 
+		up=(explorer.getPerimeterNormal().z()>0);
 		foreach(CGALExplorer::HalfEdgeHandle h, explorer.getPerimeter()) {
 			n->createPolygon();
 			CGAL::Point3 p=h->source()->point();
 			CGAL::Point3 q=h->target()->point();
-			if(explorer.getPerimeterNormal().z()>0) {
+			if(up) {
 				n->appendVertex(transform(p,z));
 				n->appendVertex(transform(q,z));
 				n->appendVertex(q);
@@ -210,7 +212,7 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 
 		foreach(CGALPolygon* pg,polys) {
 			n->createPolygon();
-			bool up =(pg->getNormal().z()>0);
+			up=(pg->getNormal().z()>0);
 			foreach(CGAL::Point3 pt,pg->getPoints()) {
 				if(up)
 					n->prependVertex(transform(pt,z));
