@@ -360,6 +360,10 @@ void TreePrinter::visit(Invocation* stmt)
 	result << ")";
 }
 
+void TreePrinter::visit(Callback*)
+{
+}
+
 void TreePrinter::visit(ModuleImport* decl)
 {
 	result << "import <";

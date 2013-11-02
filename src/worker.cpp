@@ -22,6 +22,7 @@
 #include "treeevaluator.h"
 #include "nodeprinter.h"
 #include "nodeevaluator.h"
+#include "callback.h"
 
 #if USE_CGAL
 #include "CGAL/exceptions.h"

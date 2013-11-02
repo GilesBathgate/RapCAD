@@ -238,7 +238,8 @@ SOURCES += \
 	src/function/lnfunction.cpp \
 	src/function/logfunction.cpp \
 	src/module/writemodule.cpp \
-	src/module/writelnmodule.cpp
+	src/module/writelnmodule.cpp \
+	src/callback.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -414,7 +415,8 @@ HEADERS  += \
 	src/function/logfunction.h \
 	src/nullprimitive.h \
 	src/module/writemodule.h \
-	src/module/writelnmodule.h
+	src/module/writelnmodule.h \
+	src/callback.h
 
 FORMS += \
 	src/mainwindow.ui \

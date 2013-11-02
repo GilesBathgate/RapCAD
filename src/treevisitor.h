@@ -41,6 +41,7 @@ public:
 	virtual void visit(class ReturnStatement*)=0;
 	virtual void visit(class TernaryExpression*)=0;
 	virtual void visit(class Invocation*)=0;
+	virtual void visit(class Callback*)=0;
 	virtual void visit(class ModuleImport*)=0;
 	virtual void visit(class ScriptImport*)=0;
 	virtual void visit(class Literal*)=0;

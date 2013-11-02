@@ -418,6 +418,13 @@ void TreeEvaluator::visit(Invocation* stmt)
 	}
 }
 
+void TreeEvaluator::visit(Callback* c)
+{
+	Expression* e = c->getExpression();
+	e->accept(*this);
+	c->setResult(context->getCurrentValue());
+}
+
 void TreeEvaluator::visit(ModuleImport* imp)
 {
 	ImportModule* mod=new ImportModule();
