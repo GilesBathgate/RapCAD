@@ -19,6 +19,7 @@
 #ifndef REPORTER_H
 #define REPORTER_H
 
+#include <QTime>
 #include <QTextStream>
 #include "abstracttokenbuilder.h"
 
@@ -26,11 +27,14 @@ class Reporter
 {
 public:
 	Reporter(QTextStream& s);
+	void startTiming();
+	void reportTiming();
 	void reportSyntaxError(AbstractTokenBuilder*,QString,QString);
 	void reportLexicalError(AbstractTokenBuilder*,QString);
 	void reportFileMissingError(QString);
 private:
 	QTextStream& output;
+	QTime* timer;
 };
 
 #endif // REPORTER_H

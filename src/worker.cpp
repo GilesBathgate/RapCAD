@@ -16,7 +16,6 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QTime>
 #include "worker.h"
 #include "script.h"
 #include "treeprinter.h"
@@ -59,8 +58,7 @@ void Worker::evaluate()
 
 void Worker::doWork()
 {
-	QTime* t = new QTime();
-	t->start();
+	reporter->startTiming();
 
 	Script* s=parse(inputFile,reporter);
 
@@ -102,17 +100,7 @@ void Worker::doWork()
 		exportResult(outputFile);
 	}
 
-	int ticks=t->elapsed();
-	int ms=ticks%1000;
-	ticks/=1000;
-	int secs=ticks%60;
-	ticks/=60;
-	int mins=ticks%60;
-	ticks/=60;
-	int hours=ticks;
-	output << QString("Total rendering time: %1h %2m %3s %4ms.\n").arg(hours).arg(mins).arg(secs).arg(ms);
-	output.flush();
-	delete t; //Need to delete t before finish() call.
+	reporter->reportTiming();
 
 	emit done();
 
