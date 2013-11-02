@@ -36,6 +36,7 @@ Worker::Worker(QTextStream& s, QObject* parent) :
 	QObject(parent),
 	output(s)
 {
+	primitive=NULL;
 	reporter=new Reporter(output);
 }
 
@@ -94,11 +95,11 @@ void Worker::doWork()
 	}
 #endif
 
-	Primitive* result=ne.getResult();
-	if(!result)
+	primitive=ne.getResult();
+	if(!primitive)
 		output << "Warning: No top level object.\n";
 	else if(!outputFile.isEmpty()) {
-		exportResult(result,outputFile);
+		exportResult(outputFile);
 	}
 
 	int ticks=t->elapsed();
@@ -113,7 +114,7 @@ void Worker::doWork()
 	output.flush();
 	delete t; //Need to delete t before finish() call.
 
-	emit done(result);
+	emit done();
 
 	finish();
 }
@@ -122,7 +123,7 @@ void Worker::finish()
 {
 }
 
-void Worker::exportResult(Primitive* primitive, QString fn)
+void Worker::exportResult(QString fn)
 {
 #if USE_CGAL
 	CGALPrimitive* p = dynamic_cast<CGALPrimitive*>(primitive);
@@ -133,7 +134,12 @@ void Worker::exportResult(Primitive* primitive, QString fn)
 #endif
 }
 
-Renderer* Worker::getRenderer(Primitive* primitive)
+bool Worker::resultAvailable()
+{
+	return (primitive!=NULL);
+}
+
+Renderer* Worker::getRenderer()
 {
 #if USE_CGAL
 	CGALPrimitive* p = dynamic_cast<CGALPrimitive*>(primitive);

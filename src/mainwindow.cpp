@@ -22,7 +22,6 @@
 #include <QScrollBar>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "primitive.h"
 #include "renderer.h"
 #include "preferences.h"
 #include "saveitemsdialog.h"
@@ -216,34 +215,34 @@ void MainWindow::grabFrameBuffer()
 
 void MainWindow::exportAsciiSTL()
 {
-	if(primitive) {
+	if(worker->resultAvailable()) {
 		QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
 					 QString(), tr("STL Files (*.stl);;All Files (*)"));
 		if(!fn.endsWith(".stl", Qt::CaseInsensitive))
 			fn.append(".stl");
-		worker->exportResult(primitive,fn);
+		worker->exportResult(fn);
 	}
 }
 
 void MainWindow::exportAMF()
 {
-	if(primitive) {
+	if(worker->resultAvailable()) {
 		QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
 					 QString(), tr("AMF Files (*.amf);;All Files (*)"));
 		if(!fn.endsWith(".amf", Qt::CaseInsensitive))
 			fn.append(".amf");
-		worker->exportResult(primitive,fn);
+		worker->exportResult(fn);
 	}
 }
 
 void MainWindow::exportOFF()
 {
-	if(primitive) {
+	if(worker->resultAvailable()) {
 		QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
 					 QString(), tr("OFF Files (*.stl);;All Files (*)"));
 		if(!fn.endsWith(".off", Qt::CaseInsensitive))
 			fn.append(".off");
-		worker->exportResult(primitive,fn);
+		worker->exportResult(fn);
 	}
 }
 
@@ -321,7 +320,7 @@ void MainWindow::setupConsole()
 	console=new TextEditIODevice(c,this);
 	output=new QTextStream(console);
 	worker=new BackgroundWorker(*output);
-	connect(worker,SIGNAL(done(Primitive*)),this,SLOT(evaluationDone(Primitive*)));
+	connect(worker,SIGNAL(done()),this,SLOT(evaluationDone()));
 }
 
 void MainWindow::clipboardDataChanged()
@@ -495,11 +494,10 @@ void MainWindow::compileAndRender()
 	}
 }
 
-void MainWindow::evaluationDone(Primitive* n)
+void MainWindow::evaluationDone()
 {
-	if(n) {
-		primitive=n;
-		Renderer* r = worker->getRenderer(primitive);
+	if(worker->resultAvailable()) {
+		Renderer* r = worker->getRenderer();
 		ui->view->setRenderer(r);
 	}
 	ui->actionCompileAndRender->setEnabled(true);

@@ -32,11 +32,12 @@ public:
 	Worker(QTextStream&,QObject* parent = 0);
 	void setup(QString,QString,bool);
 	virtual void evaluate();
-	void exportResult(Primitive*,QString);
-	Renderer* getRenderer(Primitive*);
+	void exportResult(QString);
+	bool resultAvailable();
+	Renderer* getRenderer();
 	virtual ~Worker();
 signals:
-	void done(Primitive*);
+	void done();
 protected slots:
 	void doWork();
 protected:
@@ -47,6 +48,7 @@ protected:
 private:
 	QTextStream& output;
 	Reporter* reporter;
+	Primitive* primitive;
 };
 
 #endif // WORKER_H
