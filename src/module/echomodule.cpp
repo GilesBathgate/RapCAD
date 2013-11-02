@@ -18,20 +18,32 @@
 
 #include "echomodule.h"
 #include "context.h"
+#include "textvalue.h"
 
 EchoModule::EchoModule(QTextStream& s) : Module("echo"), output(s)
 {
 }
 
+bool EchoModule::depricateWarning=true;
+
 Node* EchoModule::evaluate(Context* ctx)
 {
+	if(depricateWarning) {
+		output << "Warning: 'echo' module is deprecated please use 'write' or 'writeln'\n";
+		depricateWarning=false;
+	}
+	output << "ECHO: ";
 	QList<Value*> args=ctx->getArguments();
 	for(int i=0; i<args.size(); i++) {
 		if(i>0)
-			output << " ";
+			output << ", ";
 		Value* a=args.at(i);
+		TextValue* t=dynamic_cast<TextValue*>(a);
+		if(t) output << "\"";
 		output << a->getValueString();
+		if(t) output << "\"";
 	}
+	output << "\n";
 
 	return NULL;
 }

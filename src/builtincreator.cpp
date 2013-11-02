@@ -86,6 +86,9 @@
 #include "function/lnfunction.h"
 #include "function/logfunction.h"
 
+#include "module/writemodule.h"
+#include "module/writelnmodule.h"
+
 #include "treeprinter.h"
 
 BuiltinCreator::BuiltinCreator(QTextStream& output)
@@ -125,6 +128,8 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new ResizeModule());
 	builtins.append(new CenterModule());
 	builtins.append(new EchoModule(output));
+	builtins.append(new WriteModule(output));
+	builtins.append(new WriteLnModule(output));
 	builtins.append(new ChildModule());
 	builtins.append(new BoundsModule());
 

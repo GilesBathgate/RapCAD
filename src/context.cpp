@@ -197,7 +197,7 @@ Value* Context::getArgumentDeprecated(int index, QString name, QString deprecate
 	if(!v) {
 		v = matchArgumentIndex(false,false,index,deprecated);
 		if(v)
-			output << "Warning '" << deprecated << "' parameter is deprecated use '" << name << "' instead\n";
+			output << "Warning: '" << deprecated << "' parameter is deprecated use '" << name << "' instead\n";
 	}
 
 	return v;

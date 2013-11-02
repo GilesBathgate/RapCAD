@@ -55,7 +55,7 @@ Primitive* CGALImport::importSTL(QFileInfo fileinfo)
 	CGALPrimitive* p=new CGALPrimitive();
 	QFile f(fileinfo.absoluteFilePath());
 	if(!f.open(QIODevice::ReadOnly)) {
-		output << "WARNING: Can't open import file '" << fileinfo.absoluteFilePath() << "'\n";
+		output << "Warning: Can't open import file '" << fileinfo.absoluteFilePath() << "'\n";
 		return p;
 	}
 
@@ -86,7 +86,7 @@ Primitive* CGALImport::importSTL(QFileInfo fileinfo)
 					}
 				}
 				if(!ok) {
-					output << "WARNING: Can't parse vertex line '" << line << "'\n";
+					output << "Warning: Can't parse vertex line '" << line << "'\n";
 				}
 			}
 		}

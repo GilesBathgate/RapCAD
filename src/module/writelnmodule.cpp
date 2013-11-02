@@ -16,20 +16,15 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ECHOMODULE_H
-#define ECHOMODULE_H
+#include "writelnmodule.h"
 
-#include <QTextStream>
-#include "module.h"
-
-class EchoModule : public Module
+WriteLnModule::WriteLnModule(QTextStream& s) : WriteModule("writeln",s)
 {
-public:
-	EchoModule(QTextStream&);
-	Node* evaluate(Context*);
-private:
-	QTextStream& output;
-	static bool depricateWarning;
-};
+}
 
-#endif // ECHOMODULE_H
+Node* WriteLnModule::evaluate(Context* ctx)
+{
+	WriteModule::evaluate(ctx);
+	output << "\n";
+	return NULL;
+}

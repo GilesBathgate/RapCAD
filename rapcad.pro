@@ -236,7 +236,9 @@ SOURCES += \
 	src/node/slicenode.cpp \
 	src/module/conemodule.cpp \
 	src/function/lnfunction.cpp \
-	src/function/logfunction.cpp
+	src/function/logfunction.cpp \
+	src/module/writemodule.cpp \
+	src/module/writelnmodule.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -410,7 +412,9 @@ HEADERS  += \
 	src/module/conemodule.h \
 	src/function/lnfunction.h \
 	src/function/logfunction.h \
-	src/nullprimitive.h
+	src/nullprimitive.h \
+	src/module/writemodule.h \
+	src/module/writelnmodule.h
 
 FORMS += \
 	src/mainwindow.ui \
