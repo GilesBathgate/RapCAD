@@ -18,6 +18,7 @@
 
 #include <QVector>
 #include "nodeevaluator.h"
+#include "tau.h"
 
 #if USE_CGAL
 #include "cgalimport.h"
@@ -151,13 +152,13 @@ static CGAL::Point3 transform(const CGAL::Point3& p,CGAL::Kernel3::FT x,CGAL::Ke
 	return CGAL::Point3(x,p.y(),z);
 }
 
-static CGAL::Point3 rotate(const CGAL::Point3& p,int a,CGAL::Kernel3::FT r)
+static CGAL::Point3 rotate(const CGAL::Point3& p,double phi,CGAL::Kernel3::FT r)
 {
 	CGAL::Kernel3::FT h,x,z;
 	x=p.x();
 	h=x+r;
-	z=sin(a*M_PI/180.0)*h;
-	x=(cos(a*M_PI/180.0)*h)-x;
+	z=sin(phi)*h;
+	x=(cos(phi)*h)-x;
 	return transform(p,x,z);
 }
 #endif
@@ -236,21 +237,22 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 	//CGALPrimitive* prim=explorer.getPrimitive();
 	//QList<CGALPolygon*> polys=prim->getPolygons();
 	CGALPrimitive* n = new CGALPrimitive();
+	int f = op->getFragments();
+	for(int i=0; i<f; i++) {
+		int j=(i+1)%f;
+		double phi=(M_TAU*i)/f;
+		double nphi=(M_TAU*j)/f;
 
-	for(int a=0; a<=330; a+=30) {
 		foreach(CGALExplorer::HalfEdgeHandle h, explorer.getPerimeter()) {
 			n->createPolygon();
 			CGAL::Point3 q=h->source()->point();
 			CGAL::Point3 p=h->target()->point();
-			int na=a+30;
-			if(na==360) na=0;
-			n->appendVertex(rotate(q,na,r));
-			n->appendVertex(rotate(p,na,r));
-			n->appendVertex(rotate(p,a,r));
-			n->appendVertex(rotate(q,a,r));
 
+			n->appendVertex(rotate(q,nphi,r));
+			n->appendVertex(rotate(p,nphi,r));
+			n->appendVertex(rotate(p,phi,r));
+			n->appendVertex(rotate(q,phi,r));
 		}
-
 	}
 
 	result=n->buildPrimitive();

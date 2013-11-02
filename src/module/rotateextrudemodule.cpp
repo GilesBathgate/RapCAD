@@ -2,7 +2,7 @@
 #include "node/rotateextrudenode.h"
 #include "numbervalue.h"
 
-RotateExtrudeModule::RotateExtrudeModule() : Module("rotate_extrude")
+RotateExtrudeModule::RotateExtrudeModule() : PrimitiveModule("rotate_extrude")
 {
 	addParameter("radius");
 }
@@ -16,6 +16,8 @@ Node* RotateExtrudeModule::evaluate(Context* ctx)
 
 	RotateExtrudeNode* n=new RotateExtrudeNode();
 	n->setRadius(r);
+	int f =getFragments(r,ctx);
+	n->setFragments(f);
 	n->setChildren(ctx->getInputNodes());
 	return n;
 }
