@@ -14,5 +14,8 @@ Node* ChildModule::evaluate(Context* ctx)
 		index=indexValue->getNumber();
 
 	QList<Node*> children=ctx->getInputNodes();
-	return children.at(index);
+	if(index>0&&index<children.length())
+		return children.at(index);
+
+	return NULL;
 }
