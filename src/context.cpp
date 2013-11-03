@@ -149,6 +149,17 @@ void Context::addFunction(Function* func)
 	functions.insert(func->getName(),func);
 }
 
+Node *Context::lookupChild(int index)
+{
+	QList<Node*> children=getInputNodes();
+	if(index>=0&&index<children.length())
+		return children.at(index);
+	if(parent)
+		return parent->lookupChild(index);
+
+	return NULL;
+}
+
 void Context::setArguments(QList<Value*> args, QList<Value*> params)
 {
 	for(int i=0; i<params.size(); i++) {

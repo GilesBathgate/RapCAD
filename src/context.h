@@ -55,6 +55,8 @@ public:
 	Function* lookupFunction(QString);
 	void addFunction(Function*);
 
+	Node* lookupChild(int);
+
 	void setArguments(QList<Value*>,QList<Value*>);
 	QList<Value*> getArguments();
 	void addArgument(Value*);
