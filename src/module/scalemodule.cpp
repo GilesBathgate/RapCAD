@@ -45,12 +45,12 @@ Node* ScaleModule::evaluate(Context* ctx)
 	ref.getXYZ(a,b,c);
 
 	//Derived reference translation using
-	//http://tinyurl.com/3zhnpkw
+	//http://tinyurl.com/nfmph3r
 	double m[16] = {
-		x,0,0,0,
-		0,y,0,0,
-		0,0,z,0,
-		a-(a*x),b-(b*x),c-(c*x),1
+		x,0,0,a-(a*x),
+		0,y,0,b-(b*x),
+		0,0,z,c-(c*x),
+		0,0,0,1
 	};
 
 	TransformationNode* n=new TransformationNode();

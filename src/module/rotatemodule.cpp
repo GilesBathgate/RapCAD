@@ -82,26 +82,27 @@ Node* RotateModule::evaluate(Context* ctx)
 		double sz = hardSin(z);
 
 		/*
-		Given the three affine transformation matricies for anti-clockwise
+		Given the three affine transformation matricies for counter-clockwise
 		rotations
-		Rx = {{1,0,0,0},{0,cos(x),sin(x),0},{0,-sin(x),cos(x),0},{0,0,0,1}}
-		Ry = {{cos(y),0,-sin(y),0},{0,1,0,0},{sin(y),0,cos(y),0},{0,0,0,1}}
-		Rz = {{cos(z),sin(z),0,0},{-sin(z),cos(z),0,0},{0,0,1,0},{0,0,0,1}}
+		Rz = {{cos(z),-sin(z),0,0},{sin(z),cos(z),0,0},{0,0,1,0},{0,0,0,1}}
+		Ry = {{cos(y),0,sin(y),0},{0,1,0,0},{-sin(y),0,cos(y),0},{0,0,0,1}}
+		Rx = {{1,0,0,0},{0,cos(x),-sin(x),0},{0,sin(x),cos(x),0},{0,0,0,1}}
 
-		We can multiply the matrices to give RxRyRz
+		We can multiply the matrices to give RzRyRx
 
 		I cheated and used wolfram alpha to do this:
-		http://tinyurl.com/3m8jmdj
+		http://tinyurl.com/q4utr88
 		*/
-		double RxRyRz[16] = {
-			cy*cz,cy*sz,-sy,0,
-			cz*sx*sy-cx*sz,cx*cz+sx*sy*sz,cy*sx,0,
-			cx*cz*sy+sx*sz,cx*sy*sz-cz*sx,cx*cy,0,
+
+		double RzRyRx[16] = {
+			cy*cz,cz*sx*sy-cx*sz,cx*cz*sy+sx*sz,0,
+			cy*sz,cx*cz+sx*sy*sz,-cz*sx+cx*sy*sz,0,
+			-sy,cy*sx,cx*cy,0,
 			0,0,0,1
 		};
 
 		for(int i=0; i<16; i++)
-			n->matrix[i]=RxRyRz[i];
+			n->matrix[i]=RzRyRx[i];
 
 	} else {
 
@@ -114,9 +115,9 @@ Node* RotateModule::evaluate(Context* ctx)
 		double w = z/mag;
 
 		double TxyTzRaTzTxy[16] = {
-			u*u*(1-c)+c,u*v*(1-c)+w*s,u*w*(1-c)-v*s,0,
-			u*v*(1-c)-w*s,v*v*(1-c)+c,v*w*(1-c)+u*s,0,
-			u*w*(1-c)+v*s,v*w*(1-c)-u*s,w*w*(1-c)+c,0,
+			u*u*(1-c)+c,u*v*(1-c)-w*s,u*w*(1-c)+v*s,0,
+			u*v*(1-c)+w*s,v*v*(1-c)+c,v*w*(1-c)-u*s,0,
+			u*w*(1-c)-v*s,v*w*(1-c)+u*s,w*w*(1-c)+c,0,
 			0,0,0,1
 		};
 
