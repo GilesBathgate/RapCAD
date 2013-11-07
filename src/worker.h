@@ -24,6 +24,7 @@
 #include "primitive.h"
 #include "renderer.h"
 #include "reporter.h"
+#include "renderer.h"
 
 class Worker : public QObject
 {
@@ -49,6 +50,7 @@ private:
 	QTextStream& output;
 	Reporter* reporter;
 	Primitive* primitive;
+	Renderer* render;
 };
 
 #endif // WORKER_H

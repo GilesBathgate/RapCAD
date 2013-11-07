@@ -37,6 +37,7 @@ Worker::Worker(QTextStream& s, QObject* parent) :
 	output(s)
 {
 	primitive=NULL;
+	render=NULL;
 	reporter=new Reporter(output);
 }
 
@@ -130,10 +131,13 @@ bool Worker::resultAvailable()
 
 Renderer* Worker::getRenderer()
 {
+	if(render)
+		delete render;
+
 #if USE_CGAL
 	CGALPrimitive* p = dynamic_cast<CGALPrimitive*>(primitive);
 	if(p)
-		return new CGALRenderer(p);
+		render=new CGALRenderer(p);
 #endif
-	return NULL;
+	return render;
 }
