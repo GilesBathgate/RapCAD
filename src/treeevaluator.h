@@ -48,6 +48,7 @@
 #include "variable.h"
 #include "context.h"
 #include "value.h"
+#include "product.h"
 
 class TreeEvaluator : public TreeVisitor
 {
@@ -79,6 +80,7 @@ public:
 	void visit(Variable*);
 	void visit(CodeDoc*);
 	void visit(Script*);
+	void visit(Product*);
 
 	Node* getRootNode() const;
 private:

@@ -16,28 +16,23 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PRIMITIVE_H
-#define PRIMITIVE_H
+#ifndef PRODUCT_H
+#define PRODUCT_H
 
-#include "point.h"
-#include "polygon.h"
+#include "instance.h"
+#include "primitive.h"
+#include "context.h"
 
-class Primitive
+class Product : public Instance
 {
 public:
-	virtual ~Primitive() {}
-	virtual Polygon* createPolygon()=0;
-	virtual void appendVertex(Point)=0;
-	virtual void prependVertex(Point)=0;
-	virtual Primitive* buildPrimitive()=0;
-	virtual Primitive* join(const Primitive*)=0;
-	virtual Primitive* intersection(const Primitive*)=0;
-	virtual Primitive* difference(const Primitive*)=0;
-	virtual Primitive* symmetric_difference(const Primitive*)=0;
-	virtual Primitive* minkowski(const Primitive*)=0;
-	virtual Primitive* inset(double)=0;
-	virtual Primitive* copy()=0;
-	virtual bool isFullyDimentional()=0;
+	Product();
+	void setPrimitive(Primitive*);
+	Primitive* getPrimitive();
+	void accept(TreeVisitor&);
+	Node* evaluate(Context*);
+private:
+	Primitive* primitive;
 };
 
-#endif // PRIMITIVE_H
+#endif // PRODUCT_H

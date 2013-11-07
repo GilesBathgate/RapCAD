@@ -164,6 +164,11 @@ void NodePrinter::visit(SliceNode* n)
 	printOperation(n,"slice");
 }
 
+void NodePrinter::visit(ProductNode* n)
+{
+	printOperation(n,"product");
+}
+
 void NodePrinter::visit(TransformationNode* n)
 {
 	result << "multmatrix([[";

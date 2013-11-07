@@ -48,6 +48,7 @@
 #include "literal.h"
 #include "variable.h"
 #include "codedoc.h"
+#include "product.h"
 
 class TreePrinter : public TreeVisitor
 {
@@ -79,6 +80,7 @@ public:
 	void visit(Variable*);
 	void visit(CodeDoc*);
 	void visit(Script*);
+	void visit(Product*);
 private:
 	void createIndent();
 	QTextStream& result;

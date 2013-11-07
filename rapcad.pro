@@ -239,7 +239,9 @@ SOURCES += \
 	src/function/logfunction.cpp \
 	src/module/writemodule.cpp \
 	src/module/writelnmodule.cpp \
-	src/callback.cpp
+	src/callback.cpp \
+	src/product.cpp \
+	src/node/productnode.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -416,7 +418,9 @@ HEADERS  += \
 	src/nullprimitive.h \
 	src/module/writemodule.h \
 	src/module/writelnmodule.h \
-	src/callback.h
+	src/callback.h \
+	src/product.h \
+	src/node/productnode.h
 
 FORMS += \
 	src/mainwindow.ui \

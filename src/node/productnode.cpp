@@ -16,28 +16,23 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PRIMITIVE_H
-#define PRIMITIVE_H
+#include "productnode.h"
 
-#include "point.h"
-#include "polygon.h"
-
-class Primitive
+ProductNode::ProductNode()
 {
-public:
-	virtual ~Primitive() {}
-	virtual Polygon* createPolygon()=0;
-	virtual void appendVertex(Point)=0;
-	virtual void prependVertex(Point)=0;
-	virtual Primitive* buildPrimitive()=0;
-	virtual Primitive* join(const Primitive*)=0;
-	virtual Primitive* intersection(const Primitive*)=0;
-	virtual Primitive* difference(const Primitive*)=0;
-	virtual Primitive* symmetric_difference(const Primitive*)=0;
-	virtual Primitive* minkowski(const Primitive*)=0;
-	virtual Primitive* inset(double)=0;
-	virtual Primitive* copy()=0;
-	virtual bool isFullyDimentional()=0;
-};
+}
 
-#endif // PRIMITIVE_H
+void ProductNode::setPrimitive(Primitive* value)
+{
+	primitive=value;
+}
+
+Primitive *ProductNode::getPrimitive()
+{
+	return primitive;
+}
+
+void ProductNode::accept(NodeVisitor& v)
+{
+	v.visit(this);
+}

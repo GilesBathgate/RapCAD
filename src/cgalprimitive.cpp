@@ -152,6 +152,13 @@ Primitive* CGALPrimitive::inset(double amount)
 	return result->buildPrimitive();
 }
 
+Primitive *CGALPrimitive::copy()
+{
+	CGALPrimitive* p=new CGALPrimitive();
+	p->nefPolyhedron=new CGAL::NefPolyhedron3(*nefPolyhedron);
+	return p;
+}
+
 
 void CGALPrimitive::transform(const CGAL::AffTransformation3& t)
 {

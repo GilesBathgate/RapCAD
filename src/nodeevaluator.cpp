@@ -460,6 +460,12 @@ void NodeEvaluator::visit(SliceNode* n)
 #endif
 }
 
+void NodeEvaluator::visit(ProductNode* p)
+{
+	Primitive* prim = p->getPrimitive();
+	result=prim->copy();
+}
+
 Primitive* NodeEvaluator::getResult() const
 {
 	return result;

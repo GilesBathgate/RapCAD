@@ -502,6 +502,14 @@ void TreeEvaluator::visit(Script* sc)
 	b->saveBuiltins(sc);
 }
 
+void TreeEvaluator::visit(Product* p)
+{
+	Node* r=p->evaluate(context);
+	QList<Node*> childnodes=context->getCurrentNodes();
+	childnodes.append(r);
+	context->setCurrentNodes(childnodes);
+}
+
 Node* TreeEvaluator::getRootNode() const
 {
 	return rootNode;

@@ -445,3 +445,7 @@ void TreePrinter::visit(Script* sc)
 		result << "*/\n";
 	}
 }
+
+void TreePrinter::visit(Product*)
+{
+}
