@@ -61,6 +61,7 @@ private slots:
 	bool closeFile(int);
 	void openFile();
 	void compileAndRender();
+	void compileAndGenerate();
 	void evaluationDone();
 	void setTabTitle(const QString&);
 	void undo();
@@ -73,6 +74,7 @@ private slots:
 	void showAbout();
 	void showBuiltins();
 private:
+	void compileOrGenerate(bool generate);
 	void loadPreferences();
 	void savePreferences();
 	void setupLayout();

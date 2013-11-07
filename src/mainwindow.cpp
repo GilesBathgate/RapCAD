@@ -187,6 +187,7 @@ void MainWindow::setupActions()
 	connect(ui->actionShowPrintArea,SIGNAL(triggered(bool)),ui->view,SLOT(setShowPrintArea(bool)));
 	connect(ui->actionShowRulers,SIGNAL(triggered(bool)),ui->view,SLOT(setShowRulers(bool)));
 	connect(ui->actionCompileAndRender,SIGNAL(triggered()),this,SLOT(compileAndRender()));
+	connect(ui->actionGenerateGcode,SIGNAL(triggered()),this,SLOT(compileAndGenerate()));
 	connect(ui->actionPreferences,SIGNAL(triggered()),this,SLOT(showPreferences()));
 	connect(ui->actionExportAsciiSTL,SIGNAL(triggered()),this,SLOT(exportAsciiSTL()));
 	connect(ui->actionExportOFF,SIGNAL(triggered()),this,SLOT(exportOFF()));
@@ -479,6 +480,16 @@ CodeEditor* MainWindow::getEditor(int i)
 
 void MainWindow::compileAndRender()
 {
+	compileOrGenerate(false);
+}
+
+void MainWindow::compileAndGenerate()
+{
+	compileOrGenerate(true);
+}
+
+void MainWindow::compileOrGenerate(bool generate)
+{
 	//Stop the syntax highlighter to prevent a crash
 	//It will start again automatically.
 	CodeEditor* e=currentEditor();
@@ -487,9 +498,10 @@ void MainWindow::compileAndRender()
 	if(maybeSave(true)) {
 		QString file=e->getFileName();
 		if(!file.isEmpty()) {
-			worker->setup(file);
+			worker->setup(file,generate);
 			worker->evaluate();
 			ui->actionCompileAndRender->setEnabled(false);
+			ui->actionGenerateGcode->setEnabled(false);
 		}
 	}
 }
@@ -501,6 +513,7 @@ void MainWindow::evaluationDone()
 		ui->view->setRenderer(r);
 	}
 	ui->actionCompileAndRender->setEnabled(true);
+	ui->actionGenerateGcode->setEnabled(true);
 }
 
 void MainWindow::undo()

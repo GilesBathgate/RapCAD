@@ -86,7 +86,7 @@ int main(int argc, char* argv[])
 
 	if(!useGUI) {
 		Worker b(out);
-		b.setup(inputFile,outputFile,print);
+		b.setup(inputFile,outputFile,print,false);
 		b.evaluate();
 		return 0;
 	} else {

@@ -1,0 +1,5 @@
+function frames() = 32;
+
+module movie(frame){
+   transform([frame,0,0])child(0);
+}

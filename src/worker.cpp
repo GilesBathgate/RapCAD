@@ -17,17 +17,18 @@
  */
 
 #include "worker.h"
-#include "script.h"
 #include "treeprinter.h"
 #include "treeevaluator.h"
 #include "nodeprinter.h"
 #include "nodeevaluator.h"
-#include "callback.h"
+#include "product.h"
+#include "numbervalue.h"
 
 #if USE_CGAL
 #include "CGAL/exceptions.h"
 #include "cgalexport.h"
 #include "cgalrenderer.h"
+#include "cgalexplorer.h"
 #endif
 
 extern Script* parse(QString,Reporter*);
@@ -46,22 +47,50 @@ Worker::~Worker()
 	delete reporter;
 }
 
-void Worker::setup(QString i,QString o,bool p)
+void Worker::setup(QString i,QString o,bool p,bool g)
 {
 	inputFile=i;
 	outputFile=o;
 	print=p;
+	generate=g;
 }
 
 void Worker::evaluate()
 {
-	doWork();
+	evaluateInternal();
 }
 
-void Worker::doWork()
+void Worker::evaluateInternal()
 {
-	reporter->startTiming();
 
+	try {
+		reporter->startTiming();
+
+		primary();
+
+		reporter->reportTiming();
+
+		emit done();
+
+		if(generate)
+			generation();
+
+#if USE_CGAL
+	} catch(CGAL::Assertion_exception e) {
+		output << "What: " << QString::fromStdString(e.what()) << "\n";
+	} catch(...) {
+
+	}
+#else
+	} catch(...) {
+	}
+#endif
+
+	finish();
+}
+
+void Worker::primary()
+{
 	Script* s=parse(inputFile,reporter);
 
 	if(print) {
@@ -83,17 +112,10 @@ void Worker::doWork()
 	}
 
 	NodeEvaluator ne(output);
-	try {
-		n->accept(ne);
-		delete n;
-#if USE_CGAL
-	} catch(CGAL::Assertion_exception e) {
-		output << "What: " << QString::fromStdString(e.what()) << "\n";
-	}
-#else
-	} catch(...) {
-	}
-#endif
+
+	n->accept(ne);
+	delete n;
+
 
 	primitive=ne.getResult();
 	if(!primitive)
@@ -101,12 +123,97 @@ void Worker::doWork()
 	else if(!outputFile.isEmpty()) {
 		exportResult(outputFile);
 	}
+}
 
-	reporter->reportTiming();
+void Worker::generation()
+{
+	Script* s=parse("reprap.rcam",NULL);
 
-	emit done();
+	TreeEvaluator* e = new TreeEvaluator(output);
+	Callback* c = addCallback(s);
+	s->accept(*e);
 
-	finish();
+	NumberValue* v = dynamic_cast<NumberValue*>(c->getResult());
+	if(v) {
+		output << "Layers: " << v->getValueString() << "\n";
+		output.flush();
+
+		double itterations=v->getNumber();
+		Instance* m=addProductInstance(s);
+		for(int i=0; i<=itterations; i++) {
+			if(i>0) {
+				e = new TreeEvaluator(output);
+			}
+			output << "Manufacturing layer: " << i << "\n";
+			output.flush();
+
+			QList<Argument*> args=getArgs(i);
+			m->setArguments(args);
+
+			s->accept(*e);
+			Node* n=e->getRootNode();
+
+			NodeEvaluator* ne = new NodeEvaluator(output);
+			n->accept(*ne);
+			primitive=ne->getResult();
+			delete ne;
+
+			emit done();
+		}
+	}
+	delete e;
+	delete s;
+}
+
+double Worker::getBoundsHeight()
+{
+#if USE_CGAL
+	CGALExplorer explorer(primitive);
+	CGAL::Bbox_3 b=explorer.getBounds();
+	return b.zmax();
+#endif
+	return 1;
+}
+
+Callback* Worker::addCallback(Script* s)
+{
+	double height=getBoundsHeight();
+	Callback* c=new Callback();
+	Invocation* l=new Invocation();
+	QList<Argument*> args=getArgs(height);
+	l->setArguments(args);
+	l->setName("layers");
+	c->setExpression(l);
+	s->addDeclaration(c);
+
+	return c;
+}
+
+QList<Argument*> Worker::getArgs(double value)
+{
+	QList<Argument*> args;
+	Argument* a=new Argument();
+	Variable* var=new Variable();
+	a->setVariable(var);
+	Literal* lit=new Literal();
+	lit->setValue(value);
+	a->setExpression(lit);
+	args.append(a);
+	return args;
+}
+
+Instance* Worker::addProductInstance(Script* s)
+{
+	Instance* m = new Instance();
+	m->setName("manufacture");
+	Product* r=new Product();
+	r->setPrimitive(primitive);
+	QList<Statement*> children;
+	children.append(r);
+	m->setChildren(children);
+	s->addDeclaration(m);
+
+	return m;
 }
 
 void Worker::finish()

@@ -24,6 +24,9 @@
 #include "primitive.h"
 #include "renderer.h"
 #include "reporter.h"
+#include "script.h"
+#include "callback.h"
+#include "instance.h"
 #include "renderer.h"
 
 class Worker : public QObject
@@ -31,7 +34,7 @@ class Worker : public QObject
 	Q_OBJECT
 public:
 	Worker(QTextStream&,QObject* parent = 0);
-	void setup(QString,QString,bool);
+	void setup(QString,QString,bool,bool);
 	virtual void evaluate();
 	void exportResult(QString);
 	bool resultAvailable();
@@ -40,13 +43,20 @@ public:
 signals:
 	void done();
 protected slots:
-	void doWork();
+	void evaluateInternal();
 protected:
 	virtual void finish();
 	QString inputFile;
 	QString outputFile;
 	bool print;
+	bool generate;
 private:
+	void primary();
+	void generation();
+	Instance* addProductInstance(Script*);
+	QList<Argument*> getArgs(double);
+	Callback* addCallback(Script*);
+	double getBoundsHeight();
 	QTextStream& output;
 	Reporter* reporter;
 	Primitive* primitive;
