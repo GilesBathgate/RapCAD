@@ -328,16 +328,11 @@ void NodeEvaluator::visit(OutlineNode* op)
 
 #if USE_CGAL
 	CGALExplorer explorer(result);
-	QList<CGAL::Point3> points = explorer.getPoints();
-
 	CGALPrimitive* cp=new CGALPrimitive();
-	CGAL::Point3 fp;
-	for(int i=0; i<points.size(); i++) {
-		if(i==0)
-			fp=points.at(i);
-		cp->appendVertex(points.at(i));
+	cp->setClosed(true);
+	foreach(CGALExplorer::HalfEdgeHandle h, explorer.getPerimeter()) {
+		cp->appendVertex(h->source()->point());
 	}
-	cp->appendVertex(fp);
 
 	result=cp->buildPrimitive();
 #endif

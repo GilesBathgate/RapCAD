@@ -6,11 +6,17 @@
 
 CGALPrimitive::CGALPrimitive()
 {
+	closed=false;
 }
 
 CGALPrimitive::CGALPrimitive(CGAL::Polyhedron3 poly)
 {
 	nefPolyhedron=new CGAL::NefPolyhedron3(poly);
+}
+
+void CGALPrimitive::setClosed(bool value)
+{
+	closed=value;
 }
 
 Primitive* CGALPrimitive::buildPrimitive()
@@ -23,8 +29,16 @@ Primitive* CGALPrimitive::buildPrimitive()
 		return this;
 	} else if(points.count()>1) {
 		QVector<CGAL::Point3> pl;
-		foreach(CGAL::Point3 pt, points)
+		CGAL::Point3 fp;
+		for(int i=0; i<points.size(); i++) {
+			CGAL::Point3 pt=points.at(i);
+			if(i==0)
+				fp=pt;
 			pl.append(pt);
+		}
+		if(closed)
+			pl.append(fp);
+
 		nefPolyhedron=createPolyline(pl);
 		return this;
 	} else if(points.count()==1){

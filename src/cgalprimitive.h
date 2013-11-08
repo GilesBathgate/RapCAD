@@ -28,6 +28,7 @@ class CGALPrimitive : public Primitive
 public:
 	CGALPrimitive();
 	CGALPrimitive(CGAL::Polyhedron3 poly);
+	void setClosed(bool);
 	Polygon* createPolygon();
 	void appendVertex(Point);
 	void appendVertex(CGAL::Point3);
@@ -52,6 +53,7 @@ private:
 	QList<CGALPolygon*> polygons;
 	QList<CGAL::Point3> points;
 	CGAL::NefPolyhedron3* nefPolyhedron;
+	bool closed;
 };
 
 #endif // CGALPRIMITIVE_H
