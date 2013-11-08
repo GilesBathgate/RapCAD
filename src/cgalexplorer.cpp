@@ -25,13 +25,15 @@
 CGALExplorer::CGALExplorer(Primitive* p)
 {
 	primitive=static_cast<CGALPrimitive*>(p);
-	evaluated=false;
+	haveShells=false;
+	havePerimeter=false;
 }
 
 CGALExplorer::CGALExplorer(CGALPrimitive* p)
 {
 	primitive=p;
-	evaluated=false;
+	haveShells=false;
+	havePerimeter=false;
 }
 
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(3,7,0)
@@ -84,11 +86,10 @@ public:
 	}
 };
 
-void CGALExplorer::evaluate()
+void CGALExplorer::exploreShells()
 {
 	const CGAL::NefPolyhedron3& poly=primitive->getNefPolyhedron();
 	primitive = new CGALPrimitive();
-	QMap<HalfEdgeHandle,int> periMap;
 	HalfFacetIterator f;
 	CGAL_forall_halffacets(f,poly) {
 		bool facet = !f->is_twin();
@@ -109,15 +110,19 @@ void CGALExplorer::evaluate()
 						primitive->appendVertex(sp);
 					}
 					HalfEdgeHandle h=getID(hc->source());
-					periMap[h]++;
+					perimeterMap[h]++;
 				}
 			}
 		}
 	}
+	haveShells=true;
+}
 
+void CGALExplorer::explorePerimeter()
+{
 	QList<HalfEdgeHandle> outEdges;
 	for(QMap<HalfEdgeHandle,int>::iterator
-			it=periMap.begin(); it!=periMap.end(); ++it)
+			it=perimeterMap.begin(); it!=perimeterMap.end(); ++it)
 		if(it.value()==2)
 			outEdges.append(it.key());
 
@@ -142,24 +147,26 @@ void CGALExplorer::evaluate()
 
 	CGAL::normal_vector_newell_3(perimeterPoints.begin(),perimeterPoints.end(),perimeterNormal);
 
-	evaluated=true;
+	havePerimeter=true;
 }
 
 QList<CGALExplorer::HalfEdgeHandle> CGALExplorer::getPerimeter()
 {
-	if(!evaluated) evaluate();
+	if(!haveShells) exploreShells();
+	if(!havePerimeter) explorePerimeter();
 	return perimeter;
 }
 
 CGAL::Vector3 CGALExplorer::getPerimeterNormal()
 {
-	if(!evaluated) evaluate();
+	if(!haveShells) exploreShells();
+	if(!havePerimeter) explorePerimeter();
 	return perimeterNormal;
 }
 
 CGALPrimitive* CGALExplorer::getPrimitive()
 {
-	if(!evaluated) evaluate();
+	if(!haveShells) exploreShells();
 	return primitive;
 }
 
