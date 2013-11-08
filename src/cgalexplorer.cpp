@@ -34,6 +34,7 @@ CGALExplorer::CGALExplorer(CGALPrimitive* p)
 	primitive=p;
 	haveShells=false;
 	havePerimeter=false;
+	havePerimeterNormal=false;
 }
 
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(3,7,0)
@@ -126,7 +127,6 @@ void CGALExplorer::explorePerimeter()
 		if(it.value()==2)
 			outEdges.append(it.key());
 
-	QList<CGAL::Point3> perimeterPoints;
 	if(outEdges.size()>0) {
 		HalfEdgeHandle current=outEdges.first();
 		bool twin=true;
@@ -145,8 +145,6 @@ void CGALExplorer::explorePerimeter()
 		} while(perimeter.size()<outEdges.size());
 	}
 
-	CGAL::normal_vector_newell_3(perimeterPoints.begin(),perimeterPoints.end(),perimeterNormal);
-
 	havePerimeter=true;
 }
 
@@ -161,6 +159,12 @@ CGAL::Vector3 CGALExplorer::getPerimeterNormal()
 {
 	if(!haveShells) exploreShells();
 	if(!havePerimeter) explorePerimeter();
+	if(!havePerimeterNormal) {
+		CGAL::normal_vector_newell_3(perimeterPoints.begin(),perimeterPoints.end(),perimeterNormal);
+
+		havePerimeterNormal=true;
+	}
+
 	return perimeterNormal;
 }
 

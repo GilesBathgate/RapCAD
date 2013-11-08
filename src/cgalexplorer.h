@@ -39,9 +39,11 @@ private:
 	void exploreShells();
 	void explorePerimeter();
 	QList<HalfEdgeHandle> perimeter;
+	QList<CGAL::Point3> perimeterPoints;
 	CGAL::Vector3 perimeterNormal;
 	bool haveShells;
 	bool havePerimeter;
+	bool havePerimeterNormal;
 	CGALPrimitive* primitive;
 	QMap<HalfEdgeHandle,int> perimeterMap;
 };
