@@ -41,7 +41,7 @@ void CGALExport::exportResult(QString filename)
 	if(suffix=="amf")
 		return exportAMF(path);
 	if(suffix=="stl")
-		return exportAsciiSTL_Experimental(path);
+		return exportAsciiSTL(path,true);
 }
 
 void CGALExport::exportOFF(QString filename)
