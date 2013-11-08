@@ -38,7 +38,7 @@ void Reporter::reportTiming()
 	int mins=ticks%60;
 	ticks/=60;
 	int hours=ticks;
-	output << QString("Total rendering time: %1h %2m %3s %4ms.\n").arg(hours).arg(mins).arg(secs).arg(ms);
+	output << QString("Total compiling time: %1h %2m %3s %4ms.\n").arg(hours).arg(mins).arg(secs).arg(ms);
 	output.flush();
 	delete timer; //Need to delete timer.
 }
