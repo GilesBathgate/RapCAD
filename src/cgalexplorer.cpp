@@ -140,7 +140,7 @@ void CGALExplorer::evaluate()
 		} while(perimeter.size()<outEdges.size());
 	}
 
-	CGAL::normal_vector_newell_3(perimeterPoints.begin(),perimeterPoints.end(),perimeterNormal);
+	//CGAL::normal_vector_newell_3(perimeterPoints.begin(),perimeterPoints.end(),perimeterNormal);
 
 	evaluated=true;
 }

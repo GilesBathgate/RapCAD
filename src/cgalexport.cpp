@@ -24,6 +24,7 @@
 #include <QString>
 #include <QXmlStreamWriter>
 #include <CGAL/IO/Polyhedron_iostream.h>
+#include"cgalexplorer.h"
 
 CGALExport::CGALExport(CGALPrimitive* p)
 {
@@ -40,7 +41,7 @@ void CGALExport::exportResult(QString filename)
 	if(suffix=="amf")
 		return exportAMF(path);
 	if(suffix=="stl")
-		return exportAsciiSTL(path,true);
+		return exportAsciiSTL_Experimental(path);
 }
 
 void CGALExport::exportOFF(QString filename)
@@ -124,6 +125,73 @@ void CGALExport::exportAsciiSTL(QString filename, bool precise)
 			output << "    endloop\n";
 			output << "  endfacet\n";
 		} while(hc != he);
+	}
+
+	output << "endsolid RapCAD_Model\n";
+	output.flush();
+	data.close();
+}
+
+void CGALExport::exportAsciiSTL_Experimental(QString filename)
+{
+	CGALExplorer* e=new CGALExplorer(primitive);
+
+	CGALPrimitive* prim=e->getPrimitive();
+
+	QFile data(filename);
+	if(!data.open(QFile::WriteOnly | QFile::Truncate)) {
+		//error
+		return;
+	}
+
+	QTextStream output(&data);
+	//Technically we should not use a precision > 7 since the stl
+	//spec specifies single precision floating points but higher
+	//precisions seem to work with some apps here which is good
+	output.setRealNumberPrecision(16);
+	//smart notation gives the smallest file sizes.
+	output.setRealNumberNotation(QTextStream::SmartNotation);
+
+
+	output << "solid RapCAD_Model\n";
+
+	foreach(CGALPolygon* p, prim->getPolygons()) {
+		QList<CGAL::Point3> points = p->getPoints();
+		if(points.length()>3)
+			return;
+
+		CGAL::Point3 p1,p2,p3;
+		p1=points.at(0);
+		p2=points.at(1);
+		p3=points.at(2);
+		if(p1 == p2 || p1 == p3 || p2 == p3)
+			continue;
+		//Vectors?
+		double x1 = to_double(p1.x());
+		double y1 = to_double(p1.y());
+		double z1 = to_double(p1.z());
+		double x2 = to_double(p2.x());
+		double y2 = to_double(p2.y());
+		double z2 = to_double(p2.z());
+		double x3 = to_double(p3.x());
+		double y3 = to_double(p3.y());
+		double z3 = to_double(p3.z());
+
+		//Is there a library to do cross product?
+		double nx = (y1-y2)*(z1-z3) - (z1-z2)*(y1-y3);
+		double ny = (z1-z2)*(x1-x3) - (x1-x2)*(z1-z3);
+		double nz = (x1-x2)*(y1-y3) - (y1-y2)*(x1-x3);
+		double l = sqrt(nx*nx + ny*ny + nz*nz);
+		const double eps = 0.000001;
+		l = fmax(l,eps);
+		output << "  facet normal " << nx / l << " " << ny / l << " " << nz  / l << "\n";
+		output << "    outer loop\n";
+		output << "      vertex " << x1 << " " << y1 << " " << z1 << "\n";
+		output << "      vertex " << x2 << " " << y2 << " " << z2 << "\n";
+		output << "      vertex " << x3 << " " << y3 << " " << z3 << "\n";
+		output << "    endloop\n";
+		output << "  endfacet\n";
+
 	}
 
 	output << "endsolid RapCAD_Model\n";
