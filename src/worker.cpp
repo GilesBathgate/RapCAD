@@ -78,11 +78,14 @@ void Worker::evaluateInternal()
 #if USE_CGAL
 	} catch(CGAL::Assertion_exception e) {
 		output << "What: " << QString::fromStdString(e.what()) << "\n";
+		output.flush();
+		emit done();
 	} catch(...) {
-
+		emit done();
 	}
 #else
 	} catch(...) {
+		emit done();
 	}
 #endif
 
