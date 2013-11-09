@@ -25,16 +25,13 @@
 CGALExplorer::CGALExplorer(Primitive* p)
 {
 	primitive=static_cast<CGALPrimitive*>(p);
-	haveShells=false;
-	havePerimeter=false;
+	evaluated=false;
 }
 
 CGALExplorer::CGALExplorer(CGALPrimitive* p)
 {
 	primitive=p;
-	haveShells=false;
-	havePerimeter=false;
-	havePerimeterNormal=false;
+	evaluated=false;
 }
 
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(3,7,0)
@@ -87,10 +84,11 @@ public:
 	}
 };
 
-void CGALExplorer::exploreShells()
+void CGALExplorer::evaluate()
 {
 	const CGAL::NefPolyhedron3& poly=primitive->getNefPolyhedron();
 	primitive = new CGALPrimitive();
+	QMap<HalfEdgeHandle,int> periMap;
 	HalfFacetIterator f;
 	CGAL_forall_halffacets(f,poly) {
 		bool facet = !f->is_twin();
@@ -111,22 +109,19 @@ void CGALExplorer::exploreShells()
 						primitive->appendVertex(sp);
 					}
 					HalfEdgeHandle h=getID(hc->source());
-					perimeterMap[h]++;
+					periMap[h]++;
 				}
 			}
 		}
 	}
-	haveShells=true;
-}
 
-void CGALExplorer::explorePerimeter()
-{
 	QList<HalfEdgeHandle> outEdges;
 	for(QMap<HalfEdgeHandle,int>::iterator
-			it=perimeterMap.begin(); it!=perimeterMap.end(); ++it)
+			it=periMap.begin(); it!=periMap.end(); ++it)
 		if(it.value()==2)
 			outEdges.append(it.key());
 
+	QList<CGAL::Point3> perimeterPoints;
 	if(outEdges.size()>0) {
 		HalfEdgeHandle current=outEdges.first();
 		bool twin=true;
@@ -145,32 +140,26 @@ void CGALExplorer::explorePerimeter()
 		} while(perimeter.size()<outEdges.size());
 	}
 
-	havePerimeter=true;
+	CGAL::normal_vector_newell_3(perimeterPoints.begin(),perimeterPoints.end(),perimeterNormal);
+
+	evaluated=true;
 }
 
 QList<CGALExplorer::HalfEdgeHandle> CGALExplorer::getPerimeter()
 {
-	if(!haveShells) exploreShells();
-	if(!havePerimeter) explorePerimeter();
+	if(!evaluated) evaluate();
 	return perimeter;
 }
 
 CGAL::Vector3 CGALExplorer::getPerimeterNormal()
 {
-	if(!haveShells) exploreShells();
-	if(!havePerimeter) explorePerimeter();
-	if(!havePerimeterNormal) {
-		CGAL::normal_vector_newell_3(perimeterPoints.begin(),perimeterPoints.end(),perimeterNormal);
-
-		havePerimeterNormal=true;
-	}
-
+	if(!evaluated) evaluate();
 	return perimeterNormal;
 }
 
 CGALPrimitive* CGALExplorer::getPrimitive()
 {
-	if(!haveShells) exploreShells();
+	if(!evaluated) evaluate();
 	return primitive;
 }
 

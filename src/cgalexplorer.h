@@ -20,7 +20,6 @@
 #define CGALEXPLORER_H
 
 #include <QList>
-#include <QMap>
 #include "cgalprimitive.h"
 
 class CGALExplorer
@@ -36,16 +35,11 @@ public:
 	QList<CGAL::Point3> getPoints();
 	CGAL::Bbox_3 getBounds();
 private:
-	void exploreShells();
-	void explorePerimeter();
+	void evaluate();
 	QList<HalfEdgeHandle> perimeter;
-	QList<CGAL::Point3> perimeterPoints;
 	CGAL::Vector3 perimeterNormal;
-	bool haveShells;
-	bool havePerimeter;
-	bool havePerimeterNormal;
+	bool evaluated;
 	CGALPrimitive* primitive;
-	QMap<HalfEdgeHandle,int> perimeterMap;
 };
 
 #endif // CGALEXPLORER_H
