@@ -241,7 +241,9 @@ SOURCES += \
 	src/module/writelnmodule.cpp \
 	src/callback.cpp \
 	src/product.cpp \
-	src/node/productnode.cpp
+	src/node/productnode.cpp \
+	src/function/radfunction.cpp \
+	src/function/degfunction.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -420,7 +422,9 @@ HEADERS  += \
 	src/module/writelnmodule.h \
 	src/callback.h \
 	src/product.h \
-	src/node/productnode.h
+	src/node/productnode.h \
+	src/function/radfunction.h \
+	src/function/degfunction.h
 
 FORMS += \
 	src/mainwindow.ui \

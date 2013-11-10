@@ -85,6 +85,8 @@
 #include "function/tanhfunction.h"
 #include "function/lnfunction.h"
 #include "function/logfunction.h"
+#include "function/radfunction.h"
+#include "function/degfunction.h"
 
 #include "module/writemodule.h"
 #include "module/writelnmodule.h"
@@ -141,6 +143,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new CeilFunction());
 	builtins.append(new CosFunction());
 	builtins.append(new CoshFunction());
+	builtins.append(new DegFunction());
 	builtins.append(new ExpFunction());
 	builtins.append(new FloorFunction());
 	builtins.append(new LnFunction());
@@ -149,6 +152,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new MaxFunction());
 	builtins.append(new MinFunction());
 	builtins.append(new PowFunction());
+	builtins.append(new RadFunction());
 	builtins.append(new RandFunction());
 	builtins.append(new RoundFunction());
 	builtins.append(new SignFunction());
