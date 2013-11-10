@@ -28,6 +28,7 @@ public:
 	RotateModule();
 	Node* evaluate(Context*);
 private:
+	bool rightAngle(double);
 	double round(double);
 	double hardSin(double);
 	double hardCos(double);

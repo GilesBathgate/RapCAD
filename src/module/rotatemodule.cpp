@@ -34,16 +34,21 @@ double RotateModule::round(double a)
 	return a<0?ceil(a-0.5):floor(a+0.5);
 }
 
+bool RotateModule::rightAngle(double a)
+{
+	return fmod(a,90)==0.0;
+}
+
 double RotateModule::hardCos(double a)
 {
 	double ca=cos(a*M_TAU/360.0);
-	return (int)a%90?ca:round(ca);
+	return rightAngle(a)?round(ca):ca;
 }
 
 double RotateModule::hardSin(double a)
 {
 	double sa=sin(a*M_TAU/360.0);
-	return (int)a%90?sa:round(sa);
+	return rightAngle(a)?round(sa):sa;
 }
 
 Node* RotateModule::evaluate(Context* ctx)
