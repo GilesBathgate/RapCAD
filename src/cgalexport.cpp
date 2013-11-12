@@ -58,6 +58,12 @@ typedef CGAL::Polyhedron3::Vertex_const_iterator VertexIterator;
 typedef CGAL::Polyhedron3::Facet_const_iterator FacetIterator;
 typedef CGAL::Polyhedron3::Halfedge_around_facet_const_circulator HalffacetCirculator;
 
+template<class NT>
+inline NT inexact_sqrt(NT const& n)
+{
+	return NT(sqrt(to_double(n)));
+}
+
 void CGALExport::exportAsciiSTL(QString filename, bool precise)
 {
 	CGAL::Polyhedron3* poly=primitive->getPolyhedron();
@@ -99,7 +105,12 @@ void CGALExport::exportAsciiSTL(QString filename, bool precise)
 			p3=v3.point();
 			if(p1 == p2 || p1 == p3 || p2 == p3)
 				continue;
-			//Vectors?
+
+			CGAL::Vector3 n=CGAL::orthogonal_vector(p1,p2,p3);
+			CGAL::Kernel3::FT ls=n.squared_length();
+			CGAL::Kernel3::FT l=inexact_sqrt(ls);
+			CGAL::Vector3 un=n/l;
+
 			double x1 = to_double(p1.x());
 			double y1 = to_double(p1.y());
 			double z1 = to_double(p1.z());
@@ -109,21 +120,18 @@ void CGALExport::exportAsciiSTL(QString filename, bool precise)
 			double x3 = to_double(p3.x());
 			double y3 = to_double(p3.y());
 			double z3 = to_double(p3.z());
+			double nx=to_double(un.x());
+			double ny=to_double(un.y());
+			double nz=to_double(un.z());
 
-			//Is there a library to do cross product?
-			double nx = (y1-y2)*(z1-z3) - (z1-z2)*(y1-y3);
-			double ny = (z1-z2)*(x1-x3) - (x1-x2)*(z1-z3);
-			double nz = (x1-x2)*(y1-y3) - (y1-y2)*(x1-x3);
-			double l = sqrt(nx*nx + ny*ny + nz*nz);
-			const double eps = 0.000001;
-			l = fmax(l,eps);
-			output << "  facet normal " << nx / l << " " << ny / l << " " << nz  / l << "\n";
+			output << "  facet normal " << nx << " " << ny << " " << nz << "\n";
 			output << "    outer loop\n";
 			output << "      vertex " << x1 << " " << y1 << " " << z1 << "\n";
 			output << "      vertex " << x2 << " " << y2 << " " << z2 << "\n";
 			output << "      vertex " << x3 << " " << y3 << " " << z3 << "\n";
 			output << "    endloop\n";
 			output << "  endfacet\n";
+
 		} while(hc != he);
 	}
 
