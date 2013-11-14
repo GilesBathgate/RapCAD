@@ -47,6 +47,7 @@
 #include "literal.h"
 #include "variable.h"
 #include "context.h"
+#include "layout.h"
 #include "value.h"
 #include "product.h"
 
@@ -83,13 +84,21 @@ public:
 	void visit(Product*);
 
 	Node* getRootNode() const;
+
 private:
 	void startContext(Scope*);
 	void finishContext();
 	Node* createUnion(QList<Node*>);
+	void descend(Scope*);
+	void startLayout(Scope*);
+	void finishLayout();
 
 	Context* context;
+	Layout* layout;
 	QStack<Context*> contextStack;
+	QStack<Layout*> layoutStack;
+	QHash<Scope*,Layout*> scopeLookup;
+	bool descendDone;
 	Node* rootNode;
 	QTextStream& output;
 };

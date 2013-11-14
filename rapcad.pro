@@ -245,7 +245,8 @@ SOURCES += \
 	src/product.cpp \
 	src/node/productnode.cpp \
 	src/function/radfunction.cpp \
-	src/function/degfunction.cpp
+	src/function/degfunction.cpp \
+	src/layout.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -426,7 +427,8 @@ HEADERS  += \
 	src/product.h \
 	src/node/productnode.h \
 	src/function/radfunction.h \
-	src/function/degfunction.h
+	src/function/degfunction.h \
+	layout.h
 
 FORMS += \
 	src/mainwindow.ui \

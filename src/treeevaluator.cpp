@@ -27,12 +27,27 @@ TreeEvaluator::TreeEvaluator(QTextStream& s) : output(s)
 {
 	context=NULL;
 	rootNode=NULL;
+	layout=NULL;
 }
 
 TreeEvaluator::~TreeEvaluator()
 {
 	Value::cleanup();
 	delete context;
+}
+void TreeEvaluator::startLayout(Scope* scp)
+{
+	Layout* parent=layout;
+	layout=new Layout(output);
+	layout->setParent(parent);
+	scopeLookup.insert(scp,layout);
+	layoutStack.push(layout);
+}
+
+void TreeEvaluator::finishLayout()
+{
+	layoutStack.pop();
+	layout=layoutStack.top();
 }
 
 void TreeEvaluator::startContext(Scope* scp)
@@ -93,7 +108,8 @@ void TreeEvaluator::visit(Instance* inst)
 		context->setInputNodes(childnodes);
 	}
 
-	Module* mod = context->lookupModule(name);
+	layout = scopeLookup.value(context->getCurrentScope());
+	Module* mod = layout->lookupModule(name);
 	if(mod) {
 		foreach(Argument* arg, inst->getArguments())
 			arg->accept(*this);
@@ -119,12 +135,44 @@ void TreeEvaluator::visit(Instance* inst)
 
 void TreeEvaluator::visit(Module* mod)
 {
-	context->addModule(mod);
+	if(descendDone)
+		return;
+
+	layout->addModule(mod);
+
+	Scope* scp=mod->getScope();
+	if(scp) {
+		layout->setScope(scp);
+		startLayout(scp);
+		descend(scp);
+		finishLayout();
+	}
+
 }
 
 void TreeEvaluator::visit(Function* func)
 {
-	context->addFunction(func);
+	if(descendDone)
+		return;
+
+	layout->addFunction(func);
+	Scope* scp=func->getScope();
+	if(scp) {
+		layout->setScope(scp);
+		scopeLookup.insert(scp,layout);
+	}
+}
+
+void TreeEvaluator::descend(Scope* scp)
+{
+	foreach(Declaration* d, scp->getDeclarations()) {
+		Module* m = dynamic_cast<Module*>(d);
+		if(m)
+			m->accept(*this);
+		Function* f = dynamic_cast<Function*>(d);
+		if(f)
+			f->accept(*this);
+	}
 }
 
 void TreeEvaluator::visit(FunctionScope* scp)
@@ -394,7 +442,7 @@ void TreeEvaluator::visit(TernaryExpression* exp)
 void TreeEvaluator::visit(Invocation* stmt)
 {
 	QString name = stmt->getName();
-	Function* func = context->lookupFunction(name);
+	Function* func = layout->lookupFunction(name);
 	if(func) {
 		foreach(Argument* arg, stmt->getArguments())
 			arg->accept(*this);
@@ -431,7 +479,7 @@ void TreeEvaluator::visit(ModuleImport* imp)
 	mod->setImport(imp->getImport());
 	mod->setName(imp->getName());
 	//TODO global import args.
-	context->addModule(mod);
+	layout->addModule(mod);
 }
 
 void TreeEvaluator::visit(ScriptImport*)
@@ -451,7 +499,8 @@ void TreeEvaluator::visit(Variable* var)
 	QString name = var->getName();
 	Variable::Storage_e oldStorage=var->getStorage();
 	Variable::Storage_e currentStorage=oldStorage;
-	Value* v=context->lookupVariable(name,currentStorage);
+	layout=scopeLookup.value(context->getCurrentScope());
+	Value* v=context->lookupVariable(name,currentStorage,layout);
 	if(currentStorage!=oldStorage)
 		switch(oldStorage) {
 		case Variable::Const:
@@ -487,6 +536,11 @@ void TreeEvaluator::visit(Script* sc)
 {
 	BuiltinCreator* b=BuiltinCreator::getInstance(output);
 	b->initBuiltins(sc);
+
+	descendDone=false;
+	startLayout(sc);
+	descend(sc);
+	descendDone=true;
 
 	startContext(sc);
 	foreach(Declaration* d, sc->getDeclarations()) {

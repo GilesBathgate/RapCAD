@@ -72,43 +72,6 @@ void Context::setCurrentName(QString value)
 	currentName=value;
 }
 
-Module* Context::lookupModule(QString name)
-{
-	if(!modules.contains(name)) {
-		foreach(Declaration* d,currentScope->getDeclarations()) {
-			Module* mod = dynamic_cast<Module*>(d);
-			if(mod && mod->getName() == name) {
-				modules.insert(name,mod);
-				return mod;
-			}
-		}
-		if(parent)
-			return parent->lookupModule(name);
-	}
-
-	return modules.value(name);
-}
-
-Function* Context::lookupFunction(QString name)
-{
-	if(!functions.contains(name)) {
-		//We are not looking for the function within the function
-		//scope (which is invalid syntax) but rather in the current
-		//scope which could be a module or script
-		foreach(Declaration* d,currentScope->getDeclarations()) {
-			Function* func = dynamic_cast<Function*>(d);
-			if(func && func->getName() == name) {
-				functions.insert(name,func);
-				return func;
-			}
-		}
-		if(parent)
-			return parent->lookupFunction(name);
-	}
-
-	return functions.value(name);
-}
-
 bool Context::addVariable(Value* v)
 {
 	QString name=v->getName();
@@ -124,32 +87,25 @@ void Context::setVariable(Value* v)
 	variables.insert(v->getName(),v);
 }
 
-Value* Context::lookupVariable(QString name,Variable::Storage_e& c)
+Value* Context::lookupVariable(QString name,Variable::Storage_e& c,Layout* l)
 {
 	if(variables.contains(name)) {
-		Value* v=variables.value(name);
-		c=v->getStorage();
-		return v;
+		if(l->inScope(currentScope)) {
+			Value* v=variables.value(name);
+			c=v->getStorage();
+			return v;
+		}
 	} else if(parent) {
-		return parent->lookupVariable(name,c);
-	} else {
-		Value* v=new Value(); //undef
-		v->setStorage(c);
-		return v;
+		return parent->lookupVariable(name,c,l);
 	}
+
+	Value* v=new Value(); //undef
+	v->setStorage(c);
+	return v;
+
 }
 
-void Context::addModule(Module* mod)
-{
-	modules.insert(mod->getName(),mod);
-}
-
-void Context::addFunction(Function* func)
-{
-	functions.insert(func->getName(),func);
-}
-
-Node *Context::lookupChild(int index)
+Node* Context::lookupChild(int index)
 {
 	QList<Node*> children=getInputNodes();
 	if(index>=0&&index<children.length())

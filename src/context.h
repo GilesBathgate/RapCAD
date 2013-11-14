@@ -22,9 +22,9 @@
 #include <QHash>
 #include <QTextStream>
 #include "value.h"
-#include "module.h"
-#include "function.h"
+#include "node.h"
 #include "scope.h"
+#include "layout.h"
 
 class Context
 {
@@ -45,15 +45,9 @@ public:
 	QString getCurrentName();
 	void setCurrentName(QString);
 
-	Value* lookupVariable(QString,Variable::Storage_e&);
+	Value* lookupVariable(QString,Variable::Storage_e&,Layout*);
 	bool addVariable(Value*);
 	void setVariable(Value*);
-
-	Module* lookupModule(QString);
-	void addModule(Module* mod);
-
-	Function* lookupFunction(QString);
-	void addFunction(Function*);
 
 	Node* lookupChild(int);
 
@@ -90,8 +84,6 @@ private:
 	Value* matchArgument(bool,bool,QString);
 	bool match(bool,bool,QString,QString);
 	QHash<QString,Value*> variables;
-	QHash<QString,Module*> modules;
-	QHash<QString,Function*> functions;
 	QTextStream& output;
 };
 
