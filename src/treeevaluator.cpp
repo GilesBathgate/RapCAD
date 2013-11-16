@@ -110,8 +110,8 @@ void TreeEvaluator::visit(Instance* inst)
 		context->setInputNodes(childnodes);
 	}
 
-	layout = scopeLookup.value(context->getCurrentScope());
-	Module* mod = layout->lookupModule(name);
+	Layout* l=scopeLookup.value(context->getCurrentScope());
+	Module* mod = l->lookupModule(name);
 	if(mod) {
 		foreach(Argument* arg, inst->getArguments())
 			arg->accept(*this);
@@ -445,7 +445,8 @@ void TreeEvaluator::visit(TernaryExpression* exp)
 void TreeEvaluator::visit(Invocation* stmt)
 {
 	QString name = stmt->getName();
-	Function* func = layout->lookupFunction(name);
+	Layout* l = scopeLookup.value(context->getCurrentScope());
+	Function* func = l->lookupFunction(name);
 	if(func) {
 		foreach(Argument* arg, stmt->getArguments())
 			arg->accept(*this);
@@ -482,6 +483,11 @@ void TreeEvaluator::visit(ModuleImport* imp)
 	mod->setImport(imp->getImport());
 	mod->setName(imp->getName());
 	//TODO global import args.
+
+	/* Adding the import module to the current layout
+	 * is ok here because we assume import statements
+	 * are at the top level, and that we will be at
+	 * the top level at this point */
 	layout->addModule(mod);
 }
 
@@ -502,8 +508,8 @@ void TreeEvaluator::visit(Variable* var)
 	QString name = var->getName();
 	Variable::Storage_e oldStorage=var->getStorage();
 	Variable::Storage_e currentStorage=oldStorage;
-	layout=scopeLookup.value(context->getCurrentScope());
-	Value* v=context->lookupVariable(name,currentStorage,layout);
+	Layout* l=scopeLookup.value(context->getCurrentScope());
+	Value* v=context->lookupVariable(name,currentStorage,l);
 	if(currentStorage!=oldStorage)
 		switch(oldStorage) {
 		case Variable::Const:
