@@ -28,6 +28,7 @@ TreeEvaluator::TreeEvaluator(QTextStream& s) : output(s)
 	context=NULL;
 	rootNode=NULL;
 	layout=NULL;
+	descendDone=false;
 }
 
 TreeEvaluator::~TreeEvaluator()
@@ -40,6 +41,7 @@ void TreeEvaluator::startLayout(Scope* scp)
 	Layout* parent=layout;
 	layout=new Layout(output);
 	layout->setParent(parent);
+	layout->setScope(scp);
 	scopeLookup.insert(scp,layout);
 	layoutStack.push(layout);
 }
@@ -142,7 +144,6 @@ void TreeEvaluator::visit(Module* mod)
 
 	Scope* scp=mod->getScope();
 	if(scp) {
-		layout->setScope(scp);
 		startLayout(scp);
 		descend(scp);
 		finishLayout();
@@ -158,8 +159,10 @@ void TreeEvaluator::visit(Function* func)
 	layout->addFunction(func);
 	Scope* scp=func->getScope();
 	if(scp) {
-		layout->setScope(scp);
-		scopeLookup.insert(scp,layout);
+		startLayout(scp);
+		/* Functions cannot have nested functions,
+		 * so no need to descend */
+		finishLayout();
 	}
 }
 
