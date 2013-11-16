@@ -66,6 +66,8 @@ win32 {
   }
 }
 
+#LIBS += -Wl,-rpath,./librapcad -L./librapcad -lrapcad
+
 DEFINES+=USE_CGAL
 QMAKE_CXXFLAGS += -frounding-math
 
