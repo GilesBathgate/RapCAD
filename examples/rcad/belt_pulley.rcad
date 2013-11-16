@@ -1,0 +1,64 @@
+/*
+ *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
+ *   Copyright (C) 2010-2013 Giles Bathgate
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+module pulley() {
+ module spur() {
+  linear_extrude(height=20) polygon([[-1,-1],[-1,1],[0.7,0.7],[0.7,-0.7]],[0,1,2,3]);
+ }
+
+ difference() {
+  union()
+  {
+   //base
+   b=1; //BUG rotate extrude doesn't accept r=0 yet!
+   rotate([90,0,0])
+   rotate_extrude(r=b,$fn=30)
+   {
+     square([9-b,8]);
+     square([10-b,7]);
+     translate([9-b,7]) polygon([[0,0],[0,1],[1,0]],[0,1,2]);
+   }
+
+   n_spurs=8;
+   //shaft
+   prism(r=5,h=20,s=n_spurs); //match 8 sides to spurs
+
+   //spurs
+   for(i=[1:n_spurs]) rotate([0,0,i*(360/n_spurs)])
+   translate([5.5,0,0])spur();
+  }
+
+  //shaft hole
+  translate([0,0,-1])cylinder(r=2.5,h=22,$fn=20);
+
+  //captive nut and grub hole
+  translate([0,20,4])rotate([90,0,0])
+  union() {
+   m3_af=5.5; //m3 across flats (max)
+   m3_t=2.4;  //m3 thickness (max)
+   p=13.3; //position of the nut trap
+   //entrance
+   translate([0,-3,p+m3_t/2]) cube([m3_af,6,m3_t],center=true);
+   //nut
+   translate([0,0,p]) rotate([0,0,30])prism(a=m3_af/2,h=m3_t,s=6);
+   //grub hole
+   translate([0,0,9]) cylinder(r=1.5,h=10,$fn=20);
+  }
+ }
+}
+
+translate([30,30,0])pulley();
