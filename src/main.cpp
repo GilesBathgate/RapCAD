@@ -31,11 +31,11 @@
 
 #define STRINGIFY(x) #x
 #define TOSTRING(x) STRINGIFY(x)
-static void version(QTextStream& output)
+static int version(QTextStream& output)
 {
 	output << "RapCAD version: " << TOSTRING(RAPCAD_VERSION) << "\n";
 	output.flush();
-	exit(1);
+	return 0;
 }
 
 static int showUi(int argc, char* argv[],QString filename)
@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
 	bool useGUI=true;
 	QTextStream out(stdout);
 
-	while((opt = getopt(argc, argv, "o:p::v")) != -1) {
+	while((opt = getopt(argc, argv, "o:pv")) != -1) {
 		switch(opt) {
 		case 'o':
 			useGUI=false;
@@ -76,8 +76,7 @@ int main(int argc, char* argv[])
 			print=true;
 			break;
 		case 'v':
-			version(out);
-			break;
+			return version(out);
 		}
 	}
 
