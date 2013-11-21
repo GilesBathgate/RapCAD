@@ -428,7 +428,7 @@ HEADERS  += \
 	src/node/productnode.h \
 	src/function/radfunction.h \
 	src/function/degfunction.h \
-	layout.h
+	src/layout.h
 
 FORMS += \
 	src/mainwindow.ui \
