@@ -45,6 +45,7 @@
 #include "node/pointnode.h"
 #include "node/slicenode.h"
 #include "node/productnode.h"
+#include "node/projectionnode.h"
 
 class NodeEvaluator : public NodeVisitor
 {
@@ -82,6 +83,7 @@ public:
 	void visit(PointNode*);
 	void visit(SliceNode*);
 	void visit(ProductNode*);
+	void visit(ProjectionNode*);
 
 	void evaluate(Node*,Operation_e);
 	Primitive* getResult() const;

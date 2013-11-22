@@ -15,34 +15,17 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#if USE_CGAL
-#ifndef CGALEXPLORER_H
-#define CGALEXPLORER_H
 
-#include <QList>
-#include "cgalprimitive.h"
+#ifndef PROJECTIONMODULE_H
+#define PROJECTIONMODULE_H
 
-class CGALExplorer
+#include "module.h"
+
+class ProjectionModule : public Module
 {
 public:
-	typedef CGAL::NefPolyhedron3::Halfedge_const_handle HalfEdgeHandle;
-
-	CGALExplorer(Primitive*);
-	CGALExplorer(CGALPrimitive*);
-	QList<HalfEdgeHandle> getPerimeter();
-	CGAL::Vector3 getPerimeterNormal();
-	CGALPrimitive* getPrimitive();
-	QList<CGAL::Point3> getPoints();
-	CGAL::Bbox_3 getBounds();
-private:
-	void evaluate();
-	QList<HalfEdgeHandle> perimeter;
-	CGAL::Vector3 perimeterNormal;
-	QList<CGAL::Point3> perimeterPoints;
-	bool evaluated;
-	bool hasPerimeter;
-	CGALPrimitive* primitive;
+	ProjectionModule();
+	Node* evaluate(Context*);
 };
 
-#endif // CGALEXPLORER_H
-#endif
+#endif // PROJECTIONMODULE_H

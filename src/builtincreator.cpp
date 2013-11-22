@@ -57,6 +57,7 @@
 #include "module/centermodule.h"
 #include "module/pointmodule.h"
 #include "module/slicemodule.h"
+#include "module/projectionmodule.h"
 
 #include "function/lengthfunction.h"
 #include "function/sqrtfunction.h"
@@ -104,6 +105,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new PolygonModule());
 	builtins.append(new PolylineModule());
 	builtins.append(new PointModule());
+	builtins.append(new ProjectionModule());
 	builtins.append(new SquareModule());
 	builtins.append(new CircleModule());
 	builtins.append(new CylinderSurfaceModule());

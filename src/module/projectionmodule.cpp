@@ -15,34 +15,20 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#if USE_CGAL
-#ifndef CGALEXPLORER_H
-#define CGALEXPLORER_H
 
-#include <QList>
-#include "cgalprimitive.h"
+#include "projectionmodule.h"
+#include "node/projectionnode.h"
+#include "context.h"
 
-class CGALExplorer
+ProjectionModule::ProjectionModule() : Module("projection")
 {
-public:
-	typedef CGAL::NefPolyhedron3::Halfedge_const_handle HalfEdgeHandle;
+}
 
-	CGALExplorer(Primitive*);
-	CGALExplorer(CGALPrimitive*);
-	QList<HalfEdgeHandle> getPerimeter();
-	CGAL::Vector3 getPerimeterNormal();
-	CGALPrimitive* getPrimitive();
-	QList<CGAL::Point3> getPoints();
-	CGAL::Bbox_3 getBounds();
-private:
-	void evaluate();
-	QList<HalfEdgeHandle> perimeter;
-	CGAL::Vector3 perimeterNormal;
-	QList<CGAL::Point3> perimeterPoints;
-	bool evaluated;
-	bool hasPerimeter;
-	CGALPrimitive* primitive;
-};
+Node* ProjectionModule::evaluate(Context* ctx)
+{
+	ctx->getArgumentDeprecated(0,"cut","'slice' module");
 
-#endif // CGALEXPLORER_H
-#endif
+	ProjectionNode* d = new ProjectionNode();
+	d->setChildren(ctx->getInputNodes());
+	return d;
+}

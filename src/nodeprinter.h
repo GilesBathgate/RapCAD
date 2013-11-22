@@ -43,6 +43,7 @@
 #include "node/pointnode.h"
 #include "node/slicenode.h"
 #include "node/productnode.h"
+#include "node/projectionnode.h"
 
 class NodePrinter : public NodeVisitor
 {
@@ -71,6 +72,7 @@ public:
 	void visit(PointNode*);
 	void visit(SliceNode*);
 	void visit(ProductNode*);
+	void visit(ProjectionNode*);
 private:
 	QTextStream& result;
 };

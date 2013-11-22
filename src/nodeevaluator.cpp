@@ -139,6 +139,11 @@ void NodeEvaluator::visit(HullNode* n)
 }
 
 #if USE_CGAL
+static CGAL::Point3 flatten(const CGAL::Point3& p)
+{
+	return CGAL::Point3(p.x(),p.y(),0);
+}
+
 static CGAL::Point3 transform(const CGAL::Point3& p,CGAL::Kernel3::FT z)
 {
 	z+=p.z();
@@ -459,6 +464,33 @@ void NodeEvaluator::visit(ProductNode* p)
 {
 	Primitive* prim = p->getPrimitive();
 	result=prim->copy();
+}
+
+void NodeEvaluator::visit(ProjectionNode* op)
+{
+	evaluate(op,Union);
+
+#if USE_CGAL
+	CGALExplorer explorer(result);
+	CGALPrimitive* cp=explorer.getPrimitive();
+
+	Primitive* r=new CGALPrimitive();
+	r->buildPrimitive();
+	foreach(CGALPolygon* p, cp->getPolygons()) {
+		CGAL::Vector3 normal=p->getNormal();
+		if(normal.z()==0)
+			continue;
+
+
+		CGALPrimitive* t=new CGALPrimitive();
+		t->createPolygon();
+		foreach(CGAL::Point3 pt,p->getPoints()) {
+			t->appendVertex(flatten(pt));
+		}
+		r=r->join(t->buildPrimitive());
+	}
+	result=r;
+#endif
 }
 
 Primitive* NodeEvaluator::getResult() const

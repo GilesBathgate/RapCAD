@@ -246,7 +246,9 @@ SOURCES += \
 	src/node/productnode.cpp \
 	src/function/radfunction.cpp \
 	src/function/degfunction.cpp \
-	src/layout.cpp
+	src/layout.cpp \
+	src/module/projectionmodule.cpp \
+	src/node/projectionnode.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -428,7 +430,9 @@ HEADERS  += \
 	src/node/productnode.h \
 	src/function/radfunction.h \
 	src/function/degfunction.h \
-	src/layout.h
+	src/layout.h \
+	src/module/projectionmodule.h \
+	src/node/projectionnode.h
 
 FORMS += \
 	src/mainwindow.ui \
