@@ -147,19 +147,6 @@ void MainWindow::setupActions()
 		QIcon::setThemeName("gnome");
 	}
 
-	ui->actionNew->setIcon(QIcon::fromTheme("document-new"));
-	ui->actionOpen->setIcon(QIcon::fromTheme("document-open"));
-	ui->actionSave->setIcon(QIcon::fromTheme("document-save"));
-	ui->actionPrint->setIcon(QIcon::fromTheme("document-print"));
-	ui->actionUndo->setIcon(QIcon::fromTheme("edit-undo"));
-	ui->actionRedo->setIcon(QIcon::fromTheme("edit-redo"));
-	ui->actionCut->setIcon(QIcon::fromTheme("edit-cut"));
-	ui->actionCopy->setIcon(QIcon::fromTheme("edit-copy"));
-	ui->actionPaste->setIcon(QIcon::fromTheme("edit-paste"));
-	ui->actionCompileAndRender->setIcon(QIcon::fromTheme("system-run"));
-	ui->actionGenerateGcode->setIcon(QIcon::fromTheme("format-justify-fill"));
-	ui->actionPreferences->setIcon(QIcon::fromTheme("document-properties"));
-
 	connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newFile()));
 	connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(openFile()));
 	connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(saveFile()));

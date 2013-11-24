@@ -71,7 +71,16 @@
             <enum>QFrame::Raised</enum>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
-            <property name="margin">
+            <property name="leftMargin">
+             <number>2</number>
+            </property>
+            <property name="topMargin">
+             <number>2</number>
+            </property>
+            <property name="rightMargin">
+             <number>2</number>
+            </property>
+            <property name="bottomMargin">
              <number>2</number>
             </property>
             <item>
@@ -272,6 +281,11 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNew">
+   <property name="icon">
+    <iconset theme="document-new">
+     <normaloff/>
+    </iconset>
+   </property>
    <property name="text">
     <string>&amp;New</string>
    </property>
@@ -286,6 +300,11 @@
    </property>
   </action>
   <action name="actionOpen">
+   <property name="icon">
+    <iconset theme="document-open">
+     <normaloff/>
+    </iconset>
+   </property>
    <property name="text">
     <string>&amp;Open...</string>
    </property>
@@ -303,6 +322,9 @@
    </property>
   </action>
   <action name="actionClose">
+   <property name="icon">
+    <iconset theme="window-close"/>
+   </property>
    <property name="text">
     <string>&amp;Close</string>
    </property>
@@ -317,6 +339,11 @@
    </property>
   </action>
   <action name="actionSave">
+   <property name="icon">
+    <iconset theme="document-save">
+     <normaloff/>
+    </iconset>
+   </property>
    <property name="text">
     <string>&amp;Save</string>
    </property>
@@ -331,6 +358,11 @@
    </property>
   </action>
   <action name="actionSaveAs">
+   <property name="icon">
+    <iconset theme="document-save-as">
+     <normaloff/>
+    </iconset>
+   </property>
    <property name="text">
     <string>Save &amp;As...</string>
    </property>
@@ -345,6 +377,9 @@
    </property>
   </action>
   <action name="actionQuit">
+   <property name="icon">
+    <iconset theme="application-exit"/>
+   </property>
    <property name="text">
     <string>&amp;Quit</string>
    </property>
@@ -359,6 +394,11 @@
    </property>
   </action>
   <action name="actionPrint">
+   <property name="icon">
+    <iconset theme="document-print">
+     <normaloff/>
+    </iconset>
+   </property>
    <property name="text">
     <string>&amp;Print...</string>
    </property>
@@ -373,6 +413,11 @@
    </property>
   </action>
   <action name="actionUndo">
+   <property name="icon">
+    <iconset theme="edit-undo">
+     <normaloff/>
+    </iconset>
+   </property>
    <property name="text">
     <string>Undo</string>
    </property>
@@ -387,6 +432,11 @@
    </property>
   </action>
   <action name="actionRedo">
+   <property name="icon">
+    <iconset theme="edit-redo">
+     <normaloff/>
+    </iconset>
+   </property>
    <property name="text">
     <string>Redo</string>
    </property>
@@ -401,6 +451,11 @@
    </property>
   </action>
   <action name="actionCut">
+   <property name="icon">
+    <iconset theme="edit-cut">
+     <normaloff/>
+    </iconset>
+   </property>
    <property name="text">
     <string>Cut</string>
    </property>
@@ -415,6 +470,11 @@
    </property>
   </action>
   <action name="actionCopy">
+   <property name="icon">
+    <iconset theme="edit-copy">
+     <normaloff/>
+    </iconset>
+   </property>
    <property name="text">
     <string>Copy</string>
    </property>
@@ -429,6 +489,11 @@
    </property>
   </action>
   <action name="actionPaste">
+   <property name="icon">
+    <iconset theme="edit-paste">
+     <normaloff/>
+    </iconset>
+   </property>
    <property name="text">
     <string>&amp;Paste</string>
    </property>
@@ -443,6 +508,11 @@
    </property>
   </action>
   <action name="actionCompileAndRender">
+   <property name="icon">
+    <iconset theme="system-run">
+     <normaloff/>
+    </iconset>
+   </property>
    <property name="text">
     <string>Compile and &amp;Render</string>
    </property>
@@ -457,6 +527,11 @@
    </property>
   </action>
   <action name="actionGenerateGcode">
+   <property name="icon">
+    <iconset theme="format-justify-fill">
+     <normaloff/>
+    </iconset>
+   </property>
    <property name="text">
     <string>Generate GCODE</string>
    </property>
@@ -540,6 +615,11 @@
    </property>
   </action>
   <action name="actionPreferences">
+   <property name="icon">
+    <iconset theme="document-properties">
+     <normaloff/>
+    </iconset>
+   </property>
    <property name="text">
     <string>Preferences</string>
    </property>
@@ -679,11 +759,17 @@
    </property>
   </action>
   <action name="actionAbout">
+   <property name="icon">
+    <iconset theme="help-about"/>
+   </property>
    <property name="text">
     <string>About</string>
    </property>
   </action>
   <action name="actionShowBuiltins">
+   <property name="icon">
+    <iconset theme="help"/>
+   </property>
    <property name="text">
     <string>Show Builtins</string>
    </property>
