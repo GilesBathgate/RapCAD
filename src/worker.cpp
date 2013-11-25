@@ -39,6 +39,10 @@ Worker::Worker(QTextStream& s, QObject* parent) :
 {
 	primitive=NULL;
 	render=NULL;
+	inputFile="";
+	outputFile="";
+	print=false;
+	generate=false;
 	reporter=new Reporter(output);
 }
 

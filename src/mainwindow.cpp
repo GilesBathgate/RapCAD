@@ -485,7 +485,7 @@ void MainWindow::compileOrGenerate(bool generate)
 	if(maybeSave(true)) {
 		QString file=e->getFileName();
 		if(!file.isEmpty()) {
-			worker->setup(file,generate);
+			worker->setup(file,"",false,generate);
 			worker->evaluate();
 			ui->actionCompileAndRender->setEnabled(false);
 			ui->actionGenerateGcode->setEnabled(false);

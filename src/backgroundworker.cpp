@@ -21,7 +21,6 @@
 BackgroundWorker::BackgroundWorker(QTextStream& s,QObject* parent) :
 	Worker(s,parent)
 {
-	print=false;
 	thread=new QThread();
 	connect(thread,SIGNAL(started()),this,SLOT(evaluateInternal()));
 	this->moveToThread(thread);
@@ -30,12 +29,6 @@ BackgroundWorker::BackgroundWorker(QTextStream& s,QObject* parent) :
 BackgroundWorker::~BackgroundWorker()
 {
 	delete thread;
-}
-
-void BackgroundWorker::setup(QString f,bool g)
-{
-	inputFile=f;
-	generate=g;
 }
 
 void BackgroundWorker::evaluate()
