@@ -30,6 +30,7 @@
 #include "worker.h"
 #include "getopt.h"
 #include "preferences.h"
+#include "tester.h"
 
 #define STRINGIFY(x) #x
 #define TOSTRING(x) STRINGIFY(x)
@@ -60,6 +61,15 @@ static int showUi(QApplication& a,QString filename)
 	return retcode;
 }
 
+int commandLine(QCoreApplication& a, Worker* b, QString inputFile, QString outputFile,bool print)
+{
+	b->setup(inputFile,outputFile,print,false);
+	b->evaluate();
+	a.quit();
+	return 0;
+}
+
+
 int main(int argc, char* argv[])
 {
 	int opt;
@@ -68,36 +78,37 @@ int main(int argc, char* argv[])
 	bool print=false;
 	bool useGUI=true;
 
-	while((opt = getopt(argc, argv, "o:pv")) != -1) {
+#ifdef SETCODEC
+	QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+#endif
+
+	QTextStream output(stdout);
+	Worker* w;
+
+	while((opt = getopt(argc, argv, "o:pvt")) != -1) {
 		switch(opt) {
-		case 'o':
+		case 'v':
+			return version();
+		case 't':
 			useGUI=false;
-			outputFile=QString(optarg);
+			w=new Tester(output);
 			break;
 		case 'p':
 			print=true;
-			break;
-		case 'v':
-			return version();
+		case 'o':
+			useGUI=false;
+			outputFile=QString(optarg);
+			w=new Worker(output);
 		}
 	}
 
 	inputFile=QString(argv[optind]);
 
-#ifdef SETCODEC
-	QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
-#endif
-
 	if(!useGUI) {
 		QCoreApplication a(argc,argv);
-		QTextStream output(stdout);
-		Worker b(output);
-		b.setup(inputFile,outputFile,print,false);
-		b.evaluate();
-		a.quit();
-		return 0;
+		return commandLine(a,w,inputFile,outputFile,print);
 	} else {
-		QApplication a(argc, argv);
+		QApplication a(argc,argv);
 		return showUi(a,inputFile);
 	}
 }

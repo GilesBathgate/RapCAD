@@ -248,7 +248,8 @@ SOURCES += \
 	src/function/degfunction.cpp \
 	src/layout.cpp \
 	src/module/projectionmodule.cpp \
-	src/node/projectionnode.cpp
+	src/node/projectionnode.cpp \
+	src/tester.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -432,7 +433,8 @@ HEADERS  += \
 	src/function/degfunction.h \
 	src/layout.h \
 	src/module/projectionmodule.h \
-	src/node/projectionnode.h
+	src/node/projectionnode.h \
+	src/tester.h
 
 FORMS += \
 	src/mainwindow.ui \

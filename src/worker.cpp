@@ -31,8 +31,6 @@
 #include "cgalexplorer.h"
 #endif
 
-extern Script* parse(QString,Reporter*);
-
 Worker::Worker(QTextStream& s, QObject* parent) :
 	QObject(parent),
 	output(s)
@@ -88,7 +86,9 @@ void Worker::evaluateInternal()
 		emit done();
 	}
 #else
-	} catch(...) {
+	}
+	catch(...)
+	{
 		emit done();
 	}
 #endif
@@ -137,7 +137,9 @@ void Worker::generation()
 	Script* s=parse("reprap.rcam",NULL);
 
 	TreeEvaluator* e = new TreeEvaluator(output);
-	Callback* c = addCallback(s);
+	double height=getBoundsHeight();
+	QList<Argument*> args=getArgs(height);
+	Callback* c = addCallback("layers",s,args);
 	s->accept(*e);
 
 	NumberValue* v = dynamic_cast<NumberValue*>(c->getResult());
@@ -146,7 +148,7 @@ void Worker::generation()
 		output.flush();
 
 		double itterations=v->getNumber();
-		Instance* m=addProductInstance(s);
+		Instance* m=addProductInstance("manufacture",s);
 		for(int i=0; i<=itterations; i++) {
 			if(i>0) {
 				e = new TreeEvaluator(output);
@@ -182,14 +184,13 @@ double Worker::getBoundsHeight()
 	return 1;
 }
 
-Callback* Worker::addCallback(Script* s)
+Callback* Worker::addCallback(QString name,Script* s,QList<Argument*> args)
 {
-	double height=getBoundsHeight();
 	Callback* c=new Callback();
 	Invocation* l=new Invocation();
-	QList<Argument*> args=getArgs(height);
-	l->setArguments(args);
-	l->setName("layers");
+	if(args.length()>0)
+		l->setArguments(args);
+	l->setName(name);
 	c->setExpression(l);
 	s->addDeclaration(c);
 
@@ -209,10 +210,10 @@ QList<Argument*> Worker::getArgs(double value)
 	return args;
 }
 
-Instance* Worker::addProductInstance(Script* s)
+Instance* Worker::addProductInstance(QString name,Script* s)
 {
 	Instance* m = new Instance();
-	m->setName("manufacture");
+	m->setName(name);
 	Product* r=new Product();
 	r->setPrimitive(primitive);
 	QList<Statement*> children;

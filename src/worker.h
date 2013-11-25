@@ -29,6 +29,8 @@
 #include "instance.h"
 #include "renderer.h"
 
+extern Script* parse(QString,Reporter*);
+
 class Worker : public QObject
 {
 	Q_OBJECT
@@ -46,18 +48,18 @@ protected slots:
 	void evaluateInternal();
 protected:
 	virtual void finish();
+	Instance* addProductInstance(QString,Script*);
+	Callback* addCallback(QString,Script*,QList<Argument*>);
+	QTextStream& output;
 	QString inputFile;
 	QString outputFile;
 	bool print;
 	bool generate;
 private:
+	QList<Argument*> getArgs(double);
 	void primary();
 	void generation();
-	Instance* addProductInstance(Script*);
-	QList<Argument*> getArgs(double);
-	Callback* addCallback(Script*);
 	double getBoundsHeight();
-	QTextStream& output;
 	Reporter* reporter;
 	Primitive* primitive;
 	Renderer* render;
