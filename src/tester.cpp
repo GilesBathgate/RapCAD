@@ -26,24 +26,30 @@ Tester::Tester(QTextStream& s,QObject* parent) : Worker(s,parent)
 
 void Tester::evaluate()
 {
+	QString outputresult;
+	QTextStream nulloutput(&outputresult);
+	int failcount=0;
+	int testcount=0;
 	QDir cur=QDir::current();
 	foreach(inputFile, cur.entryList(QStringList("*.rcad"),QDir::Files)) {
-		output << inputFile << "...";
+		output << inputFile.leftJustified(32,'.',true);
 		Script* s=parse(inputFile,NULL);
-		TreeEvaluator* e = new TreeEvaluator(output);
+		TreeEvaluator* e = new TreeEvaluator(nulloutput);
 		QList<Argument*> args;
 		Callback* c = addCallback("test",s,args);
 		s->accept(*e);
 		BooleanValue* v = dynamic_cast<BooleanValue*>(c->getResult());
 		if(v && v->isTrue()) {
-			output << " PASSED\n";
+			output << " Passed" << endl;
 		} else {
-			output << " FAILED\n";
+			output << " FAILED" << endl;
+			failcount++;
 		}
-		output.flush();
 		delete v;
 		delete e;
 		delete s;
+		testcount++;
 	}
+	output << testcount << " tests run " << failcount << " failed" << endl;
 	finish();
 }
