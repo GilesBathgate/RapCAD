@@ -18,6 +18,7 @@
 
 #include "tester.h"
 #include "treeevaluator.h"
+#include "nodeprinter.h"
 #include "booleanvalue.h"
 
 Tester::Tester(QTextStream& s,QObject* parent) : Worker(s,parent)
@@ -26,30 +27,84 @@ Tester::Tester(QTextStream& s,QObject* parent) : Worker(s,parent)
 
 void Tester::evaluate()
 {
-	QString outputresult;
-	QTextStream nulloutput(&outputresult);
+	reporter->startTiming();
+
+	QString null;
+	QTextStream nullout(&null);
+	QList<Argument*> args;
 	int failcount=0;
 	int testcount=0;
 	QDir cur=QDir::current();
 	foreach(inputFile, cur.entryList(QStringList("*.rcad"),QDir::Files)) {
 		output << inputFile.leftJustified(32,'.',true);
 		Script* s=parse(inputFile,NULL);
-		TreeEvaluator* e = new TreeEvaluator(nulloutput);
-		QList<Argument*> args;
-		Callback* c = addCallback("test",s,args);
-		s->accept(*e);
-		BooleanValue* v = dynamic_cast<BooleanValue*>(c->getResult());
-		if(v && v->isTrue()) {
-			output << " Passed" << endl;
+
+		TreeEvaluator* te = new TreeEvaluator(nullout);
+
+		if(testFunctionExists(s)) {
+			//If a test function exists check it returns true
+			Callback* c = addCallback("test",s,args);
+			s->accept(*te);
+			BooleanValue* v = dynamic_cast<BooleanValue*>(c->getResult());
+			if(v && v->isTrue()) {
+				output << " Passed" << endl;
+			} else {
+				output << " FAILED" << endl;
+				failcount++;
+			}
+			delete v;
 		} else {
-			output << " FAILED" << endl;
-			failcount++;
+			QFile examFile(QFileInfo(inputFile).baseName() + ".exam");
+			s->accept(*te);
+
+			if(examFile.exists()) {
+				QString result;
+				QTextStream resultout(&result);
+				NodePrinter* p = new NodePrinter(resultout);
+				Node* n=te->getRootNode();
+				n->accept(*p);
+
+				examFile.open(QFile::ReadOnly);
+				QTextStream examdata(&examFile);
+
+				//Could probably be more efficient here
+				//but this will do for now.
+				QString exam = examdata.readAll();
+				if(result==exam) {
+					output << " Passed" << endl;
+				} else {
+					output << " FAILED" << endl;
+				}
+			} else {
+				//Create exam file
+				examFile.open(QFile::WriteOnly);
+				QTextStream examout(&examFile);
+				NodePrinter* p = new NodePrinter(examout);
+				Node* n=te->getRootNode();
+				n->accept(*p);
+				examout.flush();
+				examFile.close();
+				output << "Created" << endl;
+			}
 		}
-		delete v;
-		delete e;
+		delete te;
 		delete s;
 		testcount++;
 	}
 	output << testcount << " tests run " << failcount << " failed" << endl;
+	reporter->reportTiming();
 	finish();
+}
+
+bool Tester::testFunctionExists(Script* s)
+{
+	//return true;
+
+	foreach(Declaration* d, s->getDeclarations()) {
+		Function* func=dynamic_cast<Function*>(d);
+		if(func && func->getName()=="test")
+			return true;
+	}
+
+	return false;
 }

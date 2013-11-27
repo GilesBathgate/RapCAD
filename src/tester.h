@@ -27,8 +27,8 @@ class Tester : public Worker
 public:
 	Tester(QTextStream&,QObject* parent = 0);
 	void evaluate();
-	bool getResult();
 private:
+	bool testFunctionExists(Script *s);
 	bool passed;
 };
 

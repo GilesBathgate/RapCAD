@@ -55,12 +55,12 @@ protected:
 	QString outputFile;
 	bool print;
 	bool generate;
+	Reporter* reporter;
 private:
 	QList<Argument*> getArgs(double);
 	void primary();
 	void generation();
 	double getBoundsHeight();
-	Reporter* reporter;
 	Primitive* primitive;
 	Renderer* render;
 };
