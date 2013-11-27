@@ -18,6 +18,7 @@
 
 #include "textvalue.h"
 #include "numbervalue.h"
+#include "booleanvalue.h"
 
 TextValue::TextValue(QString value)
 {
@@ -38,8 +39,13 @@ bool TextValue::isTrue() const
 Value* TextValue::operation(Value& v,Expression::Operator_e e)
 {
 	TextValue* that=dynamic_cast<TextValue*>(&v);
-	if(that)
-		return new TextValue(operation(this->text,e,that->text));
+	if(that) {
+		if(isComparison(e)) {
+			return new BooleanValue(operation(this,e,that));
+		} else {
+			return new TextValue(operation(this->text,e,that->text));
+		}
+	}
 
 	NumberValue* num=dynamic_cast<NumberValue*>(&v);
 	if(num)
@@ -56,5 +62,17 @@ QString TextValue::operation(QString left, Expression::Operator_e e, QString rig
 		return left.append(right);
 	default:
 		return this->text;
+	}
+}
+
+bool TextValue::operation(TextValue* left, Expression::Operator_e e, TextValue* right)
+{
+	switch(e) {
+	case Expression::Equal:
+		return left->text==right->text;
+	case Expression::NotEqual:
+		return left->text!=right->text;
+	default:
+		return basicOperation<bool,bool>(left->isTrue(),e,right->isTrue());
 	}
 }

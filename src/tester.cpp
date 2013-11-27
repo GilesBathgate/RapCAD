@@ -98,8 +98,6 @@ void Tester::evaluate()
 
 bool Tester::testFunctionExists(Script* s)
 {
-	//return true;
-
 	foreach(Declaration* d, s->getDeclarations()) {
 		Function* func=dynamic_cast<Function*>(d);
 		if(func && func->getName()=="test")
