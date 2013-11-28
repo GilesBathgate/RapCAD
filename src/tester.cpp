@@ -63,7 +63,7 @@ void Tester::evaluate()
 				NodePrinter* p = new NodePrinter(resultout);
 				Node* n=te->getRootNode();
 				n->accept(*p);
-
+				delete p;
 				examFile.open(QFile::ReadOnly);
 				QTextStream examdata(&examFile);
 
@@ -74,6 +74,7 @@ void Tester::evaluate()
 					output << " Passed" << endl;
 				} else {
 					output << " FAILED" << endl;
+					failcount++;
 				}
 			} else {
 				//Create exam file
@@ -82,6 +83,7 @@ void Tester::evaluate()
 				NodePrinter* p = new NodePrinter(examout);
 				Node* n=te->getRootNode();
 				n->accept(*p);
+				delete p;
 				examout.flush();
 				examFile.close();
 				output << "Created" << endl;
