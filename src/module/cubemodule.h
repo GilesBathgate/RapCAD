@@ -20,12 +20,17 @@
 #define CUBEMODULE_H
 
 #include "primitivemodule.h"
+#include "node/primitivenode.h"
 
 class CubeModule : public PrimitiveModule
 {
 public:
 	CubeModule();
 	Node* evaluate(Context*);
+private:
+	void makeSideZ(PrimitiveNode*,double,double,double,double,double);
+	void makeSideY(PrimitiveNode*,double,double,double,double,double);
+	void makeSideX(PrimitiveNode*,double,double,double,double,double);
 };
 
 #endif // CUBEMODULE_H

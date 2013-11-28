@@ -17,7 +17,6 @@
  */
 
 #include "cubemodule.h"
-#include "node/primitivenode.h"
 #include "context.h"
 #include "vectorvalue.h"
 
@@ -58,45 +57,55 @@ Node* CubeModule::evaluate(Context* ctx)
 		z2 = z;
 	}
 
-	p->createPolygon(); // top
-	p->appendVertex(x1, y1, z2);
-	p->appendVertex(x2, y1, z2);
-	p->appendVertex(x2, y2, z2);
-	p->appendVertex(x1, y2, z2);
-
-	if(z==0.0)
+	if(x==0.0) {
+		makeSideX(p,x1,y1,y2,z1,z2);
 		return p;
+	}
 
-	p->createPolygon(); // side1
-	p->appendVertex(x1, y1, z1);
-	p->appendVertex(x2, y1, z1);
-	p->appendVertex(x2, y1, z2);
-	p->appendVertex(x1, y1, z2);
+	if(y==0.0) {
+		makeSideY(p,x1,x2,y1,z1,z2);
+		return p;
+	}
 
-	p->createPolygon(); // side2
-	p->appendVertex(x2, y1, z1);
-	p->appendVertex(x2, y2, z1);
-	p->appendVertex(x2, y2, z2);
-	p->appendVertex(x2, y1, z2);
+	if(z==0.0) {
+		makeSideZ(p,x1,x2,y1,y2,z1);
+		return p;
+	}
 
-	p->createPolygon(); // side3
-	p->appendVertex(x2, y2, z1);
-	p->appendVertex(x1, y2, z1);
-	p->appendVertex(x1, y2, z2);
-	p->appendVertex(x2, y2, z2);
-
-	p->createPolygon(); // side4
-	p->appendVertex(x1, y2, z1);
-	p->appendVertex(x1, y1, z1);
-	p->appendVertex(x1, y1, z2);
-	p->appendVertex(x1, y2, z2);
-
-	p->createPolygon(); // bottom
-	p->appendVertex(x1, y2, z1);
-	p->appendVertex(x2, y2, z1);
-	p->appendVertex(x2, y1, z1);
-	p->appendVertex(x1, y1, z1);
+	makeSideZ(p,x1,x2,y1,y2,z2); //Top   (use z2)
+	makeSideY(p,x1,x2,y1,z1,z2); //Side1 (use y1)
+	makeSideX(p,x2,y1,y2,z1,z2); //Side2 (use x2)
+	makeSideY(p,x2,x1,y2,z1,z2); //Side3 (use y2) (swap x1 <--> x2)
+	makeSideX(p,x1,y2,y1,z1,z2); //Side4 (use x1) (swap y1 <--> y2)
+	makeSideZ(p,x1,x2,y2,y1,z1); //Top   (use z1) (swap y1 <--> y2)
 
 	return p;
 
+}
+
+void CubeModule::makeSideZ(PrimitiveNode* p,double x1,double x2,double y1,double y2,double z)
+{
+	p->createPolygon(); // sideZ
+	p->appendVertex(x1, y1, z);
+	p->appendVertex(x2, y1, z);
+	p->appendVertex(x2, y2, z);
+	p->appendVertex(x1, y2, z);
+}
+
+void CubeModule::makeSideY(PrimitiveNode* p,double x1,double x2,double y,double z1,double z2)
+{
+	p->createPolygon(); // sideY
+	p->appendVertex(x1, y, z1);
+	p->appendVertex(x2, y, z1);
+	p->appendVertex(x2, y, z2);
+	p->appendVertex(x1, y, z2);
+}
+
+void CubeModule::makeSideX(PrimitiveNode* p,double x,double y1,double y2,double z1,double z2)
+{
+	p->createPolygon(); // sideX
+	p->appendVertex(x, y1, z1);
+	p->appendVertex(x, y2, z1);
+	p->appendVertex(x, y2, z2);
+	p->appendVertex(x, y1, z2);
 }
