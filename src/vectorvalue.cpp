@@ -146,6 +146,8 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			int i=num->getNumber();
 			if(i>=0&&i<a.length())
 				return a.at(i);
+			else
+				return new Value();
 		} else {
 			e=convertOperation(e);
 			for(int i=0; i<a.size(); i++)
