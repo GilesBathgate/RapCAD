@@ -1,0 +1,4 @@
+function test_function(a=1,b=2) {
+return a==1&&b==2;
+}
+function test() = test_function();

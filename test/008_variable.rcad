@@ -1,0 +1,5 @@
+function test() {
+a=b;
+b=true;
+return a==undef;
+}

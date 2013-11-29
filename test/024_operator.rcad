@@ -1,0 +1,5 @@
+function test() {
+a="a";
+a~="b";
+return a=="ab";
+}

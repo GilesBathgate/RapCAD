@@ -1,0 +1,4 @@
+function test() {
+a="a"~"b";
+return a=="ab";
+}

@@ -1,0 +1,4 @@
+function test() {
+a=2^8;
+return a==256;
+}

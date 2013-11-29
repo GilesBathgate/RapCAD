@@ -1,0 +1,4 @@
+function test() {
+a=1.0000001;
+return a!=1.0;
+}

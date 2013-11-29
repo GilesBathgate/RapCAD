@@ -1,0 +1,5 @@
+function test() {
+a=rad(90);
+b=sin(a);
+return b==1;
+}

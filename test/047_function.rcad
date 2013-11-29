@@ -1,0 +1,7 @@
+module foo() {
+function test_function() = true;
+}
+function test() {
+a=test_function();
+return a==undef;
+}

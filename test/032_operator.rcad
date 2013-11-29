@@ -1,0 +1,5 @@
+function test() {
+a=[true,false];
+b=!a;
+return b==[false,true];
+}

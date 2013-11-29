@@ -1,8 +1,0 @@
-module foo()
-{
-    a=bar::foo();
-}
-
-bar::baz();
-
-function b() = bar::b();

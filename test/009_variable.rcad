@@ -1,0 +1,6 @@
+a=false;
+
+function test() {
+a=true;
+return a;
+}

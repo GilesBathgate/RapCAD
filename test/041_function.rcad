@@ -1,0 +1,2 @@
+function test_function(a) = a;
+function test() = test_function(true);

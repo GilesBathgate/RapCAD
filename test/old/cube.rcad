@@ -1,9 +1,0 @@
-cube([10,10,10],center=true);
-cube([10,10,10],center=false);
-cube([10,10,10]);
-cube([10,10,10],c=true);
-cube([10,10,10],c=false);
-cube(s=[10,10,10]);
-cube(size=[10,10,10]);
-cube(c=true,size=[10,10,10]);
-cube(center=true,s=[10,10,10]);
