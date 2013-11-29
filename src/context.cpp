@@ -120,17 +120,24 @@ void Context::setArguments(QList<Value*> args, QList<Value*> params)
 {
 	for(int i=0; i<params.size(); i++) {
 		Value* val=params.at(i);
+		bool found=false;
 		QString paramName=val->getName();
-		for(int j=0; j<args.size(); j++) {
-			Value* arg=args.at(j);
+		foreach(Value* arg,args) {
 			QString argName=arg->getName();
-			if((i==j && argName.isEmpty()) || argName==paramName) {
-				if(arg->isDefined()) {
-					val=arg;
-					break;
-				}
+			if(arg->isDefined()&&argName==paramName) {
+				val=arg;
+				found=true;
+				break;
 			}
 		}
+		if(!found&&i<args.size()) {
+			Value* arg=args.at(i);
+			QString argName=arg->getName();
+			if(arg->isDefined()&&argName.isEmpty()) {
+				val=arg;
+			}
+		}
+
 		variables.insert(paramName,val);
 	}
 }
