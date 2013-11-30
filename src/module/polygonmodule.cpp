@@ -25,11 +25,11 @@ Node* PolygonModule::evaluate(Context* ctx)
 	//This is to remove the need for double vector syntax in the lines argument
 	// e.g. lines=[[0,1,2,3]] can just be writtern as lines=[0,1,2,3]
 	VectorValue* line=NULL;
-	if(lines.count()>1)
+	if(lines.count()>0)
 		line=dynamic_cast<VectorValue*>(lines.at(0));
 	if(!line)
 		line=linesVec;
-	else
+	if(!line)
 		return p;
 
 	p->createPolygon();
