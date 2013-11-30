@@ -116,13 +116,13 @@ Node* Context::lookupChild(int index)
 	return NULL;
 }
 
-void Context::setArguments(QList<Value*> args, QList<Value*> params)
+void Context::setVariablesFromArguments()
 {
-	for(int i=0; i<params.size(); i++) {
-		Value* val=params.at(i);
+	for(int i=0; i<parameters.size(); i++) {
+		Value* val=parameters.at(i);
 		bool found=false;
 		QString paramName=val->getName();
-		foreach(Value* arg,args) {
+		foreach(Value* arg,arguments) {
 			QString argName=arg->getName();
 			if(arg->isDefined()&&argName==paramName) {
 				val=arg;
@@ -130,8 +130,8 @@ void Context::setArguments(QList<Value*> args, QList<Value*> params)
 				break;
 			}
 		}
-		if(!found&&i<args.size()) {
-			Value* arg=args.at(i);
+		if(!found&&i<arguments.size()) {
+			Value* arg=arguments.at(i);
 			QString argName=arg->getName();
 			if(arg->isDefined()&&argName.isEmpty()) {
 				val=arg;
@@ -175,11 +175,6 @@ Value* Context::getArgumentDeprecated(int index, QString name, QString deprecate
 	}
 
 	return v;
-}
-
-QList<Value*> Context::getParameters()
-{
-	return parameters;
 }
 
 void Context::clearParameters()

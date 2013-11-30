@@ -1,0 +1,6 @@
+function test_function2(b) = b+1;
+function test_function(a,b) = b+1;
+function test() {
+c=test_function(a=1,b=test_function2(5));
+return c==7;
+}

@@ -72,14 +72,7 @@ void TreeEvaluator::finishContext()
 
 void TreeEvaluator::visit(ModuleScope* scp)
 {
-	QList<Value*> arguments = context->getArguments();
-	QList<Value*> parameters = context->getParameters();
-	QList<Node*> childnodes = context->getInputNodes();
-
-	startContext(scp);
-
-	context->setArguments(arguments,parameters);
-	context->setInputNodes(childnodes);
+	context->setVariablesFromArguments();
 
 	foreach(Declaration* d, scp->getDeclarations()) {
 		d->accept(*this);
@@ -87,52 +80,58 @@ void TreeEvaluator::visit(ModuleScope* scp)
 
 	if(context->getReturnValue())
 		output << "Warning: return statement not valid inside module scope.\n";
-
-	//"pop" our child nodes.
-	childnodes=context->getCurrentNodes();
-	finishContext();
-
-	Node* n=createUnion(childnodes);
-	context->addCurrentNode(n);
 }
 
 void TreeEvaluator::visit(Instance* inst)
 {
 	QString name = inst->getName();
-
+	Scope* c=context->getCurrentScope();
+	QList<Node*> childnodes;
 	QList <Statement*> stmts = inst->getChildren();
 	if(stmts.size()>0) {
-		startContext(context->getCurrentScope());
+		startContext(c);
 
 		foreach(Statement* s,stmts) {
 			s->accept(*this);
 		}
-		//"pop" our child nodes.
-		QList<Node*> childnodes=context->getCurrentNodes();
+
+		childnodes=context->getCurrentNodes();
 		finishContext();
-		context->setInputNodes(childnodes);
 	}
 
-	Layout* l=scopeLookup.value(context->getCurrentScope());
+	Layout* l=scopeLookup.value(c);
 	Module* mod = l->lookupModule(name);
 	if(mod) {
+		Scope* scp = mod->getScope();
+		if(scp)
+			startContext(scp);
+		else
+			startContext(c);
+
+		context->setInputNodes(childnodes);
+
 		foreach(Argument* arg, inst->getArguments())
 			arg->accept(*this);
 
 		foreach(Parameter* p, mod->getParameters())
 			p->accept(*this);
 
-		Scope* scp = mod->getScope();
+		Node* node=NULL;
 		if(scp) {
 			scp->accept(*this);
+			childnodes=context->getCurrentNodes();
+			node=createUnion(childnodes);
 		} else {
-			Node* node=mod->evaluate(context);
-			if(node)
-				context->addCurrentNode(node);
+			node=mod->evaluate(context);
 		}
 
 		context->clearArguments();
 		context->clearParameters();
+
+		finishContext();
+		if(node)
+			context->addCurrentNode(node);
+
 	} else {
 		output << "Warning: cannot find module '" << name << "'.\n";
 	}
@@ -183,12 +182,7 @@ void TreeEvaluator::descend(Scope* scp)
 
 void TreeEvaluator::visit(FunctionScope* scp)
 {
-	QList<Value*> arguments = context->getArguments();
-	QList<Value*> parameters = context->getParameters();
-
-	startContext(scp);
-
-	context->setArguments(arguments,parameters);
+	context->setVariablesFromArguments();
 
 	Expression* e=scp->getExpression();
 	if(e) {
@@ -201,14 +195,6 @@ void TreeEvaluator::visit(FunctionScope* scp)
 				break;
 		}
 	}
-
-	//"pop" our return value
-	Value* v = context->getReturnValue();
-	if(!v)
-		v=new Value();
-
-	finishContext();
-	context->setCurrentValue(v);
 }
 
 void TreeEvaluator::visit(CompoundStatement* stmt)
@@ -448,26 +434,39 @@ void TreeEvaluator::visit(TernaryExpression* exp)
 void TreeEvaluator::visit(Invocation* stmt)
 {
 	QString name = stmt->getName();
-	Layout* l = scopeLookup.value(context->getCurrentScope());
+	Scope* c=context->getCurrentScope();
+	Layout* l = scopeLookup.value(c);
 	Function* func = l->lookupFunction(name);
 	if(func) {
+		Scope* scp = func->getScope();
+		if(scp)
+			startContext(scp);
+		else
+			startContext(c);
+
 		foreach(Argument* arg, stmt->getArguments())
 			arg->accept(*this);
 
 		foreach(Parameter* p, func->getParameters())
 			p->accept(*this);
 
-		Scope* scp = func->getScope();
+		Value* result=NULL;
 		if(scp) {
 			scp->accept(*this);
+			result=context->getReturnValue();
+			if(!result)
+				result=new Value();
 		} else {
-			Value* result=func->evaluate(context);
-			if(result)
-				context->setCurrentValue(result);
+			result=func->evaluate(context);
 		}
 
 		context->clearArguments();
 		context->clearParameters();
+
+		finishContext();
+		if(result)
+			context->setCurrentValue(result);
+
 	} else {
 		output << "Warning: cannot find function '" << name << "'.\n";
 	}

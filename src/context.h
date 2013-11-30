@@ -51,7 +51,7 @@ public:
 
 	Node* lookupChild(int);
 
-	void setArguments(QList<Value*>,QList<Value*>);
+	void setVariablesFromArguments();
 	QList<Value*> getArguments();
 	void addArgument(Value*);
 	void clearArguments();
@@ -60,7 +60,6 @@ public:
 	Value* getArgumentSpecial(QString);
 	Value* getArgumentDeprecated(int,QString,QString);
 
-	QList<Value*> getParameters();
 	void clearParameters();
 	void addParameter(Value*);
 
