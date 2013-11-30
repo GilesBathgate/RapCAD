@@ -43,6 +43,11 @@ void Script::addDeclaration(Declaration* dec)
 	declarations.prepend(dec);
 }
 
+void Script::appendDeclaration(Declaration* dec)
+{
+	declarations.append(dec);
+}
+
 void Script::removeDeclaration(Declaration* dec)
 {
 	declarations.removeAll(dec);

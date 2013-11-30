@@ -33,6 +33,7 @@ public:
 	void setDeclarations(QList<Declaration*>);
 	QList<Declaration*> getDeclarations() const;
 	void addDeclaration(Declaration*);
+	void appendDeclaration(Declaration*);
 	void removeDeclaration(Declaration*);
 	void addDocumentation(QList<CodeDoc*>);
 	QList<QList<CodeDoc*> > getDocumentation();

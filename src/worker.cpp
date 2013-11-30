@@ -192,7 +192,7 @@ Callback* Worker::addCallback(QString name,Script* s,QList<Argument*> args)
 		l->setArguments(args);
 	l->setName(name);
 	c->setExpression(l);
-	s->addDeclaration(c);
+	s->appendDeclaration(c);
 
 	return c;
 }
