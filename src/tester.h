@@ -29,7 +29,6 @@ public:
 	void evaluate();
 private:
 	bool testFunctionExists(Script *s);
-	bool passed;
 };
 
 #endif // TESTER_H

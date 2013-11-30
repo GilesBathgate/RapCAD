@@ -35,6 +35,7 @@ TreeEvaluator::~TreeEvaluator()
 {
 	Value::cleanup();
 	delete context;
+	delete layout;
 }
 void TreeEvaluator::startLayout(Scope* scp)
 {

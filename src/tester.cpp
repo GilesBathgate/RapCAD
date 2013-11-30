@@ -63,6 +63,7 @@ void Tester::evaluate()
 				NodePrinter* p = new NodePrinter(resultout);
 				Node* n=te->getRootNode();
 				n->accept(*p);
+				delete n;
 				delete p;
 				examFile.open(QFile::ReadOnly);
 				QTextStream examdata(&examFile);
