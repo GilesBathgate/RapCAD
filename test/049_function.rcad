@@ -1,0 +1,6 @@
+function test_function() {
+a=1;
+}
+function test() {
+return a==undef;
+}
