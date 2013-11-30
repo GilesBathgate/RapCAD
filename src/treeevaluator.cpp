@@ -34,9 +34,10 @@ TreeEvaluator::TreeEvaluator(QTextStream& s) : output(s)
 TreeEvaluator::~TreeEvaluator()
 {
 	Value::cleanup();
-	delete context;
-	delete layout;
+	foreach(Layout* l, scopeLookup.values())
+		delete l;
 }
+
 void TreeEvaluator::startLayout(Scope* scp)
 {
 	Layout* parent=layout;
@@ -64,6 +65,7 @@ void TreeEvaluator::startContext(Scope* scp)
 
 void TreeEvaluator::finishContext()
 {
+	delete context;
 	contextStack.pop();
 	context=contextStack.top();
 }
