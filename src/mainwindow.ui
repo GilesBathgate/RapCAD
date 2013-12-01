@@ -183,6 +183,7 @@
      <addaction name="actionExportAMF"/>
      <addaction name="actionExportOFF"/>
      <addaction name="actionExportImage"/>
+     <addaction name="actionExportCSG"/>
     </widget>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
@@ -323,7 +324,9 @@
   </action>
   <action name="actionClose">
    <property name="icon">
-    <iconset theme="window-close"/>
+    <iconset theme="window-close">
+     <normaloff/>
+    </iconset>
    </property>
    <property name="text">
     <string>&amp;Close</string>
@@ -378,7 +381,9 @@
   </action>
   <action name="actionQuit">
    <property name="icon">
-    <iconset theme="application-exit"/>
+    <iconset theme="application-exit">
+     <normaloff/>
+    </iconset>
    </property>
    <property name="text">
     <string>&amp;Quit</string>
@@ -760,7 +765,9 @@
   </action>
   <action name="actionAbout">
    <property name="icon">
-    <iconset theme="help-about"/>
+    <iconset theme="help-about">
+     <normaloff/>
+    </iconset>
    </property>
    <property name="text">
     <string>About</string>
@@ -768,13 +775,23 @@
   </action>
   <action name="actionShowBuiltins">
    <property name="icon">
-    <iconset theme="help"/>
+    <iconset theme="help">
+     <normaloff/>
+    </iconset>
    </property>
    <property name="text">
     <string>Show Builtins</string>
    </property>
    <property name="toolTip">
     <string>Show Built in Function and Module definitions</string>
+   </property>
+  </action>
+  <action name="actionExportCSG">
+   <property name="text">
+    <string>CSG product</string>
+   </property>
+   <property name="toolTip">
+    <string>CSG product</string>
    </property>
   </action>
  </widget>

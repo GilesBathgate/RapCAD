@@ -42,6 +42,8 @@ void CGALExport::exportResult(QString filename)
 		return exportAMF(path);
 	if(suffix=="stl")
 		return exportAsciiSTL(path,true);
+	if(suffix=="csg")
+		return exportCSG(path);
 }
 
 void CGALExport::exportOFF(QString filename)
@@ -297,5 +299,65 @@ void CGALExport::exportAMF(QString filename)
 	xml.writeEndDocument();
 	delete file;
 
+}
+
+void CGALExport::exportCSG(QString filename)
+{
+	CGALExplorer* e=new CGALExplorer(primitive);
+
+	CGALPrimitive* prim=e->getPrimitive();
+
+	QFile data(filename);
+	if(!data.open(QFile::WriteOnly | QFile::Truncate)) {
+		//error
+		return;
+	}
+
+	QTextStream output(&data);
+	output.setRealNumberPrecision(16);
+	output.setRealNumberNotation(QTextStream::FixedNotation);
+
+	output << "polyhedron([";
+
+	QList<CGAL::Point3> points=prim->getPoints();
+	bool first=true;
+	foreach(CGAL::Point3 p,points) {
+		if(first)
+			first=false;
+		else
+			output << ",";
+		double x,y,z;
+		x=to_double(p.x());
+		y=to_double(p.y());
+		z=to_double(p.z());
+		output << "[" << QString().setNum(x);
+		output << "," << QString().setNum(y);
+		output << "," << QString().setNum(z);
+		output << "]";
+	}
+
+	output << "],[";
+
+	first=true;
+	foreach(CGALPolygon* poly, prim->getPolygons()) {
+		if(first)
+			first=false;
+		else
+			output << ",";
+		output << "[" ;
+		bool firstindex=true;
+		foreach(CGAL::Point3 p, poly->getPoints()) {
+			if(firstindex)
+				firstindex=false;
+			else
+				output << ",";
+			int i=points.indexOf(p); //eek, this could be slow on large models.
+			output << i;
+		}
+		output << "]";
+	}
+	output << "]);";
+	output.flush();
+	data.close();
 }
 #endif

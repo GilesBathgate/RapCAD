@@ -179,6 +179,7 @@ void MainWindow::setupActions()
 	connect(ui->actionExportAsciiSTL,SIGNAL(triggered()),this,SLOT(exportAsciiSTL()));
 	connect(ui->actionExportOFF,SIGNAL(triggered()),this,SLOT(exportOFF()));
 	connect(ui->actionExportAMF,SIGNAL(triggered()),this,SLOT(exportAMF()));
+	connect(ui->actionExportCSG,SIGNAL(triggered()),this,SLOT(exportCSG()));
 	connect(ui->actionExportImage,SIGNAL(triggered()),this,SLOT(grabFrameBuffer()));
 	connect(ui->actionShowEditor,SIGNAL(triggered(bool)),ui->tabWidget,SLOT(setVisible(bool)));
 	connect(ui->actionShowConsole,SIGNAL(triggered(bool)),ui->plainTextEdit,SLOT(setVisible(bool)));
@@ -230,6 +231,17 @@ void MainWindow::exportOFF()
 					 QString(), tr("OFF Files (*.stl);;All Files (*)"));
 		if(!fn.endsWith(".off", Qt::CaseInsensitive))
 			fn.append(".off");
+		worker->exportResult(fn);
+	}
+}
+
+void MainWindow::exportCSG()
+{
+	if(worker->resultAvailable()) {
+		QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
+					 QString(), tr("CSG Files (*.csg);;All Files (*)"));
+		if(!fn.endsWith(".csg", Qt::CaseInsensitive))
+			fn.append(".csg");
 		worker->exportResult(fn);
 	}
 }
