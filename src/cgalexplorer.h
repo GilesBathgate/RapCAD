@@ -32,6 +32,7 @@ public:
 	QList<HalfEdgeHandle> getPerimeter();
 	CGAL::Vector3 getPerimeterNormal();
 	CGALPrimitive* getPrimitive();
+	CGALPrimitive* getOrientedPrimitive();
 	QList<CGAL::Point3> getPoints();
 	CGAL::Bbox_3 getBounds();
 private:

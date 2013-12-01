@@ -305,7 +305,7 @@ void CGALExport::exportCSG(QString filename)
 {
 	CGALExplorer* e=new CGALExplorer(primitive);
 
-	CGALPrimitive* prim=e->getPrimitive();
+	CGALPrimitive* prim=e->getOrientedPrimitive();
 
 	QFile data(filename);
 	if(!data.open(QFile::WriteOnly | QFile::Truncate)) {

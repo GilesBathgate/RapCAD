@@ -66,21 +66,60 @@ typedef Nef::Vector_3 Vector3;
 class ShellExplorer
 {
 	QList<CGAL::Point3> points;
+	CGALPrimitive* primitive;
+	bool direction;
 public:
-	ShellExplorer() {}
+	ShellExplorer() {
+		primitive = new CGALPrimitive();
+		direction=false;
+	}
 
 	void visit(VertexHandle v) {
 		points.append(v->point());
 	}
 
 	void visit(HalfEdgeHandle) {}
-	void visit(HalfFacetHandle) {}
+	void visit(HalfFacetHandle f)
+	{
+		bool facet = !f->is_twin();
+		if(facet) {
+			primitive->createPolygon();
+
+			HalfFacetCycleIterator fc;
+			CGAL_forall_facet_cycles_of(fc,f) {
+				if(fc.is_shalfedge()) {
+					SHalfEdgeHandle h = fc;
+					SHalfEdgeCirculator hc(h), he(hc);
+					CGAL_For_all(hc,he) {
+						SVertexHandle sv = hc->source();
+						CGAL::Point3 sp = sv->source()->point();
+						if(direction)
+							primitive->appendVertex(sp);
+						else
+							primitive->prependVertex(sp);
+					}
+				}
+			}
+		}
+	}
+
 	void visit(SHalfEdgeHandle) {}
 	void visit(SHalfLoopHandle) {}
 	void visit(SFaceHandle) {}
 
-	QList<CGAL::Point3> getPoints() {
+	QList<CGAL::Point3> getPoints()
+	{
 		return points;
+	}
+
+	void setDirection()
+	{
+		direction=true;
+	}
+
+	CGALPrimitive* getPrimitive()
+	{
+		return primitive;
 	}
 };
 
@@ -139,7 +178,6 @@ void CGALExplorer::evaluate()
 		} while(perimeter.size()<outEdges.size());
 	}
 
-
 	evaluated=true;
 }
 
@@ -163,6 +201,22 @@ CGALPrimitive* CGALExplorer::getPrimitive()
 {
 	if(!evaluated) evaluate();
 	return primitive;
+}
+
+CGALPrimitive* CGALExplorer::getOrientedPrimitive()
+{
+	const CGAL::NefPolyhedron3& poly=primitive->getNefPolyhedron();
+	VolumeIterator vi;
+	ShellExplorer se;
+	CGAL_forall_volumes(vi,poly) {
+		ShellEntryIterator si;
+		CGAL_forall_shells_of(si,vi) {
+			poly.visit_shell_objects(SFaceHandle(si),se);
+		}
+		se.setDirection();
+	}
+
+	return se.getPrimitive();
 }
 
 QList<CGAL::Point3> CGALExplorer::getPoints()
