@@ -66,10 +66,8 @@ typedef Nef::Vector_3 Vector3;
 class ShellExplorer
 {
 	QList<CGAL::Point3> points;
-	const CGAL::NefPolyhedron3& poly;
-
 public:
-	ShellExplorer(const CGAL::NefPolyhedron3& p) : poly(p) {}
+	ShellExplorer() {}
 
 	void visit(VertexHandle v) {
 		points.append(v->point());
@@ -171,7 +169,7 @@ QList<CGAL::Point3> CGALExplorer::getPoints()
 {
 	const CGAL::NefPolyhedron3& poly=primitive->getNefPolyhedron();
 	VolumeIterator vi;
-	ShellExplorer se(poly);
+	ShellExplorer se;
 	CGAL_forall_volumes(vi,poly) {
 		ShellEntryIterator si;
 		CGAL_forall_shells_of(si,vi) {
