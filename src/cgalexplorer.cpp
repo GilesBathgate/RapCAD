@@ -83,11 +83,10 @@ public:
 	{
 		bool facet = !f->is_twin();
 		if(facet) {
-			primitive->createPolygon();
-
 			HalfFacetCycleIterator fc;
 			CGAL_forall_facet_cycles_of(fc,f) {
 				if(fc.is_shalfedge()) {
+					primitive->createPolygon();
 					SHalfEdgeHandle h = fc;
 					SHalfEdgeCirculator hc(h), he(hc);
 					CGAL_For_all(hc,he) {
