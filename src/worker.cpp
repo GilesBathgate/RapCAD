@@ -231,10 +231,15 @@ void Worker::finish()
 void Worker::exportResult(QString fn)
 {
 #if USE_CGAL
-	CGALPrimitive* p = dynamic_cast<CGALPrimitive*>(primitive);
-	if(p) {
-		CGALExport exporter(p);
-		exporter.exportResult(fn);
+	try {
+		CGALPrimitive* p = dynamic_cast<CGALPrimitive*>(primitive);
+		if(p) {
+			CGALExport exporter(p);
+			exporter.exportResult(fn);
+		}
+	} catch(CGAL::Assertion_exception e) {
+		output << "What: " << QString::fromStdString(e.what()) << "\n";
+		output.flush();
 	}
 #endif
 }

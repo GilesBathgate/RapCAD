@@ -19,6 +19,8 @@
 #ifndef CGAL_H
 #define CGAL_H
 
+#include "cgalassert.h"
+
 #include <CGAL/Exact_predicates_exact_constructions_kernel.h>
 #include <CGAL/Polyhedron_3.h>
 #include <CGAL/Polygon_2.h>
