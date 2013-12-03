@@ -61,29 +61,19 @@ static int showUi(QApplication& a,QString filename)
 	return retcode;
 }
 
-int commandLine(QCoreApplication& a, Worker* b, QString inputFile, QString outputFile,bool print)
-{
-	b->setup(inputFile,outputFile,print,false);
-	b->evaluate();
-	a.quit();
-	return 0;
-}
-
-
 int main(int argc, char* argv[])
 {
 	int opt;
-	QString outputFile;
-	QString inputFile;
 	bool print=false;
 	bool useGUI=true;
+	bool test=false;
 
 #ifdef SETCODEC
 	QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 #endif
 
-	QTextStream output(stdout);
-	Worker* w;
+	QString outputFile;
+	QString inputFile;
 
 	while((opt = getopt(argc, argv, "o:pvt")) != -1) {
 		switch(opt) {
@@ -91,24 +81,34 @@ int main(int argc, char* argv[])
 			return version();
 		case 't':
 			useGUI=false;
-			w=new Tester(output);
+			test=true;
 			break;
 		case 'p':
 			print=true;
 		case 'o':
 			useGUI=false;
 			outputFile=QString(optarg);
-			w=new Worker(output);
 		}
 	}
-
 	inputFile=QString(argv[optind]);
 
-	if(!useGUI) {
-		QCoreApplication a(argc,argv);
-		return commandLine(a,w,inputFile,outputFile,print);
-	} else {
+	if(useGUI) {
 		QApplication a(argc,argv);
 		return showUi(a,inputFile);
 	}
+
+	QTextStream output(stdout);
+	Strategy* s;
+	if(test) {
+		s=new Tester(output);
+	} else {
+		Worker* w=new Worker(output);
+		w->setup(inputFile,outputFile,print,false);
+		s=w;
+	}
+
+	QCoreApplication a(argc,argv);
+	s->evaluate();
+	a.quit();
+	return 0;
 }

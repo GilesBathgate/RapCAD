@@ -32,7 +32,7 @@
 #endif
 
 Worker::Worker(QTextStream& s) :
-	output(s)
+	Strategy(s)
 {
 	primitive=NULL;
 	render=NULL;
@@ -40,12 +40,6 @@ Worker::Worker(QTextStream& s) :
 	outputFile="";
 	print=false;
 	generate=false;
-	reporter=new Reporter(output);
-}
-
-Worker::~Worker()
-{
-	delete reporter;
 }
 
 void Worker::setup(QString i,QString o,bool p,bool g)
@@ -177,19 +171,6 @@ double Worker::getBoundsHeight()
 	return b.zmax();
 #endif
 	return 1;
-}
-
-Callback* Worker::addCallback(QString name,Script* s,QList<Argument*> args)
-{
-	Callback* c=new Callback();
-	Invocation* l=new Invocation();
-	if(args.length()>0)
-		l->setArguments(args);
-	l->setName(name);
-	c->setExpression(l);
-	s->appendDeclaration(c);
-
-	return c;
 }
 
 QList<Argument*> Worker::getArgs(double value)

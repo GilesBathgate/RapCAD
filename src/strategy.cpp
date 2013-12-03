@@ -16,18 +16,28 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TESTER_H
-#define TESTER_H
-
 #include "strategy.h"
+#include "invocation.h"
 
-class Tester : public Strategy
+Strategy::Strategy(QTextStream& s) : output(s)
 {
-public:
-	Tester(QTextStream&);
-	void evaluate();
-private:
-	bool testFunctionExists(Script *s);
-};
+	reporter=new Reporter(output);
+}
 
-#endif // TESTER_H
+Strategy::~Strategy()
+{
+	delete reporter;
+}
+
+Callback* Strategy::addCallback(QString name,Script* s,QList<Argument*> args)
+{
+	Callback* c=new Callback();
+	Invocation* l=new Invocation();
+	if(args.length()>0)
+		l->setArguments(args);
+	l->setName(name);
+	c->setExpression(l);
+	s->appendDeclaration(c);
+
+	return c;
+}

@@ -249,7 +249,8 @@ SOURCES += \
 	src/layout.cpp \
 	src/module/projectionmodule.cpp \
 	src/node/projectionnode.cpp \
-	src/tester.cpp
+	src/tester.cpp \
+	src/strategy.cpp
 
 HEADERS  += \
 	src/mainwindow.h \

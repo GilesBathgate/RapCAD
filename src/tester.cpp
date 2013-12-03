@@ -16,12 +16,13 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QDir>
 #include "tester.h"
 #include "treeevaluator.h"
 #include "nodeprinter.h"
 #include "booleanvalue.h"
 
-Tester::Tester(QTextStream& s) : Worker(s)
+Tester::Tester(QTextStream& s) : Strategy(s)
 {
 }
 
@@ -35,9 +36,9 @@ void Tester::evaluate()
 	int failcount=0;
 	int testcount=0;
 	QDir cur=QDir::current();
-	foreach(inputFile, cur.entryList(QStringList("*.rcad"),QDir::Files)) {
-		output << inputFile.leftJustified(32,'.',true);
-		Script* s=parse(inputFile,NULL);
+	foreach(QString file, cur.entryList(QStringList("*.rcad"),QDir::Files)) {
+		output << file.leftJustified(32,'.',true);
+		Script* s=parse(file,NULL);
 
 		TreeEvaluator* te = new TreeEvaluator(nullout);
 
@@ -54,7 +55,7 @@ void Tester::evaluate()
 			}
 			delete v;
 		} else {
-			QFile examFile(QFileInfo(inputFile).baseName() + ".exam");
+			QFile examFile(QFileInfo(file).baseName() + ".exam");
 			s->accept(*te);
 
 			if(examFile.exists()) {
@@ -96,7 +97,6 @@ void Tester::evaluate()
 	}
 	output << testcount << " tests run " << failcount << " failed" << endl;
 	reporter->reportTiming();
-	finish();
 }
 
 bool Tester::testFunctionExists(Script* s)

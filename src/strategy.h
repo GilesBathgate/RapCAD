@@ -16,45 +16,26 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef WORKER_H
-#define WORKER_H
+#ifndef STRATEGY_H
+#define STRATEGY_H
 
-#include <QObject>
 #include <QTextStream>
-#include "strategy.h"
-#include "primitive.h"
-#include "renderer.h"
-#include "reporter.h"
 #include "script.h"
 #include "callback.h"
-#include "instance.h"
-#include "renderer.h"
+#include "reporter.h"
 
-class Worker : public Strategy
+extern Script* parse(QString,Reporter*);
+
+class Strategy
 {
 public:
-	Worker(QTextStream&);
-	void setup(QString,QString,bool,bool);
-	virtual void evaluate();
-	void exportResult(QString);
-	bool resultAvailable();
-	Renderer* getRenderer();
+	Strategy(QTextStream&);
+	virtual ~Strategy();
+	virtual void evaluate()=0;
+	Callback* addCallback(QString,Script*,QList<Argument*>);
 protected:
-	void internal();
-	virtual void update() {}
-	virtual void finish() {}
-	Instance* addProductInstance(QString,Script*);
-	QString inputFile;
-	QString outputFile;
-	bool print;
-	bool generate;
-private:
-	QList<Argument*> getArgs(double);
-	void primary();
-	void generation();
-	double getBoundsHeight();
-	Primitive* primitive;
-	Renderer* render;
+	Reporter* reporter;
+	QTextStream& output;
 };
 
-#endif // WORKER_H
+#endif // STRATEGY_H
