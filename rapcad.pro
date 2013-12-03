@@ -435,7 +435,8 @@ HEADERS  += \
 	src/module/projectionmodule.h \
 	src/node/projectionnode.h \
 	src/tester.h \
-	src/cgalassert.h
+	src/cgalassert.h \
+	src/strategy.h
 
 FORMS += \
 	src/mainwindow.ui \

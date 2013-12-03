@@ -23,9 +23,8 @@
 
 class Tester : public Worker
 {
-	Q_OBJECT
 public:
-	Tester(QTextStream&,QObject* parent = 0);
+	Tester(QTextStream&);
 	void evaluate();
 private:
 	bool testFunctionExists(Script *s);

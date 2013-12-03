@@ -21,6 +21,7 @@
 
 #include <QObject>
 #include <QTextStream>
+#include "strategy.h"
 #include "primitive.h"
 #include "renderer.h"
 #include "reporter.h"
@@ -31,23 +32,21 @@
 
 extern Script* parse(QString,Reporter*);
 
-class Worker : public QObject
+class Worker : Strategy
 {
-	Q_OBJECT
 public:
-	Worker(QTextStream&,QObject* parent = 0);
+	Worker(QTextStream&);
 	void setup(QString,QString,bool,bool);
 	virtual void evaluate();
 	void exportResult(QString);
 	bool resultAvailable();
 	Renderer* getRenderer();
 	virtual ~Worker();
-signals:
-	void done();
-protected slots:
-	void evaluateInternal();
+
 protected:
-	virtual void finish();
+	void internal();
+	virtual void update() {}
+	virtual void finish() {}
 	Instance* addProductInstance(QString,Script*);
 	Callback* addCallback(QString,Script*,QList<Argument*>);
 	QTextStream& output;

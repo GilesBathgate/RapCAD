@@ -19,10 +19,11 @@
 #include "backgroundworker.h"
 
 BackgroundWorker::BackgroundWorker(QTextStream& s,QObject* parent) :
-	Worker(s,parent)
+	QObject(parent),
+	Worker(s)
 {
 	thread=new QThread();
-	connect(thread,SIGNAL(started()),this,SLOT(evaluateInternal()));
+	connect(thread,SIGNAL(started()),this,SLOT(start()));
 	this->moveToThread(thread);
 }
 
@@ -36,7 +37,18 @@ void BackgroundWorker::evaluate()
 	thread->start();
 }
 
+void BackgroundWorker::start()
+{
+	internal();
+}
+
+void BackgroundWorker::update()
+{
+	emit done();
+}
+
 void BackgroundWorker::finish()
 {
+	update();
 	thread->quit();
 }

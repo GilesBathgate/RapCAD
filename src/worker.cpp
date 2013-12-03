@@ -31,8 +31,7 @@
 #include "cgalexplorer.h"
 #endif
 
-Worker::Worker(QTextStream& s, QObject* parent) :
-	QObject(parent),
+Worker::Worker(QTextStream& s) :
 	output(s)
 {
 	primitive=NULL;
@@ -59,10 +58,10 @@ void Worker::setup(QString i,QString o,bool p,bool g)
 
 void Worker::evaluate()
 {
-	evaluateInternal();
+	internal();
 }
 
-void Worker::evaluateInternal()
+void Worker::internal()
 {
 
 	try {
@@ -72,24 +71,20 @@ void Worker::evaluateInternal()
 
 		reporter->reportTiming();
 
-		emit done();
+		update();
 
 		if(generate)
 			generation();
 
 #if USE_CGAL
 	} catch(CGAL::Assertion_exception e) {
-		output << "What: " << QString::fromStdString(e.what()) << "\n";
-		output.flush();
-		emit done();
+		output << "What: " << QString::fromStdString(e.what()) << endl;
 	} catch(...) {
-		emit done();
 	}
 #else
 	}
 	catch(...)
 	{
-		emit done();
 	}
 #endif
 
@@ -167,7 +162,7 @@ void Worker::generation()
 			primitive=ne->getResult();
 			delete ne;
 
-			emit done();
+			update();
 		}
 	}
 	delete e;
@@ -224,10 +219,6 @@ Instance* Worker::addProductInstance(QString name,Script* s)
 	return m;
 }
 
-void Worker::finish()
-{
-}
-
 void Worker::exportResult(QString fn)
 {
 #if USE_CGAL
@@ -238,8 +229,7 @@ void Worker::exportResult(QString fn)
 			exporter.exportResult(fn);
 		}
 	} catch(CGAL::Assertion_exception e) {
-		output << "What: " << QString::fromStdString(e.what()) << "\n";
-		output.flush();
+		output << "What: " << QString::fromStdString(e.what()) << endl;
 	}
 #endif
 }

@@ -21,7 +21,7 @@
 #include "nodeprinter.h"
 #include "booleanvalue.h"
 
-Tester::Tester(QTextStream& s,QObject* parent) : Worker(s,parent)
+Tester::Tester(QTextStream& s) : Worker(s)
 {
 }
 
