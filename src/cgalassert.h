@@ -22,6 +22,9 @@
 
 #include <CGAL/assertions.h>
 
+#include <CGAL/Random_access_adaptor.h>
+#include <CGAL/HalfedgeDS_decorator.h>
+
 /* Redefine CGAL_assertion so that it checks for an
  * uncaught exception before throwing an exception */
 #if !defined(CGAL_NO_ASSERTIONS)
