@@ -27,10 +27,11 @@
 
 #include <QTextStream>
 #include "mainwindow.h"
-#include "worker.h"
 #include "getopt.h"
 #include "preferences.h"
+#include "worker.h"
 #include "tester.h"
+#include "comparer.h"
 
 #define STRINGIFY(x) #x
 #define TOSTRING(x) STRINGIFY(x)
@@ -67,6 +68,7 @@ int main(int argc, char* argv[])
 	bool print=false;
 	bool useGUI=true;
 	bool test=false;
+	bool compare=false;
 
 #ifdef SETCODEC
 	QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
@@ -75,13 +77,18 @@ int main(int argc, char* argv[])
 	QString outputFile;
 	QString inputFile;
 
-	while((opt = getopt(argc, argv, "o:pvt")) != -1) {
+	while((opt = getopt(argc, argv, "o:pvtc:")) != -1) {
 		switch(opt) {
 		case 'v':
 			return version();
 		case 't':
 			useGUI=false;
 			test=true;
+			break;
+		case 'c':
+			useGUI=false;
+			compare=true;
+			outputFile=QString(optarg);
 			break;
 		case 'p':
 			print=true;
@@ -99,7 +106,11 @@ int main(int argc, char* argv[])
 
 	QTextStream output(stdout);
 	Strategy* s;
-	if(test) {
+	if(compare) {
+		Comparer* c=new Comparer(output);
+		c->setup(inputFile,outputFile);
+		s=c;
+	} else if(test) {
 		s=new Tester(output);
 	} else {
 		Worker* w=new Worker(output);
@@ -109,6 +120,7 @@ int main(int argc, char* argv[])
 
 	QCoreApplication a(argc,argv);
 	s->evaluate();
+	delete s;
 	a.quit();
 	return 0;
 }

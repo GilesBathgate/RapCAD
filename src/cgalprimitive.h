@@ -47,6 +47,7 @@ public:
 	QList<CGAL::Point3> getPoints() const;
 	const CGAL::NefPolyhedron3& getNefPolyhedron() const;
 	CGAL::Polyhedron3* getPolyhedron();
+	bool isEmpty();
 	bool isFullyDimentional();
 private:
 	CGAL::NefPolyhedron3* createPolyline(QVector<CGAL::Point3> pl);

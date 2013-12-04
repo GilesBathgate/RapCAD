@@ -73,14 +73,10 @@ void Worker::internal()
 #if USE_CGAL
 	} catch(CGAL::Assertion_exception e) {
 		output << "What: " << QString::fromStdString(e.what()) << endl;
-	} catch(...) {
-	}
-#else
-	}
-	catch(...)
-	{
-	}
 #endif
+	} catch(...) {
+		output << "Unknown error." << endl;
+	}
 
 	finish();
 }

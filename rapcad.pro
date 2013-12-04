@@ -250,7 +250,8 @@ SOURCES += \
 	src/module/projectionmodule.cpp \
 	src/node/projectionnode.cpp \
 	src/tester.cpp \
-	src/strategy.cpp
+	src/strategy.cpp \
+	src/comparer.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -437,7 +438,8 @@ HEADERS  += \
 	src/node/projectionnode.h \
 	src/tester.h \
 	src/cgalassert.h \
-	src/strategy.h
+	src/strategy.h \
+	src/comparer.h
 
 FORMS += \
 	src/mainwindow.ui \
