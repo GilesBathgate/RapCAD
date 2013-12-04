@@ -18,12 +18,9 @@
 
 #include "comparer.h"
 #include "script.h"
-#include "module/importmodule.h"
-#include "instance.h"
-#include "treeevaluator.h"
+#include "node/symmetricdifferencenode.h"
+#include "node/importnode.h"
 #include "nodeevaluator.h"
-
-#include "treeprinter.h"
 
 Comparer::Comparer(QTextStream& s) : Strategy(s)
 {
@@ -38,43 +35,20 @@ void Comparer::setup(QString a, QString b)
 void Comparer::evaluate()
 {
 	reporter->startTiming();
-	Script* s=new Script();
 
-	ModuleImport* a=new ModuleImport();
-	a->setImport(aFile);
-	a->setName("a");
+	ImportNode* a=new ImportNode(aFile);
+	ImportNode* b=new ImportNode(bFile);
 
-	ModuleImport* b=new ModuleImport();
-	b->setImport(bFile);
-	b->setName("b");
+	QList<Node*> children;
+	children.append(a);
+	children.append(b);
 
-	Instance* ia=new Instance();
-	ia->setName("a");
-
-	Instance* ib=new Instance();
-	ib->setName("b");
-
-	QList<Statement*> children;
-	children.append(ia);
-	children.append(ib);
-
-	Instance* i=new Instance();
-	i->setName("symmetric_difference");
-	i->setChildren(children);
-
-	s->addDeclaration(i);
-	s->addDeclaration(a);
-	s->addDeclaration(b);
-
-	TreeEvaluator te(output);
-	s->accept(te);
-	delete s;
-
-	Node* n=te.getRootNode();
+	SymmetricDifferenceNode* d=new SymmetricDifferenceNode();
+	d->setChildren(children);
 
 	NodeEvaluator ne(output);
-	n->accept(ne);
-	delete n;
+	d->accept(ne);
+	delete d;
 
 	Primitive* p=ne.getResult();
 	if(p->isEmpty())
