@@ -32,11 +32,6 @@ NodeEvaluator::NodeEvaluator(QTextStream& s) : output(s)
 {
 }
 
-NodeEvaluator::~NodeEvaluator()
-{
-	Node::cleanup();
-}
-
 Primitive* NodeEvaluator::createPrimitive()
 {
 #if USE_CGAL

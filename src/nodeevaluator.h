@@ -59,7 +59,6 @@ public:
 	};
 
 	NodeEvaluator(QTextStream&);
-	~NodeEvaluator();
 
 	void visit(PrimitiveNode*);
 	void visit(PolylineNode*);

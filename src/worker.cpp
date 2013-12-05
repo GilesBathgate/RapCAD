@@ -104,10 +104,8 @@ void Worker::primary()
 	}
 
 	NodeEvaluator ne(output);
-
 	n->accept(ne);
 	delete n;
-
 
 	primitive=ne.getResult();
 	if(!primitive)
@@ -149,6 +147,8 @@ void Worker::generation()
 
 			NodeEvaluator* ne = new NodeEvaluator(output);
 			n->accept(*ne);
+			delete n;
+
 			primitive=ne->getResult();
 			delete ne;
 

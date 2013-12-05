@@ -54,6 +54,9 @@ void Tester::evaluate()
 				failcount++;
 			}
 			delete v;
+
+			Node* n=te->getRootNode();
+			delete n;
 		} else {
 			QFile examFile(QFileInfo(file).baseName() + ".exam");
 			s->accept(*te);
@@ -85,6 +88,7 @@ void Tester::evaluate()
 				NodePrinter* p = new NodePrinter(examout);
 				Node* n=te->getRootNode();
 				n->accept(*p);
+				delete n;
 				delete p;
 				examout.flush();
 				examFile.close();
