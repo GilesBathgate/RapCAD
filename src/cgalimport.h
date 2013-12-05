@@ -32,6 +32,7 @@ public:
 private:
 	Primitive* importOFF(QFileInfo);
 	Primitive* importSTL(QFileInfo);
+	Primitive* importRCAD(QFileInfo);
 	QTextStream& output;
 };
 

@@ -20,6 +20,9 @@
 #include <CGAL/IO/Polyhedron_iostream.h>
 #include <QRegExp>
 #include <QStringList>
+#include "script.h"
+#include "treeevaluator.h"
+#include "nodeevaluator.h"
 
 CGALImport::CGALImport(QTextStream& out) : output(out)
 {
@@ -35,6 +38,8 @@ Primitive* CGALImport::import(QString filename)
 		return importOFF(file);
 	if(suffix=="stl")
 		return importSTL(file);
+	if(suffix=="rcad"||suffix=="csg")
+		return importRCAD(file);
 
 	output << "Warning: Unknown import type '" << suffix << "'\n";
 	return NULL;
@@ -115,5 +120,23 @@ Primitive* CGALImport::importSTL(QFileInfo fileinfo)
 		}
 	}
 	return p->buildPrimitive();
+}
+
+Primitive *CGALImport::importRCAD(QFileInfo f)
+{
+	Reporter* r=new Reporter(output);
+
+	Script* s=parse(f.absoluteFilePath(),r);
+	TreeEvaluator te(output);
+	s->accept(te);
+
+	Node* n = te.getRootNode();
+	NodeEvaluator ne(output);
+	n->accept(ne);
+	delete n;
+
+	delete r;
+
+	return ne.getResult();
 }
 #endif

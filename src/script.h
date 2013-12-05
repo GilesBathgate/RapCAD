@@ -23,6 +23,7 @@
 #include "declaration.h"
 #include "scope.h"
 #include "codedoc.h"
+#include "reporter.h"
 
 class Script : public Scope
 {
@@ -42,5 +43,7 @@ private:
 	QList<Declaration*> declarations;
 	QList<QList<CodeDoc*> > documentation;
 };
+
+extern Script* parse(QString,Reporter*);
 
 #endif // SCRIPT_H

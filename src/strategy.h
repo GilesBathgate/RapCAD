@@ -24,8 +24,6 @@
 #include "callback.h"
 #include "reporter.h"
 
-extern Script* parse(QString,Reporter*);
-
 class Strategy
 {
 public:
