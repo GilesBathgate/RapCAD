@@ -267,15 +267,15 @@ void TreeEvaluator::visit(BinaryExpression* exp)
 	bool shortc=false;
 	Expression::Operator_e op=exp->getOp();
 
-	switch(op){
-		case Expression::LogicalAnd:
-			shortc=!left->isTrue();
-			break;
-		case Expression::LogicalOr:
-			shortc=left->isTrue();
-			break;
-		default:
-			break;
+	switch(op) {
+	case Expression::LogicalAnd:
+		shortc=!left->isTrue();
+		break;
+	case Expression::LogicalOr:
+		shortc=left->isTrue();
+		break;
+	default:
+		break;
 	}
 
 	Value* result;

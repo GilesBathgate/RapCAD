@@ -29,7 +29,7 @@ void Product::setPrimitive(Primitive* value)
 	primitive=value;
 }
 
-Primitive *Product::getPrimitive()
+Primitive* Product::getPrimitive()
 {
 	return primitive;
 }
@@ -39,7 +39,7 @@ void Product::accept(TreeVisitor& v)
 	v.visit(this);
 }
 
-Node *Product::evaluate(Context*)
+Node* Product::evaluate(Context*)
 {
 	ProductNode* p=new ProductNode();
 	p->setPrimitive(primitive);

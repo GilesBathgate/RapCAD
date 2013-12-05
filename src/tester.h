@@ -27,7 +27,7 @@ public:
 	Tester(QTextStream&);
 	void evaluate();
 private:
-	bool testFunctionExists(Script *s);
+	bool testFunctionExists(Script* s);
 };
 
 #endif // TESTER_H

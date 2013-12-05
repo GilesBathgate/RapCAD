@@ -29,11 +29,11 @@ class PrintConsole : public QDialog
 	Q_OBJECT
 
 public:
-	explicit PrintConsole(QWidget *parent = 0);
+	explicit PrintConsole(QWidget* parent = 0);
 	~PrintConsole();
 private:
 	QString getStyleString(QString,QString);
-	Ui::PrintConsole *ui;
+	Ui::PrintConsole* ui;
 };
 
 #endif // PRINTCONSOLE_H

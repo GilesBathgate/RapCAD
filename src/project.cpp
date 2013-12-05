@@ -8,7 +8,7 @@ Project::Project()
 void Project::parseProject(QString filename)
 {
 	QFile* file=new QFile(filename);
-	if (!file->open(QIODevice::ReadOnly | QIODevice::Text)) {
+	if(!file->open(QIODevice::ReadOnly | QIODevice::Text)) {
 		return;
 	}
 
@@ -56,7 +56,7 @@ void Project::parseSource(QXmlStreamReader& xml)
 void Project::writeProject(QString filename)
 {
 	QFile* file=new QFile(filename);
-	if (!file->open(QIODevice::WriteOnly)) {
+	if(!file->open(QIODevice::WriteOnly)) {
 		return;
 	}
 	QXmlStreamWriter xml(file);

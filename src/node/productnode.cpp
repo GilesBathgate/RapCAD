@@ -27,7 +27,7 @@ void ProductNode::setPrimitive(Primitive* value)
 	primitive=value;
 }
 
-Primitive *ProductNode::getPrimitive()
+Primitive* ProductNode::getPrimitive()
 {
 	return primitive;
 }

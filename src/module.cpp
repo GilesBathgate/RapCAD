@@ -85,7 +85,7 @@ void Module::addParameter(QString name)
 	parameters.append(p);
 }
 
-Value *Module::getParameterArgument(Context* ctx, int index)
+Value* Module::getParameterArgument(Context* ctx, int index)
 {
 	Parameter* p = parameters.at(index);
 	return ctx->getArgument(index,p->getName());

@@ -29,7 +29,7 @@ class SaveItemsDialog : public QDialog
 	Q_OBJECT
 
 public:
-	explicit SaveItemsDialog(QWidget *parent,bool,QList<QString>);
+	explicit SaveItemsDialog(QWidget* parent,bool,QList<QString>);
 	~SaveItemsDialog();
 
 	QList<QString> getItemsToSave();
@@ -40,7 +40,7 @@ private slots:
 	void discardAll();
 	void updateSaveButton();
 private:
-	Ui::SaveItemsDialog *ui;
+	Ui::SaveItemsDialog* ui;
 	QList<QString> itemsToSave;
 };
 

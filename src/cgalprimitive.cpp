@@ -41,7 +41,7 @@ Primitive* CGALPrimitive::buildPrimitive()
 
 		nefPolyhedron=createPolyline(pl);
 		return this;
-	} else if(points.count()==1){
+	} else if(points.count()==1) {
 		QVector<CGAL::Point3> pl1,pl2;
 
 		CGAL::Point3 p=points[0];
@@ -166,7 +166,7 @@ Primitive* CGALPrimitive::inset(double amount)
 	return result->buildPrimitive();
 }
 
-Primitive *CGALPrimitive::copy()
+Primitive* CGALPrimitive::copy()
 {
 	CGALPrimitive* p=new CGALPrimitive();
 	p->nefPolyhedron=new CGAL::NefPolyhedron3(*nefPolyhedron);

@@ -140,7 +140,7 @@ void TreePrinter::visit(Function* func)
 	result << ")";
 	Scope* scp=func->getScope();
 	if(scp)
-			scp->accept(*this);
+		scp->accept(*this);
 	result << "\n";
 }
 

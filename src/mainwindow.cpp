@@ -143,7 +143,7 @@ void MainWindow::getDefaultViewport()
 
 void MainWindow::setupActions()
 {
-	if (!QIcon::hasThemeIcon("document-open")) {
+	if(!QIcon::hasThemeIcon("document-open")) {
 		QIcon::setThemeName("gnome");
 	}
 
@@ -579,7 +579,7 @@ void MainWindow::showBuiltins()
 	delete t;
 
 	//Scroll back to top
-	QScrollBar *sb = e->verticalScrollBar();
+	QScrollBar* sb = e->verticalScrollBar();
 	sb->setValue(sb->minimum());
 
 	//Make sure the user cannot modify or save this document
