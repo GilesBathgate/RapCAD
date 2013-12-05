@@ -26,7 +26,7 @@ Tester::Tester(QTextStream& s) : Strategy(s)
 {
 }
 
-void Tester::evaluate()
+int Tester::evaluate()
 {
 	reporter->startTiming();
 
@@ -99,8 +99,14 @@ void Tester::evaluate()
 		delete s;
 		testcount++;
 	}
+
+	reporter->setReturnCode(failcount);
+
 	output << testcount << " tests run " << failcount << " failed" << endl;
+
 	reporter->reportTiming();
+
+	return reporter->getReturnCode();
 }
 
 bool Tester::testFunctionExists(Script* s)

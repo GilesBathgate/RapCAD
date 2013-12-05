@@ -35,7 +35,7 @@ class Worker : public Strategy
 public:
 	Worker(QTextStream&);
 	void setup(QString,QString,bool,bool);
-	virtual void evaluate();
+	virtual int evaluate();
 	void exportResult(QString);
 	bool resultAvailable();
 	Renderer* getRenderer();

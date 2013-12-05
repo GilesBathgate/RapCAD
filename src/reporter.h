@@ -32,9 +32,12 @@ public:
 	void reportSyntaxError(AbstractTokenBuilder*,QString,QString);
 	void reportLexicalError(AbstractTokenBuilder*,QString);
 	void reportFileMissingError(QString);
+	void setReturnCode(int);
+	bool getReturnCode();
 private:
 	QTextStream& output;
 	QTime* timer;
+	int returnCode;
 };
 
 #endif // REPORTER_H

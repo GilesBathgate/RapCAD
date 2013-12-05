@@ -32,9 +32,10 @@ BackgroundWorker::~BackgroundWorker()
 	delete thread;
 }
 
-void BackgroundWorker::evaluate()
+int BackgroundWorker::evaluate()
 {
 	thread->start();
+	return 0;
 }
 
 void BackgroundWorker::start()

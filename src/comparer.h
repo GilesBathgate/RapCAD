@@ -26,7 +26,7 @@ class Comparer : public Strategy
 public:
 	Comparer(QTextStream&);
 	void setup(QString,QString);
-	void evaluate();
+	int evaluate();
 private:
 	QString aFile;
 	QString bFile;

@@ -119,8 +119,8 @@ int main(int argc, char* argv[])
 	}
 
 	QCoreApplication a(argc,argv);
-	s->evaluate();
+	int retcode=s->evaluate();
 	delete s;
 	a.quit();
-	return 0;
+	return retcode;
 }

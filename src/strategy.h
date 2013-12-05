@@ -29,7 +29,7 @@ class Strategy
 public:
 	Strategy(QTextStream&);
 	virtual ~Strategy();
-	virtual void evaluate()=0;
+	virtual int evaluate()=0;
 	Callback* addCallback(QString,Script*,QList<Argument*>);
 protected:
 	Reporter* reporter;

@@ -20,6 +20,7 @@
 
 Reporter::Reporter(QTextStream& s) : output(s)
 {
+	returnCode=1;
 }
 
 void Reporter::startTiming()
@@ -59,4 +60,14 @@ void Reporter::reportLexicalError(AbstractTokenBuilder* t, QString text)
 void Reporter::reportFileMissingError(QString fullpath)
 {
 	output << "Can't open input file '" << fullpath << "'\n";
+}
+
+void Reporter::setReturnCode(int code)
+{
+	returnCode=code;
+}
+
+bool Reporter::getReturnCode()
+{
+	return returnCode;
 }

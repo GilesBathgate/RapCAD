@@ -50,9 +50,10 @@ void Worker::setup(QString i,QString o,bool p,bool g)
 	generate=g;
 }
 
-void Worker::evaluate()
+int Worker::evaluate()
 {
 	internal();
+	return reporter->getReturnCode();
 }
 
 void Worker::internal()
@@ -69,6 +70,8 @@ void Worker::internal()
 
 		if(generate)
 			generation();
+
+		reporter->setReturnCode(0);
 
 #if USE_CGAL
 	} catch(CGAL::Assertion_exception e) {

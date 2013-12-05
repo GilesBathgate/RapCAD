@@ -30,7 +30,7 @@ class BackgroundWorker : public QObject , public Worker
 public:
 	BackgroundWorker(QTextStream&,QObject* parent = 0);
 	virtual ~BackgroundWorker();
-	void evaluate();
+	int evaluate();
 signals:
 	void done();
 protected slots:

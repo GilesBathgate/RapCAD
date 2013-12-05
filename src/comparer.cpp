@@ -32,7 +32,7 @@ void Comparer::setup(QString a, QString b)
 	bFile=b;
 }
 
-void Comparer::evaluate()
+int Comparer::evaluate()
 {
 	reporter->startTiming();
 
@@ -51,11 +51,16 @@ void Comparer::evaluate()
 	delete d;
 
 	Primitive* p=ne.getResult();
-	if(p->isEmpty())
+	if(p->isEmpty()) {
 		output << "The objects are identical." << endl;
-	else
+		reporter->setReturnCode(0);
+	} else {
 		output << "The objects are different" << endl;
+		reporter->setReturnCode(1);
+	}
 
 	delete p;
 	reporter->reportTiming();
+
+	return reporter->getReturnCode();
 }
