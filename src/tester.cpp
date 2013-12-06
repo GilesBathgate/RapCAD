@@ -39,6 +39,8 @@ int Tester::evaluate()
 	QDir cur=QDir::current();
 	foreach(QString file, cur.entryList(QStringList("*.rcad"),QDir::Files)) {
 		output << file.leftJustified(32,'.',true);
+		output.flush();
+
 		Script* s=parse(file,NULL);
 
 		TreeEvaluator te(nullout);
