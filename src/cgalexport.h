@@ -29,8 +29,7 @@ public:
 	void exportResult(QString);
 private:
 	void exportOFF(QString);
-	void exportAsciiSTL(QString,bool);
-	void exportAsciiSTL_Experimental(QString);
+	void exportAsciiSTL(QString);
 	void exportAMF(QString);
 	void exportCSG(QString);
 	CGALPrimitive* primitive;
