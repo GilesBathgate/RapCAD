@@ -21,6 +21,7 @@
 #include "treeevaluator.h"
 #include "nodeprinter.h"
 #include "booleanvalue.h"
+#include "comparer.h"
 
 Tester::Tester(QTextStream& s) : Strategy(s)
 {
@@ -40,12 +41,12 @@ int Tester::evaluate()
 		output << file.leftJustified(32,'.',true);
 		Script* s=parse(file,NULL);
 
-		TreeEvaluator* te = new TreeEvaluator(nullout);
+		TreeEvaluator te(nullout);
 
 		if(testFunctionExists(s)) {
 			//If a test function exists check it returns true
 			Callback* c = addCallback("test",s,args);
-			s->accept(*te);
+			s->accept(te);
 			BooleanValue* v = dynamic_cast<BooleanValue*>(c->getResult());
 			if(v && v->isTrue()) {
 				output << " Passed" << endl;
@@ -55,47 +56,41 @@ int Tester::evaluate()
 			}
 			delete v;
 
-			Node* n=te->getRootNode();
+			Node* n=te.getRootNode();
 			delete n;
 		} else {
-			QFile examFile(QFileInfo(file).baseName() + ".exam");
-			s->accept(*te);
+			QString basename=QFileInfo(file).baseName();
+			QString examFileName=basename + ".exam.csg";
+			QString csgFileName=basename + ".csg";
+			QFile examFile(examFileName);
+			s->accept(te);
 
-			if(examFile.exists()) {
-				QString result;
-				QTextStream resultout(&result);
-				NodePrinter* p = new NodePrinter(resultout);
-				Node* n=te->getRootNode();
-				n->accept(*p);
-				delete n;
-				delete p;
-				examFile.open(QFile::ReadOnly);
-				QTextStream examdata(&examFile);
+			//Create exam file
+			examFile.open(QFile::WriteOnly);
+			QTextStream examout(&examFile);
+			NodePrinter p(examout);
+			Node* n=te.getRootNode();
+			n->accept(p);
+			delete n;
+			examout.flush();
+			examFile.close();
 
-				//Could probably be more efficient here
-				//but this will do for now.
-				QString exam = examdata.readAll();
-				if(result==exam) {
+			QFile csgFile(csgFileName);
+			if(csgFile.exists()) {
+				Comparer co(nullout);
+				co.setup(examFileName,csgFileName);
+				if(co.evaluate()==0) {
 					output << " Passed" << endl;
 				} else {
 					output << " FAILED" << endl;
 					failcount++;
 				}
+				examFile.remove();
 			} else {
-				//Create exam file
-				examFile.open(QFile::WriteOnly);
-				QTextStream examout(&examFile);
-				NodePrinter* p = new NodePrinter(examout);
-				Node* n=te->getRootNode();
-				n->accept(*p);
-				delete n;
-				delete p;
-				examout.flush();
-				examFile.close();
 				output << "Created" << endl;
 			}
+
 		}
-		delete te;
 		delete s;
 		testcount++;
 	}
