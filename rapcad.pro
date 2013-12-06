@@ -251,7 +251,8 @@ SOURCES += \
 	src/node/projectionnode.cpp \
 	src/tester.cpp \
 	src/strategy.cpp \
-	src/comparer.cpp
+	src/comparer.cpp \
+	src/module/multmatrixmodule.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -439,7 +440,8 @@ HEADERS  += \
 	src/tester.h \
 	src/cgalassert.h \
 	src/strategy.h \
-	src/comparer.h
+	src/comparer.h \
+	src/module/multmatrixmodule.h
 
 FORMS += \
 	src/mainwindow.ui \

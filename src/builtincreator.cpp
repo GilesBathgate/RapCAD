@@ -37,6 +37,7 @@
 #include "module/intersectionmodule.h"
 #include "module/translatemodule.h"
 #include "module/symmetricdifferencemodule.h"
+#include "module/multmatrixmodule.h"
 #include "module/minkowskimodule.h"
 #include "module/glidemodule.h"
 #include "module/linearextrudemodule.h"
@@ -115,6 +116,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new IntersectionModule());
 	builtins.append(new DifferenceModule());
 	builtins.append(new SymmetricDifferenceModule());
+	builtins.append(new MultMatrixModule());
 	builtins.append(new MinkowskiModule());
 	builtins.append(new GlideModule());
 	builtins.append(new HullModule());
