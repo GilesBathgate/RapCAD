@@ -52,6 +52,7 @@ private:
 	void wheelEvent(QWheelEvent* event);
 
 	void normalizeAngle(GLdouble&);
+	void zoomView(double);
 
 	Renderer* render;
 	GLdouble distance;

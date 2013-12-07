@@ -224,9 +224,13 @@ void GLView::paintGL()
 
 void GLView::wheelEvent(QWheelEvent* event)
 {
-	//Increment distance 10 units per wheel step
-	distance += (GLdouble)(event->delta() / 12.0);
+	zoomView(event->delta()/12);
 	updateGL();
+}
+
+void GLView::zoomView(double amt)
+{
+	distance*=(GLdouble)pow(0.9,amt/10);
 }
 
 void GLView::mousePressEvent(QMouseEvent* event)
@@ -266,7 +270,7 @@ void GLView::mouseMoveEvent(QMouseEvent* event)
 		normalizeAngle(rotateZ);
 	} else {
 		if(QApplication::keyboardModifiers() & Qt::ShiftModifier) {
-			distance += (GLdouble)dy;
+			zoomView(-dy);
 		} else {
 			viewportX += (GLint)dx;
 			viewportZ -= (GLint)dy;
