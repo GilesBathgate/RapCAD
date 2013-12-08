@@ -237,8 +237,6 @@ void TreeEvaluator::visit(ForStatement* forstmt)
 
 		}
 		delete i;
-	} else {
-		forstmt->getStatement()->accept(*this);
 	}
 }
 

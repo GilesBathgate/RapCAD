@@ -1,0 +1,7 @@
+function test() {
+a=1;
+for()
+a++;
+
+return a==1;
+}
