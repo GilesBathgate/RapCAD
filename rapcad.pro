@@ -71,6 +71,11 @@ win32 {
 DEFINES+=USE_CGAL
 QMAKE_CXXFLAGS += -frounding-math
 
+CONFIG(coverage){
+    QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage
+    LIBS += -lgcov
+}
+
 CONFIG(official){
 	DEFINES += RAPCAD_VERSION=$$VERSION
 } else {
