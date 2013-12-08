@@ -72,6 +72,7 @@ DEFINES+=USE_CGAL
 QMAKE_CXXFLAGS += -frounding-math
 
 CONFIG(coverage){
+    CONFIG += debug
     QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage
     LIBS += -lgcov
 }
