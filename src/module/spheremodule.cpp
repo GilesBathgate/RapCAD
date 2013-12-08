@@ -63,8 +63,8 @@ Node* SphereModule::evaluate(Context* ctx)
 	PrimitiveNode* p = new PrimitiveNode();
 
 	p->createPolygon();
-	for(int i=0; i<f; i++)
-		p->appendVertex(rings.at(0).at(i));
+	foreach(Point pt, rings.at(0))
+		p->appendVertex(pt);
 
 	for(int i = 0; i < ringCount-1; i++) {
 		Polygon r1 = rings.at(i);
@@ -90,8 +90,8 @@ Node* SphereModule::evaluate(Context* ctx)
 	}
 
 	p->createPolygon();
-	for(int i=0; i<f; i++)
-		p->prependVertex(rings.at(ringCount-1).at(i));
+	foreach(Point pt, rings.at(ringCount-1))
+		p->prependVertex(pt);
 
 	return p;
 }
