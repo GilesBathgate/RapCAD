@@ -20,10 +20,8 @@
 #include "spheremodule.h"
 #include "numbervalue.h"
 #include "tau.h"
+#include "node/pointnode.h"
 
-/*TODO
--Crashes rapcad on a zero radius value
-*/
 SphereModule::SphereModule() : PrimitiveModule("sphere")
 {
 	addParameter("radius");
@@ -47,6 +45,8 @@ Node* SphereModule::evaluate(Context* ctx)
 		if(dValue)
 			r=(dValue->getNumber()/2.0);
 	}
+	if(r==0.0)
+		return new PointNode();
 
 	int f = getFragments(r,ctx);
 	int ringCount=f/2;
