@@ -138,10 +138,16 @@ void NodePrinter::visit(ImportNode* n)
 void NodePrinter::printOperation(Node* n,QString name)
 {
 	result << name;
-	result << "(){";
-	foreach(Node* c,n->getChildren())
-		c->accept(*this);
-	result << "}";
+	result << "()";
+	QList<Node*> children = n->getChildren();
+	if (children.length()>0) {
+		result << "{";
+		foreach(Node* c,children)
+			c->accept(*this);
+		result << "}";
+	} else {
+		result << ";";
+	}
 }
 
 void NodePrinter::visit(ResizeNode* n)
