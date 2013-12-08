@@ -71,13 +71,7 @@ Node* SphereModule::evaluate(Context* ctx)
 		Polygon r2 = rings.at(i+1);
 		int r1i = 0, r2i = 0;
 		while(r1i < f || r2i < f) {
-			if(r1i >= f)
-				goto next_r2;
-			if(r2i >= f)
-				goto next_r1;
-			if((double)r1i / f <
-					(double)r2i / f) {
-next_r1:
+			if(r2i >= f||(double)r1i/f<(double)r2i/f) {
 				p->createPolygon();
 				int r1j = (r1i+1) % f;
 				p->prependVertex(r1.at(r1i));
@@ -85,7 +79,6 @@ next_r1:
 				p->prependVertex(r2.at(r2i % f));
 				r1i++;
 			} else {
-next_r2:
 				p->createPolygon();
 				int r2j = (r2i+1) % f;
 				p->appendVertex(r2.at(r2i));
