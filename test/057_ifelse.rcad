@@ -1,0 +1,9 @@
+function test() {
+if(false)
+  if(true)
+    return false;
+else  //Wrong else is not associated with futhest if.
+  return false;
+
+return true;
+}

@@ -1,0 +1,9 @@
+function test() {
+a=1;
+if(true)
+{
+  a=2;
+}
+
+return a==2;
+}
