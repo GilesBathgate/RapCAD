@@ -28,6 +28,7 @@ ppa_build(){
 ppa_build "Precise"
 ppa_build "Quantal"
 ppa_build "Raring"
+ppa_build "Saucy"
 
 rm -rf rapcad-$version
 
