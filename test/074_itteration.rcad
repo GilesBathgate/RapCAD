@@ -1,0 +1,7 @@
+function test() {
+a=1;
+for(i=[0:2:10])
+a++;
+
+return a==7;
+}
