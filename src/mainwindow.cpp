@@ -44,6 +44,14 @@ MainWindow::MainWindow(QWidget* parent) :
 	setupConsole();
 	preferencesDialog=NULL;
 	loadPreferences();
+
+	//Make project treeview hidden until its useful.
+	ui->treeView->setVisible(false);
+	ui->actionShowProjects->setChecked(false);
+	ui->actionShowProjects->setEnabled(false);
+
+	//Disable print settings until its useful.
+	ui->actionPrint->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
