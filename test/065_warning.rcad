@@ -1,0 +1,7 @@
+module warn() {
+  return 1;
+}
+
+function test() {
+  return true;
+}

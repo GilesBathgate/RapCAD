@@ -1,0 +1,5 @@
+function test() {
+  const a=5;
+  a=6;
+  return a==5;
+}
