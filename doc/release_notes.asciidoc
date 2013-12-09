@@ -1,3 +1,38 @@
+0.9.2
+   * Disabled some usless ui elements until the features are implemented.
+   * Create a point if a sphere of radius 0 requested.
+   * Fix 'for' with no argument, should not execute child statements.
+   * Zoom distance can no longer be negative, mouse wheel and shift+rmb zoom are more consistent.
+   * Implemented multmatrix module.
+   * Added '.csg' and '.rcad' files to the import statement.
+   * Implemented comparison mode for comparing stl, off, etc.
+   * Workaround bug in CGAL to fix to hard crash caused by an exception thown from the destructor of a CGAL class.
+   * Implemented export of CSG product. (Works but needs improvement)
+   * Fix for arguments in module instances and function invocations, they are now evaluated in new context.
+   * Fix polygon module. Single vectors, and nested vectors can be used for point list.
+   * Fix for index. Should return undef on out of bounds.
+   * Fix match by index. Should only be used when no arguments match by name.
+   * Allow cube to create squares when x=0, or y=0.
+   * Fix text value comparisons.
+   * Added a unit testing framework and lots of unit tests.
+   * Fix index out of bounds error in index operator.
+   * Implemented projection module.
+   * Fixes to allow correct unicode output under Qt4.x
+   * Make version commandline output return 0 exit code.
+   * Fixed a bug where variables are resolved in parent contextual scope rather than lexical scope.
+   * Implemented rad and deg functions for converting to and from radians.
+   * Fixed message. 'rendering time' is the wrong terminology.
+   * Fix error reporting and re-enable buttons on error.
+   * Fix outline module, now closes the gap.
+   * Initial implementation of GCODE generation. Currently reprap.rcam must be in the working directory.
+   * Rotate extrude now implemented and accepts $fn $fs and $fa.
+   * Fixes to linear extrude, seems to be stable (finally).
+   * Added write and writeln modules, echo now emits deprication warning.
+   * Make rotate module do exact rotations with multiples of 90 deg. (i.e. right angles)
+   * Fixed sign() function works with values less than 1.0.
+   * Support compilation against Qt5
+   * Implemented index operator for Text and Vector Values.
+
 0.9.1
    * Apply short-circuit for logical operations.
    * Fixed compilation USE_CGAL undefined.
