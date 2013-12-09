@@ -37,7 +37,8 @@ vboxheadless --startvm "WindowsXP-BuildEnv" &&
 if [ ! -d "$windir" ]; then
  mkdir -p $windir
 fi
-mv rapcad_$version\_setup.exe $windir/ &&
-mv rapcad_$version.zip $windir/
 popd
+mv rapcad_$version\_setup.exe ../$windir/ &&
+mv rapcad_$version.zip ../$windir/
+
 echo "Complete"
