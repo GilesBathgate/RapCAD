@@ -453,6 +453,7 @@ static int parserlex()
 
 static void parsererror(char const *s)
 {
+    if(reporter)
 	reporter->reportSyntaxError(tokenizer,s,lexertext);
 }
 
