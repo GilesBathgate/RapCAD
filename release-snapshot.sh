@@ -19,6 +19,7 @@ ppa_build(){
 	echo Building $1 version
 	vname=$(echo $1 | tr "[A-Z]" "[a-z]")
 	pushd rapcad-$version$snapshot &&
+	git reset --hard &&
 	sed "s/rapcad ($version) unstable/rapcad ($version$snapshot~"$vname"1) $vname/" -i  debian/changelog &&
 	debuild -S &&
 	popd &&
