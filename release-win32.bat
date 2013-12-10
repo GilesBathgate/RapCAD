@@ -11,7 +11,7 @@ set error=%hostdir%\error.log
 pushd c:\rapcad
 git pull ^
   >> %build% 2>> %error% && ^
-set /p version= < VERSION
+set /p version= < VERSION && ^
 echo Building RapCAD v%version% ^
   > %build% && ^
 git reset --hard master ^
