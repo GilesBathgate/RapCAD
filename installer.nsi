@@ -9,9 +9,9 @@ File release\libboost_thread-mgw46-mt-1_49.dll
 File release\libgcc_s_dw2-1.dll
 File release\libstdc++-6.dll
 File release\mingwm10.dll
-File release\QtCore4.dll
-File release\QtGui4.dll
-File release\QtOpenGL4.dll
+File release\Qt5Core.dll
+File release\Qt5Gui.dll
+File release\Qt5OpenGL.dll
 File release\libCGAL.dll
 File release\libCGAL_Core.dll
 File release\libmpfr-4.dll
@@ -28,9 +28,9 @@ Delete $INSTDIR\libboost_thread-mgw46-mt-1_49.dll
 Delete $INSTDIR\libgcc_s_dw2-1.dll
 Delete $INSTDIR\libstdc++-6.dll
 Delete $INSTDIR\mingwm10.dll
-Delete $INSTDIR\QtCore4.dll
-Delete $INSTDIR\QtGui4.dll
-Delete $INSTDIR\QtOpenGL4.dll
+Delete $INSTDIR\Qt5Core.dll
+Delete $INSTDIR\Qt5Gui.dll
+Delete $INSTDIR\Qt5OpenGL.dll
 Delete $INSTDIR\libCGAL.dll
 Delete $INSTDIR\libCGAL_Core.dll
 Delete $INSTDIR\libmpfr-4.dll
