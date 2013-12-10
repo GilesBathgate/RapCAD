@@ -12,7 +12,7 @@ APPNAME := rapcad
 DESTDIR := $(CURDIR)/debian/$(APPNAME)
 
 Makefile:
-	qmake -qt5 PREFIX=/usr CONFIG+=official
+	qmake PREFIX=/usr CONFIG+=official
 
 build: build-stamp
 
