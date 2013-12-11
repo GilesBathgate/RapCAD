@@ -41,7 +41,7 @@ mv rapcad_setup.exe rapcad_$version_setup.exe \
 mv release rapcad-$version  \
   >> $build 2>> $error
 
-zip -r rapcad_$version.zip rapcad-$version \
+7z a -tzip rapcad_$version.zip rapcad-$version \
   >> $build 2>> $error
 
 mv rapcad_$version_setup.exe $hostdir \
