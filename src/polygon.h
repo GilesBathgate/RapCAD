@@ -19,7 +19,9 @@
 #ifndef POLYGON_H
 #define POLYGON_H
 
-#ifdef Q_WS_WIN
+#include <qglobal.h>
+
+#ifdef Q_OS_WIN
 #include <windows.h>
 #define Polygon _Polygon
 #endif
