@@ -35,7 +35,7 @@ cp ../rapcad-dlls/* release \
 makensis installer.nsi \
   >> $build 2>> $error
 
-mv rapcad_setup.exe rapcad_$version_setup.exe \
+mv rapcad_setup.exe rapcad_$version\_setup.exe \
   >> $build 2>> $error
 
 mv release rapcad-$version  \
@@ -44,7 +44,7 @@ mv release rapcad-$version  \
 7z a -tzip rapcad_$version.zip rapcad-$version \
   >> $build 2>> $error
 
-mv rapcad_$version_setup.exe $hostdir \
+mv rapcad_$version\_setup.exe $hostdir \
   >> $build 2>> $error
 
 mv rapcad_$version.zip $hostdir \
