@@ -5,6 +5,8 @@ windir=$releasedir/windows
 ppadir=$releasedir/ppa
 today=$(date +%Y%m%d)
 snapshot="+1SNAPSHOT$today"
+pass=$1
+gpgcommand="gpg --passphrase $pass --batch --no-tty --yes"
 
 echo Building RapCAD v$version$snapshot
 
@@ -21,7 +23,7 @@ ppa_build(){
 	pushd rapcad-$version$snapshot &&
 	git reset --hard &&
 	sed "s/rapcad ($version) unstable/rapcad ($version$snapshot~"$vname"1) $vname/" -i  debian/changelog &&
-	debuild -S &&
+	debuild -S -p"$gpgcommand" &&
 	popd &&
 	dput rapcad-snapshot-ppa rapcad_$version$snapshot~"$vname"1_source.changes &&
 	mv rapcad_$version$snapshot~"$vname"1* $ppadir

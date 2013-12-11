@@ -5,6 +5,10 @@ windir=$releasedir/windows
 ppadir=$releasedir/ppa
 
 echo Building RapCAD v$version
+echo
+echo "Enter your gpg passphrase please"
+read -s pass
+gpgcommand="gpg --passphrase $pass --batch --no-tty --yes"
 
 echo Building PPA versions
 pushd ../
@@ -19,7 +23,7 @@ ppa_build(){
 	pushd rapcad-$version &&
 	git reset --hard v$version &&
 	sed "s/rapcad ($version) unstable/rapcad ($version~"$vname"1) $vname/" -i  debian/changelog &&
-	debuild -S &&
+	debuild -S -p"$gpgcommand" &&
 	popd &&
 	dput rapcad-ppa rapcad_$version~"$vname"1_source.changes &&
 	mv rapcad_$version~"$vname"1* $ppadir
