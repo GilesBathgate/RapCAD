@@ -1,12 +1,5 @@
 #!/bin/bash
 
-echo Setting up environment for Qt usage...
-export PATH=$PATH:/c/Qt/Qt5.1.1/5.1.1/mingw48_32/bin
-export PATH=$PATH:/c/Qt/Qt5.1.1/Tools/mingw48_32/bin
-export PATH=$PATH:/c/MinGW/msys/1.0/bin
-export PATH=$PATH:$PROGRAMFILES/Git/bin
-export PATH=$PATH:$PROGRAMFILES/NSIS
-
 hostdir=/h/rapcad
 build=$hostdir/build.log
 error=$hostdir/error.log
