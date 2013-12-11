@@ -23,10 +23,10 @@ git clean -df \
 qmake CONFIG+=official \
   >> $build 2>> $error
 
-make -f Makefile.Release \
+mingw32-make -f Makefile.Release \
   >> $build 2>> $error
 
-make clean \
+mingw32-make clean \
   >> $build 2>> $error
 
 cp ../rapcad-dlls/* release \
