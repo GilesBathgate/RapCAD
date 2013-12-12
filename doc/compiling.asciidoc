@@ -111,7 +111,7 @@ source.
 [source,bat]
 -------------------------------
 set PATH=%PATH%;"C:\Program Files\CMake 2.8\bin"
-cd "C:\CGAL-{cgalversion}"
+cd "C:\CGAL-4.3"
 cmake -G"MinGW Makefiles" -DBOOST_ROOT="C:\boost_1_49_0" -DBOOST_LIBRARYDIR="C:\boost_1_49_0\bin.v2\libs\thread\build\gcc-mingw-4.6.2\release\threading-multi" .
 make
 -------------------------------
