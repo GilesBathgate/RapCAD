@@ -92,7 +92,7 @@ bootstrap.bat
 CGAL
 ^^^^
 
-*Download CGAL installer
+* Download CGAL installer
 https://gforge.inria.fr/frs/download.php/32993/CGAL-4.3-Setup.exe[CGAL-4.3-Setup.exe]
 
 
@@ -119,7 +119,7 @@ dxflib
 * Download the gzipped tar archive
 ftp://anonymous:anonymous@ribbonsoft.com/archives/dxflib/dxflib-2.2.0.0-1.src.tar.gz[dxflib-2.2.0.0-1.src.tar.gz]
 
-*Extract instructions to follow
+* Extract instructions to follow
 
 Mac OS X 10.6.2
 ~~~~~~~~~~~~~~~
