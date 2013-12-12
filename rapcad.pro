@@ -32,24 +32,21 @@ YACCSOURCES += src/parser.y
 INCLUDEPATH += src
 
 win32 {
-	CGALROOT = "..\\CGAL-4.0\\"
-	BOOSTROOT = "..\\boost_1_49_0\\"
-	DXFLIBROOT = "..\\dxflib-2.2.0.0-1.src\\"
-	MINGWROOT = "..\\MinGW\\msys\\1.0\\bin\\"
-	INCLUDEPATH += $$CGALROOT"include"
-	INCLUDEPATH += $$CGALROOT"auxiliary\\gmp\\include"
+        CGALROOT = $$(CGAL_DIR)
+        BOOSTROOT = ../boost_1_49_0
+        DXFLIBROOT = ../dxflib-2.2.0.0-1.src
+        INCLUDEPATH += $$CGALROOT/include
+        INCLUDEPATH += $$CGALROOT/auxiliary/gmp/include
 	INCLUDEPATH += $$DXFLIBROOT
 	INCLUDEPATH += $$BOOSTROOT
-	LIBS += -L$$BOOSTROOT"bin.v2\\libs\\thread\\build\\gcc-mingw-4.6.2\\release\\threading-multi"
+        LIBS += -L$$BOOSTROOT/bin.v2/libs/thread/build/gcc-mingw-4.6.2/release/threading-multi
 	LIBS += -llibboost_thread-mgw46-mt-1_49
-	LIBS += -L$$CGALROOT"lib" -lCGAL -lCGAL_Core
-	LIBS += -L$$CGALROOT"auxiliary\\gmp\\lib" -lmpfr-4 -lgmp-10
-	LIBS += -L$$DXFLIBROOT"lib" -llibdxf
-	QMAKE_YACC = $$MINGWROOT"bison"
-	QMAKE_YACCFLAGS += "-b y"
-	QMAKE_LEX = $$MINGWROOT"flex"
-	QMAKE_MOVE = $$MINGWROOT"mv"
-	QMAKE_DEL_FILE = $$MINGWROOT"rm -f"
+        LIBS += -L$$CGALROOT/lib -lCGAL -lCGAL_Core
+        LIBS += -L$$CGALROOT/auxiliary/gmp/lib -lmpfr-4 -lgmp-10
+        LIBS += -L$$DXFLIBROOT/lib -llibdxf
+        QMAKE_YACC = bison
+        QMAKE_YACCFLAGS += "-b y"
+        QMAKE_LEX = flex
 } else {
 	LIBS += -lCGAL -lCGAL_Core -lmpfr -lgmp -ldxflib
 	QMAKE_YACC = bison
