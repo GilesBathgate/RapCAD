@@ -117,7 +117,7 @@ dxflib
 ^^^^^^
 
 * Download the gzipped tar archive
-ftp://anonymous:anonymous@ribbonsoft.com/archives/dxflib/dxflib-2.2.0.0-1.src.tar.gz[dxflib-2.2.0.0-1.src.tar.gz]
+link:ftp://anonymous:anonymous@ribbonsoft.com/archives/dxflib/dxflib-2.2.0.0-1.src.tar.gz[dxflib-2.2.0.0-1.src.tar.gz]
 
 * Extract instructions to follow
 
