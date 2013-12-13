@@ -1,0 +1,17 @@
+#!/bin/bash
+
+NAME="WindowsXP-Build-Environment"
+DISK="/data/$NAME.vdi"
+DVD="/data/iso/windowsXP-sp3-x86.iso"
+
+VBoxManage createvm --name "$NAME" --ostype WindowsXP --register
+
+VBoxManage modifyvm "$NAME" --memory 1024 --acpi on --boot1 dvd --nic1 nat
+
+#VBoxManage createhd --filename "$DISK" --size 30000
+
+VBoxManage storagectl "$NAME" --name "IDE Controller" --add ide --controller PIIX4
+
+VBoxManage storageattach "$NAME" --storagectl "IDE Controller" --port 0 --device 0 --type hdd --medium "$DISK"
+
+VBoxManage storageattach "$NAME" --storagectl "IDE Controller" --port 0 --device 1 --type dvddrive --medium "$DVD"
