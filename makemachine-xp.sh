@@ -1,6 +1,5 @@
 #!/bin/bash
-TODAY=$(date +%Y%m%d)
-NAME="WindowsXP-Build-Environment-$TODAY"
+NAME=$1
 DISK="/data/$NAME.vdi"
 DVD="/data/iso/windowsXP-sp3-x86.iso"
 IMG="./disk.img"
@@ -16,6 +15,8 @@ VBoxManage storagectl "$NAME" --name "IDE Controller" --add ide --controller PII
 VBoxManage storageattach "$NAME" --storagectl "IDE Controller" --port 0 --device 0 --type hdd --medium "$DISK"
 
 VBoxManage storageattach "$NAME" --storagectl "IDE Controller" --port 0 --device 1 --type dvddrive --medium "$DVD"
+
+VBoxManage storageattach "$NAME" --storagectl "IDE Controller" --port 1 --device 0 --type dvddrive --medium "$ADDITIONS"
 
 VBoxManage storagectl "$NAME" --name "Floppy Controller" --add floppy --controller I82078
 

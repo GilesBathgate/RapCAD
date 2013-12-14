@@ -44,4 +44,5 @@ echo "YResolution = 600" >> winnt.sif
 echo "BitsPerPel = 32" >> winnt.sif
 echo >> winnt.sif
 echo "[GuiRunOnce]" >> winnt.sif
-echo "Command0=\"E:\VBoxWindowsAdditions.exe /S /xres=800 /yres=600 /depth=32\"" >> winnt.sif
+echo "Command0=\"E:\VBoxWindowsAdditions.exe /S /with_autologon\"" >> winnt.sif
+echo "Command1=\"shutdown -f -s -t 00\"" >> winnt.sif
