@@ -1,7 +1,7 @@
 #!/bin/bash
 TODAY=$(date +%Y%m%d)
-NAME="WindowsXP-Build-Environment-$TODAY"
-DISK="/data/$NAME.vdi"
+NAME="$TODAY"
+DISK="$NAME.vdi"
 
 VBoxManage storageattach "$NAME" --storagectl "IDE Controller" --port 1 --device 0 --type dvddrive --medium none
 

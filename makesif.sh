@@ -6,6 +6,7 @@ echo "[Data]" > winnt.sif
 echo "AutoPartition = 1" >> winnt.sif
 echo "MsDosInitiated = 0" >> winnt.sif
 echo "UnattendedInstall = Yes" >> winnt.sif
+echo "AutomaticUpdates = No" >> winnt.sif
 echo >> winnt.sif
 echo "[Unattended]" >> winnt.sif
 echo "UnattendMode = FullUnattended" >> winnt.sif
@@ -39,10 +40,10 @@ echo "[Networking]" >> winnt.sif
 echo "InstallDefaultComponents = Yes" >> winnt.sif
 echo >> winnt.sif
 echo "[Display]" >> winnt.sif
-echo "XResolution = 800" >> winnt.sif
-echo "YResolution = 600" >> winnt.sif
+echo "XResolution = 1024" >> winnt.sif
+echo "YResolution = 768" >> winnt.sif
 echo "BitsPerPel = 32" >> winnt.sif
+echo "AutoConfirm = 1" >> winnt.sif
 echo >> winnt.sif
 echo "[GuiRunOnce]" >> winnt.sif
-echo "Command0=\"E:\VBoxWindowsAdditions.exe /S /with_autologon\"" >> winnt.sif
-echo "Command1=\"shutdown -f -s -t 00\"" >> winnt.sif
+echo "Command0=\"C:\WINDOWS\System32\cmd.exe /c start /wait E:\VBoxWindowsAdditions.exe /S /depth=32 /xres=1024 /yres=768 /with_autologon && shutdown -f -s -t 00\"" >> winnt.sif
