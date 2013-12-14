@@ -51,7 +51,7 @@ int Comparer::evaluate()
 	delete d;
 
 	Primitive* p=ne.getResult();
-	if(p->isEmpty()) {
+	if(p&&p->isEmpty()) {
 		output << "The objects are identical." << endl;
 		reporter->setReturnCode(0);
 	} else {

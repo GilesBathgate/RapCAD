@@ -343,6 +343,8 @@ void NodeEvaluator::visit(ImportNode* op)
 #if USE_CGAL
 	CGALImport i(output);
 	result=i.import(op->getImport());
+#else
+	result=NULL;
 #endif
 }
 

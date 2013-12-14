@@ -35,5 +35,7 @@ public:
 	Primitive* minkowski(const Primitive*) { return this; }
 	Primitive* inset(double) { return this; }
 	bool isFullyDimentional() { return false; }
+	Primitive* copy() { return this; }
+	bool isEmpty() { return false; }
 };
 #endif // NULLPRIMITIVE_H
