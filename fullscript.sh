@@ -65,7 +65,7 @@ sudo cp $SIF disk-mount/
 sleep 1
 sudo umount disk-mount
 rm -rf disk-mount
-rm $IMG
+rm $SIF
 
 VBoxManage createvm \
 	--name "$NAME" \
@@ -142,6 +142,8 @@ VBoxManage storageattach "$NAME" \
 	--device 0 \
 	--type fdd \
 	--medium none
+
+rm $IMG
 
 VBoxManage storagectl "$NAME" \
 	--name "Floppy Controller" \
