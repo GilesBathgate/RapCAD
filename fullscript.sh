@@ -2,13 +2,13 @@
 sudo true #Just ask the user for sudo password early.
 NAME=$(date +%Y%m%d)
 KEY=$(cat key.txt)
-PASSWORD=$(openssl rand -base64 12)
+PASS=$(openssl rand -base64 12)
 SIF=winnt.sif
 IMG="disk.img"
 DISK="$NAME.vdi"
 ADDITIONS="/usr/share/virtualbox/VBoxGuestAdditions.iso"
 DVD="../iso/windowsXP-sp3-x86.iso"
-USERNAME=Administrator
+USER=Administrator
 
 echo "Building configuration file..."
 
@@ -29,7 +29,7 @@ echo "DriverSigningPolicy = Ignore" >> $SIF
 echo "WaitForReboot = No" >> $SIF
 echo >> $SIF
 echo "[GuiUnattended]" >> $SIF
-echo "AdminPassword = \"$PASSWORD\"" >> $SIF
+echo "AdminPassword = \"$PASS\"" >> $SIF
 echo "AutoLogon = Yes" >> $SIF
 echo "AutoLogonCount = 1" >> $SIF
 echo "OEMSkipRegional = 1" >> $SIF
@@ -168,4 +168,31 @@ VBoxManage sharedfolder add "$NAME" \
 
 VBoxHeadless -startvm "$NAME" &
 
-echo "Ready to go. Admin password: " $PASSWORD
+echo "Wait for machine to be ready..."
+echo -n "Waiting"
+until VBoxManage guestcontrol "$NAME" \
+	stat C:\\ \
+	--username $USER \
+	--password $PASS
+do
+ echo -n "."
+ sleep 1
+done
+
+echo "Attempting login..."
+VBoxManage controlvm "$NAME" \
+	setcredentials $USER $PASS localhost \
+	--allowlocallogon yes
+
+echo -n "Waiting"
+until VBoxManage guestcontrol "$NAME" \
+	stat D:\\ \
+	--username $USER \
+	--password $PASS
+do
+ echo -n "."
+ sleep 1
+done
+
+echo "Ready to go..."
+echo "$USER password: $PASS"
