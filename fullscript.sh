@@ -1,14 +1,16 @@
 #!/bin/bash
-sudo true #Just ask the user for a password early.
+sudo true #Just ask the user for sudo password early.
 NAME=$(date +%Y%m%d)
 KEY=$(cat key.txt)
-PASSWORD="password-"$(date +%Y%m%d)
+PASSWORD=$(openssl rand -base64 12)
 SIF=winnt.sif
 IMG="disk.img"
 DISK="$NAME.vdi"
 ADDITIONS="/usr/share/virtualbox/VBoxGuestAdditions.iso"
 DVD="../iso/windowsXP-sp3-x86.iso"
 USERNAME=Administrator
+
+echo "Building configuration file..."
 
 echo "[Data]" > $SIF
 echo "AutoPartition = 1" >> $SIF
@@ -56,6 +58,8 @@ echo >> $SIF
 echo "[GuiRunOnce]" >> $SIF
 echo "Command0=\"C:\WINDOWS\System32\cmd.exe /c start /wait E:\VBoxWindowsAdditions.exe /S /depth=32 /xres=1024 /yres=768 /with_autologon && shutdown -f -s -t 00\"" >> $SIF
 
+echo "Building floppy image..."
+
 rm -f $IMG
 dd bs=512 count=2880 if=/dev/zero of=$IMG
 sudo mkdosfs $IMG
@@ -66,6 +70,8 @@ sleep 1
 sudo umount disk-mount
 rm -rf disk-mount
 rm $SIF
+
+echo "Building machine..."
 
 VBoxManage createvm \
 	--name "$NAME" \
@@ -120,7 +126,11 @@ VBoxManage storageattach "$NAME" \
 	--type fdd \
 	--medium "$IMG"
 
+echo "Installing windows..."
+
 VBoxHeadless -startvm $NAME
+
+echo "Removing devices..."
 
 VBoxManage storageattach "$NAME" \
 	--storagectl "IDE Controller" \
@@ -149,9 +159,13 @@ VBoxManage storagectl "$NAME" \
 	--name "Floppy Controller" \
 	--remove
 
+echo "Adding shared folder..."
+
 VBoxManage sharedfolder add "$NAME" \
 	--name shared \
 	--hostpath $PWD/shared \
 	--automount
 
 VBoxHeadless -startvm "$NAME" &
+
+echo "Ready to go. Admin password: " $PASSWORD

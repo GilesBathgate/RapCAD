@@ -1,6 +1,6 @@
 #!/bin/bash
 NAME=$(date +%Y%m%d)
-PASSWORD="password-"$NAME
+PASSWORD=$1
 USERNAME=Administrator
 
 #VBoxManage controlvm "$NAME" \
