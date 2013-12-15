@@ -56,19 +56,20 @@ Node* SphereModule::evaluate(Context* ctx)
 		double phi = (M_PI*(i+0.5)) / ringCount;
 		double r2 = r*sin(phi);
 		double z = r*cos(phi)+!center*r;
-		Polygon c = getCircle(r2,f,z);
-		rings.append(c);
+		Polygon* c = getCircle(r2,f,z);
+		rings.append(*c);
 	}
 
 	PrimitiveNode* p = new PrimitiveNode();
 
 	p->createPolygon();
-	foreach(Point pt, rings.at(0))
+	Polygon top=rings.at(0);
+	foreach(Point pt, top.getPoints())
 		p->appendVertex(pt);
 
 	for(int i = 0; i < ringCount-1; i++) {
-		Polygon r1 = rings.at(i);
-		Polygon r2 = rings.at(i+1);
+		QList<Point> r1 = rings.at(i).getPoints();
+		QList<Point> r2 = rings.at(i+1).getPoints();
 		int r1i = 0, r2i = 0;
 		while(r1i < f || r2i < f) {
 			if(r2i >= f||(double)r1i/f<(double)r2i/f) {
@@ -90,7 +91,8 @@ Node* SphereModule::evaluate(Context* ctx)
 	}
 
 	p->createPolygon();
-	foreach(Point pt, rings.at(ringCount-1))
+	Polygon bottom=rings.at(ringCount-1);
+	foreach(Point pt, bottom.getPoints())
 		p->prependVertex(pt);
 
 	return p;

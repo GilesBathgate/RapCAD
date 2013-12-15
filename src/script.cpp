@@ -24,8 +24,8 @@ Script::Script()
 
 Script::~Script()
 {
-	for(int i =0; i<declarations.size(); i++)
-		delete declarations.at(i);
+	foreach(Declaration* d,declarations)
+		delete d;
 }
 
 void Script::setDeclarations(QList<Declaration*> decls)

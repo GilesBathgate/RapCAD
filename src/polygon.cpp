@@ -16,29 +16,23 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "compoundstatement.h"
+#include "polygon.h"
 
-CompoundStatement::CompoundStatement()
+Polygon::Polygon()
 {
 }
 
-CompoundStatement::~CompoundStatement()
+void Polygon::append(Point p)
 {
-	foreach(Statement* s,children)
-		delete s;
+	points.append(p);
 }
 
-void CompoundStatement::setChildren(QList<Statement*> stmts)
+void Polygon::prepend(Point p)
 {
-	this->children = stmts;
+	points.prepend(p);
 }
 
-QList<Statement*> CompoundStatement::getChildren() const
+QList<Point> Polygon::getPoints() const
 {
-	return this->children;
-}
-
-void CompoundStatement::accept(TreeVisitor& v)
-{
-	v.visit(this);
+	return points;
 }

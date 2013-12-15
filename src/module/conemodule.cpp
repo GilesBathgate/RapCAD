@@ -62,14 +62,18 @@ Node* ConeModule::evaluate(Context* ctx)
 	double r=fmax(r1,r2);
 	int f = getFragments(r,ctx);
 
-	Polygon c1 = getCircle(r1,f,z1);
-	Polygon c2 = getCircle(r2,f,z2);
+	Polygon* p1 = getCircle(r1,f,z1);
+	Polygon* p2 = getCircle(r2,f,z2);
+
+	QList<Point> c1=p1->getPoints();
+	QList<Point> c2=p2->getPoints();
+
 	PrimitiveNode* p = new PrimitiveNode();
 
 	if(r1 > 0) {
 		p->createPolygon();
-		for(int i=0; i<f; i++)
-			p->appendVertex(c1.at(i));
+		foreach(Point pt, c1)
+			p->appendVertex(pt);
 	}
 
 	if(h==0.0)
@@ -93,8 +97,8 @@ Node* ConeModule::evaluate(Context* ctx)
 
 	if(r2 > 0) {
 		p->createPolygon();
-		for(int i=0; i<f; i++)
-			p->prependVertex(c2.at(i));
+		foreach(Point pt,c2)
+			p->prependVertex(pt);
 	}
 
 	return p;

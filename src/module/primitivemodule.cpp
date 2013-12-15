@@ -61,9 +61,9 @@ int PrimitiveModule::getFragments(double r, Context* ctx)
 }
 
 
-Polygon PrimitiveModule::getCircle(double r, double f, double z)
+Polygon* PrimitiveModule::getCircle(double r, double f, double z)
 {
-	Polygon circle;
+	Polygon* circle = new Polygon();
 	for(int i=0; i<f; i++) {
 		double phi = (M_TAU*i) / f;
 		double x,y;
@@ -75,15 +75,15 @@ Polygon PrimitiveModule::getCircle(double r, double f, double z)
 			y=0;
 		}
 		Point p(x,y,z);
-		circle.append(p);
+		circle->append(p);
 	}
 
 	return circle;
 }
 
-Polygon PrimitiveModule::getPolygon(double a,double r, double n, double z)
+Polygon* PrimitiveModule::getPolygon(double a,double r, double n, double z)
 {
-	Polygon poly;
+	Polygon* poly = new Polygon();
 	if(n==6) {
 		//TODO modify this to cater for all even values of n
 		double x=0,y=0;
@@ -119,7 +119,7 @@ Polygon PrimitiveModule::getPolygon(double a,double r, double n, double z)
 				break;
 			}
 			}
-			poly.append(Point(x,y,z));
+			poly->append(Point(x,y,z));
 		}
 		return poly;
 	} else {

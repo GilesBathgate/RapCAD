@@ -29,6 +29,15 @@
 #include <QList>
 #include "point.h"
 
-typedef QList<Point> Polygon;
+class Polygon
+{
+public:
+	Polygon();
+	void append(Point);
+	void prepend(Point);
+	QList<Point> getPoints() const;
+private:
+	QList<Point> points;
+};
 
 #endif // POLYGON_H

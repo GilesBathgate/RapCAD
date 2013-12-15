@@ -26,11 +26,11 @@ class PolylineNode : public Node
 {
 public:
 	PolylineNode();
-	void setPoints(Polygon);
-	Polygon getPoints() const;
+	void setPolygon(Polygon);
+	Polygon getPolygon() const;
 	void accept(NodeVisitor&);
 private:
-	Polygon points;
+	Polygon polygon;
 };
 
 #endif // POLYLINENODE_H

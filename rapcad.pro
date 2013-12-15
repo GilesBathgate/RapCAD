@@ -251,7 +251,8 @@ SOURCES += \
 	src/tester.cpp \
 	src/strategy.cpp \
 	src/comparer.cpp \
-	src/module/multmatrixmodule.cpp
+	src/module/multmatrixmodule.cpp \
+	src/polygon.cpp
 
 HEADERS  += \
 	src/mainwindow.h \

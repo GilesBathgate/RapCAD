@@ -34,13 +34,13 @@ Node* CircleModule::evaluate(Context* ctx)
 	}
 
 	int f = getFragments(r,ctx);
-	Polygon c = getCircle(r,f,0);
+	Polygon* c = getCircle(r,f,0);
 	PrimitiveNode* p = new PrimitiveNode();
 
 	if(r > 0) {
 		p->createPolygon();
-		for(int i=0; i<f; i++)
-			p->appendVertex(c.at(i));
+		foreach(Point pt, c->getPoints())
+			p->appendVertex(pt);
 	}
 
 	return p;

@@ -67,8 +67,11 @@ Node* PrismModule::evaluate(Context* ctx)
 		z2 = h;
 	}
 
-	Polygon p1 = getPolygon(a,r,n,z1);
-	Polygon p2 = getPolygon(a,r,n,z2);
+	Polygon* pg1 = getPolygon(a,r,n,z1);
+	Polygon* pg2 = getPolygon(a,r,n,z2);
+
+	QList<Point> p1=pg1->getPoints();
+	QList<Point> p2=pg2->getPoints();
 
 	PrimitiveNode* p = new PrimitiveNode();
 
@@ -83,12 +86,12 @@ Node* PrismModule::evaluate(Context* ctx)
 		}
 
 		p->createPolygon();
-		for(int i=0; i<n; i++)
-			p->appendVertex(p1.at(i));
+		foreach(Point pt,p1)
+			p->appendVertex(pt);
 
 		p->createPolygon();
-		for(int i=0; i<n; i++)
-			p->prependVertex(p2.at(i));
+		foreach(Point pt,p2)
+			p->prependVertex(pt);
 	}
 
 	return p;

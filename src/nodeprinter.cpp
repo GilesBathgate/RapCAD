@@ -28,7 +28,7 @@ void NodePrinter::visit(PrimitiveNode* n)
 	QList<Point> ptlist;
 	QList<Polygon> polygons=n->getPolygons();
 	foreach(Polygon pg, polygons) {
-		foreach(Point p, pg) {
+		foreach(Point p, pg.getPoints()) {
 			if(!ptlist.contains(p))
 				ptlist.append(p);
 		}
@@ -48,10 +48,11 @@ void NodePrinter::visit(PrimitiveNode* n)
 		if(i>0)
 			result << ",";
 		result << "[";
-		for(int j=0; j<pg.size(); j++) {
+		QList<Point> pgs=pg.getPoints();
+		for(int j=0; j<pgs.size(); j++) {
 			if(j>0)
 				result << ",";
-			Point p = pg.at(j);
+			Point p = pgs.at(j);
 			int i = ptlist.indexOf(p);
 			result << QString().setNum(i);
 		}

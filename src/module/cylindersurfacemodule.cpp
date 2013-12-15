@@ -55,8 +55,12 @@ Node* CylinderSurfaceModule::evaluate(Context* ctx)
 	}
 
 	int f = getFragments(r,ctx);
-	Polygon c1 = getCircle(r,f,z1);
-	Polygon c2 = getCircle(r,f,z2);
+	Polygon* p1 = getCircle(r,f,z1);
+	Polygon* p2 = getCircle(r,f,z2);
+
+	QList<Point> c1=p1->getPoints();
+	QList<Point> c2=p2->getPoints();
+
 	PrimitiveNode* p = new PrimitiveNode();
 
 	for(int i=0; i<f; i++) {

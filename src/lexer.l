@@ -156,8 +156,8 @@ void lexerinit(AbstractTokenBuilder* b,Reporter* r, QString input,bool file)
 
 void lexerdestroy()
 {
-	for(int i=0; i<openfiles.count(); i++)
-		fclose(openfiles.at(i));
+	foreach(FILE* f, openfiles)
+		fclose(f);
 	openfiles.clear();
 }
 

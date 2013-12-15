@@ -22,14 +22,14 @@ PolylineNode::PolylineNode()
 {
 }
 
-Polygon PolylineNode::getPoints() const
+Polygon PolylineNode::getPolygon() const
 {
-	return points;
+	return polygon;
 }
 
-void PolylineNode::setPoints(Polygon p)
+void PolylineNode::setPolygon(Polygon p)
 {
-	points=p;
+	polygon=p;
 }
 
 void PolylineNode::accept(NodeVisitor& v)

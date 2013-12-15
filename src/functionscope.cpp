@@ -25,8 +25,8 @@ FunctionScope::FunctionScope()
 
 FunctionScope::~FunctionScope()
 {
-	for(int i=0; i<statements.size(); i++)
-		delete statements.at(i);
+	foreach(Statement* s,statements)
+		delete s;
 
 	delete expression;
 }

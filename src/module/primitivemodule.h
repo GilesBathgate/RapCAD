@@ -29,8 +29,8 @@ public:
 	PrimitiveModule(const QString);
 protected:
 	int getFragments(double,Context*);
-	Polygon getCircle(double,double,double);
-	Polygon getPolygon(double,double,double,double);
+	Polygon* getCircle(double,double,double);
+	Polygon* getPolygon(double,double,double,double);
 private:
 	void getSpecialVariables(Context*,double&,double&,double&);
 };

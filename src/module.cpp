@@ -31,8 +31,8 @@ Module::Module(const QString n) : name(n)
 
 Module::~Module()
 {
-	for(int i=0; i<parameters.size(); i++)
-		delete parameters.at(i);
+	foreach(Parameter* p,parameters)
+		delete p;
 
 	delete scope;
 }

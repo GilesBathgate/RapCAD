@@ -33,8 +33,8 @@ Function::Function(QString n)
 
 Function::~Function()
 {
-	for(int i=0; i<parameters.size(); i++)
-		delete parameters.at(i);
+	foreach(Parameter* p, parameters)
+		delete p;
 
 	delete scope;
 }

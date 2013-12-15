@@ -93,8 +93,8 @@ QList<Value*> VectorValue::getChildren()
 Value* VectorValue::operation(Expression::Operator_e e)
 {
 	QList<Value*> result;
-	for(int i=0; i<this->children.size(); i++)
-		result.append(Value::operation(this->children.at(i),e));
+	foreach(Value* c,children)
+		result.append(Value::operation(c,e));
 	return new VectorValue(result);
 }
 
@@ -107,8 +107,8 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 		QList<Value*> b=vec->getChildren();
 
 		if(e==Expression::OuterProduct) {
-			for(int i=0; i<b.size(); i++)
-				result.append(Value::operation(this,e,b.at(i)));
+			foreach(Value* c,b)
+				result.append(Value::operation(this,e,c));
 		} else if(e==Expression::Multiply || e==Expression::Divide) {
 			//TODO implement multiply and divide
 			return this;
@@ -150,8 +150,8 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 				return new Value();
 		} else {
 			e=convertOperation(e);
-			for(int i=0; i<a.size(); i++)
-				result.append(Value::operation(a.at(i),e,num));
+			foreach(Value* c,a)
+				result.append(Value::operation(c,e,num));
 		}
 		return new VectorValue(result);
 	}

@@ -42,6 +42,6 @@ Node* PolylineModule::evaluate(Context* ctx)
 			polyline.append(pt);
 		}
 	}
-	p->setPoints(polyline);
+	p->setPolygon(polyline);
 	return p;
 }
