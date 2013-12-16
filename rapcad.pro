@@ -443,7 +443,8 @@ HEADERS  += \
 	src/comparer.h \
 	src/module/multmatrixmodule.h \
 	src/onceonly.h \
-	src/glview.h
+	src/glview.h \
+	contrib/fragments.h
 
 FORMS += \
 	src/mainwindow.ui \

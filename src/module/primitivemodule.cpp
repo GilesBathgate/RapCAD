@@ -21,6 +21,7 @@
 #include "tau.h"
 #include "context.h"
 #include "numbervalue.h"
+#include "contrib/fragments.h"
 
 PrimitiveModule::PrimitiveModule(const QString n) : Module(n)
 {
@@ -42,24 +43,12 @@ void PrimitiveModule::getSpecialVariables(Context* ctx, double& fn, double& fs, 
 		fa=faVal->getNumber();
 }
 
-/**
-* Get the number of fragments of a circle, given radius and
-* the three special variables $fn, $fs and $fa
-*/
 int PrimitiveModule::getFragments(double r, Context* ctx)
 {
 	double fn,fs,fa;
 	getSpecialVariables(ctx,fn,fs,fa);
-	const double GRID_FINE = 0.000001;
-	if(r < GRID_FINE)
-		return 0;
-
-	if(fn > 0.0)
-		return (int)fn;
-
-	return (int)ceil(fmax(fmin(360.0 / fa, r*M_PI / fs), 5));
+	return get_fragments_from_r(r,fn,fs,fa);
 }
-
 
 Polygon* PrimitiveModule::getCircle(double r, double f, double z)
 {
