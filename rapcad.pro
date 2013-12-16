@@ -252,7 +252,8 @@ SOURCES += \
 	src/strategy.cpp \
 	src/comparer.cpp \
 	src/module/multmatrixmodule.cpp \
-	src/polygon.cpp
+	src/polygon.cpp \
+	src/onceonly.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -441,7 +442,8 @@ HEADERS  += \
 	src/cgalassert.h \
 	src/strategy.h \
 	src/comparer.h \
-	src/module/multmatrixmodule.h
+	src/module/multmatrixmodule.h \
+	src/onceonly.h
 
 FORMS += \
 	src/mainwindow.ui \

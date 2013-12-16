@@ -18,6 +18,7 @@
 
 #include "writemodule.h"
 #include "context.h"
+#include "onceonly.h"
 
 WriteModule::WriteModule(QTextStream& s) : Module("write"), output(s)
 {
@@ -30,10 +31,10 @@ WriteModule::WriteModule(const QString n, QTextStream& s) : Module(n), output(s)
 Node* WriteModule::evaluate(Context* ctx)
 {
 	QList<Value*> args=ctx->getArguments();
-	for(int i=0; i<args.size(); i++) {
-		if(i>0)
+	OnceOnly first;
+	foreach(Value* a,args) {
+		if(!first())
 			output << " ";
-		Value* a=args.at(i);
 		output << a->getValueString();
 	}
 	return NULL;

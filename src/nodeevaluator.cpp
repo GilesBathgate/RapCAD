@@ -19,6 +19,7 @@
 #include <QVector>
 #include "nodeevaluator.h"
 #include "tau.h"
+#include "onceonly.h"
 
 #if USE_CGAL
 #include "cgalimport.h"
@@ -100,10 +101,11 @@ void NodeEvaluator::visit(GlideNode* op)
 
 			CGALPrimitive* cp=new CGALPrimitive();
 			CGAL::Point3 fp;
-			for(int i=0; i<points.size(); i++) {
-				if(i==0)
-					fp=points.at(i);
-				cp->appendVertex(points.at(i));
+			OnceOnly first_p;
+			foreach(CGAL::Point3 pt,points) {
+				if(first_p())
+					fp=pt;
+				cp->appendVertex(pt);
 			}
 			if(op->getClosed())
 				cp->appendVertex(fp);

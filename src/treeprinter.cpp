@@ -17,6 +17,7 @@
  */
 
 #include "treeprinter.h"
+#include "onceonly.h"
 
 TreePrinter::TreePrinter(QTextStream& s) : result(s)
 {
@@ -71,11 +72,11 @@ void TreePrinter::visit(Instance* inst)
 	result << inst->getName();
 	result << "(";
 	QList<Argument*> arguments = inst->getArguments();
-	int s = arguments.size();
-	for(int i=0; i<s; i++) {
-		arguments.at(i)->accept(*this);
-		if(i+1<s)
+	OnceOnly first;
+	foreach(Argument* a, arguments) {
+		if(!first())
 			result << ",";
+		a->accept(*this);
 	}
 	result << ")";
 
@@ -96,8 +97,9 @@ void TreePrinter::visit(Instance* inst)
 			createIndent();
 			result << "}";
 		}
-	} else
+	} else {
 		result << ";";
+	}
 
 	result << "\n";
 }
@@ -108,11 +110,11 @@ void TreePrinter::visit(Module* mod)
 	result << mod->getName();
 	result << "(";
 	QList<Parameter*> parameters = mod->getParameters();
-	int s = parameters.size();
-	for(int i=0; i<s; i++) {
-		parameters.at(i)->accept(*this);
-		if(i+1<s)
+	OnceOnly first;
+	foreach(Parameter* p,parameters) {
+		if(!first())
 			result << ",";
+		p->accept(*this);
 	}
 	result << "){";
 	Scope* scp=mod->getScope();
@@ -130,11 +132,11 @@ void TreePrinter::visit(Function* func)
 	result << func->getName();
 	result << "(";
 	QList<Parameter*> parameters = func->getParameters();
-	int s = parameters.size();
-	for(int i=0; i<s; i++) {
-		parameters.at(i)->accept(*this);
-		if(i+1<s)
+	OnceOnly first;
+	foreach(Parameter* p,parameters) {
+		if(!first())
 			result << ",";
+		p->accept(*this);
 	}
 
 	result << ")";
@@ -159,16 +161,16 @@ void TreePrinter::visit(FunctionScope* scp)
 	if(s>0) {
 		result << "{\n";
 		++indent;
-		for(int i=0; i<s; i++) {
+		foreach(Statement* s, statements) {
 			createIndent();
-			statements.at(i)->accept(*this);
+			s->accept(*this);
 		}
 		--indent;
 		createIndent();
 		result << "}";
-	} else
+	} else {
 		result << ";";
-
+	}
 	result << "\n";
 }
 
@@ -287,11 +289,11 @@ void TreePrinter::visit(VectorExpression* exp)
 {
 	result << "[";
 	QList<Expression*> children = exp->getChildren();
-	int s = children.size();
-	for(int i=0; i<s; i++) {
-		children.at(i)->accept(*this);
-		if(i+1<s)
+	OnceOnly first;
+	foreach(Expression* e,children) {
+		if(!first())
 			result << ",";
+		e->accept(*this);
 	}
 	result << "]";
 }
@@ -351,11 +353,11 @@ void TreePrinter::visit(Invocation* stmt)
 	result << stmt->getName();
 	result << "(";
 	QList<Argument*> arguments = stmt->getArguments();
-	int s = arguments.size();
-	for(int i=0; i<s; i++) {
-		arguments.at(i)->accept(*this);
-		if(i+1<s)
+	OnceOnly first;
+	foreach(Argument* a,arguments) {
+		if(!first())
 			result << ",";
+		a->accept(*this);
 	}
 	result << ")";
 }
@@ -378,10 +380,11 @@ void TreePrinter::visit(ModuleImport* decl)
 	int s = parameters.size();
 	if(s>0) {
 		result << "(";
-		for(int i=0; i<s; i++) {
-			parameters.at(i)->accept(*this);
-			if(i+1<s)
+		OnceOnly first;
+		foreach(Parameter* p,parameters) {
+			if(!first())
 				result << ",";
+			p->accept(*this);
 		}
 
 		result << ")";

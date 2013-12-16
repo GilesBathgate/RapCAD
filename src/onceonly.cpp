@@ -16,21 +16,19 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ECHOMODULE_H
-#define ECHOMODULE_H
-
-#include <QTextStream>
-#include "module.h"
 #include "onceonly.h"
 
-class EchoModule : public Module
+OnceOnly::OnceOnly()
 {
-public:
-	EchoModule(QTextStream&);
-	Node* evaluate(Context*);
-private:
-	QTextStream& output;
-	static OnceOnly depricateWarning;
-};
+	called=false;
+}
 
-#endif // ECHOMODULE_H
+bool OnceOnly::operator ()()
+{
+	if(!called) {
+		called=true;
+		return true;
+	} else {
+		return false;
+	}
+}

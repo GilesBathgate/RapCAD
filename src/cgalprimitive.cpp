@@ -3,6 +3,7 @@
 #include <QPair>
 #include <CGAL/minkowski_sum_3.h>
 #include "cgalbuilder.h"
+#include "onceonly.h"
 
 CGALPrimitive::CGALPrimitive()
 {
@@ -30,9 +31,9 @@ Primitive* CGALPrimitive::buildPrimitive()
 	} else if(points.count()>1) {
 		QVector<CGAL::Point3> pl;
 		CGAL::Point3 fp;
-		for(int i=0; i<points.size(); i++) {
-			CGAL::Point3 pt=points.at(i);
-			if(i==0)
+		OnceOnly first;
+		foreach(CGAL::Point3 pt, points) {
+			if(first())
 				fp=pt;
 			pl.append(pt);
 		}

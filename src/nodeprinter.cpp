@@ -17,6 +17,7 @@
  */
 
 #include "nodeprinter.h"
+#include "onceonly.h"
 
 NodePrinter::NodePrinter(QTextStream& s) : result(s)
 {
@@ -34,25 +35,24 @@ void NodePrinter::visit(PrimitiveNode* n)
 		}
 	}
 
-	for(int i=0; i<ptlist.size(); i++) {
-		Point p = ptlist.at(i);
-		QString pt = p.toString();
-		if(i>0)
+	OnceOnly first;
+	foreach(Point p, ptlist) {
+		if(!first())
 			result << ",";
-		result << pt;
+		result << p.toString();
 	}
 	result << "],[";
 
-	for(int i=0; i<polygons.size(); i++) {
-		Polygon pg = polygons.at(i);
-		if(i>0)
+	OnceOnly first_pg;
+	foreach(Polygon pg,polygons) {
+		if(!first_pg())
 			result << ",";
 		result << "[";
-		QList<Point> pgs=pg.getPoints();
-		for(int j=0; j<pgs.size(); j++) {
-			if(j>0)
+
+		OnceOnly first_p;
+		foreach(Point p,pg.getPoints()) {
+			if(!first_p())
 				result << ",";
-			Point p = pgs.at(j);
 			int i = ptlist.indexOf(p);
 			result << QString().setNum(i);
 		}

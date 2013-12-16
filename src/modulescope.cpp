@@ -24,8 +24,8 @@ ModuleScope::ModuleScope()
 
 ModuleScope::~ModuleScope()
 {
-	for(int i=0; i<declarations.size(); i++)
-		delete declarations.at(i);
+	foreach(Declaration* d,declarations)
+		delete d;
 }
 
 void ModuleScope::setDeclarations(QList<Declaration*> decls)

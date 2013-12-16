@@ -25,6 +25,7 @@
 #include <QXmlStreamWriter>
 #include <CGAL/IO/Polyhedron_iostream.h>
 #include"cgalexplorer.h"
+#include "onceonly.h"
 
 CGALExport::CGALExport(CGALPrimitive* p)
 {
@@ -242,11 +243,9 @@ void CGALExport::exportCSG(QString filename)
 	output << "polyhedron([";
 
 	QList<CGAL::Point3> points=prim->getPoints();
-	bool first=true;
+	OnceOnly first;
 	foreach(CGAL::Point3 p,points) {
-		if(first)
-			first=false;
-		else
+		if(!first())
 			output << ",";
 		double x,y,z;
 		x=to_double(p.x());
@@ -258,18 +257,14 @@ void CGALExport::exportCSG(QString filename)
 
 	output << "],[";
 
-	first=true;
+	OnceOnly first_poly;
 	foreach(CGALPolygon* poly, prim->getPolygons()) {
-		if(first)
-			first=false;
-		else
+		if(!first_poly())
 			output << ",";
 		output << "[" ;
-		bool firstindex=true;
+		OnceOnly first_p;
 		foreach(CGAL::Point3 p, poly->getPoints()) {
-			if(firstindex)
-				firstindex=false;
-			else
+			if(!first_p())
 				output << ",";
 			int i=points.indexOf(p); //eek, this could be slow on large models.
 			output << i;

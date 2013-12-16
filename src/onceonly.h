@@ -16,21 +16,22 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ECHOMODULE_H
-#define ECHOMODULE_H
+#ifndef ONCEONLY_H
+#define ONCEONLY_H
 
-#include <QTextStream>
-#include "module.h"
-#include "onceonly.h"
-
-class EchoModule : public Module
+/**
+ * @class OnceOnly is a little functor that
+ * the first time you invoke will return
+ * true, but all subsequent times will return
+ * false.
+ */
+class OnceOnly
 {
 public:
-	EchoModule(QTextStream&);
-	Node* evaluate(Context*);
+	OnceOnly();
+	bool operator ()();
 private:
-	QTextStream& output;
-	static OnceOnly depricateWarning;
+	bool called;
 };
 
-#endif // ECHOMODULE_H
+#endif // ONCEONLY_H
