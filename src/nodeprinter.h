@@ -65,7 +65,6 @@ public:
 	void visit(OffsetNode*);
 	void visit(OutlineNode*);
 	void visit(ImportNode*);
-	void printOperation(Node*,QString name);
 	void visit(TransformationNode*);
 	void visit(ResizeNode*);
 	void visit(CenterNode*);
@@ -73,6 +72,9 @@ public:
 	void visit(SliceNode*);
 	void visit(ProductNode*);
 	void visit(ProjectionNode*);
+	void printChildren(Node*);
+	void printArguments(Point);
+	void printArguments(Polygon);
 private:
 	QTextStream& result;
 };

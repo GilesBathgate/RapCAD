@@ -63,83 +63,101 @@ void NodePrinter::visit(PrimitiveNode* n)
 
 void NodePrinter::visit(PolylineNode* n)
 {
-	printOperation(n,"polyline");
+	result << "polyline";
+	printArguments(n->getPolygon());
+	printChildren(n);
 }
 
 void NodePrinter::visit(UnionNode* n)
 {
-	printOperation(n,"union");
+	result << "union()";
+	printChildren(n);
 }
 
 void NodePrinter::visit(DifferenceNode* n)
 {
-	printOperation(n,"difference");
+	result << "difference()";
+	printChildren(n);
 }
 
 void NodePrinter::visit(IntersectionNode* n)
 {
-	printOperation(n,"intersection");
+	result << "intersection()";
+	printChildren(n);
 }
 
 void NodePrinter::visit(SymmetricDifferenceNode* n)
 {
-	printOperation(n,"symmetric_difference");
+	result << "symmetric_difference()";
+	printChildren(n);
 }
 
 void NodePrinter::visit(MinkowskiNode* n)
 {
-	printOperation(n,"minkowski");
+	result << "minkowski()";
+	printChildren(n);
 }
 
 void NodePrinter::visit(GlideNode* n)
 {
-	printOperation(n,"glide");
+	result << "glide()";
+	printChildren(n);
 }
 
 void NodePrinter::visit(HullNode* n)
 {
-	printOperation(n,"hull");
+	result << "hull()";
+	printChildren(n);
 }
 
 void NodePrinter::visit(LinearExtrudeNode* n)
 {
-	printOperation(n,"linear_extrude");
+	result << "linear_extrude(";
+	result << n->getHeight();
+	result << ")";
+	printChildren(n);
 }
 
 void NodePrinter::visit(RotateExtrudeNode* n)
 {
-	printOperation(n,"rotate_extrude");
+	result << "rotate_extrude(";
+	result << n->getRadius();
+	result << ")";
+	printChildren(n);
 }
 
 void NodePrinter::visit(BoundsNode* n)
 {
-	printOperation(n,"bounds");
+	result << "bounds()";
+	printChildren(n);
 }
 
 void NodePrinter::visit(SubDivisionNode* n)
 {
-	printOperation(n,"subdiv");
+	result << "subdiv()";
+	printChildren(n);
 }
 
 void NodePrinter::visit(OffsetNode* n)
 {
-	printOperation(n,"offset");
+	result << "offset(";
+	result << n->getAmount();
+	result << ")";
+	printChildren(n);
 }
 
 void NodePrinter::visit(OutlineNode* n)
 {
-	printOperation(n,"outline");
+	result << "outline()";
+	printChildren(n);
 }
 
-void NodePrinter::visit(ImportNode* n)
+void NodePrinter::visit(ImportNode*)
 {
-	printOperation(n,"import");
 }
 
-void NodePrinter::printOperation(Node* n,QString name)
+void NodePrinter::printChildren(Node* n)
 {
-	result << name;
-	result << "()";
 	QList<Node*> children = n->getChildren();
 	if (children.length()>0) {
 		result << "{";
@@ -151,34 +169,61 @@ void NodePrinter::printOperation(Node* n,QString name)
 	}
 }
 
+void NodePrinter::printArguments(Point p)
+{
+	result << "(";
+	result << p.toString();
+	result << ")";
+}
+
+void NodePrinter::printArguments(Polygon pg)
+{
+	result << "([";
+	OnceOnly first;
+	foreach(Point p, pg.getPoints()) {
+		if(!first())
+			result << ",";
+		result << p.toString();
+	}
+	result << "])";
+}
+
 void NodePrinter::visit(ResizeNode* n)
 {
-	printOperation(n,"resize");
+	result << "resize";
+	printArguments(n->getSize());
+	printChildren(n);
 }
 
 void NodePrinter::visit(CenterNode* n)
 {
-	printOperation(n,"center");
+	result << "center()";
+	printChildren(n);
 }
 
 void NodePrinter::visit(PointNode* n)
 {
-	printOperation(n,"point");
+	result << "point";
+	printArguments(n->getPoint());
+	printChildren(n);
 }
 
 void NodePrinter::visit(SliceNode* n)
 {
-	printOperation(n,"slice");
+	result << "slice(";
+	result << n->getHeight();
+	result << ")";
+	printChildren(n);
 }
 
-void NodePrinter::visit(ProductNode* n)
+void NodePrinter::visit(ProductNode*)
 {
-	printOperation(n,"product");
 }
 
 void NodePrinter::visit(ProjectionNode* n)
 {
-	printOperation(n,"projection");
+	result << "projection()";
+	printChildren(n);
 }
 
 void NodePrinter::visit(TransformationNode* n)
@@ -194,8 +239,6 @@ void NodePrinter::visit(TransformationNode* n)
 		result << n->matrix[i];
 
 	}
-	result << "]]){";
-	foreach(Node* c,n->getChildren())
-		c->accept(*this);
-	result << "}";
+	result << "]])";
+	printChildren(n);
 }
