@@ -232,23 +232,29 @@ QList<CGAL::Point3> CGALExplorer::getPoints()
 	return se.getPoints();
 }
 
-CGAL::Bbox_3 CGALExplorer::getBounds()
+CGAL::Bbox3 CGALExplorer::getBounds()
 {
-	double minX=DBL_MAX,maxX=-DBL_MAX;
-	double minY=DBL_MAX,maxY=-DBL_MAX;
-	double minZ=DBL_MAX,maxZ=-DBL_MAX;
+	typedef CGAL::Kernel3::FT FT;
+	//Use doubles max probably big enough.
+	FT minX=DBL_MAX,maxX=-DBL_MAX;
+	FT minY=DBL_MAX,maxY=-DBL_MAX;
+	FT minZ=DBL_MAX,maxZ=-DBL_MAX;
+
 	foreach(CGAL::Point3 pt,getPoints()) {
-		double x=to_double(pt.x());
-		double y=to_double(pt.y());
-		double z=to_double(pt.z());
-		minX=fmin(x,minX);
-		maxX=fmax(x,maxX);
-		minY=fmin(y,minY);
-		maxY=fmax(y,maxY);
-		minZ=fmin(z,minZ);
-		maxZ=fmax(z,maxZ);
+		FT x=pt.x();
+		FT y=pt.y();
+		FT z=pt.z();
+
+		minX=std::min(x,minX);
+		maxX=std::max(x,maxX);
+
+		minY=std::min(y,minY);
+		maxY=std::max(y,maxY);
+
+		minZ=std::min(z,minZ);
+		maxZ=std::max(z,maxZ);
 	}
 
-	return CGAL::Bbox_3(minX,minY,minZ,maxX,maxY,maxZ);
+	return CGAL::Bbox3(minX,minY,minZ,maxX,maxY,maxZ);
 }
 #endif

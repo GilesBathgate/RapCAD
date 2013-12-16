@@ -34,7 +34,7 @@ public:
 	CGALPrimitive* getPrimitive();
 	CGALPrimitive* getOrientedPrimitive();
 	QList<CGAL::Point3> getPoints();
-	CGAL::Bbox_3 getBounds();
+	CGAL::Bbox3 getBounds();
 private:
 	void evaluate();
 	QList<HalfEdgeHandle> perimeter;

@@ -298,17 +298,17 @@ void NodeEvaluator::visit(BoundsNode* n)
 	evaluate(n,Union);
 #if USE_CGAL
 	CGALExplorer explorer(result);
-	CGAL::Bbox_3 b=explorer.getBounds();
+	CGAL::Bbox3 b=explorer.getBounds();
 
 	//TODO move this warning into gcode generation routines when they exist.
 	if(b.zmin()!=0.0) {
 		QString where = b.zmin()<0.0?" below ":" above ";
-		output << "Warning: The model is " << b.zmin() << where << "the build platform.\n";
+		output << "Warning: The model is " << to_double(b.zmin()) << where << "the build platform.\n";
 	}
 
 	output << "Bounds: ";
-	output << "[" << b.xmin() << "," << b.ymin() << "," << b.zmin() << "] ";
-	output << "[" << b.xmax() << "," << b.ymax() << "," << b.zmax() << "]\n";
+	output << "[" << to_double(b.xmin()) << "," << to_double(b.ymin()) << "," << to_double(b.zmin()) << "] ";
+	output << "[" << to_double(b.xmax()) << "," << to_double(b.ymax()) << "," << to_double(b.zmax()) << "]\n";
 #endif
 }
 
@@ -373,12 +373,12 @@ void NodeEvaluator::visit(ResizeNode* n)
 	evaluate(n,Union);
 #if USE_CGAL
 	CGALExplorer e(result);
-	CGAL::Bbox_3 b=e.getBounds();
+	CGAL::Bbox3 b=e.getBounds();
 	Point s=n->getSize();
-	double x,y,z;
-	s.getXYZ(x,y,z);
+	double x1,y1,z1;
+	s.getXYZ(x1,y1,z1);
+	CGAL::Kernel3::FT x=x1,y=y1,z=z1,autosize=1.0;
 
-	double autosize=1.0;
 	if(z!=0.0) {
 		z/=(b.zmax()-b.zmin());
 		autosize=z;
@@ -414,17 +414,17 @@ void NodeEvaluator::visit(CenterNode* n)
 	evaluate(n,Union);
 #if USE_CGAL
 	CGALExplorer e(result);
-	CGAL::Bbox_3 b=e.getBounds();
-	double x,y,z;
-	x=(b.xmin()+b.xmax())/2;
-	y=(b.ymin()+b.ymax())/2;
-	z=(b.zmin()+b.zmax())/2;
+	CGAL::Bbox3 b=e.getBounds();
+	CGAL::Point3 c(
+	(b.xmin()+b.xmax())/2,
+	(b.ymin()+b.ymax())/2,
+	(b.zmin()+b.zmax())/2);
 
 
 	CGAL::AffTransformation3 t(
-		1, 0, 0, -x,
-		0, 1, 0, -y,
-		0, 0, 1, -z, 1);
+		1, 0, 0, -c.x(),
+		0, 1, 0, -c.y(),
+		0, 0, 1, -c.z(), 1);
 
 	CGALPrimitive* pr=dynamic_cast<CGALPrimitive*>(result);
 	if(pr)
@@ -444,7 +444,7 @@ void NodeEvaluator::visit(SliceNode* n)
 	evaluate(n,Union);
 #if USE_CGAL
 	CGALExplorer e(result);
-	CGAL::Bbox_3 b=e.getBounds();
+	CGAL::Bbox3 b=e.getBounds();
 
 	CGALPrimitive* cp = new CGALPrimitive();
 	cp->createPolygon();
