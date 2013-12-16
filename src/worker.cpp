@@ -166,7 +166,7 @@ double Worker::getBoundsHeight()
 {
 #if USE_CGAL
 	CGALExplorer explorer(primitive);
-	CGAL::Bbox3 b=explorer.getBounds();
+	CGAL::Cuboid3 b=explorer.getBounds();
 	return to_double(b.zmax());
 #endif
 	return 1;

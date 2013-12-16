@@ -443,8 +443,7 @@ HEADERS  += \
 	src/strategy.h \
 	src/comparer.h \
 	src/module/multmatrixmodule.h \
-	src/onceonly.h \
-	contrib/Bbox_3.h
+	src/onceonly.h
 
 FORMS += \
 	src/mainwindow.ui \

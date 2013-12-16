@@ -20,7 +20,6 @@
 #define CGAL_H
 
 #include "cgalassert.h"
-#include "contrib/Bbox_3.h"
 
 #include <CGAL/Exact_predicates_exact_constructions_kernel.h>
 #include <CGAL/Polyhedron_3.h>
@@ -36,7 +35,7 @@ typedef CGAL::Polygon_2<Kernel3> Polygon2;
 typedef CGAL::Polyhedron_3<Kernel3> Polyhedron3;
 typedef Polyhedron3::HalfedgeDS HalfedgeDS;
 typedef CGAL::Nef_polyhedron_3<Kernel3> NefPolyhedron3;
-typedef _Bbox_3<Kernel3> Bbox3;
+typedef Kernel3::Iso_cuboid_3 Cuboid3;
 typedef Kernel3::Point_3 Point3;
 typedef Kernel3::Triangle_3 Triangle3;
 typedef Kernel3::Point_2 Point2;

@@ -21,6 +21,7 @@
 #include <QMap>
 #include <CGAL/config.h>
 #include <CGAL/normal_vector_newell_3.h>
+#include <CGAL/bounding_box.h>
 
 CGALExplorer::CGALExplorer(Primitive* p)
 {
@@ -232,29 +233,9 @@ QList<CGAL::Point3> CGALExplorer::getPoints()
 	return se.getPoints();
 }
 
-CGAL::Bbox3 CGALExplorer::getBounds()
+CGAL::Cuboid3 CGALExplorer::getBounds()
 {
-	typedef CGAL::Kernel3::FT FT;
-	//Use doubles max probably big enough.
-	FT minX=DBL_MAX,maxX=-DBL_MAX;
-	FT minY=DBL_MAX,maxY=-DBL_MAX;
-	FT minZ=DBL_MAX,maxZ=-DBL_MAX;
-
-	foreach(CGAL::Point3 pt,getPoints()) {
-		FT x=pt.x();
-		FT y=pt.y();
-		FT z=pt.z();
-
-		minX=std::min(x,minX);
-		maxX=std::max(x,maxX);
-
-		minY=std::min(y,minY);
-		maxY=std::max(y,maxY);
-
-		minZ=std::min(z,minZ);
-		maxZ=std::max(z,maxZ);
-	}
-
-	return CGAL::Bbox3(minX,minY,minZ,maxX,maxY,maxZ);
+	QList<CGAL::Point3> pts=getPoints();
+	return CGAL::bounding_box(pts.begin(),pts.end());
 }
 #endif

@@ -298,7 +298,7 @@ void NodeEvaluator::visit(BoundsNode* n)
 	evaluate(n,Union);
 #if USE_CGAL
 	CGALExplorer explorer(result);
-	CGAL::Bbox3 b=explorer.getBounds();
+	CGAL::Cuboid3 b=explorer.getBounds();
 
 	//TODO move this warning into gcode generation routines when they exist.
 	if(b.zmin()!=0.0) {
@@ -373,7 +373,7 @@ void NodeEvaluator::visit(ResizeNode* n)
 	evaluate(n,Union);
 #if USE_CGAL
 	CGALExplorer e(result);
-	CGAL::Bbox3 b=e.getBounds();
+	CGAL::Cuboid3 b=e.getBounds();
 	Point s=n->getSize();
 	double x1,y1,z1;
 	s.getXYZ(x1,y1,z1);
@@ -414,7 +414,7 @@ void NodeEvaluator::visit(CenterNode* n)
 	evaluate(n,Union);
 #if USE_CGAL
 	CGALExplorer e(result);
-	CGAL::Bbox3 b=e.getBounds();
+	CGAL::Cuboid3 b=e.getBounds();
 	CGAL::Point3 c(
 	(b.xmin()+b.xmax())/2,
 	(b.ymin()+b.ymax())/2,
@@ -444,7 +444,7 @@ void NodeEvaluator::visit(SliceNode* n)
 	evaluate(n,Union);
 #if USE_CGAL
 	CGALExplorer e(result);
-	CGAL::Bbox3 b=e.getBounds();
+	CGAL::Cuboid3 b=e.getBounds();
 
 	CGALPrimitive* cp = new CGALPrimitive();
 	cp->createPolygon();
