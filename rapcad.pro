@@ -316,7 +316,6 @@ HEADERS  += \
 	src/module/primitivemodule.h \
 	src/node.h \
 	src/node/transformationnode.h \
-	src/GLView.h \
 	src/cgalrenderer.h \
 	contrib/OGL_helper.h \
 	src/renderer.h \
@@ -443,7 +442,8 @@ HEADERS  += \
 	src/strategy.h \
 	src/comparer.h \
 	src/module/multmatrixmodule.h \
-	src/onceonly.h
+	src/onceonly.h \
+	src/glview.h
 
 FORMS += \
 	src/mainwindow.ui \

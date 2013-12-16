@@ -18,7 +18,7 @@
 
 #include <QApplication>
 #include <math.h>
-#include "GLView.h"
+#include "glview.h"
 
 static const double farfarAway=100000.0;
 static const int baseX=-16;

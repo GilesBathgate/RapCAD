@@ -800,7 +800,7 @@
   <customwidget>
    <class>GLView</class>
    <extends>QWidget</extends>
-   <header>GLView.h</header>
+   <header>glview.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
