@@ -22,27 +22,27 @@
 
 #include <CGAL/assertions.h>
 
+#if !defined(CGAL_NO_ASSERTIONS)
+
 #include <CGAL/Random_access_adaptor.h>
 #include <CGAL/HalfedgeDS_decorator.h>
 
 /* Redefine CGAL_assertion so that it checks for an
  * uncaught exception before throwing an exception */
-#if !defined(CGAL_NO_ASSERTIONS)
-#  undef CGAL_assertion
-#  define CGAL_assertion(EX) \
+#undef CGAL_assertion
+#define CGAL_assertion(EX) \
    (CGAL::possibly(EX)||std::uncaught_exception()?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__))
-#endif
 
 #include <CGAL/Polyhedron_incremental_builder_3.h>
 
 /* Restore CGAL_assertion to its original behaviour
  * as issue is only known in polyhedron incremental
  * builder. */
-#if !defined(CGAL_NO_ASSERTIONS)
-#  undef CGAL_assertion
-#  define CGAL_assertion(EX) \
+#undef CGAL_assertion
+#define CGAL_assertion(EX) \
    (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__))
-#endif
+
+#endif //CGAL_NO_ASSERTIONS
 
 #endif // CGALASSERT_H
 #endif
