@@ -1,7 +1,7 @@
 #!/bin/bash
 TODAY=$(date +%Y%m%d)
 NAME="$TODAY"
-DISK="$NAME.vdi"
+DISK="/data/$NAME.vdi"
 
 VBoxManage storageattach "$NAME" --storagectl "IDE Controller" --port 1 --device 0 --type dvddrive --medium none
 

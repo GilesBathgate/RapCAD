@@ -1,14 +1,16 @@
 #!/bin/bash
+date
 sudo true #Just ask the user for sudo password early.
 NAME=$(date +%Y%m%d)
 KEY=$(cat key.txt)
 PASS=$(openssl rand -base64 12)
 SIF=winnt.sif
 IMG="disk.img"
-DISK="$NAME.vdi"
+DISK="/data/$NAME.vdi"
 ADDITIONS="/usr/share/virtualbox/VBoxGuestAdditions.iso"
-DVD="../iso/windowsXP-sp3-x86.iso"
+DVD="/data/iso/windowsXP-sp3-x86.iso"
 USER=Administrator
+SHAREDFOLDER=$PWD/shared
 
 echo "Building configuration file..."
 
@@ -159,11 +161,12 @@ VBoxManage storagectl "$NAME" \
 	--name "Floppy Controller" \
 	--remove
 
+date
 echo "Adding shared folder..."
 
 VBoxManage sharedfolder add "$NAME" \
 	--name shared \
-	--hostpath $PWD/shared \
+	--hostpath $SHAREDFOLDER \
 	--automount
 
 VBoxHeadless -startvm "$NAME" &
