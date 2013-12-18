@@ -253,7 +253,9 @@ SOURCES += \
 	src/comparer.cpp \
 	src/module/multmatrixmodule.cpp \
 	src/polygon.cpp \
-	src/onceonly.cpp
+	src/onceonly.cpp \
+	src/fragment.cpp \
+	src/cgalfragment.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -444,7 +446,9 @@ HEADERS  += \
 	src/module/multmatrixmodule.h \
 	src/onceonly.h \
 	src/glview.h \
-	contrib/fragments.h
+	contrib/fragments.h \
+	src/fragment.h \
+	src/cgalfragment.h
 
 FORMS += \
 	src/mainwindow.ui \

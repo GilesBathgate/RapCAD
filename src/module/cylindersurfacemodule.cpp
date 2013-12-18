@@ -54,7 +54,8 @@ Node* CylinderSurfaceModule::evaluate(Context* ctx)
 		z2 = h;
 	}
 
-	int f = getFragments(r,ctx);
+	Fragment fg=getSpecialVariables(ctx);
+	int f = fg.getFragments(r);
 	Polygon* p1 = getCircle(r,f,z1);
 	Polygon* p2 = getCircle(r,f,z2);
 

@@ -9,15 +9,16 @@ RotateExtrudeModule::RotateExtrudeModule() : PrimitiveModule("rotate_extrude")
 
 Node* RotateExtrudeModule::evaluate(Context* ctx)
 {
-	double r=1.0;
+	double r=0.0;
 	NumberValue* radius=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(radius)
 		r=radius->getNumber();
 
 	RotateExtrudeNode* n=new RotateExtrudeNode();
 	n->setRadius(r);
-	int f =getFragments(r,ctx);
-	n->setFragments(f);
+
+	Fragment fg=getSpecialVariables(ctx);
+	n->setFragments(fg);
 	n->setChildren(ctx->getInputNodes());
 	return n;
 }

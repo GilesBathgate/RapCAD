@@ -16,22 +16,21 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PRIMITIVEMODULE_H
-#define PRIMITIVEMODULE_H
+#include "cgalfragment.h"
+#include "tau.h"
 
-#include "module.h"
-#include "polygon.h"
-#include "node/primitivenode.h"
-#include "fragment.h"
-
-class PrimitiveModule : public Module
+CGALFragment::CGALFragment(const Fragment f) : Fragment(f)
 {
-public:
-	PrimitiveModule(const QString);
-protected:
-	Polygon* getCircle(double,double,double);
-	Polygon* getPolygon(double,double,double,double);
-	Fragment getSpecialVariables(Context*);
-};
+}
 
-#endif // PRIMITIVEMODULE_H
+int CGALFragment::getFragments(CGAL::FT r)
+{
+	typedef CGAL::FT FT;
+	int fn=fragmentNumber;
+	if (fn > 0.0) return (int)(fn >= 3 ? fn : 3);
+
+	FT fs=fragmentSize;
+	FT fa=fragmentAngle;
+	FT f=std::min(FT(360.0) / fa, r*FT(M_TAU) / fs);
+	return std::max((int)ceil(to_double(f)),5);
+}

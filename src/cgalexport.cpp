@@ -101,8 +101,8 @@ void CGALExport::exportAsciiSTL(QString filename)
 				continue;
 
 			CGAL::Vector3 n=CGAL::orthogonal_vector(p1,p2,p3);
-			CGAL::Kernel3::FT ls=n.squared_length();
-			CGAL::Kernel3::FT l=inexact_sqrt(ls);
+			CGAL::FT ls=n.squared_length();
+			CGAL::FT l=inexact_sqrt(ls);
 			CGAL::Vector3 un=n/l;
 
 			double x1 = to_double(p1.x());

@@ -48,7 +48,8 @@ Node* SphereModule::evaluate(Context* ctx)
 	if(r==0.0)
 		return new PointNode();
 
-	int f = getFragments(r,ctx);
+	Fragment fg=getSpecialVariables(ctx);
+	int f = fg.getFragments(r);
 	int ringCount=f/2;
 
 	QList<Polygon> rings;

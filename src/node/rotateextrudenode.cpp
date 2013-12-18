@@ -14,12 +14,12 @@ double RotateExtrudeNode::getRadius() const
 	return radius;
 }
 
-void RotateExtrudeNode::setFragments(int f)
+void RotateExtrudeNode::setFragments(Fragment f)
 {
 	fragments=f;
 }
 
-int RotateExtrudeNode::getFragments()
+Fragment RotateExtrudeNode::getFragments()
 {
 	return fragments;
 }

@@ -24,13 +24,12 @@ module pulley() {
   union()
   {
    //base
-   b=1; //BUG rotate extrude doesn't accept r=0 yet!
    rotate([90,0,0])
-   rotate_extrude(r=b,$fn=30)
+   rotate_extrude($fn=30)
    {
-     square([9-b,8]);
-     square([10-b,7]);
-     translate([9-b,7]) polygon([[0,0],[0,1],[1,0]],[0,1,2]);
+     square([9,8]);
+     square([10,7]);
+     translate([9,7]) polygon([[0,0],[0,1],[1,0]],[0,1,2]);
    }
 
    n_spurs=8;

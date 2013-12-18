@@ -16,22 +16,24 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PRIMITIVEMODULE_H
-#define PRIMITIVEMODULE_H
-
-#include "module.h"
-#include "polygon.h"
-#include "node/primitivenode.h"
 #include "fragment.h"
+#include "contrib/fragments.h"
 
-class PrimitiveModule : public Module
+Fragment::Fragment()
 {
-public:
-	PrimitiveModule(const QString);
-protected:
-	Polygon* getCircle(double,double,double);
-	Polygon* getPolygon(double,double,double,double);
-	Fragment getSpecialVariables(Context*);
-};
+	fragmentNumber=0;
+	fragmentSize=2.0;
+	fragmentAngle=12.0;
+}
 
-#endif // PRIMITIVEMODULE_H
+Fragment::Fragment(int fn, double fs, double fa)
+{
+	fragmentNumber=fn;
+	fragmentSize=fs;
+	fragmentAngle=fa;
+}
+
+int Fragment::getFragments(double r)
+{
+	return get_fragments_from_r(r,fragmentNumber,fragmentSize,fragmentAngle);
+}

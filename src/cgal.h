@@ -35,6 +35,7 @@ typedef CGAL::Polygon_2<Kernel3> Polygon2;
 typedef CGAL::Polyhedron_3<Kernel3> Polyhedron3;
 typedef Polyhedron3::HalfedgeDS HalfedgeDS;
 typedef CGAL::Nef_polyhedron_3<Kernel3> NefPolyhedron3;
+typedef CGAL::Kernel3::FT FT;
 typedef Kernel3::Iso_cuboid_3 Cuboid3;
 typedef Kernel3::Point_3 Point3;
 typedef Kernel3::Triangle_3 Triangle3;

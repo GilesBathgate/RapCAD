@@ -16,22 +16,17 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PRIMITIVEMODULE_H
-#define PRIMITIVEMODULE_H
+#ifndef CGALFRAGMENT_H
+#define CGALFRAGMENT_H
 
-#include "module.h"
-#include "polygon.h"
-#include "node/primitivenode.h"
+#include "cgal.h"
 #include "fragment.h"
 
-class PrimitiveModule : public Module
+class CGALFragment : public Fragment
 {
 public:
-	PrimitiveModule(const QString);
-protected:
-	Polygon* getCircle(double,double,double);
-	Polygon* getPolygon(double,double,double,double);
-	Fragment getSpecialVariables(Context*);
+	CGALFragment(const Fragment);
+	int getFragments(CGAL::FT);
 };
 
-#endif // PRIMITIVEMODULE_H
+#endif // CGALFRAGMENT_H

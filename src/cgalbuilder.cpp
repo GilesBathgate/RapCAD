@@ -52,7 +52,7 @@ void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
 
 CGALPrimitive* CGALBuilder::buildOffsetPolygons(double amount)
 {
-	typedef CGAL::Kernel3::FT FT;
+	typedef CGAL::FT FT;
 	typedef boost::shared_ptr<CGAL::Polygon2> PolygonPtr;
 	typedef std::vector<PolygonPtr> PolygonPtrVector;
 	typedef PolygonPtrVector::const_iterator PolygonIterator;

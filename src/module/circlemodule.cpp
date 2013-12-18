@@ -33,7 +33,8 @@ Node* CircleModule::evaluate(Context* ctx)
 		r=rValue->getNumber();
 	}
 
-	int f = getFragments(r,ctx);
+	Fragment fg=getSpecialVariables(ctx);
+	int f = fg.getFragments(r);
 	Polygon* c = getCircle(r,f,0);
 	PrimitiveNode* p = new PrimitiveNode();
 

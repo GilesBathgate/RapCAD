@@ -25,6 +25,7 @@
 #include "cgalimport.h"
 #include "cgalexplorer.h"
 #include "cgalprimitive.h"
+#include "cgalfragment.h"
 #else
 #include "nullprimitive.h"
 #endif
@@ -142,27 +143,32 @@ static CGAL::Point3 flatten(const CGAL::Point3& p)
 	return CGAL::Point3(p.x(),p.y(),0);
 }
 
-static CGAL::Point3 transform(const CGAL::Point3& p,CGAL::Kernel3::FT z)
+static CGAL::Point3 translate_z(const CGAL::Point3& p,CGAL::FT z)
 {
 	z+=p.z();
 	return CGAL::Point3(p.x(),p.y(),z);
 }
 
-static CGAL::Point3 transform(const CGAL::Point3& p,CGAL::Kernel3::FT x,CGAL::Kernel3::FT z)
+static CGAL::Point3 translate_x(const CGAL::Point3& p,CGAL::FT x)
+{
+	x+=p.x();
+	return CGAL::Point3(x,p.y(),p.z());
+}
+
+static CGAL::Point3 translate_zx(const CGAL::Point3& p,CGAL::FT x,CGAL::FT z)
 {
 	x+=p.x();
 	z+=p.z();
 	return CGAL::Point3(x,p.y(),z);
 }
 
-static CGAL::Point3 rotate(const CGAL::Point3& p,double phi,CGAL::Kernel3::FT r)
+static CGAL::Point3 rotate(const CGAL::Point3& p,double phi)
 {
-	CGAL::Kernel3::FT h,x,z;
+	CGAL::FT h,x,z;
 	x=p.x();
-	h=x+r;
-	z=sin(phi)*h;
-	x=(cos(phi)*h)-x;
-	return transform(p,x,z);
+	z=sin(phi)*x;
+	x=(cos(phi)*x)-x;
+	return translate_zx(p,x,z);
 }
 #endif
 
@@ -178,7 +184,7 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 		result=result->minkowski(cp);
 	} else {
 #if USE_CGAL
-		CGAL::Kernel3::FT z=op->getHeight();
+		CGAL::FT z=op->getHeight();
 		CGALExplorer explorer(result);
 		CGALPrimitive* prim=explorer.getPrimitive();
 		QList<CGALPolygon*> polys=prim->getPolygons();
@@ -202,13 +208,13 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 			CGAL::Point3 p=h->source()->point();
 			CGAL::Point3 q=h->target()->point();
 			if(up) {
-				n->appendVertex(transform(p,z));
-				n->appendVertex(transform(q,z));
+				n->appendVertex(translate_z(p,z));
+				n->appendVertex(translate_z(q,z));
 				n->appendVertex(q);
 				n->appendVertex(p);
 			} else {
-				n->prependVertex(transform(p,z));
-				n->prependVertex(transform(q,z));
+				n->prependVertex(translate_z(p,z));
+				n->prependVertex(translate_z(q,z));
 				n->prependVertex(q);
 				n->prependVertex(p);
 			}
@@ -219,9 +225,9 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 			up=(pg->getNormal().z()>0);
 			foreach(CGAL::Point3 pt,pg->getPoints()) {
 				if(up)
-					n->prependVertex(transform(pt,z));
+					n->prependVertex(translate_z(pt,z));
 				else
-					n->appendVertex(transform(pt,z));
+					n->appendVertex(translate_z(pt,z));
 			}
 		}
 
@@ -235,26 +241,37 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 	evaluate(op,Union);
 
 #if USE_CGAL
-	CGAL::Kernel3::FT r=op->getRadius();
+	CGAL::FT r=op->getRadius();
 	CGALExplorer explorer(result);
 	//CGALPrimitive* prim=explorer.getPrimitive();
 	//QList<CGALPolygon*> polys=prim->getPolygons();
 	CGALPrimitive* n = new CGALPrimitive();
-	int f = op->getFragments();
+	CGALFragment fg=op->getFragments();
+	CGAL::Cuboid3 b=explorer.getBounds();
+	int f=fg.getFragments((b.xmax()-b.xmin())+r);
+
 	for(int i=0; i<f; i++) {
 		int j=(i+1)%f;
 		double phi=(M_TAU*i)/f;
 		double nphi=(M_TAU*j)/f;
 
 		foreach(CGALExplorer::HalfEdgeHandle h, explorer.getPerimeter()) {
-			n->createPolygon();
-			CGAL::Point3 q=h->source()->point();
-			CGAL::Point3 p=h->target()->point();
+			CGAL::Point3 q=translate_x(h->source()->point(),r);
+			CGAL::Point3 p=translate_x(h->target()->point(),r);
+			if(q.x()<=0.0&&p.x()<=0.0)
+				continue;
 
-			n->appendVertex(rotate(q,nphi,r));
-			n->appendVertex(rotate(p,nphi,r));
-			n->appendVertex(rotate(p,phi,r));
-			n->appendVertex(rotate(q,phi,r));
+			n->createPolygon();
+			CGAL::Point3 q1=rotate(q,nphi);
+			CGAL::Point3 p1=rotate(p,nphi);
+			CGAL::Point3 p2=rotate(p,phi);
+			CGAL::Point3 q2=rotate(q,phi);
+			n->appendVertex(q1);
+			n->appendVertex(p1);
+			if(p2!=p1)
+				n->appendVertex(p2);
+			if(q2!=q1)
+				n->appendVertex(q2);
 		}
 	}
 
@@ -377,7 +394,7 @@ void NodeEvaluator::visit(ResizeNode* n)
 	Point s=n->getSize();
 	double x1,y1,z1;
 	s.getXYZ(x1,y1,z1);
-	CGAL::Kernel3::FT x=x1,y=y1,z=z1,autosize=1.0;
+	CGAL::FT x=x1,y=y1,z=z1,autosize=1.0;
 
 	if(z!=0.0) {
 		z/=(b.zmax()-b.zmin());

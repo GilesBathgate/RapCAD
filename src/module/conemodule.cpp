@@ -59,8 +59,9 @@ Node* ConeModule::evaluate(Context* ctx)
 		z2 = h;
 	}
 
+	Fragment fg=getSpecialVariables(ctx);
 	double r=fmax(r1,r2);
-	int f = getFragments(r,ctx);
+	int f = fg.getFragments(r);
 
 	Polygon* p1 = getCircle(r1,f,z1);
 	Polygon* p2 = getCircle(r2,f,z2);

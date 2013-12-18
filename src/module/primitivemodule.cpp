@@ -21,17 +21,16 @@
 #include "tau.h"
 #include "context.h"
 #include "numbervalue.h"
-#include "contrib/fragments.h"
 
 PrimitiveModule::PrimitiveModule(const QString n) : Module(n)
 {
 }
 
-void PrimitiveModule::getSpecialVariables(Context* ctx, double& fn, double& fs, double& fa)
+Fragment PrimitiveModule::getSpecialVariables(Context* ctx)
 {
-	fn=0.0;
-	fs=2.0;
-	fa=12.0;
+	double fn=0.0;
+	double fs=2.0;
+	double fa=12.0;
 	NumberValue* fnVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fn"));
 	if(fnVal)
 		fn=fnVal->getNumber();
@@ -41,13 +40,8 @@ void PrimitiveModule::getSpecialVariables(Context* ctx, double& fn, double& fs, 
 	NumberValue* faVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fa"));
 	if(faVal)
 		fa=faVal->getNumber();
-}
 
-int PrimitiveModule::getFragments(double r, Context* ctx)
-{
-	double fn,fs,fa;
-	getSpecialVariables(ctx,fn,fs,fa);
-	return get_fragments_from_r(r,fn,fs,fa);
+	return Fragment(fn,fs,fa);
 }
 
 Polygon* PrimitiveModule::getCircle(double r, double f, double z)
