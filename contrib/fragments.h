@@ -29,6 +29,8 @@
 #ifndef FRAGMENTS_H
 #define FRAGMENTS_H
 
+#include <math.h>
+
 const double GRID_FINE = 0.000001;
 
 /*!

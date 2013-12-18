@@ -30,7 +30,7 @@ PrimitiveModule::PrimitiveModule(const QString n) : Module(n)
 void PrimitiveModule::getSpecialVariables(Context* ctx, double& fn, double& fs, double& fa)
 {
 	fn=0.0;
-	fs=1.0;
+	fs=2.0;
 	fa=12.0;
 	NumberValue* fnVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fn"));
 	if(fnVal)
