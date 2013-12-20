@@ -32,21 +32,23 @@ YACCSOURCES += src/parser.y
 INCLUDEPATH += src
 
 win32 {
-        CGALROOT = $$(CGAL_DIR)
-        BOOSTROOT = ../boost_1_49_0
-        DXFLIBROOT = ../dxflib-2.2.0.0-1.src
-        INCLUDEPATH += $$CGALROOT/include
-        INCLUDEPATH += $$CGALROOT/auxiliary/gmp/include
+	CGALROOT = $$(CGAL_DIR)
+	BOOSTROOT = ../boost_1_55_0
+	DXFLIBROOT = ../dxflib-3.3.4-src
+	INCLUDEPATH += $$CGALROOT/include
+	INCLUDEPATH += $$CGALROOT/auxiliary/gmp/include
 	INCLUDEPATH += $$DXFLIBROOT
 	INCLUDEPATH += $$BOOSTROOT
-        LIBS += -L$$BOOSTROOT/bin.v2/libs/thread/build/gcc-mingw-4.6.2/release/threading-multi
-	LIBS += -llibboost_thread-mgw46-mt-1_49
-        LIBS += -L$$CGALROOT/lib -lCGAL -lCGAL_Core
-        LIBS += -L$$CGALROOT/auxiliary/gmp/lib -lmpfr-4 -lgmp-10
-        LIBS += -L$$DXFLIBROOT/lib -llibdxf
-        QMAKE_YACC = bison
-        QMAKE_YACCFLAGS += "-b y"
-        QMAKE_LEX = flex
+	LIBS += -L$$BOOSTROOT/bin.v2/libs/thread/build/gcc-mingw-4.8.0/release/link-static/threading-multi
+	LIBS += -L$$BOOSTROOT/bin.v2/libs/system/build/gcc-mingw-4.8.0/release/link-static/threading-multi
+	LIBS += -lboost_thread-mgw48-mt-1_55
+	LIBS += -lboost_system-mgw48-mt-1_55
+	LIBS += -L$$CGALROOT/lib -lCGAL -lCGAL_Core
+	LIBS += -L$$CGALROOT/auxiliary/gmp/lib -lmpfr-4 -lgmp-10
+	LIBS += -L$$DXFLIBROOT/release -ldxflib
+	QMAKE_YACC = bison
+	QMAKE_YACCFLAGS += "-b y"
+	QMAKE_LEX = flex
 } else {
 	LIBS += -lCGAL -lCGAL_Core -lmpfr -lgmp -ldxflib
 	QMAKE_YACC = bison
@@ -65,9 +67,9 @@ DEFINES+=USE_CGAL
 QMAKE_CXXFLAGS += -frounding-math
 
 CONFIG(coverage){
-    CONFIG += debug
-    QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage
-    LIBS += -lgcov
+	CONFIG += debug
+	QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage
+	LIBS += -lgcov
 }
 
 CONFIG(official){
