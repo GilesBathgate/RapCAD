@@ -33,6 +33,10 @@ MainWindow::MainWindow(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow)
 {
+    if(!QIcon::hasThemeIcon("document-open")) {
+        QIcon::setThemeName("gnome");
+    }
+
 	ui->setupUi(this);
 	QIcon rapcadIcon(":/icons/rapcad-16x16.png");
 	this->setWindowIcon(rapcadIcon);
@@ -151,10 +155,6 @@ void MainWindow::getDefaultViewport()
 
 void MainWindow::setupActions()
 {
-	if(!QIcon::hasThemeIcon("document-open")) {
-		QIcon::setThemeName("gnome");
-	}
-
 	connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newFile()));
 	connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(openFile()));
 	connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(saveFile()));
