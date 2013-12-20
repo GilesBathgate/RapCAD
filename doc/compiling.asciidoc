@@ -18,6 +18,7 @@
 
 :qtversion: 5.2.0
 :cgalversion: 4.3
+:boostfile: 1_55_0
 
 Compiling
 ---------
@@ -81,15 +82,15 @@ Boost
 ^^^^^
 
 * Download Boost source
-http://downloads.sourceforge.net/project/boost/boost/1.49.0/boost_1_49_0.zip[boost_1_49_0.zip]
-* Extract all to +C:\+ (sources will end up in +C:\boost_1_49_0\+ )
+http://downloads.sourceforge.net/project/boost/boost/1.55.0/boost_{boostfile}.7z[boost_{boostfile}.7z]
+* Extract all to +C:\+ (sources will end up in +C:\boost_{boostfile}\+ )
 * Use the QT Development Command Prompt +
 +Start->Program Files->Qt by Nokia v{qtversion} (MinGW OpenSource)->QT {qtversion} Command Prompt+
 [source,bat]
 -------------------------
-cd "C:\boost_1_49_0"
-bootstrap.bat
-.\bjam toolset=gcc release thread
+cd "C:\boost_1_55_0"
+bootstrap.bat mingw
+.\b2 toolset=gcc variant=release --with-thread --with-system
 -------------------------
 
 CGAL
@@ -111,9 +112,10 @@ source.
 [source,bat]
 -------------------------------
 set PATH=%PATH%;"C:\Program Files\CMake 2.8\bin"
+set BOOST_ROOT=C:\boost_1_55_0
 cd "C:\CGAL-4.3"
-cmake -G"MinGW Makefiles" -DBOOST_ROOT="C:\boost_1_49_0" -DBOOST_LIBRARYDIR="C:\boost_1_49_0\bin.v2\libs\thread\build\gcc-mingw-4.6.2\release\threading-multi" .
-make
+cmake -DBOOST_LIBRARYDIR="C:\boost_1_55_0\bin.v2\libs\thread\build\gcc-mingw-4.8.0\release\link-static\threading-multi" -DBOOST_LIBRARYDIR="C:\boost_1_55_0\bin.v2\libs\system\build\gcc-mingw-4.8.0\release\link-static\threading-multi" .
+mingw32-make
 -------------------------------
 
 dxflib
