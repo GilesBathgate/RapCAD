@@ -1,8 +1,8 @@
-"http://www.cmake.org/files/v2.8/cmake-2.8.12.1-win32-x86.exe"
-"http://sourceforge.net/projects/boost/files/boost/1.55.0/boost_1_55_0.7z/download"
-"http://downloads.sourceforge.net/sevenzip/7z920.exe"
-"http://download.qt-project.org/official_releases/qt/5.2/5.2.0/qt-windows-opensource-5.2.0-mingw48_opengl-x86-offline.exe"
-"https://gforge.inria.fr/frs/download.php/32993/CGAL-4.3-Setup.exe"
-"https://msysgit.googlecode.com/files/Git-1.8.4-preview20130916.exe"
-"http://www.qcad.org/archives/dxflib/dxflib-3.3.4-src.zip"
-"http://downloads.sourceforge.net/project/nsis/NSIS%203%20Pre-release/3.0a1/nsis-3.0a1-setup.exe"
+http://www.cmake.org/files/v2.8/cmake-2.8.12.1-win32-x86.exe
+http://sourceforge.net/projects/boost/files/boost/1.55.0/boost_1_55_0.7z/download
+http://downloads.sourceforge.net/sevenzip/7z920.exe
+http://download.qt-project.org/official_releases/qt/5.2/5.2.0/qt-windows-opensource-5.2.0-mingw48_opengl-x86-offline.exe
+https://gforge.inria.fr/frs/download.php/32993/CGAL-4.3-Setup.exe
+https://msysgit.googlecode.com/files/Git-1.8.4-preview20130916.exe
+http://www.qcad.org/archives/dxflib/dxflib-3.3.4-src.zip
+http://downloads.sourceforge.net/project/nsis/NSIS%203%20Pre-release/3.0a1/nsis-3.0a1-setup.exe
