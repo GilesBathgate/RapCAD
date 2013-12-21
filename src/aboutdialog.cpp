@@ -1,8 +1,14 @@
 #include "aboutdialog.h"
 #include "ui_aboutdialog.h"
+#include "stringify.h"
 
-#define STRINGIFY(x) #x
-#define TOSTRING(x) STRINGIFY(x)
+#if USE_CGAL
+#include <CGAL/version.h>
+#endif
+
+#include <boost/version.hpp>
+#include <dxflib/dl_dxf.h>
+
 AboutDialog::AboutDialog(QWidget* parent) :
 	QDialog(parent),
 	ui(new Ui::AboutDialog)
@@ -16,8 +22,12 @@ AboutDialog::AboutDialog(QWidget* parent) :
 	QPixmap rapcadPicture(":/icons/rapcad-100x100.png");
 	ui->picture->setPixmap(rapcadPicture);
 
-	QString v=TOSTRING(RAPCAD_VERSION);
-	ui->name->setText("RapCAD Version " + v);
+	ui->name->setText("RapCAD Version " + QSTRINGIFY(RAPCAD_VERSION));
+#if USE_CGAL
+	ui->components->addItem("CGAL Version: " + QString(CGAL_VERSION_STR));
+#endif
+	ui->components->addItem("Boost Version: " + QString(BOOST_LIB_VERSION));
+	ui->components->addItem("Dxflib Version: " + QString(DL_VERSION));
 }
 
 AboutDialog::~AboutDialog()
