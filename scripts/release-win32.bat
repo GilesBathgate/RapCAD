@@ -5,5 +5,5 @@ set PATH=%PATH%;%ProgramFiles%\Git\bin
 set PATH=%PATH%;%ProgramFiles%\NSIS
 set PATH=%PATH%;%ProgramFiles%\7-Zip
 
-cd c:\rapcad
+cd c:\rapcad\scripts
 bash release-win32.sh
