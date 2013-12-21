@@ -34,7 +34,7 @@ mingw32-make -f Makefile.Release \
 mingw32-make clean \
   >> $build 2>> $error || die "make clean failed."
 
-cp ../rapcad-dlls/* release \
+cp -r ../rapcad-dlls/* release \
   >> $build 2>> $error || die "failed copying dlls."
 
 makensis installer.nsi \
