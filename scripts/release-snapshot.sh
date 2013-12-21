@@ -1,4 +1,5 @@
 #!/bin/bash
+pushd ../
 version=$(cat VERSION)
 releasedir=rapcad-release-snapshot
 windir=$releasedir/windows
@@ -11,7 +12,7 @@ gpgcommand="gpg --passphrase $pass --batch --no-tty --yes"
 echo Building RapCAD v$version$snapshot
 
 echo Building PPA versions
-pushd ../../
+pushd ../
 cp -r rapcad rapcad-$version$snapshot &&
 if [ ! -d "$ppadir" ]; then
   mkdir -p $ppadir
