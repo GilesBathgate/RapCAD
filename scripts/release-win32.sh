@@ -12,10 +12,10 @@ error=$hostdir/error.log
 pushd /c/rapcad
 
 git reset --hard master \
-  >> $build 2>> $error || die "failed on git reset"
+  > $build 2> $error || die "failed on git reset"
 
 git pull \
-  > $build 2> $error || die "failed on git pull"
+  >> $build 2>> $error || die "failed on git pull"
 
 version=$(cat VERSION) || exit
 
