@@ -1,6 +1,5 @@
 #!/bin/bash
 
-pushd ../
 echo '<!DOCTYPE RCC><RCC version="1.0">' > src/icons.qrc
 echo '<qresource prefix="icons/gnome">' >> src/icons.qrc
 echo '    <file alias="index.theme">../icons/gnome/index.theme</file>' >> src/icons.qrc
@@ -16,4 +15,3 @@ done
 echo '</qresource>' >> src/icons.qrc
 echo '</RCC>' >> src/icons.qrc
 echo "Updated icons.qrc"
-popd
