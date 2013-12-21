@@ -20,6 +20,7 @@
 #include <QMimeData>
 #include <QClipboard>
 #include <QScrollBar>
+#include <QMessageBox>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "renderer.h"
@@ -198,6 +199,7 @@ void MainWindow::setupActions()
 	connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(tabChanged(int)));
 
 	connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(showAbout()));
+	connect(ui->actionAboutQt,SIGNAL(triggered()),this,SLOT(showAboutQt()));
 	connect(ui->actionShowBuiltins,SIGNAL(triggered()),this,SLOT(showBuiltins()));
 
 }
@@ -568,6 +570,11 @@ void MainWindow::showAbout()
 {
 	AboutDialog about;
 	about.exec();
+}
+
+void MainWindow::showAboutQt()
+{
+	QMessageBox::aboutQt(this);
 }
 
 void MainWindow::showBuiltins()

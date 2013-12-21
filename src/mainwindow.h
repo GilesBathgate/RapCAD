@@ -73,6 +73,7 @@ private slots:
 	void tabChanged(int);
 	void print();
 	void showAbout();
+	void showAboutQt();
 	void showBuiltins();
 private:
 	void compileOrGenerate(bool generate);
