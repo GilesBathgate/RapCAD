@@ -1,0 +1,8 @@
+These scripts are not intended for general use and will probably only
+work on the system as configured by the author.
+
+To run the scripts you must be in the rapcad directory and run the scripts
+as so:
+
+~/rapcad$ scripts/scriptname.sh
+
