@@ -1,3 +1,12 @@
+0.9.3
+   * Moving forward only Qt5 and above will be supported.
+   * Now using Qt 5.2.0 for windows builds.
+   * Updated to use latest versions of CGAL Boost and dxflib for windows builds.
+   * Updates to documentation for building latest version of boost and CGAL on windows.
+   * Restored icon theme in windows build.
+   * Changes to make rotate_extrude work with radius of 0, and consider size of rotation object when calculating fragments.
+   * Resize module is more accurate, Added test for resize module.
+
 0.9.2
    * Disabled some usless ui elements until the features are implemented.
    * Create a point if a sphere of radius 0 requested.
