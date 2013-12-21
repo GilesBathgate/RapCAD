@@ -19,6 +19,7 @@ File release\libgmp-10.dll
 File release\libmpfr-4.dll
 File release\libstdc++-6.dll
 File release\libwinpthread-1.dll
+File release\platforms\qwindows.dll
 CreateShortCut $SMPROGRAMS\RapCAD.lnk $INSTDIR\rapcad.exe
 WriteUninstaller $INSTDIR\Uninstall.exe
 WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\RapCAD" "DisplayName" "RapCAD (remove only)"
@@ -41,6 +42,7 @@ Delete $INSTDIR\libgmp-10.dll
 Delete $INSTDIR\libmpfr-4.dll
 Delete $INSTDIR\libstdc++-6.dll
 Delete $INSTDIR\libwinpthread-1.dll
+Delete $INSTDIR\platforms\qwindows.dll
 Delete $SMPROGRAMS\RapCAD.lnk
 DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\RapCAD"
 RMDir $INSTDIR
