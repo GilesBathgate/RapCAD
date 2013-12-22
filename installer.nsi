@@ -42,6 +42,7 @@ Delete $INSTDIR\libgmp-10.dll
 Delete $INSTDIR\libmpfr-4.dll
 Delete $INSTDIR\libstdc++-6.dll
 Delete $INSTDIR\libwinpthread-1.dll
+Delete $INSTDIR\platforms\qwindows.dll
 RMDir  $INSTDIR\platforms
 Delete $SMPROGRAMS\RapCAD.lnk
 DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\RapCAD"
