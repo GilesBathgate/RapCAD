@@ -34,9 +34,9 @@ MainWindow::MainWindow(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow)
 {
-    if(!QIcon::hasThemeIcon("document-open")) {
-        QIcon::setThemeName("gnome");
-    }
+	if(!QIcon::hasThemeIcon("document-open")) {
+		QIcon::setThemeName("gnome");
+	}
 
 	ui->setupUi(this);
 	QIcon rapcadIcon(":/icons/rapcad-16x16.png");
@@ -350,9 +350,24 @@ void MainWindow::closeEvent(QCloseEvent* e)
 	}
 }
 
-bool MainWindow::loadFile(const QString& f)
+void MainWindow::loadFiles(const QStringList& filenames)
 {
-	return currentEditor()->loadFile(f);
+	int i=0;
+	foreach(QString file, filenames) {
+		CodeEditor* e=currentEditor();
+		if(e->getFileName().isEmpty()) {
+			e->loadFile(file);
+		} else {
+			e = new CodeEditor(this);
+			if(e->loadFile(file)) {
+				i=ui->tabWidget->addTab(e,file);
+				setupEditor(e);
+			} else {
+				delete e;
+			}
+		}
+	}
+	ui->tabWidget->setCurrentIndex(i);
 }
 
 bool MainWindow::maybeSave(bool compiling)

@@ -32,12 +32,11 @@
 #include "qcommandlineparser.h"
 #endif
 
-static int showUi(QApplication& a,QString filename)
+static int showUi(QApplication& a,QStringList filenames)
 {
 	MainWindow w;
 
-	if(!filename.isEmpty())
-		w.loadFile(filename);
+	w.loadFiles(filenames);
 
 	w.show();
 
@@ -108,6 +107,6 @@ int main(int argc, char* argv[])
 		a.quit();
 		return retcode;
 	} else {
-		return showUi(a,inputFile);
+		return showUi(a,inputFiles);
 	}
 }

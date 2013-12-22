@@ -39,7 +39,7 @@ class MainWindow : public QMainWindow
 public:
 	explicit MainWindow(QWidget* parent = 0);
 	~MainWindow();
-	bool loadFile(const QString&);
+	void loadFiles(const QStringList&);
 protected:
 	virtual void closeEvent(QCloseEvent*);
 private slots:
