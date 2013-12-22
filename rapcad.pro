@@ -63,6 +63,13 @@ win32 {
 
 #LIBS += -Wl,-rpath,./librapcad -L./librapcad -lrapcad
 
+DEFINES += USE_COMMANDLINE_PARSER
+greaterThan(QT_MAJOR_VERSION, 5) {
+ greaterThan(QT_MAJOR_VERSION, 1) {
+    DEFINES -= USE_COMMANDLINE_PARSER
+ }
+}
+
 DEFINES+=USE_CGAL
 QMAKE_CXXFLAGS += -frounding-math
 
@@ -257,7 +264,9 @@ SOURCES += \
 	src/polygon.cpp \
 	src/onceonly.cpp \
 	src/fragment.cpp \
-	src/cgalfragment.cpp
+	src/cgalfragment.cpp \
+	contrib/qcommandlineparser.cpp \
+	contrib/qcommandlineoption.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -450,7 +459,9 @@ HEADERS  += \
 	src/glview.h \
 	contrib/fragments.h \
 	src/fragment.h \
-	src/cgalfragment.h
+	src/cgalfragment.h \
+	contrib/qcommandlineparser.h \
+	contrib/qcommandlineoption.h
 
 FORMS += \
 	src/mainwindow.ui \

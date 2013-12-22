@@ -26,21 +26,12 @@
 #include "comparer.h"
 #include "stringify.h"
 
-static int version()
-{
-	QTextStream output(stdout);
-	output << "RapCAD version: " << STRINGIFY(RAPCAD_VERSION) << "\n";
-	output.flush();
-	return 0;
-}
+#if USE_COMMANDLINE_PARSER
+#include "contrib/qcommandlineparser.h"
+#endif
 
 static int showUi(QApplication& a,QString filename)
 {
-	QCoreApplication::setOrganizationName("rapcad");
-	QCoreApplication::setOrganizationDomain("rapcad.org");
-	QCoreApplication::setApplicationName("RapCAD");
-	QCoreApplication::setApplicationVersion(STRINGIFY(RAPCAD_VERSION));
-
 	MainWindow w;
 
 	if(!filename.isEmpty())
@@ -55,59 +46,64 @@ static int showUi(QApplication& a,QString filename)
 
 int main(int argc, char* argv[])
 {
-	int opt;
-	bool print=false;
-	bool useGUI=true;
-	bool test=false;
-	bool compare=false;
+
+	QCoreApplication::setOrganizationName("rapcad");
+	QCoreApplication::setOrganizationDomain("rapcad.org");
+	QCoreApplication::setApplicationName("RapCAD");
+	QCoreApplication::setApplicationVersion(STRINGIFY(RAPCAD_VERSION));
+
+	QApplication a(argc,argv);
+
+	QCommandLineParser p;
+	p.setApplicationDescription("RapCAD the rapid prototyping IDE");
+	p.addHelpOption();
+	p.addVersionOption();
+	p.addPositionalArgument("filename", "File to open or process.");
+
+	QCommandLineOption testOption(QStringList() << "t" << "test", "Run through tests in working directory.");
+	p.addOption(testOption);
+
+	QCommandLineOption compareOption(QStringList() << "c" << "compare", "Compare two files to see if they are identical.");
+	p.addOption(compareOption);
+
+	QCommandLineOption printOption(QStringList() << "p" << "print", "Print debugging output.");
+	p.addOption(printOption);
+
+	QCommandLineOption outputOption(QStringList() << "o" << "output","Create output file <filename>.","filename");
+
+	p.addOption(outputOption);
+
+	p.process(a);
+
+	QStringList inputFiles = p.positionalArguments();
+	QString inputFile;
+	if(inputFiles.count()>0)
+		inputFile=inputFiles.at(0);
 
 	QString outputFile;
-	QString inputFile;
-
-	while((opt = getopt(argc, argv, "o:pvtc:")) != -1) {
-		switch(opt) {
-		case 'v':
-			return version();
-		case 't':
-			useGUI=false;
-			test=true;
-			break;
-		case 'c':
-			useGUI=false;
-			compare=true;
-			outputFile=QString(optarg);
-			break;
-		case 'p':
-			print=true;
-		case 'o':
-			useGUI=false;
-			outputFile=QString(optarg);
-		}
-	}
-	inputFile=QString(argv[optind]);
-
-	if(useGUI) {
-		QApplication a(argc,argv);
-		return showUi(a,inputFile);
-	}
+	if(p.isSet(outputOption))
+		outputFile=p.value(outputOption);
 
 	QTextStream output(stdout);
-	Strategy* s;
-	if(compare) {
+	Strategy* s=NULL;
+	if(p.isSet(compareOption)) {
 		Comparer* c=new Comparer(output);
 		c->setup(inputFile,outputFile);
 		s=c;
-	} else if(test) {
+	} else if(p.isSet(testOption)) {
 		s=new Tester(output);
-	} else {
+	} else if(p.isSet(outputOption)) {
 		Worker* w=new Worker(output);
+		bool print = p.isSet(printOption);
 		w->setup(inputFile,outputFile,print,false);
 		s=w;
 	}
 
-	QCoreApplication a(argc,argv);
-	int retcode=s->evaluate();
-	delete s;
-	a.quit();
-	return retcode;
+	if(s) {
+		int retcode=s->evaluate();
+		a.quit();
+		return retcode;
+	} else {
+		return showUi(a,inputFile);
+	}
 }
