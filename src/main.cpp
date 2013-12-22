@@ -28,6 +28,8 @@
 
 #if USE_COMMANDLINE_PARSER
 #include "contrib/qcommandlineparser.h"
+#else
+#include "qcommandlineparser.h"
 #endif
 
 static int showUi(QApplication& a,QString filename)

@@ -64,7 +64,10 @@ win32 {
 #LIBS += -Wl,-rpath,./librapcad -L./librapcad -lrapcad
 
 DEFINES += USE_COMMANDLINE_PARSER
-greaterThan(QT_MAJOR_VERSION, 5) {
+
+#Check for Qt Version 5.2 and above
+#So Major > 4 && Minor > 1
+greaterThan(QT_MAJOR_VERSION, 4) {
  greaterThan(QT_MINOR_VERSION, 1) {
     DEFINES -= USE_COMMANDLINE_PARSER
  }
