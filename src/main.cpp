@@ -63,7 +63,7 @@ int main(int argc, char* argv[])
 	QCommandLineOption testOption(QStringList() << "t" << "test", "Run through tests in working directory.");
 	p.addOption(testOption);
 
-	QCommandLineOption compareOption(QStringList() << "c" << "compare", "Compare two files to see if they are identical.");
+	QCommandLineOption compareOption(QStringList() << "c" << "compare", "Compare two files to see if they are identical.","filename");
 	p.addOption(compareOption);
 
 	QCommandLineOption printOption(QStringList() << "p" << "print", "Print debugging output.");
@@ -83,6 +83,8 @@ int main(int argc, char* argv[])
 	QString outputFile;
 	if(p.isSet(outputOption))
 		outputFile=p.value(outputOption);
+	else if(p.isSet(compareOption))
+		outputFile=p.value(compareOption);
 
 	QTextStream output(stdout);
 	Strategy* s=NULL;
