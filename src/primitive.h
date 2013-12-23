@@ -27,6 +27,7 @@ class Primitive
 public:
 	virtual ~Primitive() {}
 	virtual Polygon* createPolygon()=0;
+	virtual void setSkeleton(bool)=0;
 	virtual void appendVertex(Point)=0;
 	virtual void prependVertex(Point)=0;
 	virtual Primitive* buildPrimitive()=0;

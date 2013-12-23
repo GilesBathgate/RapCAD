@@ -7,7 +7,7 @@
 
 CGALPrimitive::CGALPrimitive()
 {
-	closed=false;
+	skeleton=false;
 }
 
 CGALPrimitive::CGALPrimitive(CGAL::Polyhedron3 poly)
@@ -15,33 +15,29 @@ CGALPrimitive::CGALPrimitive(CGAL::Polyhedron3 poly)
 	nefPolyhedron=new CGAL::NefPolyhedron3(poly);
 }
 
-void CGALPrimitive::setClosed(bool value)
+void CGALPrimitive::setSkeleton(bool value)
 {
-	closed=value;
+	skeleton=value;
 }
 
 Primitive* CGALPrimitive::buildPrimitive()
 {
-	if(polygons.count()>0) {
+	if(!skeleton) {
 		CGALBuilder b(this);
 		CGAL::Polyhedron3 poly;
 		poly.delegate(b);
 		nefPolyhedron=new CGAL::NefPolyhedron3(poly);
 		return this;
 	} else if(points.count()>1) {
-		QVector<CGAL::Point3> pl;
-		CGAL::Point3 fp;
-		OnceOnly first;
-		foreach(CGAL::Point3 pt, points) {
-			if(first())
-				fp=pt;
-			pl.append(pt);
-		}
-		if(closed)
-			pl.append(fp);
+		foreach(CGALPolygon* p,polygons) {
+			QVector<CGAL::Point3> pl;
+			foreach(CGAL::Point3 pt, p->getPoints()) {
+				pl.append(pt);
+			}
 
-		nefPolyhedron=createPolyline(pl);
-		return this;
+			nefPolyhedron=createPolyline(pl);
+			return this; //for now just consider the first polygon.
+		}
 	} else if(points.count()==1) {
 		QVector<CGAL::Point3> pl1,pl2;
 
@@ -59,10 +55,10 @@ Primitive* CGALPrimitive::buildPrimitive()
 
 		*nefPolyhedron=nefPolyhedron->intersection(*np);
 		return this;
-	} else {
-		nefPolyhedron=new CGAL::NefPolyhedron3();
-		return this;
 	}
+
+	nefPolyhedron=new CGAL::NefPolyhedron3();
+	return this;
 }
 
 CGAL::NefPolyhedron3* CGALPrimitive::createPolyline(QVector<CGAL::Point3> pl)
