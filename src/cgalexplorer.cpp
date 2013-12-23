@@ -27,14 +27,12 @@ CGALExplorer::CGALExplorer(Primitive* p)
 {
 	primitive=static_cast<CGALPrimitive*>(p);
 	evaluated=false;
-	hasPerimeter=false;
 }
 
 CGALExplorer::CGALExplorer(CGALPrimitive* p)
 {
 	primitive=p;
 	evaluated=false;
-	hasPerimeter=false;
 }
 
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(3,7,0)
@@ -154,7 +152,7 @@ void CGALExplorer::evaluate()
 		}
 	}
 
-	/* A halfedge will belong the the facet twice the upper
+	/* A halfedge will belong the the facet twice, the upper
 	 * halffacet and the lower halffacet. If this is not the
 	 * case then the edge is not on the perimeter. */
 	QList<HalfEdgeHandle> outEdges;
@@ -164,11 +162,12 @@ void CGALExplorer::evaluate()
 			outEdges.append(it.key());
 	}
 
-	/* Now walk the perimeter moving from source to target along
-	 * each halfedge so that the edges come out in the correct
-	 * order. We check that we didnt reverse direction and if
-	 * we did we walk along the twin edge. */
 	if(outEdges.size()>0) {
+
+		/* Now walk the perimeter moving from source to target along
+		 * each halfedge so that the edges come out in the correct
+		 * order. We check that we didnt reverse direction and if
+		 * we did we walk along the twin edge. */
 		HalfEdgeHandle current=outEdges.first();
 		bool twin=true;
 		do {
@@ -184,6 +183,9 @@ void CGALExplorer::evaluate()
 			}
 			twin=!twin;
 		} while(perimeter.size()<outEdges.size());
+
+		/* Finally calculate the normal of the perimeter. */
+		CGAL::normal_vector_newell_3(perimeterPoints.begin(),perimeterPoints.end(),perimeterNormal);
 	}
 
 	evaluated=true;
@@ -198,10 +200,6 @@ QList<CGALExplorer::HalfEdgeHandle> CGALExplorer::getPerimeter()
 CGAL::Vector3 CGALExplorer::getPerimeterNormal()
 {
 	if(!evaluated) evaluate();
-	if(!hasPerimeter) {
-		CGAL::normal_vector_newell_3(perimeterPoints.begin(),perimeterPoints.end(),perimeterNormal);
-		hasPerimeter=true;
-	}
 	return perimeterNormal;
 }
 

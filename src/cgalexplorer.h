@@ -41,7 +41,6 @@ private:
 	CGAL::Vector3 perimeterNormal;
 	QList<CGAL::Point3> perimeterPoints;
 	bool evaluated;
-	bool hasPerimeter;
 	CGALPrimitive* primitive;
 };
 
