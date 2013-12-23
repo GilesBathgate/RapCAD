@@ -154,12 +154,20 @@ void CGALExplorer::evaluate()
 		}
 	}
 
+	/* A halfedge will belong the the facet twice the upper
+	 * halffacet and the lower halffacet. If this is not the
+	 * case then the edge is not on the perimeter. */
 	QList<HalfEdgeHandle> outEdges;
-	for(QMap<HalfEdgeHandle,int>::iterator
-			it=periMap.begin(); it!=periMap.end(); ++it)
+	QMap<HalfEdgeHandle, int>::const_iterator it;
+	for(it = periMap.constBegin(); it!=periMap.constEnd(); ++it) {
 		if(it.value()==2)
 			outEdges.append(it.key());
+	}
 
+	/* Now walk the perimeter moving from source to target along
+	 * each halfedge so that the edges come out in the correct
+	 * order. We check that we didnt reverse direction and if
+	 * we did we walk along the twin edge. */
 	if(outEdges.size()>0) {
 		HalfEdgeHandle current=outEdges.first();
 		bool twin=true;
