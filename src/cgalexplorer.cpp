@@ -17,11 +17,11 @@
  */
 #if USE_CGAL
 #include "cgalexplorer.h"
-#include "float.h"
 #include <QMap>
 #include <CGAL/config.h>
 #include <CGAL/normal_vector_newell_3.h>
 #include <CGAL/bounding_box.h>
+#include "onceonly.h"
 
 CGALExplorer::CGALExplorer(Primitive* p)
 {
@@ -33,18 +33,6 @@ CGALExplorer::CGALExplorer(CGALPrimitive* p)
 {
 	primitive=p;
 	evaluated=false;
-}
-
-#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(3,7,0)
-static bool operator<(CGALExplorer::HalfEdgeHandle h1,CGALExplorer::HalfEdgeHandle h2)
-{
-	return &(*h1) < &(*h2);
-}
-#endif
-
-static CGALExplorer::HalfEdgeHandle getID(CGALExplorer::HalfEdgeHandle h)
-{
-	return h<h->twin()?h:h->twin();
 }
 
 typedef CGAL::NefPolyhedron3 Nef;
@@ -61,6 +49,18 @@ typedef Nef::SHalfedge_around_facet_const_circulator SHalfEdgeCirculator;
 typedef Nef::Vertex_const_handle VertexHandle;
 typedef Nef::SVertex_const_handle SVertexHandle;
 typedef Nef::Vector_3 Vector3;
+
+#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(3,7,0)
+static bool operator<(HalfEdgeHandle h1,HalfEdgeHandle h2)
+{
+	return &(*h1) < &(*h2);
+}
+#endif
+
+static HalfEdgeHandle getID(HalfEdgeHandle h)
+{
+	return h<h->twin()?h:h->twin();
+}
 
 class ShellExplorer
 {
@@ -170,19 +170,26 @@ void CGALExplorer::evaluate()
 		 * we did we walk along the twin edge. */
 		HalfEdgeHandle current=outEdges.first();
 		bool twin=true;
+		OnceOnly first;
+		CGAL::Point3 fp;
+		int foundEdges=0;
 		do {
 			foreach(HalfEdgeHandle h,outEdges) {
 				if(twin) h=h->twin();
 				if(h!=current && h!=current->twin() &&
 				current->target()->point()==h->source()->point()) {
 					current=h;
-					perimeter.append(h);
-					perimeterPoints.append(h->source()->point());
+					CGAL::Point3 pt=h->source()->point();
+					if(first())
+						fp=pt;
+					perimeterPoints.append(pt);
+					foundEdges++;
 					break;
 				}
 			}
 			twin=!twin;
-		} while(perimeter.size()<outEdges.size());
+		} while(foundEdges<outEdges.size());
+		perimeterPoints.append(fp);
 
 		/* Finally calculate the normal of the perimeter. */
 		CGAL::normal_vector_newell_3(perimeterPoints.begin(),perimeterPoints.end(),perimeterNormal);
@@ -191,10 +198,10 @@ void CGALExplorer::evaluate()
 	evaluated=true;
 }
 
-QList<CGALExplorer::HalfEdgeHandle> CGALExplorer::getPerimeter()
+QList<CGAL::Point3> CGALExplorer::getPerimeterPoints()
 {
 	if(!evaluated) evaluate();
-	return perimeter;
+	return perimeterPoints;
 }
 
 CGAL::Vector3 CGALExplorer::getPerimeterNormal()
