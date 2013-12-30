@@ -29,15 +29,22 @@ Primitive* CGALPrimitive::buildPrimitive()
 		nefPolyhedron=new CGAL::NefPolyhedron3(poly);
 		return this;
 	} else if(points.count()>1) {
+		OnceOnly first;
 		foreach(CGALPolygon* p,polygons) {
 			QVector<CGAL::Point3> pl;
 			foreach(CGAL::Point3 pt, p->getPoints()) {
 				pl.append(pt);
 			}
 
-			nefPolyhedron=createPolyline(pl);
-			return this; //for now just consider the first polygon.
+			if(first()) {
+				nefPolyhedron=createPolyline(pl);
+			} else {
+				const CGAL::NefPolyhedron3* np=createPolyline(pl);
+				*nefPolyhedron=nefPolyhedron->join(*np);
+			}
 		}
+		return this;
+
 	} else if(points.count()==1) {
 		QVector<CGAL::Point3> pl1,pl2;
 

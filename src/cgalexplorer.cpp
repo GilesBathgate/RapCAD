@@ -134,6 +134,15 @@ public:
 	}
 };
 
+static HalfEdgeHandle findNewEdge(QList<HalfEdgeHandle> visited,QList<HalfEdgeHandle> edges)
+{
+	foreach(HalfEdgeHandle h, edges)
+		if(!visited.contains(h) && !visited.contains(h->twin()))
+			return h;
+
+	return NULL;
+}
+
 void CGALExplorer::evaluate()
 {
 
@@ -169,47 +178,59 @@ void CGALExplorer::evaluate()
 		 * each halfedge so that the edges come out in the correct
 		 * order. We check that we didnt reverse direction and if
 		 * we did we walk along the twin edge. */
-		HalfEdgeHandle c=outEdges.first();
-		bool twin=true;
-		OnceOnly first;
+		CGALPolygon* poly=new CGALPolygon();
+		HalfEdgeHandle f=outEdges.first();
+		HalfEdgeHandle c=f;
+		QList<HalfEdgeHandle> visited;
 		CGAL::Point3 fp;
-		int foundEdges=0;
+		bool twin=true;
+		bool first=true;
 		do {
 			foreach(HalfEdgeHandle h,outEdges) {
 				if(twin) h=h->twin();
-				if(h!=c && h!=c->twin()) {
+				if(c!=NULL && h!=c && h!=c->twin()) {
 					CGAL::Point3 cp=c->target()->point();
 					CGAL::Point3 np=h->source()->point();
 					if(cp==np) {
-						if(first())
+
+						if(first) {
 							fp=np;
-						perimeterPoints.append(np);
-						foundEdges++;
+							first=false;
+						}
+
+						poly->append(np);
+						visited.append(h);
 						c=h;
+
+						if(h==f) {
+							poly->append(fp);
+
+							//Calculate the normal of the perimeter polygon
+							CGAL::Vector3 v;
+							QList<CGAL::Point3> pts=poly->getPoints();
+							CGAL::normal_vector_newell_3(pts.begin(),pts.end(),v);
+							poly->setNormal(v);
+
+							perimeters.append(poly);
+							poly=new CGALPolygon();
+							f=findNewEdge(visited,outEdges);
+							c=f;
+							first=true;
+						}
 					}
 				}
 			}
 			twin=!twin;
-		} while(foundEdges<outEdges.size());
-		perimeterPoints.append(fp);
-
-		/* Finally calculate the normal of the perimeter. */
-		CGAL::normal_vector_newell_3(perimeterPoints.begin(),perimeterPoints.end(),perimeterNormal);
+		} while(visited.size()<outEdges.size());
 	}
 
 	evaluated=true;
 }
 
-QList<CGAL::Point3> CGALExplorer::getPerimeterPoints()
+QList<CGALPolygon*> CGALExplorer::getPerimeters()
 {
 	if(!evaluated) evaluate();
-	return perimeterPoints;
-}
-
-CGAL::Vector3 CGALExplorer::getPerimeterNormal()
-{
-	if(!evaluated) evaluate();
-	return perimeterNormal;
+	return perimeters;
 }
 
 CGALPrimitive* CGALExplorer::getPrimitive()

@@ -27,16 +27,13 @@ class CGALExplorer
 public:
 	CGALExplorer(Primitive*);
 	CGALExplorer(CGALPrimitive*);
-	QList<CGAL::Point3> getPerimeterPoints();
-	CGAL::Vector3 getPerimeterNormal();
+	QList<CGALPolygon*> getPerimeters();
 	CGALPrimitive* getPrimitive();
-	CGALPrimitive* getOrientedPrimitive();
 	QList<CGAL::Point3> getPoints();
 	CGAL::Cuboid3 getBounds();
 private:
 	void evaluate();
-	CGAL::Vector3 perimeterNormal;
-	QList<CGAL::Point3> perimeterPoints;
+	QList<CGALPolygon*> perimeters;
 	bool evaluated;
 	CGALPrimitive* primitive;
 	QList<CGAL::Point3> allPoints;
