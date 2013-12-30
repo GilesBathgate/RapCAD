@@ -86,14 +86,12 @@ public:
 			CGALPolygon* pg=static_cast<CGALPolygon*>(primitive->createPolygon());
 			Vector3 v = f->plane().orthogonal_vector();
 			pg->setNormal(v);
-		}
-		HalfFacetCycleIterator fc;
-		CGAL_forall_facet_cycles_of(fc,f) {
-			if(fc.is_shalfedge()) {
-				SHalfEdgeHandle h = fc;
-				SHalfEdgeCirculator hc(h), he(hc);
-				CGAL_For_all(hc,he) {
-					if(facet) {
+			HalfFacetCycleIterator fc;
+			CGAL_forall_facet_cycles_of(fc,f) {
+				if(fc.is_shalfedge()) {
+					SHalfEdgeHandle h = fc;
+					SHalfEdgeCirculator hc(h), he(hc);
+					CGAL_For_all(hc,he) {
 						SVertexHandle sv = hc->source();
 						CGAL::Point3 sp = sv->source()->point();
 						if(direction)
@@ -101,14 +99,16 @@ public:
 						else
 							primitive->prependVertex(sp);
 					}
-					HalfEdgeHandle h=getID(hc->source());
-					periMap[h]++;
 				}
 			}
 		}
 	}
 
-	void visit(SHalfEdgeHandle) {}
+	void visit(SHalfEdgeHandle hc) {
+		HalfEdgeHandle h = getID(hc->source());
+		periMap[h]++;
+	}
+
 	void visit(SHalfLoopHandle) {}
 	void visit(SFaceHandle) {}
 
