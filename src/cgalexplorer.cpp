@@ -61,7 +61,8 @@ class ShellExplorer
 
 	HalfEdgeHandle getID(HalfEdgeHandle h)
 	{
-		return h<h->twin()?h:h->twin();
+		HalfEdgeHandle t=h->twin();
+		return h<t?h:t;
 	}
 
 	QList<CGAL::Point3> points;
