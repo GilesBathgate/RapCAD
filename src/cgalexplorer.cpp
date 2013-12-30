@@ -38,17 +38,8 @@ CGALExplorer::CGALExplorer(CGALPrimitive* p)
 typedef CGAL::NefPolyhedron3 Nef;
 typedef Nef::Volume_const_iterator VolumeIterator;
 typedef Nef::Shell_entry_const_iterator ShellEntryIterator;
-typedef Nef::Halffacet_const_handle HalfFacetHandle;
-typedef Nef::Halffacet_const_iterator HalfFacetIterator;
-typedef Nef::Halffacet_cycle_const_iterator HalfFacetCycleIterator;
 typedef Nef::Halfedge_const_handle HalfEdgeHandle;
-typedef Nef::SHalfedge_const_handle SHalfEdgeHandle;
-typedef Nef::SHalfloop_const_handle SHalfLoopHandle;
 typedef Nef::SFace_const_handle SFaceHandle;
-typedef Nef::SHalfedge_around_facet_const_circulator SHalfEdgeCirculator;
-typedef Nef::Vertex_const_handle VertexHandle;
-typedef Nef::SVertex_const_handle SVertexHandle;
-typedef Nef::Vector_3 Vector3;
 
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(3,7,0)
 static bool operator<(HalfEdgeHandle h1,HalfEdgeHandle h2)
@@ -57,13 +48,22 @@ static bool operator<(HalfEdgeHandle h1,HalfEdgeHandle h2)
 }
 #endif
 
-static HalfEdgeHandle getID(HalfEdgeHandle h)
-{
-	return h<h->twin()?h:h->twin();
-}
-
 class ShellExplorer
 {
+	typedef Nef::Halffacet_const_handle HalfFacetHandle;
+	typedef Nef::Halffacet_const_iterator HalfFacetIterator;
+	typedef Nef::Halffacet_cycle_const_iterator HalfFacetCycleIterator;
+	typedef Nef::SHalfedge_const_handle SHalfEdgeHandle;
+	typedef Nef::SHalfloop_const_handle SHalfLoopHandle;
+	typedef Nef::SHalfedge_around_facet_const_circulator SHalfEdgeCirculator;
+	typedef Nef::Vertex_const_handle VertexHandle;
+	typedef Nef::SVertex_const_handle SVertexHandle;
+
+	HalfEdgeHandle getID(HalfEdgeHandle h)
+	{
+		return h<h->twin()?h:h->twin();
+	}
+
 	QList<CGAL::Point3> points;
 	CGALPrimitive* primitive;
 	bool direction;
@@ -84,7 +84,7 @@ public:
 		bool facet = !f->is_twin();
 		if(facet) {
 			CGALPolygon* pg=static_cast<CGALPolygon*>(primitive->createPolygon());
-			Vector3 v = f->plane().orthogonal_vector();
+			CGAL::Vector3 v = f->plane().orthogonal_vector();
 			pg->setNormal(v);
 			HalfFacetCycleIterator fc;
 			CGAL_forall_facet_cycles_of(fc,f) {
