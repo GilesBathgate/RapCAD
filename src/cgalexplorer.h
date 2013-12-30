@@ -39,6 +39,7 @@ private:
 	QList<CGAL::Point3> perimeterPoints;
 	bool evaluated;
 	CGALPrimitive* primitive;
+	QList<CGAL::Point3> allPoints;
 };
 
 #endif // CGALEXPLORER_H
