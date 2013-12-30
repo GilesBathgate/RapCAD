@@ -169,7 +169,7 @@ void CGALExplorer::evaluate()
 		 * each halfedge so that the edges come out in the correct
 		 * order. We check that we didnt reverse direction and if
 		 * we did we walk along the twin edge. */
-		HalfEdgeHandle current=outEdges.first();
+		HalfEdgeHandle c=outEdges.first();
 		bool twin=true;
 		OnceOnly first;
 		CGAL::Point3 fp;
@@ -177,15 +177,16 @@ void CGALExplorer::evaluate()
 		do {
 			foreach(HalfEdgeHandle h,outEdges) {
 				if(twin) h=h->twin();
-				if(h!=current && h!=current->twin() &&
-				current->target()->point()==h->source()->point()) {
-					current=h;
-					CGAL::Point3 pt=h->source()->point();
-					if(first())
-						fp=pt;
-					perimeterPoints.append(pt);
-					foundEdges++;
-					break;
+				if(h!=c && h!=c->twin()) {
+					CGAL::Point3 cp=c->target()->point();
+					CGAL::Point3 np=h->source()->point();
+					if(cp==np) {
+						if(first())
+							fp=np;
+						perimeterPoints.append(np);
+						foundEdges++;
+						c=h;
+					}
 				}
 			}
 			twin=!twin;
