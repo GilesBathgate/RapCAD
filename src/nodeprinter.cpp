@@ -63,8 +63,7 @@ void NodePrinter::visit(PrimitiveNode* n)
 
 void NodePrinter::visit(PolylineNode* n)
 {
-	result << "polyline";
-	printArguments(n->getPolygon());
+	result << "polyline()";
 	printChildren(n);
 }
 

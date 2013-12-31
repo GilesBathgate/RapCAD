@@ -22,16 +22,6 @@ PolylineNode::PolylineNode()
 {
 }
 
-Polygon PolylineNode::getPolygon() const
-{
-	return polygon;
-}
-
-void PolylineNode::setPolygon(Polygon p)
-{
-	polygon=p;
-}
-
 void PolylineNode::accept(NodeVisitor& v)
 {
 	v.visit(this);

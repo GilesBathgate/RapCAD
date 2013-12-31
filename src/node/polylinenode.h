@@ -19,18 +19,14 @@
 #ifndef POLYLINENODE_H
 #define POLYLINENODE_H
 
-#include "node.h"
+#include "primitivenode.h"
 #include "polygon.h"
 
-class PolylineNode : public Node
+class PolylineNode : public PrimitiveNode
 {
 public:
 	PolylineNode();
-	void setPolygon(Polygon);
-	Polygon getPolygon() const;
 	void accept(NodeVisitor&);
-private:
-	Polygon polygon;
 };
 
 #endif // POLYLINENODE_H

@@ -19,29 +19,58 @@
 #include "polylinemodule.h"
 #include "node/polylinenode.h"
 #include "vectorvalue.h"
+#include "numbervalue.h"
 
 PolylineModule::PolylineModule() : Module("polyline")
 {
 	addParameter("points");
+	addParameter("lines");
 }
 
 Node* PolylineModule::evaluate(Context* ctx)
 {
-	VectorValue* points=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	VectorValue* pointsVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	VectorValue* linesVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
 
 	PolylineNode* p=new PolylineNode();
-	if(!points)
+
+	if(!pointsVec)
 		return p;
 
-	Polygon polyline;
-	QList<Value*> children = points->getChildren();
-	foreach(Value* point, children) {
-		VectorValue* pointVec=dynamic_cast<VectorValue*>(point);
-		if(pointVec) {
-			Point pt = pointVec->getPoint();
-			polyline.append(pt);
+	QList<Value*> points=pointsVec->getChildren();
+
+	/* If we are just given a single argument of points
+	 * build a polyline from that. */
+	if(!linesVec) {
+		p->createPolygon();
+		foreach(Value* point, points) {
+			VectorValue* pointVec=dynamic_cast<VectorValue*>(point);
+			if(pointVec) {
+				Point pt = pointVec->getPoint();
+				p->appendVertex(pt);
+			}
+		}
+
+		return p;
+	}
+
+	/* Otherwise use the lines argument to describe the multiple
+	 * polylines */
+	QList<Value*> lines=linesVec->getChildren();
+
+	foreach(Value* line,lines) {
+		VectorValue* lineVec=dynamic_cast<VectorValue*>(line);
+		if(lineVec) {
+			p->createPolygon();
+			foreach(Value* indexVal,lineVec->getChildren()) {
+				NumberValue* indexNum=dynamic_cast<NumberValue*>(indexVal);
+				double index = indexNum->getNumber();
+				VectorValue* point=dynamic_cast<VectorValue*>(points.at(index));
+				Point pt = point->getPoint();
+				p->appendVertex(pt);
+			}
 		}
 	}
-	p->setPolygon(polyline);
+
 	return p;
 }
