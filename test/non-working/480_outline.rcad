@@ -1,0 +1,5 @@
+outline()
+difference(){
+square(10,c=true);
+square(5,c=true);
+}

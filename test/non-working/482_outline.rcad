@@ -1,0 +1,4 @@
+//outline() {
+translate([1,1])square(5);
+translate([-6,-6])square(5);
+//}

@@ -1,0 +1,6 @@
+outline()
+difference(){
+square(10,c=true);
+translate([2,2])square(2,c=true);
+translate([-2,-2])square(2,c=true);
+}
