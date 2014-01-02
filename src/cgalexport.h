@@ -30,6 +30,7 @@ public:
 private:
 	void exportOFF(QString);
 	void exportAsciiSTL(QString);
+	void exportOBJ(QString);
 	void exportAMF(QString);
 	void exportCSG(QString);
 	CGALPrimitive* primitive;

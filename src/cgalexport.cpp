@@ -24,6 +24,7 @@
 #include <QString>
 #include <QXmlStreamWriter>
 #include <CGAL/IO/Polyhedron_iostream.h>
+#include <CGAL/IO/print_wavefront.h>
 #include"cgalexplorer.h"
 #include "onceonly.h"
 
@@ -39,12 +40,22 @@ void CGALExport::exportResult(QString filename)
 	QString path=file.absoluteFilePath();
 	if(suffix=="off")
 		return exportOFF(path);
+	if(suffix=="obj")
+		return exportOBJ(path);
 	if(suffix=="amf")
 		return exportAMF(path);
 	if(suffix=="stl")
 		return exportAsciiSTL(path);
 	if(suffix=="csg")
 		return exportCSG(path);
+}
+
+void CGALExport::exportOBJ(QString filename)
+{
+	CGAL::Polyhedron3* poly=primitive->getPolyhedron();
+	std::ofstream file(filename.toLocal8Bit().constData());
+	print_polyhedron_wavefront(file,*poly);
+	file.close();
 }
 
 void CGALExport::exportOFF(QString filename)

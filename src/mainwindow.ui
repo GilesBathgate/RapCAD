@@ -180,6 +180,7 @@
       <string>Export</string>
      </property>
      <addaction name="actionExportAsciiSTL"/>
+     <addaction name="actionExportOBJ"/>
      <addaction name="actionExportAMF"/>
      <addaction name="actionExportOFF"/>
      <addaction name="actionExportImage"/>
@@ -798,6 +799,11 @@
   <action name="actionAboutQt">
    <property name="text">
     <string>About &amp;Qt</string>
+   </property>
+  </action>
+  <action name="actionExportOBJ">
+   <property name="text">
+    <string>OBJ</string>
    </property>
   </action>
  </widget>

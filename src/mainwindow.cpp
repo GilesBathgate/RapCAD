@@ -186,6 +186,7 @@ void MainWindow::setupActions()
 	connect(ui->actionGenerateGcode,SIGNAL(triggered()),this,SLOT(compileAndGenerate()));
 	connect(ui->actionPreferences,SIGNAL(triggered()),this,SLOT(showPreferences()));
 	connect(ui->actionExportAsciiSTL,SIGNAL(triggered()),this,SLOT(exportAsciiSTL()));
+	connect(ui->actionExportOBJ,SIGNAL(triggered()),this,SLOT(exportOBJ()));
 	connect(ui->actionExportOFF,SIGNAL(triggered()),this,SLOT(exportOFF()));
 	connect(ui->actionExportAMF,SIGNAL(triggered()),this,SLOT(exportAMF()));
 	connect(ui->actionExportCSG,SIGNAL(triggered()),this,SLOT(exportCSG()));
@@ -210,6 +211,17 @@ void MainWindow::grabFrameBuffer()
 	QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
 					QString(), tr("PNG Files (*.png)"));
 	image.save(fn);
+}
+
+void MainWindow::exportOBJ()
+{
+	if(worker->resultAvailable()) {
+		QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
+					 QString(), tr("OBJ Files (*.obj);;All Files (*)"));
+		if(!fn.endsWith(".obj", Qt::CaseInsensitive))
+			fn.append(".obj");
+		worker->exportResult(fn);
+	}
 }
 
 void MainWindow::exportAsciiSTL()
