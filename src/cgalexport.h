@@ -30,6 +30,7 @@ public:
 private:
 	void exportOFF(QString);
 	void exportAsciiSTL(QString);
+	void exportVRML(QString filename);
 	void exportOBJ(QString);
 	void exportAMF(QString);
 	void exportCSG(QString);

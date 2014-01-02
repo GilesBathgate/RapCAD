@@ -181,6 +181,7 @@
      </property>
      <addaction name="actionExportAsciiSTL"/>
      <addaction name="actionExportOBJ"/>
+     <addaction name="actionExportVRML"/>
      <addaction name="actionExportAMF"/>
      <addaction name="actionExportOFF"/>
      <addaction name="actionExportImage"/>
@@ -804,6 +805,11 @@
   <action name="actionExportOBJ">
    <property name="text">
     <string>OBJ</string>
+   </property>
+  </action>
+  <action name="actionExportVRML">
+   <property name="text">
+    <string>VRML 2.0</string>
    </property>
   </action>
  </widget>

@@ -186,6 +186,7 @@ void MainWindow::setupActions()
 	connect(ui->actionGenerateGcode,SIGNAL(triggered()),this,SLOT(compileAndGenerate()));
 	connect(ui->actionPreferences,SIGNAL(triggered()),this,SLOT(showPreferences()));
 	connect(ui->actionExportAsciiSTL,SIGNAL(triggered()),this,SLOT(exportAsciiSTL()));
+	connect(ui->actionExportVRML,SIGNAL(triggered()),this,SLOT(exportVRML()));
 	connect(ui->actionExportOBJ,SIGNAL(triggered()),this,SLOT(exportOBJ()));
 	connect(ui->actionExportOFF,SIGNAL(triggered()),this,SLOT(exportOFF()));
 	connect(ui->actionExportAMF,SIGNAL(triggered()),this,SLOT(exportAMF()));
@@ -209,8 +210,19 @@ void MainWindow::grabFrameBuffer()
 {
 	QImage image = ui->view->grabFrameBuffer();
 	QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
-					QString(), tr("PNG Files (*.png)"));
+				 QString(), tr("PNG Files (*.png)"));
 	image.save(fn);
+}
+
+void MainWindow::exportVRML()
+{
+	if(worker->resultAvailable()) {
+		QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
+					 QString(), tr("VRML 2.0 Files (*.wrl);;All Files (*)"));
+		if(!fn.endsWith(".wrl", Qt::CaseInsensitive))
+			fn.append(".wrl");
+		worker->exportResult(fn);
+	}
 }
 
 void MainWindow::exportOBJ()

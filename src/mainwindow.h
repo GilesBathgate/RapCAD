@@ -47,6 +47,7 @@ private slots:
 	void setDefaultViewport();
 	void grabFrameBuffer();
 	void exportAsciiSTL();
+	void exportVRML();
 	void exportOBJ();
 	void exportOFF();
 	void exportAMF();

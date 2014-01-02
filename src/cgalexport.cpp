@@ -25,6 +25,7 @@
 #include <QXmlStreamWriter>
 #include <CGAL/IO/Polyhedron_iostream.h>
 #include <CGAL/IO/print_wavefront.h>
+#include <CGAL/IO/Polyhedron_VRML_2_ostream.h>
 #include"cgalexplorer.h"
 #include "onceonly.h"
 
@@ -42,12 +43,23 @@ void CGALExport::exportResult(QString filename)
 		return exportOFF(path);
 	if(suffix=="obj")
 		return exportOBJ(path);
+	if(suffix=="wrl")
+		return exportVRML(path);
 	if(suffix=="amf")
 		return exportAMF(path);
 	if(suffix=="stl")
 		return exportAsciiSTL(path);
 	if(suffix=="csg")
 		return exportCSG(path);
+}
+
+void CGALExport::exportVRML(QString filename)
+{
+	CGAL::Polyhedron3* poly=primitive->getPolyhedron();
+	std::ofstream file(filename.toLocal8Bit().constData());
+	CGAL::VRML_2_ostream out(file);
+	out << *poly;
+	file.close();
 }
 
 void CGALExport::exportOBJ(QString filename)
