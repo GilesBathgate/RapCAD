@@ -538,15 +538,14 @@ void MainWindow::compileAndGenerate()
 
 void MainWindow::compileOrGenerate(bool generate)
 {
-	//Stop the syntax highlighter to prevent a crash
-	//It will start again automatically.
-	CodeEditor* e=currentEditor();
-	e->stopHighlighting();
-
 	if(maybeSave(true)) {
+		CodeEditor* e=currentEditor();
 		QString file=e->getFileName();
 		if(!file.isEmpty()) {
 			worker->setup(file,"",false,generate);
+
+			//Stop the syntax highlighter to prevent a crash
+			e->stopHighlighting();
 			worker->evaluate();
 			ui->actionCompileAndRender->setEnabled(false);
 			ui->actionGenerateGcode->setEnabled(false);
