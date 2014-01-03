@@ -1,0 +1,3 @@
+function test() {
+return concat([[1]],[[2]])==[[1],[2]];
+}

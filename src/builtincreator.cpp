@@ -68,6 +68,7 @@
 #include "function/strfunction.h"
 #include "function/sinfunction.h"
 #include "function/cosfunction.h"
+#include "function/concatfunction.h"
 #include "function/tanfunction.h"
 #include "function/absfunction.h"
 #include "function/signfunction.h"
@@ -145,6 +146,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new Atan2Function());
 	builtins.append(new AtanFunction());
 	builtins.append(new CeilFunction());
+	builtins.append(new ConcatFunction());
 	builtins.append(new CosFunction());
 	builtins.append(new CoshFunction());
 	builtins.append(new DegFunction());
