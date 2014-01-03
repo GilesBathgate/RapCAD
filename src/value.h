@@ -24,6 +24,9 @@
 #include "expression.h"
 #include "variable.h"
 
+class VectorValue;
+class TextValue;
+
 class Value
 {
 public:
@@ -37,7 +40,8 @@ public:
 	virtual QString getValueString() const;
 	virtual bool isTrue() const;
 	bool isDefined() const;
-	virtual class VectorValue* toVector(int);
+	virtual VectorValue* toVector(int);
+	TextValue* toText();
 	virtual Iterator<Value*>* createIterator();
 	Value* operator^(Value&);
 	Value* operator*(Value&);

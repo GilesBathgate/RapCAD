@@ -7,12 +7,15 @@ StrFunction::StrFunction() : Function("str")
 
 Value* StrFunction::evaluate(Context* ctx)
 {
-	Value* val=NULL;
-	foreach(Value* arg, ctx->getArguments()) {
-		if(val)
-			val=Value::operation(val,Expression::Concatenate,arg);
-		else
+	TextValue* val=NULL;
+	foreach(Value* argVal, ctx->getArguments()) {
+		TextValue* arg = argVal->toText();
+		if(!val) {
 			val=arg;
+		} else {
+			Value* res=Value::operation(val,Expression::Concatenate,arg);
+			val=res->toText();
+		}
 	}
 
 	return val;
