@@ -74,7 +74,7 @@ void Worker::internal()
 		reporter->setReturnCode(0);
 
 #if USE_CGAL
-	} catch(CGAL::Assertion_exception e) {
+	} catch(CGAL::Failure_exception e) {
 		output << "What: " << QString::fromStdString(e.what()) << endl;
 #endif
 	} catch(...) {
@@ -208,7 +208,7 @@ void Worker::exportResult(QString fn)
 			CGALExport exporter(p);
 			exporter.exportResult(fn);
 		}
-	} catch(CGAL::Assertion_exception e) {
+	} catch(CGAL::Failure_exception e) {
 		output << "What: " << QString::fromStdString(e.what()) << endl;
 	}
 #endif
