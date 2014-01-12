@@ -40,7 +40,7 @@ public:
 	Primitive* difference(const Primitive*);
 	Primitive* symmetric_difference(const Primitive*);
 	Primitive* minkowski(const Primitive*);
-	Primitive* inset(double);
+	Primitive* inset(const double);
 	Primitive* copy();
 	void transform(const CGAL::AffTransformation3&);
 	QList<CGALPolygon*> getPolygons() const;

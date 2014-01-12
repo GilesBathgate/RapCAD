@@ -163,7 +163,7 @@ Primitive* CGALPrimitive::minkowski(const Primitive* pr)
 	return this;
 }
 
-Primitive* CGALPrimitive::inset(double amount)
+Primitive* CGALPrimitive::inset(const double amount)
 {
 	CGALBuilder b(this);
 	CGALPrimitive* result=b.buildOffsetPolygons(amount);

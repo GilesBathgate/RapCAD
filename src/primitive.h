@@ -36,7 +36,7 @@ public:
 	virtual Primitive* difference(const Primitive*)=0;
 	virtual Primitive* symmetric_difference(const Primitive*)=0;
 	virtual Primitive* minkowski(const Primitive*)=0;
-	virtual Primitive* inset(double)=0;
+	virtual Primitive* inset(const double)=0;
 	virtual Primitive* copy()=0;
 	virtual bool isEmpty()=0;
 	virtual bool isFullyDimentional()=0;

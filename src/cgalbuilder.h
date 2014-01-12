@@ -25,7 +25,7 @@ class CGALBuilder : public CGAL::Modifier_base<CGAL::HalfedgeDS>
 {
 public:
 	CGALBuilder(CGALPrimitive*);
-	CGALPrimitive* buildOffsetPolygons(double);
+	CGALPrimitive* buildOffsetPolygons(const double);
 private:
 	void operator()(CGAL::HalfedgeDS&);
 	CGALPrimitive* primitive;
