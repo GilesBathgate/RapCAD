@@ -56,7 +56,7 @@ Node* RotateModule::evaluate(Context* ctx)
 	TransformationNode* n=new TransformationNode();
 
 	bool origin;
-	Point vec;
+	Point vec(0.0,0.0,0.1);
 	double a=0.0;
 	NumberValue* angValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(angValue) {
