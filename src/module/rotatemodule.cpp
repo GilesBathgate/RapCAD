@@ -66,7 +66,7 @@ Node* RotateModule::evaluate(Context* ctx)
 			vec=vecValue->getPoint();
 		origin=false;
 	} else {
-		VectorValue* vecValue=dynamic_cast<VectorValue*>(ctx->getArgument(0,"vector"));
+		VectorValue* vecValue=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 		if(vecValue)
 			vec=vecValue->getPoint();
 		origin=true;
