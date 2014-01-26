@@ -19,13 +19,13 @@
 #include <math.h>
 #include "prismmodule.h"
 #include "numbervalue.h"
-#include "tau.h"
 
 PrismModule::PrismModule() : PrimitiveModule("prism")
 {
 	addParameter("height");
 	addParameter("sides");
 	addParameter("apothem");
+	addParameter("center");
 }
 
 Node* PrismModule::evaluate(Context* ctx)
@@ -53,7 +53,7 @@ Node* PrismModule::evaluate(Context* ctx)
 		}
 	}
 
-	Value* centerVal = ctx->getArgument(3,"center");
+	Value* centerVal = getParameterArgument(ctx,3);
 	bool center=false;
 	if(centerVal)
 		center=centerVal->isTrue();
