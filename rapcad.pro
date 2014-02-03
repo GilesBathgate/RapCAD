@@ -492,5 +492,9 @@ win32|macx {
 	src/icons.qrc
 }
 
+win32 {
+	RC_FILE = rapcad.rc
+}
+
 RESOURCES += \
 src/rapcad.qrc
