@@ -36,6 +36,8 @@ public:
 	void prependVertex(CGAL::Point3);
 	Primitive* buildPrimitive();
 	Primitive* join(const Primitive*);
+	void add(const Primitive*);
+	Primitive* join();
 	Primitive* intersection(const Primitive*);
 	Primitive* difference(const Primitive*);
 	Primitive* symmetric_difference(const Primitive*);
@@ -50,6 +52,8 @@ public:
 	bool isEmpty();
 	bool isFullyDimentional();
 private:
+	CGAL::Nef_nary_union_3<CGAL::NefPolyhedron3> nUnion;
+	bool added;
 	CGAL::NefPolyhedron3* createPolyline(QVector<CGAL::Point3> pl);
 	QList<CGALPolygon*> polygons;
 	QList<CGAL::Point3> points;

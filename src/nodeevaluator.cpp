@@ -310,7 +310,7 @@ void NodeEvaluator::evaluate(Node* op,Operation_e type)
 		} else {
 			switch(type) {
 			case Union:
-				first=first->join(result);
+				first->add(result);
 				break;
 			case Difference:
 				first=first->difference(result);
@@ -328,7 +328,7 @@ void NodeEvaluator::evaluate(Node* op,Operation_e type)
 		}
 	}
 
-	result=first;
+	result=first->join();
 }
 
 void NodeEvaluator::visit(BoundsNode* n)

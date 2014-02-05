@@ -27,6 +27,7 @@
 #include <CGAL/Nef_polyhedron_3.h>
 #include <CGAL/convex_hull_3.h>
 #include <CGAL/create_offset_polygons_2.h>
+#include <CGAL/Nef_nary_union_3.h>
 
 namespace CGAL
 {

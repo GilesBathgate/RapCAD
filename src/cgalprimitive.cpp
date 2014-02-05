@@ -8,10 +8,13 @@
 CGALPrimitive::CGALPrimitive()
 {
 	skeleton=false;
+	added=false;
 }
 
 CGALPrimitive::CGALPrimitive(CGAL::Polyhedron3 poly)
 {
+	skeleton=false;
+	added=false;
 	nefPolyhedron=new CGAL::NefPolyhedron3(poly);
 }
 
@@ -126,6 +129,24 @@ QList<CGALPolygon*> CGALPrimitive::getPolygons() const
 QList<CGAL::Point3> CGALPrimitive::getPoints() const
 {
 	return points;
+}
+
+void CGALPrimitive::add(const Primitive* pr)
+{
+	if(!added)
+		nUnion.add_polyhedron(*nefPolyhedron);
+
+	const CGALPrimitive* that=static_cast<const CGALPrimitive*>(pr);
+	nUnion.add_polyhedron(*that->nefPolyhedron);
+	added=true;
+}
+
+Primitive* CGALPrimitive::join()
+{
+	if(added)
+		*nefPolyhedron=nUnion.get_union();
+
+	return this;
 }
 
 Primitive* CGALPrimitive::join(const Primitive* pr)
