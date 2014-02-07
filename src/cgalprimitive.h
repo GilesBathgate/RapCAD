@@ -52,8 +52,7 @@ public:
 	bool isEmpty();
 	bool isFullyDimentional();
 private:
-	CGAL::Nef_nary_union_3<CGAL::NefPolyhedron3> nUnion;
-	bool added;
+	CGAL::Nef_nary_union_3<CGAL::NefPolyhedron3>* nUnion;
 	CGAL::NefPolyhedron3* createPolyline(QVector<CGAL::Point3> pl);
 	QList<CGALPolygon*> polygons;
 	QList<CGAL::Point3> points;
