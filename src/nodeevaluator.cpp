@@ -77,17 +77,7 @@ void NodeEvaluator::visit(UnionNode* op)
 
 void NodeEvaluator::visit(GroupNode* op)
 {
-	Primitive* first=NULL;
-	QList<Primitive*> primitives;
-	foreach(Node* n, op->getChildren()) {
-		n->accept(*this);
-		if(!first)
-			first=result;
-		else
-			primitives.append(result);
-	}
-
-	result=first->group(primitives);
+	evaluate(op,Group);
 }
 
 void NodeEvaluator::visit(DifferenceNode* op)
@@ -323,6 +313,7 @@ void NodeEvaluator::evaluate(Node* op,Operation_e type)
 			first=result;
 		} else {
 			switch(type) {
+			case Group:
 			case Union:
 				first->add(result);
 				break;
@@ -342,7 +333,10 @@ void NodeEvaluator::evaluate(Node* op,Operation_e type)
 		}
 	}
 
-	result=first->join();
+	if(type==Group)
+		result=first->group();
+	else
+		result=first->join();
 }
 
 void NodeEvaluator::visit(BoundsNode* n)

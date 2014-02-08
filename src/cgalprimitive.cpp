@@ -8,14 +8,12 @@
 CGALPrimitive::CGALPrimitive()
 {
 	type=Primitive::Volume;
-	nUnion=NULL;
 	nefPolyhedron=NULL;
 }
 
 CGALPrimitive::CGALPrimitive(CGAL::Polyhedron3 poly)
 {
 	type=Primitive::Volume;
-	nUnion=NULL;
 	nefPolyhedron=new CGAL::NefPolyhedron3(poly);
 }
 
@@ -125,7 +123,7 @@ void CGALPrimitive::prependVertex(CGAL::Point3 p)
 		polygons.last()->prepend(p);
 }
 
-Primitive* CGALPrimitive::group(QList<Primitive*> primitives)
+Primitive* CGALPrimitive::group()
 {
 	/* TODO check if bounding boxes of primitives
 	 * intersect and if they do fall back to union */
@@ -174,21 +172,22 @@ QList<CGAL::Point3> CGALPrimitive::getPoints() const
 
 void CGALPrimitive::add(Primitive* pr)
 {
-	if(!nUnion) {
-		nUnion=new CGAL::Nef_nary_union_3<CGAL::NefPolyhedron3>();
-		this->buildPrimitive();
-		nUnion->add_polyhedron(*nefPolyhedron);
-	}
-	CGALPrimitive* that=static_cast<CGALPrimitive*>(pr);
-	that->buildPrimitive();
-	nUnion->add_polyhedron(*that->nefPolyhedron);
+	primitives.append(pr);
 }
 
 Primitive* CGALPrimitive::join()
 {
-	if(nUnion) {
-		*nefPolyhedron=nUnion->get_union();
-		delete nUnion;
+	if(primitives.count()>1) {
+		CGAL::Nef_nary_union_3<CGAL::NefPolyhedron3> nUnion;
+		this->buildPrimitive();
+		nUnion.add_polyhedron(*nefPolyhedron);
+
+		foreach(Primitive* pr, primitives) {
+			CGALPrimitive* that=static_cast<CGALPrimitive*>(pr);
+			that->buildPrimitive();
+			nUnion.add_polyhedron(*that->nefPolyhedron);
+		}
+		*nefPolyhedron=nUnion.get_union();
 	}
 	return this;
 }

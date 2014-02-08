@@ -52,6 +52,7 @@ class NodeEvaluator : public NodeVisitor
 {
 public:
 	enum Operation_e {
+		Group,
 		Union,
 		Difference,
 		Intersection,

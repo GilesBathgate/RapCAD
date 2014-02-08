@@ -36,7 +36,7 @@ public:
 	virtual void setType(Primitive_t)=0;
 	virtual void appendVertex(Point)=0;
 	virtual void prependVertex(Point)=0;
-	virtual Primitive* group(QList<Primitive*>)=0;
+	virtual Primitive* group()=0;
 	virtual Primitive* join(Primitive*)=0;
 	virtual void add(Primitive*)=0;
 	virtual Primitive* join()=0;

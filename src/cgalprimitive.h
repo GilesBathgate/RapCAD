@@ -34,7 +34,7 @@ public:
 	void appendVertex(CGAL::Point3);
 	void prependVertex(Point);
 	void prependVertex(CGAL::Point3);
-	Primitive* group(QList<Primitive*>);
+	Primitive* group();
 	Primitive* join(Primitive*);
 	void add(Primitive*);
 	Primitive* join();
@@ -53,7 +53,7 @@ public:
 	bool isFullyDimentional();
 private:
 	void buildPrimitive();
-	CGAL::Nef_nary_union_3<CGAL::NefPolyhedron3>* nUnion;
+	QList<Primitive*> primitives;
 	CGAL::NefPolyhedron3* createPolyline(QVector<CGAL::Point3> pl);
 	QList<CGALPolygon*> polygons;
 	CGAL::NefPolyhedron3* nefPolyhedron;
