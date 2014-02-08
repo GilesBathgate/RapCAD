@@ -35,7 +35,7 @@ void CGALPolygon::prepend(CGAL::Point3 p)
 void CGALPolygon::transform(const CGAL::AffTransformation3& t)
 {
 	QList<CGAL::Point3> nps;
-	foreach(CGAL::Point3 pt, pg->getPoints())
+	foreach(CGAL::Point3 pt, points)
 		nps.append(pt.transform(t));
 
 	points=nps;
