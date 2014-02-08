@@ -88,8 +88,17 @@ void NodeEvaluator::visit(GroupNode* op)
 	 */
 	if(primitives.count()>1)
 	{
-		CGALExplorer e(primitives);
-		result=e.getPrimitive();
+		CGALPrimitive* cp=new CGALPrimitive();
+		foreach(Primitive* pr, primitives) {
+			CGALPrimitive* prim=static_cast<CGALPrimitive*>(pr);
+			foreach(CGALPolygon* p, prim->getPolygons()) {
+				cp->createPolygon();
+				foreach(CGAL::Point3 pt, p->getPoints()) {
+					cp->appendVertex(pt);
+				}
+			}
+		}
+		result=cp;
 	}
 }
 

@@ -217,8 +217,23 @@ Primitive* CGALPrimitive::copy()
 
 void CGALPrimitive::transform(const CGAL::AffTransformation3& t)
 {
-	this->buildPrimitive();
-	nefPolyhedron->transform(t);
+	if(nefPolyhedron) {
+		nefPolyhedron->transform(t);
+	} else {
+
+		points.clear();
+		foreach(CGALPolygon* pg, polygons) {
+			QList<CGAL::Point3> nps;
+			foreach(CGAL::Point3 pt, pg->getPoints())
+				nps.append(pt.transform(t));
+
+			polygons.removeAll(pg);
+
+			createPolygon();
+			foreach(CGAL::Point3 pt, nps)
+				appendVertex(pt);
+		}
+	}
 }
 
 const CGAL::NefPolyhedron3& CGALPrimitive::getNefPolyhedron()
