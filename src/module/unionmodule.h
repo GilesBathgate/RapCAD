@@ -27,8 +27,6 @@ class UnionModule : public Module
 public:
 	UnionModule();
 	Node* evaluate(Context*);
-protected:
-	UnionModule(const QString s);
 };
 
 #endif // UNIONMODULE_H

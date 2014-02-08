@@ -17,7 +17,15 @@
  */
 
 #include "groupmodule.h"
+#include "node/groupnode.h"
 
-GroupModule::GroupModule() : UnionModule("group")
+GroupModule::GroupModule() : Module("group")
 {
+}
+
+Node *GroupModule::evaluate(Context* ctx)
+{
+	GroupNode* d = new GroupNode();
+	d->setChildren(ctx->getInputNodes());
+	return d;
 }

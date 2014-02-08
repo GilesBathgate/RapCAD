@@ -270,7 +270,8 @@ SOURCES += \
 	src/cgalfragment.cpp \
 	contrib/qcommandlineparser.cpp \
 	contrib/qcommandlineoption.cpp \
-	src/function/concatfunction.cpp
+	src/function/concatfunction.cpp \
+	src/node/groupnode.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -466,7 +467,8 @@ HEADERS  += \
 	src/cgalfragment.h \
 	contrib/qcommandlineparser.h \
 	contrib/qcommandlineoption.h \
-	src/function/concatfunction.h
+	src/function/concatfunction.h \
+	src/node/groupnode.h
 
 FORMS += \
 	src/mainwindow.ui \

@@ -25,13 +25,19 @@
 
 CGALExplorer::CGALExplorer(Primitive* p)
 {
-	primitive=static_cast<CGALPrimitive*>(p);
+	primitives.append(static_cast<CGALPrimitive*>(p));
 	evaluated=false;
 }
 
 CGALExplorer::CGALExplorer(CGALPrimitive* p)
 {
-	primitive=p;
+	primitives.append(p);
+	evaluated=false;
+}
+
+CGALExplorer::CGALExplorer(QList<Primitive*> p)
+{
+	primitives=p;
 	evaluated=false;
 }
 
@@ -146,15 +152,18 @@ static HalfEdgeHandle findNewEdge(QList<HalfEdgeHandle> visited,QList<HalfEdgeHa
 void CGALExplorer::evaluate()
 {
 
-	const CGAL::NefPolyhedron3& poly=primitive->getNefPolyhedron();
-	VolumeIterator vi;
 	ShellExplorer se;
-	CGAL_forall_volumes(vi,poly) {
-		ShellEntryIterator si;
-		CGAL_forall_shells_of(si,vi) {
-			poly.visit_shell_objects(SFaceHandle(si),se);
+	foreach(Primitive* prim, primitives) {
+		CGALPrimitive* pr=static_cast<CGALPrimitive*>(prim);
+		const CGAL::NefPolyhedron3& poly=pr->getNefPolyhedron();
+		VolumeIterator vi;
+		CGAL_forall_volumes(vi,poly) {
+			ShellEntryIterator si;
+			CGAL_forall_shells_of(si,vi) {
+				poly.visit_shell_objects(SFaceHandle(si),se);
+			}
+			se.setDirection();
 		}
-		se.setDirection();
 	}
 
 	allPoints=se.getPoints();

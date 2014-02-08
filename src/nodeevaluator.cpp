@@ -75,6 +75,25 @@ void NodeEvaluator::visit(UnionNode* op)
 	evaluate(op,Union);
 }
 
+void NodeEvaluator::visit(GroupNode* op)
+{
+	QList<Primitive*> primitives;
+	foreach(Node* n, op->getChildren()) {
+		n->accept(*this);
+		primitives.append(result);
+	}
+
+	/*TODO check if bounding boxes of primitives
+	 * intersect and if they do fall back to union
+	 */
+	if(primitives.count()>1)
+	{
+		CGALExplorer e(primitives);
+		result=e.getPrimitive();
+		result->buildPrimitive();
+	}
+}
+
 void NodeEvaluator::visit(DifferenceNode* op)
 {
 	evaluate(op,Difference);

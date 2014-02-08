@@ -24,6 +24,7 @@
 #include "node/primitivenode.h"
 #include "node/polylinenode.h"
 #include "node/unionnode.h"
+#include "node/groupnode.h"
 #include "node/differencenode.h"
 #include "node/intersectionnode.h"
 #include "node/symmetricdifferencenode.h"
@@ -52,6 +53,7 @@ public:
 	void visit(PrimitiveNode*);
 	void visit(PolylineNode*);
 	void visit(UnionNode*);
+	void visit(GroupNode*);
 	void visit(DifferenceNode*);
 	void visit(IntersectionNode*);
 	void visit(SymmetricDifferenceNode*);

@@ -23,10 +23,6 @@ UnionModule::UnionModule() : Module("union")
 {
 }
 
-UnionModule::UnionModule(const QString s) : Module(s)
-{
-}
-
 Node* UnionModule::evaluate(Context* ctx)
 {
 	UnionNode* d = new UnionNode();

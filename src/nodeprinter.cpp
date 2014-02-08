@@ -73,6 +73,12 @@ void NodePrinter::visit(UnionNode* n)
 	printChildren(n);
 }
 
+void NodePrinter::visit(GroupNode* n)
+{
+	result << "group()";
+	printChildren(n);
+}
+
 void NodePrinter::visit(DifferenceNode* n)
 {
 	result << "difference()";

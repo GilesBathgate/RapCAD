@@ -26,6 +26,7 @@ public:
 	virtual void visit(class PrimitiveNode*)=0;
 	virtual void visit(class PolylineNode*)=0;
 	virtual void visit(class UnionNode*)=0;
+	virtual void visit(class GroupNode*)=0;
 	virtual void visit(class DifferenceNode*)=0;
 	virtual void visit(class IntersectionNode*)=0;
 	virtual void visit(class SymmetricDifferenceNode*)=0;

@@ -21,10 +21,11 @@
 
 #include "unionmodule.h"
 
-class GroupModule : public UnionModule
+class GroupModule : public Module
 {
 public:
 	GroupModule();
+	Node* evaluate(Context*);
 };
 
 #endif // GROUPMODULE_H

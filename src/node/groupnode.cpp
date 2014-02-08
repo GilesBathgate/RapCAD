@@ -15,31 +15,14 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#if USE_CGAL
-#ifndef CGALEXPLORER_H
-#define CGALEXPLORER_H
 
-#include <QList>
-#include "cgalprimitive.h"
+#include "groupnode.h"
 
-class CGALExplorer
+GroupNode::GroupNode()
 {
-public:
-	CGALExplorer(Primitive*);
-	CGALExplorer(CGALPrimitive*);
-	CGALExplorer(QList<Primitive*>);
-	QList<CGALPolygon*> getPerimeters();
-	CGALPrimitive* getPrimitive();
-	QList<CGAL::Point3> getPoints();
-	CGAL::Cuboid3 getBounds();
-private:
-	void evaluate();
-	QList<CGALPolygon*> perimeters;
-	bool evaluated;
-	CGALPrimitive* primitive;
-	QList<Primitive*> primitives;
-	QList<CGAL::Point3> allPoints;
-};
+}
 
-#endif // CGALEXPLORER_H
-#endif
+void GroupNode::accept(NodeVisitor& v)
+{
+	v.visit(this);
+}
