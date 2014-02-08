@@ -52,7 +52,7 @@ void NodeEvaluator::visit(PrimitiveNode* n)
 			cp->appendVertex(pt);
 		}
 	}
-	result=cp->buildPrimitive();
+	result=cp;
 }
 
 void NodeEvaluator::visit(PolylineNode* n)
@@ -67,7 +67,7 @@ void NodeEvaluator::visit(PolylineNode* n)
 		}
 	}
 
-	result=cp->buildPrimitive();
+	result=cp;
 }
 
 void NodeEvaluator::visit(UnionNode* op)
@@ -90,7 +90,6 @@ void NodeEvaluator::visit(GroupNode* op)
 	{
 		CGALExplorer e(primitives);
 		result=e.getPrimitive();
-		result->buildPrimitive();
 	}
 }
 
@@ -134,7 +133,7 @@ void NodeEvaluator::visit(GlideNode* op)
 			}
 			if(op->getClosed())
 				cp->appendVertex(fp);
-			first=cp->buildPrimitive();
+			first=cp;
 #endif
 		} else {
 			first=first->minkowski(result);
@@ -204,7 +203,6 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 		Primitive* cp=createPrimitive();
 		cp->appendVertex(Point());
 		cp->appendVertex(Point(0,0,op->getHeight()));
-		cp->buildPrimitive();
 		result=result->minkowski(cp);
 	} else {
 #if USE_CGAL
@@ -263,7 +261,7 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 			}
 		}
 
-		result=n->buildPrimitive();
+		result=n;
 #endif
 	}
 }
@@ -315,7 +313,7 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 		}
 	}
 
-	result=n->buildPrimitive();
+	result=n;
 #endif
 }
 
@@ -398,7 +396,7 @@ void NodeEvaluator::visit(OutlineNode* op)
 		}
 	}
 
-	result=cp->buildPrimitive();
+	result=cp;
 #endif
 }
 
@@ -498,7 +496,7 @@ void NodeEvaluator::visit(PointNode* n)
 	Primitive* cp=createPrimitive();
 	cp->setSkeleton(true);
 	cp->appendVertex(n->getPoint());
-	result=cp->buildPrimitive();
+	result=cp;
 }
 
 void NodeEvaluator::visit(SliceNode* n)
@@ -515,8 +513,6 @@ void NodeEvaluator::visit(SliceNode* n)
 	cp->appendVertex(CGAL::Point3(b.xmin(),b.ymax(),h));
 	cp->appendVertex(CGAL::Point3(b.xmax(),b.ymax(),h));
 	cp->appendVertex(CGAL::Point3(b.xmax(),b.ymin(),h));
-
-	cp->buildPrimitive();
 
 	result=result->intersection(cp);
 #endif
@@ -537,7 +533,6 @@ void NodeEvaluator::visit(ProjectionNode* op)
 	CGALPrimitive* cp=explorer.getPrimitive();
 
 	Primitive* r=new CGALPrimitive();
-	r->buildPrimitive();
 	foreach(CGALPolygon* p, cp->getPolygons()) {
 		CGAL::Vector3 normal=p->getNormal();
 		if(normal.z()==0)
@@ -549,7 +544,7 @@ void NodeEvaluator::visit(ProjectionNode* op)
 		foreach(CGAL::Point3 pt,p->getPoints()) {
 			t->appendVertex(flatten(pt));
 		}
-		r=r->join(t->buildPrimitive());
+		r=r->join(t);
 	}
 	result=r;
 #endif

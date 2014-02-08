@@ -119,7 +119,7 @@ Primitive* CGALImport::importSTL(QFileInfo fileinfo)
 			p->appendVertex(v3);
 		}
 	}
-	return p->buildPrimitive();
+	return p;
 }
 
 Primitive *CGALImport::importRCAD(QFileInfo f)

@@ -9,6 +9,7 @@ CGALPrimitive::CGALPrimitive()
 {
 	skeleton=false;
 	nUnion=NULL;
+	nefPolyhedron=NULL;
 }
 
 CGALPrimitive::CGALPrimitive(CGAL::Polyhedron3 poly)
@@ -23,14 +24,17 @@ void CGALPrimitive::setSkeleton(bool value)
 	skeleton=value;
 }
 
-Primitive* CGALPrimitive::buildPrimitive()
+void CGALPrimitive::buildPrimitive()
 {
+	if(nefPolyhedron)
+		return;
+
 	if(!skeleton) {
 		CGALBuilder b(this);
 		CGAL::Polyhedron3 poly;
 		poly.delegate(b);
 		nefPolyhedron=new CGAL::NefPolyhedron3(poly);
-		return this;
+		return;
 	} else if(points.count()>1) {
 		OnceOnly first;
 		foreach(CGALPolygon* p,polygons) {
@@ -46,7 +50,7 @@ Primitive* CGALPrimitive::buildPrimitive()
 				*nefPolyhedron=nefPolyhedron->join(*np);
 			}
 		}
-		return this;
+		return;
 
 	} else if(points.count()==1) {
 		QVector<CGAL::Point3> pl1,pl2;
@@ -64,11 +68,10 @@ Primitive* CGALPrimitive::buildPrimitive()
 		const CGAL::NefPolyhedron3* np=createPolyline(pl2);
 
 		*nefPolyhedron=nefPolyhedron->intersection(*np);
-		return this;
+		return;
 	}
 
 	nefPolyhedron=new CGAL::NefPolyhedron3();
-	return this;
 }
 
 CGAL::NefPolyhedron3* CGALPrimitive::createPolyline(QVector<CGAL::Point3> pl)
@@ -131,13 +134,15 @@ QList<CGAL::Point3> CGALPrimitive::getPoints() const
 	return points;
 }
 
-void CGALPrimitive::add(const Primitive* pr)
+void CGALPrimitive::add(Primitive* pr)
 {
 	if(!nUnion) {
 		nUnion=new CGAL::Nef_nary_union_3<CGAL::NefPolyhedron3>();
+		this->buildPrimitive();
 		nUnion->add_polyhedron(*nefPolyhedron);
 	}
-	const CGALPrimitive* that=static_cast<const CGALPrimitive*>(pr);
+	CGALPrimitive* that=static_cast<CGALPrimitive*>(pr);
+	that->buildPrimitive();
 	nUnion->add_polyhedron(*that->nefPolyhedron);
 }
 
@@ -150,37 +155,47 @@ Primitive* CGALPrimitive::join()
 	return this;
 }
 
-Primitive* CGALPrimitive::join(const Primitive* pr)
+Primitive* CGALPrimitive::join(Primitive* pr)
 {
-	const CGALPrimitive* that=static_cast<const CGALPrimitive*>(pr);
+	this->buildPrimitive();
+	CGALPrimitive* that=static_cast<CGALPrimitive*>(pr);
+	that->buildPrimitive();
 	*nefPolyhedron=nefPolyhedron->join(*that->nefPolyhedron);
 	return this;
 }
 
-Primitive* CGALPrimitive::intersection(const Primitive* pr)
+Primitive* CGALPrimitive::intersection(Primitive* pr)
 {
-	const CGALPrimitive* that=static_cast<const CGALPrimitive*>(pr);
+	this->buildPrimitive();
+	CGALPrimitive* that=static_cast<CGALPrimitive*>(pr);
+	that->buildPrimitive();
 	*nefPolyhedron=nefPolyhedron->intersection(*that->nefPolyhedron);
 	return this;
 }
 
-Primitive* CGALPrimitive::difference(const Primitive* pr)
+Primitive* CGALPrimitive::difference(Primitive* pr)
 {
-	const CGALPrimitive* that=static_cast<const CGALPrimitive*>(pr);
+	this->buildPrimitive();
+	CGALPrimitive* that=static_cast<CGALPrimitive*>(pr);
+	that->buildPrimitive();
 	*nefPolyhedron=nefPolyhedron->difference(*that->nefPolyhedron);
 	return this;
 }
 
-Primitive* CGALPrimitive::symmetric_difference(const Primitive* pr)
+Primitive* CGALPrimitive::symmetric_difference(Primitive* pr)
 {
-	const CGALPrimitive* that=static_cast<const CGALPrimitive*>(pr);
+	this->buildPrimitive();
+	CGALPrimitive* that=static_cast<CGALPrimitive*>(pr);
+	that->buildPrimitive();
 	*nefPolyhedron=nefPolyhedron->symmetric_difference(*that->nefPolyhedron);
 	return this;
 }
 
-Primitive* CGALPrimitive::minkowski(const Primitive* pr)
+Primitive* CGALPrimitive::minkowski(Primitive* pr)
 {
-	const CGALPrimitive* that=static_cast<const CGALPrimitive*>(pr);
+	this->buildPrimitive();
+	CGALPrimitive* that=static_cast<CGALPrimitive*>(pr);
+	that->buildPrimitive();
 	*nefPolyhedron=CGAL::minkowski_sum_3(*nefPolyhedron,*that->nefPolyhedron);
 	return this;
 }
@@ -189,7 +204,7 @@ Primitive* CGALPrimitive::inset(const double amount)
 {
 	CGALBuilder b(this);
 	CGALPrimitive* result=b.buildOffsetPolygons(amount);
-	return result->buildPrimitive();
+	return result;
 }
 
 Primitive* CGALPrimitive::copy()
@@ -202,16 +217,19 @@ Primitive* CGALPrimitive::copy()
 
 void CGALPrimitive::transform(const CGAL::AffTransformation3& t)
 {
+	this->buildPrimitive();
 	nefPolyhedron->transform(t);
 }
 
-const CGAL::NefPolyhedron3& CGALPrimitive::getNefPolyhedron() const
+const CGAL::NefPolyhedron3& CGALPrimitive::getNefPolyhedron()
 {
+	this->buildPrimitive();
 	return *nefPolyhedron;
 }
 
 CGAL::Polyhedron3* CGALPrimitive::getPolyhedron()
 {
+	this->buildPrimitive();
 	CGAL::Polyhedron3* poly = new CGAL::Polyhedron3();
 	if(nefPolyhedron->is_simple())
 		nefPolyhedron->convert_to_polyhedron(*poly);
@@ -220,11 +238,13 @@ CGAL::Polyhedron3* CGALPrimitive::getPolyhedron()
 
 bool CGALPrimitive::isEmpty()
 {
+	this->buildPrimitive();
 	return nefPolyhedron->is_empty();
 }
 
 bool CGALPrimitive::isFullyDimentional()
 {
+	this->buildPrimitive();
 	//For fully dimentional polyhedra there are always two volumes the outer
 	//volume and the inner volume. So check volumes > 1
 	return nefPolyhedron->number_of_volumes()>1;
