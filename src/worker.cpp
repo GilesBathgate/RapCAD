@@ -64,7 +64,7 @@ void Worker::internal()
 
 		primary();
 
-		reporter->reportTiming();
+		reporter->reportTiming("compiling");
 
 		update();
 

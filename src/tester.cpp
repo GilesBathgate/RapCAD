@@ -101,7 +101,7 @@ int Tester::evaluate()
 
 	output << testcount << " tests run " << failcount << " failed" << endl;
 
-	reporter->reportTiming();
+	reporter->reportTiming("testing");
 
 	return reporter->getReturnCode();
 }

@@ -60,7 +60,7 @@ int Comparer::evaluate()
 	}
 
 	delete p;
-	reporter->reportTiming();
+	reporter->reportTiming("comparison");
 
 	return reporter->getReturnCode();
 }

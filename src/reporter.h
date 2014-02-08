@@ -28,7 +28,7 @@ class Reporter
 public:
 	Reporter(QTextStream& s);
 	void startTiming();
-	void reportTiming();
+	void reportTiming(QString);
 	void reportSyntaxError(AbstractTokenBuilder*,QString,QString);
 	void reportLexicalError(AbstractTokenBuilder*,QString);
 	void reportFileMissingError(QString);

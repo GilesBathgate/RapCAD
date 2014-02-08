@@ -29,7 +29,7 @@ void Reporter::startTiming()
 	timer->start();
 }
 
-void Reporter::reportTiming()
+void Reporter::reportTiming(QString what)
 {
 	qint64 ticks=timer->elapsed();
 	qint64 ms=ticks%1000;
@@ -39,7 +39,7 @@ void Reporter::reportTiming()
 	qint64 mins=ticks%60;
 	ticks/=60;
 	qint64 hours=ticks;
-	output << QString("Total compiling time: %1h %2m %3s %4ms.\n").arg(hours).arg(mins).arg(secs).arg(ms) << endl;
+	output << QString("Total %1 time: %2h %3m %4s %5ms.\n").arg(what).arg(hours).arg(mins).arg(secs).arg(ms) << endl;
 	delete timer; //Need to delete timer.
 }
 
