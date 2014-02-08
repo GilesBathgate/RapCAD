@@ -125,6 +125,35 @@ void CGALPrimitive::prependVertex(CGAL::Point3 p)
 		polygons.last()->prepend(p);
 }
 
+Primitive* CGALPrimitive::group(QList<Primitive*> primitives)
+{
+	/* TODO check if bounding boxes of primitives
+	 * intersect and if they do fall back to union */
+	if(primitives.count()>1)
+	{
+		CGALPrimitive* first=static_cast<CGALPrimitive*>(this);
+		primitives.prepend(first);
+
+		CGALPrimitive* cp=new CGALPrimitive();
+		foreach(Primitive* pr, primitives) {
+			CGALPrimitive* prim=static_cast<CGALPrimitive*>(pr);
+			if(prim->nefPolyhedron) {
+				/* TODO need to use cgalexplorer if the primitive
+				 * has already been evaluated */
+			} else {
+				foreach(CGALPolygon* p, prim->getPolygons()) {
+					cp->createPolygon();
+					foreach(CGAL::Point3 pt, p->getPoints()) {
+						cp->appendVertex(pt);
+					}
+				}
+			}
+		}
+		return cp;
+	}
+	return this;
+}
+
 QList<CGALPolygon*> CGALPrimitive::getPolygons() const
 {
 	return polygons;

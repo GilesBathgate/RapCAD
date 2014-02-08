@@ -77,29 +77,17 @@ void NodeEvaluator::visit(UnionNode* op)
 
 void NodeEvaluator::visit(GroupNode* op)
 {
+	Primitive* first=NULL;
 	QList<Primitive*> primitives;
 	foreach(Node* n, op->getChildren()) {
 		n->accept(*this);
-		primitives.append(result);
+		if(!first)
+			first=result;
+		else
+			primitives.append(result);
 	}
 
-	/*TODO check if bounding boxes of primitives
-	 * intersect and if they do fall back to union
-	 */
-	if(primitives.count()>1)
-	{
-		CGALPrimitive* cp=new CGALPrimitive();
-		foreach(Primitive* pr, primitives) {
-			CGALPrimitive* prim=static_cast<CGALPrimitive*>(pr);
-			foreach(CGALPolygon* p, prim->getPolygons()) {
-				cp->createPolygon();
-				foreach(CGAL::Point3 pt, p->getPoints()) {
-					cp->appendVertex(pt);
-				}
-			}
-		}
-		result=cp;
-	}
+	result=first->group(primitives);
 }
 
 void NodeEvaluator::visit(DifferenceNode* op)

@@ -34,6 +34,7 @@ public:
 	void appendVertex(CGAL::Point3);
 	void prependVertex(Point);
 	void prependVertex(CGAL::Point3);
+	Primitive* group(QList<Primitive*>);
 	Primitive* join(Primitive*);
 	void add(Primitive*);
 	Primitive* join();
