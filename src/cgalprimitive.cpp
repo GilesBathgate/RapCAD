@@ -127,7 +127,7 @@ Primitive* CGALPrimitive::group()
 {
 	/* TODO check if bounding boxes of primitives
 	 * intersect and if they do fall back to union */
-	if(primitives.count()>1)
+	if(primitives.count()>0)
 	{
 		CGALPrimitive* first=static_cast<CGALPrimitive*>(this);
 		primitives.prepend(first);
@@ -177,7 +177,7 @@ void CGALPrimitive::add(Primitive* pr)
 
 Primitive* CGALPrimitive::join()
 {
-	if(primitives.count()>1) {
+	if(primitives.count()>0) {
 		CGAL::Nef_nary_union_3<CGAL::NefPolyhedron3> nUnion;
 		this->buildPrimitive();
 		nUnion.add_polyhedron(*nefPolyhedron);
