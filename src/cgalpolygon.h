@@ -30,6 +30,7 @@ public:
 	QList<CGAL::Point3> getPoints() const;
 	void append(CGAL::Point3);
 	void prepend(CGAL::Point3);
+	void transform(const CGAL::AffTransformation3&);
 	CGAL::Vector3 getNormal();
 	void setNormal(CGAL::Vector3);
 	CGAL::Vector3 getNormal() const;
