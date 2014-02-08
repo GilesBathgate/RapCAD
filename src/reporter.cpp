@@ -25,22 +25,21 @@ Reporter::Reporter(QTextStream& s) : output(s)
 
 void Reporter::startTiming()
 {
-	timer=new QTime();
+	timer=new QElapsedTimer();
 	timer->start();
 }
 
 void Reporter::reportTiming()
 {
-	int ticks=timer->elapsed();
-	int ms=ticks%1000;
+	qint64 ticks=timer->elapsed();
+	qint64 ms=ticks%1000;
 	ticks/=1000;
-	int secs=ticks%60;
+	qint64 secs=ticks%60;
 	ticks/=60;
-	int mins=ticks%60;
+	qint64 mins=ticks%60;
 	ticks/=60;
-	int hours=ticks;
-	output << QString("Total compiling time: %1h %2m %3s %4ms.\n").arg(hours).arg(mins).arg(secs).arg(ms);
-	output.flush();
+	qint64 hours=ticks;
+	output << QString("Total compiling time: %1h %2m %3s %4ms.\n").arg(hours).arg(mins).arg(secs).arg(ms) << endl;
 	delete timer; //Need to delete timer.
 }
 

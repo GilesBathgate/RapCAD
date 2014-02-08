@@ -19,7 +19,7 @@
 #ifndef REPORTER_H
 #define REPORTER_H
 
-#include <QTime>
+#include <QElapsedTimer>
 #include <QTextStream>
 #include "abstracttokenbuilder.h"
 
@@ -34,9 +34,10 @@ public:
 	void reportFileMissingError(QString);
 	void setReturnCode(int);
 	bool getReturnCode();
+	void outputTime(int);
 private:
 	QTextStream& output;
-	QTime* timer;
+	QElapsedTimer* timer;
 	int returnCode;
 };
 
