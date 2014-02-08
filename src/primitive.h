@@ -25,9 +25,15 @@
 class Primitive
 {
 public:
+	enum Primitive_t {
+		Volume,
+		Skeleton,
+		Single
+	};
+
 	virtual ~Primitive() {}
 	virtual Polygon* createPolygon()=0;
-	virtual void setSkeleton(bool)=0;
+	virtual void setType(Primitive_t)=0;
 	virtual void appendVertex(Point)=0;
 	virtual void prependVertex(Point)=0;
 	virtual Primitive* join(Primitive*)=0;

@@ -58,7 +58,7 @@ void NodeEvaluator::visit(PrimitiveNode* n)
 void NodeEvaluator::visit(PolylineNode* n)
 {
 	Primitive* cp=createPrimitive();
-	cp->setSkeleton(true);
+	cp->setType(Primitive::Skeleton);
 
 	foreach(Polygon p, n->getPolygons()) {
 		cp->createPolygon();
@@ -396,7 +396,7 @@ void NodeEvaluator::visit(OutlineNode* op)
 #if USE_CGAL
 	CGALExplorer explorer(result);
 	CGALPrimitive* cp=new CGALPrimitive();
-	cp->setSkeleton(true);
+	cp->setType(Primitive::Skeleton);
 
 	foreach(CGALPolygon* pg,explorer.getPerimeters()) {
 		cp->createPolygon();
@@ -503,7 +503,8 @@ void NodeEvaluator::visit(CenterNode* n)
 void NodeEvaluator::visit(PointNode* n)
 {
 	Primitive* cp=createPrimitive();
-	cp->setSkeleton(true);
+	cp->setType(Primitive::Single);
+	cp->createPolygon();
 	cp->appendVertex(n->getPoint());
 	result=cp;
 }
