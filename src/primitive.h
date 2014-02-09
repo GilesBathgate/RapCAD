@@ -36,10 +36,10 @@ public:
 	virtual void setType(Primitive_t)=0;
 	virtual void appendVertex(Point)=0;
 	virtual void prependVertex(Point)=0;
-	virtual Primitive* group()=0;
+	virtual Primitive* group(Primitive*)=0;
 	virtual Primitive* join(Primitive*)=0;
 	virtual void add(Primitive*)=0;
-	virtual Primitive* join()=0;
+	virtual Primitive* combine()=0;
 	virtual Primitive* intersection(Primitive*)=0;
 	virtual Primitive* difference(Primitive*)=0;
 	virtual Primitive* symmetric_difference(Primitive*)=0;

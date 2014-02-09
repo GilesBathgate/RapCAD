@@ -333,10 +333,7 @@ void NodeEvaluator::evaluate(Node* op,Operation_e type)
 		}
 	}
 
-	if(type==Group)
-		result=first->group();
-	else
-		result=first->join();
+	result=first->combine();
 }
 
 void NodeEvaluator::visit(BoundsNode* n)

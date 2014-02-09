@@ -34,10 +34,10 @@ public:
 	void appendVertex(CGAL::Point3);
 	void prependVertex(Point);
 	void prependVertex(CGAL::Point3);
-	Primitive* group();
+	Primitive* group(Primitive*);
 	Primitive* join(Primitive*);
 	void add(Primitive*);
-	Primitive* join();
+	Primitive* combine();
 	Primitive* intersection(Primitive*);
 	Primitive* difference(Primitive*);
 	Primitive* symmetric_difference(Primitive*);
@@ -54,7 +54,6 @@ public:
 private:
 	void init();
 	void buildPrimitive();
-	QList<Primitive*>* primitives;
 	CGAL::NefPolyhedron3* createPolyline(QVector<CGAL::Point3> pl);
 	QList<CGALPolygon*> polygons;
 	QList<CGAL::Point3>* points;
@@ -62,7 +61,25 @@ private:
 	Primitive_t type;
 	const CGAL::Cuboid3& getBounds();
 	CGAL::Cuboid3* bounds;
-	bool intersect;
+
+	/* Simple wrapper class to enable Primitive
+	 * to be used with CGAL::Nef_nary_union_3 */
+	class Unionable
+	{
+	public:
+		Unionable() {}
+		Unionable(Primitive* p) { primitive=p; }
+
+		Unionable& operator+(Unionable& l)
+		{
+			primitive=primitive->group(l.primitive);
+			return *this;
+		}
+
+		Primitive* primitive;
+	};
+
+	CGAL::Nef_nary_union_3<Unionable>* nUnion;
 };
 
 #endif // CGALPRIMITIVE_H

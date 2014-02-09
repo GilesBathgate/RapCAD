@@ -28,7 +28,7 @@ public:
 	void appendVertex(Point) {}
 	void prependVertex(Point) {}
 	Primitive* buildPrimitive() { return this; }
-	Primitive* join(const Primitive*) { return this; }
+	Primitive* combine(const Primitive*) { return this; }
 	Primitive* intersection(const Primitive*) { return this; }
 	Primitive* difference(const Primitive*) { return this; }
 	Primitive* symmetric_difference(const Primitive*) { return this; }
