@@ -37,51 +37,51 @@ void CGALPrimitive::buildPrimitive()
 		return;
 
 	switch(type) {
-		case Primitive::Volume: {
-			CGALBuilder b(this);
-			CGAL::Polyhedron3 poly;
-			poly.delegate(b);
-			nefPolyhedron=new CGAL::NefPolyhedron3(poly);
-			return;
-		}
+	case Primitive::Volume: {
+		CGALBuilder b(this);
+		CGAL::Polyhedron3 poly;
+		poly.delegate(b);
+		nefPolyhedron=new CGAL::NefPolyhedron3(poly);
+		return;
+	}
 
-		case Primitive::Skeleton: {
-			OnceOnly first;
-			foreach(CGALPolygon* p,polygons) {
-				QVector<CGAL::Point3> pl;
-				foreach(CGAL::Point3 pt, p->getPoints()) {
-					pl.append(pt);
-				}
-
-				if(first()) {
-					nefPolyhedron=createPolyline(pl);
-				} else {
-					const CGAL::NefPolyhedron3* np=createPolyline(pl);
-					*nefPolyhedron=nefPolyhedron->join(*np);
-				}
+	case Primitive::Skeleton: {
+		OnceOnly first;
+		foreach(CGALPolygon* p,polygons) {
+			QVector<CGAL::Point3> pl;
+			foreach(CGAL::Point3 pt, p->getPoints()) {
+				pl.append(pt);
 			}
-			return;
+
+			if(first()) {
+				nefPolyhedron=createPolyline(pl);
+			} else {
+				const CGAL::NefPolyhedron3* np=createPolyline(pl);
+				*nefPolyhedron=nefPolyhedron->join(*np);
+			}
 		}
+		return;
+	}
 
-		default: {
-			QVector<CGAL::Point3> pl1,pl2;
+	default: {
+		QVector<CGAL::Point3> pl1,pl2;
 
-			QList<CGAL::Point3> points=polygons.last()->getPoints();
-			CGAL::Point3 p=points.last();
-			CGAL::Point3 p1=CGAL::Point3(p.x()+1,p.y(),p.z());
-			CGAL::Point3 p2=CGAL::Point3(p.x(),p.y()+1,p.z());
+		QList<CGAL::Point3> points=polygons.last()->getPoints();
+		CGAL::Point3 p=points.last();
+		CGAL::Point3 p1=CGAL::Point3(p.x()+1,p.y(),p.z());
+		CGAL::Point3 p2=CGAL::Point3(p.x(),p.y()+1,p.z());
 
-			pl1.append(p);
-			pl1.append(p1);
-			nefPolyhedron=createPolyline(pl1);
+		pl1.append(p);
+		pl1.append(p1);
+		nefPolyhedron=createPolyline(pl1);
 
-			pl2.append(p);
-			pl2.append(p2);
-			const CGAL::NefPolyhedron3* np=createPolyline(pl2);
+		pl2.append(p);
+		pl2.append(p2);
+		const CGAL::NefPolyhedron3* np=createPolyline(pl2);
 
-			*nefPolyhedron=nefPolyhedron->intersection(*np);
-			return;
-		}
+		*nefPolyhedron=nefPolyhedron->intersection(*np);
+		return;
+	}
 	}
 	nefPolyhedron=new CGAL::NefPolyhedron3();
 }

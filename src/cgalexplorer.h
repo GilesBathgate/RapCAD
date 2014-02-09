@@ -37,7 +37,6 @@ private:
 	QList<CGALPolygon*> perimeters;
 	bool evaluated;
 	CGALPrimitive* primitive;
-	QList<Primitive*> primitives;
 	QList<CGAL::Point3> allPoints;
 };
 
