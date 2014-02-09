@@ -28,6 +28,7 @@
 #include <CGAL/convex_hull_3.h>
 #include <CGAL/create_offset_polygons_2.h>
 #include <CGAL/Nef_nary_union_3.h>
+#include <CGAL/bounding_box.h>
 
 namespace CGAL
 {

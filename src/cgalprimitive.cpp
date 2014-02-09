@@ -5,15 +5,24 @@
 #include "cgalbuilder.h"
 #include "onceonly.h"
 
+void CGALPrimitive::init()
+{
+	bounds=NULL;
+	points=NULL;
+	primitives=NULL;
+	intersect=false;
+	type=Primitive::Volume;
+}
+
 CGALPrimitive::CGALPrimitive()
 {
-	type=Primitive::Volume;
+	init();
 	nefPolyhedron=NULL;
 }
 
 CGALPrimitive::CGALPrimitive(CGAL::Polyhedron3 poly)
 {
-	type=Primitive::Volume;
+	init();
 	nefPolyhedron=new CGAL::NefPolyhedron3(poly);
 }
 
@@ -125,15 +134,12 @@ void CGALPrimitive::prependVertex(CGAL::Point3 p)
 
 Primitive* CGALPrimitive::group()
 {
-	/* TODO check if bounding boxes of primitives
-	 * intersect and if they do fall back to union */
-	if(primitives.count()>0)
-	{
-		CGALPrimitive* first=static_cast<CGALPrimitive*>(this);
-		primitives.prepend(first);
+	if(intersect)
+		return join();
 
+	if(primitives) {
 		CGALPrimitive* cp=new CGALPrimitive();
-		foreach(Primitive* pr, primitives) {
+		foreach(Primitive* pr, *primitives) {
 			CGALPrimitive* prim=static_cast<CGALPrimitive*>(pr);
 			if(prim->nefPolyhedron) {
 				/* TODO need to use cgalexplorer if the primitive
@@ -157,32 +163,72 @@ QList<CGALPolygon*> CGALPrimitive::getPolygons() const
 	return polygons;
 }
 
-QList<CGAL::Point3> CGALPrimitive::getPoints() const
+const QList<CGAL::Point3>& CGALPrimitive::getPoints()
 {
-	QList<CGAL::Point3> points;
-	foreach(CGALPolygon* pg, polygons) {
-		foreach(CGAL::Point3 p, pg->getPoints()) {
-			if(!points.contains(p)) {
-				points.append(p);
+	if(!points) {
+		points=new QList<CGAL::Point3>();
+		foreach(CGALPolygon* pg, polygons) {
+			foreach(CGAL::Point3 p, pg->getPoints()) {
+				if(!points->contains(p)) {
+					points->append(p);
+				}
 			}
 		}
 	}
-	return points;
+	return *points;
+}
+
+
+/* I don't know why this function doesn't exist in CGAL?
+ * The CGAL::do_intersect only takes BBox_3 as arguments.
+ */
+inline
+bool
+do_intersect(const CGAL::Cuboid3& bb1, const CGAL::Cuboid3& bb2)
+{
+	if(bb1.xmax() < bb2.xmin() || bb2.xmax() < bb1.xmin())
+		return false;
+	if(bb1.ymax() < bb2.ymin() || bb2.ymax() < bb1.ymin())
+		return false;
+	if(bb1.zmax() < bb2.zmin() || bb2.zmax() < bb1.zmin())
+		return false;
+	return true;
+}
+
+const CGAL::Cuboid3& CGALPrimitive::getBounds()
+{
+	if(!bounds) {
+		bounds=new CGAL::Cuboid3();
+		QList<CGAL::Point3> pts=getPoints();
+		*bounds=CGAL::bounding_box(pts.begin(),pts.end());
+	}
+	return *bounds;
 }
 
 void CGALPrimitive::add(Primitive* pr)
 {
-	primitives.append(pr);
+	if(!primitives) {
+		primitives=new QList<Primitive*>();
+		primitives->append(this);
+	}
+
+	CGALPrimitive* that=static_cast<CGALPrimitive*>(pr);
+	foreach(Primitive* np, *primitives) {
+		CGALPrimitive* other=static_cast<CGALPrimitive*>(np);
+		if(do_intersect(other->getBounds(),that->getBounds())) {
+			intersect=true;
+			break;
+		}
+	}
+
+	primitives->append(pr);
 }
 
 Primitive* CGALPrimitive::join()
 {
-	if(primitives.count()>0) {
+	if(primitives) {
 		CGAL::Nef_nary_union_3<CGAL::NefPolyhedron3> nUnion;
-		this->buildPrimitive();
-		nUnion.add_polyhedron(*nefPolyhedron);
-
-		foreach(Primitive* pr, primitives) {
+		foreach(Primitive* pr, *primitives) {
 			CGALPrimitive* that=static_cast<CGALPrimitive*>(pr);
 			that->buildPrimitive();
 			nUnion.add_polyhedron(*that->nefPolyhedron);

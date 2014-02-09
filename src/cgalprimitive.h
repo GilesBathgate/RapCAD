@@ -46,18 +46,23 @@ public:
 	Primitive* copy();
 	void transform(const CGAL::AffTransformation3&);
 	QList<CGALPolygon*> getPolygons() const;
-	QList<CGAL::Point3> getPoints() const;
+	const QList<CGAL::Point3>& getPoints();
 	const CGAL::NefPolyhedron3& getNefPolyhedron();
 	CGAL::Polyhedron3* getPolyhedron();
 	bool isEmpty();
 	bool isFullyDimentional();
 private:
+	void init();
 	void buildPrimitive();
-	QList<Primitive*> primitives;
+	QList<Primitive*>* primitives;
 	CGAL::NefPolyhedron3* createPolyline(QVector<CGAL::Point3> pl);
 	QList<CGALPolygon*> polygons;
+	QList<CGAL::Point3>* points;
 	CGAL::NefPolyhedron3* nefPolyhedron;
 	Primitive_t type;
+	const CGAL::Cuboid3& getBounds();
+	CGAL::Cuboid3* bounds;
+	bool intersect;
 };
 
 #endif // CGALPRIMITIVE_H

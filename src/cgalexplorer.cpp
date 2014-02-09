@@ -20,7 +20,6 @@
 #include <QMap>
 #include <CGAL/config.h>
 #include <CGAL/normal_vector_newell_3.h>
-#include <CGAL/bounding_box.h>
 #include "onceonly.h"
 
 CGALExplorer::CGALExplorer(Primitive* p)
