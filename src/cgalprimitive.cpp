@@ -3,6 +3,7 @@
 #include <QPair>
 #include <CGAL/minkowski_sum_3.h>
 #include "cgalbuilder.h"
+#include "cgalexplorer.h"
 #include "onceonly.h"
 
 void CGALPrimitive::init()
@@ -150,8 +151,7 @@ do_intersect(const CGAL::Cuboid3& bb1, const CGAL::Cuboid3& bb2)
 Primitive* CGALPrimitive::group(Primitive* pr)
 {
 	CGALPrimitive* that=static_cast<CGALPrimitive*>(pr);
-	if(do_intersect(this->getBounds(),that->getBounds()))
-	{
+	if(do_intersect(this->getBounds(),that->getBounds())) {
 		return join(pr);
 	}
 
@@ -163,14 +163,13 @@ Primitive* CGALPrimitive::group(Primitive* pr)
 	foreach(Primitive* pr, primitives) {
 		CGALPrimitive* prim=static_cast<CGALPrimitive*>(pr);
 		if(prim->nefPolyhedron) {
-			// TODO need to use cgalexplorer if the primitive
-			// * has already been evaluated
-		} else {
-			foreach(CGALPolygon* p, prim->getPolygons()) {
-				cp->createPolygon();
-				foreach(CGAL::Point3 pt, p->getPoints()) {
-					cp->appendVertex(pt);
-				}
+			CGALExplorer e(prim);
+			prim=e.getPrimitive();
+		}
+		foreach(CGALPolygon* p, prim->getPolygons()) {
+			cp->createPolygon();
+			foreach(CGAL::Point3 pt, p->getPoints()) {
+				cp->appendVertex(pt);
 			}
 		}
 	}
