@@ -8,8 +8,6 @@
 
 void CGALPrimitive::init()
 {
-	bounds=NULL;
-	points=NULL;
 	nUnion=NULL;
 	type=Primitive::Volume;
 }
@@ -183,29 +181,33 @@ QList<CGALPolygon*> CGALPrimitive::getPolygons() const
 	return polygons;
 }
 
-const QList<CGAL::Point3>& CGALPrimitive::getPoints()
+QList<CGAL::Point3> CGALPrimitive::getPoints() const
 {
-	if(!points) {
-		points=new QList<CGAL::Point3>();
-		foreach(CGALPolygon* pg, polygons) {
-			foreach(CGAL::Point3 p, pg->getPoints()) {
-				if(!points->contains(p)) {
-					points->append(p);
-				}
+	QList<CGAL::Point3> points;
+	foreach(CGALPolygon* pg, polygons) {
+		foreach(CGAL::Point3 p, pg->getPoints()) {
+			if(!points.contains(p)) {
+				points.append(p);
 			}
 		}
 	}
-	return *points;
+	return points;
 }
 
-const CGAL::Cuboid3& CGALPrimitive::getBounds()
+CGAL::Cuboid3 CGALPrimitive::getBounds()
 {
-	if(!bounds) {
-		bounds=new CGAL::Cuboid3();
-		QList<CGAL::Point3> pts=getPoints();
-		*bounds=CGAL::bounding_box(pts.begin(),pts.end());
+	if(nefPolyhedron) {
+		CGALExplorer e(this);
+		return e.getBounds();
 	}
-	return *bounds;
+
+	QList<CGAL::Point3> points;
+	foreach(CGALPolygon* pg, polygons) {
+		foreach(CGAL::Point3 p, pg->getPoints()) {
+			points.append(p);
+		}
+	}
+	return CGAL::bounding_box(points.begin(),points.end());
 }
 
 void CGALPrimitive::add(Primitive* pr)
