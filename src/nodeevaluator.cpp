@@ -314,8 +314,10 @@ void NodeEvaluator::evaluate(Node* op,Operation_e type)
 		} else {
 			switch(type) {
 			case Group:
+				first->add(result,false);
+				break;
 			case Union:
-				first->add(result);
+				first->add(result,true);
 				break;
 			case Difference:
 				first=first->difference(result);

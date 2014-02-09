@@ -37,7 +37,7 @@ public:
 	bool overlaps(Primitive*);
 	Primitive* group(Primitive*);
 	Primitive* join(Primitive*);
-	void add(Primitive*);
+	void add(Primitive*,bool);
 	Primitive* combine();
 	Primitive* intersection(Primitive*);
 	Primitive* difference(Primitive*);
@@ -67,9 +67,10 @@ private:
 	{
 	public:
 		Unionable() {}
-		Unionable(Primitive* p) { primitive=p; }
+		Unionable(Primitive* p, bool f) { primitive=p; force=f; }
 		Unionable& operator+(Unionable&);
 		Primitive* primitive;
+		bool force;
 	};
 
 	CGAL::Nef_nary_union_3<Unionable>* nUnion;

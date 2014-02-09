@@ -210,13 +210,13 @@ CGAL::Cuboid3 CGALPrimitive::getBounds()
 	return CGAL::bounding_box(points.begin(),points.end());
 }
 
-void CGALPrimitive::add(Primitive* pr)
+void CGALPrimitive::add(Primitive* pr,bool force)
 {
 	if(!nUnion) {
 		nUnion=new CGAL::Nef_nary_union_3<Unionable>();
-		nUnion->add_polyhedron(Unionable(this));
+		nUnion->add_polyhedron(Unionable(this,force));
 	}
-	nUnion->add_polyhedron(Unionable(pr));
+	nUnion->add_polyhedron(Unionable(pr,force));
 }
 
 Primitive* CGALPrimitive::combine()
@@ -330,7 +330,7 @@ bool CGALPrimitive::isFullyDimentional()
 
 CGALPrimitive::Unionable& CGALPrimitive::Unionable::operator+(Unionable& other)
 {
-	if(primitive->overlaps(other.primitive))
+	if(force||primitive->overlaps(other.primitive))
 		primitive=primitive->join(other.primitive);
 	else
 		primitive=primitive->group(other.primitive);
