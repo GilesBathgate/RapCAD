@@ -133,11 +133,11 @@ void CGALPrimitive::prependVertex(CGAL::Point3 p)
 }
 
 /* I don't know why this function doesn't exist in CGAL?
- * The CGAL::do_intersect only takes BBox_3 as arguments.
+ * The CGAL::do_overlap only takes BBox_3 as arguments.
  */
 inline
 bool
-do_intersect(const CGAL::Cuboid3& bb1, const CGAL::Cuboid3& bb2)
+do_overlap(const CGAL::Cuboid3& bb1, const CGAL::Cuboid3& bb2)
 {
 	if(bb1.xmax() < bb2.xmin() || bb2.xmax() < bb1.xmin())
 		return false;
@@ -148,13 +148,15 @@ do_intersect(const CGAL::Cuboid3& bb1, const CGAL::Cuboid3& bb2)
 	return true;
 }
 
-Primitive* CGALPrimitive::group(Primitive* pr)
+bool CGALPrimitive::overlaps(Primitive* pr)
 {
 	CGALPrimitive* that=static_cast<CGALPrimitive*>(pr);
-	if(do_intersect(this->getBounds(),that->getBounds())) {
-		return join(pr);
-	}
+	return do_overlap(this->getBounds(),that->getBounds());
+}
 
+
+Primitive* CGALPrimitive::group(Primitive* pr)
+{
 	QList<Primitive*> primitives;
 	primitives.append(this);
 	primitives.append(pr);
@@ -322,5 +324,15 @@ bool CGALPrimitive::isFullyDimentional()
 	//For fully dimentional polyhedra there are always two volumes the outer
 	//volume and the inner volume. So check volumes > 1
 	return nefPolyhedron->number_of_volumes()>1;
+}
+
+CGALPrimitive::Unionable& CGALPrimitive::Unionable::operator+(Unionable& other)
+{
+	if(primitive->overlaps(other.primitive))
+		primitive=primitive->join(other.primitive);
+	else
+		primitive=primitive->group(other.primitive);
+
+	return *this;
 }
 #endif

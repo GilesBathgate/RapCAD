@@ -36,6 +36,7 @@ public:
 	virtual void setType(Primitive_t)=0;
 	virtual void appendVertex(Point)=0;
 	virtual void prependVertex(Point)=0;
+	virtual bool overlaps(Primitive*)=0;
 	virtual Primitive* group(Primitive*)=0;
 	virtual Primitive* join(Primitive*)=0;
 	virtual void add(Primitive*)=0;

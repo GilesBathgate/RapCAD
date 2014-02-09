@@ -34,6 +34,7 @@ public:
 	void appendVertex(CGAL::Point3);
 	void prependVertex(Point);
 	void prependVertex(CGAL::Point3);
+	bool overlaps(Primitive*);
 	Primitive* group(Primitive*);
 	Primitive* join(Primitive*);
 	void add(Primitive*);
@@ -69,13 +70,7 @@ private:
 	public:
 		Unionable() {}
 		Unionable(Primitive* p) { primitive=p; }
-
-		Unionable& operator+(Unionable& l)
-		{
-			primitive=primitive->group(l.primitive);
-			return *this;
-		}
-
+		Unionable& operator+(Unionable&);
 		Primitive* primitive;
 	};
 
