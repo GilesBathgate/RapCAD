@@ -34,16 +34,16 @@ private:
 	CGAL::Color getVertexColor(bool mark) const;
 	CGAL::Color getEdgeColor(bool mark) const;
 	CGAL::Color getFacetColor(bool mark) const;
-	decimal getVertexSize() const;
-	decimal getEdgeSize() const;
+	double getVertexSize() const;
+	double getEdgeSize() const;
 	CGAL::Color markedVertexColor;
 	CGAL::Color vertexColor;
 	CGAL::Color markedEdgeColor;
 	CGAL::Color edgeColor;
 	CGAL::Color markedFacetColor;
 	CGAL::Color facetColor;
-	decimal vertexSize;
-	decimal edgeSize;
+	double vertexSize;
+	double edgeSize;
 };
 
 #endif // CGALRENDERER_H

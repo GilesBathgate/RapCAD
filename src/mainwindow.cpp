@@ -87,7 +87,7 @@ void MainWindow::savePreferences()
 void MainWindow::setDefaultViewport()
 {
 	Preferences* p=Preferences::getInstance();
-	decimal rx,rz,x,z,d;
+	double rx,rz,x,z,d;
 	ui->view->getViewport(rx,rz,x,z,d);
 	p->setDefaultRotationX(rx);
 	p->setDefaultRotationZ(rz);

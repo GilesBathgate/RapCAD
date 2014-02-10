@@ -50,7 +50,7 @@ void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
 	builder.end_surface();
 }
 
-CGALPrimitive* CGALBuilder::buildOffsetPolygons(const decimal amount)
+CGALPrimitive* CGALBuilder::buildOffsetPolygons(const CGAL::FT amount)
 {
 	typedef CGAL::FT FT;
 	typedef boost::shared_ptr<CGAL::Polygon2> PolygonPtr;
@@ -76,11 +76,9 @@ CGALPrimitive* CGALBuilder::buildOffsetPolygons(const decimal amount)
 
 	PolygonPtrVector offsetPolys;
 	if(amount<0) {
-		FT offset = -amount;
-		offsetPolys=CGAL::create_interior_skeleton_and_offset_polygons_2(offset,poly);
+		offsetPolys=CGAL::create_interior_skeleton_and_offset_polygons_2(-amount,poly);
 	} else {
-		FT offset = amount;
-		offsetPolys=CGAL::create_exterior_skeleton_and_offset_polygons_2(offset,poly);
+		offsetPolys=CGAL::create_exterior_skeleton_and_offset_polygons_2(amount,poly);
 	}
 
 	CGALPrimitive* offsetPrim = new CGALPrimitive();
