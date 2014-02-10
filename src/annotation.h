@@ -24,18 +24,25 @@
 class Annotation : public Primitive
 {
 public:
-	Polygon* createPolygon() { return NULL; }
-	void appendVertex(Point) {}
-	void prependVertex(Point) {}
+	Polygon* createPolygon();
+	void appendVertex(Point);
+	void prependVertex(Point);
+	void setType(Primitive_t) { }
 	Primitive* buildPrimitive() { return this; }
-	Primitive* combine(const Primitive*) { return this; }
-	Primitive* intersection(const Primitive*) { return this; }
-	Primitive* difference(const Primitive*) { return this; }
-	Primitive* symmetric_difference(const Primitive*) { return this; }
-	Primitive* minkowski(const Primitive*) { return this; }
+	bool overlaps(Primitive*) { return false; }
+	void add(Primitive*,bool) { }
+	Primitive* group(Primitive*) { return this; }
+	Primitive* join(Primitive*) { return this; }
+	Primitive* combine() { return this; }
+	Primitive* intersection(Primitive*) { return this; }
+	Primitive* difference(Primitive*) { return this; }
+	Primitive* symmetric_difference(Primitive*) { return this; }
+	Primitive* minkowski(Primitive*) { return this; }
 	Primitive* inset(decimal) { return this; }
 	bool isFullyDimentional() { return false; }
-	Primitive* copy() { return this; }
-	bool isEmpty() { return false; }
+	Primitive* copy();
+	bool isEmpty();
+private:
+	QList<Polygon*> polygons;
 };
 #endif // ANNOTATION_H

@@ -272,7 +272,8 @@ SOURCES += \
 	contrib/qcommandlineoption.cpp \
 	src/function/concatfunction.cpp \
 	src/node/groupnode.cpp \
-	src/decimal.cpp
+	src/decimal.cpp \
+	src/annotation.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
