@@ -445,7 +445,6 @@ HEADERS  += \
 	src/module/conemodule.h \
 	src/function/lnfunction.h \
 	src/function/logfunction.h \
-	src/nullprimitive.h \
 	src/module/writemodule.h \
 	src/module/writelnmodule.h \
 	src/callback.h \
@@ -470,7 +469,8 @@ HEADERS  += \
 	contrib/qcommandlineoption.h \
 	src/function/concatfunction.h \
 	src/node/groupnode.h \
-	src/decimal.h
+	src/decimal.h \
+	src/annotation.h
 
 FORMS += \
 	src/mainwindow.ui \
