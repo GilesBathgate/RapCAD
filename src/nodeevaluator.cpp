@@ -28,7 +28,7 @@
 #include "cgalprimitive.h"
 #include "cgalfragment.h"
 #else
-#include "nullprimitive.h"
+#include "annotation.h"
 #endif
 
 NodeEvaluator::NodeEvaluator(QTextStream& s) : output(s)
@@ -40,7 +40,7 @@ Primitive* NodeEvaluator::createPrimitive()
 #if USE_CGAL
 	return new CGALPrimitive();
 #else
-	return new NullPrimitive();
+	return new Annotation();
 #endif
 }
 

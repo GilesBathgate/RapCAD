@@ -16,12 +16,12 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NULLPRIMITIVE_H
-#define NULLPRIMITIVE_H
+#ifndef ANNOTATION_H
+#define ANNOTATION_H
 
 #include "primitive.h"
 
-class NullPrimitive : public Primitive
+class Annotation : public Primitive
 {
 public:
 	Polygon* createPolygon() { return NULL; }
@@ -38,4 +38,4 @@ public:
 	Primitive* copy() { return this; }
 	bool isEmpty() { return false; }
 };
-#endif // NULLPRIMITIVE_H
+#endif // ANNOTATION_H
