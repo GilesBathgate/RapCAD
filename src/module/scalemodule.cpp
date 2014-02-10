@@ -38,15 +38,15 @@ Node* ScaleModule::evaluate(Context* ctx)
 	if(refVal)
 		ref=refVal->getPoint();
 
-	double x=0,y=0,z=0;
+	decimal x=0,y=0,z=0;
 	size.getXYZ(x,y,z);
 
-	double a=0,b=0,c=0;
+	decimal a=0,b=0,c=0;
 	ref.getXYZ(a,b,c);
 
 	//Derived reference translation using
 	//http://tinyurl.com/nfmph3r
-	double m[16] = {
+	decimal m[16] = {
 		x,0,0,a-(a*x),
 		0,y,0,b-(b*x),
 		0,0,z,c-(c*x),

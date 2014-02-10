@@ -16,27 +16,5 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PRIMITIVENODE_H
-#define PRIMITIVENODE_H
+#include "decimal.h"
 
-#include <QList>
-#include <QString>
-#include "node.h"
-#include "point.h"
-#include "polygon.h"
-
-class PrimitiveNode : public Node
-{
-public:
-	PrimitiveNode();
-	void createPolygon();
-	void appendVertex(decimal x, decimal y, decimal z);
-	void appendVertex(Point p);
-	void prependVertex(Point p);
-	QList<Polygon> getPolygons() const;
-	void accept(NodeVisitor&);
-private:
-	QList<Polygon> polygons;
-};
-
-#endif // PRIMITIVENODE_H

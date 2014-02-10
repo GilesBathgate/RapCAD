@@ -271,7 +271,8 @@ SOURCES += \
 	contrib/qcommandlineparser.cpp \
 	contrib/qcommandlineoption.cpp \
 	src/function/concatfunction.cpp \
-	src/node/groupnode.cpp
+	src/node/groupnode.cpp \
+	src/decimal.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -468,7 +469,8 @@ HEADERS  += \
 	contrib/qcommandlineparser.h \
 	contrib/qcommandlineoption.h \
 	src/function/concatfunction.h \
-	src/node/groupnode.h
+	src/node/groupnode.h \
+	src/decimal.h
 
 FORMS += \
 	src/mainwindow.ui \

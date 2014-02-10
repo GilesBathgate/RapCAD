@@ -4,12 +4,12 @@ OffsetNode::OffsetNode()
 {
 }
 
-void OffsetNode::setAmount(double a)
+void OffsetNode::setAmount(decimal a)
 {
 	amount=a;
 }
 
-double OffsetNode::getAmount() const
+decimal OffsetNode::getAmount() const
 {
 	return amount;
 }

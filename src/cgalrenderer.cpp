@@ -70,12 +70,12 @@ CGAL::Color CGALRenderer::getFacetColor(bool mark) const
 	return mark ? markedFacetColor : facetColor;
 }
 
-double CGALRenderer::getVertexSize() const
+decimal CGALRenderer::getVertexSize() const
 {
 	return vertexSize;
 }
 
-double CGALRenderer::getEdgeSize() const
+decimal CGALRenderer::getEdgeSize() const
 {
 	return edgeSize;
 }

@@ -32,5 +32,5 @@ int CGALFragment::getFragments(CGAL::FT r)
 	FT fs=fragmentSize;
 	FT fa=fragmentAngle;
 	FT f=std::min(FT(360.0) / fa, r*FT(M_TAU) / fs);
-	return std::max((int)ceil(to_double(f)),5);
+	return std::max((int)ceil(to_decimal(f)),5);
 }

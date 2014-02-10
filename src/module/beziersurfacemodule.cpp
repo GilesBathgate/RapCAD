@@ -26,32 +26,32 @@ BezierSurfaceModule::BezierSurfaceModule() : Module("bezier_surface")
 	addParameter("mesh");
 }
 
-double BezierSurfaceModule::bez03(double u)
+decimal BezierSurfaceModule::bez03(decimal u)
 {
 	return pow((1-u), 3);
 }
 
-double BezierSurfaceModule::bez13(double u)
+decimal BezierSurfaceModule::bez13(decimal u)
 {
 	return 3*u*(pow((1-u),2));
 }
 
-double BezierSurfaceModule::bez23(double u)
+decimal BezierSurfaceModule::bez23(decimal u)
 {
 	return 3*(pow(u,2))*(1-u);
 }
 
-double BezierSurfaceModule::bez33(double u)
+decimal BezierSurfaceModule::bez33(decimal u)
 {
 	return pow(u,3);
 }
 
-Point BezierSurfaceModule::pointOnBez(Points cps, double u)
+Point BezierSurfaceModule::pointOnBez(Points cps, decimal u)
 {
-	double a=bez03(u),b=bez13(u),c=bez23(u),d=bez33(u);
-	double x=a*cps[0].getX()+b*cps[1].getX()+c*cps[2].getX()+d*cps[3].getX();
-	double y=a*cps[0].getY()+b*cps[1].getY()+c*cps[2].getY()+d*cps[3].getY();
-	double z=a*cps[0].getZ()+b*cps[1].getZ()+c*cps[2].getZ()+d*cps[3].getZ();
+	decimal a=bez03(u),b=bez13(u),c=bez23(u),d=bez33(u);
+	decimal x=a*cps[0].getX()+b*cps[1].getX()+c*cps[2].getX()+d*cps[3].getX();
+	decimal y=a*cps[0].getY()+b*cps[1].getY()+c*cps[2].getY()+d*cps[3].getY();
+	decimal z=a*cps[0].getZ()+b*cps[1].getZ()+c*cps[2].getZ()+d*cps[3].getZ();
 
 	return Point(x,y,z);
 }
@@ -105,12 +105,12 @@ Node* BezierSurfaceModule::evaluate(Context* ctx)
 	int steps=24; //TODO use getfragments and $fn,$fa,$fs variables;
 
 	PrimitiveNode* p=new PrimitiveNode();
-	for(double ustep=0; ustep<steps; ustep++) {
-		for(double vstep=0; vstep<steps; vstep++) {
-			double ufrac1=ustep/steps;
-			double ufrac2=(ustep+1)/steps;
-			double vfrac1=vstep/steps;
-			double vfrac2=(vstep+1)/steps;
+	for(decimal ustep=0; ustep<steps; ustep++) {
+		for(decimal vstep=0; vstep<steps; vstep++) {
+			decimal ufrac1=ustep/steps;
+			decimal ufrac2=(ustep+1)/steps;
+			decimal vfrac1=vstep/steps;
+			decimal vfrac2=(vstep+1)/steps;
 			Vector a;
 			a.append(ufrac1);
 			a.append(vfrac1);

@@ -67,7 +67,7 @@ Point VectorValue::getPoint() const
 	if(s>2)
 		nz=dynamic_cast<NumberValue*>(children.at(2));
 
-	double x=0,y=0,z=0;
+	decimal x=0,y=0,z=0;
 	if(nx)  {
 		x=nx->getNumber();
 	}

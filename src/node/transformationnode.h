@@ -8,7 +8,7 @@ class TransformationNode : public Node
 public:
 	TransformationNode();
 	void accept(NodeVisitor&);
-	double matrix[16];
+	decimal matrix[16];
 };
 
 #endif // TRANSFORMATIONNODE_H

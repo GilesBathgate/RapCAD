@@ -36,11 +36,11 @@ Node* ConeModule::evaluate(Context* ctx)
 	NumberValue* r2Value = dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));
 	Value* centerValue = getParameterArgument(ctx,3);
 
-	double h=1.0;
+	decimal h=1.0;
 	if(heightValue)
 		h=heightValue->getNumber();
 
-	double r1=0,r2=0;
+	decimal r1=0,r2=0;
 	if(r1Value)
 		r1=r1Value->getNumber();
 	if(r2Value)
@@ -50,7 +50,7 @@ Node* ConeModule::evaluate(Context* ctx)
 	if(centerValue)
 		center=centerValue->isTrue();
 
-	double z1,z2;
+	decimal z1,z2;
 	if(center) {
 		z1 = -h/2;
 		z2 = +h/2;
@@ -60,7 +60,7 @@ Node* ConeModule::evaluate(Context* ctx)
 	}
 
 	Fragment fg=getSpecialVariables(ctx);
-	double r=fmax(r1,r2);
+	decimal r=fmax(r1,r2);
 	int f = fg.getFragments(r);
 
 	Polygon* p1 = getCircle(r1,f,z1);

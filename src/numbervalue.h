@@ -24,14 +24,14 @@
 class NumberValue : public Value
 {
 public:
-	NumberValue(double);
+	NumberValue(decimal);
 	QString getValueString() const;
 	bool isTrue() const;
-	double getNumber() const;
+	decimal getNumber() const;
 private:
 	Value* operation(Expression::Operator_e);
 	Value* operation(Value&,Expression::Operator_e);
-	double number;
+	decimal number;
 };
 
 #endif // NUMBERVALUE_H

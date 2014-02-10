@@ -29,15 +29,15 @@ public:
 	BezierSurfaceModule();
 	Node* evaluate(Context*);
 private:
-	typedef QList<double> Vector;
+	typedef QList<decimal> Vector;
 	typedef QList<Point> Points;
 	typedef QList<Points> Mesh;
 
-	double bez03(double);
-	double bez13(double);
-	double bez23(double);
-	double bez33(double);
-	Point pointOnBez(Points,double);
+	decimal bez03(decimal);
+	decimal bez13(decimal);
+	decimal bez23(decimal);
+	decimal bez33(decimal);
+	Point pointOnBez(Points,decimal);
 	Point pointOnBezMesh(Mesh,Vector);
 	Points getCurveQuad(Mesh,Vector,Vector);
 };

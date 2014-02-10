@@ -35,7 +35,7 @@ void Literal::setValue(bool value)
 	this->boolean = value;
 }
 
-void Literal::setValue(double value)
+void Literal::setValue(decimal value)
 {
 	this->type = Literal::Number;
 	this->number = value;

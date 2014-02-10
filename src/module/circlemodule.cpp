@@ -28,7 +28,7 @@ Node* CircleModule::evaluate(Context* ctx)
 {
 	NumberValue* rValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 
-	double r=1;
+	decimal r=1;
 	if(rValue) {
 		r=rValue->getNumber();
 	}

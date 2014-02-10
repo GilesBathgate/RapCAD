@@ -26,14 +26,14 @@ Fragment::Fragment()
 	fragmentAngle=12.0;
 }
 
-Fragment::Fragment(int fn, double fs, double fa)
+Fragment::Fragment(int fn, decimal fs, decimal fa)
 {
 	fragmentNumber=fn;
 	fragmentSize=fs;
 	fragmentAngle=fa;
 }
 
-int Fragment::getFragments(double r)
+int Fragment::getFragments(decimal r)
 {
 	return get_fragments_from_r(r,fragmentNumber,fragmentSize,fragmentAngle);
 }

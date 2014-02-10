@@ -29,25 +29,25 @@ RotateModule::RotateModule() : Module("rotate")
 	addParameter("vector");
 }
 
-double RotateModule::round(double a)
+decimal RotateModule::round(decimal a)
 {
 	return a<0?ceil(a-0.5):floor(a+0.5);
 }
 
-bool RotateModule::rightAngle(double a)
+bool RotateModule::rightAngle(decimal a)
 {
 	return fmod(a,90)==0.0;
 }
 
-double RotateModule::hardCos(double a)
+decimal RotateModule::hardCos(decimal a)
 {
-	double ca=cos(a*M_TAU/360.0);
+	decimal ca=cos(a*M_TAU/360.0);
 	return rightAngle(a)?round(ca):ca;
 }
 
-double RotateModule::hardSin(double a)
+decimal RotateModule::hardSin(decimal a)
 {
-	double sa=sin(a*M_TAU/360.0);
+	decimal sa=sin(a*M_TAU/360.0);
 	return rightAngle(a)?round(sa):sa;
 }
 
@@ -57,7 +57,7 @@ Node* RotateModule::evaluate(Context* ctx)
 
 	bool origin;
 	Point vec(0.0,0.0,0.1);
-	double a=0.0;
+	decimal a=0.0;
 	NumberValue* angValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(angValue) {
 		a=angValue->getNumber();
@@ -72,19 +72,19 @@ Node* RotateModule::evaluate(Context* ctx)
 		origin=true;
 	}
 
-	double x=0.0,y=0.0,z=0.0;
+	decimal x=0.0,y=0.0,z=0.0;
 	vec.getXYZ(x,y,z);
 	if(x==0.0&&y==0.0&&z==0.0)
 		origin=true;
 
 	if(origin) {
 
-		double cx = hardCos(x);
-		double cy = hardCos(y);
-		double cz = hardCos(z);
-		double sx = hardSin(x);
-		double sy = hardSin(y);
-		double sz = hardSin(z);
+		decimal cx = hardCos(x);
+		decimal cy = hardCos(y);
+		decimal cz = hardCos(z);
+		decimal sx = hardSin(x);
+		decimal sy = hardSin(y);
+		decimal sz = hardSin(z);
 
 		/*
 		Given the three affine transformation matricies for counter-clockwise
@@ -99,7 +99,7 @@ Node* RotateModule::evaluate(Context* ctx)
 		http://tinyurl.com/q4utr88
 		*/
 
-		double RzRyRx[16] = {
+		decimal RzRyRx[16] = {
 			cy*cz,cz*sx*sy-cx*sz,cx*cz*sy+sx*sz,0,
 			cy*sz,cx*cz+sx*sy*sz,-cz*sx+cx*sy*sz,0,
 			-sy,cy*sx,cx*cy,0,
@@ -111,15 +111,15 @@ Node* RotateModule::evaluate(Context* ctx)
 
 	} else {
 
-		double c=hardCos(a);
-		double s=hardSin(a);
+		decimal c=hardCos(a);
+		decimal s=hardSin(a);
 
-		double mag = sqrt(x*x + y*y + z*z);
-		double u = x/mag;
-		double v = y/mag;
-		double w = z/mag;
+		decimal mag = sqrt(x*x + y*y + z*z);
+		decimal u = x/mag;
+		decimal v = y/mag;
+		decimal w = z/mag;
 
-		double TxyTzRaTzTxy[16] = {
+		decimal TxyTzRaTzTxy[16] = {
 			u*u*(1-c)+c,u*v*(1-c)-w*s,u*w*(1-c)+v*s,0,
 			u*v*(1-c)+w*s,v*v*(1-c)+c,v*w*(1-c)-u*s,0,
 			u*w*(1-c)-v*s,v*w*(1-c)+u*s,w*w*(1-c)+c,0,

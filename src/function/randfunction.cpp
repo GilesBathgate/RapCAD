@@ -30,27 +30,27 @@ RandFunction::RandFunction() : Function("rands")
 	addParameter("seed");
 }
 
-static double frand()
+static decimal frand()
 {
-	return rand()/(double(RAND_MAX)+1);
+	return rand()/(decimal(RAND_MAX)+1);
 }
 
-static double frand(double min, double max)
+static decimal frand(decimal min, decimal max)
 {
 	return (min>max)?frand()*(min-max)+max:frand()*(max-min)+min;
 }
 
 Value* RandFunction::evaluate(Context* ctx)
 {
-	double min=0;
+	decimal min=0;
 	NumberValue* minVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(minVal)
 		min=minVal->getNumber();
-	double max=0;
+	decimal max=0;
 	NumberValue* maxVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
 	if(maxVal)
 		max=maxVal->getNumber();
-	double count=1;
+	decimal count=1;
 	NumberValue* countVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));
 	if(countVal)
 		count=countVal->getNumber();

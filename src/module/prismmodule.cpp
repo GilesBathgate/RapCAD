@@ -31,7 +31,7 @@ PrismModule::PrismModule() : PrimitiveModule("prism")
 Node* PrismModule::evaluate(Context* ctx)
 {
 	NumberValue* heightVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
-	double h=1.0;
+	decimal h=1.0;
 	if(heightVal)
 		h=heightVal->getNumber();
 
@@ -40,7 +40,7 @@ Node* PrismModule::evaluate(Context* ctx)
 	if(sidesVal)
 		n=sidesVal->getNumber();
 
-	double r=1.0,a=1.0;
+	decimal r=1.0,a=1.0;
 	NumberValue* apothemVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));
 	if(apothemVal) {
 		a=apothemVal->getNumber();
@@ -58,7 +58,7 @@ Node* PrismModule::evaluate(Context* ctx)
 	if(centerVal)
 		center=centerVal->isTrue();
 
-	double z1,z2;
+	decimal z1,z2;
 	if(center) {
 		z1 = -h/2;
 		z2 = +h/2;

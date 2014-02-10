@@ -33,7 +33,7 @@ public:
 	Primitive* difference(const Primitive*) { return this; }
 	Primitive* symmetric_difference(const Primitive*) { return this; }
 	Primitive* minkowski(const Primitive*) { return this; }
-	Primitive* inset(double) { return this; }
+	Primitive* inset(decimal) { return this; }
 	bool isFullyDimentional() { return false; }
 	Primitive* copy() { return this; }
 	bool isEmpty() { return false; }

@@ -30,7 +30,7 @@ RangeIterator::RangeIterator(RangeValue* rng)
 
 	step=range->getStep();
 	if(!step) {
-		double i=reverse?-1.0:1.0;
+		decimal i=reverse?-1.0:1.0;
 		defaultStep=new NumberValue(i);
 		step=defaultStep;
 	} else {

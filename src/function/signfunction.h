@@ -8,7 +8,7 @@ class SignFunction : public Function
 {
 public:
 	SignFunction();
-	double sign(double);
+	decimal sign(decimal);
 	Value* evaluate(Context*);
 };
 

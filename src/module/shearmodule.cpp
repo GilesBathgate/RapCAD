@@ -44,16 +44,16 @@ Node* ShearModule::evaluate(Context* ctx)
 	if(zVal)
 		vecSz=zVal->getPoint();
 
-	double sxy=0,sxz=0;
+	decimal sxy=0,sxz=0;
 	vecSx.getXY(sxy,sxz);
 
-	double syx=0,syz=0;
+	decimal syx=0,syz=0;
 	vecSy.getXY(syx,syz);
 
-	double szx=0,szy=0;
+	decimal szx=0,szy=0;
 	vecSz.getXY(szx,szy);
 
-	double m[16] = {
+	decimal m[16] = {
 		1,sxy,sxz,0,
 		syx,1,syz,0,
 		szx,szy,1,0,

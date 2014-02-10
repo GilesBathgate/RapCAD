@@ -34,7 +34,7 @@ CylinderModule::CylinderModule() : PrimitiveModule("cylinder")
 Node* CylinderModule::evaluate(Context* ctx)
 {
 	NumberValue* heightValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
-	double h=1.0;
+	decimal h=1.0;
 	if(heightValue)
 		h=heightValue->getNumber();
 
@@ -42,7 +42,7 @@ Node* CylinderModule::evaluate(Context* ctx)
 	NumberValue* r2Value = dynamic_cast<NumberValue*>(ctx->getArgument(2,"radius2"));
 	BooleanValue* centerValue;
 
-	double r1=1.0,r2=1.0;
+	decimal r1=1.0,r2=1.0;
 	if(!r1Value) {
 		NumberValue* rValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
 		centerValue = dynamic_cast<BooleanValue*>(getParameterArgument(ctx,2));
@@ -66,7 +66,7 @@ Node* CylinderModule::evaluate(Context* ctx)
 	if(centerValue)
 		center=centerValue->isTrue();
 
-	double z1,z2;
+	decimal z1,z2;
 	if(center) {
 		z1 = -h/2;
 		z2 = +h/2;
@@ -75,7 +75,7 @@ Node* CylinderModule::evaluate(Context* ctx)
 		z2 = h;
 	}
 
-	double r=fmax(r1,r2);
+	decimal r=fmax(r1,r2);
 	Fragment fg=getSpecialVariables(ctx);
 	int f = fg.getFragments(r);
 	Polygon* p1 = getCircle(r1,f,z1);

@@ -123,7 +123,7 @@ void Worker::generation()
 	Script* s=parse("reprap.rcam",NULL);
 
 	TreeEvaluator* e = new TreeEvaluator(output);
-	double height=getBoundsHeight();
+	decimal height=getBoundsHeight();
 	QList<Argument*> args=getArgs(height);
 	Callback* c = addCallback("layers",s,args);
 	s->accept(*e);
@@ -133,7 +133,7 @@ void Worker::generation()
 		output << "Layers: " << v->getValueString() << "\n";
 		output.flush();
 
-		double itterations=v->getNumber();
+		decimal itterations=v->getNumber();
 		Instance* m=addProductInstance("manufacture",s);
 		for(int i=0; i<=itterations; i++) {
 			if(i>0) {
@@ -162,17 +162,17 @@ void Worker::generation()
 	delete s;
 }
 
-double Worker::getBoundsHeight()
+decimal Worker::getBoundsHeight()
 {
 #if USE_CGAL
 	CGALExplorer explorer(primitive);
 	CGAL::Cuboid3 b=explorer.getBounds();
-	return to_double(b.zmax());
+	return to_decimal(b.zmax());
 #endif
 	return 1;
 }
 
-QList<Argument*> Worker::getArgs(double value)
+QList<Argument*> Worker::getArgs(decimal value)
 {
 	QList<Argument*> args;
 	Argument* a=new Argument();

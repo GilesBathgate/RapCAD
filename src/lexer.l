@@ -19,6 +19,7 @@
 %{
 #include "abstracttokenbuilder.h"
 #include "reporter.h"
+#include "decimal.h"
 
 void lexererror();
 void lexerinclude(const char*);

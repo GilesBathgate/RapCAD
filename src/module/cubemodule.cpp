@@ -30,11 +30,11 @@ Node* CubeModule::evaluate(Context* ctx)
 {
 	Value* sizeVal=getParameterArgument(ctx,0);
 	Value* centerVal=getParameterArgument(ctx,1);
-	double center=false;
+	decimal center=false;
 	if(centerVal)
 		center = centerVal->isTrue();
 
-	double x=1.0,y=1.0,z=1.0;
+	decimal x=1.0,y=1.0,z=1.0;
 	if(sizeVal) {
 		VectorValue* size=sizeVal->toVector(3);
 		Point p = size->getPoint();
@@ -42,7 +42,7 @@ Node* CubeModule::evaluate(Context* ctx)
 	}
 
 	PrimitiveNode* p=new PrimitiveNode();
-	double x1, x2, y1, y2, z1, z2;
+	decimal x1, x2, y1, y2, z1, z2;
 	if(center) {
 		x1 = -x/2;
 		x2 = +x/2;
@@ -83,7 +83,7 @@ Node* CubeModule::evaluate(Context* ctx)
 
 }
 
-void CubeModule::makeSideZ(PrimitiveNode* p,double x1,double x2,double y1,double y2,double z)
+void CubeModule::makeSideZ(PrimitiveNode* p,decimal x1,decimal x2,decimal y1,decimal y2,decimal z)
 {
 	p->createPolygon(); // sideZ
 	p->appendVertex(x1, y1, z);
@@ -92,7 +92,7 @@ void CubeModule::makeSideZ(PrimitiveNode* p,double x1,double x2,double y1,double
 	p->appendVertex(x1, y2, z);
 }
 
-void CubeModule::makeSideY(PrimitiveNode* p,double x1,double x2,double y,double z1,double z2)
+void CubeModule::makeSideY(PrimitiveNode* p,decimal x1,decimal x2,decimal y,decimal z1,decimal z2)
 {
 	p->createPolygon(); // sideY
 	p->appendVertex(x1, y, z1);
@@ -101,7 +101,7 @@ void CubeModule::makeSideY(PrimitiveNode* p,double x1,double x2,double y,double 
 	p->appendVertex(x1, y, z2);
 }
 
-void CubeModule::makeSideX(PrimitiveNode* p,double x,double y1,double y2,double z1,double z2)
+void CubeModule::makeSideX(PrimitiveNode* p,decimal x,decimal y1,decimal y2,decimal z1,decimal z2)
 {
 	p->createPolygon(); // sideX
 	p->appendVertex(x, y1, z1);

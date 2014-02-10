@@ -19,16 +19,18 @@
 #ifndef FRAGMENT_H
 #define FRAGMENT_H
 
+#include "decimal.h"
+
 class Fragment
 {
 public:
 	Fragment();
-	Fragment(int,double,double);
-	int getFragments(double);
+	Fragment(int,decimal,decimal);
+	int getFragments(decimal);
 protected:
 	int fragmentNumber;
-	double fragmentSize;
-	double fragmentAngle;
+	decimal fragmentSize;
+	decimal fragmentAngle;
 };
 
 #endif // FRAGMENT_H

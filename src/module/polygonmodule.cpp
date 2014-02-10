@@ -35,7 +35,7 @@ Node* PolygonModule::evaluate(Context* ctx)
 	p->createPolygon();
 	foreach(Value* indexVal,line->getChildren()) {
 		NumberValue* indexNum=dynamic_cast<NumberValue*>(indexVal);
-		double index = indexNum->getNumber();
+		decimal index = indexNum->getNumber();
 		VectorValue* point=dynamic_cast<VectorValue*>(points.at(index));
 		Point pt = point->getPoint();
 		p->appendVertex(pt);

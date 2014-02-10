@@ -104,7 +104,7 @@ Polygon* CGALPrimitive::createPolygon()
 
 void CGALPrimitive::appendVertex(Point pt)
 {
-	double x,y,z;
+	decimal x,y,z;
 	pt.getXYZ(x,y,z);
 	CGAL::Point3 p(x,y,z);
 	appendVertex(p);
@@ -118,7 +118,7 @@ void CGALPrimitive::appendVertex(CGAL::Point3 p)
 
 void CGALPrimitive::prependVertex(Point pt)
 {
-	double x,y,z;
+	decimal x,y,z;
 	pt.getXYZ(x,y,z);
 	CGAL::Point3 p(x,y,z);
 	prependVertex(p);
@@ -273,7 +273,7 @@ Primitive* CGALPrimitive::minkowski(Primitive* pr)
 	return this;
 }
 
-Primitive* CGALPrimitive::inset(const double amount)
+Primitive* CGALPrimitive::inset(const decimal amount)
 {
 	CGALBuilder b(this);
 	CGALPrimitive* result=b.buildOffsetPolygons(amount);

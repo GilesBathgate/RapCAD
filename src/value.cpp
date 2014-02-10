@@ -222,12 +222,12 @@ Value* Value::operator!()
 	return operation(Expression::Invert);
 }
 
-double Value::modulus(double left, double right)
+decimal Value::modulus(decimal left, decimal right)
 {
 	return fmod(left,right);
 }
 
-double Value::exponent(double left, double right)
+decimal Value::exponent(decimal left, decimal right)
 {
 	return pow(left,right);
 }

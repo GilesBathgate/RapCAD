@@ -28,7 +28,7 @@ public:
 	Literal();
 	~Literal();
 	void setValue(bool);
-	void setValue(double);
+	void setValue(decimal);
 	void setValue(QString);
 	QString getValueString() const;
 
@@ -44,7 +44,7 @@ private:
 	};
 
 	bool boolean;
-	double number;
+	decimal number;
 	QString text;
 	DataType type;
 };

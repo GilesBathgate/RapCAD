@@ -11,11 +11,11 @@ Node* SquareModule::evaluate(Context* ctx)
 {
 	Value* sizeVal=getParameterArgument(ctx,0);
 	Value* centerVal=getParameterArgument(ctx,1);
-	double center=false;
+	decimal center=false;
 	if(centerVal)
 		center = centerVal->isTrue();
 
-	double x=1.0,y=1.0;
+	decimal x=1.0,y=1.0;
 	if(sizeVal) {
 		VectorValue* size=sizeVal->toVector(2);
 		Point p = size->getPoint();
@@ -23,7 +23,7 @@ Node* SquareModule::evaluate(Context* ctx)
 	}
 
 	PrimitiveNode* p=new PrimitiveNode();
-	double x1, x2, y1, y2;
+	decimal x1, x2, y1, y2;
 	if(center) {
 		x1 = -x/2;
 		x2 = +x/2;

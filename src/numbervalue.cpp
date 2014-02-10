@@ -20,7 +20,7 @@
 #include "vectorvalue.h"
 #include "booleanvalue.h"
 
-NumberValue::NumberValue(double value)
+NumberValue::NumberValue(decimal value)
 {
 	this->number=value;
 	this->defined=true;
@@ -36,14 +36,14 @@ bool NumberValue::isTrue() const
 	return this->number!=0;
 }
 
-double NumberValue::getNumber() const
+decimal NumberValue::getNumber() const
 {
 	return this->number;
 }
 
 Value* NumberValue::operation(Expression::Operator_e e)
 {
-	double result = basicOperation<double,double>(this->number,e);
+	decimal result = basicOperation<decimal,decimal>(this->number,e);
 	return new NumberValue(result);
 }
 
@@ -52,10 +52,10 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 	NumberValue* num = dynamic_cast<NumberValue*>(&v);
 	if(num) {
 		if(isComparison(e)) {
-			bool result=basicOperation<bool,double>(this->number,e,num->number);
+			bool result=basicOperation<bool,decimal>(this->number,e,num->number);
 			return new BooleanValue(result);
 		} else {
-			double result=basicOperation<double,double>(this->number,e,num->number);
+			decimal result=basicOperation<decimal,decimal>(this->number,e,num->number);
 			return new NumberValue(result);
 		}
 	}

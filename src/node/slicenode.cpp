@@ -22,12 +22,12 @@ SliceNode::SliceNode()
 {
 }
 
-void SliceNode::setHeight(double h)
+void SliceNode::setHeight(decimal h)
 {
 	height=h;
 }
 
-double SliceNode::getHeight()
+decimal SliceNode::getHeight()
 {
 	return height;
 }

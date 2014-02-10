@@ -22,12 +22,12 @@ LinearExtrudeNode::LinearExtrudeNode()
 {
 }
 
-void LinearExtrudeNode::setHeight(double h)
+void LinearExtrudeNode::setHeight(decimal h)
 {
 	height=h;
 }
 
-double LinearExtrudeNode::getHeight() const
+decimal LinearExtrudeNode::getHeight() const
 {
 	return height;
 }

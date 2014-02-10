@@ -23,29 +23,29 @@ bool Point::operator ==(const Point that) const
 	return this->x==that.x&&this->y==that.y&&this->z==that.z;
 }
 
-double Point::getX() const
+decimal Point::getX() const
 {
 	return x;
 }
 
-double Point::getY() const
+decimal Point::getY() const
 {
 	return y;
 }
 
-double Point::getZ() const
+decimal Point::getZ() const
 {
 	return z;
 }
 
-void Point::getXYZ(double& x, double& y, double& z) const
+void Point::getXYZ(decimal& x, decimal& y, decimal& z) const
 {
 	x=this->x;
 	y=this->y;
 	z=this->z;
 }
 
-void Point::getXY(double& x, double& y) const
+void Point::getXY(decimal& x, decimal& y) const
 {
 	x=this->x;
 	y=this->y;
@@ -65,7 +65,7 @@ QString Point::toString() const
 	return res;
 }
 
-QString Point::toString(const double d) const
+QString Point::toString(const decimal d) const
 {
 	QString res;
 	res.setNum(d,'f',16);

@@ -28,9 +28,9 @@ public:
 	CubeModule();
 	Node* evaluate(Context*);
 private:
-	void makeSideZ(PrimitiveNode*,double,double,double,double,double);
-	void makeSideY(PrimitiveNode*,double,double,double,double,double);
-	void makeSideX(PrimitiveNode*,double,double,double,double,double);
+	void makeSideZ(PrimitiveNode*,decimal,decimal,decimal,decimal,decimal);
+	void makeSideY(PrimitiveNode*,decimal,decimal,decimal,decimal,decimal);
+	void makeSideX(PrimitiveNode*,decimal,decimal,decimal,decimal,decimal);
 };
 
 #endif // CUBEMODULE_H

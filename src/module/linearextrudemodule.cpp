@@ -27,7 +27,7 @@ LinearExtrudeModule::LinearExtrudeModule() : Module("linear_extrude")
 
 Node* LinearExtrudeModule::evaluate(Context* ctx)
 {
-	double h=1.0;
+	decimal h=1.0;
 	NumberValue* height=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(height)
 		h=height->getNumber();

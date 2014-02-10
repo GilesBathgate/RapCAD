@@ -80,7 +80,7 @@ Primitive* CGALImport::importSTL(QFileInfo fileinfo)
 				QStringList tokens=line.split(re);
 				bool ok=false;
 				if(tokens.size()==4) {
-					double x,y,z;
+					decimal x,y,z;
 					bool ox,oy,oz;
 					x=tokens[1].toDouble(&ox);
 					y=tokens[2].toDouble(&oy);

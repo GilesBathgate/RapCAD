@@ -9,7 +9,7 @@ RotateExtrudeModule::RotateExtrudeModule() : PrimitiveModule("rotate_extrude")
 
 Node* RotateExtrudeModule::evaluate(Context* ctx)
 {
-	double r=0.0;
+	decimal r=0.0;
 	NumberValue* radius=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(radius)
 		r=radius->getNumber();

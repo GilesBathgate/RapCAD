@@ -33,10 +33,10 @@ Node* TranslateModule::evaluate(Context* ctx)
 	if(vec)
 		v=vec->getPoint();
 
-	double x=0,y=0,z=0;
+	decimal x=0,y=0,z=0;
 	v.getXYZ(x,y,z);
 
-	double m[16] = {
+	decimal m[16] = {
 		1,0,0,x,
 		0,1,0,y,
 		0,0,1,z,

@@ -11,7 +11,7 @@ Value* FloorFunction::evaluate(Context* ctx)
 {
 	NumberValue* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {
-		double num=numVal->getNumber();
+		decimal num=numVal->getNumber();
 
 		return new NumberValue(floor(num));
 	}

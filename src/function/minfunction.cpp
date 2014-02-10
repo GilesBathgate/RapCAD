@@ -13,8 +13,8 @@ Value* MinFunction::evaluate(Context* ctx)
 	NumberValue* aVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	NumberValue* bVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
 	if(aVal&&bVal) {
-		double a=aVal->getNumber();
-		double b=bVal->getNumber();
+		decimal a=aVal->getNumber();
+		decimal b=bVal->getNumber();
 
 		return new NumberValue(fmin(a,b));
 	}

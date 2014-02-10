@@ -32,10 +32,10 @@ Value* LogFunction::evaluate(Context* ctx)
 	NumberValue* baseVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
 
 	if(numVal) {
-		double num=numVal->getNumber();
+		decimal num=numVal->getNumber();
 
 		if(baseVal) {
-			double base=baseVal->getNumber();
+			decimal base=baseVal->getNumber();
 
 			return new NumberValue(log(num)/log(base));
 		}

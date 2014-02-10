@@ -7,11 +7,11 @@ class OffsetNode : public Node
 {
 public:
 	OffsetNode();
-	void setAmount(double);
-	double getAmount() const;
+	void setAmount(decimal);
+	decimal getAmount() const;
 	void accept(NodeVisitor&);
 private:
-	double amount;
+	decimal amount;
 };
 
 #endif // OFFSETNODE_H

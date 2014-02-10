@@ -9,7 +9,7 @@ OffsetModule::OffsetModule() : Module("offset")
 
 Node* OffsetModule::evaluate(Context* ctx)
 {
-	double a=1.0;
+	decimal a=1.0;
 	NumberValue* amountVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(amountVal)
 		a=amountVal->getNumber();

@@ -87,7 +87,7 @@ typedef CGAL::Polyhedron3::Halfedge_around_facet_const_circulator HalffacetCircu
 template<class NT>
 inline NT inexact_sqrt(NT const& n)
 {
-	return NT(sqrt(to_double(n)));
+	return NT(sqrt(to_decimal(n)));
 }
 
 void CGALExport::exportAsciiSTL(QString filename)
@@ -128,18 +128,18 @@ void CGALExport::exportAsciiSTL(QString filename)
 			CGAL::FT l=inexact_sqrt(ls);
 			CGAL::Vector3 un=n/l;
 
-			double x1 = to_double(p1.x());
-			double y1 = to_double(p1.y());
-			double z1 = to_double(p1.z());
-			double x2 = to_double(p2.x());
-			double y2 = to_double(p2.y());
-			double z2 = to_double(p2.z());
-			double x3 = to_double(p3.x());
-			double y3 = to_double(p3.y());
-			double z3 = to_double(p3.z());
-			double nx=to_double(un.x());
-			double ny=to_double(un.y());
-			double nz=to_double(un.z());
+			decimal x1 = to_decimal(p1.x());
+			decimal y1 = to_decimal(p1.y());
+			decimal z1 = to_decimal(p1.z());
+			decimal x2 = to_decimal(p2.x());
+			decimal y2 = to_decimal(p2.y());
+			decimal z2 = to_decimal(p2.z());
+			decimal x3 = to_decimal(p3.x());
+			decimal y3 = to_decimal(p3.y());
+			decimal z3 = to_decimal(p3.z());
+			decimal nx=to_decimal(un.x());
+			decimal ny=to_decimal(un.y());
+			decimal nz=to_decimal(un.z());
 
 			output << "  facet normal " << nx << " " << ny << " " << nz << "\n";
 			output << "    outer loop\n";
@@ -215,10 +215,10 @@ void CGALExport::exportAMF(QString filename)
 	foreach(CGAL::Point3 p,vertices) {
 		xml.writeStartElement("vertex");
 		xml.writeStartElement("coordinates");
-		double x,y,z;
-		x=to_double(p.x());
-		y=to_double(p.y());
-		z=to_double(p.z());
+		decimal x,y,z;
+		x=to_decimal(p.x());
+		y=to_decimal(p.y());
+		z=to_decimal(p.z());
 		xml.writeTextElement("x",QString().setNum(x));
 		xml.writeTextElement("y",QString().setNum(y));
 		xml.writeTextElement("z",QString().setNum(z));
@@ -270,10 +270,10 @@ void CGALExport::exportCSG(QString filename)
 	foreach(CGAL::Point3 p,points) {
 		if(!first())
 			output << ",";
-		double x,y,z;
-		x=to_double(p.x());
-		y=to_double(p.y());
-		z=to_double(p.z());
+		decimal x,y,z;
+		x=to_decimal(p.x());
+		y=to_decimal(p.y());
+		z=to_decimal(p.z());
 		Point pt(x,y,z);
 		output << pt.toString();
 	}

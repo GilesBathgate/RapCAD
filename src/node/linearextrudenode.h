@@ -25,11 +25,11 @@ class LinearExtrudeNode : public Node
 {
 public:
 	LinearExtrudeNode();
-	void setHeight(double);
-	double getHeight() const;
+	void setHeight(decimal);
+	decimal getHeight() const;
 	void accept(NodeVisitor&);
 private:
-	double height;
+	decimal height;
 };
 
 #endif // LINEAREXTRUDENODE_H

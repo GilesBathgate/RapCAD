@@ -28,9 +28,9 @@ PrimitiveModule::PrimitiveModule(const QString n) : Module(n)
 
 Fragment PrimitiveModule::getSpecialVariables(Context* ctx)
 {
-	double fn=0.0;
-	double fs=2.0;
-	double fa=12.0;
+	decimal fn=0.0;
+	decimal fs=2.0;
+	decimal fa=12.0;
 	NumberValue* fnVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fn"));
 	if(fnVal)
 		fn=fnVal->getNumber();
@@ -44,12 +44,12 @@ Fragment PrimitiveModule::getSpecialVariables(Context* ctx)
 	return Fragment(fn,fs,fa);
 }
 
-Polygon* PrimitiveModule::getCircle(double r, double f, double z)
+Polygon* PrimitiveModule::getCircle(decimal r, decimal f, decimal z)
 {
 	Polygon* circle = new Polygon();
 	for(int i=0; i<f; i++) {
-		double phi = (M_TAU*i) / f;
-		double x,y;
+		decimal phi = (M_TAU*i) / f;
+		decimal x,y;
 		if(r > 0) {
 			x = r*cos(phi);
 			y = r*sin(phi);
@@ -64,13 +64,13 @@ Polygon* PrimitiveModule::getCircle(double r, double f, double z)
 	return circle;
 }
 
-Polygon* PrimitiveModule::getPolygon(double a,double r, double n, double z)
+Polygon* PrimitiveModule::getPolygon(decimal a,decimal r, decimal n, decimal z)
 {
 	Polygon* poly = new Polygon();
 	if(n==6) {
 		//TODO modify this to cater for all even values of n
-		double x=0,y=0;
-		double s2=r*sin(M_PI/n);
+		decimal x=0,y=0;
+		decimal s2=r*sin(M_PI/n);
 		for(int i=0; i<n; i++) {
 			switch(i) {
 			case 0: {

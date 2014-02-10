@@ -436,7 +436,7 @@ Expression* SyntaxTreeBuilder::buildLiteral(bool value)
 	return result;
 }
 
-Expression* SyntaxTreeBuilder::buildLiteral(double value)
+Expression* SyntaxTreeBuilder::buildLiteral(decimal value)
 {
 	Literal* result = new Literal();
 	result->setValue(value);

@@ -20,22 +20,23 @@
 #define POINT_H
 
 #include <QString>
+#include "decimal.h"
 
 class Point
 {
 public:
 	Point() : x(0), y(0), z(0) { }
-	Point(double x,double y,double z) : x(x), y(y), z(z) { }
+	Point(decimal x,decimal y,decimal z) : x(x), y(y), z(z) { }
 	bool operator==(const Point that) const;
 	QString toString() const;
-	void getXYZ(double& x, double& y, double& z) const;
-	void getXY(double& x, double& y) const;
-	double getX() const;
-	double getY() const;
-	double getZ() const;
+	void getXYZ(decimal& x, decimal& y, decimal& z) const;
+	void getXY(decimal& x, decimal& y) const;
+	decimal getX() const;
+	decimal getY() const;
+	decimal getZ() const;
 private:
-	QString toString(const double) const;
-	double x, y, z;
+	QString toString(const decimal) const;
+	decimal x, y, z;
 };
 
 #endif // POINT_H

@@ -49,10 +49,10 @@ protected:
 	bool print;
 	bool generate;
 private:
-	QList<Argument*> getArgs(double);
+	QList<Argument*> getArgs(decimal);
 	void primary();
 	void generation();
-	double getBoundsHeight();
+	decimal getBoundsHeight();
 	Primitive* primitive;
 	Renderer* render;
 };

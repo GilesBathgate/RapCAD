@@ -4,12 +4,12 @@ RotateExtrudeNode::RotateExtrudeNode()
 {
 }
 
-void RotateExtrudeNode::setRadius(double r)
+void RotateExtrudeNode::setRadius(decimal r)
 {
 	radius=r;
 }
 
-double RotateExtrudeNode::getRadius() const
+decimal RotateExtrudeNode::getRadius() const
 {
 	return radius;
 }

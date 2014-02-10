@@ -37,7 +37,7 @@ Node* SphereModule::evaluate(Context* ctx)
 	if(centerValue)
 		center=centerValue->isTrue();
 
-	double r=1.0;
+	decimal r=1.0;
 	if(rValue) {
 		r=rValue->getNumber();
 	} else {
@@ -54,9 +54,9 @@ Node* SphereModule::evaluate(Context* ctx)
 
 	QList<Polygon> rings;
 	for(int i=0; i<ringCount; i++) {
-		double phi = (M_PI*(i+0.5)) / ringCount;
-		double r2 = r*sin(phi);
-		double z = r*cos(phi)+!center*r;
+		decimal phi = (M_PI*(i+0.5)) / ringCount;
+		decimal r2 = r*sin(phi);
+		decimal z = r*cos(phi)+!center*r;
 		Polygon* c = getCircle(r2,f,z);
 		rings.append(*c);
 	}
@@ -73,7 +73,7 @@ Node* SphereModule::evaluate(Context* ctx)
 		QList<Point> r2 = rings.at(i+1).getPoints();
 		int r1i = 0, r2i = 0;
 		while(r1i < f || r2i < f) {
-			if(r2i >= f||(double)r1i/f<(double)r2i/f) {
+			if(r2i >= f||(decimal)r1i/f<(decimal)r2i/f) {
 				p->createPolygon();
 				int r1j = (r1i+1) % f;
 				p->prependVertex(r1.at(r1i));

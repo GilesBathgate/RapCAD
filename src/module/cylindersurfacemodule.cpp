@@ -31,12 +31,12 @@ CylinderSurfaceModule::CylinderSurfaceModule() : PrimitiveModule("cylinder_surfa
 Node* CylinderSurfaceModule::evaluate(Context* ctx)
 {
 	NumberValue* heightValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
-	double h=1.0;
+	decimal h=1.0;
 	if(heightValue)
 		h=heightValue->getNumber();
 
 	NumberValue* rValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
-	double r=1.0;
+	decimal r=1.0;
 	if(rValue)
 		r=rValue->getNumber();
 
@@ -45,7 +45,7 @@ Node* CylinderSurfaceModule::evaluate(Context* ctx)
 	if(centerValue)
 		center=centerValue->isTrue();
 
-	double z1,z2;
+	decimal z1,z2;
 	if(center) {
 		z1 = -h/2;
 		z2 = +h/2;

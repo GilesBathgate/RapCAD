@@ -27,7 +27,7 @@ void PrimitiveNode::createPolygon()
 	polygons.append(Polygon());
 }
 
-void PrimitiveNode::appendVertex(double x, double y, double z)
+void PrimitiveNode::appendVertex(decimal x, decimal y, decimal z)
 {
 	appendVertex(Point(x,y,z));
 }

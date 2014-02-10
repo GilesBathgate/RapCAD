@@ -8,13 +8,13 @@ class RotateExtrudeNode : public Node
 {
 public:
 	RotateExtrudeNode();
-	void setRadius(double);
-	double getRadius() const;
+	void setRadius(decimal);
+	decimal getRadius() const;
 	void setFragments(Fragment);
 	Fragment getFragments();
 	void accept(NodeVisitor&);
 private:
-	double radius;
+	decimal radius;
 	Fragment fragments;
 };
 

@@ -20,6 +20,7 @@
 #include "nodeevaluator.h"
 #include "tau.h"
 #include "onceonly.h"
+#include "decimal.h"
 
 #if USE_CGAL
 #include "cgalimport.h"
@@ -172,7 +173,7 @@ static CGAL::Point3 translate_zx(const CGAL::Point3& p,CGAL::FT x,CGAL::FT z)
 	return CGAL::Point3(x,p.y(),z);
 }
 
-static CGAL::Point3 rotate(const CGAL::Point3& p,double phi)
+static CGAL::Point3 rotate(const CGAL::Point3& p,decimal phi)
 {
 	CGAL::FT h,x,z;
 	x=p.x();
@@ -269,8 +270,8 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 
 	for(int i=0; i<f; i++) {
 		int j=(i+1)%f;
-		double phi=(M_TAU*i)/f;
-		double nphi=(M_TAU*j)/f;
+		decimal phi=(M_TAU*i)/f;
+		decimal nphi=(M_TAU*j)/f;
 
 		foreach(CGALPolygon* pg,explorer.getPerimeters()) {
 			OnceOnly first;
@@ -348,12 +349,12 @@ void NodeEvaluator::visit(BoundsNode* n)
 	//TODO move this warning into gcode generation routines when they exist.
 	if(b.zmin()!=0.0) {
 		QString where = b.zmin()<0.0?" below ":" above ";
-		output << "Warning: The model is " << to_double(b.zmin()) << where << "the build platform.\n";
+		output << "Warning: The model is " << to_decimal(b.zmin()) << where << "the build platform.\n";
 	}
 
 	output << "Bounds: ";
-	output << "[" << to_double(b.xmin()) << "," << to_double(b.ymin()) << "," << to_double(b.zmin()) << "] ";
-	output << "[" << to_double(b.xmax()) << "," << to_double(b.ymax()) << "," << to_double(b.zmax()) << "]\n";
+	output << "[" << to_decimal(b.xmin()) << "," << to_decimal(b.ymin()) << "," << to_decimal(b.zmin()) << "] ";
+	output << "[" << to_decimal(b.xmax()) << "," << to_decimal(b.ymax()) << "," << to_decimal(b.zmax()) << "]\n";
 #endif
 }
 
@@ -404,7 +405,7 @@ void NodeEvaluator::visit(TransformationNode* tr)
 {
 	evaluate(tr,Union);
 #if USE_CGAL
-	double* m=tr->matrix;
+	decimal* m=tr->matrix;
 	CGAL::AffTransformation3 t(
 		m[ 0], m[ 1], m[ 2], m[ 3],
 		m[ 4], m[ 5], m[ 6], m[ 7],
@@ -424,7 +425,7 @@ void NodeEvaluator::visit(ResizeNode* n)
 	CGALExplorer e(result);
 	CGAL::Cuboid3 b=e.getBounds();
 	Point s=n->getSize();
-	double x1,y1,z1;
+	decimal x1,y1,z1;
 	s.getXYZ(x1,y1,z1);
 	CGAL::FT x=x1,y=y1,z=z1,autosize=1.0;
 
@@ -499,7 +500,7 @@ void NodeEvaluator::visit(SliceNode* n)
 
 	CGALPrimitive* cp = new CGALPrimitive();
 	cp->createPolygon();
-	double h = n->getHeight();
+	decimal h = n->getHeight();
 	cp->appendVertex(CGAL::Point3(b.xmin(),b.ymin(),h));
 	cp->appendVertex(CGAL::Point3(b.xmin(),b.ymax(),h));
 	cp->appendVertex(CGAL::Point3(b.xmax(),b.ymax(),h));

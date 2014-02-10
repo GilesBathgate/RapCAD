@@ -23,6 +23,7 @@
 #include "iterator.h"
 #include "expression.h"
 #include "variable.h"
+#include "decimal.h"
 
 class VectorValue;
 class TextValue;
@@ -87,10 +88,10 @@ private:
 	QString name;
 	template<class T>
 	T modulus(T left, T right);
-	double modulus(double left, double right);
+	decimal modulus(decimal left, decimal right);
 	template<class T>
 	T exponent(T left, T right);
-	double exponent(double left, double right);
+	decimal exponent(decimal left, decimal right);
 };
 
 template<class T>

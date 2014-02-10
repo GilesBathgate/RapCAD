@@ -25,11 +25,11 @@ class SliceNode : public Node
 {
 public:
 	SliceNode();
-	void setHeight(double);
-	double getHeight();
+	void setHeight(decimal);
+	decimal getHeight();
 	void accept(NodeVisitor&);
 private:
-	double height;
+	decimal height;
 };
 
 #endif // SLICENODE_H

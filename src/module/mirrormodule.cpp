@@ -34,15 +34,15 @@ Node* MirrorModule::evaluate(Context* ctx)
 	if(vecVal)
 		vec=vecVal->getPoint();
 
-	double x=0,y=0,z=0;
+	decimal x=0,y=0,z=0;
 	vec.getXYZ(x,y,z);
 
-	double mag = sqrt(x*x + y*y + z*z);
-	double u = x/mag;
-	double v = y/mag;
-	double w = z/mag;
+	decimal mag = sqrt(x*x + y*y + z*z);
+	decimal u = x/mag;
+	decimal v = y/mag;
+	decimal w = z/mag;
 
-	double m[16] = {
+	decimal m[16] = {
 		1-2*u*u,-2*v*u,-2*w*u,0,
 		-2*u*v,1-2*v*v,-2*w*v,0,
 		-2*u*w,-2*v*w,1-2*w*w,0,
