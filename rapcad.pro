@@ -273,7 +273,7 @@ SOURCES += \
 	src/function/concatfunction.cpp \
 	src/node/groupnode.cpp \
 	src/decimal.cpp \
-	src/annotation.cpp
+	src/polyhedron.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -471,7 +471,7 @@ HEADERS  += \
 	src/function/concatfunction.h \
 	src/node/groupnode.h \
 	src/decimal.h \
-	src/annotation.h
+	src/polyhedron.h
 
 FORMS += \
 	src/mainwindow.ui \

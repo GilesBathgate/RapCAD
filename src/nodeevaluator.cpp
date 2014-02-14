@@ -21,14 +21,13 @@
 #include "tau.h"
 #include "onceonly.h"
 #include "decimal.h"
+#include "polyhedron.h"
 
 #if USE_CGAL
 #include "cgalimport.h"
 #include "cgalexplorer.h"
 #include "cgalprimitive.h"
 #include "cgalfragment.h"
-#else
-#include "annotation.h"
 #endif
 
 NodeEvaluator::NodeEvaluator(QTextStream& s) : output(s)
@@ -40,17 +39,20 @@ Primitive* NodeEvaluator::createPrimitive()
 #if USE_CGAL
 	return new CGALPrimitive();
 #else
-	return new Annotation();
+	return new Polyhedron();
 #endif
 }
 
 void NodeEvaluator::visit(PrimitiveNode* n)
 {
 	Primitive* cp=createPrimitive();
-	foreach(Polygon p, n->getPolygons()) {
-		cp->createPolygon();
-		foreach(Point pt, p.getPoints()) {
-			cp->appendVertex(pt);
+	Polyhedron* ph = dynamic_cast<Polyhedron*>(n->getPrimitive());
+	if(ph) {
+		foreach(Polygon* p, ph->getPolygons()) {
+			cp->createPolygon();
+			foreach(Point pt,p->getPoints()) {
+				cp->appendVertex(pt);
+			}
 		}
 	}
 	result=cp;
@@ -61,13 +63,15 @@ void NodeEvaluator::visit(PolylineNode* n)
 	Primitive* cp=createPrimitive();
 	cp->setType(Primitive::Skeleton);
 
-	foreach(Polygon p, n->getPolygons()) {
-		cp->createPolygon();
-		foreach(Point pt,p.getPoints()) {
-			cp->appendVertex(pt);
+	Polyhedron* ph = dynamic_cast<Polyhedron*>(n->getPrimitive());
+	if(ph) {
+		foreach(Polygon* p, ph->getPolygons()) {
+			cp->createPolygon();
+			foreach(Point pt,p->getPoints()) {
+				cp->appendVertex(pt);
+			}
 		}
 	}
-
 	result=cp;
 }
 

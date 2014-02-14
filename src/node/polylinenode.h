@@ -20,7 +20,6 @@
 #define POLYLINENODE_H
 
 #include "primitivenode.h"
-#include "polygon.h"
 
 class PolylineNode : public PrimitiveNode
 {

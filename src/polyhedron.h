@@ -16,12 +16,12 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ANNOTATION_H
-#define ANNOTATION_H
+#ifndef POLYHEDRON_H
+#define POLYHEDRON_H
 
 #include "primitive.h"
 
-class Annotation : public Primitive
+class Polyhedron : public Primitive
 {
 public:
 	Polygon* createPolygon();
@@ -42,7 +42,8 @@ public:
 	bool isFullyDimentional() { return false; }
 	Primitive* copy();
 	bool isEmpty();
+	QList<Polygon*> getPolygons();
 private:
 	QList<Polygon*> polygons;
 };
-#endif // ANNOTATION_H
+#endif // POLYHEDRON_H

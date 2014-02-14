@@ -22,21 +22,21 @@
 #include <QList>
 #include <QString>
 #include "node.h"
-#include "point.h"
-#include "polygon.h"
+#include "primitive.h"
 
 class PrimitiveNode : public Node
 {
 public:
 	PrimitiveNode();
+	~PrimitiveNode();
 	void createPolygon();
 	void appendVertex(decimal x, decimal y, decimal z);
 	void appendVertex(Point p);
 	void prependVertex(Point p);
-	QList<Polygon> getPolygons() const;
 	void accept(NodeVisitor&);
+	Primitive* getPrimitive();
 private:
-	QList<Polygon> polygons;
+	Primitive* primitive;
 };
 
 #endif // PRIMITIVENODE_H

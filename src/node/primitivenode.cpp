@@ -17,14 +17,21 @@
  */
 
 #include "primitivenode.h"
+#include "polyhedron.h"
 
 PrimitiveNode::PrimitiveNode()
 {
+	primitive=new Polyhedron();
+}
+
+PrimitiveNode::~PrimitiveNode()
+{
+	delete primitive;
 }
 
 void PrimitiveNode::createPolygon()
 {
-	polygons.append(Polygon());
+	primitive->createPolygon();
 }
 
 void PrimitiveNode::appendVertex(decimal x, decimal y, decimal z)
@@ -34,17 +41,17 @@ void PrimitiveNode::appendVertex(decimal x, decimal y, decimal z)
 
 void PrimitiveNode::appendVertex(Point p)
 {
-	polygons.last().append(p);
+	primitive->appendVertex(p);
 }
 
 void PrimitiveNode::prependVertex(Point p)
 {
-	polygons.last().prepend(p);
+	primitive->prependVertex(p);
 }
 
-QList<Polygon> PrimitiveNode::getPolygons() const
+Primitive* PrimitiveNode::getPrimitive()
 {
-	return polygons;
+	return primitive;
 }
 
 void PrimitiveNode::accept(NodeVisitor& v)

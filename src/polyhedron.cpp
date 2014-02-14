@@ -15,30 +15,30 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "annotation.h"
+#include "polyhedron.h"
 
-Polygon* Annotation::createPolygon()
+Polygon* Polyhedron::createPolygon()
 {
 	Polygon* pg = new Polygon();
 	polygons.append(pg);
 	return pg;
 }
 
-void Annotation::appendVertex(Point p)
+void Polyhedron::appendVertex(Point p)
 {
 	if(polygons.count()>0)
 		polygons.last()->append(p);
 }
 
-void Annotation::prependVertex(Point p)
+void Polyhedron::prependVertex(Point p)
 {
 	if(polygons.count()>0)
 		polygons.last()->prepend(p);
 }
 
-Primitive* Annotation::copy()
+Primitive* Polyhedron::copy()
 {
-	Annotation* c=new Annotation();
+	Polyhedron* c=new Polyhedron();
 	foreach(Polygon* pg, polygons) {
 		c->createPolygon();
 		foreach(Point p, pg->getPoints())
@@ -47,7 +47,12 @@ Primitive* Annotation::copy()
 	return c;
 }
 
-bool Annotation::isEmpty()
+bool Polyhedron::isEmpty()
 {
 	return polygons.count()<=0;
+}
+
+QList<Polygon*> Polyhedron::getPolygons()
+{
+	return polygons;
 }
