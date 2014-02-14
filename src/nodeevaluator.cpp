@@ -165,12 +165,12 @@ static CGAL::Point3 translate(const CGAL::Point3& p,CGAL::FT x,CGAL::FT y,CGAL::
 
 static CGAL::Point3 rotate_y(const CGAL::Point3& p,decimal phi)
 {
-	decimal cx=cos(phi);
-	decimal sx=sin(phi);
+	decimal c=cos(phi);
+	decimal s=sin(phi);
 	CGAL::AffTransformation3 t(
-		 cx, 0, sx, 0,
-		 0,  1, 0,  0,
-		-sx, 0, cx, 0, 1);
+		 c, 0, s, 0,
+		 0, 1, 0, 0,
+		-s, 0, c, 0, 1);
 
 	return p.transform(t);
 }
