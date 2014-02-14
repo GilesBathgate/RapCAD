@@ -336,7 +336,11 @@ void NodeEvaluator::evaluate(Node* op,Operation_e type)
 		}
 	}
 
-	result=first->combine();
+	if(first)
+		result=first->combine();
+	else
+		result=first;
+
 }
 
 void NodeEvaluator::visit(BoundsNode* n)
