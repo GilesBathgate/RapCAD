@@ -46,13 +46,12 @@ Primitive* NodeEvaluator::createPrimitive()
 void NodeEvaluator::visit(PrimitiveNode* n)
 {
 	Primitive* cp=createPrimitive();
-	Polyhedron* ph = dynamic_cast<Polyhedron*>(n->getPrimitive());
-	if(ph) {
-		foreach(Polygon* p, ph->getPolygons()) {
-			cp->createPolygon();
-			foreach(Point pt,p->getPoints()) {
-				cp->appendVertex(pt);
-			}
+
+	Primitive* pr=n->getPrimitive();
+	foreach(Polygon* p, pr->getPolygons()) {
+		cp->createPolygon();
+		foreach(Point pt,p->getPoints()) {
+			cp->appendVertex(pt);
 		}
 	}
 	result=cp;
@@ -63,13 +62,11 @@ void NodeEvaluator::visit(PolylineNode* n)
 	Primitive* cp=createPrimitive();
 	cp->setType(Primitive::Skeleton);
 
-	Polyhedron* ph = dynamic_cast<Polyhedron*>(n->getPrimitive());
-	if(ph) {
-		foreach(Polygon* p, ph->getPolygons()) {
-			cp->createPolygon();
-			foreach(Point pt,p->getPoints()) {
-				cp->appendVertex(pt);
-			}
+	Primitive* pr=n->getPrimitive();
+	foreach(Polygon* p, pr->getPolygons()) {
+		cp->createPolygon();
+		foreach(Point pt,p->getPoints()) {
+			cp->appendVertex(pt);
 		}
 	}
 	result=cp;
@@ -194,7 +191,7 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 		CGAL::FT z=op->getHeight();
 		CGALExplorer explorer(result);
 		CGALPrimitive* prim=explorer.getPrimitive();
-		QList<CGALPolygon*> polys=prim->getPolygons();
+		QList<CGALPolygon*> polys=prim->getCGALPolygons();
 		CGALPrimitive* n = new CGALPrimitive();
 
 		bool up;
@@ -347,15 +344,52 @@ void NodeEvaluator::visit(BoundsNode* n)
 	CGALExplorer explorer(result);
 	CGAL::Cuboid3 b=explorer.getBounds();
 
+
+
+	decimal xmin=to_decimal(b.xmin());
+	decimal ymin=to_decimal(b.ymin());
+	decimal xmax=to_decimal(b.xmax());
+	decimal ymax=to_decimal(b.ymax());
+	decimal zmin=to_decimal(b.zmin());
+	decimal zmax=to_decimal(b.zmax());
+
 	//TODO move this warning into gcode generation routines when they exist.
-	if(b.zmin()!=0.0) {
-		QString where = b.zmin()<0.0?" below ":" above ";
-		output << "Warning: The model is " << to_decimal(b.zmin()) << where << "the build platform.\n";
+	if(zmin!=0.0) {
+		QString where = zmin<0.0?" below ":" above ";
+		output << "Warning: The model is " << zmin << where << "the build platform.\n";
 	}
 
+	Polyhedron* a=new Polyhedron();
+	a->setType(Primitive::Skeleton);
+	a->createPolygon();
+	a->appendVertex(Point(xmin,ymin,zmin));
+	a->appendVertex(Point(xmin,ymax,zmin));
+	a->appendVertex(Point(xmax,ymax,zmin));
+	a->appendVertex(Point(xmax,ymin,zmin));
+
+	a->createPolygon();
+	a->appendVertex(Point(xmin,ymin,zmax));
+	a->appendVertex(Point(xmin,ymax,zmax));
+	a->appendVertex(Point(xmax,ymax,zmax));
+	a->appendVertex(Point(xmax,ymin,zmax));
+
+	a->createPolygon();
+	a->appendVertex(Point(xmin,ymin,zmin));
+	a->appendVertex(Point(xmin,ymin,zmax));
+	a->appendVertex(Point(xmin,ymax,zmax));
+	a->appendVertex(Point(xmin,ymax,zmin));
+
+	a->createPolygon();
+	a->appendVertex(Point(xmax,ymin,zmin));
+	a->appendVertex(Point(xmax,ymin,zmax));
+	a->appendVertex(Point(xmax,ymax,zmax));
+	a->appendVertex(Point(xmax,ymax,zmin));
+
+	result->appendChild(a);
+
 	output << "Bounds: ";
-	output << "[" << to_decimal(b.xmin()) << "," << to_decimal(b.ymin()) << "," << to_decimal(b.zmin()) << "] ";
-	output << "[" << to_decimal(b.xmax()) << "," << to_decimal(b.ymax()) << "," << to_decimal(b.zmax()) << "]\n";
+	output << "[" << xmin << "," << ymin << "," << zmin << "] ";
+	output << "[" << xmax << "," << ymax << "," << zmax << "]\n";
 #endif
 }
 
@@ -526,7 +560,7 @@ void NodeEvaluator::visit(ProjectionNode* op)
 	CGALPrimitive* cp=explorer.getPrimitive();
 
 	Primitive* r=new CGALPrimitive();
-	foreach(CGALPolygon* p, cp->getPolygons()) {
+	foreach(CGALPolygon* p, cp->getCGALPolygons()) {
 		CGAL::Vector3 normal=p->getNormal();
 		if(normal.z()==0)
 			continue;

@@ -46,15 +46,19 @@ public:
 	Primitive* inset(const decimal);
 	Primitive* copy();
 	void transform(const CGAL::AffTransformation3&);
-	QList<CGALPolygon*> getPolygons() const;
+	QList<Polygon*> getPolygons() const;
+	QList<CGALPolygon*> getCGALPolygons() const;
 	QList<CGAL::Point3> getPoints() const;
 	const CGAL::NefPolyhedron3& getNefPolyhedron();
 	CGAL::Polyhedron3* getPolyhedron();
 	bool isEmpty();
 	bool isFullyDimentional();
+	QList<Primitive*> getChildren();
+	void appendChild(Primitive*);
 private:
 	void init();
 	void buildPrimitive();
+	QList<Primitive*> children;
 	CGAL::NefPolyhedron3* createPolyline(QVector<CGAL::Point3> pl);
 	QList<CGALPolygon*> polygons;
 	CGAL::NefPolyhedron3* nefPolyhedron;

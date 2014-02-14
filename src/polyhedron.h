@@ -42,7 +42,9 @@ public:
 	bool isFullyDimentional() { return false; }
 	Primitive* copy();
 	bool isEmpty();
-	QList<Polygon*> getPolygons();
+	QList<Polygon*> getPolygons() const;
+	QList<Primitive*> getChildren();
+	void appendChild(Primitive*);
 private:
 	QList<Polygon*> polygons;
 };

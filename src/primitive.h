@@ -49,6 +49,9 @@ public:
 	virtual Primitive* copy()=0;
 	virtual bool isEmpty()=0;
 	virtual bool isFullyDimentional()=0;
+	virtual QList<Polygon*> getPolygons() const=0;
+	virtual QList<Primitive*> getChildren()=0;
+	virtual void appendChild(Primitive*)=0;
 };
 
 #endif // PRIMITIVE_H

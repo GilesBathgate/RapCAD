@@ -30,6 +30,7 @@ public:
 	CGALRenderer(CGALPrimitive*);
 	void draw(bool,bool);
 private:
+	Primitive* primitive;
 	void setColor(CGAL::Color&,QColor);
 	CGAL::Color getVertexColor(bool mark) const;
 	CGAL::Color getEdgeColor(bool mark) const;

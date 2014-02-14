@@ -18,8 +18,7 @@
 #if USE_CGAL
 #include "cgalrenderer.h"
 #include "preferences.h"
-
-using CGAL::OGL::Nef3_Converter;
+#include "primitive.h"
 
 CGALRenderer::CGALRenderer(CGALPrimitive* pr)
 {
@@ -32,7 +31,8 @@ CGALRenderer::CGALRenderer(CGALPrimitive* pr)
 	setColor(facetColor,p->getFacetColor());
 	vertexSize=p->getVertexSize();
 	edgeSize=p->getEdgeSize();
-	Nef3_Converter<CGAL::NefPolyhedron3>::convert_to_OGLPolyhedron(pr->getNefPolyhedron(),this);
+	primitive=pr;
+	CGAL::OGL::Nef3_Converter<CGAL::NefPolyhedron3>::convert_to_OGLPolyhedron(pr->getNefPolyhedron(),this);
 }
 
 void CGALRenderer::draw(bool skeleton, bool showedges)
@@ -46,6 +46,21 @@ void CGALRenderer::draw(bool skeleton, bool showedges)
 		glCallList(this->object_list_+1);
 		glCallList(this->object_list_);
 		glEnable(GL_LIGHTING);
+	}
+
+	glLineWidth(1);
+	glColor3d(0.0, 0.0, 1.0);
+	QList<Primitive*> children=primitive->getChildren();
+	foreach(Primitive* c, children) {
+		foreach(Polygon* p,c->getPolygons()) {
+			glBegin(GL_LINE_LOOP);
+			foreach(Point pt,p->getPoints()) {
+				decimal x,y,z;
+				pt.getXYZ(x,y,z);
+				glVertex3d(x, y, z);
+			}
+			glEnd();
+		}
 	}
 }
 

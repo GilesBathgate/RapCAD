@@ -52,7 +52,16 @@ bool Polyhedron::isEmpty()
 	return polygons.count()<=0;
 }
 
-QList<Polygon*> Polyhedron::getPolygons()
+QList<Polygon*> Polyhedron::getPolygons() const
 {
 	return polygons;
+}
+
+QList<Primitive*> Polyhedron::getChildren()
+{
+	return QList<Primitive*>();
+}
+
+void Polyhedron::appendChild(Primitive*)
+{
 }

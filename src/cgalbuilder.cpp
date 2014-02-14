@@ -29,7 +29,7 @@ CGALBuilder::CGALBuilder(CGALPrimitive* p)
 void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
 {
 	QList<CGAL::Point3> points=primitive->getPoints();
-	QList<CGALPolygon*> polygons=primitive->getPolygons();
+	QList<CGALPolygon*> polygons=primitive->getCGALPolygons();
 
 	CGAL::Polyhedron_incremental_builder_3<CGAL::HalfedgeDS> builder(hds,true);
 	builder.begin_surface(points.size(), polygons.size());
@@ -62,7 +62,7 @@ CGALPrimitive* CGALBuilder::buildOffsetPolygons(const CGAL::FT amount)
 	CGALPrimitive* prim = e.getPrimitive();
 
 	FT z=0.0;
-	foreach(CGALPolygon* pg,prim->getPolygons()) {
+	foreach(CGALPolygon* pg,prim->getCGALPolygons()) {
 		foreach(CGAL::Point3 pt,pg->getPoints()) {
 			CGAL::Point2 p2(pt.x(),pt.y());
 			poly.push_back(p2);

@@ -166,7 +166,7 @@ Primitive* CGALPrimitive::group(Primitive* pr)
 			CGALExplorer e(prim);
 			prim=e.getPrimitive();
 		}
-		foreach(CGALPolygon* p, prim->getPolygons()) {
+		foreach(CGALPolygon* p, prim->getCGALPolygons()) {
 			cp->createPolygon();
 			foreach(CGAL::Point3 pt, p->getPoints()) {
 				cp->appendVertex(pt);
@@ -176,7 +176,7 @@ Primitive* CGALPrimitive::group(Primitive* pr)
 	return cp;
 }
 
-QList<CGALPolygon*> CGALPrimitive::getPolygons() const
+QList<CGALPolygon*> CGALPrimitive::getCGALPolygons() const
 {
 	return polygons;
 }
@@ -299,6 +299,13 @@ void CGALPrimitive::transform(const CGAL::AffTransformation3& t)
 	}
 }
 
+QList<Polygon*> CGALPrimitive::getPolygons() const
+{
+	/* This is safe since we are downcasting, but callers should
+	 * probably use getCGALPolygons */
+	return *reinterpret_cast<const QList<Polygon*>*>(&polygons);
+}
+
 const CGAL::NefPolyhedron3& CGALPrimitive::getNefPolyhedron()
 {
 	this->buildPrimitive();
@@ -326,6 +333,16 @@ bool CGALPrimitive::isFullyDimentional()
 	//For fully dimentional polyhedra there are always two volumes the outer
 	//volume and the inner volume. So check volumes > 1
 	return nefPolyhedron->number_of_volumes()>1;
+}
+
+QList<Primitive*> CGALPrimitive::getChildren()
+{
+	return children;
+}
+
+void CGALPrimitive::appendChild(Primitive* p)
+{
+	children.append(p);
 }
 
 CGALPrimitive::Unionable& CGALPrimitive::Unionable::operator+(Unionable& other)

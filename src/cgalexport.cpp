@@ -281,7 +281,7 @@ void CGALExport::exportCSG(QString filename)
 	output << "],[";
 
 	OnceOnly first_poly;
-	foreach(CGALPolygon* poly, prim->getPolygons()) {
+	foreach(CGALPolygon* poly, prim->getCGALPolygons()) {
 		if(!first_poly())
 			output << ",";
 		output << "[" ;
