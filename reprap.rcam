@@ -11,15 +11,11 @@ function layers(height) = ceil(height/0.4);
 *  a 2D path.
 */
 module manufacture(layer){
-   slice(height=layer*0.4)child(0);
-   //writeln("Printing layer: ",layer," of ",layers());
-/*
-	infill(0.4) {
-     inset(0.4) {
-      slice(h=0.4,cut=1*0.4) {
-       child(0);
-      }
-     }
-   } 
-*/
+ a=layer%2?45:-45;
+ rotate([0,0,a])
+  decompose()
+   rotate([0,0,-a])
+    slice(height=layer*0.4,thickness=0.4)
+     child(0);
 }
+
