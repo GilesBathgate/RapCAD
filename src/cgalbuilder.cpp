@@ -55,7 +55,6 @@ CGALPrimitive* CGALBuilder::buildOffsetPolygons(const CGAL::FT amount)
 	typedef CGAL::FT FT;
 	typedef boost::shared_ptr<CGAL::Polygon2> PolygonPtr;
 	typedef std::vector<PolygonPtr> PolygonPtrVector;
-	typedef PolygonPtrVector::const_iterator PolygonIterator;
 	typedef CGAL::Polygon2::Vertex_const_iterator VertexIterator;
 
 	CGAL::Polygon2 poly;
@@ -83,12 +82,10 @@ CGALPrimitive* CGALBuilder::buildOffsetPolygons(const CGAL::FT amount)
 
 	CGALPrimitive* offsetPrim = new CGALPrimitive();
 
-	for(PolygonIterator pi=offsetPolys.begin(); pi!=offsetPolys.end(); pi++) {
+	foreach(PolygonPtr ptr,offsetPolys) {
 		offsetPrim->createPolygon();
-		CGAL::Polygon2 pp=**pi;
-		for(VertexIterator vi=pp.vertices_begin(); vi!=pp.vertices_end(); vi++) {
-			CGAL::Point2 p2 =*vi;
-			CGAL::Point3 p3(p2.x(),p2.y(),z);
+		for(VertexIterator vi=ptr->vertices_begin(); vi!=ptr->vertices_end(); vi++) {
+			CGAL::Point3 p3(vi->x(),vi->y(),z);
 			offsetPrim->appendVertex(p3);
 		}
 	}
