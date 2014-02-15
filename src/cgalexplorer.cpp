@@ -68,6 +68,7 @@ class ShellExplorer
 	CGALPrimitive* primitive;
 	bool direction;
 	QMap<HalfEdgeHandle,int> periMap;
+	QList<CGALPolygon*> basePolygons;
 public:
 	ShellExplorer() {
 		primitive = new CGALPrimitive();
@@ -85,6 +86,13 @@ public:
 		if(facet) {
 			CGALPolygon* pg=static_cast<CGALPolygon*>(primitive->createPolygon());
 			CGAL::Vector3 v = f->plane().orthogonal_vector();
+			bool base=v.x()==0&&v.y()==0;;
+			if(direction)
+				base=base&&v.z()<0;
+			else
+				base=base&&v.z()>0;
+			if(base)
+				basePolygons.append(pg);
 			pg->setNormal(v);
 			HalfFacetCycleIterator fc;
 			CGAL_forall_facet_cycles_of(fc,f) {
@@ -131,6 +139,11 @@ public:
 	{
 		return periMap;
 	}
+
+	QList<CGALPolygon*> getBase()
+	{
+		return basePolygons;
+	}
 };
 
 static HalfEdgeHandle findNewEdge(QList<HalfEdgeHandle> visited,QList<HalfEdgeHandle> edges)
@@ -157,6 +170,7 @@ void CGALExplorer::evaluate()
 
 	allPoints=se.getPoints();
 	primitive=se.getPrimitive();
+	basePolygons=se.getBase();
 	QMap<HalfEdgeHandle,int> periMap=se.getPerimeterMap();
 
 
@@ -247,5 +261,11 @@ CGAL::Cuboid3 CGALExplorer::getBounds()
 {
 	QList<CGAL::Point3> pts=getPoints();
 	return CGAL::bounding_box(pts.begin(),pts.end());
+}
+
+QList<CGALPolygon *> CGALExplorer::getBase()
+{
+	if(!evaluated) evaluate();
+	return basePolygons;
 }
 #endif

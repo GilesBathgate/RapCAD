@@ -165,6 +165,14 @@ Value* Context::getArgument(int index, QString name)
 	return matchArgumentIndex(true,matchLast,index,name);
 }
 
+Value* Context::getArgumentDeprecatedModule(int index, QString deprecated, QString module)
+{
+	Value* v = matchArgumentIndex(false,false,index,deprecated);
+	if(v)
+		output << "Warning: '" << deprecated << "' parameter is deprecated use " << module << " instead\n";
+	return v;
+}
+
 Value* Context::getArgumentDeprecated(int index, QString name, QString deprecated)
 {
 	Value* v = matchArgumentIndex(true,false,index,name);

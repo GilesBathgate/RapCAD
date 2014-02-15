@@ -32,12 +32,14 @@ public:
 	CGALPrimitive* getPrimitive();
 	QList<CGAL::Point3> getPoints();
 	CGAL::Cuboid3 getBounds();
+	QList<CGALPolygon*> getBase();
 private:
 	void evaluate();
 	QList<CGALPolygon*> perimeters;
 	bool evaluated;
 	CGALPrimitive* primitive;
 	QList<CGAL::Point3> allPoints;
+	QList<CGALPolygon*> basePolygons;
 };
 
 #endif // CGALEXPLORER_H

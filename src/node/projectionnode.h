@@ -25,7 +25,11 @@ class ProjectionNode : public Node
 {
 public:
 	ProjectionNode();
+	void setBase(bool);
+	bool getBase();
 	void accept(NodeVisitor&);
+private:
+	bool base;
 };
 
 #endif // PROJECTIONNODE_H

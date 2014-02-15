@@ -59,6 +59,7 @@ public:
 	Value* getArgument(int,QString);
 	Value* getArgumentSpecial(QString);
 	Value* getArgumentDeprecated(int,QString,QString);
+	Value* getArgumentDeprecatedModule(int,QString,QString);
 
 	void clearParameters();
 	void addParameter(Value*);

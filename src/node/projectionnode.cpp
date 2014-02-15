@@ -22,6 +22,16 @@ ProjectionNode::ProjectionNode()
 {
 }
 
+void ProjectionNode::setBase(bool b)
+{
+	base=b;
+}
+
+bool ProjectionNode::getBase()
+{
+	return base;
+}
+
 void ProjectionNode::accept(NodeVisitor& v)
 {
 	v.visit(this);

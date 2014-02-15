@@ -596,23 +596,34 @@ void NodeEvaluator::visit(ProjectionNode* op)
 
 #if USE_CGAL
 	CGALExplorer explorer(result);
-	CGALPrimitive* cp=explorer.getPrimitive();
 
-	Primitive* r=new CGALPrimitive();
-	foreach(CGALPolygon* p, cp->getCGALPolygons()) {
-		CGAL::Vector3 normal=p->getNormal();
-		if(normal.z()==0)
-			continue;
-
-
-		CGALPrimitive* t=new CGALPrimitive();
-		t->createPolygon();
-		foreach(CGAL::Point3 pt,p->getPoints()) {
-			t->appendVertex(flatten(pt));
+	bool base=op->getBase();
+	if(base) {
+		CGALPrimitive* r=new CGALPrimitive();
+		foreach(CGALPolygon* pg,explorer.getBase()) {
+			r->createPolygon();
+			foreach(CGAL::Point3 pt,pg->getPoints())
+				r->appendVertex(pt);
 		}
-		r=r->join(t);
+		result=r;
+	} else {
+		CGALPrimitive* cp=explorer.getPrimitive();
+
+		Primitive* r=new CGALPrimitive();
+		foreach(CGALPolygon* p, cp->getCGALPolygons()) {
+			CGAL::Vector3 normal=p->getNormal();
+			if(normal.z()==0)
+				continue;
+
+			CGALPrimitive* t=new CGALPrimitive();
+			t->createPolygon();
+			foreach(CGAL::Point3 pt,p->getPoints()) {
+				t->appendVertex(flatten(pt));
+			}
+			r=r->join(t);
+		}
+		result=r;
 	}
-	result=r;
 #endif
 }
 

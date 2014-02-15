@@ -18,17 +18,32 @@
 
 #include "projectionmodule.h"
 #include "node/projectionnode.h"
+#include "node/slicenode.h"
 #include "context.h"
+#include "booleanvalue.h"
 
 ProjectionModule::ProjectionModule() : Module("projection")
 {
+	addParameter("base");
 }
 
 Node* ProjectionModule::evaluate(Context* ctx)
 {
-	ctx->getArgumentDeprecated(0,"cut","'slice' module");
+	BooleanValue* cut=dynamic_cast<BooleanValue*>(ctx->getArgumentDeprecatedModule(0,"cut","'slice' module"));
+	if(cut&&cut->isTrue()) {
+		SliceNode* n=new SliceNode();
+		n->setChildren(ctx->getInputNodes());
+		return n;
+	}
+
+	bool base=false;
+	BooleanValue* baseVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));
+	if(baseVal)
+		base=baseVal->isTrue();
+
 
 	ProjectionNode* d = new ProjectionNode();
 	d->setChildren(ctx->getInputNodes());
+	d->setBase(base);
 	return d;
 }
