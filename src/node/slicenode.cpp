@@ -32,6 +32,16 @@ decimal SliceNode::getHeight()
 	return height;
 }
 
+void SliceNode::setThickness(decimal t)
+{
+	thickness=t;
+}
+
+decimal SliceNode::getThickness()
+{
+	return thickness;
+}
+
 void SliceNode::accept(NodeVisitor& v)
 {
 	v.visit(this);

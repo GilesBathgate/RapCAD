@@ -23,6 +23,7 @@
 SliceModule::SliceModule() : Module("slice")
 {
 	addParameter("height");
+	addParameter("thickness");
 }
 
 Node* SliceModule::evaluate(Context* ctx)
@@ -32,8 +33,14 @@ Node* SliceModule::evaluate(Context* ctx)
 	if(height)
 		h=height->getNumber();
 
+	decimal t=0.0;
+	NumberValue* thick=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
+	if(thick)
+		t=thick->getNumber();
+
 	SliceNode* d = new SliceNode();
 	d->setHeight(h);
+	d->setThickness(t);
 	d->setChildren(ctx->getInputNodes());
 	return d;
 }

@@ -27,9 +27,12 @@ public:
 	SliceNode();
 	void setHeight(decimal);
 	decimal getHeight();
+	void setThickness(decimal);
+	decimal getThickness();
 	void accept(NodeVisitor&);
 private:
 	decimal height;
+	decimal thickness;
 };
 
 #endif // SLICENODE_H

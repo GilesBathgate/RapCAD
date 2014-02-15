@@ -175,6 +175,33 @@ static CGAL::Point3 rotate_y(const CGAL::Point3& p,decimal phi)
 
 	return p.transform(t);
 }
+
+static void makeSideZ(CGALPrimitive* p,const CGAL::FT& x1,const CGAL::FT& x2,const CGAL::FT& y1,const CGAL::FT& y2,const CGAL::FT& z)
+{
+	p->createPolygon(); // sideZ
+	p->appendVertex(CGAL::Point3(x1, y1, z));
+	p->appendVertex(CGAL::Point3(x2, y1, z));
+	p->appendVertex(CGAL::Point3(x2, y2, z));
+	p->appendVertex(CGAL::Point3(x1, y2, z));
+}
+
+static void makeSideY(CGALPrimitive* p,const CGAL::FT& x1,const CGAL::FT& x2,const CGAL::FT& y,const CGAL::FT& z1,const CGAL::FT& z2)
+{
+	p->createPolygon(); // sideY
+	p->appendVertex(CGAL::Point3(x1, y, z1));
+	p->appendVertex(CGAL::Point3(x2, y, z1));
+	p->appendVertex(CGAL::Point3(x2, y, z2));
+	p->appendVertex(CGAL::Point3(x1, y, z2));
+}
+
+static void makeSideX(CGALPrimitive* p,const CGAL::FT& x,const CGAL::FT& y1,const CGAL::FT& y2,const CGAL::FT& z1,const CGAL::FT& z2)
+{
+	p->createPolygon(); // sideX
+	p->appendVertex(CGAL::Point3(x, y1, z1));
+	p->appendVertex(CGAL::Point3(x, y2, z1));
+	p->appendVertex(CGAL::Point3(x, y2, z2));
+	p->appendVertex(CGAL::Point3(x, y1, z2));
+}
 #endif
 
 void NodeEvaluator::visit(LinearExtrudeNode* op)
@@ -534,12 +561,24 @@ void NodeEvaluator::visit(SliceNode* n)
 	CGAL::Cuboid3 b=e.getBounds();
 
 	CGALPrimitive* cp = new CGALPrimitive();
-	cp->createPolygon();
-	decimal h = n->getHeight();
-	cp->appendVertex(CGAL::Point3(b.xmin(),b.ymin(),h));
-	cp->appendVertex(CGAL::Point3(b.xmin(),b.ymax(),h));
-	cp->appendVertex(CGAL::Point3(b.xmax(),b.ymax(),h));
-	cp->appendVertex(CGAL::Point3(b.xmax(),b.ymin(),h));
+	const CGAL::FT& h = n->getHeight();
+	const CGAL::FT& xmin=b.xmin();
+	const CGAL::FT& ymin=b.ymin();
+	const CGAL::FT& xmax=b.xmax();
+	const CGAL::FT& ymax=b.ymax();
+
+	makeSideZ(cp,xmin,xmax,ymin,ymax,h);
+
+	decimal t = n->getThickness();
+	if(t>0.0) {
+		const CGAL::FT& z=h+t;
+		makeSideY(cp,xmax,xmin,ymin,h,z);
+		makeSideX(cp,xmax,ymax,ymin,h,z);
+		makeSideY(cp,xmin,xmax,ymax,h,z);
+		makeSideX(cp,xmin,ymin,ymax,h,z);
+
+		makeSideZ(cp,xmin,xmax,ymax,ymin,z);
+	}
 
 	result=result->intersection(cp);
 #endif
