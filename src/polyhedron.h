@@ -39,6 +39,7 @@ public:
 	Primitive* symmetric_difference(Primitive*) { return this; }
 	Primitive* minkowski(Primitive*) { return this; }
 	Primitive* inset(decimal) { return this; }
+	void decompose() {}
 	bool isFullyDimentional() { return false; }
 	Primitive* copy();
 	bool isEmpty();

@@ -236,6 +236,12 @@ void NodePrinter::visit(ProjectionNode* n)
 	printChildren(n);
 }
 
+void NodePrinter::visit(DecomposeNode* n)
+{
+	result << "decompose()";
+	printChildren(n);
+}
+
 void NodePrinter::visit(TransformationNode* n)
 {
 	result << "multmatrix([[";

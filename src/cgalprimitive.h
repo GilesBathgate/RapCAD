@@ -44,6 +44,7 @@ public:
 	Primitive* symmetric_difference(Primitive*);
 	Primitive* minkowski(Primitive*);
 	Primitive* inset(const decimal);
+	void decompose();
 	Primitive* copy();
 	void transform(const CGAL::AffTransformation3&);
 	QList<Polygon*> getPolygons() const;

@@ -2,6 +2,7 @@
 #include "cgalprimitive.h"
 #include <QPair>
 #include <CGAL/minkowski_sum_3.h>
+#include <CGAL/convex_decomposition_3.h>
 #include "cgalbuilder.h"
 #include "cgalexplorer.h"
 #include "onceonly.h"
@@ -280,9 +281,16 @@ Primitive* CGALPrimitive::inset(const decimal amount)
 	return result;
 }
 
+void CGALPrimitive::decompose()
+{
+	this->buildPrimitive();
+	CGAL::convex_decomposition_3(*nefPolyhedron);
+}
+
 Primitive* CGALPrimitive::copy()
 {
 	CGALPrimitive* p=new CGALPrimitive();
+	this->buildPrimitive();
 	p->nefPolyhedron=new CGAL::NefPolyhedron3(*nefPolyhedron);
 	return p;
 }

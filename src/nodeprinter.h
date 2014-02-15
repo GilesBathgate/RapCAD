@@ -45,6 +45,7 @@
 #include "node/slicenode.h"
 #include "node/productnode.h"
 #include "node/projectionnode.h"
+#include "node/decomposenode.h"
 
 class NodePrinter : public NodeVisitor
 {
@@ -74,6 +75,7 @@ public:
 	void visit(SliceNode*);
 	void visit(ProductNode*);
 	void visit(ProjectionNode*);
+	void visit(DecomposeNode*);
 	void printChildren(Node*);
 	void printArguments(Point);
 	void printArguments(Polygon);

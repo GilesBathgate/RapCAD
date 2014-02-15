@@ -273,7 +273,9 @@ SOURCES += \
 	src/function/concatfunction.cpp \
 	src/node/groupnode.cpp \
 	src/decimal.cpp \
-	src/polyhedron.cpp
+	src/polyhedron.cpp \
+	src/module/decomposemodule.cpp \
+	src/node/decomposenode.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -471,7 +473,9 @@ HEADERS  += \
 	src/function/concatfunction.h \
 	src/node/groupnode.h \
 	src/decimal.h \
-	src/polyhedron.h
+	src/polyhedron.h \
+	src/module/decomposemodule.h \
+	src/node/decomposenode.h
 
 FORMS += \
 	src/mainwindow.ui \
