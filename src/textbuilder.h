@@ -20,7 +20,6 @@
 #define TEXTBUILDER_H
 
 #include <QString>
-#include "polygon.h"
 #include "primitive.h"
 
 class TextBuilder
@@ -30,8 +29,7 @@ public:
 	virtual void setText(QString)=0;
 	virtual decimal getHeight()=0;
 	virtual void setLocation(Point)=0;
-	virtual QList<Polygon*> buildText() const=0;
-	virtual Primitive* buildPrimitive()=0;
+	virtual Primitive* buildPrimitive() const=0;
 };
 
 #endif // TEXTBUILDER_H

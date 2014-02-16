@@ -31,8 +31,7 @@ public:
 	void setText(QString);
 	decimal getHeight();
 	void setLocation(Point);
-	QList<Polygon*> buildText() const;
-	Primitive* buildPrimitive();
+	Primitive* buildPrimitive() const;
 private:
 	QString text;
 	Point location;

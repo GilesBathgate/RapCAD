@@ -202,39 +202,29 @@ void SimpleTextBuilder::setLocation(Point p)
 	location=p;
 }
 
-QList<Polygon*> SimpleTextBuilder::buildText() const
+Primitive* SimpleTextBuilder::buildPrimitive() const
 {
+	Polyhedron* result=new Polyhedron();
+	result->setType(Primitive::Skeleton);
+
 	decimal x,y,z;
 	location.getXYZ(x,y,z);
-	QList<Polygon*> result;
 	decimal position=0.0;
 	foreach(QChar c, text){
 		Char ch=characters->value(c);
 		foreach(Polygon* p, ch) {
-			Polygon* np=new Polygon();
+			result->createPolygon();
 			foreach (Point pt, p->getPoints()) {
-				np->append(pt);
+				decimal cx,cy,cz;
+				pt.getXYZ(cx,cy,cz);
+				result->appendVertex(Point(cx+x+position,cy+y,cz+z));
 			}
-			np->translate(x+position,y,z);
-			result.append(np);
 		}
 		if(c=='.')
 			position+=0.75;
 		else
 			position+=1.5;
 	}
-	return result;
-}
 
-Primitive* SimpleTextBuilder::buildPrimitive()
-{
-	Polyhedron* b=new Polyhedron();
-	b->setType(Primitive::Skeleton);
-	foreach(Polygon* pg, buildText()) {
-		b->createPolygon();
-		foreach (Point p,pg->getPoints()) {
-			b->appendVertex(p);
-		}
-	}
-	return b;
+	return result;
 }
