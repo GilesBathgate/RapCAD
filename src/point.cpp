@@ -55,33 +55,13 @@ QString Point::toString() const
 {
 	QString res;
 	res.append("[");
-	res.append(toString(x));
+	res.append(to_string(x));
 	res.append(",");
-	res.append(toString(y));
+	res.append(to_string(y));
 	res.append(",");
-	res.append(toString(z));
+	res.append(to_string(z));
 	res.append("]");
 
 	return res;
 }
 
-QString Point::toString(const decimal d) const
-{
-	QString res;
-	res.setNum(d,'f',16);
-	int j=0;
-	//Trim trailing zeros. res will always be
-	//in the form X.XX.. so we can cheat here
-	for(int i=res.size()-1; i>=0; i--) {
-		if(res.at(i)!='0') {
-			if(res.at(i)=='.')
-				j++;
-			break;
-		} else {
-			j++;
-		}
-	}
-	res.chop(j);
-
-	return res;
-}

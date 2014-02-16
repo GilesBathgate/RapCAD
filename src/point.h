@@ -35,7 +35,6 @@ public:
 	decimal getY() const;
 	decimal getZ() const;
 private:
-	QString toString(const decimal) const;
 	decimal x, y, z;
 };
 

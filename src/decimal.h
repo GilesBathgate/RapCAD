@@ -19,6 +19,8 @@
 #ifndef DECIMAL_H
 #define DECIMAL_H
 
+#include <QString>
+
 typedef double decimal;
 
 template< class T >
@@ -26,5 +28,7 @@ inline decimal to_decimal(T n)
 {
     return to_double(n);
 }
+
+QString to_string(const decimal);
 
 #endif // DECIMAL_H

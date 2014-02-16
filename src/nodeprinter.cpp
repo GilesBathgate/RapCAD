@@ -252,7 +252,7 @@ void NodePrinter::visit(TransformationNode* n)
 			else
 				result << "],[";
 		}
-		result << n->matrix[i];
+		result << to_string(n->matrix[i]);
 
 	}
 	result << "]])";

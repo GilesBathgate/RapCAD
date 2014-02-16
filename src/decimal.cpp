@@ -18,3 +18,23 @@
 
 #include "decimal.h"
 
+QString to_string(const decimal d)
+{
+	QString res;
+	res.setNum(d,'f',16);
+	int j=0;
+	//Trim trailing zeros. res will always be
+	//in the form X.XX.. so we can cheat here
+	for(int i=res.size()-1; i>=0; i--) {
+		if(res.at(i)!='0') {
+			if(res.at(i)=='.')
+				j++;
+			break;
+		} else {
+			j++;
+		}
+	}
+	res.chop(j);
+
+	return res;
+}
