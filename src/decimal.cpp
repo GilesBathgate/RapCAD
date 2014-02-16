@@ -18,23 +18,32 @@
 
 #include "decimal.h"
 
-QString to_string(const decimal d)
+static inline int amountToChop(QString s)
 {
-	QString res;
-	res.setNum(d,'f',16);
 	int j=0;
-	//Trim trailing zeros. res will always be
-	//in the form X.XX.. so we can cheat here
-	for(int i=res.size()-1; i>=0; i--) {
-		if(res.at(i)!='0') {
-			if(res.at(i)=='.')
+	//s will always be in the form X.XX..
+	//so we can cheat here
+	for(int i=s.size()-1; i>=0; i--) {
+		QChar c=s.at(i);
+		if(c!='0') {
+			if(c=='.')
 				j++;
 			break;
 		} else {
 			j++;
 		}
 	}
-	res.chop(j);
+	return j;
+}
+
+QString to_string(const decimal d)
+{
+	QString res;
+	res.setNum(d,'f',16);
+
+	//Trim trailing zeros.
+	int n=amountToChop(res);
+	res.chop(n);
 
 	return res;
 }
