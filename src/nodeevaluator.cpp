@@ -383,13 +383,16 @@ void NodeEvaluator::visit(BoundsNode* n)
 	//TODO move this warning into gcode generation routines when they exist.
 	if(zmin!=0.0) {
 		QString where = zmin<0.0?" below ":" above ";
-		output << "Warning: The model is " << zmin << where << "the build platform.\n";
+		output << "Warning: The model is " << to_string(zmin) << where << "the build platform.\n";
 	}
+
+	Point lower(xmin,ymin,zmin);
+	Point upper(xmax,ymax,zmax);
 
 	Polyhedron* a=new Polyhedron();
 	a->setType(Primitive::Skeleton);
 	a->createPolygon();
-	a->appendVertex(Point(xmin,ymin,zmin));
+	a->appendVertex(lower);
 	a->appendVertex(Point(xmin,ymax,zmin));
 	a->appendVertex(Point(xmax,ymax,zmin));
 	a->appendVertex(Point(xmax,ymin,zmin));
@@ -407,16 +410,16 @@ void NodeEvaluator::visit(BoundsNode* n)
 	a->appendVertex(Point(xmin,ymax,zmin));
 
 	a->createPolygon();
+	a->appendVertex(Point(xmax,ymax,zmin));
 	a->appendVertex(Point(xmax,ymin,zmin));
 	a->appendVertex(Point(xmax,ymin,zmax));
-	a->appendVertex(Point(xmax,ymax,zmax));
-	a->appendVertex(Point(xmax,ymax,zmin));
+	a->appendVertex(upper);
 
 	result->appendChild(a);
 
 	output << "Bounds: ";
-	output << "[" << xmin << "," << ymin << "," << zmin << "] ";
-	output << "[" << xmax << "," << ymax << "," << zmax << "]\n";
+	output << "[" << lower.toString() << "] ";
+	output << "[" << upper.toString() << "]\n";
 #endif
 }
 
