@@ -396,23 +396,29 @@ void NodeEvaluator::visit(BoundsNode* n)
 	a->appendVertex(Point(xmin,ymax,zmin));
 	a->appendVertex(Point(xmax,ymax,zmin));
 	a->appendVertex(Point(xmax,ymin,zmin));
+	a->appendVertex(lower);
 
 	a->createPolygon();
+	a->appendVertex(lower);
 	a->appendVertex(Point(xmin,ymin,zmax));
-	a->appendVertex(Point(xmin,ymax,zmax));
-	a->appendVertex(Point(xmax,ymax,zmax));
-	a->appendVertex(Point(xmax,ymin,zmax));
 
 	a->createPolygon();
-	a->appendVertex(Point(xmin,ymin,zmin));
-	a->appendVertex(Point(xmin,ymin,zmax));
-	a->appendVertex(Point(xmin,ymax,zmax));
 	a->appendVertex(Point(xmin,ymax,zmin));
+	a->appendVertex(Point(xmin,ymax,zmax));
+
+	a->createPolygon();
+	a->appendVertex(Point(xmax,ymin,zmin));
+	a->appendVertex(Point(xmax,ymin,zmax));
 
 	a->createPolygon();
 	a->appendVertex(Point(xmax,ymax,zmin));
-	a->appendVertex(Point(xmax,ymin,zmin));
+	a->appendVertex(upper);
+
+	a->createPolygon();
+	a->appendVertex(upper);
 	a->appendVertex(Point(xmax,ymin,zmax));
+	a->appendVertex(Point(xmin,ymin,zmax));
+	a->appendVertex(Point(xmin,ymax,zmax));
 	a->appendVertex(upper);
 
 	result->appendChild(a);

@@ -53,7 +53,7 @@ void CGALRenderer::draw(bool skeleton, bool showedges)
 	QList<Primitive*> children=primitive->getChildren();
 	foreach(Primitive* c, children) {
 		foreach(Polygon* p,c->getPolygons()) {
-			glBegin(GL_LINE_LOOP);
+			glBegin(GL_LINE_STRIP);
 			foreach(Point pt,p->getPoints()) {
 				decimal x,y,z;
 				pt.getXYZ(x,y,z);
