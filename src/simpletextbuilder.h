@@ -16,34 +16,27 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "polygon.h"
+#ifndef SIMPLETEXTBUILDER_H
+#define SIMPLETEXTBUILDER_H
 
-Polygon::Polygon()
-{
-}
+#include <QMap>
+#include "textbuilder.h"
 
-void Polygon::append(Point p)
-{
-	points.append(p);
-}
+typedef QList<Polygon*> Char;
 
-void Polygon::prepend(Point p)
+class SimpleTextBuilder : public TextBuilder
 {
-	points.prepend(p);
-}
+public:
+	SimpleTextBuilder();
+	void setText(QString);
+	decimal getHeight();
+	void setLocation(Point);
+	QList<Polygon*> buildText() const;
+	Primitive* buildPrimitive();
+private:
+	QString text;
+	Point location;
+	static QMap<QChar,Char>* characters;
+};
 
-void Polygon::translate(decimal x, decimal y, decimal z)
-{
-	QList<Point> nps;
-	foreach(Point p, points) {
-		decimal cx,cy,cz;
-		p.getXYZ(cx,cy,cz);
-		nps.append(Point(cx+x,cy+y,cz+z));
-	}
-	points=nps;
-}
-
-QList<Point> Polygon::getPoints() const
-{
-	return points;
-}
+#endif // SIMPLETEXTBUILDER_H

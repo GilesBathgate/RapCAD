@@ -275,7 +275,8 @@ SOURCES += \
 	src/decimal.cpp \
 	src/polyhedron.cpp \
 	src/module/decomposemodule.cpp \
-	src/node/decomposenode.cpp
+	src/node/decomposenode.cpp \
+	src/simpletextbuilder.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -475,7 +476,9 @@ HEADERS  += \
 	src/decimal.h \
 	src/polyhedron.h \
 	src/module/decomposemodule.h \
-	src/node/decomposenode.h
+	src/node/decomposenode.h \
+	src/textbuilder.h \
+	src/simpletextbuilder.h
 
 FORMS += \
 	src/mainwindow.ui \

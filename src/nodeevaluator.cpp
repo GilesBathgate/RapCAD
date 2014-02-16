@@ -22,6 +22,7 @@
 #include "onceonly.h"
 #include "decimal.h"
 #include "polyhedron.h"
+#include "simpletextbuilder.h"
 
 #if USE_CGAL
 #include "cgalimport.h"
@@ -372,7 +373,6 @@ void NodeEvaluator::visit(BoundsNode* n)
 	CGAL::Cuboid3 b=explorer.getBounds();
 
 
-
 	decimal xmin=to_decimal(b.xmin());
 	decimal ymin=to_decimal(b.ymin());
 	decimal xmax=to_decimal(b.xmax());
@@ -380,10 +380,17 @@ void NodeEvaluator::visit(BoundsNode* n)
 	decimal zmin=to_decimal(b.zmin());
 	decimal zmax=to_decimal(b.zmax());
 
-	//TODO move this warning into gcode generation routines when they exist.
 	if(zmin!=0.0) {
+		QString pos=to_string(zmin);
 		QString where = zmin<0.0?" below ":" above ";
-		output << "Warning: The model is " << to_string(zmin) << where << "the build platform.\n";
+		output << "Warning: The model is " << pos << where << "the build platform.\n";
+
+		SimpleTextBuilder t;
+		t.setText(pos);
+		decimal h=t.getHeight()+0.2;
+		t.setLocation(Point(xmin,ymin-h,zmin));
+		Primitive* c=t.buildPrimitive();
+		result->appendChild(c);
 	}
 
 	Point lower(xmin,ymin,zmin);

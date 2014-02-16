@@ -16,34 +16,22 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef TEXTBUILDER_H
+#define TEXTBUILDER_H
+
+#include <QString>
 #include "polygon.h"
+#include "primitive.h"
 
-Polygon::Polygon()
+class TextBuilder
 {
-}
+public:
+	TextBuilder() {}
+	virtual void setText(QString)=0;
+	virtual decimal getHeight()=0;
+	virtual void setLocation(Point)=0;
+	virtual QList<Polygon*> buildText() const=0;
+	virtual Primitive* buildPrimitive()=0;
+};
 
-void Polygon::append(Point p)
-{
-	points.append(p);
-}
-
-void Polygon::prepend(Point p)
-{
-	points.prepend(p);
-}
-
-void Polygon::translate(decimal x, decimal y, decimal z)
-{
-	QList<Point> nps;
-	foreach(Point p, points) {
-		decimal cx,cy,cz;
-		p.getXYZ(cx,cy,cz);
-		nps.append(Point(cx+x,cy+y,cz+z));
-	}
-	points=nps;
-}
-
-QList<Point> Polygon::getPoints() const
-{
-	return points;
-}
+#endif // TEXTBUILDER_H

@@ -35,6 +35,7 @@ public:
 	Polygon();
 	void append(Point);
 	void prepend(Point);
+	void translate(decimal,decimal,decimal);
 	QList<Point> getPoints() const;
 private:
 	QList<Point> points;
