@@ -53,7 +53,7 @@ QString Literal::getValueString() const
 	case Boolean:
 		return this->boolean ? "true" : "false";
 	case Number:
-		return QString().setNum(this->number,'g',16);
+		return to_string(number);
 	case Text:
 		return QString("\"%1\"").arg(text);
 	default:

@@ -28,7 +28,7 @@ NumberValue::NumberValue(decimal value)
 
 QString NumberValue::getValueString() const
 {
-	return QString().setNum(this->number,'g',16);
+	return to_string(number);
 }
 
 bool NumberValue::isTrue() const
