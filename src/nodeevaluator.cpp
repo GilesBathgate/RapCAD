@@ -418,8 +418,8 @@ void NodeEvaluator::visit(BoundsNode* n)
 	result->appendChild(a);
 
 	output << "Bounds: ";
-	output << "[" << lower.toString() << "] ";
-	output << "[" << upper.toString() << "]\n";
+	output << "[" << lower.toString();
+	output << "," << upper.toString() << "]" << endl;
 #endif
 }
 
