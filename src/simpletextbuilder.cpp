@@ -209,7 +209,6 @@ Primitive* SimpleTextBuilder::buildPrimitive() const
 
 	decimal x,y,z;
 	location.getXYZ(x,y,z);
-	decimal position=0.0;
 	foreach(QChar c, text){
 		Char ch=characters->value(c);
 		foreach(Polygon* p, ch) {
@@ -217,13 +216,13 @@ Primitive* SimpleTextBuilder::buildPrimitive() const
 			foreach (Point pt, p->getPoints()) {
 				decimal cx,cy,cz;
 				pt.getXYZ(cx,cy,cz);
-				result->appendVertex(Point(cx+x+position,cy+y,cz+z));
+				result->appendVertex(Point(cx+x,cy+y,cz+z));
 			}
 		}
 		if(c=='.')
-			position+=0.75;
+			x+=0.75;
 		else
-			position+=1.5;
+			x+=1.5;
 	}
 
 	return result;
