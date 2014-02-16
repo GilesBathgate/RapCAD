@@ -91,7 +91,7 @@ void Worker::primary()
 	if(print) {
 		TreePrinter p(output);
 		s->accept(p);
-		output.flush();
+		output << endl;
 	}
 
 	TreeEvaluator e(output);
@@ -103,7 +103,7 @@ void Worker::primary()
 	if(print) {
 		NodePrinter p(output);
 		n->accept(p);
-		output.flush();
+		output << endl;
 	}
 
 	NodeEvaluator ne(output);

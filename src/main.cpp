@@ -95,7 +95,7 @@ int main(int argc, char* argv[])
 		s=c;
 	} else if(p.isSet(testOption)) {
 		s=new Tester(output);
-	} else if(p.isSet(outputOption)) {
+	} else if(p.isSet(outputOption)||p.isSet(printOption)) {
 		Worker* w=new Worker(output);
 		bool print = p.isSet(printOption);
 		w->setup(inputFile,outputFile,print,false);
