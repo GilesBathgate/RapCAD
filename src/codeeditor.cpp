@@ -20,7 +20,7 @@
 #include <QTextBlock>
 #include <QTextDocumentWriter>
 #include <QFileDialog>
-#include "CodeEditor.h"
+#include "codeeditor.h"
 #include "linenumberarea.h"
 
 CodeEditor::CodeEditor(QWidget* parent) : QPlainTextEdit(parent)

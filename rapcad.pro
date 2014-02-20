@@ -392,7 +392,6 @@ HEADERS  += \
 	src/dxfbuilder.h \
 	src/module/shearmodule.h \
 	src/module/groupmodule.h \
-	src/CodeEditor.h \
 	src/linenumberarea.h \
 	src/cgalexplorer.h \
 	src/module/hullmodule.h \
@@ -496,7 +495,8 @@ HEADERS  += \
 	src/node/decomposenode.h \
 	src/textbuilder.h \
 	src/simpletextbuilder.h \
-	src/interactive.h
+	src/interactive.h \
+	src/codeeditor.h
 
 FORMS += \
 	src/mainwindow.ui \

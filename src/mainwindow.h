@@ -22,7 +22,7 @@
 #include <QMainWindow>
 #include <QStandardItemModel>
 #include <QTextStream>
-#include "CodeEditor.h"
+#include "codeeditor.h"
 #include "texteditiodevice.h"
 #include "backgroundworker.h"
 #include "preferencesdialog.h"
