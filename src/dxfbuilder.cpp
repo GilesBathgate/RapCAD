@@ -16,6 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifdef USE_DXF
 #include "dxfbuilder.h"
 #include <dxflib/dl_dxf.h>
 
@@ -197,3 +198,4 @@ void DXFBuilder::setVariableDouble(const char*, double, int)
 void DXFBuilder::endSequence()
 {
 }
+#endif

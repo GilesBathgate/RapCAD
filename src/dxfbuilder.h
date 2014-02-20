@@ -16,6 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifdef USE_DXF
 #ifndef DXFBUILDER_H
 #define DXFBUILDER_H
 
@@ -79,3 +80,4 @@ private:
 };
 
 #endif // DXFBUILDER_H
+#endif

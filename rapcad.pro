@@ -45,12 +45,17 @@ win32 {
 	LIBS += -lboost_system-mgw48-mt-1_55
 	LIBS += -L$$CGALROOT/lib -lCGAL -lCGAL_Core
 	LIBS += -L$$CGALROOT/auxiliary/gmp/lib -lmpfr-4 -lgmp-10
+	contains(DEFINES,USE_DXF) {
 	LIBS += -L$$DXFLIBROOT/release -ldxflib
+	}
 	QMAKE_YACC = bison
 	QMAKE_YACCFLAGS += "-b y"
 	QMAKE_LEX = flex
 } else {
-	LIBS += -lCGAL -lCGAL_Core -lmpfr -lgmp -ldxflib
+	LIBS += -lCGAL -lCGAL_Core -lmpfr -lgmp
+	contains(DEFINES,USE_DXF) {
+	LIBS += -ldxflib
+	}
 	QMAKE_YACC = bison
   macx {
 	INCLUDEPATH += /opt/local/include
