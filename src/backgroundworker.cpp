@@ -50,6 +50,5 @@ void BackgroundWorker::update()
 
 void BackgroundWorker::finish()
 {
-	update();
 	thread->quit();
 }
