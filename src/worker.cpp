@@ -66,11 +66,10 @@ void Worker::internal()
 
 		reporter->reportTiming("compiling");
 
-		update();
-
-		if(generate)
+		if(generate) {
+			update();
 			generation();
-
+		}
 		reporter->setReturnCode(0);
 
 #if USE_CGAL
@@ -80,6 +79,8 @@ void Worker::internal()
 	} catch(...) {
 		output << "Unknown error." << endl;
 	}
+
+	update();
 
 	finish();
 }
