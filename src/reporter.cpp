@@ -20,7 +20,7 @@
 
 Reporter::Reporter(QTextStream& s) : output(s)
 {
-	returnCode=1;
+	returnCode=EXIT_FAILURE;
 }
 
 void Reporter::startTiming()

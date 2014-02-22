@@ -70,7 +70,7 @@ void Worker::internal()
 			update();
 			generation();
 		}
-		reporter->setReturnCode(0);
+		reporter->setReturnCode(EXIT_SUCCESS);
 
 #if USE_CGAL
 	} catch(CGAL::Failure_exception e) {
