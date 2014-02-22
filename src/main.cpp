@@ -38,28 +38,25 @@ void showVersion(QTextStream& out)
     out << QCoreApplication::applicationName() << " " << QCoreApplication::applicationVersion() << endl;
 }
 
-static int showUi(QApplication& a,QStringList filenames)
+static int showUi(QCoreApplication* a,QStringList filenames)
 {
 	MainWindow w;
-
 	w.loadFiles(filenames);
-
 	w.show();
 
-	int retcode=a.exec();
+	int retcode=a->exec();
 	Preferences::syncDelete();
 	return retcode;
 }
 
 int main(int argc, char* argv[])
 {
-
 	QCoreApplication::setOrganizationName("rapcad");
 	QCoreApplication::setOrganizationDomain("rapcad.org");
 	QCoreApplication::setApplicationName("RapCAD");
 	QCoreApplication::setApplicationVersion(STRINGIFY(RAPCAD_VERSION));
 
-	QApplication a(argc,argv);
+	QCoreApplication* a = new QCoreApplication(argc,argv);
 
 	QCommandLineParser p;
 	p.setApplicationDescription("RapCAD the rapid prototyping IDE");
@@ -83,9 +80,9 @@ int main(int argc, char* argv[])
 	QCommandLineOption interactOption(QStringList() << "i" << "interactive","Start an interactive session");
 	p.addOption(interactOption);
 #endif
-	p.process(a);
+	p.process(*a);
 
-	QStringList inputFiles = p.positionalArguments();
+	QStringList inputFiles=p.positionalArguments();
 	QString inputFile;
 	if(inputFiles.count()>0)
 		inputFile=inputFiles.at(0);
@@ -112,16 +109,17 @@ int main(int argc, char* argv[])
 #ifdef USE_READLINE
     } else if(p.isSet(interactOption)) {
         showVersion(output);
-        Interactive ic(output);
-        return ic.commandLoop();
+		s=new Interactive(output);
 #endif
 	}
 
 	if(s) {
 		int retcode=s->evaluate();
-		a.quit();
+		a->quit();
 		return retcode;
 	} else {
+		delete a;
+		a=new QApplication(argc,argv);
 		return showUi(a,inputFiles);
 	}
 }

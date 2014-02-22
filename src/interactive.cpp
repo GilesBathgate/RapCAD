@@ -9,7 +9,7 @@ namespace readline
 }
 #endif
 
-Interactive::Interactive(QTextStream& s) : output(s)
+Interactive::Interactive(QTextStream& s) : Strategy(s)
 {
 }
 
@@ -21,7 +21,7 @@ void Interactive::execCommand(QString s)
 	output << endl;
 }
 
-int Interactive::commandLoop()
+int Interactive::evaluate()
 {
 #ifdef USE_READLINE
 	const char* prompt="\u042F: ";

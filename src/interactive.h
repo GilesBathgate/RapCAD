@@ -3,16 +3,15 @@
 
 #include <QString>
 #include <QTextStream>
+#include "strategy.h"
 #include "reporter.h"
 
-class Interactive
+class Interactive : public Strategy
 {
 public:
 	Interactive(QTextStream&);
 	void execCommand(QString);
-	int commandLoop();
-private:
-	QTextStream& output;
+	int evaluate();
 };
 
 #endif // INTERACTIVE_H
