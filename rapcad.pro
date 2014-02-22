@@ -59,7 +59,7 @@ win32 {
 	LIBS += -lboost_system-mgw48-mt-1_55
 	LIBS += -L$$CGALROOT/lib -lCGAL -lCGAL_Core
 	LIBS += -L$$CGALROOT/auxiliary/gmp/lib -lmpfr-4 -lgmp-10
-	contains(DEFINES,USE_DXF) {
+	contains(DEFINES,USE_READLINE) {
 	LIBS += -lreadline
 	}
 	contains(DEFINES,USE_DXF) {
