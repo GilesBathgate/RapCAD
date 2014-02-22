@@ -45,9 +45,9 @@ sudo apt-get install git-core
 Dependencies
 ++++++++++++
 [source,shell]
------------------------------------------------------------------
-sudo apt-get install g++ libcgal-dev libqt5opengl5-dev bison flex
------------------------------------------------------------------
+---------------------------------------------------------------------------------
+sudo apt-get install g++ libcgal-dev libqt5opengl5-dev bison flex libreadline-dev
+---------------------------------------------------------------------------------
 
 RapCAD
 ++++++

@@ -25,6 +25,6 @@ WriteLnModule::WriteLnModule(QTextStream& s) : WriteModule("writeln",s)
 Node* WriteLnModule::evaluate(Context* ctx)
 {
 	WriteModule::evaluate(ctx);
-	output << "\n";
+	output << endl;
 	return NULL;
 }

@@ -41,7 +41,7 @@ int Tester::evaluate()
 		output << file.leftJustified(32,'.',true);
 		output.flush();
 
-		Script* s=parse(file,NULL);
+		Script* s=parse(file,NULL,true);
 
 		TreeEvaluator te(nullout);
 

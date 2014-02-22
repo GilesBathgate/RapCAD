@@ -122,11 +122,11 @@ Primitive* CGALImport::importSTL(QFileInfo fileinfo)
 	return p;
 }
 
-Primitive *CGALImport::importRCAD(QFileInfo f)
+Primitive* CGALImport::importRCAD(QFileInfo f)
 {
 	Reporter* r=new Reporter(output);
 
-	Script* s=parse(f.absoluteFilePath(),r);
+	Script* s=parse(f.absoluteFilePath(),r,true);
 	TreeEvaluator te(output);
 	s->accept(te);
 

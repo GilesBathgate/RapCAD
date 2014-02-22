@@ -86,7 +86,7 @@ void Worker::internal()
 
 void Worker::primary()
 {
-	Script* s=parse(inputFile,reporter);
+	Script* s=parse(inputFile,reporter,true);
 
 	if(print) {
 		TreePrinter p(output);
@@ -120,7 +120,7 @@ void Worker::primary()
 
 void Worker::generation()
 {
-	Script* s=parse("reprap.rcam",NULL);
+	Script* s=parse("reprap.rcam",NULL,true);
 
 	TreeEvaluator* e = new TreeEvaluator(output);
 	decimal height=getBoundsHeight();

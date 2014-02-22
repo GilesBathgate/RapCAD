@@ -25,12 +25,18 @@
 #include "tester.h"
 #include "comparer.h"
 #include "stringify.h"
+#include "interactive.h"
 
 #if USE_COMMANDLINE_PARSER
 #include "contrib/qcommandlineparser.h"
 #else
 #include "qcommandlineparser.h"
 #endif
+
+void showVersion(QTextStream& out)
+{
+    out << QCoreApplication::applicationName() << " " << QCoreApplication::applicationVersion() << endl;
+}
 
 static int showUi(QApplication& a,QStringList filenames)
 {
@@ -71,9 +77,12 @@ int main(int argc, char* argv[])
 	p.addOption(printOption);
 
 	QCommandLineOption outputOption(QStringList() << "o" << "output","Create output file <filename>.","filename");
-
 	p.addOption(outputOption);
 
+#ifdef USE_READLINE
+	QCommandLineOption interactOption(QStringList() << "i" << "interactive","Start an interactive session");
+	p.addOption(interactOption);
+#endif
 	p.process(a);
 
 	QStringList inputFiles = p.positionalArguments();
@@ -100,6 +109,12 @@ int main(int argc, char* argv[])
 		bool print = p.isSet(printOption);
 		w->setup(inputFile,outputFile,print,false);
 		s=w;
+#ifdef USE_READLINE
+    } else if(p.isSet(interactOption)) {
+        showVersion(output);
+        Interactive ic(output);
+        return ic.commandLoop();
+#endif
 	}
 
 	if(s) {

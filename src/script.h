@@ -44,6 +44,6 @@ private:
 	QList<QList<CodeDoc*> > documentation;
 };
 
-extern Script* parse(QString,Reporter*);
+extern Script* parse(QString,Reporter*,bool);
 
 #endif // SCRIPT_H

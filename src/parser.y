@@ -457,13 +457,13 @@ static void parsererror(char const *s)
 	reporter->reportSyntaxError(tokenizer,s,lexertext);
 }
 
-Script* parse(QString path, Reporter* r)
+Script* parse(QString input, Reporter* r, bool file)
 {
 	reporter=r;
 	builder=new SyntaxTreeBuilder();
 
 	tokenizer=new TokenBuilder();
-	lexerinit(tokenizer,reporter,path,true);
+	lexerinit(tokenizer,reporter,input,file);
 	parserparse();
 	lexerdestroy();
 	delete tokenizer;

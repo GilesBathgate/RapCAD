@@ -410,5 +410,6 @@ void TokenBuilder::buildFileStart(QDir pth)
 
 void TokenBuilder::buildFileFinish()
 {
-	path_stack.pop();
+	if(path_stack.count()>0)
+		path_stack.pop();
 }

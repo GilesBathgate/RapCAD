@@ -31,7 +31,21 @@ LEXSOURCES += src/lexer.l
 YACCSOURCES += src/parser.y
 INCLUDEPATH += src
 
+DEFINES += USE_CGAL
+DEFINES += USE_READLINE
+DEFINES += USE_COMMANDLINE_PARSER
+
+#Check for Qt Version 5.2 and above
+#So Major > 4 && Minor > 1
+greaterThan(QT_MAJOR_VERSION, 4) {
+ greaterThan(QT_MINOR_VERSION, 1) {
+    DEFINES -= USE_COMMANDLINE_PARSER
+ }
+}
+
 win32 {
+	DEFINES -= USE_READLINE
+
 	CGALROOT = $$(CGAL_DIR)
 	BOOSTROOT = ../boost_1_55_0
 	DXFLIBROOT = ../dxflib-3.3.4-src
@@ -46,6 +60,9 @@ win32 {
 	LIBS += -L$$CGALROOT/lib -lCGAL -lCGAL_Core
 	LIBS += -L$$CGALROOT/auxiliary/gmp/lib -lmpfr-4 -lgmp-10
 	contains(DEFINES,USE_DXF) {
+	LIBS += -lreadline
+	}
+	contains(DEFINES,USE_DXF) {
 	LIBS += -L$$DXFLIBROOT/release -ldxflib
 	}
 	QMAKE_YACC = bison
@@ -53,6 +70,9 @@ win32 {
 	QMAKE_LEX = flex
 } else {
 	LIBS += -lCGAL -lCGAL_Core -lmpfr -lgmp
+	contains(DEFINES,USE_READLINE) {
+	LIBS+= -lreadline
+	}
 	contains(DEFINES,USE_DXF) {
 	LIBS += -ldxflib
 	}
@@ -68,18 +88,9 @@ win32 {
 
 #LIBS += -Wl,-rpath,./librapcad -L./librapcad -lrapcad
 
-DEFINES += USE_COMMANDLINE_PARSER
-
-#Check for Qt Version 5.2 and above
-#So Major > 4 && Minor > 1
-greaterThan(QT_MAJOR_VERSION, 4) {
- greaterThan(QT_MINOR_VERSION, 1) {
-    DEFINES -= USE_COMMANDLINE_PARSER
- }
-}
-
-DEFINES+=USE_CGAL
+contains(DEFINES,USE_CGAL) {
 QMAKE_CXXFLAGS += -frounding-math
+}
 
 CONFIG(coverage){
 	CONFIG += debug
@@ -281,7 +292,8 @@ SOURCES += \
 	src/polyhedron.cpp \
 	src/module/decomposemodule.cpp \
 	src/node/decomposenode.cpp \
-	src/simpletextbuilder.cpp
+	src/simpletextbuilder.cpp \
+	src/interactive.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -483,7 +495,8 @@ HEADERS  += \
 	src/module/decomposemodule.h \
 	src/node/decomposenode.h \
 	src/textbuilder.h \
-	src/simpletextbuilder.h
+	src/simpletextbuilder.h \
+	src/interactive.h
 
 FORMS += \
 	src/mainwindow.ui \
