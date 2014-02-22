@@ -15,7 +15,6 @@ BuildRequires:  gcc-c++
 BuildRequires:  boost-devel
 BuildRequires:  gmp-devel
 BuildRequires:  libcgal-devel
-BuildRequires:  libdxflib-devel-static
 %if 0%{?suse_version}
 BuildRequires:  bison
 BuildRequires:  libqt4-devel

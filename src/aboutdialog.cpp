@@ -6,7 +6,9 @@
 #include <CGAL/version.h>
 #endif
 #include <boost/version.hpp>
+#ifdef USE_DXF
 #include <dxflib/dl_dxf.h>
+#endif
 
 AboutDialog::AboutDialog(QWidget* parent) :
 	QDialog(parent),
@@ -27,7 +29,9 @@ AboutDialog::AboutDialog(QWidget* parent) :
 	ui->components->appendPlainText("CGAL\tVersion: " + QString(CGAL_VERSION_STR));
 #endif
 	ui->components->appendPlainText("Boost\tVersion: " + QString(BOOST_LIB_VERSION));
+#ifdef USE_DXF
 	ui->components->appendPlainText("Dxflib\tVersion: " + QString(DL_VERSION));
+#endif
 }
 
 AboutDialog::~AboutDialog()

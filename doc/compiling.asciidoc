@@ -45,9 +45,9 @@ sudo apt-get install git-core
 Dependencies
 ++++++++++++
 [source,shell]
--------------------------------------------------------------------------------
-sudo apt-get install g++ libcgal-dev libqt5opengl5-dev bison flex libdxflib-dev
--------------------------------------------------------------------------------
+-----------------------------------------------------------------
+sudo apt-get install g++ libcgal-dev libqt5opengl5-dev bison flex
+-----------------------------------------------------------------
 
 RapCAD
 ++++++
@@ -118,14 +118,6 @@ cmake -DBOOST_LIBRARYDIR="C:\boost_1_55_0\bin.v2\libs\thread\build\gcc-mingw-4.8
 mingw32-make
 -------------------------------
 
-dxflib
-^^^^^^
-
-* Download the gzipped tar archive
-link:ftp://anonymous:anonymous@ribbonsoft.com/archives/dxflib/dxflib-2.2.0.0-1.src.tar.gz[dxflib-2.2.0.0-1.src.tar.gz]
-
-* Extract instructions to follow
-
 Mac OS X 10.6.2
 ~~~~~~~~~~~~~~~
 
@@ -149,18 +141,6 @@ Dependencies
 -------------------------------------------------------------
 sudo port install cgal qt4-mac
 -------------------------------------------------------------
-
-dxflib
-++++++
-[source,shell]
------------------------------------------------------------------------------------------
-tar -xzf dxflib-2.2.0.0-1.src.tar.gz &&
-cd dxflib-2.2.0.0-1.src &&
-./configure --prefix=/opt/local &&
-make depend &&
-make &&
-sudo make install
------------------------------------------------------------------------------------------
 
 RapCAD
 ++++++
