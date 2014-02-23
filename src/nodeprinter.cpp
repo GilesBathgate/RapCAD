@@ -205,7 +205,7 @@ void NodePrinter::visit(ResizeNode* n)
 	printChildren(n);
 }
 
-void NodePrinter::visit(CenterNode* n)
+void NodePrinter::visit(AlignNode* n)
 {
 	result << "center()";
 	printChildren(n);

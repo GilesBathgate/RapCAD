@@ -42,7 +42,7 @@
 #include "node/outlinenode.h"
 #include "node/importnode.h"
 #include "node/resizenode.h"
-#include "node/centernode.h"
+#include "node/alignnode.h"
 #include "node/pointnode.h"
 #include "node/slicenode.h"
 #include "node/productnode.h"
@@ -82,7 +82,7 @@ public:
 	void visit(ImportNode*);
 	void visit(TransformationNode*);
 	void visit(ResizeNode*);
-	void visit(CenterNode*);
+	void visit(AlignNode*);
 	void visit(PointNode*);
 	void visit(SliceNode*);
 	void visit(ProductNode*);

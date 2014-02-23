@@ -47,6 +47,7 @@ public:
 protected:
 	void addParameter(QString);
 	Value* getParameterArgument(Context*,int);
+	Value* getParameterArgument(Context*,int,int);
 private:
 	QString name;
 	QList<Parameter*> parameters;

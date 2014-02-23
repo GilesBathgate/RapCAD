@@ -16,17 +16,16 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "centermodule.h"
-#include "node/alignnode.h"
+#ifndef ALIGNMODULE_H
+#define ALIGNMODULE_H
 
-CenterModule::CenterModule() : Module("center")
-{
-}
+#include "module.h"
 
-Node* CenterModule::evaluate(Context* ctx)
+class AlignModule : public Module
 {
-	AlignNode* n=new AlignNode();
-	n->setChildren(ctx->getInputNodes());
-	n->setCenter(true);
-	return n;
-}
+public:
+	AlignModule();
+	Node* evaluate(Context*);
+};
+
+#endif // ALIGNMODULE_H

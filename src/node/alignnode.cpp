@@ -16,13 +16,34 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "centernode.h"
+#include "alignnode.h"
 
-CenterNode::CenterNode()
+AlignNode::AlignNode()
 {
+	center=false;
 }
 
-void CenterNode::accept(NodeVisitor& v)
+void AlignNode::accept(NodeVisitor& v)
 {
 	v.visit(this);
+}
+
+bool AlignNode::getCenter() const
+{
+    return center;
+}
+
+void AlignNode::setCenter(bool value)
+{
+    center = value;
+}
+
+QList<AlignNode::Face_t> AlignNode::getAlign() const
+{
+	return align;
+}
+
+void AlignNode::setAlign(const QList<Face_t> &value)
+{
+	align = value;
 }

@@ -20,12 +20,32 @@
 #define CENTERNODE_H
 
 #include "node.h"
+#include "point.h"
 
-class CenterNode : public Node
+class AlignNode : public Node
 {
 public:
-	CenterNode();
+	enum Face_t {
+		Top,
+		Bottom,
+		North,
+		South,
+		East,
+		West
+	};
+
+	AlignNode();
+
+	bool getCenter() const;
+	void setCenter(bool value);
+
+	QList<Face_t> getAlign() const;
+	void setAlign(const QList<Face_t> &value);
+
 	void accept(NodeVisitor&);
+private:
+	QList<Face_t> align;
+	bool center;
 };
 
 #endif // CENTERNODE_H

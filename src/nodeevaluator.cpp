@@ -537,22 +537,46 @@ void NodeEvaluator::visit(ResizeNode* n)
 #endif
 }
 
-void NodeEvaluator::visit(CenterNode* n)
+void NodeEvaluator::visit(AlignNode* n)
 {
 	evaluate(n,Union);
 #if USE_CGAL
 	CGALExplorer e(result);
 	CGAL::Cuboid3 b=e.getBounds();
-	CGAL::Point3 c(
-	(b.xmin()+b.xmax())/2,
-	(b.ymin()+b.ymax())/2,
-	(b.zmin()+b.zmax())/2);
-
+	CGAL::FT cx=0.0,cy=0.0,cz=0.0;
+	if(n->getCenter()) {
+		cx=(b.xmin()+b.xmax())/2;
+		cy=(b.ymin()+b.ymax())/2,
+		cz=(b.zmin()+b.zmax())/2;
+	} else {
+		foreach(AlignNode::Face_t a,n->getAlign()) {
+			switch(a) {
+			case AlignNode::Top:
+				cz=b.zmax();
+				break;
+			case AlignNode::Bottom:
+				cz=b.zmin();
+				break;
+			case AlignNode::North:
+				cx=b.xmax();
+				break;
+			case AlignNode::South:
+				cx=b.xmin();
+				break;
+			case AlignNode::West:
+				cy=b.ymax();
+				break;
+			case AlignNode::East:
+				cy=b.ymin();
+				break;
+			}
+		}
+	}
 
 	CGAL::AffTransformation3 t(
-		1, 0, 0, -c.x(),
-		0, 1, 0, -c.y(),
-		0, 0, 1, -c.z(), 1);
+				1, 0, 0, -cx,
+				0, 1, 0, -cy,
+				0, 0, 1, -cz, 1);
 
 	CGALPrimitive* pr=dynamic_cast<CGALPrimitive*>(result);
 	if(pr)

@@ -60,6 +60,7 @@
 #include "module/slicemodule.h"
 #include "module/projectionmodule.h"
 #include "module/decomposemodule.h"
+#include "module/alignmodule.h"
 
 #include "function/lengthfunction.h"
 #include "function/sqrtfunction.h"
@@ -141,6 +142,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new ChildModule());
 	builtins.append(new BoundsModule());
 	builtins.append(new DecomposeModule());
+	builtins.append(new AlignModule());
 
 	builtins.append(new AbsFunction());
 	builtins.append(new AcosFunction());

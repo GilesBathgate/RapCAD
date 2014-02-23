@@ -257,7 +257,6 @@ SOURCES += \
 	src/function/sinhfunction.cpp \
 	src/function/tanhfunction.cpp \
 	src/module/centermodule.cpp \
-	src/node/centernode.cpp \
 	src/aboutdialog.cpp \
 	src/module/pointmodule.cpp \
 	src/node/pointnode.cpp \
@@ -294,7 +293,9 @@ SOURCES += \
 	src/node/decomposenode.cpp \
 	src/simpletextbuilder.cpp \
 	src/interactive.cpp \
-	src/console.cpp
+	src/console.cpp \
+	src/module/alignmodule.cpp \
+	src/node/alignnode.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -456,7 +457,6 @@ HEADERS  += \
 	src/function/sinhfunction.h \
 	src/function/tanhfunction.h \
 	src/module/centermodule.h \
-	src/node/centernode.h \
 	src/aboutdialog.h \
 	src/module/pointmodule.h \
 	src/node/pointnode.h \
@@ -498,7 +498,9 @@ HEADERS  += \
 	src/simpletextbuilder.h \
 	src/interactive.h \
 	src/codeeditor.h \
-	src/console.h
+	src/console.h \
+	src/module/alignmodule.h \
+	src/node/alignnode.h
 
 FORMS += \
 	src/mainwindow.ui \
