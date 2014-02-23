@@ -301,10 +301,11 @@ void TreeEvaluator::visit(Argument* arg)
 
 	arg->getExpression()->accept(*this);
 	Value* v = context->getCurrentValue();
-
-	v->setName(name);
-	v->setStorage(c); //TODO Investigate moving this to apply to all variables.
-	context->addArgument(v);
+	if(v) {
+		v->setName(name);
+		v->setStorage(c); //TODO Investigate moving this to apply to all variables.
+		context->addArgument(v);
+	}
 }
 
 void TreeEvaluator::visit(AssignStatement* stmt)
