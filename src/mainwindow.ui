@@ -91,7 +91,7 @@
          </item>
         </layout>
        </widget>
-       <widget class="QPlainTextEdit" name="plainTextEdit">
+       <widget class="Console" name="console">
         <property name="palette">
          <palette>
           <active>
@@ -819,6 +819,12 @@
    <class>GLView</class>
    <extends>QWidget</extends>
    <header>glview.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Console</class>
+   <extends>QPlainTextEdit</extends>
+   <header>console.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

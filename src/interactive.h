@@ -6,12 +6,15 @@
 #include "strategy.h"
 #include "reporter.h"
 
-class Interactive : public Strategy
+class Interactive : public QObject,public Strategy
 {
+	Q_OBJECT
 public:
-	Interactive(QTextStream&);
-	void execCommand(QString);
+	Interactive(QTextStream&,QObject* parent=0);
+	QString getPrompt();
 	int evaluate();
+public slots:
+	void execCommand(QString);
 };
 
 #endif // INTERACTIVE_H

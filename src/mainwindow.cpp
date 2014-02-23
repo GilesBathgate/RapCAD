@@ -64,6 +64,7 @@ MainWindow::~MainWindow()
 	delete console;
 	delete output;
 	delete worker;
+	delete interact;
 	delete preferencesDialog;
 	delete ui;
 }
@@ -131,7 +132,7 @@ void MainWindow::loadPreferences()
 
 	bool showConsole=p->getShowConsole();
 	ui->actionShowConsole->setChecked(showConsole);
-	ui->plainTextEdit->setVisible(showConsole);
+	ui->console->setVisible(showConsole);
 
 	bool showProjects=p->getShowProjects();
 	ui->actionShowProjects->setChecked(showProjects);
@@ -193,7 +194,7 @@ void MainWindow::setupActions()
 	connect(ui->actionExportCSG,SIGNAL(triggered()),this,SLOT(exportCSG()));
 	connect(ui->actionExportImage,SIGNAL(triggered()),this,SLOT(grabFrameBuffer()));
 	connect(ui->actionShowEditor,SIGNAL(triggered(bool)),ui->tabWidget,SLOT(setVisible(bool)));
-	connect(ui->actionShowConsole,SIGNAL(triggered(bool)),ui->plainTextEdit,SLOT(setVisible(bool)));
+	connect(ui->actionShowConsole,SIGNAL(triggered(bool)),ui->console,SLOT(setVisible(bool)));
 	connect(ui->actionShowProjects,SIGNAL(triggered(bool)),ui->treeView,SLOT(setVisible(bool)));
 	connect(ui->actionSetViewport,SIGNAL(triggered()),this,SLOT(setDefaultViewport()));
 	connect(ui->actionDefaultView,SIGNAL(triggered()),this,SLOT(getDefaultViewport()));
@@ -344,17 +345,22 @@ void MainWindow::setupTabs(QTabWidget* tabWidget)
 
 void MainWindow::setupConsole()
 {
-	QTextEdit* c=(QTextEdit*)ui->plainTextEdit;
+	Console* c=ui->console;
 
 	QFont font;
 	font.setFamily("Courier");
 	font.setFixedPitch(true);
 	font.setPointSize(8);
 	c->setFont(font);
-	console=new TextEditIODevice(c,this);
+
+	console=new TextEditIODevice(reinterpret_cast<QTextEdit*>(c),this);
 	output=new QTextStream(console);
 	worker=new BackgroundWorker(*output);
 	connect(worker,SIGNAL(done()),this,SLOT(evaluationDone()));
+
+	interact=new Interactive(*output);
+	c->setPrompt(interact->getPrompt());
+	connect(c,SIGNAL(execCommand(QString)),interact,SLOT(execCommand(QString)));
 }
 
 void MainWindow::clipboardDataChanged()
@@ -561,6 +567,8 @@ void MainWindow::evaluationDone()
 	}
 	ui->actionCompileAndRender->setEnabled(true);
 	ui->actionGenerateGcode->setEnabled(true);
+
+	ui->console->displayPrompt();
 }
 
 void MainWindow::undo()

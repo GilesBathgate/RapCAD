@@ -26,6 +26,7 @@
 #include "texteditiodevice.h"
 #include "backgroundworker.h"
 #include "preferencesdialog.h"
+#include "interactive.h"
 
 namespace Ui
 {
@@ -97,6 +98,7 @@ private:
 	QTextStream* output;
 	TextEditIODevice* console;
 	BackgroundWorker* worker;
+	Interactive* interact;
 	PreferencesDialog* preferencesDialog;
 };
 

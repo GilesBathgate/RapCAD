@@ -9,7 +9,7 @@ namespace readline
 }
 #endif
 
-Interactive::Interactive(QTextStream& s) : Strategy(s)
+Interactive::Interactive(QTextStream& s,QObject* parent) : QObject(parent),Strategy(s)
 {
 }
 
@@ -19,12 +19,20 @@ void Interactive::execCommand(QString s)
 	TreeEvaluator e(output);
 	sc->accept(e);
 	output << endl;
+	delete sc;
+}
+
+#define PROMPT "\u042F: "
+
+QString Interactive::getPrompt()
+{
+	return PROMPT;
 }
 
 int Interactive::evaluate()
 {
 #ifdef USE_READLINE
-	const char* prompt="\u042F: ";
+	const char* prompt=PROMPT;
 	char* c;
 	do {
 		c=readline::readline(prompt);

@@ -293,7 +293,8 @@ SOURCES += \
 	src/module/decomposemodule.cpp \
 	src/node/decomposenode.cpp \
 	src/simpletextbuilder.cpp \
-	src/interactive.cpp
+	src/interactive.cpp \
+	src/console.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -496,7 +497,8 @@ HEADERS  += \
 	src/textbuilder.h \
 	src/simpletextbuilder.h \
 	src/interactive.h \
-	src/codeeditor.h
+	src/codeeditor.h \
+	src/console.h
 
 FORMS += \
 	src/mainwindow.ui \
