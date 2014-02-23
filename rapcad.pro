@@ -51,7 +51,6 @@ win32 {
 	DXFLIBROOT = ../dxflib-3.3.4-src
 	INCLUDEPATH += $$CGALROOT/include
 	INCLUDEPATH += $$CGALROOT/auxiliary/gmp/include
-	INCLUDEPATH += $$DXFLIBROOT
 	INCLUDEPATH += $$BOOSTROOT
 	LIBS += -L$$BOOSTROOT/bin.v2/libs/thread/build/gcc-mingw-4.8.0/release/link-static/threading-multi
 	LIBS += -L$$BOOSTROOT/bin.v2/libs/system/build/gcc-mingw-4.8.0/release/link-static/threading-multi
@@ -63,6 +62,7 @@ win32 {
 	LIBS += -lreadline
 	}
 	contains(DEFINES,USE_DXF) {
+	INCLUDEPATH += $$DXFLIBROOT
 	LIBS += -L$$DXFLIBROOT/release -ldxflib
 	}
 	QMAKE_YACC = bison
