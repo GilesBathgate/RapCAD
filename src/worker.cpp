@@ -226,9 +226,13 @@ Renderer* Worker::getRenderer()
 		delete render;
 
 #if USE_CGAL
-	CGALPrimitive* p = dynamic_cast<CGALPrimitive*>(primitive);
-	if(p)
-		render=new CGALRenderer(p);
+	try {
+		CGALPrimitive* p = dynamic_cast<CGALPrimitive*>(primitive);
+		if(p)
+			render=new CGALRenderer(p);
+	} catch(CGAL::Failure_exception e) {
+		output << "What: " << QString::fromStdString(e.what()) << endl;
+	}
 #endif
 	return render;
 }
