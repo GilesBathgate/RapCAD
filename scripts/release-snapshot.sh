@@ -30,7 +30,6 @@ ppa_build(){
 	mv rapcad_$version$snapshot~"$vname"1* $ppadir
 }
 
-ppa_build "Raring"
 ppa_build "Saucy"
 
 rm -rf rapcad-$version$snapshot
