@@ -29,6 +29,7 @@ ppa_build(){
 	mv rapcad_$version~"$vname"1* $ppadir
 }
 
+ppa_build "Trusty"
 ppa_build "Saucy"
 
 rm -rf rapcad-$version
