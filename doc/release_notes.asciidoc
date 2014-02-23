@@ -1,3 +1,21 @@
+0.9.4
+   * Implemented simple align module.
+   * Fix bug where updating the view gets called twice.
+   * Added interactive mode, for evaluating expressions.
+   * Implemented simple text for displaying numbers in auxilary geometry.
+   * Allow print to be used with no output model. Correct precision in print output.
+   * Added thickness parameter to Slice module.
+   * Added decompose module. Decomposition can be seen with view->show edges.
+   * Initial implementation of auxilary geometry for the bounds module.
+   * Group module now does fast unions on non-intersecting primitives.
+   * Performance improvement for unions.
+   * Correct first parameter name in rotate module "vector"->"angle".
+   * Added a concat() function.
+   * Added export for vrml 2.0 and obj file format.
+   * Polyline Module can now optionally do multiple lines.
+   * Outline now works with holes.
+   * Allow multiple files to be loaded from the commandline.
+
 0.9.3
    * Moving forward only Qt5 and above will be supported.
    * Now using Qt 5.2.0 for windows builds.
