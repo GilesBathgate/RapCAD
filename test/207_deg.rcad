@@ -1,0 +1,4 @@
+function test() {
+a=deg(1);
+return a==57.2957795130823229;
+}

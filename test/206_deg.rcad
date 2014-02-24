@@ -1,0 +1,4 @@
+function test() {
+a=deg(3.1415926535897931);
+return a==180;
+}

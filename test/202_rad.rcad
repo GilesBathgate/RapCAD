@@ -1,0 +1,4 @@
+function test() {
+a=rad(45);
+return a==0.7853981633974483;
+}
