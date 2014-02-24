@@ -1,0 +1,4 @@
+function test() {
+a=tan(0);
+return a==0;
+}
