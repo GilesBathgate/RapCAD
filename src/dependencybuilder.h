@@ -65,6 +65,7 @@ public:
 	Instance* buildInstance(Instance*);
 	Instance* buildInstance(QString*,Instance*);
 	Instance* buildInstance(Instance::Type_e,Instance*);
+	Instance* buildInstance(Instance::Type_e,QString*,QList<Argument*>*);
 	Instance* buildInstance(QString*,QList<Argument*>*);
 	Instance* buildInstance(Instance*,QList<Statement*>*);
 	QList<Parameter*>* buildParameters();

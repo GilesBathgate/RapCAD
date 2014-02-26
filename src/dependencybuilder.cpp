@@ -218,6 +218,11 @@ Instance* DependencyBuilder::buildInstance(Instance::Type_e,Instance*)
 	return NULL;
 }
 
+Instance* DependencyBuilder::buildInstance(Instance::Type_e,QString*,QList<Argument*>*)
+{
+	return NULL;
+}
+
 Instance* DependencyBuilder::buildInstance(QString*,QList<Argument*>*)
 {
 	return NULL;

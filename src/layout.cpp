@@ -29,12 +29,14 @@ void Layout::setParent(Layout* value)
 	parent=value;
 }
 
-Module* Layout::lookupModule(QString name)
+Module* Layout::lookupModule(QString name,bool aux)
 {
 	if(modules.contains(name)) {
-		return modules.value(name);
+		Module* m=modules.value(name);
+		if(m->getAuxilary()==aux)
+			return m;
 	} else if(parent) {
-		return parent->lookupModule(name);
+		return parent->lookupModule(name,aux);
 	}
 
 	return NULL;

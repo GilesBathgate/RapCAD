@@ -32,7 +32,8 @@ public:
 		Root,
 		Debug,
 		Background,
-		Disable
+		Disable,
+		Auxilary
 	};
 
 	Instance();

@@ -38,6 +38,7 @@ public:
 	~Module();
 	QString getName() const;
 	void setName(QString);
+	bool getAuxilary() const;
 	QList<Parameter*> getParameters() const;
 	void setParameters(QList<Parameter*>);
 	Scope* getScope() const;
@@ -45,6 +46,7 @@ public:
 	void accept(TreeVisitor&);
 	virtual Node* evaluate(Context*);
 protected:
+	bool auxilary;
 	void addParameter(QString);
 	Value* getParameterArgument(Context*,int);
 	Value* getParameterArgument(Context*,int,int);

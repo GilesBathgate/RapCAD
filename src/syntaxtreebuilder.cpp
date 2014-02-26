@@ -322,6 +322,17 @@ Instance* SyntaxTreeBuilder::buildInstance(Instance::Type_e type,Instance* inst)
 	return inst;
 }
 
+Instance* SyntaxTreeBuilder::buildInstance(Instance::Type_e type,QString* name,QList<Argument*>* args)
+{
+	Instance* result = new Instance();
+	result->setType(type);
+	result->setName(*name);
+	delete name;
+	result->setArguments(*args);
+	delete args;
+	return result;
+}
+
 Instance* SyntaxTreeBuilder::buildInstance(QString* name,QList<Argument*>* args)
 {
 	Instance* result = new Instance();

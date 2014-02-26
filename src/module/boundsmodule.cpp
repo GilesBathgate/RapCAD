@@ -19,8 +19,9 @@
 #include "boundsmodule.h"
 #include "node/boundsnode.h"
 
-BoundsModule::BoundsModule() : Module("bounds")
+BoundsModule::BoundsModule() : Module("bound")
 {
+	auxilary=true;
 }
 
 Node* BoundsModule::evaluate(Context* ctx)

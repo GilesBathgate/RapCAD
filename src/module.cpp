@@ -22,11 +22,13 @@
 Module::Module()
 {
 	scope=NULL;
+	auxilary=false;
 }
 
 Module::Module(const QString n) : name(n)
 {
 	scope=NULL;
+	auxilary=false;
 }
 
 Module::~Module()
@@ -39,33 +41,38 @@ Module::~Module()
 
 QString Module::getName() const
 {
-	return this->name;
+	return name;
 }
 
-void Module::setName(QString name)
+void Module::setName(QString n)
 {
-	this->name = name;
+	name=n;
+}
+
+bool Module::getAuxilary() const
+{
+	return auxilary;
 }
 
 
 QList<Parameter*> Module::getParameters() const
 {
-	return this->parameters;
+	return parameters;
 }
 
 void Module::setParameters(QList<Parameter*> params)
 {
-	this->parameters = params;
+	parameters=params;
 }
 
 void Module::setScope(Scope* scp)
 {
-	this->scope = scp;
+	scope=scp;
 }
 
 Scope* Module::getScope() const
 {
-	return this->scope;
+	return scope;
 }
 
 void Module::accept(TreeVisitor& v)
@@ -80,7 +87,7 @@ Node* Module::evaluate(Context*)
 
 void Module::addParameter(QString name)
 {
-	Parameter* p = new Parameter();
+	Parameter* p=new Parameter();
 	p->setName(name);
 	parameters.append(p);
 }
@@ -92,6 +99,6 @@ Value* Module::getParameterArgument(Context* ctx, int index)
 
 Value* Module::getParameterArgument(Context* ctx, int index, int expectedIndex)
 {
-	Parameter* p = parameters.at(index);
+	Parameter* p=parameters.at(index);
 	return ctx->getArgument(expectedIndex,p->getName());
 }

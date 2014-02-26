@@ -85,6 +85,8 @@ void TreeEvaluator::visit(ModuleScope* scp)
 void TreeEvaluator::visit(Instance* inst)
 {
 	QString name = inst->getName();
+	bool aux=(inst->getType()==Instance::Auxilary);
+
 	Scope* c=context->getCurrentScope();
 	QList<Node*> childnodes;
 	QList <Statement*> stmts = inst->getChildren();
@@ -100,7 +102,7 @@ void TreeEvaluator::visit(Instance* inst)
 	}
 
 	Layout* l=scopeLookup.value(c);
-	Module* mod = l->lookupModule(name);
+	Module* mod = l->lookupModule(name,aux);
 	if(mod) {
 		Scope* scp = mod->getScope();
 		if(scp)
@@ -133,7 +135,11 @@ void TreeEvaluator::visit(Instance* inst)
 			context->addCurrentNode(node);
 
 	} else {
-		output << "Warning: cannot find module '" << name << "'.\n";
+		output << "Warning: cannot find module '" << name;
+		if(aux)
+			output << "$'." << endl;
+		else
+			output << "'." << endl;
 	}
 }
 

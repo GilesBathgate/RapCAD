@@ -32,7 +32,7 @@ public:
 
 	void setParent(Layout*);
 
-	Module* lookupModule(QString);
+	Module* lookupModule(QString,bool);
 	void addModule(Module* mod);
 
 	Function* lookupFunction(QString);
