@@ -45,6 +45,7 @@ public:
 	Primitive* minkowski(Primitive*);
 	Primitive* inset(const decimal);
 	Primitive* decompose();
+	Primitive* complement();
 	Primitive* copy();
 	void transform(const CGAL::AffTransformation3&);
 	QList<Polygon*> getPolygons() const;

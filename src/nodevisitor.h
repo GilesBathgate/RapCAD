@@ -48,6 +48,7 @@ public:
 	virtual void visit(class ProductNode*)=0;
 	virtual void visit(class ProjectionNode*)=0;
 	virtual void visit(class DecomposeNode*)=0;
+	virtual void visit(class ComplementNode*)=0;
 };
 
 #endif // NODEVISITOR_H

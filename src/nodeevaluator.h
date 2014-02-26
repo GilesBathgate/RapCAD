@@ -48,6 +48,7 @@
 #include "node/productnode.h"
 #include "node/projectionnode.h"
 #include "node/decomposenode.h"
+#include "node/complementnode.h"
 
 class NodeEvaluator : public NodeVisitor
 {
@@ -88,6 +89,7 @@ public:
 	void visit(ProductNode*);
 	void visit(ProjectionNode*);
 	void visit(DecomposeNode*);
+	void visit(ComplementNode*);
 
 	void evaluate(Node*,Operation_e);
 	Primitive* getResult() const;

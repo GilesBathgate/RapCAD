@@ -47,6 +47,7 @@ public:
 	virtual Primitive* minkowski(Primitive*)=0;
 	virtual Primitive* inset(const decimal)=0;
 	virtual Primitive* decompose()=0;
+	virtual Primitive* complement()=0;
 	virtual Primitive* copy()=0;
 	virtual bool isEmpty()=0;
 	virtual bool isFullyDimentional()=0;

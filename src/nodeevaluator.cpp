@@ -673,6 +673,12 @@ void NodeEvaluator::visit(DecomposeNode* n)
 	result=result->decompose();
 }
 
+void NodeEvaluator::visit(ComplementNode* n)
+{
+	evaluate(n,Union);
+	result=result->complement();
+}
+
 Primitive* NodeEvaluator::getResult() const
 {
 	return result;

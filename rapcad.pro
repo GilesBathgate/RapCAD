@@ -295,7 +295,9 @@ SOURCES += \
 	src/interactive.cpp \
 	src/console.cpp \
 	src/module/alignmodule.cpp \
-	src/node/alignnode.cpp
+	src/node/alignnode.cpp \
+	src/module/complementmodule.cpp \
+	src/node/complementnode.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -500,7 +502,9 @@ HEADERS  += \
 	src/codeeditor.h \
 	src/console.h \
 	src/module/alignmodule.h \
-	src/node/alignnode.h
+	src/node/alignnode.h \
+	src/module/complementmodule.h \
+	src/node/complementnode.h
 
 FORMS += \
 	src/mainwindow.ui \

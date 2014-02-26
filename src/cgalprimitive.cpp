@@ -288,6 +288,13 @@ Primitive* CGALPrimitive::decompose()
 	return this;
 }
 
+Primitive* CGALPrimitive::complement()
+{
+	this->buildPrimitive();
+	*nefPolyhedron=nefPolyhedron->complement();
+	return this;
+}
+
 Primitive* CGALPrimitive::copy()
 {
 	CGALPrimitive* p=new CGALPrimitive();

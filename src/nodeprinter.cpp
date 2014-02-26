@@ -169,7 +169,7 @@ void NodePrinter::visit(ImportNode*)
 void NodePrinter::printChildren(Node* n)
 {
 	QList<Node*> children = n->getChildren();
-	if (children.length()>0) {
+	if(children.length()>0) {
 		result << "{";
 		foreach(Node* c,children)
 			c->accept(*this);
@@ -239,6 +239,12 @@ void NodePrinter::visit(ProjectionNode* n)
 void NodePrinter::visit(DecomposeNode* n)
 {
 	result << "decompose()";
+	printChildren(n);
+}
+
+void NodePrinter::visit(ComplementNode* n)
+{
+	result << "complement()";
 	printChildren(n);
 }
 
