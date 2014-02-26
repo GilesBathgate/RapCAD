@@ -281,10 +281,11 @@ Primitive* CGALPrimitive::inset(const decimal amount)
 	return result;
 }
 
-void CGALPrimitive::decompose()
+Primitive* CGALPrimitive::decompose()
 {
 	this->buildPrimitive();
 	CGAL::convex_decomposition_3(*nefPolyhedron);
+	return this;
 }
 
 Primitive* CGALPrimitive::copy()

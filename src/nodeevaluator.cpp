@@ -670,7 +670,7 @@ void NodeEvaluator::visit(ProjectionNode* op)
 void NodeEvaluator::visit(DecomposeNode* n)
 {
 	evaluate(n,Union);
-	result->decompose();
+	result=result->decompose();
 }
 
 Primitive* NodeEvaluator::getResult() const
