@@ -1,2 +1,4 @@
+[![Travis CI](https://api.travis-ci.org/GilesBathgate/RapCAD.png)](https://travis-ci.org/GilesBathgate/RapCAD)
+
 RapCAD is a Rapid prototyping CAD IDE for RepRap and RepStrap 3D printing machines.
 RapCAD is published under the GPLv3 licence.
