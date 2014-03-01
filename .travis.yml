@@ -2,4 +2,4 @@ language: cpp
 compiler:
   - gcc
 # Change this to your needs
-script: qmake && make
+script: qmake -qt5 && make
