@@ -18,6 +18,7 @@
 
 #include "complementmodule.h"
 #include "node/complementnode.h"
+#include "context.h"
 
 ComplementModule::ComplementModule() : Module("complement")
 {
