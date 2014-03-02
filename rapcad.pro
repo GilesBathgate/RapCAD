@@ -521,7 +521,6 @@ userguide.depends = $$PWD/doc/user_guide.asciidoc
 userguide.commands = asciidoc -o $$userguide.target $$userguide.depends
 
 QMAKE_EXTRA_TARGETS += userguide
-PRE_TARGETDEPS += $$userguide.target
 
 unix {
 	isEmpty(PREFIX) {
@@ -537,6 +536,8 @@ unix {
 		DOCDIR=$$DATAROOTDIR/doc/rapcad
 	}
 	target.path = $$BINDIR
+
+	docs.depends = $$userguide.target
 	docs.files = $$userguide.target
 	docs.path = $$DOCDIR
 
