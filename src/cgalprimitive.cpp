@@ -317,9 +317,7 @@ void CGALPrimitive::transform(const CGAL::AffTransformation3& t)
 
 QList<Polygon*> CGALPrimitive::getPolygons() const
 {
-	/* This is safe since we are downcasting, but callers should
-	 * probably use getCGALPolygons */
-	return *reinterpret_cast<const QList<Polygon*>*>(&polygons);
+	return QList<Polygon*>();
 }
 
 const CGAL::NefPolyhedron3& CGALPrimitive::getNefPolyhedron()

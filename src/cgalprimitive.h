@@ -48,6 +48,7 @@ public:
 	Primitive* complement();
 	Primitive* copy();
 	void transform(const CGAL::AffTransformation3&);
+	/* Don't call this method instead use getCGALPolygons */
 	QList<Polygon*> getPolygons() const;
 	QList<CGALPolygon*> getCGALPolygons() const;
 	QList<CGAL::Point3> getPoints() const;
