@@ -253,6 +253,7 @@
     </property>
     <addaction name="actionAbout"/>
     <addaction name="actionAboutQt"/>
+    <addaction name="actionUserGuide"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuDesign"/>
@@ -282,6 +283,7 @@
    <addaction name="separator"/>
    <addaction name="actionCompileAndRender"/>
    <addaction name="actionGenerateGcode"/>
+   <addaction name="actionUserGuide"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNew">
@@ -810,6 +812,14 @@
   <action name="actionExportVRML">
    <property name="text">
     <string>VRML 2.0</string>
+   </property>
+  </action>
+  <action name="actionUserGuide">
+   <property name="icon">
+    <iconset theme="help"/>
+   </property>
+   <property name="text">
+    <string>User Guide</string>
    </property>
   </action>
  </widget>

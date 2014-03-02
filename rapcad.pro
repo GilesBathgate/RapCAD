@@ -516,13 +516,35 @@ FORMS += \
 OTHER_FILES += \
 	COPYING
 
+userguide.target = user_guide.html
+userguide.depends = $$PWD/doc/user_guide.asciidoc
+userguide.commands = asciidoc -o $$userguide.target $$userguide.depends
+
+QMAKE_EXTRA_TARGETS += userguide
+PRE_TARGETDEPS += $$userguide.target
+
 unix {
 	isEmpty(PREFIX) {
 		PREFIX = /usr
 	}
-	BINDIR = $$PREFIX/bin
-	INSTALLS += target
-	target.path =$$BINDIR
+	isEmpty(BINDIR) {
+		BINDIR = $$PREFIX/bin
+	}
+	isEmpty(DATAROOTDIR) {
+		DATAROOTDIR=$$PREFIX/share
+	}
+	isEmpty(DOCDIR) {
+		DOCDIR=$$DATAROOTDIR/doc/rapcad
+	}
+	target.path = $$BINDIR
+	docs.files = $$userguide.target
+	docs.path = $$DOCDIR
+
+	DEFINES += DOCDIR=$$DOCDIR
+
+	INSTALLS += \
+	    target \
+	    docs
 }
 
 win32|macx {

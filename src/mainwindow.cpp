@@ -21,6 +21,8 @@
 #include <QClipboard>
 #include <QScrollBar>
 #include <QMessageBox>
+#include <QDesktopServices>
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "renderer.h"
@@ -29,6 +31,7 @@
 #include "printconsole.h"
 #include "aboutdialog.h"
 #include "builtincreator.h"
+#include "stringify.h"
 
 MainWindow::MainWindow(QWidget* parent) :
 	QMainWindow(parent),
@@ -204,6 +207,8 @@ void MainWindow::setupActions()
 	connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(showAbout()));
 	connect(ui->actionAboutQt,SIGNAL(triggered()),this,SLOT(showAboutQt()));
 	connect(ui->actionShowBuiltins,SIGNAL(triggered()),this,SLOT(showBuiltins()));
+
+	connect(ui->actionUserGuide,SIGNAL(triggered()),this,SLOT(showUserGuide()));
 
 }
 
@@ -646,6 +651,24 @@ void MainWindow::showBuiltins()
 	//Make sure the user cannot modify or save this document
 	e->setReadOnly(true);
 	e->document()->setModified(false);
+}
+
+void MainWindow::showUserGuide()
+{
+#ifdef DOCDIR
+	QDir docdir(QSTRINGIFY(DOCDIR));
+#else
+	QDir docdir(QCoreApplication::applicationDirPath());
+#endif
+
+	QFileInfo guide(docdir,"user_guide.html");
+	QUrl url;
+	if(guide.exists())
+		url=QUrl(QString("file:///%1").arg(guide.absoluteFilePath()));
+	else
+		url=QUrl("https://github.com/GilesBathgate/RapCAD/blob/master/doc/user_guide.asciidoc");
+
+	QDesktopServices::openUrl(url);
 }
 
 void MainWindow::tabChanged(int i)

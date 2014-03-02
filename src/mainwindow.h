@@ -78,6 +78,7 @@ private slots:
 	void showAbout();
 	void showAboutQt();
 	void showBuiltins();
+	void showUserGuide();
 private:
 	void compileOrGenerate(bool generate);
 	void loadPreferences();
