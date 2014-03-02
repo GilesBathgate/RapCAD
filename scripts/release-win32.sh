@@ -37,6 +37,12 @@ mingw32-make -f Makefile.Release \
 mingw32-make clean \
   >> $build 2>> $error || die "make clean failed."
 
+mingw32-make user_guide.html \
+  >> $build 2>> $error || die "make userguide failed."
+
+cp user_guide.html release \
+  >> $build 2>> $error || die "failed copying userguide."
+
 cp -r ../rapcad-dlls/* release \
   >> $build 2>> $error || die "failed copying dlls."
 

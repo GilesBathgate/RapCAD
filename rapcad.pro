@@ -518,7 +518,12 @@ OTHER_FILES += \
 
 userguide.target = user_guide.html
 userguide.depends = $$PWD/doc/user_guide.asciidoc
-userguide.commands = asciidoc -o $$userguide.target $$userguide.depends
+
+win32 {
+	userguide.commands = python ..\asciidoc\asciidoc.py -o $$userguide.target $$userguide.depends
+} else {
+	userguide.commands = asciidoc -o $$userguide.target $$userguide.depends
+}
 
 QMAKE_EXTRA_TARGETS += userguide
 
