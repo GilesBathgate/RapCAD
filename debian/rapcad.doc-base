@@ -1,0 +1,10 @@
+Document: rapcad
+Title: RapCAD user guide
+Author: Giles Bathgate
+Abstract: This guide describes what rapcad is
+ and how it can be used.
+Section: graphics
+
+Format: HTML
+Index: /usr/share/doc/rapcad/user_guide.html
+Files: /usr/share/doc/rapcad/*.html

@@ -14,3 +14,7 @@
 
 override_dh_auto_configure:
 	dh_auto_configure -- CONFIG+=official
+
+override_dh_auto_build:
+	dh_auto_build -- user_guide.html
+	dh_auto_build
