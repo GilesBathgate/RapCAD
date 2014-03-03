@@ -8,55 +8,9 @@
 
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
-APPNAME := rapcad
-DESTDIR := $(CURDIR)/debian/$(APPNAME)
 
-Makefile:
-	qmake PREFIX=/usr CONFIG+=official
+%:
+	dh $@
 
-build: build-stamp
-
-build-stamp: Makefile
-	dh_testdir
-	dh_auto_build
-	touch $@
-
-clean: Makefile
-	dh_testdir
-	dh_testroot
-	rm -f build-stamp
-	dh_auto_clean
-	dh_clean
-
-install: build
-	dh_testdir
-	dh_testroot
-	dh_prep
-	dh_installdirs
-	$(MAKE) INSTALL_ROOT=$(DESTDIR) install
-
-
-# Build architecture-independent files here.
-binary-indep: build install
-# We have nothing to do by default.
-
-# Build architecture-dependent files here.
-binary-arch: build install
-	dh_testdir
-	dh_testroot
-	dh_installchangelogs
-	dh_installdocs
-	dh_installexamples
-	dh_installman
-	dh_link
-	dh_strip
-	dh_compress
-	dh_fixperms
-	dh_installdeb
-	dh_shlibdeps
-	dh_gencontrol
-	dh_md5sums
-	dh_builddeb
-
-binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install configure
+override_dh_auto_configure:
+	dh_auto_configure -- CONFIG+=official

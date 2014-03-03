@@ -2,11 +2,11 @@ Source: rapcad
 Section: graphics
 Priority: extra
 Maintainer: Giles Bathgate <gilesbathgate@gmail.com>
-Build-Depends: debhelper (>= 7.0.50~), qt5-default, qtbase5-dev, libqt5opengl5-dev, libboost-dev, libcgal-dev, bison, flex, libreadline-dev, asciidoc, source-highlight
-Standards-Version: 3.9.1
-Homepage: http://www.rapcad.org
-Vcs-Git: git://git.rapcad.org/rapcad.git
-Vcs-Browser: http://git.rapcad.org/cgit.cgi/rapcad/
+Build-Depends: debhelper (>= 8.0.0), qt5-default, qtbase5-dev, libqt5opengl5-dev, libboost-dev, libcgal-dev, bison, flex, libreadline-dev, asciidoc, source-highlight
+Standards-Version: 3.9.4
+Homepage: http://gilesbathgate.com/category/rapcad/
+Vcs-Git: git://github.com:GilesBathgate/RapCAD.git
+Vcs-Browser: https://github.com/GilesBathgate/RapCAD
 
 Package: rapcad
 Architecture: any

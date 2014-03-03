@@ -1,13 +1,13 @@
-Format: http://dep.debian.net/deps/dep5
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: rapcad
 Source: http://www.rapcad.org
 
 Files: *
-Copyright: 2010-2011 Giles Bathgate
+Copyright: 2010-2014 Giles Bathgate
 License: GPL-3.0+
 
 Files: debian/*
-Copyright: 2011 Giles Bathgate <gilesbathgate@gmail.com>
+Copyright: 2014 Giles Bathgate <gilesbathgate@gmail.com>
 License: GPL-3.0+
 
 License: GPL-3.0+
@@ -27,10 +27,7 @@ License: GPL-3.0+
  On Debian systems, the complete text of the GNU General
  Public License version 3 can be found in "/usr/share/common-licenses/GPL-3".
 
-The Debian packaging is (C) 2011, Giles Bathgate <giles.bathgate@gmail.com> and
-is licensed under the GPL, see above.
-
-and is licensed under the GPL version 3, see above.
-
 # Please also look if there are files or directories which have a
 # different copyright/license attached and list them here.
+# Please avoid to pick license terms that are more restrictive than the
+# packaged work, as it may make Debian's contributions unacceptable upstream.
