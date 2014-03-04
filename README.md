@@ -28,9 +28,10 @@ that can be distributed as a design library.
 
 + Supports: Saucy, Trusty
 + Simply run the following commands in a terminal.
-	sudo apt-add-repository ppa:gilesbathgate/rapcad
-	sudo apt-get update
-	sudo apt-get install rapcad
+
+    sudo apt-add-repository ppa:gilesbathgate/rapcad
+    sudo apt-get update
+    sudo apt-get install rapcad
 
 ## Mac OS X
 
