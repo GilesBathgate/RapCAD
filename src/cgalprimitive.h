@@ -47,6 +47,7 @@ public:
 	Primitive* decompose();
 	Primitive* complement();
 	Primitive* copy();
+	CGAL::Cuboid3 getBounds();
 	void transform(const CGAL::AffTransformation3&);
 	/* Don't call this method instead use getCGALPolygons */
 	QList<Polygon*> getPolygons() const;
@@ -66,7 +67,6 @@ private:
 	QList<CGALPolygon*> polygons;
 	CGAL::NefPolyhedron3* nefPolyhedron;
 	Primitive_t type;
-	CGAL::Cuboid3 getBounds();
 
 	/* Simple wrapper class to enable Primitive
 	 * to be used with CGAL::Nef_nary_union_3 */

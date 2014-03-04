@@ -369,9 +369,8 @@ void NodeEvaluator::visit(BoundsNode* n)
 {
 	evaluate(n,Union);
 #if USE_CGAL
-	CGALExplorer explorer(result);
-	CGAL::Cuboid3 b=explorer.getBounds();
-
+	CGALPrimitive* pr=static_cast<CGALPrimitive*>(result);
+	CGAL::Cuboid3 b=pr->getBounds();
 
 	decimal xmin=to_decimal(b.xmin());
 	decimal ymin=to_decimal(b.ymin());
@@ -490,9 +489,8 @@ void NodeEvaluator::visit(TransformationNode* tr)
 		m[ 8], m[ 9], m[10], m[11],
 	  /*m[12], m[13], m[14]*/m[15]);
 
-	CGALPrimitive* pr=dynamic_cast<CGALPrimitive*>(result);
-	if(pr)
-		pr->transform(t);
+	CGALPrimitive* pr=static_cast<CGALPrimitive*>(result);
+	pr->transform(t);
 #endif
 }
 
@@ -500,8 +498,8 @@ void NodeEvaluator::visit(ResizeNode* n)
 {
 	evaluate(n,Union);
 #if USE_CGAL
-	CGALExplorer e(result);
-	CGAL::Cuboid3 b=e.getBounds();
+	CGALPrimitive* pr=static_cast<CGALPrimitive*>(result);
+	CGAL::Cuboid3 b=pr->getBounds();
 	Point s=n->getSize();
 	decimal x1,y1,z1;
 	s.getXYZ(x1,y1,z1);
@@ -531,9 +529,7 @@ void NodeEvaluator::visit(ResizeNode* n)
 		0, y, 0, 0,
 		0, 0, z, 0, 1);
 
-	CGALPrimitive* pr=dynamic_cast<CGALPrimitive*>(result);
-	if(pr)
-		pr->transform(t);
+	pr->transform(t);
 #endif
 }
 
@@ -541,8 +537,8 @@ void NodeEvaluator::visit(AlignNode* n)
 {
 	evaluate(n,Union);
 #if USE_CGAL
-	CGALExplorer e(result);
-	CGAL::Cuboid3 b=e.getBounds();
+	CGALPrimitive* pr=static_cast<CGALPrimitive*>(result);
+	CGAL::Cuboid3 b=pr->getBounds();
 	CGAL::FT cx=0.0,cy=0.0,cz=0.0;
 	if(n->getCenter()) {
 		cx=(b.xmin()+b.xmax())/2;
@@ -578,9 +574,7 @@ void NodeEvaluator::visit(AlignNode* n)
 				0, 1, 0, -cy,
 				0, 0, 1, -cz, 1);
 
-	CGALPrimitive* pr=dynamic_cast<CGALPrimitive*>(result);
-	if(pr)
-		pr->transform(t);
+	pr->transform(t);
 #endif
 }
 
@@ -597,8 +591,8 @@ void NodeEvaluator::visit(SliceNode* n)
 {
 	evaluate(n,Union);
 #if USE_CGAL
-	CGALExplorer e(result);
-	CGAL::Cuboid3 b=e.getBounds();
+	CGALPrimitive* pr=static_cast<CGALPrimitive*>(result);
+	CGAL::Cuboid3 b=pr->getBounds();
 
 	CGALPrimitive* cp = new CGALPrimitive();
 	const CGAL::FT& h = n->getHeight();

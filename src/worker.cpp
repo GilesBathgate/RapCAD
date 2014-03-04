@@ -166,8 +166,8 @@ void Worker::generation()
 decimal Worker::getBoundsHeight()
 {
 #if USE_CGAL
-	CGALExplorer explorer(primitive);
-	CGAL::Cuboid3 b=explorer.getBounds();
+	CGALPrimitive* pr=dynamic_cast<CGALPrimitive*>(primitive);
+	CGAL::Cuboid3 b=pr->getBounds();
 	return to_decimal(b.zmax());
 #endif
 	return 1;
