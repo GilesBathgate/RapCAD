@@ -1,6 +1,7 @@
-[![Travis CI](https://api.travis-ci.org/GilesBathgate/RapCAD.png)](https://travis-ci.org/GilesBathgate/RapCAD)
+image:https://api.travis-ci.org/GilesBathgate/RapCAD.png[link=https://travis-ci.org/GilesBathgate/RapCAD]
 
-# Introduction
+Introduction
+------------
 
 RapCAD is a Rapid prototyping CAD IDE for RepRap and RepStrap 3D printing
 machines. RapCAD is published under the GPLv3 licence.
@@ -17,24 +18,27 @@ provides compatability with traditional text based source control management
 software, but it also allows for the creation of re-usable component modules
 that can be distributed as a design library.
 
-# Installation
+Installation
+------------
 
-## Windows
+Windows
+~~~~~~
 
-+ Download the [latest installer](https://github.com/GilesBathgate/RapCAD/releases/download/v0.9.4/rapcad_0.9.4_setup.exe).
-+ Double click the installer exe and follow the on-screen instructions.
+* Download the https://github.com/GilesBathgate/RapCAD/releases/[latest installer].
+* Double click the installer exe and follow the on-screen instructions.
 
-## Ubuntu
+Ubuntu
+~~~~~
 
-+ Supports: Saucy, Trusty
-
-Simply run the following commands in a terminal.
+* Supports: Saucy, Trusty
+* Simply run the following commands in a terminal.
 
     sudo apt-add-repository ppa:gilesbathgate/rapcad
     sudo apt-get update
     sudo apt-get install rapcad
 
-## Mac OS X
+Mac OS X
+~~~~~~~
 
-+ Download the [latest disk image](https://github.com/GilesBathgate/RapCAD/releases/download/v0.9.0/rapcad_0.9.0.dmg).
-+ Open the image and run the rapcad package.
+* Download the https://github.com/GilesBathgate/RapCAD/releases/download/v0.9.0/rapcad_0.9.0.dmg[latest disk image].
+* Open the image and run the rapcad package.
