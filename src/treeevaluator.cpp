@@ -228,6 +228,8 @@ void TreeEvaluator::visit(ForStatement* forstmt)
 	foreach(Argument* arg, forstmt->getArguments())
 		arg->accept(*this);
 	QList<Value*> args=context->getArguments();
+	context->clearArguments();
+
 	if(args.count()>0) {
 		//TODO for now just consider the first arg.
 		Value* first = args.at(0);
