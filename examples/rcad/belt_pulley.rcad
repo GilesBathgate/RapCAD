@@ -23,13 +23,14 @@ module pulley() {
  difference() {
   union()
   {
+   bug=1;
    //base
    rotate([90,0,0])
-   rotate_extrude($fn=30)
+   rotate_extrude($fn=30,r=bug)
    {
-     square([9,8]);
-     square([10,7]);
-     translate([9,7]) polygon([[0,0],[0,1],[1,0]],[0,1,2]);
+     square([9-bug,8]);
+     square([10-bug,7]);
+     translate([9-bug,7]) polygon([[0,0],[0,1],[1,0]],[0,1,2]);
    }
 
    n_spurs=8;
