@@ -73,6 +73,8 @@ void TreeEvaluator::finishContext()
 void TreeEvaluator::visit(ModuleScope* scp)
 {
 	context->setVariablesFromArguments();
+	context->clearArguments();
+	context->clearParameters();
 
 	foreach(Declaration* d, scp->getDeclarations()) {
 		d->accept(*this);
@@ -126,9 +128,6 @@ void TreeEvaluator::visit(Instance* inst)
 		} else {
 			node=mod->evaluate(context);
 		}
-
-		context->clearArguments();
-		context->clearParameters();
 
 		finishContext();
 		if(node)
@@ -189,6 +188,8 @@ void TreeEvaluator::descend(Scope* scp)
 void TreeEvaluator::visit(FunctionScope* scp)
 {
 	context->setVariablesFromArguments();
+	context->clearArguments();
+	context->clearParameters();
 
 	Expression* e=scp->getExpression();
 	if(e) {
@@ -230,7 +231,6 @@ void TreeEvaluator::visit(ForStatement* forstmt)
 	if(args.count()>0) {
 		//TODO for now just consider the first arg.
 		Value* first = args.at(0);
-		context->clearArguments();
 
 		Iterator<Value*>* i = first->createIterator();
 		for(i->first(); !i->isDone(); i->next()) {
@@ -464,9 +464,6 @@ void TreeEvaluator::visit(Invocation* stmt)
 		} else {
 			result=func->evaluate(context);
 		}
-
-		context->clearArguments();
-		context->clearParameters();
 
 		finishContext();
 		if(result)
