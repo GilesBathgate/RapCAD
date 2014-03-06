@@ -89,6 +89,9 @@ void TreeEvaluator::visit(Instance* inst)
 	QString name = inst->getName();
 	bool aux=(inst->getType()==Instance::Auxilary);
 
+	/* The first step for module invocations is to evaluate all the children if
+	 * there are any, we do this in a seperate context because children can
+	 * have children */
 	Scope* c=context->getCurrentScope();
 	QList<Node*> childnodes;
 	QList <Statement*> stmts = inst->getChildren();
@@ -103,9 +106,22 @@ void TreeEvaluator::visit(Instance* inst)
 		finishContext();
 	}
 
+	/* Process the arguments. Arguments can themselves contain references to
+	 * function calls so evaluate them in a different context */
+	startContext(c);
+	foreach(Argument* arg, inst->getArguments())
+		arg->accept(*this);
+	QList<Value*> arguments=context->getArguments();
+	finishContext();
+
+	/* Look up the layout which is currently in scope and then lookup the
+	 * module in that layout */
 	Layout* l=scopeLookup.value(c);
 	Module* mod = l->lookupModule(name,aux);
 	if(mod) {
+		/* Now we need to create a context for the module itself, if we are
+		 * invoking a built in module we have to use the current scope to
+		 * initalise the context */
 		Scope* scp = mod->getScope();
 		if(scp)
 			startContext(scp);
@@ -114,12 +130,16 @@ void TreeEvaluator::visit(Instance* inst)
 
 		context->setInputNodes(childnodes);
 
-		foreach(Argument* arg, inst->getArguments())
-			arg->accept(*this);
+		/* Pull the arguments in that we evaluated previously into this
+		 * context */
+		foreach(Value* a, arguments)
+			context->addArgument(a);
 
 		foreach(Parameter* p, mod->getParameters())
 			p->accept(*this);
 
+		/* Invoke the module whether it be a user defined module or a build
+		 * in module */
 		Node* node=NULL;
 		if(scp) {
 			scp->accept(*this);
@@ -441,22 +461,41 @@ void TreeEvaluator::visit(TernaryExpression* exp)
 void TreeEvaluator::visit(Invocation* stmt)
 {
 	QString name = stmt->getName();
+
 	Scope* c=context->getCurrentScope();
+	/* Process the arguments first. Arguments can themselves contain references
+	 * to function calls so evaluate them in a different context */
+	startContext(c);
+	foreach(Argument* arg, stmt->getArguments())
+		arg->accept(*this);
+	QList<Value*> arguments=context->getArguments();
+	finishContext();
+
+	/* Look up the layout which is currently in scope and then lookup the
+	 * function in that layout */
 	Layout* l = scopeLookup.value(c);
 	Function* func = l->lookupFunction(name);
 	if(func) {
+
+		/* Now we need to create a context for the function itself, if we are
+		 * invoking a built in function we have to use the current scope to
+		 * initalise the context */
 		Scope* scp = func->getScope();
 		if(scp)
 			startContext(scp);
 		else
 			startContext(c);
 
-		foreach(Argument* arg, stmt->getArguments())
-			arg->accept(*this);
+		/* Pull the arguments in that we evaluated previously into this
+		 * context */
+		foreach(Value* a, arguments)
+			context->addArgument(a);
 
 		foreach(Parameter* p, func->getParameters())
 			p->accept(*this);
 
+		/* Invoke the function whether it be a user defined function or a build
+		 * in function */
 		Value* result=NULL;
 		if(scp) {
 			scp->accept(*this);

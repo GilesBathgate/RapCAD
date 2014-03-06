@@ -30,6 +30,7 @@ class Context
 {
 public:
 	Context(QTextStream& s);
+	~Context();
 
 	void setParent(Context*);
 

@@ -1,0 +1,9 @@
+function test_function2(b) = b;
+
+function test_function(a=test_function2(1)) {
+return a;
+}
+
+function test() {
+ return test_function()==1;
+}

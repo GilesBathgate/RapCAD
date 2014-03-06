@@ -27,6 +27,12 @@ Context::Context(QTextStream& s) : output(s)
 	currentScope=NULL;
 }
 
+Context::~Context()
+{
+	arguments.clear();
+	parameters.clear();
+}
+
 void Context::setParent(Context* value)
 {
 	parent=value;
