@@ -1,0 +1,3 @@
+function test() {
+ return test_function()==undef;
+}

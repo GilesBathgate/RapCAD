@@ -329,11 +329,9 @@ void TreeEvaluator::visit(Argument* arg)
 
 	arg->getExpression()->accept(*this);
 	Value* v = context->getCurrentValue();
-	if(v) {
-		v->setName(name);
-		v->setStorage(c); //TODO Investigate moving this to apply to all variables.
-		context->addArgument(v);
-	}
+	v->setName(name);
+	v->setStorage(c); //TODO Investigate moving this to apply to all variables.
+	context->addArgument(v);
 }
 
 void TreeEvaluator::visit(AssignStatement* stmt)
@@ -471,6 +469,7 @@ void TreeEvaluator::visit(Invocation* stmt)
 	QList<Value*> arguments=context->getArguments();
 	finishContext();
 
+	Value* result=NULL;
 	/* Look up the layout which is currently in scope and then lookup the
 	 * function in that layout */
 	Layout* l = scopeLookup.value(c);
@@ -496,23 +495,23 @@ void TreeEvaluator::visit(Invocation* stmt)
 
 		/* Invoke the function whether it be a user defined function or a build
 		 * in function */
-		Value* result=NULL;
 		if(scp) {
 			scp->accept(*this);
 			result=context->getReturnValue();
-			if(!result)
-				result=new Value();
 		} else {
 			result=func->evaluate(context);
 		}
 
 		finishContext();
-		if(result)
-			context->setCurrentValue(result);
 
 	} else {
 		output << "Warning: cannot find function '" << name << "'.\n";
 	}
+
+	if(!result)
+		result=new Value();
+
+	context->setCurrentValue(result);
 }
 
 void TreeEvaluator::visit(Callback* c)
