@@ -36,12 +36,17 @@ int Tester::evaluate()
 	QList<Argument*> args;
 	int failcount=0;
 	int testcount=0;
+
+	/* This hard coded directory and filters need to be addressed
+	 * but it will do for now. */
 	QDir cur=QDir::current();
-	foreach(QString file, cur.entryList(QStringList("*.rcad"),QDir::Files)) {
-		output << file.leftJustified(32,'.',true);
+	foreach(QString dir, cur.entryList(QStringList("*_*")))
+	foreach(QFileInfo file, QDir(dir).entryInfoList(QStringList("*.rcad"),QDir::Files)) {
+
+		output << file.baseName().leftJustified(32,'.',true);
 		output.flush();
 
-		Script* s=parse(file,NULL,true);
+		Script* s=parse(file.absoluteFilePath(),NULL,true);
 
 		TreeEvaluator te(nullout);
 
@@ -61,10 +66,12 @@ int Tester::evaluate()
 			Node* n=te.getRootNode();
 			delete n;
 		} else {
-			QString basename=QFileInfo(file).baseName();
+			QString basename=file.baseName();
 			QString examFileName=basename + ".exam.csg";
 			QString csgFileName=basename + ".csg";
-			QFile examFile(examFileName);
+			QFileInfo examFileInfo(file.absoluteDir(),examFileName);
+			QFileInfo csgFileInfo(file.absoluteDir(),csgFileName);
+			QFile examFile(examFileInfo.absoluteFilePath());
 			s->accept(te);
 
 			//Create exam file
@@ -77,10 +84,10 @@ int Tester::evaluate()
 			examout.flush();
 			examFile.close();
 
-			QFile csgFile(csgFileName);
+			QFile csgFile(csgFileInfo.absoluteFilePath());
 			if(csgFile.exists()) {
 				Comparer co(nullout);
-				co.setup(examFileName,csgFileName);
+				co.setup(examFileInfo.absoluteFilePath(),csgFileInfo.absoluteFilePath());
 				if(co.evaluate()==0) {
 					output << " Passed" << endl;
 				} else {
