@@ -23,10 +23,7 @@
 
 Literal::Literal()
 {
-}
-
-Literal::~Literal()
-{
+	type=Literal::Undef;
 }
 
 void Literal::setValue(bool value)

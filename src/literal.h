@@ -26,7 +26,6 @@ class Literal : public Expression
 {
 public:
 	Literal();
-	~Literal();
 	void setValue(bool);
 	void setValue(decimal);
 	void setValue(QString);
