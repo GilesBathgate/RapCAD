@@ -1,0 +1,4 @@
+intersection() {
+square(20,center=true);
+square(20);
+}

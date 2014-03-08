@@ -1,0 +1,4 @@
+intersection() {
+cube(20,center=true);
+translate([10,10,0])cylinder(h=10,r=10);
+}

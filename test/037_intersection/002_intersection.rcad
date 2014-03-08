@@ -1,0 +1,4 @@
+intersection() {
+square(20,center=true);
+translate([10,10])circle(r=10);
+}
