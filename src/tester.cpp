@@ -43,7 +43,8 @@ int Tester::evaluate()
 	foreach(QString dir, cur.entryList(QStringList("*_*")))
 	foreach(QFileInfo file, QDir(dir).entryInfoList(QStringList("*.rcad"),QDir::Files)) {
 
-		output << file.baseName().leftJustified(32,'.',true);
+		output << "Test #" << QString().setNum(testcount+1).rightJustified(3,'0') << ": ";
+		output << file.fileName().leftJustified(62,'.',true);
 		output.flush();
 
 		Script* s=parse(file.absoluteFilePath(),NULL,true);
