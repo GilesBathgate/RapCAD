@@ -16,10 +16,26 @@ Node* PolygonModule::evaluate(Context* ctx)
 
 	PrimitiveNode* p=new PrimitiveNode();
 
-	if(!linesVec||!pointsVec)
+	if(!pointsVec)
 		return p;
 
 	QList<Value*> points=pointsVec->getChildren();
+
+	/* If we are just given a single argument of points
+	 * build a polygon from that. */
+	if(!linesVec) {
+		p->createPolygon();
+		foreach(Value* point, points) {
+			VectorValue* pointVec=dynamic_cast<VectorValue*>(point);
+			if(pointVec) {
+				Point pt = pointVec->getPoint();
+				p->appendVertex(pt);
+			}
+		}
+
+		return p;
+	}
+
 	QList<Value*> lines=linesVec->getChildren();
 
 	//This is to remove the need for double vector syntax in the lines argument
