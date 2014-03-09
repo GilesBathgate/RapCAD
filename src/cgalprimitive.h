@@ -59,9 +59,11 @@ public:
 	bool isFullyDimentional();
 	QList<Primitive*> getChildren();
 	void appendChild(Primitive*);
+	CGAL::Circle3 getRadius();
 private:
 	void init();
 	void buildPrimitive();
+	QList<CGAL::Point3> getPoints(bool) const;
 	QList<Primitive*> children;
 	CGAL::NefPolyhedron3* createPolyline(QVector<CGAL::Point3> pl);
 	QList<CGALPolygon*> polygons;

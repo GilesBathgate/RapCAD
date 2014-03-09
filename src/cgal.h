@@ -43,6 +43,7 @@ typedef Kernel3::Point_3 Point3;
 typedef Kernel3::Triangle_3 Triangle3;
 typedef Kernel3::Point_2 Point2;
 typedef Kernel3::Vector_3 Vector3;
+typedef Kernel3::Circle_3 Circle3;
 typedef NefPolyhedron3::Aff_transformation_3 AffTransformation3;
 }
 

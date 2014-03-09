@@ -138,7 +138,7 @@ void NodePrinter::visit(RotateExtrudeNode* n)
 
 void NodePrinter::visit(BoundsNode* n)
 {
-	result << "bounds()";
+	result << "bound$()";
 	printChildren(n);
 }
 
@@ -245,6 +245,12 @@ void NodePrinter::visit(DecomposeNode* n)
 void NodePrinter::visit(ComplementNode* n)
 {
 	result << "complement()";
+	printChildren(n);
+}
+
+void NodePrinter::visit(RadialsNode* n)
+{
+	result << "radial$()";
 	printChildren(n);
 }
 

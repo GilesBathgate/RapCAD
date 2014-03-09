@@ -84,12 +84,6 @@ typedef CGAL::Polyhedron3::Vertex_const_iterator VertexIterator;
 typedef CGAL::Polyhedron3::Facet_const_iterator FacetIterator;
 typedef CGAL::Polyhedron3::Halfedge_around_facet_const_circulator HalffacetCirculator;
 
-template<class NT>
-inline NT inexact_sqrt(NT const& n)
-{
-	return NT(sqrt(to_decimal(n)));
-}
-
 void CGALExport::exportAsciiSTL(QString filename)
 {
 	CGAL::Polyhedron3* poly=primitive->getPolyhedron();

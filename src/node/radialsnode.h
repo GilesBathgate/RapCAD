@@ -16,26 +16,16 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DECIMAL_H
-#define DECIMAL_H
+#ifndef RADIALSNODE_H
+#define RADIALSNODE_H
 
-#include <QString>
-#include <math.h>
+#include "node.h"
 
-typedef double decimal;
-
-template< class T >
-inline decimal to_decimal(T n)
+class RadialsNode : public Node
 {
-    return to_double(n);
-}
+public:
+	RadialsNode();
+	void accept(NodeVisitor&);
+};
 
-template<class NT>
-inline decimal inexact_sqrt(NT const& n)
-{
-	return sqrt(to_decimal(n));
-}
-
-QString to_string(const decimal);
-
-#endif // DECIMAL_H
+#endif // RADIALSNODE_H

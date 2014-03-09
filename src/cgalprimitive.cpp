@@ -3,6 +3,8 @@
 #include <QPair>
 #include <CGAL/minkowski_sum_3.h>
 #include <CGAL/convex_decomposition_3.h>
+#include <CGAL/Min_circle_2.h>
+#include <CGAL/Min_circle_2_traits_2.h>
 #include "cgalbuilder.h"
 #include "cgalexplorer.h"
 #include "onceonly.h"
@@ -184,10 +186,15 @@ QList<CGALPolygon*> CGALPrimitive::getCGALPolygons() const
 
 QList<CGAL::Point3> CGALPrimitive::getPoints() const
 {
+	return getPoints(true);
+}
+
+QList<CGAL::Point3> CGALPrimitive::getPoints(bool unique) const
+{
 	QList<CGAL::Point3> points;
 	foreach(CGALPolygon* pg, polygons) {
 		foreach(CGAL::Point3 p, pg->getPoints()) {
-			if(!points.contains(p)) {
+			if(!unique||!points.contains(p)) {
 				points.append(p);
 			}
 		}
@@ -202,12 +209,7 @@ CGAL::Cuboid3 CGALPrimitive::getBounds()
 		return e.getBounds();
 	}
 
-	QList<CGAL::Point3> points;
-	foreach(CGALPolygon* pg, polygons) {
-		foreach(CGAL::Point3 p, pg->getPoints()) {
-			points.append(p);
-		}
-	}
+	QList<CGAL::Point3> points=getPoints(false);
 	return CGAL::bounding_box(points.begin(),points.end());
 }
 
@@ -339,6 +341,35 @@ bool CGALPrimitive::isEmpty()
 {
 	this->buildPrimitive();
 	return nefPolyhedron->is_empty();
+}
+
+CGAL::Circle3 CGALPrimitive::getRadius()
+{
+	QList<CGAL::Point3> points;
+	if(nefPolyhedron) {
+		CGALExplorer e(this);
+		points=e.getPoints();
+	} else {
+		points=getPoints(false);
+	}
+
+	typedef  CGAL::Min_circle_2_traits_2<CGAL::Kernel3> Traits;
+	typedef  CGAL::Min_circle_2<Traits> Min_circle;
+
+	QList<CGAL::Point2> pts;
+	foreach(CGAL::Point3 pt,points) {
+		CGAL::Point2 p2(pt.x(),pt.y());
+		pts.append(p2);
+	}
+
+	Min_circle mc1(pts.begin(),pts.end(),true);
+	Min_circle::Circle circle2=mc1.circle();
+	CGAL::Point2 center2=circle2.center();
+	CGAL::Point3 center3(center2.x(),center2.y(),0);
+	CGAL::FT sq_r=circle2.squared_radius();
+
+	return CGAL::Circle3(center3,sq_r,CGAL::Vector3(0,0,1));
+
 }
 
 bool CGALPrimitive::isFullyDimentional()

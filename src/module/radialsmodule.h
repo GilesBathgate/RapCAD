@@ -16,26 +16,16 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DECIMAL_H
-#define DECIMAL_H
+#ifndef RADIALSMODULE_H
+#define RADIALSMODULE_H
 
-#include <QString>
-#include <math.h>
+#include "module.h"
 
-typedef double decimal;
-
-template< class T >
-inline decimal to_decimal(T n)
+class RadialsModule : public Module
 {
-    return to_double(n);
-}
+public:
+	RadialsModule();
+	Node* evaluate(Context*);
+};
 
-template<class NT>
-inline decimal inexact_sqrt(NT const& n)
-{
-	return sqrt(to_decimal(n));
-}
-
-QString to_string(const decimal);
-
-#endif // DECIMAL_H
+#endif // RADIALSMODULE_H

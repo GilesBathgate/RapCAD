@@ -297,7 +297,9 @@ SOURCES += \
 	src/module/alignmodule.cpp \
 	src/node/alignnode.cpp \
 	src/module/complementmodule.cpp \
-	src/node/complementnode.cpp
+	src/node/complementnode.cpp \
+	src/module/radialsmodule.cpp \
+	src/node/radialsnode.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -504,7 +506,9 @@ HEADERS  += \
 	src/module/alignmodule.h \
 	src/node/alignnode.h \
 	src/module/complementmodule.h \
-	src/node/complementnode.h
+	src/node/complementnode.h \
+	src/module/radialsmodule.h \
+	src/node/radialsnode.h
 
 FORMS += \
 	src/mainwindow.ui \

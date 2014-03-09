@@ -382,7 +382,7 @@ void NodeEvaluator::visit(BoundsNode* n)
 	if(zmin!=0.0) {
 		QString pos=to_string(zmin);
 		QString where = zmin<0.0?" below ":" above ";
-		output << "Warning: The model is " << pos << where << "the build platform.\n";
+		output << "Warning: The model is " << pos << where << "the build platform." << endl;
 
 		SimpleTextBuilder t;
 		t.setText(pos);
@@ -671,6 +671,45 @@ void NodeEvaluator::visit(ComplementNode* n)
 {
 	evaluate(n,Union);
 	result=result->complement();
+}
+
+void NodeEvaluator::visit(RadialsNode* n)
+{
+	evaluate(n,Union);
+#if USE_CGAL
+	CGALPrimitive* pr=static_cast<CGALPrimitive*>(result);
+	CGAL::Circle3 circle=pr->getRadius();
+	decimal r=inexact_sqrt(circle.squared_radius());
+	QString rs=to_string(r);
+	output << "Radius: " << rs << endl;
+
+	CGAL::Point3 c=circle.center();
+	decimal a,b;
+	a=to_decimal(c.x());
+	b=to_decimal(c.y());
+
+	SimpleTextBuilder t;
+	t.setText(rs);
+	t.setLocation(Point(a,b,0));
+	Primitive* cp=t.buildPrimitive();
+	result->appendChild(cp);
+
+	Polyhedron* p = new Polyhedron();
+	p->setType(Primitive::Skeleton);
+	p->createPolygon();
+
+	const decimal f=90;
+	for(int i=0; i<=f; i++) {
+		decimal phi = (M_TAU*i) / f;
+		decimal x,y;
+		x = a+r*cos(phi);
+		y = b+r*sin(phi);
+
+		p->appendVertex(Point(x,y,0));
+	}
+
+	result->appendChild(p);
+#endif
 }
 
 Primitive* NodeEvaluator::getResult() const
