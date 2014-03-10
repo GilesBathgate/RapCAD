@@ -138,17 +138,23 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 
 	NumberValue* num = dynamic_cast<NumberValue*>(&v);
 	if(num) {
-		QList<Value*> a=this->getChildren();
 		if(e==Expression::Concatenate) {
+			QList<Value*> a=this->getChildren();
 			result=a;
 			result.append(num);
 		} else if(e==Expression::Index) {
+			Iterator<Value*>* it=this->createIterator();
 			int i=num->getNumber();
-			if(i>=0&&i<a.length())
-				return a.at(i);
-			else
-				return new Value();
+			if(i>=0) {
+				it->first();
+				for(int j=0; j<i; ++j)
+					it->next();
+				if(!it->isDone())
+					return it->currentItem();
+			}
+			return new Value();
 		} else {
+			QList<Value*> a=this->getChildren();
 			e=convertOperation(e);
 			foreach(Value* c,a)
 				result.append(Value::operation(c,e,num));
