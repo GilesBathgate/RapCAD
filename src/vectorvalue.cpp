@@ -147,7 +147,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			int i=num->getNumber();
 			if(i>=0) {
 				it->first();
-				for(int j=0; j<i; ++j)
+				for(int j=0; j<i&&!it->isDone(); ++j)
 					it->next();
 				if(!it->isDone())
 					return it->currentItem();
