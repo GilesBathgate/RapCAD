@@ -21,6 +21,7 @@
 
 #include <QVector>
 #include "cgalpolygon.h"
+#include "cgalvolume.h"
 #include "primitive.h"
 
 class CGALPrimitive : public Primitive
@@ -60,7 +61,7 @@ public:
 	QList<Primitive*> getChildren();
 	void appendChild(Primitive*);
 	CGAL::Circle3 getRadius();
-	CGAL::FT getVolume();
+	CGALVolume getVolume();
 private:
 	void init();
 	void buildPrimitive();

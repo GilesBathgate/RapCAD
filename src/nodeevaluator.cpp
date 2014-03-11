@@ -717,10 +717,35 @@ void NodeEvaluator::visit(VolumesNode* n)
 	evaluate(n,Union);
 #if USE_CGAL
 	CGALPrimitive* pr=static_cast<CGALPrimitive*>(result);
-	CGAL::FT vol=pr->getVolume();
+	CGALVolume v=pr->getVolume();
+	CGAL::Point3 c=v.getCenter();
+	decimal cx,cy,cz;
+	cx=to_decimal(c.x());
+	cy=to_decimal(c.y());
+	cz=to_decimal(c.z());
+	CGAL::Cuboid3 b=v.getBounds();
+	decimal x,y,z;
+	x=to_decimal(b.xmax()+((b.xmax()-c.x())/10));
+	y=to_decimal(b.ymax()+((b.ymax()-c.y())/10));
+	z=to_decimal(b.zmax()+((b.zmax()-c.z())/10));
+	Point tr(x,y,z);
 
-	decimal v=to_decimal(vol);
-	output << "Volume: " << to_string(v) << endl;
+	decimal vn=to_decimal(v.getSize());
+	QString vs=to_string(vn);
+	output << "Volume: " << vs << endl;
+
+	Polyhedron* p = new Polyhedron();
+	p->setType(Primitive::Skeleton);
+	p->createPolygon();
+	p->appendVertex(Point(cx,cy,cz));
+	p->appendVertex(tr);
+	result->appendChild(p);
+
+	SimpleTextBuilder t;
+	t.setText(vs);
+	t.setLocation(tr);
+	Primitive* tp=t.buildPrimitive();
+	result->appendChild(tp);
 #endif
 }
 
