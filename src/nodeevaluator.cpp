@@ -542,7 +542,7 @@ void NodeEvaluator::visit(AlignNode* n)
 	CGAL::FT cx=0.0,cy=0.0,cz=0.0;
 	if(n->getCenter()) {
 		cx=(b.xmin()+b.xmax())/2;
-		cy=(b.ymin()+b.ymax())/2,
+		cy=(b.ymin()+b.ymax())/2;
 		cz=(b.zmin()+b.zmax())/2;
 	} else {
 		foreach(AlignNode::Face_t a,n->getAlign()) {
@@ -698,7 +698,7 @@ void NodeEvaluator::visit(RadialsNode* n)
 	p->setType(Primitive::Skeleton);
 	p->createPolygon();
 
-	const decimal f=90;
+	const int f=90;
 	for(int i=0; i<=f; i++) {
 		decimal phi = (M_TAU*i) / f;
 		decimal x,y;
