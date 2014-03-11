@@ -33,9 +33,11 @@ Node* PolyhedronModule::evaluate(Context* ctx)
 	VectorValue* points=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	VectorValue* surfaces=dynamic_cast<VectorValue*>(ctx->getArgumentDeprecated(1,"surfaces","triangles"));
 
-	QList<Value*> children = points->getChildren();
-
 	PrimitiveNode* p=new PrimitiveNode();
+	if(!points||!surfaces)
+		return p;
+
+	QList<Value*> children = points->getChildren();
 	foreach(Value* s,surfaces->getChildren()) {
 		p->createPolygon();
 		VectorValue* surface=dynamic_cast<VectorValue*>(s);
