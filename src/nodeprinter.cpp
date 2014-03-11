@@ -254,6 +254,12 @@ void NodePrinter::visit(RadialsNode* n)
 	printChildren(n);
 }
 
+void NodePrinter::visit(VolumesNode* n)
+{
+	result << "volume$()";
+	printChildren(n);
+}
+
 void NodePrinter::visit(TransformationNode* n)
 {
 	result << "multmatrix([[";

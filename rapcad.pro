@@ -299,7 +299,9 @@ SOURCES += \
 	src/module/complementmodule.cpp \
 	src/node/complementnode.cpp \
 	src/module/radialsmodule.cpp \
-	src/node/radialsnode.cpp
+	src/node/radialsnode.cpp \
+	src/module/volumesmodule.cpp \
+	src/node/volumesnode.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -508,7 +510,9 @@ HEADERS  += \
 	src/module/complementmodule.h \
 	src/node/complementnode.h \
 	src/module/radialsmodule.h \
-	src/node/radialsnode.h
+	src/node/radialsnode.h \
+	src/module/volumesmodule.h \
+	src/node/volumesnode.h
 
 FORMS += \
 	src/mainwindow.ui \

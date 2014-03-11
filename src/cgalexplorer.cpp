@@ -20,6 +20,7 @@
 #include <QMap>
 #include <CGAL/config.h>
 #include <CGAL/normal_vector_newell_3.h>
+#include <CGAL/Triangulation_3.h>
 #include "onceonly.h"
 
 CGALExplorer::CGALExplorer(Primitive* p)
@@ -64,6 +65,11 @@ class ShellExplorer
 		return h<t?h:t;
 	}
 
+	bool isBase(CGAL::Vector3 v)
+	{
+		return (v.x()==0&&v.y()==0)&&direction?v.z()<0:v.z()>0;
+	}
+
 	QList<CGAL::Point3> points;
 	CGALPrimitive* primitive;
 	bool direction;
@@ -86,12 +92,7 @@ public:
 		if(facet) {
 			CGALPolygon* pg=static_cast<CGALPolygon*>(primitive->createPolygon());
 			CGAL::Vector3 v = f->plane().orthogonal_vector();
-			bool base=v.x()==0&&v.y()==0;;
-			if(direction)
-				base=base&&v.z()<0;
-			else
-				base=base&&v.z()>0;
-			if(base)
+			if(isBase(v))
 				basePolygons.append(pg);
 			pg->setNormal(v);
 			HalfFacetCycleIterator fc;
@@ -123,6 +124,11 @@ public:
 	QList<CGAL::Point3> getPoints()
 	{
 		return points;
+	}
+
+	void clearPoints()
+	{
+		points.clear();
 	}
 
 	void setDirection()
@@ -160,15 +166,31 @@ void CGALExplorer::evaluate()
 	const CGAL::NefPolyhedron3& poly=primitive->getNefPolyhedron();
 	ShellExplorer se;
 	VolumeIterator vi;
+	OnceOnly first_v;
 	CGAL_forall_volumes(vi,poly) {
 		ShellEntryIterator si;
 		CGAL_forall_shells_of(si,vi) {
+			/* In the list of shells of a volume, the first one is always the
+			 * enclosing shell. In case of the outer volume, there is no outer
+			 * shell. */
 			poly.visit_shell_objects(SFaceHandle(si),se);
 		}
-		se.setDirection();
+
+		QList<CGAL::Point3> points=se.getPoints();
+		allPoints.append(points);
+		se.clearPoints();
+
+		/* The first volume, i.e. N.volumes_begin(), is always the outer
+		 * volume. Sometimes a facet will belong to the outer volume with
+		 * the normals reversed so, flip the direction of all the facets
+		 * in subsequent volumes. */
+		if(first_v()) {
+			se.setDirection();
+		} else {
+			volumePoints.append(points);
+		}
 	}
 
-	allPoints=se.getPoints();
 	primitive=se.getPrimitive();
 	basePolygons=se.getBase();
 	QMap<HalfEdgeHandle,int> periMap=se.getPerimeterMap();
@@ -263,9 +285,30 @@ CGAL::Cuboid3 CGALExplorer::getBounds()
 	return CGAL::bounding_box(pts.begin(),pts.end());
 }
 
-QList<CGALPolygon *> CGALExplorer::getBase()
+QList<CGALPolygon*> CGALExplorer::getBase()
 {
 	if(!evaluated) evaluate();
 	return basePolygons;
+}
+
+CGAL::FT CGALExplorer::getVolume()
+{
+	if(!evaluated) evaluate();
+
+	typedef CGAL::Triangulation_3<CGAL::Kernel3> Triangulation;
+	typedef Triangulation::Finite_cells_iterator CellIterator;
+	typedef Triangulation::Cell_handle CellHandle;
+	typedef Triangulation::Tetrahedron Tetrahedron;
+
+	CGAL::FT total=0;
+	foreach(Points pts, volumePoints) {
+		Triangulation tr(pts.begin(),pts.end());
+		CellIterator ci;
+		for(ci=tr.finite_cells_begin(); ci!=tr.finite_cells_end(); ++ci) {
+			Tetrahedron t=tr.tetrahedron(CellHandle(ci));
+			total+=t.volume();
+		}
+	}
+	return total;
 }
 #endif

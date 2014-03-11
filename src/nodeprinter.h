@@ -48,6 +48,7 @@
 #include "node/decomposenode.h"
 #include "node/complementnode.h"
 #include "node/radialsnode.h"
+#include "node/volumesnode.h"
 
 class NodePrinter : public NodeVisitor
 {
@@ -80,6 +81,7 @@ public:
 	void visit(DecomposeNode*);
 	void visit(ComplementNode*);
 	void visit(RadialsNode*);
+	void visit(VolumesNode*);
 	void printChildren(Node*);
 	void printArguments(Point);
 	void printArguments(Polygon);

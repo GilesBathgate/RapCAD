@@ -63,6 +63,7 @@
 #include "module/alignmodule.h"
 #include "module/complementmodule.h"
 #include "module/radialsmodule.h"
+#include "module/volumesmodule.h"
 
 #include "function/lengthfunction.h"
 #include "function/sqrtfunction.h"
@@ -147,6 +148,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new AlignModule());
 	builtins.append(new ComplementModule());
 	builtins.append(new RadialsModule());
+	builtins.append(new VolumesModule());
 
 	builtins.append(new AbsFunction());
 	builtins.append(new AcosFunction());

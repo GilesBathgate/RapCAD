@@ -372,6 +372,16 @@ CGAL::Circle3 CGALPrimitive::getRadius()
 
 }
 
+CGAL::FT CGALPrimitive::getVolume()
+{
+	this->buildPrimitive();
+	Primitive* p=copy();
+	p=p->decompose();
+
+	CGALExplorer e(p);
+	return e.getVolume();
+}
+
 bool CGALPrimitive::isFullyDimentional()
 {
 	this->buildPrimitive();

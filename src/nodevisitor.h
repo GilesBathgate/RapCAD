@@ -50,6 +50,7 @@ public:
 	virtual void visit(class DecomposeNode*)=0;
 	virtual void visit(class ComplementNode*)=0;
 	virtual void visit(class RadialsNode*)=0;
+	virtual void visit(class VolumesNode*)=0;
 };
 
 #endif // NODEVISITOR_H

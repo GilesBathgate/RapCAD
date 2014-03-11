@@ -33,13 +33,16 @@ public:
 	QList<CGAL::Point3> getPoints();
 	CGAL::Cuboid3 getBounds();
 	QList<CGALPolygon*> getBase();
+	CGAL::FT getVolume();
 private:
 	void evaluate();
 	QList<CGALPolygon*> perimeters;
 	bool evaluated;
 	CGALPrimitive* primitive;
-	QList<CGAL::Point3> allPoints;
+	typedef QList<CGAL::Point3> Points;
+	Points allPoints;
 	QList<CGALPolygon*> basePolygons;
+	QList<Points> volumePoints;
 };
 
 #endif // CGALEXPLORER_H

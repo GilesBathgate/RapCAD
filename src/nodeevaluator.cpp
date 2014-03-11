@@ -712,6 +712,18 @@ void NodeEvaluator::visit(RadialsNode* n)
 #endif
 }
 
+void NodeEvaluator::visit(VolumesNode* n)
+{
+	evaluate(n,Union);
+#if USE_CGAL
+	CGALPrimitive* pr=static_cast<CGALPrimitive*>(result);
+	CGAL::FT vol=pr->getVolume();
+
+	decimal v=to_decimal(vol);
+	output << "Volume: " << to_string(v) << endl;
+#endif
+}
+
 Primitive* NodeEvaluator::getResult() const
 {
 	return result;
