@@ -67,13 +67,8 @@ Node* CylinderModule::evaluate(Context* ctx)
 		center=centerValue->isTrue();
 
 	decimal z1,z2;
-	if(center) {
-		z1 = -h/2;
-		z2 = +h/2;
-	} else {
-		z1 = 0.0;
-		z2 = h;
-	}
+	z1 = 0.0;
+	z2 = h;
 
 	decimal r=fmax(r1,r2);
 	Fragment fg=getSpecialVariables(ctx);
@@ -123,6 +118,13 @@ Node* CylinderModule::evaluate(Context* ctx)
 		p->createPolygon();
 		foreach(Point pt,c2)
 			p->prependVertex(pt);
+	}
+
+	if(center) {
+		AlignNode* n=new AlignNode();
+		n->setCenter(true);
+		n->addChild(p);
+		return n;
 	}
 
 	return p;

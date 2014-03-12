@@ -28,6 +28,7 @@ class Node : public VisitableNode
 public:
 	Node();
 	virtual ~Node();
+	void addChild(Node*);
 	void setChildren(QList<Node*>);
 	QList<Node*> getChildren() const;
 private:

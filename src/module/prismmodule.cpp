@@ -59,13 +59,8 @@ Node* PrismModule::evaluate(Context* ctx)
 		center=centerVal->isTrue();
 
 	decimal z1,z2;
-	if(center) {
-		z1 = -h/2;
-		z2 = +h/2;
-	} else {
-		z1 = 0.0;
-		z2 = h;
-	}
+	z1 = 0.0;
+	z2 = h;
 
 	Polygon* pg1 = getPolygon(a,r,n,z1);
 	Polygon* pg2 = getPolygon(a,r,n,z2);
@@ -92,6 +87,13 @@ Node* PrismModule::evaluate(Context* ctx)
 		p->createPolygon();
 		foreach(Point pt,p2)
 			p->prependVertex(pt);
+	}
+
+	if(center) {
+		AlignNode* n=new AlignNode();
+		n->setCenter(true);
+		n->addChild(p);
+		return n;
 	}
 
 	return p;

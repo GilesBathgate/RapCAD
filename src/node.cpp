@@ -28,6 +28,11 @@ Node::~Node()
 		delete n;
 }
 
+void Node::addChild(Node* n)
+{
+	children.append(n);
+}
+
 void Node::setChildren(QList<Node*> c)
 {
 	children = c;

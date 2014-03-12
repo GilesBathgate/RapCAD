@@ -43,19 +43,10 @@ Node* CubeModule::evaluate(Context* ctx)
 
 	PrimitiveNode* p=new PrimitiveNode();
 	decimal x1, x2, y1, y2, z1, z2;
-	if(center) {
-		x1 = -x/2;
-		x2 = +x/2;
-		y1 = -y/2;
-		y2 = +y/2;
-		z1 = -z/2;
-		z2 = +z/2;
-	} else {
-		x1 = y1 = z1 = 0;
-		x2 = x;
-		y2 = y;
-		z2 = z;
-	}
+	x1 = y1 = z1 = 0;
+	x2 = x;
+	y2 = y;
+	z2 = z;
 
 	if(x==0.0) {
 		makeSideX(p,x1,y1,y2,z1,z2);
@@ -78,6 +69,13 @@ Node* CubeModule::evaluate(Context* ctx)
 	makeSideY(p,x2,x1,y2,z1,z2); //Side3 (use y2) (swap x1 <--> x2)
 	makeSideX(p,x1,y2,y1,z1,z2); //Side4 (use x1) (swap y1 <--> y2)
 	makeSideZ(p,x1,x2,y2,y1,z1); //Top   (use z1) (swap y1 <--> y2)
+
+	if(center) {
+		AlignNode* n=new AlignNode();
+		n->setCenter(true);
+		n->addChild(p);
+		return n;
+	}
 
 	return p;
 

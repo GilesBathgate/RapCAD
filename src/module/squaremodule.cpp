@@ -24,22 +24,22 @@ Node* SquareModule::evaluate(Context* ctx)
 
 	PrimitiveNode* p=new PrimitiveNode();
 	decimal x1, x2, y1, y2;
-	if(center) {
-		x1 = -x/2;
-		x2 = +x/2;
-		y1 = -y/2;
-		y2 = +y/2;
-	} else {
-		x1 = y1 = 0;
-		x2 = x;
-		y2 = y;
-	}
+	x1 = y1 = 0;
+	x2 = x;
+	y2 = y;
 
 	p->createPolygon();
 	p->appendVertex(x1, y1, 0);
 	p->appendVertex(x2, y1, 0);
 	p->appendVertex(x2, y2, 0);
 	p->appendVertex(x1, y2, 0);
+
+	if(center) {
+		AlignNode* n=new AlignNode();
+		n->setCenter(true);
+		n->addChild(p);
+		return n;
+	}
 
 	return p;
 }
