@@ -35,10 +35,12 @@ public:
 	void setReturnCode(int);
 	bool getReturnCode();
 	void outputTime(int);
+	void setKludge(int);
 private:
 	QTextStream& output;
 	QElapsedTimer* timer;
 	int returnCode;
+	int kludge;
 };
 
 #endif // REPORTER_H

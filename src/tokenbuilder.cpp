@@ -28,7 +28,7 @@ extern int lexerlineno;
 
 TokenBuilder::TokenBuilder()
 {
-	position=1;
+	position=0;
 }
 
 TokenBuilder::~TokenBuilder()
@@ -391,6 +391,7 @@ unsigned int TokenBuilder::buildCodeDocFinish()
 
 void TokenBuilder::buildWhiteSpaceError()
 {
+	position+=lexerleng;
 }
 
 void TokenBuilder::buildWhiteSpace()

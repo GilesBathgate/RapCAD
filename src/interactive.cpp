@@ -15,7 +15,13 @@ Interactive::Interactive(QTextStream& s,QObject* parent) : QObject(parent),Strat
 
 void Interactive::execCommand(QString s)
 {
-	Script* sc=parse(QString("write(%1);").arg(s),NULL,false);
+	if(!s.contains(';')) {
+		s=QString("write(%1);").arg(s);
+		/* Use a kludge factor so that the reporter doesn't include the 'write('
+		 * characters in its 'at character' output */
+		reporter->setKludge(-6);
+	}
+	Script* sc=parse(s,reporter,false);
 	TreeEvaluator e(output);
 	sc->accept(e);
 	output << endl;

@@ -20,6 +20,7 @@
 
 Reporter::Reporter(QTextStream& s) : output(s)
 {
+	kludge=0;
 	returnCode=EXIT_FAILURE;
 }
 
@@ -45,15 +46,16 @@ void Reporter::reportTiming(QString what)
 
 void Reporter::reportSyntaxError(AbstractTokenBuilder* t, QString msg, QString text)
 {
-	int pos=t->getPosition();
+	int pos=t->getPosition()+kludge;
 	int line=t->getLineNumber();
 	output << "line " << line << ": " << msg << " at character " << pos << ": '" << text << "'.\n";
 }
 
 void Reporter::reportLexicalError(AbstractTokenBuilder* t, QString text)
 {
+	int pos=t->getPosition()+kludge;
 	int line=t->getLineNumber();
-	output << line << ": illegal token '" << text << "'.\n";
+	output << "Line " << line << ": illegal token at character " << pos << ": '" << text << "'.\n";
 }
 
 void Reporter::reportFileMissingError(QString fullpath)
@@ -69,4 +71,9 @@ void Reporter::setReturnCode(int code)
 bool Reporter::getReturnCode()
 {
 	return returnCode;
+}
+
+void Reporter::setKludge(int k)
+{
+	kludge=k;
 }
