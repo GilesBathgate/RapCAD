@@ -160,6 +160,8 @@ void lexerdestroy()
 	foreach(FILE* f, openfiles)
 		fclose(f);
 	openfiles.clear();
+
+	lexerlex_destroy();
 }
 
 void lexerbegin()

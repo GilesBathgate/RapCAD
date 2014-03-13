@@ -24,11 +24,12 @@
 #include <QStack>
 #include <QDir>
 #include "abstracttokenbuilder.h"
+#include "reporter.h"
 
 class TokenBuilder : public AbstractTokenBuilder
 {
 public:
-	TokenBuilder();
+	TokenBuilder(Reporter*,QString,bool);
 	~TokenBuilder();
 	int nextToken();
 	int getPosition() const;

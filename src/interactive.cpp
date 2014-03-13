@@ -3,8 +3,6 @@
 #include "script.h"
 #include "tokenbuilder.h"
 
-extern void lexerinit(AbstractTokenBuilder*,Reporter*,QString,bool);
-
 #ifdef USE_READLINE
 namespace readline
 {
@@ -18,13 +16,15 @@ Interactive::Interactive(QTextStream& s,QObject* parent) : QObject(parent),Strat
 
 bool Interactive::isExpression(QString s)
 {
-	TokenBuilder t;
-	lexerinit(&t,NULL,s,false);
+	TokenBuilder* t=new TokenBuilder(NULL,s,false);
 	int i;
-	while((i=t.nextToken())) {
-		if(i==';')
+	while((i=t->nextToken())) {
+		if(i==';') {
+			delete t;
 			return false;
+		}
 	}
+	delete t;
 	return true;
 }
 

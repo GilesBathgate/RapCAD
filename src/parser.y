@@ -27,8 +27,6 @@
 #include "reporter.h"
 
 extern char *lexertext;
-extern void lexerinit(AbstractTokenBuilder*,Reporter*,QString,bool);
-extern void lexerdestroy();
 Script* parse(QString,Reporter*);
 
 static void parsererror(char const *);
@@ -459,15 +457,13 @@ static void parsererror(char const *s)
 	reporter->reportSyntaxError(tokenizer,s,lexertext);
 }
 
-Script* parse(QString input, Reporter* r, bool file)
+Script* parse(QString input, Reporter* r, bool isFile)
 {
 	reporter=r;
 	builder=new SyntaxTreeBuilder();
 
-	tokenizer=new TokenBuilder();
-	lexerinit(tokenizer,reporter,input,file);
+	tokenizer=new TokenBuilder(reporter,input,isFile);
 	parserparse();
-	lexerdestroy();
 	delete tokenizer;
 
 	Script* s=builder->getResult();
