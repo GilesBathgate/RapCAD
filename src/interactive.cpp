@@ -1,6 +1,9 @@
 #include "interactive.h"
 #include "treeevaluator.h"
 #include "script.h"
+#include "tokenbuilder.h"
+
+extern void lexerinit(AbstractTokenBuilder*,Reporter*,QString,bool);
 
 #ifdef USE_READLINE
 namespace readline
@@ -13,14 +16,29 @@ Interactive::Interactive(QTextStream& s,QObject* parent) : QObject(parent),Strat
 {
 }
 
+bool Interactive::isExpression(QString s)
+{
+	TokenBuilder t;
+	lexerinit(&t,NULL,s,false);
+	int i;
+	while((i=t.nextToken())) {
+		if(i==';')
+			return false;
+	}
+	return true;
+}
+
 void Interactive::execCommand(QString s)
 {
-	if(!s.contains(';')) {
+	if(isExpression(s)) {
 		s=QString("write(%1);").arg(s);
 		/* Use a kludge factor so that the reporter doesn't include the 'write('
 		 * characters in its 'at character' output */
 		reporter->setKludge(-6);
+	} else {
+		reporter->setKludge(0);
 	}
+
 	Script* sc=parse(s,reporter,false);
 	TreeEvaluator e(output);
 	sc->accept(e);

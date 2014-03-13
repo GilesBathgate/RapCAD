@@ -15,6 +15,8 @@ public:
 	int evaluate();
 public slots:
 	void execCommand(QString);
+private:
+	bool isExpression(QString s);
 };
 
 #endif // INTERACTIVE_H
