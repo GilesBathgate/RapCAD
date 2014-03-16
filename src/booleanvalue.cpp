@@ -17,6 +17,7 @@
  */
 
 #include "booleanvalue.h"
+#include "numbervalue.h"
 
 BooleanValue::BooleanValue(bool value)
 {
@@ -27,6 +28,12 @@ BooleanValue::BooleanValue(bool value)
 QString BooleanValue::getValueString() const
 {
 	return this->boolean ? "true" : "false";
+}
+
+Value* BooleanValue::toNumber()
+{
+	decimal result=boolean?1.0:0.0;
+	return new NumberValue(result);
 }
 
 bool BooleanValue::isTrue() const

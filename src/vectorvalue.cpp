@@ -55,6 +55,13 @@ VectorValue* VectorValue::toVector(int)
 	return this;
 }
 
+Value* VectorValue::toNumber()
+{
+	if(children.size()==1)
+		return children.at(0)->toNumber();
+	return new Value();
+}
+
 Point VectorValue::getPoint() const
 {
 

@@ -30,6 +30,7 @@ public:
 	QString getValueString() const;
 	bool isTrue() const;
 	VectorValue* toVector(int);
+	Value* toNumber();
 	Point getPoint() const;
 	Iterator<Value*>* createIterator();
 	virtual QList<Value*> getChildren();

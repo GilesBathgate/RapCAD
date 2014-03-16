@@ -27,6 +27,8 @@ public:
 	TextValue(QString);
 	QString getValueString() const;
 	bool isTrue() const;
+	TextValue* toText();
+	Value* toNumber();
 private:
 	Value* operation(Value&,Expression::Operator_e);
 	QString operation(QString,Expression::Operator_e,QString);

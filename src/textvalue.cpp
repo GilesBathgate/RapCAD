@@ -31,6 +31,21 @@ QString TextValue::getValueString() const
 	return this->text;
 }
 
+TextValue* TextValue::toText()
+{
+	return this;
+}
+
+Value* TextValue::toNumber()
+{
+	bool ok;
+	decimal n=to_decimal(text,&ok);
+	if(ok)
+		return new NumberValue(n);
+	else
+		return new Value();
+}
+
 bool TextValue::isTrue() const
 {
 	return !this->text.isEmpty();

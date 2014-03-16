@@ -22,6 +22,7 @@
 #include "vectorvalue.h"
 #include "booleanvalue.h"
 #include "textvalue.h"
+#include "numbervalue.h"
 
 Value::Value()
 {
@@ -86,6 +87,11 @@ VectorValue* Value::toVector(int size)
 TextValue* Value::toText()
 {
 	return new TextValue(this->getValueString());
+}
+
+Value* Value::toNumber()
+{
+	return this;
 }
 
 Iterator<Value*>* Value::createIterator()

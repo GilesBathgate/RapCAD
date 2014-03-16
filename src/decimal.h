@@ -27,13 +27,18 @@ typedef double decimal;
 template< class T >
 inline decimal to_decimal(T n)
 {
-    return to_double(n);
+	return to_double(n);
 }
 
 template<class NT>
 inline decimal inexact_sqrt(NT const& n)
 {
 	return sqrt(to_decimal(n));
+}
+
+inline decimal to_decimal(QString s,bool* ok)
+{
+	return s.toDouble(ok);
 }
 
 QString to_string(const decimal);

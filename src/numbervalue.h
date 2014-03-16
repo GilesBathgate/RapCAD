@@ -28,6 +28,7 @@ public:
 	QString getValueString() const;
 	bool isTrue() const;
 	decimal getNumber() const;
+	Value* toNumber();
 private:
 	Value* operation(Expression::Operator_e);
 	Value* operation(Value&,Expression::Operator_e);

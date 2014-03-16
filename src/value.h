@@ -19,14 +19,13 @@
 #ifndef VALUE_H
 #define VALUE_H
 
+class VectorValue;
+class TextValue;
 #include <QString>
 #include "iterator.h"
 #include "expression.h"
 #include "variable.h"
 #include "decimal.h"
-
-class VectorValue;
-class TextValue;
 
 class Value
 {
@@ -42,7 +41,8 @@ public:
 	virtual bool isTrue() const;
 	bool isDefined() const;
 	virtual VectorValue* toVector(int);
-	TextValue* toText();
+	virtual TextValue* toText();
+	virtual Value* toNumber();
 	virtual Iterator<Value*>* createIterator();
 	Value* operator^(Value&);
 	Value* operator*(Value&);

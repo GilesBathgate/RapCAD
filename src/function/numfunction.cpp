@@ -16,22 +16,17 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BOOLEANVALUE_H
-#define BOOLEANVALUE_H
+#include "numfunction.h"
+#include "context.h"
+#include "numbervalue.h"
 
-#include "value.h"
-
-class BooleanValue : public Value
+NumFunction::NumFunction() : Function("num")
 {
-public:
-	BooleanValue(bool);
-	QString getValueString() const;
-	Value* toNumber();
-	bool isTrue() const;
-private:
-	Value* operation(Expression::Operator_e);
-	Value* operation(Value&,Expression::Operator_e);
-	bool boolean;
-};
+	addParameter("value");
+}
 
-#endif // BOOLEANVALUE_H
+Value* NumFunction::evaluate(Context* ctx)
+{
+	Value* v=this->getParameterArgument(ctx,0);
+	return v->toNumber();
+}
