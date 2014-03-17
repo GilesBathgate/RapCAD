@@ -24,13 +24,14 @@
 class CGALVolume
 {
 public:
-	CGALVolume(CGAL::Cuboid3,CGAL::FT);
+	CGALVolume(CGAL::Cuboid3,CGAL::FT,CGAL::Point3);
 	CGAL::Point3 getCenter() const;
 	CGAL::FT getSize() const;
 	CGAL::Cuboid3 getBounds() const;
 private:
 	CGAL::Cuboid3 bounds;
 	CGAL::FT size;
+	CGAL::Point3 centroid;
 };
 
 #endif // CGALVOLUME_H

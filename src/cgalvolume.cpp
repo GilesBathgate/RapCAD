@@ -18,10 +18,11 @@
 
 #include "cgalvolume.h"
 
-CGALVolume::CGALVolume(CGAL::Cuboid3 b,CGAL::FT s)
+CGALVolume::CGALVolume(CGAL::Cuboid3 b,CGAL::FT s,CGAL::Point3 c)
 {
 	bounds=b;
 	size=s;
+	centroid=c;
 }
 
 CGAL::FT CGALVolume::getSize() const
@@ -31,12 +32,7 @@ CGAL::FT CGALVolume::getSize() const
 
 CGAL::Point3 CGALVolume::getCenter() const
 {
-	CGAL::FT cx=0.0,cy=0.0,cz=0.0;
-	cx=(bounds.xmin()+bounds.xmax())/2;
-	cy=(bounds.ymin()+bounds.ymax())/2;
-	cz=(bounds.zmin()+bounds.zmax())/2;
-
-	return CGAL::Point3(cx,cy,cz);
+	return centroid;
 }
 
 CGAL::Cuboid3 CGALVolume::getBounds() const

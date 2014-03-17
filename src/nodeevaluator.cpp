@@ -718,21 +718,25 @@ void NodeEvaluator::visit(VolumesNode* n)
 #if USE_CGAL
 	CGALPrimitive* pr=static_cast<CGALPrimitive*>(result);
 	CGALVolume v=pr->getVolume();
+
+	decimal vn=to_decimal(v.getSize());
+	QString vs=to_string(vn);
+	output << "Volume: " << vs << endl;
+
 	CGAL::Point3 c=v.getCenter();
 	decimal cx,cy,cz;
 	cx=to_decimal(c.x());
 	cy=to_decimal(c.y());
 	cz=to_decimal(c.z());
+
+	output << "Center of Mass: " << Point(cx,cy,cz).toString() << endl;
+
 	CGAL::Cuboid3 b=v.getBounds();
 	decimal x,y,z;
-	x=to_decimal(b.xmax()+((b.xmax()-c.x())/10));
-	y=to_decimal(b.ymax()+((b.ymax()-c.y())/10));
-	z=to_decimal(b.zmax()+((b.zmax()-c.z())/10));
+	x=to_decimal(b.xmax()+((b.xmax()-b.xmin())/10));
+	y=to_decimal(b.ymax()+((b.ymax()-b.ymin())/10));
+	z=to_decimal(b.zmax()+((b.zmax()-b.zmin())/10));
 	Point tr(x,y,z);
-
-	decimal vn=to_decimal(v.getSize());
-	QString vs=to_string(vn);
-	output << "Volume: " << vs << endl;
 
 	Polyhedron* p = new Polyhedron();
 	p->setType(Primitive::Skeleton);

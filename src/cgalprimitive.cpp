@@ -379,10 +379,7 @@ CGALVolume CGALPrimitive::getVolume()
 	p=p->decompose();
 
 	CGALExplorer e(p);
-	CGAL::FT v=e.getVolume();
-	CGAL::Cuboid3 b=e.getBounds();
-
-	return CGALVolume(b,v);
+	return e.getVolume();
 }
 
 bool CGALPrimitive::isFullyDimentional()

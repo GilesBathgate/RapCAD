@@ -21,6 +21,7 @@
 #include <CGAL/config.h>
 #include <CGAL/normal_vector_newell_3.h>
 #include <CGAL/Triangulation_3.h>
+#include <CGAL/centroid.h>
 #include "onceonly.h"
 
 CGALExplorer::CGALExplorer(Primitive* p)
@@ -291,7 +292,7 @@ QList<CGALPolygon*> CGALExplorer::getBase()
 	return basePolygons;
 }
 
-CGAL::FT CGALExplorer::getVolume()
+CGALVolume CGALExplorer::getVolume()
 {
 	if(!evaluated) evaluate();
 
@@ -301,14 +302,17 @@ CGAL::FT CGALExplorer::getVolume()
 	typedef Triangulation::Tetrahedron Tetrahedron;
 
 	CGAL::FT total=0;
+	QList<Tetrahedron> volumes;
 	foreach(Points pts, volumePoints) {
 		Triangulation tr(pts.begin(),pts.end());
 		CellIterator ci;
 		for(ci=tr.finite_cells_begin(); ci!=tr.finite_cells_end(); ++ci) {
 			Tetrahedron t=tr.tetrahedron(CellHandle(ci));
+			volumes.append(t);
 			total+=t.volume();
 		}
 	}
-	return total;
+	CGAL::Point3 cm=CGAL::centroid(volumes.begin(),volumes.end());
+	return CGALVolume(getBounds(),total,cm);
 }
 #endif
