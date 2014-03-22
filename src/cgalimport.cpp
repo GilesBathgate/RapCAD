@@ -80,11 +80,11 @@ Primitive* CGALImport::importSTL(QFileInfo fileinfo)
 				QStringList tokens=line.split(re);
 				bool ok=false;
 				if(tokens.size()==4) {
-					decimal x,y,z;
+					float x,y,z;
 					bool ox,oy,oz;
-					x=tokens[1].toDouble(&ox);
-					y=tokens[2].toDouble(&oy);
-					z=tokens[3].toDouble(&oz);
+					x=tokens[1].toFloat(&ox);
+					y=tokens[2].toFloat(&oy);
+					z=tokens[3].toFloat(&oz);
 					if((ok=ox&&oy&&oz)) {
 						CGAL::Point3 pt(x,y,z);
 						p->appendVertex(pt);
