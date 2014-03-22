@@ -55,7 +55,7 @@ Node* PolygonModule::evaluate(Context* ctx)
 			foreach(Value* indexVal,lineVec->getChildren()) {
 				NumberValue* indexNum=dynamic_cast<NumberValue*>(indexVal);
 				if(indexNum) {
-					decimal index = indexNum->getNumber();
+					int index = indexNum->getNumber();
 					if(index < points.count()) {
 						VectorValue* point=dynamic_cast<VectorValue*>(points.at(index));
 						if(point) {

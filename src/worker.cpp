@@ -134,7 +134,7 @@ void Worker::generation()
 		output << "Layers: " << v->getValueString() << "\n";
 		output.flush();
 
-		decimal itterations=v->getNumber();
+		int itterations=v->getNumber();
 		Instance* m=addProductInstance("manufacture",s);
 		for(int i=0; i<=itterations; i++) {
 			if(i>0) {
