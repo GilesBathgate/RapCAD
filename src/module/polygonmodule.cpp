@@ -54,10 +54,16 @@ Node* PolygonModule::evaluate(Context* ctx)
 			p->createPolygon();
 			foreach(Value* indexVal,lineVec->getChildren()) {
 				NumberValue* indexNum=dynamic_cast<NumberValue*>(indexVal);
-				decimal index = indexNum->getNumber();
-				VectorValue* point=dynamic_cast<VectorValue*>(points.at(index));
-				Point pt = point->getPoint();
-				p->appendVertex(pt);
+				if(indexNum) {
+					decimal index = indexNum->getNumber();
+					if(index < points.count()) {
+						VectorValue* point=dynamic_cast<VectorValue*>(points.at(index));
+						if(point) {
+							Point pt = point->getPoint();
+							p->appendVertex(pt);
+						}
+					}
+				}
 			}
 		}
 	}
