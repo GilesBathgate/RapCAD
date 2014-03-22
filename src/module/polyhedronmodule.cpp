@@ -45,7 +45,7 @@ Node* PolyhedronModule::evaluate(Context* ctx)
 			NumberValue* indexNum=dynamic_cast<NumberValue*>(indexVal);
 			if(indexNum) {
 				int index = indexNum->getNumber();
-				if(index < children.count()) {
+				if(index>=0&&index<children.count()) {
 					VectorValue* point=dynamic_cast<VectorValue*>(children.at(index));
 					if(point) {
 						Point pt = point->getPoint();

@@ -66,7 +66,7 @@ Node* PolylineModule::evaluate(Context* ctx)
 				NumberValue* indexNum=dynamic_cast<NumberValue*>(indexVal);
 				if(indexNum) {
 					int index = indexNum->getNumber();
-					if(index < points.count()) {
+					if(index>=0&&index<points.count()) {
 						VectorValue* point=dynamic_cast<VectorValue*>(points.at(index));
 						if(point) {
 							Point pt = point->getPoint();
