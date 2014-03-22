@@ -61,7 +61,7 @@ public:
 	QList<Primitive*> getChildren();
 	void appendChild(Primitive*);
 	CGAL::Circle3 getRadius();
-	CGALVolume getVolume();
+	CGALVolume getVolume(bool);
 private:
 	void init();
 	void buildPrimitive();

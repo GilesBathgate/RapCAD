@@ -372,14 +372,14 @@ CGAL::Circle3 CGALPrimitive::getRadius()
 
 }
 
-CGALVolume CGALPrimitive::getVolume()
+CGALVolume CGALPrimitive::getVolume(bool calcMass)
 {
 	this->buildPrimitive();
 	Primitive* p=copy();
 	p=p->decompose();
 
 	CGALExplorer e(p);
-	return e.getVolume();
+	return e.getVolume(calcMass);
 }
 
 bool CGALPrimitive::isFullyDimentional()

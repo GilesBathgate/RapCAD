@@ -33,7 +33,7 @@ public:
 	QList<CGAL::Point3> getPoints();
 	CGAL::Cuboid3 getBounds();
 	QList<CGALPolygon*> getBase();
-	CGALVolume getVolume();
+	CGALVolume getVolume(bool);
 private:
 	void evaluate();
 	QList<CGALPolygon*> perimeters;

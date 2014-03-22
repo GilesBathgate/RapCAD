@@ -717,7 +717,8 @@ void NodeEvaluator::visit(VolumesNode* n)
 	evaluate(n,Union);
 #if USE_CGAL
 	CGALPrimitive* pr=static_cast<CGALPrimitive*>(result);
-	CGALVolume v=pr->getVolume();
+	bool calcMass = n->getCalcMass();
+	CGALVolume v=pr->getVolume(calcMass);
 
 	decimal vn=to_decimal(v.getSize());
 	QString vs=to_string(vn);
@@ -729,7 +730,8 @@ void NodeEvaluator::visit(VolumesNode* n)
 	cy=to_decimal(c.y());
 	cz=to_decimal(c.z());
 
-	output << "Center of Mass: " << Point(cx,cy,cz).toString() << endl;
+	if(calcMass)
+		output << "Center of Mass: " << Point(cx,cy,cz).toString() << endl;
 
 	CGAL::Cuboid3 b=v.getBounds();
 	decimal x,y,z;

@@ -292,7 +292,7 @@ QList<CGALPolygon*> CGALExplorer::getBase()
 	return basePolygons;
 }
 
-CGALVolume CGALExplorer::getVolume()
+CGALVolume CGALExplorer::getVolume(bool calcMass)
 {
 	if(!evaluated) evaluate();
 
@@ -312,6 +312,16 @@ CGALVolume CGALExplorer::getVolume()
 			total+=t.volume();
 		}
 	}
+	if(!calcMass) {
+		CGAL::Cuboid3 b=getBounds();
+		CGAL::FT cx=0.0,cy=0.0,cz=0.0;
+		cx=(b.xmin()+b.xmax())/2;
+		cy=(b.ymin()+b.ymax())/2;
+		cz=(b.zmin()+b.zmax())/2;
+
+		return CGALVolume(b,total,CGAL::Point3(cx,cy,cz));
+	}
+
 	CGAL::Point3 cm=CGAL::centroid(volumes.begin(),volumes.end());
 	return CGALVolume(getBounds(),total,cm);
 }
