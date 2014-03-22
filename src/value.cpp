@@ -238,8 +238,13 @@ decimal Value::exponent(decimal left, decimal right)
 	return pow(left,right);
 }
 
-Value* Value::operation(Expression::Operator_e)
+Value* Value::operation(Expression::Operator_e e)
 {
+	if(e==Expression::Invert) {
+		bool result=basicOperation<bool>(this->defined,e);
+		return new BooleanValue(result);
+	}
+
 	return this;
 }
 
