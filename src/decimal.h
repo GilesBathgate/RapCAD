@@ -42,5 +42,7 @@ inline decimal to_decimal(QString s,bool* ok)
 }
 
 QString to_string(const decimal);
+QString to_string(const decimal,const int);
+QString to_string(const decimal,const int,const bool);
 
 #endif // DECIMAL_H

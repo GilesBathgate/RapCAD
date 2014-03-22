@@ -1,12 +1,14 @@
 #include "volumesmodule.h"
 #include "context.h"
 #include "booleanvalue.h"
+#include "numbervalue.h"
 #include "node/volumesnode.h"
 
 VolumesModule::VolumesModule() : Module("volume")
 {
 	auxilary=true;
 	addParameter("mass");
+	addParameter("precision");
 }
 
 Node* VolumesModule::evaluate(Context* ctx)
@@ -16,7 +18,12 @@ Node* VolumesModule::evaluate(Context* ctx)
 	if(massVal)
 		mass=massVal->isTrue();
 
+	NumberValue* precVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
+
 	VolumesNode* n=new VolumesNode();
+	if(precVal)
+		n->setPrecision(precVal->getNumber());
+
 	n->setCalcMass(mass);
 	n->setChildren(ctx->getInputNodes());
 	return n;

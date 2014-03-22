@@ -29,6 +29,8 @@ public:
 	Point(decimal x,decimal y,decimal z) : x(x), y(y), z(z) { }
 	bool operator==(const Point that) const;
 	QString toString() const;
+	QString toString(const int) const;
+	QString toString(const int,const bool) const;
 	void getXYZ(decimal& x, decimal& y, decimal& z) const;
 	void getXY(decimal& x, decimal& y) const;
 	decimal getX() const;

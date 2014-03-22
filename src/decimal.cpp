@@ -38,12 +38,24 @@ static inline int amountToChop(QString s)
 
 QString to_string(const decimal d)
 {
-	QString res;
-	res.setNum(d,'f',16);
+	return to_string(d,16,true);
+}
 
-	//Trim trailing zeros.
-	int n=amountToChop(res);
-	res.chop(n);
+QString to_string(const decimal d, const int precision)
+{
+	return to_string(d,precision,false);
+}
+
+QString to_string(const decimal d,const int precision,const bool trim)
+{
+	QString res;
+	res.setNum(d,'f',precision);
+
+	if(trim) {
+		//Trim trailing zeros.
+		int n=amountToChop(res);
+		res.chop(n);
+	}
 
 	return res;
 }

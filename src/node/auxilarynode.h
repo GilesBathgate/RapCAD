@@ -16,24 +16,19 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "boundsmodule.h"
-#include "numbervalue.h"
-#include "node/boundsnode.h"
+#ifndef AUXILARYNODE_H
+#define AUXILARYNODE_H
 
-BoundsModule::BoundsModule() : Module("bound")
+#include "node.h"
+
+class AuxilaryNode : public Node
 {
-	auxilary=true;
-	addParameter("precision");
-}
+public:
+	AuxilaryNode();
+	int getPrecision() const;
+	void setPrecision(int value);
+private:
+	int precision;
+};
 
-Node* BoundsModule::evaluate(Context* ctx)
-{
-	NumberValue* precVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
-
-	BoundsNode* n=new BoundsNode();
-	if(precVal)
-		n->setPrecision(precVal->getNumber());
-
-	n->setChildren(ctx->getInputNodes());
-	return n;
-}
+#endif // AUXILARYNODE_H

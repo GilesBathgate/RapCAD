@@ -1,9 +1,9 @@
 #ifndef VOLUMESNODE_H
 #define VOLUMESNODE_H
 
-#include "node.h"
+#include "auxilarynode.h"
 
-class VolumesNode : public Node
+class VolumesNode : public AuxilaryNode
 {
 public:
 	VolumesNode();

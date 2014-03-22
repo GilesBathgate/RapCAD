@@ -18,16 +18,23 @@
 
 #include "radialsmodule.h"
 #include "context.h"
+#include "numbervalue.h"
 #include "node/radialsnode.h"
 
 RadialsModule::RadialsModule() : Module("radial")
 {
 	auxilary=true;
+	addParameter("precision");
 }
 
 Node* RadialsModule::evaluate(Context* ctx)
 {
+	NumberValue* precVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+
 	RadialsNode* n=new RadialsNode();
+	if(precVal)
+		n->setPrecision(precVal->getNumber());
+
 	n->setChildren(ctx->getInputNodes());
 	return n;
 }
