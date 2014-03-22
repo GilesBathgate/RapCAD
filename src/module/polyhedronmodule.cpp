@@ -43,10 +43,16 @@ Node* PolyhedronModule::evaluate(Context* ctx)
 		VectorValue* surface=dynamic_cast<VectorValue*>(s);
 		foreach(Value* indexVal,surface->getChildren()) {
 			NumberValue* indexNum=dynamic_cast<NumberValue*>(indexVal);
-			decimal index = indexNum->getNumber();
-			VectorValue* point=dynamic_cast<VectorValue*>(children.at(index));
-			Point pt = point->getPoint();
-			p->appendVertex(pt);
+			if(indexNum) {
+				decimal index = indexNum->getNumber();
+				if(index < children.count()) {
+					VectorValue* point=dynamic_cast<VectorValue*>(children.at(index));
+					if(point) {
+						Point pt = point->getPoint();
+						p->appendVertex(pt);
+					}
+				}
+			}
 		}
 
 	}
