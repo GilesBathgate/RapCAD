@@ -1,0 +1,5 @@
+use <039_use/001_use.data>
+
+function test() {
+return external_function();
+}

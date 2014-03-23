@@ -101,6 +101,7 @@ private:
 	bool descendDone;
 	Node* rootNode;
 	QTextStream& output;
+	QList<Script*> imports;
 };
 
 #endif // TREEEVALUATOR_H

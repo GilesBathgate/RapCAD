@@ -22,6 +22,7 @@
 #include "node/unionnode.h"
 #include "builtincreator.h"
 #include "module/importmodule.h"
+#include "syntaxtreebuilder.h"
 
 TreeEvaluator::TreeEvaluator(QTextStream& s) : output(s)
 {
@@ -196,6 +197,9 @@ void TreeEvaluator::visit(Function* func)
 void TreeEvaluator::descend(Scope* scp)
 {
 	foreach(Declaration* d, scp->getDeclarations()) {
+		ScriptImport* i=dynamic_cast<ScriptImport*>(d);
+		if(i)
+			i->accept(*this);
 		Module* m = dynamic_cast<Module*>(d);
 		if(m)
 			m->accept(*this);
@@ -528,16 +532,25 @@ void TreeEvaluator::visit(ModuleImport* imp)
 	mod->setName(imp->getName());
 	//TODO global import args.
 
-	/* Adding the import module to the current layout
-	 * is ok here because we assume import statements
-	 * are at the top level, and that we will be at
+	/* Adding the import module to the current layout is ok here because we
+	 * assume import statements are at the top level, and that we will be at
 	 * the top level at this point */
 	layout->addModule(mod);
 }
 
-void TreeEvaluator::visit(ScriptImport*)
+void TreeEvaluator::visit(ScriptImport* sc)
 {
-	//TODO
+	if(descendDone)
+		return;
+
+	QString imp=sc->getImport();
+	Reporter* r=new Reporter(output);
+	Script* s=parse(imp,r,true);
+	imports.append(s);
+	delete r;
+	/* Now recursively descend any modules functions or script imports within
+	 * the imported script and add them to the main script */
+	descend(s);
 }
 
 void TreeEvaluator::visit(Literal* lit)
@@ -605,6 +618,12 @@ void TreeEvaluator::visit(Script* sc)
 		output << "Warning: return statement not valid inside global scope.\n";
 
 	rootNode=createUnion(childnodes);
+
+	/* Clean up all the imported scripts as its not the responsibility of the
+	 * caller to do so as we created the imported script instances within this
+	 * evaluator */
+	foreach(Script* sc, imports)
+		delete sc;
 
 	b->saveBuiltins(sc);
 }
