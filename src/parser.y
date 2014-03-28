@@ -16,8 +16,6 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-%expect 1 // Dangling else problem causes 1 shift/reduce conflict
-
 %{
 #include <QString>
 #include <QList>
@@ -62,7 +60,8 @@ static Reporter* reporter;
 %token <text> USE
 %token <text> IMPORT
 %token MODULE FUNCTION
-%token IF ELSE
+%token IF
+%right THEN ELSE
 %token FOR
 %token CONST PARAM
 %token <text> IDENTIFIER
@@ -259,7 +258,7 @@ assign_statement
 	;
 
 ifelse_statement
-	: IF '(' expression ')' statement
+	: IF '(' expression ')' statement %prec THEN
 	{ $$ = builder->buildIfElseStatement($3,$5); }
 	| IF '(' expression ')' statement ELSE statement
 	{ $$ = builder->buildIfElseStatement($3,$5,$7); }
