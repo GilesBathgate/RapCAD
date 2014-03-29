@@ -62,7 +62,7 @@ void Layout::addModule(Module* mod)
 {
 	QString name=mod->getName();
 	if(modules.contains(name)) {
-		reporter->reportWarning(QString("module '%1' was already defined.").arg(name));
+		reporter->reportWarning(tr("module '%1' was already defined.").arg(name));
 		return;
 	}
 
@@ -73,7 +73,7 @@ void Layout::addFunction(Function* func)
 {
 	QString name=func->getName();
 	if(functions.contains(name)) {
-		reporter->reportWarning(QString("function '%1' was already defined.").arg(name));
+		reporter->reportWarning(tr("function '%1' was already defined.").arg(name));
 		return;
 	}
 

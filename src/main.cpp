@@ -59,25 +59,25 @@ int main(int argc, char* argv[])
 	QCoreApplication* a = new QCoreApplication(argc,argv);
 
 	QCommandLineParser p;
-	p.setApplicationDescription("RapCAD the rapid prototyping IDE");
+	p.setApplicationDescription(QCoreApplication::translate("main","RapCAD the rapid prototyping IDE"));
 	p.addHelpOption();
 	p.addVersionOption();
-	p.addPositionalArgument("filename", "File to open or process.");
+	p.addPositionalArgument("filename", QCoreApplication::translate("main","File to open or process."));
 
-	QCommandLineOption testOption(QStringList() << "t" << "test", "Run through tests in working directory.");
+	QCommandLineOption testOption(QStringList() << "t" << "test", QCoreApplication::translate("main","Run through tests in working directory."));
 	p.addOption(testOption);
 
-	QCommandLineOption compareOption(QStringList() << "c" << "compare", "Compare two files to see if they are identical.","filename");
+	QCommandLineOption compareOption(QStringList() << "c" << "compare", QCoreApplication::translate("main","Compare two files to see if they are identical."),"filename");
 	p.addOption(compareOption);
 
-	QCommandLineOption printOption(QStringList() << "p" << "print", "Print debugging output.");
+	QCommandLineOption printOption(QStringList() << "p" << "print", QCoreApplication::translate("main","Print debugging output."));
 	p.addOption(printOption);
 
-	QCommandLineOption outputOption(QStringList() << "o" << "output","Create output file <filename>.","filename");
+	QCommandLineOption outputOption(QStringList() << "o" << "output",QCoreApplication::translate("main","Create output file <filename>."),"filename");
 	p.addOption(outputOption);
 
 #ifdef USE_READLINE
-	QCommandLineOption interactOption(QStringList() << "i" << "interactive","Start an interactive session");
+	QCommandLineOption interactOption(QStringList() << "i" << "interactive",QCoreApplication::translate("main","Start an interactive session"));
 	p.addOption(interactOption);
 #endif
 	p.process(*a);

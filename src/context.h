@@ -20,6 +20,7 @@
 #define CONTEXT_H
 
 #include <QHash>
+#include <QCoreApplication>
 #include <QTextStream>
 #include "value.h"
 #include "node.h"
@@ -28,6 +29,7 @@
 
 class Context
 {
+	Q_DECLARE_TR_FUNCTIONS(Context)
 public:
 	Context(Reporter*);
 	virtual ~Context();

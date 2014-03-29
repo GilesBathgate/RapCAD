@@ -20,6 +20,7 @@
 #define LAYOUT_H
 
 #include <QHash>
+#include <QCoreApplication>
 #include "reporter.h"
 #include "module.h"
 #include "function.h"
@@ -27,6 +28,7 @@
 
 class Layout
 {
+	Q_DECLARE_TR_FUNCTIONS(Layout)
 public:
 	Layout(Reporter*);
 	virtual ~Layout();

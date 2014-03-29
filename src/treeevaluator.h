@@ -20,6 +20,7 @@
 #define TREEEVALUATOR_H
 
 #include <QStack>
+#include <QCoreApplication>
 #include "treevisitor.h"
 #include "script.h"
 #include "module.h"
@@ -52,6 +53,7 @@
 
 class TreeEvaluator : public TreeVisitor
 {
+	Q_DECLARE_TR_FUNCTIONS(TreeEvaluator)
 public:
 	TreeEvaluator(Reporter*);
 	~TreeEvaluator();

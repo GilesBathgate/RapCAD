@@ -40,7 +40,7 @@ void Reporter::reportTiming(QString what)
 	qint64 mins=ticks%60;
 	ticks/=60;
 	qint64 hours=ticks;
-	output << QString("Total %1 time: %2h %3m %4s %5ms.\n").arg(what).arg(hours).arg(mins).arg(secs).arg(ms) << endl;
+	output << tr("Total %1 time: %2h %3m %4s %5ms.\n").arg(what).arg(hours).arg(mins).arg(secs).arg(ms) << endl;
 	delete timer; //Need to delete timer.
 }
 
@@ -48,24 +48,24 @@ void Reporter::reportSyntaxError(AbstractTokenBuilder* t, QString msg, QString t
 {
 	int pos=t->getPosition()+kludge;
 	int line=t->getLineNumber();
-	output << "line " << line << ": " << msg << " at character " << pos << ": '" << text << endl;
+	output << tr("Line %1: %2 at character %3: '%4'").arg(line).arg(msg).arg(pos).arg(text) << endl;
 }
 
 void Reporter::reportLexicalError(AbstractTokenBuilder* t, QString text)
 {
 	int pos=t->getPosition()+kludge;
 	int line=t->getLineNumber();
-	output << "Line " << line << ": illegal token at character " << pos << ": '" << text << endl;
+	output << tr("Line %1: illegal token at character %2: '%3'").arg(line).arg(pos).arg(text) << endl;
 }
 
 void Reporter::reportFileMissingError(QString fullpath)
 {
-	output << "Can't open input file '" << fullpath << endl;
+	output << tr("Can't open input file '") << fullpath << endl;
 }
 
 void Reporter::reportWarning(QString warning)
 {
-	output << "Warning: " << warning << endl;
+	output << tr("Warning: ") << warning << endl;
 }
 
 void Reporter::setReturnCode(int code)

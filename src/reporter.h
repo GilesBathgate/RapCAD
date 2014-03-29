@@ -19,12 +19,14 @@
 #ifndef REPORTER_H
 #define REPORTER_H
 
+#include <QCoreApplication>
 #include <QElapsedTimer>
 #include <QTextStream>
 #include "abstracttokenbuilder.h"
 
 class Reporter
 {
+	Q_DECLARE_TR_FUNCTIONS(Reporter)
 public:
 	Reporter(QTextStream& s);
 	void startTiming();
