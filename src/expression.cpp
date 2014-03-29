@@ -102,8 +102,14 @@ QString Expression::getOpString() const
 	case Index:
 		result.append("[]");
 		break;
-	default:
-		result.append("Unknown");
+	case AddAssign:
+		result.append("+=");
+		break;
+	case SubAssign:
+		result.append("-=");
+		break;
+	case None:
+		break;
 	}
 	return result;
 }
