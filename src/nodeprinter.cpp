@@ -224,7 +224,7 @@ void NodePrinter::visit(PointNode* n)
 void NodePrinter::visit(SliceNode* n)
 {
 	result << "slice(";
-	result << n->getHeight();
+	result << n->getHeight() << "," << n->getThickness();
 	result << ")";
 	printChildren(n);
 }
