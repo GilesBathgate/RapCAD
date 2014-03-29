@@ -26,6 +26,10 @@ DependencyBuilder::~DependencyBuilder()
 {
 }
 
+void DependencyBuilder::buildFileLocation(QString)
+{
+}
+
 void DependencyBuilder::buildScript(Declaration*)
 {
 }

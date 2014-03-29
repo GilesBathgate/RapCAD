@@ -460,6 +460,8 @@ Script* parse(QString input, Reporter* r, bool isFile)
 {
 	reporter=r;
 	builder=new SyntaxTreeBuilder();
+	if(isFile)
+	    builder->buildFileLocation(input);
 
 	tokenizer=new TokenBuilder(reporter,input,isFile);
 	parserparse();

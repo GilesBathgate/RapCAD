@@ -20,11 +20,17 @@
 
 SyntaxTreeBuilder::SyntaxTreeBuilder()
 {
-	script = new Script();
+	script=new Script();
 }
 
 SyntaxTreeBuilder::~SyntaxTreeBuilder()
 {
+}
+
+void SyntaxTreeBuilder::buildFileLocation(QString f)
+{
+	QFileInfo* info=new QFileInfo(f);
+	script->setFileLocation(info);
 }
 
 void SyntaxTreeBuilder::buildScript(Declaration* dec)

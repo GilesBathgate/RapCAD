@@ -26,6 +26,7 @@ class DependencyBuilder : public AbstractSyntaxTreeBuilder
 public:
 	DependencyBuilder();
 	~DependencyBuilder();
+	void buildFileLocation(QString)=0;
 	void buildScript(Declaration*);
 	void buildScript(QList<Declaration*>*);
 	void buildScript(QList<CodeDoc*>*);

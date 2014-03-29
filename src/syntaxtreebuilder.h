@@ -45,6 +45,7 @@ class SyntaxTreeBuilder : public AbstractSyntaxTreeBuilder
 public:
 	SyntaxTreeBuilder();
 	~SyntaxTreeBuilder();
+	void buildFileLocation(QString);
 	void buildScript(Declaration*);
 	void buildScript(QList<Declaration*>*);
 	void buildScript(QList<CodeDoc*>*);

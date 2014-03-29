@@ -544,13 +544,21 @@ void TreeEvaluator::visit(ScriptImport* sc)
 		return;
 
 	QString imp=sc->getImport();
+	QFileInfo* f;
+	if(importLocations.count()>0)
+		f=new QFileInfo(importLocations.top()->absoluteDir(),imp);
+	else
+		f=new QFileInfo(imp); /* relative to working dir */
+
 	Reporter* r=new Reporter(output);
-	Script* s=parse(imp,r,true);
+	Script* s=parse(f->absoluteFilePath(),r,true);
 	imports.append(s);
 	delete r;
 	/* Now recursively descend any modules functions or script imports within
 	 * the imported script and add them to the main script */
+	importLocations.push(f);
 	descend(s);
+	delete importLocations.pop();
 }
 
 void TreeEvaluator::visit(Literal* lit)
@@ -602,6 +610,11 @@ void TreeEvaluator::visit(Script* sc)
 {
 	BuiltinCreator* b=BuiltinCreator::getInstance(output);
 	b->initBuiltins(sc);
+
+	/* Use the location of the current script as the root for all imports */
+	QFileInfo* info=sc->getFileLocation();
+	if(info)
+		importLocations.push(info);
 
 	descendDone=false;
 	startLayout(sc);

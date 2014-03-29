@@ -1,0 +1,3 @@
+use <sub1/002_use.data>
+
+function external_function() = external_function2();

@@ -39,9 +39,12 @@ public:
 	void addDocumentation(QList<CodeDoc*>);
 	QList<QList<CodeDoc*> > getDocumentation();
 	void accept(TreeVisitor&);
+	QFileInfo* getFileLocation() const;
+	void setFileLocation(QFileInfo*);
 private:
 	QList<Declaration*> declarations;
 	QList<QList<CodeDoc*> > documentation;
+	QFileInfo* fileLocation;
 };
 
 extern Script* parse(QString,Reporter*,bool);

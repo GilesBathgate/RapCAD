@@ -20,12 +20,15 @@
 
 Script::Script()
 {
+	fileLocation=NULL;
 }
 
 Script::~Script()
 {
 	foreach(Declaration* d,declarations)
 		delete d;
+
+	delete fileLocation;
 }
 
 void Script::setDeclarations(QList<Declaration*> decls)
@@ -66,4 +69,14 @@ QList<QList<CodeDoc*> > Script::getDocumentation()
 void Script::accept(TreeVisitor& v)
 {
 	v.visit(this);
+}
+
+QFileInfo *Script::getFileLocation() const
+{
+    return fileLocation;
+}
+
+void Script::setFileLocation(QFileInfo *value)
+{
+    fileLocation = value;
 }

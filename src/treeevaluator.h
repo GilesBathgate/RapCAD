@@ -102,6 +102,7 @@ private:
 	Node* rootNode;
 	QTextStream& output;
 	QList<Script*> imports;
+	QStack<QFileInfo*> importLocations;
 };
 
 #endif // TREEEVALUATOR_H

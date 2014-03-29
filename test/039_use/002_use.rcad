@@ -1,4 +1,4 @@
-use <001_use.data>
+use <002_use.data>
 
 function test() {
 return external_function();

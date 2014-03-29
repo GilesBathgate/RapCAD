@@ -36,6 +36,7 @@ class AbstractSyntaxTreeBuilder
 {
 public:
 	virtual ~AbstractSyntaxTreeBuilder() {}
+	virtual void buildFileLocation(QString)=0;
 	virtual void buildScript(Declaration*)=0;
 	virtual void buildScript(QList<Declaration*>*)=0;
 	virtual void buildScript(QList<CodeDoc*>*)=0;
