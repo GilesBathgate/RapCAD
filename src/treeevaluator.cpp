@@ -156,7 +156,7 @@ void TreeEvaluator::visit(Instance* inst)
 			context->addCurrentNode(node);
 
 	} else {
-		reporter->reportWarning(QString("cannot fine module %1%2").arg(name).arg(aux?"$":""));
+		reporter->reportWarning(QString("cannot find module '%1%2'").arg(name).arg(aux?"$":""));
 	}
 }
 
