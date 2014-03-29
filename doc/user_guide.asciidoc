@@ -306,6 +306,7 @@ Builtin Functions
 |log(value,base) | Returns the logarithm of the number value to the given base.
 |max(a,b) | Returns the largest of the two given number values.
 |min(a,b) | Returns the smallest of the two given number values.
+|num(value) | Converts the value to a number value.
 |pow(value,exponent) | Returns the value raised to the power of exponent.
 |rad(degrees) | Returns the number of radians for the given number of degrees.
 |rands(min,max,count,seed) | Returns a vector of numbers with count specifying how many random numbers between the given min and max values. Seed number can optionally be used to give consistent results.
