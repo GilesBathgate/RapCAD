@@ -18,10 +18,15 @@
 
 #include "layout.h"
 
-Layout::Layout(QTextStream& s) : output(s)
+Layout::Layout(Reporter* r)
 {
+	reporter=r;
 	parent=NULL;
 	scope=NULL;
+}
+
+Layout::~Layout()
+{
 }
 
 void Layout::setParent(Layout* value)
@@ -57,7 +62,7 @@ void Layout::addModule(Module* mod)
 {
 	QString name=mod->getName();
 	if(modules.contains(name)) {
-		output << "Warning: module '" << name << "' was already defined.\n";
+		reporter->reportWarning(QString("module '%1' was already defined.").arg(name));
 		return;
 	}
 
@@ -68,7 +73,7 @@ void Layout::addFunction(Function* func)
 {
 	QString name=func->getName();
 	if(functions.contains(name)) {
-		output << "Warning: function '" << name << "' was already defined.\n";
+		reporter->reportWarning(QString("function '%1' was already defined.").arg(name));
 		return;
 	}
 

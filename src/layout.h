@@ -20,7 +20,7 @@
 #define LAYOUT_H
 
 #include <QHash>
-#include <QTextStream>
+#include "reporter.h"
 #include "module.h"
 #include "function.h"
 #include "scope.h"
@@ -28,7 +28,8 @@
 class Layout
 {
 public:
-	Layout(QTextStream&);
+	Layout(Reporter*);
+	virtual ~Layout();
 
 	void setParent(Layout*);
 
@@ -42,11 +43,11 @@ public:
 	void setScope(Scope*);
 
 private:
+	Reporter* reporter;
 	Layout* parent;
 	QHash<QString,Module*> modules;
 	QHash<QString,Function*> functions;
 	Scope* scope;
-	QTextStream& output;
 };
 
 #endif // LAYOUT_H

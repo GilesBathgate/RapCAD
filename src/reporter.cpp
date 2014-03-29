@@ -48,19 +48,24 @@ void Reporter::reportSyntaxError(AbstractTokenBuilder* t, QString msg, QString t
 {
 	int pos=t->getPosition()+kludge;
 	int line=t->getLineNumber();
-	output << "line " << line << ": " << msg << " at character " << pos << ": '" << text << "'.\n";
+	output << "line " << line << ": " << msg << " at character " << pos << ": '" << text << endl;
 }
 
 void Reporter::reportLexicalError(AbstractTokenBuilder* t, QString text)
 {
 	int pos=t->getPosition()+kludge;
 	int line=t->getLineNumber();
-	output << "Line " << line << ": illegal token at character " << pos << ": '" << text << "'.\n";
+	output << "Line " << line << ": illegal token at character " << pos << ": '" << text << endl;
 }
 
 void Reporter::reportFileMissingError(QString fullpath)
 {
-	output << "Can't open input file '" << fullpath << "'\n";
+	output << "Can't open input file '" << fullpath << endl;
+}
+
+void Reporter::reportWarning(QString warning)
+{
+	output << "Warning: " << warning << endl;
 }
 
 void Reporter::setReturnCode(int code)

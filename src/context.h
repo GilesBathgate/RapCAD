@@ -29,8 +29,8 @@
 class Context
 {
 public:
-	Context(QTextStream& s);
-	~Context();
+	Context(Reporter*);
+	virtual ~Context();
 
 	void setParent(Context*);
 
@@ -72,6 +72,7 @@ public:
 	QList<Node*> getCurrentNodes();
 	void addCurrentNode(Node*);
 private:
+	Reporter* reporter;
 	Context* parent;
 	QList<Value*> arguments;
 	QList<Value*> parameters;
@@ -85,7 +86,6 @@ private:
 	Value* matchArgument(bool,bool,QString);
 	bool match(bool,bool,QString,QString);
 	QHash<QString,Value*> variables;
-	QTextStream& output;
 };
 
 #endif // CONTEXT_H

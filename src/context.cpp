@@ -19,8 +19,9 @@
 #include "context.h"
 #include "modulescope.h"
 
-Context::Context(QTextStream& s) : output(s)
+Context::Context(Reporter* r)
 {
+	reporter=r;
 	parent=NULL;
 	currentValue=NULL;
 	returnValue=NULL;
@@ -175,7 +176,7 @@ Value* Context::getArgumentDeprecatedModule(int index, QString deprecated, QStri
 {
 	Value* v = matchArgumentIndex(false,false,index,deprecated);
 	if(v)
-		output << "Warning: '" << deprecated << "' parameter is deprecated use " << module << " instead\n";
+		reporter->reportWarning(QString("'%1' parameter is deprecated use %2 instead").arg(deprecated).arg(module));
 	return v;
 }
 
@@ -185,7 +186,7 @@ Value* Context::getArgumentDeprecated(int index, QString name, QString deprecate
 	if(!v) {
 		v = matchArgumentIndex(false,false,index,deprecated);
 		if(v)
-			output << "Warning: '" << deprecated << "' parameter is deprecated use '" << name << "' instead\n";
+			reporter->reportWarning(QString("'%1' parameter is deprecated use '%2' instead").arg(deprecated).arg(name));
 	}
 
 	return v;

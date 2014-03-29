@@ -95,7 +95,7 @@ void Worker::primary()
 		output << endl;
 	}
 
-	TreeEvaluator e(output);
+	TreeEvaluator e(reporter);
 	s->accept(e);
 	delete s;
 	output.flush();
@@ -123,7 +123,7 @@ void Worker::generation()
 {
 	Script* s=parse("reprap.rcam",NULL,true);
 
-	TreeEvaluator* e = new TreeEvaluator(output);
+	TreeEvaluator* e = new TreeEvaluator(reporter);
 	decimal height=getBoundsHeight();
 	QList<Argument*> args=getArgs(height);
 	Callback* c = addCallback("layers",s,args);
@@ -138,7 +138,7 @@ void Worker::generation()
 		Instance* m=addProductInstance("manufacture",s);
 		for(int i=0; i<=itterations; i++) {
 			if(i>0) {
-				e = new TreeEvaluator(output);
+				e = new TreeEvaluator(reporter);
 			}
 			output << "Manufacturing layer: " << i << "\n";
 			output.flush();

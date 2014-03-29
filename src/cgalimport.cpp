@@ -127,7 +127,7 @@ Primitive* CGALImport::importRCAD(QFileInfo f)
 	Reporter* r=new Reporter(output);
 
 	Script* s=parse(f.absoluteFilePath(),r,true);
-	TreeEvaluator te(output);
+	TreeEvaluator te(r);
 	s->accept(te);
 
 	Node* n = te.getRootNode();

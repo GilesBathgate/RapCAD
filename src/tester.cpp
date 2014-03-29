@@ -33,6 +33,7 @@ int Tester::evaluate()
 
 	QString null;
 	QTextStream nullout(&null);
+	Reporter nullreport(nullout);
 	QList<Argument*> args;
 	int failcount=0;
 	int testcount=0;
@@ -49,7 +50,7 @@ int Tester::evaluate()
 
 		Script* s=parse(file.absoluteFilePath(),NULL,true);
 
-		TreeEvaluator te(nullout);
+		TreeEvaluator te(&nullreport);
 
 		if(testFunctionExists(s)) {
 			//If a test function exists check it returns true

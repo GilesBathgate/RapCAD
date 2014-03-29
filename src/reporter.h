@@ -32,12 +32,13 @@ public:
 	void reportSyntaxError(AbstractTokenBuilder*,QString,QString);
 	void reportLexicalError(AbstractTokenBuilder*,QString);
 	void reportFileMissingError(QString);
+	void reportWarning(QString);
 	void setReturnCode(int);
 	bool getReturnCode();
 	void outputTime(int);
 	void setKludge(int);
-private:
 	QTextStream& output;
+private:
 	QElapsedTimer* timer;
 	int returnCode;
 	int kludge;

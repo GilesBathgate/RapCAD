@@ -24,8 +24,9 @@
 #include "module/importmodule.h"
 #include "syntaxtreebuilder.h"
 
-TreeEvaluator::TreeEvaluator(QTextStream& s) : output(s)
+TreeEvaluator::TreeEvaluator(Reporter* r)
 {
+	reporter=r;
 	context=NULL;
 	rootNode=NULL;
 	layout=NULL;
@@ -42,7 +43,7 @@ TreeEvaluator::~TreeEvaluator()
 void TreeEvaluator::startLayout(Scope* scp)
 {
 	Layout* parent=layout;
-	layout=new Layout(output);
+	layout=new Layout(reporter);
 	layout->setParent(parent);
 	layout->setScope(scp);
 	scopeLookup.insert(scp,layout);
@@ -58,7 +59,7 @@ void TreeEvaluator::finishLayout()
 void TreeEvaluator::startContext(Scope* scp)
 {
 	Context* parent = context;
-	context = new Context(output);
+	context = new Context(reporter);
 	context->setParent(parent);
 	context->setCurrentScope(scp);
 	contextStack.push(context);
@@ -82,7 +83,7 @@ void TreeEvaluator::visit(ModuleScope* scp)
 	}
 
 	if(context->getReturnValue())
-		output << "Warning: return statement not valid inside module scope.\n";
+		reporter->reportWarning(QString("return statement not valid inside module scope."));
 }
 
 void TreeEvaluator::visit(Instance* inst)
@@ -155,11 +156,7 @@ void TreeEvaluator::visit(Instance* inst)
 			context->addCurrentNode(node);
 
 	} else {
-		output << "Warning: cannot find module '" << name;
-		if(aux)
-			output << "$'." << endl;
-		else
-			output << "'." << endl;
+		reporter->reportWarning(QString("cannot fine module %1%2").arg(name).arg(aux?"$":""));
 	}
 }
 
@@ -386,11 +383,11 @@ void TreeEvaluator::visit(AssignStatement* stmt)
 	switch(c) {
 	case Variable::Const:
 		if(!context->addVariable(result))
-			output << "Warning: Attempt to alter constant variable '" << name << "'\n";
+			reporter->reportWarning(QString("Attempt to alter constant variable '%1'").arg(name));
 		break;
 	case Variable::Param:
 		if(!context->addVariable(result))
-			output << "Warning: Attempt to alter parametric variable '" << name << "'\n";
+			reporter->reportWarning(QString("Attempt to alter parametric variable '%1'").arg(name));
 		break;
 	default:
 		context->setVariable(result);
@@ -407,7 +404,7 @@ void TreeEvaluator::visit(VectorExpression* exp)
 	}
 	int commas=exp->getAdditionalCommas();
 	if(commas>0)
-		output << "Warning: " << commas << " additional comma(s) found at the end of vector expression.\n";
+		reporter->reportWarning(QString("%1 additional comma(s) found at the end of vector expression").arg(commas));
 
 	Value* v = new VectorValue(childvalues);
 	context->setCurrentValue(v);
@@ -509,7 +506,7 @@ void TreeEvaluator::visit(Invocation* stmt)
 		finishContext();
 
 	} else {
-		output << "Warning: cannot find function '" << name << "'.\n";
+		reporter->reportWarning(QString("cannot find function '%1'").arg(name));
 	}
 
 	if(!result)
@@ -550,10 +547,8 @@ void TreeEvaluator::visit(ScriptImport* sc)
 	else
 		f=new QFileInfo(imp); /* relative to working dir */
 
-	Reporter* r=new Reporter(output);
-	Script* s=parse(f->absoluteFilePath(),r,true);
+	Script* s=parse(f->absoluteFilePath(),reporter,true);
 	imports.append(s);
-	delete r;
 	/* Now recursively descend any modules functions or script imports within
 	 * the imported script and add them to the main script */
 	importLocations.push(f);
@@ -578,10 +573,10 @@ void TreeEvaluator::visit(Variable* var)
 	if(currentStorage!=oldStorage)
 		switch(oldStorage) {
 		case Variable::Const:
-			output << "Warning: Attempt to make previously non-constant variable '" << name << "' constant\n";
+			reporter->reportWarning(QString("Attempt to make previously non-constant variable '%1' constant").arg(name));
 			break;
 		case Variable::Param:
-			output << "Warning: Attempt to make previously non-parametric variable '" << name << "' parametric\n";
+			reporter->reportWarning(QString("Attempt to make previously non-parametric variable '%1' parametric").arg(name));
 			break;
 		default:
 			break;
@@ -608,7 +603,7 @@ void TreeEvaluator::visit(CodeDoc*)
 
 void TreeEvaluator::visit(Script* sc)
 {
-	BuiltinCreator* b=BuiltinCreator::getInstance(output);
+	BuiltinCreator* b=BuiltinCreator::getInstance(reporter->output);
 	b->initBuiltins(sc);
 
 	/* Use the location of the current script as the root for all imports */
@@ -628,7 +623,7 @@ void TreeEvaluator::visit(Script* sc)
 	QList<Node*> childnodes=context->getCurrentNodes();
 
 	if(context->getReturnValue())
-		output << "Warning: return statement not valid inside global scope.\n";
+		reporter->reportWarning(QString("return statement not valid inside global scope."));
 
 	rootNode=createUnion(childnodes);
 

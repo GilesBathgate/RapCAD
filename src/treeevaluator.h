@@ -20,7 +20,6 @@
 #define TREEEVALUATOR_H
 
 #include <QStack>
-#include <QTextStream>
 #include "treevisitor.h"
 #include "script.h"
 #include "module.h"
@@ -54,7 +53,7 @@
 class TreeEvaluator : public TreeVisitor
 {
 public:
-	TreeEvaluator(QTextStream&);
+	TreeEvaluator(Reporter*);
 	~TreeEvaluator();
 	void visit(Module*);
 	void visit(ModuleScope*);
@@ -93,6 +92,7 @@ private:
 	void startLayout(Scope*);
 	void finishLayout();
 
+	Reporter* reporter;
 	Context* context;
 	Layout* layout;
 	QStack<Context*> contextStack;
@@ -100,7 +100,6 @@ private:
 	QHash<Scope*,Layout*> scopeLookup;
 	bool descendDone;
 	Node* rootNode;
-	QTextStream& output;
 	QList<Script*> imports;
 	QStack<QFileInfo*> importLocations;
 };

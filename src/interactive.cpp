@@ -40,7 +40,7 @@ void Interactive::execCommand(QString s)
 	}
 
 	Script* sc=parse(s,reporter,false);
-	TreeEvaluator e(output);
+	TreeEvaluator e(reporter);
 	sc->accept(e);
 	output << endl;
 	delete sc;
