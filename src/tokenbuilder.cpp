@@ -414,6 +414,6 @@ void TokenBuilder::buildFileStart(QDir pth)
 
 void TokenBuilder::buildFileFinish()
 {
-	if(path_stack.count()>0)
+	if(!path_stack.isEmpty())
 		path_stack.pop();
 }

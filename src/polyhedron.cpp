@@ -26,13 +26,13 @@ Polygon* Polyhedron::createPolygon()
 
 void Polyhedron::appendVertex(Point p)
 {
-	if(polygons.count()>0)
+	if(!polygons.isEmpty())
 		polygons.last()->append(p);
 }
 
 void Polyhedron::prependVertex(Point p)
 {
-	if(polygons.count()>0)
+	if(!polygons.isEmpty())
 		polygons.last()->prepend(p);
 }
 
@@ -49,7 +49,7 @@ Primitive* Polyhedron::copy()
 
 bool Polyhedron::isEmpty()
 {
-	return polygons.count()<=0;
+	return polygons.isEmpty();
 }
 
 QList<Polygon*> Polyhedron::getPolygons() const

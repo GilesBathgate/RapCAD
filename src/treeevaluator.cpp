@@ -254,7 +254,7 @@ void TreeEvaluator::visit(ForStatement* forstmt)
 	QList<Value*> args=context->getArguments();
 	context->clearArguments();
 
-	if(args.count()>0) {
+	if(!args.isEmpty()) {
 		//TODO for now just consider the first arg.
 		Value* first = args.at(0);
 
@@ -545,7 +545,7 @@ void TreeEvaluator::visit(ScriptImport* sc)
 
 	QString imp=sc->getImport();
 	QFileInfo* f;
-	if(importLocations.count()>0)
+	if(!importLocations.isEmpty())
 		f=new QFileInfo(importLocations.top()->absoluteDir(),imp);
 	else
 		f=new QFileInfo(imp); /* relative to working dir */

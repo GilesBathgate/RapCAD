@@ -115,7 +115,7 @@ void CGALPrimitive::appendVertex(Point pt)
 
 void CGALPrimitive::appendVertex(CGAL::Point3 p)
 {
-	if(polygons.count()>0)
+	if(!polygons.isEmpty())
 		polygons.last()->append(p);
 }
 
@@ -129,7 +129,7 @@ void CGALPrimitive::prependVertex(Point pt)
 
 void CGALPrimitive::prependVertex(CGAL::Point3 p)
 {
-	if(polygons.count()>0)
+	if(!polygons.isEmpty())
 		polygons.last()->prepend(p);
 }
 

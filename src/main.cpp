@@ -84,7 +84,7 @@ int main(int argc, char* argv[])
 
 	QStringList inputFiles=p.positionalArguments();
 	QString inputFile;
-	if(inputFiles.count()>0)
+	if(!inputFiles.isEmpty())
 		inputFile=inputFiles.at(0);
 
 	QString outputFile;
