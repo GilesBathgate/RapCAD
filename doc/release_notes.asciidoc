@@ -1,3 +1,26 @@
+0.9.5
+   * Implemented importing scripts with the 'use' directive.
+   * Fix some hard crashes in Polygon, Polyhedron and Polyline modules.
+   * Fixed a bug so that the result of the expression !undef now yeilds true.
+   * Implemented a num() function for converting values to number.
+   * Interactive mode can now handle statements as well as expressions.
+   * Implemented a volume$ module for calculating required print material, and optionally center of mass.
+   * Implemented a radial$ module for measuring diameters and radii.
+   * Bounds module is now named "bound$" since it is an auxilary geometry module.
+   * Index over ranges and vectors using Iterator, which improves performance for huge ranges.
+   * Polygon can now take a single list of vectors for the outline.
+   * Added a few simple tests for intersection, difference and union modules.
+   * Fixed problem with undef occasionally being initialised to the wrong type.
+   * Functions now always return undef when the evaluation give no result.
+   * Fixed nested functions. Test moved from non-working and added additional test.
+   * Fixed incorrect clearing of arguments and parameters.
+   * Distribute documentation as part of RapCAD. Available from Help menu.
+   * Allow polygon module to have multiple line vectors.
+   * Added some more tests for polygon, cone, square and circle modules.
+   * Test suite is now integrated with TravisCI continuous integration.
+   * Implemented a comlement module.
+   * Added more tests for rad deg sin cos and tan functions.
+
 0.9.4
    * Implemented simple align module.
    * Fix bug where updating the view gets called twice.
