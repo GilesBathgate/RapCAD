@@ -20,7 +20,6 @@
 #define CONTEXT_H
 
 #include <QHash>
-#include <QCoreApplication>
 #include <QTextStream>
 #include "value.h"
 #include "node.h"

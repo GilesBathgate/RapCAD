@@ -20,7 +20,6 @@
 #define TREEEVALUATOR_H
 
 #include <QStack>
-#include <QCoreApplication>
 #include "treevisitor.h"
 #include "script.h"
 #include "module.h"

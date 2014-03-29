@@ -32,8 +32,9 @@
 #include "cgalbuilder.h"
 #endif
 
-NodeEvaluator::NodeEvaluator(QTextStream& s) : output(s)
+NodeEvaluator::NodeEvaluator(Reporter* r)
 {
+	reporter=r;
 }
 
 Primitive* NodeEvaluator::createPrimitive()
@@ -356,8 +357,8 @@ void NodeEvaluator::visit(BoundsNode* n)
 
 	if(zmin!=0.0) {
 		QString pos=to_string(zmin,precision);
-		QString where = zmin<0.0?" below ":" above ";
-		output << "Warning: The model is " << pos << where << "the build platform." << endl;
+		QString where = zmin<0.0?tr("below"):tr("above");
+		reporter->reportWarning(tr("the model is %1 %2 the build platform.").arg(pos).arg(where));
 
 		SimpleTextBuilder t;
 		t.setText(pos);
@@ -404,9 +405,7 @@ void NodeEvaluator::visit(BoundsNode* n)
 
 	result->appendChild(a);
 
-	output << "Bounds: ";
-	output << "[" << lower.toString(precision);
-	output << "," << upper.toString(precision) << "]" << endl;
+	reporter->reportMessage(tr("Bounds: [%1],[%2]").arg(lower.toString(precision)).arg(upper.toString(precision)));
 #endif
 }
 
@@ -446,7 +445,7 @@ void NodeEvaluator::visit(OutlineNode* op)
 void NodeEvaluator::visit(ImportNode* op)
 {
 #if USE_CGAL
-	CGALImport i(output);
+	CGALImport i(reporter);
 	result=i.import(op->getImport());
 #else
 	result=NULL;
@@ -658,7 +657,7 @@ void NodeEvaluator::visit(RadialsNode* n)
 	CGAL::Circle3 circle=pr->getRadius();
 	decimal r=inexact_sqrt(circle.squared_radius());
 	QString rs=to_string(r,precision);
-	output << "Radius: " << rs << endl;
+	reporter->reportMessage(tr("Radius: %1").arg(rs));
 
 	CGAL::Point3 c=circle.center();
 	decimal a,b;
@@ -700,7 +699,7 @@ void NodeEvaluator::visit(VolumesNode* n)
 
 	decimal vn=to_decimal(v.getSize());
 	QString vs=to_string(vn,precision);
-	output << "Volume: " << vs << endl;
+	reporter->reportMessage(tr("Volume: %1").arg(vs));
 
 	CGAL::Point3 c=v.getCenter();
 	decimal cx,cy,cz;
@@ -709,7 +708,7 @@ void NodeEvaluator::visit(VolumesNode* n)
 	cz=to_decimal(c.z());
 
 	if(calcMass)
-		output << "Center of Mass: " << Point(cx,cy,cz).toString(precision) << endl;
+		reporter->reportMessage(tr("Center of Mass: %1").arg(Point(cx,cy,cz).toString(precision)));
 
 	CGAL::Cuboid3 b=v.getBounds();
 	decimal x,y,z;

@@ -68,6 +68,11 @@ void Reporter::reportWarning(QString warning)
 	output << tr("Warning: ") << warning << endl;
 }
 
+void Reporter::reportMessage(QString msg)
+{
+	output << msg << endl;
+}
+
 void Reporter::setReturnCode(int code)
 {
 	returnCode=code;

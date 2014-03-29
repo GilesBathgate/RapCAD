@@ -21,19 +21,20 @@
 
 #include <QString>
 #include <QFileInfo>
-#include <QTextStream>
 #include "cgalprimitive.h"
+#include "reporter.h"
 
 class CGALImport
 {
+	Q_DECLARE_TR_FUNCTIONS(CGALImport)
 public:
-	CGALImport(QTextStream&);
+	CGALImport(Reporter*);
 	Primitive* import(QString);
 private:
+	Reporter* reporter;
 	Primitive* importOFF(QFileInfo);
 	Primitive* importSTL(QFileInfo);
 	Primitive* importRCAD(QFileInfo);
-	QTextStream& output;
 };
 
 #endif // CGALIMPORT_H

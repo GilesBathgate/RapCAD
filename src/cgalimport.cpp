@@ -24,15 +24,16 @@
 #include "treeevaluator.h"
 #include "nodeevaluator.h"
 
-CGALImport::CGALImport(QTextStream& out) : output(out)
+CGALImport::CGALImport(Reporter* r)
 {
+	reporter=r;
 }
 
 Primitive* CGALImport::import(QString filename)
 {
 	QFileInfo file(filename);
-	output << "Info: Importing '" << file.absoluteFilePath() << "'\n";
-	output.flush();
+	reporter->reportMessage(tr("Importing '%1'").arg(file.absoluteFilePath()));
+
 	QString suffix=file.suffix().toLower();
 	if(suffix=="off")
 		return importOFF(file);
@@ -41,7 +42,7 @@ Primitive* CGALImport::import(QString filename)
 	if(suffix=="rcad"||suffix=="csg")
 		return importRCAD(file);
 
-	output << "Warning: Unknown import type '" << suffix << "'\n";
+	reporter->reportWarning(tr("unknown import type '%1'").arg(suffix));
 	return NULL;
 }
 
@@ -60,7 +61,7 @@ Primitive* CGALImport::importSTL(QFileInfo fileinfo)
 	CGALPrimitive* p=new CGALPrimitive();
 	QFile f(fileinfo.absoluteFilePath());
 	if(!f.open(QIODevice::ReadOnly)) {
-		output << "Warning: Can't open import file '" << fileinfo.absoluteFilePath() << "'\n";
+		reporter->reportWarning(tr("Can't open import file '%1'").arg(fileinfo.absoluteFilePath()));
 		return p;
 	}
 
@@ -91,7 +92,7 @@ Primitive* CGALImport::importSTL(QFileInfo fileinfo)
 					}
 				}
 				if(!ok) {
-					output << "Warning: Can't parse vertex line '" << line << "'\n";
+					reporter->reportWarning(tr("Can't parse vertex line '%1'").arg(line));
 				}
 			}
 		}
@@ -124,18 +125,14 @@ Primitive* CGALImport::importSTL(QFileInfo fileinfo)
 
 Primitive* CGALImport::importRCAD(QFileInfo f)
 {
-	Reporter* r=new Reporter(output);
-
-	Script* s=parse(f.absoluteFilePath(),r,true);
-	TreeEvaluator te(r);
+	Script* s=parse(f.absoluteFilePath(),reporter,true);
+	TreeEvaluator te(reporter);
 	s->accept(te);
 
 	Node* n = te.getRootNode();
-	NodeEvaluator ne(output);
+	NodeEvaluator ne(reporter);
 	n->accept(ne);
 	delete n;
-
-	delete r;
 
 	return ne.getResult();
 }

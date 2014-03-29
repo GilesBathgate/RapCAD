@@ -20,7 +20,6 @@
 #define LAYOUT_H
 
 #include <QHash>
-#include <QCoreApplication>
 #include "reporter.h"
 #include "module.h"
 #include "function.h"

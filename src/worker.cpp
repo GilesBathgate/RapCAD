@@ -107,7 +107,7 @@ void Worker::primary()
 		output << endl;
 	}
 
-	NodeEvaluator ne(output);
+	NodeEvaluator ne(reporter);
 	n->accept(ne);
 	delete n;
 
@@ -149,7 +149,7 @@ void Worker::generation()
 			s->accept(*e);
 			Node* n=e->getRootNode();
 
-			NodeEvaluator* ne = new NodeEvaluator(output);
+			NodeEvaluator* ne = new NodeEvaluator(reporter);
 			n->accept(*ne);
 			delete n;
 

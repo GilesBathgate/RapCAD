@@ -35,6 +35,7 @@ public:
 	void reportLexicalError(AbstractTokenBuilder*,QString);
 	void reportFileMissingError(QString);
 	void reportWarning(QString);
+	void reportMessage(QString);
 	void setReturnCode(int);
 	bool getReturnCode();
 	void outputTime(int);

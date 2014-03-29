@@ -20,9 +20,9 @@
 #define NODEEVALUATOR_H
 
 #include <QString>
-#include <QTextStream>
 #include "primitive.h"
 #include "nodevisitor.h"
+#include "reporter.h"
 #include "node/primitivenode.h"
 #include "node/polylinenode.h"
 #include "node/unionnode.h"
@@ -54,6 +54,7 @@
 
 class NodeEvaluator : public NodeVisitor
 {
+	Q_DECLARE_TR_FUNCTIONS(NodeEvaluator)
 public:
 	enum Operation_e {
 		Group,
@@ -64,7 +65,7 @@ public:
 		Minkowski
 	};
 
-	NodeEvaluator(QTextStream&);
+	NodeEvaluator(Reporter*);
 
 	void visit(PrimitiveNode*);
 	void visit(PolylineNode*);
@@ -98,9 +99,9 @@ public:
 	void evaluate(Node*,Operation_e);
 	Primitive* getResult() const;
 private:
+	Reporter* reporter;
 	Primitive* createPrimitive();
 	Primitive* result;
-	QTextStream& output;
 };
 
 #endif // NODEEVALUATOR_H

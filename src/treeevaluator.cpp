@@ -383,11 +383,11 @@ void TreeEvaluator::visit(AssignStatement* stmt)
 	switch(c) {
 	case Variable::Const:
 		if(!context->addVariable(result))
-			reporter->reportWarning(tr("Attempt to alter constant variable '%1'").arg(name));
+			reporter->reportWarning(tr("attempt to alter constant variable '%1'").arg(name));
 		break;
 	case Variable::Param:
 		if(!context->addVariable(result))
-			reporter->reportWarning(tr("Attempt to alter parametric variable '%1'").arg(name));
+			reporter->reportWarning(tr("attempt to alter parametric variable '%1'").arg(name));
 		break;
 	default:
 		context->setVariable(result);
@@ -573,10 +573,10 @@ void TreeEvaluator::visit(Variable* var)
 	if(currentStorage!=oldStorage)
 		switch(oldStorage) {
 		case Variable::Const:
-			reporter->reportWarning(tr("Attempt to make previously non-constant variable '%1' constant").arg(name));
+			reporter->reportWarning(tr("attempt to make previously non-constant variable '%1' constant").arg(name));
 			break;
 		case Variable::Param:
-			reporter->reportWarning(tr("Attempt to make previously non-parametric variable '%1' parametric").arg(name));
+			reporter->reportWarning(tr("attempt to make previously non-parametric variable '%1' parametric").arg(name));
 			break;
 		default:
 			break;

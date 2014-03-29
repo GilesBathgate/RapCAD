@@ -46,7 +46,7 @@ int Comparer::evaluate()
 	SymmetricDifferenceNode* d=new SymmetricDifferenceNode();
 	d->setChildren(children);
 
-	NodeEvaluator ne(output);
+	NodeEvaluator ne(reporter);
 	d->accept(ne);
 	delete d;
 
