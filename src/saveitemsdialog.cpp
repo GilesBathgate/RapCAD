@@ -23,7 +23,7 @@ SaveItemsDialog::SaveItemsDialog(QWidget* parent,bool compiling,QList<QString> i
 		QString visibleName;
 		QString directory;
 		if(fileName.isEmpty()) {
-			visibleName = "[New]";
+			visibleName = tr("[New]");
 		} else {
 			QFileInfo info = QFileInfo(fileName);
 			directory = info.absolutePath();

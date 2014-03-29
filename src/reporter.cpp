@@ -60,17 +60,22 @@ void Reporter::reportLexicalError(AbstractTokenBuilder* t, QString text)
 
 void Reporter::reportFileMissingError(QString fullpath)
 {
-	output << tr("Can't open input file '") << fullpath << endl;
+	output << tr("Can't open input file '%1'").arg(fullpath) << endl;
 }
 
 void Reporter::reportWarning(QString warning)
 {
-	output << tr("Warning: ") << warning << endl;
+	output << tr("Warning: %1").arg(warning) << endl;
 }
 
 void Reporter::reportMessage(QString msg)
 {
 	output << msg << endl;
+}
+
+void Reporter::reportException(QString ex)
+{
+	output << tr("Exception: %1").arg(ex) << endl;
 }
 
 void Reporter::setReturnCode(int code)

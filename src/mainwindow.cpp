@@ -317,7 +317,7 @@ void MainWindow::setupTreeview()
 {
 	myModel = new QStandardItemModel();
 	QStringList headers;
-	headers << "Projects";
+	headers << tr("Projects");
 	myModel->setHorizontalHeaderLabels(headers);
 	QStandardItem* parentItem = myModel->invisibleRootItem();
 
@@ -439,7 +439,7 @@ bool MainWindow::maybeSave(bool compiling)
 void MainWindow::newFile()
 {
 	CodeEditor* e = new CodeEditor(this);
-	int i=ui->tabWidget->addTab(e,"[New]");
+	int i=ui->tabWidget->addTab(e,tr("[New]"));
 	ui->tabWidget->setCurrentIndex(i);
 
 	setupEditor(e);
@@ -631,7 +631,7 @@ void MainWindow::showAboutQt()
 void MainWindow::showBuiltins()
 {
 	CodeEditor* e = new CodeEditor(this);
-	int i=ui->tabWidget->addTab(e,"Built In");
+	int i=ui->tabWidget->addTab(e,tr("Built In"));
 	ui->tabWidget->setCurrentIndex(i);
 
 	connect(e,SIGNAL(copyAvailable(bool)), ui->actionCopy, SLOT(setEnabled(bool)));

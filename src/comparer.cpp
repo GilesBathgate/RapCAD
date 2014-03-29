@@ -52,15 +52,15 @@ int Comparer::evaluate()
 
 	Primitive* p=ne.getResult();
 	if(p&&p->isEmpty()) {
-		output << "The objects are identical." << endl;
+		reporter->reportMessage(tr("The objects are identical."));
 		reporter->setReturnCode(EXIT_SUCCESS);
 	} else {
-		output << "The objects are different" << endl;
+		reporter->reportMessage(tr("The objects are different"));
 		reporter->setReturnCode(EXIT_FAILURE);
 	}
 
 	delete p;
-	reporter->reportTiming("comparison");
+	reporter->reportTiming(tr("comparison"));
 
 	return reporter->getReturnCode();
 }

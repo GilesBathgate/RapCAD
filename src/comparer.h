@@ -23,6 +23,7 @@
 
 class Comparer : public Strategy
 {
+	Q_DECLARE_TR_FUNCTIONS(Comparer)
 public:
 	Comparer(QTextStream&);
 	void setup(QString,QString);

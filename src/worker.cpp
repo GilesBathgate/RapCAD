@@ -64,7 +64,7 @@ void Worker::internal()
 
 		primary();
 
-		reporter->reportTiming("compiling");
+		reporter->reportTiming(tr("compiling"));
 
 		if(generate) {
 			update();
@@ -74,10 +74,10 @@ void Worker::internal()
 
 #if USE_CGAL
 	} catch(CGAL::Failure_exception e) {
-		output << "What: " << QString::fromStdString(e.what()) << endl;
+		reporter->reportException(QString::fromStdString(e.what()));
 #endif
 	} catch(...) {
-		output << "Unknown error." << endl;
+		reporter->reportException(tr("Unknown error."));
 	}
 
 	update();
@@ -113,7 +113,7 @@ void Worker::primary()
 
 	primitive=ne.getResult();
 	if(!primitive)
-		output << "Warning: No top level object.\n";
+		reporter->reportWarning(tr("no top level object."));
 	else if(!outputFile.isEmpty()) {
 		exportResult(outputFile);
 	}
@@ -131,8 +131,7 @@ void Worker::generation()
 
 	NumberValue* v = dynamic_cast<NumberValue*>(c->getResult());
 	if(v) {
-		output << "Layers: " << v->getValueString() << "\n";
-		output.flush();
+		reporter->reportMessage(tr("Layers: %1").arg(v->getValueString()));
 
 		int itterations=v->getNumber();
 		Instance* m=addProductInstance("manufacture",s);
@@ -140,8 +139,7 @@ void Worker::generation()
 			if(i>0) {
 				e = new TreeEvaluator(reporter);
 			}
-			output << "Manufacturing layer: " << i << "\n";
-			output.flush();
+			reporter->reportMessage(tr("Manufacturing layer: %1").arg(i));
 
 			QList<Argument*> args=getArgs(i);
 			m->setArguments(args);
@@ -210,7 +208,7 @@ void Worker::exportResult(QString fn)
 			exporter.exportResult(fn);
 		}
 	} catch(CGAL::Failure_exception e) {
-		output << "What: " << QString::fromStdString(e.what()) << endl;
+		reporter->reportException(QString::fromStdString(e.what()));
 	}
 #endif
 }
@@ -231,7 +229,7 @@ Renderer* Worker::getRenderer()
 		if(p)
 			render=new CGALRenderer(p);
 	} catch(CGAL::Failure_exception e) {
-		output << "What: " << QString::fromStdString(e.what()) << endl;
+		reporter->reportException(QString::fromStdString(e.what()));
 	}
 #endif
 	return render;

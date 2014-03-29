@@ -36,6 +36,7 @@ public:
 	void reportFileMissingError(QString);
 	void reportWarning(QString);
 	void reportMessage(QString);
+	void reportException(QString);
 	void setReturnCode(int);
 	bool getReturnCode();
 	void outputTime(int);

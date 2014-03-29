@@ -23,14 +23,14 @@ AboutDialog::AboutDialog(QWidget* parent) :
 	QPixmap rapcadPicture(":/icons/rapcad-100x100.png");
 	ui->picture->setPixmap(rapcadPicture);
 
-	ui->name->setText("RapCAD Version " + QSTRINGIFY(RAPCAD_VERSION));
-	ui->components->appendPlainText("Qt\tVersion: " + QString(QT_VERSION_STR));
+	ui->name->setText(tr("RapCAD Version %1").arg(QSTRINGIFY(RAPCAD_VERSION)));
+	ui->components->appendPlainText(tr("Qt\tVersion: %1").arg(QT_VERSION_STR));
 #if USE_CGAL
-	ui->components->appendPlainText("CGAL\tVersion: " + QString(CGAL_VERSION_STR));
+	ui->components->appendPlainText(tr("CGAL\tVersion: %1").arg(CGAL_VERSION_STR));
 #endif
-	ui->components->appendPlainText("Boost\tVersion: " + QString(BOOST_LIB_VERSION));
+	ui->components->appendPlainText(tr("Boost\tVersion: %1").arg(BOOST_LIB_VERSION));
 #ifdef USE_DXF
-	ui->components->appendPlainText("Dxflib\tVersion: " + QString(DL_VERSION));
+	ui->components->appendPlainText(tr("Dxflib\tVersion: %1").arg(DL_VERSION));
 #endif
 }
 

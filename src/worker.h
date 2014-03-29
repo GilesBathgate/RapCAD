@@ -32,6 +32,7 @@
 
 class Worker : public Strategy
 {
+	Q_DECLARE_TR_FUNCTIONS(Worker)
 public:
 	Worker(QTextStream&);
 	void setup(QString,QString,bool,bool);
