@@ -16,25 +16,23 @@ Interactive::Interactive(QTextStream& s,QObject* parent) : QObject(parent),Strat
 
 bool Interactive::isExpression(QString s)
 {
-	TokenBuilder* t=new TokenBuilder(NULL,s,false);
+	TokenBuilder t(NULL,s,false);
 	int i;
-	while((i=t->nextToken())) {
-		if(i==';') {
-			delete t;
+	while((i=t.nextToken())) {
+		if(i==';'||i=='}') {
 			return false;
 		}
 	}
-	delete t;
 	return true;
 }
 
 void Interactive::execCommand(QString s)
 {
 	if(isExpression(s)) {
-		s=QString("write(%1);").arg(s);
+		s=QString("writeln(%1);").arg(s);
 		/* Use a kludge factor so that the reporter doesn't include the 'write('
 		 * characters in its 'at character' output */
-		reporter->setKludge(-6);
+		reporter->setKludge(-8);
 	} else {
 		reporter->setKludge(0);
 	}
@@ -42,7 +40,7 @@ void Interactive::execCommand(QString s)
 	Script* sc=parse(s,reporter,false);
 	TreeEvaluator e(reporter);
 	sc->accept(e);
-	output << endl;
+	output.flush();
 	delete sc;
 }
 
@@ -63,6 +61,6 @@ int Interactive::evaluate()
 		execCommand(c);
 	} while(c!=NULL);
 	output << endl;
-	return 0;
+	return EXIT_SUCCESS;
 #endif
 }

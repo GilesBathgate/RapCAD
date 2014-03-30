@@ -26,12 +26,14 @@ Console::Console(QWidget* parent) :
 
 void Console::displayPrompt()
 {
-	QTextCursor cursor = textCursor();
+	QTextCursor cursor=textCursor();
+	if(cursor.columnNumber()>0)
+		cursor.insertText("\n");
 	cursor.insertText(prompt);
 	cursor.movePosition(QTextCursor::EndOfLine);
 	setTextCursor(cursor);
 
-	promptBlock = cursor.blockNumber();
+	promptBlock=cursor.blockNumber();
 }
 
 void Console::keyPressEvent(QKeyEvent* e)
@@ -44,7 +46,7 @@ void Console::keyPressEvent(QKeyEvent* e)
 		return;
 	case Qt::Key_Left:
 	case Qt::Key_Backspace:
-		if(handleBackspace() || !inPromptBlock())
+		if(handleBackspace()||!inPromptBlock())
 			return;
 		break;
 	case Qt::Key_Down:
@@ -65,16 +67,17 @@ void Console::keyPressEvent(QKeyEvent* e)
 
 bool Console::inPromptBlock()
 {
-	int block = textCursor().blockNumber();
-	int column = textCursor().columnNumber();
+	QTextCursor cursor=textCursor();
+	int block=cursor.blockNumber();
+	int column=cursor.columnNumber();
 	return (block > promptBlock) || ((block == promptBlock) && (column >= promptLength));
 }
 
 bool Console::handleBackspace()
 {
-	QTextCursor cursor = textCursor();
-	int column = cursor.columnNumber();
-	int block = cursor.blockNumber();
+	QTextCursor cursor=textCursor();
+	int column=cursor.columnNumber();
+	int block=cursor.blockNumber();
 	if(block == promptBlock && column == promptLength)
 		return true;
 	return false;
@@ -97,11 +100,11 @@ void Console::handleReturn()
 
 QString Console::getCommand()
 {
-	QTextCursor cursor = textCursor();
+	QTextCursor cursor=textCursor();
 	cursor.movePosition(QTextCursor::StartOfLine);
 	cursor.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, promptLength);
 	cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
-	QString command = cursor.selectedText();
+	QString command=cursor.selectedText();
 	cursor.clearSelection();
 	return command;
 }
