@@ -247,8 +247,14 @@ void CGALExplorer::evaluate()
 							poly->setNormal(v);
 
 							perimeters.append(poly);
-							poly=new CGALPolygon();
+
 							f=findNewEdge(visited,outEdges);
+							if(f==NULL) {
+								evaluated=true;
+								return;
+							}
+
+							poly=new CGALPolygon();
 							c=f;
 							first=true;
 						}
