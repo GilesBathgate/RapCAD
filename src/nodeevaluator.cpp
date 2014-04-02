@@ -209,7 +209,8 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 			}
 		}
 
-		foreach(CGALPolygon* pg, explorer.getPerimeters()) {
+		CGALPrimitive* peri=explorer.getPerimeters();
+		foreach(CGALPolygon* pg,peri->getCGALPolygons()) {
 			up=(pg->getNormal().z()>0);
 			OnceOnly first;
 			CGAL::Point3 pn;
@@ -270,7 +271,8 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 		decimal phi=(M_TAU*i)/f;
 		decimal nphi=(M_TAU*j)/f;
 
-		foreach(CGALPolygon* pg,explorer.getPerimeters()) {
+		CGALPrimitive* peri=explorer.getPerimeters();
+		foreach(CGALPolygon* pg,peri->getCGALPolygons()) {
 			OnceOnly first;
 			CGAL::Point3 pn;
 			foreach(CGAL::Point3 pt, pg->getPoints()) {
@@ -428,17 +430,7 @@ void NodeEvaluator::visit(OutlineNode* op)
 
 #if USE_CGAL
 	CGALExplorer explorer(result);
-	CGALPrimitive* cp=new CGALPrimitive();
-	cp->setType(Primitive::Skeleton);
-
-	foreach(CGALPolygon* pg,explorer.getPerimeters()) {
-		cp->createPolygon();
-		foreach(CGAL::Point3 pt, pg->getPoints()) {
-			cp->appendVertex(pt);
-		}
-	}
-
-	result=cp;
+	result=explorer.getPerimeters();
 #endif
 }
 

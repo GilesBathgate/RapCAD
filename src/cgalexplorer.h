@@ -28,7 +28,7 @@ public:
 	CGALExplorer(Primitive*);
 	CGALExplorer(CGALPrimitive*);
 	CGALExplorer(QList<Primitive*>);
-	QList<CGALPolygon*> getPerimeters();
+	CGALPrimitive* getPerimeters();
 	CGALPrimitive* getPrimitive();
 	QList<CGAL::Point3> getPoints();
 	CGAL::Cuboid3 getBounds();
@@ -36,7 +36,7 @@ public:
 	CGALVolume getVolume(bool);
 private:
 	void evaluate();
-	QList<CGALPolygon*> perimeters;
+	CGALPrimitive* perimeters;
 	bool evaluated;
 	CGALPrimitive* primitive;
 	typedef QList<CGAL::Point3> Points;

@@ -213,7 +213,9 @@ void CGALExplorer::evaluate()
 		 * each halfedge so that the edges come out in the correct
 		 * order. We check that we didnt reverse direction and if
 		 * we did we walk along the twin edge. */
-		CGALPolygon* poly=new CGALPolygon();
+		perimeters=new CGALPrimitive();
+		perimeters->setType(Primitive::Skeleton);
+		CGALPolygon* poly=static_cast<CGALPolygon*>(perimeters->createPolygon());
 		HalfEdgeHandle f=outEdges.first();
 		HalfEdgeHandle c=f;
 		QList<HalfEdgeHandle> visited;
@@ -233,12 +235,12 @@ void CGALExplorer::evaluate()
 							first=false;
 						}
 
-						poly->append(np);
+						perimeters->appendVertex(np);
 						visited.append(h);
 						c=h;
 
 						if(h==f) {
-							poly->append(fp);
+							perimeters->appendVertex(fp);
 
 							//Calculate the normal of the perimeter polygon
 							CGAL::Vector3 v;
@@ -246,15 +248,13 @@ void CGALExplorer::evaluate()
 							CGAL::normal_vector_newell_3(pts.begin(),pts.end(),v);
 							poly->setNormal(v);
 
-							perimeters.append(poly);
-
 							f=findNewEdge(visited,outEdges);
 							if(f==NULL) {
 								evaluated=true;
 								return;
 							}
 
-							poly=new CGALPolygon();
+							poly=static_cast<CGALPolygon*>(perimeters->createPolygon());
 							c=f;
 							first=true;
 						}
@@ -268,7 +268,7 @@ void CGALExplorer::evaluate()
 	evaluated=true;
 }
 
-QList<CGALPolygon*> CGALExplorer::getPerimeters()
+CGALPrimitive* CGALExplorer::getPerimeters()
 {
 	if(!evaluated) evaluate();
 	return perimeters;
