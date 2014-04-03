@@ -9,6 +9,8 @@
 #include "cgalexplorer.h"
 #include "onceonly.h"
 
+CGAL::NefPolyhedron3* CGALPrimitive::singlePoint=NULL;
+
 void CGALPrimitive::init()
 {
 	nUnion=NULL;
@@ -65,22 +67,33 @@ void CGALPrimitive::buildPrimitive()
 	}
 
 	default: {
-		QVector<CGAL::Point3> pl1,pl2;
+		if(!singlePoint) {
+			QVector<CGAL::Point3> pl1,pl2;
+			CGAL::Point3 p1=CGAL::Point3(0.0,0.0,0.0);
+			CGAL::Point3 p2=CGAL::Point3(1.0,0.0,0.0);
+			CGAL::Point3 p3=CGAL::Point3(0.0,1.0,0.0);
+
+			pl1.append(p1);
+			pl1.append(p2);
+			singlePoint=createPolyline(pl1);
+
+			pl2.append(p1);
+			pl2.append(p3);
+			const CGAL::NefPolyhedron3* np=createPolyline(pl2);
+
+			*singlePoint=singlePoint->intersection(*np);
+		}
 
 		QList<CGAL::Point3> points=polygons.last()->getPoints();
 		CGAL::Point3 p=points.last();
-		CGAL::Point3 p1=CGAL::Point3(p.x()+1,p.y(),p.z());
-		CGAL::Point3 p2=CGAL::Point3(p.x(),p.y()+1,p.z());
 
-		pl1.append(p);
-		pl1.append(p1);
-		nefPolyhedron=createPolyline(pl1);
+		nefPolyhedron=new CGAL::NefPolyhedron3(*singlePoint);
 
-		pl2.append(p);
-		pl2.append(p2);
-		const CGAL::NefPolyhedron3* np=createPolyline(pl2);
-
-		*nefPolyhedron=nefPolyhedron->intersection(*np);
+		CGAL::AffTransformation3 t(
+			1, 0, 0, p.x(),
+			0, 1, 0, p.y(),
+			0, 0, 1, p.z(), 1);
+		nefPolyhedron->transform(t);
 		return;
 	}
 	}
