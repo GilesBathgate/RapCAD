@@ -5,9 +5,9 @@
 Name:           rapcad
 Version:        0.9.5
 Release:        1
-License:        GPLv3+
+License:        GPL-3.0+
 Summary:        Rapid prototyping CAD IDE for 3D printing machines
-Url:            http://rapcad.org/
+Url:            http://gilesbathgate.com/category/rapcad/
 Group:          Productivity/Graphics/CAD
 Source:         http://github.com/GilesBathgate/RapCAD/archive/v%{version}.tar.gz
 BuildRequires:  flex
