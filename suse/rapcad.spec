@@ -9,19 +9,21 @@ License:        GPLv3+
 Summary:        Rapid prototyping CAD IDE for 3D printing machines
 Url:            http://rapcad.org/
 Group:          Productivity/Graphics/CAD
-Source:         http://git.rapcad.org/cgit.cgi/rapcad/snapshot/%{name}-%{version}.tar.bz2
+Source:         http://github.com/GilesBathgate/RapCAD/archive/v%{version}.tar.gz
 BuildRequires:  flex
 BuildRequires:  gcc-c++
 BuildRequires:  boost-devel
 BuildRequires:  gmp-devel
 BuildRequires:  libcgal-devel
+BuildRequires:  readline-devel
+BuildRequires:  glu-devel
 %if 0%{?suse_version}
 BuildRequires:  bison
-BuildRequires:  libqt4-devel
+BuildRequires:  libQt5OpenGL-devel
 %endif
 %if 0%{?fedora_version}
 BuildRequires:  byacc
-BuildRequires:  qt-devel
+BuildRequires:  qt5-devel
 %endif
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
@@ -29,15 +31,10 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 RapCAD is the Rapid prototyping CAD IDE for RepRap and RepStrap 3D printing machines.
 
 %prep
-%setup -q
+%setup -q -n RapCAD-%{version}
 
 %build
-%if 0%{?suse_version}
-qmake "CONFIG+=official"
-%endif
-%if 0%{?fedora_version}
-qmake-qt4 "CONFIG+=official"
-%endif
+qmake-qt5 "CONFIG+=official"
 make %{?_smp_mflags}
 
 %install
