@@ -12,7 +12,7 @@ MinFunction::MinFunction() : Function("min")
 
 static decimal minimum(QList<Value*> values,bool& ok)
 {
-	decimal v;
+	decimal v=0.0;
 	OnceOnly first;
 	foreach(Value* a,values) {
 		NumberValue* nextVal=dynamic_cast<NumberValue*>(a);
@@ -21,12 +21,13 @@ static decimal minimum(QList<Value*> values,bool& ok)
 				v=nextVal->getNumber();
 			else
 				v=fmin(v,nextVal->getNumber());
-
 			ok=true;
+			continue;
 		}
 		VectorValue* vecVal=dynamic_cast<VectorValue*>(a);
 		if(vecVal) {
 			v=fmin(v,minimum(vecVal->getChildren(),ok));
+			continue;
 		}
 		RangeValue* rngVal=dynamic_cast<RangeValue*>(a);
 		if(rngVal) {
