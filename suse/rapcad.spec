@@ -17,14 +17,8 @@ BuildRequires:  gmp-devel
 BuildRequires:  libcgal-devel
 BuildRequires:  readline-devel
 BuildRequires:  glu-devel
-%if 0%{?suse_version}
 BuildRequires:  bison
-BuildRequires:  libQt5OpenGL-devel
-%endif
-%if 0%{?fedora_version}
-BuildRequires:  byacc
-BuildRequires:  qt5-devel
-%endif
+BuildRequires:  libqt5-qtbase-devel
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
