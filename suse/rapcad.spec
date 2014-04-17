@@ -16,12 +16,13 @@ BuildRequires:  boost-devel
 BuildRequires:  gmp-devel
 BuildRequires:  libcgal-devel
 BuildRequires:  readline-devel
-BuildRequires:  glu-devel
 BuildRequires:  bison
 %if 0%{?suse_version}
+BuildRequires:  glu-devel
 BuildRequires:  libqt5-qtbase-devel
 %endif
 %if 0%{?fedora_version}
+BuildRequires:  mesa-libGL-devel
 BuildRequires:  qt5-qtbase-devel
 %endif
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
