@@ -22,7 +22,7 @@ BuildRequires:  glu-devel
 BuildRequires:  libqt5-qtbase-devel
 %endif
 %if 0%{?fedora_version}
-BuildRequires:  mesa-libGL-devel
+BuildRequires:  mesa-libGLU-devel
 BuildRequires:  qt5-qtbase-devel
 %endif
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
