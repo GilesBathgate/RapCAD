@@ -1,0 +1,123 @@
+.Features
+[options="header"]
+|=======================
+|Feature|RapCAD|OpenSCAD|ImplicitCAD
+|OpenCSG Rendering|No|Yes|No
+|CGAL Rendering|Yes|Yes|No
+|Marching Squares Rendering|No|No|Yes
+|Raytracing|No|No|Yes
+|Variables|Yes|Immutable|Yes
+|Constants|Yes|No|No
+|Parametric Variables|Yes|No|No
+|Inline User Functions|Yes|Yes|Yes
+|Imperative User Functions|Yes|No|No
+|Nested User Modules|Yes|Yes|Yes
+|Assignment inside for|Yes|No|Yes
+|Assignment inside if|Yes|No|Yes
+|Assignement inside instance|Yes|No|Yes
+|Assign module|No|Yes|No
+|QA Test framework|Yes|Yes|No
+|Polyset Caching|No|Yes|No
+|CGAL Caching|No|Yes|No
+|Implied Unions|Yes|Yes|No
+|Minkowski 2D only|No|Yes|No
+|Minkowski 3D only|Yes|Yes|No
+|Minkowski mixed 2D/3D|Yes|No|No
+|Hull 2D only|Yes|Yes|No
+|Hull 3D only|Yes|Yes|No
+|Hull mixed 2D/3D|Yes|No|No
+|Rounded Unions|No|No|Yes
+|Function Based Extrude|No|No|Yes
+|Conical Extrude|No|Yes|No
+|Syntax Highlighting|Yes|Yes|Yes
+|Line Numbering|Yes|No|Yes
+|Auto Indentation|No|No|Yes
+|Save/Restore Default View|Yes|No|No
+|Multiple Files/Tabs|Yes|No|No
+|External File Change monitoring|No|Yes|No
+|DXF Import|No|Yes|No
+|STL Import|Yes|Yes|No
+|OFF Import|Yes|Yes|No
+|AMF Import|No|No|No
+|STL Export|Yes|Yes|Yes
+|AMF Export|Yes|No|No
+|OFF Export|Yes|Yes|No
+|DXF Export|No|Yes|No
+|PNG Export|Yes|Yes|Yes
+|OBJ Export|No|No|Yes
+|SVG Export|No|No|Yes
+|Lazer Cutter GCODE Export|No|No|Yes
+|3D Printer GCODE Export|Planned|No|No
+|Cube|Yes|Yes|Yes
+|Sphere|Yes|Yes|Yes
+|Cylinder|Yes|Yes|Yes
+|Cone|Yes|No|No
+|Prism (with optional apothem)|Yes|No|No
+|Prism (via $fn=sides)|Yes|Yes|Yes
+|Polyhedron|Yes|Yes|No
+|Square|Yes|Yes|Yes
+|Circle|Yes|Yes|Yes
+|Polygon|Yes|Yes|No
+|Polyline|Yes|No|No
+|Point|Yes|No|No
+|Bezier Surface|Yes|No|No
+|Cylinder Surface|Yes|No|No
+|Echo|Yes|Yes|Yes
+|Child|Yes|Yes|Yes
+|Bounds|Yes|No|No
+|Resize|Yes|No|No
+|Center|Yes|No|No
+|Union|Yes|Yes|Yes
+|Group|Yes|Yes|No
+|Difference|Yes|Yes|Yes
+|Symmetric_Difference|Yes|No|No
+|Intersection|Yes|Yes|Yes
+|Minkowski|Yes|Yes|No
+|Glide|Yes|No|No
+|Hull|Yes|Yes|No
+|Subdivision|No|No|No
+|Linear_Extrude|Yes|Yes|Yes
+|Rotate_Extrude|Yes|Yes|Yes
+|Mirror|Yes|Yes|No
+|Offset|Yes|No|No
+|Rotate|Yes|Yes|Yes
+|Scale|Yes|Yes|Yes
+|Shear|Yes|No|No
+|Translate|Yes|Yes|Yes
+|Slice|Yes|No|No
+|Surface|No|Yes|No
+|Projection|Yes|Yes|No
+|Render|No|Yes|No
+|Pack|No|No|Yes
+|Shell|No|No|Yes
+|abs|Yes|Yes|Yes
+|acos|Yes|Yes|Yes
+|asin|Yes|Yes|Yes
+|atan2|Yes|Yes|Yes
+|atan|Yes|Yes|Yes
+|ceil|Yes|Yes|Yes
+|concat|No|Yes|No
+|cos|Yes|Yes|Yes
+|cosh|Yes|No|Yes
+|exp|Yes|Yes|Yes
+|floor|Yes|Yes|Yes
+|ln|Yes|Yes|Yes
+|len|Yes|Yes|Yes
+|log|Yes|Yes|Yes
+|lookup|No|Yes|No
+|max|Yes|Yes|Yes
+|min|Yes|Yes|Yes
+|pow|Yes|Yes|Yes
+|rands|Yes|Yes|No
+|round|Yes|Yes|Yes
+|sign|Yes|Yes|Yes
+|sin|Yes|Yes|Yes
+|sinh|Yes|No|Yes
+|sqrt|Yes|Yes|Yes
+|str|Yes|Yes|Yes
+|sum|Yes|No|No
+|search|No|Yes|No
+|tan|Yes|Yes|Yes
+|tanh|Yes|No|Yes
+|version|Yes|Yes|No
+|version_num|No|Yes|No
