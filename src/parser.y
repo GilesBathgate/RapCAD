@@ -217,6 +217,7 @@ single_statement
 	| for_statement
 	{ $$ = builder->buildStatement($1); }
 	| return_statement
+	{ $$ = builder->buildStatement($1); }
 	;
 
 return_statement
