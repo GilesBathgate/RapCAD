@@ -9,8 +9,6 @@ class VersionFunction : public Function
 public:
 	VersionFunction();
 	Value* evaluate(Context*);
-private:
-	QList<Value*> version;
 };
 
 #endif // VERSIONFUNCTION_H

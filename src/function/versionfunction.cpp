@@ -7,6 +7,11 @@
 
 VersionFunction::VersionFunction() : Function("version")
 {
+}
+
+Value* VersionFunction::evaluate(Context*)
+{
+	QList<Value*> version;
 	QString v=STRINGIFY(RAPCAD_VERSION);
 	QStringList parts=v.split(".");
 	int major=parts.at(0).toInt();
@@ -21,9 +26,6 @@ VersionFunction::VersionFunction() : Function("version")
 	} else {
 		version.append(new NumberValue(build.toInt()));
 	}
-}
 
-Value* VersionFunction::evaluate(Context*)
-{
 	return new VectorValue(version);
 }
