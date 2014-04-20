@@ -52,25 +52,25 @@ Node* SphereModule::evaluate(Context* ctx)
 	int f = fg.getFragments(r);
 	int ringCount=f/2;
 
-	QList<Polygon> rings;
+	QList<QList<Point> > rings;
 	for(int i=0; i<ringCount; i++) {
 		decimal phi = (M_PI*(i+0.5)) / ringCount;
 		decimal r2 = r*sin(phi);
 		decimal z = r*cos(phi)+!center*r;
-		Polygon* c = getCircle(r2,f,z);
-		rings.append(*c);
+		QList<Point> c = getCircle(r2,f,z);
+		rings.append(c);
 	}
 
 	PrimitiveNode* p = new PrimitiveNode();
 
 	p->createPolygon();
-	Polygon top=rings.at(0);
-	foreach(Point pt, top.getPoints())
+	QList<Point> top=rings.at(0);
+	foreach(Point pt, top)
 		p->appendVertex(pt);
 
 	for(int i = 0; i < ringCount-1; i++) {
-		QList<Point> r1 = rings.at(i).getPoints();
-		QList<Point> r2 = rings.at(i+1).getPoints();
+		QList<Point> r1 = rings.at(i);
+		QList<Point> r2 = rings.at(i+1);
 		int r1i = 0, r2i = 0;
 		while(r1i < f || r2i < f) {
 			if(r2i >= f||(decimal)r1i/f<(decimal)r2i/f) {
@@ -92,8 +92,8 @@ Node* SphereModule::evaluate(Context* ctx)
 	}
 
 	p->createPolygon();
-	Polygon bottom=rings.at(ringCount-1);
-	foreach(Point pt, bottom.getPoints())
+	QList<Point> bottom=rings.at(ringCount-1);
+	foreach(Point pt, bottom)
 		p->prependVertex(pt);
 
 	return p;

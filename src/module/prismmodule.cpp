@@ -62,11 +62,8 @@ Node* PrismModule::evaluate(Context* ctx)
 	z1 = 0.0;
 	z2 = h;
 
-	Polygon* pg1 = getPolygon(a,r,n,z1);
-	Polygon* pg2 = getPolygon(a,r,n,z2);
-
-	QList<Point> p1=pg1->getPoints();
-	QList<Point> p2=pg2->getPoints();
+	QList<Point> p1=getPolygon(a,r,n,z1);
+	QList<Point> p2=getPolygon(a,r,n,z2);
 
 	PrimitiveNode* p = new PrimitiveNode();
 

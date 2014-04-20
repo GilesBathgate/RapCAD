@@ -58,11 +58,8 @@ Node* ConeModule::evaluate(Context* ctx)
 	decimal r=fmax(r1,r2);
 	int f = fg.getFragments(r);
 
-	Polygon* p1 = getCircle(r1,f,z1);
-	Polygon* p2 = getCircle(r2,f,z2);
-
-	QList<Point> c1=p1->getPoints();
-	QList<Point> c2=p2->getPoints();
+	QList<Point> c1=getCircle(r1,f,z1);
+	QList<Point> c2=getCircle(r2,f,z2);
 
 	PrimitiveNode* p = new PrimitiveNode();
 

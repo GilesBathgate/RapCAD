@@ -35,12 +35,12 @@ Node* CircleModule::evaluate(Context* ctx)
 
 	Fragment fg=getSpecialVariables(ctx);
 	int f = fg.getFragments(r);
-	Polygon* c = getCircle(r,f,0);
+	QList<Point> c = getCircle(r,f,0);
 	PrimitiveNode* p = new PrimitiveNode();
 
 	if(r > 0) {
 		p->createPolygon();
-		foreach(Point pt, c->getPoints())
+		foreach(Point pt, c)
 			p->appendVertex(pt);
 	}
 
