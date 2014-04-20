@@ -24,6 +24,11 @@ Polygon* Polyhedron::createPolygon()
 	return pg;
 }
 
+void Polyhedron::createVertex(Point p)
+{
+	points.append(p);
+}
+
 void Polyhedron::appendVertex(Point p)
 {
 	if(!polygons.isEmpty()) {

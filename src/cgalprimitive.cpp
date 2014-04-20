@@ -117,12 +117,16 @@ Polygon* CGALPrimitive::createPolygon()
 	return pg;
 }
 
-void CGALPrimitive::appendVertex(Point pt)
+void CGALPrimitive::createVertex(Point pt)
 {
 	decimal x,y,z;
 	pt.getXYZ(x,y,z);
 	CGAL::Point3 p(x,y,z);
 	points.append(p);
+}
+
+void CGALPrimitive::appendVertex(Point)
+{
 }
 
 void CGALPrimitive::appendVertex(CGAL::Point3 p)

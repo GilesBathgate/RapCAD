@@ -64,7 +64,7 @@ void NodeEvaluator::visit(PolylineNode* n)
 void NodeEvaluator::convert(Primitive* pr,Primitive* cp)
 {
 	foreach(Point p,pr->getPoints())
-		cp->appendVertex(p);
+		cp->createVertex(p);
 
 	foreach(Polygon* pg,pr->getPolygons()) {
 		Polygon* np=cp->createPolygon();
@@ -546,7 +546,7 @@ void NodeEvaluator::visit(PointNode* n)
 	Primitive* cp=createPrimitive();
 	cp->setType(Primitive::Single);
 	cp->createPolygon();
-	cp->appendVertex(n->getPoint());
+	cp->createVertex(n->getPoint());
 	result=cp;
 }
 

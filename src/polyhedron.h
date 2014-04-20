@@ -25,6 +25,7 @@ class Polyhedron : public Primitive
 {
 public:
 	Polygon* createPolygon();
+	void createVertex(Point);
 	void appendVertex(Point);
 	void prependVertex(Point);
 	void setType(Primitive_t) { }
