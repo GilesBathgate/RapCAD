@@ -53,7 +53,7 @@ public:
 	/* Don't call this method instead use getCGALPolygons */
 	QList<Polygon*> getPolygons() const;
 	QList<CGALPolygon*> getCGALPolygons() const;
-	QList<CGAL::Point3> getPoints() const;
+	QList<CGAL::Point3> getCGALPoints() const;
 	const CGAL::NefPolyhedron3& getNefPolyhedron();
 	CGAL::Polyhedron3* getPolyhedron();
 	bool isEmpty();
@@ -65,7 +65,7 @@ public:
 private:
 	void init();
 	void buildPrimitive();
-	QList<CGAL::Point3> getPoints(bool) const;
+	QList<CGAL::Point3> getCGALPoints(bool) const;
 	QList<Primitive*> children;
 	CGAL::NefPolyhedron3* createPolyline(QVector<CGAL::Point3> pl);
 	QList<CGALPolygon*> polygons;

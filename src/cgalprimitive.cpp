@@ -199,12 +199,12 @@ QList<CGALPolygon*> CGALPrimitive::getCGALPolygons() const
 	return polygons;
 }
 
-QList<CGAL::Point3> CGALPrimitive::getPoints() const
+QList<CGAL::Point3> CGALPrimitive::getCGALPoints() const
 {
-	return getPoints(true);
+	return getCGALPoints(true);
 }
 
-QList<CGAL::Point3> CGALPrimitive::getPoints(bool unique) const
+QList<CGAL::Point3> CGALPrimitive::getCGALPoints(bool unique) const
 {
 	QList<CGAL::Point3> points;
 	foreach(CGALPolygon* pg, polygons) {
@@ -224,7 +224,7 @@ CGAL::Cuboid3 CGALPrimitive::getBounds()
 		return e.getBounds();
 	}
 
-	QList<CGAL::Point3> points=getPoints(false);
+	QList<CGAL::Point3> points=getCGALPoints(false);
 	return CGAL::bounding_box(points.begin(),points.end());
 }
 
@@ -365,7 +365,7 @@ CGAL::Circle3 CGALPrimitive::getRadius()
 		CGALExplorer e(this);
 		points=e.getPoints();
 	} else {
-		points=getPoints(false);
+		points=getCGALPoints(false);
 	}
 
 	typedef  CGAL::Min_circle_2_traits_2<CGAL::Kernel3> Traits;

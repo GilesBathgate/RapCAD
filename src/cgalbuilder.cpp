@@ -28,7 +28,7 @@ CGALBuilder::CGALBuilder(CGALPrimitive* p)
 
 void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
 {
-	QList<CGAL::Point3> points=primitive->getPoints();
+	QList<CGAL::Point3> points=primitive->getCGALPoints();
 	QList<CGALPolygon*> polygons=primitive->getCGALPolygons();
 
 	CGAL::Polyhedron_incremental_builder_3<CGAL::HalfedgeDS> builder(hds,true);
