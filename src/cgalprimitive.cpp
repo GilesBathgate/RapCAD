@@ -84,7 +84,6 @@ void CGALPrimitive::buildPrimitive()
 			*singlePoint=singlePoint->intersection(*np);
 		}
 
-		QList<CGAL::Point3> points=polygons.last()->getPoints();
 		CGAL::Point3 p=points.last();
 
 		nefPolyhedron=new CGAL::NefPolyhedron3(*singlePoint);
@@ -123,27 +122,33 @@ void CGALPrimitive::appendVertex(Point pt)
 	decimal x,y,z;
 	pt.getXYZ(x,y,z);
 	CGAL::Point3 p(x,y,z);
-	appendVertex(p);
+	points.append(p);
 }
 
 void CGALPrimitive::appendVertex(CGAL::Point3 p)
 {
-	if(!polygons.isEmpty())
-		polygons.last()->append(p);
+	if(!polygons.isEmpty()) {
+		if(!points.contains(p))
+			points.append(p);
+
+		int i=points.indexOf(p);
+		polygons.last()->append(i);
+	}
 }
 
-void CGALPrimitive::prependVertex(Point pt)
+void CGALPrimitive::prependVertex(Point)
 {
-	decimal x,y,z;
-	pt.getXYZ(x,y,z);
-	CGAL::Point3 p(x,y,z);
-	prependVertex(p);
 }
 
 void CGALPrimitive::prependVertex(CGAL::Point3 p)
 {
-	if(!polygons.isEmpty())
-		polygons.last()->prepend(p);
+	if(!polygons.isEmpty()) {
+		if(!points.contains(p))
+			points.append(p);
+
+		int i=points.indexOf(p);
+		polygons.last()->prepend(i);
+	}
 }
 
 /* I don't know why this function doesn't exist in CGAL?
@@ -206,14 +211,6 @@ QList<Point> CGALPrimitive::getPoints() const
 
 QList<CGAL::Point3> CGALPrimitive::getCGALPoints() const
 {
-	QList<CGAL::Point3> points;
-	foreach(CGALPolygon* pg, polygons) {
-		foreach(CGAL::Point3 p, pg->getPoints()) {
-			if(!points.contains(p)) {
-				points.append(p);
-			}
-		}
-	}
 	return points;
 }
 
@@ -326,9 +323,10 @@ void CGALPrimitive::transform(const CGAL::AffTransformation3& t)
 	if(nefPolyhedron) {
 		nefPolyhedron->transform(t);
 	} else {
-		foreach(CGALPolygon* pg, polygons) {
-			pg->transform(t);
-		}
+		QList<CGAL::Point3> nps;
+		foreach(CGAL::Point3 pt, points)
+			nps.append(pt.transform(t));
+		points=nps;
 	}
 }
 

@@ -42,3 +42,13 @@ QList<Point> Polygon::getPoints() const
 	points.append(parentPoints.at(i));
 	return points;
 }
+
+QList<int> Polygon::getIndexes() const
+{
+	return indexes;
+}
+
+void Polygon::setIndexes(const QList<int>& value)
+{
+	indexes=value;
+}

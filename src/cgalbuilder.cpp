@@ -40,8 +40,7 @@ void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
 
 	foreach(CGALPolygon* pg, polygons) {
 		builder.begin_facet();
-		foreach(CGAL::Point3 p, pg->getPoints()) {
-			int index = points.indexOf(p);
+		foreach(int index, pg->getIndexes()) {
 			builder.add_vertex_to_facet(index);
 		}
 		builder.end_facet();

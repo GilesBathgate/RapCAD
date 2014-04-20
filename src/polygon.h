@@ -37,7 +37,9 @@ public:
 	void append(int);
 	void prepend(int);
 	QList<Point> getPoints() const;
-private:
+	QList<int> getIndexes() const;
+	void setIndexes(const QList<int>& value);
+protected:
 	QList<int> indexes;
 	Primitive* parent;
 };

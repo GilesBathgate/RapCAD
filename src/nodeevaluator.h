@@ -96,11 +96,12 @@ public:
 	void visit(RadialsNode*);
 	void visit(VolumesNode*);
 
-	void evaluate(Node*,Operation_e);
 	Primitive* getResult() const;
 private:
-	Reporter* reporter;
 	Primitive* createPrimitive();
+	void convert(Primitive* pr, Primitive* cp);
+	void evaluate(Node*,Operation_e);
+	Reporter* reporter;
 	Primitive* result;
 };
 

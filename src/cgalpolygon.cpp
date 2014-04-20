@@ -23,27 +23,13 @@ CGALPolygon::CGALPolygon(CGALPrimitive* p) : Polygon(p)
 {
 }
 
-void CGALPolygon::append(CGAL::Point3 p)
-{
-	points.append(p);
-}
-
-void CGALPolygon::prepend(CGAL::Point3 p)
-{
-	points.prepend(p);
-}
-
-void CGALPolygon::transform(const CGAL::AffTransformation3& t)
-{
-	QList<CGAL::Point3> nps;
-	foreach(CGAL::Point3 pt, points)
-		nps.append(pt.transform(t));
-
-	points=nps;
-}
-
 QList<CGAL::Point3> CGALPolygon::getPoints() const
 {
+	QList<CGAL::Point3> points;
+	CGALPrimitive* pr=static_cast<CGALPrimitive*>(parent);
+	QList<CGAL::Point3> parentPoints=pr->getCGALPoints();
+	foreach(int i,indexes)
+		points.append(parentPoints.at(i));
 	return points;
 }
 
@@ -52,7 +38,7 @@ void CGALPolygon::setNormal(CGAL::Vector3 v)
 	normal=v;
 }
 
-CGAL::Vector3 CGALPolygon::getNormal()
+CGAL::Vector3 CGALPolygon::getNormal() const
 {
 	return normal;
 }
