@@ -67,7 +67,6 @@ public:
 private:
 	void init();
 	void buildPrimitive();
-	QList<CGAL::Point3> getCGALPoints(bool) const;
 	QList<Primitive*> children;
 	CGAL::NefPolyhedron3* createPolyline(QVector<CGAL::Point3> pl);
 	QList<CGALPolygon*> polygons;
