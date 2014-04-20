@@ -53,6 +53,8 @@ public:
 	/* Don't call this method instead use getCGALPolygons */
 	QList<Polygon*> getPolygons() const;
 	QList<CGALPolygon*> getCGALPolygons() const;
+	/* Don't call this method instead use getCGALPoints */
+	QList<Point> getPoints() const;
 	QList<CGAL::Point3> getCGALPoints() const;
 	const CGAL::NefPolyhedron3& getNefPolyhedron();
 	CGAL::Polyhedron3* getPolyhedron();

@@ -45,9 +45,11 @@ public:
 	Primitive* copy();
 	bool isEmpty();
 	QList<Polygon*> getPolygons() const;
+	QList<Point> getPoints() const;
 	QList<Primitive*> getChildren();
 	void appendChild(Primitive*);
 private:
+	QList<Point> points;
 	QList<Polygon*> polygons;
 };
 #endif // POLYHEDRON_H

@@ -19,6 +19,7 @@
 #ifndef POLYGON_H
 #define POLYGON_H
 
+class Primitive;
 #include <qglobal.h>
 
 #ifdef Q_OS_WIN
@@ -32,12 +33,13 @@
 class Polygon
 {
 public:
-	Polygon();
-	void append(Point);
-	void prepend(Point);
+	Polygon(Primitive*);
+	void append(int);
+	void prepend(int);
 	QList<Point> getPoints() const;
 private:
-	QList<Point> points;
+	QList<int> indexes;
+	Primitive* parent;
 };
 
 #endif // POLYGON_H

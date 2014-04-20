@@ -19,21 +19,31 @@
 
 Polygon* Polyhedron::createPolygon()
 {
-	Polygon* pg = new Polygon();
+	Polygon* pg = new Polygon(this);
 	polygons.append(pg);
 	return pg;
 }
 
 void Polyhedron::appendVertex(Point p)
 {
-	if(!polygons.isEmpty())
-		polygons.last()->append(p);
+	if(!polygons.isEmpty()) {
+		if(!points.contains(p))
+			points.append(p);
+
+		int i=points.indexOf(p);
+		polygons.last()->append(i);
+	}
 }
 
 void Polyhedron::prependVertex(Point p)
 {
-	if(!polygons.isEmpty())
-		polygons.last()->prepend(p);
+	if(!polygons.isEmpty()) {
+		if(!points.contains(p))
+			points.append(p);
+
+		int i=points.indexOf(p);
+		polygons.last()->prepend(i);
+	}
 }
 
 Primitive* Polyhedron::copy()
@@ -55,6 +65,11 @@ bool Polyhedron::isEmpty()
 QList<Polygon*> Polyhedron::getPolygons() const
 {
 	return polygons;
+}
+
+QList<Point> Polyhedron::getPoints() const
+{
+	return points;
 }
 
 QList<Primitive*> Polyhedron::getChildren()

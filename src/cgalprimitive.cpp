@@ -113,7 +113,7 @@ CGAL::NefPolyhedron3* CGALPrimitive::createPolyline(QVector<CGAL::Point3> pl)
 
 Polygon* CGALPrimitive::createPolygon()
 {
-	CGALPolygon* pg = new CGALPolygon();
+	CGALPolygon* pg = new CGALPolygon(this);
 	polygons.append(pg);
 	return pg;
 }
@@ -197,6 +197,11 @@ Primitive* CGALPrimitive::group(Primitive* pr)
 QList<CGALPolygon*> CGALPrimitive::getCGALPolygons() const
 {
 	return polygons;
+}
+
+QList<Point> CGALPrimitive::getPoints() const
+{
+	return QList<Point>();
 }
 
 QList<CGAL::Point3> CGALPrimitive::getCGALPoints() const

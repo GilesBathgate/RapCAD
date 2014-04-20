@@ -17,22 +17,28 @@
  */
 
 #include "polygon.h"
+#include "primitive.h"
 
-Polygon::Polygon()
+Polygon::Polygon(Primitive* p)
 {
+	parent=p;
 }
 
-void Polygon::append(Point p)
+void Polygon::append(int i)
 {
-	points.append(p);
+	indexes.append(i);
 }
 
-void Polygon::prepend(Point p)
+void Polygon::prepend(int i)
 {
-	points.prepend(p);
+	indexes.prepend(i);
 }
 
 QList<Point> Polygon::getPoints() const
 {
+	QList<Point> parentPoints=parent->getPoints();
+	QList<Point> points;
+	foreach(int i, indexes)
+	points.append(parentPoints.at(i));
 	return points;
 }

@@ -17,8 +17,9 @@
  */
 #if USE_CGAL
 #include "cgalpolygon.h"
+#include "cgalprimitive.h"
 
-CGALPolygon::CGALPolygon()
+CGALPolygon::CGALPolygon(CGALPrimitive* p) : Polygon(p)
 {
 }
 

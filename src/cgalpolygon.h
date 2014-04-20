@@ -19,6 +19,7 @@
 #ifndef CGALPOLYGON_H
 #define CGALPOLYGON_H
 
+class CGALPrimitive;
 #include <QList>
 #include "cgal.h"
 #include "polygon.h"
@@ -26,7 +27,7 @@
 class CGALPolygon : public Polygon
 {
 public:
-	CGALPolygon();
+	CGALPolygon(CGALPrimitive*);
 	QList<CGAL::Point3> getPoints() const;
 	void append(CGAL::Point3);
 	void prepend(CGAL::Point3);
