@@ -225,7 +225,6 @@ CGAL::Cuboid3 CGALPrimitive::getBounds()
 		return e.getBounds();
 	}
 
-	QList<CGAL::Point3> points=getCGALPoints();
 	return CGAL::bounding_box(points.begin(),points.end());
 }
 
