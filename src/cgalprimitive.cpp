@@ -361,25 +361,25 @@ bool CGALPrimitive::isEmpty()
 
 CGAL::Circle3 CGALPrimitive::getRadius()
 {
-	QList<CGAL::Point3> points;
+	QList<CGAL::Point3> points3;
 	if(nefPolyhedron) {
 		CGALExplorer e(this);
-		points=e.getPoints();
+		points3=e.getPoints();
 	} else {
-		points=getCGALPoints();
+		points3=points;
 	}
 
 	typedef  CGAL::Min_circle_2_traits_2<CGAL::Kernel3> Traits;
 	typedef  CGAL::Min_circle_2<Traits> Min_circle;
 
-	QList<CGAL::Point2> pts;
-	foreach(CGAL::Point3 pt,points) {
-		CGAL::Point2 p2(pt.x(),pt.y());
-		pts.append(p2);
+	QList<CGAL::Point2> points2;
+	foreach(CGAL::Point3 pt3,points3) {
+		CGAL::Point2 pt2(pt3.x(),pt3.y());
+		points2.append(pt2);
 	}
 
-	Min_circle mc1(pts.begin(),pts.end(),true);
-	Min_circle::Circle circle2=mc1.circle();
+	Min_circle mc2(points2.begin(),points2.end(),true);
+	Min_circle::Circle circle2=mc2.circle();
 	CGAL::Point2 center2=circle2.center();
 	CGAL::Point3 center3(center2.x(),center2.y(),0);
 	CGAL::FT sq_r=circle2.squared_radius();
