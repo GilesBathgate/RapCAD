@@ -29,14 +29,19 @@ PrimitiveNode::~PrimitiveNode()
 	delete primitive;
 }
 
-void PrimitiveNode::createPolygon()
+Polygon* PrimitiveNode::createPolygon()
 {
-	primitive->createPolygon();
+	return primitive->createPolygon();
 }
 
 void PrimitiveNode::appendVertex(decimal x, decimal y, decimal z)
 {
 	appendVertex(Point(x,y,z));
+}
+
+void PrimitiveNode::createVertex(decimal x, decimal y, decimal z)
+{
+	primitive->createVertex(Point(x,y,z));
 }
 
 void PrimitiveNode::appendVertex(Point p)

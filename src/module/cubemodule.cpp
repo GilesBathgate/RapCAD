@@ -49,26 +49,90 @@ Node* CubeModule::evaluate(Context* ctx)
 	z2 = z;
 
 	if(x==0.0) {
-		makeSideX(p,x1,y1,y2,z1,z2);
+		p->createVertex(x1,y2,z1); //0
+		p->createVertex(x1,y1,z1); //1
+		p->createVertex(x1,y1,z2); //2
+		p->createVertex(x1,y2,z2); //3
+		Polygon* pg=p->createPolygon();
+		pg->append(0);
+		pg->append(1);
+		pg->append(2);
+		pg->append(3);
 		return p;
 	}
 
 	if(y==0.0) {
-		makeSideY(p,x1,x2,y1,z1,z2);
+		p->createVertex(x1,y1,z1); //0
+		p->createVertex(x2,y1,z1); //1
+		p->createVertex(x2,y1,z2); //2
+		p->createVertex(x1,y1,z2); //3
+		Polygon* pg=p->createPolygon();
+		pg->append(0);
+		pg->append(1);
+		pg->append(2);
+		pg->append(3);
 		return p;
 	}
 
 	if(z==0.0) {
-		makeSideZ(p,x1,x2,y1,y2,z1);
+		p->createVertex(x1,y2,z1); //0
+		p->createVertex(x2,y2,z1); //1
+		p->createVertex(x2,y1,z1); //2
+		p->createVertex(x1,y1,z1); //3
+		Polygon* pg=p->createPolygon();
+		pg->append(0);
+		pg->append(1);
+		pg->append(2);
+		pg->append(3);
 		return p;
 	}
 
-	makeSideZ(p,x1,x2,y1,y2,z2); //Top   (use z2)
-	makeSideY(p,x1,x2,y1,z1,z2); //Side1 (use y1)
-	makeSideX(p,x2,y1,y2,z1,z2); //Side2 (use x2)
-	makeSideY(p,x2,x1,y2,z1,z2); //Side3 (use y2) (swap x1 <--> x2)
-	makeSideX(p,x1,y2,y1,z1,z2); //Side4 (use x1) (swap y1 <--> y2)
-	makeSideZ(p,x1,x2,y2,y1,z1); //Top   (use z1) (swap y1 <--> y2)
+	p->createVertex(x1,y1,z2); //0
+	p->createVertex(x2,y1,z2); //1
+	p->createVertex(x2,y2,z2); //2
+	p->createVertex(x1,y2,z2); //3
+	p->createVertex(x1,y1,z1); //4
+	p->createVertex(x2,y1,z1); //5
+	p->createVertex(x2,y2,z1); //6
+	p->createVertex(x1,y2,z1); //7
+
+	//Top
+	Polygon* pg=p->createPolygon();
+	pg->append(0);
+	pg->append(1);
+	pg->append(2);
+	pg->append(3);
+
+	pg=p->createPolygon();
+	pg->append(4);
+	pg->append(5);
+	pg->append(1);
+	pg->append(0);
+
+	pg=p->createPolygon();
+	pg->append(5);
+	pg->append(6);
+	pg->append(2);
+	pg->append(1);
+
+	pg=p->createPolygon();
+	pg->append(6);
+	pg->append(7);
+	pg->append(3);
+	pg->append(2);
+
+	pg=p->createPolygon();
+	pg->append(7);
+	pg->append(4);
+	pg->append(0);
+	pg->append(3);
+
+	//Bottom
+	pg=p->createPolygon();
+	pg->append(7);
+	pg->append(6);
+	pg->append(5);
+	pg->append(4);
 
 	if(center) {
 		AlignNode* n=new AlignNode();
@@ -79,31 +143,4 @@ Node* CubeModule::evaluate(Context* ctx)
 
 	return p;
 
-}
-
-void CubeModule::makeSideZ(PrimitiveNode* p,decimal x1,decimal x2,decimal y1,decimal y2,decimal z)
-{
-	p->createPolygon(); // sideZ
-	p->appendVertex(x1, y1, z);
-	p->appendVertex(x2, y1, z);
-	p->appendVertex(x2, y2, z);
-	p->appendVertex(x1, y2, z);
-}
-
-void CubeModule::makeSideY(PrimitiveNode* p,decimal x1,decimal x2,decimal y,decimal z1,decimal z2)
-{
-	p->createPolygon(); // sideY
-	p->appendVertex(x1, y, z1);
-	p->appendVertex(x2, y, z1);
-	p->appendVertex(x2, y, z2);
-	p->appendVertex(x1, y, z2);
-}
-
-void CubeModule::makeSideX(PrimitiveNode* p,decimal x,decimal y1,decimal y2,decimal z1,decimal z2)
-{
-	p->createPolygon(); // sideX
-	p->appendVertex(x, y1, z1);
-	p->appendVertex(x, y2, z1);
-	p->appendVertex(x, y2, z2);
-	p->appendVertex(x, y1, z2);
 }
