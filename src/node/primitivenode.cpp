@@ -41,7 +41,12 @@ void PrimitiveNode::appendVertex(decimal x, decimal y, decimal z)
 
 void PrimitiveNode::createVertex(decimal x, decimal y, decimal z)
 {
-	primitive->createVertex(Point(x,y,z));
+	createVertex(Point(x,y,z));
+}
+
+void PrimitiveNode::createVertex(Point p)
+{
+	primitive->createVertex(p);
 }
 
 void PrimitiveNode::appendVertex(Point p)

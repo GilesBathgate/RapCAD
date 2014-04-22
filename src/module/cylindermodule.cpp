@@ -79,43 +79,65 @@ Node* CylinderModule::evaluate(Context* ctx)
 
 	PrimitiveNode* p = new PrimitiveNode();
 
-	if(r1 > 0) {
-		p->createPolygon();
-		foreach(Point pt,c1)
-			p->appendVertex(pt);
+	int n=0;
+	Polygon* pg;
+	if(r1>0) {
+		pg=p->createPolygon();
+		foreach(Point pt,c1) {
+			p->createVertex(pt);
+			pg->append(n++);
+		}
 	}
 
 	if(h==0.0)
 		return p;
 
-	for(int i=0; i<f; i++) {
-		int j=(i+1)%f;
-		if(r1 == r2) {
-			p->createPolygon();
-			p->appendVertex(c1.at(i));
-			p->appendVertex(c2.at(i));
-			p->appendVertex(c2.at(j));
-			p->appendVertex(c1.at(j));
-		} else {
-			if(r1 > 0) {
-				p->createPolygon();
-				p->appendVertex(c1.at(i));
-				p->appendVertex(c2.at(i));
-				p->appendVertex(c1.at(j));
-			}
-			if(r2 > 0) {
-				p->createPolygon();
-				p->appendVertex(c2.at(i));
-				p->appendVertex(c2.at(j));
-				p->appendVertex(c1.at(j));
-			}
+	if(r2>0) {
+		pg=p->createPolygon();
+		foreach(Point pt,c2) {
+			p->createVertex(pt);
+			pg->prepend(n++);
 		}
 	}
 
-	if(r2 > 0) {
-		p->createPolygon();
-		foreach(Point pt,c2)
-			p->prependVertex(pt);
+	/* In the cases where r1 or r2 are 0,  n will now convinently be pointing
+	 * one past the end, and point to the apex as defined here when needed */
+	if(r1<=0)
+		p->createVertex(0.0,0.0,z1);
+	if(r2<=0)
+		p->createVertex(0.0,0.0,z2);
+
+	for(int i=0; i<f; ++i) {
+		int j=(i+1)%f;
+
+		int k=r2<=0?n:i;
+		int l=r1<=0?n:j;
+
+		if(r1>0&&r2>0) {
+			k+=f;
+			j+=f;
+		}
+
+		if(r1 == r2) {
+			pg=p->createPolygon();
+			pg->append(i);
+			pg->append(k);
+			pg->append(j);
+			pg->append(l);
+		} else {
+			if(r1 > 0) {
+				pg=p->createPolygon();
+				pg->append(i);
+				pg->append(k);
+				pg->append(l);
+			}
+			if(r2 > 0) {
+				pg=p->createPolygon();
+				pg->append(j);
+				pg->append(l);
+				pg->append(k);
+			}
+		}
 	}
 
 	if(center) {

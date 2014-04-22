@@ -31,6 +31,7 @@ public:
 	~PrimitiveNode();
 	Polygon* createPolygon();
 	void createVertex(decimal x, decimal y, decimal z);
+	void createVertex(Point p);
 	void appendVertex(decimal x, decimal y, decimal z);
 	void appendVertex(Point p);
 	void prependVertex(Point p);
