@@ -38,19 +38,22 @@ Node* PolyhedronModule::evaluate(Context* ctx)
 		return p;
 
 	QList<Value*> children = points->getChildren();
+	foreach(Value* child,children) {
+		VectorValue* point=dynamic_cast<VectorValue*>(child);
+		if(point) {
+			Point pt = point->getPoint();
+			p->createVertex(pt);
+		}
+	}
 	foreach(Value* s,surfaces->getChildren()) {
-		p->createPolygon();
+		Polygon* pg=p->createPolygon();
 		VectorValue* surface=dynamic_cast<VectorValue*>(s);
 		foreach(Value* indexVal,surface->getChildren()) {
 			NumberValue* indexNum=dynamic_cast<NumberValue*>(indexVal);
 			if(indexNum) {
 				int index = indexNum->getNumber();
 				if(index>=0&&index<children.count()) {
-					VectorValue* point=dynamic_cast<VectorValue*>(children.at(index));
-					if(point) {
-						Point pt = point->getPoint();
-						p->appendVertex(pt);
-					}
+					pg->append(index);
 				}
 			}
 		}
