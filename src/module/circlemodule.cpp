@@ -38,10 +38,13 @@ Node* CircleModule::evaluate(Context* ctx)
 	QList<Point> c = getCircle(r,f,0);
 	PrimitiveNode* p = new PrimitiveNode();
 
+	int i=0;
 	if(r > 0) {
-		p->createPolygon();
-		foreach(Point pt, c)
-			p->appendVertex(pt);
+		Polygon* pg=p->createPolygon();
+		foreach(Point pt, c) {
+			p->createVertex(pt);
+			pg->append(i++);
+		}
 	}
 
 	return p;
