@@ -28,19 +28,10 @@ void NodePrinter::visit(PrimitiveNode* n)
 {
 
 	result << "polyhedron([";
-	QList<Point> ptlist;
 	Polyhedron* ph = dynamic_cast<Polyhedron*>(n->getPrimitive());
 	if(ph) {
-		QList<Polygon*> polygons=ph->getPolygons();
-		foreach(Polygon* pg, polygons) {
-			foreach(Point p, pg->getPoints()) {
-				if(!ptlist.contains(p))
-					ptlist.append(p);
-			}
-		}
-
 		OnceOnly first;
-		foreach(Point p, ptlist) {
+		foreach(Point p, ph->getPoints()) {
 			if(!first())
 				result << ",";
 			result << p.toString();
@@ -48,16 +39,15 @@ void NodePrinter::visit(PrimitiveNode* n)
 		result << "],[";
 
 		OnceOnly first_pg;
-		foreach(Polygon* pg,polygons) {
+		foreach(Polygon* pg,ph->getPolygons()) {
 			if(!first_pg())
 				result << ",";
 			result << "[";
 
 			OnceOnly first_p;
-			foreach(Point p,pg->getPoints()) {
+			foreach(int i,pg->getIndexes()) {
 				if(!first_p())
 					result << ",";
-				int i = ptlist.indexOf(p);
 				result << QString().setNum(i);
 			}
 			result << "]";
