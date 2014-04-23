@@ -35,21 +35,21 @@ Node* PrismModule::evaluate(Context* ctx)
 	if(heightVal)
 		h=heightVal->getNumber();
 
-	int n=3;
+	int s=3;
 	NumberValue* sidesVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
 	if(sidesVal)
-		n=sidesVal->getNumber();
+		s=sidesVal->getNumber();
 
 	decimal r=1.0,a=1.0;
 	NumberValue* apothemVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));
 	if(apothemVal) {
 		a=apothemVal->getNumber();
-		r=a/cos(M_PI/n);
+		r=a/cos(M_PI/s);
 	} else {
 		NumberValue* radiusVal = dynamic_cast<NumberValue*>(ctx->getArgument(2,"radius"));
 		if(radiusVal) {
 			r=radiusVal->getNumber();
-			a=r*cos(M_PI/n);
+			a=r*cos(M_PI/s);
 		}
 	}
 
@@ -62,28 +62,36 @@ Node* PrismModule::evaluate(Context* ctx)
 	z1 = 0.0;
 	z2 = h;
 
-	QList<Point> p1=getPolygon(a,r,n,z1);
-	QList<Point> p2=getPolygon(a,r,n,z2);
+	QList<Point> p1=getPolygon(a,r,s,z1);
+	QList<Point> p2=getPolygon(a,r,s,z2);
 
 	PrimitiveNode* p = new PrimitiveNode();
 
 	if(r > 0) {
-		for(int i=0; i<n; i++) {
-			int j=(i+1)%n;
-			p->createPolygon();
-			p->appendVertex(p1.at(i));
-			p->appendVertex(p2.at(i));
-			p->appendVertex(p2.at(j));
-			p->appendVertex(p1.at(j));
+		Polygon* pg;
+		int n=0;
+		pg=p->createPolygon();
+		foreach(Point pt,p1) {
+			p->createVertex(pt);
+			pg->append(n++);
 		}
 
-		p->createPolygon();
-		foreach(Point pt,p1)
-			p->appendVertex(pt);
+		pg=p->createPolygon();
+		foreach(Point pt,p2) {
+			p->createVertex(pt);
+			pg->prepend(n++);
+		}
 
-		p->createPolygon();
-		foreach(Point pt,p2)
-			p->prependVertex(pt);
+		for(int i=0; i<s; i++) {
+			int j=(i+1)%s;
+			int k=i+s;
+			int l=j+s;
+			pg=p->createPolygon();
+			pg->append(i);
+			pg->append(k);
+			pg->append(l);
+			pg->append(j);
+		}
 	}
 
 	if(center) {
