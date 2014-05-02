@@ -137,8 +137,20 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			return new BooleanValue(eq);
 		} else {
 			e=convertOperation(e);
-			for(int i=0; i<a.size() && i<b.size(); i++)
-				result.append(Value::operation(a.at(i),e,b.at(i)));
+			int as=a.size();
+			int bs=b.size();
+			for(int i=0; i<as||i<bs; i++) {
+				Value* r;
+				if(as<bs&&i>=as) {
+					r=b.at(i);
+				} else if(bs<as&&i>=bs) {
+					r=a.at(i);
+				} else {
+					r=Value::operation(a.at(i),e,b.at(i));
+				}
+				result.append(r);
+
+			}
 		}
 		return new VectorValue(result);
 	}
