@@ -64,8 +64,6 @@ void Worker::internal()
 
 		primary();
 
-		reporter->reportTiming(tr("compiling"));
-
 		if(generate) {
 			update();
 			generation();
@@ -232,5 +230,7 @@ Renderer* Worker::getRenderer()
 		reporter->reportException(QString::fromStdString(e.what()));
 	}
 #endif
+
+	reporter->reportTiming(tr("compiling"));
 	return render;
 }
