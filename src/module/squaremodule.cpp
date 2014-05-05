@@ -23,16 +23,16 @@ Node* SquareModule::evaluate(Context* ctx)
 	}
 
 	PrimitiveNode* p=new PrimitiveNode();
-	decimal x1, x2, y1, y2;
-	x1 = y1 = 0;
-	x2 = x;
-	y2 = y;
 
-	p->createPolygon();
-	p->appendVertex(x1, y1, 0);
-	p->appendVertex(x2, y1, 0);
-	p->appendVertex(x2, y2, 0);
-	p->appendVertex(x1, y2, 0);
+	Polygon* pg=p->createPolygon();
+	p->createVertex(0, 0, 0);
+	p->createVertex(x, 0, 0);
+	p->createVertex(x, y, 0);
+	p->createVertex(0, y, 0);
+	pg->append(0);
+	pg->append(1);
+	pg->append(2);
+	pg->append(3);
 
 	if(center) {
 		AlignNode* n=new AlignNode();
