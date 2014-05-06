@@ -37,7 +37,7 @@ Node* SphereModule::evaluate(Context* ctx)
 	if(centerValue)
 		center=centerValue->isTrue();
 
-	decimal r=1.0;
+	decimal r=0.0;
 	if(rValue) {
 		r=rValue->getNumber();
 	} else {
@@ -52,11 +52,12 @@ Node* SphereModule::evaluate(Context* ctx)
 	int f = fg.getFragments(r);
 	int ringCount=f/2;
 
+	decimal h=center?0.0:r;
 	QList<Polygon> rings;
 	for(int i=0; i<ringCount; i++) {
 		decimal phi = (M_PI*(i+0.5)) / ringCount;
 		decimal r2 = r*sin(phi);
-		decimal z = r*cos(phi)+!center*r;
+		decimal z = r*cos(phi)+h;
 		Polygon* c = getCircle(r2,f,z);
 		rings.append(*c);
 	}
@@ -95,6 +96,13 @@ Node* SphereModule::evaluate(Context* ctx)
 	Polygon bottom=rings.at(ringCount-1);
 	foreach(Point pt, bottom.getPoints())
 		p->prependVertex(pt);
+
+	if(center) {
+		AlignNode* n=new AlignNode();
+		n->setCenter(true);
+		n->addChild(p);
+		return n;
+	}
 
 	return p;
 }
