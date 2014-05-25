@@ -85,10 +85,15 @@ echo "<FirstLogonCommands>" >> $WMI
 echo "<SynchronousCommand wcm:action='add'>" >> $WMI
 echo "<Order>1</Order>" >> $WMI
 echo "<Description>Turn Off Network Selection pop-up</Description>" >> $WMI
-echo "<CommandLine>cmd /c reg add 'HKLMSYSTEMCurrentControlSetControlNetworkNewNetworkWindowOff'</CommandLine>" >> $WMI
+echo "<CommandLine>cmd /c reg add cmd /c reg add \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\Network\\NewNetworkWindowOff\"</CommandLine>" >> $WMI
 echo "</SynchronousCommand>" >> $WMI
 echo "<SynchronousCommand wcm:action='add'>" >> $WMI
 echo "<Order>2</Order>" >> $WMI
+echo "<Description>Turn Off Driver Signing</Description>" >> $WMI
+echo "<CommandLine>cmd /c reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Driver Signing\\BehaviorOnFailedVerify\" /t REG_DWORD /d 0</CommandLine>" >> $WMI
+echo "</SynchronousCommand>" >> $WMI
+echo "<SynchronousCommand wcm:action='add'>" >> $WMI
+echo "<Order>3</Order>" >> $WMI
 echo "<Description>Install VirtualBox Guest Additions</Description>" >> $WMI
 echo "<CommandLine>E:\\VBoxWindowsAdditions.exe /S /depth=32 /xres=1024 /yres=768 /with_autologon && shutdown -f -s -t 00</CommandLine>" >> $WMI
 echo "</SynchronousCommand>" >> $WMI
