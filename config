@@ -1,11 +1,12 @@
 NAME=$(date +%Y%m%d)
 KEY=$(cat key.txt)
 PASS=$(openssl rand -base64 12)
+WMI=autounattend.xml
 SIF=winnt.sif
 IMG="disk.img"
 DISK="$NAME.vdi"
 ADDITIONS="/usr/share/virtualbox/VBoxGuestAdditions.iso"
-DVD="iso/windowsXP-sp3-x86.iso"
+DVD="iso/windows7-pro-sp1-x86.iso"
 USER=Administrator
 SHAREDFOLDER=$PWD/shared
-
+OSTYPE=Windows7

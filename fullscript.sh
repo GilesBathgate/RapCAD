@@ -5,6 +5,7 @@ source config
 
 echo "Building configuration file..."
 ./mksif.sh
+./mkwmi.sh
 echo "Building floppy image..."
 
 rm -f $IMG
@@ -13,16 +14,18 @@ sudo mkdosfs $IMG
 mkdir disk-mount
 sudo mount -o loop $IMG disk-mount
 sudo cp $SIF disk-mount/
+sudo cp $WMI disk-mount/
 sleep 1
 sudo umount disk-mount
 rm -rf disk-mount
-rm $SIF
+rm -f $SIF
+rm -f $WMI
 
 echo "Building machine..."
 
 VBoxManage createvm \
 	--name "$NAME" \
-	--ostype WindowsXP \
+	--ostype $OSTYPE \
 	--register
 
 VBoxManage modifyvm "$NAME" \
