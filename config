@@ -1,0 +1,11 @@
+NAME=$(date +%Y%m%d)
+KEY=$(cat key.txt)
+PASS=$(openssl rand -base64 12)
+SIF=winnt.sif
+IMG="disk.img"
+DISK="$NAME.vdi"
+ADDITIONS="/usr/share/virtualbox/VBoxGuestAdditions.iso"
+DVD="iso/windowsXP-sp3-x86.iso"
+USER=Administrator
+SHAREDFOLDER=$PWD/shared
+
