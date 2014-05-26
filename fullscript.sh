@@ -41,16 +41,21 @@ VBoxManage createhd \
 	--size 30000
 
 VBoxManage storagectl "$NAME" \
-	--name "IDE Controller" \
-	--add ide \
-	--controller PIIX4
+	--name "SATA Controller" \
+	--add sata \
+	--controller IntelAHCI
 
 VBoxManage storageattach "$NAME" \
-	--storagectl "IDE Controller" \
+	--storagectl "SATA Controller" \
 	--port 0 \
 	--device 0 \
 	--type hdd \
 	--medium "$DISK"
+
+VBoxManage storagectl "$NAME" \
+	--name "IDE Controller" \
+	--add ide \
+	--controller PIIX4
 
 VBoxManage storageattach "$NAME" \
 	--storagectl "IDE Controller" \
