@@ -10,3 +10,4 @@ DVD="iso/windows7-pro-sp1-x86.iso"
 USER=Administrator
 SHAREDFOLDER=$PWD/shared
 OSTYPE=Windows7
+CER=Oracle.cer

@@ -90,7 +90,7 @@ echo "</SynchronousCommand>" >> $WMI
 echo "<SynchronousCommand wcm:action='add'>" >> $WMI
 echo "<Order>2</Order>" >> $WMI
 echo "<Description>Turn Off Driver Signing</Description>" >> $WMI
-echo "<CommandLine>cmd /c reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Driver Signing\\BehaviorOnFailedVerify\" /t REG_DWORD /d 0</CommandLine>" >> $WMI
+echo "<CommandLine>cmd /c certutil -f -addstore \"TrustedPublisher\" A:\\$CER</CommandLine>" >> $WMI
 echo "</SynchronousCommand>" >> $WMI
 echo "<SynchronousCommand wcm:action='add'>" >> $WMI
 echo "<Order>3</Order>" >> $WMI

@@ -11,8 +11,9 @@ echo "Building floppy image..."
 rm -f $IMG
 dd bs=512 count=2880 if=/dev/zero of=$IMG
 sudo mkdosfs $IMG
-mkdir disk-mount
+mkdir -p disk-mount
 sudo mount -o loop $IMG disk-mount
+sudo cp $CER disk-mount/
 sudo cp $SIF disk-mount/
 sudo cp $WMI disk-mount/
 sleep 1
