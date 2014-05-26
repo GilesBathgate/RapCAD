@@ -31,6 +31,7 @@ VBoxManage createvm \
 
 VBoxManage modifyvm "$NAME" \
 	--memory 1024 \
+	--vram 16 \
 	--acpi on \
 	--boot1 dvd \
 	--nic1 nat
