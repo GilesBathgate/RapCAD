@@ -51,6 +51,14 @@ echo "</component>" >> $WMI
 echo "</settings>" >> $WMI
 echo "<settings pass='oobeSystem'>" >> $WMI
 echo "<component name='Microsoft-Windows-Shell-Setup' processorArchitecture='x86' publicKeyToken='31bf3856ad364e35' language='neutral' versionScope='nonSxS'>" >> $WMI
+echo "<AutoLogon>" >> $WMI
+echo "<Password>" >> $WMI
+echo "<Value>$PASS</Value>" >> $WMI
+echo "<PlainText>true</PlainText>" >> $WMI
+echo "</Password>" >> $WMI
+echo "<Enabled>true</Enabled>" >> $WMI
+echo "<Username>$USER</Username>" >> $WMI
+echo "</AutoLogon>" >> $WMI
 echo "<UserAccounts>" >> $WMI
 echo "<LocalAccounts>" >> $WMI
 echo "<LocalAccount wcm:action='add'>" >> $WMI
@@ -91,6 +99,11 @@ echo "<CommandLine>E:\\VBoxWindowsAdditions.exe /S /depth=32 /xres=1024 /yres=76
 echo "</SynchronousCommand>" >> $WMI
 echo "<SynchronousCommand wcm:action='add'>" >> $WMI
 echo "<Order>4</Order>" >> $WMI
+echo "<Description>Turn off Auto Logon</Description>" >> $WMI
+echo "<CommandLine>cmd /c reg add \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" /v AutoAdminLogon /d 0 /f</CommandLine>" >> $WMI
+echo "</SynchronousCommand>" >> $WMI
+echo "<SynchronousCommand wcm:action='add'>" >> $WMI
+echo "<Order>5</Order>" >> $WMI
 echo "<Description>Reboot</Description>" >> $WMI
 echo "<CommandLine>cmd /c shutdown -f -s -t 00</CommandLine>" >> $WMI
 echo "</SynchronousCommand>" >> $WMI

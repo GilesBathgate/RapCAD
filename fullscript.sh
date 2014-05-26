@@ -131,7 +131,7 @@ echo -n "Waiting"
 until VBoxManage guestcontrol "$NAME" \
 	stat C:\\ \
 	--username $USER \
-	--password $PASS
+	--password $PASS 2> /dev/null
 do
  echo -n "."
  sleep 1
