@@ -95,7 +95,12 @@ echo "</SynchronousCommand>" >> $WMI
 echo "<SynchronousCommand wcm:action='add'>" >> $WMI
 echo "<Order>3</Order>" >> $WMI
 echo "<Description>Install VirtualBox Guest Additions</Description>" >> $WMI
-echo "<CommandLine>E:\\VBoxWindowsAdditions.exe /S /depth=32 /xres=1024 /yres=768 /with_autologon && shutdown -f -s -t 00</CommandLine>" >> $WMI
+echo "<CommandLine>E:\\VBoxWindowsAdditions.exe /S /depth=32 /xres=1024 /yres=768 /with_autologon</CommandLine>" >> $WMI
+echo "</SynchronousCommand>" >> $WMI
+echo "<SynchronousCommand wcm:action='add'>" >> $WMI
+echo "<Order>4</Order>" >> $WMI
+echo "<Description>Reboot</Description>" >> $WMI
+echo "<CommandLine>cmd /c shutdown -f -s -t 00</CommandLine>" >> $WMI
 echo "</SynchronousCommand>" >> $WMI
 echo "</FirstLogonCommands>" >> $WMI
 echo "<TimeZone>GMT Standard Time</TimeZone>" >> $WMI
