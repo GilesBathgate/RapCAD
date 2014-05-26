@@ -1,6 +1,6 @@
 NAME=$(date +%Y%m%d)
 KEY=$(cat key.txt)
-PASS=$($NAME | sha256sum | cut -b 1-10)
+PASS=$(echo $NAME | sha256sum | cut -b 1-10)
 WMI=autounattend.xml
 SIF=winnt.sif
 IMG="disk.img"
