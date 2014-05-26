@@ -51,18 +51,10 @@ echo "</component>" >> $WMI
 echo "</settings>" >> $WMI
 echo "<settings pass='oobeSystem'>" >> $WMI
 echo "<component name='Microsoft-Windows-Shell-Setup' processorArchitecture='x86' publicKeyToken='31bf3856ad364e35' language='neutral' versionScope='nonSxS'>" >> $WMI
-echo "<AutoLogon>" >> $WMI
-echo "<Password>" >> $WMI
-echo "<Value>$PASS</Value>" >> $WMI
-echo "<PlainText>true</PlainText>" >> $WMI
-echo "</Password>" >> $WMI
-echo "<Enabled>true</Enabled>" >> $WMI
-echo "<Username>user</Username>" >> $WMI
-echo "</AutoLogon>" >> $WMI
 echo "<UserAccounts>" >> $WMI
 echo "<LocalAccounts>" >> $WMI
 echo "<LocalAccount wcm:action='add'>" >> $WMI
-echo "<Name>user</Name>" >> $WMI
+echo "<Name>$USER</Name>" >> $WMI
 echo "<Group>administrators;users</Group>" >> $WMI
 echo "<Password>" >> $WMI
 echo "<Value>$PASS</Value>" >> $WMI
