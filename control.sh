@@ -1,8 +1,6 @@
 #!/bin/bash
-USERNAME=Administrator
-NAME=$(date +%Y%m%d)
-PASSWORD=$1
-shift
+source config
+
 COMMAND=$1
 shift
 ARGS=$*
@@ -13,8 +11,8 @@ ARGS=$*
 #sleep 10
 VBoxManage --nologo guestcontrol "$NAME" execute \
 	--image $COMMAND \
-	--username $USERNAME \
-	--password $PASSWORD \
+	--username $USER \
+	--password $PASS \
 	--wait-exit \
 	--wait-stdout \
 	-- $ARGS
