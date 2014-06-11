@@ -1,6 +1,8 @@
 #!/bin/bash
 source config
 
+echo "Building unattended.xml file..."
+
 echo "<?xml version='1.0' encoding='utf-8'?>" > $WMI
 echo "<unattend xmlns='urn:schemas-microsoft-com:unattend' xmlns:wcm='http://schemas.microsoft.com/WMIConfig/2002/State'>" >> $WMI
 echo "<settings pass='windowsPE'>" >> $WMI

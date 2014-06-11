@@ -3,7 +3,7 @@ date
 sudo true #Just ask the user for sudo password early.
 source config
 
-echo "Building configuration file..."
+echo "Building configuration files..."
 ./mksif.sh
 ./mkwmi.sh
 echo "Building floppy image..."
@@ -24,59 +24,59 @@ rm -f $WMI
 
 echo "Building machine..."
 
-VBoxManage createvm \
+vboxmanage createvm \
 	--name "$NAME" \
 	--ostype $OSTYPE \
 	--register
 
-VBoxManage modifyvm "$NAME" \
+vboxmanage modifyvm "$NAME" \
 	--memory 1024 \
 	--vram 16 \
 	--acpi on \
 	--boot1 dvd \
 	--nic1 nat
 
-VBoxManage createhd \
+vboxmanage createhd \
 	--filename "$DISK" \
 	--size 30000
 
-VBoxManage storagectl "$NAME" \
+vboxmanage storagectl "$NAME" \
 	--name "SATA Controller" \
 	--add sata \
 	--controller IntelAHCI
 
-VBoxManage storageattach "$NAME" \
+vboxmanage storageattach "$NAME" \
 	--storagectl "SATA Controller" \
 	--port 0 \
 	--device 0 \
 	--type hdd \
 	--medium "$DISK"
 
-VBoxManage storagectl "$NAME" \
+vboxmanage storagectl "$NAME" \
 	--name "IDE Controller" \
 	--add ide \
 	--controller PIIX4
 
-VBoxManage storageattach "$NAME" \
+vboxmanage storageattach "$NAME" \
 	--storagectl "IDE Controller" \
 	--port 0 \
 	--device 1 \
 	--type dvddrive \
 	--medium "$DVD"
 
-VBoxManage storageattach "$NAME" \
+vboxmanage storageattach "$NAME" \
 	--storagectl "IDE Controller" \
 	--port 1 \
 	--device 0 \
 	--type dvddrive \
 	--medium "$ADDITIONS"
 
-VBoxManage storagectl "$NAME" \
+vboxmanage storagectl "$NAME" \
 	--name "Floppy Controller" \
 	--add floppy \
 	--controller I82078
 
-VBoxManage storageattach "$NAME" \
+vboxmanage storageattach "$NAME" \
 	--storagectl "Floppy Controller" \
 	--port 0 \
 	--device 0 \
@@ -85,25 +85,25 @@ VBoxManage storageattach "$NAME" \
 
 echo "Installing windows..."
 
-VBoxHeadless -startvm $NAME
+VBoxHeadless -startvm "$NAME"
 
 echo "Removing devices..."
 
-VBoxManage storageattach "$NAME" \
+vboxmanage storageattach "$NAME" \
 	--storagectl "IDE Controller" \
 	--port 1 \
 	--device 0 \
 	--type dvddrive \
 	--medium none
 
-VBoxManage storageattach "$NAME" \
+vboxmanage storageattach "$NAME" \
 	--storagectl "IDE Controller" \
 	--port 0 \
 	--device 1 \
 	--type dvddrive \
 	--medium none
 
-VBoxManage storageattach "$NAME" \
+vboxmanage storageattach "$NAME" \
 	--storagectl "Floppy Controller" \
 	--port 0 \
 	--device 0 \
@@ -112,14 +112,14 @@ VBoxManage storageattach "$NAME" \
 
 rm $IMG
 
-VBoxManage storagectl "$NAME" \
+vboxmanage storagectl "$NAME" \
 	--name "Floppy Controller" \
 	--remove
 
 date
 echo "Adding shared folder..."
 
-VBoxManage sharedfolder add "$NAME" \
+vboxmanage sharedfolder add "$NAME" \
 	--name shared \
 	--hostpath $SHAREDFOLDER \
 	--automount
@@ -128,7 +128,7 @@ VBoxHeadless -startvm "$NAME" &
 
 echo "Wait for machine to be ready..."
 echo -n "Waiting"
-until VBoxManage guestcontrol "$NAME" \
+until vboxmanage guestcontrol "$NAME" \
 	stat C:\\ \
 	--username $USER \
 	--password $PASS 2> /dev/null
@@ -138,12 +138,12 @@ do
 done
 
 echo "Attempting login..."
-VBoxManage controlvm "$NAME" \
+vboxmanage controlvm "$NAME" \
 	setcredentials $USER $PASS localhost \
 	--allowlocallogon yes
 
 echo -n "Waiting"
-until VBoxManage guestcontrol "$NAME" \
+until vboxmanage guestcontrol "$NAME" \
 	stat D:\\ \
 	--username $USER \
 	--password $PASS
