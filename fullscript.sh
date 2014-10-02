@@ -45,17 +45,23 @@ vboxmanage storagectl "$NAME" \
 	--add sata \
 	--controller IntelAHCI
 
-vboxmanage storageattach "$NAME" \
-	--storagectl "SATA Controller" \
-	--port 0 \
-	--device 0 \
-	--type hdd \
-	--medium "$DISK"
-
 vboxmanage storagectl "$NAME" \
 	--name "IDE Controller" \
 	--add ide \
 	--controller PIIX4
+
+CONTROLLER="SATA Controller"
+if [[ $OSTYPE == *XP* ]];
+then
+ CONTROLLER="IDE Controller";
+fi
+
+vboxmanage storageattach "$NAME" \
+	--storagectl "$CONTROLLER" \
+	--port 0 \
+	--device 0 \
+	--type hdd \
+	--medium "$DISK"
 
 vboxmanage storageattach "$NAME" \
 	--storagectl "IDE Controller" \
