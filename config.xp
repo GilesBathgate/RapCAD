@@ -1,0 +1,13 @@
+NAME="Windows XP SP3"
+KEY=$(cat key.txt)
+PASS=BpPa55word
+WMI=autounattend.xml
+SIF=winnt.sif
+IMG="disk.img"
+DISK="$NAME.vdi"
+ADDITIONS="/usr/share/virtualbox/VBoxGuestAdditions.iso"
+DVD="/home/giles/iso/windowsXP-sp3-x86.iso"
+USER=Administrator
+SHAREDFOLDER=$PWD/shared
+OSTYPE=WindowsXP
+CER=Oracle.cer
