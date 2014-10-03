@@ -30,7 +30,7 @@ echo "ServerWelcome = No" >> $SIF
 echo >> $SIF
 echo "[UserData]" >> $SIF
 echo "ProductKey = \"$KEY\"" >> $SIF
-echo "FullName = \"user\"" >> $SIF
+echo "FullName = \"$USER\"" >> $SIF
 echo "OrgName = \"\"" >> $SIF
 echo "ComputerName = \"computer\"" >> $SIF
 echo >> $SIF

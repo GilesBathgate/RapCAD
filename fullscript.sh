@@ -54,6 +54,7 @@ CONTROLLER="SATA Controller"
 if [[ $OSTYPE == *XP* ]];
 then
  CONTROLLER="IDE Controller";
+ USER="Administrator";
 fi
 
 vboxmanage storageattach "$NAME" \
