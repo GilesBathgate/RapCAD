@@ -42,7 +42,8 @@ translate([7.5,-10,15])
   rotate([0,90,0])
     difference(){
       cylinder(d=25,h=5); //cylinder also accepts diameter
-      cylinder(d=20,h=5);
+      cylinder(d=20,h=1);
+      translate([0,0,4])cylinder(d=20,h=1);
       translate([-20,0,0])cube([40,20,5]);
     }
 }
