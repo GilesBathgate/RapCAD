@@ -52,49 +52,50 @@ Node* SphereModule::evaluate(Context* ctx)
 	int f = fg.getFragments(r);
 	int ringCount=f/2;
 
-	QList<QList<Point> > rings;
+	PrimitiveNode* p = new PrimitiveNode();
+
 	for(int i=0; i<ringCount; i++) {
 		decimal phi = (M_PI*(i+0.5)) / ringCount;
 		decimal r2 = r*sin(phi);
 		decimal z = r*cos(phi)+!center*r;
 		QList<Point> c = getCircle(r2,f,z);
-		rings.append(c);
-	}
-
-	PrimitiveNode* p = new PrimitiveNode();
-
-	p->createPolygon();
-	QList<Point> top=rings.at(0);
-	foreach(Point pt, top)
-		p->appendVertex(pt);
-
-	for(int i = 0; i < ringCount-1; i++) {
-		QList<Point> r1 = rings.at(i);
-		QList<Point> r2 = rings.at(i+1);
-		int r1i = 0, r2i = 0;
-		while(r1i < f || r2i < f) {
-			if(r2i >= f||(decimal)r1i/f<(decimal)r2i/f) {
-				p->createPolygon();
-				int r1j = (r1i+1) % f;
-				p->prependVertex(r1.at(r1i));
-				p->prependVertex(r1.at(r1j));
-				p->prependVertex(r2.at(r2i % f));
-				r1i++;
-			} else {
-				p->createPolygon();
-				int r2j = (r2i+1) % f;
-				p->appendVertex(r2.at(r2i));
-				p->appendVertex(r2.at(r2j));
-				p->appendVertex(r1.at(r1i % f));
-				r2i++;
-			}
+		foreach(Point pt,c) {
+			p->createVertex(pt);
 		}
 	}
 
-	p->createPolygon();
-	QList<Point> bottom=rings.at(ringCount-1);
-	foreach(Point pt, bottom)
-		p->prependVertex(pt);
+	Polygon* pg=p->createPolygon();
+	for(int i=0; i<f; i++) {
+		pg->append(i);
+	}
+
+	for(int i=0; i<ringCount-1; i++) {
+		int i1=i*f;
+		int i2=(i+1)*f;
+		for(int j=0; j<f; j++) {
+			int j2=(j+1)%f;
+
+			int o=j+i1;
+			int k=j2+i1;
+			int m=j2+i2;
+			int l=j+i2;
+
+			pg=p->createPolygon();
+			pg->append(k);
+			pg->append(o);
+			pg->append(l);
+
+			pg=p->createPolygon();
+			pg->append(l);
+			pg->append(m);
+			pg->append(k);
+		}
+	}
+
+	pg=p->createPolygon();
+	for(int i=f*ringCount; i>f*(ringCount-1); i--) {
+		pg->append(i-1);
+	}
 
 	return p;
 }
