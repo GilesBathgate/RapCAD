@@ -21,6 +21,7 @@
 
 #include <QTextStream>
 #include "nodevisitor.h"
+#include "polyhedron.h"
 #include "node/primitivenode.h"
 #include "node/polylinenode.h"
 #include "node/unionnode.h"
@@ -85,6 +86,7 @@ public:
 	void printChildren(Node*);
 	void printArguments(Point);
 	void printArguments(Polygon);
+	void printPolyhedron(Polyhedron*);
 private:
 	QTextStream& result;
 };

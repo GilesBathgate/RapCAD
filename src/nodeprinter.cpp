@@ -18,7 +18,6 @@
 
 #include "nodeprinter.h"
 #include "onceonly.h"
-#include "polyhedron.h"
 
 NodePrinter::NodePrinter(QTextStream& s) : result(s)
 {
@@ -26,40 +25,48 @@ NodePrinter::NodePrinter(QTextStream& s) : result(s)
 
 void NodePrinter::visit(PrimitiveNode* n)
 {
-
 	result << "polyhedron([";
 	Polyhedron* ph = dynamic_cast<Polyhedron*>(n->getPrimitive());
-	if(ph) {
-		OnceOnly first;
-		foreach(Point p, ph->getPoints()) {
-			if(!first())
-				result << ",";
-			result << p.toString();
-		}
-		result << "],[";
+	if(ph)
+		printPolyhedron(ph);
 
-		OnceOnly first_pg;
-		foreach(Polygon* pg,ph->getPolygons()) {
-			if(!first_pg())
-				result << ",";
-			result << "[";
+	result << "]);";
+}
 
-			OnceOnly first_p;
-			foreach(int i,pg->getIndexes()) {
-				if(!first_p())
-					result << ",";
-				result << QString().setNum(i);
-			}
-			result << "]";
+void NodePrinter::printPolyhedron(Polyhedron* ph)
+{
+	OnceOnly first;
+	foreach(Point p, ph->getPoints()) {
+		if(!first())
+			result << ",";
+		result << p.toString();
+	}
+	result << "],[";
+
+	OnceOnly first_pg;
+	foreach(Polygon* pg,ph->getPolygons()) {
+		if(!first_pg())
+			result << ",";
+		result << "[";
+
+		OnceOnly first_p;
+		foreach(int i,pg->getIndexes()) {
+			if(!first_p())
+				result << ",";
+			result << QString().setNum(i);
 		}
-		result << "]);";
+		result << "]";
 	}
 }
 
 void NodePrinter::visit(PolylineNode* n)
 {
-	result << "polyline()";
-	printChildren(n);
+	result << "polyline([";
+	Polyhedron* ph = dynamic_cast<Polyhedron*>(n->getPrimitive());
+	if(ph)
+		printPolyhedron(ph);
+
+	result << "]);";
 }
 
 void NodePrinter::visit(UnionNode* n)
