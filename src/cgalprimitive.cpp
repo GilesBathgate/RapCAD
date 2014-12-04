@@ -84,7 +84,6 @@ void CGALPrimitive::buildPrimitive()
 			*singlePoint=singlePoint->intersection(*np);
 		}
 
-		QList<CGAL::Point3> points=polygons.last()->getPoints();
 		CGAL::Point3 p=points.last();
 
 		nefPolyhedron=new CGAL::NefPolyhedron3(*singlePoint);
@@ -113,37 +112,39 @@ CGAL::NefPolyhedron3* CGALPrimitive::createPolyline(QVector<CGAL::Point3> pl)
 
 Polygon* CGALPrimitive::createPolygon()
 {
-	CGALPolygon* pg = new CGALPolygon();
+	CGALPolygon* pg = new CGALPolygon(this);
 	polygons.append(pg);
 	return pg;
 }
 
-void CGALPrimitive::appendVertex(Point pt)
+void CGALPrimitive::createVertex(Point pt)
 {
 	decimal x,y,z;
 	pt.getXYZ(x,y,z);
 	CGAL::Point3 p(x,y,z);
-	appendVertex(p);
+	points.append(p);
 }
 
 void CGALPrimitive::appendVertex(CGAL::Point3 p)
 {
-	if(!polygons.isEmpty())
-		polygons.last()->append(p);
-}
+	if(!polygons.isEmpty()) {
+		if(!points.contains(p))
+			points.append(p);
 
-void CGALPrimitive::prependVertex(Point pt)
-{
-	decimal x,y,z;
-	pt.getXYZ(x,y,z);
-	CGAL::Point3 p(x,y,z);
-	prependVertex(p);
+		int i=points.indexOf(p);
+		polygons.last()->append(i);
+	}
 }
 
 void CGALPrimitive::prependVertex(CGAL::Point3 p)
 {
-	if(!polygons.isEmpty())
-		polygons.last()->prepend(p);
+	if(!polygons.isEmpty()) {
+		if(!points.contains(p))
+			points.append(p);
+
+		int i=points.indexOf(p);
+		polygons.last()->prepend(i);
+	}
 }
 
 /* I don't know why this function doesn't exist in CGAL?
@@ -199,21 +200,13 @@ QList<CGALPolygon*> CGALPrimitive::getCGALPolygons() const
 	return polygons;
 }
 
-QList<CGAL::Point3> CGALPrimitive::getPoints() const
+QList<Point> CGALPrimitive::getPoints() const
 {
-	return getPoints(true);
+	return QList<Point>();
 }
 
-QList<CGAL::Point3> CGALPrimitive::getPoints(bool unique) const
+QList<CGAL::Point3> CGALPrimitive::getCGALPoints() const
 {
-	QList<CGAL::Point3> points;
-	foreach(CGALPolygon* pg, polygons) {
-		foreach(CGAL::Point3 p, pg->getPoints()) {
-			if(!unique||!points.contains(p)) {
-				points.append(p);
-			}
-		}
-	}
 	return points;
 }
 
@@ -224,7 +217,6 @@ CGAL::Cuboid3 CGALPrimitive::getBounds()
 		return e.getBounds();
 	}
 
-	QList<CGAL::Point3> points=getPoints(false);
 	return CGAL::bounding_box(points.begin(),points.end());
 }
 
@@ -326,9 +318,10 @@ void CGALPrimitive::transform(const CGAL::AffTransformation3& t)
 	if(nefPolyhedron) {
 		nefPolyhedron->transform(t);
 	} else {
-		foreach(CGALPolygon* pg, polygons) {
-			pg->transform(t);
-		}
+		QList<CGAL::Point3> nps;
+		foreach(CGAL::Point3 pt, points)
+			nps.append(pt.transform(t));
+		points=nps;
 	}
 }
 
@@ -360,25 +353,25 @@ bool CGALPrimitive::isEmpty()
 
 CGAL::Circle3 CGALPrimitive::getRadius()
 {
-	QList<CGAL::Point3> points;
+	QList<CGAL::Point3> points3;
 	if(nefPolyhedron) {
 		CGALExplorer e(this);
-		points=e.getPoints();
+		points3=e.getPoints();
 	} else {
-		points=getPoints(false);
+		points3=points;
 	}
 
 	typedef  CGAL::Min_circle_2_traits_2<CGAL::Kernel3> Traits;
 	typedef  CGAL::Min_circle_2<Traits> Min_circle;
 
-	QList<CGAL::Point2> pts;
-	foreach(CGAL::Point3 pt,points) {
-		CGAL::Point2 p2(pt.x(),pt.y());
-		pts.append(p2);
+	QList<CGAL::Point2> points2;
+	foreach(CGAL::Point3 pt3,points3) {
+		CGAL::Point2 pt2(pt3.x(),pt3.y());
+		points2.append(pt2);
 	}
 
-	Min_circle mc1(pts.begin(),pts.end(),true);
-	Min_circle::Circle circle2=mc1.circle();
+	Min_circle mc2(points2.begin(),points2.end(),true);
+	Min_circle::Circle circle2=mc2.circle();
 	CGAL::Point2 center2=circle2.center();
 	CGAL::Point3 center3(center2.x(),center2.y(),0);
 	CGAL::FT sq_r=circle2.squared_radius();

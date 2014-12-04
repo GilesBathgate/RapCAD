@@ -22,10 +22,10 @@
 #include <QMap>
 #include "textbuilder.h"
 
-typedef QList<Polygon*> Char;
-
 class SimpleTextBuilder : public TextBuilder
 {
+	typedef QList<Point> Stroke;
+	typedef QList<Stroke> Letter;
 public:
 	SimpleTextBuilder();
 	void setText(QString);
@@ -35,7 +35,7 @@ public:
 private:
 	QString text;
 	Point location;
-	static QMap<QChar,Char>* characters;
+	static QMap<QChar,Letter>* characters;
 };
 
 #endif // SIMPLETEXTBUILDER_H

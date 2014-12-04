@@ -28,7 +28,7 @@ CGALBuilder::CGALBuilder(CGALPrimitive* p)
 
 void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
 {
-	QList<CGAL::Point3> points=primitive->getPoints();
+	QList<CGAL::Point3> points=primitive->getCGALPoints();
 	QList<CGALPolygon*> polygons=primitive->getCGALPolygons();
 
 	CGAL::Polyhedron_incremental_builder_3<CGAL::HalfedgeDS> builder(hds,true);
@@ -40,8 +40,7 @@ void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
 
 	foreach(CGALPolygon* pg, polygons) {
 		builder.begin_facet();
-		foreach(CGAL::Point3 p, pg->getPoints()) {
-			int index = points.indexOf(p);
+		foreach(int index, pg->getIndexes()) {
 			builder.add_vertex_to_facet(index);
 		}
 		builder.end_facet();

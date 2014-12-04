@@ -19,6 +19,7 @@
 #ifndef CGALPOLYGON_H
 #define CGALPOLYGON_H
 
+class CGALPrimitive;
 #include <QList>
 #include "cgal.h"
 #include "polygon.h"
@@ -26,16 +27,11 @@
 class CGALPolygon : public Polygon
 {
 public:
-	CGALPolygon();
+	CGALPolygon(CGALPrimitive*);
 	QList<CGAL::Point3> getPoints() const;
-	void append(CGAL::Point3);
-	void prepend(CGAL::Point3);
-	void transform(const CGAL::AffTransformation3&);
-	CGAL::Vector3 getNormal();
 	void setNormal(CGAL::Vector3);
 	CGAL::Vector3 getNormal() const;
 private:
-	QList<CGAL::Point3> points;
 	CGAL::Vector3 normal;
 };
 #endif // CGALPOLYGON_H

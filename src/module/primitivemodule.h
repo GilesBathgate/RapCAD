@@ -30,8 +30,8 @@ class PrimitiveModule : public Module
 public:
 	PrimitiveModule(const QString);
 protected:
-	Polygon* getCircle(decimal,decimal,decimal);
-	Polygon* getPolygon(decimal,decimal,decimal,decimal);
+	QList<Point> getCircle(decimal,decimal,decimal);
+	QList<Point> getPolygon(decimal,decimal,decimal,decimal);
 	Fragment getSpecialVariables(Context*);
 };
 

@@ -67,24 +67,6 @@ Point BezierSurfaceModule::pointOnBezMesh(Mesh mesh,Vector uv)
 	return pointOnBez(p,uv[1]);
 }
 
-BezierSurfaceModule::Points BezierSurfaceModule::getCurveQuad(Mesh mesh,Vector u1v1,Vector u2v2)
-{
-	Vector a;
-	a.append(u1v1[0]);
-	a.append(u2v2[1]);
-	Vector b;
-	b.append(u2v2[0]);
-	b.append(u1v1[1]);
-
-	Points p;
-	p.append(pointOnBezMesh(mesh, a));
-	p.append(pointOnBezMesh(mesh, u1v1));
-	p.append(pointOnBezMesh(mesh, b));
-	p.append(pointOnBezMesh(mesh, u2v2));
-
-	return p;
-}
-
 Node* BezierSurfaceModule::evaluate(Context* ctx)
 {
 	Mesh mesh;
@@ -95,39 +77,43 @@ Node* BezierSurfaceModule::evaluate(Context* ctx)
 			VectorValue* pointsVec=dynamic_cast<VectorValue*>(pointsVal);
 			if(pointsVec)
 				foreach(Value* pointVal,pointsVec->getChildren()) {
-					VectorValue* pointVec=dynamic_cast<VectorValue*>(pointVal);
-					points.append(pointVec->getPoint());
-				}
+				VectorValue* pointVec=dynamic_cast<VectorValue*>(pointVal);
+				points.append(pointVec->getPoint());
+			}
 			mesh.append(points);
 		}
 	}
 
-	int steps=24; //TODO use getfragments and $fn,$fa,$fs variables;
+	int f=24; //TODO use getfragments and $fn,$fa,$fs variables;
 
 	PrimitiveNode* p=new PrimitiveNode();
-	for(decimal ustep=0; ustep<steps; ustep++) {
-		for(decimal vstep=0; vstep<steps; vstep++) {
-			decimal ufrac1=ustep/steps;
-			decimal ufrac2=(ustep+1)/steps;
-			decimal vfrac1=vstep/steps;
-			decimal vfrac2=(vstep+1)/steps;
+	for(decimal u=0; u<f; u++) {
+		for(decimal v=0; v<f; v++) {
 			Vector a;
-			a.append(ufrac1);
-			a.append(vfrac1);
-			Vector b;
-			b.append(ufrac2);
-			b.append(vfrac2);
-			Points quad = getCurveQuad(mesh,a,b);
+			a.append(u/f);
+			a.append(v/f);
 
-			p->createPolygon();
-			p->appendVertex(quad[0]);
-			p->appendVertex(quad[1]);
-			p->appendVertex(quad[2]);
+			p->createVertex(pointOnBezMesh(mesh,a));
+		}
+	}
 
-			p->createPolygon();
-			p->appendVertex(quad[0]);
-			p->appendVertex(quad[2]);
-			p->appendVertex(quad[3]);
+	Polygon* pg;
+	for(decimal u=0; u<f-1; u++) {
+		for(decimal v=0; v<f-1; v++) {
+
+			int i=(u*f)+v;
+			int j=((u+1)*f)+v;
+			int k=i+1;
+			int l=j+1;
+			pg=p->createPolygon();
+			pg->append(i);
+			pg->append(j);
+			pg->append(k);
+
+			pg=p->createPolygon();
+			pg->append(l);
+			pg->append(k);
+			pg->append(j);
 		}
 	}
 

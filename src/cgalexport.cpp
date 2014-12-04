@@ -259,7 +259,7 @@ void CGALExport::exportCSG(QString filename)
 
 	output << "polyhedron([";
 
-	QList<CGAL::Point3> points=prim->getPoints();
+	QList<CGAL::Point3> points=prim->getCGALPoints();
 	OnceOnly first;
 	foreach(CGAL::Point3 p,points) {
 		if(!first())

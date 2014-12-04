@@ -21,18 +21,21 @@ Node* PolygonModule::evaluate(Context* ctx)
 
 	QList<Value*> points=pointsVec->getChildren();
 
+	foreach(Value* point, points) {
+		VectorValue* pointVec=dynamic_cast<VectorValue*>(point);
+		if(pointVec) {
+			Point pt = pointVec->getPoint();
+			p->createVertex(pt);
+
+		}
+	}
+
 	/* If we are just given a single argument of points
 	 * build a polygon from that. */
 	if(!linesVec) {
-		p->createPolygon();
-		foreach(Value* point, points) {
-			VectorValue* pointVec=dynamic_cast<VectorValue*>(point);
-			if(pointVec) {
-				Point pt = pointVec->getPoint();
-				p->appendVertex(pt);
-			}
-		}
-
+		Polygon* pg=p->createPolygon();
+		for(int i=0; i<points.length(); ++i)
+			pg->append(i);
 		return p;
 	}
 
@@ -51,17 +54,13 @@ Node* PolygonModule::evaluate(Context* ctx)
 	foreach(Value* line,lines) {
 		VectorValue* lineVec=dynamic_cast<VectorValue*>(line);
 		if(lineVec) {
-			p->createPolygon();
+			Polygon* pg=p->createPolygon();
 			foreach(Value* indexVal,lineVec->getChildren()) {
 				NumberValue* indexNum=dynamic_cast<NumberValue*>(indexVal);
 				if(indexNum) {
 					int index = indexNum->getNumber();
 					if(index>=0&&index<points.count()) {
-						VectorValue* point=dynamic_cast<VectorValue*>(points.at(index));
-						if(point) {
-							Point pt = point->getPoint();
-							p->appendVertex(pt);
-						}
+						pg->append(index);
 					}
 				}
 			}

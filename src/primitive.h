@@ -34,8 +34,7 @@ public:
 	virtual ~Primitive() {}
 	virtual Polygon* createPolygon()=0;
 	virtual void setType(Primitive_t)=0;
-	virtual void appendVertex(Point)=0;
-	virtual void prependVertex(Point)=0;
+	virtual void createVertex(Point)=0;
 	virtual bool overlaps(Primitive*)=0;
 	virtual Primitive* group(Primitive*)=0;
 	virtual Primitive* join(Primitive*)=0;
@@ -51,6 +50,7 @@ public:
 	virtual Primitive* copy()=0;
 	virtual bool isEmpty()=0;
 	virtual bool isFullyDimentional()=0;
+	virtual QList<Point> getPoints() const=0;
 	virtual QList<Polygon*> getPolygons() const=0;
 	virtual QList<Primitive*> getChildren()=0;
 	virtual void appendChild(Primitive*)=0;

@@ -31,9 +31,8 @@ public:
 	CGALPrimitive(CGAL::Polyhedron3 poly);
 	void setType(Primitive_t);
 	Polygon* createPolygon();
-	void appendVertex(Point);
+	void createVertex(Point);
 	void appendVertex(CGAL::Point3);
-	void prependVertex(Point);
 	void prependVertex(CGAL::Point3);
 	bool overlaps(Primitive*);
 	Primitive* group(Primitive*);
@@ -51,9 +50,11 @@ public:
 	CGAL::Cuboid3 getBounds();
 	void transform(const CGAL::AffTransformation3&);
 	/* Don't call this method instead use getCGALPolygons */
-	QList<Polygon*> getPolygons() const;
+	Q_DECL_DEPRECATED QList<Polygon*> getPolygons() const;
 	QList<CGALPolygon*> getCGALPolygons() const;
-	QList<CGAL::Point3> getPoints() const;
+	/* Don't call this method instead use getCGALPoints */
+	Q_DECL_DEPRECATED QList<Point> getPoints() const;
+	QList<CGAL::Point3> getCGALPoints() const;
 	const CGAL::NefPolyhedron3& getNefPolyhedron();
 	CGAL::Polyhedron3* getPolyhedron();
 	bool isEmpty();
@@ -65,9 +66,9 @@ public:
 private:
 	void init();
 	void buildPrimitive();
-	QList<CGAL::Point3> getPoints(bool) const;
 	QList<Primitive*> children;
 	CGAL::NefPolyhedron3* createPolyline(QVector<CGAL::Point3> pl);
+	QList<CGAL::Point3> points;
 	QList<CGALPolygon*> polygons;
 	CGAL::NefPolyhedron3* nefPolyhedron;
 	Primitive_t type;

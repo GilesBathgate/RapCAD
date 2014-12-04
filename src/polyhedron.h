@@ -25,8 +25,7 @@ class Polyhedron : public Primitive
 {
 public:
 	Polygon* createPolygon();
-	void appendVertex(Point);
-	void prependVertex(Point);
+	void createVertex(Point);
 	void setType(Primitive_t) { }
 	Primitive* buildPrimitive() { return this; }
 	bool overlaps(Primitive*) { return false; }
@@ -45,9 +44,11 @@ public:
 	Primitive* copy();
 	bool isEmpty();
 	QList<Polygon*> getPolygons() const;
+	QList<Point> getPoints() const;
 	QList<Primitive*> getChildren();
 	void appendChild(Primitive*);
 private:
+	QList<Point> points;
 	QList<Polygon*> polygons;
 };
 #endif // POLYHEDRON_H

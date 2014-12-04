@@ -42,6 +42,7 @@ Node* CylinderSurfaceModule::evaluate(Context* ctx)
 
 	Value* centerValue=getParameterArgument(ctx,2);
 	bool center=false;
+
 	if(centerValue)
 		center=centerValue->isTrue();
 
@@ -51,21 +52,30 @@ Node* CylinderSurfaceModule::evaluate(Context* ctx)
 
 	Fragment fg=getSpecialVariables(ctx);
 	int f = fg.getFragments(r);
-	Polygon* p1 = getCircle(r,f,z1);
-	Polygon* p2 = getCircle(r,f,z2);
 
-	QList<Point> c1=p1->getPoints();
-	QList<Point> c2=p2->getPoints();
+	QList<Point> c1=getCircle(r,f,z1);
+	QList<Point> c2=getCircle(r,f,z2);
 
 	PrimitiveNode* p = new PrimitiveNode();
 
-	for(int i=0; i<f; i++) {
+	foreach(Point pt,c1) {
+		p->createVertex(pt);
+	}
+
+	foreach(Point pt,c2) {
+		p->createVertex(pt);
+	}
+
+	Polygon* pg;
+	for(int i=0; i<f; ++i) {
 		int j=(i+1)%f;
-		p->createPolygon();
-		p->appendVertex(c1.at(i));
-		p->appendVertex(c2.at(i));
-		p->appendVertex(c2.at(j));
-		p->appendVertex(c1.at(j));
+		int k=i+f;
+		int l=j+f;
+		pg=p->createPolygon();
+		pg->append(i);
+		pg->append(k);
+		pg->append(l);
+		pg->append(j);
 	}
 
 	if(center) {
