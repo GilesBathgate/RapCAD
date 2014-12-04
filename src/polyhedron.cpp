@@ -29,35 +29,15 @@ void Polyhedron::createVertex(Point p)
 	points.append(p);
 }
 
-void Polyhedron::appendVertex(Point p)
-{
-	if(!polygons.isEmpty()) {
-		if(!points.contains(p))
-			points.append(p);
-
-		int i=points.indexOf(p);
-		polygons.last()->append(i);
-	}
-}
-
-void Polyhedron::prependVertex(Point p)
-{
-	if(!polygons.isEmpty()) {
-		if(!points.contains(p))
-			points.append(p);
-
-		int i=points.indexOf(p);
-		polygons.last()->prepend(i);
-	}
-}
-
 Primitive* Polyhedron::copy()
 {
 	Polyhedron* c=new Polyhedron();
+	foreach(Point p, points) {
+		c->createVertex(p);
+	}
 	foreach(Polygon* pg, polygons) {
-		c->createPolygon();
-		foreach(Point p, pg->getPoints())
-			c->appendVertex(p);
+		Polygon* npg=c->createPolygon();
+		npg->setIndexes(pg->getIndexes());
 	}
 	return c;
 }

@@ -180,29 +180,29 @@ static CGAL::Point3 rotate_y(const CGAL::Point3& p,decimal phi)
 void NodeEvaluator::visit(LinearExtrudeNode* op)
 {
 	evaluate(op,Union);
-
+#if USE_CGAL
+	CGALPrimitive* cp=new CGALPrimitive();
 	if(result->isFullyDimentional()) {
-		Primitive* cp=createPrimitive();
-		cp->appendVertex(Point());
-		cp->appendVertex(Point(0,0,op->getHeight()));
+		cp->setType(Primitive::Skeleton);
+		cp->createPolygon();
+		cp->appendVertex(CGAL::Point3(0.0,0.0,0.0));
+		cp->appendVertex(CGAL::Point3(0.0,0.0,op->getHeight()));
 		result=result->minkowski(cp);
 	} else {
-#if USE_CGAL
 		CGAL::FT z=op->getHeight();
 		CGALExplorer explorer(result);
 		CGALPrimitive* prim=explorer.getPrimitive();
 		QList<CGALPolygon*> polys=prim->getCGALPolygons();
-		CGALPrimitive* n = new CGALPrimitive();
 
 		bool up;
 		foreach(CGALPolygon* pg,polys) {
-			n->createPolygon();
+			cp->createPolygon();
 			up=(pg->getNormal().z()>0);
 			foreach(CGAL::Point3 pt,pg->getPoints()) {
 				if(up)
-					n->appendVertex(pt);
+					cp->appendVertex(pt);
 				else
-					n->prependVertex(pt);
+					cp->prependVertex(pt);
 			}
 		}
 
@@ -213,19 +213,19 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 			CGAL::Point3 pn;
 			foreach(CGAL::Point3 pt, pg->getPoints()) {
 				if(!first()) {
-					n->createPolygon();
+					cp->createPolygon();
 					CGAL::Point3 p=pn;
 					CGAL::Point3 q=pt;
 					if(up) {
-						n->appendVertex(translate(p,0,0,z));
-						n->appendVertex(translate(q,0,0,z));
-						n->appendVertex(q);
-						n->appendVertex(p);
+						cp->appendVertex(translate(p,0,0,z));
+						cp->appendVertex(translate(q,0,0,z));
+						cp->appendVertex(q);
+						cp->appendVertex(p);
 					} else {
-						n->prependVertex(translate(p,0,0,z));
-						n->prependVertex(translate(q,0,0,z));
-						n->prependVertex(q);
-						n->prependVertex(p);
+						cp->prependVertex(translate(p,0,0,z));
+						cp->prependVertex(translate(q,0,0,z));
+						cp->prependVertex(q);
+						cp->prependVertex(p);
 					}
 				}
 				pn=pt;
@@ -234,17 +234,17 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 		}
 
 		foreach(CGALPolygon* pg,polys) {
-			n->createPolygon();
+			cp->createPolygon();
 			up=(pg->getNormal().z()>0);
 			foreach(CGAL::Point3 pt,pg->getPoints()) {
 				if(up)
-					n->prependVertex(translate(pt,0,0,z));
+					cp->prependVertex(translate(pt,0,0,z));
 				else
-					n->appendVertex(translate(pt,0,0,z));
+					cp->appendVertex(translate(pt,0,0,z));
 			}
 		}
 
-		result=n;
+		result=cp;
 #endif
 	}
 }
@@ -373,34 +373,46 @@ void NodeEvaluator::visit(BoundsNode* n)
 	Polyhedron* a=new Polyhedron();
 	a->setType(Primitive::Skeleton);
 	a->createPolygon();
-	a->appendVertex(lower);
-	a->appendVertex(Point(xmin,ymax,zmin));
-	a->appendVertex(Point(xmax,ymax,zmin));
-	a->appendVertex(Point(xmax,ymin,zmin));
-	a->appendVertex(lower);
+	a->createVertex(lower); //0
+	a->createVertex(Point(xmax,ymin,zmin)); //1
+	a->createVertex(Point(xmax,ymax,zmin)); //2
+	a->createVertex(Point(xmin,ymax,zmin)); //3
+	a->createVertex(Point(xmin,ymin,zmax)); //4
+	a->createVertex(Point(xmax,ymin,zmax)); //5
+	a->createVertex(upper); //6
+	a->createVertex(Point(xmin,ymax,zmax)); //7
 
-	a->createPolygon();
-	a->appendVertex(lower);
-	a->appendVertex(Point(xmin,ymin,zmax));
+	//Top
+	Polygon* pg=a->createPolygon();
+	pg->append(0);
+	pg->append(1);
+	pg->append(2);
+	pg->append(3);
+	pg->append(0);
 
-	a->createPolygon();
-	a->appendVertex(Point(xmin,ymax,zmin));
-	a->appendVertex(Point(xmin,ymax,zmax));
+	pg=a->createPolygon();
+	pg->append(4);
+	pg->append(0);
 
-	a->createPolygon();
-	a->appendVertex(Point(xmax,ymin,zmin));
-	a->appendVertex(Point(xmax,ymin,zmax));
+	pg=a->createPolygon();
+	pg->append(5);
+	pg->append(1);
 
-	a->createPolygon();
-	a->appendVertex(Point(xmax,ymax,zmin));
-	a->appendVertex(upper);
+	pg=a->createPolygon();
+	pg->append(6);
+	pg->append(2);
 
-	a->createPolygon();
-	a->appendVertex(upper);
-	a->appendVertex(Point(xmax,ymin,zmax));
-	a->appendVertex(Point(xmin,ymin,zmax));
-	a->appendVertex(Point(xmin,ymax,zmax));
-	a->appendVertex(upper);
+	pg=a->createPolygon();
+	pg->append(7);
+	pg->append(3);
+
+	//Bottom
+	pg=a->createPolygon();
+	pg->append(7);
+	pg->append(6);
+	pg->append(5);
+	pg->append(4);
+	pg->append(7);
 
 	result->appendChild(a);
 
@@ -661,7 +673,7 @@ void NodeEvaluator::visit(RadialsNode* n)
 
 	Polyhedron* p = new Polyhedron();
 	p->setType(Primitive::Skeleton);
-	p->createPolygon();
+	Polygon* pg=p->createPolygon();
 
 	const int f=90;
 	for(int i=0; i<=f; i++) {
@@ -670,7 +682,8 @@ void NodeEvaluator::visit(RadialsNode* n)
 		x = a+r*cos(phi);
 		y = b+r*sin(phi);
 
-		p->appendVertex(Point(x,y,0));
+		p->createVertex(Point(x,y,0));
+		pg->append(i);
 	}
 
 	result->appendChild(p);
@@ -708,9 +721,11 @@ void NodeEvaluator::visit(VolumesNode* n)
 
 	Polyhedron* p = new Polyhedron();
 	p->setType(Primitive::Skeleton);
-	p->createPolygon();
-	p->appendVertex(Point(cx,cy,cz));
-	p->appendVertex(tr);
+	Polygon* pg=p->createPolygon();
+	p->createVertex(Point(cx,cy,cz));
+	p->createVertex(tr);
+	pg->append(0);
+	pg->append(1);
 	result->appendChild(p);
 
 	SimpleTextBuilder t;

@@ -26,8 +26,6 @@ class Polyhedron : public Primitive
 public:
 	Polygon* createPolygon();
 	void createVertex(Point);
-	void appendVertex(Point);
-	void prependVertex(Point);
 	void setType(Primitive_t) { }
 	Primitive* buildPrimitive() { return this; }
 	bool overlaps(Primitive*) { return false; }

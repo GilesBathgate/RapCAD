@@ -125,10 +125,6 @@ void CGALPrimitive::createVertex(Point pt)
 	points.append(p);
 }
 
-void CGALPrimitive::appendVertex(Point)
-{
-}
-
 void CGALPrimitive::appendVertex(CGAL::Point3 p)
 {
 	if(!polygons.isEmpty()) {
@@ -138,10 +134,6 @@ void CGALPrimitive::appendVertex(CGAL::Point3 p)
 		int i=points.indexOf(p);
 		polygons.last()->append(i);
 	}
-}
-
-void CGALPrimitive::prependVertex(Point)
-{
 }
 
 void CGALPrimitive::prependVertex(CGAL::Point3 p)

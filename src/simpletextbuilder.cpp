@@ -205,19 +205,21 @@ void SimpleTextBuilder::setLocation(Point p)
 
 Primitive* SimpleTextBuilder::buildPrimitive() const
 {
-	Polyhedron* result=new Polyhedron();
-	result->setType(Primitive::Skeleton);
+	Polyhedron* ph=new Polyhedron();
+	ph->setType(Primitive::Skeleton);
 
+	int n=0;
 	decimal x,y,z;
 	location.getXYZ(x,y,z);
 	foreach(QChar c, text) {
 		Letter ch=characters->value(c);
 		foreach(Stroke p, ch) {
-			result->createPolygon();
+			Polygon* pg=ph->createPolygon();
 			foreach(Point pt, p) {
 				decimal cx,cy,cz;
 				pt.getXYZ(cx,cy,cz);
-				result->appendVertex(Point(cx+x,cy+y,cz+z));
+				ph->createVertex(Point(cx+x,cy+y,cz+z));
+				pg->append(n++);
 			}
 		}
 		if(c=='.')
@@ -226,5 +228,5 @@ Primitive* SimpleTextBuilder::buildPrimitive() const
 			x+=1.5;
 	}
 
-	return result;
+	return ph;
 }

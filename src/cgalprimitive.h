@@ -32,11 +32,7 @@ public:
 	void setType(Primitive_t);
 	Polygon* createPolygon();
 	void createVertex(Point);
-	/* Don't call this method instead use the CGAL::Point3 overload */
-	Q_DECL_DEPRECATED void appendVertex(Point);
 	void appendVertex(CGAL::Point3);
-	/* Don't call this method instead use the CGAL::Point3 overload */
-	Q_DECL_DEPRECATED void prependVertex(Point);
 	void prependVertex(CGAL::Point3);
 	bool overlaps(Primitive*);
 	Primitive* group(Primitive*);
