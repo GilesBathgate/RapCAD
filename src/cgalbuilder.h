@@ -21,6 +21,9 @@
 
 #include "cgalprimitive.h"
 
+//Always ensure cgalassert.h is included before incremental builder.
+#include <CGAL/Polyhedron_incremental_builder_3.h>
+
 class CGALBuilder : public CGAL::Modifier_base<CGAL::HalfedgeDS>
 {
 public:
