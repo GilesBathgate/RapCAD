@@ -39,7 +39,6 @@ CGALExplorer::CGALExplorer(CGALPrimitive* p)
 typedef CGAL::NefPolyhedron3 Nef;
 typedef Nef::Volume_const_iterator VolumeIterator;
 typedef Nef::Shell_entry_const_iterator ShellEntryIterator;
-typedef Nef::Halfedge_const_handle HalfEdgeHandle;
 typedef Nef::SFace_const_handle SFaceHandle;
 
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(3,7,0)
@@ -59,6 +58,7 @@ class ShellExplorer
 	typedef Nef::SHalfedge_around_facet_const_circulator SHalfEdgeCirculator;
 	typedef Nef::Vertex_const_handle VertexHandle;
 	typedef Nef::SVertex_const_handle SVertexHandle;
+	typedef Nef::Halfedge_const_handle HalfEdgeHandle;
 
 	HalfEdgeHandle getID(HalfEdgeHandle h)
 	{
@@ -153,11 +153,11 @@ public:
 	}
 };
 
-static HalfEdgeHandle findNewEdge(QList<HalfEdgeHandle> visited,QList<HalfEdgeHandle> edges)
+static CGALExplorer::HalfEdgeHandle findNewEdge(QList<CGALExplorer::HalfEdgeHandle> visited,QList<CGALExplorer::HalfEdgeHandle> edges)
 {
-	foreach(HalfEdgeHandle h, edges)
-		if(!visited.contains(h) && !visited.contains(h->twin()))
-			return h;
+	foreach(CGALExplorer::HalfEdgeHandle h, edges)
+	if(!visited.contains(h) && !visited.contains(h->twin()))
+		return h;
 
 	return NULL;
 }
@@ -218,7 +218,6 @@ void CGALExplorer::evaluate()
 		CGALPolygon* poly=static_cast<CGALPolygon*>(perimeters->createPolygon());
 		HalfEdgeHandle f=outEdges.first();
 		HalfEdgeHandle c=f;
-		QList<HalfEdgeHandle> visited;
 		CGAL::Point3 fp;
 		bool twin=true;
 		bool first=true;
@@ -272,6 +271,12 @@ CGALPrimitive* CGALExplorer::getPerimeters()
 {
 	if(!evaluated) evaluate();
 	return perimeters;
+}
+
+QList<CGALExplorer::HalfEdgeHandle> CGALExplorer::getHalfEdgePerimeter()
+{
+	if(!evaluated) evaluate();
+	return visited;
 }
 
 CGALPrimitive* CGALExplorer::getPrimitive()
