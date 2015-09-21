@@ -30,7 +30,6 @@ QString to_string(const decimal,const int,const bool);
 
 #if USE_CGAL
 
-#include <CGAL/number_utils.h>
 #include <CGAL/gmp.h>
 
 template<class NT>
