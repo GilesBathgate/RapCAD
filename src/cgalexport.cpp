@@ -190,15 +190,15 @@ void CGALExport::exportAMF(QString filename)
 			p2=v2.point();
 			p3=v3.point();
 
+			if(p1 == p2 || p1 == p3 || p2 == p3)
+				continue;
+
 			if(!vertices.contains(p1))
 				vertices.append(p1);
 			if(!vertices.contains(p2))
 				vertices.append(p2);
 			if(!vertices.contains(p3))
 				vertices.append(p3);
-
-			if(p1 == p2 || p1 == p3 || p2 == p3)
-				continue;
 
 			CGAL::Triangle3 t(p1,p2,p3);
 			triangles.append(t);
@@ -209,13 +209,13 @@ void CGALExport::exportAMF(QString filename)
 	foreach(CGAL::Point3 p,vertices) {
 		xml.writeStartElement("vertex");
 		xml.writeStartElement("coordinates");
-		decimal x,y,z;
-		x=to_decimal(p.x());
-		y=to_decimal(p.y());
-		z=to_decimal(p.z());
-		xml.writeTextElement("x",QString().setNum(x));
-		xml.writeTextElement("y",QString().setNum(y));
-		xml.writeTextElement("z",QString().setNum(z));
+		QString x,y,z;
+		x=to_string(p.x());
+		y=to_string(p.y());
+		z=to_string(p.z());
+		xml.writeTextElement("x",x);
+		xml.writeTextElement("y",y);
+		xml.writeTextElement("z",z);
 		xml.writeEndElement(); //coordinates
 		xml.writeEndElement(); //vertex
 	}

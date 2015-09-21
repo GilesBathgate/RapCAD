@@ -24,8 +24,22 @@
 
 typedef double decimal;
 
-template< class T >
-inline decimal to_decimal(T n)
+#if USE_CGAL
+
+#include <CGAL/number_utils.h>
+#include <CGAL/gmp.h>
+
+template<class NT>
+inline QString to_rational(NT const& n)
+{
+	char* r=mpq_get_str(NULL, 10, n.exact().mpq());
+	QString s(r);
+	free(r);
+	return s.append('r');
+}
+
+template<class NT>
+inline decimal to_decimal(NT n)
 {
 	return to_double(n);
 }
@@ -35,6 +49,14 @@ inline decimal inexact_sqrt(NT const& n)
 {
 	return sqrt(to_decimal(n));
 }
+
+template<class NT>
+inline QString to_string(NT const& n)
+{
+	return QString().setNum(to_decimal(n),'f',16);
+}
+
+#endif
 
 inline decimal to_decimal(QString s,bool* ok)
 {
