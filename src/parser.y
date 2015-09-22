@@ -19,6 +19,7 @@
 %{
 #include <QString>
 #include <QList>
+#include "decimal.h"
 #include "syntaxtreebuilder.h"
 #include "tokenbuilder.h"
 #include "script.h"
@@ -32,11 +33,12 @@ static int parserlex();
 static AbstractSyntaxTreeBuilder *builder;
 static AbstractTokenBuilder* tokenizer;
 static Reporter* reporter;
+
 %}
 
 %union {
 	QString* text;
-	double number;
+	decimal number;
 	unsigned int count;
 	class Declaration* decl;
 	class QList<Declaration*>* decls;

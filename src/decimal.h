@@ -61,6 +61,12 @@ inline QString to_string(NT const& n)
 
 #endif
 
+inline decimal to_decimal(QString s)
+{
+	return s.toDouble();
+}
+
+
 inline decimal to_decimal(QString s,bool* ok)
 {
 	return s.toDouble(ok);

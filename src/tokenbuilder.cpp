@@ -17,6 +17,7 @@
  */
 
 #include "tokenbuilder.h"
+#include "decimal.h"
 #include "parser_yacc.h"
 
 #define YY_NULL 0
@@ -322,7 +323,7 @@ unsigned int TokenBuilder::buildIllegalChar()
 
 unsigned int TokenBuilder::buildNumber(QString str)
 {
-	parserlval.number = str.toDouble();
+	parserlval.number = to_decimal(str);
 	return NUMBER;
 }
 
