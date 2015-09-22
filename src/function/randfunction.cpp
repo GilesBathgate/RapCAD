@@ -56,7 +56,7 @@ Value* RandFunction::evaluate(Context* ctx)
 		count=countVal->getNumber();
 	NumberValue* seedVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,3));
 	if(seedVal)
-		srand((unsigned int)seedVal->getNumber());
+		srand((unsigned int)seedVal->toInteger());
 	else
 		srand((unsigned int)time(0));
 

@@ -28,12 +28,12 @@ PrimitiveModule::PrimitiveModule(const QString n) : Module(n)
 
 Fragment PrimitiveModule::getSpecialVariables(Context* ctx)
 {
-	decimal fn=0.0;
+	int fn=0.0;
 	decimal fs=2.0;
 	decimal fa=12.0;
 	NumberValue* fnVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fn"));
 	if(fnVal)
-		fn=fnVal->getNumber();
+		fn=fnVal->toInteger();
 	NumberValue* fsVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fs"));
 	if(fsVal)
 		fs=fsVal->getNumber();

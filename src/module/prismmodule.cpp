@@ -38,7 +38,7 @@ Node* PrismModule::evaluate(Context* ctx)
 	int s=3;
 	NumberValue* sidesVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
 	if(sidesVal)
-		s=sidesVal->getNumber();
+		s=sidesVal->toInteger();
 
 	decimal r=1.0,a=1.0;
 	NumberValue* apothemVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));

@@ -163,7 +163,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			result.append(num);
 		} else if(e==Expression::Index) {
 			Iterator<Value*>* it=this->createIterator();
-			int i=num->getNumber();
+			int i=num->toInteger();
 			if(i>=0) {
 				it->first();
 				for(int j=0; j<i&&!it->isDone(); ++j)

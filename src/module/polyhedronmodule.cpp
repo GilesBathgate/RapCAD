@@ -51,7 +51,7 @@ Node* PolyhedronModule::evaluate(Context* ctx)
 		foreach(Value* indexVal,surface->getChildren()) {
 			NumberValue* indexNum=dynamic_cast<NumberValue*>(indexVal);
 			if(indexNum) {
-				int index = indexNum->getNumber();
+				int index = indexNum->toInteger();
 				if(index>=0&&index<children.count()) {
 					pg->append(index);
 				}

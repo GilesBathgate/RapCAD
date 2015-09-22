@@ -12,7 +12,7 @@ Node* SubDivisionModule::evaluate(Context* ctx)
 	int level=0;
 	NumberValue* levelVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(levelVal)
-		level=int(levelVal->getNumber());
+		level=levelVal->toInteger();
 
 	SubDivisionNode* d = new SubDivisionNode();
 	d->setChildren(ctx->getInputNodes());

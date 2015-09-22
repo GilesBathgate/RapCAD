@@ -131,7 +131,7 @@ void Worker::generation()
 	if(v) {
 		reporter->reportMessage(tr("Layers: %1").arg(v->getValueString()));
 
-		int itterations=v->getNumber();
+		int itterations=v->toInteger();
 		Instance* m=addProductInstance("manufacture",s);
 		for(int i=0; i<=itterations; i++) {
 			if(i>0) {

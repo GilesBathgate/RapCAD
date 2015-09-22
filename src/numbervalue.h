@@ -29,6 +29,7 @@ public:
 	bool isTrue() const;
 	decimal getNumber() const;
 	Value* toNumber();
+	int toInteger() const;
 private:
 	Value* operation(Expression::Operator_e);
 	Value* operation(Value&,Expression::Operator_e);

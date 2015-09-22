@@ -65,7 +65,7 @@ Value* TextValue::operation(Value& v,Expression::Operator_e e)
 	NumberValue* num=dynamic_cast<NumberValue*>(&v);
 	if(num)
 		if(e==Expression::Index)
-			return new TextValue(this->text.at(num->getNumber()));
+			return new TextValue(this->text.at(num->toInteger()));
 
 	return Value::operation(v,e);
 }

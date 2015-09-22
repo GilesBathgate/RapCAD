@@ -11,7 +11,7 @@ Node* ChildModule::evaluate(Context* ctx)
 	int index=0;
 	NumberValue* indexValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(indexValue)
-		index=indexValue->getNumber();
+		index=indexValue->toInteger();
 
 	return ctx->lookupChild(index);
 }

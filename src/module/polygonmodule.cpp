@@ -58,7 +58,7 @@ Node* PolygonModule::evaluate(Context* ctx)
 			foreach(Value* indexVal,lineVec->getChildren()) {
 				NumberValue* indexNum=dynamic_cast<NumberValue*>(indexVal);
 				if(indexNum) {
-					int index = indexNum->getNumber();
+					int index = indexNum->toInteger();
 					if(index>=0&&index<points.count()) {
 						pg->append(index);
 					}

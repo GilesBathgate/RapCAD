@@ -46,6 +46,11 @@ Value* NumberValue::toNumber()
 	return this;
 }
 
+int NumberValue::toInteger() const
+{
+	return this->number;
+}
+
 Value* NumberValue::operation(Expression::Operator_e e)
 {
 	decimal result = basicOperation<decimal,decimal>(this->number,e);
