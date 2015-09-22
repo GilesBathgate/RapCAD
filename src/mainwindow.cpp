@@ -149,7 +149,7 @@ void MainWindow::loadPreferences()
 void MainWindow::getDefaultViewport()
 {
 	Preferences* p=Preferences::getInstance();
-	decimal rx,rz,x,z,d;
+	double rx,rz,x,z,d;
 	rx=p->getDefaultRotationX();
 	rz=p->getDefaultRotationZ();
 	x=p->getDefaultX();

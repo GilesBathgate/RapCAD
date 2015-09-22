@@ -11,7 +11,7 @@ Node* SquareModule::evaluate(Context* ctx)
 {
 	Value* sizeVal=getParameterArgument(ctx,0);
 	Value* centerVal=getParameterArgument(ctx,1);
-	decimal center=false;
+	bool center=false;
 	if(centerVal)
 		center = centerVal->isTrue();
 
