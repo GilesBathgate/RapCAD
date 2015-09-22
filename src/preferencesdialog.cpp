@@ -10,9 +10,6 @@ PreferencesDialog::PreferencesDialog(QWidget* parent) :
 {
 	ui->setupUi(this);
 
-	//TODO for now don't display the
-	//preferences categories.
-	ui->listWidget->hide();
 	setupWidgets();
 	setupButtons();
 }
@@ -29,6 +26,7 @@ void PreferencesDialog::setupWidgets()
 	ui->vertexSizeSpinBox->setValue(p->getVertexSize());
 	ui->edgeSizeSpinBox->setValue(p->getEdgeSize());
 	ui->checkBox->setChecked(p->getAutoSaveOnCompile());
+	ui->precisionSpinBox->setValue(p->getPrecision());
 }
 
 void PreferencesDialog::setColor(QWidget* w,QColor c)
@@ -58,6 +56,8 @@ void PreferencesDialog::setupButtons()
 
 	connect(this->ui->vertexSizeSpinBox,SIGNAL(valueChanged(double)),SLOT(vertexSizeChanged(double)));
 	connect(this->ui->edgeSizeSpinBox,SIGNAL(valueChanged(double)),SLOT(edgeSizeChanged(double)));
+
+	connect(this->ui->precisionSpinBox,SIGNAL(valueChanged(int)),SLOT(precisionChanged(int)));
 
 	connect(this->ui->checkBox,SIGNAL(stateChanged(int)),SLOT(autoSaveOnCompileChanged(int)));
 }
@@ -98,6 +98,12 @@ void PreferencesDialog::autoSaveOnCompileChanged(int s)
 {
 	Preferences* p = Preferences::getInstance();
 	p->setAutoSaveOnCompile(s == Qt::Checked);
+}
+
+void PreferencesDialog::precisionChanged(int i)
+{
+	Preferences* p = Preferences::getInstance();
+	p->setPrecision(i);
 }
 
 PreferencesDialog::~PreferencesDialog()

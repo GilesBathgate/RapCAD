@@ -94,10 +94,6 @@ void CGALExport::exportAsciiSTL(QString filename)
 		return;
 	}
 	QTextStream output(&data);
-	//These settings are more conservative and hopefully offer
-	//better compatability
-	output.setRealNumberPrecision(6);
-	output.setRealNumberNotation(QTextStream::ScientificNotation);
 
 	output << "solid RapCAD_Model\n";
 
@@ -122,18 +118,18 @@ void CGALExport::exportAsciiSTL(QString filename)
 			CGAL::FT l=inexact_sqrt(ls);
 			CGAL::Vector3 un=n/l;
 
-			decimal x1 = to_decimal(p1.x());
-			decimal y1 = to_decimal(p1.y());
-			decimal z1 = to_decimal(p1.z());
-			decimal x2 = to_decimal(p2.x());
-			decimal y2 = to_decimal(p2.y());
-			decimal z2 = to_decimal(p2.z());
-			decimal x3 = to_decimal(p3.x());
-			decimal y3 = to_decimal(p3.y());
-			decimal z3 = to_decimal(p3.z());
-			decimal nx=to_decimal(un.x());
-			decimal ny=to_decimal(un.y());
-			decimal nz=to_decimal(un.z());
+			QString x1=to_string(p1.x());
+			QString y1=to_string(p1.y());
+			QString z1=to_string(p1.z());
+			QString x2=to_string(p2.x());
+			QString y2=to_string(p2.y());
+			QString z2=to_string(p2.z());
+			QString x3=to_string(p3.x());
+			QString y3=to_string(p3.y());
+			QString z3=to_string(p3.z());
+			QString nx=to_string(un.x());
+			QString ny=to_string(un.y());
+			QString nz=to_string(un.z());
 
 			output << "  facet normal " << nx << " " << ny << " " << nz << "\n";
 			output << "    outer loop\n";

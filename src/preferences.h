@@ -29,6 +29,9 @@ public:
 	static Preferences* getInstance();
 	static void syncDelete();
 
+	int getPrecision();
+	void setPrecision(int);
+
 	double getDefaultRotationX();
 	void setDefaultRotationX(double d);
 

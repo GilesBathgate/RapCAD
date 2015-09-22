@@ -303,8 +303,7 @@ SOURCES += \
 	src/module/volumesmodule.cpp \
 	src/node/volumesnode.cpp \
 	src/cgalvolume.cpp \
-	src/function/numfunction.cpp \
-	src/node/auxilarynode.cpp
+	src/function/numfunction.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -517,8 +516,7 @@ HEADERS  += \
 	src/module/volumesmodule.h \
 	src/node/volumesnode.h \
 	src/cgalvolume.h \
-	src/function/numfunction.h \
-	src/node/auxilarynode.h
+	src/function/numfunction.h
 
 FORMS += \
 	src/mainwindow.ui \

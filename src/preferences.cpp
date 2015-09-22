@@ -15,6 +15,16 @@ Preferences* Preferences::getInstance()
 	return instance;
 }
 
+int Preferences::getPrecision()
+{
+	return settings->value("Precision",16).toInt();
+}
+
+void Preferences::setPrecision(int p)
+{
+	settings->setValue("Precision",p);
+}
+
 double Preferences::getDefaultRotationX()
 {
 	return settings->value("DefaultRotationX",35.0).toDouble();

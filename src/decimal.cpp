@@ -17,6 +17,7 @@
  */
 
 #include "decimal.h"
+#include "preferences.h"
 
 static inline int amountToChop(QString s)
 {
@@ -38,18 +39,14 @@ static inline int amountToChop(QString s)
 
 QString to_string(const decimal d)
 {
-	return to_string(d,16,true);
+	return to_string(d,true);
 }
 
-QString to_string(const decimal d, const int precision)
+QString to_string(const decimal d,const bool trim)
 {
-	return to_string(d,precision,false);
-}
-
-QString to_string(const decimal d,const int precision,const bool trim)
-{
+	Preferences* p=Preferences::getInstance();
 	QString res;
-	res.setNum(d,'f',precision);
+	res.setNum(d,'f',p->getPrecision());
 
 	if(trim) {
 		//Trim trailing zeros.

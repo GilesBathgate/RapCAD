@@ -53,23 +53,18 @@ void Point::getXY(decimal& x, decimal& y) const
 
 QString Point::toString() const
 {
-	return toString(16,true);
+	return toString(false);
 }
 
-QString Point::toString(int precision) const
-{
-	return toString(precision,false);
-}
-
-QString Point::toString(int precision,bool trim) const
+QString Point::toString(bool trim) const
 {
 	QString res;
 	res.append("[");
-	res.append(to_string(x,precision,trim));
+	res.append(to_string(x,trim));
 	res.append(",");
-	res.append(to_string(y,precision,trim));
+	res.append(to_string(y,trim));
 	res.append(",");
-	res.append(to_string(z,precision,trim));
+	res.append(to_string(z,trim));
 	res.append("]");
 
 	return res;

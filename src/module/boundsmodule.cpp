@@ -23,17 +23,11 @@
 BoundsModule::BoundsModule() : Module("bound")
 {
 	auxilary=true;
-	addParameter("precision");
 }
 
 Node* BoundsModule::evaluate(Context* ctx)
 {
-	NumberValue* precVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
-
 	BoundsNode* n=new BoundsNode();
-	if(precVal)
-		n->setPrecision(precVal->getNumber());
-
 	n->setChildren(ctx->getInputNodes());
 	return n;
 }

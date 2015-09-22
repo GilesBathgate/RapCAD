@@ -19,9 +19,9 @@
 #ifndef BOUNDSNODE_H
 #define BOUNDSNODE_H
 
-#include "auxilarynode.h"
+#include "node.h"
 
-class BoundsNode : public AuxilaryNode
+class BoundsNode : public Node
 {
 public:
 	BoundsNode();

@@ -25,8 +25,7 @@
 typedef double decimal;
 
 QString to_string(const decimal);
-QString to_string(const decimal,const int);
-QString to_string(const decimal,const int,const bool);
+QString to_string(const decimal,const bool);
 
 #if USE_CGAL
 
@@ -50,13 +49,13 @@ inline decimal to_decimal(NT n)
 template<class NT>
 inline decimal inexact_sqrt(NT const& n)
 {
-	return sqrt(to_decimal(n));
+	return sqrt(to_double(n));
 }
 
 template<class NT>
 inline QString to_string(NT const& n)
 {
-	return to_string(to_decimal(n));
+	return to_string(to_double(n));
 }
 
 #endif
@@ -65,7 +64,6 @@ inline decimal to_decimal(QString s)
 {
 	return s.toDouble();
 }
-
 
 inline decimal to_decimal(QString s,bool* ok)
 {

@@ -335,7 +335,6 @@ void NodeEvaluator::visit(BoundsNode* n)
 	evaluate(n,Union);
 #if USE_CGAL
 	CGALPrimitive* pr=static_cast<CGALPrimitive*>(result);
-	int precision = n->getPrecision();
 	CGAL::Cuboid3 b=pr->getBounds();
 
 	decimal xmin=to_decimal(b.xmin());
@@ -346,7 +345,7 @@ void NodeEvaluator::visit(BoundsNode* n)
 	decimal zmax=to_decimal(b.zmax());
 
 	if(zmin!=0.0) {
-		QString pos=to_string(zmin,precision);
+		QString pos=to_string(zmin,false);
 		QString where = zmin<0.0?tr("below"):tr("above");
 		reporter->reportWarning(tr("the model is %1 %2 the build platform.").arg(pos).arg(where));
 
@@ -407,7 +406,7 @@ void NodeEvaluator::visit(BoundsNode* n)
 
 	result->appendChild(a);
 
-	reporter->reportMessage(tr("Bounds: [%1],[%2]").arg(lower.toString(precision)).arg(upper.toString(precision)));
+	reporter->reportMessage(tr("Bounds: [%1],[%2]").arg(lower.toString(false)).arg(upper.toString(false)));
 #endif
 }
 
@@ -645,10 +644,9 @@ void NodeEvaluator::visit(RadialsNode* n)
 	evaluate(n,Union);
 #if USE_CGAL
 	CGALPrimitive* pr=static_cast<CGALPrimitive*>(result);
-	int precision=n->getPrecision();
 	CGAL::Circle3 circle=pr->getRadius();
 	decimal r=inexact_sqrt(circle.squared_radius());
-	QString rs=to_string(r,precision);
+	QString rs=to_string(r,false);
 	reporter->reportMessage(tr("Radius: %1").arg(rs));
 
 	CGAL::Point3 c=circle.center();
@@ -687,11 +685,10 @@ void NodeEvaluator::visit(VolumesNode* n)
 #if USE_CGAL
 	CGALPrimitive* pr=static_cast<CGALPrimitive*>(result);
 	bool calcMass = n->getCalcMass();
-	int precision = n->getPrecision();
 	CGALVolume v=pr->getVolume(calcMass);
 
 	decimal vn=to_decimal(v.getSize());
-	QString vs=to_string(vn,precision);
+	QString vs=to_string(vn,false);
 	reporter->reportMessage(tr("Volume: %1").arg(vs));
 
 	CGAL::Point3 c=v.getCenter();
@@ -701,7 +698,7 @@ void NodeEvaluator::visit(VolumesNode* n)
 	cz=to_decimal(c.z());
 
 	if(calcMass)
-		reporter->reportMessage(tr("Center of Mass: %1").arg(Point(cx,cy,cz).toString(precision)));
+		reporter->reportMessage(tr("Center of Mass: %1").arg(Point(cx,cy,cz).toString(false)));
 
 	CGAL::Cuboid3 b=v.getBounds();
 	decimal x,y,z;

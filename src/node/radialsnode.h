@@ -19,9 +19,9 @@
 #ifndef RADIALSNODE_H
 #define RADIALSNODE_H
 
-#include "auxilarynode.h"
+#include "node.h"
 
-class RadialsNode : public AuxilaryNode
+class RadialsNode : public Node
 {
 public:
 	RadialsNode();
