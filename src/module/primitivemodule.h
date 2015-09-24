@@ -32,7 +32,6 @@ public:
 protected:
 	QList<Point> getCircle(decimal,decimal,decimal);
 	QList<Point> getPolygon(decimal,decimal,decimal,decimal);
-	Fragment getSpecialVariables(Context*);
 };
 
 #endif // PRIMITIVEMODULE_H

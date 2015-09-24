@@ -48,7 +48,7 @@ Node* SphereModule::evaluate(Context* ctx)
 	if(r==0.0)
 		return new PointNode();
 
-	Fragment fg=getSpecialVariables(ctx);
+	Fragment fg(ctx);
 	int f = fg.getFragments(r);
 	int ringCount=f/2;
 

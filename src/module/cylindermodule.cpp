@@ -71,7 +71,7 @@ Node* CylinderModule::evaluate(Context* ctx)
 	z2 = h;
 
 	decimal r=fmax(r1,r2);
-	Fragment fg=getSpecialVariables(ctx);
+	Fragment fg(ctx);
 	int f = fg.getFragments(r);
 
 	QList<Point> c1=getCircle(r1,f,z1);

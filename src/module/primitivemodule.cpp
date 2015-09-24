@@ -26,24 +26,6 @@ PrimitiveModule::PrimitiveModule(const QString n) : Module(n)
 {
 }
 
-Fragment PrimitiveModule::getSpecialVariables(Context* ctx)
-{
-	int fn=0.0;
-	decimal fs=2.0;
-	decimal fa=12.0;
-	NumberValue* fnVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fn"));
-	if(fnVal)
-		fn=fnVal->toInteger();
-	NumberValue* fsVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fs"));
-	if(fsVal)
-		fs=fsVal->getNumber();
-	NumberValue* faVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fa"));
-	if(faVal)
-		fa=faVal->getNumber();
-
-	return Fragment(fn,fs,fa);
-}
-
 QList<Point> PrimitiveModule::getCircle(decimal r, decimal f, decimal z)
 {
 	QList<Point> circle;

@@ -50,7 +50,7 @@ Node* CylinderSurfaceModule::evaluate(Context* ctx)
 	z1 = 0.0;
 	z2 = h;
 
-	Fragment fg=getSpecialVariables(ctx);
+	Fragment fg(ctx);
 	int f = fg.getFragments(r);
 
 	QList<Point> c1=getCircle(r,f,z1);

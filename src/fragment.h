@@ -20,12 +20,13 @@
 #define FRAGMENT_H
 
 #include "decimal.h"
+#include "context.h"
 
 class Fragment
 {
 public:
 	Fragment();
-	Fragment(int,decimal,decimal);
+	Fragment(Context*);
 	int getFragments(decimal);
 protected:
 	int fragmentNumber;

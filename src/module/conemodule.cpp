@@ -54,7 +54,7 @@ Node* ConeModule::evaluate(Context* ctx)
 	z1 = 0.0;
 	z2 = h;
 
-	Fragment fg=getSpecialVariables(ctx);
+	Fragment fg(ctx);
 	decimal r=fmax(r1,r2);
 	int f = fg.getFragments(r);
 

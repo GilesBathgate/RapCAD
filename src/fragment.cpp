@@ -18,6 +18,7 @@
 
 #include "fragment.h"
 #include "contrib/fragments.h"
+#include "numbervalue.h"
 
 Fragment::Fragment()
 {
@@ -26,8 +27,21 @@ Fragment::Fragment()
 	fragmentAngle=12.0;
 }
 
-Fragment::Fragment(int fn, decimal fs, decimal fa)
+Fragment::Fragment(Context* ctx)
 {
+	int fn=0.0;
+	decimal fs=2.0;
+	decimal fa=12.0;
+	NumberValue* fnVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fn"));
+	if(fnVal)
+		fn=fnVal->toInteger();
+	NumberValue* fsVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fs"));
+	if(fsVal)
+		fs=fsVal->getNumber();
+	NumberValue* faVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fa"));
+	if(faVal)
+		fa=faVal->getNumber();
+
 	fragmentNumber=fn;
 	fragmentSize=fs;
 	fragmentAngle=fa;

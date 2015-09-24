@@ -33,7 +33,7 @@ Node* CircleModule::evaluate(Context* ctx)
 		r=rValue->getNumber();
 	}
 
-	Fragment fg=getSpecialVariables(ctx);
+	Fragment fg(ctx);
 	int f = fg.getFragments(r);
 	QList<Point> c = getCircle(r,f,0);
 	PrimitiveNode* p = new PrimitiveNode();
