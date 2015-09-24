@@ -17,7 +17,7 @@ Node* RotateExtrudeModule::evaluate(Context* ctx)
 	RotateExtrudeNode* n=new RotateExtrudeNode();
 	n->setRadius(r);
 
-	Fragment fg(ctx);
+	Fragment* fg = Fragment::createFragment(ctx);
 	n->setFragments(fg);
 	n->setChildren(ctx->getInputNodes());
 	return n;

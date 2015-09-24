@@ -33,8 +33,10 @@ Node* CircleModule::evaluate(Context* ctx)
 		r=rValue->getNumber();
 	}
 
-	Fragment fg(ctx);
-	int f = fg.getFragments(r);
+	Fragment* fg = Fragment::createFragment(ctx);
+	int f = fg->getFragments(r);
+	delete fg;
+
 	QList<Point> c = getCircle(r,f,0);
 	PrimitiveNode* p = new PrimitiveNode();
 

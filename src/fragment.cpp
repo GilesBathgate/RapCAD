@@ -47,6 +47,11 @@ Fragment::Fragment(Context* ctx)
 	fragmentAngle=fa;
 }
 
+Fragment* Fragment::createFragment(Context* ctx)
+{
+	return new Fragment(ctx);
+}
+
 int Fragment::getFragments(decimal r)
 {
 	return get_fragments_from_r(r,fragmentNumber,fragmentSize,fragmentAngle);

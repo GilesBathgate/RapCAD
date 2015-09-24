@@ -259,7 +259,7 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 	//CGALPrimitive* prim=explorer.getPrimitive();
 	//QList<CGALPolygon*> polys=prim->getPolygons();
 	CGALPrimitive* n = new CGALPrimitive();
-	CGALFragment fg=op->getFragments();
+	CGALFragment fg(*op->getFragments());
 	CGAL::Cuboid3 b=explorer.getBounds();
 	int f=fg.getFragments((b.xmax()-b.xmin())+r);
 

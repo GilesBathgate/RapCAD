@@ -48,8 +48,10 @@ Node* SphereModule::evaluate(Context* ctx)
 	if(r==0.0)
 		return new PointNode();
 
-	Fragment fg(ctx);
-	int f = fg.getFragments(r);
+	Fragment* fg = Fragment::createFragment(ctx);
+	int f = fg->getFragments(r);
+	delete fg;
+
 	int ringCount=f/2;
 
 	PrimitiveNode* p = new PrimitiveNode();
