@@ -53,7 +53,7 @@ void Point::getXY(decimal& x, decimal& y) const
 
 QString Point::toString() const
 {
-	return toString(false);
+	return toString(true);
 }
 
 QString Point::toString(bool trim) const
