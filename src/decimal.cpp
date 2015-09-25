@@ -25,7 +25,7 @@ decimal* parse_decimal(QString s)
 	return new decimal(to_decimal(s,&ok));
 }
 
-inline decimal to_decimal(QString s,bool* ok)
+decimal to_decimal(QString s,bool* ok)
 {
 	return s.toDouble(ok);
 }
