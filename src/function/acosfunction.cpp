@@ -1,6 +1,6 @@
 #include "acosfunction.h"
 #include "numbervalue.h"
-#include "math.h"
+#include "rmath.h"
 
 AcosFunction::AcosFunction() : Function("acos")
 {
@@ -13,7 +13,7 @@ Value* AcosFunction::evaluate(Context* ctx)
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return new NumberValue(acos(num));
+		return new NumberValue(r_acos_deg(num));
 	}
 	return new Value();
 }

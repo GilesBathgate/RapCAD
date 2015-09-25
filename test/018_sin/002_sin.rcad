@@ -1,5 +1,5 @@
 function test() {
 a=1/sqrt(2);
-b=sin(rad(45));
+b=sin(45);
 return a==b;
 }

@@ -16,13 +16,12 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <math.h>
 #include "cylindermodule.h"
 #include "context.h"
 #include "numbervalue.h"
 #include "booleanvalue.h"
 #include "node/primitivenode.h"
-#include "tau.h"
+#include "rmath.h"
 
 CylinderModule::CylinderModule() : PrimitiveModule("cylinder")
 {
@@ -70,7 +69,7 @@ Node* CylinderModule::evaluate(Context* ctx)
 	z1 = 0.0;
 	z2 = h;
 
-	decimal r=fmax(r1,r2);
+	decimal r=r_max(r1,r2);
 	Fragment* fg = Fragment::createFragment(ctx);
 	int f = fg->getFragments(r);
 	delete fg;

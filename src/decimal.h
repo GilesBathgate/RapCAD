@@ -20,7 +20,6 @@
 #define DECIMAL_H
 
 #include <QString>
-#include <math.h>
 
 typedef double decimal;
 
@@ -47,15 +46,21 @@ inline decimal to_decimal(NT n)
 }
 
 template<class NT>
-inline decimal inexact_sqrt(NT const& n)
-{
-	return sqrt(to_double(n));
-}
-
-template<class NT>
 inline QString to_string(NT const& n)
 {
 	return to_string(to_double(n));
+}
+
+template<class NT>
+inline int to_integer(NT const& n)
+{
+	return int(to_double(n));
+}
+
+template<class NT>
+inline bool to_boolean(NT const& n)
+{
+	return bool(to_integer(n));
 }
 
 #endif

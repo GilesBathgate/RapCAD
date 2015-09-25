@@ -1,6 +1,6 @@
 #include "sinhfunction.h"
 #include "numbervalue.h"
-#include "math.h"
+#include "rmath.h"
 
 SinhFunction::SinhFunction() : Function("sinh")
 {
@@ -13,7 +13,7 @@ Value* SinhFunction::evaluate(Context* ctx)
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return new NumberValue(sinh(num));
+		return new NumberValue(r_sinh_deg(num));
 	}
 	return new Value();
 }

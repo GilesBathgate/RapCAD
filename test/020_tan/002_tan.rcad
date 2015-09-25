@@ -1,4 +1,4 @@
 function test() {
-a=tan(rad(90));
+a=tan(90);
 return a>10000000000000000;
 }

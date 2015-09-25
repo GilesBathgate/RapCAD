@@ -1,4 +1,4 @@
 function test() {
-a=rad(45);
+a=45;
 return cos(a)^2+sin(a)^2==1;
 }

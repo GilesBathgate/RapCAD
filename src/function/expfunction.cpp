@@ -1,6 +1,6 @@
 #include "expfunction.h"
 #include "numbervalue.h"
-#include "math.h"
+#include "rmath.h"
 
 ExpFunction::ExpFunction() : Function("exp")
 {
@@ -13,7 +13,7 @@ Value* ExpFunction::evaluate(Context* ctx)
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return new NumberValue(exp(num));
+		return new NumberValue(r_exp(num));
 	}
 	return new Value();
 }

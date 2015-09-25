@@ -18,7 +18,7 @@
 
 #include "radfunction.h"
 #include "numbervalue.h"
-#include "tau.h"
+#include "rmath.h"
 
 RadFunction::RadFunction() : Function("rad")
 {
@@ -31,7 +31,7 @@ Value* RadFunction::evaluate(Context* ctx)
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return new NumberValue(num*M_TAU/360.0);
+		return new NumberValue(r_rad(num));
 	}
 	return new Value();
 }

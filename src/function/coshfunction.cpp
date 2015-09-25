@@ -1,6 +1,6 @@
 #include "coshfunction.h"
 #include "numbervalue.h"
-#include "math.h"
+#include "rmath.h"
 
 CoshFunction::CoshFunction() : Function("cosh")
 {
@@ -13,7 +13,7 @@ Value* CoshFunction::evaluate(Context* ctx)
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return new NumberValue(cosh(num));
+		return new NumberValue(r_cosh_deg(num));
 	}
 	return new Value();
 }

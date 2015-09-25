@@ -18,7 +18,7 @@
 
 #include "logfunction.h"
 #include "numbervalue.h"
-#include <math.h>
+#include "rmath.h"
 
 LogFunction::LogFunction() : Function("log")
 {
@@ -37,10 +37,10 @@ Value* LogFunction::evaluate(Context* ctx)
 		if(baseVal) {
 			decimal base=baseVal->getNumber();
 
-			return new NumberValue(log(num)/log(base));
+			return new NumberValue(r_log(num)/r_log(base));
 		}
 
-		return new NumberValue(log10(num));
+		return new NumberValue(r_log10(num));
 	}
 
 	return new Value();

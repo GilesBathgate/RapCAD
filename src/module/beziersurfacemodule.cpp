@@ -19,7 +19,7 @@
 #include "beziersurfacemodule.h"
 #include "vectorvalue.h"
 #include "node/primitivenode.h"
-#include "math.h"
+#include "rmath.h"
 
 BezierSurfaceModule::BezierSurfaceModule() : Module("bezier_surface")
 {
@@ -28,22 +28,22 @@ BezierSurfaceModule::BezierSurfaceModule() : Module("bezier_surface")
 
 decimal BezierSurfaceModule::bez03(decimal u)
 {
-	return pow((1-u), 3);
+	return r_pow((1-u), 3);
 }
 
 decimal BezierSurfaceModule::bez13(decimal u)
 {
-	return 3*u*(pow((1-u),2));
+	return 3*u*(r_pow((1-u),2));
 }
 
 decimal BezierSurfaceModule::bez23(decimal u)
 {
-	return 3*(pow(u,2))*(1-u);
+	return 3*(r_pow(u,2))*(1-u);
 }
 
 decimal BezierSurfaceModule::bez33(decimal u)
 {
-	return pow(u,3);
+	return r_pow(u,3);
 }
 
 Point BezierSurfaceModule::pointOnBez(Points cps, decimal u)

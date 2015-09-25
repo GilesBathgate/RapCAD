@@ -1,6 +1,6 @@
 #include "sinfunction.h"
 #include "numbervalue.h"
-#include "math.h"
+#include "rmath.h"
 
 SinFunction::SinFunction() : Function("sin")
 {
@@ -13,7 +13,7 @@ Value* SinFunction::evaluate(Context* ctx)
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return new NumberValue(sin(num));
+		return new NumberValue(r_sin_deg(num));
 	}
 	return new Value();
 }

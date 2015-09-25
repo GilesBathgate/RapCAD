@@ -1,6 +1,6 @@
 #include "cosfunction.h"
 #include "numbervalue.h"
-#include "math.h"
+#include "rmath.h"
 
 CosFunction::CosFunction() : Function("cos")
 {
@@ -13,7 +13,7 @@ Value* CosFunction::evaluate(Context* ctx)
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return new NumberValue(cos(num));
+		return new NumberValue(r_cos_deg(num));
 	}
 	return new Value();
 }

@@ -303,7 +303,8 @@ SOURCES += \
 	src/module/volumesmodule.cpp \
 	src/node/volumesnode.cpp \
 	src/cgalvolume.cpp \
-	src/function/numfunction.cpp
+	src/function/numfunction.cpp \
+	src/rmath.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -346,7 +347,6 @@ HEADERS  += \
 	src/context.h \
 	src/value.h \
 	src/module/echomodule.h \
-	src/tau.h \
 	src/numbervalue.h \
 	src/booleanvalue.h \
 	src/textvalue.h \
@@ -516,7 +516,8 @@ HEADERS  += \
 	src/module/volumesmodule.h \
 	src/node/volumesnode.h \
 	src/cgalvolume.h \
-	src/function/numfunction.h
+	src/function/numfunction.h \
+	src/rmath.h
 
 FORMS += \
 	src/mainwindow.ui \

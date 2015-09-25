@@ -3,7 +3,7 @@
 #include "vectorvalue.h"
 #include "rangevalue.h"
 #include "onceonly.h"
-#include "math.h"
+#include "rmath.h"
 
 MinFunction::MinFunction() : Function("min")
 {
@@ -20,13 +20,13 @@ static decimal minimum(QList<Value*> values,bool& ok)
 			if(first())
 				v=nextVal->getNumber();
 			else
-				v=fmin(v,nextVal->getNumber());
+				v=r_min(v,nextVal->getNumber());
 			ok=true;
 			continue;
 		}
 		VectorValue* vecVal=dynamic_cast<VectorValue*>(a);
 		if(vecVal) {
-			v=fmin(v,minimum(vecVal->getChildren(),ok));
+			v=r_min(v,minimum(vecVal->getChildren(),ok));
 			continue;
 		}
 		RangeValue* rngVal=dynamic_cast<RangeValue*>(a);
@@ -34,7 +34,7 @@ static decimal minimum(QList<Value*> values,bool& ok)
 			QList<Value*> rng;
 			rng.append(rngVal->getStart());
 			rng.append(rngVal->getFinish());
-			v=fmin(v,minimum(rng,ok));
+			v=r_min(v,minimum(rng,ok));
 		}
 	}
 	return v;

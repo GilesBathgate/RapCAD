@@ -16,11 +16,10 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <math.h>
 #include "mirrormodule.h"
 #include "vectorvalue.h"
 #include "node/transformationnode.h"
-#include "tau.h"
+#include "rmath.h"
 
 MirrorModule::MirrorModule() : Module("mirror")
 {
@@ -37,7 +36,7 @@ Node* MirrorModule::evaluate(Context* ctx)
 	decimal x=0,y=0,z=0;
 	vec.getXYZ(x,y,z);
 
-	decimal mag = sqrt(x*x + y*y + z*z);
+	decimal mag = r_sqrt(x*x + y*y + z*z);
 	decimal u = x/mag;
 	decimal v = y/mag;
 	decimal w = z/mag;

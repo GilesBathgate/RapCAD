@@ -1,6 +1,6 @@
 #include "ceilfunction.h"
 #include "numbervalue.h"
-#include "math.h"
+#include "rmath.h"
 
 CeilFunction::CeilFunction() : Function("ceil")
 {
@@ -13,7 +13,7 @@ Value* CeilFunction::evaluate(Context* ctx)
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return new NumberValue(ceil(num));
+		return new NumberValue(r_ceil(num));
 	}
 	return new Value();
 }

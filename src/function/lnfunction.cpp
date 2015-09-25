@@ -18,7 +18,7 @@
 
 #include "lnfunction.h"
 #include "numbervalue.h"
-#include <math.h>
+#include "rmath.h"
 
 LnFunction::LnFunction() : Function("ln")
 {
@@ -31,7 +31,7 @@ Value* LnFunction::evaluate(Context* ctx)
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return new NumberValue(log(num));
+		return new NumberValue(r_log(num));
 	}
 	return new Value();
 }

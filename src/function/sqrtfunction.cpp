@@ -18,7 +18,7 @@
 
 #include "sqrtfunction.h"
 #include "numbervalue.h"
-#include "math.h"
+#include "rmath.h"
 
 SqrtFunction::SqrtFunction() : Function("sqrt")
 {
@@ -31,7 +31,7 @@ Value* SqrtFunction::evaluate(Context* ctx)
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return new NumberValue(sqrt(num));
+		return new NumberValue(r_sqrt(num));
 	}
 	return new Value();
 }

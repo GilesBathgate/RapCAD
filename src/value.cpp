@@ -17,12 +17,12 @@
  */
 
 #include "value.h"
-#include "math.h"
 #include "valueiterator.h"
 #include "vectorvalue.h"
 #include "booleanvalue.h"
 #include "textvalue.h"
 #include "numbervalue.h"
+#include "rmath.h"
 
 Value::Value()
 {
@@ -230,12 +230,12 @@ Value* Value::operator!()
 
 decimal Value::modulus(decimal left, decimal right)
 {
-	return fmod(left,right);
+    return r_mod(left,right);
 }
 
 decimal Value::exponent(decimal left, decimal right)
 {
-	return pow(left,right);
+    return r_pow(left,right);
 }
 
 Value* Value::operation(Expression::Operator_e e)

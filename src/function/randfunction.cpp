@@ -19,7 +19,7 @@
 #include "randfunction.h"
 #include "vectorvalue.h"
 #include "numbervalue.h"
-#include <stdlib.h>
+#include "rmath.h"
 #include <time.h>
 
 RandFunction::RandFunction() : Function("rands")
@@ -28,16 +28,6 @@ RandFunction::RandFunction() : Function("rands")
 	addParameter("max");
 	addParameter("count");
 	addParameter("seed");
-}
-
-static decimal frand()
-{
-	return rand()/(decimal(RAND_MAX)+1);
-}
-
-static decimal frand(decimal min, decimal max)
-{
-	return (min>max)?frand()*(min-max)+max:frand()*(max-min)+min;
 }
 
 Value* RandFunction::evaluate(Context* ctx)
@@ -55,14 +45,13 @@ Value* RandFunction::evaluate(Context* ctx)
 	if(countVal)
 		count=countVal->getNumber();
 	NumberValue* seedVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,3));
+	int seed=time(0);
 	if(seedVal)
-		srand((unsigned int)seedVal->toInteger());
-	else
-		srand((unsigned int)time(0));
+		seed=seedVal->toInteger();
 
 	QList<Value*> results;
 	for(int i=0; i<count; ++i)
-		results.append(new NumberValue(frand(min,max)));
+		results.append(new NumberValue(r_rand(seed,min,max)));
 
 	return new VectorValue(results);
 }

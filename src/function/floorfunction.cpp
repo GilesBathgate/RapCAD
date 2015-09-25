@@ -1,6 +1,6 @@
 #include "floorfunction.h"
 #include "numbervalue.h"
-#include "math.h"
+#include "rmath.h"
 
 FloorFunction::FloorFunction() : Function("floor")
 {
@@ -13,7 +13,7 @@ Value* FloorFunction::evaluate(Context* ctx)
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return new NumberValue(floor(num));
+		return new NumberValue(r_floor(num));
 	}
 	return new Value();
 }

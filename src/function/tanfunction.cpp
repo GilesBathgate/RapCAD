@@ -1,6 +1,6 @@
 #include "tanfunction.h"
 #include "numbervalue.h"
-#include "math.h"
+#include "rmath.h"
 
 TanFunction::TanFunction() : Function("tan")
 {
@@ -13,7 +13,7 @@ Value* TanFunction::evaluate(Context* ctx)
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return new NumberValue(tan(num));
+		return new NumberValue(r_tan_deg(num));
 	}
 	return new Value();
 }

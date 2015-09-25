@@ -1,6 +1,6 @@
 #include "asinfunction.h"
 #include "numbervalue.h"
-#include "math.h"
+#include "rmath.h"
 
 AsinFunction::AsinFunction() : Function("asin")
 {
@@ -13,7 +13,7 @@ Value* AsinFunction::evaluate(Context* ctx)
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return new NumberValue(asin(num));
+		return new NumberValue(r_asin_deg(num));
 	}
 	return new Value();
 }

@@ -1,6 +1,6 @@
 #include "absfunction.h"
 #include "numbervalue.h"
-#include "math.h"
+#include "rmath.h"
 
 AbsFunction::AbsFunction() : Function("abs")
 {
@@ -13,7 +13,7 @@ Value* AbsFunction::evaluate(Context* ctx)
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return new NumberValue(fabs(num));
+		return new NumberValue(r_abs(num));
 	}
 	return new Value();
 }

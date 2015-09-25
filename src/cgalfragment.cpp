@@ -17,7 +17,7 @@
  */
 
 #include "cgalfragment.h"
-#include "tau.h"
+#include "rmath.h"
 
 CGALFragment::CGALFragment(const Fragment f) : Fragment(f)
 {
@@ -27,10 +27,10 @@ int CGALFragment::getFragments(CGAL::FT r)
 {
 	typedef CGAL::FT FT;
 	int fn=fragmentNumber;
-	if (fn > 0.0) return (int)(fn >= 3 ? fn : 3);
+	if(fn > 0.0) return (int)(fn >= 3 ? fn : 3);
 
 	FT fs=fragmentSize;
 	FT fa=fragmentAngle;
-	FT f=std::min(FT(360.0) / fa, r*FT(M_TAU) / fs);
+	FT f=std::min(FT(360.0) / fa, r*FT(r_tau()) / fs);
 	return std::max((int)ceil(to_decimal(f)),5);
 }

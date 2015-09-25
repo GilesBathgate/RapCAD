@@ -1,4 +1,4 @@
 function test() {
-a=cos(rad(180));
+a=cos(180);
 return a==-1;
 }

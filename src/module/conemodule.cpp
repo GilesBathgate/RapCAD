@@ -18,7 +18,7 @@
 
 #include "conemodule.h"
 #include "context.h"
-#include "math.h"
+#include "rmath.h"
 #include "numbervalue.h"
 
 ConeModule::ConeModule() : PrimitiveModule("cone")
@@ -54,7 +54,7 @@ Node* ConeModule::evaluate(Context* ctx)
 	z1 = 0.0;
 	z2 = h;
 
-	decimal r=fmax(r1,r2);
+	decimal r=r_max(r1,r2);
 
 	Fragment* fg = Fragment::createFragment(ctx);
 	int f = fg->getFragments(r);

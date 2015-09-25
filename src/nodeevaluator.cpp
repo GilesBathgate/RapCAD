@@ -18,7 +18,7 @@
 
 #include <QVector>
 #include "nodeevaluator.h"
-#include "tau.h"
+#include "rmath.h"
 #include "onceonly.h"
 #include "decimal.h"
 #include "polyhedron.h"
@@ -265,8 +265,8 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 
 	for(int i=0; i<f; i++) {
 		int j=(i+1)%f;
-		decimal phi=(M_TAU*i)/f;
-		decimal nphi=(M_TAU*j)/f;
+		decimal phi=(r_tau()*i)/f;
+		decimal nphi=(r_tau()*j)/f;
 
 		foreach(CGALExplorer::HalfEdgeHandle h, explorer.getHalfEdgePerimeter()) {
 			CGAL::Point3 q=translate(h->source()->point(),r,0,0);
@@ -666,7 +666,7 @@ void NodeEvaluator::visit(RadialsNode* n)
 
 	const int f=90;
 	for(int i=0; i<=f; i++) {
-		decimal phi = (M_TAU*i) / f;
+		decimal phi = (r_tau()*i) / f;
 		decimal x,y;
 		x = a+r*cos(phi);
 		y = b+r*sin(phi);

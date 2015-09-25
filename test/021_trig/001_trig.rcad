@@ -1,4 +1,4 @@
 function test() {
-pi=rad(180);
-return tan(pi)==sin(pi)/cos(pi);
+a=180;
+return tan(a)==sin(a)/cos(a);
 }

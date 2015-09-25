@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <math.h>
 #include "prismmodule.h"
 #include "numbervalue.h"
+#include "rmath.h"
 
 PrismModule::PrismModule() : PrimitiveModule("prism")
 {
@@ -44,12 +44,12 @@ Node* PrismModule::evaluate(Context* ctx)
 	NumberValue* apothemVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));
 	if(apothemVal) {
 		a=apothemVal->getNumber();
-		r=a/cos(M_PI/s);
+		r=a/r_cos(r_pi()/s);
 	} else {
 		NumberValue* radiusVal = dynamic_cast<NumberValue*>(ctx->getArgument(2,"radius"));
 		if(radiusVal) {
 			r=radiusVal->getNumber();
-			a=r*cos(M_PI/s);
+			a=r*r_cos(r_pi()/s);
 		}
 	}
 

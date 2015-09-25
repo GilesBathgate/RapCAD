@@ -1,15 +1,10 @@
 #include "roundfunction.h"
 #include "numbervalue.h"
-#include "math.h"
+#include "rmath.h"
 
 RoundFunction::RoundFunction() : Function("round")
 {
 	addParameter("value");
-}
-
-static decimal fround(decimal a)
-{
-	return a > 0 ? floor(a+0.5) : ceil(a-0.5);
 }
 
 Value* RoundFunction::evaluate(Context* ctx)
@@ -18,7 +13,7 @@ Value* RoundFunction::evaluate(Context* ctx)
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return new NumberValue(fround(num));
+		return new NumberValue(r_round(num));
 	}
 	return new Value();
 }

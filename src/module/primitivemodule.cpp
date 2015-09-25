@@ -16,9 +16,8 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <math.h>
+#include "rmath.h"
 #include "primitivemodule.h"
-#include "tau.h"
 #include "context.h"
 #include "numbervalue.h"
 
@@ -30,11 +29,11 @@ QList<Point> PrimitiveModule::getCircle(decimal r, decimal f, decimal z)
 {
 	QList<Point> circle;
 	for(int i=0; i<f; i++) {
-		decimal phi = (M_TAU*i) / f;
+		decimal phi = (r_tau()*i) / f;
 		decimal x,y;
 		if(r > 0) {
-			x = r*cos(phi);
-			y = r*sin(phi);
+			x = r*r_cos(phi);
+			y = r*r_sin(phi);
 		} else {
 			x=0;
 			y=0;
@@ -52,7 +51,7 @@ QList<Point> PrimitiveModule::getPolygon(decimal a,decimal r, decimal n, decimal
 	if(n==6) {
 		//TODO modify this to cater for all even values of n
 		decimal x=0,y=0;
-		decimal s2=r*sin(M_PI/n);
+		decimal s2=r*r_sin(r_pi()/n);
 		for(int i=0; i<n; i++) {
 			switch(i) {
 			case 0: {

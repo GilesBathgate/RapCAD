@@ -1,6 +1,6 @@
 #include "atanfunction.h"
 #include "numbervalue.h"
-#include "math.h"
+#include "rmath.h"
 
 AtanFunction::AtanFunction() : Function("atan")
 {
@@ -13,7 +13,7 @@ Value* AtanFunction::evaluate(Context* ctx)
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return new NumberValue(atan(num));
+		return new NumberValue(r_atan_deg(num));
 	}
 	return new Value();
 }

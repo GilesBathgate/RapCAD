@@ -28,6 +28,7 @@
 #include <CGAL/IO/Polyhedron_VRML_2_ostream.h>
 #include"cgalexplorer.h"
 #include "onceonly.h"
+#include "rmath.h"
 
 CGALExport::CGALExport(CGALPrimitive* p)
 {

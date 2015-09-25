@@ -16,10 +16,9 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <math.h>
 #include "spheremodule.h"
 #include "numbervalue.h"
-#include "tau.h"
+#include "rmath.h"
 #include "node/pointnode.h"
 
 SphereModule::SphereModule() : PrimitiveModule("sphere")
@@ -58,9 +57,9 @@ Node* SphereModule::evaluate(Context* ctx)
 
 	decimal h=center?0.0:r;
 	for(int i=0; i<ringCount; i++) {
-		decimal phi = (M_PI*(i+0.5)) / ringCount;
-		decimal r2 = r*sin(phi);
-		decimal z = r*cos(phi)+h;
+		decimal phi = (r_pi()*(i+0.5)) / ringCount;
+		decimal r2 = r*r_sin(phi);
+		decimal z = r*r_cos(phi)+h;
 		QList<Point> c = getCircle(r2,f,z);
 		foreach(Point pt,c) {
 			p->createVertex(pt);

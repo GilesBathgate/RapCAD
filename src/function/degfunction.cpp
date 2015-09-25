@@ -18,7 +18,7 @@
 
 #include "degfunction.h"
 #include "numbervalue.h"
-#include "tau.h"
+#include "rmath.h"
 
 DegFunction::DegFunction() : Function("deg")
 {
@@ -31,7 +31,7 @@ Value* DegFunction::evaluate(Context* ctx)
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return new NumberValue(num*360.0/M_TAU);
+		return new NumberValue(r_deg(num));
 	}
 	return new Value();
 }

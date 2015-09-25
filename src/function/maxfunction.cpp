@@ -3,7 +3,7 @@
 #include "vectorvalue.h"
 #include "rangevalue.h"
 #include "onceonly.h"
-#include "math.h"
+#include "rmath.h"
 
 MaxFunction::MaxFunction() : Function("max")
 {
@@ -20,14 +20,14 @@ static decimal maximum(QList<Value*> values,bool& ok)
 			if(first())
 				v=nextVal->getNumber();
 			else
-				v=fmax(v,nextVal->getNumber());
+				v=r_max(v,nextVal->getNumber());
 
 			ok=true;
 			continue;
 		}
 		VectorValue* vecVal=dynamic_cast<VectorValue*>(a);
 		if(vecVal) {
-			v=fmax(v,maximum(vecVal->getChildren(),ok));
+			v=r_max(v,maximum(vecVal->getChildren(),ok));
 			continue;
 		}
 		RangeValue* rngVal=dynamic_cast<RangeValue*>(a);
@@ -35,7 +35,7 @@ static decimal maximum(QList<Value*> values,bool& ok)
 			QList<Value*> rng;
 			rng.append(rngVal->getStart());
 			rng.append(rngVal->getFinish());
-			v=fmax(v,maximum(rng,ok));
+			v=r_max(v,maximum(rng,ok));
 		}
 	}
 	return v;

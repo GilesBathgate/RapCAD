@@ -1,6 +1,6 @@
 #include "tanhfunction.h"
 #include "numbervalue.h"
-#include "math.h"
+#include "rmath.h"
 
 TanhFunction::TanhFunction() : Function("tanh")
 {
@@ -13,7 +13,7 @@ Value* TanhFunction::evaluate(Context* ctx)
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return new NumberValue(tanh(num));
+		return new NumberValue(r_tanh_deg(num));
 	}
 	return new Value();
 }

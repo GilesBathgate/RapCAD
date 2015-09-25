@@ -16,12 +16,11 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <math.h>
+#include "rmath.h"
 #include "rotatemodule.h"
 #include "node/transformationnode.h"
 #include "numbervalue.h"
 #include "vectorvalue.h"
-#include "tau.h"
 
 RotateModule::RotateModule() : Module("rotate")
 {
@@ -29,26 +28,21 @@ RotateModule::RotateModule() : Module("rotate")
 	addParameter("vector");
 }
 
-decimal RotateModule::round(decimal a)
-{
-	return a<0?ceil(a-0.5):floor(a+0.5);
-}
-
 bool RotateModule::rightAngle(decimal a)
 {
-	return fmod(a,90)==0.0;
+	return r_mod(a,90)==0.0;
 }
 
 decimal RotateModule::hardCos(decimal a)
 {
-	decimal ca=cos(a*M_TAU/360.0);
-	return rightAngle(a)?round(ca):ca;
+	decimal ca=r_cos_deg(a);
+	return rightAngle(a)?r_round(ca):ca;
 }
 
 decimal RotateModule::hardSin(decimal a)
 {
-	decimal sa=sin(a*M_TAU/360.0);
-	return rightAngle(a)?round(sa):sa;
+	decimal sa=r_sin_deg(a);
+	return rightAngle(a)?r_round(sa):sa;
 }
 
 Node* RotateModule::evaluate(Context* ctx)
@@ -114,7 +108,7 @@ Node* RotateModule::evaluate(Context* ctx)
 		decimal c=hardCos(a);
 		decimal s=hardSin(a);
 
-		decimal mag = sqrt(x*x + y*y + z*z);
+		decimal mag = r_sqrt(x*x + y*y + z*z);
 		decimal u = x/mag;
 		decimal v = y/mag;
 		decimal w = z/mag;
