@@ -25,6 +25,8 @@ typedef double decimal;
 
 QString to_string(const decimal);
 QString to_string(const decimal,const bool);
+decimal to_decimal(QString s,bool* ok);
+decimal* parse_decimal(QString);
 
 #if USE_CGAL
 
@@ -64,15 +66,5 @@ inline bool to_boolean(NT const& n)
 }
 
 #endif
-
-inline decimal to_decimal(QString s)
-{
-	return s.toDouble();
-}
-
-inline decimal to_decimal(QString s,bool* ok)
-{
-	return s.toDouble(ok);
-}
 
 #endif // DECIMAL_H

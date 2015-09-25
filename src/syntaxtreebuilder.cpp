@@ -453,10 +453,10 @@ Expression* SyntaxTreeBuilder::buildLiteral(bool value)
 	return result;
 }
 
-Expression* SyntaxTreeBuilder::buildLiteral(decimal value)
+Expression* SyntaxTreeBuilder::buildLiteral(decimal* value)
 {
 	Literal* result = new Literal();
-	result->setValue(value);
+	result->setValue(*value);
 	return result;
 }
 

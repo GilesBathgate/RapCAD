@@ -307,7 +307,7 @@ Expression* DependencyBuilder::buildLiteral(bool)
 	return NULL;
 }
 
-Expression* DependencyBuilder::buildLiteral(decimal)
+Expression* DependencyBuilder::buildLiteral(decimal*)
 {
 	return NULL;
 }

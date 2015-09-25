@@ -93,7 +93,7 @@ public:
 	virtual Argument* buildArgument(Variable*,Expression*)=0;
 	virtual Expression* buildLiteral()=0;
 	virtual Expression* buildLiteral(bool)=0;
-	virtual Expression* buildLiteral(decimal value)=0;
+	virtual Expression* buildLiteral(decimal* value)=0;
 	virtual Expression* buildLiteral(QString* value)=0;
 	virtual Variable* buildVariable(QString* name)=0;
 	virtual Expression* buildVariable(Variable*)=0;

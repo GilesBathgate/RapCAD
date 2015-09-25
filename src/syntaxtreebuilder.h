@@ -102,7 +102,7 @@ public:
 	unsigned int buildOptionalCommas(unsigned int);
 	Expression* buildLiteral();
 	Expression* buildLiteral(bool);
-	Expression* buildLiteral(decimal value);
+	Expression* buildLiteral(decimal* value);
 	Expression* buildLiteral(QString* value);
 	Variable* buildVariable(QString* name);
 	Expression* buildVariable(Variable*);

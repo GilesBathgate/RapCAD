@@ -38,7 +38,7 @@ static Reporter* reporter;
 
 %union {
 	QString* text;
-	decimal number;
+	decimal* number;
 	unsigned int count;
 	class Declaration* decl;
 	class QList<Declaration*>* decls;

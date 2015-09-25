@@ -19,6 +19,17 @@
 #include "decimal.h"
 #include "preferences.h"
 
+decimal* parse_decimal(QString s)
+{
+	bool ok;
+	return new decimal(to_decimal(s,&ok));
+}
+
+inline decimal to_decimal(QString s,bool* ok)
+{
+	return s.toDouble(ok);
+}
+
 static inline int amountToChop(QString s)
 {
 	int j=0;
