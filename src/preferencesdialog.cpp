@@ -27,6 +27,7 @@ void PreferencesDialog::setupWidgets()
 	ui->edgeSizeSpinBox->setValue(p->getEdgeSize());
 	ui->checkBox->setChecked(p->getAutoSaveOnCompile());
 	ui->precisionSpinBox->setValue(p->getPrecision());
+	ui->functionRoundingCheckBox->setChecked(p->getFunctionRounding());
 }
 
 void PreferencesDialog::setColor(QWidget* w,QColor c)
@@ -60,6 +61,7 @@ void PreferencesDialog::setupButtons()
 	connect(this->ui->precisionSpinBox,SIGNAL(valueChanged(int)),SLOT(precisionChanged(int)));
 
 	connect(this->ui->checkBox,SIGNAL(stateChanged(int)),SLOT(autoSaveOnCompileChanged(int)));
+	connect(this->ui->functionRoundingCheckBox,SIGNAL(stateChanged(int)),SLOT(functionRoundingChanged(int)));
 }
 
 void PreferencesDialog::colorButtonPressed(QWidget* frame)
@@ -104,6 +106,12 @@ void PreferencesDialog::precisionChanged(int i)
 {
 	Preferences* p = Preferences::getInstance();
 	p->setPrecision(i);
+}
+
+void PreferencesDialog::functionRoundingChanged(int s)
+{
+	Preferences* p = Preferences::getInstance();
+	p->setFunctionRounding(s == Qt::Checked);
 }
 
 PreferencesDialog::~PreferencesDialog()

@@ -39,6 +39,7 @@ private slots:
 	void edgeSizeChanged(double);
 	void autoSaveOnCompileChanged(int);
 	void precisionChanged(int);
+	void functionRoundingChanged(int);
 private:
 	Ui::Preferences* ui;
 	void setupWidgets();

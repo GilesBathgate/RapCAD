@@ -26,20 +26,24 @@
  * See http://tauday.com/ */
 #define M_TAU		6.28318530717958647692
 
-decimal precisionFactor()
+static decimal roundPreference(decimal a)
 {
 	Preferences* p=Preferences::getInstance();
-	return r_pow(10.0,p->getPrecision());
+	if(p->getFunctionRounding()) {
+		decimal f=r_pow(10.0,p->getPrecision());
+		return round(a*f)/f;
+	}
+	return a;
 }
 
 decimal r_tau()
 {
-	return decimal(M_TAU);
+	return roundPreference(decimal(M_TAU));
 }
 
 decimal r_pi()
 {
-	return r_tau()/decimal(2);
+	return roundPreference(decimal(M_PI));
 }
 
 decimal r_rad(decimal a)
@@ -59,26 +63,22 @@ decimal r_pow(decimal a,decimal e)
 
 decimal r_round(decimal a)
 {
-	/*
-	decimal f=precisionFactor();
-	return round(a*f)/f;
-	*/
 	return round(a);
 }
 
 decimal r_sin(decimal a)
 {
-	return sin(a);
+	return roundPreference(sin(a));
 }
 
 decimal r_cos(decimal a)
 {
-	return cos(a);
+	return roundPreference(cos(a));
 }
 
 decimal r_tan(decimal a)
 {
-	return tan(a);
+	return roundPreference(tan(a));
 }
 
 decimal r_sin_deg(decimal a)
@@ -98,7 +98,7 @@ decimal r_tan_deg(decimal a)
 
 decimal r_sqrt(decimal a)
 {
-	return sqrt(a);
+	return roundPreference(sqrt(a));
 }
 
 decimal r_mod(decimal a, decimal b)
@@ -113,37 +113,37 @@ decimal r_abs(decimal a)
 
 decimal r_acos_deg(decimal a)
 {
-	return acos(r_rad(a));
+	return roundPreference(acos(r_rad(a)));
 }
 
 decimal r_asin_deg(decimal a)
 {
-	return asin(r_rad(a));
+	return roundPreference(asin(r_rad(a)));
 }
 
 decimal r_atan2_deg(decimal a,decimal b)
 {
-	return atan2(r_rad(a),r_rad(b));
+	return roundPreference(atan2(r_rad(a),r_rad(b)));
 }
 
 decimal r_atan_deg(decimal a)
 {
-	return atan(r_rad(a));
+	return roundPreference(atan(r_rad(a)));
 }
 
 decimal r_cosh_deg(decimal a)
 {
-	return cosh(r_rad(a));
+	return roundPreference(cosh(r_rad(a)));
 }
 
 decimal r_sinh_deg(decimal a)
 {
-	return sinh(r_rad(a));
+	return roundPreference(sinh(r_rad(a)));
 }
 
 decimal r_tanh_deg(decimal a)
 {
-	return tanh(r_rad(a));
+	return roundPreference(tanh(r_rad(a)));
 }
 
 decimal r_max(decimal a, decimal b)
@@ -168,17 +168,17 @@ decimal r_floor(decimal a)
 
 decimal r_exp(decimal a)
 {
-	return exp(a);
+	return roundPreference(exp(a));
 }
 
 decimal r_log(decimal a)
 {
-	return log(a);
+	return roundPreference(log(a));
 }
 
 decimal r_log10(decimal a)
 {
-	return log10(a);
+	return roundPreference(log10(a));
 }
 
 decimal r_sign(decimal a)

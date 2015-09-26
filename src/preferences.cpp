@@ -25,6 +25,16 @@ void Preferences::setPrecision(int p)
 	settings->setValue("Precision",p);
 }
 
+bool Preferences::getFunctionRounding()
+{
+	return settings->value("FunctionRounding",false).toBool();
+}
+
+void Preferences::setFunctionRounding(bool b)
+{
+	settings->setValue("FunctionRounding",b);
+}
+
 double Preferences::getDefaultRotationX()
 {
 	return settings->value("DefaultRotationX",35.0).toDouble();

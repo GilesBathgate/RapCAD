@@ -214,42 +214,63 @@
         <attribute name="title">
          <string>Output</string>
         </attribute>
-        <widget class="QLabel" name="precisionLabel">
-         <property name="geometry">
-          <rect>
-           <x>360</x>
-           <y>10</y>
-           <width>141</width>
-           <height>27</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Output Precision</string>
-         </property>
-        </widget>
-        <widget class="QSpinBox" name="precisionSpinBox">
-         <property name="geometry">
-          <rect>
-           <x>7</x>
-           <y>10</y>
-           <width>341</width>
-           <height>27</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QCheckBox" name="checkBox">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>50</y>
-           <width>328</width>
-           <height>22</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Always save files before compile and render</string>
-         </property>
-        </widget>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QGroupBox" name="groupBox">
+           <property name="styleSheet">
+            <string notr="true">QGroupBox {
+    border: 1px solid gray;
+    border-radius: 9px;
+    margin-top: 0.5em;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    left: 10px;
+    padding: 0 3px 0 3px;
+}</string>
+           </property>
+           <property name="title">
+            <string>Output Precision</string>
+           </property>
+           <property name="flat">
+            <bool>false</bool>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item>
+             <widget class="QSpinBox" name="precisionSpinBox"/>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="functionRoundingCheckBox">
+              <property name="text">
+               <string>Use function rounding</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox">
+           <property name="text">
+            <string>Always save files before compile and render</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </widget>
      </item>

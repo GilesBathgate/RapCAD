@@ -32,6 +32,9 @@ public:
 	int getPrecision();
 	void setPrecision(int);
 
+	bool getFunctionRounding();
+	void setFunctionRounding(bool);
+
 	double getDefaultRotationX();
 	void setDefaultRotationX(double d);
 

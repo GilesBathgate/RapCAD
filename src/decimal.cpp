@@ -55,9 +55,13 @@ QString to_string(const decimal d)
 
 QString to_string(const decimal d,const bool trim)
 {
+	int precision=16;
 	Preferences* p=Preferences::getInstance();
+	if(!p->getFunctionRounding()) {
+		precision=p->getPrecision();
+	}
 	QString res;
-	res.setNum(d,'f',p->getPrecision());
+	res.setNum(d,'f',precision);
 
 	if(trim) {
 		//Trim trailing zeros.
