@@ -155,7 +155,7 @@ static CGAL::Point3 flatten(const CGAL::Point3& p)
 	return CGAL::Point3(p.x(),p.y(),0);
 }
 
-static CGAL::Point3 translate(const CGAL::Point3& p,CGAL::FT x,CGAL::FT y,CGAL::FT z)
+static CGAL::Point3 translate(const CGAL::Point3& p,CGAL::Scalar x,CGAL::Scalar y,CGAL::Scalar z)
 {
 	CGAL::AffTransformation3 t(
 		1, 0, 0, x,
@@ -189,7 +189,7 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 		cp->appendVertex(CGAL::Point3(0.0,0.0,op->getHeight()));
 		result=result->minkowski(cp);
 	} else {
-		CGAL::FT z=op->getHeight();
+		CGAL::Scalar z=op->getHeight();
 		CGALExplorer explorer(result);
 		CGALPrimitive* prim=explorer.getPrimitive();
 		QList<CGALPolygon*> polys=prim->getCGALPolygons();
@@ -254,7 +254,7 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 	evaluate(op,Union);
 
 #if USE_CGAL
-	CGAL::FT r=op->getRadius();
+	CGAL::Scalar r=op->getRadius();
 	CGALExplorer explorer(result);
 	//CGALPrimitive* prim=explorer.getPrimitive();
 	//QList<CGALPolygon*> polys=prim->getPolygons();
@@ -468,7 +468,7 @@ void NodeEvaluator::visit(ResizeNode* n)
 	Point s=n->getSize();
 	decimal x1,y1,z1;
 	s.getXYZ(x1,y1,z1);
-	CGAL::FT x=x1,y=y1,z=z1,autosize=1.0;
+	CGAL::Scalar x=x1,y=y1,z=z1,autosize=1.0;
 
 	if(z!=0.0) {
 		z/=(b.zmax()-b.zmin());
@@ -504,7 +504,7 @@ void NodeEvaluator::visit(AlignNode* n)
 #if USE_CGAL
 	CGALPrimitive* pr=static_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
-	CGAL::FT cx=0.0,cy=0.0,cz=0.0;
+	CGAL::Scalar cx=0.0,cy=0.0,cz=0.0;
 	if(n->getCenter()) {
 		cx=(b.xmin()+b.xmax())/2;
 		cy=(b.ymin()+b.ymax())/2;
@@ -560,18 +560,18 @@ void NodeEvaluator::visit(SliceNode* n)
 	CGAL::Cuboid3 b=pr->getBounds();
 
 	CGALPrimitive* cp=new CGALPrimitive();
-	const CGAL::FT& h=n->getHeight();
-	const CGAL::FT& xmin=b.xmin();
-	const CGAL::FT& ymin=b.ymin();
-	const CGAL::FT& xmax=b.xmax();
-	const CGAL::FT& ymax=b.ymax();
+	const CGAL::Scalar& h=n->getHeight();
+	const CGAL::Scalar& xmin=b.xmin();
+	const CGAL::Scalar& ymin=b.ymin();
+	const CGAL::Scalar& xmax=b.xmax();
+	const CGAL::Scalar& ymax=b.ymax();
 
 	CGALBuilder bd(cp);
 	bd.makeSideZ(xmin,xmax,ymin,ymax,h);
 
 	decimal t=n->getThickness();
 	if(t>0.0) {
-		const CGAL::FT& z=h+t;
+		const CGAL::Scalar& z=h+t;
 		bd.makeSideY(xmax,xmin,ymin,h,z);
 		bd.makeSideX(xmax,ymax,ymin,h,z);
 		bd.makeSideY(xmin,xmax,ymax,h,z);

@@ -312,7 +312,7 @@ CGALVolume CGALExplorer::getVolume(bool calcMass)
 	typedef Triangulation::Cell_handle CellHandle;
 	typedef Triangulation::Tetrahedron Tetrahedron;
 
-	CGAL::FT total=0;
+	CGAL::Scalar total=0;
 	QList<Tetrahedron> volumes;
 	foreach(Points pts, volumePoints) {
 		Triangulation tr(pts.begin(),pts.end());
@@ -325,7 +325,7 @@ CGALVolume CGALExplorer::getVolume(bool calcMass)
 	}
 	if(!calcMass) {
 		CGAL::Cuboid3 b=getBounds();
-		CGAL::FT cx=0.0,cy=0.0,cz=0.0;
+		CGAL::Scalar cx=0.0,cy=0.0,cz=0.0;
 		cx=(b.xmin()+b.xmax())/2;
 		cy=(b.ymin()+b.ymax())/2;
 		cz=(b.zmin()+b.zmax())/2;

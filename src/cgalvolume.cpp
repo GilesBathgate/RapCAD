@@ -18,14 +18,14 @@
 
 #include "cgalvolume.h"
 
-CGALVolume::CGALVolume(CGAL::Cuboid3 b,CGAL::FT s,CGAL::Point3 c)
+CGALVolume::CGALVolume(CGAL::Cuboid3 b,CGAL::Scalar s,CGAL::Point3 c)
 {
 	bounds=b;
 	size=s;
 	centroid=c;
 }
 
-CGAL::FT CGALVolume::getSize() const
+CGAL::Scalar CGALVolume::getSize() const
 {
 	return size;
 }

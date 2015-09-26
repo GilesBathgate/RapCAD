@@ -23,14 +23,13 @@ CGALFragment::CGALFragment(const Fragment f) : Fragment(f)
 {
 }
 
-int CGALFragment::getFragments(CGAL::FT r)
+int CGALFragment::getFragments(CGAL::Scalar r)
 {
-	typedef CGAL::FT FT;
 	int fn=fragmentNumber;
 	if(fn > 0.0) return (int)(fn >= 3 ? fn : 3);
 
-	FT fs=fragmentSize;
-	FT fa=fragmentAngle;
-	FT f=std::min(FT(360.0) / fa, r*FT(r_tau()) / fs);
+	CGAL::Scalar fs=fragmentSize;
+	CGAL::Scalar fa=fragmentAngle;
+	CGAL::Scalar f=std::min(CGAL::Scalar(360.0) / fa, r*CGAL::Scalar(r_tau()) / fs);
 	return std::max((int)ceil(to_decimal(f)),5);
 }

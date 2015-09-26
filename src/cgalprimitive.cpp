@@ -374,7 +374,7 @@ CGAL::Circle3 CGALPrimitive::getRadius()
 	Min_circle::Circle circle2=mc2.circle();
 	CGAL::Point2 center2=circle2.center();
 	CGAL::Point3 center3(center2.x(),center2.y(),0);
-	CGAL::FT sq_r=circle2.squared_radius();
+	CGAL::Scalar sq_r=circle2.squared_radius();
 
 	return CGAL::Circle3(center3,sq_r,CGAL::Vector3(0,0,1));
 

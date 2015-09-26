@@ -49,9 +49,8 @@ void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
 	builder.end_surface();
 }
 
-CGALPrimitive* CGALBuilder::buildOffsetPolygons(const CGAL::FT amount)
+CGALPrimitive* CGALBuilder::buildOffsetPolygons(const CGAL::Scalar amount)
 {
-	typedef CGAL::FT FT;
 	typedef boost::shared_ptr<CGAL::Polygon2> PolygonPtr;
 	typedef std::vector<PolygonPtr> PolygonPtrVector;
 	typedef CGAL::Polygon2::Vertex_const_iterator VertexIterator;
@@ -60,7 +59,7 @@ CGALPrimitive* CGALBuilder::buildOffsetPolygons(const CGAL::FT amount)
 	CGALExplorer e(primitive);
 	CGALPrimitive* prim = e.getPrimitive();
 
-	FT z=0.0;
+	CGAL::Scalar z=0.0;
 	foreach(CGALPolygon* pg,prim->getCGALPolygons()) {
 		foreach(CGAL::Point3 pt,pg->getPoints()) {
 			CGAL::Point2 p2(pt.x(),pt.y());
@@ -92,7 +91,7 @@ CGALPrimitive* CGALBuilder::buildOffsetPolygons(const CGAL::FT amount)
 	return offsetPrim;
 }
 
-void CGALBuilder::makeSideZ(const CGAL::FT& x1,const CGAL::FT& x2,const CGAL::FT& y1,const CGAL::FT& y2,const CGAL::FT& z)
+void CGALBuilder::makeSideZ(const CGAL::Scalar& x1,const CGAL::Scalar& x2,const CGAL::Scalar& y1,const CGAL::Scalar& y2,const CGAL::Scalar& z)
 {
 	primitive->createPolygon(); // sideZ
 	primitive->appendVertex(CGAL::Point3(x1, y1, z));
@@ -101,7 +100,7 @@ void CGALBuilder::makeSideZ(const CGAL::FT& x1,const CGAL::FT& x2,const CGAL::FT
 	primitive->appendVertex(CGAL::Point3(x1, y2, z));
 }
 
-void CGALBuilder::makeSideY(const CGAL::FT& x1,const CGAL::FT& x2,const CGAL::FT& y,const CGAL::FT& z1,const CGAL::FT& z2)
+void CGALBuilder::makeSideY(const CGAL::Scalar& x1,const CGAL::Scalar& x2,const CGAL::Scalar& y,const CGAL::Scalar& z1,const CGAL::Scalar& z2)
 {
 	primitive->createPolygon(); // sideY
 	primitive->appendVertex(CGAL::Point3(x1, y, z1));
@@ -110,7 +109,7 @@ void CGALBuilder::makeSideY(const CGAL::FT& x1,const CGAL::FT& x2,const CGAL::FT
 	primitive->appendVertex(CGAL::Point3(x1, y, z2));
 }
 
-void CGALBuilder::makeSideX(const CGAL::FT& x,const CGAL::FT& y1,const CGAL::FT& y2,const CGAL::FT& z1,const CGAL::FT& z2)
+void CGALBuilder::makeSideX(const CGAL::Scalar& x,const CGAL::Scalar& y1,const CGAL::Scalar& y2,const CGAL::Scalar& z1,const CGAL::Scalar& z2)
 {
 	primitive->createPolygon(); // sideX
 	primitive->appendVertex(CGAL::Point3(x, y1, z1));
