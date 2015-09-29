@@ -457,6 +457,7 @@ Expression* SyntaxTreeBuilder::buildLiteral(decimal* value)
 {
 	Literal* result = new Literal();
 	result->setValue(*value);
+	delete value;
 	return result;
 }
 
