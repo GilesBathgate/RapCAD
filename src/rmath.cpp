@@ -30,7 +30,7 @@ static decimal roundPreference(decimal a)
 {
 	Preferences* p=Preferences::getInstance();
 	if(p->getFunctionRounding()) {
-		decimal f=r_pow(10.0,p->getPrecision());
+		decimal f=r_pow(10.0,p->getPrecision()-1);
 		return round(a*f)/f;
 	}
 	return a;
