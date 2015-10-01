@@ -195,6 +195,38 @@ void NodePrinter::printArguments(Polygon pg)
 	result << "])";
 }
 
+void NodePrinter::printArguments(QList<AlignNode::Face_t> t)
+{
+	result << "(";
+	OnceOnly first;
+	foreach(AlignNode::Face_t a, t) {
+		if(!first())
+			result << ",";
+		switch(a) {
+		case AlignNode::Top:
+			result << "top";
+			break;
+		case AlignNode::Bottom:
+			result << "bottom";
+			break;
+		case AlignNode::North:
+			result << "north";
+			break;
+		case AlignNode::South:
+			result << "south";
+			break;
+		case AlignNode::West:
+			result << "west";
+			break;
+		case AlignNode::East:
+			result << "east";
+			break;
+		}
+		result << "=true";
+	}
+	result << ")";
+}
+
 void NodePrinter::visit(ResizeNode* n)
 {
 	result << "resize";
@@ -204,10 +236,12 @@ void NodePrinter::visit(ResizeNode* n)
 
 void NodePrinter::visit(AlignNode* n)
 {
-	if(n->getCenter())
+	if(n->getCenter()) {
 		result << "center()";
-	else
-		result << "align()";
+	} else {
+		result << "align";
+		printArguments(n->getAlign());
+	}
 	printChildren(n);
 }
 

@@ -30,12 +30,18 @@ void AlignNode::accept(NodeVisitor& v)
 
 bool AlignNode::getCenter() const
 {
-    return center;
+	return center;
 }
 
 void AlignNode::setCenter(bool value)
 {
-    center = value;
+	center = value;
+}
+
+void AlignNode::setCenterVertical()
+{
+	align.append(Top);
+	align.append(Bottom);
 }
 
 QList<AlignNode::Face_t> AlignNode::getAlign() const
@@ -43,7 +49,7 @@ QList<AlignNode::Face_t> AlignNode::getAlign() const
 	return align;
 }
 
-void AlignNode::setAlign(const QList<Face_t> &value)
+void AlignNode::setAlign(const QList<Face_t>& value)
 {
 	align = value;
 }

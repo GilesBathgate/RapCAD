@@ -142,7 +142,7 @@ Node* CylinderModule::evaluate(Context* ctx)
 
 	if(center) {
 		AlignNode* n=new AlignNode();
-		n->setCenter(true);
+		n->setCenterVertical();
 		n->addChild(p);
 		return n;
 	}

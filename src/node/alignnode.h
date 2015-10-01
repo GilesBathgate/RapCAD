@@ -38,9 +38,10 @@ public:
 
 	bool getCenter() const;
 	void setCenter(bool value);
+	void setCenterVertical();
 
 	QList<Face_t> getAlign() const;
-	void setAlign(const QList<Face_t> &value);
+	void setAlign(const QList<Face_t>& value);
 
 	void accept(NodeVisitor&);
 private:

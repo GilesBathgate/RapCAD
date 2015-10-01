@@ -83,12 +83,13 @@ public:
 	void visit(ComplementNode*);
 	void visit(RadialsNode*);
 	void visit(VolumesNode*);
+private:
+	QTextStream& result;
 	void printChildren(Node*);
 	void printArguments(Point);
 	void printArguments(Polygon);
 	void printPolyhedron(Polyhedron*);
-private:
-	QTextStream& result;
+	void printArguments(QList<AlignNode::Face_t> t);
 };
 
 #endif // NODEPRINTER_H

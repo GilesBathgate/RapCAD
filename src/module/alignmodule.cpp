@@ -34,7 +34,7 @@ AlignModule::AlignModule() : Module("align")
 	addParameter("west");
 }
 
-Node *AlignModule::evaluate(Context* ctx)
+Node* AlignModule::evaluate(Context* ctx)
 {
 	BooleanValue* topVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0,0));
 	BooleanValue* bottomVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,1,0));

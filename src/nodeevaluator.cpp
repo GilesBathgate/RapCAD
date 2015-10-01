@@ -505,33 +505,52 @@ void NodeEvaluator::visit(AlignNode* n)
 	CGALPrimitive* pr=static_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
 	CGAL::Scalar cx=0.0,cy=0.0,cz=0.0;
+	CGAL::Scalar two(2.0);
 	if(n->getCenter()) {
-		cx=(b.xmin()+b.xmax())/2;
-		cy=(b.ymin()+b.ymax())/2;
-		cz=(b.zmin()+b.zmax())/2;
+		cx=(b.xmin()+b.xmax())/two;
+		cy=(b.ymin()+b.ymax())/two;
+		cz=(b.zmin()+b.zmax())/two;
 	} else {
+		bool top=false;
+		bool bottom=false;
+		bool north=false;
+		bool south=false;
+		bool west=false;
+		bool east=false;
 		foreach(AlignNode::Face_t a,n->getAlign()) {
 			switch(a) {
 			case AlignNode::Top:
+				top=true;
 				cz=b.zmax();
 				break;
 			case AlignNode::Bottom:
+				bottom=true;
 				cz=b.zmin();
 				break;
 			case AlignNode::North:
+				north=true;
 				cx=b.xmax();
 				break;
 			case AlignNode::South:
+				south=true;
 				cx=b.xmin();
 				break;
 			case AlignNode::West:
+				west=true;
 				cy=b.ymax();
 				break;
 			case AlignNode::East:
+				east=true;
 				cy=b.ymin();
 				break;
 			}
 		}
+		if(top&&bottom)
+			cz=(b.zmin()+b.zmax())/two;
+		if(north&&south)
+			cx=(b.xmin()+b.xmax())/two;
+		if(east&&west)
+			cy=(b.ymin()+b.ymax())/two;
 	}
 
 	CGAL::AffTransformation3 t(
