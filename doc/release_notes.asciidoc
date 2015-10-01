@@ -1,3 +1,20 @@
+0.9.6
+   * All trig functions now take value in degrees.
+   * Ensure cone, prism, cylinder etc use exact centering along vertical axis.
+   * Add option to use rounding within trig, and other functions.
+   * Make output precision configurable in preferences.
+   * Higher output precision in AMF format.
+   * Fix to rotate_extrude bug where r=0.
+   * Added test for bezier surface, solid linear extrude, and slice.
+   * All primitives are now constructed as a list of points and indices to those points.
+   * Corrections to docs where bounds() should be bound$().
+   * Use exact centering for sphere and default to point when no radius given.
+   * Improve compilation time output in gui.
+   * Fix crash when version() is called more than once.
+   * Added feature matrix to docs.
+   * Functions min() and max() now work for any number of arguments.
+   * Added some i18n support code.
+
 0.9.5
    * Implemented importing scripts with the 'use' directive.
    * Fix some hard crashes in Polygon, Polyhedron and Polyline modules.
