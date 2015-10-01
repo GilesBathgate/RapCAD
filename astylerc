@@ -1,6 +1,6 @@
 unpad-paren
 align-pointer=type
-brackets=linux
+style=linux
 lineend=linux
 indent=force-tab
 suffix=none
