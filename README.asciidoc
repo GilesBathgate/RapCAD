@@ -31,7 +31,7 @@ Windows
 Ubuntu
 ~~~~~
 
-* Supports: Saucy, Trusty
+* Supports: Trusty, Vivid
 * Simply run the following commands in a terminal.
 
     sudo apt-add-repository ppa:gilesbathgate/rapcad

@@ -1,12 +1,11 @@
 #!/bin/bash
-pushd ../
 version=$(cat VERSION)
 releasedir=rapcad-release-snapshot
 windir=$releasedir/windows
 ppadir=$releasedir/ppa
 today=$(date +%Y%m%d)
 snapshot="+1SNAPSHOT$today"
-pass=$1
+read -s pass
 gpgcommand="gpg --passphrase $pass --batch --no-tty --yes"
 
 echo Building RapCAD v$version$snapshot
@@ -30,8 +29,8 @@ ppa_build(){
 	mv rapcad_$version$snapshot~"$vname"1* $ppadir
 }
 
+ppa_build "Vivid"
 ppa_build "Trusty"
-ppa_build "Saucy"
 
 rm -rf rapcad-$version$snapshot
 
