@@ -28,7 +28,7 @@ AboutDialog::AboutDialog(QWidget* parent) :
 #if USE_CGAL
 	ui->components->appendPlainText(tr("CGAL\tVersion: %1").arg(CGAL_VERSION_STR));
 #endif
-	ui->components->appendPlainText(tr("Boost\tVersion: %1").arg(BOOST_LIB_VERSION));
+	ui->components->appendPlainText(tr("Boost\tVersion: %1.%2.%3").arg(BOOST_VERSION / 100000).arg(BOOST_VERSION / 100 % 1000).arg(BOOST_VERSION % 100));
 #ifdef USE_DXF
 	ui->components->appendPlainText(tr("Dxflib\tVersion: %1").arg(DL_VERSION));
 #endif
