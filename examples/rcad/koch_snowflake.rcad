@@ -4,17 +4,17 @@ function knoch(l,x=0,y=0,a=0,n=0) {
 
  x+=cos(a)*r;
  y+=sin(a)*r;
- a+=rad(60);
+ a+=60;
  v~=n>0?knoch(r,x,y,a,n-1):[[x,y,0]];
 
  x+=cos(a)*r;
  y+=sin(a)*r;
- a-=rad(120);
+ a-=120;
  v~=n>0?knoch(r,x,y,a,n-1):[[x,y,0]];
 
  x+=cos(a)*r;
  y+=sin(a)*r;
- a+=rad(60);
+ a+=60;
  v~=n>0?knoch(r,x,y,a,n-1):[[x,y,0]];
  return v;
 }
@@ -22,17 +22,17 @@ function knoch(l,x=0,y=0,a=0,n=0) {
 function snowflake(l,n){
  x=0;
  y=0;
- a=rad(60);
+ a=60;
  v=knoch(l,x,y,a,n);
 
  x+=cos(a)*l;
  y+=sin(a)*l;
- a-=rad(120);
+ a-=120;
  v~=knoch(l,x,y,a,n);
 
  x+=cos(a)*l;
  y+=sin(a)*l;
- a-=rad(120);
+ a-=120;
  v~=knoch(l,x,y,a,n);
  return v;
 }
