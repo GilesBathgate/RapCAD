@@ -411,9 +411,10 @@ bool MainWindow::maybeSave(bool compiling)
 	QList<QString> files;
 	for(int i=0; i<ui->tabWidget->count(); i++) {
 		CodeEditor* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
-		files.append(c->getFileName());
-		if(c->document()->isModified())
+		if(c->document()->isModified()) {
+			files.append(c->getFileName());
 			modified=true;
+		}
 	}
 	if(!modified) return true;
 
@@ -467,7 +468,7 @@ bool MainWindow::closeFile(int i)
 	if(c->document()->isModified()) {
 		QList<QString> files;
 		files.append(c->getFileName());
-		SaveItemsDialog s(this,true,files);
+		SaveItemsDialog s(this,false,files);
 		if(s.exec()==QDialog::Accepted) {
 			files=s.getItemsToSave();
 			result=saveSelectedFiles(files);
@@ -490,8 +491,10 @@ bool MainWindow::saveAllFiles()
 	QList<QString> all;
 	for(int i=0; i<ui->tabWidget->count(); i++) {
 		CodeEditor* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
-		QString file=c->getFileName();
-		all.append(file);
+		if(c->document()->isModified()) {
+			QString file=c->getFileName();
+			all.append(file);
+		}
 	}
 	return saveSelectedFiles(all);
 }
