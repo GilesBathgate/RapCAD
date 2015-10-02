@@ -33,6 +33,8 @@ class PreferencesDialog : public QDialog
 public:
 	explicit PreferencesDialog(QWidget* parent = 0);
 	~PreferencesDialog();
+signals:
+	void preferencesUpdated();
 private slots:
 	void colorButtonPressed(QWidget*);
 	void vertexSizeChanged(double);

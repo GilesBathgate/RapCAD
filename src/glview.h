@@ -32,7 +32,9 @@ class GLView : public QGLWidget
 public:
 	GLView(QWidget* parent = NULL);
 	void setRenderer(Renderer* r);
+	void setCompiling(bool value);
 public slots:
+	void preferencesUpdated();
 	void setViewport(double,double,double,double,double);
 	void getViewport(double&,double&,double&,double&,double&);
 	void setShowAxes(bool);

@@ -22,6 +22,13 @@
 
 CGALRenderer::CGALRenderer(CGALPrimitive* pr)
 {
+	loadPreferences();
+	primitive=pr;
+	CGAL::OGL::Nef3_Converter<CGAL::NefPolyhedron3>::convert_to_OGLPolyhedron(pr->getNefPolyhedron(),this);
+}
+
+void CGALRenderer::loadPreferences()
+{
 	Preferences* p = Preferences::getInstance();
 	setColor(markedVertexColor,p->getMarkedVertexColor());
 	setColor(vertexColor,p->getVertexColor());
@@ -31,13 +38,38 @@ CGALRenderer::CGALRenderer(CGALPrimitive* pr)
 	setColor(facetColor,p->getFacetColor());
 	vertexSize=p->getVertexSize();
 	edgeSize=p->getEdgeSize();
-	primitive=pr;
-	CGAL::OGL::Nef3_Converter<CGAL::NefPolyhedron3>::convert_to_OGLPolyhedron(pr->getNefPolyhedron(),this);
+}
+
+void CGALRenderer::preferencesUpdated()
+{
+	loadPreferences();
+	init_=false;
+}
+
+void CGALRenderer::setCompiling(bool value)
+{
+	if(value) {
+		desaturate(markedVertexColor);
+		desaturate(vertexColor);
+		desaturate(markedEdgeColor);
+		desaturate(edgeColor);
+		desaturate(markedFacetColor);
+		desaturate(facetColor);
+	} else {
+		loadPreferences();
+	}
+	init_=false;
+}
+
+void CGALRenderer::desaturate(CGAL::Color& c)
+{
+	QColor rgb(c.red(),c.green(),c.blue());
+	setColor(c,QColor::fromHsv(rgb.hue(),0,rgb.value()));
 }
 
 void CGALRenderer::draw(bool skeleton, bool showedges)
 {
-	init();
+	init(); //init returns instantly if its already been called.
 	if(!skeleton) {
 		glCallList(this->object_list_+2);
 	}

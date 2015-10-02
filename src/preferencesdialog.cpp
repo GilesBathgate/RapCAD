@@ -82,18 +82,22 @@ void PreferencesDialog::colorButtonPressed(QWidget* frame)
 		p->setMarkedFacetColor(c);
 	else if(frame==ui->facetColorFrame)
 		p->setFacetColor(c);
+
+	preferencesUpdated();
 }
 
 void PreferencesDialog::vertexSizeChanged(double s)
 {
 	Preferences* p = Preferences::getInstance();
 	p->setVertexSize(s);
+	preferencesUpdated();
 }
 
 void PreferencesDialog::edgeSizeChanged(double s)
 {
 	Preferences* p = Preferences::getInstance();
 	p->setEdgeSize(s);
+	preferencesUpdated();
 }
 
 void PreferencesDialog::autoSaveOnCompileChanged(int s)

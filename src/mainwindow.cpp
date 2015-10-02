@@ -288,8 +288,10 @@ void MainWindow::exportCSG()
 
 void MainWindow::showPreferences()
 {
-	if(!preferencesDialog)
+	if(!preferencesDialog) {
 		preferencesDialog = new PreferencesDialog(this);
+		connect(preferencesDialog,SIGNAL(preferencesUpdated()),ui->view,SLOT(preferencesUpdated()));
+	}
 
 	preferencesDialog->show();
 }
@@ -556,6 +558,7 @@ void MainWindow::compileOrGenerate(bool generate)
 		CodeEditor* e=currentEditor();
 		QString file=e->getFileName();
 		if(!file.isEmpty()) {
+			ui->view->setCompiling(!generate);
 			worker->setup(file,"",false,generate);
 
 			//Stop the syntax highlighter to prevent a crash
@@ -575,6 +578,7 @@ void MainWindow::evaluationDone()
 	}
 	ui->actionCompileAndRender->setEnabled(true);
 	ui->actionGenerateGcode->setEnabled(true);
+	ui->view->setCompiling(false);
 
 	ui->console->displayPrompt();
 }

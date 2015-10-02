@@ -29,6 +29,8 @@ class CGALRenderer : public Renderer, private CGAL::OGL::Polyhedron
 public:
 	CGALRenderer(CGALPrimitive*);
 	void draw(bool,bool);
+	void preferencesUpdated();
+	void setCompiling(bool);
 private:
 	Primitive* primitive;
 	void setColor(CGAL::Color&,QColor);
@@ -45,6 +47,8 @@ private:
 	CGAL::Color facetColor;
 	double vertexSize;
 	double edgeSize;
+	void loadPreferences();
+	void desaturate(CGAL::Color& c);
 };
 
 #endif // CGALRENDERER_H

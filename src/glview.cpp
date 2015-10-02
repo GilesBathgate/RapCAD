@@ -114,6 +114,24 @@ void GLView::setRenderer(Renderer* r)
 	updateGL();
 }
 
+void GLView::preferencesUpdated()
+{
+	if(!render) return;
+
+	render->preferencesUpdated();
+	updateGL();
+}
+
+void GLView::setCompiling(bool value)
+{
+	if(!render) return;
+
+	GLfloat n=value?0.8:1.0;
+	glClearColor(n, n, n, 0.0);
+	render->setCompiling(value);
+	updateGL();
+}
+
 void GLView::initializeGL()
 {
 	glEnable(GL_DEPTH_TEST);
