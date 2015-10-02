@@ -19,6 +19,8 @@ provides compatability with traditional text based source control management
 software, but it also allows for the creation of re-usable component modules
 that can be distributed as a design library.
 
+image::screenshot.png[Screenshot]
+
 Installation
 ------------
 
