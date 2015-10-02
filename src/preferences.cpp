@@ -87,7 +87,7 @@ void Preferences::setDefaultDistance(double d)
 
 QColor Preferences::getMarkedVertexColor()
 {
-	return settings->value("MarkedVertexColor",QColor(0xb7,0xe8,0x5c)).value<QColor>();
+	return settings->value("MarkedVertexColor",QColor(0xff,0xff,0xff)).value<QColor>();
 }
 
 void Preferences::setMarkedVertexColor(QColor c)
@@ -97,7 +97,7 @@ void Preferences::setMarkedVertexColor(QColor c)
 
 QColor Preferences::getVertexColor()
 {
-	return settings->value("VertexColor",QColor(0xff,0xf6,0x7c)).value<QColor>();
+	return settings->value("VertexColor",QColor(0xff,0xff,0xff)).value<QColor>();
 }
 
 void Preferences::setVertexColor(QColor c)
@@ -107,7 +107,7 @@ void Preferences::setVertexColor(QColor c)
 
 QColor Preferences::getMarkedEdgeColor()
 {
-	return settings->value("MarkedEdgeColor",QColor(0xab,0xd8,0x56)).value<QColor>();
+	return settings->value("MarkedEdgeColor",QColor(0x00,0x00,0x00)).value<QColor>();
 }
 
 void Preferences::setMarkedEdgeColor(QColor c)
@@ -117,7 +117,7 @@ void Preferences::setMarkedEdgeColor(QColor c)
 
 QColor Preferences::getEdgeColor()
 {
-	return settings->value("EdgeColor",QColor(0xff,0xec,0x5e)).value<QColor>();
+	return settings->value("EdgeColor",QColor(0x00,0x00,0x00)).value<QColor>();
 }
 
 void Preferences::setEdgeColor(QColor c)
@@ -127,7 +127,7 @@ void Preferences::setEdgeColor(QColor c)
 
 QColor Preferences::getMarkedFacetColor()
 {
-	return settings->value("MarkedFacetColor",QColor(0x9d,0xcb,0x51)).value<QColor>();
+	return settings->value("MarkedFacetColor",QColor(0xff,0x55,0x00)).value<QColor>();
 }
 
 void Preferences::setMarkedFacetColor(QColor c)
@@ -137,7 +137,7 @@ void Preferences::setMarkedFacetColor(QColor c)
 
 QColor Preferences::getFacetColor()
 {
-	return settings->value("FacetColor",QColor(0xf9,0xd7,0x2c)).value<QColor>();
+	return settings->value("FacetColor",QColor(0xff,0xaa,0x00)).value<QColor>();
 }
 
 void Preferences::setFacetColor(QColor c)
@@ -157,7 +157,7 @@ void Preferences::setShowAxes(bool show)
 
 bool Preferences::getShowEdges()
 {
-	return settings->value("ShowEdges",false).toBool();
+	return settings->value("ShowEdges",true).toBool();
 }
 
 void Preferences::setShowEdges(bool show)
@@ -257,7 +257,7 @@ void Preferences::setWindowSize(QSize s)
 
 double Preferences::getVertexSize()
 {
-	return settings->value("VertexSize",10).toDouble();
+	return settings->value("VertexSize",0).toDouble();
 }
 
 void Preferences::setVertexSize(double s)
@@ -267,7 +267,7 @@ void Preferences::setVertexSize(double s)
 
 double Preferences::getEdgeSize()
 {
-	return settings->value("EdgeSize",5).toDouble();
+	return settings->value("EdgeSize",1).toDouble();
 }
 
 void Preferences::setEdgeSize(double s)
