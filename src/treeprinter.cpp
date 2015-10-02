@@ -108,6 +108,8 @@ void TreePrinter::visit(Module* mod)
 {
 	result << "module ";
 	result << mod->getName();
+	if(mod->getAuxilary())
+		result << "$";
 	result << "(";
 	QList<Parameter*> parameters = mod->getParameters();
 	OnceOnly first;
