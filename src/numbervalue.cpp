@@ -53,7 +53,7 @@ int NumberValue::toInteger() const
 
 Value* NumberValue::operation(Expression::Operator_e e)
 {
-	decimal result = basicOperation<decimal,decimal>(this->number,e);
+	decimal result=basicOperation(this->number,e);
 	return new NumberValue(result);
 }
 
@@ -62,10 +62,10 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 	NumberValue* num = dynamic_cast<NumberValue*>(&v);
 	if(num) {
 		if(isComparison(e)) {
-			bool result=basicOperation<bool,decimal>(this->number,e,num->number);
+			bool result=basicOperation(this->number,e,num->number);
 			return new BooleanValue(result);
 		} else {
-			decimal result=basicOperation<decimal,decimal>(this->number,e,num->number);
+			decimal result=basicOperation(this->number,e,num->number);
 			return new NumberValue(result);
 		}
 	}

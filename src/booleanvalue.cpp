@@ -43,15 +43,15 @@ bool BooleanValue::isTrue() const
 
 Value* BooleanValue::operation(Expression::Operator_e e)
 {
-	bool result = Value::basicOperation<bool,bool>(this->boolean,e);
+	bool result=basicOperation(this->boolean,e);
 	return new BooleanValue(result);
 }
 
 Value* BooleanValue::operation(Value& v,Expression::Operator_e e)
 {
-	BooleanValue* that = dynamic_cast<BooleanValue*>(&v);
+	BooleanValue* that=dynamic_cast<BooleanValue*>(&v);
 	if(that) {
-		bool result = Value::basicOperation<bool,bool>(this->boolean,e,that->boolean);
+		bool result=basicOperation(this->boolean,e,that->boolean);
 		return new BooleanValue(result);
 	}
 

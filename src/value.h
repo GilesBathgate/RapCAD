@@ -76,10 +76,10 @@ public:
 protected:
 	bool defined;
 	bool isComparison(Expression::Operator_e);
-	template <class A, class B>
-	A basicOperation(B,Expression::Operator_e,B);
-	template <class A, class B>
-	A basicOperation(B,Expression::Operator_e);
+	template <class T>
+	T basicOperation(T,Expression::Operator_e,T);
+	template <class T>
+	T basicOperation(T,Expression::Operator_e);
 	virtual Value* operation(Expression::Operator_e);
 	virtual Value* operation(Value&,Expression::Operator_e);
 private:
@@ -106,8 +106,8 @@ T Value::exponent(T left, T right)
 	return left^right;
 }
 
-template <class A, class B>
-A Value::basicOperation(B left, Expression::Operator_e e, B right)
+template <class T>
+T Value::basicOperation(T left, Expression::Operator_e e, T right)
 {
 	switch(e) {
 	case Expression::Exponent:
@@ -147,8 +147,8 @@ A Value::basicOperation(B left, Expression::Operator_e e, B right)
 	}
 }
 
-template <class A, class B>
-A Value::basicOperation(B left, Expression::Operator_e e)
+template <class T>
+T Value::basicOperation(T left, Expression::Operator_e e)
 {
 	switch(e) {
 	case Expression::Add:

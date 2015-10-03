@@ -88,6 +88,6 @@ bool TextValue::operation(TextValue* left, Expression::Operator_e e, TextValue* 
 	case Expression::NotEqual:
 		return left->text!=right->text;
 	default:
-		return basicOperation<bool,bool>(left->isTrue(),e,right->isTrue());
+		return basicOperation(left->isTrue(),e,right->isTrue());
 	}
 }
