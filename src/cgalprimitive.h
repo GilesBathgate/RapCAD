@@ -63,6 +63,7 @@ public:
 	void appendChild(Primitive*);
 	CGAL::Circle3 getRadius();
 	CGALVolume getVolume(bool);
+	Primitive* triangulate();
 private:
 	void init();
 	void buildPrimitive();

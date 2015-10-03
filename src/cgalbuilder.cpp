@@ -18,8 +18,12 @@
 #if USE_CGAL
 
 #include <QList>
+#include <QMap>
+#include <CGAL/Constrained_triangulation_2.h>
+
 #include "cgalbuilder.h"
 #include "cgalexplorer.h"
+#include "onceonly.h"
 
 CGALBuilder::CGALBuilder(CGALPrimitive* p)
 {
@@ -47,6 +51,78 @@ void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
 	}
 
 	builder.end_surface();
+}
+
+template <class CT, class FaceHandle>
+static void descend(CT& ct,FaceHandle f,int cw,QMap<FaceHandle,bool>& visited)
+{
+	FaceHandle h=f->neighbor(cw);
+	typename CT::Edge e(f,cw);
+	if(!ct.is_constrained(e) && !visited[h]) {
+		FaceHandle c(h);
+		traverse(ct,c,c->index(f),visited);
+	}
+}
+
+template <class CT, class FaceHandle>
+static void traverse(CT& ct,FaceHandle f,int p,QMap<FaceHandle,bool>& visited)
+{
+	visited[f]=true;
+	descend(ct,f,ct.cw(p),visited);
+	descend(ct,f,ct.ccw(p),visited);
+}
+
+CGALPrimitive* CGALBuilder::triangulate()
+{
+	typedef CGAL::Triangulation_vertex_base_2<CGAL::Kernel3> VertexBase;
+	typedef CGAL::Constrained_triangulation_face_base_2<CGAL::Kernel3> FaceBase;
+	typedef CGAL::Triangulation_data_structure_2<VertexBase,FaceBase> TDS;
+	typedef CGAL::Exact_predicates_tag Tag;
+	typedef CGAL::Constrained_triangulation_2<CGAL::Kernel3,TDS,Tag> CT;
+	typedef CT::Face_iterator FaceIterator;
+	typedef CT::Face_handle FaceHandle;
+	typedef CT::Vertex_handle VertexHandle;
+	typedef CT::Face_circulator FaceCirculator;
+	typedef CT::Edge Edge;
+
+	CT ct;
+	foreach(CGALPolygon* pg, primitive->getCGALPolygons()) {
+		OnceOnly first;
+		CGAL::Point2 np;
+		foreach(CGAL::Point3 p3, pg->getPoints()) {
+			CGAL::Point2 p(p3.x(),p3.y());
+			if(!first())
+				ct.insert_constraint(p,np);
+			np=p;
+		}
+	}
+
+	FaceHandle infinite = ct.infinite_face();
+	VertexHandle ctv = infinite->vertex(1);
+	if(ct.is_infinite(ctv)) ctv = infinite->vertex(2);
+
+	FaceHandle opposite;
+	FaceCirculator vc(ctv,infinite);
+	do {
+		opposite = vc++;
+	} while(!ct.is_constrained(Edge(vc,vc->index(opposite))));
+	FaceHandle first = vc;
+
+	QMap<FaceHandle,bool> visited;
+	traverse(ct,first,first->index(opposite),visited);
+
+	CGALPrimitive* result = new CGALPrimitive();
+	for(FaceIterator f=ct.finite_faces_begin(); f!=ct.finite_faces_end(); ++f) {
+		if(visited[f]) {
+			result->createPolygon();
+			for(int i=0; i<3; ++i) {
+				CGAL::Point2 p2=f->vertex(i)->point();
+				CGAL::Point3 p(p2.x(),p2.y(),0);
+				result->appendVertex(p);
+			}
+		}
+	}
+	return result;
 }
 
 CGALPrimitive* CGALBuilder::buildOffsetPolygons(const CGAL::Scalar amount)

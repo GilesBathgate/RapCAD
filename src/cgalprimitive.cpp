@@ -304,6 +304,12 @@ Primitive* CGALPrimitive::complement()
 	return this;
 }
 
+Primitive* CGALPrimitive::triangulate()
+{
+	CGALBuilder b(this);
+	return b.triangulate();
+}
+
 Primitive* CGALPrimitive::copy()
 {
 	CGALPrimitive* p=new CGALPrimitive();
