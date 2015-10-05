@@ -147,28 +147,10 @@ void CGALPrimitive::prependVertex(CGAL::Point3 p)
 	}
 }
 
-/* I don't know why this function doesn't exist in CGAL?
- * The CGAL::do_overlap only takes BBox_3 as arguments. */
-namespace CGAL {
-template < class R >
-inline
-bool
-do_overlap(const CGAL::Iso_cuboid_3<R>& ic1, const CGAL::Iso_cuboid_3<R>& ic2)
-{
-	if(ic1.xmax() < ic2.xmin() || ic2.xmax() < ic1.xmin())
-		return false;
-	if(ic1.ymax() < ic2.ymin() || ic2.ymax() < ic1.ymin())
-		return false;
-	if(ic1.zmax() < ic2.zmin() || ic2.zmax() < ic1.zmin())
-		return false;
-	return true;
-}
-}
-
 bool CGALPrimitive::overlaps(Primitive* pr)
 {
 	CGALPrimitive* that=static_cast<CGALPrimitive*>(pr);
-	return CGAL::do_overlap(this->getBounds(),that->getBounds());
+	return CGAL::do_intersect(this->getBounds(),that->getBounds());
 }
 
 
