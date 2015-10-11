@@ -64,6 +64,7 @@
 #include "module/complementmodule.h"
 #include "module/radialsmodule.h"
 #include "module/volumesmodule.h"
+#include "module/triangulatemodule.h"
 
 #include "function/lengthfunction.h"
 #include "function/sqrtfunction.h"
@@ -146,6 +147,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new SubDivisionModule());
 	builtins.append(new SymmetricDifferenceModule());
 	builtins.append(new TranslateModule());
+	builtins.append(new TriangulateModule());
 	builtins.append(new UnionModule());
 	builtins.append(new VolumesModule());
 	builtins.append(new WriteLnModule(output));

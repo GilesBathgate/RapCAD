@@ -42,6 +42,7 @@ public:
 	Primitive* complement() { return this; }
 	bool isFullyDimentional() { return false; }
 	Primitive* copy();
+	Primitive* triangulate() { return this; }
 	bool isEmpty();
 	QList<Polygon*> getPolygons() const;
 	QList<Point> getPoints() const;

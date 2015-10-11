@@ -47,6 +47,7 @@ public:
 	Primitive* decompose();
 	Primitive* complement();
 	Primitive* copy();
+	Primitive* triangulate();
 	CGAL::Cuboid3 getBounds();
 	void transform(const CGAL::AffTransformation3&);
 	/* Don't call this method instead use getCGALPolygons */
@@ -63,7 +64,6 @@ public:
 	void appendChild(Primitive*);
 	CGAL::Circle3 getRadius();
 	CGALVolume getVolume(bool);
-	Primitive* triangulate();
 private:
 	void init();
 	void buildPrimitive();

@@ -50,6 +50,7 @@
 #include "node/complementnode.h"
 #include "node/radialsnode.h"
 #include "node/volumesnode.h"
+#include "node/triangulatenode.h"
 
 class NodePrinter : public NodeVisitor
 {
@@ -83,6 +84,7 @@ public:
 	void visit(ComplementNode*);
 	void visit(RadialsNode*);
 	void visit(VolumesNode*);
+	void visit(TriangulateNode*);
 private:
 	QTextStream& result;
 	void printChildren(Node*);

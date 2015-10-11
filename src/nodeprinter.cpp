@@ -294,6 +294,12 @@ void NodePrinter::visit(VolumesNode* n)
 	printChildren(n);
 }
 
+void NodePrinter::visit(TriangulateNode* n)
+{
+	result << "triangulate()";
+	printChildren(n);
+}
+
 void NodePrinter::visit(TransformationNode* n)
 {
 	result << "multmatrix([[";

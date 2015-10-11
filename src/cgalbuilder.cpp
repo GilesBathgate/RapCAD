@@ -89,12 +89,17 @@ CGALPrimitive* CGALBuilder::triangulate()
 	foreach(CGALPolygon* pg, primitive->getCGALPolygons()) {
 		OnceOnly first;
 		CGAL::Point2 np;
+		CGAL::Point2 fp;
 		foreach(CGAL::Point3 p3, pg->getPoints()) {
 			CGAL::Point2 p(p3.x(),p3.y());
-			if(!first())
+			if(first()) {
+				fp=p;
+			} else {
 				ct.insert_constraint(p,np);
+			}
 			np=p;
 		}
+		ct.insert_constraint(np,fp);
 	}
 
 	FaceHandle infinite = ct.infinite_face();

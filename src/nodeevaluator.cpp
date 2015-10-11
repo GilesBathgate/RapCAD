@@ -72,6 +72,12 @@ void NodeEvaluator::convert(Primitive* pr,Primitive* cp)
 	}
 }
 
+void NodeEvaluator::visit(TriangulateNode* n)
+{
+	evaluate(n,Union);
+	result=result->triangulate();
+}
+
 void NodeEvaluator::visit(UnionNode* op)
 {
 	evaluate(op,Union);

@@ -304,7 +304,9 @@ SOURCES += \
 	src/node/volumesnode.cpp \
 	src/cgalvolume.cpp \
 	src/function/numfunction.cpp \
-	src/rmath.cpp
+	src/rmath.cpp \
+	src/module/triangulatemodule.cpp \
+	src/node/triangulatenode.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -517,7 +519,9 @@ HEADERS  += \
 	src/node/volumesnode.h \
 	src/cgalvolume.h \
 	src/function/numfunction.h \
-	src/rmath.h
+	src/rmath.h \
+	src/module/triangulatemodule.h \
+	src/node/triangulatenode.h
 
 FORMS += \
 	src/mainwindow.ui \
