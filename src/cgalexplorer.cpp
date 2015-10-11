@@ -27,12 +27,14 @@
 CGALExplorer::CGALExplorer(Primitive* p)
 {
 	primitive=static_cast<CGALPrimitive*>(p);
+	perimeters=NULL;
 	evaluated=false;
 }
 
 CGALExplorer::CGALExplorer(CGALPrimitive* p)
 {
 	primitive=p;
+	perimeters=NULL;
 	evaluated=false;
 }
 

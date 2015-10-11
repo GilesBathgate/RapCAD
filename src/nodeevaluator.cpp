@@ -191,6 +191,8 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 	} else {
 		CGAL::Scalar z=op->getHeight();
 		CGALExplorer explorer(result);
+		CGALPrimitive* peri=explorer.getPerimeters();
+		if(!peri) return;
 		CGALPrimitive* prim=explorer.getPrimitive();
 		QList<CGALPolygon*> polys=prim->getCGALPolygons();
 
@@ -206,7 +208,6 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 			}
 		}
 
-		CGALPrimitive* peri=explorer.getPerimeters();
 		foreach(CGALPolygon* pg,peri->getCGALPolygons()) {
 			up=(pg->getNormal().z()>0);
 			OnceOnly first;
