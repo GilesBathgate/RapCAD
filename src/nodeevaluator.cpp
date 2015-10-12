@@ -252,8 +252,8 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 		}
 
 		result=cp;
-#endif
 	}
+#endif
 }
 
 void NodeEvaluator::visit(RotateExtrudeNode* op)

@@ -15,7 +15,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+#if USE_CGAL
 #include "cgalfragment.h"
 #include "rmath.h"
 
@@ -33,3 +33,4 @@ int CGALFragment::getFragments(CGAL::Scalar r)
 	CGAL::Scalar f=std::min(CGAL::Scalar(360.0) / fa, r*CGAL::Scalar(r_tau()) / fs);
 	return std::max((int)ceil(to_decimal(f)),5);
 }
+#endif
