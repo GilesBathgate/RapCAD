@@ -228,20 +228,40 @@ Value* Value::operator!()
 	return operation(Expression::Invert);
 }
 
+bool Value::modulus(bool, bool)
+{
+	return false;
+}
+
 decimal Value::modulus(decimal left, decimal right)
 {
-    return r_mod(left,right);
+	return r_mod(left,right);
+}
+
+bool Value::exponent(bool left, bool right)
+{
+	return left^right;
 }
 
 decimal Value::exponent(decimal left, decimal right)
 {
-    return r_pow(left,right);
+	return r_pow(left,right);
+}
+
+bool Value::invert(bool left)
+{
+	return !left;
+}
+
+decimal Value::invert(decimal left)
+{
+	return left==0.0?1.0:0.0;
 }
 
 Value* Value::operation(Expression::Operator_e e)
 {
 	if(e==Expression::Invert) {
-		bool result=basicOperation<bool>(this->defined,e);
+		bool result=basicOperation(this->defined,e);
 		return new BooleanValue(result);
 	}
 
@@ -253,7 +273,7 @@ Value* Value::operation(Value& v, Expression::Operator_e e)
 	bool left=this->defined;
 	bool right=v.defined;
 	if((!left||!right) && isComparison(e)) {
-		bool result=basicOperation<bool>(left,e,right);
+		bool result=basicOperation(left,e,right);
 		return new BooleanValue(result);
 	}
 

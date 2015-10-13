@@ -86,25 +86,13 @@ private:
 	static QList<Value*> values;
 	Variable::Storage_e storageClass;
 	QString name;
-	template<class T>
-	T modulus(T left, T right);
-	decimal modulus(decimal left, decimal right);
-	template<class T>
-	T exponent(T left, T right);
-	decimal exponent(decimal left, decimal right);
+	bool modulus(bool,bool);
+	decimal modulus(decimal,decimal);
+	bool exponent(bool,bool);
+	decimal exponent(decimal,decimal);
+	bool invert(bool);
+	decimal invert(decimal);
 };
-
-template<class T>
-T Value::modulus(T left, T right)
-{
-	return left%right;
-}
-
-template<class T>
-T Value::exponent(T left, T right)
-{
-	return left^right;
-}
 
 template <class T>
 T Value::basicOperation(T left, Expression::Operator_e e, T right)
@@ -138,10 +126,6 @@ T Value::basicOperation(T left, Expression::Operator_e e, T right)
 		return left>=right;
 	case Expression::GreaterThan:
 		return left>right;
-	case Expression::LogicalAnd:
-		return left&&right;
-	case Expression::LogicalOr:
-		return left||right;
 	default:
 		return left;
 	}
@@ -156,7 +140,7 @@ T Value::basicOperation(T left, Expression::Operator_e e)
 	case Expression::Subtract:
 		return -left;
 	case Expression::Invert:
-		return !left;
+		return invert(left);
 	case Expression::Increment:
 		return left+1;
 	case Expression::Decrement:
