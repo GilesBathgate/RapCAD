@@ -120,7 +120,7 @@ void NodePrinter::visit(HullNode* n)
 void NodePrinter::visit(LinearExtrudeNode* n)
 {
 	result << "linear_extrude(";
-	result << n->getHeight();
+	result << to_string(n->getHeight());
 	result << ")";
 	printChildren(n);
 }
@@ -128,7 +128,7 @@ void NodePrinter::visit(LinearExtrudeNode* n)
 void NodePrinter::visit(RotateExtrudeNode* n)
 {
 	result << "rotate_extrude(";
-	result << n->getRadius();
+	result << to_string(n->getRadius());
 	result << ")";
 	printChildren(n);
 }
@@ -148,7 +148,7 @@ void NodePrinter::visit(SubDivisionNode* n)
 void NodePrinter::visit(OffsetNode* n)
 {
 	result << "offset(";
-	result << n->getAmount();
+	result << to_string(n->getAmount());
 	result << ")";
 	printChildren(n);
 }
@@ -255,7 +255,7 @@ void NodePrinter::visit(PointNode* n)
 void NodePrinter::visit(SliceNode* n)
 {
 	result << "slice(";
-	result << n->getHeight() << "," << n->getThickness();
+	result << to_string(n->getHeight()) << "," << to_string(n->getThickness());
 	result << ")";
 	printChildren(n);
 }
