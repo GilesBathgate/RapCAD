@@ -87,9 +87,11 @@ Node* BezierSurfaceModule::evaluate(Context* ctx)
 	int f=24; //TODO use getfragments and $fn,$fa,$fs variables;
 
 	PrimitiveNode* p=new PrimitiveNode();
-	for(decimal u=0; u<f; u++) {
-		for(decimal v=0; v<f; v++) {
+	for(int i=0; i<f; i++) {
+		for(int j=0; j<f; j++) {
 			Vector a;
+			decimal u=i;
+			decimal v=j;
 			a.append(u/f);
 			a.append(v/f);
 
@@ -98,8 +100,8 @@ Node* BezierSurfaceModule::evaluate(Context* ctx)
 	}
 
 	Polygon* pg;
-	for(decimal u=0; u<f-1; u++) {
-		for(decimal v=0; v<f-1; v++) {
+	for(int u=0; u<f-1; u++) {
+		for(int v=0; v<f-1; v++) {
 
 			int i=(u*f)+v;
 			int j=((u+1)*f)+v;
