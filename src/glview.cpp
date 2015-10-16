@@ -124,11 +124,10 @@ void GLView::preferencesUpdated()
 
 void GLView::setCompiling(bool value)
 {
-	if(!render) return;
-
 	GLfloat n=value?0.8:1.0;
 	glClearColor(n, n, n, 0.0);
-	render->setCompiling(value);
+	if(render)
+		render->setCompiling(value);
 	updateGL();
 }
 
