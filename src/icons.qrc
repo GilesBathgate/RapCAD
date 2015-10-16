@@ -13,8 +13,6 @@
     <file alias="16x16/document-save-as.png">../icons/gnome/16x16/document-save-as.png</file>
     <file alias="22x22/application-exit.png">../icons/gnome/22x22/application-exit.png</file>
     <file alias="16x16/application-exit.png">../icons/gnome/16x16/application-exit.png</file>
-    <file alias="22x22/document-print.png">../icons/gnome/22x22/document-print.png</file>
-    <file alias="16x16/document-print.png">../icons/gnome/16x16/document-print.png</file>
     <file alias="22x22/edit-undo.png">../icons/gnome/22x22/edit-undo.png</file>
     <file alias="16x16/edit-undo.png">../icons/gnome/16x16/edit-undo.png</file>
     <file alias="22x22/edit-redo.png">../icons/gnome/22x22/edit-redo.png</file>
@@ -27,12 +25,16 @@
     <file alias="16x16/edit-paste.png">../icons/gnome/16x16/edit-paste.png</file>
     <file alias="22x22/system-run.png">../icons/gnome/22x22/system-run.png</file>
     <file alias="16x16/system-run.png">../icons/gnome/16x16/system-run.png</file>
-    <file alias="22x22/format-justify-fill.png">../icons/gnome/22x22/format-justify-fill.png</file>
-    <file alias="16x16/format-justify-fill.png">../icons/gnome/16x16/format-justify-fill.png</file>
+    <file alias="22x22/text-x-script.png">../icons/gnome/22x22/text-x-script.png</file>
+    <file alias="16x16/text-x-script.png">../icons/gnome/16x16/text-x-script.png</file>
     <file alias="22x22/document-properties.png">../icons/gnome/22x22/document-properties.png</file>
     <file alias="16x16/document-properties.png">../icons/gnome/16x16/document-properties.png</file>
+    <file alias="22x22/text-x-generic-template.png">../icons/gnome/22x22/text-x-generic-template.png</file>
+    <file alias="16x16/text-x-generic-template.png">../icons/gnome/16x16/text-x-generic-template.png</file>
     <file alias="22x22/help-about.png">../icons/gnome/22x22/help-about.png</file>
     <file alias="16x16/help-about.png">../icons/gnome/16x16/help-about.png</file>
+    <file alias="22x22/package.png">../icons/gnome/22x22/package.png</file>
+    <file alias="16x16/package.png">../icons/gnome/16x16/package.png</file>
     <file alias="22x22/help.png">../icons/gnome/22x22/help.png</file>
     <file alias="16x16/help.png">../icons/gnome/16x16/help.png</file>
 </qresource>
