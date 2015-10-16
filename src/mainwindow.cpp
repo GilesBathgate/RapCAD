@@ -57,9 +57,6 @@ MainWindow::MainWindow(QWidget* parent) :
 	ui->treeView->setVisible(false);
 	ui->actionShowProjects->setChecked(false);
 	ui->actionShowProjects->setEnabled(false);
-
-	//Disable print settings until its useful.
-	ui->actionPrint->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
@@ -173,8 +170,6 @@ void MainWindow::setupActions()
 	connect(ui->actionCopy,SIGNAL(triggered()),this,SLOT(copy()));
 	connect(ui->actionPaste,SIGNAL(triggered()),this,SLOT(paste()));
 
-	connect(ui->actionPrint,SIGNAL(triggered()),this,SLOT(print()));
-
 	clipboardDataChanged();
 	connect(QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(clipboardDataChanged()));
 
@@ -220,70 +215,48 @@ void MainWindow::grabFrameBuffer()
 	image.save(fn);
 }
 
-void MainWindow::exportVRML()
+void MainWindow::exportFile(const QString& filter,const QString& ext)
 {
 	if(worker->resultAvailable()) {
+		QFileInfo file(currentEditor()->getFileName());
+		QString name=file.baseName()+ext;
+
 		QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
-					 QString(), tr("VRML 2.0 Files (*.wrl);;All Files (*)"));
-		if(!fn.endsWith(".wrl", Qt::CaseInsensitive))
-			fn.append(".wrl");
+					 name, filter);
+		if(!fn.endsWith(ext, Qt::CaseInsensitive))
+			fn.append(ext);
 		worker->exportResult(fn);
 	}
+}
+
+void MainWindow::exportVRML()
+{
+	exportFile(tr("VRML 2.0 Files (*.wrl);;All Files (*)"),"*.wrl");
 }
 
 void MainWindow::exportOBJ()
 {
-	if(worker->resultAvailable()) {
-		QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
-					 QString(), tr("OBJ Files (*.obj);;All Files (*)"));
-		if(!fn.endsWith(".obj", Qt::CaseInsensitive))
-			fn.append(".obj");
-		worker->exportResult(fn);
-	}
+	exportFile(tr("OBJ Files (*.obj);;All Files (*)"),".obj");
 }
 
 void MainWindow::exportAsciiSTL()
 {
-	if(worker->resultAvailable()) {
-		QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
-					 QString(), tr("STL Files (*.stl);;All Files (*)"));
-		if(!fn.endsWith(".stl", Qt::CaseInsensitive))
-			fn.append(".stl");
-		worker->exportResult(fn);
-	}
+	exportFile(tr("STL Files (*.stl);;All Files (*)"),".stl");
 }
 
 void MainWindow::exportAMF()
 {
-	if(worker->resultAvailable()) {
-		QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
-					 QString(), tr("AMF Files (*.amf);;All Files (*)"));
-		if(!fn.endsWith(".amf", Qt::CaseInsensitive))
-			fn.append(".amf");
-		worker->exportResult(fn);
-	}
+	exportFile(tr("AMF Files (*.amf);;All Files (*)"),".amf");
 }
 
 void MainWindow::exportOFF()
 {
-	if(worker->resultAvailable()) {
-		QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
-					 QString(), tr("OFF Files (*.stl);;All Files (*)"));
-		if(!fn.endsWith(".off", Qt::CaseInsensitive))
-			fn.append(".off");
-		worker->exportResult(fn);
-	}
+	exportFile(tr("OFF Files (*.stl);;All Files (*)"),".off");
 }
 
 void MainWindow::exportCSG()
 {
-	if(worker->resultAvailable()) {
-		QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
-					 QString(), tr("CSG Files (*.csg);;All Files (*)"));
-		if(!fn.endsWith(".csg", Qt::CaseInsensitive))
-			fn.append(".csg");
-		worker->exportResult(fn);
-	}
+	exportFile(tr("CSG Files (*.csg);;All Files (*)"),".csg");
 }
 
 void MainWindow::showPreferences()

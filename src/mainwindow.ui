@@ -196,8 +196,6 @@
     <addaction name="separator"/>
     <addaction name="menuExport"/>
     <addaction name="separator"/>
-    <addaction name="actionPrint"/>
-    <addaction name="separator"/>
     <addaction name="actionClose"/>
     <addaction name="actionQuit"/>
    </widget>
@@ -262,6 +260,12 @@
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
@@ -272,8 +276,6 @@
    <addaction name="actionOpen"/>
    <addaction name="actionSave"/>
    <addaction name="separator"/>
-   <addaction name="actionPrint"/>
-   <addaction name="separator"/>
    <addaction name="actionUndo"/>
    <addaction name="actionRedo"/>
    <addaction name="separator"/>
@@ -283,6 +285,7 @@
    <addaction name="separator"/>
    <addaction name="actionCompileAndRender"/>
    <addaction name="actionGenerateGcode"/>
+   <addaction name="actionExportAMF"/>
    <addaction name="actionUserGuide"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -398,25 +401,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
-   </property>
-   <property name="iconVisibleInMenu">
-    <bool>true</bool>
-   </property>
-  </action>
-  <action name="actionPrint">
-   <property name="icon">
-    <iconset theme="document-print">
-     <normaloff/>
-    </iconset>
-   </property>
-   <property name="text">
-    <string>&amp;Print...</string>
-   </property>
-   <property name="toolTip">
-    <string>Open the print options.</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+P</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
@@ -538,7 +522,7 @@
   </action>
   <action name="actionGenerateGcode">
    <property name="icon">
-    <iconset theme="format-justify-fill">
+    <iconset theme="text-x-script">
      <normaloff/>
     </iconset>
    </property>
@@ -764,8 +748,14 @@
    </property>
   </action>
   <action name="actionExportAMF">
+   <property name="icon">
+    <iconset theme="text-x-generic-template"/>
+   </property>
    <property name="text">
     <string>AMF</string>
+   </property>
+   <property name="toolTip">
+    <string>Export the current rendering as AMF</string>
    </property>
   </action>
   <action name="actionAbout">
@@ -780,7 +770,7 @@
   </action>
   <action name="actionShowBuiltins">
    <property name="icon">
-    <iconset theme="help">
+    <iconset theme="package">
      <normaloff/>
     </iconset>
    </property>

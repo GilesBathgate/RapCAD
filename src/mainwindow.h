@@ -93,6 +93,7 @@ private:
 	CodeEditor* getEditor(int i);
 	void disableActions(CodeEditor*);
 	bool saveSelectedFiles(QList<QString>);
+	void exportFile(const QString& filter, const QString& ext);
 
 	Ui::MainWindow* ui;
 	QStandardItemModel* myModel;
