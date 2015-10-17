@@ -66,6 +66,12 @@ decimal r_round(decimal a)
 	return round(a);
 }
 
+decimal r_round(decimal a,decimal b)
+{
+	decimal f=pow(10.0,b);
+	return r_round(a*f)/f;
+}
+
 decimal r_sin(decimal a)
 {
 	return roundPreference(sin(a));
