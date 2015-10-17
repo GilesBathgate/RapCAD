@@ -1,5 +1,5 @@
 #!/bin/bash
-files=$(git status -s | grep "^[^ ] .*\(h\|cpp\)$" | cut -d' ' -f3)
+files=$(git status -s | grep "^[^ D] .*\(h\|cpp\)$" | cut -d' ' -f3)
 #Apply astyle rules to files that would be commited. 
 if [ -n "$files" ]; then
   astyle --options=astylerc $files
