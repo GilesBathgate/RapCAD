@@ -255,7 +255,7 @@ bool Value::invert(bool left)
 
 decimal Value::invert(decimal left)
 {
-	return left==0.0?1.0:0.0;
+	return invert(to_boolean(left));
 }
 
 Value* Value::operation(Expression::Operator_e e)

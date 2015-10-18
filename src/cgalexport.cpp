@@ -116,7 +116,7 @@ void CGALExport::exportAsciiSTL(QString filename)
 
 			CGAL::Vector3 n=CGAL::orthogonal_vector(p1,p2,p3);
 			CGAL::Scalar ls=n.squared_length();
-			CGAL::Scalar l=inexact_sqrt(ls);
+			CGAL::Scalar l=r_sqrt(ls);
 			CGAL::Vector3 un=n/l;
 
 			QString x1=to_string(p1.x());
@@ -262,9 +262,9 @@ void CGALExport::exportCSG(QString filename)
 		if(!first())
 			output << ",";
 		decimal x,y,z;
-		x=to_decimal(p.x());
-		y=to_decimal(p.y());
-		z=to_decimal(p.z());
+		x=p.x();
+		y=p.y();
+		z=p.z();
 		Point pt(x,y,z);
 		output << pt.toString();
 	}

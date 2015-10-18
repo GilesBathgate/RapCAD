@@ -28,6 +28,7 @@ void PreferencesDialog::setupWidgets()
 	ui->checkBox->setChecked(p->getAutoSaveOnCompile());
 	ui->precisionSpinBox->setValue(p->getPrecision());
 	ui->functionRoundingCheckBox->setChecked(p->getFunctionRounding());
+	ui->rationalFormatCheckBox->setChecked(p->getRationalFormat());
 }
 
 void PreferencesDialog::setColor(QWidget* w,QColor c)
@@ -62,6 +63,7 @@ void PreferencesDialog::setupButtons()
 
 	connect(this->ui->checkBox,SIGNAL(stateChanged(int)),SLOT(autoSaveOnCompileChanged(int)));
 	connect(this->ui->functionRoundingCheckBox,SIGNAL(stateChanged(int)),SLOT(functionRoundingChanged(int)));
+	connect(this->ui->rationalFormatCheckBox,SIGNAL(stateChanged(int)),SLOT(rationalFormatChanged(int)));
 }
 
 void PreferencesDialog::colorButtonPressed(QWidget* frame)
@@ -116,6 +118,12 @@ void PreferencesDialog::functionRoundingChanged(int s)
 {
 	Preferences* p = Preferences::getInstance();
 	p->setFunctionRounding(s == Qt::Checked);
+}
+
+void PreferencesDialog::rationalFormatChanged(int s)
+{
+	Preferences* p = Preferences::getInstance();
+	p->setRationalFormat(s == Qt::Checked);
 }
 
 PreferencesDialog::~PreferencesDialog()

@@ -48,7 +48,7 @@ Value* NumberValue::toNumber()
 
 int NumberValue::toInteger() const
 {
-	return this->number;
+	return to_integer(this->number);
 }
 
 Value* NumberValue::operation(Expression::Operator_e e)
@@ -62,7 +62,7 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 	NumberValue* num = dynamic_cast<NumberValue*>(&v);
 	if(num) {
 		if(isComparison(e)) {
-			bool result=basicOperation(this->number,e,num->number);
+			bool result=to_boolean(basicOperation(this->number,e,num->number));
 			return new BooleanValue(result);
 		} else {
 			decimal result=basicOperation(this->number,e,num->number);

@@ -19,6 +19,7 @@
 #include "cgalrenderer.h"
 #include "preferences.h"
 #include "primitive.h"
+#include "decimal.h"
 
 CGALRenderer::CGALRenderer(CGALPrimitive* pr)
 {
@@ -87,9 +88,9 @@ void CGALRenderer::draw(bool skeleton, bool showedges)
 		foreach(Polygon* p,c->getPolygons()) {
 			glBegin(GL_LINE_STRIP);
 			foreach(Point pt,p->getPoints()) {
-				decimal x,y,z;
-				pt.getXYZ(x,y,z);
-				glVertex3d(x, y, z);
+				double x,y,z;
+				to_glcoord(pt,x,y,z);
+				glVertex3d(x,y,z);
 			}
 			glEnd();
 		}

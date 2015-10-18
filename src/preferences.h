@@ -35,6 +35,9 @@ public:
 	bool getFunctionRounding();
 	void setFunctionRounding(bool);
 
+	bool getRationalFormat();
+	void setRationalFormat(bool b);
+
 	double getDefaultRotationX();
 	void setDefaultRotationX(double d);
 
@@ -114,6 +117,8 @@ private:
 	Preferences();
 	static Preferences* instance;
 	QSettings* settings;
+	int precision;
+	void updatePrecision();
 };
 
 #endif // PREFERENCES_H

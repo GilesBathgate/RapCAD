@@ -27,12 +27,22 @@ void Preferences::setPrecision(int p)
 
 bool Preferences::getFunctionRounding()
 {
-	return settings->value("FunctionRounding",false).toBool();
+	return settings->value("FunctionRounding",true).toBool();
 }
 
 void Preferences::setFunctionRounding(bool b)
 {
 	settings->setValue("FunctionRounding",b);
+}
+
+bool Preferences::getRationalFormat()
+{
+	return settings->value("RationalFormat",false).toBool();
+}
+
+void Preferences::setRationalFormat(bool b)
+{
+	settings->setValue("RationalFormat",b);
 }
 
 double Preferences::getDefaultRotationX()

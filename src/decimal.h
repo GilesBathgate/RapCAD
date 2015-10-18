@@ -21,50 +21,25 @@
 
 #include <QString>
 
+#if USE_CGAL
+#include "cgal.h"
+typedef CGAL::Scalar decimal;
+#else
 typedef double decimal;
+#endif
 
-QString to_string(const decimal);
-QString to_string(const decimal,const bool);
-decimal to_decimal(QString s,bool* ok);
+QString to_string(const decimal&);
+QString to_string(const decimal&,const bool);
+decimal to_decimal(QString s,bool*);
 decimal* parse_decimal(QString);
+int to_integer(const decimal&);
+bool to_boolean(const decimal&);
 
 #if USE_CGAL
-
-#include <CGAL/gmp.h>
-
-template<class NT>
-inline QString to_rational(NT const& n)
-{
-	char* r=mpq_get_str(NULL, 10, n.exact().mpq());
-	QString s(r);
-	free(r);
-	return s.append('r');
-}
-
-template<class NT>
-inline decimal to_decimal(NT n)
-{
-	return to_double(n);
-}
-
-template<class NT>
-inline QString to_string(NT const& n)
-{
-	return to_string(to_double(n));
-}
-
-template<class NT>
-inline int to_integer(NT const& n)
-{
-	return int(to_double(n));
-}
-
-template<class NT>
-inline bool to_boolean(NT const& n)
-{
-	return bool(to_integer(n));
-}
-
+class Point;
+void to_glcoord(const Point&,double&,double&,double&);
+QString to_rational(const decimal&);
+CGAL::Gmpfr to_gmpfr(const decimal&);
 #endif
 
 #endif // DECIMAL_H

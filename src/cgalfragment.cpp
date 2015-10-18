@@ -31,6 +31,6 @@ int CGALFragment::getFragments(CGAL::Scalar r)
 	CGAL::Scalar fs=fragmentSize;
 	CGAL::Scalar fa=fragmentAngle;
 	CGAL::Scalar f=std::min(CGAL::Scalar(360.0) / fa, r*CGAL::Scalar(r_tau()) / fs);
-	return std::max((int)ceil(to_decimal(f)),5);
+	return std::max(int(ceil(to_double(f))),5);
 }
 #endif

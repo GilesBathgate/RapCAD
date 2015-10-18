@@ -28,23 +28,6 @@ RotateModule::RotateModule() : Module("rotate")
 	addParameter("vector");
 }
 
-bool RotateModule::rightAngle(decimal a)
-{
-	return r_mod(a,90)==0.0;
-}
-
-decimal RotateModule::hardCos(decimal a)
-{
-	decimal ca=r_cos_deg(a);
-	return rightAngle(a)?r_round(ca):ca;
-}
-
-decimal RotateModule::hardSin(decimal a)
-{
-	decimal sa=r_sin_deg(a);
-	return rightAngle(a)?r_round(sa):sa;
-}
-
 Node* RotateModule::evaluate(Context* ctx)
 {
 	TransformationNode* n=new TransformationNode();
@@ -73,12 +56,12 @@ Node* RotateModule::evaluate(Context* ctx)
 
 	if(origin) {
 
-		decimal cx = hardCos(x);
-		decimal cy = hardCos(y);
-		decimal cz = hardCos(z);
-		decimal sx = hardSin(x);
-		decimal sy = hardSin(y);
-		decimal sz = hardSin(z);
+		decimal cx = r_right_cos(x);
+		decimal cy = r_right_cos(y);
+		decimal cz = r_right_cos(z);
+		decimal sx = r_right_sin(x);
+		decimal sy = r_right_sin(y);
+		decimal sz = r_right_sin(z);
 
 		/*
 		Given the three affine transformation matricies for counter-clockwise
@@ -105,10 +88,10 @@ Node* RotateModule::evaluate(Context* ctx)
 
 	} else {
 
-		decimal c=hardCos(a);
-		decimal s=hardSin(a);
+		decimal c=r_right_cos(a);
+		decimal s=r_right_sin(a);
 
-		decimal mag = r_sqrt(x*x + y*y + z*z);
+		decimal mag = r_sqrt(x*x + y*y + z*z,false);
 		decimal u = x/mag;
 		decimal v = y/mag;
 		decimal w = z/mag;

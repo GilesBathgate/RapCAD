@@ -42,12 +42,14 @@ private slots:
 	void autoSaveOnCompileChanged(int);
 	void precisionChanged(int);
 	void functionRoundingChanged(int);
+	void rationalFormatChanged(int s);
 private:
 	Ui::Preferences* ui;
 	void setupWidgets();
 	void setColor(QWidget*,QColor);
 	void setupButtons();
 	QSignalMapper* signalMapper;
+	void updatePrecision();
 };
 
 #endif // PREFERENCESDIALOG_H

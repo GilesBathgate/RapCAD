@@ -172,8 +172,8 @@ static CGAL::Point3 translate(const CGAL::Point3& p,CGAL::Scalar x,CGAL::Scalar 
 
 static CGAL::Point3 rotate_y(const CGAL::Point3& p,decimal phi)
 {
-	decimal c=cos(phi);
-	decimal s=sin(phi);
+	decimal c=r_cos(phi);
+	decimal s=r_sin(phi);
 	CGAL::AffTransformation3 t(
 		 c, 0, s, 0,
 		 0, 1, 0, 0,
@@ -344,12 +344,12 @@ void NodeEvaluator::visit(BoundsNode* n)
 	CGALPrimitive* pr=static_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
 
-	decimal xmin=to_decimal(b.xmin());
-	decimal ymin=to_decimal(b.ymin());
-	decimal xmax=to_decimal(b.xmax());
-	decimal ymax=to_decimal(b.ymax());
-	decimal zmin=to_decimal(b.zmin());
-	decimal zmax=to_decimal(b.zmax());
+	decimal xmin=b.xmin();
+	decimal ymin=b.ymin();
+	decimal xmax=b.xmax();
+	decimal ymax=b.ymax();
+	decimal zmin=b.zmin();
+	decimal zmax=b.zmax();
 
 	if(zmin!=0.0) {
 		QString pos=to_string(zmin,false);
@@ -671,14 +671,14 @@ void NodeEvaluator::visit(RadialsNode* n)
 #if USE_CGAL
 	CGALPrimitive* pr=static_cast<CGALPrimitive*>(result);
 	CGAL::Circle3 circle=pr->getRadius();
-	decimal r=inexact_sqrt(circle.squared_radius());
+	decimal r=r_sqrt(circle.squared_radius());
 	QString rs=to_string(r,false);
 	reporter->reportMessage(tr("Radius: %1").arg(rs));
 
 	CGAL::Point3 c=circle.center();
 	decimal a,b;
-	a=to_decimal(c.x());
-	b=to_decimal(c.y());
+	a=c.x();
+	b=c.y();
 
 	SimpleTextBuilder t;
 	t.setText(rs);
@@ -694,8 +694,8 @@ void NodeEvaluator::visit(RadialsNode* n)
 	for(int i=0; i<=f; i++) {
 		decimal phi = (r_tau()*i) / f;
 		decimal x,y;
-		x = a+r*cos(phi);
-		y = b+r*sin(phi);
+		x = a+r*r_cos(phi);
+		y = b+r*r_sin(phi);
 
 		p->createVertex(Point(x,y,0));
 		pg->append(i);
@@ -713,24 +713,24 @@ void NodeEvaluator::visit(VolumesNode* n)
 	bool calcMass = n->getCalcMass();
 	CGALVolume v=pr->getVolume(calcMass);
 
-	decimal vn=to_decimal(v.getSize());
+	decimal vn=v.getSize();
 	QString vs=to_string(vn,false);
 	reporter->reportMessage(tr("Volume: %1").arg(vs));
 
 	CGAL::Point3 c=v.getCenter();
 	decimal cx,cy,cz;
-	cx=to_decimal(c.x());
-	cy=to_decimal(c.y());
-	cz=to_decimal(c.z());
+	cx=c.x();
+	cy=c.y();
+	cz=c.z();
 
 	if(calcMass)
 		reporter->reportMessage(tr("Center of Mass: %1").arg(Point(cx,cy,cz).toString(false)));
 
 	CGAL::Cuboid3 b=v.getBounds();
 	decimal x,y,z;
-	x=to_decimal(b.xmax()+((b.xmax()-b.xmin())/10));
-	y=to_decimal(b.ymax()+((b.ymax()-b.ymin())/10));
-	z=to_decimal(b.zmax()+((b.zmax()-b.zmin())/10));
+	x=b.xmax()+((b.xmax()-b.xmin())/10);
+	y=b.ymax()+((b.ymax()-b.ymin())/10);
+	z=b.zmax()+((b.zmax()-b.zmin())/10);
 	Point tr(x,y,z);
 
 	Polyhedron* p = new Polyhedron();

@@ -19,7 +19,7 @@
      <item>
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="modelColorsTab">
         <attribute name="title">
@@ -241,11 +241,22 @@ QGroupBox::title {
              <widget class="QSpinBox" name="precisionSpinBox"/>
             </item>
             <item>
-             <widget class="QCheckBox" name="functionRoundingCheckBox">
-              <property name="text">
-               <string>Use function rounding</string>
-              </property>
-             </widget>
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <widget class="QCheckBox" name="functionRoundingCheckBox">
+                <property name="text">
+                 <string>Use function rounding</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="rationalFormatCheckBox">
+                <property name="text">
+                 <string>Output Rational Format (nnn/ddd)</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
           </widget>

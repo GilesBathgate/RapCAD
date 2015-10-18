@@ -27,11 +27,6 @@ class RotateModule : public Module
 public:
 	RotateModule();
 	Node* evaluate(Context*);
-private:
-	bool rightAngle(decimal);
-	decimal round(decimal);
-	decimal hardSin(decimal);
-	decimal hardCos(decimal);
 };
 
 #endif // ROTATEMODULE_H

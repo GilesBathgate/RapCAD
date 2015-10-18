@@ -18,16 +18,37 @@
 
 #include "decimal.h"
 #include "preferences.h"
+#include "rmath.h"
+#include "point.h"
+#include <CGAL/gmp.h>
 
 decimal* parse_decimal(QString s)
 {
+#if USE_CGAL
+	int i = s.indexOf('.');
+	if(i>=0) {
+		s.remove(i,1);
+		int p=s.length()-i;
+		s.append("/1");
+		s.append(QString().fill('0',p));
+	}
+
+	CGAL::Gmpq d(s.toStdString());
+	return new decimal(d);
+#else
 	bool ok;
 	return new decimal(to_decimal(s,&ok));
+#endif
 }
 
 decimal to_decimal(QString s,bool* ok)
 {
+#if USE_CGAL
+	*ok=true;
+	return *parse_decimal(s);
+#else
 	return s.toDouble(ok);
+#endif
 }
 
 static inline int amountToChop(QString s)
@@ -48,16 +69,48 @@ static inline int amountToChop(QString s)
 	return j;
 }
 
-QString to_string(const decimal d)
+QString to_string(const decimal& d)
 {
 	return to_string(d,true);
 }
 
-QString to_string(const decimal d,const bool trim)
+QString to_string(const decimal& d,const bool trim)
 {
+	if(d==0.0)
+		return QString('0');
+
 	Preferences* p=Preferences::getInstance();
 	QString res;
+#if USE_CGAL
+
+	if(p->getRationalFormat())
+		return to_rational(d);
+
+	mpf_t m;
+	mp_exp_t e;
+	mpf_init(m);
+	mpf_set_q(m,d.exact().mpq());
+	int sign=mpf_sgn(m);
+	if(sign<0)
+		mpf_neg(m,m);
+	char* r=mpf_get_str(NULL,&e,10,0,m);
+	mpf_clear(m);
+	res=QString(r);
+	free(r);
+	if(e>0) {
+		res=res.leftJustified(e,'0');
+		if(e<res.length())
+			res.insert(e,'.');
+	} else {
+		res=res.rightJustified(-e+1,'0');
+		res.prepend("0.");
+	}
+	if(sign<0)
+		res.prepend('-');
+	return res;
+#else
 	res.setNum(d,'f',p->getPrecision());
+#endif
 
 	if(trim) {
 		//Trim trailing zeros.
@@ -67,3 +120,43 @@ QString to_string(const decimal d,const bool trim)
 
 	return res;
 }
+
+int to_integer(const decimal& n)
+{
+#if USE_CGAL
+	return int(to_double(n));
+#else
+	return int(n);
+#endif
+}
+
+bool to_boolean(const decimal& n)
+{
+	return n==decimal(0)?false:true;
+}
+
+#if USE_CGAL
+void to_glcoord(const Point& pt,double& x,double& y,double& z)
+{
+	decimal a,b,c;
+	pt.getXYZ(a,b,c);
+	x=to_double(a);
+	y=to_double(b);
+	z=to_double(c);
+}
+
+QString to_rational(const decimal& n)
+{
+	char* r=mpq_get_str(NULL,10,n.exact().mpq());
+	QString s(r);
+	free(r);
+	return s;
+}
+
+CGAL::Gmpfr to_gmpfr(const decimal& d)
+{
+	CGAL::Gmpfr m;
+	mpfr_set_q(m.fr(),d.exact().mpq(),MPFR_RNDN);
+	return m;
+}
+#endif
