@@ -19,10 +19,10 @@
 #include "treeevaluator.h"
 #include "vectorvalue.h"
 #include "rangevalue.h"
-#include "node/unionnode.h"
 #include "builtincreator.h"
 #include "module/importmodule.h"
 #include "syntaxtreebuilder.h"
+#include "module/unionmodule.h"
 
 TreeEvaluator::TreeEvaluator(Reporter* r)
 {
@@ -146,7 +146,7 @@ void TreeEvaluator::visit(Instance* inst)
 		if(scp) {
 			scp->accept(*this);
 			childnodes=context->getCurrentNodes();
-			node=createUnion(childnodes);
+			node=UnionModule::createUnion(childnodes);
 		} else {
 			node=mod->evaluate(context);
 		}
@@ -586,17 +586,6 @@ void TreeEvaluator::visit(Variable* var)
 	context->setCurrentName(name);
 }
 
-Node* TreeEvaluator::createUnion(QList<Node*> childnodes)
-{
-	if(childnodes.size()==1) {
-		return childnodes.at(0);
-	} else {
-		UnionNode* u=new UnionNode();
-		u->setChildren(childnodes);
-		return u;
-	}
-}
-
 void TreeEvaluator::visit(CodeDoc*)
 {
 }
@@ -625,7 +614,7 @@ void TreeEvaluator::visit(Script* sc)
 	if(context->getReturnValue())
 		reporter->reportWarning(tr("return statement not valid inside global scope."));
 
-	rootNode=createUnion(childnodes);
+	rootNode=UnionModule::createUnion(childnodes);
 
 	/* Clean up all the imported scripts as its not the responsibility of the
 	 * caller to do so as we created the imported script instances within this

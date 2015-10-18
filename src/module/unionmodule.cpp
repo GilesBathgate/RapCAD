@@ -25,7 +25,16 @@ UnionModule::UnionModule() : Module("union")
 
 Node* UnionModule::evaluate(Context* ctx)
 {
-	UnionNode* d = new UnionNode();
-	d->setChildren(ctx->getInputNodes());
-	return d;
+	return createUnion(ctx->getInputNodes());
+}
+
+Node* UnionModule::createUnion(QList<Node*> childnodes)
+{
+	if(childnodes.size()==1) {
+		return childnodes.at(0);
+	} else {
+		UnionNode* u=new UnionNode();
+		u->setChildren(childnodes);
+		return u;
+	}
 }

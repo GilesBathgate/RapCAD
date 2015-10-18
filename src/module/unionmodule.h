@@ -27,6 +27,7 @@ class UnionModule : public Module
 public:
 	UnionModule();
 	Node* evaluate(Context*);
+	static Node* createUnion(QList<Node*> childnodes);
 };
 
 #endif // UNIONMODULE_H
