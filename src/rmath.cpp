@@ -164,17 +164,10 @@ static bool r_right(decimal a)
 	return r_mod(a,90)==decimal(0);
 }
 
-static bool r_180(decimal a)
-{
-	return r_mod(a,180)==decimal(0);
-}
-
 decimal r_right_sin(decimal a)
 {
    if(r_right(a)){
-	   if(r_180(a))
-		   return decimal(0);
-	   return decimal(1);
+	  return r_round(r_sin_deg(a,false));
    }
    return r_sin_deg(a);
 }
@@ -182,9 +175,7 @@ decimal r_right_sin(decimal a)
 decimal r_right_cos(decimal a)
 {
 	if(r_right(a)){
-		if(r_180(a))
-			return decimal(1);
-		return decimal(0);
+		return r_round(r_cos_deg(a,false));
 	}
 	return r_cos_deg(a);
 }
