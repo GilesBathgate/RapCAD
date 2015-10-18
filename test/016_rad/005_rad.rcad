@@ -1,4 +1,4 @@
 function test() {
 a=rad(360);
-return a==6.2831853071795862;
+return a==6.2831853071795864;
 }
