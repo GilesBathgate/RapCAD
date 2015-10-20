@@ -64,10 +64,12 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 		if(isComparison(e)) {
 			bool result=to_boolean(basicOperation(this->number,e,num->number));
 			return new BooleanValue(result);
-		} else {
-			decimal result=basicOperation(this->number,e,num->number);
-			return new NumberValue(result);
 		}
+		if(e==Expression::Divide&&num->number==decimal(0))
+			return new Value();
+
+		decimal result=basicOperation(this->number,e,num->number);
+		return new NumberValue(result);
 	}
 	VectorValue* vec = dynamic_cast<VectorValue*>(&v);
 	if(vec) {
