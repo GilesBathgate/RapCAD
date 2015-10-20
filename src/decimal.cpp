@@ -20,7 +20,6 @@
 #include "preferences.h"
 #include "rmath.h"
 #include "point.h"
-#include <CGAL/gmp.h>
 
 decimal* parse_decimal(QString s)
 {
@@ -88,7 +87,7 @@ QString to_string(const decimal& d,const bool trim)
 
 	mpf_t m;
 	mp_exp_t e;
-	mpf_init(m);
+	mpf_init2(m,mpfr_get_default_prec());
 	mpf_set_q(m,d.exact().mpq());
 	int sign=mpf_sgn(m);
 	if(sign<0)

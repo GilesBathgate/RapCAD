@@ -82,6 +82,9 @@ int main(int argc, char* argv[])
 #endif
 	p.process(*a);
 
+	//Ensure preferences have been initialised early.
+	Preferences::getInstance();
+
 	QStringList inputFiles=p.positionalArguments();
 	QString inputFile;
 	if(!inputFiles.isEmpty())
