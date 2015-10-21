@@ -22,6 +22,7 @@
 #include <CGAL/normal_vector_newell_3.h>
 #include <CGAL/Triangulation_3.h>
 #include <CGAL/centroid.h>
+#include <CGAL/bounding_box.h>
 #include "onceonly.h"
 
 CGALExplorer::CGALExplorer(Primitive* p)

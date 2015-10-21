@@ -19,10 +19,13 @@
 #ifndef CGALBUILDER_H
 #define CGALBUILDER_H
 
+#include "cgalassert.h" // cgalassert hack pulls in <CGAL/Polyhedron_incremental_builder_3.h>
 #include "cgalprimitive.h"
 
-//Always ensure cgalassert.h is included before incremental builder.
-#include <CGAL/Polyhedron_incremental_builder_3.h>
+namespace CGAL
+{
+typedef Polyhedron3::HalfedgeDS HalfedgeDS;
+}
 
 class CGALBuilder : public CGAL::Modifier_base<CGAL::HalfedgeDS>
 {

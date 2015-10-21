@@ -25,6 +25,7 @@
 #include "simpletextbuilder.h"
 
 #if USE_CGAL
+#include <CGAL/convex_hull_3.h>
 #include "cgalimport.h"
 #include "cgalexplorer.h"
 #include "cgalprimitive.h"

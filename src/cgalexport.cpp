@@ -26,6 +26,7 @@
 #include <CGAL/IO/Polyhedron_iostream.h>
 #include <CGAL/IO/print_wavefront.h>
 #include <CGAL/IO/Polyhedron_VRML_2_ostream.h>
+#include <fstream>
 #include"cgalexplorer.h"
 #include "onceonly.h"
 #include "rmath.h"

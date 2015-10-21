@@ -18,6 +18,7 @@
 #if USE_CGAL
 #include "cgalimport.h"
 #include <CGAL/IO/Polyhedron_iostream.h>
+#include <fstream>
 #include <QRegExp>
 #include <QStringList>
 #include "script.h"

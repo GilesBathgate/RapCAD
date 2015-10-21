@@ -5,6 +5,7 @@
 #include <CGAL/convex_decomposition_3.h>
 #include <CGAL/Min_circle_2.h>
 #include <CGAL/Min_circle_2_traits_2.h>
+#include <CGAL/bounding_box.h>
 #include "cgalbuilder.h"
 #include "cgalexplorer.h"
 #include "onceonly.h"

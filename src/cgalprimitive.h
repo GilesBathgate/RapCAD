@@ -20,9 +20,19 @@
 #define CGALPRIMITIVE_H
 
 #include <QVector>
+#include <CGAL/Polyhedron_3.h>
+#include <CGAL/Nef_polyhedron_3.h>
+#include <CGAL/Nef_nary_union_3.h>
+#include "cgal.h"
 #include "cgalpolygon.h"
 #include "cgalvolume.h"
 #include "primitive.h"
+
+namespace CGAL
+{
+typedef Polyhedron_3<Kernel3> Polyhedron3;
+typedef Nef_polyhedron_3<Kernel3> NefPolyhedron3;
+}
 
 class CGALPrimitive : public Primitive
 {
