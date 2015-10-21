@@ -22,8 +22,8 @@
 #include <QString>
 
 #if USE_CGAL
-#include <CGAL/Exact_predicates_exact_constructions_kernel.h>
-typedef CGAL::Exact_predicates_exact_constructions_kernel::FT decimal;
+#include "cgal.h"
+typedef CGAL::Scalar decimal;
 #else
 typedef double decimal;
 #endif
