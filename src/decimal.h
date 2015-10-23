@@ -30,8 +30,7 @@ typedef double decimal;
 
 QString to_string(const decimal&);
 QString to_string(const decimal&,const bool);
-decimal to_decimal(QString s,bool*);
-decimal* parse_decimal(QString);
+decimal to_decimal(QString s,bool* ok=0);
 int to_integer(const decimal&);
 bool to_boolean(const decimal&);
 

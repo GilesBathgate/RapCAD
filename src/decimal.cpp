@@ -21,7 +21,7 @@
 #include "rmath.h"
 #include "point.h"
 
-decimal* parse_decimal(QString s)
+decimal to_decimal(QString s,bool* ok)
 {
 #if USE_CGAL
 	int i = s.indexOf('.');
@@ -32,19 +32,18 @@ decimal* parse_decimal(QString s)
 		s.append(QString().fill('0',p));
 	}
 
-	CGAL::Gmpq d(s.toStdString());
-	return new decimal(d);
-#else
-	bool ok;
-	return new decimal(to_decimal(s,&ok));
-#endif
-}
+	CGAL::Gmpq d;
+	int error=mpq_set_str(d.mpq(),s.toLatin1().constData(),10);
+	if(error) {
+		if(ok!=0)
+			*ok=false;
+		return decimal(0);
+	}
 
-decimal to_decimal(QString s,bool* ok)
-{
-#if USE_CGAL
-	*ok=true;
-	return *parse_decimal(s);
+	mpq_canonicalize(d.mpq());
+	if(ok!=0)
+		*ok=true;
+	return decimal(d);
 #else
 	return s.toDouble(ok);
 #endif

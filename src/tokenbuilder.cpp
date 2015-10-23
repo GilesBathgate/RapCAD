@@ -323,7 +323,7 @@ unsigned int TokenBuilder::buildIllegalChar()
 
 unsigned int TokenBuilder::buildNumber(QString str)
 {
-	parserlval.number = parse_decimal(str);
+	parserlval.number = new decimal(to_decimal(str));
 	return NUMBER;
 }
 
