@@ -19,13 +19,25 @@
 #ifndef GLVIEW_H
 #define GLVIEW_H
 
+#include <QtGlobal>
+#define REQUIRED QT_VERSION_CHECK(5, 4, 0)
+
+#if (QT_VERSION >= REQUIRED)
+#include <QOpenGLWidget>
+#else
 #include <QGLWidget>
+#endif
 #include <CGAL/glu.h>
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include "renderer.h"
 
-class GLView : public QGLWidget
+class GLView :
+#if (QT_VERSION >= REQUIRED)
+	public QOpenGLWidget
+#else
+	public QGLWidget
+#endif
 {
 	Q_OBJECT
 
@@ -33,6 +45,11 @@ public:
 	GLView(QWidget* parent = NULL);
 	void setRenderer(Renderer* r);
 	void setCompiling(bool value);
+
+#if (QT_VERSION >= REQUIRED)
+	inline QImage grabFrameBuffer(){ return grabFramebuffer(); }
+#endif
+
 public slots:
 	void preferencesUpdated();
 	void setViewport(double,double,double,double,double);
@@ -47,6 +64,10 @@ private:
 	void initializeGL();
 	void resizeGL(int w, int h);
 	void paintGL();
+
+#if (QT_VERSION >= REQUIRED)
+	inline void updateGL(){ update(); }
+#endif
 
 	void mousePressEvent(QMouseEvent* event);
 	void mouseMoveEvent(QMouseEvent* event);

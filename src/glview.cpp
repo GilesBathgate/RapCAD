@@ -36,7 +36,12 @@ static const int printLength=200;
 
 static const int rulerLength=200;
 
-GLView::GLView(QWidget* parent) : QGLWidget(parent)
+GLView::GLView(QWidget* parent) :
+#if (QT_VERSION >= REQUIRED)
+	QOpenGLWidget(parent)
+#else
+	QGLWidget(parent)
+#endif
 {
 	render=NULL;
 	distance=500.0;
