@@ -94,6 +94,7 @@ void Console::handleReturn()
 {
 	QString command=getCommand();
 	moveCursor(QTextCursor::End,QTextCursor::MoveAnchor);
+	insertPlainText("\n");
 	emit execCommand(command);
 	displayPrompt();
 }

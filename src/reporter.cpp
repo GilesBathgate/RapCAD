@@ -40,7 +40,7 @@ void Reporter::reportTiming(QString what)
 	qint64 mins=ticks%60;
 	ticks/=60;
 	qint64 hours=ticks;
-	output << tr("Total %1 time: %2h %3m %4s %5ms.\n").arg(what).arg(hours).arg(mins).arg(secs).arg(ms) << endl;
+	output << tr("Total %1 time: %2h %3m %4s %5ms.").arg(what).arg(hours).arg(mins).arg(secs).arg(ms) << endl;
 	delete timer; //Need to delete timer.
 }
 
