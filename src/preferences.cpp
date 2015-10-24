@@ -84,6 +84,11 @@ double Preferences::getDefaultRotationX()
 	return settings->value("DefaultRotationX",35.0).toDouble();
 }
 
+double Preferences::getDefaultRotationY()
+{
+	return settings->value("DefaultRotationY",0.0).toDouble();
+}
+
 double Preferences::getDefaultRotationZ()
 {
 	return settings->value("DefaultRotationZ",35.0).toDouble();
@@ -107,6 +112,11 @@ double Preferences::getDefaultDistance()
 void Preferences::setDefaultRotationX(double x)
 {
 	settings->setValue("DefaultRotationX",x);
+}
+
+void Preferences::setDefaultRotationY(double y)
+{
+	settings->setValue("DefaultRotationY",y);
 }
 
 void Preferences::setDefaultRotationZ(double z)

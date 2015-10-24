@@ -41,6 +41,9 @@ public:
 	double getDefaultRotationX();
 	void setDefaultRotationX(double d);
 
+	double getDefaultRotationY();
+	void setDefaultRotationY(double d);
+
 	double getDefaultRotationZ();
 	void setDefaultRotationZ(double d);
 

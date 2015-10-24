@@ -58,18 +58,20 @@ GLView::GLView(QWidget* parent) :
 	viewportZ=0;
 }
 
-void GLView::getViewport(double& rx,double& rz,double& x, double& z,double& d)
+void GLView::getViewport(double& rx,double& ry,double& rz,double& x, double& z,double& d)
 {
 	rx=rotateX;
+	ry=rotateY;
 	rz=rotateZ;
 	x=viewportX;
 	z=viewportZ;
 	d=distance;
 }
 
-void GLView::setViewport(double rx,double rz,double x, double z,double d)
+void GLView::setViewport(double rx,double ry,double rz,double x, double z,double d)
 {
 	rotateX=rx;
+	rotateY=ry;
 	rotateZ=rz;
 	viewportX=x;
 	viewportZ=z;
