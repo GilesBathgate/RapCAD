@@ -31,6 +31,10 @@ Node* CircleModule::evaluate(Context* ctx)
 	decimal r=1;
 	if(rValue) {
 		r=rValue->getNumber();
+	} else {
+		NumberValue* dValue = dynamic_cast<NumberValue*>(ctx->getArgument(1,"diameter"));
+		if(dValue)
+			r=(dValue->getNumber()/2.0);
 	}
 
 	Fragment* fg = Fragment::createFragment(ctx);
