@@ -209,7 +209,7 @@ void MainWindow::setupActions()
 
 void MainWindow::grabFrameBuffer()
 {
-	QImage image = ui->view->grabFrameBuffer();
+	QImage image = ui->view->grabFramebuffer();
 	QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
 				 QString(), tr("PNG Files (*.png)"));
 	image.save(fn);

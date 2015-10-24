@@ -46,8 +46,8 @@ public:
 	void setRenderer(Renderer* r);
 	void setCompiling(bool value);
 
-#if (QT_VERSION >= REQUIRED)
-	inline QImage grabFrameBuffer(){ return grabFramebuffer(); }
+#if (QT_VERSION < REQUIRED)
+	inline QImage grabFramebuffer(){ return grabFrameBuffer(); }
 #endif
 
 public slots:
@@ -65,8 +65,8 @@ private:
 	void resizeGL(int w, int h);
 	void paintGL();
 
-#if (QT_VERSION >= REQUIRED)
-	inline void updateGL(){ update(); }
+#if (QT_VERSION < REQUIRED)
+	inline void update(){ updateGL(); }
 #endif
 
 	void mousePressEvent(QMouseEvent* event);

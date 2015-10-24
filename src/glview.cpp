@@ -74,49 +74,49 @@ void GLView::setViewport(double rx,double rz,double x, double z,double d)
 	viewportX=x;
 	viewportZ=z;
 	distance=d;
-	updateGL();
+	update();
 }
 
 void GLView::setSkeleton(bool skel)
 {
 	skeleton=skel;
-	updateGL();
+	update();
 }
 
 void GLView::setShowEdges(bool edges)
 {
 	showEdges=edges;
-	updateGL();
+	update();
 }
 
 void GLView::setShowAxes(bool axes)
 {
 	showAxes=axes;
-	updateGL();
+	update();
 }
 
 void GLView::setShowRulers(bool rulers)
 {
 	showRulers=rulers;
-	updateGL();
+	update();
 }
 
 void GLView::setShowBase(bool base)
 {
 	showBase=base;
-	updateGL();
+	update();
 }
 
 void GLView::setShowPrintArea(bool print)
 {
 	showPrintArea=print;
-	updateGL();
+	update();
 }
 
 void GLView::setRenderer(Renderer* r)
 {
 	render=r;
-	updateGL();
+	update();
 }
 
 void GLView::preferencesUpdated()
@@ -124,7 +124,7 @@ void GLView::preferencesUpdated()
 	if(!render) return;
 
 	render->preferencesUpdated();
-	updateGL();
+	update();
 }
 
 void GLView::setCompiling(bool value)
@@ -133,7 +133,7 @@ void GLView::setCompiling(bool value)
 	glClearColor(n, n, n, 0.0);
 	if(render)
 		render->setCompiling(value);
-	updateGL();
+	update();
 }
 
 void GLView::initializeGL()
@@ -247,7 +247,7 @@ void GLView::paintGL()
 void GLView::wheelEvent(QWheelEvent* event)
 {
 	zoomView(event->delta()/12);
-	updateGL();
+	update();
 }
 
 void GLView::zoomView(double amt)
@@ -296,7 +296,7 @@ void GLView::mouseMoveEvent(QMouseEvent* event)
 			viewportZ -= (GLint)dy;
 		}
 	}
-	updateGL();
+	update();
 
 	last = current;
 }
