@@ -10,9 +10,6 @@ File release\Qt5Core.dll
 File release\Qt5Gui.dll
 File release\Qt5OpenGL.dll
 File release\Qt5Widgets.dll
-File release\icudt51.dll
-File release\icuin51.dll
-File release\icuuc51.dll
 File release\libCGAL.dll
 File release\libCGAL_Core.dll
 File release\libgcc_s_dw2-1.dll
@@ -34,9 +31,6 @@ Delete $INSTDIR\Qt5Core.dll
 Delete $INSTDIR\Qt5Gui.dll
 Delete $INSTDIR\Qt5OpenGL.dll
 Delete $INSTDIR\Qt5Widgets.dll
-Delete $INSTDIR\icudt51.dll
-Delete $INSTDIR\icuin51.dll
-Delete $INSTDIR\icuuc51.dll
 Delete $INSTDIR\libCGAL.dll
 Delete $INSTDIR\libCGAL_Core.dll
 Delete $INSTDIR\libgcc_s_dw2-1.dll

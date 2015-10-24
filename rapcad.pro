@@ -52,10 +52,9 @@ win32 {
 	INCLUDEPATH += $$CGALROOT/include
 	INCLUDEPATH += $$CGALROOT/auxiliary/gmp/include
 	INCLUDEPATH += $$BOOSTROOT
-	LIBS += -L$$BOOSTROOT/bin.v2/libs/thread/build/gcc-mingw-4.8.0/release/link-static/threading-multi
-	LIBS += -L$$BOOSTROOT/bin.v2/libs/system/build/gcc-mingw-4.8.0/release/link-static/threading-multi
-	LIBS += -lboost_thread-mgw48-mt-1_55
-	LIBS += -lboost_system-mgw48-mt-1_55
+	LIBS += -L$$BOOSTROOT/stage/lib
+	LIBS += -lboost_thread-mgw49-mt-1_55
+	LIBS += -lboost_system-mgw49-mt-1_55
 	LIBS += -L$$CGALROOT/lib -lCGAL -lCGAL_Core
 	LIBS += -L$$CGALROOT/auxiliary/gmp/lib -lmpfr-4 -lgmp-10
 	contains(DEFINES,USE_READLINE) {
