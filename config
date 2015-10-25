@@ -32,4 +32,4 @@ SHAREDFOLDER=$PWD/shared
 
 OSTYPE=Windows7
 
-CER=Oracle.cer
+CER=oracle-vbox.cer

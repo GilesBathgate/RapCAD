@@ -10,4 +10,4 @@ DVD="/home/giles/iso/windowsXP-sp3-x86.iso"
 USER="Test User"
 SHAREDFOLDER=$PWD/shared
 OSTYPE=WindowsXP
-CER=Oracle.cer
+CER=oracle-vbox.cer
