@@ -4,7 +4,6 @@ sudo true #Just ask the user for sudo password early.
 source config
 
 echo "Building configuration files..."
-./mksif.sh
 ./mkwmi.sh
 echo "Building floppy image..."
 
@@ -14,12 +13,10 @@ sudo mkdosfs $IMG
 mkdir -p disk-mount
 sudo mount -o loop $IMG disk-mount
 sudo cp $CER disk-mount/
-sudo cp $SIF disk-mount/
 sudo cp $WMI disk-mount/
 sleep 1
 sudo umount disk-mount
 rm -rf disk-mount
-rm -f $SIF
 rm -f $WMI
 
 echo "Building machine..."

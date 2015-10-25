@@ -12,7 +12,6 @@ PASS=$(echo $NAME | sha256sum | cut -b 1-10)
 
 ## Names of the unattended installation files
 WMI=autounattend.xml
-SIF=winnt.sif
 IMG="disk.img"
 
 ## The name and location of the Virtual
