@@ -33,6 +33,8 @@ public:
 	Value* getStep() const;
 	Value* getFinish() const;
 private:
+	Value* operation(Expression::Operator_e);
+	Value* operation(Value&,Expression::Operator_e);
 	Value* start;
 	Value* step;
 	Value* finish;

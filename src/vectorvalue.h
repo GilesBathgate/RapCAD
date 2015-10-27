@@ -36,9 +36,9 @@ public:
 	virtual QList<Value*> getChildren();
 protected:
 	VectorValue();
-private:
 	Value* operation(Expression::Operator_e);
 	Value* operation(Value&,Expression::Operator_e);
+private:
 	Expression::Operator_e convertOperation(Expression::Operator_e);
 	QList<Value*> children;
 };

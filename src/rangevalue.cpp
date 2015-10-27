@@ -19,6 +19,7 @@
 #include "rangevalue.h"
 #include "rangeiterator.h"
 #include "vectorvalue.h"
+#include "booleanvalue.h"
 
 RangeValue::RangeValue(Value* start,Value* step, Value* finish)
 {
@@ -70,4 +71,76 @@ Value* RangeValue::getStep() const
 Value* RangeValue::getFinish() const
 {
 	return this->finish;
+}
+
+Value* RangeValue::operation(Expression::Operator_e op)
+{
+	Value* upper=Value::operation(this->start,op);
+	Value* lower=Value::operation(this->finish,op);
+
+	Value* increment=NULL;
+	if(this->step)
+		increment=Value::operation(this->step,op);
+
+	return new RangeValue(upper,increment,lower);
+}
+
+Value* RangeValue::operation(Value& v, Expression::Operator_e op)
+{
+	RangeValue* range=dynamic_cast<RangeValue*>(&v);
+	if(range) {
+		/* Interval arithmetic has the following rules:
+		 * when x = [a:b] and y = [c:d] then
+		 * x+y = [a+c:b+d]
+		 * x-y = [a-d:b-c]
+		 * x*y = [min(a*c,a*d,b*c,b*d):max(a*c,a*d,b*c,b*d)]
+		 * x/y = [min(a/c,a/d,b/c,b/d):max(a/c,a/d,b/c,b/d)]
+		 */
+		Value* a=this->start;
+		Value* b=this->finish;
+		Value* c=range->start;
+		Value* d=range->finish;
+		if(op==Expression::Equal) {
+			bool result=compare(a,op,c)&&compare(b,op,d);
+			return new BooleanValue(result);
+		} else if(op==Expression::NotEqual) {
+			bool result=compare(a,op,c)||compare(b,op,d);
+			return new BooleanValue(result);
+		} else if(op==Expression::Add||op==Expression::Subtract) {
+
+			Value* lower=Value::operation(a,op,c);
+			Value* upper=Value::operation(b,op,d);
+
+			return new RangeValue(lower,NULL,upper);
+
+		} else if(op==Expression::Multiply||op==Expression::Divide) {
+
+			Value* ac=Value::operation(a,op,c);
+			Value* ad=Value::operation(a,op,d);
+			Value* bc=Value::operation(b,op,c);
+			Value* bd=Value::operation(b,op,d);
+			QList<Value*> vals;
+			vals.append(ac);
+			vals.append(ad);
+			vals.append(bc);
+			vals.append(bd);
+			Value* lower=compareAll(vals,Expression::LessThan);
+			Value* upper=compareAll(vals,Expression::GreaterThan);
+
+			return new RangeValue(lower,NULL,upper);
+
+		} else if(op==Expression::Concatenate) {
+
+			QList<Value*> vals;
+			vals.append(this->start);
+			vals.append(this->finish);
+			vals.append(range->start);
+			vals.append(range->finish);
+			Value* lower=compareAll(vals,Expression::LessThan);
+			Value* upper=compareAll(vals,Expression::GreaterThan);
+
+			return new RangeValue(lower,NULL,upper);
+		}
+	}
+	return VectorValue::operation(v,op);
 }
