@@ -22,6 +22,7 @@
 #include "booleanvalue.h"
 #include "textvalue.h"
 #include "numbervalue.h"
+#include "rangevalue.h"
 #include "rmath.h"
 
 Value::Value()
@@ -374,4 +375,40 @@ bool Value::isComparison(Expression::Operator_e e)
 	default:
 		return false;
 	}
+}
+
+bool Value::compare(Value* left, Expression::Operator_e op, Value* right)
+{
+	return Value::operation(left,op,right)->isTrue();
+}
+
+Value* Value::compareAll(QList<Value*> values,Expression::Operator_e op)
+{
+	Value* result=NULL;
+	foreach(Value* a,values) {
+		NumberValue* numVal=dynamic_cast<NumberValue*>(a);
+		if(numVal) {
+			if(!result||compare(a,op,result))
+				result=a;
+		}
+		VectorValue* vecVal=dynamic_cast<VectorValue*>(a);
+		if(vecVal) {
+			Value* c=compareAll(vecVal->getChildren(),op);
+			if(!result||compare(c,op,result))
+				result=c;
+		}
+		RangeValue* rngVal=dynamic_cast<RangeValue*>(a);
+		if(rngVal) {
+			QList<Value*> rng;
+			rng.append(rngVal->getStart());
+			rng.append(rngVal->getFinish());
+			Value* c=compareAll(rng,op);
+			if(!result||compare(c,op,result))
+				result=c;
+		}
+	}
+	if(!result)
+		return new Value();
+
+	return result;
 }

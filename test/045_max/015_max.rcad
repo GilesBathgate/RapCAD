@@ -1,0 +1,3 @@
+function test(){
+  return max([2,4,3,5,1,0])==5;
+}

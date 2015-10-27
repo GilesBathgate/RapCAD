@@ -1,0 +1,3 @@
+function test(){
+  return max("a","b")==undef;
+}
