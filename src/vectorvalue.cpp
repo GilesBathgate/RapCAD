@@ -116,8 +116,18 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 		if(e==Expression::OuterProduct) {
 			foreach(Value* c,b)
 				result.append(Value::operation(this,e,c));
-		} else if(e==Expression::Multiply || e==Expression::Divide) {
-			//TODO implement multiply and divide
+		} else if(e==Expression::Multiply) {
+			int s=std::min(a.size(),b.size());
+			if(s<=0)
+				return new Value();
+			Value* total=new NumberValue(0);
+			for(int i=0; i<s; i++) {
+				Value* r=Value::operation(a.at(i),e,b.at(i));
+				total=Value::operation(total,Expression::Add,r);
+			}
+			return total;
+		} else if(e==Expression::Divide) {
+			//TODO vector division?
 			return this;
 		} else if(e==Expression::Concatenate) {
 			result=a;

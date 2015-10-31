@@ -97,6 +97,7 @@
 #include "function/radfunction.h"
 #include "function/degfunction.h"
 #include "function/numfunction.h"
+#include "function/normfunction.h"
 
 #include "module/writemodule.h"
 #include "module/writelnmodule.h"
@@ -170,6 +171,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new LogFunction());
 	builtins.append(new MaxFunction());
 	builtins.append(new MinFunction());
+	builtins.append(new NormFunction());
 	builtins.append(new NumFunction());
 	builtins.append(new PowFunction());
 	builtins.append(new RadFunction());

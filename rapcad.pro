@@ -305,7 +305,8 @@ SOURCES += \
 	src/function/numfunction.cpp \
 	src/rmath.cpp \
 	src/module/triangulatemodule.cpp \
-	src/node/triangulatenode.cpp
+	src/node/triangulatenode.cpp \
+	src/function/normfunction.cpp
 
 HEADERS  += \
 	src/mainwindow.h \
@@ -520,7 +521,8 @@ HEADERS  += \
 	src/function/numfunction.h \
 	src/rmath.h \
 	src/module/triangulatemodule.h \
-	src/node/triangulatenode.h
+	src/node/triangulatenode.h \
+	src/function/normfunction.h
 
 FORMS += \
 	src/mainwindow.ui \
