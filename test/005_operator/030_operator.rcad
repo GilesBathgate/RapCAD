@@ -1,0 +1,4 @@
+function test(){
+  a=[1:4];
+  return |a|==3;
+}
