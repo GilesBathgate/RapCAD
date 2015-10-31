@@ -106,6 +106,8 @@ CONFIG(official){
 }
 
 SOURCES += \
+	contrib/qcommandlineparser.cpp \
+	contrib/qcommandlineoption.cpp \
 	src/main.cpp \
 	src/mainwindow.cpp \
 	src/module.cpp \
@@ -282,8 +284,6 @@ SOURCES += \
 	src/onceonly.cpp \
 	src/fragment.cpp \
 	src/cgalfragment.cpp \
-	contrib/qcommandlineparser.cpp \
-	contrib/qcommandlineoption.cpp \
 	src/function/concatfunction.cpp \
 	src/node/groupnode.cpp \
 	src/decimal.cpp \
@@ -309,6 +309,11 @@ SOURCES += \
 	src/function/normfunction.cpp
 
 HEADERS  += \
+	contrib/OGL_helper.h \
+	contrib/fragments.h \
+	contrib/qcommandlineparser.h \
+	contrib/qcommandlineoption.h \
+	contrib/Copy_polyhedron_to.h \
 	src/mainwindow.h \
 	src/module.h \
 	src/syntaxtreebuilder.h \
@@ -369,7 +374,6 @@ HEADERS  += \
 	src/node.h \
 	src/node/transformationnode.h \
 	src/cgalrenderer.h \
-	contrib/OGL_helper.h \
 	src/renderer.h \
 	src/point.h \
 	src/nodevisitor.h \
@@ -493,11 +497,8 @@ HEADERS  += \
 	src/module/multmatrixmodule.h \
 	src/onceonly.h \
 	src/glview.h \
-	contrib/fragments.h \
 	src/fragment.h \
 	src/cgalfragment.h \
-	contrib/qcommandlineparser.h \
-	contrib/qcommandlineoption.h \
 	src/function/concatfunction.h \
 	src/node/groupnode.h \
 	src/decimal.h \
