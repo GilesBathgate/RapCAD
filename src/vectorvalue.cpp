@@ -179,6 +179,14 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			QList<Value*> a=this->getChildren();
 			result=a;
 			result.append(num);
+		} else if (e==Expression::Exponent) {
+			QList<Value*> a=this->getChildren();
+			Value* total=new NumberValue(0);
+			for(int i=0; i<a.size(); i++) {
+				Value* r=Value::operation(a.at(i),e,num);
+				total=Value::operation(total,Expression::Add,r);
+			}
+			return total;
 		} else if(e==Expression::Index) {
 			Iterator<Value*>* it=this->createIterator();
 			int i=num->toInteger();

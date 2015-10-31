@@ -77,9 +77,14 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 			QList<Value*> r=vec->getChildren();
 			r.prepend(this);
 			return new VectorValue(r);
+		} else if(e==Expression::Exponent) {
+			QList<Value*> result;
+			foreach(Value* c,vec->getChildren())
+				result.append(Value::operation(this,e,c));
+			return new VectorValue(result);
 		} else {
-			//operations between scalars and vectors are commutative e.g.
-			// [1,2,3]-1  is the same as 1 - [1,2,3]
+			// most operations between scalars and vectors are commutative e.g.
+			// [1,2,3]-1  is the same as 1-[1,2,3]
 			return Value::operation(vec,e,this);
 		}
 	}
