@@ -30,6 +30,7 @@ public:
 	TextValue* toText();
 	Value* toNumber();
 private:
+	Value* operation(Expression::Operator_e);
 	Value* operation(Value&,Expression::Operator_e);
 	QString operation(QString,Expression::Operator_e,QString);
 	bool operation(TextValue*,Expression::Operator_e,TextValue*);

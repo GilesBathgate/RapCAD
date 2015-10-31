@@ -159,6 +159,11 @@ Value* Value::operator++(int)
 	return operation(Expression::Increment);
 }
 
+Value* Value::length()
+{
+	return operation(Expression::Length);
+}
+
 Value* Value::operator-()
 {
 	return operation(Expression::Subtract);
@@ -259,6 +264,16 @@ decimal Value::invert(decimal left)
 	return invert(to_boolean(left));
 }
 
+bool Value::length(bool left)
+{
+	return left;
+}
+
+decimal Value::length(decimal left)
+{
+	return r_abs(left);
+}
+
 Value* Value::operation(Expression::Operator_e e)
 {
 	if(e==Expression::Invert) {
@@ -353,6 +368,8 @@ Value* Value::operation(Value* p_left, Expression::Operator_e e)
 		return left++;
 	case Expression::Decrement:
 		return left--;
+	case Expression::Length:
+		return left.length();
 	default:
 		return &left;
 	}

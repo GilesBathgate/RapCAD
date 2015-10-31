@@ -16,7 +16,7 @@ Value* LengthFunction::evaluate(Context* ctx)
 	}
 	TextValue* txtVal=dynamic_cast<TextValue*>(getParameterArgument(ctx,0));
 	if(txtVal) {
-		return new NumberValue(txtVal->getValueString().length());
+		return Value::operation(txtVal,Expression::Length);
 	}
 	return new Value();
 }

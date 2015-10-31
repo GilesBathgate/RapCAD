@@ -295,6 +295,11 @@ unsigned int TokenBuilder::buildDivide()
 	return '/';
 }
 
+unsigned int TokenBuilder::buildLength()
+{
+	return '|';
+}
+
 unsigned int TokenBuilder::buildModulus()
 {
 	return '%';

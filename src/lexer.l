@@ -96,6 +96,7 @@ NL \n|\r\n
 "!"				{ return tokenizer->buildNot(); }
 "*"				{ return tokenizer->buildMultiply(); }
 "/"				{ return tokenizer->buildDivide(); }
+"|"				{ return tokenizer->buildLength(); }
 "%"				{ return tokenizer->buildModulus(); }
 "~"				{ return tokenizer->buildConcatenate(); }
 "~="			{ return tokenizer->buildAppend(); }

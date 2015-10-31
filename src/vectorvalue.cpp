@@ -21,6 +21,7 @@
 #include "vectoriterator.h"
 #include "rangevalue.h"
 #include "booleanvalue.h"
+#include "rmath.h"
 
 VectorValue::VectorValue()
 {
@@ -99,6 +100,13 @@ QList<Value*> VectorValue::getChildren()
 
 Value* VectorValue::operation(Expression::Operator_e e)
 {
+	if(e==Expression::Length) {
+		Value* v=Value::operation(this,Expression::Multiply,this);
+		NumberValue* n=dynamic_cast<NumberValue*>(v);
+		if(n)
+			return new NumberValue(r_sqrt(n->getNumber()));
+		return new Value();
+	}
 	QList<Value*> result;
 	foreach(Value* c,children)
 		result.append(Value::operation(c,e));

@@ -56,6 +56,7 @@ public:
 	Value* operator+(Value&);
 	Value* operator+=(Value&);
 	Value* operator++(int);
+	Value* length();
 	Value* operator-();
 	Value* operator-(Value&);
 	Value* operator-=(Value&);
@@ -95,6 +96,8 @@ private:
 	decimal exponent(decimal,decimal);
 	bool invert(bool);
 	decimal invert(decimal);
+	bool length(bool);
+	decimal length(decimal);
 };
 
 template <class T>
@@ -148,6 +151,8 @@ T Value::basicOperation(T left, Expression::Operator_e e)
 		return left+1;
 	case Expression::Decrement:
 		return left-1;
+	case Expression::Length:
+		return length(left);
 	default:
 		return left;
 	}

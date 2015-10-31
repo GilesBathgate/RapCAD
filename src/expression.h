@@ -52,7 +52,8 @@ public:
 		LogicalAnd,
 		LogicalOr,
 		Invert,
-		Index
+		Index,
+		Length
 	};
 
 	Expression();

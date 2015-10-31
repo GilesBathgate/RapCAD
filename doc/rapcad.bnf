@@ -108,6 +108,7 @@
 	| '[' <expression> ':' <expression> ']'
 	| '[' <expression> ':' <expression> ':' <expression> ']'
 	| '[' <vector_expression> <optional_commas> ']'
+	| '|' <expression> '|'
 	| <expression> '^' <expression>
 	| <expression> '*' <expression>
 	| <expression> '~' <expression>

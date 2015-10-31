@@ -77,6 +77,8 @@ Value* RangeValue::operation(Expression::Operator_e op)
 {
 	if (op==Expression::Invert) {
 		return new RangeValue(this->finish,this->step,this->start);
+	} else if(op==Expression::Length) {
+		return Value::operation(this->finish,Expression::Subtract,this->start);
 	}
 
 	Value* upper=Value::operation(this->start,op);

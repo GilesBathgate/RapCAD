@@ -51,6 +51,14 @@ bool TextValue::isTrue() const
 	return !this->text.isEmpty();
 }
 
+Value* TextValue::operation(Expression::Operator_e op)
+{
+	if(op==Expression::Length) {
+		return new NumberValue(this->text.length());
+	}
+	return this;
+}
+
 Value* TextValue::operation(Value& v,Expression::Operator_e e)
 {
 	TextValue* that=dynamic_cast<TextValue*>(&v);

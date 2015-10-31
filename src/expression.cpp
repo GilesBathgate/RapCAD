@@ -108,6 +108,8 @@ QString Expression::getOpString() const
 	case SubAssign:
 		result.append("-=");
 		break;
+	case Length:
+		result.append("|");
 	case None:
 		break;
 	}

@@ -19,7 +19,7 @@
 #include "normfunction.h"
 #include "context.h"
 #include "vectorvalue.h"
-#include "numbervalue.h"
+#include "rangevalue.h"
 #include "rmath.h"
 
 NormFunction::NormFunction() : Function("norm")
@@ -29,12 +29,17 @@ NormFunction::NormFunction() : Function("norm")
 
 Value* NormFunction::evaluate(Context* ctx)
 {
-	VectorValue* v=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
-	if(v) {
-		Value* v2=Value::operation(v,Expression::Multiply,v);
-		NumberValue* n=dynamic_cast<NumberValue*>(v2);
-		if(n)
-			return new NumberValue(r_sqrt(n->getNumber()));
-	}
+	Value* v=getParameterArgument(ctx,0);
+
+	/* Explicitly return undefined for range which
+	 * inherits from vector */
+	RangeValue* rng=dynamic_cast<RangeValue*>(v);
+	if(rng)
+		return new Value();
+
+	VectorValue* vec=dynamic_cast<VectorValue*>(v);
+	if(vec)
+		return Value::operation(vec,Expression::Length);
+
 	return new Value();
 }
