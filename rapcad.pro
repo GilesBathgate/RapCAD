@@ -47,14 +47,14 @@ win32 {
 	DEFINES -= USE_READLINE
 
 	CGALROOT = $$(CGAL_DIR)
-	BOOSTROOT = ../boost_1_55_0
+	BOOSTROOT = ../boost_1_59_0
 	DXFLIBROOT = ../dxflib-3.3.4-src
 	INCLUDEPATH += $$CGALROOT/include
 	INCLUDEPATH += $$CGALROOT/auxiliary/gmp/include
 	INCLUDEPATH += $$BOOSTROOT
 	LIBS += -L$$BOOSTROOT/stage/lib
-	LIBS += -lboost_thread-mgw49-mt-1_55
-	LIBS += -lboost_system-mgw49-mt-1_55
+	LIBS += -lboost_thread-mgw49-mt-1_59
+	LIBS += -lboost_system-mgw49-mt-1_59
 	LIBS += -L$$CGALROOT/lib -lCGAL -lCGAL_Core
 	LIBS += -L$$CGALROOT/auxiliary/gmp/lib -lmpfr-4 -lgmp-10
 	contains(DEFINES,USE_READLINE) {
