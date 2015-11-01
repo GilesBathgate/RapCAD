@@ -16,10 +16,6 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////
 
-:qtversion: 5.2.0
-:cgalversion: 4.3
-:boostfile: 1_55_0
-
 Compiling
 ---------
 
@@ -67,25 +63,25 @@ Qt (MinGW)
 ^^^^^^^^^^
 
 * Download Qt installer
-http://download.qt-project.org/official_releases/qt/5.2/5.2.0/qt-windows-opensource-5.2.0-mingw48_opengl-x86-offline.exe[qt-windows-opensource-5.2.0-mingw48_opengl-x86-offline.exe]
-* Install to default location +C:\Qt\Qt5.2.0\+
+http://download.qt.io/official_releases/qt/5.5/5.5.1/qt-opensource-windows-x86-mingw492-5.5.1.exe[qt-opensource-windows-x86-mingw492-5.5.1.exe]
+* Install to default location +C:\Qt\Qt5.5.1\+
 
 CMake
 ^^^^^
 
 * Download CMake installer
-http://www.cmake.org/files/v2.8/cmake-2.8.7-win32-x86.exe[cmake-2.8.7-win32-x86.exe]
+https://cmake.org/files/v3.4/cmake-3.4.0-rc2-win32-x86.exe[cmake-3.4.0-rc2-win32-x86.exe]
 * Check the 'Add cmake to the system path for the current user' checkbox
-* Install to default location +C:\Program Files\CMake 2.8+
+* Install to default location +C:\Program Files\CMake 3.4+
 
 Boost
 ^^^^^
 
 * Download Boost source
-http://downloads.sourceforge.net/project/boost/boost/1.55.0/boost_{boostfile}.7z[boost_{boostfile}.7z]
-* Extract all to +C:\+ (sources will end up in +C:\boost_{boostfile}\+ )
+http://downloads.sourceforge.net/project/boost/boost/1.59.0/boost_1.59.0.7z[boost_1.59.0.7z]
+* Extract all to +C:\+ (sources will end up in +C:\boost_1_59_0\+ )
 * Use the QT Development Command Prompt +
-+Start->Program Files->Qt by Nokia v{qtversion} (MinGW OpenSource)->QT {qtversion} Command Prompt+
++Start->Program Files->Qt by Nokia v5.5.1 (MinGW OpenSource)->QT 5.5.1 Command Prompt+
 [source,bat]
 -------------------------
 cd "C:\boost_1_55_0"
@@ -97,24 +93,24 @@ CGAL
 ^^^^
 
 * Download CGAL installer
-https://gforge.inria.fr/frs/download.php/32993/CGAL-4.3-Setup.exe[CGAL-4.3-Setup.exe]
+https://github.com/CGAL/cgal/releases/download/releases%2FCGAL-4.7/CGAL-4.7-Setup.exe[CGAL-4.7-Setup.exe]
 
 
-NOTE: CGAL-{cgalversion}-Setup.exe is not a binary distribution, just an installer that installs the
+NOTE: CGAL-4.7-Setup.exe is not a binary distribution, just an installer that installs the
 source.
 
 * No need for 'CGAL Examples and Demos'
 * Make sure 'mpfr and gmp precompiled libs' is checked
-* Install to +C:\CGAL-{cgalversion}\+
+* Install to +C:\CGAL-4.7\+
 * Make sure 'CGAL_DIR' environment checked.
 * Use the QT Development Command Prompt +
-+Start->Program Files->Qt by Nokia v{qtversion} (MinGW OpenSource)->QT {qtversion} Command Prompt+
++Start->Program Files->Qt by Nokia v5.5.1 (MinGW OpenSource)->QT 5.5.1 Command Prompt+
 [source,bat]
 -------------------------------
-set PATH=%PATH%;"C:\Program Files\CMake 2.8\bin"
-set BOOST_ROOT=C:\boost_1_55_0
-cd "C:\CGAL-4.3"
-cmake -DBOOST_LIBRARYDIR="C:\boost_1_55_0\bin.v2\libs\thread\build\gcc-mingw-4.8.0\release\link-static\threading-multi" -DBOOST_LIBRARYDIR="C:\boost_1_55_0\bin.v2\libs\system\build\gcc-mingw-4.8.0\release\link-static\threading-multi" .
+set PATH=%PATH%;"C:\Program Files\CMake 3.4\bin"
+set BOOST_ROOT=C:\boost_1_59_0
+cd "C:\CGAL-4.7"
+cmake -G"MinGW Makefiles" .
 mingw32-make
 -------------------------------
 
