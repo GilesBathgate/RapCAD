@@ -57,6 +57,7 @@ win32 {
 	LIBS += -lboost_system-mgw49-mt-1_59
 	LIBS += -L$$CGALROOT/lib -lCGAL -lCGAL_Core
 	LIBS += -L$$CGALROOT/auxiliary/gmp/lib -lmpfr-4 -lgmp-10
+	LIBS += -lopengl32 -lglu32
 	contains(DEFINES,USE_READLINE) {
 	LIBS += -lreadline
 	}
