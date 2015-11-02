@@ -198,15 +198,21 @@ void GLView::paintGL()
 	QVector3D center(-viewportX,0.0,-viewportZ);
 	QVector3D up(0.0,0.0,1.0);
 	modelview->lookAt(eye,center,up);
+
+	modelview->rotate(rotateX, 1.0, 0.0, 0.0);
+	modelview->rotate(rotateY, 0.0, 1.0, 0.0);
+	modelview->rotate(rotateZ, 0.0, 0.0, 1.0);
+
 	glLoadMatrixf(modelview->data());
 #else
 	glLoadIdentity();
 	gluLookAt(-viewportX, -distance, -viewportZ, -viewportX, 0.0, -viewportZ, 0.0, 0.0, 1.0);
-#endif
+
 
 	glRotatef(rotateX, 1.0, 0.0, 0.0);
 	glRotatef(rotateY, 0.0, 1.0, 0.0);
 	glRotatef(rotateZ, 0.0, 0.0, 1.0);
+#endif
 
 	if(showAxes) {
 		glLineWidth(1);

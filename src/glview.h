@@ -24,7 +24,7 @@
 
 #if (QT_VERSION >= REQUIRED)
 #include <QOpenGLWidget>
-#include <QOpenGLFunctions>
+#include <QOpenGLFunctions_1_0>
 #include <QMatrix4x4>
 #else
 #include <QGLWidget>
@@ -35,7 +35,7 @@
 
 class GLView :
 #if (QT_VERSION >= REQUIRED)
-	public QOpenGLWidget, private QOpenGLFunctions
+	public QOpenGLWidget, private QOpenGLFunctions_1_0
 #else
 	public QGLWidget
 #endif
