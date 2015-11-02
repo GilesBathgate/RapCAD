@@ -134,7 +134,7 @@ bool to_boolean(const decimal& n)
 }
 
 #if USE_CGAL
-void to_glcoord(const Point& pt,double& x,double& y,double& z)
+void to_glcoord(const Point& pt,float& x,float& y,float& z)
 {
 	decimal a,b,c;
 	pt.getXYZ(a,b,c);

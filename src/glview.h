@@ -75,11 +75,11 @@ private:
 	void mouseReleaseEvent(QMouseEvent* event);
 	void wheelEvent(QWheelEvent* event);
 
-	void normalizeAngle(GLdouble&);
+	void normalizeAngle(GLfloat&);
 	void zoomView(double);
 
 	Renderer* render;
-	GLdouble distance;
+	GLfloat distance;
 	bool showAxes;
 	bool showBase;
 	bool showPrintArea;
@@ -89,9 +89,9 @@ private:
 
 	bool mouseDrag;
 	QPoint last;
-	GLdouble rotateX;
-	GLdouble rotateY;
-	GLdouble rotateZ;
+	GLfloat rotateX;
+	GLfloat rotateY;
+	GLfloat rotateZ;
 	GLint viewportX;
 	GLint viewportZ;
 #if (QT_VERSION >= REQUIRED)

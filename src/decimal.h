@@ -36,7 +36,7 @@ bool to_boolean(const decimal&);
 
 #if USE_CGAL
 class Point;
-void to_glcoord(const Point&,double&,double&,double&);
+void to_glcoord(const Point&,float&,float&,float&);
 QString to_rational(const decimal&);
 CGAL::Gmpfr to_gmpfr(const decimal&);
 #endif

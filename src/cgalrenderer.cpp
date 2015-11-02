@@ -82,15 +82,15 @@ void CGALRenderer::draw(bool skeleton, bool showedges)
 	}
 
 	glLineWidth(1);
-	glColor3d(0.0, 0.0, 1.0);
+	glColor3f(0.0, 0.0, 1.0);
 	QList<Primitive*> children=primitive->getChildren();
 	foreach(Primitive* c, children) {
 		foreach(Polygon* p,c->getPolygons()) {
 			glBegin(GL_LINE_STRIP);
 			foreach(Point pt,p->getPoints()) {
-				double x,y,z;
+				GLfloat x,y,z;
 				to_glcoord(pt,x,y,z);
-				glVertex3d(x,y,z);
+				glVertex3f(x,y,z);
 			}
 			glEnd();
 		}

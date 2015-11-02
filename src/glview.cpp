@@ -178,11 +178,11 @@ void GLView::resizeGL(int w, int h)
 
 #if (QT_VERSION >= REQUIRED)
 	projection->setToIdentity();
-	projection->perspective(45.0, (GLdouble)w/(GLdouble)h, +10.0, +farfarAway);
+	projection->perspective(45.0, (GLfloat)w/(GLfloat)h, +10.0, +farfarAway);
 	glLoadMatrixf(projection->data());
 #else
 	glLoadIdentity();
-	gluPerspective(45.0, (GLdouble)w/(GLdouble)h, +10.0, +farfarAway);
+	gluPerspective(45.0, (GLfloat)w/(GLfloat)h, +10.0, +farfarAway);
 #endif
 }
 
@@ -204,26 +204,26 @@ void GLView::paintGL()
 	gluLookAt(-viewportX, -distance, -viewportZ, -viewportX, 0.0, -viewportZ, 0.0, 0.0, 1.0);
 #endif
 
-	glRotated(rotateX, 1.0, 0.0, 0.0);
-	glRotated(rotateY, 0.0, 1.0, 0.0);
-	glRotated(rotateZ, 0.0, 0.0, 1.0);
+	glRotatef(rotateX, 1.0, 0.0, 0.0);
+	glRotatef(rotateY, 0.0, 1.0, 0.0);
+	glRotatef(rotateZ, 0.0, 0.0, 1.0);
 
 	if(showAxes) {
 		glLineWidth(1);
-		glColor3d(0.5, 0.5, 0.5);
+		glColor3f(0.5, 0.5, 0.5);
 		glBegin(GL_LINES);
 		double c=fmax(distance/2,rulerLength);
-		glVertex3d(-c, 0, 0);
-		glVertex3d(+c, 0, 0);
-		glVertex3d(0, -c, 0);
-		glVertex3d(0, +c, 0);
-		glVertex3d(0, 0, -c);
-		glVertex3d(0, 0, +c);
+		glVertex3f(-c, 0, 0);
+		glVertex3f(+c, 0, 0);
+		glVertex3f(0, -c, 0);
+		glVertex3f(0, +c, 0);
+		glVertex3f(0, 0, -c);
+		glVertex3f(0, 0, +c);
 		glEnd();
 	}
 	if(showBase) {
 		glLineWidth(1);
-		glColor3d(0.0, 0.0, 1.0);
+		glColor3f(0.0, 0.0, 1.0);
 		glBegin(GL_LINE_LOOP);
 		glVertex3i(baseX, baseY, 0);
 		glVertex3i(baseX+notchX, baseY, 0);
@@ -237,7 +237,7 @@ void GLView::paintGL()
 	}
 	if(showPrintArea) {
 		glLineWidth(1);
-		glColor3d(0.0, 1.0, 0.0);
+		glColor3f(0.0, 1.0, 0.0);
 		glBegin(GL_LINE_LOOP);
 		glVertex3i(printX, printY, 0);
 		glVertex3i(printWidth-printX,printY, 0);
@@ -247,7 +247,7 @@ void GLView::paintGL()
 	}
 	if(showRulers) {
 		glLineWidth(1);
-		glColor3d(0.2, 0.2, 0.2);
+		glColor3f(0.2, 0.2, 0.2);
 		glBegin(GL_LINES);
 		int k=distance<200?1:10; //Only show milimeters when close up
 		for(int i=-rulerLength; i<rulerLength; i+=k) {
@@ -280,7 +280,7 @@ void GLView::wheelEvent(QWheelEvent* event)
 
 void GLView::zoomView(double amt)
 {
-	distance*=(GLdouble)pow(0.9,amt/10);
+	distance*=(GLfloat)pow(0.9,amt/10);
 }
 
 void GLView::mousePressEvent(QMouseEvent* event)
@@ -289,7 +289,7 @@ void GLView::mousePressEvent(QMouseEvent* event)
 	last = event->globalPos();
 }
 
-void GLView::normalizeAngle(GLdouble& angle)
+void GLView::normalizeAngle(GLfloat& angle)
 {
 	while(angle < 0)
 		angle += 360;
@@ -307,11 +307,11 @@ void GLView::mouseMoveEvent(QMouseEvent* event)
 	int dx = current.x()-last.x();
 	int dy = current.y()-last.y();
 	if(event->buttons() & Qt::LeftButton) {
-		rotateX += (GLdouble)dy;
+		rotateX += (GLfloat)dy;
 		if(QApplication::keyboardModifiers() & Qt::ShiftModifier) {
-			rotateY += (GLdouble)dx;
+			rotateY += (GLfloat)dx;
 		} else {
-			rotateZ += (GLdouble)dx;
+			rotateZ += (GLfloat)dx;
 		}
 		normalizeAngle(rotateX);
 		normalizeAngle(rotateY);
