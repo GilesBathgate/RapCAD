@@ -24,17 +24,18 @@
 
 #if (QT_VERSION >= REQUIRED)
 #include <QOpenGLWidget>
+#include <QOpenGLFunctions>
+#include <QMatrix4x4>
 #else
 #include <QGLWidget>
 #endif
-#include <CGAL/glu.h>
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include "renderer.h"
 
 class GLView :
 #if (QT_VERSION >= REQUIRED)
-	public QOpenGLWidget
+	public QOpenGLWidget, private QOpenGLFunctions
 #else
 	public QGLWidget
 #endif
@@ -93,6 +94,10 @@ private:
 	GLdouble rotateZ;
 	GLint viewportX;
 	GLint viewportZ;
+#if (QT_VERSION >= REQUIRED)
+	QMatrix4x4* projection;
+	QMatrix4x4* modelview;
+#endif
 };
 
 #endif // GLVIEW_H

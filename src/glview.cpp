@@ -19,6 +19,9 @@
 #include <QApplication>
 #include <math.h>
 #include "glview.h"
+#if (QT_VERSION < REQUIRED)
+#include <CGAL/glu.h>
+#endif
 
 static const double farfarAway=100000.0;
 static const int baseX=-16;
@@ -56,6 +59,10 @@ GLView::GLView(QWidget* parent) :
 	rotateZ=35.0;
 	viewportX=0;
 	viewportZ=0;
+#if (QT_VERSION >= REQUIRED)
+	projection=new QMatrix4x4();
+	modelview=new QMatrix4x4();
+#endif
 }
 
 void GLView::getViewport(double& rx,double& ry,double& rz,double& x, double& z,double& d)
@@ -140,6 +147,10 @@ void GLView::setCompiling(bool value)
 
 void GLView::initializeGL()
 {
+#if (QT_VERSION >= REQUIRED)
+	initializeOpenGLFunctions();
+#endif
+
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(1.0, 1.0, 1.0, 0.0);
 	GLfloat light_diffuse[] = {1.0, 1.0, 1.0, 1.0};
@@ -164,19 +175,34 @@ void GLView::resizeGL(int w, int h)
 	glViewport(0,0,(GLint)w,(GLint)h);
 
 	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
 
+#if (QT_VERSION >= REQUIRED)
+	projection->setToIdentity();
+	projection->perspective(45.0, (GLdouble)w/(GLdouble)h, +10.0, +farfarAway);
+	glLoadMatrixf(projection->data());
+#else
+	glLoadIdentity();
 	gluPerspective(45.0, (GLdouble)w/(GLdouble)h, +10.0, +farfarAway);
+#endif
 }
 
 void GLView::paintGL()
 {
 	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+#if (QT_VERSION >= REQUIRED)
+	modelview->setToIdentity();
+	QVector3D eye(-viewportX,-distance,-viewportZ);
+	QVector3D center(-viewportX,0.0,-viewportZ);
+	QVector3D up(0.0,0.0,1.0);
+	modelview->lookAt(eye,center,up);
+	glLoadMatrixf(modelview->data());
+#else
+	glLoadIdentity();
 	gluLookAt(-viewportX, -distance, -viewportZ, -viewportX, 0.0, -viewportZ, 0.0, 0.0, 1.0);
+#endif
 
 	glRotated(rotateX, 1.0, 0.0, 0.0);
 	glRotated(rotateY, 0.0, 1.0, 0.0);
