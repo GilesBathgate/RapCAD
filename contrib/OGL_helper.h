@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/releases/CGAL-4.0-branch/Nef_3/include/CGAL/Nef_3/OGL_helper.h $
-// $Id: OGL_helper.h 67117 2012-01-13 18:14:48Z lrineau $
+// $URL$
+// $Id$
 //
 //
 // Author(s)     : Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -178,10 +178,10 @@ namespace OGL {
     { return static_cast<float*>(normal_); }
 
     void new_facet_cycle()
-    { fc_ends_.push_back(coords_.size()); }
+    { fc_ends_.push_back((unsigned)coords_.size()); }
 
     unsigned number_of_facet_cycles() const
-    { return fc_ends_.size(); }
+    { return (unsigned)fc_ends_.size(); }
 
     Coord_iterator facet_cycle_begin(unsigned i)
     { CGAL_assertion(i<number_of_facet_cycles());
