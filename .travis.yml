@@ -10,3 +10,5 @@ script:
   - make -j4
   - pushd test
   - ../rapcad -t
+notifications:
+  irc: "irc.freenode.org#rapcad"
