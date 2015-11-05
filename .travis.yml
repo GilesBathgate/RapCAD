@@ -11,4 +11,10 @@ script:
   - pushd test
   - ../rapcad -t
 notifications:
-  irc: "irc.freenode.org#rapcad"
+  irc:
+    channels:
+      - "irc.freenode.org#rapcad"
+    skip_join: true
+    template:
+      - "%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}"
+      - "Build details : %{build_url}"
