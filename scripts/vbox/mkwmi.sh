@@ -51,6 +51,11 @@ echo "<DisplayReport>OnError</DisplayReport>" >> $WMI
 echo "</ComplianceCheck>" >> $WMI
 echo "</component>" >> $WMI
 echo "</settings>" >> $WMI
+echo "<settings pass='offlineServicing'>" >> $WMI
+echo "<component name='Microsoft-Windows-LUA-Settings' processorArchitecture='x86' publicKeyToken='31bf3856ad364e35' language='neutral' versionScope='nonSxS'>" >> $WMI
+echo "<EnableLUA>false</EnableLUA>" >> $WMI
+echo "</component>" >> $WMI
+echo "</settings>" >> $WMI
 echo "<settings pass='oobeSystem'>" >> $WMI
 echo "<component name='Microsoft-Windows-Shell-Setup' processorArchitecture='x86' publicKeyToken='31bf3856ad364e35' language='neutral' versionScope='nonSxS'>" >> $WMI
 echo "<AutoLogon>" >> $WMI
