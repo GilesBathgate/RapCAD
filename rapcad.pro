@@ -65,9 +65,9 @@ win32 {
 	INCLUDEPATH += $$DXFLIBROOT
 	LIBS += -L$$DXFLIBROOT/release -ldxflib
 	}
-	QMAKE_YACC = bison
+	QMAKE_YACC = ../win-flex-bison/win_bison
 	QMAKE_YACCFLAGS += "-b y"
-	QMAKE_LEX = flex
+	QMAKE_LEX = ../win-flex-bison/win_flex
 } else {
 	LIBS += -lCGAL -lCGAL_Core -lmpfr -lgmp
 	contains(DEFINES,USE_READLINE) {
