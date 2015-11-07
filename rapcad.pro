@@ -46,7 +46,7 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 win32 {
 	DEFINES -= USE_READLINE
 
-	CGALROOT = $$(CGAL_DIR)
+	CGALROOT = ../CGAL-4.7
 	BOOSTROOT = ../boost_1_59_0
 	DXFLIBROOT = ../dxflib-3.3.4-src
 	INCLUDEPATH += $$CGALROOT/include
