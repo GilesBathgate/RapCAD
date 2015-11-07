@@ -37,5 +37,5 @@ cmake -G"MinGW Makefiles" .
 mingw32-make
 EOF
 ./cmd.sh c:\\shared\\cgal.bat
-./cmd.sh c:\\7zip\\7z.exe x -oc:\\win-flex-bison\\ c:\\shared\\$FlexBison
+./cmd.sh c:\\7zip\\7z.exe x -o$QtBin c:\\shared\\$FlexBison
 ./cmd.sh c:\\shared\\Git-2.6.2-32-bit.exe /SILENT /DIR=c:\\git
