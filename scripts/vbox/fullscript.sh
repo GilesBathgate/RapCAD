@@ -89,7 +89,7 @@ vboxmanage storageattach "$NAME" \
 
 echo "Installing windows..."
 
-VBoxHeadless -startvm "$NAME"
+vboxheadless -startvm "$NAME"
 
 echo "Removing devices..."
 
@@ -129,3 +129,4 @@ vboxmanage sharedfolder add "$NAME" \
 	--automount
 
 ./start-vm.sh
+./install-software.sh
