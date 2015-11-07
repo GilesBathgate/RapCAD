@@ -79,7 +79,7 @@ static Reporter* reporter;
 %left AND
 %left '<' LE GE '>'
 %left EQ NE
-%left '!' '+' '-' '~'
+%left '!' '+' '-' '~' '|'
 %left '*' '/' '%'
 %left INC DEC ADDA SUBA
 %left CM CD CP
