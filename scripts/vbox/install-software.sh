@@ -9,6 +9,8 @@ CMake="cmake-3.4.0-rc2-win32-x86.exe"
 CGAL="CGAL-4.7-Setup.exe"
 FlexBison="win_flex_bison-2.5.5.zip"
 
+QtBin="c:\\Qt\\Qt5.5.1\\5.5\\mingw492_32\\bin"
+
 ./cmd.sh mklink /d c:\\shared \\\\vboxsvr\\shared
 ./cmd.sh copy c:\\shared\\$Qt c:\\
 ./cmd.sh c:\\shared\\$QtSilent c:\\$Qt
@@ -17,7 +19,7 @@ FlexBison="win_flex_bison-2.5.5.zip"
 ./cmd.sh c:\\7zip\\7z.exe x -oc:\\ c:\\shared\\$Boost
 cat << EOF > $SHAREDFOLDER/boost.bat
 @echo off
-call c:\\Qt\\Qt5.5.1\\5.5\\mingw492_32\\bin\\qtenv2.bat
+call $QtBin\\qtenv2.bat
 cd c:\\boost_1_59_0\\
 call bootstrap.bat mingw
 .\\b2 toolset=gcc variant=release --with-thread --with-system
@@ -27,7 +29,7 @@ EOF
 ./cmd.sh c:\\shared\\$CGAL /S /D=c:\\CGAL-4.7\\
 cat << EOF > $SHAREDFOLDER/cgal.bat
 @echo off
-call c:\\Qt\\Qt5.5.1\\5.5\\mingw492_32\\bin\\qtenv2.bat
+call $QtBin\\qtenv2.bat
 set PATH=%PATH%;"C:\\cmake\\bin"
 set BOOST_ROOT=C:\\boost_1_59_0
 cd "C:\\CGAL-4.7\\"
