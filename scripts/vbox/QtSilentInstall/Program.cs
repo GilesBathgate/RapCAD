@@ -271,12 +271,12 @@ namespace QtSilentInstall
 			return b;
 		}
 
-		static void Main(string[] args)
+		static int Main(string[] args)
 		{
 			if (args.Length != 1)
-				return;
+				return 1639;
 			if (args[0] == null)
-				return;
+				return 160;
 
 			Process p = Process.Start(args[0]);
 			WaitFor(p, Name.StartsWith("Next")).DoAction();
@@ -291,6 +291,9 @@ namespace QtSilentInstall
 			WaitFor(p, Name.StartsWith("Finish"), 5000);
 			WaitFor(p, LaunchCheckBox.Match).DoAction();
 			WaitFor(p, Name.StartsWith("Finish")).DoAction();
+			p.WaitForExit();
+			Console.WriteLine("Success!");
+			return p.ExitCode;
 		}
 	}
 }
