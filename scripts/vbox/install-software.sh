@@ -9,7 +9,8 @@ Boost="boost_1_59_0.zip"
 CMake="cmake-3.4.0-rc2-win32-x86.exe"
 CGAL="CGAL-4.7-Setup.exe"
 FlexBison="win_flex_bison-2.5.5.zip"
-
+SourceHighlight="src-highlite-2.1.2.exe"
+NSIS="nsis-3.0b2-setup.exe"
 QtBin="c:\\Qt\\Qt5.5.1\\5.5\\mingw492_32\\bin"
 
 echo "Linking shared dir"
@@ -69,7 +70,7 @@ echo "Installing Asciidoc"
 ./cmd.sh c:\\7zip\\7z.exe x -oc:\\ c:\\shared\\asciidoc-8.6.9.zip
 
 echo "Installing source-highlight"
-./cmd.sh c:\\shared\\src-highlite-2.1.2.exe /SILENT /DIR=c:\\source-highlight
+./cmd.sh c:\\shared\\$SourceHighlight /SILENT /DIR=c:\\source-highlight
 ./cmd.sh move /Y c:\\source-highlight\\bin\\source-highlight.exe c:\\source-highlight\\bin\\source-highlight-exe.exe
 cat << EOF > $SHAREDFOLDER/source-highlight.bat
 @echo off
@@ -82,3 +83,5 @@ echo "csharp = csharp.lang" >> $SHAREDFOLDER/lang.map
 ./cmd.sh copy c:\\shared\\lang.map c:\\source-highlight\\share\\source-highlight\\lang.map
 ./cmd.sh copy c:\\shared\\csharp.lang c:\\source-highlight\\share\\source-highlight\\
 
+echo "Installing NSIS"
+./cmd.sh c:\\shared\\$NSIS /S
