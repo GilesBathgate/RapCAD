@@ -37,7 +37,21 @@ mingw32-make user_guide.html \
 cp user_guide.html release \
   || die "failed copying userguide."
 
-cp -r ../rapcad-dlls/* release \
+QtBin="../Qt/Qt5.5.1/5.5/mingw492_32/bin"
+CGALBin="../CGAL-4.7/bin"
+GMP="$CGALBin/auxiliary/gmp/lib"
+cp \
+$CGALBin/libCGAL.dll \
+$CGALBin/libCGAL_Core.dll \
+$QtBin/libgcc_s_dw2-1.dll \
+$QtBin/libwinpthread-1.dll \
+$QtBin/libstdc++-6.dll \
+$QtBin/Qt5Core.dll \
+$QtBin/Qt5Gui.dll \
+$QtBin/Qt5Widgets.dll \
+$GMP/libgmp-10.dll \
+$GMP/libmpfr-4.dll \
+release \
   || die "failed copying dlls."
 
 makensis installer.nsi \
