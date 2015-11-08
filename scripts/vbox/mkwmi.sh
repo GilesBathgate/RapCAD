@@ -92,7 +92,7 @@ echo "<FirstLogonCommands>" >> $WMI
 echo "<SynchronousCommand wcm:action='add'>" >> $WMI
 echo "<Order>1</Order>" >> $WMI
 echo "<Description>Turn Off Network Selection pop-up</Description>" >> $WMI
-echo "<CommandLine>cmd /c reg add cmd /c reg add \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\Network\\NewNetworkWindowOff\"</CommandLine>" >> $WMI
+echo "<CommandLine>cmd /c reg add \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\Network\\NewNetworkWindowOff\"</CommandLine>" >> $WMI
 echo "</SynchronousCommand>" >> $WMI
 echo "<SynchronousCommand wcm:action='add'>" >> $WMI
 echo "<Order>2</Order>" >> $WMI
