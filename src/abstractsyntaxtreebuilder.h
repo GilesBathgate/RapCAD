@@ -109,6 +109,7 @@ public:
 	virtual QList<Expression*>* buildVector(QList<Expression*>*,unsigned int,Expression*)=0;
 	virtual Expression* buildRange(Expression*,Expression*)=0;
 	virtual Expression* buildRange(Expression*,Expression*,Expression*)=0;
+	virtual Expression* buildComplex(Expression*,Expression*,Expression*,Expression*)=0;
 	virtual Invocation* buildInvocation(QString*,QList<Argument*>*)=0;
 	virtual Invocation* buildInvocation(QString*,Invocation*)=0;
 

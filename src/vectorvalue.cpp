@@ -22,6 +22,7 @@
 #include "rangevalue.h"
 #include "booleanvalue.h"
 #include "rmath.h"
+#include "onceonly.h"
 
 VectorValue::VectorValue()
 {
@@ -37,10 +38,11 @@ QString VectorValue::getValueString() const
 {
 	QString result;
 	result.append("[");
-	for(int i=0; i<children.size(); i++) {
-		if(i>0)
+	OnceOnly first;
+	foreach(Value* v,children) {
+		if(!first())
 			result.append(",");
-		result.append(children.at(i)->getValueString());
+		result.append(v->getValueString());
 	}
 	result.append("]");
 	return result;

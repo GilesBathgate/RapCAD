@@ -39,6 +39,7 @@
 #include "rangeexpression.h"
 #include "invocation.h"
 #include "codedoc.h"
+#include "complexexpression.h"
 
 class SyntaxTreeBuilder : public AbstractSyntaxTreeBuilder
 {
@@ -118,6 +119,7 @@ public:
 	QList<Expression*>* buildVector(QList<Expression*>*,unsigned int,Expression*);
 	Expression* buildRange(Expression*,Expression*);
 	Expression* buildRange(Expression*,Expression*,Expression*);
+	Expression* buildComplex(Expression*,Expression*,Expression*,Expression*);
 	Invocation* buildInvocation(QString*,QList<Argument*>*);
 	Invocation* buildInvocation(QString*,Invocation*);
 

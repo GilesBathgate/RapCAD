@@ -21,6 +21,7 @@
 #include "node/transformationnode.h"
 #include "numbervalue.h"
 #include "vectorvalue.h"
+#include "complexvalue.h"
 
 RotateModule::RotateModule() : Module("rotate")
 {
@@ -30,31 +31,41 @@ RotateModule::RotateModule() : Module("rotate")
 
 Node* RotateModule::evaluate(Context* ctx)
 {
+	enum rotationType {
+		axis,
+		origin,
+		quaternion
+	};
+
 	TransformationNode* n=new TransformationNode();
 
-	bool origin;
-	Point vec(0.0,0.0,0.1);
-	decimal a=0.0;
+	rotationType rotation=axis;
+	decimal a=0.0,x=0.0,y=0.0,z=1.0;
 	NumberValue* angValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(angValue) {
 		a=angValue->getNumber();
 		VectorValue* vecValue=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
-		if(vecValue)
-			vec=vecValue->getPoint();
-		origin=false;
+		if(vecValue) {
+			Point vec=vecValue->getPoint();
+			vec.getXYZ(x,y,z);
+			rotation=axis;
+		}
 	} else {
 		VectorValue* vecValue=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
-		if(vecValue)
-			vec=vecValue->getPoint();
-		origin=true;
+		if(vecValue) {
+			Point vec=vecValue->getPoint();
+			vec.getXYZ(x,y,z);
+			rotation=origin;
+		} else {
+			ComplexValue* cpxValue=dynamic_cast<ComplexValue*>(getParameterArgument(ctx,0));
+			if(cpxValue) {
+				cpxValue->toQuaternion(a,x,y,z);
+				rotation=quaternion;
+			}
+		}
 	}
 
-	decimal x=0.0,y=0.0,z=0.0;
-	vec.getXYZ(x,y,z);
-	if(x==0.0&&y==0.0&&z==0.0)
-		origin=true;
-
-	if(origin) {
+	if(rotation==origin) {
 
 		decimal cx = r_right_cos(x);
 		decimal cy = r_right_cos(y);
@@ -86,7 +97,7 @@ Node* RotateModule::evaluate(Context* ctx)
 		for(int i=0; i<16; i++)
 			n->matrix[i]=RzRyRx[i];
 
-	} else {
+	} else if(rotation==axis){
 
 		decimal c=r_right_cos(a);
 		decimal s=r_right_sin(a);
@@ -105,6 +116,34 @@ Node* RotateModule::evaluate(Context* ctx)
 
 		for(int i=0; i<16; i++)
 			n->matrix[i]=TxyTzRaTzTxy[i];
+
+	} else {
+
+		decimal xx=x*x;
+		decimal xy=x*y;
+		decimal xz=x*z;
+		decimal xa=x*a;
+
+		decimal yy=y*y;
+		decimal yz=y*z;
+		decimal ya=y*a;
+
+		decimal zz=z*z;
+		decimal za=z*a;
+
+		/* The following rotation matrix is the same
+		 * as above for axis rotations, with the exception
+		 * that no normalisation is done. */
+		decimal mx[16] = {
+			1-2*(yy+zz),2*(xy-za),2*(xz+ya),0,
+			2*(xy+za),1-2*(xx+zz),2*(yz-xa),0,
+			2*(xz-ya),2*(yz+xa),1-2*(xx+yy),0,
+			0,0,0,1
+		};
+
+		for(int i=0;i<16;i++)
+			n->matrix[i]=mx[i];
+
 	}
 	n->setChildren(ctx->getInputNodes());
 	return n;

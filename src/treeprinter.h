@@ -49,6 +49,7 @@
 #include "variable.h"
 #include "codedoc.h"
 #include "product.h"
+#include "complexexpression.h"
 
 class TreePrinter : public TreeVisitor
 {
@@ -81,6 +82,7 @@ public:
 	void visit(CodeDoc*);
 	void visit(Script*);
 	void visit(Product*);
+	void visit(ComplexExpression*);
 private:
 	void createIndent();
 	QTextStream& result;

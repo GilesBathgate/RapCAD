@@ -583,6 +583,20 @@ Expression* SyntaxTreeBuilder::buildRange(Expression* srt,Expression* stp,Expres
 	return result;
 }
 
+Expression*SyntaxTreeBuilder::buildComplex(Expression* real, Expression* i, Expression* j, Expression* k)
+{
+	ComplexExpression* result=new ComplexExpression();
+	result->setReal(real);
+	QList<Expression*> parts;
+	parts.append(i);
+	parts.append(j);
+	parts.append(k);
+	VectorExpression* imaginary=new VectorExpression();
+	imaginary->setChildren(parts);
+	result->setImaginary(imaginary);
+	return result;
+}
+
 Invocation* SyntaxTreeBuilder::buildInvocation(QString* name,QList<Argument*>* args)
 {
 	Invocation* result = new Invocation();

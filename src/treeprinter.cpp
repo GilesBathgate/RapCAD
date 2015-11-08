@@ -454,3 +454,7 @@ void TreePrinter::visit(Script* sc)
 void TreePrinter::visit(Product*)
 {
 }
+
+void TreePrinter::visit(ComplexExpression*)
+{
+}

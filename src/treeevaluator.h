@@ -49,6 +49,7 @@
 #include "layout.h"
 #include "value.h"
 #include "product.h"
+#include "complexexpression.h"
 
 class TreeEvaluator : public TreeVisitor
 {
@@ -82,6 +83,7 @@ public:
 	void visit(CodeDoc*);
 	void visit(Script*);
 	void visit(Product*);
+	void visit(ComplexExpression*);
 
 	Node* getRootNode() const;
 

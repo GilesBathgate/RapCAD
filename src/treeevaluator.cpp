@@ -18,6 +18,7 @@
 
 #include "treeevaluator.h"
 #include "vectorvalue.h"
+#include "complexvalue.h"
 #include "rangevalue.h"
 #include "builtincreator.h"
 #include "module/importmodule.h"
@@ -631,6 +632,22 @@ void TreeEvaluator::visit(Product* p)
 	QList<Node*> childnodes=context->getCurrentNodes();
 	childnodes.append(r);
 	context->setCurrentNodes(childnodes);
+}
+
+void TreeEvaluator::visit(ComplexExpression* exp)
+{
+	Expression* real=exp->getReal();
+	real->accept(*this);
+	Value* result=context->getCurrentValue();
+
+	VectorExpression* imaginary=exp->getImaginary();
+	QList<Value*> childvalues;
+	foreach(Expression* e, imaginary->getChildren()) {
+		e->accept(*this);
+		childvalues.append(context->getCurrentValue());
+	}
+	Value* v = new ComplexValue(result,childvalues);
+	context->setCurrentValue(v);
 }
 
 Node* TreeEvaluator::getRootNode() const

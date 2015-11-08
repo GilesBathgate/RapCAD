@@ -300,6 +300,8 @@ expression
 	{ $$ = builder->buildRange($2,$4,$6); }
 	| '[' vector_expression optional_commas ']'
 	{ $$ = builder->buildExpression($2,$3); }
+	| '<' expression ',' expression ',' expression ',' expression '>'
+	{ $$ = builder->buildComplex($2,$4,$6,$8); }
 	| '|' expression '|'
 	{ $$ = builder->buildExpression(Expression::Length,$2); }
 	| expression '^' expression

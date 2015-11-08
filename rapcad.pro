@@ -307,7 +307,9 @@ SOURCES += \
 	src/rmath.cpp \
 	src/module/triangulatemodule.cpp \
 	src/node/triangulatenode.cpp \
-	src/function/normfunction.cpp
+	src/function/normfunction.cpp \
+	src/complexexpression.cpp \
+	src/complexvalue.cpp
 
 HEADERS  += \
 	contrib/OGL_helper.h \
@@ -524,7 +526,9 @@ HEADERS  += \
 	src/rmath.h \
 	src/module/triangulatemodule.h \
 	src/node/triangulatenode.h \
-	src/function/normfunction.h
+	src/function/normfunction.h \
+	src/complexexpression.h \
+	src/complexvalue.h
 
 FORMS += \
 	src/mainwindow.ui \

@@ -49,6 +49,7 @@ public:
 	virtual void visit(class CodeDoc*)=0;
 	virtual void visit(class Script*)=0;
 	virtual void visit(class Product*)=0;
+	virtual void visit(class ComplexExpression*)=0;
 };
 
 #endif // TREEVISITOR_H
