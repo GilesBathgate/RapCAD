@@ -11,11 +11,16 @@ FlexBison="win_flex_bison-2.5.5.zip"
 
 QtBin="c:\\Qt\\Qt5.5.1\\5.5\\mingw492_32\\bin"
 
+echo "Installing Qt"
 ./cmd.sh mklink /d c:\\shared \\\\vboxsvr\\shared
 ./cmd.sh copy c:\\shared\\$Qt c:\\
 ./cmd.sh c:\\shared\\$QtSilent c:\\$Qt
 ./cmd.sh del c:\\$Qt
+
+echo "Installing 7zip"
 ./cmd.sh c:\\shared\\$Zip /S /D=c:\\7zip\\
+
+echo "Installing boost"
 ./cmd.sh c:\\7zip\\7z.exe x -oc:\\ c:\\shared\\$Boost
 cat << EOF > $SHAREDFOLDER/boost.bat
 @echo off
@@ -25,7 +30,11 @@ call bootstrap.bat mingw
 .\\b2 toolset=gcc variant=release --with-thread --with-system
 EOF
 ./cmd.sh c:\\shared\\boost.bat
+
+echo "Installing CMake"
 ./cmd.sh c:\\shared\\$CMake /S /D=c:\\cmake\\
+
+echo "Installing CGAL"
 ./cmd.sh c:\\shared\\$CGAL /S /D=c:\\CGAL-4.7\\
 cat << EOF > $SHAREDFOLDER/cgal.bat
 @echo off
@@ -37,10 +46,20 @@ cmake -G"MinGW Makefiles" .
 mingw32-make
 EOF
 ./cmd.sh c:\\shared\\cgal.bat
+
+echo "Installing win-flex-bison"
 ./cmd.sh c:\\7zip\\7z.exe x -o$QtBin c:\\shared\\$FlexBison
+
+echo "Installing Git"
 ./cmd.sh c:\\shared\\Git-2.6.2-32-bit.exe /SILENT /DIR=c:\\git
+
+echo "Installing Python"
 ./cmd.sh msiexec /i c:\\shared\\python-2.7.10.msi /qn
+
+echo "Installing Asciidoc"
 ./cmd.sh c:\\7zip\\7z.exe x -oc:\\ c:\\shared\\asciidoc-8.6.9.zip
+
+echo "Installing source-highlight"
 ./cmd.sh c:\\shared\\src-highlite-2.1.2.exe /SILENT /DIR=c:\\source-highlight
 ./cmd.sh move /Y c:\\source-highlight\\bin\\source-highlight.exe c:\\source-highlight\\bin\\source-highlight-exe.exe
 cat << EOF > $SHAREDFOLDER/source-highlight.bat
@@ -53,4 +72,6 @@ echo >> $SHAREDFOLDER\lang.map
 echo "csharp = csharp.lang" >> $SHAREDFOLDER\lang.map
 ./cmd.sh copy c:\\shared\\lang.map c:\\source-highlight\\share\\source-highlight\\lang.map
 ./cmd.sh copy c:\\shared\\csharp.lang c:\\source-highlight\\share\\source-highlight\\
+
+echo "Cloning rapcad source"
 ./cmd.sh c:\\git\\bin\\git.exe clone --depth 10 https://github.com/GilesBathgate/RapCAD.git c:\\rapcad
