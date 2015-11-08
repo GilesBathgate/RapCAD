@@ -1,7 +1,7 @@
 #!/bin/bash
 source config
 
-VBoxHeadless -startvm "$NAME" &
+vboxmanage startvm "$NAME" &
 
 echo "Wait for machine to be ready..."
 echo -n "Waiting"
