@@ -19,7 +19,7 @@
 #include <QApplication>
 #include <math.h>
 #include "glview.h"
-#if (QT_VERSION < REQUIRED)
+#if USE_QGLWIDGET
 #include <CGAL/glu.h>
 #endif
 
@@ -40,10 +40,10 @@ static const int printLength=200;
 static const int rulerLength=200;
 
 GLView::GLView(QWidget* parent) :
-#if (QT_VERSION >= REQUIRED)
-	QOpenGLWidget(parent)
-#else
+#if USE_QGLWIDGET
 	QGLWidget(parent)
+#else
+	QOpenGLWidget(parent)
 #endif
 {
 	render=NULL;
@@ -59,7 +59,7 @@ GLView::GLView(QWidget* parent) :
 	rotateZ=35.0;
 	viewportX=0;
 	viewportZ=0;
-#if (QT_VERSION >= REQUIRED)
+#if !USE_QGLWIDGET
 	projection=new QMatrix4x4();
 	modelview=new QMatrix4x4();
 #endif
@@ -147,7 +147,7 @@ void GLView::setCompiling(bool value)
 
 void GLView::initializeGL()
 {
-#if (QT_VERSION >= REQUIRED)
+#if !USE_QGLWIDGET
 	initializeOpenGLFunctions();
 #endif
 
@@ -176,13 +176,13 @@ void GLView::resizeGL(int w, int h)
 
 	glMatrixMode(GL_PROJECTION);
 
-#if (QT_VERSION >= REQUIRED)
+#if USE_QGLWIDGET
+	glLoadIdentity();
+	gluPerspective(45.0, (GLfloat)w/(GLfloat)h, +10.0, +farfarAway);
+#else
 	projection->setToIdentity();
 	projection->perspective(45.0, (GLfloat)w/(GLfloat)h, +10.0, +farfarAway);
 	glLoadMatrixf(projection->data());
-#else
-	glLoadIdentity();
-	gluPerspective(45.0, (GLfloat)w/(GLfloat)h, +10.0, +farfarAway);
 #endif
 }
 
@@ -192,7 +192,14 @@ void GLView::paintGL()
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-#if (QT_VERSION >= REQUIRED)
+#if USE_QGLWIDGET
+	glLoadIdentity();
+	gluLookAt(-viewportX, -distance, -viewportZ, -viewportX, 0.0, -viewportZ, 0.0, 0.0, 1.0);
+
+	glRotatef(rotateX, 1.0, 0.0, 0.0);
+	glRotatef(rotateY, 0.0, 1.0, 0.0);
+	glRotatef(rotateZ, 0.0, 0.0, 1.0);
+#else
 	modelview->setToIdentity();
 	QVector3D eye(-viewportX,-distance,-viewportZ);
 	QVector3D center(-viewportX,0.0,-viewportZ);
@@ -204,14 +211,6 @@ void GLView::paintGL()
 	modelview->rotate(rotateZ, 0.0, 0.0, 1.0);
 
 	glLoadMatrixf(modelview->data());
-#else
-	glLoadIdentity();
-	gluLookAt(-viewportX, -distance, -viewportZ, -viewportX, 0.0, -viewportZ, 0.0, 0.0, 1.0);
-
-
-	glRotatef(rotateX, 1.0, 0.0, 0.0);
-	glRotatef(rotateY, 0.0, 1.0, 0.0);
-	glRotatef(rotateZ, 0.0, 0.0, 1.0);
 #endif
 
 	if(showAxes) {

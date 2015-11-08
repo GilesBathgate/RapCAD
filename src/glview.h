@@ -19,25 +19,22 @@
 #ifndef GLVIEW_H
 #define GLVIEW_H
 
-#include <QtGlobal>
-#define REQUIRED QT_VERSION_CHECK(5, 4, 0)
-
-#if (QT_VERSION >= REQUIRED)
+#if USE_QGLWIDGET
+#include <QGLWidget>
+#else
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions_1_0>
 #include <QMatrix4x4>
-#else
-#include <QGLWidget>
 #endif
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include "renderer.h"
 
 class GLView :
-#if (QT_VERSION >= REQUIRED)
-	public QOpenGLWidget, private QOpenGLFunctions_1_0
-#else
+#if USE_QGLWIDGET
 	public QGLWidget
+#else
+	public QOpenGLWidget, private QOpenGLFunctions_1_0
 #endif
 {
 	Q_OBJECT
@@ -47,7 +44,7 @@ public:
 	void setRenderer(Renderer* r);
 	void setCompiling(bool value);
 
-#if (QT_VERSION < REQUIRED)
+#if USE_QGLWIDGET
 	inline QImage grabFramebuffer(){ return grabFrameBuffer(); }
 #endif
 
@@ -66,7 +63,7 @@ private:
 	void resizeGL(int w, int h);
 	void paintGL();
 
-#if (QT_VERSION < REQUIRED)
+#if USE_QGLWIDGET
 	inline void update(){ updateGL(); }
 #endif
 
@@ -94,7 +91,7 @@ private:
 	GLfloat rotateZ;
 	GLint viewportX;
 	GLint viewportZ;
-#if (QT_VERSION >= REQUIRED)
+#if !USE_QGLWIDGET
 	QMatrix4x4* projection;
 	QMatrix4x4* modelview;
 #endif

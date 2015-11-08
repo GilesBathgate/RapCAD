@@ -34,17 +34,27 @@ INCLUDEPATH += src
 DEFINES += USE_CGAL
 DEFINES += USE_READLINE
 DEFINES += USE_COMMANDLINE_PARSER
+DEFINES += USE_QGLWIDGET
 
-#Check for Qt Version 5.2 and above
-#So Major > 4 && Minor > 1
 greaterThan(QT_MAJOR_VERSION, 4) {
+
+# Check for Qt Version 5.2 and above
+# (so Major > 4 && Minor > 1)
  greaterThan(QT_MINOR_VERSION, 1) {
     DEFINES -= USE_COMMANDLINE_PARSER
  }
+
+# Check for Qt Version 5.4 and above
+# (so Major > 4 && Minor > 3)
+ greaterThan(QT_MINOR_VERSION, 3) {
+    DEFINES -= USE_QGLWIDGET
+ }
 }
+
 
 win32 {
 	DEFINES -= USE_READLINE
+	DEFINES += USE_QGLWIDGET
 
 	CGALROOT = ../CGAL-4.7
 	BOOSTROOT = ../boost_1_59_0
