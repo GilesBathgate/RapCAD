@@ -38,11 +38,11 @@ cp user_guide.html release \
   || die "failed copying userguide."
 
 QtBin="../Qt/Qt5.5.1/5.5/mingw492_32/bin"
-CGALBin="../CGAL-4.7/bin"
-GMP="$CGALBin/auxiliary/gmp/lib"
+CGAL="../CGAL-4.7"
+GMP="$CGAL/auxiliary/gmp/lib"
 cp \
-$CGALBin/libCGAL.dll \
-$CGALBin/libCGAL_Core.dll \
+$CGAL/bin/libCGAL.dll \
+$CGAL/bin/libCGAL_Core.dll \
 $QtBin/libgcc_s_dw2-1.dll \
 $QtBin/libwinpthread-1.dll \
 $QtBin/libstdc++-6.dll \
