@@ -11,10 +11,19 @@ FlexBison="win_flex_bison-2.5.5.zip"
 
 QtBin="c:\\Qt\\Qt5.5.1\\5.5\\mingw492_32\\bin"
 
+echo "Installing Git"
+./cmd.sh c:\\shared\\Git-2.6.2-32-bit.exe /SILENT /DIR=c:\\git
+
+echo "Cloning rapcad source"
+./cmd.sh c:\\git\\bin\\git.exe clone --depth 10 https://github.com/GilesBathgate/RapCAD.git c:\\rapcad
+
+echo "Install QtSilentInstall"
+./cmd.sh c:\\windows\\microsoft.net\\framework\\v2.0.50727\\csc.exe /out:c:\\$QtSilent c:\\rapcad\\scripts\\vbox\\QtSilentInstall\\Program.cs
+
 echo "Installing Qt"
 ./cmd.sh mklink /d c:\\shared \\\\vboxsvr\\shared
 ./cmd.sh copy c:\\shared\\$Qt c:\\
-./cmd.sh c:\\shared\\$QtSilent c:\\$Qt
+./cmd.sh c:\\$QtSilent c:\\$Qt
 ./cmd.sh del c:\\$Qt
 
 echo "Installing 7zip"
@@ -50,9 +59,6 @@ EOF
 echo "Installing win-flex-bison"
 ./cmd.sh c:\\7zip\\7z.exe x -o$QtBin c:\\shared\\$FlexBison
 
-echo "Installing Git"
-./cmd.sh c:\\shared\\Git-2.6.2-32-bit.exe /SILENT /DIR=c:\\git
-
 echo "Installing Python"
 ./cmd.sh msiexec /i c:\\shared\\python-2.7.10.msi /qn
 
@@ -73,5 +79,3 @@ echo "csharp = csharp.lang" >> $SHAREDFOLDER\lang.map
 ./cmd.sh copy c:\\shared\\lang.map c:\\source-highlight\\share\\source-highlight\\lang.map
 ./cmd.sh copy c:\\shared\\csharp.lang c:\\source-highlight\\share\\source-highlight\\
 
-echo "Cloning rapcad source"
-./cmd.sh c:\\git\\bin\\git.exe clone --depth 10 https://github.com/GilesBathgate/RapCAD.git c:\\rapcad
