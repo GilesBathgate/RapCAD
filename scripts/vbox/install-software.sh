@@ -42,4 +42,15 @@ EOF
 ./cmd.sh msiexec /i c:\\shared\\python-2.7.10.msi /qn
 ./cmd.sh c:\\7zip\\7z.exe x -oc:\\ c:\\shared\\asciidoc-8.6.9.zip
 ./cmd.sh c:\\shared\\src-highlite-2.1.2.exe /SILENT /DIR=c:\\source-highlight
+./cmd.sh move /Y c:\\source-highlight\\bin\\source-highlight.exe c:\\source-highlight\\bin\\source-highlight-exe.exe
+cat << EOF > $SHAREDFOLDER/source-highlight.bat
+@echo off
+source-highlight-exe --data-dir "%~dp0\\..\\share\\source-highlight" %*
+EOF
+./cmd.sh copy c:\\shared\\source-highlight.bat c:\\source-highlight\\bin\\
+./cmd.sh copy c:\\source-highlight\\share\\source-highlight\\lang.map c:\\shared\\
+echo >> $SHAREDFOLDER\lang.map
+echo "csharp = csharp.lang" >> $SHAREDFOLDER\lang.map
+./cmd.sh copy c:\\shared\\lang.map c:\\source-highlight\\share\\source-highlight\\lang.map
+./cmd.sh copy c:\\shared\\csharp.lang c:\\source-highlight\\share\\source-highlight\\
 ./cmd.sh c:\\git\\bin\\git.exe clone --depth 10 https://github.com/GilesBathgate/RapCAD.git c:\\rapcad
