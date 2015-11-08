@@ -49,6 +49,7 @@ $QtBin/libstdc++-6.dll \
 $QtBin/Qt5Core.dll \
 $QtBin/Qt5Gui.dll \
 $QtBin/Qt5Widgets.dll \
+$QtBin/Qt5OpenGL.dll \
 $GMP/libgmp-10.dll \
 $GMP/libmpfr-4.dll \
 release \
