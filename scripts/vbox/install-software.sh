@@ -1,6 +1,7 @@
 #!/bin/bash
 source config
 
+Git="Git-2.6.2-32-bit.exe"
 Qt="qt-opensource-windows-x86-mingw492-5.5.1.exe"
 QtSilent="QtSilentInstall.exe"
 Zip="7z1509.exe"
@@ -11,8 +12,11 @@ FlexBison="win_flex_bison-2.5.5.zip"
 
 QtBin="c:\\Qt\\Qt5.5.1\\5.5\\mingw492_32\\bin"
 
+echo "Linking shared dir"
+./cmd.sh mklink /d c:\\shared \\\\vboxsvr\\shared
+
 echo "Installing Git"
-./cmd.sh c:\\shared\\Git-2.6.2-32-bit.exe /SILENT /DIR=c:\\git
+./cmd.sh c:\\shared\\$Git /SILENT /DIR=c:\\git
 
 echo "Cloning rapcad source"
 ./cmd.sh c:\\git\\bin\\git.exe clone --depth 10 https://github.com/GilesBathgate/RapCAD.git c:\\rapcad
@@ -21,7 +25,6 @@ echo "Install QtSilentInstall"
 ./cmd.sh c:\\windows\\microsoft.net\\framework\\v2.0.50727\\csc.exe /out:c:\\$QtSilent c:\\rapcad\\scripts\\vbox\\QtSilentInstall\\Program.cs
 
 echo "Installing Qt"
-./cmd.sh mklink /d c:\\shared \\\\vboxsvr\\shared
 ./cmd.sh copy c:\\shared\\$Qt c:\\
 ./cmd.sh c:\\$QtSilent c:\\$Qt
 ./cmd.sh del c:\\$Qt
