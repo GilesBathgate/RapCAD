@@ -74,8 +74,8 @@ source-highlight-exe --data-dir "%~dp0\\..\\share\\source-highlight" %*
 EOF
 ./cmd.sh copy c:\\shared\\source-highlight.bat c:\\source-highlight\\bin\\
 ./cmd.sh copy c:\\source-highlight\\share\\source-highlight\\lang.map c:\\shared\\
-echo >> $SHAREDFOLDER\lang.map
-echo "csharp = csharp.lang" >> $SHAREDFOLDER\lang.map
+echo >> $SHAREDFOLDER/lang.map
+echo "csharp = csharp.lang" >> $SHAREDFOLDER/lang.map
 ./cmd.sh copy c:\\shared\\lang.map c:\\source-highlight\\share\\source-highlight\\lang.map
 ./cmd.sh copy c:\\shared\\csharp.lang c:\\source-highlight\\share\\source-highlight\\
 
