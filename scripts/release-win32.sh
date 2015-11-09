@@ -56,7 +56,7 @@ windeployqt \
   release/rapcad.exe \
   || die "failed running windeployqt."
 
-rm release/imageformats \
+rm -r release/imageformats \
   || die "failed removing imageformat plugins"
 
 makensis installer.nsi \
