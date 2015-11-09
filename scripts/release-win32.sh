@@ -5,6 +5,8 @@ function die {
   exit
 }
 
+SHARED=/c/shared/
+
 pushd /c/rapcad
 
 git reset --hard master \
@@ -37,8 +39,25 @@ mingw32-make user_guide.html \
 cp user_guide.html release \
   || die "failed copying userguide."
 
-windeployqt release/rapcad \
+CGAL="../CGAL-4.7"
+GMP="$CGAL/auxiliary/gmp/lib"
+cp \
+  $CGAL/bin/libCGAL.dll \
+  $CGAL/bin/libCGAL_Core.dll \
+  $GMP/libgmp-10.dll \
+  $GMP/libmpfr-4.dll \
+  release \
   || die "failed copying dlls."
+
+windeployqt \
+  --no-svg \
+  --no-translations \
+  --no-angle \
+  release/rapcad.exe \
+  || die "failed running windeployqt."
+
+rm release/imageformats \
+  || die "failed removing imageformat plugins"
 
 makensis installer.nsi \
   || die "failed building nsis installer."
@@ -52,10 +71,10 @@ mv release rapcad-$version  \
 7z a -tzip rapcad_$version.zip rapcad-$version \
   || die "failed building zip"
 
-mv rapcad_$version\_setup.exe $hostdir \
+mv rapcad_$version\_setup.exe $SHARED \
   || die "failed moving zip"
 
-mv rapcad_$version.zip $hostdir \
+mv rapcad_$version.zip $SHARED \
   || die "failed moving setup exe"
 
 popd
