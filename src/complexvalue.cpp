@@ -55,3 +55,71 @@ void ComplexValue::toQuaternion(decimal &w,decimal &x,decimal &y,decimal &z)
 	}
 	x=y=z=w=0;
 }
+
+Value*ComplexValue::operation(Value& v, Expression::Operator_e op)
+{
+	ComplexValue* c=dynamic_cast<ComplexValue*>(&v);
+	if(c){
+		if(imaginary.size()>2&&c->imaginary.size()>2) {
+			Value* w1=real;
+			Value* w2=c->real;
+
+			Value* x1=imaginary.at(0);
+			Value* x2=c->imaginary.at(0);
+
+			Value* y1=imaginary.at(1);
+			Value* y2=c->imaginary.at(1);
+
+			Value* z1=imaginary.at(2);
+			Value* z2=c->imaginary.at(2);
+
+			if(op==Expression::Multiply) {
+				//(Q1 * Q2).w = (w1w2 - x1x2 - y1y2 - z1z2)
+				//(Q1 * Q2).x = (w1x2 + x1w2 + y1z2 - z1y2)
+				//(Q1 * Q2).y = (w1y2 - x1z2 + y1w2 + z1x2)
+				//(Q1 * Q2).z = (w1z2 + x1y2 - y1x2 + z1w2)
+				Value *w,*x,*y,*z;
+				Value* w1w2 = Value::operation(w1,op,w2);
+				Value* x1x2 = Value::operation(x1,op,x2);
+				Value* y1y2 = Value::operation(y1,op,y2);
+				Value* z1z2 = Value::operation(z1,op,z2);
+				w = Value::operation(w1w2,Expression::Subtract,x1x2);
+				w = Value::operation(w,Expression::Subtract,y1y2);
+				w = Value::operation(w,Expression::Subtract,z1z2);
+
+				Value* w1x2 = Value::operation(w1,op,x2);
+				Value* x1w2 = Value::operation(x1,op,w2);
+				Value* y1z2 = Value::operation(y1,op,z2);
+				Value* z1y2 = Value::operation(z1,op,y2);
+				x = Value::operation(w1x2,Expression::Add,x1w2);
+				x = Value::operation(x,Expression::Add,y1z2);
+				x = Value::operation(x,Expression::Subtract,z1y2);
+
+				Value* w1y2 = Value::operation(w1,op,y2);
+				Value* x1z2 = Value::operation(x1,op,z2);
+				Value* y1w2 = Value::operation(y1,op,w2);
+				Value* z1x2 = Value::operation(z1,op,x2);
+				y = Value::operation(w1y2,Expression::Subtract,x1z2);
+				y = Value::operation(y,Expression::Add,y1w2);
+				y = Value::operation(y,Expression::Add,z1x2);
+
+				Value* w1z2 = Value::operation(w1,op,z2);
+				Value* x1y2 = Value::operation(x1,op,y2);
+				Value* y1x2 = Value::operation(y1,op,x2);
+				Value* z1w2 = Value::operation(z1,op,w2);
+				z = Value::operation(w1z2,Expression::Subtract,x1y2);
+				z = Value::operation(z,Expression::Add,y1x2);
+				z = Value::operation(z,Expression::Add,z1w2);
+
+				QList<Value*> i;
+				i.append(x);
+				i.append(y);
+				i.append(z);
+
+				return new ComplexValue(w,i);
+			}
+		}
+	}
+
+	return new Value();
+}
