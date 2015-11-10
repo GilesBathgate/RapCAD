@@ -319,7 +319,8 @@ SOURCES += \
 	src/node/triangulatenode.cpp \
 	src/function/normfunction.cpp \
 	src/complexexpression.cpp \
-	src/complexvalue.cpp
+	src/complexvalue.cpp \
+	src/function/angfunction.cpp
 
 HEADERS  += \
 	contrib/OGL_helper.h \
@@ -538,7 +539,8 @@ HEADERS  += \
 	src/node/triangulatenode.h \
 	src/function/normfunction.h \
 	src/complexexpression.h \
-	src/complexvalue.h
+	src/complexvalue.h \
+	src/function/angfunction.h
 
 FORMS += \
 	src/mainwindow.ui \

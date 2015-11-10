@@ -98,6 +98,7 @@
 #include "function/degfunction.h"
 #include "function/numfunction.h"
 #include "function/normfunction.h"
+#include "function/angfunction.h"
 
 #include "module/writemodule.h"
 #include "module/writelnmodule.h"
@@ -156,6 +157,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 
 	builtins.append(new AbsFunction());
 	builtins.append(new AcosFunction());
+	builtins.append(new AngFunction());
 	builtins.append(new AsinFunction());
 	builtins.append(new Atan2Function());
 	builtins.append(new AtanFunction());
