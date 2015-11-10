@@ -49,6 +49,7 @@ private:
 	float edgeSize;
 	void loadPreferences();
 	void desaturate(CGAL::Color& c);
+	void descendChildren(QList<Primitive*> children);
 };
 
 #endif // CGALRENDERER_H

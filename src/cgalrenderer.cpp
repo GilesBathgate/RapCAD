@@ -83,8 +83,15 @@ void CGALRenderer::draw(bool skeleton, bool showedges)
 
 	glLineWidth(1);
 	glColor3f(0.0, 0.0, 1.0);
-	QList<Primitive*> children=primitive->getChildren();
+	descendChildren(primitive->getChildren());
+
+}
+
+void CGALRenderer::descendChildren(QList<Primitive*> children)
+{
 	foreach(Primitive* c, children) {
+		descendChildren(c->getChildren());
+
 		foreach(Polygon* p,c->getPolygons()) {
 			glBegin(GL_LINE_STRIP);
 			foreach(Point pt,p->getPoints()) {

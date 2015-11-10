@@ -227,6 +227,7 @@ Primitive* CGALPrimitive::join(Primitive* pr)
 	CGALPrimitive* that=static_cast<CGALPrimitive*>(pr);
 	that->buildPrimitive();
 	*nefPolyhedron=nefPolyhedron->join(*that->nefPolyhedron);
+	this->appendChild(that);
 	return this;
 }
 
@@ -236,6 +237,7 @@ Primitive* CGALPrimitive::intersection(Primitive* pr)
 	CGALPrimitive* that=static_cast<CGALPrimitive*>(pr);
 	that->buildPrimitive();
 	*nefPolyhedron=nefPolyhedron->intersection(*that->nefPolyhedron);
+	this->appendChild(that);
 	return this;
 }
 
@@ -245,6 +247,7 @@ Primitive* CGALPrimitive::difference(Primitive* pr)
 	CGALPrimitive* that=static_cast<CGALPrimitive*>(pr);
 	that->buildPrimitive();
 	*nefPolyhedron=nefPolyhedron->difference(*that->nefPolyhedron);
+	this->appendChild(that);
 	return this;
 }
 
@@ -254,6 +257,7 @@ Primitive* CGALPrimitive::symmetric_difference(Primitive* pr)
 	CGALPrimitive* that=static_cast<CGALPrimitive*>(pr);
 	that->buildPrimitive();
 	*nefPolyhedron=nefPolyhedron->symmetric_difference(*that->nefPolyhedron);
+	this->appendChild(that);
 	return this;
 }
 
@@ -263,6 +267,7 @@ Primitive* CGALPrimitive::minkowski(Primitive* pr)
 	CGALPrimitive* that=static_cast<CGALPrimitive*>(pr);
 	that->buildPrimitive();
 	*nefPolyhedron=CGAL::minkowski_sum_3(*nefPolyhedron,*that->nefPolyhedron);
+	this->appendChild(that);
 	return this;
 }
 
