@@ -38,6 +38,16 @@ decimal Point::getZ() const
 	return z;
 }
 
+Point Point::transform(TransformMatrix* matrix)
+{
+	decimal* m=matrix->getValues();
+	decimal nx,ny,nz;
+	nx=(m[ 0]*x+m[ 1]*y+m[ 2]*z+m[ 3]);
+	ny=(m[ 4]*x+m[ 5]*y+m[ 6]*z+m[ 7]);
+	nz=(m[ 8]*x+m[ 9]*y+m[10]*z+m[11]);
+	return Point(nx,ny,nz);
+}
+
 void Point::getXYZ(decimal& x, decimal& y, decimal& z) const
 {
 	x=this->x;

@@ -302,17 +302,9 @@ void NodePrinter::visit(TriangulateNode* n)
 
 void NodePrinter::visit(TransformationNode* n)
 {
-	result << "multmatrix([[";
-	for(int i=0; i<16; i++) {
-		if(i>0) {
-			if(i%4)
-				result << ",";
-			else
-				result << "],[";
-		}
-		result << to_string(n->matrix[i]);
-
-	}
-	result << "]])";
+	TransformMatrix* m=n->getMatrix();
+	result << "multmatrix(";
+	result << m->toString();
+	result << ")";
 	printChildren(n);
 }

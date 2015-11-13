@@ -87,17 +87,16 @@ Node* RotateModule::evaluate(Context* ctx)
 		http://tinyurl.com/q4utr88
 		*/
 
-		decimal RzRyRx[16] = {
+		TransformMatrix* RzRyRx = new TransformMatrix(
 			cy*cz,cz*sx*sy-cx*sz,cx*cz*sy+sx*sz,0,
 			cy*sz,cx*cz+sx*sy*sz,-cz*sx+cx*sy*sz,0,
 			-sy,cy*sx,cx*cy,0,
 			0,0,0,1
-		};
+		);
 
-		for(int i=0; i<16; i++)
-			n->matrix[i]=RzRyRx[i];
+		n->setMatrix(RzRyRx);
 
-	} else if(rotation==axis){
+	} else if(rotation==axis) {
 
 		decimal c=r_right_cos(a);
 		decimal s=r_right_sin(a);
@@ -107,15 +106,14 @@ Node* RotateModule::evaluate(Context* ctx)
 		decimal v = y/mag;
 		decimal w = z/mag;
 
-		decimal TxyTzRaTzTxy[16] = {
+		TransformMatrix* TxyTzRaTzTxy = new TransformMatrix(
 			u*u*(1-c)+c,u*v*(1-c)-w*s,u*w*(1-c)+v*s,0,
 			u*v*(1-c)+w*s,v*v*(1-c)+c,v*w*(1-c)-u*s,0,
 			u*w*(1-c)-v*s,v*w*(1-c)+u*s,w*w*(1-c)+c,0,
 			0,0,0,1
-		};
+		);
 
-		for(int i=0; i<16; i++)
-			n->matrix[i]=TxyTzRaTzTxy[i];
+		n->setMatrix(TxyTzRaTzTxy);
 
 	} else {
 
@@ -134,15 +132,14 @@ Node* RotateModule::evaluate(Context* ctx)
 		/* The following rotation matrix is the same
 		 * as above for axis rotations, with the exception
 		 * that no normalisation is done. */
-		decimal mx[16] = {
+		TransformMatrix* mx = new TransformMatrix(
 			1-2*(yy+zz),2*(xy-za),2*(xz+ya),0,
 			2*(xy+za),1-2*(xx+zz),2*(yz-xa),0,
 			2*(xz-ya),2*(yz+xa),1-2*(xx+yy),0,
 			0,0,0,1
-		};
+		);
 
-		for(int i=0;i<16;i++)
-			n->matrix[i]=mx[i];
+		n->setMatrix(mx);
 
 	}
 	n->setChildren(ctx->getInputNodes());

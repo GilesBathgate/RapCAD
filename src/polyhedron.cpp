@@ -42,6 +42,15 @@ Primitive* Polyhedron::copy()
 	return c;
 }
 
+void Polyhedron::transform(TransformMatrix* m)
+{
+	QList<Point> nps;
+	foreach(Point p,points) {
+		nps.append(p.transform(m));
+	}
+	points=nps;
+}
+
 bool Polyhedron::isEmpty()
 {
 	return polygons.isEmpty();

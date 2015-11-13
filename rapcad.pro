@@ -320,7 +320,8 @@ SOURCES += \
 	src/function/normfunction.cpp \
 	src/complexexpression.cpp \
 	src/complexvalue.cpp \
-	src/function/angfunction.cpp
+	src/function/angfunction.cpp \
+	src/transformmatrix.cpp
 
 HEADERS  += \
 	contrib/OGL_helper.h \
@@ -540,7 +541,8 @@ HEADERS  += \
 	src/function/normfunction.h \
 	src/complexexpression.h \
 	src/complexvalue.h \
-	src/function/angfunction.h
+	src/function/angfunction.h \
+	src/transformmatrix.h
 
 FORMS += \
 	src/mainwindow.ui \

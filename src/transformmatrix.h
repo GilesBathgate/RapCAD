@@ -16,29 +16,24 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef POINT_H
-#define POINT_H
+#ifndef TRANSFORMMATRIX_H
+#define TRANSFORMMATRIX_H
 
-#include <QString>
 #include "decimal.h"
-#include "transformmatrix.h"
 
-class Point
+class TransformMatrix
 {
 public:
-	Point() : x(0), y(0), z(0) { }
-	Point(decimal x,decimal y,decimal z) : x(x), y(y), z(z) { }
-	bool operator==(const Point that) const;
-	QString toString() const;
-	QString toString(const bool) const;
-	void getXYZ(decimal& x, decimal& y, decimal& z) const;
-	void getXY(decimal& x, decimal& y) const;
-	decimal getX() const;
-	decimal getY() const;
-	decimal getZ() const;
-	Point transform(TransformMatrix*);
+	TransformMatrix();
+	TransformMatrix(decimal,decimal,decimal,decimal,
+                        decimal,decimal,decimal,decimal,
+                        decimal,decimal,decimal,decimal,
+                        decimal,decimal,decimal,decimal);
+	decimal* getValues();
+	void setValues(decimal*);
+	QString toString();
 private:
-	decimal x, y, z;
+	decimal matrix[16];
 };
 
-#endif // POINT_H
+#endif // TRANSFORMMATRIX_H

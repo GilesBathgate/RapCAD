@@ -46,16 +46,15 @@ Node* ScaleModule::evaluate(Context* ctx)
 
 	//Derived reference translation using
 	//http://tinyurl.com/nfmph3r
-	decimal m[16] = {
+	TransformMatrix* m = new TransformMatrix(
 		x,0,0,a-(a*x),
 		0,y,0,b-(b*x),
 		0,0,z,c-(c*x),
 		0,0,0,1
-	};
+	);
 
 	TransformationNode* n=new TransformationNode();
-	for(int i=0; i<16; i++)
-		n->matrix[i]=m[i];
+	n->setMatrix(m);
 
 	n->setChildren(ctx->getInputNodes());
 	return n;

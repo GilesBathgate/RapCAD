@@ -36,16 +36,15 @@ Node* TranslateModule::evaluate(Context* ctx)
 	decimal x=0,y=0,z=0;
 	v.getXYZ(x,y,z);
 
-	decimal m[16] = {
+	TransformMatrix* m = new TransformMatrix(
 		1,0,0,x,
 		0,1,0,y,
 		0,0,1,z,
 		0,0,0,1
-	};
+	);
 
 	TransformationNode* n=new TransformationNode();
-	for(int i=0; i<16; i++)
-		n->matrix[i]=m[i];
+	n->setMatrix(m);
 
 	n->setChildren(ctx->getInputNodes());
 	return n;

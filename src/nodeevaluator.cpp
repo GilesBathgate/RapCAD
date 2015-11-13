@@ -454,17 +454,7 @@ void NodeEvaluator::visit(ImportNode* op)
 void NodeEvaluator::visit(TransformationNode* tr)
 {
 	evaluate(tr,Union);
-#if USE_CGAL
-	decimal* m=tr->matrix;
-	CGAL::AffTransformation3 t(
-		m[ 0], m[ 1], m[ 2], m[ 3],
-		m[ 4], m[ 5], m[ 6], m[ 7],
-		m[ 8], m[ 9], m[10], m[11],
-	  /*m[12], m[13], m[14]*/m[15]);
-
-	CGALPrimitive* pr=static_cast<CGALPrimitive*>(result);
-	pr->transform(t);
-#endif
+	result->transform(tr->getMatrix());
 }
 
 void NodeEvaluator::visit(ResizeNode* n)
@@ -497,12 +487,13 @@ void NodeEvaluator::visit(ResizeNode* n)
 	if(y==0.0) y=autosize;
 	if(z==0.0) z=autosize;
 
-	CGAL::AffTransformation3 t(
+	TransformMatrix* t = new TransformMatrix(
 		x, 0, 0, 0,
 		0, y, 0, 0,
-		0, 0, z, 0, 1);
+		0, 0, z, 0,
+		0, 0, 0, 1);
 
-	pr->transform(t);
+	result->transform(t);
 #endif
 }
 
@@ -561,12 +552,13 @@ void NodeEvaluator::visit(AlignNode* n)
 			cy=(b.ymin()+b.ymax())/two;
 	}
 
-	CGAL::AffTransformation3 t(
+	TransformMatrix* t = new TransformMatrix(
 				1, 0, 0, -cx,
 				0, 1, 0, -cy,
-				0, 0, 1, -cz, 1);
+				0, 0, 1, -cz,
+				0, 0, 0,  1);
 
-	pr->transform(t);
+	result->transform(t);
 #endif
 }
 

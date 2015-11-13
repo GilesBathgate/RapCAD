@@ -53,16 +53,15 @@ Node* ShearModule::evaluate(Context* ctx)
 	decimal szx=0,szy=0;
 	vecSz.getXY(szx,szy);
 
-	decimal m[16] = {
+	TransformMatrix* m = new TransformMatrix(
 		1,sxy,sxz,0,
 		syx,1,syz,0,
 		szx,szy,1,0,
 		0,0,0,1
-	};
+	);
 
 	TransformationNode* n=new TransformationNode();
-	for(int i=0; i<16; i++)
-		n->matrix[i]=m[i];
+	n->setMatrix(m);
 
 	n->setChildren(ctx->getInputNodes());
 	return n;

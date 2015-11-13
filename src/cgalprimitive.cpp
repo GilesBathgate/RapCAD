@@ -307,8 +307,15 @@ Primitive* CGALPrimitive::copy()
 }
 
 
-void CGALPrimitive::transform(const CGAL::AffTransformation3& t)
+void CGALPrimitive::transform(TransformMatrix* matrix)
 {
+	decimal* m=matrix->getValues();
+	CGAL::AffTransformation3 t(
+		m[ 0], m[ 1], m[ 2], m[ 3],
+		m[ 4], m[ 5], m[ 6], m[ 7],
+		m[ 8], m[ 9], m[10], m[11],
+	  /*m[12], m[13], m[14]*/m[15]);
+
 	if(nefPolyhedron) {
 		nefPolyhedron->transform(t);
 	} else {
@@ -317,6 +324,9 @@ void CGALPrimitive::transform(const CGAL::AffTransformation3& t)
 			nps.append(pt.transform(t));
 		points=nps;
 	}
+
+	foreach(Primitive* p, children)
+		p->transform(matrix);
 }
 
 QList<Polygon*> CGALPrimitive::getPolygons() const

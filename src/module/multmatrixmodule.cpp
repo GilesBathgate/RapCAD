@@ -37,21 +37,28 @@ Node* MultMatrixModule::evaluate(Context* ctx)
 	if(!matrixVec)
 		return n;
 
+	TransformMatrix* m=new TransformMatrix();
+	n->setMatrix(m);
+
 	int index=0;
+	decimal matrix[20];
 	foreach(Value* colVal,matrixVec->getChildren()) {
 		VectorValue* rowVal=dynamic_cast<VectorValue*>(colVal);
 		if(rowVal) {
-			foreach (Value* valueVal, rowVal->getChildren()) {
+			foreach(Value* valueVal, rowVal->getChildren()) {
 				NumberValue* value=dynamic_cast<NumberValue*>(valueVal);
 				if(value) {
-					n->matrix[index]=value->getNumber();
+					matrix[index]=value->getNumber();
 				}
 				index++;
-				if(index>16)
+				if(index>16) {
+					m->setValues(matrix);
 					return n;
+				}
 			}
 		}
 	}
 
+	m->setValues(matrix);
 	return n;
 }

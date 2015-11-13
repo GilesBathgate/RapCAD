@@ -2,13 +2,17 @@
 #define TRANSFORMATIONNODE_H
 
 #include "node.h"
+#include "transformmatrix.h"
 
 class TransformationNode : public Node
 {
 public:
 	TransformationNode();
 	void accept(NodeVisitor&);
-	decimal matrix[16];
+	TransformMatrix* getMatrix() const;
+	void setMatrix(TransformMatrix*);
+private:
+	TransformMatrix* matrix;
 };
 
 #endif // TRANSFORMATIONNODE_H

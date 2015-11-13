@@ -41,16 +41,15 @@ Node* MirrorModule::evaluate(Context* ctx)
 	decimal v = y/mag;
 	decimal w = z/mag;
 
-	decimal m[16] = {
+	TransformMatrix* m = new TransformMatrix(
 		1-2*u*u,-2*v*u,-2*w*u,0,
 		-2*u*v,1-2*v*v,-2*w*v,0,
 		-2*u*w,-2*v*w,1-2*w*w,0,
 			 0,     0,      0,1
-	};
+	);
 
 	TransformationNode* n=new TransformationNode();
-	for(int i=0; i<16; i++)
-		n->matrix[i]=m[i];
+	n->setMatrix(m);
 
 	n->setChildren(ctx->getInputNodes());
 	return n;

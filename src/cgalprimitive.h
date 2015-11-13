@@ -59,7 +59,7 @@ public:
 	Primitive* copy();
 	Primitive* triangulate();
 	CGAL::Cuboid3 getBounds();
-	void transform(const CGAL::AffTransformation3&);
+	void transform(TransformMatrix*);
 	/* Don't call this method instead use getCGALPolygons */
 	Q_DECL_DEPRECATED QList<Polygon*> getPolygons() const;
 	QList<CGALPolygon*> getCGALPolygons() const;
