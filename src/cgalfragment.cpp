@@ -19,7 +19,7 @@
 #include "cgalfragment.h"
 #include "rmath.h"
 
-CGALFragment::CGALFragment(const Fragment f) : Fragment(f)
+CGALFragment::CGALFragment(Context* ctx) : Fragment(ctx)
 {
 }
 

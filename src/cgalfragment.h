@@ -26,7 +26,7 @@
 class CGALFragment : public Fragment
 {
 public:
-	CGALFragment(const Fragment);
+	CGALFragment(Context*);
 	int getFragments(CGAL::Scalar);
 };
 
