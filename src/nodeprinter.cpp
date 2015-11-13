@@ -129,6 +129,8 @@ void NodePrinter::visit(RotateExtrudeNode* n)
 {
 	result << "rotate_extrude(";
 	result << to_string(n->getRadius());
+	result << ",";
+	result << n->getAxis().toString();
 	result << ")";
 	printChildren(n);
 }

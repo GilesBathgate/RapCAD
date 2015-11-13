@@ -33,3 +33,14 @@ void RotateExtrudeNode::accept(NodeVisitor& v)
 {
 	v.visit(this);
 }
+
+Point RotateExtrudeNode::getAxis() const
+{
+	return axis;
+}
+
+void RotateExtrudeNode::setAxis(const Point& value)
+{
+	axis = value;
+}
+

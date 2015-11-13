@@ -3,6 +3,7 @@
 
 #include "node.h"
 #include "fragment.h"
+#include "point.h"
 
 class RotateExtrudeNode : public Node
 {
@@ -13,9 +14,12 @@ public:
 	decimal getRadius() const;
 	void setFragments(Fragment*);
 	Fragment* getFragments();
+	Point getAxis() const;
+	void setAxis(const Point& value);
 	void accept(NodeVisitor&);
 private:
 	decimal radius;
+	Point axis;
 	Fragment* fragments;
 };
 
