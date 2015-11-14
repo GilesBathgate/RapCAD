@@ -24,19 +24,21 @@
 class Polyhedron : public Primitive
 {
 public:
+	Polyhedron();
+	~Polyhedron();
 	Polygon* createPolygon();
 	void createVertex(Point);
 	void setType(Primitive_t) { }
 	Primitive* buildPrimitive() { return this; }
 	bool overlaps(Primitive*) { return false; }
-	void add(Primitive*,bool) { }
-	Primitive* group(Primitive*) { return this; }
-	Primitive* join(Primitive*) { return this; }
-	Primitive* combine() { return this; }
-	Primitive* intersection(Primitive*) { return this; }
-	Primitive* difference(Primitive*) { return this; }
-	Primitive* symmetric_difference(Primitive*) { return this; }
-	Primitive* minkowski(Primitive*) { return this; }
+	void add(Primitive*,bool);
+	Primitive* group(Primitive*);
+	Primitive* join(Primitive*);
+	Primitive* combine();
+	Primitive* intersection(Primitive*);
+	Primitive* difference(Primitive*);
+	Primitive* symmetric_difference(Primitive*);
+	Primitive* minkowski(Primitive*);
 	Primitive* inset(decimal) { return this; }
 	Primitive* decompose() { return this; }
 	Primitive* complement() { return this; }
@@ -52,5 +54,6 @@ public:
 private:
 	QList<Point> points;
 	QList<Polygon*> polygons;
+	QList<Primitive*> children;
 };
 #endif // POLYHEDRON_H

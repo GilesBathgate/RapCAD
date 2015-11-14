@@ -22,7 +22,6 @@
 #include <QFileInfo>
 #include <QTextStream>
 #include <QString>
-#include <QXmlStreamWriter>
 #include <CGAL/IO/Polyhedron_iostream.h>
 #include <CGAL/IO/print_wavefront.h>
 #include <CGAL/IO/Polyhedron_VRML_2_ostream.h>
@@ -30,8 +29,9 @@
 #include"cgalexplorer.h"
 #include "onceonly.h"
 #include "rmath.h"
+#include "polyhedron.h"
 
-CGALExport::CGALExport(CGALPrimitive* p)
+CGALExport::CGALExport(Primitive* p)
 {
 	primitive=p;
 }
@@ -57,7 +57,11 @@ void CGALExport::exportResult(QString filename)
 
 void CGALExport::exportVRML(QString filename)
 {
-	CGAL::Polyhedron3* poly=primitive->getPolyhedron();
+	CGALPrimitive* pr=dynamic_cast<CGALPrimitive*>(primitive);
+	if(!pr)
+		return;
+
+	CGAL::Polyhedron3* poly=pr->getPolyhedron();
 	std::ofstream file(filename.toLocal8Bit().constData());
 	CGAL::VRML_2_ostream out(file);
 	out << *poly;
@@ -66,7 +70,11 @@ void CGALExport::exportVRML(QString filename)
 
 void CGALExport::exportOBJ(QString filename)
 {
-	CGAL::Polyhedron3* poly=primitive->getPolyhedron();
+	CGALPrimitive* pr=dynamic_cast<CGALPrimitive*>(primitive);
+	if(!pr)
+		return;
+
+	CGAL::Polyhedron3* poly=pr->getPolyhedron();
 	std::ofstream file(filename.toLocal8Bit().constData());
 	print_polyhedron_wavefront(file,*poly);
 	file.close();
@@ -74,8 +82,12 @@ void CGALExport::exportOBJ(QString filename)
 
 void CGALExport::exportOFF(QString filename)
 {
+	CGALPrimitive* pr=dynamic_cast<CGALPrimitive*>(primitive);
+	if(!pr)
+		return;
+
 	//http://people.sc.fsu.edu/~jburkardt/data/off/off.html
-	CGAL::Polyhedron3* poly=primitive->getPolyhedron();
+	CGAL::Polyhedron3* poly=pr->getPolyhedron();
 	std::ofstream file(filename.toLocal8Bit().constData());
 	file << *poly;
 	file.close();
@@ -88,7 +100,11 @@ typedef CGAL::Polyhedron3::Halfedge_around_facet_const_circulator HalffacetCircu
 
 void CGALExport::exportAsciiSTL(QString filename)
 {
-	CGAL::Polyhedron3* poly=primitive->getPolyhedron();
+	CGALPrimitive* pr=dynamic_cast<CGALPrimitive*>(primitive);
+	if(!pr)
+		return;
+
+	CGAL::Polyhedron3* poly=pr->getPolyhedron();
 
 	QFile data(filename);
 	if(!data.open(QFile::WriteOnly | QFile::Truncate)) {
@@ -151,9 +167,6 @@ void CGALExport::exportAsciiSTL(QString filename)
 
 void CGALExport::exportAMF(QString filename)
 {
-	//currently does not support multi material - sk12/04/07
-	CGAL::Polyhedron3* poly=primitive->getPolyhedron();
-
 	QFile* file=new QFile(filename);
 	if(!file->open(QIODevice::WriteOnly)) {
 		return;
@@ -166,8 +179,32 @@ void CGALExport::exportAMF(QString filename)
 	xml.writeStartElement("amf");
 	xml.writeAttribute("unit","millimeter");
 
+	id=0;
+	descendChildren(primitive,xml);
+
+	xml.writeEndDocument();
+	delete file;
+
+}
+
+void CGALExport::descendChildren(Primitive* p,QXmlStreamWriter& xml)
+{
+	CGALPrimitive* pr=dynamic_cast<CGALPrimitive*>(p);
+	if(pr) {
+		exportAMFObject(pr,xml);
+	} else {
+		foreach(Primitive* c, p->getChildren()) {
+			descendChildren(c,xml);
+		}
+	}
+}
+
+void CGALExport::exportAMFObject(CGALPrimitive* p,QXmlStreamWriter& xml)
+{
+	CGAL::Polyhedron3* poly=p->getPolyhedron();
+
 	xml.writeStartElement("object");
-	xml.writeAttribute("id","0");
+	xml.writeAttribute("id",QString().setNum(id++));
 	xml.writeStartElement("mesh");
 	xml.writeStartElement("vertices");
 
@@ -236,9 +273,6 @@ void CGALExport::exportAMF(QString filename)
 
 	xml.writeEndElement(); //mesh
 	xml.writeEndElement(); //object
-	xml.writeEndDocument();
-	delete file;
-
 }
 
 void CGALExport::exportCSG(QString filename)

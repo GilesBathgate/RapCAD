@@ -15,31 +15,17 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#if USE_CGAL
-#ifndef CGALEXPORT_H
-#define CGALEXPORT_H
 
-#include <QString>
-#include <QXmlStreamWriter>
-#include "cgalprimitive.h"
+#ifndef MATERIALNODE_H
+#define MATERIALNODE_H
 
-class CGALExport
+#include "node.h"
+
+class MaterialNode : public Node
 {
 public:
-	CGALExport(Primitive*);
-	void exportResult(QString);
-private:
-	void exportOFF(QString);
-	void exportAsciiSTL(QString);
-	void exportVRML(QString filename);
-	void exportOBJ(QString);
-	void exportAMF(QString);
-	void exportCSG(QString);
-	Primitive* primitive;
-	void exportAMFObject(CGALPrimitive* p, QXmlStreamWriter& xml);
-	void descendChildren(Primitive* p, QXmlStreamWriter& xml);
-	int id;
+	MaterialNode();
+	void accept(NodeVisitor&);
 };
 
-#endif // CGALEXPORT_H
-#endif
+#endif // MATERIALNODE_H

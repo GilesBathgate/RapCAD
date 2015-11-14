@@ -17,6 +17,16 @@
  */
 #include "polyhedron.h"
 
+Polyhedron::Polyhedron()
+{
+}
+
+Polyhedron::~Polyhedron()
+{
+	qDeleteAll(children);
+	children.clear();
+}
+
 Polygon* Polyhedron::createPolygon()
 {
 	Polygon* pg = new Polygon(this);
@@ -27,6 +37,47 @@ Polygon* Polyhedron::createPolygon()
 void Polyhedron::createVertex(Point p)
 {
 	points.append(p);
+}
+
+void Polyhedron::add(Primitive* p, bool)
+{
+	this->appendChild(p);
+}
+
+Primitive* Polyhedron::group(Primitive* p)
+{
+	return join(p);
+}
+
+Primitive* Polyhedron::join(Primitive* p)
+{
+	this->appendChild(p);
+	return this;
+}
+
+Primitive* Polyhedron::combine()
+{
+	return this;
+}
+
+Primitive* Polyhedron::intersection(Primitive* p)
+{
+	return join(p);
+}
+
+Primitive* Polyhedron::difference(Primitive* p)
+{
+	return join(p);
+}
+
+Primitive* Polyhedron::symmetric_difference(Primitive* p)
+{
+	return join(p);
+}
+
+Primitive* Polyhedron::minkowski(Primitive* p)
+{
+	return join(p);
 }
 
 Primitive* Polyhedron::copy()
@@ -49,6 +100,9 @@ void Polyhedron::transform(TransformMatrix* m)
 		nps.append(p.transform(m));
 	}
 	points=nps;
+
+	foreach(Primitive* p, children)
+		p->transform(m);
 }
 
 bool Polyhedron::isEmpty()
@@ -68,9 +122,10 @@ QList<Point> Polyhedron::getPoints() const
 
 QList<Primitive*> Polyhedron::getChildren()
 {
-	return QList<Primitive*>();
+	return children;
 }
 
-void Polyhedron::appendChild(Primitive*)
+void Polyhedron::appendChild(Primitive* p)
 {
+	children.append(p);
 }

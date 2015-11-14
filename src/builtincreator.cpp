@@ -65,6 +65,7 @@
 #include "module/radialsmodule.h"
 #include "module/volumesmodule.h"
 #include "module/triangulatemodule.h"
+#include "module/materialmodule.h"
 
 #include "function/lengthfunction.h"
 #include "function/sqrtfunction.h"
@@ -126,6 +127,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new HullModule());
 	builtins.append(new IntersectionModule());
 	builtins.append(new LinearExtrudeModule());
+	builtins.append(new MaterialModule());
 	builtins.append(new MinkowskiModule());
 	builtins.append(new MirrorModule());
 	builtins.append(new MultMatrixModule());

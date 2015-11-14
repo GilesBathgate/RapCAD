@@ -27,7 +27,7 @@
 class CGALRenderer : public Renderer, private CGAL::OGL::Polyhedron
 {
 public:
-	CGALRenderer(CGALPrimitive*);
+	CGALRenderer(Primitive*);
 	void draw(bool,bool);
 	void preferencesUpdated();
 	void setCompiling(bool);
@@ -50,6 +50,7 @@ private:
 	void loadPreferences();
 	void desaturate(CGAL::Color& c);
 	void descendChildren(QList<Primitive*> children);
+	void descendChildren(Primitive* pr);
 };
 
 #endif // CGALRENDERER_H

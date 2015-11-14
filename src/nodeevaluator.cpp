@@ -79,6 +79,14 @@ void NodeEvaluator::visit(TriangulateNode* n)
 	result=result->triangulate();
 }
 
+void NodeEvaluator::visit(MaterialNode* n)
+{
+	evaluate(n,Union);
+	Polyhedron* p=new Polyhedron();
+	p->appendChild(result);
+	result=p;
+}
+
 void NodeEvaluator::visit(UnionNode* op)
 {
 	evaluate(op,Union);

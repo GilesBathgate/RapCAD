@@ -200,11 +200,10 @@ void Worker::exportResult(QString fn)
 {
 #if USE_CGAL
 	try {
-		CGALPrimitive* p = dynamic_cast<CGALPrimitive*>(primitive);
-		if(p) {
-			CGALExport exporter(p);
-			exporter.exportResult(fn);
-		}
+
+		CGALExport exporter(primitive);
+		exporter.exportResult(fn);
+
 	} catch(CGAL::Failure_exception e) {
 		reporter->reportException(QString::fromStdString(e.what()));
 	}
@@ -223,9 +222,9 @@ Renderer* Worker::getRenderer()
 
 #if USE_CGAL
 	try {
-		CGALPrimitive* p = dynamic_cast<CGALPrimitive*>(primitive);
-		if(p)
-			render=new CGALRenderer(p);
+
+		render=new CGALRenderer(primitive);
+
 	} catch(CGAL::Failure_exception e) {
 		reporter->reportException(QString::fromStdString(e.what()));
 	}

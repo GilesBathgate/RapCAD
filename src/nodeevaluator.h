@@ -52,6 +52,7 @@
 #include "node/radialsnode.h"
 #include "node/volumesnode.h"
 #include "node/triangulatenode.h"
+#include "node/materialnode.h"
 
 class NodeEvaluator : public NodeVisitor
 {
@@ -97,6 +98,7 @@ public:
 	void visit(RadialsNode*);
 	void visit(VolumesNode*);
 	void visit(TriangulateNode*);
+	void visit(MaterialNode*);
 
 	Primitive* getResult() const;
 private:

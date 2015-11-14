@@ -38,6 +38,7 @@ class CGALPrimitive : public Primitive
 {
 public:
 	CGALPrimitive();
+	~CGALPrimitive();
 	CGALPrimitive(CGAL::Polyhedron3 poly);
 	void setType(Primitive_t);
 	Polygon* createPolygon();

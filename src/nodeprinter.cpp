@@ -302,6 +302,12 @@ void NodePrinter::visit(TriangulateNode* n)
 	printChildren(n);
 }
 
+void NodePrinter::visit(MaterialNode* n)
+{
+	result << "material()";
+	printChildren(n);
+}
+
 void NodePrinter::visit(TransformationNode* n)
 {
 	TransformMatrix* m=n->getMatrix();

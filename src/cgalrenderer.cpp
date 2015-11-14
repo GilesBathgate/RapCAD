@@ -21,11 +21,23 @@
 #include "primitive.h"
 #include "decimal.h"
 
-CGALRenderer::CGALRenderer(CGALPrimitive* pr)
+CGALRenderer::CGALRenderer(Primitive* pr)
 {
 	loadPreferences();
 	primitive=pr;
-	CGAL::OGL::Nef3_Converter<CGAL::NefPolyhedron3>::convert_to_OGLPolyhedron(pr->getNefPolyhedron(),this);
+	descendChildren(primitive);
+}
+
+void CGALRenderer::descendChildren(Primitive* p)
+{
+	typedef CGAL::OGL::Nef3_Converter<CGAL::NefPolyhedron3> converter;
+	CGALPrimitive* pr=dynamic_cast<CGALPrimitive*>(p);
+	if(pr) {
+		converter::convert_to_OGLPolyhedron(pr->getNefPolyhedron(),this);
+	} else {
+		foreach(Primitive* c, p->getChildren())
+			descendChildren(c);
+	}
 }
 
 void CGALRenderer::loadPreferences()
