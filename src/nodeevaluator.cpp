@@ -76,7 +76,8 @@ void NodeEvaluator::convert(Primitive* pr,Primitive* cp)
 void NodeEvaluator::visit(TriangulateNode* n)
 {
 	evaluate(n,Union);
-	result=result->triangulate();
+	if(result)
+		result=result->triangulate();
 }
 
 void NodeEvaluator::visit(MaterialNode* n)
@@ -462,7 +463,8 @@ void NodeEvaluator::visit(ImportNode* op)
 void NodeEvaluator::visit(TransformationNode* tr)
 {
 	evaluate(tr,Union);
-	result->transform(tr->getMatrix());
+	if(result)
+		result->transform(tr->getMatrix());
 }
 
 void NodeEvaluator::visit(ResizeNode* n)
