@@ -28,6 +28,7 @@ class CGALRenderer : public Renderer, private CGAL::OGL::Polyhedron
 {
 public:
 	CGALRenderer(Primitive*);
+	~CGALRenderer();
 	void draw(bool,bool);
 	void preferencesUpdated();
 	void setCompiling(bool);

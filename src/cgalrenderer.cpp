@@ -28,6 +28,11 @@ CGALRenderer::CGALRenderer(Primitive* pr)
 	descendChildren(primitive);
 }
 
+CGALRenderer::~CGALRenderer()
+{
+	delete primitive;
+}
+
 void CGALRenderer::descendChildren(Primitive* p)
 {
 	typedef CGAL::OGL::Nef3_Converter<CGAL::NefPolyhedron3> converter;
