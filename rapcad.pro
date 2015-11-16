@@ -323,7 +323,8 @@ SOURCES += \
 	src/function/angfunction.cpp \
 	src/transformmatrix.cpp \
 	src/module/materialmodule.cpp \
-	src/node/materialnode.cpp
+	src/node/materialnode.cpp \
+	src/simplerenderer.cpp
 
 HEADERS  += \
 	contrib/OGL_helper.h \
@@ -546,7 +547,8 @@ HEADERS  += \
 	src/function/angfunction.h \
 	src/transformmatrix.h \
 	src/module/materialmodule.h \
-	src/node/materialnode.h
+	src/node/materialnode.h \
+	src/simplerenderer.h
 
 FORMS += \
 	src/mainwindow.ui \

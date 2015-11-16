@@ -29,6 +29,8 @@
 #include "cgalexport.h"
 #include "cgalrenderer.h"
 #include "cgalexplorer.h"
+#else
+#include "simplerenderer.h"
 #endif
 
 Worker::Worker(QTextStream& s) :
@@ -228,6 +230,8 @@ Renderer* Worker::getRenderer()
 	} catch(CGAL::Failure_exception e) {
 		reporter->reportException(QString::fromStdString(e.what()));
 	}
+#else
+	render=new SimpleRenderer(primitive);
 #endif
 
 	reporter->reportTiming(tr("compiling"));
