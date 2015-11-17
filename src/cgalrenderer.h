@@ -23,6 +23,7 @@
 #include "contrib/OGL_helper.h"
 #include "renderer.h"
 #include "cgalprimitive.h"
+#include "simplerenderer.h"
 
 class CGALRenderer : public Renderer, private CGAL::OGL::Polyhedron
 {
@@ -50,8 +51,8 @@ private:
 	float edgeSize;
 	void loadPreferences();
 	void desaturate(CGAL::Color& c);
-	void descendChildren(QList<Primitive*> children);
 	void descendChildren(Primitive* pr);
+	SimpleRenderer* simple;
 };
 
 #endif // CGALRENDERER_H
