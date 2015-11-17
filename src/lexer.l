@@ -22,14 +22,14 @@
 #include "decimal.h"
 
 void lexererror();
-void lexerinclude(const char*);
+void lexerinclude(QFileInfo);
 void lexerinit(AbstractTokenBuilder*,Reporter*,QString,bool);
 void lexerdestroy();
 void lexerbegin();
 void lexercomment();
 void lexercodedoc();
 
-static bool openfile(const char*);
+static bool openfile(QFileInfo);
 static AbstractTokenBuilder* tokenizer;
 static Reporter* reporter;
 static QList<FILE*> openfiles;
@@ -146,12 +146,10 @@ void lexerinit(AbstractTokenBuilder* b,Reporter* r, QString input,bool file)
 
 	if(file) {
 		QFileInfo fileinfo(input);
-		char* fullpath = strdup(fileinfo.absoluteFilePath().toLocal8Bit());
-		openfile(fullpath);
-		free(fullpath);
+		openfile(fileinfo);
 		tokenizer->buildFileStart(fileinfo.absoluteDir());
 	} else {
-		const char* t = input.toLocal8Bit();
+		const char* t = input.toUtf8().constData();
 		lexer_scan_string(t);
 	}
 }
@@ -180,21 +178,22 @@ void lexercodedoc()
 	BEGIN(codedoc);
 }
 
-bool openfile(const char* fullpath)
+bool openfile(QFileInfo f)
 {
-	FILE* newinput=fopen(fullpath,"r");
-	if(!newinput) {
+	QString fullpath=f.absoluteFilePath();
+	FILE* fd=fopen(QFile::encodeName(fullpath),"r");
+	if(!fd) {
 		if(reporter) //Reporter can be null
 			reporter->reportFileMissingError(fullpath);
 		return false;
 	}
-	openfiles.append(newinput);
-	lexerin=newinput;
+	openfiles.append(fd);
+	lexerin=fd;
 	return true;
 }
 
-void lexerinclude(const char* fullpath)
+void lexerinclude(QFileInfo f)
 {
-	if(openfile(fullpath))
+	if(openfile(f))
 		lexerpush_buffer_state(lexer_create_buffer(lexerin, YY_BUF_SIZE));
 }

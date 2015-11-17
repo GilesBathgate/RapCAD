@@ -23,7 +23,7 @@
 #define YY_NULL 0
 extern void lexerinit(AbstractTokenBuilder*,Reporter*,QString,bool);
 extern int lexerdestroy();
-extern void lexerinclude(const char*);
+extern void lexerinclude(QFileInfo);
 extern void lexererror();
 extern int lexerlex();
 extern int lexerleng;
@@ -92,8 +92,7 @@ void TokenBuilder::buildIncludeFinish()
 
 	filename.clear();
 
-	const char* fullpath = fileinfo.absoluteFilePath().toLocal8Bit();
-	lexerinclude(fullpath);
+	lexerinclude(fileinfo);
 
 }
 
