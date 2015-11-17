@@ -26,9 +26,9 @@
 #include "reporter.h"
 
 extern char *lexertext;
-Script* parse(QString,Reporter*);
+Script* parse(QString,Reporter*,bool);
 
-static void parsererror(char const *);
+static void parsererror(const char*);
 static int parserlex();
 static AbstractSyntaxTreeBuilder *builder;
 static AbstractTokenBuilder* tokenizer;
@@ -457,7 +457,7 @@ static int parserlex()
 	return tokenizer->nextToken();
 }
 
-static void parsererror(char const *s)
+static void parsererror(const char* s)
 {
     if(reporter)
 	reporter->reportSyntaxError(tokenizer,s,lexertext);
