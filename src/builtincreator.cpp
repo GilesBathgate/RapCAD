@@ -66,6 +66,7 @@
 #include "module/volumesmodule.h"
 #include "module/triangulatemodule.h"
 #include "module/materialmodule.h"
+#include "module/discretemodule.h"
 
 #include "function/lengthfunction.h"
 #include "function/sqrtfunction.h"
@@ -121,6 +122,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new CylinderSurfaceModule());
 	builtins.append(new DecomposeModule());
 	builtins.append(new DifferenceModule());
+	builtins.append(new DiscreteModule());
 	builtins.append(new EchoModule(output));
 	builtins.append(new GlideModule());
 	builtins.append(new GroupModule());

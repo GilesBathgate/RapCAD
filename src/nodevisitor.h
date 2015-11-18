@@ -53,6 +53,7 @@ public:
 	virtual void visit(class VolumesNode*)=0;
 	virtual void visit(class TriangulateNode*)=0;
 	virtual void visit(class MaterialNode*)=0;
+	virtual void visit(class DiscreteNode*)=0;
 };
 
 #endif // NODEVISITOR_H

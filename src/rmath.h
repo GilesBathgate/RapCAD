@@ -30,7 +30,7 @@ decimal r_min(decimal a,decimal b);
 decimal r_pow(decimal a,decimal e,bool round=true);
 decimal r_mod(decimal a,decimal b);
 decimal r_round(decimal a);
-decimal r_round(decimal a, decimal b);
+decimal r_round(decimal a, int places);
 decimal r_sqrt(decimal a,bool round=true);
 decimal r_sin(decimal a,bool round=true);
 decimal r_cos(decimal a,bool round=true);

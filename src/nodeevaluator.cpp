@@ -88,6 +88,13 @@ void NodeEvaluator::visit(MaterialNode* n)
 	result=p;
 }
 
+void NodeEvaluator::visit(DiscreteNode* n)
+{
+	evaluate(n,Union);
+	if(result)
+		result->discrete(n->getPlaces());
+}
+
 void NodeEvaluator::visit(UnionNode* op)
 {
 	evaluate(op,Union);

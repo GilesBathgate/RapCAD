@@ -51,6 +51,7 @@ public:
 	QList<Point> getPoints() const;
 	QList<Primitive*> getChildren();
 	void appendChild(Primitive*);
+	void discrete(int);
 private:
 	QList<Point> points;
 	QList<Polygon*> polygons;

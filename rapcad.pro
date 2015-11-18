@@ -324,7 +324,9 @@ SOURCES += \
 	src/transformmatrix.cpp \
 	src/module/materialmodule.cpp \
 	src/node/materialnode.cpp \
-	src/simplerenderer.cpp
+	src/simplerenderer.cpp \
+	src/module/discretemodule.cpp \
+	src/node/discretenode.cpp
 
 HEADERS  += \
 	contrib/OGL_helper.h \
@@ -548,7 +550,9 @@ HEADERS  += \
 	src/transformmatrix.h \
 	src/module/materialmodule.h \
 	src/node/materialnode.h \
-	src/simplerenderer.h
+	src/simplerenderer.h \
+	src/module/discretemodule.h \
+	src/node/discretenode.h
 
 FORMS += \
 	src/mainwindow.ui \

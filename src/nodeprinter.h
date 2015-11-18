@@ -52,6 +52,7 @@
 #include "node/volumesnode.h"
 #include "node/triangulatenode.h"
 #include "node/materialnode.h"
+#include "node/discretenode.h"
 
 class NodePrinter : public NodeVisitor
 {
@@ -87,6 +88,7 @@ public:
 	void visit(VolumesNode*);
 	void visit(TriangulateNode*);
 	void visit(MaterialNode*);
+	void visit(DiscreteNode*);
 private:
 	QTextStream& result;
 	void printChildren(Node*);

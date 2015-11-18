@@ -94,12 +94,12 @@ decimal r_round(decimal a)
 #endif
 }
 
-decimal r_round(decimal a,decimal b)
+decimal r_round(decimal a,int places)
 {
 #if USE_CGAL
 	CGAL::Gmpfr m;
 	CGAL::Gmpfr n=to_gmpfr(10.0);
-	CGAL::Gmpfr o=to_gmpfr(b);
+	CGAL::Gmpfr o(places);
 	mpfr_pow(m.fr(),n.fr(),o.fr(),MPFR_RNDN);
 	decimal f(m);
 #else

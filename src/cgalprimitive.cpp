@@ -9,6 +9,7 @@
 #include "cgalbuilder.h"
 #include "cgalexplorer.h"
 #include "onceonly.h"
+#include "rmath.h"
 
 CGAL::NefPolyhedron3* CGALPrimitive::singlePoint=NULL;
 
@@ -436,6 +437,40 @@ QList<Primitive*> CGALPrimitive::getChildren()
 void CGALPrimitive::appendChild(Primitive* p)
 {
 	children.append(p);
+}
+
+static CGAL::Point3 discretePoint(CGAL::Point3& pt,int places)
+{
+	CGAL::Scalar x,y,z;
+	x=r_round(pt.x(),places);
+	y=r_round(pt.y(),places);
+	z=r_round(pt.z(),places);
+	return CGAL::Point3(x,y,z);
+}
+
+class DiscreteNef : public CGAL::NefPolyhedron3
+{
+public:
+	void discrete(int places) {
+		Vertex_iterator v;
+		CGAL_forall_vertices(v,snc()) {
+			v->point()=discretePoint(v->point(),places);
+		}
+	}
+};
+
+void CGALPrimitive::discrete(int places)
+{
+	if(nefPolyhedron) {
+		DiscreteNef* n=static_cast<DiscreteNef*>(nefPolyhedron);
+		n->discrete(places);
+	} else {
+		QList<CGAL::Point3> nps;
+		foreach(CGAL::Point3 pt, points) {
+			nps.append(discretePoint(pt,places));
+		}
+		points=nps;
+	}
 }
 
 CGALPrimitive::Unionable& CGALPrimitive::Unionable::operator+(Unionable& other)

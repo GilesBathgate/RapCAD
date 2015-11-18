@@ -57,6 +57,7 @@ public:
 	virtual QList<Polygon*> getPolygons() const=0;
 	virtual QList<Primitive*> getChildren()=0;
 	virtual void appendChild(Primitive*)=0;
+	virtual void discrete(int)=0;
 };
 
 #endif // PRIMITIVE_H

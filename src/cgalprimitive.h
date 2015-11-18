@@ -73,6 +73,7 @@ public:
 	bool isFullyDimentional();
 	QList<Primitive*> getChildren();
 	void appendChild(Primitive*);
+	void discrete(int);
 	CGAL::Circle3 getRadius();
 	CGALVolume getVolume(bool);
 private:

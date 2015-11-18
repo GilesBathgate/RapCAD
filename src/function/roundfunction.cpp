@@ -16,7 +16,7 @@ Value* RoundFunction::evaluate(Context* ctx)
 
 		NumberValue* placesVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
 		if(placesVal) {
-			decimal places=placesVal->getNumber();
+			int places=placesVal->toInteger();
 			return new NumberValue(r_round(num,places));
 		}
 
