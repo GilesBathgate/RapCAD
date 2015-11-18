@@ -21,6 +21,7 @@
 #define CGALFRAGMENT_H
 
 #include "cgal.h"
+
 #include "fragment.h"
 
 class CGALFragment : public Fragment

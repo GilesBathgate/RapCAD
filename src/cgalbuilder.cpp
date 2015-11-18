@@ -16,12 +16,14 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #if USE_CGAL
+
+#include "cgal.h"
+
 #include <QList>
 #include <QMap>
 #include <CGAL/Constrained_triangulation_2.h>
 #include <CGAL/create_offset_polygons_2.h>
 #include <CGAL/Polygon_2.h>
-#include "cgal.h"
 #include "cgalbuilder.h"
 #include "cgalexplorer.h"
 #include "onceonly.h"

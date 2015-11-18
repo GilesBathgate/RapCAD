@@ -19,7 +19,6 @@
 #ifndef CGALBUILDER_H
 #define CGALBUILDER_H
 
-#include "cgalassert.h" // cgalassert hack pulls in <CGAL/Polyhedron_incremental_builder_3.h>
 #include "cgalprimitive.h"
 
 namespace CGAL

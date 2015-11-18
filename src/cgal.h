@@ -19,6 +19,8 @@
 #ifndef CGAL_H
 #define CGAL_H
 
+#include "cgalassert.h" // cgalassert hack
+
 #include <CGAL/Exact_predicates_exact_constructions_kernel.h>
 
 namespace CGAL

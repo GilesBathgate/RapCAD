@@ -19,15 +19,15 @@
 #ifndef CGALPOLYGON_H
 #define CGALPOLYGON_H
 
-class CGALPrimitive;
-#include <QList>
 #include "cgal.h"
+
+#include <QList>
 #include "polygon.h"
 
 class CGALPolygon : public Polygon
 {
 public:
-	CGALPolygon(CGALPrimitive*);
+	CGALPolygon(class CGALPrimitive*);
 	QList<CGAL::Point3> getPoints() const;
 	void setNormal(CGAL::Vector3);
 	CGAL::Vector3 getNormal() const;

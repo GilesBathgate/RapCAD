@@ -19,11 +19,12 @@
 #ifndef CGALPRIMITIVE_H
 #define CGALPRIMITIVE_H
 
+#include "cgal.h"
+
 #include <QVector>
 #include <CGAL/Polyhedron_3.h>
 #include <CGAL/Nef_polyhedron_3.h>
 #include <CGAL/Nef_nary_union_3.h>
-#include "cgal.h"
 #include "cgalpolygon.h"
 #include "cgalvolume.h"
 #include "primitive.h"
