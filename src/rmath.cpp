@@ -166,15 +166,15 @@ static bool r_right(decimal a)
 
 decimal r_right_sin(decimal a)
 {
-   if(r_right(a)){
-	  return r_round(r_sin_deg(a,false));
-   }
-   return r_sin_deg(a);
+	if(r_right(a)) {
+		return r_round(r_sin_deg(a,false));
+	}
+	return r_sin_deg(a);
 }
 
 decimal r_right_cos(decimal a)
 {
-	if(r_right(a)){
+	if(r_right(a)) {
 		return r_round(r_cos_deg(a,false));
 	}
 	return r_cos_deg(a);
