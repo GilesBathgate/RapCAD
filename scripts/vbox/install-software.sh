@@ -9,6 +9,7 @@ Boost="boost_1_59_0.zip"
 CMake="cmake-3.4.0-rc2-win32-x86.exe"
 CGAL="CGAL-4.7-Setup.exe"
 FlexBison="win_flex_bison-2.5.5.zip"
+GLW="glw-0.0.1.zip"
 SourceHighlight="src-highlite-2.1.2.exe"
 NSIS="nsis-3.0b2-setup.exe"
 QtBin="c:\\Qt\\Qt5.5.1\\5.5\\mingw492_32\\bin"
@@ -85,3 +86,6 @@ echo "csharp = csharp.lang" >> $SHAREDFOLDER/lang.map
 
 echo "Installing NSIS"
 ./cmd.sh c:\\shared\\$NSIS /S
+
+echo "Installing glw"
+./cmd.sh c:\\7zip\\7z.exe x -oc:\\ c:\\shared\\$GLW
