@@ -57,6 +57,8 @@ MainWindow::MainWindow(QWidget* parent) :
 	ui->treeView->setVisible(false);
 	ui->actionShowProjects->setChecked(false);
 	ui->actionShowProjects->setEnabled(false);
+
+	ui->mainToolBar->setContextMenuPolicy(Qt::ActionsContextMenu);
 }
 
 MainWindow::~MainWindow()
