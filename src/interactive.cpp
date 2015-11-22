@@ -61,6 +61,6 @@ int Interactive::evaluate()
 		execCommand(c);
 	} while(c!=NULL);
 	output << endl;
-	return EXIT_SUCCESS;
 #endif
+	return EXIT_SUCCESS;
 }
