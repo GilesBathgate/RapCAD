@@ -29,18 +29,20 @@ ppa_build(){
 	mv rapcad_$version~"$vname"1* $ppadir
 }
 
+ppa_build "Wily"
 ppa_build "Vivid"
 ppa_build "Trusty"
 
 rm -rf rapcad-$version
 
 echo Building Windows version
-vboxheadless --startvm "WindowsXP-BuildEnv" &&
 if [ ! -d "$windir" ]; then
  mkdir -p $windir
 fi
 popd
-mv rapcad_$version\_setup.exe ../$windir/ &&
-mv rapcad_$version.zip ../$windir/
+scripts/vbox/start-vm.sh &&
+scripts/vbox/cmd.sh c:\\rapcad\\release-win32.bat &&
+mv scripts/vbox/shared/rapcad_$version\_setup.exe ../$windir/ &&
+mv scripts/vbox/shared/rapcad_$version.zip ../$windir/
 
 echo "Complete"
