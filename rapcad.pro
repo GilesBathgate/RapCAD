@@ -551,7 +551,8 @@ HEADERS  += \
 	src/node/materialnode.h \
 	src/simplerenderer.h \
 	src/module/discretemodule.h \
-	src/node/discretenode.h
+	src/node/discretenode.h \
+       src/stringify.h
 
 FORMS += \
 	src/mainwindow.ui \
