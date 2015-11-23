@@ -1,3 +1,29 @@
+0.9.7
+   * Use arbitary precision arithmetic for all calculations.
+   * Prevent toolbar being hidden show actions menu on right click.
+   * Greyscale the rendering window while compilation is taking place.
+   * Use new QOpenGLWidget when Qt5.4 or above is available.
+   * Added discrete module for quantising vertices to the nearest n decimal places.
+   * Added a simple renderer, to render wireframes without cgal.
+   * Experimental multi material support.
+   * Provide backwards compatibility in rotate extrude.
+   * Rotate module now accepts unit quaternion (versor).
+   * Implemented quaternions, multiplication, and ang() function.
+   * Allow nesting of auxilirary modules, and display nested to be displayed.
+   * Implemented exponent operator for vectors.
+   * Implemented length (magnitude) operator.
+   * Implemented vector multiplication and norm() function.
+   * Ranges now support basic interval arithmetic.
+   * Update to Qt5.5.1 on windows build.
+   * Allow diameter parameter on circle.
+   * Removed extraneous new lines in console output.
+   * Added places parameter to round function.
+   * Added a triangulate module.
+   * Fixed a crash in linear_extrude when there are no perimeters.
+   * Preferences default to "Safety orange" theme.
+   * Ensure only modified files are saved and allow do not save for new tabs when closed.
+   * Updated windows build environment.
+
 0.9.6
    * All trig functions now take value in degrees.
    * Ensure cone, prism, cylinder etc use exact centering along vertical axis.
