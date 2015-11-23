@@ -65,6 +65,15 @@ GLView::GLView(QWidget* parent) :
 #endif
 }
 
+GLView::~GLView()
+{
+#if !USE_QGLWIDGET
+	delete projection;
+	delete modelview;
+#endif
+	delete render;
+}
+
 void GLView::getViewport(double& rx,double& ry,double& rz,double& x, double& z,double& d)
 {
 	rx=rotateX;

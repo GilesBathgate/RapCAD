@@ -41,6 +41,7 @@ class GLView :
 
 public:
 	GLView(QWidget* parent = NULL);
+	~GLView();
 	void setRenderer(Renderer* r);
 	void setCompiling(bool value);
 
