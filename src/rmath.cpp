@@ -103,7 +103,7 @@ decimal r_round(decimal a,int places)
 	mpfr_pow(m.fr(),n.fr(),o.fr(),MPFR_RNDN);
 	decimal f(m);
 #else
-	decimal f=pow(10.0,b);
+	decimal f=pow(10.0,places);
 #endif
 	return r_round(a*f)/f;
 }
