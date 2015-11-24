@@ -37,15 +37,13 @@ void showVersion(QTextStream& out)
     out << QCoreApplication::applicationName() << " " << QCoreApplication::applicationVersion() << endl;
 }
 
-static int showUi(QCoreApplication* a,QStringList filenames)
+static int showUi(int argc, char* argv[],QStringList filenames)
 {
+	QApplication a(argc,argv);
 	MainWindow w;
 	w.loadFiles(filenames);
 	w.show();
-
-	int retcode=a->exec();
-	Preferences::syncDelete();
-	return retcode;
+	return a.exec();
 }
 
 int main(int argc, char* argv[])
@@ -115,13 +113,17 @@ int main(int argc, char* argv[])
 #endif
 	}
 
+	int retcode;
 	if(s) {
-		int retcode=s->evaluate();
+		retcode=s->evaluate();
 		a->quit();
-		return retcode;
 	} else {
 		delete a;
-		a=new QApplication(argc,argv);
-		return showUi(a,inputFiles);
+		retcode=showUi(argc,argv,inputFiles);
 	}
+
+	//Ensure preferences are saved.
+	Preferences::syncDelete();
+
+	return retcode;
 }
