@@ -41,13 +41,11 @@ cp user_guide.html release \
 
 CGAL="../CGAL-4.7"
 GMP="$CGAL/auxiliary/gmp/lib"
-GLW="../glw/release"
 cp \
   $CGAL/bin/libCGAL.dll \
   $CGAL/bin/libCGAL_Core.dll \
   $GMP/libgmp-10.dll \
   $GMP/libmpfr-4.dll \
-  $GLW/glw.dll \
   release \
   || die "failed copying dlls."
 

@@ -8,7 +8,7 @@ SetOutPath $INSTDIR
 File release\rapcad.exe
 File release\Qt5Core.dll
 File release\Qt5Gui.dll
-File release\glw.dll
+File release\Qt5OpenGL.dll
 File release\Qt5Widgets.dll
 File release\libCGAL.dll
 File release\libCGAL_Core.dll
@@ -29,7 +29,7 @@ Delete $INSTDIR\Uninstall.exe
 Delete $INSTDIR\rapcad.exe
 Delete $INSTDIR\Qt5Core.dll
 Delete $INSTDIR\Qt5Gui.dll
-Delete $INSTDIR\glw.dll
+Delete $INSTDIR\Qt5OpenGL.dll
 Delete $INSTDIR\Qt5Widgets.dll
 Delete $INSTDIR\libCGAL.dll
 Delete $INSTDIR\libCGAL_Core.dll

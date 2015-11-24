@@ -48,6 +48,9 @@ static int showUi(int argc, char* argv[],QStringList filenames)
 
 int main(int argc, char* argv[])
 {
+#ifdef Q_OS_WIN
+	QCoreApplication::setAttribute(Qt::AA_UseDesktopOpenGL);
+#endif
 	QCoreApplication::setOrganizationName("rapcad");
 	QCoreApplication::setOrganizationDomain("rapcad.org");
 	QCoreApplication::setApplicationName("RapCAD");

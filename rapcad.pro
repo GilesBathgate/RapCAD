@@ -54,6 +54,7 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 
 win32 {
 	DEFINES -= USE_READLINE
+	DEFINES += USE_QGLWIDGET
 
 	CGALROOT = ../CGAL-4.7
 	BOOSTROOT = ../boost_1_59_0
@@ -66,7 +67,7 @@ win32 {
 	LIBS += -lboost_system-mgw49-mt-1_59
 	LIBS += -L$$CGALROOT/lib -lCGAL -lCGAL_Core
 	LIBS += -L$$CGALROOT/auxiliary/gmp/lib -lmpfr-4 -lgmp-10
-	LIBS += -L../glw/release/ -lglw -lglu32
+	LIBS += -lopengl32 -lglu32
 	contains(DEFINES,USE_READLINE) {
 	LIBS += -lreadline
 	}
