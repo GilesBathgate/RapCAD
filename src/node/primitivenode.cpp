@@ -18,7 +18,6 @@
 
 #include "primitivenode.h"
 #include "polyhedron.h"
-
 PrimitiveNode::PrimitiveNode()
 {
 	primitive=new Polyhedron();

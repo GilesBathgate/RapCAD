@@ -219,6 +219,7 @@
     <addaction name="actionCompileAndRender"/>
     <addaction name="actionGenerateGcode"/>
     <addaction name="actionShowBuiltins"/>
+    <addaction name="actionFlushCaches"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -749,7 +750,9 @@
   </action>
   <action name="actionExportAMF">
    <property name="icon">
-    <iconset theme="text-x-generic-template"/>
+    <iconset theme="text-x-generic-template">
+     <normaloff/>
+    </iconset>
    </property>
    <property name="text">
     <string>AMF</string>
@@ -806,10 +809,20 @@
   </action>
   <action name="actionUserGuide">
    <property name="icon">
-    <iconset theme="help"/>
+    <iconset theme="help">
+     <normaloff/>
+    </iconset>
    </property>
    <property name="text">
     <string>User Guide</string>
+   </property>
+  </action>
+  <action name="actionFlushCaches">
+   <property name="text">
+    <string>Flush Caches</string>
+   </property>
+   <property name="toolTip">
+    <string>Flush the geomtry cache</string>
    </property>
   </action>
  </widget>

@@ -32,6 +32,7 @@
 #include "aboutdialog.h"
 #include "builtincreator.h"
 #include "stringify.h"
+#include "cachemanager.h"
 
 MainWindow::MainWindow(QWidget* parent) :
 	QMainWindow(parent),
@@ -210,6 +211,8 @@ void MainWindow::setupActions()
 	connect(ui->actionShowBuiltins,SIGNAL(triggered()),this,SLOT(showBuiltins()));
 
 	connect(ui->actionUserGuide,SIGNAL(triggered()),this,SLOT(showUserGuide()));
+
+	connect(ui->actionFlushCaches,SIGNAL(triggered()),this,SLOT(flushCaches()));
 
 }
 
@@ -676,6 +679,12 @@ void MainWindow::showUserGuide()
 		url=QUrl("https://github.com/GilesBathgate/RapCAD/blob/master/doc/user_guide.asciidoc");
 
 	QDesktopServices::openUrl(url);
+}
+
+void MainWindow::flushCaches()
+{
+	CacheManager* m=CacheManager::getInstance();
+	m->flushCaches();
 }
 
 void MainWindow::tabChanged(int i)

@@ -36,6 +36,8 @@
 NodeEvaluator::NodeEvaluator(Reporter* r)
 {
 	reporter=r;
+	CacheManager* m=CacheManager::getInstance();
+	cache=m->getCache();
 }
 
 Primitive* NodeEvaluator::createPrimitive()
@@ -49,21 +51,26 @@ Primitive* NodeEvaluator::createPrimitive()
 
 void NodeEvaluator::visit(PrimitiveNode* n)
 {
-	Primitive* cp=createPrimitive();
-	convert(n->getPrimitive(),cp);
+	Primitive* pr=n->getPrimitive();
+	Primitive* cp=cache->fetch(pr);
+	if(!cp) {
+		cp=convert(pr);
+		cache->store(cp);
+	}
 	result=cp;
 }
 
 void NodeEvaluator::visit(PolylineNode* n)
 {
-	Primitive* cp=createPrimitive();
+	Primitive* pr=n->getPrimitive();
+	Primitive* cp=convert(pr);
 	cp->setType(Primitive::Skeleton);
-	convert(n->getPrimitive(),cp);
 	result=cp;
 }
 
-void NodeEvaluator::convert(Primitive* pr,Primitive* cp)
+Primitive* NodeEvaluator::convert(Primitive* pr)
 {
+	Primitive* cp=createPrimitive();
 	foreach(Point p,pr->getPoints())
 		cp->createVertex(p);
 
@@ -71,6 +78,7 @@ void NodeEvaluator::convert(Primitive* pr,Primitive* cp)
 		Polygon* np=cp->createPolygon();
 		np->setIndexes(pg->getIndexes());
 	}
+	return cp;
 }
 
 void NodeEvaluator::visit(TriangulateNode* n)

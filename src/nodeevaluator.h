@@ -54,6 +54,7 @@
 #include "node/triangulatenode.h"
 #include "node/materialnode.h"
 #include "node/discretenode.h"
+#include "cachemanager.h"
 
 class NodeEvaluator : public NodeVisitor
 {
@@ -105,10 +106,11 @@ public:
 	Primitive* getResult() const;
 private:
 	Primitive* createPrimitive();
-	void convert(Primitive* pr, Primitive* cp);
+	Primitive* convert(Primitive* pr);
 	void evaluate(Node*,Operation_e);
 	Reporter* reporter;
 	Primitive* result;
+	Cache* cache;
 };
 
 #endif // NODEEVALUATOR_H

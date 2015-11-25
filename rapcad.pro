@@ -326,7 +326,9 @@ SOURCES += \
 	src/node/materialnode.cpp \
 	src/simplerenderer.cpp \
 	src/module/discretemodule.cpp \
-	src/node/discretenode.cpp
+	src/node/discretenode.cpp \
+	src/cachemanager.cpp \
+	src/cache.cpp
 
 HEADERS  += \
 	contrib/OGL_helper.h \
@@ -553,7 +555,9 @@ HEADERS  += \
 	src/simplerenderer.h \
 	src/module/discretemodule.h \
 	src/node/discretenode.h \
-       src/stringify.h
+	src/stringify.h \
+	src/cachemanager.h \
+	src/cache.h
 
 FORMS += \
 	src/mainwindow.ui \
