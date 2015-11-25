@@ -79,62 +79,62 @@ void Preferences::setRationalFormat(bool b)
 	settings->setValue("RationalFormat",b);
 }
 
-double Preferences::getDefaultRotationX()
+float Preferences::getDefaultRotationX()
 {
-	return settings->value("DefaultRotationX",35.0).toDouble();
+	return settings->value("DefaultRotationX",35.0).toFloat();
 }
 
-double Preferences::getDefaultRotationY()
+float Preferences::getDefaultRotationY()
 {
-	return settings->value("DefaultRotationY",0.0).toDouble();
+	return settings->value("DefaultRotationY",0.0).toFloat();
 }
 
-double Preferences::getDefaultRotationZ()
+float Preferences::getDefaultRotationZ()
 {
-	return settings->value("DefaultRotationZ",35.0).toDouble();
+	return settings->value("DefaultRotationZ",35.0).toFloat();
 }
 
-double Preferences::getDefaultX()
+float Preferences::getDefaultX()
 {
-	return settings->value("DefaultX",0.0).toDouble();
+	return settings->value("DefaultX",0.0).toFloat();
 }
 
-double Preferences::getDefaultZ()
+float Preferences::getDefaultZ()
 {
-	return settings->value("DefaultZ",0.0).toDouble();
+	return settings->value("DefaultZ",0.0).toFloat();
 }
 
-double Preferences::getDefaultDistance()
+float Preferences::getDefaultDistance()
 {
-	return settings->value("DefaultDistance",500.0).toDouble();
+	return settings->value("DefaultDistance",500.0).toFloat();
 }
 
-void Preferences::setDefaultRotationX(double x)
+void Preferences::setDefaultRotationX(float x)
 {
 	settings->setValue("DefaultRotationX",x);
 }
 
-void Preferences::setDefaultRotationY(double y)
+void Preferences::setDefaultRotationY(float y)
 {
 	settings->setValue("DefaultRotationY",y);
 }
 
-void Preferences::setDefaultRotationZ(double z)
+void Preferences::setDefaultRotationZ(float z)
 {
 	settings->setValue("DefaultRotationZ",z);
 }
 
-void Preferences::setDefaultX(double x)
+void Preferences::setDefaultX(float x)
 {
 	settings->setValue("DefaultX",x);
 }
 
-void Preferences::setDefaultZ(double z)
+void Preferences::setDefaultZ(float z)
 {
 	settings->setValue("DefaultZ",z);
 }
 
-void Preferences::setDefaultDistance(double d)
+void Preferences::setDefaultDistance(float d)
 {
 	settings->setValue("DefaultDistance",d);
 }
@@ -309,22 +309,22 @@ void Preferences::setWindowSize(QSize s)
 	settings->setValue("WindowSize",s);
 }
 
-double Preferences::getVertexSize()
+float Preferences::getVertexSize()
 {
-	return settings->value("VertexSize",0).toDouble();
+	return settings->value("VertexSize",0).toFloat();
 }
 
-void Preferences::setVertexSize(double s)
+void Preferences::setVertexSize(float s)
 {
 	settings->setValue("VertexSize",s);
 }
 
-double Preferences::getEdgeSize()
+float Preferences::getEdgeSize()
 {
-	return settings->value("EdgeSize",1).toDouble();
+	return settings->value("EdgeSize",1).toFloat();
 }
 
-void Preferences::setEdgeSize(double s)
+void Preferences::setEdgeSize(float s)
 {
 	settings->setValue("EdgeSize",s);
 }

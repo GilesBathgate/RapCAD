@@ -23,7 +23,7 @@
 #include <CGAL/glu.h>
 #endif
 
-static const double farfarAway=100000.0;
+static const float farfarAway=100000.0;
 static const int baseX=-16;
 static const int baseY=-30;
 static const int baseWidth=232;
@@ -74,7 +74,7 @@ GLView::~GLView()
 	delete render;
 }
 
-void GLView::getViewport(double& rx,double& ry,double& rz,double& x, double& z,double& d)
+void GLView::getViewport(float& rx,float& ry,float& rz,float& x, float& z,float& d)
 {
 	rx=rotateX;
 	ry=rotateY;
@@ -84,7 +84,7 @@ void GLView::getViewport(double& rx,double& ry,double& rz,double& x, double& z,d
 	d=distance;
 }
 
-void GLView::setViewport(double rx,double ry,double rz,double x, double z,double d)
+void GLView::setViewport(float rx,float ry,float rz,float x, float z,float d)
 {
 	rotateX=rx;
 	rotateY=ry;
@@ -109,7 +109,7 @@ void GLView::setShowEdges(bool edges)
 
 void GLView::changeViewport(int t)
 {
-	double rx,ry,rz,x,z,d;
+	float rx,ry,rz,x,z,d;
 	getViewport(rx,ry,rz,x,z,d);
 
 	switch(t) {
@@ -253,7 +253,7 @@ void GLView::paintGL()
 		glLineWidth(1);
 		glColor3f(0.5, 0.5, 0.5);
 		glBegin(GL_LINES);
-		double c=fmax(distance/2,rulerLength);
+		float c=fmax(distance/2,rulerLength);
 		glVertex3f(-c, 0, 0);
 		glVertex3f(+c, 0, 0);
 		glVertex3f(0, -c, 0);
@@ -319,7 +319,7 @@ void GLView::wheelEvent(QWheelEvent* event)
 	update();
 }
 
-void GLView::zoomView(double amt)
+void GLView::zoomView(float amt)
 {
 	distance*=(GLfloat)pow(0.9,amt/10);
 }

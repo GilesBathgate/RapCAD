@@ -41,7 +41,7 @@ Node* PolygonModule::evaluate(Context* ctx)
 
 	QList<Value*> lines=linesVec->getChildren();
 
-	//This is to remove the need for double vector syntax in the lines argument
+	//This is to remove the need for duplicate vector syntax in the lines argument
 	// e.g. lines=[[0,1,2,3]] can just be writtern as lines=[0,1,2,3]
 	if(!lines.isEmpty()) {
 		VectorValue* single=dynamic_cast<VectorValue*>(lines.at(0));

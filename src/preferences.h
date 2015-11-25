@@ -38,23 +38,23 @@ public:
 	bool getRationalFormat();
 	void setRationalFormat(bool b);
 
-	double getDefaultRotationX();
-	void setDefaultRotationX(double d);
+	float getDefaultRotationX();
+	void setDefaultRotationX(float);
 
-	double getDefaultRotationY();
-	void setDefaultRotationY(double d);
+	float getDefaultRotationY();
+	void setDefaultRotationY(float);
 
-	double getDefaultRotationZ();
-	void setDefaultRotationZ(double d);
+	float getDefaultRotationZ();
+	void setDefaultRotationZ(float);
 
-	double getDefaultX();
-	void setDefaultX(double d);
+	float getDefaultX();
+	void setDefaultX(float);
 
-	double getDefaultZ();
-	void setDefaultZ(double d);
+	float getDefaultZ();
+	void setDefaultZ(float);
 
-	double getDefaultDistance();
-	void setDefaultDistance(double d);
+	float getDefaultDistance();
+	void setDefaultDistance(float);
 
 	QColor getMarkedVertexColor();
 	void setMarkedVertexColor(QColor);
@@ -107,11 +107,11 @@ public:
 	void setWindowSize(QSize);
 	QSize getWindowSize();
 
-	void setVertexSize(double);
-	double getVertexSize();
+	void setVertexSize(float);
+	float getVertexSize();
 
-	void setEdgeSize(double);
-	double getEdgeSize();
+	void setEdgeSize(float);
+	float getEdgeSize();
 
 	void setAutoSaveOnCompile(bool);
 	bool getAutoSaveOnCompile();

@@ -60,8 +60,8 @@ public:
 
 public slots:
 	void preferencesUpdated();
-	void setViewport(double,double,double,double,double,double);
-	void getViewport(double&,double&,double&,double&,double&,double&);
+	void setViewport(float,float,float,float,float,float);
+	void getViewport(float&,float&,float&,float&,float&,float&);
 	void setShowAxes(bool);
 	void setShowRulers(bool);
 	void setShowBase(bool);
@@ -84,7 +84,7 @@ private:
 	void wheelEvent(QWheelEvent* event);
 
 	void normalizeAngle(GLfloat&);
-	void zoomView(double);
+	void zoomView(float);
 
 	Renderer* render;
 	GLfloat distance;

@@ -92,7 +92,7 @@ void MainWindow::savePreferences()
 void MainWindow::setDefaultViewport()
 {
 	Preferences* p=Preferences::getInstance();
-	double rx,ry,rz,x,z,d;
+	float rx,ry,rz,x,z,d;
 	ui->view->getViewport(rx,ry,rz,x,z,d);
 	p->setDefaultRotationX(rx);
 	p->setDefaultRotationY(ry);
@@ -151,7 +151,7 @@ void MainWindow::loadPreferences()
 void MainWindow::getDefaultViewport()
 {
 	Preferences* p=Preferences::getInstance();
-	double rx,ry,rz,x,z,d;
+	float rx,ry,rz,x,z,d;
 	rx=p->getDefaultRotationX();
 	ry=p->getDefaultRotationY();
 	rz=p->getDefaultRotationZ();
