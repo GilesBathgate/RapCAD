@@ -46,6 +46,7 @@ MainWindow::MainWindow(QWidget* parent) :
 	this->setWindowIcon(rapcadIcon);
 	setupLayout();
 	setupActions();
+	setupViewActions();
 	setupEditor(ui->scriptEditor);
 	setupTreeview();
 	setupTabs(ui->tabWidget);
@@ -68,6 +69,7 @@ MainWindow::~MainWindow()
 	delete worker;
 	delete interact;
 	delete preferencesDialog;
+	delete signalMapper;
 	delete ui;
 }
 
@@ -208,6 +210,27 @@ void MainWindow::setupActions()
 	connect(ui->actionShowBuiltins,SIGNAL(triggered()),this,SLOT(showBuiltins()));
 
 	connect(ui->actionUserGuide,SIGNAL(triggered()),this,SLOT(showUserGuide()));
+
+}
+
+void MainWindow::setupViewActions()
+{
+	signalMapper = new QSignalMapper(this);
+	signalMapper->setMapping(ui->actionTop,GLView::Top);
+	signalMapper->setMapping(ui->actionBottom,GLView::Bottom);
+	signalMapper->setMapping(ui->actionLeft,GLView::Left);
+	signalMapper->setMapping(ui->actionRight,GLView::Right);
+	signalMapper->setMapping(ui->actionBack,GLView::Back);
+	signalMapper->setMapping(ui->actionFront,GLView::Front);
+
+	connect(ui->actionTop,SIGNAL(triggered()),signalMapper,SLOT(map()));
+	connect(ui->actionBottom,SIGNAL(triggered()),signalMapper,SLOT(map()));
+	connect(ui->actionLeft,SIGNAL(triggered()),signalMapper,SLOT(map()));
+	connect(ui->actionRight,SIGNAL(triggered()),signalMapper,SLOT(map()));
+	connect(ui->actionBack,SIGNAL(triggered()),signalMapper,SLOT(map()));
+	connect(ui->actionFront,SIGNAL(triggered()),signalMapper,SLOT(map()));
+
+	connect(signalMapper,SIGNAL(mapped(int)),ui->view,SLOT(changeViewport(int)));
 
 }
 

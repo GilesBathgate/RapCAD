@@ -85,6 +85,7 @@ private:
 	void savePreferences();
 	void setupLayout();
 	void setupActions();
+	void setupViewActions();
 	void setupEditor(CodeEditor*);
 	void setupTabs(QTabWidget*);
 	void setupConsole();
@@ -102,6 +103,7 @@ private:
 	BackgroundWorker* worker;
 	Interactive* interact;
 	PreferencesDialog* preferencesDialog;
+	QSignalMapper* signalMapper;
 };
 
 #endif // MAINWINDOW_H

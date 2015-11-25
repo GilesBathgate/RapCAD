@@ -107,6 +107,33 @@ void GLView::setShowEdges(bool edges)
 	update();
 }
 
+void GLView::changeViewport(int t)
+{
+	double rx,ry,rz,x,z,d;
+	getViewport(rx,ry,rz,x,z,d);
+
+	switch(t) {
+	case Top:
+		setViewport(90,0,0,x,z,d);
+		break;
+	case Bottom:
+		setViewport(-90,0,0,x,z,d);
+		break;
+	case Left:
+		setViewport(0,0,90,x,z,d);
+		break;
+	case Right:
+		setViewport(0,0,-90,x,z,d);
+		break;
+	case Front:
+		setViewport(0,0,0,x,z,d);
+		break;
+	case Back:
+		setViewport(0,0,-180,x,z,d);
+		break;
+	}
+}
+
 void GLView::setShowAxes(bool axes)
 {
 	showAxes=axes;

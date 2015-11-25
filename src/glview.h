@@ -40,6 +40,15 @@ class GLView :
 	Q_OBJECT
 
 public:
+	enum View_t {
+		Top,
+		Bottom,
+		Left,
+		Right,
+		Back,
+		Front
+	};
+
 	GLView(QWidget* parent = NULL);
 	~GLView();
 	void setRenderer(Renderer* r);
@@ -59,6 +68,7 @@ public slots:
 	void setShowPrintArea(bool);
 	void setSkeleton(bool);
 	void setShowEdges(bool);
+	void changeViewport(int);
 private:
 	void initializeGL();
 	void resizeGL(int w, int h);
