@@ -328,7 +328,8 @@ SOURCES += \
 	src/module/discretemodule.cpp \
 	src/node/discretenode.cpp \
 	src/cachemanager.cpp \
-	src/cache.cpp
+	src/cache.cpp \
+	src/cgalcache.cpp
 
 HEADERS  += \
 	contrib/OGL_helper.h \
@@ -557,7 +558,8 @@ HEADERS  += \
 	src/node/discretenode.h \
 	src/stringify.h \
 	src/cachemanager.h \
-	src/cache.h
+	src/cache.h \
+	src/cgalcache.h
 
 FORMS += \
 	src/mainwindow.ui \

@@ -11,10 +11,9 @@ class Cache
 {
 public:
 	Cache();
-	~Cache();
+	virtual ~Cache();
 	Primitive* fetch(Primitive*);
-	void store(Primitive*);
-private:
+protected:
 	typedef QVector<int> i_Point;
 	typedef QVector<i_Point> i_PointList;
 	typedef QVector<int> i_Polygon;
@@ -24,13 +23,11 @@ private:
 	int hashValue(const decimal&);
 	i_Point hashPoint(const Point&);
 	i_Polygon hashPolygon(Polygon*);
-	i_Primitive hashPrimitive(Primitive*);
-	Primitive* duplicate(Primitive*);
-
+	virtual i_Primitive hashPrimitive(Primitive*);
+private:
 	int index;
 	QMap<decimal,int> map;
 	QHash<i_Primitive,Primitive*> allPrimitives;
-	i_Primitive iprimitive;
 };
 
 template <class T>

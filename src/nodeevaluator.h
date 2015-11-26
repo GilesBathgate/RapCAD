@@ -106,7 +106,6 @@ public:
 	Primitive* getResult() const;
 private:
 	Primitive* createPrimitive();
-	Primitive* convert(Primitive* pr);
 	void evaluate(Node*,Operation_e);
 	Reporter* reporter;
 	Primitive* result;

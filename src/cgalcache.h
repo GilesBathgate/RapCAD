@@ -16,25 +16,22 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PRIMITIVENODE_H
-#define PRIMITIVENODE_H
+#if USE_CGAL
+#ifndef CGALCACHE_H
+#define CGALCACHE_H
 
-#include <QList>
-#include <QString>
-#include "node.h"
-#include "primitive.h"
+#include "cache.h"
+#include "cgalprimitive.h"
 
-class PrimitiveNode : public Node
+class CGALCache : public Cache
 {
 public:
-	PrimitiveNode();
-	Polygon* createPolygon();
-	void createVertex(decimal x, decimal y, decimal z);
-	void createVertex(Point p);
-	void accept(NodeVisitor&);
-	Primitive* getPrimitive();
+	CGALCache();
 private:
-	Primitive* primitive;
+	i_Point hashPoint(const CGAL::Point3&);
+	i_Primitive hashPrimitive(Primitive*);
+	i_Primitive hashPrimitive(CGALPrimitive*);
 };
 
-#endif // PRIMITIVENODE_H
+#endif // CGALCACHE_H
+#endif

@@ -18,14 +18,17 @@
 
 #include "primitivenode.h"
 #include "polyhedron.h"
+#if USE_CGAL
+#include "cgalprimitive.h"
+#endif
+
 PrimitiveNode::PrimitiveNode()
 {
+#if USE_CGAL
+	primitive=new CGALPrimitive();
+#else
 	primitive=new Polyhedron();
-}
-
-PrimitiveNode::~PrimitiveNode()
-{
-	delete primitive;
+#endif
 }
 
 Polygon* PrimitiveNode::createPolygon()

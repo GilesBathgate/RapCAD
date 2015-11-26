@@ -16,25 +16,44 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PRIMITIVENODE_H
-#define PRIMITIVENODE_H
+#if USE_CGAL
 
-#include <QList>
-#include <QString>
-#include "node.h"
-#include "primitive.h"
+#include "cgalcache.h"
 
-class PrimitiveNode : public Node
+CGALCache::CGALCache()
 {
-public:
-	PrimitiveNode();
-	Polygon* createPolygon();
-	void createVertex(decimal x, decimal y, decimal z);
-	void createVertex(Point p);
-	void accept(NodeVisitor&);
-	Primitive* getPrimitive();
-private:
-	Primitive* primitive;
-};
+}
 
-#endif // PRIMITIVENODE_H
+Cache::i_Point CGALCache::hashPoint(const CGAL::Point3& pt)
+{
+	i_Point ip;
+	ip.append(hashValue(pt.x()));
+	ip.append(hashValue(pt.y()));
+	ip.append(hashValue(pt.z()));
+
+	return ip;
+}
+
+Cache::i_Primitive CGALCache::hashPrimitive(Primitive* pr)
+{
+	CGALPrimitive* cg=dynamic_cast<CGALPrimitive*>(pr);
+	if(cg) {
+		return hashPrimitive(cg);
+	}
+	return Cache::hashPrimitive(pr);
+}
+
+Cache::i_Primitive CGALCache::hashPrimitive(CGALPrimitive* cg)
+{
+	i_PointList pi;
+	foreach(CGAL::Point3 pt, cg->getCGALPoints())
+		pi.append(hashPoint(pt));
+
+	i_PolygonList pgi;
+	foreach(CGALPolygon* pg, cg->getCGALPolygons())
+		pgi.append(hashPolygon(pg));
+
+	return i_Primitive(pi,pgi);
+}
+
+#endif

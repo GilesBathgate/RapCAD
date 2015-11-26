@@ -58,21 +58,15 @@ Cache::i_Primitive Cache::hashPrimitive(Primitive* pr)
 	return i_Primitive(pi,pgi);
 }
 
-Primitive* Cache::duplicate(Primitive* p)
-{
-	if(p)
-		return p->copy();
-	return NULL;
-}
-
 Primitive* Cache::fetch(Primitive* pr)
 {
-	iprimitive=hashPrimitive(pr);
-	Primitive* np=allPrimitives.value(iprimitive,NULL);
-	return duplicate(np);
-}
-
-void Cache::store(Primitive* cp)
-{
-	allPrimitives.insert(iprimitive,duplicate(cp));
+	if(pr) {
+		i_Primitive ip=hashPrimitive(pr);
+		Primitive* np=allPrimitives.value(ip,NULL);
+		if(np) {
+			return np->copy();
+		}
+		allPrimitives.insert(ip,pr->copy());
+	}
+	return pr;
 }

@@ -13,7 +13,7 @@ public:
 private:
 	CacheManager();
 	static CacheManager* instance;
-
+	Cache* createCache();
 	Cache* cache;
 };
 

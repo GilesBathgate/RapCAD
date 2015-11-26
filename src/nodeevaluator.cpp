@@ -51,34 +51,15 @@ Primitive* NodeEvaluator::createPrimitive()
 
 void NodeEvaluator::visit(PrimitiveNode* n)
 {
-	Primitive* pr=n->getPrimitive();
-	Primitive* cp=cache->fetch(pr);
-	if(!cp) {
-		cp=convert(pr);
-		cache->store(cp);
-	}
-	result=cp;
+	Primitive* cp=n->getPrimitive();
+	result=cache->fetch(cp);
 }
 
 void NodeEvaluator::visit(PolylineNode* n)
 {
-	Primitive* pr=n->getPrimitive();
-	Primitive* cp=convert(pr);
+	Primitive* cp=n->getPrimitive();
 	cp->setType(Primitive::Skeleton);
 	result=cp;
-}
-
-Primitive* NodeEvaluator::convert(Primitive* pr)
-{
-	Primitive* cp=createPrimitive();
-	foreach(Point p,pr->getPoints())
-		cp->createVertex(p);
-
-	foreach(Polygon* pg,pr->getPolygons()) {
-		Polygon* np=cp->createPolygon();
-		np->setIndexes(pg->getIndexes());
-	}
-	return cp;
 }
 
 void NodeEvaluator::visit(TriangulateNode* n)

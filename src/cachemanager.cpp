@@ -1,4 +1,5 @@
 #include "cachemanager.h"
+#include "cgalcache.h"
 
 CacheManager* CacheManager::instance=NULL;
 
@@ -17,10 +18,19 @@ Cache* CacheManager::getCache() const
 void CacheManager::flushCaches()
 {
 	delete cache;
-	cache=new Cache();
+	cache=createCache();
 }
 
 CacheManager::CacheManager()
 {
-	cache=new Cache();
+	cache=createCache();
+}
+
+Cache*CacheManager::createCache()
+{
+#if USE_CGAL
+	return new CGALCache();
+#else
+	return new Cache();
+#endif
 }
