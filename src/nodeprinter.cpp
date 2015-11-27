@@ -29,6 +29,11 @@ void NodePrinter::visit(PrimitiveNode* n)
 	Polyhedron* ph = dynamic_cast<Polyhedron*>(n->getPrimitive());
 	if(ph)
 		printPolyhedron(ph);
+#if USE_CGAL
+	CGALPrimitive* cp = dynamic_cast<CGALPrimitive*>(n->getPrimitive());
+	if(cp)
+		printPrimitive(cp);
+#endif
 
 	result << "]);";
 }
@@ -58,6 +63,34 @@ void NodePrinter::printPolyhedron(Polyhedron* ph)
 		result << "]";
 	}
 }
+
+#if USE_CGAL
+void NodePrinter::printPrimitive(CGALPrimitive* pr)
+{
+	OnceOnly first;
+	foreach(CGAL::Point3 p, pr->getCGALPoints()) {
+		if(!first())
+			result << ",";
+		result << "[" << to_string(p.x(),true) << "," << to_string(p.y(),true) << "," << to_string(p.z(),true) << "]";
+	}
+	result << "],[";
+
+	OnceOnly first_pg;
+	foreach(Polygon* pg,pr->getCGALPolygons()) {
+		if(!first_pg())
+			result << ",";
+		result << "[";
+
+		OnceOnly first_p;
+		foreach(int i,pg->getIndexes()) {
+			if(!first_p())
+				result << ",";
+			result << QString().setNum(i);
+		}
+		result << "]";
+	}
+}
+#endif
 
 void NodePrinter::visit(PolylineNode* n)
 {

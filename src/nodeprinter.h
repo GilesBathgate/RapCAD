@@ -54,6 +54,10 @@
 #include "node/materialnode.h"
 #include "node/discretenode.h"
 
+#if USE_CGAL
+#include "cgalprimitive.h"
+#endif
+
 class NodePrinter : public NodeVisitor
 {
 public:
@@ -95,6 +99,9 @@ private:
 	void printArguments(Point);
 	void printArguments(Polygon);
 	void printPolyhedron(Polyhedron*);
+#if USE_CGAL
+	void printPrimitive(CGALPrimitive*);
+#endif
 	void printArguments(QList<AlignNode::Face_t> t);
 };
 
