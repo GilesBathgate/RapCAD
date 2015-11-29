@@ -26,19 +26,23 @@ NodePrinter::NodePrinter(QTextStream& s) : result(s)
 void NodePrinter::visit(PrimitiveNode* n)
 {
 	result << "polyhedron([";
-	Polyhedron* ph = dynamic_cast<Polyhedron*>(n->getPrimitive());
-	if(ph)
-		printPolyhedron(ph);
-#if USE_CGAL
-	CGALPrimitive* cp = dynamic_cast<CGALPrimitive*>(n->getPrimitive());
-	if(cp)
-		printPrimitive(cp);
-#endif
-
+	printPrimitive(n->getPrimitive());
 	result << "]);";
 }
 
-void NodePrinter::printPolyhedron(Polyhedron* ph)
+void NodePrinter::printPrimitive(Primitive* pr)
+{
+	Polyhedron* ph=dynamic_cast<Polyhedron*>(pr);
+	if(ph)
+		printPrimitive(ph);
+#if USE_CGAL
+	CGALPrimitive* cp=dynamic_cast<CGALPrimitive*>(pr);
+	if(cp)
+		printPrimitive(cp);
+#endif
+}
+
+void NodePrinter::printPrimitive(Polyhedron* ph)
 {
 	OnceOnly first;
 	foreach(Point p, ph->getPoints()) {
@@ -95,10 +99,7 @@ void NodePrinter::printPrimitive(CGALPrimitive* pr)
 void NodePrinter::visit(PolylineNode* n)
 {
 	result << "polyline([";
-	Polyhedron* ph = dynamic_cast<Polyhedron*>(n->getPrimitive());
-	if(ph)
-		printPolyhedron(ph);
-
+	printPrimitive(n->getPrimitive());
 	result << "]);";
 }
 

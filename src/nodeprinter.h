@@ -98,7 +98,8 @@ private:
 	void printChildren(Node*);
 	void printArguments(Point);
 	void printArguments(Polygon);
-	void printPolyhedron(Polyhedron*);
+	void printPrimitive(Primitive* pr);
+	void printPrimitive(Polyhedron*);
 #if USE_CGAL
 	void printPrimitive(CGALPrimitive*);
 #endif
