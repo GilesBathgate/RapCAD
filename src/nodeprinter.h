@@ -102,6 +102,7 @@ private:
 	void printPrimitive(Polyhedron*);
 #if USE_CGAL
 	void printPrimitive(CGALPrimitive*);
+	void printPoint(CGAL::Point3,bool);
 #endif
 	void printArguments(QList<AlignNode::Face_t> t);
 };

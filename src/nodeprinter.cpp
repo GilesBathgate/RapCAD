@@ -32,14 +32,14 @@ void NodePrinter::visit(PrimitiveNode* n)
 
 void NodePrinter::printPrimitive(Primitive* pr)
 {
-	Polyhedron* ph=dynamic_cast<Polyhedron*>(pr);
-	if(ph)
-		printPrimitive(ph);
 #if USE_CGAL
 	CGALPrimitive* cp=dynamic_cast<CGALPrimitive*>(pr);
 	if(cp)
 		printPrimitive(cp);
 #endif
+	Polyhedron* ph=dynamic_cast<Polyhedron*>(pr);
+	if(ph)
+		printPrimitive(ph);
 }
 
 void NodePrinter::printPrimitive(Polyhedron* ph)
@@ -69,13 +69,25 @@ void NodePrinter::printPrimitive(Polyhedron* ph)
 }
 
 #if USE_CGAL
+
+void NodePrinter::printPoint(CGAL::Point3 p, bool trim)
+{
+	result << "[";
+	result << to_string(p.x(),trim);
+	result << ",";
+	result << to_string(p.y(),trim);
+	result << ",";
+	result << to_string(p.z(),trim);
+	result << "]";
+}
+
 void NodePrinter::printPrimitive(CGALPrimitive* pr)
 {
 	OnceOnly first;
 	foreach(CGAL::Point3 p, pr->getCGALPoints()) {
 		if(!first())
 			result << ",";
-		result << "[" << to_string(p.x(),true) << "," << to_string(p.y(),true) << "," << to_string(p.z(),true) << "]";
+		printPoint(p,true);
 	}
 	result << "],[";
 
