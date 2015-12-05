@@ -47,13 +47,6 @@ private slots:
 	void getDefaultViewport();
 	void setDefaultViewport();
 	void grabFrameBuffer();
-	void exportAsciiSTL();
-	void exportVRML();
-	void exportOBJ();
-	void exportOFF();
-	void exportAMF();
-	void exportCSG();
-	void exportNEF();
 	void showPreferences();
 	void disableRulers(bool);
 	void clipboardDataChanged();
@@ -81,12 +74,14 @@ private slots:
 	void showBuiltins();
 	void showUserGuide();
 	void flushCaches();
+	void exportFile(QString);
 private:
 	void compileOrGenerate(bool generate);
 	void loadPreferences();
 	void savePreferences();
 	void setupLayout();
 	void setupActions();
+	void setupExportActions();
 	void setupViewActions();
 	void setupEditor(CodeEditor*);
 	void setupTabs(QTabWidget*);
@@ -96,7 +91,6 @@ private:
 	CodeEditor* getEditor(int i);
 	void disableActions(CodeEditor*);
 	bool saveSelectedFiles(QList<QString>);
-	void exportFile(const QString& filter, const QString& ext);
 
 	Ui::MainWindow* ui;
 	QStandardItemModel* myModel;
@@ -105,7 +99,6 @@ private:
 	BackgroundWorker* worker;
 	Interactive* interact;
 	PreferencesDialog* preferencesDialog;
-	QSignalMapper* signalMapper;
 };
 
 #endif // MAINWINDOW_H

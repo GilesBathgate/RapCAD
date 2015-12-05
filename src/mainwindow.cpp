@@ -47,6 +47,7 @@ MainWindow::MainWindow(QWidget* parent) :
 	this->setWindowIcon(rapcadIcon);
 	setupLayout();
 	setupActions();
+	setupExportActions();
 	setupViewActions();
 	setupEditor(ui->scriptEditor);
 	setupTreeview();
@@ -70,7 +71,6 @@ MainWindow::~MainWindow()
 	delete worker;
 	delete interact;
 	delete preferencesDialog;
-	delete signalMapper;
 	delete ui;
 }
 
@@ -191,13 +191,8 @@ void MainWindow::setupActions()
 	connect(ui->actionCompileAndRender,SIGNAL(triggered()),this,SLOT(compileAndRender()));
 	connect(ui->actionGenerateGcode,SIGNAL(triggered()),this,SLOT(compileAndGenerate()));
 	connect(ui->actionPreferences,SIGNAL(triggered()),this,SLOT(showPreferences()));
-	connect(ui->actionExportAsciiSTL,SIGNAL(triggered()),this,SLOT(exportAsciiSTL()));
-	connect(ui->actionExportVRML,SIGNAL(triggered()),this,SLOT(exportVRML()));
-	connect(ui->actionExportOBJ,SIGNAL(triggered()),this,SLOT(exportOBJ()));
-	connect(ui->actionExportOFF,SIGNAL(triggered()),this,SLOT(exportOFF()));
-	connect(ui->actionExportAMF,SIGNAL(triggered()),this,SLOT(exportAMF()));
-	connect(ui->actionExportCSG,SIGNAL(triggered()),this,SLOT(exportCSG()));
-	connect(ui->actionExportNEF,SIGNAL(triggered()),this,SLOT(exportNEF()));
+
+
 	connect(ui->actionExportImage,SIGNAL(triggered()),this,SLOT(grabFrameBuffer()));
 	connect(ui->actionShowEditor,SIGNAL(triggered(bool)),ui->tabWidget,SLOT(setVisible(bool)));
 	connect(ui->actionShowConsole,SIGNAL(triggered(bool)),ui->console,SLOT(setVisible(bool)));
@@ -217,9 +212,31 @@ void MainWindow::setupActions()
 
 }
 
+void MainWindow::setupExportActions()
+{
+	QSignalMapper* signalMapper = new QSignalMapper(this);
+	signalMapper->setMapping(ui->actionExportVRML,tr("VRML 2.0 Files (*.wrl);;All Files (*)"));
+	signalMapper->setMapping(ui->actionExportOBJ,tr("OBJ Files (*.obj);;All Files (*)"));
+	signalMapper->setMapping(ui->actionExportAsciiSTL,tr("STL Files (*.stl);;All Files (*)"));
+	signalMapper->setMapping(ui->actionExportAMF,tr("AMF Files (*.amf);;All Files (*)"));
+	signalMapper->setMapping(ui->actionExportOFF,tr("OFF Files (*.stl);;All Files (*)"));
+	signalMapper->setMapping(ui->actionExportCSG,tr("CSG Files (*.csg);;All Files (*)"));
+	signalMapper->setMapping(ui->actionExportNEF,tr("NEF Files (*.nef);;All Files (*)"));
+
+	connect(ui->actionExportAsciiSTL,SIGNAL(triggered()),signalMapper,SLOT(map()));
+	connect(ui->actionExportVRML,SIGNAL(triggered()),signalMapper,SLOT(map()));
+	connect(ui->actionExportOBJ,SIGNAL(triggered()),signalMapper,SLOT(map()));
+	connect(ui->actionExportOFF,SIGNAL(triggered()),signalMapper,SLOT(map()));
+	connect(ui->actionExportAMF,SIGNAL(triggered()),signalMapper,SLOT(map()));
+	connect(ui->actionExportCSG,SIGNAL(triggered()),signalMapper,SLOT(map()));
+	connect(ui->actionExportNEF,SIGNAL(triggered()),signalMapper,SLOT(map()));
+
+	connect(signalMapper,SIGNAL(mapped(QString)),this,SLOT(exportFile(QString)));
+}
+
 void MainWindow::setupViewActions()
 {
-	signalMapper = new QSignalMapper(this);
+	QSignalMapper* signalMapper = new QSignalMapper(this);
 	signalMapper->setMapping(ui->actionTop,GLView::Top);
 	signalMapper->setMapping(ui->actionBottom,GLView::Bottom);
 	signalMapper->setMapping(ui->actionLeft,GLView::Left);
@@ -246,9 +263,15 @@ void MainWindow::grabFrameBuffer()
 	image.save(fn);
 }
 
-void MainWindow::exportFile(const QString& filter,const QString& ext)
+void MainWindow::exportFile(QString filter)
 {
 	if(worker->resultAvailable()) {
+
+		//Assume filter format is "(*.ext)"
+		int s=filter.indexOf('(')+2;
+		int f=filter.indexOf(')');
+		QString ext=filter.mid(s,f-s);
+
 		QFileInfo file(currentEditor()->getFileName());
 		QString name=file.baseName()+ext;
 
@@ -258,41 +281,6 @@ void MainWindow::exportFile(const QString& filter,const QString& ext)
 			fn.append(ext);
 		worker->exportResult(fn);
 	}
-}
-
-void MainWindow::exportVRML()
-{
-	exportFile(tr("VRML 2.0 Files (*.wrl);;All Files (*)"),"*.wrl");
-}
-
-void MainWindow::exportOBJ()
-{
-	exportFile(tr("OBJ Files (*.obj);;All Files (*)"),".obj");
-}
-
-void MainWindow::exportAsciiSTL()
-{
-	exportFile(tr("STL Files (*.stl);;All Files (*)"),".stl");
-}
-
-void MainWindow::exportAMF()
-{
-	exportFile(tr("AMF Files (*.amf);;All Files (*)"),".amf");
-}
-
-void MainWindow::exportOFF()
-{
-	exportFile(tr("OFF Files (*.stl);;All Files (*)"),".off");
-}
-
-void MainWindow::exportCSG()
-{
-	exportFile(tr("CSG Files (*.csg);;All Files (*)"),".csg");
-}
-
-void MainWindow::exportNEF()
-{
-	exportFile(tr("NEF Files (*.nef);;All Files (*)"),".nef");
 }
 
 void MainWindow::showPreferences()

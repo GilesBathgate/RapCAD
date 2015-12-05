@@ -67,7 +67,7 @@ void CGALExport::exportVRML(QString filename)
 		return;
 
 	CGAL::Polyhedron3* poly=pr->getPolyhedron();
-	std::ofstream file(filename.toLocal8Bit().constData());
+	std::ofstream file(QFile::encodeName(filename));
 	CGAL::VRML_2_ostream out(file);
 	out << *poly;
 	file.close();
@@ -80,7 +80,7 @@ void CGALExport::exportOBJ(QString filename)
 		return;
 
 	CGAL::Polyhedron3* poly=pr->getPolyhedron();
-	std::ofstream file(filename.toLocal8Bit().constData());
+	std::ofstream file(QFile::encodeName(filename));
 	print_polyhedron_wavefront(file,*poly);
 	file.close();
 }
@@ -93,7 +93,7 @@ void CGALExport::exportOFF(QString filename)
 
 	//http://people.sc.fsu.edu/~jburkardt/data/off/off.html
 	CGAL::Polyhedron3* poly=pr->getPolyhedron();
-	std::ofstream file(filename.toLocal8Bit().constData());
+	std::ofstream file(QFile::encodeName(filename));
 	file << *poly;
 	file.close();
 }
