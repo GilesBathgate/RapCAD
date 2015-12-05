@@ -27,6 +27,7 @@
 #include <CGAL/IO/Polyhedron_iostream.h>
 #include <CGAL/IO/print_wavefront.h>
 #include <CGAL/IO/Polyhedron_VRML_2_ostream.h>
+#include <CGAL/IO/Nef_polyhedron_iostream_3.h>
 #include <fstream>
 #include"cgalexplorer.h"
 #include "onceonly.h"
@@ -55,6 +56,8 @@ void CGALExport::exportResult(QString filename)
 		return exportAsciiSTL(path);
 	if(suffix=="csg")
 		return exportCSG(path);
+	if(suffix=="nef")
+		return exportNEF(path);
 }
 
 void CGALExport::exportVRML(QString filename)
@@ -325,5 +328,16 @@ void CGALExport::exportCSG(QString filename)
 	output << "]);";
 	output.flush();
 	data.close();
+}
+
+void CGALExport::exportNEF(QString f)
+{
+	CGALPrimitive* pr=dynamic_cast<CGALPrimitive*>(primitive);
+	if(pr) {
+		CGAL::NefPolyhedron3 nef=pr->getNefPolyhedron();
+		std::ofstream file(QFile::encodeName(f));
+		file << nef;
+		file.close();
+	}
 }
 #endif

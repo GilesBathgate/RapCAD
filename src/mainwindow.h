@@ -53,6 +53,7 @@ private slots:
 	void exportOFF();
 	void exportAMF();
 	void exportCSG();
+	void exportNEF();
 	void showPreferences();
 	void disableRulers(bool);
 	void clipboardDataChanged();

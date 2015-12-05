@@ -197,6 +197,7 @@ void MainWindow::setupActions()
 	connect(ui->actionExportOFF,SIGNAL(triggered()),this,SLOT(exportOFF()));
 	connect(ui->actionExportAMF,SIGNAL(triggered()),this,SLOT(exportAMF()));
 	connect(ui->actionExportCSG,SIGNAL(triggered()),this,SLOT(exportCSG()));
+	connect(ui->actionExportNEF,SIGNAL(triggered()),this,SLOT(exportNEF()));
 	connect(ui->actionExportImage,SIGNAL(triggered()),this,SLOT(grabFrameBuffer()));
 	connect(ui->actionShowEditor,SIGNAL(triggered(bool)),ui->tabWidget,SLOT(setVisible(bool)));
 	connect(ui->actionShowConsole,SIGNAL(triggered(bool)),ui->console,SLOT(setVisible(bool)));
@@ -287,6 +288,11 @@ void MainWindow::exportOFF()
 void MainWindow::exportCSG()
 {
 	exportFile(tr("CSG Files (*.csg);;All Files (*)"),".csg");
+}
+
+void MainWindow::exportNEF()
+{
+	exportFile(tr("NEF Files (*.nef);;All Files (*)"),".nef");
 }
 
 void MainWindow::showPreferences()

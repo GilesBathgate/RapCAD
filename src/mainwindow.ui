@@ -184,6 +184,7 @@
      <addaction name="actionExportVRML"/>
      <addaction name="actionExportAMF"/>
      <addaction name="actionExportOFF"/>
+     <addaction name="actionExportNEF"/>
      <addaction name="actionExportImage"/>
      <addaction name="actionExportCSG"/>
     </widget>
@@ -823,6 +824,14 @@
    </property>
    <property name="toolTip">
     <string>Flush the geomtry cache</string>
+   </property>
+  </action>
+  <action name="actionExportNEF">
+   <property name="text">
+    <string>NEF</string>
+   </property>
+   <property name="toolTip">
+    <string>Export NEF</string>
    </property>
   </action>
  </widget>
