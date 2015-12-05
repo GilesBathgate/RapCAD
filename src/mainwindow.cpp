@@ -215,13 +215,13 @@ void MainWindow::setupActions()
 void MainWindow::setupExportActions()
 {
 	QSignalMapper* signalMapper = new QSignalMapper(this);
-	signalMapper->setMapping(ui->actionExportVRML,tr("VRML 2.0 Files (*.wrl);;All Files (*)"));
-	signalMapper->setMapping(ui->actionExportOBJ,tr("OBJ Files (*.obj);;All Files (*)"));
-	signalMapper->setMapping(ui->actionExportAsciiSTL,tr("STL Files (*.stl);;All Files (*)"));
-	signalMapper->setMapping(ui->actionExportAMF,tr("AMF Files (*.amf);;All Files (*)"));
-	signalMapper->setMapping(ui->actionExportOFF,tr("OFF Files (*.stl);;All Files (*)"));
-	signalMapper->setMapping(ui->actionExportCSG,tr("CSG Files (*.csg);;All Files (*)"));
-	signalMapper->setMapping(ui->actionExportNEF,tr("NEF Files (*.nef);;All Files (*)"));
+	signalMapper->setMapping(ui->actionExportVRML,"wrl");
+	signalMapper->setMapping(ui->actionExportOBJ,"obj");
+	signalMapper->setMapping(ui->actionExportAsciiSTL,"stl");
+	signalMapper->setMapping(ui->actionExportAMF,"amf");
+	signalMapper->setMapping(ui->actionExportOFF,"stl");
+	signalMapper->setMapping(ui->actionExportCSG,"csg");
+	signalMapper->setMapping(ui->actionExportNEF,"nef");
 
 	connect(ui->actionExportAsciiSTL,SIGNAL(triggered()),signalMapper,SLOT(map()));
 	connect(ui->actionExportVRML,SIGNAL(triggered()),signalMapper,SLOT(map()));
@@ -258,28 +258,31 @@ void MainWindow::setupViewActions()
 void MainWindow::grabFrameBuffer()
 {
 	QImage image = ui->view->grabFramebuffer();
-	QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
+	QString fn = QFileDialog::getSaveFileName(this, tr("Export..."),
 				 QString(), tr("PNG Files (*.png)"));
 	image.save(fn);
 }
 
-void MainWindow::exportFile(QString filter)
+void MainWindow::exportFile(QString type)
 {
 	if(worker->resultAvailable()) {
 
-		//Assume filter format is "(*.ext)"
-		int s=filter.indexOf('(')+2;
-		int f=filter.indexOf(')');
-		QString ext=filter.mid(s,f-s);
+		QFileInfo fileInfo(currentEditor()->getFileName());
 
-		QFileInfo file(currentEditor()->getFileName());
-		QString name=file.baseName()+ext;
+		QString ext="."+type.toLower();
+		QString filter=tr("%1 Files (*%2);;All Files (*)").arg(type.toUpper()).arg(ext);
+		QString suggestedName=fileInfo.baseName()+ext;
 
-		QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
-					 name, filter);
-		if(!fn.endsWith(ext, Qt::CaseInsensitive))
-			fn.append(ext);
-		worker->exportResult(fn);
+		QString fileName=QFileDialog::getSaveFileName(this,tr("Export..."),suggestedName,filter);
+
+		fileInfo=QFileInfo(fileName);
+		if(fileInfo.suffix()=="")
+			fileName.append(ext);
+
+		worker->exportResult(fileName);
+	} else {
+		QMessageBox::information(this,tr("Export"),
+			tr("You have to compile the script before you can export"));
 	}
 }
 
