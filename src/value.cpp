@@ -292,6 +292,9 @@ Value* Value::operation(Value& v, Expression::Operator_e e)
 		bool result=basicOperation(left,e,right);
 		return new BooleanValue(result);
 	}
+	if(e==Expression::Concatenate) {
+		return &v;
+	}
 
 	return this;
 }
