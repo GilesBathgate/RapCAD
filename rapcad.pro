@@ -559,7 +559,8 @@ HEADERS  += \
 	src/stringify.h \
 	src/cachemanager.h \
 	src/cache.h \
-	src/cgalcache.h
+	src/cgalcache.h \
+	src/emptycache.h
 
 FORMS += \
 	src/mainwindow.ui \

@@ -12,7 +12,7 @@ class Cache
 public:
 	Cache();
 	virtual ~Cache();
-	Primitive* fetch(Primitive*);
+	virtual Primitive* fetch(Primitive*);
 protected:
 	typedef QVector<int> i_Point;
 	typedef QVector<i_Point> i_PointList;

@@ -22,6 +22,7 @@
 #include "nodeprinter.h"
 #include "booleanvalue.h"
 #include "comparer.h"
+#include "cachemanager.h"
 
 Tester::Tester(QTextStream& s) : Strategy(s)
 {
@@ -30,6 +31,9 @@ Tester::Tester(QTextStream& s) : Strategy(s)
 int Tester::evaluate()
 {
 	reporter->startTiming();
+
+	CacheManager* cm=CacheManager::getInstance();
+	cm->disableCaches();
 
 	QString null;
 	QTextStream nullout(&null);

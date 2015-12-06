@@ -10,11 +10,13 @@ public:
 	static CacheManager* getInstance();
 	Cache* getCache() const;
 	void flushCaches();
+	void disableCaches();
 private:
 	CacheManager();
 	static CacheManager* instance;
 	Cache* createCache();
 	Cache* cache;
+	bool disabled;
 };
 
 #endif // CACHEMANAGER_H

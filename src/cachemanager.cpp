@@ -1,7 +1,14 @@
 #include "cachemanager.h"
 #include "cgalcache.h"
+#include "emptycache.h"
 
 CacheManager* CacheManager::instance=NULL;
+
+CacheManager::CacheManager()
+{
+	disabled=false;
+	cache=createCache();
+}
 
 CacheManager* CacheManager::getInstance()
 {
@@ -21,13 +28,16 @@ void CacheManager::flushCaches()
 	cache=createCache();
 }
 
-CacheManager::CacheManager()
+void CacheManager::disableCaches()
 {
-	cache=createCache();
+	disabled=true;
+	flushCaches();
 }
 
-Cache*CacheManager::createCache()
+Cache* CacheManager::createCache()
 {
+	if(disabled)
+		return new EmptyCache();
 #if USE_CGAL
 	return new CGALCache();
 #else
