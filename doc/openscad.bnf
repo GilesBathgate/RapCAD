@@ -1,114 +1,121 @@
-<input> ::=
-	<empty>
-	<use> <input>
-	<statement> <input>
+<input>                ::=
+		       <empty>
+		       "use" <input>
+		       <statement> <input>
 
-<body>	::=
-	<empty>
-	<statement> <body>
+<statement>            ::=
+		       ';'
+		       '{' <inner_input> '}'
+		       <module_instantiation>
+		       <assignment>
+		       "module" <identifier> '(' <arguments_decl> <optional_commas> ')' <statement>
+		       "function" <identifier> '(' <arguments_decl> <optional_commas> ')' '=' <expr> ';'
 
-<statement> ::=
-	';'
---Null operation statement is superfluous
-	'{' <body> '}'
-	<module_instantiation>
-	<identifier> '=' <expression> ';'
-	"module" <identifier> '(' <parameters> <optional_commas> ')' <statement>
-	"function" <identifier> '(' <parameters> <optional_commas> ')' '=' <expression> ';'
---Optional commas in the above two seem strange to me. We can have for e.g. module foo(a,,,,,,b){} how on earth can this be useful?
---I agree that is makes sence for a module instantiation because we might want to pass undef, but for declarations its just a way
---of ensuring we don't have access to unnamed module parameters, so why have them at all?
+<inner_input>          ::=
+		       <empty>
+		       <statement> <inner_input>
 
-<children_instantiation> ::=
-	<module_instantiation>
-	'{' <module_instantiation_list> '}'
-
-<if_statement> ::=
-	"if" '(' <expression> ')' <children_instantiation>
--- why can't we just have statements in our if  why is the following invalid!? if(true) { a=1; cube([10,a,10]); }
-
-<ifelse_statement> ::=
-	<if_statement>
-	<if_statement> "else" <children_instantiation>
+<assignment>           ::=
+		       <identifier> '=' <expr> ';'
 
 <module_instantiation> ::=
-	<single_module_instantiation> ';'
-	<single_module_instantiation> <children_instantiation>
-	<ifelse_statement>
+		       '!' <module_instantiation>
+		       '#' <module_instantiation>
+		       '%' <module_instantiation>
+		       '*' <module_instantiation>
+		       <single_module_instantiation> <child_statement>
+		       <ifelse_statement>
 
-<module_instantiation_list> ::=
-	<empty>
-	<module_instantiation_list> <module_instantiation>
+<ifelse_statement>     ::=
+		       <if_statement>
+		       <if_statement> "else" <child_statement>
+
+<if_statement>         ::=
+		       "if" '(' <expr> ')' <child_statement>
+
+<child_statements>     ::=
+		       <empty>
+		       <child_statements> <child_statement>
+		       <child_statements> <assignment>
+
+<child_statement>      ::=
+		       ';'
+		       '{' <child_statements> '}'
+		       <module_instantiation>
+
+<module_id>            ::=
+		       <identifier>
+		       "for"
 
 <single_module_instantiation> ::=
-	<identifier> '(' <arguments> ')'
-	<identifier> ':' <single_module_instantiation>
--- this is interesting, you can have a label before a module instantiation e.g. foo: cube([10,10,10]); although what this is for I have no idea.
-	'!' <single_module_instantiation>
-	'#' <single_module_instantiation>
-	'%' <single_module_instantiation>
-	'*' <single_module_instantiation>
+		       <module_id> '(' <arguments_call> ')'
 
-<expression> ::=
-	"true"
-	"false"
-	"undef"
-	<identifier> --variable
-	<expression> '.' <identifier>
-	<string>
-	<number>
-	'[' <expression> ':' <expression> ']'
-	'[' <expression> ':' <expression> ':' <expression> ']'
-	'[' <optional_commas> ']'
-	'[' <vector_expression> <optional_commas> ']'
-	<expression> '*' <expression>
-	<expression> '/' <expression>
-	<expression> '%' <expression>
-	<expression> '+' <expression>
-	<expression> '-' <expression>
-	<expression> '<' <expression>
-	<expression> "<=" <expression>
-	<expression> "==" <expression>
-	<expression> "!=" <expression>
-	<expression> ">=" <expression>
-	<expression> '>' <expression>
-	<expression> "&&" <expression>
-	<expression> "||" <expression>
-	'+' <expression>
-	'-' <expression>
-	'!' <expression>
-	'(' <expression> ')'
-	<expression> '?' <expression> ':' <expression>
-	<expression> '[' <expression> ']'
-	<identifier> '(' <arguments> ')'
+<expr>                 ::=
+		       "true"
+		       "false"
+		       "undef"
+		       <identifier>
+		       <expr> '.' <identifier>
+		       <string>
+		       <number>
+		       "let" '(' <arguments_call> ')' <expr>
+		       '[' <expr> ':' <expr> ']'
+		       '[' <expr> ':' <expr> ':' <expr> ']'
+		       '[' <list_comprehension_elements> ']'
+		       '[' <optional_commas> ']'
+		       '[' <vector_expr> <optional_commas> ']'
+		       <expr> '*' <expr>
+		       <expr> '/' <expr>
+		       <expr> '%' <expr>
+		       <expr> '+' <expr>
+		       <expr> '-' <expr>
+		       <expr> '<' <expr>
+		       <expr> "<=" <expr>
+		       <expr> "==" <expr>
+		       <expr> "!=" <expr>
+		       <expr> ">=" <expr>
+		       <expr> '>' <expr>
+		       <expr> "&&" <expr>
+		       <expr> "||" <expr>
+		       '+' <expr>
+		       '-' <expr>
+		       '!' <expr>
+		       '(' <expr> ')'
+		       <expr> '?' <expr> ':' <expr>
+		       <expr> '[' <expr> ']'
+		       <identifier> '(' <arguments_call> ')'
 
-<optional_commas> ::=
-	<empty>
-	',' <optional_commas>
+<list_comprehension_elements> ::=
+		       "let" '(' <arguments_call> ')' <list_comprehension_elements>
+		       "for" '(' <arguments_call> ')' <list_comprehension_elements_or_expr>
+		       "if" '(' <expr> ')' <list_comprehension_elements_or_expr>
 
-<vector_expr> ::=
-	<expression>
-	<vector_expr> ',' <optional_commas> <expression>
+<list_comprehension_elements_or_expr> ::=
+		       <list_comprehension_elements>
+		       <expr>
 
-<parameters> ::=
-	<empty>
-	<parameter>
-	<parameters> ',' <optional_commas> <parameter>
+<optional_commas>      ::=
+		       ',' <optional_commas>
+		       <empty>
 
-<parameter> ::=
-	<identifier>
-	<identifier> '=' <expression>
-	
-<arguments> ::=
-	<empty>
-	<argument>
-	<arguments> ',' <optional_commas> <argument>
+<vector_expr>          ::=
+		       <expr>
+		       <vector_expr> ',' <optional_commas> <expr>
 
-<argument> ::=
-	<expression>
-	<identifier> '=' <expression>
+<arguments_decl>       ::=
+		       <empty>
+		       <argument_decl>
+		       <arguments_decl> ',' <optional_commas> <argument_decl>
 
+<argument_decl>        ::=
+		       <identifier>
+		       <identifier> '=' <expr>
 
+<arguments_call>       ::=
+		       <empty>
+		       <argument_call>
+		       <arguments_call> ',' <optional_commas> <argument_call>
 
-
-
+<argument_call>        ::=
+		       <expr>
+		       <identifier> '=' <expr>
