@@ -311,7 +311,7 @@ unsigned int TokenBuilder::buildConcatenate()
 
 unsigned int TokenBuilder::buildAppend()
 {
-	return AP;
+	return APPEND;
 }
 
 unsigned int TokenBuilder::buildLegalChar(unsigned int c)

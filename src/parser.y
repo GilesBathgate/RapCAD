@@ -73,7 +73,7 @@ static Reporter* reporter;
 %token AS NS
 
 %right RETURN
-%right '=' AP
+%right '=' APPEND
 %right '?' ':'
 %left OR
 %left AND
@@ -244,7 +244,7 @@ statement_list
 assign_statement
 	: variable '=' expression
 	{ $$ = builder->buildStatement($1,$3); }
-	| variable AP expression
+	| variable APPEND expression
 	{ $$ = builder->buildStatement($1,Expression::Append,$3); }
 	| variable INC
 	{ $$ = builder->buildStatement($1,Expression::Increment); }
