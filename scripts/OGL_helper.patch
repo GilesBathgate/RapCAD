@@ -149,3 +149,11 @@ index 5e15a72..cd0f233 100644
        normal_ = float_triple(x/l,y/l,z/l); mark_ = m; }
  
      float dx() const { return normal_[0]; }
+@@ -410,6 +429,7 @@
+       gluTessEndPolygon(tess_);
+       //      CGAL_NEF_TRACEN("End Polygon");
+       gluDeleteTess(tess_);
++      combineCallback(NULL, NULL, NULL, NULL);
+     }
+ 
+     void construct_axes() const
