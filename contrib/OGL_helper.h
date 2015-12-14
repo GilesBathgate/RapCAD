@@ -166,8 +166,8 @@ namespace OGL {
     void push_back_vertex(const float_point& p)
     { push_back_vertex(p.x(),p.y(),p.z()); }
 
-    void set_normal(float x, float y, float z, bool m)
-    { float l = sqrt(x*x + y*y + z*z);
+    void set_normal(double x, double y, double z, bool m)
+    { double l = sqrt(x*x + y*y + z*z);
       normal_ = float_triple(x/l,y/l,z/l); mark_ = m; }
 
     float dx() const { return normal_[0]; }
