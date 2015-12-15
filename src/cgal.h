@@ -19,7 +19,10 @@
 #ifndef CGAL_H
 #define CGAL_H
 
+#include <CGAL/config.h>
+#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,8,0)
 #include "cgalassert.h" // cgalassert hack
+#endif
 
 #include <CGAL/Exact_predicates_exact_constructions_kernel.h>
 
