@@ -296,7 +296,7 @@ Value* Value::operation(Value& v, Expression::Operator_e e)
 		return &v;
 	}
 
-	return this;
+	return new Value();
 }
 
 bool Value::isDefined() const
