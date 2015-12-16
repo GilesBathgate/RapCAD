@@ -57,7 +57,8 @@ Node* CylinderSurfaceModule::evaluate(Context* ctx)
 	QList<Point> c1=getCircle(r,f,z1);
 	QList<Point> c2=getCircle(r,f,z2);
 
-	PrimitiveNode* p = new PrimitiveNode();
+	PrimitiveNode* p=new PrimitiveNode();
+	p->setChildren(ctx->getInputNodes());
 
 	foreach(Point pt,c1) {
 		p->createVertex(pt);

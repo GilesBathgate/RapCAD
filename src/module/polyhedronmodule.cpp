@@ -34,6 +34,8 @@ Node* PolyhedronModule::evaluate(Context* ctx)
 	VectorValue* surfaces=dynamic_cast<VectorValue*>(ctx->getArgumentDeprecated(1,"surfaces","triangles"));
 
 	PrimitiveNode* p=new PrimitiveNode();
+	p->setChildren(ctx->getInputNodes());
+
 	if(!points||!surfaces)
 		return p;
 

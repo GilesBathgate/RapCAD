@@ -52,14 +52,15 @@ Primitive* NodeEvaluator::createPrimitive()
 void NodeEvaluator::visit(PrimitiveNode* n)
 {
 	Primitive* cp=n->getPrimitive();
-	result=cache->fetch(cp);
+	cp=cache->fetch(cp);
+	evaluate(n,Union,cp);
 }
 
 void NodeEvaluator::visit(PolylineNode* n)
 {
 	Primitive* cp=n->getPrimitive();
 	cp->setType(Primitive::Skeleton);
-	result=cp;
+	evaluate(n,Union,cp);
 }
 
 void NodeEvaluator::visit(TriangulateNode* n)
@@ -307,7 +308,11 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 
 void NodeEvaluator::evaluate(Node* op,Operation_e type)
 {
-	Primitive* first=NULL;
+	evaluate(op,type,NULL);
+}
+
+void NodeEvaluator::evaluate(Node* op,Operation_e type,Primitive* first)
+{
 	foreach(Node* n, op->getChildren()) {
 		n->accept(*this);
 		if(!first) {

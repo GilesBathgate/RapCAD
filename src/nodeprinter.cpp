@@ -27,7 +27,8 @@ void NodePrinter::visit(PrimitiveNode* n)
 {
 	result << "polyhedron([";
 	printPrimitive(n->getPrimitive());
-	result << "]);";
+	result << "])";
+	printChildren(n);
 }
 
 void NodePrinter::printPrimitive(Primitive* pr)

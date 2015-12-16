@@ -23,6 +23,7 @@ Node* SquareModule::evaluate(Context* ctx)
 	}
 
 	PrimitiveNode* p=new PrimitiveNode();
+	p->setChildren(ctx->getInputNodes());
 
 	Polygon* pg=p->createPolygon();
 	p->createVertex(0, 0, 0);

@@ -42,6 +42,8 @@ Node* CubeModule::evaluate(Context* ctx)
 	}
 
 	PrimitiveNode* p=new PrimitiveNode();
+	p->setChildren(ctx->getInputNodes());
+
 	decimal x1, x2, y1, y2, z1, z2;
 	x1 = y1 = z1 = 0;
 	x2 = x;

@@ -63,7 +63,9 @@ Node* ConeModule::evaluate(Context* ctx)
 	QList<Point> c1=getCircle(r1,f,z1);
 	QList<Point> c2=getCircle(r2,f,z2);
 
-	PrimitiveNode* p = new PrimitiveNode();
+	PrimitiveNode* p=new PrimitiveNode();
+	p->setChildren(ctx->getInputNodes());
+
 	if(r1<=0.0&&r2<=0.0)
 		return p;
 

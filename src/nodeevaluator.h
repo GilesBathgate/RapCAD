@@ -107,6 +107,8 @@ public:
 private:
 	Primitive* createPrimitive();
 	void evaluate(Node*,Operation_e);
+	void evaluate(Node*,Operation_e,Primitive*);
+
 	Reporter* reporter;
 	Primitive* result;
 	Cache* cache;

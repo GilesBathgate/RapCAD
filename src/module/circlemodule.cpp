@@ -42,7 +42,9 @@ Node* CircleModule::evaluate(Context* ctx)
 	delete fg;
 
 	QList<Point> c = getCircle(r,f,0);
-	PrimitiveNode* p = new PrimitiveNode();
+
+	PrimitiveNode* p=new PrimitiveNode();
+	p->setChildren(ctx->getInputNodes());
 
 	int i=0;
 	if(r > 0) {
