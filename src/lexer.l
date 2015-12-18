@@ -84,7 +84,7 @@ NL \n|\r\n
 "+="				{ return tokenizer->buildAddAssign(); }
 "--"				{ return tokenizer->buildDecrement(); }
 "-="				{ return tokenizer->buildSubtractAssign(); }
-"**"				{ return tokenizer->buildOuterProduct(); }
+"**"				{ return tokenizer->buildCrossProduct(); }
 ".*"				{ return tokenizer->buildComponentwiseMultiply(); }
 "./"				{ return tokenizer->buildComponentwiseDivide(); }
 "::"				{ return tokenizer->buildNamespace(); }

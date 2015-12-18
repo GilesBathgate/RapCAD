@@ -101,6 +101,7 @@
 #include "function/numfunction.h"
 #include "function/normfunction.h"
 #include "function/angfunction.h"
+#include "function/crossfunction.h"
 
 #include "module/writemodule.h"
 #include "module/writelnmodule.h"
@@ -169,6 +170,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new ConcatFunction());
 	builtins.append(new CosFunction());
 	builtins.append(new CoshFunction());
+	builtins.append(new CrossFunction());
 	builtins.append(new DegFunction());
 	builtins.append(new ExpFunction());
 	builtins.append(new FloorFunction());

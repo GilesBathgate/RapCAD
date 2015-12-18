@@ -294,7 +294,7 @@ unsigned int SyntaxHighlighter::buildSubtractAssign()
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildOuterProduct()
+unsigned int SyntaxHighlighter::buildCrossProduct()
 {
 	setFormat(startIndex,lexerleng,operatorFormat);
 	return YY_CONTINUE;

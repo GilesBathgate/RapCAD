@@ -123,9 +123,31 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 		QList<Value*> a=this->getChildren();
 		QList<Value*> b=vec->getChildren();
 
-		if(e==Expression::OuterProduct) {
-			foreach(Value* c,b)
-				result.append(Value::operation(this,e,c));
+		if(e==Expression::CrossProduct) {
+			int s=a.size();
+			if(s<2||s>3||s!=b.size())
+				return new Value();
+
+			//[a1*b2 - a2*b1, a2*b0 - a0*b2, a0*b1 - a1*b0]
+			Value* a0b1=Value::operation(a.at(0),Expression::Multiply,b.at(1));
+			Value* a1b0=Value::operation(a.at(1),Expression::Multiply,b.at(0));
+			Value* z=Value::operation(a0b1,Expression::Subtract,a1b0);
+
+			if(s==2)
+				return z;
+
+			Value* a1b2=Value::operation(a.at(1),Expression::Multiply,b.at(2));
+			Value* a2b1=Value::operation(a.at(2),Expression::Multiply,b.at(1));
+			Value* a2b0=Value::operation(a.at(2),Expression::Multiply,b.at(0));
+			Value* a0b2=Value::operation(a.at(0),Expression::Multiply,b.at(2));
+			Value* x=Value::operation(a1b2,Expression::Subtract,a2b1);
+			Value* y=Value::operation(a2b0,Expression::Subtract,a0b2);
+
+			result.append(x);
+			result.append(y);
+			result.append(z);
+			return new VectorValue(result);
+
 		} else if(e==Expression::Multiply) {
 			int s=std::min(a.size(),b.size());
 			if(s<=0)
@@ -156,6 +178,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 				}
 			return new BooleanValue(eq);
 		} else {
+			//Apply componentwise operations
 			e=convertOperation(e);
 			int as=a.size();
 			int bs=b.size();
@@ -169,7 +192,6 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 					r=Value::operation(a.at(i),e,b.at(i));
 				}
 				result.append(r);
-
 			}
 		}
 		return new VectorValue(result);
@@ -219,8 +241,6 @@ Expression::Operator_e VectorValue::convertOperation(Expression::Operator_e e)
 		return Expression::Multiply;
 	case Expression::ComponentwiseDivide:
 		return Expression::Divide;
-	case Expression::OuterProduct:
-		return Expression::Multiply;
 	default:
 		return e;
 	}

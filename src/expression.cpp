@@ -57,7 +57,7 @@ QString Expression::getOpString() const
 	case Decrement:
 		result.append("--");
 		break;
-	case OuterProduct:
+	case CrossProduct:
 		result.append("**");
 		break;
 	case Modulus:

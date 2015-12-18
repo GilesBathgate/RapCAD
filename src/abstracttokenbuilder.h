@@ -64,7 +64,7 @@ public:
 	virtual unsigned int buildDecrement()=0;
 	virtual unsigned int buildAddAssign()=0;
 	virtual unsigned int buildSubtractAssign()=0;
-	virtual unsigned int buildOuterProduct()=0;
+	virtual unsigned int buildCrossProduct()=0;
 	virtual unsigned int buildNamespace()=0;
 	virtual unsigned int buildAssign()=0;
 	virtual unsigned int buildAdd()=0;

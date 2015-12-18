@@ -68,7 +68,7 @@ public:
 	unsigned int buildDecrement();
 	unsigned int buildAddAssign();
 	unsigned int buildSubtractAssign();
-	unsigned int buildOuterProduct();
+	unsigned int buildCrossProduct();
 	unsigned int buildNamespace();
 	unsigned int buildAssign();
 	unsigned int buildAdd();

@@ -329,7 +329,8 @@ SOURCES += \
 	src/node/discretenode.cpp \
 	src/cachemanager.cpp \
 	src/cache.cpp \
-	src/cgalcache.cpp
+	src/cgalcache.cpp \
+	src/function/crossfunction.cpp
 
 HEADERS  += \
 	contrib/OGL_helper.h \
@@ -560,7 +561,8 @@ HEADERS  += \
 	src/cachemanager.h \
 	src/cache.h \
 	src/cgalcache.h \
-	src/emptycache.h
+	src/emptycache.h \
+	src/function/crossfunction.h
 
 FORMS += \
 	src/mainwindow.ui \

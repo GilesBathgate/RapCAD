@@ -50,7 +50,7 @@ public:
 	Value* componentwiseMultiply(Value&);
 	Value* operator/(Value&);
 	Value* componentwiseDivide(Value&);
-	Value* outerProduct(Value& v);
+	Value* crossProduct(Value& v);
 	Value* operator%(Value&);
 	Value* operator+();
 	Value* operator+(Value&);

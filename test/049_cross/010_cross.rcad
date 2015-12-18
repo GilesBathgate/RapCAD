@@ -1,0 +1,3 @@
+function test(){
+  return cross(0, 1, 3)==undef;
+}

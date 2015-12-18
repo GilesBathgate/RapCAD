@@ -244,7 +244,7 @@ unsigned int TokenBuilder::buildSubtractAssign()
 	return SUBA;
 }
 
-unsigned int TokenBuilder::buildOuterProduct()
+unsigned int TokenBuilder::buildCrossProduct()
 {
 	return CP;
 }

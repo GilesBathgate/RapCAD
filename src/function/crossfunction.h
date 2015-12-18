@@ -16,54 +16,16 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef EXPRESSION_H
-#define EXPRESSION_H
+#ifndef CROSSFUNCTION_H
+#define CROSSFUNCTION_H
 
-#include <QString>
-#include "visitabletree.h"
+#include "function.h"
 
-class Expression : public VisitableTree
+class CrossFunction : public Function
 {
 public:
-	enum Operator_e {
-		None,
-		Exponent,
-		Multiply,
-		Concatenate,
-		Append,
-		ComponentwiseMultiply,
-		Divide,
-		ComponentwiseDivide,
-		Increment,
-		Decrement,
-		AddAssign,
-		SubAssign,
-		CrossProduct,
-		Modulus,
-		Dot,
-		Add,
-		Subtract,
-		LessThan,
-		LessOrEqual,
-		Equal,
-		NotEqual,
-		GreaterOrEqual,
-		GreaterThan,
-		LogicalAnd,
-		LogicalOr,
-		Invert,
-		Index,
-		Length
-	};
-
-	Expression();
-	virtual ~Expression();
-	Operator_e getOp() const;
-	void setOp(Operator_e);
-	QString getOpString() const;
-	bool postFix();
-private:
-	Operator_e op;
+	CrossFunction();
+	Value* evaluate(Context*);
 };
 
-#endif // EXPRESSION_H
+#endif // CROSSFUNCTION_H

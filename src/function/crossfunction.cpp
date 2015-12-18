@@ -16,54 +16,23 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef EXPRESSION_H
-#define EXPRESSION_H
+#include "crossfunction.h"
+#include "context.h"
+#include "vectorvalue.h"
 
-#include <QString>
-#include "visitabletree.h"
-
-class Expression : public VisitableTree
+CrossFunction::CrossFunction() : Function("cross")
 {
-public:
-	enum Operator_e {
-		None,
-		Exponent,
-		Multiply,
-		Concatenate,
-		Append,
-		ComponentwiseMultiply,
-		Divide,
-		ComponentwiseDivide,
-		Increment,
-		Decrement,
-		AddAssign,
-		SubAssign,
-		CrossProduct,
-		Modulus,
-		Dot,
-		Add,
-		Subtract,
-		LessThan,
-		LessOrEqual,
-		Equal,
-		NotEqual,
-		GreaterOrEqual,
-		GreaterThan,
-		LogicalAnd,
-		LogicalOr,
-		Invert,
-		Index,
-		Length
-	};
+	addParameter("v1");
+	addParameter("v2");
+}
 
-	Expression();
-	virtual ~Expression();
-	Operator_e getOp() const;
-	void setOp(Operator_e);
-	QString getOpString() const;
-	bool postFix();
-private:
-	Operator_e op;
-};
+Value* CrossFunction::evaluate(Context* ctx)
+{
 
-#endif // EXPRESSION_H
+	VectorValue* vec1=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	VectorValue* vec2=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
+	if(vec1&&vec2)
+		return Value::operation(vec1,Expression::CrossProduct,vec2);
+
+	return new Value();
+}
