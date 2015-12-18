@@ -148,13 +148,13 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			result.append(z);
 			return new VectorValue(result);
 
-		} else if(e==Expression::Multiply) {
+		} else if(e==Expression::Multiply||e==Expression::DotProduct) {
 			int s=std::min(a.size(),b.size());
 			if(s<=0)
 				return new Value();
-			Value* total=new NumberValue(0);
+			Value* total=new NumberValue(0.0);
 			for(int i=0; i<s; i++) {
-				Value* r=Value::operation(a.at(i),e,b.at(i));
+				Value* r=Value::operation(a.at(i),Expression::Multiply,b.at(i));
 				total=Value::operation(total,Expression::Add,r);
 			}
 			return total;

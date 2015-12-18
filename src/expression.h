@@ -39,6 +39,7 @@ public:
 		AddAssign,
 		SubAssign,
 		CrossProduct,
+		DotProduct,
 		Modulus,
 		Dot,
 		Add,

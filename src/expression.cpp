@@ -33,6 +33,7 @@ QString Expression::getOpString() const
 	case Exponent:
 		result.append('^');
 		break;
+	case DotProduct:
 	case Multiply:
 		result.append('*');
 		break;
