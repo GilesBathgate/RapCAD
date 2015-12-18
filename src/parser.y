@@ -317,7 +317,7 @@ expression
 	| expression CD expression
 	{ $$ = builder->buildExpression($1,Expression::ComponentwiseDivide,$3); }
 	| expression CP expression
-	{ $$ = builder->buildExpression($1,Expression::OuterProduct,$3); }
+	{ $$ = builder->buildExpression($1,Expression::CrossProduct,$3); }
 	| expression '%' expression
 	{ $$ = builder->buildExpression($1,Expression::Modulus,$3); }
 	| expression '+' expression
