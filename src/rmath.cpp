@@ -228,7 +228,7 @@ decimal r_acos(decimal a,bool round)
 
 decimal r_acos_deg(decimal a,bool round)
 {
-	return r_acos(r_rad(a,false),round);
+	return r_deg(r_acos(a,false),round);
 }
 
 decimal r_asin(decimal a,bool round)
@@ -245,7 +245,7 @@ decimal r_asin(decimal a,bool round)
 
 decimal r_asin_deg(decimal a,bool round)
 {
-	return r_asin(r_rad(a,false),round);
+	return r_deg(r_asin(a,false),round);
 }
 
 decimal r_atan2(decimal a,decimal b,bool round)
@@ -263,7 +263,7 @@ decimal r_atan2(decimal a,decimal b,bool round)
 
 decimal r_atan2_deg(decimal a,decimal b,bool round)
 {
-	return r_atan2(r_rad(a,false),r_rad(b,false),round);
+	return r_deg(r_atan2(a,b,false),round);
 }
 
 decimal r_atan(decimal a,bool round)
@@ -280,7 +280,7 @@ decimal r_atan(decimal a,bool round)
 
 decimal r_atan_deg(decimal a,bool round)
 {
-	return r_atan(r_rad(a,false),round);
+	return r_deg(r_atan(a,false),round);
 }
 
 decimal r_cosh(decimal a,bool round)
