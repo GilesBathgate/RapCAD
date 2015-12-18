@@ -18,6 +18,7 @@
 
 #include "complexvalue.h"
 #include "numbervalue.h"
+#include "rmath.h"
 
 ComplexValue::ComplexValue(Value* r, QList<Value*> i)
 {
@@ -38,7 +39,7 @@ QString ComplexValue::getValueString() const
 	return result;
 }
 
-void ComplexValue::toQuaternion(decimal &w,decimal &x,decimal &y,decimal &z)
+void ComplexValue::toQuaternion(decimal& w,decimal& x,decimal& y,decimal& z)
 {
 	if(imaginary.size()>2) {
 		NumberValue* nw=dynamic_cast<NumberValue*>(real);
@@ -56,10 +57,27 @@ void ComplexValue::toQuaternion(decimal &w,decimal &x,decimal &y,decimal &z)
 	x=y=z=w=0;
 }
 
-Value*ComplexValue::operation(Value& v, Expression::Operator_e op)
+Value* ComplexValue::operation(Expression::Operator_e e)
+{
+	if(e==Expression::Length) {
+		//l = sqrt(w^2+x^2+y^2,z^2)
+		Value* n=Value::operation(real,Expression::Multiply,real);
+		foreach(Value* i, imaginary) {
+			Value* r=Value::operation(i,Expression::Multiply,i);
+			n=Value::operation(n,Expression::Add,r);
+		}
+		NumberValue* l=dynamic_cast<NumberValue*>(n);
+		if(l)
+			return new NumberValue(r_sqrt(l->getNumber()));
+		return new Value();
+	}
+	return this;
+}
+
+Value* ComplexValue::operation(Value& v, Expression::Operator_e op)
 {
 	ComplexValue* c=dynamic_cast<ComplexValue*>(&v);
-	if(c){
+	if(c) {
 		if(imaginary.size()>2&&c->imaginary.size()>2) {
 			Value* w1=real;
 			Value* w2=c->real;
@@ -118,6 +136,19 @@ Value*ComplexValue::operation(Value& v, Expression::Operator_e op)
 
 				return new ComplexValue(w,i);
 			}
+		}
+	}
+
+	NumberValue* n=dynamic_cast<NumberValue*>(&v);
+	if(n) {
+		if(op==Expression::Divide) {
+			Value* w=Value::operation(real,Expression::Divide,n);
+			QList<Value*> result;
+			foreach(Value* i, imaginary) {
+				Value* a=Value::operation(i,Expression::Divide,n);
+				result.append(a);
+			}
+			return new ComplexValue(w,result);
 		}
 	}
 

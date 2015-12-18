@@ -164,6 +164,11 @@ Value* Value::length()
 	return operation(Expression::Length);
 }
 
+Value* Value::length(Value& v)
+{
+	return operation(v,Expression::Length);
+}
+
 Value* Value::operator-()
 {
 	return operation(Expression::Subtract);
@@ -311,6 +316,7 @@ Value* Value::operation(Value* p_left, Expression::Operator_e e, Value* p_right)
 	switch(e) {
 	case Expression::Exponent:
 		return left^right;
+	case Expression::DotProduct:
 	case Expression::Multiply:
 		return left*right;
 	case Expression::Append:
@@ -352,6 +358,8 @@ Value* Value::operation(Value* p_left, Expression::Operator_e e, Value* p_right)
 		return left||right;
 	case Expression::Index:
 		return left[right];
+	case Expression::Length:
+		return left.length(right);
 	default:
 		return &left;
 	}

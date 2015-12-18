@@ -32,6 +32,7 @@ public:
 	VectorValue* toVector(int);
 	Value* toNumber();
 	Point getPoint() const;
+	void getXYZ(decimal&,decimal&,decimal&);
 	Iterator<Value*>* createIterator();
 	virtual QList<Value*> getChildren();
 protected:

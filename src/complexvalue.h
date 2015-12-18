@@ -30,6 +30,7 @@ public:
 	void toQuaternion(decimal&,decimal&,decimal&,decimal&);
 private:
 	ComplexValue();
+	Value* operation(Expression::Operator_e);
 	Value* operation(Value&,Expression::Operator_e);
 	Value* real;
 	QList<Value*> imaginary;

@@ -50,6 +50,26 @@ Value* AngFunction::evaluate(Context* ctx)
 
 	decimal a=0.0;
 	decimal x=0.0,y=0.0,z=0.0;
+
+	VectorValue* vecVal1=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	VectorValue* vecVal2=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
+	if(vecVal1&&vecVal2) {
+
+		// a = |v1|*|v2| + v1 . v2
+		Value* norm=Value::operation(vecVal1,Expression::Length,vecVal2);
+		Value* dot=Value::operation(vecVal1,Expression::DotProduct,vecVal2);
+		Value* angle=Value::operation(norm,Expression::Add,dot);
+
+		// [x,y,z] = v1 x v2
+		Value* cross=Value::operation(vecVal1,Expression::CrossProduct,vecVal2);
+		VectorValue* axis=dynamic_cast<VectorValue*>(cross);
+
+		//Renormalise the quaternion
+		ComplexValue* q=new ComplexValue(angle,axis->getChildren());
+		Value* l=Value::operation(q,Expression::Length);
+		return Value::operation(q,Expression::Divide,l);
+	}
+
 	NumberValue* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {
 		a=numVal->getNumber();

@@ -57,6 +57,7 @@ public:
 	Value* operator+=(Value&);
 	Value* operator++(int);
 	Value* length();
+	Value* length(Value& v);
 	Value* operator-();
 	Value* operator-(Value&);
 	Value* operator-=(Value&);

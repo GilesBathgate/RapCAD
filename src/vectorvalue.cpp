@@ -90,6 +90,12 @@ Point VectorValue::getPoint() const
 	return Point(x,y,z);
 }
 
+void VectorValue::getXYZ(decimal& x,decimal& y,decimal& z)
+{
+	Point p=getPoint();
+	p.getXYZ(x,y,z);
+}
+
 Iterator<Value*>* VectorValue::createIterator()
 {
 	return new VectorIterator(this->children);
@@ -161,6 +167,14 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 		} else if(e==Expression::Divide) {
 			//TODO vector division?
 			return this;
+		} else if(e==Expression::Length) {
+			Value* a=Value::operation(this,Expression::Multiply,this);
+			Value* b=Value::operation(&v,Expression::Multiply,&v);
+			Value* n=Value::operation(a,Expression::Multiply,b);
+			NumberValue* l=dynamic_cast<NumberValue*>(n);
+			if(l)
+				return new NumberValue(r_sqrt(l->getNumber()));
+			return new Value();
 		} else if(e==Expression::Concatenate) {
 			result=a;
 			result.append(b);
@@ -203,7 +217,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			QList<Value*> a=this->getChildren();
 			result=a;
 			result.append(num);
-		} else if (e==Expression::Exponent) {
+		} else if(e==Expression::Exponent) {
 			QList<Value*> a=this->getChildren();
 			Value* total=new NumberValue(0);
 			for(int i=0; i<a.size(); i++) {
