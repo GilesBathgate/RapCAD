@@ -47,10 +47,6 @@ Value* AngFunction::getResult(decimal a,decimal x,decimal y,decimal z)
 
 Value* AngFunction::evaluate(Context* ctx)
 {
-
-	decimal a=0.0;
-	decimal x=0.0,y=0.0,z=0.0;
-
 	VectorValue* vecVal1=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	VectorValue* vecVal2=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
 	if(vecVal1&&vecVal2) {
@@ -70,6 +66,8 @@ Value* AngFunction::evaluate(Context* ctx)
 		return Value::operation(q,Expression::Divide,l);
 	}
 
+	decimal a=0.0;
+	decimal x=0.0,y=0.0,z=0.0;
 	NumberValue* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {
 		a=numVal->getNumber();
