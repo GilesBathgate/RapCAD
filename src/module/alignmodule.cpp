@@ -36,31 +36,62 @@ AlignModule::AlignModule() : Module("align")
 
 Node* AlignModule::evaluate(Context* ctx)
 {
-	BooleanValue* topVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0,0));
-	BooleanValue* bottomVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,1,0));
-	BooleanValue* northVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,2,0));
-	BooleanValue* southVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,3,0));
-	BooleanValue* eastVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,4,0));
-	BooleanValue* westVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,5,0));
-
 	QList<AlignNode::Face_t> align;
-	if(topVal&&topVal->isTrue()) {
-		align.append(AlignNode::Top);
-	}
-	if(bottomVal&&bottomVal->isTrue()) {
-		align.append(AlignNode::Bottom);
-	}
-	if(northVal&&northVal->isTrue()) {
-		align.append(AlignNode::North);
-	}
-	if(southVal&&southVal->isTrue()) {
-		align.append(AlignNode::South);
-	}
-	if(eastVal&&eastVal->isTrue()) {
-		align.append(AlignNode::East);
-	}
-	if(westVal&&westVal->isTrue()) {
-		align.append(AlignNode::West);
+	VectorValue* vecVal=dynamic_cast<VectorValue*>(ctx->getArgument(0,"anchor"));
+	if(vecVal) {
+		decimal x,y,z;
+		vecVal->getXYZ(x,y,z);
+		if(x>0) {
+			align.append(AlignNode::North);
+		} else if(x<0) {
+			align.append(AlignNode::South);
+		} else {
+			align.append(AlignNode::North);
+			align.append(AlignNode::South);
+		}
+		if(y>0) {
+			align.append(AlignNode::West);
+		} else if(y<0) {
+			align.append(AlignNode::East);
+		} else {
+			align.append(AlignNode::East);
+			align.append(AlignNode::West);
+		}
+		if(z>0) {
+			align.append(AlignNode::Top);
+		} else if(z<0) {
+			align.append(AlignNode::Bottom);
+		} else {
+			align.append(AlignNode::Top);
+			align.append(AlignNode::Bottom);
+		}
+	} else {
+
+		BooleanValue* topVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0,0));
+		BooleanValue* bottomVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,1,0));
+		BooleanValue* northVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,2,0));
+		BooleanValue* southVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,3,0));
+		BooleanValue* eastVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,4,0));
+		BooleanValue* westVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,5,0));
+
+		if(topVal&&topVal->isTrue()) {
+			align.append(AlignNode::Top);
+		}
+		if(bottomVal&&bottomVal->isTrue()) {
+			align.append(AlignNode::Bottom);
+		}
+		if(northVal&&northVal->isTrue()) {
+			align.append(AlignNode::North);
+		}
+		if(southVal&&southVal->isTrue()) {
+			align.append(AlignNode::South);
+		}
+		if(eastVal&&eastVal->isTrue()) {
+			align.append(AlignNode::East);
+		}
+		if(westVal&&westVal->isTrue()) {
+			align.append(AlignNode::West);
+		}
 	}
 
 	AlignNode* n=new AlignNode();
