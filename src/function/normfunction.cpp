@@ -20,6 +20,8 @@
 #include "context.h"
 #include "vectorvalue.h"
 #include "rangevalue.h"
+#include "numbervalue.h"
+#include "complexvalue.h"
 #include "rmath.h"
 
 NormFunction::NormFunction() : Function("norm")
@@ -40,6 +42,14 @@ Value* NormFunction::evaluate(Context* ctx)
 	VectorValue* vec=dynamic_cast<VectorValue*>(v);
 	if(vec)
 		return Value::operation(vec,Expression::Length);
+
+	NumberValue* num=dynamic_cast<NumberValue*>(v);
+	if(num)
+		return Value::operation(num,Expression::Length);
+
+	ComplexValue* cpx=dynamic_cast<ComplexValue*>(v);
+	if(cpx)
+		return Value::operation(cpx,Expression::Length);
 
 	return new Value();
 }
