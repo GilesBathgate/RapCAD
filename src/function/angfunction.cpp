@@ -47,8 +47,8 @@ Value* AngFunction::getResult(decimal a,decimal x,decimal y,decimal z)
 
 Value* AngFunction::evaluate(Context* ctx)
 {
-	VectorValue* vecVal1=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
-	VectorValue* vecVal2=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
+	VectorValue* vecVal1=dynamic_cast<VectorValue*>(ctx->getArgument(0,"v1"));
+	VectorValue* vecVal2=dynamic_cast<VectorValue*>(ctx->getArgument(1,"v2"));
 	if(vecVal1&&vecVal2) {
 
 		// a = |v1|*|v2| + v1 . v2
@@ -61,7 +61,7 @@ Value* AngFunction::evaluate(Context* ctx)
 		VectorValue* axis=dynamic_cast<VectorValue*>(cross);
 
 		//Renormalise the quaternion
-		ComplexValue* q=new ComplexValue(angle,axis->getChildren());
+		Value* q=new ComplexValue(angle,axis->getChildren());
 		Value* l=Value::operation(q,Expression::Length);
 		return Value::operation(q,Expression::Divide,l);
 	}
