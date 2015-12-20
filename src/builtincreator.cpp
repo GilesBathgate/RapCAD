@@ -67,6 +67,7 @@
 #include "module/triangulatemodule.h"
 #include "module/materialmodule.h"
 #include "module/discretemodule.h"
+#include "module/childrenmodule.h"
 
 #include "function/lengthfunction.h"
 #include "function/sqrtfunction.h"
@@ -115,6 +116,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new BoundsModule());
 	builtins.append(new CenterModule());
 	builtins.append(new ChildModule());
+	builtins.append(new ChildrenModule());
 	builtins.append(new CircleModule());
 	builtins.append(new ComplementModule());
 	builtins.append(new ConeModule());

@@ -330,7 +330,8 @@ SOURCES += \
 	src/cachemanager.cpp \
 	src/cache.cpp \
 	src/cgalcache.cpp \
-	src/function/crossfunction.cpp
+	src/function/crossfunction.cpp \
+	src/module/childrenmodule.cpp
 
 HEADERS  += \
 	contrib/OGL_helper.h \
@@ -562,7 +563,8 @@ HEADERS  += \
 	src/cache.h \
 	src/cgalcache.h \
 	src/emptycache.h \
-	src/function/crossfunction.h
+	src/function/crossfunction.h \
+	src/module/childrenmodule.h
 
 FORMS += \
 	src/mainwindow.ui \

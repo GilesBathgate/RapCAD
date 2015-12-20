@@ -52,6 +52,7 @@ public:
 	void setVariable(Value*);
 
 	Node* lookupChild(int);
+	QList<Node*> lookupChildren();
 
 	void setVariablesFromArguments();
 	QList<Value*> getArguments();

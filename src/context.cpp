@@ -112,6 +112,9 @@ Value* Context::lookupVariable(QString name,Variable::Storage_e& c,Layout* l)
 
 }
 
+/* Lookup child doesn't currently
+ * check the lexical scope of the
+ * parent */
 Node* Context::lookupChild(int index)
 {
 	QList<Node*> children=getInputNodes();
@@ -121,6 +124,20 @@ Node* Context::lookupChild(int index)
 		return parent->lookupChild(index);
 
 	return NULL;
+}
+
+/* Lookup children doesn't currently
+ * check the lexical scope of the
+ * parent */
+QList<Node*> Context::lookupChildren()
+{
+	QList<Node*> children=getInputNodes();
+	if(children.length()>0)
+		return children;
+	if(parent)
+		return parent->lookupChildren();
+
+	return QList<Node*>();
 }
 
 void Context::setVariablesFromArguments()
