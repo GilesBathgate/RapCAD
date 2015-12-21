@@ -32,7 +32,18 @@
 #include "qcommandlineparser.h"
 #endif
 
-void showVersion(QTextStream& out)
+static void setupApplication()
+{
+#ifdef Q_OS_WIN
+	QCoreApplication::setAttribute(Qt::AA_UseDesktopOpenGL);
+#endif
+	QCoreApplication::setOrganizationName("rapcad");
+	QCoreApplication::setOrganizationDomain("rapcad.org");
+	QCoreApplication::setApplicationName("RapCAD");
+	QCoreApplication::setApplicationVersion(STRINGIFY(RAPCAD_VERSION));
+}
+
+static void showVersion(QTextStream& out)
 {
     out << QCoreApplication::applicationName() << " " << QCoreApplication::applicationVersion() << endl;
 }
@@ -46,17 +57,9 @@ static int showUi(int argc, char* argv[],QStringList filenames)
 	return a.exec();
 }
 
-int main(int argc, char* argv[])
+static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,QTextStream& output)
 {
-#ifdef Q_OS_WIN
-	QCoreApplication::setAttribute(Qt::AA_UseDesktopOpenGL);
-#endif
-	QCoreApplication::setOrganizationName("rapcad");
-	QCoreApplication::setOrganizationDomain("rapcad.org");
-	QCoreApplication::setApplicationName("RapCAD");
-	QCoreApplication::setApplicationVersion(STRINGIFY(RAPCAD_VERSION));
-
-	QCoreApplication* a = new QCoreApplication(argc,argv);
+	QCoreApplication a(argc,argv);
 
 	QCommandLineParser p;
 	p.setApplicationDescription(QCoreApplication::translate("main","RapCAD the rapid prototyping IDE"));
@@ -80,12 +83,9 @@ int main(int argc, char* argv[])
 	QCommandLineOption interactOption(QStringList() << "i" << "interactive",QCoreApplication::translate("main","Start an interactive session"));
 	p.addOption(interactOption);
 #endif
-	p.process(*a);
+	p.process(a);
 
-	//Ensure preferences have been initialised early.
-	Preferences::getInstance();
-
-	QStringList inputFiles=p.positionalArguments();
+	inputFiles=p.positionalArguments();
 	QString inputFile;
 	if(!inputFiles.isEmpty())
 		inputFile=inputFiles.at(0);
@@ -96,34 +96,44 @@ int main(int argc, char* argv[])
 	else if(p.isSet(compareOption))
 		outputFile=p.value(compareOption);
 
-	QTextStream output(stdout);
-	Strategy* s=NULL;
 	if(p.isSet(compareOption)) {
 		Comparer* c=new Comparer(output);
 		c->setup(inputFile,outputFile);
-		s=c;
+		return c;
 	} else if(p.isSet(testOption)) {
-		s=new Tester(output);
+		return new Tester(output);
 	} else if(p.isSet(outputOption)||p.isSet(printOption)) {
 		Worker* w=new Worker(output);
 		bool print = p.isSet(printOption);
 		w->setup(inputFile,outputFile,print,false);
-		s=w;
+		return w;
 #ifdef USE_READLINE
-    } else if(p.isSet(interactOption)) {
-        showVersion(output);
-		s=new Interactive(output);
+	} else if(p.isSet(interactOption)) {
+		showVersion(output);
+		return new Interactive(output);
 #endif
 	}
+	return NULL;
+}
+
+int main(int argc, char* argv[])
+{
+	setupApplication();
+
+	//Ensure preferences have been initialised early.
+	Preferences::getInstance();
+
+	QStringList inputFiles;
+	QTextStream output(stdout);
+	Strategy* s=parseArguments(argc,argv,inputFiles,output);
 
 	int retcode;
-	if(s) {
+	if(s)
 		retcode=s->evaluate();
-		a->quit();
-	} else {
-		delete a;
+	else
 		retcode=showUi(argc,argv,inputFiles);
-	}
+
+	delete s;
 
 	//Ensure preferences are saved.
 	Preferences::syncDelete();
