@@ -66,8 +66,30 @@ Primitive* CGALImport::importSTL(QFileInfo fileinfo)
 		return p;
 	}
 
-	QByteArray header=f.read(5);
-	if(header.size()==5 && QString(header)=="solid") {
+	struct {
+		float i, j, k;
+		float x1, y1, z1;
+		float x2, y2, z2;
+		float x3, y3, z3;
+		unsigned short acount;
+	}
+	__attribute__((packed))
+	data;
+
+	const int datasize=sizeof(data);
+
+	/* Detect binary STL by reading the header
+	 * and check whether the size calculated
+	 * from the header matches the file size */
+	bool binary=false;
+	int numfacets;
+	QByteArray header=f.read(80);
+	f.read((char*)&numfacets,4);
+	if(f.size() == 80+4+(datasize*numfacets))
+		binary=true;
+
+	if(!binary && QString(header).startsWith("solid")) {
+		f.seek(0);
 		QTextStream data(&f);
 		QRegExp re=QRegExp("\\s*(vertex)?\\s+");
 		while(!data.atEnd()) {
@@ -98,19 +120,8 @@ Primitive* CGALImport::importSTL(QFileInfo fileinfo)
 			}
 		}
 	} else {
-		f.read(80-5+4);
 		while(1) {
-			struct {
-				float i, j, k;
-				float x1, y1, z1;
-				float x2, y2, z2;
-				float x3, y3, z3;
-				unsigned short acount;
-			}
-			__attribute__((packed))
-			data;
-
-			if(f.read((char*)&data, sizeof(data)) != sizeof(data))
+			if(f.read((char*)&data, datasize) != datasize)
 				break;
 			p->createPolygon();
 			CGAL::Point3 v1(data.x1,data.y1,data.z1);
