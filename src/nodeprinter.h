@@ -53,6 +53,7 @@
 #include "node/triangulatenode.h"
 #include "node/materialnode.h"
 #include "node/discretenode.h"
+#include "node/normalsnode.h"
 
 #if USE_CGAL
 #include "cgalprimitive.h"
@@ -93,6 +94,7 @@ public:
 	void visit(TriangulateNode*);
 	void visit(MaterialNode*);
 	void visit(DiscreteNode*);
+	void visit(NormalsNode*);
 private:
 	QTextStream& result;
 	void printChildren(Node*);

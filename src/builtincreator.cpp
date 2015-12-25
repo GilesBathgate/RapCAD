@@ -68,6 +68,7 @@
 #include "module/materialmodule.h"
 #include "module/discretemodule.h"
 #include "module/childrenmodule.h"
+#include "module/normalsmodule.h"
 
 #include "function/lengthfunction.h"
 #include "function/sqrtfunction.h"
@@ -136,6 +137,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new MinkowskiModule());
 	builtins.append(new MirrorModule());
 	builtins.append(new MultMatrixModule());
+	builtins.append(new NormalsModule());
 	builtins.append(new OffsetModule());
 	builtins.append(new OutlineModule());
 	builtins.append(new PointModule());

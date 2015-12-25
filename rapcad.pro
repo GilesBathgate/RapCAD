@@ -331,7 +331,9 @@ SOURCES += \
 	src/cache.cpp \
 	src/cgalcache.cpp \
 	src/function/crossfunction.cpp \
-	src/module/childrenmodule.cpp
+	src/module/childrenmodule.cpp \
+	src/node/normalsnode.cpp \
+	src/module/normalsmodule.cpp
 
 HEADERS  += \
 	contrib/OGL_helper.h \
@@ -564,7 +566,9 @@ HEADERS  += \
 	src/cgalcache.h \
 	src/emptycache.h \
 	src/function/crossfunction.h \
-	src/module/childrenmodule.h
+	src/module/childrenmodule.h \
+	src/node/normalsnode.h \
+	src/module/normalsmodule.h
 
 FORMS += \
 	src/mainwindow.ui \

@@ -25,6 +25,7 @@
 #include "simpletextbuilder.h"
 
 #if USE_CGAL
+#include <CGAL/centroid.h>
 #include <CGAL/convex_hull_3.h>
 #include "cgalimport.h"
 #include "cgalexplorer.h"
@@ -432,6 +433,31 @@ void NodeEvaluator::visit(SubDivisionNode* n)
 {
 	evaluate(n,Union);
 	//TODO
+}
+
+void NodeEvaluator::visit(NormalsNode* n)
+{
+	evaluate(n,Union);
+	CGALExplorer e(result);
+	CGALPrimitive* prim=e.getPrimitive();
+
+	Polyhedron* a=new Polyhedron();
+	a->setType(Primitive::Skeleton);
+	int i=0;
+	foreach(CGALPolygon* pg,prim->getCGALPolygons()) {
+		CGAL::Vector3 v=pg->getNormal();
+		QList<CGAL::Point3> pts=pg->getPoints();
+		CGAL::Point3 c=CGAL::centroid(pts.begin(),pts.end());
+		CGAL::Scalar l=r_sqrt(v.squared_length());
+		CGAL::Point3 n=c+(v/l);
+		Polygon* np=a->createPolygon();
+		a->createVertex(Point(c.x(),c.y(),c.z()));
+		a->createVertex(Point(n.x(),n.y(),n.z()));
+		np->append(i++);
+		np->append(i++);
+	}
+
+	result->appendChild(a);
 }
 
 void NodeEvaluator::visit(OffsetNode* n)
