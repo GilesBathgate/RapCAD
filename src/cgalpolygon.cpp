@@ -33,13 +33,24 @@ QList<CGAL::Point3> CGALPolygon::getPoints() const
 	return points;
 }
 
-void CGALPolygon::setNormal(CGAL::Vector3 v)
-{
-	normal=v;
-}
-
 CGAL::Vector3 CGALPolygon::getNormal() const
 {
 	return normal;
 }
+
+void CGALPolygon::setNormal(const CGAL::Vector3& v)
+{
+	normal=v;
+}
+
+CGAL::Plane3 CGALPolygon::getPlane() const
+{
+	return plane;
+}
+
+void CGALPolygon::setPlane(const CGAL::Plane3& p)
+{
+	plane=p;
+}
+
 #endif

@@ -95,9 +95,11 @@ public:
 		bool facet = !f->is_twin();
 		if(facet) {
 			CGALPolygon* pg=static_cast<CGALPolygon*>(primitive->createPolygon());
-			CGAL::Vector3 v = f->plane().orthogonal_vector();
+			CGAL::Plane3 p=f->plane();
+			CGAL::Vector3 v=p.orthogonal_vector();
 			if(isBase(v))
 				basePolygons.append(pg);
+			pg->setPlane(p);
 			pg->setNormal(v);
 			HalfFacetCycleIterator fc;
 			CGAL_forall_facet_cycles_of(fc,f) {

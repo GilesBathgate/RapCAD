@@ -29,10 +29,15 @@ class CGALPolygon : public Polygon
 public:
 	CGALPolygon(class CGALPrimitive*);
 	QList<CGAL::Point3> getPoints() const;
-	void setNormal(CGAL::Vector3);
+
 	CGAL::Vector3 getNormal() const;
+	void setNormal(const CGAL::Vector3&);
+
+	CGAL::Plane3 getPlane() const;
+	void setPlane(const CGAL::Plane3&);
 private:
 	CGAL::Vector3 normal;
+	CGAL::Plane3 plane;
 };
 #endif // CGALPOLYGON_H
 #endif

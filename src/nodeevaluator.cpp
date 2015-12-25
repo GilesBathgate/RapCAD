@@ -446,13 +446,23 @@ void NodeEvaluator::visit(NormalsNode* n)
 	int i=0;
 	foreach(CGALPolygon* pg,prim->getCGALPolygons()) {
 		CGAL::Vector3 v=pg->getNormal();
+		CGAL::Plane3 p=pg->getPlane();
+		CGAL::Vector3 b=p.base1();
 		QList<CGAL::Point3> pts=pg->getPoints();
 		CGAL::Point3 c=CGAL::centroid(pts.begin(),pts.end());
+
 		CGAL::Scalar l=r_sqrt(v.squared_length());
 		CGAL::Point3 n=c+(v/l);
+		l=r_sqrt(b.squared_length());
+		b=b/(l*8.0);
+		CGAL::Point3 p1=c+b;
+		CGAL::Point3 p2=c-b;
+
 		Polygon* np=a->createPolygon();
-		a->createVertex(Point(c.x(),c.y(),c.z()));
+		a->createVertex(Point(p1.x(),p1.y(),p1.z()));
 		a->createVertex(Point(n.x(),n.y(),n.z()));
+		a->createVertex(Point(p2.x(),p2.y(),p2.z()));
+		np->append(i++);
 		np->append(i++);
 		np->append(i++);
 	}
