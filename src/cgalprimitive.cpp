@@ -335,6 +335,7 @@ Primitive* CGALPrimitive::triangulate()
 
 Primitive* CGALPrimitive::simplify(int level)
 {
+#if CGAL_VERSION_NR > CGAL_VERSION_NUMBER(3,9,0)
 	namespace SMS=CGAL::Surface_mesh_simplification;
 	CGAL::Polyhedron3& p=*this->getPolyhedron();
 	SMS::Count_stop_predicate<CGAL::Polyhedron3> stop(level);
@@ -344,6 +345,9 @@ Primitive* CGALPrimitive::simplify(int level)
 						.get_cost(SMS::Edge_length_cost<CGAL::Polyhedron3>())
 						.get_placement(SMS::Midpoint_placement<CGAL::Polyhedron3>()));
 	return new CGALPrimitive(p);
+#else
+	return this;
+#endif
 }
 
 Primitive* CGALPrimitive::copy()
