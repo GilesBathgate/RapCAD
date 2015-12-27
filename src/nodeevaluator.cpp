@@ -438,6 +438,7 @@ void NodeEvaluator::visit(SubDivisionNode* n)
 void NodeEvaluator::visit(NormalsNode* n)
 {
 	evaluate(n,Union);
+#if USE_CGAL
 	CGALExplorer e(result);
 	CGALPrimitive* prim=e.getPrimitive();
 
@@ -468,6 +469,7 @@ void NodeEvaluator::visit(NormalsNode* n)
 	}
 
 	result->appendChild(a);
+#endif
 }
 
 void NodeEvaluator::visit(OffsetNode* n)
