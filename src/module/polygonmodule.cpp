@@ -21,6 +21,8 @@ Node* PolygonModule::evaluate(Context* ctx)
 		return p;
 
 	QList<Value*> points=pointsVec->getChildren();
+	if(points.isEmpty())
+		return p;
 
 	foreach(Value* point, points) {
 		VectorValue* pointVec=dynamic_cast<VectorValue*>(point);
