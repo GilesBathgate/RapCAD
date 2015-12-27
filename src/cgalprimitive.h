@@ -60,6 +60,7 @@ public:
 	Primitive* complement();
 	Primitive* copy();
 	Primitive* triangulate();
+	Primitive* simplify(int);
 	CGAL::Cuboid3 getBounds();
 	void transform(TransformMatrix*);
 	/* Don't call this method instead use getCGALPolygons */

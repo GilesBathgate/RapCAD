@@ -6,6 +6,14 @@
 #include <CGAL/Min_circle_2.h>
 #include <CGAL/Min_circle_2_traits_2.h>
 #include <CGAL/bounding_box.h>
+
+//Mesh simplification
+#include <CGAL/boost/graph/graph_traits_Polyhedron_3.h>
+#include <CGAL/Surface_mesh_simplification/edge_collapse.h>
+#include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Count_stop_predicate.h>
+#include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Edge_length_cost.h>
+#include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Midpoint_placement.h>
+
 #include "cgalbuilder.h"
 #include "cgalexplorer.h"
 #include "onceonly.h"
@@ -323,6 +331,19 @@ Primitive* CGALPrimitive::triangulate()
 {
 	CGALBuilder b(this);
 	return b.triangulate();
+}
+
+Primitive* CGALPrimitive::simplify(int level)
+{
+	namespace SMS=CGAL::Surface_mesh_simplification;
+	CGAL::Polyhedron3& p=*this->getPolyhedron();
+	SMS::Count_stop_predicate<CGAL::Polyhedron3> stop(level);
+	SMS::edge_collapse(p,stop,
+						CGAL::vertex_index_map(get(CGAL::vertex_external_index,p))
+						.halfedge_index_map(get(CGAL::halfedge_external_index,p))
+						.get_cost(SMS::Edge_length_cost<CGAL::Polyhedron3>())
+						.get_placement(SMS::Midpoint_placement<CGAL::Polyhedron3>()));
+	return new CGALPrimitive(p);
 }
 
 Primitive* CGALPrimitive::copy()

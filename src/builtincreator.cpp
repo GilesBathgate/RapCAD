@@ -69,6 +69,7 @@
 #include "module/discretemodule.h"
 #include "module/childrenmodule.h"
 #include "module/normalsmodule.h"
+#include "module/simplifymodule.h"
 
 #include "function/lengthfunction.h"
 #include "function/sqrtfunction.h"
@@ -152,6 +153,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new RotateModule());
 	builtins.append(new ScaleModule());
 	builtins.append(new ShearModule());
+	builtins.append(new SimplifyModule());
 	builtins.append(new SliceModule());
 	builtins.append(new SphereModule());
 	builtins.append(new SquareModule());

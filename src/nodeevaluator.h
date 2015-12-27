@@ -55,6 +55,7 @@
 #include "node/materialnode.h"
 #include "node/discretenode.h"
 #include "node/normalsnode.h"
+#include "node/simplifynode.h"
 #include "cachemanager.h"
 
 class NodeEvaluator : public NodeVisitor
@@ -104,6 +105,7 @@ public:
 	void visit(MaterialNode*);
 	void visit(DiscreteNode*);
 	void visit(NormalsNode*);
+	void visit(SimplifyNode*);
 
 	Primitive* getResult() const;
 private:

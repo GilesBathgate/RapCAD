@@ -333,7 +333,9 @@ SOURCES += \
 	src/function/crossfunction.cpp \
 	src/module/childrenmodule.cpp \
 	src/node/normalsnode.cpp \
-	src/module/normalsmodule.cpp
+	src/module/normalsmodule.cpp \
+	src/module/simplifymodule.cpp \
+	src/node/simplifynode.cpp
 
 HEADERS  += \
 	contrib/OGL_helper.h \
@@ -568,7 +570,9 @@ HEADERS  += \
 	src/function/crossfunction.h \
 	src/module/childrenmodule.h \
 	src/node/normalsnode.h \
-	src/module/normalsmodule.h
+	src/module/normalsmodule.h \
+	src/module/simplifymodule.h \
+	src/node/simplifynode.h
 
 FORMS += \
 	src/mainwindow.ui \

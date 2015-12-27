@@ -367,6 +367,12 @@ void NodePrinter::visit(NormalsNode* n)
 	printChildren(n);
 }
 
+void NodePrinter::visit(SimplifyNode* n)
+{
+	result << "simplify()";
+	printChildren(n);
+}
+
 void NodePrinter::visit(TransformationNode* n)
 {
 	TransformMatrix* m=n->getMatrix();

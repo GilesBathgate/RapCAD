@@ -478,6 +478,13 @@ void NodeEvaluator::visit(NormalsNode* n)
 #endif
 }
 
+void NodeEvaluator::visit(SimplifyNode* n)
+{
+	evaluate(n,Union);
+	if(result)
+		result=result->simplify(n->getStopLevel());
+}
+
 void NodeEvaluator::visit(OffsetNode* n)
 {
 	evaluate(n,Union);

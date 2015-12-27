@@ -50,6 +50,7 @@ public:
 	virtual Primitive* complement()=0;
 	virtual Primitive* copy()=0;
 	virtual Primitive* triangulate()=0;
+	virtual Primitive* simplify(int)=0;
 	virtual void transform(TransformMatrix*)=0;
 	virtual bool isEmpty()=0;
 	virtual bool isFullyDimentional()=0;

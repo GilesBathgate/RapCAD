@@ -45,6 +45,7 @@ public:
 	bool isFullyDimentional() { return false; }
 	Primitive* copy();
 	Primitive* triangulate() { return this; }
+	Primitive* simplify(int) { return this; }
 	void transform(TransformMatrix*);
 	bool isEmpty();
 	QList<Polygon*> getPolygons() const;
