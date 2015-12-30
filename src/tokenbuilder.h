@@ -79,6 +79,7 @@ public:
 	unsigned int buildMultiply();
 	unsigned int buildDivide();
 	unsigned int buildLength();
+	unsigned int buildSquared();
 	unsigned int buildModulus();
 	unsigned int buildConcatenate();
 	unsigned int buildAppend();

@@ -110,6 +110,7 @@ QString Expression::getOpString() const
 		result.append("-=");
 		break;
 	case Length:
+	case LengthSquared:
 		result.append("|");
 	case None:
 		break;

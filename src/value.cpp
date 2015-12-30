@@ -169,6 +169,11 @@ Value* Value::length(Value& v)
 	return operation(v,Expression::Length);
 }
 
+Value* Value::lengthSquared()
+{
+	return operation(Expression::LengthSquared);
+}
+
 Value* Value::operator-()
 {
 	return operation(Expression::Subtract);
@@ -381,6 +386,8 @@ Value* Value::operation(Value* p_left, Expression::Operator_e e)
 		return left--;
 	case Expression::Length:
 		return left.length();
+	case Expression::LengthSquared:
+		return left.lengthSquared();
 	default:
 		return &left;
 	}
