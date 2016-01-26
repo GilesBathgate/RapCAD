@@ -108,10 +108,8 @@ QList<Value*> VectorValue::getChildren()
 
 Value* VectorValue::operation(Expression::Operator_e e)
 {
-	if(e==Expression::Length||e==Expression::LengthSquared) {
+	if(e==Expression::Length) {
 		Value* v=Value::operation(this,Expression::Multiply,this);
-		if(e==Expression::LengthSquared)
-			return v;
 		NumberValue* n=dynamic_cast<NumberValue*>(v);
 		if(n)
 			return new NumberValue(r_sqrt(n->getNumber()));

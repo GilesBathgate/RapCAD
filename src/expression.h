@@ -54,8 +54,7 @@ public:
 		LogicalOr,
 		Invert,
 		Index,
-		Length,
-		LengthSquared
+		Length
 	};
 
 	Expression();

@@ -299,11 +299,6 @@ unsigned int TokenBuilder::buildLength()
 	return '|';
 }
 
-unsigned int TokenBuilder::buildSquared()
-{
-	return SQ;
-}
-
 unsigned int TokenBuilder::buildModulus()
 {
 	return '%';

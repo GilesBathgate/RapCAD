@@ -360,12 +360,6 @@ unsigned int SyntaxHighlighter::buildLength()
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildSquared()
-{
-	setFormat(startIndex,lexerleng,operatorFormat);
-	return YY_CONTINUE;
-}
-
 unsigned int SyntaxHighlighter::buildModulus()
 {
 	setFormat(startIndex,lexerleng,operatorFormat);

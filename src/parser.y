@@ -83,7 +83,7 @@ static Reporter* reporter;
 %left '*' '/' '%'
 %left INC DEC ADDA SUBA
 %left CM CD CP
-%right '^' SQ
+%right '^'
 %left '[' ']'
 %left '.'
 
@@ -304,8 +304,6 @@ expression
 	{ $$ = builder->buildComplex($2,$4,$6,$8); }
 	| '|' expression '|'
 	{ $$ = builder->buildExpression(Expression::Length,$2); }
-	| '|' expression '|' SQ
-	{ $$ = builder->buildExpression(Expression::LengthSquared,$2); }
 	| expression '^' expression
 	{ $$ = builder->buildExpression($1,Expression::Exponent,$3); }
 	| expression '*' expression

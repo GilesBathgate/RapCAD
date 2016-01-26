@@ -75,7 +75,6 @@ public:
 	virtual unsigned int buildMultiply()=0;
 	virtual unsigned int buildDivide()=0;
 	virtual unsigned int buildLength()=0;
-	virtual unsigned int buildSquared()=0;
 	virtual unsigned int buildModulus()=0;
 	virtual unsigned int buildConcatenate()=0;
 	virtual unsigned int buildAppend()=0;

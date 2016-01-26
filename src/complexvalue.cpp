@@ -59,15 +59,13 @@ void ComplexValue::toQuaternion(decimal& w,decimal& x,decimal& y,decimal& z)
 
 Value* ComplexValue::operation(Expression::Operator_e e)
 {
-	if(e==Expression::Length||e==Expression::LengthSquared) {
+	if(e==Expression::Length) {
 		//l = sqrt(w^2+x^2+y^2,z^2)
 		Value* n=Value::operation(real,Expression::Multiply,real);
 		foreach(Value* i, imaginary) {
 			Value* r=Value::operation(i,Expression::Multiply,i);
 			n=Value::operation(n,Expression::Add,r);
 		}
-		if(e==Expression::LengthSquared)
-			return n;
 		NumberValue* l=dynamic_cast<NumberValue*>(n);
 		if(l)
 			return new NumberValue(r_sqrt(l->getNumber()));
