@@ -29,13 +29,15 @@ Fragment::Fragment()
 	fragmentNumber=0;
 	fragmentSize=2.0;
 	fragmentAngle=12.0;
+	fragmentError=0;
 }
 
 Fragment::Fragment(Context* ctx)
 {
-	int fn=0.0;
+	int fn=0;
 	decimal fs=2.0;
 	decimal fa=12.0;
+	decimal fe=0.0;
 	NumberValue* fnVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fn"));
 	if(fnVal)
 		fn=fnVal->toInteger();
@@ -45,10 +47,14 @@ Fragment::Fragment(Context* ctx)
 	NumberValue* faVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fa"));
 	if(faVal)
 		fa=faVal->getNumber();
+	NumberValue* feVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fe"));
+	if(feVal)
+		fe=feVal->getNumber();
 
 	fragmentNumber=fn;
 	fragmentSize=fs;
 	fragmentAngle=fa;
+	fragmentError=fe;
 }
 
 Fragment* Fragment::createFragment(Context* ctx)

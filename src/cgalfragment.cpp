@@ -26,7 +26,11 @@ CGALFragment::CGALFragment(Context* ctx) : Fragment(ctx)
 int CGALFragment::getFragments(CGAL::Scalar r)
 {
 	int fn=fragmentNumber;
-	if(fn > 0.0) return (int)(fn >= 3 ? fn : 3);
+	if(fn > 0) return (int)(fn >= 3 ? fn : 3);
+
+	CGAL::Scalar fe=fragmentError;
+	//solve R=r/cos(pi/n) for n where R=radius and r=inradius
+	if(fe > 0.0) return to_integer(r_ceil(r_pi() / r_acos((r-fe)/r,false)));
 
 	CGAL::Scalar fs=fragmentSize;
 	CGAL::Scalar fa=fragmentAngle;

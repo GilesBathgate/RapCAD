@@ -42,6 +42,7 @@ decimal r_right_sin(decimal a);
 decimal r_right_cos(decimal a);
 decimal r_abs(decimal a);
 decimal r_acos_deg(decimal a,bool round=true);
+decimal r_acos(decimal a,bool round=true);
 decimal r_asin_deg(decimal a,bool round=true);
 decimal r_atan2_deg(decimal a,decimal b,bool round=true);
 decimal r_atan_deg(decimal a,bool round=true);

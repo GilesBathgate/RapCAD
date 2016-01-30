@@ -34,6 +34,7 @@ protected:
 	int fragmentNumber;
 	decimal fragmentSize;
 	decimal fragmentAngle;
+	decimal fragmentError;
 };
 
 #endif // FRAGMENT_H
