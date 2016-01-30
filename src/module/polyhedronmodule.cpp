@@ -25,18 +25,18 @@
 PolyhedronModule::PolyhedronModule() : PrimitiveModule("polyhedron")
 {
 	addParameter("points");
-	addParameter("surfaces");
+	addParameter("faces");
 }
 
 Node* PolyhedronModule::evaluate(Context* ctx)
 {
 	VectorValue* points=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
-	VectorValue* surfaces=dynamic_cast<VectorValue*>(ctx->getArgumentDeprecated(1,"surfaces","triangles"));
+	VectorValue* faces=dynamic_cast<VectorValue*>(ctx->getArgumentDeprecated(1,"faces","triangles"));
 
 	PrimitiveNode* p=new PrimitiveNode();
 	p->setChildren(ctx->getInputNodes());
 
-	if(!points||!surfaces)
+	if(!points||!faces)
 		return p;
 
 	QList<Value*> children = points->getChildren();
@@ -47,7 +47,7 @@ Node* PolyhedronModule::evaluate(Context* ctx)
 			p->createVertex(pt);
 		}
 	}
-	foreach(Value* s,surfaces->getChildren()) {
+	foreach(Value* s,faces->getChildren()) {
 		Polygon* pg=p->createPolygon();
 		VectorValue* surface=dynamic_cast<VectorValue*>(s);
 		foreach(Value* indexVal,surface->getChildren()) {
