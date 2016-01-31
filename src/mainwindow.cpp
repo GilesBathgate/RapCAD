@@ -86,6 +86,7 @@ void MainWindow::savePreferences()
 	p->setShowEditor(ui->actionShowEditor->isChecked());
 	p->setShowConsole(ui->actionShowConsole->isChecked());
 	p->setShowProjects(ui->actionShowProjects->isChecked());
+	p->setCacheEnabled(ui->actionEnableCaches->isChecked());
 	p->setWindowPosition(pos());
 	p->setWindowSize(size());
 }
@@ -143,6 +144,11 @@ void MainWindow::loadPreferences()
 	bool showProjects=p->getShowProjects();
 	ui->actionShowProjects->setChecked(showProjects);
 	ui->treeView->setVisible(showProjects);
+
+	bool b=p->getCacheEnabled();
+	ui->actionEnableCaches->setChecked(b);
+	enableCaches(b);
+
 	move(p->getWindowPosition());
 	resize(p->getWindowSize());
 
@@ -209,6 +215,7 @@ void MainWindow::setupActions()
 	connect(ui->actionUserGuide,SIGNAL(triggered()),this,SLOT(showUserGuide()));
 
 	connect(ui->actionFlushCaches,SIGNAL(triggered()),this,SLOT(flushCaches()));
+	connect(ui->actionEnableCaches,SIGNAL(triggered(bool)),this,SLOT(enableCaches(bool)));
 
 }
 
@@ -303,6 +310,15 @@ void MainWindow::disableRulers(bool checked)
 
 	ui->view->setShowRulers(ui->actionShowRulers->isChecked());
 	ui->actionShowRulers->setEnabled(checked);
+}
+
+void MainWindow::enableCaches(bool b)
+{
+	CacheManager* cm=CacheManager::getInstance();
+	if(b)
+		cm->enableCaches();
+	else
+		cm->disableCaches();
 }
 
 void MainWindow::setupLayout()

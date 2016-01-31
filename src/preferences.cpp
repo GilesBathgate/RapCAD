@@ -339,6 +339,15 @@ void Preferences::setAutoSaveOnCompile(bool b)
 	settings->setValue("AutoSaveOnCompile",b);
 }
 
+void Preferences::setCacheEnabled(bool b)
+{
+	settings->setValue("CacheEnabled",b);
+}
+
+bool Preferences::getCacheEnabled()
+{
+	return settings->value("CacheEnabled",false).toBool();
+}
 
 void Preferences::syncDelete()
 {

@@ -220,6 +220,7 @@
     <addaction name="actionCompileAndRender"/>
     <addaction name="actionGenerateGcode"/>
     <addaction name="actionShowBuiltins"/>
+    <addaction name="actionEnableCaches"/>
     <addaction name="actionFlushCaches"/>
    </widget>
    <widget class="QMenu" name="menuView">
@@ -832,6 +833,17 @@
    </property>
    <property name="toolTip">
     <string>Export NEF</string>
+   </property>
+  </action>
+  <action name="actionEnableCaches">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Enable Caches</string>
+   </property>
+   <property name="toolTip">
+    <string>Enable Caches</string>
    </property>
   </action>
  </widget>

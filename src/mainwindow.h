@@ -49,6 +49,7 @@ private slots:
 	void grabFrameBuffer();
 	void showPreferences();
 	void disableRulers(bool);
+	void enableCaches(bool);
 	void clipboardDataChanged();
 	bool maybeSave(bool);
 	void newFile();

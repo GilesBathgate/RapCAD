@@ -116,6 +116,8 @@ public:
 	void setAutoSaveOnCompile(bool);
 	bool getAutoSaveOnCompile();
 
+	void setCacheEnabled(bool);
+	bool getCacheEnabled();
 private:
 	Preferences();
 	static Preferences* instance;

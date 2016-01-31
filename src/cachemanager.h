@@ -11,6 +11,7 @@ public:
 	Cache* getCache() const;
 	void flushCaches();
 	void disableCaches();
+	void enableCaches();
 private:
 	CacheManager();
 	static CacheManager* instance;

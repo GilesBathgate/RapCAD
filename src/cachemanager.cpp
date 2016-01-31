@@ -6,7 +6,7 @@ CacheManager* CacheManager::instance=NULL;
 
 CacheManager::CacheManager()
 {
-	disabled=false;
+	disabled=true;
 	cache=createCache();
 }
 
@@ -31,6 +31,12 @@ void CacheManager::flushCaches()
 void CacheManager::disableCaches()
 {
 	disabled=true;
+	flushCaches();
+}
+
+void CacheManager::enableCaches()
+{
+	disabled=false;
 	flushCaches();
 }
 
