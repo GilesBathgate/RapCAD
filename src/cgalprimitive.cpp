@@ -50,6 +50,70 @@ void CGALPrimitive::setType(Primitive_t t)
 	type=t;
 }
 
+typedef CGAL::Polyhedron3::Halfedge_handle HalfedgeHandle;
+
+static CGAL::Scalar getLength(HalfedgeHandle h)
+{
+	return CGAL::squared_distance(h->vertex()->point(),h->opposite()->vertex()->point());
+}
+
+static void removeShortEdge(CGAL::Polyhedron3& p,HalfedgeHandle h)
+{
+	p.join_facet(h->next());
+	p.join_facet(h->opposite()->next());
+	p.join_vertex(h);
+}
+
+static void removeShortestEdges(CGAL::Polyhedron3& p,HalfedgeHandle h1,HalfedgeHandle h2,HalfedgeHandle h3)
+{
+	CGAL::Scalar l1=getLength(h1);
+	CGAL::Scalar l2=getLength(h2);
+	CGAL::Scalar l3=getLength(h3);
+
+	if(l1<l2||l1<l3)
+		p.join_facet(h1);
+	if(l2<l1||l2<l3)
+		p.join_facet(h2);
+	if(l3<l1||l3<l2)
+		p.join_facet(h3);
+}
+
+static void fixZeroTriangles(CGAL::Polyhedron3& p)
+{
+	typedef CGAL::Polyhedron3::Facet_iterator FacetIterator;
+	for (FacetIterator f=p.facets_begin();f!=p.facets_end();f++)
+	{
+		HalfedgeHandle h1=f->halfedge();
+		HalfedgeHandle h2=h1->next();
+		HalfedgeHandle h3=h2->next();
+		const CGAL::Point3& p1=h1->vertex()->point();
+		const CGAL::Point3& p2=h2->vertex()->point();
+		const CGAL::Point3& p3=h3->vertex()->point();
+		if(CGAL::collinear(p1,p2,p3)) {
+			removeShortestEdges(p,h1,h2,h3);
+		}
+	}
+}
+
+static void fixZeroEdges(CGAL::Polyhedron3& p)
+{
+	bool removed;
+	do {
+		removed=false;
+		typedef CGAL::Polyhedron3::Halfedge_iterator HalfedgeIterator;
+		for(HalfedgeIterator h=p.halfedges_begin();h!=p.halfedges_end();h++)
+		{
+			if(getLength(h)==0.0)
+			{
+				removeShortEdge(p,h);
+				removed=true;
+				break;
+			}
+		}
+
+	} while(removed);
+}
+
 void CGALPrimitive::buildPrimitive()
 {
 	if(nefPolyhedron)
@@ -60,6 +124,8 @@ void CGALPrimitive::buildPrimitive()
 		CGALBuilder b(this);
 		CGAL::Polyhedron3 poly;
 		poly.delegate(b);
+		fixZeroEdges(poly);
+		fixZeroTriangles(poly);
 		nefPolyhedron=new CGAL::NefPolyhedron3(poly);
 		return;
 	}
