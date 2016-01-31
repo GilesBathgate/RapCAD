@@ -278,9 +278,10 @@ void MainWindow::exportFile(QString type)
 
 		QString ext="."+type.toLower();
 		QString filter=tr("%1 Files (*%2);;All Files (*)").arg(type.toUpper()).arg(ext);
-		QString suggestedName=fileInfo.baseName()+ext;
+		QString suggestedName=fileInfo.completeBaseName()+ext;
+		QString suggestedLocation=fileInfo.absoluteDir().filePath(suggestedName);
 
-		QString fileName=QFileDialog::getSaveFileName(this,tr("Export..."),suggestedName,filter);
+		QString fileName=QFileDialog::getSaveFileName(this,tr("Export..."),suggestedLocation,filter);
 
 		fileInfo=QFileInfo(fileName);
 		if(fileInfo.suffix()=="")
