@@ -226,6 +226,7 @@ void MainWindow::setupExportActions()
 	signalMapper->setMapping(ui->actionExportOBJ,"obj");
 	signalMapper->setMapping(ui->actionExportAsciiSTL,"stl");
 	signalMapper->setMapping(ui->actionExportAMF,"amf");
+	signalMapper->setMapping(ui->actionExport3MF,"3mf");
 	signalMapper->setMapping(ui->actionExportOFF,"stl");
 	signalMapper->setMapping(ui->actionExportCSG,"csg");
 	signalMapper->setMapping(ui->actionExportNEF,"nef");
@@ -235,6 +236,7 @@ void MainWindow::setupExportActions()
 	connect(ui->actionExportOBJ,SIGNAL(triggered()),signalMapper,SLOT(map()));
 	connect(ui->actionExportOFF,SIGNAL(triggered()),signalMapper,SLOT(map()));
 	connect(ui->actionExportAMF,SIGNAL(triggered()),signalMapper,SLOT(map()));
+	connect(ui->actionExport3MF,SIGNAL(triggered()),signalMapper,SLOT(map()));
 	connect(ui->actionExportCSG,SIGNAL(triggered()),signalMapper,SLOT(map()));
 	connect(ui->actionExportNEF,SIGNAL(triggered()),signalMapper,SLOT(map()));
 

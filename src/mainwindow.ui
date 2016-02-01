@@ -183,6 +183,7 @@
      <addaction name="actionExportOBJ"/>
      <addaction name="actionExportVRML"/>
      <addaction name="actionExportAMF"/>
+     <addaction name="actionExport3MF"/>
      <addaction name="actionExportOFF"/>
      <addaction name="actionExportNEF"/>
      <addaction name="actionExportImage"/>
@@ -844,6 +845,11 @@
    </property>
    <property name="toolTip">
     <string>Enable Caches</string>
+   </property>
+  </action>
+  <action name="actionExport3MF">
+   <property name="text">
+    <string>3MF</string>
    </property>
   </action>
  </widget>

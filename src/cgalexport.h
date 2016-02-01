@@ -28,12 +28,14 @@ class CGALExport
 public:
 	CGALExport(Primitive*);
 	void exportResult(QString);
+
 private:
 	void exportOFF(QString);
 	void exportAsciiSTL(QString);
 	void exportVRML(QString filename);
 	void exportOBJ(QString);
 	void exportAMF(QString);
+	void export3MF(QString);
 	void exportCSG(QString);
 	void exportNEF(QString);
 	Primitive* primitive;
