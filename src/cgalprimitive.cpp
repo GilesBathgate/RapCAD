@@ -403,7 +403,11 @@ Primitive* CGALPrimitive::simplify(int level)
 	CGAL::Polyhedron3& p=*this->getPolyhedron();
 	SMS::Count_stop_predicate<CGAL::Polyhedron3> stop(level);
 	SMS::edge_collapse(p,stop,
+#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(4,7,0)
+						CGAL::parameters::vertex_index_map(get(CGAL::vertex_external_index,p))
+#else
 						CGAL::vertex_index_map(get(CGAL::vertex_external_index,p))
+#endif
 						.halfedge_index_map(get(CGAL::halfedge_external_index,p))
 						.get_cost(SMS::Edge_length_cost<CGAL::Polyhedron3>())
 						.get_placement(SMS::Midpoint_placement<CGAL::Polyhedron3>()));
