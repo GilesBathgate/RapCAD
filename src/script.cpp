@@ -71,12 +71,12 @@ void Script::accept(TreeVisitor& v)
 	v.visit(this);
 }
 
-QFileInfo *Script::getFileLocation() const
+QFileInfo* Script::getFileLocation() const
 {
-    return fileLocation;
+	return fileLocation;
 }
 
-void Script::setFileLocation(QFileInfo *value)
+void Script::setFileLocation(QFileInfo* value)
 {
-    fileLocation = value;
+	fileLocation = value;
 }

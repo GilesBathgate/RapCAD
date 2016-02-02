@@ -442,7 +442,7 @@ void CGALExport::export3MF(QString filename)
 	relxml.writeEndElement(); //Relationships
 	relxml.writeEndDocument();
 
-	QByteArray(ctype);
+	QByteArray ctype;
 	QXmlStreamWriter cxml(&ctype);
 	cxml.writeStartDocument();
 	cxml.writeDefaultNamespace("http://schemas.openxmlformats.org/package/2006/content-types");

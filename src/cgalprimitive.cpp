@@ -81,8 +81,7 @@ static void removeShortestEdges(CGAL::Polyhedron3& p,HalfedgeHandle h1,HalfedgeH
 static void fixZeroTriangles(CGAL::Polyhedron3& p)
 {
 	typedef CGAL::Polyhedron3::Facet_iterator FacetIterator;
-	for (FacetIterator f=p.facets_begin();f!=p.facets_end();f++)
-	{
+	for(FacetIterator f=p.facets_begin(); f!=p.facets_end(); f++) {
 		HalfedgeHandle h1=f->halfedge();
 		HalfedgeHandle h2=h1->next();
 		HalfedgeHandle h3=h2->next();
@@ -101,10 +100,8 @@ static void fixZeroEdges(CGAL::Polyhedron3& p)
 	do {
 		removed=false;
 		typedef CGAL::Polyhedron3::Halfedge_iterator HalfedgeIterator;
-		for(HalfedgeIterator h=p.halfedges_begin();h!=p.halfedges_end();h++)
-		{
-			if(getLength(h)==0.0)
-			{
+		for(HalfedgeIterator h=p.halfedges_begin(); h!=p.halfedges_end(); h++) {
+			if(getLength(h)==0.0) {
 				removeShortEdge(p,h);
 				removed=true;
 				break;

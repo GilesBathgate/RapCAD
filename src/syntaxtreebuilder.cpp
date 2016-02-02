@@ -583,7 +583,7 @@ Expression* SyntaxTreeBuilder::buildRange(Expression* srt,Expression* stp,Expres
 	return result;
 }
 
-Expression*SyntaxTreeBuilder::buildComplex(Expression* real, Expression* i, Expression* j, Expression* k)
+Expression* SyntaxTreeBuilder::buildComplex(Expression* real, Expression* i, Expression* j, Expression* k)
 {
 	ComplexExpression* result=new ComplexExpression();
 	result->setReal(real);

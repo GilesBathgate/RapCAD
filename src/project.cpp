@@ -66,7 +66,7 @@ void Project::writeProject(QString filename)
 	xml.writeAttribute("version","0.1");
 	xml.writeTextElement("name",name);
 	foreach(QString source,sources)
-		xml.writeTextElement("source",source);
+	xml.writeTextElement("source",source);
 	xml.writeEndElement();
 	xml.writeEndDocument();
 	delete file;

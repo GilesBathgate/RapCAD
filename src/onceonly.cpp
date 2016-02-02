@@ -23,7 +23,7 @@ OnceOnly::OnceOnly()
 	called=false;
 }
 
-bool OnceOnly::operator ()()
+bool OnceOnly::operator()()
 {
 	if(!called) {
 		called=true;

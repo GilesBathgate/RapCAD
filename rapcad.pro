@@ -575,8 +575,8 @@ HEADERS  += \
 	src/module/normalsmodule.h \
 	src/module/simplifymodule.h \
 	src/node/simplifynode.h \
-        contrib/qzipreader_p.h \
-        contrib/qzipwriter_p.h
+	contrib/qzipreader_p.h \
+	contrib/qzipwriter_p.h
 
 FORMS += \
 	src/mainwindow.ui \

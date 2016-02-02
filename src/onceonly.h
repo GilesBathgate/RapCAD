@@ -29,7 +29,7 @@ class OnceOnly
 {
 public:
 	OnceOnly();
-	bool operator ()();
+	bool operator()();
 private:
 	bool called;
 };

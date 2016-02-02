@@ -75,7 +75,7 @@ Value* RangeValue::getFinish() const
 
 Value* RangeValue::operation(Expression::Operator_e op)
 {
-	if (op==Expression::Invert) {
+	if(op==Expression::Invert) {
 		return new RangeValue(this->finish,this->step,this->start);
 	} else if(op==Expression::Length) {
 		return Value::operation(this->finish,Expression::Subtract,this->start);
@@ -85,7 +85,7 @@ Value* RangeValue::operation(Expression::Operator_e op)
 	Value* lower=Value::operation(this->finish,op);
 
 	Value* increment=NULL;
-	if (op==Expression::Add||op==Expression::Subtract) {
+	if(op==Expression::Add||op==Expression::Subtract) {
 		if(this->step)
 			increment=Value::operation(this->step,op);
 	}
