@@ -33,6 +33,7 @@
 #include "onceonly.h"
 #include "rmath.h"
 #include "polyhedron.h"
+#include "contrib/qzipwriter_p.h"
 
 CGALExport::CGALExport(Primitive* p)
 {
@@ -340,12 +341,8 @@ void CGALExport::export3MF(QString filename)
 
 	CGAL::Polyhedron3* poly=pr->getPolyhedron();
 
-	QFile* file=new QFile(filename);
-	if(!file->open(QIODevice::WriteOnly)) {
-		return;
-	}
-
-	QXmlStreamWriter xml(file);
+	QByteArray model;
+	QXmlStreamWriter xml(&model);
 	xml.setAutoFormatting(true);
 	xml.writeStartDocument();
 	xml.writeComment("Exported by RapCAD");
@@ -431,7 +428,41 @@ void CGALExport::export3MF(QString filename)
 
 	xml.writeEndElement(); //model
 	xml.writeEndDocument();
-	delete file;
+
+	QByteArray rels;
+	QXmlStreamWriter relxml(&rels);
+	relxml.writeDefaultNamespace("http://schemas.openxmlformats.org/package/2006/relationships");
+	relxml.writeStartDocument();
+	relxml.writeStartElement("Relationships");
+	relxml.writeStartElement("Relationship");
+	relxml.writeAttribute("Target","/3D/3dmodel.model");
+	relxml.writeAttribute("Id","rel0");
+	relxml.writeAttribute("Type","http://schemas.microsoft.com/3dmanufacturing/2013/01/3dmodel");
+	relxml.writeEndElement(); //Relationship
+	relxml.writeEndElement(); //Relationships
+	relxml.writeEndDocument();
+
+	QByteArray(ctype);
+	QXmlStreamWriter cxml(&ctype);
+	cxml.writeStartDocument();
+	cxml.writeDefaultNamespace("http://schemas.openxmlformats.org/package/2006/content-types");
+	cxml.writeStartElement("Types");
+	cxml.writeStartElement("Default");
+	cxml.writeAttribute("Extension","rels");
+	cxml.writeAttribute("ContentType","application/vnd.openxmlformats-package.relationships+xml");
+	cxml.writeEndElement(); //Default
+	cxml.writeStartElement("Default");
+	cxml.writeAttribute("Extension","model");
+	cxml.writeAttribute("ContentType","application/vnd.ms-package.3dmanufacturing-3dmodel+xml");
+	cxml.writeEndElement(); //Default
+	cxml.writeEndElement(); //Types
+	cxml.writeEndDocument();
+
+	QZipWriter zipwriter(filename);
+	zipwriter.addFile("3D/3dmodel.model",model);
+	zipwriter.addFile("_rels/.rels",rels);
+	zipwriter.addFile("[Content_Types].xml",ctype);
+	zipwriter.close();
 }
 
 void CGALExport::exportNEF(QString f)
