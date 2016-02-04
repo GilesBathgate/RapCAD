@@ -101,6 +101,7 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,QT
 		c->setup(inputFile,outputFile);
 		return c;
 	} else if(p.isSet(testOption)) {
+		showVersion(output);
 		return new Tester(output);
 	} else if(p.isSet(outputOption)||p.isSet(printOption)) {
 		Worker* w=new Worker(output);
