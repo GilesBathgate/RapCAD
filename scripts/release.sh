@@ -41,7 +41,7 @@ if [ ! -d "$windir" ]; then
 fi
 popd
 scripts/vbox/start-vm.sh &&
-scripts/vbox/cmd.sh c:\\rapcad\\release-win32.bat &&
+scripts/vbox/cmd.sh c:\\rapcad\\scripts\\release-win32.bat &&
 mv scripts/vbox/shared/rapcad_$version\_setup.exe ../$windir/ &&
 mv scripts/vbox/shared/rapcad_$version.zip ../$windir/
 
