@@ -1,3 +1,29 @@
+0.9.8
+   * Support for 3mf file format in export.
+   * Choose a sensible location when exporting files.
+   * Fix zero-length edges and zero-area triangles in input STL or polyhedron.
+   * Added $fe variable which calculates fragments based on tolerance.
+   * Correct parameter name for polyhedron "surfaces" -> "faces".
+   * Basic implementation of mesh simplification.
+   * Added more tests for polygon and fix for empty polygon.
+   * Implemented normal$() module to show orthogonals to facets.
+   * Better detection of binary STL.
+   * Basic implementation of children() module.
+   * Let the align function can take a vector.
+   * Allow norm function to be applied to numbers and complex values.
+   * Fix inverse trig functions.
+   * Ang function can now return the axis and angle between two vectors.
+   * Implemented cross function and operator.
+   * Result of undefined binary operation should be undef.
+   * Allow relative positioning by letting primitives have children.
+   * Fix GL viewer, calculate normals with double.
+   * Allow concatentation with undef to yield a result.
+     e.g. a=[]; no longer needed before to make a~=[1,2,3]; work.
+   * Implemented export to nef.
+   * Basic caching of primitives.
+   * Hook the view menu actions up to appropriate views.
+   * Fix weird crash on shutdown.
+
 0.9.7
    * Use arbitary precision arithmetic for all calculations.
    * Prevent toolbar being hidden show actions menu on right click.
