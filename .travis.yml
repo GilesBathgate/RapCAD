@@ -16,6 +16,7 @@ addons:
     sources:
       - ubuntu-sdk-team
 script:
+  - qmake -v
   - qmake -qt5
   - make -j4
   - pushd test
