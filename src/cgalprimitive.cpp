@@ -398,7 +398,7 @@ Primitive* CGALPrimitive::triangulate()
 
 Primitive* CGALPrimitive::simplify(int level)
 {
-#if CGAL_VERSION_NR > CGAL_VERSION_NUMBER(3,9,0)
+#if CGAL_VERSION_NR > CGAL_VERSION_NUMBER(4,2,0)
 	namespace SMS=CGAL::Surface_mesh_simplification;
 	CGAL::Polyhedron3& p=*this->getPolyhedron();
 	SMS::Count_stop_predicate<CGAL::Polyhedron3> stop(level);
