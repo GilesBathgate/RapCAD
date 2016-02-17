@@ -78,7 +78,8 @@ Value* RangeValue::operation(Expression::Operator_e op)
 	if(op==Expression::Invert) {
 		return new RangeValue(this->finish,this->step,this->start);
 	} else if(op==Expression::Length) {
-		return Value::operation(this->finish,Expression::Subtract,this->start);
+		Value* size=Value::operation(this->finish,Expression::Subtract,this->start);
+		return Value::operation(size,Expression::Add,new NumberValue(1.0));
 	}
 
 	Value* upper=Value::operation(this->start,op);
