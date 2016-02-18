@@ -44,6 +44,12 @@ Worker::Worker(QTextStream& s) :
 	generate=false;
 }
 
+Worker::~Worker()
+{
+	delete primitive;
+	delete render;
+}
+
 void Worker::setup(QString i,QString o,bool p,bool g)
 {
 	inputFile=i;
@@ -219,8 +225,7 @@ bool Worker::resultAvailable()
 
 Renderer* Worker::getRenderer()
 {
-	if(render)
-		delete render;
+	delete render;
 
 #if USE_CGAL
 	try {

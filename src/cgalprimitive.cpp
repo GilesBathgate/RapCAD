@@ -35,6 +35,11 @@ CGALPrimitive::CGALPrimitive()
 
 CGALPrimitive::~CGALPrimitive()
 {
+	delete nefPolyhedron;
+
+	qDeleteAll(polygons);
+	polygons.clear();
+
 	qDeleteAll(children);
 	children.clear();
 }
@@ -294,6 +299,7 @@ Primitive* CGALPrimitive::combine()
 {
 	if(nUnion) {
 		Unionable un=nUnion->get_union();
+		delete nUnion;
 		return un.primitive;
 	}
 	return this;
