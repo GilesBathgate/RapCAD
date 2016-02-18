@@ -337,7 +337,8 @@ SOURCES += \
 	src/node/normalsnode.cpp \
 	src/module/normalsmodule.cpp \
 	src/module/simplifymodule.cpp \
-	src/node/simplifynode.cpp
+	src/node/simplifynode.cpp \
+	src/module/chainhullmodule.cpp
 
 HEADERS  += \
 	contrib/OGL_helper.h \
@@ -576,7 +577,8 @@ HEADERS  += \
 	src/module/simplifymodule.h \
 	src/node/simplifynode.h \
 	contrib/qzipreader_p.h \
-	contrib/qzipwriter_p.h
+	contrib/qzipwriter_p.h \
+	src/module/chainhullmodule.h
 
 FORMS += \
 	src/mainwindow.ui \

@@ -147,20 +147,55 @@ void NodeEvaluator::visit(GlideNode* op)
 	result=first;
 }
 
-void NodeEvaluator::visit(HullNode* n)
+static Primitive* evaluateHull(Primitive* previous, Primitive* next)
 {
-#if USE_CGAL
 	QList<CGAL::Point3> points;
-	foreach(Node* c,n->getChildren()) {
-		c->accept(*this);
-		CGALExplorer explorer(result);
-		points.append(explorer.getPoints());
-	}
+	CGALExplorer p(previous);
+	points.append(p.getPoints());
+
+	CGALExplorer n(next);
+	points.append(n.getPoints());
 
 	CGAL::Polyhedron3 hull;
 	CGAL::convex_hull_3(points.begin(),points.end(),hull);
+	return new CGALPrimitive(hull);
+}
 
-	result=new CGALPrimitive(hull);
+void NodeEvaluator::visit(HullNode* n)
+{
+#if USE_CGAL
+
+	if(n->getChain()) {
+		Primitive* first=NULL;
+		Primitive* previous=NULL;
+		foreach(Node* c,n->getChildren()) {
+			c->accept(*this);
+			if(!previous) {
+				first=result;
+			} else {
+				Primitive* prim=evaluateHull(previous,result);
+				first->add(prim,true);
+			}
+			previous=result;
+		}
+		if(n->getClosed())
+		{
+			Primitive* prim=evaluateHull(first,previous);
+			first->add(prim,true);
+		}
+		result=first->combine();
+	} else {
+		QList<CGAL::Point3> points;
+		foreach(Node* c,n->getChildren()) {
+			c->accept(*this);
+			CGALExplorer explorer(result);
+			points.append(explorer.getPoints());
+		}
+
+		CGAL::Polyhedron3 hull;
+		CGAL::convex_hull_3(points.begin(),points.end(),hull);
+		result=new CGALPrimitive(hull);
+	}
 #endif
 }
 

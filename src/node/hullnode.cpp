@@ -20,6 +20,27 @@
 
 HullNode::HullNode()
 {
+	chain=false;
+	closed=false;
+}
+
+bool HullNode::getChain() const
+{
+    return chain;
+}
+
+void HullNode::setChain(bool value)
+{
+	chain=value;
+}
+bool HullNode::getClosed() const
+{
+    return closed;
+}
+
+void HullNode::setClosed(bool value)
+{
+	closed=value;
 }
 
 void HullNode::accept(NodeVisitor& v)

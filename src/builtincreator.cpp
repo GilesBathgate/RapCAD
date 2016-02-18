@@ -70,6 +70,7 @@
 #include "module/childrenmodule.h"
 #include "module/normalsmodule.h"
 #include "module/simplifymodule.h"
+#include "module/chainhullmodule.h"
 
 #include "function/lengthfunction.h"
 #include "function/sqrtfunction.h"
@@ -117,6 +118,7 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new BezierSurfaceModule());
 	builtins.append(new BoundsModule());
 	builtins.append(new CenterModule());
+	builtins.append(new ChainHullModule());
 	builtins.append(new ChildModule());
 	builtins.append(new ChildrenModule());
 	builtins.append(new CircleModule());

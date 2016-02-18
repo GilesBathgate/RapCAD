@@ -16,26 +16,16 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef HULLNODE_H
-#define HULLNODE_H
+#ifndef CHAINHULLMODULE_H
+#define CHAINHULLMODULE_H
 
-#include "node.h"
+#include "module.h"
 
-class HullNode : public Node
+class ChainHullModule : public Module
 {
 public:
-	HullNode();
-
-	bool getChain() const;
-	void setChain(bool value);
-
-	bool getClosed() const;
-	void setClosed(bool value);
-
-	void accept(NodeVisitor&);
-private:
-	bool chain;
-	bool closed;
+	ChainHullModule();
+	Node* evaluate(Context*);
 };
 
-#endif // HULLNODE_H
+#endif // CHAINHULLMODULE_H

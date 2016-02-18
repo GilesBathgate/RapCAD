@@ -16,26 +16,26 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef HULLNODE_H
-#define HULLNODE_H
+#include "chainhullmodule.h"
+#include "context.h"
+#include "booleanvalue.h"
+#include "node/hullnode.h"
 
-#include "node.h"
-
-class HullNode : public Node
+ChainHullModule::ChainHullModule() : Module("chain_hull")
 {
-public:
-	HullNode();
+	addParameter("closed");
+}
 
-	bool getChain() const;
-	void setChain(bool value);
+Node* ChainHullModule::evaluate(Context* ctx)
+{
+	bool closed=false;
+	BooleanValue* bVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));
+	if(bVal)
+		closed=bVal->isTrue();
 
-	bool getClosed() const;
-	void setClosed(bool value);
-
-	void accept(NodeVisitor&);
-private:
-	bool chain;
-	bool closed;
-};
-
-#endif // HULLNODE_H
+	HullNode* h=new HullNode();
+	h->setChain(true);
+	h->setClosed(closed);
+	h->setChildren(ctx->getInputNodes());
+	return h;
+}
