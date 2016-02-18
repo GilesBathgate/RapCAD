@@ -80,7 +80,7 @@ Value* RangeValue::operation(Expression::Operator_e op)
 	} else if(op==Expression::Length) {
 		Value* size=Value::operation(this->finish,Expression::Subtract,this->start);
 		size=Value::operation(size,op);
-		return Value::operation(size,Expression::Add,new NumberValue(1.0));
+		return Value::operation(size,Expression::Increment);
 	}
 
 	Value* upper=Value::operation(this->start,op);
