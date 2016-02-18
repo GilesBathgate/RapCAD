@@ -160,9 +160,11 @@ CGALPrimitive* CGALBuilder::buildOffsetPolygons(const CGAL::Scalar amount)
 	}
 
 
+	OnceOnly first;
 	PolygonPtrVector offsetPolys;
 	if(amount<0) {
 		offsetPolys=CGAL::create_interior_skeleton_and_offset_polygons_2(-amount,poly);
+		first();
 	} else {
 		offsetPolys=CGAL::create_exterior_skeleton_and_offset_polygons_2(amount,poly);
 	}
@@ -170,10 +172,12 @@ CGALPrimitive* CGALBuilder::buildOffsetPolygons(const CGAL::Scalar amount)
 	CGALPrimitive* offsetPrim = new CGALPrimitive();
 
 	foreach(PolygonPtr ptr,offsetPolys) {
-		offsetPrim->createPolygon();
-		for(VertexIterator vi=ptr->vertices_begin(); vi!=ptr->vertices_end(); vi++) {
-			CGAL::Point3 p3(vi->x(),vi->y(),z);
-			offsetPrim->appendVertex(p3);
+		if(!first()) {
+			offsetPrim->createPolygon();
+			for(VertexIterator vi=ptr->vertices_begin(); vi!=ptr->vertices_end(); vi++) {
+				CGAL::Point3 p3(vi->x(),vi->y(),z);
+				offsetPrim->appendVertex(p3);
+			}
 		}
 	}
 
