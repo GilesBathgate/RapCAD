@@ -21,9 +21,8 @@
 #include "primitive.h"
 #include "decimal.h"
 
-CGALRenderer::CGALRenderer(Primitive* pr)
+CGALRenderer::CGALRenderer(Primitive* primitive)
 {
-	primitive=pr;
 	simple=new SimpleRenderer(primitive);
 	loadPreferences();
 	descendChildren(primitive);
@@ -31,7 +30,6 @@ CGALRenderer::CGALRenderer(Primitive* pr)
 
 CGALRenderer::~CGALRenderer()
 {
-	delete primitive;
 	delete simple;
 }
 

@@ -115,6 +115,7 @@ void Worker::primary()
 	n->accept(ne);
 	delete n;
 
+	delete primitive;
 	primitive=ne.getResult();
 	if(!primitive)
 		reporter->reportWarning(tr("no top level object."));
@@ -224,7 +225,6 @@ bool Worker::resultAvailable()
 void Worker::resultAccepted()
 {
 	reporter->reportTiming(tr("compiling"));
-	primitive=NULL;
 }
 
 void Worker::resultFailed(QString error)
