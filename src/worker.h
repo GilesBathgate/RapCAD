@@ -40,12 +40,14 @@ public:
 	virtual int evaluate();
 	void exportResult(QString);
 	bool resultAvailable();
+	void resultAccepted();
 	Renderer* getRenderer();
 protected:
 	void internal();
 	virtual void update() {}
 	virtual void finish() {}
 	Instance* addProductInstance(QString,Script*);
+
 	QString inputFile;
 	QString outputFile;
 	bool print;
@@ -55,8 +57,9 @@ private:
 	void primary();
 	void generation();
 	decimal getBoundsHeight();
+	void resultFailed(QString);
+
 	Primitive* primitive;
-	Renderer* render;
 };
 
 #endif // WORKER_H

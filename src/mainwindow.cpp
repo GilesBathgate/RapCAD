@@ -594,6 +594,7 @@ void MainWindow::evaluationDone()
 	if(worker->resultAvailable()) {
 		Renderer* r = worker->getRenderer();
 		ui->view->setRenderer(r);
+		worker->resultAccepted();
 	}
 	ui->actionCompileAndRender->setEnabled(true);
 	ui->actionGenerateGcode->setEnabled(true);

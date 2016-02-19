@@ -37,7 +37,6 @@ Worker::Worker(QTextStream& s) :
 	Strategy(s)
 {
 	primitive=NULL;
-	render=NULL;
 	inputFile="";
 	outputFile="";
 	print=false;
@@ -47,7 +46,6 @@ Worker::Worker(QTextStream& s) :
 Worker::~Worker()
 {
 	delete primitive;
-	delete render;
 }
 
 void Worker::setup(QString i,QString o,bool p,bool g)
@@ -213,7 +211,7 @@ void Worker::exportResult(QString fn)
 		exporter.exportResult(fn);
 
 	} catch(CGAL::Failure_exception e) {
-		reporter->reportException(QString::fromStdString(e.what()));
+		resultFailed(QString::fromStdString(e.what()));
 	}
 #endif
 }
@@ -223,22 +221,32 @@ bool Worker::resultAvailable()
 	return (primitive!=NULL);
 }
 
+void Worker::resultAccepted()
+{
+	reporter->reportTiming(tr("compiling"));
+	primitive=NULL;
+}
+
+void Worker::resultFailed(QString error)
+{
+	reporter->reportException(error);
+	delete primitive;
+	primitive=NULL;
+}
+
 Renderer* Worker::getRenderer()
 {
-	delete render;
-
 #if USE_CGAL
 	try {
 
-		render=new CGALRenderer(primitive);
+		return new CGALRenderer(primitive);
 
 	} catch(CGAL::Failure_exception e) {
-		reporter->reportException(QString::fromStdString(e.what()));
+		resultFailed(QString::fromStdString(e.what()));
+		return NULL;
 	}
 #else
-	render=new SimpleRenderer(primitive);
+	return new SimpleRenderer(primitive);
 #endif
 
-	reporter->reportTiming(tr("compiling"));
-	return render;
 }

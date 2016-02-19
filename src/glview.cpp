@@ -160,6 +160,7 @@ void GLView::setShowPrintArea(bool print)
 
 void GLView::setRenderer(Renderer* r)
 {
+	delete render;
 	render=r;
 	update();
 }
