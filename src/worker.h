@@ -58,6 +58,7 @@ private:
 	void generation();
 	decimal getBoundsHeight();
 	void resultFailed(QString);
+	void updatePrimitive(Primitive*);
 
 	Primitive* primitive;
 };

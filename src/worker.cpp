@@ -115,8 +115,7 @@ void Worker::primary()
 	n->accept(ne);
 	delete n;
 
-	delete primitive;
-	primitive=ne.getResult();
+	updatePrimitive(ne.getResult());
 	if(!primitive)
 		reporter->reportWarning(tr("no top level object."));
 	else if(!outputFile.isEmpty()) {
@@ -156,7 +155,7 @@ void Worker::generation()
 			n->accept(*ne);
 			delete n;
 
-			primitive=ne->getResult();
+			updatePrimitive(ne->getResult());
 			delete ne;
 
 			update();
@@ -230,8 +229,13 @@ void Worker::resultAccepted()
 void Worker::resultFailed(QString error)
 {
 	reporter->reportException(error);
+	updatePrimitive(NULL);
+}
+
+void Worker::updatePrimitive(Primitive* pr)
+{
 	delete primitive;
-	primitive=NULL;
+	primitive=pr;
 }
 
 Renderer* Worker::getRenderer()
