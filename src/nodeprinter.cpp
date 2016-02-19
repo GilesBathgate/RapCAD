@@ -160,7 +160,14 @@ void NodePrinter::visit(GlideNode* n)
 
 void NodePrinter::visit(HullNode* n)
 {
-	result << "hull()";
+	if(n->getChain()) {
+		result << "chain_hull(";
+		if(n->getClosed())
+			result << "true";
+		result << ")";
+	} else {
+		result << "hull()";
+	}
 	printChildren(n);
 }
 

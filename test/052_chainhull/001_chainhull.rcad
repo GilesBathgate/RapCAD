@@ -1,0 +1,1 @@
+chain_hull(){ cube(1); translate([0,10,0])cube(1); translate([10,10,0])cube(1); }
