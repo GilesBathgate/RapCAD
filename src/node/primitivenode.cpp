@@ -22,7 +22,7 @@
 #include "cgalprimitive.h"
 #endif
 
-PrimitiveNode::PrimitiveNode()
+PrimitiveNode::PrimitiveNode(Reporter*)
 {
 #if USE_CGAL
 	primitive=new CGALPrimitive();

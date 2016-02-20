@@ -32,7 +32,7 @@ Node* PolylineModule::evaluate(Context* ctx)
 	VectorValue* pointsVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	VectorValue* linesVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
 
-	PolylineNode* p=new PolylineNode();
+	PolylineNode* p=new PolylineNode(reporter);
 
 	if(!pointsVec)
 		return p;

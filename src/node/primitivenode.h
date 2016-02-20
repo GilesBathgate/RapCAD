@@ -23,11 +23,12 @@
 #include <QString>
 #include "node.h"
 #include "primitive.h"
+#include "reporter.h"
 
 class PrimitiveNode : public Node
 {
 public:
-	PrimitiveNode();
+	PrimitiveNode(Reporter*);
 	Polygon* createPolygon();
 	void createVertex(decimal x, decimal y, decimal z);
 	void createVertex(Point p);

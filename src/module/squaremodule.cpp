@@ -22,7 +22,7 @@ Node* SquareModule::evaluate(Context* ctx)
 		p.getXY(x,y);
 	}
 
-	PrimitiveNode* p=new PrimitiveNode();
+	PrimitiveNode* p=new PrimitiveNode(reporter);
 	p->setChildren(ctx->getInputNodes());
 
 	Polygon* pg=p->createPolygon();

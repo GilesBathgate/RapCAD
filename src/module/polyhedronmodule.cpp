@@ -33,7 +33,7 @@ Node* PolyhedronModule::evaluate(Context* ctx)
 	VectorValue* points=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	VectorValue* faces=dynamic_cast<VectorValue*>(ctx->getArgumentDeprecated(1,"faces","triangles",reporter));
 
-	PrimitiveNode* p=new PrimitiveNode();
+	PrimitiveNode* p=new PrimitiveNode(reporter);
 	p->setChildren(ctx->getInputNodes());
 
 	if(!points||!faces)

@@ -53,7 +53,7 @@ Node* SphereModule::evaluate(Context* ctx)
 
 	int ringCount=f/2;
 
-	PrimitiveNode* p=new PrimitiveNode();
+	PrimitiveNode* p=new PrimitiveNode(reporter);
 	p->setChildren(ctx->getInputNodes());
 
 	decimal h=center?0.0:r;

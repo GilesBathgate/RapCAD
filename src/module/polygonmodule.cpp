@@ -15,7 +15,7 @@ Node* PolygonModule::evaluate(Context* ctx)
 	VectorValue* pointsVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	VectorValue* linesVec=dynamic_cast<VectorValue*>(ctx->getArgumentDeprecated(1,"lines","paths",reporter));
 
-	PrimitiveNode* p=new PrimitiveNode();
+	PrimitiveNode* p=new PrimitiveNode(reporter);
 	p->setChildren(ctx->getInputNodes());
 
 	if(!pointsVec)

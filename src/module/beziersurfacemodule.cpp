@@ -87,7 +87,7 @@ Node* BezierSurfaceModule::evaluate(Context* ctx)
 
 	int f=24; //TODO use getfragments and $fn,$fa,$fs variables;
 
-	PrimitiveNode* p=new PrimitiveNode();
+	PrimitiveNode* p=new PrimitiveNode(reporter);
 	p->setChildren(ctx->getInputNodes());
 
 	for(int i=0; i<f; i++) {

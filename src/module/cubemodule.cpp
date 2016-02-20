@@ -42,7 +42,7 @@ Node* CubeModule::evaluate(Context* ctx)
 		p.getXYZ(x,y,z);
 	}
 
-	PrimitiveNode* p=new PrimitiveNode();
+	PrimitiveNode* p=new PrimitiveNode(reporter);
 	p->setChildren(ctx->getInputNodes());
 
 	decimal x1, x2, y1, y2, z1, z2;

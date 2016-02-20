@@ -18,7 +18,7 @@
 
 #include "polylinenode.h"
 
-PolylineNode::PolylineNode()
+PolylineNode::PolylineNode(Reporter* r) : PrimitiveNode(r)
 {
 }
 

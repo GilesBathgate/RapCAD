@@ -65,7 +65,7 @@ Node* PrismModule::evaluate(Context* ctx)
 	QList<Point> p1=getPolygon(a,r,s,z1);
 	QList<Point> p2=getPolygon(a,r,s,z2);
 
-	PrimitiveNode* p=new PrimitiveNode();
+	PrimitiveNode* p=new PrimitiveNode(reporter);
 	p->setChildren(ctx->getInputNodes());
 
 	if(r > 0) {
