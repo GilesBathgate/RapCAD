@@ -85,6 +85,7 @@ protected:
 	T basicOperation(T,Expression::Operator_e,T);
 	template <class T>
 	T basicOperation(T,Expression::Operator_e);
+
 	virtual Value* operation(Expression::Operator_e);
 	virtual Value* operation(Value&,Expression::Operator_e);
 private:
@@ -95,8 +96,8 @@ private:
 	decimal modulus(decimal,decimal);
 	bool exponent(bool,bool);
 	decimal exponent(decimal,decimal);
-	bool invert(bool);
-	decimal invert(decimal);
+	bool logic(bool);
+	bool logic(decimal);
 	bool length(bool);
 	decimal length(decimal);
 };
@@ -133,6 +134,10 @@ T Value::basicOperation(T left, Expression::Operator_e e, T right)
 		return left>=right;
 	case Expression::GreaterThan:
 		return left>right;
+	case Expression::LogicalAnd:
+		return logic(left)&&logic(right);
+	case Expression::LogicalOr:
+		return logic(left)||logic(right);
 	default:
 		return left;
 	}
@@ -147,7 +152,7 @@ T Value::basicOperation(T left, Expression::Operator_e e)
 	case Expression::Subtract:
 		return -left;
 	case Expression::Invert:
-		return invert(left);
+		return !logic(left);
 	case Expression::Increment:
 		return left+1;
 	case Expression::Decrement:
@@ -158,4 +163,5 @@ T Value::basicOperation(T left, Expression::Operator_e e)
 		return left;
 	}
 }
+
 #endif // VALUE_H

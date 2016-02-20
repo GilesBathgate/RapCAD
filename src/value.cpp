@@ -259,14 +259,14 @@ decimal Value::exponent(decimal left, decimal right)
 	return r_pow(left,right);
 }
 
-bool Value::invert(bool left)
+bool Value::logic(bool a)
 {
-	return !left;
+	return a;
 }
 
-decimal Value::invert(decimal left)
+bool Value::logic(decimal a)
 {
-	return invert(to_boolean(left));
+	return to_boolean(a);
 }
 
 bool Value::length(bool left)
