@@ -428,3 +428,13 @@ decimal r_rand(int seed, decimal min, decimal max)
 	srand(seed);
 	return (min>max)?r_rand()*(min-max)+max:r_rand()*(max-min)+min;
 }
+
+bool r_is_int(decimal a)
+{
+#if USE_CGAL
+	CGAL::Gmpfr n=to_gmpfr(a);
+	return mpfr_integer_p(n.fr());
+#else
+	return floor(a)==a;
+#endif
+}

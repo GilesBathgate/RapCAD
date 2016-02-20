@@ -106,6 +106,12 @@
 #include "function/normfunction.h"
 #include "function/angfunction.h"
 #include "function/crossfunction.h"
+#include "function/isboolfunction.h"
+#include "function/islistfunction.h"
+#include "function/isnumfunction.h"
+#include "function/israngefunction.h"
+#include "function/isstrfunction.h"
+#include "function/isintfunction.h"
 
 #include "module/writemodule.h"
 #include "module/writelnmodule.h"
@@ -182,6 +188,12 @@ BuiltinCreator::BuiltinCreator(Reporter* r)
 	builtins.append(new DegFunction());
 	builtins.append(new ExpFunction());
 	builtins.append(new FloorFunction());
+	builtins.append(new IsBoolFunction());
+	builtins.append(new IsIntFunction());
+	builtins.append(new IsListFunction());
+	builtins.append(new IsNumFunction());
+	builtins.append(new IsRangeFunction());
+	builtins.append(new IsStrFunction());
 	builtins.append(new LengthFunction());
 	builtins.append(new LnFunction());
 	builtins.append(new LogFunction());

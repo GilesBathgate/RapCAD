@@ -1,0 +1,3 @@
+function test(){
+  return is_int([1:3])==false;
+}

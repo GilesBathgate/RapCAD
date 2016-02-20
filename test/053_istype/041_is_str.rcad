@@ -1,0 +1,3 @@
+function test(){
+  return is_str([1:3])==false;
+}

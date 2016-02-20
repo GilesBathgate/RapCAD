@@ -338,7 +338,13 @@ SOURCES += \
 	src/module/normalsmodule.cpp \
 	src/module/simplifymodule.cpp \
 	src/node/simplifynode.cpp \
-	src/module/chainhullmodule.cpp
+	src/module/chainhullmodule.cpp \
+	src/function/isnumfunction.cpp \
+	src/function/isboolfunction.cpp \
+	src/function/isstrfunction.cpp \
+	src/function/islistfunction.cpp \
+	src/function/israngefunction.cpp \
+	src/function/isintfunction.cpp
 
 HEADERS  += \
 	contrib/OGL_helper.h \
@@ -578,7 +584,13 @@ HEADERS  += \
 	src/node/simplifynode.h \
 	contrib/qzipreader_p.h \
 	contrib/qzipwriter_p.h \
-	src/module/chainhullmodule.h
+	src/module/chainhullmodule.h \
+	src/function/isnumfunction.h \
+	src/function/isboolfunction.h \
+	src/function/isstrfunction.h \
+	src/function/islistfunction.h \
+	src/function/israngefunction.h \
+	src/function/isintfunction.h
 
 FORMS += \
 	src/mainwindow.ui \

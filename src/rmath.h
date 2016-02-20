@@ -56,5 +56,6 @@ decimal r_log(decimal a,bool round=true);
 decimal r_log10(decimal a,bool round=true);
 decimal r_sign(decimal a);
 decimal r_rand(int seed, decimal a,decimal b);
+bool r_is_int(decimal a);
 
 #endif // RMATH_H
