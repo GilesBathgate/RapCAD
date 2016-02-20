@@ -17,6 +17,7 @@
  */
 
 #include "scalemodule.h"
+#include "context.h"
 #include "vectorvalue.h"
 #include "node/transformationnode.h"
 

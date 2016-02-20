@@ -17,6 +17,7 @@
  */
 
 #include "beziersurfacemodule.h"
+#include "context.h"
 #include "vectorvalue.h"
 #include "node/primitivenode.h"
 #include "rmath.h"

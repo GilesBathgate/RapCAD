@@ -20,7 +20,6 @@
 #define POINTMODULE_H
 
 #include "module.h"
-#include "context.h"
 
 class PointModule : public Module
 {

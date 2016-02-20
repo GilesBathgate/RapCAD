@@ -20,7 +20,6 @@
 #define GLIDEMODULE_H
 
 #include "module.h"
-#include "context.h"
 
 class GlideModule : public Module
 {

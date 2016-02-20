@@ -1,4 +1,5 @@
 #include "resizemodule.h"
+#include "context.h"
 #include "node/resizenode.h"
 #include "vectorvalue.h"
 #include "booleanvalue.h"

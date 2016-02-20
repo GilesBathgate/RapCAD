@@ -1,4 +1,5 @@
 #include "polygonmodule.h"
+#include "context.h"
 #include "node/primitivenode.h"
 #include "vectorvalue.h"
 #include "numbervalue.h"

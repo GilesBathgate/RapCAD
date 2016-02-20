@@ -20,7 +20,6 @@
 #define SYMMETRICDIFFERENCEMODULE_H
 
 #include "module.h"
-#include "context.h"
 
 class SymmetricDifferenceModule : public Module
 {

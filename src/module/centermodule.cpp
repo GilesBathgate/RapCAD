@@ -17,6 +17,7 @@
  */
 
 #include "centermodule.h"
+#include "context.h"
 #include "node/alignnode.h"
 
 CenterModule::CenterModule() : Module("center")

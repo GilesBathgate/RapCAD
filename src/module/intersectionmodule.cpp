@@ -17,6 +17,7 @@
  */
 
 #include "intersectionmodule.h"
+#include "context.h"
 #include "node/intersectionnode.h"
 
 IntersectionModule::IntersectionModule() : Module("intersection")

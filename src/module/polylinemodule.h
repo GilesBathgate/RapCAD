@@ -20,7 +20,6 @@
 #define POLYLINEMODULE_H
 
 #include "module.h"
-#include "context.h"
 
 class PolylineModule : public Module
 {

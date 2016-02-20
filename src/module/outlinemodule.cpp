@@ -17,6 +17,7 @@
  */
 
 #include "outlinemodule.h"
+#include "context.h"
 #include "node/outlinenode.h"
 
 OutlineModule::OutlineModule() : Module("outline")

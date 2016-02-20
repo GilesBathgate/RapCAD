@@ -2,7 +2,6 @@
 #define ROTATEEXTRUDEMODULE_H
 
 #include "primitivemodule.h"
-#include "context.h"
 
 class RotateExtrudeModule : public PrimitiveModule
 {

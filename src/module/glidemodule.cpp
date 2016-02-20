@@ -17,6 +17,7 @@
  */
 
 #include "glidemodule.h"
+#include "context.h"
 #include "node/glidenode.h"
 #include "value.h"
 

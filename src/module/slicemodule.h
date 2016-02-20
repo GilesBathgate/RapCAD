@@ -20,7 +20,6 @@
 #define SLICEMODULE_H
 
 #include "module.h"
-#include "context.h"
 
 class SliceModule : public Module
 {

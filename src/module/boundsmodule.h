@@ -20,7 +20,6 @@
 #define BOUNDSMODULE_H
 
 #include "module.h"
-#include "context.h"
 
 class BoundsModule : public Module
 {

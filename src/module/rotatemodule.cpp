@@ -16,12 +16,13 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "rmath.h"
 #include "rotatemodule.h"
+#include "context.h"
 #include "node/transformationnode.h"
 #include "numbervalue.h"
 #include "vectorvalue.h"
 #include "complexvalue.h"
+#include "rmath.h"
 
 RotateModule::RotateModule() : Module("rotate")
 {

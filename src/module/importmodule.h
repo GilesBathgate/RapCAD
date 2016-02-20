@@ -21,7 +21,6 @@
 
 #include <QString>
 #include "module.h"
-#include "context.h"
 
 class ImportModule : public Module
 {

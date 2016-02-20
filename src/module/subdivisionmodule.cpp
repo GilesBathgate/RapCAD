@@ -1,4 +1,5 @@
 #include "subdivisionmodule.h"
+#include "context.h"
 #include "node/subdivisionnode.h"
 #include "numbervalue.h"
 

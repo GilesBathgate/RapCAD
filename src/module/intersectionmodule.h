@@ -20,7 +20,6 @@
 #define INTERSECTIONMODULE_H
 
 #include "module.h"
-#include "context.h"
 
 class IntersectionModule : public Module
 {

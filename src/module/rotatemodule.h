@@ -20,7 +20,6 @@
 #define ROTATEMODULE_H
 
 #include "module.h"
-#include "context.h"
 
 class RotateModule : public Module
 {

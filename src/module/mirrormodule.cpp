@@ -17,6 +17,7 @@
  */
 
 #include "mirrormodule.h"
+#include "context.h"
 #include "vectorvalue.h"
 #include "node/transformationnode.h"
 #include "rmath.h"

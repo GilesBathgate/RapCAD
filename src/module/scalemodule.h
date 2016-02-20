@@ -20,7 +20,6 @@
 #define SCALEMODULE_H
 
 #include "module.h"
-#include "context.h"
 
 class ScaleModule : public Module
 {

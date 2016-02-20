@@ -20,7 +20,6 @@
 #define CENTERMODULE_H
 
 #include "module.h"
-#include "context.h"
 
 class CenterModule : public Module
 {

@@ -17,6 +17,7 @@
  */
 
 #include "linearextrudemodule.h"
+#include "context.h"
 #include "node/linearextrudenode.h"
 #include "numbervalue.h"
 

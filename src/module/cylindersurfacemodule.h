@@ -20,7 +20,6 @@
 #define CYLINDERSURFACEMODULE_H
 
 #include "primitivemodule.h"
-#include "context.h"
 
 class CylinderSurfaceModule :  public PrimitiveModule
 {

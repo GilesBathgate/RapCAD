@@ -20,7 +20,6 @@
 #define DIFFERENCEMODULE_H
 
 #include "module.h"
-#include "context.h"
 
 class DifferenceModule : public Module
 {

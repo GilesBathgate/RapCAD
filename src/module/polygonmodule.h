@@ -2,7 +2,6 @@
 #define POLYGONMODULE_H
 
 #include "module.h"
-#include "context.h"
 
 class PolygonModule : public Module
 {

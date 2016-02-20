@@ -2,7 +2,6 @@
 #define RESIZEMODULE_H
 
 #include "module.h"
-#include "context.h"
 
 class ResizeModule : public Module
 {

@@ -17,6 +17,7 @@
  */
 
 #include "slicemodule.h"
+#include "context.h"
 #include "node/slicenode.h"
 #include "numbervalue.h"
 

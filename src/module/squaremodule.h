@@ -2,7 +2,6 @@
 #define SQUAREMODULE_H
 
 #include "primitivemodule.h"
-#include "context.h"
 
 class SquareModule : public PrimitiveModule
 {

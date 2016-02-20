@@ -20,7 +20,6 @@
 #define PRISMMODULE_H
 
 #include "primitivemodule.h"
-#include "context.h"
 
 class PrismModule : public PrimitiveModule
 {

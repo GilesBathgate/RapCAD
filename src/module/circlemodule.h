@@ -20,7 +20,6 @@
 #define CIRCLEMODULE_H
 
 #include "primitivemodule.h"
-#include "context.h"
 
 class CircleModule : public PrimitiveModule
 {

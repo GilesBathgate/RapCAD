@@ -2,7 +2,6 @@
 #define CHILDMODULE_H
 
 #include "module.h"
-#include "context.h"
 
 class ChildModule : public Module
 {

@@ -2,7 +2,6 @@
 #define OFFSETMODULE_H
 
 #include "module.h"
-#include "context.h"
 
 class OffsetModule : public Module
 {

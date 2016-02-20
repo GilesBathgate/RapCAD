@@ -1,4 +1,5 @@
 #include "offsetmodule.h"
+#include "context.h"
 #include "node/offsetnode.h"
 #include "numbervalue.h"
 

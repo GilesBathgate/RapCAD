@@ -17,6 +17,7 @@
  */
 
 #include "groupmodule.h"
+#include "context.h"
 #include "node/groupnode.h"
 
 GroupModule::GroupModule() : Module("group")

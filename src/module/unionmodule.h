@@ -20,7 +20,6 @@
 #define UNIONMODULE_H
 
 #include "module.h"
-#include "context.h"
 
 class UnionModule : public Module
 {

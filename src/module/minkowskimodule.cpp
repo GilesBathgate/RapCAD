@@ -17,6 +17,7 @@
  */
 
 #include "minkowskimodule.h"
+#include "context.h"
 #include "node/minkowskinode.h"
 
 MinkowskiModule::MinkowskiModule() : Module("minkowski")

@@ -20,7 +20,6 @@
 #define MIRRORMODULE_H
 
 #include "module.h"
-#include "context.h"
 
 class MirrorModule : public Module
 {

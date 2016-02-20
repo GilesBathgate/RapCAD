@@ -20,7 +20,6 @@
 #define SPHEREMODULE_H
 
 #include "primitivemodule.h"
-#include "context.h"
 
 class SphereModule : public PrimitiveModule
 {

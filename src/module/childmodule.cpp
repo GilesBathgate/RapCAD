@@ -1,4 +1,5 @@
 #include "childmodule.h"
+#include "context.h"
 #include "numbervalue.h"
 
 ChildModule::ChildModule() : Module("child")

@@ -20,7 +20,6 @@
 #define OUTLINEMODULE_H
 
 #include "module.h"
-#include "context.h"
 
 class OutlineModule : public Module
 {

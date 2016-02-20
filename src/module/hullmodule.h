@@ -20,7 +20,6 @@
 #define HULLMODULE_H
 
 #include "module.h"
-#include "context.h"
 
 class HullModule : public Module
 {

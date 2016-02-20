@@ -17,6 +17,7 @@
  */
 
 #include "unionmodule.h"
+#include "context.h"
 #include "node/unionnode.h"
 
 UnionModule::UnionModule() : Module("union")

@@ -20,7 +20,6 @@
 #define LINEAREXTRUDEMODULE_H
 
 #include "module.h"
-#include "context.h"
 
 class LinearExtrudeModule : public Module
 {
