@@ -224,6 +224,7 @@ bool Worker::resultAvailable()
 void Worker::resultAccepted()
 {
 	reporter->reportTiming(tr("compiling"));
+	delete previous;
 }
 
 void Worker::resultFailed(QString error)
@@ -234,7 +235,7 @@ void Worker::resultFailed(QString error)
 
 void Worker::updatePrimitive(Primitive* pr)
 {
-	delete primitive;
+	previous=primitive;
 	primitive=pr;
 }
 

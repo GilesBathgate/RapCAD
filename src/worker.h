@@ -61,6 +61,7 @@ private:
 	void updatePrimitive(Primitive*);
 
 	Primitive* primitive;
+	Primitive* previous;
 };
 
 #endif // WORKER_H
