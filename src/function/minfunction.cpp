@@ -1,4 +1,5 @@
 #include "minfunction.h"
+#include "context.h"
 
 MinFunction::MinFunction() : Function("min")
 {

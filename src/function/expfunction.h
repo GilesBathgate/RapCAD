@@ -2,7 +2,6 @@
 #define EXPFUNCTION_H
 
 #include "function.h"
-#include "context.h"
 
 class ExpFunction : public Function
 {

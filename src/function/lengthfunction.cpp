@@ -1,4 +1,5 @@
 #include "lengthfunction.h"
+#include "context.h"
 #include "vectorvalue.h"
 #include "textvalue.h"
 #include "numbervalue.h"

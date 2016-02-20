@@ -2,7 +2,6 @@
 #define MINFUNCTION_H
 
 #include "function.h"
-#include "context.h"
 
 class MinFunction : public Function
 {

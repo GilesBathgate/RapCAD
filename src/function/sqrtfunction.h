@@ -20,7 +20,6 @@
 #define SQRTFUNCTION_H
 
 #include "function.h"
-#include "context.h"
 
 class SqrtFunction : public Function
 {

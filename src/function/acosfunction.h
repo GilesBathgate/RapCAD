@@ -2,7 +2,6 @@
 #define ACOSFUNCTION_H
 
 #include "function.h"
-#include "context.h"
 
 class AcosFunction : public Function
 {

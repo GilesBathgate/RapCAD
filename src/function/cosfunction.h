@@ -2,7 +2,6 @@
 #define COSFUNCTION_H
 
 #include "function.h"
-#include "context.h"
 
 class CosFunction : public Function
 {

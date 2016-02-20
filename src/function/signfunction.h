@@ -2,7 +2,6 @@
 #define SIGNFUNCTION_H
 
 #include "function.h"
-#include "context.h"
 
 class SignFunction : public Function
 {

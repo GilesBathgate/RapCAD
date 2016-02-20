@@ -20,7 +20,6 @@
 #define SUMFUNCTION_H
 
 #include "function.h"
-#include "context.h"
 
 class SumFunction : public Function
 {

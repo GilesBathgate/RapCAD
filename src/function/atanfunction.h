@@ -2,7 +2,6 @@
 #define ATANFUNCTION_H
 
 #include "function.h"
-#include "context.h"
 
 class AtanFunction : public Function
 {

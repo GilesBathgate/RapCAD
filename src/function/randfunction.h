@@ -20,7 +20,6 @@
 #define RANDFUNCTION_H
 
 #include "function.h"
-#include "context.h"
 
 class RandFunction : public Function
 {

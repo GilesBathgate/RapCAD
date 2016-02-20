@@ -1,4 +1,6 @@
 #include "strfunction.h"
+#include "context.h"
+#include "context.h"
 #include "textvalue.h"
 
 StrFunction::StrFunction() : Function("str")

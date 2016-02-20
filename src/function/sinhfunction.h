@@ -2,7 +2,6 @@
 #define SINHFUNCTION_H
 
 #include "function.h"
-#include "context.h"
 
 class SinhFunction : public Function
 {

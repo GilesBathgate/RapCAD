@@ -1,5 +1,5 @@
 #include "powfunction.h"
-#include "expression.h"
+#include "context.h"
 
 PowFunction::PowFunction() : Function("pow")
 {

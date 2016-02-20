@@ -2,7 +2,6 @@
 #define TANFUNCTION_H
 
 #include "function.h"
-#include "context.h"
 
 class TanFunction : public Function
 {

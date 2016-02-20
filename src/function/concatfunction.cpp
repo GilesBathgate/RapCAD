@@ -17,6 +17,7 @@
  */
 
 #include "concatfunction.h"
+#include "context.h"
 #include "vectorvalue.h"
 
 ConcatFunction::ConcatFunction() : Function("concat")

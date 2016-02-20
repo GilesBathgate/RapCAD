@@ -2,7 +2,6 @@
 #define SINFUNCTION_H
 
 #include "function.h"
-#include "context.h"
 
 class SinFunction : public Function
 {

@@ -1,5 +1,6 @@
 #include <QStringList>
 #include "versionfunction.h"
+#include "context.h"
 #include "vectorvalue.h"
 #include "numbervalue.h"
 #include "textvalue.h"

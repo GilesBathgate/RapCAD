@@ -2,7 +2,6 @@
 #define FLOORFUNCTION_H
 
 #include "function.h"
-#include "context.h"
 
 class FloorFunction : public Function
 {

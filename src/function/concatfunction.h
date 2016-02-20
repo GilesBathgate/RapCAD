@@ -20,7 +20,6 @@
 #define CONCATFUNCTION_H
 
 #include "function.h"
-#include "context.h"
 
 class ConcatFunction : public Function
 {

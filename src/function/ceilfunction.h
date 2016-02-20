@@ -2,7 +2,6 @@
 #define CEILFUNCTION_H
 
 #include "function.h"
-#include "context.h"
 
 class CeilFunction : public Function
 {

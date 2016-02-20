@@ -1,4 +1,5 @@
 #include "maxfunction.h"
+#include "context.h"
 
 MaxFunction::MaxFunction() : Function("max")
 {

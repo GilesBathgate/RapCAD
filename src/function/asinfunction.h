@@ -2,7 +2,6 @@
 #define ASINFUNCTION_H
 
 #include "function.h"
-#include "context.h"
 
 class AsinFunction : public Function
 {
