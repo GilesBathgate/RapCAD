@@ -20,7 +20,7 @@
 #include "context.h"
 #include "node/differencenode.h"
 
-DifferenceModule::DifferenceModule() : Module("difference")
+DifferenceModule::DifferenceModule(Reporter* r) : Module(r,"difference")
 {
 }
 

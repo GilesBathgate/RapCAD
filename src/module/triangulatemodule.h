@@ -24,7 +24,7 @@
 class TriangulateModule : public Module
 {
 public:
-	TriangulateModule();
+	TriangulateModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

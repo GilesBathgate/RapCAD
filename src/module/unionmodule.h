@@ -24,7 +24,7 @@
 class UnionModule : public Module
 {
 public:
-	UnionModule();
+	UnionModule(Reporter*);
 	Node* evaluate(Context*);
 	static Node* createUnion(QList<Node*> childnodes);
 };

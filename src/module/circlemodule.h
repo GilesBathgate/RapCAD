@@ -24,7 +24,7 @@
 class CircleModule : public PrimitiveModule
 {
 public:
-	CircleModule();
+	CircleModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

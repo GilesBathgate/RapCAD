@@ -22,7 +22,7 @@
 #include "numbervalue.h"
 
 
-DiscreteModule::DiscreteModule() : Module("discrete")
+DiscreteModule::DiscreteModule(Reporter* r) : Module(r,"discrete")
 {
 	addParameter("places");
 }

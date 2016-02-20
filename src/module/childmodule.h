@@ -6,7 +6,7 @@
 class ChildModule : public Module
 {
 public:
-	ChildModule();
+	ChildModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

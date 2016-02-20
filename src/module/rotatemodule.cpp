@@ -24,7 +24,7 @@
 #include "complexvalue.h"
 #include "rmath.h"
 
-RotateModule::RotateModule() : Module("rotate")
+RotateModule::RotateModule(Reporter* r) : Module(r,"rotate")
 {
 	addParameter("angle");
 	addParameter("vector");

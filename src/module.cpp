@@ -21,12 +21,14 @@
 
 Module::Module()
 {
+	reporter=NULL;
 	scope=NULL;
 	auxilary=false;
 }
 
-Module::Module(const QString n) : name(n)
+Module::Module(Reporter* r,const QString n) : name(n)
 {
+	reporter=r;
 	scope=NULL;
 	auxilary=false;
 }

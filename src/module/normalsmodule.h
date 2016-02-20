@@ -24,7 +24,7 @@
 class NormalsModule : public Module
 {
 public:
-	NormalsModule();
+	NormalsModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

@@ -24,7 +24,7 @@
 class PrismModule : public PrimitiveModule
 {
 public:
-	PrismModule();
+	PrismModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

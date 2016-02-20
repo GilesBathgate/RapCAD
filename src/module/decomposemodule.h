@@ -24,7 +24,7 @@
 class DecomposeModule : public Module
 {
 public:
-	DecomposeModule();
+	DecomposeModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

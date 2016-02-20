@@ -21,7 +21,7 @@
 #include "vectorvalue.h"
 #include "node/transformationnode.h"
 
-ScaleModule::ScaleModule() : Module("scale")
+ScaleModule::ScaleModule(Reporter* r) : Module(r,"scale")
 {
 	addParameter("size");
 	addParameter("reference");

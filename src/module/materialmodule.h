@@ -24,7 +24,7 @@
 class MaterialModule : public Module
 {
 public:
-	MaterialModule();
+	MaterialModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

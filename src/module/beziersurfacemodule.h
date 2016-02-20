@@ -26,7 +26,7 @@
 class BezierSurfaceModule : public Module
 {
 public:
-	BezierSurfaceModule();
+	BezierSurfaceModule(Reporter*);
 	Node* evaluate(Context*);
 private:
 	typedef QList<decimal> Vector;

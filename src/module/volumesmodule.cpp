@@ -4,7 +4,7 @@
 #include "numbervalue.h"
 #include "node/volumesnode.h"
 
-VolumesModule::VolumesModule() : Module("volume")
+VolumesModule::VolumesModule(Reporter* r) : Module(r,"volume")
 {
 	auxilary=true;
 	addParameter("mass");

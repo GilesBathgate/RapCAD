@@ -21,7 +21,7 @@
 #include "booleanvalue.h"
 #include "node/hullnode.h"
 
-ChainHullModule::ChainHullModule() : Module("chain_hull")
+ChainHullModule::ChainHullModule(Reporter* r) : Module(r,"chain_hull")
 {
 	addParameter("closed");
 }

@@ -2,7 +2,7 @@
 #include "context.h"
 #include "numbervalue.h"
 
-ChildModule::ChildModule() : Module("child")
+ChildModule::ChildModule(Reporter* r) : Module(r,"child")
 {
 	addParameter("index");
 }

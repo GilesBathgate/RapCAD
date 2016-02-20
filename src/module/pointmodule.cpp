@@ -20,7 +20,7 @@
 #include "node/pointnode.h"
 #include "vectorvalue.h"
 
-PointModule::PointModule() : Module("point")
+PointModule::PointModule(Reporter* r) : Module(r,"point")
 {
 	addParameter("location");
 }

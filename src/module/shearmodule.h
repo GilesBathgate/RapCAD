@@ -24,7 +24,7 @@
 class ShearModule : public Module
 {
 public:
-	ShearModule();
+	ShearModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

@@ -666,8 +666,9 @@ void MainWindow::showBuiltins()
 	QTextEdit* c=(QTextEdit*)e;
 	QIODevice* t=new TextEditIODevice(c,this);
 	QTextStream out(t);
-	BuiltinCreator* b = BuiltinCreator::getInstance(out);
-	b->generateDocs(out);
+	Reporter r(out);
+	BuiltinCreator* b = BuiltinCreator::getInstance(&r);
+	b->generateDocs();
 	out.flush();
 	delete t;
 

@@ -20,7 +20,7 @@
 #include "numbervalue.h"
 #include "booleanvalue.h"
 
-CylinderSurfaceModule::CylinderSurfaceModule() : PrimitiveModule("cylinder_surface")
+CylinderSurfaceModule::CylinderSurfaceModule(Reporter* r) : PrimitiveModule(r,"cylinder_surface")
 {
 	addParameter("height");
 	addParameter("radius");

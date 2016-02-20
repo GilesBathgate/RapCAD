@@ -19,7 +19,7 @@
 #include "circlemodule.h"
 #include "numbervalue.h"
 
-CircleModule::CircleModule() : PrimitiveModule("circle")
+CircleModule::CircleModule(Reporter* r) : PrimitiveModule(r,"circle")
 {
 	addParameter("radius");
 }

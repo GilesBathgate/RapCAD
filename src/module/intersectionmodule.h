@@ -24,7 +24,7 @@
 class IntersectionModule : public Module
 {
 public:
-	IntersectionModule();
+	IntersectionModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

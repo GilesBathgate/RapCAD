@@ -24,7 +24,7 @@
 class OutlineModule : public Module
 {
 public:
-	OutlineModule();
+	OutlineModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

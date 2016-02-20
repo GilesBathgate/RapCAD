@@ -21,7 +21,7 @@
 #include "node/slicenode.h"
 #include "numbervalue.h"
 
-SliceModule::SliceModule() : Module("slice")
+SliceModule::SliceModule(Reporter* r) : Module(r,"slice")
 {
 	addParameter("height");
 	addParameter("thickness");

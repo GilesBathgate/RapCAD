@@ -21,7 +21,7 @@
 #include "context.h"
 #include "node/transformationnode.h"
 
-ShearModule::ShearModule() : Module("shear")
+ShearModule::ShearModule(Reporter* r) : Module(r,"shear")
 {
 	addParameter("x");
 	addParameter("y");

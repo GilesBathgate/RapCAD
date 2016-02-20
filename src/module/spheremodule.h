@@ -24,7 +24,7 @@
 class SphereModule : public PrimitiveModule
 {
 public:
-	SphereModule();
+	SphereModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

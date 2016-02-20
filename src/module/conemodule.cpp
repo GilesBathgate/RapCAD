@@ -21,7 +21,7 @@
 #include "rmath.h"
 #include "numbervalue.h"
 
-ConeModule::ConeModule() : PrimitiveModule("cone")
+ConeModule::ConeModule(Reporter* r) : PrimitiveModule(r,"cone")
 {
 	addParameter("height");
 	addParameter("radius1");

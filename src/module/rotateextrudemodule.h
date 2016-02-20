@@ -6,7 +6,7 @@
 class RotateExtrudeModule : public PrimitiveModule
 {
 public:
-	RotateExtrudeModule();
+	RotateExtrudeModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

@@ -20,7 +20,7 @@
 #include "context.h"
 #include "node/materialnode.h"
 
-MaterialModule::MaterialModule() : Module("material")
+MaterialModule::MaterialModule(Reporter* r) : Module(r,"material")
 {
 }
 

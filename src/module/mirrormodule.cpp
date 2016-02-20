@@ -22,7 +22,7 @@
 #include "node/transformationnode.h"
 #include "rmath.h"
 
-MirrorModule::MirrorModule() : Module("mirror")
+MirrorModule::MirrorModule(Reporter* r) : Module(r,"mirror")
 {
 	addParameter("vector");
 }

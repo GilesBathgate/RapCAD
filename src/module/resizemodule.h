@@ -6,7 +6,7 @@
 class ResizeModule : public Module
 {
 public:
-	ResizeModule();
+	ResizeModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

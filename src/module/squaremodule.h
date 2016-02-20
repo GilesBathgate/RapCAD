@@ -6,7 +6,7 @@
 class SquareModule : public PrimitiveModule
 {
 public:
-	SquareModule();
+	SquareModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

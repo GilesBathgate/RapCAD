@@ -24,7 +24,7 @@
 class DiscreteModule : public Module
 {
 public:
-	DiscreteModule();
+	DiscreteModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

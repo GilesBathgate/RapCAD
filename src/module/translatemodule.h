@@ -24,7 +24,7 @@
 class TranslateModule : public Module
 {
 public:
-	TranslateModule();
+	TranslateModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

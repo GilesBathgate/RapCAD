@@ -21,7 +21,7 @@
 #include "numbervalue.h"
 #include "node/boundsnode.h"
 
-BoundsModule::BoundsModule() : Module("bound")
+BoundsModule::BoundsModule(Reporter* r) : Module(r,"bound")
 {
 	auxilary=true;
 }

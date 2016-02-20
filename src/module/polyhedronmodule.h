@@ -24,7 +24,7 @@
 class PolyhedronModule : public PrimitiveModule
 {
 public:
-	PolyhedronModule();
+	PolyhedronModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

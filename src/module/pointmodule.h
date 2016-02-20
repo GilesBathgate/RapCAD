@@ -24,7 +24,7 @@
 class PointModule : public Module
 {
 public:
-	PointModule();
+	PointModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

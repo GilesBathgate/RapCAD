@@ -20,7 +20,7 @@
 #include "node/triangulatenode.h"
 #include "context.h"
 
-TriangulateModule::TriangulateModule() : Module("triangulate")
+TriangulateModule::TriangulateModule(Reporter* r) : Module(r,"triangulate")
 {
 }
 

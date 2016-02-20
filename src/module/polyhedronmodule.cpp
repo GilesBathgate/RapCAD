@@ -22,7 +22,7 @@
 #include "numbervalue.h"
 #include "node/primitivenode.h"
 
-PolyhedronModule::PolyhedronModule() : PrimitiveModule("polyhedron")
+PolyhedronModule::PolyhedronModule(Reporter* r) : PrimitiveModule(r,"polyhedron")
 {
 	addParameter("points");
 	addParameter("faces");
@@ -31,7 +31,7 @@ PolyhedronModule::PolyhedronModule() : PrimitiveModule("polyhedron")
 Node* PolyhedronModule::evaluate(Context* ctx)
 {
 	VectorValue* points=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
-	VectorValue* faces=dynamic_cast<VectorValue*>(ctx->getArgumentDeprecated(1,"faces","triangles"));
+	VectorValue* faces=dynamic_cast<VectorValue*>(ctx->getArgumentDeprecated(1,"faces","triangles",reporter));
 
 	PrimitiveNode* p=new PrimitiveNode();
 	p->setChildren(ctx->getInputNodes());

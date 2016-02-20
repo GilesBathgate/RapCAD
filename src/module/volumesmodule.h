@@ -6,7 +6,7 @@
 class VolumesModule : public Module
 {
 public:
-	VolumesModule();
+	VolumesModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

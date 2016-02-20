@@ -112,61 +112,61 @@
 
 #include "treeprinter.h"
 
-BuiltinCreator::BuiltinCreator(QTextStream& output)
+BuiltinCreator::BuiltinCreator(Reporter* r)
 {
-	builtins.append(new AlignModule());
-	builtins.append(new BezierSurfaceModule());
-	builtins.append(new BoundsModule());
-	builtins.append(new CenterModule());
-	builtins.append(new ChainHullModule());
-	builtins.append(new ChildModule());
-	builtins.append(new ChildrenModule());
-	builtins.append(new CircleModule());
-	builtins.append(new ComplementModule());
-	builtins.append(new ConeModule());
-	builtins.append(new CubeModule());
-	builtins.append(new CylinderModule());
-	builtins.append(new CylinderSurfaceModule());
-	builtins.append(new DecomposeModule());
-	builtins.append(new DifferenceModule());
-	builtins.append(new DiscreteModule());
-	builtins.append(new EchoModule(output));
-	builtins.append(new GlideModule());
-	builtins.append(new GroupModule());
-	builtins.append(new HullModule());
-	builtins.append(new IntersectionModule());
-	builtins.append(new LinearExtrudeModule());
-	builtins.append(new MaterialModule());
-	builtins.append(new MinkowskiModule());
-	builtins.append(new MirrorModule());
-	builtins.append(new MultMatrixModule());
-	builtins.append(new NormalsModule());
-	builtins.append(new OffsetModule());
-	builtins.append(new OutlineModule());
-	builtins.append(new PointModule());
-	builtins.append(new PolygonModule());
-	builtins.append(new PolyhedronModule());
-	builtins.append(new PolylineModule());
-	builtins.append(new PrismModule());
-	builtins.append(new ProjectionModule());
-	builtins.append(new RadialsModule());
-	builtins.append(new ResizeModule());
-	builtins.append(new RotateExtrudeModule());
-	builtins.append(new RotateModule());
-	builtins.append(new ScaleModule());
-	builtins.append(new ShearModule());
-	builtins.append(new SimplifyModule());
-	builtins.append(new SliceModule());
-	builtins.append(new SphereModule());
-	builtins.append(new SquareModule());
-	builtins.append(new SubDivisionModule());
-	builtins.append(new SymmetricDifferenceModule());
-	builtins.append(new TranslateModule());
-	builtins.append(new TriangulateModule());
-	builtins.append(new UnionModule());
-	builtins.append(new VolumesModule());
-	builtins.append(new WriteLnModule(output));
-	builtins.append(new WriteModule(output));
+	builtins.append(new AlignModule(r));
+	builtins.append(new BezierSurfaceModule(r));
+	builtins.append(new BoundsModule(r));
+	builtins.append(new CenterModule(r));
+	builtins.append(new ChainHullModule(r));
+	builtins.append(new ChildModule(r));
+	builtins.append(new ChildrenModule(r));
+	builtins.append(new CircleModule(r));
+	builtins.append(new ComplementModule(r));
+	builtins.append(new ConeModule(r));
+	builtins.append(new CubeModule(r));
+	builtins.append(new CylinderModule(r));
+	builtins.append(new CylinderSurfaceModule(r));
+	builtins.append(new DecomposeModule(r));
+	builtins.append(new DifferenceModule(r));
+	builtins.append(new DiscreteModule(r));
+	builtins.append(new EchoModule(r));
+	builtins.append(new GlideModule(r));
+	builtins.append(new GroupModule(r));
+	builtins.append(new HullModule(r));
+	builtins.append(new IntersectionModule(r));
+	builtins.append(new LinearExtrudeModule(r));
+	builtins.append(new MaterialModule(r));
+	builtins.append(new MinkowskiModule(r));
+	builtins.append(new MirrorModule(r));
+	builtins.append(new MultMatrixModule(r));
+	builtins.append(new NormalsModule(r));
+	builtins.append(new OffsetModule(r));
+	builtins.append(new OutlineModule(r));
+	builtins.append(new PointModule(r));
+	builtins.append(new PolygonModule(r));
+	builtins.append(new PolyhedronModule(r));
+	builtins.append(new PolylineModule(r));
+	builtins.append(new PrismModule(r));
+	builtins.append(new ProjectionModule(r));
+	builtins.append(new RadialsModule(r));
+	builtins.append(new ResizeModule(r));
+	builtins.append(new RotateExtrudeModule(r));
+	builtins.append(new RotateModule(r));
+	builtins.append(new ScaleModule(r));
+	builtins.append(new ShearModule(r));
+	builtins.append(new SimplifyModule(r));
+	builtins.append(new SliceModule(r));
+	builtins.append(new SphereModule(r));
+	builtins.append(new SquareModule(r));
+	builtins.append(new SubDivisionModule(r));
+	builtins.append(new SymmetricDifferenceModule(r));
+	builtins.append(new TranslateModule(r));
+	builtins.append(new TriangulateModule(r));
+	builtins.append(new UnionModule(r));
+	builtins.append(new VolumesModule(r));
+	builtins.append(new WriteLnModule(r));
+	builtins.append(new WriteModule(r));
 
 	builtins.append(new AbsFunction());
 	builtins.append(new AcosFunction());
@@ -202,14 +202,16 @@ BuiltinCreator::BuiltinCreator(QTextStream& output)
 	builtins.append(new TanFunction());
 	builtins.append(new TanhFunction());
 	builtins.append(new VersionFunction());
+
+	reporter=r;
 }
 
 BuiltinCreator* BuiltinCreator::instance=NULL;
 
-BuiltinCreator* BuiltinCreator::getInstance(QTextStream& output)
+BuiltinCreator* BuiltinCreator::getInstance(Reporter* r)
 {
 	if(!instance)
-		instance = new BuiltinCreator(output);
+		instance = new BuiltinCreator(r);
 
 	return instance;
 }
@@ -233,9 +235,9 @@ void BuiltinCreator::saveBuiltins(Script* sc)
 		sc->removeDeclaration(d);
 }
 
-void BuiltinCreator::generateDocs(QTextStream& output)
+void BuiltinCreator::generateDocs()
 {
-	TreePrinter p(output);
+	TreePrinter p(reporter->output);
 	foreach(Declaration* d,builtins)
 		d->accept(p);
 }

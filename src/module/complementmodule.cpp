@@ -20,7 +20,7 @@
 #include "node/complementnode.h"
 #include "context.h"
 
-ComplementModule::ComplementModule() : Module("complement")
+ComplementModule::ComplementModule(Reporter* r) : Module(r,"complement")
 {
 }
 

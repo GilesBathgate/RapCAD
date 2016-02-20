@@ -24,7 +24,7 @@
 class ConeModule : public PrimitiveModule
 {
 public:
-	ConeModule();
+	ConeModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

@@ -24,7 +24,7 @@
 class BoundsModule : public Module
 {
 public:
-	BoundsModule();
+	BoundsModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

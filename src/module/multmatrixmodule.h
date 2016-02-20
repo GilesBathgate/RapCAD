@@ -24,7 +24,7 @@
 class MultMatrixModule : public Module
 {
 public:
-	MultMatrixModule();
+	MultMatrixModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

@@ -21,7 +21,7 @@
 #include "vectorvalue.h"
 #include "numbervalue.h"
 
-PolylineModule::PolylineModule() : Module("polyline")
+PolylineModule::PolylineModule(Reporter* r) : Module(r,"polyline")
 {
 	addParameter("points");
 	addParameter("lines");

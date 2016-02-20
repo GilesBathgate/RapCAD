@@ -24,7 +24,7 @@
 class CenterModule : public Module
 {
 public:
-	CenterModule();
+	CenterModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

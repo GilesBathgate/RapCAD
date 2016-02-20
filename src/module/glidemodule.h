@@ -24,7 +24,7 @@
 class GlideModule : public Module
 {
 public:
-	GlideModule();
+	GlideModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

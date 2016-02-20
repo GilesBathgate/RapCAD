@@ -24,7 +24,7 @@
 class ComplementModule : public Module
 {
 public:
-	ComplementModule();
+	ComplementModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

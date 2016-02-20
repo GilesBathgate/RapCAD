@@ -24,7 +24,7 @@
 class SimplifyModule : public Module
 {
 public:
-	SimplifyModule();
+	SimplifyModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

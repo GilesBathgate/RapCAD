@@ -21,7 +21,7 @@
 #include "node/linearextrudenode.h"
 #include "numbervalue.h"
 
-LinearExtrudeModule::LinearExtrudeModule() : Module("linear_extrude")
+LinearExtrudeModule::LinearExtrudeModule(Reporter* r) : Module(r,"linear_extrude")
 {
 	addParameter("height");
 }

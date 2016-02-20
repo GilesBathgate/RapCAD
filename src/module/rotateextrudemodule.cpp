@@ -4,7 +4,7 @@
 #include "numbervalue.h"
 #include "vectorvalue.h"
 
-RotateExtrudeModule::RotateExtrudeModule() : PrimitiveModule("rotate_extrude")
+RotateExtrudeModule::RotateExtrudeModule(Reporter* r) : PrimitiveModule(r,"rotate_extrude")
 {
 	addParameter("radius");
 	addParameter("axis");

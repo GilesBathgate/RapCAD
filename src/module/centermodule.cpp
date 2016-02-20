@@ -20,7 +20,7 @@
 #include "context.h"
 #include "node/alignnode.h"
 
-CenterModule::CenterModule() : Module("center")
+CenterModule::CenterModule(Reporter* r) : Module(r,"center")
 {
 }
 

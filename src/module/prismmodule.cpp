@@ -20,7 +20,7 @@
 #include "numbervalue.h"
 #include "rmath.h"
 
-PrismModule::PrismModule() : PrimitiveModule("prism")
+PrismModule::PrismModule(Reporter* r) : PrimitiveModule(r,"prism")
 {
 	addParameter("height");
 	addParameter("sides");

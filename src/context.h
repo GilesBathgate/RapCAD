@@ -30,7 +30,7 @@ class Context
 {
 	Q_DECLARE_TR_FUNCTIONS(Context)
 public:
-	Context(Reporter*);
+	Context();
 	virtual ~Context();
 
 	void setParent(Context*);
@@ -61,8 +61,8 @@ public:
 
 	Value* getArgument(int,QString);
 	Value* getArgumentSpecial(QString);
-	Value* getArgumentDeprecated(int,QString,QString);
-	Value* getArgumentDeprecatedModule(int,QString,QString);
+	Value* getArgumentDeprecated(int,QString,QString,Reporter*);
+	Value* getArgumentDeprecatedModule(int,QString,QString,Reporter*);
 
 	void clearParameters();
 	void addParameter(Value*);
@@ -74,7 +74,6 @@ public:
 	QList<Node*> getCurrentNodes();
 	void addCurrentNode(Node*);
 private:
-	Reporter* reporter;
 	Context* parent;
 	QList<Value*> arguments;
 	QList<Value*> parameters;

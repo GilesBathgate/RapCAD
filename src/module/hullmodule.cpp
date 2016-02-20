@@ -20,7 +20,7 @@
 #include "context.h"
 #include "node/hullnode.h"
 
-HullModule::HullModule() : Module("hull")
+HullModule::HullModule(Reporter* r) : Module(r,"hull")
 {
 }
 

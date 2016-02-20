@@ -21,7 +21,7 @@
 #include "node/glidenode.h"
 #include "value.h"
 
-GlideModule::GlideModule() : Module("glide")
+GlideModule::GlideModule(Reporter* r) : Module(r,"glide")
 {
 	addParameter("closed");
 }

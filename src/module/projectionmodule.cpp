@@ -22,14 +22,14 @@
 #include "context.h"
 #include "booleanvalue.h"
 
-ProjectionModule::ProjectionModule() : Module("projection")
+ProjectionModule::ProjectionModule(Reporter* r) : Module(r,"projection")
 {
 	addParameter("base");
 }
 
 Node* ProjectionModule::evaluate(Context* ctx)
 {
-	BooleanValue* cut=dynamic_cast<BooleanValue*>(ctx->getArgumentDeprecatedModule(0,"cut","'slice' module"));
+	BooleanValue* cut=dynamic_cast<BooleanValue*>(ctx->getArgumentDeprecatedModule(0,"cut","'slice' module",reporter));
 	if(cut&&cut->isTrue()) {
 		SliceNode* n=new SliceNode();
 		n->setChildren(ctx->getInputNodes());

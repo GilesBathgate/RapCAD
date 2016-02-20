@@ -25,8 +25,8 @@
 class WriteModule : public Module
 {
 public:
-	WriteModule(QTextStream&);
-	WriteModule(const QString,QTextStream&);
+	WriteModule(Reporter*);
+	WriteModule(Reporter*,const QString);
 	Node* evaluate(Context*);
 protected:
 	QTextStream& output;

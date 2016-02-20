@@ -6,7 +6,7 @@
 class PolygonModule : public Module
 {
 public:
-	PolygonModule();
+	PolygonModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

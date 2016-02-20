@@ -20,11 +20,11 @@
 #include "context.h"
 #include "onceonly.h"
 
-WriteModule::WriteModule(QTextStream& s) : Module("write"), output(s)
+WriteModule::WriteModule(Reporter* r) : Module(r,"write"), output(r->output)
 {
 }
 
-WriteModule::WriteModule(const QString n, QTextStream& s) : Module(n), output(s)
+WriteModule::WriteModule(Reporter* r, const QString n) : Module(r,n), output(r->output)
 {
 }
 

@@ -24,7 +24,7 @@
 class AlignModule : public Module
 {
 public:
-	AlignModule();
+	AlignModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

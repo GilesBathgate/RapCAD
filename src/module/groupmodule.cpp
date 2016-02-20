@@ -20,7 +20,7 @@
 #include "context.h"
 #include "node/groupnode.h"
 
-GroupModule::GroupModule() : Module("group")
+GroupModule::GroupModule(Reporter* r) : Module(r,"group")
 {
 }
 

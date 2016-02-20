@@ -22,7 +22,7 @@
 #include "node/primitivenode.h"
 #include "rmath.h"
 
-BezierSurfaceModule::BezierSurfaceModule() : Module("bezier_surface")
+BezierSurfaceModule::BezierSurfaceModule(Reporter* r) : Module(r,"bezier_surface")
 {
 	addParameter("mesh");
 }

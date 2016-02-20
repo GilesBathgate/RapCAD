@@ -24,7 +24,7 @@
 class GroupModule : public Module
 {
 public:
-	GroupModule();
+	GroupModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

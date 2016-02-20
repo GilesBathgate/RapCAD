@@ -18,7 +18,7 @@
 
 #include "writelnmodule.h"
 
-WriteLnModule::WriteLnModule(QTextStream& s) : WriteModule("writeln",s)
+WriteLnModule::WriteLnModule(Reporter* r) : WriteModule(r,"writeln")
 {
 }
 

@@ -21,7 +21,7 @@
 #include "vectorvalue.h"
 #include "node/transformationnode.h"
 
-TranslateModule::TranslateModule() : Module("translate")
+TranslateModule::TranslateModule(Reporter* r) : Module(r,"translate")
 {
 	addParameter("vector");
 }

@@ -19,8 +19,9 @@
 #include "cubemodule.h"
 #include "context.h"
 #include "vectorvalue.h"
+#include "node/primitivenode.h"
 
-CubeModule::CubeModule() : PrimitiveModule("cube")
+CubeModule::CubeModule(Reporter* r) : PrimitiveModule(r,"cube")
 {
 	addParameter("size");
 	addParameter("center");

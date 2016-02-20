@@ -24,7 +24,7 @@
 class SymmetricDifferenceModule : public Module
 {
 public:
-	SymmetricDifferenceModule();
+	SymmetricDifferenceModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

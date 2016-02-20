@@ -24,7 +24,7 @@
 class ChainHullModule : public Module
 {
 public:
-	ChainHullModule();
+	ChainHullModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

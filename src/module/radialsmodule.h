@@ -24,7 +24,7 @@
 class RadialsModule : public Module
 {
 public:
-	RadialsModule();
+	RadialsModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

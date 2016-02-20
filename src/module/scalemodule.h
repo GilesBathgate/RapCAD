@@ -24,7 +24,7 @@
 class ScaleModule : public Module
 {
 public:
-	ScaleModule();
+	ScaleModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

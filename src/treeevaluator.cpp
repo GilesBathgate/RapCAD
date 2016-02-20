@@ -60,7 +60,7 @@ void TreeEvaluator::finishLayout()
 void TreeEvaluator::startContext(Scope* scp)
 {
 	Context* parent = context;
-	context = new Context(reporter);
+	context = new Context();
 	context->setParent(parent);
 	context->setCurrentScope(scp);
 	contextStack.push(context);
@@ -593,7 +593,7 @@ void TreeEvaluator::visit(CodeDoc*)
 
 void TreeEvaluator::visit(Script* sc)
 {
-	BuiltinCreator* b=BuiltinCreator::getInstance(reporter->output);
+	BuiltinCreator* b=BuiltinCreator::getInstance(reporter);
 	b->initBuiltins(sc);
 
 	/* Use the location of the current script as the root for all imports */

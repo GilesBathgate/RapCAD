@@ -24,7 +24,7 @@
 class HullModule : public Module
 {
 public:
-	HullModule();
+	HullModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

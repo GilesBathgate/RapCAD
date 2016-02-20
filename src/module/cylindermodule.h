@@ -24,7 +24,7 @@
 class CylinderModule : public PrimitiveModule
 {
 public:
-	CylinderModule();
+	CylinderModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

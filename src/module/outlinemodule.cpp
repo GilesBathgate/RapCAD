@@ -20,7 +20,7 @@
 #include "context.h"
 #include "node/outlinenode.h"
 
-OutlineModule::OutlineModule() : Module("outline")
+OutlineModule::OutlineModule(Reporter* r) : Module(r,"outline")
 {
 }
 

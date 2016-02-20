@@ -24,7 +24,7 @@
 class LinearExtrudeModule : public Module
 {
 public:
-	LinearExtrudeModule();
+	LinearExtrudeModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

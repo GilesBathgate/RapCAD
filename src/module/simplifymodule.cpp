@@ -21,7 +21,7 @@
 #include "node/simplifynode.h"
 #include "numbervalue.h"
 
-SimplifyModule::SimplifyModule() : Module("simplify")
+SimplifyModule::SimplifyModule(Reporter* r) : Module(r,"simplify")
 {
 	addParameter("stop");
 }

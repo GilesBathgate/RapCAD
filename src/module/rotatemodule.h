@@ -24,7 +24,7 @@
 class RotateModule : public Module
 {
 public:
-	RotateModule();
+	RotateModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

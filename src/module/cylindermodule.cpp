@@ -23,7 +23,7 @@
 #include "node/primitivenode.h"
 #include "rmath.h"
 
-CylinderModule::CylinderModule() : PrimitiveModule("cylinder")
+CylinderModule::CylinderModule(Reporter* r) : PrimitiveModule(r,"cylinder")
 {
 	addParameter("height");
 	addParameter("radius");

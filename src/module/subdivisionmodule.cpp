@@ -3,7 +3,7 @@
 #include "node/subdivisionnode.h"
 #include "numbervalue.h"
 
-SubDivisionModule::SubDivisionModule() : Module("subdiv")
+SubDivisionModule::SubDivisionModule(Reporter* r) : Module(r,"subdiv")
 {
 	addParameter("level");
 }

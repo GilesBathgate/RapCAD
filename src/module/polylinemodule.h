@@ -24,7 +24,7 @@
 class PolylineModule : public Module
 {
 public:
-	PolylineModule();
+	PolylineModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

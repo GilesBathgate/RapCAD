@@ -24,7 +24,7 @@
 class MirrorModule : public Module
 {
 public:
-	MirrorModule();
+	MirrorModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

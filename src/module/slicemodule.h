@@ -24,7 +24,7 @@
 class SliceModule : public Module
 {
 public:
-	SliceModule();
+	SliceModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

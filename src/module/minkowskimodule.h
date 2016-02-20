@@ -24,7 +24,7 @@
 class MinkowskiModule : public Module
 {
 public:
-	MinkowskiModule();
+	MinkowskiModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

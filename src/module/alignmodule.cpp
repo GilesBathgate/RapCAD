@@ -24,7 +24,7 @@
 #include "node/alignnode.h"
 #include "point.h"
 
-AlignModule::AlignModule() : Module("align")
+AlignModule::AlignModule(Reporter* r) : Module(r,"align")
 {
 	addParameter("top");
 	addParameter("bottom");

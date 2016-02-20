@@ -6,7 +6,7 @@
 class OffsetModule : public Module
 {
 public:
-	OffsetModule();
+	OffsetModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

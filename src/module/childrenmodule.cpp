@@ -20,7 +20,7 @@
 #include "context.h"
 #include "node/unionnode.h"
 
-ChildrenModule::ChildrenModule() : Module("children")
+ChildrenModule::ChildrenModule(Reporter* r) : Module(r,"children")
 {
 }
 

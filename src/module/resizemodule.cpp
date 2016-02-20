@@ -4,7 +4,7 @@
 #include "vectorvalue.h"
 #include "booleanvalue.h"
 
-ResizeModule::ResizeModule() : Module("resize")
+ResizeModule::ResizeModule(Reporter* r) : Module(r,"resize")
 {
 	addParameter("size");
 	addParameter("autosize");

@@ -20,7 +20,7 @@
 #include "context.h"
 #include "textvalue.h"
 
-EchoModule::EchoModule(QTextStream& s) : Module("echo"), output(s)
+EchoModule::EchoModule(Reporter* r) : Module(r,"echo"), output(r->output)
 {
 }
 

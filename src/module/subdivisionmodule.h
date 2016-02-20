@@ -6,7 +6,7 @@
 class SubDivisionModule : public Module
 {
 public:
-	SubDivisionModule();
+	SubDivisionModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

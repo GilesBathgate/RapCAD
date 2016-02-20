@@ -27,6 +27,7 @@
 #include "scope.h"
 #include "node.h"
 #include "value.h"
+#include "reporter.h"
 
 class Context;
 
@@ -34,7 +35,7 @@ class Module : public Declaration
 {
 public:
 	Module();
-	Module(const QString);
+	Module(Reporter*,const QString);
 	~Module();
 	QString getName() const;
 	void setName(QString);
@@ -46,10 +47,12 @@ public:
 	void accept(TreeVisitor&);
 	virtual Node* evaluate(Context*);
 protected:
-	bool auxilary;
 	void addParameter(QString);
 	Value* getParameterArgument(Context*,int);
 	Value* getParameterArgument(Context*,int,int);
+
+	bool auxilary;
+	Reporter* reporter;
 private:
 	QString name;
 	QList<Parameter*> parameters;

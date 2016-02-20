@@ -22,7 +22,7 @@
 #include "vectorvalue.h"
 #include "numbervalue.h"
 
-MultMatrixModule::MultMatrixModule() : Module("multmatrix")
+MultMatrixModule::MultMatrixModule(Reporter* r) : Module(r,"multmatrix")
 {
 	addParameter("matrix");
 }

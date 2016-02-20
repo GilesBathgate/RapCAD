@@ -1,7 +1,7 @@
 #include "squaremodule.h"
 #include "vectorvalue.h"
 
-SquareModule::SquareModule() : PrimitiveModule("square")
+SquareModule::SquareModule(Reporter* r) : PrimitiveModule(r,"square")
 {
 	addParameter("size");
 	addParameter("center");

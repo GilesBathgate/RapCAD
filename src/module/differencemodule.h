@@ -24,7 +24,7 @@
 class DifferenceModule : public Module
 {
 public:
-	DifferenceModule();
+	DifferenceModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

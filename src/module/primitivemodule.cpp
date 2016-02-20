@@ -21,7 +21,7 @@
 #include "context.h"
 #include "numbervalue.h"
 
-PrimitiveModule::PrimitiveModule(const QString n) : Module(n)
+PrimitiveModule::PrimitiveModule(Reporter* r,const QString n) : Module(r,n)
 {
 }
 

@@ -24,7 +24,7 @@
 class ChildrenModule : public Module
 {
 public:
-	ChildrenModule();
+	ChildrenModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

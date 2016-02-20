@@ -3,7 +3,7 @@
 #include "node/offsetnode.h"
 #include "numbervalue.h"
 
-OffsetModule::OffsetModule() : Module("offset")
+OffsetModule::OffsetModule(Reporter* r) : Module(r,"offset")
 {
 	addParameter("amount");
 }

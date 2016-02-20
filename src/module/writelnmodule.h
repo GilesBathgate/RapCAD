@@ -24,7 +24,7 @@
 class WriteLnModule : public WriteModule
 {
 public:
-	WriteLnModule(QTextStream&);
+	WriteLnModule(Reporter*);
 	Node* evaluate(Context*);
 };
 

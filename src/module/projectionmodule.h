@@ -24,7 +24,7 @@
 class ProjectionModule : public Module
 {
 public:
-	ProjectionModule();
+	ProjectionModule(Reporter*);
 	Node* evaluate(Context*);
 };
 
