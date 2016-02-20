@@ -1,8 +1,3 @@
 function test() {
-a=true&&true;
-b=true&&false;
-c=false&&false;
-d=false&&true;
-
-return a&&!b&&!c&&!d;
+return (true&&true)==true;
 }
