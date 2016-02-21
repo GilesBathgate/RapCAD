@@ -1,0 +1,7 @@
+function test() {
+a=1;
+for(i="abc")
+a++;
+
+return a==4;
+}

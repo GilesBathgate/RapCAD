@@ -16,26 +16,23 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TEXTVALUE_H
-#define TEXTVALUE_H
+#ifndef TEXTITERATOR_H
+#define TEXTITERATOR_H
 
+#include "iterator.h"
 #include "value.h"
 
-class TextValue : public Value
+class TextIterator : public Iterator<Value*>
 {
 public:
-	TextValue(QString);
-	QString getValueString() const;
-	bool isTrue() const;
-	TextValue* toText();
-	Value* toNumber();
-	Iterator<Value*>* createIterator();
+	TextIterator(QString);
+	void first();
+	void next();
+	bool isDone();
+	Value* currentItem() const;
 private:
-	Value* operation(Expression::Operator_e);
-	Value* operation(Value&,Expression::Operator_e);
-	QString operation(QString,Expression::Operator_e,QString);
-	bool operation(TextValue*,Expression::Operator_e,TextValue*);
 	QString text;
+	int index;
 };
 
-#endif // TEXTVALUE_H
+#endif // TEXTITERATOR_H

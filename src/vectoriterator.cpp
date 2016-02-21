@@ -20,25 +20,25 @@
 
 VectorIterator::VectorIterator(QList<Value*> list)
 {
-	this->items=list;
+	items=list;
 }
 
 void VectorIterator::first()
 {
-	this->index=0;
+	index=0;
 }
 
 void VectorIterator::next()
 {
-	this->index++;
+	index++;
 }
 
 bool VectorIterator::isDone()
 {
-	return this->index>=this->items.size();
+	return index>=items.size();
 }
 
 Value* VectorIterator::currentItem() const
 {
-	return this->items.at(this->index);
+	return items.at(index);
 }

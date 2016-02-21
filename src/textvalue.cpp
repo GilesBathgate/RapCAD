@@ -19,6 +19,7 @@
 #include "textvalue.h"
 #include "numbervalue.h"
 #include "booleanvalue.h"
+#include "textiterator.h"
 
 TextValue::TextValue(QString value)
 {
@@ -44,6 +45,11 @@ Value* TextValue::toNumber()
 		return new NumberValue(n);
 	else
 		return new Value();
+}
+
+Iterator<Value*>* TextValue::createIterator()
+{
+	return new TextIterator(text);
 }
 
 bool TextValue::isTrue() const
