@@ -344,7 +344,8 @@ SOURCES += \
 	src/function/isstrfunction.cpp \
 	src/function/islistfunction.cpp \
 	src/function/israngefunction.cpp \
-	src/function/isintfunction.cpp
+	src/function/isintfunction.cpp \
+	src/function/chrfunction.cpp
 
 HEADERS  += \
 	contrib/OGL_helper.h \
@@ -590,7 +591,8 @@ HEADERS  += \
 	src/function/isstrfunction.h \
 	src/function/islistfunction.h \
 	src/function/israngefunction.h \
-	src/function/isintfunction.h
+	src/function/isintfunction.h \
+	src/function/chrfunction.h
 
 FORMS += \
 	src/mainwindow.ui \

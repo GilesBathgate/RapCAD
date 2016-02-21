@@ -1,0 +1,3 @@
+function test(){
+  return chr(90,89,88)=="ZYX";
+}

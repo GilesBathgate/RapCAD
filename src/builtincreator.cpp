@@ -112,6 +112,7 @@
 #include "function/israngefunction.h"
 #include "function/isstrfunction.h"
 #include "function/isintfunction.h"
+#include "function/chrfunction.h"
 
 #include "module/writemodule.h"
 #include "module/writelnmodule.h"
@@ -181,6 +182,7 @@ BuiltinCreator::BuiltinCreator(Reporter* r)
 	builtins.append(new Atan2Function());
 	builtins.append(new AtanFunction());
 	builtins.append(new CeilFunction());
+	builtins.append(new ChrFunction());
 	builtins.append(new ConcatFunction());
 	builtins.append(new CosFunction());
 	builtins.append(new CoshFunction());
