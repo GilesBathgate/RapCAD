@@ -25,3 +25,13 @@ Statement::Statement()
 Statement::~Statement()
 {
 }
+
+int Statement::getLineNumber() const
+{
+    return lineNumber;
+}
+
+void Statement::setLineNumber(int value)
+{
+    lineNumber = value;
+}

@@ -123,9 +123,14 @@ public:
 	Invocation* buildInvocation(QString*,QList<Argument*>*);
 	Invocation* buildInvocation(QString*,Invocation*);
 
+	void setTokenBuilder(AbstractTokenBuilder*);
+
 	Script* getResult() const;
 private:
+	int getLineNumber() const;
+
 	Script* script;
+	AbstractTokenBuilder* tokenBuilder;
 };
 
 #endif // SYNTAXTREEBUILDER_H

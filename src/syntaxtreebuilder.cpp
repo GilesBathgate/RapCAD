@@ -21,6 +21,7 @@
 SyntaxTreeBuilder::SyntaxTreeBuilder()
 {
 	script=new Script();
+	tokenBuilder=NULL;
 }
 
 SyntaxTreeBuilder::~SyntaxTreeBuilder()
@@ -331,6 +332,7 @@ Instance* SyntaxTreeBuilder::buildInstance(Instance::Type_e type,Instance* inst)
 Instance* SyntaxTreeBuilder::buildInstance(Instance::Type_e type,QString* name,QList<Argument*>* args)
 {
 	Instance* result = new Instance();
+	result->setLineNumber(getLineNumber());
 	result->setType(type);
 	result->setName(*name);
 	delete name;
@@ -342,6 +344,7 @@ Instance* SyntaxTreeBuilder::buildInstance(Instance::Type_e type,QString* name,Q
 Instance* SyntaxTreeBuilder::buildInstance(QString* name,QList<Argument*>* args)
 {
 	Instance* result = new Instance();
+	result->setLineNumber(getLineNumber());
 	result->setName(*name);
 	delete name;
 	result->setArguments(*args);
@@ -600,6 +603,7 @@ Expression* SyntaxTreeBuilder::buildComplex(Expression* real, Expression* i, Exp
 Invocation* SyntaxTreeBuilder::buildInvocation(QString* name,QList<Argument*>* args)
 {
 	Invocation* result = new Invocation();
+	result->setLineNumber(getLineNumber());
 	result->setName(*name);
 	delete name;
 	result->setArguments(*args);
@@ -612,6 +616,18 @@ Invocation* SyntaxTreeBuilder::buildInvocation(QString* name,Invocation* inv)
 	inv->setNamespace(*name);
 	delete name;
 	return inv;
+}
+
+void SyntaxTreeBuilder::setTokenBuilder(AbstractTokenBuilder* value)
+{
+	tokenBuilder=value;
+}
+
+int SyntaxTreeBuilder::getLineNumber() const
+{
+	if(tokenBuilder)
+		return tokenBuilder->getLineNumber();
+	return 0;
 }
 
 Script* SyntaxTreeBuilder::getResult() const

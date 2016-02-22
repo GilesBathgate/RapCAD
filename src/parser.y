@@ -471,6 +471,7 @@ Script* parse(QString input, Reporter* r, bool isFile)
 	    builder->buildFileLocation(input);
 
 	tokenizer=new TokenBuilder(reporter,input,isFile);
+	builder->setTokenBuilder(tokenizer);
 	parserparse();
 	delete tokenizer;
 

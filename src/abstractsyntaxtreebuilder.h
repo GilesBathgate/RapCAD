@@ -31,6 +31,7 @@
 #include "instance.h"
 #include "script.h"
 #include "invocation.h"
+#include "abstracttokenbuilder.h"
 
 class AbstractSyntaxTreeBuilder
 {
@@ -112,6 +113,8 @@ public:
 	virtual Expression* buildComplex(Expression*,Expression*,Expression*,Expression*)=0;
 	virtual Invocation* buildInvocation(QString*,QList<Argument*>*)=0;
 	virtual Invocation* buildInvocation(QString*,Invocation*)=0;
+
+	virtual void setTokenBuilder(AbstractTokenBuilder*)=0;
 
 	virtual Script* getResult() const=0;
 };
