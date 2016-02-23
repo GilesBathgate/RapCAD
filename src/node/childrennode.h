@@ -16,18 +16,16 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "childrenmodule.h"
-#include "context.h"
-#include "node/childrennode.h"
+#ifndef CHILDRENNODE_H
+#define CHILDRENNODE_H
 
-ChildrenModule::ChildrenModule(Reporter* r) : Module(r,"children")
+#include "node.h"
+
+class ChildrenNode : public Node
 {
-}
+public:
+	ChildrenNode();
+	void accept(NodeVisitor&);
+};
 
-Node* ChildrenModule::evaluate(Context* ctx)
-{
-	ChildrenNode* n=new ChildrenNode();
-	n->setChildren(ctx->lookupChildren());
-
-	return n;
-}
+#endif // CHILDRENNODE_H

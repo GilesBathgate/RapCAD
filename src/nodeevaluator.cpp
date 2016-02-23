@@ -520,6 +520,11 @@ void NodeEvaluator::visit(SimplifyNode* n)
 		result=result->simplify(n->getStopLevel());
 }
 
+void NodeEvaluator::visit(ChildrenNode* n)
+{
+	evaluate(n,Union);
+}
+
 void NodeEvaluator::visit(OffsetNode* n)
 {
 	evaluate(n,Union);

@@ -55,6 +55,7 @@
 #include "node/discretenode.h"
 #include "node/normalsnode.h"
 #include "node/simplifynode.h"
+#include "node/childrennode.h"
 
 #if USE_CGAL
 #include "cgalprimitive.h"
@@ -97,6 +98,7 @@ public:
 	void visit(DiscreteNode*);
 	void visit(NormalsNode*);
 	void visit(SimplifyNode*);
+	void visit(ChildrenNode*);
 private:
 	QTextStream& result;
 	void printChildren(Node*);

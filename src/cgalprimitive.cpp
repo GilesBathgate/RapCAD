@@ -386,6 +386,18 @@ Primitive* CGALPrimitive::decompose()
 {
 	this->buildPrimitive();
 	CGAL::convex_decomposition_3(*nefPolyhedron);
+
+	typedef CGAL::NefPolyhedron3::Volume_const_iterator VolumeIterator;
+	// the first volume is the outer volume, which is
+	// ignored in the decomposition
+	VolumeIterator ci;
+	for(ci = ++nefPolyhedron->volumes_begin(); ci!=nefPolyhedron->volumes_end(); ++ci) {
+		if(ci->mark()) {
+			CGAL::Polyhedron3 p;
+			nefPolyhedron->convert_inner_shell_to_polyhedron(ci->shells_begin(), p);
+			children.append(new CGALPrimitive(p));
+		}
+	}
 	return this;
 }
 

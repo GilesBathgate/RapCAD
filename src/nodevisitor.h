@@ -56,6 +56,7 @@ public:
 	virtual void visit(class DiscreteNode*)=0;
 	virtual void visit(class NormalsNode*)=0;
 	virtual void visit(class SimplifyNode*)=0;
+	virtual void visit(class ChildrenNode*)=0;
 };
 
 #endif // NODEVISITOR_H
