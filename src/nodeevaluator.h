@@ -115,6 +115,7 @@ private:
 	Primitive* createPrimitive();
 	void evaluate(Node*,Operation_e);
 	void evaluate(Node*,Operation_e,Primitive*);
+	void evaluate(QList<Node*>,Operation_e,Primitive*);
 
 	Reporter* reporter;
 	Primitive* result;

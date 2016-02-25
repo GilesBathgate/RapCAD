@@ -25,7 +25,13 @@ class ChildrenNode : public Node
 {
 public:
 	ChildrenNode();
+
+	void addIndex(int);
+	QList<int> getIndexes() const;
+
 	void accept(NodeVisitor&);
+private:
+	QList<int> indexes;
 };
 
 #endif // CHILDRENNODE_H

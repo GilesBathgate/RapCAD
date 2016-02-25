@@ -350,7 +350,12 @@ void NodeEvaluator::evaluate(Node* op,Operation_e type)
 
 void NodeEvaluator::evaluate(Node* op,Operation_e type,Primitive* first)
 {
-	foreach(Node* n, op->getChildren()) {
+	evaluate(op->getChildren(),type,first);
+}
+
+void NodeEvaluator::evaluate(QList<Node*> children,Operation_e type,Primitive* first)
+{
+	foreach(Node* n, children) {
 		n->accept(*this);
 		if(!first) {
 			first=result;
@@ -522,7 +527,17 @@ void NodeEvaluator::visit(SimplifyNode* n)
 
 void NodeEvaluator::visit(ChildrenNode* n)
 {
-	evaluate(n,Union);
+	if(n->getIndexes().count()<=0) {
+		evaluate(n,Union);
+	} else {
+		QList<Node*> allChildren=n->getChildren();
+		QList<Node*> children;
+		foreach(int i, n->getIndexes()) {
+			if(i<allChildren.count())
+				children.append(allChildren.at(i));
+		}
+		evaluate(children,Union,NULL);
+	}
 }
 
 void NodeEvaluator::visit(OffsetNode* n)

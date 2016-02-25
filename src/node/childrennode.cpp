@@ -22,6 +22,16 @@ ChildrenNode::ChildrenNode()
 {
 }
 
+void ChildrenNode::addIndex(int i)
+{
+	indexes.append(i);
+}
+
+QList<int> ChildrenNode::getIndexes() const
+{
+    return indexes;
+}
+
 void ChildrenNode::accept(NodeVisitor& v)
 {
 	v.visit(this);

@@ -19,15 +19,34 @@
 #include "childrenmodule.h"
 #include "context.h"
 #include "node/childrennode.h"
+#include "vectorvalue.h"
+#include "numbervalue.h"
 
 ChildrenModule::ChildrenModule(Reporter* r) : Module(r,"children")
 {
+	addParameter("index");
 }
 
 Node* ChildrenModule::evaluate(Context* ctx)
 {
 	ChildrenNode* n=new ChildrenNode();
-	n->setChildren(ctx->lookupChildren());
 
+	Value* val=getParameterArgument(ctx,0);
+	VectorValue* vecVal=dynamic_cast<VectorValue*>(val);
+	if(vecVal) {
+		foreach(Value* v, vecVal->getChildren()) {
+			NumberValue* num=dynamic_cast<NumberValue*>(v);
+			if(num)
+				n->addIndex(num->toInteger());
+		}
+	}
+	NumberValue* numVal=dynamic_cast<NumberValue*>(val);
+	if(numVal) {
+		n->addIndex(numVal->toInteger());
+	}
+
+	n->setChildren(ctx->lookupChildren());
 	return n;
 }
+
+

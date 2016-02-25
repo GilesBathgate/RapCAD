@@ -99,6 +99,7 @@ Iterator<Value*>* Value::createIterator()
 {
 	return new ValueIterator(this);
 }
+
 Value* Value::operator^(Value& v)
 {
 	return operation(v,Expression::Exponent);
