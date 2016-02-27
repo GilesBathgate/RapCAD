@@ -18,7 +18,7 @@
 
 #include <QApplication>
 #include <QTextStream>
-#include "mainwindow.h"
+#include "ui/mainwindow.h"
 #include "preferences.h"
 #include "worker.h"
 #include "tester.h"

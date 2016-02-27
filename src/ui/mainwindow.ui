@@ -858,19 +858,19 @@
   <customwidget>
    <class>GLView</class>
    <extends>QWidget</extends>
-   <header>glview.h</header>
+   <header>ui/glview.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>Console</class>
    <extends>QPlainTextEdit</extends>
-   <header>console.h</header>
+   <header>ui/console.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>CodeEditor</class>
    <extends>QPlainTextEdit</extends>
-   <header>codeeditor.h</header>
+   <header>ui/codeeditor.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -122,7 +122,7 @@ SOURCES += \
 	contrib/qcommandlineparser.cpp \
 	contrib/qcommandlineoption.cpp \
 	src/main.cpp \
-	src/mainwindow.cpp \
+	src/ui/mainwindow.cpp \
 	src/module.cpp \
 	src/syntaxtreebuilder.cpp \
 	src/parameter.cpp \
@@ -175,7 +175,7 @@ SOURCES += \
 	src/module/primitivemodule.cpp \
 	src/node.cpp \
 	src/node/transformationnode.cpp \
-	src/glview.cpp \
+	src/ui/glview.cpp \
 	src/cgalrenderer.cpp \
 	src/point.cpp \
 	src/nodeprinter.cpp \
@@ -207,8 +207,8 @@ SOURCES += \
 	src/dxfbuilder.cpp \
 	src/module/shearmodule.cpp \
 	src/module/groupmodule.cpp \
-	src/codeeditor.cpp \
-	src/linenumberarea.cpp \
+	src/ui/codeeditor.cpp \
+	src/ui/linenumberarea.cpp \
 	src/cgalexplorer.cpp \
 	src/module/hullmodule.cpp \
 	src/node/hullnode.cpp \
@@ -226,7 +226,7 @@ SOURCES += \
 	src/node/glidenode.cpp \
 	src/cgalpolygon.cpp \
 	src/module/beziersurfacemodule.cpp \
-	src/preferencesdialog.cpp \
+	src/ui/preferencesdialog.cpp \
 	src/preferences.cpp \
 	src/cgalexport.cpp \
 	src/module/prismmodule.cpp \
@@ -244,11 +244,11 @@ SOURCES += \
 	src/node/resizenode.cpp \
 	src/module/rotateextrudemodule.cpp \
 	src/node/rotateextrudenode.cpp \
-	src/saveitemsdialog.cpp \
+	src/ui/saveitemsdialog.cpp \
 	src/function/versionfunction.cpp \
 	src/module/polygonmodule.cpp \
 	src/function/lengthfunction.cpp \
-	src/printconsole.cpp \
+	src/ui/printconsole.cpp \
 	src/function/strfunction.cpp \
 	src/project.cpp \
 	src/function/sinfunction.cpp \
@@ -271,7 +271,7 @@ SOURCES += \
 	src/function/sinhfunction.cpp \
 	src/function/tanhfunction.cpp \
 	src/module/centermodule.cpp \
-	src/aboutdialog.cpp \
+	src/ui/aboutdialog.cpp \
 	src/module/pointmodule.cpp \
 	src/node/pointnode.cpp \
 	src/module/slicemodule.cpp \
@@ -305,7 +305,7 @@ SOURCES += \
 	src/node/decomposenode.cpp \
 	src/simpletextbuilder.cpp \
 	src/interactive.cpp \
-	src/console.cpp \
+	src/ui/console.cpp \
 	src/module/alignmodule.cpp \
 	src/node/alignnode.cpp \
 	src/module/complementmodule.cpp \
@@ -355,7 +355,7 @@ HEADERS  += \
 	contrib/qcommandlineparser.h \
 	contrib/qcommandlineoption.h \
 	contrib/Copy_polyhedron_to.h \
-	src/mainwindow.h \
+	src/ui/mainwindow.h \
 	src/module.h \
 	src/syntaxtreebuilder.h \
 	src/parameter.h \
@@ -449,7 +449,7 @@ HEADERS  += \
 	src/dxfbuilder.h \
 	src/module/shearmodule.h \
 	src/module/groupmodule.h \
-	src/linenumberarea.h \
+	src/ui/linenumberarea.h \
 	src/cgalexplorer.h \
 	src/module/hullmodule.h \
 	src/node/hullnode.h \
@@ -467,7 +467,7 @@ HEADERS  += \
 	src/node/glidenode.h \
 	src/cgalpolygon.h \
 	src/module/beziersurfacemodule.h \
-	src/preferencesdialog.h \
+	src/ui/preferencesdialog.h \
 	src/preferences.h \
 	src/cgalexport.h \
 	src/module/prismmodule.h \
@@ -485,11 +485,11 @@ HEADERS  += \
 	src/node/resizenode.h \
 	src/module/rotateextrudemodule.h \
 	src/node/rotateextrudenode.h \
-	src/saveitemsdialog.h \
+	src/ui/saveitemsdialog.h \
 	src/function/versionfunction.h \
 	src/module/polygonmodule.h \
 	src/function/lengthfunction.h \
-	src/printconsole.h \
+	src/ui/printconsole.h \
 	src/function/strfunction.h \
 	src/project.h \
 	src/function/sinfunction.h \
@@ -512,7 +512,7 @@ HEADERS  += \
 	src/function/sinhfunction.h \
 	src/function/tanhfunction.h \
 	src/module/centermodule.h \
-	src/aboutdialog.h \
+	src/ui/aboutdialog.h \
 	src/module/pointmodule.h \
 	src/node/pointnode.h \
 	src/module/slicemodule.h \
@@ -537,7 +537,7 @@ HEADERS  += \
 	src/comparer.h \
 	src/module/multmatrixmodule.h \
 	src/onceonly.h \
-	src/glview.h \
+	src/ui/glview.h \
 	src/fragment.h \
 	src/cgalfragment.h \
 	src/function/concatfunction.h \
@@ -549,8 +549,8 @@ HEADERS  += \
 	src/textbuilder.h \
 	src/simpletextbuilder.h \
 	src/interactive.h \
-	src/codeeditor.h \
-	src/console.h \
+	src/ui/codeeditor.h \
+	src/ui/console.h \
 	src/module/alignmodule.h \
 	src/node/alignnode.h \
 	src/module/complementmodule.h \
@@ -599,11 +599,11 @@ HEADERS  += \
 	src/node/childrennode.h
 
 FORMS += \
-	src/mainwindow.ui \
-	src/preferences.ui \
-	src/saveitemsdialog.ui \
-	src/printconsole.ui \
-	src/aboutdialog.ui
+	src/ui/mainwindow.ui \
+	src/ui/preferences.ui \
+	src/ui/saveitemsdialog.ui \
+	src/ui/printconsole.ui \
+	src/ui/aboutdialog.ui
 
 OTHER_FILES += \
 	COPYING
