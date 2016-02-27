@@ -347,7 +347,8 @@ SOURCES += \
 	src/function/isintfunction.cpp \
 	src/function/chrfunction.cpp \
 	src/textiterator.cpp \
-	src/node/childrennode.cpp
+	src/node/childrennode.cpp \
+	src/function/ismat4x4function.cpp
 
 HEADERS  += \
 	contrib/OGL_helper.h \
@@ -596,7 +597,8 @@ HEADERS  += \
 	src/function/isintfunction.h \
 	src/function/chrfunction.h \
 	src/textiterator.h \
-	src/node/childrennode.h
+	src/node/childrennode.h \
+	src/function/ismat4x4function.h
 
 FORMS += \
 	src/ui/mainwindow.ui \

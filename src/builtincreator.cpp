@@ -112,6 +112,7 @@
 #include "function/israngefunction.h"
 #include "function/isstrfunction.h"
 #include "function/isintfunction.h"
+#include "function/ismat4x4function.h"
 #include "function/chrfunction.h"
 
 #include "module/writemodule.h"
@@ -194,6 +195,7 @@ BuiltinCreator::BuiltinCreator(Reporter* r)
 	builtins.append(new IsIntFunction());
 	builtins.append(new IsListFunction());
 	builtins.append(new IsNumFunction());
+	builtins.append(new IsMat4x4Function());
 	builtins.append(new IsRangeFunction());
 	builtins.append(new IsStrFunction());
 	builtins.append(new LengthFunction());
