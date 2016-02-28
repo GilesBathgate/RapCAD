@@ -47,7 +47,9 @@ public:
 	void accept(TreeVisitor&);
 	virtual Node* evaluate(Context*);
 protected:
-	void addParameter(QString);
+	void addDescription(QString);
+	void addDeprecated(QString);
+	void addParameter(QString,QString);
 	Value* getParameterArgument(Context*,int);
 	Value* getParameterArgument(Context*,int,int);
 
@@ -55,6 +57,8 @@ protected:
 	Reporter* reporter;
 private:
 	QString name;
+	QString description;
+	bool deprecated;
 	QList<Parameter*> parameters;
 	Scope* scope;
 };

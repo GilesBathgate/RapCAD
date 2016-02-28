@@ -5,7 +5,8 @@
 
 SubDivisionModule::SubDivisionModule(Reporter* r) : Module(r,"subdiv")
 {
-	addParameter("level");
+	addDescription(tr("Not Implemented."));
+	addParameter("level",tr("Not Implemented."));
 }
 
 Node* SubDivisionModule::evaluate(Context* ctx)

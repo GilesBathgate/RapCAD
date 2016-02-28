@@ -23,6 +23,7 @@
 
 class ChildrenModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(ChildrenModule)
 public:
 	ChildrenModule(Reporter*);
 	Node* evaluate(Context*);

@@ -26,8 +26,9 @@
 
 RotateModule::RotateModule(Reporter* r) : Module(r,"rotate")
 {
-	addParameter("angle");
-	addParameter("vector");
+	addDescription(tr("Rotates its children about the origin or an arbitrary axis."));
+	addParameter("angle",tr("The angle of rotation in degress. It can be a single value or rotation about x,y,z. With the latter, three rotations are performed in the order x,y,z"));
+	addParameter("vector",tr("The axis of rotation when used with a single angle value"));
 }
 
 Node* RotateModule::evaluate(Context* ctx)

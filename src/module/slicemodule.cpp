@@ -23,8 +23,9 @@
 
 SliceModule::SliceModule(Reporter* r) : Module(r,"slice")
 {
-	addParameter("height");
-	addParameter("thickness");
+	addDescription(tr("Slices its children at the given height."));
+	addParameter("height",tr("The height at which to slice."));
+	addParameter("thickness",tr("The thickness of the slice."));
 }
 
 Node* SliceModule::evaluate(Context* ctx)

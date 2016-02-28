@@ -48,6 +48,11 @@ void Parameter::setExpression(Expression* expr)
 	this->expression = expr;
 }
 
+void Parameter::addDescription(QString d)
+{
+	description=d;
+}
+
 void Parameter::accept(TreeVisitor& v)
 {
 	v.visit(this);

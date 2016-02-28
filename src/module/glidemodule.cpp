@@ -23,7 +23,8 @@
 
 GlideModule::GlideModule(Reporter* r) : Module(r,"glide")
 {
-	addParameter("closed");
+	addDescription(tr("Glides its subsequent children along the outline of the first child."));
+	addParameter("closed",tr("Specfies whether to close the outline."));
 }
 
 Node* GlideModule::evaluate(Context* ctx)

@@ -23,7 +23,8 @@
 
 ChainHullModule::ChainHullModule(Reporter* r) : Module(r,"chain_hull")
 {
-	addParameter("closed");
+	addDescription(tr("Constructs a chained hull of its children."));
+	addParameter("closed",tr("Specifies whether to close the chain."));
 }
 
 Node* ChainHullModule::evaluate(Context* ctx)

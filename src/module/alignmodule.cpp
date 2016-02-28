@@ -26,12 +26,13 @@
 
 AlignModule::AlignModule(Reporter* r) : Module(r,"align")
 {
-	addParameter("top");
-	addParameter("bottom");
-	addParameter("north");
-	addParameter("south");
-	addParameter("east");
-	addParameter("west");
+	addDescription(tr("Aligns its children to the given faces."));
+	addParameter("top",tr("Specifies allignment to the top face."));
+	addParameter("bottom",tr("Specifies allignment to the bottom face."));
+	addParameter("north",tr("Specifies allignment to the north face."));
+	addParameter("south",tr("Specifies allignment to the south face."));
+	addParameter("east",tr("Specifies allignment to the east face."));
+	addParameter("west",tr("Specifies allignment to the west face."));
 }
 
 Node* AlignModule::evaluate(Context* ctx)

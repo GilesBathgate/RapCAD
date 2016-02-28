@@ -24,6 +24,7 @@ Module::Module()
 	reporter=NULL;
 	scope=NULL;
 	auxilary=false;
+	deprecated=false;
 }
 
 Module::Module(Reporter* r,const QString n) : name(n)
@@ -31,6 +32,7 @@ Module::Module(Reporter* r,const QString n) : name(n)
 	reporter=r;
 	scope=NULL;
 	auxilary=false;
+	deprecated=false;
 }
 
 Module::~Module()
@@ -87,10 +89,22 @@ Node* Module::evaluate(Context*)
 	return NULL;
 }
 
-void Module::addParameter(QString name)
+void Module::addDescription(QString d)
+{
+	description=d;
+}
+
+void Module::addDeprecated(QString d)
+{
+	deprecated=true;
+	description=d;
+}
+
+void Module::addParameter(QString name, QString desc)
 {
 	Parameter* p=new Parameter();
 	p->setName(name);
+	p->addDescription(desc);
 	parameters.append(p);
 }
 

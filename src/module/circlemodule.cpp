@@ -21,7 +21,8 @@
 
 CircleModule::CircleModule(Reporter* r) : PrimitiveModule(r,"circle")
 {
-	addParameter("radius");
+	addDescription(tr("Constructs a circle. It will be placed centered on the xy plane."));
+	addParameter("radius",tr("The radius of the circle."));
 }
 
 Node* CircleModule::evaluate(Context* ctx)

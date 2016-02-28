@@ -23,6 +23,7 @@
 
 class CylinderModule : public PrimitiveModule
 {
+	Q_DECLARE_TR_FUNCTIONS(CylinderModule)
 public:
 	CylinderModule(Reporter*);
 	Node* evaluate(Context*);

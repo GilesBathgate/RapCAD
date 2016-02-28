@@ -23,6 +23,7 @@
 
 class PointModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(PointModule)
 public:
 	PointModule(Reporter*);
 	Node* evaluate(Context*);

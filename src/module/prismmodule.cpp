@@ -22,10 +22,11 @@
 
 PrismModule::PrismModule(Reporter* r) : PrimitiveModule(r,"prism")
 {
-	addParameter("height");
-	addParameter("sides");
-	addParameter("apothem");
-	addParameter("center");
+	addDescription(tr("Constructs a regular prism. It will be placed centered on the xy plane."));
+	addParameter("height",tr("The height of the prism."));
+	addParameter("sides",tr("The number of size to the prism."));
+	addParameter("apothem",tr("The radius from the center to the outer faces of the prism."));
+	addParameter("center",tr("Specifies whether to center the prism vertically along the z axis."));
 }
 
 Node* PrismModule::evaluate(Context* ctx)

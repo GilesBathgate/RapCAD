@@ -6,8 +6,9 @@
 
 RotateExtrudeModule::RotateExtrudeModule(Reporter* r) : PrimitiveModule(r,"rotate_extrude")
 {
-	addParameter("radius");
-	addParameter("axis");
+	addDescription(tr("Extrudes its children about the given axis."));
+	addParameter("radius",tr("The radius of the extrusion."));
+	addParameter("axis",tr("The axis of rotation. When no axis is given the shape is first rotated about the x axis, then extruded about the z axis."));
 }
 
 Node* RotateExtrudeModule::evaluate(Context* ctx)

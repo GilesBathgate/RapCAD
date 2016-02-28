@@ -22,7 +22,8 @@
 
 PointModule::PointModule(Reporter* r) : Module(r,"point")
 {
-	addParameter("location");
+	addDescription(tr("Constructs a point."));
+	addParameter("location",tr("The location of the point."));
 }
 
 Node* PointModule::evaluate(Context* ctx)

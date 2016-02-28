@@ -24,7 +24,8 @@
 
 MirrorModule::MirrorModule(Reporter* r) : Module(r,"mirror")
 {
-	addParameter("vector");
+	addDescription(tr("Mirrors its children through a plane perpendicular to the given normal vector."));
+	addParameter("vector",tr("The normal vector of the mirror plane."));
 }
 
 Node* MirrorModule::evaluate(Context* ctx)

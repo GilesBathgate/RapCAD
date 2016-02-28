@@ -23,7 +23,8 @@
 
 SimplifyModule::SimplifyModule(Reporter* r) : Module(r,"simplify")
 {
-	addParameter("stop");
+	addDescription(tr("Performs a mesh simplification on its children."));
+	addParameter("stop",tr("The mesh simplification stops when the number of edges in its children drops below the given number."));
 }
 
 Node* SimplifyModule::evaluate(Context* ctx)

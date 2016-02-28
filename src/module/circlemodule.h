@@ -23,6 +23,7 @@
 
 class CircleModule : public PrimitiveModule
 {
+	Q_DECLARE_TR_FUNCTIONS(CircleModule)
 public:
 	CircleModule(Reporter*);
 	Node* evaluate(Context*);

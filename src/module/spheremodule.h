@@ -23,6 +23,7 @@
 
 class SphereModule : public PrimitiveModule
 {
+	Q_DECLARE_TR_FUNCTIONS(SphereModule)
 public:
 	SphereModule(Reporter*);
 	Node* evaluate(Context*);

@@ -23,6 +23,7 @@
 
 class DiscreteModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(DiscreteModule)
 public:
 	DiscreteModule(Reporter*);
 	Node* evaluate(Context*);

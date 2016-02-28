@@ -23,6 +23,7 @@
 
 class LinearExtrudeModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(LinearExtrudeModule)
 public:
 	LinearExtrudeModule(Reporter*);
 	Node* evaluate(Context*);

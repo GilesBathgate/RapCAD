@@ -24,8 +24,9 @@
 
 PolyhedronModule::PolyhedronModule(Reporter* r) : PrimitiveModule(r,"polyhedron")
 {
-	addParameter("points");
-	addParameter("faces");
+	addDescription(tr("Construct a polyhedron. Special care must be taken to ensure the correct winding order."));
+	addParameter("points",tr("The vertices of the shape are provided by the points list"));
+	addParameter("faces",tr("The faces is list of indices to the vertices. These relate to the facets of the polyhedron."));
 }
 
 Node* PolyhedronModule::evaluate(Context* ctx)

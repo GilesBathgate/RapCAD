@@ -23,6 +23,7 @@
 
 class ProjectionModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(ProjectionModule)
 public:
 	ProjectionModule(Reporter*);
 	Node* evaluate(Context*);

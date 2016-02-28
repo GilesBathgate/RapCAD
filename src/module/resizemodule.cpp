@@ -6,8 +6,9 @@
 
 ResizeModule::ResizeModule(Reporter* r) : Module(r,"resize")
 {
-	addParameter("size");
-	addParameter("autosize");
+	addDescription(tr("Modifies its children to match the given size."));
+	addParameter("newsize",tr("The new size of the shape."));
+	addParameter("auto",tr("Specifies whether to auto-scale any 0-dimensions"));
 }
 
 Node* ResizeModule::evaluate(Context* ctx)

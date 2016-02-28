@@ -22,9 +22,10 @@
 
 CylinderSurfaceModule::CylinderSurfaceModule(Reporter* r) : PrimitiveModule(r,"cylinder_surface")
 {
-	addParameter("height");
-	addParameter("radius");
-	addParameter("center");
+	addDescription(tr("Constructs the surface of a cylinder without top and bottom facets."));
+	addParameter("height",tr("The height of the cylinder surface."));
+	addParameter("radius",tr("The radius of the cylinder surface."));
+	addParameter("center",tr("Specifies whether to center the cylinder along the z axis."));
 }
 
 

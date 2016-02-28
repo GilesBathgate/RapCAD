@@ -4,7 +4,8 @@
 
 ChildModule::ChildModule(Reporter* r) : Module(r,"child")
 {
-	addParameter("index");
+	addDeprecated(tr("The child module is deprecated, use the children module instead."));
+	addParameter("index",tr("The index of the child to use."));
 }
 
 Node* ChildModule::evaluate(Context* ctx)

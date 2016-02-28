@@ -23,7 +23,8 @@
 
 LinearExtrudeModule::LinearExtrudeModule(Reporter* r) : Module(r,"linear_extrude")
 {
-	addParameter("height");
+	addDescription(tr("Extrudes its children along the z axis."));
+	addParameter("height",tr("The height of the extrusion."));
 }
 
 Node* LinearExtrudeModule::evaluate(Context* ctx)

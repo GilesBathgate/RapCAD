@@ -23,6 +23,7 @@
 
 class MirrorModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(MirrorModule)
 public:
 	MirrorModule(Reporter*);
 	Node* evaluate(Context*);

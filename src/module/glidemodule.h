@@ -23,6 +23,7 @@
 
 class GlideModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(GlideModule)
 public:
 	GlideModule(Reporter*);
 	Node* evaluate(Context*);

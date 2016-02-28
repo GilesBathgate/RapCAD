@@ -23,7 +23,8 @@
 
 SphereModule::SphereModule(Reporter* r) : PrimitiveModule(r,"sphere")
 {
-	addParameter("radius");
+	addDescription(tr("Constructs a sphere. The sphere will be centered at the origin."));
+	addParameter("radius",tr("The radius of the sphere."));
 }
 
 Node* SphereModule::evaluate(Context* ctx)

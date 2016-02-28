@@ -23,10 +23,11 @@
 
 ConeModule::ConeModule(Reporter* r) : PrimitiveModule(r,"cone")
 {
-	addParameter("height");
-	addParameter("radius1");
-	addParameter("radius2");
-	addParameter("center");
+	addDescription(tr("Constructs a cone. It is placed centered on the xy plane."));
+	addParameter("height",tr("The height of the cone."));
+	addParameter("radius1",tr("The radius of the bottom of the cone."));
+	addParameter("radius2",tr("The radius of the top of the cone."));
+	addParameter("center",tr("Specifies whether the cone should be vertically centered along the z axis."));
 }
 
 Node* ConeModule::evaluate(Context* ctx)

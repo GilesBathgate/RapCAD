@@ -25,6 +25,7 @@
 
 class BezierSurfaceModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(BezierSurfaceModule)
 public:
 	BezierSurfaceModule(Reporter*);
 	Node* evaluate(Context*);

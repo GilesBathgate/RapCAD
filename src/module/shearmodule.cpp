@@ -23,9 +23,10 @@
 
 ShearModule::ShearModule(Reporter* r) : Module(r,"shear")
 {
-	addParameter("x");
-	addParameter("y");
-	addParameter("z");
+	addDescription(tr("Shears its children in the given planes."));
+	addParameter("x",tr("The yz plane."));
+	addParameter("y",tr("The xz plane."));
+	addParameter("z",tr("The xy plane."));
 }
 
 Node* ShearModule::evaluate(Context* ctx)

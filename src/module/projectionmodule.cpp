@@ -24,7 +24,8 @@
 
 ProjectionModule::ProjectionModule(Reporter* r) : Module(r,"projection")
 {
-	addParameter("base");
+	addDescription(tr("Flattens its children onto the xy plane."));
+	addParameter("base",tr("Specifies that only polygons with normals perpendicular to the xy plane be considered."));
 }
 
 Node* ProjectionModule::evaluate(Context* ctx)
