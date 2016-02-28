@@ -53,6 +53,11 @@ void Parameter::addDescription(QString d)
 	description=d;
 }
 
+QString Parameter::getDescription() const
+{
+	return description;
+}
+
 void Parameter::accept(TreeVisitor& v)
 {
 	v.visit(this);

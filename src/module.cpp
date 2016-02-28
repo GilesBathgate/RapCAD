@@ -53,11 +53,15 @@ void Module::setName(QString n)
 	name=n;
 }
 
+QString Module::getDescription() const
+{
+	return description;
+}
+
 bool Module::getAuxilary() const
 {
 	return auxilary;
 }
-
 
 QList<Parameter*> Module::getParameters() const
 {

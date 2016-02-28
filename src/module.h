@@ -39,6 +39,7 @@ public:
 	~Module();
 	QString getName() const;
 	void setName(QString);
+	QString getDescription() const;
 	bool getAuxilary() const;
 	QList<Parameter*> getParameters() const;
 	void setParameters(QList<Parameter*>);

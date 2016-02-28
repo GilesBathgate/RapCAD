@@ -32,6 +32,7 @@ public:
 	Expression* getExpression() const;
 	void setExpression(Expression*);
 	void addDescription(QString);
+	QString getDescription() const;
 	void accept(TreeVisitor&);
 private:
 	QString name;

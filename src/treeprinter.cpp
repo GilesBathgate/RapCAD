@@ -106,12 +106,20 @@ void TreePrinter::visit(Instance* inst)
 
 void TreePrinter::visit(Module* mod)
 {
+	QList<Parameter*> parameters = mod->getParameters();
+	QString desc=mod->getDescription();
+	if(!desc.isEmpty()) {
+		result << "/** " << desc << "\n";
+		foreach(Parameter* p,parameters) {
+			result << " * @param " << p->getName() << " " << p->getDescription() << "\n";
+		}
+		result << " */\n";
+	}
 	result << "module ";
 	result << mod->getName();
 	if(mod->getAuxilary())
 		result << "$";
 	result << "(";
-	QList<Parameter*> parameters = mod->getParameters();
 	OnceOnly first;
 	foreach(Parameter* p,parameters) {
 		if(!first())
@@ -125,7 +133,7 @@ void TreePrinter::visit(Module* mod)
 		scp->accept(*this);
 		createIndent();
 	}
-	result << "}\n";
+	result << "}\n\n";
 }
 
 void TreePrinter::visit(Function* func)
