@@ -42,13 +42,3 @@ void Invocation::accept(TreeVisitor& v)
 {
 	v.visit(this);
 }
-
-int Invocation::getLineNumber() const
-{
-    return lineNumber;
-}
-
-void Invocation::setLineNumber(int value)
-{
-    lineNumber = value;
-}

@@ -27,6 +27,11 @@ class Declaration : public VisitableTree
 public:
 	Declaration();
 	virtual ~Declaration();
+
+	int getLineNumber() const;
+	void setLineNumber(int value);
+private:
+	int lineNumber;
 };
 
 #endif // DECLARATION_H

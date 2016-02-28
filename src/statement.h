@@ -26,12 +26,6 @@ class Statement : public Declaration
 public:
 	Statement();
 	virtual ~Statement();
-
-	int getLineNumber() const;
-	void setLineNumber(int value);
-
-private:
-	int lineNumber;
 };
 
 #endif // STATEMENT_H

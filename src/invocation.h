@@ -28,23 +28,17 @@ class Invocation : public Expression
 public:
 	Invocation();
 	~Invocation();
-
 	void setName(QString);
 	QString getName() const;
 	void setNamespace(QString);
 	QString getNamespace() const;
 	void setArguments(QList<Argument*>);
 	QList<Argument*> getArguments() const;
-
-	int getLineNumber() const;
-	void setLineNumber(int value);
-
 	void accept(TreeVisitor&);
 private:
 	QString name;
 	QString nameSpace;
 	QList<Argument*> arguments;
-	int lineNumber;
 };
 
 #endif // INVOCATION_H

@@ -59,12 +59,17 @@ public:
 
 	Expression();
 	virtual ~Expression();
+
 	Operator_e getOp() const;
 	void setOp(Operator_e);
 	QString getOpString() const;
 	bool postFix();
+
+	int getLineNumber() const;
+	void setLineNumber(int value);
 private:
 	Operator_e op;
+	int lineNumber;
 };
 
 #endif // EXPRESSION_H

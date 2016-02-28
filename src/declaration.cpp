@@ -25,3 +25,13 @@ Declaration::Declaration()
 Declaration::~Declaration()
 {
 }
+
+int Declaration::getLineNumber() const
+{
+	return lineNumber;
+}
+
+void Declaration::setLineNumber(int value)
+{
+	lineNumber=value;
+}

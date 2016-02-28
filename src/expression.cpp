@@ -131,3 +131,13 @@ Expression::Operator_e Expression::getOp() const
 {
 	return this->op;
 }
+
+int Expression::getLineNumber() const
+{
+	return lineNumber;
+}
+
+void Expression::setLineNumber(int value)
+{
+	lineNumber=value;
+}
