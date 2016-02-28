@@ -1,1 +1,1 @@
-sphere(d=10,center=true);
+sphere(d=10);

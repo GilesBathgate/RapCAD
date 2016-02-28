@@ -24,18 +24,11 @@
 SphereModule::SphereModule(Reporter* r) : PrimitiveModule(r,"sphere")
 {
 	addParameter("radius");
-	addParameter("center");
 }
 
 Node* SphereModule::evaluate(Context* ctx)
 {
 	NumberValue* rValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
-	Value* centerValue=getParameterArgument(ctx,1);
-
-	bool center=true;
-	if(centerValue)
-		center=centerValue->isTrue();
-
 	decimal r=0.0;
 	if(rValue) {
 		r=rValue->getNumber();
@@ -56,11 +49,10 @@ Node* SphereModule::evaluate(Context* ctx)
 	PrimitiveNode* p=new PrimitiveNode(reporter);
 	p->setChildren(ctx->getInputNodes());
 
-	decimal h=center?0.0:r;
 	for(int i=0; i<ringCount; i++) {
 		decimal phi = (r_pi()*(i+0.5)) / ringCount;
 		decimal r2 = r*r_sin(phi);
-		decimal z = r*r_cos(phi)+h;
+		decimal z = r*r_cos(phi);
 		QList<Point> c = getCircle(r2,f,z);
 		foreach(Point pt,c) {
 			p->createVertex(pt);
@@ -98,13 +90,6 @@ Node* SphereModule::evaluate(Context* ctx)
 	pg=p->createPolygon();
 	for(int i=f*ringCount; i>f*(ringCount-1); i--) {
 		pg->append(i-1);
-	}
-
-	if(center) {
-		AlignNode* n=new AlignNode();
-		n->setCenter(true);
-		n->addChild(p);
-		return n;
 	}
 
 	return p;
