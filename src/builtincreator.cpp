@@ -254,6 +254,11 @@ void BuiltinCreator::saveBuiltins(Script* sc)
 void BuiltinCreator::generateDocs()
 {
 	TreePrinter p(reporter->output);
+	generateDocs(p);
+}
+
+void BuiltinCreator::generateDocs(TreeVisitor& p)
+{
 	foreach(Declaration* d,builtins)
 		d->accept(p);
 }

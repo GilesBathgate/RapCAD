@@ -25,6 +25,7 @@
 #include "comparer.h"
 #include "stringify.h"
 #include "interactive.h"
+#include "generator.h"
 
 #if USE_COMMANDLINE_PARSER
 #include "contrib/qcommandlineparser.h"
@@ -76,6 +77,9 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,QT
 	QCommandLineOption printOption(QStringList() << "p" << "print", QCoreApplication::translate("main","Print debugging output."));
 	p.addOption(printOption);
 
+	QCommandLineOption generateOption(QStringList() << "g" << "generate", QCoreApplication::translate("main","Generate documentation"));
+	p.addOption(generateOption);
+
 	QCommandLineOption outputOption(QStringList() << "o" << "output",QCoreApplication::translate("main","Create output file <filename>."),"filename");
 	p.addOption(outputOption);
 
@@ -108,6 +112,8 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,QT
 		bool print = p.isSet(printOption);
 		w->setup(inputFile,outputFile,print,false);
 		return w;
+	} else if(p.isSet(generateOption)) {
+		return new Generator(output);
 #ifdef USE_READLINE
 	} else if(p.isSet(interactOption)) {
 		showVersion(output);

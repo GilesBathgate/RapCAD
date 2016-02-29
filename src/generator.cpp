@@ -16,26 +16,18 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BUILTINCREATOR_H
-#define BUILTINCREATOR_H
+#include "generator.h"
+#include "builtincreator.h"
+#include "asciidocprinter.h"
 
-#include "reporter.h"
-#include "declaration.h"
-#include "script.h"
-
-class BuiltinCreator
+Generator::Generator(QTextStream& s) : Strategy(s)
 {
-public:
-	static BuiltinCreator* getInstance(Reporter*);
-	void initBuiltins(Script*);
-	void saveBuiltins(Script*);
-	void generateDocs();
-	void generateDocs(TreeVisitor&);
-private:
-	BuiltinCreator(Reporter*);
-	static BuiltinCreator* instance;
-	QList<Declaration*> builtins;
-	Reporter* reporter;
-};
+}
 
-#endif // BUILTINCREATOR_H
+int Generator::evaluate()
+{
+	AsciidocPrinter p(output);
+	BuiltinCreator* b=BuiltinCreator::getInstance(reporter);
+	b->generateDocs(p);
+	return EXIT_SUCCESS;
+}

@@ -16,26 +16,16 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BUILTINCREATOR_H
-#define BUILTINCREATOR_H
+#ifndef GENERATOR_H
+#define GENERATOR_H
 
-#include "reporter.h"
-#include "declaration.h"
-#include "script.h"
+#include "strategy.h"
 
-class BuiltinCreator
+class Generator : public Strategy
 {
 public:
-	static BuiltinCreator* getInstance(Reporter*);
-	void initBuiltins(Script*);
-	void saveBuiltins(Script*);
-	void generateDocs();
-	void generateDocs(TreeVisitor&);
-private:
-	BuiltinCreator(Reporter*);
-	static BuiltinCreator* instance;
-	QList<Declaration*> builtins;
-	Reporter* reporter;
+	Generator(QTextStream&);
+	int evaluate();
 };
 
-#endif // BUILTINCREATOR_H
+#endif // GENERATOR_H
