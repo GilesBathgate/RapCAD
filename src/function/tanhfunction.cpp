@@ -16,6 +16,6 @@ Value* TanhFunction::evaluate(Context* ctx)
 
 		return new NumberValue(r_tanh_deg(num));
 	}
-	return new Value();
+	return Value::undefined();
 }
 

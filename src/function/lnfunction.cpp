@@ -34,5 +34,5 @@ Value* LnFunction::evaluate(Context* ctx)
 
 		return new NumberValue(r_log(num));
 	}
-	return new Value();
+	return Value::undefined();
 }

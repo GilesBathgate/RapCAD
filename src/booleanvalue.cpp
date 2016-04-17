@@ -22,7 +22,6 @@
 BooleanValue::BooleanValue(bool value)
 {
 	this->boolean=value;
-	this->defined=true;
 }
 
 QString BooleanValue::getValueString() const

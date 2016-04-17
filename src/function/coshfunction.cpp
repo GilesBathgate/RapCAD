@@ -16,5 +16,5 @@ Value* CoshFunction::evaluate(Context* ctx)
 
 		return new NumberValue(r_cosh_deg(num));
 	}
-	return new Value();
+	return Value::undefined();
 }

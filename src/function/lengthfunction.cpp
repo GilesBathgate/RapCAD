@@ -28,5 +28,5 @@ Value* LengthFunction::evaluate(Context* ctx)
 	if(txtVal) {
 		return Value::operation(txtVal,Expression::Length);
 	}
-	return new Value();
+	return Value::undefined();
 }

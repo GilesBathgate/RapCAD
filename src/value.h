@@ -30,7 +30,7 @@ class TextValue;
 class Value
 {
 public:
-	Value();
+	static Value* undefined();
 	virtual ~Value();
 	static void cleanup();
 	void setStorage(Variable::Storage_e);
@@ -79,7 +79,7 @@ public:
 	static Value* compareAll(QList<Value*>,Expression::Operator_e);
 
 protected:
-	bool defined;
+	Value();
 	bool isComparison(Expression::Operator_e);
 	template <class T>
 	T basicOperation(T,Expression::Operator_e,T);
@@ -89,6 +89,7 @@ protected:
 	virtual Value* operation(Expression::Operator_e);
 	virtual Value* operation(Value&,Expression::Operator_e);
 private:
+	bool defined;
 	static QList<Value*> values;
 	Variable::Storage_e storageClass;
 	QString name;

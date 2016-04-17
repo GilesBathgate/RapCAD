@@ -36,5 +36,5 @@ Value* SumFunction::evaluate(Context* ctx)
 
 		return resultVal;
 	}
-	return new Value();
+	return Value::undefined();
 }

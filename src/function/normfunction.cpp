@@ -37,7 +37,7 @@ Value* NormFunction::evaluate(Context* ctx)
 	 * inherits from vector */
 	RangeValue* rng=dynamic_cast<RangeValue*>(v);
 	if(rng)
-		return new Value();
+		return Value::undefined();
 
 	VectorValue* vec=dynamic_cast<VectorValue*>(v);
 	if(vec)
@@ -51,5 +51,5 @@ Value* NormFunction::evaluate(Context* ctx)
 	if(cpx)
 		return Value::operation(cpx,Expression::Length);
 
-	return new Value();
+	return Value::undefined();
 }

@@ -16,5 +16,5 @@ Value* AtanFunction::evaluate(Context* ctx)
 
 		return new NumberValue(r_atan_deg(num));
 	}
-	return new Value();
+	return Value::undefined();
 }

@@ -14,5 +14,5 @@ Value* PowFunction::evaluate(Context* ctx)
 	if(val&&arg)
 		return Value::operation(val,Expression::Exponent,arg);
 
-	return new Value();
+	return Value::undefined();
 }

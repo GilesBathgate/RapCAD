@@ -16,5 +16,5 @@ Value* FloorFunction::evaluate(Context* ctx)
 
 		return new NumberValue(r_floor(num));
 	}
-	return new Value();
+	return Value::undefined();
 }

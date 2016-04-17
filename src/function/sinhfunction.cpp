@@ -16,5 +16,5 @@ Value* SinhFunction::evaluate(Context* ctx)
 
 		return new NumberValue(r_sinh_deg(num));
 	}
-	return new Value();
+	return Value::undefined();
 }

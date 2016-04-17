@@ -16,5 +16,5 @@ Value* CeilFunction::evaluate(Context* ctx)
 
 		return new NumberValue(r_ceil(num));
 	}
-	return new Value();
+	return Value::undefined();
 }

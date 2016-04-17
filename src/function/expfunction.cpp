@@ -16,5 +16,5 @@ Value* ExpFunction::evaluate(Context* ctx)
 
 		return new NumberValue(r_exp(num));
 	}
-	return new Value();
+	return Value::undefined();
 }

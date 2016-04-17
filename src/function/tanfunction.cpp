@@ -16,5 +16,5 @@ Value* TanFunction::evaluate(Context* ctx)
 
 		return new NumberValue(r_tan_deg(num));
 	}
-	return new Value();
+	return Value::undefined();
 }

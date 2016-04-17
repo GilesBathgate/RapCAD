@@ -16,5 +16,5 @@ Value* CosFunction::evaluate(Context* ctx)
 
 		return new NumberValue(r_cos_deg(num));
 	}
-	return new Value();
+	return Value::undefined();
 }

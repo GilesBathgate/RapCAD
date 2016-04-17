@@ -280,7 +280,7 @@ void TreeEvaluator::visit(Parameter* param)
 		e->accept(*this);
 		v = context->getCurrentValue();
 	} else {
-		v = new Value();
+		v = Value::undefined();
 	}
 
 	v->setName(name);
@@ -511,7 +511,7 @@ void TreeEvaluator::visit(Invocation* stmt)
 	}
 
 	if(!result)
-		result=new Value();
+		result=Value::undefined();
 
 	context->setCurrentValue(result);
 }

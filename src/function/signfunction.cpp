@@ -16,5 +16,5 @@ Value* SignFunction::evaluate(Context* ctx)
 
 		return new NumberValue(r_sign(num));
 	}
-	return new Value();
+	return Value::undefined();
 }

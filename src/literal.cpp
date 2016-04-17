@@ -68,7 +68,7 @@ Value* Literal::getValue() const
 	case Text:
 		return new TextValue(text);
 	default:
-		return new Value();
+		return Value::undefined();
 	}
 }
 

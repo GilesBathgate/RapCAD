@@ -31,7 +31,6 @@ VectorValue::VectorValue()
 VectorValue::VectorValue(QList<Value*> values)
 {
 	this->children=values;
-	this->defined=true;
 }
 
 QString VectorValue::getValueString() const
@@ -62,7 +61,7 @@ Value* VectorValue::toNumber()
 {
 	if(children.size()==1)
 		return children.at(0)->toNumber();
-	return new Value();
+	return Value::undefined();
 }
 
 Point VectorValue::getPoint() const
@@ -113,7 +112,7 @@ Value* VectorValue::operation(Expression::Operator_e e)
 		NumberValue* n=dynamic_cast<NumberValue*>(v);
 		if(n)
 			return new NumberValue(r_sqrt(n->getNumber()));
-		return new Value();
+		return Value::undefined();
 	}
 	QList<Value*> result;
 	foreach(Value* c,children)
@@ -132,7 +131,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 		if(e==Expression::CrossProduct) {
 			int s=a.size();
 			if(s<2||s>3||s!=b.size())
-				return new Value();
+				return Value::undefined();
 
 			//[a1*b2 - a2*b1, a2*b0 - a0*b2, a0*b1 - a1*b0]
 			Value* a0b1=Value::operation(a.at(0),Expression::Multiply,b.at(1));
@@ -157,7 +156,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 		} else if(e==Expression::Multiply||e==Expression::DotProduct) {
 			int s=std::min(a.size(),b.size());
 			if(s<=0)
-				return new Value();
+				return Value::undefined();
 			Value* total=new NumberValue(0.0);
 			for(int i=0; i<s; i++) {
 				Value* r=Value::operation(a.at(i),Expression::Multiply,b.at(i));
@@ -174,7 +173,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			NumberValue* l=dynamic_cast<NumberValue*>(n);
 			if(l)
 				return new NumberValue(r_sqrt(l->getNumber()));
-			return new Value();
+			return Value::undefined();
 		} else if(e==Expression::Concatenate) {
 			result=a;
 			result.append(b);
@@ -235,7 +234,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 				if(!it->isDone())
 					return it->currentItem();
 			}
-			return new Value();
+			return Value::undefined();
 		} else {
 			QList<Value*> a=this->getChildren();
 			e=convertOperation(e);

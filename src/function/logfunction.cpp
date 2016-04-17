@@ -44,5 +44,5 @@ Value* LogFunction::evaluate(Context* ctx)
 		return new NumberValue(r_log10(num));
 	}
 
-	return new Value();
+	return Value::undefined();
 }

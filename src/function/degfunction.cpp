@@ -34,5 +34,5 @@ Value* DegFunction::evaluate(Context* ctx)
 
 		return new NumberValue(r_deg(num));
 	}
-	return new Value();
+	return Value::undefined();
 }

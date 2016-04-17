@@ -28,8 +28,15 @@
 Value::Value()
 {
 	this->storageClass=Variable::Const;
-	this->defined=false;
+	this->defined=true;
 	values.append(this);
+}
+
+Value* Value::undefined()
+{
+	Value* v=new Value();
+	v->defined=false;
+	return v;
 }
 
 Value::~Value()
@@ -302,7 +309,7 @@ Value* Value::operation(Value& v, Expression::Operator_e e)
 		return &v;
 	}
 
-	return new Value();
+	return Value::undefined();
 }
 
 bool Value::isDefined() const
@@ -437,7 +444,7 @@ Value* Value::compareAll(QList<Value*> values,Expression::Operator_e op)
 		}
 	}
 	if(!result)
-		return new Value();
+		return Value::undefined();
 
 	return result;
 }

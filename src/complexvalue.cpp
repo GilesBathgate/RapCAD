@@ -69,7 +69,7 @@ Value* ComplexValue::operation(Expression::Operator_e e)
 		NumberValue* l=dynamic_cast<NumberValue*>(n);
 		if(l)
 			return new NumberValue(r_sqrt(l->getNumber()));
-		return new Value();
+		return Value::undefined();
 	}
 	return this;
 }
@@ -152,5 +152,5 @@ Value* ComplexValue::operation(Value& v, Expression::Operator_e op)
 		}
 	}
 
-	return new Value();
+	return Value::undefined();
 }

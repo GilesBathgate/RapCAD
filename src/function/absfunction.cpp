@@ -14,5 +14,5 @@ Value* AbsFunction::evaluate(Context* ctx)
 	if(numVal) {
 		return Value::operation(numVal,Expression::Length);
 	}
-	return new Value();
+	return Value::undefined();
 }

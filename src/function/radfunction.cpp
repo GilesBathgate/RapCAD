@@ -34,5 +34,5 @@ Value* RadFunction::evaluate(Context* ctx)
 
 		return new NumberValue(r_rad(num));
 	}
-	return new Value();
+	return Value::undefined();
 }

@@ -105,7 +105,7 @@ Value* Context::lookupVariable(QString name,Variable::Storage_e& c,Layout* l)
 		return parent->lookupVariable(name,c,l);
 	}
 
-	Value* v=new Value(); //undef
+	Value* v=Value::undefined();
 	v->setStorage(c);
 	return v;
 

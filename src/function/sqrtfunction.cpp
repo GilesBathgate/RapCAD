@@ -34,5 +34,5 @@ Value* SqrtFunction::evaluate(Context* ctx)
 
 		return new NumberValue(r_sqrt(num));
 	}
-	return new Value();
+	return Value::undefined();
 }

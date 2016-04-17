@@ -23,7 +23,6 @@
 NumberValue::NumberValue(decimal value)
 {
 	this->number=value;
-	this->defined=true;
 }
 
 QString NumberValue::getValueString() const
@@ -66,7 +65,7 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 			return new BooleanValue(result);
 		}
 		if(e==Expression::Divide&&num->number==decimal(0))
-			return new Value();
+			return Value::undefined();
 
 		decimal result=basicOperation(this->number,e,num->number);
 		return new NumberValue(result);

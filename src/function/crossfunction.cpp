@@ -34,5 +34,5 @@ Value* CrossFunction::evaluate(Context* ctx)
 	if(vec1&&vec2)
 		return Value::operation(vec1,Expression::CrossProduct,vec2);
 
-	return new Value();
+	return Value::undefined();
 }

@@ -24,7 +24,6 @@
 TextValue::TextValue(QString value)
 {
 	this->text=value;
-	this->defined=true;
 }
 
 QString TextValue::getValueString() const
@@ -44,7 +43,7 @@ Value* TextValue::toNumber()
 	if(ok)
 		return new NumberValue(n);
 	else
-		return new Value();
+		return Value::undefined();
 }
 
 Iterator<Value*>* TextValue::createIterator()
