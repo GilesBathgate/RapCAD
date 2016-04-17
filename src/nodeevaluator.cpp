@@ -149,6 +149,7 @@ void NodeEvaluator::visit(GlideNode* op)
 
 static Primitive* evaluateHull(Primitive* previous, Primitive* next)
 {
+#if USE_CGAL
 	QList<CGAL::Point3> points;
 	CGALExplorer p(previous);
 	points.append(p.getPoints());
@@ -159,6 +160,7 @@ static Primitive* evaluateHull(Primitive* previous, Primitive* next)
 	CGAL::Polyhedron3 hull;
 	CGAL::convex_hull_3(points.begin(),points.end(),hull);
 	return new CGALPrimitive(hull);
+#endif
 }
 
 void NodeEvaluator::visit(HullNode* n)
