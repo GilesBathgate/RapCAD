@@ -30,6 +30,7 @@ private:
 	QHash<i_Primitive,Primitive*> allPrimitives;
 };
 
+#if QT_VERSION < 0x050600
 template <class T>
 inline uint qHash(const QVector<T>& l,uint seed)
 {
@@ -39,4 +40,6 @@ inline uint qHash(const QVector<T>& l,uint seed)
 
 	return h;
 }
+#endif
+
 #endif // CACHE_H
