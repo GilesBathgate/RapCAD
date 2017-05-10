@@ -3,7 +3,7 @@
 #
 
 Name:           rapcad
-Version:        0.9.8
+Version:        0.9.9
 Release:        1
 License:        GPL-3.0+
 Summary:        Rapid prototyping CAD IDE for 3D printing machines

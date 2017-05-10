@@ -1,3 +1,25 @@
+0.9.9
+   * Support compilation with new QT versions
+   * Added documentation generator and updated docs.
+   * Output module description in show builtins.
+   * Embed documentation in all builtin modules that have parameters.
+   * Remove center parameter from sphere.
+   * Added is_mat4x4 function.
+   * Added indexes to children module.
+   * Save line some numbers into syntax tree, which will be used in future.
+   * Allow iteration over text values with for.
+   * Implemented chr function.
+   * Implemented type test functions.
+   * Restore logical and/or operations.
+   * Improve tests for Logical operators.
+   * Added tests for chain_hull() module.
+   * Better memory handling and exception handling.
+   * Add some additional memory cleanup.
+   * Implemented chain_hull() module.
+   * Fix to offset module and added two simple tests.
+   * Fix to tests for range length.
+   * Fix to len() function for range.
+
 0.9.8
    * Support for 3mf file format in export.
    * Choose a sensible location when exporting files.
