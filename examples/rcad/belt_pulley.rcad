@@ -23,14 +23,13 @@ module pulley() {
  difference() {
   union()
   {
-   bug=1;
    //base
    rotate([90,0,0])
-   rotate_extrude($fn=30,r=bug)
+   rotate_extrude($fe=0.01,axis=[0,0,1])
    {
-     square([9-bug,8]);
-     square([10-bug,7]);
-     translate([9-bug,7]) polygon([[0,0],[0,1],[1,0]],[0,1,2]);
+     square([9,8]);
+     square([10,7]);
+     translate([9,7]) polygon([[0,0],[0,1],[1,0]],[0,1,2]);
    }
 
    n_spurs=8;
@@ -39,11 +38,11 @@ module pulley() {
 
    //spurs
    for(i=[1:n_spurs]) rotate([0,0,i*(360/n_spurs)])
-   translate([5.5,0,0])spur();
+    translate([5.5,0,0])spur();
   }
 
   //shaft hole
-  translate([0,0,-1])cylinder(r=2.5,h=22,$fn=20);
+  translate([0,0,-1])cylinder(r=2.5,h=22,$fe=0.01);
 
   //captive nut and grub hole
   translate([0,20,4])rotate([90,0,0])
@@ -56,9 +55,9 @@ module pulley() {
    //nut
    translate([0,0,p]) rotate([0,0,30])prism(a=m3_af/2,h=m3_t,s=6);
    //grub hole
-   translate([0,0,9]) cylinder(r=1.5,h=10,$fn=20);
+   translate([0,0,9]) cylinder(r=1.5,h=10,$fe=0.01);
   }
  }
 }
 
-translate([30,30,0])pulley();
+pulley();
