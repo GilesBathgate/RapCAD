@@ -23,21 +23,19 @@
 #include <CGAL/glu.h>
 #endif
 
-static const float farfarAway=100000.0;
-static const int baseX=-16;
-static const int baseY=-30;
-static const int baseWidth=232;
-static const int baseLength=230;
-static const int notchX=130;
-static const int notchWidth=40;
-static const int notchLength=30;
+static const GLfloat farfarAway=100000.0;
+static const GLfloat chamfer=4;
+static const GLfloat baseX=-2;
+static const GLfloat baseY=-9.4;
+static const GLfloat baseWidth=254;
+static const GLfloat baseLength=235;
 
-static const int printX=0;
-static const int printY=0;
-static const int printWidth=200;
-static const int printLength=200;
+static const GLfloat printX=-125;
+static const GLfloat printY=-105;
+static const GLfloat printWidth=250;
+static const GLfloat printLength=210;
 
-static const int rulerLength=200;
+static const GLfloat rulerLength=200;
 
 GLView::GLView(QWidget* parent) :
 #if USE_QGLWIDGET
@@ -264,28 +262,45 @@ void GLView::paintGL()
 		glEnd();
 	}
 	if(showBase) {
-		glLineWidth(1);
-		glColor3f(0.0, 0.0, 1.0);
+		glLineWidth(2);
+		glColor3f(0.0, 0.0, 0.5);
 		glBegin(GL_LINE_LOOP);
-		glVertex3i(baseX, baseY, 0);
-		glVertex3i(baseX+notchX, baseY, 0);
-		glVertex3i(baseX+notchX, baseY+notchLength, 0);
-		glVertex3i(baseX+notchX+notchWidth, baseY+notchLength, 0);
-		glVertex3i(baseX+notchX+notchWidth, baseY, 0);
-		glVertex3i(baseX+baseWidth, baseY, 0);
-		glVertex3i(baseX+baseWidth, baseY+baseLength, 0);
-		glVertex3i(baseX, baseY+baseLength, 0);
+
+		glVertex3f(printX+baseX, printY+baseY+chamfer, 0);
+		glVertex3f(printX+baseX+chamfer, printY+baseY, 0);
+
+		glVertex3f(printX+baseX+baseWidth-chamfer, printY+baseY, 0);
+		glVertex3f(printX+baseX+baseWidth, printY+baseY+chamfer, 0);
+
+		glVertex3f(printX+baseX+baseWidth, printY+baseY+baseLength-chamfer, 0);
+		glVertex3f(printX+baseX+baseWidth-chamfer, printY+baseY+baseLength, 0);
+
+		glVertex3f(printX+baseX+chamfer, printY+baseY+baseLength, 0);
+		glVertex3f(printX+baseX, printY+baseY+baseLength-chamfer, 0);
+
 		glEnd();
 	}
 	if(showPrintArea) {
 		glLineWidth(1);
-		glColor3f(0.0, 1.0, 0.0);
+		glColor3f(0.0, 0.0, 0.5);
 		glBegin(GL_LINE_LOOP);
-		glVertex3i(printX, printY, 0);
-		glVertex3i(printWidth-printX,printY, 0);
-		glVertex3i(printWidth-printX,printLength-printY, 0);
-		glVertex3i(printX, printLength-printY, 0);
+		glVertex3f(printX, printY, 0);
+		glVertex3f(printX+printWidth,printY, 0);
+		glVertex3f(printX+printWidth,printY+printLength, 0);
+		glVertex3f(printX, printY+printLength, 0);
 		glEnd();
+
+		glBegin(GL_LINES);
+		for(GLfloat o=0.0; o<printWidth; o+=50.0) {
+			glVertex3f(printX+o, printY, 0);
+			glVertex3f(printX+o, printY+printLength, 0);
+		}
+		for(GLfloat j=5.0; j<printLength; j+=50.0) {
+			glVertex3f(printX, printY+j, 0);
+			glVertex3f(printX+printWidth, printY+j, 0);
+		}
+		glEnd();
+
 	}
 	if(showRulers) {
 		glLineWidth(1);
