@@ -13,8 +13,6 @@ addons:
       - bison
       - flex
       - libreadline-dev
-    sources:
-      - ubuntu-sdk-team
 script:
   - qmake -v
   - qmake -qt5
