@@ -349,6 +349,16 @@ bool Preferences::getCacheEnabled()
 	return settings->value("CacheEnabled",false).toBool();
 }
 
+QPointF Preferences::getPrintOrigin()
+{
+	return settings->value("PrintOrigin", QPointF(-125.0, -105.0)).toPointF();
+}
+
+void Preferences::setPrintOrigin(QPointF s)
+{
+	return settings->setValue("PrintOrigin", s);
+}
+
 void Preferences::syncDelete()
 {
 	if(instance) {

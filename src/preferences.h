@@ -118,6 +118,10 @@ public:
 
 	void setCacheEnabled(bool);
 	bool getCacheEnabled();
+
+	QPointF getPrintOrigin();
+	void setPrintOrigin(QPointF s);
+
 private:
 	Preferences();
 	static Preferences* instance;

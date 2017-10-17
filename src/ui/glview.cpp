@@ -24,18 +24,16 @@
 #endif
 
 static const GLfloat farfarAway=100000.0;
-static const GLfloat chamfer=4;
-static const GLfloat baseX=-2;
+static const GLfloat chamfer=4.0;
+static const GLfloat baseX=-2.0;
 static const GLfloat baseY=-9.4;
-static const GLfloat baseWidth=254;
-static const GLfloat baseLength=235;
+static const GLfloat baseWidth=254.0;
+static const GLfloat baseLength=235.0;
 
-static const GLfloat printX=-125;
-static const GLfloat printY=-105;
-static const GLfloat printWidth=250;
-static const GLfloat printLength=210;
+static const GLfloat printWidth=250.0;
+static const GLfloat printLength=210.0;
 
-static const GLfloat rulerLength=200;
+static const GLfloat rulerLength=200.0;
 
 GLView::GLView(QWidget* parent) :
 #if USE_QGLWIDGET
@@ -55,8 +53,10 @@ GLView::GLView(QWidget* parent) :
 	rotateX=35.0;
 	rotateY=0.0;
 	rotateZ=35.0;
-	viewportX=0;
-	viewportZ=0;
+	viewportX=0.0;
+	viewportZ=0.0;
+	printX=0.0;
+	printY=0.0;
 #if !USE_QGLWIDGET
 	projection=new QMatrix4x4();
 	modelview=new QMatrix4x4();
@@ -72,7 +72,7 @@ GLView::~GLView()
 	delete render;
 }
 
-void GLView::getViewport(float& rx,float& ry,float& rz,float& x, float& z,float& d)
+void GLView::getViewport(GLfloat& rx,GLfloat& ry,GLfloat& rz,GLfloat& x,GLfloat& z,GLfloat& d)
 {
 	rx=rotateX;
 	ry=rotateY;
@@ -82,7 +82,7 @@ void GLView::getViewport(float& rx,float& ry,float& rz,float& x, float& z,float&
 	d=distance;
 }
 
-void GLView::setViewport(float rx,float ry,float rz,float x, float z,float d)
+void GLView::setViewport(GLfloat rx, GLfloat ry, GLfloat rz, GLfloat x, GLfloat z, GLfloat d)
 {
 	rotateX=rx;
 	rotateY=ry;
@@ -90,6 +90,13 @@ void GLView::setViewport(float rx,float ry,float rz,float x, float z,float d)
 	viewportX=x;
 	viewportZ=z;
 	distance=d;
+	update();
+}
+
+void GLView::setPrintOrigin(GLfloat x, GLfloat y)
+{
+	printX = x;
+	printY = y;
 	update();
 }
 

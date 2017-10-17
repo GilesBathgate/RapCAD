@@ -153,6 +153,9 @@ void MainWindow::loadPreferences()
 	resize(p->getWindowSize());
 
 	getDefaultViewport();
+
+	QPointF o=p->getPrintOrigin();
+	ui->view->setPrintOrigin(o.x(), o.y());
 }
 
 void MainWindow::getDefaultViewport()

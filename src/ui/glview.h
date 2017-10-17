@@ -60,8 +60,9 @@ public:
 
 public slots:
 	void preferencesUpdated();
-	void setViewport(float,float,float,float,float,float);
-	void getViewport(float&,float&,float&,float&,float&,float&);
+	void setViewport(GLfloat,GLfloat,GLfloat,GLfloat,GLfloat,GLfloat);
+	void setPrintOrigin(GLfloat,GLfloat);
+	void getViewport(GLfloat&,GLfloat&,GLfloat&,GLfloat&,GLfloat&,GLfloat&);
 	void setShowAxes(bool);
 	void setShowRulers(bool);
 	void setShowBase(bool);
@@ -94,6 +95,8 @@ private:
 	bool showRulers;
 	bool showEdges;
 	bool skeleton;
+	GLfloat printX;
+	GLfloat printY;
 
 	bool mouseDrag;
 	QPoint last;
