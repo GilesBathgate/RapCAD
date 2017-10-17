@@ -370,9 +370,10 @@ void GLView::mouseMoveEvent(QMouseEvent* event)
 	QPoint current = event->globalPos();
 	int dx = current.x()-last.x();
 	int dy = current.y()-last.y();
+	bool shift = QApplication::keyboardModifiers() & Qt::ShiftModifier;
 	if(event->buttons() & Qt::LeftButton) {
 		rotateX += (GLfloat)dy;
-		if(QApplication::keyboardModifiers() & Qt::ShiftModifier) {
+		if(shift) {
 			rotateY += (GLfloat)dx;
 		} else {
 			rotateZ += (GLfloat)dx;
@@ -381,7 +382,7 @@ void GLView::mouseMoveEvent(QMouseEvent* event)
 		normalizeAngle(rotateY);
 		normalizeAngle(rotateZ);
 	} else {
-		if(QApplication::keyboardModifiers() & Qt::ShiftModifier) {
+		if(shift) {
 			zoomView(-dy);
 		} else {
 			viewportX += (GLint)dx;
