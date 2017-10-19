@@ -72,6 +72,10 @@ int Tester::evaluate()
 				Node* n=te.getRootNode();
 				delete n;
 			} else {
+#if defined __WIN32__
+				output << " Skipped" << endl;
+				continue;
+#endif
 				QString basename=file.baseName();
 				QString examFileName=basename + ".exam.csg";
 				QString csgFileName=basename + ".csg";
