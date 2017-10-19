@@ -21,6 +21,10 @@
 #include "reporter.h"
 #include "decimal.h"
 
+#if defined __WIN32__
+#include "unistd.h"
+#endif
+
 void lexererror();
 void lexerinclude(QFileInfo);
 void lexerinit(AbstractTokenBuilder*,Reporter*,QString,bool);
