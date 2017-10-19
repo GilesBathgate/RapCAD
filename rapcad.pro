@@ -56,17 +56,15 @@ win32 {
 	DEFINES -= USE_READLINE
 	DEFINES += USE_QGLWIDGET
 
-	CGALROOT = ../CGAL-4.7
-	BOOSTROOT = ../boost_1_59_0
 	DXFLIBROOT = ../dxflib-3.3.4-src
-	INCLUDEPATH += $$CGALROOT/include
-	INCLUDEPATH += $$CGALROOT/auxiliary/gmp/include
-	INCLUDEPATH += $$BOOSTROOT
-	LIBS += -L$$BOOSTROOT/stage/lib
-	LIBS += -lboost_thread-mgw49-mt-1_59
-	LIBS += -lboost_system-mgw49-mt-1_59
-	LIBS += -L$$CGALROOT/lib -lCGAL -lCGAL_Core
-	LIBS += -L$$CGALROOT/auxiliary/gmp/lib -lmpfr-4 -lgmp-10
+	INCLUDEPATH += $$(CGAL_ROOT)/include
+	INCLUDEPATH += $$(CGAL_ROOT)/auxiliary/gmp/include
+	INCLUDEPATH += $$(BOOST_ROOT)
+	LIBS += -L$$(BOOST_ROOT)/stage/lib
+	LIBS += -lboost_thread-mgw53-mt-1_60
+	LIBS += -lboost_system-mgw53-mt-1_60
+	LIBS += -L$$(CGAL_ROOT)/lib -lCGAL -lCGAL_Core
+	LIBS += -L$$(CGAL_ROOT)/auxiliary/gmp/lib -lmpfr-4 -lgmp-10
 	LIBS += -lopengl32 -lglu32
 	contains(DEFINES,USE_READLINE) {
 	LIBS += -lreadline
