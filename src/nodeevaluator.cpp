@@ -475,7 +475,7 @@ void NodeEvaluator::visit(BoundsNode* n)
 void NodeEvaluator::visit(SubDivisionNode* n)
 {
 	evaluate(n,Union);
-#if USE_CGAL
+#if USE_CGAL && ! defined __WIN32__
 	CGALPrimitive* cp=static_cast<CGALPrimitive*>(result);
 	CGAL::Polyhedron3& p=*cp->getPolyhedron();
 	CGAL::Subdivision_method_3::CatmullClark_subdivision(p,n->getLevel());
