@@ -1,0 +1,40 @@
+version: 0.9.9.{build}
+image:
+  - Visual Studio 2015
+install:
+  - set BOOST_ROOT=C:\Libraries\boost_1_60_0
+  - set QTDIR=C:\Qt\5.9.1\mingw53_32
+  # Install Flex/Bison
+  - appveyor DownloadFile https://downloads.sourceforge.net/project/winflexbison/win_flex_bison-2.5.10.zip -FileName FlexBison.zip
+  - 7z x -o%QTDIR%\bin FlexBison.zip
+  # Build Boost
+  - call %QTDIR%\bin\qtenv2.bat
+  - cd %BOOST_ROOT%
+  - call bootstrap.bat mingw
+  - .\b2 toolset=gcc variant=release --with-thread --with-system
+  # Build CGAL
+  - set CGAL_ROOT=C:\CGAL\
+  - appveyor DownloadFile https://github.com/CGAL/cgal/releases/download/releases/CGAL-4.11/CGAL-4.11-Setup.exe -FileName CGAL-Setup.exe
+  - CGAL-Setup.exe /S /D=c:\CGAL
+  - set PATH=%PATH:C:\Program Files\Git\usr\bin;=%
+  - cd %CGAL_ROOT%
+  - cmake -G"MinGW Makefiles" .
+  - mingw32-make
+  # Setup environment
+  - set PATH=%PATH%;%CGAL_ROOT%\bin
+  - set PATH=%PATH%;%CGAL_ROOT%\auxiliary\gmp\lib
+  - set PATH=%PATH%;%QTDIR%\bin
+  - set PATH=C:\Program Files\Git\usr\bin;%PATH%
+
+build_script:
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - qmake
+  - mingw32-make -f Makefile.Release
+  - cd release
+  - windeployqt --release rapcad.exe
+
+test_script:
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - cd test
+  - ..\release\rapcad.exe -t
+
