@@ -1,4 +1,4 @@
-image:https://ci.appveyor.com/api/projects/status/oqtpb3i3nm3bdwnp/branch/master?svg=true[link=https://ci.appveyor.com/project/GilesBathgate/rapcad]
+image:https://ci.appveyor.com/api/projects/status/oqtpb3i3nm3bdwnp/branch/master?svg=true[link=https://ci.appveyor.com/project/GilesBathgate/rapcad-gdedf]
 image:https://api.travis-ci.org/GilesBathgate/RapCAD.svg[link=https://travis-ci.org/GilesBathgate/RapCAD]
 image:https://img.shields.io/badge/license-GPLv3-blue.svg[]
 
