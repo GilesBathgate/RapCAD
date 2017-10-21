@@ -11,14 +11,14 @@ machines. RapCAD is published under the GPLv3 licence.
 Unlike most CAD packages RapCAD is not GUI based. One of the things that you
 often do when using a traditional CAD package, for example, is to create
 temporary construction lines that you either delete or put on a layer that is
-never used or seen. From another persons perspective its not always obvious how
-you arrived at your final design. In the software industry, the vital role of
-version control is that it allows the transcript of decisions made during the
-design process to be recorded. RapCAD solves this problem by allowing designs
-to be described with a modular scene description language. This not only
-provides compatability with traditional text based source control management
-software, but it also allows for the creation of re-usable component modules
-that can be distributed as a design library.
+never used or seen. From another person's perspective, it's not always obvious
+how you arrived at your final design. In the software industry, the vital role
+of version control is that it allows the transcript of decisions made during
+the design process to be recorded. RapCAD solves this problem by allowing
+designs to be described with a modular scene description language. This not
+only provides compatibility with traditional text-based source control
+management software, but it also allows for the creation of re-usable component
+modules that can be distributed as a design library.
 
 image::screenshot.png[Screenshot]
 
