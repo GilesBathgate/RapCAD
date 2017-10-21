@@ -13,6 +13,9 @@ install:
   # Install Flex/Bison
   - if not exist FlexBison.zip appveyor DownloadFile https://downloads.sourceforge.net/project/winflexbison/win_flex_bison-2.5.10.zip -FileName FlexBison.zip
   - 7z x -o%QTDIR%\bin FlexBison.zip
+  # Install CGAL
+  - if not exist CGAL-Setup.exe appveyor DownloadFile https://github.com/CGAL/cgal/releases/download/releases/CGAL-4.11/CGAL-4.11-Setup.exe -FileName CGAL-Setup.exe
+  - CGAL-Setup.exe /S /D=c:\CGAL
   # Build Boost
   - call %QTDIR%\bin\qtenv2.bat
   - cd %BOOST_ROOT%
@@ -20,8 +23,6 @@ install:
   - .\b2 toolset=gcc variant=release --with-thread --with-system
   # Build CGAL
   - set CGAL_ROOT=C:\CGAL\
-  - if not exist CGAL-Setup.exe appveyor DownloadFile https://github.com/CGAL/cgal/releases/download/releases/CGAL-4.11/CGAL-4.11-Setup.exe -FileName CGAL-Setup.exe
-  - CGAL-Setup.exe /S /D=c:\CGAL
   - set PATH=%PATH:C:\Program Files\Git\usr\bin;=%
   - cd %CGAL_ROOT%
   - cmake -G"MinGW Makefiles" .
