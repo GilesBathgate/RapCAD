@@ -12,10 +12,10 @@ void VolumesNode::accept(NodeVisitor& v)
 
 bool VolumesNode::getCalcMass() const
 {
-    return calcMass;
+	return calcMass;
 }
 
 void VolumesNode::setCalcMass(bool value)
 {
-    calcMass = value;
+	calcMass = value;
 }

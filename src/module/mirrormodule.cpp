@@ -47,7 +47,7 @@ Node* MirrorModule::evaluate(Context* ctx)
 		1-2*u*u,-2*v*u,-2*w*u,0,
 		-2*u*v,1-2*v*v,-2*w*v,0,
 		-2*u*w,-2*v*w,1-2*w*w,0,
-			 0,     0,      0,1
+		0,     0,      0,1
 	);
 
 	auto* n=new TransformationNode();

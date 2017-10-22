@@ -216,7 +216,7 @@ Statement* SyntaxTreeBuilder::buildIfElseStatement(Expression* expr,Statement* s
 	return result;
 }
 
-Statement* SyntaxTreeBuilder::buildIfElseStatement(Expression* expr,Statement* truestmt ,Statement* falsestmt)
+Statement* SyntaxTreeBuilder::buildIfElseStatement(Expression* expr,Statement* truestmt,Statement* falsestmt)
 {
 	auto* result = new IfElseStatement();
 	result->setExpression(expr);
@@ -519,7 +519,7 @@ Expression* SyntaxTreeBuilder::buildExpression(Expression::Operator_e op,Express
 	return result;
 }
 
-Expression* SyntaxTreeBuilder::buildExpression(Expression* left ,Expression::Operator_e op, Expression* right)
+Expression* SyntaxTreeBuilder::buildExpression(Expression* left,Expression::Operator_e op, Expression* right)
 {
 	auto* result = new BinaryExpression();
 	result->setLeft(left);
@@ -528,7 +528,7 @@ Expression* SyntaxTreeBuilder::buildExpression(Expression* left ,Expression::Ope
 	return result;
 }
 
-Expression* SyntaxTreeBuilder::buildExpression(Expression* cond,Expression* trueexp ,Expression* falseexp)
+Expression* SyntaxTreeBuilder::buildExpression(Expression* cond,Expression* trueexp,Expression* falseexp)
 {
 	auto* result = new TernaryExpression();
 	result->setCondition(cond);

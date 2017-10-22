@@ -32,12 +32,12 @@ SimpleTextBuilder::SimpleTextBuilder()
 		stroke=Stroke();
 		stroke.append(Point(0.25,1.6,0.0));
 		stroke.append(Point(0.75,1.6,0.0));
-		stroke.append(Point(1.0 ,1.4,0.0));
-		stroke.append(Point(1.0 ,0.2,0.0));
+		stroke.append(Point(1.0,1.4,0.0));
+		stroke.append(Point(1.0,0.2,0.0));
 		stroke.append(Point(0.75,0.0,0.0));
 		stroke.append(Point(0.25,0.0,0.0));
-		stroke.append(Point(0.0 ,0.2,0.0));
-		stroke.append(Point(0.0 ,1.4,0.0));
+		stroke.append(Point(0.0,0.2,0.0));
+		stroke.append(Point(0.0,1.4,0.0));
 		stroke.append(Point(0.25,1.6,0.0));
 		zero.append(stroke);
 		stroke=Stroke();
@@ -49,14 +49,14 @@ SimpleTextBuilder::SimpleTextBuilder()
 		Letter one;
 		stroke=Stroke();
 		stroke.append(Point(0.25,1.2,0.0));
-		stroke.append(Point(0.5 ,1.6,0.0));
-		stroke.append(Point(0.5 ,0.0,0.0));
+		stroke.append(Point(0.5,1.6,0.0));
+		stroke.append(Point(0.5,0.0,0.0));
 		one.append(stroke);
 		characters->insert('1',one);
 
 		Letter two;
 		stroke=Stroke();
-		stroke.append(Point(0.0 ,1.4,0.0));
+		stroke.append(Point(0.0,1.4,0.0));
 		stroke.append(Point(0.25,1.6,0.0));
 		stroke.append(Point(0.75,1.6,0.0));
 		stroke.append(Point(1.0, 1.4,0.0));
@@ -105,7 +105,7 @@ SimpleTextBuilder::SimpleTextBuilder()
 		stroke.append(Point(1.0, 0.2,0.0));
 		stroke.append(Point(0.75,0.0,0.0));
 		stroke.append(Point(0.25,0.0,0.0));
-		stroke.append(Point(0.0 ,0.2,0.0));
+		stroke.append(Point(0.0,0.2,0.0));
 		five.append(stroke);
 		characters->insert('5',five);
 

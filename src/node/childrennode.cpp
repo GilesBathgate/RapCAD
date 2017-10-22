@@ -29,7 +29,7 @@ void ChildrenNode::addIndex(int i)
 
 QList<int> ChildrenNode::getIndexes() const
 {
-    return indexes;
+	return indexes;
 }
 
 void ChildrenNode::accept(NodeVisitor& v)

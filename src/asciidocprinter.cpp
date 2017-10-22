@@ -27,7 +27,7 @@ AsciidocPrinter::~AsciidocPrinter()
 {
 }
 
-static QString capitalize(const QString &str)
+static QString capitalize(const QString& str)
 {
 	QString tmp=str;
 	tmp=tmp.toLower();

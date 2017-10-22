@@ -26,7 +26,7 @@ HullNode::HullNode()
 
 bool HullNode::getChain() const
 {
-    return chain;
+	return chain;
 }
 
 void HullNode::setChain(bool value)
@@ -35,7 +35,7 @@ void HullNode::setChain(bool value)
 }
 bool HullNode::getClosed() const
 {
-    return closed;
+	return closed;
 }
 
 void HullNode::setClosed(bool value)

@@ -422,13 +422,13 @@ Primitive* CGALPrimitive::simplify(int level)
 	SMS::Count_stop_predicate<CGAL::Polyhedron3> stop(level);
 	SMS::edge_collapse(p,stop,
 #if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(4,7,0)
-						CGAL::parameters::vertex_index_map(get(CGAL::vertex_external_index,p))
+					   CGAL::parameters::vertex_index_map(get(CGAL::vertex_external_index,p))
 #else
-						CGAL::vertex_index_map(get(CGAL::vertex_external_index,p))
+					   CGAL::vertex_index_map(get(CGAL::vertex_external_index,p))
 #endif
-						.halfedge_index_map(get(CGAL::halfedge_external_index,p))
-						.get_cost(SMS::Edge_length_cost<CGAL::Polyhedron3>())
-						.get_placement(SMS::Midpoint_placement<CGAL::Polyhedron3>()));
+					   .halfedge_index_map(get(CGAL::halfedge_external_index,p))
+					   .get_cost(SMS::Edge_length_cost<CGAL::Polyhedron3>())
+					   .get_placement(SMS::Midpoint_placement<CGAL::Polyhedron3>()));
 	return new CGALPrimitive(p);
 #else
 	return this;
@@ -561,7 +561,8 @@ static CGAL::Point3 discretePoint(const CGAL::Point3& pt,int places)
 class DiscreteNef : public CGAL::NefPolyhedron3
 {
 public:
-	void discrete(int places) {
+	void discrete(int places)
+	{
 		Vertex_iterator v;
 		CGAL_forall_vertices(v,snc()) {
 			v->point()=discretePoint(v->point(),places);

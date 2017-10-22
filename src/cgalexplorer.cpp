@@ -80,12 +80,14 @@ class ShellExplorer
 	QMap<HalfEdgeHandle,int> periMap;
 	QList<CGALPolygon*> basePolygons;
 public:
-	ShellExplorer() {
+	ShellExplorer()
+	{
 		primitive = new CGALPrimitive();
 		direction=true;
 	}
 
-	void visit(VertexHandle v) {
+	void visit(VertexHandle v)
+	{
 		points.append(v->point());
 	}
 
@@ -119,7 +121,8 @@ public:
 		}
 	}
 
-	void visit(SHalfEdgeHandle hc) {
+	void visit(SHalfEdgeHandle hc)
+	{
 		HalfEdgeHandle h = getID(hc->source());
 		periMap[h]++;
 	}

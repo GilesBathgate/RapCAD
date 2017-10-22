@@ -24,7 +24,7 @@
 #include <QTextStream>
 #include "worker.h"
 
-class BackgroundWorker : public QObject , public Worker
+class BackgroundWorker : public QObject, public Worker
 {
 	Q_OBJECT
 public:

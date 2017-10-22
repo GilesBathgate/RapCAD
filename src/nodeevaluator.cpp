@@ -180,8 +180,7 @@ void NodeEvaluator::visit(HullNode* n)
 			}
 			previous=result;
 		}
-		if(n->getClosed())
-		{
+		if(n->getClosed()) {
 			Primitive* prim=evaluateHull(first,previous);
 			first->add(prim,true);
 		}
@@ -221,8 +220,8 @@ static CGAL::Point3 rotate_y(const CGAL::Point3& p,decimal phi)
 	decimal c=r_cos(phi);
 	decimal s=r_sin(phi);
 	CGAL::AffTransformation3 t(
-		 c, 0, s, 0,
-		 0, 1, 0, 0,
+		c, 0, s, 0,
+		0, 1, 0, 0,
 		-s, 0, c, 0, 1);
 
 	return p.transform(t);
@@ -671,11 +670,11 @@ void NodeEvaluator::visit(AlignNode* n)
 			cy=(b.ymin()+b.ymax())/two;
 	}
 
-	TransformMatrix* t = new TransformMatrix(
-				1, 0, 0, -cx,
-				0, 1, 0, -cy,
-				0, 0, 1, -cz,
-				0, 0, 0,  1);
+	auto* t = new TransformMatrix(
+		1, 0, 0, -cx,
+		0, 1, 0, -cy,
+		0, 0, 1, -cz,
+		0, 0, 0,  1);
 
 	result->transform(t);
 #endif
