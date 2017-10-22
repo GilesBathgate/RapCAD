@@ -20,10 +20,7 @@
 #include "abstracttokenbuilder.h"
 #include "reporter.h"
 #include "decimal.h"
-
-#if defined __WIN32__
 #include "unistd.h"
-#endif
 
 void lexererror();
 void lexerinclude(QFileInfo);

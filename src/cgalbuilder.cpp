@@ -22,7 +22,7 @@
 #include <QList>
 #include <QMap>
 #include <CGAL/Constrained_triangulation_2.h>
-#if __cplusplus > 199711 && CGAL_VERSION_NR > CGAL_VERSION_NUMBER(4,2,0)
+#ifdef USE_OFFSET
 #include <CGAL/create_offset_polygons_2.h>
 #endif
 #include <CGAL/Polygon_2.h>
@@ -139,7 +139,7 @@ CGALPrimitive* CGALBuilder::triangulate()
 	}
 	return result;
 }
-#if __cplusplus <= 201103 && CGAL_VERSION_NR <= CGAL_VERSION_NUMBER(4,2,0)
+#ifndef USE_OFFSET
 CGALPrimitive* CGALBuilder::buildOffsetPolygons(const CGAL::Scalar)
 {
 	return primitive;

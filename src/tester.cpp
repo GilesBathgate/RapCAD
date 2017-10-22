@@ -17,6 +17,9 @@
  */
 
 #include <QDir>
+#if USE_CGAL
+#include "cgal.h"
+#endif
 #include "tester.h"
 #include "treeevaluator.h"
 #include "nodeprinter.h"
@@ -46,7 +49,7 @@ int Tester::evaluate()
 	 * but it will do for now. */
 	QDir cur=QDir::current();
 	for(QString dir: cur.entryList(QStringList("*_*"))) {
-#if __cplusplus <= 201103 && CGAL_VERSION_NR <= CGAL_VERSION_NUMBER(4,2,0)
+#ifndef USE_OFFSET
 		if(dir=="051_offset") continue;
 #endif
 		for(QFileInfo file: QDir(dir).entryInfoList(QStringList("*.rcad"), QDir::Files)) {

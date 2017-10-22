@@ -23,7 +23,9 @@
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,8,0)
 #include "cgalassert.h" // cgalassert hack
 #endif
-
+#if __cplusplus > 199711 && CGAL_VERSION_NR > CGAL_VERSION_NUMBER(4,2,0)
+#define USE_OFFSET
+#endif
 #include <CGAL/Exact_predicates_exact_constructions_kernel.h>
 
 namespace CGAL
