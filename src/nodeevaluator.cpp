@@ -320,23 +320,32 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 		decimal phi=(r_tau()*i)/f;
 		decimal nphi=(r_tau()*j)/f;
 
-		for(CGALExplorer::HalfEdgeHandle h: explorer.getHalfEdgePerimeter()) {
-			CGAL::Point3 q=translate(h->source()->point(),r,0,0);
-			CGAL::Point3 p=translate(h->target()->point(),r,0,0);
-			if(q.x()<=0.0&&p.x()<=0.0)
-				continue;
+		CGALPrimitive* peri=explorer.getPerimeters();
+		for(CGALPolygon* pg: peri->getCGALPolygons()) {
+			OnceOnly first;
+			CGAL::Point3 pn;
+			for(CGAL::Point3 pt: pg->getPoints()) {
+				if(!first()) {
+					CGAL::Point3 q=translate(pn,r,0,0);
+					CGAL::Point3 p=translate(pt,r,0,0);
+					if(q.x()<=0.0&&p.x()<=0.0)
+						continue;
 
-			n->createPolygon();
-			CGAL::Point3 q1=rotate_y(q,nphi);
-			CGAL::Point3 p1=rotate_y(p,nphi);
-			CGAL::Point3 p2=rotate_y(p,phi);
-			CGAL::Point3 q2=rotate_y(q,phi);
-			n->appendVertex(q1);
-			n->appendVertex(p1);
-			if(p2!=p1)
-				n->appendVertex(p2);
-			if(q2!=q1)
-				n->appendVertex(q2);
+					n->createPolygon();
+					CGAL::Point3 q1=rotate_y(q,nphi);
+					CGAL::Point3 p1=rotate_y(p,nphi);
+					CGAL::Point3 p2=rotate_y(p,phi);
+					CGAL::Point3 q2=rotate_y(q,phi);
+					n->appendVertex(q1);
+					n->appendVertex(p1);
+					if(p2!=p1)
+						n->appendVertex(p2);
+					if(q2!=q1)
+						n->appendVertex(q2);
+				}
+				pn=pt;
+			}
+			break;
 		}
 	}
 

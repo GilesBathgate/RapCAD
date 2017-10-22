@@ -25,11 +25,9 @@
 class CGALExplorer
 {
 public:
-	typedef CGAL::NefPolyhedron3::Halfedge_const_handle HalfEdgeHandle;
 	CGALExplorer(Primitive*);
 	CGALExplorer(CGALPrimitive*);
 	CGALPrimitive* getPerimeters();
-	QList<HalfEdgeHandle> getHalfEdgePerimeter();
 	CGALPrimitive* getPrimitive();
 	QList<CGAL::Point3> getPoints();
 	CGAL::Cuboid3 getBounds();
@@ -44,7 +42,6 @@ private:
 	Points allPoints;
 	QList<CGALPolygon*> basePolygons;
 	QList<Points> volumePoints;
-	QList<HalfEdgeHandle> visited;
 };
 
 #endif // CGALEXPLORER_H
