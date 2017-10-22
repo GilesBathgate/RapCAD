@@ -139,7 +139,7 @@ CGALPrimitive* CGALBuilder::triangulate()
 	}
 	return result;
 }
-#if __cplusplus <= 199711 && CGAL_VERSION_NR <= CGAL_VERSION_NUMBER(4,2,0)
+#if __cplusplus <= 201103 && CGAL_VERSION_NR <= CGAL_VERSION_NUMBER(4,2,0)
 CGALPrimitive* CGALBuilder::buildOffsetPolygons(const CGAL::Scalar)
 {
 	return primitive;
