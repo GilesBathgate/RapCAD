@@ -22,7 +22,9 @@
 #include <QList>
 #include <QMap>
 #include <CGAL/Constrained_triangulation_2.h>
+#if __cplusplus > 199711 && CGAL_VERSION_NR > CGAL_VERSION_NUMBER(4,2,0)
 #include <CGAL/create_offset_polygons_2.h>
+#endif
 #include <CGAL/Polygon_2.h>
 #include "cgalbuilder.h"
 #include "cgalexplorer.h"
@@ -140,6 +142,7 @@ CGALPrimitive* CGALBuilder::triangulate()
 
 CGALPrimitive* CGALBuilder::buildOffsetPolygons(const CGAL::Scalar amount)
 {
+#if __cplusplus > 199711 && CGAL_VERSION_NR > CGAL_VERSION_NUMBER(4,2,0)
 	typedef boost::shared_ptr<CGAL::Polygon2> PolygonPtr;
 	typedef std::vector<PolygonPtr> PolygonPtrVector;
 
@@ -181,6 +184,9 @@ CGALPrimitive* CGALBuilder::buildOffsetPolygons(const CGAL::Scalar amount)
 	}
 
 	return offsetPrim;
+#else
+	return primitive;
+#endif
 }
 
 void CGALBuilder::makeSideZ(const CGAL::Scalar& x1,const CGAL::Scalar& x2,const CGAL::Scalar& y1,const CGAL::Scalar& y2,const CGAL::Scalar& z)

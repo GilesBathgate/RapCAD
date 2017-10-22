@@ -45,7 +45,10 @@ int Tester::evaluate()
 	/* This hard coded directory and filters need to be addressed
 	 * but it will do for now. */
 	QDir cur=QDir::current();
-	for(QString dir: cur.entryList(QStringList("*_*")))
+	for(QString dir: cur.entryList(QStringList("*_*"))) {
+#if __cplusplus <= 201103 && CGAL_VERSION_NR <= CGAL_VERSION_NUMBER(4,2,0)
+		if(dir=="051_offset") continue;
+#endif
 		for(QFileInfo file: QDir(dir).entryInfoList(QStringList("*.rcad"), QDir::Files)) {
 
 			output << "Test #" << QString().setNum(testcount+1).rightJustified(3,'0') << ": ";
@@ -113,7 +116,7 @@ int Tester::evaluate()
 			delete s;
 			testcount++;
 		}
-
+	}
 	reporter->setReturnCode(failcount);
 
 	output << testcount << " tests run " << failcount << " failed" << endl;
