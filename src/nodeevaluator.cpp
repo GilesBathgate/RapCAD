@@ -328,8 +328,10 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 				if(!first()) {
 					CGAL::Point3 q=translate(pn,r,0,0);
 					CGAL::Point3 p=translate(pt,r,0,0);
-					if(q.x()<=0.0&&p.x()<=0.0)
+					if(q.x()<=0.0&&p.x()<=0.0) {
+						pn=pt;
 						continue;
+					}
 
 					n->createPolygon();
 					CGAL::Point3 q1=rotate_y(q,nphi);
