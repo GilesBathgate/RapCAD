@@ -101,14 +101,14 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,QT
 		outputFile=p.value(compareOption);
 
 	if(p.isSet(compareOption)) {
-		Comparer* c=new Comparer(output);
+		auto* c=new Comparer(output);
 		c->setup(inputFile,outputFile);
 		return c;
 	} else if(p.isSet(testOption)) {
 		showVersion(output);
 		return new Tester(output);
 	} else if(p.isSet(outputOption)||p.isSet(printOption)) {
-		Worker* w=new Worker(output);
+		auto* w=new Worker(output);
 		bool print = p.isSet(printOption);
 		w->setup(inputFile,outputFile,print,false);
 		return w;
@@ -120,7 +120,7 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,QT
 		return new Interactive(output);
 #endif
 	}
-	return NULL;
+	return nullptr;
 }
 
 int main(int argc, char* argv[])

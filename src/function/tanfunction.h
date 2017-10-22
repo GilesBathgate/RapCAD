@@ -7,7 +7,7 @@ class TanFunction : public Function
 {
 public:
 	TanFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // TANFUNCTION_H

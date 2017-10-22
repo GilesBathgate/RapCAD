@@ -35,19 +35,19 @@ Value* NormFunction::evaluate(Context* ctx)
 
 	/* Explicitly return undefined for range which
 	 * inherits from vector */
-	RangeValue* rng=dynamic_cast<RangeValue*>(v);
+	auto* rng=dynamic_cast<RangeValue*>(v);
 	if(rng)
 		return Value::undefined();
 
-	VectorValue* vec=dynamic_cast<VectorValue*>(v);
+	auto* vec=dynamic_cast<VectorValue*>(v);
 	if(vec)
 		return Value::operation(vec,Expression::Length);
 
-	NumberValue* num=dynamic_cast<NumberValue*>(v);
+	auto* num=dynamic_cast<NumberValue*>(v);
 	if(num)
 		return Value::operation(num,Expression::Length);
 
-	ComplexValue* cpx=dynamic_cast<ComplexValue*>(v);
+	auto* cpx=dynamic_cast<ComplexValue*>(v);
 	if(cpx)
 		return Value::operation(cpx,Expression::Length);
 

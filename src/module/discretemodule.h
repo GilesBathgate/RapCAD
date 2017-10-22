@@ -26,7 +26,7 @@ class DiscreteModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(DiscreteModule)
 public:
 	DiscreteModule(Reporter*);
-	Node* evaluate(Context*);
+	Node* evaluate(Context*) override;
 };
 
 #endif // DISCRETEMODULE_H

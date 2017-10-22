@@ -27,7 +27,7 @@ public:
 	ProjectionNode();
 	void setBase(bool);
 	bool getBase();
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 private:
 	bool base;
 };

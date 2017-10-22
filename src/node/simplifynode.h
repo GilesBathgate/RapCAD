@@ -25,7 +25,7 @@ class SimplifyNode : public Node
 {
 public:
 	SimplifyNode();
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 
 	int getStopLevel() const;
 	void setStopLevel(int value);

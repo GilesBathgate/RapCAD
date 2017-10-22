@@ -20,12 +20,12 @@
 
 Script::Script()
 {
-	fileLocation=NULL;
+	fileLocation=nullptr;
 }
 
 Script::~Script()
 {
-	foreach(Declaration* d,declarations)
+	for(Declaration* d: declarations)
 		delete d;
 
 	delete fileLocation;

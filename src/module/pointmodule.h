@@ -26,7 +26,7 @@ class PointModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(PointModule)
 public:
 	PointModule(Reporter*);
-	Node* evaluate(Context*);
+	Node* evaluate(Context*) override;
 };
 
 #endif // POINTMODULE_H

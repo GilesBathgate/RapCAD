@@ -27,7 +27,7 @@ public:
 	GlideNode();
 	void setClosed(bool);
 	bool getClosed() const;
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 private:
 	bool closed;
 };

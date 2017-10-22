@@ -30,7 +30,7 @@ public:
 	QString getName() const;
 	void setText(QString);
 	QString getText() const;
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 private:
 	QString name;
 	QString text;

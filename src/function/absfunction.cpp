@@ -10,7 +10,7 @@ AbsFunction::AbsFunction() : Function("abs")
 
 Value* AbsFunction::evaluate(Context* ctx)
 {
-	NumberValue* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {
 		return Value::operation(numVal,Expression::Length);
 	}

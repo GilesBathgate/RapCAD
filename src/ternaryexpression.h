@@ -25,14 +25,14 @@ class TernaryExpression : public Expression
 {
 public:
 	TernaryExpression();
-	~TernaryExpression();
+	~TernaryExpression() override;
 	void setCondition(Expression*);
 	Expression* getCondition() const;
 	void setTrueExpression(Expression*);
 	Expression* getTrueExpression() const;
 	void setFalseExpression(Expression*);
 	Expression* getFalseExpression() const;
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 private:
 	Expression* condition;
 	Expression* trueExpression;

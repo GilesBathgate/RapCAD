@@ -48,7 +48,7 @@ Value* BooleanValue::operation(Expression::Operator_e e)
 
 Value* BooleanValue::operation(Value& v,Expression::Operator_e e)
 {
-	BooleanValue* that=dynamic_cast<BooleanValue*>(&v);
+	auto* that=dynamic_cast<BooleanValue*>(&v);
 	if(that) {
 		bool result=basicOperation(this->boolean,e,that->boolean);
 		return new BooleanValue(result);

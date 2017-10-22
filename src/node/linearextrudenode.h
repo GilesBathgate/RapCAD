@@ -27,7 +27,7 @@ public:
 	LinearExtrudeNode();
 	void setHeight(decimal);
 	decimal getHeight() const;
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 private:
 	decimal height;
 };

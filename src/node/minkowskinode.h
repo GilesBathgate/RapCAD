@@ -25,7 +25,7 @@ class MinkowskiNode : public Node
 {
 public:
 	MinkowskiNode();
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 };
 
 #endif // MINKOWSKINODE_H

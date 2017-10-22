@@ -28,7 +28,7 @@ RadFunction::RadFunction() : Function("rad")
 
 Value* RadFunction::evaluate(Context* ctx)
 {
-	NumberValue* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {
 		decimal num=numVal->getNumber();
 

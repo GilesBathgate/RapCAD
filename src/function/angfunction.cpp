@@ -58,7 +58,7 @@ Value* AngFunction::evaluate(Context* ctx)
 
 		// [x,y,z] = v1 x v2
 		Value* cross=Value::operation(vecVal1,Expression::CrossProduct,vecVal2);
-		VectorValue* axis=dynamic_cast<VectorValue*>(cross);
+		auto* axis=dynamic_cast<VectorValue*>(cross);
 
 		//Renormalise the quaternion
 		Value* q=new ComplexValue(angle,axis->getChildren());
@@ -68,15 +68,15 @@ Value* AngFunction::evaluate(Context* ctx)
 
 	decimal a=0.0;
 	decimal x=0.0,y=0.0,z=0.0;
-	NumberValue* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {
 		a=numVal->getNumber();
 
-		VectorValue* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
+		auto* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
 		if(vecVal) {
 			Value* n=Value::operation(vecVal,Expression::Length);
 			Value* u=Value::operation(vecVal,Expression::Divide,n);
-			VectorValue* unitVec=dynamic_cast<VectorValue*>(u);
+			auto* unitVec=dynamic_cast<VectorValue*>(u);
 			if(unitVec) {
 				Point p=unitVec->getPoint();
 				p.getXYZ(x,y,z);

@@ -29,16 +29,16 @@ class Script : public Scope
 {
 public:
 	Script();
-	~Script();
+	~Script() override;
 
 	void setDeclarations(QList<Declaration*>);
-	QList<Declaration*> getDeclarations() const;
+	QList<Declaration*> getDeclarations() const override;
 	void addDeclaration(Declaration*);
 	void appendDeclaration(Declaration*);
 	void removeDeclaration(Declaration*);
 	void addDocumentation(QList<CodeDoc*>);
 	QList<QList<CodeDoc*> > getDocumentation();
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 	QFileInfo* getFileLocation() const;
 	void setFileLocation(QFileInfo*);
 private:

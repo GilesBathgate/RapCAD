@@ -7,7 +7,7 @@ class RoundFunction : public Function
 {
 public:
 	RoundFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // ROUNDFUNCTION_H

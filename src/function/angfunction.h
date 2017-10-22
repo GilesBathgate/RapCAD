@@ -25,7 +25,7 @@ class AngFunction : public Function
 {
 public:
 	AngFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 private:
 	Value* getResult(decimal,decimal,decimal,decimal);
 };

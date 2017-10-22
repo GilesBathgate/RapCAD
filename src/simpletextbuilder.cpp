@@ -19,7 +19,7 @@
 #include "simpletextbuilder.h"
 #include "polyhedron.h"
 
-QMap<QChar,SimpleTextBuilder::Letter>* SimpleTextBuilder::characters=NULL;
+QMap<QChar,SimpleTextBuilder::Letter>* SimpleTextBuilder::characters=nullptr;
 
 SimpleTextBuilder::SimpleTextBuilder()
 {
@@ -205,17 +205,17 @@ void SimpleTextBuilder::setLocation(Point p)
 
 Primitive* SimpleTextBuilder::buildPrimitive() const
 {
-	Polyhedron* ph=new Polyhedron();
+	auto* ph=new Polyhedron();
 	ph->setType(Primitive::Skeleton);
 
 	int n=0;
 	decimal x,y,z;
 	location.getXYZ(x,y,z);
-	foreach(QChar c, text) {
+	for(QChar c: text) {
 		Letter ch=characters->value(c);
-		foreach(Stroke p, ch) {
+		for(Stroke p: ch) {
 			Polygon* pg=ph->createPolygon();
-			foreach(Point pt, p) {
+			for(const auto& pt: p) {
 				decimal cx,cy,cz;
 				pt.getXYZ(cx,cy,cz);
 				ph->createVertex(Point(cx+x,cy+y,cz+z));

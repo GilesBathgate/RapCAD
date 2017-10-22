@@ -28,12 +28,12 @@ class Argument : public VisitableTree
 {
 public:
 	Argument();
-	~Argument();
+	~Argument() override;
 	void setVariable(Variable*);
 	Variable* getVariable() const;
 	void setExpression(Expression*);
 	Expression* getExpression() const;
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 private:
 	Variable* variable;
 	Expression* expression;

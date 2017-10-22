@@ -27,7 +27,7 @@ IsNumFunction::IsNumFunction() : Function("is_num")
 
 Value* IsNumFunction::evaluate(Context* ctx)
 {
-	NumberValue* num=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* num=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(num)
 		return new BooleanValue(true);
 

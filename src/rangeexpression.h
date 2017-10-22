@@ -26,14 +26,14 @@ class RangeExpression : public Expression
 {
 public:
 	RangeExpression();
-	~RangeExpression();
+	~RangeExpression() override;
 	void setStart(Expression*);
 	Expression* getStart() const;
 	void setFinish(Expression*);
 	Expression* getFinish() const;
 	void setStep(Expression*);
 	Expression* getStep() const;
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 private:
 	Expression* start;
 	Expression* finish;

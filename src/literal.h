@@ -33,7 +33,7 @@ public:
 
 	Value* getValue() const;
 
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 private:
 	enum DataType {
 		Undef,

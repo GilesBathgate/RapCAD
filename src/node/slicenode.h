@@ -29,7 +29,7 @@ public:
 	decimal getHeight();
 	void setThickness(decimal);
 	decimal getThickness();
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 private:
 	decimal height;
 	decimal thickness;

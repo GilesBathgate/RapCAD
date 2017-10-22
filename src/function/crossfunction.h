@@ -25,7 +25,7 @@ class CrossFunction : public Function
 {
 public:
 	CrossFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // CROSSFUNCTION_H

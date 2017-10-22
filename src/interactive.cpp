@@ -16,7 +16,7 @@ Interactive::Interactive(QTextStream& s,QObject* parent) : QObject(parent),Strat
 
 bool Interactive::isExpression(QString s)
 {
-	TokenBuilder t(NULL,s,false);
+	TokenBuilder t(nullptr,s,false);
 	int i;
 	while((i=t.nextToken())) {
 		if(i==';'||i=='}') {
@@ -59,7 +59,7 @@ int Interactive::evaluate()
 	do {
 		c=readline::readline(prompt);
 		execCommand(c);
-	} while(c!=NULL);
+	} while(c!=nullptr);
 	output << endl;
 #endif
 	return EXIT_SUCCESS;

@@ -26,7 +26,7 @@ class ConeModule : public PrimitiveModule
 	Q_DECLARE_TR_FUNCTIONS(ConeModule)
 public:
 	ConeModule(Reporter*);
-	Node* evaluate(Context*);
+	Node* evaluate(Context*) override;
 };
 
 #endif // CONEMODULE_H

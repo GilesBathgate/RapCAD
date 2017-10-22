@@ -8,7 +8,7 @@ class OffsetModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(OffsetModule)
 public:
 	OffsetModule(Reporter*);
-	Node* evaluate(Context*);
+	Node* evaluate(Context*) override;
 };
 
 #endif // OFFSETMODULE_H

@@ -85,7 +85,7 @@ Value* RangeValue::operation(Expression::Operator_e op)
 	Value* upper=Value::operation(this->start,op);
 	Value* lower=Value::operation(this->finish,op);
 
-	Value* increment=NULL;
+	Value* increment=nullptr;
 	if(op==Expression::Add||op==Expression::Subtract) {
 		if(this->step)
 			increment=Value::operation(this->step,op);
@@ -96,7 +96,7 @@ Value* RangeValue::operation(Expression::Operator_e op)
 
 Value* RangeValue::operation(Value& v, Expression::Operator_e op)
 {
-	RangeValue* range=dynamic_cast<RangeValue*>(&v);
+	auto* range=dynamic_cast<RangeValue*>(&v);
 	if(range) {
 		/* Interval arithmetic has the following rules:
 		 * when x = [a:b] and y = [c:d] then
@@ -120,7 +120,7 @@ Value* RangeValue::operation(Value& v, Expression::Operator_e op)
 			Value* lower=Value::operation(a,op,c);
 			Value* upper=Value::operation(b,op,d);
 
-			return new RangeValue(lower,NULL,upper);
+			return new RangeValue(lower,nullptr,upper);
 
 		} else if(op==Expression::Multiply||op==Expression::Divide) {
 
@@ -136,7 +136,7 @@ Value* RangeValue::operation(Value& v, Expression::Operator_e op)
 			Value* lower=compareAll(vals,Expression::LessThan);
 			Value* upper=compareAll(vals,Expression::GreaterThan);
 
-			return new RangeValue(lower,NULL,upper);
+			return new RangeValue(lower,nullptr,upper);
 
 		} else if(op==Expression::Concatenate) {
 
@@ -148,7 +148,7 @@ Value* RangeValue::operation(Value& v, Expression::Operator_e op)
 			Value* lower=compareAll(vals,Expression::LessThan);
 			Value* upper=compareAll(vals,Expression::GreaterThan);
 
-			return new RangeValue(lower,NULL,upper);
+			return new RangeValue(lower,nullptr,upper);
 		}
 	}
 	return VectorValue::operation(v,op);

@@ -36,7 +36,7 @@ public:
 	decimal getX() const;
 	decimal getY() const;
 	decimal getZ() const;
-	Point transform(TransformMatrix*);
+	Point transform(TransformMatrix*) const;
 private:
 	decimal x, y, z;
 };

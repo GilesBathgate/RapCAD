@@ -11,7 +11,7 @@ ChildModule::ChildModule(Reporter* r) : Module(r,"child")
 Node* ChildModule::evaluate(Context* ctx)
 {
 	int index=0;
-	NumberValue* indexValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* indexValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(indexValue)
 		index=indexValue->toInteger();
 

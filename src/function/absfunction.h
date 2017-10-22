@@ -7,7 +7,7 @@ class AbsFunction : public Function
 {
 public:
 	AbsFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // ABSFUNCTION_H

@@ -25,7 +25,7 @@ class BoundsModule : public Module
 {
 public:
 	BoundsModule(Reporter*);
-	Node* evaluate(Context*);
+	Node* evaluate(Context*) override;
 };
 
 #endif // BOUNDSMODULE_H

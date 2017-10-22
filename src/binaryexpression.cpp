@@ -20,8 +20,8 @@
 
 BinaryExpression::BinaryExpression()
 {
-	left=NULL;
-	right=NULL;
+	left=nullptr;
+	right=nullptr;
 }
 
 BinaryExpression::~BinaryExpression()

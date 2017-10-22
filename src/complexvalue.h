@@ -26,12 +26,12 @@ class ComplexValue : public Value
 {
 public:
 	ComplexValue(Value*,QList<Value*>);
-	QString getValueString() const;
+	QString getValueString() const override;
 	void toQuaternion(decimal&,decimal&,decimal&,decimal&);
 private:
 	ComplexValue();
-	Value* operation(Expression::Operator_e);
-	Value* operation(Value&,Expression::Operator_e);
+	Value* operation(Expression::Operator_e) override;
+	Value* operation(Value&,Expression::Operator_e) override;
 	Value* real;
 	QList<Value*> imaginary;
 };

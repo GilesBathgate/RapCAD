@@ -25,7 +25,7 @@ class PolylineNode : public PrimitiveNode
 {
 public:
 	PolylineNode(Reporter*);
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 };
 
 #endif // POLYLINENODE_H

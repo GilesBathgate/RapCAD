@@ -34,24 +34,24 @@ RandFunction::RandFunction() : Function("rands")
 Value* RandFunction::evaluate(Context* ctx)
 {
 	decimal min=0;
-	NumberValue* minVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* minVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(minVal)
 		min=minVal->getNumber();
 	decimal max=0;
-	NumberValue* maxVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
+	auto* maxVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
 	if(maxVal)
 		max=maxVal->getNumber();
 	int count=1;
-	NumberValue* countVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));
+	auto* countVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));
 	if(countVal)
 		count=countVal->toInteger();
-	NumberValue* seedVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,3));
-	int seed=time(0);
+	auto* seedVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,3));
+	int seed=time(nullptr);
 	if(seedVal)
 		seed=seedVal->toInteger();
 
 	QList<Value*> results;
-	for(int i=0; i<count; ++i)
+	for(auto i=0; i<count; ++i)
 		results.append(new NumberValue(r_rand(seed,min,max)));
 
 	return new VectorValue(results);

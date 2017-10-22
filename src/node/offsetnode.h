@@ -9,7 +9,7 @@ public:
 	OffsetNode();
 	void setAmount(decimal);
 	decimal getAmount() const;
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 private:
 	decimal amount;
 };

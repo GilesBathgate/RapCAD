@@ -25,7 +25,7 @@ class DecomposeModule : public Module
 {
 public:
 	DecomposeModule(Reporter*);
-	Node* evaluate(Context*);
+	Node* evaluate(Context*) override;
 };
 
 #endif // DECOMPOSEMODULE_H

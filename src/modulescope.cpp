@@ -24,7 +24,7 @@ ModuleScope::ModuleScope()
 
 ModuleScope::~ModuleScope()
 {
-	foreach(Declaration* d,declarations)
+	for(Declaration* d: declarations)
 		delete d;
 }
 

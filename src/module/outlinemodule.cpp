@@ -26,7 +26,7 @@ OutlineModule::OutlineModule(Reporter* r) : Module(r,"outline")
 
 Node* OutlineModule::evaluate(Context* ctx)
 {
-	OutlineNode* n = new OutlineNode();
+	auto* n = new OutlineNode();
 	n->setChildren(ctx->getInputNodes());
 	return n;
 }

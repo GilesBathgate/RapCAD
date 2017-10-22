@@ -25,7 +25,7 @@ class GroupNode : public Node
 {
 public:
 	GroupNode();
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 };
 
 #endif // GROUPNODE_H

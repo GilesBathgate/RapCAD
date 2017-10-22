@@ -30,21 +30,21 @@ TranslateModule::TranslateModule(Reporter* r) : Module(r,"translate")
 Node* TranslateModule::evaluate(Context* ctx)
 {
 	Point v;
-	VectorValue* vec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* vec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(vec)
 		v=vec->getPoint();
 
 	decimal x=0,y=0,z=0;
 	v.getXYZ(x,y,z);
 
-	TransformMatrix* m = new TransformMatrix(
+	auto* m = new TransformMatrix(
 		1,0,0,x,
 		0,1,0,y,
 		0,0,1,z,
 		0,0,0,1
 	);
 
-	TransformationNode* n=new TransformationNode();
+	auto* n=new TransformationNode();
 	n->setMatrix(m);
 
 	n->setChildren(ctx->getInputNodes());

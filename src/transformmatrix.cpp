@@ -20,7 +20,7 @@
 
 TransformMatrix::TransformMatrix()
 {
-	for(int i=0; i<16; i++)
+	for(auto i=0; i<16; i++)
 		matrix[i]=0.0;
 
 	matrix[15]=1.0;
@@ -59,7 +59,7 @@ decimal* TransformMatrix::getValues()
 
 void TransformMatrix::setValues(decimal* m)
 {
-	for(int i=0; i<16; i++)
+	for(auto i=0; i<16; i++)
 		matrix[i]=m[i];
 }
 
@@ -67,7 +67,7 @@ QString TransformMatrix::toString()
 {
 	QString result;
 	result.append("[[");
-	for(int i=0; i<16; i++) {
+	for(auto i=0; i<16; i++) {
 		if(i>0) {
 			if(i%4)
 				result.append(",");

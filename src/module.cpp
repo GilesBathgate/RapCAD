@@ -21,8 +21,8 @@
 
 Module::Module()
 {
-	reporter=NULL;
-	scope=NULL;
+	reporter=nullptr;
+	scope=nullptr;
 	auxilary=false;
 	deprecated=false;
 }
@@ -30,14 +30,14 @@ Module::Module()
 Module::Module(Reporter* r,const QString n) : name(n)
 {
 	reporter=r;
-	scope=NULL;
+	scope=nullptr;
 	auxilary=false;
 	deprecated=false;
 }
 
 Module::~Module()
 {
-	foreach(Parameter* p,parameters)
+	for(Parameter* p: parameters)
 		delete p;
 
 	delete scope;
@@ -90,7 +90,7 @@ void Module::accept(TreeVisitor& v)
 
 Node* Module::evaluate(Context*)
 {
-	return NULL;
+	return nullptr;
 }
 
 void Module::addDescription(QString d)
@@ -106,7 +106,7 @@ void Module::addDeprecated(QString d)
 
 void Module::addParameter(QString name, QString desc)
 {
-	Parameter* p=new Parameter();
+	auto* p=new Parameter();
 	p->setName(name);
 	p->addDescription(desc);
 	parameters.append(p);

@@ -43,7 +43,7 @@ public:
 	QList<Face_t> getAlign() const;
 	void setAlign(const QList<Face_t>& value);
 
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 private:
 	QList<Face_t> align;
 	bool center;

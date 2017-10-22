@@ -28,16 +28,16 @@ class BackgroundWorker : public QObject , public Worker
 {
 	Q_OBJECT
 public:
-	BackgroundWorker(QTextStream&,QObject* parent = 0);
-	virtual ~BackgroundWorker();
-	int evaluate();
+	BackgroundWorker(QTextStream&,QObject* parent = nullptr);
+	~BackgroundWorker() override;
+	int evaluate() override;
 signals:
 	void done();
 protected slots:
 	void start();
 private:
-	void update();
-	void finish();
+	void update() override;
+	void finish() override;
 	QThread* thread;
 };
 

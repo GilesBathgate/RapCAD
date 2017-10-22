@@ -8,7 +8,7 @@ class RotateExtrudeModule : public PrimitiveModule
 	Q_DECLARE_TR_FUNCTIONS(RotateExtrudeModule)
 public:
 	RotateExtrudeModule(Reporter*);
-	Node* evaluate(Context*);
+	Node* evaluate(Context*) override;
 };
 
 #endif // ROTATEEXTRUDEMODULE_H

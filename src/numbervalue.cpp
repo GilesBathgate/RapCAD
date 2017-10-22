@@ -58,7 +58,7 @@ Value* NumberValue::operation(Expression::Operator_e e)
 
 Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 {
-	NumberValue* num = dynamic_cast<NumberValue*>(&v);
+	auto* num = dynamic_cast<NumberValue*>(&v);
 	if(num) {
 		if(isComparison(e)) {
 			bool result=to_boolean(basicOperation(this->number,e,num->number));
@@ -70,7 +70,7 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 		decimal result=basicOperation(this->number,e,num->number);
 		return new NumberValue(result);
 	}
-	VectorValue* vec = dynamic_cast<VectorValue*>(&v);
+	auto* vec = dynamic_cast<VectorValue*>(&v);
 	if(vec) {
 		if(e==Expression::Concatenate) {
 			QList<Value*> r=vec->getChildren();
@@ -78,7 +78,7 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 			return new VectorValue(r);
 		} else if(e==Expression::Exponent) {
 			QList<Value*> result;
-			foreach(Value* c,vec->getChildren())
+			for(Value* c: vec->getChildren())
 				result.append(Value::operation(this,e,c));
 			return new VectorValue(result);
 		} else {

@@ -25,7 +25,7 @@ class MaterialNode : public Node
 {
 public:
 	MaterialNode();
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 };
 
 #endif // MATERIALNODE_H

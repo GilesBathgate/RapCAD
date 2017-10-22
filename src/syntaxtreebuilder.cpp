@@ -21,7 +21,7 @@
 SyntaxTreeBuilder::SyntaxTreeBuilder()
 {
 	script=new Script();
-	tokenBuilder=NULL;
+	tokenBuilder=nullptr;
 }
 
 SyntaxTreeBuilder::~SyntaxTreeBuilder()
@@ -30,7 +30,7 @@ SyntaxTreeBuilder::~SyntaxTreeBuilder()
 
 void SyntaxTreeBuilder::buildFileLocation(QString f)
 {
-	QFileInfo* info=new QFileInfo(f);
+	auto* info=new QFileInfo(f);
 	script->setFileLocation(info);
 }
 
@@ -56,7 +56,7 @@ QList<CodeDoc*>* SyntaxTreeBuilder::buildCodeDoc()
 
 QList<CodeDoc*>* SyntaxTreeBuilder::buildCodeDoc(QString* t,QList<CodeDoc*>* cdocs)
 {
-	CodeDoc* cdoc = new CodeDoc();
+	auto* cdoc = new CodeDoc();
 	cdoc->setName("@description");
 	cdoc->setText(*t);
 	delete t;
@@ -66,7 +66,7 @@ QList<CodeDoc*>* SyntaxTreeBuilder::buildCodeDoc(QString* t,QList<CodeDoc*>* cdo
 
 QList<CodeDoc*>* SyntaxTreeBuilder::buildCodeDoc(QString* n,QString* t,QList<CodeDoc*>* cdocs)
 {
-	CodeDoc* cdoc = new CodeDoc();
+	auto* cdoc = new CodeDoc();
 	cdoc->setName(*n);
 	delete n;
 	cdoc->setText(*t);
@@ -77,7 +77,7 @@ QList<CodeDoc*>* SyntaxTreeBuilder::buildCodeDoc(QString* n,QString* t,QList<Cod
 
 Declaration* SyntaxTreeBuilder::buildUse(QString* imp)
 {
-	ScriptImport* result = new ScriptImport();
+	auto* result = new ScriptImport();
 	result->setImport(*imp);
 	delete imp;
 	return result;
@@ -85,7 +85,7 @@ Declaration* SyntaxTreeBuilder::buildUse(QString* imp)
 
 Declaration* SyntaxTreeBuilder::buildUse(QString* imp,QString* name)
 {
-	ScriptImport* result = new ScriptImport();
+	auto* result = new ScriptImport();
 	result->setImport(*imp);
 	delete imp;
 	result->setNamespace(*name);
@@ -95,7 +95,7 @@ Declaration* SyntaxTreeBuilder::buildUse(QString* imp,QString* name)
 
 Declaration* SyntaxTreeBuilder::buildImport(QString* imp,QString* name)
 {
-	ModuleImport* result = new ModuleImport();
+	auto* result = new ModuleImport();
 	result->setImport(*imp);
 	delete imp;
 	result->setName(*name);
@@ -106,7 +106,7 @@ Declaration* SyntaxTreeBuilder::buildImport(QString* imp,QString* name)
 
 Declaration* SyntaxTreeBuilder::buildImport(QString* imp,QString* name,QList<Parameter*>* params)
 {
-	ModuleImport* result = new ModuleImport();
+	auto* result = new ModuleImport();
 	result->setImport(*imp);
 	delete imp;
 	result->setName(*name);
@@ -146,7 +146,7 @@ QList<Declaration*>* SyntaxTreeBuilder::buildDeclarations(QList<Declaration*>* d
 
 QList<Declaration*>* SyntaxTreeBuilder::buildDeclarations(Declaration* decl)
 {
-	QList<Declaration*>* result = new QList<Declaration*>();
+	auto* result = new QList<Declaration*>();
 	result->append(decl);
 	return result;
 }
@@ -158,7 +158,7 @@ Statement* SyntaxTreeBuilder::buildStatement(Statement* stmt)
 
 Statement* SyntaxTreeBuilder::buildStatement(Variable* var,Expression::Operator_e op)
 {
-	AssignStatement* result = new AssignStatement();
+	auto* result = new AssignStatement();
 	result->setVariable(var);
 	result->setOperation(op);
 	return result;
@@ -166,7 +166,7 @@ Statement* SyntaxTreeBuilder::buildStatement(Variable* var,Expression::Operator_
 
 Statement* SyntaxTreeBuilder::buildStatement(Variable* var,Expression::Operator_e op,Expression* exp)
 {
-	AssignStatement* result = new AssignStatement();
+	auto* result = new AssignStatement();
 	result->setVariable(var);
 	result->setOperation(op);
 	result->setExpression(exp);
@@ -175,7 +175,7 @@ Statement* SyntaxTreeBuilder::buildStatement(Variable* var,Expression::Operator_
 
 Statement* SyntaxTreeBuilder::buildStatement(QList<Statement*>* stmts)
 {
-	CompoundStatement* result = new CompoundStatement();
+	auto* result = new CompoundStatement();
 	result->setChildren(*stmts);
 	delete stmts;
 	return result;
@@ -183,7 +183,7 @@ Statement* SyntaxTreeBuilder::buildStatement(QList<Statement*>* stmts)
 
 Statement* SyntaxTreeBuilder::buildStatement(Variable* var,Expression* exp)
 {
-	AssignStatement* result = new AssignStatement();
+	auto* result = new AssignStatement();
 	result->setVariable(var);
 	result->setExpression(exp);
 	return result;
@@ -191,8 +191,8 @@ Statement* SyntaxTreeBuilder::buildStatement(Variable* var,Expression* exp)
 
 Statement* SyntaxTreeBuilder::buildStatement(QString* name,Variable::Storage_e c, Expression* exp)
 {
-	AssignStatement* result = new AssignStatement();
-	Variable* var = new Variable();
+	auto* result = new AssignStatement();
+	auto* var = new Variable();
 	var->setName(*name);
 	delete name;
 	var->setStorage(c);
@@ -203,14 +203,14 @@ Statement* SyntaxTreeBuilder::buildStatement(QString* name,Variable::Storage_e c
 
 Statement* SyntaxTreeBuilder::buildReturnStatement(Expression* exp)
 {
-	ReturnStatement* result = new ReturnStatement();
+	auto* result = new ReturnStatement();
 	result->setExpression(exp);
 	return result;
 }
 
 Statement* SyntaxTreeBuilder::buildIfElseStatement(Expression* expr,Statement* stmt)
 {
-	IfElseStatement* result = new IfElseStatement();
+	auto* result = new IfElseStatement();
 	result->setExpression(expr);
 	result->setTrueStatement(stmt);
 	return result;
@@ -218,7 +218,7 @@ Statement* SyntaxTreeBuilder::buildIfElseStatement(Expression* expr,Statement* s
 
 Statement* SyntaxTreeBuilder::buildIfElseStatement(Expression* expr,Statement* truestmt ,Statement* falsestmt)
 {
-	IfElseStatement* result = new IfElseStatement();
+	auto* result = new IfElseStatement();
 	result->setExpression(expr);
 	result->setTrueStatement(truestmt);
 	result->setFalseStatement(falsestmt);;
@@ -227,7 +227,7 @@ Statement* SyntaxTreeBuilder::buildIfElseStatement(Expression* expr,Statement* t
 
 Statement* SyntaxTreeBuilder::buildForStatement(QList<Argument*>* args,Statement* stmt)
 {
-	ForStatement* result = new ForStatement();
+	auto* result = new ForStatement();
 	result->setArguments(*args);
 	delete args;
 	result->setStatement(stmt);
@@ -241,7 +241,7 @@ QList<Statement*>* SyntaxTreeBuilder::buildStatements()
 
 QList<Statement*>* SyntaxTreeBuilder::buildStatements(Statement* stmt)
 {
-	QList<Statement*>* result = new QList<Statement*>();
+	auto* result = new QList<Statement*>();
 	result->append(stmt);
 	return result;
 }
@@ -259,7 +259,7 @@ QList<Statement*>* SyntaxTreeBuilder::buildStatements(QList<Statement*>* stmts,S
 
 Declaration* SyntaxTreeBuilder::buildModule(QString* name, QList<Parameter*>* params, Scope* scp)
 {
-	Module* result = new Module();
+	auto* result = new Module();
 	result->setName(*name);
 	delete name;
 	result->setParameters(*params);
@@ -270,7 +270,7 @@ Declaration* SyntaxTreeBuilder::buildModule(QString* name, QList<Parameter*>* pa
 
 Declaration* SyntaxTreeBuilder::buildFunction(QString* name, QList<Parameter*>* params, Scope* scp)
 {
-	Function* result = new Function();
+	auto* result = new Function();
 	result->setName(*name);
 	delete name;
 	result->setParameters(*params);
@@ -281,7 +281,7 @@ Declaration* SyntaxTreeBuilder::buildFunction(QString* name, QList<Parameter*>* 
 
 Scope* SyntaxTreeBuilder::buildScope(QList<Declaration*>* decls)
 {
-	ModuleScope* result = new ModuleScope();
+	auto* result = new ModuleScope();
 	result->setDeclarations(*decls);
 	delete decls;
 	return result;
@@ -289,7 +289,7 @@ Scope* SyntaxTreeBuilder::buildScope(QList<Declaration*>* decls)
 
 Scope* SyntaxTreeBuilder::buildScope(Instance* inst)
 {
-	ModuleScope* result = new ModuleScope();
+	auto* result = new ModuleScope();
 	QList<Declaration*> decls;
 	decls.append(inst);
 	result->setDeclarations(decls);
@@ -298,14 +298,14 @@ Scope* SyntaxTreeBuilder::buildScope(Instance* inst)
 
 Scope* SyntaxTreeBuilder::buildScope(Expression* expr)
 {
-	FunctionScope* result = new FunctionScope();
+	auto* result = new FunctionScope();
 	result->setExpression(expr);
 	return result;
 }
 
 Scope* SyntaxTreeBuilder::buildScope(QList<Statement*>* stmts)
 {
-	FunctionScope* result = new FunctionScope();
+	auto* result = new FunctionScope();
 	result->setStatements(*stmts);
 	delete stmts;
 	return result;
@@ -331,7 +331,7 @@ Instance* SyntaxTreeBuilder::buildInstance(Instance::Type_e type,Instance* inst)
 
 Instance* SyntaxTreeBuilder::buildInstance(Instance::Type_e type,QString* name,QList<Argument*>* args)
 {
-	Instance* result = new Instance();
+	auto* result = new Instance();
 	result->setLineNumber(getLineNumber());
 	result->setType(type);
 	result->setName(*name);
@@ -343,7 +343,7 @@ Instance* SyntaxTreeBuilder::buildInstance(Instance::Type_e type,QString* name,Q
 
 Instance* SyntaxTreeBuilder::buildInstance(QString* name,QList<Argument*>* args)
 {
-	Instance* result = new Instance();
+	auto* result = new Instance();
 	result->setLineNumber(getLineNumber());
 	result->setName(*name);
 	delete name;
@@ -366,7 +366,7 @@ QList<Parameter*>* SyntaxTreeBuilder::buildParameters()
 
 QList<Parameter*>* SyntaxTreeBuilder::buildParameters(Parameter* param)
 {
-	QList<Parameter*>* result = new QList<Parameter*>();
+	auto* result = new QList<Parameter*>();
 	result->append(param);
 	return result;
 }
@@ -379,7 +379,7 @@ QList<Parameter*>* SyntaxTreeBuilder::buildParameters(QList<Parameter*>* params,
 
 Parameter* SyntaxTreeBuilder::buildParameter(QString* name)
 {
-	Parameter* result = new Parameter();
+	auto* result = new Parameter();
 	result->setName(*name);
 	delete name;
 	return result;
@@ -387,7 +387,7 @@ Parameter* SyntaxTreeBuilder::buildParameter(QString* name)
 
 Parameter* SyntaxTreeBuilder::buildParameter(QString* name,Expression* expr)
 {
-	Parameter* result = new Parameter();
+	auto* result = new Parameter();
 	result->setName(*name);
 	delete name;
 	result->setExpression(expr);
@@ -401,7 +401,7 @@ QList<Argument*>* SyntaxTreeBuilder::buildArguments()
 
 QList<Argument*>* SyntaxTreeBuilder::buildArguments(Argument* arg)
 {
-	QList<Argument*>* result = new QList<Argument*>();
+	auto* result = new QList<Argument*>();
 	result->append(arg);
 	return result;
 }
@@ -421,14 +421,14 @@ QList<Argument*>* SyntaxTreeBuilder::buildArguments(QList<Argument*>* args,unsig
 
 Argument* SyntaxTreeBuilder::buildArgument(Expression* exp)
 {
-	Argument* result = new Argument();
+	auto* result = new Argument();
 	result->setExpression(exp);
 	return result;
 }
 
 Argument* SyntaxTreeBuilder::buildArgument(Variable* var,Expression* exp)
 {
-	Argument* result = new Argument();
+	auto* result = new Argument();
 	result->setVariable(var);
 	result->setExpression(exp);
 	return result;
@@ -451,14 +451,14 @@ Expression* SyntaxTreeBuilder::buildLiteral()
 
 Expression* SyntaxTreeBuilder::buildLiteral(bool value)
 {
-	Literal* result = new Literal();
+	auto* result = new Literal();
 	result->setValue(value);
 	return result;
 }
 
 Expression* SyntaxTreeBuilder::buildLiteral(decimal* value)
 {
-	Literal* result = new Literal();
+	auto* result = new Literal();
 	result->setValue(*value);
 	delete value;
 	return result;
@@ -466,7 +466,7 @@ Expression* SyntaxTreeBuilder::buildLiteral(decimal* value)
 
 Expression* SyntaxTreeBuilder::buildLiteral(QString* value)
 {
-	Literal* result = new Literal();
+	auto* result = new Literal();
 	result->setValue(*value);
 	delete value;
 	return result;
@@ -474,7 +474,7 @@ Expression* SyntaxTreeBuilder::buildLiteral(QString* value)
 
 Variable* SyntaxTreeBuilder::buildVariable(QString* name)
 {
-	Variable* result = new Variable();
+	auto* result = new Variable();
 	result->setName(*name);
 	delete name;
 	return result;
@@ -487,7 +487,7 @@ Expression* SyntaxTreeBuilder::buildVariable(Variable* var)
 
 Variable* SyntaxTreeBuilder::buildVariable(QString* name,Variable::Storage_e c)
 {
-	Variable* result = new Variable();
+	auto* result = new Variable();
 	result->setStorage(c);
 	result->setName(*name);
 	delete name;
@@ -496,9 +496,9 @@ Variable* SyntaxTreeBuilder::buildVariable(QString* name,Variable::Storage_e c)
 
 Expression* SyntaxTreeBuilder::buildExpression(Expression* exp,QString* name)
 {
-	BinaryExpression* result = new BinaryExpression();
+	auto* result = new BinaryExpression();
 	result->setLeft(exp);
-	Variable* val = new Variable();
+	auto* val = new Variable();
 	val->setName(*name);
 	delete name;
 	result->setRight(val);
@@ -513,7 +513,7 @@ Expression* SyntaxTreeBuilder::buildExpression(Expression* exp)
 
 Expression* SyntaxTreeBuilder::buildExpression(Expression::Operator_e op,Expression* exp)
 {
-	UnaryExpression* result = new UnaryExpression();
+	auto* result = new UnaryExpression();
 	result->setExpression(exp);
 	result->setOp(op);
 	return result;
@@ -521,7 +521,7 @@ Expression* SyntaxTreeBuilder::buildExpression(Expression::Operator_e op,Express
 
 Expression* SyntaxTreeBuilder::buildExpression(Expression* left ,Expression::Operator_e op, Expression* right)
 {
-	BinaryExpression* result = new BinaryExpression();
+	auto* result = new BinaryExpression();
 	result->setLeft(left);
 	result->setRight(right);
 	result->setOp(op);
@@ -530,7 +530,7 @@ Expression* SyntaxTreeBuilder::buildExpression(Expression* left ,Expression::Ope
 
 Expression* SyntaxTreeBuilder::buildExpression(Expression* cond,Expression* trueexp ,Expression* falseexp)
 {
-	TernaryExpression* result = new TernaryExpression();
+	auto* result = new TernaryExpression();
 	result->setCondition(cond);
 	result->setTrueExpression(trueexp);
 	result->setFalseExpression(falseexp);
@@ -539,7 +539,7 @@ Expression* SyntaxTreeBuilder::buildExpression(Expression* cond,Expression* true
 
 Expression* SyntaxTreeBuilder::buildExpression(QList<Expression*>* exps,int count)
 {
-	VectorExpression* result = new VectorExpression();
+	auto* result = new VectorExpression();
 	result->setChildren(*exps);
 	result->setAdditionalCommas(count);
 	delete exps;
@@ -553,7 +553,7 @@ QList<Expression*>* SyntaxTreeBuilder::buildVector()
 
 QList<Expression*>* SyntaxTreeBuilder::buildVector(Expression* exp)
 {
-	QList<Expression*>* result = new QList<Expression*>();
+	auto* result = new QList<Expression*>();
 	result->append(exp);
 	return result;
 }
@@ -571,7 +571,7 @@ QList<Expression*>* SyntaxTreeBuilder::buildVector(QList<Expression*>* exprs,uns
 
 Expression* SyntaxTreeBuilder::buildRange(Expression* srt,Expression* fin)
 {
-	RangeExpression* result = new RangeExpression();
+	auto* result = new RangeExpression();
 	result->setStart(srt);
 	result->setFinish(fin);
 	return result;
@@ -579,7 +579,7 @@ Expression* SyntaxTreeBuilder::buildRange(Expression* srt,Expression* fin)
 
 Expression* SyntaxTreeBuilder::buildRange(Expression* srt,Expression* stp,Expression* fin)
 {
-	RangeExpression* result = new RangeExpression();
+	auto* result = new RangeExpression();
 	result->setStart(srt);
 	result->setFinish(fin);
 	result->setStep(stp);
@@ -588,13 +588,13 @@ Expression* SyntaxTreeBuilder::buildRange(Expression* srt,Expression* stp,Expres
 
 Expression* SyntaxTreeBuilder::buildComplex(Expression* real, Expression* i, Expression* j, Expression* k)
 {
-	ComplexExpression* result=new ComplexExpression();
+	auto* result=new ComplexExpression();
 	result->setReal(real);
 	QList<Expression*> parts;
 	parts.append(i);
 	parts.append(j);
 	parts.append(k);
-	VectorExpression* imaginary=new VectorExpression();
+	auto* imaginary=new VectorExpression();
 	imaginary->setChildren(parts);
 	result->setImaginary(imaginary);
 	return result;
@@ -602,7 +602,7 @@ Expression* SyntaxTreeBuilder::buildComplex(Expression* real, Expression* i, Exp
 
 Invocation* SyntaxTreeBuilder::buildInvocation(QString* name,QList<Argument*>* args)
 {
-	Invocation* result = new Invocation();
+	auto* result = new Invocation();
 	result->setLineNumber(getLineNumber());
 	result->setName(*name);
 	delete name;

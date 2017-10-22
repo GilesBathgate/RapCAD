@@ -26,7 +26,7 @@ class SliceModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(SliceModule)
 public:
 	SliceModule(Reporter*);
-	Node* evaluate(Context*);
+	Node* evaluate(Context*) override;
 };
 
 #endif // SLICEMODULE_H

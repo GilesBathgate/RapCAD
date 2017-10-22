@@ -27,7 +27,7 @@ class Scope : public Statement
 {
 public:
 	Scope();
-	virtual ~Scope();
+	~Scope() override;
 	virtual QList<Declaration*> getDeclarations() const;
 };
 

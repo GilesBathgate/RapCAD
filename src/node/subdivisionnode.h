@@ -9,7 +9,7 @@ public:
 	SubDivisionNode();
 	void setLevel(int);
 	int getLevel() const;
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 private:
 	int level;
 };

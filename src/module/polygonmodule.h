@@ -8,7 +8,7 @@ class PolygonModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(PolygonModule)
 public:
 	PolygonModule(Reporter*);
-	Node* evaluate(Context*);
+	Node* evaluate(Context*) override;
 };
 
 #endif // POLYGONMODULE_H

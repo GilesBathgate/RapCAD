@@ -8,7 +8,7 @@ class ResizeNode : public Node
 {
 public:
 	ResizeNode();
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 	void setSize(Point);
 	Point getSize();
 	void setAutoSize(bool);

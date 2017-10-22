@@ -26,7 +26,7 @@ class MultMatrixModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(MultMatrixModule)
 public:
 	MultMatrixModule(Reporter*);
-	Node* evaluate(Context*);
+	Node* evaluate(Context*) override;
 };
 
 #endif // MULTMATRIXMODULE_H

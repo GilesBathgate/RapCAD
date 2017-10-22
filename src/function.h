@@ -34,14 +34,14 @@ class Function : public Declaration
 public:
 	Function();
 	Function(QString);
-	~Function();
+	~Function() override;
 	QString getName() const;
 	void setName(QString);
 	QList<Parameter*> getParameters() const;
 	void setParameters(QList<Parameter*>);
 	Scope* getScope() const;
 	void setScope(Scope*);
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 	virtual Value* evaluate(Context*);
 protected:
 	void addParameter(QString);

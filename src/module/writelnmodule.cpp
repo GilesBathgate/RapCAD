@@ -26,5 +26,5 @@ Node* WriteLnModule::evaluate(Context* ctx)
 {
 	WriteModule::evaluate(ctx);
 	output << endl;
-	return NULL;
+	return nullptr;
 }

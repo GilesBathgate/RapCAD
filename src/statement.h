@@ -25,7 +25,7 @@ class Statement : public Declaration
 {
 public:
 	Statement();
-	virtual ~Statement();
+	~Statement() override;
 };
 
 #endif // STATEMENT_H

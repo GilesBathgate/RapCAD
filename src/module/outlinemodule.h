@@ -25,7 +25,7 @@ class OutlineModule : public Module
 {
 public:
 	OutlineModule(Reporter*);
-	Node* evaluate(Context*);
+	Node* evaluate(Context*) override;
 };
 
 #endif // OUTLINEMODULE_H

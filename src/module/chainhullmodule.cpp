@@ -30,11 +30,11 @@ ChainHullModule::ChainHullModule(Reporter* r) : Module(r,"chain_hull")
 Node* ChainHullModule::evaluate(Context* ctx)
 {
 	bool closed=false;
-	BooleanValue* bVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));
+	auto* bVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));
 	if(bVal)
 		closed=bVal->isTrue();
 
-	HullNode* h=new HullNode();
+	auto* h=new HullNode();
 	h->setChain(true);
 	h->setClosed(closed);
 	h->setChildren(ctx->getInputNodes());

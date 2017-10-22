@@ -28,12 +28,12 @@ class ModuleImport : public Declaration
 {
 public:
 	ModuleImport();
-	~ModuleImport();
+	~ModuleImport() override;
 	void setImport(QString);
 	QString getImport() const;
 	void setName(QString);
 	QString getName() const;
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 	void setParameters(QList<Parameter*>);
 	QList<Parameter*> getParameters() const;
 private:

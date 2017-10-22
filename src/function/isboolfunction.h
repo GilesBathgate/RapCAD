@@ -25,7 +25,7 @@ class IsBoolFunction : public Function
 {
 public:
 	IsBoolFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // ISBOOLFUNCTION_H

@@ -8,7 +8,7 @@ class SignFunction : public Function
 public:
 	SignFunction();
 	decimal sign(decimal);
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // SIGNFUNCTION_H

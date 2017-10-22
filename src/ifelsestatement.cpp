@@ -20,9 +20,9 @@
 
 IfElseStatement::IfElseStatement()
 {
-	expression=NULL;
-	trueStatement=NULL;
-	falseStatement=NULL;
+	expression=nullptr;
+	trueStatement=nullptr;
+	falseStatement=nullptr;
 }
 
 IfElseStatement::~IfElseStatement()

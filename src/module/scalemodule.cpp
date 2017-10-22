@@ -31,12 +31,12 @@ ScaleModule::ScaleModule(Reporter* r) : Module(r,"scale")
 Node* ScaleModule::evaluate(Context* ctx)
 {
 	Point size;
-	VectorValue* sizeVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* sizeVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(sizeVal)
 		size=sizeVal->getPoint();
 
 	Point ref;
-	VectorValue* refVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
+	auto* refVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
 	if(refVal)
 		ref=refVal->getPoint();
 
@@ -48,14 +48,14 @@ Node* ScaleModule::evaluate(Context* ctx)
 
 	//Derived reference translation using
 	//http://tinyurl.com/nfmph3r
-	TransformMatrix* m = new TransformMatrix(
+	auto* m = new TransformMatrix(
 		x,0,0,a-(a*x),
 		0,y,0,b-(b*x),
 		0,0,z,c-(c*x),
 		0,0,0,1
 	);
 
-	TransformationNode* n=new TransformationNode();
+	auto* n=new TransformationNode();
 	n->setMatrix(m);
 
 	n->setChildren(ctx->getInputNodes());

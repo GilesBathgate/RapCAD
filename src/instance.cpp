@@ -25,10 +25,10 @@ Instance::Instance()
 
 Instance::~Instance()
 {
-	foreach(Argument* a,arguments)
+	for(Argument* a: arguments)
 		delete a;
 
-	foreach(Statement* s,children)
+	for(Statement* s: children)
 		delete s;
 }
 

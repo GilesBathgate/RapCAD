@@ -7,7 +7,7 @@ class CosFunction : public Function
 {
 public:
 	CosFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // COSFUNCTION_H

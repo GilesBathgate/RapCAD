@@ -14,20 +14,20 @@ RotateExtrudeModule::RotateExtrudeModule(Reporter* r) : PrimitiveModule(r,"rotat
 Node* RotateExtrudeModule::evaluate(Context* ctx)
 {
 	decimal r=0.0;
-	NumberValue* radius=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* radius=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(radius)
 		r=radius->getNumber();
 
 	bool compatible=true;
 	Point axis(0,0,1);
-	VectorValue* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
+	auto* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
 	if(vecVal) {
 		//TODO actually use the axis for rotated extrusions.
 		axis=vecVal->getPoint();
 		compatible=false;
 	}
 
-	RotateExtrudeNode* n=new RotateExtrudeNode();
+	auto* n=new RotateExtrudeNode();
 	n->setRadius(r);
 	n->setAxis(axis);
 
@@ -37,8 +37,8 @@ Node* RotateExtrudeModule::evaluate(Context* ctx)
 
 	if(compatible) {
 		//if no axis is given we fall into legacy compatibility mode
-		TransformMatrix* Rx90=new TransformMatrix(1,0,0,0,0,0,-1,0,0,1,0,0,0,0,0,1);
-		TransformationNode* t=new TransformationNode();
+		auto* Rx90=new TransformMatrix(1,0,0,0,0,0,-1,0,0,1,0,0,0,0,0,1);
+		auto* t=new TransformationNode();
 		t->setMatrix(Rx90);
 		t->addChild(n);
 		return t;

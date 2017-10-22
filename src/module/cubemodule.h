@@ -26,7 +26,7 @@ class CubeModule : public PrimitiveModule
 	Q_DECLARE_TR_FUNCTIONS(CubeModule)
 public:
 	CubeModule(Reporter*);
-	Node* evaluate(Context*);
+	Node* evaluate(Context*) override;
 };
 
 #endif // CUBEMODULE_H

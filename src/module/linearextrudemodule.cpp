@@ -30,11 +30,11 @@ LinearExtrudeModule::LinearExtrudeModule(Reporter* r) : Module(r,"linear_extrude
 Node* LinearExtrudeModule::evaluate(Context* ctx)
 {
 	decimal h=1.0;
-	NumberValue* height=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* height=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(height)
 		h=height->getNumber();
 
-	LinearExtrudeNode* d = new LinearExtrudeNode();
+	auto* d = new LinearExtrudeNode();
 	d->setHeight(h);
 	d->setChildren(ctx->getInputNodes());
 	return d;

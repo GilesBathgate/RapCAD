@@ -25,7 +25,7 @@ class BoundsNode : public Node
 {
 public:
 	BoundsNode();
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 };
 
 #endif // BOUNDSNODE_H

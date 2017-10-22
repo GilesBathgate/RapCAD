@@ -25,7 +25,7 @@ class IsIntFunction : public Function
 {
 public:
 	IsIntFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // ISINTFUNCTION_H

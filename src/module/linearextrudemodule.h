@@ -26,7 +26,7 @@ class LinearExtrudeModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(LinearExtrudeModule)
 public:
 	LinearExtrudeModule(Reporter*);
-	Node* evaluate(Context*);
+	Node* evaluate(Context*) override;
 };
 
 #endif // LINEAREXTRUDEMODULE_H

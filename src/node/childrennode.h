@@ -29,7 +29,7 @@ public:
 	void addIndex(int);
 	QList<int> getIndexes() const;
 
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 private:
 	QList<int> indexes;
 };

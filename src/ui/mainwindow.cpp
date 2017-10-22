@@ -53,7 +53,7 @@ MainWindow::MainWindow(QWidget* parent) :
 	setupTreeview();
 	setupTabs(ui->tabWidget);
 	setupConsole();
-	preferencesDialog=NULL;
+	preferencesDialog=nullptr;
 	loadPreferences();
 
 	//Make project treeview hidden until its useful.
@@ -412,7 +412,7 @@ void MainWindow::closeEvent(QCloseEvent* e)
 void MainWindow::loadFiles(const QStringList& filenames)
 {
 	int i=0;
-	foreach(QString file, filenames) {
+	for(QString file: filenames) {
 		CodeEditor* e=currentEditor();
 		if(e->getFileName().isEmpty()) {
 			e->loadFile(file);
@@ -433,7 +433,7 @@ bool MainWindow::maybeSave(bool compiling)
 {
 	bool modified=false;
 	QList<QString> files;
-	for(int i=0; i<ui->tabWidget->count(); i++) {
+	for(auto i=0; i<ui->tabWidget->count(); i++) {
 		CodeEditor* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
 		if(c->document()->isModified()) {
 			files.append(c->getFileName());
@@ -513,7 +513,7 @@ bool MainWindow::closeFile(int i)
 bool MainWindow::saveAllFiles()
 {
 	QList<QString> all;
-	for(int i=0; i<ui->tabWidget->count(); i++) {
+	for(auto i=0; i<ui->tabWidget->count(); i++) {
 		CodeEditor* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
 		if(c->document()->isModified()) {
 			QString file=c->getFileName();
@@ -526,7 +526,7 @@ bool MainWindow::saveAllFiles()
 bool MainWindow::saveSelectedFiles(QList<QString> files)
 {
 	bool result=true;
-	for(int i=0; i<ui->tabWidget->count(); i++) {
+	for(auto i=0; i<ui->tabWidget->count(); i++) {
 		CodeEditor* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
 		QString file=c->getFileName();
 		if(files.contains(file))
@@ -712,7 +712,7 @@ void MainWindow::tabChanged(int i)
 {
 	//block signals from all the other tabs except
 	//the new one
-	for(int j=0; j<ui->tabWidget->count(); j++)
+	for(auto j=0; j<ui->tabWidget->count(); j++)
 		ui->tabWidget->widget(j)->blockSignals(true);
 	ui->tabWidget->widget(i)->blockSignals(false);
 

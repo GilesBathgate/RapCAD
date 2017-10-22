@@ -32,7 +32,7 @@ public:
 	Polygon* createPolygon();
 	void createVertex(decimal x, decimal y, decimal z);
 	void createVertex(Point p);
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 	Primitive* getPrimitive();
 private:
 	Primitive* primitive;

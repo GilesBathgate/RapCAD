@@ -25,7 +25,7 @@ class TriangulateNode : public Node
 {
 public:
 	TriangulateNode();
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 };
 
 #endif // TRIANGULATENODE_H

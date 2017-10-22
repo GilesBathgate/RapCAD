@@ -27,7 +27,7 @@ public:
 	DiscreteNode();
 	int getPlaces() const;
 	void setPlaces(int value);
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 private:
 	int places;
 };

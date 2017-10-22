@@ -21,7 +21,7 @@
 
 Product::Product()
 {
-	primitive=NULL;
+	primitive=nullptr;
 }
 
 void Product::setPrimitive(Primitive* value)
@@ -41,7 +41,7 @@ void Product::accept(TreeVisitor& v)
 
 Node* Product::evaluate(Context*)
 {
-	ProductNode* p=new ProductNode();
+	auto* p=new ProductNode();
 	p->setPrimitive(primitive);
 	return p;
 }

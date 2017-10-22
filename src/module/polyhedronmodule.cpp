@@ -31,28 +31,28 @@ PolyhedronModule::PolyhedronModule(Reporter* r) : PrimitiveModule(r,"polyhedron"
 
 Node* PolyhedronModule::evaluate(Context* ctx)
 {
-	VectorValue* points=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* points=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	VectorValue* faces=dynamic_cast<VectorValue*>(ctx->getArgumentDeprecated(1,"faces","triangles",reporter));
 
-	PrimitiveNode* p=new PrimitiveNode(reporter);
+	auto* p=new PrimitiveNode(reporter);
 	p->setChildren(ctx->getInputNodes());
 
 	if(!points||!faces)
 		return p;
 
 	QList<Value*> children = points->getChildren();
-	foreach(Value* child,children) {
-		VectorValue* point=dynamic_cast<VectorValue*>(child);
+	for(Value* child: children) {
+		auto* point=dynamic_cast<VectorValue*>(child);
 		if(point) {
 			Point pt = point->getPoint();
 			p->createVertex(pt);
 		}
 	}
-	foreach(Value* s,faces->getChildren()) {
+	for(Value* s: faces->getChildren()) {
 		Polygon* pg=p->createPolygon();
-		VectorValue* surface=dynamic_cast<VectorValue*>(s);
-		foreach(Value* indexVal,surface->getChildren()) {
-			NumberValue* indexNum=dynamic_cast<NumberValue*>(indexVal);
+		auto* surface=dynamic_cast<VectorValue*>(s);
+		for(Value* indexVal: surface->getChildren()) {
+			auto* indexNum=dynamic_cast<NumberValue*>(indexVal);
 			if(indexNum) {
 				int index = indexNum->toInteger();
 				if(index>=0&&index<children.count()) {

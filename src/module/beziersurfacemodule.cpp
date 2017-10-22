@@ -72,27 +72,27 @@ Point BezierSurfaceModule::pointOnBezMesh(Mesh mesh,Vector uv)
 Node* BezierSurfaceModule::evaluate(Context* ctx)
 {
 	Mesh mesh;
-	VectorValue* meshVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* meshVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(meshVec) {
-		foreach(Value* pointsVal,meshVec->getChildren()) {
+		for(Value* pointsVal: meshVec->getChildren()) {
 			Points points;
-			VectorValue* pointsVec=dynamic_cast<VectorValue*>(pointsVal);
+			auto* pointsVec=dynamic_cast<VectorValue*>(pointsVal);
 			if(pointsVec)
-				foreach(Value* pointVal,pointsVec->getChildren()) {
-				VectorValue* pointVec=dynamic_cast<VectorValue*>(pointVal);
-				points.append(pointVec->getPoint());
-			}
+				for(Value* pointVal: pointsVec->getChildren()) {
+					auto* pointVec=dynamic_cast<VectorValue*>(pointVal);
+					points.append(pointVec->getPoint());
+				}
 			mesh.append(points);
 		}
 	}
 
 	int f=24; //TODO use getfragments and $fn,$fa,$fs variables;
 
-	PrimitiveNode* p=new PrimitiveNode(reporter);
+	auto* p=new PrimitiveNode(reporter);
 	p->setChildren(ctx->getInputNodes());
 
-	for(int i=0; i<f; i++) {
-		for(int j=0; j<f; j++) {
+	for(auto i=0; i<f; i++) {
+		for(auto j=0; j<f; j++) {
 			Vector a;
 			decimal u=i;
 			decimal v=j;
@@ -104,8 +104,8 @@ Node* BezierSurfaceModule::evaluate(Context* ctx)
 	}
 
 	Polygon* pg;
-	for(int u=0; u<f-1; u++) {
-		for(int v=0; v<f-1; v++) {
+	for(auto u=0; u<f-1; u++) {
+		for(auto v=0; v<f-1; v++) {
 
 			int i=(u*f)+v;
 			int j=((u+1)*f)+v;

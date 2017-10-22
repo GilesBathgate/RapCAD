@@ -25,7 +25,7 @@ class DifferenceNode : public Node
 {
 public:
 	DifferenceNode();
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 };
 
 #endif // DIFFERENCENODE_H

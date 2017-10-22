@@ -20,7 +20,7 @@
 
 Parameter::Parameter()
 {
-	expression=NULL;
+	expression=nullptr;
 }
 
 Parameter::~Parameter()

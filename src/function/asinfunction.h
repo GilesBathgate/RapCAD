@@ -7,7 +7,7 @@ class AsinFunction : public Function
 {
 public:
 	AsinFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // ASINFUNCTION_H

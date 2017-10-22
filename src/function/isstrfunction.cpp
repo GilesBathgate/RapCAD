@@ -27,7 +27,7 @@ IsStrFunction::IsStrFunction() : Function("is_str")
 
 Value* IsStrFunction::evaluate(Context* ctx)
 {
-	TextValue* text=dynamic_cast<TextValue*>(getParameterArgument(ctx,0));
+	auto* text=dynamic_cast<TextValue*>(getParameterArgument(ctx,0));
 	if(text)
 		return new BooleanValue(true);
 

@@ -31,7 +31,7 @@ QString ComplexValue::getValueString() const
 	QString result;
 	result.append("<");
 	result.append(real->getValueString());
-	foreach(Value* v,imaginary) {
+	for(Value* v: imaginary) {
 		result.append(",");
 		result.append(v->getValueString());
 	}
@@ -42,10 +42,10 @@ QString ComplexValue::getValueString() const
 void ComplexValue::toQuaternion(decimal& w,decimal& x,decimal& y,decimal& z)
 {
 	if(imaginary.size()>2) {
-		NumberValue* nw=dynamic_cast<NumberValue*>(real);
-		NumberValue* nx=dynamic_cast<NumberValue*>(imaginary.at(0));
-		NumberValue* ny=dynamic_cast<NumberValue*>(imaginary.at(1));
-		NumberValue* nz=dynamic_cast<NumberValue*>(imaginary.at(2));
+		auto* nw=dynamic_cast<NumberValue*>(real);
+		auto* nx=dynamic_cast<NumberValue*>(imaginary.at(0));
+		auto* ny=dynamic_cast<NumberValue*>(imaginary.at(1));
+		auto* nz=dynamic_cast<NumberValue*>(imaginary.at(2));
 		if(nw&&nx&&ny&&nz) {
 			w=nw->getNumber();
 			x=nx->getNumber();
@@ -62,11 +62,11 @@ Value* ComplexValue::operation(Expression::Operator_e e)
 	if(e==Expression::Length) {
 		//l = sqrt(w^2+x^2+y^2,z^2)
 		Value* n=Value::operation(real,Expression::Multiply,real);
-		foreach(Value* i, imaginary) {
+		for(Value* i: imaginary) {
 			Value* r=Value::operation(i,Expression::Multiply,i);
 			n=Value::operation(n,Expression::Add,r);
 		}
-		NumberValue* l=dynamic_cast<NumberValue*>(n);
+		auto* l=dynamic_cast<NumberValue*>(n);
 		if(l)
 			return new NumberValue(r_sqrt(l->getNumber()));
 		return Value::undefined();
@@ -76,7 +76,7 @@ Value* ComplexValue::operation(Expression::Operator_e e)
 
 Value* ComplexValue::operation(Value& v, Expression::Operator_e op)
 {
-	ComplexValue* c=dynamic_cast<ComplexValue*>(&v);
+	auto* c=dynamic_cast<ComplexValue*>(&v);
 	if(c) {
 		if(imaginary.size()>2&&c->imaginary.size()>2) {
 			Value* w1=real;
@@ -139,12 +139,12 @@ Value* ComplexValue::operation(Value& v, Expression::Operator_e op)
 		}
 	}
 
-	NumberValue* n=dynamic_cast<NumberValue*>(&v);
+	auto* n=dynamic_cast<NumberValue*>(&v);
 	if(n) {
 		if(op==Expression::Divide) {
 			Value* w=Value::operation(real,Expression::Divide,n);
 			QList<Value*> result;
-			foreach(Value* i, imaginary) {
+			for(Value* i: imaginary) {
 				Value* a=Value::operation(i,Expression::Divide,n);
 				result.append(a);
 			}

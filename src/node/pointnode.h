@@ -28,7 +28,7 @@ public:
 	PointNode();
 	void setPoint(Point);
 	Point getPoint() const;
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 private:
 	Point point;
 };

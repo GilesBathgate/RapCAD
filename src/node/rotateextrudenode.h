@@ -9,14 +9,14 @@ class RotateExtrudeNode : public Node
 {
 public:
 	RotateExtrudeNode();
-	~RotateExtrudeNode();
+	~RotateExtrudeNode() override;
 	void setRadius(decimal);
 	decimal getRadius() const;
 	void setFragments(Fragment*);
 	Fragment* getFragments();
 	Point getAxis() const;
 	void setAxis(const Point& value);
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 private:
 	decimal radius;
 	Point axis;

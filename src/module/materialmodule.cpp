@@ -26,7 +26,7 @@ MaterialModule::MaterialModule(Reporter* r) : Module(r,"material")
 
 Node* MaterialModule::evaluate(Context* ctx)
 {
-	MaterialNode* n=new MaterialNode();
+	auto* n=new MaterialNode();
 	n->setChildren(ctx->getInputNodes());
 	return n;
 }

@@ -36,7 +36,7 @@ public:
 	void makeSideY(const CGAL::Scalar&,const CGAL::Scalar&,const CGAL::Scalar&,const CGAL::Scalar&,const CGAL::Scalar&);
 	void makeSideX(const CGAL::Scalar&,const CGAL::Scalar&,const CGAL::Scalar&,const CGAL::Scalar&,const CGAL::Scalar&);
 private:
-	void operator()(CGAL::HalfedgeDS&);
+	void operator()(CGAL::HalfedgeDS&) override;
 	CGALPrimitive* primitive;
 };
 

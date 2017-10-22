@@ -34,7 +34,7 @@ Node* GlideModule::evaluate(Context* ctx)
 	if(closeVal)
 		close=closeVal->isTrue();
 
-	GlideNode* n=new GlideNode();
+	auto* n=new GlideNode();
 	n->setClosed(close);
 	n->setChildren(ctx->getInputNodes());
 	return n;

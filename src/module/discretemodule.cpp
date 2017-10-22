@@ -31,11 +31,11 @@ DiscreteModule::DiscreteModule(Reporter* r) : Module(r,"discrete")
 Node* DiscreteModule::evaluate(Context* ctx)
 {
 	int places=6;
-	NumberValue* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal)
 		places=numVal->toInteger();
 
-	DiscreteNode* n=new DiscreteNode();
+	auto* n=new DiscreteNode();
 	n->setPlaces(places);
 	n->setChildren(ctx->getInputNodes());
 	return n;

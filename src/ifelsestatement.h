@@ -27,14 +27,14 @@ class IfElseStatement : public Statement
 {
 public:
 	IfElseStatement();
-	~IfElseStatement();
+	~IfElseStatement() override;
 	void setExpression(Expression*);
 	Expression* getExpression() const;
 	void setTrueStatement(Statement*);
 	Statement* getTrueStatement() const;
 	void setFalseStatement(Statement*);
 	Statement* getFalseStatement() const;
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 private:
 	Expression* expression;
 	Statement* trueStatement;

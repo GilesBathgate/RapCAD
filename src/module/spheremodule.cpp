@@ -29,7 +29,7 @@ SphereModule::SphereModule(Reporter* r) : PrimitiveModule(r,"sphere")
 
 Node* SphereModule::evaluate(Context* ctx)
 {
-	NumberValue* rValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* rValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	decimal r=0.0;
 	if(rValue) {
 		r=rValue->getNumber();
@@ -47,28 +47,28 @@ Node* SphereModule::evaluate(Context* ctx)
 
 	int ringCount=f/2;
 
-	PrimitiveNode* p=new PrimitiveNode(reporter);
+	auto* p=new PrimitiveNode(reporter);
 	p->setChildren(ctx->getInputNodes());
 
-	for(int i=0; i<ringCount; i++) {
+	for(auto i=0; i<ringCount; i++) {
 		decimal phi = (r_pi()*(i+0.5)) / ringCount;
 		decimal r2 = r*r_sin(phi);
 		decimal z = r*r_cos(phi);
 		QList<Point> c = getCircle(r2,f,z);
-		foreach(Point pt,c) {
+		for(const auto& pt: c) {
 			p->createVertex(pt);
 		}
 	}
 
 	Polygon* pg=p->createPolygon();
-	for(int i=0; i<f; i++) {
+	for(auto i=0; i<f; i++) {
 		pg->append(i);
 	}
 
-	for(int i=0; i<ringCount-1; i++) {
+	for(auto i=0; i<ringCount-1; i++) {
 		int i1=i*f;
 		int i2=(i+1)*f;
-		for(int j=0; j<f; j++) {
+		for(auto j=0; j<f; j++) {
 			int j2=(j+1)%f;
 
 			int o=j+i1;
@@ -89,7 +89,7 @@ Node* SphereModule::evaluate(Context* ctx)
 	}
 
 	pg=p->createPolygon();
-	for(int i=f*ringCount; i>f*(ringCount-1); i--) {
+	for(auto i=f*ringCount; i>f*(ringCount-1); i--) {
 		pg->append(i-1);
 	}
 

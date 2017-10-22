@@ -49,8 +49,8 @@ public:
 		Front
 	};
 
-	GLView(QWidget* parent = NULL);
-	~GLView();
+	GLView(QWidget* parent = nullptr);
+	~GLView() override;
 	void setRenderer(Renderer* r);
 	void setCompiling(bool value);
 
@@ -71,18 +71,18 @@ public slots:
 	void setShowEdges(bool);
 	void changeViewport(int);
 private:
-	void initializeGL();
-	void resizeGL(int w, int h);
-	void paintGL();
+	void initializeGL() override;
+	void resizeGL(int w, int h) override;
+	void paintGL() override;
 
 #if USE_QGLWIDGET
 	inline void update(){ updateGL(); }
 #endif
 
-	void mousePressEvent(QMouseEvent* event);
-	void mouseMoveEvent(QMouseEvent* event);
-	void mouseReleaseEvent(QMouseEvent* event);
-	void wheelEvent(QWheelEvent* event);
+	void mousePressEvent(QMouseEvent* event) override;
+	void mouseMoveEvent(QMouseEvent* event) override;
+	void mouseReleaseEvent(QMouseEvent* event) override;
+	void wheelEvent(QWheelEvent* event) override;
 
 	void normalizeAngle(GLfloat&);
 	void zoomView(float);

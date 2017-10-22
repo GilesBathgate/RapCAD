@@ -7,7 +7,7 @@ class SinhFunction : public Function
 {
 public:
 	SinhFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // SINHFUNCTION_H

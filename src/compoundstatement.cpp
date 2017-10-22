@@ -24,7 +24,7 @@ CompoundStatement::CompoundStatement()
 
 CompoundStatement::~CompoundStatement()
 {
-	foreach(Statement* s,children)
+	for(Statement* s: children)
 		delete s;
 }
 

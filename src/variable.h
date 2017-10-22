@@ -33,12 +33,12 @@ public:
 	};
 
 	Variable();
-	~Variable();
+	~Variable() override;
 	void setName(QString);
 	QString getName() const;
 	void setStorage(Storage_e);
 	Storage_e getStorage() const;
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 private:
 	QString name;
 	Storage_e storage;

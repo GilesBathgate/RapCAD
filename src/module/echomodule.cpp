@@ -35,15 +35,15 @@ Node* EchoModule::evaluate(Context* ctx)
 	QList<Value*> args=ctx->getArguments();
 
 	OnceOnly first;
-	foreach(Value* a,args) {
+	for(Value* a: args) {
 		if(!first())
 			output << ", ";
-		TextValue* t=dynamic_cast<TextValue*>(a);
+		auto* t=dynamic_cast<TextValue*>(a);
 		if(t) output << "\"";
 		output << a->getValueString();
 		if(t) output << "\"";
 	}
 	output << "\n";
 
-	return NULL;
+	return nullptr;
 }

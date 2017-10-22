@@ -26,7 +26,7 @@ MinkowskiModule::MinkowskiModule(Reporter* r) : Module(r,"minkowski")
 
 Node* MinkowskiModule::evaluate(Context* ctx)
 {
-	MinkowskiNode* d = new MinkowskiNode();
+	auto* d = new MinkowskiNode();
 	d->setChildren(ctx->getInputNodes());
 	return d;
 }

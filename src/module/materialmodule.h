@@ -25,7 +25,7 @@ class MaterialModule : public Module
 {
 public:
 	MaterialModule(Reporter*);
-	Node* evaluate(Context*);
+	Node* evaluate(Context*) override;
 };
 
 #endif // MATERIALMODULE_H

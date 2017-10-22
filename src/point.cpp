@@ -38,7 +38,7 @@ decimal Point::getZ() const
 	return z;
 }
 
-Point Point::transform(TransformMatrix* matrix)
+Point Point::transform(TransformMatrix* matrix) const
 {
 	decimal* m=matrix->getValues();
 	decimal nx,ny,nz;

@@ -7,7 +7,7 @@ class CoshFunction : public Function
 {
 public:
 	CoshFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // COSHFUNCTION_H

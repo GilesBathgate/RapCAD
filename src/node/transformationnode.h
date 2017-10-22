@@ -8,7 +8,7 @@ class TransformationNode : public Node
 {
 public:
 	TransformationNode();
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 	TransformMatrix* getMatrix() const;
 	void setMatrix(TransformMatrix*);
 private:

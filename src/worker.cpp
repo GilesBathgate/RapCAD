@@ -36,7 +36,7 @@
 Worker::Worker(QTextStream& s) :
 	Strategy(s)
 {
-	primitive=NULL;
+	primitive=nullptr;
 	inputFile="";
 	outputFile="";
 	print=false;
@@ -125,21 +125,21 @@ void Worker::primary()
 
 void Worker::generation()
 {
-	Script* s=parse("reprap.rcam",NULL,true);
+	Script* s=parse("reprap.rcam",nullptr,true);
 
-	TreeEvaluator* e = new TreeEvaluator(reporter);
+	auto* e = new TreeEvaluator(reporter);
 	decimal height=getBoundsHeight();
 	QList<Argument*> args=getArgs(height);
 	Callback* c = addCallback("layers",s,args);
 	s->accept(*e);
 
-	NumberValue* v = dynamic_cast<NumberValue*>(c->getResult());
+	auto* v = dynamic_cast<NumberValue*>(c->getResult());
 	if(v) {
 		reporter->reportMessage(tr("Layers: %1").arg(v->getValueString()));
 
 		int itterations=v->toInteger();
 		Instance* m=addProductInstance("manufacture",s);
-		for(int i=0; i<=itterations; i++) {
+		for(auto i=0; i<=itterations; i++) {
 			if(i>0) {
 				e = new TreeEvaluator(reporter);
 			}
@@ -151,7 +151,7 @@ void Worker::generation()
 			s->accept(*e);
 			Node* n=e->getRootNode();
 
-			NodeEvaluator* ne = new NodeEvaluator(reporter);
+			auto* ne = new NodeEvaluator(reporter);
 			n->accept(*ne);
 			delete n;
 
@@ -168,7 +168,7 @@ void Worker::generation()
 decimal Worker::getBoundsHeight()
 {
 #if USE_CGAL
-	CGALPrimitive* pr=dynamic_cast<CGALPrimitive*>(primitive);
+	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
 	CGAL::Cuboid3 b=pr->getBounds();
 	return b.zmax();
 #endif
@@ -178,10 +178,10 @@ decimal Worker::getBoundsHeight()
 QList<Argument*> Worker::getArgs(decimal value)
 {
 	QList<Argument*> args;
-	Argument* a=new Argument();
-	Variable* var=new Variable();
+	auto* a=new Argument();
+	auto* var=new Variable();
 	a->setVariable(var);
-	Literal* lit=new Literal();
+	auto* lit=new Literal();
 	lit->setValue(value);
 	a->setExpression(lit);
 	args.append(a);
@@ -190,9 +190,9 @@ QList<Argument*> Worker::getArgs(decimal value)
 
 Instance* Worker::addProductInstance(QString name,Script* s)
 {
-	Instance* m = new Instance();
+	auto* m = new Instance();
 	m->setName(name);
-	Product* r=new Product();
+	auto* r=new Product();
 	r->setPrimitive(primitive);
 	QList<Statement*> children;
 	children.append(r);
@@ -218,7 +218,7 @@ void Worker::exportResult(QString fn)
 
 bool Worker::resultAvailable()
 {
-	return (primitive!=NULL);
+	return (primitive!=nullptr);
 }
 
 void Worker::resultAccepted()
@@ -230,7 +230,7 @@ void Worker::resultAccepted()
 void Worker::resultFailed(QString error)
 {
 	reporter->reportException(error);
-	updatePrimitive(NULL);
+	updatePrimitive(nullptr);
 }
 
 void Worker::updatePrimitive(Primitive* pr)
@@ -248,7 +248,7 @@ Renderer* Worker::getRenderer()
 
 	} catch(CGAL::Failure_exception e) {
 		resultFailed(QString::fromStdString(e.what()));
-		return NULL;
+		return nullptr;
 	}
 #else
 	return new SimpleRenderer(primitive);

@@ -7,7 +7,7 @@ class FloorFunction : public Function
 {
 public:
 	FloorFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // FLOORFUNCTION_H

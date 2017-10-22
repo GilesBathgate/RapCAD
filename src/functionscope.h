@@ -28,12 +28,12 @@ class FunctionScope : public Scope
 {
 public:
 	FunctionScope();
-	~FunctionScope();
+	~FunctionScope() override;
 	void setExpression(Expression*);
 	Expression* getExpression() const;
 	void setStatements(QList<Statement*>);
 	QList<Statement*> getStatements() const;
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 private:
 	Expression* expression;
 	QList<Statement*> statements;

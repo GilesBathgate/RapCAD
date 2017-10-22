@@ -25,7 +25,7 @@ class OutlineNode : public Node
 {
 public:
 	OutlineNode();
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 };
 
 #endif // OUTLINENODE_H

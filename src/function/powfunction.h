@@ -7,7 +7,7 @@ class PowFunction : public Function
 {
 public:
 	PowFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // POWFUNCTION_H

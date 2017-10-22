@@ -26,7 +26,7 @@ ComplementModule::ComplementModule(Reporter* r) : Module(r,"complement")
 
 Node* ComplementModule::evaluate(Context* ctx)
 {
-	ComplementNode* n=new ComplementNode();
+	auto* n=new ComplementNode();
 	n->setChildren(ctx->getInputNodes());
 	return n;
 }

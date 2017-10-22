@@ -26,12 +26,12 @@ class VectorExpression : public Expression
 {
 public:
 	VectorExpression();
-	~VectorExpression();
+	~VectorExpression() override;
 	void setChildren(QList<Expression*>);
 	QList<Expression*> getChildren() const;
 	void setAdditionalCommas(int);
 	int getAdditionalCommas() const;
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 private:
 	QList<Expression*> children;
 	int additionalCommas;

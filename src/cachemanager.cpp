@@ -2,7 +2,7 @@
 #include "cgalcache.h"
 #include "emptycache.h"
 
-CacheManager* CacheManager::instance=NULL;
+CacheManager* CacheManager::instance=nullptr;
 
 CacheManager::CacheManager()
 {

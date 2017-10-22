@@ -44,247 +44,247 @@ void DependencyBuilder::buildScript(QList<CodeDoc*>*)
 
 QList<CodeDoc*>* DependencyBuilder::buildCodeDoc(QList<CodeDoc*>*)
 {
-	return NULL;
+	return nullptr;
 }
 
 QList<CodeDoc*>* DependencyBuilder::buildCodeDoc()
 {
-	return NULL;
+	return nullptr;
 }
 
 QList<CodeDoc*>* DependencyBuilder::buildCodeDoc(QString*,QList<CodeDoc*>*)
 {
-	return NULL;
+	return nullptr;
 }
 
 QList<CodeDoc*>* DependencyBuilder::buildCodeDoc(QString*,QString*,QList<CodeDoc*>*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Declaration* DependencyBuilder::buildUse(QString*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Declaration* DependencyBuilder::buildUse(QString*,QString*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Declaration* DependencyBuilder::buildImport(QString*,QString*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Declaration* DependencyBuilder::buildImport(QString*,QString*,QList<Parameter*>*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Declaration* DependencyBuilder::buildDeclaration(Declaration*)
 {
-	return NULL;
+	return nullptr;
 }
 
 QList<Declaration*>* DependencyBuilder::buildDeclarations()
 {
-	return NULL;
+	return nullptr;
 }
 
 QList<Declaration*>* DependencyBuilder::buildDeclarations(QList<Declaration*>*,Declaration*)
 {
-	return NULL;
+	return nullptr;
 }
 
 QList<Declaration*>* DependencyBuilder::buildDeclarations(QList<Declaration*>*)
 {
-	return NULL;
+	return nullptr;
 }
 
 QList<Declaration*>* DependencyBuilder::buildDeclarations(Declaration*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Statement* DependencyBuilder::buildStatement(Statement*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Statement* DependencyBuilder::buildStatement(Variable*,Expression::Operator_e)
 {
-	return NULL;
+	return nullptr;
 }
 
 Statement* DependencyBuilder::buildStatement(Variable*,Expression::Operator_e,Expression*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Statement* DependencyBuilder::buildStatement(QList<Statement*>*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Statement* DependencyBuilder::buildStatement(Variable*,Expression*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Statement* DependencyBuilder::buildStatement(QString*,Variable::Storage_e,Expression*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Statement* DependencyBuilder::buildReturnStatement(Expression*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Statement* DependencyBuilder::buildIfElseStatement(Expression*,Statement*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Statement* DependencyBuilder::buildIfElseStatement(Expression*,Statement*,Statement*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Statement* DependencyBuilder::buildForStatement(QList<Argument*>*,Statement*)
 {
-	return NULL;
+	return nullptr;
 }
 
 QList<Statement*>* DependencyBuilder::buildStatements()
 {
-	return NULL;
+	return nullptr;
 }
 
 QList<Statement*>* DependencyBuilder::buildStatements(Statement*)
 {
-	return NULL;
+	return nullptr;
 }
 
 QList<Statement*>* DependencyBuilder::buildStatements(QList<Statement*>*)
 {
-	return NULL;
+	return nullptr;
 }
 
 QList<Statement*>* DependencyBuilder::buildStatements(QList<Statement*>*,Statement*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Declaration* DependencyBuilder::buildModule(QString*, QList<Parameter*>*, Scope*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Declaration* DependencyBuilder::buildFunction(QString*,QList<Parameter*>*,Scope*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Scope* DependencyBuilder::buildScope(QList<Declaration*>*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Scope* DependencyBuilder::buildScope(Instance*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Scope* DependencyBuilder::buildScope(Expression*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Scope* DependencyBuilder::buildScope(QList<Statement*>*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Instance* DependencyBuilder::buildInstance(Instance*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Instance* DependencyBuilder::buildInstance(QString*,Instance*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Instance* DependencyBuilder::buildInstance(Instance::Type_e,Instance*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Instance* DependencyBuilder::buildInstance(Instance::Type_e,QString*,QList<Argument*>*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Instance* DependencyBuilder::buildInstance(QString*,QList<Argument*>*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Instance* DependencyBuilder::buildInstance(Instance*,QList<Statement*>*)
 {
-	return NULL;
+	return nullptr;
 }
 
 QList<Parameter*>* DependencyBuilder::buildParameters()
 {
-	return NULL;
+	return nullptr;
 }
 
 QList<Parameter*>* DependencyBuilder::buildParameters(Parameter*)
 {
-	return NULL;
+	return nullptr;
 }
 
 QList<Parameter*>* DependencyBuilder::buildParameters(QList<Parameter*>*,Parameter*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Parameter* DependencyBuilder::buildParameter(QString*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Parameter* DependencyBuilder::buildParameter(QString*,Expression*)
 {
-	return NULL;
+	return nullptr;
 }
 
 QList<Argument*>* DependencyBuilder::buildArguments()
 {
-	return NULL;
+	return nullptr;
 }
 
 QList<Argument*>* DependencyBuilder::buildArguments(Argument*)
 {
-	return NULL;
+	return nullptr;
 }
 
 QList<Argument*>* DependencyBuilder::buildArguments(QList<Argument*>*,unsigned int,Argument*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Argument* DependencyBuilder::buildArgument(Expression*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Argument* DependencyBuilder::buildArgument(Variable*,Expression*)
 {
-	return NULL;
+	return nullptr;
 }
 
 unsigned int DependencyBuilder::buildOptionalCommas()
@@ -299,105 +299,105 @@ unsigned int DependencyBuilder::buildOptionalCommas(unsigned int c)
 
 Expression* DependencyBuilder::buildLiteral()
 {
-	return NULL;
+	return nullptr;
 }
 
 Expression* DependencyBuilder::buildLiteral(bool)
 {
-	return NULL;
+	return nullptr;
 }
 
 Expression* DependencyBuilder::buildLiteral(decimal*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Expression* DependencyBuilder::buildLiteral(QString*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Variable* DependencyBuilder::buildVariable(QString*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Expression* DependencyBuilder::buildVariable(Variable*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Variable* DependencyBuilder::buildVariable(QString*,Variable::Storage_e)
 {
-	return NULL;
+	return nullptr;
 }
 
 Expression* DependencyBuilder::buildExpression(Expression*,QString*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Expression* DependencyBuilder::buildExpression(Expression*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Expression* DependencyBuilder::buildExpression(Expression::Operator_e,Expression*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Expression* DependencyBuilder::buildExpression(Expression*,Expression::Operator_e, Expression*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Expression* DependencyBuilder::buildExpression(Expression*,Expression*,Expression*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Expression* DependencyBuilder::buildExpression(QList<Expression*>*,int)
 {
-	return NULL;
+	return nullptr;
 }
 
 QList<Expression*>* DependencyBuilder::buildVector()
 {
-	return NULL;
+	return nullptr;
 }
 
 QList<Expression*>* DependencyBuilder::buildVector(Expression*)
 {
-	return NULL;
+	return nullptr;
 }
 
 QList<Expression*>* DependencyBuilder::buildVector(QList<Expression*>*,unsigned int,Expression*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Expression* DependencyBuilder::buildRange(Expression*,Expression*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Expression* DependencyBuilder::buildRange(Expression*,Expression*,Expression*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Invocation* DependencyBuilder::buildInvocation(QString*,QList<Argument*>*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Invocation* DependencyBuilder::buildInvocation(QString*,Invocation*)
 {
-	return NULL;
+	return nullptr;
 }
 
 Script* DependencyBuilder::getResult() const
 {
-	return NULL;
+	return nullptr;
 }

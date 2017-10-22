@@ -28,7 +28,7 @@ BoundsModule::BoundsModule(Reporter* r) : Module(r,"bound")
 
 Node* BoundsModule::evaluate(Context* ctx)
 {
-	BoundsNode* n=new BoundsNode();
+	auto* n=new BoundsNode();
 	n->setChildren(ctx->getInputNodes());
 	return n;
 }

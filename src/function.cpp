@@ -22,18 +22,18 @@
 
 Function::Function()
 {
-	scope=NULL;
+	scope=nullptr;
 }
 
 Function::Function(QString n)
 {
-	scope=NULL;
+	scope=nullptr;
 	name=n;
 }
 
 Function::~Function()
 {
-	foreach(Parameter* p, parameters)
+	for(Parameter* p: parameters)
 		delete p;
 
 	delete scope;
@@ -77,12 +77,12 @@ void Function::accept(TreeVisitor& v)
 
 Value* Function::evaluate(Context*)
 {
-	return NULL;
+	return nullptr;
 }
 
 void Function::addParameter(QString name)
 {
-	Parameter* p = new Parameter();
+	auto* p = new Parameter();
 	p->setName(name);
 	parameters.append(p);
 }

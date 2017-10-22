@@ -68,12 +68,12 @@ Node* AlignModule::evaluate(Context* ctx)
 		}
 	} else {
 
-		BooleanValue* topVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0,0));
-		BooleanValue* bottomVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,1,0));
-		BooleanValue* northVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,2,0));
-		BooleanValue* southVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,3,0));
-		BooleanValue* eastVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,4,0));
-		BooleanValue* westVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,5,0));
+		auto* topVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0,0));
+		auto* bottomVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,1,0));
+		auto* northVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,2,0));
+		auto* southVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,3,0));
+		auto* eastVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,4,0));
+		auto* westVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,5,0));
 
 		if(topVal&&topVal->isTrue()) {
 			align.append(AlignNode::Top);
@@ -95,7 +95,7 @@ Node* AlignModule::evaluate(Context* ctx)
 		}
 	}
 
-	AlignNode* n=new AlignNode();
+	auto* n=new AlignNode();
 	n->setChildren(ctx->getInputNodes());
 	n->setAlign(align);
 

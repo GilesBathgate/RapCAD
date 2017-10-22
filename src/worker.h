@@ -35,9 +35,9 @@ class Worker : public Strategy
 	Q_DECLARE_TR_FUNCTIONS(Worker)
 public:
 	Worker(QTextStream&);
-	virtual ~Worker();
+	~Worker() override;
 	void setup(QString,QString,bool,bool);
-	virtual int evaluate();
+	int evaluate() override;
 	void exportResult(QString);
 	bool resultAvailable();
 	void resultAccepted();

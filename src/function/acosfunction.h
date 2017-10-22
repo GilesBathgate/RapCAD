@@ -7,7 +7,7 @@ class AcosFunction : public Function
 {
 public:
 	AcosFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // ACOSFUNCTION_H

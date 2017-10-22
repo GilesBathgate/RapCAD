@@ -51,7 +51,7 @@ SyntaxHighlighter::SyntaxHighlighter(QTextDocument* parent)
 void SyntaxHighlighter::highlightBlock(const QString& text)
 {
 	startIndex=0;
-	lexerinit(this,NULL,text,false);
+	lexerinit(this,nullptr,text,false);
 
 	//Force lexer into correct state
 	switch(previousBlockState()) {

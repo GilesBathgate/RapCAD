@@ -7,7 +7,7 @@ class StrFunction : public Function
 {
 public:
 	StrFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // STRFUNCTION_H

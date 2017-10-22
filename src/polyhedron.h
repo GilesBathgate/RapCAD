@@ -25,34 +25,34 @@ class Polyhedron : public Primitive
 {
 public:
 	Polyhedron();
-	~Polyhedron();
-	Polygon* createPolygon();
-	void createVertex(Point);
-	void setType(Primitive_t) { }
+	~Polyhedron() override;
+	Polygon* createPolygon() override;
+	void createVertex(Point) override;
+	void setType(Primitive_t) override { }
 	Primitive* buildPrimitive() { return this; }
-	bool overlaps(Primitive*) { return false; }
-	void add(Primitive*,bool);
-	Primitive* group(Primitive*);
-	Primitive* join(Primitive*);
-	Primitive* combine();
-	Primitive* intersection(Primitive*);
-	Primitive* difference(Primitive*);
-	Primitive* symmetric_difference(Primitive*);
-	Primitive* minkowski(Primitive*);
-	Primitive* inset(decimal) { return this; }
-	Primitive* decompose() { return this; }
-	Primitive* complement() { return this; }
-	bool isFullyDimentional() { return false; }
-	Primitive* copy();
-	Primitive* triangulate() { return this; }
-	Primitive* simplify(int) { return this; }
-	void transform(TransformMatrix*);
-	bool isEmpty();
-	QList<Polygon*> getPolygons() const;
-	QList<Point> getPoints() const;
-	QList<Primitive*> getChildren();
-	void appendChild(Primitive*);
-	void discrete(int);
+	bool overlaps(Primitive*) override { return false; }
+	void add(Primitive*,bool) override;
+	Primitive* group(Primitive*) override;
+	Primitive* join(Primitive*) override;
+	Primitive* combine() override;
+	Primitive* intersection(Primitive*) override;
+	Primitive* difference(Primitive*) override;
+	Primitive* symmetric_difference(Primitive*) override;
+	Primitive* minkowski(Primitive*) override;
+	Primitive* inset(decimal) override { return this; }
+	Primitive* decompose() override { return this; }
+	Primitive* complement() override { return this; }
+	bool isFullyDimentional() override { return false; }
+	Primitive* copy() override;
+	Primitive* triangulate() override { return this; }
+	Primitive* simplify(int) override { return this; }
+	void transform(TransformMatrix*) override;
+	bool isEmpty() override;
+	QList<Polygon*> getPolygons() const override;
+	QList<Point> getPoints() const override;
+	QList<Primitive*> getChildren() override;
+	void appendChild(Primitive*) override;
+	void discrete(int) override;
 private:
 	QList<Point> points;
 	QList<Polygon*> polygons;

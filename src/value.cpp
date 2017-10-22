@@ -34,7 +34,7 @@ Value::Value()
 
 Value* Value::undefined()
 {
-	Value* v=new Value();
+	auto* v=new Value();
 	v->defined=false;
 	return v;
 }
@@ -86,7 +86,7 @@ bool Value::isTrue() const
 VectorValue* Value::toVector(int size)
 {
 	QList<Value*> children;
-	for(int i=0; i<size; i++)
+	for(auto i=0; i<size; i++)
 		children.append(this);
 
 	return new VectorValue(children);
@@ -420,20 +420,20 @@ bool Value::compare(Value* left, Expression::Operator_e op, Value* right)
 
 Value* Value::compareAll(QList<Value*> values,Expression::Operator_e op)
 {
-	Value* result=NULL;
-	foreach(Value* a,values) {
-		NumberValue* numVal=dynamic_cast<NumberValue*>(a);
+	Value* result=nullptr;
+	for(Value* a: values) {
+		auto* numVal=dynamic_cast<NumberValue*>(a);
 		if(numVal) {
 			if(!result||compare(a,op,result))
 				result=a;
 		}
-		VectorValue* vecVal=dynamic_cast<VectorValue*>(a);
+		auto* vecVal=dynamic_cast<VectorValue*>(a);
 		if(vecVal) {
 			Value* c=compareAll(vecVal->getChildren(),op);
 			if(!result||compare(c,op,result))
 				result=c;
 		}
-		RangeValue* rngVal=dynamic_cast<RangeValue*>(a);
+		auto* rngVal=dynamic_cast<RangeValue*>(a);
 		if(rngVal) {
 			QList<Value*> rng;
 			rng.append(rngVal->getStart());

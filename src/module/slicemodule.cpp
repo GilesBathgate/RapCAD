@@ -31,16 +31,16 @@ SliceModule::SliceModule(Reporter* r) : Module(r,"slice")
 Node* SliceModule::evaluate(Context* ctx)
 {
 	decimal h=0.0;
-	NumberValue* height=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* height=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(height)
 		h=height->getNumber();
 
 	decimal t=0.0;
-	NumberValue* thick=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
+	auto* thick=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
 	if(thick)
 		t=thick->getNumber();
 
-	SliceNode* d = new SliceNode();
+	auto* d = new SliceNode();
 	d->setHeight(h);
 	d->setThickness(t);
 	d->setChildren(ctx->getInputNodes());

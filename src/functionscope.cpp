@@ -20,12 +20,12 @@
 
 FunctionScope::FunctionScope()
 {
-	expression=NULL;
+	expression=nullptr;
 }
 
 FunctionScope::~FunctionScope()
 {
-	foreach(Statement* s,statements)
+	for(Statement* s: statements)
 		delete s;
 
 	delete expression;

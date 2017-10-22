@@ -29,7 +29,7 @@ public:
 	Product();
 	void setPrimitive(Primitive*);
 	Primitive* getPrimitive();
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 	Node* evaluate(Context*);
 private:
 	Primitive* primitive;

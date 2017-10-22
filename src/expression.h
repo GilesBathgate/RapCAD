@@ -58,7 +58,7 @@ public:
 	};
 
 	Expression();
-	virtual ~Expression();
+	~Expression() override;
 
 	Operator_e getOp() const;
 	void setOp(Operator_e);

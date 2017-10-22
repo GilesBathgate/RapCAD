@@ -26,10 +26,10 @@ class ReturnStatement : public Statement
 {
 public:
 	ReturnStatement();
-	~ReturnStatement();
+	~ReturnStatement() override;
 	void setExpression(Expression*);
 	Expression* getExpression() const;
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 private:
 	Expression* expression;
 };

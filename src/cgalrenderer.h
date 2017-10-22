@@ -29,17 +29,17 @@ class CGALRenderer : public Renderer, private CGAL::OGL::Polyhedron
 {
 public:
 	CGALRenderer(Primitive*);
-	~CGALRenderer();
-	void draw(bool,bool);
-	void preferencesUpdated();
-	void setCompiling(bool);
+	~CGALRenderer() override;
+	void draw(bool,bool) override;
+	void preferencesUpdated() override;
+	void setCompiling(bool) override;
 private:
 	void setColor(CGAL::Color&,QColor);
-	CGAL::Color getVertexColor(bool mark) const;
-	CGAL::Color getEdgeColor(bool mark) const;
-	CGAL::Color getFacetColor(bool mark) const;
-	float getVertexSize() const;
-	float getEdgeSize() const;
+	CGAL::Color getVertexColor(bool mark) const override;
+	CGAL::Color getEdgeColor(bool mark) const override;
+	CGAL::Color getFacetColor(bool mark) const override;
+	float getVertexSize() const override;
+	float getEdgeSize() const override;
 	CGAL::Color markedVertexColor;
 	CGAL::Color vertexColor;
 	CGAL::Color markedEdgeColor;

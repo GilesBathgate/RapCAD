@@ -7,7 +7,7 @@ class VersionFunction : public Function
 {
 public:
 	VersionFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // VERSIONFUNCTION_H

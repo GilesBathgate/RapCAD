@@ -10,9 +10,9 @@ class Interactive : public QObject,public Strategy
 {
 	Q_OBJECT
 public:
-	Interactive(QTextStream&,QObject* parent=0);
+	Interactive(QTextStream&,QObject* parent=nullptr);
 	QString getPrompt();
-	int evaluate();
+	int evaluate() override;
 public slots:
 	void execCommand(QString);
 private:

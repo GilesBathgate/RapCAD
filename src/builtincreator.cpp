@@ -222,7 +222,7 @@ BuiltinCreator::BuiltinCreator(Reporter* r)
 	reporter=r;
 }
 
-BuiltinCreator* BuiltinCreator::instance=NULL;
+BuiltinCreator* BuiltinCreator::instance=nullptr;
 
 BuiltinCreator* BuiltinCreator::getInstance(Reporter* r)
 {
@@ -237,7 +237,7 @@ BuiltinCreator* BuiltinCreator::getInstance(Reporter* r)
 */
 void BuiltinCreator::initBuiltins(Script* sc)
 {
-	foreach(Declaration* d,builtins)
+	for(Declaration* d: builtins)
 		sc->addDeclaration(d);
 }
 
@@ -247,7 +247,7 @@ void BuiltinCreator::initBuiltins(Script* sc)
 */
 void BuiltinCreator::saveBuiltins(Script* sc)
 {
-	foreach(Declaration* d,builtins)
+	for(Declaration* d: builtins)
 		sc->removeDeclaration(d);
 }
 
@@ -259,6 +259,6 @@ void BuiltinCreator::generateDocs()
 
 void BuiltinCreator::generateDocs(TreeVisitor& p)
 {
-	foreach(Declaration* d,builtins)
+	for(Declaration* d: builtins)
 		d->accept(p);
 }

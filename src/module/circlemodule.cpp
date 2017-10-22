@@ -27,7 +27,7 @@ CircleModule::CircleModule(Reporter* r) : PrimitiveModule(r,"circle")
 
 Node* CircleModule::evaluate(Context* ctx)
 {
-	NumberValue* rValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* rValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 
 	decimal r=1;
 	if(rValue) {
@@ -44,13 +44,13 @@ Node* CircleModule::evaluate(Context* ctx)
 
 	QList<Point> c = getCircle(r,f,0);
 
-	PrimitiveNode* p=new PrimitiveNode(reporter);
+	auto* p=new PrimitiveNode(reporter);
 	p->setChildren(ctx->getInputNodes());
 
 	int i=0;
 	if(r > 0) {
 		Polygon* pg=p->createPolygon();
-		foreach(Point pt, c) {
+		for(const auto& pt: c) {
 			p->createVertex(pt);
 			pg->append(i++);
 		}

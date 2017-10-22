@@ -20,8 +20,8 @@
 
 AssignStatement::AssignStatement()
 {
-	variable=NULL;
-	expression=NULL;
+	variable=nullptr;
+	expression=nullptr;
 	operation=Expression::None;
 }
 

@@ -31,18 +31,18 @@ PrismModule::PrismModule(Reporter* r) : PrimitiveModule(r,"prism")
 
 Node* PrismModule::evaluate(Context* ctx)
 {
-	NumberValue* heightVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* heightVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	decimal h=1.0;
 	if(heightVal)
 		h=heightVal->getNumber();
 
 	int s=3;
-	NumberValue* sidesVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
+	auto* sidesVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
 	if(sidesVal)
 		s=sidesVal->toInteger();
 
 	decimal r=1.0,a=1.0;
-	NumberValue* apothemVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));
+	auto* apothemVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));
 	if(apothemVal) {
 		a=apothemVal->getNumber();
 		r=a/r_cos(r_pi()/s);
@@ -66,25 +66,25 @@ Node* PrismModule::evaluate(Context* ctx)
 	QList<Point> p1=getPolygon(a,r,s,z1);
 	QList<Point> p2=getPolygon(a,r,s,z2);
 
-	PrimitiveNode* p=new PrimitiveNode(reporter);
+	auto* p=new PrimitiveNode(reporter);
 	p->setChildren(ctx->getInputNodes());
 
 	if(r > 0) {
 		Polygon* pg;
 		int n=0;
 		pg=p->createPolygon();
-		foreach(Point pt,p1) {
+		for(const auto& pt: p1) {
 			p->createVertex(pt);
 			pg->append(n++);
 		}
 
 		pg=p->createPolygon();
-		foreach(Point pt,p2) {
+		for(const auto& pt: p2) {
 			p->createVertex(pt);
 			pg->prepend(n++);
 		}
 
-		for(int i=0; i<s; i++) {
+		for(auto i=0; i<s; i++) {
 			int j=(i+1)%s;
 			int k=i+s;
 			int l=j+s;
@@ -97,7 +97,7 @@ Node* PrismModule::evaluate(Context* ctx)
 	}
 
 	if(center) {
-		AlignNode* n=new AlignNode();
+		auto* n=new AlignNode();
 		n->setCenterVertical();
 		n->addChild(p);
 		return n;

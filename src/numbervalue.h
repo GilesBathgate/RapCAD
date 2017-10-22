@@ -25,14 +25,14 @@ class NumberValue : public Value
 {
 public:
 	NumberValue(decimal);
-	QString getValueString() const;
-	bool isTrue() const;
+	QString getValueString() const override;
+	bool isTrue() const override;
 	decimal getNumber() const;
-	Value* toNumber();
+	Value* toNumber() override;
 	int toInteger() const;
 private:
-	Value* operation(Expression::Operator_e);
-	Value* operation(Value&,Expression::Operator_e);
+	Value* operation(Expression::Operator_e) override;
+	Value* operation(Value&,Expression::Operator_e) override;
 	decimal number;
 };
 

@@ -30,18 +30,18 @@ ChildrenModule::ChildrenModule(Reporter* r) : Module(r,"children")
 
 Node* ChildrenModule::evaluate(Context* ctx)
 {
-	ChildrenNode* n=new ChildrenNode();
+	auto* n=new ChildrenNode();
 
 	Value* val=getParameterArgument(ctx,0);
-	VectorValue* vecVal=dynamic_cast<VectorValue*>(val);
+	auto* vecVal=dynamic_cast<VectorValue*>(val);
 	if(vecVal) {
-		foreach(Value* v, vecVal->getChildren()) {
-			NumberValue* num=dynamic_cast<NumberValue*>(v);
+		for(Value* v: vecVal->getChildren()) {
+			auto* num=dynamic_cast<NumberValue*>(v);
 			if(num)
 				n->addIndex(num->toInteger());
 		}
 	}
-	NumberValue* numVal=dynamic_cast<NumberValue*>(val);
+	auto* numVal=dynamic_cast<NumberValue*>(val);
 	if(numVal) {
 		n->addIndex(numVal->toInteger());
 	}

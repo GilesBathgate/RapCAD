@@ -27,18 +27,18 @@ class VectorValue : public Value
 {
 public:
 	VectorValue(QList<Value*>);
-	QString getValueString() const;
-	bool isTrue() const;
-	VectorValue* toVector(int);
-	Value* toNumber();
+	QString getValueString() const override;
+	bool isTrue() const override;
+	VectorValue* toVector(int) override;
+	Value* toNumber() override;
 	Point getPoint() const;
 	void getXYZ(decimal&,decimal&,decimal&);
-	Iterator<Value*>* createIterator();
+	Iterator<Value*>* createIterator() override;
 	virtual QList<Value*> getChildren();
 protected:
 	VectorValue();
-	Value* operation(Expression::Operator_e);
-	Value* operation(Value&,Expression::Operator_e);
+	Value* operation(Expression::Operator_e) override;
+	Value* operation(Value&,Expression::Operator_e) override;
 private:
 	Expression::Operator_e convertOperation(Expression::Operator_e);
 	QList<Value*> children;

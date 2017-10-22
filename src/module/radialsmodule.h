@@ -25,7 +25,7 @@ class RadialsModule : public Module
 {
 public:
 	RadialsModule(Reporter*);
-	Node* evaluate(Context*);
+	Node* evaluate(Context*) override;
 };
 
 #endif // RADIALSMODULE_H

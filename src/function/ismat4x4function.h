@@ -25,7 +25,7 @@ class IsMat4x4Function : public Function
 {
 public:
 	IsMat4x4Function();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // ISMAT4X4FUNCTION_H

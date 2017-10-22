@@ -34,7 +34,7 @@ RangeIterator::RangeIterator(RangeValue* rng)
 		defaultStep=new NumberValue(i);
 		step=defaultStep;
 	} else {
-		defaultStep=NULL;
+		defaultStep=nullptr;
 	}
 }
 

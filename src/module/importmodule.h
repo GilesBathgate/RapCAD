@@ -26,7 +26,7 @@ class ImportModule : public Module
 {
 public:
 	ImportModule();
-	Node* evaluate(Context*);
+	Node* evaluate(Context*) override;
 	void setImport(QString);
 private:
 	QString import;

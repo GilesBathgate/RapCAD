@@ -11,8 +11,8 @@ Atan2Function::Atan2Function() : Function("atan2")
 
 Value* Atan2Function::evaluate(Context* ctx)
 {
-	NumberValue* yVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
-	NumberValue* xVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
+	auto* yVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* xVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
 	if(yVal&&xVal) {
 		decimal y=yVal->getNumber();
 		decimal x=xVal->getNumber();

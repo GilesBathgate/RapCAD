@@ -25,7 +25,7 @@ class DecomposeNode : public Node
 {
 public:
 	DecomposeNode();
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 };
 
 #endif // DECOMPOSENODE_H

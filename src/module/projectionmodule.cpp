@@ -32,18 +32,18 @@ Node* ProjectionModule::evaluate(Context* ctx)
 {
 	BooleanValue* cut=dynamic_cast<BooleanValue*>(ctx->getArgumentDeprecatedModule(0,"cut","'slice' module",reporter));
 	if(cut&&cut->isTrue()) {
-		SliceNode* n=new SliceNode();
+		auto* n=new SliceNode();
 		n->setChildren(ctx->getInputNodes());
 		return n;
 	}
 
 	bool base=false;
-	BooleanValue* baseVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));
+	auto* baseVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));
 	if(baseVal)
 		base=baseVal->isTrue();
 
 
-	ProjectionNode* d = new ProjectionNode();
+	auto* d = new ProjectionNode();
 	d->setChildren(ctx->getInputNodes());
 	d->setBase(base);
 	return d;

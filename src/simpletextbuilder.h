@@ -28,10 +28,10 @@ class SimpleTextBuilder : public TextBuilder
 	typedef QList<Stroke> Letter;
 public:
 	SimpleTextBuilder();
-	void setText(QString);
-	decimal getHeight();
-	void setLocation(Point);
-	Primitive* buildPrimitive() const;
+	void setText(QString) override;
+	decimal getHeight() override;
+	void setLocation(Point) override;
+	Primitive* buildPrimitive() const override;
 private:
 	QString text;
 	Point location;

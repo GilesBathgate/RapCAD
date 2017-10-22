@@ -29,7 +29,7 @@ IsMat4x4Function::IsMat4x4Function() : Function("is_mat4x4")
 
 Value* IsMat4x4Function::evaluate(Context* ctx)
 {
-	VectorValue* matVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* matVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(!matVal) {
 		return new BooleanValue(false);
 	} else {
@@ -37,8 +37,8 @@ Value* IsMat4x4Function::evaluate(Context* ctx)
 		if(rows.count()!=4) {
 			return new BooleanValue(false);
 		} else {
-			foreach(Value* c,rows) {
-				VectorValue* rowVal=dynamic_cast<VectorValue*>(c);
+			for(Value* c: rows) {
+				auto* rowVal=dynamic_cast<VectorValue*>(c);
 				if(!rowVal) {
 					return new BooleanValue(false);
 				} else {
@@ -46,8 +46,8 @@ Value* IsMat4x4Function::evaluate(Context* ctx)
 					if(cols.count()!=4) {
 						return new BooleanValue(false);
 					} else {
-						foreach(Value* v, cols) {
-							NumberValue* numVal=dynamic_cast<NumberValue*>(v);
+						for(Value* v: cols) {
+							auto* numVal=dynamic_cast<NumberValue*>(v);
 							if(!numVal) {
 								return new BooleanValue(false);
 							}

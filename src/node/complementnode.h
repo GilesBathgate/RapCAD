@@ -25,7 +25,7 @@ class ComplementNode : public Node
 {
 public:
 	ComplementNode();
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 };
 
 #endif // COMPLEMENTNODE_H

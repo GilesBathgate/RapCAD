@@ -26,7 +26,7 @@ class PolylineModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(PolylineModule)
 public:
 	PolylineModule(Reporter*);
-	Node* evaluate(Context*);
+	Node* evaluate(Context*) override;
 };
 
 #endif // POLYLINEMODULE_H

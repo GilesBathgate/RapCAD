@@ -29,8 +29,8 @@ LogFunction::LogFunction() : Function("log")
 
 Value* LogFunction::evaluate(Context* ctx)
 {
-	NumberValue* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
-	NumberValue* baseVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
+	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* baseVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
 
 	if(numVal) {
 		decimal num=numVal->getNumber();

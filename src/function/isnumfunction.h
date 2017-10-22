@@ -25,7 +25,7 @@ class IsNumFunction : public Function
 {
 public:
 	IsNumFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // ISNUMFUNCTION_H

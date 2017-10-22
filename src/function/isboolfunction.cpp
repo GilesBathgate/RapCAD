@@ -26,7 +26,7 @@ IsBoolFunction::IsBoolFunction() : Function("is_bool")
 
 Value* IsBoolFunction::evaluate(Context* ctx)
 {
-	BooleanValue* bVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));
+	auto* bVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));
 	if(bVal)
 		return new BooleanValue(true);
 

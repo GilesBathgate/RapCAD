@@ -25,7 +25,7 @@ class MinkowskiModule : public Module
 {
 public:
 	MinkowskiModule(Reporter*);
-	Node* evaluate(Context*);
+	Node* evaluate(Context*) override;
 };
 
 #endif // MINKOWSKIMODULE_H

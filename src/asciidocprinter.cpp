@@ -46,7 +46,7 @@ void AsciidocPrinter::visit(Module* mod)
 		result << "Parameters\n";
 		result << "++++++++++\n";
 		result << "|=========\n";
-		foreach(Parameter* p,params) {
+		for(Parameter* p: params) {
 			result << "|" << p->getName() << "|" << p->getDescription() << "\n";
 		}
 		result << "|=========\n\n";
@@ -57,7 +57,7 @@ void AsciidocPrinter::visit(Module* mod)
 		result << name << "();\n";
 		result << name << "(";
 		OnceOnly first;
-		foreach(Parameter* p,params) {
+		for(Parameter* p: params) {
 			if(!first())
 				result << ",";
 			result << p->getName();

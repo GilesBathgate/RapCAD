@@ -27,8 +27,8 @@ class CodeEditor : public QPlainTextEdit
 	Q_OBJECT
 
 public:
-	CodeEditor(QWidget* parent=0);
-	~CodeEditor();
+	CodeEditor(QWidget* parent=nullptr);
+	~CodeEditor() override;
 
 	void lineNumberAreaPaintEvent(QPaintEvent*);
 	int lineNumberAreaWidth();
@@ -43,7 +43,7 @@ public:
 signals:
 	void fileNameChanged(QString fileName);
 protected:
-	void resizeEvent(QResizeEvent* event);
+	void resizeEvent(QResizeEvent* event) override;
 
 private slots:
 	void updateLineNumberAreaWidth(int);

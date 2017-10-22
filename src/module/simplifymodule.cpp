@@ -30,11 +30,11 @@ SimplifyModule::SimplifyModule(Reporter* r) : Module(r,"simplify")
 Node* SimplifyModule::evaluate(Context* ctx)
 {
 	int stop=1000;
-	NumberValue* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal)
 		stop=numVal->toInteger();
 
-	SimplifyNode* n=new SimplifyNode();
+	auto* n=new SimplifyNode();
 	n->setChildren(ctx->getInputNodes());
 	n->setStopLevel(stop);
 	return n;

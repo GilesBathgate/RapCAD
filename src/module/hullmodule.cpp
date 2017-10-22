@@ -26,7 +26,7 @@ HullModule::HullModule(Reporter* r) : Module(r,"hull")
 
 Node* HullModule::evaluate(Context* ctx)
 {
-	HullNode* d = new HullNode();
+	auto* d = new HullNode();
 	d->setChildren(ctx->getInputNodes());
 	return d;
 }

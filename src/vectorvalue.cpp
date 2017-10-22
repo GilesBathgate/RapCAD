@@ -38,7 +38,7 @@ QString VectorValue::getValueString() const
 	QString result;
 	result.append("[");
 	OnceOnly first;
-	foreach(Value* v,children) {
+	for(Value* v: children) {
 		if(!first())
 			result.append(",");
 		result.append(v->getValueString());
@@ -67,7 +67,7 @@ Value* VectorValue::toNumber()
 Point VectorValue::getPoint() const
 {
 
-	NumberValue* nx=NULL,*ny=NULL,*nz=NULL;
+	NumberValue* nx=nullptr,*ny=nullptr,*nz=nullptr;
 	int s=children.size();
 	if(s>0)
 		nx=dynamic_cast<NumberValue*>(children.at(0));
@@ -109,13 +109,13 @@ Value* VectorValue::operation(Expression::Operator_e e)
 {
 	if(e==Expression::Length) {
 		Value* v=Value::operation(this,Expression::Multiply,this);
-		NumberValue* n=dynamic_cast<NumberValue*>(v);
+		auto* n=dynamic_cast<NumberValue*>(v);
 		if(n)
 			return new NumberValue(r_sqrt(n->getNumber()));
 		return Value::undefined();
 	}
 	QList<Value*> result;
-	foreach(Value* c,children)
+	for(Value* c: children)
 		result.append(Value::operation(c,e));
 	return new VectorValue(result);
 }
@@ -123,7 +123,7 @@ Value* VectorValue::operation(Expression::Operator_e e)
 Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 {
 	QList<Value*> result;
-	VectorValue* vec=dynamic_cast<VectorValue*>(&v);
+	auto* vec=dynamic_cast<VectorValue*>(&v);
 	if(vec) {
 		QList<Value*> a=this->getChildren();
 		QList<Value*> b=vec->getChildren();
@@ -158,7 +158,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			if(s<=0)
 				return Value::undefined();
 			Value* total=new NumberValue(0.0);
-			for(int i=0; i<s; i++) {
+			for(auto i=0; i<s; i++) {
 				Value* r=Value::operation(a.at(i),Expression::Multiply,b.at(i));
 				total=Value::operation(total,Expression::Add,r);
 			}
@@ -170,7 +170,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			Value* a=Value::operation(this,Expression::Multiply,this);
 			Value* b=Value::operation(&v,Expression::Multiply,&v);
 			Value* n=Value::operation(a,Expression::Multiply,b);
-			NumberValue* l=dynamic_cast<NumberValue*>(n);
+			auto* l=dynamic_cast<NumberValue*>(n);
 			if(l)
 				return new NumberValue(r_sqrt(l->getNumber()));
 			return Value::undefined();
@@ -182,7 +182,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			if(e==Expression::NotEqual && !eq)
 				return new BooleanValue(true);
 			if(eq)
-				for(int i=0; i<a.size(); i++) {
+				for(auto i=0; i<a.size(); i++) {
 					Value* eqVec=Value::operation(a.at(i),e,b.at(i));
 					if(e==Expression::NotEqual && eqVec->isTrue())
 						return new BooleanValue(true);
@@ -195,7 +195,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			e=convertOperation(e);
 			int as=a.size();
 			int bs=b.size();
-			for(int i=0; i<as||i<bs; i++) {
+			for(auto i=0; i<as||i<bs; i++) {
 				Value* r;
 				if(as<bs&&i>=as) {
 					r=b.at(i);
@@ -210,7 +210,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 		return new VectorValue(result);
 	}
 
-	NumberValue* num = dynamic_cast<NumberValue*>(&v);
+	auto* num = dynamic_cast<NumberValue*>(&v);
 	if(num) {
 		if(e==Expression::Concatenate) {
 			QList<Value*> a=this->getChildren();
@@ -219,7 +219,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 		} else if(e==Expression::Exponent) {
 			QList<Value*> a=this->getChildren();
 			Value* total=new NumberValue(0);
-			for(int i=0; i<a.size(); i++) {
+			for(auto i=0; i<a.size(); i++) {
 				Value* r=Value::operation(a.at(i),e,num);
 				total=Value::operation(total,Expression::Add,r);
 			}
@@ -229,7 +229,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			int i=num->toInteger();
 			if(i>=0) {
 				it->first();
-				for(int j=0; j<i&&!it->isDone(); ++j)
+				for(auto j=0; j<i&&!it->isDone(); ++j)
 					it->next();
 				if(!it->isDone())
 					return it->currentItem();
@@ -238,7 +238,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 		} else {
 			QList<Value*> a=this->getChildren();
 			e=convertOperation(e);
-			foreach(Value* c,a)
+			for(Value* c: a)
 				result.append(Value::operation(c,e,num));
 		}
 		return new VectorValue(result);

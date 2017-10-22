@@ -28,10 +28,10 @@ SumFunction::SumFunction() : Function("sum")
 
 Value* SumFunction::evaluate(Context* ctx)
 {
-	VectorValue* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(vecVal) {
 		Value* resultVal = new NumberValue(0);
-		foreach(Value* child, vecVal->getChildren())
+		for(Value* child: vecVal->getChildren())
 			resultVal=Value::operation(resultVal,Expression::Add,child);
 
 		return resultVal;

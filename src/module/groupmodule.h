@@ -25,7 +25,7 @@ class GroupModule : public Module
 {
 public:
 	GroupModule(Reporter*);
-	Node* evaluate(Context*);
+	Node* evaluate(Context*) override;
 };
 
 #endif // GROUPMODULE_H

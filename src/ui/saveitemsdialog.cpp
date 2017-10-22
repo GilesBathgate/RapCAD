@@ -19,7 +19,7 @@ SaveItemsDialog::SaveItemsDialog(QWidget* parent,bool compiling,QList<QString> i
 	saveButton->setFocus(Qt::TabFocusReason);
 	saveButton->setMinimumWidth(130); // bad magic number to avoid resizing of button
 
-	foreach(QString fileName, items) {
+	for(QString fileName: items) {
 		QString visibleName;
 		QString directory;
 		if(fileName.isEmpty()) {
@@ -50,7 +50,7 @@ SaveItemsDialog::~SaveItemsDialog()
 void SaveItemsDialog::collectItemsToSave()
 {
 	itemsToSave.clear();
-	foreach(QTreeWidgetItem *item, ui->treeWidget->selectedItems()) {
+	for(QTreeWidgetItem* item: ui->treeWidget->selectedItems()) {
 		itemsToSave.append(item->data(0, Qt::UserRole).toString());
 	}
 	accept();

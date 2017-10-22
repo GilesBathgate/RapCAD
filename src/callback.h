@@ -28,7 +28,7 @@ public:
 	Callback();
 	void setResult(Value*);
 	Value* getResult();
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 private:
 	Value* result;
 };

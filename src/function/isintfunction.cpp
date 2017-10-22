@@ -28,10 +28,10 @@ IsIntFunction::IsIntFunction() : Function("is_int")
 
 Value* IsIntFunction::evaluate(Context* ctx)
 {
-	NumberValue* num=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* num=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(num) {
 		if(r_is_int(num->getNumber()))
-				return new BooleanValue(true);
+			return new BooleanValue(true);
 	}
 
 	return new BooleanValue(false);

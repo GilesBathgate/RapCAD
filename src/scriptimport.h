@@ -25,12 +25,12 @@ class ScriptImport : public Declaration
 {
 public:
 	ScriptImport();
-	~ScriptImport();
+	~ScriptImport() override;
 	void setImport(QString);
 	QString getImport() const;
 	void setNamespace(QString);
 	QString getNamespace() const;
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 private:
 	QString import;
 	QString name_space;

@@ -37,7 +37,7 @@ public:
 	};
 
 	Instance();
-	~Instance();
+	~Instance() override;
 	void setName(QString);
 	QString getName() const;
 	void setArguments(QList<Argument*>);
@@ -48,7 +48,7 @@ public:
 	Type_e getType() const;
 	void setNamespace(QString);
 	QString getNamespace() const;
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 private:
 	QString name;
 	QList<Argument*> arguments;

@@ -25,12 +25,12 @@ class BinaryExpression : public Expression
 {
 public:
 	BinaryExpression();
-	~BinaryExpression();
+	~BinaryExpression() override;
 	Expression* getLeft() const;
 	void setLeft(Expression*);
 	Expression* getRight() const;
 	void setRight(Expression*);
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 private:
 	Expression* left;
 	Expression* right;

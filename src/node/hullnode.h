@@ -32,7 +32,7 @@ public:
 	bool getClosed() const;
 	void setClosed(bool value);
 
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 private:
 	bool chain;
 	bool closed;

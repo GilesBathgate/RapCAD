@@ -26,7 +26,7 @@ class ShearModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(ShearModule)
 public:
 	ShearModule(Reporter*);
-	Node* evaluate(Context*);
+	Node* evaluate(Context*) override;
 };
 
 #endif // SHEARMODULE_H

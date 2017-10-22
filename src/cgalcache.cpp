@@ -36,7 +36,7 @@ Cache::i_Point CGALCache::hashPoint(const CGAL::Point3& pt)
 
 Cache::i_Primitive CGALCache::hashPrimitive(Primitive* pr)
 {
-	CGALPrimitive* cg=dynamic_cast<CGALPrimitive*>(pr);
+	auto* cg=dynamic_cast<CGALPrimitive*>(pr);
 	if(cg) {
 		return hashPrimitive(cg);
 	}
@@ -46,11 +46,11 @@ Cache::i_Primitive CGALCache::hashPrimitive(Primitive* pr)
 Cache::i_Primitive CGALCache::hashPrimitive(CGALPrimitive* cg)
 {
 	i_PointList pi;
-	foreach(CGAL::Point3 pt, cg->getCGALPoints())
+	for(const auto& pt: cg->getCGALPoints())
 		pi.append(hashPoint(pt));
 
 	i_PolygonList pgi;
-	foreach(CGALPolygon* pg, cg->getCGALPolygons())
+	for(CGALPolygon* pg: cg->getCGALPolygons())
 		pgi.append(hashPolygon(pg));
 
 	return i_Primitive(pi,pgi);

@@ -25,7 +25,7 @@ class RandFunction : public Function
 {
 public:
 	RandFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // RANDFUNCTION_H

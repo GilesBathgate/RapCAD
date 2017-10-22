@@ -28,9 +28,9 @@ PointModule::PointModule(Reporter* r) : Module(r,"point")
 
 Node* PointModule::evaluate(Context* ctx)
 {
-	VectorValue* location=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* location=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 
-	PointNode* p=new PointNode();
+	auto* p=new PointNode();
 	Point pt;
 	if(location)
 		pt = location->getPoint();

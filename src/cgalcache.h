@@ -29,7 +29,7 @@ public:
 	CGALCache();
 private:
 	i_Point hashPoint(const CGAL::Point3&);
-	i_Primitive hashPrimitive(Primitive*);
+	i_Primitive hashPrimitive(Primitive*) override;
 	i_Primitive hashPrimitive(CGALPrimitive*);
 };
 

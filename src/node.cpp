@@ -24,7 +24,7 @@ Node::Node()
 
 Node::~Node()
 {
-	foreach(Node* n, children)
+	for(Node* n: children)
 		delete n;
 }
 

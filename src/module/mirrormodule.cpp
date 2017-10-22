@@ -31,7 +31,7 @@ MirrorModule::MirrorModule(Reporter* r) : Module(r,"mirror")
 Node* MirrorModule::evaluate(Context* ctx)
 {
 	Point vec;
-	VectorValue* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(vecVal)
 		vec=vecVal->getPoint();
 
@@ -43,14 +43,14 @@ Node* MirrorModule::evaluate(Context* ctx)
 	decimal v = y/mag;
 	decimal w = z/mag;
 
-	TransformMatrix* m = new TransformMatrix(
+	auto* m = new TransformMatrix(
 		1-2*u*u,-2*v*u,-2*w*u,0,
 		-2*u*v,1-2*v*v,-2*w*v,0,
 		-2*u*w,-2*v*w,1-2*w*w,0,
 			 0,     0,      0,1
 	);
 
-	TransformationNode* n=new TransformationNode();
+	auto* n=new TransformationNode();
 	n->setMatrix(m);
 
 	n->setChildren(ctx->getInputNodes());

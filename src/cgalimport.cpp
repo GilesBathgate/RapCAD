@@ -44,7 +44,7 @@ Primitive* CGALImport::import(QString filename)
 		return importRCAD(file);
 
 	reporter->reportWarning(tr("unknown import type '%1'").arg(suffix));
-	return NULL;
+	return nullptr;
 }
 
 Primitive* CGALImport::importOFF(QFileInfo fileinfo)
@@ -59,7 +59,7 @@ Primitive* CGALImport::importOFF(QFileInfo fileinfo)
 
 Primitive* CGALImport::importSTL(QFileInfo fileinfo)
 {
-	CGALPrimitive* p=new CGALPrimitive();
+	auto* p=new CGALPrimitive();
 	QFile f(fileinfo.absoluteFilePath());
 	if(!f.open(QIODevice::ReadOnly)) {
 		reporter->reportWarning(tr("Can't open import file '%1'").arg(fileinfo.absoluteFilePath()));

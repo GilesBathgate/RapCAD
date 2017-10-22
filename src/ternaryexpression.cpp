@@ -2,9 +2,9 @@
 
 TernaryExpression::TernaryExpression()
 {
-	condition=NULL;
-	trueExpression=NULL;
-	falseExpression=NULL;
+	condition=nullptr;
+	trueExpression=nullptr;
+	falseExpression=nullptr;
 }
 
 TernaryExpression::~TernaryExpression()

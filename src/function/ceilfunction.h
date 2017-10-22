@@ -7,7 +7,7 @@ class CeilFunction : public Function
 {
 public:
 	CeilFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // CEILFUNCTION_H

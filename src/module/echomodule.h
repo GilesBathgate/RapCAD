@@ -27,7 +27,7 @@ class EchoModule : public Module
 {
 public:
 	EchoModule(Reporter*);
-	Node* evaluate(Context*);
+	Node* evaluate(Context*) override;
 private:
 	QTextStream& output;
 	static OnceOnly depricateWarning;

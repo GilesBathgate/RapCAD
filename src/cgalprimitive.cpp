@@ -19,18 +19,18 @@
 #include "onceonly.h"
 #include "rmath.h"
 
-CGAL::NefPolyhedron3* CGALPrimitive::singlePoint=NULL;
+CGAL::NefPolyhedron3* CGALPrimitive::singlePoint=nullptr;
 
 void CGALPrimitive::init()
 {
-	nUnion=NULL;
+	nUnion=nullptr;
 	type=Primitive::Volume;
 }
 
 CGALPrimitive::CGALPrimitive()
 {
 	init();
-	nefPolyhedron=NULL;
+	nefPolyhedron=nullptr;
 }
 
 CGALPrimitive::~CGALPrimitive()
@@ -134,9 +134,9 @@ void CGALPrimitive::buildPrimitive()
 
 	case Primitive::Skeleton: {
 		OnceOnly first;
-		foreach(CGALPolygon* p,polygons) {
+		for(CGALPolygon* p: polygons) {
 			QVector<CGAL::Point3> pl;
-			foreach(CGAL::Point3 pt, p->getPoints()) {
+			for(const auto& pt: p->getPoints()) {
 				pl.append(pt);
 			}
 
@@ -196,7 +196,7 @@ CGAL::NefPolyhedron3* CGALPrimitive::createPolyline(QVector<CGAL::Point3> pl)
 
 Polygon* CGALPrimitive::createPolygon()
 {
-	CGALPolygon* pg = new CGALPolygon(this);
+	auto* pg = new CGALPolygon(this);
 	polygons.append(pg);
 	return pg;
 }
@@ -233,7 +233,7 @@ void CGALPrimitive::prependVertex(CGAL::Point3 p)
 
 bool CGALPrimitive::overlaps(Primitive* pr)
 {
-	CGALPrimitive* that=static_cast<CGALPrimitive*>(pr);
+	auto* that=static_cast<CGALPrimitive*>(pr);
 	return CGAL::do_intersect(this->getBounds(),that->getBounds());
 }
 
@@ -244,16 +244,16 @@ Primitive* CGALPrimitive::group(Primitive* pr)
 	primitives.append(this);
 	primitives.append(pr);
 
-	CGALPrimitive* cp=new CGALPrimitive();
-	foreach(Primitive* pr, primitives) {
-		CGALPrimitive* prim=static_cast<CGALPrimitive*>(pr);
+	auto* cp=new CGALPrimitive();
+	for(Primitive* pr: primitives) {
+		auto* prim=static_cast<CGALPrimitive*>(pr);
 		if(prim->nefPolyhedron) {
 			CGALExplorer e(prim);
 			prim=e.getPrimitive();
 		}
-		foreach(CGALPolygon* p, prim->getCGALPolygons()) {
+		for(CGALPolygon* p: prim->getCGALPolygons()) {
 			cp->createPolygon();
-			foreach(CGAL::Point3 pt, p->getPoints()) {
+			for(const auto& pt: p->getPoints()) {
 				cp->appendVertex(pt);
 			}
 		}
@@ -307,7 +307,7 @@ Primitive* CGALPrimitive::combine()
 
 Primitive* CGALPrimitive::join(Primitive* pr)
 {
-	CGALPrimitive* that=dynamic_cast<CGALPrimitive*>(pr);
+	auto* that=dynamic_cast<CGALPrimitive*>(pr);
 	if(!that) {
 		pr->appendChild(this);
 		return pr;
@@ -321,7 +321,7 @@ Primitive* CGALPrimitive::join(Primitive* pr)
 
 Primitive* CGALPrimitive::intersection(Primitive* pr)
 {
-	CGALPrimitive* that=dynamic_cast<CGALPrimitive*>(pr);
+	auto* that=dynamic_cast<CGALPrimitive*>(pr);
 	if(!that) {
 		pr->appendChild(this);
 		return pr;
@@ -335,7 +335,7 @@ Primitive* CGALPrimitive::intersection(Primitive* pr)
 
 Primitive* CGALPrimitive::difference(Primitive* pr)
 {
-	CGALPrimitive* that=dynamic_cast<CGALPrimitive*>(pr);
+	auto* that=dynamic_cast<CGALPrimitive*>(pr);
 	if(!that) {
 		pr->appendChild(this);
 		return pr;
@@ -349,7 +349,7 @@ Primitive* CGALPrimitive::difference(Primitive* pr)
 
 Primitive* CGALPrimitive::symmetric_difference(Primitive* pr)
 {
-	CGALPrimitive* that=dynamic_cast<CGALPrimitive*>(pr);
+	auto* that=dynamic_cast<CGALPrimitive*>(pr);
 	if(!that) {
 		pr->appendChild(this);
 		return pr;
@@ -363,7 +363,7 @@ Primitive* CGALPrimitive::symmetric_difference(Primitive* pr)
 
 Primitive* CGALPrimitive::minkowski(Primitive* pr)
 {
-	CGALPrimitive* that=dynamic_cast<CGALPrimitive*>(pr);
+	auto* that=dynamic_cast<CGALPrimitive*>(pr);
 	if(!that) {
 		pr->appendChild(this);
 		return pr;
@@ -437,7 +437,7 @@ Primitive* CGALPrimitive::simplify(int level)
 
 Primitive* CGALPrimitive::copy()
 {
-	CGALPrimitive* p=new CGALPrimitive();
+	auto* p=new CGALPrimitive();
 	this->buildPrimitive();
 	p->nefPolyhedron=new CGAL::NefPolyhedron3(*nefPolyhedron);
 	return p;
@@ -457,12 +457,12 @@ void CGALPrimitive::transform(TransformMatrix* matrix)
 		nefPolyhedron->transform(t);
 	} else {
 		QList<CGAL::Point3> nps;
-		foreach(CGAL::Point3 pt, points)
+		for(const auto& pt: points)
 			nps.append(pt.transform(t));
 		points=nps;
 	}
 
-	foreach(Primitive* p, children)
+	for(Primitive* p: children)
 		p->transform(matrix);
 }
 
@@ -506,7 +506,7 @@ CGAL::Circle3 CGALPrimitive::getRadius()
 	typedef  CGAL::Min_circle_2<Traits> Min_circle;
 
 	QList<CGAL::Point2> points2;
-	foreach(CGAL::Point3 pt3,points3) {
+	for(const auto& pt3: points3) {
 		CGAL::Point2 pt2(pt3.x(),pt3.y());
 		points2.append(pt2);
 	}
@@ -549,7 +549,7 @@ void CGALPrimitive::appendChild(Primitive* p)
 	children.append(p);
 }
 
-static CGAL::Point3 discretePoint(CGAL::Point3& pt,int places)
+static CGAL::Point3 discretePoint(const CGAL::Point3& pt,int places)
 {
 	CGAL::Scalar x,y,z;
 	x=r_round(pt.x(),places);
@@ -572,11 +572,11 @@ public:
 void CGALPrimitive::discrete(int places)
 {
 	if(nefPolyhedron) {
-		DiscreteNef* n=static_cast<DiscreteNef*>(nefPolyhedron);
+		auto* n=static_cast<DiscreteNef*>(nefPolyhedron);
 		n->discrete(places);
 	} else {
 		QList<CGAL::Point3> nps;
-		foreach(CGAL::Point3 pt, points) {
+		for(const auto& pt: points) {
 			nps.append(discretePoint(pt,places));
 		}
 		points=nps;

@@ -39,27 +39,27 @@ Node* RotateModule::evaluate(Context* ctx)
 		quaternion
 	};
 
-	TransformationNode* n=new TransformationNode();
+	auto* n=new TransformationNode();
 
 	rotationType rotation=axis;
 	decimal a=0.0,x=0.0,y=0.0,z=1.0;
-	NumberValue* angValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* angValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(angValue) {
 		a=angValue->getNumber();
-		VectorValue* vecValue=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
+		auto* vecValue=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
 		if(vecValue) {
 			Point vec=vecValue->getPoint();
 			vec.getXYZ(x,y,z);
 			rotation=axis;
 		}
 	} else {
-		VectorValue* vecValue=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+		auto* vecValue=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 		if(vecValue) {
 			Point vec=vecValue->getPoint();
 			vec.getXYZ(x,y,z);
 			rotation=origin;
 		} else {
-			ComplexValue* cpxValue=dynamic_cast<ComplexValue*>(getParameterArgument(ctx,0));
+			auto* cpxValue=dynamic_cast<ComplexValue*>(getParameterArgument(ctx,0));
 			if(cpxValue) {
 				cpxValue->toQuaternion(a,x,y,z);
 				rotation=quaternion;
@@ -89,7 +89,7 @@ Node* RotateModule::evaluate(Context* ctx)
 		http://tinyurl.com/q4utr88
 		*/
 
-		TransformMatrix* RzRyRx = new TransformMatrix(
+		auto* RzRyRx = new TransformMatrix(
 			cy*cz,cz*sx*sy-cx*sz,cx*cz*sy+sx*sz,0,
 			cy*sz,cx*cz+sx*sy*sz,-cz*sx+cx*sy*sz,0,
 			-sy,cy*sx,cx*cy,0,
@@ -108,7 +108,7 @@ Node* RotateModule::evaluate(Context* ctx)
 		decimal v = y/mag;
 		decimal w = z/mag;
 
-		TransformMatrix* TxyTzRaTzTxy = new TransformMatrix(
+		auto* TxyTzRaTzTxy = new TransformMatrix(
 			u*u*(1-c)+c,u*v*(1-c)-w*s,u*w*(1-c)+v*s,0,
 			u*v*(1-c)+w*s,v*v*(1-c)+c,v*w*(1-c)-u*s,0,
 			u*w*(1-c)-v*s,v*w*(1-c)+u*s,w*w*(1-c)+c,0,
@@ -134,7 +134,7 @@ Node* RotateModule::evaluate(Context* ctx)
 		/* The following rotation matrix is the same
 		 * as above for axis rotations, with the exception
 		 * that no normalisation is done. */
-		TransformMatrix* mx = new TransformMatrix(
+		auto* mx = new TransformMatrix(
 			1-2*(yy+zz),2*(xy-za),2*(xz+ya),0,
 			2*(xy+za),1-2*(xx+zz),2*(yz-xa),0,
 			2*(xz-ya),2*(yz+xa),1-2*(xx+yy),0,

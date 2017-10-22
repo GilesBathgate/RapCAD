@@ -28,13 +28,13 @@ class ForStatement : public Statement
 {
 public:
 	ForStatement();
-	~ForStatement();
+	~ForStatement() override;
 
 	void setArguments(QList<Argument*>);
 	QList<Argument*> getArguments() const;
 	void setStatement(Statement*);
 	Statement* getStatement() const;
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 private:
 	QList<Argument*> arguments;
 	Statement* statement;

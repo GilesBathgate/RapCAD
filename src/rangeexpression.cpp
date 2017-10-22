@@ -20,9 +20,9 @@
 
 RangeExpression::RangeExpression()
 {
-	start=NULL;
-	finish=NULL;
-	step=NULL;
+	start=nullptr;
+	finish=nullptr;
+	step=nullptr;
 }
 
 RangeExpression::~RangeExpression()

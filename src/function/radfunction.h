@@ -25,7 +25,7 @@ class RadFunction : public Function
 {
 public:
 	RadFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // RADFUNCTION_H

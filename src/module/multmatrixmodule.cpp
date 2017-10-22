@@ -30,24 +30,24 @@ MultMatrixModule::MultMatrixModule(Reporter* r) : Module(r,"multmatrix")
 
 Node* MultMatrixModule::evaluate(Context* ctx)
 {
-	VectorValue* matrixVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* matrixVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 
-	TransformationNode* n=new TransformationNode();
+	auto* n=new TransformationNode();
 	n->setChildren(ctx->getInputNodes());
 
 	if(!matrixVec)
 		return n;
 
-	TransformMatrix* m=new TransformMatrix();
+	auto* m=new TransformMatrix();
 	n->setMatrix(m);
 
 	int index=0;
 	decimal matrix[20];
-	foreach(Value* colVal,matrixVec->getChildren()) {
-		VectorValue* rowVal=dynamic_cast<VectorValue*>(colVal);
+	for(Value* colVal: matrixVec->getChildren()) {
+		auto* rowVal=dynamic_cast<VectorValue*>(colVal);
 		if(rowVal) {
-			foreach(Value* valueVal, rowVal->getChildren()) {
-				NumberValue* value=dynamic_cast<NumberValue*>(valueVal);
+			for(Value* valueVal: rowVal->getChildren()) {
+				auto* value=dynamic_cast<NumberValue*>(valueVal);
 				if(value) {
 					matrix[index]=value->getNumber();
 				}

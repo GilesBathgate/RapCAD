@@ -25,7 +25,7 @@ class Tester : public Strategy
 {
 public:
 	Tester(QTextStream&);
-	int evaluate();
+	int evaluate() override;
 private:
 	bool testFunctionExists(Script* s);
 };

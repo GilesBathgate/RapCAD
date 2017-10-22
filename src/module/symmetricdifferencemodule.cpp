@@ -26,7 +26,7 @@ SymmetricDifferenceModule::SymmetricDifferenceModule(Reporter* r) : Module(r,"sy
 
 Node* SymmetricDifferenceModule::evaluate(Context* ctx)
 {
-	SymmetricDifferenceNode* d = new SymmetricDifferenceNode();
+	auto* d = new SymmetricDifferenceNode();
 	d->setChildren(ctx->getInputNodes());
 	return d;
 }

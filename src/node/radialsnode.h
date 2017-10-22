@@ -25,7 +25,7 @@ class RadialsNode : public Node
 {
 public:
 	RadialsNode();
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 };
 
 #endif // RADIALSNODE_H

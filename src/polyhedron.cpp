@@ -29,7 +29,7 @@ Polyhedron::~Polyhedron()
 
 Polygon* Polyhedron::createPolygon()
 {
-	Polygon* pg = new Polygon(this);
+	auto* pg = new Polygon(this);
 	polygons.append(pg);
 	return pg;
 }
@@ -82,11 +82,11 @@ Primitive* Polyhedron::minkowski(Primitive* p)
 
 Primitive* Polyhedron::copy()
 {
-	Polyhedron* c=new Polyhedron();
-	foreach(Point p, points) {
+	auto* c=new Polyhedron();
+	for(const auto& p: points) {
 		c->createVertex(p);
 	}
-	foreach(Polygon* pg, polygons) {
+	for(Polygon* pg: polygons) {
 		Polygon* npg=c->createPolygon();
 		npg->setIndexes(pg->getIndexes());
 	}
@@ -96,12 +96,12 @@ Primitive* Polyhedron::copy()
 void Polyhedron::transform(TransformMatrix* m)
 {
 	QList<Point> nps;
-	foreach(Point p,points) {
+	for(const auto& p: points) {
 		nps.append(p.transform(m));
 	}
 	points=nps;
 
-	foreach(Primitive* p, children)
+	for(Primitive* p: children)
 		p->transform(m);
 }
 

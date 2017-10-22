@@ -28,11 +28,11 @@ class RangeIterator : public Iterator<Value*>
 {
 public:
 	RangeIterator(RangeValue* range);
-	virtual ~RangeIterator();
-	void first();
-	void next();
-	bool isDone();
-	Value* currentItem() const;
+	~RangeIterator() override;
+	void first() override;
+	void next() override;
+	bool isDone() override;
+	Value* currentItem() const override;
 private:
 	RangeValue* range;
 	Value* index;

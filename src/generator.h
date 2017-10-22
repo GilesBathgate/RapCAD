@@ -25,7 +25,7 @@ class Generator : public Strategy
 {
 public:
 	Generator(QTextStream&);
-	int evaluate();
+	int evaluate() override;
 };
 
 #endif // GENERATOR_H

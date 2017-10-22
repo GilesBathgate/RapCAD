@@ -25,12 +25,12 @@ class BooleanValue : public Value
 {
 public:
 	BooleanValue(bool);
-	QString getValueString() const;
-	Value* toNumber();
-	bool isTrue() const;
+	QString getValueString() const override;
+	Value* toNumber() override;
+	bool isTrue() const override;
 private:
-	Value* operation(Expression::Operator_e);
-	Value* operation(Value&,Expression::Operator_e);
+	Value* operation(Expression::Operator_e) override;
+	Value* operation(Value&,Expression::Operator_e) override;
 	bool boolean;
 };
 

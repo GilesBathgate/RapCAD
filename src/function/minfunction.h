@@ -7,7 +7,7 @@ class MinFunction : public Function
 {
 public:
 	MinFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // MINFUNCTION_H

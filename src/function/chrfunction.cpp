@@ -28,8 +28,8 @@ ChrFunction::ChrFunction() : Function("chr")
 Value* ChrFunction::evaluate(Context* ctx)
 {
 	QString result;
-	foreach(Value* argVal, ctx->getArguments()) {
-		NumberValue* code=dynamic_cast<NumberValue*>(argVal);
+	for(Value* argVal: ctx->getArguments()) {
+		auto* code=dynamic_cast<NumberValue*>(argVal);
 		if(code) {
 			uint point=code->toInteger();
 			result.append(QString::fromUcs4(&point,1));

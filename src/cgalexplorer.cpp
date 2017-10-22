@@ -28,14 +28,14 @@
 CGALExplorer::CGALExplorer(Primitive* p)
 {
 	primitive=static_cast<CGALPrimitive*>(p);
-	perimeters=NULL;
+	perimeters=nullptr;
 	evaluated=false;
 }
 
 CGALExplorer::CGALExplorer(CGALPrimitive* p)
 {
 	primitive=p;
-	perimeters=NULL;
+	perimeters=nullptr;
 	evaluated=false;
 }
 
@@ -94,7 +94,7 @@ public:
 	{
 		bool facet = !f->is_twin();
 		if(facet) {
-			CGALPolygon* pg=static_cast<CGALPolygon*>(primitive->createPolygon());
+			auto* pg=static_cast<CGALPolygon*>(primitive->createPolygon());
 			CGAL::Plane3 p=f->plane();
 			CGAL::Vector3 v=p.orthogonal_vector();
 			if(isBase(v))
@@ -160,11 +160,11 @@ public:
 
 static CGALExplorer::HalfEdgeHandle findNewEdge(QList<CGALExplorer::HalfEdgeHandle> visited,QList<CGALExplorer::HalfEdgeHandle> edges)
 {
-	foreach(CGALExplorer::HalfEdgeHandle h, edges)
-	if(!visited.contains(h) && !visited.contains(h->twin()))
-		return h;
+	for(CGALExplorer::HalfEdgeHandle h: edges)
+		if(!visited.contains(h) && !visited.contains(h->twin()))
+			return h;
 
-	return NULL;
+	return nullptr;
 }
 
 void CGALExplorer::evaluate()
@@ -220,16 +220,16 @@ void CGALExplorer::evaluate()
 		 * we did we walk along the twin edge. */
 		perimeters=new CGALPrimitive();
 		perimeters->setType(Primitive::Skeleton);
-		CGALPolygon* poly=static_cast<CGALPolygon*>(perimeters->createPolygon());
+		auto* poly=static_cast<CGALPolygon*>(perimeters->createPolygon());
 		HalfEdgeHandle f=outEdges.first();
 		HalfEdgeHandle c=f;
 		CGAL::Point3 fp;
 		bool twin=true;
 		bool first=true;
 		do {
-			foreach(HalfEdgeHandle h,outEdges) {
+			for(HalfEdgeHandle h: outEdges) {
 				if(twin) h=h->twin();
-				if(c!=NULL && h!=c && h!=c->twin()) {
+				if(c!=nullptr && h!=c && h!=c->twin()) {
 					CGAL::Point3 cp=c->target()->point();
 					CGAL::Point3 np=h->source()->point();
 					if(cp==np) {
@@ -253,7 +253,7 @@ void CGALExplorer::evaluate()
 							poly->setNormal(v);
 
 							f=findNewEdge(visited,outEdges);
-							if(f==NULL) {
+							if(f==nullptr) {
 								evaluated=true;
 								return;
 							}
@@ -319,7 +319,7 @@ CGALVolume CGALExplorer::getVolume(bool calcMass)
 
 	CGAL::Scalar total=0;
 	QList<Tetrahedron> volumes;
-	foreach(Points pts, volumePoints) {
+	for(const auto& pts: volumePoints) {
 		Triangulation tr(pts.begin(),pts.end());
 		CellIterator ci;
 		for(ci=tr.finite_cells_begin(); ci!=tr.finite_cells_end(); ++ci) {

@@ -27,10 +27,10 @@ class ModuleScope : public Scope
 {
 public:
 	ModuleScope();
-	~ModuleScope();
-	QList<Declaration*> getDeclarations() const;
+	~ModuleScope() override;
+	QList<Declaration*> getDeclarations() const override;
 	void setDeclarations(QList<Declaration*>);
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 private:
 	QList<Declaration*> declarations;
 };

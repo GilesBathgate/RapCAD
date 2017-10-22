@@ -43,7 +43,7 @@ int Comparer::evaluate()
 	children.append(a);
 	children.append(b);
 
-	SymmetricDifferenceNode* d=new SymmetricDifferenceNode();
+	auto* d=new SymmetricDifferenceNode();
 	d->setChildren(children);
 
 	NodeEvaluator ne(reporter);

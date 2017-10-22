@@ -29,8 +29,8 @@ CrossFunction::CrossFunction() : Function("cross")
 Value* CrossFunction::evaluate(Context* ctx)
 {
 
-	VectorValue* vec1=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
-	VectorValue* vec2=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
+	auto* vec1=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* vec2=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
 	if(vec1&&vec2)
 		return Value::operation(vec1,Expression::CrossProduct,vec2);
 

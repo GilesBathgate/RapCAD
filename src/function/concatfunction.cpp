@@ -26,9 +26,9 @@ ConcatFunction::ConcatFunction() : Function("concat")
 
 Value* ConcatFunction::evaluate(Context* ctx)
 {
-	VectorValue* val=NULL;
-	foreach(Value* argVal, ctx->getArguments()) {
-		VectorValue* arg = dynamic_cast<VectorValue*>(argVal);
+	VectorValue* val=nullptr;
+	for(Value* argVal: ctx->getArguments()) {
+		auto* arg = dynamic_cast<VectorValue*>(argVal);
 		if(!arg)
 			arg= argVal->toVector(1);
 

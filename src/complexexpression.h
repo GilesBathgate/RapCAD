@@ -25,7 +25,7 @@ class ComplexExpression : public Expression
 {
 public:
 	ComplexExpression();
-	~ComplexExpression();
+	~ComplexExpression() override;
 
 	Expression* getReal() const;
 	void setReal(Expression* value);
@@ -33,7 +33,7 @@ public:
 	VectorExpression* getImaginary() const;
 	void setImaginary(VectorExpression* value);
 
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 private:
 	Expression* real;
 	VectorExpression* imaginary;

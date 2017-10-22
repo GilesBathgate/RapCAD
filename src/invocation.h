@@ -27,14 +27,14 @@ class Invocation : public Expression
 {
 public:
 	Invocation();
-	~Invocation();
+	~Invocation() override;
 	void setName(QString);
 	QString getName() const;
 	void setNamespace(QString);
 	QString getNamespace() const;
 	void setArguments(QList<Argument*>);
 	QList<Argument*> getArguments() const;
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 private:
 	QString name;
 	QString nameSpace;

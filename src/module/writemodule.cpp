@@ -32,10 +32,10 @@ Node* WriteModule::evaluate(Context* ctx)
 {
 	QList<Value*> args=ctx->getArguments();
 	OnceOnly first;
-	foreach(Value* a,args) {
+	for(Value* a: args) {
 		if(!first())
 			output << " ";
 		output << a->getValueString();
 	}
-	return NULL;
+	return nullptr;
 }

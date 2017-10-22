@@ -14,11 +14,11 @@ VolumesModule::VolumesModule(Reporter* r) : Module(r,"volume")
 Node* VolumesModule::evaluate(Context* ctx)
 {
 	bool mass=false;
-	BooleanValue* massVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));
+	auto* massVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));
 	if(massVal)
 		mass=massVal->isTrue();
 
-	VolumesNode* n=new VolumesNode();
+	auto* n=new VolumesNode();
 	n->setCalcMass(mass);
 	n->setChildren(ctx->getInputNodes());
 	return n;

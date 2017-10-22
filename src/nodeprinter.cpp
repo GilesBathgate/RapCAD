@@ -34,11 +34,11 @@ void NodePrinter::visit(PrimitiveNode* n)
 void NodePrinter::printPrimitive(Primitive* pr)
 {
 #if USE_CGAL
-	CGALPrimitive* cp=dynamic_cast<CGALPrimitive*>(pr);
+	auto* cp=dynamic_cast<CGALPrimitive*>(pr);
 	if(cp)
 		printPrimitive(cp);
 #endif
-	Polyhedron* ph=dynamic_cast<Polyhedron*>(pr);
+	auto* ph=dynamic_cast<Polyhedron*>(pr);
 	if(ph)
 		printPrimitive(ph);
 }
@@ -46,7 +46,7 @@ void NodePrinter::printPrimitive(Primitive* pr)
 void NodePrinter::printPrimitive(Polyhedron* ph)
 {
 	OnceOnly first;
-	foreach(Point p, ph->getPoints()) {
+	for(const auto& p: ph->getPoints()) {
 		if(!first())
 			result << ",";
 		result << p.toString();
@@ -54,13 +54,13 @@ void NodePrinter::printPrimitive(Polyhedron* ph)
 	result << "],[";
 
 	OnceOnly first_pg;
-	foreach(Polygon* pg,ph->getPolygons()) {
+	for(Polygon* pg: ph->getPolygons()) {
 		if(!first_pg())
 			result << ",";
 		result << "[";
 
 		OnceOnly first_p;
-		foreach(int i,pg->getIndexes()) {
+		for(auto i: pg->getIndexes()) {
 			if(!first_p())
 				result << ",";
 			result << QString().setNum(i);
@@ -85,7 +85,7 @@ void NodePrinter::printPoint(CGAL::Point3 p, bool trim)
 void NodePrinter::printPrimitive(CGALPrimitive* pr)
 {
 	OnceOnly first;
-	foreach(CGAL::Point3 p, pr->getCGALPoints()) {
+	for(const auto& p: pr->getCGALPoints()) {
 		if(!first())
 			result << ",";
 		printPoint(p,true);
@@ -93,13 +93,13 @@ void NodePrinter::printPrimitive(CGALPrimitive* pr)
 	result << "],[";
 
 	OnceOnly first_pg;
-	foreach(Polygon* pg,pr->getCGALPolygons()) {
+	for(Polygon* pg: pr->getCGALPolygons()) {
 		if(!first_pg())
 			result << ",";
 		result << "[";
 
 		OnceOnly first_p;
-		foreach(int i,pg->getIndexes()) {
+		for(auto i: pg->getIndexes()) {
 			if(!first_p())
 				result << ",";
 			result << QString().setNum(i);
@@ -224,7 +224,7 @@ void NodePrinter::printChildren(Node* n)
 	QList<Node*> children = n->getChildren();
 	if(children.length()>0) {
 		result << "{";
-		foreach(Node* c,children)
+		for(Node* c: children)
 			c->accept(*this);
 		result << "}";
 	} else {
@@ -243,7 +243,7 @@ void NodePrinter::printArguments(Polygon pg)
 {
 	result << "([";
 	OnceOnly first;
-	foreach(Point p, pg.getPoints()) {
+	for(const auto& p: pg.getPoints()) {
 		if(!first())
 			result << ",";
 		result << p.toString();
@@ -255,7 +255,7 @@ void NodePrinter::printArguments(QList<AlignNode::Face_t> t)
 {
 	result << "(";
 	OnceOnly first;
-	foreach(AlignNode::Face_t a, t) {
+	for(AlignNode::Face_t a: t) {
 		if(!first())
 			result << ",";
 		switch(a) {

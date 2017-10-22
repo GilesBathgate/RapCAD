@@ -45,14 +45,14 @@ int Tester::evaluate()
 	/* This hard coded directory and filters need to be addressed
 	 * but it will do for now. */
 	QDir cur=QDir::current();
-	foreach(QString dir, cur.entryList(QStringList("*_*")))
-		foreach(QFileInfo file, QDir(dir).entryInfoList(QStringList("*.rcad"),QDir::Files)) {
+	for(QString dir: cur.entryList(QStringList("*_*")))
+		for(QFileInfo file: QDir(dir).entryInfoList(QStringList("*.rcad"), QDir::Files)) {
 
 			output << "Test #" << QString().setNum(testcount+1).rightJustified(3,'0') << ": ";
 			output << file.fileName().leftJustified(62,'.',true);
 			output.flush();
 
-			Script* s=parse(file.absoluteFilePath(),NULL,true);
+			Script* s=parse(file.absoluteFilePath(),nullptr,true);
 
 			TreeEvaluator te(&nullreport);
 
@@ -60,7 +60,7 @@ int Tester::evaluate()
 				//If a test function exists check it returns true
 				Callback* c = addCallback("test",s,args);
 				s->accept(te);
-				BooleanValue* v = dynamic_cast<BooleanValue*>(c->getResult());
+				auto* v = dynamic_cast<BooleanValue*>(c->getResult());
 				if(v && v->isTrue()) {
 					output << " Passed" << endl;
 				} else {
@@ -125,8 +125,8 @@ int Tester::evaluate()
 
 bool Tester::testFunctionExists(Script* s)
 {
-	foreach(Declaration* d, s->getDeclarations()) {
-		Function* func=dynamic_cast<Function*>(d);
+	for(Declaration* d: s->getDeclarations()) {
+		auto* func=dynamic_cast<Function*>(d);
 		if(func && func->getName()=="test")
 			return true;
 	}

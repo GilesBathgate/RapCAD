@@ -26,7 +26,7 @@ TriangulateModule::TriangulateModule(Reporter* r) : Module(r,"triangulate")
 
 Node* TriangulateModule::evaluate(Context* ctx)
 {
-	TriangulateNode* n=new TriangulateNode();
+	auto* n=new TriangulateNode();
 	n->setChildren(ctx->getInputNodes());
 	return n;
 }

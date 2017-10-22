@@ -25,7 +25,7 @@ class SymmetricDifferenceNode : public Node
 {
 public:
 	SymmetricDifferenceNode();
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 };
 
 #endif // SYMMETRICDIFFERENCENODE_H

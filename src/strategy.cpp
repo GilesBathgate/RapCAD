@@ -31,8 +31,8 @@ Strategy::~Strategy()
 
 Callback* Strategy::addCallback(QString name,Script* s,QList<Argument*> args)
 {
-	Callback* c=new Callback();
-	Invocation* l=new Invocation();
+	auto* c=new Callback();
+	auto* l=new Invocation();
 	if(args.length()>0)
 		l->setArguments(args);
 	l->setName(name);

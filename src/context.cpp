@@ -21,10 +21,10 @@
 
 Context::Context()
 {
-	parent=NULL;
-	currentValue=NULL;
-	returnValue=NULL;
-	currentScope=NULL;
+	parent=nullptr;
+	currentValue=nullptr;
+	returnValue=nullptr;
+	currentScope=nullptr;
 }
 
 Context::~Context()
@@ -122,7 +122,7 @@ Node* Context::lookupChild(int index)
 	if(parent)
 		return parent->lookupChild(index);
 
-	return NULL;
+	return nullptr;
 }
 
 /* Lookup children doesn't currently
@@ -141,11 +141,11 @@ QList<Node*> Context::lookupChildren()
 
 void Context::setVariablesFromArguments()
 {
-	for(int i=0; i<parameters.size(); i++) {
+	for(auto i=0; i<parameters.size(); i++) {
 		Value* val=parameters.at(i);
 		bool found=false;
 		QString paramName=val->getName();
-		foreach(Value* arg,arguments) {
+		for(Value* arg: arguments) {
 			QString argName=arg->getName();
 			if(arg->isDefined()&&argName==paramName) {
 				val=arg;
@@ -249,13 +249,13 @@ Value* Context::getArgumentSpecial(QString name)
 	if(v && v->getStorage()==Variable::Special)
 		return v;
 
-	return NULL;
+	return nullptr;
 }
 
 Value* Context::matchArgumentIndex(bool allowChar,bool matchLast, int index, QString name)
 {
 	if(index >= arguments.size())
-		return NULL;
+		return nullptr;
 
 	Value* arg = arguments.at(index);
 	QString argName = arg->getName();
@@ -267,13 +267,13 @@ Value* Context::matchArgumentIndex(bool allowChar,bool matchLast, int index, QSt
 
 Value* Context::matchArgument(bool allowChar,bool matchLast, QString name)
 {
-	foreach(Value* namedArg,arguments) {
+	for(Value* namedArg: arguments) {
 		QString namedArgName = namedArg->getName();
 		if(match(allowChar,matchLast,namedArgName,name))
 			return namedArg;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 bool Context::match(bool allowChar,bool matchLast, QString a,QString n)

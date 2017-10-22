@@ -30,18 +30,18 @@ PolylineModule::PolylineModule(Reporter* r) : Module(r,"polyline")
 
 Node* PolylineModule::evaluate(Context* ctx)
 {
-	VectorValue* pointsVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
-	VectorValue* linesVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
+	auto* pointsVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* linesVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
 
-	PolylineNode* p=new PolylineNode(reporter);
+	auto* p=new PolylineNode(reporter);
 
 	if(!pointsVec)
 		return p;
 
 	QList<Value*> points=pointsVec->getChildren();
 
-	foreach(Value* point, points) {
-		VectorValue* pointVec=dynamic_cast<VectorValue*>(point);
+	for(Value* point: points) {
+		auto* pointVec=dynamic_cast<VectorValue*>(point);
 		if(pointVec) {
 			Point pt = pointVec->getPoint();
 			p->createVertex(pt);
@@ -53,7 +53,7 @@ Node* PolylineModule::evaluate(Context* ctx)
 	 * build a polyline from that. */
 	if(!linesVec) {
 		Polygon* pg=p->createPolygon();
-		for(int i=0; i<points.length(); ++i)
+		for(auto i=0; i<points.length(); ++i)
 			pg->append(i);
 		return p;
 	}
@@ -62,12 +62,12 @@ Node* PolylineModule::evaluate(Context* ctx)
 	 * polylines */
 	QList<Value*> lines=linesVec->getChildren();
 
-	foreach(Value* line,lines) {
-		VectorValue* lineVec=dynamic_cast<VectorValue*>(line);
+	for(Value* line: lines) {
+		auto* lineVec=dynamic_cast<VectorValue*>(line);
 		if(lineVec) {
 			Polygon* pg=p->createPolygon();
-			foreach(Value* indexVal,lineVec->getChildren()) {
-				NumberValue* indexNum=dynamic_cast<NumberValue*>(indexVal);
+			for(Value* indexVal: lineVec->getChildren()) {
+				auto* indexNum=dynamic_cast<NumberValue*>(indexVal);
 				if(indexNum) {
 					int index = indexNum->toInteger();
 					if(index>=0&&index<points.count()) {

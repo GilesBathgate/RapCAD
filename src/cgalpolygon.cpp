@@ -26,9 +26,9 @@ CGALPolygon::CGALPolygon(CGALPrimitive* p) : Polygon(p)
 QList<CGAL::Point3> CGALPolygon::getPoints() const
 {
 	QList<CGAL::Point3> points;
-	CGALPrimitive* pr=static_cast<CGALPrimitive*>(parent);
+	auto* pr=static_cast<CGALPrimitive*>(parent);
 	QList<CGAL::Point3> parentPoints=pr->getCGALPoints();
-	foreach(int i,indexes)
+	for(auto i: indexes)
 		points.append(parentPoints.at(i));
 	return points;
 }

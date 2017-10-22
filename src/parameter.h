@@ -26,14 +26,14 @@ class Parameter : public VisitableTree
 {
 public:
 	Parameter();
-	~Parameter();
+	~Parameter() override;
 	QString getName() const;
 	void setName(QString);
 	Expression* getExpression() const;
 	void setExpression(Expression*);
 	void addDescription(QString);
 	QString getDescription() const;
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 private:
 	QString name;
 	QString description;

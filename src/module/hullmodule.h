@@ -25,7 +25,7 @@ class HullModule : public Module
 {
 public:
 	HullModule(Reporter*);
-	Node* evaluate(Context*);
+	Node* evaluate(Context*) override;
 };
 
 #endif // HULLMODULE_H

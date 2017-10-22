@@ -26,10 +26,10 @@ class TextIterator : public Iterator<Value*>
 {
 public:
 	TextIterator(QString);
-	void first();
-	void next();
-	bool isDone();
-	Value* currentItem() const;
+	void first() override;
+	void next() override;
+	bool isDone() override;
+	Value* currentItem() const override;
 private:
 	QString text;
 	int index;

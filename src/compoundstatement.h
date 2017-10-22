@@ -26,10 +26,10 @@ class CompoundStatement : public Scope
 {
 public:
 	CompoundStatement();
-	~CompoundStatement();
+	~CompoundStatement() override;
 	void setChildren(QList<Statement*>);
 	QList<Statement*> getChildren() const;
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 private:
 	QList<Statement*> children;
 };

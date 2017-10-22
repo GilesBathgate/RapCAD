@@ -43,7 +43,7 @@ Node* CubeModule::evaluate(Context* ctx)
 		p.getXYZ(x,y,z);
 	}
 
-	PrimitiveNode* p=new PrimitiveNode(reporter);
+	auto* p=new PrimitiveNode(reporter);
 	p->setChildren(ctx->getInputNodes());
 
 	decimal x1, x2, y1, y2, z1, z2;
@@ -139,7 +139,7 @@ Node* CubeModule::evaluate(Context* ctx)
 	pg->append(4);
 
 	if(center) {
-		AlignNode* n=new AlignNode();
+		auto* n=new AlignNode();
 		n->setCenter(true);
 		n->addChild(p);
 		return n;

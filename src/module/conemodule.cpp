@@ -32,9 +32,9 @@ ConeModule::ConeModule(Reporter* r) : PrimitiveModule(r,"cone")
 
 Node* ConeModule::evaluate(Context* ctx)
 {
-	NumberValue* heightValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
-	NumberValue* r1Value = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
-	NumberValue* r2Value = dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));
+	auto* heightValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* r1Value = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
+	auto* r2Value = dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));
 	Value* centerValue = getParameterArgument(ctx,3);
 
 	decimal h=1.0;
@@ -64,7 +64,7 @@ Node* ConeModule::evaluate(Context* ctx)
 	QList<Point> c1=getCircle(r1,f,z1);
 	QList<Point> c2=getCircle(r2,f,z2);
 
-	PrimitiveNode* p=new PrimitiveNode(reporter);
+	auto* p=new PrimitiveNode(reporter);
 	p->setChildren(ctx->getInputNodes());
 
 	if(r1<=0.0&&r2<=0.0)
@@ -74,7 +74,7 @@ Node* ConeModule::evaluate(Context* ctx)
 	Polygon* pg;
 	if(r1>0) {
 		pg=p->createPolygon();
-		foreach(Point pt,c1) {
+		for(const auto& pt: c1) {
 			p->createVertex(pt);
 			pg->append(n++);
 		}
@@ -85,7 +85,7 @@ Node* ConeModule::evaluate(Context* ctx)
 
 	if(r2>0) {
 		pg=p->createPolygon();
-		foreach(Point pt,c2) {
+		for(const auto& pt: c2) {
 			p->createVertex(pt);
 			pg->prepend(n++);
 		}
@@ -98,7 +98,7 @@ Node* ConeModule::evaluate(Context* ctx)
 	if(r2<=0)
 		p->createVertex(0.0,0.0,z2);
 
-	for(int i=0; i<f; ++i) {
+	for(auto i=0; i<f; ++i) {
 		int j=(i+1)%f;
 
 		int k=r2<=0?n:i;
@@ -132,7 +132,7 @@ Node* ConeModule::evaluate(Context* ctx)
 	}
 
 	if(center) {
-		AlignNode* n=new AlignNode();
+		auto* n=new AlignNode();
 		n->setCenterVertical();
 		n->addChild(p);
 		return n;

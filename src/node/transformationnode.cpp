@@ -2,7 +2,7 @@
 
 TransformationNode::TransformationNode()
 {
-	matrix=NULL;
+	matrix=nullptr;
 }
 
 void TransformationNode::accept(NodeVisitor& v)

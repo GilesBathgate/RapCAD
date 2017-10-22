@@ -7,7 +7,7 @@ class ExpFunction : public Function
 {
 public:
 	ExpFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // EXPFUNCTION_H

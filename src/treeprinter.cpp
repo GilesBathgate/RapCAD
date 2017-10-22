@@ -37,7 +37,7 @@ void TreePrinter::createIndent()
 void TreePrinter::visit(ModuleScope* scp)
 {
 	++indent;
-	foreach(Declaration* d, scp->getDeclarations()) {
+	for(Declaration* d: scp->getDeclarations()) {
 		createIndent();
 		d->accept(*this);
 	}
@@ -73,7 +73,7 @@ void TreePrinter::visit(Instance* inst)
 	result << "(";
 	QList<Argument*> arguments = inst->getArguments();
 	OnceOnly first;
-	foreach(Argument* a, arguments) {
+	for(Argument* a: arguments) {
 		if(!first())
 			result << ",";
 		a->accept(*this);
@@ -87,7 +87,7 @@ void TreePrinter::visit(Instance* inst)
 			result << "{\n";
 			++indent;
 		}
-		for(int i=0; i<c; i++) {
+		for(auto i=0; i<c; i++) {
 			if(c>1)
 				createIndent();
 			children.at(i)->accept(*this);
@@ -110,7 +110,7 @@ void TreePrinter::visit(Module* mod)
 	QString desc=mod->getDescription();
 	if(!desc.isEmpty()) {
 		result << "/** " << desc << "\n";
-		foreach(Parameter* p,parameters) {
+		for(Parameter* p: parameters) {
 			result << " * @param " << p->getName() << " " << p->getDescription() << "\n";
 		}
 		result << " */\n";
@@ -121,7 +121,7 @@ void TreePrinter::visit(Module* mod)
 		result << "$";
 	result << "(";
 	OnceOnly first;
-	foreach(Parameter* p,parameters) {
+	for(Parameter* p: parameters) {
 		if(!first())
 			result << ",";
 		p->accept(*this);
@@ -143,7 +143,7 @@ void TreePrinter::visit(Function* func)
 	result << "(";
 	QList<Parameter*> parameters = func->getParameters();
 	OnceOnly first;
-	foreach(Parameter* p,parameters) {
+	for(Parameter* p: parameters) {
 		if(!first())
 			result << ",";
 		p->accept(*this);
@@ -171,7 +171,7 @@ void TreePrinter::visit(FunctionScope* scp)
 	if(s>0) {
 		result << "{\n";
 		++indent;
-		foreach(Statement* s, statements) {
+		for(Statement* s: statements) {
 			createIndent();
 			s->accept(*this);
 		}
@@ -193,7 +193,7 @@ void TreePrinter::visit(CompoundStatement* stmt)
 			result << "{\n";
 			++indent;
 		}
-		for(int i=0; i<c; i++) {
+		for(auto i=0; i<c; i++) {
 			if(c>1)
 				createIndent();
 			children.at(i)->accept(*this);
@@ -231,7 +231,7 @@ void TreePrinter::visit(IfElseStatement* ifelse)
 void TreePrinter::visit(ForStatement* forstmt)
 {
 	result << "for(";
-	foreach(Argument* a, forstmt->getArguments())
+	for(Argument* a: forstmt->getArguments())
 		a->accept(*this);
 	result << ")";
 	Statement* statement = forstmt->getStatement();
@@ -300,7 +300,7 @@ void TreePrinter::visit(VectorExpression* exp)
 	result << "[";
 	QList<Expression*> children = exp->getChildren();
 	OnceOnly first;
-	foreach(Expression* e,children) {
+	for(Expression* e: children) {
 		if(!first())
 			result << ",";
 		e->accept(*this);
@@ -364,7 +364,7 @@ void TreePrinter::visit(Invocation* stmt)
 	result << "(";
 	QList<Argument*> arguments = stmt->getArguments();
 	OnceOnly first;
-	foreach(Argument* a,arguments) {
+	for(Argument* a: arguments) {
 		if(!first())
 			result << ",";
 		a->accept(*this);
@@ -391,7 +391,7 @@ void TreePrinter::visit(ModuleImport* decl)
 	if(s>0) {
 		result << "(";
 		OnceOnly first;
-		foreach(Parameter* p,parameters) {
+		for(Parameter* p: parameters) {
 			if(!first())
 				result << ",";
 			p->accept(*this);
@@ -446,13 +446,13 @@ void TreePrinter::visit(CodeDoc* cd)
 
 void TreePrinter::visit(Script* sc)
 {
-	foreach(Declaration* d, sc->getDeclarations())
+	for(Declaration* d: sc->getDeclarations())
 		d->accept(*this);
 
-	foreach(QList<CodeDoc*> docs, sc->getDocumentation()) {
+	for(QList<CodeDoc*> docs: sc->getDocumentation()) {
 		result << "/**\n";
 
-		foreach(CodeDoc* doc, docs)
+		for(CodeDoc* doc: docs)
 			doc->accept(*this);
 
 		result << "*/\n";

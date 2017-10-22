@@ -38,7 +38,7 @@ void Preferences::updatePrecision()
 #endif
 }
 
-Preferences* Preferences::instance=NULL;
+Preferences* Preferences::instance=nullptr;
 
 Preferences* Preferences::getInstance()
 {

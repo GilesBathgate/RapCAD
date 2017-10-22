@@ -43,12 +43,12 @@ void SimpleRenderer::setCompiling(bool)
 
 void SimpleRenderer::descendChildren(Primitive* p)
 {
-	foreach(Primitive* c, p->getChildren()) {
+	for(Primitive* c: p->getChildren()) {
 		descendChildren(c);
 
-		foreach(Polygon* p,c->getPolygons()) {
+		for(Polygon* p: c->getPolygons()) {
 			glBegin(GL_LINE_STRIP);
-			foreach(Point pt,p->getPoints()) {
+			for(const auto& pt: p->getPoints()) {
 #if USE_CGAL
 				GLfloat x,y,z;
 				to_glcoord(pt,x,y,z);

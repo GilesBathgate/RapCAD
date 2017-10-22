@@ -26,7 +26,7 @@ DifferenceModule::DifferenceModule(Reporter* r) : Module(r,"difference")
 
 Node* DifferenceModule::evaluate(Context* ctx)
 {
-	DifferenceNode* d = new DifferenceNode();
+	auto* d = new DifferenceNode();
 	d->setChildren(ctx->getInputNodes());
 	return d;
 }

@@ -25,13 +25,13 @@ class Console : public QPlainTextEdit
 {
 	Q_OBJECT
 public:
-	explicit Console(QWidget* parent=0);
+	explicit Console(QWidget* parent=nullptr);
 	void displayPrompt();
 	void setPrompt(QString);
 signals:
 	void execCommand(QString);
 private:
-	void keyPressEvent(QKeyEvent*);
+	void keyPressEvent(QKeyEvent*) override;
 	bool inPromptBlock();
 	bool handleBackspace();
 	void handleReturn();

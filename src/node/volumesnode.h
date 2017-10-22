@@ -7,7 +7,7 @@ class VolumesNode : public Node
 {
 public:
 	VolumesNode();
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 	bool getCalcMass() const;
 	void setCalcMass(bool value);
 private:

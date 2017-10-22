@@ -42,7 +42,7 @@ GLView::GLView(QWidget* parent) :
 	QOpenGLWidget(parent)
 #endif
 {
-	render=NULL;
+	render=nullptr;
 	distance=500.0;
 	showAxes=true;
 	showBase=true;

@@ -38,11 +38,11 @@ class MainWindow : public QMainWindow
 	Q_OBJECT
 
 public:
-	explicit MainWindow(QWidget* parent = 0);
-	~MainWindow();
+	explicit MainWindow(QWidget* parent = nullptr);
+	~MainWindow() override;
 	void loadFiles(const QStringList&);
 protected:
-	virtual void closeEvent(QCloseEvent*);
+	void closeEvent(QCloseEvent*) override;
 private slots:
 	void getDefaultViewport();
 	void setDefaultViewport();

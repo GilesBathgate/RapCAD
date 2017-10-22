@@ -25,11 +25,11 @@ class UnaryExpression : public Expression
 {
 public:
 	UnaryExpression();
-	~UnaryExpression();
+	~UnaryExpression() override;
 
 	void setExpression(Expression*);
 	Expression* getExpression() const;
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 private:
 	Expression* expression;
 };

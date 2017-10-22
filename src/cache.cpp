@@ -39,7 +39,7 @@ Cache::i_Point Cache::hashPoint(const Point& pt)
 Cache::i_Polygon Cache::hashPolygon(Polygon* pg)
 {
 	i_Polygon ip;
-	foreach(int i, pg->getIndexes())
+	for(auto i: pg->getIndexes())
 		ip.append(i);
 
 	return ip;
@@ -48,11 +48,11 @@ Cache::i_Polygon Cache::hashPolygon(Polygon* pg)
 Cache::i_Primitive Cache::hashPrimitive(Primitive* pr)
 {
 	i_PointList pi;
-	foreach(Point pt, pr->getPoints())
+	for(const auto& pt: pr->getPoints())
 		pi.append(hashPoint(pt));
 
 	i_PolygonList pgi;
-	foreach(Polygon* pg, pr->getPolygons())
+	for(Polygon* pg: pr->getPolygons())
 		pgi.append(hashPolygon(pg));
 
 	return i_Primitive(pi,pgi);
@@ -62,7 +62,7 @@ Primitive* Cache::fetch(Primitive* pr)
 {
 	if(pr) {
 		i_Primitive ip=hashPrimitive(pr);
-		Primitive* np=allPrimitives.value(ip,NULL);
+		Primitive* np=allPrimitives.value(ip,nullptr);
 		if(np) {
 			return np->copy();
 		}

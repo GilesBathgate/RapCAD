@@ -2,7 +2,7 @@
 
 ReturnStatement::ReturnStatement()
 {
-	expression=NULL;
+	expression=nullptr;
 }
 
 ReturnStatement::~ReturnStatement()

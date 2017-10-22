@@ -36,7 +36,7 @@ class Module : public Declaration
 public:
 	Module();
 	Module(Reporter*,const QString);
-	~Module();
+	~Module() override;
 	QString getName() const;
 	void setName(QString);
 	QString getDescription() const;
@@ -45,7 +45,7 @@ public:
 	void setParameters(QList<Parameter*>);
 	Scope* getScope() const;
 	void setScope(Scope*);
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 	virtual Node* evaluate(Context*);
 protected:
 	void addDescription(QString);

@@ -21,8 +21,8 @@
 Layout::Layout(Reporter* r)
 {
 	reporter=r;
-	parent=NULL;
-	scope=NULL;
+	parent=nullptr;
+	scope=nullptr;
 }
 
 Layout::~Layout()
@@ -44,7 +44,7 @@ Module* Layout::lookupModule(QString name,bool aux)
 		return parent->lookupModule(name,aux);
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 Function* Layout::lookupFunction(QString name)
@@ -55,7 +55,7 @@ Function* Layout::lookupFunction(QString name)
 		return parent->lookupFunction(name);
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void Layout::addModule(Module* mod)

@@ -7,7 +7,7 @@ class SinFunction : public Function
 {
 public:
 	SinFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // SINFUNCTION_H

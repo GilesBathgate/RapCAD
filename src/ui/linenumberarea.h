@@ -26,9 +26,9 @@ class LineNumberArea : public QWidget
 {
 public:
 	LineNumberArea(CodeEditor*);
-	QSize sizeHint() const;
+	QSize sizeHint() const override;
 protected:
-	void paintEvent(QPaintEvent*);
+	void paintEvent(QPaintEvent*) override;
 private:
 	CodeEditor* codeEditor;
 };

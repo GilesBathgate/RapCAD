@@ -12,11 +12,11 @@ SubDivisionModule::SubDivisionModule(Reporter* r) : Module(r,"subdiv")
 Node* SubDivisionModule::evaluate(Context* ctx)
 {
 	int level=0;
-	NumberValue* levelVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* levelVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(levelVal)
 		level=levelVal->toInteger();
 
-	SubDivisionNode* d = new SubDivisionNode();
+	auto* d = new SubDivisionNode();
 	d->setChildren(ctx->getInputNodes());
 	d->setLevel(level);
 	return d;

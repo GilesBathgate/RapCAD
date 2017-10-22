@@ -25,7 +25,7 @@ class IsRangeFunction : public Function
 {
 public:
 	IsRangeFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // ISRANGEFUNCTION_H

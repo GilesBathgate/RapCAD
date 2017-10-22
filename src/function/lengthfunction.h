@@ -7,7 +7,7 @@ class LengthFunction : public Function
 {
 public:
 	LengthFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // LENGTHFUNCTION_H

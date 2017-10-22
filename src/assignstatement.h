@@ -27,14 +27,14 @@ class AssignStatement : public Statement
 {
 public:
 	AssignStatement();
-	~AssignStatement();
+	~AssignStatement() override;
 	void setVariable(Variable*);
 	Variable* getVariable() const;
 	void setExpression(Expression*);
 	Expression* getExpression() const;
 	void setOperation(Expression::Operator_e);
 	Expression::Operator_e getOperation() const;
-	void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 private:
 	Variable* variable;
 	Expression* expression;

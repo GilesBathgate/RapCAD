@@ -20,8 +20,8 @@
 
 Argument::Argument()
 {
-	variable=NULL;
-	expression=NULL;
+	variable=nullptr;
+	expression=nullptr;
 }
 
 Argument::~Argument()

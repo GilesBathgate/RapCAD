@@ -31,12 +31,12 @@ CylinderSurfaceModule::CylinderSurfaceModule(Reporter* r) : PrimitiveModule(r,"c
 
 Node* CylinderSurfaceModule::evaluate(Context* ctx)
 {
-	NumberValue* heightValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* heightValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	decimal h=1.0;
 	if(heightValue)
 		h=heightValue->getNumber();
 
-	NumberValue* rValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
+	auto* rValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
 	decimal r=1.0;
 	if(rValue)
 		r=rValue->getNumber();
@@ -58,19 +58,19 @@ Node* CylinderSurfaceModule::evaluate(Context* ctx)
 	QList<Point> c1=getCircle(r,f,z1);
 	QList<Point> c2=getCircle(r,f,z2);
 
-	PrimitiveNode* p=new PrimitiveNode(reporter);
+	auto* p=new PrimitiveNode(reporter);
 	p->setChildren(ctx->getInputNodes());
 
-	foreach(Point pt,c1) {
+	for(const auto& pt: c1) {
 		p->createVertex(pt);
 	}
 
-	foreach(Point pt,c2) {
+	for(const auto& pt: c2) {
 		p->createVertex(pt);
 	}
 
 	Polygon* pg;
-	for(int i=0; i<f; ++i) {
+	for(auto i=0; i<f; ++i) {
 		int j=(i+1)%f;
 		int k=i+f;
 		int l=j+f;
@@ -82,7 +82,7 @@ Node* CylinderSurfaceModule::evaluate(Context* ctx)
 	}
 
 	if(center) {
-		AlignNode* n=new AlignNode();
+		auto* n=new AlignNode();
 		n->setCenterVertical();
 		n->addChild(p);
 		return n;

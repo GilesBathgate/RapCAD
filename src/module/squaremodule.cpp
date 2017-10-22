@@ -23,7 +23,7 @@ Node* SquareModule::evaluate(Context* ctx)
 		p.getXY(x,y);
 	}
 
-	PrimitiveNode* p=new PrimitiveNode(reporter);
+	auto* p=new PrimitiveNode(reporter);
 	p->setChildren(ctx->getInputNodes());
 
 	Polygon* pg=p->createPolygon();
@@ -37,7 +37,7 @@ Node* SquareModule::evaluate(Context* ctx)
 	pg->append(3);
 
 	if(center) {
-		AlignNode* n=new AlignNode();
+		auto* n=new AlignNode();
 		n->setCenter(true);
 		n->addChild(p);
 		return n;

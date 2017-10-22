@@ -66,7 +66,7 @@ Value* TextValue::operation(Expression::Operator_e op)
 
 Value* TextValue::operation(Value& v,Expression::Operator_e e)
 {
-	TextValue* that=dynamic_cast<TextValue*>(&v);
+	auto* that=dynamic_cast<TextValue*>(&v);
 	if(that) {
 		if(isComparison(e)) {
 			return new BooleanValue(operation(this,e,that));
@@ -75,7 +75,7 @@ Value* TextValue::operation(Value& v,Expression::Operator_e e)
 		}
 	}
 
-	NumberValue* num=dynamic_cast<NumberValue*>(&v);
+	auto* num=dynamic_cast<NumberValue*>(&v);
 	if(num)
 		if(e==Expression::Index)
 			return new TextValue(this->text.at(num->toInteger()));

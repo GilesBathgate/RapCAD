@@ -65,7 +65,7 @@ void CGALExport::exportResult(QString filename)
 
 void CGALExport::exportVRML(QString filename)
 {
-	CGALPrimitive* pr=dynamic_cast<CGALPrimitive*>(primitive);
+	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
 	if(!pr)
 		return;
 
@@ -78,7 +78,7 @@ void CGALExport::exportVRML(QString filename)
 
 void CGALExport::exportOBJ(QString filename)
 {
-	CGALPrimitive* pr=dynamic_cast<CGALPrimitive*>(primitive);
+	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
 	if(!pr)
 		return;
 
@@ -90,7 +90,7 @@ void CGALExport::exportOBJ(QString filename)
 
 void CGALExport::exportOFF(QString filename)
 {
-	CGALPrimitive* pr=dynamic_cast<CGALPrimitive*>(primitive);
+	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
 	if(!pr)
 		return;
 
@@ -108,7 +108,7 @@ typedef CGAL::Polyhedron3::Halfedge_around_facet_const_circulator HalffacetCircu
 
 void CGALExport::exportAsciiSTL(QString filename)
 {
-	CGALPrimitive* pr=dynamic_cast<CGALPrimitive*>(primitive);
+	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
 	if(!pr)
 		return;
 
@@ -175,7 +175,7 @@ void CGALExport::exportAsciiSTL(QString filename)
 
 void CGALExport::exportAMF(QString filename)
 {
-	QFile* file=new QFile(filename);
+	auto* file=new QFile(filename);
 	if(!file->open(QIODevice::WriteOnly)) {
 		return;
 	}
@@ -197,11 +197,11 @@ void CGALExport::exportAMF(QString filename)
 
 void CGALExport::descendChildren(Primitive* p,QXmlStreamWriter& xml)
 {
-	CGALPrimitive* pr=dynamic_cast<CGALPrimitive*>(p);
+	auto* pr=dynamic_cast<CGALPrimitive*>(p);
 	if(pr) {
 		exportAMFObject(pr,xml);
 	} else {
-		foreach(Primitive* c, p->getChildren()) {
+		for(Primitive* c: p->getChildren()) {
 			descendChildren(c,xml);
 		}
 	}
@@ -249,7 +249,7 @@ void CGALExport::exportAMFObject(CGALPrimitive* p,QXmlStreamWriter& xml)
 		} while(hc != he);
 	}
 
-	foreach(CGAL::Point3 p,vertices) {
+	for(const auto& p: vertices) {
 		xml.writeStartElement("vertex");
 		xml.writeStartElement("coordinates");
 		QString x,y,z;
@@ -266,7 +266,7 @@ void CGALExport::exportAMFObject(CGALPrimitive* p,QXmlStreamWriter& xml)
 	xml.writeEndElement(); //vertices
 
 	xml.writeStartElement("volume");
-	foreach(CGAL::Triangle3 t, triangles) {
+	for(const auto& t: triangles) {
 		xml.writeStartElement("triangle");
 		int v1,v2,v3;
 		v1=vertices.indexOf(t[0]);
@@ -285,7 +285,7 @@ void CGALExport::exportAMFObject(CGALPrimitive* p,QXmlStreamWriter& xml)
 
 void CGALExport::exportCSG(QString filename)
 {
-	CGALExplorer* e=new CGALExplorer(primitive);
+	auto* e=new CGALExplorer(primitive);
 
 	CGALPrimitive* prim=e->getPrimitive();
 
@@ -301,7 +301,7 @@ void CGALExport::exportCSG(QString filename)
 
 	QList<CGAL::Point3> points=prim->getCGALPoints();
 	OnceOnly first;
-	foreach(CGAL::Point3 p,points) {
+	for(const auto& p: points) {
 		if(!first())
 			output << ",";
 		decimal x,y,z;
@@ -315,12 +315,12 @@ void CGALExport::exportCSG(QString filename)
 	output << "],[";
 
 	OnceOnly first_poly;
-	foreach(CGALPolygon* poly, prim->getCGALPolygons()) {
+	for(CGALPolygon* poly: prim->getCGALPolygons()) {
 		if(!first_poly())
 			output << ",";
 		output << "[" ;
 		OnceOnly first_p;
-		foreach(CGAL::Point3 p, poly->getPoints()) {
+		for(const auto& p: poly->getPoints()) {
 			if(!first_p())
 				output << ",";
 			int i=points.indexOf(p); //eek, this could be slow on large models.
@@ -335,7 +335,7 @@ void CGALExport::exportCSG(QString filename)
 
 void CGALExport::export3MF(QString filename)
 {
-	CGALPrimitive* pr=dynamic_cast<CGALPrimitive*>(primitive);
+	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
 	if(!pr)
 		return;
 
@@ -389,7 +389,7 @@ void CGALExport::export3MF(QString filename)
 		} while(hc != he);
 	}
 
-	foreach(CGAL::Point3 p,vertices) {
+	for(const auto& p: vertices) {
 		xml.writeStartElement("vertex");
 		QString x,y,z;
 		x=to_string(p.x());
@@ -404,7 +404,7 @@ void CGALExport::export3MF(QString filename)
 	xml.writeEndElement(); //vertices
 
 	xml.writeStartElement("triangles");
-	foreach(CGAL::Triangle3 t, triangles) {
+	for(const auto& t: triangles) {
 		xml.writeStartElement("triangle");
 		int v1,v2,v3;
 		v1=vertices.indexOf(t[0]);
@@ -467,7 +467,7 @@ void CGALExport::export3MF(QString filename)
 
 void CGALExport::exportNEF(QString f)
 {
-	CGALPrimitive* pr=dynamic_cast<CGALPrimitive*>(primitive);
+	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
 	if(pr) {
 		CGAL::NefPolyhedron3 nef=pr->getNefPolyhedron();
 		std::ofstream file(QFile::encodeName(f));

@@ -9,8 +9,8 @@ StrFunction::StrFunction() : Function("str")
 
 Value* StrFunction::evaluate(Context* ctx)
 {
-	TextValue* val=NULL;
-	foreach(Value* argVal, ctx->getArguments()) {
+	TextValue* val=nullptr;
+	for(Value* argVal: ctx->getArguments()) {
 		TextValue* arg = argVal->toText();
 		if(!val) {
 			val=arg;

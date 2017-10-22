@@ -25,16 +25,16 @@ class RangeValue : public VectorValue
 {
 public:
 	RangeValue(Value*,Value*,Value*);
-	QString getValueString() const;
-	Iterator<Value*>* createIterator();
-	QList<Value*> getChildren();
+	QString getValueString() const override;
+	Iterator<Value*>* createIterator() override;
+	QList<Value*> getChildren() override;
 
 	Value* getStart() const;
 	Value* getStep() const;
 	Value* getFinish() const;
 private:
-	Value* operation(Expression::Operator_e);
-	Value* operation(Value&,Expression::Operator_e);
+	Value* operation(Expression::Operator_e) override;
+	Value* operation(Value&,Expression::Operator_e) override;
 	Value* start;
 	Value* step;
 	Value* finish;

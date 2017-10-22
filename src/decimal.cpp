@@ -35,13 +35,13 @@ decimal to_decimal(QString s,bool* ok)
 	CGAL::Gmpq d;
 	int error=mpq_set_str(d.mpq(),s.toLatin1().constData(),10);
 	if(error) {
-		if(ok!=0)
+		if(ok!=nullptr)
 			*ok=false;
 		return decimal(0);
 	}
 
 	mpq_canonicalize(d.mpq());
-	if(ok!=0)
+	if(ok!=nullptr)
 		*ok=true;
 	return decimal(d);
 #else
@@ -54,7 +54,7 @@ static inline int amountToChop(QString s)
 	int j=0;
 	//s will always be in the form X.XX..
 	//so we can cheat here
-	for(int i=s.size()-1; i>=0; i--) {
+	for(auto i=s.size()-1; i>=0; i--) {
 		QChar c=s.at(i);
 		if(c!='0') {
 			if(c=='.')
@@ -91,7 +91,7 @@ QString to_string(const decimal& d,const bool trim)
 	int sign=mpf_sgn(m);
 	if(sign<0)
 		mpf_neg(m,m);
-	char* r=mpf_get_str(NULL,&e,10,0,m);
+	char* r=mpf_get_str(nullptr,&e,10,0,m);
 	mpf_clear(m);
 	res=QString(r);
 	free(r);
@@ -145,7 +145,7 @@ void to_glcoord(const Point& pt,float& x,float& y,float& z)
 
 QString to_rational(const decimal& n)
 {
-	char* r=mpq_get_str(NULL,10,n.exact().mpq());
+	char* r=mpq_get_str(nullptr,10,n.exact().mpq());
 	QString s(r);
 	free(r);
 	return s;

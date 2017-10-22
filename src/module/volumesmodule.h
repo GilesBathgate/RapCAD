@@ -8,7 +8,7 @@ class VolumesModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(VolumesModule)
 public:
 	VolumesModule(Reporter*);
-	Node* evaluate(Context*);
+	Node* evaluate(Context*) override;
 };
 
 #endif // VOLUMESMODULE_H

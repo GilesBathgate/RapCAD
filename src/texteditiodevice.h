@@ -26,12 +26,12 @@ class TextEditIODevice : public QIODevice
 {
 	Q_OBJECT
 public:
-	TextEditIODevice(QTextEdit*,QObject* parent = 0);
+	TextEditIODevice(QTextEdit*,QObject* parent = nullptr);
 signals:
 	void textRecieved(QString);
 protected:
-	qint64 readData(char*,qint64);
-	qint64 writeData(const char*,qint64);
+	qint64 readData(char*,qint64) override;
+	qint64 writeData(const char*,qint64) override;
 private slots:
 	void writeTextEdit(QString);
 private:

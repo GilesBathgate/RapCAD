@@ -7,7 +7,7 @@ class AtanFunction : public Function
 {
 public:
 	AtanFunction();
-	Value* evaluate(Context*);
+	Value* evaluate(Context*) override;
 };
 
 #endif // ATANFUNCTION_H

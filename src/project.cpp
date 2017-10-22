@@ -7,7 +7,7 @@ Project::Project()
 
 void Project::parseProject(QString filename)
 {
-	QFile* file=new QFile(filename);
+	auto* file=new QFile(filename);
 	if(!file->open(QIODevice::ReadOnly | QIODevice::Text)) {
 		return;
 	}
@@ -55,7 +55,7 @@ void Project::parseSource(QXmlStreamReader& xml)
 
 void Project::writeProject(QString filename)
 {
-	QFile* file=new QFile(filename);
+	auto* file=new QFile(filename);
 	if(!file->open(QIODevice::WriteOnly)) {
 		return;
 	}
@@ -65,8 +65,8 @@ void Project::writeProject(QString filename)
 	xml.writeStartElement("project");
 	xml.writeAttribute("version","0.1");
 	xml.writeTextElement("name",name);
-	foreach(QString source,sources)
-	xml.writeTextElement("source",source);
+	for(QString source: sources)
+		xml.writeTextElement("source",source);
 	xml.writeEndElement();
 	xml.writeEndDocument();
 	delete file;

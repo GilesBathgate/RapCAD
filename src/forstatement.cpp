@@ -20,7 +20,7 @@
 
 ForStatement::ForStatement()
 {
-	statement=NULL;
+	statement=nullptr;
 }
 
 ForStatement::~ForStatement()

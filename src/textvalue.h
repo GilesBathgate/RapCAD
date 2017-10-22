@@ -25,14 +25,14 @@ class TextValue : public Value
 {
 public:
 	TextValue(QString);
-	QString getValueString() const;
-	bool isTrue() const;
-	TextValue* toText();
-	Value* toNumber();
-	Iterator<Value*>* createIterator();
+	QString getValueString() const override;
+	bool isTrue() const override;
+	TextValue* toText() override;
+	Value* toNumber() override;
+	Iterator<Value*>* createIterator() override;
 private:
-	Value* operation(Expression::Operator_e);
-	Value* operation(Value&,Expression::Operator_e);
+	Value* operation(Expression::Operator_e) override;
+	Value* operation(Value&,Expression::Operator_e) override;
 	QString operation(QString,Expression::Operator_e,QString);
 	bool operation(TextValue*,Expression::Operator_e,TextValue*);
 	QString text;

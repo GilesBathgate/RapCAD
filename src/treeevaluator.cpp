@@ -28,16 +28,16 @@
 TreeEvaluator::TreeEvaluator(Reporter* r)
 {
 	reporter=r;
-	context=NULL;
-	rootNode=NULL;
-	layout=NULL;
+	context=nullptr;
+	rootNode=nullptr;
+	layout=nullptr;
 	descendDone=false;
 }
 
 TreeEvaluator::~TreeEvaluator()
 {
 	Value::cleanup();
-	foreach(Layout* l, scopeLookup.values())
+	for(Layout* l: scopeLookup.values())
 		delete l;
 }
 
@@ -79,7 +79,7 @@ void TreeEvaluator::visit(ModuleScope* scp)
 	context->clearArguments();
 	context->clearParameters();
 
-	foreach(Declaration* d, scp->getDeclarations()) {
+	for(Declaration* d: scp->getDeclarations()) {
 		d->accept(*this);
 	}
 
@@ -101,7 +101,7 @@ void TreeEvaluator::visit(Instance* inst)
 	if(stmts.size()>0) {
 		startContext(c);
 
-		foreach(Statement* s,stmts) {
+		for(Statement* s: stmts) {
 			s->accept(*this);
 		}
 
@@ -112,7 +112,7 @@ void TreeEvaluator::visit(Instance* inst)
 	/* Process the arguments. Arguments can themselves contain references to
 	 * function calls so evaluate them in a different context */
 	startContext(c);
-	foreach(Argument* arg, inst->getArguments())
+	for(Argument* arg: inst->getArguments())
 		arg->accept(*this);
 	QList<Value*> arguments=context->getArguments();
 	finishContext();
@@ -135,15 +135,15 @@ void TreeEvaluator::visit(Instance* inst)
 
 		/* Pull the arguments in that we evaluated previously into this
 		 * context */
-		foreach(Value* a, arguments)
+		for(Value* a: arguments)
 			context->addArgument(a);
 
-		foreach(Parameter* p, mod->getParameters())
+		for(Parameter* p: mod->getParameters())
 			p->accept(*this);
 
 		/* Invoke the module whether it be a user defined module or a build
 		 * in module */
-		Node* node=NULL;
+		Node* node=nullptr;
 		if(scp) {
 			scp->accept(*this);
 			childnodes=context->getCurrentNodes();
@@ -194,14 +194,14 @@ void TreeEvaluator::visit(Function* func)
 
 void TreeEvaluator::descend(Scope* scp)
 {
-	foreach(Declaration* d, scp->getDeclarations()) {
-		ScriptImport* i=dynamic_cast<ScriptImport*>(d);
+	for(Declaration* d: scp->getDeclarations()) {
+		auto* i=dynamic_cast<ScriptImport*>(d);
 		if(i)
 			i->accept(*this);
-		Module* m = dynamic_cast<Module*>(d);
+		auto* m = dynamic_cast<Module*>(d);
 		if(m)
 			m->accept(*this);
-		Function* f = dynamic_cast<Function*>(d);
+		auto* f = dynamic_cast<Function*>(d);
 		if(f)
 			f->accept(*this);
 	}
@@ -218,7 +218,7 @@ void TreeEvaluator::visit(FunctionScope* scp)
 		e->accept(*this);
 		context->setReturnValue(context->getCurrentValue());
 	} else {
-		foreach(Statement* s, scp->getStatements()) {
+		for(Statement* s: scp->getStatements()) {
 			s->accept(*this);
 			if(context->getReturnValue())
 				break;
@@ -228,7 +228,7 @@ void TreeEvaluator::visit(FunctionScope* scp)
 
 void TreeEvaluator::visit(CompoundStatement* stmt)
 {
-	foreach(Statement* s, stmt->getChildren())
+	for(Statement* s: stmt->getChildren())
 		s->accept(*this);
 }
 
@@ -247,7 +247,7 @@ void TreeEvaluator::visit(IfElseStatement* ifelse)
 
 void TreeEvaluator::visit(ForStatement* forstmt)
 {
-	foreach(Argument* arg, forstmt->getArguments())
+	for(Argument* arg: forstmt->getArguments())
 		arg->accept(*this);
 	QList<Value*> args=context->getArguments();
 	context->clearArguments();
@@ -343,7 +343,7 @@ void TreeEvaluator::visit(AssignStatement* stmt)
 
 	Value* lvalue = context->getCurrentValue();
 
-	Value* result=NULL;
+	Value* result=nullptr;
 	Expression::Operator_e op=stmt->getOperation();
 	switch(op) {
 	case Expression::Increment:
@@ -399,7 +399,7 @@ void TreeEvaluator::visit(AssignStatement* stmt)
 void TreeEvaluator::visit(VectorExpression* exp)
 {
 	QList<Value*> childvalues;
-	foreach(Expression* e, exp->getChildren()) {
+	for(Expression* e: exp->getChildren()) {
 		e->accept(*this);
 		childvalues.append(context->getCurrentValue());
 	}
@@ -416,7 +416,7 @@ void TreeEvaluator::visit(RangeExpression* exp)
 	exp->getStart()->accept(*this);
 	Value* start = context->getCurrentValue();
 
-	Value* increment = NULL;
+	Value* increment = nullptr;
 	Expression* step = exp->getStep();
 	if(step) {
 		step->accept(*this);
@@ -466,12 +466,12 @@ void TreeEvaluator::visit(Invocation* stmt)
 	/* Process the arguments first. Arguments can themselves contain references
 	 * to function calls so evaluate them in a different context */
 	startContext(c);
-	foreach(Argument* arg, stmt->getArguments())
+	for(Argument* arg: stmt->getArguments())
 		arg->accept(*this);
 	QList<Value*> arguments=context->getArguments();
 	finishContext();
 
-	Value* result=NULL;
+	Value* result=nullptr;
 	/* Look up the layout which is currently in scope and then lookup the
 	 * function in that layout */
 	Layout* l = scopeLookup.value(c);
@@ -489,10 +489,10 @@ void TreeEvaluator::visit(Invocation* stmt)
 
 		/* Pull the arguments in that we evaluated previously into this
 		 * context */
-		foreach(Value* a, arguments)
+		for(Value* a: arguments)
 			context->addArgument(a);
 
-		foreach(Parameter* p, func->getParameters())
+		for(Parameter* p: func->getParameters())
 			p->accept(*this);
 
 		/* Invoke the function whether it be a user defined function or a build
@@ -525,7 +525,7 @@ void TreeEvaluator::visit(Callback* c)
 
 void TreeEvaluator::visit(ModuleImport* imp)
 {
-	ImportModule* mod=new ImportModule();
+	auto* mod=new ImportModule();
 	mod->setImport(imp->getImport());
 	mod->setName(imp->getName());
 	//TODO global import args.
@@ -607,7 +607,7 @@ void TreeEvaluator::visit(Script* sc)
 	descendDone=true;
 
 	startContext(sc);
-	foreach(Declaration* d, sc->getDeclarations()) {
+	for(Declaration* d: sc->getDeclarations()) {
 		d->accept(*this);
 	}
 	QList<Node*> childnodes=context->getCurrentNodes();
@@ -620,7 +620,7 @@ void TreeEvaluator::visit(Script* sc)
 	/* Clean up all the imported scripts as its not the responsibility of the
 	 * caller to do so as we created the imported script instances within this
 	 * evaluator */
-	foreach(Script* sc, imports)
+	for(Script* sc: imports)
 		delete sc;
 
 	b->saveBuiltins(sc);
@@ -642,7 +642,7 @@ void TreeEvaluator::visit(ComplexExpression* exp)
 
 	VectorExpression* imaginary=exp->getImaginary();
 	QList<Value*> childvalues;
-	foreach(Expression* e, imaginary->getChildren()) {
+	for(Expression* e: imaginary->getChildren()) {
 		e->accept(*this);
 		childvalues.append(context->getCurrentValue());
 	}

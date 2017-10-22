@@ -27,10 +27,10 @@ class VectorIterator : public Iterator<Value*>
 {
 public:
 	VectorIterator(QList<Value*> items);
-	void first();
-	void next();
-	bool isDone();
-	Value* currentItem() const;
+	void first() override;
+	void next() override;
+	bool isDone() override;
+	Value* currentItem() const override;
 private:
 	QList<Value*> items;
 	int index;

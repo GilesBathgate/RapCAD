@@ -28,7 +28,7 @@ DegFunction::DegFunction() : Function("deg")
 
 Value* DegFunction::evaluate(Context* ctx)
 {
-	NumberValue* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
