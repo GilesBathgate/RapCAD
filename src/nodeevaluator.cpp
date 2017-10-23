@@ -307,24 +307,51 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 
 #if USE_CGAL
 	CGAL::Scalar r=op->getRadius();
+	CGAL::Scalar height=op->getHeight();
+	CGAL::Scalar sweep=op->getSweep();
+
 	CGALExplorer explorer(result);
-	//CGALPrimitive* prim=explorer.getPrimitive();
-	//QList<CGALPolygon*> polys=prim->getPolygons();
+	CGALPrimitive* prim=explorer.getPrimitive();
+	QList<CGALPolygon*> polys=prim->getCGALPolygons();
 	auto* n = new CGALPrimitive();
 	auto* fg = static_cast<CGALFragment*>(op->getFragments());
 	CGAL::Cuboid3 b=explorer.getBounds();
 	int f=fg->getFragments((b.xmax()-b.xmin())+r);
 
-	for(auto i=0; i<f; i++) {
-		int j=(i+1)%f;
-		decimal phi=(r_tau()*i)/f;
-		decimal nphi=(r_tau()*j)/f;
+	bool caps=(sweep!=360.0||height>0.0);
 
-		CGALPrimitive* peri=explorer.getPerimeters();
+	if(caps) {
+		foreach(CGALPolygon* pg,polys) {
+			n->createPolygon();
+			bool up=(pg->getNormal().z()>0);
+			foreach(CGAL::Point3 pt,pg->getPoints()) {
+				CGAL::Point3 q=translate(pt,r,0,0);
+				if(up)
+					n->appendVertex(q);
+				else
+					n->prependVertex(q);
+			}
+		}
+	}
+
+	if(sweep==0.0) {
+		result = n;
+		return;
+	}
+
+	decimal phi,nphi;
+	CGALPrimitive* peri=explorer.getPerimeters();
+	for(auto i=0; i<f; i++) {
+		int j=caps?i+1:(i+1)%f;
+		decimal ang = r_tau()*sweep/360.0;
+		phi=ang*i/f;
+		nphi=ang*j/f;
+
 		for(CGALPolygon* pg: peri->getCGALPolygons()) {
-			OnceOnly first;
+			bool up=(pg->getNormal().z()>0);
 			CGAL::Point3 pn;
-			for(CGAL::Point3 pt: pg->getPoints()) {
+			OnceOnly first;
+			for(const auto& pt: pg->getPoints()) {
 				if(!first()) {
 					CGAL::Point3 q=translate(pn,r,0,0);
 					CGAL::Point3 p=translate(pt,r,0,0);
@@ -338,16 +365,41 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 					CGAL::Point3 p1=rotate_y(p,nphi);
 					CGAL::Point3 p2=rotate_y(p,phi);
 					CGAL::Point3 q2=rotate_y(q,phi);
-					n->appendVertex(q1);
-					n->appendVertex(p1);
-					if(p2!=p1)
-						n->appendVertex(p2);
-					if(q2!=q1)
-						n->appendVertex(q2);
+					if(up) {
+						n->appendVertex(q1);
+						n->appendVertex(p1);
+						if(p2!=p1)
+							n->appendVertex(p2);
+						if(q2!=q1)
+							n->appendVertex(q2);
+					} else {
+						n->prependVertex(q1);
+						n->prependVertex(p1);
+						if(p2!=p1)
+							n->prependVertex(p2);
+						if(q2!=q1)
+							n->prependVertex(q2);
+					}
 				}
 				pn=pt;
 			}
 			break;
+		}
+	}
+
+
+	if(caps) {
+		foreach(CGALPolygon* pg,polys) {
+			n->createPolygon();
+			bool up=(pg->getNormal().z()>0);
+			foreach(CGAL::Point3 pt,pg->getPoints()) {
+				CGAL::Point3 q=translate(pt,r,0,0);
+				CGAL::Point3 p=rotate_y(q,nphi);
+				if(up)
+					n->prependVertex(p);
+				else
+					n->appendVertex(p);
+			}
 		}
 	}
 

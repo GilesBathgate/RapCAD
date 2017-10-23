@@ -9,29 +9,34 @@ RotateExtrudeNode::~RotateExtrudeNode()
 	delete fragments;
 }
 
-void RotateExtrudeNode::setRadius(decimal r)
-{
-	radius=r;
-}
-
 decimal RotateExtrudeNode::getRadius() const
 {
 	return radius;
 }
 
-void RotateExtrudeNode::setFragments(Fragment* f)
+void RotateExtrudeNode::setRadius(const decimal& r)
 {
-	fragments=f;
+	radius=r;
 }
 
-Fragment* RotateExtrudeNode::getFragments()
+decimal RotateExtrudeNode::getSweep() const
 {
-	return fragments;
+	return sweep;
 }
 
-void RotateExtrudeNode::accept(NodeVisitor& v)
+void RotateExtrudeNode::setSweep(const decimal& value)
 {
-	v.visit(this);
+	sweep = value;
+}
+
+decimal RotateExtrudeNode::getHeight() const
+{
+	return height;
+}
+
+void RotateExtrudeNode::setHeight(const decimal& value)
+{
+	height = value;
 }
 
 Point RotateExtrudeNode::getAxis() const
@@ -44,3 +49,17 @@ void RotateExtrudeNode::setAxis(const Point& value)
 	axis = value;
 }
 
+Fragment* RotateExtrudeNode::getFragments()
+{
+	return fragments;
+}
+
+void RotateExtrudeNode::setFragments(Fragment* f)
+{
+	fragments=f;
+}
+
+void RotateExtrudeNode::accept(NodeVisitor& v)
+{
+	v.visit(this);
+}

@@ -10,15 +10,22 @@ class RotateExtrudeNode : public Node
 public:
 	RotateExtrudeNode();
 	~RotateExtrudeNode() override;
-	void setRadius(decimal);
 	decimal getRadius() const;
-	void setFragments(Fragment*);
+	void setRadius(const decimal&);
+	decimal getSweep() const;
+	void setSweep(const decimal&);
+	decimal getHeight() const;
+	void setHeight(const decimal&);
 	Fragment* getFragments();
+	void setFragments(Fragment*);
 	Point getAxis() const;
-	void setAxis(const Point& value);
+	void setAxis(const Point&);
 	void accept(NodeVisitor&) override;
+
 private:
 	decimal radius;
+	decimal height;
+	decimal sweep;
 	Point axis;
 	Fragment* fragments;
 };
