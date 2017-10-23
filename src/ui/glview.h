@@ -76,7 +76,8 @@ private:
 	void paintGL() override;
 
 #if USE_QGLWIDGET
-	inline void update(){ updateGL(); }
+#else
+	void renderText(double,double,double,const QString&,const QFont& fnt=QFont(),int listBase=2000);
 #endif
 
 	void mousePressEvent(QMouseEvent* event) override;
@@ -90,6 +91,7 @@ private:
 	Renderer* render;
 	GLfloat distance;
 	bool showAxes;
+	bool showCross;
 	bool showBase;
 	bool showPrintArea;
 	bool showRulers;

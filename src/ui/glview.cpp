@@ -45,6 +45,7 @@ GLView::GLView(QWidget* parent) :
 	render=nullptr;
 	distance=500.0;
 	showAxes=true;
+	showCross=true;
 	showBase=true;
 	showPrintArea=true;
 	showRulers=true;
@@ -331,10 +332,66 @@ void GLView::paintGL()
 		}
 		glEnd();
 	}
+	if(showCross) {
+		glLineWidth(5.0);
+		glBegin(GL_LINES);
+		glColor3f(1.0,0.0,0.0);
+		glVertex3f(printX,printY,0.0);
+		glVertex3f(printX+10.0,printY,0.0);
+
+		glColor3f(0.0,1.0,0.0);
+		glVertex3f(printX,printY,0.0);
+		glVertex3f(printX,printY+10.0,0.0);
+
+		glColor3f(0.0,0.0,1.0);
+		glVertex3f(printX,printY,0.0);
+		glVertex3f(printX,printY,10.0);
+		glEnd();
+
+		glLineWidth(2.0);
+		glColor3f(1.0,0.0,0.0);
+		renderText(printX+15.0,printY,0.0,"X");
+		glColor3f(0.0,1.0,0.0);
+		renderText(printX,printY+15.0,0.0,"Y");
+		glColor3f(0.0,0.0,1.0);
+		renderText(printX,printY,15.0,"Z");
+	}
 
 	if(render)
 		render->draw(skeleton,showEdges);
 }
+
+#if !USE_QGLWIDGET
+void GLView::renderText(double x, double y, double z, const QString& str, const QFont&, int)
+{
+	//TODO: Use qpainter for full text support.
+	const float d=2.0;
+	glBegin(GL_LINES);
+	if(str=="X") {
+		glVertex3f(x-d,y,z-d);
+		glVertex3d(x+d,y,z+d);
+		glVertex3f(x-d,y,z+d);
+		glVertex3d(x+d,y,z-d);
+	}
+	if(str=="Y") {
+		glVertex3d(x+d,y,z+d);
+		glVertex3f(x,y,z);
+		glVertex3f(x-d,y,z+d);
+		glVertex3d(x,y,z);
+		glVertex3d(x,y,z-d);
+		glVertex3d(x,y,z);
+	}
+	if(str=="Z") {
+		glVertex3f(x-d,y,z-d);
+		glVertex3d(x+d,y,z-d);
+		glVertex3f(x-d,y,z+d);
+		glVertex3d(x+d,y,z+d);
+		glVertex3f(x-d,y,z-d);
+		glVertex3d(x+d,y,z+d);
+	}
+	glEnd();
+}
+#endif
 
 void GLView::wheelEvent(QWheelEvent* event)
 {
