@@ -255,7 +255,7 @@ Value* Context::getArgumentSpecial(QString name)
 Value* Context::matchArgumentIndex(bool allowChar,bool matchLast, int index, QString name)
 {
 	if(index >= arguments.size())
-		return nullptr;
+		return matchArgument(allowChar,matchLast,name);
 
 	Value* arg = arguments.at(index);
 	QString argName = arg->getName();
