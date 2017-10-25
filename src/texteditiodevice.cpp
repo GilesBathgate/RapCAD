@@ -23,7 +23,7 @@ TextEditIODevice::TextEditIODevice(QTextEdit* textEdit,QObject* parent) :
 	, textEdit(textEdit)
 {
 	open(QIODevice::WriteOnly|QIODevice::Text);
-	connect(this,SIGNAL(textRecieved(QString)),this,SLOT(writeTextEdit(QString)));
+	connect(this,&TextEditIODevice::textRecieved,this,&TextEditIODevice::writeTextEdit);
 }
 
 qint64 TextEditIODevice::readData(char*,qint64)

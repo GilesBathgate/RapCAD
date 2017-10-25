@@ -11,7 +11,7 @@ SaveItemsDialog::SaveItemsDialog(QWidget* parent,bool compiling,QList<QString> i
 	if(!compiling) {
 		ui->checkBox->hide();
 		QPushButton* discardButton=ui->buttonBox->addButton(tr("Do not Save"), QDialogButtonBox::DestructiveRole);
-		connect(discardButton, SIGNAL(clicked()), this, SLOT(discardAll()));
+		connect(discardButton,&QPushButton::clicked,this,&SaveItemsDialog::discardAll);
 	}
 
 	QPushButton* saveButton=ui->buttonBox->button(QDialogButtonBox::Save);
@@ -37,9 +37,8 @@ SaveItemsDialog::SaveItemsDialog(QWidget* parent,bool compiling,QList<QString> i
 	ui->treeWidget->selectAll();
 	updateSaveButton();
 
-	connect(ui->buttonBox->button(QDialogButtonBox::Save), SIGNAL(clicked()),
-		this, SLOT(collectItemsToSave()));
-	connect(ui->treeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(updateSaveButton()));
+	connect(ui->buttonBox->button(QDialogButtonBox::Save),&QPushButton::clicked,this,&SaveItemsDialog::collectItemsToSave);
+	connect(ui->treeWidget,&QTreeWidget::itemSelectionChanged,this,&SaveItemsDialog::updateSaveButton);
 }
 
 SaveItemsDialog::~SaveItemsDialog()

@@ -58,12 +58,11 @@ void PreferencesDialog::setupButtons()
 
 	connect(this->ui->vertexSizeSpinBox,SIGNAL(valueChanged(double)),SLOT(vertexSizeChanged(double)));
 	connect(this->ui->edgeSizeSpinBox,SIGNAL(valueChanged(double)),SLOT(edgeSizeChanged(double)));
-
 	connect(this->ui->precisionSpinBox,SIGNAL(valueChanged(int)),SLOT(precisionChanged(int)));
 
-	connect(this->ui->checkBox,SIGNAL(stateChanged(int)),SLOT(autoSaveOnCompileChanged(int)));
-	connect(this->ui->functionRoundingCheckBox,SIGNAL(stateChanged(int)),SLOT(functionRoundingChanged(int)));
-	connect(this->ui->rationalFormatCheckBox,SIGNAL(stateChanged(int)),SLOT(rationalFormatChanged(int)));
+	connect(this->ui->checkBox,&QCheckBox::stateChanged,this,&PreferencesDialog::autoSaveOnCompileChanged);
+	connect(this->ui->functionRoundingCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::functionRoundingChanged);
+	connect(this->ui->rationalFormatCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::rationalFormatChanged);
 }
 
 void PreferencesDialog::colorButtonPressed(QWidget* frame)

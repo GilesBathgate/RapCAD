@@ -23,7 +23,7 @@ BackgroundWorker::BackgroundWorker(QTextStream& s,QObject* parent) :
 	Worker(s)
 {
 	thread=new QThread();
-	connect(thread,SIGNAL(started()),this,SLOT(start()));
+	connect(thread,&QThread::started,this,&BackgroundWorker::start);
 	this->moveToThread(thread);
 }
 

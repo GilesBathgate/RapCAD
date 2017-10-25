@@ -56,7 +56,7 @@ private slots:
 	bool saveFile();
 	bool saveAsFile();
 	bool saveAllFiles();
-	bool closeFile();
+	bool closeCurrentFile();
 	bool closeFile(int);
 	void openFile();
 	void compileAndRender();

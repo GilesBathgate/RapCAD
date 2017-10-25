@@ -173,52 +173,51 @@ void MainWindow::getDefaultViewport()
 
 void MainWindow::setupActions()
 {
-	connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newFile()));
-	connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(openFile()));
-	connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(saveFile()));
-	connect(ui->actionSaveAll,SIGNAL(triggered()),this,SLOT(saveAllFiles()));
-	connect(ui->actionSaveAs,SIGNAL(triggered()),this,SLOT(saveAsFile()));
-	connect(ui->actionClose,SIGNAL(triggered()),this,SLOT(closeFile()));
-	connect(ui->actionQuit,SIGNAL(triggered()),this,SLOT(close()));
-	connect(ui->actionUndo,SIGNAL(triggered()),this,SLOT(undo()));
-	connect(ui->actionRedo,SIGNAL(triggered()),this,SLOT(redo()));
-	connect(ui->actionCut,SIGNAL(triggered()),this,SLOT(cut()));
-	connect(ui->actionCopy,SIGNAL(triggered()),this,SLOT(copy()));
-	connect(ui->actionPaste,SIGNAL(triggered()),this,SLOT(paste()));
+	connect(ui->actionNew,&QAction::triggered,this,&MainWindow::newFile);
+	connect(ui->actionOpen,&QAction::triggered,this,&MainWindow::openFile);
+	connect(ui->actionSave,&QAction::triggered,this,&MainWindow::saveFile);
+	connect(ui->actionSaveAll,&QAction::triggered,this,&MainWindow::saveAllFiles);
+	connect(ui->actionSaveAs,&QAction::triggered,this,&MainWindow::saveAsFile);
+	connect(ui->actionClose,&QAction::triggered,this,&MainWindow::closeCurrentFile);
+	connect(ui->actionQuit,&QAction::triggered,this,&MainWindow::close);
+	connect(ui->actionUndo,&QAction::triggered,this,&MainWindow::undo);
+	connect(ui->actionRedo,&QAction::triggered,this,&MainWindow::redo);
+	connect(ui->actionCut,&QAction::triggered,this,&MainWindow::cut);
+	connect(ui->actionCopy,&QAction::triggered,this,&MainWindow::copy);
+	connect(ui->actionPaste,&QAction::triggered,this,&MainWindow::paste);
 
 	clipboardDataChanged();
-	connect(QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(clipboardDataChanged()));
+	connect(QApplication::clipboard(),&QClipboard::dataChanged,this,&MainWindow::clipboardDataChanged);
 
 	//Make sure when axis is toggled rulers are disabled but not vice versa
-	connect(ui->actionShowAxes,SIGNAL(triggered(bool)),this,SLOT(disableRulers(bool)));
-	connect(ui->actionShowEdges,SIGNAL(triggered(bool)),ui->view,SLOT(setShowEdges(bool)));
-	connect(ui->actionSkeleton,SIGNAL(triggered(bool)),ui->view,SLOT(setSkeleton(bool)));
-	connect(ui->actionShowAxes,SIGNAL(triggered(bool)),ui->view,SLOT(setShowAxes(bool)));
-	connect(ui->actionShowBase,SIGNAL(triggered(bool)),ui->view,SLOT(setShowBase(bool)));
-	connect(ui->actionShowPrintArea,SIGNAL(triggered(bool)),ui->view,SLOT(setShowPrintArea(bool)));
-	connect(ui->actionShowRulers,SIGNAL(triggered(bool)),ui->view,SLOT(setShowRulers(bool)));
-	connect(ui->actionCompileAndRender,SIGNAL(triggered()),this,SLOT(compileAndRender()));
-	connect(ui->actionGenerateGcode,SIGNAL(triggered()),this,SLOT(compileAndGenerate()));
-	connect(ui->actionPreferences,SIGNAL(triggered()),this,SLOT(showPreferences()));
+	connect(ui->actionShowAxes,&QAction::triggered,this,&MainWindow::disableRulers);
+	connect(ui->actionShowEdges,&QAction::triggered,ui->view,&GLView::setShowEdges);
+	connect(ui->actionSkeleton,&QAction::triggered,ui->view,&GLView::setSkeleton);
+	connect(ui->actionShowAxes,&QAction::triggered,ui->view,&GLView::setShowAxes);
+	connect(ui->actionShowBase,&QAction::triggered,ui->view,&GLView::setShowBase);
+	connect(ui->actionShowPrintArea,&QAction::triggered,ui->view,&GLView::setShowPrintArea);
+	connect(ui->actionShowRulers,&QAction::triggered,ui->view,&GLView::setShowRulers);
+	connect(ui->actionCompileAndRender,&QAction::triggered,this,&MainWindow::compileAndRender);
+	connect(ui->actionGenerateGcode,&QAction::triggered,this,&MainWindow::compileAndGenerate);
+	connect(ui->actionPreferences,&QAction::triggered,this,&MainWindow::showPreferences);
 
+	connect(ui->actionExportImage,&QAction::triggered,this,&MainWindow::grabFrameBuffer);
+	connect(ui->actionShowEditor,&QAction::triggered,ui->tabWidget,&QTabWidget::setVisible);
+	connect(ui->actionShowConsole,&QAction::triggered,ui->console,&Console::setVisible);
+	connect(ui->actionShowProjects,&QAction::triggered,ui->treeView,&QTreeView::setVisible);
+	connect(ui->actionSetViewport,&QAction::triggered,this,&MainWindow::setDefaultViewport);
+	connect(ui->actionDefaultView,&QAction::triggered,this,&MainWindow::getDefaultViewport);
 
-	connect(ui->actionExportImage,SIGNAL(triggered()),this,SLOT(grabFrameBuffer()));
-	connect(ui->actionShowEditor,SIGNAL(triggered(bool)),ui->tabWidget,SLOT(setVisible(bool)));
-	connect(ui->actionShowConsole,SIGNAL(triggered(bool)),ui->console,SLOT(setVisible(bool)));
-	connect(ui->actionShowProjects,SIGNAL(triggered(bool)),ui->treeView,SLOT(setVisible(bool)));
-	connect(ui->actionSetViewport,SIGNAL(triggered()),this,SLOT(setDefaultViewport()));
-	connect(ui->actionDefaultView,SIGNAL(triggered()),this,SLOT(getDefaultViewport()));
+	connect(ui->tabWidget,&QTabWidget::currentChanged,this,&MainWindow::tabChanged);
 
-	connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(tabChanged(int)));
+	connect(ui->actionAbout,&QAction::triggered,this,&MainWindow::showAbout);
+	connect(ui->actionAboutQt,&QAction::triggered,this,&MainWindow::showAboutQt);
+	connect(ui->actionShowBuiltins,&QAction::triggered,this,&MainWindow::showBuiltins);
 
-	connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(showAbout()));
-	connect(ui->actionAboutQt,SIGNAL(triggered()),this,SLOT(showAboutQt()));
-	connect(ui->actionShowBuiltins,SIGNAL(triggered()),this,SLOT(showBuiltins()));
+	connect(ui->actionUserGuide,&QAction::triggered,this,&MainWindow::showUserGuide);
 
-	connect(ui->actionUserGuide,SIGNAL(triggered()),this,SLOT(showUserGuide()));
-
-	connect(ui->actionFlushCaches,SIGNAL(triggered()),this,SLOT(flushCaches()));
-	connect(ui->actionEnableCaches,SIGNAL(triggered(bool)),this,SLOT(enableCaches(bool)));
+	connect(ui->actionFlushCaches,&QAction::triggered,this,&MainWindow::flushCaches);
+	connect(ui->actionEnableCaches,&QAction::triggered,this,&MainWindow::enableCaches);
 
 }
 
@@ -303,7 +302,7 @@ void MainWindow::showPreferences()
 {
 	if(!preferencesDialog) {
 		preferencesDialog = new PreferencesDialog(this);
-		connect(preferencesDialog,SIGNAL(preferencesUpdated()),ui->view,SLOT(preferencesUpdated()));
+		connect(preferencesDialog,&PreferencesDialog::preferencesUpdated,ui->view,&GLView::preferencesUpdated);
 	}
 
 	preferencesDialog->show();
@@ -357,19 +356,19 @@ void MainWindow::setupEditor(CodeEditor* editor)
 {
 	disableActions(editor);
 
-	connect(editor->document(), SIGNAL(modificationChanged(bool)),ui->actionSave, SLOT(setEnabled(bool)));
-	connect(editor->document(), SIGNAL(modificationChanged(bool)),ui->actionSaveAll, SLOT(setEnabled(bool)));
-	connect(editor->document(), SIGNAL(undoAvailable(bool)),ui->actionUndo, SLOT(setEnabled(bool)));
-	connect(editor->document(), SIGNAL(redoAvailable(bool)),ui->actionRedo, SLOT(setEnabled(bool)));
-	connect(editor,SIGNAL(copyAvailable(bool)), ui->actionCut, SLOT(setEnabled(bool)));
-	connect(editor,SIGNAL(copyAvailable(bool)), ui->actionCopy, SLOT(setEnabled(bool)));
-	connect(editor,SIGNAL(fileNameChanged(QString)),this,SLOT(setTabTitle(QString)));
+	connect(editor->document(),&QTextDocument::modificationChanged,ui->actionSave,&QAction::setEnabled);
+	connect(editor->document(),&QTextDocument::modificationChanged,ui->actionSaveAll,&QAction::setEnabled);
+	connect(editor->document(),&QTextDocument::undoAvailable,ui->actionUndo,&QAction::setEnabled);
+	connect(editor->document(),&QTextDocument::redoAvailable,ui->actionRedo,&QAction::setEnabled);
+	connect(editor,&CodeEditor::copyAvailable,ui->actionCut,&QAction::setEnabled);
+	connect(editor,&CodeEditor::copyAvailable,ui->actionCopy,&QAction::setEnabled);
+	connect(editor,&CodeEditor::fileNameChanged,this,&MainWindow::setTabTitle);
 }
 
 void MainWindow::setupTabs(QTabWidget* tabWidget)
 {
 	tabWidget->setTabsClosable(true);
-	connect(tabWidget,SIGNAL(tabCloseRequested(int)),this,SLOT(closeFile(int)));
+	connect(tabWidget,&QTabWidget::tabCloseRequested,this,&MainWindow::closeFile);
 }
 
 void MainWindow::setupConsole()
@@ -385,11 +384,11 @@ void MainWindow::setupConsole()
 	console=new TextEditIODevice(reinterpret_cast<QTextEdit*>(c),this);
 	output=new QTextStream(console);
 	worker=new BackgroundWorker(*output);
-	connect(worker,SIGNAL(done()),this,SLOT(evaluationDone()));
+	connect(worker,&BackgroundWorker::done,this,&MainWindow::evaluationDone);
 
 	interact=new Interactive(*output);
 	c->setPrompt(interact->getPrompt());
-	connect(c,SIGNAL(execCommand(QString)),interact,SLOT(execCommand(QString)));
+	connect(c,&Console::execCommand,interact,&Interactive::execCommand);
 }
 
 void MainWindow::clipboardDataChanged()
@@ -480,7 +479,7 @@ bool MainWindow::saveAsFile()
 	return currentEditor()->saveAsFile();
 }
 
-bool MainWindow::closeFile()
+bool MainWindow::closeCurrentFile()
 {
 	return closeFile(ui->tabWidget->currentIndex());
 }
@@ -543,7 +542,7 @@ void MainWindow::openFile()
 
 	//current editor could now be different
 	if(!currentEditor()->openFile())
-		closeFile();
+		closeCurrentFile();
 }
 
 void MainWindow::setTabTitle(const QString& fileName)
@@ -664,7 +663,7 @@ void MainWindow::showBuiltins()
 	int i=ui->tabWidget->addTab(e,tr("Built In"));
 	ui->tabWidget->setCurrentIndex(i);
 
-	connect(e,SIGNAL(copyAvailable(bool)), ui->actionCopy, SLOT(setEnabled(bool)));
+	connect(e,&CodeEditor::copyAvailable,ui->actionCopy,&QAction::setEnabled);
 
 	QTextEdit* c=(QTextEdit*)e;
 	QIODevice* t=new TextEditIODevice(c,this);

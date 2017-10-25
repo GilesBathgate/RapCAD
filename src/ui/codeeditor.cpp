@@ -33,8 +33,8 @@ CodeEditor::CodeEditor(QWidget* parent) : QPlainTextEdit(parent)
 	highlighter = new SyntaxHighlighter(this->document());
 	lineNumberArea = new LineNumberArea(this);
 
-	connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
-	connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
+	connect(this,&CodeEditor::blockCountChanged,this,&CodeEditor::updateLineNumberAreaWidth);
+	connect(this,&CodeEditor::updateRequest,this,&CodeEditor::updateLineNumberArea);
 
 	updateLineNumberAreaWidth(0);
 }
