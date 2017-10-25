@@ -32,6 +32,7 @@ static const GLfloat baseLength=235.0;
 
 static const GLfloat printWidth=250.0;
 static const GLfloat printLength=210.0;
+static const GLfloat printHeight=200.0;
 
 static const GLfloat rulerLength=200.0;
 
@@ -227,13 +228,195 @@ void GLView::resizeGL(int w, int h)
 	projection->perspective(45.0, (GLfloat)w/(GLfloat)h, +10.0, +farfarAway);
 	glLoadMatrixf(projection->data());
 #endif
+
+}
+
+void GLView::drawGradientBackground()
+{
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	glDisable(GL_DEPTH_TEST);
+	glBegin(GL_QUADS);
+	glColor3ub(119,119,119);
+	glVertex2f(-1.0,-1.0);
+	glVertex2f(1.0,-1.0);
+	glColor3ub(186,186,186);
+	glVertex2f(1.0, 1.0);
+	glVertex2f(-1.0, 1.0);
+	glEnd();
+	glEnable(GL_DEPTH_TEST);
+
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+}
+
+void GLView::drawAxes()
+{
+	glLineWidth(1);
+	glColor3f(0.0, 0.0, 0.0);
+	glBegin(GL_LINES);
+	float c=fmax(distance/2,rulerLength);
+	glVertex3f(-c, 0, 0);
+	glVertex3f(+c, 0, 0);
+	glVertex3f(0, -c, 0);
+	glVertex3f(0, +c, 0);
+	glVertex3f(0, 0, -c);
+	glVertex3f(0, 0, +c);
+	glEnd();
+}
+
+void GLView::drawBase()
+{
+	glLineWidth(2);
+	glColor3f(0.2, 0.2, 0.2);
+	glBegin(GL_QUADS);
+	glVertex3f(printX+baseX, printY+baseY+chamfer, 0);
+	glVertex3f(printX+baseX+chamfer, printY+baseY, 0);
+	glVertex3f(printX+baseX+baseWidth-chamfer, printY+baseY, 0);
+	glVertex3f(printX+baseX+baseWidth, printY+baseY+chamfer, 0);
+
+	glVertex3f(printX+baseX+baseWidth, printY+baseY+baseLength-chamfer, 0);
+	glVertex3f(printX+baseX+baseWidth-chamfer, printY+baseY+baseLength, 0);
+	glVertex3f(printX+baseX+chamfer, printY+baseY+baseLength, 0);
+	glVertex3f(printX+baseX, printY+baseY+baseLength-chamfer, 0);
+
+	glVertex3f(printX+baseX, printY+baseY+chamfer, 0);
+	glVertex3f(printX+baseX+baseWidth, printY+baseY+chamfer, 0);
+	glVertex3f(printX+baseX+baseWidth, printY+baseY+baseLength-chamfer, 0);
+	glVertex3f(printX+baseX, printY+baseY+baseLength-chamfer, 0);
+	glEnd();
+
+	glLineWidth(2);
+	glColor3f(0.6, 0.6, 0.6);
+	glBegin(GL_LINES);
+	for(GLfloat o=0.0; o<printWidth; o+=10.0) {
+		glVertex3f(printX+o, printY, 0);
+		glVertex3f(printX+o, printY+printLength, 0);
+	}
+	for(GLfloat j=5.0; j<printLength; j+=10.0) {
+		glVertex3f(printX, printY+j, 0);
+		glVertex3f(printX+printWidth, printY+j, 0);
+	}
+	glEnd();
+
+	glLineWidth(4);
+	glColor3f(0.8, 0.8, 0.8);
+	glBegin(GL_LINE_LOOP);
+	glVertex3f(printX, printY, 0);
+	glVertex3f(printX+printWidth,printY, 0);
+	glVertex3f(printX+printWidth,printY+printLength, 0);
+	glVertex3f(printX, printY+printLength, 0);
+	glEnd();
+
+	glBegin(GL_LINES);
+	for(GLfloat o=0.0; o<printWidth; o+=50.0) {
+		glVertex3f(printX+o, printY, 0);
+		glVertex3f(printX+o, printY+printLength, 0);
+	}
+	for(GLfloat j=5.0; j<printLength; j+=50.0) {
+		glVertex3f(printX, printY+j, 0);
+		glVertex3f(printX+printWidth, printY+j, 0);
+	}
+	glEnd();
+}
+
+void GLView::drawPrintArea()
+{
+	glLineWidth(1);
+	glColor3f(0.8, 0.8, 0.8);
+	glBegin(GL_LINE_LOOP);
+	glVertex3f(printX, printY, 0);
+	glVertex3f(printX+printWidth,printY, 0);
+	glVertex3f(printX+printWidth,printY+printLength, 0);
+	glVertex3f(printX, printY+printLength, 0);
+	glEnd();
+
+	glBegin(GL_LINES);
+	glVertex3f(printX,printY, 0);
+	glVertex3f(printX,printY, printHeight);
+
+	glVertex3f(printX+printWidth,printY+printLength, 0);
+	glVertex3f(printX+printWidth,printY+printLength, printHeight);
+
+	glVertex3f(printX, printY+printLength, 0);
+	glVertex3f(printX, printY+printLength, printHeight);
+
+	glVertex3f(printX+printWidth, printY, 0);
+	glVertex3f(printX+printWidth, printY, printHeight);
+	glEnd();
+
+	glBegin(GL_LINE_LOOP);
+	glVertex3f(printX, printY, printHeight);
+	glVertex3f(printX+printWidth,printY, printHeight);
+	glVertex3f(printX+printWidth,printY+printLength, printHeight);
+	glVertex3f(printX, printY+printLength, printHeight);
+	glEnd();
+}
+
+void GLView::drawRulers()
+{
+	glLineWidth(1);
+	glColor3f(0.2, 0.2, 0.2);
+	glBegin(GL_LINES);
+	int k=distance<200?1:10; //Only show milimeters when close up
+	for(int i=-rulerLength; i<rulerLength; i+=k) {
+		int j=i%10?2:5;
+		glVertex3i(i, 0, 0);
+		glVertex3i(i, j, 0);
+	}
+	for(int i=-rulerLength; i<rulerLength; i+=k) {
+		int j=i%10?2:5;
+		glVertex3i(0, i, 0);
+		glVertex3i(j, i, 0);
+	}
+	for(int i=-rulerLength; i<rulerLength; i+=k) {
+		int j=i%10?2:5;
+		glVertex3i(0, 0, i);
+		glVertex3i(j, 0, i);
+	}
+	glEnd();
+}
+
+void GLView::drawCross()
+{
+	const GLfloat n = 0.2;
+	glLineWidth(5.0);
+	glBegin(GL_LINES);
+	glColor3f(1.0,0.0,0.0);
+	glVertex3f(printX,printY,n);
+	glVertex3f(printX+10.0,printY,n);
+
+	glColor3f(0.0,1.0,0.0);
+	glVertex3f(printX,printY,n);
+	glVertex3f(printX,printY+10.0,n);
+
+	glColor3f(0.0,0.0,1.0);
+	glVertex3f(printX-n,printY-n,n);
+	glVertex3f(printX-n,printY-n,10.0);
+	glEnd();
+
+	glLineWidth(2.0);
+	glColor3f(1.0,0.0,0.0);
+	renderText(printX+15.0,printY,3.0,"X");
+	glColor3f(0.0,1.0,0.0);
+	renderText(printX,printY+15.0,3.0,"Y");
+	glColor3f(0.0,0.0,1.0);
+	renderText(printX-n,printY-n,15.0,"Z");
 }
 
 void GLView::paintGL()
 {
-	glMatrixMode(GL_MODELVIEW);
-
+	glDisable(GL_LIGHTING);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	drawGradientBackground();
+
+	glMatrixMode(GL_MODELVIEW);
 
 #if USE_QGLWIDGET
 	glLoadIdentity();
@@ -256,106 +439,13 @@ void GLView::paintGL()
 	glLoadMatrixf(modelview->data());
 #endif
 
-	if(showAxes) {
-		glLineWidth(1);
-		glColor3f(0.5, 0.5, 0.5);
-		glBegin(GL_LINES);
-		float c=fmax(distance/2,rulerLength);
-		glVertex3f(-c, 0, 0);
-		glVertex3f(+c, 0, 0);
-		glVertex3f(0, -c, 0);
-		glVertex3f(0, +c, 0);
-		glVertex3f(0, 0, -c);
-		glVertex3f(0, 0, +c);
-		glEnd();
-	}
-	if(showBase) {
-		glLineWidth(2);
-		glColor3f(0.0, 0.0, 0.5);
-		glBegin(GL_LINE_LOOP);
+	if(showAxes) drawAxes();
+	if(showBase) drawBase();
+	if(showPrintArea) drawPrintArea();
+	if(showRulers) drawRulers();
+	if(showCross) drawCross();
 
-		glVertex3f(printX+baseX, printY+baseY+chamfer, 0);
-		glVertex3f(printX+baseX+chamfer, printY+baseY, 0);
-
-		glVertex3f(printX+baseX+baseWidth-chamfer, printY+baseY, 0);
-		glVertex3f(printX+baseX+baseWidth, printY+baseY+chamfer, 0);
-
-		glVertex3f(printX+baseX+baseWidth, printY+baseY+baseLength-chamfer, 0);
-		glVertex3f(printX+baseX+baseWidth-chamfer, printY+baseY+baseLength, 0);
-
-		glVertex3f(printX+baseX+chamfer, printY+baseY+baseLength, 0);
-		glVertex3f(printX+baseX, printY+baseY+baseLength-chamfer, 0);
-
-		glEnd();
-	}
-	if(showPrintArea) {
-		glLineWidth(1);
-		glColor3f(0.0, 0.0, 0.5);
-		glBegin(GL_LINE_LOOP);
-		glVertex3f(printX, printY, 0);
-		glVertex3f(printX+printWidth,printY, 0);
-		glVertex3f(printX+printWidth,printY+printLength, 0);
-		glVertex3f(printX, printY+printLength, 0);
-		glEnd();
-
-		glBegin(GL_LINES);
-		for(GLfloat o=0.0; o<printWidth; o+=50.0) {
-			glVertex3f(printX+o, printY, 0);
-			glVertex3f(printX+o, printY+printLength, 0);
-		}
-		for(GLfloat j=5.0; j<printLength; j+=50.0) {
-			glVertex3f(printX, printY+j, 0);
-			glVertex3f(printX+printWidth, printY+j, 0);
-		}
-		glEnd();
-
-	}
-	if(showRulers) {
-		glLineWidth(1);
-		glColor3f(0.2, 0.2, 0.2);
-		glBegin(GL_LINES);
-		int k=distance<200?1:10; //Only show milimeters when close up
-		for(int i=-rulerLength; i<rulerLength; i+=k) {
-			int j=i%10?2:5;
-			glVertex3i(i, 0, 0);
-			glVertex3i(i, j, 0);
-		}
-		for(int i=-rulerLength; i<rulerLength; i+=k) {
-			int j=i%10?2:5;
-			glVertex3i(0, i, 0);
-			glVertex3i(j, i, 0);
-		}
-		for(int i=-rulerLength; i<rulerLength; i+=k) {
-			int j=i%10?2:5;
-			glVertex3i(0, 0, i);
-			glVertex3i(j, 0, i);
-		}
-		glEnd();
-	}
-	if(showCross) {
-		glLineWidth(5.0);
-		glBegin(GL_LINES);
-		glColor3f(1.0,0.0,0.0);
-		glVertex3f(printX,printY,0.0);
-		glVertex3f(printX+10.0,printY,0.0);
-
-		glColor3f(0.0,1.0,0.0);
-		glVertex3f(printX,printY,0.0);
-		glVertex3f(printX,printY+10.0,0.0);
-
-		glColor3f(0.0,0.0,1.0);
-		glVertex3f(printX,printY,0.0);
-		glVertex3f(printX,printY,10.0);
-		glEnd();
-
-		glLineWidth(2.0);
-		glColor3f(1.0,0.0,0.0);
-		renderText(printX+15.0,printY,0.0,"X");
-		glColor3f(0.0,1.0,0.0);
-		renderText(printX,printY+15.0,0.0,"Y");
-		glColor3f(0.0,0.0,1.0);
-		renderText(printX,printY,15.0,"Z");
-	}
+	glEnable(GL_LIGHTING);
 
 	if(render)
 		render->draw(skeleton,showEdges);

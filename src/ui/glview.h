@@ -87,6 +87,12 @@ private:
 
 	void normalizeAngle(GLfloat&);
 	void zoomView(float);
+	void drawGradientBackground();
+	void drawAxes();
+	void drawBase();
+	void drawPrintArea();
+	void drawRulers();
+	void drawCross();
 
 	Renderer* render;
 	GLfloat distance;
