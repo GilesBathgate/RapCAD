@@ -6,6 +6,7 @@ image:
 cache:
   - FlexBison.zip -> appveyor.yml
   - CGAL-Setup.exe -> appveyor.yml
+  - C:\CGAL -> appveyor.yml
 
 install:
   - set BOOST_ROOT=C:\Libraries\boost_1_60_0
@@ -25,8 +26,8 @@ install:
   - set CGAL_ROOT=C:\CGAL\
   - set PATH=%PATH:C:\Program Files\Git\usr\bin;=%
   - cd %CGAL_ROOT%
-  - cmake -G"MinGW Makefiles" .
-  - mingw32-make
+  - if not exist C:\CGAL\Makefile cmake -G"MinGW Makefiles" .
+  - if not exist C:\CGAL\bin\libCGAL.dll mingw32-make
   # Setup environment
   - set PATH=%PATH%;%CGAL_ROOT%\bin
   - set PATH=%PATH%;%CGAL_ROOT%\auxiliary\gmp\lib
