@@ -1,8 +1,19 @@
-diff --git b/contrib/OGL_helper.h a/contrib/OGL_helper.h
-index 5e15a72..cd0f233 100644
---- b/contrib/OGL_helper.h
-+++ a/contrib/OGL_helper.h
-@@ -245,12 +245,27 @@ namespace OGL {
+diff --git a/contrib/OGL_helper.h b/contrib/OGL_helper.h
+index 9e164c9..f11bf93 100644
+--- a/contrib/OGL_helper.h
++++ b/contrib/OGL_helper.h
+@@ -169,8 +169,8 @@ namespace OGL {
+     void push_back_vertex(const float_point& p)
+     { push_back_vertex(p.x(),p.y(),p.z()); }
+ 
+-    void set_normal(float x, float y, float z, bool m)
+-    { float l = sqrt(x*x + y*y + z*z);
++    void set_normal(double x, double y, double z, bool m)
++    { double l = sqrt(x*x + y*y + z*z);
+       normal_ = float_triple(x/l,y/l,z/l); mark_ = m; }
+ 
+     float dx() const { return normal_[0]; }
+@@ -248,12 +248,27 @@ namespace OGL {
      glVertex3fv(pc);
    }
  
@@ -31,7 +42,7 @@ index 5e15a72..cd0f233 100644
      std::list<DPoint>    vertices_;
      std::list<DSegment>  edges_;
      std::list<DFacet>    halffacets_;
-@@ -343,12 +358,25 @@ namespace OGL {
+@@ -346,12 +361,25 @@ namespace OGL {
      Bbox_3  bbox() const { return bbox_; }
      Bbox_3& bbox()       { return bbox_; }
  
@@ -61,7 +72,7 @@ index 5e15a72..cd0f233 100644
        glColor3ub(c.red(), c.green(), c.blue());
        glBegin(GL_POINTS);
        glVertex3f(v->x(),v->y(),v->z());
-@@ -359,13 +387,26 @@ namespace OGL {
+@@ -362,13 +390,26 @@ namespace OGL {
        glEnd();
      }
  
@@ -92,7 +103,7 @@ index 5e15a72..cd0f233 100644
        glColor3ub(c.red(),c.green(),c.blue());
        glBegin(GL_LINE_STRIP);
        glVertex3f(p.x(), p.y(), p.z());
-@@ -373,11 +414,21 @@ namespace OGL {
+@@ -376,11 +417,21 @@ namespace OGL {
        glEnd();
      }
  
@@ -114,7 +125,7 @@ index 5e15a72..cd0f233 100644
        gluTessCallback(tess_, GLenum(GLU_TESS_BEGIN),
  		      (GLvoid (CGAL_GLU_TESS_CALLBACK *)(CGAL_GLU_TESS_DOTS)) &beginCallback);
        gluTessCallback(tess_, GLenum(GLU_TESS_END),
-@@ -388,9 +439,7 @@ namespace OGL {
+@@ -391,9 +442,7 @@ namespace OGL {
  		      GLU_TESS_WINDING_POSITIVE);
  
        DFacet::Coord_const_iterator cit;
@@ -125,7 +136,7 @@ index 5e15a72..cd0f233 100644
        glColor3ub(c.red(),c.green(),c.blue());
        gluTessBeginPolygon(tess_,f->normal());
        //      CGAL_NEF_TRACEN(" ");
-@@ -403,7 +452,11 @@ namespace OGL {
+@@ -406,7 +455,11 @@ namespace OGL {
  	// put all vertices in facet cycle into contour:
  	for(cit = f->facet_cycle_begin(i);
  	    cit != f->facet_cycle_end(i); ++cit) {
@@ -138,18 +149,7 @@ index 5e15a72..cd0f233 100644
  	  //	  CGAL_NEF_TRACEN("    add Vertex");
  	}
          gluTessEndContour(tess_);
-@@ -166,8 +166,8 @@ namespace OGL {
-     void push_back_vertex(const float_point& p)
-     { push_back_vertex(p.x(),p.y(),p.z()); }
- 
--    void set_normal(float x, float y, float z, bool m)
--    { float l = sqrt(x*x + y*y + z*z);
-+    void set_normal(double x, double y, double z, bool m)
-+    { double l = sqrt(x*x + y*y + z*z);
-       normal_ = float_triple(x/l,y/l,z/l); mark_ = m; }
- 
-     float dx() const { return normal_[0]; }
-@@ -410,6 +429,7 @@
+@@ -415,6 +468,7 @@ namespace OGL {
        gluTessEndPolygon(tess_);
        //      CGAL_NEF_TRACEN("End Polygon");
        gluDeleteTess(tess_);
@@ -157,3 +157,12 @@ index 5e15a72..cd0f233 100644
      }
  
      void construct_axes() const
+@@ -527,7 +581,7 @@ namespace OGL {
+       os << "Facets:" << std::endl;
+       Halffacet_iterator f;
+       for(f=halffacets_.begin();f!=halffacets_.end();++f)
+-	f->debug(); os << std::endl;
++	{ f->debug(); os << std::endl; }
+       os << std::endl;
+     }
+
