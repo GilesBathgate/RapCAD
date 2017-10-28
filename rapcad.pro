@@ -350,7 +350,9 @@ SOURCES += \
 	src/node/childrennode.cpp \
 	src/function/ismat4x4function.cpp \
 	src/asciidocprinter.cpp \
-	src/generator.cpp
+	src/generator.cpp \
+       src/qpathtextbuilder.cpp \
+       src/module/textmodule.cpp
 
 HEADERS  += \
 	contrib/OGL_helper.h \
@@ -602,7 +604,9 @@ HEADERS  += \
 	src/node/childrennode.h \
 	src/function/ismat4x4function.h \
 	src/asciidocprinter.h \
-	src/generator.h
+	src/generator.h \
+       src/qpathtextbuilder.h \
+       src/module/textmodule.h
 
 FORMS += \
 	src/ui/mainwindow.ui \

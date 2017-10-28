@@ -71,6 +71,7 @@
 #include "module/normalsmodule.h"
 #include "module/simplifymodule.h"
 #include "module/chainhullmodule.h"
+#include "module/textmodule.h"
 
 #include "function/lengthfunction.h"
 #include "function/sqrtfunction.h"
@@ -169,6 +170,7 @@ BuiltinCreator::BuiltinCreator(Reporter* r)
 	builtins.append(new SquareModule(r));
 	builtins.append(new SubDivisionModule(r));
 	builtins.append(new SymmetricDifferenceModule(r));
+	builtins.append(new TextModule(r));
 	builtins.append(new TranslateModule(r));
 	builtins.append(new TriangulateModule(r));
 	builtins.append(new UnionModule(r));
