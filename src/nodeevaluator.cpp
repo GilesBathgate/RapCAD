@@ -206,7 +206,7 @@ static CGAL::Point3 flatten(const CGAL::Point3& p)
 	return CGAL::Point3(p.x(),p.y(),0);
 }
 
-static CGAL::Point3 translate(const CGAL::Point3& p,CGAL::Scalar x,CGAL::Scalar y,CGAL::Scalar z)
+static CGAL::Point3 translate(const CGAL::Point3& p,const CGAL::Scalar& x,const CGAL::Scalar& y,const CGAL::Scalar& z)
 {
 	CGAL::AffTransformation3 t(
 		1, 0, 0, x,
@@ -215,18 +215,15 @@ static CGAL::Point3 translate(const CGAL::Point3& p,CGAL::Scalar x,CGAL::Scalar 
 	return p.transform(t);
 }
 
-static CGAL::Point3 rotate(const CGAL::Point3& p,decimal a,CGAL::Point3& axis)
+static CGAL::Point3 rotate(const CGAL::Point3& p,const CGAL::Scalar& a,const CGAL::Scalar& ax,const CGAL::Scalar& ay,const CGAL::Scalar& az)
 {
-	CGAL::Scalar x=axis.x();
-	CGAL::Scalar y=axis.y();
-	CGAL::Scalar z=axis.z();
 	CGAL::Scalar c=r_cos(a);
 	CGAL::Scalar s=r_sin(a);
 
-	CGAL::Scalar mag = r_sqrt(x*x + y*y + z*z,false);
-	CGAL::Scalar u = x/mag;
-	CGAL::Scalar v = y/mag;
-	CGAL::Scalar w = z/mag;
+	CGAL::Scalar mag = r_sqrt(ax*ax + ay*ay + az*az,false);
+	CGAL::Scalar u = ax/mag;
+	CGAL::Scalar v = ay/mag;
+	CGAL::Scalar w = az/mag;
 
 	CGAL::AffTransformation3 t(
 		u*u*(1-c)+c,u*v*(1-c)-w*s,u*w*(1-c)+v*s,0,
@@ -323,7 +320,6 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 	decimal ax,ay,az;
 	Point pa=op->getAxis();
 	pa.getXYZ(ax,ay,az);
-	CGAL::Point3 axis = CGAL::Point3(ax,ay,az);
 
 	CGALExplorer explorer(result);
 	CGALPrimitive* prim=explorer.getPrimitive();
@@ -376,10 +372,10 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 					}
 
 					n->createPolygon();
-					CGAL::Point3 q1=rotate(q,nphi,axis);
-					CGAL::Point3 p1=rotate(p,nphi,axis);
-					CGAL::Point3 p2=rotate(p,phi,axis);
-					CGAL::Point3 q2=rotate(q,phi,axis);
+					CGAL::Point3 q1=rotate(q,nphi,ax,ay,az);
+					CGAL::Point3 p1=rotate(p,nphi,ax,ay,az);
+					CGAL::Point3 p2=rotate(p,phi,ax,ay,az);
+					CGAL::Point3 q2=rotate(q,phi,ax,ay,az);
 					if(up) {
 						n->appendVertex(q1);
 						n->appendVertex(p1);
@@ -409,7 +405,7 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 			bool up=(pg->getNormal().z()>0);
 			foreach(CGAL::Point3 pt,pg->getPoints()) {
 				CGAL::Point3 q=translate(pt,r,0,0);
-				CGAL::Point3 p=rotate(q,nphi,axis);
+				CGAL::Point3 p=rotate(q,nphi,ax,ay,az);
 				if(up)
 					n->prependVertex(p);
 				else
