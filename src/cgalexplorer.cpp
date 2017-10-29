@@ -96,16 +96,17 @@ public:
 	{
 		bool facet = !f->is_twin();
 		if(facet) {
-			auto* pg=static_cast<CGALPolygon*>(primitive->createPolygon());
-			CGAL::Plane3 p=f->plane();
-			CGAL::Vector3 v=p.orthogonal_vector();
-			if(isBase(v))
-				basePolygons.append(pg);
-			pg->setPlane(p);
-			pg->setNormal(v);
 			HalfFacetCycleIterator fc;
 			CGAL_forall_facet_cycles_of(fc,f) {
 				if(fc.is_shalfedge()) {
+					auto* pg=static_cast<CGALPolygon*>(primitive->createPolygon());
+					CGAL::Plane3 p=f->plane();
+					CGAL::Vector3 v=p.orthogonal_vector();
+					if(isBase(v))
+						basePolygons.append(pg);
+					pg->setPlane(p);
+					pg->setNormal(v);
+
 					SHalfEdgeHandle h = fc;
 					SHalfEdgeCirculator hc(h), he(hc);
 					CGAL_For_all(hc,he) {
