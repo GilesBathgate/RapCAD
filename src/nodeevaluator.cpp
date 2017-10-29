@@ -215,14 +215,24 @@ static CGAL::Point3 translate(const CGAL::Point3& p,CGAL::Scalar x,CGAL::Scalar 
 	return p.transform(t);
 }
 
-static CGAL::Point3 rotate_y(const CGAL::Point3& p,decimal phi)
+static CGAL::Point3 rotate(const CGAL::Point3& p,decimal a,CGAL::Point3& axis)
 {
-	decimal c=r_cos(phi);
-	decimal s=r_sin(phi);
+	CGAL::Scalar x=axis.x();
+	CGAL::Scalar y=axis.y();
+	CGAL::Scalar z=axis.z();
+	CGAL::Scalar c=r_cos(a);
+	CGAL::Scalar s=r_sin(a);
+
+	CGAL::Scalar mag = r_sqrt(x*x + y*y + z*z,false);
+	CGAL::Scalar u = x/mag;
+	CGAL::Scalar v = y/mag;
+	CGAL::Scalar w = z/mag;
+
 	CGAL::AffTransformation3 t(
-		c, 0, s, 0,
-		0, 1, 0, 0,
-		-s, 0, c, 0, 1);
+		u*u*(1-c)+c,u*v*(1-c)-w*s,u*w*(1-c)+v*s,0,
+		u*v*(1-c)+w*s,v*v*(1-c)+c,v*w*(1-c)-u*s,0,
+		u*w*(1-c)-v*s,v*w*(1-c)+u*s,w*w*(1-c)+c,0, 1
+	);
 
 	return p.transform(t);
 }
@@ -310,6 +320,11 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 	CGAL::Scalar height=op->getHeight();
 	CGAL::Scalar sweep=op->getSweep();
 
+	decimal ax,ay,az;
+	Point pa=op->getAxis();
+	pa.getXYZ(ax,ay,az);
+	CGAL::Point3 axis = CGAL::Point3(ax,ay,az);
+
 	CGALExplorer explorer(result);
 	CGALPrimitive* prim=explorer.getPrimitive();
 	QList<CGALPolygon*> polys=prim->getCGALPolygons();
@@ -361,10 +376,10 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 					}
 
 					n->createPolygon();
-					CGAL::Point3 q1=rotate_y(q,nphi);
-					CGAL::Point3 p1=rotate_y(p,nphi);
-					CGAL::Point3 p2=rotate_y(p,phi);
-					CGAL::Point3 q2=rotate_y(q,phi);
+					CGAL::Point3 q1=rotate(q,nphi,axis);
+					CGAL::Point3 p1=rotate(p,nphi,axis);
+					CGAL::Point3 p2=rotate(p,phi,axis);
+					CGAL::Point3 q2=rotate(q,phi,axis);
 					if(up) {
 						n->appendVertex(q1);
 						n->appendVertex(p1);
@@ -394,7 +409,7 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 			bool up=(pg->getNormal().z()>0);
 			foreach(CGAL::Point3 pt,pg->getPoints()) {
 				CGAL::Point3 q=translate(pt,r,0,0);
-				CGAL::Point3 p=rotate_y(q,nphi);
+				CGAL::Point3 p=rotate(q,nphi,axis);
 				if(up)
 					n->prependVertex(p);
 				else
