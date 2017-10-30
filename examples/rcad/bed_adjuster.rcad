@@ -1,0 +1,60 @@
+/*
+ *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
+ *   Copyright (C) 2010-2017 Giles Bathgate
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+module arrow(){
+  translate([0,5.9,5]){
+    cube([1,4.22,1],c=true);
+    cube([4.5,1,1],c=true);
+  }
+  translate([0,0,5])
+  difference(){
+    cylinder(r=6.5,h=1,c=true);
+    cylinder(r=5.5,h=1,c=true);
+    translate([-10,0,0])cube([20,20,10],c=true);
+    rotate([0,0,45])translate([0,10,0])cube([20,20,10],c=true);
+  }
+  translate([-0.9,-6,4.5])rotate([0,0,180])prism(h=1,s=3,a=1);
+}
+
+module adjuster(){
+  diameter=20;
+  height=5;
+  difference(){
+    cylinder(d=diameter,h=height,$fn=24);
+    translate([0,0,1])prism(h=height,s=6,r=3.5);
+    cylinder(d=3.4,h=100,$fn=16);
+    rotate([0,0,15])
+    for(i=[0:30:330])
+     rotate([0,0,i])
+      translate([0,diameter/2+0.2,-10])
+       cylinder(d=2.5,h=40,$fn=16,c=true);
+
+    arrow();
+  }
+}
+
+module chamfer(){
+ translate([0,0,6.5])
+   rotate_extrude(r=7,a=[0,0,1],$fe=0.01)
+     rotate([90,45,0])
+      square([5,5]);
+}
+
+difference(){
+  adjuster();
+  chamfer();
+}
