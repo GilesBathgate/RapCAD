@@ -107,11 +107,12 @@ Node* RotateModule::evaluate(Context* ctx)
 		decimal u = x/mag;
 		decimal v = y/mag;
 		decimal w = z/mag;
+		decimal c1=1-c;
 
 		auto* TxyTzRaTzTxy = new TransformMatrix(
-			u*u*(1-c)+c,u*v*(1-c)-w*s,u*w*(1-c)+v*s,0,
-			u*v*(1-c)+w*s,v*v*(1-c)+c,v*w*(1-c)-u*s,0,
-			u*w*(1-c)-v*s,v*w*(1-c)+u*s,w*w*(1-c)+c,0,
+			u*u*c1+c,u*v*c1-w*s,u*w*c1+v*s,0,
+			u*v*c1+w*s,v*v*c1+c,v*w*c1-u*s,0,
+			u*w*c1-v*s,v*w*c1+u*s,w*w*c1+c,0,
 			0,0,0,1
 		);
 

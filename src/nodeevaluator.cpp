@@ -215,20 +215,17 @@ static CGAL::Point3 translate(const CGAL::Point3& p,const CGAL::Scalar& x,const 
 	return p.transform(t);
 }
 
-static CGAL::Point3 rotate(const CGAL::Point3& p,const CGAL::Scalar& a,const CGAL::Scalar& ax,const CGAL::Scalar& ay,const CGAL::Scalar& az)
+static CGAL::Point3 rotate(const CGAL::Point3& p,const CGAL::Scalar& a,const CGAL::Scalar& u,const CGAL::Scalar& v,const CGAL::Scalar& w)
 {
 	CGAL::Scalar c=r_cos(a);
 	CGAL::Scalar s=r_sin(a);
 
-	CGAL::Scalar mag = r_sqrt(ax*ax + ay*ay + az*az,false);
-	CGAL::Scalar u = ax/mag;
-	CGAL::Scalar v = ay/mag;
-	CGAL::Scalar w = az/mag;
+	CGAL::Scalar c1=1-c;
 
 	CGAL::AffTransformation3 t(
-		u*u*(1-c)+c,u*v*(1-c)-w*s,u*w*(1-c)+v*s,0,
-		u*v*(1-c)+w*s,v*v*(1-c)+c,v*w*(1-c)-u*s,0,
-		u*w*(1-c)-v*s,v*w*(1-c)+u*s,w*w*(1-c)+c,0, 1
+		u*u*c1+c,u*v*c1-w*s,u*w*c1+v*s,0,
+		u*v*c1+w*s,v*v*c1+c,v*w*c1-u*s,0,
+		u*w*c1-v*s,v*w*c1+u*s,w*w*c1+c,0, 1
 	);
 
 	return p.transform(t);
@@ -317,9 +314,13 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 	CGAL::Scalar height=op->getHeight();
 	CGAL::Scalar sweep=op->getSweep();
 
-	decimal ax,ay,az;
+	decimal x,y,z;
 	Point pa=op->getAxis();
-	pa.getXYZ(ax,ay,az);
+	pa.getXYZ(x,y,z);
+	decimal mag = r_sqrt(x*x + y*y + z*z,false);
+	decimal ax = x/mag;
+	decimal ay = y/mag;
+	decimal az = z/mag;
 
 	CGALExplorer explorer(result);
 	CGALPrimitive* prim=explorer.getPrimitive();
