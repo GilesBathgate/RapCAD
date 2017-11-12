@@ -22,6 +22,7 @@
 #include <QList>
 #include <QMap>
 #include <CGAL/Constrained_triangulation_2.h>
+#include <CGAL/Triangulation_face_base_with_info_2.h>
 #ifdef USE_OFFSET
 #include <CGAL/create_offset_polygons_2.h>
 #endif
@@ -63,72 +64,86 @@ void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
 	builder.end_surface();
 }
 
-template <class CT, class FaceHandle>
-static void descend(CT& ct,FaceHandle f,int cw,QMap<FaceHandle,bool>& visited)
+struct FaceInfo {
+
+	FaceInfo() : nestingLevel(-1) {}
+
+	bool inDomain()
+	{
+		return nestingLevel%2;
+	}
+
+	bool isNested()
+	{
+		return nestingLevel != -1;
+	}
+
+	int nestingLevel;
+};
+
+template <class CT, class FaceHandle, class Edge>
+static void markDomain(CT& ct,FaceHandle start,int index,QList<Edge>& border)
 {
-	FaceHandle h=f->neighbor(cw);
-	typename CT::Edge e(f,cw);
-	if(!ct.is_constrained(e) && !visited[h]) {
-		FaceHandle c(h);
-		traverse(ct,c,c->index(f),visited);
+	QList<FaceHandle> queue;
+	queue.append(start);
+	while(!queue.isEmpty()) {
+		FaceHandle fh=queue.takeFirst();
+		fh->info().nestingLevel=index;
+		for(auto i=0; i<3; ++i) {
+			FaceHandle n=fh->neighbor(i);
+			if(!n->info().isNested()) {
+				Edge e(fh,i);
+				if(ct.is_constrained(e))
+					border.append(e);
+				else
+					queue.append(n);
+			}
+		}
 	}
 }
 
-template <class CT, class FaceHandle>
-static void traverse(CT& ct,FaceHandle f,int p,QMap<FaceHandle,bool>& visited)
+template <class CT>
+static void markDomains(CT& ct)
 {
-	visited[f]=true;
-	descend(ct,f,ct.cw(p),visited);
-	descend(ct,f,ct.ccw(p),visited);
+	typedef typename CT::Face_handle FaceHandle;
+	typedef typename CT::Edge Edge;
+
+	QList<Edge> border;
+	markDomain(ct, ct.infinite_face(), 0, border);
+	while(!border.isEmpty()) {
+		Edge e=border.takeFirst();
+		FaceHandle c=e.first;
+		FaceHandle n=c->neighbor(e.second);
+		if(!n->info().isNested()) {
+			markDomain(ct, n, c->info().nestingLevel+1, border);
+		}
+	}
 }
 
 CGALPrimitive* CGALBuilder::triangulate()
 {
 	typedef CGAL::Triangulation_vertex_base_2<CGAL::Kernel3> VertexBase;
-	typedef CGAL::Constrained_triangulation_face_base_2<CGAL::Kernel3> FaceBase;
+	typedef CGAL::Triangulation_face_base_with_info_2<FaceInfo,CGAL::Kernel3> Info;
+	typedef CGAL::Constrained_triangulation_face_base_2<CGAL::Kernel3,Info> FaceBase;
 	typedef CGAL::Triangulation_data_structure_2<VertexBase,FaceBase> TDS;
 	typedef CGAL::Exact_predicates_tag Tag;
 	typedef CGAL::Constrained_triangulation_2<CGAL::Kernel3,TDS,Tag> CT;
 	typedef CT::Face_iterator FaceIterator;
-	typedef CT::Face_handle FaceHandle;
-	typedef CT::Vertex_handle VertexHandle;
-	typedef CT::Face_circulator FaceCirculator;
-	typedef CT::Edge Edge;
 
 	CT ct;
 	for(CGALPolygon* pg: primitive->getCGALPolygons()) {
-		OnceOnly first;
-		CGAL::Point2 np;
-		CGAL::Point2 fp;
-		for(const auto& p3: pg->getPoints()) {
-			CGAL::Point2 p(p3.x(),p3.y());
-			if(first()) {
-				fp=p;
-			} else {
-				ct.insert_constraint(p,np);
-			}
-			np=p;
-		}
-		ct.insert_constraint(np,fp);
+		QList<CGAL::Point2> points;
+		for(const auto& p3: pg->getPoints())
+			points.append(CGAL::Point2(p3.x(),p3.y()));
+
+		ct.insert_constraint(points.begin(),points.end(),true);
 	}
 
-	FaceHandle infinite = ct.infinite_face();
-	VertexHandle ctv = infinite->vertex(1);
-	if(ct.is_infinite(ctv)) ctv = infinite->vertex(2);
+	markDomains(ct);
 
-	FaceHandle opposite;
-	FaceCirculator vc(ctv,infinite);
-	do {
-		opposite = vc++;
-	} while(!ct.is_constrained(Edge(vc,vc->index(opposite))));
-	FaceHandle first = vc;
-
-	QMap<FaceHandle,bool> visited;
-	traverse(ct,first,first->index(opposite),visited);
-
-	auto* result = new CGALPrimitive();
+	auto* result=new CGALPrimitive();
 	for(FaceIterator f=ct.finite_faces_begin(); f!=ct.finite_faces_end(); ++f) {
-		if(visited[f]) {
+		if(f->info().inDomain()) {
 			result->createPolygon();
 			for(auto i=0; i<3; ++i) {
 				CGAL::Point2 p2=f->vertex(i)->point();
@@ -139,6 +154,7 @@ CGALPrimitive* CGALBuilder::triangulate()
 	}
 	return result;
 }
+
 #ifndef USE_OFFSET
 CGALPrimitive* CGALBuilder::buildOffsetPolygons(const CGAL::Scalar)
 {
