@@ -135,8 +135,7 @@ CGALPrimitive* CGALBuilder::triangulate()
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,6,0)
 		OnceOnly first;
 		CGAL::Point2 fp,np;
-		for(const auto& p3: pg->getPoints()) {
-			CGAL::Point2 p(p3.x(),p3.y());
+		for(const auto& p: pg->getXYPoints()) {
 			if(first())
 				fp=p;
 			else
@@ -145,9 +144,7 @@ CGALPrimitive* CGALBuilder::triangulate()
 		}
 		ct.insert_constraint(np,fp);
 #else
-		QList<CGAL::Point2> points;
-		for(const auto& p3: pg->getPoints())
-			points.append(CGAL::Point2(p3.x(),p3.y()));
+		QList<CGAL::Point2> points=pg->getXYPoints();
 
 		ct.insert_constraint(points.begin(),points.end(),true);
 #endif

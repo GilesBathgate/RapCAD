@@ -29,6 +29,7 @@ class CGALPolygon : public Polygon
 public:
 	CGALPolygon(class CGALPrimitive*);
 	QList<CGAL::Point3> getPoints() const;
+	QList<CGAL::Point2> getXYPoints() const;
 
 	CGAL::Vector3 getNormal() const;
 	void setNormal(const CGAL::Vector3&);
