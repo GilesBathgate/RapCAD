@@ -132,11 +132,25 @@ CGALPrimitive* CGALBuilder::triangulate()
 
 	CT ct;
 	for(CGALPolygon* pg: primitive->getCGALPolygons()) {
+#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,6,0)
+		OnceOnly first;
+		CGAL::Point2 fp,np;
+		for(const auto& p3: pg->getPoints()) {
+			CGAL::Point2 p(p3.x(),p3.y());
+			if(first())
+				fp=p;
+			else
+				ct.insert_constraint(p,np);
+			np=p;
+		}
+		ct.insert_constraint(np,fp);
+#else
 		QList<CGAL::Point2> points;
 		for(const auto& p3: pg->getPoints())
 			points.append(CGAL::Point2(p3.x(),p3.y()));
 
 		ct.insert_constraint(points.begin(),points.end(),true);
+#endif
 	}
 
 	markDomains(ct);
