@@ -69,8 +69,9 @@ class ShellExplorer
 		return h<t?h:t;
 	}
 
-	bool isBase(CGAL::Vector3 v)
+	bool isBase(CGALPolygon* p)
 	{
+		CGAL::Vector3 v=p->getNormal();
 		return (v.x()==0&&v.y()==0)&&direction?v.z()<0:v.z()>0;
 	}
 
@@ -100,22 +101,16 @@ public:
 			CGAL_forall_facet_cycles_of(fc,f) {
 				if(fc.is_shalfedge()) {
 					auto* pg=static_cast<CGALPolygon*>(primitive->createPolygon());
-					CGAL::Plane3 p=f->plane();
-					CGAL::Vector3 v=p.orthogonal_vector();
-					if(isBase(v))
+					pg->setPlane(f->plane());
+					if(isBase(pg))
 						basePolygons.append(pg);
-					pg->setPlane(p);
-					pg->setNormal(v);
 
 					SHalfEdgeHandle h = fc;
 					SHalfEdgeCirculator hc(h), he(hc);
 					CGAL_For_all(hc,he) {
 						SVertexHandle sv = hc->source();
 						CGAL::Point3 sp = sv->source()->point();
-						if(direction)
-							primitive->appendVertex(sp);
-						else
-							primitive->prependVertex(sp);
+						primitive->addVertex(sp,direction);
 					}
 				}
 			}

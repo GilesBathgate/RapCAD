@@ -44,8 +44,8 @@ public:
 	void setType(Primitive_t) override;
 	Polygon* createPolygon() override;
 	void createVertex(Point) override;
+	void addVertex(CGAL::Point3,bool);
 	void appendVertex(CGAL::Point3);
-	void prependVertex(CGAL::Point3);
 	bool overlaps(Primitive*) override;
 	Primitive* group(Primitive*) override;
 	Primitive* join(Primitive*) override;

@@ -240,7 +240,7 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 	if(result->isFullyDimentional()) {
 		cp->setType(Primitive::Skeleton);
 		cp->createPolygon();
-		cp->appendVertex(CGAL::Point3(0.0,0.0,0.0));
+		cp->appendVertex(CGAL::ORIGIN);
 		cp->appendVertex(CGAL::Point3(0.0,0.0,op->getHeight()));
 		result=result->minkowski(cp);
 	} else {
@@ -251,38 +251,24 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 		CGALPrimitive* prim=explorer.getPrimitive();
 		QList<CGALPolygon*> polys=prim->getCGALPolygons();
 
-		bool up;
 		for(CGALPolygon* pg: polys) {
 			cp->createPolygon();
-			up=(pg->getNormal().z()>0);
-			for(const auto& pt: pg->getPoints()) {
-				if(up)
-					cp->appendVertex(pt);
-				else
-					cp->prependVertex(pt);
-			}
+			bool up=(pg->getNormal().z()>0);
+			for(const auto& pt: pg->getPoints())
+				cp->addVertex(pt,up);
 		}
 
 		for(CGALPolygon* pg: peri->getCGALPolygons()) {
-			up=(pg->getNormal().z()>0);
+			bool up=(pg->getNormal().z()>0);
 			OnceOnly first;
 			CGAL::Point3 pn;
 			for(const auto& pt: pg->getPoints()) {
 				if(!first()) {
 					cp->createPolygon();
-					CGAL::Point3 p=pn;
-					CGAL::Point3 q=pt;
-					if(up) {
-						cp->appendVertex(translate(p,0,0,z));
-						cp->appendVertex(translate(q,0,0,z));
-						cp->appendVertex(q);
-						cp->appendVertex(p);
-					} else {
-						cp->prependVertex(translate(p,0,0,z));
-						cp->prependVertex(translate(q,0,0,z));
-						cp->prependVertex(q);
-						cp->prependVertex(p);
-					}
+					cp->addVertex(translate(pn,0,0,z),up);
+					cp->addVertex(translate(pt,0,0,z),up);
+					cp->addVertex(pt,up);
+					cp->addVertex(pn,up);
 				}
 				pn=pt;
 			}
@@ -291,13 +277,9 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 
 		for(CGALPolygon* pg: polys) {
 			cp->createPolygon();
-			up=(pg->getNormal().z()>0);
-			for(const auto& pt: pg->getPoints()) {
-				if(up)
-					cp->prependVertex(translate(pt,0,0,z));
-				else
-					cp->appendVertex(translate(pt,0,0,z));
-			}
+			bool up=(pg->getNormal().z()>0);
+			for(const auto& pt: pg->getPoints())
+				cp->addVertex(translate(pt,0,0,z),!up);
 		}
 
 		result=cp;
@@ -338,10 +320,7 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 			bool up=(pg->getNormal().z()>0);
 			foreach(CGAL::Point3 pt,pg->getPoints()) {
 				CGAL::Point3 q=translate(pt,r,0,0);
-				if(up)
-					n->appendVertex(q);
-				else
-					n->prependVertex(q);
+				n->addVertex(q,up);
 			}
 		}
 	}
@@ -377,21 +356,12 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 					CGAL::Point3 p1=rotate(p,nphi,ax,ay,az);
 					CGAL::Point3 p2=rotate(p,phi,ax,ay,az);
 					CGAL::Point3 q2=rotate(q,phi,ax,ay,az);
-					if(up) {
-						n->appendVertex(q1);
-						n->appendVertex(p1);
-						if(p2!=p1)
-							n->appendVertex(p2);
-						if(q2!=q1)
-							n->appendVertex(q2);
-					} else {
-						n->prependVertex(q1);
-						n->prependVertex(p1);
-						if(p2!=p1)
-							n->prependVertex(p2);
-						if(q2!=q1)
-							n->prependVertex(q2);
-					}
+					n->addVertex(q1,up);
+					n->addVertex(p1,up);
+					if(p2!=p1)
+						n->addVertex(p2,up);
+					if(q2!=q1)
+						n->addVertex(q2,up);
 				}
 				pn=pt;
 			}
@@ -407,10 +377,7 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 			foreach(CGAL::Point3 pt,pg->getPoints()) {
 				CGAL::Point3 q=translate(pt,r,0,0);
 				CGAL::Point3 p=rotate(q,nphi,ax,ay,az);
-				if(up)
-					n->prependVertex(p);
-				else
-					n->appendVertex(p);
+				n->addVertex(p,!up);
 			}
 		}
 	}

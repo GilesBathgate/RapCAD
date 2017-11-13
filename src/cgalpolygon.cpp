@@ -47,12 +47,12 @@ QList<CGAL::Point2> CGALPolygon::getXYPoints() const
 
 CGAL::Vector3 CGALPolygon::getNormal() const
 {
-	return normal;
+	return plane.orthogonal_vector();
 }
 
 void CGALPolygon::setNormal(const CGAL::Vector3& v)
 {
-	normal=v;
+	plane=CGAL::Plane3(CGAL::ORIGIN,v);
 }
 
 CGAL::Plane3 CGALPolygon::getPlane() const

@@ -209,26 +209,27 @@ void CGALPrimitive::createVertex(Point pt)
 	points.append(p);
 }
 
-void CGALPrimitive::appendVertex(CGAL::Point3 p)
+void CGALPrimitive::addVertex(CGAL::Point3 p,bool direction)
 {
 	if(!polygons.isEmpty()) {
-		if(!points.contains(p))
-			points.append(p);
 
 		int i=points.indexOf(p);
-		polygons.last()->append(i);
+		if(i==-1) {
+			i=points.size();
+			points.append(p);
+		}
+
+		CGALPolygon* l=polygons.last();
+		if(direction)
+			l->append(i);
+		else
+			l->prepend(i);
 	}
 }
 
-void CGALPrimitive::prependVertex(CGAL::Point3 p)
+void CGALPrimitive::appendVertex(CGAL::Point3 p)
 {
-	if(!polygons.isEmpty()) {
-		if(!points.contains(p))
-			points.append(p);
-
-		int i=points.indexOf(p);
-		polygons.last()->prepend(i);
-	}
+	addVertex(p,true);
 }
 
 bool CGALPrimitive::overlaps(Primitive* pr)

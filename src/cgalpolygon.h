@@ -37,7 +37,6 @@ public:
 	CGAL::Plane3 getPlane() const;
 	void setPlane(const CGAL::Plane3&);
 private:
-	CGAL::Vector3 normal;
 	CGAL::Plane3 plane;
 };
 #endif // CGALPOLYGON_H
