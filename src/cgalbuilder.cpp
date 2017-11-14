@@ -152,18 +152,19 @@ CGALPrimitive* CGALBuilder::triangulate()
 
 	markDomains(ct);
 
-	auto* result=new CGALPrimitive();
+	primitive->clear();
+
 	for(FaceIterator f=ct.finite_faces_begin(); f!=ct.finite_faces_end(); ++f) {
 		if(f->info().inDomain()) {
-			result->createPolygon();
+			primitive->createPolygon();
 			for(auto i=0; i<3; ++i) {
 				CGAL::Point2 p2=f->vertex(i)->point();
 				CGAL::Point3 p(p2.x(),p2.y(),0);
-				result->appendVertex(p);
+				primitive->appendVertex(p);
 			}
 		}
 	}
-	return result;
+	return primitive;
 }
 
 #ifndef USE_OFFSET
@@ -202,19 +203,19 @@ CGALPrimitive* CGALBuilder::buildOffsetPolygons(const CGAL::Scalar amount)
 		offsetPolys=CGAL::create_exterior_skeleton_and_offset_polygons_2(amount,poly);
 	}
 
-	auto* offsetPrim = new CGALPrimitive();
+	primitive->clear();
 
 	for(PolygonPtr ptr: offsetPolys) {
 		if(!first()) {
-			offsetPrim->createPolygon();
+			primitive->createPolygon();
 			for(auto vi=ptr->vertices_begin(); vi!=ptr->vertices_end(); vi++) {
 				CGAL::Point3 p3(vi->x(),vi->y(),z);
-				offsetPrim->appendVertex(p3);
+				primitive->appendVertex(p3);
 			}
 		}
 	}
 
-	return offsetPrim;
+	return primitive;
 }
 #endif
 

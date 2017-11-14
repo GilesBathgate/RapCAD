@@ -78,6 +78,7 @@ public:
 	void discrete(int) override;
 	CGAL::Circle3 getRadius();
 	CGALVolume getVolume(bool);
+	void clear();
 private:
 	void init();
 	void buildPrimitive();

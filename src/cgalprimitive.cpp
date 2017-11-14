@@ -35,10 +35,18 @@ CGALPrimitive::CGALPrimitive()
 
 CGALPrimitive::~CGALPrimitive()
 {
+	clear();
+}
+
+void CGALPrimitive::clear()
+{
 	delete nefPolyhedron;
+	nefPolyhedron=nullptr;
 
 	qDeleteAll(polygons);
 	polygons.clear();
+
+	points.clear();
 
 	qDeleteAll(children);
 	children.clear();
@@ -299,8 +307,9 @@ void CGALPrimitive::add(Primitive* pr,bool force)
 Primitive* CGALPrimitive::combine()
 {
 	if(nUnion) {
-		Unionable un=nUnion->get_union();
+		const Unionable& un=nUnion->get_union();
 		delete nUnion;
+		nUnion=nullptr;
 		return un.primitive;
 	}
 	return this;
