@@ -54,12 +54,15 @@ Primitive* CGALImport::importOFF(QFileInfo fileinfo)
 	file >> poly;
 	file.close();
 
-	return new CGALPrimitive(poly);
+	auto* p=new CGALPrimitive(poly);
+	p->setSanitized(false);
+	return p;
 }
 
 Primitive* CGALImport::importSTL(QFileInfo fileinfo)
 {
 	auto* p=new CGALPrimitive();
+	p->setSanitized(false);
 	QFile f(fileinfo.absoluteFilePath());
 	if(!f.open(QIODevice::ReadOnly)) {
 		reporter->reportWarning(tr("Can't open import file '%1'").arg(fileinfo.absoluteFilePath()));

@@ -33,6 +33,7 @@ public:
 	void createVertex(decimal x, decimal y, decimal z);
 	void createVertex(Point p);
 	void accept(NodeVisitor&) override;
+	void setSanitized(bool);
 	Primitive* getPrimitive();
 private:
 	Primitive* primitive;

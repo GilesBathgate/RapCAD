@@ -80,11 +80,13 @@ class ShellExplorer
 	bool direction;
 	QMap<HalfEdgeHandle,int> periMap;
 	QList<CGALPolygon*> basePolygons;
+	bool holes;
 public:
 	ShellExplorer()
 	{
 		primitive = new CGALPrimitive();
 		direction=true;
+		holes=false;
 	}
 
 	void visit(VertexHandle v)
@@ -97,8 +99,13 @@ public:
 	{
 		bool facet = !f->is_twin();
 		if(facet) {
+			OnceOnly first;
 			HalfFacetCycleIterator fc;
 			CGAL_forall_facet_cycles_of(fc,f) {
+				/* When there is more than one facet cycle we have holes */
+				if(!first())
+					holes=true;
+
 				if(fc.is_shalfedge()) {
 					auto* pg=static_cast<CGALPolygon*>(primitive->createPolygon());
 					pg->setPlane(f->plane());
@@ -143,6 +150,9 @@ public:
 
 	CGALPrimitive* getPrimitive()
 	{
+		if(holes)
+			primitive->triangulate();
+
 		return primitive;
 	}
 

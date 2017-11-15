@@ -42,6 +42,7 @@ public:
 	~CGALPrimitive() override;
 	CGALPrimitive(CGAL::Polyhedron3 poly);
 	void setType(Primitive_t) override;
+	void setSanitized(bool) override;
 	Polygon* createPolygon() override;
 	void createVertex(Point) override;
 	void addVertex(CGAL::Point3,bool);
@@ -78,7 +79,9 @@ public:
 	void discrete(int) override;
 	CGAL::Circle3 getRadius();
 	CGALVolume getVolume(bool);
+	bool hasHoles();
 	void clear();
+	bool flat();
 private:
 	void init();
 	void buildPrimitive();
@@ -88,6 +91,7 @@ private:
 	QList<CGALPolygon*> polygons;
 	CGAL::NefPolyhedron3* nefPolyhedron;
 	Primitive_t type;
+	bool sanitized;
 
 	/* Simple wrapper class to enable Primitive
 	 * to be used with CGAL::Nef_nary_union_3 */

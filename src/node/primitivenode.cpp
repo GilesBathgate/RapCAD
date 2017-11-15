@@ -46,6 +46,11 @@ void PrimitiveNode::createVertex(Point p)
 	primitive->createVertex(p);
 }
 
+void PrimitiveNode::setSanitized(bool v)
+{
+	primitive->setSanitized(v);
+}
+
 Primitive* PrimitiveNode::getPrimitive()
 {
 	return primitive;

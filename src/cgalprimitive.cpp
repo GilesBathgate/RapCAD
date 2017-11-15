@@ -6,6 +6,7 @@
 #include <CGAL/Min_circle_2.h>
 #include <CGAL/Min_circle_2_traits_2.h>
 #include <CGAL/bounding_box.h>
+#include <CGAL/Polygon_2_algorithms.h>
 
 //Mesh simplification
 #include <CGAL/boost/graph/graph_traits_Polyhedron_3.h>
@@ -23,6 +24,7 @@ CGAL::NefPolyhedron3* CGALPrimitive::singlePoint=nullptr;
 
 void CGALPrimitive::init()
 {
+	sanitized=true;
 	nUnion=nullptr;
 	type=Primitive::Volume;
 }
@@ -31,6 +33,12 @@ CGALPrimitive::CGALPrimitive()
 {
 	init();
 	nefPolyhedron=nullptr;
+}
+
+CGALPrimitive::CGALPrimitive(CGAL::Polyhedron3 poly)
+{
+	init();
+	nefPolyhedron=new CGAL::NefPolyhedron3(poly);
 }
 
 CGALPrimitive::~CGALPrimitive()
@@ -52,15 +60,14 @@ void CGALPrimitive::clear()
 	children.clear();
 }
 
-CGALPrimitive::CGALPrimitive(CGAL::Polyhedron3 poly)
-{
-	init();
-	nefPolyhedron=new CGAL::NefPolyhedron3(poly);
-}
-
 void CGALPrimitive::setType(Primitive_t t)
 {
 	type=t;
+}
+
+void CGALPrimitive::setSanitized(bool v)
+{
+	sanitized=v;
 }
 
 typedef CGAL::Polyhedron3::Halfedge_handle HalfedgeHandle;
@@ -131,11 +138,20 @@ void CGALPrimitive::buildPrimitive()
 
 	switch(type) {
 	case Primitive::Volume: {
+
 		CGALBuilder b(this);
+		if(!sanitized && flat() && hasHoles())
+			b.triangulate();
+
 		CGAL::Polyhedron3 poly;
 		poly.delegate(b);
-		fixZeroEdges(poly);
-		fixZeroTriangles(poly);
+
+		if(!sanitized) {
+			fixZeroEdges(poly);
+			fixZeroTriangles(poly);
+		}
+		setSanitized(true);
+
 		nefPolyhedron=new CGAL::NefPolyhedron3(poly);
 		return;
 	}
@@ -416,6 +432,30 @@ Primitive* CGALPrimitive::complement()
 	this->buildPrimitive();
 	*nefPolyhedron=nefPolyhedron->complement();
 	return this;
+}
+
+bool CGALPrimitive::flat()
+{
+	for(auto& p: points)
+		if(p.z()!=0.0) return false;
+	return true;
+}
+
+bool CGALPrimitive::hasHoles()
+{
+	QList<CGALPolygon*> polys=getCGALPolygons();
+	for(auto* pg1: polys) {
+		for(auto* pg2: polys) {
+			if(pg1==pg2) continue;
+
+			QList<CGAL::Point2> p2=pg2->getXYPoints();
+			for(auto& p1: pg1->getXYPoints()) {
+				CGAL::Bounded_side side=CGAL::bounded_side_2(p2.begin(),p2.end(),p1);
+				if(side==CGAL::ON_BOUNDED_SIDE) return true;
+			}
+		}
+	}
+	return false;
 }
 
 Primitive* CGALPrimitive::triangulate()

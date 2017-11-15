@@ -29,6 +29,7 @@ public:
 	Polygon* createPolygon() override;
 	void createVertex(Point) override;
 	void setType(Primitive_t) override { }
+	void setSanitized(bool) override { }
 	Primitive* buildPrimitive() { return this; }
 	bool overlaps(Primitive*) override { return false; }
 	void add(Primitive*,bool) override;
