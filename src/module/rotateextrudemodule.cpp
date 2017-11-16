@@ -24,7 +24,6 @@ Node* RotateExtrudeModule::evaluate(Context* ctx)
 	Point axis(0,0,1);
 	auto* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
 	if(vecVal) {
-		//TODO actually use the axis for rotated extrusions.
 		axis=vecVal->getPoint();
 		compatible=false;
 	}
@@ -47,15 +46,16 @@ Node* RotateExtrudeModule::evaluate(Context* ctx)
 
 	Fragment* fg = Fragment::createFragment(ctx);
 	n->setFragments(fg);
-	n->setChildren(ctx->getInputNodes());
 
 	if(compatible) {
 		//if no axis is given we fall into legacy compatibility mode
 		auto* Rx90=new TransformMatrix(1,0,0,0,0,0,-1,0,0,1,0,0,0,0,0,1);
 		auto* t=new TransformationNode();
 		t->setMatrix(Rx90);
-		t->addChild(n);
-		return t;
+		t->setChildren(ctx->getInputNodes());
+		n->addChild(t);
+	} else {
+		n->setChildren(ctx->getInputNodes());
 	}
 
 	return n;
