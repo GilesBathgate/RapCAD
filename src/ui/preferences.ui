@@ -345,6 +345,11 @@
                <string>MK42</string>
               </property>
              </item>
+             <item>
+              <property name="text">
+               <string>MK2</string>
+              </property>
+             </item>
             </widget>
            </item>
           </layout>

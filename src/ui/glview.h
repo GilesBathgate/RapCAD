@@ -53,6 +53,7 @@ public:
 	~GLView() override;
 	void setRenderer(Renderer* r);
 	void setCompiling(bool value);
+	void setBedAppearance(int);
 	void preferencesUpdated();
 
 #if USE_QGLWIDGET
@@ -109,6 +110,7 @@ private:
 	GLfloat printWidth;
 	GLfloat printLength;
 	GLfloat printHeight;
+	int appearance;
 
 	bool mouseDrag;
 	QPoint last;

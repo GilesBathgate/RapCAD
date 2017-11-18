@@ -38,6 +38,8 @@ void PreferencesDialog::setupWidgets()
 	ui->widthSpinBox->setValue(v.x());
 	ui->lengthSpinBox->setValue(v.y());
 	ui->heightSpinBox->setValue(v.z());
+
+	ui->appearanceComboBox->setCurrentIndex(p->getPrintBedAppearance());
 }
 
 void PreferencesDialog::setColor(QWidget* w,QColor c)
@@ -79,6 +81,8 @@ void PreferencesDialog::setupButtons()
 
 	connect(this->ui->XspinBox,SIGNAL(valueChanged(int)),this,SLOT(originChanged()));
 	connect(this->ui->YspinBox,SIGNAL(valueChanged(int)),this,SLOT(originChanged()));
+
+	connect(this->ui->appearanceComboBox,SIGNAL(currentIndexChanged(int)),this,SLOT(appearanceChanged(int)));
 }
 
 void PreferencesDialog::colorButtonPressed(QWidget* frame)
@@ -154,6 +158,34 @@ void PreferencesDialog::originChanged()
 	Preferences* p = Preferences::getInstance();
 	QPointF o(ui->XspinBox->value(),ui->YspinBox->value());
 	p->setPrintOrigin(o);
+	preferencesUpdated();
+}
+
+void PreferencesDialog::appearanceChanged(int index)
+{
+	Preferences* p = Preferences::getInstance();
+	switch(index) {
+	case 0: { //MK42
+		ui->XspinBox->setValue(-125);
+		ui->YspinBox->setValue(-105);
+		originChanged();
+		ui->widthSpinBox->setValue(250);
+		ui->lengthSpinBox->setValue(210);
+		volumeChanged();
+		p->setPrintBedAppearance(index);
+	}
+	break;
+	case 1: { //MK2
+		ui->XspinBox->setValue(-100);
+		ui->YspinBox->setValue(-100);
+		originChanged();
+		ui->widthSpinBox->setValue(200);
+		ui->lengthSpinBox->setValue(200);
+		volumeChanged();
+		p->setPrintBedAppearance(index);
+	}
+	break;
+	}
 	preferencesUpdated();
 }
 

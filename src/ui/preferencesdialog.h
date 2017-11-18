@@ -42,9 +42,10 @@ private slots:
 	void autoSaveOnCompileChanged(int);
 	void precisionChanged(int);
 	void functionRoundingChanged(int);
-	void rationalFormatChanged(int s);
+	void rationalFormatChanged(int);
 	void volumeChanged();
 	void originChanged();
+	void appearanceChanged(int);
 private:
 	Ui::Preferences* ui;
 	void setupWidgets();

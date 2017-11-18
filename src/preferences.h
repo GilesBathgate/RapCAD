@@ -125,6 +125,9 @@ public:
 
 	QVector3D getPrintVolume();
 	void setPrintVolume(QVector3D v);
+
+	int getPrintBedAppearance();
+	void setPrintBedAppearance(int);
 private:
 	Preferences();
 	static Preferences* instance;

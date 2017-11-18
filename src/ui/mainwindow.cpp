@@ -160,6 +160,8 @@ void MainWindow::loadPreferences()
 	QVector3D v=p->getPrintVolume();
 	ui->view->setPrintVolume(v.x(), v.y(), v.z());
 
+	ui->view->setBedAppearance(p->getPrintBedAppearance());
+
 }
 
 void MainWindow::getDefaultViewport()
@@ -321,6 +323,8 @@ void MainWindow::preferencesUpdated()
 
 	QVector3D v=p->getPrintVolume();
 	ui->view->setPrintVolume(v.x(),v.y(),v.z());
+
+	ui->view->setBedAppearance(p->getPrintBedAppearance());
 
 	ui->view->preferencesUpdated();
 }
