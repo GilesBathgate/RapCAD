@@ -359,6 +359,19 @@ void Preferences::setPrintOrigin(QPointF s)
 	return settings->setValue("PrintOrigin", s);
 }
 
+QVector3D Preferences::getPrintVolume()
+{
+	QList<QVariant> v=settings->value("PrintVolume", QList<QVariant>({250.0,210.0,200.0})).toList();
+	return QVector3D(v.at(0).toFloat(),v.at(1).toFloat(),v.at(2).toFloat());
+}
+
+void Preferences::setPrintVolume(QVector3D v)
+{
+	//Cast to double needed so QSettings formats strings nicely.
+	QList<QVariant> d({(double)v.x(),(double)v.y(),(double)v.z()});
+	settings->setValue("PrintVolume",d);
+}
+
 void Preferences::syncDelete()
 {
 	if(instance) {

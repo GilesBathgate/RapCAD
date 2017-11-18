@@ -30,10 +30,6 @@ static const GLfloat baseY=-9.4;
 static const GLfloat baseWidth=254.0;
 static const GLfloat baseLength=235.0;
 
-static const GLfloat printWidth=250.0;
-static const GLfloat printLength=210.0;
-static const GLfloat printHeight=200.0;
-
 static const GLfloat rulerLength=200.0;
 
 GLView::GLView(QWidget* parent) :
@@ -59,6 +55,9 @@ GLView::GLView(QWidget* parent) :
 	viewportZ=0.0;
 	printX=0.0;
 	printY=0.0;
+	printWidth=0.0;
+	printLength=0.0;
+	printHeight=0.0;
 #if !USE_QGLWIDGET
 	projection=new QMatrix4x4();
 	modelview=new QMatrix4x4();
@@ -99,6 +98,14 @@ void GLView::setPrintOrigin(GLfloat x, GLfloat y)
 {
 	printX = x;
 	printY = y;
+	update();
+}
+
+void GLView::setPrintVolume(GLfloat w, GLfloat l, GLfloat h)
+{
+	printWidth=w;
+	printLength=l;
+	printHeight=h;
 	update();
 }
 

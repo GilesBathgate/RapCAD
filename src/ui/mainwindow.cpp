@@ -156,6 +156,10 @@ void MainWindow::loadPreferences()
 
 	QPointF o=p->getPrintOrigin();
 	ui->view->setPrintOrigin(o.x(), o.y());
+
+	QVector3D v=p->getPrintVolume();
+	ui->view->setPrintVolume(v.x(), v.y(), v.z());
+
 }
 
 void MainWindow::getDefaultViewport()

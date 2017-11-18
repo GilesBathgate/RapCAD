@@ -22,6 +22,7 @@
 #include <QColor>
 #include <QPoint>
 #include <QSize>
+#include <QVector3D>
 
 class Preferences
 {
@@ -122,6 +123,8 @@ public:
 	QPointF getPrintOrigin();
 	void setPrintOrigin(QPointF s);
 
+	QVector3D getPrintVolume();
+	void setPrintVolume(QVector3D v);
 private:
 	Preferences();
 	static Preferences* instance;

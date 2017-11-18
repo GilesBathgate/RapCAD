@@ -62,6 +62,7 @@ public slots:
 	void preferencesUpdated();
 	void setViewport(GLfloat,GLfloat,GLfloat,GLfloat,GLfloat,GLfloat);
 	void setPrintOrigin(GLfloat,GLfloat);
+	void setPrintVolume(GLfloat,GLfloat,GLfloat);
 	void getViewport(GLfloat&,GLfloat&,GLfloat&,GLfloat&,GLfloat&,GLfloat&);
 	void setShowAxes(bool);
 	void setShowRulers(bool);
@@ -105,6 +106,9 @@ private:
 	bool skeleton;
 	GLfloat printX;
 	GLfloat printY;
+	GLfloat printWidth;
+	GLfloat printLength;
+	GLfloat printHeight;
 
 	bool mouseDrag;
 	QPoint last;
