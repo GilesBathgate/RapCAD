@@ -22,6 +22,7 @@
 #include "cgal.h"
 
 #include <QVector>
+#include <QMap>
 #include <CGAL/Polyhedron_3.h>
 #include <CGAL/Nef_polyhedron_3.h>
 #include <CGAL/Nef_nary_union_3.h>
@@ -85,9 +86,17 @@ public:
 private:
 	void init();
 	void buildPrimitive();
-	QList<Primitive*> children;
 	CGAL::NefPolyhedron3* createPolyline(QVector<CGAL::Point3> pl);
+	/**
+	 * @brief Find the index of the point or add it to the points list
+	 * @param p The point to find or add.
+	 * @return The index of the point.
+	 */
+	int findIndex(const CGAL::Point3& p);
+
+	QList<Primitive*> children;
 	QList<CGAL::Point3> points;
+	QMap<CGAL::Point3,int> pointMap;
 	QList<CGALPolygon*> polygons;
 	CGAL::NefPolyhedron3* nefPolyhedron;
 	Primitive_t type;
@@ -107,6 +116,7 @@ private:
 
 	CGAL::Nef_nary_union_3<Unionable>* nUnion;
 	static CGAL::NefPolyhedron3* singlePoint;
+
 };
 
 #endif // CGALPRIMITIVE_H

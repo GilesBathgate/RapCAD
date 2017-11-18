@@ -123,7 +123,7 @@ Primitive* CGALImport::importSTL(QFileInfo fileinfo)
 			}
 		}
 	} else {
-		while(1) {
+		while(!f.atEnd()) {
 			if(f.read((char*)&data, datasize) != datasize)
 				break;
 			p->createPolygon();
