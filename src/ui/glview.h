@@ -53,13 +53,13 @@ public:
 	~GLView() override;
 	void setRenderer(Renderer* r);
 	void setCompiling(bool value);
+	void preferencesUpdated();
 
 #if USE_QGLWIDGET
 	inline QImage grabFramebuffer(){ return grabFrameBuffer(); }
 #endif
 
 public slots:
-	void preferencesUpdated();
 	void setViewport(GLfloat,GLfloat,GLfloat,GLfloat,GLfloat,GLfloat);
 	void setPrintOrigin(GLfloat,GLfloat);
 	void setPrintVolume(GLfloat,GLfloat,GLfloat);

@@ -181,9 +181,8 @@ void GLView::setRenderer(Renderer* r)
 
 void GLView::preferencesUpdated()
 {
-	if(!render) return;
-
-	render->preferencesUpdated();
+	if(render)
+		render->preferencesUpdated();
 	update();
 }
 

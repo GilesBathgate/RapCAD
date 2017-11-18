@@ -306,10 +306,23 @@ void MainWindow::showPreferences()
 {
 	if(!preferencesDialog) {
 		preferencesDialog = new PreferencesDialog(this);
-		connect(preferencesDialog,&PreferencesDialog::preferencesUpdated,ui->view,&GLView::preferencesUpdated);
+		connect(preferencesDialog,&PreferencesDialog::preferencesUpdated,this,&MainWindow::preferencesUpdated);
 	}
 
 	preferencesDialog->show();
+}
+
+void MainWindow::preferencesUpdated()
+{
+	Preferences* p=Preferences::getInstance();
+
+	QPointF o=p->getPrintOrigin();
+	ui->view->setPrintOrigin(o.x(),o.y());
+
+	QVector3D v=p->getPrintVolume();
+	ui->view->setPrintVolume(v.x(),v.y(),v.z());
+
+	ui->view->preferencesUpdated();
 }
 
 void MainWindow::disableRulers(bool checked)

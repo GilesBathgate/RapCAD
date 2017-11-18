@@ -76,6 +76,7 @@ private slots:
 	void showUserGuide();
 	void flushCaches();
 	void exportFile(QString);
+	void preferencesUpdated();
 private:
 	void compileOrGenerate(bool generate);
 	void loadPreferences();

@@ -29,6 +29,15 @@ void PreferencesDialog::setupWidgets()
 	ui->precisionSpinBox->setValue(p->getPrecision());
 	ui->functionRoundingCheckBox->setChecked(p->getFunctionRounding());
 	ui->rationalFormatCheckBox->setChecked(p->getRationalFormat());
+
+	QPointF o=p->getPrintOrigin();
+	ui->XspinBox->setValue(o.x());
+	ui->YspinBox->setValue(o.y());
+
+	QVector3D v=p->getPrintVolume();
+	ui->widthSpinBox->setValue(v.x());
+	ui->lengthSpinBox->setValue(v.y());
+	ui->heightSpinBox->setValue(v.z());
 }
 
 void PreferencesDialog::setColor(QWidget* w,QColor c)
@@ -63,6 +72,13 @@ void PreferencesDialog::setupButtons()
 	connect(this->ui->checkBox,&QCheckBox::stateChanged,this,&PreferencesDialog::autoSaveOnCompileChanged);
 	connect(this->ui->functionRoundingCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::functionRoundingChanged);
 	connect(this->ui->rationalFormatCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::rationalFormatChanged);
+
+	connect(this->ui->widthSpinBox,SIGNAL(valueChanged(int)),this,SLOT(volumeChanged()));
+	connect(this->ui->lengthSpinBox,SIGNAL(valueChanged(int)),this,SLOT(volumeChanged()));
+	connect(this->ui->heightSpinBox,SIGNAL(valueChanged(int)),this,SLOT(volumeChanged()));
+
+	connect(this->ui->XspinBox,SIGNAL(valueChanged(int)),this,SLOT(originChanged()));
+	connect(this->ui->YspinBox,SIGNAL(valueChanged(int)),this,SLOT(originChanged()));
 }
 
 void PreferencesDialog::colorButtonPressed(QWidget* frame)
@@ -123,6 +139,22 @@ void PreferencesDialog::rationalFormatChanged(int s)
 {
 	Preferences* p = Preferences::getInstance();
 	p->setRationalFormat(s == Qt::Checked);
+}
+
+void PreferencesDialog::volumeChanged()
+{
+	Preferences* p = Preferences::getInstance();
+	QVector3D v(ui->widthSpinBox->value(),ui->lengthSpinBox->value(),ui->heightSpinBox->value());
+	p->setPrintVolume(v);
+	preferencesUpdated();
+}
+
+void PreferencesDialog::originChanged()
+{
+	Preferences* p = Preferences::getInstance();
+	QPointF o(ui->XspinBox->value(),ui->YspinBox->value());
+	p->setPrintOrigin(o);
+	preferencesUpdated();
 }
 
 PreferencesDialog::~PreferencesDialog()

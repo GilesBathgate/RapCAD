@@ -43,6 +43,8 @@ private slots:
 	void precisionChanged(int);
 	void functionRoundingChanged(int);
 	void rationalFormatChanged(int s);
+	void volumeChanged();
+	void originChanged();
 private:
 	Ui::Preferences* ui;
 	void setupWidgets();
