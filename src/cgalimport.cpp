@@ -43,6 +43,8 @@ Primitive* CGALImport::import(QString filename)
 		return importOFF(file);
 	if(suffix=="stl")
 		return importSTL(file);
+	if(suffix=="amf")
+		return importAMF(file);
 	if(suffix=="3mf")
 		return import3MF(file);
 	if(suffix=="rcad"||suffix=="csg")
@@ -140,6 +142,89 @@ Primitive* CGALImport::importSTL(QFileInfo fileinfo)
 			p->appendVertex(v3);
 		}
 	}
+	return p;
+}
+
+Primitive* CGALImport::importAMF(QFileInfo fileinfo)
+{
+	auto* p=new CGALPrimitive();
+	p->setSanitized(false);
+	QFile f(fileinfo.absoluteFilePath());
+	if(!f.open(QIODevice::ReadOnly)) {
+		reporter->reportWarning(tr("Can't open import file '%1'").arg(fileinfo.absoluteFilePath()));
+		return p;
+	}
+
+	QXmlStreamReader xml(&f);
+	if(xml.readNextStartElement() && xml.name()=="amf") {
+		while(xml.readNextStartElement()) {
+			if(xml.name()=="object") {
+				while(xml.readNextStartElement()) {
+					if(xml.name()=="mesh") {
+						while(xml.readNextStartElement()) {
+							if(xml.name()=="vertices") {
+								while(xml.readNextStartElement()) {
+									if(xml.name()=="vertex") {
+										while(xml.readNextStartElement()) {
+											if(xml.name()=="coordinates") {
+												decimal x,y,z;
+												while(xml.readNextStartElement()) {
+													if(xml.name()=="x") {
+														x=to_decimal(xml.readElementText());
+													} else if(xml.name()=="y") {
+														y=to_decimal(xml.readElementText());
+													} else if(xml.name()=="z") {
+														z=to_decimal(xml.readElementText());
+													} else {
+														xml.skipCurrentElement();
+													}
+												}
+												p->createVertex(x,y,z);
+											} else {
+												xml.skipCurrentElement();
+											}
+										}
+									} else {
+										xml.skipCurrentElement();
+									}
+								}
+							} else if(xml.name()=="volume") {
+								while(xml.readNextStartElement()) {
+									if(xml.name()=="triangle") {
+										int v1,v2,v3;
+										while(xml.readNextStartElement()) {
+											if(xml.name()=="v1") {
+												v1=xml.readElementText().toInt();
+											} else if(xml.name()=="v2") {
+												v2=xml.readElementText().toInt();
+											} else if(xml.name()=="v3") {
+												v3=xml.readElementText().toInt();
+											} else {
+												xml.skipCurrentElement();
+											}
+										}
+										Polygon* pg=p->createPolygon();
+										pg->append(v1);
+										pg->append(v2);
+										pg->append(v3);
+									} else {
+										xml.skipCurrentElement();
+									}
+								}
+							} else {
+								xml.skipCurrentElement();
+							}
+						}
+					} else {
+						xml.skipCurrentElement();
+					}
+				}
+			} else {
+				xml.skipCurrentElement();
+			}
+		}
+	}
+
 	return p;
 }
 

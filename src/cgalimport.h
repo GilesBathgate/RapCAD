@@ -35,7 +35,8 @@ private:
 	Primitive* importOFF(QFileInfo);
 	Primitive* importSTL(QFileInfo);
 	Primitive* importRCAD(QFileInfo);
-	Primitive* import3MF(QFileInfo fileinfo);
+	Primitive* import3MF(QFileInfo);
+	Primitive* importAMF(QFileInfo);
 };
 
 #endif // CGALIMPORT_H
