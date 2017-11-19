@@ -14,7 +14,7 @@ install:
   - set QTDIR=C:\Qt\5.9\mingw53_32
   # Install Flex/Bison
   - if not exist FlexBison.zip
-      appveyor DownloadFile https://downloads.sourceforge.net/project/winflexbison/win_flex_bison-2.5.10.zip
+      appveyor DownloadFile https://downloads.sourceforge.net/project/winflexbison/win_flex_bison-latest.zip
       -FileName FlexBison.zip
   - 7z x -o%QTDIR%\bin FlexBison.zip
   # Install CGAL
