@@ -11,7 +11,7 @@ cache:
 install:
   - set CGAL_ROOT=C:\CGAL\
   - set BOOST_ROOT=C:\Libraries\boost_1_60_0
-  - set QTDIR=C:\Qt\5.9.1\mingw53_32
+  - set QTDIR=C:\Qt\5.9\mingw53_32
   # Install Flex/Bison
   - if not exist FlexBison.zip
       appveyor DownloadFile https://downloads.sourceforge.net/project/winflexbison/win_flex_bison-2.5.10.zip
