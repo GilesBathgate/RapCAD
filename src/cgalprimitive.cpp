@@ -229,7 +229,17 @@ void CGALPrimitive::createVertex(Point pt)
 {
 	decimal x,y,z;
 	pt.getXYZ(x,y,z);
+	createVertex(x,y,z);
+}
+
+void CGALPrimitive::createVertex(decimal x,decimal y,decimal z)
+{
 	CGAL::Point3 p(x,y,z);
+	createVertex(p);
+}
+
+void CGALPrimitive::createVertex(CGAL::Point3 p)
+{
 	points.append(p);
 }
 
@@ -243,7 +253,7 @@ int CGALPrimitive::findIndex(const CGAL::Point3& p)
 	} else {
 		int i=points.size();
 		pointMap.insert(p,i);
-		points.append(p);
+		createVertex(p);
 		return i;
 	}
 }

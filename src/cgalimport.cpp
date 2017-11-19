@@ -21,9 +21,12 @@
 #include <fstream>
 #include <QRegExp>
 #include <QStringList>
+#include <QXmlStreamReader>
 #include "script.h"
 #include "treeevaluator.h"
 #include "nodeevaluator.h"
+#include "decimal.h"
+#include "contrib/qzipreader_p.h"
 
 CGALImport::CGALImport(Reporter* r)
 {
@@ -40,6 +43,8 @@ Primitive* CGALImport::import(QString filename)
 		return importOFF(file);
 	if(suffix=="stl")
 		return importSTL(file);
+	if(suffix=="3mf")
+		return import3MF(file);
 	if(suffix=="rcad"||suffix=="csg")
 		return importRCAD(file);
 
@@ -133,6 +138,86 @@ Primitive* CGALImport::importSTL(QFileInfo fileinfo)
 			p->appendVertex(v2);
 			CGAL::Point3 v3(data.x3,data.y3,data.z3);
 			p->appendVertex(v3);
+		}
+	}
+	return p;
+}
+
+Primitive* CGALImport::import3MF(QFileInfo fileinfo)
+{
+	auto* p=new CGALPrimitive();
+	p->setSanitized(false);
+	QFile f(fileinfo.absoluteFilePath());
+	if(!f.open(QIODevice::ReadOnly)) {
+		reporter->reportWarning(tr("Can't open import file '%1'").arg(fileinfo.absoluteFilePath()));
+		return p;
+	}
+	QZipReader zip(fileinfo.absoluteFilePath());
+	QByteArray data=zip.fileData("3D/3dmodel.model");
+	zip.close();
+	QXmlStreamReader xml(data);
+	if(xml.readNextStartElement() && xml.name() == "model") {
+		while(xml.readNextStartElement()) {
+			if(xml.name() == "resources") {
+				while(xml.readNextStartElement()) {
+					if(xml.name() == "object") {
+						while(xml.readNextStartElement()) {
+							if(xml.name() == "mesh") {
+								while(xml.readNextStartElement()) {
+									if(xml.name() == "vertices") {
+										while(xml.readNextStartElement()) {
+											if(xml.name() == "vertex") {
+												decimal x,y,z;
+												for(const auto& attr: xml.attributes()) {
+													QStringRef n=attr.name();
+													QStringRef v=attr.value();
+													if(n == "x")
+														x=to_decimal(v.toString());
+													else if(n == "y")
+														y=to_decimal(v.toString());
+													else if(n == "z")
+														z=to_decimal(v.toString());
+												}
+												p->createVertex(x,y,z);
+											}
+											xml.skipCurrentElement();
+										}
+									} else if(xml.name() == "triangles") {
+										while(xml.readNextStartElement()) {
+											if(xml.name() == "triangle") {
+												int v1,v2,v3;
+												for(const auto& attr: xml.attributes()) {
+													QStringRef n=attr.name();
+													QStringRef v=attr.value();
+													if(n == "v1")
+														v1=v.toInt();
+													else if(n == "v2")
+														v2=v.toInt();
+													else if(n == "v3")
+														v3=v.toInt();
+												}
+												Polygon* pg=p->createPolygon();
+												pg->append(v1);
+												pg->append(v2);
+												pg->append(v3);
+											}
+											xml.skipCurrentElement();
+										}
+									} else {
+										xml.skipCurrentElement();
+									}
+								}
+							} else {
+								xml.skipCurrentElement();
+							}
+						}
+					} else {
+						xml.skipCurrentElement();
+					}
+				}
+			} else {
+				xml.skipCurrentElement();
+			}
 		}
 	}
 	return p;
