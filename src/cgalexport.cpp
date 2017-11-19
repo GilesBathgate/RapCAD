@@ -35,9 +35,10 @@
 #include "polyhedron.h"
 #include "contrib/qzipwriter_p.h"
 
-CGALExport::CGALExport(Primitive* p)
+CGALExport::CGALExport(Primitive* p,Reporter* r)
 {
 	primitive=p;
+	reporter=r;
 }
 
 void CGALExport::exportResult(QString filename)
@@ -131,7 +132,7 @@ void CGALExport::exportAsciiSTL(QString filename)
 
 	QFile data(filename);
 	if(!data.open(QFile::WriteOnly | QFile::Truncate)) {
-		//error
+		reporter->reportWarning(tr("Can't write file '%1'").arg(filename));
 		return;
 	}
 	QTextStream output(&data);
@@ -175,6 +176,7 @@ void CGALExport::exportAMF(QString filename)
 {
 	auto* file=new QFile(filename);
 	if(!file->open(QIODevice::WriteOnly)) {
+		reporter->reportWarning(tr("Can't write file '%1'").arg(filename));
 		return;
 	}
 
@@ -261,7 +263,7 @@ void CGALExport::exportCSG(QString filename)
 
 	QFile data(filename);
 	if(!data.open(QFile::WriteOnly | QFile::Truncate)) {
-		//error
+		reporter->reportWarning(tr("Can't write file '%1'").arg(filename));
 		return;
 	}
 
@@ -421,7 +423,7 @@ void CGALExport::exportNEF(QString f)
 void CGALExport::exportSVG(QString filename)
 {
 	if(primitive->isFullyDimentional()) {
-		//TODO needs user feedback
+		reporter->reportWarning(tr("Cannot export 3D volume as SVG"));
 		return;
 	}
 

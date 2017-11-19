@@ -207,7 +207,7 @@ void Worker::exportResult(QString fn)
 #if USE_CGAL
 	try {
 
-		CGALExport exporter(primitive);
+		CGALExport exporter(primitive,reporter);
 		exporter.exportResult(fn);
 
 	} catch(CGAL::Failure_exception e) {

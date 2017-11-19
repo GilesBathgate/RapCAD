@@ -22,11 +22,13 @@
 #include <QString>
 #include <QXmlStreamWriter>
 #include "cgalprimitive.h"
+#include "reporter.h"
 
 class CGALExport
 {
+	Q_DECLARE_TR_FUNCTIONS(CGALExport)
 public:
-	CGALExport(Primitive*);
+	CGALExport(Primitive*,Reporter*);
 	void exportResult(QString);
 
 private:
@@ -39,6 +41,7 @@ private:
 	void exportCSG(QString);
 	void exportNEF(QString);
 	void exportSVG(QString);
+	Reporter* reporter;
 	Primitive* primitive;
 	void exportAMFObject(CGALPrimitive* p, QXmlStreamWriter& xml);
 	void descendChildren(Primitive* p, QXmlStreamWriter& xml);
