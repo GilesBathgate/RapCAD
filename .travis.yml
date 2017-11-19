@@ -29,7 +29,7 @@ install:
 
 script:
   - qmake -v
-  - qmake -qt5
+  - qmake
   - make -j4
   - pushd test
   - ../rapcad -t
