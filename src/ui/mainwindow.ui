@@ -187,6 +187,7 @@
      <addaction name="actionExportOFF"/>
      <addaction name="actionExportNEF"/>
      <addaction name="actionExportImage"/>
+     <addaction name="actionExportSVG"/>
      <addaction name="actionExportCSG"/>
     </widget>
     <addaction name="actionNew"/>
@@ -850,6 +851,11 @@
   <action name="actionExport3MF">
    <property name="text">
     <string>3MF</string>
+   </property>
+  </action>
+  <action name="actionExportSVG">
+   <property name="text">
+    <string>SVG (2D)</string>
    </property>
   </action>
  </widget>

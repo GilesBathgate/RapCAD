@@ -61,6 +61,8 @@ void CGALExport::exportResult(QString filename)
 		return exportCSG(path);
 	if(suffix=="nef")
 		return exportNEF(path);
+	if(suffix=="svg")
+		return exportSVG(path);
 }
 
 void CGALExport::exportVRML(QString filename)
@@ -415,4 +417,46 @@ void CGALExport::exportNEF(QString f)
 		file.close();
 	}
 }
+
+void CGALExport::exportSVG(QString filename)
+{
+	if(primitive->isFullyDimentional()) {
+		//TODO needs user feedback
+		return;
+	}
+
+	auto* e=new CGALExplorer(primitive);
+	CGALPrimitive* pr=e->getPrimitive();
+
+	auto* file=new QFile(filename);
+	if(!file->open(QIODevice::WriteOnly)) {
+		return;
+	}
+
+	QXmlStreamWriter xml(file);
+	xml.setAutoFormatting(true);
+	xml.writeStartDocument();
+	xml.writeStartElement("svg");
+	xml.writeDefaultNamespace("http://www.w3.org/2000/svg");
+
+	for(const auto& pg: pr->getCGALPolygons()) {
+		xml.writeStartElement("polygon");
+		QString points;
+		OnceOnly first;
+		for(const auto& pt: pg->getPoints()) {
+			if(!first())
+				points.append(" ");
+			points.append(to_string(pt.x()));
+			points.append(",");
+			points.append(to_string(pt.y()));
+		}
+		xml.writeAttribute("points", points);
+		xml.writeEndElement(); //polygon
+	}
+
+	xml.writeEndElement(); //svg
+	xml.writeEndDocument();
+	delete file;
+}
+
 #endif

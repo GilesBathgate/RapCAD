@@ -238,6 +238,7 @@ void MainWindow::setupExportActions()
 	signalMapper->setMapping(ui->actionExportOFF,"stl");
 	signalMapper->setMapping(ui->actionExportCSG,"csg");
 	signalMapper->setMapping(ui->actionExportNEF,"nef");
+	signalMapper->setMapping(ui->actionExportSVG,"svg");
 
 	connect(ui->actionExportAsciiSTL,SIGNAL(triggered()),signalMapper,SLOT(map()));
 	connect(ui->actionExportVRML,SIGNAL(triggered()),signalMapper,SLOT(map()));
@@ -247,6 +248,7 @@ void MainWindow::setupExportActions()
 	connect(ui->actionExport3MF,SIGNAL(triggered()),signalMapper,SLOT(map()));
 	connect(ui->actionExportCSG,SIGNAL(triggered()),signalMapper,SLOT(map()));
 	connect(ui->actionExportNEF,SIGNAL(triggered()),signalMapper,SLOT(map()));
+	connect(ui->actionExportSVG,SIGNAL(triggered()),signalMapper,SLOT(map()));
 
 	connect(signalMapper,SIGNAL(mapped(QString)),this,SLOT(exportFile(QString)));
 }

@@ -38,6 +38,7 @@ private:
 	void export3MF(QString);
 	void exportCSG(QString);
 	void exportNEF(QString);
+	void exportSVG(QString);
 	Primitive* primitive;
 	void exportAMFObject(CGALPrimitive* p, QXmlStreamWriter& xml);
 	void descendChildren(Primitive* p, QXmlStreamWriter& xml);
