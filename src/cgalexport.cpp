@@ -101,10 +101,23 @@ void CGALExport::exportOFF(QString filename)
 	file.close();
 }
 
-typedef CGAL::Polyhedron3::Vertex Vertex;
 typedef CGAL::Polyhedron3::Vertex_const_iterator VertexIterator;
 typedef CGAL::Polyhedron3::Facet_const_iterator FacetIterator;
 typedef CGAL::Polyhedron3::Halfedge_around_facet_const_circulator HalffacetCirculator;
+
+static QList<CGAL::Triangle3> generateTriangles(CGAL::Polyhedron3* poly)
+{
+	QList<CGAL::Triangle3> triangles;
+	for(FacetIterator fi=poly->facets_begin(); fi!=poly->facets_end(); ++fi) {
+		HalffacetCirculator hc=fi->facet_begin();
+		CGAL_assertion(circulator_size(hc)==3);
+		CGAL::Triangle3 t((hc++)->vertex()->point(),
+						  (hc++)->vertex()->point(),
+						  (hc++)->vertex()->point());
+		triangles.append(t);
+	}
+	return triangles;
+}
 
 void CGALExport::exportAsciiSTL(QString filename)
 {
@@ -123,49 +136,32 @@ void CGALExport::exportAsciiSTL(QString filename)
 
 	output << "solid RapCAD_Model\n";
 
-	for(FacetIterator fi = poly->facets_begin(); fi != poly->facets_end(); ++fi) {
-		HalffacetCirculator hc = fi->facet_begin();
-		HalffacetCirculator he = hc;
-		Vertex v1, v2, v3;
-		v1 = *VertexIterator((hc++)->vertex());
-		v3 = *VertexIterator((hc++)->vertex());
-		do {
-			v2 = v3;
-			v3 = *VertexIterator((hc++)->vertex());
-			CGAL::Point3 p1,p2,p3;
-			p1=v1.point();
-			p2=v2.point();
-			p3=v3.point();
-			if(p1 == p2 || p1 == p3 || p2 == p3)
-				continue;
+	for(const auto& t: generateTriangles(poly)) {
+		CGAL::Vector3 n=t.supporting_plane().orthogonal_vector();
+		CGAL::Scalar ls=n.squared_length();
+		CGAL::Scalar l=r_sqrt(ls);
+		CGAL::Vector3 un=n/l;
 
-			CGAL::Vector3 n=CGAL::orthogonal_vector(p1,p2,p3);
-			CGAL::Scalar ls=n.squared_length();
-			CGAL::Scalar l=r_sqrt(ls);
-			CGAL::Vector3 un=n/l;
+		QString x1=to_string(t[0].x());
+		QString y1=to_string(t[0].y());
+		QString z1=to_string(t[0].z());
+		QString x2=to_string(t[1].x());
+		QString y2=to_string(t[1].y());
+		QString z2=to_string(t[1].z());
+		QString x3=to_string(t[2].x());
+		QString y3=to_string(t[2].y());
+		QString z3=to_string(t[2].z());
+		QString nx=to_string(un.x());
+		QString ny=to_string(un.y());
+		QString nz=to_string(un.z());
 
-			QString x1=to_string(p1.x());
-			QString y1=to_string(p1.y());
-			QString z1=to_string(p1.z());
-			QString x2=to_string(p2.x());
-			QString y2=to_string(p2.y());
-			QString z2=to_string(p2.z());
-			QString x3=to_string(p3.x());
-			QString y3=to_string(p3.y());
-			QString z3=to_string(p3.z());
-			QString nx=to_string(un.x());
-			QString ny=to_string(un.y());
-			QString nz=to_string(un.z());
-
-			output << "  facet normal " << nx << " " << ny << " " << nz << "\n";
-			output << "    outer loop\n";
-			output << "      vertex " << x1 << " " << y1 << " " << z1 << "\n";
-			output << "      vertex " << x2 << " " << y2 << " " << z2 << "\n";
-			output << "      vertex " << x3 << " " << y3 << " " << z3 << "\n";
-			output << "    endloop\n";
-			output << "  endfacet\n";
-
-		} while(hc != he);
+		output << "  facet normal " << nx << " " << ny << " " << nz << "\n";
+		output << "    outer loop\n";
+		output << "      vertex " << x1 << " " << y1 << " " << z1 << "\n";
+		output << "      vertex " << x2 << " " << y2 << " " << z2 << "\n";
+		output << "      vertex " << x3 << " " << y3 << " " << z3 << "\n";
+		output << "    endloop\n";
+		output << "  endfacet\n";
 	}
 
 	output << "endsolid RapCAD_Model\n";
@@ -216,40 +212,10 @@ void CGALExport::exportAMFObject(CGALPrimitive* p,QXmlStreamWriter& xml)
 	xml.writeStartElement("mesh");
 	xml.writeStartElement("vertices");
 
-	QList<CGAL::Point3> vertices;
-	QList<CGAL::Triangle3> triangles;
-
-	for(FacetIterator fi = poly->facets_begin(); fi != poly->facets_end(); ++fi) {
-		HalffacetCirculator hc = fi->facet_begin();
-		HalffacetCirculator he = hc;
-		Vertex v1, v2, v3;
-		v1 = *VertexIterator((hc++)->vertex());
-		v3 = *VertexIterator((hc++)->vertex());
-		do {
-			v2 = v3;
-			v3 = *VertexIterator((hc++)->vertex());
-			CGAL::Point3 p1,p2,p3;
-			p1=v1.point();
-			p2=v2.point();
-			p3=v3.point();
-
-			if(p1 == p2 || p1 == p3 || p2 == p3)
-				continue;
-
-			if(!vertices.contains(p1))
-				vertices.append(p1);
-			if(!vertices.contains(p2))
-				vertices.append(p2);
-			if(!vertices.contains(p3))
-				vertices.append(p3);
-
-			CGAL::Triangle3 t(p1,p2,p3);
-			triangles.append(t);
-
-		} while(hc != he);
-	}
-
-	for(const auto& p: vertices) {
+	int vertex_count=0;
+	QMap<CGAL::Point3,int> vertices;
+	for(VertexIterator vi=poly->vertices_begin(); vi!=poly->vertices_end(); ++vi) {
+		CGAL::Point3 p=vi->point();
 		xml.writeStartElement("vertex");
 		xml.writeStartElement("coordinates");
 		QString x,y,z;
@@ -261,17 +227,19 @@ void CGALExport::exportAMFObject(CGALPrimitive* p,QXmlStreamWriter& xml)
 		xml.writeTextElement("z",z);
 		xml.writeEndElement(); //coordinates
 		xml.writeEndElement(); //vertex
+
+		vertices.insert(p,vertex_count++);
 	}
 
 	xml.writeEndElement(); //vertices
 
 	xml.writeStartElement("volume");
-	for(const auto& t: triangles) {
+	for(const auto& t: generateTriangles(poly)) {
 		xml.writeStartElement("triangle");
 		int v1,v2,v3;
-		v1=vertices.indexOf(t[0]);
-		v2=vertices.indexOf(t[1]);
-		v3=vertices.indexOf(t[2]);
+		v1=vertices[t[0]];
+		v2=vertices[t[1]];
+		v3=vertices[t[2]];
 		xml.writeTextElement("v1",QString().setNum(v1));
 		xml.writeTextElement("v2",QString().setNum(v2));
 		xml.writeTextElement("v3",QString().setNum(v3));
@@ -356,40 +324,10 @@ void CGALExport::export3MF(QString filename)
 	xml.writeStartElement("mesh");
 	xml.writeStartElement("vertices");
 
-	QList<CGAL::Point3> vertices;
-	QList<CGAL::Triangle3> triangles;
-
-	for(FacetIterator fi = poly->facets_begin(); fi != poly->facets_end(); ++fi) {
-		HalffacetCirculator hc = fi->facet_begin();
-		HalffacetCirculator he = hc;
-		Vertex v1, v2, v3;
-		v1 = *VertexIterator((hc++)->vertex());
-		v3 = *VertexIterator((hc++)->vertex());
-		do {
-			v2 = v3;
-			v3 = *VertexIterator((hc++)->vertex());
-			CGAL::Point3 p1,p2,p3;
-			p1=v1.point();
-			p2=v2.point();
-			p3=v3.point();
-
-			if(p1 == p2 || p1 == p3 || p2 == p3)
-				continue;
-
-			if(!vertices.contains(p1))
-				vertices.append(p1);
-			if(!vertices.contains(p2))
-				vertices.append(p2);
-			if(!vertices.contains(p3))
-				vertices.append(p3);
-
-			CGAL::Triangle3 t(p1,p2,p3);
-			triangles.append(t);
-
-		} while(hc != he);
-	}
-
-	for(const auto& p: vertices) {
+	int vertex_count=0;
+	QMap<CGAL::Point3,int> vertices;
+	for(VertexIterator vi=poly->vertices_begin(); vi!=poly->vertices_end(); ++vi) {
+		CGAL::Point3 p = vi->point();
 		xml.writeStartElement("vertex");
 		QString x,y,z;
 		x=to_string(p.x());
@@ -399,17 +337,19 @@ void CGALExport::export3MF(QString filename)
 		xml.writeAttribute("y",y);
 		xml.writeAttribute("z",z);
 		xml.writeEndElement(); //vertex
+
+		vertices.insert(p,vertex_count++);
 	}
 
 	xml.writeEndElement(); //vertices
 
 	xml.writeStartElement("triangles");
-	for(const auto& t: triangles) {
+	for(const auto& t: generateTriangles(poly)) {
 		xml.writeStartElement("triangle");
 		int v1,v2,v3;
-		v1=vertices.indexOf(t[0]);
-		v2=vertices.indexOf(t[1]);
-		v3=vertices.indexOf(t[2]);
+		v1=vertices[t[0]];
+		v2=vertices[t[1]];
+		v3=vertices[t[2]];
 		xml.writeAttribute("v1",QString().setNum(v1));
 		xml.writeAttribute("v2",QString().setNum(v2));
 		xml.writeAttribute("v3",QString().setNum(v3));
