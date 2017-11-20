@@ -78,10 +78,10 @@ void Worker::internal()
 
 #if USE_CGAL
 	} catch(CGAL::Failure_exception e) {
-		reporter->reportException(QString::fromStdString(e.what()));
+		resultFailed(QString::fromStdString(e.what()));
 #endif
 	} catch(...) {
-		reporter->reportException(tr("Unknown error."));
+		resultFailed(tr("Unknown error."));
 	}
 
 	update();
