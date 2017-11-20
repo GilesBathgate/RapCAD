@@ -39,7 +39,6 @@ public:
 	void reportException(QString);
 	void setReturnCode(int);
 	bool getReturnCode();
-	void outputTime(int);
 	void setKludge(int);
 	QTextStream& output;
 private:

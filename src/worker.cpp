@@ -205,14 +205,16 @@ Instance* Worker::addProductInstance(QString name,Script* s)
 void Worker::exportResult(QString fn)
 {
 #if USE_CGAL
-	try {
+	reporter->startTiming();
 
+	try {
 		CGALExport exporter(primitive,reporter);
 		exporter.exportResult(fn);
-
 	} catch(CGAL::Failure_exception e) {
 		resultFailed(QString::fromStdString(e.what()));
 	}
+
+	reporter->reportTiming(tr("export"));
 #endif
 }
 
