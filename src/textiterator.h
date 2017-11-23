@@ -19,10 +19,10 @@
 #ifndef TEXTITERATOR_H
 #define TEXTITERATOR_H
 
-#include "iterator.h"
+#include "valueiterator.h"
 #include "value.h"
 
-class TextIterator : public Iterator<Value*>
+class TextIterator : public ValueIterator
 {
 public:
 	TextIterator(QString);

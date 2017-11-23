@@ -20,10 +20,10 @@
 #define VECTORITERATOR_H
 
 #include <QList>
-#include "iterator.h"
+#include "valueiterator.h"
 #include "value.h"
 
-class VectorIterator : public Iterator<Value*>
+class VectorIterator : public ValueIterator
 {
 public:
 	VectorIterator(QList<Value*> items);

@@ -26,7 +26,7 @@ class RangeValue : public VectorValue
 public:
 	RangeValue(Value*,Value*,Value*);
 	QString getValueString() const override;
-	Iterator<Value*>* createIterator() override;
+	ValueIterator* createIterator() override;
 	QList<Value*> getChildren() override;
 
 	Value* getStart() const;

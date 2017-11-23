@@ -21,6 +21,7 @@
 
 class VectorValue;
 class TextValue;
+class ValueIterator;
 #include <QString>
 #include "iterator.h"
 #include "expression.h"
@@ -43,7 +44,7 @@ public:
 	virtual VectorValue* toVector(int);
 	virtual TextValue* toText();
 	virtual Value* toNumber();
-	virtual Iterator<Value*>* createIterator();
+	virtual ValueIterator* createIterator();
 	Value* operator^(Value&);
 	Value* operator*(Value&);
 	Value* concatenate(Value& v);

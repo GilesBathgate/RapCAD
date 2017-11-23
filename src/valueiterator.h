@@ -26,11 +26,12 @@ class ValueIterator : public Iterator<Value*>
 {
 public:
 	ValueIterator(Value*);
-	void first() override;
-	void next() override;
-	bool isDone() override;
-	Value* currentItem() const override;
-private:
+	virtual void first() override;
+	virtual void next() override;
+	virtual bool isDone() override;
+	virtual Value* currentItem() const override;
+protected:
+	ValueIterator();
 	Value* value;
 	bool done;
 };

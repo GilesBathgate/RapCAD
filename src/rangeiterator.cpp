@@ -18,9 +18,9 @@
 
 #include "rangeiterator.h"
 
-RangeIterator::RangeIterator(RangeValue* rng)
+RangeIterator::RangeIterator(RangeValue* rng) : ValueIterator(rng)
 {
-	range=rng;
+	auto* range=static_cast<RangeValue*>(value);
 
 	Value& s=*range->getStart();
 	Value& f=*range->getFinish();
@@ -45,6 +45,7 @@ RangeIterator::~RangeIterator()
 
 void RangeIterator::first()
 {
+	auto* range=static_cast<RangeValue*>(value);
 	index=range->getStart();
 	done=false;
 }
@@ -65,6 +66,7 @@ bool RangeIterator::isDone()
 	if(done)
 		return true;
 
+	auto* range=static_cast<RangeValue*>(value);
 	Value& s=*range->getStart();
 	Value& f=*range->getFinish();
 	Value& i=*index;

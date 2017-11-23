@@ -33,7 +33,7 @@ public:
 	Value* toNumber() override;
 	Point getPoint() const;
 	void getXYZ(decimal&,decimal&,decimal&);
-	Iterator<Value*>* createIterator() override;
+	ValueIterator* createIterator() override;
 	virtual QList<Value*> getChildren();
 protected:
 	VectorValue();

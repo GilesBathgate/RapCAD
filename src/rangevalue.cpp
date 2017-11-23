@@ -42,7 +42,7 @@ QString RangeValue::getValueString() const
 	return result;
 }
 
-Iterator<Value*>* RangeValue::createIterator()
+ValueIterator* RangeValue::createIterator()
 {
 	return new RangeIterator(this);
 }
@@ -50,7 +50,7 @@ Iterator<Value*>* RangeValue::createIterator()
 QList<Value*> RangeValue::getChildren()
 {
 	QList<Value*> result;
-	Iterator<Value*>* i=this->createIterator();
+	ValueIterator* i=this->createIterator();
 	for(i->first(); !i->isDone(); i->next())
 		result.append(i->currentItem());
 

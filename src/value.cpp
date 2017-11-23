@@ -102,7 +102,7 @@ Value* Value::toNumber()
 	return this;
 }
 
-Iterator<Value*>* Value::createIterator()
+ValueIterator* Value::createIterator()
 {
 	return new ValueIterator(this);
 }

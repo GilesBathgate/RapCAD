@@ -46,7 +46,7 @@ Value* TextValue::toNumber()
 		return Value::undefined();
 }
 
-Iterator<Value*>* TextValue::createIterator()
+ValueIterator* TextValue::createIterator()
 {
 	return new TextIterator(text);
 }

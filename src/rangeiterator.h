@@ -19,12 +19,12 @@
 #ifndef RANGEITERATOR_H
 #define RANGEITERATOR_H
 
-#include "iterator.h"
+#include "valueiterator.h"
 #include "value.h"
 #include "rangevalue.h"
 #include "numbervalue.h"
 
-class RangeIterator : public Iterator<Value*>
+class RangeIterator : public ValueIterator
 {
 public:
 	RangeIterator(RangeValue* range);
@@ -34,12 +34,10 @@ public:
 	bool isDone() override;
 	Value* currentItem() const override;
 private:
-	RangeValue* range;
 	Value* index;
 	Value* step;
 	NumberValue* defaultStep;
 	bool reverse;
-	bool done;
 };
 
 #endif // RANGEITERATOR_H

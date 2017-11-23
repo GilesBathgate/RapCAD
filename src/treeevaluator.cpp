@@ -20,6 +20,7 @@
 #include "vectorvalue.h"
 #include "complexvalue.h"
 #include "rangevalue.h"
+#include "valueiterator.h"
 #include "builtincreator.h"
 #include "module/importmodule.h"
 #include "syntaxtreebuilder.h"
@@ -256,7 +257,7 @@ void TreeEvaluator::visit(ForStatement* forstmt)
 		//TODO for now just consider the first arg.
 		Value* first = args.at(0);
 
-		Iterator<Value*>* i = first->createIterator();
+		ValueIterator* i = first->createIterator();
 		for(i->first(); !i->isDone(); i->next()) {
 
 			Value* v = i->currentItem();

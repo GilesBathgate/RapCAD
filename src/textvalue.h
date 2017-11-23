@@ -29,7 +29,7 @@ public:
 	bool isTrue() const override;
 	TextValue* toText() override;
 	Value* toNumber() override;
-	Iterator<Value*>* createIterator() override;
+	ValueIterator* createIterator() override;
 private:
 	Value* operation(Expression::Operator_e) override;
 	Value* operation(Value&,Expression::Operator_e) override;

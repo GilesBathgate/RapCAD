@@ -95,7 +95,7 @@ void VectorValue::getXYZ(decimal& x,decimal& y,decimal& z)
 	p.getXYZ(x,y,z);
 }
 
-Iterator<Value*>* VectorValue::createIterator()
+ValueIterator* VectorValue::createIterator()
 {
 	return new VectorIterator(this->children);
 }
@@ -225,7 +225,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			}
 			return total;
 		} else if(e==Expression::Index) {
-			Iterator<Value*>* it=this->createIterator();
+			ValueIterator* it=this->createIterator();
 			int i=num->toInteger();
 			if(i>=0) {
 				it->first();

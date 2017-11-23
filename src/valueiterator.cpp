@@ -18,6 +18,11 @@
 
 #include "valueiterator.h"
 
+ValueIterator::ValueIterator()
+{
+	value=nullptr;
+}
+
 ValueIterator::ValueIterator(Value* val)
 {
 	this->value=val;
