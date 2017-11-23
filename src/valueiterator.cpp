@@ -21,16 +21,13 @@
 ValueIterator::ValueIterator()
 {
 	value=nullptr;
+	done=false;
 }
 
 ValueIterator::ValueIterator(Value* val)
 {
-	this->value=val;
-}
-
-void ValueIterator::first()
-{
-	this->done=false;
+	value=val;
+	done=false;
 }
 
 void ValueIterator::next()

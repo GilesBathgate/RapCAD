@@ -225,10 +225,9 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			}
 			return total;
 		} else if(e==Expression::Index) {
-			ValueIterator* it=this->createIterator();
 			int i=num->toInteger();
 			if(i>=0) {
-				it->first();
+				ValueIterator* it=this->createIterator();
 				for(auto j=0; j<i&&!it->isDone(); ++j)
 					it->next();
 				if(!it->isDone())

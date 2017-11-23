@@ -36,18 +36,12 @@ RangeIterator::RangeIterator(RangeValue* rng) : ValueIterator(rng)
 	} else {
 		defaultStep=nullptr;
 	}
+	index=range->getStart();
 }
 
 RangeIterator::~RangeIterator()
 {
 	delete defaultStep;
-}
-
-void RangeIterator::first()
-{
-	auto* range=static_cast<RangeValue*>(value);
-	index=range->getStart();
-	done=false;
 }
 
 void RangeIterator::next()

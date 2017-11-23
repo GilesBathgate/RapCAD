@@ -26,7 +26,6 @@ class TextIterator : public ValueIterator
 {
 public:
 	TextIterator(QString);
-	void first() override;
 	void next() override;
 	bool isDone() override;
 	Value* currentItem() const override;

@@ -257,8 +257,8 @@ void TreeEvaluator::visit(ForStatement* forstmt)
 		//TODO for now just consider the first arg.
 		Value* first = args.at(0);
 
-		ValueIterator* i = first->createIterator();
-		for(i->first(); !i->isDone(); i->next()) {
+		ValueIterator* i;
+		for(i=first->createIterator(); !i->isDone(); i->next()) {
 
 			Value* v = i->currentItem();
 			v->setName(first->getName());

@@ -22,10 +22,6 @@
 TextIterator::TextIterator(QString t)
 {
 	text=t;
-}
-
-void TextIterator::first()
-{
 	index=0;
 }
 

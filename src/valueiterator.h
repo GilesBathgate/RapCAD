@@ -26,7 +26,6 @@ class ValueIterator : public Iterator<Value*>
 {
 public:
 	ValueIterator(Value*);
-	virtual void first() override;
 	virtual void next() override;
 	virtual bool isDone() override;
 	virtual Value* currentItem() const override;

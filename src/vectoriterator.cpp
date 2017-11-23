@@ -21,10 +21,6 @@
 VectorIterator::VectorIterator(QList<Value*> list) : ValueIterator()
 {
 	items=list;
-}
-
-void VectorIterator::first()
-{
 	index=0;
 }
 
