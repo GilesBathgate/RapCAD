@@ -257,17 +257,15 @@ void TreeEvaluator::visit(ForStatement* forstmt)
 		//TODO for now just consider the first arg.
 		Value* first = args.at(0);
 
-		ValueIterator* i;
-		for(i=first->createIterator(); !i->isDone(); i->next()) {
+		for(auto&& i=*first->createIterator(); i!=i; ++i) {
 
-			Value* v = i->currentItem();
+			Value* v = *i;
 			v->setName(first->getName());
 			context->setVariable(v);
 
 			forstmt->getStatement()->accept(*this);
 
 		}
-		delete i;
 	}
 }
 

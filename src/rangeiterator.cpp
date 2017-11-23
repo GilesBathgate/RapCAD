@@ -44,7 +44,7 @@ RangeIterator::~RangeIterator()
 	delete defaultStep;
 }
 
-void RangeIterator::next()
+void RangeIterator::operator++()
 {
 	Value& i=*index;
 	Value& s=*step;
@@ -55,10 +55,10 @@ void RangeIterator::next()
 	index=r;
 }
 
-bool RangeIterator::isDone()
+bool RangeIterator::operator!=(const Iterator&)
 {
 	if(done)
-		return true;
+		return false;
 
 	auto* range=static_cast<RangeValue*>(value);
 	Value& s=*range->getStart();
@@ -75,10 +75,10 @@ bool RangeIterator::isDone()
 		upper=i>f;
 	}
 
-	return lower->isTrue() || upper->isTrue();
+	return !lower->isTrue() && !upper->isTrue();
 }
 
-Value* RangeIterator::currentItem() const
+Value* RangeIterator::operator*() const
 {
 	return index;
 }

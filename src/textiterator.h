@@ -26,9 +26,9 @@ class TextIterator : public ValueIterator
 {
 public:
 	TextIterator(QString);
-	void next() override;
-	bool isDone() override;
-	Value* currentItem() const override;
+	void operator++() override;
+	bool operator!=(const Iterator&) override;
+	Value* operator*() const override;
 private:
 	QString text;
 	int index;

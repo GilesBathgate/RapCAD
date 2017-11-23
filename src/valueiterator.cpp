@@ -30,17 +30,17 @@ ValueIterator::ValueIterator(Value* val)
 	done=false;
 }
 
-void ValueIterator::next()
+void ValueIterator::operator++()
 {
 	this->done=true;
 }
 
-bool ValueIterator::isDone()
+bool ValueIterator::operator!=(const Iterator&)
 {
-	return done;
+	return !done;
 }
 
-Value* ValueIterator::currentItem() const
+Value* ValueIterator::operator*() const
 {
 	return this->value;
 }

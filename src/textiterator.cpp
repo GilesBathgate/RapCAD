@@ -25,17 +25,17 @@ TextIterator::TextIterator(QString t)
 	index=0;
 }
 
-void TextIterator::next()
+void TextIterator::operator++()
 {
 	index++;
 }
 
-bool TextIterator::isDone()
+bool TextIterator::operator!=(const Iterator&)
 {
-	return index>=text.size();
+	return index<text.size();
 }
 
-Value* TextIterator::currentItem() const
+Value* TextIterator::operator*() const
 {
 	return new TextValue(text.at(index));
 }

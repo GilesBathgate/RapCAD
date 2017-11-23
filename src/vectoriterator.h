@@ -27,9 +27,9 @@ class VectorIterator : public ValueIterator
 {
 public:
 	VectorIterator(QList<Value*> items);
-	void next() override;
-	bool isDone() override;
-	Value* currentItem() const override;
+	void operator++() override;
+	bool operator!=(const Iterator&) override;
+	Value* operator*() const override;
 private:
 	QList<Value*> items;
 	int index;

@@ -227,11 +227,11 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 		} else if(e==Expression::Index) {
 			int i=num->toInteger();
 			if(i>=0) {
-				ValueIterator* it=this->createIterator();
-				for(auto j=0; j<i&&!it->isDone(); ++j)
-					it->next();
-				if(!it->isDone())
-					return it->currentItem();
+				ValueIterator& it=*this->createIterator();
+				for(auto j=0; j<i&&i!=i; ++j)
+					++it;
+				if(i!=i)
+					return *it;
 			}
 			return Value::undefined();
 		} else {

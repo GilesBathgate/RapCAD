@@ -24,9 +24,9 @@ class Iterator
 {
 public:
 	virtual ~Iterator() {}
-	virtual void next()=0;
-	virtual bool isDone()=0;
-	virtual T currentItem() const=0;
+	virtual void operator++()=0;
+	virtual bool operator!=(const Iterator&)=0;
+	virtual T operator*() const=0;
 protected:
 	Iterator() {}
 };

@@ -50,8 +50,8 @@ ValueIterator* RangeValue::createIterator()
 QList<Value*> RangeValue::getChildren()
 {
 	QList<Value*> result;
-	for(ValueIterator* i=this->createIterator(); !i->isDone(); i->next())
-		result.append(i->currentItem());
+	for(ValueIterator& i=*this->createIterator(); i!=i; ++i)
+		result.append(*i);
 
 	return result;
 }
