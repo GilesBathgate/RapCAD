@@ -24,12 +24,13 @@ VectorIterator::VectorIterator(QList<Value*> list) : ValueIterator()
 	index=0;
 }
 
-void VectorIterator::operator++()
+ValueIterator& VectorIterator::operator++()
 {
 	index++;
+	return *this;
 }
 
-bool VectorIterator::operator!=(const Iterator&)
+bool VectorIterator::operator!=(const Iterator&) const
 {
 	return index<items.size();
 }

@@ -26,8 +26,8 @@ class ValueIterator : public Iterator<Value*>
 {
 public:
 	ValueIterator(Value*);
-	virtual void operator++() override;
-	virtual bool operator!=(const Iterator&) override;
+	virtual ValueIterator& operator++() override;
+	virtual bool operator!=(const Iterator&) const override;
 	virtual Value* operator*() const override;
 protected:
 	ValueIterator();

@@ -256,16 +256,16 @@ void TreeEvaluator::visit(ForStatement* forstmt)
 	if(!args.isEmpty()) {
 		//TODO for now just consider the first arg.
 		Value* first = args.at(0);
+		QString name=first->getName();
 
-		for(auto&& i=*first->createIterator(); i!=i; ++i) {
-
-			Value* v = *i;
-			v->setName(first->getName());
+		ValueIterator* it=first->createIterator();
+		for(Value* v: *it) {
+			v->setName(name);
 			context->setVariable(v);
 
 			forstmt->getStatement()->accept(*this);
-
 		}
+		delete it;
 	}
 }
 

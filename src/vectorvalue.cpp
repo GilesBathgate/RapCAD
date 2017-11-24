@@ -120,6 +120,19 @@ Value* VectorValue::operation(Expression::Operator_e e)
 	return new VectorValue(result);
 }
 
+static Value* skip(ValueIterator&,int i)
+{
+	if(i>=0) {
+		int j=0;
+		for(Value* v: it) {
+			if(j==i) return v;
+			if(j>=i) break;
+			++j;
+		}
+	}
+	return Value::undefined();
+}
+
 Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 {
 	QList<Value*> result;
@@ -219,21 +232,16 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 		} else if(e==Expression::Exponent) {
 			QList<Value*> a=this->getChildren();
 			Value* total=new NumberValue(0);
-			for(auto i=0; i<a.size(); i++) {
-				Value* r=Value::operation(a.at(i),e,num);
+			for(Value* c: a) {
+				Value* r=Value::operation(c,e,num);
 				total=Value::operation(total,Expression::Add,r);
 			}
 			return total;
 		} else if(e==Expression::Index) {
-			int i=num->toInteger();
-			if(i>=0) {
-				ValueIterator& it=*this->createIterator();
-				for(auto j=0; j<i&&i!=i; ++j)
-					++it;
-				if(i!=i)
-					return *it;
-			}
-			return Value::undefined();
+			ValueIterator* it=this->createIterator();
+			Value* v=skip(it,num->toInteger());
+			delete it;
+			return v;
 		} else {
 			QList<Value*> a=this->getChildren();
 			e=convertOperation(e);

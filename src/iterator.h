@@ -19,16 +19,19 @@
 #ifndef ITERATOR_H
 #define ITERATOR_H
 
-template <class T>
-class Iterator
+template <typename T>
+struct Iterator
 {
-public:
-	virtual ~Iterator() {}
-	virtual void operator++()=0;
-	virtual bool operator!=(const Iterator&)=0;
-	virtual T operator*() const=0;
+	Iterator& p;
 protected:
-	Iterator() {}
+	Iterator() : p(*this) {}
+public:
+	virtual ~Iterator(){}
+	virtual bool operator!=(const Iterator& o) const { return p!=o; }
+	virtual Iterator& operator++() { ++p; return *this; }
+	virtual T operator*() const { return *p; }
+	Iterator& begin() { return *this; }
+	Iterator& end() { return *this; }
 };
 
 #endif // ITERATOR_H

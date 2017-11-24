@@ -44,7 +44,7 @@ RangeIterator::~RangeIterator()
 	delete defaultStep;
 }
 
-void RangeIterator::operator++()
+ValueIterator& RangeIterator::operator++()
 {
 	Value& i=*index;
 	Value& s=*step;
@@ -53,9 +53,10 @@ void RangeIterator::operator++()
 	if(c->isTrue())
 		done=true;
 	index=r;
+	return *this;
 }
 
-bool RangeIterator::operator!=(const Iterator&)
+bool RangeIterator::operator!=(const Iterator&) const
 {
 	if(done)
 		return false;

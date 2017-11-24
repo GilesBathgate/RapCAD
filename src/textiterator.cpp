@@ -25,12 +25,13 @@ TextIterator::TextIterator(QString t)
 	index=0;
 }
 
-void TextIterator::operator++()
+ValueIterator& TextIterator::operator++()
 {
 	index++;
+	return *this;
 }
 
-bool TextIterator::operator!=(const Iterator&)
+bool TextIterator::operator!=(const Iterator&) const
 {
 	return index<text.size();
 }
