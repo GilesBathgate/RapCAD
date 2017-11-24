@@ -120,7 +120,7 @@ Value* VectorValue::operation(Expression::Operator_e e)
 	return new VectorValue(result);
 }
 
-static Value* skip(ValueIterator&,int i)
+static Value* skip(ValueIterator& it,int i)
 {
 	if(i>=0) {
 		int j=0;
@@ -239,7 +239,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			return total;
 		} else if(e==Expression::Index) {
 			ValueIterator* it=this->createIterator();
-			Value* v=skip(it,num->toInteger());
+			Value* v=skip(*it,num->toInteger());
 			delete it;
 			return v;
 		} else {
