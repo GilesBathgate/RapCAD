@@ -54,6 +54,7 @@ void CGALPrimitive::clear()
 	qDeleteAll(polygons);
 	polygons.clear();
 
+	pointMap.clear();
 	points.clear();
 
 	qDeleteAll(children);
