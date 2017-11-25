@@ -117,7 +117,6 @@ private:
 	};
 
 	CGAL::Nef_nary_union_3<Unionable>* nUnion;
-	static CGAL::NefPolyhedron3* singlePoint;
 
 };
 

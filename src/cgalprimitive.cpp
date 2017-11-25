@@ -20,8 +20,6 @@
 #include "onceonly.h"
 #include "rmath.h"
 
-CGAL::NefPolyhedron3* CGALPrimitive::singlePoint=nullptr;
-
 void CGALPrimitive::init()
 {
 	sanitized=true;
@@ -176,32 +174,8 @@ void CGALPrimitive::buildPrimitive()
 	}
 
 	default: {
-		if(!singlePoint) {
-			QVector<CGAL::Point3> pl1,pl2;
-			CGAL::Point3 p1=CGAL::Point3(0.0,0.0,0.0);
-			CGAL::Point3 p2=CGAL::Point3(1.0,0.0,0.0);
-			CGAL::Point3 p3=CGAL::Point3(0.0,1.0,0.0);
-
-			pl1.append(p1);
-			pl1.append(p2);
-			singlePoint=createPolyline(pl1);
-
-			pl2.append(p1);
-			pl2.append(p3);
-			const CGAL::NefPolyhedron3* np=createPolyline(pl2);
-
-			*singlePoint=singlePoint->intersection(*np);
-		}
-
 		CGAL::Point3 p=points.last();
-
-		nefPolyhedron=new CGAL::NefPolyhedron3(*singlePoint);
-
-		CGAL::AffTransformation3 t(
-			1, 0, 0, p.x(),
-			0, 1, 0, p.y(),
-			0, 0, 1, p.z(), 1);
-		nefPolyhedron->transform(t);
+		nefPolyhedron=new CGAL::NefPolyhedron3(p);
 		return;
 	}
 	}
