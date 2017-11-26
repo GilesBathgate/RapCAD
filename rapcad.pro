@@ -100,7 +100,9 @@ win32 {
 #LIBS += -Wl,-rpath,./librapcad -L./librapcad -lrapcad
 
 contains(DEFINES,USE_CGAL) {
-QMAKE_CXXFLAGS += -frounding-math
+!macx {
+	QMAKE_CXXFLAGS += -frounding-math
+}
 }
 
 CONFIG(coverage){
