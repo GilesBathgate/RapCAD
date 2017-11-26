@@ -166,7 +166,7 @@ unsigned int TokenBuilder::buildIf()
 
 unsigned int TokenBuilder::buildAs()
 {
-	return AS;
+	return TOK_AS;
 }
 
 unsigned int TokenBuilder::buildElse()

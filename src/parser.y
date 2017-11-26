@@ -70,7 +70,7 @@ static Reporter* reporter;
 %token <text> STRING
 %token <number> NUMBER
 %token TOK_TRUE TOK_FALSE UNDEF
-%token AS NS
+%token TOK_AS NS
 
 %right RETURN
 %right '=' APPEND
@@ -134,14 +134,14 @@ codedoc_param
 use_declaration
 	: USE
 	{ $$ = builder->buildUse($1); }
-	| USE AS IDENTIFIER ';'
+	| USE TOK_AS IDENTIFIER ';'
 	{ $$ = builder->buildUse($1,$3); }
 	;
 
 import_declaration
-	: IMPORT AS IDENTIFIER ';'
+	: IMPORT TOK_AS IDENTIFIER ';'
 	{ $$ = builder->buildImport($1,$3); }
-	| IMPORT AS IDENTIFIER '(' parameters ')' ';'
+	| IMPORT TOK_AS IDENTIFIER '(' parameters ')' ';'
 	{ $$ = builder->buildImport($1,$3,$5); }
 	;
 
