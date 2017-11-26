@@ -87,7 +87,7 @@
 	| "param" <identifier> '=' <expression>
 
 <ifelse_statement> ::=
-	"if" '(' <expression> ')' <statement>
+	"if" '(' <expression> ')' <statement> %<prec> "then"
 	| "if" '(' <expression> ')' <statement> "else" <statement>
 
 <for_statement> ::=
@@ -108,6 +108,7 @@
 	| '[' <expression> ':' <expression> ']'
 	| '[' <expression> ':' <expression> ':' <expression> ']'
 	| '[' <vector_expression> <optional_commas> ']'
+	| '<' <expression> ',' <expression> ',' <expression> ',' <expression> '>'
 	| '|' <expression> '|'
 	| <expression> '^' <expression>
 	| <expression> '*' <expression>

@@ -13,7 +13,7 @@ s/ ADDA/ "+="/;
 s/ SUBA/ "-="/;
 s/DOCEND/"\*\/"/;
 s/DOCPARAM /"@" /;
-s/ AP / "~=" /;
+s/ APPEND / "~=" /;
 s/ CM / ".*" /;
 s/ CD / ".\/" /;
 s/ CP / "**" /;
