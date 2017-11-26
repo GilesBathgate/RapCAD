@@ -62,7 +62,7 @@ static Reporter* reporter;
 %token <text> USE
 %token <text> IMPORT
 %token MODULE FUNCTION
-%token IF
+%token TOK_IF
 %right THEN ELSE
 %token FOR
 %token CONST PARAM
@@ -261,9 +261,9 @@ assign_statement
 	;
 
 ifelse_statement
-	: IF '(' expression ')' statement %prec THEN
+	: TOK_IF '(' expression ')' statement %prec THEN
 	{ $$ = builder->buildIfElseStatement($3,$5); }
-	| IF '(' expression ')' statement ELSE statement
+	| TOK_IF '(' expression ')' statement ELSE statement
 	{ $$ = builder->buildIfElseStatement($3,$5,$7); }
 	;
 
