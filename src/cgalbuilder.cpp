@@ -22,6 +22,7 @@
 #include <QList>
 #include <QMap>
 #include <CGAL/Constrained_triangulation_2.h>
+#include <CGAL/Triangulation_vertex_base_with_info_2.h>
 #include <CGAL/Triangulation_face_base_with_info_2.h>
 #ifdef USE_OFFSET
 #include <CGAL/create_offset_polygons_2.h>
@@ -120,34 +121,41 @@ static void markDomains(CT& ct)
 	}
 }
 
+template <typename CT>
+static void insertConstraint(CT& ct,const CGAL::Point3& p,const CGAL::Point3& np)
+{
+	typedef typename CT::Vertex_handle VertexHandle;
+
+	CGAL::Point2 p2(p.x(),p.y());
+	VertexHandle h=ct.insert(p2);
+	h->info() = p.z();
+	CGAL::Point2 np2(np.x(),np.y());
+	ct.insert_constraint(p2,np2);
+}
+
 CGALPrimitive* CGALBuilder::triangulate()
 {
-	typedef CGAL::Triangulation_vertex_base_2<CGAL::Kernel3> VertexBase;
+	typedef CGAL::Triangulation_vertex_base_with_info_2<CGAL::Scalar,CGAL::Kernel3> VertexBase;
 	typedef CGAL::Triangulation_face_base_with_info_2<FaceInfo,CGAL::Kernel3> Info;
 	typedef CGAL::Constrained_triangulation_face_base_2<CGAL::Kernel3,Info> FaceBase;
 	typedef CGAL::Triangulation_data_structure_2<VertexBase,FaceBase> TDS;
 	typedef CGAL::Exact_predicates_tag Tag;
 	typedef CGAL::Constrained_triangulation_2<CGAL::Kernel3,TDS,Tag> CT;
+	typedef CT::Vertex_handle VertexHandle;
 	typedef CT::Face_iterator FaceIterator;
 
 	CT ct;
 	for(CGALPolygon* pg: primitive->getCGALPolygons()) {
-#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,6,0)
 		OnceOnly first;
-		CGAL::Point2 fp,np;
-		for(const auto& p: pg->getXYPoints()) {
+		CGAL::Point3 np,fp;
+		for(const auto& p: pg->getPoints()) {
 			if(first())
 				fp=p;
 			else
-				ct.insert_constraint(p,np);
+				insertConstraint(ct,p,np);
 			np=p;
 		}
-		ct.insert_constraint(np,fp);
-#else
-		QList<CGAL::Point2> points=pg->getXYPoints();
-
-		ct.insert_constraint(points.begin(),points.end(),true);
-#endif
+		insertConstraint(ct,fp,np);
 	}
 
 	markDomains(ct);
@@ -158,8 +166,9 @@ CGALPrimitive* CGALBuilder::triangulate()
 		if(f->info().inDomain()) {
 			primitive->createPolygon();
 			for(auto i=0; i<3; ++i) {
-				CGAL::Point2 p2=f->vertex(i)->point();
-				CGAL::Point3 p(p2.x(),p2.y(),0);
+				VertexHandle h=f->vertex(i);
+				CGAL::Point2 p2=h->point();
+				CGAL::Point3 p(p2.x(),p2.y(),h->info());
 				primitive->appendVertex(p);
 			}
 		}
