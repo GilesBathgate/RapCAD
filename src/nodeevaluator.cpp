@@ -338,7 +338,9 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 		nphi=ang*j/f;
 
 		for(CGALPolygon* pg: peri->getCGALPolygons()) {
-			bool up=(pg->getNormal().z()>0);
+			bool hole=pg->getHole();
+			if(!caps && hole) continue;
+			bool up=(pg->getNormal().z()>0)!=hole;
 			CGAL::Point3 pn;
 			OnceOnly first;
 			for(const auto& pt: pg->getPoints()) {
@@ -364,7 +366,6 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 				}
 				pn=pt;
 			}
-			break;
 		}
 	}
 
