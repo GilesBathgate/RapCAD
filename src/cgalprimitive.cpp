@@ -175,7 +175,30 @@ void CGALPrimitive::buildPrimitive()
 
 	default: {
 		CGAL::Point3 p=points.last();
+#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,8,0)
+		QVector<CGAL::Point3> pl1,pl2;
+		CGAL::Point3 p1=CGAL::Point3(0.0,0.0,0.0);
+		CGAL::Point3 p2=CGAL::Point3(1.0,0.0,0.0);
+		CGAL::Point3 p3=CGAL::Point3(0.0,1.0,0.0);
+
+		pl1.append(p1);
+		pl1.append(p2);
+		const CGAL::NefPolyhedron3* np1=createPolyline(pl1);
+
+		pl2.append(p1);
+		pl2.append(p3);
+		const CGAL::NefPolyhedron3* np2=createPolyline(pl2);
+
+		nefPolyhedron=new CGAL::NefPolyhedron3(np1->intersection(*np2));
+
+		CGAL::AffTransformation3 t(
+					1, 0, 0, p.x(),
+					0, 1, 0, p.y(),
+					0, 0, 1, p.z(), 1);
+		nefPolyhedron->transform(t);
+#else
 		nefPolyhedron=new CGAL::NefPolyhedron3(p);
+#endif
 		return;
 	}
 	}
