@@ -178,6 +178,8 @@ static HalfEdgeHandle findNewEdge(QList<HalfEdgeHandle> visited,QList<HalfEdgeHa
 
 static void detectHoles(CGALPrimitive* perimeters)
 {
+	if(!perimeters) return;
+
 	QList<CGALPolygon*> polys=perimeters->getCGALPolygons();
 	for(auto* pg1: polys) {
 		for(auto* pg2: polys) {
