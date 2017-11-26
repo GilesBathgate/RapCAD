@@ -176,6 +176,25 @@ static HalfEdgeHandle findNewEdge(QList<HalfEdgeHandle> visited,QList<HalfEdgeHa
 	return nullptr;
 }
 
+static void detectHoles(CGALPrimitive* perimeters)
+{
+	QList<CGALPolygon*> polys=perimeters->getCGALPolygons();
+	for(auto* pg1: polys) {
+		for(auto* pg2: polys) {
+			if(pg1==pg2) continue;
+
+			QList<CGAL::Point2> p2=pg2->getXYPoints();
+			for(auto& p1: pg1->getXYPoints()) {
+				CGAL::Bounded_side side=CGAL::bounded_side_2(p2.begin(),p2.end(),p1);
+				if(side==CGAL::ON_BOUNDED_SIDE) {
+					pg1->setHole(true);
+					break;
+				}
+			}
+		}
+	}
+}
+
 //Calculate the normal of the perimeter polygon
 static void calculateNormal(CGALPolygon* poly)
 {
@@ -264,14 +283,11 @@ void CGALExplorer::evaluate()
 
 						if(h==f) {
 							perimeters->appendVertex(fp);
-
 							calculateNormal(poly);
 
 							f=findNewEdge(visited,outEdges);
-							if(f==nullptr) {
-								evaluated=true;
-								return;
-							}
+							if(f==nullptr)
+								goto completed;
 
 							poly=static_cast<CGALPolygon*>(perimeters->createPolygon());
 							c=f;
@@ -283,6 +299,9 @@ void CGALExplorer::evaluate()
 			twin=!twin;
 		} while(visited.size()<outEdges.size());
 	}
+
+completed:
+	detectHoles(perimeters);
 
 	evaluated=true;
 }

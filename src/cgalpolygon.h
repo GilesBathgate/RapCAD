@@ -36,8 +36,13 @@ public:
 
 	CGAL::Plane3 getPlane() const;
 	void setPlane(const CGAL::Plane3&);
+
+	bool getHole() const;
+	void setHole(bool value);
+
 private:
 	CGAL::Plane3 plane;
+	bool hole;
 };
 #endif // CGALPOLYGON_H
 #endif

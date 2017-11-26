@@ -259,7 +259,7 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 		}
 
 		for(CGALPolygon* pg: peri->getCGALPolygons()) {
-			bool up=(pg->getNormal().z()>0);
+			bool up=(pg->getNormal().z()>0)!=pg->getHole();
 			OnceOnly first;
 			CGAL::Point3 pn;
 			for(const auto& pt: pg->getPoints()) {

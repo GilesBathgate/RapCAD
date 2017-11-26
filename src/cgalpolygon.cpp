@@ -21,6 +21,7 @@
 
 CGALPolygon::CGALPolygon(CGALPrimitive* p) : Polygon(p)
 {
+	hole=false;
 }
 
 QList<CGAL::Point3> CGALPolygon::getPoints() const
@@ -63,6 +64,16 @@ CGAL::Plane3 CGALPolygon::getPlane() const
 void CGALPolygon::setPlane(const CGAL::Plane3& p)
 {
 	plane=p;
+}
+
+bool CGALPolygon::getHole() const
+{
+	return hole;
+}
+
+void CGALPolygon::setHole(bool value)
+{
+	hole = value;
 }
 
 #endif
