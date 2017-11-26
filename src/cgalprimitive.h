@@ -44,6 +44,7 @@ public:
 	CGALPrimitive(CGAL::Polyhedron3 poly);
 	void setType(Primitive_t) override;
 	void setSanitized(bool) override;
+	bool getSanitized() override;
 	Polygon* createPolygon() override;
 	void createVertex(Point) override;
 	void createVertex(decimal,decimal,decimal);

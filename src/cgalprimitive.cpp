@@ -69,6 +69,11 @@ void CGALPrimitive::setSanitized(bool v)
 	sanitized=v;
 }
 
+bool CGALPrimitive::getSanitized()
+{
+	return sanitized;
+}
+
 typedef CGAL::Polyhedron3::Halfedge_handle HalfedgeHandle;
 
 static CGAL::Scalar getLength(HalfedgeHandle h)

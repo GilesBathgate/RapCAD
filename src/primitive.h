@@ -36,6 +36,7 @@ public:
 	virtual Polygon* createPolygon()=0;
 	virtual void setType(Primitive_t)=0;
 	virtual void setSanitized(bool)=0;
+	virtual bool getSanitized()=0;
 	virtual void createVertex(Point)=0;
 	virtual bool overlaps(Primitive*)=0;
 	virtual Primitive* group(Primitive*)=0;

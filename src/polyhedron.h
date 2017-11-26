@@ -30,6 +30,7 @@ public:
 	void createVertex(Point) override;
 	void setType(Primitive_t) override { }
 	void setSanitized(bool) override { }
+	bool getSanitized() override { return false; }
 	Primitive* buildPrimitive() { return this; }
 	bool overlaps(Primitive*) override { return false; }
 	void add(Primitive*,bool) override;
