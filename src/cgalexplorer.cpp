@@ -176,6 +176,15 @@ static HalfEdgeHandle findNewEdge(QList<HalfEdgeHandle> visited,QList<HalfEdgeHa
 	return nullptr;
 }
 
+//Calculate the normal of the perimeter polygon
+static void calculateNormal(CGALPolygon* poly)
+{
+	CGAL::Vector3 v;
+	QList<CGAL::Point3> pts=poly->getPoints();
+	CGAL::normal_vector_newell_3(pts.begin(),pts.end(),v);
+	poly->setNormal(v);
+}
+
 void CGALExplorer::evaluate()
 {
 	const CGAL::NefPolyhedron3& poly=primitive->getNefPolyhedron();
@@ -256,11 +265,7 @@ void CGALExplorer::evaluate()
 						if(h==f) {
 							perimeters->appendVertex(fp);
 
-							//Calculate the normal of the perimeter polygon
-							CGAL::Vector3 v;
-							QList<CGAL::Point3> pts=poly->getPoints();
-							CGAL::normal_vector_newell_3(pts.begin(),pts.end(),v);
-							poly->setNormal(v);
+							calculateNormal(poly);
 
 							f=findNewEdge(visited,outEdges);
 							if(f==nullptr) {

@@ -41,7 +41,7 @@ PrimitiveNode* QPathTextBuilder::buildPrimitiveNode() const
 {
 	QPainterPath path;
 	path.addText(location,*font,text);
-	QList<QPolygonF> paths = path.toFillPolygons();
+	QList<QPolygonF> paths = path.toSubpathPolygons();
 
 	int index=0;
 	PrimitiveNode* p = new PrimitiveNode(reporter);
@@ -50,7 +50,7 @@ PrimitiveNode* QPathTextBuilder::buildPrimitiveNode() const
 		OnceOnly first;
 		for(const auto& pt: path) {
 			if(!first()) {
-				p->createVertex(pt.x(),pt.y(),0.0);
+				p->createVertex(pt.x(),-pt.y(),0.0);
 				pg->append(index);
 				index++;
 			}

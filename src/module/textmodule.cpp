@@ -18,6 +18,7 @@ Node* TextModule::evaluate(Context* ctx)
 	QPathTextBuilder* tb=new QPathTextBuilder(reporter);
 	tb->setText(textVal->getValueString());
 	PrimitiveNode* n=tb->buildPrimitiveNode();
+	n->setSanitized(false);
 	n->setChildren(ctx->getInputNodes());
 	delete tb;
 	return n;

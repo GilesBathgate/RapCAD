@@ -272,7 +272,6 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 				}
 				pn=pt;
 			}
-			break;
 		}
 
 		for(CGALPolygon* pg: polys) {
