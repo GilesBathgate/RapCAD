@@ -28,7 +28,11 @@ void QPathTextBuilder::setLocation(Point value)
 {
 	decimal x,y;
 	value.getXY(x,y);
+#if USE_CGAL
 	location = QPointF(to_double(x),to_double(y));
+#else
+	location = QPointF(x,y);
+#endif
 }
 
 Primitive* QPathTextBuilder::buildPrimitive() const
