@@ -32,9 +32,9 @@ Instance::~Instance()
 		delete s;
 }
 
-void Instance::setName(QString name)
+void Instance::setName(QString n)
 {
-	this->name = name;
+	this->name = n;
 }
 
 QString Instance::getName() const

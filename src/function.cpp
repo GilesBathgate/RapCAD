@@ -44,9 +44,9 @@ QString Function::getName() const
 	return this->name;
 }
 
-void Function::setName(QString name)
+void Function::setName(QString n)
 {
-	this->name = name;
+	this->name = n;
 }
 
 

@@ -122,9 +122,9 @@ bool Expression::postFix()
 	return op==Increment||op==Decrement;
 }
 
-void Expression::setOp(Operator_e op)
+void Expression::setOp(Operator_e o)
 {
-	this->op = op;
+	this->op = o;
 }
 
 Expression::Operator_e Expression::getOp() const

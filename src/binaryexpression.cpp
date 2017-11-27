@@ -35,9 +35,9 @@ Expression* BinaryExpression::getLeft() const
 	return this->left;
 }
 
-void BinaryExpression::setLeft(Expression* left)
+void BinaryExpression::setLeft(Expression* l)
 {
-	this->left = left;
+	this->left = l;
 }
 
 Expression* BinaryExpression::getRight() const
@@ -45,9 +45,9 @@ Expression* BinaryExpression::getRight() const
 	return this->right;
 }
 
-void BinaryExpression::setRight(Expression* right)
+void BinaryExpression::setRight(Expression* r)
 {
-	this->right = right;
+	this->right = r;
 }
 
 void BinaryExpression::accept(TreeVisitor& v)

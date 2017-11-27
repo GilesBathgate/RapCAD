@@ -32,9 +32,9 @@ QString Variable::getName() const
 	return this->name;
 }
 
-void Variable::setName(QString name)
+void Variable::setName(QString n)
 {
-	this->name = name;
+	this->name = n;
 }
 
 void Variable::setStorage(Storage_e c)

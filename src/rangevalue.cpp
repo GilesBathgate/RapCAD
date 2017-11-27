@@ -21,11 +21,11 @@
 #include "vectorvalue.h"
 #include "booleanvalue.h"
 
-RangeValue::RangeValue(Value* start,Value* step, Value* finish)
+RangeValue::RangeValue(Value* s,Value* st, Value* f)
 {
-	this->start=start;
-	this->step=step;
-	this->finish=finish;
+	this->start=s;
+	this->step=st;
+	this->finish=f;
 }
 
 QString RangeValue::getValueString() const

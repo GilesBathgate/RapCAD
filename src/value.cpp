@@ -63,9 +63,9 @@ Variable::Storage_e Value::getStorage() const
 	return storageClass;
 }
 
-void Value::setName(QString name)
+void Value::setName(QString n)
 {
-	this->name = name;
+	this->name = n;
 }
 
 QString Value::getName() const

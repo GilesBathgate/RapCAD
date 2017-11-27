@@ -33,9 +33,9 @@ QString Parameter::getName() const
 	return this->name;
 }
 
-void Parameter::setName(QString name)
+void Parameter::setName(QString n)
 {
-	this->name = name;
+	this->name = n;
 }
 
 Expression* Parameter::getExpression() const

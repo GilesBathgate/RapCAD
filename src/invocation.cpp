@@ -8,9 +8,9 @@ Invocation::~Invocation()
 {
 }
 
-void Invocation::setName(QString name)
+void Invocation::setName(QString n)
 {
-	this->name = name;
+	this->name = n;
 }
 
 QString Invocation::getName() const

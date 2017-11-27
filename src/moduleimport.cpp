@@ -36,9 +36,9 @@ QString ModuleImport::getImport() const
 	return this->import;
 }
 
-void ModuleImport::setName(QString name)
+void ModuleImport::setName(QString n)
 {
-	this->name = name;
+	this->name = n;
 }
 
 QString ModuleImport::getName() const
