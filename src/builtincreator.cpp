@@ -52,7 +52,7 @@
 #include "module/boundsmodule.h"
 #include "module/subdivisionmodule.h"
 #include "module/offsetmodule.h"
-#include "module/outlinemodule.h"
+#include "module/boundarymodule.h"
 #include "module/importmodule.h"
 #include "module/resizemodule.h"
 #include "module/centermodule.h"
@@ -151,8 +151,8 @@ BuiltinCreator::BuiltinCreator(Reporter* r)
 	builtins.append(new MultMatrixModule(r));
 	builtins.append(new NormalsModule(r));
 	builtins.append(new OffsetModule(r));
-	builtins.append(new OutlineModule(r,true));
-	builtins.append(new OutlineModule(r,false));
+	builtins.append(new BoundaryModule(r,true));
+	builtins.append(new BoundaryModule(r,false));
 	builtins.append(new PointModule(r));
 	builtins.append(new PolygonModule(r));
 	builtins.append(new PolyhedronModule(r));

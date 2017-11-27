@@ -38,7 +38,7 @@
 #include "node/boundsnode.h"
 #include "node/subdivisionnode.h"
 #include "node/offsetnode.h"
-#include "node/outlinenode.h"
+#include "node/boundarynode.h"
 #include "node/importnode.h"
 #include "node/resizenode.h"
 #include "node/alignnode.h"
@@ -80,7 +80,7 @@ public:
 	void visit(BoundsNode*) override;
 	void visit(SubDivisionNode*) override;
 	void visit(OffsetNode*) override;
-	void visit(OutlineNode*) override;
+	void visit(BoundaryNode*) override;
 	void visit(ImportNode*) override;
 	void visit(TransformationNode*) override;
 	void visit(ResizeNode*) override;

@@ -234,8 +234,6 @@ SOURCES += \
 	src/function/sumfunction.cpp \
 	src/function/randfunction.cpp \
 	src/module/cylindersurfacemodule.cpp \
-	src/module/outlinemodule.cpp \
-	src/node/outlinenode.cpp \
 	src/module/importmodule.cpp \
 	src/builtincreator.cpp \
 	src/node/importnode.cpp \
@@ -352,7 +350,9 @@ SOURCES += \
 	src/asciidocprinter.cpp \
 	src/generator.cpp \
        src/qpathtextbuilder.cpp \
-       src/module/textmodule.cpp
+       src/module/textmodule.cpp \
+       src/module/boundarymodule.cpp \
+       src/node/boundarynode.cpp
 
 HEADERS  += \
 	contrib/OGL_helper.h \
@@ -480,8 +480,6 @@ HEADERS  += \
 	src/function/sumfunction.h \
 	src/function/randfunction.h \
 	src/module/cylindersurfacemodule.h \
-	src/module/outlinemodule.h \
-	src/node/outlinenode.h \
 	src/module/importmodule.h \
 	src/builtincreator.h \
 	src/node/importnode.h \
@@ -606,7 +604,9 @@ HEADERS  += \
 	src/asciidocprinter.h \
 	src/generator.h \
        src/qpathtextbuilder.h \
-       src/module/textmodule.h
+       src/module/textmodule.h \
+       src/module/boundarymodule.h \
+       src/node/boundarynode.h
 
 FORMS += \
 	src/ui/mainwindow.ui \

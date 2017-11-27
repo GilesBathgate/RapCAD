@@ -16,21 +16,23 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef OUTLINEMODULE_H
-#define OUTLINEMODULE_H
+#include "boundarymodule.h"
+#include "context.h"
+#include "node/boundarynode.h"
 
-#include "module.h"
-#include "onceonly.h"
-
-class OutlineModule : public Module
+BoundaryModule::BoundaryModule(Reporter* r,bool l) : Module(r,l?"outline":"boundary")
 {
-	Q_DECLARE_TR_FUNCTIONS(OutlineModule)
-public:
-	OutlineModule(Reporter*, bool);
-	Node* evaluate(Context*) override;
-private:
-	static OnceOnly depricateWarning;
-	bool legacy;
-};
+	legacy=l;
+}
 
-#endif // OUTLINEMODULE_H
+OnceOnly BoundaryModule::depricateWarning;
+
+Node* BoundaryModule::evaluate(Context* ctx)
+{
+	if(legacy&&depricateWarning())
+		reporter->reportWarning(tr("'outline' module is deprecated please use 'boundary'\n"));
+
+	auto* n = new BoundaryNode();
+	n->setChildren(ctx->getInputNodes());
+	return n;
+}

@@ -16,16 +16,16 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef OUTLINENODE_H
-#define OUTLINENODE_H
+#ifndef BOUNDARYNODE_H
+#define BOUNDARYNODE_H
 
 #include "node.h"
 
-class OutlineNode : public Node
+class BoundaryNode : public Node
 {
 public:
-	OutlineNode();
+	BoundaryNode();
 	void accept(NodeVisitor&) override;
 };
 
-#endif // OUTLINENODE_H
+#endif // BOUNDARYNODE_H

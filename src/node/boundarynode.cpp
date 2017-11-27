@@ -16,13 +16,13 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "outlinenode.h"
+#include "boundarynode.h"
 
-OutlineNode::OutlineNode()
+BoundaryNode::BoundaryNode()
 {
 }
 
-void OutlineNode::accept(NodeVisitor& v)
+void BoundaryNode::accept(NodeVisitor& v)
 {
 	v.visit(this);
 }

@@ -38,7 +38,7 @@ public:
 	virtual void visit(class BoundsNode*)=0;
 	virtual void visit(class SubDivisionNode*)=0;
 	virtual void visit(class OffsetNode*)=0;
-	virtual void visit(class OutlineNode*)=0;
+	virtual void visit(class BoundaryNode*)=0;
 	virtual void visit(class ImportNode*)=0;
 	virtual void visit(class TransformationNode*)=0;
 	virtual void visit(class ResizeNode*)=0;

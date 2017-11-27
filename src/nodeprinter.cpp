@@ -213,9 +213,9 @@ void NodePrinter::visit(OffsetNode* n)
 	printChildren(n);
 }
 
-void NodePrinter::visit(OutlineNode* n)
+void NodePrinter::visit(BoundaryNode* n)
 {
-	result << "outline()";
+	result << "boundary()";
 	printChildren(n);
 }
 

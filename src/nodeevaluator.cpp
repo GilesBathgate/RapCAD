@@ -590,7 +590,7 @@ void NodeEvaluator::visit(OffsetNode* n)
 	result=result->inset(n->getAmount());
 }
 
-void NodeEvaluator::visit(OutlineNode* op)
+void NodeEvaluator::visit(BoundaryNode* op)
 {
 	evaluate(op,Union);
 
