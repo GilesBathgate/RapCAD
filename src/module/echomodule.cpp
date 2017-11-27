@@ -28,9 +28,9 @@ OnceOnly EchoModule::depricateWarning;
 
 Node* EchoModule::evaluate(Context* ctx)
 {
-	if(depricateWarning()) {
-		output << "Warning: 'echo' module is deprecated please use 'write' or 'writeln'\n";
-	}
+	if(depricateWarning())
+		reporter->reportWarning(tr("'echo' module is deprecated please use 'write' or 'writeln'\n"));
+
 	output << "ECHO: ";
 	QList<Value*> args=ctx->getArguments();
 
