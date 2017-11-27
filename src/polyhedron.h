@@ -44,6 +44,7 @@ public:
 	Primitive* inset(decimal) override { return this; }
 	Primitive* decompose() override { return this; }
 	Primitive* complement() override { return this; }
+	Primitive* boundary() override { return this; }
 	bool isFullyDimentional() override { return false; }
 	Primitive* copy() override;
 	Primitive* triangulate() override { return this; }

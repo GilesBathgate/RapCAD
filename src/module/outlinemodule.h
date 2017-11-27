@@ -20,12 +20,17 @@
 #define OUTLINEMODULE_H
 
 #include "module.h"
+#include "onceonly.h"
 
 class OutlineModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(OutlineModule)
 public:
-	OutlineModule(Reporter*);
+	OutlineModule(Reporter*, bool);
 	Node* evaluate(Context*) override;
+private:
+	static OnceOnly depricateWarning;
+	bool legacy;
 };
 
 #endif // OUTLINEMODULE_H

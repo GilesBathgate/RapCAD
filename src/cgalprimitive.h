@@ -63,6 +63,7 @@ public:
 	Primitive* inset(const decimal) override;
 	Primitive* decompose() override;
 	Primitive* complement() override;
+	Primitive* boundary() override;
 	Primitive* copy() override;
 	Primitive* triangulate() override;
 	Primitive* simplify(int) override;

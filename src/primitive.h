@@ -50,6 +50,7 @@ public:
 	virtual Primitive* inset(const decimal)=0;
 	virtual Primitive* decompose()=0;
 	virtual Primitive* complement()=0;
+	virtual Primitive* boundary()=0;
 	virtual Primitive* copy()=0;
 	virtual Primitive* triangulate()=0;
 	virtual Primitive* simplify(int)=0;

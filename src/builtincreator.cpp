@@ -151,7 +151,8 @@ BuiltinCreator::BuiltinCreator(Reporter* r)
 	builtins.append(new MultMatrixModule(r));
 	builtins.append(new NormalsModule(r));
 	builtins.append(new OffsetModule(r));
-	builtins.append(new OutlineModule(r));
+	builtins.append(new OutlineModule(r,true));
+	builtins.append(new OutlineModule(r,false));
 	builtins.append(new PointModule(r));
 	builtins.append(new PolygonModule(r));
 	builtins.append(new PolyhedronModule(r));

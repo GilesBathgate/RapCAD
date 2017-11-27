@@ -595,8 +595,12 @@ void NodeEvaluator::visit(OutlineNode* op)
 	evaluate(op,Union);
 
 #if USE_CGAL
-	CGALExplorer explorer(result);
-	result=explorer.getPerimeters();
+	if(result->isFullyDimentional()) {
+		result=result->boundary();
+	} else {
+		CGALExplorer explorer(result);
+		result=explorer.getPerimeters();
+	}
 #endif
 }
 

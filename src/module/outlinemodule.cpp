@@ -20,12 +20,18 @@
 #include "context.h"
 #include "node/outlinenode.h"
 
-OutlineModule::OutlineModule(Reporter* r) : Module(r,"outline")
+OutlineModule::OutlineModule(Reporter* r,bool l) : Module(r,l?"outline":"boundary")
 {
+	legacy=l;
 }
+
+OnceOnly OutlineModule::depricateWarning;
 
 Node* OutlineModule::evaluate(Context* ctx)
 {
+	if(legacy&&depricateWarning())
+		reporter->reportWarning(tr("'outline' module is deprecated please use 'boundary'\n"));
+
 	auto* n = new OutlineNode();
 	n->setChildren(ctx->getInputNodes());
 	return n;

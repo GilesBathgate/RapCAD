@@ -457,6 +457,13 @@ Primitive* CGALPrimitive::complement()
 	return this;
 }
 
+Primitive* CGALPrimitive::boundary()
+{
+	this->buildPrimitive();
+	*nefPolyhedron=nefPolyhedron->boundary();
+	return this;
+}
+
 bool CGALPrimitive::flat()
 {
 	for(auto& p: points)
