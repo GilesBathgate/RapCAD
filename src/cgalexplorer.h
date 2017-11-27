@@ -34,6 +34,7 @@ public:
 	QList<CGALPolygon*> getBase();
 	CGALVolume getVolume(bool);
 private:
+	void explore();
 	void evaluate();
 	CGALPrimitive* perimeters;
 	bool evaluated;

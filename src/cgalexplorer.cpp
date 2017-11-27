@@ -201,7 +201,7 @@ static void calculateNormal(CGALPolygon* poly)
 	poly->setNormal(v);
 }
 
-void CGALExplorer::evaluate()
+void CGALExplorer::explore()
 {
 	const CGAL::NefPolyhedron3& poly=primitive->getNefPolyhedron();
 	ShellExplorer se;
@@ -284,7 +284,7 @@ void CGALExplorer::evaluate()
 
 							f=findNewEdge(visited,outEdges);
 							if(f==nullptr)
-								goto completed;
+								return;
 
 							poly=static_cast<CGALPolygon*>(perimeters->createPolygon());
 							c=f;
@@ -296,8 +296,12 @@ void CGALExplorer::evaluate()
 			twin=!twin;
 		} while(visited.size()<outEdges.size());
 	}
+}
 
-completed:
+void CGALExplorer::evaluate()
+{
+	explore();
+
 	detectHoles(perimeters);
 
 	evaluated=true;
