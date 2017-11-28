@@ -20,45 +20,45 @@
 
 bool Point::operator ==(const Point that) const
 {
-	return this->x==that.x&&this->y==that.y&&this->z==that.z;
+	return _x==that._x&&_y==that._y&&_z==that._z;
 }
 
 decimal Point::getX() const
 {
-	return x;
+	return _x;
 }
 
 decimal Point::getY() const
 {
-	return y;
+	return _y;
 }
 
 decimal Point::getZ() const
 {
-	return z;
+	return _z;
 }
 
 Point Point::transform(TransformMatrix* matrix) const
 {
 	decimal* m=matrix->getValues();
 	decimal nx,ny,nz;
-	nx=(m[ 0]*x+m[ 1]*y+m[ 2]*z+m[ 3]);
-	ny=(m[ 4]*x+m[ 5]*y+m[ 6]*z+m[ 7]);
-	nz=(m[ 8]*x+m[ 9]*y+m[10]*z+m[11]);
+	nx=(m[ 0]*_x+m[ 1]*_y+m[ 2]*_z+m[ 3]);
+	ny=(m[ 4]*_x+m[ 5]*_y+m[ 6]*_z+m[ 7]);
+	nz=(m[ 8]*_x+m[ 9]*_y+m[10]*_z+m[11]);
 	return Point(nx,ny,nz);
 }
 
 void Point::getXYZ(decimal& x, decimal& y, decimal& z) const
 {
-	x=this->x;
-	y=this->y;
-	z=this->z;
+	x=_x;
+	y=_y;
+	z=_z;
 }
 
 void Point::getXY(decimal& x, decimal& y) const
 {
-	x=this->x;
-	y=this->y;
+	x=_x;
+	y=_y;
 }
 
 QString Point::toString() const
@@ -70,11 +70,11 @@ QString Point::toString(bool trim) const
 {
 	QString res;
 	res.append("[");
-	res.append(to_string(x,trim));
+	res.append(to_string(_x,trim));
 	res.append(",");
-	res.append(to_string(y,trim));
+	res.append(to_string(_y,trim));
 	res.append(",");
-	res.append(to_string(z,trim));
+	res.append(to_string(_z,trim));
 	res.append("]");
 
 	return res;

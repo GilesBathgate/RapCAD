@@ -26,19 +26,19 @@
 class Point
 {
 public:
-	Point() : x(0), y(0), z(0) { }
-	Point(decimal x,decimal y,decimal z) : x(x), y(y), z(z) { }
+	Point() : _x(0), _y(0), _z(0) { }
+	Point(decimal x,decimal y,decimal z) : _x(x), _y(y), _z(z) { }
 	bool operator==(const Point that) const;
 	QString toString() const;
 	QString toString(const bool) const;
-	void getXYZ(decimal& x, decimal& y, decimal& z) const;
-	void getXY(decimal& x, decimal& y) const;
+	void getXYZ(decimal&,decimal&,decimal&) const;
+	void getXY(decimal&,decimal&) const;
 	decimal getX() const;
 	decimal getY() const;
 	decimal getZ() const;
 	Point transform(TransformMatrix*) const;
 private:
-	decimal x, y, z;
+	decimal _x, _y, _z;
 };
 
 #endif // POINT_H
