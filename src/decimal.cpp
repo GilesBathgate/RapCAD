@@ -136,11 +136,9 @@ bool to_boolean(const decimal& n)
 #if USE_CGAL
 void to_glcoord(const Point& pt,float& x,float& y,float& z)
 {
-	decimal a,b,c;
-	pt.getXYZ(a,b,c);
-	x=to_double(a);
-	y=to_double(b);
-	z=to_double(c);
+	x=to_double(pt.x());
+	y=to_double(pt.y());
+	z=to_double(pt.z());
 }
 
 QString to_rational(const decimal& n)

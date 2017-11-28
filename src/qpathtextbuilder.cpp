@@ -24,14 +24,12 @@ decimal QPathTextBuilder::getHeight()
 	return fm.height();
 }
 
-void QPathTextBuilder::setLocation(Point value)
+void QPathTextBuilder::setLocation(Point p)
 {
-	decimal x,y;
-	value.getXY(x,y);
 #if USE_CGAL
-	location = QPointF(to_double(x),to_double(y));
+	location = QPointF(to_double(p.x()),to_double(p.y()));
 #else
-	location = QPointF(x,y);
+	location = QPointF(v.x(),v.y());
 #endif
 }
 

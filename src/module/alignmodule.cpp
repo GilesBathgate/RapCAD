@@ -40,8 +40,8 @@ Node* AlignModule::evaluate(Context* ctx)
 	QList<AlignNode::Face_t> align;
 	VectorValue* vecVal=dynamic_cast<VectorValue*>(ctx->getArgument(0,"anchor"));
 	if(vecVal) {
-		decimal x,y,z;
-		vecVal->getXYZ(x,y,z);
+		Point p = vecVal->getPoint();
+		decimal x=p.x(),y=p.y(),z=p.z();
 		if(x>0) {
 			align.append(AlignNode::North);
 		} else if(x<0) {

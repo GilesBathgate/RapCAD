@@ -30,14 +30,12 @@ MirrorModule::MirrorModule(Reporter* r) : Module(r,"mirror")
 
 Node* MirrorModule::evaluate(Context* ctx)
 {
-	Point vec;
+	Point p;
 	auto* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(vecVal)
-		vec=vecVal->getPoint();
+		p = vecVal->getPoint();
 
-	decimal x=0,y=0,z=0;
-	vec.getXYZ(x,y,z);
-
+	decimal x=p.x(), y=p.y(), z=p.z();
 	decimal mag = r_sqrt(x*x + y*y + z*z);
 	decimal u = x/mag;
 	decimal v = y/mag;

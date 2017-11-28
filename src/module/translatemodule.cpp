@@ -34,13 +34,10 @@ Node* TranslateModule::evaluate(Context* ctx)
 	if(vec)
 		v=vec->getPoint();
 
-	decimal x=0,y=0,z=0;
-	v.getXYZ(x,y,z);
-
 	auto* m = new TransformMatrix(
-		1,0,0,x,
-		0,1,0,y,
-		0,0,1,z,
+		1,0,0,v.x(),
+		0,1,0,v.y(),
+		0,0,1,v.z(),
 		0,0,0,1
 	);
 

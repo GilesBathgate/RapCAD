@@ -230,9 +230,7 @@ Polygon* CGALPrimitive::createPolygon()
 
 void CGALPrimitive::createVertex(Point pt)
 {
-	decimal x,y,z;
-	pt.getXYZ(x,y,z);
-	createVertex(x,y,z);
+	createVertex(pt.x(),pt.y(),pt.z());
 }
 
 void CGALPrimitive::createVertex(decimal x,decimal y,decimal z)

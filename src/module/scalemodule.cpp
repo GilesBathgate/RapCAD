@@ -30,21 +30,18 @@ ScaleModule::ScaleModule(Reporter* r) : Module(r,"scale")
 
 Node* ScaleModule::evaluate(Context* ctx)
 {
-	Point size;
+	Point s;
 	auto* sizeVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(sizeVal)
-		size=sizeVal->getPoint();
+		s=sizeVal->getPoint();
 
-	Point ref;
+	Point r;
 	auto* refVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
 	if(refVal)
-		ref=refVal->getPoint();
+		r=refVal->getPoint();
 
-	decimal x=0,y=0,z=0;
-	size.getXYZ(x,y,z);
-
-	decimal a=0,b=0,c=0;
-	ref.getXYZ(a,b,c);
+	decimal x=s.x(),y=s.y(),z=s.z();
+	decimal a=r.x(),b=r.y(),c=r.z();
 
 	//Derived reference translation using
 	//http://tinyurl.com/nfmph3r

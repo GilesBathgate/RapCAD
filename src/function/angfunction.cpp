@@ -79,7 +79,7 @@ Value* AngFunction::evaluate(Context* ctx)
 			auto* unitVec=dynamic_cast<VectorValue*>(u);
 			if(unitVec) {
 				Point p=unitVec->getPoint();
-				p.getXYZ(x,y,z);
+				x=p.x(); y=p.y(); z=p.z();
 			}
 		} else {
 			// Assume rotation around z axis when no axis given

@@ -24,14 +24,12 @@ int Cache::hashValue(const decimal& v)
 	return i;
 }
 
-Cache::i_Point Cache::hashPoint(const Point& pt)
+Cache::i_Point Cache::hashPoint(const Point& p)
 {
 	i_Point ip;
-	decimal x,y,z;
-	pt.getXYZ(x,y,z);
-	ip.append(hashValue(x));
-	ip.append(hashValue(y));
-	ip.append(hashValue(z));
+	ip.append(hashValue(p.x()));
+	ip.append(hashValue(p.y()));
+	ip.append(hashValue(p.z()));
 
 	return ip;
 }

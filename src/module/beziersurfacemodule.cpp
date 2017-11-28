@@ -51,9 +51,9 @@ decimal BezierSurfaceModule::bez33(decimal u)
 Point BezierSurfaceModule::pointOnBez(Points cps, decimal u)
 {
 	decimal a=bez03(u),b=bez13(u),c=bez23(u),d=bez33(u);
-	decimal x=a*cps[0].getX()+b*cps[1].getX()+c*cps[2].getX()+d*cps[3].getX();
-	decimal y=a*cps[0].getY()+b*cps[1].getY()+c*cps[2].getY()+d*cps[3].getY();
-	decimal z=a*cps[0].getZ()+b*cps[1].getZ()+c*cps[2].getZ()+d*cps[3].getZ();
+	decimal x=a*cps[0].x()+b*cps[1].x()+c*cps[2].x()+d*cps[3].x();
+	decimal y=a*cps[0].y()+b*cps[1].y()+c*cps[2].y()+d*cps[3].y();
+	decimal z=a*cps[0].z()+b*cps[1].z()+c*cps[2].z()+d*cps[3].z();
 
 	return Point(x,y,z);
 }

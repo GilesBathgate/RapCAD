@@ -31,29 +31,24 @@ ShearModule::ShearModule(Reporter* r) : Module(r,"shear")
 
 Node* ShearModule::evaluate(Context* ctx)
 {
-	Point vecSx;
+	Point sx;
 	VectorValue* xVal=dynamic_cast<VectorValue*>(ctx->getArgument(0,"x"));
 	if(xVal)
-		vecSx=xVal->getPoint();
+		sx=xVal->getPoint();
 
-	Point vecSy;
+	Point sy;
 	VectorValue* yVal=dynamic_cast<VectorValue*>(ctx->getArgument(0,"y"));
 	if(yVal)
-		vecSy=yVal->getPoint();
+		sy=yVal->getPoint();
 
-	Point vecSz;
+	Point sz;
 	VectorValue* zVal=dynamic_cast<VectorValue*>(ctx->getArgument(0,"z"));
 	if(zVal)
-		vecSz=zVal->getPoint();
+		sz=zVal->getPoint();
 
-	decimal sxy=0,sxz=0;
-	vecSx.getXY(sxy,sxz);
-
-	decimal syx=0,syz=0;
-	vecSy.getXY(syx,syz);
-
-	decimal szx=0,szy=0;
-	vecSz.getXY(szx,szy);
+	decimal sxy=sx.y(),sxz=sx.y();
+	decimal syx=sy.x(),syz=sy.z();
+	decimal szx=sz.x(),szy=sz.y();
 
 	auto* m = new TransformMatrix(
 		1,sxy,sxz,0,

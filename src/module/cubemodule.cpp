@@ -36,11 +36,10 @@ Node* CubeModule::evaluate(Context* ctx)
 	if(centerVal)
 		center = centerVal->isTrue();
 
-	decimal x=1.0,y=1.0,z=1.0;
+	Point pt(1.0,1.0,1.0);
 	if(sizeVal) {
 		VectorValue* size=sizeVal->toVector(3);
-		Point p = size->getPoint();
-		p.getXYZ(x,y,z);
+		pt = size->getPoint();
 	}
 
 	auto* p=new PrimitiveNode(reporter);
@@ -48,11 +47,11 @@ Node* CubeModule::evaluate(Context* ctx)
 
 	decimal x1, x2, y1, y2, z1, z2;
 	x1 = y1 = z1 = 0;
-	x2 = x;
-	y2 = y;
-	z2 = z;
+	x2 = pt.x();
+	y2 = pt.y();
+	z2 = pt.z();
 
-	if(x==0.0) {
+	if(x2==0.0) {
 		p->createVertex(x1,y2,z1); //0
 		p->createVertex(x1,y1,z1); //1
 		p->createVertex(x1,y1,z2); //2
@@ -65,7 +64,7 @@ Node* CubeModule::evaluate(Context* ctx)
 		return p;
 	}
 
-	if(y==0.0) {
+	if(y2==0.0) {
 		p->createVertex(x1,y1,z1); //0
 		p->createVertex(x2,y1,z1); //1
 		p->createVertex(x2,y1,z2); //2
@@ -78,7 +77,7 @@ Node* CubeModule::evaluate(Context* ctx)
 		return p;
 	}
 
-	if(z==0.0) {
+	if(z2==0.0) {
 		p->createVertex(x1,y2,z1); //0
 		p->createVertex(x2,y2,z1); //1
 		p->createVertex(x2,y1,z1); //2

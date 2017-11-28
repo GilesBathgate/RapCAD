@@ -48,15 +48,15 @@ Node* RotateModule::evaluate(Context* ctx)
 		a=angValue->getNumber();
 		auto* vecValue=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
 		if(vecValue) {
-			Point vec=vecValue->getPoint();
-			vec.getXYZ(x,y,z);
+			Point v=vecValue->getPoint();
+			x=v.x(); y=v.y(); z=v.z();
 			rotation=axis;
 		}
 	} else {
 		auto* vecValue=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 		if(vecValue) {
-			Point vec=vecValue->getPoint();
-			vec.getXYZ(x,y,z);
+			Point v=vecValue->getPoint();
+			x=v.x(); y=v.y(); z=v.z();
 			rotation=origin;
 		} else {
 			auto* cpxValue=dynamic_cast<ComplexValue*>(getParameterArgument(ctx,0));

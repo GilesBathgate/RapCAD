@@ -89,12 +89,6 @@ Point VectorValue::getPoint() const
 	return Point(x,y,z);
 }
 
-void VectorValue::getXYZ(decimal& x,decimal& y,decimal& z)
-{
-	Point p=getPoint();
-	p.getXYZ(x,y,z);
-}
-
 ValueIterator* VectorValue::createIterator()
 {
 	return new VectorIterator(children);

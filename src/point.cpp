@@ -23,17 +23,17 @@ bool Point::operator ==(const Point that) const
 	return _x==that._x&&_y==that._y&&_z==that._z;
 }
 
-decimal Point::getX() const
+decimal Point::x() const
 {
 	return _x;
 }
 
-decimal Point::getY() const
+decimal Point::y() const
 {
 	return _y;
 }
 
-decimal Point::getZ() const
+decimal Point::z() const
 {
 	return _z;
 }
@@ -46,19 +46,6 @@ Point Point::transform(TransformMatrix* matrix) const
 	ny=(m[ 4]*_x+m[ 5]*_y+m[ 6]*_z+m[ 7]);
 	nz=(m[ 8]*_x+m[ 9]*_y+m[10]*_z+m[11]);
 	return Point(nx,ny,nz);
-}
-
-void Point::getXYZ(decimal& x, decimal& y, decimal& z) const
-{
-	x=_x;
-	y=_y;
-	z=_z;
-}
-
-void Point::getXY(decimal& x, decimal& y) const
-{
-	x=_x;
-	y=_y;
 }
 
 QString Point::toString() const

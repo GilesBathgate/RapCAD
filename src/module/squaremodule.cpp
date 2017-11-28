@@ -19,8 +19,8 @@ Node* SquareModule::evaluate(Context* ctx)
 	decimal x=1.0,y=1.0;
 	if(sizeVal) {
 		VectorValue* size=sizeVal->toVector(2);
-		Point p = size->getPoint();
-		p.getXY(x,y);
+		Point pt = size->getPoint();
+		x=pt.x(); y=pt.y();
 	}
 
 	auto* p=new PrimitiveNode(reporter);

@@ -31,11 +31,9 @@ public:
 	bool operator==(const Point that) const;
 	QString toString() const;
 	QString toString(const bool) const;
-	void getXYZ(decimal&,decimal&,decimal&) const;
-	void getXY(decimal&,decimal&) const;
-	decimal getX() const;
-	decimal getY() const;
-	decimal getZ() const;
+	decimal x() const;
+	decimal y() const;
+	decimal z() const;
 	Point transform(TransformMatrix*) const;
 private:
 	decimal _x, _y, _z;

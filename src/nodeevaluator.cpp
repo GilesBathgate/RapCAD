@@ -295,9 +295,8 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 	CGAL::Scalar height=op->getHeight();
 	CGAL::Scalar sweep=op->getSweep();
 
-	decimal x,y,z;
 	Point pa=op->getAxis();
-	pa.getXYZ(x,y,z);
+	decimal x=pa.x(),y=pa.y(),z=pa.z();
 	decimal mag = r_sqrt(x*x + y*y + z*z,false);
 	decimal ax = x/mag;
 	decimal ay = y/mag;
@@ -628,9 +627,8 @@ void NodeEvaluator::visit(ResizeNode* n)
 	auto* pr=static_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
 	Point s=n->getSize();
-	decimal x1,y1,z1;
-	s.getXYZ(x1,y1,z1);
-	CGAL::Scalar x=x1,y=y1,z=z1,autosize=1.0;
+	CGAL::Scalar x=s.x(),y=s.y(),z=s.z();
+	CGAL::Scalar autosize=1.0;
 
 	if(z!=0.0) {
 		z/=(b.zmax()-b.zmin());
