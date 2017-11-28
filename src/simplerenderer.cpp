@@ -53,8 +53,7 @@ void SimpleRenderer::descendChildren(Primitive* p)
 				GLfloat x,y,z;
 				to_glcoord(pt,x,y,z);
 #else
-				decimal x,y,z;
-				pt.getXYZ(x,y,z);
+				decimal x=pt.x(),y=pt.y(),z=pt.z();
 #endif
 				glVertex3f(x,y,z);
 			}

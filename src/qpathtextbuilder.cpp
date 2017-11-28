@@ -29,7 +29,7 @@ void QPathTextBuilder::setLocation(Point p)
 #if USE_CGAL
 	location = QPointF(to_double(p.x()),to_double(p.y()));
 #else
-	location = QPointF(v.x(),v.y());
+	location = QPointF(p.x(),p.y());
 #endif
 }
 
