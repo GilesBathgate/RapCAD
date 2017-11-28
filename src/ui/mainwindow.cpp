@@ -455,7 +455,7 @@ bool MainWindow::maybeSave(bool compiling)
 {
 	bool modified=false;
 	QList<QString> files;
-	for(auto i=0; i<ui->tabWidget->count(); i++) {
+	for(auto i=0; i<ui->tabWidget->count(); ++i) {
 		CodeEditor* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
 		if(c->document()->isModified()) {
 			files.append(c->getFileName());
@@ -535,7 +535,7 @@ bool MainWindow::closeFile(int i)
 bool MainWindow::saveAllFiles()
 {
 	QList<QString> all;
-	for(auto i=0; i<ui->tabWidget->count(); i++) {
+	for(auto i=0; i<ui->tabWidget->count(); ++i) {
 		CodeEditor* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
 		if(c->document()->isModified()) {
 			QString file=c->getFileName();
@@ -548,7 +548,7 @@ bool MainWindow::saveAllFiles()
 bool MainWindow::saveSelectedFiles(QList<QString> files)
 {
 	bool result=true;
-	for(auto i=0; i<ui->tabWidget->count(); i++) {
+	for(auto i=0; i<ui->tabWidget->count(); ++i) {
 		CodeEditor* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
 		QString file=c->getFileName();
 		if(files.contains(file))
@@ -734,7 +734,7 @@ void MainWindow::tabChanged(int i)
 {
 	//block signals from all the other tabs except
 	//the new one
-	for(auto j=0; j<ui->tabWidget->count(); j++)
+	for(auto j=0; j<ui->tabWidget->count(); ++j)
 		ui->tabWidget->widget(j)->blockSignals(true);
 	ui->tabWidget->widget(i)->blockSignals(false);
 

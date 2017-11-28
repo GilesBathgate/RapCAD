@@ -86,7 +86,7 @@ bool Value::isTrue() const
 VectorValue* Value::toVector(int size)
 {
 	QList<Value*> children;
-	for(auto i=0; i<size; i++)
+	for(auto i=0; i<size; ++i)
 		children.append(this);
 
 	return new VectorValue(children);

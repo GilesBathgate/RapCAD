@@ -412,7 +412,7 @@ QList<Argument*>* SyntaxTreeBuilder::buildArguments(QList<Argument*>* args,unsig
 	if(args->size()==0)
 		args->append(new Argument());
 
-	for(unsigned int i=0; i<count; i++)
+	for(unsigned int i=0; i<count; ++i)
 		args->append(new Argument());
 
 	args->append(arg);
@@ -563,7 +563,7 @@ QList<Expression*>* SyntaxTreeBuilder::buildVector(QList<Expression*>* exprs,uns
 	if(exprs->size()==0)
 		exprs->append(new Variable());
 
-	for(unsigned int i=0; i<count; i++)
+	for(unsigned int i=0; i<count; ++i)
 		exprs->append(new Variable());
 	exprs->append(expr);
 	return exprs;

@@ -217,7 +217,7 @@ CGALPrimitive* CGALBuilder::buildOffsetPolygons(const CGAL::Scalar amount)
 	for(PolygonPtr ptr: offsetPolys) {
 		if(!first()) {
 			primitive->createPolygon();
-			for(auto vi=ptr->vertices_begin(); vi!=ptr->vertices_end(); vi++) {
+			for(auto vi=ptr->vertices_begin(); vi!=ptr->vertices_end(); ++vi) {
 				CGAL::Point3 p3(vi->x(),vi->y(),z);
 				primitive->appendVertex(p3);
 			}

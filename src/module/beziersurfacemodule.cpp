@@ -91,8 +91,8 @@ Node* BezierSurfaceModule::evaluate(Context* ctx)
 	auto* p=new PrimitiveNode(reporter);
 	p->setChildren(ctx->getInputNodes());
 
-	for(auto i=0; i<f; i++) {
-		for(auto j=0; j<f; j++) {
+	for(auto i=0; i<f; ++i) {
+		for(auto j=0; j<f; ++j) {
 			Vector a;
 			decimal u=i;
 			decimal v=j;
@@ -104,8 +104,8 @@ Node* BezierSurfaceModule::evaluate(Context* ctx)
 	}
 
 	Polygon* pg;
-	for(auto u=0; u<f-1; u++) {
-		for(auto v=0; v<f-1; v++) {
+	for(auto u=0; u<f-1; ++u) {
+		for(auto v=0; v<f-1; ++v) {
 
 			int i=(u*f)+v;
 			int j=((u+1)*f)+v;

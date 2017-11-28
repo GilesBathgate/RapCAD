@@ -139,7 +139,7 @@ void Worker::generation()
 
 		int itterations=v->toInteger();
 		Instance* m=addProductInstance("manufacture",s);
-		for(auto i=0; i<=itterations; i++) {
+		for(auto i=0; i<=itterations; ++i) {
 			if(i>0) {
 				e = new TreeEvaluator(reporter);
 			}

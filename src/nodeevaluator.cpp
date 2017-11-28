@@ -331,7 +331,7 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 
 	decimal phi,nphi;
 	CGALPrimitive* peri=explorer.getPerimeters();
-	for(auto i=0; i<f; i++) {
+	for(auto i=0; i<f; ++i) {
 		int j=caps?i+1:(i+1)%f;
 		decimal ang = r_tau()*sweep/360.0;
 		phi=ang*i/f;
@@ -848,7 +848,7 @@ void NodeEvaluator::visit(RadialsNode* n)
 	Polygon* pg=p->createPolygon();
 
 	const int f=90;
-	for(auto i=0; i<=f; i++) {
+	for(auto i=0; i<=f; ++i) {
 		decimal phi = (r_tau()*i) / f;
 		decimal x,y;
 		x = a+r*r_cos(phi);

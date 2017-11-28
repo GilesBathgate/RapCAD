@@ -28,7 +28,7 @@ PrimitiveModule::PrimitiveModule(Reporter* r,const QString n) : Module(r,n)
 QList<Point> PrimitiveModule::getCircle(decimal r, decimal f, decimal z)
 {
 	QList<Point> circle;
-	for(auto i=0; i<f; i++) {
+	for(auto i=0; i<f; ++i) {
 		decimal phi = (r_tau()*i) / f;
 		decimal x,y;
 		if(r > 0) {
@@ -52,7 +52,7 @@ QList<Point> PrimitiveModule::getPolygon(decimal a,decimal r, decimal n, decimal
 		//TODO modify this to cater for all even values of n
 		decimal x=0,y=0;
 		decimal s2=r*r_sin(r_pi()/n);
-		for(auto i=0; i<n; i++) {
+		for(auto i=0; i<n; ++i) {
 			switch(i) {
 			case 0: {
 				y=a;

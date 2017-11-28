@@ -50,7 +50,7 @@ Node* SphereModule::evaluate(Context* ctx)
 	auto* p=new PrimitiveNode(reporter);
 	p->setChildren(ctx->getInputNodes());
 
-	for(auto i=0; i<ringCount; i++) {
+	for(auto i=0; i<ringCount; ++i) {
 		decimal phi = (r_pi()*(i+0.5)) / ringCount;
 		decimal r2 = r*r_sin(phi);
 		decimal z = r*r_cos(phi);
@@ -61,14 +61,14 @@ Node* SphereModule::evaluate(Context* ctx)
 	}
 
 	Polygon* pg=p->createPolygon();
-	for(auto i=0; i<f; i++) {
+	for(auto i=0; i<f; ++i) {
 		pg->append(i);
 	}
 
-	for(auto i=0; i<ringCount-1; i++) {
+	for(auto i=0; i<ringCount-1; ++i) {
 		int i1=i*f;
 		int i2=(i+1)*f;
-		for(auto j=0; j<f; j++) {
+		for(auto j=0; j<f; ++j) {
 			int j2=(j+1)%f;
 
 			int o=j+i1;

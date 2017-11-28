@@ -84,7 +84,7 @@ Node* PrismModule::evaluate(Context* ctx)
 			pg->prepend(n++);
 		}
 
-		for(auto i=0; i<s; i++) {
+		for(auto i=0; i<s; ++i) {
 			int j=(i+1)%s;
 			int k=i+s;
 			int l=j+s;

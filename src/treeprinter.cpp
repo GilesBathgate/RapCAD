@@ -30,7 +30,7 @@ TreePrinter::~TreePrinter()
 
 void TreePrinter::createIndent()
 {
-	for(unsigned int i=0; i<indent; i++)
+	for(unsigned int i=0; i<indent; ++i)
 		result << "  ";
 }
 
@@ -87,7 +87,7 @@ void TreePrinter::visit(Instance* inst)
 			result << "{\n";
 			++indent;
 		}
-		for(auto i=0; i<c; i++) {
+		for(auto i=0; i<c; ++i) {
 			if(c>1)
 				createIndent();
 			children.at(i)->accept(*this);
@@ -193,7 +193,7 @@ void TreePrinter::visit(CompoundStatement* stmt)
 			result << "{\n";
 			++indent;
 		}
-		for(auto i=0; i<c; i++) {
+		for(auto i=0; i<c; ++i) {
 			if(c>1)
 				createIndent();
 			children.at(i)->accept(*this);

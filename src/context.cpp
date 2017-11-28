@@ -141,7 +141,7 @@ QList<Node*> Context::lookupChildren()
 
 void Context::setVariablesFromArguments()
 {
-	for(auto i=0; i<parameters.size(); i++) {
+	for(auto i=0; i<parameters.size(); ++i) {
 		Value* val=parameters.at(i);
 		bool found=false;
 		QString paramName=val->getName();

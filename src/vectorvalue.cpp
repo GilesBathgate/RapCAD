@@ -171,7 +171,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			if(s<=0)
 				return Value::undefined();
 			Value* total=new NumberValue(0.0);
-			for(auto i=0; i<s; i++) {
+			for(auto i=0; i<s; ++i) {
 				Value* r=Value::operation(a.at(i),Expression::Multiply,b.at(i));
 				total=Value::operation(total,Expression::Add,r);
 			}
@@ -195,7 +195,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			if(e==Expression::NotEqual && !eq)
 				return new BooleanValue(true);
 			if(eq)
-				for(auto i=0; i<a.size(); i++) {
+				for(auto i=0; i<a.size(); ++i) {
 					Value* eqVec=Value::operation(a.at(i),e,b.at(i));
 					if(e==Expression::NotEqual && eqVec->isTrue())
 						return new BooleanValue(true);
@@ -208,7 +208,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			e=convertOperation(e);
 			int as=a.size();
 			int bs=b.size();
-			for(auto i=0; i<as||i<bs; i++) {
+			for(auto i=0; i<as||i<bs; ++i) {
 				Value* r;
 				if(as<bs&&i>=as) {
 					r=b.at(i);
