@@ -26,11 +26,11 @@ class RangeValue : public VectorValue
 public:
 	RangeValue(Value*,Value*,Value*);
 	QString getValueString() const override;
+	Value* getIndex(NumberValue*) override;
 	ValueIterator* createIterator() override;
 	QList<Value*> getChildren() override;
 
 	Value* getStart() const;
-	Value* getStep() const;
 	Value* getFinish() const;
 private:
 	Value* operation(Expression::Operator_e) override;
@@ -38,6 +38,7 @@ private:
 	Value* start;
 	Value* step;
 	Value* finish;
+	bool reverse;
 };
 
 #endif // RANGEVALUE_H

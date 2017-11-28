@@ -27,15 +27,16 @@
 class RangeIterator : public ValueIterator
 {
 public:
-	RangeIterator(RangeValue* range);
+	RangeIterator(RangeValue*, Value*,Value*,Value*,bool);
 	~RangeIterator() override;
 	ValueIterator& operator++() override;
 	bool operator!=(const Iterator&) const override;
 	Value* operator*() const override;
 private:
+	Value* start;
 	Value* index;
 	Value* step;
-	NumberValue* defaultStep;
+	Value* finish;
 	bool reverse;
 };
 

@@ -18,30 +18,17 @@
 
 #include "rangeiterator.h"
 
-RangeIterator::RangeIterator(RangeValue* rng) : ValueIterator(rng)
+RangeIterator::RangeIterator(RangeValue* rng, Value* s, Value* st, Value* f,bool r) : ValueIterator(rng)
 {
-	auto* range=static_cast<RangeValue*>(value);
-
-	Value& s=*range->getStart();
-	Value& f=*range->getFinish();
-
-	Value* v=s>f;
-	reverse=v->isTrue();
-
-	step=range->getStep();
-	if(!step) {
-		decimal i=reverse?-1.0:1.0;
-		defaultStep=new NumberValue(i);
-		step=defaultStep;
-	} else {
-		defaultStep=nullptr;
-	}
-	index=range->getStart();
+	start=s;
+	step=st;
+	finish=f;
+	index=s;
+	reverse=r;
 }
 
 RangeIterator::~RangeIterator()
 {
-	delete defaultStep;
 }
 
 ValueIterator& RangeIterator::operator++()
@@ -61,9 +48,8 @@ bool RangeIterator::operator!=(const Iterator&) const
 	if(done)
 		return false;
 
-	auto* range=static_cast<RangeValue*>(value);
-	Value& s=*range->getStart();
-	Value& f=*range->getFinish();
+	Value& s=*start;
+	Value& f=*finish;
 	Value& i=*index;
 
 	Value* lower;

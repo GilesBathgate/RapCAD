@@ -22,6 +22,7 @@
 #include <QList>
 #include "value.h"
 #include "point.h"
+#include "numbervalue.h"
 
 class VectorValue : public Value
 {
@@ -32,6 +33,7 @@ public:
 	VectorValue* toVector(int) override;
 	Value* toNumber() override;
 	Point getPoint() const;
+	virtual Value* getIndex(NumberValue*);
 	ValueIterator* createIterator() override;
 	virtual QList<Value*> getChildren();
 protected:

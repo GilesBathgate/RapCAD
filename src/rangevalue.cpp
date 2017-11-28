@@ -26,6 +26,14 @@ RangeValue::RangeValue(Value* s,Value* st, Value* f)
 	start=s;
 	step=st;
 	finish=f;
+
+	Value* v=Value::operation(start,Expression::GreaterThan,finish);
+	reverse = v->isTrue();
+
+	if(!step) {
+		decimal i=reverse?-1.0:1.0;
+		step=new NumberValue(i);
+	}
 }
 
 QString RangeValue::getValueString() const
@@ -42,9 +50,20 @@ QString RangeValue::getValueString() const
 	return result;
 }
 
+Value* RangeValue::getIndex(NumberValue* n)
+{
+	Value* x=reverse?Value::operation(step,Expression::Subtract):step;
+	Value* a=Value::operation(n,Expression::Multiply,x);
+	Value* b=Value::operation(start,reverse?Expression::Subtract:Expression::Add,a);
+	Value* c=Value::operation(b,reverse?Expression::GreaterThan:Expression::LessThan,start);
+	Value* d=Value::operation(b,reverse?Expression::LessThan:Expression::GreaterThan,finish);
+	if(c->isTrue()||d->isTrue()) return undefined();
+	return b;
+}
+
 ValueIterator* RangeValue::createIterator()
 {
-	return new RangeIterator(this);
+	return new RangeIterator(this,start,step,finish,reverse);
 }
 
 QList<Value*> RangeValue::getChildren()
@@ -57,17 +76,12 @@ QList<Value*> RangeValue::getChildren()
 	return result;
 }
 
-Value* RangeValue::getStart() const
+Value*RangeValue::getStart() const
 {
 	return start;
 }
 
-Value* RangeValue::getStep() const
-{
-	return step;
-}
-
-Value* RangeValue::getFinish() const
+Value*RangeValue::getFinish() const
 {
 	return finish;
 }

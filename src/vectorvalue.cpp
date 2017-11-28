@@ -89,6 +89,13 @@ Point VectorValue::getPoint() const
 	return Point(x,y,z);
 }
 
+Value*VectorValue::getIndex(NumberValue* n)
+{
+	int i=n->toInteger();
+	if(i<0||i>=children.size()) return undefined();
+	return children.at(i);
+}
+
 ValueIterator* VectorValue::createIterator()
 {
 	return new VectorIterator(children);
@@ -112,19 +119,6 @@ Value* VectorValue::operation(Expression::Operator_e e)
 	for(Value* c: children)
 		result.append(Value::operation(c,e));
 	return new VectorValue(result);
-}
-
-static Value* skip(ValueIterator& it,int i)
-{
-	if(i>=0) {
-		int j=0;
-		for(Value* v: it) {
-			if(j==i) return v;
-			if(j>=i) break;
-			++j;
-		}
-	}
-	return Value::undefined();
 }
 
 Value* VectorValue::operation(Value& v, Expression::Operator_e e)
@@ -232,10 +226,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			}
 			return total;
 		} else if(e==Expression::Index) {
-			ValueIterator* it=createIterator();
-			Value* v=skip(*it,num->toInteger());
-			delete it;
-			return v;
+			return getIndex(num);
 		} else {
 			QList<Value*> a=getChildren();
 			e=convertOperation(e);
