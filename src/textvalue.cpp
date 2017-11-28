@@ -23,12 +23,12 @@
 
 TextValue::TextValue(QString value)
 {
-	this->text=value;
+	text=value;
 }
 
 QString TextValue::getValueString() const
 {
-	return this->text;
+	return text;
 }
 
 TextValue* TextValue::toText()
@@ -53,13 +53,13 @@ ValueIterator* TextValue::createIterator()
 
 bool TextValue::isTrue() const
 {
-	return !this->text.isEmpty();
+	return !text.isEmpty();
 }
 
 Value* TextValue::operation(Expression::Operator_e op)
 {
 	if(op==Expression::Length) {
-		return new NumberValue(this->text.length());
+		return new NumberValue(text.length());
 	}
 	return this;
 }
@@ -78,7 +78,7 @@ Value* TextValue::operation(Value& v,Expression::Operator_e e)
 	auto* num=dynamic_cast<NumberValue*>(&v);
 	if(num)
 		if(e==Expression::Index)
-			return new TextValue(this->text.at(num->toInteger()));
+			return new TextValue(text.at(num->toInteger()));
 
 	return Value::operation(v,e);
 }
@@ -89,7 +89,7 @@ QString TextValue::operation(QString left, Expression::Operator_e e, QString rig
 	case Expression::Concatenate:
 		return left.append(right);
 	default:
-		return this->text;
+		return text;
 	}
 }
 

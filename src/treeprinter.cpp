@@ -21,7 +21,7 @@
 
 TreePrinter::TreePrinter(QTextStream& s) : result(s)
 {
-	this->indent=0;
+	indent=0;
 }
 
 TreePrinter::~TreePrinter()

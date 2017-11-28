@@ -29,22 +29,22 @@ Variable::~Variable()
 
 QString Variable::getName() const
 {
-	return this->name;
+	return name;
 }
 
 void Variable::setName(QString n)
 {
-	this->name = n;
+	name = n;
 }
 
 void Variable::setStorage(Storage_e c)
 {
-	this->storage = c;
+	storage = c;
 }
 
 Variable::Storage_e Variable::getStorage() const
 {
-	return this->storage;
+	return storage;
 }
 
 void Variable::accept(TreeVisitor& v)

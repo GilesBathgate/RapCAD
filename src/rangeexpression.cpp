@@ -34,32 +34,32 @@ RangeExpression::~RangeExpression()
 
 void RangeExpression::setStart(Expression* srt)
 {
-	this->start = srt;
+	start = srt;
 }
 
 Expression* RangeExpression::getStart() const
 {
-	return this->start;
+	return start;
 }
 
 void RangeExpression::setFinish(Expression* fin)
 {
-	this->finish = fin;
+	finish = fin;
 }
 
 Expression* RangeExpression::getFinish() const
 {
-	return this->finish;
+	return finish;
 }
 
 void RangeExpression::setStep(Expression* stp)
 {
-	this->step = stp;
+	step = stp;
 }
 
 Expression* RangeExpression::getStep() const
 {
-	return this->step;
+	return step;
 }
 
 void RangeExpression::accept(TreeVisitor& v)

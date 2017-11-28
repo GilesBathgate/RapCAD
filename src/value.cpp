@@ -27,8 +27,8 @@
 
 Value::Value()
 {
-	this->storageClass=Variable::Const;
-	this->defined=true;
+	storageClass=Variable::Const;
+	defined=true;
 	values.append(this);
 }
 
@@ -55,7 +55,7 @@ QList<Value*> Value::values;
 
 void Value::setStorage(Variable::Storage_e c)
 {
-	this->storageClass=c;
+	storageClass=c;
 }
 
 Variable::Storage_e Value::getStorage() const
@@ -65,12 +65,12 @@ Variable::Storage_e Value::getStorage() const
 
 void Value::setName(QString n)
 {
-	this->name = n;
+	name = n;
 }
 
 QString Value::getName() const
 {
-	return this->name;
+	return name;
 }
 
 QString Value::getValueString() const
@@ -94,7 +94,7 @@ VectorValue* Value::toVector(int size)
 
 TextValue* Value::toText()
 {
-	return new TextValue(this->getValueString());
+	return new TextValue(getValueString());
 }
 
 Value* Value::toNumber()
@@ -290,7 +290,7 @@ decimal Value::length(decimal left)
 Value* Value::operation(Expression::Operator_e e)
 {
 	if(e==Expression::Invert) {
-		bool result=basicOperation(this->defined,e);
+		bool result=basicOperation(defined,e);
 		return new BooleanValue(result);
 	}
 
@@ -299,7 +299,7 @@ Value* Value::operation(Expression::Operator_e e)
 
 Value* Value::operation(Value& v, Expression::Operator_e e)
 {
-	bool left=this->defined;
+	bool left=defined;
 	bool right=v.defined;
 	if((!left||!right) && isComparison(e)) {
 		bool result=basicOperation(left,e,right);

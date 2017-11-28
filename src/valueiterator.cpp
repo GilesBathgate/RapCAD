@@ -32,7 +32,7 @@ ValueIterator::ValueIterator(Value* val)
 
 ValueIterator& ValueIterator::operator++()
 {
-	this->done=true;
+	done=true;
 	return *this;
 }
 
@@ -43,5 +43,5 @@ bool ValueIterator::operator!=(const Iterator&) const
 
 Value* ValueIterator::operator*() const
 {
-	return this->value;
+	return value;
 }

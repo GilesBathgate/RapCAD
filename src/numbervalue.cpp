@@ -22,7 +22,7 @@
 
 NumberValue::NumberValue(decimal value)
 {
-	this->number=value;
+	number=value;
 }
 
 QString NumberValue::getValueString() const
@@ -32,12 +32,12 @@ QString NumberValue::getValueString() const
 
 bool NumberValue::isTrue() const
 {
-	return this->number!=0;
+	return number!=0;
 }
 
 decimal NumberValue::getNumber() const
 {
-	return this->number;
+	return number;
 }
 
 Value* NumberValue::toNumber()
@@ -47,12 +47,12 @@ Value* NumberValue::toNumber()
 
 int NumberValue::toInteger() const
 {
-	return to_integer(this->number);
+	return to_integer(number);
 }
 
 Value* NumberValue::operation(Expression::Operator_e e)
 {
-	decimal result=basicOperation(this->number,e);
+	decimal result=basicOperation(number,e);
 	return new NumberValue(result);
 }
 
@@ -61,13 +61,13 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 	auto* num = dynamic_cast<NumberValue*>(&v);
 	if(num) {
 		if(isComparison(e)) {
-			bool result=to_boolean(basicOperation(this->number,e,num->number));
+			bool result=to_boolean(basicOperation(number,e,num->number));
 			return new BooleanValue(result);
 		}
 		if(e==Expression::Divide&&num->number==decimal(0))
 			return Value::undefined();
 
-		decimal result=basicOperation(this->number,e,num->number);
+		decimal result=basicOperation(number,e,num->number);
 		return new NumberValue(result);
 	}
 	auto* vec = dynamic_cast<VectorValue*>(&v);

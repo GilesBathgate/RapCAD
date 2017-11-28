@@ -504,7 +504,7 @@ Primitive* CGALPrimitive::simplify(int level)
 {
 
 	namespace SMS=CGAL::Surface_mesh_simplification;
-	CGAL::Polyhedron3& p=*this->getPolyhedron();
+	CGAL::Polyhedron3& p=*getPolyhedron();
 	SMS::Count_stop_predicate<CGAL::Polyhedron3> stop(level);
 	SMS::edge_collapse(p,stop,
 #if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(4,7,0)

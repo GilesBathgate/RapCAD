@@ -30,7 +30,7 @@ VectorValue::VectorValue()
 
 VectorValue::VectorValue(QList<Value*> values)
 {
-	this->children=values;
+	children=values;
 }
 
 QString VectorValue::getValueString() const
@@ -49,7 +49,7 @@ QString VectorValue::getValueString() const
 
 bool VectorValue::isTrue() const
 {
-	return this->children.size()>0;
+	return children.size()>0;
 }
 
 VectorValue* VectorValue::toVector(int)
@@ -97,12 +97,12 @@ void VectorValue::getXYZ(decimal& x,decimal& y,decimal& z)
 
 ValueIterator* VectorValue::createIterator()
 {
-	return new VectorIterator(this->children);
+	return new VectorIterator(children);
 }
 
 QList<Value*> VectorValue::getChildren()
 {
-	return this->children;
+	return children;
 }
 
 Value* VectorValue::operation(Expression::Operator_e e)
@@ -138,7 +138,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 	QList<Value*> result;
 	auto* vec=dynamic_cast<VectorValue*>(&v);
 	if(vec) {
-		QList<Value*> a=this->getChildren();
+		QList<Value*> a=getChildren();
 		QList<Value*> b=vec->getChildren();
 
 		if(e==Expression::CrossProduct) {
@@ -226,11 +226,11 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 	auto* num = dynamic_cast<NumberValue*>(&v);
 	if(num) {
 		if(e==Expression::Concatenate) {
-			QList<Value*> a=this->getChildren();
+			QList<Value*> a=getChildren();
 			result=a;
 			result.append(num);
 		} else if(e==Expression::Exponent) {
-			QList<Value*> a=this->getChildren();
+			QList<Value*> a=getChildren();
 			Value* total=new NumberValue(0);
 			for(Value* c: a) {
 				Value* r=Value::operation(c,e,num);
@@ -238,12 +238,12 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			}
 			return total;
 		} else if(e==Expression::Index) {
-			ValueIterator* it=this->createIterator();
+			ValueIterator* it=createIterator();
 			Value* v=skip(*it,num->toInteger());
 			delete it;
 			return v;
 		} else {
-			QList<Value*> a=this->getChildren();
+			QList<Value*> a=getChildren();
 			e=convertOperation(e);
 			for(Value* c: a)
 				result.append(Value::operation(c,e,num));

@@ -89,12 +89,12 @@ void CGALRenderer::draw(bool skeleton, bool showedges)
 {
 	init(); //init returns instantly if its already been called.
 	if(!skeleton) {
-		glCallList(this->object_list_+2);
+		glCallList(object_list_+2);
 	}
 	if(skeleton||showedges) {
 		glDisable(GL_LIGHTING);
-		glCallList(this->object_list_+1);
-		glCallList(this->object_list_);
+		glCallList(object_list_+1);
+		glCallList(object_list_);
 		glEnable(GL_LIGHTING);
 	}
 

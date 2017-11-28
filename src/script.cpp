@@ -33,12 +33,12 @@ Script::~Script()
 
 void Script::setDeclarations(QList<Declaration*> decls)
 {
-	this->declarations = decls;
+	declarations = decls;
 }
 
 QList<Declaration*> Script::getDeclarations() const
 {
-	return this->declarations;
+	return declarations;
 }
 
 void Script::addDeclaration(Declaration* dec)

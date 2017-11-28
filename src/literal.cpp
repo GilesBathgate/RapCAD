@@ -28,27 +28,27 @@ Literal::Literal()
 
 void Literal::setValue(bool value)
 {
-	this->type=Literal::Boolean;
-	this->boolean = value;
+	type=Literal::Boolean;
+	boolean = value;
 }
 
 void Literal::setValue(decimal value)
 {
-	this->type = Literal::Number;
-	this->number = value;
+	type = Literal::Number;
+	number = value;
 }
 
 void Literal::setValue(QString value)
 {
-	this->type = Literal::Text;
-	this->text = value;
+	type = Literal::Text;
+	text = value;
 }
 
 QString Literal::getValueString() const
 {
-	switch(this->type) {
+	switch(type) {
 	case Boolean:
-		return this->boolean ? "true" : "false";
+		return boolean ? "true" : "false";
 	case Number:
 		return to_string(number);
 	case Text:
@@ -60,7 +60,7 @@ QString Literal::getValueString() const
 
 Value* Literal::getValue() const
 {
-	switch(this->type) {
+	switch(type) {
 	case Boolean:
 		return new BooleanValue(boolean);
 	case Number:

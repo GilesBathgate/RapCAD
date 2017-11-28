@@ -58,31 +58,31 @@ void PreferencesDialog::setupButtons()
 	signalMapper->setMapping(ui->markedFacetColorToolButton,ui->markedFacetColorFrame);
 	signalMapper->setMapping(ui->facetColorToolButton,ui->facetColorFrame);
 
-	connect(this->ui->markedVertexColorToolButton,SIGNAL(clicked()),signalMapper,SLOT(map()));
-	connect(this->ui->vertexColorToolButton,SIGNAL(clicked()),signalMapper,SLOT(map()));
-	connect(this->ui->markedEdgeColorToolButton,SIGNAL(clicked()),signalMapper,SLOT(map()));
-	connect(this->ui->edgeColorToolButton,SIGNAL(clicked()),signalMapper,SLOT(map()));
-	connect(this->ui->markedFacetColorToolButton,SIGNAL(clicked()),signalMapper,SLOT(map()));
-	connect(this->ui->facetColorToolButton,SIGNAL(clicked()),signalMapper,SLOT(map()));
+	connect(ui->markedVertexColorToolButton,SIGNAL(clicked()),signalMapper,SLOT(map()));
+	connect(ui->vertexColorToolButton,SIGNAL(clicked()),signalMapper,SLOT(map()));
+	connect(ui->markedEdgeColorToolButton,SIGNAL(clicked()),signalMapper,SLOT(map()));
+	connect(ui->edgeColorToolButton,SIGNAL(clicked()),signalMapper,SLOT(map()));
+	connect(ui->markedFacetColorToolButton,SIGNAL(clicked()),signalMapper,SLOT(map()));
+	connect(ui->facetColorToolButton,SIGNAL(clicked()),signalMapper,SLOT(map()));
 
 	connect(signalMapper,SIGNAL(mapped(QWidget*)),this,SLOT(colorButtonPressed(QWidget*)));
 
-	connect(this->ui->vertexSizeSpinBox,SIGNAL(valueChanged(double)),SLOT(vertexSizeChanged(double)));
-	connect(this->ui->edgeSizeSpinBox,SIGNAL(valueChanged(double)),SLOT(edgeSizeChanged(double)));
-	connect(this->ui->precisionSpinBox,SIGNAL(valueChanged(int)),SLOT(precisionChanged(int)));
+	connect(ui->vertexSizeSpinBox,SIGNAL(valueChanged(double)),SLOT(vertexSizeChanged(double)));
+	connect(ui->edgeSizeSpinBox,SIGNAL(valueChanged(double)),SLOT(edgeSizeChanged(double)));
+	connect(ui->precisionSpinBox,SIGNAL(valueChanged(int)),SLOT(precisionChanged(int)));
 
-	connect(this->ui->checkBox,&QCheckBox::stateChanged,this,&PreferencesDialog::autoSaveOnCompileChanged);
-	connect(this->ui->functionRoundingCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::functionRoundingChanged);
-	connect(this->ui->rationalFormatCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::rationalFormatChanged);
+	connect(ui->checkBox,&QCheckBox::stateChanged,this,&PreferencesDialog::autoSaveOnCompileChanged);
+	connect(ui->functionRoundingCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::functionRoundingChanged);
+	connect(ui->rationalFormatCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::rationalFormatChanged);
 
-	connect(this->ui->widthSpinBox,SIGNAL(valueChanged(int)),this,SLOT(volumeChanged()));
-	connect(this->ui->lengthSpinBox,SIGNAL(valueChanged(int)),this,SLOT(volumeChanged()));
-	connect(this->ui->heightSpinBox,SIGNAL(valueChanged(int)),this,SLOT(volumeChanged()));
+	connect(ui->widthSpinBox,SIGNAL(valueChanged(int)),this,SLOT(volumeChanged()));
+	connect(ui->lengthSpinBox,SIGNAL(valueChanged(int)),this,SLOT(volumeChanged()));
+	connect(ui->heightSpinBox,SIGNAL(valueChanged(int)),this,SLOT(volumeChanged()));
 
-	connect(this->ui->XspinBox,SIGNAL(valueChanged(int)),this,SLOT(originChanged()));
-	connect(this->ui->YspinBox,SIGNAL(valueChanged(int)),this,SLOT(originChanged()));
+	connect(ui->XspinBox,SIGNAL(valueChanged(int)),this,SLOT(originChanged()));
+	connect(ui->YspinBox,SIGNAL(valueChanged(int)),this,SLOT(originChanged()));
 
-	connect(this->ui->appearanceComboBox,SIGNAL(currentIndexChanged(int)),this,SLOT(appearanceChanged(int)));
+	connect(ui->appearanceComboBox,SIGNAL(currentIndexChanged(int)),this,SLOT(appearanceChanged(int)));
 }
 
 void PreferencesDialog::colorButtonPressed(QWidget* frame)

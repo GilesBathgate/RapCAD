@@ -34,32 +34,32 @@ IfElseStatement::~IfElseStatement()
 
 void IfElseStatement::setExpression(Expression* expr)
 {
-	this->expression = expr;
+	expression = expr;
 }
 
 Expression* IfElseStatement::getExpression() const
 {
-	return this->expression;
+	return expression;
 }
 
 void IfElseStatement::setTrueStatement(Statement* stmt)
 {
-	this->trueStatement = stmt;
+	trueStatement = stmt;
 }
 
 Statement* IfElseStatement::getTrueStatement() const
 {
-	return this->trueStatement;
+	return trueStatement;
 }
 
 void IfElseStatement::setFalseStatement(Statement* stmt)
 {
-	this->falseStatement = stmt;
+	falseStatement = stmt;
 }
 
 Statement* IfElseStatement::getFalseStatement() const
 {
-	return this->falseStatement;
+	return falseStatement;
 }
 
 void IfElseStatement::accept(TreeVisitor& v)

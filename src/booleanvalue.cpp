@@ -21,12 +21,12 @@
 
 BooleanValue::BooleanValue(bool value)
 {
-	this->boolean=value;
+	boolean=value;
 }
 
 QString BooleanValue::getValueString() const
 {
-	return this->boolean ? "true" : "false";
+	return boolean ? "true" : "false";
 }
 
 Value* BooleanValue::toNumber()
@@ -37,12 +37,12 @@ Value* BooleanValue::toNumber()
 
 bool BooleanValue::isTrue() const
 {
-	return this->boolean;
+	return boolean;
 }
 
 Value* BooleanValue::operation(Expression::Operator_e e)
 {
-	bool result=basicOperation(this->boolean,e);
+	bool result=basicOperation(boolean,e);
 	return new BooleanValue(result);
 }
 

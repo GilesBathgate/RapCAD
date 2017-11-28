@@ -32,22 +32,22 @@ Argument::~Argument()
 
 void Argument::setVariable(Variable* var)
 {
-	this->variable = var;
+	variable = var;
 }
 
 Variable* Argument::getVariable() const
 {
-	return this->variable;
+	return variable;
 }
 
 void Argument::setExpression(Expression* exp)
 {
-	this->expression = exp;
+	expression = exp;
 }
 
 Expression* Argument::getExpression() const
 {
-	return this->expression;
+	return expression;
 }
 
 void Argument::accept(TreeVisitor& v)

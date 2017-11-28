@@ -33,22 +33,22 @@ FunctionScope::~FunctionScope()
 
 void FunctionScope::setExpression(Expression* exp)
 {
-	this->expression = exp;
+	expression = exp;
 }
 
 Expression* FunctionScope::getExpression() const
 {
-	return this->expression;
+	return expression;
 }
 
 void FunctionScope::setStatements(QList<Statement*> stmts)
 {
-	this->statements = stmts;
+	statements = stmts;
 }
 
 QList<Statement*> FunctionScope::getStatements() const
 {
-	return this->statements;
+	return statements;
 }
 
 void FunctionScope::accept(TreeVisitor& v)

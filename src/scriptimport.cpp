@@ -28,22 +28,22 @@ ScriptImport::~ScriptImport()
 
 void ScriptImport::setImport(QString imp)
 {
-	this->import = imp;
+	import = imp;
 }
 
 QString ScriptImport::getImport() const
 {
-	return this->import;
+	return import;
 }
 
 void ScriptImport::setNamespace(QString name)
 {
-	this->name_space = name;
+	name_space = name;
 }
 
 QString ScriptImport::getNamespace() const
 {
-	return this->name_space;
+	return name_space;
 }
 
 void ScriptImport::accept(TreeVisitor& v)

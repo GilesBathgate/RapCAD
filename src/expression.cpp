@@ -29,7 +29,7 @@ Expression::~Expression()
 QString Expression::getOpString() const
 {
 	QString result;
-	switch(this->getOp()) {
+	switch(getOp()) {
 	case Exponent:
 		result.append('^');
 		break;
@@ -124,12 +124,12 @@ bool Expression::postFix()
 
 void Expression::setOp(Operator_e o)
 {
-	this->op = o;
+	op = o;
 }
 
 Expression::Operator_e Expression::getOp() const
 {
-	return this->op;
+	return op;
 }
 
 int Expression::getLineNumber() const

@@ -12,12 +12,12 @@ ReturnStatement::~ReturnStatement()
 
 void ReturnStatement::setExpression(Expression* exp)
 {
-	this->expression = exp;
+	expression = exp;
 }
 
 Expression* ReturnStatement::getExpression() const
 {
-	return this->expression;
+	return expression;
 }
 
 void ReturnStatement::accept(TreeVisitor& v)

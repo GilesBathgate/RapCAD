@@ -30,12 +30,12 @@ CompoundStatement::~CompoundStatement()
 
 void CompoundStatement::setChildren(QList<Statement*> stmts)
 {
-	this->children = stmts;
+	children = stmts;
 }
 
 QList<Statement*> CompoundStatement::getChildren() const
 {
-	return this->children;
+	return children;
 }
 
 void CompoundStatement::accept(TreeVisitor& v)

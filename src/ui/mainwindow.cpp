@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
 	ui->setupUi(this);
 	QIcon rapcadIcon(":/icons/rapcad-16x16.png");
-	this->setWindowIcon(rapcadIcon);
+	setWindowIcon(rapcadIcon);
 	setupLayout();
 	setupActions();
 	setupExportActions();

@@ -28,32 +28,32 @@ ModuleImport::~ModuleImport()
 
 void ModuleImport::setImport(QString imp)
 {
-	this->import = imp;
+	import = imp;
 }
 
 QString ModuleImport::getImport() const
 {
-	return this->import;
+	return import;
 }
 
 void ModuleImport::setName(QString n)
 {
-	this->name = n;
+	name = n;
 }
 
 QString ModuleImport::getName() const
 {
-	return this->name;
+	return name;
 }
 
 void ModuleImport::setParameters(QList<Parameter*> params)
 {
-	this->parameters = params;
+	parameters = params;
 }
 
 QList<Parameter*> ModuleImport::getParameters() const
 {
-	return this->parameters;
+	return parameters;
 }
 
 void ModuleImport::accept(TreeVisitor& v)

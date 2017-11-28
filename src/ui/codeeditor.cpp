@@ -29,8 +29,8 @@ CodeEditor::CodeEditor(QWidget* parent) : QPlainTextEdit(parent)
 	font.setFamily("Courier");
 	font.setFixedPitch(true);
 	font.setPointSize(10);
-	this->setFont(font);
-	highlighter = new SyntaxHighlighter(this->document());
+	setFont(font);
+	highlighter = new SyntaxHighlighter(document());
 	lineNumberArea = new LineNumberArea(this);
 
 	connect(this,&CodeEditor::blockCountChanged,this,&CodeEditor::updateLineNumberAreaWidth);
@@ -66,7 +66,7 @@ void CodeEditor::stopHighlighting()
 void CodeEditor::setFileName(const QString& f)
 {
 	fileName=f;
-	this->document()->setModified(false);
+	document()->setModified(false);
 	emit fileNameChanged(f);
 }
 
@@ -82,9 +82,9 @@ bool CodeEditor::saveFile()
 
 	QTextDocumentWriter writer(fileName);
 	writer.setFormat("plaintext");
-	bool success = writer.write(this->document());
+	bool success = writer.write(document());
 	if(success)
-		this->document()->setModified(false);
+		document()->setModified(false);
 
 	return success;
 }
@@ -109,7 +109,7 @@ bool CodeEditor::loadFile(const QString& f)
 
 	QByteArray data=file.readAll();
 	QString str=QString::fromLocal8Bit(data);
-	this->setPlainText(str);
+	setPlainText(str);
 
 	setFileName(f);
 	return true;

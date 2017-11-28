@@ -30,12 +30,12 @@ ModuleScope::~ModuleScope()
 
 void ModuleScope::setDeclarations(QList<Declaration*> decls)
 {
-	this->declarations = decls;
+	declarations = decls;
 }
 
 QList<Declaration*> ModuleScope::getDeclarations() const
 {
-	return this->declarations;
+	return declarations;
 }
 
 void ModuleScope::accept(TreeVisitor& v)

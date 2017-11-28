@@ -30,22 +30,22 @@ Parameter::~Parameter()
 
 QString Parameter::getName() const
 {
-	return this->name;
+	return name;
 }
 
 void Parameter::setName(QString n)
 {
-	this->name = n;
+	name = n;
 }
 
 Expression* Parameter::getExpression() const
 {
-	return this->expression;
+	return expression;
 }
 
 void Parameter::setExpression(Expression* expr)
 {
-	this->expression = expr;
+	expression = expr;
 }
 
 void Parameter::addDescription(QString d)

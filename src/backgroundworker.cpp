@@ -24,7 +24,7 @@ BackgroundWorker::BackgroundWorker(QTextStream& s,QObject* parent) :
 {
 	thread=new QThread();
 	connect(thread,&QThread::started,this,&BackgroundWorker::start);
-	this->moveToThread(thread);
+	moveToThread(thread);
 }
 
 BackgroundWorker::~BackgroundWorker()

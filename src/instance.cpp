@@ -34,52 +34,52 @@ Instance::~Instance()
 
 void Instance::setName(QString n)
 {
-	this->name = n;
+	name = n;
 }
 
 QString Instance::getName() const
 {
-	return this->name;
+	return name;
 }
 
 void Instance::setArguments(QList<Argument*> args)
 {
-	this->arguments = args;
+	arguments = args;
 }
 
 QList<Argument*> Instance::getArguments() const
 {
-	return this->arguments;
+	return arguments;
 }
 
 void Instance::setChildren(QList <Statement*> childs)
 {
-	this->children = childs;
+	children = childs;
 }
 
 void Instance::setType(Type_e t)
 {
-	this->type = t;
+	type = t;
 }
 
 Instance::Type_e Instance::getType() const
 {
-	return this->type;
+	return type;
 }
 
 QList <Statement*> Instance::getChildren() const
 {
-	return this->children;
+	return children;
 }
 
 void Instance::setNamespace(QString name)
 {
-	this->name_space = name;
+	name_space = name;
 }
 
 QString Instance::getNamespace() const
 {
-	return this->name_space;
+	return name_space;
 }
 
 void Instance::accept(TreeVisitor& v)

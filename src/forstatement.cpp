@@ -30,22 +30,22 @@ ForStatement::~ForStatement()
 
 void ForStatement::setArguments(QList<Argument*> args)
 {
-	this->arguments = args;
+	arguments = args;
 }
 
 QList<Argument*> ForStatement::getArguments() const
 {
-	return this->arguments;
+	return arguments;
 }
 
 void ForStatement::setStatement(Statement* stmt)
 {
-	this->statement = stmt;
+	statement = stmt;
 }
 
 Statement* ForStatement::getStatement() const
 {
-	return this->statement;
+	return statement;
 }
 
 void ForStatement::accept(TreeVisitor& v)

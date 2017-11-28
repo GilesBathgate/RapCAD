@@ -41,33 +41,33 @@ Function::~Function()
 
 QString Function::getName() const
 {
-	return this->name;
+	return name;
 }
 
 void Function::setName(QString n)
 {
-	this->name = n;
+	name = n;
 }
 
 
 QList<Parameter*> Function::getParameters() const
 {
-	return this->parameters;
+	return parameters;
 }
 
 void Function::setParameters(QList<Parameter*> params)
 {
-	this->parameters = params;
+	parameters = params;
 }
 
 void Function::setScope(Scope* scp)
 {
-	this->scope = scp;
+	scope = scp;
 }
 
 Scope* Function::getScope() const
 {
-	return this->scope;
+	return scope;
 }
 
 void Function::accept(TreeVisitor& v)

@@ -28,12 +28,12 @@ VectorExpression::~VectorExpression()
 
 void VectorExpression::setChildren(QList<Expression*> exp)
 {
-	this->children = exp;
+	children = exp;
 }
 
 QList<Expression*> VectorExpression::getChildren() const
 {
-	return this->children;
+	return children;
 }
 
 void VectorExpression::setAdditionalCommas(int count)

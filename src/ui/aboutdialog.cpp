@@ -15,10 +15,10 @@ AboutDialog::AboutDialog(QWidget* parent) :
 	ui(new Ui::AboutDialog)
 {
 	ui->setupUi(this);
-	this->setFixedSize(this->width(),this->height());
+	setFixedSize(width(),height());
 
 	QIcon rapcadIcon(":/icons/rapcad-16x16.png");
-	this->setWindowIcon(rapcadIcon);
+	setWindowIcon(rapcadIcon);
 
 	QPixmap rapcadPicture(":/icons/rapcad-100x100.png");
 	ui->picture->setPixmap(rapcadPicture);

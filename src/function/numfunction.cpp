@@ -27,6 +27,6 @@ NumFunction::NumFunction() : Function("num")
 
 Value* NumFunction::evaluate(Context* ctx)
 {
-	Value* v=this->getParameterArgument(ctx,0);
+	Value* v=getParameterArgument(ctx,0);
 	return v->toNumber();
 }

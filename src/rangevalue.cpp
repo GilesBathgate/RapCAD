@@ -23,21 +23,21 @@
 
 RangeValue::RangeValue(Value* s,Value* st, Value* f)
 {
-	this->start=s;
-	this->step=st;
-	this->finish=f;
+	start=s;
+	step=st;
+	finish=f;
 }
 
 QString RangeValue::getValueString() const
 {
 	QString result="[";
-	result.append(this->start->getValueString());
+	result.append(start->getValueString());
 	result.append(":");
-	if(this->step) {
-		result.append(this->step->getValueString());
+	if(step) {
+		result.append(step->getValueString());
 		result.append(":");
 	}
-	result.append(this->finish->getValueString());
+	result.append(finish->getValueString());
 	result.append("]");
 	return result;
 }
@@ -50,7 +50,7 @@ ValueIterator* RangeValue::createIterator()
 QList<Value*> RangeValue::getChildren()
 {
 	QList<Value*> result;
-	ValueIterator* it=this->createIterator();
+	ValueIterator* it=createIterator();
 	for(Value* v: *it)
 		result.append(v);
 	delete it;
@@ -59,36 +59,36 @@ QList<Value*> RangeValue::getChildren()
 
 Value* RangeValue::getStart() const
 {
-	return this->start;
+	return start;
 }
 
 Value* RangeValue::getStep() const
 {
-	return this->step;
+	return step;
 }
 
 Value* RangeValue::getFinish() const
 {
-	return this->finish;
+	return finish;
 }
 
 Value* RangeValue::operation(Expression::Operator_e op)
 {
 	if(op==Expression::Invert) {
-		return new RangeValue(this->finish,this->step,this->start);
+		return new RangeValue(finish,step,start);
 	} else if(op==Expression::Length) {
-		Value* size=Value::operation(this->finish,Expression::Subtract,this->start);
+		Value* size=Value::operation(finish,Expression::Subtract,start);
 		size=Value::operation(size,op);
 		return Value::operation(size,Expression::Increment);
 	}
 
-	Value* upper=Value::operation(this->start,op);
-	Value* lower=Value::operation(this->finish,op);
+	Value* upper=Value::operation(start,op);
+	Value* lower=Value::operation(finish,op);
 
 	Value* increment=nullptr;
 	if(op==Expression::Add||op==Expression::Subtract) {
-		if(this->step)
-			increment=Value::operation(this->step,op);
+		if(step)
+			increment=Value::operation(step,op);
 	}
 
 	return new RangeValue(upper,increment,lower);
@@ -141,8 +141,8 @@ Value* RangeValue::operation(Value& v, Expression::Operator_e op)
 		} else if(op==Expression::Concatenate) {
 
 			QList<Value*> vals;
-			vals.append(this->start);
-			vals.append(this->finish);
+			vals.append(start);
+			vals.append(finish);
 			vals.append(range->start);
 			vals.append(range->finish);
 			Value* lower=compareAll(vals,Expression::LessThan);

@@ -10,12 +10,12 @@ UnaryExpression::~UnaryExpression()
 
 void UnaryExpression::setExpression(Expression* exp)
 {
-	this->expression = exp;
+	expression = exp;
 }
 
 Expression* UnaryExpression::getExpression() const
 {
-	return this->expression;
+	return expression;
 }
 
 void UnaryExpression::accept(TreeVisitor& v)

@@ -32,22 +32,22 @@ BinaryExpression::~BinaryExpression()
 
 Expression* BinaryExpression::getLeft() const
 {
-	return this->left;
+	return left;
 }
 
 void BinaryExpression::setLeft(Expression* l)
 {
-	this->left = l;
+	left = l;
 }
 
 Expression* BinaryExpression::getRight() const
 {
-	return this->right;
+	return right;
 }
 
 void BinaryExpression::setRight(Expression* r)
 {
-	this->right = r;
+	right = r;
 }
 
 void BinaryExpression::accept(TreeVisitor& v)

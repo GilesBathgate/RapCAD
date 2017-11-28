@@ -16,32 +16,32 @@ TernaryExpression::~TernaryExpression()
 
 void TernaryExpression::setCondition(Expression* exp)
 {
-	this->condition = exp;
+	condition = exp;
 }
 
 Expression* TernaryExpression::getCondition() const
 {
-	return this->condition;
+	return condition;
 }
 
 void TernaryExpression::setTrueExpression(Expression* exp)
 {
-	this->trueExpression = exp;
+	trueExpression = exp;
 }
 
 Expression* TernaryExpression::getTrueExpression() const
 {
-	return this->trueExpression;
+	return trueExpression;
 }
 
 void TernaryExpression::setFalseExpression(Expression* exp)
 {
-	this->falseExpression = exp;
+	falseExpression = exp;
 }
 
 Expression* TernaryExpression::getFalseExpression() const
 {
-	return this->falseExpression;
+	return falseExpression;
 }
 
 void TernaryExpression::accept(TreeVisitor& v)

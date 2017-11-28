@@ -10,32 +10,32 @@ Invocation::~Invocation()
 
 void Invocation::setName(QString n)
 {
-	this->name = n;
+	name = n;
 }
 
 QString Invocation::getName() const
 {
-	return this->name;
+	return name;
 }
 
 void Invocation::setNamespace(QString name)
 {
-	this->nameSpace = name;
+	nameSpace = name;
 }
 
 QString Invocation::getNamespace() const
 {
-	return this->nameSpace;
+	return nameSpace;
 }
 
 void Invocation::setArguments(QList<Argument*> args)
 {
-	this->arguments = args;
+	arguments = args;
 }
 
 QList<Argument*> Invocation::getArguments() const
 {
-	return this->arguments;
+	return arguments;
 }
 
 void Invocation::accept(TreeVisitor& v)
