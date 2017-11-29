@@ -281,7 +281,7 @@ void CGALExport::exportCSG(QString filename)
 		y=p.y();
 		z=p.z();
 		Point pt(x,y,z);
-		output << pt.toString();
+		output << to_string(pt);
 	}
 
 	output << "],[";

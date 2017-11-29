@@ -29,8 +29,6 @@ public:
 	Point() : _x(0), _y(0), _z(0) { }
 	Point(decimal x,decimal y,decimal z) : _x(x), _y(y), _z(z) { }
 	bool operator==(const Point that) const;
-	QString toString() const;
-	QString toString(const bool) const;
 	decimal x() const;
 	decimal y() const;
 	decimal z() const;
@@ -38,5 +36,8 @@ public:
 private:
 	decimal _x, _y, _z;
 };
+
+QString to_string(const Point&);
+QString to_string(const Point&,const bool);
 
 #endif // POINT_H

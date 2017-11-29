@@ -48,20 +48,20 @@ Point Point::transform(TransformMatrix* matrix) const
 	return Point(nx,ny,nz);
 }
 
-QString Point::toString() const
+QString to_string(const Point& p)
 {
-	return toString(true);
+	return to_string(p,true);
 }
 
-QString Point::toString(bool trim) const
+QString to_string(const Point& p,bool trim)
 {
 	QString res;
 	res.append("[");
-	res.append(to_string(_x,trim));
+	res.append(to_string(p.x(),trim));
 	res.append(",");
-	res.append(to_string(_y,trim));
+	res.append(to_string(p.y(),trim));
 	res.append(",");
-	res.append(to_string(_z,trim));
+	res.append(to_string(p.z(),trim));
 	res.append("]");
 
 	return res;

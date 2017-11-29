@@ -510,7 +510,7 @@ void NodeEvaluator::visit(BoundsNode* n)
 
 	result->appendChild(a);
 
-	reporter->reportMessage(tr("Bounds: [%1],[%2]").arg(lower.toString(false)).arg(upper.toString(false)));
+	reporter->reportMessage(tr("Bounds: [%1],[%2]").arg(to_string(lower,false)).arg(to_string(upper,false)));
 #endif
 }
 
@@ -875,13 +875,10 @@ void NodeEvaluator::visit(VolumesNode* n)
 	reporter->reportMessage(tr("Volume: %1").arg(vs));
 
 	CGAL::Point3 c=v.getCenter();
-	decimal cx,cy,cz;
-	cx=c.x();
-	cy=c.y();
-	cz=c.z();
+	Point cn(c.x(),c.y(),c.z());
 
 	if(calcMass)
-		reporter->reportMessage(tr("Center of Mass: %1").arg(Point(cx,cy,cz).toString(false)));
+		reporter->reportMessage(tr("Center of Mass: %1").arg(to_string(cn,false)));
 
 	CGAL::Cuboid3 b=v.getBounds();
 	decimal x,y,z;
@@ -893,7 +890,7 @@ void NodeEvaluator::visit(VolumesNode* n)
 	auto* p = new Polyhedron();
 	p->setType(Primitive::Skeleton);
 	Polygon* pg=p->createPolygon();
-	p->createVertex(Point(cx,cy,cz));
+	p->createVertex(cn);
 	p->createVertex(tr);
 	pg->append(0);
 	pg->append(1);

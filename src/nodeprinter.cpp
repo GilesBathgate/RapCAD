@@ -49,7 +49,7 @@ void NodePrinter::printPrimitive(Polyhedron* ph)
 	for(const auto& p: ph->getPoints()) {
 		if(!first())
 			result << ",";
-		result << p.toString();
+		result << to_string(p);
 	}
 	result << "],[";
 
@@ -184,7 +184,7 @@ void NodePrinter::visit(RotateExtrudeNode* n)
 	result << "rotate_extrude(";
 	result << to_string(n->getSweep());
 	result << ",";
-	result << n->getAxis().toString();
+	result << to_string(n->getAxis());
 	result << ",";
 	result << to_string(n->getRadius());
 	result << ",";
@@ -239,7 +239,7 @@ void NodePrinter::printChildren(Node* n)
 void NodePrinter::printArguments(Point p)
 {
 	result << "(";
-	result << p.toString();
+	result << to_string(p);
 	result << ")";
 }
 
@@ -250,7 +250,7 @@ void NodePrinter::printArguments(Polygon pg)
 	for(const auto& p: pg.getPoints()) {
 		if(!first())
 			result << ",";
-		result << p.toString();
+		result << to_string(p);
 	}
 	result << "])";
 }
