@@ -33,7 +33,7 @@ void NodePrinter::visit(PrimitiveNode* n)
 
 void NodePrinter::printPrimitive(Primitive* pr)
 {
-#if USE_CGAL
+#ifdef USE_CGAL
 	auto* cp=dynamic_cast<CGALPrimitive*>(pr);
 	if(cp)
 		printPrimitive(cp);
@@ -69,7 +69,7 @@ void NodePrinter::printPrimitive(Polyhedron* ph)
 	}
 }
 
-#if USE_CGAL
+#ifdef USE_CGAL
 
 void NodePrinter::printPoint(CGAL::Point3 p, bool trim)
 {

@@ -20,7 +20,7 @@
 #include <math.h>
 #define LOG10_2 0.30102999566398119521 /* log10(2) = log base 10 of 2 */
 
-#if USE_CGAL
+#ifdef USE_CGAL
 #include <CGAL/Gmpfr.h>
 #endif
 
@@ -33,7 +33,7 @@ Preferences::Preferences()
 void Preferences::updatePrecision()
 {
 	precision=floor(getPrecision()/LOG10_2);
-#if USE_CGAL
+#ifdef USE_CGAL
 	CGAL::Gmpfr::set_default_precision(precision);
 #endif
 }

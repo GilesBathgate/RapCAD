@@ -19,7 +19,7 @@
 #ifndef GLVIEW_H
 #define GLVIEW_H
 
-#if USE_QGLWIDGET
+#ifdef USE_QGLWIDGET
 #include <QGLWidget>
 #else
 #include <QOpenGLWidget>
@@ -31,7 +31,7 @@
 #include "renderer.h"
 
 class GLView :
-#if USE_QGLWIDGET
+#ifdef USE_QGLWIDGET
 	public QGLWidget
 #else
 	public QOpenGLWidget, private QOpenGLFunctions_1_0
@@ -56,7 +56,7 @@ public:
 	void setBedAppearance(int);
 	void preferencesUpdated();
 
-#if USE_QGLWIDGET
+#ifdef USE_QGLWIDGET
 	inline QImage grabFramebuffer(){ return grabFrameBuffer(); }
 #endif
 
@@ -77,7 +77,7 @@ private:
 	void resizeGL(int w, int h) override;
 	void paintGL() override;
 
-#if USE_QGLWIDGET
+#ifdef USE_QGLWIDGET
 #else
 	void renderText(double,double,double,const QString&,const QFont& fnt=QFont(),int listBase=2000);
 #endif
@@ -119,7 +119,7 @@ private:
 	GLfloat rotateZ;
 	GLint viewportX;
 	GLint viewportZ;
-#if !USE_QGLWIDGET
+#if !defined(USE_QGLWIDGET)
 	QMatrix4x4* projection;
 	QMatrix4x4* modelview;
 #endif

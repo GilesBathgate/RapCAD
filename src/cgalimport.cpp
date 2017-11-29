@@ -15,7 +15,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#if USE_CGAL
+#ifdef USE_CGAL
 #include "cgalimport.h"
 #include <CGAL/IO/Polyhedron_iostream.h>
 #include <fstream>

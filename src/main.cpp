@@ -27,7 +27,7 @@
 #include "interactive.h"
 #include "generator.h"
 
-#if USE_COMMANDLINE_PARSER
+#ifdef USE_COMMANDLINE_PARSER
 #include "contrib/qcommandlineparser.h"
 #else
 #include "qcommandlineparser.h"

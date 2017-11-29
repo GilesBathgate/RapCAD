@@ -57,7 +57,7 @@
 #include "node/simplifynode.h"
 #include "node/childrennode.h"
 
-#if USE_CGAL
+#ifdef USE_CGAL
 #include "cgalprimitive.h"
 #endif
 
@@ -106,7 +106,7 @@ private:
 	void printArguments(Polygon);
 	void printPrimitive(Primitive* pr);
 	void printPrimitive(Polyhedron*);
-#if USE_CGAL
+#ifdef USE_CGAL
 	void printPrimitive(CGALPrimitive*);
 	void printPoint(CGAL::Point3,bool);
 #endif

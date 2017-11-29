@@ -19,7 +19,7 @@
 #include <QApplication>
 #include <math.h>
 #include "glview.h"
-#if USE_QGLWIDGET
+#ifdef USE_QGLWIDGET
 #include <CGAL/glu.h>
 #endif
 
@@ -27,7 +27,7 @@ static const GLfloat farfarAway=100000.0;
 static const GLfloat rulerLength=200.0;
 
 GLView::GLView(QWidget* parent) :
-#if USE_QGLWIDGET
+#ifdef USE_QGLWIDGET
 	QGLWidget(parent)
 #else
 	QOpenGLWidget(parent)
@@ -53,7 +53,7 @@ GLView::GLView(QWidget* parent) :
 	printLength=0.0;
 	printHeight=0.0;
 	appearance=0;
-#if !USE_QGLWIDGET
+#if !defined(USE_QGLWIDGET)
 	projection=new QMatrix4x4();
 	modelview=new QMatrix4x4();
 #endif
@@ -61,7 +61,7 @@ GLView::GLView(QWidget* parent) :
 
 GLView::~GLView()
 {
-#if !USE_QGLWIDGET
+#if !defined(USE_QGLWIDGET)
 	delete projection;
 	delete modelview;
 #endif
@@ -198,7 +198,7 @@ void GLView::setBedAppearance(int v)
 
 void GLView::initializeGL()
 {
-#if !USE_QGLWIDGET
+#if !defined(USE_QGLWIDGET)
 	initializeOpenGLFunctions();
 #endif
 
@@ -227,7 +227,7 @@ void GLView::resizeGL(int w, int h)
 
 	glMatrixMode(GL_PROJECTION);
 
-#if USE_QGLWIDGET
+#ifdef USE_QGLWIDGET
 	glLoadIdentity();
 	gluPerspective(45.0, (GLfloat)w/(GLfloat)h, +10.0, +farfarAway);
 #else
@@ -452,7 +452,7 @@ void GLView::paintGL()
 
 	glMatrixMode(GL_MODELVIEW);
 
-#if USE_QGLWIDGET
+#ifdef USE_QGLWIDGET
 	glLoadIdentity();
 	gluLookAt(-viewportX, -distance, -viewportZ, -viewportX, 0.0, -viewportZ, 0.0, 0.0, 1.0);
 
@@ -485,7 +485,7 @@ void GLView::paintGL()
 		render->draw(skeleton,showEdges);
 }
 
-#if !USE_QGLWIDGET
+#if !defined(USE_QGLWIDGET)
 void GLView::renderText(double x, double y, double z, const QString& str, const QFont&, int)
 {
 	//TODO: Use qpainter for full text support.

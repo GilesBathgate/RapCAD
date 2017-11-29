@@ -1,4 +1,4 @@
-#if USE_CGAL
+#ifdef USE_CGAL
 #include "cgalprimitive.h"
 #include <QPair>
 #include <CGAL/minkowski_sum_3.h>

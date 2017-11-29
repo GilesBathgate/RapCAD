@@ -49,7 +49,7 @@ void SimpleRenderer::descendChildren(Primitive* p)
 		for(Polygon* p: c->getPolygons()) {
 			glBegin(GL_LINE_STRIP);
 			for(const auto& pt: p->getPoints()) {
-#if USE_CGAL
+#ifdef USE_CGAL
 				GLfloat x,y,z;
 				to_glcoord(pt,x,y,z);
 #else

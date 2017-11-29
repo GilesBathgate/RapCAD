@@ -21,7 +21,7 @@
 
 #include <QString>
 
-#if USE_CGAL
+#ifdef USE_CGAL
 #include "cgal.h"
 typedef CGAL::Scalar decimal;
 #else
@@ -34,7 +34,7 @@ decimal to_decimal(QString s,bool* ok=nullptr);
 int to_integer(const decimal&);
 bool to_boolean(const decimal&);
 
-#if USE_CGAL
+#ifdef USE_CGAL
 class Point;
 void to_glcoord(const Point&,float&,float&,float&);
 QString to_rational(const decimal&);

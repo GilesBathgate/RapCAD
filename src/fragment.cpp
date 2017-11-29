@@ -20,7 +20,7 @@
 #include "contrib/fragments.h"
 #include "numbervalue.h"
 
-#if USE_CGAL
+#ifdef USE_CGAL
 #include "cgalfragment.h"
 #endif
 
@@ -59,14 +59,14 @@ Fragment::Fragment(Context* ctx)
 
 Fragment* Fragment::createFragment(Context* ctx)
 {
-#if USE_CGAL
+#ifdef USE_CGAL
 	return new CGALFragment(ctx);
 #else
 	return new Fragment(ctx);
 #endif
 }
 
-#if USE_CGAL
+#ifdef USE_CGAL
 int Fragment::getFragments(decimal)
 {
 	throw;

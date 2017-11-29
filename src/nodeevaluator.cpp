@@ -24,7 +24,7 @@
 #include "polyhedron.h"
 #include "simpletextbuilder.h"
 
-#if USE_CGAL
+#ifdef USE_CGAL
 #include <CGAL/centroid.h>
 #include <CGAL/convex_hull_3.h>
 #ifdef USE_SUBDIV
@@ -46,7 +46,7 @@ NodeEvaluator::NodeEvaluator(Reporter* r)
 
 Primitive* NodeEvaluator::createPrimitive()
 {
-#if USE_CGAL
+#ifdef USE_CGAL
 	return new CGALPrimitive();
 #else
 	return new Polyhedron();
@@ -125,7 +125,7 @@ void NodeEvaluator::visit(GlideNode* op)
 	for(Node* n: op->getChildren()) {
 		n->accept(*this);
 		if(!first) {
-#if USE_CGAL
+#ifdef USE_CGAL
 			CGALExplorer explorer(result);
 			QList<CGAL::Point3> points = explorer.getPoints();
 
@@ -151,7 +151,7 @@ void NodeEvaluator::visit(GlideNode* op)
 
 static Primitive* evaluateHull(Primitive* previous, Primitive* next)
 {
-#if USE_CGAL
+#ifdef USE_CGAL
 	QList<CGAL::Point3> points;
 	CGALExplorer p(previous);
 	points.append(p.getPoints());
@@ -167,7 +167,7 @@ static Primitive* evaluateHull(Primitive* previous, Primitive* next)
 
 void NodeEvaluator::visit(HullNode* n)
 {
-#if USE_CGAL
+#ifdef USE_CGAL
 
 	if(n->getChain()) {
 		Primitive* first=nullptr;
@@ -202,7 +202,7 @@ void NodeEvaluator::visit(HullNode* n)
 #endif
 }
 
-#if USE_CGAL
+#ifdef USE_CGAL
 static CGAL::Point3 flatten(const CGAL::Point3& p)
 {
 	return CGAL::Point3(p.x(),p.y(),0);
@@ -237,7 +237,7 @@ static CGAL::Point3 rotate(const CGAL::Point3& p,const CGAL::Scalar& a,const CGA
 void NodeEvaluator::visit(LinearExtrudeNode* op)
 {
 	evaluate(op,Union);
-#if USE_CGAL
+#ifdef USE_CGAL
 	auto* cp=new CGALPrimitive();
 	if(result->isFullyDimentional()) {
 		cp->setType(Primitive::Skeleton);
@@ -292,7 +292,7 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 {
 	evaluate(op,Union);
 
-#if USE_CGAL
+#ifdef USE_CGAL
 	CGAL::Scalar r=op->getRadius();
 	CGAL::Scalar height=op->getHeight();
 	CGAL::Scalar sweep=op->getSweep();
@@ -437,7 +437,7 @@ void NodeEvaluator::evaluate(QList<Node*> children,Operation_e type,Primitive* f
 void NodeEvaluator::visit(BoundsNode* n)
 {
 	evaluate(n,Union);
-#if USE_CGAL
+#ifdef USE_CGAL
 	auto* pr=static_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
 
@@ -528,7 +528,7 @@ void NodeEvaluator::visit(SubDivisionNode* n)
 void NodeEvaluator::visit(NormalsNode* n)
 {
 	evaluate(n,Union);
-#if USE_CGAL
+#ifdef USE_CGAL
 	CGALExplorer e(result);
 	CGALPrimitive* prim=e.getPrimitive();
 
@@ -595,7 +595,7 @@ void NodeEvaluator::visit(BoundaryNode* op)
 {
 	evaluate(op,Union);
 
-#if USE_CGAL
+#ifdef USE_CGAL
 	if(result->isFullyDimentional()) {
 		result=result->boundary();
 	} else {
@@ -607,7 +607,7 @@ void NodeEvaluator::visit(BoundaryNode* op)
 
 void NodeEvaluator::visit(ImportNode* op)
 {
-#if USE_CGAL
+#ifdef USE_CGAL
 	CGALImport i(reporter);
 	result=i.import(op->getImport());
 #else
@@ -625,7 +625,7 @@ void NodeEvaluator::visit(TransformationNode* tr)
 void NodeEvaluator::visit(ResizeNode* n)
 {
 	evaluate(n,Union);
-#if USE_CGAL
+#ifdef USE_CGAL
 	auto* pr=static_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
 	Point s=n->getSize();
@@ -664,7 +664,7 @@ void NodeEvaluator::visit(ResizeNode* n)
 void NodeEvaluator::visit(AlignNode* n)
 {
 	evaluate(n,Union);
-#if USE_CGAL
+#ifdef USE_CGAL
 	auto* pr=static_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
 	CGAL::Scalar cx=0.0,cy=0.0,cz=0.0;
@@ -738,7 +738,7 @@ void NodeEvaluator::visit(PointNode* n)
 void NodeEvaluator::visit(SliceNode* n)
 {
 	evaluate(n,Union);
-#if USE_CGAL
+#ifdef USE_CGAL
 	auto* pr=static_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
 
@@ -777,7 +777,7 @@ void NodeEvaluator::visit(ProjectionNode* op)
 {
 	evaluate(op,Union);
 
-#if USE_CGAL
+#ifdef USE_CGAL
 	CGALExplorer explorer(result);
 
 	bool base=op->getBase();
@@ -825,7 +825,7 @@ void NodeEvaluator::visit(ComplementNode* n)
 void NodeEvaluator::visit(RadialsNode* n)
 {
 	evaluate(n,Union);
-#if USE_CGAL
+#ifdef USE_CGAL
 	auto* pr=static_cast<CGALPrimitive*>(result);
 	CGAL::Circle3 circle=pr->getRadius();
 	decimal r=r_sqrt(circle.squared_radius());
@@ -865,7 +865,7 @@ void NodeEvaluator::visit(RadialsNode* n)
 void NodeEvaluator::visit(VolumesNode* n)
 {
 	evaluate(n,Union);
-#if USE_CGAL
+#ifdef USE_CGAL
 	auto* pr=static_cast<CGALPrimitive*>(result);
 	bool calcMass = n->getCalcMass();
 	CGALVolume v=pr->getVolume(calcMass);

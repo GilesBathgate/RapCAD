@@ -17,7 +17,7 @@
  */
 
 #include <QDir>
-#if USE_CGAL
+#ifdef USE_CGAL
 #include "cgal.h"
 #endif
 #include "tester.h"
@@ -78,7 +78,7 @@ int Tester::evaluate()
 				Node* n=te.getRootNode();
 				delete n;
 			} else {
-#if defined __WIN32__
+#if defined(Q_OS_WIN)
 				output << " Skipped" << endl;
 				continue;
 #endif

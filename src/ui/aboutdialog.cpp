@@ -2,7 +2,7 @@
 #include "ui_aboutdialog.h"
 #include "stringify.h"
 #include "qglobal.h"
-#if USE_CGAL
+#ifdef USE_CGAL
 #include <CGAL/version.h>
 #endif
 #include <boost/version.hpp>
@@ -25,7 +25,7 @@ AboutDialog::AboutDialog(QWidget* parent) :
 
 	ui->name->setText(tr("RapCAD Version %1").arg(QSTRINGIFY(RAPCAD_VERSION)));
 	ui->components->appendPlainText(tr("Qt\tVersion: %1").arg(QT_VERSION_STR));
-#if USE_CGAL
+#ifdef USE_CGAL
 	ui->components->appendPlainText(tr("CGAL\tVersion: %1").arg(CGAL_VERSION_STR));
 #endif
 	ui->components->appendPlainText(tr("Boost\tVersion: %1.%2.%3").arg(BOOST_VERSION / 100000).arg(BOOST_VERSION / 100 % 1000).arg(BOOST_VERSION % 100));

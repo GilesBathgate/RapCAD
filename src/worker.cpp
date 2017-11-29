@@ -24,7 +24,7 @@
 #include "product.h"
 #include "numbervalue.h"
 
-#if USE_CGAL
+#ifdef USE_CGAL
 #include "CGAL/exceptions.h"
 #include "cgalexport.h"
 #include "cgalrenderer.h"
@@ -76,7 +76,7 @@ void Worker::internal()
 		}
 		reporter->setReturnCode(EXIT_SUCCESS);
 
-#if USE_CGAL
+#ifdef USE_CGAL
 	} catch(CGAL::Failure_exception e) {
 		resultFailed(QString::fromStdString(e.what()));
 #endif
@@ -167,7 +167,7 @@ void Worker::generation()
 
 decimal Worker::getBoundsHeight()
 {
-#if USE_CGAL
+#ifdef USE_CGAL
 	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
 	CGAL::Cuboid3 b=pr->getBounds();
 	return b.zmax();
@@ -204,7 +204,7 @@ Instance* Worker::addProductInstance(QString name,Script* s)
 
 void Worker::exportResult(QString fn)
 {
-#if USE_CGAL
+#ifdef USE_CGAL
 	reporter->startTiming();
 
 	try {
@@ -243,7 +243,7 @@ void Worker::updatePrimitive(Primitive* pr)
 
 Renderer* Worker::getRenderer()
 {
-#if USE_CGAL
+#ifdef USE_CGAL
 	try {
 
 		return new CGALRenderer(primitive);

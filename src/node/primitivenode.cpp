@@ -18,13 +18,13 @@
 
 #include "primitivenode.h"
 #include "polyhedron.h"
-#if USE_CGAL
+#ifdef USE_CGAL
 #include "cgalprimitive.h"
 #endif
 
 PrimitiveNode::PrimitiveNode(Reporter*)
 {
-#if USE_CGAL
+#ifdef USE_CGAL
 	primitive=new CGALPrimitive();
 #else
 	primitive=new Polyhedron();

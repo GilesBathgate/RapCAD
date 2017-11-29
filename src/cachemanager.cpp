@@ -44,7 +44,7 @@ Cache* CacheManager::createCache()
 {
 	if(disabled)
 		return new EmptyCache();
-#if USE_CGAL
+#ifdef USE_CGAL
 	return new CGALCache();
 #else
 	return new Cache();

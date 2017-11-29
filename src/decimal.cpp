@@ -23,7 +23,7 @@
 
 decimal to_decimal(QString s,bool* ok)
 {
-#if USE_CGAL
+#ifdef USE_CGAL
 	int i = s.indexOf('.');
 	if(i>=0) {
 		s.remove(i,1);
@@ -79,7 +79,7 @@ QString to_string(const decimal& d,const bool trim)
 
 	Preferences* p=Preferences::getInstance();
 	QString res;
-#if USE_CGAL
+#ifdef USE_CGAL
 
 	if(p->getRationalFormat())
 		return to_rational(d);
@@ -121,7 +121,7 @@ QString to_string(const decimal& d,const bool trim)
 
 int to_integer(const decimal& n)
 {
-#if USE_CGAL
+#ifdef USE_CGAL
 	return int(to_double(n));
 #else
 	return int(n);
@@ -133,7 +133,7 @@ bool to_boolean(const decimal& n)
 	return n==decimal(0)?false:true;
 }
 
-#if USE_CGAL
+#ifdef USE_CGAL
 void to_glcoord(const Point& pt,float& x,float& y,float& z)
 {
 	x=to_double(pt.x());
