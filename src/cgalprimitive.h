@@ -46,9 +46,8 @@ public:
 	void setSanitized(bool) override;
 	bool getSanitized() override;
 	Polygon* createPolygon() override;
-	void createVertex(Point) override;
+	void createVertex(CGAL::Point3) override;
 	void createVertex(decimal,decimal,decimal);
-	void createVertex(CGAL::Point3);
 	void addVertex(CGAL::Point3,bool);
 	void appendVertex(CGAL::Point3);
 	bool overlaps(Primitive*) override;

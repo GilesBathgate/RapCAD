@@ -228,11 +228,6 @@ Polygon* CGALPrimitive::createPolygon()
 	return pg;
 }
 
-void CGALPrimitive::createVertex(Point pt)
-{
-	createVertex(pt.x(),pt.y(),pt.z());
-}
-
 void CGALPrimitive::createVertex(decimal x,decimal y,decimal z)
 {
 	CGAL::Point3 p(x,y,z);

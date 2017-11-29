@@ -93,16 +93,26 @@ Primitive* Polyhedron::copy()
 	return c;
 }
 
-void Polyhedron::transform(TransformMatrix* m)
+void Polyhedron::transform(TransformMatrix* matrix)
 {
+#if USE_CGAL
+	decimal* m=matrix->getValues();
+	CGAL::AffTransformation3 t(
+		m[ 0], m[ 1], m[ 2], m[ 3],
+		m[ 4], m[ 5], m[ 6], m[ 7],
+		m[ 8], m[ 9], m[10], m[11],
+	  /*m[12], m[13], m[14]*/m[15]);
+#else
+	TransformMatrix* t=matrix;
+#endif
 	QList<Point> nps;
 	for(const auto& p: points) {
-		nps.append(p.transform(m));
+		nps.append(p.transform(t));
 	}
 	points=nps;
 
 	for(Primitive* p: children)
-		p->transform(m);
+		p->transform(matrix);
 }
 
 bool Polyhedron::isEmpty()

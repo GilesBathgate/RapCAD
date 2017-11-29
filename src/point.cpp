@@ -18,6 +18,7 @@
 
 #include "point.h"
 
+#ifndef USE_CGAL
 bool Point::operator ==(const Point that) const
 {
 	return _x==that._x&&_y==that._y&&_z==that._z;
@@ -47,6 +48,7 @@ Point Point::transform(TransformMatrix* matrix) const
 	nz=(m[ 8]*_x+m[ 9]*_y+m[10]*_z+m[11]);
 	return Point(nx,ny,nz);
 }
+#endif
 
 QString to_string(const Point& p)
 {

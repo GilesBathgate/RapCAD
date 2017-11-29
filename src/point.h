@@ -21,6 +21,8 @@
 
 #include <QString>
 #include "decimal.h"
+
+#ifndef USE_CGAL
 #include "transformmatrix.h"
 
 class Point
@@ -36,6 +38,7 @@ public:
 private:
 	decimal _x, _y, _z;
 };
+#endif
 
 QString to_string(const Point&);
 QString to_string(const Point&,const bool);

@@ -24,6 +24,7 @@
 #ifdef USE_CGAL
 #include "cgal.h"
 typedef CGAL::Scalar decimal;
+typedef CGAL::Point3 Point;
 #else
 typedef double decimal;
 #endif
@@ -35,7 +36,6 @@ int to_integer(const decimal&);
 bool to_boolean(const decimal&);
 
 #ifdef USE_CGAL
-class Point;
 void to_glcoord(const Point&,float&,float&,float&);
 QString to_rational(const decimal&);
 CGAL::Gmpfr to_gmpfr(const decimal&);
