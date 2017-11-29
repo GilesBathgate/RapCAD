@@ -520,7 +520,7 @@ void NodeEvaluator::visit(SubDivisionNode* n)
 #if defined(USE_CGAL) && defined(USE_SUBDIV)
 	auto* cp=static_cast<CGALPrimitive*>(result);
 	CGAL::Polyhedron3& p=*cp->getPolyhedron();
-	CGAL::Subdivision_method_3::CatmullClark_subdivision(p,n->getLevel());
+	CGAL::Subdivision_method_3::Loop_subdivision(p,n->getLevel());
 	result=new CGALPrimitive(p);
 #endif
 }
