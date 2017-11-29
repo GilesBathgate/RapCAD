@@ -71,9 +71,7 @@ public:
 	/* Don't call this method instead use getCGALPolygons */
 	Q_DECL_DEPRECATED QList<Polygon*> getPolygons() const override;
 	QList<CGALPolygon*> getCGALPolygons() const;
-	/* Don't call this method instead use getCGALPoints */
-	Q_DECL_DEPRECATED QList<Point> getPoints() const override;
-	QList<CGAL::Point3> getCGALPoints() const;
+	QList<CGAL::Point3> getPoints() const override;
 	const CGAL::NefPolyhedron3& getNefPolyhedron();
 	CGAL::Polyhedron3* getPolyhedron();
 	bool isEmpty() override;

@@ -307,12 +307,7 @@ QList<CGALPolygon*> CGALPrimitive::getCGALPolygons() const
 	return polygons;
 }
 
-QList<Point> CGALPrimitive::getPoints() const
-{
-	return QList<Point>();
-}
-
-QList<CGAL::Point3> CGALPrimitive::getCGALPoints() const
+QList<CGAL::Point3> CGALPrimitive::getPoints() const
 {
 	return points;
 }

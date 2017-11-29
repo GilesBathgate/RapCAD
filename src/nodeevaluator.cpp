@@ -296,7 +296,7 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 	CGAL::Scalar height=op->getHeight();
 	CGAL::Scalar sweep=op->getSweep();
 
-	Point pa=op->getAxis();
+	CGAL::Point3 pa=op->getAxis();
 	CGAL::Scalar x=pa.x(),y=pa.y(),z=pa.z();
 	CGAL::Scalar mag = r_sqrt(x*x + y*y + z*z,false);
 	CGAL::Scalar ax = x/mag;
@@ -455,25 +455,25 @@ void NodeEvaluator::visit(BoundsNode* n)
 		SimpleTextBuilder t;
 		t.setText(pos);
 		CGAL::Scalar h=t.getHeight()+0.2;
-		t.setLocation(Point(xmin,ymin-h,zmin));
+		t.setLocation(CGAL::Point3(xmin,ymin-h,zmin));
 		Primitive* c=t.buildPrimitive();
 		result->appendChild(c);
 	}
 
-	Point lower(xmin,ymin,zmin);
-	Point upper(xmax,ymax,zmax);
+	CGAL::Point3 lower(xmin,ymin,zmin);
+	CGAL::Point3 upper(xmax,ymax,zmax);
 
 	auto* a=new Polyhedron();
 	a->setType(Primitive::Skeleton);
 	a->createPolygon();
 	a->createVertex(lower); //0
-	a->createVertex(Point(xmax,ymin,zmin)); //1
-	a->createVertex(Point(xmax,ymax,zmin)); //2
-	a->createVertex(Point(xmin,ymax,zmin)); //3
-	a->createVertex(Point(xmin,ymin,zmax)); //4
-	a->createVertex(Point(xmax,ymin,zmax)); //5
+	a->createVertex(CGAL::Point3(xmax,ymin,zmin)); //1
+	a->createVertex(CGAL::Point3(xmax,ymax,zmin)); //2
+	a->createVertex(CGAL::Point3(xmin,ymax,zmin)); //3
+	a->createVertex(CGAL::Point3(xmin,ymin,zmax)); //4
+	a->createVertex(CGAL::Point3(xmax,ymin,zmax)); //5
 	a->createVertex(upper); //6
-	a->createVertex(Point(xmin,ymax,zmax)); //7
+	a->createVertex(CGAL::Point3(xmin,ymax,zmax)); //7
 
 	//Top
 	Polygon* pg=a->createPolygon();
@@ -549,9 +549,9 @@ void NodeEvaluator::visit(NormalsNode* n)
 		CGAL::Point3 p2=c-b;
 
 		Polygon* np=a->createPolygon();
-		a->createVertex(Point(p1.x(),p1.y(),p1.z()));
-		a->createVertex(Point(n.x(),n.y(),n.z()));
-		a->createVertex(Point(p2.x(),p2.y(),p2.z()));
+		a->createVertex(CGAL::Point3(p1.x(),p1.y(),p1.z()));
+		a->createVertex(CGAL::Point3(n.x(),n.y(),n.z()));
+		a->createVertex(CGAL::Point3(p2.x(),p2.y(),p2.z()));
 		np->append(i++);
 		np->append(i++);
 		np->append(i++);
@@ -627,7 +627,7 @@ void NodeEvaluator::visit(ResizeNode* n)
 #ifdef USE_CGAL
 	auto* pr=static_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
-	Point s=n->getSize();
+	CGAL::Point3 s=n->getSize();
 	CGAL::Scalar x=s.x(),y=s.y(),z=s.z();
 	CGAL::Scalar autosize=1.0;
 
@@ -838,7 +838,7 @@ void NodeEvaluator::visit(RadialsNode* n)
 
 	SimpleTextBuilder t;
 	t.setText(rs);
-	t.setLocation(Point(a,b,0));
+	t.setLocation(CGAL::Point3(a,b,0));
 	Primitive* cp=t.buildPrimitive();
 	result->appendChild(cp);
 
@@ -853,7 +853,7 @@ void NodeEvaluator::visit(RadialsNode* n)
 		x = a+r*r_cos(phi);
 		y = b+r*r_sin(phi);
 
-		p->createVertex(Point(x,y,0));
+		p->createVertex(CGAL::Point3(x,y,0));
 		pg->append(i);
 	}
 
@@ -874,22 +874,21 @@ void NodeEvaluator::visit(VolumesNode* n)
 	reporter->reportMessage(tr("Volume: %1").arg(vs));
 
 	CGAL::Point3 c=v.getCenter();
-	Point cn(c.x(),c.y(),c.z());
 
 	if(calcMass)
-		reporter->reportMessage(tr("Center of Mass: %1").arg(to_string(cn,false)));
+		reporter->reportMessage(tr("Center of Mass: %1").arg(to_string(c,false)));
 
 	CGAL::Cuboid3 b=v.getBounds();
 	CGAL::Scalar x,y,z;
 	x=b.xmax()+((b.xmax()-b.xmin())/10);
 	y=b.ymax()+((b.ymax()-b.ymin())/10);
 	z=b.zmax()+((b.zmax()-b.zmin())/10);
-	Point tr(x,y,z);
+	CGAL::Point3 tr(x,y,z);
 
 	auto* p = new Polyhedron();
 	p->setType(Primitive::Skeleton);
 	Polygon* pg=p->createPolygon();
-	p->createVertex(cn);
+	p->createVertex(c);
 	p->createVertex(tr);
 	pg->append(0);
 	pg->append(1);

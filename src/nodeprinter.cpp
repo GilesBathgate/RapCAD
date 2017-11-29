@@ -85,7 +85,7 @@ void NodePrinter::printPoint(CGAL::Point3 p, bool trim)
 void NodePrinter::printPrimitive(CGALPrimitive* pr)
 {
 	OnceOnly first;
-	for(const auto& p: pr->getCGALPoints()) {
+	for(const auto& p: pr->getPoints()) {
 		if(!first())
 			result << ",";
 		printPoint(p,true);

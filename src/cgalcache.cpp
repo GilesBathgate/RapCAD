@@ -46,7 +46,7 @@ Cache::i_Primitive CGALCache::hashPrimitive(Primitive* pr)
 Cache::i_Primitive CGALCache::hashPrimitive(CGALPrimitive* cg)
 {
 	i_PointList pi;
-	for(const auto& pt: cg->getCGALPoints())
+	for(const auto& pt: cg->getPoints())
 		pi.append(hashPoint(pt));
 
 	i_PolygonList pgi;
