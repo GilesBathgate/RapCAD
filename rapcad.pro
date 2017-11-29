@@ -606,7 +606,8 @@ HEADERS  += \
        src/qpathtextbuilder.h \
        src/module/textmodule.h \
        src/module/boundarymodule.h \
-       src/node/boundarynode.h
+       src/node/boundarynode.h \
+       src/config.h
 
 FORMS += \
 	src/ui/mainwindow.ui \

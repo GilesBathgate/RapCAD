@@ -27,7 +27,9 @@
 #if USE_CGAL
 #include <CGAL/centroid.h>
 #include <CGAL/convex_hull_3.h>
+#ifdef USE_SUBDIV
 #include <CGAL/Subdivision_method_3.h>
+#endif
 #include "cgalimport.h"
 #include "cgalexplorer.h"
 #include "cgalprimitive.h"
@@ -515,7 +517,7 @@ void NodeEvaluator::visit(BoundsNode* n)
 void NodeEvaluator::visit(SubDivisionNode* n)
 {
 	evaluate(n,Union);
-#if USE_CGAL && ! defined __WIN32__
+#if defined(USE_CGAL) &&  defined(USE_SUBDIV)
 	auto* cp=static_cast<CGALPrimitive*>(result);
 	CGAL::Polyhedron3& p=*cp->getPolyhedron();
 	CGAL::Subdivision_method_3::CatmullClark_subdivision(p,n->getLevel());
