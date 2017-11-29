@@ -119,7 +119,7 @@ private:
 	GLfloat rotateZ;
 	GLint viewportX;
 	GLint viewportZ;
-#if !defined(USE_QGLWIDGET)
+#ifndef USE_QGLWIDGET
 	QMatrix4x4* projection;
 	QMatrix4x4* modelview;
 #endif

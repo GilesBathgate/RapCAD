@@ -53,7 +53,7 @@ GLView::GLView(QWidget* parent) :
 	printLength=0.0;
 	printHeight=0.0;
 	appearance=0;
-#if !defined(USE_QGLWIDGET)
+#ifndef USE_QGLWIDGET
 	projection=new QMatrix4x4();
 	modelview=new QMatrix4x4();
 #endif
@@ -61,7 +61,7 @@ GLView::GLView(QWidget* parent) :
 
 GLView::~GLView()
 {
-#if !defined(USE_QGLWIDGET)
+#ifndef USE_QGLWIDGET
 	delete projection;
 	delete modelview;
 #endif
@@ -198,7 +198,7 @@ void GLView::setBedAppearance(int v)
 
 void GLView::initializeGL()
 {
-#if !defined(USE_QGLWIDGET)
+#ifndef USE_QGLWIDGET
 	initializeOpenGLFunctions();
 #endif
 
@@ -485,7 +485,7 @@ void GLView::paintGL()
 		render->draw(skeleton,showEdges);
 }
 
-#if !defined(USE_QGLWIDGET)
+#ifndef USE_QGLWIDGET
 void GLView::renderText(double x, double y, double z, const QString& str, const QFont&, int)
 {
 	//TODO: Use qpainter for full text support.

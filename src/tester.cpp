@@ -78,7 +78,7 @@ int Tester::evaluate()
 				Node* n=te.getRootNode();
 				delete n;
 			} else {
-#if defined(Q_OS_WIN)
+#ifdef Q_OS_WIN
 				output << " Skipped" << endl;
 				continue;
 #endif
