@@ -228,7 +228,7 @@ Polygon* CGALPrimitive::createPolygon()
 	return pg;
 }
 
-void CGALPrimitive::createVertex(decimal x,decimal y,decimal z)
+void CGALPrimitive::createVertex(CGAL::Scalar x,CGAL::Scalar y,CGAL::Scalar z)
 {
 	CGAL::Point3 p(x,y,z);
 	createVertex(p);
@@ -417,7 +417,7 @@ Primitive* CGALPrimitive::minkowski(Primitive* pr)
 	return this;
 }
 
-Primitive* CGALPrimitive::inset(const decimal amount)
+Primitive* CGALPrimitive::inset(const CGAL::Scalar amount)
 {
 	CGALBuilder b(this);
 	CGALPrimitive* result=b.buildOffsetPolygons(amount);
@@ -523,7 +523,7 @@ Primitive* CGALPrimitive::copy()
 
 void CGALPrimitive::transform(TransformMatrix* matrix)
 {
-	decimal* m=matrix->getValues();
+	CGAL::Scalar* m=matrix->getValues();
 	CGAL::AffTransformation3 t(
 		m[ 0], m[ 1], m[ 2], m[ 3],
 		m[ 4], m[ 5], m[ 6], m[ 7],

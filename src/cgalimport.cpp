@@ -25,7 +25,6 @@
 #include "script.h"
 #include "treeevaluator.h"
 #include "nodeevaluator.h"
-#include "decimal.h"
 #include "contrib/qzipreader_p.h"
 
 CGALImport::CGALImport(Reporter* r)
@@ -167,7 +166,7 @@ Primitive* CGALImport::importAMF(QFileInfo fileinfo)
 									if(xml.name()=="vertex") {
 										while(xml.readNextStartElement()) {
 											if(xml.name()=="coordinates") {
-												decimal x,y,z;
+												CGAL::Scalar x,y,z;
 												while(xml.readNextStartElement()) {
 													if(xml.name()=="x") {
 														x=to_decimal(xml.readElementText());
@@ -252,7 +251,7 @@ Primitive* CGALImport::import3MF(QFileInfo fileinfo)
 									if(xml.name() == "vertices") {
 										while(xml.readNextStartElement()) {
 											if(xml.name() == "vertex") {
-												decimal x,y,z;
+												CGAL::Scalar x,y,z;
 												for(const auto& attr: xml.attributes()) {
 													QStringRef n=attr.name();
 													QStringRef v=attr.value();

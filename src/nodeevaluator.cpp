@@ -20,7 +20,6 @@
 #include "nodeevaluator.h"
 #include "rmath.h"
 #include "onceonly.h"
-#include "decimal.h"
 #include "polyhedron.h"
 #include "simpletextbuilder.h"
 
@@ -298,11 +297,11 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 	CGAL::Scalar sweep=op->getSweep();
 
 	Point pa=op->getAxis();
-	decimal x=pa.x(),y=pa.y(),z=pa.z();
-	decimal mag = r_sqrt(x*x + y*y + z*z,false);
-	decimal ax = x/mag;
-	decimal ay = y/mag;
-	decimal az = z/mag;
+	CGAL::Scalar x=pa.x(),y=pa.y(),z=pa.z();
+	CGAL::Scalar mag = r_sqrt(x*x + y*y + z*z,false);
+	CGAL::Scalar ax = x/mag;
+	CGAL::Scalar ay = y/mag;
+	CGAL::Scalar az = z/mag;
 
 	CGALExplorer explorer(result);
 	CGALPrimitive* prim=explorer.getPrimitive();
@@ -330,11 +329,11 @@ void NodeEvaluator::visit(RotateExtrudeNode* op)
 		return;
 	}
 
-	decimal phi,nphi;
+	CGAL::Scalar phi,nphi;
 	CGALPrimitive* peri=explorer.getPerimeters();
 	for(auto i=0; i<f; ++i) {
 		int j=caps?i+1:(i+1)%f;
-		decimal ang = r_tau()*sweep/360.0;
+		CGAL::Scalar ang = r_tau()*sweep/360.0;
 		phi=ang*i/f;
 		nphi=ang*j/f;
 
@@ -441,12 +440,12 @@ void NodeEvaluator::visit(BoundsNode* n)
 	auto* pr=static_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
 
-	decimal xmin=b.xmin();
-	decimal ymin=b.ymin();
-	decimal xmax=b.xmax();
-	decimal ymax=b.ymax();
-	decimal zmin=b.zmin();
-	decimal zmax=b.zmax();
+	CGAL::Scalar xmin=b.xmin();
+	CGAL::Scalar ymin=b.ymin();
+	CGAL::Scalar xmax=b.xmax();
+	CGAL::Scalar ymax=b.ymax();
+	CGAL::Scalar zmin=b.zmin();
+	CGAL::Scalar zmax=b.zmax();
 
 	if(zmin!=0.0) {
 		QString pos=to_string(zmin,false);
@@ -455,7 +454,7 @@ void NodeEvaluator::visit(BoundsNode* n)
 
 		SimpleTextBuilder t;
 		t.setText(pos);
-		decimal h=t.getHeight()+0.2;
+		CGAL::Scalar h=t.getHeight()+0.2;
 		t.setLocation(Point(xmin,ymin-h,zmin));
 		Primitive* c=t.buildPrimitive();
 		result->appendChild(c);
@@ -752,7 +751,7 @@ void NodeEvaluator::visit(SliceNode* n)
 	CGALBuilder bd(cp);
 	bd.makeSideZ(xmin,xmax,ymin,ymax,h);
 
-	decimal t=n->getThickness();
+	CGAL::Scalar t=n->getThickness();
 	if(t>0.0) {
 		const CGAL::Scalar& z=h+t;
 		bd.makeSideY(xmax,xmin,ymin,h,z);
@@ -828,12 +827,12 @@ void NodeEvaluator::visit(RadialsNode* n)
 #ifdef USE_CGAL
 	auto* pr=static_cast<CGALPrimitive*>(result);
 	CGAL::Circle3 circle=pr->getRadius();
-	decimal r=r_sqrt(circle.squared_radius());
+	CGAL::Scalar r=r_sqrt(circle.squared_radius());
 	QString rs=to_string(r,false);
 	reporter->reportMessage(tr("Radius: %1").arg(rs));
 
 	CGAL::Point3 c=circle.center();
-	decimal a,b;
+	CGAL::Scalar a,b;
 	a=c.x();
 	b=c.y();
 
@@ -849,8 +848,8 @@ void NodeEvaluator::visit(RadialsNode* n)
 
 	const int f=90;
 	for(auto i=0; i<=f; ++i) {
-		decimal phi = (r_tau()*i) / f;
-		decimal x,y;
+		CGAL::Scalar phi = (r_tau()*i) / f;
+		CGAL::Scalar x,y;
 		x = a+r*r_cos(phi);
 		y = b+r*r_sin(phi);
 
@@ -870,7 +869,7 @@ void NodeEvaluator::visit(VolumesNode* n)
 	bool calcMass = n->getCalcMass();
 	CGALVolume v=pr->getVolume(calcMass);
 
-	decimal vn=v.getSize();
+	CGAL::Scalar vn=v.getSize();
 	QString vs=to_string(vn,false);
 	reporter->reportMessage(tr("Volume: %1").arg(vs));
 
@@ -881,7 +880,7 @@ void NodeEvaluator::visit(VolumesNode* n)
 		reporter->reportMessage(tr("Center of Mass: %1").arg(to_string(cn,false)));
 
 	CGAL::Cuboid3 b=v.getBounds();
-	decimal x,y,z;
+	CGAL::Scalar x,y,z;
 	x=b.xmax()+((b.xmax()-b.xmin())/10);
 	y=b.ymax()+((b.ymax()-b.ymin())/10);
 	z=b.zmax()+((b.zmax()-b.zmin())/10);

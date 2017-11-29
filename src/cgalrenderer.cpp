@@ -19,7 +19,6 @@
 #include "cgalrenderer.h"
 #include "preferences.h"
 #include "primitive.h"
-#include "decimal.h"
 
 CGALRenderer::CGALRenderer(Primitive* primitive)
 {

@@ -47,7 +47,7 @@ public:
 	bool getSanitized() override;
 	Polygon* createPolygon() override;
 	void createVertex(CGAL::Point3) override;
-	void createVertex(decimal,decimal,decimal);
+	void createVertex(CGAL::Scalar,CGAL::Scalar,CGAL::Scalar);
 	void addVertex(CGAL::Point3,bool);
 	void appendVertex(CGAL::Point3);
 	bool overlaps(Primitive*) override;
@@ -59,7 +59,7 @@ public:
 	Primitive* difference(Primitive*) override;
 	Primitive* symmetric_difference(Primitive*) override;
 	Primitive* minkowski(Primitive*) override;
-	Primitive* inset(const decimal) override;
+	Primitive* inset(const CGAL::Scalar) override;
 	Primitive* decompose() override;
 	Primitive* complement() override;
 	Primitive* boundary() override;

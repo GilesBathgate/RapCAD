@@ -276,12 +276,7 @@ void CGALExport::exportCSG(QString filename)
 	for(const auto& p: points) {
 		if(!first())
 			output << ",";
-		decimal x,y,z;
-		x=p.x();
-		y=p.y();
-		z=p.z();
-		Point pt(x,y,z);
-		output << to_string(pt);
+		output << to_string(p);
 	}
 
 	output << "],[";
