@@ -50,20 +50,27 @@ QString RangeValue::getValueString() const
 	return result;
 }
 
+bool RangeValue::inRange(Value* index)
+{
+	Value*	lower = Value::operation(index,Expression::LessThan,reverse?finish:start);
+	Value*	upper = Value::operation(index,Expression::GreaterThan,reverse?start:finish);
+
+	return !lower->isTrue() && !upper->isTrue();
+}
+
 Value* RangeValue::getIndex(NumberValue* n)
 {
 	Value* x=reverse?Value::operation(step,Expression::Subtract):step;
 	Value* a=Value::operation(n,Expression::Multiply,x);
 	Value* b=Value::operation(start,reverse?Expression::Subtract:Expression::Add,a);
-	Value* c=Value::operation(b,reverse?Expression::GreaterThan:Expression::LessThan,start);
-	Value* d=Value::operation(b,reverse?Expression::LessThan:Expression::GreaterThan,finish);
-	if(c->isTrue()||d->isTrue()) return undefined();
+
+	if(!inRange(b)) return undefined();
 	return b;
 }
 
 ValueIterator* RangeValue::createIterator()
 {
-	return new RangeIterator(this,start,step,finish,reverse);
+	return new RangeIterator(this,start,step);
 }
 
 QList<Value*> RangeValue::getChildren()

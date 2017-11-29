@@ -32,6 +32,7 @@ public:
 
 	Value* getStart() const;
 	Value* getFinish() const;
+	bool inRange(Value*);
 private:
 	Value* operation(Expression::Operator_e) override;
 	Value* operation(Value&,Expression::Operator_e) override;
