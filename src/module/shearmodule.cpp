@@ -31,17 +31,17 @@ ShearModule::ShearModule(Reporter* r) : Module(r,"shear")
 
 Node* ShearModule::evaluate(Context* ctx)
 {
-	Point sx;
+	Point sx(0,0,0);
 	VectorValue* xVal=dynamic_cast<VectorValue*>(ctx->getArgument(0,"x"));
 	if(xVal)
 		sx=xVal->getPoint();
 
-	Point sy;
+	Point sy(0,0,0);
 	VectorValue* yVal=dynamic_cast<VectorValue*>(ctx->getArgument(0,"y"));
 	if(yVal)
 		sy=yVal->getPoint();
 
-	Point sz;
+	Point sz(0,0,0);
 	VectorValue* zVal=dynamic_cast<VectorValue*>(ctx->getArgument(0,"z"));
 	if(zVal)
 		sz=zVal->getPoint();

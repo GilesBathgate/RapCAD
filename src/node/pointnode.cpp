@@ -18,7 +18,7 @@
 
 #include "pointnode.h"
 
-PointNode::PointNode()
+PointNode::PointNode() : point(0,0,0)
 {
 }
 

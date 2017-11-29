@@ -1,6 +1,6 @@
 #include "resizenode.h"
 
-ResizeNode::ResizeNode()
+ResizeNode::ResizeNode() : size(0,0,0)
 {
 }
 

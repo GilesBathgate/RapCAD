@@ -1,6 +1,6 @@
 #include "rotateextrudenode.h"
 
-RotateExtrudeNode::RotateExtrudeNode()
+RotateExtrudeNode::RotateExtrudeNode() : axis(0,0,0)
 {
 }
 

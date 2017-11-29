@@ -13,7 +13,7 @@ ResizeModule::ResizeModule(Reporter* r) : Module(r,"resize")
 
 Node* ResizeModule::evaluate(Context* ctx)
 {
-	Point size;
+	Point size(0,0,0);
 	auto* sizeVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(sizeVal)
 		size=sizeVal->getPoint();

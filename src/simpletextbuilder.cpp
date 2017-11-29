@@ -21,7 +21,7 @@
 
 QMap<QChar,SimpleTextBuilder::Letter>* SimpleTextBuilder::characters=nullptr;
 
-SimpleTextBuilder::SimpleTextBuilder()
+SimpleTextBuilder::SimpleTextBuilder() : location(0,0,0)
 {
 	if(!characters) {
 		characters=new QMap<QChar,Letter>();

@@ -29,7 +29,7 @@ TranslateModule::TranslateModule(Reporter* r) : Module(r,"translate")
 
 Node* TranslateModule::evaluate(Context* ctx)
 {
-	Point v;
+	Point v(0,0,0);
 	auto* vec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(vec)
 		v=vec->getPoint();
