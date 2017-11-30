@@ -84,7 +84,7 @@ void CGALRenderer::desaturate(CGAL::Color& c)
 	setColor(c,QColor::fromHsv(rgb.hue(),0,rgb.value()));
 }
 
-void CGALRenderer::draw(bool skeleton, bool showedges)
+void CGALRenderer::paint(bool skeleton, bool showedges)
 {
 	init(); //init returns instantly if its already been called.
 	if(!skeleton) {
@@ -97,7 +97,7 @@ void CGALRenderer::draw(bool skeleton, bool showedges)
 		glEnable(GL_LIGHTING);
 	}
 
-	simple->draw(skeleton,showedges);
+	simple->paint(skeleton,showedges);
 
 }
 

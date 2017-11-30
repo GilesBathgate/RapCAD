@@ -24,7 +24,7 @@ SimpleRenderer::SimpleRenderer(Primitive* pr)
 	primitive=pr;
 }
 
-void SimpleRenderer::draw(bool, bool)
+void SimpleRenderer::paint(bool, bool)
 {
 	glLineWidth(1);
 	glColor3f(0.0, 0.0, 1.0);

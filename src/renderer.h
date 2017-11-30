@@ -23,7 +23,7 @@ class Renderer
 {
 public:
 	virtual ~Renderer() {}
-	virtual void draw(bool,bool)=0;
+	virtual void paint(bool,bool)=0;
 	virtual void preferencesUpdated()=0;
 	virtual void setCompiling(bool)=0;
 };

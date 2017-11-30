@@ -30,7 +30,7 @@ class CGALRenderer : public Renderer, private CGAL::OGL::Polyhedron
 public:
 	CGALRenderer(Primitive*);
 	~CGALRenderer() override;
-	void draw(bool,bool) override;
+	void paint(bool,bool) override;
 	void preferencesUpdated() override;
 	void setCompiling(bool) override;
 private:

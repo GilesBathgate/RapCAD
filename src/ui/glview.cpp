@@ -482,7 +482,7 @@ void GLView::paintGL()
 	glEnable(GL_LIGHTING);
 
 	if(render)
-		render->draw(skeleton,showEdges);
+		render->paint(skeleton,showEdges);
 }
 
 #ifndef USE_QGLWIDGET
