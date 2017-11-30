@@ -44,7 +44,7 @@ install:
 
 build_script:
   - cd %APPVEYOR_BUILD_FOLDER%
-  - qmake
+  - qmake CONFIG+=coverage
   - mingw32-make -j4 -f Makefile.Release
   - cd release
   - windeployqt --release rapcad.exe
