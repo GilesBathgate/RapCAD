@@ -31,12 +31,14 @@ script:
   - qmake -v
   - qmake CONFIG+=coverage
   - make -j4
-  - pushd test
-  - if [ $TRAVIS_OS_NAME = osx ]; then
+  - pushd test;
+    if [ $TRAVIS_OS_NAME = osx ]; then
       ../rapcad.app/Contents/MacOS/rapcad -t;
     else
       ../rapcad -t;
-    fi
+    fi;
+    popd
+  - scripts/gen-cov.sh
 
 notifications:
   irc:
