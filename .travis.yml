@@ -40,9 +40,6 @@ install:
 script:
   - qmake -v
 
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
-
 notifications:
   irc:
     channels:
