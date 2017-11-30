@@ -42,13 +42,13 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 # Check for Qt Version 5.2 and above
 # (so Major > 4 && Minor > 1)
  greaterThan(QT_MINOR_VERSION, 1) {
-    DEFINES -= USE_COMMANDLINE_PARSER
+	DEFINES -= USE_COMMANDLINE_PARSER
  }
 
 # Check for Qt Version 5.4 and above
 # (so Major > 4 && Minor > 3)
  greaterThan(QT_MINOR_VERSION, 3) {
-    DEFINES -= USE_QGLWIDGET
+	DEFINES -= USE_QGLWIDGET
  }
 }
 
@@ -349,11 +349,11 @@ SOURCES += \
 	src/function/ismat4x4function.cpp \
 	src/asciidocprinter.cpp \
 	src/generator.cpp \
-       src/qpathtextbuilder.cpp \
-       src/module/textmodule.cpp \
-       src/module/boundarymodule.cpp \
-       src/node/boundarynode.cpp \
-       src/function/isvecfunction.cpp
+	src/qpathtextbuilder.cpp \
+	src/module/textmodule.cpp \
+	src/module/boundarymodule.cpp \
+	src/node/boundarynode.cpp \
+	src/function/isvecfunction.cpp
 
 HEADERS  += \
 	contrib/OGL_helper.h \
@@ -604,12 +604,12 @@ HEADERS  += \
 	src/function/ismat4x4function.h \
 	src/asciidocprinter.h \
 	src/generator.h \
-       src/qpathtextbuilder.h \
-       src/module/textmodule.h \
-       src/module/boundarymodule.h \
-       src/node/boundarynode.h \
-       src/config.h \
-       src/function/isvecfunction.h
+	src/qpathtextbuilder.h \
+	src/module/textmodule.h \
+	src/module/boundarymodule.h \
+	src/node/boundarynode.h \
+	src/config.h \
+	src/function/isvecfunction.h
 
 FORMS += \
 	src/ui/mainwindow.ui \
@@ -654,8 +654,8 @@ unix {
 	DEFINES += DOCDIR=$$DOCDIR
 
 	INSTALLS += \
-	    target \
-	    docs
+		target \
+		docs
 }
 
 win32|macx {
