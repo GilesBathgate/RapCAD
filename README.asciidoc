@@ -1,5 +1,6 @@
 image:https://ci.appveyor.com/api/projects/status/oqtpb3i3nm3bdwnp/branch/master?svg=true[link=https://ci.appveyor.com/project/GilesBathgate/rapcad-gdedf]
 image:https://api.travis-ci.org/GilesBathgate/RapCAD.svg[link=https://travis-ci.org/GilesBathgate/RapCAD]
+image:https://codecov.io/gh/GilesBathgate/RapCAD/branch/master/graph/badge.svg[https://codecov.io/gh/GilesBathgate/RapCAD]
 image:https://img.shields.io/badge/license-GPLv3-blue.svg[]
 
 Introduction
