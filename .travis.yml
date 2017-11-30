@@ -40,6 +40,9 @@ script:
     popd
   - scripts/gen-cov.sh
 
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
 notifications:
   irc:
     channels:
