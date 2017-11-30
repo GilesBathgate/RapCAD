@@ -29,7 +29,7 @@ install:
 
 script:
   - qmake -v
-  - qmake
+  - qmake CONFIG+=coverage
   - make -j4
   - pushd test
   - if [ $TRAVIS_OS_NAME = osx ]; then
