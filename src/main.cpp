@@ -67,10 +67,10 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,QT
 	p.addHelpOption();
 	p.addVersionOption();
 	p.addPositionalArgument("filename", QCoreApplication::translate("main","File to open or process."));
-
+#ifdef USE_INTEGTEST
 	QCommandLineOption testOption(QStringList() << "t" << "test", QCoreApplication::translate("main","Run through tests in working directory."));
 	p.addOption(testOption);
-
+#endif
 	QCommandLineOption compareOption(QStringList() << "c" << "compare", QCoreApplication::translate("main","Compare two files to see if they are identical."),"filename");
 	p.addOption(compareOption);
 
@@ -104,9 +104,11 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,QT
 		auto* c=new Comparer(output);
 		c->setup(inputFile,outputFile);
 		return c;
+#ifdef USE_INTEGTEST
 	} else if(p.isSet(testOption)) {
 		showVersion(output);
 		return new Tester(output);
+#endif
 	} else if(p.isSet(outputOption)||p.isSet(printOption)) {
 		auto* w=new Worker(output);
 		bool print = p.isSet(printOption);

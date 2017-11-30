@@ -105,6 +105,7 @@ contains(DEFINES,USE_CGAL) {
 }
 
 CONFIG(coverage){
+	DEFINES += USE_INTEGTEST
 	CONFIG += debug
 	QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage
 	LIBS += -lgcov

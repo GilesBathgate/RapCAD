@@ -15,7 +15,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+#ifdef USE_INTEGTEST
 #include <QDir>
 #ifdef USE_CGAL
 #include "cgal.h"
@@ -139,3 +139,4 @@ bool Tester::testFunctionExists(Script* s)
 
 	return false;
 }
+#endif
