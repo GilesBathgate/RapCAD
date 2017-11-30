@@ -46,9 +46,9 @@ Node* ScaleModule::evaluate(Context* ctx)
 	//Derived reference translation using
 	//http://tinyurl.com/nfmph3r
 	auto* m = new TransformMatrix(
-		x,0,0,a-(a*x),
-		0,y,0,b-(b*x),
-		0,0,z,c-(c*x),
+		x,0,0,(a*x)-a,
+		0,y,0,(b*y)-b,
+		0,0,z,(c*z)-c,
 		0,0,0,1
 	);
 
