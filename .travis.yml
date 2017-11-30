@@ -1,6 +1,10 @@
 sudo: false
 language: cpp
 
+env:
+  global:
+   - secure: "TdT9Gj2QhbsjwGvEP1fosSxNdYFDfemAWzkwE2tX/iWy5gFFqmKsyr6GIvbqYLvtWwCiL/8ahZBfUL1as1ZbJci0dgMNCqj4quA6G3OvibA+VB9NXRRM0Il/p/3TDTm+nzO2Z1TkECtuzJkco2CHaDZQIdg/ul3zSyAGL+OSYSg="
+
 matrix:
   include:
     - os: linux
@@ -19,6 +23,14 @@ addons:
       - bison
       - flex
       - libreadline-dev
+  coverity_scan:
+    project:
+      name: "GilesBathgate/RapCAD"
+      description: "Build submitted via Travis CI"
+    notification_email: gilesbathgate@gmail.com
+    build_command_prepend: "qmake"
+    build_command:   "make -j4"
+    branch_pattern: coverity_scan
 
 install:
   - if [ $TRAVIS_OS_NAME = osx ]; then
@@ -29,15 +41,6 @@ install:
 
 script:
   - qmake -v
-  - qmake CONFIG+=coverage
-  - make -j4
-  - pushd test;
-    if [ $TRAVIS_OS_NAME = osx ]; then
-      ../rapcad.app/Contents/MacOS/rapcad -t;
-    else
-      ../rapcad -t;
-    fi;
-    popd
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
