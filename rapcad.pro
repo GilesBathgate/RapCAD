@@ -352,7 +352,8 @@ SOURCES += \
        src/qpathtextbuilder.cpp \
        src/module/textmodule.cpp \
        src/module/boundarymodule.cpp \
-       src/node/boundarynode.cpp
+       src/node/boundarynode.cpp \
+       src/function/isvecfunction.cpp
 
 HEADERS  += \
 	contrib/OGL_helper.h \
@@ -607,7 +608,8 @@ HEADERS  += \
        src/module/textmodule.h \
        src/module/boundarymodule.h \
        src/node/boundarynode.h \
-       src/config.h
+       src/config.h \
+       src/function/isvecfunction.h
 
 FORMS += \
 	src/ui/mainwindow.ui \

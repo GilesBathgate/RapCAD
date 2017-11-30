@@ -1,0 +1,3 @@
+function test(){
+  return is_vec3([])==false;
+}

@@ -114,6 +114,7 @@
 #include "function/isstrfunction.h"
 #include "function/isintfunction.h"
 #include "function/ismat4x4function.h"
+#include "function/isvecfunction.h"
 #include "function/chrfunction.h"
 
 #include "module/writemodule.h"
@@ -201,6 +202,8 @@ BuiltinCreator::BuiltinCreator(Reporter* r)
 	builtins.append(new IsMat4x4Function());
 	builtins.append(new IsRangeFunction());
 	builtins.append(new IsStrFunction());
+	builtins.append(new IsVecFunction(2));
+	builtins.append(new IsVecFunction(3));
 	builtins.append(new LengthFunction());
 	builtins.append(new LnFunction());
 	builtins.append(new LogFunction());
