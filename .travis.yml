@@ -9,8 +9,6 @@ matrix:
   include:
     - os: linux
       compiler: gcc
-    - os: osx
-      compiler: clang
 
 addons:
   apt:
