@@ -132,13 +132,13 @@ void CGALExport::exportAsciiSTL(QString filename)
 	if(!pr)
 		return;
 
-	CGAL::Polyhedron3* poly=pr->getPolyhedron();
-
 	QFile data(filename);
 	if(!data.open(QFile::WriteOnly | QFile::Truncate)) {
 		reporter->reportWarning(tr("Can't write file '%1'").arg(filename));
 		return;
 	}
+
+	CGAL::Polyhedron3* poly=pr->getPolyhedron();
 	QTextStream output(&data);
 
 	output << "solid RapCAD_Model\n";
@@ -265,13 +265,13 @@ void CGALExport::exportCSG(QString filename)
 {
 	auto* e=new CGALExplorer(primitive);
 
-	CGALPrimitive* prim=e->getPrimitive();
-
 	QFile data(filename);
 	if(!data.open(QFile::WriteOnly | QFile::Truncate)) {
 		reporter->reportWarning(tr("Can't write file '%1'").arg(filename));
 		return;
 	}
+
+	CGALPrimitive* prim=e->getPrimitive();
 
 	QTextStream output(&data);
 
