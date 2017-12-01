@@ -20,6 +20,7 @@
 
 SimplifyNode::SimplifyNode()
 {
+	stopLevel=0;
 }
 
 int SimplifyNode::getStopLevel() const

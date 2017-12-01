@@ -59,6 +59,7 @@ Value* AngFunction::evaluate(Context* ctx)
 		// [x,y,z] = v1 x v2
 		Value* cross=Value::operation(vecVal1,Expression::CrossProduct,vecVal2);
 		auto* axis=dynamic_cast<VectorValue*>(cross);
+		if(!axis) return Value::undefined();
 
 		//Renormalise the quaternion
 		Value* q=new ComplexValue(angle,axis->getChildren());

@@ -20,6 +20,7 @@
 
 VectorExpression::VectorExpression()
 {
+	additionalCommas=0;
 }
 
 VectorExpression::~VectorExpression()

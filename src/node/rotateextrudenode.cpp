@@ -2,6 +2,7 @@
 
 RotateExtrudeNode::RotateExtrudeNode() : axis(0,0,0)
 {
+	fragments=nullptr;
 }
 
 RotateExtrudeNode::~RotateExtrudeNode()

@@ -49,30 +49,7 @@ decimal to_decimal(QString s,bool* ok)
 #endif
 }
 
-static inline int amountToChop(QString s)
-{
-	int j=0;
-	//s will always be in the form X.XX..
-	//so we can cheat here
-	for(auto i=s.size()-1; i>=0; i--) {
-		QChar c=s.at(i);
-		if(c!='0') {
-			if(c=='.')
-				j++;
-			break;
-		} else {
-			j++;
-		}
-	}
-	return j;
-}
-
 QString to_string(const decimal& d)
-{
-	return to_string(d,true);
-}
-
-QString to_string(const decimal& d,const bool trim)
 {
 	if(d==0.0)
 		return QString('0');
@@ -108,16 +85,11 @@ QString to_string(const decimal& d,const bool trim)
 	return res;
 #else
 	res.setNum(d,'f',p->getPrecision());
-#endif
-
-	if(trim) {
-		//Trim trailing zeros.
-		int n=amountToChop(res);
-		res.chop(n);
-	}
 
 	return res;
+#endif
 }
+
 
 int to_integer(const decimal& n)
 {

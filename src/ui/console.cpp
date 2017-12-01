@@ -21,6 +21,8 @@
 Console::Console(QWidget* parent) :
 	QPlainTextEdit(parent)
 {
+	promptLength=0;
+	promptBlock=0;
 	setUndoRedoEnabled(false);
 }
 

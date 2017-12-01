@@ -71,24 +71,13 @@ void NodePrinter::printPrimitive(Polyhedron* ph)
 
 #ifdef USE_CGAL
 
-void NodePrinter::printPoint(CGAL::Point3 p, bool trim)
-{
-	result << "[";
-	result << to_string(p.x(),trim);
-	result << ",";
-	result << to_string(p.y(),trim);
-	result << ",";
-	result << to_string(p.z(),trim);
-	result << "]";
-}
-
 void NodePrinter::printPrimitive(CGALPrimitive* pr)
 {
 	OnceOnly first;
 	for(const auto& p: pr->getPoints()) {
 		if(!first())
 			result << ",";
-		printPoint(p,true);
+		result << to_string(p);
 	}
 	result << "],[";
 

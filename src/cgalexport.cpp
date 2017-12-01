@@ -39,6 +39,7 @@ CGALExport::CGALExport(Primitive* p,Reporter* r)
 {
 	primitive=p;
 	reporter=r;
+	id=0;
 }
 
 void CGALExport::exportResult(QString filename)

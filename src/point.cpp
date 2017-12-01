@@ -52,18 +52,13 @@ Point Point::transform(TransformMatrix* matrix) const
 
 QString to_string(const Point& p)
 {
-	return to_string(p,true);
-}
-
-QString to_string(const Point& p,bool trim)
-{
 	QString res;
 	res.append("[");
-	res.append(to_string(p.x(),trim));
+	res.append(to_string(p.x()));
 	res.append(",");
-	res.append(to_string(p.y(),trim));
+	res.append(to_string(p.y()));
 	res.append(",");
-	res.append(to_string(p.z(),trim));
+	res.append(to_string(p.z()));
 	res.append("]");
 
 	return res;

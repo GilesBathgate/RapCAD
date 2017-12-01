@@ -24,6 +24,7 @@
 Literal::Literal()
 {
 	type=Literal::Undef;
+	boolean=false;
 }
 
 void Literal::setValue(bool value)

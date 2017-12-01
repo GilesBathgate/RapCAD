@@ -20,6 +20,7 @@
 
 Declaration::Declaration()
 {
+	lineNumber=0;
 }
 
 Declaration::~Declaration()

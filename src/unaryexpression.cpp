@@ -2,6 +2,7 @@
 
 UnaryExpression::UnaryExpression()
 {
+	expression=nullptr;
 }
 
 UnaryExpression::~UnaryExpression()

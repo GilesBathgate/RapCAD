@@ -2,6 +2,7 @@
 
 ResizeNode::ResizeNode() : size(0,0,0)
 {
+	autosize=false;
 }
 
 void ResizeNode::setSize(Point p)

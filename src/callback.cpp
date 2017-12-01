@@ -20,6 +20,7 @@
 
 Callback::Callback()
 {
+	result=nullptr;
 }
 
 void Callback::setResult(Value* v)

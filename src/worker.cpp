@@ -37,6 +37,7 @@ Worker::Worker(QTextStream& s) :
 	Strategy(s)
 {
 	primitive=nullptr;
+	previous=nullptr;
 	inputFile="";
 	outputFile="";
 	print=false;
@@ -172,10 +173,12 @@ decimal Worker::getBoundsHeight()
 {
 #ifdef USE_CGAL
 	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
+	if(!pr) return 1;
 	CGAL::Cuboid3 b=pr->getBounds();
 	return b.zmax();
-#endif
+#else
 	return 1;
+#endif
 }
 
 QList<Argument*> Worker::getArgs(decimal value)

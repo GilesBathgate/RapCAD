@@ -375,6 +375,7 @@ void TreeEvaluator::visit(AssignStatement* stmt)
 	default:
 		break;
 	}
+	if(!result) return;
 
 	result->setName(name);
 	Variable::Storage_e c;

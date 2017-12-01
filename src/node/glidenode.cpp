@@ -20,7 +20,9 @@
 
 GlideNode::GlideNode()
 {
+	closed=false;
 }
+
 void GlideNode::setClosed(bool c)
 {
 	closed=c;
