@@ -439,8 +439,8 @@ decimal r_rand(int seed, decimal min, decimal max)
 	gmp_randseed(s,n);
 
 	CGAL::Gmpfr m;
-	mpfr_urandomb(m.fr(),s);
-	return (min>max)?decimal(m)*(min-max)+max:decimal(m)*(max-min)+min;
+	mpfr_urandom(m.fr(),s,MPFR_RNDN);
+	return roundPreference((min>max)?decimal(m)*(min-max)+max:decimal(m)*(max-min)+min,true);
 #else
 	srand(seed);
 	return (min>max)?r_rand()*(min-max)+max:r_rand()*(max-min)+min;
