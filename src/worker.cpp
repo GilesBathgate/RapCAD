@@ -91,7 +91,8 @@ void Worker::internal()
 
 void Worker::primary()
 {
-	Script* s=parse(inputFile,reporter,true);
+	Script* s=new Script();
+	parse(s,inputFile,reporter,true);
 
 	if(print) {
 		TreePrinter p(output);
@@ -125,13 +126,15 @@ void Worker::primary()
 
 void Worker::generation()
 {
-	Script* s=parse("reprap.rcam",nullptr,true);
+	Script* s=new Script();
+	parse(s,"reprap.rcam",nullptr,true);
 
 	auto* e = new TreeEvaluator(reporter);
 	decimal height=getBoundsHeight();
 	QList<Argument*> args=getArgs(height);
 	Callback* c = addCallback("layers",s,args);
 	s->accept(*e);
+	delete s;
 
 	auto* v = dynamic_cast<NumberValue*>(c->getResult());
 	if(v) {

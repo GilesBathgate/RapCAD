@@ -18,9 +18,8 @@
 
 #include "syntaxtreebuilder.h"
 
-SyntaxTreeBuilder::SyntaxTreeBuilder()
+SyntaxTreeBuilder::SyntaxTreeBuilder(Script* s) : script(s)
 {
-	script=new Script();
 	tokenBuilder=nullptr;
 }
 
@@ -628,9 +627,4 @@ int SyntaxTreeBuilder::getLineNumber() const
 	if(tokenBuilder)
 		return tokenBuilder->getLineNumber();
 	return 0;
-}
-
-Script* SyntaxTreeBuilder::getResult() const
-{
-	return script;
 }

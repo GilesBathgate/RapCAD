@@ -47,6 +47,6 @@ private:
 	QFileInfo* fileLocation;
 };
 
-extern Script* parse(QString,Reporter*,bool);
+extern void parse(Script*,QString,Reporter*,bool);
 
 #endif // SCRIPT_H

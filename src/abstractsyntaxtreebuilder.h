@@ -115,8 +115,6 @@ public:
 	virtual Invocation* buildInvocation(QString*,Invocation*)=0;
 
 	virtual void setTokenBuilder(AbstractTokenBuilder*)=0;
-
-	virtual Script* getResult() const=0;
 };
 
 #endif // ABSTRACTSYNTAXTREEBUILDER_H
