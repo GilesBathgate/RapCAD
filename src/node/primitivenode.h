@@ -29,6 +29,7 @@ class PrimitiveNode : public Node
 {
 public:
 	PrimitiveNode(Reporter*);
+	~PrimitiveNode();
 	Polygon* createPolygon();
 	void createVertex(decimal x, decimal y, decimal z);
 	void createVertex(Point p);

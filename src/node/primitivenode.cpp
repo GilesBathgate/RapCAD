@@ -31,6 +31,11 @@ PrimitiveNode::PrimitiveNode(Reporter*)
 #endif
 }
 
+PrimitiveNode::~PrimitiveNode()
+{
+	delete primitive;
+}
+
 Polygon* PrimitiveNode::createPolygon()
 {
 	return primitive->createPolygon();
@@ -53,7 +58,9 @@ void PrimitiveNode::setSanitized(bool v)
 
 Primitive* PrimitiveNode::getPrimitive()
 {
-	return primitive;
+	Primitive* pr=primitive;
+	primitive=nullptr;
+	return pr;
 }
 
 void PrimitiveNode::accept(NodeVisitor& v)
