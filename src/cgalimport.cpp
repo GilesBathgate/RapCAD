@@ -166,7 +166,7 @@ Primitive* CGALImport::importAMF(QFileInfo fileinfo)
 									if(xml.name()=="vertex") {
 										while(xml.readNextStartElement()) {
 											if(xml.name()=="coordinates") {
-												CGAL::Scalar x,y,z;
+												CGAL::Scalar x=0.0,y=0.0,z=0.0;
 												while(xml.readNextStartElement()) {
 													if(xml.name()=="x") {
 														x=to_decimal(xml.readElementText());
@@ -190,7 +190,7 @@ Primitive* CGALImport::importAMF(QFileInfo fileinfo)
 							} else if(xml.name()=="volume") {
 								while(xml.readNextStartElement()) {
 									if(xml.name()=="triangle") {
-										int v1,v2,v3;
+										int v1=0,v2=0,v3=0;
 										while(xml.readNextStartElement()) {
 											if(xml.name()=="v1") {
 												v1=xml.readElementText().toInt();
@@ -251,7 +251,7 @@ Primitive* CGALImport::import3MF(QFileInfo fileinfo)
 									if(xml.name() == "vertices") {
 										while(xml.readNextStartElement()) {
 											if(xml.name() == "vertex") {
-												CGAL::Scalar x,y,z;
+												CGAL::Scalar x=0.0,y=0.0,z=0.0;
 												for(const auto& attr: xml.attributes()) {
 													QStringRef n=attr.name();
 													QStringRef v=attr.value();
@@ -269,7 +269,7 @@ Primitive* CGALImport::import3MF(QFileInfo fileinfo)
 									} else if(xml.name() == "triangles") {
 										while(xml.readNextStartElement()) {
 											if(xml.name() == "triangle") {
-												int v1,v2,v3;
+												int v1=0,v2=0,v3=0;
 												for(const auto& attr: xml.attributes()) {
 													QStringRef n=attr.name();
 													QStringRef v=attr.value();
@@ -309,9 +309,11 @@ Primitive* CGALImport::import3MF(QFileInfo fileinfo)
 
 Primitive* CGALImport::importRCAD(QFileInfo f)
 {
-	Script* s=parse(f.absoluteFilePath(),reporter,true);
+	Script* s=new Script();
+	parse(s,f.absoluteFilePath(),reporter,true);
 	TreeEvaluator te(reporter);
 	s->accept(te);
+	delete s;
 
 	Node* n = te.getRootNode();
 	NodeEvaluator ne(reporter);

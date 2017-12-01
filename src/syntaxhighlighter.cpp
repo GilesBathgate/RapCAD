@@ -31,6 +31,9 @@ extern int lexerleng;
 SyntaxHighlighter::SyntaxHighlighter(QTextDocument* parent)
 	: QSyntaxHighlighter(parent)
 {
+	startIndex=0;
+	stringStart=0;
+
 	keywordFormat.setForeground(Qt::darkBlue);
 	keywordFormat.setFontWeight(QFont::Bold);
 

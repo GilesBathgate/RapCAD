@@ -53,6 +53,7 @@ GLView::GLView(QWidget* parent) :
 	printLength=0.0;
 	printHeight=0.0;
 	appearance=0;
+	mouseDrag=false;
 #ifndef USE_QGLWIDGET
 	projection=new QMatrix4x4();
 	modelview=new QMatrix4x4();

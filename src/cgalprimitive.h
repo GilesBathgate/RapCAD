@@ -108,7 +108,7 @@ private:
 	class Unionable
 	{
 	public:
-		Unionable() {}
+		Unionable() : primitive(nullptr),force(false) {}
 		Unionable(Primitive* p, bool f) { primitive=p; force=f; }
 		Unionable& operator+(Unionable&);
 		Primitive* primitive;

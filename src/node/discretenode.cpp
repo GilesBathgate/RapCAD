@@ -20,6 +20,7 @@
 
 DiscreteNode::DiscreteNode()
 {
+	places=1;
 }
 
 int DiscreteNode::getPlaces() const

@@ -20,6 +20,7 @@
 
 ProjectionNode::ProjectionNode()
 {
+	base=false;
 }
 
 void ProjectionNode::setBase(bool b)

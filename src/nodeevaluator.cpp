@@ -41,6 +41,7 @@ NodeEvaluator::NodeEvaluator(Reporter* r)
 	reporter=r;
 	CacheManager* m=CacheManager::getInstance();
 	cache=m->getCache();
+	result=nullptr;
 }
 
 Primitive* NodeEvaluator::createPrimitive()
@@ -181,11 +182,13 @@ void NodeEvaluator::visit(HullNode* n)
 			}
 			previous=result;
 		}
-		if(n->getClosed()) {
-			Primitive* prim=evaluateHull(first,previous);
-			first->add(prim,true);
+		if(first) {
+			if(previous && n->getClosed()) {
+				Primitive* prim=evaluateHull(first,previous);
+				first->add(prim,true);
+			}
+			result=first->combine();
 		}
-		result=first->combine();
 	} else {
 		QList<CGAL::Point3> points;
 		for(Node* c: n->getChildren()) {
@@ -248,7 +251,10 @@ void NodeEvaluator::visit(LinearExtrudeNode* op)
 		CGAL::Scalar z=op->getHeight();
 		CGALExplorer explorer(result);
 		CGALPrimitive* peri=explorer.getPerimeters();
-		if(!peri) return;
+		if(!peri) {
+			result=cp;
+			return;
+		}
 		CGALPrimitive* prim=explorer.getPrimitive();
 		QList<CGALPolygon*> polys=prim->getCGALPolygons();
 
@@ -448,7 +454,7 @@ void NodeEvaluator::visit(BoundsNode* n)
 	CGAL::Scalar zmax=b.zmax();
 
 	if(zmin!=0.0) {
-		QString pos=to_string(zmin,false);
+		QString pos=to_string(zmin);
 		QString where = zmin<0.0?tr("below"):tr("above");
 		reporter->reportWarning(tr("the model is %1 %2 the build platform.").arg(pos).arg(where));
 
@@ -509,7 +515,7 @@ void NodeEvaluator::visit(BoundsNode* n)
 
 	result->appendChild(a);
 
-	reporter->reportMessage(tr("Bounds: [%1],[%2]").arg(to_string(lower,false)).arg(to_string(upper,false)));
+	reporter->reportMessage(tr("Bounds: [%1],[%2]").arg(to_string(lower)).arg(to_string(upper)));
 #endif
 }
 
@@ -828,7 +834,7 @@ void NodeEvaluator::visit(RadialsNode* n)
 	auto* pr=static_cast<CGALPrimitive*>(result);
 	CGAL::Circle3 circle=pr->getRadius();
 	CGAL::Scalar r=r_sqrt(circle.squared_radius());
-	QString rs=to_string(r,false);
+	QString rs=to_string(r);
 	reporter->reportMessage(tr("Radius: %1").arg(rs));
 
 	CGAL::Point3 c=circle.center();
@@ -870,13 +876,13 @@ void NodeEvaluator::visit(VolumesNode* n)
 	CGALVolume v=pr->getVolume(calcMass);
 
 	CGAL::Scalar vn=v.getSize();
-	QString vs=to_string(vn,false);
+	QString vs=to_string(vn);
 	reporter->reportMessage(tr("Volume: %1").arg(vs));
 
 	CGAL::Point3 c=v.getCenter();
 
 	if(calcMass)
-		reporter->reportMessage(tr("Center of Mass: %1").arg(to_string(c,false)));
+		reporter->reportMessage(tr("Center of Mass: %1").arg(to_string(c)));
 
 	CGAL::Cuboid3 b=v.getBounds();
 	CGAL::Scalar x,y,z;

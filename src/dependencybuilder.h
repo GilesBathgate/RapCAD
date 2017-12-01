@@ -101,8 +101,6 @@ public:
 	Expression* buildRange(Expression*,Expression*,Expression*) override;
 	Invocation* buildInvocation(QString*,QList<Argument*>*) override;
 	Invocation* buildInvocation(QString*,Invocation*) override;
-
-	Script* getResult() const override;
 };
 
 #endif // DEPENDENCYBUILDER_H

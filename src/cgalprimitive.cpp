@@ -207,7 +207,6 @@ void CGALPrimitive::buildPrimitive()
 		return;
 	}
 	}
-	nefPolyhedron=new CGAL::NefPolyhedron3();
 }
 
 CGAL::NefPolyhedron3* CGALPrimitive::createPolyline(QVector<CGAL::Point3> pl)

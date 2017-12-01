@@ -37,6 +37,7 @@ Worker::Worker(QTextStream& s) :
 	Strategy(s)
 {
 	primitive=nullptr;
+	previous=nullptr;
 	inputFile="";
 	outputFile="";
 	print=false;
@@ -91,7 +92,8 @@ void Worker::internal()
 
 void Worker::primary()
 {
-	Script* s=parse(inputFile,reporter,true);
+	Script* s=new Script();
+	parse(s,inputFile,reporter,true);
 
 	if(print) {
 		TreePrinter p(output);
@@ -125,13 +127,15 @@ void Worker::primary()
 
 void Worker::generation()
 {
-	Script* s=parse("reprap.rcam",nullptr,true);
+	Script* s=new Script();
+	parse(s,"reprap.rcam",nullptr,true);
 
 	auto* e = new TreeEvaluator(reporter);
 	decimal height=getBoundsHeight();
 	QList<Argument*> args=getArgs(height);
 	Callback* c = addCallback("layers",s,args);
 	s->accept(*e);
+	delete s;
 
 	auto* v = dynamic_cast<NumberValue*>(c->getResult());
 	if(v) {
@@ -169,10 +173,12 @@ decimal Worker::getBoundsHeight()
 {
 #ifdef USE_CGAL
 	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
+	if(!pr) return 1;
 	CGAL::Cuboid3 b=pr->getBounds();
 	return b.zmax();
-#endif
+#else
 	return 1;
+#endif
 }
 
 QList<Argument*> Worker::getArgs(decimal value)

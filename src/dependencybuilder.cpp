@@ -396,8 +396,3 @@ Invocation* DependencyBuilder::buildInvocation(QString*,Invocation*)
 {
 	return nullptr;
 }
-
-Script* DependencyBuilder::getResult() const
-{
-	return nullptr;
-}

@@ -20,6 +20,7 @@
 
 ProductNode::ProductNode()
 {
+	primitive=nullptr;
 }
 
 void ProductNode::setPrimitive(Primitive* value)

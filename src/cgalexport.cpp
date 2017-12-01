@@ -39,6 +39,7 @@ CGALExport::CGALExport(Primitive* p,Reporter* r)
 {
 	primitive=p;
 	reporter=r;
+	id=0;
 }
 
 void CGALExport::exportResult(QString filename)
@@ -77,6 +78,7 @@ void CGALExport::exportVRML(QString filename)
 	CGAL::VRML_2_ostream out(file);
 	out << *poly;
 	file.close();
+	delete poly;
 }
 
 void CGALExport::exportOBJ(QString filename)
@@ -89,6 +91,7 @@ void CGALExport::exportOBJ(QString filename)
 	std::ofstream file(QFile::encodeName(filename));
 	print_polyhedron_wavefront(file,*poly);
 	file.close();
+	delete poly;
 }
 
 void CGALExport::exportOFF(QString filename)
@@ -102,6 +105,7 @@ void CGALExport::exportOFF(QString filename)
 	std::ofstream file(QFile::encodeName(filename));
 	file << *poly;
 	file.close();
+	delete poly;
 }
 
 typedef CGAL::Polyhedron3::Vertex_const_iterator VertexIterator;
@@ -170,6 +174,7 @@ void CGALExport::exportAsciiSTL(QString filename)
 	output << "endsolid RapCAD_Model\n";
 	output.flush();
 	data.close();
+	delete poly;
 }
 
 void CGALExport::exportAMF(QString filename)
@@ -253,6 +258,7 @@ void CGALExport::exportAMFObject(CGALPrimitive* p,QXmlStreamWriter& xml)
 
 	xml.writeEndElement(); //mesh
 	xml.writeEndElement(); //object
+	delete poly;
 }
 
 void CGALExport::exportCSG(QString filename)
@@ -298,6 +304,7 @@ void CGALExport::exportCSG(QString filename)
 	output << "]);";
 	output.flush();
 	data.close();
+	delete e;
 }
 
 void CGALExport::export3MF(QString filename)
@@ -402,6 +409,7 @@ void CGALExport::export3MF(QString filename)
 	zipwriter.addFile("_rels/.rels",rels);
 	zipwriter.addFile("[Content_Types].xml",ctype);
 	zipwriter.close();
+	delete poly;
 }
 
 void CGALExport::exportNEF(QString f)
@@ -422,8 +430,8 @@ void CGALExport::exportSVG(QString filename)
 		return;
 	}
 
-	auto* e=new CGALExplorer(primitive);
-	CGALPrimitive* pr=e->getPrimitive();
+	CGALExplorer e(primitive);
+	CGALPrimitive* pr=e.getPrimitive();
 
 	auto* file=new QFile(filename);
 	if(!file->open(QIODevice::WriteOnly)) {

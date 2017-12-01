@@ -58,7 +58,8 @@ int Tester::evaluate()
 			output << file.fileName().leftJustified(62,'.',true);
 			output.flush();
 
-			Script* s=parse(file.absoluteFilePath(),nullptr,true);
+			Script* s=new Script();
+			parse(s,file.absoluteFilePath(),nullptr,true);
 
 			TreeEvaluator te(&nullreport);
 

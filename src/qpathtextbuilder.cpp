@@ -35,8 +35,10 @@ void QPathTextBuilder::setLocation(Point p)
 
 Primitive* QPathTextBuilder::buildPrimitive() const
 {
-	PrimitiveNode* p = buildPrimitiveNode();
-	return p->getPrimitive();
+	PrimitiveNode* n = buildPrimitiveNode();
+	Primitive* p = n->getPrimitive();
+	delete n;
+	return p;
 }
 
 PrimitiveNode* QPathTextBuilder::buildPrimitiveNode() const

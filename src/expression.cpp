@@ -20,6 +20,7 @@
 
 Expression::Expression()
 {
+	lineNumber=0;
 }
 
 Expression::~Expression()

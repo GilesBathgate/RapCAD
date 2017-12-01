@@ -44,7 +44,7 @@
 class SyntaxTreeBuilder : public AbstractSyntaxTreeBuilder
 {
 public:
-	SyntaxTreeBuilder();
+	SyntaxTreeBuilder(Script*);
 	~SyntaxTreeBuilder() override;
 	void buildFileLocation(QString) override;
 	void buildScript(Declaration*) override;
@@ -124,8 +124,6 @@ public:
 	Invocation* buildInvocation(QString*,Invocation*) override;
 
 	void setTokenBuilder(AbstractTokenBuilder*) override;
-
-	Script* getResult() const override;
 private:
 	int getLineNumber() const;
 

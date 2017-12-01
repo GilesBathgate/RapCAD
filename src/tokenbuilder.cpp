@@ -33,6 +33,7 @@ TokenBuilder::TokenBuilder(Reporter* r,QString s,bool b)
 {
 	lexerinit(this,r,s,b);
 	position=0;
+	stringcontents=nullptr;
 }
 
 TokenBuilder::~TokenBuilder()
