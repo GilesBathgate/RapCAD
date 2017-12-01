@@ -1,0 +1,3 @@
+function test() {
+return num(false)==0&&num(true)==1;
+}

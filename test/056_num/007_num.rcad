@@ -1,0 +1,3 @@
+function test() {
+return num([1:10])==undef&&num([1:1])==undef;
+}
