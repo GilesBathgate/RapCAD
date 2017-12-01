@@ -24,9 +24,11 @@
 #include "rmath.h"
 #include "preferences.h"
 
+#ifndef USE_CGAL
 /* Tau is a more useful constant than PI and is defined as 2*PI
  * See http://tauday.com/ */
 #define M_TAU		6.28318530717958647692
+#endif
 
 static decimal roundPreference(decimal a,bool round)
 {
@@ -418,15 +420,31 @@ decimal r_sign(decimal a)
 	return a<zero?decimal(-1.0):a>zero?decimal(1.0):zero;
 }
 
+#ifndef USE_CGAL
 static decimal r_rand()
 {
 	return rand()/(decimal(RAND_MAX)+decimal(1));
 }
+#endif
 
 decimal r_rand(int seed, decimal min, decimal max)
 {
+#ifdef USE_CGAL
+
+	gmp_randstate_t s;
+	gmp_randinit_mt(s);
+	mpz_t n;
+	mpz_init(n);
+	mpz_set_ui(n,seed);
+	gmp_randseed(s,n);
+
+	CGAL::Gmpfr m;
+	mpfr_urandomb(m.fr(),s);
+	return (min>max)?decimal(m)*(min-max)+max:decimal(m)*(max-min)+min;
+#else
 	srand(seed);
 	return (min>max)?r_rand()*(min-max)+max:r_rand()*(max-min)+min;
+#endif
 }
 
 bool r_is_int(decimal a)
