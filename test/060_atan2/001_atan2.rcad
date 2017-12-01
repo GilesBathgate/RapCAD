@@ -1,0 +1,3 @@
+function test() {
+return atan2(30,60)==atan(1/2);
+}
