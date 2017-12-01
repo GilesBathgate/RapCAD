@@ -135,7 +135,6 @@ void Worker::generation()
 	QList<Argument*> args=getArgs(height);
 	Callback* c = addCallback("layers",s,args);
 	s->accept(*e);
-	delete s;
 
 	auto* v = dynamic_cast<NumberValue*>(c->getResult());
 	if(v) {

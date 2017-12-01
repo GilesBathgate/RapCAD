@@ -20,6 +20,7 @@
 
 ComplexExpression::ComplexExpression()
 {
+	real=nullptr;
 	imaginary=nullptr;
 }
 

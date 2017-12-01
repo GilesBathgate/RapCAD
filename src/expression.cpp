@@ -21,6 +21,7 @@
 Expression::Expression()
 {
 	lineNumber=0;
+	op=None;
 }
 
 Expression::~Expression()
