@@ -263,15 +263,14 @@ void CGALExport::exportAMFObject(CGALPrimitive* p,QXmlStreamWriter& xml)
 
 void CGALExport::exportCSG(QString filename)
 {
-	auto* e=new CGALExplorer(primitive);
-
 	QFile data(filename);
 	if(!data.open(QFile::WriteOnly | QFile::Truncate)) {
 		reporter->reportWarning(tr("Can't write file '%1'").arg(filename));
 		return;
 	}
 
-	CGALPrimitive* prim=e->getPrimitive();
+	CGALExplorer e(primitive);
+	CGALPrimitive* prim=e.getPrimitive();
 
 	QTextStream output(&data);
 
@@ -304,7 +303,6 @@ void CGALExport::exportCSG(QString filename)
 	output << "]);";
 	output.flush();
 	data.close();
-	delete e;
 }
 
 void CGALExport::export3MF(QString filename)
