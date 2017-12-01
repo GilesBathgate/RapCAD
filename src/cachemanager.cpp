@@ -10,6 +10,11 @@ CacheManager::CacheManager()
 	cache=createCache();
 }
 
+CacheManager::~CacheManager()
+{
+	delete cache;
+}
+
 CacheManager* CacheManager::getInstance()
 {
 	if(!instance)

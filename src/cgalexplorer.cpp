@@ -81,9 +81,8 @@ class ShellExplorer
 	QMap<HalfEdgeHandle,int> periMap;
 	QList<CGALPolygon*> basePolygons;
 public:
-	ShellExplorer()
+	ShellExplorer(CGALPrimitive* p) : primitive(p)
 	{
-		primitive = new CGALPrimitive();
 		direction=true;
 	}
 
@@ -146,11 +145,6 @@ public:
 		direction=false;
 	}
 
-	CGALPrimitive* getPrimitive()
-	{
-		return primitive;
-	}
-
 	QMap<HalfEdgeHandle,int> getPerimeterMap()
 	{
 		return periMap;
@@ -204,7 +198,8 @@ static void calculateNormal(CGALPolygon* poly)
 void CGALExplorer::explore()
 {
 	const CGAL::NefPolyhedron3& poly=primitive->getNefPolyhedron();
-	ShellExplorer se;
+	CGALPrimitive* cp=new CGALPrimitive();
+	ShellExplorer se(cp);
 	VolumeIterator vi;
 	OnceOnly first_v;
 	CGAL_forall_volumes(vi,poly) {
@@ -231,7 +226,7 @@ void CGALExplorer::explore()
 		}
 	}
 
-	primitive=se.getPrimitive();
+	primitive=cp;
 	basePolygons=se.getBase();
 	QMap<HalfEdgeHandle,int> periMap=se.getPerimeterMap();
 
