@@ -52,6 +52,9 @@ int Tester::evaluate()
 #ifndef USE_OFFSET
 		if(dir=="051_offset") continue;
 #endif
+#ifdef Q_OS_WIN
+		if(dir=="063_rands") continue;
+#endif
 		for(QFileInfo file: QDir(dir).entryInfoList(QStringList("*.rcad"), QDir::Files)) {
 
 			output << "Test #" << QString().setNum(testcount+1).rightJustified(3,'0') << ": ";
