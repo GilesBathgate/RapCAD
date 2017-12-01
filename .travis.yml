@@ -41,7 +41,7 @@ script:
 
 after_success:
   - if [ $TRAVIS_OS_NAME != osx ]; then
-      bash <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/master/codecov);
+      bash <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/master/codecov) -G './src/*';
     fi
 
 notifications:
