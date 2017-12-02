@@ -1,0 +1,4 @@
+minkowski(){
+cylinder(r=2,$fn=4);
+cube(10);
+}
