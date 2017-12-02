@@ -420,6 +420,21 @@ decimal r_sign(decimal a)
 	return a<zero?decimal(-1.0):a>zero?decimal(1.0):zero;
 }
 
+static gmp_randstate_t state;
+
+void r_rand_seed(int seed)
+{
+#if USE_CGAL
+	gmp_randinit_mt(state);
+	mpz_t n;
+	mpz_init(n);
+	mpz_set_ui(n,seed);
+	gmp_randseed(state,n);
+#else
+	srand(seed);
+#endif
+}
+
 #ifndef USE_CGAL
 static decimal r_rand()
 {
@@ -427,22 +442,13 @@ static decimal r_rand()
 }
 #endif
 
-decimal r_rand(int seed, decimal min, decimal max)
+decimal r_rand(decimal min, decimal max)
 {
 #ifdef USE_CGAL
-
-	gmp_randstate_t s;
-	gmp_randinit_mt(s);
-	mpz_t n;
-	mpz_init(n);
-	mpz_set_ui(n,seed);
-	gmp_randseed(s,n);
-
 	CGAL::Gmpfr m;
-	mpfr_urandom(m.fr(),s,MPFR_RNDN);
+	mpfr_urandom(m.fr(),state,MPFR_RNDN);
 	return roundPreference((min>max)?decimal(m)*(min-max)+max:decimal(m)*(max-min)+min,true);
 #else
-	srand(seed);
 	return (min>max)?r_rand()*(min-max)+max:r_rand()*(max-min)+min;
 #endif
 }

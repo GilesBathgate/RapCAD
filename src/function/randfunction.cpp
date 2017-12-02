@@ -50,9 +50,11 @@ Value* RandFunction::evaluate(Context* ctx)
 	if(seedVal)
 		seed=seedVal->toInteger();
 
+	r_rand_seed(seed);
+
 	QList<Value*> results;
 	for(auto i=0; i<count; ++i)
-		results.append(new NumberValue(r_rand(seed,min,max)));
+		results.append(new NumberValue(r_rand(min,max)));
 
 	return new VectorValue(results);
 }
