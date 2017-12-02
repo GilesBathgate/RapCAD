@@ -28,6 +28,7 @@ public:
 	~Tester();
 	int evaluate() override;
 private:
+	void writeHeader(QString name, int num);
 	bool testFunctionExists(Script*);
 	void testModule(Script*, QFileInfo);
 	void testFunction(Script*);
@@ -36,6 +37,7 @@ private:
 	Reporter* nullreport;
 	int passcount;
 	int failcount;
+
 };
 
 #endif // TESTER_H

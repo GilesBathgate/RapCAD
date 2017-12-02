@@ -26,6 +26,8 @@
 #include "booleanvalue.h"
 #include "comparer.h"
 #include "cachemanager.h"
+#include "treeprinter.h"
+#include "builtincreator.h"
 
 Tester::Tester(QTextStream& s) : Strategy(s)
 {
@@ -41,6 +43,13 @@ Tester::~Tester()
 	delete nullout;
 	delete nullstream;
 	delete nullreport;
+}
+
+void Tester::writeHeader(QString name, int num)
+{
+	output << "Test #" << QString().setNum(num).rightJustified(3,'0') << ": ";
+	output << name.leftJustified(62,'.',true);
+	output.flush();
 }
 
 static bool skipDir(QString dir)
@@ -65,6 +74,14 @@ int Tester::evaluate()
 
 	int testcount=0;
 
+	writeHeader("000_treeprinter",testcount);
+
+	TreePrinter nulldocs(*nullstream);
+	BuiltinCreator* cr=BuiltinCreator::getInstance(nullreport);
+	cr->generateDocs(nulldocs);
+
+	output << " Passed" << endl;
+
 	/* This hard coded directory and filters need to be addressed
 	 * but it will do for now. */
 	QDir cur=QDir::current();
@@ -72,9 +89,7 @@ int Tester::evaluate()
 
 		for(QFileInfo file: QDir(dir).entryInfoList(QStringList("*.rcad"), QDir::Files)) {
 
-			output << "Test #" << QString().setNum(++testcount).rightJustified(3,'0') << ": ";
-			output << file.fileName().leftJustified(62,'.',true);
-			output.flush();
+			writeHeader(file.fileName(),++testcount);
 
 			if(skipDir(dir)) {
 				output << " Skipped" << endl;
