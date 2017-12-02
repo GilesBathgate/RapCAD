@@ -1,0 +1,1 @@
+projection(cut=true)translate([0,0,-5])cone(r1=10,r2=0,h=10);
