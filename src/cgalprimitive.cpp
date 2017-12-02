@@ -195,6 +195,8 @@ void CGALPrimitive::buildPrimitive()
 		const CGAL::NefPolyhedron3* np2=createPolyline(pl2);
 
 		nefPolyhedron=new CGAL::NefPolyhedron3(np1->intersection(*np2));
+		delete np1;
+		delete np2;
 
 		CGAL::AffTransformation3 t(
 					1, 0, 0, p.x(),
