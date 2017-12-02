@@ -112,7 +112,7 @@ void Tester::testModule(Script* s,QFileInfo file)
 {
 #ifdef Q_OS_WIN
 	output << " Skipped" << endl;
-	continue;
+	return;
 #endif
 	TreeEvaluator te(nullreport);
 
