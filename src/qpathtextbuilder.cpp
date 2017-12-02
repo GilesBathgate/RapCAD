@@ -62,3 +62,8 @@ PrimitiveNode* QPathTextBuilder::buildPrimitiveNode() const
 	}
 	return p;
 }
+
+void QPathTextBuilder::setFont(QFont* value)
+{
+	font = value;
+}

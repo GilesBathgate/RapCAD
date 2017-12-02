@@ -13,6 +13,7 @@ class QPathTextBuilder : public TextBuilder
 public:
 	QPathTextBuilder(Reporter*);
 	~QPathTextBuilder() override;
+	void setFont(QFont*);
 	void setText(QString) override;
 	decimal getHeight() override;
 	void setLocation(Point) override;
