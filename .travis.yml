@@ -26,7 +26,7 @@ addons:
       name: "GilesBathgate/RapCAD"
       description: "Build submitted via Travis CI"
     notification_email: gilesbathgate@gmail.com
-    build_command_prepend: "qmake"
+    build_command_prepend: "qmake CONFIG+=official"
     build_command:   "make -j4"
     branch_pattern: coverity_scan
 
