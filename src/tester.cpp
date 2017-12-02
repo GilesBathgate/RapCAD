@@ -43,6 +43,19 @@ Tester::~Tester()
 	delete nullreport;
 }
 
+static bool skipDir(QString dir)
+{
+#ifndef USE_OFFSET
+	if(dir=="051_offset") return true;
+#endif
+#ifdef Q_OS_WIN
+	if(dir=="063_rands") return true;
+#endif
+	if(dir=="") return true;
+
+	return false;
+}
+
 int Tester::evaluate()
 {
 	reporter->startTiming();
@@ -56,17 +69,17 @@ int Tester::evaluate()
 	 * but it will do for now. */
 	QDir cur=QDir::current();
 	for(QString dir: cur.entryList(QStringList("*_*"))) {
-#ifndef USE_OFFSET
-		if(dir=="051_offset") continue;
-#endif
-#ifdef Q_OS_WIN
-		if(dir=="063_rands") continue;
-#endif
+
 		for(QFileInfo file: QDir(dir).entryInfoList(QStringList("*.rcad"), QDir::Files)) {
 
-			output << "Test #" << QString().setNum(testcount+1).rightJustified(3,'0') << ": ";
+			output << "Test #" << QString().setNum(++testcount).rightJustified(3,'0') << ": ";
 			output << file.fileName().leftJustified(62,'.',true);
 			output.flush();
+
+			if(skipDir(dir)) {
+				output << " Skipped" << endl;
+				continue;
+			}
 
 			Script* s=new Script();
 			parse(s,file.absoluteFilePath(),nullptr,true);
@@ -77,7 +90,6 @@ int Tester::evaluate()
 				testModule(s,file);
 			}
 			delete s;
-			testcount++;
 		}
 	}
 	reporter->setReturnCode(failcount);

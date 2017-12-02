@@ -115,6 +115,8 @@ CONFIG(coverage){
 
 CONFIG(official){
 	DEFINES += RAPCAD_VERSION=$$VERSION
+	DEFINES += NDEBUG #Turn off trace debug code.
+	DEFINES += CGAL_DEBUG #Enable CGAL assertions.
 } else {
 	MAJOR=$$system(cut -d'.' -f1 VERSION)
 	MINOR=$$system(cut -d'.' -f2 VERSION)
