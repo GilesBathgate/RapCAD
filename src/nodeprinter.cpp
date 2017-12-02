@@ -225,6 +225,15 @@ void NodePrinter::printChildren(Node* n)
 	}
 }
 
+void NodePrinter::printArguments(QString name,bool a)
+{
+	result << "(";
+	if(a) {
+		result << name << "=true";
+	}
+	result << ")";
+}
+
 void NodePrinter::printArguments(Point p)
 {
 	result << "(";
@@ -315,7 +324,8 @@ void NodePrinter::visit(ProductNode*)
 
 void NodePrinter::visit(ProjectionNode* n)
 {
-	result << "projection()";
+	result << "projection";
+	printArguments("base",n->getBase());
 	printChildren(n);
 }
 
