@@ -34,6 +34,7 @@ private:
 	QString* nullout;
 	QTextStream* nullstream;
 	Reporter* nullreport;
+	int passcount;
 	int failcount;
 };
 

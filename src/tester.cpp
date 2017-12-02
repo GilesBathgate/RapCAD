@@ -32,6 +32,7 @@ Tester::Tester(QTextStream& s) : Strategy(s)
 	nullout = new QString();
 	nullstream = new QTextStream(nullout);
 	nullreport = new Reporter(*nullstream);
+	passcount=0;
 	failcount=0;
 }
 
@@ -81,7 +82,7 @@ int Tester::evaluate()
 	}
 	reporter->setReturnCode(failcount);
 
-	output << testcount << " tests run " << failcount << " failed" << endl;
+	output << testcount << " tests. Passed: " << passcount << " Failed: " << failcount << endl;
 
 	reporter->reportTiming("testing");
 
@@ -98,6 +99,7 @@ void Tester::testFunction(Script* s)
 	auto* v = dynamic_cast<BooleanValue*>(c->getResult());
 	if(v && v->isTrue()) {
 		output << " Passed" << endl;
+		passcount++;
 	} else {
 		output << " FAILED" << endl;
 		failcount++;
@@ -140,6 +142,7 @@ void Tester::testModule(Script* s,QFileInfo file)
 		co.setup(examFileInfo.absoluteFilePath(),csgFileInfo.absoluteFilePath());
 		if(co.evaluate()==0) {
 			output << " Passed" << endl;
+			passcount++;
 		} else {
 			output << " FAILED" << endl;
 			failcount++;
