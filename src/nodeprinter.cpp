@@ -234,6 +234,13 @@ void NodePrinter::printArguments(QString name,bool a)
 	result << ")";
 }
 
+void NodePrinter::printArguments(int a)
+{
+	result << "(";
+	result << a;
+	result << ")";
+}
+
 void NodePrinter::printArguments(Point p)
 {
 	result << "(";
@@ -367,7 +374,8 @@ void NodePrinter::visit(MaterialNode* n)
 
 void NodePrinter::visit(DiscreteNode* n)
 {
-	result << "discrete()";
+	result << "discrete";
+	printArguments(n->getPlaces());
 	printChildren(n);
 }
 

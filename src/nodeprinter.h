@@ -112,6 +112,7 @@ private:
 #endif
 	void printArguments(QList<AlignNode::Face_t> t);
 	void printArguments(QString,bool);
+	void printArguments(int);
 };
 
 #endif // NODEPRINTER_H
