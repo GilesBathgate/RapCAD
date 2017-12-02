@@ -29,6 +29,17 @@
 
 Tester::Tester(QTextStream& s) : Strategy(s)
 {
+	nullout = new QString();
+	nullstream = new QTextStream(nullout);
+	nullreport = new Reporter(*nullstream);
+	failcount=0;
+}
+
+Tester::~Tester()
+{
+	delete nullout;
+	delete nullstream;
+	delete nullreport;
 }
 
 int Tester::evaluate()
@@ -38,11 +49,6 @@ int Tester::evaluate()
 	CacheManager* cm=CacheManager::getInstance();
 	cm->disableCaches();
 
-	QString null;
-	QTextStream nullout(&null);
-	Reporter nullreport(nullout);
-	QList<Argument*> args;
-	int failcount=0;
 	int testcount=0;
 
 	/* This hard coded directory and filters need to be addressed
@@ -64,61 +70,10 @@ int Tester::evaluate()
 			Script* s=new Script();
 			parse(s,file.absoluteFilePath(),nullptr,true);
 
-			TreeEvaluator te(&nullreport);
-
 			if(testFunctionExists(s)) {
-				//If a test function exists check it returns true
-				Callback* c = addCallback("test",s,args);
-				s->accept(te);
-				auto* v = dynamic_cast<BooleanValue*>(c->getResult());
-				if(v && v->isTrue()) {
-					output << " Passed" << endl;
-				} else {
-					output << " FAILED" << endl;
-					failcount++;
-				}
-				delete v;
-
-				Node* n=te.getRootNode();
-				delete n;
+				testFunction(s);
 			} else {
-#ifdef Q_OS_WIN
-				output << " Skipped" << endl;
-				continue;
-#endif
-				QString basename=file.baseName();
-				QString examFileName=basename + ".exam.csg";
-				QString csgFileName=basename + ".csg";
-				QFileInfo examFileInfo(file.absoluteDir(),examFileName);
-				QFileInfo csgFileInfo(file.absoluteDir(),csgFileName);
-				QFile examFile(examFileInfo.absoluteFilePath());
-				s->accept(te);
-
-				//Create exam file
-				examFile.open(QFile::WriteOnly);
-				QTextStream examout(&examFile);
-				NodePrinter p(examout);
-				Node* n=te.getRootNode();
-				n->accept(p);
-				delete n;
-				examout.flush();
-				examFile.close();
-
-				QFile csgFile(csgFileInfo.absoluteFilePath());
-				if(csgFile.exists()) {
-					Comparer co(nullout);
-					co.setup(examFileInfo.absoluteFilePath(),csgFileInfo.absoluteFilePath());
-					if(co.evaluate()==0) {
-						output << " Passed" << endl;
-					} else {
-						output << " FAILED" << endl;
-						failcount++;
-					}
-					examFile.remove();
-				} else {
-					output << "Created" << endl;
-				}
-
+				testModule(s,file);
 			}
 			delete s;
 			testcount++;
@@ -131,6 +86,68 @@ int Tester::evaluate()
 	reporter->reportTiming("testing");
 
 	return reporter->getReturnCode();
+}
+
+void Tester::testFunction(Script* s)
+{
+	TreeEvaluator te(nullreport);
+	//If a test function exists check it returns true
+	QList<Argument*> args;
+	Callback* c = addCallback("test",s,args);
+	s->accept(te);
+	auto* v = dynamic_cast<BooleanValue*>(c->getResult());
+	if(v && v->isTrue()) {
+		output << " Passed" << endl;
+	} else {
+		output << " FAILED" << endl;
+		failcount++;
+	}
+	delete v;
+
+	Node* n=te.getRootNode();
+	delete n;
+}
+
+void Tester::testModule(Script* s,QFileInfo file)
+{
+#ifdef Q_OS_WIN
+	output << " Skipped" << endl;
+	continue;
+#endif
+	TreeEvaluator te(nullreport);
+
+	QString basename=file.baseName();
+	QString examFileName=basename + ".exam.csg";
+	QString csgFileName=basename + ".csg";
+	QFileInfo examFileInfo(file.absoluteDir(),examFileName);
+	QFileInfo csgFileInfo(file.absoluteDir(),csgFileName);
+	QFile examFile(examFileInfo.absoluteFilePath());
+	s->accept(te);
+
+	//Create exam file
+	examFile.open(QFile::WriteOnly);
+	QTextStream examout(&examFile);
+	NodePrinter p(examout);
+	Node* n=te.getRootNode();
+	n->accept(p);
+	delete n;
+	examout.flush();
+	examFile.close();
+
+	QFile csgFile(csgFileInfo.absoluteFilePath());
+	if(csgFile.exists()) {
+		Comparer co(*nullstream);
+		co.setup(examFileInfo.absoluteFilePath(),csgFileInfo.absoluteFilePath());
+		if(co.evaluate()==0) {
+			output << " Passed" << endl;
+		} else {
+			output << " FAILED" << endl;
+			failcount++;
+		}
+		examFile.remove();
+	} else {
+		output << "Created" << endl;
+	}
 }
 
 bool Tester::testFunctionExists(Script* s)
