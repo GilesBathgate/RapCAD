@@ -5,7 +5,7 @@
 
 QPathTextBuilder::QPathTextBuilder(Reporter* r) : reporter(r)
 {
-	font = new QFont();
+	font=nullptr;
 }
 
 QPathTextBuilder::~QPathTextBuilder()
