@@ -31,9 +31,11 @@ ScaleModule::ScaleModule(Reporter* r) : Module(r,"scale")
 Node* ScaleModule::evaluate(Context* ctx)
 {
 	Point s(0,0,0);
-	auto* sizeVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
-	if(sizeVal)
-		s=sizeVal->getPoint();
+	auto* sizeVal=getParameterArgument(ctx,0);
+	if(sizeVal) {
+		VectorValue* v=sizeVal->toVector(3);
+		s=v->getPoint();
+	}
 
 	Point r(0,0,0);
 	auto* refVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
