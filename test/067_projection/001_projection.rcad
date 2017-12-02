@@ -1,0 +1,1 @@
+projection()cone(r1=10,r2=0,h=10);
