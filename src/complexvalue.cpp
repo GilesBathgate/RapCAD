@@ -18,6 +18,7 @@
 
 #include "complexvalue.h"
 #include "numbervalue.h"
+#include "booleanvalue.h"
 #include "rmath.h"
 
 ComplexValue::ComplexValue(Value* r, QList<Value*> i)
@@ -135,6 +136,20 @@ Value* ComplexValue::operation(Value& v, Expression::Operator_e op)
 				i.append(z);
 
 				return new ComplexValue(w,i);
+			} else if(op==Expression::Equal||op==Expression::NotEqual) {
+				Value* eqRe=Value::operation(real,op,c->real);
+				bool eq=eqRe->isTrue();
+				if(op==Expression::NotEqual && !eq)
+					return new BooleanValue(true);
+				if(eq)
+					for(auto i=0; i<3; ++i) {
+						Value* eqIm=Value::operation(imaginary.at(i),op,c->imaginary.at(i));
+						if(op==Expression::NotEqual && eqIm->isTrue())
+							return new BooleanValue(true);
+						if(!eqIm->isTrue())
+							eq=false;
+					}
+				return new BooleanValue(eq);
 			}
 		}
 	}

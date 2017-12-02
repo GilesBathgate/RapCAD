@@ -46,7 +46,7 @@ Node* ShearModule::evaluate(Context* ctx)
 	if(zVal)
 		sz=zVal->getPoint();
 
-	decimal sxy=sx.y(),sxz=sx.y();
+	decimal sxy=sx.y(),sxz=sx.z();
 	decimal syx=sy.x(),syz=sy.z();
 	decimal szx=sz.x(),szy=sz.y();
 

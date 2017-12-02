@@ -25,9 +25,17 @@ class Tester : public Strategy
 {
 public:
 	Tester(QTextStream&);
+	~Tester();
 	int evaluate() override;
 private:
-	bool testFunctionExists(Script* s);
+	bool testFunctionExists(Script*);
+	void testModule(Script*, QFileInfo);
+	void testFunction(Script*);
+	QString* nullout;
+	QTextStream* nullstream;
+	Reporter* nullreport;
+	int passcount;
+	int failcount;
 };
 
 #endif // TESTER_H

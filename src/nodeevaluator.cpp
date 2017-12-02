@@ -70,8 +70,10 @@ void NodeEvaluator::visit(PolylineNode* n)
 void NodeEvaluator::visit(TriangulateNode* n)
 {
 	evaluate(n,Union);
-	if(result)
+	if(result) {
 		result=result->triangulate();
+		result->setType(Primitive::Volume);
+	}
 }
 
 void NodeEvaluator::visit(MaterialNode* n)

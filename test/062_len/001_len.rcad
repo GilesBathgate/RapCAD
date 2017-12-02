@@ -1,0 +1,3 @@
+function test() {
+return len(1)==undef;
+}
