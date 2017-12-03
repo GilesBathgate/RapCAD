@@ -53,10 +53,11 @@ Primitive* QPathTextBuilder::buildPrimitive() const
 
 QFont QPathTextBuilder::getFont() const
 {
-	if(family.isEmpty())
-		return QFont(QFont().family(),size);
-	else
-		return QFont(family,size);
+	/*QFont with empty string chooses different font, so
+	 * we have to call default constructor instead. */
+	QFont f=family.isEmpty()?QFont():QFont(family);
+	f.setPixelSize(size);
+	return f;
 }
 
 PrimitiveNode* QPathTextBuilder::buildPrimitiveNode() const
