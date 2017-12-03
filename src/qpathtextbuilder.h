@@ -13,15 +13,19 @@ class QPathTextBuilder : public TextBuilder
 public:
 	QPathTextBuilder(Reporter*);
 	~QPathTextBuilder() override;
-	void setFont(QFont*);
 	void setText(QString) override;
+	void setFamily(const QString& value);
+	void setSize(int value);
 	decimal getHeight() override;
 	void setLocation(Point) override;
 	Primitive* buildPrimitive() const override;
 	PrimitiveNode* buildPrimitiveNode() const;
 private:
+	QFont getFont() const;
 	QString text;
-	QFont* font;
+	QString family;
+	int size;
+	bool headless;
 	QPointF location;
 	Reporter* reporter;
 };

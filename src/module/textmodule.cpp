@@ -1,4 +1,3 @@
-#include <QApplication>
 #include "textmodule.h"
 #include "textvalue.h"
 #include "numbervalue.h"
@@ -19,7 +18,7 @@ Node* TextModule::evaluate(Context* ctx)
 	if(!textVal)
 		return nullptr;
 
-	QString family=QApplication::font().family();
+	QString family;
 	auto* fontVal=dynamic_cast<TextValue*>(getParameterArgument(ctx,1));
 	if(fontVal)
 		family=fontVal->getValueString();
@@ -31,7 +30,9 @@ Node* TextModule::evaluate(Context* ctx)
 
 	QPathTextBuilder* tb=new QPathTextBuilder(reporter);
 	tb->setText(textVal->getValueString());
-	tb->setFont(new QFont(family,size));
+	tb->setFamily(family);
+	tb->setSize(size);
+
 	PrimitiveNode* n=tb->buildPrimitiveNode();
 	n->setSanitized(false);
 	n->setChildren(ctx->getInputNodes());
