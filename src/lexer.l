@@ -150,8 +150,7 @@ void lexerinit(AbstractTokenBuilder* b,Reporter* r, QString input,bool file)
 		openfile(fileinfo);
 		tokenizer->buildFileStart(fileinfo.absoluteDir());
 	} else {
-		const char* t = input.toUtf8().constData();
-		lexer_scan_string(t);
+		lexer_scan_string(input.toUtf8().constData());
 	}
 }
 
