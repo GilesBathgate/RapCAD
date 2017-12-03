@@ -1,0 +1,3 @@
+module test() { children(); }
+
+test() cube(10);
