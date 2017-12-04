@@ -152,6 +152,7 @@ void Tester::exportTest(QString dir)
 
 		origFile.remove();
 		delete n;
+#endif
 	}
 }
 
