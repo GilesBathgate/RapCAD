@@ -157,11 +157,16 @@ void Tester::exportTest(QString dir)
 void Tester::exportTest(CGALExport& e,QString origPath,QFileInfo file,QString ext)
 {
 	QString newName=file.baseName()+ext;
+
+	writeHeader(newName,++testcount);
+#ifdef Q_OS_WIN
+	output << " Skipped" << endl;
+	return;
+#endif
+
 	QDir path(file.absolutePath());
 	QString newPath(path.filePath(newName));
 	QFile newfile(newPath);
-
-	writeHeader(newName,++testcount);
 
 	e.exportResult(newPath);
 	Comparer c(*nullstream);
