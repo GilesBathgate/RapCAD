@@ -18,6 +18,7 @@
 #ifdef USE_CGAL
 #include "cgalimport.h"
 #include <CGAL/IO/Polyhedron_iostream.h>
+#include <CGAL/IO/Nef_polyhedron_iostream_3.h>
 #include <fstream>
 #include <QRegExp>
 #include <QStringList>
@@ -40,6 +41,8 @@ Primitive* CGALImport::import(QString filename)
 	QString suffix=file.suffix().toLower();
 	if(suffix=="off")
 		return importOFF(file);
+	if(suffix=="nef")
+		return importNEF(file);
 	if(suffix=="stl")
 		return importSTL(file);
 	if(suffix=="amf")
@@ -62,6 +65,17 @@ Primitive* CGALImport::importOFF(QFileInfo fileinfo)
 
 	auto* p=new CGALPrimitive(poly);
 	p->setSanitized(false);
+	return p;
+}
+
+Primitive* CGALImport::importNEF(QFileInfo fileinfo)
+{
+	CGAL::NefPolyhedron3 nef;
+	std::ifstream file(fileinfo.absoluteFilePath().toLocal8Bit().constData());
+	file >> nef;
+	file.close();
+
+	auto* p=new CGALPrimitive(nef);
 	return p;
 }
 
