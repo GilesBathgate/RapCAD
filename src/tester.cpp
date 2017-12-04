@@ -156,12 +156,12 @@ void Tester::exportTest(QString dir)
 #if USE_CGAL
 void Tester::exportTest(CGALExport& e,QString origPath,QFileInfo file,QString ext)
 {
-	QString basename=file.baseName();
+	QString newName=file.baseName()+ext;
 	QDir path(file.absolutePath());
-	QString newPath(path.filePath(basename+ext));
-
+	QString newPath(path.filePath(newName));
 	QFile newfile(newPath);
-	writeHeader(file.fileName() ,++testcount);
+
+	writeHeader(newName,++testcount);
 
 	e.exportResult(newPath);
 	Comparer c(*nullstream);
