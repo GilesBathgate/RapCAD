@@ -138,8 +138,8 @@ void Tester::exportTest(QString dir)
 		QDir path(file.absolutePath());
 		QString origPath(path.filePath(file.baseName()+".csg"));
 
-#ifndef Q_OS_WIN
 		CGALExport e(ne.getResult(),nullreport);
+#ifndef Q_OS_WIN
 		QFile origFile(origPath);
 		e.exportResult(origPath);
 #endif
