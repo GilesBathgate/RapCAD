@@ -135,19 +135,23 @@ void Tester::exportTest(QString dir)
 		n->accept(ne);
 		delete s;
 #if USE_CGAL
-		CGALExport e(ne.getResult(),nullreport);
 		QDir path(file.absolutePath());
 		QString origPath(path.filePath(file.baseName()+".csg"));
+
+#ifndef Q_OS_WIN
+		CGALExport e(ne.getResult(),nullreport);
 		QFile origFile(origPath);
 		e.exportResult(origPath);
-
+#endif
 		exportTest(e,origPath,file,".stl");
 		exportTest(e,origPath,file,".off");
 		exportTest(e,origPath,file,".amf");
 		exportTest(e,origPath,file,".3mf");
 		exportTest(e,origPath,file,".nef");
 
+#ifndef Q_OS_WIN
 		origFile.remove();
+#endif
 		delete n;
 #endif
 	}
