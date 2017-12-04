@@ -1,0 +1,3 @@
+function test() {
+return log(100)==2;
+}
