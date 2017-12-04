@@ -32,9 +32,14 @@ private:
 	bool testFunctionExists(Script*);
 	void testModule(Script*, QFileInfo);
 	void testFunction(Script*);
+	void exportTest(QString);
+#if USE_CGAL
+	void exportTest(class CGALExport&,QString,QFileInfo,QString);
+#endif
 	QString* nullout;
 	QTextStream* nullstream;
 	Reporter* nullreport;
+	int testcount;
 	int passcount;
 	int failcount;
 
