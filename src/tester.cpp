@@ -90,7 +90,9 @@ int Tester::evaluate()
 	for(QString dir: cur.entryList(QStringList("*_*"))) {
 
 		if(dir=="061_export") {
+#ifndef Q_OS_WIN
 			exportTest(dir);
+#endif
 			continue;
 		}
 
@@ -139,21 +141,17 @@ void Tester::exportTest(QString dir)
 		QString origPath(path.filePath(file.baseName()+".csg"));
 
 		CGALExport e(ne.getResult(),nullreport);
-#ifndef Q_OS_WIN
 		QFile origFile(origPath);
 		e.exportResult(origPath);
-#endif
+
 		exportTest(e,origPath,file,".stl");
 		exportTest(e,origPath,file,".off");
 		exportTest(e,origPath,file,".amf");
 		exportTest(e,origPath,file,".3mf");
 		exportTest(e,origPath,file,".nef");
 
-#ifndef Q_OS_WIN
 		origFile.remove();
-#endif
 		delete n;
-#endif
 	}
 }
 
@@ -163,10 +161,6 @@ void Tester::exportTest(CGALExport& e,QString origPath,QFileInfo file,QString ex
 	QString newName=file.baseName()+ext;
 
 	writeHeader(newName,++testcount);
-#ifdef Q_OS_WIN
-	output << " Skipped" << endl;
-	return;
-#endif
 
 	QDir path(file.absolutePath());
 	QString newPath(path.filePath(newName));
