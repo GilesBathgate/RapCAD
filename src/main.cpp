@@ -21,7 +21,9 @@
 #include "ui/mainwindow.h"
 #include "preferences.h"
 #include "worker.h"
+#ifdef USE_INTEGTEST
 #include "tester.h"
+#endif
 #include "comparer.h"
 #include "stringify.h"
 #include "interactive.h"
