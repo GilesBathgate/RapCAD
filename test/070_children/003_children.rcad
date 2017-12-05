@@ -1,0 +1,3 @@
+module test() { hull()children([0,1]); }
+
+test() { square(10); translate([0,0,10])square(10); }
