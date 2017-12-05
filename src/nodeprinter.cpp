@@ -260,6 +260,23 @@ void NodePrinter::printArguments(Polygon pg)
 	result << "])";
 }
 
+void NodePrinter::printArguments(QList<int> list)
+{
+	if(list.count()==0) {
+		result << "()";
+		return;
+	}
+
+	result << "([";
+	OnceOnly first;
+	for(const auto& i: list) {
+		if(!first())
+			result << ",";
+		result << i;
+	}
+	result << "])";
+}
+
 void NodePrinter::printArguments(QList<AlignNode::Face_t> t)
 {
 	result << "(";
@@ -393,7 +410,13 @@ void NodePrinter::visit(SimplifyNode* n)
 
 void NodePrinter::visit(ChildrenNode* n)
 {
-	result << "children()";
+	result << "children";
+	QList<int> idx=n->getIndexes();
+	if(idx.count()==1)
+		printArguments(idx[0]);
+	else
+		printArguments(idx);
+
 	printChildren(n);
 }
 
