@@ -311,8 +311,11 @@ void NodePrinter::printArguments(QList<AlignNode::Face_t> t)
 
 void NodePrinter::visit(ResizeNode* n)
 {
-	result << "resize";
-	printArguments(n->getSize());
+	result << "resize(";
+	result << to_string(n->getSize());
+	if(n->getAutoSize())
+		result << ",auto=true";
+	result << ")";
 	printChildren(n);
 }
 
