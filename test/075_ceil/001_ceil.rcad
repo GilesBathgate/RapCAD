@@ -1,0 +1,3 @@
+function test(){
+  return ceil(0.9)==1;
+}
