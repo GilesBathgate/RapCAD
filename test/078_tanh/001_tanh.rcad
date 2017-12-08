@@ -1,0 +1,3 @@
+function test() {
+return tanh(1/2)==0.0087264247426805;
+}
