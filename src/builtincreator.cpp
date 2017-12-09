@@ -268,3 +268,10 @@ void BuiltinCreator::generateDocs(TreeVisitor& p)
 	for(Declaration* d: builtins)
 		d->accept(p);
 }
+
+void BuiltinCreator::cleanUp()
+{
+	if(instance)
+		for(Declaration* d: instance->builtins)
+			delete d;
+}
