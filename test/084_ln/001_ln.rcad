@@ -1,0 +1,3 @@
+function test() {
+return ln(2.7182818284590452)==1;
+}
