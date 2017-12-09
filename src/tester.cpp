@@ -19,6 +19,7 @@
 #include <QDir>
 #ifdef USE_CGAL
 #include "cgal.h"
+#include "cgalexport.h"
 #endif
 #include "tester.h"
 #include "treeevaluator.h"
@@ -26,12 +27,17 @@
 #include "booleanvalue.h"
 #include "comparer.h"
 #include "cachemanager.h"
+#include "treeprinter.h"
+#include "builtincreator.h"
+#include "nodeevaluator.h"
+
 
 Tester::Tester(QTextStream& s) : Strategy(s)
 {
 	nullout = new QString();
 	nullstream = new QTextStream(nullout);
 	nullreport = new Reporter(*nullstream);
+	testcount=0;
 	passcount=0;
 	failcount=0;
 }
@@ -41,6 +47,13 @@ Tester::~Tester()
 	delete nullout;
 	delete nullstream;
 	delete nullreport;
+}
+
+void Tester::writeHeader(QString name, int num)
+{
+	output << "Test #" << QString().setNum(num).rightJustified(3,'0') << ": ";
+	output << name.leftJustified(62,'.',true);
+	output.flush();
 }
 
 static bool skipDir(QString dir)
@@ -63,18 +76,29 @@ int Tester::evaluate()
 	CacheManager* cm=CacheManager::getInstance();
 	cm->disableCaches();
 
-	int testcount=0;
+	writeHeader("000_treeprinter",testcount);
+
+	TreePrinter nulldocs(*nullstream);
+	BuiltinCreator* cr=BuiltinCreator::getInstance(nullreport);
+	cr->generateDocs(nulldocs);
+
+	output << " Passed" << endl;
 
 	/* This hard coded directory and filters need to be addressed
 	 * but it will do for now. */
 	QDir cur=QDir::current();
 	for(QString dir: cur.entryList(QStringList("*_*"))) {
 
+		if(dir=="061_export") {
+#ifndef Q_OS_WIN
+			exportTest(dir);
+#endif
+			continue;
+		}
+
 		for(QFileInfo file: QDir(dir).entryInfoList(QStringList("*.rcad"), QDir::Files)) {
 
-			output << "Test #" << QString().setNum(++testcount).rightJustified(3,'0') << ": ";
-			output << file.fileName().leftJustified(62,'.',true);
-			output.flush();
+			writeHeader(file.fileName(),++testcount);
 
 			if(skipDir(dir)) {
 				output << " Skipped" << endl;
@@ -100,6 +124,63 @@ int Tester::evaluate()
 
 	return reporter->getReturnCode();
 }
+
+void Tester::exportTest(QString dir)
+{
+	for(QFileInfo file: QDir(dir).entryInfoList(QStringList("*.rcad"), QDir::Files)) {
+		Script* s=new Script();
+		parse(s,file.absoluteFilePath(),nullptr,true);
+		TreeEvaluator te(nullreport);
+		s->accept(te);
+		NodeEvaluator ne(nullreport);
+		Node* n=te.getRootNode();
+		n->accept(ne);
+		delete s;
+#if USE_CGAL
+		QDir path(file.absolutePath());
+		QString origPath(path.filePath(file.baseName()+".csg"));
+
+		CGALExport e(ne.getResult(),nullreport);
+		QFile origFile(origPath);
+		e.exportResult(origPath);
+
+		exportTest(e,origPath,file,".stl");
+		exportTest(e,origPath,file,".off");
+		exportTest(e,origPath,file,".amf");
+		exportTest(e,origPath,file,".3mf");
+		exportTest(e,origPath,file,".nef");
+
+		origFile.remove();
+		delete n;
+#endif
+	}
+}
+
+#if USE_CGAL
+void Tester::exportTest(CGALExport& e,QString origPath,QFileInfo file,QString ext)
+{
+	QString newName=file.baseName()+ext;
+
+	writeHeader(newName,++testcount);
+
+	QDir path(file.absolutePath());
+	QString newPath(path.filePath(newName));
+	QFile newfile(newPath);
+
+	e.exportResult(newPath);
+	Comparer c(*nullstream);
+	c.setup(origPath,newPath);
+	c.evaluate();
+	if(c.evaluate()==0) {
+		output << " Passed" << endl;
+		passcount++;
+	} else {
+		output << " FAILED" << endl;
+		failcount++;
+	}
+	newfile.remove();
+}
+#endif
 
 void Tester::testFunction(Script* s)
 {

@@ -15,7 +15,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+#ifdef USE_INTEGTEST
 #ifndef TESTER_H
 #define TESTER_H
 
@@ -28,14 +28,22 @@ public:
 	~Tester();
 	int evaluate() override;
 private:
+	void writeHeader(QString name, int num);
 	bool testFunctionExists(Script*);
 	void testModule(Script*, QFileInfo);
 	void testFunction(Script*);
+	void exportTest(QString);
+#if USE_CGAL
+	void exportTest(class CGALExport&,QString,QFileInfo,QString);
+#endif
 	QString* nullout;
 	QTextStream* nullstream;
 	Reporter* nullreport;
+	int testcount;
 	int passcount;
 	int failcount;
+
 };
 
 #endif // TESTER_H
+#endif

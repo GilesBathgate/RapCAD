@@ -20,8 +20,11 @@
 #include <QTextStream>
 #include "ui/mainwindow.h"
 #include "preferences.h"
+#include "builtincreator.h"
 #include "worker.h"
+#ifdef USE_INTEGTEST
 #include "tester.h"
+#endif
 #include "comparer.h"
 #include "stringify.h"
 #include "interactive.h"
@@ -146,6 +149,7 @@ int main(int argc, char* argv[])
 
 	//Ensure preferences are saved.
 	Preferences::syncDelete();
+	BuiltinCreator::cleanUp();
 
 	return retcode;
 }

@@ -20,6 +20,8 @@
 
 SliceNode::SliceNode()
 {
+	height=0;
+	thickness=0;
 }
 
 void SliceNode::setHeight(decimal h)

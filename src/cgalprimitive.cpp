@@ -39,6 +39,12 @@ CGALPrimitive::CGALPrimitive(CGAL::Polyhedron3 poly)
 	nefPolyhedron=new CGAL::NefPolyhedron3(poly);
 }
 
+CGALPrimitive::CGALPrimitive(CGAL::NefPolyhedron3 nef)
+{
+	init();
+	nefPolyhedron=new CGAL::NefPolyhedron3(nef);
+}
+
 CGALPrimitive::~CGALPrimitive()
 {
 	clear();

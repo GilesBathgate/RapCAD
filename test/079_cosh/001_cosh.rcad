@@ -1,0 +1,3 @@
+function test() {
+return cosh(1/2)==1.000038077419119;
+}

@@ -1,0 +1,3 @@
+function test() {
+return log(256,2)==8;
+}

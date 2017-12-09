@@ -1,0 +1,3 @@
+function test() {
+return sinh(1/2)==0.0087267570224129;
+}

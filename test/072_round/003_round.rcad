@@ -1,0 +1,3 @@
+function test() {
+return round(0.1234,3)==0.123;
+}

@@ -72,12 +72,14 @@ QString to_string(const decimal& d)
 	mpf_clear(m);
 	res=QString(r);
 	free(r);
+
+	QString z('0');
 	if(e>0) {
-		res=res.leftJustified(e,'0');
+		res.append(z.repeated(e-1));
 		if(e<res.length())
 			res.insert(e,'.');
 	} else {
-		res=res.rightJustified(-e+1,'0');
+		res.prepend(z.repeated(-e));
 		res.prepend("0.");
 	}
 	if(sign<0)

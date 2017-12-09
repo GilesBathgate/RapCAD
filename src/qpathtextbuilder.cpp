@@ -2,15 +2,15 @@
 #include "onceonly.h"
 #include <QPainterPath>
 #include <QFontMetrics>
+#include <QApplication>
 
 QPathTextBuilder::QPathTextBuilder(Reporter* r) : reporter(r)
 {
-	font = new QFont();
+	headless = QFont().family().isEmpty();
 }
 
 QPathTextBuilder::~QPathTextBuilder()
 {
-	delete font;
 }
 
 void QPathTextBuilder::setText(QString value)
@@ -18,9 +18,19 @@ void QPathTextBuilder::setText(QString value)
 	text = value;
 }
 
+void QPathTextBuilder::setFamily(const QString& value)
+{
+	family = value;
+}
+
+void QPathTextBuilder::setSize(int value)
+{
+	size = value;
+}
+
 decimal QPathTextBuilder::getHeight()
 {
-	QFontMetrics fm(*font);
+	QFontMetrics fm(getFont());
 	return fm.height();
 }
 
@@ -41,10 +51,30 @@ Primitive* QPathTextBuilder::buildPrimitive() const
 	return p;
 }
 
+QFont QPathTextBuilder::getFont() const
+{
+	/*QFont with empty string chooses different font, so
+	 * we have to call default constructor instead. */
+	QFont f=family.isEmpty()?QFont():QFont(family);
+	f.setPixelSize(size);
+	return f;
+}
+
 PrimitiveNode* QPathTextBuilder::buildPrimitiveNode() const
 {
 	QPainterPath path;
-	path.addText(location,*font,text);
+	if(headless) {
+		/* Hack: in headless mode we need to initalise QApplication
+		before we can use fonts */
+		int c=0;
+		QApplication a(c,nullptr,false);
+		a.font(); //Just to ward off warning
+		path.addText(location,getFont(),text);
+
+	} else {
+		path.addText(location,getFont(),text);
+	}
+
 	QList<QPolygonF> paths = path.toSubpathPolygons();
 
 	int index=0;

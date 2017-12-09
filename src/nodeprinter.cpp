@@ -225,6 +225,22 @@ void NodePrinter::printChildren(Node* n)
 	}
 }
 
+void NodePrinter::printArguments(QString name,bool a)
+{
+	result << "(";
+	if(a) {
+		result << name << "=true";
+	}
+	result << ")";
+}
+
+void NodePrinter::printArguments(int a)
+{
+	result << "(";
+	result << a;
+	result << ")";
+}
+
 void NodePrinter::printArguments(Point p)
 {
 	result << "(";
@@ -240,6 +256,23 @@ void NodePrinter::printArguments(Polygon pg)
 		if(!first())
 			result << ",";
 		result << to_string(p);
+	}
+	result << "])";
+}
+
+void NodePrinter::printArguments(QList<int> list)
+{
+	if(list.count()==0) {
+		result << "()";
+		return;
+	}
+
+	result << "([";
+	OnceOnly first;
+	for(const auto& i: list) {
+		if(!first())
+			result << ",";
+		result << i;
 	}
 	result << "])";
 }
@@ -278,8 +311,11 @@ void NodePrinter::printArguments(QList<AlignNode::Face_t> t)
 
 void NodePrinter::visit(ResizeNode* n)
 {
-	result << "resize";
-	printArguments(n->getSize());
+	result << "resize(";
+	result << to_string(n->getSize());
+	if(n->getAutoSize())
+		result << ",auto=true";
+	result << ")";
 	printChildren(n);
 }
 
@@ -315,7 +351,8 @@ void NodePrinter::visit(ProductNode*)
 
 void NodePrinter::visit(ProjectionNode* n)
 {
-	result << "projection()";
+	result << "projection";
+	printArguments("base",n->getBase());
 	printChildren(n);
 }
 
@@ -357,7 +394,8 @@ void NodePrinter::visit(MaterialNode* n)
 
 void NodePrinter::visit(DiscreteNode* n)
 {
-	result << "discrete()";
+	result << "discrete";
+	printArguments(n->getPlaces());
 	printChildren(n);
 }
 
@@ -375,7 +413,13 @@ void NodePrinter::visit(SimplifyNode* n)
 
 void NodePrinter::visit(ChildrenNode* n)
 {
-	result << "children()";
+	result << "children";
+	QList<int> idx=n->getIndexes();
+	if(idx.count()==1)
+		printArguments(idx[0]);
+	else
+		printArguments(idx);
+
 	printChildren(n);
 }
 

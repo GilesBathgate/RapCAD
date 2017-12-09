@@ -1,0 +1,3 @@
+function test(){
+  return floor(0.4)==0;
+}
