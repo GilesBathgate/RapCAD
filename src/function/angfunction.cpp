@@ -68,7 +68,7 @@ Value* AngFunction::evaluate(Context* ctx)
 	}
 
 	decimal a=0.0;
-	decimal x=0.0,y=0.0,z=0.0;
+	decimal x=0.0,y=0.0,z=1.0;
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {
 		a=numVal->getNumber();
@@ -82,10 +82,8 @@ Value* AngFunction::evaluate(Context* ctx)
 				Point p=unitVec->getPoint();
 				x=p.x(); y=p.y(); z=p.z();
 			}
-		} else {
-			// Assume rotation around z axis when no axis given
-			return getResult(a,0.0,0.0,1.0);
 		}
+		return getResult(a,x,y,z);
 	} else {
 		NumberValue* xVal=dynamic_cast<NumberValue*>(ctx->getArgument(0,"x"));
 		if(xVal) {
@@ -104,5 +102,5 @@ Value* AngFunction::evaluate(Context* ctx)
 		}
 	}
 
-	return getResult(a,x,y,z);
+	return Value::undefined();
 }
