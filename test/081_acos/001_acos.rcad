@@ -1,0 +1,3 @@
+function test() {
+return acos(1)==0;
+}
