@@ -238,6 +238,12 @@ BuiltinCreator* BuiltinCreator::getInstance(Reporter* r)
 	return instance;
 }
 
+BuiltinCreator::~BuiltinCreator()
+{
+	for(Declaration* d: builtins)
+		delete d;
+}
+
 /**
   Add the builtins to a script.
 */
@@ -271,7 +277,5 @@ void BuiltinCreator::generateDocs(TreeVisitor& p)
 
 void BuiltinCreator::cleanUp()
 {
-	if(instance)
-		for(Declaration* d: instance->builtins)
-			delete d;
+	delete instance;
 }

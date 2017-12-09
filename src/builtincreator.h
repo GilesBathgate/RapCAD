@@ -34,6 +34,7 @@ public:
 	void generateDocs(TreeVisitor&);
 private:
 	BuiltinCreator(Reporter*);
+	~BuiltinCreator();
 	static BuiltinCreator* instance;
 	QList<Declaration*> builtins;
 	Reporter* reporter;
