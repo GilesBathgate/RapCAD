@@ -1,3 +1,4 @@
+group: travis_latest
 sudo: false
 language: cpp
 
