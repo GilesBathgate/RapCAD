@@ -2,6 +2,16 @@ diff --git a/contrib/OGL_helper.h b/contrib/OGL_helper.h
 index 9e164c9..f11bf93 100644
 --- a/contrib/OGL_helper.h
 +++ b/contrib/OGL_helper.h
+@@ -140,7 +140,8 @@ namespace OGL {
+     typedef Coord_vector::iterator Coord_iterator;
+     typedef Coord_vector::const_iterator Coord_const_iterator;
+ 
+-    DFacet() {}
++    DFacet()
++    { mark_ = false; }
+ 
+     void push_back_vertex(float x, float y, float z)
+     { coords_.push_back(float_triple(x,y,z)); }
 @@ -169,8 +169,8 @@ namespace OGL {
      void push_back_vertex(const float_point& p)
      { push_back_vertex(p.x(),p.y(),p.z()); }
