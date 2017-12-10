@@ -9,7 +9,6 @@ class TextModule : public Module
 public:
 	TextModule(Reporter*);
 	Node* evaluate(Context*) override;
-	bool headless;
 };
 
 #endif // TEXTMODULE_H
