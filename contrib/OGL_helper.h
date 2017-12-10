@@ -14,6 +14,7 @@
 //
 // $URL$
 // $Id$
+// SPDX-License-Identifier: GPL-3.0+
 //
 //
 // Author(s)     : Peter Hachenberger <hachenberger@mpi-sb.mpg.de>
@@ -140,7 +141,8 @@ namespace OGL {
     typedef Coord_vector::iterator Coord_iterator;
     typedef Coord_vector::const_iterator Coord_const_iterator;
 
-    DFacet() {}
+    DFacet()
+    { mark_ = false; }
 
     void push_back_vertex(float x, float y, float z)
     { coords_.push_back(float_triple(x,y,z)); }
