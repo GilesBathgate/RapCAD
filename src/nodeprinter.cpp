@@ -193,7 +193,8 @@ void NodePrinter::visit(BoundsNode* n)
 
 void NodePrinter::visit(SubDivisionNode* n)
 {
-	result << "subdiv()";
+	result << "subdiv";
+	printArguments(n->getLevel());
 	printChildren(n);
 }
 
