@@ -32,10 +32,15 @@ public:
 	bool getClosed() const;
 	void setClosed(bool value);
 
+	bool getConcave() const;
+	void setConcave(bool value);
+
 	void accept(NodeVisitor&) override;
+
 private:
 	bool chain;
 	bool closed;
+	bool concave;
 };
 
 #endif // HULLNODE_H
