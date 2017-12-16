@@ -8,6 +8,10 @@
 #include "cgalassert.h" // cgalassert hack
 #endif
 
+#if CGAL_VERSION_NR > CGAL_VERSION_NUMBER(4,2,0)
+#define USE_SIMPLIFY
+#endif
+
 #if __cplusplus > 199711 && CGAL_VERSION_NR > CGAL_VERSION_NUMBER(4,2,0)
 #define USE_OFFSET
 #endif

@@ -61,6 +61,9 @@ static bool skipDir(QString dir)
 #ifndef USE_OFFSET
 	if(dir=="051_offset") return true;
 #endif
+#ifndef USE_SIMPLIFY
+	if(dir=="087_simplify") return true;
+#endif
 #ifdef Q_OS_WIN
 	if(dir=="063_rands") return true;
 #endif

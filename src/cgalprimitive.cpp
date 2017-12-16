@@ -489,8 +489,8 @@ Primitive* CGALPrimitive::triangulate()
 	return b.triangulate();
 }
 
-#if CGAL_VERSION_NR <= CGAL_VERSION_NUMBER(4,2,0)
-Primitive* CGALPrimitive::simplify(int)
+#ifndef USE_SIMPLIFY
+Primitive* CGALPrimitive::simplify(decimal)
 {
 	return this;
 }
