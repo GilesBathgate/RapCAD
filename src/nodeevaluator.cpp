@@ -617,7 +617,7 @@ void NodeEvaluator::visit(SimplifyNode* n)
 {
 	evaluate(n,Union);
 	if(result)
-		result=result->simplify(n->getStopLevel());
+		result=result->simplify(n->getRatio());
 }
 
 void NodeEvaluator::visit(ChildrenNode* n)

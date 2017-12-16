@@ -48,7 +48,7 @@ public:
 	bool isFullyDimentional() override { return false; }
 	Primitive* copy() override;
 	Primitive* triangulate() override { return this; }
-	Primitive* simplify(int) override { return this; }
+	Primitive* simplify(decimal) override { return this; }
 	void transform(TransformMatrix*) override;
 	bool isEmpty() override;
 	QList<Polygon*> getPolygons() const override;

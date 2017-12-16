@@ -113,6 +113,7 @@ private:
 	void printArguments(QList<AlignNode::Face_t> t);
 	void printArguments(QString,bool);
 	void printArguments(int);
+	void printArguments(decimal);
 	void printArguments(QList<int> list);
 };
 

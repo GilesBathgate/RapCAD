@@ -1,0 +1,2 @@
+simplify(0.5)
+cylinder(r=5,h=10,$fn=16);

@@ -11,7 +11,7 @@
 //Mesh simplification
 #include <CGAL/boost/graph/graph_traits_Polyhedron_3.h>
 #include <CGAL/Surface_mesh_simplification/edge_collapse.h>
-#include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Count_stop_predicate.h>
+#include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Count_ratio_stop_predicate.h>
 #include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Edge_length_cost.h>
 #include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Midpoint_placement.h>
 
@@ -495,12 +495,12 @@ Primitive* CGALPrimitive::simplify(int)
 	return this;
 }
 #else
-Primitive* CGALPrimitive::simplify(int level)
+Primitive* CGALPrimitive::simplify(decimal ratio)
 {
 
 	namespace SMS=CGAL::Surface_mesh_simplification;
 	CGAL::Polyhedron3& p=*getPolyhedron();
-	SMS::Count_stop_predicate<CGAL::Polyhedron3> stop(level);
+	SMS::Count_ratio_stop_predicate<CGAL::Polyhedron3> stop(to_double(ratio));
 	SMS::edge_collapse(p,stop,
 #if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(4,7,0)
 					   CGAL::parameters::vertex_index_map(get(CGAL::vertex_external_index,p))

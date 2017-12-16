@@ -244,6 +244,13 @@ void NodePrinter::printArguments(int a)
 	result << ")";
 }
 
+void NodePrinter::printArguments(decimal a)
+{
+	result << "(";
+	result << to_string(a);
+	result << ")";
+}
+
 void NodePrinter::printArguments(Point p)
 {
 	result << "(";
@@ -410,7 +417,8 @@ void NodePrinter::visit(NormalsNode* n)
 
 void NodePrinter::visit(SimplifyNode* n)
 {
-	result << "simplify()";
+	result << "simplify";
+	printArguments(n->getRatio());
 	printChildren(n);
 }
 
