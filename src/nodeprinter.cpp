@@ -155,7 +155,10 @@ void NodePrinter::visit(HullNode* n)
 			result << "true";
 		result << ")";
 	} else {
-		result << "hull()";
+		result << "hull(";
+		if(n->getConcave())
+			result << "concave=true";
+		result << ")";
 	}
 	printChildren(n);
 }
