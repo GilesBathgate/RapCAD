@@ -16,8 +16,4 @@
 #define USE_OFFSET
 #endif
 
-#if !defined(Q_OS_MAC) && !defined(Q_OS_WIN)
-#define USE_SUBDIV
-#endif
-
 #endif // CONFIG_H
