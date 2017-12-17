@@ -1,0 +1,2 @@
+import <003_import.amf> as a;
+a();

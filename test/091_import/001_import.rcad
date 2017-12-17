@@ -1,0 +1,2 @@
+import <001_import.stl> as a;
+a();

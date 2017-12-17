@@ -1,0 +1,2 @@
+import <004_import.3mf> as a;
+a();
