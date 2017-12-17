@@ -79,6 +79,12 @@ int Tester::evaluate()
 	CacheManager* cm=CacheManager::getInstance();
 	cm->disableCaches();
 
+	output << QString("Qt:\t %1\n").arg(QT_VERSION_STR);
+#ifdef USE_CGAL
+	output << QString("CGAL:\t %1\n").arg(CGAL_VERSION_STR);
+#endif
+	output << QString("Boost:\t %1.%2.%3\n").arg(BOOST_VERSION / 100000).arg(BOOST_VERSION / 100 % 1000).arg(BOOST_VERSION % 100);
+
 	writeHeader("000_treeprinter",testcount);
 
 	TreePrinter nulldocs(*nullstream);
