@@ -523,17 +523,20 @@ void TreeEvaluator::visit(Callback* c)
 	c->setResult(context->getCurrentValue());
 }
 
+QFileInfo* TreeEvaluator::getFullPath(QString file)
+{
+	if(!importLocations.isEmpty())
+		return new QFileInfo(importLocations.top()->absoluteDir(),file);
+	else
+		return new QFileInfo(file); /* relative to working dir */
+}
+
 void TreeEvaluator::visit(ModuleImport* mi)
 {
 	auto* mod=new ImportModule(reporter);
-	QString imp=mi->getImport();
-	QFileInfo* f;
-	if(!importLocations.isEmpty())
-		f=new QFileInfo(importLocations.top()->absoluteDir(),imp);
-	else
-		f=new QFileInfo(imp); /* relative to working dir */
-
+	QFileInfo* f=getFullPath(mi->getImport());
 	mod->setImport(f->absoluteFilePath());
+	delete f;
 	mod->setName(mi->getName());
 	//TODO global import args.
 
@@ -548,13 +551,7 @@ void TreeEvaluator::visit(ScriptImport* sc)
 	if(descendDone)
 		return;
 
-	QString imp=sc->getImport();
-	QFileInfo* f;
-	if(!importLocations.isEmpty())
-		f=new QFileInfo(importLocations.top()->absoluteDir(),imp);
-	else
-		f=new QFileInfo(imp); /* relative to working dir */
-
+	QFileInfo* f=getFullPath(sc->getImport());
 	Script* s=new Script();
 	parse(s,f->absoluteFilePath(),reporter,true);
 	imports.append(s);

@@ -94,6 +94,7 @@ private:
 	void descend(Scope*);
 	void startLayout(Scope*);
 	void finishLayout();
+	QFileInfo* getFullPath(QString);
 
 	Reporter* reporter;
 	Context* context;
