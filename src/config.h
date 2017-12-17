@@ -10,6 +10,7 @@
 
 #if CGAL_VERSION_NR > CGAL_VERSION_NUMBER(4,2,0)
 #define USE_SIMPLIFY
+#define USE_SUBDIV
 #endif
 
 #if __cplusplus > 199711 && CGAL_VERSION_NR > CGAL_VERSION_NUMBER(4,2,0)

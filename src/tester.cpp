@@ -67,6 +67,9 @@ static bool skipDir(QString dir)
 #ifdef Q_OS_WIN
 	if(dir=="063_rands") return true;
 #endif
+#ifndef USE_SUBDIV
+	if(dir=="090_subdiv") return true;
+#endif
 	if(dir=="") return true;
 
 	return false;
