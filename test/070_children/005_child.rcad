@@ -1,0 +1,3 @@
+module test() { child(1); }
+
+test() { sphere(10); cube(10); }
