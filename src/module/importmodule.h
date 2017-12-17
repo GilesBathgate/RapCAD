@@ -24,8 +24,9 @@
 
 class ImportModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(ImportModule)
 public:
-	ImportModule();
+	ImportModule(Reporter*);
 	Node* evaluate(Context*) override;
 	void setImport(QString);
 private:

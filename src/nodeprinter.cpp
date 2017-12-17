@@ -212,8 +212,11 @@ void NodePrinter::visit(BoundaryNode* n)
 	printChildren(n);
 }
 
-void NodePrinter::visit(ImportNode*)
+void NodePrinter::visit(ImportNode* im)
 {
+	result << "import(\"";
+	result << im->getImport();
+	result << "\");";
 }
 
 void NodePrinter::printChildren(Node* n)

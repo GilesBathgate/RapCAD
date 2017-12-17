@@ -144,6 +144,7 @@ BuiltinCreator::BuiltinCreator(Reporter* r)
 	builtins.append(new GlideModule(r));
 	builtins.append(new GroupModule(r));
 	builtins.append(new HullModule(r));
+	builtins.append(new ImportModule(r));
 	builtins.append(new IntersectionModule(r));
 	builtins.append(new LinearExtrudeModule(r));
 	builtins.append(new MaterialModule(r));

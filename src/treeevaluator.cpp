@@ -523,11 +523,18 @@ void TreeEvaluator::visit(Callback* c)
 	c->setResult(context->getCurrentValue());
 }
 
-void TreeEvaluator::visit(ModuleImport* imp)
+void TreeEvaluator::visit(ModuleImport* mi)
 {
-	auto* mod=new ImportModule();
-	mod->setImport(imp->getImport());
-	mod->setName(imp->getName());
+	auto* mod=new ImportModule(reporter);
+	QString imp=mi->getImport();
+	QFileInfo* f;
+	if(!importLocations.isEmpty())
+		f=new QFileInfo(importLocations.top()->absoluteDir(),imp);
+	else
+		f=new QFileInfo(imp); /* relative to working dir */
+
+	mod->setImport(f->absoluteFilePath());
+	mod->setName(mi->getName());
 	//TODO global import args.
 
 	/* Adding the import module to the current layout is ok here because we
