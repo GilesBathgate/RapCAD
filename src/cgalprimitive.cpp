@@ -560,8 +560,7 @@ CGAL::Polyhedron3* CGALPrimitive::getPolyhedron()
 {
 	this->buildPrimitive();
 	CGAL::Polyhedron3* poly = new CGAL::Polyhedron3();
-	if(nefPolyhedron->is_simple())
-		nefPolyhedron->convert_to_polyhedron(*poly);
+	nefPolyhedron->convert_to_polyhedron(*poly);
 	return poly;
 }
 
