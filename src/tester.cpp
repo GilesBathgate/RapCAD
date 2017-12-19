@@ -17,6 +17,8 @@
  */
 #ifdef USE_INTEGTEST
 #include <QDir>
+#include <QApplication>
+#include <QTimer>
 #ifdef USE_CGAL
 #include "cgal.h"
 #include "cgalexport.h"
@@ -31,8 +33,7 @@
 #include "builtincreator.h"
 #include "nodeevaluator.h"
 
-
-Tester::Tester(QTextStream& s) : Strategy(s)
+Tester::Tester(QTextStream& s,QObject* parent) : QObject(parent),Strategy(s)
 {
 	nullout = new QString();
 	nullstream = new QTextStream(nullout);
@@ -134,7 +135,21 @@ int Tester::evaluate()
 
 	reporter->reportTiming("testing");
 
+	reporter->startTiming();
+	int c=0;
+	QApplication a(c,nullptr);
+	ui = new MainWindow();
+	ui->show();
+	QTimer::singleShot(1000,this,SLOT(runTests()));
+	a.exec();
+	reporter->reportTiming("ui testing");
+
 	return reporter->getReturnCode();
+}
+
+void Tester::runTests()
+{
+	ui->close();
 }
 
 void Tester::exportTest(QString dir)

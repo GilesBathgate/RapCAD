@@ -20,13 +20,17 @@
 #define TESTER_H
 
 #include "strategy.h"
+#include "ui/mainwindow.h"
 
-class Tester : public Strategy
+class Tester : public QObject,public Strategy
 {
+	Q_OBJECT
 public:
-	Tester(QTextStream&);
-	~Tester();
+	Tester(QTextStream&,QObject* parent = nullptr);
+	~Tester() override;
 	int evaluate() override;
+private slots:
+	void runTests();
 private:
 	void writeHeader(QString name, int num);
 	bool testFunctionExists(Script*);
@@ -42,7 +46,7 @@ private:
 	int testcount;
 	int passcount;
 	int failcount;
-
+	MainWindow* ui;
 };
 
 #endif // TESTER_H
