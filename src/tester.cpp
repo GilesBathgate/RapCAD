@@ -134,7 +134,7 @@ int Tester::evaluate()
 	output << testcount << " tests. Passed: " << passcount << " Failed: " << failcount << endl;
 
 	reporter->reportTiming("testing");
-
+#ifndef Q_OS_WIN
 	reporter->startTiming();
 	int c=0;
 	QApplication a(c,nullptr);
@@ -143,7 +143,7 @@ int Tester::evaluate()
 	QTimer::singleShot(1000,this,SLOT(runTests()));
 	a.exec();
 	reporter->reportTiming("ui testing");
-
+#endif
 	return reporter->getReturnCode();
 }
 
