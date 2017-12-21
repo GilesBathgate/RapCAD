@@ -105,6 +105,7 @@ contains(DEFINES,USE_CGAL) {
 }
 
 CONFIG(coverage){
+	QT += testlib
 	DEFINES += USE_INTEGTEST
 	CONFIG += debug
   !macx {

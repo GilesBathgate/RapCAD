@@ -17,8 +17,10 @@
  */
 #ifdef USE_INTEGTEST
 #include <QDir>
-#include <QApplication>
 #include <QTimer>
+#include <QApplication>
+#include <QtTest/QTest>
+#include <QMenu>
 #ifdef USE_CGAL
 #include "cgal.h"
 #include "cgalexport.h"
@@ -32,6 +34,7 @@
 #include "treeprinter.h"
 #include "builtincreator.h"
 #include "nodeevaluator.h"
+#include "ui/codeeditor.h"
 
 Tester::Tester(QTextStream& s,QObject* parent) : QObject(parent),Strategy(s)
 {
@@ -140,7 +143,7 @@ int Tester::evaluate()
 	QApplication a(c,nullptr);
 	ui = new MainWindow();
 	ui->show();
-	QTimer::singleShot(1000,this,SLOT(runTests()));
+	QTimer::singleShot(100,this,SLOT(runTests()));
 	a.exec();
 	reporter->reportTiming("ui testing");
 #endif
@@ -149,7 +152,24 @@ int Tester::evaluate()
 
 void Tester::runTests()
 {
-	ui->close();
+	CodeEditor* edit = ui->findChild<CodeEditor*>("scriptEditor");
+	edit->activateWindow();
+	QTest::keyClicks(edit,"cube(10);");
+	edit->setFileName("test.rcad");
+	edit->saveFile();
+	QTest::keyClick(ui,Qt::Key_F6,Qt::NoModifier,100);
+
+	ui->activateWindow();
+	QTest::keyClick(ui,Qt::Key_E,Qt::AltModifier);
+	QMenu* menuEdit = ui->findChild<QMenu*>("menuEdit");
+	QTest::keyClick(menuEdit,Qt::Key_Up);
+	QTest::keyClick(menuEdit,Qt::Key_Enter);
+
+	QDialog* prefs = ui->findChild<QDialog*>("Preferences");
+	prefs->activateWindow();
+	QTest::keyClick(prefs,Qt::Key_Enter,Qt::NoModifier,100);
+
+	QTimer::singleShot(1000,ui,SLOT(close()));
 }
 
 void Tester::exportTest(QString dir)
