@@ -29,7 +29,7 @@ public:
 	enum Primitive_t {
 		Volume,
 		Skeleton,
-		Single
+		Points
 	};
 
 	virtual ~Primitive() {}

@@ -16,21 +16,17 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef POINTNODE_H
-#define POINTNODE_H
+#ifndef POINTSMODULE_H
+#define POINTSMODULE_H
 
-#include "point.h"
-#include "node.h"
+#include "module.h"
 
-class PointNode : public Node
+class PointsModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(PointModule)
 public:
-	PointNode();
-	void setPoint(Point);
-	Point getPoint() const;
-	void accept(NodeVisitor&) override;
-private:
-	Point point;
+	PointsModule(Reporter*,bool);
+	Node* evaluate(Context*) override;
 };
 
-#endif // POINTNODE_H
+#endif // POINTSMODULE_H

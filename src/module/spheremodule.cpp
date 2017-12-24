@@ -19,7 +19,7 @@
 #include "spheremodule.h"
 #include "numbervalue.h"
 #include "rmath.h"
-#include "node/pointnode.h"
+#include "node/pointsnode.h"
 
 SphereModule::SphereModule(Reporter* r) : PrimitiveModule(r,"sphere")
 {
@@ -39,7 +39,7 @@ Node* SphereModule::evaluate(Context* ctx)
 			r=(dValue->getNumber()/2.0);
 	}
 	if(r==0.0)
-		return new PointNode();
+		return new PointsNode();
 
 	Fragment* fg = Fragment::createFragment(ctx);
 	int f = fg->getFragments(r);

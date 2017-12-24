@@ -775,12 +775,16 @@ void NodeEvaluator::visit(AlignNode* n)
 #endif
 }
 
-void NodeEvaluator::visit(PointNode* n)
+void NodeEvaluator::visit(PointsNode* n)
 {
 	Primitive* cp=createPrimitive();
-	cp->setType(Primitive::Single);
+	cp->setType(Primitive::Points);
+	QList<Point> points=n->getPoints();
 	cp->createPolygon();
-	cp->createVertex(n->getPoint());
+	if(points.count()==0)
+		cp->createVertex(Point(0,0,0));
+	for(Point p: points)
+		cp->createVertex(p);
 	result=cp;
 }
 

@@ -185,7 +185,6 @@ void CGALPrimitive::buildPrimitive()
 	}
 
 	default: {
-		CGAL::Point3 p=points.last();
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,8,0)
 		QVector<CGAL::Point3> pl1,pl2;
 		CGAL::Point3 p1=CGAL::Point3(0.0,0.0,0.0);
@@ -200,17 +199,26 @@ void CGALPrimitive::buildPrimitive()
 		pl2.append(p3);
 		const CGAL::NefPolyhedron3* np2=createPolyline(pl2);
 
-		nefPolyhedron=new CGAL::NefPolyhedron3(np1->intersection(*np2));
+		const CGAL::NefPolyhedron3& sp=np1->intersection(*np2);
 		delete np1;
 		delete np2;
 
-		CGAL::AffTransformation3 t(
+		OnceOnly first;
+		for(CGAL::Point3 p: points)
+		{
+			auto* np=new CGAL::NefPolyhedron3(sp);
+			CGAL::AffTransformation3 t(
 					1, 0, 0, p.x(),
 					0, 1, 0, p.y(),
 					0, 0, 1, p.z(), 1);
-		nefPolyhedron->transform(t);
+			np->transform(t);
+			if(first())
+				nefPolyhedron=np;
+			else
+				*nefPolyhedron=nefPolyhedron->join(*np);
+		}
 #else
-		nefPolyhedron=new CGAL::NefPolyhedron3(p);
+		nefPolyhedron=new CGAL::NefPolyhedron3(points.begin(), points.end(), CGAL::NefPolyhedron3::Points_tag());
 #endif
 		return;
 	}

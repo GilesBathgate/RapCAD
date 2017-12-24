@@ -43,7 +43,7 @@ public:
 	virtual void visit(class TransformationNode*)=0;
 	virtual void visit(class ResizeNode*)=0;
 	virtual void visit(class AlignNode*)=0;
-	virtual void visit(class PointNode*)=0;
+	virtual void visit(class PointsNode*)=0;
 	virtual void visit(class SliceNode*)=0;
 	virtual void visit(class ProductNode*)=0;
 	virtual void visit(class ProjectionNode*)=0;

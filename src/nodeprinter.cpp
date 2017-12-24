@@ -255,10 +255,19 @@ void NodePrinter::printArguments(decimal a)
 	result << ")";
 }
 
-void NodePrinter::printArguments(Point p)
+void NodePrinter::printArguments(QList<Point> pts)
 {
 	result << "(";
-	result << to_string(p);
+	if(pts.count()>1)
+		result << "[";
+	OnceOnly first;
+	for(const auto& p: pts) {
+		if(!first())
+			result << ",";
+		result << to_string(p);
+	}
+	if(pts.count()>1)
+		result << "]";
 	result << ")";
 }
 
@@ -344,10 +353,10 @@ void NodePrinter::visit(AlignNode* n)
 	printChildren(n);
 }
 
-void NodePrinter::visit(PointNode* n)
+void NodePrinter::visit(PointsNode* n)
 {
-	result << "point";
-	printArguments(n->getPoint());
+	result << "points";
+	printArguments(n->getPoints());
 	printChildren(n);
 }
 

@@ -16,23 +16,21 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "pointnode.h"
+#ifndef POINTSNODE_H
+#define POINTSNODE_H
 
-PointNode::PointNode() : point(0,0,0)
-{
-}
+#include "point.h"
+#include "node.h"
 
-Point PointNode::getPoint() const
+class PointsNode : public Node
 {
-	return point;
-}
+public:
+	PointsNode();
+	void setPoints(QList<Point>);
+	QList<Point >getPoints() const;
+	void accept(NodeVisitor&) override;
+private:
+	QList<Point> points;
+};
 
-void PointNode::setPoint(Point p)
-{
-	point=p;
-}
-
-void PointNode::accept(NodeVisitor& v)
-{
-	v.visit(this);
-}
+#endif // POINTSNODE_H
