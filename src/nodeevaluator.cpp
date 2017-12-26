@@ -483,6 +483,98 @@ void NodeEvaluator::evaluate(QList<Node*> children,Operation_e type,Primitive* f
 
 }
 
+#ifdef USE_CGAL
+static void createCuboid(Primitive* p,CGAL::Scalar x1,CGAL::Scalar x2,CGAL::Scalar y1,CGAL::Scalar y2,CGAL::Scalar z1,CGAL::Scalar z2)
+{
+	if(x2-x1==0.0) {
+		p->createVertex(CGAL::Point3(x1,y2,z1)); //0
+		p->createVertex(CGAL::Point3(x1,y1,z1)); //1
+		p->createVertex(CGAL::Point3(x1,y1,z2)); //2
+		p->createVertex(CGAL::Point3(x1,y2,z2)); //3
+		Polygon* pg=p->createPolygon();
+		pg->append(0);
+		pg->append(1);
+		pg->append(2);
+		pg->append(3);
+		return;
+	}
+
+	if(y2-y1==0.0) {
+		p->createVertex(CGAL::Point3(x1,y1,z1)); //0
+		p->createVertex(CGAL::Point3(x2,y1,z1)); //1
+		p->createVertex(CGAL::Point3(x2,y1,z2)); //2
+		p->createVertex(CGAL::Point3(x1,y1,z2)); //3
+		Polygon* pg=p->createPolygon();
+		pg->append(0);
+		pg->append(1);
+		pg->append(2);
+		pg->append(3);
+		return;
+	}
+
+	if(z2-z1==0.0) {
+		p->createVertex(CGAL::Point3(x1,y2,z1)); //0
+		p->createVertex(CGAL::Point3(x2,y2,z1)); //1
+		p->createVertex(CGAL::Point3(x2,y1,z1)); //2
+		p->createVertex(CGAL::Point3(x1,y1,z1)); //3
+		Polygon* pg=p->createPolygon();
+		pg->append(0);
+		pg->append(1);
+		pg->append(2);
+		pg->append(3);
+		return;
+	}
+
+	p->createVertex(CGAL::Point3(x1,y1,z2)); //0
+	p->createVertex(CGAL::Point3(x2,y1,z2)); //1
+	p->createVertex(CGAL::Point3(x2,y2,z2)); //2
+	p->createVertex(CGAL::Point3(x1,y2,z2)); //3
+	p->createVertex(CGAL::Point3(x1,y1,z1)); //4
+	p->createVertex(CGAL::Point3(x2,y1,z1)); //5
+	p->createVertex(CGAL::Point3(x2,y2,z1)); //6
+	p->createVertex(CGAL::Point3(x1,y2,z1)); //7
+
+	//Top
+	Polygon* pg=p->createPolygon();
+	pg->append(0);
+	pg->append(1);
+	pg->append(2);
+	pg->append(3);
+
+	pg=p->createPolygon();
+	pg->append(4);
+	pg->append(5);
+	pg->append(1);
+	pg->append(0);
+
+	pg=p->createPolygon();
+	pg->append(5);
+	pg->append(6);
+	pg->append(2);
+	pg->append(1);
+
+	pg=p->createPolygon();
+	pg->append(6);
+	pg->append(7);
+	pg->append(3);
+	pg->append(2);
+
+	pg=p->createPolygon();
+	pg->append(7);
+	pg->append(4);
+	pg->append(0);
+	pg->append(3);
+
+	//Bottom
+	pg=p->createPolygon();
+	pg->append(7);
+	pg->append(6);
+	pg->append(5);
+	pg->append(4);
+
+}
+#endif
+
 void NodeEvaluator::visit(BoundsNode* n)
 {
 	evaluate(n,Union);
@@ -510,55 +602,14 @@ void NodeEvaluator::visit(BoundsNode* n)
 		result->appendChild(c);
 	}
 
-	CGAL::Point3 lower(xmin,ymin,zmin);
-	CGAL::Point3 upper(xmax,ymax,zmax);
-
 	auto* a=new Polyhedron();
 	a->setType(Primitive::Skeleton);
-	a->createPolygon();
-	a->createVertex(lower); //0
-	a->createVertex(CGAL::Point3(xmax,ymin,zmin)); //1
-	a->createVertex(CGAL::Point3(xmax,ymax,zmin)); //2
-	a->createVertex(CGAL::Point3(xmin,ymax,zmin)); //3
-	a->createVertex(CGAL::Point3(xmin,ymin,zmax)); //4
-	a->createVertex(CGAL::Point3(xmax,ymin,zmax)); //5
-	a->createVertex(upper); //6
-	a->createVertex(CGAL::Point3(xmin,ymax,zmax)); //7
-
-	//Top
-	Polygon* pg=a->createPolygon();
-	pg->append(0);
-	pg->append(1);
-	pg->append(2);
-	pg->append(3);
-	pg->append(0);
-
-	pg=a->createPolygon();
-	pg->append(4);
-	pg->append(0);
-
-	pg=a->createPolygon();
-	pg->append(5);
-	pg->append(1);
-
-	pg=a->createPolygon();
-	pg->append(6);
-	pg->append(2);
-
-	pg=a->createPolygon();
-	pg->append(7);
-	pg->append(3);
-
-	//Bottom
-	pg=a->createPolygon();
-	pg->append(7);
-	pg->append(6);
-	pg->append(5);
-	pg->append(4);
-	pg->append(7);
+	createCuboid(a,xmin,xmax,ymin,ymax,zmin,zmax);
 
 	result->appendChild(a);
 
+	CGAL::Point3 lower(xmin,ymin,zmin);
+	CGAL::Point3 upper(xmax,ymax,zmax);
 	reporter->reportMessage(tr("Bounds: [%1],[%2]").arg(to_string(lower)).arg(to_string(upper)));
 #endif
 }
@@ -795,26 +846,16 @@ void NodeEvaluator::visit(SliceNode* n)
 	auto* pr=static_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
 
-	auto* cp=new CGALPrimitive();
-	const CGAL::Scalar& h=n->getHeight();
 	const CGAL::Scalar& xmin=b.xmin();
 	const CGAL::Scalar& ymin=b.ymin();
 	const CGAL::Scalar& xmax=b.xmax();
 	const CGAL::Scalar& ymax=b.ymax();
 
-	CGALBuilder bd(cp);
-	bd.makeSideZ(xmin,xmax,ymin,ymax,h);
+	const CGAL::Scalar& h=n->getHeight();
+	const CGAL::Scalar& t=n->getThickness();
 
-	CGAL::Scalar t=n->getThickness();
-	if(t>0.0) {
-		const CGAL::Scalar& z=h+t;
-		bd.makeSideY(xmax,xmin,ymin,h,z);
-		bd.makeSideX(xmax,ymax,ymin,h,z);
-		bd.makeSideY(xmin,xmax,ymax,h,z);
-		bd.makeSideX(xmin,ymin,ymax,h,z);
-
-		bd.makeSideZ(xmin,xmax,ymax,ymin,z);
-	}
+	auto* cp=new CGALPrimitive();
+	createCuboid(cp,xmin,xmax,ymin,ymax,h,h+t);
 
 	result=result->intersection(cp);
 #endif
