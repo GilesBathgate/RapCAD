@@ -89,7 +89,7 @@ Point VectorValue::getPoint() const
 	return Point(x,y,z);
 }
 
-Value*VectorValue::getIndex(NumberValue* n)
+Value* VectorValue::getIndex(NumberValue* n)
 {
 	int i=n->toInteger();
 	if(i<0||i>=children.size()) return undefined();

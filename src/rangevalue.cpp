@@ -83,12 +83,12 @@ QList<Value*> RangeValue::getChildren()
 	return result;
 }
 
-Value*RangeValue::getStart() const
+Value* RangeValue::getStart() const
 {
 	return start;
 }
 
-Value*RangeValue::getFinish() const
+Value* RangeValue::getFinish() const
 {
 	return finish;
 }

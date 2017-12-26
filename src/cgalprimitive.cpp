@@ -222,8 +222,7 @@ void CGALPrimitive::buildPrimitive()
 		delete np2;
 
 		OnceOnly first;
-		for(CGAL::Point3 p: points)
-		{
+		for(CGAL::Point3 p: points) {
 			auto* np=new CGAL::NefPolyhedron3(sp);
 			CGAL::AffTransformation3 t(
 					1, 0, 0, p.x(),
