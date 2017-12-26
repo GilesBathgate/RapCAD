@@ -22,6 +22,7 @@
 #include "onceonly.h"
 #include "polyhedron.h"
 #include "simpletextbuilder.h"
+#include "module/cubemodule.h"
 
 #ifdef USE_CGAL
 #include <CGAL/centroid.h>
@@ -483,98 +484,6 @@ void NodeEvaluator::evaluate(QList<Node*> children,Operation_e type,Primitive* f
 
 }
 
-#ifdef USE_CGAL
-static void createCuboid(Primitive* p,CGAL::Scalar x1,CGAL::Scalar x2,CGAL::Scalar y1,CGAL::Scalar y2,CGAL::Scalar z1,CGAL::Scalar z2)
-{
-	if(x2-x1==0.0) {
-		p->createVertex(CGAL::Point3(x1,y2,z1)); //0
-		p->createVertex(CGAL::Point3(x1,y1,z1)); //1
-		p->createVertex(CGAL::Point3(x1,y1,z2)); //2
-		p->createVertex(CGAL::Point3(x1,y2,z2)); //3
-		Polygon* pg=p->createPolygon();
-		pg->append(0);
-		pg->append(1);
-		pg->append(2);
-		pg->append(3);
-		return;
-	}
-
-	if(y2-y1==0.0) {
-		p->createVertex(CGAL::Point3(x1,y1,z1)); //0
-		p->createVertex(CGAL::Point3(x2,y1,z1)); //1
-		p->createVertex(CGAL::Point3(x2,y1,z2)); //2
-		p->createVertex(CGAL::Point3(x1,y1,z2)); //3
-		Polygon* pg=p->createPolygon();
-		pg->append(0);
-		pg->append(1);
-		pg->append(2);
-		pg->append(3);
-		return;
-	}
-
-	if(z2-z1==0.0) {
-		p->createVertex(CGAL::Point3(x1,y2,z1)); //0
-		p->createVertex(CGAL::Point3(x2,y2,z1)); //1
-		p->createVertex(CGAL::Point3(x2,y1,z1)); //2
-		p->createVertex(CGAL::Point3(x1,y1,z1)); //3
-		Polygon* pg=p->createPolygon();
-		pg->append(0);
-		pg->append(1);
-		pg->append(2);
-		pg->append(3);
-		return;
-	}
-
-	p->createVertex(CGAL::Point3(x1,y1,z2)); //0
-	p->createVertex(CGAL::Point3(x2,y1,z2)); //1
-	p->createVertex(CGAL::Point3(x2,y2,z2)); //2
-	p->createVertex(CGAL::Point3(x1,y2,z2)); //3
-	p->createVertex(CGAL::Point3(x1,y1,z1)); //4
-	p->createVertex(CGAL::Point3(x2,y1,z1)); //5
-	p->createVertex(CGAL::Point3(x2,y2,z1)); //6
-	p->createVertex(CGAL::Point3(x1,y2,z1)); //7
-
-	//Top
-	Polygon* pg=p->createPolygon();
-	pg->append(0);
-	pg->append(1);
-	pg->append(2);
-	pg->append(3);
-
-	pg=p->createPolygon();
-	pg->append(4);
-	pg->append(5);
-	pg->append(1);
-	pg->append(0);
-
-	pg=p->createPolygon();
-	pg->append(5);
-	pg->append(6);
-	pg->append(2);
-	pg->append(1);
-
-	pg=p->createPolygon();
-	pg->append(6);
-	pg->append(7);
-	pg->append(3);
-	pg->append(2);
-
-	pg=p->createPolygon();
-	pg->append(7);
-	pg->append(4);
-	pg->append(0);
-	pg->append(3);
-
-	//Bottom
-	pg=p->createPolygon();
-	pg->append(7);
-	pg->append(6);
-	pg->append(5);
-	pg->append(4);
-
-}
-#endif
-
 void NodeEvaluator::visit(BoundsNode* n)
 {
 	evaluate(n,Union);
@@ -602,9 +511,9 @@ void NodeEvaluator::visit(BoundsNode* n)
 		result->appendChild(c);
 	}
 
-	auto* a=new Polyhedron();
+	Primitive* a=new Polyhedron();
 	a->setType(Primitive::Skeleton);
-	createCuboid(a,xmin,xmax,ymin,ymax,zmin,zmax);
+	CubeModule::createCuboid<CGAL::Point3>(a,xmin,xmax,ymin,ymax,zmin,zmax);
 
 	result->appendChild(a);
 
@@ -854,8 +763,8 @@ void NodeEvaluator::visit(SliceNode* n)
 	const CGAL::Scalar& h=n->getHeight();
 	const CGAL::Scalar& t=n->getThickness();
 
-	auto* cp=new CGALPrimitive();
-	createCuboid(cp,xmin,xmax,ymin,ymax,h,h+t);
+	Primitive* cp=new CGALPrimitive();
+	CubeModule::createCuboid<CGAL::Point3>(cp,xmin,xmax,ymin,ymax,h,h+t);
 
 	result=result->intersection(cp);
 #endif
