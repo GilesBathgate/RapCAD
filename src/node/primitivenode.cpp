@@ -24,6 +24,7 @@
 
 PrimitiveNode::PrimitiveNode(Reporter*)
 {
+	primitive=nullptr;
 }
 
 PrimitiveNode::~PrimitiveNode()
