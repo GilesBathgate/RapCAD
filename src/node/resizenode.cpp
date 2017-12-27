@@ -28,7 +28,7 @@ void ResizeNode::setSize(Point p)
 	size=p;
 }
 
-Point ResizeNode::getSize()
+Point ResizeNode::getSize() const
 {
 	return size;
 }
@@ -38,12 +38,12 @@ void ResizeNode::setAutoSize(bool b)
 	autosize=b;
 }
 
-bool ResizeNode::getAutoSize()
+bool ResizeNode::getAutoSize() const
 {
 	return autosize;
 }
 
 void ResizeNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

@@ -28,9 +28,9 @@ public:
 	ResizeNode();
 	void accept(NodeVisitor&) override;
 	void setSize(Point);
-	Point getSize();
+	Point getSize() const;
 	void setAutoSize(bool);
-	bool getAutoSize();
+	bool getAutoSize() const;
 private:
 	Point size;
 	bool autosize;

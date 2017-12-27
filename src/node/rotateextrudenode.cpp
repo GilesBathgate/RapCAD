@@ -68,7 +68,7 @@ void RotateExtrudeNode::setAxis(const Point& value)
 	axis = value;
 }
 
-Fragment* RotateExtrudeNode::getFragments()
+Fragment* RotateExtrudeNode::getFragments() const
 {
 	return fragments;
 }
@@ -80,5 +80,5 @@ void RotateExtrudeNode::setFragments(Fragment* f)
 
 void RotateExtrudeNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

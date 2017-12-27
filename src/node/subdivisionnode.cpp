@@ -34,5 +34,5 @@ int SubDivisionNode::getLevel() const
 }
 void SubDivisionNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

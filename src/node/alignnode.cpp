@@ -25,7 +25,7 @@ AlignNode::AlignNode()
 
 void AlignNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }
 
 bool AlignNode::getCenter() const

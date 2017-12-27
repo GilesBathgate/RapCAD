@@ -35,5 +35,5 @@ decimal LinearExtrudeNode::getHeight() const
 
 void LinearExtrudeNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

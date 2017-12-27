@@ -26,9 +26,9 @@ class SliceNode : public Node
 public:
 	SliceNode();
 	void setHeight(decimal);
-	decimal getHeight();
+	decimal getHeight() const;
 	void setThickness(decimal);
-	decimal getThickness();
+	decimal getThickness() const;
 	void accept(NodeVisitor&) override;
 private:
 	decimal height;

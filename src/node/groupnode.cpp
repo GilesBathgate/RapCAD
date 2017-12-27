@@ -24,5 +24,5 @@ GroupNode::GroupNode()
 
 void GroupNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

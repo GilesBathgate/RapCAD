@@ -34,5 +34,5 @@ void PointsNode::setPoints(QList<Point> p)
 
 void PointsNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

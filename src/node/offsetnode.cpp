@@ -34,5 +34,5 @@ decimal OffsetNode::getAmount() const
 
 void OffsetNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

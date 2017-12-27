@@ -24,5 +24,5 @@ PolylineNode::PolylineNode(Reporter* r) : PrimitiveNode(r)
 
 void PolylineNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

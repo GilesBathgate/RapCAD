@@ -28,12 +28,12 @@ void ProjectionNode::setBase(bool b)
 	base=b;
 }
 
-bool ProjectionNode::getBase()
+bool ProjectionNode::getBase() const
 {
 	return base;
 }
 
 void ProjectionNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

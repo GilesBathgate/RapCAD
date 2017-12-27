@@ -24,5 +24,5 @@ NormalsNode::NormalsNode()
 
 void NormalsNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

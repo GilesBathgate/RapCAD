@@ -25,10 +25,10 @@ ImportNode::ImportNode(QString imp)
 
 void ImportNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }
 
-QString ImportNode::getImport()
+QString ImportNode::getImport() const
 {
 	return import;
 }

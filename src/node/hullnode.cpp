@@ -56,5 +56,5 @@ void HullNode::setConcave(bool value)
 
 void HullNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

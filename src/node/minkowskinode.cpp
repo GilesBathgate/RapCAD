@@ -24,5 +24,5 @@ MinkowskiNode::MinkowskiNode()
 
 void MinkowskiNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

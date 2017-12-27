@@ -24,5 +24,5 @@ BoundaryNode::BoundaryNode()
 
 void BoundaryNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

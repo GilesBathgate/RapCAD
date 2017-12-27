@@ -35,5 +35,5 @@ void SimplifyNode::setRatio(decimal value)
 
 void SimplifyNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

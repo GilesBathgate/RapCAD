@@ -27,7 +27,7 @@ class ProductNode : public Node
 public:
 	ProductNode();
 	void setPrimitive(Primitive*);
-	Primitive* getPrimitive();
+	Primitive* getPrimitive() const;
 	void accept(NodeVisitor&) override;
 private:
 	Primitive* primitive;

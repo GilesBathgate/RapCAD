@@ -53,5 +53,5 @@ void PrimitiveNode::setPrimitive(Primitive* value)
 
 void PrimitiveNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

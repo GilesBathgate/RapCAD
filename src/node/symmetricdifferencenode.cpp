@@ -24,5 +24,5 @@ SymmetricDifferenceNode::SymmetricDifferenceNode()
 
 void SymmetricDifferenceNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

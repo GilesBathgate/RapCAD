@@ -25,7 +25,7 @@ VolumesNode::VolumesNode()
 
 void VolumesNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }
 
 bool VolumesNode::getCalcMass() const

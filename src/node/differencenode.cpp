@@ -24,5 +24,5 @@ DifferenceNode::DifferenceNode()
 
 void DifferenceNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

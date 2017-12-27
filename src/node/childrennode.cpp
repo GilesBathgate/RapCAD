@@ -34,5 +34,5 @@ QList<int> ChildrenNode::getIndexes() const
 
 void ChildrenNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

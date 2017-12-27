@@ -25,7 +25,7 @@ TransformationNode::TransformationNode()
 
 void TransformationNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }
 
 TransformMatrix* TransformationNode::getMatrix() const

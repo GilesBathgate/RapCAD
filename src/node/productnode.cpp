@@ -28,12 +28,12 @@ void ProductNode::setPrimitive(Primitive* value)
 	primitive=value;
 }
 
-Primitive* ProductNode::getPrimitive()
+Primitive* ProductNode::getPrimitive() const
 {
 	return primitive;
 }
 
 void ProductNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

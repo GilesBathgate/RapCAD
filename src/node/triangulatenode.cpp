@@ -24,5 +24,5 @@ TriangulateNode::TriangulateNode()
 
 void TriangulateNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

@@ -24,5 +24,5 @@ BoundsNode::BoundsNode()
 
 void BoundsNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

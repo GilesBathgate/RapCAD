@@ -24,5 +24,5 @@ DecomposeNode::DecomposeNode()
 
 void DecomposeNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

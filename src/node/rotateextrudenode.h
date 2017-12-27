@@ -34,7 +34,7 @@ public:
 	void setSweep(const decimal&);
 	decimal getHeight() const;
 	void setHeight(const decimal&);
-	Fragment* getFragments();
+	Fragment* getFragments() const;
 	void setFragments(Fragment*);
 	Point getAxis() const;
 	void setAxis(const Point&);
