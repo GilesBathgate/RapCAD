@@ -42,19 +42,20 @@ Node* CubeModule::evaluate(Context* ctx)
 		pt = size->getPoint();
 	}
 
-	auto* p=new PrimitiveNode(reporter);
-	p->setChildren(ctx->getInputNodes());
+	auto* pn=new PrimitiveNode(reporter);
+	Primitive* p=pn->createPrimitive();
+	pn->setChildren(ctx->getInputNodes());
 
 	decimal x1=0,y1=0,z1=0;
 	createCuboid<Point>(p,x1,pt.x(),y1,pt.y(),z1,pt.z());
 
 	if(center) {
-		auto* n=new AlignNode();
-		n->setCenter(true);
-		n->addChild(p);
-		return n;
+		auto* an=new AlignNode();
+		an->setCenter(true);
+		an->addChild(pn);
+		return an;
 	}
 
-	return p;
+	return pn;
 
 }

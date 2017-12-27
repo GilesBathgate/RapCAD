@@ -34,16 +34,17 @@ Node* PolygonModule::evaluate(Context* ctx)
 	auto* pointsVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	VectorValue* linesVec=dynamic_cast<VectorValue*>(ctx->getArgumentDeprecated(1,"lines","paths",reporter));
 
-	auto* p=new PrimitiveNode(reporter);
+	auto* pn=new PrimitiveNode(reporter);
+	Primitive* p=pn->createPrimitive();
 	p->setSanitized(false);
-	p->setChildren(ctx->getInputNodes());
+	pn->setChildren(ctx->getInputNodes());
 
 	if(!pointsVec)
-		return p;
+		return pn;
 
 	QList<Value*> points=pointsVec->getChildren();
 	if(points.isEmpty())
-		return p;
+		return pn;
 
 	for(Value* point: points) {
 		auto* pointVec=dynamic_cast<VectorValue*>(point);
@@ -60,7 +61,7 @@ Node* PolygonModule::evaluate(Context* ctx)
 		Polygon* pg=p->createPolygon();
 		for(auto i=0; i<points.length(); ++i)
 			pg->append(i);
-		return p;
+		return pn;
 	}
 
 	QList<Value*> lines=linesVec->getChildren();
@@ -91,5 +92,5 @@ Node* PolygonModule::evaluate(Context* ctx)
 		}
 	}
 
-	return p;
+	return pn;
 }

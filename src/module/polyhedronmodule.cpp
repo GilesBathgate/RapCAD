@@ -34,12 +34,13 @@ Node* PolyhedronModule::evaluate(Context* ctx)
 	auto* points=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	VectorValue* faces=dynamic_cast<VectorValue*>(ctx->getArgumentDeprecated(1,"faces","triangles",reporter));
 
-	auto* p=new PrimitiveNode(reporter);
+	auto* pn=new PrimitiveNode(reporter);
+	Primitive* p=pn->createPrimitive();
 	p->setSanitized(false);
-	p->setChildren(ctx->getInputNodes());
+	pn->setChildren(ctx->getInputNodes());
 
 	if(!points||!faces)
-		return p;
+		return pn;
 
 	QList<Value*> children = points->getChildren();
 	for(Value* child: children) {
@@ -64,6 +65,6 @@ Node* PolyhedronModule::evaluate(Context* ctx)
 
 	}
 
-	return p;
+	return pn;
 
 }

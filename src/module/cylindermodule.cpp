@@ -78,8 +78,9 @@ Node* CylinderModule::evaluate(Context* ctx)
 	QList<Point> c1=getCircle(r1,f,z1);
 	QList<Point> c2=getCircle(r2,f,z2);
 
-	auto* p=new PrimitiveNode(reporter);
-	p->setChildren(ctx->getInputNodes());
+	auto* pn=new PrimitiveNode(reporter);
+	Primitive* p=pn->createPrimitive();
+	pn->setChildren(ctx->getInputNodes());
 
 	int n=0;
 	Polygon* pg;
@@ -92,7 +93,7 @@ Node* CylinderModule::evaluate(Context* ctx)
 	}
 
 	if(h==0.0)
-		return p;
+		return pn;
 
 	if(r2>0) {
 		pg=p->createPolygon();
@@ -105,9 +106,9 @@ Node* CylinderModule::evaluate(Context* ctx)
 	/* In the cases where r1 or r2 are 0,  n will now convinently be pointing
 	 * one past the end, and point to the apex as defined here when needed */
 	if(r1<=0)
-		p->createVertex(0.0,0.0,z1);
+		p->createVertex(Point(0.0,0.0,z1));
 	if(r2<=0)
-		p->createVertex(0.0,0.0,z2);
+		p->createVertex(Point(0.0,0.0,z2));
 
 	for(auto i=0; i<f; ++i) {
 		int j=(i+1)%f;
@@ -143,11 +144,11 @@ Node* CylinderModule::evaluate(Context* ctx)
 	}
 
 	if(center) {
-		auto* n=new AlignNode();
-		n->setCenterVertical();
-		n->addChild(p);
-		return n;
+		auto* an=new AlignNode();
+		an->setCenterVertical();
+		an->addChild(pn);
+		return an;
 	}
 
-	return p;
+	return pn;
 }

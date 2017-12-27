@@ -46,14 +46,15 @@ Node* TextModule::evaluate(Context* ctx)
 	if(sizeVal)
 		size=sizeVal->toInteger();
 
-	QPathTextBuilder* tb=new QPathTextBuilder(reporter);
-	tb->setText(textVal->getValueString());
-	tb->setFamily(family);
-	tb->setSize(size);
+	QPathTextBuilder tb(reporter);
+	tb.setText(textVal->getValueString());
+	tb.setFamily(family);
+	tb.setSize(size);
 
-	PrimitiveNode* n=tb->buildPrimitiveNode();
-	n->setSanitized(false);
-	n->setChildren(ctx->getInputNodes());
-	delete tb;
-	return n;
+	auto* pn=new PrimitiveNode(reporter);
+	Primitive* p=tb.buildPrimitive();
+	p->setSanitized(false);
+	pn->setPrimitive(p);
+	pn->setChildren(ctx->getInputNodes());
+	return pn;
 }

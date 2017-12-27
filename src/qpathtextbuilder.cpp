@@ -62,14 +62,6 @@ void QPathTextBuilder::setLocation(Point p)
 #endif
 }
 
-Primitive* QPathTextBuilder::buildPrimitive() const
-{
-	PrimitiveNode* n = buildPrimitiveNode();
-	Primitive* p = n->getPrimitive();
-	delete n;
-	return p;
-}
-
 QFont QPathTextBuilder::getFont() const
 {
 	/*QFont with empty string chooses different font, so
@@ -79,7 +71,7 @@ QFont QPathTextBuilder::getFont() const
 	return f;
 }
 
-PrimitiveNode* QPathTextBuilder::buildPrimitiveNode() const
+Primitive* QPathTextBuilder::buildPrimitive() const
 {
 	QPainterPath path;
 	if(headless) {
@@ -97,13 +89,14 @@ PrimitiveNode* QPathTextBuilder::buildPrimitiveNode() const
 	QList<QPolygonF> paths = path.toSubpathPolygons();
 
 	int index=0;
-	PrimitiveNode* p = new PrimitiveNode(reporter);
+	PrimitiveNode pn(reporter);
+	Primitive* p=pn.createPrimitive();
 	for(const auto& path: paths) {
 		Polygon* pg=p->createPolygon();
 		OnceOnly first;
 		for(const auto& pt: path) {
 			if(!first()) {
-				p->createVertex(pt.x(),-pt.y(),0.0);
+				p->createVertex(Point(pt.x(),-pt.y(),0.0));
 				pg->append(index);
 				index++;
 			}

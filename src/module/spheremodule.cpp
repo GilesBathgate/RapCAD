@@ -47,8 +47,9 @@ Node* SphereModule::evaluate(Context* ctx)
 
 	int ringCount=f/2;
 
-	auto* p=new PrimitiveNode(reporter);
-	p->setChildren(ctx->getInputNodes());
+	auto* pn=new PrimitiveNode(reporter);
+	Primitive* p=pn->createPrimitive();
+	pn->setChildren(ctx->getInputNodes());
 
 	for(auto i=0; i<ringCount; ++i) {
 		decimal phi = (r_pi()*(i+0.5)) / ringCount;
@@ -93,5 +94,5 @@ Node* SphereModule::evaluate(Context* ctx)
 		pg->append(i-1);
 	}
 
-	return p;
+	return pn;
 }

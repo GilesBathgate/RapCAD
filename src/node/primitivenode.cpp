@@ -24,43 +24,30 @@
 
 PrimitiveNode::PrimitiveNode(Reporter*)
 {
+}
+
+PrimitiveNode::~PrimitiveNode()
+{
+}
+
+Primitive* PrimitiveNode::getPrimitive() const
+{
+	return primitive;
+}
+
+Primitive* PrimitiveNode::createPrimitive()
+{
 #ifdef USE_CGAL
 	primitive=new CGALPrimitive();
 #else
 	primitive=new Polyhedron();
 #endif
+	return primitive;
 }
 
-PrimitiveNode::~PrimitiveNode()
+void PrimitiveNode::setPrimitive(Primitive* value)
 {
-	delete primitive;
-}
-
-Polygon* PrimitiveNode::createPolygon()
-{
-	return primitive->createPolygon();
-}
-
-void PrimitiveNode::createVertex(decimal x, decimal y, decimal z)
-{
-	createVertex(Point(x,y,z));
-}
-
-void PrimitiveNode::createVertex(Point p)
-{
-	primitive->createVertex(p);
-}
-
-void PrimitiveNode::setSanitized(bool v)
-{
-	primitive->setSanitized(v);
-}
-
-Primitive* PrimitiveNode::getPrimitive()
-{
-	Primitive* pr=primitive;
-	primitive=nullptr;
-	return pr;
+	primitive = value;
 }
 
 void PrimitiveNode::accept(NodeVisitor& v)

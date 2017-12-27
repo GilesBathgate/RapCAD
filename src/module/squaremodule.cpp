@@ -41,25 +41,26 @@ Node* SquareModule::evaluate(Context* ctx)
 		x=pt.x(); y=pt.y();
 	}
 
-	auto* p=new PrimitiveNode(reporter);
-	p->setChildren(ctx->getInputNodes());
+	auto* pn=new PrimitiveNode(reporter);
+	Primitive* p=pn->createPrimitive();
+	pn->setChildren(ctx->getInputNodes());
 
 	Polygon* pg=p->createPolygon();
-	p->createVertex(0, 0, 0);
-	p->createVertex(x, 0, 0);
-	p->createVertex(x, y, 0);
-	p->createVertex(0, y, 0);
+	p->createVertex(Point(0, 0, 0));
+	p->createVertex(Point(x, 0, 0));
+	p->createVertex(Point(x, y, 0));
+	p->createVertex(Point(0, y, 0));
 	pg->append(0);
 	pg->append(1);
 	pg->append(2);
 	pg->append(3);
 
 	if(center) {
-		auto* n=new AlignNode();
-		n->setCenter(true);
-		n->addChild(p);
-		return n;
+		auto* an=new AlignNode();
+		an->setCenter(true);
+		an->addChild(pn);
+		return an;
 	}
 
-	return p;
+	return pn;
 }

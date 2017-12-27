@@ -37,7 +37,6 @@ public:
 	decimal getHeight() override;
 	void setLocation(Point) override;
 	Primitive* buildPrimitive() const override;
-	PrimitiveNode* buildPrimitiveNode() const;
 private:
 	QFont getFont() const;
 	QString text;

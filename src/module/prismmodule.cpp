@@ -66,8 +66,9 @@ Node* PrismModule::evaluate(Context* ctx)
 	QList<Point> p1=getPolygon(a,r,s,z1);
 	QList<Point> p2=getPolygon(a,r,s,z2);
 
-	auto* p=new PrimitiveNode(reporter);
-	p->setChildren(ctx->getInputNodes());
+	auto* pn=new PrimitiveNode(reporter);
+	Primitive* p=pn->createPrimitive();
+	pn->setChildren(ctx->getInputNodes());
 
 	if(r > 0) {
 		Polygon* pg;
@@ -97,11 +98,11 @@ Node* PrismModule::evaluate(Context* ctx)
 	}
 
 	if(center) {
-		auto* n=new AlignNode();
-		n->setCenterVertical();
-		n->addChild(p);
-		return n;
+		auto* an=new AlignNode();
+		an->setCenterVertical();
+		an->addChild(pn);
+		return an;
 	}
 
-	return p;
+	return pn;
 }
