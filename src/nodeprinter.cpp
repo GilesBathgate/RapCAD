@@ -155,7 +155,10 @@ void NodePrinter::visit(HullNode* n)
 			result << "true";
 		result << ")";
 	} else {
-		result << "hull()";
+		result << "hull(";
+		if(n->getConcave())
+			result << "concave=true";
+		result << ")";
 	}
 	printChildren(n);
 }
@@ -190,7 +193,8 @@ void NodePrinter::visit(BoundsNode* n)
 
 void NodePrinter::visit(SubDivisionNode* n)
 {
-	result << "subdiv()";
+	result << "subdiv";
+	printArguments(n->getLevel());
 	printChildren(n);
 }
 
@@ -208,8 +212,11 @@ void NodePrinter::visit(BoundaryNode* n)
 	printChildren(n);
 }
 
-void NodePrinter::visit(ImportNode*)
+void NodePrinter::visit(ImportNode* im)
 {
+	result << "import(\"";
+	result << im->getImport();
+	result << "\");";
 }
 
 void NodePrinter::printChildren(Node* n)
@@ -241,10 +248,26 @@ void NodePrinter::printArguments(int a)
 	result << ")";
 }
 
-void NodePrinter::printArguments(Point p)
+void NodePrinter::printArguments(decimal a)
 {
 	result << "(";
-	result << to_string(p);
+	result << to_string(a);
+	result << ")";
+}
+
+void NodePrinter::printArguments(QList<Point> pts)
+{
+	result << "(";
+	if(pts.count()>1)
+		result << "[";
+	OnceOnly first;
+	for(const auto& p: pts) {
+		if(!first())
+			result << ",";
+		result << to_string(p);
+	}
+	if(pts.count()>1)
+		result << "]";
 	result << ")";
 }
 
@@ -330,10 +353,10 @@ void NodePrinter::visit(AlignNode* n)
 	printChildren(n);
 }
 
-void NodePrinter::visit(PointNode* n)
+void NodePrinter::visit(PointsNode* n)
 {
-	result << "point";
-	printArguments(n->getPoint());
+	result << "points";
+	printArguments(n->getPoints());
 	printChildren(n);
 }
 
@@ -407,7 +430,8 @@ void NodePrinter::visit(NormalsNode* n)
 
 void NodePrinter::visit(SimplifyNode* n)
 {
-	result << "simplify()";
+	result << "simplify";
+	printArguments(n->getRatio());
 	printChildren(n);
 }
 

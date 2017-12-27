@@ -1,0 +1,2 @@
+import <005_import.nef> as a;
+a();

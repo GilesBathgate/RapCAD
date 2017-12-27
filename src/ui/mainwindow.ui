@@ -202,7 +202,7 @@
     <addaction name="actionClose"/>
     <addaction name="actionQuit"/>
    </widget>
-   <widget class="QMenu" name="menu_Edit">
+   <widget class="QMenu" name="menuEdit">
     <property name="title">
      <string>&amp;Edit</string>
     </property>
@@ -260,7 +260,7 @@
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuDesign"/>
-   <addaction name="menu_Edit"/>
+   <addaction name="menuEdit"/>
    <addaction name="menuView"/>
    <addaction name="menuHelp"/>
   </widget>

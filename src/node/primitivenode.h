@@ -30,12 +30,10 @@ class PrimitiveNode : public Node
 public:
 	PrimitiveNode(Reporter*);
 	~PrimitiveNode();
-	Polygon* createPolygon();
-	void createVertex(decimal x, decimal y, decimal z);
-	void createVertex(Point p);
 	void accept(NodeVisitor&) override;
-	void setSanitized(bool);
-	Primitive* getPrimitive();
+	Primitive* createPrimitive();
+	Primitive* getPrimitive() const;
+	void setPrimitive(Primitive* value);
 private:
 	Primitive* primitive;
 };

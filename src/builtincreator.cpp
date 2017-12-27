@@ -56,7 +56,7 @@
 #include "module/importmodule.h"
 #include "module/resizemodule.h"
 #include "module/centermodule.h"
-#include "module/pointmodule.h"
+#include "module/pointsmodule.h"
 #include "module/slicemodule.h"
 #include "module/projectionmodule.h"
 #include "module/decomposemodule.h"
@@ -144,6 +144,7 @@ BuiltinCreator::BuiltinCreator(Reporter* r)
 	builtins.append(new GlideModule(r));
 	builtins.append(new GroupModule(r));
 	builtins.append(new HullModule(r));
+	builtins.append(new ImportModule(r));
 	builtins.append(new IntersectionModule(r));
 	builtins.append(new LinearExtrudeModule(r));
 	builtins.append(new MaterialModule(r));
@@ -154,7 +155,8 @@ BuiltinCreator::BuiltinCreator(Reporter* r)
 	builtins.append(new OffsetModule(r));
 	builtins.append(new BoundaryModule(r,true));
 	builtins.append(new BoundaryModule(r,false));
-	builtins.append(new PointModule(r));
+	builtins.append(new PointsModule(r,true));
+	builtins.append(new PointsModule(r,false));
 	builtins.append(new PolygonModule(r));
 	builtins.append(new PolyhedronModule(r));
 	builtins.append(new PolylineModule(r));

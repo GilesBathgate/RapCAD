@@ -16,17 +16,23 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef POINTMODULE_H
-#define POINTMODULE_H
+#include "pointsnode.h"
 
-#include "module.h"
-
-class PointModule : public Module
+PointsNode::PointsNode()
 {
-	Q_DECLARE_TR_FUNCTIONS(PointModule)
-public:
-	PointModule(Reporter*);
-	Node* evaluate(Context*) override;
-};
+}
 
-#endif // POINTMODULE_H
+QList<Point> PointsNode::getPoints() const
+{
+	return points;
+}
+
+void PointsNode::setPoints(QList<Point> p)
+{
+	points=p;
+}
+
+void PointsNode::accept(NodeVisitor& v)
+{
+	v.visit(this);
+}

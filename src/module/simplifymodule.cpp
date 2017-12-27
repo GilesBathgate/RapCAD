@@ -24,18 +24,18 @@
 SimplifyModule::SimplifyModule(Reporter* r) : Module(r,"simplify")
 {
 	addDescription(tr("Performs a mesh simplification on its children."));
-	addParameter("stop",tr("The mesh simplification stops when the number of edges in its children drops below the given number."));
+	addParameter("ratio",tr("The mesh simplification stops when the number of edges is below the ratio of the initial number of edges"));
 }
 
 Node* SimplifyModule::evaluate(Context* ctx)
 {
-	int stop=1000;
+	decimal ratio=0.1;
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal)
-		stop=numVal->toInteger();
+		ratio=numVal->getNumber();
 
 	auto* n=new SimplifyNode();
+	n->setRatio(ratio);
 	n->setChildren(ctx->getInputNodes());
-	n->setStopLevel(stop);
 	return n;
 }

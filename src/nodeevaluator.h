@@ -43,7 +43,7 @@
 #include "node/importnode.h"
 #include "node/resizenode.h"
 #include "node/alignnode.h"
-#include "node/pointnode.h"
+#include "node/pointsnode.h"
 #include "node/slicenode.h"
 #include "node/productnode.h"
 #include "node/projectionnode.h"
@@ -95,7 +95,7 @@ public:
 	void visit(TransformationNode*) override;
 	void visit(ResizeNode*) override;
 	void visit(AlignNode*) override;
-	void visit(PointNode*) override;
+	void visit(PointsNode*) override;
 	void visit(SliceNode*) override;
 	void visit(ProductNode*) override;
 	void visit(ProjectionNode*) override;

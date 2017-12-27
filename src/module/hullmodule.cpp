@@ -19,14 +19,22 @@
 #include "hullmodule.h"
 #include "context.h"
 #include "node/hullnode.h"
+#include "booleanvalue.h"
 
 HullModule::HullModule(Reporter* r) : Module(r,"hull")
 {
+	addParameter("concave","Determines whether the hull may be concave");
 }
 
 Node* HullModule::evaluate(Context* ctx)
 {
+	bool concave=false;
+	auto* concaveVal = dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));
+	if(concaveVal)
+		concave=concaveVal->isTrue();
+
 	auto* d = new HullNode();
+	d->setConcave(concave);
 	d->setChildren(ctx->getInputNodes());
 	return d;
 }

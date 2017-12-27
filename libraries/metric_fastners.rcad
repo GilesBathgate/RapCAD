@@ -57,7 +57,7 @@ module flat_nut(dia)
 		cylinder(r=e/2,h=m,$fn=6);
 		translate([0,0,-m/2])cylinder(r=dia/2,h=m*2);
 		if(apply_chamfer)
-		    translate([0,0,c])cylinder_chamfer(e/2,c);
+			translate([0,0,c])cylinder_chamfer(e/2,c);
 	}
 }
 
@@ -70,7 +70,7 @@ module bolt(dia,len)
 	{
 		cylinder(r=e/2,h=k,$fn=6);
 		if(apply_chamfer)
-		    translate([0,0,c])cylinder_chamfer(e/2,c);
+			translate([0,0,c])cylinder_chamfer(e/2,c);
 	}
 
 	cylinder(r=dia/2,h=len);
@@ -79,13 +79,14 @@ module bolt(dia,len)
 
 module cylinder_chamfer(r1,r2)
 {
-	t=r1-r2;
+	t=r1;
 	p=r2*2;
-	rotate_extrude()
+	rotate([0,0,90])
+	rotate_extrude($fn=6)
 	difference()
 	{
 		translate([t,-p])square([p,p]);
-		translate([t,0])circle(r2);
+		translate([t,0])circle(r2,$fn=4);
 	}
 }
 
@@ -96,16 +97,14 @@ module chamfer(len,r)
 	difference()
 	{
 		square([p,p]);
-		circle(r);
+		circle(r,$fn=4);
 	}
 }
 
-union()
-{
+// Examples:
 //csk_bolt(3,14);
 //washer(3);
 //flat_nut(3);
 //bolt(4,14);
 //cylinder_chamfer(8,1);
 //chamfer(5,1);
-}

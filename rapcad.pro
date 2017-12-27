@@ -105,6 +105,7 @@ contains(DEFINES,USE_CGAL) {
 }
 
 CONFIG(coverage){
+	QT += testlib
 	DEFINES += USE_INTEGTEST
 	CONFIG += debug
   !macx {
@@ -275,8 +276,6 @@ SOURCES += \
 	src/function/tanhfunction.cpp \
 	src/module/centermodule.cpp \
 	src/ui/aboutdialog.cpp \
-	src/module/pointmodule.cpp \
-	src/node/pointnode.cpp \
 	src/module/slicemodule.cpp \
 	src/node/slicenode.cpp \
 	src/module/conemodule.cpp \
@@ -358,7 +357,9 @@ SOURCES += \
 	src/module/textmodule.cpp \
 	src/module/boundarymodule.cpp \
 	src/node/boundarynode.cpp \
-	src/function/isvecfunction.cpp
+	src/function/isvecfunction.cpp \
+       src/node/pointsnode.cpp \
+       src/module/pointsmodule.cpp
 
 HEADERS  += \
 	contrib/OGL_helper.h \
@@ -522,8 +523,8 @@ HEADERS  += \
 	src/function/tanhfunction.h \
 	src/module/centermodule.h \
 	src/ui/aboutdialog.h \
-	src/module/pointmodule.h \
-	src/node/pointnode.h \
+	src/module/pointsmodule.h \
+	src/node/pointsnode.h \
 	src/module/slicemodule.h \
 	src/node/slicenode.h \
 	src/primitive.h \

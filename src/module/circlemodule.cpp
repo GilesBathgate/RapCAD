@@ -44,8 +44,9 @@ Node* CircleModule::evaluate(Context* ctx)
 
 	QList<Point> c = getCircle(r,f,0);
 
-	auto* p=new PrimitiveNode(reporter);
-	p->setChildren(ctx->getInputNodes());
+	auto* pn=new PrimitiveNode(reporter);
+	Primitive* p=pn->createPrimitive();
+	pn->setChildren(ctx->getInputNodes());
 
 	int i=0;
 	if(r > 0) {
@@ -56,5 +57,5 @@ Node* CircleModule::evaluate(Context* ctx)
 		}
 	}
 
-	return p;
+	return pn;
 }

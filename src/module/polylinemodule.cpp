@@ -33,10 +33,11 @@ Node* PolylineModule::evaluate(Context* ctx)
 	auto* pointsVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	auto* linesVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
 
-	auto* p=new PolylineNode(reporter);
+	auto* pn=new PolylineNode(reporter);
+	Primitive* p=pn->createPrimitive();
 
 	if(!pointsVec)
-		return p;
+		return pn;
 
 	QList<Value*> points=pointsVec->getChildren();
 
@@ -55,7 +56,7 @@ Node* PolylineModule::evaluate(Context* ctx)
 		Polygon* pg=p->createPolygon();
 		for(auto i=0; i<points.length(); ++i)
 			pg->append(i);
-		return p;
+		return pn;
 	}
 
 	/* Otherwise use the lines argument to describe the multiple
@@ -78,5 +79,5 @@ Node* PolylineModule::evaluate(Context* ctx)
 		}
 	}
 
-	return p;
+	return pn;
 }

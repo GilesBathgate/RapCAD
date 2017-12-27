@@ -22,13 +22,14 @@
 #include "onceonly.h"
 #include "polyhedron.h"
 #include "simpletextbuilder.h"
+#include "module/cubemodule.h"
 
 #ifdef USE_CGAL
 #include <CGAL/centroid.h>
 #include <CGAL/convex_hull_3.h>
-#ifdef USE_SUBDIV
+#include <CGAL/Delaunay_triangulation_3.h>
+#include <CGAL/Alpha_shape_3.h>
 #include <CGAL/Subdivision_method_3.h>
-#endif
 #include "cgalimport.h"
 #include "cgalexplorer.h"
 #include "cgalprimitive.h"
@@ -199,9 +200,51 @@ void NodeEvaluator::visit(HullNode* n)
 			points.append(explorer.getPoints());
 		}
 
-		CGAL::Polyhedron3 hull;
-		CGAL::convex_hull_3(points.begin(),points.end(),hull);
-		result=new CGALPrimitive(hull);
+		if(!n->getConcave()) {
+			CGAL::Polyhedron3 hull;
+			CGAL::convex_hull_3(points.begin(),points.end(),hull);
+			result=new CGALPrimitive(hull);
+			return;
+		}
+
+		typedef CGAL::Alpha_shape_vertex_base_3<CGAL::Kernel3>     Vb;
+		typedef CGAL::Alpha_shape_cell_base_3<CGAL::Kernel3>       Fb;
+		typedef CGAL::Triangulation_data_structure_3<Vb,Fb>        Tds;
+		typedef CGAL::Delaunay_triangulation_3<CGAL::Kernel3, Tds> Triangulation_3;
+		typedef CGAL::Alpha_shape_3<Triangulation_3>               Alpha_shape_3;
+		typedef Alpha_shape_3::Alpha_iterator                      Alpha_iterator;
+		typedef Alpha_shape_3::Facet                               Facet;
+
+		Alpha_shape_3 as(points.begin(), points.end(),0.001,Alpha_shape_3::GENERAL);
+		Alpha_iterator opt = as.find_optimal_alpha(1);
+		as.set_alpha(*opt);
+
+		QList<Facet> facets;
+		as.get_alpha_shape_facets(std::back_inserter(facets),Alpha_shape_3::REGULAR);
+
+		auto* cp = new CGALPrimitive();
+		for(Facet f: facets) {
+			auto& t=f.first;
+			//To have a consistent orientation of the facet, always consider an exterior cell
+			if(as.classify(t) != Alpha_shape_3::EXTERIOR)
+				f = as.mirror_facet(f);
+
+			int i=f.second;
+			int indices[3] = { (i + 1) % 4, (i + 2) % 4, (i + 3) % 4 };
+			//According to the encoding of vertex indices, this is needed to get a consistent orientation
+			if(i % 2 == 0)
+				std::swap(indices[0], indices[1]);
+
+			//Build triangle faces
+			cp->createPolygon();
+			CGAL::Point3 p1=t->vertex(indices[0])->point();
+			CGAL::Point3 p2=t->vertex(indices[1])->point();
+			CGAL::Point3 p3=t->vertex(indices[2])->point();
+			cp->appendVertex(p1);
+			cp->appendVertex(p2);
+			cp->appendVertex(p3);
+		}
+		result=cp;
 	}
 #endif
 }
@@ -468,55 +511,14 @@ void NodeEvaluator::visit(BoundsNode* n)
 		result->appendChild(c);
 	}
 
-	CGAL::Point3 lower(xmin,ymin,zmin);
-	CGAL::Point3 upper(xmax,ymax,zmax);
-
-	auto* a=new Polyhedron();
+	Primitive* a=new Polyhedron();
 	a->setType(Primitive::Skeleton);
-	a->createPolygon();
-	a->createVertex(lower); //0
-	a->createVertex(CGAL::Point3(xmax,ymin,zmin)); //1
-	a->createVertex(CGAL::Point3(xmax,ymax,zmin)); //2
-	a->createVertex(CGAL::Point3(xmin,ymax,zmin)); //3
-	a->createVertex(CGAL::Point3(xmin,ymin,zmax)); //4
-	a->createVertex(CGAL::Point3(xmax,ymin,zmax)); //5
-	a->createVertex(upper); //6
-	a->createVertex(CGAL::Point3(xmin,ymax,zmax)); //7
-
-	//Top
-	Polygon* pg=a->createPolygon();
-	pg->append(0);
-	pg->append(1);
-	pg->append(2);
-	pg->append(3);
-	pg->append(0);
-
-	pg=a->createPolygon();
-	pg->append(4);
-	pg->append(0);
-
-	pg=a->createPolygon();
-	pg->append(5);
-	pg->append(1);
-
-	pg=a->createPolygon();
-	pg->append(6);
-	pg->append(2);
-
-	pg=a->createPolygon();
-	pg->append(7);
-	pg->append(3);
-
-	//Bottom
-	pg=a->createPolygon();
-	pg->append(7);
-	pg->append(6);
-	pg->append(5);
-	pg->append(4);
-	pg->append(7);
+	CubeModule::createCuboid<CGAL::Point3>(a,xmin,xmax,ymin,ymax,zmin,zmax);
 
 	result->appendChild(a);
 
+	CGAL::Point3 lower(xmin,ymin,zmin);
+	CGAL::Point3 upper(xmax,ymax,zmax);
 	reporter->reportMessage(tr("Bounds: [%1],[%2]").arg(to_string(lower)).arg(to_string(upper)));
 #endif
 }
@@ -524,7 +526,7 @@ void NodeEvaluator::visit(BoundsNode* n)
 void NodeEvaluator::visit(SubDivisionNode* n)
 {
 	evaluate(n,Union);
-#if defined(USE_CGAL) && defined(USE_SUBDIV)
+#ifdef USE_CGAL
 	auto* cp=static_cast<CGALPrimitive*>(result);
 	CGAL::Polyhedron3& p=*cp->getPolyhedron();
 	CGAL::Subdivision_method_3::Loop_subdivision(p,n->getLevel());
@@ -573,7 +575,7 @@ void NodeEvaluator::visit(SimplifyNode* n)
 {
 	evaluate(n,Union);
 	if(result)
-		result=result->simplify(n->getStopLevel());
+		result=result->simplify(n->getRatio());
 }
 
 void NodeEvaluator::visit(ChildrenNode* n)
@@ -733,12 +735,16 @@ void NodeEvaluator::visit(AlignNode* n)
 #endif
 }
 
-void NodeEvaluator::visit(PointNode* n)
+void NodeEvaluator::visit(PointsNode* n)
 {
 	Primitive* cp=createPrimitive();
-	cp->setType(Primitive::Single);
+	cp->setType(Primitive::Points);
+	QList<Point> points=n->getPoints();
 	cp->createPolygon();
-	cp->createVertex(n->getPoint());
+	if(points.count()==0)
+		cp->createVertex(Point(0,0,0));
+	for(Point p: points)
+		cp->createVertex(p);
 	result=cp;
 }
 
@@ -749,26 +755,16 @@ void NodeEvaluator::visit(SliceNode* n)
 	auto* pr=static_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
 
-	auto* cp=new CGALPrimitive();
-	const CGAL::Scalar& h=n->getHeight();
 	const CGAL::Scalar& xmin=b.xmin();
 	const CGAL::Scalar& ymin=b.ymin();
 	const CGAL::Scalar& xmax=b.xmax();
 	const CGAL::Scalar& ymax=b.ymax();
 
-	CGALBuilder bd(cp);
-	bd.makeSideZ(xmin,xmax,ymin,ymax,h);
+	const CGAL::Scalar& h=n->getHeight();
+	const CGAL::Scalar& t=n->getThickness();
 
-	CGAL::Scalar t=n->getThickness();
-	if(t>0.0) {
-		const CGAL::Scalar& z=h+t;
-		bd.makeSideY(xmax,xmin,ymin,h,z);
-		bd.makeSideX(xmax,ymax,ymin,h,z);
-		bd.makeSideY(xmin,xmax,ymax,h,z);
-		bd.makeSideX(xmin,ymin,ymax,h,z);
-
-		bd.makeSideZ(xmin,xmax,ymax,ymin,z);
-	}
+	Primitive* cp=new CGALPrimitive();
+	CubeModule::createCuboid<CGAL::Point3>(cp,xmin,xmax,ymin,ymax,h,h+t);
 
 	result=result->intersection(cp);
 #endif

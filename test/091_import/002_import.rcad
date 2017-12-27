@@ -1,0 +1,2 @@
+import <002_import.off> as a;
+a();

@@ -20,17 +20,17 @@
 
 SimplifyNode::SimplifyNode()
 {
-	stopLevel=0;
+	ratio=0.1;
 }
 
-int SimplifyNode::getStopLevel() const
+decimal SimplifyNode::getRatio() const
 {
-	return stopLevel;
+	return ratio;
 }
 
-void SimplifyNode::setStopLevel(int value)
+void SimplifyNode::setRatio(decimal value)
 {
-	stopLevel=value;
+	ratio=value;
 }
 
 void SimplifyNode::accept(NodeVisitor& v)

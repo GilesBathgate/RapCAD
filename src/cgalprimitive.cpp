@@ -1,3 +1,21 @@
+/*
+ *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
+ *   Copyright (C) 2010-2017 Giles Bathgate
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #ifdef USE_CGAL
 #include "cgalprimitive.h"
 #include <QPair>
@@ -11,7 +29,7 @@
 //Mesh simplification
 #include <CGAL/boost/graph/graph_traits_Polyhedron_3.h>
 #include <CGAL/Surface_mesh_simplification/edge_collapse.h>
-#include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Count_stop_predicate.h>
+#include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Count_ratio_stop_predicate.h>
 #include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Edge_length_cost.h>
 #include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Midpoint_placement.h>
 
@@ -185,7 +203,6 @@ void CGALPrimitive::buildPrimitive()
 	}
 
 	default: {
-		CGAL::Point3 p=points.last();
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,8,0)
 		QVector<CGAL::Point3> pl1,pl2;
 		CGAL::Point3 p1=CGAL::Point3(0.0,0.0,0.0);
@@ -200,17 +217,25 @@ void CGALPrimitive::buildPrimitive()
 		pl2.append(p3);
 		const CGAL::NefPolyhedron3* np2=createPolyline(pl2);
 
-		nefPolyhedron=new CGAL::NefPolyhedron3(np1->intersection(*np2));
+		const CGAL::NefPolyhedron3& sp=np1->intersection(*np2);
 		delete np1;
 		delete np2;
 
-		CGAL::AffTransformation3 t(
+		OnceOnly first;
+		for(CGAL::Point3 p: points) {
+			auto* np=new CGAL::NefPolyhedron3(sp);
+			CGAL::AffTransformation3 t(
 					1, 0, 0, p.x(),
 					0, 1, 0, p.y(),
 					0, 0, 1, p.z(), 1);
-		nefPolyhedron->transform(t);
+			np->transform(t);
+			if(first())
+				nefPolyhedron=np;
+			else
+				*nefPolyhedron=nefPolyhedron->join(*np);
+		}
 #else
-		nefPolyhedron=new CGAL::NefPolyhedron3(p);
+		nefPolyhedron=new CGAL::NefPolyhedron3(points.begin(), points.end(), CGAL::NefPolyhedron3::Points_tag());
 #endif
 		return;
 	}
@@ -489,18 +514,18 @@ Primitive* CGALPrimitive::triangulate()
 	return b.triangulate();
 }
 
-#if CGAL_VERSION_NR <= CGAL_VERSION_NUMBER(4,2,0)
-Primitive* CGALPrimitive::simplify(int)
+#ifndef USE_SIMPLIFY
+Primitive* CGALPrimitive::simplify(decimal)
 {
 	return this;
 }
 #else
-Primitive* CGALPrimitive::simplify(int level)
+Primitive* CGALPrimitive::simplify(decimal ratio)
 {
 
 	namespace SMS=CGAL::Surface_mesh_simplification;
 	CGAL::Polyhedron3& p=*getPolyhedron();
-	SMS::Count_stop_predicate<CGAL::Polyhedron3> stop(level);
+	SMS::Count_ratio_stop_predicate<CGAL::Polyhedron3> stop(to_double(ratio));
 	SMS::edge_collapse(p,stop,
 #if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(4,7,0)
 					   CGAL::parameters::vertex_index_map(get(CGAL::vertex_external_index,p))
@@ -560,8 +585,7 @@ CGAL::Polyhedron3* CGALPrimitive::getPolyhedron()
 {
 	this->buildPrimitive();
 	CGAL::Polyhedron3* poly = new CGAL::Polyhedron3();
-	if(nefPolyhedron->is_simple())
-		nefPolyhedron->convert_to_polyhedron(*poly);
+	nefPolyhedron->convert_to_polyhedron(*poly);
 	return poly;
 }
 

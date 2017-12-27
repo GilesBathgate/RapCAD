@@ -18,14 +18,20 @@
 
 #include "importmodule.h"
 #include "node/importnode.h"
+#include "textvalue.h"
+#include "context.h"
 
-ImportModule::ImportModule()
+ImportModule::ImportModule(Reporter* r) : Module(r,"import")
 {
+	addParameter("file", tr("The name of the file to import."));
 }
 
-Node* ImportModule::evaluate(Context*)
+Node* ImportModule::evaluate(Context* ctx)
 {
-	//TODO instance specific args
+	auto* fileVal = dynamic_cast<TextValue*>(getParameterArgument(ctx,0));
+	if(fileVal)
+		return new ImportNode(fileVal->getValueString());
+
 	return new ImportNode(import);
 }
 

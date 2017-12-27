@@ -22,6 +22,7 @@ HullNode::HullNode()
 {
 	chain=false;
 	closed=false;
+	concave=false;
 }
 
 bool HullNode::getChain() const
@@ -41,6 +42,16 @@ bool HullNode::getClosed() const
 void HullNode::setClosed(bool value)
 {
 	closed=value;
+}
+
+bool HullNode::getConcave() const
+{
+	return concave;
+}
+
+void HullNode::setConcave(bool value)
+{
+	concave = value;
 }
 
 void HullNode::accept(NodeVisitor& v)

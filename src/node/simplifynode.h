@@ -27,11 +27,11 @@ public:
 	SimplifyNode();
 	void accept(NodeVisitor&) override;
 
-	int getStopLevel() const;
-	void setStopLevel(int value);
+	decimal getRatio() const;
+	void setRatio(decimal value);
 
 private:
-	int stopLevel;
+	decimal ratio;
 };
 
 #endif // SIMPLIFYNODE_H

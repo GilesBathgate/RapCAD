@@ -17,6 +17,10 @@
  */
 #ifdef USE_INTEGTEST
 #include <QDir>
+#include <QTimer>
+#include <QApplication>
+#include <QtTest/QTest>
+#include <QMenu>
 #ifdef USE_CGAL
 #include "cgal.h"
 #include "cgalexport.h"
@@ -30,9 +34,9 @@
 #include "treeprinter.h"
 #include "builtincreator.h"
 #include "nodeevaluator.h"
+#include "ui/codeeditor.h"
 
-
-Tester::Tester(QTextStream& s) : Strategy(s)
+Tester::Tester(QTextStream& s,QObject* parent) : QObject(parent),Strategy(s)
 {
 	nullout = new QString();
 	nullstream = new QTextStream(nullout);
@@ -61,8 +65,14 @@ static bool skipDir(QString dir)
 #ifndef USE_OFFSET
 	if(dir=="051_offset") return true;
 #endif
+#ifndef USE_SIMPLIFY
+	if(dir=="087_simplify") return true;
+#endif
 #ifdef Q_OS_WIN
 	if(dir=="063_rands") return true;
+#endif
+#ifndef USE_SUBDIV
+	if(dir=="090_subdiv") return true;
 #endif
 	if(dir=="") return true;
 
@@ -75,6 +85,12 @@ int Tester::evaluate()
 
 	CacheManager* cm=CacheManager::getInstance();
 	cm->disableCaches();
+
+	output << QString("Qt:\t %1\n").arg(QT_VERSION_STR);
+#ifdef USE_CGAL
+	output << QString("CGAL:\t %1\n").arg(CGAL_VERSION_STR);
+#endif
+	output << QString("Boost:\t %1.%2.%3\n").arg(BOOST_VERSION / 100000).arg(BOOST_VERSION / 100 % 1000).arg(BOOST_VERSION % 100);
 
 	writeHeader("000_treeprinter",testcount);
 
@@ -121,8 +137,39 @@ int Tester::evaluate()
 	output << testcount << " tests. Passed: " << passcount << " Failed: " << failcount << endl;
 
 	reporter->reportTiming("testing");
-
+#ifndef Q_OS_WIN
+	reporter->startTiming();
+	int c=0;
+	QApplication a(c,nullptr);
+	ui = new MainWindow();
+	ui->show();
+	QTimer::singleShot(100,this,SLOT(runTests()));
+	a.exec();
+	reporter->reportTiming("ui testing");
+#endif
 	return reporter->getReturnCode();
+}
+
+void Tester::runTests()
+{
+	CodeEditor* edit = ui->findChild<CodeEditor*>("scriptEditor");
+	edit->activateWindow();
+	QTest::keyClicks(edit,"cube(10);");
+	edit->setFileName("test.rcad");
+	edit->saveFile();
+	QTest::keyClick(ui,Qt::Key_F6,Qt::NoModifier,100);
+
+	ui->activateWindow();
+	QTest::keyClick(ui,Qt::Key_E,Qt::AltModifier);
+	QMenu* menuEdit = ui->findChild<QMenu*>("menuEdit");
+	QTest::keyClick(menuEdit,Qt::Key_Up);
+	QTest::keyClick(menuEdit,Qt::Key_Enter);
+
+	QDialog* prefs = ui->findChild<QDialog*>("Preferences");
+	prefs->activateWindow();
+	QTest::keyClick(prefs,Qt::Key_Enter,Qt::NoModifier,100);
+
+	QTimer::singleShot(1000,ui,SLOT(close()));
 }
 
 void Tester::exportTest(QString dir)

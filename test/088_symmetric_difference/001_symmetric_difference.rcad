@@ -1,0 +1,4 @@
+symmetric_difference() {
+cube(10);
+translate([5,0,0])cube(10);
+}

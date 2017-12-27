@@ -16,24 +16,35 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "pointmodule.h"
-#include "node/pointnode.h"
+#include "pointsmodule.h"
+#include "node/pointsnode.h"
 #include "vectorvalue.h"
 
-PointModule::PointModule(Reporter* r) : Module(r,"point")
+PointsModule::PointsModule(Reporter* r,bool multiple) : Module(r,multiple?"points":"point")
 {
-	addDescription(tr("Constructs a point."));
-	addParameter("location",tr("The location of the point."));
+	addDescription(tr("Constructs points."));
+	addParameter("points",tr("The location of the points."));
 }
 
-Node* PointModule::evaluate(Context* ctx)
+Node* PointsModule::evaluate(Context* ctx)
 {
-	auto* location=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* pointsVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 
-	auto* p=new PointNode();
-	Point pt(0,0,0);
-	if(location)
-		pt = location->getPoint();
-	p->setPoint(pt);
-	return p;
+	QList<Point> points;
+	auto* n=new PointsNode();
+	if(!pointsVal)
+		return n;
+
+	for(Value* child: pointsVal->getChildren()) {
+		auto* loc = dynamic_cast<VectorValue*>(child);
+		if(!loc) {
+			points.append(pointsVal->getPoint());
+			n->setPoints(points);
+			return n;
+		}
+		points.append(loc->getPoint());
+	}
+
+	n->setPoints(points);
+	return n;
 }
