@@ -25,7 +25,7 @@ class SinFunction : public Function
 {
 public:
 	SinFunction();
-	Value* evaluate(Context*) override;
+	Value* evaluate(Context*) const override;
 };
 
 #endif // SINFUNCTION_H

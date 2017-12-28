@@ -27,7 +27,7 @@ SphereModule::SphereModule(Reporter* r) : PrimitiveModule(r,"sphere")
 	addParameter("radius",tr("The radius of the sphere."));
 }
 
-Node* SphereModule::evaluate(Context* ctx)
+Node* SphereModule::evaluate(Context* ctx) const
 {
 	auto* rValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	decimal r=0.0;

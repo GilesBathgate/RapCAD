@@ -25,7 +25,7 @@ class SumFunction : public Function
 {
 public:
 	SumFunction();
-	Value* evaluate(Context*) override;
+	Value* evaluate(Context*) const override;
 };
 
 #endif // SUMFUNCTION_H

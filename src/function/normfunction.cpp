@@ -29,7 +29,7 @@ NormFunction::NormFunction() : Function("norm")
 	addParameter("value");
 }
 
-Value* NormFunction::evaluate(Context* ctx)
+Value* NormFunction::evaluate(Context* ctx) const
 {
 	Value* v=getParameterArgument(ctx,0);
 

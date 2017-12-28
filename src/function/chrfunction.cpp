@@ -25,7 +25,7 @@ ChrFunction::ChrFunction() : Function("chr")
 {
 }
 
-Value* ChrFunction::evaluate(Context* ctx)
+Value* ChrFunction::evaluate(Context* ctx) const
 {
 	QString result;
 	for(Value* argVal: ctx->getArguments()) {

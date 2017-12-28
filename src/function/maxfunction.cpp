@@ -24,7 +24,7 @@ MaxFunction::MaxFunction() : Function("max")
 	addParameter("values");
 }
 
-Value* MaxFunction::evaluate(Context* ctx)
+Value* MaxFunction::evaluate(Context* ctx) const
 {
 	QList<Value*> values=ctx->getArguments();
 

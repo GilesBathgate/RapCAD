@@ -25,7 +25,7 @@ class LogFunction : public Function
 {
 public:
 	LogFunction();
-	Value* evaluate(Context*) override;
+	Value* evaluate(Context*) const override;
 };
 
 #endif // LOGFUNCTION_H

@@ -88,7 +88,7 @@ void Module::accept(TreeVisitor& v)
 	v.visit(*this);
 }
 
-Node* Module::evaluate(Context*)
+Node* Module::evaluate(Context*) const
 {
 	return nullptr;
 }
@@ -112,12 +112,12 @@ void Module::addParameter(QString name, QString desc)
 	parameters.append(p);
 }
 
-Value* Module::getParameterArgument(Context* ctx, int index)
+Value* Module::getParameterArgument(Context* ctx, int index) const
 {
 	return getParameterArgument(ctx,index,index);
 }
 
-Value* Module::getParameterArgument(Context* ctx, int index, int expectedIndex)
+Value* Module::getParameterArgument(Context* ctx, int index, int expectedIndex) const
 {
 	Parameter* p=parameters.at(index);
 	return ctx->getArgument(expectedIndex,p->getName());

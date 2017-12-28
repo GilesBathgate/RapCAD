@@ -28,19 +28,19 @@ class BezierSurfaceModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(BezierSurfaceModule)
 public:
 	BezierSurfaceModule(Reporter*);
-	Node* evaluate(Context*) override;
+	Node* evaluate(Context*) const override;
 private:
 	typedef QList<decimal> Vector;
 	typedef QList<Point> Points;
 	typedef QList<Points> Mesh;
 
-	decimal bez03(decimal);
-	decimal bez13(decimal);
-	decimal bez23(decimal);
-	decimal bez33(decimal);
-	Point pointOnBez(Points,decimal);
-	Point pointOnBezMesh(Mesh,Vector);
-	Points getCurveQuad(Mesh,Vector,Vector);
+	decimal bez03(decimal) const;
+	decimal bez13(decimal) const;
+	decimal bez23(decimal) const;
+	decimal bez33(decimal) const;
+	Point pointOnBez(Points,decimal) const;
+	Point pointOnBezMesh(Mesh,Vector) const;
+	Points getCurveQuad(Mesh,Vector,Vector) const;
 };
 
 #endif // BEZIERSURFACEMODULE_H

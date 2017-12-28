@@ -25,7 +25,7 @@ class NumFunction : public Function
 {
 public:
 	NumFunction();
-	Value* evaluate(Context*) override;
+	Value* evaluate(Context*) const override;
 };
 
 #endif // NUMFUNCTION_H

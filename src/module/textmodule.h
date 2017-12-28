@@ -26,7 +26,7 @@ class TextModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(TextModule)
 public:
 	TextModule(Reporter*);
-	Node* evaluate(Context*) override;
+	Node* evaluate(Context*) const override;
 };
 
 #endif // TEXTMODULE_H

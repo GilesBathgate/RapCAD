@@ -26,7 +26,7 @@ RadialsModule::RadialsModule(Reporter* r) : Module(r,"radial")
 	auxilary=true;
 }
 
-Node* RadialsModule::evaluate(Context* ctx)
+Node* RadialsModule::evaluate(Context* ctx) const
 {
 	auto* n=new RadialsNode();
 	n->setChildren(ctx->getInputNodes());

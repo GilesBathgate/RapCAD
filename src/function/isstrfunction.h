@@ -25,7 +25,7 @@ class IsStrFunction : public Function
 {
 public:
 	IsStrFunction();
-	Value* evaluate(Context*) override;
+	Value* evaluate(Context*) const override;
 };
 
 #endif // ISSTRFUNCTION_H

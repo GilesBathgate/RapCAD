@@ -28,7 +28,7 @@ MirrorModule::MirrorModule(Reporter* r) : Module(r,"mirror")
 	addParameter("vector",tr("The normal vector of the mirror plane."));
 }
 
-Node* MirrorModule::evaluate(Context* ctx)
+Node* MirrorModule::evaluate(Context* ctx) const
 {
 	Point p(0,0,0);
 	auto* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));

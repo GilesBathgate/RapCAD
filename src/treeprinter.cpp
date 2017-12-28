@@ -34,7 +34,7 @@ void TreePrinter::createIndent()
 		result << "  ";
 }
 
-void TreePrinter::visit(ModuleScope& scp)
+void TreePrinter::visit(const ModuleScope& scp)
 {
 	++indent;
 	for(Declaration* d: scp.getDeclarations()) {
@@ -44,7 +44,7 @@ void TreePrinter::visit(ModuleScope& scp)
 	--indent;
 }
 
-void TreePrinter::visit(Instance& inst)
+void TreePrinter::visit(const Instance& inst)
 {
 
 	switch(inst.getType()) {
@@ -104,7 +104,7 @@ void TreePrinter::visit(Instance& inst)
 	result << "\n";
 }
 
-void TreePrinter::visit(Module& mod)
+void TreePrinter::visit(const Module& mod)
 {
 	QList<Parameter*> parameters = mod.getParameters();
 	QString desc=mod.getDescription();
@@ -136,7 +136,7 @@ void TreePrinter::visit(Module& mod)
 	result << "}\n\n";
 }
 
-void TreePrinter::visit(Function& func)
+void TreePrinter::visit(const Function& func)
 {
 	result << "function ";
 	result << func.getName();
@@ -156,7 +156,7 @@ void TreePrinter::visit(Function& func)
 	result << "\n";
 }
 
-void TreePrinter::visit(FunctionScope& scp)
+void TreePrinter::visit(const FunctionScope& scp)
 {
 	Expression* expression = scp.getExpression();
 	if(expression) {
@@ -184,7 +184,7 @@ void TreePrinter::visit(FunctionScope& scp)
 	result << "\n";
 }
 
-void TreePrinter::visit(CompoundStatement& stmt)
+void TreePrinter::visit(const CompoundStatement& stmt)
 {
 	QList<Statement*> children = stmt.getChildren();
 	int c = children.size();
@@ -208,7 +208,7 @@ void TreePrinter::visit(CompoundStatement& stmt)
 
 }
 
-void TreePrinter::visit(IfElseStatement& ifelse)
+void TreePrinter::visit(const IfElseStatement& ifelse)
 {
 	result << "if(";
 	ifelse.getExpression()->accept(*this);
@@ -228,7 +228,7 @@ void TreePrinter::visit(IfElseStatement& ifelse)
 	result << "\n";
 }
 
-void TreePrinter::visit(ForStatement& forstmt)
+void TreePrinter::visit(const ForStatement& forstmt)
 {
 	result << "for(";
 	for(Argument* a: forstmt.getArguments())
@@ -240,7 +240,7 @@ void TreePrinter::visit(ForStatement& forstmt)
 	result << "\n";
 }
 
-void TreePrinter::visit(Parameter& param)
+void TreePrinter::visit(const Parameter& param)
 {
 	result << param.getName();
 
@@ -251,7 +251,7 @@ void TreePrinter::visit(Parameter& param)
 	}
 }
 
-void TreePrinter::visit(BinaryExpression& exp)
+void TreePrinter::visit(const BinaryExpression& exp)
 {
 	result << "(";
 	exp.getLeft()->accept(*this);
@@ -260,7 +260,7 @@ void TreePrinter::visit(BinaryExpression& exp)
 	result << ")";
 }
 
-void TreePrinter::visit(Argument& arg)
+void TreePrinter::visit(const Argument& arg)
 {
 	Variable* variable = arg.getVariable();
 	if(variable) {
@@ -271,7 +271,7 @@ void TreePrinter::visit(Argument& arg)
 	arg.getExpression()->accept(*this);
 }
 
-void TreePrinter::visit(AssignStatement& stmt)
+void TreePrinter::visit(const AssignStatement& stmt)
 {
 	Variable* var = stmt.getVariable();
 	if(var)
@@ -295,7 +295,7 @@ void TreePrinter::visit(AssignStatement& stmt)
 	result << ";\n";
 }
 
-void TreePrinter::visit(VectorExpression& exp)
+void TreePrinter::visit(const VectorExpression& exp)
 {
 	result << "[";
 	QList<Expression*> children = exp.getChildren();
@@ -308,7 +308,7 @@ void TreePrinter::visit(VectorExpression& exp)
 	result << "]";
 }
 
-void TreePrinter::visit(RangeExpression& exp)
+void TreePrinter::visit(const RangeExpression& exp)
 {
 	result << "[";
 	exp.getStart()->accept(*this);
@@ -324,7 +324,7 @@ void TreePrinter::visit(RangeExpression& exp)
 	result << "]";
 }
 
-void TreePrinter::visit(UnaryExpression& exp)
+void TreePrinter::visit(const UnaryExpression& exp)
 {
 	QString op = exp.getOpString();
 	bool p = exp.postFix();
@@ -335,14 +335,14 @@ void TreePrinter::visit(UnaryExpression& exp)
 		result << op;
 }
 
-void TreePrinter::visit(ReturnStatement& stmt)
+void TreePrinter::visit(const ReturnStatement& stmt)
 {
 	result << "return ";
 	stmt.getExpression()->accept(*this);
 	result << ";\n";
 }
 
-void TreePrinter::visit(TernaryExpression& exp)
+void TreePrinter::visit(const TernaryExpression& exp)
 {
 	result << "(";
 	exp.getCondition()->accept(*this);
@@ -353,7 +353,7 @@ void TreePrinter::visit(TernaryExpression& exp)
 	result << ")";
 }
 
-void TreePrinter::visit(Invocation& stmt)
+void TreePrinter::visit(const Invocation& stmt)
 {
 	QString nameSpace = stmt.getNamespace();
 	if(!nameSpace.isEmpty()) {
@@ -376,7 +376,7 @@ void TreePrinter::visit(Callback&)
 {
 }
 
-void TreePrinter::visit(ModuleImport& decl)
+void TreePrinter::visit(const ModuleImport& decl)
 {
 	result << "import <";
 	result << decl.getImport();
@@ -402,7 +402,7 @@ void TreePrinter::visit(ModuleImport& decl)
 	result << ";\n";
 }
 
-void TreePrinter::visit(ScriptImport& decl)
+void TreePrinter::visit(const ScriptImport& decl)
 {
 	result << "use <";
 	result << decl.getImport();
@@ -416,12 +416,12 @@ void TreePrinter::visit(ScriptImport& decl)
 	result << "\n";
 }
 
-void TreePrinter::visit(Literal& lit)
+void TreePrinter::visit(const Literal& lit)
 {
 	result << lit.getValueString();
 }
 
-void TreePrinter::visit(Variable& var)
+void TreePrinter::visit(const Variable& var)
 {
 	switch(var.getStorage()) {
 	case Variable::Const:
@@ -439,7 +439,7 @@ void TreePrinter::visit(Variable& var)
 	result << var.getName();
 }
 
-void TreePrinter::visit(CodeDoc& cd)
+void TreePrinter::visit(const CodeDoc& cd)
 {
 	result << cd.getName() << " " << cd.getText() << "\n";
 }
@@ -463,6 +463,6 @@ void TreePrinter::visit(Product&)
 {
 }
 
-void TreePrinter::visit(ComplexExpression&)
+void TreePrinter::visit(const ComplexExpression&)
 {
 }

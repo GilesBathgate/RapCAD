@@ -30,8 +30,8 @@ class PrimitiveModule : public Module
 public:
 	PrimitiveModule(Reporter*,const QString);
 protected:
-	QList<Point> getCircle(decimal,decimal,decimal);
-	QList<Point> getPolygon(decimal,decimal,decimal,decimal);
+	QList<Point> getCircle(decimal,decimal,decimal) const;
+	QList<Point> getPolygon(decimal,decimal,decimal,decimal) const;
 };
 
 #endif // PRIMITIVEMODULE_H

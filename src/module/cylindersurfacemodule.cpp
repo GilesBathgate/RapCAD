@@ -29,7 +29,7 @@ CylinderSurfaceModule::CylinderSurfaceModule(Reporter* r) : PrimitiveModule(r,"c
 }
 
 
-Node* CylinderSurfaceModule::evaluate(Context* ctx)
+Node* CylinderSurfaceModule::evaluate(Context* ctx) const
 {
 	auto* heightValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	decimal h=1.0;

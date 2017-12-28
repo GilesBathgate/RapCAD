@@ -35,7 +35,7 @@ static QString capitalize(const QString& str)
 	return tmp;
 }
 
-void AsciidocPrinter::visit(Module& mod)
+void AsciidocPrinter::visit(const Module& mod)
 {
 	QString name=mod.getName();
 	result << capitalize(name) << "\n";

@@ -28,7 +28,7 @@ SliceModule::SliceModule(Reporter* r) : Module(r,"slice")
 	addParameter("thickness",tr("The thickness of the slice."));
 }
 
-Node* SliceModule::evaluate(Context* ctx)
+Node* SliceModule::evaluate(Context* ctx) const
 {
 	decimal h=0.0;
 	auto* height=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));

@@ -26,7 +26,7 @@ IsIntFunction::IsIntFunction() : Function("is_int")
 	addParameter("value");
 }
 
-Value* IsIntFunction::evaluate(Context* ctx)
+Value* IsIntFunction::evaluate(Context* ctx) const
 {
 	auto* num=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(num) {

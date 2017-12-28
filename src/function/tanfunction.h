@@ -25,7 +25,7 @@ class TanFunction : public Function
 {
 public:
 	TanFunction();
-	Value* evaluate(Context*) override;
+	Value* evaluate(Context*) const override;
 };
 
 #endif // TANFUNCTION_H

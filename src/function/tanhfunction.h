@@ -25,7 +25,7 @@ class TanhFunction : public Function
 {
 public:
 	TanhFunction();
-	Value* evaluate(Context*) override;
+	Value* evaluate(Context*) const override;
 };
 
 #endif // TANHFUNCTION_H

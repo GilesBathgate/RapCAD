@@ -25,7 +25,7 @@ class ChrFunction : public Function
 {
 public:
 	ChrFunction();
-	Value* evaluate(Context*) override;
+	Value* evaluate(Context*) const override;
 };
 
 #endif // CHRFUNCTION_H

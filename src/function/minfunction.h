@@ -25,7 +25,7 @@ class MinFunction : public Function
 {
 public:
 	MinFunction();
-	Value* evaluate(Context*) override;
+	Value* evaluate(Context*) const override;
 };
 
 #endif // MINFUNCTION_H

@@ -34,10 +34,10 @@ void Layout::setParent(Layout* value)
 	parent=value;
 }
 
-Module* Layout::lookupModule(QString name,bool aux)
+const Module* Layout::lookupModule(QString name,bool aux)
 {
 	if(modules.contains(name)) {
-		Module* m=modules.value(name);
+		const Module* m=modules.value(name);
 		if(m->getAuxilary()==aux)
 			return m;
 	} else if(parent) {
@@ -47,7 +47,7 @@ Module* Layout::lookupModule(QString name,bool aux)
 	return nullptr;
 }
 
-Function* Layout::lookupFunction(QString name)
+const Function* Layout::lookupFunction(QString name)
 {
 	if(functions.contains(name)) {
 		return functions.value(name);
@@ -58,7 +58,7 @@ Function* Layout::lookupFunction(QString name)
 	return nullptr;
 }
 
-void Layout::addModule(Module& mod)
+void Layout::addModule(const Module& mod)
 {
 	QString name=mod.getName();
 	if(modules.contains(name)) {
@@ -69,7 +69,7 @@ void Layout::addModule(Module& mod)
 	modules.insert(name,&mod);
 }
 
-void Layout::addFunction(Function& func)
+void Layout::addFunction(const Function& func)
 {
 	QString name=func.getName();
 	if(functions.contains(name)) {

@@ -29,7 +29,7 @@ PrismModule::PrismModule(Reporter* r) : PrimitiveModule(r,"prism")
 	addParameter("center",tr("Specifies whether to center the prism vertically along the z axis."));
 }
 
-Node* PrismModule::evaluate(Context* ctx)
+Node* PrismModule::evaluate(Context* ctx) const
 {
 	auto* heightVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	decimal h=1.0;

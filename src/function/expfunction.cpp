@@ -26,7 +26,7 @@ ExpFunction::ExpFunction() : Function("exp")
 	addParameter("value");
 }
 
-Value* ExpFunction::evaluate(Context* ctx)
+Value* ExpFunction::evaluate(Context* ctx) const
 {
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {

@@ -25,7 +25,7 @@ class VersionFunction : public Function
 {
 public:
 	VersionFunction();
-	Value* evaluate(Context*) override;
+	Value* evaluate(Context*) const override;
 };
 
 #endif // VERSIONFUNCTION_H

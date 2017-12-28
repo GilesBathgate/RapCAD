@@ -35,7 +35,7 @@ AlignModule::AlignModule(Reporter* r) : Module(r,"align")
 	addParameter("west",tr("Specifies alignment to the west face."));
 }
 
-Node* AlignModule::evaluate(Context* ctx)
+Node* AlignModule::evaluate(Context* ctx) const
 {
 	QList<AlignNode::Face_t> align;
 	VectorValue* vecVal=dynamic_cast<VectorValue*>(ctx->getArgument(0,"anchor"));

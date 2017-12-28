@@ -26,7 +26,7 @@ TanhFunction::TanhFunction() : Function("tanh")
 	addParameter("value");
 }
 
-Value* TanhFunction::evaluate(Context* ctx)
+Value* TanhFunction::evaluate(Context* ctx) const
 {
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {

@@ -29,7 +29,7 @@ AngFunction::AngFunction() : Function("ang")
 	addParameter("axis");
 }
 
-Value* AngFunction::getResult(decimal a,decimal x,decimal y,decimal z)
+Value* AngFunction::getResult(decimal a,decimal x,decimal y,decimal z) const
 {
 	decimal w=a/2.0;
 	decimal c=r_right_cos(w);
@@ -45,7 +45,7 @@ Value* AngFunction::getResult(decimal a,decimal x,decimal y,decimal z)
 	return new ComplexValue(angle,axis);
 }
 
-Value* AngFunction::evaluate(Context* ctx)
+Value* AngFunction::evaluate(Context* ctx) const
 {
 	VectorValue* vecVal1=dynamic_cast<VectorValue*>(ctx->getArgument(0,"v1"));
 	VectorValue* vecVal2=dynamic_cast<VectorValue*>(ctx->getArgument(1,"v2"));

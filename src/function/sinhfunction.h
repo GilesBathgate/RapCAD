@@ -25,7 +25,7 @@ class SinhFunction : public Function
 {
 public:
 	SinhFunction();
-	Value* evaluate(Context*) override;
+	Value* evaluate(Context*) const override;
 };
 
 #endif // SINHFUNCTION_H

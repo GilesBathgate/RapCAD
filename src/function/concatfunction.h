@@ -25,7 +25,7 @@ class ConcatFunction : public Function
 {
 public:
 	ConcatFunction();
-	Value* evaluate(Context*) override;
+	Value* evaluate(Context*) const override;
 };
 
 #endif // CONCATFUNCTION_H

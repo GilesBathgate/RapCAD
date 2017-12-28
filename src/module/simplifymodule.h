@@ -26,7 +26,7 @@ class SimplifyModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(SimplifyModule)
 public:
 	SimplifyModule(Reporter*);
-	Node* evaluate(Context*) override;
+	Node* evaluate(Context*) const override;
 };
 
 #endif // SIMPLIFYMODULE_H

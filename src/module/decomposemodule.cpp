@@ -24,7 +24,7 @@ DecomposeModule::DecomposeModule(Reporter* r) : Module(r,"decompose")
 {
 }
 
-Node* DecomposeModule::evaluate(Context* ctx)
+Node* DecomposeModule::evaluate(Context* ctx) const
 {
 	auto* n=new DecomposeNode();
 	n->setChildren(ctx->getInputNodes());

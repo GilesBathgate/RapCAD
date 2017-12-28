@@ -46,13 +46,13 @@ public:
 	Scope* getScope() const;
 	void setScope(Scope*);
 	void accept(TreeVisitor&) override;
-	virtual Node* evaluate(Context*);
+	virtual Node* evaluate(Context*) const;
 protected:
 	void addDescription(QString);
 	void addDeprecated(QString);
 	void addParameter(QString,QString);
-	Value* getParameterArgument(Context*,int);
-	Value* getParameterArgument(Context*,int,int);
+	Value* getParameterArgument(Context*,int) const;
+	Value* getParameterArgument(Context*,int,int) const;
 
 	bool auxilary;
 	Reporter* reporter;

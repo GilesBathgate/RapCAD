@@ -34,11 +34,11 @@ public:
 
 	void setParent(Layout*);
 
-	Module* lookupModule(QString,bool);
-	void addModule(Module& mod);
+	const Module* lookupModule(QString,bool);
+	void addModule(const Module& mod);
 
-	Function* lookupFunction(QString);
-	void addFunction(Function&);
+	const Function* lookupFunction(QString);
+	void addFunction(const Function&);
 
 	bool inScope(Scope*);
 	void setScope(Scope*);
@@ -46,8 +46,8 @@ public:
 private:
 	Reporter* reporter;
 	Layout* parent;
-	QHash<QString,Module*> modules;
-	QHash<QString,Function*> functions;
+	QHash<QString,const Module*> modules;
+	QHash<QString,const Function*> functions;
 	Scope* scope;
 };
 

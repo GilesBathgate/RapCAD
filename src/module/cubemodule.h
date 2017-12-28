@@ -26,7 +26,7 @@ class CubeModule : public PrimitiveModule
 	Q_DECLARE_TR_FUNCTIONS(CubeModule)
 public:
 	CubeModule(Reporter*);
-	Node* evaluate(Context*) override;
+	Node* evaluate(Context*) const override;
 	template <class Point,class Scalar, class Primitive>
 	static void createCuboid(Primitive* p,Scalar x1,Scalar x2,Scalar y1,Scalar y2,Scalar z1,Scalar z2);
 };

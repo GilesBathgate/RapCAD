@@ -22,7 +22,7 @@ WriteLnModule::WriteLnModule(Reporter* r) : WriteModule(r,"writeln")
 {
 }
 
-Node* WriteLnModule::evaluate(Context* ctx)
+Node* WriteLnModule::evaluate(Context* ctx) const
 {
 	WriteModule::evaluate(ctx);
 	output << endl;

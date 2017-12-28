@@ -28,7 +28,7 @@ MultMatrixModule::MultMatrixModule(Reporter* r) : Module(r,"multmatrix")
 	addParameter("matrix",tr("The 4 by 4 affine transformation matrix"));
 }
 
-Node* MultMatrixModule::evaluate(Context* ctx)
+Node* MultMatrixModule::evaluate(Context* ctx) const
 {
 	auto* matrixVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 

@@ -28,7 +28,7 @@ VersionFunction::VersionFunction() : Function("version")
 {
 }
 
-Value* VersionFunction::evaluate(Context*)
+Value* VersionFunction::evaluate(Context*) const
 {
 	QList<Value*> version;
 	QString v=STRINGIFY(RAPCAD_VERSION);

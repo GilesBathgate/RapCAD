@@ -26,7 +26,7 @@ CrossFunction::CrossFunction() : Function("cross")
 	addParameter("v2");
 }
 
-Value* CrossFunction::evaluate(Context* ctx)
+Value* CrossFunction::evaluate(Context* ctx) const
 {
 
 	auto* vec1=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));

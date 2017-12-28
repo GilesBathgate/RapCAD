@@ -25,7 +25,7 @@ class MaxFunction : public Function
 {
 public:
 	MaxFunction();
-	Value* evaluate(Context*) override;
+	Value* evaluate(Context*) const override;
 };
 
 #endif // MAXFUNCTION_H

@@ -25,7 +25,7 @@ class ComplementModule : public Module
 {
 public:
 	ComplementModule(Reporter*);
-	Node* evaluate(Context*) override;
+	Node* evaluate(Context*) const override;
 };
 
 #endif // COMPLEMENTMODULE_H

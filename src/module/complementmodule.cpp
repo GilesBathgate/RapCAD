@@ -24,7 +24,7 @@ ComplementModule::ComplementModule(Reporter* r) : Module(r,"complement")
 {
 }
 
-Node* ComplementModule::evaluate(Context* ctx)
+Node* ComplementModule::evaluate(Context* ctx) const
 {
 	auto* n=new ComplementNode();
 	n->setChildren(ctx->getInputNodes());

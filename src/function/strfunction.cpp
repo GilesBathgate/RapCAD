@@ -25,7 +25,7 @@ StrFunction::StrFunction() : Function("str")
 {
 }
 
-Value* StrFunction::evaluate(Context* ctx)
+Value* StrFunction::evaluate(Context* ctx) const
 {
 	TextValue* val=nullptr;
 	for(Value* argVal: ctx->getArguments()) {

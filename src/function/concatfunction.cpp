@@ -24,7 +24,7 @@ ConcatFunction::ConcatFunction() : Function("concat")
 {
 }
 
-Value* ConcatFunction::evaluate(Context* ctx)
+Value* ConcatFunction::evaluate(Context* ctx) const
 {
 	VectorValue* val=nullptr;
 	for(Value* argVal: ctx->getArguments()) {

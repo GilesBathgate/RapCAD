@@ -30,7 +30,7 @@ ConeModule::ConeModule(Reporter* r) : PrimitiveModule(r,"cone")
 	addParameter("center",tr("Specifies whether the cone should be vertically centered along the z axis."));
 }
 
-Node* ConeModule::evaluate(Context* ctx)
+Node* ConeModule::evaluate(Context* ctx) const
 {
 	auto* heightValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	auto* r1Value = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));

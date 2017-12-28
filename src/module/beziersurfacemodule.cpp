@@ -28,27 +28,27 @@ BezierSurfaceModule::BezierSurfaceModule(Reporter* r) : Module(r,"bezier_surface
 	addParameter("mesh",tr("A 4 by 4 matrix of points."));
 }
 
-decimal BezierSurfaceModule::bez03(decimal u)
+decimal BezierSurfaceModule::bez03(decimal u) const
 {
 	return r_pow((1-u), 3);
 }
 
-decimal BezierSurfaceModule::bez13(decimal u)
+decimal BezierSurfaceModule::bez13(decimal u) const
 {
 	return 3*u*(r_pow((1-u),2));
 }
 
-decimal BezierSurfaceModule::bez23(decimal u)
+decimal BezierSurfaceModule::bez23(decimal u) const
 {
 	return 3*(r_pow(u,2))*(1-u);
 }
 
-decimal BezierSurfaceModule::bez33(decimal u)
+decimal BezierSurfaceModule::bez33(decimal u) const
 {
 	return r_pow(u,3);
 }
 
-Point BezierSurfaceModule::pointOnBez(Points cps, decimal u)
+Point BezierSurfaceModule::pointOnBez(Points cps, decimal u) const
 {
 	decimal a=bez03(u),b=bez13(u),c=bez23(u),d=bez33(u);
 	decimal x=a*cps[0].x()+b*cps[1].x()+c*cps[2].x()+d*cps[3].x();
@@ -58,7 +58,7 @@ Point BezierSurfaceModule::pointOnBez(Points cps, decimal u)
 	return Point(x,y,z);
 }
 
-Point BezierSurfaceModule::pointOnBezMesh(Mesh mesh,Vector uv)
+Point BezierSurfaceModule::pointOnBezMesh(Mesh mesh,Vector uv) const
 {
 	Points p;
 	p.append(pointOnBez(mesh[0], uv[0]));
@@ -69,7 +69,7 @@ Point BezierSurfaceModule::pointOnBezMesh(Mesh mesh,Vector uv)
 	return pointOnBez(p,uv[1]);
 }
 
-Node* BezierSurfaceModule::evaluate(Context* ctx)
+Node* BezierSurfaceModule::evaluate(Context* ctx) const
 {
 	Mesh mesh;
 	auto* meshVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));

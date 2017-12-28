@@ -26,7 +26,7 @@ DegFunction::DegFunction() : Function("deg")
 	addParameter("radians");
 }
 
-Value* DegFunction::evaluate(Context* ctx)
+Value* DegFunction::evaluate(Context* ctx) const
 {
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {

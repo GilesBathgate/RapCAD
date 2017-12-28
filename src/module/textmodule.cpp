@@ -30,7 +30,7 @@ TextModule::TextModule(Reporter* r) : Module(r, "text")
 	addParameter("size",tr("The size of the text"));
 }
 
-Node* TextModule::evaluate(Context* ctx)
+Node* TextModule::evaluate(Context* ctx) const
 {
 	auto* textVal=dynamic_cast<TextValue*>(getParameterArgument(ctx,0));
 	if(!textVal)

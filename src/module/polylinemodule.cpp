@@ -28,7 +28,7 @@ PolylineModule::PolylineModule(Reporter* r) : Module(r,"polyline")
 	addParameter("lines",tr("The lines are a list of indices to the vertices"));
 }
 
-Node* PolylineModule::evaluate(Context* ctx)
+Node* PolylineModule::evaluate(Context* ctx) const
 {
 	auto* pointsVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	auto* linesVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));

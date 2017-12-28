@@ -25,7 +25,7 @@ class NormFunction : public Function
 {
 public:
 	NormFunction();
-	Value* evaluate(Context*) override;
+	Value* evaluate(Context*) const override;
 };
 
 #endif // NORMFUNCTION_H

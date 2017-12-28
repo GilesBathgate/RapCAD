@@ -26,7 +26,7 @@ SquareModule::SquareModule(Reporter* r) : PrimitiveModule(r,"square")
 	addParameter("center",tr("Specifies whether to center the square on the xy plane"));
 }
 
-Node* SquareModule::evaluate(Context* ctx)
+Node* SquareModule::evaluate(Context* ctx) const
 {
 	Value* sizeVal=getParameterArgument(ctx,0);
 	Value* centerVal=getParameterArgument(ctx,1);

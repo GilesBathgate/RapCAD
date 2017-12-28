@@ -42,10 +42,10 @@ public:
 	Scope* getScope() const;
 	void setScope(Scope*);
 	void accept(TreeVisitor&) override;
-	virtual Value* evaluate(Context*);
+	virtual Value* evaluate(Context*) const;
 protected:
 	void addParameter(QString);
-	Value* getParameterArgument(Context*,int);
+	Value* getParameterArgument(Context*,int) const;
 private:
 	QString name;
 	QList<Parameter*> parameters;
