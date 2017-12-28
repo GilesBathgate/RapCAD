@@ -24,9 +24,9 @@ MaxFunction::MaxFunction() : Function("max")
 	addParameter("values");
 }
 
-Value* MaxFunction::evaluate(Context* ctx) const
+Value* MaxFunction::evaluate(Context& ctx) const
 {
-	QList<Value*> values=ctx->getArguments();
+	QList<Value*> values=ctx.getArguments();
 
 	return Value::compareAll(values,Expression::GreaterThan);
 }

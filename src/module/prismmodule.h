@@ -26,7 +26,7 @@ class PrismModule : public PrimitiveModule
 	Q_DECLARE_TR_FUNCTIONS(PrismModule)
 public:
 	PrismModule(Reporter*);
-	Node* evaluate(Context*) const override;
+	Node* evaluate(Context&) const override;
 };
 
 #endif // PRISMMODULE_H

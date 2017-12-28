@@ -26,11 +26,11 @@ class Fragment
 {
 public:
 	virtual ~Fragment() {}
-	static Fragment* createFragment(Context*);
+	static Fragment* createFragment(Context&);
 	virtual int getFragments(decimal);
 protected:
 	Fragment();
-	Fragment(Context*);
+	Fragment(Context&);
 	int fragmentNumber;
 	decimal fragmentSize;
 	decimal fragmentAngle;

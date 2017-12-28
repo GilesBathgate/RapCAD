@@ -26,7 +26,7 @@ TanFunction::TanFunction() : Function("tan")
 	addParameter("value");
 }
 
-Value* TanFunction::evaluate(Context* ctx) const
+Value* TanFunction::evaluate(Context& ctx) const
 {
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {

@@ -25,7 +25,7 @@ class RadFunction : public Function
 {
 public:
 	RadFunction();
-	Value* evaluate(Context*) const override;
+	Value* evaluate(Context&) const override;
 };
 
 #endif // RADFUNCTION_H

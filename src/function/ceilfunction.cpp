@@ -26,7 +26,7 @@ CeilFunction::CeilFunction() : Function("ceil")
 	addParameter("value");
 }
 
-Value* CeilFunction::evaluate(Context* ctx) const
+Value* CeilFunction::evaluate(Context& ctx) const
 {
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {

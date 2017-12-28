@@ -25,7 +25,7 @@ class TriangulateModule : public Module
 {
 public:
 	TriangulateModule(Reporter*);
-	Node* evaluate(Context*) const override;
+	Node* evaluate(Context&) const override;
 };
 
 #endif // TRIANGULATEMODULE_H

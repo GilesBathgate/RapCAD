@@ -28,12 +28,12 @@ ProjectionModule::ProjectionModule(Reporter* r) : Module(r,"projection")
 	addParameter("base",tr("Specifies that only polygons with normals perpendicular to the xy plane be considered."));
 }
 
-Node* ProjectionModule::evaluate(Context* ctx) const
+Node* ProjectionModule::evaluate(Context& ctx) const
 {
-	BooleanValue* cut=dynamic_cast<BooleanValue*>(ctx->getArgumentDeprecatedModule(0,"cut","'slice' module",reporter));
+	BooleanValue* cut=dynamic_cast<BooleanValue*>(ctx.getArgumentDeprecatedModule(0,"cut","'slice' module",reporter));
 	if(cut&&cut->isTrue()) {
 		auto* n=new SliceNode();
-		n->setChildren(ctx->getInputNodes());
+		n->setChildren(ctx.getInputNodes());
 		return n;
 	}
 
@@ -44,7 +44,7 @@ Node* ProjectionModule::evaluate(Context* ctx) const
 
 
 	auto* d = new ProjectionNode();
-	d->setChildren(ctx->getInputNodes());
+	d->setChildren(ctx.getInputNodes());
 	d->setBase(base);
 	return d;
 }

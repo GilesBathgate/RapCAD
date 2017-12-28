@@ -25,7 +25,7 @@ class ExpFunction : public Function
 {
 public:
 	ExpFunction();
-	Value* evaluate(Context*) const override;
+	Value* evaluate(Context&) const override;
 };
 
 #endif // EXPFUNCTION_H

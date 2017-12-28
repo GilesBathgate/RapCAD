@@ -25,7 +25,7 @@ class FloorFunction : public Function
 {
 public:
 	FloorFunction();
-	Value* evaluate(Context*) const override;
+	Value* evaluate(Context&) const override;
 };
 
 #endif // FLOORFUNCTION_H

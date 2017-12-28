@@ -26,7 +26,7 @@ class AlignModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(AlignModule)
 public:
 	AlignModule(Reporter*);
-	Node* evaluate(Context*) const override;
+	Node* evaluate(Context&) const override;
 };
 
 #endif // ALIGNMODULE_H

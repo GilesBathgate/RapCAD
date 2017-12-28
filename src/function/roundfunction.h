@@ -25,7 +25,7 @@ class RoundFunction : public Function
 {
 public:
 	RoundFunction();
-	Value* evaluate(Context*) const override;
+	Value* evaluate(Context&) const override;
 };
 
 #endif // ROUNDFUNCTION_H

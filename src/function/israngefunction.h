@@ -25,7 +25,7 @@ class IsRangeFunction : public Function
 {
 public:
 	IsRangeFunction();
-	Value* evaluate(Context*) const override;
+	Value* evaluate(Context&) const override;
 };
 
 #endif // ISRANGEFUNCTION_H

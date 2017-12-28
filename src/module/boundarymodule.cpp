@@ -27,12 +27,12 @@ BoundaryModule::BoundaryModule(Reporter* r,bool l) : Module(r,l?"outline":"bound
 
 OnceOnly BoundaryModule::depricateWarning;
 
-Node* BoundaryModule::evaluate(Context* ctx) const
+Node* BoundaryModule::evaluate(Context& ctx) const
 {
 	if(legacy&&depricateWarning())
 		reporter->reportWarning(tr("'outline' module is deprecated please use 'boundary'\n"));
 
 	auto* n = new BoundaryNode();
-	n->setChildren(ctx->getInputNodes());
+	n->setChildren(ctx.getInputNodes());
 	return n;
 }

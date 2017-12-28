@@ -26,7 +26,7 @@ class PolyhedronModule : public PrimitiveModule
 	Q_DECLARE_TR_FUNCTIONS(PolyhedronModule)
 public:
 	PolyhedronModule(Reporter*);
-	Node* evaluate(Context*) const override;
+	Node* evaluate(Context&) const override;
 };
 
 #endif // POLYHEDRONMODULE_H

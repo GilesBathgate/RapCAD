@@ -25,7 +25,7 @@ class CeilFunction : public Function
 {
 public:
 	CeilFunction();
-	Value* evaluate(Context*) const override;
+	Value* evaluate(Context&) const override;
 };
 
 #endif // CEILFUNCTION_H

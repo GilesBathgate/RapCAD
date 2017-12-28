@@ -26,7 +26,7 @@ PointsModule::PointsModule(Reporter* r,bool multiple) : Module(r,multiple?"point
 	addParameter("points",tr("The location of the points."));
 }
 
-Node* PointsModule::evaluate(Context* ctx) const
+Node* PointsModule::evaluate(Context& ctx) const
 {
 	auto* pointsVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 

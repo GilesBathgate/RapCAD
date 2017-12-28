@@ -69,7 +69,7 @@ Point BezierSurfaceModule::pointOnBezMesh(Mesh mesh,Vector uv) const
 	return pointOnBez(p,uv[1]);
 }
 
-Node* BezierSurfaceModule::evaluate(Context* ctx) const
+Node* BezierSurfaceModule::evaluate(Context& ctx) const
 {
 	Mesh mesh;
 	auto* meshVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
@@ -92,7 +92,7 @@ Node* BezierSurfaceModule::evaluate(Context* ctx) const
 
 	auto* pn=new PrimitiveNode(reporter);
 	Primitive* p=pn->createPrimitive();
-	pn->setChildren(ctx->getInputNodes());
+	pn->setChildren(ctx.getInputNodes());
 
 	for(auto i=0; i<f; ++i) {
 		for(auto j=0; j<f; ++j) {

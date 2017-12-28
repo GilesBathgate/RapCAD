@@ -24,9 +24,9 @@ SymmetricDifferenceModule::SymmetricDifferenceModule(Reporter* r) : Module(r,"sy
 {
 }
 
-Node* SymmetricDifferenceModule::evaluate(Context* ctx) const
+Node* SymmetricDifferenceModule::evaluate(Context& ctx) const
 {
 	auto* d = new SymmetricDifferenceNode();
-	d->setChildren(ctx->getInputNodes());
+	d->setChildren(ctx.getInputNodes());
 	return d;
 }

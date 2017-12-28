@@ -25,7 +25,7 @@ class Atan2Function : public Function
 {
 public:
 	Atan2Function();
-	Value* evaluate(Context*) const override;
+	Value* evaluate(Context&) const override;
 };
 
 #endif // ATAN2FUNCTION_H

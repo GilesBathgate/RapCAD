@@ -25,7 +25,7 @@ class DifferenceModule : public Module
 {
 public:
 	DifferenceModule(Reporter*);
-	Node* evaluate(Context*) const override;
+	Node* evaluate(Context&) const override;
 };
 
 #endif // DIFFERENCEMODULE_H

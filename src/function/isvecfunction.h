@@ -25,7 +25,7 @@ class IsVecFunction : public Function
 {
 public:
 	IsVecFunction(int);
-	Value* evaluate(Context*) const override;
+	Value* evaluate(Context&) const override;
 private:
 	int size;
 };

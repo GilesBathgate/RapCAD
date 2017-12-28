@@ -27,7 +27,7 @@ ChainHullModule::ChainHullModule(Reporter* r) : Module(r,"chain_hull")
 	addParameter("closed",tr("Specifies whether to close the chain."));
 }
 
-Node* ChainHullModule::evaluate(Context* ctx) const
+Node* ChainHullModule::evaluate(Context& ctx) const
 {
 	bool closed=false;
 	auto* bVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));
@@ -37,6 +37,6 @@ Node* ChainHullModule::evaluate(Context* ctx) const
 	auto* h=new HullNode();
 	h->setChain(true);
 	h->setClosed(closed);
-	h->setChildren(ctx->getInputNodes());
+	h->setChildren(ctx.getInputNodes());
 	return h;
 }

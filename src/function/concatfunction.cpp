@@ -24,13 +24,13 @@ ConcatFunction::ConcatFunction() : Function("concat")
 {
 }
 
-Value* ConcatFunction::evaluate(Context* ctx) const
+Value* ConcatFunction::evaluate(Context& ctx) const
 {
 	VectorValue* val=nullptr;
-	for(Value* argVal: ctx->getArguments()) {
+	for(Value* argVal: ctx.getArguments()) {
 		auto* arg = dynamic_cast<VectorValue*>(argVal);
 		if(!arg)
-			arg= argVal->toVector(1);
+			arg=argVal->toVector(1);
 
 		if(!val) {
 			val=arg;

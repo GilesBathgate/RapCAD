@@ -28,7 +28,7 @@ ScaleModule::ScaleModule(Reporter* r) : Module(r,"scale")
 	addParameter("reference",tr("A center reference point for the scaling."));
 }
 
-Node* ScaleModule::evaluate(Context* ctx) const
+Node* ScaleModule::evaluate(Context& ctx) const
 {
 	Point s(0,0,0);
 	auto* sizeVal=getParameterArgument(ctx,0);
@@ -57,6 +57,6 @@ Node* ScaleModule::evaluate(Context* ctx) const
 	auto* n=new TransformationNode();
 	n->setMatrix(m);
 
-	n->setChildren(ctx->getInputNodes());
+	n->setChildren(ctx.getInputNodes());
 	return n;
 }

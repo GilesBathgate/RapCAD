@@ -31,7 +31,7 @@ RotateExtrudeModule::RotateExtrudeModule(Reporter* r) : PrimitiveModule(r,"rotat
 	addParameter("height",tr("The helical height of the extrusion."));
 }
 
-Node* RotateExtrudeModule::evaluate(Context* ctx) const
+Node* RotateExtrudeModule::evaluate(Context& ctx) const
 {
 	decimal angle=360.0;
 	auto* angleVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
@@ -70,10 +70,10 @@ Node* RotateExtrudeModule::evaluate(Context* ctx) const
 		auto* Rx90=new TransformMatrix(1,0,0,0,0,0,-1,0,0,1,0,0,0,0,0,1);
 		auto* t=new TransformationNode();
 		t->setMatrix(Rx90);
-		t->setChildren(ctx->getInputNodes());
+		t->setChildren(ctx.getInputNodes());
 		n->addChild(t);
 	} else {
-		n->setChildren(ctx->getInputNodes());
+		n->setChildren(ctx.getInputNodes());
 	}
 
 	return n;

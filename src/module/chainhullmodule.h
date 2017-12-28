@@ -26,7 +26,7 @@ class ChainHullModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(ChainHullModule)
 public:
 	ChainHullModule(Reporter*);
-	Node* evaluate(Context*) const override;
+	Node* evaluate(Context&) const override;
 };
 
 #endif // CHAINHULLMODULE_H

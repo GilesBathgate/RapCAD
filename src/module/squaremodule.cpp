@@ -26,7 +26,7 @@ SquareModule::SquareModule(Reporter* r) : PrimitiveModule(r,"square")
 	addParameter("center",tr("Specifies whether to center the square on the xy plane"));
 }
 
-Node* SquareModule::evaluate(Context* ctx) const
+Node* SquareModule::evaluate(Context& ctx) const
 {
 	Value* sizeVal=getParameterArgument(ctx,0);
 	Value* centerVal=getParameterArgument(ctx,1);
@@ -43,7 +43,7 @@ Node* SquareModule::evaluate(Context* ctx) const
 
 	auto* pn=new PrimitiveNode(reporter);
 	Primitive* p=pn->createPrimitive();
-	pn->setChildren(ctx->getInputNodes());
+	pn->setChildren(ctx.getInputNodes());
 
 	Polygon* pg=p->createPolygon();
 	p->createVertex(Point(0, 0, 0));

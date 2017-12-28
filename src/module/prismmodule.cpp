@@ -29,7 +29,7 @@ PrismModule::PrismModule(Reporter* r) : PrimitiveModule(r,"prism")
 	addParameter("center",tr("Specifies whether to center the prism vertically along the z axis."));
 }
 
-Node* PrismModule::evaluate(Context* ctx) const
+Node* PrismModule::evaluate(Context& ctx) const
 {
 	auto* heightVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	decimal h=1.0;
@@ -47,7 +47,7 @@ Node* PrismModule::evaluate(Context* ctx) const
 		a=apothemVal->getNumber();
 		r=a/r_cos(r_pi()/s);
 	} else {
-		NumberValue* radiusVal = dynamic_cast<NumberValue*>(ctx->getArgument(2,"radius"));
+		NumberValue* radiusVal = dynamic_cast<NumberValue*>(ctx.getArgument(2,"radius"));
 		if(radiusVal) {
 			r=radiusVal->getNumber();
 			a=r*r_cos(r_pi()/s);
@@ -68,7 +68,7 @@ Node* PrismModule::evaluate(Context* ctx) const
 
 	auto* pn=new PrimitiveNode(reporter);
 	Primitive* p=pn->createPrimitive();
-	pn->setChildren(ctx->getInputNodes());
+	pn->setChildren(ctx.getInputNodes());
 
 	if(r > 0) {
 		Polygon* pg;

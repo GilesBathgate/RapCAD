@@ -32,22 +32,22 @@ Fragment::Fragment()
 	fragmentError=0;
 }
 
-Fragment::Fragment(Context* ctx)
+Fragment::Fragment(Context& ctx)
 {
 	int fn=0;
 	decimal fs=2.0;
 	decimal fa=12.0;
 	decimal fe=0.0;
-	NumberValue* fnVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fn"));
+	NumberValue* fnVal=dynamic_cast<NumberValue*>(ctx.getArgumentSpecial("fn"));
 	if(fnVal)
 		fn=fnVal->toInteger();
-	NumberValue* fsVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fs"));
+	NumberValue* fsVal=dynamic_cast<NumberValue*>(ctx.getArgumentSpecial("fs"));
 	if(fsVal)
 		fs=fsVal->getNumber();
-	NumberValue* faVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fa"));
+	NumberValue* faVal=dynamic_cast<NumberValue*>(ctx.getArgumentSpecial("fa"));
 	if(faVal)
 		fa=faVal->getNumber();
-	NumberValue* feVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fe"));
+	NumberValue* feVal=dynamic_cast<NumberValue*>(ctx.getArgumentSpecial("fe"));
 	if(feVal)
 		fe=feVal->getNumber();
 
@@ -57,7 +57,7 @@ Fragment::Fragment(Context* ctx)
 	fragmentError=fe;
 }
 
-Fragment* Fragment::createFragment(Context* ctx)
+Fragment* Fragment::createFragment(Context& ctx)
 {
 #ifdef USE_CGAL
 	return new CGALFragment(ctx);

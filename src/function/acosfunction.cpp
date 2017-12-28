@@ -26,7 +26,7 @@ AcosFunction::AcosFunction() : Function("acos")
 	addParameter("value");
 }
 
-Value* AcosFunction::evaluate(Context* ctx) const
+Value* AcosFunction::evaluate(Context& ctx) const
 {
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {

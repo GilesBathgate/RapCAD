@@ -28,7 +28,7 @@ LengthFunction::LengthFunction() : Function("len")
 	addParameter("value");
 }
 
-Value* LengthFunction::evaluate(Context* ctx) const
+Value* LengthFunction::evaluate(Context& ctx) const
 {
 	Value* v=getParameterArgument(ctx,0);
 

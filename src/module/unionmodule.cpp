@@ -24,9 +24,9 @@ UnionModule::UnionModule(Reporter* r) : Module(r,"union")
 {
 }
 
-Node* UnionModule::evaluate(Context* ctx) const
+Node* UnionModule::evaluate(Context& ctx) const
 {
-	return createUnion(ctx->getInputNodes());
+	return createUnion(ctx.getInputNodes());
 }
 
 Node* UnionModule::createUnion(QList<Node*> childnodes)

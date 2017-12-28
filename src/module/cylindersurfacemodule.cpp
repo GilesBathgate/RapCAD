@@ -29,7 +29,7 @@ CylinderSurfaceModule::CylinderSurfaceModule(Reporter* r) : PrimitiveModule(r,"c
 }
 
 
-Node* CylinderSurfaceModule::evaluate(Context* ctx) const
+Node* CylinderSurfaceModule::evaluate(Context& ctx) const
 {
 	auto* heightValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	decimal h=1.0;
@@ -60,7 +60,7 @@ Node* CylinderSurfaceModule::evaluate(Context* ctx) const
 
 	auto* pn=new PrimitiveNode(reporter);
 	Primitive* p=pn->createPrimitive();
-	pn->setChildren(ctx->getInputNodes());
+	pn->setChildren(ctx.getInputNodes());
 
 	for(const auto& pt: c1) {
 		p->createVertex(pt);

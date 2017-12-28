@@ -26,7 +26,7 @@ SumFunction::SumFunction() : Function("sum")
 	addParameter("values");
 }
 
-Value* SumFunction::evaluate(Context* ctx) const
+Value* SumFunction::evaluate(Context& ctx) const
 {
 	auto* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(vecVal) {

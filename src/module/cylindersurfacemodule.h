@@ -26,7 +26,7 @@ class CylinderSurfaceModule :  public PrimitiveModule
 	Q_DECLARE_TR_FUNCTIONS(CylinderSurfaceModule)
 public:
 	CylinderSurfaceModule(Reporter*);
-	Node* evaluate(Context*) const override;
+	Node* evaluate(Context&) const override;
 };
 
 #endif // CYLINDERSURFACEMODULE_H

@@ -27,14 +27,14 @@ SphereModule::SphereModule(Reporter* r) : PrimitiveModule(r,"sphere")
 	addParameter("radius",tr("The radius of the sphere."));
 }
 
-Node* SphereModule::evaluate(Context* ctx) const
+Node* SphereModule::evaluate(Context& ctx) const
 {
 	auto* rValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	decimal r=0.0;
 	if(rValue) {
 		r=rValue->getNumber();
 	} else {
-		NumberValue* dValue = dynamic_cast<NumberValue*>(ctx->getArgument(0,"diameter"));
+		NumberValue* dValue = dynamic_cast<NumberValue*>(ctx.getArgument(0,"diameter"));
 		if(dValue)
 			r=(dValue->getNumber()/2.0);
 	}
@@ -49,7 +49,7 @@ Node* SphereModule::evaluate(Context* ctx) const
 
 	auto* pn=new PrimitiveNode(reporter);
 	Primitive* p=pn->createPrimitive();
-	pn->setChildren(ctx->getInputNodes());
+	pn->setChildren(ctx.getInputNodes());
 
 	for(auto i=0; i<ringCount; ++i) {
 		decimal phi = (r_pi()*(i+0.5)) / ringCount;

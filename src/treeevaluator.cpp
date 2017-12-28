@@ -150,7 +150,7 @@ void TreeEvaluator::visit(const Instance& inst)
 			childnodes=context->getCurrentNodes();
 			node=UnionModule::createUnion(childnodes);
 		} else {
-			node=mod->evaluate(context);
+			node=mod->evaluate(*context);
 		}
 
 		finishContext();
@@ -501,7 +501,7 @@ void TreeEvaluator::visit(const Invocation& stmt)
 			scp->accept(*this);
 			result=context->getReturnValue();
 		} else {
-			result=func->evaluate(context);
+			result=func->evaluate(*context);
 		}
 
 		finishContext();

@@ -25,7 +25,7 @@ class NormalsModule : public Module
 {
 public:
 	NormalsModule(Reporter*);
-	Node* evaluate(Context*) const override;
+	Node* evaluate(Context&) const override;
 };
 
 #endif // NORMALSMODULE_H

@@ -28,7 +28,7 @@ class EchoModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(EchoModule)
 public:
 	EchoModule(Reporter*);
-	Node* evaluate(Context*) const override;
+	Node* evaluate(Context&) const override;
 private:
 	QTextStream& output;
 	static OnceOnly depricateWarning;

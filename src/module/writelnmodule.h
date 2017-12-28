@@ -25,7 +25,7 @@ class WriteLnModule : public WriteModule
 {
 public:
 	WriteLnModule(Reporter*);
-	Node* evaluate(Context*) const override;
+	Node* evaluate(Context&) const override;
 };
 
 #endif // WRITELNMODULE_H

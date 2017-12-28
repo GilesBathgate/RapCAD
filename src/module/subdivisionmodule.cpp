@@ -27,7 +27,7 @@ SubDivisionModule::SubDivisionModule(Reporter* r) : Module(r,"subdiv")
 	addParameter("level",tr("Not Implemented."));
 }
 
-Node* SubDivisionModule::evaluate(Context* ctx) const
+Node* SubDivisionModule::evaluate(Context& ctx) const
 {
 	int level=0;
 	auto* levelVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
@@ -35,7 +35,7 @@ Node* SubDivisionModule::evaluate(Context* ctx) const
 		level=levelVal->toInteger();
 
 	auto* d = new SubDivisionNode();
-	d->setChildren(ctx->getInputNodes());
+	d->setChildren(ctx.getInputNodes());
 	d->setLevel(level);
 	return d;
 }

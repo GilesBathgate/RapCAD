@@ -31,7 +31,7 @@ RandFunction::RandFunction() : Function("rands")
 	addParameter("seed");
 }
 
-Value* RandFunction::evaluate(Context* ctx) const
+Value* RandFunction::evaluate(Context& ctx) const
 {
 	decimal min=0;
 	auto* minVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));

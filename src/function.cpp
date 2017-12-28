@@ -75,7 +75,7 @@ void Function::accept(TreeVisitor& v)
 	v.visit(*this);
 }
 
-Value* Function::evaluate(Context*) const
+Value* Function::evaluate(Context&) const
 {
 	return nullptr;
 }
@@ -87,8 +87,8 @@ void Function::addParameter(QString name)
 	parameters.append(p);
 }
 
-Value* Function::getParameterArgument(Context* ctx, int index) const
+Value* Function::getParameterArgument(Context& ctx, int index) const
 {
 	Parameter* p = parameters.at(index);
-	return ctx->getArgument(index,p->getName());
+	return ctx.getArgument(index,p->getName());
 }

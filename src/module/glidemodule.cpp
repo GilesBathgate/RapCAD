@@ -27,7 +27,7 @@ GlideModule::GlideModule(Reporter* r) : Module(r,"glide")
 	addParameter("closed",tr("Specfies whether to close the outline."));
 }
 
-Node* GlideModule::evaluate(Context* ctx) const
+Node* GlideModule::evaluate(Context& ctx) const
 {
 	bool close=false;
 	Value* closeVal=getParameterArgument(ctx,0);
@@ -36,6 +36,6 @@ Node* GlideModule::evaluate(Context* ctx) const
 
 	auto* n=new GlideNode();
 	n->setClosed(close);
-	n->setChildren(ctx->getInputNodes());
+	n->setChildren(ctx.getInputNodes());
 	return n;
 }

@@ -28,7 +28,7 @@ CubeModule::CubeModule(Reporter* r) : PrimitiveModule(r,"cube")
 	addParameter("center",tr("Specifies whether to center the cube at the origin"));
 }
 
-Node* CubeModule::evaluate(Context* ctx) const
+Node* CubeModule::evaluate(Context& ctx) const
 {
 	Value* sizeVal=getParameterArgument(ctx,0);
 	Value* centerVal=getParameterArgument(ctx,1);
@@ -44,7 +44,7 @@ Node* CubeModule::evaluate(Context* ctx) const
 
 	auto* pn=new PrimitiveNode(reporter);
 	Primitive* p=pn->createPrimitive();
-	pn->setChildren(ctx->getInputNodes());
+	pn->setChildren(ctx.getInputNodes());
 
 	decimal x1=0,y1=0,z1=0;
 	createCuboid<Point>(p,x1,pt.x(),y1,pt.y(),z1,pt.z());

@@ -27,7 +27,7 @@ TranslateModule::TranslateModule(Reporter* r) : Module(r,"translate")
 	addParameter("vector",tr("The vector to move along"));
 }
 
-Node* TranslateModule::evaluate(Context* ctx) const
+Node* TranslateModule::evaluate(Context& ctx) const
 {
 	Point v(0,0,0);
 	auto* vec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
@@ -44,6 +44,6 @@ Node* TranslateModule::evaluate(Context* ctx) const
 	auto* n=new TransformationNode();
 	n->setMatrix(m);
 
-	n->setChildren(ctx->getInputNodes());
+	n->setChildren(ctx.getInputNodes());
 	return n;
 }

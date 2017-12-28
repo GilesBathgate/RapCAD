@@ -25,7 +25,7 @@ CircleModule::CircleModule(Reporter* r) : PrimitiveModule(r,"circle")
 	addParameter("radius",tr("The radius of the circle."));
 }
 
-Node* CircleModule::evaluate(Context* ctx) const
+Node* CircleModule::evaluate(Context& ctx) const
 {
 	auto* rValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 
@@ -33,7 +33,7 @@ Node* CircleModule::evaluate(Context* ctx) const
 	if(rValue) {
 		r=rValue->getNumber();
 	} else {
-		NumberValue* dValue = dynamic_cast<NumberValue*>(ctx->getArgument(1,"diameter"));
+		NumberValue* dValue = dynamic_cast<NumberValue*>(ctx.getArgument(1,"diameter"));
 		if(dValue)
 			r=(dValue->getNumber()/2.0);
 	}
@@ -46,7 +46,7 @@ Node* CircleModule::evaluate(Context* ctx) const
 
 	auto* pn=new PrimitiveNode(reporter);
 	Primitive* p=pn->createPrimitive();
-	pn->setChildren(ctx->getInputNodes());
+	pn->setChildren(ctx.getInputNodes());
 
 	int i=0;
 	if(r > 0) {

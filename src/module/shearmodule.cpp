@@ -29,20 +29,20 @@ ShearModule::ShearModule(Reporter* r) : Module(r,"shear")
 	addParameter("z",tr("The xy plane."));
 }
 
-Node* ShearModule::evaluate(Context* ctx) const
+Node* ShearModule::evaluate(Context& ctx) const
 {
 	Point sx(0,0,0);
-	VectorValue* xVal=dynamic_cast<VectorValue*>(ctx->getArgument(0,"x"));
+	VectorValue* xVal=dynamic_cast<VectorValue*>(ctx.getArgument(0,"x"));
 	if(xVal)
 		sx=xVal->getPoint();
 
 	Point sy(0,0,0);
-	VectorValue* yVal=dynamic_cast<VectorValue*>(ctx->getArgument(0,"y"));
+	VectorValue* yVal=dynamic_cast<VectorValue*>(ctx.getArgument(0,"y"));
 	if(yVal)
 		sy=yVal->getPoint();
 
 	Point sz(0,0,0);
-	VectorValue* zVal=dynamic_cast<VectorValue*>(ctx->getArgument(0,"z"));
+	VectorValue* zVal=dynamic_cast<VectorValue*>(ctx.getArgument(0,"z"));
 	if(zVal)
 		sz=zVal->getPoint();
 
@@ -60,6 +60,6 @@ Node* ShearModule::evaluate(Context* ctx) const
 	auto* n=new TransformationNode();
 	n->setMatrix(m);
 
-	n->setChildren(ctx->getInputNodes());
+	n->setChildren(ctx.getInputNodes());
 	return n;
 }

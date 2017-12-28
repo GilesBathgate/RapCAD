@@ -26,7 +26,7 @@ HullModule::HullModule(Reporter* r) : Module(r,"hull")
 	addParameter("concave","Determines whether the hull may be concave");
 }
 
-Node* HullModule::evaluate(Context* ctx) const
+Node* HullModule::evaluate(Context& ctx) const
 {
 	bool concave=false;
 	auto* concaveVal = dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));
@@ -35,6 +35,6 @@ Node* HullModule::evaluate(Context* ctx) const
 
 	auto* d = new HullNode();
 	d->setConcave(concave);
-	d->setChildren(ctx->getInputNodes());
+	d->setChildren(ctx.getInputNodes());
 	return d;
 }

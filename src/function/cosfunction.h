@@ -25,7 +25,7 @@ class CosFunction : public Function
 {
 public:
 	CosFunction();
-	Value* evaluate(Context*) const override;
+	Value* evaluate(Context&) const override;
 };
 
 #endif // COSFUNCTION_H

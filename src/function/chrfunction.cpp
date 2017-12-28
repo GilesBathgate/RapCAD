@@ -25,10 +25,10 @@ ChrFunction::ChrFunction() : Function("chr")
 {
 }
 
-Value* ChrFunction::evaluate(Context* ctx) const
+Value* ChrFunction::evaluate(Context& ctx) const
 {
 	QString result;
-	for(Value* argVal: ctx->getArguments()) {
+	for(Value* argVal: ctx.getArguments()) {
 		auto* code=dynamic_cast<NumberValue*>(argVal);
 		if(code) {
 			uint point=code->toInteger();

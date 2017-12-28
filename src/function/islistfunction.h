@@ -25,7 +25,7 @@ class IsListFunction : public Function
 {
 public:
 	IsListFunction();
-	Value* evaluate(Context*) const override;
+	Value* evaluate(Context&) const override;
 };
 
 #endif // ISLISTFUNCTION_H

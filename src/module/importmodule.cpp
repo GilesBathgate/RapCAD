@@ -26,7 +26,7 @@ ImportModule::ImportModule(Reporter* r) : Module(r,"import")
 	addParameter("file", tr("The name of the file to import."));
 }
 
-Node* ImportModule::evaluate(Context* ctx) const
+Node* ImportModule::evaluate(Context& ctx) const
 {
 	auto* fileVal = dynamic_cast<TextValue*>(getParameterArgument(ctx,0));
 	if(fileVal)

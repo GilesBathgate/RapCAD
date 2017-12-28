@@ -25,7 +25,7 @@ class IsBoolFunction : public Function
 {
 public:
 	IsBoolFunction();
-	Value* evaluate(Context*) const override;
+	Value* evaluate(Context&) const override;
 };
 
 #endif // ISBOOLFUNCTION_H

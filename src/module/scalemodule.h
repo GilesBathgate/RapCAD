@@ -26,7 +26,7 @@ class ScaleModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(ScaleModule)
 public:
 	ScaleModule(Reporter*);
-	Node* evaluate(Context*) const override;
+	Node* evaluate(Context&) const override;
 };
 
 #endif // SCALEMODULE_H

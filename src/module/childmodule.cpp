@@ -26,12 +26,12 @@ ChildModule::ChildModule(Reporter* r) : Module(r,"child")
 	addParameter("index",tr("The index of the child to use."));
 }
 
-Node* ChildModule::evaluate(Context* ctx) const
+Node* ChildModule::evaluate(Context& ctx) const
 {
 	int index=0;
 	auto* indexValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(indexValue)
 		index=indexValue->toInteger();
 
-	return ctx->lookupChild(index);
+	return ctx.lookupChild(index);
 }

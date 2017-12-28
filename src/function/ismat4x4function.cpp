@@ -27,7 +27,7 @@ IsMat4x4Function::IsMat4x4Function() : Function("is_mat4x4")
 	addParameter("value");
 }
 
-Value* IsMat4x4Function::evaluate(Context* ctx) const
+Value* IsMat4x4Function::evaluate(Context& ctx) const
 {
 	auto* matVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(!matVal) {

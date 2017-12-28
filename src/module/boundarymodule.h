@@ -27,7 +27,7 @@ class BoundaryModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(BoundaryModule)
 public:
 	BoundaryModule(Reporter*, bool);
-	Node* evaluate(Context*) const override;
+	Node* evaluate(Context&) const override;
 private:
 	static OnceOnly depricateWarning;
 	bool legacy;

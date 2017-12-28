@@ -31,7 +31,7 @@ RotateModule::RotateModule(Reporter* r) : Module(r,"rotate")
 	addParameter("vector",tr("The axis of rotation when used with a single angle value"));
 }
 
-Node* RotateModule::evaluate(Context* ctx) const
+Node* RotateModule::evaluate(Context& ctx) const
 {
 	enum rotationType {
 		axis,
@@ -145,6 +145,6 @@ Node* RotateModule::evaluate(Context* ctx) const
 		n->setMatrix(mx);
 
 	}
-	n->setChildren(ctx->getInputNodes());
+	n->setChildren(ctx.getInputNodes());
 	return n;
 }

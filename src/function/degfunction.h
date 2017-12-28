@@ -25,7 +25,7 @@ class DegFunction : public Function
 {
 public:
 	DegFunction();
-	Value* evaluate(Context*) const override;
+	Value* evaluate(Context&) const override;
 };
 
 #endif // DEGFUNCTION_H

@@ -26,7 +26,7 @@ class TranslateModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(TranslateModule)
 public:
 	TranslateModule(Reporter*);
-	Node* evaluate(Context*) const override;
+	Node* evaluate(Context&) const override;
 };
 
 #endif // TRANSLATEMODULE_H

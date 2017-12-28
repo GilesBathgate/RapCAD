@@ -30,7 +30,7 @@ TextModule::TextModule(Reporter* r) : Module(r, "text")
 	addParameter("size",tr("The size of the text"));
 }
 
-Node* TextModule::evaluate(Context* ctx) const
+Node* TextModule::evaluate(Context& ctx) const
 {
 	auto* textVal=dynamic_cast<TextValue*>(getParameterArgument(ctx,0));
 	if(!textVal)
@@ -55,6 +55,6 @@ Node* TextModule::evaluate(Context* ctx) const
 	Primitive* p=tb.buildPrimitive();
 	p->setSanitized(false);
 	pn->setPrimitive(p);
-	pn->setChildren(ctx->getInputNodes());
+	pn->setChildren(ctx.getInputNodes());
 	return pn;
 }

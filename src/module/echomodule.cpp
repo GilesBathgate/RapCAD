@@ -26,13 +26,13 @@ EchoModule::EchoModule(Reporter* r) : Module(r,"echo"), output(r->output)
 
 OnceOnly EchoModule::depricateWarning;
 
-Node* EchoModule::evaluate(Context* ctx) const
+Node* EchoModule::evaluate(Context& ctx) const
 {
 	if(depricateWarning())
 		reporter->reportWarning(tr("'echo' module is deprecated please use 'write' or 'writeln'\n"));
 
 	output << "ECHO: ";
-	QList<Value*> args=ctx->getArguments();
+	QList<Value*> args=ctx.getArguments();
 
 	OnceOnly first;
 	for(Value* a: args) {
