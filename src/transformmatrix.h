@@ -29,7 +29,7 @@ public:
                         decimal,decimal,decimal,decimal,
                         decimal,decimal,decimal,decimal,
                         decimal,decimal,decimal,decimal);
-	decimal* getValues();
+	const decimal* getValues() const;
 	void setValues(decimal*);
 	QString toString();
 private:

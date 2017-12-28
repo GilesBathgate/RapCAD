@@ -28,7 +28,7 @@ void Callback::setResult(Value* v)
 	result=v;
 }
 
-Value* Callback::getResult()
+Value* Callback::getResult() const
 {
 	return result;
 }

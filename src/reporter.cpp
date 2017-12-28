@@ -84,7 +84,7 @@ void Reporter::setReturnCode(int code)
 	returnCode=code;
 }
 
-bool Reporter::getReturnCode()
+bool Reporter::getReturnCode() const
 {
 	return returnCode;
 }

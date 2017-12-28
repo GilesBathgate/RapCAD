@@ -56,7 +56,7 @@ private:
 	QList<Argument*> getArgs(decimal);
 	void primary();
 	void generation();
-	decimal getBoundsHeight();
+	decimal getBoundsHeight() const;
 	void resultFailed(QString);
 	void updatePrimitive(Primitive*);
 

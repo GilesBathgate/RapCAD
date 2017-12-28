@@ -168,7 +168,7 @@ void Worker::generation()
 	delete s;
 }
 
-decimal Worker::getBoundsHeight()
+decimal Worker::getBoundsHeight() const
 {
 #ifdef USE_CGAL
 	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);

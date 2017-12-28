@@ -96,7 +96,7 @@ Primitive* Polyhedron::copy()
 void Polyhedron::transform(TransformMatrix* matrix)
 {
 #if USE_CGAL
-	decimal* m=matrix->getValues();
+	const decimal* m=matrix->getValues();
 	CGAL::AffTransformation3 t(
 		m[ 0], m[ 1], m[ 2], m[ 3],
 		m[ 4], m[ 5], m[ 6], m[ 7],

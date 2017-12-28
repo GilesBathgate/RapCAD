@@ -35,7 +35,7 @@ private:
 	bool inPromptBlock();
 	bool handleBackspace();
 	void handleReturn();
-	QString getCommand();
+	QString getCommand() const;
 	QString prompt;
 	int promptLength;
 	int promptBlock;

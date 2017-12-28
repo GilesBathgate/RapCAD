@@ -101,7 +101,7 @@ void Console::handleReturn()
 	displayPrompt();
 }
 
-QString Console::getCommand()
+QString Console::getCommand() const
 {
 	QTextCursor cursor=textCursor();
 	cursor.movePosition(QTextCursor::StartOfLine);

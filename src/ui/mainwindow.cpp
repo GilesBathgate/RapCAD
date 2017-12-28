@@ -164,7 +164,7 @@ void MainWindow::loadPreferences()
 
 }
 
-void MainWindow::getDefaultViewport()
+void MainWindow::getDefaultViewport() const
 {
 	Preferences* p=Preferences::getInstance();
 	float rx,ry,rz,x,z,d;

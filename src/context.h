@@ -36,18 +36,18 @@ public:
 	void setParent(Context*);
 
 	void setCurrentScope(Scope*);
-	Scope* getCurrentScope();
+	Scope* getCurrentScope() const;
 
 	void setReturnValue(Value*);
-	Value* getReturnValue();
+	Value* getReturnValue() const;
 
-	Value* getCurrentValue();
+	Value* getCurrentValue() const;
 	void setCurrentValue(Value*);
 
-	QString getCurrentName();
+	QString getCurrentName() const;
 	void setCurrentName(QString);
 
-	Value* lookupVariable(QString,Variable::Storage_e&,Layout*);
+	Value* lookupVariable(QString,Variable::Storage_e&,Layout*) const;
 	bool addVariable(Value*);
 	void setVariable(Value*);
 
@@ -71,7 +71,7 @@ public:
 	QList<Node*> getInputNodes() const;
 
 	void setCurrentNodes(QList<Node*>);
-	QList<Node*> getCurrentNodes();
+	QList<Node*> getCurrentNodes() const;
 	void addCurrentNode(Node*);
 private:
 	Context* parent;

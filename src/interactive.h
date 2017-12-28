@@ -29,7 +29,7 @@ class Interactive : public QObject,public Strategy
 	Q_OBJECT
 public:
 	Interactive(QTextStream&,QObject* parent=nullptr);
-	QString getPrompt();
+	QString getPrompt() const;
 	int evaluate() override;
 public slots:
 	void execCommand(QString);

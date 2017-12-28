@@ -28,7 +28,7 @@ class Product : public Instance
 public:
 	Product();
 	void setPrimitive(Primitive*);
-	Primitive* getPrimitive();
+	Primitive* getPrimitive() const;
 	void accept(TreeVisitor&) override;
 	Node* evaluate(Context*);
 private:

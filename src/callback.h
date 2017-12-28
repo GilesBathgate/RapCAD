@@ -27,7 +27,7 @@ class Callback : public ReturnStatement
 public:
 	Callback();
 	void setResult(Value*);
-	Value* getResult();
+	Value* getResult() const;
 	void accept(TreeVisitor&) override;
 private:
 	Value* result;

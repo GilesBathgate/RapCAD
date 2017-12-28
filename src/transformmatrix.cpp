@@ -52,7 +52,7 @@ TransformMatrix::TransformMatrix(decimal m11, decimal m12, decimal m13, decimal 
 	matrix[15]=m44;
 }
 
-decimal* TransformMatrix::getValues()
+const decimal* TransformMatrix::getValues() const
 {
 	return matrix;
 }

@@ -43,7 +43,7 @@ void Context::setCurrentScope(Scope* value)
 	currentScope=value;
 }
 
-Scope* Context::getCurrentScope()
+Scope* Context::getCurrentScope() const
 {
 	return currentScope;
 }
@@ -53,12 +53,12 @@ void Context::setReturnValue(Value* value)
 	returnValue=value;
 }
 
-Value* Context::getReturnValue()
+Value* Context::getReturnValue() const
 {
 	return returnValue;
 }
 
-Value* Context::getCurrentValue()
+Value* Context::getCurrentValue() const
 {
 	return currentValue;
 }
@@ -68,7 +68,7 @@ void Context::setCurrentValue(Value* value)
 	currentValue=value;
 }
 
-QString Context::getCurrentName()
+QString Context::getCurrentName() const
 {
 	return currentName;
 }
@@ -93,7 +93,7 @@ void Context::setVariable(Value* v)
 	variables.insert(v->getName(),v);
 }
 
-Value* Context::lookupVariable(QString name,Variable::Storage_e& c,Layout* l)
+Value* Context::lookupVariable(QString name,Variable::Storage_e& c,Layout* l) const
 {
 	if(variables.contains(name)) {
 		if(l->inScope(currentScope)) {
@@ -233,7 +233,7 @@ void Context::setCurrentNodes(QList<Node*> value)
 	currentNodes=value;
 }
 
-QList<Node*> Context::getCurrentNodes()
+QList<Node*> Context::getCurrentNodes() const
 {
 	return currentNodes;
 }

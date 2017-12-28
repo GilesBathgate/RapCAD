@@ -35,7 +35,7 @@ public:
 
 	void stopHighlighting();
 	void setFileName(const QString&);
-	QString getFileName();
+	QString getFileName() const;
 	bool saveFile();
 	bool saveAsFile();
 	bool loadFile(const QString& f);

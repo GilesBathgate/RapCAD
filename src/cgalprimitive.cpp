@@ -550,7 +550,7 @@ Primitive* CGALPrimitive::copy()
 
 void CGALPrimitive::transform(TransformMatrix* matrix)
 {
-	CGAL::Scalar* m=matrix->getValues();
+	const CGAL::Scalar* m=matrix->getValues();
 	CGAL::AffTransformation3 t(
 		m[ 0], m[ 1], m[ 2], m[ 3],
 		m[ 4], m[ 5], m[ 6], m[ 7],

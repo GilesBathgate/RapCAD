@@ -99,12 +99,12 @@ void SaveItemsDialog::updateSaveButton()
 	}
 }
 
-QList<QString> SaveItemsDialog::getItemsToSave()
+QList<QString> SaveItemsDialog::getItemsToSave() const
 {
 	return itemsToSave;
 }
 
-bool SaveItemsDialog::getAutoSaveOnCompile()
+bool SaveItemsDialog::getAutoSaveOnCompile() const
 {
 	return ui->checkBox->checkState() == Qt::Checked;
 }

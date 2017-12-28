@@ -70,7 +70,7 @@ void CodeEditor::setFileName(const QString& f)
 	emit fileNameChanged(f);
 }
 
-QString CodeEditor::getFileName()
+QString CodeEditor::getFileName() const
 {
 	return fileName;
 }

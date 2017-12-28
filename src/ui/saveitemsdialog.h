@@ -32,8 +32,8 @@ public:
 	explicit SaveItemsDialog(QWidget* parent,bool,QList<QString>);
 	~SaveItemsDialog();
 
-	QList<QString> getItemsToSave();
-	bool getAutoSaveOnCompile();
+	QList<QString> getItemsToSave() const;
+	bool getAutoSaveOnCompile() const;
 
 private slots:
 	void collectItemsToSave();

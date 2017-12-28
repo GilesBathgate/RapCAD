@@ -29,7 +29,7 @@ void Product::setPrimitive(Primitive* value)
 	primitive=value;
 }
 
-Primitive* Product::getPrimitive()
+Primitive* Product::getPrimitive() const
 {
 	return primitive;
 }

@@ -38,7 +38,7 @@ public:
 	void reportMessage(QString);
 	void reportException(QString);
 	void setReturnCode(int);
-	bool getReturnCode();
+	bool getReturnCode() const;
 	void setKludge(int);
 	QTextStream& output;
 private:
