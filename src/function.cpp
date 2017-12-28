@@ -72,7 +72,7 @@ Scope* Function::getScope() const
 
 void Function::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }
 
 Value* Function::evaluate(Context*)

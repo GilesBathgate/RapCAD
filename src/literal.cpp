@@ -75,5 +75,5 @@ Value* Literal::getValue() const
 
 void Literal::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

@@ -63,7 +63,7 @@ public:
 	Operator_e getOp() const;
 	void setOp(Operator_e);
 	QString getOpString() const;
-	bool postFix();
+	bool postFix() const;
 
 	int getLineNumber() const;
 	void setLineNumber(int value);

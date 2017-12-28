@@ -35,10 +35,10 @@ public:
 	void setParent(Layout*);
 
 	Module* lookupModule(QString,bool);
-	void addModule(Module* mod);
+	void addModule(Module& mod);
 
 	Function* lookupFunction(QString);
-	void addFunction(Function*);
+	void addFunction(Function&);
 
 	bool inScope(Scope*);
 	void setScope(Scope*);

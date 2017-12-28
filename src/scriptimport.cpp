@@ -48,5 +48,5 @@ QString ScriptImport::getNamespace() const
 
 void ScriptImport::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

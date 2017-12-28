@@ -64,5 +64,5 @@ Expression* RangeExpression::getStep() const
 
 void RangeExpression::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

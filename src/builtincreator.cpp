@@ -249,20 +249,20 @@ BuiltinCreator::~BuiltinCreator()
 /**
   Add the builtins to a script.
 */
-void BuiltinCreator::initBuiltins(Script* sc)
+void BuiltinCreator::initBuiltins(Script& sc)
 {
 	for(Declaration* d: builtins)
-		sc->addDeclaration(d);
+		sc.addDeclaration(d);
 }
 
 /**
   To ensure that the builtins do not get deleted when the script
   is deleted we remove them from the script.
 */
-void BuiltinCreator::saveBuiltins(Script* sc)
+void BuiltinCreator::saveBuiltins(Script& sc)
 {
 	for(Declaration* d: builtins)
-		sc->removeDeclaration(d);
+		sc.removeDeclaration(d);
 }
 
 void BuiltinCreator::generateDocs()

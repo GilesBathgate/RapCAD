@@ -84,5 +84,5 @@ QString Instance::getNamespace() const
 
 void Instance::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

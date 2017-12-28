@@ -85,7 +85,7 @@ Scope* Module::getScope() const
 
 void Module::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }
 
 Node* Module::evaluate(Context*)

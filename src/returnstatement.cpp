@@ -40,5 +40,5 @@ Expression* ReturnStatement::getExpression() const
 
 void ReturnStatement::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

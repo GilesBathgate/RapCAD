@@ -40,5 +40,5 @@ QList<Declaration*> ModuleScope::getDeclarations() const
 
 void ModuleScope::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

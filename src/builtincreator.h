@@ -28,8 +28,8 @@ class BuiltinCreator
 public:
 	static BuiltinCreator* getInstance(Reporter*);
 	static void cleanUp();
-	void initBuiltins(Script*);
-	void saveBuiltins(Script*);
+	void initBuiltins(Script&);
+	void saveBuiltins(Script&);
 	void generateDocs();
 	void generateDocs(TreeVisitor&);
 private:

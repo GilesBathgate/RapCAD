@@ -52,5 +52,5 @@ Expression* Argument::getExpression() const
 
 void Argument::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

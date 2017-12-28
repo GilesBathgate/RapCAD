@@ -49,5 +49,5 @@ Variable::Storage_e Variable::getStorage() const
 
 void Variable::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

@@ -35,13 +35,13 @@ static QString capitalize(const QString& str)
 	return tmp;
 }
 
-void AsciidocPrinter::visit(Module* mod)
+void AsciidocPrinter::visit(Module& mod)
 {
-	QString name=mod->getName();
+	QString name=mod.getName();
 	result << capitalize(name) << "\n";
 	result << QString(name.length(),'^') << "\n\n";
-	result << mod->getDescription() << "\n\n";
-	QList<Parameter*> params=mod->getParameters();
+	result << mod.getDescription() << "\n\n";
+	QList<Parameter*> params=mod.getParameters();
 	if(!params.isEmpty()) {
 		result << "Parameters\n";
 		result << "++++++++++\n";

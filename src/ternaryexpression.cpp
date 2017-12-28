@@ -64,5 +64,5 @@ Expression* TernaryExpression::getFalseExpression() const
 
 void TernaryExpression::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

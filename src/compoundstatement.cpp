@@ -40,5 +40,5 @@ QList<Statement*> CompoundStatement::getChildren() const
 
 void CompoundStatement::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

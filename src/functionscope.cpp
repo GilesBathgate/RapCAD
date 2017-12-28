@@ -53,5 +53,5 @@ QList<Statement*> FunctionScope::getStatements() const
 
 void FunctionScope::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

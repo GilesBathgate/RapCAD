@@ -58,26 +58,26 @@ Function* Layout::lookupFunction(QString name)
 	return nullptr;
 }
 
-void Layout::addModule(Module* mod)
+void Layout::addModule(Module& mod)
 {
-	QString name=mod->getName();
+	QString name=mod.getName();
 	if(modules.contains(name)) {
 		reporter->reportWarning(tr("module '%1' was already defined.").arg(name));
 		return;
 	}
 
-	modules.insert(name,mod);
+	modules.insert(name,&mod);
 }
 
-void Layout::addFunction(Function* func)
+void Layout::addFunction(Function& func)
 {
-	QString name=func->getName();
+	QString name=func.getName();
 	if(functions.contains(name)) {
 		reporter->reportWarning(tr("function '%1' was already defined.").arg(name));
 		return;
 	}
 
-	functions.insert(name,func);
+	functions.insert(name,&func);
 }
 
 void Layout::setScope(Scope* sc)

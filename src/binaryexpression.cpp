@@ -52,5 +52,5 @@ void BinaryExpression::setRight(Expression* r)
 
 void BinaryExpression::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

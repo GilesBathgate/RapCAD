@@ -58,5 +58,5 @@ QList<Argument*> Invocation::getArguments() const
 
 void Invocation::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

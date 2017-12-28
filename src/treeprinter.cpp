@@ -34,20 +34,20 @@ void TreePrinter::createIndent()
 		result << "  ";
 }
 
-void TreePrinter::visit(ModuleScope* scp)
+void TreePrinter::visit(ModuleScope& scp)
 {
 	++indent;
-	for(Declaration* d: scp->getDeclarations()) {
+	for(Declaration* d: scp.getDeclarations()) {
 		createIndent();
 		d->accept(*this);
 	}
 	--indent;
 }
 
-void TreePrinter::visit(Instance* inst)
+void TreePrinter::visit(Instance& inst)
 {
 
-	switch(inst->getType()) {
+	switch(inst.getType()) {
 	case Instance::Root:
 		result << "!";
 		break;
@@ -64,14 +64,14 @@ void TreePrinter::visit(Instance* inst)
 		break;
 	}
 
-	QString name = inst->getNamespace();
+	QString name = inst.getNamespace();
 	if(!name.isEmpty()) {
 		result << name;
 		result << "::";
 	}
-	result << inst->getName();
+	result << inst.getName();
 	result << "(";
-	QList<Argument*> arguments = inst->getArguments();
+	QList<Argument*> arguments = inst.getArguments();
 	OnceOnly first;
 	for(Argument* a: arguments) {
 		if(!first())
@@ -80,7 +80,7 @@ void TreePrinter::visit(Instance* inst)
 	}
 	result << ")";
 
-	QList<Statement*> children = inst->getChildren();
+	QList<Statement*> children = inst.getChildren();
 	int c = children.size();
 	if(c>0) {
 		if(c>1) {
@@ -104,10 +104,10 @@ void TreePrinter::visit(Instance* inst)
 	result << "\n";
 }
 
-void TreePrinter::visit(Module* mod)
+void TreePrinter::visit(Module& mod)
 {
-	QList<Parameter*> parameters = mod->getParameters();
-	QString desc=mod->getDescription();
+	QList<Parameter*> parameters = mod.getParameters();
+	QString desc=mod.getDescription();
 	if(!desc.isEmpty()) {
 		result << "/** " << desc << "\n";
 		for(Parameter* p: parameters) {
@@ -116,8 +116,8 @@ void TreePrinter::visit(Module* mod)
 		result << " */\n";
 	}
 	result << "module ";
-	result << mod->getName();
-	if(mod->getAuxilary())
+	result << mod.getName();
+	if(mod.getAuxilary())
 		result << "$";
 	result << "(";
 	OnceOnly first;
@@ -127,7 +127,7 @@ void TreePrinter::visit(Module* mod)
 		p->accept(*this);
 	}
 	result << "){";
-	Scope* scp=mod->getScope();
+	Scope* scp=mod.getScope();
 	if(scp) {
 		result << "\n";
 		scp->accept(*this);
@@ -136,12 +136,12 @@ void TreePrinter::visit(Module* mod)
 	result << "}\n\n";
 }
 
-void TreePrinter::visit(Function* func)
+void TreePrinter::visit(Function& func)
 {
 	result << "function ";
-	result << func->getName();
+	result << func.getName();
 	result << "(";
-	QList<Parameter*> parameters = func->getParameters();
+	QList<Parameter*> parameters = func.getParameters();
 	OnceOnly first;
 	for(Parameter* p: parameters) {
 		if(!first())
@@ -150,15 +150,15 @@ void TreePrinter::visit(Function* func)
 	}
 
 	result << ")";
-	Scope* scp=func->getScope();
+	Scope* scp=func.getScope();
 	if(scp)
 		scp->accept(*this);
 	result << "\n";
 }
 
-void TreePrinter::visit(FunctionScope* scp)
+void TreePrinter::visit(FunctionScope& scp)
 {
-	Expression* expression = scp->getExpression();
+	Expression* expression = scp.getExpression();
 	if(expression) {
 		result << "=";
 		expression->accept(*this);
@@ -166,7 +166,7 @@ void TreePrinter::visit(FunctionScope* scp)
 		return;
 	}
 
-	QList<Statement*> statements = scp->getStatements();
+	QList<Statement*> statements = scp.getStatements();
 	int s = statements.size();
 	if(s>0) {
 		result << "{\n";
@@ -184,9 +184,9 @@ void TreePrinter::visit(FunctionScope* scp)
 	result << "\n";
 }
 
-void TreePrinter::visit(CompoundStatement* stmt)
+void TreePrinter::visit(CompoundStatement& stmt)
 {
-	QList<Statement*> children = stmt->getChildren();
+	QList<Statement*> children = stmt.getChildren();
 	int c = children.size();
 	if(c>0) {
 		if(c>1) {
@@ -208,16 +208,16 @@ void TreePrinter::visit(CompoundStatement* stmt)
 
 }
 
-void TreePrinter::visit(IfElseStatement* ifelse)
+void TreePrinter::visit(IfElseStatement& ifelse)
 {
 	result << "if(";
-	ifelse->getExpression()->accept(*this);
+	ifelse.getExpression()->accept(*this);
 	result << ")";
-	Statement* trueStatement = ifelse->getTrueStatement();
+	Statement* trueStatement = ifelse.getTrueStatement();
 	if(trueStatement)
 		trueStatement->accept(*this);
 
-	Statement* falseStatement = ifelse->getFalseStatement();
+	Statement* falseStatement = ifelse.getFalseStatement();
 	if(falseStatement) {
 		result << "\n";
 		createIndent();
@@ -228,56 +228,56 @@ void TreePrinter::visit(IfElseStatement* ifelse)
 	result << "\n";
 }
 
-void TreePrinter::visit(ForStatement* forstmt)
+void TreePrinter::visit(ForStatement& forstmt)
 {
 	result << "for(";
-	for(Argument* a: forstmt->getArguments())
+	for(Argument* a: forstmt.getArguments())
 		a->accept(*this);
 	result << ")";
-	Statement* statement = forstmt->getStatement();
+	Statement* statement = forstmt.getStatement();
 	statement->accept(*this);
 
 	result << "\n";
 }
 
-void TreePrinter::visit(Parameter* param)
+void TreePrinter::visit(Parameter& param)
 {
-	result << param->getName();
+	result << param.getName();
 
-	Expression* expression = param->getExpression();
+	Expression* expression = param.getExpression();
 	if(expression) {
 		result << "=";
 		expression->accept(*this);
 	}
 }
 
-void TreePrinter::visit(BinaryExpression* exp)
+void TreePrinter::visit(BinaryExpression& exp)
 {
 	result << "(";
-	exp->getLeft()->accept(*this);
-	result << exp->getOpString();
-	exp->getRight()->accept(*this);
+	exp.getLeft()->accept(*this);
+	result << exp.getOpString();
+	exp.getRight()->accept(*this);
 	result << ")";
 }
 
-void TreePrinter::visit(Argument* arg)
+void TreePrinter::visit(Argument& arg)
 {
-	Variable* variable = arg->getVariable();
+	Variable* variable = arg.getVariable();
 	if(variable) {
 		variable->accept(*this);
 		result << "=";
 	}
 
-	arg->getExpression()->accept(*this);
+	arg.getExpression()->accept(*this);
 }
 
-void TreePrinter::visit(AssignStatement* stmt)
+void TreePrinter::visit(AssignStatement& stmt)
 {
-	Variable* var = stmt->getVariable();
+	Variable* var = stmt.getVariable();
 	if(var)
 		var->accept(*this);
 
-	switch(stmt->getOperation()) {
+	switch(stmt.getOperation()) {
 	case Expression::Increment:
 		result << "++";
 		break;
@@ -286,7 +286,7 @@ void TreePrinter::visit(AssignStatement* stmt)
 		break;
 	default: {
 		result << "=";
-		Expression* expression = stmt->getExpression();
+		Expression* expression = stmt.getExpression();
 		if(expression)
 			expression->accept(*this);
 	}
@@ -295,10 +295,10 @@ void TreePrinter::visit(AssignStatement* stmt)
 	result << ";\n";
 }
 
-void TreePrinter::visit(VectorExpression* exp)
+void TreePrinter::visit(VectorExpression& exp)
 {
 	result << "[";
-	QList<Expression*> children = exp->getChildren();
+	QList<Expression*> children = exp.getChildren();
 	OnceOnly first;
 	for(Expression* e: children) {
 		if(!first())
@@ -308,61 +308,61 @@ void TreePrinter::visit(VectorExpression* exp)
 	result << "]";
 }
 
-void TreePrinter::visit(RangeExpression* exp)
+void TreePrinter::visit(RangeExpression& exp)
 {
 	result << "[";
-	exp->getStart()->accept(*this);
+	exp.getStart()->accept(*this);
 
 	result << ":";
-	Expression* step = exp->getStep();
+	Expression* step = exp.getStep();
 	if(step) {
 		step->accept(*this);
 		result << ":";
 	}
 
-	exp->getFinish()->accept(*this);
+	exp.getFinish()->accept(*this);
 	result << "]";
 }
 
-void TreePrinter::visit(UnaryExpression* exp)
+void TreePrinter::visit(UnaryExpression& exp)
 {
-	QString op = exp->getOpString();
-	bool p = exp->postFix();
+	QString op = exp.getOpString();
+	bool p = exp.postFix();
 	if(!p)
 		result << op;
-	exp->getExpression()->accept(*this);
+	exp.getExpression()->accept(*this);
 	if(p)
 		result << op;
 }
 
-void TreePrinter::visit(ReturnStatement* stmt)
+void TreePrinter::visit(ReturnStatement& stmt)
 {
 	result << "return ";
-	stmt->getExpression()->accept(*this);
+	stmt.getExpression()->accept(*this);
 	result << ";\n";
 }
 
-void TreePrinter::visit(TernaryExpression* exp)
+void TreePrinter::visit(TernaryExpression& exp)
 {
 	result << "(";
-	exp->getCondition()->accept(*this);
+	exp.getCondition()->accept(*this);
 	result << "?";
-	exp->getTrueExpression()->accept(*this);
+	exp.getTrueExpression()->accept(*this);
 	result << ":";
-	exp->getFalseExpression()->accept(*this);
+	exp.getFalseExpression()->accept(*this);
 	result << ")";
 }
 
-void TreePrinter::visit(Invocation* stmt)
+void TreePrinter::visit(Invocation& stmt)
 {
-	QString nameSpace = stmt->getNamespace();
+	QString nameSpace = stmt.getNamespace();
 	if(!nameSpace.isEmpty()) {
 		result << nameSpace;
 		result << "::";
 	}
-	result << stmt->getName();
+	result << stmt.getName();
 	result << "(";
-	QList<Argument*> arguments = stmt->getArguments();
+	QList<Argument*> arguments = stmt.getArguments();
 	OnceOnly first;
 	for(Argument* a: arguments) {
 		if(!first())
@@ -372,21 +372,21 @@ void TreePrinter::visit(Invocation* stmt)
 	result << ")";
 }
 
-void TreePrinter::visit(Callback*)
+void TreePrinter::visit(Callback&)
 {
 }
 
-void TreePrinter::visit(ModuleImport* decl)
+void TreePrinter::visit(ModuleImport& decl)
 {
 	result << "import <";
-	result << decl->getImport();
+	result << decl.getImport();
 	result << ">";
-	QString name = decl->getName();
+	QString name = decl.getName();
 	if(!name.isEmpty()) {
 		result << " as ";
 		result << name;
 	}
-	QList<Parameter*> parameters = decl->getParameters();
+	QList<Parameter*> parameters = decl.getParameters();
 	int s = parameters.size();
 	if(s>0) {
 		result << "(";
@@ -402,12 +402,12 @@ void TreePrinter::visit(ModuleImport* decl)
 	result << ";\n";
 }
 
-void TreePrinter::visit(ScriptImport* decl)
+void TreePrinter::visit(ScriptImport& decl)
 {
 	result << "use <";
-	result << decl->getImport();
+	result << decl.getImport();
 	result << ">";
-	QString name = decl->getNamespace();
+	QString name = decl.getNamespace();
 	if(!name.isEmpty()) {
 		result << " as ";
 		result << name;
@@ -416,14 +416,14 @@ void TreePrinter::visit(ScriptImport* decl)
 	result << "\n";
 }
 
-void TreePrinter::visit(Literal* lit)
+void TreePrinter::visit(Literal& lit)
 {
-	result << lit->getValueString();
+	result << lit.getValueString();
 }
 
-void TreePrinter::visit(Variable* var)
+void TreePrinter::visit(Variable& var)
 {
-	switch(var->getStorage()) {
+	switch(var.getStorage()) {
 	case Variable::Const:
 		result << "const ";
 		break;
@@ -434,22 +434,22 @@ void TreePrinter::visit(Variable* var)
 		break;
 	}
 
-	if(var->getStorage()==Variable::Special)
+	if(var.getStorage()==Variable::Special)
 		result << "$";
-	result << var->getName();
+	result << var.getName();
 }
 
-void TreePrinter::visit(CodeDoc* cd)
+void TreePrinter::visit(CodeDoc& cd)
 {
-	result << cd->getName() << " " << cd->getText() << "\n";
+	result << cd.getName() << " " << cd.getText() << "\n";
 }
 
-void TreePrinter::visit(Script* sc)
+void TreePrinter::visit(Script& sc)
 {
-	for(Declaration* d: sc->getDeclarations())
+	for(Declaration* d: sc.getDeclarations())
 		d->accept(*this);
 
-	for(QList<CodeDoc*> docs: sc->getDocumentation()) {
+	for(QList<CodeDoc*> docs: sc.getDocumentation()) {
 		result << "/**\n";
 
 		for(CodeDoc* doc: docs)
@@ -459,10 +459,10 @@ void TreePrinter::visit(Script* sc)
 	}
 }
 
-void TreePrinter::visit(Product*)
+void TreePrinter::visit(Product&)
 {
 }
 
-void TreePrinter::visit(ComplexExpression*)
+void TreePrinter::visit(ComplexExpression&)
 {
 }

@@ -63,5 +63,5 @@ Expression::Operator_e AssignStatement::getOperation() const
 
 void AssignStatement::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

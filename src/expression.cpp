@@ -119,7 +119,7 @@ QString Expression::getOpString() const
 	return result;
 }
 
-bool Expression::postFix()
+bool Expression::postFix() const
 {
 	return op==Increment||op==Decrement;
 }

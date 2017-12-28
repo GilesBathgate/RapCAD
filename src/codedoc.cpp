@@ -44,5 +44,5 @@ QString CodeDoc::getText() const
 
 void CodeDoc::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

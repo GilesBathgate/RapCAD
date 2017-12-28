@@ -50,5 +50,5 @@ Statement* ForStatement::getStatement() const
 
 void ForStatement::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

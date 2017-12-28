@@ -61,14 +61,14 @@ void Script::addDocumentation(QList<CodeDoc*> docs)
 	documentation.append(docs);
 }
 
-QList<QList<CodeDoc*> > Script::getDocumentation()
+QList<QList<CodeDoc*> > Script::getDocumentation() const
 {
 	return documentation;
 }
 
 void Script::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }
 
 QFileInfo* Script::getFileLocation() const

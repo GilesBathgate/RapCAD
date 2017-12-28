@@ -60,5 +60,5 @@ QString Parameter::getDescription() const
 
 void Parameter::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

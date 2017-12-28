@@ -36,7 +36,7 @@ Primitive* Product::getPrimitive()
 
 void Product::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }
 
 Node* Product::evaluate(Context*)

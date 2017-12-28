@@ -64,5 +64,5 @@ Statement* IfElseStatement::getFalseStatement() const
 
 void IfElseStatement::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

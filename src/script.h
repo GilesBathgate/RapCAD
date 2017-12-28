@@ -37,7 +37,7 @@ public:
 	void appendDeclaration(Declaration*);
 	void removeDeclaration(Declaration*);
 	void addDocumentation(QList<CodeDoc*>);
-	QList<QList<CodeDoc*> > getDocumentation();
+	QList<QList<CodeDoc*> > getDocumentation() const;
 	void accept(TreeVisitor&) override;
 	QFileInfo* getFileLocation() const;
 	void setFileLocation(QFileInfo*);

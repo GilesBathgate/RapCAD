@@ -39,5 +39,5 @@ Expression* UnaryExpression::getExpression() const
 
 void UnaryExpression::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

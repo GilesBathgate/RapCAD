@@ -50,5 +50,5 @@ void ComplexExpression::setImaginary(VectorExpression* value)
 
 void ComplexExpression::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }
