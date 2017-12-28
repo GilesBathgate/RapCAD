@@ -25,7 +25,7 @@ class AbsFunction : public Function
 {
 public:
 	AbsFunction();
-	Value* evaluate(Context&) const override;
+	Value* evaluate(const Context&) const override;
 };
 
 #endif // ABSFUNCTION_H

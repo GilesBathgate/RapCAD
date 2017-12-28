@@ -31,7 +31,7 @@ CylinderModule::CylinderModule(Reporter* r) : PrimitiveModule(r,"cylinder")
 	addParameter("center",tr("Specifies whether to center the cylinder vertically along the z axis."));
 }
 
-Node* CylinderModule::evaluate(Context& ctx) const
+Node* CylinderModule::evaluate(const Context& ctx) const
 {
 	auto* heightValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	decimal h=1.0;

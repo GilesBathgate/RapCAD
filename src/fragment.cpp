@@ -32,7 +32,7 @@ Fragment::Fragment()
 	fragmentError=0;
 }
 
-Fragment::Fragment(Context& ctx)
+Fragment::Fragment(const Context& ctx)
 {
 	int fn=0;
 	decimal fs=2.0;
@@ -57,7 +57,7 @@ Fragment::Fragment(Context& ctx)
 	fragmentError=fe;
 }
 
-Fragment* Fragment::createFragment(Context& ctx)
+Fragment* Fragment::createFragment(const Context& ctx)
 {
 #ifdef USE_CGAL
 	return new CGALFragment(ctx);

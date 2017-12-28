@@ -27,7 +27,7 @@ RoundFunction::RoundFunction() : Function("round")
 	addParameter("places");
 }
 
-Value* RoundFunction::evaluate(Context& ctx) const
+Value* RoundFunction::evaluate(const Context& ctx) const
 {
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {

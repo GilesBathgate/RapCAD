@@ -26,7 +26,7 @@ class RotateModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(RotateModule)
 public:
 	RotateModule(Reporter*);
-	Node* evaluate(Context&) const override;
+	Node* evaluate(const Context&) const override;
 };
 
 #endif // ROTATEMODULE_H

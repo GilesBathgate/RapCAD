@@ -24,7 +24,7 @@ MinFunction::MinFunction() : Function("min")
 	addParameter("values");
 }
 
-Value* MinFunction::evaluate(Context& ctx) const
+Value* MinFunction::evaluate(const Context& ctx) const
 {
 	QList<Value*> values=ctx.getArguments();
 

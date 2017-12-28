@@ -24,7 +24,7 @@ IsBoolFunction::IsBoolFunction() : Function("is_bool")
 	addParameter("value");
 }
 
-Value* IsBoolFunction::evaluate(Context& ctx) const
+Value* IsBoolFunction::evaluate(const Context& ctx) const
 {
 	auto* bVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));
 	if(bVal)

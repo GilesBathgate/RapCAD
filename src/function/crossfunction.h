@@ -25,7 +25,7 @@ class CrossFunction : public Function
 {
 public:
 	CrossFunction();
-	Value* evaluate(Context&) const override;
+	Value* evaluate(const Context&) const override;
 };
 
 #endif // CROSSFUNCTION_H

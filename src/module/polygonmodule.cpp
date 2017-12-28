@@ -29,7 +29,7 @@ PolygonModule::PolygonModule(Reporter* r) : Module(r,"polygon")
 	addParameter("lines",tr("The lines are a list of indices to the vertices."));
 }
 
-Node* PolygonModule::evaluate(Context& ctx) const
+Node* PolygonModule::evaluate(const Context& ctx) const
 {
 	auto* pointsVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	VectorValue* linesVec=dynamic_cast<VectorValue*>(ctx.getArgumentDeprecated(1,"lines","paths",reporter));

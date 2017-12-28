@@ -26,7 +26,7 @@ class ChildModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(ChildModule)
 public:
 	ChildModule(Reporter*);
-	Node* evaluate(Context&) const override;
+	Node* evaluate(const Context&) const override;
 };
 
 #endif // CHILDMODULE_H

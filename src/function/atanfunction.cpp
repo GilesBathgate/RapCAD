@@ -26,7 +26,7 @@ AtanFunction::AtanFunction() : Function("atan")
 	addParameter("value");
 }
 
-Value* AtanFunction::evaluate(Context& ctx) const
+Value* AtanFunction::evaluate(const Context& ctx) const
 {
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {

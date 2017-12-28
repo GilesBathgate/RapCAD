@@ -28,7 +28,7 @@ CubeModule::CubeModule(Reporter* r) : PrimitiveModule(r,"cube")
 	addParameter("center",tr("Specifies whether to center the cube at the origin"));
 }
 
-Node* CubeModule::evaluate(Context& ctx) const
+Node* CubeModule::evaluate(const Context& ctx) const
 {
 	Value* sizeVal=getParameterArgument(ctx,0);
 	Value* centerVal=getParameterArgument(ctx,1);

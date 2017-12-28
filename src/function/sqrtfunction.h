@@ -25,7 +25,7 @@ class SqrtFunction : public Function
 {
 public:
 	SqrtFunction();
-	Value* evaluate(Context&) const override;
+	Value* evaluate(const Context&) const override;
 };
 
 #endif // SQRTFUNCTION_H

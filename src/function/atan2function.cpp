@@ -27,7 +27,7 @@ Atan2Function::Atan2Function() : Function("atan2")
 	addParameter("x");
 }
 
-Value* Atan2Function::evaluate(Context& ctx) const
+Value* Atan2Function::evaluate(const Context& ctx) const
 {
 	auto* yVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	auto* xVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));

@@ -29,7 +29,7 @@ ResizeModule::ResizeModule(Reporter* r) : Module(r,"resize")
 	addParameter("auto",tr("Specifies whether to auto-scale any 0-dimensions"));
 }
 
-Node* ResizeModule::evaluate(Context& ctx) const
+Node* ResizeModule::evaluate(const Context& ctx) const
 {
 	Point size(0,0,0);
 	auto* sizeVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));

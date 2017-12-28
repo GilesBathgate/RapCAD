@@ -28,7 +28,7 @@ ScaleModule::ScaleModule(Reporter* r) : Module(r,"scale")
 	addParameter("reference",tr("A center reference point for the scaling."));
 }
 
-Node* ScaleModule::evaluate(Context& ctx) const
+Node* ScaleModule::evaluate(const Context& ctx) const
 {
 	Point s(0,0,0);
 	auto* sizeVal=getParameterArgument(ctx,0);

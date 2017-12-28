@@ -26,7 +26,7 @@ class PointsModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(PointModule)
 public:
 	PointsModule(Reporter*,bool);
-	Node* evaluate(Context&) const override;
+	Node* evaluate(const Context&) const override;
 };
 
 #endif // POINTSMODULE_H

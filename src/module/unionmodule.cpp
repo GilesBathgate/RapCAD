@@ -24,7 +24,7 @@ UnionModule::UnionModule(Reporter* r) : Module(r,"union")
 {
 }
 
-Node* UnionModule::evaluate(Context& ctx) const
+Node* UnionModule::evaluate(const Context& ctx) const
 {
 	return createUnion(ctx.getInputNodes());
 }

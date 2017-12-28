@@ -24,7 +24,7 @@ CenterModule::CenterModule(Reporter* r) : Module(r,"center")
 {
 }
 
-Node* CenterModule::evaluate(Context& ctx) const
+Node* CenterModule::evaluate(const Context& ctx) const
 {
 	auto* n=new AlignNode();
 	n->setChildren(ctx.getInputNodes());

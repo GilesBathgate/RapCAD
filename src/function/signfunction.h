@@ -26,7 +26,7 @@ class SignFunction : public Function
 public:
 	SignFunction();
 	decimal sign(decimal);
-	Value* evaluate(Context&) const override;
+	Value* evaluate(const Context&) const override;
 };
 
 #endif // SIGNFUNCTION_H

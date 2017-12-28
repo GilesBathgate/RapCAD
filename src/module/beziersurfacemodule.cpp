@@ -69,7 +69,7 @@ Point BezierSurfaceModule::pointOnBezMesh(Mesh mesh,Vector uv) const
 	return pointOnBez(p,uv[1]);
 }
 
-Node* BezierSurfaceModule::evaluate(Context& ctx) const
+Node* BezierSurfaceModule::evaluate(const Context& ctx) const
 {
 	Mesh mesh;
 	auto* meshVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));

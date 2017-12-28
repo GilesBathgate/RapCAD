@@ -25,7 +25,7 @@ CircleModule::CircleModule(Reporter* r) : PrimitiveModule(r,"circle")
 	addParameter("radius",tr("The radius of the circle."));
 }
 
-Node* CircleModule::evaluate(Context& ctx) const
+Node* CircleModule::evaluate(const Context& ctx) const
 {
 	auto* rValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 

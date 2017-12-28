@@ -25,7 +25,7 @@ class LnFunction : public Function
 {
 public:
 	LnFunction();
-	Value* evaluate(Context&) const override;
+	Value* evaluate(const Context&) const override;
 };
 
 #endif // LNFUNCTION_H

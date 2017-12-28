@@ -25,7 +25,7 @@ class IntersectionModule : public Module
 {
 public:
 	IntersectionModule(Reporter*);
-	Node* evaluate(Context&) const override;
+	Node* evaluate(const Context&) const override;
 };
 
 #endif // INTERSECTIONMODULE_H

@@ -26,7 +26,7 @@ SignFunction::SignFunction() : Function("sign")
 	addParameter("value");
 }
 
-Value* SignFunction::evaluate(Context& ctx) const
+Value* SignFunction::evaluate(const Context& ctx) const
 {
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {

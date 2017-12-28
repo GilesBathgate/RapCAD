@@ -29,7 +29,7 @@ VolumesModule::VolumesModule(Reporter* r) : Module(r,"volume")
 	addParameter("mass",tr("Specifies that the center of mass also be calculated."));
 }
 
-Node* VolumesModule::evaluate(Context& ctx) const
+Node* VolumesModule::evaluate(const Context& ctx) const
 {
 	bool mass=false;
 	auto* massVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));

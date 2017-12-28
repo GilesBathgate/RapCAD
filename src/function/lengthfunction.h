@@ -25,7 +25,7 @@ class LengthFunction : public Function
 {
 public:
 	LengthFunction();
-	Value* evaluate(Context&) const override;
+	Value* evaluate(const Context&) const override;
 };
 
 #endif // LENGTHFUNCTION_H

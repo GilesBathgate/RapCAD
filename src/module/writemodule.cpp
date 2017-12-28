@@ -28,7 +28,7 @@ WriteModule::WriteModule(Reporter* r, const QString n) : Module(r,n), output(r->
 {
 }
 
-Node* WriteModule::evaluate(Context& ctx) const
+Node* WriteModule::evaluate(const Context& ctx) const
 {
 	QList<Value*> args=ctx.getArguments();
 	OnceOnly first;

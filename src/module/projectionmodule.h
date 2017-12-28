@@ -26,7 +26,7 @@ class ProjectionModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(ProjectionModule)
 public:
 	ProjectionModule(Reporter*);
-	Node* evaluate(Context&) const override;
+	Node* evaluate(const Context&) const override;
 };
 
 #endif // PROJECTIONMODULE_H

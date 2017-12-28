@@ -26,7 +26,7 @@ class MirrorModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(MirrorModule)
 public:
 	MirrorModule(Reporter*);
-	Node* evaluate(Context&) const override;
+	Node* evaluate(const Context&) const override;
 };
 
 #endif // MIRRORMODULE_H

@@ -26,7 +26,7 @@ class OffsetModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(OffsetModule)
 public:
 	OffsetModule(Reporter*);
-	Node* evaluate(Context&) const override;
+	Node* evaluate(const Context&) const override;
 };
 
 #endif // OFFSETMODULE_H

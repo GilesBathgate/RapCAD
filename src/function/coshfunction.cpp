@@ -26,7 +26,7 @@ CoshFunction::CoshFunction() : Function("cosh")
 	addParameter("value");
 }
 
-Value* CoshFunction::evaluate(Context& ctx) const
+Value* CoshFunction::evaluate(const Context& ctx) const
 {
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {

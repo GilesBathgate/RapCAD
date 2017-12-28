@@ -25,7 +25,7 @@ class AsinFunction : public Function
 {
 public:
 	AsinFunction();
-	Value* evaluate(Context&) const override;
+	Value* evaluate(const Context&) const override;
 };
 
 #endif // ASINFUNCTION_H

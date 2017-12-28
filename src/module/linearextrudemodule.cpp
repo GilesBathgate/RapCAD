@@ -27,7 +27,7 @@ LinearExtrudeModule::LinearExtrudeModule(Reporter* r) : Module(r,"linear_extrude
 	addParameter("height",tr("The height of the extrusion."));
 }
 
-Node* LinearExtrudeModule::evaluate(Context& ctx) const
+Node* LinearExtrudeModule::evaluate(const Context& ctx) const
 {
 	decimal h=1.0;
 	auto* height=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));

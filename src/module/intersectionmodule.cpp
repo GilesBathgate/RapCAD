@@ -24,7 +24,7 @@ IntersectionModule::IntersectionModule(Reporter* r) : Module(r,"intersection")
 {
 }
 
-Node* IntersectionModule::evaluate(Context& ctx) const
+Node* IntersectionModule::evaluate(const Context& ctx) const
 {
 	auto* d = new IntersectionNode();
 	d->setChildren(ctx.getInputNodes());

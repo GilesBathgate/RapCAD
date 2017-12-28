@@ -31,7 +31,7 @@ RotateExtrudeModule::RotateExtrudeModule(Reporter* r) : PrimitiveModule(r,"rotat
 	addParameter("height",tr("The helical height of the extrusion."));
 }
 
-Node* RotateExtrudeModule::evaluate(Context& ctx) const
+Node* RotateExtrudeModule::evaluate(const Context& ctx) const
 {
 	decimal angle=360.0;
 	auto* angleVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));

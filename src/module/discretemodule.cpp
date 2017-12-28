@@ -28,7 +28,7 @@ DiscreteModule::DiscreteModule(Reporter* r) : Module(r,"discrete")
 	addParameter("places",tr("The number of decimal places to which to round."));
 }
 
-Node* DiscreteModule::evaluate(Context& ctx) const
+Node* DiscreteModule::evaluate(const Context& ctx) const
 {
 	int places=6;
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));

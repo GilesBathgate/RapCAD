@@ -25,7 +25,7 @@ class SymmetricDifferenceModule : public Module
 {
 public:
 	SymmetricDifferenceModule(Reporter*);
-	Node* evaluate(Context&) const override;
+	Node* evaluate(const Context&) const override;
 };
 
 #endif // SYMMETRICDIFFERENCEMODULE_H

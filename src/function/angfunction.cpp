@@ -45,7 +45,7 @@ Value* AngFunction::getResult(decimal a,decimal x,decimal y,decimal z) const
 	return new ComplexValue(angle,axis);
 }
 
-Value* AngFunction::evaluate(Context& ctx) const
+Value* AngFunction::evaluate(const Context& ctx) const
 {
 	VectorValue* vecVal1=dynamic_cast<VectorValue*>(ctx.getArgument(0,"v1"));
 	VectorValue* vecVal2=dynamic_cast<VectorValue*>(ctx.getArgument(1,"v2"));

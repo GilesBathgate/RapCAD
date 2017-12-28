@@ -26,7 +26,7 @@ EchoModule::EchoModule(Reporter* r) : Module(r,"echo"), output(r->output)
 
 OnceOnly EchoModule::depricateWarning;
 
-Node* EchoModule::evaluate(Context& ctx) const
+Node* EchoModule::evaluate(const Context& ctx) const
 {
 	if(depricateWarning())
 		reporter->reportWarning(tr("'echo' module is deprecated please use 'write' or 'writeln'\n"));

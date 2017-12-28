@@ -25,7 +25,7 @@ NormalsModule::NormalsModule(Reporter* r) : Module(r,"normal")
 	auxilary=true;
 }
 
-Node* NormalsModule::evaluate(Context& ctx) const
+Node* NormalsModule::evaluate(const Context& ctx) const
 {
 	auto* n=new NormalsNode();
 	n->setChildren(ctx.getInputNodes());

@@ -25,7 +25,7 @@ class DecomposeModule : public Module
 {
 public:
 	DecomposeModule(Reporter*);
-	Node* evaluate(Context&) const override;
+	Node* evaluate(const Context&) const override;
 };
 
 #endif // DECOMPOSEMODULE_H

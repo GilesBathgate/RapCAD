@@ -25,7 +25,7 @@ class CoshFunction : public Function
 {
 public:
 	CoshFunction();
-	Value* evaluate(Context&) const override;
+	Value* evaluate(const Context&) const override;
 };
 
 #endif // COSHFUNCTION_H

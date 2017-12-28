@@ -26,7 +26,7 @@ BoundsModule::BoundsModule(Reporter* r) : Module(r,"bound")
 	auxilary=true;
 }
 
-Node* BoundsModule::evaluate(Context& ctx) const
+Node* BoundsModule::evaluate(const Context& ctx) const
 {
 	auto* n=new BoundsNode();
 	n->setChildren(ctx.getInputNodes());

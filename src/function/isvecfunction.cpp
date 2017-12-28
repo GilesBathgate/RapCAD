@@ -26,7 +26,7 @@ IsVecFunction::IsVecFunction(int s) : Function(QString("is_vec%1").arg(s)), size
 	addParameter("value");
 }
 
-Value* IsVecFunction::evaluate(Context& ctx) const
+Value* IsVecFunction::evaluate(const Context& ctx) const
 {
 	auto* vec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(!vec) {

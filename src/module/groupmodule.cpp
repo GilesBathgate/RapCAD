@@ -24,7 +24,7 @@ GroupModule::GroupModule(Reporter* r) : Module(r,"group")
 {
 }
 
-Node* GroupModule::evaluate(Context& ctx) const
+Node* GroupModule::evaluate(const Context& ctx) const
 {
 	auto* d = new GroupNode();
 	d->setChildren(ctx.getInputNodes());

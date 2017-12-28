@@ -25,7 +25,7 @@ class RandFunction : public Function
 {
 public:
 	RandFunction();
-	Value* evaluate(Context&) const override;
+	Value* evaluate(const Context&) const override;
 };
 
 #endif // RANDFUNCTION_H

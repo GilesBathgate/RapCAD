@@ -25,7 +25,7 @@ class CenterModule : public Module
 {
 public:
 	CenterModule(Reporter*);
-	Node* evaluate(Context&) const override;
+	Node* evaluate(const Context&) const override;
 };
 
 #endif // CENTERMODULE_H

@@ -26,7 +26,7 @@ SinFunction::SinFunction() : Function("sin")
 	addParameter("value");
 }
 
-Value* SinFunction::evaluate(Context& ctx) const
+Value* SinFunction::evaluate(const Context& ctx) const
 {
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {

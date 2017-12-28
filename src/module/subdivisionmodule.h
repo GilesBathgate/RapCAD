@@ -26,7 +26,7 @@ class SubDivisionModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(SubDivisionModule)
 public:
 	SubDivisionModule(Reporter*);
-	Node* evaluate(Context&) const override;
+	Node* evaluate(const Context&) const override;
 };
 
 #endif // SUBDIVISIONMODULE_H

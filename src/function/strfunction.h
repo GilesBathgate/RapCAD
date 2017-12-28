@@ -25,7 +25,7 @@ class StrFunction : public Function
 {
 public:
 	StrFunction();
-	Value* evaluate(Context&) const override;
+	Value* evaluate(const Context&) const override;
 };
 
 #endif // STRFUNCTION_H

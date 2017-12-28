@@ -28,7 +28,7 @@ ChildrenModule::ChildrenModule(Reporter* r) : Module(r,"children")
 	addParameter("index",tr("A list of indices which determines which children to use."));
 }
 
-Node* ChildrenModule::evaluate(Context& ctx) const
+Node* ChildrenModule::evaluate(const Context& ctx) const
 {
 	auto* n=new ChildrenNode();
 

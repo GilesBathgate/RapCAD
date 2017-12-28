@@ -114,7 +114,7 @@ Value* Context::lookupVariable(QString name,Variable::Storage_e& c,Layout* l)
 /* Lookup child doesn't currently
  * check the lexical scope of the
  * parent */
-Node* Context::lookupChild(int index)
+Node* Context::lookupChild(int index) const
 {
 	QList<Node*> children=getInputNodes();
 	if(index>=0&&index<children.length())
@@ -128,7 +128,7 @@ Node* Context::lookupChild(int index)
 /* Lookup children doesn't currently
  * check the lexical scope of the
  * parent */
-QList<Node*> Context::lookupChildren()
+QList<Node*> Context::lookupChildren() const
 {
 	QList<Node*> children=getInputNodes();
 	if(children.length()>0)
@@ -165,7 +165,7 @@ void Context::setVariablesFromArguments()
 	}
 }
 
-QList<Value*> Context::getArguments()
+QList<Value*> Context::getArguments() const
 {
 	return arguments;
 }
@@ -180,7 +180,7 @@ void Context::clearArguments()
 	arguments.clear();
 }
 
-Value* Context::getArgument(int index, QString name)
+Value* Context::getArgument(int index, QString name) const
 {
 	//TODO make matchLast work for name ending with any digit
 	bool matchLast = name.endsWith('1') || name.endsWith('2');
@@ -188,7 +188,7 @@ Value* Context::getArgument(int index, QString name)
 	return matchArgumentIndex(true,matchLast,index,name);
 }
 
-Value* Context::getArgumentDeprecatedModule(int index, QString deprecated, QString module, Reporter* r)
+Value* Context::getArgumentDeprecatedModule(int index, QString deprecated, QString module, Reporter* r) const
 {
 	Value* v = matchArgumentIndex(false,false,index,deprecated);
 	if(v)
@@ -196,7 +196,7 @@ Value* Context::getArgumentDeprecatedModule(int index, QString deprecated, QStri
 	return v;
 }
 
-Value* Context::getArgumentDeprecated(int index, QString name, QString deprecated, Reporter* r)
+Value* Context::getArgumentDeprecated(int index, QString name, QString deprecated, Reporter* r) const
 {
 	Value* v = matchArgumentIndex(true,false,index,name);
 	if(!v) {
@@ -223,7 +223,7 @@ void Context::setInputNodes(QList<Node*> value)
 	inputNodes=value;
 }
 
-QList<Node*> Context::getInputNodes()
+QList<Node*> Context::getInputNodes() const
 {
 	return inputNodes;
 }
@@ -243,7 +243,7 @@ void Context::addCurrentNode(Node* value)
 	currentNodes.append(value);
 }
 
-Value* Context::getArgumentSpecial(QString name)
+Value* Context::getArgumentSpecial(QString name) const
 {
 	Value* v=matchArgument(false,false,name);
 	if(v && v->getStorage()==Variable::Special)
@@ -252,7 +252,7 @@ Value* Context::getArgumentSpecial(QString name)
 	return nullptr;
 }
 
-Value* Context::matchArgumentIndex(bool allowChar,bool matchLast, int index, QString name)
+Value* Context::matchArgumentIndex(bool allowChar,bool matchLast, int index, QString name) const
 {
 	if(index >= arguments.size())
 		return matchArgument(allowChar,matchLast,name);
@@ -265,7 +265,7 @@ Value* Context::matchArgumentIndex(bool allowChar,bool matchLast, int index, QSt
 	return matchArgument(allowChar,matchLast,name);
 }
 
-Value* Context::matchArgument(bool allowChar,bool matchLast, QString name)
+Value* Context::matchArgument(bool allowChar,bool matchLast, QString name) const
 {
 	for(Value* namedArg: arguments) {
 		QString namedArgName = namedArg->getName();
@@ -276,7 +276,7 @@ Value* Context::matchArgument(bool allowChar,bool matchLast, QString name)
 	return nullptr;
 }
 
-bool Context::match(bool allowChar,bool matchLast, QString a,QString n)
+bool Context::match(bool allowChar,bool matchLast, QString a,QString n) const
 {
 	if(allowChar) {
 		if(matchLast&&a.length()==2)

@@ -51,24 +51,24 @@ public:
 	bool addVariable(Value*);
 	void setVariable(Value*);
 
-	Node* lookupChild(int);
-	QList<Node*> lookupChildren();
+	Node* lookupChild(int) const;
+	QList<Node*> lookupChildren() const;
 
 	void setVariablesFromArguments();
-	QList<Value*> getArguments();
+	QList<Value*> getArguments() const;
 	void addArgument(Value*);
 	void clearArguments();
 
-	Value* getArgument(int,QString);
-	Value* getArgumentSpecial(QString);
-	Value* getArgumentDeprecated(int,QString,QString,Reporter*);
-	Value* getArgumentDeprecatedModule(int,QString,QString,Reporter*);
+	Value* getArgument(int,QString) const;
+	Value* getArgumentSpecial(QString) const;
+	Value* getArgumentDeprecated(int,QString,QString,Reporter*) const;
+	Value* getArgumentDeprecatedModule(int,QString,QString,Reporter*) const;
 
 	void clearParameters();
 	void addParameter(Value*);
 
 	void setInputNodes(QList<Node*>);
-	QList<Node*> getInputNodes();
+	QList<Node*> getInputNodes() const;
 
 	void setCurrentNodes(QList<Node*>);
 	QList<Node*> getCurrentNodes();
@@ -83,9 +83,9 @@ private:
 	Value* returnValue;
 	QString currentName;
 	Scope* currentScope;
-	Value* matchArgumentIndex(bool,bool,int,QString);
-	Value* matchArgument(bool,bool,QString);
-	bool match(bool,bool,QString,QString);
+	Value* matchArgumentIndex(bool,bool,int,QString) const;
+	Value* matchArgument(bool,bool,QString) const;
+	bool match(bool,bool,QString,QString) const;
 	QHash<QString,Value*> variables;
 };
 

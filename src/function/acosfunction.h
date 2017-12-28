@@ -25,7 +25,7 @@ class AcosFunction : public Function
 {
 public:
 	AcosFunction();
-	Value* evaluate(Context&) const override;
+	Value* evaluate(const Context&) const override;
 };
 
 #endif // ACOSFUNCTION_H

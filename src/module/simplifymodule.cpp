@@ -27,7 +27,7 @@ SimplifyModule::SimplifyModule(Reporter* r) : Module(r,"simplify")
 	addParameter("ratio",tr("The mesh simplification stops when the number of edges is below the ratio of the initial number of edges"));
 }
 
-Node* SimplifyModule::evaluate(Context& ctx) const
+Node* SimplifyModule::evaluate(const Context& ctx) const
 {
 	decimal ratio=0.1;
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));

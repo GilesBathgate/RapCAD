@@ -29,7 +29,7 @@ PolyhedronModule::PolyhedronModule(Reporter* r) : PrimitiveModule(r,"polyhedron"
 	addParameter("faces",tr("The faces is list of indices to the vertices. These relate to the facets of the polyhedron."));
 }
 
-Node* PolyhedronModule::evaluate(Context& ctx) const
+Node* PolyhedronModule::evaluate(const Context& ctx) const
 {
 	auto* points=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	VectorValue* faces=dynamic_cast<VectorValue*>(ctx.getArgumentDeprecated(1,"faces","triangles",reporter));
