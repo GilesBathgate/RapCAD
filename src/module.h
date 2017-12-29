@@ -34,7 +34,6 @@ class Context;
 class Module : public Declaration
 {
 public:
-	Module();
 	Module(Reporter*,const QString);
 	~Module() override;
 	QString getName() const;

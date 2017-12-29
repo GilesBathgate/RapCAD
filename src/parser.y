@@ -459,21 +459,19 @@ static int parserlex()
 
 static void parsererror(const char* s)
 {
-    if(reporter)
-	reporter->reportSyntaxError(tokenizer,s,lexertext);
+	if(reporter)
+		reporter->reportSyntaxError(tokenizer,s,lexertext);
 }
 
 void parse(Script* s, QString input, Reporter* r, bool isFile)
 {
 	reporter=r;
-	builder=new SyntaxTreeBuilder(s);
-	if(isFile)
-	    builder->buildFileLocation(input);
-
 	tokenizer=new TokenBuilder(reporter,input,isFile);
-	builder->setTokenBuilder(tokenizer);
-	parserparse();
-	delete tokenizer;
+	builder=new SyntaxTreeBuilder(reporter,s,tokenizer);
+	if(isFile)
+		builder->buildFileLocation(input);
 
+	parserparse();
 	delete builder;
+	delete tokenizer;
 }

@@ -44,7 +44,7 @@
 class SyntaxTreeBuilder : public AbstractSyntaxTreeBuilder
 {
 public:
-	SyntaxTreeBuilder(Script*);
+	SyntaxTreeBuilder(Reporter*,Script*,AbstractTokenBuilder*);
 	~SyntaxTreeBuilder() override;
 	void buildFileLocation(QString) override;
 	void buildScript(Declaration*) override;
@@ -122,11 +122,10 @@ public:
 	Expression* buildComplex(Expression*,Expression*,Expression*,Expression*) override;
 	Invocation* buildInvocation(QString*,QList<Argument*>*) override;
 	Invocation* buildInvocation(QString*,Invocation*) override;
-
-	void setTokenBuilder(AbstractTokenBuilder*) override;
 private:
 	int getLineNumber() const;
 
+	Reporter* reporter;
 	Script* script;
 	AbstractTokenBuilder* tokenBuilder;
 };

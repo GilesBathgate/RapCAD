@@ -18,9 +18,8 @@
 
 #include "syntaxtreebuilder.h"
 
-SyntaxTreeBuilder::SyntaxTreeBuilder(Script* s) : script(s)
+SyntaxTreeBuilder::SyntaxTreeBuilder(Reporter* r,Script* s,AbstractTokenBuilder* t) : reporter(r),script(s),tokenBuilder(t)
 {
-	tokenBuilder=nullptr;
 }
 
 SyntaxTreeBuilder::~SyntaxTreeBuilder()
@@ -258,8 +257,7 @@ QList<Statement*>* SyntaxTreeBuilder::buildStatements(QList<Statement*>* stmts,S
 
 Declaration* SyntaxTreeBuilder::buildModule(QString* name, QList<Parameter*>* params, Scope* scp)
 {
-	auto* result = new Module();
-	result->setName(*name);
+	auto* result = new Module(reporter,*name);
 	delete name;
 	result->setParameters(*params);
 	delete params;
@@ -615,11 +613,6 @@ Invocation* SyntaxTreeBuilder::buildInvocation(QString* name,Invocation* inv)
 	inv->setNamespace(*name);
 	delete name;
 	return inv;
-}
-
-void SyntaxTreeBuilder::setTokenBuilder(AbstractTokenBuilder* value)
-{
-	tokenBuilder=value;
 }
 
 int SyntaxTreeBuilder::getLineNumber() const
