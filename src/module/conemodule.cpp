@@ -21,7 +21,7 @@
 #include "rmath.h"
 #include "numbervalue.h"
 
-ConeModule::ConeModule(Reporter* r) : PrimitiveModule(r,"cone")
+ConeModule::ConeModule(Reporter& r) : PrimitiveModule(r,"cone")
 {
 	addDescription(tr("Constructs a cone. It is placed centered on the xy plane."));
 	addParameter("height",tr("The height of the cone."));

@@ -22,7 +22,7 @@
 #include "node/transformationnode.h"
 #include "rmath.h"
 
-MirrorModule::MirrorModule(Reporter* r) : Module(r,"mirror")
+MirrorModule::MirrorModule(Reporter& r) : Module(r,"mirror")
 {
 	addDescription(tr("Mirrors its children through a plane perpendicular to the given normal vector."));
 	addParameter("vector",tr("The normal vector of the mirror plane."));

@@ -28,10 +28,10 @@ class CGALImport
 {
 	Q_DECLARE_TR_FUNCTIONS(CGALImport)
 public:
-	CGALImport(Reporter*);
+	CGALImport(Reporter&);
 	Primitive* import(QString);
 private:
-	Reporter* reporter;
+	Reporter& reporter;
 	Primitive* importOFF(QFileInfo);
 	Primitive* importSTL(QFileInfo);
 	Primitive* importRCAD(QFileInfo);

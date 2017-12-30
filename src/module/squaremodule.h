@@ -25,7 +25,7 @@ class SquareModule : public PrimitiveModule
 {
 	Q_DECLARE_TR_FUNCTIONS(SquareModule)
 public:
-	SquareModule(Reporter*);
+	SquareModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

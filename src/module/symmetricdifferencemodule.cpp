@@ -20,7 +20,7 @@
 #include "context.h"
 #include "node/symmetricdifferencenode.h"
 
-SymmetricDifferenceModule::SymmetricDifferenceModule(Reporter* r) : Module(r,"symmetric_difference")
+SymmetricDifferenceModule::SymmetricDifferenceModule(Reporter& r) : Module(r,"symmetric_difference")
 {
 }
 

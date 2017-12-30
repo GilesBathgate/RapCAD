@@ -21,7 +21,7 @@
 #include "node/glidenode.h"
 #include "value.h"
 
-GlideModule::GlideModule(Reporter* r) : Module(r,"glide")
+GlideModule::GlideModule(Reporter& r) : Module(r,"glide")
 {
 	addDescription(tr("Glides its subsequent children along the outline of the first child."));
 	addParameter("closed",tr("Specfies whether to close the outline."));

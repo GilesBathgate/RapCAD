@@ -28,7 +28,7 @@
 class PrimitiveNode : public Node
 {
 public:
-	PrimitiveNode(Reporter*);
+	PrimitiveNode(Reporter&);
 	~PrimitiveNode();
 	void accept(NodeVisitor&) override;
 	Primitive* createPrimitive();

@@ -25,7 +25,7 @@ class CircleModule : public PrimitiveModule
 {
 	Q_DECLARE_TR_FUNCTIONS(CircleModule)
 public:
-	CircleModule(Reporter*);
+	CircleModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

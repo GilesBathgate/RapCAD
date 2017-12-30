@@ -22,7 +22,7 @@
 #include "numbervalue.h"
 #include "node/primitivenode.h"
 
-PolyhedronModule::PolyhedronModule(Reporter* r) : PrimitiveModule(r,"polyhedron")
+PolyhedronModule::PolyhedronModule(Reporter& r) : PrimitiveModule(r,"polyhedron")
 {
 	addDescription(tr("Construct a polyhedron. Special care must be taken to ensure the correct winding order."));
 	addParameter("points",tr("The vertices of the shape are provided by the points list"));

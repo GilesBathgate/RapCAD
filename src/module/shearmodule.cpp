@@ -21,7 +21,7 @@
 #include "context.h"
 #include "node/transformationnode.h"
 
-ShearModule::ShearModule(Reporter* r) : Module(r,"shear")
+ShearModule::ShearModule(Reporter& r) : Module(r,"shear")
 {
 	addDescription(tr("Shears its children in the given planes."));
 	addParameter("x",tr("The yz plane."));

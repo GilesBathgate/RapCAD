@@ -20,7 +20,7 @@
 #include "context.h"
 #include "node/boundarynode.h"
 
-BoundaryModule::BoundaryModule(Reporter* r,bool l) : Module(r,l?"outline":"boundary")
+BoundaryModule::BoundaryModule(Reporter& r, bool l) : Module(r,l?"outline":"boundary")
 {
 	legacy=l;
 }
@@ -30,7 +30,7 @@ OnceOnly BoundaryModule::depricateWarning;
 Node* BoundaryModule::evaluate(const Context& ctx) const
 {
 	if(legacy&&depricateWarning())
-		reporter->reportWarning(tr("'outline' module is deprecated please use 'boundary'\n"));
+		reporter.reportWarning(tr("'outline' module is deprecated please use 'boundary'\n"));
 
 	auto* n = new BoundaryNode();
 	n->setChildren(ctx.getInputNodes());

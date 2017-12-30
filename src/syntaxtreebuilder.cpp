@@ -18,7 +18,7 @@
 
 #include "syntaxtreebuilder.h"
 
-SyntaxTreeBuilder::SyntaxTreeBuilder(Reporter* r,Script* s,AbstractTokenBuilder* t) : reporter(r),script(s),tokenBuilder(t)
+SyntaxTreeBuilder::SyntaxTreeBuilder(Reporter& r,Script& s,AbstractTokenBuilder& t) : reporter(r),script(s),tokenBuilder(t)
 {
 }
 
@@ -29,17 +29,17 @@ SyntaxTreeBuilder::~SyntaxTreeBuilder()
 void SyntaxTreeBuilder::buildFileLocation(QString f)
 {
 	auto* info=new QFileInfo(f);
-	script->setFileLocation(info);
+	script.setFileLocation(info);
 }
 
 void SyntaxTreeBuilder::buildScript(Declaration* dec)
 {
-	script->addDeclaration(dec);
+	script.addDeclaration(dec);
 }
 
 void SyntaxTreeBuilder::buildScript(QList<CodeDoc*>* cdocs)
 {
-	script->addDocumentation(*cdocs);
+	script.addDocumentation(*cdocs);
 }
 
 QList<CodeDoc*>* SyntaxTreeBuilder::buildCodeDoc(QList<CodeDoc*>* cdocs)
@@ -117,7 +117,7 @@ Declaration* SyntaxTreeBuilder::buildImport(QString* imp,QString* name,QList<Par
 
 void SyntaxTreeBuilder::buildScript(QList<Declaration*>* decls)
 {
-	script->setDeclarations(*decls);
+	script.setDeclarations(*decls);
 	delete decls;
 }
 
@@ -617,7 +617,5 @@ Invocation* SyntaxTreeBuilder::buildInvocation(QString* name,Invocation* inv)
 
 int SyntaxTreeBuilder::getLineNumber() const
 {
-	if(tokenBuilder)
-		return tokenBuilder->getLineNumber();
-	return 0;
+	return tokenBuilder.getLineNumber();
 }

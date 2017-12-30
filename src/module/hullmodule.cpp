@@ -21,7 +21,7 @@
 #include "node/hullnode.h"
 #include "booleanvalue.h"
 
-HullModule::HullModule(Reporter* r) : Module(r,"hull")
+HullModule::HullModule(Reporter& r) : Module(r,"hull")
 {
 	addParameter("concave","Determines whether the hull may be concave");
 }

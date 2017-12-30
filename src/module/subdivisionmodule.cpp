@@ -21,7 +21,7 @@
 #include "node/subdivisionnode.h"
 #include "numbervalue.h"
 
-SubDivisionModule::SubDivisionModule(Reporter* r) : Module(r,"subdiv")
+SubDivisionModule::SubDivisionModule(Reporter& r) : Module(r,"subdiv")
 {
 	addDescription(tr("Not Implemented."));
 	addParameter("level",tr("Not Implemented."));

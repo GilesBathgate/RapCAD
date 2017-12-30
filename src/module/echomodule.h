@@ -27,7 +27,7 @@ class EchoModule : public Module
 {
 	Q_DECLARE_TR_FUNCTIONS(EchoModule)
 public:
-	EchoModule(Reporter*);
+	EchoModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 private:
 	QTextStream& output;

@@ -97,6 +97,7 @@ private:
 	Ui::MainWindow* ui;
 	QStandardItemModel* myModel;
 	QTextStream* output;
+	Reporter* reporter;
 	TextEditIODevice* console;
 	BackgroundWorker* worker;
 	Interactive* interact;

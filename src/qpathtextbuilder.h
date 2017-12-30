@@ -29,7 +29,7 @@
 class QPathTextBuilder : public TextBuilder
 {
 public:
-	QPathTextBuilder(Reporter*);
+	QPathTextBuilder(Reporter&);
 	~QPathTextBuilder() override;
 	void setText(QString) override;
 	void setFamily(const QString& value);
@@ -44,7 +44,7 @@ private:
 	int size;
 	bool headless;
 	QPointF location;
-	Reporter* reporter;
+	Reporter& reporter;
 };
 
 #endif // QPATHTEXTBUILDER_H

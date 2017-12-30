@@ -20,7 +20,7 @@
 #include "context.h"
 #include "numbervalue.h"
 
-ChildModule::ChildModule(Reporter* r) : Module(r,"child")
+ChildModule::ChildModule(Reporter& r) : Module(r,"child")
 {
 	addDeprecated(tr("The child module is deprecated, use the children module instead."));
 	addParameter("index",tr("The index of the child to use."));

@@ -20,7 +20,7 @@
 #include "builtincreator.h"
 #include "asciidocprinter.h"
 
-Generator::Generator(QTextStream& s) : Strategy(s)
+Generator::Generator(Reporter& r) : Strategy(r)
 {
 }
 

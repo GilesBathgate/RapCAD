@@ -24,7 +24,7 @@
 class ComplementModule : public Module
 {
 public:
-	ComplementModule(Reporter*);
+	ComplementModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

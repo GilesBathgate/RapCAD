@@ -18,9 +18,9 @@
 
 #include "backgroundworker.h"
 
-BackgroundWorker::BackgroundWorker(QTextStream& s,QObject* parent) :
+BackgroundWorker::BackgroundWorker(Reporter& r,QObject* parent) :
 	QObject(parent),
-	Worker(s)
+	Worker(r)
 {
 	thread=new QThread();
 	connect(thread,&QThread::started,this,&BackgroundWorker::start);

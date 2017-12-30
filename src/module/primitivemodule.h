@@ -28,7 +28,7 @@
 class PrimitiveModule : public Module
 {
 public:
-	PrimitiveModule(Reporter*,const QString);
+	PrimitiveModule(Reporter&, const QString);
 protected:
 	QList<Point> getCircle(decimal,decimal,decimal) const;
 	QList<Point> getPolygon(decimal,decimal,decimal,decimal) const;

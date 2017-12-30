@@ -21,7 +21,7 @@
 #include "vectorvalue.h"
 #include "numbervalue.h"
 
-PolylineModule::PolylineModule(Reporter* r) : Module(r,"polyline")
+PolylineModule::PolylineModule(Reporter& r) : Module(r,"polyline")
 {
 	addDescription(tr("Constructs a line connecting multiple points."));
 	addParameter("points",tr("The vertices are provided by the points list."));

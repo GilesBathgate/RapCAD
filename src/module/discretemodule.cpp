@@ -22,7 +22,7 @@
 #include "numbervalue.h"
 
 
-DiscreteModule::DiscreteModule(Reporter* r) : Module(r,"discrete")
+DiscreteModule::DiscreteModule(Reporter& r) : Module(r,"discrete")
 {
 	addDescription(tr("Rearranges the vertices of its children to lie on discrete values rounded to the given number of decimal places."));
 	addParameter("places",tr("The number of decimal places to which to round."));

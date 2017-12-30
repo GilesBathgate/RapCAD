@@ -73,7 +73,7 @@ public:
 		Minkowski
 	};
 
-	NodeEvaluator(Reporter*);
+	NodeEvaluator(Reporter&);
 
 	void visit(const PrimitiveNode&) override;
 	void visit(const PolylineNode&) override;
@@ -117,7 +117,7 @@ private:
 	void evaluate(const Node&,Operation_e,Primitive*);
 	void evaluate(QList<Node*>,Operation_e,Primitive*);
 
-	Reporter* reporter;
+	Reporter& reporter;
 	Primitive* result;
 	Cache* cache;
 };

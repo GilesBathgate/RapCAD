@@ -20,7 +20,7 @@
 #include "context.h"
 #include "node/minkowskinode.h"
 
-MinkowskiModule::MinkowskiModule(Reporter* r) : Module(r,"minkowski")
+MinkowskiModule::MinkowskiModule(Reporter& r) : Module(r,"minkowski")
 {
 }
 

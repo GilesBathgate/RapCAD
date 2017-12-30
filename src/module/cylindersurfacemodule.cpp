@@ -20,7 +20,7 @@
 #include "numbervalue.h"
 #include "booleanvalue.h"
 
-CylinderSurfaceModule::CylinderSurfaceModule(Reporter* r) : PrimitiveModule(r,"cylinder_surface")
+CylinderSurfaceModule::CylinderSurfaceModule(Reporter& r) : PrimitiveModule(r,"cylinder_surface")
 {
 	addDescription(tr("Constructs the surface of a cylinder without top and bottom facets."));
 	addParameter("height",tr("The height of the cylinder surface."));

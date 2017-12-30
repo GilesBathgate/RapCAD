@@ -22,7 +22,7 @@
 #include "numbervalue.h"
 #include "node/volumesnode.h"
 
-VolumesModule::VolumesModule(Reporter* r) : Module(r,"volume")
+VolumesModule::VolumesModule(Reporter& r) : Module(r,"volume")
 {
 	auxilary=true;
 	addDescription(tr("Provides information about the volume of its children."));

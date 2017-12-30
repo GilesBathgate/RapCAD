@@ -22,7 +22,7 @@
 #include "vectorvalue.h"
 #include "numbervalue.h"
 
-PolygonModule::PolygonModule(Reporter* r) : Module(r,"polygon")
+PolygonModule::PolygonModule(Reporter& r) : Module(r,"polygon")
 {
 	addDescription(tr("Constructs a polygon."));
 	addParameter("points",tr("The vertices are provided by the points list."));

@@ -25,7 +25,7 @@ class SimplifyModule : public Module
 {
 	Q_DECLARE_TR_FUNCTIONS(SimplifyModule)
 public:
-	SimplifyModule(Reporter*);
+	SimplifyModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

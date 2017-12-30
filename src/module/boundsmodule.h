@@ -24,7 +24,7 @@
 class BoundsModule : public Module
 {
 public:
-	BoundsModule(Reporter*);
+	BoundsModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

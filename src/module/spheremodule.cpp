@@ -21,7 +21,7 @@
 #include "rmath.h"
 #include "node/pointsnode.h"
 
-SphereModule::SphereModule(Reporter* r) : PrimitiveModule(r,"sphere")
+SphereModule::SphereModule(Reporter& r) : PrimitiveModule(r,"sphere")
 {
 	addDescription(tr("Constructs a sphere. The sphere will be centered at the origin."));
 	addParameter("radius",tr("The radius of the sphere."));

@@ -20,7 +20,7 @@
 #include "node/pointsnode.h"
 #include "vectorvalue.h"
 
-PointsModule::PointsModule(Reporter* r,bool multiple) : Module(r,multiple?"points":"point")
+PointsModule::PointsModule(Reporter& r, bool multiple) : Module(r,multiple?"points":"point")
 {
 	addDescription(tr("Constructs points."));
 	addParameter("points",tr("The location of the points."));

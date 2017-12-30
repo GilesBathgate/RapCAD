@@ -28,15 +28,14 @@
 #include "nodeevaluator.h"
 #include "contrib/qzipreader_p.h"
 
-CGALImport::CGALImport(Reporter* r)
+CGALImport::CGALImport(Reporter& r) : reporter(r)
 {
-	reporter=r;
 }
 
 Primitive* CGALImport::import(QString filename)
 {
 	QFileInfo file(filename);
-	reporter->reportMessage(tr("Importing '%1'").arg(file.absoluteFilePath()));
+	reporter.reportMessage(tr("Importing '%1'").arg(file.absoluteFilePath()));
 
 	QString suffix=file.suffix().toLower();
 	if(suffix=="off")
@@ -52,7 +51,7 @@ Primitive* CGALImport::import(QString filename)
 	if(suffix=="rcad"||suffix=="csg")
 		return importRCAD(file);
 
-	reporter->reportWarning(tr("unknown import type '%1'").arg(suffix));
+	reporter.reportWarning(tr("unknown import type '%1'").arg(suffix));
 	return nullptr;
 }
 
@@ -85,7 +84,7 @@ Primitive* CGALImport::importSTL(QFileInfo fileinfo)
 	p->setSanitized(false);
 	QFile f(fileinfo.absoluteFilePath());
 	if(!f.open(QIODevice::ReadOnly)) {
-		reporter->reportWarning(tr("Can't open import file '%1'").arg(fileinfo.absoluteFilePath()));
+		reporter.reportWarning(tr("Can't open import file '%1'").arg(fileinfo.absoluteFilePath()));
 		return p;
 	}
 
@@ -138,7 +137,7 @@ Primitive* CGALImport::importSTL(QFileInfo fileinfo)
 					}
 				}
 				if(!ok) {
-					reporter->reportWarning(tr("Can't parse vertex line '%1'").arg(line));
+					reporter.reportWarning(tr("Can't parse vertex line '%1'").arg(line));
 				}
 			}
 		}
@@ -164,7 +163,7 @@ Primitive* CGALImport::importAMF(QFileInfo fileinfo)
 	p->setSanitized(false);
 	QFile f(fileinfo.absoluteFilePath());
 	if(!f.open(QIODevice::ReadOnly)) {
-		reporter->reportWarning(tr("Can't open import file '%1'").arg(fileinfo.absoluteFilePath()));
+		reporter.reportWarning(tr("Can't open import file '%1'").arg(fileinfo.absoluteFilePath()));
 		return p;
 	}
 
@@ -247,7 +246,7 @@ Primitive* CGALImport::import3MF(QFileInfo fileinfo)
 	p->setSanitized(false);
 	QFile f(fileinfo.absoluteFilePath());
 	if(!f.open(QIODevice::ReadOnly)) {
-		reporter->reportWarning(tr("Can't open import file '%1'").arg(fileinfo.absoluteFilePath()));
+		reporter.reportWarning(tr("Can't open import file '%1'").arg(fileinfo.absoluteFilePath()));
 		return p;
 	}
 	QZipReader zip(fileinfo.absoluteFilePath());
@@ -324,7 +323,7 @@ Primitive* CGALImport::import3MF(QFileInfo fileinfo)
 Primitive* CGALImport::importRCAD(QFileInfo f)
 {
 	Script* s=new Script();
-	parse(s,f.absoluteFilePath(),reporter,true);
+	parse(s,f.absoluteFilePath(),&reporter,true);
 	TreeEvaluator te(reporter);
 	s->accept(te);
 	delete s;

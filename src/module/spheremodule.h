@@ -25,7 +25,7 @@ class SphereModule : public PrimitiveModule
 {
 	Q_DECLARE_TR_FUNCTIONS(SphereModule)
 public:
-	SphereModule(Reporter*);
+	SphereModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

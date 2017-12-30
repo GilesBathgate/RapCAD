@@ -24,7 +24,7 @@
 #include "node/alignnode.h"
 #include "point.h"
 
-AlignModule::AlignModule(Reporter* r) : Module(r,"align")
+AlignModule::AlignModule(Reporter& r) : Module(r,"align")
 {
 	addDescription(tr("Aligns its children to the given faces."));
 	addParameter("top",tr("Specifies alignment to the top face."));

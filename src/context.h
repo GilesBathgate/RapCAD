@@ -61,8 +61,8 @@ public:
 
 	Value* getArgument(int,QString) const;
 	Value* getArgumentSpecial(QString) const;
-	Value* getArgumentDeprecated(int,QString,QString,Reporter*) const;
-	Value* getArgumentDeprecatedModule(int,QString,QString,Reporter*) const;
+	Value* getArgumentDeprecated(int, QString, QString, Reporter&) const;
+	Value* getArgumentDeprecatedModule(int, QString, QString, Reporter&) const;
 
 	void clearParameters();
 	void addParameter(Value*);

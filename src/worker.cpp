@@ -33,8 +33,8 @@
 #include "simplerenderer.h"
 #endif
 
-Worker::Worker(QTextStream& s) :
-	Strategy(s)
+Worker::Worker(Reporter& r) :
+	Strategy(r)
 {
 	primitive=nullptr;
 	previous=nullptr;
@@ -60,14 +60,14 @@ void Worker::setup(QString i,QString o,bool p,bool g)
 int Worker::evaluate()
 {
 	internal();
-	return reporter->getReturnCode();
+	return reporter.getReturnCode();
 }
 
 void Worker::internal()
 {
 
 	try {
-		reporter->startTiming();
+		reporter.startTiming();
 
 		primary();
 
@@ -75,7 +75,7 @@ void Worker::internal()
 			update();
 			generation();
 		}
-		reporter->setReturnCode(EXIT_SUCCESS);
+		reporter.setReturnCode(EXIT_SUCCESS);
 
 #ifdef USE_CGAL
 	} catch(CGAL::Failure_exception e) {
@@ -93,7 +93,7 @@ void Worker::internal()
 void Worker::primary()
 {
 	Script* s=new Script();
-	parse(s,inputFile,reporter,true);
+	parse(s,inputFile,&reporter,true);
 
 	if(print) {
 		TreePrinter p(output);
@@ -119,7 +119,7 @@ void Worker::primary()
 
 	updatePrimitive(ne.getResult());
 	if(!primitive)
-		reporter->reportWarning(tr("no top level object."));
+		reporter.reportWarning(tr("no top level object."));
 	else if(!outputFile.isEmpty()) {
 		exportResult(outputFile);
 	}
@@ -138,7 +138,7 @@ void Worker::generation()
 
 	auto* v = dynamic_cast<NumberValue*>(c->getResult());
 	if(v) {
-		reporter->reportMessage(tr("Layers: %1").arg(v->getValueString()));
+		reporter.reportMessage(tr("Layers: %1").arg(v->getValueString()));
 
 		int itterations=v->toInteger();
 		Instance* m=addProductInstance("manufacture",s);
@@ -146,7 +146,7 @@ void Worker::generation()
 			if(i>0) {
 				e = new TreeEvaluator(reporter);
 			}
-			reporter->reportMessage(tr("Manufacturing layer: %1").arg(i));
+			reporter.reportMessage(tr("Manufacturing layer: %1").arg(i));
 
 			QList<Argument*> args=getArgs(i);
 			m->setArguments(args);
@@ -210,7 +210,7 @@ Instance* Worker::addProductInstance(QString name,Script* s)
 void Worker::exportResult(QString fn)
 {
 #ifdef USE_CGAL
-	reporter->startTiming();
+	reporter.startTiming();
 
 	try {
 		CGALExport exporter(primitive,reporter);
@@ -219,7 +219,7 @@ void Worker::exportResult(QString fn)
 		resultFailed(QString::fromStdString(e.what()));
 	}
 
-	reporter->reportTiming(tr("export"));
+	reporter.reportTiming(tr("export"));
 #endif
 }
 
@@ -230,13 +230,13 @@ bool Worker::resultAvailable()
 
 void Worker::resultAccepted()
 {
-	reporter->reportTiming(tr("compiling"));
+	reporter.reportTiming(tr("compiling"));
 	delete previous;
 }
 
 void Worker::resultFailed(QString error)
 {
-	reporter->reportException(error);
+	reporter.reportException(error);
 	updatePrimitive(nullptr);
 }
 

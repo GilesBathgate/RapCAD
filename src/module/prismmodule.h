@@ -25,7 +25,7 @@ class PrismModule : public PrimitiveModule
 {
 	Q_DECLARE_TR_FUNCTIONS(PrismModule)
 public:
-	PrismModule(Reporter*);
+	PrismModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

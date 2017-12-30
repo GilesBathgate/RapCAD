@@ -20,7 +20,7 @@
 #include "context.h"
 #include "node/intersectionnode.h"
 
-IntersectionModule::IntersectionModule(Reporter* r) : Module(r,"intersection")
+IntersectionModule::IntersectionModule(Reporter& r) : Module(r,"intersection")
 {
 }
 

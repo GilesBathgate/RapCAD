@@ -24,7 +24,7 @@
 class RadialsModule : public Module
 {
 public:
-	RadialsModule(Reporter*);
+	RadialsModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

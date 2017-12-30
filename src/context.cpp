@@ -188,21 +188,21 @@ Value* Context::getArgument(int index, QString name) const
 	return matchArgumentIndex(true,matchLast,index,name);
 }
 
-Value* Context::getArgumentDeprecatedModule(int index, QString deprecated, QString module, Reporter* r) const
+Value* Context::getArgumentDeprecatedModule(int index, QString deprecated, QString module, Reporter& r) const
 {
 	Value* v = matchArgumentIndex(false,false,index,deprecated);
 	if(v)
-		r->reportWarning(tr("'%1' parameter is deprecated use %2 instead").arg(deprecated).arg(module));
+		r.reportWarning(tr("'%1' parameter is deprecated use %2 instead").arg(deprecated).arg(module));
 	return v;
 }
 
-Value* Context::getArgumentDeprecated(int index, QString name, QString deprecated, Reporter* r) const
+Value* Context::getArgumentDeprecated(int index, QString name, QString deprecated, Reporter& r) const
 {
 	Value* v = matchArgumentIndex(true,false,index,name);
 	if(!v) {
 		v = matchArgumentIndex(false,false,index,deprecated);
 		if(v)
-			r->reportWarning(tr("'%1' parameter is deprecated use '%2' instead").arg(deprecated).arg(name));
+			r.reportWarning(tr("'%1' parameter is deprecated use '%2' instead").arg(deprecated).arg(name));
 	}
 
 	return v;

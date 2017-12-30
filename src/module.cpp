@@ -19,9 +19,8 @@
 #include "module.h"
 #include "context.h"
 
-Module::Module(Reporter* r,const QString n) : name(n)
+Module::Module(Reporter& r, const QString n) : reporter(r),name(n)
 {
-	reporter=r;
 	scope=nullptr;
 	auxilary=false;
 	deprecated=false;

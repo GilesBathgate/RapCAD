@@ -26,18 +26,18 @@
 class BuiltinCreator
 {
 public:
-	static BuiltinCreator* getInstance(Reporter*);
+	static BuiltinCreator* getInstance(Reporter&);
 	static void cleanUp();
 	void initBuiltins(Script&);
 	void saveBuiltins(Script&);
 	void generateDocs();
 	void generateDocs(TreeVisitor&);
 private:
-	BuiltinCreator(Reporter*);
+	BuiltinCreator(Reporter&);
 	~BuiltinCreator();
 	static BuiltinCreator* instance;
 	QList<Declaration*> builtins;
-	Reporter* reporter;
+	Reporter& reporter;
 };
 
 #endif // BUILTINCREATOR_H

@@ -25,7 +25,7 @@ class Comparer : public Strategy
 {
 	Q_DECLARE_TR_FUNCTIONS(Comparer)
 public:
-	Comparer(QTextStream&);
+	Comparer(Reporter&);
 	void setup(QString,QString);
 	int evaluate() override;
 private:

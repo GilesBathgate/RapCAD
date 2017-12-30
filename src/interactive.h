@@ -28,7 +28,7 @@ class Interactive : public QObject,public Strategy
 {
 	Q_OBJECT
 public:
-	Interactive(QTextStream&,QObject* parent=nullptr);
+	Interactive(Reporter&, QObject* parent=nullptr);
 	QString getPrompt() const;
 	int evaluate() override;
 public slots:

@@ -22,7 +22,7 @@
 #include "node/importnode.h"
 #include "nodeevaluator.h"
 
-Comparer::Comparer(QTextStream& s) : Strategy(s)
+Comparer::Comparer(Reporter& r) : Strategy(r)
 {
 }
 
@@ -34,7 +34,7 @@ void Comparer::setup(QString a, QString b)
 
 int Comparer::evaluate()
 {
-	reporter->startTiming();
+	reporter.startTiming();
 
 	ImportNode* a=new ImportNode(aFile);
 	ImportNode* b=new ImportNode(bFile);
@@ -52,15 +52,15 @@ int Comparer::evaluate()
 
 	Primitive* p=ne.getResult();
 	if(p&&p->isEmpty()) {
-		reporter->reportMessage(tr("The objects are identical."));
-		reporter->setReturnCode(EXIT_SUCCESS);
+		reporter.reportMessage(tr("The objects are identical."));
+		reporter.setReturnCode(EXIT_SUCCESS);
 	} else {
-		reporter->reportMessage(tr("The objects are different"));
-		reporter->setReturnCode(EXIT_FAILURE);
+		reporter.reportMessage(tr("The objects are different"));
+		reporter.setReturnCode(EXIT_FAILURE);
 	}
 
 	delete p;
-	reporter->reportTiming(tr("comparison"));
+	reporter.reportTiming(tr("comparison"));
 
-	return reporter->getReturnCode();
+	return reporter.getReturnCode();
 }

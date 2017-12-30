@@ -24,7 +24,7 @@
 class MaterialModule : public Module
 {
 public:
-	MaterialModule(Reporter*);
+	MaterialModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

@@ -28,7 +28,7 @@ class BackgroundWorker : public QObject, public Worker
 {
 	Q_OBJECT
 public:
-	BackgroundWorker(QTextStream&,QObject* parent = nullptr);
+	BackgroundWorker(Reporter&, QObject* parent = nullptr);
 	~BackgroundWorker() override;
 	int evaluate() override;
 signals:

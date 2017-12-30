@@ -22,7 +22,7 @@
 #include "numbervalue.h"
 #include "vectorvalue.h"
 
-RotateExtrudeModule::RotateExtrudeModule(Reporter* r) : PrimitiveModule(r,"rotate_extrude")
+RotateExtrudeModule::RotateExtrudeModule(Reporter& r) : PrimitiveModule(r,"rotate_extrude")
 {
 	addDescription(tr("Extrudes its children about the given axis."));
 	addParameter("angle",tr("The sweep angle for the extrusion."));

@@ -20,7 +20,7 @@
 #include "context.h"
 #include "node/normalsnode.h"
 
-NormalsModule::NormalsModule(Reporter* r) : Module(r,"normal")
+NormalsModule::NormalsModule(Reporter& r) : Module(r,"normal")
 {
 	auxilary=true;
 }

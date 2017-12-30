@@ -21,7 +21,7 @@
 #include "node/slicenode.h"
 #include "numbervalue.h"
 
-SliceModule::SliceModule(Reporter* r) : Module(r,"slice")
+SliceModule::SliceModule(Reporter& r) : Module(r,"slice")
 {
 	addDescription(tr("Slices its children at the given height."));
 	addParameter("height",tr("The height at which to slice."));

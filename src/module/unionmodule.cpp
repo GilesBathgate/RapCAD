@@ -20,7 +20,7 @@
 #include "context.h"
 #include "node/unionnode.h"
 
-UnionModule::UnionModule(Reporter* r) : Module(r,"union")
+UnionModule::UnionModule(Reporter& r) : Module(r,"union")
 {
 }
 

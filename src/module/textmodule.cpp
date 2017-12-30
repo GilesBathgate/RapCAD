@@ -22,7 +22,7 @@
 #include "qpathtextbuilder.h"
 #include "context.h"
 
-TextModule::TextModule(Reporter* r) : Module(r, "text")
+TextModule::TextModule(Reporter& r) : Module(r, "text")
 {
 	addDescription(tr("Generates text."));
 	addParameter("text",tr("The text to generate"));

@@ -36,7 +36,7 @@
 #include "nodeevaluator.h"
 #include "ui/codeeditor.h"
 
-Tester::Tester(QTextStream& s,QObject* parent) : QObject(parent),Strategy(s)
+Tester::Tester(Reporter& r,QObject* parent) : QObject(parent),Strategy(r)
 {
 	nullout = new QString();
 	nullstream = new QTextStream(nullout);
@@ -81,7 +81,7 @@ static bool skipDir(QString dir)
 
 int Tester::evaluate()
 {
-	reporter->startTiming();
+	reporter.startTiming();
 
 	CacheManager* cm=CacheManager::getInstance();
 	cm->disableCaches();
@@ -95,7 +95,7 @@ int Tester::evaluate()
 	writeHeader("000_treeprinter",testcount);
 
 	TreePrinter nulldocs(*nullstream);
-	BuiltinCreator* cr=BuiltinCreator::getInstance(nullreport);
+	BuiltinCreator* cr=BuiltinCreator::getInstance(*nullreport);
 	cr->generateDocs(nulldocs);
 
 	output << " Passed" << endl;
@@ -132,22 +132,22 @@ int Tester::evaluate()
 			delete s;
 		}
 	}
-	reporter->setReturnCode(failcount);
+	reporter.setReturnCode(failcount);
 
 	output << testcount << " tests. Passed: " << passcount << " Failed: " << failcount << endl;
 
-	reporter->reportTiming("testing");
+	reporter.reportTiming("testing");
 #ifndef Q_OS_WIN
-	reporter->startTiming();
+	reporter.startTiming();
 	int c=0;
 	QApplication a(c,nullptr);
 	ui = new MainWindow();
 	ui->show();
 	QTimer::singleShot(100,this,SLOT(runTests()));
 	a.exec();
-	reporter->reportTiming("ui testing");
+	reporter.reportTiming("ui testing");
 #endif
-	return reporter->getReturnCode();
+	return reporter.getReturnCode();
 }
 
 void Tester::runTests()
@@ -177,9 +177,9 @@ void Tester::exportTest(QString dir)
 	for(QFileInfo file: QDir(dir).entryInfoList(QStringList("*.rcad"), QDir::Files)) {
 		Script* s=new Script();
 		parse(s,file.absoluteFilePath(),nullptr,true);
-		TreeEvaluator te(nullreport);
+		TreeEvaluator te(*nullreport);
 		s->accept(te);
-		NodeEvaluator ne(nullreport);
+		NodeEvaluator ne(*nullreport);
 		Node* n=te.getRootNode();
 		n->accept(ne);
 		delete s;
@@ -187,7 +187,7 @@ void Tester::exportTest(QString dir)
 		QDir path(file.absolutePath());
 		QString origPath(path.filePath(file.baseName()+".csg"));
 
-		CGALExport e(ne.getResult(),nullreport);
+		CGALExport e(ne.getResult(),*nullreport);
 		QFile origFile(origPath);
 		e.exportResult(origPath);
 
@@ -215,7 +215,7 @@ void Tester::exportTest(CGALExport& e,QString origPath,QFileInfo file,QString ex
 	QFile newfile(newPath);
 
 	e.exportResult(newPath);
-	Comparer c(*nullstream);
+	Comparer c(*nullreport);
 	c.setup(origPath,newPath);
 	c.evaluate();
 	if(c.evaluate()==0) {
@@ -231,7 +231,7 @@ void Tester::exportTest(CGALExport& e,QString origPath,QFileInfo file,QString ex
 
 void Tester::testFunction(Script* s)
 {
-	TreeEvaluator te(nullreport);
+	TreeEvaluator te(*nullreport);
 	//If a test function exists check it returns true
 	QList<Argument*> args;
 	Callback* c = addCallback("test",s,args);
@@ -256,7 +256,7 @@ void Tester::testModule(Script* s,QFileInfo file)
 	output << " Skipped" << endl;
 	return;
 #endif
-	TreeEvaluator te(nullreport);
+	TreeEvaluator te(*nullreport);
 
 	QString basename=file.baseName();
 	QString examFileName=basename + ".exam.csg";
@@ -278,7 +278,7 @@ void Tester::testModule(Script* s,QFileInfo file)
 
 	QFile csgFile(csgFileInfo.absoluteFilePath());
 	if(csgFile.exists()) {
-		Comparer co(*nullstream);
+		Comparer co(*nullreport);
 		co.setup(examFileInfo.absoluteFilePath(),csgFileInfo.absoluteFilePath());
 		if(co.evaluate()==0) {
 			output << " Passed" << endl;

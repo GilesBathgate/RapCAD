@@ -25,7 +25,7 @@ class PolygonModule : public Module
 {
 	Q_DECLARE_TR_FUNCTIONS(PolygonModule)
 public:
-	PolygonModule(Reporter*);
+	PolygonModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

@@ -21,7 +21,7 @@
 #include "vectorvalue.h"
 #include "node/primitivenode.h"
 
-CubeModule::CubeModule(Reporter* r) : PrimitiveModule(r,"cube")
+CubeModule::CubeModule(Reporter& r) : PrimitiveModule(r,"cube")
 {
 	addDescription(tr("Constructs a cube or cuboid. It will be placed in the first octant unless the center parameter is true."));
 	addParameter("size",tr("The size of the cube. A single value or x,y,z"));

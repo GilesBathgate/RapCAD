@@ -26,7 +26,7 @@ class Tester : public QObject,public Strategy
 {
 	Q_OBJECT
 public:
-	Tester(QTextStream&,QObject* parent = nullptr);
+	Tester(Reporter&, QObject* parent = nullptr);
 	~Tester() override;
 	int evaluate() override;
 private slots:

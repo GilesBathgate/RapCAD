@@ -18,7 +18,7 @@
 
 #include "writelnmodule.h"
 
-WriteLnModule::WriteLnModule(Reporter* r) : WriteModule(r,"writeln")
+WriteLnModule::WriteLnModule(Reporter& r) : WriteModule(r,"writeln")
 {
 }
 

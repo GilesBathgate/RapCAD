@@ -24,7 +24,7 @@
 class MinkowskiModule : public Module
 {
 public:
-	MinkowskiModule(Reporter*);
+	MinkowskiModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

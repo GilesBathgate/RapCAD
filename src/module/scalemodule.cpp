@@ -21,7 +21,7 @@
 #include "vectorvalue.h"
 #include "node/transformationnode.h"
 
-ScaleModule::ScaleModule(Reporter* r) : Module(r,"scale")
+ScaleModule::ScaleModule(Reporter& r) : Module(r,"scale")
 {
 	addDescription(tr("Scales its children by the given vector."));
 	addParameter("size",tr("The factor by which to scale the object."));

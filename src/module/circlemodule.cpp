@@ -19,7 +19,7 @@
 #include "circlemodule.h"
 #include "numbervalue.h"
 
-CircleModule::CircleModule(Reporter* r) : PrimitiveModule(r,"circle")
+CircleModule::CircleModule(Reporter& r) : PrimitiveModule(r,"circle")
 {
 	addDescription(tr("Constructs a circle. It will be placed centered on the xy plane."));
 	addParameter("radius",tr("The radius of the circle."));

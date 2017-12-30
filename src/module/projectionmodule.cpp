@@ -22,7 +22,7 @@
 #include "context.h"
 #include "booleanvalue.h"
 
-ProjectionModule::ProjectionModule(Reporter* r) : Module(r,"projection")
+ProjectionModule::ProjectionModule(Reporter& r) : Module(r,"projection")
 {
 	addDescription(tr("Flattens its children onto the xy plane."));
 	addParameter("base",tr("Specifies that only polygons with normals perpendicular to the xy plane be considered."));

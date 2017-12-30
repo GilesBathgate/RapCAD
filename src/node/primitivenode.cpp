@@ -22,7 +22,7 @@
 #include "cgalprimitive.h"
 #endif
 
-PrimitiveNode::PrimitiveNode(Reporter*)
+PrimitiveNode::PrimitiveNode(Reporter&)
 {
 	primitive=nullptr;
 }

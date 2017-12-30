@@ -28,7 +28,7 @@ class CGALExport
 {
 	Q_DECLARE_TR_FUNCTIONS(CGALExport)
 public:
-	CGALExport(Primitive*,Reporter*);
+	CGALExport(Primitive*,Reporter&);
 	void exportResult(QString);
 
 private:
@@ -41,7 +41,7 @@ private:
 	void exportCSG(QString);
 	void exportNEF(QString);
 	void exportSVG(QString);
-	Reporter* reporter;
+	Reporter& reporter;
 	Primitive* primitive;
 	void exportAMFObject(CGALPrimitive* p, QXmlStreamWriter& xml);
 	void descendChildren(Primitive* p, QXmlStreamWriter& xml);

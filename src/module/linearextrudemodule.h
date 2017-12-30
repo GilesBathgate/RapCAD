@@ -25,7 +25,7 @@ class LinearExtrudeModule : public Module
 {
 	Q_DECLARE_TR_FUNCTIONS(LinearExtrudeModule)
 public:
-	LinearExtrudeModule(Reporter*);
+	LinearExtrudeModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

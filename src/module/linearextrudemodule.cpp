@@ -21,7 +21,7 @@
 #include "node/linearextrudenode.h"
 #include "numbervalue.h"
 
-LinearExtrudeModule::LinearExtrudeModule(Reporter* r) : Module(r,"linear_extrude")
+LinearExtrudeModule::LinearExtrudeModule(Reporter& r) : Module(r,"linear_extrude")
 {
 	addDescription(tr("Extrudes its children along the z axis."));
 	addParameter("height",tr("The height of the extrusion."));

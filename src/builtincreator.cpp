@@ -122,7 +122,7 @@
 
 #include "treeprinter.h"
 
-BuiltinCreator::BuiltinCreator(Reporter* r)
+BuiltinCreator::BuiltinCreator(Reporter& r) : reporter(r)
 {
 	builtins.append(new AlignModule(r));
 	builtins.append(new BezierSurfaceModule(r));
@@ -226,13 +226,11 @@ BuiltinCreator::BuiltinCreator(Reporter* r)
 	builtins.append(new TanFunction());
 	builtins.append(new TanhFunction());
 	builtins.append(new VersionFunction());
-
-	reporter=r;
 }
 
 BuiltinCreator* BuiltinCreator::instance=nullptr;
 
-BuiltinCreator* BuiltinCreator::getInstance(Reporter* r)
+BuiltinCreator* BuiltinCreator::getInstance(Reporter& r)
 {
 	if(!instance)
 		instance = new BuiltinCreator(r);
@@ -267,7 +265,7 @@ void BuiltinCreator::saveBuiltins(Script& sc)
 
 void BuiltinCreator::generateDocs()
 {
-	TreePrinter p(reporter->output);
+	TreePrinter p(reporter.output);
 	generateDocs(p);
 }
 

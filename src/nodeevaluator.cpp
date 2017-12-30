@@ -37,9 +37,8 @@
 #include "cgalbuilder.h"
 #endif
 
-NodeEvaluator::NodeEvaluator(Reporter* r)
+NodeEvaluator::NodeEvaluator(Reporter& r) : reporter(r)
 {
-	reporter=r;
 	CacheManager* m=CacheManager::getInstance();
 	cache=m->getCache();
 	result=nullptr;
@@ -501,7 +500,7 @@ void NodeEvaluator::visit(const BoundsNode& n)
 	if(zmin!=0.0) {
 		QString pos=to_string(zmin);
 		QString where = zmin<0.0?tr("below"):tr("above");
-		reporter->reportWarning(tr("the model is %1 %2 the build platform.").arg(pos).arg(where));
+		reporter.reportWarning(tr("the model is %1 %2 the build platform.").arg(pos).arg(where));
 
 		SimpleTextBuilder t;
 		t.setText(pos);
@@ -519,7 +518,7 @@ void NodeEvaluator::visit(const BoundsNode& n)
 
 	CGAL::Point3 lower(xmin,ymin,zmin);
 	CGAL::Point3 upper(xmax,ymax,zmax);
-	reporter->reportMessage(tr("Bounds: [%1],[%2]").arg(to_string(lower)).arg(to_string(upper)));
+	reporter.reportMessage(tr("Bounds: [%1],[%2]").arg(to_string(lower)).arg(to_string(upper)));
 #endif
 }
 
@@ -833,7 +832,7 @@ void NodeEvaluator::visit(const RadialsNode& n)
 	CGAL::Circle3 circle=pr->getRadius();
 	CGAL::Scalar r=r_sqrt(circle.squared_radius());
 	QString rs=to_string(r);
-	reporter->reportMessage(tr("Radius: %1").arg(rs));
+	reporter.reportMessage(tr("Radius: %1").arg(rs));
 
 	CGAL::Point3 c=circle.center();
 	CGAL::Scalar a,b;
@@ -875,12 +874,12 @@ void NodeEvaluator::visit(const VolumesNode& n)
 
 	CGAL::Scalar vn=v.getSize();
 	QString vs=to_string(vn);
-	reporter->reportMessage(tr("Volume: %1").arg(vs));
+	reporter.reportMessage(tr("Volume: %1").arg(vs));
 
 	CGAL::Point3 c=v.getCenter();
 
 	if(calcMass)
-		reporter->reportMessage(tr("Center of Mass: %1").arg(to_string(c)));
+		reporter.reportMessage(tr("Center of Mass: %1").arg(to_string(c)));
 
 	CGAL::Cuboid3 b=v.getBounds();
 	CGAL::Scalar x,y,z;

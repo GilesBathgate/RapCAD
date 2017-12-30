@@ -34,7 +34,7 @@ class Context;
 class Module : public Declaration
 {
 public:
-	Module(Reporter*,const QString);
+	Module(Reporter&,const QString);
 	~Module() override;
 	QString getName() const;
 	void setName(QString);
@@ -54,7 +54,7 @@ protected:
 	Value* getParameterArgument(const Context&, int, int) const;
 
 	bool auxilary;
-	Reporter* reporter;
+	Reporter& reporter;
 private:
 	QString name;
 	QString description;

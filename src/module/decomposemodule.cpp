@@ -20,7 +20,7 @@
 #include "context.h"
 #include "node/decomposenode.h"
 
-DecomposeModule::DecomposeModule(Reporter* r) : Module(r,"decompose")
+DecomposeModule::DecomposeModule(Reporter& r) : Module(r,"decompose")
 {
 }
 

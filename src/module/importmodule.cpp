@@ -21,7 +21,7 @@
 #include "textvalue.h"
 #include "context.h"
 
-ImportModule::ImportModule(Reporter* r) : Module(r,"import")
+ImportModule::ImportModule(Reporter& r) : Module(r,"import")
 {
 	addParameter("file", tr("The name of the file to import."));
 }

@@ -21,7 +21,7 @@
 #include "booleanvalue.h"
 #include "node/hullnode.h"
 
-ChainHullModule::ChainHullModule(Reporter* r) : Module(r,"chain_hull")
+ChainHullModule::ChainHullModule(Reporter& r) : Module(r,"chain_hull")
 {
 	addDescription(tr("Constructs a chained hull of its children."));
 	addParameter("closed",tr("Specifies whether to close the chain."));

@@ -28,7 +28,7 @@ namespace readline
 }
 #endif
 
-Interactive::Interactive(QTextStream& s,QObject* parent) : QObject(parent),Strategy(s)
+Interactive::Interactive(Reporter& r,QObject* parent) : QObject(parent),Strategy(r)
 {
 }
 
@@ -50,13 +50,13 @@ void Interactive::execCommand(QString s)
 		s=QString("writeln(%1);").arg(s);
 		/* Use a kludge factor so that the reporter doesn't include the 'write('
 		 * characters in its 'at character' output */
-		reporter->setKludge(-8);
+		reporter.setKludge(-8);
 	} else {
-		reporter->setKludge(0);
+		reporter.setKludge(0);
 	}
 
 	Script* sc=new Script();
-	parse(sc,s,reporter,false);
+	parse(sc,s,&reporter,false);
 	TreeEvaluator e(reporter);
 	sc->accept(e);
 	output.flush();

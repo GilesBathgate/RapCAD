@@ -21,7 +21,7 @@
 #include "numbervalue.h"
 #include "node/radialsnode.h"
 
-RadialsModule::RadialsModule(Reporter* r) : Module(r,"radial")
+RadialsModule::RadialsModule(Reporter& r) : Module(r,"radial")
 {
 	auxilary=true;
 }

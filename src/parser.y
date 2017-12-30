@@ -30,7 +30,7 @@ void parse(Script*, QString, Reporter*, bool);
 
 static void parsererror(const char*);
 static int parserlex();
-static AbstractSyntaxTreeBuilder *builder;
+static AbstractSyntaxTreeBuilder* builder;
 static AbstractTokenBuilder* tokenizer;
 static Reporter* reporter;
 
@@ -467,7 +467,7 @@ void parse(Script* s, QString input, Reporter* r, bool isFile)
 {
 	reporter=r;
 	tokenizer=new TokenBuilder(reporter,input,isFile);
-	builder=new SyntaxTreeBuilder(reporter,s,tokenizer);
+	builder=new SyntaxTreeBuilder(*reporter,*s,*tokenizer);
 	if(isFile)
 		builder->buildFileLocation(input);
 

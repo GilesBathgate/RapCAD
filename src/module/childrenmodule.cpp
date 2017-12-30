@@ -22,7 +22,7 @@
 #include "vectorvalue.h"
 #include "numbervalue.h"
 
-ChildrenModule::ChildrenModule(Reporter* r) : Module(r,"children")
+ChildrenModule::ChildrenModule(Reporter& r) : Module(r,"children")
 {
 	addDescription(tr("Provides access to children as passed to a module."));
 	addParameter("index",tr("A list of indices which determines which children to use."));

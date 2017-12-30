@@ -22,7 +22,7 @@
 #include <QFontMetrics>
 #include <QApplication>
 
-QPathTextBuilder::QPathTextBuilder(Reporter* r) : reporter(r)
+QPathTextBuilder::QPathTextBuilder(Reporter& r) : reporter(r)
 {
 	size=0;
 	headless = QFont().family().isEmpty();

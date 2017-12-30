@@ -18,9 +18,8 @@
 
 #include "layout.h"
 
-Layout::Layout(Reporter* r)
+Layout::Layout(Reporter& r) : reporter(r)
 {
-	reporter=r;
 	parent=nullptr;
 	scope=nullptr;
 }
@@ -62,7 +61,7 @@ void Layout::addModule(const Module& mod)
 {
 	QString name=mod.getName();
 	if(modules.contains(name)) {
-		reporter->reportWarning(tr("module '%1' was already defined.").arg(name));
+		reporter.reportWarning(tr("module '%1' was already defined.").arg(name));
 		return;
 	}
 
@@ -73,7 +72,7 @@ void Layout::addFunction(const Function& func)
 {
 	QString name=func.getName();
 	if(functions.contains(name)) {
-		reporter->reportWarning(tr("function '%1' was already defined.").arg(name));
+		reporter.reportWarning(tr("function '%1' was already defined.").arg(name));
 		return;
 	}
 

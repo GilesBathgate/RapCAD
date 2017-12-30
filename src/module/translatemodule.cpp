@@ -21,7 +21,7 @@
 #include "vectorvalue.h"
 #include "node/transformationnode.h"
 
-TranslateModule::TranslateModule(Reporter* r) : Module(r,"translate")
+TranslateModule::TranslateModule(Reporter& r) : Module(r,"translate")
 {
 	addDescription(tr("Moves its children along the given vector."));
 	addParameter("vector",tr("The vector to move along"));

@@ -23,7 +23,7 @@
 #include "node/primitivenode.h"
 #include "rmath.h"
 
-CylinderModule::CylinderModule(Reporter* r) : PrimitiveModule(r,"cylinder")
+CylinderModule::CylinderModule(Reporter& r) : PrimitiveModule(r,"cylinder")
 {
 	addDescription(tr("Constructs a cylinder. It will be placed centered on the xy plane."));
 	addParameter("height",tr("The height of the cylinder"));

@@ -22,7 +22,7 @@
 #include "vectorvalue.h"
 #include "booleanvalue.h"
 
-ResizeModule::ResizeModule(Reporter* r) : Module(r,"resize")
+ResizeModule::ResizeModule(Reporter& r) : Module(r,"resize")
 {
 	addDescription(tr("Modifies its children to match the given size."));
 	addParameter("newsize",tr("The new size of the shape."));

@@ -19,14 +19,12 @@
 #include "strategy.h"
 #include "invocation.h"
 
-Strategy::Strategy(QTextStream& s) : output(s)
+Strategy::Strategy(Reporter& r) : reporter(r),output(r.output)
 {
-	reporter=new Reporter(output);
 }
 
 Strategy::~Strategy()
 {
-	delete reporter;
 }
 
 Callback* Strategy::addCallback(QString name,Script* s,QList<Argument*> args)

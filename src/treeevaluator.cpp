@@ -26,9 +26,8 @@
 #include "syntaxtreebuilder.h"
 #include "module/unionmodule.h"
 
-TreeEvaluator::TreeEvaluator(Reporter* r)
+TreeEvaluator::TreeEvaluator(Reporter& r) : reporter(r)
 {
-	reporter=r;
 	context=nullptr;
 	rootNode=nullptr;
 	layout=nullptr;
@@ -85,7 +84,7 @@ void TreeEvaluator::visit(const ModuleScope& scp)
 	}
 
 	if(context->getReturnValue())
-		reporter->reportWarning(tr("return statement not valid inside module scope."));
+		reporter.reportWarning(tr("return statement not valid inside module scope."));
 }
 
 void TreeEvaluator::visit(const Instance& inst)
@@ -158,7 +157,7 @@ void TreeEvaluator::visit(const Instance& inst)
 			context->addCurrentNode(node);
 
 	} else {
-		reporter->reportWarning(tr("cannot find module '%1%2'").arg(name).arg(aux?"$":""));
+		reporter.reportWarning(tr("cannot find module '%1%2'").arg(name).arg(aux?"$":""));
 	}
 }
 
@@ -384,11 +383,11 @@ void TreeEvaluator::visit(const AssignStatement& stmt)
 	switch(c) {
 	case Variable::Const:
 		if(!context->addVariable(result))
-			reporter->reportWarning(tr("attempt to alter constant variable '%1'").arg(name));
+			reporter.reportWarning(tr("attempt to alter constant variable '%1'").arg(name));
 		break;
 	case Variable::Param:
 		if(!context->addVariable(result))
-			reporter->reportWarning(tr("attempt to alter parametric variable '%1'").arg(name));
+			reporter.reportWarning(tr("attempt to alter parametric variable '%1'").arg(name));
 		break;
 	default:
 		context->setVariable(result);
@@ -405,7 +404,7 @@ void TreeEvaluator::visit(const VectorExpression& exp)
 	}
 	int commas=exp.getAdditionalCommas();
 	if(commas>0)
-		reporter->reportWarning(tr("%1 additional comma(s) found at the end of vector expression").arg(commas));
+		reporter.reportWarning(tr("%1 additional comma(s) found at the end of vector expression").arg(commas));
 
 	Value* v = new VectorValue(childvalues);
 	context->setCurrentValue(v);
@@ -507,7 +506,7 @@ void TreeEvaluator::visit(const Invocation& stmt)
 		finishContext();
 
 	} else {
-		reporter->reportWarning(tr("cannot find function '%1'").arg(name));
+		reporter.reportWarning(tr("cannot find function '%1'").arg(name));
 	}
 
 	if(!result)
@@ -553,7 +552,7 @@ void TreeEvaluator::visit(const ScriptImport& sc)
 
 	QFileInfo* f=getFullPath(sc.getImport());
 	Script* s=new Script();
-	parse(s,f->absoluteFilePath(),reporter,true);
+	parse(s,f->absoluteFilePath(),&reporter,true);
 	imports.append(s);
 	/* Now recursively descend any modules functions or script imports within
 	 * the imported script and add them to the main script */
@@ -579,10 +578,10 @@ void TreeEvaluator::visit(const Variable& var)
 	if(currentStorage!=oldStorage)
 		switch(oldStorage) {
 		case Variable::Const:
-			reporter->reportWarning(tr("attempt to make previously non-constant variable '%1' constant").arg(name));
+			reporter.reportWarning(tr("attempt to make previously non-constant variable '%1' constant").arg(name));
 			break;
 		case Variable::Param:
-			reporter->reportWarning(tr("attempt to make previously non-parametric variable '%1' parametric").arg(name));
+			reporter.reportWarning(tr("attempt to make previously non-parametric variable '%1' parametric").arg(name));
 			break;
 		default:
 			break;
@@ -619,7 +618,7 @@ void TreeEvaluator::visit(Script& sc)
 	QList<Node*> childnodes=context->getCurrentNodes();
 
 	if(context->getReturnValue())
-		reporter->reportWarning(tr("return statement not valid inside global scope."));
+		reporter.reportWarning(tr("return statement not valid inside global scope."));
 
 	rootNode=UnionModule::createUnion(childnodes);
 

@@ -24,7 +24,7 @@
 class Generator : public Strategy
 {
 public:
-	Generator(QTextStream&);
+	Generator(Reporter&);
 	int evaluate() override;
 };
 

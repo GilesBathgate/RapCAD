@@ -20,7 +20,7 @@
 #include "numbervalue.h"
 #include "rmath.h"
 
-PrismModule::PrismModule(Reporter* r) : PrimitiveModule(r,"prism")
+PrismModule::PrismModule(Reporter& r) : PrimitiveModule(r,"prism")
 {
 	addDescription(tr("Constructs a regular prism. It will be placed centered on the xy plane."));
 	addParameter("height",tr("The height of the prism."));

@@ -19,7 +19,7 @@
 #include "squaremodule.h"
 #include "vectorvalue.h"
 
-SquareModule::SquareModule(Reporter* r) : PrimitiveModule(r,"square")
+SquareModule::SquareModule(Reporter& r) : PrimitiveModule(r,"square")
 {
 	addDescription(tr("Constructs a square or rectangle. It will be placed in the first quadrant."));
 	addParameter("size",tr("The size of the square"));

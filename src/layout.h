@@ -29,7 +29,7 @@ class Layout
 {
 	Q_DECLARE_TR_FUNCTIONS(Layout)
 public:
-	Layout(Reporter*);
+	Layout(Reporter&);
 	virtual ~Layout();
 
 	void setParent(Layout*);
@@ -44,7 +44,7 @@ public:
 	void setScope(Scope*);
 
 private:
-	Reporter* reporter;
+	Reporter& reporter;
 	Layout* parent;
 	QHash<QString,const Module*> modules;
 	QHash<QString,const Function*> functions;
