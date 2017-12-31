@@ -34,7 +34,7 @@ Polygon* Polyhedron::createPolygon()
 	return pg;
 }
 
-void Polyhedron::createVertex(Point p)
+void Polyhedron::createVertex(const Point& p)
 {
 	points.append(p);
 }

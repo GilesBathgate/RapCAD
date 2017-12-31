@@ -27,7 +27,7 @@ public:
 	Polyhedron();
 	~Polyhedron() override;
 	Polygon* createPolygon() override;
-	void createVertex(Point) override;
+	void createVertex(const Point&) override;
 	void setType(Primitive_t) override { }
 	void setSanitized(bool) override { }
 	bool getSanitized() override { return false; }
@@ -41,7 +41,7 @@ public:
 	Primitive* difference(Primitive*) override;
 	Primitive* symmetric_difference(Primitive*) override;
 	Primitive* minkowski(Primitive*) override;
-	Primitive* inset(decimal) override { return this; }
+	Primitive* inset(const decimal&) override { return this; }
 	Primitive* decompose() override { return this; }
 	Primitive* complement() override { return this; }
 	Primitive* boundary() override { return this; }

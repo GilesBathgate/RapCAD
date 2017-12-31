@@ -37,7 +37,7 @@ public:
 	virtual void setType(Primitive_t)=0;
 	virtual void setSanitized(bool)=0;
 	virtual bool getSanitized()=0;
-	virtual void createVertex(Point)=0;
+	virtual void createVertex(const Point&)=0;
 	virtual bool overlaps(Primitive*)=0;
 	virtual Primitive* group(Primitive*)=0;
 	virtual Primitive* join(Primitive*)=0;
@@ -47,7 +47,7 @@ public:
 	virtual Primitive* difference(Primitive*)=0;
 	virtual Primitive* symmetric_difference(Primitive*)=0;
 	virtual Primitive* minkowski(Primitive*)=0;
-	virtual Primitive* inset(const decimal)=0;
+	virtual Primitive* inset(const decimal&)=0;
 	virtual Primitive* decompose()=0;
 	virtual Primitive* complement()=0;
 	virtual Primitive* boundary()=0;

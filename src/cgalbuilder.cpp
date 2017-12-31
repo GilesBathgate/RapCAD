@@ -37,15 +37,14 @@ namespace CGAL
 typedef Polygon_2<Kernel3> Polygon2;
 }
 
-CGALBuilder::CGALBuilder(CGALPrimitive* p)
+CGALBuilder::CGALBuilder(CGALPrimitive& p) : primitive(p)
 {
-	primitive=p;
 }
 
 void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
 {
-	QList<CGAL::Point3> points=primitive->getPoints();
-	QList<CGALPolygon*> polygons=primitive->getCGALPolygons();
+	QList<CGAL::Point3> points=primitive.getPoints();
+	QList<CGALPolygon*> polygons=primitive.getCGALPolygons();
 
 	CGAL::Polyhedron_incremental_builder_3<CGAL::HalfedgeDS> builder(hds,true);
 	builder.begin_surface(points.size(), polygons.size());
@@ -133,7 +132,7 @@ static void insertConstraint(CT& ct,const CGAL::Point3& p,const CGAL::Point3& np
 	ct.insert_constraint(p2,np2);
 }
 
-CGALPrimitive* CGALBuilder::triangulate()
+CGALPrimitive& CGALBuilder::triangulate()
 {
 	typedef CGAL::Triangulation_vertex_base_with_info_2<CGAL::Scalar,CGAL::Kernel3> VertexBase;
 	typedef CGAL::Triangulation_face_base_with_info_2<FaceInfo,CGAL::Kernel3> Info;
@@ -145,7 +144,7 @@ CGALPrimitive* CGALBuilder::triangulate()
 	typedef CT::Face_iterator FaceIterator;
 
 	CT ct;
-	for(CGALPolygon* pg: primitive->getCGALPolygons()) {
+	for(CGALPolygon* pg: primitive.getCGALPolygons()) {
 		OnceOnly first;
 		CGAL::Point3 np,fp;
 		for(const auto& p: pg->getPoints()) {
@@ -160,16 +159,16 @@ CGALPrimitive* CGALBuilder::triangulate()
 
 	markDomains(ct);
 
-	primitive->clear();
+	primitive.clear();
 
 	for(FaceIterator f=ct.finite_faces_begin(); f!=ct.finite_faces_end(); ++f) {
 		if(f->info().inDomain()) {
-			primitive->createPolygon();
+			primitive.createPolygon();
 			for(auto i=0; i<3; ++i) {
 				VertexHandle h=f->vertex(i);
 				CGAL::Point2 p2=h->point();
 				CGAL::Point3 p(p2.x(),p2.y(),h->info());
-				primitive->appendVertex(p);
+				primitive.appendVertex(p);
 			}
 		}
 	}
@@ -177,18 +176,18 @@ CGALPrimitive* CGALBuilder::triangulate()
 }
 
 #ifndef USE_OFFSET
-CGALPrimitive* CGALBuilder::buildOffsetPolygons(const CGAL::Scalar)
+CGALPrimitive& CGALBuilder::buildOffsetPolygons(const CGAL::Scalar&)
 {
 	return primitive;
 }
 #else
-CGALPrimitive* CGALBuilder::buildOffsetPolygons(const CGAL::Scalar amount)
+CGALPrimitive& CGALBuilder::buildOffsetPolygons(const CGAL::Scalar& amount)
 {
 	typedef boost::shared_ptr<CGAL::Polygon2> PolygonPtr;
 	typedef std::vector<PolygonPtr> PolygonPtrVector;
 
 	CGAL::Polygon2 poly;
-	CGALExplorer e(primitive);
+	CGALExplorer e(&primitive);
 	CGALPrimitive* prim = e.getPrimitive();
 
 	CGAL::Scalar z=0.0;
@@ -212,14 +211,14 @@ CGALPrimitive* CGALBuilder::buildOffsetPolygons(const CGAL::Scalar amount)
 		offsetPolys=CGAL::create_exterior_skeleton_and_offset_polygons_2(amount,poly);
 	}
 
-	primitive->clear();
+	primitive.clear();
 
 	for(PolygonPtr ptr: offsetPolys) {
 		if(!first()) {
-			primitive->createPolygon();
+			primitive.createPolygon();
 			for(auto vi=ptr->vertices_begin(); vi!=ptr->vertices_end(); ++vi) {
 				CGAL::Point3 p3(vi->x(),vi->y(),z);
-				primitive->appendVertex(p3);
+				primitive.appendVertex(p3);
 			}
 		}
 	}

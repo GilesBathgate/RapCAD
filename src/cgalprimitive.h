@@ -41,16 +41,16 @@ class CGALPrimitive : public Primitive
 public:
 	CGALPrimitive();
 	~CGALPrimitive() override;
-	CGALPrimitive(CGAL::Polyhedron3 poly);
-	CGALPrimitive(CGAL::NefPolyhedron3 nef);
+	CGALPrimitive(CGAL::Polyhedron3&);
+	CGALPrimitive(const CGAL::NefPolyhedron3&);
 	void setType(Primitive_t) override;
 	void setSanitized(bool) override;
 	bool getSanitized() override;
 	Polygon* createPolygon() override;
-	void createVertex(CGAL::Point3) override;
-	void createVertex(CGAL::Scalar,CGAL::Scalar,CGAL::Scalar);
-	void addVertex(CGAL::Point3,bool);
-	void appendVertex(CGAL::Point3);
+	void createVertex(const CGAL::Point3&) override;
+	void createVertex(const CGAL::Scalar&, const CGAL::Scalar&, const CGAL::Scalar&);
+	void addVertex(const CGAL::Point3&,bool);
+	void appendVertex(const CGAL::Point3&);
 	bool overlaps(Primitive*) override;
 	Primitive* group(Primitive*) override;
 	Primitive* join(Primitive*) override;
@@ -60,7 +60,7 @@ public:
 	Primitive* difference(Primitive*) override;
 	Primitive* symmetric_difference(Primitive*) override;
 	Primitive* minkowski(Primitive*) override;
-	Primitive* inset(const CGAL::Scalar) override;
+	Primitive* inset(const CGAL::Scalar&) override;
 	Primitive* decompose() override;
 	Primitive* complement() override;
 	Primitive* boundary() override;
