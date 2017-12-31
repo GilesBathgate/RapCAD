@@ -46,7 +46,7 @@ protected:
 	void internal();
 	virtual void update() {}
 	virtual void finish() {}
-	Instance* addProductInstance(QString,Script*);
+	Instance* addProductInstance(QString, Script&);
 
 	QString inputFile;
 	QString outputFile;

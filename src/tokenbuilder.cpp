@@ -29,9 +29,9 @@ extern int lexerlex();
 extern int lexerleng;
 extern int lexerlineno;
 
-TokenBuilder::TokenBuilder(Reporter* r,QString s,bool b)
+TokenBuilder::TokenBuilder(Reporter& r,QString s,bool b)
 {
-	lexerinit(this,r,s,b);
+	lexerinit(this,&r,s,b);
 	position=0;
 	stringcontents=nullptr;
 }

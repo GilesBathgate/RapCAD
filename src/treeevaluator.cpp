@@ -552,7 +552,7 @@ void TreeEvaluator::visit(const ScriptImport& sc)
 
 	QFileInfo* f=getFullPath(sc.getImport());
 	Script* s=new Script();
-	parse(s,f->absoluteFilePath(),&reporter,true);
+	parse(*s,f->absoluteFilePath(),reporter,true);
 	imports.append(s);
 	/* Now recursively descend any modules functions or script imports within
 	 * the imported script and add them to the main script */

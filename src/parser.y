@@ -26,13 +26,12 @@
 #include "reporter.h"
 
 extern char *lexertext;
-void parse(Script*, QString, Reporter*, bool);
+void parse(Script&, QString, Reporter&, bool);
 
 static void parsererror(const char*);
 static int parserlex();
 static AbstractSyntaxTreeBuilder* builder;
 static AbstractTokenBuilder* tokenizer;
-static Reporter* reporter;
 
 %}
 
@@ -459,15 +458,14 @@ static int parserlex()
 
 static void parsererror(const char* s)
 {
-	if(reporter)
-		reporter->reportSyntaxError(tokenizer,s,lexertext);
+	if(builder)
+		builder->reportSyntaxError(s,lexertext);
 }
 
-void parse(Script* s, QString input, Reporter* r, bool isFile)
+void parse(Script& s, QString input, Reporter& r, bool isFile)
 {
-	reporter=r;
-	tokenizer=new TokenBuilder(reporter,input,isFile);
-	builder=new SyntaxTreeBuilder(*reporter,*s,*tokenizer);
+	tokenizer=new TokenBuilder(r,input,isFile);
+	builder=new SyntaxTreeBuilder(r,s,*tokenizer);
 	if(isFile)
 		builder->buildFileLocation(input);
 

@@ -92,18 +92,17 @@ void Worker::internal()
 
 void Worker::primary()
 {
-	Script* s=new Script();
-	parse(s,inputFile,&reporter,true);
+	Script s;
+	parse(s,inputFile,reporter,true);
 
 	if(print) {
 		TreePrinter p(output);
-		s->accept(p);
+		s.accept(p);
 		output << endl;
 	}
 
 	TreeEvaluator e(reporter);
-	s->accept(e);
-	delete s;
+	s.accept(e);
 	output.flush();
 
 	Node* n = e.getRootNode();
@@ -127,14 +126,14 @@ void Worker::primary()
 
 void Worker::generation()
 {
-	Script* s=new Script();
-	parse(s,"reprap.rcam",nullptr,true);
+	Script s;
+	parse(s,"reprap.rcam",reporter,true);
 
 	auto* e = new TreeEvaluator(reporter);
 	decimal height=getBoundsHeight();
 	QList<Argument*> args=getArgs(height);
 	Callback* c = addCallback("layers",s,args);
-	s->accept(*e);
+	s.accept(*e);
 
 	auto* v = dynamic_cast<NumberValue*>(c->getResult());
 	if(v) {
@@ -151,7 +150,7 @@ void Worker::generation()
 			QList<Argument*> args=getArgs(i);
 			m->setArguments(args);
 
-			s->accept(*e);
+			s.accept(*e);
 			Node* n=e->getRootNode();
 
 			auto* ne = new NodeEvaluator(reporter);
@@ -165,7 +164,6 @@ void Worker::generation()
 		}
 	}
 	delete e;
-	delete s;
 }
 
 decimal Worker::getBoundsHeight() const
@@ -193,7 +191,7 @@ QList<Argument*> Worker::getArgs(decimal value)
 	return args;
 }
 
-Instance* Worker::addProductInstance(QString name,Script* s)
+Instance* Worker::addProductInstance(QString name,Script& s)
 {
 	auto* m = new Instance();
 	m->setName(name);
@@ -202,7 +200,7 @@ Instance* Worker::addProductInstance(QString name,Script* s)
 	QList<Statement*> children;
 	children.append(r);
 	m->setChildren(children);
-	s->addDeclaration(m);
+	s.addDeclaration(m);
 
 	return m;
 }

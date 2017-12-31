@@ -122,6 +122,7 @@ public:
 	Expression* buildComplex(Expression*,Expression*,Expression*,Expression*) override;
 	Invocation* buildInvocation(QString*,QList<Argument*>*) override;
 	Invocation* buildInvocation(QString*,Invocation*) override;
+	void reportSyntaxError(const char*,const char*) override;
 private:
 	int getLineNumber() const;
 

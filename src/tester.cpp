@@ -121,15 +121,14 @@ int Tester::evaluate()
 				continue;
 			}
 
-			Script* s=new Script();
-			parse(s,file.absoluteFilePath(),nullptr,true);
+			Script s;
+			parse(s,file.absoluteFilePath(),*nullreport,true);
 
 			if(testFunctionExists(s)) {
 				testFunction(s);
 			} else {
 				testModule(s,file);
 			}
-			delete s;
 		}
 	}
 	reporter.setReturnCode(failcount);
@@ -174,20 +173,20 @@ void Tester::runTests()
 
 void Tester::exportTest(QString dir)
 {
+	Reporter& r=*nullreport;
 	for(QFileInfo file: QDir(dir).entryInfoList(QStringList("*.rcad"), QDir::Files)) {
-		Script* s=new Script();
-		parse(s,file.absoluteFilePath(),nullptr,true);
-		TreeEvaluator te(*nullreport);
-		s->accept(te);
-		NodeEvaluator ne(*nullreport);
+		Script s;
+		parse(s,file.absoluteFilePath(),r,true);
+		TreeEvaluator te(r);
+		s.accept(te);
+		NodeEvaluator ne(r);
 		Node* n=te.getRootNode();
 		n->accept(ne);
-		delete s;
 #if USE_CGAL
 		QDir path(file.absolutePath());
 		QString origPath(path.filePath(file.baseName()+".csg"));
 
-		CGALExport e(ne.getResult(),*nullreport);
+		CGALExport e(ne.getResult(),r);
 		QFile origFile(origPath);
 		e.exportResult(origPath);
 
@@ -229,13 +228,13 @@ void Tester::exportTest(CGALExport& e,QString origPath,QFileInfo file,QString ex
 }
 #endif
 
-void Tester::testFunction(Script* s)
+void Tester::testFunction(Script& s)
 {
 	TreeEvaluator te(*nullreport);
 	//If a test function exists check it returns true
 	QList<Argument*> args;
 	Callback* c = addCallback("test",s,args);
-	s->accept(te);
+	s.accept(te);
 	auto* v = dynamic_cast<BooleanValue*>(c->getResult());
 	if(v && v->isTrue()) {
 		output << " Passed" << endl;
@@ -250,7 +249,7 @@ void Tester::testFunction(Script* s)
 	delete n;
 }
 
-void Tester::testModule(Script* s,QFileInfo file)
+void Tester::testModule(Script& s, QFileInfo file)
 {
 #ifdef Q_OS_WIN
 	output << " Skipped" << endl;
@@ -264,7 +263,7 @@ void Tester::testModule(Script* s,QFileInfo file)
 	QFileInfo examFileInfo(file.absoluteDir(),examFileName);
 	QFileInfo csgFileInfo(file.absoluteDir(),csgFileName);
 	QFile examFile(examFileInfo.absoluteFilePath());
-	s->accept(te);
+	s.accept(te);
 
 	//Create exam file
 	examFile.open(QFile::WriteOnly);
@@ -293,9 +292,9 @@ void Tester::testModule(Script* s,QFileInfo file)
 	}
 }
 
-bool Tester::testFunctionExists(Script* s)
+bool Tester::testFunctionExists(Script& s)
 {
-	for(Declaration* d: s->getDeclarations()) {
+	for(Declaration* d: s.getDeclarations()) {
 		auto* func=dynamic_cast<Function*>(d);
 		if(func && func->getName()=="test")
 			return true;

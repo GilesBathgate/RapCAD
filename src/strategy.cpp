@@ -27,7 +27,7 @@ Strategy::~Strategy()
 {
 }
 
-Callback* Strategy::addCallback(QString name,Script* s,QList<Argument*> args)
+Callback* Strategy::addCallback(QString name,Script& s,QList<Argument*> args)
 {
 	auto* c=new Callback();
 	auto* l=new Invocation();
@@ -35,7 +35,7 @@ Callback* Strategy::addCallback(QString name,Script* s,QList<Argument*> args)
 		l->setArguments(args);
 	l->setName(name);
 	c->setExpression(l);
-	s->appendDeclaration(c);
+	s.appendDeclaration(c);
 
 	return c;
 }

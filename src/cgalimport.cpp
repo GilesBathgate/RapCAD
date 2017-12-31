@@ -322,11 +322,10 @@ Primitive* CGALImport::import3MF(QFileInfo fileinfo)
 
 Primitive* CGALImport::importRCAD(QFileInfo f)
 {
-	Script* s=new Script();
-	parse(s,f.absoluteFilePath(),&reporter,true);
+	Script s;
+	parse(s,f.absoluteFilePath(),reporter,true);
 	TreeEvaluator te(reporter);
-	s->accept(te);
-	delete s;
+	s.accept(te);
 
 	Node* n = te.getRootNode();
 	NodeEvaluator ne(reporter);

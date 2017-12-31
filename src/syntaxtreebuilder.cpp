@@ -615,6 +615,11 @@ Invocation* SyntaxTreeBuilder::buildInvocation(QString* name,Invocation* inv)
 	return inv;
 }
 
+void SyntaxTreeBuilder::reportSyntaxError(const char* s, const char* lexertext)
+{
+	reporter.reportSyntaxError(&tokenBuilder,s,lexertext);
+}
+
 int SyntaxTreeBuilder::getLineNumber() const
 {
 	return tokenBuilder.getLineNumber();

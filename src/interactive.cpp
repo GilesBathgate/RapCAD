@@ -30,11 +30,21 @@ namespace readline
 
 Interactive::Interactive(Reporter& r,QObject* parent) : QObject(parent),Strategy(r)
 {
+	nullout = new QString();
+	nullstream = new QTextStream(nullout);
+	nullreport = new Reporter(*nullstream);
+}
+
+Interactive::~Interactive()
+{
+	delete nullout;
+	delete nullstream;
+	delete nullreport;
 }
 
 bool Interactive::isExpression(QString s)
 {
-	TokenBuilder t(nullptr,s,false);
+	TokenBuilder t(*nullreport,s,false);
 	int i;
 	while((i=t.nextToken())) {
 		if(i==';'||i=='}') {
@@ -55,12 +65,11 @@ void Interactive::execCommand(QString s)
 		reporter.setKludge(0);
 	}
 
-	Script* sc=new Script();
-	parse(sc,s,&reporter,false);
+	Script sc;
+	parse(sc,s,reporter,false);
 	TreeEvaluator e(reporter);
-	sc->accept(e);
+	sc.accept(e);
 	output.flush();
-	delete sc;
 }
 
 #define PROMPT "\u042F: "

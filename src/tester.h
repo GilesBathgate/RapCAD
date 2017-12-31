@@ -33,9 +33,9 @@ private slots:
 	void runTests();
 private:
 	void writeHeader(QString name, int num);
-	bool testFunctionExists(Script*);
-	void testModule(Script*, QFileInfo);
-	void testFunction(Script*);
+	bool testFunctionExists(Script&);
+	void testModule(Script&, QFileInfo);
+	void testFunction(Script&);
 	void exportTest(QString);
 #if USE_CGAL
 	void exportTest(class CGALExport&,QString,QFileInfo,QString);
