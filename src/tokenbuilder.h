@@ -29,6 +29,7 @@
 class TokenBuilder : public AbstractTokenBuilder
 {
 public:
+	TokenBuilder(QString s);
 	TokenBuilder(Reporter&, QString, bool);
 	~TokenBuilder() override;
 	int nextToken() override;
@@ -104,6 +105,7 @@ public:
 	void buildFileStart(QDir) override;
 	void buildFileFinish() override;
 private:
+	TokenBuilder();
 	QString* stringcontents;
 	QString filename;
 	QString filepath;

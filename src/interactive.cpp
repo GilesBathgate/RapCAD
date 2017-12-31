@@ -30,21 +30,11 @@ namespace readline
 
 Interactive::Interactive(Reporter& r,QObject* parent) : QObject(parent),Strategy(r)
 {
-	nullout = new QString();
-	nullstream = new QTextStream(nullout);
-	nullreport = new Reporter(*nullstream);
-}
-
-Interactive::~Interactive()
-{
-	delete nullout;
-	delete nullstream;
-	delete nullreport;
 }
 
 bool Interactive::isExpression(QString s)
 {
-	TokenBuilder t(*nullreport,s,false);
+	TokenBuilder t(s);
 	int i;
 	while((i=t.nextToken())) {
 		if(i==';'||i=='}') {
