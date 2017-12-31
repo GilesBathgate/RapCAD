@@ -153,7 +153,7 @@ void Tester::runTests()
 {
 	CodeEditor* edit = ui->findChild<CodeEditor*>("scriptEditor");
 	edit->activateWindow();
-	QTest::keyClicks(edit,"cube(10);");
+	QTest::keyClicks(edit,"difference(){cube(10,c=true);cylinder(20,4,c=true);}");
 	edit->setFileName("test.rcad");
 	edit->saveFile();
 	QTest::keyClick(ui,Qt::Key_F6,Qt::NoModifier,100);
