@@ -86,7 +86,6 @@ public:
 	void clear();
 	bool flat();
 private:
-	void init();
 	void buildPrimitive();
 	CGAL::NefPolyhedron3* createPolyline(QVector<CGAL::Point3> pl);
 	/**

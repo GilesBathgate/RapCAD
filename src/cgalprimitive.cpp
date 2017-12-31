@@ -38,28 +38,21 @@
 #include "onceonly.h"
 #include "rmath.h"
 
-void CGALPrimitive::init()
+CGALPrimitive::CGALPrimitive()
 {
 	sanitized=true;
 	nUnion=nullptr;
 	type=Primitive::Volume;
-}
-
-CGALPrimitive::CGALPrimitive()
-{
-	init();
 	nefPolyhedron=nullptr;
 }
 
-CGALPrimitive::CGALPrimitive(CGAL::Polyhedron3& poly)
+CGALPrimitive::CGALPrimitive(CGAL::Polyhedron3& poly) : CGALPrimitive()
 {
-	init();
 	nefPolyhedron=new CGAL::NefPolyhedron3(poly);
 }
 
-CGALPrimitive::CGALPrimitive(const CGAL::NefPolyhedron3& nef)
+CGALPrimitive::CGALPrimitive(const CGAL::NefPolyhedron3& nef) : CGALPrimitive()
 {
-	init();
 	nefPolyhedron=new CGAL::NefPolyhedron3(nef);
 }
 
