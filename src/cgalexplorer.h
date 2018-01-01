@@ -26,7 +26,6 @@ class CGALExplorer
 {
 public:
 	CGALExplorer(Primitive*);
-	CGALExplorer(CGALPrimitive*);
 	CGALPrimitive* getPerimeters();
 	CGALPrimitive* getPrimitive();
 	QList<CGAL::Point3> getPoints();
@@ -34,15 +33,16 @@ public:
 	QList<CGALPolygon*> getBase();
 	CGALVolume getVolume(bool);
 private:
+	typedef QList<CGAL::Point3> Points;
 	void explore();
 	void evaluate();
-	CGALPrimitive* perimeters;
 	bool evaluated;
 	CGALPrimitive* primitive;
-	typedef QList<CGAL::Point3> Points;
-	Points allPoints;
+	CGALPrimitive* perimeters;
+	const CGAL::NefPolyhedron3& nef;
 	QList<CGALPolygon*> basePolygons;
 	QList<Points> volumePoints;
+	Points allPoints;
 };
 
 #endif // CGALEXPLORER_H

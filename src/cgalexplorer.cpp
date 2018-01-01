@@ -26,15 +26,9 @@
 #include "onceonly.h"
 
 CGALExplorer::CGALExplorer(Primitive* p)
+	: nef(static_cast<CGALPrimitive*>(p)->getNefPolyhedron())
 {
-	primitive=static_cast<CGALPrimitive*>(p);
-	perimeters=nullptr;
-	evaluated=false;
-}
-
-CGALExplorer::CGALExplorer(CGALPrimitive* p)
-{
-	primitive=p;
+	primitive=new CGALPrimitive();
 	perimeters=nullptr;
 	evaluated=false;
 }
@@ -197,18 +191,16 @@ static void calculateNormal(CGALPolygon* poly)
 
 void CGALExplorer::explore()
 {
-	const CGAL::NefPolyhedron3& poly=primitive->getNefPolyhedron();
-	CGALPrimitive* cp=new CGALPrimitive();
-	ShellExplorer se(cp);
+	ShellExplorer se(primitive);
 	VolumeIterator vi;
 	OnceOnly first_v;
-	CGAL_forall_volumes(vi,poly) {
+	CGAL_forall_volumes(vi,nef) {
 		ShellEntryIterator si;
 		CGAL_forall_shells_of(si,vi) {
 			/* In the list of shells of a volume, the first one is always the
 			 * enclosing shell. In case of the outer volume, there is no outer
 			 * shell. */
-			poly.visit_shell_objects(SFaceHandle(si),se);
+			nef.visit_shell_objects(SFaceHandle(si),se);
 		}
 
 		QList<CGAL::Point3> points=se.getPoints();
@@ -226,7 +218,6 @@ void CGALExplorer::explore()
 		}
 	}
 
-	primitive=cp;
 	basePolygons=se.getBase();
 	QMap<HalfEdgeHandle,int> periMap=se.getPerimeterMap();
 
@@ -296,9 +287,7 @@ void CGALExplorer::explore()
 void CGALExplorer::evaluate()
 {
 	explore();
-
 	detectHoles(perimeters);
-
 	evaluated=true;
 }
 
