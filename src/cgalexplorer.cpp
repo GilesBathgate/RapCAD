@@ -27,7 +27,7 @@
 
 CGALExplorer::CGALExplorer(Primitive* p) :
 	evaluated(false),
-	primitive(new CGALPrimitive()),
+	primitive(nullptr),
 	perimeters(nullptr),
 	nef(static_cast<CGALPrimitive*>(p)->getNefPolyhedron())
 {
@@ -191,6 +191,7 @@ static void calculateNormal(CGALPolygon* poly)
 
 void CGALExplorer::explore()
 {
+	primitive=new CGALPrimitive();
 	ShellExplorer se(primitive);
 	VolumeIterator vi;
 	OnceOnly first_v;
