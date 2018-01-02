@@ -26,12 +26,13 @@
 #include "syntaxtreebuilder.h"
 #include "module/unionmodule.h"
 
-TreeEvaluator::TreeEvaluator(Reporter& r) : reporter(r)
+TreeEvaluator::TreeEvaluator(Reporter& r) :
+	reporter(r),
+	context(nullptr),
+	layout(nullptr),
+	descendDone(false),
+	rootNode(nullptr)
 {
-	context=nullptr;
-	rootNode=nullptr;
-	layout=nullptr;
-	descendDone=false;
 }
 
 TreeEvaluator::~TreeEvaluator()

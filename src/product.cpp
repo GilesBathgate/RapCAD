@@ -19,9 +19,9 @@
 #include "product.h"
 #include "node/productnode.h"
 
-Product::Product()
+Product::Product() :
+	primitive(nullptr)
 {
-	primitive=nullptr;
 }
 
 void Product::setPrimitive(Primitive* value)

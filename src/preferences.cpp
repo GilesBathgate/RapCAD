@@ -24,9 +24,9 @@
 #include <CGAL/Gmpfr.h>
 #endif
 
-Preferences::Preferences()
+Preferences::Preferences() :
+	settings(new QSettings())
 {
-	settings = new QSettings();
 	updatePrecision();
 }
 

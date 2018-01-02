@@ -18,9 +18,9 @@
 
 #include "transformationnode.h"
 
-TransformationNode::TransformationNode()
+TransformationNode::TransformationNode() :
+	matrix(nullptr)
 {
-	matrix=nullptr;
 }
 
 void TransformationNode::accept(NodeVisitor& v)

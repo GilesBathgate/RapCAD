@@ -68,8 +68,8 @@ public:
 	int getLineNumber() const;
 	void setLineNumber(int value);
 private:
-	Operator_e op;
 	int lineNumber;
+	Operator_e op;
 };
 
 #endif // EXPRESSION_H

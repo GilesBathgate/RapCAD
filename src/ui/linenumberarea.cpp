@@ -18,9 +18,10 @@
 
 #include "linenumberarea.h"
 
-LineNumberArea::LineNumberArea(CodeEditor* editor) : QWidget(editor)
+LineNumberArea::LineNumberArea(CodeEditor* editor) :
+	QWidget(editor),
+	codeEditor(editor)
 {
-	codeEditor = editor;
 }
 
 QSize LineNumberArea::sizeHint() const

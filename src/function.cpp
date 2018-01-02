@@ -20,15 +20,15 @@
 #include "functionscope.h"
 #include "context.h"
 
-Function::Function()
+Function::Function() :
+	scope(nullptr)
 {
-	scope=nullptr;
 }
 
-Function::Function(QString n)
+Function::Function(QString n) :
+	scope(nullptr),
+	name(n)
 {
-	scope=nullptr;
-	name=n;
 }
 
 Function::~Function()

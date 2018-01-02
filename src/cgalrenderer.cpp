@@ -20,9 +20,9 @@
 #include "preferences.h"
 #include "primitive.h"
 
-CGALRenderer::CGALRenderer(Primitive* primitive)
+CGALRenderer::CGALRenderer(Primitive* primitive) :
+	simple(new SimpleRenderer(primitive))
 {
-	simple=new SimpleRenderer(primitive);
 	loadPreferences();
 	descendChildren(primitive);
 }

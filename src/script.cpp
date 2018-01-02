@@ -18,9 +18,9 @@
 
 #include "script.h"
 
-Script::Script()
+Script::Script() :
+	fileLocation(nullptr)
 {
-	fileLocation=nullptr;
 }
 
 Script::~Script()

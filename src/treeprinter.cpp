@@ -19,9 +19,10 @@
 #include "treeprinter.h"
 #include "onceonly.h"
 
-TreePrinter::TreePrinter(QTextStream& s) : result(s)
+TreePrinter::TreePrinter(QTextStream& s) :
+	result(s),
+	indent(0)
 {
-	indent=0;
 }
 
 TreePrinter::~TreePrinter()

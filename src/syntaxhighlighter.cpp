@@ -28,12 +28,11 @@ extern void lexercodedoc();
 extern int lexerleng;
 #define YY_CONTINUE 1;
 
-SyntaxHighlighter::SyntaxHighlighter(QTextDocument* parent)
-	: QSyntaxHighlighter(parent)
+SyntaxHighlighter::SyntaxHighlighter(QTextDocument* parent) :
+	QSyntaxHighlighter(parent),
+	startIndex(0),
+	stringStart(0)
 {
-	startIndex=0;
-	stringStart=0;
-
 	keywordFormat.setForeground(Qt::darkBlue);
 	keywordFormat.setFontWeight(QFont::Bold);
 

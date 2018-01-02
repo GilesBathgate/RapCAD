@@ -18,9 +18,9 @@
 
 #include "callback.h"
 
-Callback::Callback()
+Callback::Callback() :
+	result(nullptr)
 {
-	result=nullptr;
 }
 
 void Callback::setResult(Value* v)

@@ -18,9 +18,9 @@
 
 #include "projectionnode.h"
 
-ProjectionNode::ProjectionNode()
+ProjectionNode::ProjectionNode() :
+	base(false)
 {
-	base=false;
 }
 
 void ProjectionNode::setBase(bool b)

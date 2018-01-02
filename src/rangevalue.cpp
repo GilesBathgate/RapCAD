@@ -21,12 +21,11 @@
 #include "vectorvalue.h"
 #include "booleanvalue.h"
 
-RangeValue::RangeValue(Value* s,Value* st, Value* f)
+RangeValue::RangeValue(Value* s,Value* st, Value* f) :
+	start(s),
+	step(st),
+	finish(f)
 {
-	start=s;
-	step=st;
-	finish=f;
-
 	Value* v=Value::operation(start,Expression::GreaterThan,finish);
 	reverse = v->isTrue();
 

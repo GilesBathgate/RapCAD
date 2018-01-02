@@ -18,9 +18,9 @@
 
 #include "discretenode.h"
 
-DiscreteNode::DiscreteNode()
+DiscreteNode::DiscreteNode() :
+	places(1)
 {
-	places=1;
 }
 
 int DiscreteNode::getPlaces() const

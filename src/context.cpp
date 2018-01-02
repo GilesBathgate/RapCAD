@@ -19,12 +19,12 @@
 #include "context.h"
 #include "modulescope.h"
 
-Context::Context()
+Context::Context() :
+	parent(nullptr),
+	currentValue(nullptr),
+	returnValue(nullptr),
+	currentScope(nullptr)
 {
-	parent=nullptr;
-	currentValue=nullptr;
-	returnValue=nullptr;
-	currentScope=nullptr;
 }
 
 Context::~Context()

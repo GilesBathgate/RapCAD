@@ -28,9 +28,8 @@ VectorValue::VectorValue()
 {
 }
 
-VectorValue::VectorValue(QList<Value*> values)
+VectorValue::VectorValue(QList<Value*> values) : children(values)
 {
-	children=values;
 }
 
 QString VectorValue::getValueString() const

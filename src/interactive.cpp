@@ -28,7 +28,9 @@ namespace readline
 }
 #endif
 
-Interactive::Interactive(Reporter& r,QObject* parent) : QObject(parent),Strategy(r)
+Interactive::Interactive(Reporter& r,QObject* parent) :
+	QObject(parent),
+	Strategy(r)
 {
 }
 

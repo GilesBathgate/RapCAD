@@ -20,7 +20,9 @@
 #include "context.h"
 #include "onceonly.h"
 
-WriteModule::WriteModule(Reporter& r) : Module(r,"write"), output(r.output)
+WriteModule::WriteModule(Reporter& r) :
+	Module(r,"write"),
+	output(r.output)
 {
 }
 

@@ -18,11 +18,11 @@
 
 #include "hullnode.h"
 
-HullNode::HullNode()
+HullNode::HullNode() :
+	chain(false),
+	closed(false),
+	concave(false)
 {
-	chain=false;
-	closed=false;
-	concave=false;
 }
 
 bool HullNode::getChain() const

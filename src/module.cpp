@@ -19,11 +19,13 @@
 #include "module.h"
 #include "context.h"
 
-Module::Module(Reporter& r, const QString n) : reporter(r),name(n)
+Module::Module(Reporter& r, const QString n) :
+	auxilary(false),
+	reporter(r),
+	name(n),
+	deprecated(false),
+	scope(nullptr)
 {
-	scope=nullptr;
-	auxilary=false;
-	deprecated=false;
 }
 
 Module::~Module()

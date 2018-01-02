@@ -18,9 +18,9 @@
 
 #include "glidenode.h"
 
-GlideNode::GlideNode()
+GlideNode::GlideNode() :
+	closed(false)
 {
-	closed=false;
 }
 
 void GlideNode::setClosed(bool c)

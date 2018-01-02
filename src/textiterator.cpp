@@ -19,10 +19,10 @@
 #include "textiterator.h"
 #include "textvalue.h"
 
-TextIterator::TextIterator(QString t)
+TextIterator::TextIterator(QString t) :
+	text(t),
+	index(0)
 {
-	text=t;
-	index=0;
 }
 
 ValueIterator& TextIterator::operator++()

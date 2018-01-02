@@ -25,10 +25,10 @@
 #include "rangevalue.h"
 #include "rmath.h"
 
-Value::Value()
+Value::Value() :
+	defined(true),
+	storageClass(Variable::Const)
 {
-	storageClass=Variable::Const;
-	defined=true;
 	values.append(this);
 }
 

@@ -35,10 +35,11 @@
 #include "polyhedron.h"
 #include "contrib/qzipwriter_p.h"
 
-CGALExport::CGALExport(Primitive* p,Reporter& r) : reporter(r)
+CGALExport::CGALExport(Primitive* p,Reporter& r) :
+	reporter(r),
+	primitive(p),
+	id(0)
 {
-	primitive=p;
-	id=0;
 }
 
 void CGALExport::exportResult(QString filename)

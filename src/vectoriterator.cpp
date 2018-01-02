@@ -18,10 +18,11 @@
 
 #include "vectoriterator.h"
 
-VectorIterator::VectorIterator(QList<Value*> list) : ValueIterator()
+VectorIterator::VectorIterator(QList<Value*> list) :
+	ValueIterator(),
+	items(list),
+	index(0)
 {
-	items=list;
-	index=0;
 }
 
 ValueIterator& VectorIterator::operator++()

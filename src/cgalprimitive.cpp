@@ -38,12 +38,12 @@
 #include "onceonly.h"
 #include "rmath.h"
 
-CGALPrimitive::CGALPrimitive()
+CGALPrimitive::CGALPrimitive() :
+	nefPolyhedron(nullptr),
+	type(Primitive::Volume),
+	sanitized(true),
+	nUnion(nullptr)
 {
-	sanitized=true;
-	nUnion=nullptr;
-	type=Primitive::Volume;
-	nefPolyhedron=nullptr;
 }
 
 CGALPrimitive::CGALPrimitive(CGAL::Polyhedron3& poly) : CGALPrimitive()

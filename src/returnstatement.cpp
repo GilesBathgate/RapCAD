@@ -18,9 +18,9 @@
 
 #include "returnstatement.h"
 
-ReturnStatement::ReturnStatement()
+ReturnStatement::ReturnStatement() :
+	expression(nullptr)
 {
-	expression=nullptr;
 }
 
 ReturnStatement::~ReturnStatement()

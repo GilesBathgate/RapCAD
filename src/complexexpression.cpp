@@ -18,10 +18,10 @@
 
 #include "complexexpression.h"
 
-ComplexExpression::ComplexExpression()
+ComplexExpression::ComplexExpression() :
+	real(nullptr),
+	imaginary(nullptr)
 {
-	real=nullptr;
-	imaginary=nullptr;
 }
 
 ComplexExpression::~ComplexExpression()

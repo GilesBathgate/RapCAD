@@ -18,11 +18,11 @@
 
 #include "ifelsestatement.h"
 
-IfElseStatement::IfElseStatement()
+IfElseStatement::IfElseStatement() :
+	expression(nullptr),
+	trueStatement(nullptr),
+	falseStatement(nullptr)
 {
-	expression=nullptr;
-	trueStatement=nullptr;
-	falseStatement=nullptr;
 }
 
 IfElseStatement::~IfElseStatement()

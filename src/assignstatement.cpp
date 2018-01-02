@@ -18,11 +18,11 @@
 
 #include "assignstatement.h"
 
-AssignStatement::AssignStatement()
+AssignStatement::AssignStatement() :
+	variable(nullptr),
+	expression(nullptr),
+	operation(Expression::None)
 {
-	variable=nullptr;
-	expression=nullptr;
-	operation=Expression::None;
 }
 
 AssignStatement::~AssignStatement()

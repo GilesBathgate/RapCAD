@@ -18,7 +18,10 @@
 
 #include "syntaxtreebuilder.h"
 
-SyntaxTreeBuilder::SyntaxTreeBuilder(Reporter& r,Script& s,AbstractTokenBuilder& t) : reporter(r),script(s),tokenBuilder(t)
+SyntaxTreeBuilder::SyntaxTreeBuilder(Reporter& r,Script& s,AbstractTokenBuilder& t) :
+	reporter(r),
+	script(s),
+	tokenBuilder(t)
 {
 }
 

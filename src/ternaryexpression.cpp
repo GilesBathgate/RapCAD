@@ -18,11 +18,11 @@
 
 #include "ternaryexpression.h"
 
-TernaryExpression::TernaryExpression()
+TernaryExpression::TernaryExpression() :
+	condition(nullptr),
+	trueExpression(nullptr),
+	falseExpression(nullptr)
 {
-	condition=nullptr;
-	trueExpression=nullptr;
-	falseExpression=nullptr;
 }
 
 TernaryExpression::~TernaryExpression()

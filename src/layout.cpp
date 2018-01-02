@@ -18,10 +18,11 @@
 
 #include "layout.h"
 
-Layout::Layout(Reporter& r) : reporter(r)
+Layout::Layout(Reporter& r) :
+	reporter(r),
+	parent(nullptr),
+	scope(nullptr)
 {
-	parent=nullptr;
-	scope=nullptr;
 }
 
 Layout::~Layout()

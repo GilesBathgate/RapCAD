@@ -36,14 +36,16 @@
 #include "nodeevaluator.h"
 #include "ui/codeeditor.h"
 
-Tester::Tester(Reporter& r,QObject* parent) : QObject(parent),Strategy(r)
+Tester::Tester(Reporter& r,QObject* parent) :
+	QObject(parent),
+	Strategy(r),
+	nullout(new QString()),
+	nullstream(new QTextStream(nullout)),
+	nullreport(new Reporter(*nullstream)),
+	testcount(0),
+	passcount(0),
+	failcount(0)
 {
-	nullout = new QString();
-	nullstream = new QTextStream(nullout);
-	nullreport = new Reporter(*nullstream);
-	testcount=0;
-	passcount=0;
-	failcount=0;
 }
 
 Tester::~Tester()

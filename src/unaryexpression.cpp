@@ -18,9 +18,9 @@
 
 #include "unaryexpression.h"
 
-UnaryExpression::UnaryExpression()
+UnaryExpression::UnaryExpression() :
+	expression(nullptr)
 {
-	expression=nullptr;
 }
 
 UnaryExpression::~UnaryExpression()

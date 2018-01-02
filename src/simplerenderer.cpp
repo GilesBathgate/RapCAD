@@ -19,9 +19,9 @@
 #include "simplerenderer.h"
 #include "qgl.h"
 
-SimpleRenderer::SimpleRenderer(Primitive* pr)
+SimpleRenderer::SimpleRenderer(Primitive* pr) :
+	primitive(pr)
 {
-	primitive=pr;
 }
 
 void SimpleRenderer::paint(bool, bool)

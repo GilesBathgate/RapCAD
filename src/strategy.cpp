@@ -19,7 +19,9 @@
 #include "strategy.h"
 #include "invocation.h"
 
-Strategy::Strategy(Reporter& r) : reporter(r),output(r.output)
+Strategy::Strategy(Reporter& r) :
+	reporter(r),
+	output(r.output)
 {
 }
 

@@ -19,10 +19,10 @@
 #include "console.h"
 
 Console::Console(QWidget* parent) :
-	QPlainTextEdit(parent)
+	QPlainTextEdit(parent),
+	promptLength(0),
+	promptBlock(0)
 {
-	promptLength=0;
-	promptBlock=0;
 	setUndoRedoEnabled(false);
 }
 

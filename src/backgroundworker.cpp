@@ -20,9 +20,9 @@
 
 BackgroundWorker::BackgroundWorker(Reporter& r,QObject* parent) :
 	QObject(parent),
-	Worker(r)
+	Worker(r),
+	thread(new QThread())
 {
-	thread=new QThread();
 	connect(thread,&QThread::started,this,&BackgroundWorker::start);
 	moveToThread(thread);
 }

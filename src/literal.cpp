@@ -21,10 +21,10 @@
 #include "numbervalue.h"
 #include "textvalue.h"
 
-Literal::Literal()
+Literal::Literal() :
+	boolean(false),
+	type(Literal::Undef)
 {
-	type=Literal::Undef;
-	boolean=false;
 }
 
 void Literal::setValue(bool value)

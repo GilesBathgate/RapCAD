@@ -18,9 +18,9 @@
 
 #include "onceonly.h"
 
-OnceOnly::OnceOnly()
+OnceOnly::OnceOnly() :
+	called(false)
 {
-	called=false;
 }
 
 bool OnceOnly::operator()()

@@ -29,10 +29,10 @@ extern int lexerlex();
 extern int lexerleng;
 extern int lexerlineno;
 
-TokenBuilder::TokenBuilder()
+TokenBuilder::TokenBuilder() :
+	stringcontents(nullptr),
+	position(0)
 {
-	position=0;
-	stringcontents=nullptr;
 }
 
 TokenBuilder::TokenBuilder(QString s) : TokenBuilder()

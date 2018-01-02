@@ -18,9 +18,9 @@
 
 #include "simplifynode.h"
 
-SimplifyNode::SimplifyNode()
+SimplifyNode::SimplifyNode() :
+	ratio(0.1)
 {
-	ratio=0.1;
 }
 
 decimal SimplifyNode::getRatio() const

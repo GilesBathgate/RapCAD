@@ -18,9 +18,9 @@
 
 #include "variable.h"
 
-Variable::Variable()
+Variable::Variable() :
+	storage(Variable::Var)
 {
-	storage=Variable::Var;
 }
 
 Variable::~Variable()

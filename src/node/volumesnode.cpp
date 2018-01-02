@@ -18,9 +18,9 @@
 
 #include "volumesnode.h"
 
-VolumesNode::VolumesNode()
+VolumesNode::VolumesNode() :
+	calcMass(false)
 {
-	calcMass=false;
 }
 
 void VolumesNode::accept(NodeVisitor& v)

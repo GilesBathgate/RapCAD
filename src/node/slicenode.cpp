@@ -18,10 +18,10 @@
 
 #include "slicenode.h"
 
-SliceNode::SliceNode()
+SliceNode::SliceNode() :
+	height(0),
+	thickness(0)
 {
-	height=0;
-	thickness=0;
 }
 
 void SliceNode::setHeight(decimal h)

@@ -18,9 +18,9 @@
 
 #include "vectorexpression.h"
 
-VectorExpression::VectorExpression()
+VectorExpression::VectorExpression() :
+	additionalCommas(0)
 {
-	additionalCommas=0;
 }
 
 VectorExpression::~VectorExpression()

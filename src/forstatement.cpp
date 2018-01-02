@@ -18,9 +18,9 @@
 
 #include "forstatement.h"
 
-ForStatement::ForStatement()
+ForStatement::ForStatement() :
+	statement(nullptr)
 {
-	statement=nullptr;
 }
 
 ForStatement::~ForStatement()

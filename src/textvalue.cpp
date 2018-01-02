@@ -21,9 +21,9 @@
 #include "booleanvalue.h"
 #include "textiterator.h"
 
-TextValue::TextValue(QString value)
+TextValue::TextValue(QString value) :
+	text(value)
 {
-	text=value;
 }
 
 QString TextValue::getValueString() const

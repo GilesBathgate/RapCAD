@@ -47,9 +47,9 @@ protected:
 	void addParameter(QString);
 	Value* getParameterArgument(const Context&, int) const;
 private:
+	Scope* scope;
 	QString name;
 	QList<Parameter*> parameters;
-	Scope* scope;
 };
 
 #endif // FUNCTION_H

@@ -19,9 +19,10 @@
 #include "cgalpolygon.h"
 #include "cgalprimitive.h"
 
-CGALPolygon::CGALPolygon(CGALPrimitive* p) : Polygon(p)
+CGALPolygon::CGALPolygon(CGALPrimitive* p) :
+	Polygon(p),
+	hole(false)
 {
-	hole=false;
 }
 
 QList<CGAL::Point3> CGALPolygon::getPoints() const

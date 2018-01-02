@@ -18,9 +18,9 @@
 
 #include "functionscope.h"
 
-FunctionScope::FunctionScope()
+FunctionScope::FunctionScope() :
+	expression(nullptr)
 {
-	expression=nullptr;
 }
 
 FunctionScope::~FunctionScope()

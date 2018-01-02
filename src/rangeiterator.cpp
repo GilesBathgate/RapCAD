@@ -18,10 +18,11 @@
 
 #include "rangeiterator.h"
 
-RangeIterator::RangeIterator(RangeValue* rng, Value* i, Value* s) : ValueIterator(rng)
+RangeIterator::RangeIterator(RangeValue* rng, Value* i, Value* s) :
+	ValueIterator(rng),
+	index(i),
+	step(s)
 {
-	index=i;
-	step=s;
 }
 
 RangeIterator::~RangeIterator()

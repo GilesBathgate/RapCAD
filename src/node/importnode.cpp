@@ -18,9 +18,9 @@
 
 #include "importnode.h"
 
-ImportNode::ImportNode(QString imp)
+ImportNode::ImportNode(QString imp) :
+	import(imp)
 {
-	import=imp;
 }
 
 void ImportNode::accept(NodeVisitor& v)

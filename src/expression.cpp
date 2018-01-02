@@ -18,10 +18,10 @@
 
 #include "expression.h"
 
-Expression::Expression()
+Expression::Expression() :
+	lineNumber(0),
+	op(None)
 {
-	lineNumber=0;
-	op=None;
 }
 
 Expression::~Expression()

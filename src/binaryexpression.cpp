@@ -18,10 +18,10 @@
 
 #include "binaryexpression.h"
 
-BinaryExpression::BinaryExpression()
+BinaryExpression::BinaryExpression() :
+	left(nullptr),
+	right(nullptr)
 {
-	left=nullptr;
-	right=nullptr;
 }
 
 BinaryExpression::~BinaryExpression()

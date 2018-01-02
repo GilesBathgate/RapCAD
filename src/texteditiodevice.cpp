@@ -19,8 +19,8 @@
 #include "texteditiodevice.h"
 
 TextEditIODevice::TextEditIODevice(QTextEdit* textEdit,QObject* parent) :
-	QIODevice(parent)
-	, textEdit(textEdit)
+	QIODevice(parent),
+	textEdit(textEdit)
 {
 	open(QIODevice::WriteOnly|QIODevice::Text);
 	connect(this,&TextEditIODevice::textRecieved,this,&TextEditIODevice::writeTextEdit);

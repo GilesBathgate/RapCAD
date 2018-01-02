@@ -18,10 +18,10 @@
 
 #include "argument.h"
 
-Argument::Argument()
+Argument::Argument() :
+	variable(nullptr),
+	expression(nullptr)
 {
-	variable=nullptr;
-	expression=nullptr;
 }
 
 Argument::~Argument()

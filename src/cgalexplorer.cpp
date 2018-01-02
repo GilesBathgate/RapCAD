@@ -25,12 +25,12 @@
 #include <CGAL/bounding_box.h>
 #include "onceonly.h"
 
-CGALExplorer::CGALExplorer(Primitive* p)
-	: nef(static_cast<CGALPrimitive*>(p)->getNefPolyhedron())
+CGALExplorer::CGALExplorer(Primitive* p) :
+	evaluated(false),
+	primitive(new CGALPrimitive()),
+	perimeters(nullptr),
+	nef(static_cast<CGALPrimitive*>(p)->getNefPolyhedron())
 {
-	primitive=new CGALPrimitive();
-	perimeters=nullptr;
-	evaluated=false;
 }
 
 typedef CGAL::NefPolyhedron3 Nef;

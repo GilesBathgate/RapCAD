@@ -22,9 +22,9 @@
 
 CacheManager* CacheManager::instance=nullptr;
 
-CacheManager::CacheManager()
+CacheManager::CacheManager() :
+	disabled(true)
 {
-	disabled=true;
 	cache=createCache();
 }
 

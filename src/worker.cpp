@@ -34,14 +34,14 @@
 #endif
 
 Worker::Worker(Reporter& r) :
-	Strategy(r)
+	Strategy(r),
+	inputFile(""),
+	outputFile(""),
+	print(false),
+	generate(false),
+	primitive(nullptr),
+	previous(nullptr)
 {
-	primitive=nullptr;
-	previous=nullptr;
-	inputFile="";
-	outputFile="";
-	print=false;
-	generate=false;
 }
 
 Worker::~Worker()

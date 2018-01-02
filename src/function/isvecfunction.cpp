@@ -21,7 +21,9 @@
 #include "booleanvalue.h"
 #include "context.h"
 
-IsVecFunction::IsVecFunction(int s) : Function(QString("is_vec%1").arg(s)), size(s)
+IsVecFunction::IsVecFunction(int s) :
+	Function(QString("is_vec%1").arg(s)),
+	size(s)
 {
 	addParameter("value");
 }

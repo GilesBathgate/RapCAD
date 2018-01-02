@@ -21,10 +21,10 @@
 #include "booleanvalue.h"
 #include "rmath.h"
 
-ComplexValue::ComplexValue(Value* r, QList<Value*> i)
+ComplexValue::ComplexValue(Value* r, QList<Value*> i) :
+	real(r),
+	imaginary(i)
 {
-	real=r;
-	imaginary=i;
 }
 
 QString ComplexValue::getValueString() const

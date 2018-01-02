@@ -18,9 +18,10 @@
 
 #include "resizenode.h"
 
-ResizeNode::ResizeNode() : size(0,0,0)
+ResizeNode::ResizeNode() :
+	size(0,0,0),
+	autosize(false)
 {
-	autosize=false;
 }
 
 void ResizeNode::setSize(Point p)

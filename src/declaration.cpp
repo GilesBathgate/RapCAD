@@ -18,9 +18,9 @@
 
 #include "declaration.h"
 
-Declaration::Declaration()
+Declaration::Declaration() :
+	lineNumber(0)
 {
-	lineNumber=0;
 }
 
 Declaration::~Declaration()

@@ -18,11 +18,11 @@
 
 #include "rangeexpression.h"
 
-RangeExpression::RangeExpression()
+RangeExpression::RangeExpression() :
+	start(nullptr),
+	finish(nullptr),
+	step(nullptr)
 {
-	start=nullptr;
-	finish=nullptr;
-	step=nullptr;
 }
 
 RangeExpression::~RangeExpression()

@@ -20,9 +20,8 @@
 #include "vectorvalue.h"
 #include "booleanvalue.h"
 
-NumberValue::NumberValue(decimal value)
+NumberValue::NumberValue(decimal value) : number(value)
 {
-	number=value;
 }
 
 QString NumberValue::getValueString() const

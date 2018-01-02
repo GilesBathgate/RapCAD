@@ -19,9 +19,9 @@
 #include "booleanvalue.h"
 #include "numbervalue.h"
 
-BooleanValue::BooleanValue(bool value)
+BooleanValue::BooleanValue(bool value) :
+	boolean(value)
 {
-	boolean=value;
 }
 
 QString BooleanValue::getValueString() const

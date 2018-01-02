@@ -20,9 +20,10 @@
 #include "context.h"
 #include "node/boundarynode.h"
 
-BoundaryModule::BoundaryModule(Reporter& r, bool l) : Module(r,l?"outline":"boundary")
+BoundaryModule::BoundaryModule(Reporter& r, bool l) :
+	Module(r,l?"outline":"boundary"),
+	legacy(l)
 {
-	legacy=l;
 }
 
 OnceOnly BoundaryModule::depricateWarning;

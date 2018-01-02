@@ -37,11 +37,12 @@
 #include "cgalbuilder.h"
 #endif
 
-NodeEvaluator::NodeEvaluator(Reporter& r) : reporter(r)
+NodeEvaluator::NodeEvaluator(Reporter& r) :
+	reporter(r),
+	result(nullptr)
 {
 	CacheManager* m=CacheManager::getInstance();
 	cache=m->getCache();
-	result=nullptr;
 }
 
 Primitive* NodeEvaluator::createPrimitive()

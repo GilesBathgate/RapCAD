@@ -18,9 +18,9 @@
 
 #include "cache.h"
 
-Cache::Cache()
+Cache::Cache() :
+	index(0)
 {
-	index=0;
 }
 
 Cache::~Cache()

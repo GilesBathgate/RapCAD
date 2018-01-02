@@ -28,36 +28,36 @@ static const GLfloat rulerLength=200.0;
 
 GLView::GLView(QWidget* parent) :
 #ifdef USE_QGLWIDGET
-	QGLWidget(parent)
+	QGLWidget(parent),
 #else
-	QOpenGLWidget(parent)
+	QOpenGLWidget(parent),
+#endif
+	render(nullptr),
+	distance(500.0),
+	showAxes(true),
+	showCross(true),
+	showBase(true),
+	showPrintArea(true),
+	showRulers(true),
+	showEdges(false),
+	skeleton(false),
+	printX(0.0),
+	printY(0.0),
+	printWidth(0.0),
+	printLength(0.0),
+	printHeight(0.0),
+	appearance(0),
+	mouseDrag(false),
+	rotateX(35.0),
+	rotateY(0.0),
+	rotateZ(35.0),
+	viewportX(0.0),
+	viewportZ(0.0)
+#ifndef USE_QGLWIDGET
+	,projection(new QMatrix4x4()),
+	modelview(new QMatrix4x4())
 #endif
 {
-	render=nullptr;
-	distance=500.0;
-	showAxes=true;
-	showCross=true;
-	showBase=true;
-	showPrintArea=true;
-	showRulers=true;
-	showEdges=false;
-	skeleton=false;
-	rotateX=35.0;
-	rotateY=0.0;
-	rotateZ=35.0;
-	viewportX=0.0;
-	viewportZ=0.0;
-	printX=0.0;
-	printY=0.0;
-	printWidth=0.0;
-	printLength=0.0;
-	printHeight=0.0;
-	appearance=0;
-	mouseDrag=false;
-#ifndef USE_QGLWIDGET
-	projection=new QMatrix4x4();
-	modelview=new QMatrix4x4();
-#endif
 }
 
 GLView::~GLView()

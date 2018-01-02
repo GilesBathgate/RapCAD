@@ -18,9 +18,9 @@
 
 #include "alignnode.h"
 
-AlignNode::AlignNode()
+AlignNode::AlignNode() :
+	center(false)
 {
-	center=false;
 }
 
 void AlignNode::accept(NodeVisitor& v)

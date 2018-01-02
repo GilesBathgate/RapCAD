@@ -19,9 +19,8 @@
 #include "polygon.h"
 #include "primitive.h"
 
-Polygon::Polygon(Primitive* p)
+Polygon::Polygon(Primitive* p) : parent(p)
 {
-	parent=p;
 }
 
 void Polygon::append(int i)

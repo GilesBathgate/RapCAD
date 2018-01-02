@@ -18,9 +18,9 @@
 
 #include "parameter.h"
 
-Parameter::Parameter()
+Parameter::Parameter() :
+	expression(nullptr)
 {
-	expression=nullptr;
 }
 
 Parameter::~Parameter()

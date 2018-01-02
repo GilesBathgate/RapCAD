@@ -18,9 +18,9 @@
 
 #include "subdivisionnode.h"
 
-SubDivisionNode::SubDivisionNode()
+SubDivisionNode::SubDivisionNode() :
+	level(1)
 {
-	level=1;
 }
 
 void SubDivisionNode::setLevel(int l)
