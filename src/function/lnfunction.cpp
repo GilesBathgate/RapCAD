@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ LnFunction::LnFunction() : Function("ln")
 	addParameter("value");
 }
 
-Value* LnFunction::evaluate(Context* ctx)
+Value* LnFunction::evaluate(const Context& ctx) const
 {
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {

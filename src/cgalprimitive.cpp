@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -38,28 +38,21 @@
 #include "onceonly.h"
 #include "rmath.h"
 
-void CGALPrimitive::init()
+CGALPrimitive::CGALPrimitive() :
+	nefPolyhedron(nullptr),
+	type(Primitive::Volume),
+	sanitized(true),
+	nUnion(nullptr)
 {
-	sanitized=true;
-	nUnion=nullptr;
-	type=Primitive::Volume;
 }
 
-CGALPrimitive::CGALPrimitive()
+CGALPrimitive::CGALPrimitive(CGAL::Polyhedron3& poly) : CGALPrimitive()
 {
-	init();
-	nefPolyhedron=nullptr;
-}
-
-CGALPrimitive::CGALPrimitive(CGAL::Polyhedron3 poly)
-{
-	init();
 	nefPolyhedron=new CGAL::NefPolyhedron3(poly);
 }
 
-CGALPrimitive::CGALPrimitive(CGAL::NefPolyhedron3 nef)
+CGALPrimitive::CGALPrimitive(const CGAL::NefPolyhedron3& nef) : CGALPrimitive()
 {
-	init();
 	nefPolyhedron=new CGAL::NefPolyhedron3(nef);
 }
 
@@ -167,7 +160,7 @@ void CGALPrimitive::buildPrimitive()
 	switch(type) {
 	case Primitive::Volume: {
 
-		CGALBuilder b(this);
+		CGALBuilder b(*this);
 		if(!sanitized && flat() && hasHoles())
 			b.triangulate();
 
@@ -260,13 +253,13 @@ Polygon* CGALPrimitive::createPolygon()
 	return pg;
 }
 
-void CGALPrimitive::createVertex(CGAL::Scalar x,CGAL::Scalar y,CGAL::Scalar z)
+void CGALPrimitive::createVertex(const CGAL::Scalar& x,const CGAL::Scalar& y,const CGAL::Scalar& z)
 {
 	CGAL::Point3 p(x,y,z);
 	createVertex(p);
 }
 
-void CGALPrimitive::createVertex(CGAL::Point3 p)
+void CGALPrimitive::createVertex(const CGAL::Point3& p)
 {
 	points.append(p);
 }
@@ -286,7 +279,7 @@ int CGALPrimitive::findIndex(const CGAL::Point3& p)
 	}
 }
 
-void CGALPrimitive::addVertex(CGAL::Point3 p,bool direction)
+void CGALPrimitive::addVertex(const CGAL::Point3& p,bool direction)
 {
 	if(!polygons.isEmpty()) {
 
@@ -299,7 +292,7 @@ void CGALPrimitive::addVertex(CGAL::Point3 p,bool direction)
 	}
 }
 
-void CGALPrimitive::appendVertex(CGAL::Point3 p)
+void CGALPrimitive::appendVertex(const CGAL::Point3& p)
 {
 	addVertex(p,true);
 }
@@ -444,11 +437,11 @@ Primitive* CGALPrimitive::minkowski(Primitive* pr)
 	return this;
 }
 
-Primitive* CGALPrimitive::inset(const CGAL::Scalar amount)
+Primitive* CGALPrimitive::inset(const CGAL::Scalar& amount)
 {
-	CGALBuilder b(this);
-	CGALPrimitive* result=b.buildOffsetPolygons(amount);
-	return result;
+	CGALBuilder b(*this);
+	CGALPrimitive& result=b.buildOffsetPolygons(amount);
+	return &result;
 }
 
 Primitive* CGALPrimitive::decompose()
@@ -510,8 +503,9 @@ bool CGALPrimitive::hasHoles()
 
 Primitive* CGALPrimitive::triangulate()
 {
-	CGALBuilder b(this);
-	return b.triangulate();
+	CGALBuilder b(*this);
+	CGALPrimitive& result=b.triangulate();
+	return &result;
 }
 
 #ifndef USE_SIMPLIFY
@@ -550,7 +544,7 @@ Primitive* CGALPrimitive::copy()
 
 void CGALPrimitive::transform(TransformMatrix* matrix)
 {
-	CGAL::Scalar* m=matrix->getValues();
+	const CGAL::Scalar* m=matrix->getValues();
 	CGAL::AffTransformation3 t(
 		m[ 0], m[ 1], m[ 2], m[ 3],
 		m[ 4], m[ 5], m[ 6], m[ 7],

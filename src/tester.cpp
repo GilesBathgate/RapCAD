@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -36,14 +36,16 @@
 #include "nodeevaluator.h"
 #include "ui/codeeditor.h"
 
-Tester::Tester(QTextStream& s,QObject* parent) : QObject(parent),Strategy(s)
+Tester::Tester(Reporter& r,QObject* parent) :
+	QObject(parent),
+	Strategy(r),
+	nullout(new QString()),
+	nullstream(new QTextStream(nullout)),
+	nullreport(new Reporter(*nullstream)),
+	testcount(0),
+	passcount(0),
+	failcount(0)
 {
-	nullout = new QString();
-	nullstream = new QTextStream(nullout);
-	nullreport = new Reporter(*nullstream);
-	testcount=0;
-	passcount=0;
-	failcount=0;
 }
 
 Tester::~Tester()
@@ -81,7 +83,7 @@ static bool skipDir(QString dir)
 
 int Tester::evaluate()
 {
-	reporter->startTiming();
+	reporter.startTiming();
 
 	CacheManager* cm=CacheManager::getInstance();
 	cm->disableCaches();
@@ -95,7 +97,7 @@ int Tester::evaluate()
 	writeHeader("000_treeprinter",testcount);
 
 	TreePrinter nulldocs(*nullstream);
-	BuiltinCreator* cr=BuiltinCreator::getInstance(nullreport);
+	BuiltinCreator* cr=BuiltinCreator::getInstance(*nullreport);
 	cr->generateDocs(nulldocs);
 
 	output << " Passed" << endl;
@@ -121,40 +123,39 @@ int Tester::evaluate()
 				continue;
 			}
 
-			Script* s=new Script();
-			parse(s,file.absoluteFilePath(),nullptr,true);
+			Script s;
+			parse(s,file.absoluteFilePath(),*nullreport,true);
 
 			if(testFunctionExists(s)) {
 				testFunction(s);
 			} else {
 				testModule(s,file);
 			}
-			delete s;
 		}
 	}
-	reporter->setReturnCode(failcount);
+	reporter.setReturnCode(failcount);
 
 	output << testcount << " tests. Passed: " << passcount << " Failed: " << failcount << endl;
 
-	reporter->reportTiming("testing");
+	reporter.reportTiming("testing");
 #ifndef Q_OS_WIN
-	reporter->startTiming();
+	reporter.startTiming();
 	int c=0;
 	QApplication a(c,nullptr);
 	ui = new MainWindow();
 	ui->show();
 	QTimer::singleShot(100,this,SLOT(runTests()));
 	a.exec();
-	reporter->reportTiming("ui testing");
+	reporter.reportTiming("ui testing");
 #endif
-	return reporter->getReturnCode();
+	return reporter.getReturnCode();
 }
 
 void Tester::runTests()
 {
 	CodeEditor* edit = ui->findChild<CodeEditor*>("scriptEditor");
 	edit->activateWindow();
-	QTest::keyClicks(edit,"cube(10);");
+	QTest::keyClicks(edit,"difference(){cube(10,c=true);cylinder(20,4,c=true);}");
 	edit->setFileName("test.rcad");
 	edit->saveFile();
 	QTest::keyClick(ui,Qt::Key_F6,Qt::NoModifier,100);
@@ -174,20 +175,20 @@ void Tester::runTests()
 
 void Tester::exportTest(QString dir)
 {
+	Reporter& r=*nullreport;
 	for(QFileInfo file: QDir(dir).entryInfoList(QStringList("*.rcad"), QDir::Files)) {
-		Script* s=new Script();
-		parse(s,file.absoluteFilePath(),nullptr,true);
-		TreeEvaluator te(nullreport);
-		s->accept(te);
-		NodeEvaluator ne(nullreport);
+		Script s;
+		parse(s,file.absoluteFilePath(),r,true);
+		TreeEvaluator te(r);
+		s.accept(te);
+		NodeEvaluator ne(r);
 		Node* n=te.getRootNode();
 		n->accept(ne);
-		delete s;
 #if USE_CGAL
 		QDir path(file.absolutePath());
 		QString origPath(path.filePath(file.baseName()+".csg"));
 
-		CGALExport e(ne.getResult(),nullreport);
+		CGALExport e(ne.getResult(),r);
 		QFile origFile(origPath);
 		e.exportResult(origPath);
 
@@ -215,7 +216,7 @@ void Tester::exportTest(CGALExport& e,QString origPath,QFileInfo file,QString ex
 	QFile newfile(newPath);
 
 	e.exportResult(newPath);
-	Comparer c(*nullstream);
+	Comparer c(*nullreport);
 	c.setup(origPath,newPath);
 	c.evaluate();
 	if(c.evaluate()==0) {
@@ -229,13 +230,13 @@ void Tester::exportTest(CGALExport& e,QString origPath,QFileInfo file,QString ex
 }
 #endif
 
-void Tester::testFunction(Script* s)
+void Tester::testFunction(Script& s)
 {
-	TreeEvaluator te(nullreport);
+	TreeEvaluator te(*nullreport);
 	//If a test function exists check it returns true
 	QList<Argument*> args;
 	Callback* c = addCallback("test",s,args);
-	s->accept(te);
+	s.accept(te);
 	auto* v = dynamic_cast<BooleanValue*>(c->getResult());
 	if(v && v->isTrue()) {
 		output << " Passed" << endl;
@@ -250,13 +251,13 @@ void Tester::testFunction(Script* s)
 	delete n;
 }
 
-void Tester::testModule(Script* s,QFileInfo file)
+void Tester::testModule(Script& s, QFileInfo file)
 {
 #ifdef Q_OS_WIN
 	output << " Skipped" << endl;
 	return;
 #endif
-	TreeEvaluator te(nullreport);
+	TreeEvaluator te(*nullreport);
 
 	QString basename=file.baseName();
 	QString examFileName=basename + ".exam.csg";
@@ -264,7 +265,7 @@ void Tester::testModule(Script* s,QFileInfo file)
 	QFileInfo examFileInfo(file.absoluteDir(),examFileName);
 	QFileInfo csgFileInfo(file.absoluteDir(),csgFileName);
 	QFile examFile(examFileInfo.absoluteFilePath());
-	s->accept(te);
+	s.accept(te);
 
 	//Create exam file
 	examFile.open(QFile::WriteOnly);
@@ -278,7 +279,7 @@ void Tester::testModule(Script* s,QFileInfo file)
 
 	QFile csgFile(csgFileInfo.absoluteFilePath());
 	if(csgFile.exists()) {
-		Comparer co(*nullstream);
+		Comparer co(*nullreport);
 		co.setup(examFileInfo.absoluteFilePath(),csgFileInfo.absoluteFilePath());
 		if(co.evaluate()==0) {
 			output << " Passed" << endl;
@@ -293,9 +294,9 @@ void Tester::testModule(Script* s,QFileInfo file)
 	}
 }
 
-bool Tester::testFunctionExists(Script* s)
+bool Tester::testFunctionExists(Script& s)
 {
-	for(Declaration* d: s->getDeclarations()) {
+	for(Declaration* d: s.getDeclarations()) {
 		auto* func=dynamic_cast<Function*>(d);
 		if(func && func->getName()=="test")
 			return true;

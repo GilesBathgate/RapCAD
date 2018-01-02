@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -29,7 +29,8 @@
 class TokenBuilder : public AbstractTokenBuilder
 {
 public:
-	TokenBuilder(Reporter*,QString,bool);
+	TokenBuilder(QString s);
+	TokenBuilder(Reporter&, QString, bool);
 	~TokenBuilder() override;
 	int nextToken() override;
 	int getPosition() const override;
@@ -104,6 +105,7 @@ public:
 	void buildFileStart(QDir) override;
 	void buildFileFinish() override;
 private:
+	TokenBuilder();
 	QString* stringcontents;
 	QString filename;
 	QString filepath;

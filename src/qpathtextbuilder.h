@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@
 class QPathTextBuilder : public TextBuilder
 {
 public:
-	QPathTextBuilder(Reporter*);
+	QPathTextBuilder(Reporter&);
 	~QPathTextBuilder() override;
 	void setText(QString) override;
 	void setFamily(const QString& value);
@@ -44,7 +44,7 @@ private:
 	int size;
 	bool headless;
 	QPointF location;
-	Reporter* reporter;
+	Reporter& reporter;
 };
 
 #endif // QPATHTEXTBUILDER_H

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -28,13 +28,15 @@ namespace readline
 }
 #endif
 
-Interactive::Interactive(QTextStream& s,QObject* parent) : QObject(parent),Strategy(s)
+Interactive::Interactive(Reporter& r,QObject* parent) :
+	QObject(parent),
+	Strategy(r)
 {
 }
 
 bool Interactive::isExpression(QString s)
 {
-	TokenBuilder t(nullptr,s,false);
+	TokenBuilder t(s);
 	int i;
 	while((i=t.nextToken())) {
 		if(i==';'||i=='}') {
@@ -50,22 +52,21 @@ void Interactive::execCommand(QString s)
 		s=QString("writeln(%1);").arg(s);
 		/* Use a kludge factor so that the reporter doesn't include the 'write('
 		 * characters in its 'at character' output */
-		reporter->setKludge(-8);
+		reporter.setKludge(-8);
 	} else {
-		reporter->setKludge(0);
+		reporter.setKludge(0);
 	}
 
-	Script* sc=new Script();
+	Script sc;
 	parse(sc,s,reporter,false);
 	TreeEvaluator e(reporter);
-	sc->accept(e);
+	sc.accept(e);
 	output.flush();
-	delete sc;
 }
 
 #define PROMPT "\u042F: "
 
-QString Interactive::getPrompt()
+QString Interactive::getPrompt() const
 {
 	return PROMPT;
 }

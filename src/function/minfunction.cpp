@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -24,9 +24,9 @@ MinFunction::MinFunction() : Function("min")
 	addParameter("values");
 }
 
-Value* MinFunction::evaluate(Context* ctx)
+Value* MinFunction::evaluate(const Context& ctx) const
 {
-	QList<Value*> values=ctx->getArguments();
+	QList<Value*> values=ctx.getArguments();
 
 	return Value::compareAll(values,Expression::LessThan);
 }

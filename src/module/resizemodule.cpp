@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -22,14 +22,14 @@
 #include "vectorvalue.h"
 #include "booleanvalue.h"
 
-ResizeModule::ResizeModule(Reporter* r) : Module(r,"resize")
+ResizeModule::ResizeModule(Reporter& r) : Module(r,"resize")
 {
 	addDescription(tr("Modifies its children to match the given size."));
 	addParameter("newsize",tr("The new size of the shape."));
 	addParameter("auto",tr("Specifies whether to auto-scale any 0-dimensions"));
 }
 
-Node* ResizeModule::evaluate(Context* ctx)
+Node* ResizeModule::evaluate(const Context& ctx) const
 {
 	Point size(0,0,0);
 	auto* sizeVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
@@ -43,7 +43,7 @@ Node* ResizeModule::evaluate(Context* ctx)
 
 	auto* n=new ResizeNode();
 	n->setSize(size);
-	n->setChildren(ctx->getInputNodes());
+	n->setChildren(ctx.getInputNodes());
 	n->setAutoSize(autoSize);
 	return n;
 }

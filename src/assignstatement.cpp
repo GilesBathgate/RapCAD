@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,11 +18,11 @@
 
 #include "assignstatement.h"
 
-AssignStatement::AssignStatement()
+AssignStatement::AssignStatement() :
+	variable(nullptr),
+	expression(nullptr),
+	operation(Expression::None)
 {
-	variable=nullptr;
-	expression=nullptr;
-	operation=Expression::None;
 }
 
 AssignStatement::~AssignStatement()
@@ -63,5 +63,5 @@ Expression::Operator_e AssignStatement::getOperation() const
 
 void AssignStatement::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -28,10 +28,10 @@
 class PrimitiveModule : public Module
 {
 public:
-	PrimitiveModule(Reporter*,const QString);
+	PrimitiveModule(Reporter&, const QString);
 protected:
-	QList<Point> getCircle(decimal,decimal,decimal);
-	QList<Point> getPolygon(decimal,decimal,decimal,decimal);
+	QList<Point> getCircle(decimal,decimal,decimal) const;
+	QList<Point> getPolygon(decimal,decimal,decimal,decimal) const;
 };
 
 #endif // PRIMITIVEMODULE_H

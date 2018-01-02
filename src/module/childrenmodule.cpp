@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -22,13 +22,13 @@
 #include "vectorvalue.h"
 #include "numbervalue.h"
 
-ChildrenModule::ChildrenModule(Reporter* r) : Module(r,"children")
+ChildrenModule::ChildrenModule(Reporter& r) : Module(r,"children")
 {
 	addDescription(tr("Provides access to children as passed to a module."));
 	addParameter("index",tr("A list of indices which determines which children to use."));
 }
 
-Node* ChildrenModule::evaluate(Context* ctx)
+Node* ChildrenModule::evaluate(const Context& ctx) const
 {
 	auto* n=new ChildrenNode();
 
@@ -46,7 +46,7 @@ Node* ChildrenModule::evaluate(Context* ctx)
 		n->addIndex(numVal->toInteger());
 	}
 
-	n->setChildren(ctx->lookupChildren());
+	n->setChildren(ctx.lookupChildren());
 	return n;
 }
 

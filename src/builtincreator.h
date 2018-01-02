@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -26,18 +26,18 @@
 class BuiltinCreator
 {
 public:
-	static BuiltinCreator* getInstance(Reporter*);
+	static BuiltinCreator* getInstance(Reporter&);
 	static void cleanUp();
-	void initBuiltins(Script*);
-	void saveBuiltins(Script*);
+	void initBuiltins(Script&);
+	void saveBuiltins(Script&);
 	void generateDocs();
 	void generateDocs(TreeVisitor&);
 private:
-	BuiltinCreator(Reporter*);
+	BuiltinCreator(Reporter&);
 	~BuiltinCreator();
 	static BuiltinCreator* instance;
 	QList<Declaration*> builtins;
-	Reporter* reporter;
+	Reporter& reporter;
 };
 
 #endif // BUILTINCREATOR_H

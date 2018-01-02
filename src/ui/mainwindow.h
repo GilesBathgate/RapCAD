@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@ public:
 protected:
 	void closeEvent(QCloseEvent*) override;
 private slots:
-	void getDefaultViewport();
+	void getDefaultViewport() const;
 	void setDefaultViewport();
 	void grabFrameBuffer();
 	void showPreferences();
@@ -97,6 +97,7 @@ private:
 	Ui::MainWindow* ui;
 	QStandardItemModel* myModel;
 	QTextStream* output;
+	Reporter* reporter;
 	TextEditIODevice* console;
 	BackgroundWorker* worker;
 	Interactive* interact;

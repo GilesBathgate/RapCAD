@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,9 +18,10 @@
 
 #include "rotateextrudenode.h"
 
-RotateExtrudeNode::RotateExtrudeNode() : axis(0,0,0)
+RotateExtrudeNode::RotateExtrudeNode() :
+	axis(0,0,0),
+	fragments(nullptr)
 {
-	fragments=nullptr;
 }
 
 RotateExtrudeNode::~RotateExtrudeNode()
@@ -68,7 +69,7 @@ void RotateExtrudeNode::setAxis(const Point& value)
 	axis = value;
 }
 
-Fragment* RotateExtrudeNode::getFragments()
+Fragment* RotateExtrudeNode::getFragments() const
 {
 	return fragments;
 }
@@ -80,5 +81,5 @@ void RotateExtrudeNode::setFragments(Fragment* f)
 
 void RotateExtrudeNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

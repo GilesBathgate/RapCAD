@@ -3,7 +3,7 @@ Upstream-Name: rapcad
 Source: http://www.rapcad.org
 
 Files: *
-Copyright: 2010-2017 Giles Bathgate
+Copyright: 2010-2018 Giles Bathgate
 License: GPL-3.0+
 
 Files: debian/*

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ LengthFunction::LengthFunction() : Function("len")
 	addParameter("value");
 }
 
-Value* LengthFunction::evaluate(Context* ctx)
+Value* LengthFunction::evaluate(const Context& ctx) const
 {
 	Value* v=getParameterArgument(ctx,0);
 

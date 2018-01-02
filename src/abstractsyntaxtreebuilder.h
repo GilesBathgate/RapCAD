@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -113,8 +113,7 @@ public:
 	virtual Expression* buildComplex(Expression*,Expression*,Expression*,Expression*)=0;
 	virtual Invocation* buildInvocation(QString*,QList<Argument*>*)=0;
 	virtual Invocation* buildInvocation(QString*,Invocation*)=0;
-
-	virtual void setTokenBuilder(AbstractTokenBuilder*)=0;
+	virtual void reportSyntaxError(const char*,const char*)=0;
 };
 
 #endif // ABSTRACTSYNTAXTREEBUILDER_H

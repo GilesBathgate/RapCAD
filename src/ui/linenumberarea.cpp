@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,9 +18,10 @@
 
 #include "linenumberarea.h"
 
-LineNumberArea::LineNumberArea(CodeEditor* editor) : QWidget(editor)
+LineNumberArea::LineNumberArea(CodeEditor* editor) :
+	QWidget(editor),
+	codeEditor(editor)
 {
-	codeEditor = editor;
 }
 
 QSize LineNumberArea::sizeHint() const

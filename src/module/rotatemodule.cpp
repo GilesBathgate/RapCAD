@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -24,14 +24,14 @@
 #include "complexvalue.h"
 #include "rmath.h"
 
-RotateModule::RotateModule(Reporter* r) : Module(r,"rotate")
+RotateModule::RotateModule(Reporter& r) : Module(r,"rotate")
 {
 	addDescription(tr("Rotates its children about the origin or an arbitrary axis."));
 	addParameter("angle",tr("The angle of rotation in degress. It can be a single value or rotation about x,y,z. With the latter, three rotations are performed in the order x,y,z"));
 	addParameter("vector",tr("The axis of rotation when used with a single angle value"));
 }
 
-Node* RotateModule::evaluate(Context* ctx)
+Node* RotateModule::evaluate(const Context& ctx) const
 {
 	enum rotationType {
 		axis,
@@ -145,6 +145,6 @@ Node* RotateModule::evaluate(Context* ctx)
 		n->setMatrix(mx);
 
 	}
-	n->setChildren(ctx->getInputNodes());
+	n->setChildren(ctx.getInputNodes());
 	return n;
 }

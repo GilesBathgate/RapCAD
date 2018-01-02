@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -29,25 +29,25 @@ class Layout
 {
 	Q_DECLARE_TR_FUNCTIONS(Layout)
 public:
-	Layout(Reporter*);
+	Layout(Reporter&);
 	virtual ~Layout();
 
 	void setParent(Layout*);
 
-	Module* lookupModule(QString,bool);
-	void addModule(Module* mod);
+	const Module* lookupModule(QString,bool);
+	void addModule(const Module& mod);
 
-	Function* lookupFunction(QString);
-	void addFunction(Function*);
+	const Function* lookupFunction(QString);
+	void addFunction(const Function&);
 
 	bool inScope(Scope*);
 	void setScope(Scope*);
 
 private:
-	Reporter* reporter;
+	Reporter& reporter;
 	Layout* parent;
-	QHash<QString,Module*> modules;
-	QHash<QString,Function*> functions;
+	QHash<QString,const Module*> modules;
+	QHash<QString,const Function*> functions;
 	Scope* scope;
 };
 

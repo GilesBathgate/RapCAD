@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,11 +18,11 @@
 
 #include "layout.h"
 
-Layout::Layout(Reporter* r)
+Layout::Layout(Reporter& r) :
+	reporter(r),
+	parent(nullptr),
+	scope(nullptr)
 {
-	reporter=r;
-	parent=nullptr;
-	scope=nullptr;
 }
 
 Layout::~Layout()
@@ -34,10 +34,10 @@ void Layout::setParent(Layout* value)
 	parent=value;
 }
 
-Module* Layout::lookupModule(QString name,bool aux)
+const Module* Layout::lookupModule(QString name,bool aux)
 {
 	if(modules.contains(name)) {
-		Module* m=modules.value(name);
+		const Module* m=modules.value(name);
 		if(m->getAuxilary()==aux)
 			return m;
 	} else if(parent) {
@@ -47,7 +47,7 @@ Module* Layout::lookupModule(QString name,bool aux)
 	return nullptr;
 }
 
-Function* Layout::lookupFunction(QString name)
+const Function* Layout::lookupFunction(QString name)
 {
 	if(functions.contains(name)) {
 		return functions.value(name);
@@ -58,26 +58,26 @@ Function* Layout::lookupFunction(QString name)
 	return nullptr;
 }
 
-void Layout::addModule(Module* mod)
+void Layout::addModule(const Module& mod)
 {
-	QString name=mod->getName();
+	QString name=mod.getName();
 	if(modules.contains(name)) {
-		reporter->reportWarning(tr("module '%1' was already defined.").arg(name));
+		reporter.reportWarning(tr("module '%1' was already defined.").arg(name));
 		return;
 	}
 
-	modules.insert(name,mod);
+	modules.insert(name,&mod);
 }
 
-void Layout::addFunction(Function* func)
+void Layout::addFunction(const Function& func)
 {
-	QString name=func->getName();
+	QString name=func.getName();
 	if(functions.contains(name)) {
-		reporter->reportWarning(tr("function '%1' was already defined.").arg(name));
+		reporter.reportWarning(tr("function '%1' was already defined.").arg(name));
 		return;
 	}
 
-	functions.insert(name,func);
+	functions.insert(name,&func);
 }
 
 void Layout::setScope(Scope* sc)

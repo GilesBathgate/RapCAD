@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ VersionFunction::VersionFunction() : Function("version")
 {
 }
 
-Value* VersionFunction::evaluate(Context*)
+Value* VersionFunction::evaluate(const Context&) const
 {
 	QList<Value*> version;
 	QString v=STRINGIFY(RAPCAD_VERSION);

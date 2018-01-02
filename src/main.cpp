@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -61,7 +61,7 @@ static int showUi(int argc, char* argv[],QStringList filenames)
 	return a.exec();
 }
 
-static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,QTextStream& output)
+static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Reporter& reporter)
 {
 	QCoreApplication a(argc,argv);
 
@@ -104,25 +104,25 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,QT
 		outputFile=p.value(compareOption);
 
 	if(p.isSet(compareOption)) {
-		auto* c=new Comparer(output);
+		auto* c=new Comparer(reporter);
 		c->setup(inputFile,outputFile);
 		return c;
 #ifdef USE_INTEGTEST
 	} else if(p.isSet(testOption)) {
-		showVersion(output);
-		return new Tester(output);
+		showVersion(reporter.output);
+		return new Tester(reporter);
 #endif
 	} else if(p.isSet(outputOption)||p.isSet(printOption)) {
-		auto* w=new Worker(output);
+		auto* w=new Worker(reporter);
 		bool print = p.isSet(printOption);
 		w->setup(inputFile,outputFile,print,false);
 		return w;
 	} else if(p.isSet(generateOption)) {
-		return new Generator(output);
+		return new Generator(reporter);
 #ifdef USE_READLINE
 	} else if(p.isSet(interactOption)) {
-		showVersion(output);
-		return new Interactive(output);
+		showVersion(reporter.output);
+		return new Interactive(reporter);
 #endif
 	}
 	return nullptr;
@@ -137,7 +137,8 @@ int main(int argc, char* argv[])
 
 	QStringList inputFiles;
 	QTextStream output(stdout);
-	Strategy* s=parseArguments(argc,argv,inputFiles,output);
+	Reporter reporter(output);
+	Strategy* s=parseArguments(argc,argv,inputFiles,reporter);
 
 	int retcode;
 	if(s)

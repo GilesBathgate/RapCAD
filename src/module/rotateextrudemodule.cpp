@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 #include "numbervalue.h"
 #include "vectorvalue.h"
 
-RotateExtrudeModule::RotateExtrudeModule(Reporter* r) : PrimitiveModule(r,"rotate_extrude")
+RotateExtrudeModule::RotateExtrudeModule(Reporter& r) : PrimitiveModule(r,"rotate_extrude")
 {
 	addDescription(tr("Extrudes its children about the given axis."));
 	addParameter("angle",tr("The sweep angle for the extrusion."));
@@ -31,7 +31,7 @@ RotateExtrudeModule::RotateExtrudeModule(Reporter* r) : PrimitiveModule(r,"rotat
 	addParameter("height",tr("The helical height of the extrusion."));
 }
 
-Node* RotateExtrudeModule::evaluate(Context* ctx)
+Node* RotateExtrudeModule::evaluate(const Context& ctx) const
 {
 	decimal angle=360.0;
 	auto* angleVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
@@ -70,10 +70,10 @@ Node* RotateExtrudeModule::evaluate(Context* ctx)
 		auto* Rx90=new TransformMatrix(1,0,0,0,0,0,-1,0,0,1,0,0,0,0,0,1);
 		auto* t=new TransformationNode();
 		t->setMatrix(Rx90);
-		t->setChildren(ctx->getInputNodes());
+		t->setChildren(ctx.getInputNodes());
 		n->addChild(t);
 	} else {
-		n->setChildren(ctx->getInputNodes());
+		n->setChildren(ctx.getInputNodes());
 	}
 
 	return n;

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,9 +18,10 @@
 
 #include "resizenode.h"
 
-ResizeNode::ResizeNode() : size(0,0,0)
+ResizeNode::ResizeNode() :
+	size(0,0,0),
+	autosize(false)
 {
-	autosize=false;
 }
 
 void ResizeNode::setSize(Point p)
@@ -28,7 +29,7 @@ void ResizeNode::setSize(Point p)
 	size=p;
 }
 
-Point ResizeNode::getSize()
+Point ResizeNode::getSize() const
 {
 	return size;
 }
@@ -38,12 +39,12 @@ void ResizeNode::setAutoSize(bool b)
 	autosize=b;
 }
 
-bool ResizeNode::getAutoSize()
+bool ResizeNode::getAutoSize() const
 {
 	return autosize;
 }
 
 void ResizeNode::accept(NodeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

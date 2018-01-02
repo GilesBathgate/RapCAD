@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -22,22 +22,22 @@
 #include "vectorvalue.h"
 #include "numbervalue.h"
 
-PolygonModule::PolygonModule(Reporter* r) : Module(r,"polygon")
+PolygonModule::PolygonModule(Reporter& r) : Module(r,"polygon")
 {
 	addDescription(tr("Constructs a polygon."));
 	addParameter("points",tr("The vertices are provided by the points list."));
 	addParameter("lines",tr("The lines are a list of indices to the vertices."));
 }
 
-Node* PolygonModule::evaluate(Context* ctx)
+Node* PolygonModule::evaluate(const Context& ctx) const
 {
 	auto* pointsVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
-	VectorValue* linesVec=dynamic_cast<VectorValue*>(ctx->getArgumentDeprecated(1,"lines","paths",reporter));
+	VectorValue* linesVec=dynamic_cast<VectorValue*>(ctx.getArgumentDeprecated(1,"lines","paths",reporter));
 
 	auto* pn=new PrimitiveNode(reporter);
 	Primitive* p=pn->createPrimitive();
 	p->setSanitized(false);
-	pn->setChildren(ctx->getInputNodes());
+	pn->setChildren(ctx.getInputNodes());
 
 	if(!pointsVec)
 		return pn;

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -21,14 +21,14 @@
 #include "numbervalue.h"
 #include "node/boundsnode.h"
 
-BoundsModule::BoundsModule(Reporter* r) : Module(r,"bound")
+BoundsModule::BoundsModule(Reporter& r) : Module(r,"bound")
 {
 	auxilary=true;
 }
 
-Node* BoundsModule::evaluate(Context* ctx)
+Node* BoundsModule::evaluate(const Context& ctx) const
 {
 	auto* n=new BoundsNode();
-	n->setChildren(ctx->getInputNodes());
+	n->setChildren(ctx.getInputNodes());
 	return n;
 }

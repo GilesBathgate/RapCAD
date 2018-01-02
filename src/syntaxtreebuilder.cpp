@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,9 +18,11 @@
 
 #include "syntaxtreebuilder.h"
 
-SyntaxTreeBuilder::SyntaxTreeBuilder(Script* s) : script(s)
+SyntaxTreeBuilder::SyntaxTreeBuilder(Reporter& r,Script& s,AbstractTokenBuilder& t) :
+	reporter(r),
+	script(s),
+	tokenBuilder(t)
 {
-	tokenBuilder=nullptr;
 }
 
 SyntaxTreeBuilder::~SyntaxTreeBuilder()
@@ -30,17 +32,17 @@ SyntaxTreeBuilder::~SyntaxTreeBuilder()
 void SyntaxTreeBuilder::buildFileLocation(QString f)
 {
 	auto* info=new QFileInfo(f);
-	script->setFileLocation(info);
+	script.setFileLocation(info);
 }
 
 void SyntaxTreeBuilder::buildScript(Declaration* dec)
 {
-	script->addDeclaration(dec);
+	script.addDeclaration(dec);
 }
 
 void SyntaxTreeBuilder::buildScript(QList<CodeDoc*>* cdocs)
 {
-	script->addDocumentation(*cdocs);
+	script.addDocumentation(*cdocs);
 }
 
 QList<CodeDoc*>* SyntaxTreeBuilder::buildCodeDoc(QList<CodeDoc*>* cdocs)
@@ -118,7 +120,7 @@ Declaration* SyntaxTreeBuilder::buildImport(QString* imp,QString* name,QList<Par
 
 void SyntaxTreeBuilder::buildScript(QList<Declaration*>* decls)
 {
-	script->setDeclarations(*decls);
+	script.setDeclarations(*decls);
 	delete decls;
 }
 
@@ -258,8 +260,7 @@ QList<Statement*>* SyntaxTreeBuilder::buildStatements(QList<Statement*>* stmts,S
 
 Declaration* SyntaxTreeBuilder::buildModule(QString* name, QList<Parameter*>* params, Scope* scp)
 {
-	auto* result = new Module();
-	result->setName(*name);
+	auto* result = new Module(reporter,*name);
 	delete name;
 	result->setParameters(*params);
 	delete params;
@@ -617,14 +618,12 @@ Invocation* SyntaxTreeBuilder::buildInvocation(QString* name,Invocation* inv)
 	return inv;
 }
 
-void SyntaxTreeBuilder::setTokenBuilder(AbstractTokenBuilder* value)
+void SyntaxTreeBuilder::reportSyntaxError(const char* s, const char* lexertext)
 {
-	tokenBuilder=value;
+	reporter.reportSyntaxError(&tokenBuilder,s,lexertext);
 }
 
 int SyntaxTreeBuilder::getLineNumber() const
 {
-	if(tokenBuilder)
-		return tokenBuilder->getLineNumber();
-	return 0;
+	return tokenBuilder.getLineNumber();
 }

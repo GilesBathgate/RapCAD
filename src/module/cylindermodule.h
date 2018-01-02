@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -25,8 +25,8 @@ class CylinderModule : public PrimitiveModule
 {
 	Q_DECLARE_TR_FUNCTIONS(CylinderModule)
 public:
-	CylinderModule(Reporter*);
-	Node* evaluate(Context*) override;
+	CylinderModule(Reporter&);
+	Node* evaluate(const Context&) const override;
 };
 
 #endif // CYLINDERMODULE_H

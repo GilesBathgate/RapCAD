@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -21,14 +21,14 @@
 #include "vectorvalue.h"
 #include "node/transformationnode.h"
 
-ScaleModule::ScaleModule(Reporter* r) : Module(r,"scale")
+ScaleModule::ScaleModule(Reporter& r) : Module(r,"scale")
 {
 	addDescription(tr("Scales its children by the given vector."));
 	addParameter("size",tr("The factor by which to scale the object."));
 	addParameter("reference",tr("A center reference point for the scaling."));
 }
 
-Node* ScaleModule::evaluate(Context* ctx)
+Node* ScaleModule::evaluate(const Context& ctx) const
 {
 	Point s(0,0,0);
 	auto* sizeVal=getParameterArgument(ctx,0);
@@ -57,6 +57,6 @@ Node* ScaleModule::evaluate(Context* ctx)
 	auto* n=new TransformationNode();
 	n->setMatrix(m);
 
-	n->setChildren(ctx->getInputNodes());
+	n->setChildren(ctx.getInputNodes());
 	return n;
 }

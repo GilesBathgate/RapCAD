@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -22,18 +22,18 @@
 #include "vectorvalue.h"
 #include "numbervalue.h"
 
-MultMatrixModule::MultMatrixModule(Reporter* r) : Module(r,"multmatrix")
+MultMatrixModule::MultMatrixModule(Reporter& r) : Module(r,"multmatrix")
 {
 	addDescription(tr("Multiplies its children with the given 4 by 4 affine transformation matrix."));
 	addParameter("matrix",tr("The 4 by 4 affine transformation matrix"));
 }
 
-Node* MultMatrixModule::evaluate(Context* ctx)
+Node* MultMatrixModule::evaluate(const Context& ctx) const
 {
 	auto* matrixVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 
 	auto* n=new TransformationNode();
-	n->setChildren(ctx->getInputNodes());
+	n->setChildren(ctx.getInputNodes());
 
 	if(!matrixVec)
 		return n;

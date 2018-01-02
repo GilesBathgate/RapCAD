@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -24,8 +24,8 @@
 class DecomposeModule : public Module
 {
 public:
-	DecomposeModule(Reporter*);
-	Node* evaluate(Context*) override;
+	DecomposeModule(Reporter&);
+	Node* evaluate(const Context&) const override;
 };
 
 #endif // DECOMPOSEMODULE_H

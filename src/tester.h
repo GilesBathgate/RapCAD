@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -26,16 +26,16 @@ class Tester : public QObject,public Strategy
 {
 	Q_OBJECT
 public:
-	Tester(QTextStream&,QObject* parent = nullptr);
+	Tester(Reporter&, QObject* parent = nullptr);
 	~Tester() override;
 	int evaluate() override;
 private slots:
 	void runTests();
 private:
 	void writeHeader(QString name, int num);
-	bool testFunctionExists(Script*);
-	void testModule(Script*, QFileInfo);
-	void testFunction(Script*);
+	bool testFunctionExists(Script&);
+	void testModule(Script&, QFileInfo);
+	void testFunction(Script&);
 	void exportTest(QString);
 #if USE_CGAL
 	void exportTest(class CGALExport&,QString,QFileInfo,QString);

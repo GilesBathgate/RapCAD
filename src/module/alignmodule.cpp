@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #include "node/alignnode.h"
 #include "point.h"
 
-AlignModule::AlignModule(Reporter* r) : Module(r,"align")
+AlignModule::AlignModule(Reporter& r) : Module(r,"align")
 {
 	addDescription(tr("Aligns its children to the given faces."));
 	addParameter("top",tr("Specifies alignment to the top face."));
@@ -35,10 +35,10 @@ AlignModule::AlignModule(Reporter* r) : Module(r,"align")
 	addParameter("west",tr("Specifies alignment to the west face."));
 }
 
-Node* AlignModule::evaluate(Context* ctx)
+Node* AlignModule::evaluate(const Context& ctx) const
 {
 	QList<AlignNode::Face_t> align;
-	VectorValue* vecVal=dynamic_cast<VectorValue*>(ctx->getArgument(0,"anchor"));
+	VectorValue* vecVal=dynamic_cast<VectorValue*>(ctx.getArgument(0,"anchor"));
 	if(vecVal) {
 		Point p = vecVal->getPoint();
 		decimal x=p.x(),y=p.y(),z=p.z();
@@ -96,7 +96,7 @@ Node* AlignModule::evaluate(Context* ctx)
 	}
 
 	auto* n=new AlignNode();
-	n->setChildren(ctx->getInputNodes());
+	n->setChildren(ctx.getInputNodes());
 	n->setAlign(align);
 
 	return n;

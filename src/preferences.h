@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -30,103 +30,103 @@ public:
 	static Preferences* getInstance();
 	static void syncDelete();
 
-	int getPrecision();
+	int getPrecision() const;
 	void setPrecision(int);
 
-	bool getFunctionRounding();
+	bool getFunctionRounding() const;
 	void setFunctionRounding(bool);
 
-	bool getRationalFormat();
+	bool getRationalFormat() const;
 	void setRationalFormat(bool b);
 
-	float getDefaultRotationX();
+	float getDefaultRotationX() const;
 	void setDefaultRotationX(float);
 
-	float getDefaultRotationY();
+	float getDefaultRotationY() const;
 	void setDefaultRotationY(float);
 
-	float getDefaultRotationZ();
+	float getDefaultRotationZ() const;
 	void setDefaultRotationZ(float);
 
-	float getDefaultX();
+	float getDefaultX() const;
 	void setDefaultX(float);
 
-	float getDefaultZ();
+	float getDefaultZ() const;
 	void setDefaultZ(float);
 
-	float getDefaultDistance();
+	float getDefaultDistance() const;
 	void setDefaultDistance(float);
 
-	QColor getMarkedVertexColor();
+	QColor getMarkedVertexColor() const;
 	void setMarkedVertexColor(QColor);
 
-	QColor getVertexColor();
+	QColor getVertexColor() const;
 	void setVertexColor(QColor);
 
-	QColor getMarkedEdgeColor();
+	QColor getMarkedEdgeColor() const;
 	void setMarkedEdgeColor(QColor);
 
-	QColor getEdgeColor();
+	QColor getEdgeColor() const;
 	void setEdgeColor(QColor);
 
-	QColor getMarkedFacetColor();
+	QColor getMarkedFacetColor() const;
 	void setMarkedFacetColor(QColor);
 
-	QColor getFacetColor();
+	QColor getFacetColor() const;
 	void setFacetColor(QColor);
 
-	bool getShowAxes();
+	bool getShowAxes() const;
 	void setShowAxes(bool);
 
-	bool getShowEdges();
+	bool getShowEdges() const;
 	void setShowEdges(bool);
 
-	bool getSkeleton();
+	bool getSkeleton() const;
 	void setSkeleton(bool);
 
-	bool getShowBase();
+	bool getShowBase() const;
 	void setShowBase(bool);
 
-	bool getShowPrintArea();
+	bool getShowPrintArea() const;
 	void setShowPrintArea(bool);
 
-	bool getShowRulers();
+	bool getShowRulers() const;
 	void setShowRulers(bool);
 
-	bool getShowEditor();
+	bool getShowEditor() const;
 	void setShowEditor(bool);
 
-	bool getShowConsole();
+	bool getShowConsole() const;
 	void setShowConsole(bool);
 
-	bool getShowProjects();
+	bool getShowProjects() const;
 	void setShowProjects(bool);
 
 	void setWindowPosition(QPoint);
-	QPoint getWindowPosition();
+	QPoint getWindowPosition() const;
 
 	void setWindowSize(QSize);
-	QSize getWindowSize();
+	QSize getWindowSize() const;
 
 	void setVertexSize(float);
-	float getVertexSize();
+	float getVertexSize() const;
 
 	void setEdgeSize(float);
-	float getEdgeSize();
+	float getEdgeSize() const;
 
 	void setAutoSaveOnCompile(bool);
-	bool getAutoSaveOnCompile();
+	bool getAutoSaveOnCompile() const;
 
 	void setCacheEnabled(bool);
-	bool getCacheEnabled();
+	bool getCacheEnabled() const;
 
-	QPointF getPrintOrigin();
+	QPointF getPrintOrigin() const;
 	void setPrintOrigin(QPointF s);
 
-	QVector3D getPrintVolume();
+	QVector3D getPrintVolume() const;
 	void setPrintVolume(QVector3D v);
 
-	int getPrintBedAppearance();
+	int getPrintBedAppearance() const;
 	void setPrintBedAppearance(int);
 private:
 	Preferences();

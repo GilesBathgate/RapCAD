@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -29,12 +29,12 @@ typedef Polyhedron3::HalfedgeDS HalfedgeDS;
 class CGALBuilder : public CGAL::Modifier_base<CGAL::HalfedgeDS>
 {
 public:
-	CGALBuilder(CGALPrimitive*);
-	CGALPrimitive* buildOffsetPolygons(const CGAL::Scalar);
-	CGALPrimitive* triangulate();
+	CGALBuilder(CGALPrimitive&);
+	CGALPrimitive& buildOffsetPolygons(const CGAL::Scalar&);
+	CGALPrimitive& triangulate();
 private:
 	void operator()(CGAL::HalfedgeDS&) override;
-	CGALPrimitive* primitive;
+	CGALPrimitive& primitive;
 };
 
 #endif // CGALBUILDER_H

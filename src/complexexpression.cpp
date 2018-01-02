@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,10 +18,10 @@
 
 #include "complexexpression.h"
 
-ComplexExpression::ComplexExpression()
+ComplexExpression::ComplexExpression() :
+	real(nullptr),
+	imaginary(nullptr)
 {
-	real=nullptr;
-	imaginary=nullptr;
 }
 
 ComplexExpression::~ComplexExpression()
@@ -50,5 +50,5 @@ void ComplexExpression::setImaginary(VectorExpression* value)
 
 void ComplexExpression::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

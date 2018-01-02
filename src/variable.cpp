@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,9 +18,9 @@
 
 #include "variable.h"
 
-Variable::Variable()
+Variable::Variable() :
+	storage(Variable::Var)
 {
-	storage=Variable::Var;
 }
 
 Variable::~Variable()
@@ -49,5 +49,5 @@ Variable::Storage_e Variable::getStorage() const
 
 void Variable::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -29,11 +29,20 @@ extern int lexerlex();
 extern int lexerleng;
 extern int lexerlineno;
 
-TokenBuilder::TokenBuilder(Reporter* r,QString s,bool b)
+TokenBuilder::TokenBuilder() :
+	stringcontents(nullptr),
+	position(0)
 {
-	lexerinit(this,r,s,b);
-	position=0;
-	stringcontents=nullptr;
+}
+
+TokenBuilder::TokenBuilder(QString s) : TokenBuilder()
+{
+	lexerinit(this,nullptr,s,false);
+}
+
+TokenBuilder::TokenBuilder(Reporter& r,QString s,bool b) : TokenBuilder()
+{
+	lexerinit(this,&r,s,b);
 }
 
 TokenBuilder::~TokenBuilder()

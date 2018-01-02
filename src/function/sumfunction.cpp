@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ SumFunction::SumFunction() : Function("sum")
 	addParameter("values");
 }
 
-Value* SumFunction::evaluate(Context* ctx)
+Value* SumFunction::evaluate(const Context& ctx) const
 {
 	auto* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(vecVal) {

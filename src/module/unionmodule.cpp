@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,13 +20,13 @@
 #include "context.h"
 #include "node/unionnode.h"
 
-UnionModule::UnionModule(Reporter* r) : Module(r,"union")
+UnionModule::UnionModule(Reporter& r) : Module(r,"union")
 {
 }
 
-Node* UnionModule::evaluate(Context* ctx)
+Node* UnionModule::evaluate(const Context& ctx) const
 {
-	return createUnion(ctx->getInputNodes());
+	return createUnion(ctx.getInputNodes());
 }
 
 Node* UnionModule::createUnion(QList<Node*> childnodes)

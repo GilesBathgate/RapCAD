@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ AngFunction::AngFunction() : Function("ang")
 	addParameter("axis");
 }
 
-Value* AngFunction::getResult(decimal a,decimal x,decimal y,decimal z)
+Value* AngFunction::getResult(decimal a,decimal x,decimal y,decimal z) const
 {
 	decimal w=a/2.0;
 	decimal c=r_right_cos(w);
@@ -45,10 +45,10 @@ Value* AngFunction::getResult(decimal a,decimal x,decimal y,decimal z)
 	return new ComplexValue(angle,axis);
 }
 
-Value* AngFunction::evaluate(Context* ctx)
+Value* AngFunction::evaluate(const Context& ctx) const
 {
-	VectorValue* vecVal1=dynamic_cast<VectorValue*>(ctx->getArgument(0,"v1"));
-	VectorValue* vecVal2=dynamic_cast<VectorValue*>(ctx->getArgument(1,"v2"));
+	VectorValue* vecVal1=dynamic_cast<VectorValue*>(ctx.getArgument(0,"v1"));
+	VectorValue* vecVal2=dynamic_cast<VectorValue*>(ctx.getArgument(1,"v2"));
 	if(vecVal1&&vecVal2) {
 
 		// a = |v1|*|v2| + v1 . v2
@@ -85,17 +85,17 @@ Value* AngFunction::evaluate(Context* ctx)
 		}
 		return getResult(a,x,y,z);
 	} else {
-		NumberValue* xVal=dynamic_cast<NumberValue*>(ctx->getArgument(0,"x"));
+		NumberValue* xVal=dynamic_cast<NumberValue*>(ctx.getArgument(0,"x"));
 		if(xVal) {
 			a=xVal->getNumber();
 			return getResult(a,1.0,0.0,0.0);
 		}
-		NumberValue* yVal=dynamic_cast<NumberValue*>(ctx->getArgument(0,"y"));
+		NumberValue* yVal=dynamic_cast<NumberValue*>(ctx.getArgument(0,"y"));
 		if(yVal) {
 			a=yVal->getNumber();
 			return getResult(a,0.0,1.0,0.0);
 		}
-		NumberValue* zVal=dynamic_cast<NumberValue*>(ctx->getArgument(0,"z"));
+		NumberValue* zVal=dynamic_cast<NumberValue*>(ctx.getArgument(0,"z"));
 		if(zVal) {
 			a=zVal->getNumber();
 			return getResult(a,0.0,0.0,1.0);

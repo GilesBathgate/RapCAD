@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -88,4 +88,14 @@ void Project::writeProject(QString filename)
 	xml.writeEndElement();
 	xml.writeEndDocument();
 	delete file;
+}
+
+QList<QString> Project::getSources() const
+{
+	return sources;
+}
+
+void Project::setSources(QList<QString> value)
+{
+	sources = value;
 }

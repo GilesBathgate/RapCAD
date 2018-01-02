@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -33,15 +33,15 @@
 #include "simplerenderer.h"
 #endif
 
-Worker::Worker(QTextStream& s) :
-	Strategy(s)
+Worker::Worker(Reporter& r) :
+	Strategy(r),
+	inputFile(""),
+	outputFile(""),
+	print(false),
+	generate(false),
+	primitive(nullptr),
+	previous(nullptr)
 {
-	primitive=nullptr;
-	previous=nullptr;
-	inputFile="";
-	outputFile="";
-	print=false;
-	generate=false;
 }
 
 Worker::~Worker()
@@ -60,14 +60,14 @@ void Worker::setup(QString i,QString o,bool p,bool g)
 int Worker::evaluate()
 {
 	internal();
-	return reporter->getReturnCode();
+	return reporter.getReturnCode();
 }
 
 void Worker::internal()
 {
 
 	try {
-		reporter->startTiming();
+		reporter.startTiming();
 
 		primary();
 
@@ -75,7 +75,7 @@ void Worker::internal()
 			update();
 			generation();
 		}
-		reporter->setReturnCode(EXIT_SUCCESS);
+		reporter.setReturnCode(EXIT_SUCCESS);
 
 #ifdef USE_CGAL
 	} catch(CGAL::Failure_exception e) {
@@ -92,18 +92,17 @@ void Worker::internal()
 
 void Worker::primary()
 {
-	Script* s=new Script();
+	Script s;
 	parse(s,inputFile,reporter,true);
 
 	if(print) {
 		TreePrinter p(output);
-		s->accept(p);
+		s.accept(p);
 		output << endl;
 	}
 
 	TreeEvaluator e(reporter);
-	s->accept(e);
-	delete s;
+	s.accept(e);
 	output.flush();
 
 	Node* n = e.getRootNode();
@@ -119,7 +118,7 @@ void Worker::primary()
 
 	updatePrimitive(ne.getResult());
 	if(!primitive)
-		reporter->reportWarning(tr("no top level object."));
+		reporter.reportWarning(tr("no top level object."));
 	else if(!outputFile.isEmpty()) {
 		exportResult(outputFile);
 	}
@@ -127,18 +126,18 @@ void Worker::primary()
 
 void Worker::generation()
 {
-	Script* s=new Script();
-	parse(s,"reprap.rcam",nullptr,true);
+	Script s;
+	parse(s,"reprap.rcam",reporter,true);
 
 	auto* e = new TreeEvaluator(reporter);
 	decimal height=getBoundsHeight();
 	QList<Argument*> args=getArgs(height);
 	Callback* c = addCallback("layers",s,args);
-	s->accept(*e);
+	s.accept(*e);
 
 	auto* v = dynamic_cast<NumberValue*>(c->getResult());
 	if(v) {
-		reporter->reportMessage(tr("Layers: %1").arg(v->getValueString()));
+		reporter.reportMessage(tr("Layers: %1").arg(v->getValueString()));
 
 		int itterations=v->toInteger();
 		Instance* m=addProductInstance("manufacture",s);
@@ -146,12 +145,12 @@ void Worker::generation()
 			if(i>0) {
 				e = new TreeEvaluator(reporter);
 			}
-			reporter->reportMessage(tr("Manufacturing layer: %1").arg(i));
+			reporter.reportMessage(tr("Manufacturing layer: %1").arg(i));
 
 			QList<Argument*> args=getArgs(i);
 			m->setArguments(args);
 
-			s->accept(*e);
+			s.accept(*e);
 			Node* n=e->getRootNode();
 
 			auto* ne = new NodeEvaluator(reporter);
@@ -165,10 +164,9 @@ void Worker::generation()
 		}
 	}
 	delete e;
-	delete s;
 }
 
-decimal Worker::getBoundsHeight()
+decimal Worker::getBoundsHeight() const
 {
 #ifdef USE_CGAL
 	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
@@ -193,7 +191,7 @@ QList<Argument*> Worker::getArgs(decimal value)
 	return args;
 }
 
-Instance* Worker::addProductInstance(QString name,Script* s)
+Instance* Worker::addProductInstance(QString name,Script& s)
 {
 	auto* m = new Instance();
 	m->setName(name);
@@ -202,7 +200,7 @@ Instance* Worker::addProductInstance(QString name,Script* s)
 	QList<Statement*> children;
 	children.append(r);
 	m->setChildren(children);
-	s->addDeclaration(m);
+	s.addDeclaration(m);
 
 	return m;
 }
@@ -210,7 +208,7 @@ Instance* Worker::addProductInstance(QString name,Script* s)
 void Worker::exportResult(QString fn)
 {
 #ifdef USE_CGAL
-	reporter->startTiming();
+	reporter.startTiming();
 
 	try {
 		CGALExport exporter(primitive,reporter);
@@ -219,7 +217,7 @@ void Worker::exportResult(QString fn)
 		resultFailed(QString::fromStdString(e.what()));
 	}
 
-	reporter->reportTiming(tr("export"));
+	reporter.reportTiming(tr("export"));
 #endif
 }
 
@@ -230,13 +228,13 @@ bool Worker::resultAvailable()
 
 void Worker::resultAccepted()
 {
-	reporter->reportTiming(tr("compiling"));
+	reporter.reportTiming(tr("compiling"));
 	delete previous;
 }
 
 void Worker::resultFailed(QString error)
 {
-	reporter->reportException(error);
+	reporter.reportException(error);
 	updatePrimitive(nullptr);
 }
 

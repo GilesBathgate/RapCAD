@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ Atan2Function::Atan2Function() : Function("atan2")
 	addParameter("x");
 }
 
-Value* Atan2Function::evaluate(Context* ctx)
+Value* Atan2Function::evaluate(const Context& ctx) const
 {
 	auto* yVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	auto* xVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));

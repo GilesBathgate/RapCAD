@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -22,13 +22,13 @@
 #include "numbervalue.h"
 
 
-DiscreteModule::DiscreteModule(Reporter* r) : Module(r,"discrete")
+DiscreteModule::DiscreteModule(Reporter& r) : Module(r,"discrete")
 {
 	addDescription(tr("Rearranges the vertices of its children to lie on discrete values rounded to the given number of decimal places."));
 	addParameter("places",tr("The number of decimal places to which to round."));
 }
 
-Node* DiscreteModule::evaluate(Context* ctx)
+Node* DiscreteModule::evaluate(const Context& ctx) const
 {
 	int places=6;
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
@@ -37,6 +37,6 @@ Node* DiscreteModule::evaluate(Context* ctx)
 
 	auto* n=new DiscreteNode();
 	n->setPlaces(places);
-	n->setChildren(ctx->getInputNodes());
+	n->setChildren(ctx.getInputNodes());
 	return n;
 }

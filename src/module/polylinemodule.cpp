@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -21,14 +21,14 @@
 #include "vectorvalue.h"
 #include "numbervalue.h"
 
-PolylineModule::PolylineModule(Reporter* r) : Module(r,"polyline")
+PolylineModule::PolylineModule(Reporter& r) : Module(r,"polyline")
 {
 	addDescription(tr("Constructs a line connecting multiple points."));
 	addParameter("points",tr("The vertices are provided by the points list."));
 	addParameter("lines",tr("The lines are a list of indices to the vertices"));
 }
 
-Node* PolylineModule::evaluate(Context* ctx)
+Node* PolylineModule::evaluate(const Context& ctx) const
 {
 	auto* pointsVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	auto* linesVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));

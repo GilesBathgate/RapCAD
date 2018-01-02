@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 #include "qpathtextbuilder.h"
 #include "context.h"
 
-TextModule::TextModule(Reporter* r) : Module(r, "text")
+TextModule::TextModule(Reporter& r) : Module(r, "text")
 {
 	addDescription(tr("Generates text."));
 	addParameter("text",tr("The text to generate"));
@@ -30,7 +30,7 @@ TextModule::TextModule(Reporter* r) : Module(r, "text")
 	addParameter("size",tr("The size of the text"));
 }
 
-Node* TextModule::evaluate(Context* ctx)
+Node* TextModule::evaluate(const Context& ctx) const
 {
 	auto* textVal=dynamic_cast<TextValue*>(getParameterArgument(ctx,0));
 	if(!textVal)
@@ -55,6 +55,6 @@ Node* TextModule::evaluate(Context* ctx)
 	Primitive* p=tb.buildPrimitive();
 	p->setSanitized(false);
 	pn->setPrimitive(p);
-	pn->setChildren(ctx->getInputNodes());
+	pn->setChildren(ctx.getInputNodes());
 	return pn;
 }

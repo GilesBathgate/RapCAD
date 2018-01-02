@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@
 class SyntaxTreeBuilder : public AbstractSyntaxTreeBuilder
 {
 public:
-	SyntaxTreeBuilder(Script*);
+	SyntaxTreeBuilder(Reporter&,Script&,AbstractTokenBuilder&);
 	~SyntaxTreeBuilder() override;
 	void buildFileLocation(QString) override;
 	void buildScript(Declaration*) override;
@@ -122,13 +122,13 @@ public:
 	Expression* buildComplex(Expression*,Expression*,Expression*,Expression*) override;
 	Invocation* buildInvocation(QString*,QList<Argument*>*) override;
 	Invocation* buildInvocation(QString*,Invocation*) override;
-
-	void setTokenBuilder(AbstractTokenBuilder*) override;
+	void reportSyntaxError(const char*,const char*) override;
 private:
 	int getLineNumber() const;
 
-	Script* script;
-	AbstractTokenBuilder* tokenBuilder;
+	Reporter& reporter;
+	Script& script;
+	AbstractTokenBuilder& tokenBuilder;
 };
 
 #endif // SYNTAXTREEBUILDER_H

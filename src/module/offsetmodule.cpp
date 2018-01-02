@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -21,13 +21,13 @@
 #include "node/offsetnode.h"
 #include "numbervalue.h"
 
-OffsetModule::OffsetModule(Reporter* r) : Module(r,"offset")
+OffsetModule::OffsetModule(Reporter& r) : Module(r,"offset")
 {
 	addDescription(tr("Offset moves the outlines of polygons outward or inward by a given amount."));
 	addParameter("delta",tr("The amount to offset the polygon. The polygon is offset inwards, when negative."));
 }
 
-Node* OffsetModule::evaluate(Context* ctx)
+Node* OffsetModule::evaluate(const Context& ctx) const
 {
 	decimal a=1.0;
 	auto* amountVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
@@ -36,6 +36,6 @@ Node* OffsetModule::evaluate(Context* ctx)
 
 	auto* n = new OffsetNode();
 	n->setAmount(a);
-	n->setChildren(ctx->getInputNodes());
+	n->setChildren(ctx.getInputNodes());
 	return n;
 }

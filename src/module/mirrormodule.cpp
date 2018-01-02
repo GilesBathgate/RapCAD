@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -22,13 +22,13 @@
 #include "node/transformationnode.h"
 #include "rmath.h"
 
-MirrorModule::MirrorModule(Reporter* r) : Module(r,"mirror")
+MirrorModule::MirrorModule(Reporter& r) : Module(r,"mirror")
 {
 	addDescription(tr("Mirrors its children through a plane perpendicular to the given normal vector."));
 	addParameter("vector",tr("The normal vector of the mirror plane."));
 }
 
-Node* MirrorModule::evaluate(Context* ctx)
+Node* MirrorModule::evaluate(const Context& ctx) const
 {
 	Point p(0,0,0);
 	auto* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
@@ -51,6 +51,6 @@ Node* MirrorModule::evaluate(Context* ctx)
 	auto* n=new TransformationNode();
 	n->setMatrix(m);
 
-	n->setChildren(ctx->getInputNodes());
+	n->setChildren(ctx.getInputNodes());
 	return n;
 }

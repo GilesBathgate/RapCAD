@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 #include "numbervalue.h"
 #include "booleanvalue.h"
 
-CylinderSurfaceModule::CylinderSurfaceModule(Reporter* r) : PrimitiveModule(r,"cylinder_surface")
+CylinderSurfaceModule::CylinderSurfaceModule(Reporter& r) : PrimitiveModule(r,"cylinder_surface")
 {
 	addDescription(tr("Constructs the surface of a cylinder without top and bottom facets."));
 	addParameter("height",tr("The height of the cylinder surface."));
@@ -29,7 +29,7 @@ CylinderSurfaceModule::CylinderSurfaceModule(Reporter* r) : PrimitiveModule(r,"c
 }
 
 
-Node* CylinderSurfaceModule::evaluate(Context* ctx)
+Node* CylinderSurfaceModule::evaluate(const Context& ctx) const
 {
 	auto* heightValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	decimal h=1.0;
@@ -60,7 +60,7 @@ Node* CylinderSurfaceModule::evaluate(Context* ctx)
 
 	auto* pn=new PrimitiveNode(reporter);
 	Primitive* p=pn->createPrimitive();
-	pn->setChildren(ctx->getInputNodes());
+	pn->setChildren(ctx.getInputNodes());
 
 	for(const auto& pt: c1) {
 		p->createVertex(pt);

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -28,12 +28,11 @@ extern void lexercodedoc();
 extern int lexerleng;
 #define YY_CONTINUE 1;
 
-SyntaxHighlighter::SyntaxHighlighter(QTextDocument* parent)
-	: QSyntaxHighlighter(parent)
+SyntaxHighlighter::SyntaxHighlighter(QTextDocument* parent) :
+	QSyntaxHighlighter(parent),
+	startIndex(0),
+	stringStart(0)
 {
-	startIndex=0;
-	stringStart=0;
-
 	keywordFormat.setForeground(Qt::darkBlue);
 	keywordFormat.setFontWeight(QFont::Bold);
 

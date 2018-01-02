@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ IsStrFunction::IsStrFunction() : Function("is_str")
 	addParameter("value");
 }
 
-Value* IsStrFunction::evaluate(Context* ctx)
+Value* IsStrFunction::evaluate(const Context& ctx) const
 {
 	auto* text=dynamic_cast<TextValue*>(getParameterArgument(ctx,0));
 	if(text)

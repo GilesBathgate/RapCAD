@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ TransformMatrix::TransformMatrix(decimal m11, decimal m12, decimal m13, decimal 
 	matrix[15]=m44;
 }
 
-decimal* TransformMatrix::getValues()
+const decimal* TransformMatrix::getValues() const
 {
 	return matrix;
 }

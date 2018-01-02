@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,10 +18,11 @@
 
 #include "vectoriterator.h"
 
-VectorIterator::VectorIterator(QList<Value*> list) : ValueIterator()
+VectorIterator::VectorIterator(QList<Value*> list) :
+	ValueIterator(),
+	items(list),
+	index(0)
 {
-	items=list;
-	index=0;
 }
 
 ValueIterator& VectorIterator::operator++()

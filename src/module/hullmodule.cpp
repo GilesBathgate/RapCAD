@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -21,12 +21,12 @@
 #include "node/hullnode.h"
 #include "booleanvalue.h"
 
-HullModule::HullModule(Reporter* r) : Module(r,"hull")
+HullModule::HullModule(Reporter& r) : Module(r,"hull")
 {
 	addParameter("concave","Determines whether the hull may be concave");
 }
 
-Node* HullModule::evaluate(Context* ctx)
+Node* HullModule::evaluate(const Context& ctx) const
 {
 	bool concave=false;
 	auto* concaveVal = dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));
@@ -35,6 +35,6 @@ Node* HullModule::evaluate(Context* ctx)
 
 	auto* d = new HullNode();
 	d->setConcave(concave);
-	d->setChildren(ctx->getInputNodes());
+	d->setChildren(ctx.getInputNodes());
 	return d;
 }

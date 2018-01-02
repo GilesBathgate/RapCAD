@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -21,12 +21,14 @@
 #include "booleanvalue.h"
 #include "context.h"
 
-IsVecFunction::IsVecFunction(int s) : Function(QString("is_vec%1").arg(s)), size(s)
+IsVecFunction::IsVecFunction(int s) :
+	Function(QString("is_vec%1").arg(s)),
+	size(s)
 {
 	addParameter("value");
 }
 
-Value* IsVecFunction::evaluate(Context* ctx)
+Value* IsVecFunction::evaluate(const Context& ctx) const
 {
 	auto* vec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(!vec) {

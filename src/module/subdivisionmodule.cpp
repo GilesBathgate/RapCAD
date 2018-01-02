@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -21,13 +21,13 @@
 #include "node/subdivisionnode.h"
 #include "numbervalue.h"
 
-SubDivisionModule::SubDivisionModule(Reporter* r) : Module(r,"subdiv")
+SubDivisionModule::SubDivisionModule(Reporter& r) : Module(r,"subdiv")
 {
 	addDescription(tr("Not Implemented."));
 	addParameter("level",tr("Not Implemented."));
 }
 
-Node* SubDivisionModule::evaluate(Context* ctx)
+Node* SubDivisionModule::evaluate(const Context& ctx) const
 {
 	int level=0;
 	auto* levelVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
@@ -35,7 +35,7 @@ Node* SubDivisionModule::evaluate(Context* ctx)
 		level=levelVal->toInteger();
 
 	auto* d = new SubDivisionNode();
-	d->setChildren(ctx->getInputNodes());
+	d->setChildren(ctx.getInputNodes());
 	d->setLevel(level);
 	return d;
 }

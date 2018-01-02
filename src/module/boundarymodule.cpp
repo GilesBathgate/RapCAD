@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,19 +20,20 @@
 #include "context.h"
 #include "node/boundarynode.h"
 
-BoundaryModule::BoundaryModule(Reporter* r,bool l) : Module(r,l?"outline":"boundary")
+BoundaryModule::BoundaryModule(Reporter& r, bool l) :
+	Module(r,l?"outline":"boundary"),
+	legacy(l)
 {
-	legacy=l;
 }
 
 OnceOnly BoundaryModule::depricateWarning;
 
-Node* BoundaryModule::evaluate(Context* ctx)
+Node* BoundaryModule::evaluate(const Context& ctx) const
 {
 	if(legacy&&depricateWarning())
-		reporter->reportWarning(tr("'outline' module is deprecated please use 'boundary'\n"));
+		reporter.reportWarning(tr("'outline' module is deprecated please use 'boundary'\n"));
 
 	auto* n = new BoundaryNode();
-	n->setChildren(ctx->getInputNodes());
+	n->setChildren(ctx.getInputNodes());
 	return n;
 }

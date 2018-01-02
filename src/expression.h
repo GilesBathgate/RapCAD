@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -63,13 +63,13 @@ public:
 	Operator_e getOp() const;
 	void setOp(Operator_e);
 	QString getOpString() const;
-	bool postFix();
+	bool postFix() const;
 
 	int getLineNumber() const;
 	void setLineNumber(int value);
 private:
-	Operator_e op;
 	int lineNumber;
+	Operator_e op;
 };
 
 #endif // EXPRESSION_H

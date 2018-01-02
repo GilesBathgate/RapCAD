@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,9 +18,9 @@
 
 #include "script.h"
 
-Script::Script()
+Script::Script() :
+	fileLocation(nullptr)
 {
-	fileLocation=nullptr;
 }
 
 Script::~Script()
@@ -61,14 +61,14 @@ void Script::addDocumentation(QList<CodeDoc*> docs)
 	documentation.append(docs);
 }
 
-QList<QList<CodeDoc*> > Script::getDocumentation()
+QList<QList<CodeDoc*> > Script::getDocumentation() const
 {
 	return documentation;
 }
 
 void Script::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }
 
 QFileInfo* Script::getFileLocation() const

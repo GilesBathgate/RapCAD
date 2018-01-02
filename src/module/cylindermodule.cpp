@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 #include "node/primitivenode.h"
 #include "rmath.h"
 
-CylinderModule::CylinderModule(Reporter* r) : PrimitiveModule(r,"cylinder")
+CylinderModule::CylinderModule(Reporter& r) : PrimitiveModule(r,"cylinder")
 {
 	addDescription(tr("Constructs a cylinder. It will be placed centered on the xy plane."));
 	addParameter("height",tr("The height of the cylinder"));
@@ -31,15 +31,15 @@ CylinderModule::CylinderModule(Reporter* r) : PrimitiveModule(r,"cylinder")
 	addParameter("center",tr("Specifies whether to center the cylinder vertically along the z axis."));
 }
 
-Node* CylinderModule::evaluate(Context* ctx)
+Node* CylinderModule::evaluate(const Context& ctx) const
 {
 	auto* heightValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	decimal h=1.0;
 	if(heightValue)
 		h=heightValue->getNumber();
 
-	NumberValue* r1Value = dynamic_cast<NumberValue*>(ctx->getArgument(1,"radius1"));
-	NumberValue* r2Value = dynamic_cast<NumberValue*>(ctx->getArgument(2,"radius2"));
+	NumberValue* r1Value = dynamic_cast<NumberValue*>(ctx.getArgument(1,"radius1"));
+	NumberValue* r2Value = dynamic_cast<NumberValue*>(ctx.getArgument(2,"radius2"));
 	BooleanValue* centerValue;
 
 	decimal r1=1.0,r2=1.0;
@@ -49,7 +49,7 @@ Node* CylinderModule::evaluate(Context* ctx)
 		if(rValue) {
 			r1=r2=rValue->getNumber();
 		} else {
-			NumberValue* dValue = dynamic_cast<NumberValue*>(ctx->getArgument(1,"diameter"));
+			NumberValue* dValue = dynamic_cast<NumberValue*>(ctx.getArgument(1,"diameter"));
 			if(dValue)
 				r1=r2=(dValue->getNumber()/2.0);
 		}
@@ -60,7 +60,7 @@ Node* CylinderModule::evaluate(Context* ctx)
 			r2=r2Value->getNumber();
 		else
 			r2=r1;
-		centerValue = dynamic_cast<BooleanValue*>(ctx->getArgument(3,"center"));
+		centerValue = dynamic_cast<BooleanValue*>(ctx.getArgument(3,"center"));
 	}
 	bool center = false;
 	if(centerValue)
@@ -80,7 +80,7 @@ Node* CylinderModule::evaluate(Context* ctx)
 
 	auto* pn=new PrimitiveNode(reporter);
 	Primitive* p=pn->createPrimitive();
-	pn->setChildren(ctx->getInputNodes());
+	pn->setChildren(ctx.getInputNodes());
 
 	int n=0;
 	Polygon* pg;

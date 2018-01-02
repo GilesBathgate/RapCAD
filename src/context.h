@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -36,42 +36,42 @@ public:
 	void setParent(Context*);
 
 	void setCurrentScope(Scope*);
-	Scope* getCurrentScope();
+	Scope* getCurrentScope() const;
 
 	void setReturnValue(Value*);
-	Value* getReturnValue();
+	Value* getReturnValue() const;
 
-	Value* getCurrentValue();
+	Value* getCurrentValue() const;
 	void setCurrentValue(Value*);
 
-	QString getCurrentName();
+	QString getCurrentName() const;
 	void setCurrentName(QString);
 
-	Value* lookupVariable(QString,Variable::Storage_e&,Layout*);
+	Value* lookupVariable(QString,Variable::Storage_e&,Layout*) const;
 	bool addVariable(Value*);
 	void setVariable(Value*);
 
-	Node* lookupChild(int);
-	QList<Node*> lookupChildren();
+	Node* lookupChild(int) const;
+	QList<Node*> lookupChildren() const;
 
 	void setVariablesFromArguments();
-	QList<Value*> getArguments();
+	QList<Value*> getArguments() const;
 	void addArgument(Value*);
 	void clearArguments();
 
-	Value* getArgument(int,QString);
-	Value* getArgumentSpecial(QString);
-	Value* getArgumentDeprecated(int,QString,QString,Reporter*);
-	Value* getArgumentDeprecatedModule(int,QString,QString,Reporter*);
+	Value* getArgument(int,QString) const;
+	Value* getArgumentSpecial(QString) const;
+	Value* getArgumentDeprecated(int, QString, QString, Reporter&) const;
+	Value* getArgumentDeprecatedModule(int, QString, QString, Reporter&) const;
 
 	void clearParameters();
 	void addParameter(Value*);
 
 	void setInputNodes(QList<Node*>);
-	QList<Node*> getInputNodes();
+	QList<Node*> getInputNodes() const;
 
 	void setCurrentNodes(QList<Node*>);
-	QList<Node*> getCurrentNodes();
+	QList<Node*> getCurrentNodes() const;
 	void addCurrentNode(Node*);
 private:
 	Context* parent;
@@ -83,9 +83,9 @@ private:
 	Value* returnValue;
 	QString currentName;
 	Scope* currentScope;
-	Value* matchArgumentIndex(bool,bool,int,QString);
-	Value* matchArgument(bool,bool,QString);
-	bool match(bool,bool,QString,QString);
+	Value* matchArgumentIndex(bool,bool,int,QString) const;
+	Value* matchArgument(bool,bool,QString) const;
+	bool match(bool,bool,QString,QString) const;
 	QHash<QString,Value*> variables;
 };
 

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,13 +20,13 @@
 #include "context.h"
 #include "node/intersectionnode.h"
 
-IntersectionModule::IntersectionModule(Reporter* r) : Module(r,"intersection")
+IntersectionModule::IntersectionModule(Reporter& r) : Module(r,"intersection")
 {
 }
 
-Node* IntersectionModule::evaluate(Context* ctx)
+Node* IntersectionModule::evaluate(const Context& ctx) const
 {
 	auto* d = new IntersectionNode();
-	d->setChildren(ctx->getInputNodes());
+	d->setChildren(ctx.getInputNodes());
 	return d;
 }

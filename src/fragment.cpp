@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -24,30 +24,30 @@
 #include "cgalfragment.h"
 #endif
 
-Fragment::Fragment()
+Fragment::Fragment() :
+	fragmentNumber(0),
+	fragmentSize(2.0),
+	fragmentAngle(12.0),
+	fragmentError(0)
 {
-	fragmentNumber=0;
-	fragmentSize=2.0;
-	fragmentAngle=12.0;
-	fragmentError=0;
 }
 
-Fragment::Fragment(Context* ctx)
+Fragment::Fragment(const Context& ctx)
 {
 	int fn=0;
 	decimal fs=2.0;
 	decimal fa=12.0;
 	decimal fe=0.0;
-	NumberValue* fnVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fn"));
+	NumberValue* fnVal=dynamic_cast<NumberValue*>(ctx.getArgumentSpecial("fn"));
 	if(fnVal)
 		fn=fnVal->toInteger();
-	NumberValue* fsVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fs"));
+	NumberValue* fsVal=dynamic_cast<NumberValue*>(ctx.getArgumentSpecial("fs"));
 	if(fsVal)
 		fs=fsVal->getNumber();
-	NumberValue* faVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fa"));
+	NumberValue* faVal=dynamic_cast<NumberValue*>(ctx.getArgumentSpecial("fa"));
 	if(faVal)
 		fa=faVal->getNumber();
-	NumberValue* feVal=dynamic_cast<NumberValue*>(ctx->getArgumentSpecial("fe"));
+	NumberValue* feVal=dynamic_cast<NumberValue*>(ctx.getArgumentSpecial("fe"));
 	if(feVal)
 		fe=feVal->getNumber();
 
@@ -57,7 +57,7 @@ Fragment::Fragment(Context* ctx)
 	fragmentError=fe;
 }
 
-Fragment* Fragment::createFragment(Context* ctx)
+Fragment* Fragment::createFragment(const Context& ctx)
 {
 #ifdef USE_CGAL
 	return new CGALFragment(ctx);

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ Polygon* Polyhedron::createPolygon()
 	return pg;
 }
 
-void Polyhedron::createVertex(Point p)
+void Polyhedron::createVertex(const Point& p)
 {
 	points.append(p);
 }
@@ -96,7 +96,7 @@ Primitive* Polyhedron::copy()
 void Polyhedron::transform(TransformMatrix* matrix)
 {
 #if USE_CGAL
-	decimal* m=matrix->getValues();
+	const decimal* m=matrix->getValues();
 	CGAL::AffTransformation3 t(
 		m[ 0], m[ 1], m[ 2], m[ 3],
 		m[ 4], m[ 5], m[ 6], m[ 7],

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -23,10 +23,10 @@ NodePrinter::NodePrinter(QTextStream& s) : result(s)
 {
 }
 
-void NodePrinter::visit(PrimitiveNode* n)
+void NodePrinter::visit(const PrimitiveNode& n)
 {
 	result << "polyhedron([";
-	printPrimitive(n->getPrimitive());
+	printPrimitive(n.getPrimitive());
 	result << "])";
 	printChildren(n);
 }
@@ -98,130 +98,130 @@ void NodePrinter::printPrimitive(CGALPrimitive* pr)
 }
 #endif
 
-void NodePrinter::visit(PolylineNode* n)
+void NodePrinter::visit(const PolylineNode& n)
 {
 	result << "polyline([";
-	printPrimitive(n->getPrimitive());
+	printPrimitive(n.getPrimitive());
 	result << "]);";
 }
 
-void NodePrinter::visit(UnionNode* n)
+void NodePrinter::visit(const UnionNode& n)
 {
 	result << "union()";
 	printChildren(n);
 }
 
-void NodePrinter::visit(GroupNode* n)
+void NodePrinter::visit(const GroupNode& n)
 {
 	result << "group()";
 	printChildren(n);
 }
 
-void NodePrinter::visit(DifferenceNode* n)
+void NodePrinter::visit(const DifferenceNode& n)
 {
 	result << "difference()";
 	printChildren(n);
 }
 
-void NodePrinter::visit(IntersectionNode* n)
+void NodePrinter::visit(const IntersectionNode& n)
 {
 	result << "intersection()";
 	printChildren(n);
 }
 
-void NodePrinter::visit(SymmetricDifferenceNode* n)
+void NodePrinter::visit(const SymmetricDifferenceNode& n)
 {
 	result << "symmetric_difference()";
 	printChildren(n);
 }
 
-void NodePrinter::visit(MinkowskiNode* n)
+void NodePrinter::visit(const MinkowskiNode& n)
 {
 	result << "minkowski()";
 	printChildren(n);
 }
 
-void NodePrinter::visit(GlideNode* n)
+void NodePrinter::visit(const GlideNode& n)
 {
 	result << "glide()";
 	printChildren(n);
 }
 
-void NodePrinter::visit(HullNode* n)
+void NodePrinter::visit(const HullNode& n)
 {
-	if(n->getChain()) {
+	if(n.getChain()) {
 		result << "chain_hull(";
-		if(n->getClosed())
+		if(n.getClosed())
 			result << "true";
 		result << ")";
 	} else {
 		result << "hull(";
-		if(n->getConcave())
+		if(n.getConcave())
 			result << "concave=true";
 		result << ")";
 	}
 	printChildren(n);
 }
 
-void NodePrinter::visit(LinearExtrudeNode* n)
+void NodePrinter::visit(const LinearExtrudeNode& n)
 {
 	result << "linear_extrude(";
-	result << to_string(n->getHeight());
+	result << to_string(n.getHeight());
 	result << ")";
 	printChildren(n);
 }
 
-void NodePrinter::visit(RotateExtrudeNode* n)
+void NodePrinter::visit(const RotateExtrudeNode& n)
 {
 	result << "rotate_extrude(";
-	result << to_string(n->getSweep());
+	result << to_string(n.getSweep());
 	result << ",";
-	result << to_string(n->getAxis());
+	result << to_string(n.getAxis());
 	result << ",";
-	result << to_string(n->getRadius());
+	result << to_string(n.getRadius());
 	result << ",";
-	result << to_string(n->getHeight());
+	result << to_string(n.getHeight());
 	result << ")";
 	printChildren(n);
 }
 
-void NodePrinter::visit(BoundsNode* n)
+void NodePrinter::visit(const BoundsNode& n)
 {
 	result << "bound$()";
 	printChildren(n);
 }
 
-void NodePrinter::visit(SubDivisionNode* n)
+void NodePrinter::visit(const SubDivisionNode& n)
 {
 	result << "subdiv";
-	printArguments(n->getLevel());
+	printArguments(n.getLevel());
 	printChildren(n);
 }
 
-void NodePrinter::visit(OffsetNode* n)
+void NodePrinter::visit(const OffsetNode& n)
 {
 	result << "offset(";
-	result << to_string(n->getAmount());
+	result << to_string(n.getAmount());
 	result << ")";
 	printChildren(n);
 }
 
-void NodePrinter::visit(BoundaryNode* n)
+void NodePrinter::visit(const BoundaryNode& n)
 {
 	result << "boundary()";
 	printChildren(n);
 }
 
-void NodePrinter::visit(ImportNode* im)
+void NodePrinter::visit(const ImportNode& im)
 {
 	result << "import(\"";
-	result << im->getImport();
+	result << im.getImport();
 	result << "\");";
 }
 
-void NodePrinter::printChildren(Node* n)
+void NodePrinter::printChildren(const Node& n)
 {
-	QList<Node*> children = n->getChildren();
+	QList<Node*> children = n.getChildren();
 	if(children.length()>0) {
 		result << "{";
 		for(Node* c: children)
@@ -332,113 +332,113 @@ void NodePrinter::printArguments(QList<AlignNode::Face_t> t)
 	result << ")";
 }
 
-void NodePrinter::visit(ResizeNode* n)
+void NodePrinter::visit(const ResizeNode& n)
 {
 	result << "resize(";
-	result << to_string(n->getSize());
-	if(n->getAutoSize())
+	result << to_string(n.getSize());
+	if(n.getAutoSize())
 		result << ",auto=true";
 	result << ")";
 	printChildren(n);
 }
 
-void NodePrinter::visit(AlignNode* n)
+void NodePrinter::visit(const AlignNode& n)
 {
-	if(n->getCenter()) {
+	if(n.getCenter()) {
 		result << "center()";
 	} else {
 		result << "align";
-		printArguments(n->getAlign());
+		printArguments(n.getAlign());
 	}
 	printChildren(n);
 }
 
-void NodePrinter::visit(PointsNode* n)
+void NodePrinter::visit(const PointsNode& n)
 {
 	result << "points";
-	printArguments(n->getPoints());
+	printArguments(n.getPoints());
 	printChildren(n);
 }
 
-void NodePrinter::visit(SliceNode* n)
+void NodePrinter::visit(const SliceNode& n)
 {
 	result << "slice(";
-	result << to_string(n->getHeight()) << "," << to_string(n->getThickness());
+	result << to_string(n.getHeight()) << "," << to_string(n.getThickness());
 	result << ")";
 	printChildren(n);
 }
 
-void NodePrinter::visit(ProductNode*)
+void NodePrinter::visit(const ProductNode&)
 {
 }
 
-void NodePrinter::visit(ProjectionNode* n)
+void NodePrinter::visit(const ProjectionNode& n)
 {
 	result << "projection";
-	printArguments("base",n->getBase());
+	printArguments("base",n.getBase());
 	printChildren(n);
 }
 
-void NodePrinter::visit(DecomposeNode* n)
+void NodePrinter::visit(const DecomposeNode& n)
 {
 	result << "decompose()";
 	printChildren(n);
 }
 
-void NodePrinter::visit(ComplementNode* n)
+void NodePrinter::visit(const ComplementNode& n)
 {
 	result << "complement()";
 	printChildren(n);
 }
 
-void NodePrinter::visit(RadialsNode* n)
+void NodePrinter::visit(const RadialsNode& n)
 {
 	result << "radial$()";
 	printChildren(n);
 }
 
-void NodePrinter::visit(VolumesNode* n)
+void NodePrinter::visit(const VolumesNode& n)
 {
 	result << "volume$()";
 	printChildren(n);
 }
 
-void NodePrinter::visit(TriangulateNode* n)
+void NodePrinter::visit(const TriangulateNode& n)
 {
 	result << "triangulate()";
 	printChildren(n);
 }
 
-void NodePrinter::visit(MaterialNode* n)
+void NodePrinter::visit(const MaterialNode& n)
 {
 	result << "material()";
 	printChildren(n);
 }
 
-void NodePrinter::visit(DiscreteNode* n)
+void NodePrinter::visit(const DiscreteNode& n)
 {
 	result << "discrete";
-	printArguments(n->getPlaces());
+	printArguments(n.getPlaces());
 	printChildren(n);
 }
 
-void NodePrinter::visit(NormalsNode* n)
+void NodePrinter::visit(const NormalsNode& n)
 {
 	result << "normal$()";
 	printChildren(n);
 }
 
-void NodePrinter::visit(SimplifyNode* n)
+void NodePrinter::visit(const SimplifyNode& n)
 {
 	result << "simplify";
-	printArguments(n->getRatio());
+	printArguments(n.getRatio());
 	printChildren(n);
 }
 
-void NodePrinter::visit(ChildrenNode* n)
+void NodePrinter::visit(const ChildrenNode& n)
 {
 	result << "children";
-	QList<int> idx=n->getIndexes();
+	QList<int> idx=n.getIndexes();
 	if(idx.count()==1)
 		printArguments(idx[0]);
 	else
@@ -447,9 +447,9 @@ void NodePrinter::visit(ChildrenNode* n)
 	printChildren(n);
 }
 
-void NodePrinter::visit(TransformationNode* n)
+void NodePrinter::visit(const TransformationNode& n)
 {
-	TransformMatrix* m=n->getMatrix();
+	TransformMatrix* m=n.getMatrix();
 	result << "multmatrix(";
 	result << m->toString();
 	result << ")";

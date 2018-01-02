@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ IsMat4x4Function::IsMat4x4Function() : Function("is_mat4x4")
 	addParameter("value");
 }
 
-Value* IsMat4x4Function::evaluate(Context* ctx)
+Value* IsMat4x4Function::evaluate(const Context& ctx) const
 {
 	auto* matVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(!matVal) {

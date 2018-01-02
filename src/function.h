@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -42,14 +42,14 @@ public:
 	Scope* getScope() const;
 	void setScope(Scope*);
 	void accept(TreeVisitor&) override;
-	virtual Value* evaluate(Context*);
+	virtual Value* evaluate(const Context&) const;
 protected:
 	void addParameter(QString);
-	Value* getParameterArgument(Context*,int);
+	Value* getParameterArgument(const Context&, int) const;
 private:
+	Scope* scope;
 	QString name;
 	QList<Parameter*> parameters;
-	Scope* scope;
 };
 
 #endif // FUNCTION_H

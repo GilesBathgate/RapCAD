@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -24,13 +24,13 @@ ConcatFunction::ConcatFunction() : Function("concat")
 {
 }
 
-Value* ConcatFunction::evaluate(Context* ctx)
+Value* ConcatFunction::evaluate(const Context& ctx) const
 {
 	VectorValue* val=nullptr;
-	for(Value* argVal: ctx->getArguments()) {
+	for(Value* argVal: ctx.getArguments()) {
 		auto* arg = dynamic_cast<VectorValue*>(argVal);
 		if(!arg)
-			arg= argVal->toVector(1);
+			arg=argVal->toVector(1);
 
 		if(!val) {
 			val=arg;

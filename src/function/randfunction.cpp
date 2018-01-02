@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ RandFunction::RandFunction() : Function("rands")
 	addParameter("seed");
 }
 
-Value* RandFunction::evaluate(Context* ctx)
+Value* RandFunction::evaluate(const Context& ctx) const
 {
 	decimal min=0;
 	auto* minVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));

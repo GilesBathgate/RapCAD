@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,11 +18,12 @@
 
 #include "reporter.h"
 
-Reporter::Reporter(QTextStream& s) : output(s)
+Reporter::Reporter(QTextStream& s) :
+	output(s),
+	timer(nullptr),
+	returnCode(EXIT_FAILURE),
+	kludge(0)
 {
-	kludge=0;
-	returnCode=EXIT_FAILURE;
-	timer=nullptr;
 }
 
 void Reporter::startTiming()
@@ -84,7 +85,7 @@ void Reporter::setReturnCode(int code)
 	returnCode=code;
 }
 
-bool Reporter::getReturnCode()
+bool Reporter::getReturnCode() const
 {
 	return returnCode;
 }

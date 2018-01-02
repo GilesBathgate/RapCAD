@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -55,35 +55,36 @@ class TreeEvaluator : public TreeVisitor
 {
 	Q_DECLARE_TR_FUNCTIONS(TreeEvaluator)
 public:
-	TreeEvaluator(Reporter*);
+	TreeEvaluator(Reporter&);
 	~TreeEvaluator() override;
-	void visit(Module*) override;
-	void visit(ModuleScope*) override;
-	void visit(Instance*) override;
-	void visit(Function*) override;
-	void visit(FunctionScope*) override;
-	void visit(CompoundStatement*) override;
-	void visit(IfElseStatement*) override;
-	void visit(ForStatement*) override;
-	void visit(Parameter*) override;
-	void visit(BinaryExpression*) override;
-	void visit(Argument*) override;
-	void visit(AssignStatement*) override;
-	void visit(VectorExpression*) override;
-	void visit(RangeExpression*) override;
-	void visit(UnaryExpression*) override;
-	void visit(ReturnStatement*) override;
-	void visit(TernaryExpression*) override;
-	void visit(Invocation*) override;
-	void visit(Callback*) override;
-	void visit(ModuleImport*) override;
-	void visit(ScriptImport*) override;
-	void visit(Literal*) override;
-	void visit(Variable*) override;
-	void visit(CodeDoc*) override;
-	void visit(Script*) override;
-	void visit(Product*) override;
-	void visit(ComplexExpression*) override;
+	void visit(const Module&) override;
+	void visit(const ModuleScope&) override;
+	void visit(const Instance&) override;
+	void visit(const Function&) override;
+	void visit(const FunctionScope&) override;
+	void visit(const CompoundStatement&) override;
+	void visit(const IfElseStatement&) override;
+	void visit(const ForStatement&) override;
+	void visit(const Parameter&) override;
+	void visit(const BinaryExpression&) override;
+	void visit(const Argument&) override;
+	void visit(const AssignStatement&) override;
+	void visit(const VectorExpression&) override;
+	void visit(const RangeExpression&) override;
+	void visit(const UnaryExpression&) override;
+	void visit(const ReturnStatement&) override;
+	void visit(const TernaryExpression&) override;
+	void visit(const Invocation&) override;
+	void visit(const ModuleImport&) override;
+	void visit(const ScriptImport&) override;
+	void visit(const Literal&) override;
+	void visit(const Variable&) override;
+	void visit(const CodeDoc&) override;
+	void visit(const ComplexExpression&) override;
+
+	void visit(Script&) override;
+	void visit(Product&) override;
+	void visit(Callback&) override;
 
 	Node* getRootNode() const;
 
@@ -96,7 +97,7 @@ private:
 	void finishLayout();
 	QFileInfo* getFullPath(QString);
 
-	Reporter* reporter;
+	Reporter& reporter;
 	Context* context;
 	Layout* layout;
 	QStack<Context*> contextStack;

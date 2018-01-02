@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -68,6 +68,7 @@ MainWindow::~MainWindow()
 {
 	delete console;
 	delete output;
+	delete reporter;
 	delete worker;
 	delete interact;
 	delete preferencesDialog;
@@ -164,7 +165,7 @@ void MainWindow::loadPreferences()
 
 }
 
-void MainWindow::getDefaultViewport()
+void MainWindow::getDefaultViewport() const
 {
 	Preferences* p=Preferences::getInstance();
 	float rx,ry,rz,x,z,d;
@@ -406,10 +407,11 @@ void MainWindow::setupConsole()
 
 	console=new TextEditIODevice(reinterpret_cast<QTextEdit*>(c),this);
 	output=new QTextStream(console);
-	worker=new BackgroundWorker(*output);
+	reporter=new Reporter(*output);
+	worker=new BackgroundWorker(*reporter);
 	connect(worker,&BackgroundWorker::done,this,&MainWindow::evaluationDone);
 
-	interact=new Interactive(*output);
+	interact=new Interactive(*reporter);
 	c->setPrompt(interact->getPrompt());
 	connect(c,&Console::execCommand,interact,&Interactive::execCommand);
 }
@@ -692,7 +694,7 @@ void MainWindow::showBuiltins()
 	QIODevice* t=new TextEditIODevice(c,this);
 	QTextStream out(t);
 	Reporter r(out);
-	BuiltinCreator* b = BuiltinCreator::getInstance(&r);
+	BuiltinCreator* b = BuiltinCreator::getInstance(r);
 	b->generateDocs();
 	out.flush();
 	delete t;

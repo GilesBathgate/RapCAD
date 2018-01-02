@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,10 +19,10 @@
 #include "console.h"
 
 Console::Console(QWidget* parent) :
-	QPlainTextEdit(parent)
+	QPlainTextEdit(parent),
+	promptLength(0),
+	promptBlock(0)
 {
-	promptLength=0;
-	promptBlock=0;
 	setUndoRedoEnabled(false);
 }
 
@@ -101,7 +101,7 @@ void Console::handleReturn()
 	displayPrompt();
 }
 
-QString Console::getCommand()
+QString Console::getCommand() const
 {
 	QTextCursor cursor=textCursor();
 	cursor.movePosition(QTextCursor::StartOfLine);

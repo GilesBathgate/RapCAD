@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -99,12 +99,12 @@ void SaveItemsDialog::updateSaveButton()
 	}
 }
 
-QList<QString> SaveItemsDialog::getItemsToSave()
+QList<QString> SaveItemsDialog::getItemsToSave() const
 {
 	return itemsToSave;
 }
 
-bool SaveItemsDialog::getAutoSaveOnCompile()
+bool SaveItemsDialog::getAutoSaveOnCompile() const
 {
 	return ui->checkBox->checkState() == Qt::Checked;
 }

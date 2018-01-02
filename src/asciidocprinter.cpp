@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -35,13 +35,13 @@ static QString capitalize(const QString& str)
 	return tmp;
 }
 
-void AsciidocPrinter::visit(Module* mod)
+void AsciidocPrinter::visit(const Module& mod)
 {
-	QString name=mod->getName();
+	QString name=mod.getName();
 	result << capitalize(name) << "\n";
 	result << QString(name.length(),'^') << "\n\n";
-	result << mod->getDescription() << "\n\n";
-	QList<Parameter*> params=mod->getParameters();
+	result << mod.getDescription() << "\n\n";
+	QList<Parameter*> params=mod.getParameters();
 	if(!params.isEmpty()) {
 		result << "Parameters\n";
 		result << "++++++++++\n";

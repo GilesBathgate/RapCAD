@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -35,11 +35,11 @@
 #include "polyhedron.h"
 #include "contrib/qzipwriter_p.h"
 
-CGALExport::CGALExport(Primitive* p,Reporter* r)
+CGALExport::CGALExport(Primitive* p,Reporter& r) :
+	reporter(r),
+	primitive(p),
+	id(0)
 {
-	primitive=p;
-	reporter=r;
-	id=0;
 }
 
 void CGALExport::exportResult(QString filename)
@@ -134,7 +134,7 @@ void CGALExport::exportAsciiSTL(QString filename)
 
 	QFile data(filename);
 	if(!data.open(QFile::WriteOnly | QFile::Truncate)) {
-		reporter->reportWarning(tr("Can't write file '%1'").arg(filename));
+		reporter.reportWarning(tr("Can't write file '%1'").arg(filename));
 		return;
 	}
 
@@ -181,7 +181,7 @@ void CGALExport::exportAMF(QString filename)
 {
 	auto* file=new QFile(filename);
 	if(!file->open(QIODevice::WriteOnly)) {
-		reporter->reportWarning(tr("Can't write file '%1'").arg(filename));
+		reporter.reportWarning(tr("Can't write file '%1'").arg(filename));
 		return;
 	}
 
@@ -265,7 +265,7 @@ void CGALExport::exportCSG(QString filename)
 {
 	QFile data(filename);
 	if(!data.open(QFile::WriteOnly | QFile::Truncate)) {
-		reporter->reportWarning(tr("Can't write file '%1'").arg(filename));
+		reporter.reportWarning(tr("Can't write file '%1'").arg(filename));
 		return;
 	}
 
@@ -424,7 +424,7 @@ void CGALExport::exportNEF(QString f)
 void CGALExport::exportSVG(QString filename)
 {
 	if(primitive->isFullyDimentional()) {
-		reporter->reportWarning(tr("Cannot export 3D volume as SVG"));
+		reporter.reportWarning(tr("Cannot export 3D volume as SVG"));
 		return;
 	}
 

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,14 +20,14 @@
 #include "context.h"
 #include "node/normalsnode.h"
 
-NormalsModule::NormalsModule(Reporter* r) : Module(r,"normal")
+NormalsModule::NormalsModule(Reporter& r) : Module(r,"normal")
 {
 	auxilary=true;
 }
 
-Node* NormalsModule::evaluate(Context* ctx)
+Node* NormalsModule::evaluate(const Context& ctx) const
 {
 	auto* n=new NormalsNode();
-	n->setChildren(ctx->getInputNodes());
+	n->setChildren(ctx.getInputNodes());
 	return n;
 }

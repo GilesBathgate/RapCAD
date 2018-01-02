@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -122,7 +122,7 @@
 
 #include "treeprinter.h"
 
-BuiltinCreator::BuiltinCreator(Reporter* r)
+BuiltinCreator::BuiltinCreator(Reporter& r) : reporter(r)
 {
 	builtins.append(new AlignModule(r));
 	builtins.append(new BezierSurfaceModule(r));
@@ -226,13 +226,11 @@ BuiltinCreator::BuiltinCreator(Reporter* r)
 	builtins.append(new TanFunction());
 	builtins.append(new TanhFunction());
 	builtins.append(new VersionFunction());
-
-	reporter=r;
 }
 
 BuiltinCreator* BuiltinCreator::instance=nullptr;
 
-BuiltinCreator* BuiltinCreator::getInstance(Reporter* r)
+BuiltinCreator* BuiltinCreator::getInstance(Reporter& r)
 {
 	if(!instance)
 		instance = new BuiltinCreator(r);
@@ -249,25 +247,25 @@ BuiltinCreator::~BuiltinCreator()
 /**
   Add the builtins to a script.
 */
-void BuiltinCreator::initBuiltins(Script* sc)
+void BuiltinCreator::initBuiltins(Script& sc)
 {
 	for(Declaration* d: builtins)
-		sc->addDeclaration(d);
+		sc.addDeclaration(d);
 }
 
 /**
   To ensure that the builtins do not get deleted when the script
   is deleted we remove them from the script.
 */
-void BuiltinCreator::saveBuiltins(Script* sc)
+void BuiltinCreator::saveBuiltins(Script& sc)
 {
 	for(Declaration* d: builtins)
-		sc->removeDeclaration(d);
+		sc.removeDeclaration(d);
 }
 
 void BuiltinCreator::generateDocs()
 {
-	TreePrinter p(reporter->output);
+	TreePrinter p(reporter.output);
 	generateDocs(p);
 }
 

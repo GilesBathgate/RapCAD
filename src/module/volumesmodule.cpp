@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -22,14 +22,14 @@
 #include "numbervalue.h"
 #include "node/volumesnode.h"
 
-VolumesModule::VolumesModule(Reporter* r) : Module(r,"volume")
+VolumesModule::VolumesModule(Reporter& r) : Module(r,"volume")
 {
 	auxilary=true;
 	addDescription(tr("Provides information about the volume of its children."));
 	addParameter("mass",tr("Specifies that the center of mass also be calculated."));
 }
 
-Node* VolumesModule::evaluate(Context* ctx)
+Node* VolumesModule::evaluate(const Context& ctx) const
 {
 	bool mass=false;
 	auto* massVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));
@@ -38,6 +38,6 @@ Node* VolumesModule::evaluate(Context* ctx)
 
 	auto* n=new VolumesNode();
 	n->setCalcMass(mass);
-	n->setChildren(ctx->getInputNodes());
+	n->setChildren(ctx.getInputNodes());
 	return n;
 }

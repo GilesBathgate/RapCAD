@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -21,14 +21,14 @@
 #include "vectorvalue.h"
 #include "node/primitivenode.h"
 
-CubeModule::CubeModule(Reporter* r) : PrimitiveModule(r,"cube")
+CubeModule::CubeModule(Reporter& r) : PrimitiveModule(r,"cube")
 {
 	addDescription(tr("Constructs a cube or cuboid. It will be placed in the first octant unless the center parameter is true."));
 	addParameter("size",tr("The size of the cube. A single value or x,y,z"));
 	addParameter("center",tr("Specifies whether to center the cube at the origin"));
 }
 
-Node* CubeModule::evaluate(Context* ctx)
+Node* CubeModule::evaluate(const Context& ctx) const
 {
 	Value* sizeVal=getParameterArgument(ctx,0);
 	Value* centerVal=getParameterArgument(ctx,1);
@@ -44,7 +44,7 @@ Node* CubeModule::evaluate(Context* ctx)
 
 	auto* pn=new PrimitiveNode(reporter);
 	Primitive* p=pn->createPrimitive();
-	pn->setChildren(ctx->getInputNodes());
+	pn->setChildren(ctx.getInputNodes());
 
 	decimal x1=0,y1=0,z1=0;
 	createCuboid<Point>(p,x1,pt.x(),y1,pt.y(),z1,pt.z());

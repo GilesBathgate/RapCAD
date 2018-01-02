@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,20 +19,13 @@
 #include "module.h"
 #include "context.h"
 
-Module::Module()
+Module::Module(Reporter& r, const QString n) :
+	auxilary(false),
+	reporter(r),
+	name(n),
+	deprecated(false),
+	scope(nullptr)
 {
-	reporter=nullptr;
-	scope=nullptr;
-	auxilary=false;
-	deprecated=false;
-}
-
-Module::Module(Reporter* r,const QString n) : name(n)
-{
-	reporter=r;
-	scope=nullptr;
-	auxilary=false;
-	deprecated=false;
 }
 
 Module::~Module()
@@ -85,10 +78,10 @@ Scope* Module::getScope() const
 
 void Module::accept(TreeVisitor& v)
 {
-	v.visit(this);
+	v.visit(*this);
 }
 
-Node* Module::evaluate(Context*)
+Node* Module::evaluate(const Context&) const
 {
 	return nullptr;
 }
@@ -112,13 +105,13 @@ void Module::addParameter(QString name, QString desc)
 	parameters.append(p);
 }
 
-Value* Module::getParameterArgument(Context* ctx, int index)
+Value* Module::getParameterArgument(const Context& ctx, int index) const
 {
 	return getParameterArgument(ctx,index,index);
 }
 
-Value* Module::getParameterArgument(Context* ctx, int index, int expectedIndex)
+Value* Module::getParameterArgument(const Context& ctx, int index, int expectedIndex) const
 {
 	Parameter* p=parameters.at(index);
-	return ctx->getArgument(expectedIndex,p->getName());
+	return ctx.getArgument(expectedIndex,p->getName());
 }

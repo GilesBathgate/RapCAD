@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -21,13 +21,13 @@
 #include "booleanvalue.h"
 #include "node/hullnode.h"
 
-ChainHullModule::ChainHullModule(Reporter* r) : Module(r,"chain_hull")
+ChainHullModule::ChainHullModule(Reporter& r) : Module(r,"chain_hull")
 {
 	addDescription(tr("Constructs a chained hull of its children."));
 	addParameter("closed",tr("Specifies whether to close the chain."));
 }
 
-Node* ChainHullModule::evaluate(Context* ctx)
+Node* ChainHullModule::evaluate(const Context& ctx) const
 {
 	bool closed=false;
 	auto* bVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));
@@ -37,6 +37,6 @@ Node* ChainHullModule::evaluate(Context* ctx)
 	auto* h=new HullNode();
 	h->setChain(true);
 	h->setClosed(closed);
-	h->setChildren(ctx->getInputNodes());
+	h->setChildren(ctx.getInputNodes());
 	return h;
 }

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -34,8 +34,7 @@ class Context;
 class Module : public Declaration
 {
 public:
-	Module();
-	Module(Reporter*,const QString);
+	Module(Reporter&,const QString);
 	~Module() override;
 	QString getName() const;
 	void setName(QString);
@@ -46,16 +45,16 @@ public:
 	Scope* getScope() const;
 	void setScope(Scope*);
 	void accept(TreeVisitor&) override;
-	virtual Node* evaluate(Context*);
+	virtual Node* evaluate(const Context&) const;
 protected:
 	void addDescription(QString);
 	void addDeprecated(QString);
 	void addParameter(QString,QString);
-	Value* getParameterArgument(Context*,int);
-	Value* getParameterArgument(Context*,int,int);
+	Value* getParameterArgument(const Context&, int) const;
+	Value* getParameterArgument(const Context&, int, int) const;
 
 	bool auxilary;
-	Reporter* reporter;
+	Reporter& reporter;
 private:
 	QString name;
 	QString description;

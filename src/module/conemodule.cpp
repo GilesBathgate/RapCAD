@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 #include "rmath.h"
 #include "numbervalue.h"
 
-ConeModule::ConeModule(Reporter* r) : PrimitiveModule(r,"cone")
+ConeModule::ConeModule(Reporter& r) : PrimitiveModule(r,"cone")
 {
 	addDescription(tr("Constructs a cone. It is placed centered on the xy plane."));
 	addParameter("height",tr("The height of the cone."));
@@ -30,7 +30,7 @@ ConeModule::ConeModule(Reporter* r) : PrimitiveModule(r,"cone")
 	addParameter("center",tr("Specifies whether the cone should be vertically centered along the z axis."));
 }
 
-Node* ConeModule::evaluate(Context* ctx)
+Node* ConeModule::evaluate(const Context& ctx) const
 {
 	auto* heightValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	auto* r1Value = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
@@ -66,7 +66,7 @@ Node* ConeModule::evaluate(Context* ctx)
 
 	auto* pn=new PrimitiveNode(reporter);
 	Primitive* p=pn->createPrimitive();
-	pn->setChildren(ctx->getInputNodes());
+	pn->setChildren(ctx.getInputNodes());
 
 	if(r1<=0.0&&r2<=0.0)
 		return pn;

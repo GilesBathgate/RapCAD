@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2017 Giles Bathgate
+ *   Copyright (C) 2010-2018 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 #include "numbervalue.h"
 #include "rmath.h"
 
-PrismModule::PrismModule(Reporter* r) : PrimitiveModule(r,"prism")
+PrismModule::PrismModule(Reporter& r) : PrimitiveModule(r,"prism")
 {
 	addDescription(tr("Constructs a regular prism. It will be placed centered on the xy plane."));
 	addParameter("height",tr("The height of the prism."));
@@ -29,7 +29,7 @@ PrismModule::PrismModule(Reporter* r) : PrimitiveModule(r,"prism")
 	addParameter("center",tr("Specifies whether to center the prism vertically along the z axis."));
 }
 
-Node* PrismModule::evaluate(Context* ctx)
+Node* PrismModule::evaluate(const Context& ctx) const
 {
 	auto* heightVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	decimal h=1.0;
@@ -47,7 +47,7 @@ Node* PrismModule::evaluate(Context* ctx)
 		a=apothemVal->getNumber();
 		r=a/r_cos(r_pi()/s);
 	} else {
-		NumberValue* radiusVal = dynamic_cast<NumberValue*>(ctx->getArgument(2,"radius"));
+		NumberValue* radiusVal = dynamic_cast<NumberValue*>(ctx.getArgument(2,"radius"));
 		if(radiusVal) {
 			r=radiusVal->getNumber();
 			a=r*r_cos(r_pi()/s);
@@ -68,7 +68,7 @@ Node* PrismModule::evaluate(Context* ctx)
 
 	auto* pn=new PrimitiveNode(reporter);
 	Primitive* p=pn->createPrimitive();
-	pn->setChildren(ctx->getInputNodes());
+	pn->setChildren(ctx.getInputNodes());
 
 	if(r > 0) {
 		Polygon* pg;
