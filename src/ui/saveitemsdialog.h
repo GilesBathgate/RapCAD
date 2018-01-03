@@ -29,7 +29,7 @@ class SaveItemsDialog : public QDialog
 	Q_OBJECT
 
 public:
-	explicit SaveItemsDialog(QWidget* parent,bool,QList<QString>);
+	SaveItemsDialog(QWidget* parent,bool,QList<QString>);
 	~SaveItemsDialog();
 
 	QList<QString> getItemsToSave() const;

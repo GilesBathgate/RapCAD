@@ -25,7 +25,7 @@ class ScaleModule : public Module
 {
 	Q_DECLARE_TR_FUNCTIONS(ScaleModule)
 public:
-	ScaleModule(Reporter&);
+	explicit ScaleModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

@@ -54,7 +54,7 @@
 class TreePrinter : public TreeVisitor
 {
 public:
-	TreePrinter(QTextStream&);
+	explicit TreePrinter(QTextStream&);
 	~TreePrinter() override;
 	void visit(const Module&) override;
 	void visit(const ModuleScope&) override;

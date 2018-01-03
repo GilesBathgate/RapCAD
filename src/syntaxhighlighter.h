@@ -26,7 +26,7 @@ class SyntaxHighlighter : public QSyntaxHighlighter, private AbstractTokenBuilde
 {
 	Q_OBJECT
 public:
-	SyntaxHighlighter(QTextDocument* parent = nullptr);
+	explicit SyntaxHighlighter(QTextDocument* parent = nullptr);
 	void stop();
 protected:
 	void highlightBlock(const QString& text) override;

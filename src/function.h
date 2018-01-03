@@ -33,7 +33,7 @@ class Function : public Declaration
 {
 public:
 	Function();
-	Function(QString);
+	explicit Function(QString);
 	~Function() override;
 	QString getName() const;
 	void setName(QString);

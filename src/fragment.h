@@ -30,7 +30,7 @@ public:
 	virtual int getFragments(decimal);
 protected:
 	Fragment();
-	Fragment(const Context&);
+	explicit Fragment(const Context&);
 	int fragmentNumber;
 	decimal fragmentSize;
 	decimal fragmentAngle;

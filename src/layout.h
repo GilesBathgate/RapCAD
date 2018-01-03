@@ -29,7 +29,7 @@ class Layout
 {
 	Q_DECLARE_TR_FUNCTIONS(Layout)
 public:
-	Layout(Reporter&);
+	explicit Layout(Reporter&);
 	virtual ~Layout();
 
 	void setParent(Layout*);

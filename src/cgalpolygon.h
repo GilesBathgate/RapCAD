@@ -27,7 +27,7 @@
 class CGALPolygon : public Polygon
 {
 public:
-	CGALPolygon(class CGALPrimitive*);
+	explicit CGALPolygon(class CGALPrimitive*);
 	QList<CGAL::Point3> getPoints() const;
 	QList<CGAL::Point2> getXYPoints() const;
 

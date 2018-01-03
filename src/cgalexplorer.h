@@ -25,7 +25,7 @@
 class CGALExplorer
 {
 public:
-	CGALExplorer(Primitive*);
+	explicit CGALExplorer(Primitive*);
 	CGALPrimitive* getPerimeters();
 	CGALPrimitive* getPrimitive();
 	QList<CGAL::Point3> getPoints();

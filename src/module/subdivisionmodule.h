@@ -25,7 +25,7 @@ class SubDivisionModule : public Module
 {
 	Q_DECLARE_TR_FUNCTIONS(SubDivisionModule)
 public:
-	SubDivisionModule(Reporter&);
+	explicit SubDivisionModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

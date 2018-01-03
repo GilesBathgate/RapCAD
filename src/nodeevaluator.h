@@ -73,7 +73,7 @@ public:
 		Minkowski
 	};
 
-	NodeEvaluator(Reporter&);
+	explicit NodeEvaluator(Reporter&);
 
 	void visit(const PrimitiveNode&) override;
 	void visit(const PolylineNode&) override;

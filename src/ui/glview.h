@@ -49,7 +49,7 @@ public:
 		Front
 	};
 
-	GLView(QWidget* parent = nullptr);
+	explicit GLView(QWidget* parent = nullptr);
 	~GLView() override;
 	void setRenderer(Renderer* r);
 	void setCompiling(bool value);

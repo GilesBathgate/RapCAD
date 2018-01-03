@@ -55,7 +55,7 @@ class TreeEvaluator : public TreeVisitor
 {
 	Q_DECLARE_TR_FUNCTIONS(TreeEvaluator)
 public:
-	TreeEvaluator(Reporter&);
+	explicit TreeEvaluator(Reporter&);
 	~TreeEvaluator() override;
 	void visit(const Module&) override;
 	void visit(const ModuleScope&) override;

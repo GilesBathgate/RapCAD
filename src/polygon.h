@@ -33,7 +33,7 @@ class Primitive;
 class Polygon
 {
 public:
-	Polygon(Primitive*);
+	explicit Polygon(Primitive*);
 	void append(int);
 	void prepend(int);
 	QList<Point> getPoints() const;

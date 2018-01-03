@@ -24,7 +24,7 @@
 class DecomposeModule : public Module
 {
 public:
-	DecomposeModule(Reporter&);
+	explicit DecomposeModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

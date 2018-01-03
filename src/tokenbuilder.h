@@ -29,7 +29,7 @@
 class TokenBuilder : public AbstractTokenBuilder
 {
 public:
-	TokenBuilder(QString s);
+	explicit TokenBuilder(QString s);
 	TokenBuilder(Reporter&, QString, bool);
 	~TokenBuilder() override;
 	int nextToken() override;

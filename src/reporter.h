@@ -28,7 +28,7 @@ class Reporter
 {
 	Q_DECLARE_TR_FUNCTIONS(Reporter)
 public:
-	Reporter(QTextStream& s);
+	explicit Reporter(QTextStream& s);
 	void startTiming();
 	void reportTiming(QString);
 	void reportSyntaxError(AbstractTokenBuilder*,QString,QString);

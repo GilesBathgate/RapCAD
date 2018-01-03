@@ -25,7 +25,7 @@ class MultMatrixModule : public Module
 {
 	Q_DECLARE_TR_FUNCTIONS(MultMatrixModule)
 public:
-	MultMatrixModule(Reporter&);
+	explicit MultMatrixModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

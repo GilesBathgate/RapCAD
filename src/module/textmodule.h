@@ -25,7 +25,7 @@ class TextModule : public Module
 {
 	Q_DECLARE_TR_FUNCTIONS(TextModule)
 public:
-	TextModule(Reporter&);
+	explicit TextModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

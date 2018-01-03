@@ -25,7 +25,7 @@ class DiscreteModule : public Module
 {
 	Q_DECLARE_TR_FUNCTIONS(DiscreteModule)
 public:
-	DiscreteModule(Reporter&);
+	explicit DiscreteModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

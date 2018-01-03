@@ -64,7 +64,7 @@
 class NodePrinter : public NodeVisitor
 {
 public:
-	NodePrinter(QTextStream&);
+	explicit NodePrinter(QTextStream&);
 	void visit(const PrimitiveNode&) override;
 	void visit(const PolylineNode&) override;
 	void visit(const UnionNode&) override;

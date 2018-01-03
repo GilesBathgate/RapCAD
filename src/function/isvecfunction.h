@@ -24,7 +24,7 @@
 class IsVecFunction : public Function
 {
 public:
-	IsVecFunction(int);
+	explicit IsVecFunction(int);
 	Value* evaluate(const Context&) const override;
 private:
 	int size;

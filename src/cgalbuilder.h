@@ -29,7 +29,7 @@ typedef Polyhedron3::HalfedgeDS HalfedgeDS;
 class CGALBuilder : public CGAL::Modifier_base<CGAL::HalfedgeDS>
 {
 public:
-	CGALBuilder(CGALPrimitive&);
+	explicit CGALBuilder(CGALPrimitive&);
 	CGALPrimitive& buildOffsetPolygons(const CGAL::Scalar&);
 	CGALPrimitive& triangulate();
 private:

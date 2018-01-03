@@ -47,7 +47,7 @@
 class AsciidocPrinter : public TreeVisitor
 {
 public:
-	AsciidocPrinter(QTextStream&);
+	explicit AsciidocPrinter(QTextStream&);
 	~AsciidocPrinter() override;
 	void visit(const Module&) override;
 	void visit(const ModuleScope&) override {}

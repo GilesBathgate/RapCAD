@@ -24,7 +24,7 @@
 class Generator : public Strategy
 {
 public:
-	Generator(Reporter&);
+	explicit Generator(Reporter&);
 	int evaluate() override;
 };
 

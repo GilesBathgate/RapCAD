@@ -24,7 +24,7 @@
 class NormalsModule : public Module
 {
 public:
-	NormalsModule(Reporter&);
+	explicit NormalsModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

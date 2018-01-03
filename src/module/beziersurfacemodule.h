@@ -27,7 +27,7 @@ class BezierSurfaceModule : public Module
 {
 	Q_DECLARE_TR_FUNCTIONS(BezierSurfaceModule)
 public:
-	BezierSurfaceModule(Reporter&);
+	explicit BezierSurfaceModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 private:
 	typedef QList<decimal> Vector;

@@ -28,7 +28,7 @@ class CGALImport
 {
 	Q_DECLARE_TR_FUNCTIONS(CGALImport)
 public:
-	CGALImport(Reporter&);
+	explicit CGALImport(Reporter&);
 	Primitive* import(QString);
 private:
 	Reporter& reporter;
