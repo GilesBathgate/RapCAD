@@ -25,10 +25,8 @@ OnceOnly::OnceOnly() :
 
 bool OnceOnly::operator()()
 {
-	if(!called) {
-		called=true;
-		return true;
-	} else {
+	if(called)
 		return false;
-	}
+	called=true;
+	return true;
 }
