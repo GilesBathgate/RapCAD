@@ -30,7 +30,7 @@
 #define M_TAU		6.28318530717958647692
 #endif
 
-static decimal roundPreference(decimal a,bool round)
+static decimal roundPreference(const decimal& a,bool round)
 {
 	if(round) {
 		Preferences* p=Preferences::getInstance();
@@ -61,17 +61,17 @@ decimal r_pi(bool round)
 #endif
 }
 
-decimal r_rad(decimal a,bool round)
+decimal r_rad(const decimal& a,bool round)
 {
 	return a*(r_tau(round)/decimal(360.0));
 }
 
-decimal r_deg(decimal a,bool round)
+decimal r_deg(const decimal& a,bool round)
 {
 	return a*decimal(360.0)/r_tau(round);
 }
 
-decimal r_pow(decimal a,decimal e,bool round)
+decimal r_pow(const decimal& a,const decimal& e,bool round)
 {
 #ifdef USE_CGAL
 	CGAL::Gmpfr m;
@@ -84,7 +84,7 @@ decimal r_pow(decimal a,decimal e,bool round)
 #endif
 }
 
-decimal r_round(decimal a)
+decimal r_round(const decimal& a)
 {
 #ifdef USE_CGAL
 	CGAL::Gmpfr m;
@@ -96,7 +96,7 @@ decimal r_round(decimal a)
 #endif
 }
 
-decimal r_round(decimal a,int places)
+decimal r_round(const decimal& a,int places)
 {
 #ifdef USE_CGAL
 	CGAL::Gmpfr m;
@@ -110,7 +110,7 @@ decimal r_round(decimal a,int places)
 	return r_round(a*f)/f;
 }
 
-decimal r_sin(decimal a,bool round)
+decimal r_sin(const decimal& a,bool round)
 {
 #ifdef USE_CGAL
 	CGAL::Gmpfr m;
@@ -122,7 +122,7 @@ decimal r_sin(decimal a,bool round)
 #endif
 }
 
-decimal r_cos(decimal a, bool round)
+decimal r_cos(const decimal& a,bool round)
 {
 #ifdef USE_CGAL
 	CGAL::Gmpfr m;
@@ -134,7 +134,7 @@ decimal r_cos(decimal a, bool round)
 #endif
 }
 
-decimal r_tan(decimal a, bool round)
+decimal r_tan(const decimal& a,bool round)
 {
 #ifdef USE_CGAL
 	CGAL::Gmpfr m;
@@ -146,27 +146,27 @@ decimal r_tan(decimal a, bool round)
 #endif
 }
 
-decimal r_sin_deg(decimal a,bool round)
+decimal r_sin_deg(const decimal& a,bool round)
 {
 	return r_sin(r_rad(a,false),round);
 }
 
-decimal r_cos_deg(decimal a,bool round)
+decimal r_cos_deg(const decimal& a,bool round)
 {
 	return r_cos(r_rad(a,false),round);
 }
 
-decimal r_tan_deg(decimal a,bool round)
+decimal r_tan_deg(const decimal& a,bool round)
 {
 	return r_tan(r_rad(a,false),round);
 }
 
-static bool r_right(decimal a)
+static bool r_right(const decimal& a)
 {
 	return r_mod(a,90)==decimal(0);
 }
 
-decimal r_right_sin(decimal a)
+decimal r_right_sin(const decimal& a)
 {
 	if(r_right(a)) {
 		return r_round(r_sin_deg(a,false));
@@ -174,7 +174,7 @@ decimal r_right_sin(decimal a)
 	return r_sin_deg(a);
 }
 
-decimal r_right_cos(decimal a)
+decimal r_right_cos(const decimal& a)
 {
 	if(r_right(a)) {
 		return r_round(r_cos_deg(a,false));
@@ -182,7 +182,7 @@ decimal r_right_cos(decimal a)
 	return r_cos_deg(a);
 }
 
-decimal r_sqrt(decimal a,bool round)
+decimal r_sqrt(const decimal& a,bool round)
 {
 #ifdef USE_CGAL
 	CGAL::Gmpfr m;
@@ -194,7 +194,7 @@ decimal r_sqrt(decimal a,bool round)
 #endif
 }
 
-decimal r_mod(decimal a, decimal b)
+decimal r_mod(const decimal& a,const decimal& b)
 {
 #ifdef USE_CGAL
 	CGAL::Gmpfr m;
@@ -207,7 +207,7 @@ decimal r_mod(decimal a, decimal b)
 #endif
 }
 
-decimal r_abs(decimal a)
+decimal r_abs(const decimal& a)
 {
 #ifdef USE_CGAL
 	return a>=decimal(0)?a:-a;
@@ -216,7 +216,7 @@ decimal r_abs(decimal a)
 #endif
 }
 
-decimal r_acos(decimal a,bool round)
+decimal r_acos(const decimal& a,bool round)
 {
 #ifdef USE_CGAL
 	CGAL::Gmpfr m;
@@ -228,12 +228,12 @@ decimal r_acos(decimal a,bool round)
 #endif
 }
 
-decimal r_acos_deg(decimal a,bool round)
+decimal r_acos_deg(const decimal& a,bool round)
 {
 	return r_deg(r_acos(a,false),round);
 }
 
-decimal r_asin(decimal a,bool round)
+decimal r_asin(const decimal& a,bool round)
 {
 #ifdef USE_CGAL
 	CGAL::Gmpfr m;
@@ -245,12 +245,12 @@ decimal r_asin(decimal a,bool round)
 #endif
 }
 
-decimal r_asin_deg(decimal a,bool round)
+decimal r_asin_deg(const decimal& a,bool round)
 {
 	return r_deg(r_asin(a,false),round);
 }
 
-decimal r_atan2(decimal a,decimal b,bool round)
+decimal r_atan2(const decimal& a,const decimal& b,bool round)
 {
 #ifdef USE_CGAL
 	CGAL::Gmpfr m;
@@ -263,12 +263,12 @@ decimal r_atan2(decimal a,decimal b,bool round)
 #endif
 }
 
-decimal r_atan2_deg(decimal a,decimal b,bool round)
+decimal r_atan2_deg(const decimal& a,const decimal& b,bool round)
 {
 	return r_deg(r_atan2(a,b,false),round);
 }
 
-decimal r_atan(decimal a,bool round)
+decimal r_atan(const decimal& a,bool round)
 {
 #ifdef USE_CGAL
 	CGAL::Gmpfr m;
@@ -280,12 +280,12 @@ decimal r_atan(decimal a,bool round)
 #endif
 }
 
-decimal r_atan_deg(decimal a,bool round)
+decimal r_atan_deg(const decimal& a,bool round)
 {
 	return r_deg(r_atan(a,false),round);
 }
 
-decimal r_cosh(decimal a,bool round)
+decimal r_cosh(const decimal& a,bool round)
 {
 #ifdef USE_CGAL
 	CGAL::Gmpfr m;
@@ -297,12 +297,12 @@ decimal r_cosh(decimal a,bool round)
 #endif
 }
 
-decimal r_cosh_deg(decimal a,bool round)
+decimal r_cosh_deg(const decimal& a,bool round)
 {
 	return r_cosh(r_rad(a,false),round);
 }
 
-decimal r_sinh(decimal a,bool round)
+decimal r_sinh(const decimal& a,bool round)
 {
 #ifdef USE_CGAL
 	CGAL::Gmpfr m;
@@ -314,12 +314,12 @@ decimal r_sinh(decimal a,bool round)
 #endif
 }
 
-decimal r_sinh_deg(decimal a,bool round)
+decimal r_sinh_deg(const decimal& a,bool round)
 {
 	return r_sinh(r_rad(a,false),round);
 }
 
-decimal r_tanh(decimal a,bool round)
+decimal r_tanh(const decimal& a,bool round)
 {
 #ifdef USE_CGAL
 	CGAL::Gmpfr m;
@@ -331,12 +331,12 @@ decimal r_tanh(decimal a,bool round)
 #endif
 }
 
-decimal r_tanh_deg(decimal a,bool round)
+decimal r_tanh_deg(const decimal& a,bool round)
 {
 	return r_tanh(r_rad(a,false),round);
 }
 
-decimal r_max(decimal a, decimal b)
+decimal r_max(const decimal& a,const decimal& b)
 {
 #ifdef USE_CGAL
 	return std::max(a,b);
@@ -345,7 +345,7 @@ decimal r_max(decimal a, decimal b)
 #endif
 }
 
-decimal r_min(decimal a, decimal b)
+decimal r_min(const decimal& a,const decimal& b)
 {
 #ifdef USE_CGAL
 	return std::min(a,b);
@@ -354,7 +354,7 @@ decimal r_min(decimal a, decimal b)
 #endif
 }
 
-decimal r_ceil(decimal a)
+decimal r_ceil(const decimal& a)
 {
 #ifdef USE_CGAL
 	CGAL::Gmpfr m;
@@ -366,7 +366,7 @@ decimal r_ceil(decimal a)
 #endif
 }
 
-decimal r_floor(decimal a)
+decimal r_floor(const decimal& a)
 {
 #ifdef USE_CGAL
 	CGAL::Gmpfr m;
@@ -378,7 +378,7 @@ decimal r_floor(decimal a)
 #endif
 }
 
-decimal r_exp(decimal a,bool round)
+decimal r_exp(const decimal& a,bool round)
 {
 #ifdef USE_CGAL
 	CGAL::Gmpfr m;
@@ -390,7 +390,7 @@ decimal r_exp(decimal a,bool round)
 #endif
 }
 
-decimal r_log(decimal a,bool round)
+decimal r_log(const decimal& a,bool round)
 {
 #ifdef USE_CGAL
 	CGAL::Gmpfr m;
@@ -402,7 +402,7 @@ decimal r_log(decimal a,bool round)
 #endif
 }
 
-decimal r_log10(decimal a,bool round)
+decimal r_log10(const decimal& a,bool round)
 {
 #ifdef USE_CGAL
 	CGAL::Gmpfr m;
@@ -414,7 +414,7 @@ decimal r_log10(decimal a,bool round)
 #endif
 }
 
-decimal r_sign(decimal a)
+decimal r_sign(const decimal& a)
 {
 	decimal zero(0.0);
 	return a<zero?decimal(-1.0):a>zero?decimal(1.0):zero;
@@ -442,7 +442,7 @@ static decimal r_rand()
 }
 #endif
 
-decimal r_rand(decimal min, decimal max)
+decimal r_rand(const decimal& min,const decimal& max)
 {
 #ifdef USE_CGAL
 	CGAL::Gmpfr m;
@@ -453,7 +453,7 @@ decimal r_rand(decimal min, decimal max)
 #endif
 }
 
-bool r_is_int(decimal a)
+bool r_is_int(const decimal& a)
 {
 #ifdef USE_CGAL
 	CGAL::Gmpfr n=to_gmpfr(a);

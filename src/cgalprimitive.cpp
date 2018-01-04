@@ -509,12 +509,12 @@ Primitive* CGALPrimitive::triangulate()
 }
 
 #ifndef USE_SIMPLIFY
-Primitive* CGALPrimitive::simplify(decimal)
+Primitive* CGALPrimitive::simplify(const CGAL::Scalar&)
 {
 	return this;
 }
 #else
-Primitive* CGALPrimitive::simplify(decimal ratio)
+Primitive* CGALPrimitive::simplify(const CGAL::Scalar& ratio)
 {
 
 	namespace SMS=CGAL::Surface_mesh_simplification;

@@ -67,7 +67,7 @@ Fragment* Fragment::createFragment(const Context& ctx)
 }
 
 #ifdef USE_CGAL
-int Fragment::getFragments(decimal)
+int Fragment::getFragments(const decimal&)
 {
 	throw;
 }

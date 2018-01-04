@@ -34,11 +34,11 @@ private:
 	typedef QList<Point> Points;
 	typedef QList<Points> Mesh;
 
-	decimal bez03(decimal) const;
-	decimal bez13(decimal) const;
-	decimal bez23(decimal) const;
-	decimal bez33(decimal) const;
-	Point pointOnBez(Points,decimal) const;
+	decimal bez03(const decimal&) const;
+	decimal bez13(const decimal&) const;
+	decimal bez23(const decimal&) const;
+	decimal bez33(const decimal&) const;
+	Point pointOnBez(Points, const decimal&) const;
 	Point pointOnBezMesh(Mesh,Vector) const;
 	Points getCurveQuad(Mesh,Vector,Vector) const;
 };

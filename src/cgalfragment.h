@@ -28,7 +28,7 @@ class CGALFragment : public Fragment
 {
 public:
 	explicit CGALFragment(const Context&);
-	int getFragments(CGAL::Scalar) override;
+	int getFragments(const CGAL::Scalar&) override;
 };
 
 #endif // CGALFRAGMENT_H

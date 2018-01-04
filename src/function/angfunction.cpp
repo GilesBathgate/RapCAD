@@ -29,7 +29,7 @@ AngFunction::AngFunction() : Function("ang")
 	addParameter("axis");
 }
 
-Value* AngFunction::getResult(decimal a,decimal x,decimal y,decimal z) const
+Value* AngFunction::getResult(const decimal& a,const decimal& x,const decimal& y,const decimal& z) const
 {
 	decimal w=a/2.0;
 	decimal c=r_right_cos(w);

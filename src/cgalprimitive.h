@@ -66,7 +66,7 @@ public:
 	Primitive* boundary() override;
 	Primitive* copy() override;
 	Primitive* triangulate() override;
-	Primitive* simplify(decimal) override;
+	Primitive* simplify(const CGAL::Scalar&) override;
 	CGAL::Cuboid3 getBounds();
 	void transform(TransformMatrix*) override;
 	/* Don't call this method instead use getCGALPolygons */

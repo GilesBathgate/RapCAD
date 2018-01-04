@@ -248,7 +248,7 @@ void NodePrinter::printArguments(int a)
 	result << ")";
 }
 
-void NodePrinter::printArguments(decimal a)
+void NodePrinter::printArguments(const decimal& a)
 {
 	result << "(";
 	result << to_string(a);

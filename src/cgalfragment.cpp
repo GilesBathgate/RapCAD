@@ -23,7 +23,7 @@ CGALFragment::CGALFragment(const Context& ctx) : Fragment(ctx)
 {
 }
 
-int CGALFragment::getFragments(CGAL::Scalar r)
+int CGALFragment::getFragments(const CGAL::Scalar& r)
 {
 	int fn=fragmentNumber;
 	if(fn > 0) return (int)(fn >= 3 ? fn : 3);
