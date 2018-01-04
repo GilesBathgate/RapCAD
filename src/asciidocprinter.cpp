@@ -27,12 +27,11 @@ AsciidocPrinter::~AsciidocPrinter()
 {
 }
 
-static QString capitalize(const QString& str)
+static QString capitalize(QString str)
 {
-	QString tmp=str;
-	tmp=tmp.toLower();
-	tmp[0]=str[0].toUpper();
-	return tmp;
+	str=str.toLower();
+	str[0]=str[0].toUpper();
+	return str;
 }
 
 void AsciidocPrinter::visit(const Module& mod)
