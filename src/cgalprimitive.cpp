@@ -161,7 +161,7 @@ void CGALPrimitive::buildPrimitive()
 	case Primitive::Volume: {
 
 		CGALBuilder b(*this);
-		if(!sanitized && flat() && hasHoles())
+		if(!sanitized && flat() && detectHoles(true))
 			b.triangulate();
 
 		CGAL::Polyhedron3 poly;
@@ -484,17 +484,21 @@ bool CGALPrimitive::flat()
 	return true;
 }
 
-bool CGALPrimitive::hasHoles()
+bool CGALPrimitive::detectHoles(bool check)
 {
-	QList<CGALPolygon*> polys=getCGALPolygons();
-	for(auto* pg1: polys) {
-		for(auto* pg2: polys) {
+	for(auto* pg1: polygons) {
+		for(auto* pg2: polygons) {
 			if(pg1==pg2) continue;
 
 			QList<CGAL::Point2> p2=pg2->getXYPoints();
 			for(auto& p1: pg1->getXYPoints()) {
 				CGAL::Bounded_side side=CGAL::bounded_side_2(p2.begin(),p2.end(),p1);
-				if(side==CGAL::ON_BOUNDED_SIDE) return true;
+				if(side==CGAL::ON_BOUNDED_SIDE) {
+					if(check)
+						return true;
+					pg1->setHole(true);
+					break;
+				}
 			}
 		}
 	}

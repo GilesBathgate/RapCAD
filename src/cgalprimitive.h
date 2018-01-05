@@ -82,7 +82,7 @@ public:
 	void discrete(int) override;
 	CGAL::Circle3 getRadius();
 	CGALVolume getVolume(bool);
-	bool hasHoles();
+	bool detectHoles(bool);
 	void clear();
 	bool flat();
 private:
