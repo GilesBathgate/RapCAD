@@ -32,7 +32,7 @@ public:
 	QList<CGAL::Point2> getXYPoints() const;
 
 	CGAL::Vector3 getNormal() const;
-	void setNormal(const CGAL::Vector3&);
+	void calculateNormal();
 
 	CGAL::Plane3 getPlane() const;
 	void setPlane(const CGAL::Plane3&);

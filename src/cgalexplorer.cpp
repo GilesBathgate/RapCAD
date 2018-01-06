@@ -19,7 +19,6 @@
 #include "cgalexplorer.h"
 #include <QMap>
 #include <CGAL/config.h>
-#include <CGAL/normal_vector_newell_3.h>
 #include <CGAL/Triangulation_3.h>
 #include <CGAL/centroid.h>
 #include <CGAL/bounding_box.h>
@@ -159,15 +158,6 @@ static HalfEdgeHandle findNewEdge(QList<HalfEdgeHandle> visited,QList<HalfEdgeHa
 	return nullptr;
 }
 
-//Calculate the normal of the perimeter polygon
-static void calculateNormal(CGALPolygon* poly)
-{
-	CGAL::Vector3 v;
-	QList<CGAL::Point3> pts=poly->getPoints();
-	CGAL::normal_vector_newell_3(pts.begin(),pts.end(),v);
-	poly->setNormal(v);
-}
-
 void CGALExplorer::explore()
 {
 	primitive=new CGALPrimitive();
@@ -246,7 +236,7 @@ void CGALExplorer::explore()
 
 						if(h==f) {
 							perimeters->appendVertex(fp);
-							calculateNormal(poly);
+							poly->calculateNormal();
 
 							f=findNewEdge(visited,outEdges);
 							if(f==nullptr)

@@ -18,6 +18,7 @@
 #ifdef USE_CGAL
 #include "cgalpolygon.h"
 #include "cgalprimitive.h"
+#include <CGAL/normal_vector_newell_3.h>
 
 CGALPolygon::CGALPolygon(CGALPrimitive* p) :
 	Polygon(p),
@@ -52,9 +53,12 @@ CGAL::Vector3 CGALPolygon::getNormal() const
 	return plane.orthogonal_vector();
 }
 
-void CGALPolygon::setNormal(const CGAL::Vector3& v)
+void CGALPolygon::calculateNormal()
 {
-	plane=CGAL::Plane3(CGAL::ORIGIN,v);
+	CGAL::Vector3 v;
+	QList<CGAL::Point3> points=getPoints();
+	CGAL::normal_vector_newell_3(points.begin(),points.end(),v);
+	plane=CGAL::Plane3(points.first(), v);
 }
 
 CGAL::Plane3 CGALPolygon::getPlane() const
