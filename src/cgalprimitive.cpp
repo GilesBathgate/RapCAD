@@ -161,7 +161,7 @@ void CGALPrimitive::buildPrimitive()
 	case Primitive::Volume: {
 
 		CGALBuilder b(*this);
-		if(!sanitized && flat() && detectHoles(true))
+		if(!sanitized && detectHoles(true))
 			b.triangulate();
 
 		CGAL::Polyhedron3 poly;
@@ -477,11 +477,11 @@ Primitive* CGALPrimitive::boundary()
 	return this;
 }
 
-bool CGALPrimitive::flat()
+static bool detectPlanarHole(CGALPolygon* pg1,CGALPolygon* pg2)
 {
-	for(auto& p: points)
-		if(p.z()!=0.0) return false;
-	return true;
+	pg1->calculateNormal();
+	pg2->calculateNormal();
+	return pg1->getPlane() == pg2->getPlane().opposite();
 }
 
 bool CGALPrimitive::detectHoles(bool check)
@@ -494,7 +494,7 @@ bool CGALPrimitive::detectHoles(bool check)
 			for(auto& p1: pg1->getXYPoints()) {
 				CGAL::Bounded_side side=CGAL::bounded_side_2(p2.begin(),p2.end(),p1);
 				if(side==CGAL::ON_BOUNDED_SIDE) {
-					if(check)
+					if(check && detectPlanarHole(pg1,pg2))
 						return true;
 					pg1->setHole(true);
 					break;

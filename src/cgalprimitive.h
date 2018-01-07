@@ -84,7 +84,6 @@ public:
 	CGALVolume getVolume(bool);
 	bool detectHoles(bool);
 	void clear();
-	bool flat();
 private:
 	void buildPrimitive();
 	CGAL::NefPolyhedron3* createPolyline(QVector<CGAL::Point3> pl);
