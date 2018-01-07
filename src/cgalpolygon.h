@@ -32,7 +32,7 @@ public:
 	QList<CGAL::Point2> getXYPoints() const;
 
 	CGAL::Vector3 getNormal() const;
-	void calculateNormal();
+	void calculatePlane();
 
 	CGAL::Plane3 getPlane() const;
 	void setPlane(const CGAL::Plane3&);
@@ -42,6 +42,7 @@ public:
 
 private:
 	CGAL::Plane3 plane;
+	bool hasPlane;
 	bool hole;
 };
 #endif // CGALPOLYGON_H

@@ -479,8 +479,8 @@ Primitive* CGALPrimitive::boundary()
 
 static bool detectPlanarHole(CGALPolygon* pg1,CGALPolygon* pg2)
 {
-	pg1->calculateNormal();
-	pg2->calculateNormal();
+	pg1->calculatePlane();
+	pg2->calculatePlane();
 	return pg1->getPlane() == pg2->getPlane().opposite();
 }
 

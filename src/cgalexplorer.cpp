@@ -236,7 +236,7 @@ void CGALExplorer::explore()
 
 						if(h==f) {
 							perimeters->appendVertex(fp);
-							poly->calculateNormal();
+							poly->calculatePlane();
 
 							f=findNewEdge(visited,outEdges);
 							if(f==nullptr)
