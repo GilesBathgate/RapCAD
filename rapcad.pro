@@ -358,8 +358,9 @@ SOURCES += \
 	src/module/boundarymodule.cpp \
 	src/node/boundarynode.cpp \
 	src/function/isvecfunction.cpp \
-       src/node/pointsnode.cpp \
-       src/module/pointsmodule.cpp
+	src/node/pointsnode.cpp \
+	src/module/pointsmodule.cpp \
+	src/cgalprojection.cpp
 
 HEADERS  += \
 	contrib/OGL_helper.h \
@@ -615,7 +616,8 @@ HEADERS  += \
 	src/module/boundarymodule.h \
 	src/node/boundarynode.h \
 	src/config.h \
-	src/function/isvecfunction.h
+	src/function/isvecfunction.h \
+	src/cgalprojection.h
 
 FORMS += \
 	src/ui/mainwindow.ui \

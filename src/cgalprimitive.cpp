@@ -66,14 +66,19 @@ void CGALPrimitive::clear()
 	delete nefPolyhedron;
 	nefPolyhedron=nullptr;
 
-	qDeleteAll(polygons);
-	polygons.clear();
+	clearPolygons();
 
 	pointMap.clear();
 	points.clear();
 
 	qDeleteAll(children);
 	children.clear();
+}
+
+void CGALPrimitive::clearPolygons()
+{
+	qDeleteAll(polygons);
+	polygons.clear();
 }
 
 void CGALPrimitive::setType(Primitive_t t)
@@ -477,24 +482,17 @@ Primitive* CGALPrimitive::boundary()
 	return this;
 }
 
-static bool detectPlanarHole(CGALPolygon* pg1,CGALPolygon* pg2)
-{
-	pg1->calculatePlane();
-	pg2->calculatePlane();
-	return pg1->getPlane() == pg2->getPlane().opposite();
-}
-
 bool CGALPrimitive::detectHoles(bool check)
 {
 	for(auto* pg1: polygons) {
 		for(auto* pg2: polygons) {
 			if(pg1==pg2) continue;
 
-			QList<CGAL::Point2> p2=pg2->getXYPoints();
-			for(auto& p1: pg1->getXYPoints()) {
+			QList<CGAL::Point2> p2=pg2->getProjectedPoints();
+			for(auto& p1: pg1->getProjectedPoints()) {
 				CGAL::Bounded_side side=CGAL::bounded_side_2(p2.begin(),p2.end(),p1);
 				if(side==CGAL::ON_BOUNDED_SIDE) {
-					if(check && detectPlanarHole(pg1,pg2))
+					if(check && pg1->getPlane()==pg2->getPlane().opposite())
 						return true;
 					pg1->setHole(true);
 					break;

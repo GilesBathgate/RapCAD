@@ -30,6 +30,7 @@
 #include <CGAL/Polygon_2.h>
 #include "cgalbuilder.h"
 #include "cgalexplorer.h"
+#include "cgalprojection.h"
 #include "onceonly.h"
 
 namespace CGAL
@@ -120,21 +121,38 @@ static void markDomains(CT& ct)
 	}
 }
 
-template <typename CT>
-static void insertConstraint(CT& ct,const CGAL::Point3& p,const CGAL::Point3& np)
+#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,6,0)
+template <class CT,class PointIterator>
+void insert_constraint(CT& ct,PointIterator first, PointIterator last, bool close=false)
 {
 	typedef typename CT::Vertex_handle VertexHandle;
+	typedef typename CT::Geom_traits::Point_2 Point;
 
-	CGAL::Point2 p2(p.x(),p.y());
-	VertexHandle h=ct.insert(p2);
-	h->info() = p.z();
-	CGAL::Point2 np2(np.x(),np.y());
-	ct.insert_constraint(p2,np2);
+	if(first == last){
+		return;
+	}
+	const Point& p0 = *first;
+	Point p = p0;
+	VertexHandle v0 = ct.insert(p0), v(v0), w(v0);
+	++first;
+	for(; first!=last; ++first){
+		const Point& q = *first;
+		if(p != q){
+			w = ct.insert(q);
+			ct.insert_constraint(v,w);
+			v = w;
+			p = q;
+		}
+	}
+	if(close && (p != p0)){
+		ct.insert(w,v0);
+	}
 }
+#endif
 
 CGALPrimitive& CGALBuilder::triangulate()
 {
-	typedef CGAL::Triangulation_vertex_base_with_info_2<CGAL::Scalar,CGAL::Kernel3> VertexBase;
+	typedef CGAL::Triangulation_vertex_base_with_info_2<int,CGAL::Kernel3> VertexBase;
 	typedef CGAL::Triangulation_face_base_with_info_2<FaceInfo,CGAL::Kernel3> Info;
 	typedef CGAL::Constrained_triangulation_face_base_2<CGAL::Kernel3,Info> FaceBase;
 	typedef CGAL::Triangulation_data_structure_2<VertexBase,FaceBase> TDS;
@@ -144,31 +162,35 @@ CGALPrimitive& CGALBuilder::triangulate()
 	typedef CT::Face_iterator FaceIterator;
 
 	CT ct;
+	QList<CGAL::Point3> points3=primitive.getPoints();
 	for(CGALPolygon* pg: primitive.getCGALPolygons()) {
-		OnceOnly first;
-		CGAL::Point3 np,fp;
-		for(const auto& p: pg->getPoints()) {
-			if(first())
-				fp=p;
-			else
-				insertConstraint(ct,p,np);
-			np=p;
+		CGALProjection* pro=pg->getProjection();
+		QList<CGAL::Point2> points2;
+		for(auto i: pg->getIndexes())
+		{
+			CGAL::Point2 p2=pro->project(points3.at(i));
+			VertexHandle h=ct.insert(p2);
+			h->info() = i;
+			points2.append(p2);
 		}
-		insertConstraint(ct,fp,np);
+
+#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,6,0)
+		insert_constraint(ct,points2.begin(),points2.end(),true);
+#else
+		ct.insert_constraint(points2.begin(),points2.end(),true);
+#endif
 	}
 
 	markDomains(ct);
 
-	primitive.clear();
+	primitive.clearPolygons();
 
 	for(FaceIterator f=ct.finite_faces_begin(); f!=ct.finite_faces_end(); ++f) {
 		if(f->info().inDomain()) {
-			primitive.createPolygon();
+			Polygon* pg=primitive.createPolygon();
 			for(auto i=0; i<3; ++i) {
 				VertexHandle h=f->vertex(i);
-				CGAL::Point2 p2=h->point();
-				CGAL::Point3 p(p2.x(),p2.y(),h->info());
-				primitive.appendVertex(p);
+				pg->append(h->info());
 			}
 		}
 	}
