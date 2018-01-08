@@ -44,6 +44,7 @@ public:
 	void setHole(bool value);
 
 	CGALProjection* getProjection();
+	bool sameProjection(CGALPolygon*);
 private:
 	CGAL::Plane3 plane;
 	CGALProjection* projection;

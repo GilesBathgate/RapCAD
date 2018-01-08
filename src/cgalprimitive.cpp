@@ -487,6 +487,7 @@ bool CGALPrimitive::detectHoles(bool check)
 	for(auto* pg1: polygons) {
 		for(auto* pg2: polygons) {
 			if(pg1==pg2) continue;
+			if(!pg1->sameProjection(pg2)) continue;
 
 			QList<CGAL::Point2> p2=pg2->getProjectedPoints();
 			for(auto& p1: pg1->getProjectedPoints()) {

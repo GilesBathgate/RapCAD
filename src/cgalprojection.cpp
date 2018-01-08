@@ -17,10 +17,10 @@ static CGAL::Point2 projectYZ(const CGAL::Point3& p)
 
 CGALProjection::CGALProjection(const CGAL::Vector3& v)
 {
-	int o = CGAL::abs(v[0]) > CGAL::abs(v[1]) ? 0 : 1;
-	o = CGAL::abs(v[2]) > CGAL::abs(v[o]) ? 2 : o;
+	ortho = CGAL::abs(v[0]) > CGAL::abs(v[1]) ? 0 : 1;
+	ortho = CGAL::abs(v[2]) > CGAL::abs(v[ortho]) ? 2 : ortho;
 
-	switch(o)
+	switch(ortho)
 	{
 	case 0:
 		projectFunc=&projectYZ;
@@ -37,4 +37,9 @@ CGALProjection::CGALProjection(const CGAL::Vector3& v)
 CGAL::Point2 CGALProjection::project(const CGAL::Point3& p3) const
 {
 	return projectFunc(p3);
+}
+
+bool CGALProjection::operator==(const CGALProjection& other) const
+{
+	return ortho==other.ortho;
 }

@@ -96,4 +96,9 @@ CGALProjection *CGALPolygon::getProjection()
 	return projection;
 }
 
+bool CGALPolygon::sameProjection(CGALPolygon* other)
+{
+	return (*getProjection())==(*other->getProjection());
+}
+
 #endif
