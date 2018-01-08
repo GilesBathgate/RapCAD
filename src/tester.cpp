@@ -21,6 +21,7 @@
 #include <QApplication>
 #include <QtTest/QTest>
 #include <QMenu>
+#include <boost/version.hpp>
 #ifdef USE_CGAL
 #include "cgal.h"
 #include "cgalexport.h"

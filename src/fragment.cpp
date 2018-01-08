@@ -72,7 +72,7 @@ int Fragment::getFragments(const decimal&)
 	throw;
 }
 #else
-int Fragment::getFragments(decimal r)
+int Fragment::getFragments(const decimal& r)
 {
 	return get_fragments_from_r(r,fragmentNumber,fragmentSize,fragmentAngle);
 }
