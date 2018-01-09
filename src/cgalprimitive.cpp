@@ -206,7 +206,7 @@ CGAL::NefPolyhedron3* CGALPrimitive::createPolyline()
 {
 	CGAL::NefPolyhedron3* result=nullptr;
 	for(CGALPolygon* pg: polygons) {
-		QVector<CGAL::Point3> pl=QVector<CGAL::Point3>::fromList(pg->getPoints());
+		QVector<CGAL::Point3> pl=pg->getPoints().toVector();
 		if(!result) {
 			result=createPolyline(pl);
 		} else {
