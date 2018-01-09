@@ -41,27 +41,27 @@ void Console::displayPrompt()
 void Console::keyPressEvent(QKeyEvent* e)
 {
 	switch(e->key()) {
-	case Qt::Key_Enter:
-	case Qt::Key_Return:
-		if(inPromptBlock())
-			handleReturn();
-		return;
-	case Qt::Key_Left:
-	case Qt::Key_Backspace:
-		if(handleBackspace()||!inPromptBlock())
+		case Qt::Key_Enter:
+		case Qt::Key_Return:
+			if(inPromptBlock())
+				handleReturn();
 			return;
-		break;
-	case Qt::Key_Down:
-	case Qt::Key_Up:
-		return;
-	case Qt::Key_Right:
-	case Qt::Key_Home:
-	case Qt::Key_End:
-		break;
-	default:
-		if(!inPromptBlock()) {
-			moveCursor(QTextCursor::End,QTextCursor::MoveAnchor);
-		}
+		case Qt::Key_Left:
+		case Qt::Key_Backspace:
+			if(handleBackspace()||!inPromptBlock())
+				return;
+			break;
+		case Qt::Key_Down:
+		case Qt::Key_Up:
+			return;
+		case Qt::Key_Right:
+		case Qt::Key_Home:
+		case Qt::Key_End:
+			break;
+		default:
+			if(!inPromptBlock()) {
+				moveCursor(QTextCursor::End,QTextCursor::MoveAnchor);
+			}
 	}
 
 	QPlainTextEdit::keyPressEvent(e);

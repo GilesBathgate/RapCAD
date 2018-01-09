@@ -108,40 +108,40 @@ template <class T>
 T Value::basicOperation(T left, Expression::Operator_e e, T right)
 {
 	switch(e) {
-	case Expression::Exponent:
-		return exponent(left,right);
-	case Expression::Multiply:
-		return left*right;
-	case Expression::Divide:
-		return left/right;
-	case Expression::Modulus:
-		return modulus(left,right);
-	case Expression::Add:
-		return left+right;
-	case Expression::Subtract:
-		return left-right;
-	case Expression::AddAssign:
-		return left+=right;
-	case Expression::SubAssign:
-		return left-=right;
-	case Expression::LessThan:
-		return left<right;
-	case Expression::LessOrEqual:
-		return left<=right;
-	case Expression::Equal:
-		return left==right;
-	case Expression::NotEqual:
-		return left!=right;
-	case Expression::GreaterOrEqual:
-		return left>=right;
-	case Expression::GreaterThan:
-		return left>right;
-	case Expression::LogicalAnd:
-		return logic(left)&&logic(right);
-	case Expression::LogicalOr:
-		return logic(left)||logic(right);
-	default:
-		return left;
+		case Expression::Exponent:
+			return exponent(left,right);
+		case Expression::Multiply:
+			return left*right;
+		case Expression::Divide:
+			return left/right;
+		case Expression::Modulus:
+			return modulus(left,right);
+		case Expression::Add:
+			return left+right;
+		case Expression::Subtract:
+			return left-right;
+		case Expression::AddAssign:
+			return left+=right;
+		case Expression::SubAssign:
+			return left-=right;
+		case Expression::LessThan:
+			return left<right;
+		case Expression::LessOrEqual:
+			return left<=right;
+		case Expression::Equal:
+			return left==right;
+		case Expression::NotEqual:
+			return left!=right;
+		case Expression::GreaterOrEqual:
+			return left>=right;
+		case Expression::GreaterThan:
+			return left>right;
+		case Expression::LogicalAnd:
+			return logic(left)&&logic(right);
+		case Expression::LogicalOr:
+			return logic(left)||logic(right);
+		default:
+			return left;
 	}
 }
 
@@ -149,20 +149,20 @@ template <class T>
 T Value::basicOperation(T left, Expression::Operator_e e)
 {
 	switch(e) {
-	case Expression::Add:
-		return +left;
-	case Expression::Subtract:
-		return -left;
-	case Expression::Invert:
-		return !logic(left);
-	case Expression::Increment:
-		return left+1;
-	case Expression::Decrement:
-		return left-1;
-	case Expression::Length:
-		return length(left);
-	default:
-		return left;
+		case Expression::Add:
+			return +left;
+		case Expression::Subtract:
+			return -left;
+		case Expression::Invert:
+			return !logic(left);
+		case Expression::Increment:
+			return left+1;
+		case Expression::Decrement:
+			return left-1;
+		case Expression::Length:
+			return length(left);
+		default:
+			return left;
 	}
 }
 

@@ -49,20 +49,20 @@ void TreePrinter::visit(const Instance& inst)
 {
 
 	switch(inst.getType()) {
-	case Instance::Root:
-		result << "!";
-		break;
-	case Instance::Debug:
-		result << "#";
-		break;
-	case Instance::Background:
-		result << "%";
-		break;
-	case Instance::Disable:
-		result << "*";
-		break;
-	default:
-		break;
+		case Instance::Root:
+			result << "!";
+			break;
+		case Instance::Debug:
+			result << "#";
+			break;
+		case Instance::Background:
+			result << "%";
+			break;
+		case Instance::Disable:
+			result << "*";
+			break;
+		default:
+			break;
 	}
 
 	QString name = inst.getNamespace();
@@ -279,18 +279,18 @@ void TreePrinter::visit(const AssignStatement& stmt)
 		var->accept(*this);
 
 	switch(stmt.getOperation()) {
-	case Expression::Increment:
-		result << "++";
-		break;
-	case Expression::Decrement:
-		result << "--";
-		break;
-	default: {
-		result << "=";
-		Expression* expression = stmt.getExpression();
-		if(expression)
-			expression->accept(*this);
-	}
+		case Expression::Increment:
+			result << "++";
+			break;
+		case Expression::Decrement:
+			result << "--";
+			break;
+		default: {
+			result << "=";
+			Expression* expression = stmt.getExpression();
+			if(expression)
+				expression->accept(*this);
+		}
 	}
 
 	result << ";\n";
@@ -425,14 +425,14 @@ void TreePrinter::visit(const Literal& lit)
 void TreePrinter::visit(const Variable& var)
 {
 	switch(var.getStorage()) {
-	case Variable::Const:
-		result << "const ";
-		break;
-	case Variable::Param:
-		result << "param ";
-		break;
-	default:
-		break;
+		case Variable::Const:
+			result << "const ";
+			break;
+		case Variable::Param:
+			result << "param ";
+			break;
+		default:
+			break;
 	}
 
 	if(var.getStorage()==Variable::Special)

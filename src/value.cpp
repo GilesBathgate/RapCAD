@@ -322,54 +322,54 @@ Value* Value::operation(Value* p_left, Expression::Operator_e e, Value* p_right)
 	Value& left=*p_left;
 	Value& right=*p_right;
 	switch(e) {
-	case Expression::Exponent:
-		return left^right;
-	case Expression::DotProduct:
-	case Expression::Multiply:
-		return left*right;
-	case Expression::Append:
-	case Expression::Concatenate:
-		return left.concatenate(right);
-	case Expression::ComponentwiseMultiply:
-		return left.componentwiseMultiply(right);
-	case Expression::Divide:
-		return left/right;
-	case Expression::ComponentwiseDivide:
-		return left.componentwiseDivide(right);
-	case Expression::CrossProduct:
-		return left.crossProduct(right);
-	case Expression::Modulus:
-		return left%right;
-	case Expression::Add:
-		return left+right;
-	case Expression::Subtract:
-		return left-right;
-	case Expression::AddAssign:
-		return left+=right;
-	case Expression::SubAssign:
-		return left-=right;
-	case Expression::LessThan:
-		return left<right;
-	case Expression::LessOrEqual:
-		return left<=right;
-	case Expression::Equal:
-		return left==right;
-	case Expression::NotEqual:
-		return left!=right;
-	case Expression::GreaterOrEqual:
-		return left>=right;
-	case Expression::GreaterThan:
-		return left>right;
-	case Expression::LogicalAnd:
-		return left&&right;
-	case Expression::LogicalOr:
-		return left||right;
-	case Expression::Index:
-		return left[right];
-	case Expression::Length:
-		return left.length(right);
-	default:
-		return &left;
+		case Expression::Exponent:
+			return left^right;
+		case Expression::DotProduct:
+		case Expression::Multiply:
+			return left*right;
+		case Expression::Append:
+		case Expression::Concatenate:
+			return left.concatenate(right);
+		case Expression::ComponentwiseMultiply:
+			return left.componentwiseMultiply(right);
+		case Expression::Divide:
+			return left/right;
+		case Expression::ComponentwiseDivide:
+			return left.componentwiseDivide(right);
+		case Expression::CrossProduct:
+			return left.crossProduct(right);
+		case Expression::Modulus:
+			return left%right;
+		case Expression::Add:
+			return left+right;
+		case Expression::Subtract:
+			return left-right;
+		case Expression::AddAssign:
+			return left+=right;
+		case Expression::SubAssign:
+			return left-=right;
+		case Expression::LessThan:
+			return left<right;
+		case Expression::LessOrEqual:
+			return left<=right;
+		case Expression::Equal:
+			return left==right;
+		case Expression::NotEqual:
+			return left!=right;
+		case Expression::GreaterOrEqual:
+			return left>=right;
+		case Expression::GreaterThan:
+			return left>right;
+		case Expression::LogicalAnd:
+			return left&&right;
+		case Expression::LogicalOr:
+			return left||right;
+		case Expression::Index:
+			return left[right];
+		case Expression::Length:
+			return left.length(right);
+		default:
+			return &left;
 	}
 }
 
@@ -377,39 +377,39 @@ Value* Value::operation(Value* p_left, Expression::Operator_e e)
 {
 	Value& left=*p_left;
 	switch(e) {
-	case Expression::Add:
-		return +left;
-	case Expression::Subtract:
-		return -left;
-	case Expression::Invert:
-		return !left;
-	case Expression::Increment:
-		return left++;
-	case Expression::Decrement:
-		return left--;
-	case Expression::Length:
-		return left.length();
-	default:
-		return &left;
+		case Expression::Add:
+			return +left;
+		case Expression::Subtract:
+			return -left;
+		case Expression::Invert:
+			return !left;
+		case Expression::Increment:
+			return left++;
+		case Expression::Decrement:
+			return left--;
+		case Expression::Length:
+			return left.length();
+		default:
+			return &left;
 	}
 }
 
 bool Value::isComparison(Expression::Operator_e e)
 {
 	switch(e) {
-	case Expression::LessThan:
-	case Expression::LessOrEqual:
-	case Expression::Equal:
-	case Expression::NotEqual:
-	case Expression::GreaterOrEqual:
-	case Expression::GreaterThan:
-	//The following are not really comparisons but
-	//we expect them to return a boolean result
-	case Expression::LogicalAnd:
-	case Expression::LogicalOr:
-		return true;
-	default:
-		return false;
+		case Expression::LessThan:
+		case Expression::LessOrEqual:
+		case Expression::Equal:
+		case Expression::NotEqual:
+		case Expression::GreaterOrEqual:
+		case Expression::GreaterThan:
+		//The following are not really comparisons but
+		//we expect them to return a boolean result
+		case Expression::LogicalAnd:
+		case Expression::LogicalOr:
+			return true;
+		default:
+			return false;
 	}
 }
 

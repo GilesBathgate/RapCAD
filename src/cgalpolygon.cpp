@@ -89,7 +89,7 @@ void CGALPolygon::setHole(bool value)
 	hole = value;
 }
 
-CGALProjection *CGALPolygon::getProjection()
+CGALProjection* CGALPolygon::getProjection()
 {
 	if(!projection)
 		calculatePlane();

@@ -455,24 +455,24 @@ void NodeEvaluator::evaluate(QList<Node*> children,Operation_e type,Primitive* f
 			first=result;
 		} else {
 			switch(type) {
-			case Group:
-				first->add(result,false);
-				break;
-			case Union:
-				first->add(result,true);
-				break;
-			case Difference:
-				first=first->difference(result);
-				break;
-			case Intersection:
-				first=first->intersection(result);
-				break;
-			case SymmetricDifference:
-				first=first->symmetric_difference(result);
-				break;
-			case Minkowski:
-				first=first->minkowski(result);
-				break;
+				case Group:
+					first->add(result,false);
+					break;
+				case Union:
+					first->add(result,true);
+					break;
+				case Difference:
+					first=first->difference(result);
+					break;
+				case Intersection:
+					first=first->intersection(result);
+					break;
+				case SymmetricDifference:
+					first=first->symmetric_difference(result);
+					break;
+				case Minkowski:
+					first=first->minkowski(result);
+					break;
 			}
 		}
 	}
@@ -691,30 +691,30 @@ void NodeEvaluator::visit(const AlignNode& n)
 		bool east=false;
 		for(AlignNode::Face_t a: n.getAlign()) {
 			switch(a) {
-			case AlignNode::Top:
-				top=true;
-				cz=b.zmax();
-				break;
-			case AlignNode::Bottom:
-				bottom=true;
-				cz=b.zmin();
-				break;
-			case AlignNode::North:
-				north=true;
-				cx=b.xmax();
-				break;
-			case AlignNode::South:
-				south=true;
-				cx=b.xmin();
-				break;
-			case AlignNode::West:
-				west=true;
-				cy=b.ymax();
-				break;
-			case AlignNode::East:
-				east=true;
-				cy=b.ymin();
-				break;
+				case AlignNode::Top:
+					top=true;
+					cz=b.zmax();
+					break;
+				case AlignNode::Bottom:
+					bottom=true;
+					cz=b.zmin();
+					break;
+				case AlignNode::North:
+					north=true;
+					cx=b.xmax();
+					break;
+				case AlignNode::South:
+					south=true;
+					cx=b.xmin();
+					break;
+				case AlignNode::West:
+					west=true;
+					cy=b.ymax();
+					break;
+				case AlignNode::East:
+					east=true;
+					cy=b.ymin();
+					break;
 			}
 		}
 		if(top&&bottom)

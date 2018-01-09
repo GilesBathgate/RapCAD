@@ -39,17 +39,16 @@ CGALProjection::CGALProjection(const CGAL::Vector3& v)
 	ortho = CGAL::abs(v[0]) > CGAL::abs(v[1]) ? 0 : 1;
 	ortho = CGAL::abs(v[2]) > CGAL::abs(v[ortho]) ? 2 : ortho;
 
-	switch(ortho)
-	{
-	case 0:
-		projectFunc=&projectYZ;
-		break;
-	case 1:
-		projectFunc=&projectXZ;
-		break;
-	default:
-		projectFunc=&projectXY;
-		break;
+	switch(ortho) {
+		case 0:
+			projectFunc=&projectYZ;
+			break;
+		case 1:
+			projectFunc=&projectXZ;
+			break;
+		default:
+			projectFunc=&projectXY;
+			break;
 	}
 }
 

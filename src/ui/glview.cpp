@@ -123,24 +123,24 @@ void GLView::changeViewport(int t)
 	getViewport(rx,ry,rz,x,z,d);
 
 	switch(t) {
-	case Top:
-		setViewport(90,0,0,x,z,d);
-		break;
-	case Bottom:
-		setViewport(-90,0,0,x,z,d);
-		break;
-	case Left:
-		setViewport(0,0,90,x,z,d);
-		break;
-	case Right:
-		setViewport(0,0,-90,x,z,d);
-		break;
-	case Front:
-		setViewport(0,0,0,x,z,d);
-		break;
-	case Back:
-		setViewport(0,0,-180,x,z,d);
-		break;
+		case Top:
+			setViewport(90,0,0,x,z,d);
+			break;
+		case Bottom:
+			setViewport(-90,0,0,x,z,d);
+			break;
+		case Left:
+			setViewport(0,0,90,x,z,d);
+			break;
+		case Right:
+			setViewport(0,0,-90,x,z,d);
+			break;
+		case Front:
+			setViewport(0,0,0,x,z,d);
+			break;
+		case Back:
+			setViewport(0,0,-180,x,z,d);
+			break;
 	}
 }
 
@@ -282,71 +282,71 @@ void GLView::drawBase()
 {
 	const GLfloat z=-0.01;
 	switch(appearance) {
-	case 0: {
-		const GLfloat baseX=-2.0;
-		const GLfloat baseY=-9.4;
-		const GLfloat baseWidth=254.0;
-		const GLfloat baseLength=235.0;
-		const GLfloat chamfer=4.0;
-		glLineWidth(2);
-		glColor3f(0.2, 0.2, 0.2);
-		glBegin(GL_QUADS);
-		glVertex3f(printX+baseX, printY+baseY+chamfer, z);
-		glVertex3f(printX+baseX+chamfer, printY+baseY, z);
-		glVertex3f(printX+baseX+baseWidth-chamfer, printY+baseY, z);
-		glVertex3f(printX+baseX+baseWidth, printY+baseY+chamfer, z);
+		case 0: {
+			const GLfloat baseX=-2.0;
+			const GLfloat baseY=-9.4;
+			const GLfloat baseWidth=254.0;
+			const GLfloat baseLength=235.0;
+			const GLfloat chamfer=4.0;
+			glLineWidth(2);
+			glColor3f(0.2, 0.2, 0.2);
+			glBegin(GL_QUADS);
+			glVertex3f(printX+baseX, printY+baseY+chamfer, z);
+			glVertex3f(printX+baseX+chamfer, printY+baseY, z);
+			glVertex3f(printX+baseX+baseWidth-chamfer, printY+baseY, z);
+			glVertex3f(printX+baseX+baseWidth, printY+baseY+chamfer, z);
 
-		glVertex3f(printX+baseX+baseWidth, printY+baseY+baseLength-chamfer, z);
-		glVertex3f(printX+baseX+baseWidth-chamfer, printY+baseY+baseLength, z);
-		glVertex3f(printX+baseX+chamfer, printY+baseY+baseLength, z);
-		glVertex3f(printX+baseX, printY+baseY+baseLength-chamfer, z);
+			glVertex3f(printX+baseX+baseWidth, printY+baseY+baseLength-chamfer, z);
+			glVertex3f(printX+baseX+baseWidth-chamfer, printY+baseY+baseLength, z);
+			glVertex3f(printX+baseX+chamfer, printY+baseY+baseLength, z);
+			glVertex3f(printX+baseX, printY+baseY+baseLength-chamfer, z);
 
-		glVertex3f(printX+baseX, printY+baseY+chamfer, z);
-		glVertex3f(printX+baseX+baseWidth, printY+baseY+chamfer, z);
-		glVertex3f(printX+baseX+baseWidth, printY+baseY+baseLength-chamfer, z);
-		glVertex3f(printX+baseX, printY+baseY+baseLength-chamfer, z);
-		glEnd();
+			glVertex3f(printX+baseX, printY+baseY+chamfer, z);
+			glVertex3f(printX+baseX+baseWidth, printY+baseY+chamfer, z);
+			glVertex3f(printX+baseX+baseWidth, printY+baseY+baseLength-chamfer, z);
+			glVertex3f(printX+baseX, printY+baseY+baseLength-chamfer, z);
+			glEnd();
 
-		glLineWidth(2);
-		glColor3f(0.6, 0.6, 0.6);
-		glBegin(GL_LINES);
-		for(GLfloat o=0.0; o<printWidth; o+=10.0) {
-			glVertex3f(printX+o, printY, z);
-			glVertex3f(printX+o, printY+printLength, z);
-		}
-		for(GLfloat j=5.0; j<printLength; j+=10.0) {
-			glVertex3f(printX, printY+j, z);
-			glVertex3f(printX+printWidth, printY+j, z);
-		}
-		glEnd();
+			glLineWidth(2);
+			glColor3f(0.6, 0.6, 0.6);
+			glBegin(GL_LINES);
+			for(GLfloat o=0.0; o<printWidth; o+=10.0) {
+				glVertex3f(printX+o, printY, z);
+				glVertex3f(printX+o, printY+printLength, z);
+			}
+			for(GLfloat j=5.0; j<printLength; j+=10.0) {
+				glVertex3f(printX, printY+j, z);
+				glVertex3f(printX+printWidth, printY+j, z);
+			}
+			glEnd();
 
-		glLineWidth(4);
-		glColor3f(0.8, 0.8, 0.8);
-		glBegin(GL_LINES);
-		for(GLfloat o=0.0; o<printWidth; o+=50.0) {
-			glVertex3f(printX+o, printY, z);
-			glVertex3f(printX+o, printY+printLength, z);
+			glLineWidth(4);
+			glColor3f(0.8, 0.8, 0.8);
+			glBegin(GL_LINES);
+			for(GLfloat o=0.0; o<printWidth; o+=50.0) {
+				glVertex3f(printX+o, printY, z);
+				glVertex3f(printX+o, printY+printLength, z);
+			}
+			for(GLfloat j=5.0; j<printLength; j+=50.0) {
+				glVertex3f(printX, printY+j, z);
+				glVertex3f(printX+printWidth, printY+j, z);
+			}
+			glEnd();
 		}
-		for(GLfloat j=5.0; j<printLength; j+=50.0) {
-			glVertex3f(printX, printY+j, z);
-			glVertex3f(printX+printWidth, printY+j, z);
+		break;
+		case 1: {
+			const GLfloat baseXY=-7.5;
+			const GLfloat baseWL=215.0;
+			glLineWidth(2);
+			glColor3f(0.6, 0.2, 0.2);
+			glBegin(GL_QUADS);
+			glVertex3f(printX+baseXY, printY+baseXY, z);
+			glVertex3f(printX+baseXY, printY+baseXY+baseWL, z);
+			glVertex3f(printX+baseXY+baseWL, printY+baseXY+baseWL, z);
+			glVertex3f(printX+baseXY+baseWL, printY+baseXY, z);
+			glEnd();
 		}
-		glEnd();
-	}
-	break;
-	case 1: {
-		const GLfloat baseXY=-7.5;
-		const GLfloat baseWL=215.0;
-		glLineWidth(2);
-		glColor3f(0.6, 0.2, 0.2);
-		glBegin(GL_QUADS);
-		glVertex3f(printX+baseXY, printY+baseXY, z);
-		glVertex3f(printX+baseXY, printY+baseXY+baseWL, z);
-		glVertex3f(printX+baseXY+baseWL, printY+baseXY+baseWL, z);
-		glVertex3f(printX+baseXY+baseWL, printY+baseXY, z);
-		glEnd();
-	}
-	break;
+		break;
 	}
 
 	glLineWidth(4);

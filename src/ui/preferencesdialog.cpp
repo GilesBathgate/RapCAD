@@ -183,26 +183,26 @@ void PreferencesDialog::appearanceChanged(int index)
 {
 	Preferences* p = Preferences::getInstance();
 	switch(index) {
-	case 0: { //MK42
-		ui->XspinBox->setValue(-125);
-		ui->YspinBox->setValue(-105);
-		originChanged();
-		ui->widthSpinBox->setValue(250);
-		ui->lengthSpinBox->setValue(210);
-		volumeChanged();
-		p->setPrintBedAppearance(index);
-	}
-	break;
-	case 1: { //MK2
-		ui->XspinBox->setValue(-100);
-		ui->YspinBox->setValue(-100);
-		originChanged();
-		ui->widthSpinBox->setValue(200);
-		ui->lengthSpinBox->setValue(200);
-		volumeChanged();
-		p->setPrintBedAppearance(index);
-	}
-	break;
+		case 0: { //MK42
+			ui->XspinBox->setValue(-125);
+			ui->YspinBox->setValue(-105);
+			originChanged();
+			ui->widthSpinBox->setValue(250);
+			ui->lengthSpinBox->setValue(210);
+			volumeChanged();
+			p->setPrintBedAppearance(index);
+		}
+		break;
+		case 1: { //MK2
+			ui->XspinBox->setValue(-100);
+			ui->YspinBox->setValue(-100);
+			originChanged();
+			ui->widthSpinBox->setValue(200);
+			ui->lengthSpinBox->setValue(200);
+			volumeChanged();
+			p->setPrintBedAppearance(index);
+		}
+		break;
 	}
 	preferencesUpdated();
 }

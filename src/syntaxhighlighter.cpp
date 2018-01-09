@@ -57,15 +57,15 @@ void SyntaxHighlighter::highlightBlock(const QString& text)
 
 	//Force lexer into correct state
 	switch(previousBlockState()) {
-	case Initial:
-		lexerbegin();
-		break;
-	case Comment:
-		lexercomment();
-		break;
-	case CodeDoc:
-		lexercodedoc();
-		break;
+		case Initial:
+			lexerbegin();
+			break;
+		case Comment:
+			lexercomment();
+			break;
+		case CodeDoc:
+			lexercodedoc();
+			break;
 	}
 
 	while(nextToken());

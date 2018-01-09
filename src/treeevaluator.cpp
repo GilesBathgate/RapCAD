@@ -295,14 +295,14 @@ void TreeEvaluator::visit(const BinaryExpression& exp)
 	Expression::Operator_e op=exp.getOp();
 
 	switch(op) {
-	case Expression::LogicalAnd:
-		shortc=!left->isTrue();
-		break;
-	case Expression::LogicalOr:
-		shortc=left->isTrue();
-		break;
-	default:
-		break;
+		case Expression::LogicalAnd:
+			shortc=!left->isTrue();
+			break;
+		case Expression::LogicalOr:
+			shortc=left->isTrue();
+			break;
+		default:
+			break;
 	}
 
 	Value* result;
@@ -345,35 +345,35 @@ void TreeEvaluator::visit(const AssignStatement& stmt)
 	Value* result=nullptr;
 	Expression::Operator_e op=stmt.getOperation();
 	switch(op) {
-	case Expression::Increment:
-	case Expression::Decrement:
-		break;
-	default: {
-		Expression* expression = stmt.getExpression();
-		if(expression) {
-			expression->accept(*this);
-			result = context->getCurrentValue();
+		case Expression::Increment:
+		case Expression::Decrement:
+			break;
+		default: {
+			Expression* expression = stmt.getExpression();
+			if(expression) {
+				expression->accept(*this);
+				result = context->getCurrentValue();
+			}
 		}
-	}
 	}
 
 	switch(op) {
-	case Expression::Append:
-	case Expression::AddAssign:
-	case Expression::SubAssign: {
-		result=Value::operation(lvalue,op,result);
-		break;
-	}
-	case Expression::Increment: {
-		result=Value::operation(lvalue,op);
-		break;
-	}
-	case Expression::Decrement: {
-		result=Value::operation(lvalue,op);
-		break;
-	}
-	default:
-		break;
+		case Expression::Append:
+		case Expression::AddAssign:
+		case Expression::SubAssign: {
+			result=Value::operation(lvalue,op,result);
+			break;
+		}
+		case Expression::Increment: {
+			result=Value::operation(lvalue,op);
+			break;
+		}
+		case Expression::Decrement: {
+			result=Value::operation(lvalue,op);
+			break;
+		}
+		default:
+			break;
 	}
 	if(!result) return;
 
@@ -382,17 +382,17 @@ void TreeEvaluator::visit(const AssignStatement& stmt)
 	c=lvalue->getStorage();
 	result->setStorage(c);
 	switch(c) {
-	case Variable::Const:
-		if(!context->addVariable(result))
-			reporter.reportWarning(tr("attempt to alter constant variable '%1'").arg(name));
-		break;
-	case Variable::Param:
-		if(!context->addVariable(result))
-			reporter.reportWarning(tr("attempt to alter parametric variable '%1'").arg(name));
-		break;
-	default:
-		context->setVariable(result);
-		break;
+		case Variable::Const:
+			if(!context->addVariable(result))
+				reporter.reportWarning(tr("attempt to alter constant variable '%1'").arg(name));
+			break;
+		case Variable::Param:
+			if(!context->addVariable(result))
+				reporter.reportWarning(tr("attempt to alter parametric variable '%1'").arg(name));
+			break;
+		default:
+			context->setVariable(result);
+			break;
 	}
 }
 
@@ -578,14 +578,14 @@ void TreeEvaluator::visit(const Variable& var)
 	Value* v=context->lookupVariable(name,currentStorage,l);
 	if(currentStorage!=oldStorage)
 		switch(oldStorage) {
-		case Variable::Const:
-			reporter.reportWarning(tr("attempt to make previously non-constant variable '%1' constant").arg(name));
-			break;
-		case Variable::Param:
-			reporter.reportWarning(tr("attempt to make previously non-parametric variable '%1' parametric").arg(name));
-			break;
-		default:
-			break;
+			case Variable::Const:
+				reporter.reportWarning(tr("attempt to make previously non-constant variable '%1' constant").arg(name));
+				break;
+			case Variable::Param:
+				reporter.reportWarning(tr("attempt to make previously non-parametric variable '%1' parametric").arg(name));
+				break;
+			default:
+				break;
 		}
 
 	context->setCurrentValue(v);

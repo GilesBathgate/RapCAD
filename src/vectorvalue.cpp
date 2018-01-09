@@ -241,11 +241,11 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 Expression::Operator_e VectorValue::convertOperation(Expression::Operator_e e)
 {
 	switch(e) {
-	case Expression::ComponentwiseMultiply:
-		return Expression::Multiply;
-	case Expression::ComponentwiseDivide:
-		return Expression::Divide;
-	default:
-		return e;
+		case Expression::ComponentwiseMultiply:
+			return Expression::Multiply;
+		case Expression::ComponentwiseDivide:
+			return Expression::Divide;
+		default:
+			return e;
 	}
 }

@@ -48,28 +48,28 @@ void Literal::setValue(QString value)
 QString Literal::getValueString() const
 {
 	switch(type) {
-	case Boolean:
-		return boolean ? "true" : "false";
-	case Number:
-		return to_string(number);
-	case Text:
-		return QString("\"%1\"").arg(text);
-	default:
-		return "undef";
+		case Boolean:
+			return boolean ? "true" : "false";
+		case Number:
+			return to_string(number);
+		case Text:
+			return QString("\"%1\"").arg(text);
+		default:
+			return "undef";
 	}
 }
 
 Value* Literal::getValue() const
 {
 	switch(type) {
-	case Boolean:
-		return new BooleanValue(boolean);
-	case Number:
-		return new NumberValue(number);
-	case Text:
-		return new TextValue(text);
-	default:
-		return Value::undefined();
+		case Boolean:
+			return new BooleanValue(boolean);
+		case Number:
+			return new NumberValue(number);
+		case Text:
+			return new TextValue(text);
+		default:
+			return Value::undefined();
 	}
 }
 

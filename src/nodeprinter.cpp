@@ -308,24 +308,24 @@ void NodePrinter::printArguments(QList<AlignNode::Face_t> t)
 		if(!first())
 			result << ",";
 		switch(a) {
-		case AlignNode::Top:
-			result << "top";
-			break;
-		case AlignNode::Bottom:
-			result << "bottom";
-			break;
-		case AlignNode::North:
-			result << "north";
-			break;
-		case AlignNode::South:
-			result << "south";
-			break;
-		case AlignNode::West:
-			result << "west";
-			break;
-		case AlignNode::East:
-			result << "east";
-			break;
+			case AlignNode::Top:
+				result << "top";
+				break;
+			case AlignNode::Bottom:
+				result << "bottom";
+				break;
+			case AlignNode::North:
+				result << "north";
+				break;
+			case AlignNode::South:
+				result << "south";
+				break;
+			case AlignNode::West:
+				result << "west";
+				break;
+			case AlignNode::East:
+				result << "east";
+				break;
 		}
 		result << "=true";
 	}

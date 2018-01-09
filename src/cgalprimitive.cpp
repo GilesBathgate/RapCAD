@@ -164,27 +164,27 @@ void CGALPrimitive::buildPrimitive()
 
 	switch(type) {
 
-	case Primitive::Volume: {
-		nefPolyhedron=createVolume();
-		return;
-	}
+		case Primitive::Volume: {
+			nefPolyhedron=createVolume();
+			return;
+		}
 
-	case Primitive::Surface: {
-		if(!sanitized && detectHoles(true))
-			triangulate();
-		nefPolyhedron=createVolume();
-		return;
-	}
+		case Primitive::Surface: {
+			if(!sanitized && detectHoles(true))
+				triangulate();
+			nefPolyhedron=createVolume();
+			return;
+		}
 
-	case Primitive::Lines: {
-		nefPolyhedron=createPolyline();
-		return;
-	}
+		case Primitive::Lines: {
+			nefPolyhedron=createPolyline();
+			return;
+		}
 
-	default: {
-		nefPolyhedron=createPoints();
-		return;
-	}
+		default: {
+			nefPolyhedron=createPoints();
+			return;
+		}
 	}
 }
 

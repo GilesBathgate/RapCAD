@@ -54,34 +54,34 @@ QList<Point> PrimitiveModule::getPolygon(const decimal& a,const decimal& r,const
 		decimal s2=r*r_sin(r_pi()/n);
 		for(auto i=0; i<n; ++i) {
 			switch(i) {
-			case 0: {
-				y=a;
-				x=-s2;
-				break;
-			}
-			case 1: {
-				x=s2;
-				break;
-			}
-			case 2: {
-				y=0;
-				x=r;
-				break;
-			}
-			case 3: {
-				y=-a;
-				x=s2;
-				break;
-			}
-			case 4: {
-				x=-s2;
-				break;
-			}
-			case 5: {
-				y=0;
-				x=-r;
-				break;
-			}
+				case 0: {
+					y=a;
+					x=-s2;
+					break;
+				}
+				case 1: {
+					x=s2;
+					break;
+				}
+				case 2: {
+					y=0;
+					x=r;
+					break;
+				}
+				case 3: {
+					y=-a;
+					x=s2;
+					break;
+				}
+				case 4: {
+					x=-s2;
+					break;
+				}
+				case 5: {
+					y=0;
+					x=-r;
+					break;
+				}
 			}
 			poly.append(Point(x,y,z));
 		}
