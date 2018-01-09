@@ -163,81 +163,58 @@ void CGALPrimitive::buildPrimitive()
 		return;
 
 	switch(type) {
+
 	case Primitive::Volume: {
-
-		CGALBuilder b(*this);
-		if(!sanitized && detectHoles(true))
-			b.triangulate();
-
-		CGAL::Polyhedron3 poly;
-		poly.delegate(b);
-
-		if(!sanitized) {
-			fixZeroEdges(poly);
-			fixZeroTriangles(poly);
-		}
-		setSanitized(true);
-
-		nefPolyhedron=new CGAL::NefPolyhedron3(poly);
+		nefPolyhedron=createVolume();
 		return;
 	}
 
-	case Primitive::Skeleton: {
-		OnceOnly first;
-		for(CGALPolygon* p: polygons) {
-			QVector<CGAL::Point3> pl;
-			for(const auto& pt: p->getPoints()) {
-				pl.append(pt);
-			}
+	case Primitive::Surface: {
+		if(!sanitized && detectHoles(true))
+			triangulate();
+		nefPolyhedron=createVolume();
+		return;
+	}
 
-			if(first()) {
-				nefPolyhedron=createPolyline(pl);
-			} else {
-				const CGAL::NefPolyhedron3* np=createPolyline(pl);
-				*nefPolyhedron=nefPolyhedron->join(*np);
-			}
-		}
+	case Primitive::Lines: {
+		nefPolyhedron=createPolyline();
 		return;
 	}
 
 	default: {
-#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,8,0)
-		QVector<CGAL::Point3> pl1,pl2;
-		CGAL::Point3 p1=CGAL::Point3(0.0,0.0,0.0);
-		CGAL::Point3 p2=CGAL::Point3(1.0,0.0,0.0);
-		CGAL::Point3 p3=CGAL::Point3(0.0,1.0,0.0);
-
-		pl1.append(p1);
-		pl1.append(p2);
-		const CGAL::NefPolyhedron3* np1=createPolyline(pl1);
-
-		pl2.append(p1);
-		pl2.append(p3);
-		const CGAL::NefPolyhedron3* np2=createPolyline(pl2);
-
-		const CGAL::NefPolyhedron3& sp=np1->intersection(*np2);
-		delete np1;
-		delete np2;
-
-		OnceOnly first;
-		for(CGAL::Point3 p: points) {
-			auto* np=new CGAL::NefPolyhedron3(sp);
-			CGAL::AffTransformation3 t(
-					1, 0, 0, p.x(),
-					0, 1, 0, p.y(),
-					0, 0, 1, p.z(), 1);
-			np->transform(t);
-			if(first())
-				nefPolyhedron=np;
-			else
-				*nefPolyhedron=nefPolyhedron->join(*np);
-		}
-#else
-		nefPolyhedron=new CGAL::NefPolyhedron3(points.begin(), points.end(), CGAL::NefPolyhedron3::Points_tag());
-#endif
+		nefPolyhedron=createPoints();
 		return;
 	}
 	}
+}
+
+CGAL::NefPolyhedron3* CGALPrimitive::createVolume()
+{
+	CGALBuilder b(*this);
+	CGAL::Polyhedron3 poly;
+	poly.delegate(b);
+
+	if(!sanitized) {
+		fixZeroEdges(poly);
+		fixZeroTriangles(poly);
+	}
+	setSanitized(true);
+	return new CGAL::NefPolyhedron3(poly);
+}
+
+CGAL::NefPolyhedron3* CGALPrimitive::createPolyline()
+{
+	CGAL::NefPolyhedron3* result=nullptr;
+	for(CGALPolygon* pg: polygons) {
+		QVector<CGAL::Point3> pl=QVector<CGAL::Point3>::fromList(pg->getPoints());
+		if(!result) {
+			result=createPolyline(pl);
+		} else {
+			const CGAL::NefPolyhedron3* np=createPolyline(pl);
+			*result=result->join(*np);
+		}
+	}
+	return result;
 }
 
 CGAL::NefPolyhedron3* CGALPrimitive::createPolyline(QVector<CGAL::Point3> pl)
@@ -249,6 +226,45 @@ CGAL::NefPolyhedron3* CGALPrimitive::createPolyline(QVector<CGAL::Point3> pl)
 	PolyLine poly;
 	poly.push_back(p);
 	return new CGAL::NefPolyhedron3(poly.begin(), poly.end(), CGAL::NefPolyhedron3::Polylines_tag());
+}
+
+CGAL::NefPolyhedron3* CGALPrimitive::createPoints()
+{
+#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,8,0)
+	CGAL::NefPolyhedron3* result=nullptr;
+	QVector<CGAL::Point3> pl1,pl2;
+	CGAL::Point3 p1=CGAL::Point3(0.0,0.0,0.0);
+	CGAL::Point3 p2=CGAL::Point3(1.0,0.0,0.0);
+	CGAL::Point3 p3=CGAL::Point3(0.0,1.0,0.0);
+
+	pl1.append(p1);
+	pl1.append(p2);
+	const CGAL::NefPolyhedron3* np1=createPolyline(pl1);
+
+	pl2.append(p1);
+	pl2.append(p3);
+	const CGAL::NefPolyhedron3* np2=createPolyline(pl2);
+
+	const CGAL::NefPolyhedron3& sp=np1->intersection(*np2);
+	delete np1;
+	delete np2;
+
+	for(CGAL::Point3 p: points) {
+		auto* np=new CGAL::NefPolyhedron3(sp);
+		CGAL::AffTransformation3 t(
+			1, 0, 0, p.x(),
+			0, 1, 0, p.y(),
+			0, 0, 1, p.z(), 1);
+		np->transform(t);
+		if(!result)
+			result=np;
+		else
+			*result=result->join(*np);
+	}
+	return result;
+#else
+	return new CGAL::NefPolyhedron3(points.begin(), points.end(), CGAL::NefPolyhedron3::Points_tag());
+#endif
 }
 
 Polygon* CGALPrimitive::createPolygon()
@@ -445,8 +461,8 @@ Primitive* CGALPrimitive::minkowski(Primitive* pr)
 Primitive* CGALPrimitive::inset(const CGAL::Scalar& amount)
 {
 	CGALBuilder b(*this);
-	CGALPrimitive& result=b.buildOffsetPolygons(amount);
-	return &result;
+	b.buildOffsetPolygons(amount);
+	return this;
 }
 
 Primitive* CGALPrimitive::decompose()
@@ -507,8 +523,8 @@ bool CGALPrimitive::detectHoles(bool check)
 Primitive* CGALPrimitive::triangulate()
 {
 	CGALBuilder b(*this);
-	CGALPrimitive& result=b.triangulate();
-	return &result;
+	b.triangulate();
+	return this;
 }
 
 #ifndef USE_SIMPLIFY

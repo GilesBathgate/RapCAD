@@ -64,7 +64,7 @@ void NodeEvaluator::visit(const PrimitiveNode& n)
 void NodeEvaluator::visit(const PolylineNode& n)
 {
 	Primitive* cp=n.getPrimitive();
-	cp->setType(Primitive::Skeleton);
+	cp->setType(Primitive::Lines);
 	evaluate(n,Union,cp);
 }
 
@@ -73,7 +73,7 @@ void NodeEvaluator::visit(const TriangulateNode& n)
 	evaluate(n,Union);
 	if(result) {
 		result=result->triangulate();
-		result->setType(Primitive::Volume);
+		result->setType(Primitive::Surface);
 	}
 }
 
@@ -287,7 +287,7 @@ void NodeEvaluator::visit(const LinearExtrudeNode& op)
 #ifdef USE_CGAL
 	auto* cp=new CGALPrimitive();
 	if(result->isFullyDimentional()) {
-		cp->setType(Primitive::Skeleton);
+		cp->setType(Primitive::Lines);
 		cp->createPolygon();
 		cp->appendVertex(CGAL::ORIGIN);
 		cp->appendVertex(CGAL::Point3(0.0,0.0,op.getHeight()));
@@ -512,7 +512,7 @@ void NodeEvaluator::visit(const BoundsNode& n)
 	}
 
 	Primitive* a=new Polyhedron();
-	a->setType(Primitive::Skeleton);
+	a->setType(Primitive::Lines);
 	CubeModule::createCuboid<CGAL::Point3>(a,xmin,xmax,ymin,ymax,zmin,zmax);
 
 	result->appendChild(a);
@@ -542,7 +542,7 @@ void NodeEvaluator::visit(const NormalsNode& n)
 	CGALPrimitive* prim=e.getPrimitive();
 
 	auto* a=new Polyhedron();
-	a->setType(Primitive::Skeleton);
+	a->setType(Primitive::Lines);
 	int i=0;
 	for(CGALPolygon* pg: prim->getCGALPolygons()) {
 		CGAL::Vector3 v=pg->getNormal();
@@ -847,7 +847,7 @@ void NodeEvaluator::visit(const RadialsNode& n)
 	result->appendChild(cp);
 
 	auto* p = new Polyhedron();
-	p->setType(Primitive::Skeleton);
+	p->setType(Primitive::Lines);
 	Polygon* pg=p->createPolygon();
 
 	const int f=90;
@@ -890,7 +890,7 @@ void NodeEvaluator::visit(const VolumesNode& n)
 	CGAL::Point3 tr(x,y,z);
 
 	auto* p = new Polyhedron();
-	p->setType(Primitive::Skeleton);
+	p->setType(Primitive::Lines);
 	Polygon* pg=p->createPolygon();
 	p->createVertex(c);
 	p->createVertex(tr);

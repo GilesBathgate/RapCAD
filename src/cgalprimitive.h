@@ -87,7 +87,11 @@ public:
 	void clearPolygons();
 private:
 	void buildPrimitive();
-	CGAL::NefPolyhedron3* createPolyline(QVector<CGAL::Point3> pl);
+	CGAL::NefPolyhedron3* createVolume();
+	CGAL::NefPolyhedron3* createPolyline();
+	CGAL::NefPolyhedron3* createPolyline(QVector<CGAL::Point3>);
+	CGAL::NefPolyhedron3* createPoints();
+
 	/**
 	 * @brief Find the index of the point or add it to the points list
 	 * @param p The point to find or add.
@@ -116,7 +120,6 @@ private:
 	};
 
 	CGAL::Nef_nary_union_3<Unionable>* nUnion;
-
 };
 
 #endif // CGALPRIMITIVE_H

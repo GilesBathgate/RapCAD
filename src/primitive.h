@@ -28,7 +28,8 @@ class Primitive
 public:
 	enum Primitive_t {
 		Volume,
-		Skeleton,
+		Surface,
+		Lines,
 		Points
 	};
 

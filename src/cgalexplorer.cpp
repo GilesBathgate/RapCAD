@@ -209,7 +209,7 @@ void CGALExplorer::explore()
 		 * order. We check that we didnt reverse direction and if
 		 * we did we walk along the twin edge. */
 		perimeters=new CGALPrimitive();
-		perimeters->setType(Primitive::Skeleton);
+		perimeters->setType(Primitive::Lines);
 		auto* poly=static_cast<CGALPolygon*>(perimeters->createPolygon());
 		HalfEdgeHandle f=outEdges.first();
 		HalfEdgeHandle c=f;
