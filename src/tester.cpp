@@ -63,6 +63,33 @@ void Tester::writeHeader(QString name, int num)
 	output.flush();
 }
 
+void Tester::writePass()
+{
+#ifdef Q_OS_WIN
+	output << " Passed" << endl;
+#else
+	output << " \e[0;32mPassed\e[0m" << endl;
+#endif
+}
+
+void Tester::writeFail()
+{
+#ifdef Q_OS_WIN
+	output << " FAILED" << endl;
+#else
+	output << " \e[0;31mFAILED\e[0m" << endl;
+#endif
+}
+
+void Tester::writeSkip()
+{
+#ifdef Q_OS_WIN
+	output << " Skipped" << endl;
+#else
+	output << " \e[0;33mSkipped\e[0m" << endl;
+#endif
+}
+
 static bool skipDir(QString dir)
 {
 #ifndef USE_OFFSET
@@ -101,7 +128,7 @@ int Tester::evaluate()
 	BuiltinCreator* cr=BuiltinCreator::getInstance(*nullreport);
 	cr->generateDocs(nulldocs);
 
-	output << " Passed" << endl;
+	writePass();
 
 	/* This hard coded directory and filters need to be addressed
 	 * but it will do for now. */
@@ -120,7 +147,7 @@ int Tester::evaluate()
 			writeHeader(file.fileName(),++testcount);
 
 			if(skipDir(dir)) {
-				output << " Skipped" << endl;
+				writeSkip();
 				continue;
 			}
 
@@ -136,7 +163,7 @@ int Tester::evaluate()
 	}
 	reporter.setReturnCode(failcount);
 
-	output << testcount << " tests. Passed: " << passcount << " Failed: " << failcount << endl;
+	output << "Total: " << testcount << " Passed: " << passcount << " Failed: " << failcount << endl;
 
 	reporter.reportTiming("testing");
 #ifndef Q_OS_WIN
@@ -221,10 +248,10 @@ void Tester::exportTest(CGALExport& e,QString origPath,QFileInfo file,QString ex
 	c.setup(origPath,newPath);
 	c.evaluate();
 	if(c.evaluate()==0) {
-		output << " Passed" << endl;
+		writePass();
 		passcount++;
 	} else {
-		output << " FAILED" << endl;
+		writeFail();
 		failcount++;
 	}
 	newfile.remove();
@@ -240,10 +267,10 @@ void Tester::testFunction(Script& s)
 	s.accept(te);
 	auto* v = dynamic_cast<BooleanValue*>(c->getResult());
 	if(v && v->isTrue()) {
-		output << " Passed" << endl;
+		writePass();
 		passcount++;
 	} else {
-		output << " FAILED" << endl;
+		writeFail();
 		failcount++;
 	}
 	delete v;
@@ -255,7 +282,7 @@ void Tester::testFunction(Script& s)
 void Tester::testModule(Script& s, QFileInfo file)
 {
 #ifdef Q_OS_WIN
-	output << " Skipped" << endl;
+	writeSkip();
 	return;
 #endif
 	TreeEvaluator te(*nullreport);
@@ -283,10 +310,10 @@ void Tester::testModule(Script& s, QFileInfo file)
 		Comparer co(*nullreport);
 		co.setup(examFileInfo.absoluteFilePath(),csgFileInfo.absoluteFilePath());
 		if(co.evaluate()==0) {
-			output << " Passed" << endl;
+			writePass();
 			passcount++;
 		} else {
-			output << " FAILED" << endl;
+			writeFail();
 			failcount++;
 		}
 		examFile.remove();

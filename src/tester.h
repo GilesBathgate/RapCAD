@@ -33,6 +33,9 @@ private slots:
 	void runTests();
 private:
 	void writeHeader(QString name, int num);
+	void writePass();
+	void writeFail();
+	void writeSkip();
 	bool testFunctionExists(Script&);
 	void testModule(Script&, QFileInfo);
 	void testFunction(Script&);
