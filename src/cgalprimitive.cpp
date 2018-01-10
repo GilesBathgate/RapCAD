@@ -269,6 +269,11 @@ CGAL::NefPolyhedron3* CGALPrimitive::createPoints()
 
 Polygon* CGALPrimitive::createPolygon()
 {
+	return createCGALPolygon();
+}
+
+CGALPolygon* CGALPrimitive::createCGALPolygon()
+{
 	auto* pg = new CGALPolygon(this);
 	polygons.append(pg);
 	return pg;

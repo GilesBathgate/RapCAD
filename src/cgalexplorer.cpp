@@ -97,7 +97,7 @@ public:
 					primitive->setSanitized(false);
 
 				if(fc.is_shalfedge()) {
-					auto* pg=static_cast<CGALPolygon*>(primitive->createPolygon());
+					auto* pg=primitive->createCGALPolygon();
 					pg->setPlane(f->plane());
 					if(isBase(pg))
 						basePolygons.append(pg);
@@ -210,7 +210,7 @@ void CGALExplorer::explore()
 		 * we did we walk along the twin edge. */
 		perimeters=new CGALPrimitive();
 		perimeters->setType(Primitive::Lines);
-		auto* poly=static_cast<CGALPolygon*>(perimeters->createPolygon());
+		auto* poly=perimeters->createCGALPolygon();
 		HalfEdgeHandle f=outEdges.first();
 		HalfEdgeHandle c=f;
 		QList<HalfEdgeHandle> visited;
@@ -242,7 +242,7 @@ void CGALExplorer::explore()
 							if(f==nullptr)
 								return;
 
-							poly=static_cast<CGALPolygon*>(perimeters->createPolygon());
+							poly=perimeters->createCGALPolygon();
 							c=f;
 							first=true;
 						}

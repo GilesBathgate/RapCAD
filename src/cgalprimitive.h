@@ -47,6 +47,7 @@ public:
 	void setSanitized(bool) override;
 	bool getSanitized() override;
 	Polygon* createPolygon() override;
+	CGALPolygon* createCGALPolygon();
 	void createVertex(const CGAL::Point3&) override;
 	void createVertex(const CGAL::Scalar&, const CGAL::Scalar&, const CGAL::Scalar&);
 	void addVertex(const CGAL::Point3&,bool);
