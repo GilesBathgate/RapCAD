@@ -181,10 +181,11 @@ int Tester::evaluate()
 
 void Tester::runTests()
 {
+	QFile f("test.rcad");
 	CodeEditor* edit = ui->findChild<CodeEditor*>("scriptEditor");
 	edit->activateWindow();
 	QTest::keyClicks(edit,"difference(){cube(10,c=true);cylinder(20,4,c=true);}");
-	edit->setFileName("test.rcad");
+	edit->setFileName(f.fileName());
 	edit->saveFile();
 	QTest::keyClick(ui,Qt::Key_F6,Qt::NoModifier,100);
 
@@ -199,6 +200,7 @@ void Tester::runTests()
 	QTest::keyClick(prefs,Qt::Key_Enter,Qt::NoModifier,100);
 
 	QTimer::singleShot(1000,ui,SLOT(close()));
+	f.remove();
 }
 
 void Tester::exportTest(QString dir)
