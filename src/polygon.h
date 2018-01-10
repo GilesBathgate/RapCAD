@@ -33,7 +33,7 @@ class Primitive;
 class Polygon
 {
 public:
-	explicit Polygon(Primitive*);
+	explicit Polygon(const Primitive&);
 	void append(int);
 	void prepend(int);
 	QList<Point> getPoints() const;
@@ -41,7 +41,7 @@ public:
 	void setIndexes(const QList<int>& value);
 protected:
 	QList<int> indexes;
-	Primitive* parent;
+	const Primitive& parent;
 };
 
 #endif // POLYGON_H

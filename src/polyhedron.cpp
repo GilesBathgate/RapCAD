@@ -29,7 +29,7 @@ Polyhedron::~Polyhedron()
 
 Polygon* Polyhedron::createPolygon()
 {
-	auto* pg = new Polygon(this);
+	auto* pg = new Polygon(*this);
 	polygons.append(pg);
 	return pg;
 }

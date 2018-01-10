@@ -274,7 +274,7 @@ Polygon* CGALPrimitive::createPolygon()
 
 CGALPolygon* CGALPrimitive::createCGALPolygon()
 {
-	auto* pg = new CGALPolygon(this);
+	auto* pg = new CGALPolygon(*this);
 	polygons.append(pg);
 	return pg;
 }

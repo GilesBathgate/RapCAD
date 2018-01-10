@@ -19,7 +19,7 @@
 #include "polygon.h"
 #include "primitive.h"
 
-Polygon::Polygon(Primitive* p) : parent(p)
+Polygon::Polygon(const Primitive& p) : parent(p)
 {
 }
 
@@ -35,7 +35,7 @@ void Polygon::prepend(int i)
 
 QList<Point> Polygon::getPoints() const
 {
-	QList<Point> parentPoints=parent->getPoints();
+	QList<Point> parentPoints=parent.getPoints();
 	QList<Point> points;
 	for(auto i: indexes)
 		points.append(parentPoints.at(i));
