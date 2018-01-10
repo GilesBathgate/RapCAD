@@ -19,7 +19,7 @@
 #include "point.h"
 
 #ifndef USE_CGAL
-bool Point::operator ==(const Point that) const
+bool Point::operator ==(const Point& that) const
 {
 	return _x==that._x&&_y==that._y&&_z==that._z;
 }

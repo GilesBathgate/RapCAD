@@ -198,7 +198,7 @@ decimal SimpleTextBuilder::getHeight()
 	return 1.6;
 }
 
-void SimpleTextBuilder::setLocation(Point p)
+void SimpleTextBuilder::setLocation(const Point& p)
 {
 	location=p;
 }

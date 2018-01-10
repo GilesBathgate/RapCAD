@@ -35,7 +35,7 @@ public:
 	void setFamily(const QString& value);
 	void setSize(int value);
 	decimal getHeight() override;
-	void setLocation(Point) override;
+	void setLocation(const Point&) override;
 	Primitive* buildPrimitive() const override;
 private:
 	QFont getFont() const;

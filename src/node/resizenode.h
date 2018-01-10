@@ -27,7 +27,7 @@ class ResizeNode : public Node
 public:
 	ResizeNode();
 	void accept(NodeVisitor&) override;
-	void setSize(Point);
+	void setSize(const Point&);
 	Point getSize() const;
 	void setAutoSize(bool);
 	bool getAutoSize() const;

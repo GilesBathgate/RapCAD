@@ -54,7 +54,7 @@ decimal QPathTextBuilder::getHeight()
 	return fm.height();
 }
 
-void QPathTextBuilder::setLocation(Point p)
+void QPathTextBuilder::setLocation(const Point& p)
 {
 #ifdef USE_CGAL
 	location = QPointF(to_double(p.x()),to_double(p.y()));

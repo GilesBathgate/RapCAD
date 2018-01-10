@@ -29,7 +29,7 @@ public:
 	virtual ~TextBuilder() {}
 	virtual void setText(QString)=0;
 	virtual decimal getHeight()=0;
-	virtual void setLocation(Point)=0;
+	virtual void setLocation(const Point&)=0;
 	virtual Primitive* buildPrimitive() const=0;
 };
 
