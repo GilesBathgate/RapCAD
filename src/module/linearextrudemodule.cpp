@@ -20,11 +20,13 @@
 #include "context.h"
 #include "node/linearextrudenode.h"
 #include "numbervalue.h"
+#include "vectorvalue.h"
 
 LinearExtrudeModule::LinearExtrudeModule(Reporter& r) : Module(r,"linear_extrude")
 {
 	addDescription(tr("Extrudes its children along the z axis."));
 	addParameter("height",tr("The height of the extrusion."));
+	addParameter("axis",tr("The axis along which to perform the extrusion"));
 }
 
 Node* LinearExtrudeModule::evaluate(const Context& ctx) const
@@ -34,8 +36,14 @@ Node* LinearExtrudeModule::evaluate(const Context& ctx) const
 	if(height)
 		h=height->getNumber();
 
+	Point axis(0,0,1);
+	auto* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
+	if(vecVal)
+		axis=vecVal->getPoint();
+
 	auto* d = new LinearExtrudeNode();
 	d->setHeight(h);
+	d->setAxis(axis);
 	d->setChildren(ctx.getInputNodes());
 	return d;
 }

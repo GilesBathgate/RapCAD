@@ -287,15 +287,19 @@ void NodeEvaluator::visit(const LinearExtrudeNode& op)
 	evaluate(op,Union);
 #ifdef USE_CGAL
 	auto* cp=new CGALPrimitive();
+	CGAL::Scalar z=op.getHeight();
+	CGAL::Point3 a=op.getAxis();
+	CGAL::Vector3 axis(CGAL::ORIGIN,a);
+	CGAL::Vector3 t=axis*z;
+
 	if(result->isFullyDimentional()) {
 		cp->setType(Primitive::Lines);
 		cp->createPolygon();
 		cp->appendVertex(CGAL::ORIGIN);
-		cp->appendVertex(CGAL::Point3(0.0,0.0,op.getHeight()));
+		cp->appendVertex(CGAL::Point3(t.x(),t.y(),t.z()));
 		result=result->minkowski(cp);
 	} else {
-		CGAL::Scalar z=op.getHeight();
-		CGAL::Vector3 t(0.0,0.0,z);
+
 		CGAL::Direction3 d=t.direction();
 
 		CGALExplorer explorer(result);
