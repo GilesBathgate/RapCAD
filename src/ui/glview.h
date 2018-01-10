@@ -96,6 +96,10 @@ private:
 	void drawRulers();
 	void drawCross();
 
+#ifndef USE_QGLWIDGET
+	QMatrix4x4* projection;
+	QMatrix4x4* modelview;
+#endif
 	Renderer* render;
 	GLfloat distance;
 	bool showAxes;
@@ -119,10 +123,6 @@ private:
 	GLfloat rotateZ;
 	GLint viewportX;
 	GLint viewportZ;
-#ifndef USE_QGLWIDGET
-	QMatrix4x4* projection;
-	QMatrix4x4* modelview;
-#endif
 };
 
 #endif // GLVIEW_H

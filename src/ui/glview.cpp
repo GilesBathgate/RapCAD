@@ -31,6 +31,8 @@ GLView::GLView(QWidget* parent) :
 	QGLWidget(parent),
 #else
 	QOpenGLWidget(parent),
+	projection(new QMatrix4x4()),
+	modelview(new QMatrix4x4()),
 #endif
 	render(nullptr),
 	distance(500.0),
@@ -53,10 +55,6 @@ GLView::GLView(QWidget* parent) :
 	rotateZ(35.0),
 	viewportX(0.0),
 	viewportZ(0.0)
-#ifndef USE_QGLWIDGET
-	,projection(new QMatrix4x4()),
-	modelview(new QMatrix4x4())
-#endif
 {
 }
 
