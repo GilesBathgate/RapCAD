@@ -55,18 +55,34 @@ QList<CGAL::Point2> CGALPolygon::getProjectedPoints()
 	return points;
 }
 
+CGAL::Direction3 CGALPolygon::getDirection() const
+{
+	return direction;
+}
+
 CGAL::Vector3 CGALPolygon::getNormal() const
 {
 	return plane.orthogonal_vector();
 }
 
+void CGALPolygon::calculateProjection()
+{
+	CGAL::Vector3 v=plane.orthogonal_vector();
+	projection=new CGALProjection(v);
+	direction=projection->getDirection(v);
+}
+
 void CGALPolygon::calculatePlane()
 {
-	CGAL::Vector3 v;
 	QList<CGAL::Point3> points=getPoints();
-	CGAL::normal_vector_newell_3(points.begin(),points.end(),v);
-	plane=CGAL::Plane3(points.first(), v);
-	projection=new CGALProjection(v);
+	if(points.size()>3) {
+		CGAL::Vector3 v;
+		CGAL::normal_vector_newell_3(points.begin(),points.end(),v);
+		plane=CGAL::Plane3(points.first(), v);
+	} else {
+		plane=CGAL::Plane3(points.at(0),points.at(1),points.at(2));
+	}
+	calculateProjection();
 }
 
 CGAL::Plane3 CGALPolygon::getPlane() const
@@ -77,6 +93,7 @@ CGAL::Plane3 CGALPolygon::getPlane() const
 void CGALPolygon::setPlane(const CGAL::Plane3& p)
 {
 	plane=p;
+	calculateProjection();
 }
 
 bool CGALPolygon::getHole() const

@@ -186,11 +186,12 @@ void CGALBuilder::triangulate()
 
 	for(FaceIterator f=ct.finite_faces_begin(); f!=ct.finite_faces_end(); ++f) {
 		if(f->info().inDomain()) {
-			Polygon* pg=primitive.createPolygon();
+			auto* pg=static_cast<CGALPolygon*>(primitive.createPolygon());
 			for(auto i=0; i<3; ++i) {
 				VertexHandle h=f->vertex(i);
 				pg->append(h->info());
 			}
+			pg->calculatePlane();
 		}
 	}
 }
