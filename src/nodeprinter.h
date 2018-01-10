@@ -104,11 +104,8 @@ private:
 	void printChildren(const Node&);
 	void printArguments(QList<Point>);
 	void printArguments(Polygon);
-	void printPrimitive(Primitive* pr);
-	void printPrimitive(Polyhedron*);
-#ifdef USE_CGAL
-	void printPrimitive(CGALPrimitive*);
-#endif
+	void printPrimitive(Primitive*);
+	void printPolygon(Polygon*);
 	void printArguments(QList<AlignNode::Face_t> t);
 	void printArguments(QString,bool);
 	void printArguments(int);

@@ -33,46 +33,6 @@ void NodePrinter::visit(const PrimitiveNode& n)
 
 void NodePrinter::printPrimitive(Primitive* pr)
 {
-#ifdef USE_CGAL
-	auto* cp=dynamic_cast<CGALPrimitive*>(pr);
-	if(cp)
-		printPrimitive(cp);
-#endif
-	auto* ph=dynamic_cast<Polyhedron*>(pr);
-	if(ph)
-		printPrimitive(ph);
-}
-
-void NodePrinter::printPrimitive(Polyhedron* ph)
-{
-	OnceOnly first;
-	for(const auto& p: ph->getPoints()) {
-		if(!first())
-			result << ",";
-		result << to_string(p);
-	}
-	result << "],[";
-
-	OnceOnly first_pg;
-	for(Polygon* pg: ph->getPolygons()) {
-		if(!first_pg())
-			result << ",";
-		result << "[";
-
-		OnceOnly first_p;
-		for(auto i: pg->getIndexes()) {
-			if(!first_p())
-				result << ",";
-			result << QString().setNum(i);
-		}
-		result << "]";
-	}
-}
-
-#ifdef USE_CGAL
-
-void NodePrinter::printPrimitive(CGALPrimitive* pr)
-{
 	OnceOnly first;
 	for(const auto& p: pr->getPoints()) {
 		if(!first())
@@ -82,21 +42,37 @@ void NodePrinter::printPrimitive(CGALPrimitive* pr)
 	result << "],[";
 
 	OnceOnly first_pg;
-	for(Polygon* pg: pr->getCGALPolygons()) {
-		if(!first_pg())
-			result << ",";
-		result << "[";
-
-		OnceOnly first_p;
-		for(auto i: pg->getIndexes()) {
-			if(!first_p())
+#ifdef USE_CGAL
+	auto* cp=dynamic_cast<CGALPrimitive*>(pr);
+	if(cp) {
+		for(CGALPolygon* pg: cp->getCGALPolygons()) {
+			if(!first_pg())
 				result << ",";
-			result << QString().setNum(i);
+			printPolygon(pg);
 		}
-		result << "]";
+	}
+#endif
+	auto* ph=dynamic_cast<Polyhedron*>(pr);
+	if(ph) {
+		for(Polygon* pg: ph->getPolygons()) {
+			if(!first_pg())
+				result << ",";
+			printPolygon(pg);
+		}
 	}
 }
-#endif
+
+void NodePrinter::printPolygon(Polygon* pg)
+{
+	result << "[";
+	OnceOnly first;
+	for(auto i: pg->getIndexes()) {
+		if(!first())
+			result << ",";
+		result << QString().setNum(i);
+	}
+	result << "]";
+}
 
 void NodePrinter::visit(const PolylineNode& n)
 {
