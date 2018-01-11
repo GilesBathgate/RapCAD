@@ -43,6 +43,7 @@ static QList<FILE*> openfiles;
 %x codedoc
 %x comment string
 I [a-zA-Z0-9_]
+L [a-zA-Z_]
 D [0-9]
 WS [ \t]
 NL \n|\r\n
@@ -103,7 +104,7 @@ NL \n|\r\n
 "~="                           { return tokenizer->buildAppend(); }
 [\[\]<>.;#${}(),^]             { return tokenizer->buildLegalChar(lexertext[0]); }
 {D}+|{D}*\.{D}+|{D}+\.{D}*     { return tokenizer->buildNumber(lexertext); }
-{I}+                           { return tokenizer->buildIdentifier(lexertext); }
+{L}{I}*                        { return tokenizer->buildIdentifier(lexertext); }
 \"                             { BEGIN(string); tokenizer->buildStringStart(); }
 <string>{
 \\n                            { tokenizer->buildString('\n'); }
