@@ -34,6 +34,11 @@ static bool openfile(QFileInfo);
 static AbstractTokenBuilder* tokenizer;
 static Reporter* reporter;
 static QList<FILE*> openfiles;
+
+#define yyfinish()\
+	lexerpop_buffer_state();\
+	if(!YY_CURRENT_BUFFER)\
+		yyterminate()
 %}
 
 %option yylineno
@@ -60,10 +65,7 @@ NL \n|\r\n
 "import"{WS}*"<"               { BEGIN(import); tokenizer->buildImportStart(); }
 <import>[^\t\r\n>]+            { return tokenizer->buildImport(lexertext); }
 <import>">"                    { BEGIN(INITIAL); tokenizer->buildImportFinish(); }
-<<EOF>>                        { tokenizer->buildFileFinish();
-                                 lexerpop_buffer_state();
-                                 if(!YY_CURRENT_BUFFER)
-                                     yyterminate(); }
+<<EOF>>                        { tokenizer->buildFileFinish(); yyfinish(); }
 "module"                       { return tokenizer->buildModule(); }
 "function"                     { return tokenizer->buildFunction(); }
 "true"                         { return tokenizer->buildTrue(); }
