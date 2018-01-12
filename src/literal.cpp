@@ -48,6 +48,7 @@ void Literal::setValue(QString value)
 
 void Literal::setUnit(QString value)
 {
+	text=value;
 	if(value=="m")
 		unit=1000;
 	else if(value=="cm")
@@ -72,7 +73,7 @@ QString Literal::getValueString() const
 		case Boolean:
 			return boolean ? "true" : "false";
 		case Number:
-			return to_string(number);
+			return to_string(number).append(text);
 		case Text:
 			return QString("\"%1\"").arg(text);
 		default:
