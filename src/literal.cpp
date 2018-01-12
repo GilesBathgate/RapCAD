@@ -23,26 +23,47 @@
 
 Literal::Literal() :
 	boolean(false),
-	type(Literal::Undef)
+	type(Undef),
+	unit(1)
 {
 }
 
 void Literal::setValue(bool value)
 {
-	type=Literal::Boolean;
+	type = Boolean;
 	boolean = value;
 }
 
 void Literal::setValue(decimal value)
 {
-	type = Literal::Number;
+	type = Number;
 	number = value;
 }
 
 void Literal::setValue(QString value)
 {
-	type = Literal::Text;
+	type = Text;
 	text = value;
+}
+
+void Literal::setUnit(QString value)
+{
+	if(value=="m")
+		unit=1000;
+	else if(value=="cm")
+		unit=10;
+	else if(value=="mm")
+		unit=1;
+	else if(value=="um")
+		unit=decimal(1)/1000;
+	else if(value=="ft")
+		unit=decimal(3048)/10;
+	else if(value=="in")
+		unit=decimal(254)/10;
+	else if(value=="th")
+		unit=decimal(254)/10000;
+	else
+		type=Undef;
 }
 
 QString Literal::getValueString() const
@@ -65,7 +86,7 @@ Value* Literal::getValue() const
 		case Boolean:
 			return new BooleanValue(boolean);
 		case Number:
-			return new NumberValue(number);
+			return new NumberValue(number*unit);
 		case Text:
 			return new TextValue(text);
 		default:

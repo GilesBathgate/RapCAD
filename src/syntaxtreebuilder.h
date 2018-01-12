@@ -103,9 +103,10 @@ public:
 	unsigned int buildOptionalCommas(unsigned int) override;
 	Expression* buildLiteral() override;
 	Expression* buildLiteral(bool) override;
-	Expression* buildLiteral(decimal* value) override;
-	Expression* buildLiteral(QString* value) override;
-	Variable* buildVariable(QString* name) override;
+	Expression* buildLiteral(decimal*) override;
+	Expression* buildLiteral(decimal*,QString*) override;
+	Expression* buildLiteral(QString*) override;
+	Variable* buildVariable(QString*) override;
 	Expression* buildVariable(Variable*) override;
 	Variable* buildVariable(QString*,Variable::Storage_e) override;
 	Expression* buildExpression(Expression*,QString*) override;

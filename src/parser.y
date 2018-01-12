@@ -293,6 +293,8 @@ expression
 	{ $$ = builder->buildLiteral($1); }
 	| NUMBER
 	{ $$ = builder->buildLiteral($1); }
+	| NUMBER IDENTIFIER
+	{ $$ = builder->buildLiteral($1,$2); }
 	| '[' expression ':' expression ']'
 	{ $$ = builder->buildRange($2,$4); }
 	| '[' expression ':' expression ':' expression ']'

@@ -29,12 +29,14 @@ public:
 	void setValue(bool);
 	void setValue(decimal);
 	void setValue(QString);
-	QString getValueString() const;
+	void setUnit(QString);
 
+	QString getValueString() const;
 	Value* getValue() const;
 
 	void accept(TreeVisitor&) override;
 private:
+
 	enum DataType {
 		Undef,
 		Boolean,
@@ -46,6 +48,7 @@ private:
 	decimal number;
 	QString text;
 	DataType type;
+	decimal unit;
 };
 
 #endif // LITERAL_H

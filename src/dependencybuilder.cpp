@@ -312,6 +312,11 @@ Expression* DependencyBuilder::buildLiteral(decimal*)
 	return nullptr;
 }
 
+Expression* DependencyBuilder::buildLiteral(decimal*,QString*)
+{
+	return nullptr;
+}
+
 Expression* DependencyBuilder::buildLiteral(QString*)
 {
 	return nullptr;

@@ -94,9 +94,10 @@ public:
 	virtual Argument* buildArgument(Variable*,Expression*)=0;
 	virtual Expression* buildLiteral()=0;
 	virtual Expression* buildLiteral(bool)=0;
-	virtual Expression* buildLiteral(decimal* value)=0;
-	virtual Expression* buildLiteral(QString* value)=0;
-	virtual Variable* buildVariable(QString* name)=0;
+	virtual Expression* buildLiteral(decimal*)=0;
+	virtual Expression* buildLiteral(decimal*,QString*)=0;
+	virtual Expression* buildLiteral(QString*)=0;
+	virtual Variable* buildVariable(QString*)=0;
 	virtual Expression* buildVariable(Variable*)=0;
 	virtual Variable* buildVariable(QString*,Variable::Storage_e)=0;
 	virtual Expression* buildExpression(Expression*,QString*)=0;
