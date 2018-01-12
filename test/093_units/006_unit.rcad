@@ -1,0 +1,4 @@
+function test() {
+return 1in==25.4;
+}
+

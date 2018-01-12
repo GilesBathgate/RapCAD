@@ -1,0 +1,4 @@
+function test() {
+return 1th==0.0254;
+}
+
