@@ -81,6 +81,8 @@ public:
 	virtual unsigned int buildLegalChar(unsigned int)=0;
 	virtual unsigned int buildIllegalChar()=0;
 	virtual unsigned int buildNumber(QString)=0;
+	virtual unsigned int buildRational()=0;
+	virtual unsigned int buildRational(QString)=0;
 	virtual unsigned int buildIdentifier(QString)=0;
 	virtual void buildStringStart()=0;
 	virtual void buildString(QChar)=0;

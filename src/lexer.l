@@ -50,6 +50,9 @@ static QList<FILE*> openfiles;
 I [a-zA-Z0-9_]
 L [a-zA-Z_]
 D [0-9]
+Z 0+|0*\.0+|0+\.0*
+N {D}+|{D}*\.{D}+|{D}+\.{D}*
+R {N}\/
 WS [ \t]
 NL \n|\r\n
 %%
@@ -78,12 +81,12 @@ NL \n|\r\n
 "else"                         { return tokenizer->buildElse(); }
 "for"                          { return tokenizer->buildFor(); }
 "return"                       { return tokenizer->buildReturn(); }
-"<="                           { return tokenizer->buildLessEqual();  }
-">="                           { return tokenizer->buildGreatEqual();  }
-"=="                           { return tokenizer->buildEqual();  }
-"!="                           { return tokenizer->buildNotEqual();  }
+"<="                           { return tokenizer->buildLessEqual(); }
+">="                           { return tokenizer->buildGreatEqual(); }
+"=="                           { return tokenizer->buildEqual(); }
+"!="                           { return tokenizer->buildNotEqual(); }
 "&&"                           { return tokenizer->buildAnd(); }
-"||"                           { return tokenizer->buildOr();  }
+"||"                           { return tokenizer->buildOr(); }
 "++"                           { return tokenizer->buildIncrement(); }
 "+="                           { return tokenizer->buildAddAssign(); }
 "--"                           { return tokenizer->buildDecrement(); }
@@ -105,7 +108,9 @@ NL \n|\r\n
 "~"                            { return tokenizer->buildConcatenate(); }
 "~="                           { return tokenizer->buildAppend(); }
 [\[\]<>.;#${}(),^]             { return tokenizer->buildLegalChar(lexertext[0]); }
-{D}+|{D}*\.{D}+|{D}+\.{D}*     { return tokenizer->buildNumber(lexertext); }
+{N}                            { return tokenizer->buildNumber(lexertext); }
+{N}\/{Z}                       { return tokenizer->buildRational(); }
+{R}+{N}                        { return tokenizer->buildRational(lexertext); }
 {L}{I}*                        { return tokenizer->buildIdentifier(lexertext); }
 \"                             { BEGIN(string); tokenizer->buildStringStart(); }
 <string>{
@@ -134,7 +139,7 @@ NL \n|\r\n
 {WS}+$                         { tokenizer->buildWhiteSpaceError(); }
 {WS}+                          { tokenizer->buildWhiteSpace(); }
 {NL}                           { tokenizer->buildNewLine(); }
-.                              { return tokenizer->buildIllegalChar();  }
+.                              { return tokenizer->buildIllegalChar(); }
 %%
 
 void lexererror()

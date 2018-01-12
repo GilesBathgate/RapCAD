@@ -341,6 +341,17 @@ unsigned int TokenBuilder::buildNumber(QString str)
 	return NUMBER;
 }
 
+unsigned int TokenBuilder::buildRational()
+{
+	return UNDEF;
+}
+
+unsigned int TokenBuilder::buildRational(QString s)
+{
+	parserlval.number = new decimal(parse_rational(s));
+	return NUMBER;
+}
+
 unsigned int TokenBuilder::buildIdentifier(QString str)
 {
 	parserlval.text = new QString(str);

@@ -130,3 +130,12 @@ CGAL::Gmpfr to_gmpfr(const decimal& d)
 	return m;
 }
 #endif
+
+decimal parse_rational(QString s, bool *ok)
+{
+	int i=s.lastIndexOf('/');
+	if(i<0)
+		return to_decimal(s,ok);
+
+	return parse_rational(s.left(i),ok)/to_decimal(s.mid(i+1),ok);
+}
