@@ -328,11 +328,14 @@ void TreeEvaluator::visit(const Argument& arg)
 		c=var->getStorage();
 	}
 
-	arg.getExpression()->accept(*this);
-	Value* v = context->getCurrentValue();
-	v->setName(name);
-	v->setStorage(c); //TODO Investigate moving this to apply to all variables.
-	context->addArgument(v);
+	Expression* exp=arg.getExpression();
+	if(exp) {
+		exp->accept(*this);
+		Value* v = context->getCurrentValue();
+		v->setName(name);
+		v->setStorage(c); //TODO Investigate moving this to apply to all variables.
+		context->addArgument(v);
+	}
 }
 
 void TreeEvaluator::visit(const AssignStatement& stmt)
