@@ -41,12 +41,13 @@ Node* PolylineModule::evaluate(const Context& ctx) const
 
 	QList<Value*> points=pointsVec->getChildren();
 
+	int count=0;
 	for(Value* point: points) {
 		auto* pointVec=dynamic_cast<VectorValue*>(point);
 		if(pointVec) {
 			Point pt = pointVec->getPoint();
 			p->createVertex(pt);
-
+			++count;
 		}
 	}
 
@@ -54,7 +55,7 @@ Node* PolylineModule::evaluate(const Context& ctx) const
 	 * build a polyline from that. */
 	if(!linesVec) {
 		Polygon* pg=p->createPolygon();
-		for(auto i=0; i<points.length(); ++i)
+		for(auto i=0; i<count; ++i)
 			pg->append(i);
 		return pn;
 	}

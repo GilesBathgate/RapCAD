@@ -47,12 +47,13 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 	if(points.isEmpty())
 		return pn;
 
+	int count=0;
 	for(Value* point: points) {
 		auto* pointVec=dynamic_cast<VectorValue*>(point);
 		if(pointVec) {
 			Point pt = pointVec->getPoint();
 			p->createVertex(pt);
-
+			++count;
 		}
 	}
 
@@ -60,7 +61,7 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 	 * build a polygon from that. */
 	if(!linesVec) {
 		Polygon* pg=p->createPolygon();
-		for(auto i=0; i<points.length(); ++i)
+		for(auto i=0; i<count; ++i)
 			pg->append(i);
 		return pn;
 	}
