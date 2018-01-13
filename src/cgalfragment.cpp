@@ -30,7 +30,7 @@ int CGALFragment::getFragments(const CGAL::Scalar& r)
 
 	CGAL::Scalar fe=fragmentError;
 	//solve R=r/cos(pi/n) for n where R=radius and r=inradius
-	if(fe > 0.0) return to_integer(r_ceil(r_pi() / r_acos((r-fe)/r,false)));
+	if(fe > 0.0 && fe < r) return to_integer(r_ceil(r_pi() / r_acos((r-fe)/r,false)));
 
 	CGAL::Scalar fs=fragmentSize;
 	CGAL::Scalar fa=fragmentAngle;
