@@ -161,11 +161,15 @@ bool CGALBuilder::triangulate()
 	typedef CT::Vertex_handle VertexHandle;
 	typedef CT::Face_iterator FaceIterator;
 
-	CT ct;
-	QList<CGAL::Point3> points3=primitive.getPoints();
-	if(points3.count()<3)
-		return false;
 
+	QList<CGAL::Point3> points3=primitive.getPoints();
+	int c=points3.count();
+	if(c<3)
+		return false;
+	else if(c==3)
+		return true;
+
+	CT ct;
 	for(CGALPolygon* pg: primitive.getCGALPolygons()) {
 		CGALProjection* pro=pg->getProjection();
 		QList<CGAL::Point2> points2;
