@@ -528,8 +528,9 @@ bool CGALPrimitive::detectHoles(bool check)
 Primitive* CGALPrimitive::triangulate()
 {
 	CGALBuilder b(*this);
-	b.triangulate();
-	return this;
+	if(b.triangulate())
+		return this;
+	return nullptr;
 }
 
 #ifndef USE_SIMPLIFY

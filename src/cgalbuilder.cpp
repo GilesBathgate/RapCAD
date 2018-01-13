@@ -150,7 +150,7 @@ void insert_constraint(CT& ct,PointIterator first, PointIterator last, bool clos
 }
 #endif
 
-void CGALBuilder::triangulate()
+bool CGALBuilder::triangulate()
 {
 	typedef CGAL::Triangulation_vertex_base_with_info_2<int,CGAL::Kernel3> VertexBase;
 	typedef CGAL::Triangulation_face_base_with_info_2<FaceInfo,CGAL::Kernel3> Info;
@@ -163,6 +163,9 @@ void CGALBuilder::triangulate()
 
 	CT ct;
 	QList<CGAL::Point3> points3=primitive.getPoints();
+	if(points3.count()<3)
+		return false;
+
 	for(CGALPolygon* pg: primitive.getCGALPolygons()) {
 		CGALProjection* pro=pg->getProjection();
 		QList<CGAL::Point2> points2;
@@ -194,6 +197,7 @@ void CGALBuilder::triangulate()
 			pg->calculatePlane();
 		}
 	}
+	return true;
 }
 
 #ifndef USE_OFFSET
