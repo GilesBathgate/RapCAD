@@ -183,6 +183,9 @@ bool CGALBuilder::triangulate()
 #endif
 	}
 
+	if(ct.number_of_vertices()<(TDS::size_type)points3.count())
+		return false;
+
 	markDomains(ct);
 
 	primitive.clearPolygons();
