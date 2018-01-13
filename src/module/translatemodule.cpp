@@ -33,6 +33,7 @@ Node* TranslateModule::evaluate(const Context& ctx) const
 	auto* vec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 
 	auto* n=new TransformationNode();
+	n->setChildren(ctx.getInputNodes());
 
 	if(!vec)
 		return n;
@@ -45,8 +46,6 @@ Node* TranslateModule::evaluate(const Context& ctx) const
 		0,0,0,1
 	);
 
-
 	n->setMatrix(m);
-	n->setChildren(ctx.getInputNodes());
 	return n;
 }

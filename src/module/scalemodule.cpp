@@ -34,6 +34,7 @@ Node* ScaleModule::evaluate(const Context& ctx) const
 	auto* sizeVal=getParameterArgument(ctx,0);
 
 	auto* n=new TransformationNode();
+	n->setChildren(ctx.getInputNodes());
 
 	if(!sizeVal)
 		return n;
@@ -59,6 +60,5 @@ Node* ScaleModule::evaluate(const Context& ctx) const
 	);
 
 	n->setMatrix(m);
-	n->setChildren(ctx.getInputNodes());
 	return n;
 }
