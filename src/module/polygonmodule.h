@@ -20,13 +20,16 @@
 #define POLYGONMODULE_H
 
 #include "module.h"
+#include "node/primitivenode.h"
 
 class PolygonModule : public Module
 {
 	Q_DECLARE_TR_FUNCTIONS(PolygonModule)
 public:
-	explicit PolygonModule(Reporter&);
+	explicit PolygonModule(Reporter&,bool);
 	Node* evaluate(const Context&) const override;
+private:
+	Primitive::Primitive_t type;
 };
 
 #endif // POLYGONMODULE_H

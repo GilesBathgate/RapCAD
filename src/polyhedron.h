@@ -29,6 +29,7 @@ public:
 	Polygon* createPolygon() override;
 	void createVertex(const Point&) override;
 	void setType(Primitive_t) override { }
+	Primitive_t getType() override { return Lines; }
 	void setSanitized(bool) override { }
 	bool getSanitized() override { return false; }
 	Primitive* buildPrimitive() { return this; }

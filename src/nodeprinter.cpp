@@ -25,8 +25,17 @@ NodePrinter::NodePrinter(QTextStream& s) : result(s)
 
 void NodePrinter::visit(const PrimitiveNode& n)
 {
-	result << "polyhedron([";
-	printPrimitive(n.getPrimitive());
+	Primitive* pr=n.getPrimitive();
+	switch(pr->getType())
+	{
+		case Primitive::Lines:
+			result << "polyline([";
+			break;
+		default:
+			result << "polyhedron([";
+	}
+
+	printPrimitive(pr);
 	result << "])";
 	printChildren(n);
 }
@@ -72,13 +81,6 @@ void NodePrinter::printPolygon(Polygon* pg)
 		result << QString().setNum(i);
 	}
 	result << "]";
-}
-
-void NodePrinter::visit(const PolylineNode& n)
-{
-	result << "polyline([";
-	printPrimitive(n.getPrimitive());
-	result << "]);";
 }
 
 void NodePrinter::visit(const UnionNode& n)

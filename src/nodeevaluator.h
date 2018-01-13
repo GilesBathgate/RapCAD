@@ -24,7 +24,6 @@
 #include "nodevisitor.h"
 #include "reporter.h"
 #include "node/primitivenode.h"
-#include "node/polylinenode.h"
 #include "node/unionnode.h"
 #include "node/groupnode.h"
 #include "node/differencenode.h"
@@ -76,7 +75,6 @@ public:
 	explicit NodeEvaluator(Reporter&);
 
 	void visit(const PrimitiveNode&) override;
-	void visit(const PolylineNode&) override;
 	void visit(const UnionNode&) override;
 	void visit(const GroupNode&) override;
 	void visit(const DifferenceNode&) override;

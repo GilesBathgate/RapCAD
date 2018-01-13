@@ -86,6 +86,11 @@ void CGALPrimitive::setType(Primitive_t t)
 	type=t;
 }
 
+Primitive::Primitive_t CGALPrimitive::getType()
+{
+	return type;
+}
+
 void CGALPrimitive::setSanitized(bool v)
 {
 	sanitized=v;

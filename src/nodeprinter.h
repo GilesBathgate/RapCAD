@@ -23,7 +23,6 @@
 #include "nodevisitor.h"
 #include "polyhedron.h"
 #include "node/primitivenode.h"
-#include "node/polylinenode.h"
 #include "node/unionnode.h"
 #include "node/groupnode.h"
 #include "node/differencenode.h"
@@ -66,7 +65,6 @@ class NodePrinter : public NodeVisitor
 public:
 	explicit NodePrinter(QTextStream&);
 	void visit(const PrimitiveNode&) override;
-	void visit(const PolylineNode&) override;
 	void visit(const UnionNode&) override;
 	void visit(const GroupNode&) override;
 	void visit(const DifferenceNode&) override;

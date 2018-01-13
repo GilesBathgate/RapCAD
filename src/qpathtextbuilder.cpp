@@ -17,10 +17,11 @@
  */
 
 #include "qpathtextbuilder.h"
-#include "onceonly.h"
 #include <QPainterPath>
 #include <QFontMetrics>
 #include <QApplication>
+#include "onceonly.h"
+#include "node/primitivenode.h"
 
 QPathTextBuilder::QPathTextBuilder(Reporter& r) :
 	size(0),

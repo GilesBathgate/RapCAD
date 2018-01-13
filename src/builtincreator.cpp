@@ -28,7 +28,6 @@
 #include "module/circlemodule.h"
 #include "module/polyhedronmodule.h"
 #include "module/polygonmodule.h"
-#include "module/polylinemodule.h"
 #include "module/beziersurfacemodule.h"
 
 #include "module/differencemodule.h"
@@ -157,9 +156,9 @@ BuiltinCreator::BuiltinCreator(Reporter& r) : reporter(r)
 	builtins.append(new BoundaryModule(r,false));
 	builtins.append(new PointsModule(r,true));
 	builtins.append(new PointsModule(r,false));
-	builtins.append(new PolygonModule(r));
+	builtins.append(new PolygonModule(r,true));
+	builtins.append(new PolygonModule(r,false));
 	builtins.append(new PolyhedronModule(r));
-	builtins.append(new PolylineModule(r));
 	builtins.append(new PrismModule(r));
 	builtins.append(new ProjectionModule(r));
 	builtins.append(new RadialsModule(r));

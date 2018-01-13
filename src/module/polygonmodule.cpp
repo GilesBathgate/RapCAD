@@ -22,9 +22,11 @@
 #include "vectorvalue.h"
 #include "numbervalue.h"
 
-PolygonModule::PolygonModule(Reporter& r) : Module(r,"polygon")
+PolygonModule::PolygonModule(Reporter& r,bool polygon) :
+	Module(r,polygon?"polygon":"polyline"),
+	type(polygon?Primitive::Surface:Primitive::Lines)
 {
-	addDescription(tr("Constructs a polygon."));
+	addDescription(polygon?tr("Constructs a polygon."):tr("Constructs a line connecting multiple points."));
 	addParameter("points",tr("The vertices are provided by the points list."));
 	addParameter("lines",tr("The lines are a list of indices to the vertices."));
 }
@@ -36,7 +38,7 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 
 	auto* pn=new PrimitiveNode(reporter);
 	Primitive* p=pn->createPrimitive();
-	p->setType(Primitive::Surface);
+	p->setType(type);
 	p->setSanitized(false);
 	pn->setChildren(ctx.getInputNodes());
 
@@ -66,6 +68,8 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 		return pn;
 	}
 
+	/* Otherwise use the lines argument to describe the multiple
+	 * polygons */
 	QList<Value*> lines=linesVec->getChildren();
 
 	//This is to remove the need for duplicate vector syntax in the lines argument

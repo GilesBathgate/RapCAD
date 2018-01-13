@@ -20,6 +20,7 @@
 #include "textvalue.h"
 #include "numbervalue.h"
 #include "qpathtextbuilder.h"
+#include "node/primitivenode.h"
 #include "context.h"
 
 TextModule::TextModule(Reporter& r) : Module(r, "text")

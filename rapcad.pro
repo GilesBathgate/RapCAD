@@ -226,8 +226,6 @@ SOURCES += \
 	src/node/subdivisionnode.cpp \
 	src/module/offsetmodule.cpp \
 	src/node/offsetnode.cpp \
-	src/module/polylinemodule.cpp \
-	src/node/polylinenode.cpp \
 	src/module/glidemodule.cpp \
 	src/node/glidenode.cpp \
 	src/cgalpolygon.cpp \
@@ -474,8 +472,6 @@ HEADERS  += \
 	src/node/subdivisionnode.h \
 	src/module/offsetmodule.h \
 	src/node/offsetnode.h \
-	src/module/polylinemodule.h \
-	src/node/polylinenode.h \
 	src/module/glidemodule.h \
 	src/node/glidenode.h \
 	src/cgalpolygon.h \

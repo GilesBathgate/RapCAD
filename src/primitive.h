@@ -36,6 +36,7 @@ public:
 	virtual ~Primitive() {}
 	virtual Polygon* createPolygon()=0;
 	virtual void setType(Primitive_t)=0;
+	virtual Primitive_t getType()=0;
 	virtual void setSanitized(bool)=0;
 	virtual bool getSanitized()=0;
 	virtual void createVertex(const Point&)=0;

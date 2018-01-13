@@ -44,6 +44,7 @@ public:
 	explicit CGALPrimitive(CGAL::Polyhedron3&);
 	explicit CGALPrimitive(const CGAL::NefPolyhedron3&);
 	void setType(Primitive_t) override;
+	Primitive_t getType() override;
 	void setSanitized(bool) override;
 	bool getSanitized() override;
 	Polygon* createPolygon() override;

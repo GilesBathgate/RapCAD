@@ -61,13 +61,6 @@ void NodeEvaluator::visit(const PrimitiveNode& n)
 	evaluate(n,Union,cp);
 }
 
-void NodeEvaluator::visit(const PolylineNode& n)
-{
-	Primitive* cp=n.getPrimitive();
-	cp->setType(Primitive::Lines);
-	evaluate(n,Union,cp);
-}
-
 void NodeEvaluator::visit(const TriangulateNode& n)
 {
 	if(!evaluate(n,Union)) return;
