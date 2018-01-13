@@ -165,6 +165,9 @@ static Primitive* evaluateHull(Primitive* previous, Primitive* next)
 		points.append(n.getPoints());
 	}
 
+	if(points.count()<3)
+		return nullptr;
+
 	CGAL::Polyhedron3 hull;
 	CGAL::convex_hull_3(points.begin(),points.end(),hull);
 	return new CGALPrimitive(hull);
@@ -202,6 +205,7 @@ void NodeEvaluator::visit(const HullNode& n)
 			CGALExplorer explorer(result);
 			points.append(explorer.getPoints());
 		}
+		if(points.count()<3) return;
 
 		if(!n.getConcave()) {
 			CGAL::Polyhedron3 hull;
