@@ -427,7 +427,8 @@ void NodePrinter::visit(const TransformationNode& n)
 {
 	TransformMatrix* m=n.getMatrix();
 	result << "multmatrix(";
-	result << m->toString();
+	if(m)
+		result << m->toString();
 	result << ")";
 	printChildren(n);
 }

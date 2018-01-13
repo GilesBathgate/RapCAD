@@ -32,10 +32,14 @@ Node* ScaleModule::evaluate(const Context& ctx) const
 {
 	Point s(0,0,0);
 	auto* sizeVal=getParameterArgument(ctx,0);
-	if(sizeVal) {
-		VectorValue* v=sizeVal->toVector(3);
-		s=v->getPoint();
-	}
+
+	auto* n=new TransformationNode();
+
+	if(!sizeVal)
+		return n;
+
+	VectorValue* v=sizeVal->toVector(3);
+	s=v->getPoint();
 
 	Point r(0,0,0);
 	auto* refVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
@@ -54,9 +58,7 @@ Node* ScaleModule::evaluate(const Context& ctx) const
 		0,0,0,1
 	);
 
-	auto* n=new TransformationNode();
 	n->setMatrix(m);
-
 	n->setChildren(ctx.getInputNodes());
 	return n;
 }
