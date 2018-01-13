@@ -70,16 +70,15 @@ void NodeEvaluator::visit(const PolylineNode& n)
 
 void NodeEvaluator::visit(const TriangulateNode& n)
 {
-	evaluate(n,Union);
-	if(result) {
-		result=result->triangulate();
-		result->setType(Primitive::Surface);
-	}
+	if(!evaluate(n,Union)) return;
+
+	result=result->triangulate();
+	result->setType(Primitive::Surface);
 }
 
 void NodeEvaluator::visit(const MaterialNode& n)
 {
-	evaluate(n,Union);
+	if(!evaluate(n,Union)) return;
 	auto* p=new Polyhedron();
 	p->appendChild(result);
 	result=p;
@@ -87,9 +86,9 @@ void NodeEvaluator::visit(const MaterialNode& n)
 
 void NodeEvaluator::visit(const DiscreteNode& n)
 {
-	evaluate(n,Union);
-	if(result)
-		result->discrete(n.getPlaces());
+	if(!evaluate(n,Union)) return;
+
+	result->discrete(n.getPlaces());
 }
 
 void NodeEvaluator::visit(const UnionNode& op)
@@ -156,11 +155,15 @@ static Primitive* evaluateHull(Primitive* previous, Primitive* next)
 {
 #ifdef USE_CGAL
 	QList<CGAL::Point3> points;
-	CGALExplorer p(previous);
-	points.append(p.getPoints());
+	if(previous) {
+		CGALExplorer p(previous);
+		points.append(p.getPoints());
+	}
 
-	CGALExplorer n(next);
-	points.append(n.getPoints());
+	if(next) {
+		CGALExplorer n(next);
+		points.append(n.getPoints());
+	}
 
 	CGAL::Polyhedron3 hull;
 	CGAL::convex_hull_3(points.begin(),points.end(),hull);
@@ -284,7 +287,7 @@ static CGAL::Point3 rotate(const CGAL::Point3& p,const CGAL::Scalar& a,const CGA
 
 void NodeEvaluator::visit(const LinearExtrudeNode& op)
 {
-	evaluate(op,Union);
+	if(!evaluate(op,Union)) return;
 #ifdef USE_CGAL
 	auto* cp=new CGALPrimitive();
 	CGAL::Scalar z=op.getHeight();
@@ -348,7 +351,7 @@ void NodeEvaluator::visit(const LinearExtrudeNode& op)
 
 void NodeEvaluator::visit(const RotateExtrudeNode& op)
 {
-	evaluate(op,Union);
+	if(!evaluate(op,Union)) return;
 
 #ifdef USE_CGAL
 	CGAL::Scalar r=op.getRadius();
@@ -445,17 +448,17 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 #endif
 }
 
-void NodeEvaluator::evaluate(const Node& op,Operation_e type)
+bool NodeEvaluator::evaluate(const Node& op,Operation_e type)
 {
-	evaluate(op,type,nullptr);
+	return evaluate(op,type,nullptr);
 }
 
-void NodeEvaluator::evaluate(const Node& op,Operation_e type,Primitive* first)
+bool NodeEvaluator::evaluate(const Node& op,Operation_e type,Primitive* first)
 {
-	evaluate(op.getChildren(),type,first);
+	return evaluate(op.getChildren(),type,first);
 }
 
-void NodeEvaluator::evaluate(QList<Node*> children,Operation_e type,Primitive* first)
+bool NodeEvaluator::evaluate(QList<Node*> children,Operation_e type,Primitive* first)
 {
 	for(Node* n: children) {
 		n->accept(*this);
@@ -490,11 +493,12 @@ void NodeEvaluator::evaluate(QList<Node*> children,Operation_e type,Primitive* f
 	else
 		result=first;
 
+	return (result!=nullptr);
 }
 
 void NodeEvaluator::visit(const BoundsNode& n)
 {
-	evaluate(n,Union);
+	if(!evaluate(n,Union)) return;
 #ifdef USE_CGAL
 	auto* pr=static_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
@@ -533,7 +537,7 @@ void NodeEvaluator::visit(const BoundsNode& n)
 
 void NodeEvaluator::visit(const SubDivisionNode& n)
 {
-	evaluate(n,Union);
+	if(!evaluate(n,Union)) return;
 #ifdef USE_CGAL
 	auto* cp=static_cast<CGALPrimitive*>(result);
 	CGAL::Polyhedron3& p=*cp->getPolyhedron();
@@ -544,7 +548,7 @@ void NodeEvaluator::visit(const SubDivisionNode& n)
 
 void NodeEvaluator::visit(const NormalsNode& n)
 {
-	evaluate(n,Union);
+	if(!evaluate(n,Union)) return;
 #ifdef USE_CGAL
 	CGALExplorer e(result);
 	CGALPrimitive* prim=e.getPrimitive();
@@ -579,9 +583,9 @@ void NodeEvaluator::visit(const NormalsNode& n)
 
 void NodeEvaluator::visit(const SimplifyNode& n)
 {
-	evaluate(n,Union);
-	if(result)
-		result=result->simplify(n.getRatio());
+	if(!evaluate(n,Union)) return;
+
+	result=result->simplify(n.getRatio());
 }
 
 void NodeEvaluator::visit(const ChildrenNode& n)
@@ -601,14 +605,14 @@ void NodeEvaluator::visit(const ChildrenNode& n)
 
 void NodeEvaluator::visit(const OffsetNode& n)
 {
-	evaluate(n,Union);
+	if(!evaluate(n,Union)) return;
 
 	result=result->inset(n.getAmount());
 }
 
 void NodeEvaluator::visit(const BoundaryNode& op)
 {
-	evaluate(op,Union);
+	if(!evaluate(op,Union)) return;
 
 #ifdef USE_CGAL
 	if(result->isFullyDimentional()) {
@@ -632,14 +636,14 @@ void NodeEvaluator::visit(const ImportNode& op)
 
 void NodeEvaluator::visit(const TransformationNode& tr)
 {
-	evaluate(tr,Union);
-	if(result)
-		result->transform(tr.getMatrix());
+	if(!evaluate(tr,Union)) return;
+
+	result->transform(tr.getMatrix());
 }
 
 void NodeEvaluator::visit(const ResizeNode& n)
 {
-	evaluate(n,Union);
+	if(!evaluate(n,Union)) return;
 #ifdef USE_CGAL
 	auto* pr=static_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
@@ -678,7 +682,7 @@ void NodeEvaluator::visit(const ResizeNode& n)
 
 void NodeEvaluator::visit(const AlignNode& n)
 {
-	evaluate(n,Union);
+	if(!evaluate(n,Union)) return;
 #ifdef USE_CGAL
 	auto* pr=static_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
@@ -756,7 +760,7 @@ void NodeEvaluator::visit(const PointsNode& n)
 
 void NodeEvaluator::visit(const SliceNode& n)
 {
-	evaluate(n,Union);
+	if(!evaluate(n,Union)) return;
 #ifdef USE_CGAL
 	auto* pr=static_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
@@ -784,7 +788,7 @@ void NodeEvaluator::visit(const ProductNode& p)
 
 void NodeEvaluator::visit(const ProjectionNode& op)
 {
-	evaluate(op,Union);
+	if(!evaluate(op,Union)) return;
 
 #ifdef USE_CGAL
 	CGALExplorer explorer(result);
@@ -821,19 +825,21 @@ void NodeEvaluator::visit(const ProjectionNode& op)
 
 void NodeEvaluator::visit(const DecomposeNode& n)
 {
-	evaluate(n,Union);
+	if(!evaluate(n,Union)) return;
+
 	result=result->decompose();
 }
 
 void NodeEvaluator::visit(const ComplementNode& n)
 {
-	evaluate(n,Union);
+	if(!evaluate(n,Union)) return;
+
 	result=result->complement();
 }
 
 void NodeEvaluator::visit(const RadialsNode& n)
 {
-	evaluate(n,Union);
+	if(!evaluate(n,Union)) return;
 #ifdef USE_CGAL
 	auto* pr=static_cast<CGALPrimitive*>(result);
 	CGAL::Circle3 circle=pr->getRadius();
@@ -873,7 +879,7 @@ void NodeEvaluator::visit(const RadialsNode& n)
 
 void NodeEvaluator::visit(const VolumesNode& n)
 {
-	evaluate(n,Union);
+	if(!evaluate(n,Union)) return;
 #ifdef USE_CGAL
 	auto* pr=static_cast<CGALPrimitive*>(result);
 	bool calcMass = n.getCalcMass();

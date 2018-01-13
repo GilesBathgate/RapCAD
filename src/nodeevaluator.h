@@ -113,9 +113,9 @@ public:
 	Primitive* getResult() const;
 private:
 	Primitive* createPrimitive();
-	void evaluate(const Node&,Operation_e);
-	void evaluate(const Node&,Operation_e,Primitive*);
-	void evaluate(QList<Node*>,Operation_e,Primitive*);
+	bool evaluate(const Node&,Operation_e);
+	bool evaluate(const Node&,Operation_e,Primitive*);
+	bool evaluate(QList<Node*>,Operation_e,Primitive*);
 
 	Reporter& reporter;
 	Primitive* result;
