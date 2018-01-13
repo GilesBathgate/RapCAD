@@ -468,7 +468,7 @@ bool NodeEvaluator::evaluate(QList<Node*> children,Operation_e type,Primitive* f
 		n->accept(*this);
 		if(!first) {
 			first=result;
-		} else {
+		} else if(result) {
 			switch(type) {
 				case Group:
 					first->add(result,false);
