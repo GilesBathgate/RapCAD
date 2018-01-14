@@ -87,6 +87,12 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 			return Value::operation(vec,e,this);
 		}
 	}
+	auto* flag = dynamic_cast<BooleanValue*>(&v);
+	if(flag && isComparison(e)) {
+		//Use 0 for false and 1 for true to ensure 2>true
+		bool result=basicOperation(this->toInteger(),e,flag->isTrue()?1:0);
+		return new BooleanValue(result);
+	}
 
 	return Value::operation(v,e);
 }

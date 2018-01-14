@@ -53,6 +53,11 @@ Value* BooleanValue::operation(Value& v,Expression::Operator_e e)
 		bool result=basicOperation(this->boolean,e,that->boolean);
 		return new BooleanValue(result);
 	}
+	auto* num=dynamic_cast<NumberValue*>(&v);
+	if(num && isComparison(e)) {
+		bool result=basicOperation(this->boolean?1:0,e,num->toInteger());
+		return new BooleanValue(result);
+	}
 
 	return Value::operation(v,e);
 }

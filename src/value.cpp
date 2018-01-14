@@ -83,6 +83,11 @@ bool Value::isTrue() const
 	return false;
 }
 
+bool Value::isFalse() const
+{
+	return !isTrue();
+}
+
 VectorValue* Value::toVector(int size)
 {
 	QList<Value*> children;
@@ -315,6 +320,11 @@ Value* Value::operation(Value& v, Expression::Operator_e e)
 bool Value::isDefined() const
 {
 	return defined;
+}
+
+bool Value::isUndefined() const
+{
+	return !defined;
 }
 
 Value* Value::operation(Value* p_left, Expression::Operator_e e, Value* p_right)

@@ -40,7 +40,9 @@ public:
 	QString getName() const;
 	virtual QString getValueString() const;
 	virtual bool isTrue() const;
+	bool isFalse() const;
 	bool isDefined() const;
+	bool isUndefined() const;
 	virtual VectorValue* toVector(int);
 	virtual TextValue* toText();
 	virtual Value* toNumber();
