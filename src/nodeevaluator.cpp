@@ -360,7 +360,11 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 	CGAL::Vector3 axis(CGAL::ORIGIN,a);
 	CGAL::Plane3 pn(CGAL::ORIGIN,axis);
 	CGAL::Direction3 d=pn.base2().direction();
-	axis=axis/r_sqrt(axis.squared_length(),false);
+	CGAL::Scalar mag=r_sqrt(axis.squared_length(),false);
+	if(mag==0)
+		return;
+
+	axis=axis/mag;
 
 	CGALExplorer explorer(result);
 	CGALPrimitive* prim=explorer.getPrimitive();
