@@ -89,7 +89,7 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 			auto* indexNum=dynamic_cast<NumberValue*>(indexVal);
 			if(!indexNum) continue;
 			int index = indexNum->toInteger();
-			if(index>=0&&index<points.count()) {
+			if(index>=0&&index<count) {
 				pg->append(index);
 			}
 		}
