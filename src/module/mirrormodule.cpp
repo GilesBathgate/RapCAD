@@ -42,6 +42,9 @@ Node* MirrorModule::evaluate(const Context& ctx) const
 	p = vecVal->getPoint();
 	decimal x=p.x(), y=p.y(), z=p.z();
 	decimal mag = r_sqrt(x*x + y*y + z*z);
+	if(mag==0)
+		return n;
+
 	decimal u = x/mag;
 	decimal v = y/mag;
 	decimal w = z/mag;
