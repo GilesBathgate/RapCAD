@@ -82,6 +82,18 @@ struct FaceInfo {
 	int nestingLevel;
 };
 
+struct VertexInfo
+{
+	VertexInfo() : index(-1) {}
+
+	bool isValid()
+	{
+		return index != -1;
+	}
+
+	int index;
+};
+
 template <class CT, class FaceHandle, class Edge>
 static void markDomain(CT& ct,FaceHandle start,int index,QList<Edge>& border)
 {
@@ -152,7 +164,7 @@ void insert_constraint(CT& ct,PointIterator first, PointIterator last, bool clos
 
 bool CGALBuilder::triangulate()
 {
-	typedef CGAL::Triangulation_vertex_base_with_info_2<int,CGAL::Kernel3> VertexBase;
+	typedef CGAL::Triangulation_vertex_base_with_info_2<VertexInfo,CGAL::Kernel3> VertexBase;
 	typedef CGAL::Triangulation_face_base_with_info_2<FaceInfo,CGAL::Kernel3> Info;
 	typedef CGAL::Constrained_triangulation_face_base_2<CGAL::Kernel3,Info> FaceBase;
 	typedef CGAL::Triangulation_data_structure_2<VertexBase,FaceBase> TDS;
@@ -179,7 +191,7 @@ bool CGALBuilder::triangulate()
 		for(auto i: indexes) {
 			CGAL::Point2 p2=pro->project(points3.at(i));
 			VertexHandle h=ct.insert(p2);
-			h->info() = i;
+			h->info().index = i;
 			points2.append(p2);
 			++count;
 		}
@@ -202,8 +214,9 @@ bool CGALBuilder::triangulate()
 		if(f->info().inDomain()) {
 			auto* pg=primitive.createCGALPolygon();
 			for(auto i=0; i<3; ++i) {
-				VertexHandle h=f->vertex(i);
-				pg->append(h->info());
+				VertexInfo info=f->vertex(i)->info();
+				if(info.isValid())
+					pg->append(info.index);
 			}
 			pg->calculatePlane();
 		}
