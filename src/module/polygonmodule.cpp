@@ -52,11 +52,10 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 	int count=0;
 	for(Value* point: points) {
 		auto* pointVec=dynamic_cast<VectorValue*>(point);
-		if(pointVec) {
-			Point pt = pointVec->getPoint();
-			p->createVertex(pt);
-			++count;
-		}
+		if(!pointVec) continue;
+		Point pt = pointVec->getPoint();
+		p->createVertex(pt);
+		++count;
 	}
 
 	/* If we are just given a single argument of points
@@ -84,16 +83,14 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 
 	for(Value* line: lines) {
 		auto* lineVec=dynamic_cast<VectorValue*>(line);
-		if(lineVec) {
-			Polygon* pg=p->createPolygon();
-			for(Value* indexVal: lineVec->getChildren()) {
-				auto* indexNum=dynamic_cast<NumberValue*>(indexVal);
-				if(indexNum) {
-					int index = indexNum->toInteger();
-					if(index>=0&&index<points.count()) {
-						pg->append(index);
-					}
-				}
+		if(!lineVec) continue;
+		Polygon* pg=p->createPolygon();
+		for(Value* indexVal: lineVec->getChildren()) {
+			auto* indexNum=dynamic_cast<NumberValue*>(indexVal);
+			if(!indexNum) continue;
+			int index = indexNum->toInteger();
+			if(index>=0&&index<points.count()) {
+				pg->append(index);
 			}
 		}
 	}

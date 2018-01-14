@@ -45,25 +45,23 @@ Node* PolyhedronModule::evaluate(const Context& ctx) const
 	QList<Value*> children = points->getChildren();
 	for(Value* child: children) {
 		auto* point=dynamic_cast<VectorValue*>(child);
-		if(point) {
-			Point pt = point->getPoint();
-			p->createVertex(pt);
-		}
+		if(!point) continue;
+		Point pt = point->getPoint();
+		p->createVertex(pt);
 	}
-	for(Value* s: faces->getChildren()) {
-		auto* surface=dynamic_cast<VectorValue*>(s);
-		if(!surface) continue;
+
+	for(Value* face: faces->getChildren()) {
+		auto* faceVec=dynamic_cast<VectorValue*>(face);
+		if(!faceVec) continue;
 		Polygon* pg=p->createPolygon();
-		for(Value* indexVal: surface->getChildren()) {
+		for(Value* indexVal: faceVec->getChildren()) {
 			auto* indexNum=dynamic_cast<NumberValue*>(indexVal);
-			if(indexNum) {
-				int index = indexNum->toInteger();
-				if(index>=0&&index<children.count()) {
-					pg->append(index);
-				}
+			if(!indexNum) continue;
+			int index = indexNum->toInteger();
+			if(index>=0&&index<children.count()) {
+				pg->append(index);
 			}
 		}
-
 	}
 
 	return pn;
