@@ -296,7 +296,7 @@ void TreeEvaluator::visit(const BinaryExpression& exp)
 
 	switch(op) {
 		case Expression::LogicalAnd:
-			shortc=!left->isTrue();
+			shortc=left->isFalse();
 			break;
 		case Expression::LogicalOr:
 			shortc=left->isTrue();

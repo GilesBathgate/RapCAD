@@ -186,7 +186,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 					Value* eqVec=Value::operation(a.at(i),e,b.at(i));
 					if(e==Expression::NotEqual && eqVec->isTrue())
 						return new BooleanValue(true);
-					if(!eqVec->isTrue())
+					if(eqVec->isFalse())
 						eq=false;
 				}
 			return new BooleanValue(eq);

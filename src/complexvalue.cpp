@@ -146,7 +146,7 @@ Value* ComplexValue::operation(Value& v, Expression::Operator_e op)
 						Value* eqIm=Value::operation(imaginary.at(i),op,c->imaginary.at(i));
 						if(op==Expression::NotEqual && eqIm->isTrue())
 							return new BooleanValue(true);
-						if(!eqIm->isTrue())
+						if(eqIm->isFalse())
 							eq=false;
 					}
 				return new BooleanValue(eq);
