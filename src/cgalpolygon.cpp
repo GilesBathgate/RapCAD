@@ -75,12 +75,12 @@ void CGALPolygon::calculateProjection()
 void CGALPolygon::calculatePlane()
 {
 	QList<CGAL::Point3> points=getPoints();
-	if(points.size()>3) {
+	if(points.size()==3) {
+		plane=CGAL::Plane3(points.at(0),points.at(1),points.at(2));
+	} else {
 		CGAL::Vector3 v;
 		CGAL::normal_vector_newell_3(points.begin(),points.end(),v);
 		plane=CGAL::Plane3(points.first(), v);
-	} else {
-		plane=CGAL::Plane3(points.at(0),points.at(1),points.at(2));
 	}
 	calculateProjection();
 }
