@@ -129,10 +129,21 @@ static void removeShortestEdges(CGAL::Polyhedron3& p,HalfedgeHandle h1,HalfedgeH
 		p.join_facet(h3);
 }
 
+static void fixZero(CGAL::Polyhedron3& p)
+{
+	typedef CGAL::Polyhedron3::Facet_iterator FacetIterator;
+	for(FacetIterator f=p.facets_begin(); f!=p.facets_end(); ++f) {
+		if(f->facet_degree()<3){
+			p.erase_facet(f->halfedge());
+		}
+	}
+}
+
 static void fixZeroTriangles(CGAL::Polyhedron3& p)
 {
 	typedef CGAL::Polyhedron3::Facet_iterator FacetIterator;
 	for(FacetIterator f=p.facets_begin(); f!=p.facets_end(); ++f) {
+		if(f->facet_degree()>3) continue;
 		HalfedgeHandle h1=f->halfedge();
 		HalfedgeHandle h2=h1->next();
 		HalfedgeHandle h3=h2->next();
@@ -200,6 +211,7 @@ CGAL::NefPolyhedron3* CGALPrimitive::createVolume()
 	poly.delegate(b);
 
 	if(!sanitized) {
+		fixZero(poly);
 		fixZeroEdges(poly);
 		fixZeroTriangles(poly);
 	}
