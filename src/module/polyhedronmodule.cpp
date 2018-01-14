@@ -51,8 +51,9 @@ Node* PolyhedronModule::evaluate(const Context& ctx) const
 		}
 	}
 	for(Value* s: faces->getChildren()) {
-		Polygon* pg=p->createPolygon();
 		auto* surface=dynamic_cast<VectorValue*>(s);
+		if(!surface) continue;
+		Polygon* pg=p->createPolygon();
 		for(Value* indexVal: surface->getChildren()) {
 			auto* indexNum=dynamic_cast<NumberValue*>(indexVal);
 			if(indexNum) {
