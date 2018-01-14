@@ -163,21 +163,25 @@ bool CGALBuilder::triangulate()
 
 
 	QList<CGAL::Point3> points3=primitive.getPoints();
-	int c=points3.count();
-	if(c<3)
+	int total=points3.size();
+	if(total<3)
 		return false;
-	else if(c==3)
+	else if(total==3)
 		return true;
 
 	CT ct;
+	TDS::size_type count=0;
 	for(CGALPolygon* pg: primitive.getCGALPolygons()) {
+		QList<int> indexes=pg->getIndexes();
+		if(indexes.size()<3) continue;
 		CGALProjection* pro=pg->getProjection();
 		QList<CGAL::Point2> points2;
-		for(auto i: pg->getIndexes()) {
+		for(auto i: indexes) {
 			CGAL::Point2 p2=pro->project(points3.at(i));
 			VertexHandle h=ct.insert(p2);
 			h->info() = i;
 			points2.append(p2);
+			++count;
 		}
 
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,6,0)
@@ -187,7 +191,7 @@ bool CGALBuilder::triangulate()
 #endif
 	}
 
-	if(ct.number_of_vertices()<(TDS::size_type)points3.count())
+	if(count<3||ct.number_of_vertices()<count)
 		return false;
 
 	markDomains(ct);
