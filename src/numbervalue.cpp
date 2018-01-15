@@ -51,6 +51,9 @@ int NumberValue::toInteger() const
 
 Value* NumberValue::operation(Expression::Operator_e e)
 {
+	if(e==Expression::Invert)
+		return new BooleanValue(this->isFalse());
+
 	decimal result=basicOperation(number,e);
 	return new NumberValue(result);
 }
