@@ -196,8 +196,10 @@ void NodeEvaluator::visit(const HullNode& n)
 		QList<CGAL::Point3> points;
 		for(Node* c: n.getChildren()) {
 			c->accept(*this);
-			CGALExplorer explorer(result);
-			points.append(explorer.getPoints());
+			if(result) {
+				CGALExplorer explorer(result);
+				points.append(explorer.getPoints());
+			}
 		}
 		if(points.count()<3) return;
 
