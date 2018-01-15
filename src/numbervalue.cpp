@@ -66,9 +66,13 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 			bool result=to_boolean(basicOperation(number,e,num->number));
 			return new BooleanValue(result);
 		}
-		if(e==Expression::Divide||e==Expression::Modulus)
+		if(e==Expression::Divide||e==Expression::Modulus) {
 			if(num->number==decimal(0))
 				return Value::undefined();
+		} else if(e==Expression::Exponent) {
+			if(num->number==decimal(-1))
+				return Value::undefined();
+		}
 
 		decimal result=basicOperation(number,e,num->number);
 		return new NumberValue(result);
