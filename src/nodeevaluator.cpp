@@ -600,7 +600,7 @@ void NodeEvaluator::visit(const ChildrenNode& n)
 		QList<Node*> allChildren=n.getChildren();
 		QList<Node*> children;
 		for(auto i: n.getIndexes()) {
-			if(i<allChildren.count())
+			if(i>=0&&i<allChildren.count())
 				children.append(allChildren.at(i));
 		}
 		evaluate(children,Union,nullptr);
