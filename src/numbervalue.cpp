@@ -70,7 +70,7 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 			if(num->number==decimal(0))
 				return Value::undefined();
 		} else if(e==Expression::Exponent) {
-			if(num->number==decimal(-1))
+			if(num->number<=decimal(0))
 				return Value::undefined();
 		}
 
