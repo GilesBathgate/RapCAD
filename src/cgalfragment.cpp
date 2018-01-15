@@ -26,15 +26,23 @@ CGALFragment::CGALFragment(const Context& ctx) : Fragment(ctx)
 int CGALFragment::getFragments(const CGAL::Scalar& r)
 {
 	int fn=fragmentNumber;
-	if(fn > 0) return (int)(fn >= 3 ? fn : 3);
+	if(fn > 0)
+		return (int)(fn >= 3 ? fn : 3);
 
 	CGAL::Scalar fe=fragmentError;
 	//solve R=r/cos(pi/n) for n where R=radius and r=inradius
-	if(fe > 0.0 && fe < r) return to_integer(r_ceil(r_pi() / r_acos((r-fe)/r,false)));
+	if(fe > 0.0 && fe < r)
+		return to_integer(r_ceil(r_pi() / r_acos((r-fe)/r,false)));
 
 	CGAL::Scalar fs=fragmentSize;
+	if(fs > 0)
+		 fs=r*CGAL::Scalar(r_tau()) / fs;
+
 	CGAL::Scalar fa=fragmentAngle;
-	CGAL::Scalar f=std::min(CGAL::Scalar(360.0) / fa, r*CGAL::Scalar(r_tau()) / fs);
+	if(fa > 0)
+		fa=CGAL::Scalar(360.0) / fa;
+
+	CGAL::Scalar f=std::min(fa,fs);
 	return std::max(int(ceil(to_double(f))),5);
 }
 #endif
