@@ -206,7 +206,8 @@ bool CGALBuilder::triangulate()
 	if(count<3||ct.number_of_vertices()<count)
 		return false;
 
-	markDomains(ct);
+	if(ct.number_of_faces()>3)
+		markDomains(ct);
 
 	primitive.clearPolygons();
 
