@@ -220,6 +220,10 @@ void NodeEvaluator::visit(const HullNode& n)
 
 		Alpha_shape_3 as(points.begin(), points.end(),0.001,Alpha_shape_3::GENERAL);
 		Alpha_iterator opt = as.find_optimal_alpha(1);
+		if(opt == as.alpha_end()) {
+			result=nullptr;
+			return;
+		}
 		as.set_alpha(*opt);
 
 		QList<Facet> facets;
