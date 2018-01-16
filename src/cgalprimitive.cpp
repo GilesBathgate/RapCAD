@@ -221,16 +221,13 @@ CGAL::NefPolyhedron3* CGALPrimitive::createVolume()
 
 CGAL::NefPolyhedron3* CGALPrimitive::createPolyline()
 {
-	CGAL::NefPolyhedron3* result=nullptr;
+	auto* result=new CGAL::NefPolyhedron3();
 	for(CGALPolygon* pg: polygons) {
 		QVector<CGAL::Point3> pl=pg->getPoints().toVector();
-		if(!result) {
-			result=createPolyline(pl);
-		} else {
-			const CGAL::NefPolyhedron3* np=createPolyline(pl);
-			*result=result->join(*np);
-		}
+		CGAL::NefPolyhedron3* np=createPolyline(pl);
+		*result=result->join(*np);
 	}
+
 	return result;
 }
 
