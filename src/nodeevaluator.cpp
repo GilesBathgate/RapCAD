@@ -357,6 +357,10 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 {
 	if(!evaluate(op,Union)) return;
 
+	if(result->isFullyDimentional()) {
+		reporter.reportWarning(tr("Rotate extrude for volume not implemented"));
+		return;
+	}
 #ifdef USE_CGAL
 	CGAL::Scalar r=op.getRadius();
 	CGAL::Scalar height=op.getHeight();
