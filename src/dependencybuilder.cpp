@@ -26,7 +26,7 @@ DependencyBuilder::~DependencyBuilder()
 {
 }
 
-void DependencyBuilder::buildFileLocation(QString)
+void DependencyBuilder::buildFileLocation(QDir)
 {
 }
 

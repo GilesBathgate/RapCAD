@@ -95,7 +95,7 @@ private:
 	void descend(Scope*);
 	void startLayout(Scope*);
 	void finishLayout();
-	QFileInfo* getFullPath(QString);
+	QFileInfo getFullPath(QString);
 
 	Reporter& reporter;
 	Context* context;
@@ -106,7 +106,7 @@ private:
 	bool descendDone;
 	Node* rootNode;
 	QList<Script*> imports;
-	QStack<QFileInfo*> importLocations;
+	QStack<QDir> importLocations;
 };
 
 #endif // TREEEVALUATOR_H

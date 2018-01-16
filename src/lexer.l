@@ -24,7 +24,8 @@
 
 void lexererror();
 void lexerinclude(QFileInfo);
-void lexerinit(AbstractTokenBuilder*,Reporter*,QString,bool);
+void lexerinit(AbstractTokenBuilder*,Reporter*,QFileInfo);
+void lexerinit(AbstractTokenBuilder*,Reporter*,QString);
 void lexerdestroy();
 void lexerbegin();
 void lexercomment();
@@ -148,18 +149,20 @@ void lexererror()
 		reporter->reportLexicalError(tokenizer,lexertext);
 }
 
-void lexerinit(AbstractTokenBuilder* b,Reporter* r, QString input,bool file)
+void lexerinit(AbstractTokenBuilder* b,Reporter* r,QFileInfo fileinfo)
 {
-	reporter=r;
 	tokenizer=b;
+	reporter=r;
 
-	if(file) {
-		QFileInfo fileinfo(input);
-		openfile(fileinfo);
-		tokenizer->buildFileStart(fileinfo.absoluteDir());
-	} else {
-		lexer_scan_string(input.toUtf8().constData());
-	}
+	openfile(fileinfo);
+	tokenizer->buildFileStart(fileinfo.absoluteDir());
+}
+
+void lexerinit(AbstractTokenBuilder* b,Reporter* r,QString input)
+{
+	tokenizer=b;
+	reporter=r;
+	lexer_scan_string(input.toUtf8().constData());
 }
 
 void lexerdestroy()

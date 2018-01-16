@@ -322,8 +322,8 @@ Primitive* CGALImport::import3MF(QFileInfo fileinfo)
 
 Primitive* CGALImport::importRCAD(QFileInfo f)
 {
-	Script s;
-	parse(s,f.absoluteFilePath(),reporter,true);
+	Script s(reporter);
+	s.parse(f);
 	TreeEvaluator te(reporter);
 	s.accept(te);
 

@@ -57,8 +57,8 @@ void Interactive::execCommand(QString s)
 		reporter.setKludge(0);
 	}
 
-	Script sc;
-	parse(sc,s,reporter,false);
+	Script sc(reporter);
+	sc.parse(s);
 	TreeEvaluator e(reporter);
 	sc.accept(e);
 	output.flush();

@@ -29,10 +29,9 @@ SyntaxTreeBuilder::~SyntaxTreeBuilder()
 {
 }
 
-void SyntaxTreeBuilder::buildFileLocation(QString f)
+void SyntaxTreeBuilder::buildFileLocation(QDir fileinfo)
 {
-	auto* info=new QFileInfo(f);
-	script.setFileLocation(info);
+	script.setFileLocation(fileinfo);
 }
 
 void SyntaxTreeBuilder::buildScript(Declaration* dec)

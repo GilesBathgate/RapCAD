@@ -21,7 +21,8 @@
 #include "parser_yacc.h"
 
 #define YY_NULL 0
-extern void lexerinit(AbstractTokenBuilder*,Reporter*,QString,bool);
+extern void lexerinit(AbstractTokenBuilder*,Reporter*,QString);
+extern void lexerinit(AbstractTokenBuilder*,Reporter*,QFileInfo);
 extern int lexerdestroy();
 extern void lexerinclude(QFileInfo);
 extern void lexererror();
@@ -35,14 +36,19 @@ TokenBuilder::TokenBuilder() :
 {
 }
 
-TokenBuilder::TokenBuilder(QString s) : TokenBuilder()
+TokenBuilder::TokenBuilder(QString s)
 {
-	lexerinit(this,nullptr,s,false);
+	lexerinit(this,nullptr,s);
 }
 
-TokenBuilder::TokenBuilder(Reporter& r,QString s,bool b) : TokenBuilder()
+TokenBuilder::TokenBuilder(Reporter& r,QString s) : TokenBuilder()
 {
-	lexerinit(this,&r,s,b);
+	lexerinit(this,&r,s);
+}
+
+TokenBuilder::TokenBuilder(Reporter& r,QFileInfo fileinfo) : TokenBuilder()
+{
+	lexerinit(this,&r,fileinfo);
 }
 
 TokenBuilder::~TokenBuilder()

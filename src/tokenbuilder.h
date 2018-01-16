@@ -29,8 +29,9 @@
 class TokenBuilder : public AbstractTokenBuilder
 {
 public:
-	explicit TokenBuilder(QString s);
-	TokenBuilder(Reporter&, QString, bool);
+	explicit TokenBuilder(QString);
+	TokenBuilder(Reporter&,QString);
+	TokenBuilder(Reporter&,QFileInfo);
 	~TokenBuilder() override;
 	int nextToken() override;
 	int getPosition() const override;

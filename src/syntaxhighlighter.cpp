@@ -20,7 +20,7 @@
 #include "reporter.h"
 
 extern int lexerlex_destroy();
-extern void lexerinit(AbstractTokenBuilder*,Reporter*,QString,bool);
+extern void lexerinit(AbstractTokenBuilder*,Reporter*,QString);
 extern int lexerlex();
 extern void lexerbegin();
 extern void lexercomment();
@@ -53,7 +53,7 @@ SyntaxHighlighter::SyntaxHighlighter(QTextDocument* parent) :
 void SyntaxHighlighter::highlightBlock(const QString& text)
 {
 	startIndex=0;
-	lexerinit(this,nullptr,text,false);
+	lexerinit(this,nullptr,text);
 
 	//Force lexer into correct state
 	switch(previousBlockState()) {

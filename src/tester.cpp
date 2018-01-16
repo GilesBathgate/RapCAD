@@ -151,8 +151,8 @@ int Tester::evaluate()
 				continue;
 			}
 
-			Script s;
-			parse(s,file.absoluteFilePath(),*nullreport,true);
+			Script s(*nullreport);
+			s.parse(file);
 
 			if(testFunctionExists(s)) {
 				testFunction(s);
@@ -207,8 +207,8 @@ void Tester::exportTest(QString dir)
 {
 	Reporter& r=*nullreport;
 	for(QFileInfo file: QDir(dir).entryInfoList(QStringList("*.rcad"), QDir::Files)) {
-		Script s;
-		parse(s,file.absoluteFilePath(),r,true);
+		Script s(r);
+		s.parse(file);
 		TreeEvaluator te(r);
 		s.accept(te);
 		NodeEvaluator ne(r);

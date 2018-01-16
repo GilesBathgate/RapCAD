@@ -92,8 +92,8 @@ void Worker::internal()
 
 void Worker::primary()
 {
-	Script s;
-	parse(s,inputFile,reporter,true);
+	Script s(reporter);
+	s.parse(inputFile);
 
 	if(print) {
 		TreePrinter p(output);
@@ -126,8 +126,8 @@ void Worker::primary()
 
 void Worker::generation()
 {
-	Script s;
-	parse(s,"reprap.rcam",reporter,true);
+	Script s(reporter);
+	s.parse(QFileInfo("reprap.rcam"));
 
 	auto* e = new TreeEvaluator(reporter);
 	decimal height=getBoundsHeight();

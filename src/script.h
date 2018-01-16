@@ -28,8 +28,11 @@
 class Script : public Scope
 {
 public:
-	Script();
+	Script(Reporter&);
 	~Script() override;
+
+	void parse(QString);
+	void parse(QFileInfo);
 
 	void setDeclarations(QList<Declaration*>);
 	QList<Declaration*> getDeclarations() const override;
@@ -39,14 +42,13 @@ public:
 	void addDocumentation(QList<CodeDoc*>);
 	QList<QList<CodeDoc*> > getDocumentation() const;
 	void accept(TreeVisitor&) override;
-	QFileInfo* getFileLocation() const;
-	void setFileLocation(QFileInfo*);
+	QDir getFileLocation() const;
+	void setFileLocation(QDir);
 private:
 	QList<Declaration*> declarations;
 	QList<QList<CodeDoc*> > documentation;
-	QFileInfo* fileLocation;
+	QDir fileLocation;
+	Reporter& reporter;
 };
-
-extern void parse(Script&,QString,Reporter&,bool);
 
 #endif // SCRIPT_H

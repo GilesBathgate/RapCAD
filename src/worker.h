@@ -48,7 +48,7 @@ protected:
 	virtual void finish() {}
 	Instance* addProductInstance(QString, Script&);
 
-	QString inputFile;
+	QFileInfo inputFile;
 	QString outputFile;
 	bool print;
 	bool generate;

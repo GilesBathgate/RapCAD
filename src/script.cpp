@@ -18,8 +18,10 @@
 
 #include "script.h"
 
-Script::Script() :
-	fileLocation(nullptr)
+extern void parsescript(Script&,Reporter&,QString);
+extern void parsescript(Script&,Reporter&,QFileInfo);
+
+Script::Script(Reporter& r) : reporter(r)
 {
 }
 
@@ -27,8 +29,19 @@ Script::~Script()
 {
 	for(Declaration* d: declarations)
 		delete d;
+}
 
-	delete fileLocation;
+void Script::parse(QString s)
+{
+	parsescript(*this,reporter,s);
+}
+
+void Script::parse(QFileInfo info)
+{
+	if(!info.exists())
+		reporter.reportFileMissingError(info.absoluteFilePath());
+	else
+		parsescript(*this,reporter,info);
 }
 
 void Script::setDeclarations(QList<Declaration*> decls)
@@ -71,12 +84,12 @@ void Script::accept(TreeVisitor& v)
 	v.visit(*this);
 }
 
-QFileInfo* Script::getFileLocation() const
+QDir Script::getFileLocation() const
 {
 	return fileLocation;
 }
 
-void Script::setFileLocation(QFileInfo* value)
+void Script::setFileLocation(QDir value)
 {
 	fileLocation = value;
 }

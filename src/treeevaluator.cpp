@@ -526,20 +526,19 @@ void TreeEvaluator::visit(Callback& c)
 	c.setResult(context->getCurrentValue());
 }
 
-QFileInfo* TreeEvaluator::getFullPath(QString file)
+QFileInfo TreeEvaluator::getFullPath(QString file)
 {
 	if(!importLocations.isEmpty())
-		return new QFileInfo(importLocations.top()->absoluteDir(),file);
+		return QFileInfo(importLocations.top(),file);
 	else
-		return new QFileInfo(file); /* relative to working dir */
+		return QFileInfo(file); /* relative to working dir */
 }
 
 void TreeEvaluator::visit(const ModuleImport& mi)
 {
 	auto* mod=new ImportModule(reporter);
-	QFileInfo* f=getFullPath(mi.getImport());
-	mod->setImport(f->absoluteFilePath());
-	delete f;
+	QFileInfo f=getFullPath(mi.getImport());
+	mod->setImport(f.absoluteFilePath());
 	mod->setName(mi.getName());
 	//TODO global import args.
 
@@ -554,15 +553,16 @@ void TreeEvaluator::visit(const ScriptImport& sc)
 	if(descendDone)
 		return;
 
-	QFileInfo* f=getFullPath(sc.getImport());
-	Script* s=new Script();
-	parse(*s,f->absoluteFilePath(),reporter,true);
+	QFileInfo f=getFullPath(sc.getImport());
+	Script* s=new Script(reporter);
+	s->parse(f);
 	imports.append(s);
 	/* Now recursively descend any modules functions or script imports within
 	 * the imported script and add them to the main script */
-	importLocations.push(f);
+	QDir loc=f.absoluteDir();
+	importLocations.push(loc);
 	descend(s);
-	delete importLocations.pop();
+	importLocations.pop();
 }
 
 void TreeEvaluator::visit(const Literal& lit)
@@ -605,9 +605,8 @@ void TreeEvaluator::visit(Script& sc)
 	b->initBuiltins(sc);
 
 	/* Use the location of the current script as the root for all imports */
-	QFileInfo* info=sc.getFileLocation();
-	if(info)
-		importLocations.push(info);
+	QDir loc=sc.getFileLocation();
+	importLocations.push(loc);
 
 	Script* scp=&sc;
 	descendDone=false;
