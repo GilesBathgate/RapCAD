@@ -30,14 +30,13 @@ public:
 	static void cleanUp();
 	void initBuiltins(Script&);
 	void saveBuiltins(Script&);
-	void generateDocs();
+	void generateDocs(QTextStream&);
 	void generateDocs(TreeVisitor&);
+
 private:
-	BuiltinCreator(Reporter&);
+	explicit BuiltinCreator(Reporter&);
 	~BuiltinCreator();
 	static BuiltinCreator* instance;
 	QList<Declaration*> builtins;
-	Reporter& reporter;
 };
-
 #endif // BUILTINCREATOR_H

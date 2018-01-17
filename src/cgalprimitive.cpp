@@ -133,7 +133,7 @@ static void fixZero(CGAL::Polyhedron3& p)
 {
 	typedef CGAL::Polyhedron3::Facet_iterator FacetIterator;
 	for(FacetIterator f=p.facets_begin(); f!=p.facets_end(); ++f) {
-		if(f->facet_degree()<3){
+		if(f->facet_degree()<3) {
 			p.erase_facet(f->halfedge());
 		}
 	}

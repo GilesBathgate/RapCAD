@@ -691,13 +691,12 @@ void MainWindow::showBuiltins()
 	connect(e,&CodeEditor::copyAvailable,ui->actionCopy,&QAction::setEnabled);
 
 	QTextEdit* c=(QTextEdit*)e;
-	QIODevice* t=new TextEditIODevice(c,this);
-	QTextStream out(t);
+	TextEditIODevice t(c,this);
+	QTextStream out(&t);
 	Reporter r(out);
 	BuiltinCreator* b = BuiltinCreator::getInstance(r);
-	b->generateDocs();
+	b->generateDocs(out);
 	out.flush();
-	delete t;
 
 	//Scroll back to top
 	QScrollBar* sb = e->verticalScrollBar();

@@ -121,7 +121,7 @@
 
 #include "treeprinter.h"
 
-BuiltinCreator::BuiltinCreator(Reporter& r) : reporter(r)
+BuiltinCreator::BuiltinCreator(Reporter& r)
 {
 	builtins.append(new AlignModule(r));
 	builtins.append(new BezierSurfaceModule(r));
@@ -262,9 +262,9 @@ void BuiltinCreator::saveBuiltins(Script& sc)
 		sc.removeDeclaration(d);
 }
 
-void BuiltinCreator::generateDocs()
+void BuiltinCreator::generateDocs(QTextStream& out)
 {
-	TreePrinter p(reporter.output);
+	TreePrinter p(out);
 	generateDocs(p);
 }
 
