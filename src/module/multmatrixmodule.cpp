@@ -38,28 +38,22 @@ Node* MultMatrixModule::evaluate(const Context& ctx) const
 	if(!matrixVec)
 		return n;
 
-	auto* m=new TransformMatrix();
-	n->setMatrix(m);
+	auto* matrix=new TransformMatrix();
 
-	int index=0;
-	decimal matrix[20];
-	for(Value* colVal: matrixVec->getChildren()) {
-		auto* rowVal=dynamic_cast<VectorValue*>(colVal);
-		if(rowVal) {
-			for(Value* valueVal: rowVal->getChildren()) {
-				auto* value=dynamic_cast<NumberValue*>(valueVal);
-				if(value) {
-					matrix[index]=value->getNumber();
-				}
-				index++;
-				if(index>16) {
-					m->setValues(matrix);
-					return n;
-				}
-			}
+	int i=0,j=0;
+	for(Value* rowVal: matrixVec->getChildren()) {
+		auto* row=dynamic_cast<VectorValue*>(rowVal);
+		if(!row) continue;
+		j=0;
+		for(Value* colVal: row->getChildren()) {
+			auto* col=dynamic_cast<NumberValue*>(colVal);
+			if(!col) continue;
+			matrix->setValue(i,j,col->getNumber());
+			if(j++ > 4) break;
 		}
+		if(i++ > 4) break;
 	}
-
-	m->setValues(matrix);
+	if(i*j >= 16)
+		n->setMatrix(matrix);
 	return n;
 }
