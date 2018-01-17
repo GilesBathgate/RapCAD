@@ -76,11 +76,9 @@ private:
 	void initializeGL() override;
 	void resizeGL(int w, int h) override;
 	void paintGL() override;
-
-#ifdef USE_QGLWIDGET
-#else
-	void renderText(double,double,double,const QString&,const QFont& fnt=QFont(),int listBase=2000);
-#endif
+	void renderX(double,double,double);
+	void renderY(double,double,double);
+	void renderZ(double,double,double);
 
 	void mousePressEvent(QMouseEvent* event) override;
 	void mouseMoveEvent(QMouseEvent* event) override;
