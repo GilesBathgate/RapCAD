@@ -49,9 +49,9 @@ Node* MultMatrixModule::evaluate(const Context& ctx) const
 			auto* col=dynamic_cast<NumberValue*>(colVal);
 			if(!col) continue;
 			matrix->setValue(i,j,col->getNumber());
-			if(j++ > 4) break;
+			if(++j >= 4) break;
 		}
-		if(i++ > 4) break;
+		if(++i >= 4) break;
 	}
 	if(i*j >= 16)
 		n->setMatrix(matrix);
