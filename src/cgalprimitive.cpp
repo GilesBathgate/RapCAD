@@ -678,7 +678,8 @@ QList<Primitive*> CGALPrimitive::getChildren()
 
 void CGALPrimitive::appendChild(Primitive* p)
 {
-	children.append(p);
+	if(p!=this)
+		children.append(p);
 }
 
 static CGAL::Point3 discretePoint(const CGAL::Point3& pt,int places)
