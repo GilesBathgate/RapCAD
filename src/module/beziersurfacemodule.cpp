@@ -83,18 +83,24 @@ Node* BezierSurfaceModule::evaluate(const Context& ctx) const
 	if(!meshVec)
 		return pn;
 
+	int i=0,j=0;
 	for(Value* pointsVal: meshVec->getChildren()) {
 		Points points;
 		auto* pointsVec=dynamic_cast<VectorValue*>(pointsVal);
-		if(pointsVec)
-			for(Value* pointVal: pointsVec->getChildren()) {
-				auto* pointVec=dynamic_cast<VectorValue*>(pointVal);
-				if(pointVec) {
-					points.append(pointVec->getPoint());
-				}
-			}
+		if(!pointsVec) continue;
+		j=0;
+		for(Value* pointVal: pointsVec->getChildren()) {
+			auto* pointVec=dynamic_cast<VectorValue*>(pointVal);
+			if(!pointVec) continue;
+			points.append(pointVec->getPoint());
+			if(++j >= 4) break;
+		}
 		mesh.append(points);
+		if(++i >= 4) break;
 	}
+
+	if(i*j < 16)
+		return pn;
 
 	int f=24; //TODO use getfragments and $fn,$fa,$fs variables;
 
