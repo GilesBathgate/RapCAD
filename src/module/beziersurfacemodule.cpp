@@ -21,6 +21,7 @@
 #include "vectorvalue.h"
 #include "node/primitivenode.h"
 #include "rmath.h"
+#include "fragment.h"
 
 BezierSurfaceModule::BezierSurfaceModule(Reporter& r) : Module(r,"bezier_surface")
 {
@@ -102,7 +103,9 @@ Node* BezierSurfaceModule::evaluate(const Context& ctx) const
 	if(i*j < 16)
 		return pn;
 
-	int f=24; //TODO use getfragments and $fn,$fa,$fs variables;
+	Fragment* fg = Fragment::createFragment(ctx);
+	int f = fg->getFragments(1);
+	delete fg;
 
 	for(auto i=0; i<f; ++i) {
 		for(auto j=0; j<f; ++j) {

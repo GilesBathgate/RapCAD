@@ -36,7 +36,7 @@ int CGALFragment::getFragments(const CGAL::Scalar& r)
 
 	CGAL::Scalar fs=fragmentSize;
 	if(fs > 0)
-		 fs=r*CGAL::Scalar(r_tau()) / fs;
+		 fs=r*r_tau() / fs;
 
 	CGAL::Scalar fa=fragmentAngle;
 	if(fa > 0)
