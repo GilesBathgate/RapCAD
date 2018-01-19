@@ -682,13 +682,13 @@ void NodeEvaluator::visit(const ResizeNode& n)
 	if(y==0.0) y=autosize;
 	if(z==0.0) z=autosize;
 
-	TransformMatrix* t = new TransformMatrix(
+	TransformMatrix t(
 		x, 0, 0, 0,
 		0, y, 0, 0,
 		0, 0, z, 0,
 		0, 0, 0, 1);
 
-	result->transform(t);
+	result->transform(&t);
 #endif
 }
 
@@ -747,13 +747,13 @@ void NodeEvaluator::visit(const AlignNode& n)
 			cy=(b.ymin()+b.ymax())/two;
 	}
 
-	auto* t = new TransformMatrix(
+	TransformMatrix t(
 		1, 0, 0, -cx,
 		0, 1, 0, -cy,
 		0, 0, 1, -cz,
 		0, 0, 0,  1);
 
-	result->transform(t);
+	result->transform(&t);
 #endif
 }
 

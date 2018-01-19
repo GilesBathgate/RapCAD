@@ -20,11 +20,10 @@
 
 TransformMatrix::TransformMatrix()
 {
+	int n=0;
 	for(auto i=0; i<4; ++i)
 		for(auto j=0; j<4; ++j)
-			matrix[i][j]=0.0;
-
-	matrix[3][3]=1.0;
+			matrix[i][j]=(n++%5)?0.0:1.0;
 }
 
 TransformMatrix::TransformMatrix(

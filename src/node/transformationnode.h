@@ -26,6 +26,7 @@ class TransformationNode : public Node
 {
 public:
 	TransformationNode();
+	~TransformationNode();
 	void accept(NodeVisitor&) override;
 	TransformMatrix* getMatrix() const;
 	void setMatrix(TransformMatrix*);

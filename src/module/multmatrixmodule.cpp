@@ -53,7 +53,7 @@ Node* MultMatrixModule::evaluate(const Context& ctx) const
 		}
 		if(++i >= 4) break;
 	}
-	if(i*j >= 16)
-		n->setMatrix(matrix);
+
+	n->setMatrix(matrix);
 	return n;
 }
