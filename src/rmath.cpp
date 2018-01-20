@@ -30,6 +30,11 @@
 #define M_TAU		6.28318530717958647692
 #endif
 
+static decimal d360(360.0);
+static decimal d90(90.0);
+static decimal d2(2.0);
+static decimal d0(0.0);
+
 static decimal roundPreference(const decimal& a,bool round)
 {
 	if(round) {
@@ -44,7 +49,7 @@ static decimal roundPreference(const decimal& a,bool round)
 decimal r_tau(bool round)
 {
 #ifdef USE_CGAL
-	return r_pi(round)*decimal(2);
+	return r_pi(round)*d2;
 #else
 	return roundPreference(M_TAU,round);
 #endif
@@ -63,12 +68,12 @@ decimal r_pi(bool round)
 
 decimal r_rad(const decimal& a,bool round)
 {
-	return a*(r_tau(round)/decimal(360.0));
+	return a*(r_tau(round)/d360);
 }
 
 decimal r_deg(const decimal& a,bool round)
 {
-	return a*decimal(360.0)/r_tau(round);
+	return a*d360/r_tau(round);
 }
 
 decimal r_pow(const decimal& a,const decimal& e,bool round)
@@ -100,7 +105,7 @@ decimal r_round(const decimal& a,int places)
 {
 #ifdef USE_CGAL
 	CGAL::Gmpfr m;
-	CGAL::Gmpfr n=to_gmpfr(10.0);
+	CGAL::Gmpfr n(10.0);
 	CGAL::Gmpfr o(places);
 	mpfr_pow(m.fr(),n.fr(),o.fr(),MPFR_RNDN);
 	decimal f(m);
@@ -163,7 +168,7 @@ decimal r_tan_deg(const decimal& a,bool round)
 
 static bool r_right(const decimal& a)
 {
-	return r_mod(a,90)==decimal(0);
+	return r_mod(a,d90)==d0;
 }
 
 decimal r_right_sin(const decimal& a)
@@ -210,7 +215,7 @@ decimal r_mod(const decimal& a,const decimal& b)
 decimal r_abs(const decimal& a)
 {
 #ifdef USE_CGAL
-	return a>=decimal(0)?a:-a;
+	return a>=d0?a:-a;
 #else
 	return fabs(a);
 #endif
@@ -416,8 +421,7 @@ decimal r_log10(const decimal& a,bool round)
 
 decimal r_sign(const decimal& a)
 {
-	decimal zero(0.0);
-	return a<zero?decimal(-1.0):a>zero?decimal(1.0):zero;
+	return a<d0?decimal(-1.0):a>d0?decimal(1.0):d0;
 }
 
 static gmp_randstate_t state;
@@ -427,8 +431,7 @@ void r_rand_seed(int seed)
 #if USE_CGAL
 	gmp_randinit_mt(state);
 	mpz_t n;
-	mpz_init(n);
-	mpz_set_ui(n,seed);
+	mpz_init_set_ui(n,seed);
 	gmp_randseed(state,n);
 #else
 	srand(seed);
