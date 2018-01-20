@@ -397,6 +397,12 @@ unsigned int SyntaxHighlighter::buildNumber(QString)
 	return YY_CONTINUE;
 }
 
+unsigned int SyntaxHighlighter::buildNumberExp(QString)
+{
+	setFormat(startIndex,lexerleng,numberFormat);
+	return YY_CONTINUE;
+}
+
 unsigned int SyntaxHighlighter::buildRational()
 {
 	setFormat(startIndex,lexerleng,numberFormat);

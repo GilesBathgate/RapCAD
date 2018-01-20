@@ -347,6 +347,12 @@ unsigned int TokenBuilder::buildNumber(QString str)
 	return NUMBER;
 }
 
+unsigned int TokenBuilder::buildNumberExp(QString str)
+{
+	parserlval.number = new decimal(parse_numberexp(str));
+	return NUMBER;
+}
+
 unsigned int TokenBuilder::buildRational()
 {
 	return UNDEF;

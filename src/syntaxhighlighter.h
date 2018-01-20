@@ -91,6 +91,7 @@ private:
 	unsigned int buildLegalChar(unsigned int) override;
 	unsigned int buildIllegalChar() override;
 	unsigned int buildNumber(QString) override;
+	unsigned int buildNumberExp(QString) override;
 	unsigned int buildRational() override;
 	unsigned int buildRational(QString) override;
 	unsigned int buildIdentifier(QString) override;

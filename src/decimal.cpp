@@ -131,11 +131,22 @@ CGAL::Gmpfr to_gmpfr(const decimal& d)
 }
 #endif
 
+decimal parse_numberexp(QString s, bool *ok)
+{
+	int i=s.indexOf('e',0,Qt::CaseInsensitive);
+	if(i<0)
+		return to_decimal(s);
+
+	QString e=s.mid(i+1).remove('+');
+	decimal p=to_decimal(e,ok);
+	return to_decimal(s.left(i),ok) * r_pow(decimal(10),p,p<0);
+}
+
 decimal parse_rational(QString s, bool *ok)
 {
 	int i=s.lastIndexOf('/');
 	if(i<0)
-		return to_decimal(s,ok);
+		return parse_numberexp(s,ok);
 
-	return parse_rational(s.left(i),ok)/to_decimal(s.mid(i+1),ok);
+	return parse_rational(s.left(i),ok)/parse_numberexp(s.mid(i+1),ok);
 }

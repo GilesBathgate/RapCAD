@@ -30,10 +30,11 @@ typedef double decimal;
 #endif
 
 QString to_string(const decimal&);
-decimal to_decimal(QString s,bool* ok=nullptr);
+decimal to_decimal(QString,bool* ok=nullptr);
 int to_integer(const decimal&);
 bool to_boolean(const decimal&);
-decimal parse_rational(QString s,bool* ok=nullptr);
+decimal parse_rational(QString,bool* ok=nullptr);
+decimal parse_numberexp(QString,bool* ok=nullptr);
 
 #ifdef USE_CGAL
 void to_glcoord(const Point&,float&,float&,float&);
