@@ -145,9 +145,9 @@ void NodeEvaluator::visit(const GlideNode& op)
 	result=first;
 }
 
-static Primitive* evaluateHull(Primitive* previous, Primitive* next)
-{
 #ifdef USE_CGAL
+static void evaluateHull(Primitive* first,Primitive* previous, Primitive* next)
+{
 	QList<CGAL::Point3> points;
 	if(previous) {
 		CGALExplorer p(previous);
@@ -160,13 +160,13 @@ static Primitive* evaluateHull(Primitive* previous, Primitive* next)
 	}
 
 	if(points.count()<3)
-		return nullptr;
+		return;
 
 	CGAL::Polyhedron3 hull;
 	CGAL::convex_hull_3(points.begin(),points.end(),hull);
-	return new CGALPrimitive(hull);
-#endif
+	first->add(new CGALPrimitive(hull),true);
 }
+#endif
 
 void NodeEvaluator::visit(const HullNode& n)
 {
@@ -180,16 +180,14 @@ void NodeEvaluator::visit(const HullNode& n)
 			if(!previous) {
 				first=result;
 			} else {
-				Primitive* prim=evaluateHull(previous,result);
-				first->add(prim,true);
+				evaluateHull(first,previous,result);
 			}
 			previous=result;
 		}
 		if(first) {
-			if(previous && n.getClosed()) {
-				Primitive* prim=evaluateHull(first,previous);
-				first->add(prim,true);
-			}
+			if(n.getClosed())
+				evaluateHull(first,first,previous);
+
 			result=first->combine();
 		}
 	} else {
