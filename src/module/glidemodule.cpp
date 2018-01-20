@@ -23,19 +23,12 @@
 
 GlideModule::GlideModule(Reporter& r) : Module(r,"glide")
 {
-	addDescription(tr("Glides its subsequent children along the outline of the first child."));
-	addParameter("closed",tr("Specfies whether to close the outline."));
+	addDescription(tr("Glides the first child along the outline of the second child."));
 }
 
 Node* GlideModule::evaluate(const Context& ctx) const
 {
-	bool close=false;
-	Value* closeVal=getParameterArgument(ctx,0);
-	if(closeVal)
-		close=closeVal->isTrue();
-
 	auto* n=new GlideNode();
-	n->setClosed(close);
 	n->setChildren(ctx.getInputNodes());
 	return n;
 }

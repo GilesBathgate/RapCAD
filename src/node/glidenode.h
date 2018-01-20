@@ -25,11 +25,7 @@ class GlideNode : public Node
 {
 public:
 	GlideNode();
-	void setClosed(bool);
-	bool getClosed() const;
 	void accept(NodeVisitor&) override;
-private:
-	bool closed;
 };
 
 #endif // GLIDENODE_H

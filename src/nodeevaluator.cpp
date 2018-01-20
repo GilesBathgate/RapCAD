@@ -121,28 +121,52 @@ void NodeEvaluator::visit(const GlideNode& op)
 	for(Node* n: op.getChildren()) {
 		n->accept(*this);
 		if(!first) {
+			first=result;
+		} else if(result) {
 #ifdef USE_CGAL
-			CGALExplorer explorer(result);
-			QList<CGAL::Point3> points = explorer.getPoints();
-
-			auto* cp=new CGALPrimitive();
-			CGAL::Point3 fp;
-			OnceOnly first_p;
-			for(const auto& pt: points) {
-				if(first_p())
-					fp=pt;
-				cp->appendVertex(pt);
+			QList<CGAL::Point3> points;
+			if(result->getType()==Primitive::Lines) {
+				points = result->getPoints();
+			} else {
+				CGALExplorer explorer(result);
+				CGALPrimitive* peri=explorer.getPerimeters();
+				for(CGALPolygon* pg: peri->getCGALPolygons()) {
+					points = pg->getPoints();
+					break;
+				}
 			}
-			if(op.getClosed())
+			bool closed=false;
+			auto* cp=new CGALPrimitive();
+			cp->setType(Primitive::Lines);
+			CGAL::Point3 fp,np;
+			OnceOnly first_p;
+			cp->createPolygon();
+			for(const auto& pt: points) {
+				if(first_p()) {
+					fp=pt;
+				} else if(pt==fp) {
+					closed=true;
+					break;
+				}
+				cp->appendVertex(pt);
+				np=pt;
+			}
+			if(!closed) {
+				result=first->minkowski(cp);
+			} else {
+				Primitive* next=first->copy();
+				result=first->minkowski(cp);
+				cp=new CGALPrimitive();
+				cp->setType(Primitive::Lines);
+				cp->createPolygon();
+				cp->appendVertex(np);
 				cp->appendVertex(fp);
-			first=cp;
+				result->join(next->minkowski(cp));
+			}
+			if(result) break;
 #endif
-		} else {
-			first=first->minkowski(result);
 		}
 	}
-
-	result=first;
 }
 
 #ifdef USE_CGAL
