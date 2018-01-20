@@ -67,10 +67,10 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 			return new BooleanValue(result);
 		}
 		if(e==Expression::Divide||e==Expression::Modulus) {
-			if(num->number==decimal(0))
+			if(num->number==0)
 				return Value::undefined();
 		} else if(e==Expression::Exponent) {
-			if(num->number<=decimal(0))
+			if(number==0&&num->number<=0)
 				return Value::undefined();
 		}
 
