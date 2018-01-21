@@ -46,22 +46,37 @@ void PreferencesDialog::setupWidgets()
 	ui->vertexSizeSpinBox->setValue(p->getVertexSize());
 	ui->edgeSizeSpinBox->setValue(p->getEdgeSize());
 	ui->checkBox->setChecked(p->getAutoSaveOnCompile());
+	bool enabled=true;
 	switch(p->getPrecision())
 	{
 		case 0:
 			ui->singleRadio->setChecked(true);
+			enabled=false;
 			break;
 		case 1:
 			ui->doubleRadio->setChecked(true);
+			enabled=false;
 			break;
 		default:
 			ui->customRadio->setChecked(true);
 			break;
 	}
-
+	ui->placesSpinBox->setEnabled(enabled);
+	ui->bitsSpinBox->setEnabled(enabled);
 	ui->placesSpinBox->setValue(p->getDecimalPlaces());
 	ui->bitsSpinBox->setValue(p->getSignificandBits());
-	ui->functionRoundingCheckBox->setChecked(p->getFunctionRounding());
+	switch(p->getFunctionRounding())
+	{
+		case 0:
+			ui->decimalRoundingRadio->setChecked(true);
+			break;
+		case 1:
+			ui->base2RoundingRadio->setChecked(true);
+			break;
+		default:
+			ui->noRoundingRadio->setChecked(true);
+			break;
+	}
 	ui->rationalFormatCheckBox->setChecked(p->getRationalFormat());
 
 	QPointF o=p->getPrintOrigin();
@@ -110,7 +125,9 @@ void PreferencesDialog::setupButtons()
 	connect(ui->singleRadio,SIGNAL(toggled(bool)),SLOT(precisionType(bool)));
 
 	connect(ui->checkBox,&QCheckBox::stateChanged,this,&PreferencesDialog::autoSaveOnCompileChanged);
-	connect(ui->functionRoundingCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::functionRoundingChanged);
+	connect(ui->noRoundingRadio,SIGNAL(toggled(bool)),SLOT(functionRoundingChanged(bool)));
+	connect(ui->decimalRoundingRadio,SIGNAL(toggled(bool)),SLOT(functionRoundingChanged(bool)));
+	connect(ui->base2RoundingRadio,SIGNAL(toggled(bool)),SLOT(functionRoundingChanged(bool)));
 	connect(ui->rationalFormatCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::rationalFormatChanged);
 
 	connect(ui->widthSpinBox,SIGNAL(valueChanged(int)),this,SLOT(volumeChanged()));
@@ -212,10 +229,16 @@ void PreferencesDialog::precisionType(bool)
 	ui->bitsSpinBox->setEnabled(enabled);
 }
 
-void PreferencesDialog::functionRoundingChanged(int s)
+void PreferencesDialog::functionRoundingChanged(bool)
 {
 	Preferences* p = Preferences::getInstance();
-	p->setFunctionRounding(s == Qt::Checked);
+	if(ui->decimalRoundingRadio->isChecked())
+		p->setFunctionRounding(0);
+	else if(ui->base2RoundingRadio->isChecked())
+		p->setFunctionRounding(1);
+	else
+		p->setFunctionRounding(2);
+
 	updatePrecision();
 }
 

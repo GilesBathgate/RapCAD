@@ -79,14 +79,14 @@ void Preferences::setSignificandBits(int b)
 	updatePrecision();
 }
 
-bool Preferences::getFunctionRounding() const
+int Preferences::getFunctionRounding() const
 {
-	return settings->value("FunctionRounding",true).toBool();
+	return settings->value("FunctionRounding",0).toInt();
 }
 
-void Preferences::setFunctionRounding(bool b)
+void Preferences::setFunctionRounding(int i)
 {
-	settings->setValue("FunctionRounding",b);
+	settings->setValue("FunctionRounding",i);
 }
 
 bool Preferences::getRationalFormat() const

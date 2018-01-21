@@ -35,12 +35,27 @@ static decimal d90(90.0);
 static decimal d2(2.0);
 static decimal d0(0.0);
 
+static decimal r_round_prec(const decimal& a,int p)
+{
+#ifdef USE_CGAL
+	CGAL::Gmpfr m=to_gmpfr(a);
+	mpfr_prec_round(m.fr(),p,MPFR_RNDN);
+	return decimal(m);
+#else
+	return a;//TODO
+#endif
+}
+
 decimal r_round_preference(const decimal& a,bool round)
 {
 	if(round) {
 		Preferences* p=Preferences::getInstance();
-		if(p->getFunctionRounding()) {
-			return r_round(a,p->getDecimalPlaces());
+		switch(p->getFunctionRounding())
+		{
+			case 0:
+				return r_round(a,p->getDecimalPlaces());
+			case 1:
+				return r_round_prec(a,p->getSignificandBits());
 		}
 	}
 	return a;

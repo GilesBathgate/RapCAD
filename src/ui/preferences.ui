@@ -446,23 +446,30 @@
             <string notr="true"/>
            </property>
            <property name="title">
-            <string>Rounding</string>
+            <string>Function Rounding</string>
            </property>
            <property name="flat">
             <bool>false</bool>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
-             <widget class="QCheckBox" name="functionRoundingCheckBox">
+             <widget class="QRadioButton" name="decimalRoundingRadio">
               <property name="text">
-               <string>Use function rounding</string>
+               <string>Decimal</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="rationalFormatCheckBox">
+             <widget class="QRadioButton" name="base2RoundingRadio">
               <property name="text">
-               <string>Output Rational Format (nnn/ddd)</string>
+               <string>Base 2</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="noRoundingRadio">
+              <property name="text">
+               <string>None</string>
               </property>
              </widget>
             </item>
@@ -470,18 +477,28 @@
           </widget>
          </item>
          <item>
-          <widget class="QGroupBox" name="exampleGroupBox">
+          <widget class="QGroupBox" name="formatGroupBox">
            <property name="title">
-            <string>Example</string>
+            <string>Format</string>
            </property>
-           <layout class="QGridLayout" name="gridLayout_3">
-            <item row="0" column="0">
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
              <widget class="QLabel" name="exampleLabel">
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
               <property name="text">
                <string>0.0</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="rationalFormatCheckBox">
+              <property name="text">
+               <string>Output Rational Format (nnn/ddd)</string>
               </property>
              </widget>
             </item>
@@ -534,7 +551,9 @@
   <tabstop>customRadio</tabstop>
   <tabstop>placesSpinBox</tabstop>
   <tabstop>bitsSpinBox</tabstop>
-  <tabstop>functionRoundingCheckBox</tabstop>
+  <tabstop>decimalRoundingRadio</tabstop>
+  <tabstop>base2RoundingRadio</tabstop>
+  <tabstop>noRoundingRadio</tabstop>
   <tabstop>rationalFormatCheckBox</tabstop>
   <tabstop>checkBox</tabstop>
  </tabstops>

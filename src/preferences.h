@@ -39,8 +39,8 @@ public:
 	int getSignificandBits() const;
 	void setSignificandBits(int);
 
-	bool getFunctionRounding() const;
-	void setFunctionRounding(bool);
+	int getFunctionRounding() const;
+	void setFunctionRounding(int);
 
 	bool getRationalFormat() const;
 	void setRationalFormat(bool b);

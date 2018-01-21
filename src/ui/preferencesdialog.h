@@ -43,7 +43,7 @@ private slots:
 	void placesChanged(int);
 	void bitsChanged(int);
 	void precisionType(bool);
-	void functionRoundingChanged(int);
+	void functionRoundingChanged(bool);
 	void rationalFormatChanged(int);
 	void volumeChanged();
 	void originChanged();
