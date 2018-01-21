@@ -35,12 +35,12 @@ static decimal d90(90.0);
 static decimal d2(2.0);
 static decimal d0(0.0);
 
-static decimal roundPreference(const decimal& a,bool round)
+decimal r_round_preference(const decimal& a,bool round)
 {
 	if(round) {
 		Preferences* p=Preferences::getInstance();
 		if(p->getFunctionRounding()) {
-			return r_round(a,p->getPrecision());
+			return r_round(a,p->getDecimalPlaces());
 		}
 	}
 	return a;
@@ -51,7 +51,7 @@ decimal r_tau(bool round)
 #ifdef USE_CGAL
 	return r_pi(round)*d2;
 #else
-	return roundPreference(M_TAU,round);
+	return r_round_preference(M_TAU,round);
 #endif
 }
 
@@ -60,9 +60,9 @@ decimal r_pi(bool round)
 #ifdef USE_CGAL
 	CGAL::Gmpfr m;
 	mpfr_const_pi(m.fr(),MPFR_RNDN);
-	return roundPreference(decimal(m),round);
+	return r_round_preference(decimal(m),round);
 #else
-	return roundPreference(M_PI,round);
+	return r_round_preference(M_PI,round);
 #endif
 }
 
@@ -83,7 +83,7 @@ decimal r_pow(const decimal& a,const decimal& e,bool round)
 	CGAL::Gmpfr n=to_gmpfr(a);
 	CGAL::Gmpfr o=to_gmpfr(e);
 	mpfr_pow(m.fr(),n.fr(),o.fr(),MPFR_RNDN);
-	return roundPreference(decimal(m),round);
+	return r_round_preference(decimal(m),round);
 #else
 	return pow(a,e);
 #endif
@@ -121,9 +121,9 @@ decimal r_sin(const decimal& a,bool round)
 	CGAL::Gmpfr m;
 	CGAL::Gmpfr n=to_gmpfr(a);
 	mpfr_sin(m.fr(),n.fr(),MPFR_RNDN);
-	return roundPreference(decimal(m),round);
+	return r_round_preference(decimal(m),round);
 #else
-	return roundPreference(sin(a),round);
+	return r_round_preference(sin(a),round);
 #endif
 }
 
@@ -133,9 +133,9 @@ decimal r_cos(const decimal& a,bool round)
 	CGAL::Gmpfr m;
 	CGAL::Gmpfr n=to_gmpfr(a);
 	mpfr_cos(m.fr(),n.fr(),MPFR_RNDN);
-	return roundPreference(decimal(m),round);
+	return r_round_preference(decimal(m),round);
 #else
-	return roundPreference(cos(a),round);
+	return r_round_preference(cos(a),round);
 #endif
 }
 
@@ -145,9 +145,9 @@ decimal r_tan(const decimal& a,bool round)
 	CGAL::Gmpfr m;
 	CGAL::Gmpfr n=to_gmpfr(a);
 	mpfr_tan(m.fr(),n.fr(),MPFR_RNDN);
-	return roundPreference(decimal(m),round);
+	return r_round_preference(decimal(m),round);
 #else
-	return roundPreference(tan(a),round);
+	return r_round_preference(tan(a),round);
 #endif
 }
 
@@ -193,9 +193,9 @@ decimal r_sqrt(const decimal& a,bool round)
 	CGAL::Gmpfr m;
 	CGAL::Gmpfr n=to_gmpfr(a);
 	mpfr_sqrt(m.fr(),n.fr(),MPFR_RNDN);
-	return roundPreference(decimal(m),round);
+	return r_round_preference(decimal(m),round);
 #else
-	return roundPreference(sqrt(a),round);
+	return r_round_preference(sqrt(a),round);
 #endif
 }
 
@@ -227,9 +227,9 @@ decimal r_acos(const decimal& a,bool round)
 	CGAL::Gmpfr m;
 	CGAL::Gmpfr n=to_gmpfr(a);
 	mpfr_acos(m.fr(),n.fr(),MPFR_RNDN);
-	return roundPreference(decimal(m),round);
+	return r_round_preference(decimal(m),round);
 #else
-	return roundPreference(acos(a),round);
+	return r_round_preference(acos(a),round);
 #endif
 }
 
@@ -244,9 +244,9 @@ decimal r_asin(const decimal& a,bool round)
 	CGAL::Gmpfr m;
 	CGAL::Gmpfr n=to_gmpfr(a);
 	mpfr_asin(m.fr(),n.fr(),MPFR_RNDN);
-	return roundPreference(decimal(m),round);
+	return r_round_preference(decimal(m),round);
 #else
-	return roundPreference(asin(a),round);
+	return r_round_preference(asin(a),round);
 #endif
 }
 
@@ -262,9 +262,9 @@ decimal r_atan2(const decimal& a,const decimal& b,bool round)
 	CGAL::Gmpfr n=to_gmpfr(a);
 	CGAL::Gmpfr o=to_gmpfr(b);
 	mpfr_atan2(m.fr(),n.fr(),o.fr(),MPFR_RNDN);
-	return roundPreference(decimal(m),round);
+	return r_round_preference(decimal(m),round);
 #else
-	return roundPreference(atan2(a,b),round);
+	return r_round_preference(atan2(a,b),round);
 #endif
 }
 
@@ -279,9 +279,9 @@ decimal r_atan(const decimal& a,bool round)
 	CGAL::Gmpfr m;
 	CGAL::Gmpfr n=to_gmpfr(a);
 	mpfr_atan(m.fr(),n.fr(),MPFR_RNDN);
-	return roundPreference(decimal(m),round);
+	return r_round_preference(decimal(m),round);
 #else
-	return roundPreference(atan(a),round);
+	return r_round_preference(atan(a),round);
 #endif
 }
 
@@ -296,9 +296,9 @@ decimal r_cosh(const decimal& a,bool round)
 	CGAL::Gmpfr m;
 	CGAL::Gmpfr n=to_gmpfr(a);
 	mpfr_cosh(m.fr(),n.fr(),MPFR_RNDN);
-	return roundPreference(decimal(m),round);
+	return r_round_preference(decimal(m),round);
 #else
-	return roundPreference(cosh(a),round);
+	return r_round_preference(cosh(a),round);
 #endif
 }
 
@@ -313,9 +313,9 @@ decimal r_sinh(const decimal& a,bool round)
 	CGAL::Gmpfr m;
 	CGAL::Gmpfr n=to_gmpfr(a);
 	mpfr_sinh(m.fr(),n.fr(),MPFR_RNDN);
-	return roundPreference(decimal(m),round);
+	return r_round_preference(decimal(m),round);
 #else
-	return roundPreference(sinh(a),round);
+	return r_round_preference(sinh(a),round);
 #endif
 }
 
@@ -330,9 +330,9 @@ decimal r_tanh(const decimal& a,bool round)
 	CGAL::Gmpfr m;
 	CGAL::Gmpfr n=to_gmpfr(a);
 	mpfr_tanh(m.fr(),n.fr(),MPFR_RNDN);
-	return roundPreference(decimal(m),round);
+	return r_round_preference(decimal(m),round);
 #else
-	return roundPreference(tanh(a),round);
+	return r_round_preference(tanh(a),round);
 #endif
 }
 
@@ -389,9 +389,9 @@ decimal r_exp(const decimal& a,bool round)
 	CGAL::Gmpfr m;
 	CGAL::Gmpfr n=to_gmpfr(a);
 	mpfr_exp(m.fr(),n.fr(),MPFR_RNDN);
-	return roundPreference(decimal(m),round);
+	return r_round_preference(decimal(m),round);
 #else
-	return roundPreference(exp(a),round);
+	return r_round_preference(exp(a),round);
 #endif
 }
 
@@ -401,9 +401,9 @@ decimal r_log(const decimal& a,bool round)
 	CGAL::Gmpfr m;
 	CGAL::Gmpfr n=to_gmpfr(a);
 	mpfr_log(m.fr(),n.fr(),MPFR_RNDN);
-	return roundPreference(decimal(m),round);
+	return r_round_preference(decimal(m),round);
 #else
-	return roundPreference(log(a),round);
+	return r_round_preference(log(a),round);
 #endif
 }
 
@@ -413,9 +413,9 @@ decimal r_log10(const decimal& a,bool round)
 	CGAL::Gmpfr m;
 	CGAL::Gmpfr n=to_gmpfr(a);
 	mpfr_log10(m.fr(),n.fr(),MPFR_RNDN);
-	return roundPreference(decimal(m),round);
+	return r_round_preference(decimal(m),round);
 #else
-	return roundPreference(log10(a),round);
+	return r_round_preference(log10(a),round);
 #endif
 }
 
@@ -450,7 +450,7 @@ decimal r_rand(const decimal& min,const decimal& max)
 #ifdef USE_CGAL
 	CGAL::Gmpfr m;
 	mpfr_urandom(m.fr(),state,MPFR_RNDN);
-	return roundPreference((min>max)?decimal(m)*(min-max)+max:decimal(m)*(max-min)+min,true);
+	return r_round_preference((min>max)?decimal(m)*(min-max)+max:decimal(m)*(max-min)+min,true);
 #else
 	return (min>max)?r_rand()*(min-max)+max:r_rand()*(max-min)+min;
 #endif

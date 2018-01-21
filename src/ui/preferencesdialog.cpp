@@ -21,6 +21,8 @@
 #include "preferencesdialog.h"
 #include "ui_preferences.h"
 #include "preferences.h"
+#include "decimal.h"
+#include "rmath.h"
 
 PreferencesDialog::PreferencesDialog(QWidget* parent) :
 	QDialog(parent),
@@ -44,7 +46,21 @@ void PreferencesDialog::setupWidgets()
 	ui->vertexSizeSpinBox->setValue(p->getVertexSize());
 	ui->edgeSizeSpinBox->setValue(p->getEdgeSize());
 	ui->checkBox->setChecked(p->getAutoSaveOnCompile());
-	ui->precisionSpinBox->setValue(p->getPrecision());
+	switch(p->getPrecision())
+	{
+		case 0:
+			ui->singleRadio->setChecked(true);
+			break;
+		case 1:
+			ui->doubleRadio->setChecked(true);
+			break;
+		default:
+			ui->customRadio->setChecked(true);
+			break;
+	}
+
+	ui->placesSpinBox->setValue(p->getDecimalPlaces());
+	ui->bitsSpinBox->setValue(p->getSignificandBits());
 	ui->functionRoundingCheckBox->setChecked(p->getFunctionRounding());
 	ui->rationalFormatCheckBox->setChecked(p->getRationalFormat());
 
@@ -58,6 +74,7 @@ void PreferencesDialog::setupWidgets()
 	ui->heightSpinBox->setValue(v.z());
 
 	ui->appearanceComboBox->setCurrentIndex(p->getPrintBedAppearance());
+	updatePrecision();
 }
 
 void PreferencesDialog::setColor(QWidget* w,QColor c)
@@ -87,7 +104,10 @@ void PreferencesDialog::setupButtons()
 
 	connect(ui->vertexSizeSpinBox,SIGNAL(valueChanged(double)),SLOT(vertexSizeChanged(double)));
 	connect(ui->edgeSizeSpinBox,SIGNAL(valueChanged(double)),SLOT(edgeSizeChanged(double)));
-	connect(ui->precisionSpinBox,SIGNAL(valueChanged(int)),SLOT(precisionChanged(int)));
+	connect(ui->placesSpinBox,SIGNAL(valueChanged(int)),SLOT(placesChanged(int)));
+	connect(ui->bitsSpinBox,SIGNAL(valueChanged(int)),SLOT(bitsChanged(int)));
+	connect(ui->doubleRadio,SIGNAL(toggled(bool)),SLOT(precisionType(bool)));
+	connect(ui->singleRadio,SIGNAL(toggled(bool)),SLOT(precisionType(bool)));
 
 	connect(ui->checkBox,&QCheckBox::stateChanged,this,&PreferencesDialog::autoSaveOnCompileChanged);
 	connect(ui->functionRoundingCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::functionRoundingChanged);
@@ -101,6 +121,12 @@ void PreferencesDialog::setupButtons()
 	connect(ui->YspinBox,SIGNAL(valueChanged(int)),this,SLOT(originChanged()));
 
 	connect(ui->appearanceComboBox,SIGNAL(currentIndexChanged(int)),this,SLOT(appearanceChanged(int)));
+}
+
+void PreferencesDialog::updatePrecision()
+{
+	decimal ex=r_round_preference(decimal(10)/decimal(9));
+	ui->exampleLabel->setText(to_string(ex));
 }
 
 void PreferencesDialog::colorButtonPressed(QWidget* frame)
@@ -145,22 +171,59 @@ void PreferencesDialog::autoSaveOnCompileChanged(int s)
 	p->setAutoSaveOnCompile(s == Qt::Checked);
 }
 
-void PreferencesDialog::precisionChanged(int i)
+void PreferencesDialog::placesChanged(int i)
 {
 	Preferences* p = Preferences::getInstance();
-	p->setPrecision(i);
+	p->setDecimalPlaces(i);
+	QSpinBox* sb=ui->bitsSpinBox;
+	bool block=sb->blockSignals(true);
+	sb->setValue(p->getSignificandBits());
+	sb->blockSignals(block);
+	updatePrecision();
+}
+
+void PreferencesDialog::bitsChanged(int i)
+{
+	Preferences* p = Preferences::getInstance();
+	p->setSignificandBits(i);
+	QSpinBox* sb=ui->placesSpinBox;
+	bool block=sb->blockSignals(true);
+	sb->setValue(p->getDecimalPlaces());
+	sb->blockSignals(block);
+	updatePrecision();
+}
+
+void PreferencesDialog::precisionType(bool)
+{
+	Preferences* p = Preferences::getInstance();
+	bool enabled=true;
+	if(ui->singleRadio->isChecked()) {
+		ui->bitsSpinBox->setValue(23);
+		p->setPrecision(0);
+		enabled=false;
+	} else if(ui->doubleRadio->isChecked()) {
+		ui->bitsSpinBox->setValue(52);
+		p->setPrecision(1);
+		enabled=false;
+	} else {
+		p->setPrecision(2);
+	}
+	ui->placesSpinBox->setEnabled(enabled);
+	ui->bitsSpinBox->setEnabled(enabled);
 }
 
 void PreferencesDialog::functionRoundingChanged(int s)
 {
 	Preferences* p = Preferences::getInstance();
 	p->setFunctionRounding(s == Qt::Checked);
+	updatePrecision();
 }
 
 void PreferencesDialog::rationalFormatChanged(int s)
 {
 	Preferences* p = Preferences::getInstance();
 	p->setRationalFormat(s == Qt::Checked);
+	updatePrecision();
 }
 
 void PreferencesDialog::volumeChanged()

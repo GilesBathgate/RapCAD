@@ -33,6 +33,12 @@ public:
 	int getPrecision() const;
 	void setPrecision(int);
 
+	int getDecimalPlaces() const;
+	void setDecimalPlaces(int);
+
+	int getSignificandBits() const;
+	void setSignificandBits(int);
+
 	bool getFunctionRounding() const;
 	void setFunctionRounding(bool);
 

@@ -32,7 +32,7 @@ Preferences::Preferences() :
 
 void Preferences::updatePrecision()
 {
-	precision=floor(getPrecision()/LOG10_2);
+	precision=getSignificandBits();
 #ifdef USE_CGAL
 	CGAL::Gmpfr::set_default_precision(precision);
 #endif
@@ -50,12 +50,32 @@ Preferences* Preferences::getInstance()
 
 int Preferences::getPrecision() const
 {
-	return settings->value("Precision",16).toInt();
+	return settings->value("Precision",2).toInt();
 }
 
 void Preferences::setPrecision(int p)
 {
 	settings->setValue("Precision",p);
+}
+
+int Preferences::getDecimalPlaces() const
+{
+	return ceil(getSignificandBits()*LOG10_2);
+}
+
+void Preferences::setDecimalPlaces(int p)
+{
+	setSignificandBits(floor(p/LOG10_2));
+}
+
+int Preferences::getSignificandBits() const
+{
+	return settings->value("SignificandBits",53).toInt();
+}
+
+void Preferences::setSignificandBits(int b)
+{
+	settings->setValue("SignificandBits",b);
 	updatePrecision();
 }
 

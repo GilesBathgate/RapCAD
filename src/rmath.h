@@ -21,6 +21,7 @@
 
 #include "decimal.h"
 
+decimal r_round_preference(const decimal& a,bool round=true);
 decimal r_tau(bool round=true);
 decimal r_pi(bool round=true);
 decimal r_rad(const decimal&,bool round=true);

@@ -19,7 +19,7 @@
      <item>
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="modelColorsTab">
         <attribute name="title">
@@ -362,19 +362,9 @@
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <item>
-          <widget class="QGroupBox" name="groupBox">
+          <widget class="QGroupBox" name="precisionGroupBox">
            <property name="styleSheet">
-            <string notr="true">QGroupBox {
-    border: 1px solid gray;
-    border-radius: 9px;
-    margin-top: 0.5em;
-}
-
-QGroupBox::title {
-    subcontrol-origin: margin;
-    left: 10px;
-    padding: 0 3px 0 3px;
-}</string>
+            <string notr="true"/>
            </property>
            <property name="title">
             <string>Output Precision</string>
@@ -382,43 +372,121 @@ QGroupBox::title {
            <property name="flat">
             <bool>false</bool>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_2">
-            <item>
-             <widget class="QSpinBox" name="precisionSpinBox"/>
+           <layout class="QGridLayout" name="gridLayout_2">
+            <item row="1" column="1">
+             <widget class="QSpinBox" name="placesSpinBox">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>31</number>
+              </property>
+             </widget>
             </item>
-            <item>
-             <layout class="QHBoxLayout" name="checkBoxLayout">
-              <item>
-               <widget class="QCheckBox" name="functionRoundingCheckBox">
-                <property name="text">
-                 <string>Use function rounding</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="rationalFormatCheckBox">
-                <property name="text">
-                 <string>Output Rational Format (nnn/ddd)</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
+            <item row="0" column="0">
+             <widget class="QRadioButton" name="singleRadio">
+              <property name="text">
+               <string>Single</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="placesLabel">
+              <property name="text">
+               <string>Decimal Places:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QLabel" name="bitsLabel">
+              <property name="text">
+               <string>Significand Bits:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QRadioButton" name="doubleRadio">
+              <property name="text">
+               <string>Double</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QRadioButton" name="customRadio">
+              <property name="text">
+               <string>Custom</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="3">
+             <widget class="QSpinBox" name="bitsSpinBox">
+              <property name="minimum">
+               <number>3</number>
+              </property>
+              <property name="maximum">
+               <number>100</number>
+              </property>
+              <property name="value">
+               <number>3</number>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
          </item>
          <item>
-          <spacer name="verticalSpacer">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
+          <widget class="QGroupBox" name="roundingGroupBox">
+           <property name="styleSheet">
+            <string notr="true"/>
            </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
+           <property name="title">
+            <string>Rounding</string>
            </property>
-          </spacer>
+           <property name="flat">
+            <bool>false</bool>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QCheckBox" name="functionRoundingCheckBox">
+              <property name="text">
+               <string>Use function rounding</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="rationalFormatCheckBox">
+              <property name="text">
+               <string>Output Rational Format (nnn/ddd)</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="exampleGroupBox">
+           <property name="title">
+            <string>Example</string>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_3">
+            <item row="0" column="0">
+             <widget class="QLabel" name="exampleLabel">
+              <property name="text">
+               <string>0.0</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
          </item>
          <item>
           <widget class="QCheckBox" name="checkBox">
@@ -445,6 +513,31 @@ QGroupBox::title {
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>markedFacetColorToolButton</tabstop>
+  <tabstop>facetColorToolButton</tabstop>
+  <tabstop>markedEdgeColorToolButton</tabstop>
+  <tabstop>edgeColorToolButton</tabstop>
+  <tabstop>markedVertexColorToolButton</tabstop>
+  <tabstop>vertexColorToolButton</tabstop>
+  <tabstop>vertexSizeSpinBox</tabstop>
+  <tabstop>edgeSizeSpinBox</tabstop>
+  <tabstop>widthSpinBox</tabstop>
+  <tabstop>lengthSpinBox</tabstop>
+  <tabstop>heightSpinBox</tabstop>
+  <tabstop>XspinBox</tabstop>
+  <tabstop>YspinBox</tabstop>
+  <tabstop>appearanceComboBox</tabstop>
+  <tabstop>singleRadio</tabstop>
+  <tabstop>doubleRadio</tabstop>
+  <tabstop>customRadio</tabstop>
+  <tabstop>placesSpinBox</tabstop>
+  <tabstop>bitsSpinBox</tabstop>
+  <tabstop>functionRoundingCheckBox</tabstop>
+  <tabstop>rationalFormatCheckBox</tabstop>
+  <tabstop>checkBox</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
