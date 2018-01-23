@@ -124,6 +124,10 @@ void NodeEvaluator::visit(const GlideNode& op)
 			first=result;
 		} else if(result) {
 #ifdef USE_CGAL
+			if(result->isFullyDimentional()) {
+				reporter.reportWarning(tr("Second child of glide module cannot be fully dimentional"));
+				return;
+			}
 			QList<CGAL::Point3> points;
 			if(result->getType()==Primitive::Lines) {
 				points = result->getPoints();
