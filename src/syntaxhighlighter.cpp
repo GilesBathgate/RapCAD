@@ -525,3 +525,8 @@ void SyntaxHighlighter::buildFileStart(QDir)
 void SyntaxHighlighter::buildFileFinish()
 {
 }
+
+QString SyntaxHighlighter::getToken() const
+{
+	return QString();
+}

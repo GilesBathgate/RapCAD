@@ -102,6 +102,7 @@ public:
 	virtual void buildNewLine()=0;
 	virtual void buildFileStart(QDir)=0;
 	virtual void buildFileFinish()=0;
+	virtual QString getToken() const=0;
 };
 
 #endif // ABSTRACTTOKENBUILDER_H

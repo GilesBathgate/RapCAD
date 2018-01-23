@@ -149,7 +149,7 @@ NL \n|\r\n
 void lexererror()
 {
 	if(reporter) //Reporter can be null
-		reporter->reportLexicalError(tokenizer,lexertext);
+		reporter->reportLexicalError(*tokenizer,lexertext);
 }
 
 void lexerinit(AbstractTokenBuilder* b,Reporter* r,QFileInfo fileinfo)

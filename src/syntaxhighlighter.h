@@ -112,6 +112,7 @@ private:
 	void buildNewLine() override;
 	void buildFileStart(QDir) override;
 	void buildFileFinish() override;
+	QString getToken() const override;
 
 	QTextCharFormat keywordFormat;
 	QTextCharFormat	numberFormat;

@@ -108,8 +108,10 @@ public:
 	void buildNewLine() override;
 	void buildFileStart(QDir) override;
 	void buildFileFinish() override;
+	QString getToken() const;
 private:
 	TokenBuilder();
+	QString token;
 	QString* stringcontents;
 	QString filename;
 	QString filepath;

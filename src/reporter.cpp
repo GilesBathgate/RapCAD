@@ -46,17 +46,18 @@ void Reporter::reportTiming(QString what)
 	delete timer; //Need to delete timer.
 }
 
-void Reporter::reportSyntaxError(AbstractTokenBuilder* t, QString msg, QString text)
+void Reporter::reportSyntaxError(AbstractTokenBuilder& t,QString msg)
 {
-	int pos=t->getPosition()+kludge;
-	int line=t->getLineNumber();
+	QString text=t.getToken();
+	int pos=t.getPosition()+kludge;
+	int line=t.getLineNumber();
 	output << tr("Line %1: %2 at character %3: '%4'").arg(line).arg(msg).arg(pos).arg(text) << endl;
 }
 
-void Reporter::reportLexicalError(AbstractTokenBuilder* t, QString text)
+void Reporter::reportLexicalError(AbstractTokenBuilder& t,QString text)
 {
-	int pos=t->getPosition()+kludge;
-	int line=t->getLineNumber();
+	int pos=t.getPosition()+kludge;
+	int line=t.getLineNumber();
 	output << tr("Line %1: illegal token at character %2: '%3'").arg(line).arg(pos).arg(text) << endl;
 }
 

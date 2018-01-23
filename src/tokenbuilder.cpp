@@ -27,6 +27,7 @@ extern int lexerdestroy();
 extern void lexerinclude(QFileInfo);
 extern void lexererror();
 extern int lexerlex();
+extern char* lexertext;
 extern int lexerleng;
 extern int lexerlineno;
 
@@ -34,6 +35,11 @@ TokenBuilder::TokenBuilder() :
 	stringcontents(nullptr),
 	position(0)
 {
+}
+
+QString TokenBuilder::getToken() const
+{
+	return token;
 }
 
 TokenBuilder::TokenBuilder(QString s)
@@ -59,7 +65,9 @@ TokenBuilder::~TokenBuilder()
 int TokenBuilder::nextToken()
 {
 	position+=lexerleng;
-	return lexerlex();
+	int next=lexerlex();
+	if(next) token=QString::fromUtf8(lexertext,lexerleng);
+	return next;
 }
 
 int TokenBuilder::getPosition() const

@@ -25,7 +25,6 @@
 #include "script.h"
 #include "reporter.h"
 
-extern char *lexertext;
 void parsescript(Script&,Reporter&,QFileInfo);
 void parsescript(Script&,Reporter&,QString);
 
@@ -462,7 +461,7 @@ static int parserlex()
 static void parsererror(const char* s)
 {
 	if(builder)
-		builder->reportSyntaxError(s,lexertext);
+		builder->reportSyntaxError(s);
 }
 
 void parsescript(Script& s,Reporter& r,QFileInfo input)
