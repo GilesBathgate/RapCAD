@@ -403,9 +403,8 @@ void TokenBuilder::buildCommentStart()
 {
 }
 
-unsigned int TokenBuilder::buildComment(QString)
+void TokenBuilder::buildComment(QString)
 {
-	return YY_NULL;
 }
 
 void TokenBuilder::buildCommentFinish()

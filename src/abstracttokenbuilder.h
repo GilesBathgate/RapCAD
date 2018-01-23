@@ -90,7 +90,7 @@ public:
 	virtual void buildString(QString)=0;
 	virtual unsigned int buildStringFinish()=0;
 	virtual void buildCommentStart()=0;
-	virtual unsigned int buildComment(QString)=0;
+	virtual void buildComment(QString)=0;
 	virtual void buildCommentFinish()=0;
 	virtual unsigned int buildCodeDocStart()=0;
 	virtual unsigned int buildCodeDoc(QString)=0;

@@ -96,7 +96,7 @@ public:
 	void buildString(QString) override;
 	unsigned int buildStringFinish() override;
 	void buildCommentStart() override;
-	unsigned int buildComment(QString) override;
+	void buildComment(QString) override;
 	void buildCommentFinish() override;
 	unsigned int buildCodeDocStart() override;
 	unsigned int buildCodeDoc(QString) override;

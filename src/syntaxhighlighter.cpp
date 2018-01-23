@@ -30,8 +30,7 @@ extern int lexerleng;
 
 SyntaxHighlighter::SyntaxHighlighter(QTextDocument* parent) :
 	QSyntaxHighlighter(parent),
-	startIndex(0),
-	stringStart(0)
+	startIndex(0)
 {
 	keywordFormat.setForeground(Qt::darkBlue);
 	keywordFormat.setFontWeight(QFont::Bold);
@@ -422,24 +421,26 @@ unsigned int SyntaxHighlighter::buildIdentifier(QString)
 
 void SyntaxHighlighter::buildStringStart()
 {
-	stringStart=startIndex;
-	startIndex++;
+	setFormat(startIndex,lexerleng,stringFormat);
+	startIndex+=lexerleng;
 }
 
 void SyntaxHighlighter::buildString(QChar)
 {
-	startIndex++;
+	setFormat(startIndex,lexerleng,stringFormat);
+	startIndex+=lexerleng;
 }
 
-void SyntaxHighlighter::buildString(QString)
+void SyntaxHighlighter::buildString(QString s)
 {
-	startIndex+=lexerleng;
+	int stringLen=s.length();
+	setFormat(startIndex,stringLen,stringFormat);
+	startIndex+=stringLen;
 }
 
 unsigned int SyntaxHighlighter::buildStringFinish()
 {
-	int stringLen=(startIndex+1)-stringStart;
-	setFormat(stringStart,stringLen,stringFormat);
+	setFormat(startIndex,lexerleng,stringFormat);
 	return YY_CONTINUE;
 }
 
@@ -450,13 +451,14 @@ void SyntaxHighlighter::buildCommentStart()
 	startIndex+=lexerleng;
 }
 
-unsigned int SyntaxHighlighter::buildComment(QString)
+void SyntaxHighlighter::buildComment(QString s)
 {
 	if(previousBlockState()==Comment)
 		setCurrentBlockState(Comment);
 
-	setFormat(startIndex,lexerleng,stringFormat);
-	return YY_CONTINUE;
+	int stringLen=s.length();
+	setFormat(startIndex,stringLen,stringFormat);
+	startIndex+=stringLen;
 }
 
 void SyntaxHighlighter::buildCommentFinish()
@@ -473,12 +475,16 @@ unsigned int SyntaxHighlighter::buildCodeDocStart()
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildCodeDoc(QString)
+unsigned int SyntaxHighlighter::buildCodeDoc(QString s)
 {
 	if(previousBlockState()==CodeDoc)
 		setCurrentBlockState(CodeDoc);
 
-	setFormat(startIndex,lexerleng,codeDocFormat);
+	int stringLen=s.length();
+	setFormat(startIndex,stringLen,codeDocFormat);
+	/* Need to adjust back the index because this is a token and thus
+	 * index is incremented in the NextToken() call */
+	startIndex-=(lexerleng-stringLen);
 	return YY_CONTINUE;
 }
 
