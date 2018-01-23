@@ -60,9 +60,11 @@ void SyntaxHighlighter::highlightBlock(const QString& text)
 			lexerbegin();
 			break;
 		case Comment:
+			setCurrentBlockState(Comment);
 			lexercomment();
 			break;
 		case CodeDoc:
+			setCurrentBlockState(CodeDoc);
 			lexercodedoc();
 			break;
 	}
@@ -453,9 +455,6 @@ void SyntaxHighlighter::buildCommentStart()
 
 void SyntaxHighlighter::buildComment(QString s)
 {
-	if(previousBlockState()==Comment)
-		setCurrentBlockState(Comment);
-
 	int stringLen=s.length();
 	setFormat(startIndex,stringLen,stringFormat);
 	startIndex+=stringLen;
@@ -477,9 +476,6 @@ unsigned int SyntaxHighlighter::buildCodeDocStart()
 
 unsigned int SyntaxHighlighter::buildCodeDoc(QString s)
 {
-	if(previousBlockState()==CodeDoc)
-		setCurrentBlockState(CodeDoc);
-
 	int stringLen=s.length();
 	setFormat(startIndex,stringLen,codeDocFormat);
 	/* Need to adjust back the index because this is a token and thus
@@ -490,9 +486,6 @@ unsigned int SyntaxHighlighter::buildCodeDoc(QString s)
 
 void SyntaxHighlighter::buildCodeDoc()
 {
-	if(previousBlockState()==CodeDoc)
-		setCurrentBlockState(CodeDoc);
-
 	setFormat(startIndex,lexerleng,codeDocFormat);
 	startIndex+=lexerleng;
 }
