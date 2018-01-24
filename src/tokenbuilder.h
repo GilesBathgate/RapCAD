@@ -97,7 +97,7 @@ public:
 	void buildNewLine() override;
 	void buildFileStart(QDir) override;
 	void buildFileFinish() override;
-	QString getToken() const;
+	QString getToken() const override;
 private:
 	TokenBuilder();
 	QString token;
