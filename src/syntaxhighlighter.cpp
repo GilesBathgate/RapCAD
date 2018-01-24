@@ -386,9 +386,11 @@ unsigned int SyntaxHighlighter::buildLegalChar(unsigned int)
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildIllegalChar()
+unsigned int SyntaxHighlighter::buildIllegalChar(QString s)
 {
-	setFormat(startIndex,lexerleng,errorFormat);
+	int stringLen=s.length();
+	setFormat(startIndex,stringLen,errorFormat);
+	startIndex-=(lexerleng-stringLen);
 	return YY_CONTINUE;
 }
 

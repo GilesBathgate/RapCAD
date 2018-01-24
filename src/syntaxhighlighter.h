@@ -89,7 +89,7 @@ private:
 	unsigned int buildConcatenate() override;
 	unsigned int buildAppend() override;
 	unsigned int buildLegalChar(unsigned int) override;
-	unsigned int buildIllegalChar() override;
+	unsigned int buildIllegalChar(QString s) override;
 	unsigned int buildNumber(QString) override;
 	unsigned int buildNumberExp(QString) override;
 	unsigned int buildRational() override;

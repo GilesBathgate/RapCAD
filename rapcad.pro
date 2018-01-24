@@ -28,8 +28,6 @@ QT  += core gui opengl widgets
 CONFIG += c++11
 TARGET = rapcad
 TEMPLATE = app
-LEXSOURCES += src/lexer.l
-YACCSOURCES += src/parser.y
 INCLUDEPATH += src
 
 DEFINES += USE_CGAL
@@ -121,6 +119,12 @@ CONFIG(official){
 	MINOR=$$system(cut -d'.' -f2 VERSION)
 	DEFINES += RAPCAD_VERSION=$$MAJOR"."$$MINOR".git."$$system(git log -1 --pretty=format:%h)
 }
+
+LEXSOURCES += \
+	src/lexer.l
+
+YACCSOURCES += \
+	src/parser.y
 
 SOURCES += \
 	contrib/qcommandlineparser.cpp \

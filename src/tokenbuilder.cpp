@@ -343,7 +343,7 @@ unsigned int TokenBuilder::buildLegalChar(unsigned int c)
 	return c;
 }
 
-unsigned int TokenBuilder::buildIllegalChar()
+unsigned int TokenBuilder::buildIllegalChar(QString)
 {
 	lexererror();
 	return YY_NULL;

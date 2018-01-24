@@ -58,6 +58,12 @@ E {N}[eE][+-]*{D}+
 R {N}\/
 WS [ \t]
 NL \n|\r\n
+U1 [\x80-\xbf]
+U2 [\xc2-\xdf]
+U3 [\xe0-\xef]
+U4 [\xf0-\xf4]
+U {U2}{U1}|{U3}{U1}{U1}|{U4}{U1}{U1}{U1}
+
 %%
 "include"{WS}*"<"              { BEGIN(include); tokenizer->buildIncludeStart(); }
 <include>{
@@ -143,7 +149,8 @@ NL \n|\r\n
 {WS}+$                         { tokenizer->buildWhiteSpaceError(); }
 {WS}+                          { tokenizer->buildWhiteSpace(); }
 {NL}                           { tokenizer->buildNewLine(); }
-.                              { return tokenizer->buildIllegalChar(); }
+{U}                            { return tokenizer->buildIllegalChar(lexertext); }
+.                              { return tokenizer->buildIllegalChar(lexertext); }
 %%
 
 void lexererror()
