@@ -63,6 +63,7 @@ U2 [\xc2-\xdf]
 U3 [\xe0-\xef]
 U4 [\xf0-\xf4]
 U {U2}{U1}|{U3}{U1}{U1}|{U4}{U1}{U1}{U1}
+T [\?\[\]<>.;:#${}(),^=\+\-!\*/\|%~]
 
 %%
 "include"{WS}*"<"              { BEGIN(include); tokenizer->buildIncludeStart(); }
@@ -104,19 +105,8 @@ U {U2}{U1}|{U3}{U1}{U1}|{U4}{U1}{U1}{U1}
 ".*"                           { return tokenizer->buildComponentwiseMultiply(); }
 "./"                           { return tokenizer->buildComponentwiseDivide(); }
 "::"                           { return tokenizer->buildNamespace(); }
-"="                            { return tokenizer->buildAssign(); }
-"+"                            { return tokenizer->buildAdd(); }
-"-"                            { return tokenizer->buildSubtract(); }
-"?"                            { return tokenizer->buildTernaryCondition(); }
-":"                            { return tokenizer->buildTernaryAlternate(); }
-"!"                            { return tokenizer->buildNot(); }
-"*"                            { return tokenizer->buildMultiply(); }
-"/"                            { return tokenizer->buildDivide(); }
-"|"                            { return tokenizer->buildLength(); }
-"%"                            { return tokenizer->buildModulus(); }
-"~"                            { return tokenizer->buildConcatenate(); }
 "~="                           { return tokenizer->buildAppend(); }
-[\[\]<>.;#${}(),^]             { return tokenizer->buildLegalChar(lexertext[0]); }
+{T}                            { return tokenizer->buildLegalChar(lexertext[0]); }
 {N}                            { return tokenizer->buildNumber(lexertext); }
 {E}                            { return tokenizer->buildNumberExp(lexertext); }
 {N}\/{ZE}                      { return tokenizer->buildRational(); }

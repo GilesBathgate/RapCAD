@@ -76,17 +76,6 @@ private:
 	unsigned int buildSubtractAssign() override;
 	unsigned int buildCrossProduct() override;
 	unsigned int buildNamespace() override;
-	unsigned int buildAssign() override;
-	unsigned int buildAdd() override;
-	unsigned int buildSubtract() override;
-	unsigned int buildTernaryCondition() override;
-	unsigned int buildTernaryAlternate() override;
-	unsigned int buildNot() override;
-	unsigned int buildMultiply() override;
-	unsigned int buildDivide() override;
-	unsigned int buildLength() override;
-	unsigned int buildModulus() override;
-	unsigned int buildConcatenate() override;
 	unsigned int buildAppend() override;
 	unsigned int buildLegalChar(unsigned int) override;
 	unsigned int buildIllegalChar(QString s) override;

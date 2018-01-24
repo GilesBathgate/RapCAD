@@ -278,61 +278,6 @@ unsigned int TokenBuilder::buildNamespace()
 	return NS;
 }
 
-unsigned int TokenBuilder::buildAssign()
-{
-	return '=';
-}
-
-unsigned int TokenBuilder::buildAdd()
-{
-	return '+';
-}
-
-unsigned int TokenBuilder::buildSubtract()
-{
-	return '-';
-}
-
-unsigned int TokenBuilder::buildTernaryCondition()
-{
-	return '?';
-}
-
-unsigned int  TokenBuilder::buildTernaryAlternate()
-{
-	return ':';
-}
-
-unsigned int TokenBuilder::buildNot()
-{
-	return '!';
-}
-
-unsigned int TokenBuilder::buildMultiply()
-{
-	return '*';
-}
-
-unsigned int TokenBuilder::buildDivide()
-{
-	return '/';
-}
-
-unsigned int TokenBuilder::buildLength()
-{
-	return '|';
-}
-
-unsigned int TokenBuilder::buildModulus()
-{
-	return '%';
-}
-
-unsigned int TokenBuilder::buildConcatenate()
-{
-	return '~';
-}
-
 unsigned int TokenBuilder::buildAppend()
 {
 	return APPEND;

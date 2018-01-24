@@ -66,17 +66,6 @@ public:
 	virtual unsigned int buildSubtractAssign()=0;
 	virtual unsigned int buildCrossProduct()=0;
 	virtual unsigned int buildNamespace()=0;
-	virtual unsigned int buildAssign()=0;
-	virtual unsigned int buildAdd()=0;
-	virtual unsigned int buildSubtract()=0;
-	virtual unsigned int buildTernaryCondition()=0;
-	virtual unsigned int buildTernaryAlternate()=0;
-	virtual unsigned int buildNot()=0;
-	virtual unsigned int buildMultiply()=0;
-	virtual unsigned int buildDivide()=0;
-	virtual unsigned int buildLength()=0;
-	virtual unsigned int buildModulus()=0;
-	virtual unsigned int buildConcatenate()=0;
 	virtual unsigned int buildAppend()=0;
 	virtual unsigned int buildLegalChar(unsigned int)=0;
 	virtual unsigned int buildIllegalChar(QString s)=0;
