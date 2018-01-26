@@ -38,6 +38,20 @@ void Preferences::updatePrecision()
 #endif
 }
 
+QFont Preferences::getEditorFont() const
+{
+	QString family=settings->value("EditorFont.Family","Courier").toString();
+	int size=settings->value("EditorFont.Size",10).toInt();
+
+	return QFont(family,size);
+}
+
+void Preferences::setEditorFont(const QFont& value)
+{
+	settings->setValue("EditorFont.Family",value.family());
+	settings->setValue("EditorFont.Size",value.pointSize());
+}
+
 Preferences* Preferences::instance=nullptr;
 
 Preferences* Preferences::getInstance()

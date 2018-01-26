@@ -23,6 +23,7 @@
 #include <QPoint>
 #include <QSize>
 #include <QVector3D>
+#include <QFont>
 
 class Preferences
 {
@@ -134,6 +135,10 @@ public:
 
 	int getPrintBedAppearance() const;
 	void setPrintBedAppearance(int);
+
+	QFont getEditorFont() const;
+	void setEditorFont(const QFont&);
+
 private:
 	Preferences();
 	static Preferences* instance;

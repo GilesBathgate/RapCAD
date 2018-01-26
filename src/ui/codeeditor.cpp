@@ -22,13 +22,13 @@
 #include <QFileDialog>
 #include "codeeditor.h"
 #include "linenumberarea.h"
+#include "preferences.h"
 
 CodeEditor::CodeEditor(QWidget* parent) : QPlainTextEdit(parent)
 {
-	QFont font;
-	font.setFamily("Courier");
+	Preferences* p=Preferences::getInstance();
+	QFont font=p->getEditorFont();
 	font.setFixedPitch(true);
-	font.setPointSize(10);
 	setFont(font);
 	highlighter = new SyntaxHighlighter(document());
 	lineNumberArea = new LineNumberArea(this);
@@ -125,6 +125,12 @@ bool CodeEditor::openFile()
 		return false;
 
 	return true;
+}
+
+void CodeEditor::preferencesUpdated()
+{
+	Preferences* p=Preferences::getInstance();
+	setFont(p->getEditorFont());
 }
 
 void CodeEditor::updateLineNumberAreaWidth(int /* newBlockCount */)

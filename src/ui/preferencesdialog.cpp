@@ -37,6 +37,17 @@ PreferencesDialog::PreferencesDialog(QWidget* parent) :
 void PreferencesDialog::setupWidgets()
 {
 	Preferences* p = Preferences::getInstance();
+	QFont f=p->getEditorFont();
+	ui->fontComboBox->setCurrentFont(f);
+	int pointSize=f.pointSize();
+	QComboBox* c=ui->sizeComboBox;
+	QFontDatabase db;
+	for(auto size: db.standardSizes()) {
+		c->addItem(QString::number(size));
+		if(size==pointSize)
+			c->setCurrentIndex(c->count()-1);
+	}
+
 	setColor(ui->markedVertexColorFrame,p->getMarkedVertexColor());
 	setColor(ui->vertexColorFrame,p->getVertexColor());
 	setColor(ui->markedEdgeColorFrame,p->getMarkedEdgeColor());
@@ -100,6 +111,9 @@ void PreferencesDialog::setColor(QWidget* w,QColor c)
 
 void PreferencesDialog::setupButtons()
 {
+	connect(ui->fontComboBox,SIGNAL(currentFontChanged(QFont)),SLOT(fontChanged(QFont)));
+	connect(ui->sizeComboBox,SIGNAL(currentIndexChanged(QString)),SLOT(fontSizeChanged(QString)));
+
 	signalMapper = new QSignalMapper(this);
 	signalMapper->setMapping(ui->markedVertexColorToolButton,ui->markedVertexColorFrame);
 	signalMapper->setMapping(ui->vertexColorToolButton,ui->vertexColorFrame);
@@ -165,21 +179,21 @@ void PreferencesDialog::colorButtonPressed(QWidget* frame)
 	else if(frame==ui->facetColorFrame)
 		p->setFacetColor(c);
 
-	preferencesUpdated();
+	emit preferencesUpdated();
 }
 
 void PreferencesDialog::vertexSizeChanged(double s)
 {
 	Preferences* p = Preferences::getInstance();
 	p->setVertexSize(s);
-	preferencesUpdated();
+	emit preferencesUpdated();
 }
 
 void PreferencesDialog::edgeSizeChanged(double s)
 {
 	Preferences* p = Preferences::getInstance();
 	p->setEdgeSize(s);
-	preferencesUpdated();
+	emit preferencesUpdated();
 }
 
 void PreferencesDialog::autoSaveOnCompileChanged(int s)
@@ -254,7 +268,7 @@ void PreferencesDialog::volumeChanged()
 	Preferences* p = Preferences::getInstance();
 	QVector3D v(ui->widthSpinBox->value(),ui->lengthSpinBox->value(),ui->heightSpinBox->value());
 	p->setPrintVolume(v);
-	preferencesUpdated();
+	emit preferencesUpdated();
 }
 
 void PreferencesDialog::originChanged()
@@ -262,7 +276,7 @@ void PreferencesDialog::originChanged()
 	Preferences* p = Preferences::getInstance();
 	QPointF o(ui->XspinBox->value(),ui->YspinBox->value());
 	p->setPrintOrigin(o);
-	preferencesUpdated();
+	emit preferencesUpdated();
 }
 
 void PreferencesDialog::appearanceChanged(int index)
@@ -290,7 +304,25 @@ void PreferencesDialog::appearanceChanged(int index)
 		}
 		break;
 	}
-	preferencesUpdated();
+	emit preferencesUpdated();
+}
+
+void PreferencesDialog::fontChanged(QFont f)
+{
+	Preferences* p = Preferences::getInstance();
+	QString s=ui->sizeComboBox->currentText();
+	f.setPointSize(s.toInt());
+	p->setEditorFont(f);
+	emit preferencesUpdated();
+}
+
+void PreferencesDialog::fontSizeChanged(QString s)
+{
+	Preferences* p = Preferences::getInstance();
+	QFont f=ui->fontComboBox->currentFont();
+	f.setPointSize(s.toInt());
+	p->setEditorFont(f);
+	emit preferencesUpdated();
 }
 
 PreferencesDialog::~PreferencesDialog()

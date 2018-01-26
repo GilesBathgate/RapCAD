@@ -40,6 +40,7 @@ public:
 	bool saveAsFile();
 	bool loadFile(const QString& f);
 	bool openFile();
+	void preferencesUpdated();
 signals:
 	void fileNameChanged(QString fileName);
 protected:

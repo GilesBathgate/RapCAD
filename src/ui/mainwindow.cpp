@@ -321,6 +321,11 @@ void MainWindow::preferencesUpdated()
 {
 	Preferences* p=Preferences::getInstance();
 
+	for(auto i=0; i<ui->tabWidget->count(); ++i) {
+		CodeEditor* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
+		c->preferencesUpdated();
+	}
+
 	QPointF o=p->getPrintOrigin();
 	ui->view->setPrintOrigin(o.x(),o.y());
 
