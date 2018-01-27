@@ -176,3 +176,14 @@ index 9e164c9..f11bf93 100644
        os << std::endl;
      }
 
+@@ -234,7 +237,7 @@ namespace OGL {
+   { const GLubyte *estring;
+     estring = gluErrorString(errorCode);
+     fprintf(stderr, "Tessellation Error: %s\n", estring);
+-    std::exit (0);
++    //std::exit (0);
+   }
+ 
+   inline void CGAL_GLU_TESS_CALLBACK vertexCallback(GLvoid* vertex,
+
+
