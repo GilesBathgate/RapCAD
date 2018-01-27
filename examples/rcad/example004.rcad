@@ -34,7 +34,7 @@ module cup() {
 difference(){
   box(30);
   translate([0,0,3])
-    scale([0.8,0.8,1],[10,10,10])box(30); //scale with reference point
+    scale([0.8,0.8,1],[-10,-10,-10])box(30); //scale with reference point
 }
 handle();
 module handle(){
