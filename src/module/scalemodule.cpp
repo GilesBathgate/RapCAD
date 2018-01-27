@@ -20,6 +20,7 @@
 #include "context.h"
 #include "vectorvalue.h"
 #include "node/transformationnode.h"
+#include "node/pointsnode.h"
 
 ScaleModule::ScaleModule(Reporter& r) : Module(r,"scale")
 {
@@ -30,24 +31,22 @@ ScaleModule::ScaleModule(Reporter& r) : Module(r,"scale")
 
 Node* ScaleModule::evaluate(const Context& ctx) const
 {
-	Point s(0,0,0);
+	Point s(1,1,1);
 	auto* sizeVal=getParameterArgument(ctx,0);
+	if(sizeVal) {
+		VectorValue* v=sizeVal->toVector(3);
+		s=v->getPoint();
+	}
 
-	auto* n=new TransformationNode();
-	n->setChildren(ctx.getInputNodes());
-
-	if(!sizeVal)
-		return n;
-
-	VectorValue* v=sizeVal->toVector(3);
-	s=v->getPoint();
+	decimal x=s.x(),y=s.y(),z=s.z();
+	if(x==0.0||y==0.0||z==0.0)
+		return new PointsNode();
 
 	Point r(0,0,0);
 	auto* refVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
 	if(refVal)
 		r=refVal->getPoint();
 
-	decimal x=s.x(),y=s.y(),z=s.z();
 	decimal a=r.x(),b=r.y(),c=r.z();
 
 	//Derived reference translation using
@@ -59,6 +58,8 @@ Node* ScaleModule::evaluate(const Context& ctx) const
 		0,0,0,1
 	);
 
+	auto* n=new TransformationNode();
+	n->setChildren(ctx.getInputNodes());
 	n->setMatrix(m);
 	return n;
 }
