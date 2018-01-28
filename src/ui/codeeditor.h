@@ -41,12 +41,12 @@ public:
 	bool loadFile(const QString& f);
 	bool openFile();
 	void preferencesUpdated();
-	void setModuleNames(const QSet<QString>&);
+	void setModuleNames(const QHash<QString,Module*>&);
 signals:
-	void fileNameChanged(QString fileName);
+	void fileNameChanged(QString);
 protected:
-	void resizeEvent(QResizeEvent* event) override;
-
+	void resizeEvent(QResizeEvent*) override;
+	bool event(QEvent*) override;
 private slots:
 	void updateLineNumberAreaWidth(int);
 	void updateLineNumberArea(const QRect&, int);
@@ -55,6 +55,8 @@ private:
 	SyntaxHighlighter* highlighter;
 	QWidget* lineNumberArea;
 	QString fileName;
+	QHash<QString,Module*> moduleNames;
+	bool showTooltips;
 };
 
 #endif // CODEEDITOR_H

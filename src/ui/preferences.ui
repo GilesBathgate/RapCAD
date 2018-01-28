@@ -79,6 +79,13 @@
            </property>
           </spacer>
          </item>
+         <item>
+          <widget class="QCheckBox" name="tooltipsCheckBox">
+           <property name="text">
+            <string>Show tooltips for built in modules</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
        <widget class="QWidget" name="modelColorsTab">

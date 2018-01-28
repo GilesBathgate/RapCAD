@@ -20,16 +20,16 @@
 #include <QTextBlock>
 #include <QTextDocumentWriter>
 #include <QFileDialog>
+#include <QToolTip>
 #include "codeeditor.h"
 #include "linenumberarea.h"
 #include "preferences.h"
 
-CodeEditor::CodeEditor(QWidget* parent) : QPlainTextEdit(parent)
+CodeEditor::CodeEditor(QWidget* parent) :
+	QPlainTextEdit(parent),
+	showTooltips(true)
 {
-	Preferences* p=Preferences::getInstance();
-	QFont font=p->getEditorFont();
-	font.setFixedPitch(true);
-	setFont(font);
+	preferencesUpdated();
 	highlighter = new SyntaxHighlighter(document());
 	lineNumberArea = new LineNumberArea(this);
 
@@ -130,11 +130,15 @@ bool CodeEditor::openFile()
 void CodeEditor::preferencesUpdated()
 {
 	Preferences* p=Preferences::getInstance();
-	setFont(p->getEditorFont());
+	QFont font=p->getEditorFont();
+	font.setFixedPitch(true);
+	setFont(font);
+	showTooltips = p->getShowTooltips();
 }
 
-void CodeEditor::setModuleNames(const QSet<QString>& names)
+void CodeEditor::setModuleNames(const QHash<QString,Module*> &names)
 {
+	moduleNames = names;
 	highlighter->setModuleNames(names);
 }
 
@@ -160,6 +164,30 @@ void CodeEditor::resizeEvent(QResizeEvent* e)
 
 	QRect cr = contentsRect();
 	lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
+}
+
+bool CodeEditor::event(QEvent* event)
+{
+	if(!showTooltips)
+		return QPlainTextEdit::event(event);
+
+	if (event->type() == QEvent::ToolTip)
+	{
+		QHelpEvent* helpEvent = static_cast<QHelpEvent*>(event);
+		QTextCursor cursor = cursorForPosition(helpEvent->pos());
+		cursor.select(QTextCursor::WordUnderCursor);
+		Module* m = moduleNames.value(cursor.selectedText());
+		if (m) {
+			QRect r=cursorRect(cursor);
+			QToolTip::showText(mapToGlobal(QPoint(r.x(),r.y())), m->getDescription());
+		} else {
+			QToolTip::hideText();
+		}
+		return true;
+	} else if (event->type() == QEvent::KeyPress) {
+		QToolTip::hideText();
+	}
+	return QPlainTextEdit::event(event);
 }
 
 void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent* event)

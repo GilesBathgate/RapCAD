@@ -139,6 +139,9 @@ public:
 	QFont getEditorFont() const;
 	void setEditorFont(const QFont&);
 
+	bool getShowTooltips() const;
+	void setShowTooltips(bool);
+
 private:
 	Preferences();
 	static Preferences* instance;

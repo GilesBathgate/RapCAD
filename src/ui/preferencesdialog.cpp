@@ -47,7 +47,7 @@ void PreferencesDialog::setupWidgets()
 		if(size==pointSize)
 			c->setCurrentIndex(c->count()-1);
 	}
-
+	ui->tooltipsCheckBox->setChecked(p->getShowTooltips());
 	setColor(ui->markedVertexColorFrame,p->getMarkedVertexColor());
 	setColor(ui->vertexColorFrame,p->getVertexColor());
 	setColor(ui->markedEdgeColorFrame,p->getMarkedEdgeColor());
@@ -152,6 +152,8 @@ void PreferencesDialog::setupButtons()
 	connect(ui->YspinBox,SIGNAL(valueChanged(int)),this,SLOT(originChanged()));
 
 	connect(ui->appearanceComboBox,SIGNAL(currentIndexChanged(int)),this,SLOT(appearanceChanged(int)));
+
+	connect(ui->tooltipsCheckBox,SIGNAL(stateChanged(int)),this,SLOT(showTooltipsChanged(int)));
 }
 
 void PreferencesDialog::updatePrecision()
@@ -200,6 +202,13 @@ void PreferencesDialog::autoSaveOnCompileChanged(int s)
 {
 	Preferences* p = Preferences::getInstance();
 	p->setAutoSaveOnCompile(s == Qt::Checked);
+}
+
+void PreferencesDialog::showTooltipsChanged(int s)
+{
+	Preferences* p = Preferences::getInstance();
+	p->setShowTooltips(s == Qt::Checked);
+	emit preferencesUpdated();
 }
 
 void PreferencesDialog::placesChanged(int i)

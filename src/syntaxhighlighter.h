@@ -20,15 +20,16 @@
 #define SYNTAXHIGHLIGHTER_H
 
 #include <QSyntaxHighlighter>
-#include <QSet>
+#include <QHash>
 #include "abstracttokenbuilder.h"
+#include "module.h"
 
 class SyntaxHighlighter : public QSyntaxHighlighter, private AbstractTokenBuilder
 {
 	Q_OBJECT
 public:
 	explicit SyntaxHighlighter(QTextDocument* parent = nullptr);
-	void setModuleNames(const QSet<QString>&);
+	void setModuleNames(const QHash<QString,Module*>&);
 	void stop();
 protected:
 	void highlightBlock(const QString& text) override;
@@ -113,7 +114,7 @@ private:
 	QTextCharFormat moduleFormat;
 	QTextCharFormat codeDocFormat;
 	QTextCharFormat codeDocParamFormat;
-	QSet<QString> moduleNames;
+	QHash<QString,Module*> moduleNames;
 	int startIndex;
 };
 #endif // SYNTAXHIGHLIGHTER_H

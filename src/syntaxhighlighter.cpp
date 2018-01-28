@@ -52,7 +52,7 @@ SyntaxHighlighter::SyntaxHighlighter(QTextDocument* parent) :
 	codeDocParamFormat.setFontWeight(QFont::Bold);
 }
 
-void SyntaxHighlighter::setModuleNames(const QSet<QString>& names)
+void SyntaxHighlighter::setModuleNames(const QHash<QString,Module*>& names)
 {
 	moduleNames = names;
 }

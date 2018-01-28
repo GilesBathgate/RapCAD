@@ -38,6 +38,16 @@ void Preferences::updatePrecision()
 #endif
 }
 
+bool Preferences::getShowTooltips() const
+{
+	return settings->value("ShowTooltips",true).toBool();
+}
+
+void Preferences::setShowTooltips(bool value)
+{
+	settings->setValue("ShowTooltips",value);
+}
+
 QFont Preferences::getEditorFont() const
 {
 	QString family=settings->value("EditorFont.Family","Courier").toString();

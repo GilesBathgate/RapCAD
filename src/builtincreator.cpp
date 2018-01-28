@@ -274,12 +274,12 @@ void BuiltinCreator::generateDocs(TreeVisitor& p)
 		d->accept(p);
 }
 
-QSet<QString> BuiltinCreator::getModuleNames() const
+QHash<QString,Module*> BuiltinCreator::getModuleNames() const
 {
-	QSet<QString> names;
+	QHash<QString,Module*> names;
 	for(Declaration* d: builtins) {
 		Module* m=dynamic_cast<Module*>(d);
-		if(m) names.insert(m->getName());
+		if(m) names.insert(m->getName(),m);
 	}
 	return names;
 }

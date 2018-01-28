@@ -19,10 +19,11 @@
 #ifndef BUILTINCREATOR_H
 #define BUILTINCREATOR_H
 
-#include <QSet>
+#include <QHash>
 #include "reporter.h"
 #include "declaration.h"
 #include "script.h"
+#include "module.h"
 
 class BuiltinCreator
 {
@@ -33,7 +34,7 @@ public:
 	void saveBuiltins(Script&);
 	void generateDocs(QTextStream&);
 	void generateDocs(TreeVisitor&);
-	QSet<QString> getModuleNames() const;
+	QHash<QString,Module*> getModuleNames() const;
 private:
 	explicit BuiltinCreator(Reporter&);
 	~BuiltinCreator();
