@@ -41,6 +41,7 @@ public:
 	bool loadFile(const QString& f);
 	bool openFile();
 	void preferencesUpdated();
+	void setModuleNames(const QSet<QString>&);
 signals:
 	void fileNameChanged(QString fileName);
 protected:

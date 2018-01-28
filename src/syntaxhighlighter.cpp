@@ -18,6 +18,7 @@
 
 #include "syntaxhighlighter.h"
 #include "reporter.h"
+#include "builtincreator.h"
 
 extern int lexerlex_destroy();
 extern void lexerinit(AbstractTokenBuilder*,Reporter*,QString);
@@ -43,10 +44,17 @@ SyntaxHighlighter::SyntaxHighlighter(QTextDocument* parent) :
 
 	stringFormat.setForeground(Qt::darkGreen);
 
+	moduleFormat.setForeground(Qt::darkCyan);
+
 	codeDocFormat.setForeground(Qt::darkBlue);
 
 	codeDocParamFormat.setForeground(Qt::blue);
 	codeDocParamFormat.setFontWeight(QFont::Bold);
+}
+
+void SyntaxHighlighter::setModuleNames(const QSet<QString>& names)
+{
+	moduleNames = names;
 }
 
 void SyntaxHighlighter::highlightBlock(const QString& text)
@@ -352,8 +360,10 @@ unsigned int SyntaxHighlighter::buildRational(QString)
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildIdentifier(QString)
+unsigned int SyntaxHighlighter::buildIdentifier(QString i)
 {
+	if(moduleNames.contains(i))
+		setFormat(startIndex,lexerleng,moduleFormat);
 	return YY_CONTINUE;
 }
 

@@ -27,6 +27,7 @@ class SyntaxHighlighter : public QSyntaxHighlighter, private AbstractTokenBuilde
 	Q_OBJECT
 public:
 	explicit SyntaxHighlighter(QTextDocument* parent = nullptr);
+	void setModuleNames(const QSet<QString>&);
 	void stop();
 protected:
 	void highlightBlock(const QString& text) override;
@@ -108,8 +109,10 @@ private:
 	QTextCharFormat stringFormat;
 	QTextCharFormat errorFormat;
 	QTextCharFormat operatorFormat;
+	QTextCharFormat moduleFormat;
 	QTextCharFormat codeDocFormat;
 	QTextCharFormat codeDocParamFormat;
+	QSet<QString> moduleNames;
 	int startIndex;
 };
 #endif // SYNTAXHIGHLIGHTER_H

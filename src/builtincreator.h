@@ -32,7 +32,7 @@ public:
 	void saveBuiltins(Script&);
 	void generateDocs(QTextStream&);
 	void generateDocs(TreeVisitor&);
-
+	QSet<QString> getModuleNames() const;
 private:
 	explicit BuiltinCreator(Reporter&);
 	~BuiltinCreator();

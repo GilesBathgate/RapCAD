@@ -133,6 +133,11 @@ void CodeEditor::preferencesUpdated()
 	setFont(p->getEditorFont());
 }
 
+void CodeEditor::setModuleNames(const QSet<QString>& names)
+{
+	highlighter->setModuleNames(names);
+}
+
 void CodeEditor::updateLineNumberAreaWidth(int /* newBlockCount */)
 {
 	setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);

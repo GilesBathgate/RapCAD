@@ -49,10 +49,11 @@ MainWindow::MainWindow(QWidget* parent) :
 	setupActions();
 	setupExportActions();
 	setupViewActions();
-	setupEditor(ui->scriptEditor);
 	setupTreeview();
 	setupTabs(ui->tabWidget);
 	setupConsole();
+	setupEditor(ui->scriptEditor);
+
 	preferencesDialog=nullptr;
 	loadPreferences();
 
@@ -392,6 +393,9 @@ void MainWindow::setupEditor(CodeEditor* editor)
 	connect(editor,&CodeEditor::copyAvailable,ui->actionCut,&QAction::setEnabled);
 	connect(editor,&CodeEditor::copyAvailable,ui->actionCopy,&QAction::setEnabled);
 	connect(editor,&CodeEditor::fileNameChanged,this,&MainWindow::setTabTitle);
+
+	BuiltinCreator* b=BuiltinCreator::getInstance(*reporter);
+	editor->setModuleNames(b->getModuleNames());
 }
 
 void MainWindow::setupTabs(QTabWidget* tabWidget)

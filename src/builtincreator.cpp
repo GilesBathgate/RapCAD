@@ -274,6 +274,16 @@ void BuiltinCreator::generateDocs(TreeVisitor& p)
 		d->accept(p);
 }
 
+QSet<QString> BuiltinCreator::getModuleNames() const
+{
+	QSet<QString> names;
+	for(Declaration* d: builtins) {
+		Module* m=dynamic_cast<Module*>(d);
+		if(m) names.insert(m->getName());
+	}
+	return names;
+}
+
 void BuiltinCreator::cleanUp()
 {
 	delete instance;
