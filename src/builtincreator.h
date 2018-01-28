@@ -19,6 +19,7 @@
 #ifndef BUILTINCREATOR_H
 #define BUILTINCREATOR_H
 
+#include <QSet>
 #include "reporter.h"
 #include "declaration.h"
 #include "script.h"

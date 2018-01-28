@@ -20,6 +20,7 @@
 #define SYNTAXHIGHLIGHTER_H
 
 #include <QSyntaxHighlighter>
+#include <QSet>
 #include "abstracttokenbuilder.h"
 
 class SyntaxHighlighter : public QSyntaxHighlighter, private AbstractTokenBuilder
