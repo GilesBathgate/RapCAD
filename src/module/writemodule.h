@@ -24,6 +24,7 @@
 
 class WriteModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(WriteModule)
 public:
 	explicit WriteModule(Reporter&);
 	WriteModule(Reporter&,const QString);

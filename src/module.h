@@ -46,6 +46,7 @@ public:
 	void setScope(Scope*);
 	void accept(TreeVisitor&) override;
 	virtual Node* evaluate(const Context&) const;
+	bool isDeprecated() const;
 protected:
 	void addDescription(QString);
 	void addDeprecated(QString);

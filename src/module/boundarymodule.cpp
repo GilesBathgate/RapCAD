@@ -24,6 +24,10 @@ BoundaryModule::BoundaryModule(Reporter& r, bool l) :
 	Module(r,l?"outline":"boundary"),
 	legacy(l)
 {
+	if(l)
+		addDeprecated(tr("Creates the outline of its children."));
+	else
+		addDescription(tr("Creates the boundary of its children."));
 }
 
 OnceOnly BoundaryModule::depricateWarning;

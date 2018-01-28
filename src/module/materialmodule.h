@@ -23,6 +23,7 @@
 
 class MaterialModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(MaterialModule)
 public:
 	explicit MaterialModule(Reporter&);
 	Node* evaluate(const Context&) const override;

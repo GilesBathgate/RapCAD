@@ -107,6 +107,8 @@ void TreePrinter::visit(const Instance& inst)
 
 void TreePrinter::visit(const Module& mod)
 {
+	if(mod.isDeprecated()) return;
+
 	QList<Parameter*> parameters = mod.getParameters();
 	QString desc=mod.getDescription();
 	printCodeDoc(desc,parameters);

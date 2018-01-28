@@ -24,9 +24,9 @@
 
 VolumesModule::VolumesModule(Reporter& r) : Module(r,"volume")
 {
-	auxilary=true;
 	addDescription(tr("Provides information about the volume of its children."));
 	addParameter("mass",tr("Specifies that the center of mass also be calculated."));
+	auxilary=true;
 }
 
 Node* VolumesModule::evaluate(const Context& ctx) const

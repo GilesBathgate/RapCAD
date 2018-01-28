@@ -23,6 +23,7 @@
 
 class DecomposeModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(DecomposeModule)
 public:
 	explicit DecomposeModule(Reporter&);
 	Node* evaluate(const Context&) const override;

@@ -22,6 +22,7 @@
 
 NormalsModule::NormalsModule(Reporter& r) : Module(r,"normal")
 {
+	addDescription(tr("Shows normal vectors on the faces of its children."));
 	auxilary=true;
 }
 

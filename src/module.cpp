@@ -115,3 +115,8 @@ Value* Module::getParameterArgument(const Context& ctx, int index, int expectedI
 	Parameter* p=parameters.at(index);
 	return ctx.getArgument(expectedIndex,p->getName());
 }
+
+bool Module::isDeprecated() const
+{
+	return deprecated;
+}

@@ -22,6 +22,7 @@
 
 CenterModule::CenterModule(Reporter& r) : Module(r,"center")
 {
+	addDescription(tr("Centers its children to the origin."));
 }
 
 Node* CenterModule::evaluate(const Context& ctx) const

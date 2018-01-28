@@ -22,6 +22,7 @@
 
 ComplementModule::ComplementModule(Reporter& r) : Module(r,"complement")
 {
+	addDescription(tr("Creates the boolean complement of its children."));
 }
 
 Node* ComplementModule::evaluate(const Context& ctx) const

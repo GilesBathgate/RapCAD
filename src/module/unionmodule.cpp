@@ -22,6 +22,7 @@
 
 UnionModule::UnionModule(Reporter& r) : Module(r,"union")
 {
+	addDescription(tr("Unions its children into single geometry."));
 }
 
 Node* UnionModule::evaluate(const Context& ctx) const

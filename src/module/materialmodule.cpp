@@ -22,6 +22,7 @@
 
 MaterialModule::MaterialModule(Reporter& r) : Module(r,"material")
 {
+	addDescription(tr("Assigns its children to a unique material id."));
 }
 
 Node* MaterialModule::evaluate(const Context& ctx) const

@@ -23,6 +23,7 @@
 
 class UnionModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(UnionModule)
 public:
 	explicit UnionModule(Reporter&);
 	Node* evaluate(const Context&) const override;

@@ -22,6 +22,7 @@
 
 MinkowskiModule::MinkowskiModule(Reporter& r) : Module(r,"minkowski")
 {
+	addDescription(tr("Creates a minkowski sum of the first child and its subsequent children."));
 }
 
 Node* MinkowskiModule::evaluate(const Context& ctx) const

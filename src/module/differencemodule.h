@@ -23,6 +23,7 @@
 
 class DifferenceModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(DifferenceModule)
 public:
 	explicit DifferenceModule(Reporter&);
 	Node* evaluate(const Context&) const override;

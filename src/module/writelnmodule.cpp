@@ -20,6 +20,7 @@
 
 WriteLnModule::WriteLnModule(Reporter& r) : WriteModule(r,"writeln")
 {
+	addDescription(tr("Writes the given text line to the console window."));
 }
 
 Node* WriteLnModule::evaluate(const Context& ctx) const

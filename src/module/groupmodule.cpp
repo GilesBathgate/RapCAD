@@ -22,6 +22,7 @@
 
 GroupModule::GroupModule(Reporter& r) : Module(r,"group")
 {
+	addDescription(tr("Groups its children into single geometry."));
 }
 
 Node* GroupModule::evaluate(const Context& ctx) const

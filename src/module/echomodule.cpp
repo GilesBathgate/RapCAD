@@ -22,6 +22,7 @@
 
 EchoModule::EchoModule(Reporter& r) : Module(r,"echo"), output(r.output)
 {
+	addDeprecated(tr("The echo module is deprecated please use 'write' or 'writeln' module instead."));
 }
 
 OnceOnly EchoModule::depricateWarning;

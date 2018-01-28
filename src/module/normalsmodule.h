@@ -23,6 +23,7 @@
 
 class NormalsModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(NormalsModule)
 public:
 	explicit NormalsModule(Reporter&);
 	Node* evaluate(const Context&) const override;

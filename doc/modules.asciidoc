@@ -44,12 +44,12 @@ bezier_surface(mesh);
 Bound
 ^^^^^
 
-
+Shows the bounding box of its children.
 
 Center
 ^^^^^^
 
-
+Centers its children to the origin.
 
 Chain_hull
 ^^^^^^^^^^
@@ -130,7 +130,7 @@ circle(radius);
 Complement
 ^^^^^^^^^^
 
-
+Creates the boolean complement of its children.
 
 Cone
 ^^^^
@@ -219,12 +219,12 @@ cylinder_surface(height,radius,center);
 Decompose
 ^^^^^^^^^
 
-
+Decomposes its children into convex geometry.
 
 Difference
 ^^^^^^^^^^
 
-
+Subtracts from the first child its subsequent children.
 
 Discrete
 ^^^^^^^^
@@ -248,51 +248,71 @@ discrete(places);
 Echo
 ^^^^
 
-
+The echo module is deprecated please use 'write' or 'writeln' module instead.
 
 Glide
 ^^^^^
 
-Glides its subsequent children along the outline of the first child.
+Glides the first child along the outline of the second child.
+
+Group
+^^^^^
+
+Groups its children into single geometry.
+
+Hull
+^^^^
+
+Creates a boundry shape from the points of its children.
 
 Parameters
 ++++++++++
 |=========
-|closed|Specfies whether to close the outline.
+|concave|Determines whether the hull may be concave
 |=========
 
 Examples
 ++++++++
 [source,csharp]
 ---------------
-glide();
-glide(closed);
+hull();
+hull(concave);
 ---------------
 
-Group
-^^^^^
+Import
+^^^^^^
 
+The import module is depricated please use the import declaration instead.
 
+Parameters
+++++++++++
+|=========
+|file|The name of the file to import.
+|=========
 
-Hull
-^^^^
-
-
+Examples
+++++++++
+[source,csharp]
+---------------
+import();
+import(file);
+---------------
 
 Intersection
 ^^^^^^^^^^^^
 
-
+Intersects the first child its subsequent children.
 
 Linear_extrude
 ^^^^^^^^^^^^^^
 
-Extrudes its children along the z axis.
+Extrudes its children along the given axis.
 
 Parameters
 ++++++++++
 |=========
 |height|The height of the extrusion.
+|axis|The axis along which to perform the extrusion
 |=========
 
 Examples
@@ -300,18 +320,18 @@ Examples
 [source,csharp]
 ---------------
 linear_extrude();
-linear_extrude(height);
+linear_extrude(height,axis);
 ---------------
 
 Material
 ^^^^^^^^
 
-
+Assigns its children to a unique material id.
 
 Minkowski
 ^^^^^^^^^
 
-
+Creates a minkowski sum of the first child and its subsequent children.
 
 Mirror
 ^^^^^^
@@ -354,12 +374,12 @@ multmatrix(matrix);
 Normal
 ^^^^^^
 
-
+Shows normal vectors on the faces of its children.
 
 Offset
 ^^^^^^
 
-Offset moves the outlines of polygons outward or inward by a given amount.
+Moves the outlines of polygons outward or inward by a given amount.
 
 Parameters
 ++++++++++
@@ -378,17 +398,41 @@ offset(delta);
 Outline
 ^^^^^^^
 
+Creates the outline of its children.
 
+Boundary
+^^^^^^^^
 
-Point
-^^^^^
+Creates the boundary of its children.
 
-Constructs a point.
+Points
+^^^^^^
+
+Constructs points.
 
 Parameters
 ++++++++++
 |=========
-|location|The location of the point.
+|points|The location of the points.
+|=========
+
+Examples
+++++++++
+[source,csharp]
+---------------
+points();
+points(points);
+---------------
+
+Point
+^^^^^
+
+Constructs points.
+
+Parameters
+++++++++++
+|=========
+|points|The location of the points.
 |=========
 
 Examples
@@ -396,7 +440,7 @@ Examples
 [source,csharp]
 ---------------
 point();
-point(location);
+point(points);
 ---------------
 
 Polygon
@@ -419,6 +463,26 @@ polygon();
 polygon(points,lines);
 ---------------
 
+Polyline
+^^^^^^^^
+
+Constructs a line connecting multiple points.
+
+Parameters
+++++++++++
+|=========
+|points|The vertices are provided by the points list.
+|lines|The lines are a list of indices to the vertices.
+|=========
+
+Examples
+++++++++
+[source,csharp]
+---------------
+polyline();
+polyline(points,lines);
+---------------
+
 Polyhedron
 ^^^^^^^^^^
 
@@ -437,26 +501,6 @@ Examples
 ---------------
 polyhedron();
 polyhedron(points,faces);
----------------
-
-Polyline
-^^^^^^^^
-
-Constructs a line connecting multiple points.
-
-Parameters
-++++++++++
-|=========
-|points|The vertices are provided by the points list.
-|lines|The lines are a list of indices to the vertices
-|=========
-
-Examples
-++++++++
-[source,csharp]
----------------
-polyline();
-polyline(points,lines);
 ---------------
 
 Prism
@@ -503,7 +547,7 @@ projection(base);
 Radial
 ^^^^^^
 
-
+Shows the radius of its children.
 
 Resize
 ^^^^^^
@@ -533,8 +577,10 @@ Extrudes its children about the given axis.
 Parameters
 ++++++++++
 |=========
+|angle|The sweep angle for the extrusion.
+|axis|The axis of rotation. When no axis is given the shape is first rotated 90° about the x axis, then extruded about the z axis.
 |radius|The radius of the extrusion.
-|axis|The axis of rotation. When no axis is given the shape is first rotated about the x axis, then extruded about the z axis.
+|height|The helical height of the extrusion.
 |=========
 
 Examples
@@ -542,7 +588,7 @@ Examples
 [source,csharp]
 ---------------
 rotate_extrude();
-rotate_extrude(radius,axis);
+rotate_extrude(angle,axis,radius,height);
 ---------------
 
 Rotate
@@ -614,7 +660,7 @@ Performs a mesh simplification on its children.
 Parameters
 ++++++++++
 |=========
-|stop|The mesh simplification stops when the number of edges in its children drops below the given number.
+|ratio|The mesh simplification stops when the number of edges is below the ratio of the initial number of edges
 |=========
 
 Examples
@@ -622,7 +668,7 @@ Examples
 [source,csharp]
 ---------------
 simplify();
-simplify(stop);
+simplify(ratio);
 ---------------
 
 Slice
@@ -687,12 +733,12 @@ square(size,center);
 Subdiv
 ^^^^^^
 
-Not Implemented.
+Sibdivides its children into smoother geometry.
 
 Parameters
 ++++++++++
 |=========
-|level|Not Implemented.
+|level|The number of smoothing levels to apply.
 |=========
 
 Examples
@@ -706,7 +752,28 @@ subdiv(level);
 Symmetric_difference
 ^^^^^^^^^^^^^^^^^^^^
 
+Subtracts its children from each other.
 
+Text
+^^^^
+
+Generates text.
+
+Parameters
+++++++++++
+|=========
+|text|The text to generate
+|font|The font of the text
+|size|The size of the text
+|=========
+
+Examples
+++++++++
+[source,csharp]
+---------------
+text();
+text(text,font,size);
+---------------
 
 Translate
 ^^^^^^^^^
@@ -730,12 +797,12 @@ translate(vector);
 Triangulate
 ^^^^^^^^^^^
 
-
+Triangulates its children.
 
 Union
 ^^^^^
 
-
+Unions its children into single geometry.
 
 Volume
 ^^^^^^
@@ -759,10 +826,10 @@ volume(mass);
 Writeln
 ^^^^^^^
 
-
+Writes the given text line to the console window.
 
 Write
 ^^^^^
 
-
+Write the given text to the console window.
 
