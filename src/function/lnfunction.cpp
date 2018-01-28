@@ -23,6 +23,7 @@
 
 LnFunction::LnFunction() : Function("ln")
 {
+	addDescription(tr("Returns the natural log of the number."));
 	addParameter("value");
 }
 

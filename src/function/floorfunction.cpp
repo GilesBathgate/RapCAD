@@ -23,6 +23,7 @@
 
 FloorFunction::FloorFunction() : Function("floor")
 {
+	addDescription(tr("Returns the number value rounded down to the nearest integer."));
 	addParameter("value");
 }
 

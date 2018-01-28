@@ -23,6 +23,7 @@
 
 CeilFunction::CeilFunction() : Function("ceil")
 {
+	addDescription(tr("Returns the number value rounded up to the nearest integer."));
 	addParameter("value");
 }
 

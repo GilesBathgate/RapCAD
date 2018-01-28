@@ -21,6 +21,7 @@
 
 MinFunction::MinFunction() : Function("min")
 {
+	addDescription(tr("Returns the smallest of the given values."));
 	addParameter("values");
 }
 

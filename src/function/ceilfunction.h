@@ -23,6 +23,7 @@
 
 class CeilFunction : public Function
 {
+	Q_DECLARE_TR_FUNCTIONS(CeilFunction)
 public:
 	CeilFunction();
 	Value* evaluate(const Context&) const override;

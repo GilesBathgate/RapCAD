@@ -23,6 +23,7 @@
 
 class StrFunction : public Function
 {
+	Q_DECLARE_TR_FUNCTIONS(StrFunction)
 public:
 	StrFunction();
 	Value* evaluate(const Context&) const override;

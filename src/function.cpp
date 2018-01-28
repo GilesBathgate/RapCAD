@@ -87,8 +87,26 @@ void Function::addParameter(QString name)
 	parameters.append(p);
 }
 
+void Function::addParameter(QString name, QString desc)
+{
+	auto* p=new Parameter();
+	p->setName(name);
+	p->addDescription(desc);
+	parameters.append(p);
+}
+
 Value* Function::getParameterArgument(const Context& ctx, int index) const
 {
 	Parameter* p = parameters.at(index);
 	return ctx.getArgument(index,p->getName());
+}
+
+QString Function::getDescription() const
+{
+	return description;
+}
+
+void Function::addDescription(const QString &value)
+{
+	description = value;
 }

@@ -19,6 +19,7 @@
 #ifndef FUNCTION_H
 #define FUNCTION_H
 
+#include <QCoreApplication>
 #include <QString>
 #include <QList>
 #include "declaration.h"
@@ -43,12 +44,17 @@ public:
 	void setScope(Scope*);
 	void accept(TreeVisitor&) override;
 	virtual Value* evaluate(const Context&) const;
+	QString getDescription() const;
+
 protected:
+	void addDescription(const QString&);
 	void addParameter(QString);
+	void addParameter(QString,QString);
 	Value* getParameterArgument(const Context&, int) const;
 private:
 	Scope* scope;
 	QString name;
+	QString description;
 	QList<Parameter*> parameters;
 };
 

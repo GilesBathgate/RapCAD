@@ -23,6 +23,7 @@
 
 class CosFunction : public Function
 {
+	Q_DECLARE_TR_FUNCTIONS(CosFunction)
 public:
 	CosFunction();
 	Value* evaluate(const Context&) const override;

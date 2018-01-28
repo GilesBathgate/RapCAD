@@ -23,6 +23,7 @@
 
 DegFunction::DegFunction() : Function("deg")
 {
+	addDescription(tr("Returns the number of degrees for the given number of radians."));
 	addParameter("radians");
 }
 

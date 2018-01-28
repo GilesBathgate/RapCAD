@@ -26,6 +26,7 @@
 
 VersionFunction::VersionFunction() : Function("version")
 {
+	addDescription(tr("Returns the version of RapCAD."));
 }
 
 Value* VersionFunction::evaluate(const Context&) const

@@ -23,6 +23,7 @@
 
 AsinFunction::AsinFunction() : Function("asin")
 {
+	addDescription(tr("Returns the arc sine of the number value."));
 	addParameter("value");
 }
 

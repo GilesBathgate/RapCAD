@@ -23,6 +23,7 @@
 
 TanhFunction::TanhFunction() : Function("tanh")
 {
+	addDescription(tr("Returns the hyperbolic tangent of the number value."));
 	addParameter("value");
 }
 

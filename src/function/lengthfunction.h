@@ -23,6 +23,7 @@
 
 class LengthFunction : public Function
 {
+	Q_DECLARE_TR_FUNCTIONS(LengthFunction)
 public:
 	LengthFunction();
 	Value* evaluate(const Context&) const override;

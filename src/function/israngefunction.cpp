@@ -22,6 +22,7 @@
 
 IsRangeFunction::IsRangeFunction() : Function("is_range")
 {
+	addDescription(tr("Returns true when the given value is a range."));
 	addParameter("value");
 }
 

@@ -23,6 +23,7 @@
 
 RadFunction::RadFunction() : Function("rad")
 {
+	addDescription(tr("Returns the number of radians for the given number of degrees."));
 	addParameter("degrees");
 }
 

@@ -23,6 +23,7 @@
 
 SumFunction::SumFunction() : Function("sum")
 {
+	addDescription(tr("Returns the sum of the given vector of values."));
 	addParameter("values");
 }
 

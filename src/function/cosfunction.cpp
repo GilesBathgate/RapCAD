@@ -23,6 +23,7 @@
 
 CosFunction::CosFunction() : Function("cos")
 {
+	addDescription(tr("Returns the cosine of the number value."));
 	addParameter("value");
 }
 

@@ -26,6 +26,7 @@
 
 NormFunction::NormFunction() : Function("norm")
 {
+	addDescription(tr("Returns the strictly positive length of a given number, vector or complex value."));
 	addParameter("value");
 }
 

@@ -699,11 +699,10 @@ void MainWindow::showBuiltins()
 
 	connect(e,&CodeEditor::copyAvailable,ui->actionCopy,&QAction::setEnabled);
 
-	QTextEdit* c=(QTextEdit*)e;
-	TextEditIODevice t(c,this);
+	BuiltinCreator* b = BuiltinCreator::getInstance(*reporter);
+
+	TextEditIODevice t((QTextEdit*)e,this);
 	QTextStream out(&t);
-	Reporter r(out);
-	BuiltinCreator* b = BuiltinCreator::getInstance(r);
 	b->generateDocs(out);
 	out.flush();
 

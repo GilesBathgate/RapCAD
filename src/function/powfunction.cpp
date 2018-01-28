@@ -21,6 +21,7 @@
 
 PowFunction::PowFunction() : Function("pow")
 {
+	addDescription(tr("Returns the value raised to the power of exponent."));
 	addParameter("value");
 	addParameter("exponent");
 }

@@ -23,6 +23,7 @@
 
 SqrtFunction::SqrtFunction() : Function("sqrt")
 {
+	addDescription(tr("Returns the square root of the number value."));
 	addParameter("number");
 }
 

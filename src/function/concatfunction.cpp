@@ -22,6 +22,7 @@
 
 ConcatFunction::ConcatFunction() : Function("concat")
 {
+	addDescription(tr("Returns a vector with the passed in vector appended."));
 }
 
 Value* ConcatFunction::evaluate(const Context& ctx) const

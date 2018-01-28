@@ -23,6 +23,7 @@
 
 TanFunction::TanFunction() : Function("tan")
 {
+	addDescription(tr("Returns the tangent of the number value."));
 	addParameter("value");
 }
 

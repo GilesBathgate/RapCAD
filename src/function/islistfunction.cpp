@@ -22,6 +22,7 @@
 
 IsListFunction::IsListFunction() : Function("is_list")
 {
+	addDescription(tr("Returns true when the given value is a list."));
 	addParameter("value");
 }
 

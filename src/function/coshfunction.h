@@ -23,6 +23,7 @@
 
 class CoshFunction : public Function
 {
+	Q_DECLARE_TR_FUNCTIONS(CoshFunction)
 public:
 	CoshFunction();
 	Value* evaluate(const Context&) const override;

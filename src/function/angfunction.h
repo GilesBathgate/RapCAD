@@ -23,6 +23,7 @@
 
 class AngFunction : public Function
 {
+	Q_DECLARE_TR_FUNCTIONS(AngFunction)
 public:
 	AngFunction();
 	Value* evaluate(const Context&) const override;

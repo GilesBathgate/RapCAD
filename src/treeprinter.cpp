@@ -109,13 +109,7 @@ void TreePrinter::visit(const Module& mod)
 {
 	QList<Parameter*> parameters = mod.getParameters();
 	QString desc=mod.getDescription();
-	if(!desc.isEmpty()) {
-		result << "/** " << desc << "\n";
-		for(Parameter* p: parameters) {
-			result << " * @param " << p->getName() << " " << p->getDescription() << "\n";
-		}
-		result << " */\n";
-	}
+	printCodeDoc(desc,parameters);
 	result << "module ";
 	result << mod.getName();
 	if(mod.getAuxilary())
@@ -139,10 +133,12 @@ void TreePrinter::visit(const Module& mod)
 
 void TreePrinter::visit(const Function& func)
 {
+	QList<Parameter*> parameters = func.getParameters();
+	QString desc=func.getDescription();
+	printCodeDoc(desc,parameters);
 	result << "function ";
 	result << func.getName();
 	result << "(";
-	QList<Parameter*> parameters = func.getParameters();
 	OnceOnly first;
 	for(Parameter* p: parameters) {
 		if(!first())
@@ -154,7 +150,9 @@ void TreePrinter::visit(const Function& func)
 	Scope* scp=func.getScope();
 	if(scp)
 		scp->accept(*this);
-	result << "\n";
+	else
+		result << "{}";
+	result << "\n\n";
 }
 
 void TreePrinter::visit(const FunctionScope& scp)
@@ -375,6 +373,17 @@ void TreePrinter::visit(const Invocation& stmt)
 
 void TreePrinter::visit(Callback&)
 {
+}
+
+void TreePrinter::printCodeDoc(QString desc, QList<Parameter*> parameters)
+{
+	if(!desc.isEmpty()) {
+		result << "/** " << desc << "\n";
+		for(Parameter* p: parameters) {
+			result << " * @param " << p->getName() << " " << p->getDescription() << "\n";
+		}
+		result << " */\n";
+	}
 }
 
 void TreePrinter::visit(const ModuleImport& decl)

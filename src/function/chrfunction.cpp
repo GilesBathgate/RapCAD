@@ -23,6 +23,7 @@
 
 ChrFunction::ChrFunction() : Function("chr")
 {
+	addDescription(tr("Returns a characters with the given unicode number values."));
 }
 
 Value* ChrFunction::evaluate(const Context& ctx) const

@@ -23,6 +23,7 @@
 
 ExpFunction::ExpFunction() : Function("exp")
 {
+	addDescription(tr("Returns the exponential of the number value."));
 	addParameter("value");
 }
 

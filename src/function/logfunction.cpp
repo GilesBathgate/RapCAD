@@ -23,6 +23,7 @@
 
 LogFunction::LogFunction() : Function("log")
 {
+	addDescription(tr("Returns the logarithm of the number value to the given base."));
 	addParameter("value");
 	addParameter("base");
 }

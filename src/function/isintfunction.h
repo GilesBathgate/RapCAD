@@ -23,6 +23,7 @@
 
 class IsIntFunction : public Function
 {
+	Q_DECLARE_TR_FUNCTIONS(IsIntFunction)
 public:
 	IsIntFunction();
 	Value* evaluate(const Context&) const override;
