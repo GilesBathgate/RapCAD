@@ -19,12 +19,21 @@
 #include "asciidocprinter.h"
 #include "onceonly.h"
 
-AsciidocPrinter::AsciidocPrinter(QTextStream& s) : result(s)
+AsciidocPrinter::AsciidocPrinter(QTextStream& m,QTextStream& f) :
+	modulesOutput(m),
+	functionsOutput(f)
 {
+	functionsOutput << ".RapCAD functions\n";
+	functionsOutput << "[width=\"100%\",frame=\"topbot\",options=\"header\"]\n";
+	functionsOutput << "|======================\n";
+	functionsOutput << "|Function |Description\n";
 }
 
 AsciidocPrinter::~AsciidocPrinter()
 {
+	functionsOutput << "|======================\n";
+	functionsOutput.flush();
+	modulesOutput.flush();
 }
 
 static QString capitalize(QString str)
@@ -37,31 +46,43 @@ static QString capitalize(QString str)
 void AsciidocPrinter::visit(const Module& mod)
 {
 	QString name=mod.getName();
-	result << capitalize(name) << "\n";
-	result << QString(name.length(),'^') << "\n\n";
-	result << mod.getDescription() << "\n\n";
+	modulesOutput << capitalize(name) << "\n";
+	modulesOutput << QString(name.length(),'^') << "\n\n";
+	modulesOutput << mod.getDescription() << "\n\n";
 	QList<Parameter*> params=mod.getParameters();
 	if(!params.isEmpty()) {
-		result << "Parameters\n";
-		result << "++++++++++\n";
-		result << "|=========\n";
+		modulesOutput << "Parameters\n";
+		modulesOutput << "++++++++++\n";
+		modulesOutput << "|=========\n";
 		for(Parameter* p: params) {
-			result << "|" << p->getName() << "|" << p->getDescription() << "\n";
+			modulesOutput << "|" << p->getName() << "|" << p->getDescription() << "\n";
 		}
-		result << "|=========\n\n";
-		result << "Examples\n";
-		result << "++++++++\n";
-		result << "[source,csharp]\n";
-		result << "---------------\n";
-		result << name << "();\n";
-		result << name << "(";
+		modulesOutput << "|=========\n\n";
+		modulesOutput << "Examples\n";
+		modulesOutput << "++++++++\n";
+		modulesOutput << "[source,csharp]\n";
+		modulesOutput << "---------------\n";
+		modulesOutput << name << "();\n";
+		modulesOutput << name << "(";
 		OnceOnly first;
 		for(Parameter* p: params) {
 			if(!first())
-				result << ",";
-			result << p->getName();
+				modulesOutput << ",";
+			modulesOutput << p->getName();
 		}
-		result << ");\n";
-		result << "---------------\n\n";
+		modulesOutput << ");\n";
+		modulesOutput << "---------------\n\n";
 	}
+}
+
+void AsciidocPrinter::visit(const Function & func)
+{
+	functionsOutput << "|" << func.getName() << "(";
+	OnceOnly first;
+	for(Parameter* p: func.getParameters()) {
+		if(!first())
+			functionsOutput << ",";
+		functionsOutput << p->getName();
+	}
+	functionsOutput << ") | " << func.getDescription() << "\n";
 }

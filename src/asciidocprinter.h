@@ -47,12 +47,12 @@
 class AsciidocPrinter : public TreeVisitor
 {
 public:
-	explicit AsciidocPrinter(QTextStream&);
+	explicit AsciidocPrinter(QTextStream&,QTextStream&);
 	~AsciidocPrinter() override;
 	void visit(const Module&) override;
 	void visit(const ModuleScope&) override {}
 	void visit(const Instance&) override {}
-	void visit(const Function&) override {}
+	void visit(const Function&) override;
 	void visit(const FunctionScope&) override {}
 	void visit(const CompoundStatement&) override {}
 	void visit(const IfElseStatement&) override {}
@@ -79,7 +79,8 @@ public:
 	void visit(Callback&) override {}
 
 private:
-	QTextStream& result;
+	QTextStream& modulesOutput;
+	QTextStream& functionsOutput;
 };
 
 #endif // ASCIIDOCPRINTER_H

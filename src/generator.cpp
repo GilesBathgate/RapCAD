@@ -26,7 +26,11 @@ Generator::Generator(Reporter& r) : Strategy(r)
 
 int Generator::evaluate()
 {
-	AsciidocPrinter p(output);
+	QFile modFile("modules.asciidoc"),funcFile("functions.asciidoc");
+	modFile.open(QFile::WriteOnly | QFile::Truncate);
+	funcFile.open(QFile::WriteOnly | QFile::Truncate);
+	QTextStream mod(&modFile),func(&funcFile);
+	AsciidocPrinter p(mod,func);
 	BuiltinCreator* b=BuiltinCreator::getInstance(reporter);
 	b->generateDocs(p);
 	return EXIT_SUCCESS;
