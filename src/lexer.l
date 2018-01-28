@@ -52,7 +52,7 @@ I [a-zA-Z0-9_]
 L [a-zA-Z_]
 D [0-9]
 Z 0+|0*\.0+|0+\.0*
-ZE {Z}[eE][+-]*0+
+ZE {Z}[eE][+-]*{D}+
 N {D}+|{D}*\.{D}+|{D}+\.{D}*
 E {N}[eE][+-]*{D}+
 R {N}\/
@@ -109,8 +109,8 @@ T [\?\[\]<>.;:#${}(),^=\+\-!\*/\|%~]
 {T}                            { return tokenizer->buildLegalChar(lexertext[0]); }
 {N}                            { return tokenizer->buildNumber(lexertext); }
 {E}                            { return tokenizer->buildNumberExp(lexertext); }
-{N}\/{ZE}                      { return tokenizer->buildRational(); }
-{R}+{E}                        { return tokenizer->buildRational(lexertext); }
+{N}\/{Z}|{N}\/{ZE}             { return tokenizer->buildRational(); }
+{R}+{N}|{R}+{E}                { return tokenizer->buildRational(lexertext); }
 {L}{I}*                        { return tokenizer->buildIdentifier(lexertext); }
 \"                             { BEGIN(string); tokenizer->buildStringStart(); }
 <string>{
