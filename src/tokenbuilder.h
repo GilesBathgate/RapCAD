@@ -73,6 +73,7 @@ public:
 	unsigned int buildCrossProduct() override;
 	unsigned int buildNamespace() override;
 	unsigned int buildAppend() override;
+	unsigned int buildOperator(unsigned int c);
 	unsigned int buildLegalChar(unsigned int) override;
 	unsigned int buildIllegalChar(QString) override;
 	unsigned int buildNumber(QString) override;

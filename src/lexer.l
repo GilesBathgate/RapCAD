@@ -63,7 +63,8 @@ U2 [\xc2-\xdf]
 U3 [\xe0-\xef]
 U4 [\xf0-\xf4]
 U {U2}{U1}|{U3}{U1}{U1}|{U4}{U1}{U1}{U1}
-T [\?\[\]<>.;:#${}(),^=\+\-!\*/\|%~]
+O [\?\+\-!\*\|/%~<>]
+T [\[\].;:#${}(),^=]
 
 %%
 "include"{WS}*"<"              { BEGIN(include); tokenizer->buildIncludeStart(); }
@@ -106,6 +107,7 @@ T [\?\[\]<>.;:#${}(),^=\+\-!\*/\|%~]
 "./"                           { return tokenizer->buildComponentwiseDivide(); }
 "::"                           { return tokenizer->buildNamespace(); }
 "~="                           { return tokenizer->buildAppend(); }
+{O}                            { return tokenizer->buildOperator(lexertext[0]); }
 {T}                            { return tokenizer->buildLegalChar(lexertext[0]); }
 {N}                            { return tokenizer->buildNumber(lexertext); }
 {E}                            { return tokenizer->buildNumberExp(lexertext); }

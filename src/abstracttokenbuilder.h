@@ -67,6 +67,7 @@ public:
 	virtual unsigned int buildCrossProduct()=0;
 	virtual unsigned int buildNamespace()=0;
 	virtual unsigned int buildAppend()=0;
+	virtual unsigned int buildOperator(unsigned int)=0;
 	virtual unsigned int buildLegalChar(unsigned int)=0;
 	virtual unsigned int buildIllegalChar(QString s)=0;
 	virtual unsigned int buildNumber(QString)=0;

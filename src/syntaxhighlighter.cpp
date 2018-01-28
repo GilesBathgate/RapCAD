@@ -323,6 +323,12 @@ unsigned int SyntaxHighlighter::buildAppend()
 	return YY_CONTINUE;
 }
 
+unsigned int SyntaxHighlighter::buildOperator(unsigned int)
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
 unsigned int SyntaxHighlighter::buildLegalChar(unsigned int)
 {
 	return YY_CONTINUE;

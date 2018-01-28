@@ -283,6 +283,11 @@ unsigned int TokenBuilder::buildAppend()
 	return APPEND;
 }
 
+unsigned int TokenBuilder::buildOperator(unsigned int c)
+{
+	return c;
+}
+
 unsigned int TokenBuilder::buildLegalChar(unsigned int c)
 {
 	return c;
