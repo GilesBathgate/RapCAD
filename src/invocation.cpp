@@ -46,7 +46,7 @@ QString Invocation::getNamespace() const
 	return nameSpace;
 }
 
-void Invocation::setArguments(QList<Argument*> args)
+void Invocation::setArguments(const QList<Argument*>& args)
 {
 	arguments = args;
 }

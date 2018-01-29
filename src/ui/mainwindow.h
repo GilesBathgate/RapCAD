@@ -92,7 +92,7 @@ private:
 	CodeEditor* currentEditor();
 	CodeEditor* getEditor(int i);
 	void disableActions(CodeEditor*);
-	bool saveSelectedFiles(QList<QString>);
+	bool saveSelectedFiles(const QList<QString>&);
 
 	Ui::MainWindow* ui;
 	QStandardItemModel* myModel;

@@ -28,7 +28,7 @@ CompoundStatement::~CompoundStatement()
 		delete s;
 }
 
-void CompoundStatement::setChildren(QList<Statement*> stmts)
+void CompoundStatement::setChildren(const QList<Statement*>& stmts)
 {
 	children = stmts;
 }

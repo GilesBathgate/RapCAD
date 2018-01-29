@@ -100,15 +100,15 @@ public:
 private:
 	QTextStream& result;
 	void printChildren(const Node&);
-	void printArguments(QList<Point>);
-	void printArguments(Polygon);
+	void printArguments(const QList<Point>&);
+	void printArguments(const Polygon&);
 	void printPrimitive(Primitive*);
-	void printPolygon(Polygon*);
-	void printArguments(QList<AlignNode::Face_t> t);
+	void printPolygon(const Polygon&);
+	void printArguments(const QList<AlignNode::Face_t>&);
 	void printArguments(const QString&,bool);
 	void printArguments(int);
 	void printArguments(const decimal&);
-	void printArguments(QList<int> list);
+	void printArguments(const QList<int>& list);
 };
 
 #endif // NODEPRINTER_H

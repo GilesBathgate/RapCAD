@@ -25,7 +25,7 @@
 class ComplexValue : public Value
 {
 public:
-	ComplexValue(Value*,QList<Value*>);
+	ComplexValue(Value*,const QList<Value*>&);
 	QString getValueString() const override;
 	void toQuaternion(decimal&,decimal&,decimal&,decimal&);
 private:

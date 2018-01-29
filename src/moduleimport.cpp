@@ -46,7 +46,7 @@ QString ModuleImport::getName() const
 	return name;
 }
 
-void ModuleImport::setParameters(QList<Parameter*> params)
+void ModuleImport::setParameters(const QList<Parameter*>& params)
 {
 	parameters = params;
 }

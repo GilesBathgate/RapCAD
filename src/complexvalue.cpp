@@ -21,7 +21,7 @@
 #include "booleanvalue.h"
 #include "rmath.h"
 
-ComplexValue::ComplexValue(Value* r, QList<Value*> i) :
+ComplexValue::ComplexValue(Value* r, const QList<Value*>& i) :
 	real(r),
 	imaginary(i)
 {

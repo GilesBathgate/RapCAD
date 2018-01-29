@@ -39,7 +39,7 @@ public:
 	QString getName() const;
 	void setName(const QString&);
 	QList<Parameter*> getParameters() const;
-	void setParameters(QList<Parameter*>);
+	void setParameters(const QList<Parameter*>&);
 	Scope* getScope() const;
 	void setScope(Scope*);
 	void accept(TreeVisitor&) override;

@@ -33,7 +33,7 @@ void Node::addChild(Node* n)
 	children.append(n);
 }
 
-void Node::setChildren(QList<Node*> c)
+void Node::setChildren(const QList<Node*>& c)
 {
 	children = c;
 }

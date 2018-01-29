@@ -27,7 +27,7 @@ class CompoundStatement : public Scope
 public:
 	CompoundStatement();
 	~CompoundStatement() override;
-	void setChildren(QList<Statement*>);
+	void setChildren(const QList<Statement*>&);
 	QList<Statement*> getChildren() const;
 	void accept(TreeVisitor&) override;
 private:

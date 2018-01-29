@@ -27,7 +27,7 @@ class Project
 public:
 	Project();
 	QList<QString> getSources() const;
-	void setSources(QList<QString>);
+	void setSources(const QList<QString>&);
 	void parseProject(const QString&);
 	void parseSource(QXmlStreamReader&);
 	void parseName(QXmlStreamReader&);

@@ -498,7 +498,7 @@ bool NodeEvaluator::evaluate(const Node& op,Operation_e type,Primitive* first)
 	return evaluate(op.getChildren(),type,first);
 }
 
-bool NodeEvaluator::evaluate(QList<Node*> children,Operation_e type,Primitive* first)
+bool NodeEvaluator::evaluate(const QList<Node*>& children, Operation_e type, Primitive* first)
 {
 	for(Node* n: children) {
 		n->accept(*this);

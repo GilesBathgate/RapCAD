@@ -41,7 +41,7 @@ public:
 	QString getDescription() const;
 	bool getAuxilary() const;
 	QList<Parameter*> getParameters() const;
-	void setParameters(QList<Parameter*>);
+	void setParameters(const QList<Parameter*>&);
 	Scope* getScope() const;
 	void setScope(Scope*);
 	void accept(TreeVisitor&) override;

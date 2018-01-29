@@ -556,7 +556,7 @@ bool MainWindow::saveAllFiles()
 	return saveSelectedFiles(all);
 }
 
-bool MainWindow::saveSelectedFiles(QList<QString> files)
+bool MainWindow::saveSelectedFiles(const QList<QString>& files)
 {
 	bool result=true;
 	for(auto i=0; i<ui->tabWidget->count(); ++i) {

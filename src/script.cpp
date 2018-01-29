@@ -44,7 +44,7 @@ void Script::parse(QFileInfo info)
 		parsescript(*this,reporter,info);
 }
 
-void Script::setDeclarations(QList<Declaration*> decls)
+void Script::setDeclarations(const QList<Declaration*>& decls)
 {
 	declarations = decls;
 }
@@ -69,7 +69,7 @@ void Script::removeDeclaration(Declaration* dec)
 	declarations.removeAll(dec);
 }
 
-void Script::addDocumentation(QList<CodeDoc*> docs)
+void Script::addDocumentation(const QList<CodeDoc*>& docs)
 {
 	documentation.append(docs);
 }

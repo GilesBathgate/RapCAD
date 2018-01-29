@@ -27,7 +27,7 @@
 class VectorValue : public Value
 {
 public:
-	explicit VectorValue(QList<Value*>);
+	explicit VectorValue(const QList<Value*>&);
 	QString getValueString() const override;
 	bool isTrue() const override;
 	VectorValue* toVector(int) override;

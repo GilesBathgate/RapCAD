@@ -30,7 +30,7 @@ public:
 	ForStatement();
 	~ForStatement() override;
 
-	void setArguments(QList<Argument*>);
+	void setArguments(const QList<Argument*>&);
 	QList<Argument*> getArguments() const;
 	void setStatement(Statement*);
 	Statement* getStatement() const;

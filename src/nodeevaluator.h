@@ -113,7 +113,7 @@ private:
 	Primitive* createPrimitive();
 	bool evaluate(const Node&,Operation_e);
 	bool evaluate(const Node&,Operation_e,Primitive*);
-	bool evaluate(QList<Node*>,Operation_e,Primitive*);
+	bool evaluate(const QList<Node*>&,Operation_e,Primitive*);
 
 	Reporter& reporter;
 	Primitive* result;

@@ -218,7 +218,7 @@ void Context::addParameter(Value* value)
 	parameters.append(value);
 }
 
-void Context::setInputNodes(QList<Node*> value)
+void Context::setInputNodes(const QList<Node*>& value)
 {
 	inputNodes=value;
 }
@@ -228,7 +228,7 @@ QList<Node*> Context::getInputNodes() const
 	return inputNodes;
 }
 
-void Context::setCurrentNodes(QList<Node*> value)
+void Context::setCurrentNodes(const QList<Node*>& value)
 {
 	currentNodes=value;
 }

@@ -27,7 +27,7 @@ class VectorExpression : public Expression
 public:
 	VectorExpression();
 	~VectorExpression() override;
-	void setChildren(QList<Expression*>);
+	void setChildren(const QList<Expression*>&);
 	QList<Expression*> getChildren() const;
 	void setAdditionalCommas(int);
 	int getAdditionalCommas() const;

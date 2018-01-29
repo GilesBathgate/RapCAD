@@ -61,7 +61,7 @@ QList<Parameter*> Module::getParameters() const
 	return parameters;
 }
 
-void Module::setParameters(QList<Parameter*> params)
+void Module::setParameters(const QList<Parameter*>& params)
 {
 	parameters=params;
 }

@@ -57,7 +57,7 @@ void NodePrinter::printPrimitive(Primitive* pr)
 		for(CGALPolygon* pg: cp->getCGALPolygons()) {
 			if(!first_pg())
 				result << ",";
-			printPolygon(pg);
+			printPolygon(*pg);
 		}
 	}
 #endif
@@ -66,16 +66,16 @@ void NodePrinter::printPrimitive(Primitive* pr)
 		for(Polygon* pg: ph->getPolygons()) {
 			if(!first_pg())
 				result << ",";
-			printPolygon(pg);
+			printPolygon(*pg);
 		}
 	}
 }
 
-void NodePrinter::printPolygon(Polygon* pg)
+void NodePrinter::printPolygon(const Polygon& pg)
 {
 	result << "[";
 	OnceOnly first;
-	for(auto i: pg->getIndexes()) {
+	for(auto i: pg.getIndexes()) {
 		if(!first())
 			result << ",";
 		result << QString().setNum(i);
@@ -233,7 +233,7 @@ void NodePrinter::printArguments(const decimal& a)
 	result << ")";
 }
 
-void NodePrinter::printArguments(QList<Point> pts)
+void NodePrinter::printArguments(const QList<Point>& pts)
 {
 	result << "(";
 	if(pts.count()>1)
@@ -249,7 +249,7 @@ void NodePrinter::printArguments(QList<Point> pts)
 	result << ")";
 }
 
-void NodePrinter::printArguments(Polygon pg)
+void NodePrinter::printArguments(const Polygon& pg)
 {
 	result << "([";
 	OnceOnly first;
@@ -261,7 +261,7 @@ void NodePrinter::printArguments(Polygon pg)
 	result << "])";
 }
 
-void NodePrinter::printArguments(QList<int> list)
+void NodePrinter::printArguments(const QList<int>& list)
 {
 	if(list.count()==0) {
 		result << "()";
@@ -278,7 +278,7 @@ void NodePrinter::printArguments(QList<int> list)
 	result << "])";
 }
 
-void NodePrinter::printArguments(QList<AlignNode::Face_t> t)
+void NodePrinter::printArguments(const QList<AlignNode::Face_t>& t)
 {
 	result << "(";
 	OnceOnly first;

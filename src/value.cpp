@@ -428,7 +428,7 @@ bool Value::compare(Value* left, Expression::Operator_e op, Value* right)
 	return Value::operation(left,op,right)->isTrue();
 }
 
-Value* Value::compareAll(QList<Value*> values,Expression::Operator_e op)
+Value* Value::compareAll(const QList<Value*>& values, Expression::Operator_e op)
 {
 	Value* result=nullptr;
 	for(Value* a: values) {

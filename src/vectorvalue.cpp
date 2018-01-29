@@ -28,7 +28,7 @@ VectorValue::VectorValue()
 {
 }
 
-VectorValue::VectorValue(QList<Value*> values) : children(values)
+VectorValue::VectorValue(const QList<Value*>& values) : children(values)
 {
 }
 

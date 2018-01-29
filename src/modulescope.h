@@ -29,7 +29,7 @@ public:
 	ModuleScope();
 	~ModuleScope() override;
 	QList<Declaration*> getDeclarations() const override;
-	void setDeclarations(QList<Declaration*>);
+	void setDeclarations(const QList<Declaration*>&);
 	void accept(TreeVisitor&) override;
 private:
 	QList<Declaration*> declarations;

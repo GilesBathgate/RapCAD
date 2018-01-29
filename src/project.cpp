@@ -95,7 +95,7 @@ QList<QString> Project::getSources() const
 	return sources;
 }
 
-void Project::setSources(QList<QString> value)
+void Project::setSources(const QList<QString>& value)
 {
 	sources = value;
 }

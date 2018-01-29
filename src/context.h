@@ -67,10 +67,10 @@ public:
 	void clearParameters();
 	void addParameter(Value*);
 
-	void setInputNodes(QList<Node*>);
+	void setInputNodes(const QList<Node*>&);
 	QList<Node*> getInputNodes() const;
 
-	void setCurrentNodes(QList<Node*>);
+	void setCurrentNodes(const QList<Node*>&);
 	QList<Node*> getCurrentNodes() const;
 	void addCurrentNode(Node*);
 private:

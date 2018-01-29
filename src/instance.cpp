@@ -42,7 +42,7 @@ QString Instance::getName() const
 	return name;
 }
 
-void Instance::setArguments(QList<Argument*> args)
+void Instance::setArguments(const QList<Argument*>& args)
 {
 	arguments = args;
 }
@@ -52,7 +52,7 @@ QList<Argument*> Instance::getArguments() const
 	return arguments;
 }
 
-void Instance::setChildren(QList <Statement*> childs)
+void Instance::setChildren(const QList <Statement*>& childs)
 {
 	children = childs;
 }

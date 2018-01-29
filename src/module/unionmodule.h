@@ -27,7 +27,7 @@ class UnionModule : public Module
 public:
 	explicit UnionModule(Reporter&);
 	Node* evaluate(const Context&) const override;
-	static Node* createUnion(QList<Node*> childnodes);
+	static Node* createUnion(const QList<Node*>&);
 };
 
 #endif // UNIONMODULE_H

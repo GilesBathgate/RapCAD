@@ -40,9 +40,9 @@ public:
 	~Instance() override;
 	void setName(const QString&);
 	QString getName() const;
-	void setArguments(QList<Argument*>);
+	void setArguments(const QList<Argument*>&);
 	QList<Argument*> getArguments() const;
-	void setChildren(QList <Statement*> childs);
+	void setChildren(const QList <Statement*>&);
 	QList <Statement*> getChildren() const;
 	void setType(Type_e);
 	Type_e getType() const;

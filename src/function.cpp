@@ -55,7 +55,7 @@ QList<Parameter*> Function::getParameters() const
 	return parameters;
 }
 
-void Function::setParameters(QList<Parameter*> params)
+void Function::setParameters(const QList<Parameter*>& params)
 {
 	parameters = params;
 }

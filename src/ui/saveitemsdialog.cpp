@@ -21,7 +21,7 @@
 #include "saveitemsdialog.h"
 #include "ui_saveitemsdialog.h"
 
-SaveItemsDialog::SaveItemsDialog(QWidget* parent,bool compiling,QList<QString> items) :
+SaveItemsDialog::SaveItemsDialog(QWidget* parent, bool compiling, const QList<QString>& items) :
 	QDialog(parent),
 	ui(new Ui::SaveItemsDialog)
 {

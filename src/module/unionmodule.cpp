@@ -30,7 +30,7 @@ Node* UnionModule::evaluate(const Context& ctx) const
 	return createUnion(ctx.getInputNodes());
 }
 
-Node* UnionModule::createUnion(QList<Node*> childnodes)
+Node* UnionModule::createUnion(const QList<Node*>& childnodes)
 {
 	if(childnodes.size()==1) {
 		return childnodes.at(0);

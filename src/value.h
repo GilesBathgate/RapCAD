@@ -79,7 +79,7 @@ public:
 	static Value* operation(Value*,Expression::Operator_e);
 	static Value* operation(Value*,Expression::Operator_e,Value*);
 	static bool compare(Value*,Expression::Operator_e,Value*);
-	static Value* compareAll(QList<Value*>,Expression::Operator_e);
+	static Value* compareAll(const QList<Value*>&,Expression::Operator_e);
 
 protected:
 	Value();

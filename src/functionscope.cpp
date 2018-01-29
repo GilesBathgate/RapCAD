@@ -41,7 +41,7 @@ Expression* FunctionScope::getExpression() const
 	return expression;
 }
 
-void FunctionScope::setStatements(QList<Statement*> stmts)
+void FunctionScope::setStatements(const QList<Statement*>& stmts)
 {
 	statements = stmts;
 }
