@@ -34,10 +34,10 @@ public:
 
 	void setParent(Layout*);
 
-	const Module* lookupModule(QString,bool) const;
+	const Module* lookupModule(const QString&,bool) const;
 	void addModule(const Module& mod);
 
-	const Function* lookupFunction(QString) const;
+	const Function* lookupFunction(const QString&) const;
 	void addFunction(const Function&);
 
 	bool inScope(Scope*) const;

@@ -26,7 +26,7 @@ Comparer::Comparer(Reporter& r) : Strategy(r)
 {
 }
 
-void Comparer::setup(QString a, QString b)
+void Comparer::setup(const QString& a, const QString& b)
 {
 	aFile=a;
 	bFile=b;

@@ -29,9 +29,9 @@ class ModuleImport : public Declaration
 public:
 	ModuleImport();
 	~ModuleImport() override;
-	void setImport(QString);
+	void setImport(const QString&);
 	QString getImport() const;
-	void setName(QString);
+	void setName(const QString&);
 	QString getName() const;
 	void accept(TreeVisitor&) override;
 	void setParameters(QList<Parameter*>);

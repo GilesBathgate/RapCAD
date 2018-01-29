@@ -26,7 +26,7 @@ Invocation::~Invocation()
 {
 }
 
-void Invocation::setName(QString n)
+void Invocation::setName(const QString& n)
 {
 	name = n;
 }
@@ -36,7 +36,7 @@ QString Invocation::getName() const
 	return name;
 }
 
-void Invocation::setNamespace(QString name)
+void Invocation::setNamespace(const QString& name)
 {
 	nameSpace = name;
 }

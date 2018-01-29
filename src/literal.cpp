@@ -40,13 +40,13 @@ void Literal::setValue(decimal value)
 	number = value;
 }
 
-void Literal::setValue(QString value)
+void Literal::setValue(const QString& value)
 {
 	type = Text;
 	text = value;
 }
 
-void Literal::setUnit(QString value)
+void Literal::setUnit(const QString& value)
 {
 	text=value;
 	if(value=="m")

@@ -18,7 +18,7 @@
 
 #include "script.h"
 
-extern void parsescript(Script&,Reporter&,QString);
+extern void parsescript(Script&,Reporter&,const QString&);
 extern void parsescript(Script&,Reporter&,QFileInfo);
 
 Script::Script(Reporter& r) : reporter(r)
@@ -31,7 +31,7 @@ Script::~Script()
 		delete d;
 }
 
-void Script::parse(QString s)
+void Script::parse(const QString &s)
 {
 	parsescript(*this,reporter,s);
 }

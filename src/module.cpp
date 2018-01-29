@@ -19,7 +19,7 @@
 #include "module.h"
 #include "context.h"
 
-Module::Module(Reporter& r, const QString n) :
+Module::Module(Reporter& r, const QString& n) :
 	auxilary(false),
 	reporter(r),
 	name(n),
@@ -41,7 +41,7 @@ QString Module::getName() const
 	return name;
 }
 
-void Module::setName(QString n)
+void Module::setName(const QString& n)
 {
 	name=n;
 }
@@ -86,18 +86,18 @@ Node* Module::evaluate(const Context&) const
 	return nullptr;
 }
 
-void Module::addDescription(QString d)
+void Module::addDescription(const QString& d)
 {
 	description=d;
 }
 
-void Module::addDeprecated(QString d)
+void Module::addDeprecated(const QString& d)
 {
 	deprecated=true;
 	description=d;
 }
 
-void Module::addParameter(QString name, QString desc)
+void Module::addParameter(const QString& name, const QString& desc)
 {
 	auto* p=new Parameter();
 	p->setName(name);

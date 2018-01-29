@@ -33,7 +33,7 @@ QString Parameter::getName() const
 	return name;
 }
 
-void Parameter::setName(QString n)
+void Parameter::setName(const QString& n)
 {
 	name = n;
 }
@@ -48,7 +48,7 @@ void Parameter::setExpression(Expression* expr)
 	expression = expr;
 }
 
-void Parameter::addDescription(QString d)
+void Parameter::addDescription(const QString& d)
 {
 	description=d;
 }

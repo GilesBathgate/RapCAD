@@ -31,7 +31,7 @@ public:
 	Script(Reporter&);
 	~Script() override;
 
-	void parse(QString);
+	void parse(const QString&);
 	void parse(QFileInfo);
 
 	void setDeclarations(QList<Declaration*>);

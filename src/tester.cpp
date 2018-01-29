@@ -56,7 +56,7 @@ Tester::~Tester()
 	delete nullreport;
 }
 
-void Tester::writeHeader(QString name, int num)
+void Tester::writeHeader(const QString& name, int num)
 {
 	output << "Test #" << QString().setNum(num).rightJustified(3,'0') << ": ";
 	output << name.leftJustified(62,'.',true);
@@ -90,7 +90,7 @@ void Tester::writeSkip()
 #endif
 }
 
-static bool skipDir(QString dir)
+static bool skipDir(const QString& dir)
 {
 #ifndef USE_OFFSET
 	if(dir=="051_offset") return true;
@@ -203,7 +203,7 @@ void Tester::runTests()
 	f.remove();
 }
 
-void Tester::exportTest(QString dir)
+void Tester::exportTest(const QString& dir)
 {
 	Reporter& r=*nullreport;
 	for(QFileInfo file: QDir(dir).entryInfoList(QStringList("*.rcad"), QDir::Files)) {
@@ -235,7 +235,7 @@ void Tester::exportTest(QString dir)
 }
 
 #if USE_CGAL
-void Tester::exportTest(CGALExport& e,QString origPath,QFileInfo file,QString ext)
+void Tester::exportTest(CGALExport& e,const QString& origPath,QFileInfo file,const QString& ext)
 {
 	QString newName=file.baseName()+ext;
 

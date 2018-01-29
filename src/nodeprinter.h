@@ -105,7 +105,7 @@ private:
 	void printPrimitive(Primitive*);
 	void printPolygon(Polygon*);
 	void printArguments(QList<AlignNode::Face_t> t);
-	void printArguments(QString,bool);
+	void printArguments(const QString&,bool);
 	void printArguments(int);
 	void printArguments(const decimal&);
 	void printArguments(QList<int> list);

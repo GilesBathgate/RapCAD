@@ -26,7 +26,7 @@
 #include "reporter.h"
 
 void parsescript(Script&,Reporter&,QFileInfo);
-void parsescript(Script&,Reporter&,QString);
+void parsescript(Script&,Reporter&,const QString&);
 
 static void parsererror(const char*);
 static int parserlex();
@@ -476,7 +476,7 @@ void parsescript(Script& s,Reporter& r,QFileInfo input)
 	delete tokenizer;
 }
 
-void parsescript(Script& s,Reporter& r,QString input)
+void parsescript(Script& s,Reporter& r,const QString& input)
 {
 	tokenizer=new TokenBuilder(r,input);
 	builder=new SyntaxTreeBuilder(r,s,*tokenizer);

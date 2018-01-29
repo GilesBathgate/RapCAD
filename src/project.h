@@ -28,10 +28,10 @@ public:
 	Project();
 	QList<QString> getSources() const;
 	void setSources(QList<QString>);
-	void parseProject(QString);
+	void parseProject(const QString&);
 	void parseSource(QXmlStreamReader&);
 	void parseName(QXmlStreamReader&);
-	void writeProject(QString);
+	void writeProject(const QString&);
 private:
 	QList<QString> sources;
 	QString name;

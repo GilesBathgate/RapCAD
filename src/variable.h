@@ -34,7 +34,7 @@ public:
 
 	Variable();
 	~Variable() override;
-	void setName(QString);
+	void setName(const QString&);
 	QString getName() const;
 	void setStorage(Storage_e);
 	Storage_e getStorage() const;

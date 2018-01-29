@@ -526,7 +526,7 @@ void TreeEvaluator::visit(Callback& c)
 	c.setResult(context->getCurrentValue());
 }
 
-QFileInfo TreeEvaluator::getFullPath(QString file)
+QFileInfo TreeEvaluator::getFullPath(const QString &file)
 {
 	if(!importLocations.isEmpty())
 		return QFileInfo(importLocations.top(),file);

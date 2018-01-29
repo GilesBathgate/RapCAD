@@ -32,7 +32,7 @@ QString Variable::getName() const
 	return name;
 }
 
-void Variable::setName(QString n)
+void Variable::setName(const QString& n)
 {
 	name = n;
 }

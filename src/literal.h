@@ -28,8 +28,8 @@ public:
 	Literal();
 	void setValue(bool);
 	void setValue(decimal);
-	void setValue(QString);
-	void setUnit(QString);
+	void setValue(const QString&);
+	void setUnit(const QString&);
 
 	QString getValueString() const;
 	Value* getValue() const;

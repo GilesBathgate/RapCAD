@@ -284,7 +284,7 @@ void MainWindow::grabFrameBuffer()
 	image.save(fn);
 }
 
-void MainWindow::exportFile(QString type)
+void MainWindow::exportFile(const QString& type)
 {
 	if(worker->resultAvailable()) {
 

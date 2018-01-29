@@ -21,7 +21,7 @@
 #include "booleanvalue.h"
 #include "textiterator.h"
 
-TextValue::TextValue(QString value) :
+TextValue::TextValue(const QString& value) :
 	text(value)
 {
 }

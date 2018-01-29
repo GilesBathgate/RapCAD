@@ -26,7 +26,7 @@ class Comparer : public Strategy
 	Q_DECLARE_TR_FUNCTIONS(Comparer)
 public:
 	explicit Comparer(Reporter&);
-	void setup(QString,QString);
+	void setup(const QString&,const QString&);
 	int evaluate() override;
 private:
 	QString aFile;

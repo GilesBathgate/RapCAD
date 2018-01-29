@@ -30,13 +30,13 @@ class Reporter
 public:
 	explicit Reporter(QTextStream& s);
 	void startTiming();
-	void reportTiming(QString);
-	void reportSyntaxError(AbstractTokenBuilder&,QString);
-	void reportLexicalError(AbstractTokenBuilder&,QString);
-	void reportFileMissingError(QString);
-	void reportWarning(QString);
-	void reportMessage(QString);
-	void reportException(QString);
+	void reportTiming(const QString&);
+	void reportSyntaxError(AbstractTokenBuilder&,const QString&);
+	void reportLexicalError(AbstractTokenBuilder&,const QString&);
+	void reportFileMissingError(const QString&);
+	void reportWarning(const QString&);
+	void reportMessage(const QString&);
+	void reportException(const QString&);
 	void setReturnCode(int);
 	bool getReturnCode() const;
 	void setKludge(int);

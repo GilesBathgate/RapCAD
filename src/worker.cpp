@@ -49,7 +49,7 @@ Worker::~Worker()
 	delete primitive;
 }
 
-void Worker::setup(QString i,QString o,bool p,bool g)
+void Worker::setup(const QString& i,const QString& o,bool p,bool g)
 {
 	inputFile=i;
 	outputFile=o;
@@ -191,7 +191,7 @@ QList<Argument*> Worker::getArgs(decimal value)
 	return args;
 }
 
-Instance* Worker::addProductInstance(QString name,Script& s)
+Instance* Worker::addProductInstance(const QString& name,Script& s)
 {
 	auto* m = new Instance();
 	m->setName(name);
@@ -205,7 +205,7 @@ Instance* Worker::addProductInstance(QString name,Script& s)
 	return m;
 }
 
-void Worker::exportResult(QString fn)
+void Worker::exportResult(const QString& fn)
 {
 #ifdef USE_CGAL
 	reporter.startTiming();
@@ -232,7 +232,7 @@ void Worker::resultAccepted()
 	delete previous;
 }
 
-void Worker::resultFailed(QString error)
+void Worker::resultFailed(const QString& error)
 {
 	reporter.reportException(error);
 	updatePrimitive(nullptr);

@@ -34,10 +34,10 @@ class Function : public Declaration
 {
 public:
 	Function();
-	explicit Function(QString);
+	explicit Function(const QString&);
 	~Function() override;
 	QString getName() const;
-	void setName(QString);
+	void setName(const QString&);
 	QList<Parameter*> getParameters() const;
 	void setParameters(QList<Parameter*>);
 	Scope* getScope() const;
@@ -48,8 +48,8 @@ public:
 
 protected:
 	void addDescription(const QString&);
-	void addParameter(QString);
-	void addParameter(QString,QString);
+	void addParameter(const QString&);
+	void addParameter(const QString&,const QString&);
 	Value* getParameterArgument(const Context&, int) const;
 private:
 	Scope* scope;

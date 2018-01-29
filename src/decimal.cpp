@@ -21,9 +21,10 @@
 #include "rmath.h"
 #include "point.h"
 
-decimal to_decimal(QString s,bool* ok)
+decimal to_decimal(const QString& str,bool* ok)
 {
 #ifdef USE_CGAL
+	QString s(str);
 	int i = s.indexOf('.');
 	if(i>=0) {
 		s.remove(i,1);
@@ -131,7 +132,7 @@ CGAL::Gmpfr to_gmpfr(const decimal& d)
 }
 #endif
 
-decimal parse_numberexp(QString s, bool *ok)
+decimal parse_numberexp(const QString& s, bool *ok)
 {
 	int i=s.indexOf('e',0,Qt::CaseInsensitive);
 	if(i<0)
@@ -142,7 +143,7 @@ decimal parse_numberexp(QString s, bool *ok)
 	return to_decimal(s.left(i),ok) * r_pow(decimal(10),p,p<0);
 }
 
-decimal parse_rational(QString s, bool *ok)
+decimal parse_rational(const QString& s, bool *ok)
 {
 	int i=s.lastIndexOf('/');
 	if(i<0)

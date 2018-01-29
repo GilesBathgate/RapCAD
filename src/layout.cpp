@@ -34,7 +34,7 @@ void Layout::setParent(Layout* value)
 	parent=value;
 }
 
-const Module* Layout::lookupModule(QString name,bool aux) const
+const Module* Layout::lookupModule(const QString& name,bool aux) const
 {
 	if(modules.contains(name)) {
 		const Module* m=modules.value(name);
@@ -47,7 +47,7 @@ const Module* Layout::lookupModule(QString name,bool aux) const
 	return nullptr;
 }
 
-const Function* Layout::lookupFunction(QString name) const
+const Function* Layout::lookupFunction(const QString& name) const
 {
 	if(functions.contains(name)) {
 		return functions.value(name);

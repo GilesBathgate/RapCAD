@@ -73,7 +73,7 @@ QString Context::getCurrentName() const
 	return currentName;
 }
 
-void Context::setCurrentName(QString value)
+void Context::setCurrentName(const QString& value)
 {
 	currentName=value;
 }
@@ -93,7 +93,7 @@ void Context::setVariable(Value* v)
 	variables.insert(v->getName(),v);
 }
 
-Value* Context::lookupVariable(QString name,Variable::Storage_e& c,Layout* l) const
+Value* Context::lookupVariable(const QString& name,Variable::Storage_e& c,Layout* l) const
 {
 	if(variables.contains(name)) {
 		if(l->inScope(currentScope)) {
@@ -180,7 +180,7 @@ void Context::clearArguments()
 	arguments.clear();
 }
 
-Value* Context::getArgument(int index, QString name) const
+Value* Context::getArgument(int index, const QString& name) const
 {
 	//TODO make matchLast work for name ending with any digit
 	bool matchLast = name.endsWith('1') || name.endsWith('2');
@@ -188,7 +188,7 @@ Value* Context::getArgument(int index, QString name) const
 	return matchArgumentIndex(true,matchLast,index,name);
 }
 
-Value* Context::getArgumentDeprecatedModule(int index, QString deprecated, QString module, Reporter& r) const
+Value* Context::getArgumentDeprecatedModule(int index, const QString& deprecated, const QString& module, Reporter& r) const
 {
 	Value* v = matchArgumentIndex(false,false,index,deprecated);
 	if(v)
@@ -196,7 +196,7 @@ Value* Context::getArgumentDeprecatedModule(int index, QString deprecated, QStri
 	return v;
 }
 
-Value* Context::getArgumentDeprecated(int index, QString name, QString deprecated, Reporter& r) const
+Value* Context::getArgumentDeprecated(int index, const QString& name, const QString& deprecated, Reporter& r) const
 {
 	Value* v = matchArgumentIndex(true,false,index,name);
 	if(!v) {
@@ -243,7 +243,7 @@ void Context::addCurrentNode(Node* value)
 	currentNodes.append(value);
 }
 
-Value* Context::getArgumentSpecial(QString name) const
+Value* Context::getArgumentSpecial(const QString& name) const
 {
 	Value* v=matchArgument(false,false,name);
 	if(v && v->getStorage()==Variable::Special)
@@ -252,7 +252,7 @@ Value* Context::getArgumentSpecial(QString name) const
 	return nullptr;
 }
 
-Value* Context::matchArgumentIndex(bool allowChar,bool matchLast, int index, QString name) const
+Value* Context::matchArgumentIndex(bool allowChar,bool matchLast, int index, const QString& name) const
 {
 	if(index >= arguments.size())
 		return matchArgument(allowChar,matchLast,name);
@@ -265,7 +265,7 @@ Value* Context::matchArgumentIndex(bool allowChar,bool matchLast, int index, QSt
 	return matchArgument(allowChar,matchLast,name);
 }
 
-Value* Context::matchArgument(bool allowChar,bool matchLast, QString name) const
+Value* Context::matchArgument(bool allowChar,bool matchLast, const QString& name) const
 {
 	for(Value* namedArg: arguments) {
 		QString namedArgName = namedArg->getName();
@@ -276,7 +276,7 @@ Value* Context::matchArgument(bool allowChar,bool matchLast, QString name) const
 	return nullptr;
 }
 
-bool Context::match(bool allowChar,bool matchLast, QString a,QString n) const
+bool Context::match(bool allowChar,bool matchLast, const QString& a,const QString& n) const
 {
 	if(allowChar) {
 		if(matchLast&&a.length()==2)

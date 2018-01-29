@@ -85,7 +85,7 @@ bool Console::handleBackspace()
 	return false;
 }
 
-void Console::setPrompt(QString p)
+void Console::setPrompt(const QString& p)
 {
 	prompt=p;
 	promptLength=prompt.length();

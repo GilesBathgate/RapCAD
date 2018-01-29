@@ -37,7 +37,7 @@ qint64 TextEditIODevice::writeData(const char* data, qint64 maxSize)
 	return maxSize;
 }
 
-void TextEditIODevice::writeTextEdit(QString data)
+void TextEditIODevice::writeTextEdit(const QString& data)
 {
 	textEdit->moveCursor(QTextCursor::End);
 	textEdit->insertPlainText(data);

@@ -22,7 +22,7 @@ CodeDoc::CodeDoc()
 {
 }
 
-void CodeDoc::setName(QString n)
+void CodeDoc::setName(const QString& n)
 {
 	name=n;
 }
@@ -32,7 +32,7 @@ QString CodeDoc::getName() const
 	return name;
 }
 
-void CodeDoc::setText(QString t)
+void CodeDoc::setText(const QString& t)
 {
 	text=t;
 }

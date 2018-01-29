@@ -377,7 +377,7 @@ void TreePrinter::visit(Callback&)
 {
 }
 
-void TreePrinter::printCodeDoc(QString desc, QList<Parameter*> parameters)
+void TreePrinter::printCodeDoc(const QString &desc, QList<Parameter*> parameters)
 {
 	if(!desc.isEmpty()) {
 		result << "/** " << desc << "\n";

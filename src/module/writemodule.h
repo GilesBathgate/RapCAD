@@ -27,7 +27,7 @@ class WriteModule : public Module
 	Q_DECLARE_TR_FUNCTIONS(WriteModule)
 public:
 	explicit WriteModule(Reporter&);
-	WriteModule(Reporter&,const QString);
+	WriteModule(Reporter&,const QString&);
 	Node* evaluate(const Context&) const override;
 protected:
 	QTextStream& output;

@@ -34,7 +34,7 @@ QPathTextBuilder::~QPathTextBuilder()
 {
 }
 
-void QPathTextBuilder::setText(QString value)
+void QPathTextBuilder::setText(const QString& value)
 {
 	text = value;
 }

@@ -27,9 +27,9 @@ class Console : public QPlainTextEdit
 public:
 	explicit Console(QWidget* parent=nullptr);
 	void displayPrompt();
-	void setPrompt(QString);
+	void setPrompt(const QString&);
 signals:
-	void execCommand(QString);
+	void execCommand(const QString&);
 private:
 	void keyPressEvent(QKeyEvent*) override;
 	bool inPromptBlock();

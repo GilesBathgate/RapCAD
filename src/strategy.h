@@ -30,7 +30,7 @@ public:
 	explicit Strategy(Reporter&);
 	virtual ~Strategy();
 	virtual int evaluate()=0;
-	Callback* addCallback(QString,Script&,QList<Argument*>);
+	Callback* addCallback(const QString&,Script&,QList<Argument*>);
 protected:
 	Reporter& reporter;
 	QTextStream& output;

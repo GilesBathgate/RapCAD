@@ -19,7 +19,7 @@
 #include "textiterator.h"
 #include "textvalue.h"
 
-TextIterator::TextIterator(QString t) :
+TextIterator::TextIterator(const QString& t) :
 	text(t),
 	index(0)
 {

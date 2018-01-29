@@ -25,7 +25,7 @@
 void lexererror();
 void lexerinclude(QFileInfo);
 void lexerinit(AbstractTokenBuilder*,Reporter*,QFileInfo);
-void lexerinit(AbstractTokenBuilder*,Reporter*,QString);
+void lexerinit(AbstractTokenBuilder*,Reporter*,const QString&);
 void lexerdestroy();
 void lexerbegin();
 void lexercomment();
@@ -159,7 +159,7 @@ void lexerinit(AbstractTokenBuilder* b,Reporter* r,QFileInfo fileinfo)
 	tokenizer->buildFileStart(fileinfo.absoluteDir());
 }
 
-void lexerinit(AbstractTokenBuilder* b,Reporter* r,QString input)
+void lexerinit(AbstractTokenBuilder* b,Reporter* r,const QString& input)
 {
 	tokenizer=b;
 	reporter=r;

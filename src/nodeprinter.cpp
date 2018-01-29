@@ -210,7 +210,7 @@ void NodePrinter::printChildren(const Node& n)
 	}
 }
 
-void NodePrinter::printArguments(QString name,bool a)
+void NodePrinter::printArguments(const QString &name, bool a)
 {
 	result << "(";
 	if(a) {

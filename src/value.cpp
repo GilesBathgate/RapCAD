@@ -63,7 +63,7 @@ Variable::Storage_e Value::getStorage() const
 	return storageClass;
 }
 
-void Value::setName(QString n)
+void Value::setName(const QString& n)
 {
 	name = n;
 }

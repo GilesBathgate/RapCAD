@@ -28,7 +28,7 @@ class ImportModule : public Module
 public:
 	explicit ImportModule(Reporter&);
 	Node* evaluate(const Context&) const override;
-	void setImport(QString);
+	void setImport(const QString&);
 private:
 	QString import;
 };

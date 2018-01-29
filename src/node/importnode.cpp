@@ -18,7 +18,7 @@
 
 #include "importnode.h"
 
-ImportNode::ImportNode(QString imp) :
+ImportNode::ImportNode(const QString& imp) :
 	import(imp)
 {
 }

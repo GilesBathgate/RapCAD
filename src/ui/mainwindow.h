@@ -75,7 +75,7 @@ private slots:
 	void showBuiltins();
 	void showUserGuide();
 	void flushCaches();
-	void exportFile(QString);
+	void exportFile(const QString&);
 	void preferencesUpdated();
 private:
 	void compileOrGenerate(bool generate);

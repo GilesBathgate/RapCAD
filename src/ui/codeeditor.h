@@ -43,7 +43,7 @@ public:
 	void preferencesUpdated();
 	void setModuleNames(const QHash<QString,Module*>&);
 signals:
-	void fileNameChanged(QString);
+	void fileNameChanged(const QString&);
 protected:
 	void resizeEvent(QResizeEvent*) override;
 	bool event(QEvent*) override;

@@ -188,7 +188,7 @@ SimpleTextBuilder::SimpleTextBuilder() : location(0,0,0)
 	}
 }
 
-void SimpleTextBuilder::setText(QString t)
+void SimpleTextBuilder::setText(const QString& t)
 {
 	text=t;
 }

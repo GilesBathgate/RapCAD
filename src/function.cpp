@@ -25,7 +25,7 @@ Function::Function() :
 {
 }
 
-Function::Function(QString n) :
+Function::Function(const QString& n) :
 	scope(nullptr),
 	name(n)
 {
@@ -44,7 +44,7 @@ QString Function::getName() const
 	return name;
 }
 
-void Function::setName(QString n)
+void Function::setName(const QString& n)
 {
 	name = n;
 }
@@ -80,14 +80,14 @@ Value* Function::evaluate(const Context&) const
 	return nullptr;
 }
 
-void Function::addParameter(QString name)
+void Function::addParameter(const QString& name)
 {
 	auto* p = new Parameter();
 	p->setName(name);
 	parameters.append(p);
 }
 
-void Function::addParameter(QString name, QString desc)
+void Function::addParameter(const QString& name, const QString& desc)
 {
 	auto* p=new Parameter();
 	p->setName(name);

@@ -61,7 +61,7 @@ PrintConsole::PrintConsole(QWidget* parent) :
 	ui->zMinus10->setStyleSheet(getStyleString(start,finish));
 }
 
-QString PrintConsole::getStyleString(QString start, QString finish)
+QString PrintConsole::getStyleString(const QString &start, const QString &finish)
 {
 	QString style(
 	"border: 1px solid #888;"

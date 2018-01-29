@@ -50,7 +50,7 @@ private slots:
 	void originChanged();
 	void appearanceChanged(int);
 	void fontChanged(QFont);
-	void fontSizeChanged(QString);
+	void fontSizeChanged(const QString&);
 private:
 	Ui::Preferences* ui;
 	void setupWidgets();

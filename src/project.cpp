@@ -23,7 +23,7 @@ Project::Project()
 {
 }
 
-void Project::parseProject(QString filename)
+void Project::parseProject(const QString& filename)
 {
 	auto* file=new QFile(filename);
 	if(!file->open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -71,7 +71,7 @@ void Project::parseSource(QXmlStreamReader& xml)
 	}
 }
 
-void Project::writeProject(QString filename)
+void Project::writeProject(const QString& filename)
 {
 	auto* file=new QFile(filename);
 	if(!file->open(QIODevice::WriteOnly)) {

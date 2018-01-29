@@ -32,7 +32,7 @@ public:
 	explicit PrintConsole(QWidget* parent = 0);
 	~PrintConsole();
 private:
-	QString getStyleString(QString,QString);
+	QString getStyleString(const QString&,const QString&);
 	Ui::PrintConsole* ui;
 };
 

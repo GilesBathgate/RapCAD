@@ -36,9 +36,9 @@ class Worker : public Strategy
 public:
 	explicit Worker(Reporter&);
 	~Worker() override;
-	void setup(QString,QString,bool,bool);
+	void setup(const QString&,const QString&,bool,bool);
 	int evaluate() override;
-	void exportResult(QString);
+	void exportResult(const QString&);
 	bool resultAvailable();
 	void resultAccepted();
 	Renderer* getRenderer();
@@ -46,7 +46,7 @@ protected:
 	void internal();
 	virtual void update() {}
 	virtual void finish() {}
-	Instance* addProductInstance(QString, Script&);
+	Instance* addProductInstance(const QString&, Script&);
 
 	QFileInfo inputFile;
 	QString outputFile;
@@ -57,7 +57,7 @@ private:
 	void primary();
 	void generation();
 	decimal getBoundsHeight() const;
-	void resultFailed(QString);
+	void resultFailed(const QString&);
 	void updatePrimitive(Primitive*);
 
 	Primitive* primitive;

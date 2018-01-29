@@ -30,7 +30,7 @@ class QPathTextBuilder : public TextBuilder
 public:
 	explicit QPathTextBuilder(Reporter&);
 	~QPathTextBuilder() override;
-	void setText(QString) override;
+	void setText(const QString&) override;
 	void setFamily(const QString& value);
 	void setSize(int value);
 	decimal getHeight() override;

@@ -29,7 +29,7 @@ Strategy::~Strategy()
 {
 }
 
-Callback* Strategy::addCallback(QString name,Script& s,QList<Argument*> args)
+Callback* Strategy::addCallback(const QString &name, Script& s, QList<Argument*> args)
 {
 	auto* c=new Callback();
 	auto* l=new Invocation();

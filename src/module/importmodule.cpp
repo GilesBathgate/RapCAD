@@ -36,7 +36,7 @@ Node* ImportModule::evaluate(const Context& ctx) const
 	return new ImportNode(import);
 }
 
-void ImportModule::setImport(QString imp)
+void ImportModule::setImport(const QString& imp)
 {
 	import = imp;
 }

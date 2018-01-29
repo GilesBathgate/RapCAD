@@ -325,7 +325,7 @@ void PreferencesDialog::fontChanged(QFont f)
 	emit preferencesUpdated();
 }
 
-void PreferencesDialog::fontSizeChanged(QString s)
+void PreferencesDialog::fontSizeChanged(const QString &s)
 {
 	Preferences* p = Preferences::getInstance();
 	QFont f=ui->fontComboBox->currentFont();
