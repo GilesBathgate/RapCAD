@@ -80,7 +80,7 @@ private:
 	unsigned int buildCrossProduct() override;
 	unsigned int buildNamespace() override;
 	unsigned int buildAppend() override;
-	unsigned int buildOperator(unsigned int);
+	unsigned int buildOperator(unsigned int) override;
 	unsigned int buildLegalChar(unsigned int) override;
 	unsigned int buildIllegalChar(const QString& s) override;
 	unsigned int buildNumber(const QString&) override;
