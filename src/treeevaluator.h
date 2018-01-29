@@ -91,7 +91,6 @@ public:
 private:
 	void startContext(Scope*);
 	void finishContext();
-	Node* createUnion(QList<Node*>);
 	void descend(Scope*);
 	void startLayout(Scope*);
 	void finishLayout();
