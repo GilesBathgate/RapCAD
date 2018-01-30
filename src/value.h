@@ -83,11 +83,11 @@ public:
 
 protected:
 	Value();
-	bool isComparison(Expression::Operator_e);
+	static bool isComparison(Expression::Operator_e);
 	template <class T>
-	T basicOperation(T,Expression::Operator_e,T);
+	static T basicOperation(T,Expression::Operator_e,T);
 	template <class T>
-	T basicOperation(T,Expression::Operator_e);
+	static T basicOperation(T,Expression::Operator_e);
 
 	virtual Value* operation(Expression::Operator_e);
 	virtual Value* operation(Value&,Expression::Operator_e);
@@ -96,14 +96,17 @@ private:
 	static QList<Value*> values;
 	Variable::Storage_e storageClass;
 	QString name;
-	bool modulus(bool,bool);
-	decimal modulus(decimal,decimal);
-	bool exponent(bool,bool);
-	decimal exponent(decimal,decimal);
-	bool logic(bool);
-	bool logic(decimal);
-	bool length(bool);
-	decimal length(decimal);
+
+	static bool modulus(bool,bool);
+	static decimal modulus(const decimal&,const decimal&);
+	static bool multiply(bool,bool);
+	static decimal multiply(const decimal&,const decimal&);
+	static bool exponent(bool,bool);
+	static decimal exponent(const decimal&,const decimal&);
+	static bool logic(bool);
+	static bool logic(const decimal&);
+	static bool length(bool);
+	static decimal length(const decimal&);
 };
 
 template <class T>
@@ -113,7 +116,7 @@ T Value::basicOperation(T left, Expression::Operator_e e, T right)
 		case Expression::Exponent:
 			return exponent(left,right);
 		case Expression::Multiply:
-			return left*right;
+			return multiply(left,right);
 		case Expression::Divide:
 			return left/right;
 		case Expression::Modulus:

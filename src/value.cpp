@@ -257,9 +257,19 @@ bool Value::modulus(bool, bool)
 	return false;
 }
 
-decimal Value::modulus(decimal left, decimal right)
+decimal Value::modulus(const decimal& left, const decimal& right)
 {
 	return r_mod(left,right);
+}
+
+bool Value::multiply(bool left, bool right)
+{
+	return left&&right;
+}
+
+decimal Value::multiply(const decimal& left, const decimal& right)
+{
+	return left*right;
 }
 
 bool Value::exponent(bool left, bool right)
@@ -267,7 +277,7 @@ bool Value::exponent(bool left, bool right)
 	return left^right;
 }
 
-decimal Value::exponent(decimal left, decimal right)
+decimal Value::exponent(const decimal& left, const decimal& right)
 {
 	return r_pow(left,right);
 }
@@ -277,7 +287,7 @@ bool Value::logic(bool a)
 	return a;
 }
 
-bool Value::logic(decimal a)
+bool Value::logic(const decimal& a)
 {
 	return to_boolean(a);
 }
@@ -287,7 +297,7 @@ bool Value::length(bool left)
 	return left;
 }
 
-decimal Value::length(decimal left)
+decimal Value::length(const decimal& left)
 {
 	return r_abs(left);
 }
