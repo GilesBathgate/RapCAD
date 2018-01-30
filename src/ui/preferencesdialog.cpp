@@ -48,6 +48,8 @@ void PreferencesDialog::setupWidgets()
 			c->setCurrentIndex(c->count()-1);
 	}
 	ui->tooltipsCheckBox->setChecked(p->getShowTooltips());
+	ui->highlightLineCheckbox->setChecked(p->getHighlightLine());
+
 	setColor(ui->markedVertexColorFrame,p->getMarkedVertexColor());
 	setColor(ui->vertexColorFrame,p->getVertexColor());
 	setColor(ui->markedEdgeColorFrame,p->getMarkedEdgeColor());
@@ -154,6 +156,7 @@ void PreferencesDialog::setupButtons()
 	connect(ui->appearanceComboBox,SIGNAL(currentIndexChanged(int)),this,SLOT(appearanceChanged(int)));
 
 	connect(ui->tooltipsCheckBox,SIGNAL(stateChanged(int)),this,SLOT(showTooltipsChanged(int)));
+	connect(ui->highlightLineCheckbox,SIGNAL(stateChanged(int)),this,SLOT(highlightLineChanged(int)));
 }
 
 void PreferencesDialog::updatePrecision()
@@ -208,6 +211,13 @@ void PreferencesDialog::showTooltipsChanged(int s)
 {
 	Preferences* p = Preferences::getInstance();
 	p->setShowTooltips(s == Qt::Checked);
+	emit preferencesUpdated();
+}
+
+void PreferencesDialog::highlightLineChanged(int s)
+{
+	Preferences* p = Preferences::getInstance();
+	p->setHighlightLine(s == Qt::Checked);
 	emit preferencesUpdated();
 }
 

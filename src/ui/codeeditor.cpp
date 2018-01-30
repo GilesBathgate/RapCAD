@@ -27,7 +27,8 @@
 
 CodeEditor::CodeEditor(QWidget* parent) :
 	QPlainTextEdit(parent),
-	showTooltips(true)
+	showTooltips(true),
+	highlightLine(false)
 {
 	preferencesUpdated();
 	highlighter = new SyntaxHighlighter(document());
@@ -35,6 +36,7 @@ CodeEditor::CodeEditor(QWidget* parent) :
 
 	connect(this,&CodeEditor::blockCountChanged,this,&CodeEditor::updateLineNumberAreaWidth);
 	connect(this,&CodeEditor::updateRequest,this,&CodeEditor::updateLineNumberArea);
+	connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
 
 	updateLineNumberAreaWidth(0);
 }
@@ -56,6 +58,20 @@ int CodeEditor::lineNumberAreaWidth()
 	int space = 3 + fontMetrics().width(QLatin1Char('9')) * digits;
 
 	return space;
+}
+
+void CodeEditor::highlightCurrentLine()
+{
+	QList<QTextEdit::ExtraSelection> extraSelections;
+	if (highlightLine&&!isReadOnly()) {
+		QTextEdit::ExtraSelection selection;
+		selection.format.setBackground(QColor(240,240,240));
+		selection.format.setProperty(QTextFormat::FullWidthSelection, true);
+		selection.cursor = textCursor();
+		selection.cursor.clearSelection();
+		extraSelections.append(selection);
+	}
+	setExtraSelections(extraSelections);
 }
 
 void CodeEditor::stopHighlighting()
@@ -134,6 +150,8 @@ void CodeEditor::preferencesUpdated()
 	font.setFixedPitch(true);
 	setFont(font);
 	showTooltips = p->getShowTooltips();
+	highlightLine = p->getHighlightLine();
+	highlightCurrentLine();
 }
 
 void CodeEditor::setModuleNames(const QHash<QString,Module*> &names)
@@ -142,7 +160,7 @@ void CodeEditor::setModuleNames(const QHash<QString,Module*> &names)
 	highlighter->setModuleNames(names);
 }
 
-void CodeEditor::updateLineNumberAreaWidth(int /* newBlockCount */)
+void CodeEditor::updateLineNumberAreaWidth(int)
 {
 	setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
 }
@@ -201,10 +219,11 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent* event)
 	int top = (int) blockBoundingGeometry(block).translated(contentOffset()).top();
 	int bottom = top + (int) blockBoundingRect(block).height();
 
+	bool readOnly=isReadOnly();
 	while(block.isValid() && top <= event->rect().bottom()) {
 		if(block.isVisible() && bottom >= event->rect().top()) {
 			QString number = QString::number(blockNumber + 1);
-			if(blockNumber==currentBlock)
+			if(!readOnly&&blockNumber==currentBlock)
 				painter.setPen(Qt::black);
 			else
 				painter.setPen(Qt::darkGray);

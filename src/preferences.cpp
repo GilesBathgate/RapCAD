@@ -38,6 +38,16 @@ void Preferences::updatePrecision()
 #endif
 }
 
+bool Preferences::getHighlightLine() const
+{
+	return settings->value("HighlightLine",false).toBool();
+}
+
+void Preferences::setHighlightLine(bool value)
+{
+	settings->setValue("HighlightLine",value);
+}
+
 bool Preferences::getShowTooltips() const
 {
 	return settings->value("ShowTooltips",true).toBool();

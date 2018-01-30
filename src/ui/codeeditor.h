@@ -50,13 +50,14 @@ protected:
 private slots:
 	void updateLineNumberAreaWidth(int);
 	void updateLineNumberArea(const QRect&, int);
-
+	void highlightCurrentLine();
 private:
 	SyntaxHighlighter* highlighter;
 	QWidget* lineNumberArea;
 	QString fileName;
 	QHash<QString,Module*> moduleNames;
 	bool showTooltips;
+	bool highlightLine;
 };
 
 #endif // CODEEDITOR_H

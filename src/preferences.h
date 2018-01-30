@@ -142,12 +142,16 @@ public:
 	bool getShowTooltips() const;
 	void setShowTooltips(bool);
 
+	bool getHighlightLine() const;
+	void setHighlightLine(bool value);
+
 private:
 	Preferences();
+	void updatePrecision();
+
 	static Preferences* instance;
 	QSettings* settings;
 	int precision;
-	void updatePrecision();
 };
 
 #endif // PREFERENCES_H

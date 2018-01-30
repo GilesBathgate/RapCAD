@@ -80,6 +80,13 @@
           </spacer>
          </item>
          <item>
+          <widget class="QCheckBox" name="highlightLineCheckbox">
+           <property name="text">
+            <string>Highlight current line</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QCheckBox" name="tooltipsCheckBox">
            <property name="text">
             <string>Show tooltips for built in modules</string>
