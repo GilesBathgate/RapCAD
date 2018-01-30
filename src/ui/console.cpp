@@ -111,15 +111,17 @@ void Console::handleReturn()
 
 void Console::handleHistory(int pos)
 {
-	if(pos<0||pos>=commands.count())
-		return;
+	int c=commands.count();
+	if(pos<0||pos>c) return;
 
 	QTextCursor cursor=textCursor();
 	cursor.select(QTextCursor::LineUnderCursor);
 	cursor.removeSelectedText();
 	displayPrompt();
-	insertPlainText(commands.at(pos));
 	historyPos=pos;
+	if(pos==c) return;
+
+	insertPlainText(commands.at(pos));
 }
 
 QString Console::getCommand() const
