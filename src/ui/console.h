@@ -35,10 +35,13 @@ private:
 	bool inPromptBlock();
 	bool handleBackspace();
 	void handleReturn();
+	void handleHistory(int);
 	QString getCommand() const;
+	QList<QString> commands;
 	QString prompt;
 	int promptLength;
 	int promptBlock;
+	int historyPos;
 };
 
 #endif // CONSOLE_H

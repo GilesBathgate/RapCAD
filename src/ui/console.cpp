@@ -21,7 +21,8 @@
 Console::Console(QWidget* parent) :
 	QPlainTextEdit(parent),
 	promptLength(0),
-	promptBlock(0)
+	promptBlock(0),
+	historyPos(0)
 {
 	setUndoRedoEnabled(false);
 }
@@ -52,7 +53,10 @@ void Console::keyPressEvent(QKeyEvent* e)
 				return;
 			break;
 		case Qt::Key_Down:
+			handleHistory(historyPos+1);
+			return;
 		case Qt::Key_Up:
+			handleHistory(historyPos-1);
 			return;
 		case Qt::Key_Right:
 		case Qt::Key_Home:
@@ -95,10 +99,27 @@ void Console::setPrompt(const QString& p)
 void Console::handleReturn()
 {
 	QString command=getCommand();
+	if(!command.trimmed().isEmpty()) {
+		commands.append(command);
+		historyPos=commands.count();
+	}
 	moveCursor(QTextCursor::End,QTextCursor::MoveAnchor);
 	insertPlainText("\n");
 	emit execCommand(command);
 	displayPrompt();
+}
+
+void Console::handleHistory(int pos)
+{
+	if(pos<0||pos>=commands.count())
+		return;
+
+	QTextCursor cursor=textCursor();
+	cursor.select(QTextCursor::LineUnderCursor);
+	cursor.removeSelectedText();
+	displayPrompt();
+	insertPlainText(commands.at(pos));
+	historyPos=pos;
 }
 
 QString Console::getCommand() const
