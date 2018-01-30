@@ -1,0 +1,3 @@
+function test() {
+return ang(x=180)==<0,1,0,0>;
+}
