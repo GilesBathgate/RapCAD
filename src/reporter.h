@@ -31,8 +31,8 @@ public:
 	explicit Reporter(QTextStream& s);
 	void startTiming();
 	void reportTiming(const QString&);
-	void reportSyntaxError(AbstractTokenBuilder&,const QString&);
-	void reportLexicalError(AbstractTokenBuilder&,const QString&);
+	void reportSyntaxError(const AbstractTokenBuilder&, const QString&);
+	void reportLexicalError(const AbstractTokenBuilder&,const QString&);
 	void reportFileMissingError(const QString&);
 	void reportWarning(const QString&);
 	void reportMessage(const QString&);

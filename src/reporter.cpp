@@ -46,7 +46,7 @@ void Reporter::reportTiming(const QString& what)
 	delete timer; //Need to delete timer.
 }
 
-void Reporter::reportSyntaxError(AbstractTokenBuilder& t,const QString& msg)
+void Reporter::reportSyntaxError(const AbstractTokenBuilder& t,const QString& msg)
 {
 	QString text=t.getToken();
 	int pos=t.getPosition()+kludge;
@@ -54,7 +54,7 @@ void Reporter::reportSyntaxError(AbstractTokenBuilder& t,const QString& msg)
 	output << tr("Line %1: %2 at character %3: '%4'").arg(line).arg(msg).arg(pos).arg(text) << endl;
 }
 
-void Reporter::reportLexicalError(AbstractTokenBuilder& t,const QString& text)
+void Reporter::reportLexicalError(const AbstractTokenBuilder& t,const QString& text)
 {
 	int pos=t.getPosition()+kludge;
 	int line=t.getLineNumber();
