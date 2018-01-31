@@ -226,6 +226,7 @@ CGAL::NefPolyhedron3* CGALPrimitive::createPolyline()
 		QVector<CGAL::Point3> pl=pg->getPoints().toVector();
 		CGAL::NefPolyhedron3* np=createPolyline(pl);
 		*result=result->join(*np);
+		delete np;
 	}
 
 	return result;
@@ -264,16 +265,16 @@ CGAL::NefPolyhedron3* CGALPrimitive::createPoints()
 	delete np2;
 
 	for(CGAL::Point3 p: points) {
-		auto* np=new CGAL::NefPolyhedron3(sp);
+		CGAL::NefPolyhedron3 np(sp);
 		CGAL::AffTransformation3 t(
 			1, 0, 0, p.x(),
 			0, 1, 0, p.y(),
 			0, 0, 1, p.z(), 1);
-		np->transform(t);
+		np.transform(t);
 		if(!result)
-			result=np;
+			result=new CGAL::NefPolyhedron3(np);
 		else
-			*result=result->join(*np);
+			*result=result->join(np);
 	}
 	return result;
 #else

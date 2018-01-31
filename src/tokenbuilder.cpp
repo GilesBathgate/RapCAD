@@ -42,7 +42,7 @@ QString TokenBuilder::getToken() const
 	return token;
 }
 
-TokenBuilder::TokenBuilder(const QString& s)
+TokenBuilder::TokenBuilder(const QString& s) : TokenBuilder()
 {
 	lexerinit(this,nullptr,s);
 }
