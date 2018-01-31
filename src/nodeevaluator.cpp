@@ -58,7 +58,7 @@ void NodeEvaluator::visit(const PrimitiveNode& n)
 {
 	Primitive* cp=n.getPrimitive();
 	cp=cache->fetch(cp);
-	evaluate(n,Union,cp);
+	if(!evaluate(n,Union,cp)) return;
 }
 
 void NodeEvaluator::visit(const TriangulateNode& n)
@@ -87,32 +87,32 @@ void NodeEvaluator::visit(const DiscreteNode& n)
 
 void NodeEvaluator::visit(const UnionNode& op)
 {
-	evaluate(op,Union);
+	if(!evaluate(op,Union)) return;
 }
 
 void NodeEvaluator::visit(const GroupNode& op)
 {
-	evaluate(op,Group);
+	if(!evaluate(op,Group)) return;
 }
 
 void NodeEvaluator::visit(const DifferenceNode& op)
 {
-	evaluate(op,Difference);
+	if(!evaluate(op,Difference)) return;
 }
 
 void NodeEvaluator::visit(const IntersectionNode& op)
 {
-	evaluate(op,Intersection);
+	if(!evaluate(op,Intersection)) return;
 }
 
 void NodeEvaluator::visit(const SymmetricDifferenceNode& op)
 {
-	evaluate(op,SymmetricDifference);
+	if(!evaluate(op,SymmetricDifference)) return;
 }
 
 void NodeEvaluator::visit(const MinkowskiNode& op)
 {
-	evaluate(op,Minkowski);
+	if(!evaluate(op,Minkowski)) return;
 }
 
 void NodeEvaluator::visit(const GlideNode& op)
@@ -631,7 +631,7 @@ void NodeEvaluator::visit(const SimplifyNode& n)
 void NodeEvaluator::visit(const ChildrenNode& n)
 {
 	if(n.getIndexes().count()<=0) {
-		evaluate(n,Union);
+		if(!evaluate(n,Union)) return;
 	} else {
 		QList<Node*> allChildren=n.getChildren();
 		QList<Node*> children;
@@ -639,7 +639,7 @@ void NodeEvaluator::visit(const ChildrenNode& n)
 			if(i>=0&&i<allChildren.count())
 				children.append(allChildren.at(i));
 		}
-		evaluate(children,Union,nullptr);
+		if(!evaluate(children,Union,nullptr)) return;
 	}
 }
 
