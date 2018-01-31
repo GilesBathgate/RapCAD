@@ -23,9 +23,9 @@
 
 class SignFunction : public Function
 {
+	Q_DECLARE_TR_FUNCTIONS(SignFunction)
 public:
 	SignFunction();
-	decimal sign(decimal);
 	Value* evaluate(const Context&) const override;
 };
 

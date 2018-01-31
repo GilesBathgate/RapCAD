@@ -18,33 +18,46 @@
 #ifdef USE_CGAL
 #include "cgalpolygon.h"
 #include "cgalprimitive.h"
+#include <CGAL/normal_vector_newell_3.h>
 
-CGALPolygon::CGALPolygon(CGALPrimitive* p) :
+CGALPolygon::CGALPolygon(const CGALPrimitive& p) :
 	Polygon(p),
+	projection(nullptr),
 	hole(false)
 {
+}
+
+CGALPolygon::~CGALPolygon()
+{
+	delete projection;
 }
 
 QList<CGAL::Point3> CGALPolygon::getPoints() const
 {
 	QList<CGAL::Point3> points;
-	auto* pr=static_cast<CGALPrimitive*>(parent);
-	QList<CGAL::Point3> parentPoints=pr->getPoints();
+	auto& pr=static_cast<const CGALPrimitive&>(parent);
+	QList<CGAL::Point3> parentPoints=pr.getPoints();
 	for(auto i: indexes)
 		points.append(parentPoints.at(i));
 	return points;
 }
 
-QList<CGAL::Point2> CGALPolygon::getXYPoints() const
+QList<CGAL::Point2> CGALPolygon::getProjectedPoints()
 {
+	CGALProjection* pro=getProjection();
 	QList<CGAL::Point2> points;
-	auto* pr=static_cast<CGALPrimitive*>(parent);
-	QList<CGAL::Point3> parentPoints=pr->getPoints();
+	auto& pr=static_cast<const CGALPrimitive&>(parent);
+	QList<CGAL::Point3> parentPoints=pr.getPoints();
 	for(auto i: indexes) {
 		CGAL::Point3 p3=parentPoints.at(i);
-		points.append(CGAL::Point2(p3.x(),p3.y()));
+		points.append(pro->project(p3));
 	}
 	return points;
+}
+
+CGAL::Direction3 CGALPolygon::getDirection() const
+{
+	return direction;
 }
 
 CGAL::Vector3 CGALPolygon::getNormal() const
@@ -52,9 +65,24 @@ CGAL::Vector3 CGALPolygon::getNormal() const
 	return plane.orthogonal_vector();
 }
 
-void CGALPolygon::setNormal(const CGAL::Vector3& v)
+void CGALPolygon::calculateProjection()
 {
-	plane=CGAL::Plane3(CGAL::ORIGIN,v);
+	CGAL::Vector3 v=plane.orthogonal_vector();
+	projection=new CGALProjection(v);
+	direction=projection->getDirection(v);
+}
+
+void CGALPolygon::calculatePlane()
+{
+	QList<CGAL::Point3> points=getPoints();
+	if(points.size()==3) {
+		plane=CGAL::Plane3(points.at(0),points.at(1),points.at(2));
+	} else {
+		CGAL::Vector3 v;
+		CGAL::normal_vector_newell_3(points.begin(),points.end(),v);
+		plane=CGAL::Plane3(points.first(), v);
+	}
+	calculateProjection();
 }
 
 CGAL::Plane3 CGALPolygon::getPlane() const
@@ -65,6 +93,7 @@ CGAL::Plane3 CGALPolygon::getPlane() const
 void CGALPolygon::setPlane(const CGAL::Plane3& p)
 {
 	plane=p;
+	calculateProjection();
 }
 
 bool CGALPolygon::getHole() const
@@ -75,6 +104,18 @@ bool CGALPolygon::getHole() const
 void CGALPolygon::setHole(bool value)
 {
 	hole = value;
+}
+
+CGALProjection* CGALPolygon::getProjection()
+{
+	if(!projection)
+		calculatePlane();
+	return projection;
+}
+
+bool CGALPolygon::sameProjection(CGALPolygon* other)
+{
+	return (*getProjection())==(*other->getProjection());
 }
 
 #endif

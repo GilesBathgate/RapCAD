@@ -75,7 +75,7 @@ private slots:
 	void showBuiltins();
 	void showUserGuide();
 	void flushCaches();
-	void exportFile(QString);
+	void exportFile(const QString&);
 	void preferencesUpdated();
 private:
 	void compileOrGenerate(bool generate);
@@ -92,7 +92,7 @@ private:
 	CodeEditor* currentEditor();
 	CodeEditor* getEditor(int i);
 	void disableActions(CodeEditor*);
-	bool saveSelectedFiles(QList<QString>);
+	bool saveSelectedFiles(const QList<QString>&);
 
 	Ui::MainWindow* ui;
 	QStandardItemModel* myModel;

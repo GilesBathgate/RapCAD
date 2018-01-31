@@ -22,6 +22,7 @@
 
 TriangulateModule::TriangulateModule(Reporter& r) : Module(r,"triangulate")
 {
+	addDescription(tr("Triangulates its children."));
 }
 
 Node* TriangulateModule::evaluate(const Context& ctx) const

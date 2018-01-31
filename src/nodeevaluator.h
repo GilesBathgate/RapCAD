@@ -24,7 +24,6 @@
 #include "nodevisitor.h"
 #include "reporter.h"
 #include "node/primitivenode.h"
-#include "node/polylinenode.h"
 #include "node/unionnode.h"
 #include "node/groupnode.h"
 #include "node/differencenode.h"
@@ -73,10 +72,9 @@ public:
 		Minkowski
 	};
 
-	NodeEvaluator(Reporter&);
+	explicit NodeEvaluator(Reporter&);
 
 	void visit(const PrimitiveNode&) override;
-	void visit(const PolylineNode&) override;
 	void visit(const UnionNode&) override;
 	void visit(const GroupNode&) override;
 	void visit(const DifferenceNode&) override;
@@ -113,9 +111,9 @@ public:
 	Primitive* getResult() const;
 private:
 	Primitive* createPrimitive();
-	void evaluate(const Node&,Operation_e);
-	void evaluate(const Node&,Operation_e,Primitive*);
-	void evaluate(QList<Node*>,Operation_e,Primitive*);
+	bool evaluate(const Node&,Operation_e);
+	bool evaluate(const Node&,Operation_e,Primitive*);
+	bool evaluate(const QList<Node*>&,Operation_e,Primitive*);
 
 	Reporter& reporter;
 	Primitive* result;

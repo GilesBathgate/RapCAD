@@ -25,7 +25,7 @@ class ShearModule : public Module
 {
 	Q_DECLARE_TR_FUNCTIONS(ShearModule)
 public:
-	ShearModule(Reporter&);
+	explicit ShearModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

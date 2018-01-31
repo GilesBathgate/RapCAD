@@ -23,6 +23,7 @@
 
 SinFunction::SinFunction() : Function("sin")
 {
+	addDescription(tr("Returns the sine of the number value."));
 	addParameter("value");
 }
 

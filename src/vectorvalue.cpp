@@ -28,7 +28,7 @@ VectorValue::VectorValue()
 {
 }
 
-VectorValue::VectorValue(QList<Value*> values) : children(values)
+VectorValue::VectorValue(const QList<Value*>& values) : children(values)
 {
 }
 
@@ -186,7 +186,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 					Value* eqVec=Value::operation(a.at(i),e,b.at(i));
 					if(e==Expression::NotEqual && eqVec->isTrue())
 						return new BooleanValue(true);
-					if(!eqVec->isTrue())
+					if(eqVec->isFalse())
 						eq=false;
 				}
 			return new BooleanValue(eq);
@@ -241,11 +241,11 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 Expression::Operator_e VectorValue::convertOperation(Expression::Operator_e e)
 {
 	switch(e) {
-	case Expression::ComponentwiseMultiply:
-		return Expression::Multiply;
-	case Expression::ComponentwiseDivide:
-		return Expression::Divide;
-	default:
-		return e;
+		case Expression::ComponentwiseMultiply:
+			return Expression::Multiply;
+		case Expression::ComponentwiseDivide:
+			return Expression::Divide;
+		default:
+			return e;
 	}
 }

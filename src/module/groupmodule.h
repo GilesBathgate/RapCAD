@@ -23,8 +23,9 @@
 
 class GroupModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(GroupModule)
 public:
-	GroupModule(Reporter&);
+	explicit GroupModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

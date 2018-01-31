@@ -29,10 +29,9 @@ SyntaxTreeBuilder::~SyntaxTreeBuilder()
 {
 }
 
-void SyntaxTreeBuilder::buildFileLocation(QString f)
+void SyntaxTreeBuilder::buildFileLocation(QDir fileinfo)
 {
-	auto* info=new QFileInfo(f);
-	script.setFileLocation(info);
+	script.setFileLocation(fileinfo);
 }
 
 void SyntaxTreeBuilder::buildScript(Declaration* dec)
@@ -464,6 +463,16 @@ Expression* SyntaxTreeBuilder::buildLiteral(decimal* value)
 	return result;
 }
 
+Expression* SyntaxTreeBuilder::buildLiteral(decimal* value,QString* unit)
+{
+	auto* result = new Literal();
+	result->setValue(*value);
+	delete value;
+	result->setUnit(*unit);
+	delete unit;
+	return result;
+}
+
 Expression* SyntaxTreeBuilder::buildLiteral(QString* value)
 {
 	auto* result = new Literal();
@@ -618,9 +627,9 @@ Invocation* SyntaxTreeBuilder::buildInvocation(QString* name,Invocation* inv)
 	return inv;
 }
 
-void SyntaxTreeBuilder::reportSyntaxError(const char* s, const char* lexertext)
+void SyntaxTreeBuilder::reportSyntaxError(QString s)
 {
-	reporter.reportSyntaxError(&tokenBuilder,s,lexertext);
+	reporter.reportSyntaxError(tokenBuilder,s);
 }
 
 int SyntaxTreeBuilder::getLineNumber() const

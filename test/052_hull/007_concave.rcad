@@ -1,0 +1,5 @@
+hull(concave=true){
+point([0,0,0]);
+point([0,0,10]);
+point([0,10,10]);
+}

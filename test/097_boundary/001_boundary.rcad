@@ -1,0 +1,4 @@
+difference(){
+  boundary()cube(10);
+  cube(5);
+}

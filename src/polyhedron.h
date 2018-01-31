@@ -29,6 +29,7 @@ public:
 	Polygon* createPolygon() override;
 	void createVertex(const Point&) override;
 	void setType(Primitive_t) override { }
+	Primitive_t getType() override { return Lines; }
 	void setSanitized(bool) override { }
 	bool getSanitized() override { return false; }
 	Primitive* buildPrimitive() { return this; }
@@ -48,7 +49,7 @@ public:
 	bool isFullyDimentional() override { return false; }
 	Primitive* copy() override;
 	Primitive* triangulate() override { return this; }
-	Primitive* simplify(decimal) override { return this; }
+	Primitive* simplify(const decimal&) override { return this; }
 	void transform(TransformMatrix*) override;
 	bool isEmpty() override;
 	QList<Polygon*> getPolygons() const override;

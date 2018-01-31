@@ -23,6 +23,7 @@
 
 RadialsModule::RadialsModule(Reporter& r) : Module(r,"radial")
 {
+	addDescription(tr("Shows the radius of its children."));
 	auxilary=true;
 }
 

@@ -18,19 +18,8 @@
 
 #include "glidenode.h"
 
-GlideNode::GlideNode() :
-	closed(false)
+GlideNode::GlideNode()
 {
-}
-
-void GlideNode::setClosed(bool c)
-{
-	closed=c;
-}
-
-bool GlideNode::getClosed() const
-{
-	return closed;
 }
 
 void GlideNode::accept(NodeVisitor& v)

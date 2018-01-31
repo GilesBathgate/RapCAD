@@ -23,10 +23,11 @@
 
 class UnionModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(UnionModule)
 public:
-	UnionModule(Reporter&);
+	explicit UnionModule(Reporter&);
 	Node* evaluate(const Context&) const override;
-	static Node* createUnion(QList<Node*> childnodes);
+	static Node* createUnion(const QList<Node*>&);
 };
 
 #endif // UNIONMODULE_H

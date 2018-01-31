@@ -18,7 +18,7 @@
 
 #include "vectoriterator.h"
 
-VectorIterator::VectorIterator(QList<Value*> list) :
+VectorIterator::VectorIterator(const QList<Value*>& list) :
 	ValueIterator(),
 	items(list),
 	index(0)

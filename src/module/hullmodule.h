@@ -23,8 +23,9 @@
 
 class HullModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(HullModule)
 public:
-	HullModule(Reporter&);
+	explicit HullModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

@@ -26,8 +26,8 @@ class PointsNode : public Node
 {
 public:
 	PointsNode();
-	void setPoints(QList<Point>);
-	QList<Point >getPoints() const;
+	void setPoints(const QList<Point>&);
+	QList<Point> getPoints() const;
 	void accept(NodeVisitor&) override;
 private:
 	QList<Point> points;

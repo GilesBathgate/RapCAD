@@ -23,6 +23,7 @@
 
 AcosFunction::AcosFunction() : Function("acos")
 {
+	addDescription(tr("Returns the arc cosine of the number value."));
 	addParameter("value");
 }
 

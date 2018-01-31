@@ -46,6 +46,11 @@ Node* ShearModule::evaluate(const Context& ctx) const
 	if(zVal)
 		sz=zVal->getPoint();
 
+	auto* n=new TransformationNode();
+	n->setChildren(ctx.getInputNodes());
+	if(!xVal&&!yVal&&!zVal)
+		return n;
+
 	decimal sxy=sx.y(),sxz=sx.z();
 	decimal syx=sy.x(),syz=sy.z();
 	decimal szx=sz.x(),szy=sz.y();
@@ -57,9 +62,6 @@ Node* ShearModule::evaluate(const Context& ctx) const
 		0,0,0,1
 	);
 
-	auto* n=new TransformationNode();
 	n->setMatrix(m);
-
-	n->setChildren(ctx.getInputNodes());
 	return n;
 }

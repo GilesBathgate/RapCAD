@@ -1,0 +1,49 @@
+.RapCAD functions
+[width="100%",frame="topbot",options="header"]
+|======================
+|Function |Description
+|abs(value) | Returns the absolute value of the number value.
+|acos(value) | Returns the arc cosine of the number value.
+|ang(angle,axis) | Returns a quaternion with the given angle and axis.
+|asin(value) | Returns the arc sine of the number value.
+|atan2(y,x) | Returns the arc tangent of the two number values.
+|atan(value) | Returns the arc tangent of the number value.
+|ceil(value) | Returns the number value rounded up to the nearest integer.
+|chr() | Returns a characters with the given unicode number values.
+|concat() | Returns a vector with the passed in vector appended.
+|cos(value) | Returns the cosine of the number value.
+|cosh(value) | Returns the hyperbolic cosine of the number value.
+|cross(v1,v2) | Returns the cross product of the two vectors.
+|deg(radians) | Returns the number of degrees for the given number of radians.
+|exp(value) | Returns the exponential of the number value.
+|floor(value) | Returns the number value rounded down to the nearest integer.
+|is_bool(value) | Returns true when the given value is a boolean.
+|is_int(value) | Returns true when the given value is an integer.
+|is_list(value) | Returns true when the given value is a list.
+|is_num(value) | Returns true when the given value is a number.
+|is_mat4x4(value) | Returns true when the given value is a 4x4 matrix.
+|is_range(value) | Returns true when the given value is a range.
+|is_str(value) | Returns true when the given value is text.
+|is_vec2(value) | Returns true when the given value is a 2 vector.
+|is_vec3(value) | Returns true when the given value is a 3 vector.
+|len(value) | Returns the length of a range, list or text value.
+|ln(value) | Returns the natural log of the number.
+|log(value,base) | Returns the logarithm of the number value to the given base.
+|max(values) | Returns the largest of the given values.
+|min(values) | Returns the smallest of the given values.
+|norm(value) | Returns the strictly positive length of a given number, vector or complex value.
+|num(value) | Converts the value to a number value.
+|pow(value,exponent) | Returns the value raised to the power of exponent.
+|rad(degrees) | Returns the number of radians for the given number of degrees.
+|rands(min,max,count,seed) | Returns a vector of numbers between the given min and max values.
+|round(value,places) | Returns the number value rounded up, or down, to the nearest integer.
+|sign(value) | Returns a number value of -1 or 1 depending on the sign of the given number value.
+|sin(value) | Returns the sine of the number value.
+|sinh(value) | Returns the hyperbolic sine of the number value.
+|sqrt(number) | Returns the square root of the number value.
+|str() | Converts the value to a text value.
+|sum(values) | Returns the sum of the given vector of values.
+|tan(value) | Returns the tangent of the number value.
+|tanh(value) | Returns the hyperbolic tangent of the number value.
+|version() | Returns the version of RapCAD.
+|======================

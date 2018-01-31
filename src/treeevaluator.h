@@ -55,7 +55,7 @@ class TreeEvaluator : public TreeVisitor
 {
 	Q_DECLARE_TR_FUNCTIONS(TreeEvaluator)
 public:
-	TreeEvaluator(Reporter&);
+	explicit TreeEvaluator(Reporter&);
 	~TreeEvaluator() override;
 	void visit(const Module&) override;
 	void visit(const ModuleScope&) override;
@@ -91,11 +91,10 @@ public:
 private:
 	void startContext(Scope*);
 	void finishContext();
-	Node* createUnion(QList<Node*>);
 	void descend(Scope*);
 	void startLayout(Scope*);
 	void finishLayout();
-	QFileInfo* getFullPath(QString);
+	QFileInfo getFullPath(const QString&);
 
 	Reporter& reporter;
 	Context* context;
@@ -106,7 +105,7 @@ private:
 	bool descendDone;
 	Node* rootNode;
 	QList<Script*> imports;
-	QStack<QFileInfo*> importLocations;
+	QStack<QDir> importLocations;
 };
 
 #endif // TREEEVALUATOR_H

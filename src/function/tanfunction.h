@@ -23,6 +23,7 @@
 
 class TanFunction : public Function
 {
+	Q_DECLARE_TR_FUNCTIONS(TanFunction)
 public:
 	TanFunction();
 	Value* evaluate(const Context&) const override;

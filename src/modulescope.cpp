@@ -28,7 +28,7 @@ ModuleScope::~ModuleScope()
 		delete d;
 }
 
-void ModuleScope::setDeclarations(QList<Declaration*> decls)
+void ModuleScope::setDeclarations(const QList<Declaration*>& decls)
 {
 	declarations = decls;
 }

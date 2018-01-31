@@ -188,7 +188,7 @@ SimpleTextBuilder::SimpleTextBuilder() : location(0,0,0)
 	}
 }
 
-void SimpleTextBuilder::setText(QString t)
+void SimpleTextBuilder::setText(const QString& t)
 {
 	text=t;
 }
@@ -198,7 +198,7 @@ decimal SimpleTextBuilder::getHeight()
 	return 1.6;
 }
 
-void SimpleTextBuilder::setLocation(Point p)
+void SimpleTextBuilder::setLocation(const Point& p)
 {
 	location=p;
 }
@@ -206,7 +206,7 @@ void SimpleTextBuilder::setLocation(Point p)
 Primitive* SimpleTextBuilder::buildPrimitive() const
 {
 	auto* ph=new Polyhedron();
-	ph->setType(Primitive::Skeleton);
+	ph->setType(Primitive::Lines);
 
 	int n=0;
 	decimal x=location.x(),y=location.y(),z=location.z();

@@ -19,7 +19,7 @@
 #include "point.h"
 
 #ifndef USE_CGAL
-bool Point::operator ==(const Point that) const
+bool Point::operator ==(const Point& that) const
 {
 	return _x==that._x&&_y==that._y&&_z==that._z;
 }
@@ -41,7 +41,7 @@ decimal Point::z() const
 
 Point Point::transform(TransformMatrix* matrix) const
 {
-	decimal* m=matrix->getValues();
+	const decimal* m=matrix->getValues();
 	decimal nx,ny,nz;
 	nx=(m[ 0]*_x+m[ 1]*_y+m[ 2]*_z+m[ 3]);
 	ny=(m[ 4]*_x+m[ 5]*_y+m[ 6]*_z+m[ 7]);

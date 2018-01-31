@@ -32,7 +32,7 @@ Instance::~Instance()
 		delete s;
 }
 
-void Instance::setName(QString n)
+void Instance::setName(const QString& n)
 {
 	name = n;
 }
@@ -42,7 +42,7 @@ QString Instance::getName() const
 	return name;
 }
 
-void Instance::setArguments(QList<Argument*> args)
+void Instance::setArguments(const QList<Argument*>& args)
 {
 	arguments = args;
 }
@@ -52,7 +52,7 @@ QList<Argument*> Instance::getArguments() const
 	return arguments;
 }
 
-void Instance::setChildren(QList <Statement*> childs)
+void Instance::setChildren(const QList <Statement*>& childs)
 {
 	children = childs;
 }
@@ -72,7 +72,7 @@ QList <Statement*> Instance::getChildren() const
 	return children;
 }
 
-void Instance::setNamespace(QString name)
+void Instance::setNamespace(const QString& name)
 {
 	name_space = name;
 }

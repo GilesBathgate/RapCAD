@@ -32,10 +32,44 @@ Preferences::Preferences() :
 
 void Preferences::updatePrecision()
 {
-	precision=floor(getPrecision()/LOG10_2);
+	precision=getSignificandBits();
 #ifdef USE_CGAL
 	CGAL::Gmpfr::set_default_precision(precision);
 #endif
+}
+
+bool Preferences::getHighlightLine() const
+{
+	return settings->value("HighlightLine",false).toBool();
+}
+
+void Preferences::setHighlightLine(bool value)
+{
+	settings->setValue("HighlightLine",value);
+}
+
+bool Preferences::getShowTooltips() const
+{
+	return settings->value("ShowTooltips",true).toBool();
+}
+
+void Preferences::setShowTooltips(bool value)
+{
+	settings->setValue("ShowTooltips",value);
+}
+
+QFont Preferences::getEditorFont() const
+{
+	QString family=settings->value("EditorFont.Family","Courier").toString();
+	int size=settings->value("EditorFont.Size",10).toInt();
+
+	return QFont(family,size);
+}
+
+void Preferences::setEditorFont(const QFont& value)
+{
+	settings->setValue("EditorFont.Family",value.family());
+	settings->setValue("EditorFont.Size",value.pointSize());
 }
 
 Preferences* Preferences::instance=nullptr;
@@ -50,23 +84,43 @@ Preferences* Preferences::getInstance()
 
 int Preferences::getPrecision() const
 {
-	return settings->value("Precision",16).toInt();
+	return settings->value("Precision",2).toInt();
 }
 
 void Preferences::setPrecision(int p)
 {
 	settings->setValue("Precision",p);
+}
+
+int Preferences::getDecimalPlaces() const
+{
+	return ceil(getSignificandBits()*LOG10_2);
+}
+
+void Preferences::setDecimalPlaces(int p)
+{
+	setSignificandBits(floor(p/LOG10_2));
+}
+
+int Preferences::getSignificandBits() const
+{
+	return settings->value("SignificandBits",53).toInt();
+}
+
+void Preferences::setSignificandBits(int b)
+{
+	settings->setValue("SignificandBits",b);
 	updatePrecision();
 }
 
-bool Preferences::getFunctionRounding() const
+int Preferences::getFunctionRounding() const
 {
-	return settings->value("FunctionRounding",true).toBool();
+	return settings->value("FunctionRounding",0).toInt();
 }
 
-void Preferences::setFunctionRounding(bool b)
+void Preferences::setFunctionRounding(int i)
 {
-	settings->setValue("FunctionRounding",b);
+	settings->setValue("FunctionRounding",i);
 }
 
 bool Preferences::getRationalFormat() const

@@ -23,6 +23,7 @@
 
 IsIntFunction::IsIntFunction() : Function("is_int")
 {
+	addDescription(tr("Returns true when the given value is an integer."));
 	addParameter("value");
 }
 

@@ -25,6 +25,7 @@
 
 LengthFunction::LengthFunction() : Function("len")
 {
+	addDescription(tr("Returns the length of a range, list or text value."));
 	addParameter("value");
 }
 

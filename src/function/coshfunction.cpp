@@ -23,6 +23,7 @@
 
 CoshFunction::CoshFunction() : Function("cosh")
 {
+	addDescription(tr("Returns the hyperbolic cosine of the number value."));
 	addParameter("value");
 }
 

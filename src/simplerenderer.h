@@ -25,7 +25,7 @@
 class SimpleRenderer : public Renderer
 {
 public:
-	SimpleRenderer(Primitive*);
+	explicit SimpleRenderer(Primitive*);
 	void paint(bool,bool) override;
 	void preferencesUpdated() override;
 	void setCompiling(bool) override;

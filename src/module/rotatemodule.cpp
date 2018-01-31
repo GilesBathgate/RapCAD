@@ -40,6 +40,7 @@ Node* RotateModule::evaluate(const Context& ctx) const
 	};
 
 	auto* n=new TransformationNode();
+	n->setChildren(ctx.getInputNodes());
 
 	rotationType rotation=axis;
 	decimal a=0.0,x=0.0,y=0.0,z=1.0;
@@ -104,6 +105,9 @@ Node* RotateModule::evaluate(const Context& ctx) const
 		decimal s=r_right_sin(a);
 
 		decimal mag = r_sqrt(x*x + y*y + z*z,false);
+		if(mag==0)
+			return n;
+
 		decimal u = x/mag;
 		decimal v = y/mag;
 		decimal w = z/mag;
@@ -145,6 +149,6 @@ Node* RotateModule::evaluate(const Context& ctx) const
 		n->setMatrix(mx);
 
 	}
-	n->setChildren(ctx.getInputNodes());
+
 	return n;
 }

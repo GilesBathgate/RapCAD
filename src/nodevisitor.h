@@ -24,7 +24,6 @@ class NodeVisitor
 public:
 	virtual ~NodeVisitor() {}
 	virtual void visit(const class PrimitiveNode&)=0;
-	virtual void visit(const class PolylineNode&)=0;
 	virtual void visit(const class UnionNode&)=0;
 	virtual void visit(const class GroupNode&)=0;
 	virtual void visit(const class DifferenceNode&)=0;

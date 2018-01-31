@@ -23,7 +23,8 @@
 
 HullModule::HullModule(Reporter& r) : Module(r,"hull")
 {
-	addParameter("concave","Determines whether the hull may be concave");
+	addDescription(tr("Creates a boundry shape from the points of its children."));
+	addParameter("concave",tr("Determines whether the hull may be concave"));
 }
 
 Node* HullModule::evaluate(const Context& ctx) const

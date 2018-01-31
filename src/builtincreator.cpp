@@ -28,7 +28,6 @@
 #include "module/circlemodule.h"
 #include "module/polyhedronmodule.h"
 #include "module/polygonmodule.h"
-#include "module/polylinemodule.h"
 #include "module/beziersurfacemodule.h"
 
 #include "module/differencemodule.h"
@@ -122,7 +121,7 @@
 
 #include "treeprinter.h"
 
-BuiltinCreator::BuiltinCreator(Reporter& r) : reporter(r)
+BuiltinCreator::BuiltinCreator(Reporter& r)
 {
 	builtins.append(new AlignModule(r));
 	builtins.append(new BezierSurfaceModule(r));
@@ -157,9 +156,9 @@ BuiltinCreator::BuiltinCreator(Reporter& r) : reporter(r)
 	builtins.append(new BoundaryModule(r,false));
 	builtins.append(new PointsModule(r,true));
 	builtins.append(new PointsModule(r,false));
-	builtins.append(new PolygonModule(r));
+	builtins.append(new PolygonModule(r,true));
+	builtins.append(new PolygonModule(r,false));
 	builtins.append(new PolyhedronModule(r));
-	builtins.append(new PolylineModule(r));
 	builtins.append(new PrismModule(r));
 	builtins.append(new ProjectionModule(r));
 	builtins.append(new RadialsModule(r));
@@ -263,9 +262,9 @@ void BuiltinCreator::saveBuiltins(Script& sc)
 		sc.removeDeclaration(d);
 }
 
-void BuiltinCreator::generateDocs()
+void BuiltinCreator::generateDocs(QTextStream& out)
 {
-	TreePrinter p(reporter.output);
+	TreePrinter p(out);
 	generateDocs(p);
 }
 
@@ -273,6 +272,16 @@ void BuiltinCreator::generateDocs(TreeVisitor& p)
 {
 	for(Declaration* d: builtins)
 		d->accept(p);
+}
+
+QHash<QString,Module*> BuiltinCreator::getModuleNames() const
+{
+	QHash<QString,Module*> names;
+	for(Declaration* d: builtins) {
+		Module* m=dynamic_cast<Module*>(d);
+		if(m) names.insert(m->getName(),m);
+	}
+	return names;
 }
 
 void BuiltinCreator::cleanUp()

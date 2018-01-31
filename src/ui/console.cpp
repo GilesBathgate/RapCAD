@@ -21,7 +21,8 @@
 Console::Console(QWidget* parent) :
 	QPlainTextEdit(parent),
 	promptLength(0),
-	promptBlock(0)
+	promptBlock(0),
+	historyPos(0)
 {
 	setUndoRedoEnabled(false);
 }
@@ -41,27 +42,30 @@ void Console::displayPrompt()
 void Console::keyPressEvent(QKeyEvent* e)
 {
 	switch(e->key()) {
-	case Qt::Key_Enter:
-	case Qt::Key_Return:
-		if(inPromptBlock())
-			handleReturn();
-		return;
-	case Qt::Key_Left:
-	case Qt::Key_Backspace:
-		if(handleBackspace()||!inPromptBlock())
+		case Qt::Key_Enter:
+		case Qt::Key_Return:
+			if(inPromptBlock())
+				handleReturn();
 			return;
-		break;
-	case Qt::Key_Down:
-	case Qt::Key_Up:
-		return;
-	case Qt::Key_Right:
-	case Qt::Key_Home:
-	case Qt::Key_End:
-		break;
-	default:
-		if(!inPromptBlock()) {
-			moveCursor(QTextCursor::End,QTextCursor::MoveAnchor);
-		}
+		case Qt::Key_Left:
+		case Qt::Key_Backspace:
+			if(handleBackspace()||!inPromptBlock())
+				return;
+			break;
+		case Qt::Key_Down:
+			handleHistory(historyPos+1);
+			return;
+		case Qt::Key_Up:
+			handleHistory(historyPos-1);
+			return;
+		case Qt::Key_Right:
+		case Qt::Key_Home:
+		case Qt::Key_End:
+			break;
+		default:
+			if(!inPromptBlock()) {
+				moveCursor(QTextCursor::End,QTextCursor::MoveAnchor);
+			}
 	}
 
 	QPlainTextEdit::keyPressEvent(e);
@@ -85,7 +89,7 @@ bool Console::handleBackspace()
 	return false;
 }
 
-void Console::setPrompt(QString p)
+void Console::setPrompt(const QString& p)
 {
 	prompt=p;
 	promptLength=prompt.length();
@@ -95,10 +99,29 @@ void Console::setPrompt(QString p)
 void Console::handleReturn()
 {
 	QString command=getCommand();
+	if(!command.trimmed().isEmpty()) {
+		commands.append(command);
+		historyPos=commands.count();
+	}
 	moveCursor(QTextCursor::End,QTextCursor::MoveAnchor);
 	insertPlainText("\n");
 	emit execCommand(command);
 	displayPrompt();
+}
+
+void Console::handleHistory(int pos)
+{
+	int c=commands.count();
+	if(pos<0||pos>c) return;
+
+	QTextCursor cursor=textCursor();
+	cursor.select(QTextCursor::LineUnderCursor);
+	cursor.removeSelectedText();
+	displayPrompt();
+	historyPos=pos;
+	if(pos==c) return;
+
+	insertPlainText(commands.at(pos));
 }
 
 QString Console::getCommand() const

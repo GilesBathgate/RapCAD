@@ -21,6 +21,7 @@
 #include "vectorvalue.h"
 #include "node/primitivenode.h"
 #include "rmath.h"
+#include "fragment.h"
 
 BezierSurfaceModule::BezierSurfaceModule(Reporter& r) : Module(r,"bezier_surface")
 {
@@ -28,27 +29,27 @@ BezierSurfaceModule::BezierSurfaceModule(Reporter& r) : Module(r,"bezier_surface
 	addParameter("mesh",tr("A 4 by 4 matrix of points."));
 }
 
-decimal BezierSurfaceModule::bez03(decimal u) const
+decimal BezierSurfaceModule::bez03(const decimal& u) const
 {
 	return r_pow((1-u), 3);
 }
 
-decimal BezierSurfaceModule::bez13(decimal u) const
+decimal BezierSurfaceModule::bez13(const decimal& u) const
 {
 	return 3*u*(r_pow((1-u),2));
 }
 
-decimal BezierSurfaceModule::bez23(decimal u) const
+decimal BezierSurfaceModule::bez23(const decimal& u) const
 {
 	return 3*(r_pow(u,2))*(1-u);
 }
 
-decimal BezierSurfaceModule::bez33(decimal u) const
+decimal BezierSurfaceModule::bez33(const decimal& u) const
 {
 	return r_pow(u,3);
 }
 
-Point BezierSurfaceModule::pointOnBez(Points cps, decimal u) const
+Point BezierSurfaceModule::pointOnBez(const Points& cps, const decimal& u) const
 {
 	decimal a=bez03(u),b=bez13(u),c=bez23(u),d=bez33(u);
 	decimal x=a*cps[0].x()+b*cps[1].x()+c*cps[2].x()+d*cps[3].x();
@@ -58,13 +59,14 @@ Point BezierSurfaceModule::pointOnBez(Points cps, decimal u) const
 	return Point(x,y,z);
 }
 
-Point BezierSurfaceModule::pointOnBezMesh(Mesh mesh,Vector uv) const
+Point BezierSurfaceModule::pointOnBezMesh(const Mesh& mesh, const Vector& uv) const
 {
 	Points p;
-	p.append(pointOnBez(mesh[0], uv[0]));
-	p.append(pointOnBez(mesh[1], uv[0]));
-	p.append(pointOnBez(mesh[2], uv[0]));
-	p.append(pointOnBez(mesh[3], uv[0]));
+	decimal uv0=uv[0];
+	p.append(pointOnBez(mesh[0], uv0));
+	p.append(pointOnBez(mesh[1], uv0));
+	p.append(pointOnBez(mesh[2], uv0));
+	p.append(pointOnBez(mesh[3], uv0));
 
 	return pointOnBez(p,uv[1]);
 }
@@ -73,26 +75,37 @@ Node* BezierSurfaceModule::evaluate(const Context& ctx) const
 {
 	Mesh mesh;
 	auto* meshVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
-	if(meshVec) {
-		for(Value* pointsVal: meshVec->getChildren()) {
-			Points points;
-			auto* pointsVec=dynamic_cast<VectorValue*>(pointsVal);
-			if(pointsVec)
-				for(Value* pointVal: pointsVec->getChildren()) {
-					auto* pointVec=dynamic_cast<VectorValue*>(pointVal);
-					if(pointVec) {
-						points.append(pointVec->getPoint());
-					}
-				}
-			mesh.append(points);
-		}
-	}
-
-	int f=24; //TODO use getfragments and $fn,$fa,$fs variables;
 
 	auto* pn=new PrimitiveNode(reporter);
 	Primitive* p=pn->createPrimitive();
+	p->setType(Primitive::Surface);
 	pn->setChildren(ctx.getInputNodes());
+
+	if(!meshVec)
+		return pn;
+
+	int i=0,j=0;
+	for(Value* pointsVal: meshVec->getChildren()) {
+		Points points;
+		auto* pointsVec=dynamic_cast<VectorValue*>(pointsVal);
+		if(!pointsVec) continue;
+		j=0;
+		for(Value* pointVal: pointsVec->getChildren()) {
+			auto* pointVec=dynamic_cast<VectorValue*>(pointVal);
+			if(!pointVec) continue;
+			points.append(pointVec->getPoint());
+			if(++j >= 4) break;
+		}
+		mesh.append(points);
+		if(++i >= 4) break;
+	}
+
+	if(i*j < 16)
+		return pn;
+
+	Fragment* fg = Fragment::createFragment(ctx);
+	int f = fg->getFragments(1);
+	delete fg;
 
 	for(auto i=0; i<f; ++i) {
 		for(auto j=0; j<f; ++j) {

@@ -18,7 +18,8 @@
 
 #include "linearextrudenode.h"
 
-LinearExtrudeNode::LinearExtrudeNode()
+LinearExtrudeNode::LinearExtrudeNode() :
+	axis(0,0,0)
 {
 }
 
@@ -32,6 +33,15 @@ decimal LinearExtrudeNode::getHeight() const
 	return height;
 }
 
+Point LinearExtrudeNode::getAxis() const
+{
+	return axis;
+}
+
+void LinearExtrudeNode::setAxis(const Point& value)
+{
+	axis = value;
+}
 
 void LinearExtrudeNode::accept(NodeVisitor& v)
 {

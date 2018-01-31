@@ -27,7 +27,7 @@ VectorExpression::~VectorExpression()
 {
 }
 
-void VectorExpression::setChildren(QList<Expression*> exp)
+void VectorExpression::setChildren(const QList<Expression*>& exp)
 {
 	children = exp;
 }

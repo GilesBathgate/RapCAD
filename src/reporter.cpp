@@ -32,7 +32,7 @@ void Reporter::startTiming()
 	timer->start();
 }
 
-void Reporter::reportTiming(QString what)
+void Reporter::reportTiming(const QString& what)
 {
 	qint64 ticks=timer->elapsed();
 	qint64 ms=ticks%1000;
@@ -46,36 +46,37 @@ void Reporter::reportTiming(QString what)
 	delete timer; //Need to delete timer.
 }
 
-void Reporter::reportSyntaxError(AbstractTokenBuilder* t, QString msg, QString text)
+void Reporter::reportSyntaxError(const AbstractTokenBuilder& t,const QString& msg)
 {
-	int pos=t->getPosition()+kludge;
-	int line=t->getLineNumber();
+	QString text=t.getToken();
+	int pos=t.getPosition()+kludge;
+	int line=t.getLineNumber();
 	output << tr("Line %1: %2 at character %3: '%4'").arg(line).arg(msg).arg(pos).arg(text) << endl;
 }
 
-void Reporter::reportLexicalError(AbstractTokenBuilder* t, QString text)
+void Reporter::reportLexicalError(const AbstractTokenBuilder& t,const QString& text)
 {
-	int pos=t->getPosition()+kludge;
-	int line=t->getLineNumber();
+	int pos=t.getPosition()+kludge;
+	int line=t.getLineNumber();
 	output << tr("Line %1: illegal token at character %2: '%3'").arg(line).arg(pos).arg(text) << endl;
 }
 
-void Reporter::reportFileMissingError(QString fullpath)
+void Reporter::reportFileMissingError(const QString& fullpath)
 {
 	output << tr("Can't open input file '%1'").arg(fullpath) << endl;
 }
 
-void Reporter::reportWarning(QString warning)
+void Reporter::reportWarning(const QString& warning)
 {
 	output << tr("Warning: %1").arg(warning) << endl;
 }
 
-void Reporter::reportMessage(QString msg)
+void Reporter::reportMessage(const QString& msg)
 {
 	output << msg << endl;
 }
 
-void Reporter::reportException(QString ex)
+void Reporter::reportException(const QString& ex)
 {
 	output << tr("Exception: %1").arg(ex) << endl;
 }

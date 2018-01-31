@@ -23,8 +23,8 @@
 
 SubDivisionModule::SubDivisionModule(Reporter& r) : Module(r,"subdiv")
 {
-	addDescription(tr("Not Implemented."));
-	addParameter("level",tr("Not Implemented."));
+	addDescription(tr("Sibdivides its children into smoother geometry."));
+	addParameter("level",tr("The number of smoothing levels to apply."));
 }
 
 Node* SubDivisionModule::evaluate(const Context& ctx) const

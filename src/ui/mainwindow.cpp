@@ -49,10 +49,11 @@ MainWindow::MainWindow(QWidget* parent) :
 	setupActions();
 	setupExportActions();
 	setupViewActions();
-	setupEditor(ui->scriptEditor);
 	setupTreeview();
 	setupTabs(ui->tabWidget);
 	setupConsole();
+	setupEditor(ui->scriptEditor);
+
 	preferencesDialog=nullptr;
 	loadPreferences();
 
@@ -283,7 +284,7 @@ void MainWindow::grabFrameBuffer()
 	image.save(fn);
 }
 
-void MainWindow::exportFile(QString type)
+void MainWindow::exportFile(const QString& type)
 {
 	if(worker->resultAvailable()) {
 
@@ -320,6 +321,11 @@ void MainWindow::showPreferences()
 void MainWindow::preferencesUpdated()
 {
 	Preferences* p=Preferences::getInstance();
+
+	for(auto i=0; i<ui->tabWidget->count(); ++i) {
+		CodeEditor* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
+		c->preferencesUpdated();
+	}
 
 	QPointF o=p->getPrintOrigin();
 	ui->view->setPrintOrigin(o.x(),o.y());
@@ -387,6 +393,9 @@ void MainWindow::setupEditor(CodeEditor* editor)
 	connect(editor,&CodeEditor::copyAvailable,ui->actionCut,&QAction::setEnabled);
 	connect(editor,&CodeEditor::copyAvailable,ui->actionCopy,&QAction::setEnabled);
 	connect(editor,&CodeEditor::fileNameChanged,this,&MainWindow::setTabTitle);
+
+	BuiltinCreator* b=BuiltinCreator::getInstance(*reporter);
+	editor->setModuleNames(b->getModuleNames());
 }
 
 void MainWindow::setupTabs(QTabWidget* tabWidget)
@@ -547,7 +556,7 @@ bool MainWindow::saveAllFiles()
 	return saveSelectedFiles(all);
 }
 
-bool MainWindow::saveSelectedFiles(QList<QString> files)
+bool MainWindow::saveSelectedFiles(const QList<QString>& files)
 {
 	bool result=true;
 	for(auto i=0; i<ui->tabWidget->count(); ++i) {
@@ -690,14 +699,12 @@ void MainWindow::showBuiltins()
 
 	connect(e,&CodeEditor::copyAvailable,ui->actionCopy,&QAction::setEnabled);
 
-	QTextEdit* c=(QTextEdit*)e;
-	QIODevice* t=new TextEditIODevice(c,this);
-	QTextStream out(t);
-	Reporter r(out);
-	BuiltinCreator* b = BuiltinCreator::getInstance(r);
-	b->generateDocs();
+	BuiltinCreator* b = BuiltinCreator::getInstance(*reporter);
+
+	TextEditIODevice t((QTextEdit*)e,this);
+	QTextStream out(&t);
+	b->generateDocs(out);
 	out.flush();
-	delete t;
 
 	//Scroll back to top
 	QScrollBar* sb = e->verticalScrollBar();

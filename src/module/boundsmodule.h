@@ -23,8 +23,9 @@
 
 class BoundsModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(BoundsModule)
 public:
-	BoundsModule(Reporter&);
+	explicit BoundsModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

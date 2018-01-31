@@ -23,6 +23,7 @@
 
 RoundFunction::RoundFunction() : Function("round")
 {
+	addDescription(tr("Returns the number value rounded up, or down, to the nearest integer."));
 	addParameter("value");
 	addParameter("places");
 }

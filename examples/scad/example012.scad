@@ -23,7 +23,7 @@
 // licensed under the Creative Commons - GNU GPL license.
 // http://www.thingiverse.com/thing:753
 
-import <example12.stl> as Mblock;
+import <example012.stl> as Mblock;
 
 difference()
 {

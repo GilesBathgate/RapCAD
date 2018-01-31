@@ -22,6 +22,7 @@
 
 NumFunction::NumFunction() : Function("num")
 {
+	addDescription(tr("Converts the value to a number value."));
 	addParameter("value");
 }
 

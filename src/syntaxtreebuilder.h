@@ -46,7 +46,7 @@ class SyntaxTreeBuilder : public AbstractSyntaxTreeBuilder
 public:
 	SyntaxTreeBuilder(Reporter&,Script&,AbstractTokenBuilder&);
 	~SyntaxTreeBuilder() override;
-	void buildFileLocation(QString) override;
+	void buildFileLocation(QDir) override;
 	void buildScript(Declaration*) override;
 	void buildScript(QList<Declaration*>*) override;
 	void buildScript(QList<CodeDoc*>*) override;
@@ -103,9 +103,10 @@ public:
 	unsigned int buildOptionalCommas(unsigned int) override;
 	Expression* buildLiteral() override;
 	Expression* buildLiteral(bool) override;
-	Expression* buildLiteral(decimal* value) override;
-	Expression* buildLiteral(QString* value) override;
-	Variable* buildVariable(QString* name) override;
+	Expression* buildLiteral(decimal*) override;
+	Expression* buildLiteral(decimal*,QString*) override;
+	Expression* buildLiteral(QString*) override;
+	Variable* buildVariable(QString*) override;
 	Expression* buildVariable(Variable*) override;
 	Variable* buildVariable(QString*,Variable::Storage_e) override;
 	Expression* buildExpression(Expression*,QString*) override;
@@ -122,7 +123,7 @@ public:
 	Expression* buildComplex(Expression*,Expression*,Expression*,Expression*) override;
 	Invocation* buildInvocation(QString*,QList<Argument*>*) override;
 	Invocation* buildInvocation(QString*,Invocation*) override;
-	void reportSyntaxError(const char*,const char*) override;
+	void reportSyntaxError(QString) override;
 private:
 	int getLineNumber() const;
 

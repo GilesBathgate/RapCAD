@@ -21,11 +21,11 @@
 #include "context.h"
 #include "numbervalue.h"
 
-PrimitiveModule::PrimitiveModule(Reporter& r,const QString n) : Module(r,n)
+PrimitiveModule::PrimitiveModule(Reporter& r, const QString &n) : Module(r,n)
 {
 }
 
-QList<Point> PrimitiveModule::getCircle(decimal r, decimal f, decimal z) const
+QList<Point> PrimitiveModule::getCircle(const decimal& r,const decimal& f,const decimal& z) const
 {
 	QList<Point> circle;
 	for(auto i=0; i<f; ++i) {
@@ -45,7 +45,7 @@ QList<Point> PrimitiveModule::getCircle(decimal r, decimal f, decimal z) const
 	return circle;
 }
 
-QList<Point> PrimitiveModule::getPolygon(decimal a,decimal r, decimal n, decimal z) const
+QList<Point> PrimitiveModule::getPolygon(const decimal& a,const decimal& r,const decimal& n,const decimal& z) const
 {
 	QList<Point> poly;
 	if(n==6) {
@@ -54,34 +54,34 @@ QList<Point> PrimitiveModule::getPolygon(decimal a,decimal r, decimal n, decimal
 		decimal s2=r*r_sin(r_pi()/n);
 		for(auto i=0; i<n; ++i) {
 			switch(i) {
-			case 0: {
-				y=a;
-				x=-s2;
-				break;
-			}
-			case 1: {
-				x=s2;
-				break;
-			}
-			case 2: {
-				y=0;
-				x=r;
-				break;
-			}
-			case 3: {
-				y=-a;
-				x=s2;
-				break;
-			}
-			case 4: {
-				x=-s2;
-				break;
-			}
-			case 5: {
-				y=0;
-				x=-r;
-				break;
-			}
+				case 0: {
+					y=a;
+					x=-s2;
+					break;
+				}
+				case 1: {
+					x=s2;
+					break;
+				}
+				case 2: {
+					y=0;
+					x=r;
+					break;
+				}
+				case 3: {
+					y=-a;
+					x=s2;
+					break;
+				}
+				case 4: {
+					x=-s2;
+					break;
+				}
+				case 5: {
+					y=0;
+					x=-r;
+					break;
+				}
 			}
 			poly.append(Point(x,y,z));
 		}

@@ -49,7 +49,7 @@ public:
 		Front
 	};
 
-	GLView(QWidget* parent = nullptr);
+	explicit GLView(QWidget* parent = nullptr);
 	~GLView() override;
 	void setRenderer(Renderer* r);
 	void setCompiling(bool value);
@@ -76,11 +76,9 @@ private:
 	void initializeGL() override;
 	void resizeGL(int w, int h) override;
 	void paintGL() override;
-
-#ifdef USE_QGLWIDGET
-#else
-	void renderText(double,double,double,const QString&,const QFont& fnt=QFont(),int listBase=2000);
-#endif
+	void renderX(double,double,double);
+	void renderY(double,double,double);
+	void renderZ(double,double,double);
 
 	void mousePressEvent(QMouseEvent* event) override;
 	void mouseMoveEvent(QMouseEvent* event) override;
@@ -96,6 +94,10 @@ private:
 	void drawRulers();
 	void drawCross();
 
+#ifndef USE_QGLWIDGET
+	QMatrix4x4* projection;
+	QMatrix4x4* modelview;
+#endif
 	Renderer* render;
 	GLfloat distance;
 	bool showAxes;
@@ -119,10 +121,6 @@ private:
 	GLfloat rotateZ;
 	GLint viewportX;
 	GLint viewportZ;
-#ifndef USE_QGLWIDGET
-	QMatrix4x4* projection;
-	QMatrix4x4* modelview;
-#endif
 };
 
 #endif // GLVIEW_H

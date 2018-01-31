@@ -36,11 +36,13 @@ public:
 	static void cleanup();
 	void setStorage(Variable::Storage_e);
 	Variable::Storage_e getStorage() const;
-	void setName(QString);
+	void setName(const QString&);
 	QString getName() const;
 	virtual QString getValueString() const;
 	virtual bool isTrue() const;
+	bool isFalse() const;
 	bool isDefined() const;
+	bool isUndefined() const;
 	virtual VectorValue* toVector(int);
 	virtual TextValue* toText();
 	virtual Value* toNumber();
@@ -77,15 +79,15 @@ public:
 	static Value* operation(Value*,Expression::Operator_e);
 	static Value* operation(Value*,Expression::Operator_e,Value*);
 	static bool compare(Value*,Expression::Operator_e,Value*);
-	static Value* compareAll(QList<Value*>,Expression::Operator_e);
+	static Value* compareAll(const QList<Value*>&,Expression::Operator_e);
 
 protected:
 	Value();
-	bool isComparison(Expression::Operator_e);
+	static bool isComparison(Expression::Operator_e);
 	template <class T>
-	T basicOperation(T,Expression::Operator_e,T);
+	static T basicOperation(T,Expression::Operator_e,T);
 	template <class T>
-	T basicOperation(T,Expression::Operator_e);
+	static T basicOperation(T,Expression::Operator_e);
 
 	virtual Value* operation(Expression::Operator_e);
 	virtual Value* operation(Value&,Expression::Operator_e);
@@ -94,54 +96,57 @@ private:
 	static QList<Value*> values;
 	Variable::Storage_e storageClass;
 	QString name;
-	bool modulus(bool,bool);
-	decimal modulus(decimal,decimal);
-	bool exponent(bool,bool);
-	decimal exponent(decimal,decimal);
-	bool logic(bool);
-	bool logic(decimal);
-	bool length(bool);
-	decimal length(decimal);
+
+	static bool modulus(bool,bool);
+	static decimal modulus(const decimal&,const decimal&);
+	static bool multiply(bool,bool);
+	static decimal multiply(const decimal&,const decimal&);
+	static bool exponent(bool,bool);
+	static decimal exponent(const decimal&,const decimal&);
+	static bool logic(bool);
+	static bool logic(const decimal&);
+	static bool length(bool);
+	static decimal length(const decimal&);
 };
 
 template <class T>
 T Value::basicOperation(T left, Expression::Operator_e e, T right)
 {
 	switch(e) {
-	case Expression::Exponent:
-		return exponent(left,right);
-	case Expression::Multiply:
-		return left*right;
-	case Expression::Divide:
-		return left/right;
-	case Expression::Modulus:
-		return modulus(left,right);
-	case Expression::Add:
-		return left+right;
-	case Expression::Subtract:
-		return left-right;
-	case Expression::AddAssign:
-		return left+=right;
-	case Expression::SubAssign:
-		return left-=right;
-	case Expression::LessThan:
-		return left<right;
-	case Expression::LessOrEqual:
-		return left<=right;
-	case Expression::Equal:
-		return left==right;
-	case Expression::NotEqual:
-		return left!=right;
-	case Expression::GreaterOrEqual:
-		return left>=right;
-	case Expression::GreaterThan:
-		return left>right;
-	case Expression::LogicalAnd:
-		return logic(left)&&logic(right);
-	case Expression::LogicalOr:
-		return logic(left)||logic(right);
-	default:
-		return left;
+		case Expression::Exponent:
+			return exponent(left,right);
+		case Expression::Multiply:
+			return multiply(left,right);
+		case Expression::Divide:
+			return left/right;
+		case Expression::Modulus:
+			return modulus(left,right);
+		case Expression::Add:
+			return left+right;
+		case Expression::Subtract:
+			return left-right;
+		case Expression::AddAssign:
+			return left+=right;
+		case Expression::SubAssign:
+			return left-=right;
+		case Expression::LessThan:
+			return left<right;
+		case Expression::LessOrEqual:
+			return left<=right;
+		case Expression::Equal:
+			return left==right;
+		case Expression::NotEqual:
+			return left!=right;
+		case Expression::GreaterOrEqual:
+			return left>=right;
+		case Expression::GreaterThan:
+			return left>right;
+		case Expression::LogicalAnd:
+			return logic(left)&&logic(right);
+		case Expression::LogicalOr:
+			return logic(left)||logic(right);
+		default:
+			return left;
 	}
 }
 
@@ -149,20 +154,20 @@ template <class T>
 T Value::basicOperation(T left, Expression::Operator_e e)
 {
 	switch(e) {
-	case Expression::Add:
-		return +left;
-	case Expression::Subtract:
-		return -left;
-	case Expression::Invert:
-		return !logic(left);
-	case Expression::Increment:
-		return left+1;
-	case Expression::Decrement:
-		return left-1;
-	case Expression::Length:
-		return length(left);
-	default:
-		return left;
+		case Expression::Add:
+			return +left;
+		case Expression::Subtract:
+			return -left;
+		case Expression::Invert:
+			return !logic(left);
+		case Expression::Increment:
+			return left+1;
+		case Expression::Decrement:
+			return left-1;
+		case Expression::Length:
+			return length(left);
+		default:
+			return left;
 	}
 }
 

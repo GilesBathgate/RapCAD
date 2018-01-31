@@ -20,6 +20,7 @@
 #define LINEAREXTRUDENODE_H
 
 #include "node.h"
+#include "point.h"
 
 class LinearExtrudeNode : public Node
 {
@@ -27,9 +28,13 @@ public:
 	LinearExtrudeNode();
 	void setHeight(decimal);
 	decimal getHeight() const;
+	Point getAxis() const;
+	void setAxis(const Point& value);
+
 	void accept(NodeVisitor&) override;
 private:
 	decimal height;
+	Point axis;
 };
 
 #endif // LINEAREXTRUDENODE_H

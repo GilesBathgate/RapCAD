@@ -23,6 +23,7 @@
 
 class SinhFunction : public Function
 {
+	Q_DECLARE_TR_FUNCTIONS(SinhFunction)
 public:
 	SinhFunction();
 	Value* evaluate(const Context&) const override;

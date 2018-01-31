@@ -23,6 +23,7 @@
 
 class MinFunction : public Function
 {
+	Q_DECLARE_TR_FUNCTIONS(MinFunction)
 public:
 	MinFunction();
 	Value* evaluate(const Context&) const override;

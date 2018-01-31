@@ -49,20 +49,20 @@ void TreePrinter::visit(const Instance& inst)
 {
 
 	switch(inst.getType()) {
-	case Instance::Root:
-		result << "!";
-		break;
-	case Instance::Debug:
-		result << "#";
-		break;
-	case Instance::Background:
-		result << "%";
-		break;
-	case Instance::Disable:
-		result << "*";
-		break;
-	default:
-		break;
+		case Instance::Root:
+			result << "!";
+			break;
+		case Instance::Debug:
+			result << "#";
+			break;
+		case Instance::Background:
+			result << "%";
+			break;
+		case Instance::Disable:
+			result << "*";
+			break;
+		default:
+			break;
 	}
 
 	QString name = inst.getNamespace();
@@ -107,15 +107,11 @@ void TreePrinter::visit(const Instance& inst)
 
 void TreePrinter::visit(const Module& mod)
 {
+	if(mod.isDeprecated()) return;
+
 	QList<Parameter*> parameters = mod.getParameters();
 	QString desc=mod.getDescription();
-	if(!desc.isEmpty()) {
-		result << "/** " << desc << "\n";
-		for(Parameter* p: parameters) {
-			result << " * @param " << p->getName() << " " << p->getDescription() << "\n";
-		}
-		result << " */\n";
-	}
+	printCodeDoc(desc,parameters);
 	result << "module ";
 	result << mod.getName();
 	if(mod.getAuxilary())
@@ -139,10 +135,12 @@ void TreePrinter::visit(const Module& mod)
 
 void TreePrinter::visit(const Function& func)
 {
+	QList<Parameter*> parameters = func.getParameters();
+	QString desc=func.getDescription();
+	printCodeDoc(desc,parameters);
 	result << "function ";
 	result << func.getName();
 	result << "(";
-	QList<Parameter*> parameters = func.getParameters();
 	OnceOnly first;
 	for(Parameter* p: parameters) {
 		if(!first())
@@ -154,7 +152,9 @@ void TreePrinter::visit(const Function& func)
 	Scope* scp=func.getScope();
 	if(scp)
 		scp->accept(*this);
-	result << "\n";
+	else
+		result << "{}";
+	result << "\n\n";
 }
 
 void TreePrinter::visit(const FunctionScope& scp)
@@ -279,18 +279,18 @@ void TreePrinter::visit(const AssignStatement& stmt)
 		var->accept(*this);
 
 	switch(stmt.getOperation()) {
-	case Expression::Increment:
-		result << "++";
-		break;
-	case Expression::Decrement:
-		result << "--";
-		break;
-	default: {
-		result << "=";
-		Expression* expression = stmt.getExpression();
-		if(expression)
-			expression->accept(*this);
-	}
+		case Expression::Increment:
+			result << "++";
+			break;
+		case Expression::Decrement:
+			result << "--";
+			break;
+		default: {
+			result << "=";
+			Expression* expression = stmt.getExpression();
+			if(expression)
+				expression->accept(*this);
+		}
 	}
 
 	result << ";\n";
@@ -377,6 +377,17 @@ void TreePrinter::visit(Callback&)
 {
 }
 
+void TreePrinter::printCodeDoc(const QString& desc, const QList<Parameter*>& parameters)
+{
+	if(!desc.isEmpty()) {
+		result << "/** " << desc << "\n";
+		for(Parameter* p: parameters) {
+			result << " * @param " << p->getName() << " " << p->getDescription() << "\n";
+		}
+		result << " */\n";
+	}
+}
+
 void TreePrinter::visit(const ModuleImport& decl)
 {
 	result << "import <";
@@ -425,14 +436,14 @@ void TreePrinter::visit(const Literal& lit)
 void TreePrinter::visit(const Variable& var)
 {
 	switch(var.getStorage()) {
-	case Variable::Const:
-		result << "const ";
-		break;
-	case Variable::Param:
-		result << "param ";
-		break;
-	default:
-		break;
+		case Variable::Const:
+			result << "const ";
+			break;
+		case Variable::Param:
+			result << "param ";
+			break;
+		default:
+			break;
 	}
 
 	if(var.getStorage()==Variable::Special)

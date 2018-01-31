@@ -24,7 +24,7 @@ ResizeNode::ResizeNode() :
 {
 }
 
-void ResizeNode::setSize(Point p)
+void ResizeNode::setSize(const Point& p)
 {
 	size=p;
 }

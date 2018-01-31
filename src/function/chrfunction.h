@@ -23,6 +23,7 @@
 
 class ChrFunction : public Function
 {
+	Q_DECLARE_TR_FUNCTIONS(ChrFunction)
 public:
 	ChrFunction();
 	Value* evaluate(const Context&) const override;

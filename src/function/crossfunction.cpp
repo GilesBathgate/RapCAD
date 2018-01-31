@@ -22,6 +22,7 @@
 
 CrossFunction::CrossFunction() : Function("cross")
 {
+	addDescription(tr("Returns the cross product of the two vectors."));
 	addParameter("v1");
 	addParameter("v2");
 }

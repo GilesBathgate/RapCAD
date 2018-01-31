@@ -45,9 +45,9 @@ public:
 	void setCurrentValue(Value*);
 
 	QString getCurrentName() const;
-	void setCurrentName(QString);
+	void setCurrentName(const QString&);
 
-	Value* lookupVariable(QString,Variable::Storage_e&,Layout*) const;
+	Value* lookupVariable(const QString&,Variable::Storage_e&,Layout*) const;
 	bool addVariable(Value*);
 	void setVariable(Value*);
 
@@ -59,18 +59,18 @@ public:
 	void addArgument(Value*);
 	void clearArguments();
 
-	Value* getArgument(int,QString) const;
-	Value* getArgumentSpecial(QString) const;
-	Value* getArgumentDeprecated(int, QString, QString, Reporter&) const;
-	Value* getArgumentDeprecatedModule(int, QString, QString, Reporter&) const;
+	Value* getArgument(int,const QString&) const;
+	Value* getArgumentSpecial(const QString&) const;
+	Value* getArgumentDeprecated(int, const QString&, const QString&, Reporter&) const;
+	Value* getArgumentDeprecatedModule(int, const QString&, const QString&, Reporter&) const;
 
 	void clearParameters();
 	void addParameter(Value*);
 
-	void setInputNodes(QList<Node*>);
+	void setInputNodes(const QList<Node*>&);
 	QList<Node*> getInputNodes() const;
 
-	void setCurrentNodes(QList<Node*>);
+	void setCurrentNodes(const QList<Node*>&);
 	QList<Node*> getCurrentNodes() const;
 	void addCurrentNode(Node*);
 private:
@@ -83,9 +83,9 @@ private:
 	Value* returnValue;
 	QString currentName;
 	Scope* currentScope;
-	Value* matchArgumentIndex(bool,bool,int,QString) const;
-	Value* matchArgument(bool,bool,QString) const;
-	bool match(bool,bool,QString,QString) const;
+	Value* matchArgumentIndex(bool,bool,int,const QString&) const;
+	Value* matchArgument(bool,bool,const QString&) const;
+	bool match(bool,bool,const QString&,const QString&) const;
 	QHash<QString,Value*> variables;
 };
 

@@ -24,7 +24,7 @@
 class TextValue : public Value
 {
 public:
-	TextValue(QString);
+	explicit TextValue(const QString&);
 	QString getValueString() const override;
 	bool isTrue() const override;
 	TextValue* toText() override;

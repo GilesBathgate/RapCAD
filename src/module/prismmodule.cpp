@@ -41,6 +41,13 @@ Node* PrismModule::evaluate(const Context& ctx) const
 	if(sidesVal)
 		s=sidesVal->toInteger();
 
+	auto* pn=new PrimitiveNode(reporter);
+	Primitive* p=pn->createPrimitive();
+	pn->setChildren(ctx.getInputNodes());
+
+	if(h==0||s<=0)
+		return pn;
+
 	decimal r=1.0,a=1.0;
 	auto* apothemVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));
 	if(apothemVal) {
@@ -65,10 +72,6 @@ Node* PrismModule::evaluate(const Context& ctx) const
 
 	QList<Point> p1=getPolygon(a,r,s,z1);
 	QList<Point> p2=getPolygon(a,r,s,z2);
-
-	auto* pn=new PrimitiveNode(reporter);
-	Primitive* p=pn->createPrimitive();
-	pn->setChildren(ctx.getInputNodes());
 
 	if(r > 0) {
 		Polygon* pg;

@@ -1,0 +1,1 @@
+rotate_extrude(a=10,axis=[0,0,0])square(10);

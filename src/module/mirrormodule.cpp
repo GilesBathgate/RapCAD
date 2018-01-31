@@ -32,11 +32,19 @@ Node* MirrorModule::evaluate(const Context& ctx) const
 {
 	Point p(0,0,0);
 	auto* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
-	if(vecVal)
-		p = vecVal->getPoint();
 
+	auto* n=new TransformationNode();
+	n->setChildren(ctx.getInputNodes());
+
+	if(!vecVal)
+		return n;
+
+	p = vecVal->getPoint();
 	decimal x=p.x(), y=p.y(), z=p.z();
 	decimal mag = r_sqrt(x*x + y*y + z*z);
+	if(mag==0)
+		return n;
+
 	decimal u = x/mag;
 	decimal v = y/mag;
 	decimal w = z/mag;
@@ -48,9 +56,6 @@ Node* MirrorModule::evaluate(const Context& ctx) const
 		0,     0,      0,1
 	);
 
-	auto* n=new TransformationNode();
 	n->setMatrix(m);
-
-	n->setChildren(ctx.getInputNodes());
 	return n;
 }

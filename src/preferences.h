@@ -23,6 +23,7 @@
 #include <QPoint>
 #include <QSize>
 #include <QVector3D>
+#include <QFont>
 
 class Preferences
 {
@@ -33,8 +34,14 @@ public:
 	int getPrecision() const;
 	void setPrecision(int);
 
-	bool getFunctionRounding() const;
-	void setFunctionRounding(bool);
+	int getDecimalPlaces() const;
+	void setDecimalPlaces(int);
+
+	int getSignificandBits() const;
+	void setSignificandBits(int);
+
+	int getFunctionRounding() const;
+	void setFunctionRounding(int);
 
 	bool getRationalFormat() const;
 	void setRationalFormat(bool b);
@@ -128,12 +135,23 @@ public:
 
 	int getPrintBedAppearance() const;
 	void setPrintBedAppearance(int);
+
+	QFont getEditorFont() const;
+	void setEditorFont(const QFont&);
+
+	bool getShowTooltips() const;
+	void setShowTooltips(bool);
+
+	bool getHighlightLine() const;
+	void setHighlightLine(bool value);
+
 private:
 	Preferences();
+	void updatePrecision();
+
 	static Preferences* instance;
 	QSettings* settings;
 	int precision;
-	void updatePrecision();
 };
 
 #endif // PREFERENCES_H

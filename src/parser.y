@@ -25,8 +25,8 @@
 #include "script.h"
 #include "reporter.h"
 
-extern char *lexertext;
-void parse(Script&, QString, Reporter&, bool);
+void parsescript(Script&,Reporter&,QFileInfo);
+void parsescript(Script&,Reporter&,const QString&);
 
 static void parsererror(const char*);
 static int parserlex();
@@ -293,6 +293,8 @@ expression
 	{ $$ = builder->buildLiteral($1); }
 	| NUMBER
 	{ $$ = builder->buildLiteral($1); }
+	| NUMBER IDENTIFIER
+	{ $$ = builder->buildLiteral($1,$2); }
 	| '[' expression ':' expression ']'
 	{ $$ = builder->buildRange($2,$4); }
 	| '[' expression ':' expression ':' expression ']'
@@ -459,17 +461,28 @@ static int parserlex()
 static void parsererror(const char* s)
 {
 	if(builder)
-		builder->reportSyntaxError(s,lexertext);
+		builder->reportSyntaxError(s);
 }
 
-void parse(Script& s, QString input, Reporter& r, bool isFile)
+void parsescript(Script& s,Reporter& r,QFileInfo input)
 {
-	tokenizer=new TokenBuilder(r,input,isFile);
+	tokenizer=new TokenBuilder(r,input);
 	builder=new SyntaxTreeBuilder(r,s,*tokenizer);
-	if(isFile)
-		builder->buildFileLocation(input);
+	builder->buildFileLocation(input.absoluteDir());
 
 	parserparse();
+
+	delete builder;
+	delete tokenizer;
+}
+
+void parsescript(Script& s,Reporter& r,const QString& input)
+{
+	tokenizer=new TokenBuilder(r,input);
+	builder=new SyntaxTreeBuilder(r,s,*tokenizer);
+
+	parserparse();
+
 	delete builder;
 	delete tokenizer;
 }

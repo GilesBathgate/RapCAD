@@ -23,7 +23,7 @@
 
 OffsetModule::OffsetModule(Reporter& r) : Module(r,"offset")
 {
-	addDescription(tr("Offset moves the outlines of polygons outward or inward by a given amount."));
+	addDescription(tr("Moves the outlines of polygons outward or inward by a given amount."));
 	addParameter("delta",tr("The amount to offset the polygon. The polygon is offset inwards, when negative."));
 }
 

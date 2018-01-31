@@ -295,14 +295,14 @@ void TreeEvaluator::visit(const BinaryExpression& exp)
 	Expression::Operator_e op=exp.getOp();
 
 	switch(op) {
-	case Expression::LogicalAnd:
-		shortc=!left->isTrue();
-		break;
-	case Expression::LogicalOr:
-		shortc=left->isTrue();
-		break;
-	default:
-		break;
+		case Expression::LogicalAnd:
+			shortc=left->isFalse();
+			break;
+		case Expression::LogicalOr:
+			shortc=left->isTrue();
+			break;
+		default:
+			break;
 	}
 
 	Value* result;
@@ -328,11 +328,14 @@ void TreeEvaluator::visit(const Argument& arg)
 		c=var->getStorage();
 	}
 
-	arg.getExpression()->accept(*this);
-	Value* v = context->getCurrentValue();
-	v->setName(name);
-	v->setStorage(c); //TODO Investigate moving this to apply to all variables.
-	context->addArgument(v);
+	Expression* exp=arg.getExpression();
+	if(exp) {
+		exp->accept(*this);
+		Value* v = context->getCurrentValue();
+		v->setName(name);
+		v->setStorage(c); //TODO Investigate moving this to apply to all variables.
+		context->addArgument(v);
+	}
 }
 
 void TreeEvaluator::visit(const AssignStatement& stmt)
@@ -345,35 +348,35 @@ void TreeEvaluator::visit(const AssignStatement& stmt)
 	Value* result=nullptr;
 	Expression::Operator_e op=stmt.getOperation();
 	switch(op) {
-	case Expression::Increment:
-	case Expression::Decrement:
-		break;
-	default: {
-		Expression* expression = stmt.getExpression();
-		if(expression) {
-			expression->accept(*this);
-			result = context->getCurrentValue();
+		case Expression::Increment:
+		case Expression::Decrement:
+			break;
+		default: {
+			Expression* expression = stmt.getExpression();
+			if(expression) {
+				expression->accept(*this);
+				result = context->getCurrentValue();
+			}
 		}
-	}
 	}
 
 	switch(op) {
-	case Expression::Append:
-	case Expression::AddAssign:
-	case Expression::SubAssign: {
-		result=Value::operation(lvalue,op,result);
-		break;
-	}
-	case Expression::Increment: {
-		result=Value::operation(lvalue,op);
-		break;
-	}
-	case Expression::Decrement: {
-		result=Value::operation(lvalue,op);
-		break;
-	}
-	default:
-		break;
+		case Expression::Append:
+		case Expression::AddAssign:
+		case Expression::SubAssign: {
+			result=Value::operation(lvalue,op,result);
+			break;
+		}
+		case Expression::Increment: {
+			result=Value::operation(lvalue,op);
+			break;
+		}
+		case Expression::Decrement: {
+			result=Value::operation(lvalue,op);
+			break;
+		}
+		default:
+			break;
 	}
 	if(!result) return;
 
@@ -382,17 +385,17 @@ void TreeEvaluator::visit(const AssignStatement& stmt)
 	c=lvalue->getStorage();
 	result->setStorage(c);
 	switch(c) {
-	case Variable::Const:
-		if(!context->addVariable(result))
-			reporter.reportWarning(tr("attempt to alter constant variable '%1'").arg(name));
-		break;
-	case Variable::Param:
-		if(!context->addVariable(result))
-			reporter.reportWarning(tr("attempt to alter parametric variable '%1'").arg(name));
-		break;
-	default:
-		context->setVariable(result);
-		break;
+		case Variable::Const:
+			if(!context->addVariable(result))
+				reporter.reportWarning(tr("attempt to alter constant variable '%1'").arg(name));
+			break;
+		case Variable::Param:
+			if(!context->addVariable(result))
+				reporter.reportWarning(tr("attempt to alter parametric variable '%1'").arg(name));
+			break;
+		default:
+			context->setVariable(result);
+			break;
 	}
 }
 
@@ -523,20 +526,19 @@ void TreeEvaluator::visit(Callback& c)
 	c.setResult(context->getCurrentValue());
 }
 
-QFileInfo* TreeEvaluator::getFullPath(QString file)
+QFileInfo TreeEvaluator::getFullPath(const QString &file)
 {
 	if(!importLocations.isEmpty())
-		return new QFileInfo(importLocations.top()->absoluteDir(),file);
+		return QFileInfo(importLocations.top(),file);
 	else
-		return new QFileInfo(file); /* relative to working dir */
+		return QFileInfo(file); /* relative to working dir */
 }
 
 void TreeEvaluator::visit(const ModuleImport& mi)
 {
 	auto* mod=new ImportModule(reporter);
-	QFileInfo* f=getFullPath(mi.getImport());
-	mod->setImport(f->absoluteFilePath());
-	delete f;
+	QFileInfo f=getFullPath(mi.getImport());
+	mod->setImport(f.absoluteFilePath());
 	mod->setName(mi.getName());
 	//TODO global import args.
 
@@ -551,15 +553,16 @@ void TreeEvaluator::visit(const ScriptImport& sc)
 	if(descendDone)
 		return;
 
-	QFileInfo* f=getFullPath(sc.getImport());
-	Script* s=new Script();
-	parse(*s,f->absoluteFilePath(),reporter,true);
+	QFileInfo f=getFullPath(sc.getImport());
+	Script* s=new Script(reporter);
+	s->parse(f);
 	imports.append(s);
 	/* Now recursively descend any modules functions or script imports within
 	 * the imported script and add them to the main script */
-	importLocations.push(f);
+	QDir loc=f.absoluteDir();
+	importLocations.push(loc);
 	descend(s);
-	delete importLocations.pop();
+	importLocations.pop();
 }
 
 void TreeEvaluator::visit(const Literal& lit)
@@ -578,14 +581,14 @@ void TreeEvaluator::visit(const Variable& var)
 	Value* v=context->lookupVariable(name,currentStorage,l);
 	if(currentStorage!=oldStorage)
 		switch(oldStorage) {
-		case Variable::Const:
-			reporter.reportWarning(tr("attempt to make previously non-constant variable '%1' constant").arg(name));
-			break;
-		case Variable::Param:
-			reporter.reportWarning(tr("attempt to make previously non-parametric variable '%1' parametric").arg(name));
-			break;
-		default:
-			break;
+			case Variable::Const:
+				reporter.reportWarning(tr("attempt to make previously non-constant variable '%1' constant").arg(name));
+				break;
+			case Variable::Param:
+				reporter.reportWarning(tr("attempt to make previously non-parametric variable '%1' parametric").arg(name));
+				break;
+			default:
+				break;
 		}
 
 	context->setCurrentValue(v);
@@ -602,9 +605,8 @@ void TreeEvaluator::visit(Script& sc)
 	b->initBuiltins(sc);
 
 	/* Use the location of the current script as the root for all imports */
-	QFileInfo* info=sc.getFileLocation();
-	if(info)
-		importLocations.push(info);
+	QDir loc=sc.getFileLocation();
+	importLocations.push(loc);
 
 	Script* scp=&sc;
 	descendDone=false;

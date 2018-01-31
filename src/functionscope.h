@@ -31,7 +31,7 @@ public:
 	~FunctionScope() override;
 	void setExpression(Expression*);
 	Expression* getExpression() const;
-	void setStatements(QList<Statement*>);
+	void setStatements(const QList<Statement*>&);
 	QList<Statement*> getStatements() const;
 	void accept(TreeVisitor&) override;
 private:

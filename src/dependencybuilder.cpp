@@ -26,7 +26,7 @@ DependencyBuilder::~DependencyBuilder()
 {
 }
 
-void DependencyBuilder::buildFileLocation(QString)
+void DependencyBuilder::buildFileLocation(QDir)
 {
 }
 
@@ -308,6 +308,11 @@ Expression* DependencyBuilder::buildLiteral(bool)
 }
 
 Expression* DependencyBuilder::buildLiteral(decimal*)
+{
+	return nullptr;
+}
+
+Expression* DependencyBuilder::buildLiteral(decimal*,QString*)
 {
 	return nullptr;
 }

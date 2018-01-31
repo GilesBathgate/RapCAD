@@ -22,6 +22,7 @@
 
 SymmetricDifferenceModule::SymmetricDifferenceModule(Reporter& r) : Module(r,"symmetric_difference")
 {
+	addDescription(tr("Subtracts its children from each other."));
 }
 
 Node* SymmetricDifferenceModule::evaluate(const Context& ctx) const

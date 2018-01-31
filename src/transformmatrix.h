@@ -25,15 +25,17 @@ class TransformMatrix
 {
 public:
 	TransformMatrix();
-	TransformMatrix(decimal,decimal,decimal,decimal,
-                        decimal,decimal,decimal,decimal,
-                        decimal,decimal,decimal,decimal,
-                        decimal,decimal,decimal,decimal);
-	const decimal* getValues() const;
-	void setValues(decimal*);
-	QString toString();
+	TransformMatrix(const decimal&,const decimal&,const decimal&,const decimal&,
+					const decimal&,const decimal&,const decimal&,const decimal&,
+					const decimal&,const decimal&,const decimal&,const decimal&,
+					const decimal&,const decimal&,const decimal&,const decimal&);
+	void setValue(int,int,const decimal&);
+	QString toString() const;
+#if USE_CGAL
+	CGAL::AffTransformation3 getTransform() const;
+#endif
 private:
-	decimal matrix[16];
+	decimal matrix[4][4];
 };
 
 #endif // TRANSFORMMATRIX_H

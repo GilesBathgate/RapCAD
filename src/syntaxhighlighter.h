@@ -20,13 +20,16 @@
 #define SYNTAXHIGHLIGHTER_H
 
 #include <QSyntaxHighlighter>
+#include <QHash>
 #include "abstracttokenbuilder.h"
+#include "module.h"
 
 class SyntaxHighlighter : public QSyntaxHighlighter, private AbstractTokenBuilder
 {
 	Q_OBJECT
 public:
-	SyntaxHighlighter(QTextDocument* parent = nullptr);
+	explicit SyntaxHighlighter(QTextDocument* parent = nullptr);
+	void setModuleNames(const QHash<QString,Module*>&);
 	void stop();
 protected:
 	void highlightBlock(const QString& text) override;
@@ -41,14 +44,14 @@ private:
 	int getPosition() const override;
 	int getLineNumber() const override;
 	void buildIncludeStart() override;
-	void buildIncludeFile(QString) override;
-	void buildIncludePath(QString) override;
+	void buildIncludeFile(const QString&) override;
+	void buildIncludePath(const QString&) override;
 	void buildIncludeFinish() override;
 	void buildUseStart() override;
-	unsigned int buildUse(QString) override;
+	unsigned int buildUse(const QString&) override;
 	void buildUseFinish() override;
 	void buildImportStart() override;
-	unsigned int buildImport(QString) override;
+	unsigned int buildImport(const QString&) override;
 	void buildImportFinish() override;
 	unsigned int buildModule() override;
 	unsigned int buildFunction() override;
@@ -76,48 +79,43 @@ private:
 	unsigned int buildSubtractAssign() override;
 	unsigned int buildCrossProduct() override;
 	unsigned int buildNamespace() override;
-	unsigned int buildAssign() override;
-	unsigned int buildAdd() override;
-	unsigned int buildSubtract() override;
-	unsigned int buildTernaryCondition() override;
-	unsigned int buildTernaryAlternate() override;
-	unsigned int buildNot() override;
-	unsigned int buildMultiply() override;
-	unsigned int buildDivide() override;
-	unsigned int buildLength() override;
-	unsigned int buildModulus() override;
-	unsigned int buildConcatenate() override;
 	unsigned int buildAppend() override;
+	unsigned int buildOperator(unsigned int) override;
 	unsigned int buildLegalChar(unsigned int) override;
-	unsigned int buildIllegalChar() override;
-	unsigned int buildNumber(QString) override;
-	unsigned int buildIdentifier(QString) override;
+	unsigned int buildIllegalChar(const QString& s) override;
+	unsigned int buildNumber(const QString&) override;
+	unsigned int buildNumberExp(const QString&) override;
+	unsigned int buildRational() override;
+	unsigned int buildRational(const QString&) override;
+	unsigned int buildIdentifier(const QString&) override;
 	void buildStringStart() override;
 	void buildString(QChar) override;
-	void buildString(QString) override;
+	void buildString(const QString&) override;
 	unsigned int buildStringFinish() override;
 	void buildCommentStart() override;
-	unsigned int buildComment(QString) override;
+	void buildComment(const QString&) override;
 	void buildCommentFinish() override;
 	unsigned int buildCodeDocStart() override;
-	unsigned int buildCodeDoc(QString) override;
+	unsigned int buildCodeDoc(const QString&) override;
 	void buildCodeDoc() override;
-	unsigned int buildCodeDocParam(QString) override;
+	unsigned int buildCodeDocParam(const QString&) override;
 	unsigned int buildCodeDocFinish() override;
 	void buildWhiteSpaceError() override;
 	void buildWhiteSpace() override;
 	void buildNewLine() override;
 	void buildFileStart(QDir) override;
 	void buildFileFinish() override;
+	QString getToken() const override;
 
 	QTextCharFormat keywordFormat;
 	QTextCharFormat	numberFormat;
 	QTextCharFormat stringFormat;
 	QTextCharFormat errorFormat;
 	QTextCharFormat operatorFormat;
+	QTextCharFormat moduleFormat;
 	QTextCharFormat codeDocFormat;
 	QTextCharFormat codeDocParamFormat;
+	QHash<QString,Module*> moduleNames;
 	int startIndex;
-	int stringStart;
 };
 #endif // SYNTAXHIGHLIGHTER_H

@@ -23,7 +23,6 @@
 #include "nodevisitor.h"
 #include "polyhedron.h"
 #include "node/primitivenode.h"
-#include "node/polylinenode.h"
 #include "node/unionnode.h"
 #include "node/groupnode.h"
 #include "node/differencenode.h"
@@ -64,9 +63,8 @@
 class NodePrinter : public NodeVisitor
 {
 public:
-	NodePrinter(QTextStream&);
+	explicit NodePrinter(QTextStream&);
 	void visit(const PrimitiveNode&) override;
-	void visit(const PolylineNode&) override;
 	void visit(const UnionNode&) override;
 	void visit(const GroupNode&) override;
 	void visit(const DifferenceNode&) override;
@@ -102,19 +100,15 @@ public:
 private:
 	QTextStream& result;
 	void printChildren(const Node&);
-	void printArguments(QList<Point>);
-	void printArguments(Polygon);
-	void printPrimitive(Primitive* pr);
-	void printPrimitive(Polyhedron*);
-#ifdef USE_CGAL
-	void printPrimitive(CGALPrimitive*);
-	void printPoint(CGAL::Point3,bool);
-#endif
-	void printArguments(QList<AlignNode::Face_t> t);
-	void printArguments(QString,bool);
+	void printArguments(const QList<Point>&);
+	void printArguments(const Polygon&);
+	void printPrimitive(Primitive*);
+	void printPolygon(const Polygon&);
+	void printArguments(const QList<AlignNode::Face_t>&);
+	void printArguments(const QString&,bool);
 	void printArguments(int);
-	void printArguments(decimal);
-	void printArguments(QList<int> list);
+	void printArguments(const decimal&);
+	void printArguments(const QList<int>& list);
 };
 
 #endif // NODEPRINTER_H

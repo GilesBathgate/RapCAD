@@ -23,6 +23,11 @@ TransformationNode::TransformationNode() :
 {
 }
 
+TransformationNode::~TransformationNode()
+{
+	delete matrix;
+}
+
 void TransformationNode::accept(NodeVisitor& v)
 {
 	v.visit(*this);

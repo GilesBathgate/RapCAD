@@ -24,7 +24,7 @@
 class BooleanValue : public Value
 {
 public:
-	BooleanValue(bool);
+	explicit BooleanValue(bool);
 	QString getValueString() const override;
 	Value* toNumber() override;
 	bool isTrue() const override;

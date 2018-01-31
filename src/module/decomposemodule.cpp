@@ -22,6 +22,7 @@
 
 DecomposeModule::DecomposeModule(Reporter& r) : Module(r,"decompose")
 {
+	addDescription(tr("Decomposes its children into convex geometry."));
 }
 
 Node* DecomposeModule::evaluate(const Context& ctx) const

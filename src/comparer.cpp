@@ -26,7 +26,7 @@ Comparer::Comparer(Reporter& r) : Strategy(r)
 {
 }
 
-void Comparer::setup(QString a, QString b)
+void Comparer::setup(const QString& a, const QString& b)
 {
 	aFile=a;
 	bFile=b;
@@ -51,12 +51,17 @@ int Comparer::evaluate()
 	delete d;
 
 	Primitive* p=ne.getResult();
-	if(p&&p->isEmpty()) {
-		reporter.reportMessage(tr("The objects are identical."));
-		reporter.setReturnCode(EXIT_SUCCESS);
+	if(p) {
+		if(p->isEmpty()) {
+			reporter.reportMessage(tr("The objects are identical."));
+			reporter.setReturnCode(EXIT_SUCCESS);
+		} else {
+			reporter.reportMessage(tr("The objects are different."));
+			reporter.setReturnCode(EXIT_FAILURE);
+		}
 	} else {
-		reporter.reportMessage(tr("The objects are different"));
-		reporter.setReturnCode(EXIT_FAILURE);
+		reporter.reportMessage(tr("The objects are both empty."));
+		reporter.setReturnCode(EXIT_SUCCESS);
 	}
 
 	delete p;

@@ -26,7 +26,7 @@ ScriptImport::~ScriptImport()
 {
 }
 
-void ScriptImport::setImport(QString imp)
+void ScriptImport::setImport(const QString& imp)
 {
 	import = imp;
 }
@@ -36,7 +36,7 @@ QString ScriptImport::getImport() const
 	return import;
 }
 
-void ScriptImport::setNamespace(QString name)
+void ScriptImport::setNamespace(const QString& name)
 {
 	name_space = name;
 }

@@ -30,6 +30,7 @@
 #include <CGAL/Polygon_2.h>
 #include "cgalbuilder.h"
 #include "cgalexplorer.h"
+#include "cgalprojection.h"
 #include "onceonly.h"
 
 namespace CGAL
@@ -81,6 +82,18 @@ struct FaceInfo {
 	int nestingLevel;
 };
 
+struct VertexInfo
+{
+	VertexInfo() : index(-1) {}
+
+	bool isValid()
+	{
+		return index != -1;
+	}
+
+	int index;
+};
+
 template <class CT, class FaceHandle, class Edge>
 static void markDomain(CT& ct,FaceHandle start,int index,QList<Edge>& border)
 {
@@ -120,21 +133,38 @@ static void markDomains(CT& ct)
 	}
 }
 
-template <typename CT>
-static void insertConstraint(CT& ct,const CGAL::Point3& p,const CGAL::Point3& np)
+#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,6,0)
+template <class CT,class PointIterator>
+void insert_constraint(CT& ct,PointIterator first, PointIterator last, bool close=false)
 {
 	typedef typename CT::Vertex_handle VertexHandle;
+	typedef typename CT::Geom_traits::Point_2 Point;
 
-	CGAL::Point2 p2(p.x(),p.y());
-	VertexHandle h=ct.insert(p2);
-	h->info() = p.z();
-	CGAL::Point2 np2(np.x(),np.y());
-	ct.insert_constraint(p2,np2);
+	if(first == last){
+		return;
+	}
+	const Point& p0 = *first;
+	Point p = p0;
+	VertexHandle v0 = ct.insert(p0), v(v0), w(v0);
+	++first;
+	for(; first!=last; ++first){
+		const Point& q = *first;
+		if(p != q){
+			w = ct.insert(q);
+			ct.insert_constraint(v,w);
+			v = w;
+			p = q;
+		}
+	}
+	if(close && (p != p0)){
+		ct.insert(w,v0);
+	}
 }
+#endif
 
-CGALPrimitive& CGALBuilder::triangulate()
+bool CGALBuilder::triangulate()
 {
-	typedef CGAL::Triangulation_vertex_base_with_info_2<CGAL::Scalar,CGAL::Kernel3> VertexBase;
+	typedef CGAL::Triangulation_vertex_base_with_info_2<VertexInfo,CGAL::Kernel3> VertexBase;
 	typedef CGAL::Triangulation_face_base_with_info_2<FaceInfo,CGAL::Kernel3> Info;
 	typedef CGAL::Constrained_triangulation_face_base_2<CGAL::Kernel3,Info> FaceBase;
 	typedef CGAL::Triangulation_data_structure_2<VertexBase,FaceBase> TDS;
@@ -143,45 +173,62 @@ CGALPrimitive& CGALBuilder::triangulate()
 	typedef CT::Vertex_handle VertexHandle;
 	typedef CT::Face_iterator FaceIterator;
 
+
+	QList<CGAL::Point3> points3=primitive.getPoints();
+	int total=points3.size();
+	if(total<3)
+		return false;
+	else if(total==3)
+		return true;
+
 	CT ct;
+	TDS::size_type count=0;
 	for(CGALPolygon* pg: primitive.getCGALPolygons()) {
-		OnceOnly first;
-		CGAL::Point3 np,fp;
-		for(const auto& p: pg->getPoints()) {
-			if(first())
-				fp=p;
-			else
-				insertConstraint(ct,p,np);
-			np=p;
+		QList<int> indexes=pg->getIndexes();
+		if(indexes.size()<3) continue;
+		CGALProjection* pro=pg->getProjection();
+		QList<CGAL::Point2> points2;
+		for(auto i: indexes) {
+			CGAL::Point2 p2=pro->project(points3.at(i));
+			VertexHandle h=ct.insert(p2);
+			h->info().index = i;
+			points2.append(p2);
+			++count;
 		}
-		insertConstraint(ct,fp,np);
+
+#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,6,0)
+		insert_constraint(ct,points2.begin(),points2.end(),true);
+#else
+		ct.insert_constraint(points2.begin(),points2.end(),true);
+#endif
 	}
 
-	markDomains(ct);
+	if(count<3||ct.number_of_vertices()<count)
+		return false;
 
-	primitive.clear();
+	if(ct.number_of_faces()>3)
+		markDomains(ct);
+
+	primitive.clearPolygons();
 
 	for(FaceIterator f=ct.finite_faces_begin(); f!=ct.finite_faces_end(); ++f) {
 		if(f->info().inDomain()) {
-			primitive.createPolygon();
+			auto* pg=primitive.createCGALPolygon();
 			for(auto i=0; i<3; ++i) {
-				VertexHandle h=f->vertex(i);
-				CGAL::Point2 p2=h->point();
-				CGAL::Point3 p(p2.x(),p2.y(),h->info());
-				primitive.appendVertex(p);
+				VertexInfo info=f->vertex(i)->info();
+				if(info.isValid())
+					pg->append(info.index);
 			}
+			pg->calculatePlane();
 		}
 	}
-	return primitive;
+	return true;
 }
 
 #ifndef USE_OFFSET
-CGALPrimitive& CGALBuilder::buildOffsetPolygons(const CGAL::Scalar&)
-{
-	return primitive;
-}
+void CGALBuilder::buildOffsetPolygons(const CGAL::Scalar&) {}
 #else
-CGALPrimitive& CGALBuilder::buildOffsetPolygons(const CGAL::Scalar& amount)
+void CGALBuilder::buildOffsetPolygons(const CGAL::Scalar& amount)
 {
 	typedef boost::shared_ptr<CGAL::Polygon2> PolygonPtr;
 	typedef std::vector<PolygonPtr> PolygonPtrVector;
@@ -222,8 +269,6 @@ CGALPrimitive& CGALBuilder::buildOffsetPolygons(const CGAL::Scalar& amount)
 			}
 		}
 	}
-
-	return primitive;
 }
 #endif
 #endif

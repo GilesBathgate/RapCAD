@@ -22,6 +22,7 @@
 
 IsStrFunction::IsStrFunction() : Function("is_str")
 {
+	addDescription(tr("Returns true when the given value is text."));
 	addParameter("value");
 }
 

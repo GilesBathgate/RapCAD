@@ -25,6 +25,7 @@ IsVecFunction::IsVecFunction(int s) :
 	Function(QString("is_vec%1").arg(s)),
 	size(s)
 {
+	addDescription(tr("Returns true when the given value is a %1 vector.").arg(s));
 	addParameter("value");
 }
 

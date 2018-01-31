@@ -23,53 +23,75 @@
 
 Literal::Literal() :
 	boolean(false),
-	type(Literal::Undef)
+	type(Undef),
+	unit(1)
 {
 }
 
 void Literal::setValue(bool value)
 {
-	type=Literal::Boolean;
+	type = Boolean;
 	boolean = value;
 }
 
 void Literal::setValue(decimal value)
 {
-	type = Literal::Number;
+	type = Number;
 	number = value;
 }
 
-void Literal::setValue(QString value)
+void Literal::setValue(const QString& value)
 {
-	type = Literal::Text;
+	type = Text;
 	text = value;
+}
+
+void Literal::setUnit(const QString& value)
+{
+	text=value;
+	if(value=="m")
+		unit=1000;
+	else if(value=="cm")
+		unit=10;
+	else if(value=="mm")
+		unit=1;
+	else if(value=="um")
+		unit=decimal(1)/1000;
+	else if(value=="ft")
+		unit=decimal(3048)/10;
+	else if(value=="in")
+		unit=decimal(254)/10;
+	else if(value=="th")
+		unit=decimal(254)/10000;
+	else
+		type=Undef;
 }
 
 QString Literal::getValueString() const
 {
 	switch(type) {
-	case Boolean:
-		return boolean ? "true" : "false";
-	case Number:
-		return to_string(number);
-	case Text:
-		return QString("\"%1\"").arg(text);
-	default:
-		return "undef";
+		case Boolean:
+			return boolean ? "true" : "false";
+		case Number:
+			return to_string(number).append(text);
+		case Text:
+			return QString("\"%1\"").arg(text);
+		default:
+			return "undef";
 	}
 }
 
 Value* Literal::getValue() const
 {
 	switch(type) {
-	case Boolean:
-		return new BooleanValue(boolean);
-	case Number:
-		return new NumberValue(number);
-	case Text:
-		return new TextValue(text);
-	default:
-		return Value::undefined();
+		case Boolean:
+			return new BooleanValue(boolean);
+		case Number:
+			return new NumberValue(number*unit);
+		case Text:
+			return new TextValue(text);
+		default:
+			return Value::undefined();
 	}
 }
 

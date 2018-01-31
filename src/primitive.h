@@ -28,13 +28,15 @@ class Primitive
 public:
 	enum Primitive_t {
 		Volume,
-		Skeleton,
+		Surface,
+		Lines,
 		Points
 	};
 
 	virtual ~Primitive() {}
 	virtual Polygon* createPolygon()=0;
 	virtual void setType(Primitive_t)=0;
+	virtual Primitive_t getType()=0;
 	virtual void setSanitized(bool)=0;
 	virtual bool getSanitized()=0;
 	virtual void createVertex(const Point&)=0;
@@ -53,7 +55,7 @@ public:
 	virtual Primitive* boundary()=0;
 	virtual Primitive* copy()=0;
 	virtual Primitive* triangulate()=0;
-	virtual Primitive* simplify(decimal)=0;
+	virtual Primitive* simplify(const decimal&)=0;
 	virtual void transform(TransformMatrix*)=0;
 	virtual bool isEmpty()=0;
 	virtual bool isFullyDimentional()=0;

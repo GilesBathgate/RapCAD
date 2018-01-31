@@ -25,7 +25,7 @@ class ResizeModule : public Module
 {
 	Q_DECLARE_TR_FUNCTIONS(ResizeModule)
 public:
-	ResizeModule(Reporter&);
+	explicit ResizeModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

@@ -23,6 +23,7 @@
 
 SinhFunction::SinhFunction() : Function("sinh")
 {
+	addDescription(tr("Returns the hyperbolic sine of the number value."));
 	addParameter("value");
 }
 

@@ -26,7 +26,7 @@ ModuleImport::~ModuleImport()
 {
 }
 
-void ModuleImport::setImport(QString imp)
+void ModuleImport::setImport(const QString& imp)
 {
 	import = imp;
 }
@@ -36,7 +36,7 @@ QString ModuleImport::getImport() const
 	return import;
 }
 
-void ModuleImport::setName(QString n)
+void ModuleImport::setName(const QString& n)
 {
 	name = n;
 }
@@ -46,7 +46,7 @@ QString ModuleImport::getName() const
 	return name;
 }
 
-void ModuleImport::setParameters(QList<Parameter*> params)
+void ModuleImport::setParameters(const QList<Parameter*>& params)
 {
 	parameters = params;
 }

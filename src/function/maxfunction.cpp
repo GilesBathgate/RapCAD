@@ -21,6 +21,7 @@
 
 MaxFunction::MaxFunction() : Function("max")
 {
+	addDescription(tr("Returns the largest of the given values."));
 	addParameter("values");
 }
 

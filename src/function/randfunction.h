@@ -23,6 +23,7 @@
 
 class RandFunction : public Function
 {
+	Q_DECLARE_TR_FUNCTIONS(RandFunction)
 public:
 	RandFunction();
 	Value* evaluate(const Context&) const override;

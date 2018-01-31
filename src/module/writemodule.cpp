@@ -24,9 +24,10 @@ WriteModule::WriteModule(Reporter& r) :
 	Module(r,"write"),
 	output(r.output)
 {
+	addDescription(tr("Write the given text to the console window."));
 }
 
-WriteModule::WriteModule(Reporter& r, const QString n) : Module(r,n), output(r.output)
+WriteModule::WriteModule(Reporter& r, const QString &n) : Module(r,n), output(r.output)
 {
 }
 

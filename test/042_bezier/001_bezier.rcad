@@ -4,4 +4,4 @@ gcp2 = [[5,10,10], [10,10,20], [15,5,15], [20,10,5]];
 gcp1 = [[0,0,0], [10,-10,0], [20,-10,0], [30,0,0]];
 mesh=[gcp1, gcp2, gcp3, gcp4];
 
-bezier_surface(mesh);
+bezier_surface(mesh,$fn=24);

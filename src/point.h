@@ -30,7 +30,7 @@ class Point
 public:
 	Point() : _x(0), _y(0), _z(0) { }
 	Point(decimal x,decimal y,decimal z) : _x(x), _y(y), _z(z) { }
-	bool operator==(const Point that) const;
+	bool operator==(const Point&) const;
 	decimal x() const;
 	decimal y() const;
 	decimal z() const;

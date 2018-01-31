@@ -23,6 +23,7 @@
 
 ImportModule::ImportModule(Reporter& r) : Module(r,"import")
 {
+	addDeprecated(tr("The import module is depricated please use the import declaration instead."));
 	addParameter("file", tr("The name of the file to import."));
 }
 
@@ -35,7 +36,7 @@ Node* ImportModule::evaluate(const Context& ctx) const
 	return new ImportNode(import);
 }
 
-void ImportModule::setImport(QString imp)
+void ImportModule::setImport(const QString& imp)
 {
 	import = imp;
 }

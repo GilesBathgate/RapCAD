@@ -21,6 +21,8 @@
 #include "preferencesdialog.h"
 #include "ui_preferences.h"
 #include "preferences.h"
+#include "decimal.h"
+#include "rmath.h"
 
 PreferencesDialog::PreferencesDialog(QWidget* parent) :
 	QDialog(parent),
@@ -35,6 +37,19 @@ PreferencesDialog::PreferencesDialog(QWidget* parent) :
 void PreferencesDialog::setupWidgets()
 {
 	Preferences* p = Preferences::getInstance();
+	QFont f=p->getEditorFont();
+	ui->fontComboBox->setCurrentFont(f);
+	int pointSize=f.pointSize();
+	QComboBox* c=ui->sizeComboBox;
+	QFontDatabase db;
+	for(auto size: db.standardSizes()) {
+		c->addItem(QString::number(size));
+		if(size==pointSize)
+			c->setCurrentIndex(c->count()-1);
+	}
+	ui->tooltipsCheckBox->setChecked(p->getShowTooltips());
+	ui->highlightLineCheckbox->setChecked(p->getHighlightLine());
+
 	setColor(ui->markedVertexColorFrame,p->getMarkedVertexColor());
 	setColor(ui->vertexColorFrame,p->getVertexColor());
 	setColor(ui->markedEdgeColorFrame,p->getMarkedEdgeColor());
@@ -44,8 +59,37 @@ void PreferencesDialog::setupWidgets()
 	ui->vertexSizeSpinBox->setValue(p->getVertexSize());
 	ui->edgeSizeSpinBox->setValue(p->getEdgeSize());
 	ui->checkBox->setChecked(p->getAutoSaveOnCompile());
-	ui->precisionSpinBox->setValue(p->getPrecision());
-	ui->functionRoundingCheckBox->setChecked(p->getFunctionRounding());
+	bool enabled=true;
+	switch(p->getPrecision())
+	{
+		case 0:
+			ui->singleRadio->setChecked(true);
+			enabled=false;
+			break;
+		case 1:
+			ui->doubleRadio->setChecked(true);
+			enabled=false;
+			break;
+		default:
+			ui->customRadio->setChecked(true);
+			break;
+	}
+	ui->placesSpinBox->setEnabled(enabled);
+	ui->bitsSpinBox->setEnabled(enabled);
+	ui->placesSpinBox->setValue(p->getDecimalPlaces());
+	ui->bitsSpinBox->setValue(p->getSignificandBits());
+	switch(p->getFunctionRounding())
+	{
+		case 0:
+			ui->decimalRoundingRadio->setChecked(true);
+			break;
+		case 1:
+			ui->base2RoundingRadio->setChecked(true);
+			break;
+		default:
+			ui->noRoundingRadio->setChecked(true);
+			break;
+	}
 	ui->rationalFormatCheckBox->setChecked(p->getRationalFormat());
 
 	QPointF o=p->getPrintOrigin();
@@ -58,6 +102,7 @@ void PreferencesDialog::setupWidgets()
 	ui->heightSpinBox->setValue(v.z());
 
 	ui->appearanceComboBox->setCurrentIndex(p->getPrintBedAppearance());
+	updatePrecision();
 }
 
 void PreferencesDialog::setColor(QWidget* w,QColor c)
@@ -68,6 +113,9 @@ void PreferencesDialog::setColor(QWidget* w,QColor c)
 
 void PreferencesDialog::setupButtons()
 {
+	connect(ui->fontComboBox,SIGNAL(currentFontChanged(QFont)),SLOT(fontChanged(QFont)));
+	connect(ui->sizeComboBox,SIGNAL(currentIndexChanged(QString)),SLOT(fontSizeChanged(QString)));
+
 	signalMapper = new QSignalMapper(this);
 	signalMapper->setMapping(ui->markedVertexColorToolButton,ui->markedVertexColorFrame);
 	signalMapper->setMapping(ui->vertexColorToolButton,ui->vertexColorFrame);
@@ -87,10 +135,15 @@ void PreferencesDialog::setupButtons()
 
 	connect(ui->vertexSizeSpinBox,SIGNAL(valueChanged(double)),SLOT(vertexSizeChanged(double)));
 	connect(ui->edgeSizeSpinBox,SIGNAL(valueChanged(double)),SLOT(edgeSizeChanged(double)));
-	connect(ui->precisionSpinBox,SIGNAL(valueChanged(int)),SLOT(precisionChanged(int)));
+	connect(ui->placesSpinBox,SIGNAL(valueChanged(int)),SLOT(placesChanged(int)));
+	connect(ui->bitsSpinBox,SIGNAL(valueChanged(int)),SLOT(bitsChanged(int)));
+	connect(ui->doubleRadio,SIGNAL(toggled(bool)),SLOT(precisionType(bool)));
+	connect(ui->singleRadio,SIGNAL(toggled(bool)),SLOT(precisionType(bool)));
 
 	connect(ui->checkBox,&QCheckBox::stateChanged,this,&PreferencesDialog::autoSaveOnCompileChanged);
-	connect(ui->functionRoundingCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::functionRoundingChanged);
+	connect(ui->noRoundingRadio,SIGNAL(toggled(bool)),SLOT(functionRoundingChanged(bool)));
+	connect(ui->decimalRoundingRadio,SIGNAL(toggled(bool)),SLOT(functionRoundingChanged(bool)));
+	connect(ui->base2RoundingRadio,SIGNAL(toggled(bool)),SLOT(functionRoundingChanged(bool)));
 	connect(ui->rationalFormatCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::rationalFormatChanged);
 
 	connect(ui->widthSpinBox,SIGNAL(valueChanged(int)),this,SLOT(volumeChanged()));
@@ -101,6 +154,15 @@ void PreferencesDialog::setupButtons()
 	connect(ui->YspinBox,SIGNAL(valueChanged(int)),this,SLOT(originChanged()));
 
 	connect(ui->appearanceComboBox,SIGNAL(currentIndexChanged(int)),this,SLOT(appearanceChanged(int)));
+
+	connect(ui->tooltipsCheckBox,SIGNAL(stateChanged(int)),this,SLOT(showTooltipsChanged(int)));
+	connect(ui->highlightLineCheckbox,SIGNAL(stateChanged(int)),this,SLOT(highlightLineChanged(int)));
+}
+
+void PreferencesDialog::updatePrecision()
+{
+	decimal ex=r_round_preference(decimal(10)/decimal(9));
+	ui->exampleLabel->setText(to_string(ex));
 }
 
 void PreferencesDialog::colorButtonPressed(QWidget* frame)
@@ -122,21 +184,21 @@ void PreferencesDialog::colorButtonPressed(QWidget* frame)
 	else if(frame==ui->facetColorFrame)
 		p->setFacetColor(c);
 
-	preferencesUpdated();
+	emit preferencesUpdated();
 }
 
 void PreferencesDialog::vertexSizeChanged(double s)
 {
 	Preferences* p = Preferences::getInstance();
 	p->setVertexSize(s);
-	preferencesUpdated();
+	emit preferencesUpdated();
 }
 
 void PreferencesDialog::edgeSizeChanged(double s)
 {
 	Preferences* p = Preferences::getInstance();
 	p->setEdgeSize(s);
-	preferencesUpdated();
+	emit preferencesUpdated();
 }
 
 void PreferencesDialog::autoSaveOnCompileChanged(int s)
@@ -145,22 +207,79 @@ void PreferencesDialog::autoSaveOnCompileChanged(int s)
 	p->setAutoSaveOnCompile(s == Qt::Checked);
 }
 
-void PreferencesDialog::precisionChanged(int i)
+void PreferencesDialog::showTooltipsChanged(int s)
 {
 	Preferences* p = Preferences::getInstance();
-	p->setPrecision(i);
+	p->setShowTooltips(s == Qt::Checked);
+	emit preferencesUpdated();
 }
 
-void PreferencesDialog::functionRoundingChanged(int s)
+void PreferencesDialog::highlightLineChanged(int s)
 {
 	Preferences* p = Preferences::getInstance();
-	p->setFunctionRounding(s == Qt::Checked);
+	p->setHighlightLine(s == Qt::Checked);
+	emit preferencesUpdated();
+}
+
+void PreferencesDialog::placesChanged(int i)
+{
+	Preferences* p = Preferences::getInstance();
+	p->setDecimalPlaces(i);
+	QSpinBox* sb=ui->bitsSpinBox;
+	bool block=sb->blockSignals(true);
+	sb->setValue(p->getSignificandBits());
+	sb->blockSignals(block);
+	updatePrecision();
+}
+
+void PreferencesDialog::bitsChanged(int i)
+{
+	Preferences* p = Preferences::getInstance();
+	p->setSignificandBits(i);
+	QSpinBox* sb=ui->placesSpinBox;
+	bool block=sb->blockSignals(true);
+	sb->setValue(p->getDecimalPlaces());
+	sb->blockSignals(block);
+	updatePrecision();
+}
+
+void PreferencesDialog::precisionType(bool)
+{
+	Preferences* p = Preferences::getInstance();
+	bool enabled=true;
+	if(ui->singleRadio->isChecked()) {
+		ui->bitsSpinBox->setValue(23);
+		p->setPrecision(0);
+		enabled=false;
+	} else if(ui->doubleRadio->isChecked()) {
+		ui->bitsSpinBox->setValue(52);
+		p->setPrecision(1);
+		enabled=false;
+	} else {
+		p->setPrecision(2);
+	}
+	ui->placesSpinBox->setEnabled(enabled);
+	ui->bitsSpinBox->setEnabled(enabled);
+}
+
+void PreferencesDialog::functionRoundingChanged(bool)
+{
+	Preferences* p = Preferences::getInstance();
+	if(ui->decimalRoundingRadio->isChecked())
+		p->setFunctionRounding(0);
+	else if(ui->base2RoundingRadio->isChecked())
+		p->setFunctionRounding(1);
+	else
+		p->setFunctionRounding(2);
+
+	updatePrecision();
 }
 
 void PreferencesDialog::rationalFormatChanged(int s)
 {
 	Preferences* p = Preferences::getInstance();
 	p->setRationalFormat(s == Qt::Checked);
+	updatePrecision();
 }
 
 void PreferencesDialog::volumeChanged()
@@ -168,7 +287,7 @@ void PreferencesDialog::volumeChanged()
 	Preferences* p = Preferences::getInstance();
 	QVector3D v(ui->widthSpinBox->value(),ui->lengthSpinBox->value(),ui->heightSpinBox->value());
 	p->setPrintVolume(v);
-	preferencesUpdated();
+	emit preferencesUpdated();
 }
 
 void PreferencesDialog::originChanged()
@@ -176,35 +295,53 @@ void PreferencesDialog::originChanged()
 	Preferences* p = Preferences::getInstance();
 	QPointF o(ui->XspinBox->value(),ui->YspinBox->value());
 	p->setPrintOrigin(o);
-	preferencesUpdated();
+	emit preferencesUpdated();
 }
 
 void PreferencesDialog::appearanceChanged(int index)
 {
 	Preferences* p = Preferences::getInstance();
 	switch(index) {
-	case 0: { //MK42
-		ui->XspinBox->setValue(-125);
-		ui->YspinBox->setValue(-105);
-		originChanged();
-		ui->widthSpinBox->setValue(250);
-		ui->lengthSpinBox->setValue(210);
-		volumeChanged();
-		p->setPrintBedAppearance(index);
+		case 0: { //MK42
+			ui->XspinBox->setValue(-125);
+			ui->YspinBox->setValue(-105);
+			originChanged();
+			ui->widthSpinBox->setValue(250);
+			ui->lengthSpinBox->setValue(210);
+			volumeChanged();
+			p->setPrintBedAppearance(index);
+		}
+		break;
+		case 1: { //MK2
+			ui->XspinBox->setValue(-100);
+			ui->YspinBox->setValue(-100);
+			originChanged();
+			ui->widthSpinBox->setValue(200);
+			ui->lengthSpinBox->setValue(200);
+			volumeChanged();
+			p->setPrintBedAppearance(index);
+		}
+		break;
 	}
-	break;
-	case 1: { //MK2
-		ui->XspinBox->setValue(-100);
-		ui->YspinBox->setValue(-100);
-		originChanged();
-		ui->widthSpinBox->setValue(200);
-		ui->lengthSpinBox->setValue(200);
-		volumeChanged();
-		p->setPrintBedAppearance(index);
-	}
-	break;
-	}
-	preferencesUpdated();
+	emit preferencesUpdated();
+}
+
+void PreferencesDialog::fontChanged(QFont f)
+{
+	Preferences* p = Preferences::getInstance();
+	QString s=ui->sizeComboBox->currentText();
+	f.setPointSize(s.toInt());
+	p->setEditorFont(f);
+	emit preferencesUpdated();
+}
+
+void PreferencesDialog::fontSizeChanged(const QString &s)
+{
+	Preferences* p = Preferences::getInstance();
+	QFont f=ui->fontComboBox->currentFont();
+	f.setPointSize(s.toInt());
+	p->setEditorFont(f);
+	emit preferencesUpdated();
 }
 
 PreferencesDialog::~PreferencesDialog()

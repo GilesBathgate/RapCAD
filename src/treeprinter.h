@@ -54,7 +54,7 @@
 class TreePrinter : public TreeVisitor
 {
 public:
-	TreePrinter(QTextStream&);
+	explicit TreePrinter(QTextStream&);
 	~TreePrinter() override;
 	void visit(const Module&) override;
 	void visit(const ModuleScope&) override;
@@ -85,6 +85,7 @@ public:
 	void visit(Product&) override;
 	void visit(Callback&) override;
 private:
+	void printCodeDoc(const QString&,const QList<Parameter*>&);
 	void createIndent();
 	QTextStream& result;
 	unsigned int indent;

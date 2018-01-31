@@ -34,7 +34,7 @@ Interactive::Interactive(Reporter& r,QObject* parent) :
 {
 }
 
-bool Interactive::isExpression(QString s)
+bool Interactive::isExpression(const QString& s)
 {
 	TokenBuilder t(s);
 	int i;
@@ -46,8 +46,9 @@ bool Interactive::isExpression(QString s)
 	return true;
 }
 
-void Interactive::execCommand(QString s)
+void Interactive::execCommand(const QString& str)
 {
+	QString s(str);
 	if(isExpression(s)) {
 		s=QString("writeln(%1);").arg(s);
 		/* Use a kludge factor so that the reporter doesn't include the 'write('
@@ -57,8 +58,8 @@ void Interactive::execCommand(QString s)
 		reporter.setKludge(0);
 	}
 
-	Script sc;
-	parse(sc,s,reporter,false);
+	Script sc(reporter);
+	sc.parse(s);
 	TreeEvaluator e(reporter);
 	sc.accept(e);
 	output.flush();

@@ -285,42 +285,7 @@ function calculate(c) {
 Built-in Functions
 ^^^^^^^^^^^^^^^^^^
 
-.RapCAD functions
-[width="100%",frame="topbot",options="header"]
-|======================
-|Function |Description
-|abs(value) | Returns the absolute value of the number value.
-|acos(value) | Returns the arc cosine of the number value.
-|asin(value) | Returns the arc sine of the number value.
-|atan2(y,x) | Returns the arc tangent of the two number values.
-|atan(value) | Returns the arc tangent of the number value.
-|ceil(value) | Returns the number value rounded up to the nearest integer.
-|concat() | Returns a vector with the passed in vector appended.
-|cos(value) | Returns the cosine of the number value.
-|cosh(value) | Returns the hyperbolic cosine of the number value.
-|deg(radians) | Returns the number of degrees for the given number of radians.
-|exp(value) | Returns the exponential of the number value.
-|floor(value) | Returns the number value rounded down to the nearest integer.
-|ln(value) | Returns the natural log of the number.
-|len(value) | Returns the length of text value or vector value.
-|log(value,base) | Returns the logarithm of the number value to the given base.
-|max(a,b) | Returns the largest of the two given number values.
-|min(a,b) | Returns the smallest of the two given number values.
-|num(value) | Converts the value to a number value.
-|pow(value,exponent) | Returns the value raised to the power of exponent.
-|rad(degrees) | Returns the number of radians for the given number of degrees.
-|rands(min,max,count,seed) | Returns a vector of numbers with count specifying how many random numbers between the given min and max values. Seed number can optionally be used to give consistent results.
-|round(value) | Returns the number value rounded up, or down, to the nearest integer.
-|sign(value) | Returns a number value of -1 or 1 depending on the sign of the given number value.
-|sin(value) | Returns the sine of the number value.
-|sinh(value) | Returns the hyperbolic sine of the number value.
-|sqrt(number) | Returns the square root of the number value.
-|str() | Converts the value to a text value.
-|sum(values) | Returns the sum of the given vector of values.
-|tan(value) | Returns the tangent of the number value.
-|tanh(value) | Returns the hyperbolic tangent of the number value.
-|version() | Returns the version of RapCAD.
-|======================
+include::functions.asciidoc[]
 
 Built-in Modules
 ~~~~~~~~~~~~~~~~

@@ -51,6 +51,9 @@ int NumberValue::toInteger() const
 
 Value* NumberValue::operation(Expression::Operator_e e)
 {
+	if(e==Expression::Invert)
+		return new BooleanValue(this->isFalse());
+
 	decimal result=basicOperation(number,e);
 	return new NumberValue(result);
 }
@@ -63,8 +66,13 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 			bool result=to_boolean(basicOperation(number,e,num->number));
 			return new BooleanValue(result);
 		}
-		if(e==Expression::Divide&&num->number==decimal(0))
-			return Value::undefined();
+		if(e==Expression::Divide||e==Expression::Modulus) {
+			if(num->number==0)
+				return Value::undefined();
+		} else if(e==Expression::Exponent) {
+			if(number==0&&num->number<=0)
+				return Value::undefined();
+		}
 
 		decimal result=basicOperation(number,e,num->number);
 		return new NumberValue(result);
@@ -85,6 +93,12 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 			// [1,2,3]-1  is the same as 1-[1,2,3]
 			return Value::operation(vec,e,this);
 		}
+	}
+	auto* flag = dynamic_cast<BooleanValue*>(&v);
+	if(flag && isComparison(e)) {
+		//Use 0 for false and 1 for true to ensure 2>true
+		bool result=basicOperation(this->toInteger(),e,flag->isTrue()?1:0);
+		return new BooleanValue(result);
 	}
 
 	return Value::operation(v,e);

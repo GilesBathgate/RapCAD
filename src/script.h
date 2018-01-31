@@ -28,25 +28,27 @@
 class Script : public Scope
 {
 public:
-	Script();
+	Script(Reporter&);
 	~Script() override;
 
-	void setDeclarations(QList<Declaration*>);
+	void parse(const QString&);
+	void parse(QFileInfo);
+
+	void setDeclarations(const QList<Declaration*>&);
 	QList<Declaration*> getDeclarations() const override;
 	void addDeclaration(Declaration*);
 	void appendDeclaration(Declaration*);
 	void removeDeclaration(Declaration*);
-	void addDocumentation(QList<CodeDoc*>);
+	void addDocumentation(const QList<CodeDoc*>&);
 	QList<QList<CodeDoc*> > getDocumentation() const;
 	void accept(TreeVisitor&) override;
-	QFileInfo* getFileLocation() const;
-	void setFileLocation(QFileInfo*);
+	QDir getFileLocation() const;
+	void setFileLocation(QDir);
 private:
 	QList<Declaration*> declarations;
 	QList<QList<CodeDoc*> > documentation;
-	QFileInfo* fileLocation;
+	QDir fileLocation;
+	Reporter& reporter;
 };
-
-extern void parse(Script&,QString,Reporter&,bool);
 
 #endif // SCRIPT_H

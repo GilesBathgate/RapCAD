@@ -23,6 +23,7 @@
 
 Atan2Function::Atan2Function() : Function("atan2")
 {
+	addDescription(tr("Returns the arc tangent of the two number values."));
 	addParameter("y");
 	addParameter("x");
 }

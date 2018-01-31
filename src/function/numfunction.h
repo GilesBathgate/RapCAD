@@ -23,6 +23,7 @@
 
 class NumFunction : public Function
 {
+	Q_DECLARE_TR_FUNCTIONS(NumFunction)
 public:
 	NumFunction();
 	Value* evaluate(const Context&) const override;

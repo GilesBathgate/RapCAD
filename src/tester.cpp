@@ -21,6 +21,7 @@
 #include <QApplication>
 #include <QtTest/QTest>
 #include <QMenu>
+#include <boost/version.hpp>
 #ifdef USE_CGAL
 #include "cgal.h"
 #include "cgalexport.h"
@@ -55,14 +56,41 @@ Tester::~Tester()
 	delete nullreport;
 }
 
-void Tester::writeHeader(QString name, int num)
+void Tester::writeHeader(const QString& name, int num)
 {
 	output << "Test #" << QString().setNum(num).rightJustified(3,'0') << ": ";
 	output << name.leftJustified(62,'.',true);
 	output.flush();
 }
 
-static bool skipDir(QString dir)
+void Tester::writePass()
+{
+#ifdef Q_OS_WIN
+	output << " Passed" << endl;
+#else
+	output << " \e[0;32mPassed\e[0m" << endl;
+#endif
+}
+
+void Tester::writeFail()
+{
+#ifdef Q_OS_WIN
+	output << " FAILED" << endl;
+#else
+	output << " \e[0;31mFAILED\e[0m" << endl;
+#endif
+}
+
+void Tester::writeSkip()
+{
+#ifdef Q_OS_WIN
+	output << " Skipped" << endl;
+#else
+	output << " \e[0;33mSkipped\e[0m" << endl;
+#endif
+}
+
+static bool skipDir(const QString& dir)
 {
 #ifndef USE_OFFSET
 	if(dir=="051_offset") return true;
@@ -100,7 +128,7 @@ int Tester::evaluate()
 	BuiltinCreator* cr=BuiltinCreator::getInstance(*nullreport);
 	cr->generateDocs(nulldocs);
 
-	output << " Passed" << endl;
+	writePass();
 
 	/* This hard coded directory and filters need to be addressed
 	 * but it will do for now. */
@@ -119,12 +147,12 @@ int Tester::evaluate()
 			writeHeader(file.fileName(),++testcount);
 
 			if(skipDir(dir)) {
-				output << " Skipped" << endl;
+				writeSkip();
 				continue;
 			}
 
-			Script s;
-			parse(s,file.absoluteFilePath(),*nullreport,true);
+			Script s(*nullreport);
+			s.parse(file);
 
 			if(testFunctionExists(s)) {
 				testFunction(s);
@@ -135,7 +163,7 @@ int Tester::evaluate()
 	}
 	reporter.setReturnCode(failcount);
 
-	output << testcount << " tests. Passed: " << passcount << " Failed: " << failcount << endl;
+	output << "Total: " << testcount << " Passed: " << passcount << " Failed: " << failcount << endl;
 
 	reporter.reportTiming("testing");
 #ifndef Q_OS_WIN
@@ -153,10 +181,11 @@ int Tester::evaluate()
 
 void Tester::runTests()
 {
+	QFile f("test.rcad");
 	CodeEditor* edit = ui->findChild<CodeEditor*>("scriptEditor");
 	edit->activateWindow();
 	QTest::keyClicks(edit,"difference(){cube(10,c=true);cylinder(20,4,c=true);}");
-	edit->setFileName("test.rcad");
+	edit->setFileName(f.fileName());
 	edit->saveFile();
 	QTest::keyClick(ui,Qt::Key_F6,Qt::NoModifier,100);
 
@@ -171,14 +200,15 @@ void Tester::runTests()
 	QTest::keyClick(prefs,Qt::Key_Enter,Qt::NoModifier,100);
 
 	QTimer::singleShot(1000,ui,SLOT(close()));
+	f.remove();
 }
 
-void Tester::exportTest(QString dir)
+void Tester::exportTest(const QString& dir)
 {
 	Reporter& r=*nullreport;
 	for(QFileInfo file: QDir(dir).entryInfoList(QStringList("*.rcad"), QDir::Files)) {
-		Script s;
-		parse(s,file.absoluteFilePath(),r,true);
+		Script s(r);
+		s.parse(file);
 		TreeEvaluator te(r);
 		s.accept(te);
 		NodeEvaluator ne(r);
@@ -205,7 +235,7 @@ void Tester::exportTest(QString dir)
 }
 
 #if USE_CGAL
-void Tester::exportTest(CGALExport& e,QString origPath,QFileInfo file,QString ext)
+void Tester::exportTest(CGALExport& e,const QString& origPath,QFileInfo file,const QString& ext)
 {
 	QString newName=file.baseName()+ext;
 
@@ -220,10 +250,10 @@ void Tester::exportTest(CGALExport& e,QString origPath,QFileInfo file,QString ex
 	c.setup(origPath,newPath);
 	c.evaluate();
 	if(c.evaluate()==0) {
-		output << " Passed" << endl;
+		writePass();
 		passcount++;
 	} else {
-		output << " FAILED" << endl;
+		writeFail();
 		failcount++;
 	}
 	newfile.remove();
@@ -239,10 +269,10 @@ void Tester::testFunction(Script& s)
 	s.accept(te);
 	auto* v = dynamic_cast<BooleanValue*>(c->getResult());
 	if(v && v->isTrue()) {
-		output << " Passed" << endl;
+		writePass();
 		passcount++;
 	} else {
-		output << " FAILED" << endl;
+		writeFail();
 		failcount++;
 	}
 	delete v;
@@ -254,7 +284,7 @@ void Tester::testFunction(Script& s)
 void Tester::testModule(Script& s, QFileInfo file)
 {
 #ifdef Q_OS_WIN
-	output << " Skipped" << endl;
+	writeSkip();
 	return;
 #endif
 	TreeEvaluator te(*nullreport);
@@ -282,10 +312,10 @@ void Tester::testModule(Script& s, QFileInfo file)
 		Comparer co(*nullreport);
 		co.setup(examFileInfo.absoluteFilePath(),csgFileInfo.absoluteFilePath());
 		if(co.evaluate()==0) {
-			output << " Passed" << endl;
+			writePass();
 			passcount++;
 		} else {
-			output << " FAILED" << endl;
+			writeFail();
 			failcount++;
 		}
 		examFile.remove();

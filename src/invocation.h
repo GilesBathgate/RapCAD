@@ -28,11 +28,11 @@ class Invocation : public Expression
 public:
 	Invocation();
 	~Invocation() override;
-	void setName(QString);
+	void setName(const QString&);
 	QString getName() const;
-	void setNamespace(QString);
+	void setNamespace(const QString&);
 	QString getNamespace() const;
-	void setArguments(QList<Argument*>);
+	void setArguments(const QList<Argument*>&);
 	QList<Argument*> getArguments() const;
 	void accept(TreeVisitor&) override;
 private:

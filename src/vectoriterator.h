@@ -26,7 +26,7 @@
 class VectorIterator : public ValueIterator
 {
 public:
-	VectorIterator(QList<Value*> items);
+	explicit VectorIterator(const QList<Value*>&);
 	ValueIterator& operator++() override;
 	bool operator!=(const Iterator&) const override;
 	Value* operator*() const override;

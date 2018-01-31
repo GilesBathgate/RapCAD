@@ -23,11 +23,12 @@
 
 class AngFunction : public Function
 {
+	Q_DECLARE_TR_FUNCTIONS(AngFunction)
 public:
 	AngFunction();
 	Value* evaluate(const Context&) const override;
 private:
-	Value* getResult(decimal,decimal,decimal,decimal) const;
+	Value* getResult(const decimal&,const decimal&,const decimal&,const decimal&) const;
 };
 
 #endif // ANGFUNCTION_H

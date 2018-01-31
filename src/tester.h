@@ -32,13 +32,16 @@ public:
 private slots:
 	void runTests();
 private:
-	void writeHeader(QString name, int num);
+	void writeHeader(const QString& name, int num);
+	void writePass();
+	void writeFail();
+	void writeSkip();
 	bool testFunctionExists(Script&);
 	void testModule(Script&, QFileInfo);
 	void testFunction(Script&);
-	void exportTest(QString);
+	void exportTest(const QString&);
 #if USE_CGAL
-	void exportTest(class CGALExport&,QString,QFileInfo,QString);
+	void exportTest(class CGALExport&,const QString&,QFileInfo,const QString&);
 #endif
 	QString* nullout;
 	QTextStream* nullstream;

@@ -34,22 +34,23 @@ class Context;
 class Module : public Declaration
 {
 public:
-	Module(Reporter&,const QString);
+	Module(Reporter&, const QString&);
 	~Module() override;
 	QString getName() const;
-	void setName(QString);
+	void setName(const QString&);
 	QString getDescription() const;
 	bool getAuxilary() const;
 	QList<Parameter*> getParameters() const;
-	void setParameters(QList<Parameter*>);
+	void setParameters(const QList<Parameter*>&);
 	Scope* getScope() const;
 	void setScope(Scope*);
 	void accept(TreeVisitor&) override;
 	virtual Node* evaluate(const Context&) const;
+	bool isDeprecated() const;
 protected:
-	void addDescription(QString);
-	void addDeprecated(QString);
-	void addParameter(QString,QString);
+	void addDescription(const QString&);
+	void addDeprecated(const QString&);
+	void addParameter(const QString&,const QString&);
 	Value* getParameterArgument(const Context&, int) const;
 	Value* getParameterArgument(const Context&, int, int) const;
 

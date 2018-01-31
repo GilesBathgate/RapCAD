@@ -51,10 +51,14 @@ QString RangeValue::getValueString() const
 
 bool RangeValue::inRange(Value* index)
 {
+	//Check for a valid range
+	if(start->isUndefined()||finish->isUndefined()||step->isFalse())
+		return false;
+
 	Value*	lower = Value::operation(index,Expression::LessThan,reverse?finish:start);
 	Value*	upper = Value::operation(index,Expression::GreaterThan,reverse?start:finish);
 
-	return !lower->isTrue() && !upper->isTrue();
+	return lower->isFalse() && upper->isFalse();
 }
 
 Value* RangeValue::getIndex(NumberValue* n)

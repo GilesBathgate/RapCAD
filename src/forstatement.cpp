@@ -28,7 +28,7 @@ ForStatement::~ForStatement()
 	delete statement;
 }
 
-void ForStatement::setArguments(QList<Argument*> args)
+void ForStatement::setArguments(const QList<Argument*>& args)
 {
 	arguments = args;
 }

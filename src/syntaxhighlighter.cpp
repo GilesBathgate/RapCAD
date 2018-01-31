@@ -18,9 +18,10 @@
 
 #include "syntaxhighlighter.h"
 #include "reporter.h"
+#include "builtincreator.h"
 
 extern int lexerlex_destroy();
-extern void lexerinit(AbstractTokenBuilder*,Reporter*,QString,bool);
+extern void lexerinit(AbstractTokenBuilder*,Reporter*,const QString&);
 extern int lexerlex();
 extern void lexerbegin();
 extern void lexercomment();
@@ -30,8 +31,7 @@ extern int lexerleng;
 
 SyntaxHighlighter::SyntaxHighlighter(QTextDocument* parent) :
 	QSyntaxHighlighter(parent),
-	startIndex(0),
-	stringStart(0)
+	startIndex(0)
 {
 	keywordFormat.setForeground(Qt::darkBlue);
 	keywordFormat.setFontWeight(QFont::Bold);
@@ -44,28 +44,37 @@ SyntaxHighlighter::SyntaxHighlighter(QTextDocument* parent) :
 
 	stringFormat.setForeground(Qt::darkGreen);
 
+	moduleFormat.setForeground(Qt::darkCyan);
+
 	codeDocFormat.setForeground(Qt::darkBlue);
 
 	codeDocParamFormat.setForeground(Qt::blue);
 	codeDocParamFormat.setFontWeight(QFont::Bold);
 }
 
+void SyntaxHighlighter::setModuleNames(const QHash<QString,Module*>& names)
+{
+	moduleNames = names;
+}
+
 void SyntaxHighlighter::highlightBlock(const QString& text)
 {
 	startIndex=0;
-	lexerinit(this,nullptr,text,false);
+	lexerinit(this,nullptr,text);
 
 	//Force lexer into correct state
 	switch(previousBlockState()) {
-	case Initial:
-		lexerbegin();
-		break;
-	case Comment:
-		lexercomment();
-		break;
-	case CodeDoc:
-		lexercodedoc();
-		break;
+		case Initial:
+			lexerbegin();
+			break;
+		case Comment:
+			setCurrentBlockState(Comment);
+			lexercomment();
+			break;
+		case CodeDoc:
+			setCurrentBlockState(CodeDoc);
+			lexercodedoc();
+			break;
 	}
 
 	while(nextToken());
@@ -101,13 +110,13 @@ void SyntaxHighlighter::buildIncludeStart()
 	startIndex+=lexerleng;
 }
 
-void SyntaxHighlighter::buildIncludeFile(QString)
+void SyntaxHighlighter::buildIncludeFile(const QString&)
 {
 	setFormat(startIndex,lexerleng,stringFormat);
 	startIndex+=lexerleng;
 }
 
-void SyntaxHighlighter::buildIncludePath(QString)
+void SyntaxHighlighter::buildIncludePath(const QString&)
 {
 	setFormat(startIndex,lexerleng,stringFormat);
 	startIndex+=lexerleng;
@@ -124,7 +133,7 @@ void SyntaxHighlighter::buildUseStart()
 	startIndex+=lexerleng;
 }
 
-unsigned int SyntaxHighlighter::buildUse(QString)
+unsigned int SyntaxHighlighter::buildUse(const QString&)
 {
 	setFormat(startIndex,lexerleng,stringFormat);
 	return YY_CONTINUE;
@@ -141,7 +150,7 @@ void SyntaxHighlighter::buildImportStart()
 	startIndex+=lexerleng;
 }
 
-unsigned int SyntaxHighlighter::buildImport(QString)
+unsigned int SyntaxHighlighter::buildImport(const QString&)
 {
 	setFormat(startIndex,lexerleng,stringFormat);
 	return YY_CONTINUE;
@@ -308,73 +317,13 @@ unsigned int SyntaxHighlighter::buildNamespace()
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildAssign()
-{
-	setFormat(startIndex,lexerleng,operatorFormat);
-	return YY_CONTINUE;
-}
-
-unsigned int SyntaxHighlighter::buildAdd()
-{
-	setFormat(startIndex,lexerleng,operatorFormat);
-	return YY_CONTINUE;
-}
-
-unsigned int SyntaxHighlighter::buildSubtract()
-{
-	setFormat(startIndex,lexerleng,operatorFormat);
-	return YY_CONTINUE;
-}
-
-unsigned int SyntaxHighlighter::buildTernaryCondition()
-{
-	setFormat(startIndex,lexerleng,operatorFormat);
-	return YY_CONTINUE;
-}
-
-unsigned int SyntaxHighlighter::buildTernaryAlternate()
-{
-	setFormat(startIndex,lexerleng,operatorFormat);
-	return YY_CONTINUE;
-}
-
-unsigned int SyntaxHighlighter::buildNot()
-{
-	setFormat(startIndex,lexerleng,operatorFormat);
-	return YY_CONTINUE;
-}
-
-unsigned int SyntaxHighlighter::buildMultiply()
-{
-	setFormat(startIndex,lexerleng,operatorFormat);
-	return YY_CONTINUE;
-}
-
-unsigned int SyntaxHighlighter::buildDivide()
-{
-	setFormat(startIndex,lexerleng,operatorFormat);
-	return YY_CONTINUE;
-}
-
-unsigned int SyntaxHighlighter::buildLength()
-{
-	setFormat(startIndex,lexerleng,operatorFormat);
-	return YY_CONTINUE;
-}
-
-unsigned int SyntaxHighlighter::buildModulus()
-{
-	setFormat(startIndex,lexerleng,operatorFormat);
-	return YY_CONTINUE;
-}
-
-unsigned int SyntaxHighlighter::buildConcatenate()
-{
-	setFormat(startIndex,lexerleng,operatorFormat);
-	return YY_CONTINUE;
-}
-
 unsigned int SyntaxHighlighter::buildAppend()
+{
+	setFormat(startIndex,lexerleng,operatorFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildOperator(unsigned int)
 {
 	setFormat(startIndex,lexerleng,operatorFormat);
 	return YY_CONTINUE;
@@ -385,43 +334,67 @@ unsigned int SyntaxHighlighter::buildLegalChar(unsigned int)
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildIllegalChar()
+unsigned int SyntaxHighlighter::buildIllegalChar(const QString& s)
 {
-	setFormat(startIndex,lexerleng,errorFormat);
+	int stringLen=s.length();
+	setFormat(startIndex,stringLen,errorFormat);
+	startIndex-=(lexerleng-stringLen);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildNumber(QString)
+unsigned int SyntaxHighlighter::buildNumber(const QString&)
 {
 	setFormat(startIndex,lexerleng,numberFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildIdentifier(QString)
+unsigned int SyntaxHighlighter::buildNumberExp(const QString&)
 {
+	setFormat(startIndex,lexerleng,numberFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildRational()
+{
+	setFormat(startIndex,lexerleng,numberFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildRational(const QString&)
+{
+	setFormat(startIndex,lexerleng,numberFormat);
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildIdentifier(const QString& i)
+{
+	if(moduleNames.contains(i))
+		setFormat(startIndex,lexerleng,moduleFormat);
 	return YY_CONTINUE;
 }
 
 void SyntaxHighlighter::buildStringStart()
 {
-	stringStart=startIndex;
-	startIndex++;
+	setFormat(startIndex,lexerleng,stringFormat);
+	startIndex+=lexerleng;
 }
 
 void SyntaxHighlighter::buildString(QChar)
 {
-	startIndex++;
+	setFormat(startIndex,lexerleng,stringFormat);
+	startIndex+=lexerleng;
 }
 
-void SyntaxHighlighter::buildString(QString)
+void SyntaxHighlighter::buildString(const QString& s)
 {
-	startIndex+=lexerleng;
+	int stringLen=s.length();
+	setFormat(startIndex,stringLen,stringFormat);
+	startIndex+=stringLen;
 }
 
 unsigned int SyntaxHighlighter::buildStringFinish()
 {
-	int stringLen=(startIndex+1)-stringStart;
-	setFormat(stringStart,stringLen,stringFormat);
+	setFormat(startIndex,lexerleng,stringFormat);
 	return YY_CONTINUE;
 }
 
@@ -432,13 +405,11 @@ void SyntaxHighlighter::buildCommentStart()
 	startIndex+=lexerleng;
 }
 
-unsigned int SyntaxHighlighter::buildComment(QString)
+void SyntaxHighlighter::buildComment(const QString& s)
 {
-	if(previousBlockState()==Comment)
-		setCurrentBlockState(Comment);
-
-	setFormat(startIndex,lexerleng,stringFormat);
-	return YY_CONTINUE;
+	int stringLen=s.length();
+	setFormat(startIndex,stringLen,stringFormat);
+	startIndex+=stringLen;
 }
 
 void SyntaxHighlighter::buildCommentFinish()
@@ -455,25 +426,23 @@ unsigned int SyntaxHighlighter::buildCodeDocStart()
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildCodeDoc(QString)
+unsigned int SyntaxHighlighter::buildCodeDoc(const QString& s)
 {
-	if(previousBlockState()==CodeDoc)
-		setCurrentBlockState(CodeDoc);
-
-	setFormat(startIndex,lexerleng,codeDocFormat);
+	int stringLen=s.length();
+	setFormat(startIndex,stringLen,codeDocFormat);
+	/* Need to adjust back the index because this is a token and thus
+	 * index is incremented in the NextToken() call */
+	startIndex-=(lexerleng-stringLen);
 	return YY_CONTINUE;
 }
 
 void SyntaxHighlighter::buildCodeDoc()
 {
-	if(previousBlockState()==CodeDoc)
-		setCurrentBlockState(CodeDoc);
-
 	setFormat(startIndex,lexerleng,codeDocFormat);
 	startIndex+=lexerleng;
 }
 
-unsigned int SyntaxHighlighter::buildCodeDocParam(QString)
+unsigned int SyntaxHighlighter::buildCodeDocParam(const QString&)
 {
 	setFormat(startIndex,lexerleng,codeDocParamFormat);
 	return YY_CONTINUE;
@@ -506,4 +475,9 @@ void SyntaxHighlighter::buildFileStart(QDir)
 
 void SyntaxHighlighter::buildFileFinish()
 {
+}
+
+QString SyntaxHighlighter::getToken() const
+{
+	return QString();
 }

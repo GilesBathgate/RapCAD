@@ -20,6 +20,7 @@
 #include "textvalue.h"
 #include "numbervalue.h"
 #include "qpathtextbuilder.h"
+#include "node/primitivenode.h"
 #include "context.h"
 
 TextModule::TextModule(Reporter& r) : Module(r, "text")
@@ -53,6 +54,7 @@ Node* TextModule::evaluate(const Context& ctx) const
 
 	auto* pn=new PrimitiveNode(reporter);
 	Primitive* p=tb.buildPrimitive();
+	p->setType(Primitive::Surface);
 	p->setSanitized(false);
 	pn->setPrimitive(p);
 	pn->setChildren(ctx.getInputNodes());

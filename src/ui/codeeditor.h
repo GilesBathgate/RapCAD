@@ -27,7 +27,7 @@ class CodeEditor : public QPlainTextEdit
 	Q_OBJECT
 
 public:
-	CodeEditor(QWidget* parent=nullptr);
+	explicit CodeEditor(QWidget* parent=nullptr);
 	~CodeEditor() override;
 
 	void lineNumberAreaPaintEvent(QPaintEvent*);
@@ -40,19 +40,24 @@ public:
 	bool saveAsFile();
 	bool loadFile(const QString& f);
 	bool openFile();
+	void preferencesUpdated();
+	void setModuleNames(const QHash<QString,Module*>&);
 signals:
-	void fileNameChanged(QString fileName);
+	void fileNameChanged(const QString&);
 protected:
-	void resizeEvent(QResizeEvent* event) override;
-
+	void resizeEvent(QResizeEvent*) override;
+	bool event(QEvent*) override;
 private slots:
 	void updateLineNumberAreaWidth(int);
 	void updateLineNumberArea(const QRect&, int);
-
+	void highlightCurrentLine();
 private:
 	SyntaxHighlighter* highlighter;
 	QWidget* lineNumberArea;
 	QString fileName;
+	QHash<QString,Module*> moduleNames;
+	bool showTooltips;
+	bool highlightLine;
 };
 
 #endif // CODEEDITOR_H

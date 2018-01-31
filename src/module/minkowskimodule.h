@@ -23,8 +23,9 @@
 
 class MinkowskiModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(MinkowskiModule)
 public:
-	MinkowskiModule(Reporter&);
+	explicit MinkowskiModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

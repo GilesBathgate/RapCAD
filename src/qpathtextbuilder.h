@@ -23,19 +23,18 @@
 #include <QFont>
 #include <QPointF>
 #include "textbuilder.h"
-#include "node/polylinenode.h"
 #include "reporter.h"
 
 class QPathTextBuilder : public TextBuilder
 {
 public:
-	QPathTextBuilder(Reporter&);
+	explicit QPathTextBuilder(Reporter&);
 	~QPathTextBuilder() override;
-	void setText(QString) override;
+	void setText(const QString&) override;
 	void setFamily(const QString& value);
 	void setSize(int value);
 	decimal getHeight() override;
-	void setLocation(Point) override;
+	void setLocation(const Point&) override;
 	Primitive* buildPrimitive() const override;
 private:
 	QFont getFont() const;

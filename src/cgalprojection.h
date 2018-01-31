@@ -16,17 +16,25 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef POLYLINEMODULE_H
-#define POLYLINEMODULE_H
+#ifdef USE_CGAL
+#ifndef CGALPROJECTION_H
+#define CGALPROJECTION_H
 
-#include "module.h"
+#include "cgal.h"
 
-class PolylineModule : public Module
+typedef CGAL::Point2 (*ProjectFunc)(const CGAL::Point3&);
+
+class CGALProjection
 {
-	Q_DECLARE_TR_FUNCTIONS(PolylineModule)
 public:
-	PolylineModule(Reporter&);
-	Node* evaluate(const Context&) const override;
+	explicit CGALProjection(const CGAL::Vector3&);
+	CGAL::Point2 project(const CGAL::Point3&) const;
+	CGAL::Direction3 getDirection(const CGAL::Vector3&) const;
+	bool operator==(const CGALProjection&) const;
+private:
+	ProjectFunc projectFunc;
+	int ortho;
 };
 
-#endif // POLYLINEMODULE_H
+#endif // CGALPROJECTION_H
+#endif

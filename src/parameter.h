@@ -28,10 +28,10 @@ public:
 	Parameter();
 	~Parameter() override;
 	QString getName() const;
-	void setName(QString);
+	void setName(const QString&);
 	Expression* getExpression() const;
 	void setExpression(Expression*);
-	void addDescription(QString);
+	void addDescription(const QString&);
 	QString getDescription() const;
 	void accept(TreeVisitor&) override;
 private:

@@ -23,8 +23,9 @@
 
 class IsVecFunction : public Function
 {
+	Q_DECLARE_TR_FUNCTIONS(IsVecFunction)
 public:
-	IsVecFunction(int);
+	explicit IsVecFunction(int);
 	Value* evaluate(const Context&) const override;
 private:
 	int size;

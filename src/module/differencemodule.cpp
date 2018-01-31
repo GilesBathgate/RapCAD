@@ -22,6 +22,7 @@
 
 DifferenceModule::DifferenceModule(Reporter& r) : Module(r,"difference")
 {
+	addDescription(tr("Subtracts from the first child its subsequent children."));
 }
 
 Node* DifferenceModule::evaluate(const Context& ctx) const

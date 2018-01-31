@@ -17,10 +17,11 @@
  */
 
 #include "qpathtextbuilder.h"
-#include "onceonly.h"
 #include <QPainterPath>
 #include <QFontMetrics>
 #include <QApplication>
+#include "onceonly.h"
+#include "node/primitivenode.h"
 
 QPathTextBuilder::QPathTextBuilder(Reporter& r) :
 	size(0),
@@ -33,7 +34,7 @@ QPathTextBuilder::~QPathTextBuilder()
 {
 }
 
-void QPathTextBuilder::setText(QString value)
+void QPathTextBuilder::setText(const QString& value)
 {
 	text = value;
 }
@@ -54,7 +55,7 @@ decimal QPathTextBuilder::getHeight()
 	return fm.height();
 }
 
-void QPathTextBuilder::setLocation(Point p)
+void QPathTextBuilder::setLocation(const Point& p)
 {
 #ifdef USE_CGAL
 	location = QPointF(to_double(p.x()),to_double(p.y()));

@@ -23,6 +23,7 @@
 
 class ConcatFunction : public Function
 {
+	Q_DECLARE_TR_FUNCTIONS(ConcatFunction)
 public:
 	ConcatFunction();
 	Value* evaluate(const Context&) const override;

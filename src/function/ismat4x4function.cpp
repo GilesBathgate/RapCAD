@@ -24,6 +24,7 @@
 
 IsMat4x4Function::IsMat4x4Function() : Function("is_mat4x4")
 {
+	addDescription(tr("Returns true when the given value is a 4x4 matrix."));
 	addParameter("value");
 }
 

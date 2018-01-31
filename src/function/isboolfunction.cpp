@@ -21,6 +21,7 @@
 
 IsBoolFunction::IsBoolFunction() : Function("is_bool")
 {
+	addDescription(tr("Returns true when the given value is a boolean."));
 	addParameter("value");
 }
 

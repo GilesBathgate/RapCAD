@@ -23,8 +23,9 @@
 
 class CenterModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(CenterModule)
 public:
-	CenterModule(Reporter&);
+	explicit CenterModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

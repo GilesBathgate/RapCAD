@@ -4,3 +4,4 @@ style=linux
 lineend=linux
 indent=force-tab
 suffix=none
+indent-switches

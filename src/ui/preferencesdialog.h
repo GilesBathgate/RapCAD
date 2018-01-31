@@ -40,12 +40,18 @@ private slots:
 	void vertexSizeChanged(double);
 	void edgeSizeChanged(double);
 	void autoSaveOnCompileChanged(int);
-	void precisionChanged(int);
-	void functionRoundingChanged(int);
+	void showTooltipsChanged(int);
+	void placesChanged(int);
+	void bitsChanged(int);
+	void precisionType(bool);
+	void functionRoundingChanged(bool);
 	void rationalFormatChanged(int);
 	void volumeChanged();
 	void originChanged();
 	void appearanceChanged(int);
+	void fontChanged(QFont);
+	void fontSizeChanged(const QString&);
+	void highlightLineChanged(int s);
 private:
 	Ui::Preferences* ui;
 	void setupWidgets();

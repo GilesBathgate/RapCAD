@@ -23,6 +23,7 @@
 
 class DegFunction : public Function
 {
+	Q_DECLARE_TR_FUNCTIONS(DegFunction)
 public:
 	DegFunction();
 	Value* evaluate(const Context&) const override;

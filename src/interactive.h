@@ -32,9 +32,9 @@ public:
 	QString getPrompt() const;
 	int evaluate() override;
 public slots:
-	void execCommand(QString);
+	void execCommand(const QString&);
 private:
-	bool isExpression(QString s);
+	bool isExpression(const QString& s);
 };
 
 #endif // INTERACTIVE_H

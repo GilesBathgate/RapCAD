@@ -23,6 +23,7 @@
 
 class NormFunction : public Function
 {
+	Q_DECLARE_TR_FUNCTIONS(NormFunction)
 public:
 	NormFunction();
 	Value* evaluate(const Context&) const override;

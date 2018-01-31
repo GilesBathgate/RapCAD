@@ -37,7 +37,7 @@ class AbstractSyntaxTreeBuilder
 {
 public:
 	virtual ~AbstractSyntaxTreeBuilder() {}
-	virtual void buildFileLocation(QString)=0;
+	virtual void buildFileLocation(QDir)=0;
 	virtual void buildScript(Declaration*)=0;
 	virtual void buildScript(QList<Declaration*>*)=0;
 	virtual void buildScript(QList<CodeDoc*>*)=0;
@@ -94,9 +94,10 @@ public:
 	virtual Argument* buildArgument(Variable*,Expression*)=0;
 	virtual Expression* buildLiteral()=0;
 	virtual Expression* buildLiteral(bool)=0;
-	virtual Expression* buildLiteral(decimal* value)=0;
-	virtual Expression* buildLiteral(QString* value)=0;
-	virtual Variable* buildVariable(QString* name)=0;
+	virtual Expression* buildLiteral(decimal*)=0;
+	virtual Expression* buildLiteral(decimal*,QString*)=0;
+	virtual Expression* buildLiteral(QString*)=0;
+	virtual Variable* buildVariable(QString*)=0;
 	virtual Expression* buildVariable(Variable*)=0;
 	virtual Variable* buildVariable(QString*,Variable::Storage_e)=0;
 	virtual Expression* buildExpression(Expression*,QString*)=0;
@@ -113,7 +114,7 @@ public:
 	virtual Expression* buildComplex(Expression*,Expression*,Expression*,Expression*)=0;
 	virtual Invocation* buildInvocation(QString*,QList<Argument*>*)=0;
 	virtual Invocation* buildInvocation(QString*,Invocation*)=0;
-	virtual void reportSyntaxError(const char*,const char*)=0;
+	virtual void reportSyntaxError(QString)=0;
 };
 
 #endif // ABSTRACTSYNTAXTREEBUILDER_H

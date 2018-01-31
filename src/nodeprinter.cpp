@@ -25,53 +25,22 @@ NodePrinter::NodePrinter(QTextStream& s) : result(s)
 
 void NodePrinter::visit(const PrimitiveNode& n)
 {
-	result << "polyhedron([";
-	printPrimitive(n.getPrimitive());
+	Primitive* pr=n.getPrimitive();
+	switch(pr->getType())
+	{
+		case Primitive::Lines:
+			result << "polyline([";
+			break;
+		default:
+			result << "polyhedron([";
+	}
+
+	printPrimitive(pr);
 	result << "])";
 	printChildren(n);
 }
 
 void NodePrinter::printPrimitive(Primitive* pr)
-{
-#ifdef USE_CGAL
-	auto* cp=dynamic_cast<CGALPrimitive*>(pr);
-	if(cp)
-		printPrimitive(cp);
-#endif
-	auto* ph=dynamic_cast<Polyhedron*>(pr);
-	if(ph)
-		printPrimitive(ph);
-}
-
-void NodePrinter::printPrimitive(Polyhedron* ph)
-{
-	OnceOnly first;
-	for(const auto& p: ph->getPoints()) {
-		if(!first())
-			result << ",";
-		result << to_string(p);
-	}
-	result << "],[";
-
-	OnceOnly first_pg;
-	for(Polygon* pg: ph->getPolygons()) {
-		if(!first_pg())
-			result << ",";
-		result << "[";
-
-		OnceOnly first_p;
-		for(auto i: pg->getIndexes()) {
-			if(!first_p())
-				result << ",";
-			result << QString().setNum(i);
-		}
-		result << "]";
-	}
-}
-
-#ifdef USE_CGAL
-
-void NodePrinter::printPrimitive(CGALPrimitive* pr)
 {
 	OnceOnly first;
 	for(const auto& p: pr->getPoints()) {
@@ -82,27 +51,36 @@ void NodePrinter::printPrimitive(CGALPrimitive* pr)
 	result << "],[";
 
 	OnceOnly first_pg;
-	for(Polygon* pg: pr->getCGALPolygons()) {
-		if(!first_pg())
-			result << ",";
-		result << "[";
-
-		OnceOnly first_p;
-		for(auto i: pg->getIndexes()) {
-			if(!first_p())
+#ifdef USE_CGAL
+	auto* cp=dynamic_cast<CGALPrimitive*>(pr);
+	if(cp) {
+		for(CGALPolygon* pg: cp->getCGALPolygons()) {
+			if(!first_pg())
 				result << ",";
-			result << QString().setNum(i);
+			printPolygon(*pg);
 		}
-		result << "]";
+	}
+#endif
+	auto* ph=dynamic_cast<Polyhedron*>(pr);
+	if(ph) {
+		for(Polygon* pg: ph->getPolygons()) {
+			if(!first_pg())
+				result << ",";
+			printPolygon(*pg);
+		}
 	}
 }
-#endif
 
-void NodePrinter::visit(const PolylineNode& n)
+void NodePrinter::printPolygon(const Polygon& pg)
 {
-	result << "polyline([";
-	printPrimitive(n.getPrimitive());
-	result << "]);";
+	result << "[";
+	OnceOnly first;
+	for(auto i: pg.getIndexes()) {
+		if(!first())
+			result << ",";
+		result << QString().setNum(i);
+	}
+	result << "]";
 }
 
 void NodePrinter::visit(const UnionNode& n)
@@ -232,7 +210,7 @@ void NodePrinter::printChildren(const Node& n)
 	}
 }
 
-void NodePrinter::printArguments(QString name,bool a)
+void NodePrinter::printArguments(const QString &name, bool a)
 {
 	result << "(";
 	if(a) {
@@ -248,14 +226,14 @@ void NodePrinter::printArguments(int a)
 	result << ")";
 }
 
-void NodePrinter::printArguments(decimal a)
+void NodePrinter::printArguments(const decimal& a)
 {
 	result << "(";
 	result << to_string(a);
 	result << ")";
 }
 
-void NodePrinter::printArguments(QList<Point> pts)
+void NodePrinter::printArguments(const QList<Point>& pts)
 {
 	result << "(";
 	if(pts.count()>1)
@@ -271,7 +249,7 @@ void NodePrinter::printArguments(QList<Point> pts)
 	result << ")";
 }
 
-void NodePrinter::printArguments(Polygon pg)
+void NodePrinter::printArguments(const Polygon& pg)
 {
 	result << "([";
 	OnceOnly first;
@@ -283,7 +261,7 @@ void NodePrinter::printArguments(Polygon pg)
 	result << "])";
 }
 
-void NodePrinter::printArguments(QList<int> list)
+void NodePrinter::printArguments(const QList<int>& list)
 {
 	if(list.count()==0) {
 		result << "()";
@@ -300,7 +278,7 @@ void NodePrinter::printArguments(QList<int> list)
 	result << "])";
 }
 
-void NodePrinter::printArguments(QList<AlignNode::Face_t> t)
+void NodePrinter::printArguments(const QList<AlignNode::Face_t>& t)
 {
 	result << "(";
 	OnceOnly first;
@@ -308,24 +286,24 @@ void NodePrinter::printArguments(QList<AlignNode::Face_t> t)
 		if(!first())
 			result << ",";
 		switch(a) {
-		case AlignNode::Top:
-			result << "top";
-			break;
-		case AlignNode::Bottom:
-			result << "bottom";
-			break;
-		case AlignNode::North:
-			result << "north";
-			break;
-		case AlignNode::South:
-			result << "south";
-			break;
-		case AlignNode::West:
-			result << "west";
-			break;
-		case AlignNode::East:
-			result << "east";
-			break;
+			case AlignNode::Top:
+				result << "top";
+				break;
+			case AlignNode::Bottom:
+				result << "bottom";
+				break;
+			case AlignNode::North:
+				result << "north";
+				break;
+			case AlignNode::South:
+				result << "south";
+				break;
+			case AlignNode::West:
+				result << "west";
+				break;
+			case AlignNode::East:
+				result << "east";
+				break;
 		}
 		result << "=true";
 	}
@@ -451,7 +429,8 @@ void NodePrinter::visit(const TransformationNode& n)
 {
 	TransformMatrix* m=n.getMatrix();
 	result << "multmatrix(";
-	result << m->toString();
+	if(m)
+		result << m->toString();
 	result << ")";
 	printChildren(n);
 }

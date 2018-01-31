@@ -23,8 +23,9 @@
 
 class ComplementModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(ComplementModule)
 public:
-	ComplementModule(Reporter&);
+	explicit ComplementModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

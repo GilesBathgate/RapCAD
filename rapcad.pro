@@ -28,8 +28,6 @@ QT  += core gui opengl widgets
 CONFIG += c++11
 TARGET = rapcad
 TEMPLATE = app
-LEXSOURCES += src/lexer.l
-YACCSOURCES += src/parser.y
 INCLUDEPATH += src
 
 DEFINES += USE_CGAL
@@ -116,13 +114,17 @@ CONFIG(coverage){
 
 CONFIG(official){
 	DEFINES += RAPCAD_VERSION=$$VERSION
-	DEFINES += NDEBUG #Turn off trace debug code.
-	DEFINES += CGAL_DEBUG #Enable CGAL assertions.
 } else {
 	MAJOR=$$system(cut -d'.' -f1 VERSION)
 	MINOR=$$system(cut -d'.' -f2 VERSION)
 	DEFINES += RAPCAD_VERSION=$$MAJOR"."$$MINOR".git."$$system(git log -1 --pretty=format:%h)
 }
+
+LEXSOURCES += \
+	src/lexer.l
+
+YACCSOURCES += \
+	src/parser.y
 
 SOURCES += \
 	contrib/qcommandlineparser.cpp \
@@ -226,8 +228,6 @@ SOURCES += \
 	src/node/subdivisionnode.cpp \
 	src/module/offsetmodule.cpp \
 	src/node/offsetnode.cpp \
-	src/module/polylinemodule.cpp \
-	src/node/polylinenode.cpp \
 	src/module/glidemodule.cpp \
 	src/node/glidenode.cpp \
 	src/cgalpolygon.cpp \
@@ -358,8 +358,9 @@ SOURCES += \
 	src/module/boundarymodule.cpp \
 	src/node/boundarynode.cpp \
 	src/function/isvecfunction.cpp \
-       src/node/pointsnode.cpp \
-       src/module/pointsmodule.cpp
+	src/node/pointsnode.cpp \
+	src/module/pointsmodule.cpp \
+	src/cgalprojection.cpp
 
 HEADERS  += \
 	contrib/OGL_helper.h \
@@ -473,8 +474,6 @@ HEADERS  += \
 	src/node/subdivisionnode.h \
 	src/module/offsetmodule.h \
 	src/node/offsetnode.h \
-	src/module/polylinemodule.h \
-	src/node/polylinenode.h \
 	src/module/glidemodule.h \
 	src/node/glidenode.h \
 	src/cgalpolygon.h \
@@ -615,7 +614,8 @@ HEADERS  += \
 	src/module/boundarymodule.h \
 	src/node/boundarynode.h \
 	src/config.h \
-	src/function/isvecfunction.h
+	src/function/isvecfunction.h \
+	src/cgalprojection.h
 
 FORMS += \
 	src/ui/mainwindow.ui \

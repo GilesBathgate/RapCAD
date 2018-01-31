@@ -26,9 +26,9 @@ class ImportModule : public Module
 {
 	Q_DECLARE_TR_FUNCTIONS(ImportModule)
 public:
-	ImportModule(Reporter&);
+	explicit ImportModule(Reporter&);
 	Node* evaluate(const Context&) const override;
-	void setImport(QString);
+	void setImport(const QString&);
 private:
 	QString import;
 };

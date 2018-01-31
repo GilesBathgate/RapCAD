@@ -23,8 +23,9 @@
 
 class WriteLnModule : public WriteModule
 {
+	Q_DECLARE_TR_FUNCTIONS(WriteLnModule)
 public:
-	WriteLnModule(Reporter&);
+	explicit WriteLnModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

@@ -21,7 +21,7 @@
 #include "booleanvalue.h"
 #include "textiterator.h"
 
-TextValue::TextValue(QString value) :
+TextValue::TextValue(const QString& value) :
 	text(value)
 {
 }
@@ -86,21 +86,21 @@ Value* TextValue::operation(Value& v,Expression::Operator_e e)
 QString TextValue::operation(QString left, Expression::Operator_e e, QString right)
 {
 	switch(e) {
-	case Expression::Concatenate:
-		return left.append(right);
-	default:
-		return text;
+		case Expression::Concatenate:
+			return left.append(right);
+		default:
+			return text;
 	}
 }
 
 bool TextValue::operation(TextValue* left, Expression::Operator_e e, TextValue* right)
 {
 	switch(e) {
-	case Expression::Equal:
-		return left->text==right->text;
-	case Expression::NotEqual:
-		return left->text!=right->text;
-	default:
-		return basicOperation(left->isTrue(),e,right->isTrue());
+		case Expression::Equal:
+			return left->text==right->text;
+		case Expression::NotEqual:
+			return left->text!=right->text;
+		default:
+			return basicOperation(left->isTrue(),e,right->isTrue());
 	}
 }

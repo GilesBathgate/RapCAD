@@ -28,9 +28,9 @@ class SimpleTextBuilder : public TextBuilder
 	typedef QList<Stroke> Letter;
 public:
 	SimpleTextBuilder();
-	void setText(QString) override;
+	void setText(const QString&) override;
 	decimal getHeight() override;
-	void setLocation(Point) override;
+	void setLocation(const Point&) override;
 	Primitive* buildPrimitive() const override;
 private:
 	QString text;

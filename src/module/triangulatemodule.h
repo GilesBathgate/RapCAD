@@ -23,8 +23,9 @@
 
 class TriangulateModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(TriangulateModule)
 public:
-	TriangulateModule(Reporter&);
+	explicit TriangulateModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

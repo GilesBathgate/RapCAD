@@ -29,7 +29,7 @@ Polyhedron::~Polyhedron()
 
 Polygon* Polyhedron::createPolygon()
 {
-	auto* pg = new Polygon(this);
+	auto* pg = new Polygon(*this);
 	polygons.append(pg);
 	return pg;
 }
@@ -95,13 +95,9 @@ Primitive* Polyhedron::copy()
 
 void Polyhedron::transform(TransformMatrix* matrix)
 {
+	if(!matrix) return;
 #if USE_CGAL
-	const decimal* m=matrix->getValues();
-	CGAL::AffTransformation3 t(
-		m[ 0], m[ 1], m[ 2], m[ 3],
-		m[ 4], m[ 5], m[ 6], m[ 7],
-		m[ 8], m[ 9], m[10], m[11],
-	  /*m[12], m[13], m[14]*/m[15]);
+	CGAL::AffTransformation3 t=matrix->getTransform();
 #else
 	TransformMatrix* t=matrix;
 #endif

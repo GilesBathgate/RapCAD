@@ -19,7 +19,6 @@
 #include "cgalexplorer.h"
 #include <QMap>
 #include <CGAL/config.h>
-#include <CGAL/normal_vector_newell_3.h>
 #include <CGAL/Triangulation_3.h>
 #include <CGAL/centroid.h>
 #include <CGAL/bounding_box.h>
@@ -98,7 +97,7 @@ public:
 					primitive->setSanitized(false);
 
 				if(fc.is_shalfedge()) {
-					auto* pg=static_cast<CGALPolygon*>(primitive->createPolygon());
+					auto* pg=primitive->createCGALPolygon();
 					pg->setPlane(f->plane());
 					if(isBase(pg))
 						basePolygons.append(pg);
@@ -159,36 +158,6 @@ static HalfEdgeHandle findNewEdge(QList<HalfEdgeHandle> visited,QList<HalfEdgeHa
 	return nullptr;
 }
 
-static void detectHoles(CGALPrimitive* perimeters)
-{
-	if(!perimeters) return;
-
-	QList<CGALPolygon*> polys=perimeters->getCGALPolygons();
-	for(auto* pg1: polys) {
-		for(auto* pg2: polys) {
-			if(pg1==pg2) continue;
-
-			QList<CGAL::Point2> p2=pg2->getXYPoints();
-			for(auto& p1: pg1->getXYPoints()) {
-				CGAL::Bounded_side side=CGAL::bounded_side_2(p2.begin(),p2.end(),p1);
-				if(side==CGAL::ON_BOUNDED_SIDE) {
-					pg1->setHole(true);
-					break;
-				}
-			}
-		}
-	}
-}
-
-//Calculate the normal of the perimeter polygon
-static void calculateNormal(CGALPolygon* poly)
-{
-	CGAL::Vector3 v;
-	QList<CGAL::Point3> pts=poly->getPoints();
-	CGAL::normal_vector_newell_3(pts.begin(),pts.end(),v);
-	poly->setNormal(v);
-}
-
 void CGALExplorer::explore()
 {
 	primitive=new CGALPrimitive();
@@ -240,8 +209,8 @@ void CGALExplorer::explore()
 		 * order. We check that we didnt reverse direction and if
 		 * we did we walk along the twin edge. */
 		perimeters=new CGALPrimitive();
-		perimeters->setType(Primitive::Skeleton);
-		auto* poly=static_cast<CGALPolygon*>(perimeters->createPolygon());
+		perimeters->setType(Primitive::Lines);
+		auto* poly=perimeters->createCGALPolygon();
 		HalfEdgeHandle f=outEdges.first();
 		HalfEdgeHandle c=f;
 		QList<HalfEdgeHandle> visited;
@@ -267,13 +236,13 @@ void CGALExplorer::explore()
 
 						if(h==f) {
 							perimeters->appendVertex(fp);
-							calculateNormal(poly);
+							poly->calculatePlane();
 
 							f=findNewEdge(visited,outEdges);
 							if(f==nullptr)
 								return;
 
-							poly=static_cast<CGALPolygon*>(perimeters->createPolygon());
+							poly=perimeters->createCGALPolygon();
 							c=f;
 							first=true;
 						}
@@ -288,7 +257,8 @@ void CGALExplorer::explore()
 void CGALExplorer::evaluate()
 {
 	explore();
-	detectHoles(perimeters);
+	if(perimeters)
+		perimeters->detectHoles(false);
 	evaluated=true;
 }
 

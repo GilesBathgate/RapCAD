@@ -23,8 +23,9 @@
 
 class RadialsModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(RadialsModule)
 public:
-	RadialsModule(Reporter&);
+	explicit RadialsModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

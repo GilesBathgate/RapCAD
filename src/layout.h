@@ -29,18 +29,18 @@ class Layout
 {
 	Q_DECLARE_TR_FUNCTIONS(Layout)
 public:
-	Layout(Reporter&);
+	explicit Layout(Reporter&);
 	virtual ~Layout();
 
 	void setParent(Layout*);
 
-	const Module* lookupModule(QString,bool);
+	const Module* lookupModule(const QString&,bool) const;
 	void addModule(const Module& mod);
 
-	const Function* lookupFunction(QString);
+	const Function* lookupFunction(const QString&) const;
 	void addFunction(const Function&);
 
-	bool inScope(Scope*);
+	bool inScope(Scope*) const;
 	void setScope(Scope*);
 
 private:

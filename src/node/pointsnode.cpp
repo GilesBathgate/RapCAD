@@ -27,7 +27,7 @@ QList<Point> PointsNode::getPoints() const
 	return points;
 }
 
-void PointsNode::setPoints(QList<Point> p)
+void PointsNode::setPoints(const QList<Point>& p)
 {
 	points=p;
 }

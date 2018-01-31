@@ -23,8 +23,9 @@
 
 class SymmetricDifferenceModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(SymmetricDifferenceModule)
 public:
-	SymmetricDifferenceModule(Reporter&);
+	explicit SymmetricDifferenceModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

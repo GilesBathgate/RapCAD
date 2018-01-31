@@ -32,89 +32,89 @@ QString Expression::getOpString() const
 {
 	QString result;
 	switch(getOp()) {
-	case Exponent:
-		result.append('^');
-		break;
-	case DotProduct:
-	case Multiply:
-		result.append('*');
-		break;
-	case Concatenate:
-		result.append("~");
-		break;
-	case Append:
-		result.append("~=");
-		break;
-	case ComponentwiseMultiply:
-		result.append(".*");
-		break;
-	case Divide:
-		result.append('/');
-		break;
-	case ComponentwiseDivide:
-		result.append("./");
-		break;
-	case Increment:
-		result.append("++");
-		break;
-	case Decrement:
-		result.append("--");
-		break;
-	case CrossProduct:
-		result.append("**");
-		break;
-	case Modulus:
-		result.append('%');
-		break;
-	case Dot:
-		result.append('.');
-		break;
-	case Add:
-		result.append('+');
-		break;
-	case Subtract:
-		result.append('-');
-		break;
-	case LessThan:
-		result.append('<');
-		break;
-	case LessOrEqual:
-		result.append("<=");
-		break;
-	case Equal:
-		result.append("==");
-		break;
-	case NotEqual:
-		result.append("!=");
-		break;
-	case GreaterOrEqual:
-		result.append(">=");
-		break;
-	case GreaterThan:
-		result.append('>');
-		break;
-	case LogicalAnd:
-		result.append("&&");
-		break;
-	case LogicalOr:
-		result.append("||");
-		break;
-	case Invert:
-		result.append('!');
-		break;
-	case Index:
-		result.append("[]");
-		break;
-	case AddAssign:
-		result.append("+=");
-		break;
-	case SubAssign:
-		result.append("-=");
-		break;
-	case Length:
-		result.append("|");
-	case None:
-		break;
+		case Exponent:
+			result.append('^');
+			break;
+		case DotProduct:
+		case Multiply:
+			result.append('*');
+			break;
+		case Concatenate:
+			result.append("~");
+			break;
+		case Append:
+			result.append("~=");
+			break;
+		case ComponentwiseMultiply:
+			result.append(".*");
+			break;
+		case Divide:
+			result.append('/');
+			break;
+		case ComponentwiseDivide:
+			result.append("./");
+			break;
+		case Increment:
+			result.append("++");
+			break;
+		case Decrement:
+			result.append("--");
+			break;
+		case CrossProduct:
+			result.append("**");
+			break;
+		case Modulus:
+			result.append('%');
+			break;
+		case Dot:
+			result.append('.');
+			break;
+		case Add:
+			result.append('+');
+			break;
+		case Subtract:
+			result.append('-');
+			break;
+		case LessThan:
+			result.append('<');
+			break;
+		case LessOrEqual:
+			result.append("<=");
+			break;
+		case Equal:
+			result.append("==");
+			break;
+		case NotEqual:
+			result.append("!=");
+			break;
+		case GreaterOrEqual:
+			result.append(">=");
+			break;
+		case GreaterThan:
+			result.append('>');
+			break;
+		case LogicalAnd:
+			result.append("&&");
+			break;
+		case LogicalOr:
+			result.append("||");
+			break;
+		case Invert:
+			result.append('!');
+			break;
+		case Index:
+			result.append("[]");
+			break;
+		case AddAssign:
+			result.append("+=");
+			break;
+		case SubAssign:
+			result.append("-=");
+			break;
+		case Length:
+			result.append("|");
+		case None:
+			break;
 	}
 	return result;
 }

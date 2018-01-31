@@ -23,6 +23,7 @@
 
 class IsListFunction : public Function
 {
+	Q_DECLARE_TR_FUNCTIONS(IsListFunction)
 public:
 	IsListFunction();
 	Value* evaluate(const Context&) const override;

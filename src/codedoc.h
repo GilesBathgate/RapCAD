@@ -26,9 +26,9 @@ class CodeDoc : VisitableTree
 {
 public:
 	CodeDoc();
-	void setName(QString);
+	void setName(const QString&);
 	QString getName() const;
-	void setText(QString);
+	void setText(const QString&);
 	QString getText() const;
 	void accept(TreeVisitor&) override;
 private:

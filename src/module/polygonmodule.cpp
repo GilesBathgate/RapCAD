@@ -22,9 +22,11 @@
 #include "vectorvalue.h"
 #include "numbervalue.h"
 
-PolygonModule::PolygonModule(Reporter& r) : Module(r,"polygon")
+PolygonModule::PolygonModule(Reporter& r,bool polygon) :
+	Module(r,polygon?"polygon":"polyline"),
+	type(polygon?Primitive::Surface:Primitive::Lines)
 {
-	addDescription(tr("Constructs a polygon."));
+	addDescription(polygon?tr("Constructs a polygon."):tr("Constructs a line connecting multiple points."));
 	addParameter("points",tr("The vertices are provided by the points list."));
 	addParameter("lines",tr("The lines are a list of indices to the vertices."));
 }
@@ -36,6 +38,7 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 
 	auto* pn=new PrimitiveNode(reporter);
 	Primitive* p=pn->createPrimitive();
+	p->setType(type);
 	p->setSanitized(false);
 	pn->setChildren(ctx.getInputNodes());
 
@@ -46,24 +49,26 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 	if(points.isEmpty())
 		return pn;
 
+	int count=0;
 	for(Value* point: points) {
 		auto* pointVec=dynamic_cast<VectorValue*>(point);
-		if(pointVec) {
-			Point pt = pointVec->getPoint();
-			p->createVertex(pt);
-
-		}
+		if(!pointVec) continue;
+		Point pt = pointVec->getPoint();
+		p->createVertex(pt);
+		++count;
 	}
 
 	/* If we are just given a single argument of points
 	 * build a polygon from that. */
 	if(!linesVec) {
 		Polygon* pg=p->createPolygon();
-		for(auto i=0; i<points.length(); ++i)
+		for(auto i=0; i<count; ++i)
 			pg->append(i);
 		return pn;
 	}
 
+	/* Otherwise use the lines argument to describe the multiple
+	 * polygons */
 	QList<Value*> lines=linesVec->getChildren();
 
 	//This is to remove the need for duplicate vector syntax in the lines argument
@@ -78,16 +83,14 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 
 	for(Value* line: lines) {
 		auto* lineVec=dynamic_cast<VectorValue*>(line);
-		if(lineVec) {
-			Polygon* pg=p->createPolygon();
-			for(Value* indexVal: lineVec->getChildren()) {
-				auto* indexNum=dynamic_cast<NumberValue*>(indexVal);
-				if(indexNum) {
-					int index = indexNum->toInteger();
-					if(index>=0&&index<points.count()) {
-						pg->append(index);
-					}
-				}
+		if(!lineVec) continue;
+		Polygon* pg=p->createPolygon();
+		for(Value* indexVal: lineVec->getChildren()) {
+			auto* indexNum=dynamic_cast<NumberValue*>(indexVal);
+			if(!indexNum) continue;
+			int index = indexNum->toInteger();
+			if(index>=0&&index<count) {
+				pg->append(index);
 			}
 		}
 	}

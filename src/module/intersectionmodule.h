@@ -23,8 +23,9 @@
 
 class IntersectionModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(IntersectionModule)
 public:
-	IntersectionModule(Reporter&);
+	explicit IntersectionModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

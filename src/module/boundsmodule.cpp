@@ -23,6 +23,7 @@
 
 BoundsModule::BoundsModule(Reporter& r) : Module(r,"bound")
 {
+	addDescription(tr("Shows the bounding box of its children."));
 	auxilary=true;
 }
 

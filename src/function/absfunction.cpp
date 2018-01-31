@@ -23,6 +23,7 @@
 
 AbsFunction::AbsFunction() : Function("abs")
 {
+	addDescription(tr("Returns the absolute value of the number value."));
 	addParameter("value");
 }
 

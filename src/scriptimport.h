@@ -26,9 +26,9 @@ class ScriptImport : public Declaration
 public:
 	ScriptImport();
 	~ScriptImport() override;
-	void setImport(QString);
+	void setImport(const QString&);
 	QString getImport() const;
-	void setNamespace(QString);
+	void setNamespace(const QString&);
 	QString getNamespace() const;
 	void accept(TreeVisitor&) override;
 private:

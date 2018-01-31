@@ -23,16 +23,20 @@
 
 #include <QList>
 #include "polygon.h"
+#include "cgalprojection.h"
 
 class CGALPolygon : public Polygon
 {
 public:
-	CGALPolygon(class CGALPrimitive*);
-	QList<CGAL::Point3> getPoints() const;
-	QList<CGAL::Point2> getXYPoints() const;
 
+	explicit CGALPolygon(const class CGALPrimitive&);
+	~CGALPolygon();
+	QList<CGAL::Point3> getPoints() const;
+	QList<CGAL::Point2> getProjectedPoints();
+
+	CGAL::Direction3 getDirection() const;
 	CGAL::Vector3 getNormal() const;
-	void setNormal(const CGAL::Vector3&);
+	void calculatePlane();
 
 	CGAL::Plane3 getPlane() const;
 	void setPlane(const CGAL::Plane3&);
@@ -40,8 +44,14 @@ public:
 	bool getHole() const;
 	void setHole(bool value);
 
+	CGALProjection* getProjection();
+	bool sameProjection(CGALPolygon*);
 private:
+	void calculateProjection();
+
 	CGAL::Plane3 plane;
+	CGALProjection* projection;
+	CGAL::Direction3 direction;
 	bool hole;
 };
 #endif // CGALPOLYGON_H
