@@ -392,6 +392,11 @@ Expression* DependencyBuilder::buildRange(Expression*,Expression*,Expression*)
 	return nullptr;
 }
 
+Expression*DependencyBuilder::buildComplex(Expression*, Expression*, Expression*, Expression*)
+{
+	return nullptr;
+}
+
 Invocation* DependencyBuilder::buildInvocation(QString*,QList<Argument*>*)
 {
 	return nullptr;
@@ -400,4 +405,8 @@ Invocation* DependencyBuilder::buildInvocation(QString*,QList<Argument*>*)
 Invocation* DependencyBuilder::buildInvocation(QString*,Invocation*)
 {
 	return nullptr;
+}
+
+void DependencyBuilder::reportSyntaxError(QString)
+{
 }
