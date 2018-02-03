@@ -214,6 +214,18 @@ decimal r_sqrt(const decimal& a,bool round)
 #endif
 }
 
+decimal r_cbrt(const decimal& a,bool round)
+{
+#ifdef USE_CGAL
+	CGAL::Gmpfr m;
+	CGAL::Gmpfr n=to_gmpfr(a);
+	mpfr_cbrt(m.fr(),n.fr(),MPFR_RNDN);
+	return r_round_preference(decimal(m),round);
+#else
+	return r_round_preference(cbrt(a),round);
+#endif
+}
+
 decimal r_mod(const decimal& a,const decimal& b)
 {
 #ifdef USE_CGAL
