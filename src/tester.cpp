@@ -183,6 +183,16 @@ int Tester::evaluate()
 
 void Tester::runTests()
 {
+	ui->activateWindow();
+	QTest::keyClick(ui,Qt::Key_E,Qt::AltModifier);
+	QMenu* menuEdit = ui->findChild<QMenu*>("menuEdit");
+	QTest::keyClick(menuEdit,Qt::Key_Up);
+	QTest::keyClick(menuEdit,Qt::Key_Enter);
+
+	QDialog* prefs = ui->findChild<QDialog*>("Preferences");
+	prefs->activateWindow();
+	QTest::keyClick(prefs,Qt::Key_Enter,Qt::NoModifier,100);
+
 	QFile f("test.rcad");
 	CodeEditor* edit = ui->findChild<CodeEditor*>("scriptEditor");
 	edit->activateWindow();
@@ -198,16 +208,6 @@ void Tester::runTests()
 	QTest::keyClick(console,Qt::Key_Up,Qt::NoModifier,100);
 	QTest::keyClicks(console,"+3");
 	QTest::keyClick(console,Qt::Key_Return,Qt::NoModifier,100);
-
-	ui->activateWindow();
-	QTest::keyClick(ui,Qt::Key_E,Qt::AltModifier);
-	QMenu* menuEdit = ui->findChild<QMenu*>("menuEdit");
-	QTest::keyClick(menuEdit,Qt::Key_Up);
-	QTest::keyClick(menuEdit,Qt::Key_Enter);
-
-	QDialog* prefs = ui->findChild<QDialog*>("Preferences");
-	prefs->activateWindow();
-	QTest::keyClick(prefs,Qt::Key_Enter,Qt::NoModifier,100);
 
 	QTimer::singleShot(1000,ui,SLOT(close()));
 	f.remove();
