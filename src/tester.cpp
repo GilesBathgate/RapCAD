@@ -174,6 +174,7 @@ int Tester::evaluate()
 	ui->show();
 	QTimer::singleShot(100,this,SLOT(runTests()));
 	a.exec();
+	delete ui;
 	reporter.reportTiming("ui testing");
 #endif
 	return reporter.getReturnCode();
