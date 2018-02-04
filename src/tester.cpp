@@ -36,6 +36,7 @@
 #include "builtincreator.h"
 #include "nodeevaluator.h"
 #include "ui/codeeditor.h"
+#include "ui/console.h"
 
 Tester::Tester(Reporter& r,QObject* parent) :
 	QObject(parent),
@@ -185,10 +186,18 @@ void Tester::runTests()
 	QFile f("test.rcad");
 	CodeEditor* edit = ui->findChild<CodeEditor*>("scriptEditor");
 	edit->activateWindow();
-	QTest::keyClicks(edit,"difference(){cube(10,c=true);cylinder(20,4,c=true);}");
+	QTest::keyClicks(edit,"cube(10);");
 	edit->setFileName(f.fileName());
 	edit->saveFile();
 	QTest::keyClick(ui,Qt::Key_F6,Qt::NoModifier,100);
+
+	Console* console = ui->findChild<Console*>("console");
+	console->activateWindow();
+	QTest::keyClicks(console,"1+2");
+	QTest::keyClick(console,Qt::Key_Return,Qt::NoModifier,100);
+	QTest::keyClick(console,Qt::Key_Up,Qt::NoModifier,100);
+	QTest::keyClicks(console,"+3");
+	QTest::keyClick(console,Qt::Key_Return,Qt::NoModifier,100);
 
 	ui->activateWindow();
 	QTest::keyClick(ui,Qt::Key_E,Qt::AltModifier);
