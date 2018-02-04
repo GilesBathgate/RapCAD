@@ -110,8 +110,13 @@ static CGAL::Scalar getLength(HalfedgeHandle h)
 
 static void removeShortEdge(CGAL::Polyhedron3& p,HalfedgeHandle h)
 {
-	if(circulator_size(h->vertex_begin()) <= 3) {
+	// Determine the number of edges surrounding the vertex. e.g. \|/ or |/
+	auto edges=circulator_size(h->vertex_begin());
+	if(edges<3) {
 		p.erase_facet(h);
+	} else if(edges==3) {
+		p.join_facet(h->next());
+		p.join_vertex(h);
 	} else {
 		p.join_facet(h->next());
 		p.join_facet(h->opposite()->next());
