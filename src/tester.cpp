@@ -38,9 +38,10 @@
 #include "ui/codeeditor.h"
 #include "ui/console.h"
 
-Tester::Tester(Reporter& r,QObject* parent) :
+Tester::Tester(Reporter& r, QString d, QObject* parent) :
 	QObject(parent),
 	Strategy(r),
+	directory(d),
 	nullout(new QString()),
 	nullstream(new QTextStream(nullout)),
 	nullreport(new Reporter(*nullstream)),
@@ -131,23 +132,25 @@ int Tester::evaluate()
 
 	writePass();
 
-	/* This hard coded directory and filters need to be addressed
+	QDir testDir(directory);
+	/* This hard coded filter need to be addressed
 	 * but it will do for now. */
-	QDir cur=QDir::current();
-	for(QString dir: cur.entryList(QStringList("*_*"))) {
+	for(QFileInfo entry: testDir.entryInfoList(QStringList("*_*"))) {
 
-		if(dir=="061_export") {
+		QDir dir(entry.absoluteFilePath());
+		QString testDir=entry.fileName();
+		if(testDir=="061_export") {
 #ifndef Q_OS_WIN
 			exportTest(dir);
 #endif
 			continue;
 		}
 
-		for(QFileInfo file: QDir(dir).entryInfoList(QStringList("*.rcad"), QDir::Files)) {
+		for(QFileInfo file: dir.entryInfoList(QStringList("*.rcad"), QDir::Files)) {
 
 			writeHeader(file.fileName(),++testcount);
 
-			if(skipDir(dir)) {
+			if(skipDir(testDir)) {
 				writeSkip();
 				continue;
 			}
@@ -213,10 +216,10 @@ void Tester::runTests()
 	f.remove();
 }
 
-void Tester::exportTest(const QString& dir)
+void Tester::exportTest(const QDir& dir)
 {
 	Reporter& r=*nullreport;
-	for(QFileInfo file: QDir(dir).entryInfoList(QStringList("*.rcad"), QDir::Files)) {
+	for(QFileInfo file: dir.entryInfoList(QStringList("*.rcad"), QDir::Files)) {
 		Script s(r);
 		s.parse(file);
 		TreeEvaluator te(r);

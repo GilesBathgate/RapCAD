@@ -71,7 +71,7 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Re
 	p.addVersionOption();
 	p.addPositionalArgument("filename", QCoreApplication::translate("main","File to open or process."));
 #ifdef USE_INTEGTEST
-	QCommandLineOption testOption(QStringList() << "t" << "test", QCoreApplication::translate("main","Run through tests in working directory."));
+	QCommandLineOption testOption(QStringList() << "t" << "test", QCoreApplication::translate("main","Run through tests in working directory."),"directory");
 	p.addOption(testOption);
 #endif
 	QCommandLineOption compareOption(QStringList() << "c" << "compare", QCoreApplication::translate("main","Compare two files to see if they are identical."),"filename");
@@ -100,17 +100,15 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Re
 	QString outputFile;
 	if(p.isSet(outputOption))
 		outputFile=p.value(outputOption);
-	else if(p.isSet(compareOption))
-		outputFile=p.value(compareOption);
 
 	if(p.isSet(compareOption)) {
 		auto* c=new Comparer(reporter);
-		c->setup(inputFile,outputFile);
+		c->setup(inputFile,p.value(compareOption));
 		return c;
 #ifdef USE_INTEGTEST
 	} else if(p.isSet(testOption)) {
 		showVersion(reporter.output);
-		return new Tester(reporter);
+		return new Tester(reporter,p.value(testOption));
 #endif
 	} else if(p.isSet(outputOption)||p.isSet(printOption)) {
 		auto* w=new Worker(reporter);

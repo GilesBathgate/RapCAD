@@ -39,13 +39,11 @@ script:
   - qmake CONFIG+=coverage
   - make -j4
   - if [ $TRAVIS_OS_NAME = osx ]; then
-      path="../rapcad.app/Contents/MacOS";
+      path="./rapcad.app/Contents/MacOS";
     else
-      path="..";
+      path=".";
     fi;
-    pushd test &&
-    $path/rapcad -t &&
-    popd
+    $path/rapcad -t test
 
 after_success:
   - if [ $TRAVIS_OS_NAME != osx ]; then
