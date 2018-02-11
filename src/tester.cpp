@@ -200,6 +200,8 @@ void Tester::runTests()
 	CodeEditor* edit = ui->findChild<CodeEditor*>("scriptEditor");
 	edit->activateWindow();
 	QTest::keyClicks(edit,"cube(10);");
+	QTimer::singleShot(100,this,SLOT(handleSaveItemsDialog()));
+	QTest::keyClick(ui,Qt::Key_F6,Qt::NoModifier,100);
 	edit->setFileName(f.fileName());
 	edit->saveFile();
 	QTest::keyClick(ui,Qt::Key_F6,Qt::NoModifier,100);
@@ -214,6 +216,14 @@ void Tester::runTests()
 
 	QTimer::singleShot(1000,ui,SLOT(close()));
 	f.remove();
+}
+
+void Tester::handleSaveItemsDialog()
+{
+	QDialog* sd=ui->findChild<QDialog*>("SaveItemsDialog");
+	sd->activateWindow();
+	QTest::keyClick(sd,Qt::Key_C,Qt::AltModifier,100);
+	sd->close();
 }
 
 void Tester::exportTest(const QDir& dir)

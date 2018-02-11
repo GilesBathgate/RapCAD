@@ -31,6 +31,7 @@ public:
 	int evaluate() override;
 private slots:
 	void runTests();
+	void handleSaveItemsDialog();
 private:
 	void writeHeader(const QString& name, int num);
 	void writePass();
