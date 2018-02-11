@@ -214,6 +214,13 @@ void Tester::runTests()
 	QTest::keyClicks(console,"+3");
 	QTest::keyClick(console,Qt::Key_Return,Qt::NoModifier,100);
 
+	ui->activateWindow();
+	QTest::keyClick(ui,Qt::Key_D,Qt::AltModifier,100);
+	QMenu* menuDesign = ui->findChild<QMenu*>("menuDesign");
+	QTest::keyClick(menuDesign,Qt::Key_Down);
+	QTest::keyClick(menuDesign,Qt::Key_Down);
+	QTest::keyClick(menuDesign,Qt::Key_Enter,Qt::NoModifier,100);
+
 	QTimer::singleShot(1000,ui,SLOT(close()));
 	f.remove();
 }

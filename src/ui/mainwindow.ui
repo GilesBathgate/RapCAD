@@ -217,7 +217,7 @@
    </widget>
    <widget class="QMenu" name="menuDesign">
     <property name="title">
-     <string>Design</string>
+     <string>&amp;Design</string>
     </property>
     <addaction name="actionCompileAndRender"/>
     <addaction name="actionGenerateGcode"/>
