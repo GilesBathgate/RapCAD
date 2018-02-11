@@ -30,7 +30,7 @@ public:
 	~Tester() override;
 	int evaluate() override;
 private slots:
-	void runTests();
+	void runUiTests();
 	void handleSaveItemsDialog();
 private:
 	void writeHeader(const QString& name, int num);
@@ -44,6 +44,11 @@ private:
 #if USE_CGAL
 	void exportTest(class CGALExport&,const QString&,QFileInfo,const QString&);
 #endif
+	void builtinsTest();
+	void consoleTest();
+	void renderingTest();
+	void preferencesTest();
+
 	QString directory;
 	QString* nullout;
 	QTextStream* nullstream;

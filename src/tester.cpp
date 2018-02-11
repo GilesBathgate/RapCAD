@@ -176,7 +176,7 @@ int Tester::evaluate()
 	QApplication a(c,nullptr);
 	ui = new MainWindow();
 	ui->show();
-	QTimer::singleShot(100,this,SLOT(runTests()));
+	QTimer::singleShot(100,this,SLOT(runUiTests()));
 	a.exec();
 	delete ui;
 	reporter.reportTiming("ui testing");
@@ -184,7 +184,17 @@ int Tester::evaluate()
 	return reporter.getReturnCode();
 }
 
-void Tester::runTests()
+void Tester::runUiTests()
+{
+	preferencesTest();
+	renderingTest();
+	consoleTest();
+	builtinsTest();
+
+	QTimer::singleShot(1000,ui,SLOT(close()));
+}
+
+void Tester::preferencesTest()
 {
 	ui->activateWindow();
 	QTest::keyClick(ui,Qt::Key_E,Qt::AltModifier);
@@ -195,17 +205,26 @@ void Tester::runTests()
 	QDialog* prefs = ui->findChild<QDialog*>("Preferences");
 	prefs->activateWindow();
 	QTest::keyClick(prefs,Qt::Key_Enter,Qt::NoModifier,100);
+}
 
+void Tester::renderingTest()
+{
 	QFile f("test.rcad");
+	ui->activateWindow();
 	CodeEditor* edit = ui->findChild<CodeEditor*>("scriptEditor");
 	edit->activateWindow();
 	QTest::keyClicks(edit,"cube(10);");
 	QTimer::singleShot(100,this,SLOT(handleSaveItemsDialog()));
-	QTest::keyClick(ui,Qt::Key_F6,Qt::NoModifier,100);
+	QTest::keyClick(ui,Qt::Key_F6);
 	edit->setFileName(f.fileName());
 	edit->saveFile();
 	QTest::keyClick(ui,Qt::Key_F6,Qt::NoModifier,100);
+	f.remove();
+}
 
+void Tester::consoleTest()
+{
+	ui->activateWindow();
 	Console* console = ui->findChild<Console*>("console");
 	console->activateWindow();
 	QTest::keyClicks(console,"1+2");
@@ -213,14 +232,14 @@ void Tester::runTests()
 	QTest::keyClick(console,Qt::Key_Up,Qt::NoModifier,100);
 	QTest::keyClicks(console,"+3");
 	QTest::keyClick(console,Qt::Key_Return,Qt::NoModifier,100);
+}
 
+void Tester::builtinsTest()
+{
 	ui->activateWindow();
 	QTest::keyClick(ui,Qt::Key_D,Qt::AltModifier,100);
 	QMenu* menuDesign = ui->findChild<QMenu*>("menuDesign");
 	QTest::keyClick(menuDesign,Qt::Key_B,Qt::NoModifier,100);
-
-	QTimer::singleShot(1000,ui,SLOT(close()));
-	f.remove();
 }
 
 void Tester::handleSaveItemsDialog()
