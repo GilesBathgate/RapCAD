@@ -782,7 +782,7 @@
     </iconset>
    </property>
    <property name="text">
-    <string>Show Builtins</string>
+    <string>Show &amp;Builtins</string>
    </property>
    <property name="toolTip">
     <string>Show Built in Function and Module definitions</string>
