@@ -20,6 +20,9 @@
 #define CONFIG_H
 
 #include <CGAL/config.h>
+
+#undef CGAL_USE_GMPXX
+
 #include <qglobal.h>
 
 #define NDEBUG
