@@ -29,7 +29,11 @@
 #include <CGAL/convex_hull_3.h>
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/Alpha_shape_3.h>
+#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,11,0)
 #include <CGAL/Subdivision_method_3.h>
+#else
+#include <CGAL/Subdivision_method_3/subdivision_methods_3.h>
+#endif
 #include "cgalimport.h"
 #include "cgalexplorer.h"
 #include "cgalprimitive.h"
