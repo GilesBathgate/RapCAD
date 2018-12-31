@@ -28,6 +28,7 @@
 #include <CGAL/centroid.h>
 #include <CGAL/convex_hull_3.h>
 #include <CGAL/Delaunay_triangulation_3.h>
+#include <CGAL/Alpha_shape_vertex_base_3.h>
 #include <CGAL/Alpha_shape_3.h>
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,11,0)
 #include <CGAL/Subdivision_method_3.h>

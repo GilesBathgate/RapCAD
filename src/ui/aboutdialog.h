@@ -19,6 +19,7 @@
 #define ABOUTDIALOG_H
 
 #include <QDialog>
+#include <QIcon>
 
 namespace Ui
 {
