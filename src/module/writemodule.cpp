@@ -33,12 +33,13 @@ WriteModule::WriteModule(Reporter& r, const QString &n) : Module(r,n), output(r.
 
 Node* WriteModule::evaluate(const Context& ctx) const
 {
-	QList<Value*> args=ctx.getArguments();
+	auto args=ctx.getArguments();
 	OnceOnly first;
-	for(Value* a: args) {
+	for(auto a: args) {
+		Value* val=a.second;
 		if(!first())
 			output << " ";
-		output << a->getValueString();
+		output << val->getValueString();
 	}
 	return nullptr;
 }

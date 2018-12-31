@@ -29,7 +29,8 @@ ChrFunction::ChrFunction() : Function("chr")
 Value* ChrFunction::evaluate(const Context& ctx) const
 {
 	QString result;
-	for(Value* argVal: ctx.getArguments()) {
+	for(auto arg: ctx.getArguments()) {
+		Value* argVal = arg.second;
 		auto* code=dynamic_cast<NumberValue*>(argVal);
 		if(code) {
 			uint point=code->toInteger();

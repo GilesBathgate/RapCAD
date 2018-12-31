@@ -33,15 +33,16 @@ Node* EchoModule::evaluate(const Context& ctx) const
 		reporter.reportWarning(tr("'echo' module is deprecated please use 'write' or 'writeln'\n"));
 
 	output << "ECHO: ";
-	QList<Value*> args=ctx.getArguments();
+	auto args=ctx.getArguments();
 
 	OnceOnly first;
-	for(Value* a: args) {
+	for(auto a: args) {
+		Value* v=a.second;
 		if(!first())
 			output << ", ";
-		auto* t=dynamic_cast<TextValue*>(a);
+		auto* t=dynamic_cast<TextValue*>(v);
 		if(t) output << "\"";
-		output << a->getValueString();
+		output << v->getValueString();
 		if(t) output << "\"";
 	}
 	output << "\n";

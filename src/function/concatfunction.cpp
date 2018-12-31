@@ -28,15 +28,16 @@ ConcatFunction::ConcatFunction() : Function("concat")
 Value* ConcatFunction::evaluate(const Context& ctx) const
 {
 	VectorValue* val=nullptr;
-	for(Value* argVal: ctx.getArguments()) {
-		auto* arg = dynamic_cast<VectorValue*>(argVal);
-		if(!arg)
-			arg=argVal->toVector(1);
+	for(auto arg: ctx.getArguments()) {
+		Value* argVal = arg.second;
+		auto* vecVal = dynamic_cast<VectorValue*>(argVal);
+		if(!vecVal)
+			vecVal=argVal->toVector(1);
 
 		if(!val) {
-			val=arg;
+			val=vecVal;
 		} else {
-			Value* res=Value::operation(val,Expression::Concatenate,arg);
+			Value* res=Value::operation(val,Expression::Concatenate,vecVal);
 			val=res->toVector(1);
 		}
 	}

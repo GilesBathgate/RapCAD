@@ -36,8 +36,6 @@ public:
 	static void cleanup();
 	void setStorage(Variable::Storage_e);
 	Variable::Storage_e getStorage() const;
-	void setName(const QString&);
-	QString getName() const;
 	virtual QString getValueString() const;
 	virtual bool isTrue() const;
 	bool isFalse() const;
