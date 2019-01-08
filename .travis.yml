@@ -1,5 +1,5 @@
 group: travis_latest
-sudo: false
+dist: xenial
 language: cpp
 
 matrix:
@@ -28,22 +28,15 @@ install:
       brew link --force qt5;
     fi
 
-before_script:
-  - if [ $TRAVIS_OS_NAME != osx ]; then
-       export DISPLAY=:99.0;
-       sh -e /etc/init.d/xvfb start;
-    fi
-
 script:
   - qmake -v
   - qmake CONFIG+=coverage
   - make -j4
   - if [ $TRAVIS_OS_NAME = osx ]; then
-      path="./rapcad.app/Contents/MacOS";
+      ./rapcad.app/Contents/MacOS/rapcad -t test;
     else
-      path=".";
+      xvfb-run --server-args="-screen 0 1024x768x24" ./rapcad -t test;
     fi;
-    $path/rapcad -t test
 
 after_success:
   - if [ $TRAVIS_OS_NAME != osx ]; then
