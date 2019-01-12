@@ -244,10 +244,17 @@ void Tester::builtinsTest()
 
 void Tester::handleSaveItemsDialog()
 {
-	QDialog* sd=ui->findChild<QDialog*>("SaveItemsDialog");
-	sd->activateWindow();
-	QTest::keyClick(sd,Qt::Key_C,Qt::AltModifier,100);
-	sd->close();
+	for(int i=0; i<10; ++i)
+	{
+		QDialog* sd=ui->findChild<QDialog*>("SaveItemsDialog");
+		if(sd) {
+			sd->activateWindow();
+			QTest::keyClick(sd,Qt::Key_C,Qt::AltModifier,100);
+			sd->close();
+			return;
+		}
+		QTest::qSleep(100);
+	}
 }
 
 void Tester::exportTest(const QDir& dir)
