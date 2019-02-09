@@ -27,9 +27,12 @@ protected:
 	Iterator() : p(*this) {}
 public:
 	virtual ~Iterator(){}
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winfinite-recursion"
 	virtual bool operator!=(const Iterator& o) const { return p!=o; }
 	virtual Iterator& operator++() { ++p; return *this; }
 	virtual T operator*() const { return *p; }
+#pragma clang diagnostic pop
 	Iterator& begin() { return *this; }
 	Iterator& end() { return *this; }
 };

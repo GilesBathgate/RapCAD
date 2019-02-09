@@ -45,6 +45,8 @@ static QList<FILE*> openfiles;
 %option yylineno
 %option noyywrap
 %option nounput
+%option noinput
+
 %x include use import
 %x codedoc
 %x comment string

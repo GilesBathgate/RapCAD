@@ -100,10 +100,10 @@ public:
 	QList<Expression*>* buildVector(QList<Expression*>*,unsigned int,Expression*) override;
 	Expression* buildRange(Expression*,Expression*) override;
 	Expression* buildRange(Expression*,Expression*,Expression*) override;
-	Expression* buildComplex(Expression*,Expression*,Expression*,Expression*);
+	Expression* buildComplex(Expression*,Expression*,Expression*,Expression*) override;
 	Invocation* buildInvocation(QString*,QList<Argument*>*) override;
 	Invocation* buildInvocation(QString*,Invocation*) override;
-	void reportSyntaxError(QString);
+	void reportSyntaxError(QString) override;
 };
 
 #endif // DEPENDENCYBUILDER_H
