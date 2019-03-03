@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2018 Giles Bathgate
+ *   Copyright (C) 2010-2019 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -115,7 +115,7 @@ void TreeEvaluator::visit(const Instance& inst)
 	startContext(c);
 	for(Argument* arg: inst.getArguments())
 		arg->accept(*this);
-	QList<Value*> arguments=context->getArguments();
+	auto arguments=context->getArguments();
 	finishContext();
 
 	/* Look up the layout which is currently in scope and then lookup the
@@ -136,7 +136,7 @@ void TreeEvaluator::visit(const Instance& inst)
 
 		/* Pull the arguments in that we evaluated previously into this
 		 * context */
-		for(Value* a: arguments)
+		for(auto a: arguments)
 			context->addArgument(a);
 
 		for(Parameter* p: mod->getParameters())
@@ -250,18 +250,18 @@ void TreeEvaluator::visit(const ForStatement& forstmt)
 {
 	for(Argument* arg: forstmt.getArguments())
 		arg->accept(*this);
-	QList<Value*> args=context->getArguments();
+	auto args=context->getArguments();
 	context->clearArguments();
 
 	if(!args.isEmpty()) {
 		//TODO for now just consider the first arg.
-		Value* first = args.at(0);
-		QString name=first->getName();
+		auto firstArg = args.at(0);
+		QString name=firstArg.first;
+		Value* val=firstArg.second;
 
-		ValueIterator* it=first->createIterator();
+		ValueIterator* it=val->createIterator();
 		for(Value* v: *it) {
-			v->setName(name);
-			context->setVariable(v);
+			context->setVariable(name,v);
 
 			forstmt.getStatement()->accept(*this);
 		}
@@ -282,8 +282,7 @@ void TreeEvaluator::visit(const Parameter& param)
 		v = Value::undefined();
 	}
 
-	v->setName(name);
-	context->addParameter(v);
+	context->addParameter(name,v);
 }
 
 void TreeEvaluator::visit(const BinaryExpression& exp)
@@ -332,9 +331,8 @@ void TreeEvaluator::visit(const Argument& arg)
 	if(exp) {
 		exp->accept(*this);
 		Value* v = context->getCurrentValue();
-		v->setName(name);
 		v->setStorage(c); //TODO Investigate moving this to apply to all variables.
-		context->addArgument(v);
+		context->addArgument(name,v);
 	}
 }
 
@@ -380,21 +378,20 @@ void TreeEvaluator::visit(const AssignStatement& stmt)
 	}
 	if(!result) return;
 
-	result->setName(name);
 	Variable::Storage_e c;
 	c=lvalue->getStorage();
 	result->setStorage(c);
 	switch(c) {
 		case Variable::Const:
-			if(!context->addVariable(result))
+			if(!context->addVariable(name,result))
 				reporter.reportWarning(tr("attempt to alter constant variable '%1'").arg(name));
 			break;
 		case Variable::Param:
-			if(!context->addVariable(result))
+			if(!context->addVariable(name,result))
 				reporter.reportWarning(tr("attempt to alter parametric variable '%1'").arg(name));
 			break;
 		default:
-			context->setVariable(result);
+			context->setVariable(name,result);
 			break;
 	}
 }
@@ -471,7 +468,7 @@ void TreeEvaluator::visit(const Invocation& stmt)
 	startContext(c);
 	for(Argument* arg: stmt.getArguments())
 		arg->accept(*this);
-	QList<Value*> arguments=context->getArguments();
+	auto arguments=context->getArguments();
 	finishContext();
 
 	Value* result=nullptr;
@@ -492,7 +489,7 @@ void TreeEvaluator::visit(const Invocation& stmt)
 
 		/* Pull the arguments in that we evaluated previously into this
 		 * context */
-		for(Value* a: arguments)
+		for(auto a: arguments)
 			context->addArgument(a);
 
 		for(Parameter* p: func->getParameters())

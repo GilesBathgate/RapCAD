@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------
 #	RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
-#	Copyright (C) 2010-2018 Giles Bathgate
+#	Copyright (C) 2010-2019 Giles Bathgate
 #
 #	This program is free software: you can redistribute it and/or modify
 #	it under the terms of the GNU General Public License as published by
@@ -360,7 +360,8 @@ SOURCES += \
 	src/function/isvecfunction.cpp \
 	src/node/pointsnode.cpp \
 	src/module/pointsmodule.cpp \
-	src/cgalprojection.cpp
+	src/cgalprojection.cpp \
+	src/function/cbrtfunction.cpp
 
 HEADERS  += \
 	contrib/OGL_helper.h \
@@ -615,7 +616,8 @@ HEADERS  += \
 	src/node/boundarynode.h \
 	src/config.h \
 	src/function/isvecfunction.h \
-	src/cgalprojection.h
+	src/cgalprojection.h \
+	src/function/cbrtfunction.h
 
 FORMS += \
 	src/ui/mainwindow.ui \

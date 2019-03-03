@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2018 Giles Bathgate
+ *   Copyright (C) 2010-2019 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -33,12 +33,13 @@ WriteModule::WriteModule(Reporter& r, const QString &n) : Module(r,n), output(r.
 
 Node* WriteModule::evaluate(const Context& ctx) const
 {
-	QList<Value*> args=ctx.getArguments();
+	auto args=ctx.getArguments();
 	OnceOnly first;
-	for(Value* a: args) {
+	for(auto a: args) {
+		Value* val=a.second;
 		if(!first())
 			output << " ";
-		output << a->getValueString();
+		output << val->getValueString();
 	}
 	return nullptr;
 }

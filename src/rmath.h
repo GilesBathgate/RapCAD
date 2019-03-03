@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2018 Giles Bathgate
+ *   Copyright (C) 2010-2019 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@ decimal r_mod(const decimal&,const decimal&);
 decimal r_round(const decimal&);
 decimal r_round(const decimal&, int places);
 decimal r_sqrt(const decimal&,bool round=true);
+decimal r_cbrt(const decimal&,bool round=true);
 decimal r_sin(const decimal&,bool round=true);
 decimal r_cos(const decimal&,bool round=true);
 decimal r_tan(const decimal&,bool round=true);

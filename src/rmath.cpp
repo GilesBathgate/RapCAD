@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2018 Giles Bathgate
+ *   Copyright (C) 2010-2019 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -211,6 +211,18 @@ decimal r_sqrt(const decimal& a,bool round)
 	return r_round_preference(decimal(m),round);
 #else
 	return r_round_preference(sqrt(a),round);
+#endif
+}
+
+decimal r_cbrt(const decimal& a,bool round)
+{
+#ifdef USE_CGAL
+	CGAL::Gmpfr m;
+	CGAL::Gmpfr n=to_gmpfr(a);
+	mpfr_cbrt(m.fr(),n.fr(),MPFR_RNDN);
+	return r_round_preference(decimal(m),round);
+#else
+	return r_round_preference(cbrt(a),round);
 #endif
 }
 

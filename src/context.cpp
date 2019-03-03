@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2018 Giles Bathgate
+ *   Copyright (C) 2010-2019 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -78,19 +78,18 @@ void Context::setCurrentName(const QString& value)
 	currentName=value;
 }
 
-bool Context::addVariable(Value* v)
+bool Context::addVariable(const QString& name,Value* v)
 {
-	QString name=v->getName();
 	if(!variables.contains(name)) {
-		variables.insert(name,v);
+		setVariable(name,v);
 		return true;
 	}
 	return false;
 }
 
-void Context::setVariable(Value* v)
+void Context::setVariable(const QString& name, Value* v)
 {
-	variables.insert(v->getName(),v);
+	variables.insert(name,v);
 }
 
 Value* Context::lookupVariable(const QString& name,Variable::Storage_e& c,Layout* l) const
@@ -142,37 +141,53 @@ QList<Node*> Context::lookupChildren() const
 void Context::setVariablesFromArguments()
 {
 	for(auto i=0; i<parameters.size(); ++i) {
-		Value* val=parameters.at(i);
+		auto param=parameters.at(i);
+		QString paramName=param.first;
+		Value* paramVal=param.second;
 		bool found=false;
-		QString paramName=val->getName();
-		for(Value* arg: arguments) {
-			QString argName=arg->getName();
-			if(arg->isDefined()&&argName==paramName) {
-				val=arg;
+		for(auto arg: arguments) {
+			QString argName=arg.first;
+			Value* argVal=arg.second;
+			if(argVal->isDefined()&&argName==paramName) {
+				paramVal=argVal;
 				found=true;
 				break;
 			}
 		}
 		if(!found&&i<arguments.size()) {
-			Value* arg=arguments.at(i);
-			QString argName=arg->getName();
-			if(arg->isDefined()&&argName.isEmpty()) {
-				val=arg;
+			auto arg=arguments.at(i);
+			QString argName=arg.first;
+			Value* argVal=arg.second;
+			if(argVal->isDefined()&&argName.isEmpty()) {
+				paramVal=argVal;
 			}
 		}
 
-		variables.insert(paramName,val);
+		variables.insert(paramName,paramVal);
 	}
 }
 
-QList<Value*> Context::getArguments() const
+QList<QPair<QString,Value*>> Context::getArguments() const
 {
 	return arguments;
 }
 
-void Context::addArgument(Value* value)
+QList<Value*> Context::getArgumentValues() const
+{
+	QList<Value*> values;
+	for(auto arg: arguments)
+		values.append(arg.second);
+	return values;
+}
+
+void Context::addArgument(QPair<QString,Value*> value)
 {
 	arguments.append(value);
+}
+
+void Context::addArgument(const QString& name,Value* value)
+{
+	addArgument(QPair<QString,Value*>(name,value));
 }
 
 void Context::clearArguments()
@@ -213,9 +228,9 @@ void Context::clearParameters()
 	parameters.clear();
 }
 
-void Context::addParameter(Value* value)
+void Context::addParameter(const QString& name,Value* value)
 {
-	parameters.append(value);
+	parameters.append(QPair<QString,Value*>(name,value));
 }
 
 void Context::setInputNodes(const QList<Node*>& value)
@@ -257,20 +272,20 @@ Value* Context::matchArgumentIndex(bool allowChar,bool matchLast, int index, con
 	if(index >= arguments.size())
 		return matchArgument(allowChar,matchLast,name);
 
-	Value* arg = arguments.at(index);
-	QString argName = arg->getName();
+	auto arg = arguments.at(index);
+	QString argName = arg.first;
 	if(argName.isEmpty() || match(allowChar,matchLast,argName,name))
-		return arg;
+		return arg.second;
 
 	return matchArgument(allowChar,matchLast,name);
 }
 
 Value* Context::matchArgument(bool allowChar,bool matchLast, const QString& name) const
 {
-	for(Value* namedArg: arguments) {
-		QString namedArgName = namedArg->getName();
+	for(auto namedArg: arguments) {
+		QString namedArgName = namedArg.first;
 		if(match(allowChar,matchLast,namedArgName,name))
-			return namedArg;
+			return namedArg.second;
 	}
 
 	return nullptr;

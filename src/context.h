@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2018 Giles Bathgate
+ *   Copyright (C) 2010-2019 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -48,15 +48,17 @@ public:
 	void setCurrentName(const QString&);
 
 	Value* lookupVariable(const QString&,Variable::Storage_e&,Layout*) const;
-	bool addVariable(Value*);
-	void setVariable(Value*);
+	bool addVariable(const QString&,Value*);
+	void setVariable(const QString&,Value*);
 
 	Node* lookupChild(int) const;
 	QList<Node*> lookupChildren() const;
 
 	void setVariablesFromArguments();
-	QList<Value*> getArguments() const;
-	void addArgument(Value*);
+	QList<QPair<QString,Value*>> getArguments() const;
+	QList<Value*> getArgumentValues() const;
+	void addArgument(const QString&, Value*);
+	void addArgument(QPair<QString,Value*>);
 	void clearArguments();
 
 	Value* getArgument(int,const QString&) const;
@@ -65,7 +67,7 @@ public:
 	Value* getArgumentDeprecatedModule(int, const QString&, const QString&, Reporter&) const;
 
 	void clearParameters();
-	void addParameter(Value*);
+	void addParameter(const QString&, Value*);
 
 	void setInputNodes(const QList<Node*>&);
 	QList<Node*> getInputNodes() const;
@@ -75,8 +77,8 @@ public:
 	void addCurrentNode(Node*);
 private:
 	Context* parent;
-	QList<Value*> arguments;
-	QList<Value*> parameters;
+	QList<QPair<QString,Value*>> arguments;
+	QList<QPair<QString,Value*>> parameters;
 	QList<Node*> currentNodes;
 	QList<Node*> inputNodes;
 	Value* currentValue;

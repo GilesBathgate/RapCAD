@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2018 Giles Bathgate
+ *   Copyright (C) 2010-2019 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -36,10 +36,12 @@
 #include "builtincreator.h"
 #include "nodeevaluator.h"
 #include "ui/codeeditor.h"
+#include "ui/console.h"
 
-Tester::Tester(Reporter& r,QObject* parent) :
+Tester::Tester(Reporter& r, QString d, QObject* parent) :
 	QObject(parent),
 	Strategy(r),
+	directory(d),
 	nullout(new QString()),
 	nullstream(new QTextStream(nullout)),
 	nullreport(new Reporter(*nullstream)),
@@ -130,23 +132,25 @@ int Tester::evaluate()
 
 	writePass();
 
-	/* This hard coded directory and filters need to be addressed
+	QDir testDir(directory);
+	/* This hard coded filter need to be addressed
 	 * but it will do for now. */
-	QDir cur=QDir::current();
-	for(QString dir: cur.entryList(QStringList("*_*"))) {
+	for(QFileInfo entry: testDir.entryInfoList(QStringList("*_*"))) {
 
-		if(dir=="061_export") {
+		QDir dir(entry.absoluteFilePath());
+		QString testDir=entry.fileName();
+		if(testDir=="061_export") {
 #ifndef Q_OS_WIN
 			exportTest(dir);
 #endif
 			continue;
 		}
 
-		for(QFileInfo file: QDir(dir).entryInfoList(QStringList("*.rcad"), QDir::Files)) {
+		for(QFileInfo file: dir.entryInfoList(QStringList("*.rcad"), QDir::Files)) {
 
 			writeHeader(file.fileName(),++testcount);
 
-			if(skipDir(dir)) {
+			if(skipDir(testDir)) {
 				writeSkip();
 				continue;
 			}
@@ -172,23 +176,26 @@ int Tester::evaluate()
 	QApplication a(c,nullptr);
 	ui = new MainWindow();
 	ui->show();
-	QTimer::singleShot(100,this,SLOT(runTests()));
+	QTimer::singleShot(100,this,SLOT(runUiTests()));
 	a.exec();
+	delete ui;
 	reporter.reportTiming("ui testing");
 #endif
 	return reporter.getReturnCode();
 }
 
-void Tester::runTests()
+void Tester::runUiTests()
 {
-	QFile f("test.rcad");
-	CodeEditor* edit = ui->findChild<CodeEditor*>("scriptEditor");
-	edit->activateWindow();
-	QTest::keyClicks(edit,"difference(){cube(10,c=true);cylinder(20,4,c=true);}");
-	edit->setFileName(f.fileName());
-	edit->saveFile();
-	QTest::keyClick(ui,Qt::Key_F6,Qt::NoModifier,100);
+	preferencesTest();
+	renderingTest();
+	consoleTest();
+	builtinsTest();
 
+	QTimer::singleShot(1000,ui,SLOT(close()));
+}
+
+void Tester::preferencesTest()
+{
 	ui->activateWindow();
 	QTest::keyClick(ui,Qt::Key_E,Qt::AltModifier);
 	QMenu* menuEdit = ui->findChild<QMenu*>("menuEdit");
@@ -198,15 +205,62 @@ void Tester::runTests()
 	QDialog* prefs = ui->findChild<QDialog*>("Preferences");
 	prefs->activateWindow();
 	QTest::keyClick(prefs,Qt::Key_Enter,Qt::NoModifier,100);
+}
 
-	QTimer::singleShot(1000,ui,SLOT(close()));
+void Tester::renderingTest()
+{
+	QFile f("test.rcad");
+	ui->activateWindow();
+	CodeEditor* edit = ui->findChild<CodeEditor*>("scriptEditor");
+	edit->activateWindow();
+	QTest::keyClicks(edit,"cube(10);");
+	QTimer::singleShot(100,this,SLOT(handleSaveItemsDialog()));
+	QTest::keyClick(ui,Qt::Key_F6);
+	edit->setFileName(f.fileName());
+	edit->saveFile();
+	QTest::keyClick(ui,Qt::Key_F6,Qt::NoModifier,100);
 	f.remove();
 }
 
-void Tester::exportTest(const QString& dir)
+void Tester::consoleTest()
+{
+	ui->activateWindow();
+	Console* console = ui->findChild<Console*>("console");
+	console->activateWindow();
+	QTest::keyClicks(console,"1+2");
+	QTest::keyClick(console,Qt::Key_Return,Qt::NoModifier,100);
+	QTest::keyClick(console,Qt::Key_Up,Qt::NoModifier,100);
+	QTest::keyClicks(console,"+3");
+	QTest::keyClick(console,Qt::Key_Return,Qt::NoModifier,100);
+}
+
+void Tester::builtinsTest()
+{
+	ui->activateWindow();
+	QTest::keyClick(ui,Qt::Key_D,Qt::AltModifier,100);
+	QMenu* menuDesign = ui->findChild<QMenu*>("menuDesign");
+	QTest::keyClick(menuDesign,Qt::Key_B,Qt::NoModifier,100);
+}
+
+void Tester::handleSaveItemsDialog()
+{
+	for(int i=0; i<10; ++i)
+	{
+		QDialog* sd=ui->findChild<QDialog*>("SaveItemsDialog");
+		if(sd) {
+			sd->activateWindow();
+			QTest::keyClick(sd,Qt::Key_C,Qt::AltModifier,100);
+			sd->close();
+			return;
+		}
+		QTest::qSleep(100);
+	}
+}
+
+void Tester::exportTest(const QDir& dir)
 {
 	Reporter& r=*nullreport;
-	for(QFileInfo file: QDir(dir).entryInfoList(QStringList("*.rcad"), QDir::Files)) {
+	for(QFileInfo file: dir.entryInfoList(QStringList("*.rcad"), QDir::Files)) {
 		Script s(r);
 		s.parse(file);
 		TreeEvaluator te(r);

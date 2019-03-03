@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2018 Giles Bathgate
+ *   Copyright (C) 2010-2019 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -110,9 +110,18 @@ static CGAL::Scalar getLength(HalfedgeHandle h)
 
 static void removeShortEdge(CGAL::Polyhedron3& p,HalfedgeHandle h)
 {
-	p.join_facet(h->next());
-	p.join_facet(h->opposite()->next());
-	p.join_vertex(h);
+	// Determine the number of edges surrounding the vertex. e.g. \|/ or |/
+	auto edges=circulator_size(h->vertex_begin());
+	if(edges<3) {
+		p.erase_facet(h);
+	} else if(edges==3) {
+		p.join_facet(h->next());
+		p.join_vertex(h);
+	} else {
+		p.join_facet(h->next());
+		p.join_facet(h->opposite()->next());
+		p.join_vertex(h);
+	}
 }
 
 static void removeShortestEdges(CGAL::Polyhedron3& p,HalfedgeHandle h1,HalfedgeHandle h2,HalfedgeHandle h3)

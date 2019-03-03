@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2018 Giles Bathgate
+ *   Copyright (C) 2010-2019 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -70,18 +70,20 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Re
 	p.addHelpOption();
 	p.addVersionOption();
 	p.addPositionalArgument("filename", QCoreApplication::translate("main","File to open or process."));
+
 #ifdef USE_INTEGTEST
-	QCommandLineOption testOption(QStringList() << "t" << "test", QCoreApplication::translate("main","Run through tests in working directory."));
+	QCommandLineOption testOption(QStringList() << "t" << "test", QCoreApplication::translate("main","Run through tests in working directory."),"directory");
 	p.addOption(testOption);
+
+	QCommandLineOption generateOption(QStringList() << "g" << "generate", QCoreApplication::translate("main","Generate documentation"));
+	p.addOption(generateOption);
 #endif
+
 	QCommandLineOption compareOption(QStringList() << "c" << "compare", QCoreApplication::translate("main","Compare two files to see if they are identical."),"filename");
 	p.addOption(compareOption);
 
 	QCommandLineOption printOption(QStringList() << "p" << "print", QCoreApplication::translate("main","Print debugging output."));
 	p.addOption(printOption);
-
-	QCommandLineOption generateOption(QStringList() << "g" << "generate", QCoreApplication::translate("main","Generate documentation"));
-	p.addOption(generateOption);
 
 	QCommandLineOption outputOption(QStringList() << "o" << "output",QCoreApplication::translate("main","Create output file <filename>."),"filename");
 	p.addOption(outputOption);
@@ -97,28 +99,25 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Re
 	if(!inputFiles.isEmpty())
 		inputFile=inputFiles.at(0);
 
-	QString outputFile;
-	if(p.isSet(outputOption))
-		outputFile=p.value(outputOption);
-	else if(p.isSet(compareOption))
-		outputFile=p.value(compareOption);
-
 	if(p.isSet(compareOption)) {
 		auto* c=new Comparer(reporter);
-		c->setup(inputFile,outputFile);
+		c->setup(inputFile,p.value(compareOption));
 		return c;
 #ifdef USE_INTEGTEST
 	} else if(p.isSet(testOption)) {
 		showVersion(reporter.output);
-		return new Tester(reporter);
-#endif
-	} else if(p.isSet(outputOption)||p.isSet(printOption)) {
-		auto* w=new Worker(reporter);
-		bool print = p.isSet(printOption);
-		w->setup(inputFile,outputFile,print,false);
-		return w;
+		return new Tester(reporter,p.value(testOption));
 	} else if(p.isSet(generateOption)) {
 		return new Generator(reporter);
+#endif
+	} else if(p.isSet(outputOption)) {
+		auto* w=new Worker(reporter);
+		w->setup(inputFile,p.value(outputOption),false,false);
+		return w;
+	} else if(p.isSet(printOption)) {
+		auto* w=new Worker(reporter);
+		w->setup(inputFile,"",true,false);
+		return w;
 #ifdef USE_READLINE
 	} else if(p.isSet(interactOption)) {
 		showVersion(reporter.output);

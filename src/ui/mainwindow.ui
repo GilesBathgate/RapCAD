@@ -217,7 +217,7 @@
    </widget>
    <widget class="QMenu" name="menuDesign">
     <property name="title">
-     <string>Design</string>
+     <string>&amp;Design</string>
     </property>
     <addaction name="actionCompileAndRender"/>
     <addaction name="actionGenerateGcode"/>
@@ -782,7 +782,7 @@
     </iconset>
    </property>
    <property name="text">
-    <string>Show Builtins</string>
+    <string>Show &amp;Builtins</string>
    </property>
    <property name="toolTip">
     <string>Show Built in Function and Module definitions</string>

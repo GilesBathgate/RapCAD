@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2018 Giles Bathgate
+ *   Copyright (C) 2010-2019 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -27,9 +27,16 @@ protected:
 	Iterator() : p(*this) {}
 public:
 	virtual ~Iterator(){}
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winfinite-recursion"
+#endif
 	virtual bool operator!=(const Iterator& o) const { return p!=o; }
 	virtual Iterator& operator++() { ++p; return *this; }
 	virtual T operator*() const { return *p; }
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 	Iterator& begin() { return *this; }
 	Iterator& end() { return *this; }
 };

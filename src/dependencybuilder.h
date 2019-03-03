@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2018 Giles Bathgate
+ *   Copyright (C) 2010-2019 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -100,8 +100,10 @@ public:
 	QList<Expression*>* buildVector(QList<Expression*>*,unsigned int,Expression*) override;
 	Expression* buildRange(Expression*,Expression*) override;
 	Expression* buildRange(Expression*,Expression*,Expression*) override;
+	Expression* buildComplex(Expression*,Expression*,Expression*,Expression*) override;
 	Invocation* buildInvocation(QString*,QList<Argument*>*) override;
 	Invocation* buildInvocation(QString*,Invocation*) override;
+	void reportSyntaxError(QString) override;
 };
 
 #endif // DEPENDENCYBUILDER_H

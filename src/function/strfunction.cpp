@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2018 Giles Bathgate
+ *   Copyright (C) 2010-2019 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -29,12 +29,13 @@ StrFunction::StrFunction() : Function("str")
 Value* StrFunction::evaluate(const Context& ctx) const
 {
 	TextValue* val=nullptr;
-	for(Value* argVal: ctx.getArguments()) {
-		TextValue* arg = argVal->toText();
+	for(auto arg: ctx.getArguments()) {
+		Value* argVal = arg.second;
+		TextValue* textArg = argVal->toText();
 		if(!val) {
-			val=arg;
+			val=textArg;
 		} else {
-			Value* res=Value::operation(val,Expression::Concatenate,arg);
+			Value* res=Value::operation(val,Expression::Concatenate,textArg);
 			val=res->toText();
 		}
 	}

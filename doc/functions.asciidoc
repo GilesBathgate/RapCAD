@@ -8,6 +8,7 @@
 |asin(value) | Returns the arc sine of the number value.
 |atan2(y,x) | Returns the arc tangent of the two number values.
 |atan(value) | Returns the arc tangent of the number value.
+|cbrt(number) | Returns the cube root of the number value.
 |ceil(value) | Returns the number value rounded up to the nearest integer.
 |chr() | Returns a characters with the given unicode number values.
 |concat() | Returns a vector with the passed in vector appended.

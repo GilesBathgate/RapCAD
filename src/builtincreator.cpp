@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2018 Giles Bathgate
+ *   Copyright (C) 2010-2019 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -115,6 +115,7 @@
 #include "function/ismat4x4function.h"
 #include "function/isvecfunction.h"
 #include "function/chrfunction.h"
+#include "function/cbrtfunction.h"
 
 #include "module/writemodule.h"
 #include "module/writelnmodule.h"
@@ -187,6 +188,7 @@ BuiltinCreator::BuiltinCreator(Reporter& r)
 	builtins.append(new AsinFunction());
 	builtins.append(new Atan2Function());
 	builtins.append(new AtanFunction());
+	builtins.append(new CbrtFunction());
 	builtins.append(new CeilFunction());
 	builtins.append(new ChrFunction());
 	builtins.append(new ConcatFunction());
