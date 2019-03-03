@@ -49,11 +49,16 @@ public:
 		Front
 	};
 
+	enum Appearance_t {
+		MK42 = 0,
+		MK2 = 1
+	};
+
 	explicit GLView(QWidget* parent = nullptr);
 	~GLView() override;
 	void setRenderer(Renderer* r);
 	void setCompiling(bool value);
-	void setBedAppearance(int);
+	void setBedAppearance(Appearance_t);
 	void preferencesUpdated();
 
 #ifdef USE_QGLWIDGET
@@ -112,7 +117,7 @@ private:
 	GLfloat printWidth;
 	GLfloat printLength;
 	GLfloat printHeight;
-	int appearance;
+	Appearance_t appearance;
 
 	bool mouseDrag;
 	QPoint last;

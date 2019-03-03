@@ -48,7 +48,7 @@ GLView::GLView(QWidget* parent) :
 	printWidth(0.0),
 	printLength(0.0),
 	printHeight(0.0),
-	appearance(0),
+	appearance(Appearance_t::MK42),
 	mouseDrag(false),
 	rotateX(35.0),
 	rotateY(0.0),
@@ -189,7 +189,7 @@ void GLView::setCompiling(bool value)
 	update();
 }
 
-void GLView::setBedAppearance(int v)
+void GLView::setBedAppearance(Appearance_t v)
 {
 	appearance=v;
 	update();
@@ -282,7 +282,7 @@ void GLView::drawBase()
 
 	const GLfloat z=-0.01;
 	switch(appearance) {
-		case 0: {
+		case Appearance_t::MK42: {
 			const GLfloat baseX=-2.0;
 			const GLfloat baseY=-9.4;
 			const GLfloat baseWidth=254.0;
@@ -334,7 +334,7 @@ void GLView::drawBase()
 			glEnd();
 		}
 		break;
-		case 1: {
+		case Appearance_t::MK2: {
 			const GLfloat baseXY=-7.5;
 			const GLfloat baseWL=215.0;
 			glLineWidth(2);

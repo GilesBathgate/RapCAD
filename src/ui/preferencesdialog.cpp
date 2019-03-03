@@ -23,6 +23,7 @@
 #include "preferences.h"
 #include "decimal.h"
 #include "rmath.h"
+#include "ui/glview.h"
 
 PreferencesDialog::PreferencesDialog(QWidget* parent) :
 	QDialog(parent),
@@ -60,8 +61,7 @@ void PreferencesDialog::setupWidgets()
 	ui->edgeSizeSpinBox->setValue(p->getEdgeSize());
 	ui->checkBox->setChecked(p->getAutoSaveOnCompile());
 	bool enabled=true;
-	switch(p->getPrecision())
-	{
+	switch(p->getPrecision()) {
 		case 0:
 			ui->singleRadio->setChecked(true);
 			enabled=false;
@@ -78,8 +78,7 @@ void PreferencesDialog::setupWidgets()
 	ui->bitsSpinBox->setEnabled(enabled);
 	ui->placesSpinBox->setValue(p->getDecimalPlaces());
 	ui->bitsSpinBox->setValue(p->getSignificandBits());
-	switch(p->getFunctionRounding())
-	{
+	switch(p->getFunctionRounding()) {
 		case 0:
 			ui->decimalRoundingRadio->setChecked(true);
 			break;
@@ -298,28 +297,29 @@ void PreferencesDialog::originChanged()
 	emit preferencesUpdated();
 }
 
-void PreferencesDialog::appearanceChanged(int index)
+void PreferencesDialog::appearanceChanged(int i)
 {
+	auto a = (GLView::Appearance_t)i;
 	Preferences* p = Preferences::getInstance();
-	switch(index) {
-		case 0: { //MK42
+	switch(a) {
+		case GLView::Appearance_t::MK42: {
 			ui->XspinBox->setValue(-125);
 			ui->YspinBox->setValue(-105);
 			originChanged();
 			ui->widthSpinBox->setValue(250);
 			ui->lengthSpinBox->setValue(210);
 			volumeChanged();
-			p->setPrintBedAppearance(index);
+			p->setPrintBedAppearance(a);
 		}
 		break;
-		case 1: { //MK2
+		case GLView::Appearance_t::MK2: {
 			ui->XspinBox->setValue(-100);
 			ui->YspinBox->setValue(-100);
 			originChanged();
 			ui->widthSpinBox->setValue(200);
 			ui->lengthSpinBox->setValue(200);
 			volumeChanged();
-			p->setPrintBedAppearance(index);
+			p->setPrintBedAppearance(a);
 		}
 		break;
 	}
@@ -335,7 +335,7 @@ void PreferencesDialog::fontChanged(QFont f)
 	emit preferencesUpdated();
 }
 
-void PreferencesDialog::fontSizeChanged(const QString &s)
+void PreferencesDialog::fontSizeChanged(const QString& s)
 {
 	Preferences* p = Preferences::getInstance();
 	QFont f=ui->fontComboBox->currentFont();
