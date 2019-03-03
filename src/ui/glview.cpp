@@ -278,6 +278,8 @@ void GLView::drawAxes()
 
 void GLView::drawBase()
 {
+	glEnable(GL_CULL_FACE);
+
 	const GLfloat z=-0.01;
 	switch(appearance) {
 		case 0: {
@@ -339,9 +341,9 @@ void GLView::drawBase()
 			glColor3f(0.6, 0.2, 0.2);
 			glBegin(GL_QUADS);
 			glVertex3f(printX+baseXY, printY+baseXY, z);
-			glVertex3f(printX+baseXY, printY+baseXY+baseWL, z);
-			glVertex3f(printX+baseXY+baseWL, printY+baseXY+baseWL, z);
 			glVertex3f(printX+baseXY+baseWL, printY+baseXY, z);
+			glVertex3f(printX+baseXY+baseWL, printY+baseXY+baseWL, z);
+			glVertex3f(printX+baseXY, printY+baseXY+baseWL, z);
 			glEnd();
 		}
 		break;
@@ -356,6 +358,7 @@ void GLView::drawBase()
 	glVertex3f(printX, printY+printLength, z);
 	glEnd();
 
+	glDisable(GL_CULL_FACE);
 }
 
 void GLView::drawPrintArea()
