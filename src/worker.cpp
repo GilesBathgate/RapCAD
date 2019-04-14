@@ -78,7 +78,7 @@ void Worker::internal()
 		reporter.setReturnCode(EXIT_SUCCESS);
 
 #ifdef USE_CGAL
-	} catch(CGAL::Failure_exception e) {
+	} catch(const CGAL::Failure_exception& e) {
 		resultFailed(QString::fromStdString(e.what()));
 #endif
 	} catch(...) {
@@ -213,7 +213,7 @@ void Worker::exportResult(const QString& fn)
 	try {
 		CGALExport exporter(primitive,reporter);
 		exporter.exportResult(fn);
-	} catch(CGAL::Failure_exception e) {
+	} catch(const CGAL::Failure_exception& e) {
 		resultFailed(QString::fromStdString(e.what()));
 	}
 
@@ -251,7 +251,7 @@ Renderer* Worker::getRenderer()
 
 		return new CGALRenderer(primitive);
 
-	} catch(CGAL::Failure_exception e) {
+	} catch(const CGAL::Failure_exception& e) {
 		resultFailed(QString::fromStdString(e.what()));
 		return nullptr;
 	}
