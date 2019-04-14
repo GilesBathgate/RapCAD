@@ -426,14 +426,15 @@ void Preferences::setPrintVolume(QVector3D v)
 	settings->setValue("PrintVolume",d);
 }
 
-int Preferences::getPrintBedAppearance() const
+GLView::Appearance_t Preferences::getPrintBedAppearance() const
 {
-	return settings->value("PrintBedAppearance", 0).toInt();
+	int i=settings->value("PrintBedAppearance",0).toInt();
+	return (GLView::Appearance_t)i;
 }
 
-void Preferences::setPrintBedAppearance(int v)
+void Preferences::setPrintBedAppearance(GLView::Appearance_t v)
 {
-	settings->setValue("PrintBedAppearance",v);
+	settings->setValue("PrintBedAppearance",(int)v);
 }
 
 void Preferences::syncDelete()

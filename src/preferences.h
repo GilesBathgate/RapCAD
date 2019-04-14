@@ -24,6 +24,7 @@
 #include <QSize>
 #include <QVector3D>
 #include <QFont>
+#include "ui/glview.h"
 
 class Preferences
 {
@@ -133,8 +134,8 @@ public:
 	QVector3D getPrintVolume() const;
 	void setPrintVolume(QVector3D v);
 
-	int getPrintBedAppearance() const;
-	void setPrintBedAppearance(int);
+	GLView::Appearance_t getPrintBedAppearance() const;
+	void setPrintBedAppearance(GLView::Appearance_t);
 
 	QFont getEditorFont() const;
 	void setEditorFont(const QFont&);
