@@ -22,6 +22,7 @@
 #include <CGAL/config.h>
 
 #undef CGAL_USE_GMPXX
+#define CGAL_DO_NOT_USE_BOOST_MP 1
 
 #include <qglobal.h>
 
