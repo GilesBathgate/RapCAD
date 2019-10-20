@@ -586,7 +586,13 @@ void NodeEvaluator::visit(const SubDivisionNode& n)
 #ifdef USE_CGAL
 	auto* cp=static_cast<CGALPrimitive*>(result);
 	CGAL::Polyhedron3& p=*cp->getPolyhedron();
+
+#if CGAL_VERSION_NR <= CGAL_VERSION_NUMBER(4,11,0)
 	CGAL::Subdivision_method_3::Loop_subdivision(p,n.getLevel());
+#else
+	CGAL::Subdivision_method_3::Loop_subdivision(p,CGAL::parameters::number_of_iterations(n.getLevel()));
+#endif
+
 	result=new CGALPrimitive(p);
 #endif
 }
