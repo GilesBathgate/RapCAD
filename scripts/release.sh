@@ -29,9 +29,9 @@ ppa_build(){
 	mv rapcad_$version~"$vname"1* $ppadir
 }
 
-ppa_build "Wily"
-ppa_build "Vivid"
-ppa_build "Trusty"
+ppa_build "Eoan"
+ppa_build "Disco"
+ppa_build "Bionic"
 
 rm -rf rapcad-$version
 
