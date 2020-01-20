@@ -115,7 +115,7 @@ mingw32-make
 -------------------------------
 
 macOS X
-~~~~~~~~~~~~~~~
+~~~~~~~
 
 Current instructions were tested with macOS X 10.15.2 and XCode 11.3.1.
 
