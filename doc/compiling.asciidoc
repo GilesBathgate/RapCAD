@@ -162,6 +162,9 @@ make
 If all goes well, you will see `rapcad.app` as a result. Note, that currently the app uses a
 generic app icon.
 
+Packaging
++++++++++
+
 If you wish to make a disk image containing the
 app, then you can use `hdiutil`, as follows:
 
