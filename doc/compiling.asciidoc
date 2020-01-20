@@ -141,14 +141,13 @@ Dependencies
 ++++++++++++
 [source,shell]
 -------------------------------------------------------------
-sudo port install cgal qt4-mac
+sudo port install cgal qt5-mac
 -------------------------------------------------------------
 
 RapCAD
 ++++++
 [source,shell]
 -------------------------
-sudo port install cgal qt5-mac
 
 export CXX="clang -std=c++11 -stdlib=libc++"
 export CPLUS_INCLUDE_PATH="/opt/local/include"
