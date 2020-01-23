@@ -45,8 +45,8 @@ after_success:
 
 after_failure:
   - if [ $TRAVIS_OS_NAME == osx ]; then
-      cd  ~/Library/Logs/DiagnosticReports
-      cat rapcad_*.crash
+      cd  ~/Library/Logs/DiagnosticReports;
+      cat rapcad_*.crash;
     fi
 
 notifications:

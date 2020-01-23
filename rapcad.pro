@@ -29,6 +29,7 @@ CONFIG += c++11
 TARGET = rapcad
 TEMPLATE = app
 INCLUDEPATH += src
+# ICON = rapcad.icns
 
 DEFINES += USE_CGAL
 DEFINES += USE_READLINE
