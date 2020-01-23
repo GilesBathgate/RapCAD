@@ -43,6 +43,12 @@ after_success:
       bash <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/master/codecov) -a '-r';
     fi
 
+after_failure:
+  - if [ $TRAVIS_OS_NAME == osx ]; then
+      cd  ~/Library/Logs/DiagnosticReports
+      cat rapcad_*.crash
+    fi
+
 notifications:
   irc:
     channels:
