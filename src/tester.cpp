@@ -22,6 +22,8 @@
 #include <QtTest/QTest>
 #include <QMenu>
 #include <boost/version.hpp>
+#include <mpfr.h>
+#include <gmp.h>
 #ifdef USE_CGAL
 #include "cgal.h"
 #include "cgalexport.h"
@@ -123,6 +125,8 @@ int Tester::evaluate()
 	output << QString("CGAL:\t %1\n").arg(CGAL_VERSION_STR);
 #endif
 	output << QString("Boost:\t %1.%2.%3\n").arg(BOOST_VERSION / 100000).arg(BOOST_VERSION / 100 % 1000).arg(BOOST_VERSION % 100);
+	output << QString("MPFR:\t %1\n").arg(MPFR_VERSION_STRING);
+	output << QString("GMP:\t %1\n").arg(gmp_version);
 
 	writeHeader("000_treeprinter",testcount);
 
