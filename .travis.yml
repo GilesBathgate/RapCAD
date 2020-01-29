@@ -1,5 +1,5 @@
 group: travis_latest
-dist: xenial
+dist: bionic
 language: cpp
 
 matrix:
