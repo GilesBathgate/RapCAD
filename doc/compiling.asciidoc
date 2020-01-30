@@ -154,12 +154,14 @@ export CPLUS_INCLUDE_PATH="/opt/local/include"
 export CFLAGS="-I /opt/local/include"
 export LIBRARY_PATH=/opt/local/lib
 
-/opt/local/libexec/qt5/bin/qmake CONFIG+=official
+mkdir build
+cd build
+/opt/local/libexec/qt5/bin/qmake -o Makefile ../rapcad.pro -spec macx-clang CONFIG+=official
 
 make
 -------------------------
 
-If all goes well, you will see `rapcad.app` as a result. Note, that currently the app uses a
+If all goes well, you will see `rapcad.app` as a result, in your build folder. Note, that currently the app uses a
 generic app icon.
 
 Packaging
