@@ -105,7 +105,7 @@ contains(DEFINES,USE_CGAL) {
 CONFIG(coverage){
 	QT += testlib
 	DEFINES += USE_INTEGTEST
-	CONFIG += debug
+        #CONFIG += debug #temporarily disabled due to segfault crash.
   !macx {
 	QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage
 	LIBS += -lgcov
