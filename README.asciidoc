@@ -49,3 +49,8 @@ Mac OS X
 
 * Download the https://github.com/GilesBathgate/RapCAD/releases/download/v0.9.0/rapcad_0.9.0.dmg[latest disk image].
 * Open the image and run the rapcad package.
+
+Building
+--------
+
+If you wish to build from source, please read link:./doc/compiling.asciidoc[doc/compiling.asciidoc]
