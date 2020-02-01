@@ -38,7 +38,6 @@ decimal parse_numberexp(const QString&,bool* ok=nullptr);
 
 #ifdef USE_CGAL
 void to_glcoord(const Point&,float&,float&,float&);
-QString to_rational(const decimal&);
 CGAL::Gmpfr to_gmpfr(const decimal&);
 #endif
 
