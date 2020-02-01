@@ -44,8 +44,8 @@ public:
 	int getFunctionRounding() const;
 	void setFunctionRounding(int);
 
-	bool getRationalFormat() const;
-	void setRationalFormat(bool b);
+	int getNumberFormat() const;
+	void setNumberFormat(int);
 
 	float getDefaultRotationX() const;
 	void setDefaultRotationX(float);

@@ -123,14 +123,14 @@ void Preferences::setFunctionRounding(int i)
 	settings->setValue("FunctionRounding",i);
 }
 
-bool Preferences::getRationalFormat() const
+int Preferences::getNumberFormat() const
 {
-	return settings->value("RationalFormat",false).toBool();
+	return settings->value("NumberFormat",0).toInt();
 }
 
-void Preferences::setRationalFormat(bool b)
+void Preferences::setNumberFormat(int i)
 {
-	settings->setValue("RationalFormat",b);
+	settings->setValue("NumberFormat",i);
 }
 
 float Preferences::getDefaultRotationX() const

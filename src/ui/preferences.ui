@@ -19,7 +19,7 @@
      <item>
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
-        <number>0</number>
+        <number>3</number>
        </property>
        <widget class="QWidget" name="editorTab">
         <attribute name="title">
@@ -555,7 +555,32 @@
            <property name="title">
             <string>Format</string>
            </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <layout class="QVBoxLayout" name="verticalLayout_6">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <item>
+               <widget class="QRadioButton" name="scientificRadio">
+                <property name="text">
+                 <string>Scientific</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="rationalRadio">
+                <property name="text">
+                 <string>Rational</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="fixedRadio">
+                <property name="text">
+                 <string>Fixed</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
             <item>
              <widget class="QLabel" name="exampleLabel">
               <property name="frameShape">
@@ -566,13 +591,6 @@
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="rationalFormatCheckBox">
-              <property name="text">
-               <string>Output Rational Format (nnn/ddd)</string>
               </property>
              </widget>
             </item>
@@ -630,7 +648,6 @@
   <tabstop>decimalRoundingRadio</tabstop>
   <tabstop>base2RoundingRadio</tabstop>
   <tabstop>noRoundingRadio</tabstop>
-  <tabstop>rationalFormatCheckBox</tabstop>
   <tabstop>checkBox</tabstop>
  </tabstops>
  <resources/>

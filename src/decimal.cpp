@@ -52,20 +52,33 @@ decimal to_decimal(const QString& str,bool* ok)
 
 QString to_string(const decimal& d)
 {
-	if(d==0.0)
+	Preferences* p=Preferences::getInstance();
+	int numberFormat=p->getNumberFormat();
+
+	if(numberFormat!=1 && d==0.0)
 		return QString('0');
 
-	Preferences* p=Preferences::getInstance();
 	QString res;
 #ifdef USE_CGAL
 
-	if(p->getRationalFormat())
+	if(numberFormat==2)
 		return to_rational(d);
 
 	mpf_t m;
 	mp_exp_t e;
 	mpf_init2(m,mpfr_get_default_prec());
 	mpf_set_q(m,d.exact().mpq());
+
+	if(numberFormat==1) {
+		int decimalPlaces=p->getDecimalPlaces();
+		int s=decimalPlaces+8; // -0.e+00\n
+		char* buf = new char[s];
+		QString format = QString("%.%1Fe").arg(decimalPlaces);
+		gmp_snprintf(buf,s,format.toLocal8Bit(),m);
+
+		return QString(buf);
+	}
+
 	int sign=mpf_sgn(m);
 	if(sign<0)
 		mpf_neg(m,m);
@@ -118,7 +131,8 @@ void to_glcoord(const Point& pt,float& x,float& y,float& z)
 
 QString to_rational(const decimal& n)
 {
-	char* r=mpq_get_str(nullptr,10,n.exact().mpq());
+	const int base10=10;
+	char* r=mpq_get_str(nullptr,base10,n.exact().mpq());
 	QString s(r);
 	free(r);
 	return s;
@@ -132,7 +146,7 @@ CGAL::Gmpfr to_gmpfr(const decimal& d)
 }
 #endif
 
-decimal parse_numberexp(const QString& s, bool *ok)
+decimal parse_numberexp(const QString& s, bool* ok)
 {
 	int i=s.indexOf('e',0,Qt::CaseInsensitive);
 	if(i<0)
@@ -143,7 +157,7 @@ decimal parse_numberexp(const QString& s, bool *ok)
 	return to_decimal(s.left(i),ok) * r_pow(decimal(10),p,p<0);
 }
 
-decimal parse_rational(const QString& s, bool *ok)
+decimal parse_rational(const QString& s, bool* ok)
 {
 	int i=s.lastIndexOf('/');
 	if(i<0)
