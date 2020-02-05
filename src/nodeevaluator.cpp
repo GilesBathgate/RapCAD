@@ -576,7 +576,8 @@ void NodeEvaluator::visit(const BoundsNode& n)
 
 	CGAL::Point3 lower(xmin,ymin,zmin);
 	CGAL::Point3 upper(xmax,ymax,zmax);
-	reporter.reportMessage(tr("Bounds: [%1],[%2]").arg(to_string(lower)).arg(to_string(upper)));
+	CGAL::Point3 size(xmax-xmin,ymax-ymin,zmax-zmin);
+	reporter.reportMessage(tr("Bounds: [%1,%2]\nSize: %3").arg(to_string(lower),to_string(upper),to_string(size)));
 #endif
 }
 
