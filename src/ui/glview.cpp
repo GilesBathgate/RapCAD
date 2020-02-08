@@ -222,7 +222,7 @@ void GLView::initializeGL()
 
 void GLView::resizeGL(int w,int h)
 {
-	glViewport(0.0f,0.0f,static_cast<GLint>(w),static_cast<GLint>(h));
+	glViewport(0.0f,0.0f,GLint(w),GLint(h));
 
 	glMatrixMode(GL_PROJECTION);
 
@@ -231,7 +231,7 @@ void GLView::resizeGL(int w,int h)
 	gluPerspective(45.0f,(GLfloat)w/(GLfloat)h,+10.0f,+farfarAway);
 #else
 	projection->setToIdentity();
-	projection->perspective(45.0f,static_cast<GLfloat>(w)/static_cast<GLfloat>(h),+10.0f,+farfarAway);
+	projection->perspective(45.0f,GLfloat(w)/GLfloat(h),+10.0f,+farfarAway);
 	glLoadMatrixf(projection->data());
 #endif
 
@@ -266,7 +266,7 @@ void GLView::drawAxes()
 	glLineWidth(1);
 	glColor3f(0.0f,0.0f,0.0f);
 	glBegin(GL_LINES);
-	float c=fmax(distance/2,static_cast<GLfloat>(rulerLength));
+	float c=fmax(distance/2,GLfloat(rulerLength));
 	glVertex3f(-c,0.0f,0.0f);
 	glVertex3f(+c,0.0f,0.0f);
 	glVertex3f(0.0f,-c,0.0f);
@@ -532,7 +532,7 @@ void GLView::wheelEvent(QWheelEvent* event)
 
 void GLView::zoomView(float amt)
 {
-	distance*=static_cast<GLfloat>(pow(0.9,amt/10));
+	distance*=GLfloat(pow(0.9,amt/10));
 }
 
 void GLView::mousePressEvent(QMouseEvent* event)
@@ -560,11 +560,11 @@ void GLView::mouseMoveEvent(QMouseEvent* event)
 	int dy=current.y()-last.y();
 	bool shift=QApplication::keyboardModifiers() & Qt::ShiftModifier;
 	if(event->buttons() & Qt::LeftButton) {
-		rotateX+=static_cast<GLfloat>(dy);
+		rotateX+=GLfloat(dy);
 		if(shift) {
-			rotateY+=static_cast<GLfloat>(dx);
+			rotateY+=GLfloat(dx);
 		} else {
-			rotateZ+=static_cast<GLfloat>(dx);
+			rotateZ+=GLfloat(dx);
 		}
 		normalizeAngle(rotateX);
 		normalizeAngle(rotateY);
@@ -573,8 +573,8 @@ void GLView::mouseMoveEvent(QMouseEvent* event)
 		if(shift) {
 			zoomView(-dy);
 		} else {
-			viewportX+=static_cast<GLfloat>(dx);
-			viewportZ-=static_cast<GLfloat>(dy);
+			viewportX+=GLfloat(dx);
+			viewportZ-=GLfloat(dy);
 		}
 	}
 	update();
