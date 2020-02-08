@@ -10,3 +10,4 @@ sed "s/glVertex3d/glVertex3f/" -i $file
 sed "s/glScaled/glScalef/" -i $file
 sed "s/glTranslated/glTranslatef/" -i $file
 git apply scripts/OGL_helper.patch
+sed "s/GLvoid (CGAL_GLU_TESS_CALLBACK/void (CGAL_GLU_TESS_CALLBACK/" -i $file
