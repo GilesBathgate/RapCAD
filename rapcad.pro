@@ -87,6 +87,7 @@ win32 {
 	LIBS += -lz
 	QMAKE_YACC = bison
   macx {
+    ICON = icons/AppIcon.icns
 	INCLUDEPATH += /usr/local/include
 	LIBS += -L/usr/local/lib -lboost_thread-mt
   } else {
