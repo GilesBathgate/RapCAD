@@ -218,6 +218,8 @@ void Tester::renderingTest()
 	CodeEditor* edit = ui->findChild<CodeEditor*>("scriptEditor");
 	edit->activateWindow();
 	QTest::keyClicks(edit,"cube(10);");
+	QTest::keyClick(edit,Qt::Key_Tab,Qt::NoModifier,100);
+	QTest::keyClick(edit,Qt::Key_Tab,Qt::ControlModifier,100);
 	QTimer::singleShot(100,this,SLOT(handleSaveItemsDialog()));
 	QTest::keyClick(ui,Qt::Key_F6);
 	edit->setFileName(f.fileName());

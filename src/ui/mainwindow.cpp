@@ -190,6 +190,8 @@ void MainWindow::setupActions()
 	connect(ui->actionQuit,&QAction::triggered,this,&MainWindow::close);
 	connect(ui->actionUndo,&QAction::triggered,this,&MainWindow::undo);
 	connect(ui->actionRedo,&QAction::triggered,this,&MainWindow::redo);
+	connect(ui->actionIncreaseIndent,&QAction::triggered,this,&MainWindow::increaseSelectionIndent);
+	connect(ui->actionDecreaseIndent,&QAction::triggered,this,&MainWindow::decreaseSelectionIndent);
 	connect(ui->actionCut,&QAction::triggered,this,&MainWindow::cut);
 	connect(ui->actionCopy,&QAction::triggered,this,&MainWindow::copy);
 	connect(ui->actionPaste,&QAction::triggered,this,&MainWindow::paste);
@@ -647,6 +649,16 @@ void MainWindow::undo()
 void MainWindow::redo()
 {
 	currentEditor()->redo();
+}
+
+void MainWindow::increaseSelectionIndent()
+{
+	currentEditor()->increaseSelectionIndent();
+}
+
+void MainWindow::decreaseSelectionIndent()
+{
+	currentEditor()->decreaseSelectionIndent();
 }
 
 void MainWindow::cut()

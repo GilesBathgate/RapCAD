@@ -42,6 +42,8 @@ public:
 	bool openFile();
 	void preferencesUpdated();
 	void setModuleNames(const QHash<QString,Module*>&);
+	void increaseSelectionIndent();
+	void decreaseSelectionIndent();
 signals:
 	void fileNameChanged(const QString&);
 protected:
@@ -52,6 +54,8 @@ private slots:
 	void updateLineNumberArea(const QRect&, int);
 	void highlightCurrentLine();
 private:
+	void keyPressEvent(QKeyEvent* e) override;
+	int getSelectionBlockCount();
 	SyntaxHighlighter* highlighter;
 	QWidget* lineNumberArea;
 	QString fileName;
