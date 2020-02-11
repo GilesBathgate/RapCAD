@@ -416,7 +416,7 @@ void MainWindow::setupConsole()
 	font.setPointSize(8);
 	c->setFont(font);
 
-	console=new TextEditIODevice(reinterpret_cast<QTextEdit*>(c),this);
+	console=new TextEditIODevice(c,this);
 	output=new QTextStream(console);
 	reporter=new Reporter(*output);
 	worker=new BackgroundWorker(*reporter);
@@ -713,7 +713,7 @@ void MainWindow::showBuiltins()
 
 	BuiltinCreator* b = BuiltinCreator::getInstance(*reporter);
 
-	TextEditIODevice t((QTextEdit*)e,this);
+	TextEditIODevice t(e,this);
 	QTextStream out(&t);
 	b->generateDocs(out);
 	out.flush();

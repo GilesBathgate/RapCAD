@@ -18,7 +18,7 @@
 
 #include "texteditiodevice.h"
 
-TextEditIODevice::TextEditIODevice(QTextEdit* textEdit,QObject* parent) :
+TextEditIODevice::TextEditIODevice(QPlainTextEdit* textEdit,QObject* parent) :
 	QIODevice(parent),
 	textEdit(textEdit)
 {
