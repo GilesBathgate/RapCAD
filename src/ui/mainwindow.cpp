@@ -59,6 +59,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
 	//Make project treeview hidden until its useful.
 	ui->treeView->setVisible(false);
+	ui->searchWidget->setVisible(false);
 	ui->actionShowProjects->setChecked(false);
 	ui->actionShowProjects->setEnabled(false);
 
@@ -195,6 +196,8 @@ void MainWindow::setupActions()
 	connect(ui->actionCut,&QAction::triggered,this,&MainWindow::cut);
 	connect(ui->actionCopy,&QAction::triggered,this,&MainWindow::copy);
 	connect(ui->actionPaste,&QAction::triggered,this,&MainWindow::paste);
+	connect(ui->actionFind,&QAction::triggered,ui->searchWidget,&SearchWidget::showSearch);
+	connect(ui->actionFindAndReplace,&QAction::triggered,ui->searchWidget,&SearchWidget::showReplace);
 
 	clipboardDataChanged();
 	connect(QApplication::clipboard(),&QClipboard::dataChanged,this,&MainWindow::clipboardDataChanged);
@@ -398,6 +401,7 @@ void MainWindow::setupEditor(CodeEditor* editor)
 
 	BuiltinCreator* b=BuiltinCreator::getInstance(*reporter);
 	editor->setModuleNames(b->getModuleNames());
+	ui->searchWidget->setTextEdit(editor);
 }
 
 void MainWindow::setupTabs(QTabWidget* tabWidget)
@@ -755,9 +759,12 @@ void MainWindow::tabChanged(int i)
 {
 	//block signals from all the other tabs except
 	//the new one
-	for(auto j=0; j<ui->tabWidget->count(); ++j)
-		ui->tabWidget->widget(j)->blockSignals(true);
-	ui->tabWidget->widget(i)->blockSignals(false);
+	QTabWidget* t=ui->tabWidget;
+	for(auto j=0; j<t->count(); ++j)
+		t->widget(j)->blockSignals(true);
 
-	disableActions(currentEditor());
+	CodeEditor* c=getEditor(i);
+	c->blockSignals(false);
+	disableActions(c);
+	ui->searchWidget->setTextEdit(c);
 }

@@ -362,7 +362,8 @@ SOURCES += \
 	src/node/pointsnode.cpp \
 	src/module/pointsmodule.cpp \
 	src/cgalprojection.cpp \
-	src/function/cbrtfunction.cpp
+	src/function/cbrtfunction.cpp \
+	src/ui/searchwidget.cpp
 
 HEADERS  += \
 	contrib/OGL_helper.h \
@@ -618,14 +619,16 @@ HEADERS  += \
 	src/config.h \
 	src/function/isvecfunction.h \
 	src/cgalprojection.h \
-	src/function/cbrtfunction.h
+	src/function/cbrtfunction.h \
+	src/ui/searchwidget.h
 
 FORMS += \
 	src/ui/mainwindow.ui \
 	src/ui/preferences.ui \
 	src/ui/saveitemsdialog.ui \
 	src/ui/printconsole.ui \
-	src/ui/aboutdialog.ui
+	src/ui/aboutdialog.ui \
+	src/ui/searchwidget.ui
 
 OTHER_FILES += \
 	COPYING
