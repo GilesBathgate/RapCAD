@@ -19,6 +19,7 @@
 #include <QDir>
 #include <QTimer>
 #include <QApplication>
+#include <QLineEdit>
 #include <QtTest/QTest>
 #include <QMenu>
 #include <boost/version.hpp>
@@ -39,6 +40,7 @@
 #include "nodeevaluator.h"
 #include "ui/codeeditor.h"
 #include "ui/console.h"
+#include "ui/searchwidget.h"
 
 Tester::Tester(Reporter& r, QString d, QObject* parent) :
 	QObject(parent),
@@ -192,6 +194,7 @@ void Tester::runUiTests()
 {
 	preferencesTest();
 	renderingTest();
+	searchTest();
 	consoleTest();
 	builtinsTest();
 
@@ -209,6 +212,17 @@ void Tester::preferencesTest()
 	QDialog* prefs = ui->findChild<QDialog*>("Preferences");
 	prefs->activateWindow();
 	QTest::keyClick(prefs,Qt::Key_Enter,Qt::NoModifier,100);
+}
+
+void Tester::searchTest()
+{
+	ui->activateWindow();
+	QTest::keyClick(ui,Qt::Key_F,Qt::ControlModifier,100);
+	QWidget* search=ui->findChild<QWidget*>("searchWidget");
+	QLineEdit* edit=search->findChild<QLineEdit*>("searchLineEdit");
+	QTest::keyClicks(edit,"cube",Qt::NoModifier,100);
+	QWidget* next=search->findChild<QWidget*>("searchDownButton");
+	QTest::mouseClick(next,Qt::RightButton);
 }
 
 void Tester::renderingTest()

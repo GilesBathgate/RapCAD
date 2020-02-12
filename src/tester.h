@@ -47,6 +47,7 @@ private:
 	void builtinsTest();
 	void consoleTest();
 	void renderingTest();
+	void searchTest();
 	void preferencesTest();
 
 	QString directory;
