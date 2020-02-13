@@ -220,9 +220,10 @@ void Tester::searchTest()
 	QTest::keyClick(ui,Qt::Key_F,Qt::ControlModifier,100);
 	QWidget* search=ui->findChild<QWidget*>("searchWidget");
 	QLineEdit* edit=search->findChild<QLineEdit*>("searchLineEdit");
-	QTest::keyClicks(edit,"cube",Qt::NoModifier,100);
-	QWidget* next=search->findChild<QWidget*>("searchDownButton");
-	QTest::mouseClick(next,Qt::RightButton);
+	QTest::keyClicks(edit,"cube",Qt::NoModifier);
+	QTest::keyClick(edit,Qt::Key_F3,Qt::NoModifier,100);
+	QTest::keyClick(edit,Qt::Key_F3,Qt::ShiftModifier,100);
+	QTest::keyClick(ui,Qt::Key_H,Qt::ControlModifier,100);
 }
 
 void Tester::renderingTest()
