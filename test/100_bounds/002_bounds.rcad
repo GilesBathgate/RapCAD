@@ -1,1 +1,1 @@
-cube(10,center=true);
+bound$()cube(10,center=true);
