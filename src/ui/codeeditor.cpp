@@ -183,8 +183,8 @@ void CodeEditor::keyPressEvent(QKeyEvent* e)
 	if(e->key()==Qt::Key_Tab) {
 		if(e->modifiers()==Qt::ControlModifier)
 			return decreaseSelectionIndent();
-
-		return increaseSelectionIndent();
+		if(textCursor().hasSelection())
+			return increaseSelectionIndent();
 	}
 
 	return QPlainTextEdit::keyPressEvent(e);
