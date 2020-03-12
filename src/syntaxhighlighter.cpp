@@ -334,6 +334,11 @@ unsigned int SyntaxHighlighter::buildLegalChar(unsigned int)
 	return YY_CONTINUE;
 }
 
+unsigned int SyntaxHighlighter::buildByteOrderMark()
+{
+	return YY_CONTINUE;
+}
+
 unsigned int SyntaxHighlighter::buildIllegalChar(const QString& s)
 {
 	int stringLen=s.length();

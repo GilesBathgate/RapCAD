@@ -293,6 +293,11 @@ unsigned int TokenBuilder::buildLegalChar(unsigned int c)
 	return c;
 }
 
+unsigned int TokenBuilder::buildByteOrderMark()
+{
+	return BOM;
+}
+
 unsigned int TokenBuilder::buildIllegalChar(const QString&)
 {
 	lexererror();

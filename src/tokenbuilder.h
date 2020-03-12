@@ -75,6 +75,7 @@ public:
 	unsigned int buildAppend() override;
 	unsigned int buildOperator(unsigned int c) override;
 	unsigned int buildLegalChar(unsigned int) override;
+	unsigned int buildByteOrderMark() override;
 	unsigned int buildIllegalChar(const QString&) override;
 	unsigned int buildNumber(const QString&) override;
 	unsigned int buildNumberExp(const QString&) override;

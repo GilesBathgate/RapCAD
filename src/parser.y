@@ -55,6 +55,7 @@ static AbstractTokenBuilder* tokenizer;
 	class Invocation* inv;
 	class QList<class CodeDoc*>* cdocs;
 }
+
 %token DOCSTART DOCEND
 %token <text> DOCPARAM
 %token <text> DOCTEXT
@@ -70,6 +71,7 @@ static AbstractTokenBuilder* tokenizer;
 %token <number> NUMBER
 %token TOK_TRUE TOK_FALSE UNDEF
 %token TOK_AS NS
+%token BOM
 
 %right RETURN
 %right '=' APPEND
@@ -106,13 +108,18 @@ static AbstractTokenBuilder* tokenizer;
 %%
 input
 	: //empty
-	| use_declaration input
+	| BOM declarations
+	| declarations
+	;
+
+declarations
+	: use_declaration declarations
 	{ builder->buildScript($1); }
-	| import_declaration input
+	| import_declaration declarations
 	{ builder->buildScript($1); }
 	| single_declaration_list
 	{ builder->buildScript($1); }
-	| codedoc input
+	| codedoc declarations
 	{ builder->buildScript($1); }
 	;
 
@@ -143,7 +150,6 @@ import_declaration
 	| IMPORT TOK_AS IDENTIFIER '(' parameters ')' ';'
 	{ $$ = builder->buildImport($1,$3,$5); }
 	;
-
 
 single_declaration_list
 	: single_declaration

@@ -64,6 +64,7 @@ U2 [\xc2-\xdf]
 U3 [\xe0-\xef]
 U4 [\xf0-\xf4]
 U {U2}{U1}|{U3}{U1}{U1}|{U4}{U1}{U1}{U1}
+B \xef\xbb\xbf
 O [\?\+\-!\*\|/%~<>]
 T [\[\].;:#${}(),^=]
 
@@ -142,6 +143,7 @@ T [\[\].;:#${}(),^=]
 {WS}+$                         { tokenizer->buildWhiteSpaceError(); }
 {WS}+                          { tokenizer->buildWhiteSpace(); }
 {NL}                           { tokenizer->buildNewLine(); }
+{B}                            { return tokenizer->buildByteOrderMark(); }
 {U}                            { return tokenizer->buildIllegalChar(lexertext); }
 .                              { return tokenizer->buildIllegalChar(lexertext); }
 %%
