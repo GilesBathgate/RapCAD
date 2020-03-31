@@ -1,3 +1,34 @@
+1.0.0
+   * Handle byte order marks by ignoring them in the parser
+   * Implemented search/replace widget
+   * Add selected text indent/unindent
+   * Bounds module now also outputs size info
+   * Implement scientific output format preference
+   * Make print bed transparent when viewed from below
+   * Implemented cbrt function
+   * Implement history in console window
+   * Implement highlight current line in code editor
+   * Show tooltips when hovering over builtin module names
+   * Built in modules are now highlighted
+   * Allow configuration of the editor font
+   * Fix for syntax highlighting of illegal unicode charaters
+   * Improve configuration of rounding and precision preferences
+   * Implement exponent notation
+   * Add the ability to specify units on numbers (mm,cm,in,ft)
+   * Basic implementation of concave hull using alpha shapes
+   * Implement nef import
+   * Added is_vec2 and is_vec3 functions
+   * 'boundary' is now an alias for the old 'outline' module
+   * Implemented Text Module using QPainerPath
+   * A crude AMF import implementation
+   * Basic SVG export support.
+   * A crude 3MF import implementation
+   * Add print bed configuration to preferences dialog
+   * Added sweep angle parameter to rotate_extrude.
+   * Modernize the code to use C++11
+   * Allow print origin to be configured
+   * New print area and base in the style of Mk42 heatbed
+
 0.9.9
    * Support compilation with new QT versions
    * Added documentation generator and updated docs.

@@ -1,3 +1,9 @@
+rapcad (1.0.0) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Giles Bathgate <gilesbathgate@gmail.com>  Tue, 31 Mar 2020 17:05:23 +0100
+
 rapcad (0.9.9) unstable; urgency=low
 
   * New upstream version.
