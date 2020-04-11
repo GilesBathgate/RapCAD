@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2019 Giles Bathgate
+ *   Copyright (C) 2010-2020 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -89,7 +89,17 @@ void PreferencesDialog::setupWidgets()
 			ui->noRoundingRadio->setChecked(true);
 			break;
 	}
-	ui->rationalFormatCheckBox->setChecked(p->getRationalFormat());
+	switch(p->getNumberFormat()) {
+		case 2:
+			ui->rationalRadio->setChecked(true);
+			break;
+		case 1:
+			ui->scientificRadio->setChecked(true);
+			break;
+		default:
+			ui->fixedRadio->setChecked(true);
+			break;
+	}
 
 	QPointF o=p->getPrintOrigin();
 	ui->XspinBox->setValue(o.x());
@@ -143,7 +153,10 @@ void PreferencesDialog::setupButtons()
 	connect(ui->noRoundingRadio,SIGNAL(toggled(bool)),SLOT(functionRoundingChanged(bool)));
 	connect(ui->decimalRoundingRadio,SIGNAL(toggled(bool)),SLOT(functionRoundingChanged(bool)));
 	connect(ui->base2RoundingRadio,SIGNAL(toggled(bool)),SLOT(functionRoundingChanged(bool)));
-	connect(ui->rationalFormatCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::rationalFormatChanged);
+
+	connect(ui->fixedRadio,SIGNAL(toggled(bool)),this,SLOT(outputFormatChanged(bool)));
+	connect(ui->scientificRadio,SIGNAL(toggled(bool)),this,SLOT(outputFormatChanged(bool)));
+	connect(ui->rationalRadio,SIGNAL(toggled(bool)),this,SLOT(outputFormatChanged(bool)));
 
 	connect(ui->widthSpinBox,SIGNAL(valueChanged(int)),this,SLOT(volumeChanged()));
 	connect(ui->lengthSpinBox,SIGNAL(valueChanged(int)),this,SLOT(volumeChanged()));
@@ -274,10 +287,16 @@ void PreferencesDialog::functionRoundingChanged(bool)
 	updatePrecision();
 }
 
-void PreferencesDialog::rationalFormatChanged(int s)
+void PreferencesDialog::outputFormatChanged(bool)
 {
 	Preferences* p = Preferences::getInstance();
-	p->setRationalFormat(s == Qt::Checked);
+	if(ui->rationalRadio->isChecked())
+		p->setNumberFormat(2);
+	else if(ui->scientificRadio->isChecked())
+		p->setNumberFormat(1);
+	else
+		p->setNumberFormat(0);
+
 	updatePrecision();
 }
 

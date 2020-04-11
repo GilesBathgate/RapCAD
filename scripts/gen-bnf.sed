@@ -29,5 +29,6 @@ s/STRING/<string>/;
 s/NUMBER/<number>/;
 s/IDENTIFIER/<identifier>/;
 s/DOCTEXT/<doctext>/;
+s/ BOM / <bom> /;
 s/[[:upper:]]\+/"\L&\E"/g;
 p;}

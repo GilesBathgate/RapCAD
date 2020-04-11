@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2019 Giles Bathgate
+ *   Copyright (C) 2010-2020 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -330,6 +330,11 @@ unsigned int SyntaxHighlighter::buildOperator(unsigned int)
 }
 
 unsigned int SyntaxHighlighter::buildLegalChar(unsigned int)
+{
+	return YY_CONTINUE;
+}
+
+unsigned int SyntaxHighlighter::buildByteOrderMark()
 {
 	return YY_CONTINUE;
 }

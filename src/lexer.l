@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2019 Giles Bathgate
+ *   Copyright (C) 2010-2020 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -64,6 +64,7 @@ U2 [\xc2-\xdf]
 U3 [\xe0-\xef]
 U4 [\xf0-\xf4]
 U {U2}{U1}|{U3}{U1}{U1}|{U4}{U1}{U1}{U1}
+B \xef\xbb\xbf
 O [\?\+\-!\*\|/%~<>]
 T [\[\].;:#${}(),^=]
 
@@ -142,6 +143,7 @@ T [\[\].;:#${}(),^=]
 {WS}+$                         { tokenizer->buildWhiteSpaceError(); }
 {WS}+                          { tokenizer->buildWhiteSpace(); }
 {NL}                           { tokenizer->buildNewLine(); }
+{B}                            { return tokenizer->buildByteOrderMark(); }
 {U}                            { return tokenizer->buildIllegalChar(lexertext); }
 .                              { return tokenizer->buildIllegalChar(lexertext); }
 %%

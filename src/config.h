@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2019 Giles Bathgate
+ *   Copyright (C) 2010-2020 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 #include <CGAL/config.h>
 
 #undef CGAL_USE_GMPXX
+#define CGAL_DO_NOT_USE_BOOST_MP 1
 
 #include <qglobal.h>
 

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2019 Giles Bathgate
+ *   Copyright (C) 2010-2020 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -38,7 +38,6 @@ decimal parse_numberexp(const QString&,bool* ok=nullptr);
 
 #ifdef USE_CGAL
 void to_glcoord(const Point&,float&,float&,float&);
-QString to_rational(const decimal&);
 CGAL::Gmpfr to_gmpfr(const decimal&);
 #endif
 

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2019 Giles Bathgate
+ *   Copyright (C) 2010-2020 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -291,6 +291,11 @@ unsigned int TokenBuilder::buildOperator(unsigned int c)
 unsigned int TokenBuilder::buildLegalChar(unsigned int c)
 {
 	return c;
+}
+
+unsigned int TokenBuilder::buildByteOrderMark()
+{
+	return BOM;
 }
 
 unsigned int TokenBuilder::buildIllegalChar(const QString&)

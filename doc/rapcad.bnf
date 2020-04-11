@@ -1,9 +1,13 @@
 <input> ::=
 	<empty>
-	| <use_declaration> <input>
-	| <import_declaration> <input>
+	| <bom> <declarations>
+	| <declarations>
+
+<declarations> ::=
+	<use_declaration> <declarations>
+	| <import_declaration> <declarations>
 	| <single_declaration_list>
-	| <codedoc> <input>
+	| <codedoc> <declarations>
 
 <codedoc> ::=
 	"/**" <codedoc_param> "*/"
@@ -20,7 +24,6 @@
 <import_declaration> ::=
 	"import" "as" <identifier> ';'
 	| "import" "as" <identifier> '(' <parameters> ')' ';'
-
 
 <single_declaration_list> ::=
 	<single_declaration>
@@ -105,6 +108,7 @@
 	| <expression> '.' <identifier>
 	| <string>
 	| <number>
+	| <number> <identifier>
 	| '[' <expression> ':' <expression> ']'
 	| '[' <expression> ':' <expression> ':' <expression> ']'
 	| '[' <vector_expression> <optional_commas> ']'

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2019 Giles Bathgate
+ *   Copyright (C) 2010-2020 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -59,6 +59,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
 	//Make project treeview hidden until its useful.
 	ui->treeView->setVisible(false);
+	ui->searchWidget->setVisible(false);
 	ui->actionShowProjects->setChecked(false);
 	ui->actionShowProjects->setEnabled(false);
 
@@ -190,9 +191,13 @@ void MainWindow::setupActions()
 	connect(ui->actionQuit,&QAction::triggered,this,&MainWindow::close);
 	connect(ui->actionUndo,&QAction::triggered,this,&MainWindow::undo);
 	connect(ui->actionRedo,&QAction::triggered,this,&MainWindow::redo);
+	connect(ui->actionIncreaseIndent,&QAction::triggered,this,&MainWindow::increaseSelectionIndent);
+	connect(ui->actionDecreaseIndent,&QAction::triggered,this,&MainWindow::decreaseSelectionIndent);
 	connect(ui->actionCut,&QAction::triggered,this,&MainWindow::cut);
 	connect(ui->actionCopy,&QAction::triggered,this,&MainWindow::copy);
 	connect(ui->actionPaste,&QAction::triggered,this,&MainWindow::paste);
+	connect(ui->actionFind,&QAction::triggered,ui->searchWidget,&SearchWidget::showSearch);
+	connect(ui->actionFindAndReplace,&QAction::triggered,ui->searchWidget,&SearchWidget::showReplace);
 
 	clipboardDataChanged();
 	connect(QApplication::clipboard(),&QClipboard::dataChanged,this,&MainWindow::clipboardDataChanged);
@@ -396,6 +401,7 @@ void MainWindow::setupEditor(CodeEditor* editor)
 
 	BuiltinCreator* b=BuiltinCreator::getInstance(*reporter);
 	editor->setModuleNames(b->getModuleNames());
+	ui->searchWidget->setTextEdit(editor);
 }
 
 void MainWindow::setupTabs(QTabWidget* tabWidget)
@@ -414,7 +420,7 @@ void MainWindow::setupConsole()
 	font.setPointSize(8);
 	c->setFont(font);
 
-	console=new TextEditIODevice(reinterpret_cast<QTextEdit*>(c),this);
+	console=new TextEditIODevice(c,this);
 	output=new QTextStream(console);
 	reporter=new Reporter(*output);
 	worker=new BackgroundWorker(*reporter);
@@ -649,6 +655,16 @@ void MainWindow::redo()
 	currentEditor()->redo();
 }
 
+void MainWindow::increaseSelectionIndent()
+{
+	currentEditor()->increaseSelectionIndent();
+}
+
+void MainWindow::decreaseSelectionIndent()
+{
+	currentEditor()->decreaseSelectionIndent();
+}
+
 void MainWindow::cut()
 {
 	currentEditor()->cut();
@@ -701,7 +717,7 @@ void MainWindow::showBuiltins()
 
 	BuiltinCreator* b = BuiltinCreator::getInstance(*reporter);
 
-	TextEditIODevice t((QTextEdit*)e,this);
+	TextEditIODevice t(e,this);
 	QTextStream out(&t);
 	b->generateDocs(out);
 	out.flush();
@@ -743,9 +759,12 @@ void MainWindow::tabChanged(int i)
 {
 	//block signals from all the other tabs except
 	//the new one
-	for(auto j=0; j<ui->tabWidget->count(); ++j)
-		ui->tabWidget->widget(j)->blockSignals(true);
-	ui->tabWidget->widget(i)->blockSignals(false);
+	QTabWidget* t=ui->tabWidget;
+	for(auto j=0; j<t->count(); ++j)
+		t->widget(j)->blockSignals(true);
 
-	disableActions(currentEditor());
+	CodeEditor* c=getEditor(i);
+	c->blockSignals(false);
+	disableActions(c);
+	ui->searchWidget->setTextEdit(c);
 }

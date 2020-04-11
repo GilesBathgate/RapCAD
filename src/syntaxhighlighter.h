@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2019 Giles Bathgate
+ *   Copyright (C) 2010-2020 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -82,6 +82,7 @@ private:
 	unsigned int buildAppend() override;
 	unsigned int buildOperator(unsigned int) override;
 	unsigned int buildLegalChar(unsigned int) override;
+	unsigned int buildByteOrderMark() override;
 	unsigned int buildIllegalChar(const QString& s) override;
 	unsigned int buildNumber(const QString&) override;
 	unsigned int buildNumberExp(const QString&) override;

@@ -53,6 +53,9 @@
 //
 // We mean it.
 //
+#ifndef Q_GUI_EXPORT
+#define Q_GUI_EXPORT
+#endif
 
 #include <QtCore/qstring.h>
 #include <QtCore/qfile.h>

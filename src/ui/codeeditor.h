@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2019 Giles Bathgate
+ *   Copyright (C) 2010-2020 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -42,6 +42,8 @@ public:
 	bool openFile();
 	void preferencesUpdated();
 	void setModuleNames(const QHash<QString,Module*>&);
+	void increaseSelectionIndent();
+	void decreaseSelectionIndent();
 signals:
 	void fileNameChanged(const QString&);
 protected:
@@ -52,6 +54,8 @@ private slots:
 	void updateLineNumberArea(const QRect&, int);
 	void highlightCurrentLine();
 private:
+	void keyPressEvent(QKeyEvent* e) override;
+	int getSelectionBlockCount();
 	SyntaxHighlighter* highlighter;
 	QWidget* lineNumberArea;
 	QString fileName;

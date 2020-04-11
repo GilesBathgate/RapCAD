@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2019 Giles Bathgate
+ *   Copyright (C) 2010-2020 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -50,11 +50,11 @@ public:
 	};
 
 	enum Appearance_t {
-		MK42 = 0,
-		MK2 = 1
+		MK42=0,
+		MK2=1
 	};
 
-	explicit GLView(QWidget* parent = nullptr);
+	explicit GLView(QWidget* parent=nullptr);
 	~GLView() override;
 	void setRenderer(Renderer* r);
 	void setCompiling(bool value);
@@ -79,11 +79,11 @@ public slots:
 	void changeViewport(int);
 private:
 	void initializeGL() override;
-	void resizeGL(int w, int h) override;
+	void resizeGL(int w,int h) override;
 	void paintGL() override;
-	void renderX(double,double,double);
-	void renderY(double,double,double);
-	void renderZ(double,double,double);
+	void renderX(GLfloat,GLfloat,GLfloat);
+	void renderY(GLfloat,GLfloat,GLfloat);
+	void renderZ(GLfloat,GLfloat,GLfloat);
 
 	void mousePressEvent(QMouseEvent* event) override;
 	void mouseMoveEvent(QMouseEvent* event) override;
@@ -124,8 +124,8 @@ private:
 	GLfloat rotateX;
 	GLfloat rotateY;
 	GLfloat rotateZ;
-	GLint viewportX;
-	GLint viewportZ;
+	GLfloat viewportX;
+	GLfloat viewportZ;
 };
 
 #endif // GLVIEW_H

@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------
 #	RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
-#	Copyright (C) 2010-2019 Giles Bathgate
+#	Copyright (C) 2010-2020 Giles Bathgate
 #
 #	This program is free software: you can redistribute it and/or modify
 #	it under the terms of the GNU General Public License as published by
@@ -87,6 +87,7 @@ win32 {
 	LIBS += -lz
 	QMAKE_YACC = bison
   macx {
+    ICON = icons/AppIcon.icns
 	INCLUDEPATH += /usr/local/include
 	LIBS += -L/usr/local/lib -lboost_thread-mt
   } else {
@@ -105,7 +106,7 @@ contains(DEFINES,USE_CGAL) {
 CONFIG(coverage){
 	QT += testlib
 	DEFINES += USE_INTEGTEST
-	CONFIG += debug
+        #CONFIG += debug #temporarily disabled due to segfault crash.
   !macx {
 	QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage
 	LIBS += -lgcov
@@ -361,7 +362,8 @@ SOURCES += \
 	src/node/pointsnode.cpp \
 	src/module/pointsmodule.cpp \
 	src/cgalprojection.cpp \
-	src/function/cbrtfunction.cpp
+	src/function/cbrtfunction.cpp \
+	src/ui/searchwidget.cpp
 
 HEADERS  += \
 	contrib/OGL_helper.h \
@@ -617,14 +619,16 @@ HEADERS  += \
 	src/config.h \
 	src/function/isvecfunction.h \
 	src/cgalprojection.h \
-	src/function/cbrtfunction.h
+	src/function/cbrtfunction.h \
+	src/ui/searchwidget.h
 
 FORMS += \
 	src/ui/mainwindow.ui \
 	src/ui/preferences.ui \
 	src/ui/saveitemsdialog.ui \
 	src/ui/printconsole.ui \
-	src/ui/aboutdialog.ui
+	src/ui/aboutdialog.ui \
+	src/ui/searchwidget.ui
 
 OTHER_FILES += \
 	COPYING

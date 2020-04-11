@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2019 Giles Bathgate
+ *   Copyright (C) 2010-2020 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,9 +19,12 @@
 #include <QDir>
 #include <QTimer>
 #include <QApplication>
+#include <QLineEdit>
 #include <QtTest/QTest>
 #include <QMenu>
 #include <boost/version.hpp>
+#include <mpfr.h>
+#include <gmp.h>
 #ifdef USE_CGAL
 #include "cgal.h"
 #include "cgalexport.h"
@@ -37,6 +40,7 @@
 #include "nodeevaluator.h"
 #include "ui/codeeditor.h"
 #include "ui/console.h"
+#include "ui/searchwidget.h"
 
 Tester::Tester(Reporter& r, QString d, QObject* parent) :
 	QObject(parent),
@@ -123,6 +127,8 @@ int Tester::evaluate()
 	output << QString("CGAL:\t %1\n").arg(CGAL_VERSION_STR);
 #endif
 	output << QString("Boost:\t %1.%2.%3\n").arg(BOOST_VERSION / 100000).arg(BOOST_VERSION / 100 % 1000).arg(BOOST_VERSION % 100);
+	output << QString("MPFR:\t %1\n").arg(MPFR_VERSION_STRING);
+	output << QString("GMP:\t %1\n").arg(gmp_version);
 
 	writeHeader("000_treeprinter",testcount);
 
@@ -188,6 +194,7 @@ void Tester::runUiTests()
 {
 	preferencesTest();
 	renderingTest();
+	searchTest();
 	consoleTest();
 	builtinsTest();
 
@@ -207,6 +214,18 @@ void Tester::preferencesTest()
 	QTest::keyClick(prefs,Qt::Key_Enter,Qt::NoModifier,100);
 }
 
+void Tester::searchTest()
+{
+	ui->activateWindow();
+	QTest::keyClick(ui,Qt::Key_F,Qt::ControlModifier,100);
+	QWidget* search=ui->findChild<QWidget*>("searchWidget");
+	QLineEdit* edit=search->findChild<QLineEdit*>("searchLineEdit");
+	QTest::keyClicks(edit,"cube",Qt::NoModifier);
+	QTest::keyClick(edit,Qt::Key_F3,Qt::NoModifier,100);
+	QTest::keyClick(edit,Qt::Key_F3,Qt::ShiftModifier,100);
+	QTest::keyClick(ui,Qt::Key_H,Qt::ControlModifier,100);
+}
+
 void Tester::renderingTest()
 {
 	QFile f("test.rcad");
@@ -214,6 +233,8 @@ void Tester::renderingTest()
 	CodeEditor* edit = ui->findChild<CodeEditor*>("scriptEditor");
 	edit->activateWindow();
 	QTest::keyClicks(edit,"cube(10);");
+	QTest::keyClick(edit,Qt::Key_Tab,Qt::NoModifier,100);
+	QTest::keyClick(edit,Qt::Key_Tab,Qt::ControlModifier,100);
 	QTimer::singleShot(100,this,SLOT(handleSaveItemsDialog()));
 	QTest::keyClick(ui,Qt::Key_F6);
 	edit->setFileName(f.fileName());

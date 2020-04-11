@@ -14,7 +14,17 @@
    <string>RapCAD</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <widget class="SearchWidget" name="searchWidget" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+    </item>
     <item>
      <widget class="QSplitter" name="vSplitter">
       <property name="orientation">
@@ -213,6 +223,9 @@
     <addaction name="actionCopy"/>
     <addaction name="actionPaste"/>
     <addaction name="separator"/>
+    <addaction name="actionFind"/>
+    <addaction name="actionFindAndReplace"/>
+    <addaction name="separator"/>
     <addaction name="actionPreferences"/>
    </widget>
    <widget class="QMenu" name="menuDesign">
@@ -283,6 +296,9 @@
    <addaction name="separator"/>
    <addaction name="actionUndo"/>
    <addaction name="actionRedo"/>
+   <addaction name="separator"/>
+   <addaction name="actionDecreaseIndent"/>
+   <addaction name="actionIncreaseIndent"/>
    <addaction name="separator"/>
    <addaction name="actionCut"/>
    <addaction name="actionCopy"/>
@@ -858,6 +874,50 @@
     <string>SVG (2D)</string>
    </property>
   </action>
+  <action name="actionIncreaseIndent">
+   <property name="icon">
+    <iconset theme="format-indent-more"/>
+   </property>
+   <property name="text">
+    <string>Increase Indent</string>
+   </property>
+   <property name="toolTip">
+    <string>Increase the indentation of the selected text</string>
+   </property>
+  </action>
+  <action name="actionDecreaseIndent">
+   <property name="icon">
+    <iconset theme="format-indent-less"/>
+   </property>
+   <property name="text">
+    <string>Decrease Indent</string>
+   </property>
+   <property name="toolTip">
+    <string>Decrease the indentation of the selected text</string>
+   </property>
+  </action>
+  <action name="actionFind">
+   <property name="icon">
+    <iconset theme="edit-find"/>
+   </property>
+   <property name="text">
+    <string>Find</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
+   </property>
+  </action>
+  <action name="actionFindAndReplace">
+   <property name="icon">
+    <iconset theme="edit-find-replace"/>
+   </property>
+   <property name="text">
+    <string>Find and Replace</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+H</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -877,6 +937,12 @@
    <class>CodeEditor</class>
    <extends>QPlainTextEdit</extends>
    <header>ui/codeeditor.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SearchWidget</class>
+   <extends>QWidget</extends>
+   <header>ui/searchwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

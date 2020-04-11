@@ -114,15 +114,21 @@ cmake -G"MinGW Makefiles" .
 mingw32-make
 -------------------------------
 
-Mac OS X 10.6.2
-~~~~~~~~~~~~~~~
+macOS X
+~~~~~~~
 
-Xcode 3.2
-^^^^^^^^^
+Current instructions were tested with macOS X 10.15.2 and XCode 11.3.1.
 
-Register with apple and download
-link:https://connect.apple.com/cgi-bin/WebObjects/MemberSite.woa/wa/getSoftware?bundleID=20588[Xcode 3.2.2].
-Install the package accepting the default options.
+Xcode
+^^^^^
+
+Download the latest version of XCode from the app store. If you just downloaded it, then you
+will need to accept the license:
+
+[source,shell]
+-------------------------------------------------------------
+sudo xcodebuild -license
+-------------------------------------------------------------
 
 MacPorts
 ^^^^^^^^
@@ -135,17 +141,37 @@ Dependencies
 ++++++++++++
 [source,shell]
 -------------------------------------------------------------
-sudo port install cgal qt4-mac
+sudo port install cgal qt5-mac
 -------------------------------------------------------------
 
 RapCAD
 ++++++
 [source,shell]
 -------------------------
-qmake CONFIG+=official
+
+export CXX="clang -std=c++11 -stdlib=libc++"
+export CPLUS_INCLUDE_PATH="/opt/local/include"
+export CFLAGS="-I /opt/local/include"
+export LIBRARY_PATH=/opt/local/lib
+
+mkdir build
+cd build
+/opt/local/libexec/qt5/bin/qmake -o Makefile ../rapcad.pro -spec macx-clang CONFIG+=official
+
 make
-cp -R /opt/local/lib/Resources/qt_menu.nib rapcad.app/Contents/Resources/
-macdeployqt rapcad.app -dmg
-hdiutil internet-enable -yes rapcad.dmg
+-------------------------
+
+If all goes well, you will see `rapcad.app` as a result, in your build folder. Note, that currently the app uses a
+generic app icon.
+
+Packaging
++++++++++
+
+If you wish to make a disk image containing the
+app, then you can use `hdiutil`, as follows:
+
+[source,shell]
+-------------------------
+hdiutil create -volname RapCAD -srcfolder rapcad.app -ov -format UDZO RapCAD.dmg
 -------------------------
 

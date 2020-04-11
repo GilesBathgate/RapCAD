@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2019 Giles Bathgate
+ *   Copyright (C) 2010-2020 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QtGlobal>
 #include <QPainter>
 #include <QTextBlock>
 #include <QTextDocumentWriter>
@@ -24,6 +25,8 @@
 #include "codeeditor.h"
 #include "linenumberarea.h"
 #include "preferences.h"
+
+static const char* indent="\t";
 
 CodeEditor::CodeEditor(QWidget* parent) :
 	QPlainTextEdit(parent),
@@ -55,7 +58,11 @@ int CodeEditor::lineNumberAreaWidth()
 		++digits;
 	}
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 11, 0)
 	int space = 3 + fontMetrics().width(QLatin1Char('9')) * digits;
+#else
+	int space = 3 + fontMetrics().horizontalAdvance(QLatin1Char('9')) * digits;
+#endif
 
 	return space;
 }
@@ -63,7 +70,7 @@ int CodeEditor::lineNumberAreaWidth()
 void CodeEditor::highlightCurrentLine()
 {
 	QList<QTextEdit::ExtraSelection> extraSelections;
-	if (highlightLine&&!isReadOnly()) {
+	if(highlightLine&&!isReadOnly()) {
 		QTextEdit::ExtraSelection selection;
 		selection.format.setBackground(QColor(240,240,240));
 		selection.format.setProperty(QTextFormat::FullWidthSelection, true);
@@ -154,7 +161,7 @@ void CodeEditor::preferencesUpdated()
 	highlightCurrentLine();
 }
 
-void CodeEditor::setModuleNames(const QHash<QString,Module*> &names)
+void CodeEditor::setModuleNames(const QHash<QString,Module*>& names)
 {
 	moduleNames = names;
 	highlighter->setModuleNames(names);
@@ -176,6 +183,69 @@ void CodeEditor::updateLineNumberArea(const QRect& rect, int dy)
 		updateLineNumberAreaWidth(0);
 }
 
+void CodeEditor::keyPressEvent(QKeyEvent* e)
+{
+	if(e->key()==Qt::Key_Tab) {
+		if(e->modifiers()==Qt::ControlModifier)
+			return decreaseSelectionIndent();
+		if(textCursor().hasSelection())
+			return increaseSelectionIndent();
+	}
+
+	return QPlainTextEdit::keyPressEvent(e);
+}
+
+int CodeEditor::getSelectionBlockCount()
+{
+	QTextCursor cursor=textCursor();
+	if(!cursor.hasSelection())
+		return 0;
+
+	int finish=cursor.blockNumber();
+	cursor.setPosition(cursor.anchor());
+	int start=cursor.blockNumber();
+
+	return std::abs(finish-start);
+}
+
+void CodeEditor::increaseSelectionIndent()
+{
+	int blockCount=getSelectionBlockCount();
+
+	QTextCursor cursor=textCursor();
+	cursor.setPosition(std::min(cursor.anchor(),cursor.position()));
+
+	cursor.beginEditBlock();
+	for(auto i=0; i<=blockCount; ++i) {
+		cursor.movePosition(QTextCursor::StartOfBlock);
+		QTextCursor current(cursor);
+		current.movePosition(QTextCursor::EndOfBlock,QTextCursor::KeepAnchor);
+		if(current.hasSelection())
+			cursor.insertText(indent);
+		cursor.movePosition(QTextCursor::NextBlock);
+	}
+	cursor.endEditBlock();
+}
+
+void CodeEditor::decreaseSelectionIndent()
+{
+	int blockCount=getSelectionBlockCount();
+
+	QTextCursor cursor=textCursor();
+	cursor.setPosition(std::min(cursor.anchor(),cursor.position()));
+
+	cursor.beginEditBlock();
+	for(auto i=0; i<=blockCount; ++i) {
+		cursor.movePosition(QTextCursor::StartOfBlock);
+		QTextCursor current(cursor);
+		current.movePosition(QTextCursor::NextCharacter,QTextCursor::KeepAnchor);
+		if(current.selectedText()==indent)
+			current.removeSelectedText();
+		cursor.movePosition(QTextCursor::NextBlock);
+	}
+	cursor.endEditBlock();
+}
+
 void CodeEditor::resizeEvent(QResizeEvent* e)
 {
 	QPlainTextEdit::resizeEvent(e);
@@ -189,20 +259,19 @@ bool CodeEditor::event(QEvent* event)
 	if(!showTooltips)
 		return QPlainTextEdit::event(event);
 
-	if (event->type() == QEvent::ToolTip)
-	{
+	if(event->type()==QEvent::ToolTip) {
 		QHelpEvent* helpEvent = static_cast<QHelpEvent*>(event);
 		QTextCursor cursor = cursorForPosition(helpEvent->pos());
 		cursor.select(QTextCursor::WordUnderCursor);
 		Module* m = moduleNames.value(cursor.selectedText());
-		if (m) {
+		if(m) {
 			QRect r=cursorRect(cursor);
 			QToolTip::showText(mapToGlobal(QPoint(r.x(),r.y())), m->getDescription());
 		} else {
 			QToolTip::hideText();
 		}
 		return true;
-	} else if (event->type() == QEvent::KeyPress) {
+	} else if(event->type()==QEvent::KeyPress) {
 		QToolTip::hideText();
 	}
 	return QPlainTextEdit::event(event);
@@ -216,8 +285,8 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent* event)
 	QTextBlock block = firstVisibleBlock();
 	int blockNumber = block.blockNumber();
 	int currentBlock = textCursor().block().blockNumber();
-	int top = (int) blockBoundingGeometry(block).translated(contentOffset()).top();
-	int bottom = top + (int) blockBoundingRect(block).height();
+	int top = int(blockBoundingGeometry(block).translated(contentOffset()).top());
+	int bottom = top + int(blockBoundingRect(block).height());
 
 	bool readOnly=isReadOnly();
 	while(block.isValid() && top <= event->rect().bottom()) {
@@ -233,7 +302,7 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent* event)
 
 		block = block.next();
 		top = bottom;
-		bottom = top + (int) blockBoundingRect(block).height();
+		bottom = top + int(blockBoundingRect(block).height());
 		++blockNumber;
 	}
 }

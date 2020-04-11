@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2019 Giles Bathgate
+ *   Copyright (C) 2010-2020 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -44,8 +44,8 @@ public:
 	int getFunctionRounding() const;
 	void setFunctionRounding(int);
 
-	bool getRationalFormat() const;
-	void setRationalFormat(bool b);
+	int getNumberFormat() const;
+	void setNumberFormat(int);
 
 	float getDefaultRotationX() const;
 	void setDefaultRotationX(float);
