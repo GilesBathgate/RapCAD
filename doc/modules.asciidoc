@@ -6,7 +6,7 @@ Aligns its children to the given faces.
 Parameters
 ++++++++++
 |=========
-|vector|alignment in +/- x, y, z
+|anchor|alignment in +/- x, y, z
 |top|Specifies alignment to the top face.
 |bottom|Specifies alignment to the bottom face.
 |north|Specifies alignment to the north face.
