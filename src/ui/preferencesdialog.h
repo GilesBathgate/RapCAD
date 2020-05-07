@@ -52,6 +52,8 @@ private slots:
 	void fontChanged(QFont);
 	void fontSizeChanged(const QString&);
 	void highlightLineChanged(int s);
+	void launchCommandChanged(const QString&);
+	void launchCommandUpdated();
 private:
 	Ui::Preferences* ui;
 	void setupWidgets();

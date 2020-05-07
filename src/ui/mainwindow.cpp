@@ -22,6 +22,7 @@
 #include <QScrollBar>
 #include <QMessageBox>
 #include <QDesktopServices>
+#include <QProcess>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -68,6 +69,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
 MainWindow::~MainWindow()
 {
+	deleteTempFiles();
 	delete console;
 	delete output;
 	delete reporter;
@@ -75,6 +77,14 @@ MainWindow::~MainWindow()
 	delete interact;
 	delete preferencesDialog;
 	delete ui;
+}
+
+void MainWindow::deleteTempFiles()
+{
+	for(auto file: temporyFiles) {
+		file->close();
+		delete file;
+	}
 }
 
 void MainWindow::savePreferences()
@@ -231,6 +241,8 @@ void MainWindow::setupActions()
 
 	connect(ui->actionFlushCaches,&QAction::triggered,this,&MainWindow::flushCaches);
 	connect(ui->actionEnableCaches,&QAction::triggered,this,&MainWindow::enableCaches);
+
+	connect(ui->actionSendToCAM,&QAction::triggered,this,&MainWindow::sendToCAM);
 
 }
 
@@ -753,6 +765,35 @@ void MainWindow::flushCaches()
 {
 	CacheManager* m=CacheManager::getInstance();
 	m->flushCaches();
+}
+
+void MainWindow::sendToCAM()
+{
+	const QString title=tr("Send to CAM");
+	if(!worker->resultAvailable()) {
+		QMessageBox::information(this,title, tr("You have to compile the script before you can export"));
+		return;
+	}
+
+	Preferences* p=Preferences::getInstance();
+	QString command = p->getLaunchCommand();
+	if(command.isEmpty()) {
+		QMessageBox::information(this,title, tr("No launch command set in preferences"));
+		return;
+	}
+
+	QString fileTemplate=QDir::tempPath().append("/XXXXXX.").append("3mf");
+	QTemporaryFile* file=new QTemporaryFile(fileTemplate);
+	if (!file->open()) {
+		QMessageBox::information(this,title, tr("Could not create tempory file"));
+		delete file;
+		return;
+	}
+	temporyFiles.append(file);
+
+	QString fileName=file->fileName();
+	worker->exportResult(fileName);
+	QProcess::startDetached(command,QStringList()<<fileName);
 }
 
 void MainWindow::tabChanged(int i)

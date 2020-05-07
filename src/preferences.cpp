@@ -48,6 +48,16 @@ void Preferences::setHighlightLine(bool value)
 	settings->setValue("HighlightLine",value);
 }
 
+QString Preferences::getLaunchCommand() const
+{
+	return settings->value("LaunchCommand","").toString();
+}
+
+void Preferences::setLaunchCommand(const QString& value)
+{
+	settings->setValue("LaunchCommand",value);
+}
+
 bool Preferences::getShowTooltips() const
 {
 	return settings->value("ShowTooltips",true).toBool();
