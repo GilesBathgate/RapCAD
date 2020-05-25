@@ -118,9 +118,10 @@ static QList<CGAL::Triangle3> generateTriangles(CGAL::Polyhedron3* poly)
 	for(FacetIterator fi=poly->facets_begin(); fi!=poly->facets_end(); ++fi) {
 		HalffacetCirculator hc=fi->facet_begin();
 		CGAL_assertion(circulator_size(hc)==3);
-		CGAL::Triangle3 t((hc++)->vertex()->point(),
-						  (hc++)->vertex()->point(),
-						  (hc++)->vertex()->point());
+		CGAL::Point3 p1=(hc++)->vertex()->point();
+		CGAL::Point3 p2=(hc++)->vertex()->point();
+		CGAL::Point3 p3=(hc++)->vertex()->point();
+		CGAL::Triangle3 t(p1,p2,p3);
 		triangles.append(t);
 	}
 	return triangles;
