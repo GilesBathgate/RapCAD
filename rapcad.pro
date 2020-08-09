@@ -25,7 +25,7 @@ VERSION = $$cat(VERSION)
 
 QT  += core gui opengl widgets
 
-CONFIG += c++11
+CONFIG += c++14
 TARGET = rapcad
 TEMPLATE = app
 INCLUDEPATH += src
