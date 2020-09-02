@@ -77,7 +77,10 @@ win32 {
 	QMAKE_YACCFLAGS += "-b y"
 	QMAKE_LEX = win_flex
 } else {
-	LIBS += -lCGAL -lCGAL_Core -lmpfr -lgmp
+	exists( /usr/lib/x86_64-linux-gnu/libCGAL* ) {
+                LIBS += -lCGAL -lCGAL_Core
+	}
+	LIBS += -lmpfr -lgmp
 	contains(DEFINES,USE_READLINE) {
 	LIBS+= -lreadline
 	}
@@ -87,9 +90,10 @@ win32 {
 	LIBS += -lz
 	QMAKE_YACC = bison
   macx {
-    ICON = icons/AppIcon.icns
+	ICON = icons/AppIcon.icns
 	INCLUDEPATH += /usr/local/include
 	LIBS += -L/usr/local/lib -lboost_thread-mt
+	LIBS += -lCGAL -lCGAL_Core
   } else {
 	LIBS += -lboost_thread -lGLU
   }
