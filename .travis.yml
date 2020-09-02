@@ -1,5 +1,5 @@
 group: travis_latest
-dist: bionic
+dist: focal
 language: cpp
 
 matrix:
