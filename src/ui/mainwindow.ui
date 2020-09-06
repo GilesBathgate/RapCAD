@@ -178,7 +178,7 @@
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>25</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -233,7 +233,7 @@
      <string>&amp;Design</string>
     </property>
     <addaction name="actionCompileAndRender"/>
-    <addaction name="actionGenerateGcode"/>
+    <addaction name="actionSendToCAM"/>
     <addaction name="actionShowBuiltins"/>
     <addaction name="actionEnableCaches"/>
     <addaction name="actionFlushCaches"/>
@@ -305,16 +305,14 @@
    <addaction name="actionPaste"/>
    <addaction name="separator"/>
    <addaction name="actionCompileAndRender"/>
-   <addaction name="actionGenerateGcode"/>
-   <addaction name="actionExportAMF"/>
+   <addaction name="actionSendToCAM"/>
    <addaction name="actionUserGuide"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNew">
    <property name="icon">
     <iconset theme="document-new">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>&amp;New</string>
@@ -332,8 +330,7 @@
   <action name="actionOpen">
    <property name="icon">
     <iconset theme="document-open">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>&amp;Open...</string>
@@ -354,8 +351,7 @@
   <action name="actionClose">
    <property name="icon">
     <iconset theme="window-close">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>&amp;Close</string>
@@ -373,8 +369,7 @@
   <action name="actionSave">
    <property name="icon">
     <iconset theme="document-save">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>&amp;Save</string>
@@ -392,8 +387,7 @@
   <action name="actionSaveAs">
    <property name="icon">
     <iconset theme="document-save-as">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Save &amp;As...</string>
@@ -411,8 +405,7 @@
   <action name="actionQuit">
    <property name="icon">
     <iconset theme="application-exit">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>&amp;Quit</string>
@@ -430,8 +423,7 @@
   <action name="actionUndo">
    <property name="icon">
     <iconset theme="edit-undo">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Undo</string>
@@ -449,8 +441,7 @@
   <action name="actionRedo">
    <property name="icon">
     <iconset theme="edit-redo">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Redo</string>
@@ -468,8 +459,7 @@
   <action name="actionCut">
    <property name="icon">
     <iconset theme="edit-cut">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Cut</string>
@@ -487,8 +477,7 @@
   <action name="actionCopy">
    <property name="icon">
     <iconset theme="edit-copy">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Copy</string>
@@ -506,8 +495,7 @@
   <action name="actionPaste">
    <property name="icon">
     <iconset theme="edit-paste">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>&amp;Paste</string>
@@ -525,8 +513,7 @@
   <action name="actionCompileAndRender">
    <property name="icon">
     <iconset theme="system-run">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Compile and &amp;Render</string>
@@ -544,8 +531,7 @@
   <action name="actionGenerateGcode">
    <property name="icon">
     <iconset theme="text-x-script">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Generate GCODE</string>
@@ -632,8 +618,7 @@
   <action name="actionPreferences">
    <property name="icon">
     <iconset theme="document-properties">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Preferences</string>
@@ -771,8 +756,7 @@
   <action name="actionExportAMF">
    <property name="icon">
     <iconset theme="text-x-generic-template">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>AMF</string>
@@ -784,8 +768,7 @@
   <action name="actionAbout">
    <property name="icon">
     <iconset theme="help-about">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>&amp;About</string>
@@ -794,8 +777,7 @@
   <action name="actionShowBuiltins">
    <property name="icon">
     <iconset theme="package">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Show &amp;Builtins</string>
@@ -830,8 +812,7 @@
   <action name="actionUserGuide">
    <property name="icon">
     <iconset theme="help">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>User Guide</string>
@@ -876,7 +857,8 @@
   </action>
   <action name="actionIncreaseIndent">
    <property name="icon">
-    <iconset theme="format-indent-more"/>
+    <iconset theme="format-indent-more">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Increase Indent</string>
@@ -887,7 +869,8 @@
   </action>
   <action name="actionDecreaseIndent">
    <property name="icon">
-    <iconset theme="format-indent-less"/>
+    <iconset theme="format-indent-less">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Decrease Indent</string>
@@ -898,7 +881,8 @@
   </action>
   <action name="actionFind">
    <property name="icon">
-    <iconset theme="edit-find"/>
+    <iconset theme="edit-find">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Find</string>
@@ -909,13 +893,25 @@
   </action>
   <action name="actionFindAndReplace">
    <property name="icon">
-    <iconset theme="edit-find-replace"/>
+    <iconset theme="edit-find-replace">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Find and Replace</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+H</string>
+   </property>
+  </action>
+  <action name="actionSendToCAM">
+   <property name="icon">
+    <iconset theme="document-page-setup"/>
+   </property>
+   <property name="text">
+    <string>Send to CAM</string>
+   </property>
+   <property name="toolTip">
+    <string>Send the current design to the configured CAM application.</string>
    </property>
   </action>
  </widget>

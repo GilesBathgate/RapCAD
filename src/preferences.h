@@ -144,7 +144,10 @@ public:
 	void setShowTooltips(bool);
 
 	bool getHighlightLine() const;
-	void setHighlightLine(bool value);
+	void setHighlightLine(bool);
+
+	QString getLaunchCommand() const;
+	void setLaunchCommand(const QString&);
 
 private:
 	Preferences();

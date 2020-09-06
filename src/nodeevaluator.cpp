@@ -141,10 +141,14 @@ void NodeEvaluator::visit(const GlideNode& op)
 				CGALPrimitive* peri=explorer.getPerimeters();
 				if(!peri) return;
 
+				points = peri->getCGALPolygons().first()->getPoints();
+
+				/* TODO glide all polygons?
 				for(CGALPolygon* pg: peri->getCGALPolygons()) {
 					points = pg->getPoints();
-					break;
+					// break;
 				}
+				*/
 			}
 			bool closed=false;
 			auto* cp=new CGALPrimitive();

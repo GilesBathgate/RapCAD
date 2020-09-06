@@ -29,18 +29,17 @@ class CGALExport
 	Q_DECLARE_TR_FUNCTIONS(CGALExport)
 public:
 	CGALExport(Primitive*,Reporter&);
-	void exportResult(QString);
-
+	void exportResult(const QString&);
 private:
-	void exportOFF(QString);
-	void exportAsciiSTL(QString);
-	void exportVRML(QString filename);
-	void exportOBJ(QString);
-	void exportAMF(QString);
-	void export3MF(QString);
-	void exportCSG(QString);
-	void exportNEF(QString);
-	void exportSVG(QString);
+	void exportOFF(const QString&);
+	void exportAsciiSTL(const QString&);
+	void exportVRML(const QString&);
+	void exportOBJ(const QString&);
+	void exportAMF(const QString&);
+	void export3MF(const QString&);
+	void exportCSG(const QString&);
+	void exportNEF(const QString&);
+	void exportSVG(const QString&);
 	Reporter& reporter;
 	Primitive* primitive;
 	void exportAMFObject(CGALPrimitive* p, QXmlStreamWriter& xml);

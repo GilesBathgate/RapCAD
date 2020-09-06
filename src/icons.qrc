@@ -37,5 +37,15 @@
     <file alias="16x16/package.png">../icons/gnome/16x16/package.png</file>
     <file alias="22x22/help.png">../icons/gnome/22x22/help.png</file>
     <file alias="16x16/help.png">../icons/gnome/16x16/help.png</file>
+    <file alias="22x22/format-indent-more.png">../icons/gnome/22x22/format-indent-more.png</file>
+    <file alias="16x16/format-indent-more.png">../icons/gnome/16x16/format-indent-more.png</file>
+    <file alias="22x22/format-indent-less.png">../icons/gnome/22x22/format-indent-less.png</file>
+    <file alias="16x16/format-indent-less.png">../icons/gnome/16x16/format-indent-less.png</file>
+    <file alias="22x22/edit-find.png">../icons/gnome/22x22/edit-find.png</file>
+    <file alias="16x16/edit-find.png">../icons/gnome/16x16/edit-find.png</file>
+    <file alias="22x22/edit-find-replace.png">../icons/gnome/22x22/edit-find-replace.png</file>
+    <file alias="16x16/edit-find-replace.png">../icons/gnome/16x16/edit-find-replace.png</file>
+    <file alias="22x22/document-page-setup.png">../icons/gnome/22x22/document-page-setup.png</file>
+    <file alias="16x16/document-page-setup.png">../icons/gnome/16x16/document-page-setup.png</file>
 </qresource>
 </RCC>

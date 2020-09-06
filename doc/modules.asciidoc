@@ -6,6 +6,7 @@ Aligns its children to the given faces.
 Parameters
 ++++++++++
 |=========
+|anchor|alignment in +/- x, y, z
 |top|Specifies alignment to the top face.
 |bottom|Specifies alignment to the bottom face.
 |north|Specifies alignment to the north face.
@@ -18,8 +19,14 @@ Examples
 ++++++++
 [source,csharp]
 ---------------
-align();
-align(top,bottom,north,south,east,west);
+align() children;
+
+// using vector notation
+align([-1,0,0]); // align right face to x=0
+align([0,1,0]);  // align bottom face to y=0
+
+// using boolean descriptors
+align(top=true,north=true,east=true);
 ---------------
 
 Bezier_surface
@@ -41,10 +48,24 @@ bezier_surface();
 bezier_surface(mesh);
 ---------------
 
-Bound
+Bound$
 ^^^^^
 
-Shows the bounding box of its children.
+Outputs the bounding box of its children to the console
+
+Parameters
+++++++++++
+|=========
+|none|
+|=========
+
+Examples
+++++++++
+[source,csharp]
+---------------
+bound$() children;
+bound$() cylinder(r=5,h=10);
+---------------
 
 Center
 ^^^^^^
@@ -254,6 +275,22 @@ Glide
 ^^^^^
 
 Glides the first child along the outline of the second child.
+
+Parameters
+++++++++++
+|=========
+|none|
+|=========
+
+Examples
+++++++++
+[source,csharp]
+---------------
+glide() {
+    cube(2);
+    polyline([[0,0,0],[10,0,0],[10,10,0],[10,10,10],[0,0,0]]);
+}
+---------------
 
 Group
 ^^^^^

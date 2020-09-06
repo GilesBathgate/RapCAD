@@ -22,6 +22,8 @@
 #include <QMainWindow>
 #include <QStandardItemModel>
 #include <QTextStream>
+#include <QTemporaryFile>
+
 #include "codeeditor.h"
 #include "texteditiodevice.h"
 #include "backgroundworker.h"
@@ -77,6 +79,7 @@ private slots:
 	void showBuiltins();
 	void showUserGuide();
 	void flushCaches();
+	void sendToCAM();
 	void exportFile(const QString&);
 	void preferencesUpdated();
 private:
@@ -95,6 +98,7 @@ private:
 	CodeEditor* getEditor(int i);
 	void disableActions(CodeEditor*);
 	bool saveSelectedFiles(const QList<QString>&);
+	void deleteTempFiles();
 
 	Ui::MainWindow* ui;
 	QStandardItemModel* myModel;
@@ -104,6 +108,7 @@ private:
 	BackgroundWorker* worker;
 	Interactive* interact;
 	PreferencesDialog* preferencesDialog;
+	QList<QTemporaryFile*> temporyFiles;
 };
 
 #endif // MAINWINDOW_H

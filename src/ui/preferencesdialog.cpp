@@ -18,6 +18,8 @@
 
 #include <QPushButton>
 #include <QColorDialog>
+#include <QDir>
+
 #include "preferencesdialog.h"
 #include "ui_preferences.h"
 #include "preferences.h"
@@ -111,6 +113,10 @@ void PreferencesDialog::setupWidgets()
 	ui->heightSpinBox->setValue(v.z());
 
 	ui->appearanceComboBox->setCurrentIndex(p->getPrintBedAppearance());
+
+	QString command=p->getLaunchCommand();
+	ui->launchCommandLineEdit->setText(command);
+	launchCommandChanged(command);
 	updatePrecision();
 }
 
@@ -169,6 +175,9 @@ void PreferencesDialog::setupButtons()
 
 	connect(ui->tooltipsCheckBox,SIGNAL(stateChanged(int)),this,SLOT(showTooltipsChanged(int)));
 	connect(ui->highlightLineCheckbox,SIGNAL(stateChanged(int)),this,SLOT(highlightLineChanged(int)));
+
+	connect(ui->launchCommandLineEdit,SIGNAL(textChanged(QString)),this,SLOT(launchCommandChanged(QString)));
+	connect(ui->launchCommandLineEdit,SIGNAL(editingFinished()),this,SLOT(launchCommandUpdated()));
 }
 
 void PreferencesDialog::updatePrecision()
@@ -230,6 +239,21 @@ void PreferencesDialog::highlightLineChanged(int s)
 {
 	Preferences* p = Preferences::getInstance();
 	p->setHighlightLine(s == Qt::Checked);
+	emit preferencesUpdated();
+}
+
+void PreferencesDialog::launchCommandChanged(const QString& command)
+{
+	if(command.isEmpty())
+		ui->exampleCommandLabel->clear();
+	else
+		ui->exampleCommandLabel->setText(QString("Example: %1 %2/tempfile.3mf").arg(command).arg(QDir::tempPath()));
+}
+
+void PreferencesDialog::launchCommandUpdated()
+{
+	Preferences* p=Preferences::getInstance();
+	p->setLaunchCommand(ui->launchCommandLineEdit->text());
 	emit preferencesUpdated();
 }
 

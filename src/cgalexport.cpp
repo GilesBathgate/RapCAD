@@ -42,9 +42,9 @@ CGALExport::CGALExport(Primitive* p,Reporter& r) :
 {
 }
 
-void CGALExport::exportResult(QString filename)
+void CGALExport::exportResult(const QString& fileName)
 {
-	QFileInfo file(filename);
+	QFileInfo file(fileName);
 	QString suffix=file.suffix().toLower();
 	QString path=file.absoluteFilePath();
 	if(suffix=="off")
@@ -67,7 +67,7 @@ void CGALExport::exportResult(QString filename)
 		return exportSVG(path);
 }
 
-void CGALExport::exportVRML(QString filename)
+void CGALExport::exportVRML(const QString& filename)
 {
 	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
 	if(!pr)
@@ -81,7 +81,7 @@ void CGALExport::exportVRML(QString filename)
 	delete poly;
 }
 
-void CGALExport::exportOBJ(QString filename)
+void CGALExport::exportOBJ(const QString& filename)
 {
 	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
 	if(!pr)
@@ -94,7 +94,7 @@ void CGALExport::exportOBJ(QString filename)
 	delete poly;
 }
 
-void CGALExport::exportOFF(QString filename)
+void CGALExport::exportOFF(const QString& filename)
 {
 	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
 	if(!pr)
@@ -118,15 +118,16 @@ static QList<CGAL::Triangle3> generateTriangles(CGAL::Polyhedron3* poly)
 	for(FacetIterator fi=poly->facets_begin(); fi!=poly->facets_end(); ++fi) {
 		HalffacetCirculator hc=fi->facet_begin();
 		CGAL_assertion(circulator_size(hc)==3);
-		CGAL::Triangle3 t((hc++)->vertex()->point(),
-						  (hc++)->vertex()->point(),
-						  (hc++)->vertex()->point());
+		CGAL::Point3 p1=(hc++)->vertex()->point();
+		CGAL::Point3 p2=(hc++)->vertex()->point();
+		CGAL::Point3 p3=(hc++)->vertex()->point();
+		CGAL::Triangle3 t(p1,p2,p3);
 		triangles.append(t);
 	}
 	return triangles;
 }
 
-void CGALExport::exportAsciiSTL(QString filename)
+void CGALExport::exportAsciiSTL(const QString& filename)
 {
 	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
 	if(!pr)
@@ -177,7 +178,7 @@ void CGALExport::exportAsciiSTL(QString filename)
 	delete poly;
 }
 
-void CGALExport::exportAMF(QString filename)
+void CGALExport::exportAMF(const QString& filename)
 {
 	auto* file=new QFile(filename);
 	if(!file->open(QIODevice::WriteOnly)) {
@@ -261,7 +262,7 @@ void CGALExport::exportAMFObject(CGALPrimitive* p,QXmlStreamWriter& xml)
 	delete poly;
 }
 
-void CGALExport::exportCSG(QString filename)
+void CGALExport::exportCSG(const QString& filename)
 {
 	QFile data(filename);
 	if(!data.open(QFile::WriteOnly | QFile::Truncate)) {
@@ -305,7 +306,7 @@ void CGALExport::exportCSG(QString filename)
 	data.close();
 }
 
-void CGALExport::export3MF(QString filename)
+void CGALExport::export3MF(const QString& filename)
 {
 	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
 	if(!pr)
@@ -410,7 +411,7 @@ void CGALExport::export3MF(QString filename)
 	delete poly;
 }
 
-void CGALExport::exportNEF(QString f)
+void CGALExport::exportNEF(const QString& f)
 {
 	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
 	if(pr) {
@@ -421,7 +422,7 @@ void CGALExport::exportNEF(QString f)
 	}
 }
 
-void CGALExport::exportSVG(QString filename)
+void CGALExport::exportSVG(const QString& filename)
 {
 	if(primitive->isFullyDimentional()) {
 		reporter.reportWarning(tr("Cannot export 3D volume as SVG"));

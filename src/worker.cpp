@@ -205,14 +205,14 @@ Instance* Worker::addProductInstance(const QString& name,Script& s)
 	return m;
 }
 
-void Worker::exportResult(const QString& fn)
+void Worker::exportResult(const QString& fileName)
 {
 #ifdef USE_CGAL
 	reporter.startTiming();
 
 	try {
 		CGALExport exporter(primitive,reporter);
-		exporter.exportResult(fn);
+		exporter.exportResult(fileName);
 	} catch(const CGAL::Failure_exception& e) {
 		resultFailed(QString::fromStdString(e.what()));
 	}

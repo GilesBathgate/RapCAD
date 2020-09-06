@@ -1,5 +1,4 @@
 group: travis_latest
-dist: bionic
 language: cpp
 
 env:
@@ -9,6 +8,7 @@ env:
 matrix:
   include:
     - os: linux
+      dist: focal
       compiler: gcc
 
 addons:
