@@ -1,12 +1,13 @@
 group: travis_latest
-dist: focal
 language: cpp
 
 matrix:
   include:
     - os: linux
+      dist: focal
       compiler: gcc
     - os: osx
+      osx_image: xcode10.3
       compiler: clang
 
 addons:
