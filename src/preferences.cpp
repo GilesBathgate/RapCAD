@@ -21,6 +21,7 @@
 #define LOG10_2 0.30102999566398119521 /* log10(2) = log base 10 of 2 */
 
 #ifdef USE_CGAL
+#include <CGAL/exceptions.h>
 #include <CGAL/Gmpfr.h>
 #endif
 
