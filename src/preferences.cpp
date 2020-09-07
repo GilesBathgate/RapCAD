@@ -36,7 +36,7 @@ void Preferences::updatePrecision()
 #ifdef USE_CGAL
 	try {
 		CGAL::Gmpfr::set_default_precision(precision);
-	} catch(CGAL::Assertion_exception) {
+	} catch(CGAL::Assertion_exception&) {
 		//Ignore
 	}
 #endif
