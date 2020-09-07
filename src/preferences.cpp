@@ -21,6 +21,7 @@
 #define LOG10_2 0.30102999566398119521 /* log10(2) = log base 10 of 2 */
 
 #ifdef USE_CGAL
+#include <CGAL/exceptions.h>
 #include <CGAL/Gmpfr.h>
 #endif
 
@@ -34,7 +35,11 @@ void Preferences::updatePrecision()
 {
 	precision=getSignificandBits();
 #ifdef USE_CGAL
-	CGAL::Gmpfr::set_default_precision(precision);
+	try {
+		CGAL::Gmpfr::set_default_precision(precision);
+	} catch(CGAL::Assertion_exception&) {
+		//Ignore
+	}
 #endif
 }
 
