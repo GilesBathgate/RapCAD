@@ -34,7 +34,11 @@ void Preferences::updatePrecision()
 {
 	precision=getSignificandBits();
 #ifdef USE_CGAL
-	CGAL::Gmpfr::set_default_precision(precision);
+	try {
+		CGAL::Gmpfr::set_default_precision(precision);
+	} catch(CGAL::Assertion_exception) {
+		//Ignore
+	}
 #endif
 }
 
