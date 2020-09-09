@@ -445,7 +445,9 @@ unsigned int SyntaxTreeBuilder::buildOptionalCommas(unsigned int count)
 
 Expression* SyntaxTreeBuilder::buildLiteral()
 {
-	return new Literal();
+	auto* result = new Literal();
+	result->setValue();
+	return result;
 }
 
 Expression* SyntaxTreeBuilder::buildLiteral(bool value)

@@ -26,6 +26,7 @@ class Literal : public Expression
 {
 public:
 	Literal();
+	void setValue();
 	void setValue(bool);
 	void setValue(decimal);
 	void setValue(const QString&);
@@ -36,19 +37,9 @@ public:
 
 	void accept(TreeVisitor&) override;
 private:
-
-	enum DataType {
-		Undef,
-		Boolean,
-		Number,
-		Text
-	};
-
-	bool boolean;
-	decimal number;
-	QString text;
-	DataType type;
+	Value* value;
 	decimal unit;
+	QString suffix;
 };
 
 #endif // LITERAL_H

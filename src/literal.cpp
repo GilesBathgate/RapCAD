@@ -22,77 +22,70 @@
 #include "textvalue.h"
 
 Literal::Literal() :
-	boolean(false),
-	type(Undef),
+	value(nullptr),
 	unit(1)
 {
 }
 
-void Literal::setValue(bool value)
+void Literal::setValue()
 {
-	type = Boolean;
-	boolean = value;
+	value=Value::undefined();
 }
 
-void Literal::setValue(decimal value)
+void Literal::setValue(bool v)
 {
-	type = Number;
-	number = value;
+	value=new BooleanValue(v);
 }
 
-void Literal::setValue(const QString& value)
+void Literal::setValue(decimal v)
 {
-	type = Text;
-	text = value;
+	value=new NumberValue(v);
 }
 
-void Literal::setUnit(const QString& value)
+void Literal::setValue(const QString& v)
 {
-	text=value;
-	if(value=="m")
+	value=new TextValue(v);
+}
+
+void Literal::setUnit(const QString& s)
+{
+	suffix=s;
+	if(s=="m")
 		unit=1000;
-	else if(value=="cm")
+	else if(s=="cm")
 		unit=10;
-	else if(value=="mm")
+	else if(s=="mm")
 		unit=1;
-	else if(value=="um")
+	else if(s=="um")
 		unit=decimal(1)/1000;
-	else if(value=="ft")
+	else if(s=="ft")
 		unit=decimal(3048)/10;
-	else if(value=="in")
+	else if(s=="in")
 		unit=decimal(254)/10;
-	else if(value=="th")
+	else if(s=="th")
 		unit=decimal(254)/10000;
 	else
-		type=Undef;
+		unit=1;
 }
 
 QString Literal::getValueString() const
 {
-	switch(type) {
-		case Boolean:
-			return boolean ? "true" : "false";
-		case Number:
-			return to_string(number).append(text);
-		case Text:
-			return QString("\"%1\"").arg(text);
-		default:
-			return "undef";
-	}
+	NumberValue* num=dynamic_cast<NumberValue*>(value);
+	if(num)
+		return value->getValueString().append(suffix);
+
+	return value->getValueString();
 }
 
 Value* Literal::getValue() const
 {
-	switch(type) {
-		case Boolean:
-			return new BooleanValue(boolean);
-		case Number:
-			return new NumberValue(number*unit);
-		case Text:
-			return new TextValue(text);
-		default:
-			return Value::undefined();
-	}
+	if(unit==1) return value;
+
+	NumberValue* num=dynamic_cast<NumberValue*>(value);
+	if(num)
+		return Value::operation(num,Expression::Multiply,new NumberValue(unit));
+
+	return value;
 }
 
 void Literal::accept(TreeVisitor& v)
