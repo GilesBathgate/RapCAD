@@ -31,7 +31,7 @@ int Generator::evaluate()
 	if(!funcFile.open(QFile::WriteOnly | QFile::Truncate)) return EXIT_FAILURE;
 	QTextStream mod(&modFile),func(&funcFile);
 	AsciidocPrinter p(mod,func);
-	BuiltinCreator* b=BuiltinCreator::getInstance(reporter);
-	b->generateDocs(p);
+	BuiltinCreator& b=BuiltinCreator::getInstance(reporter);
+	b.generateDocs(p);
 	return EXIT_SUCCESS;
 }

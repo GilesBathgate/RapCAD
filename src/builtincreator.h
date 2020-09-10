@@ -28,7 +28,7 @@
 class BuiltinCreator
 {
 public:
-	static BuiltinCreator* getInstance(Reporter&);
+	static BuiltinCreator& getInstance(Reporter&);
 	static void cleanup();
 	void initBuiltins(Script&);
 	void saveBuiltins(Script&);

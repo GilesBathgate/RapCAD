@@ -411,8 +411,8 @@ void MainWindow::setupEditor(CodeEditor* editor)
 	connect(editor,&CodeEditor::copyAvailable,ui->actionCopy,&QAction::setEnabled);
 	connect(editor,&CodeEditor::fileNameChanged,this,&MainWindow::setTabTitle);
 
-	BuiltinCreator* b=BuiltinCreator::getInstance(*reporter);
-	editor->setModuleNames(b->getModuleNames());
+	BuiltinCreator& b=BuiltinCreator::getInstance(*reporter);
+	editor->setModuleNames(b.getModuleNames());
 	ui->searchWidget->setTextEdit(editor);
 }
 
@@ -727,11 +727,11 @@ void MainWindow::showBuiltins()
 
 	connect(e,&CodeEditor::copyAvailable,ui->actionCopy,&QAction::setEnabled);
 
-	BuiltinCreator* b = BuiltinCreator::getInstance(*reporter);
+	BuiltinCreator& b = BuiltinCreator::getInstance(*reporter);
 
 	TextEditIODevice t(e,this);
 	QTextStream out(&t);
-	b->generateDocs(out);
+	b.generateDocs(out);
 	out.flush();
 
 	//Scroll back to top

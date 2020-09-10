@@ -599,8 +599,8 @@ void TreeEvaluator::visit(const CodeDoc&)
 
 void TreeEvaluator::visit(Script& sc)
 {
-	BuiltinCreator* b=BuiltinCreator::getInstance(reporter);
-	b->initBuiltins(sc);
+	BuiltinCreator& b=BuiltinCreator::getInstance(reporter);
+	b.initBuiltins(sc);
 
 	/* Use the location of the current script as the root for all imports */
 	QDir loc=sc.getFileLocation();
@@ -629,7 +629,7 @@ void TreeEvaluator::visit(Script& sc)
 	for(Script* sc: imports)
 		delete sc;
 
-	b->saveBuiltins(sc);
+	b.saveBuiltins(sc);
 }
 
 void TreeEvaluator::visit(Product& p)

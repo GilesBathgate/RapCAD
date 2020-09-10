@@ -231,12 +231,12 @@ BuiltinCreator::BuiltinCreator(Reporter& r)
 
 BuiltinCreator* BuiltinCreator::instance=nullptr;
 
-BuiltinCreator* BuiltinCreator::getInstance(Reporter& r)
+BuiltinCreator& BuiltinCreator::getInstance(Reporter& r)
 {
 	if(!instance)
 		instance = new BuiltinCreator(r);
 
-	return instance;
+	return *instance;
 }
 
 BuiltinCreator::~BuiltinCreator()

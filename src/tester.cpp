@@ -133,8 +133,8 @@ int Tester::evaluate()
 	writeHeader("000_treeprinter",testcount);
 
 	TreePrinter nulldocs(*nullstream);
-	BuiltinCreator* cr=BuiltinCreator::getInstance(*nullreport);
-	cr->generateDocs(nulldocs);
+	BuiltinCreator& cr=BuiltinCreator::getInstance(*nullreport);
+	cr.generateDocs(nulldocs);
 
 	writePass();
 
