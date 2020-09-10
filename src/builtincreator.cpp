@@ -286,7 +286,7 @@ QHash<QString,Module*> BuiltinCreator::getModuleNames() const
 	return names;
 }
 
-void BuiltinCreator::cleanUp()
+void BuiltinCreator::cleanup()
 {
 	delete instance;
 }

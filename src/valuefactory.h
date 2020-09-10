@@ -13,8 +13,9 @@
 class ValueFactory
 {
 public:
-	ValueFactory();
-	static ValueFactory& createFactory();
+	static ValueFactory& getInstance();
+	static void cleanup();
+
 	void cleanupValues();
 	void deleteValue(Value*);
 
@@ -26,6 +27,7 @@ public:
 	RangeValue* createRange(Value*,Value*,Value*);
 	ComplexValue* createComplex(Value*,const QList<Value*>&);
 private:
+	ValueFactory();
 	QList<Value*> values;
 	static ValueFactory* factory;
 };

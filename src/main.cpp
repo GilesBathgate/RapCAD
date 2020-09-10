@@ -21,6 +21,7 @@
 #include "ui/mainwindow.h"
 #include "preferences.h"
 #include "builtincreator.h"
+#include "valuefactory.h"
 #include "worker.h"
 #ifdef USE_INTEGTEST
 #include "tester.h"
@@ -127,6 +128,13 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Re
 	return nullptr;
 }
 
+void cleanup()
+{
+	Preferences::cleanup();
+	BuiltinCreator::cleanup();
+	ValueFactory::cleanup();
+}
+
 int main(int argc, char* argv[])
 {
 	setupApplication();
@@ -147,9 +155,7 @@ int main(int argc, char* argv[])
 
 	delete s;
 
-	//Ensure preferences are saved.
-	Preferences::syncDelete();
-	BuiltinCreator::cleanUp();
+	cleanup();
 
 	return retcode;
 }

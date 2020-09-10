@@ -29,7 +29,7 @@ class BuiltinCreator
 {
 public:
 	static BuiltinCreator* getInstance(Reporter&);
-	static void cleanUp();
+	static void cleanup();
 	void initBuiltins(Script&);
 	void saveBuiltins(Script&);
 	void generateDocs(QTextStream&);

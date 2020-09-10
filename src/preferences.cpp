@@ -452,9 +452,10 @@ void Preferences::setPrintBedAppearance(GLView::Appearance_t v)
 	settings->setValue("PrintBedAppearance",(int)v);
 }
 
-void Preferences::syncDelete()
+void Preferences::cleanup()
 {
 	if(instance) {
+		//Ensure preferences are saved.
 		instance->settings->sync();
 		delete instance->settings;
 		delete instance;

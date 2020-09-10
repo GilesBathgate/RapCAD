@@ -30,7 +30,7 @@ class Preferences
 {
 public:
 	static Preferences* getInstance();
-	static void syncDelete();
+	static void cleanup();
 
 	int getPrecision() const;
 	void setPrecision(int);

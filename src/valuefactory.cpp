@@ -4,12 +4,19 @@ ValueFactory::ValueFactory()
 {
 }
 
-ValueFactory* ValueFactory::factory;
+ValueFactory* ValueFactory::factory=nullptr;
 
-ValueFactory& ValueFactory::createFactory()
+ValueFactory& ValueFactory::getInstance()
 {
-	factory = new ValueFactory();
+	if(!factory)
+		factory = new ValueFactory();
+
 	return *factory;
+}
+
+void ValueFactory::cleanup()
+{
+	delete factory;
 }
 
 Value* ValueFactory::createUndefined()

@@ -38,7 +38,7 @@ Value::~Value()
 	factory.deleteValue(this);
 }
 
-ValueFactory& Value::factory=ValueFactory::createFactory();
+ValueFactory& Value::factory=ValueFactory::getInstance();
 
 void Value::setStorage(Variable::Storage_e c)
 {
