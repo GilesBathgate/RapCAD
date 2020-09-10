@@ -37,9 +37,19 @@ public:
 
 	void accept(TreeVisitor&) override;
 private:
-	Value* value;
+
+	enum DataType {
+		Undef,
+		Boolean,
+		Number,
+		Text
+	};
+
+	bool boolean;
+	decimal number;
+	QString text;
+	DataType type;
 	decimal unit;
-	QString suffix;
 };
 
 #endif // LITERAL_H

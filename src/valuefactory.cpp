@@ -1,4 +1,5 @@
 #include "valuefactory.h"
+#include <QtGlobal>
 
 ValueFactory::ValueFactory()
 {
@@ -78,5 +79,9 @@ void ValueFactory::cleanupValues()
 
 void ValueFactory::deleteValue(Value* v)
 {
+#if QT_VERSION >= QT_VERSION_CHECK(4,4,0)
+	values.removeOne(v);
+#else
 	values.removeAll(v);
+#endif
 }

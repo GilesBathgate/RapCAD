@@ -23,70 +23,82 @@
 #include "valuefactory.h"
 
 Literal::Literal() :
-	value(nullptr),
+	boolean(false),
+	type(Undef),
 	unit(1)
 {
 }
 
 void Literal::setValue()
 {
-	value=Value::factory.createUndefined();
+	type = Undef;
 }
 
-void Literal::setValue(bool v)
+void Literal::setValue(bool value)
 {
-	value=Value::factory.createBoolean(v);
+	type = Boolean;
+	boolean = value;
 }
 
-void Literal::setValue(decimal v)
+void Literal::setValue(decimal value)
 {
-	value=Value::factory.createNumber(v);
+	type = Number;
+	number = value;
 }
 
-void Literal::setValue(const QString& v)
+void Literal::setValue(const QString& value)
 {
-	value=Value::factory.createText(v);
+	type = Text;
+	text = value;
 }
 
-void Literal::setUnit(const QString& s)
+void Literal::setUnit(const QString& value)
 {
-	suffix=s;
-	if(s=="m")
+	text=value;
+	if(value=="m")
 		unit=1000;
-	else if(s=="cm")
+	else if(value=="cm")
 		unit=10;
-	else if(s=="mm")
+	else if(value=="mm")
 		unit=1;
-	else if(s=="um")
+	else if(value=="um")
 		unit=decimal(1)/1000;
-	else if(s=="ft")
+	else if(value=="ft")
 		unit=decimal(3048)/10;
-	else if(s=="in")
+	else if(value=="in")
 		unit=decimal(254)/10;
-	else if(s=="th")
+	else if(value=="th")
 		unit=decimal(254)/10000;
 	else
-		unit=1;
+		type=Undef;
 }
 
 QString Literal::getValueString() const
 {
-	NumberValue* num=dynamic_cast<NumberValue*>(value);
-	if(num)
-		return value->getValueString().append(suffix);
-
-	return value->getValueString();
+	switch(type) {
+		case Boolean:
+			return boolean ? "true" : "false";
+		case Number:
+			return to_string(number).append(text);
+		case Text:
+			return QString("\"%1\"").arg(text);
+		default:
+			return "undef";
+	}
 }
 
 Value* Literal::getValue() const
 {
-	if(unit==1) return value;
-
-	NumberValue* num=dynamic_cast<NumberValue*>(value);
-	if(num)
-		return Value::operation(num,Expression::Multiply,Value::factory.createNumber(unit));
-
-	return value;
+	switch(type) {
+		case Boolean:
+			return Value::factory.createBoolean(boolean);
+		case Number:
+			return Value::factory.createNumber(number*unit);
+		case Text:
+			return Value::factory.createText(text);
+		default:
+			return Value::factory.createUndefined();
+	}
 }
 
 void Literal::accept(TreeVisitor& v)
