@@ -89,104 +89,104 @@ void MainWindow::deleteTempFiles()
 
 void MainWindow::savePreferences()
 {
-	Preferences* p=Preferences::getInstance();
-	p->setShowRulers(ui->actionShowRulers->isChecked());
-	p->setShowAxes(ui->actionShowAxes->isChecked());
-	p->setShowEdges(ui->actionShowEdges->isChecked());
-	p->setSkeleton(ui->actionSkeleton->isChecked());
-	p->setShowBase(ui->actionShowBase->isChecked());
-	p->setShowPrintArea(ui->actionShowPrintArea->isChecked());
-	p->setShowEditor(ui->actionShowEditor->isChecked());
-	p->setShowConsole(ui->actionShowConsole->isChecked());
-	p->setShowProjects(ui->actionShowProjects->isChecked());
-	p->setCacheEnabled(ui->actionEnableCaches->isChecked());
-	p->setWindowPosition(pos());
-	p->setWindowSize(size());
+	Preferences& p=Preferences::getInstance();
+	p.setShowRulers(ui->actionShowRulers->isChecked());
+	p.setShowAxes(ui->actionShowAxes->isChecked());
+	p.setShowEdges(ui->actionShowEdges->isChecked());
+	p.setSkeleton(ui->actionSkeleton->isChecked());
+	p.setShowBase(ui->actionShowBase->isChecked());
+	p.setShowPrintArea(ui->actionShowPrintArea->isChecked());
+	p.setShowEditor(ui->actionShowEditor->isChecked());
+	p.setShowConsole(ui->actionShowConsole->isChecked());
+	p.setShowProjects(ui->actionShowProjects->isChecked());
+	p.setCacheEnabled(ui->actionEnableCaches->isChecked());
+	p.setWindowPosition(pos());
+	p.setWindowSize(size());
 }
 
 void MainWindow::setDefaultViewport()
 {
-	Preferences* p=Preferences::getInstance();
+	Preferences& p=Preferences::getInstance();
 	float rx,ry,rz,x,z,d;
 	ui->view->getViewport(rx,ry,rz,x,z,d);
-	p->setDefaultRotationX(rx);
-	p->setDefaultRotationY(ry);
-	p->setDefaultRotationZ(rz);
-	p->setDefaultX(x);
-	p->setDefaultZ(z);
-	p->setDefaultDistance(d);
+	p.setDefaultRotationX(rx);
+	p.setDefaultRotationY(ry);
+	p.setDefaultRotationZ(rz);
+	p.setDefaultX(x);
+	p.setDefaultZ(z);
+	p.setDefaultDistance(d);
 }
 
 void MainWindow::loadPreferences()
 {
-	Preferences* p=Preferences::getInstance();
+	Preferences& p=Preferences::getInstance();
 
-	bool showRulers=p->getShowRulers();
+	bool showRulers=p.getShowRulers();
 	ui->actionShowRulers->setChecked(showRulers);
 	ui->view->setShowRulers(showRulers);
 
-	bool showAxes=p->getShowAxes();
+	bool showAxes=p.getShowAxes();
 	ui->actionShowAxes->setChecked(showAxes);
 	ui->view->setShowAxes(showAxes);
 	disableRulers(showAxes);
 
-	bool showEdges=p->getShowEdges();
+	bool showEdges=p.getShowEdges();
 	ui->actionShowEdges->setChecked(showEdges);
 	ui->view->setShowEdges(showEdges);
 
-	bool showSkeleton=p->getSkeleton();
+	bool showSkeleton=p.getSkeleton();
 	ui->actionSkeleton->setChecked(showSkeleton);
 	ui->view->setSkeleton(showSkeleton);
 
-	bool showBase=p->getShowBase();
+	bool showBase=p.getShowBase();
 	ui->actionShowBase->setChecked(showBase);
 	ui->view->setShowBase(showBase);
 
-	bool showPrintArea=p->getShowPrintArea();
+	bool showPrintArea=p.getShowPrintArea();
 	ui->actionShowPrintArea->setChecked(showPrintArea);
 	ui->view->setShowPrintArea(showPrintArea);
 
-	bool showEditor=p->getShowEditor();
+	bool showEditor=p.getShowEditor();
 	ui->actionShowEditor->setChecked(showEditor);
 	ui->tabWidget->setVisible(showEditor);
 
-	bool showConsole=p->getShowConsole();
+	bool showConsole=p.getShowConsole();
 	ui->actionShowConsole->setChecked(showConsole);
 	ui->console->setVisible(showConsole);
 
-	bool showProjects=p->getShowProjects();
+	bool showProjects=p.getShowProjects();
 	ui->actionShowProjects->setChecked(showProjects);
 	ui->treeView->setVisible(showProjects);
 
-	bool b=p->getCacheEnabled();
+	bool b=p.getCacheEnabled();
 	ui->actionEnableCaches->setChecked(b);
 	enableCaches(b);
 
-	move(p->getWindowPosition());
-	resize(p->getWindowSize());
+	move(p.getWindowPosition());
+	resize(p.getWindowSize());
 
 	getDefaultViewport();
 
-	QPointF o=p->getPrintOrigin();
+	QPointF o=p.getPrintOrigin();
 	ui->view->setPrintOrigin(o.x(), o.y());
 
-	QVector3D v=p->getPrintVolume();
+	QVector3D v=p.getPrintVolume();
 	ui->view->setPrintVolume(v.x(), v.y(), v.z());
 
-	ui->view->setBedAppearance(p->getPrintBedAppearance());
+	ui->view->setBedAppearance(p.getPrintBedAppearance());
 
 }
 
 void MainWindow::getDefaultViewport() const
 {
-	Preferences* p=Preferences::getInstance();
+	Preferences& p=Preferences::getInstance();
 	float rx,ry,rz,x,z,d;
-	rx=p->getDefaultRotationX();
-	ry=p->getDefaultRotationY();
-	rz=p->getDefaultRotationZ();
-	x=p->getDefaultX();
-	z=p->getDefaultZ();
-	d=p->getDefaultDistance();
+	rx=p.getDefaultRotationX();
+	ry=p.getDefaultRotationY();
+	rz=p.getDefaultRotationZ();
+	x=p.getDefaultX();
+	z=p.getDefaultZ();
+	d=p.getDefaultDistance();
 	ui->view->setViewport(rx,ry,rz,x,z,d);
 }
 
@@ -337,20 +337,20 @@ void MainWindow::showPreferences()
 
 void MainWindow::preferencesUpdated()
 {
-	Preferences* p=Preferences::getInstance();
+	Preferences& p=Preferences::getInstance();
 
 	for(auto i=0; i<ui->tabWidget->count(); ++i) {
 		CodeEditor* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
 		c->preferencesUpdated();
 	}
 
-	QPointF o=p->getPrintOrigin();
+	QPointF o=p.getPrintOrigin();
 	ui->view->setPrintOrigin(o.x(),o.y());
 
-	QVector3D v=p->getPrintVolume();
+	QVector3D v=p.getPrintVolume();
 	ui->view->setPrintVolume(v.x(),v.y(),v.z());
 
-	ui->view->setBedAppearance(p->getPrintBedAppearance());
+	ui->view->setBedAppearance(p.getPrintBedAppearance());
 
 	ui->view->preferencesUpdated();
 }
@@ -493,9 +493,9 @@ bool MainWindow::maybeSave(bool compiling)
 	}
 	if(!modified) return true;
 
-	Preferences* p=Preferences::getInstance();
+	Preferences& p=Preferences::getInstance();
 
-	if(compiling && p->getAutoSaveOnCompile()) {
+	if(compiling && p.getAutoSaveOnCompile()) {
 		return saveSelectedFiles(files);
 	}
 
@@ -503,7 +503,7 @@ bool MainWindow::maybeSave(bool compiling)
 
 	if(s.exec()==QDialog::Accepted) {
 		bool autoSave = s.getAutoSaveOnCompile();
-		p->setAutoSaveOnCompile(autoSave);
+		p.setAutoSaveOnCompile(autoSave);
 
 		QList<QString> files=s.getItemsToSave();
 		return saveSelectedFiles(files);
@@ -775,8 +775,8 @@ void MainWindow::sendToCAM()
 		return;
 	}
 
-	Preferences* p=Preferences::getInstance();
-	QString command = p->getLaunchCommand();
+	Preferences& p=Preferences::getInstance();
+	QString command = p.getLaunchCommand();
 	if(command.isEmpty()) {
 		QMessageBox::information(this,title, tr("No launch command set in preferences"));
 		return;

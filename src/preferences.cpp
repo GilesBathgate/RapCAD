@@ -89,12 +89,12 @@ void Preferences::setEditorFont(const QFont& value)
 
 Preferences* Preferences::instance=nullptr;
 
-Preferences* Preferences::getInstance()
+Preferences& Preferences::getInstance()
 {
 	if(!instance)
 		instance = new Preferences();
 
-	return instance;
+	return *instance;
 }
 
 int Preferences::getPrecision() const

@@ -49,13 +49,13 @@ static decimal r_round_prec(const decimal& a,int p)
 decimal r_round_preference(const decimal& a,bool round)
 {
 	if(round) {
-		Preferences* p=Preferences::getInstance();
-		switch(p->getFunctionRounding())
+		Preferences& p=Preferences::getInstance();
+		switch(p.getFunctionRounding())
 		{
 			case 0:
-				return r_round(a,p->getDecimalPlaces());
+				return r_round(a,p.getDecimalPlaces());
 			case 1:
-				return r_round_prec(a,p->getSignificandBits());
+				return r_round_prec(a,p.getSignificandBits());
 		}
 	}
 	return a;

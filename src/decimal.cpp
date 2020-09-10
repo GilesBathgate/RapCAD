@@ -52,8 +52,8 @@ decimal to_decimal(const QString& str,bool* ok)
 
 QString to_string(const decimal& d)
 {
-	Preferences* p=Preferences::getInstance();
-	int numberFormat=p->getNumberFormat();
+	Preferences& p=Preferences::getInstance();
+	int numberFormat=p.getNumberFormat();
 
 	if(numberFormat!=1 && d==0.0)
 		return QString('0');
@@ -66,11 +66,11 @@ QString to_string(const decimal& d)
 		gmp_asprintf(&a,"%Qd",d.exact().mpq());
 	} else {
 		mpf_t m;
-		mpf_init2(m,p->getSignificandBits());
+		mpf_init2(m,p.getSignificandBits());
 		mpf_set_q(m,d.exact().mpq());
 
 		if(numberFormat==1) {
-			gmp_asprintf(&a,"%.*Fe",p->getDecimalPlaces(),m);
+			gmp_asprintf(&a,"%.*Fe",p.getDecimalPlaces(),m);
 		} else {
 			gmp_asprintf(&a,"%.Ff",m);
 		}

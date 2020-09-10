@@ -29,7 +29,7 @@
 class Preferences
 {
 public:
-	static Preferences* getInstance();
+	static Preferences& getInstance();
 	static void cleanup();
 
 	int getPrecision() const;

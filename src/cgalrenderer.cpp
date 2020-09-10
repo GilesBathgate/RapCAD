@@ -46,15 +46,15 @@ void CGALRenderer::descendChildren(Primitive* p)
 
 void CGALRenderer::loadPreferences()
 {
-	Preferences* p = Preferences::getInstance();
-	setColor(markedVertexColor,p->getMarkedVertexColor());
-	setColor(vertexColor,p->getVertexColor());
-	setColor(markedEdgeColor,p->getMarkedEdgeColor());
-	setColor(edgeColor,p->getEdgeColor());
-	setColor(markedFacetColor,p->getMarkedFacetColor());
-	setColor(facetColor,p->getFacetColor());
-	vertexSize=p->getVertexSize();
-	edgeSize=p->getEdgeSize();
+	Preferences& p = Preferences::getInstance();
+	setColor(markedVertexColor,p.getMarkedVertexColor());
+	setColor(vertexColor,p.getVertexColor());
+	setColor(markedEdgeColor,p.getMarkedEdgeColor());
+	setColor(edgeColor,p.getEdgeColor());
+	setColor(markedFacetColor,p.getMarkedFacetColor());
+	setColor(facetColor,p.getFacetColor());
+	vertexSize=p.getVertexSize();
+	edgeSize=p.getEdgeSize();
 }
 
 void CGALRenderer::preferencesUpdated()

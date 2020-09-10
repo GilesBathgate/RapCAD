@@ -152,12 +152,12 @@ bool CodeEditor::openFile()
 
 void CodeEditor::preferencesUpdated()
 {
-	Preferences* p=Preferences::getInstance();
-	QFont font=p->getEditorFont();
+	Preferences& p=Preferences::getInstance();
+	QFont font=p.getEditorFont();
 	font.setFixedPitch(true);
 	setFont(font);
-	showTooltips = p->getShowTooltips();
-	highlightLine = p->getHighlightLine();
+	showTooltips = p.getShowTooltips();
+	highlightLine = p.getHighlightLine();
 	highlightCurrentLine();
 }
 
