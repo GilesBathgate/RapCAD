@@ -38,5 +38,5 @@ Value* ChrFunction::evaluate(const Context& ctx) const
 		}
 	}
 
-	return new TextValue(result);
+	return Value::factory.createText(result);
 }

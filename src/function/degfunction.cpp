@@ -33,7 +33,7 @@ Value* DegFunction::evaluate(const Context& ctx) const
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return new NumberValue(r_deg(num));
+		return Value::factory.createNumber(r_deg(num));
 	}
-	return Value::undefined();
+	return Value::factory.createUndefined();
 }

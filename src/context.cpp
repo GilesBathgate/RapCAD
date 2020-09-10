@@ -18,6 +18,7 @@
 
 #include "context.h"
 #include "modulescope.h"
+#include "valuefactory.h"
 
 Context::Context() :
 	parent(nullptr),
@@ -104,7 +105,7 @@ Value* Context::lookupVariable(const QString& name,Variable::Storage_e& c,Layout
 		return parent->lookupVariable(name,c,l);
 	}
 
-	Value* v=Value::undefined();
+	Value* v=Value::factory.createUndefined();
 	v->setStorage(c);
 	return v;
 

@@ -20,6 +20,7 @@
 #include "booleanvalue.h"
 #include "numbervalue.h"
 #include "textvalue.h"
+#include "valuefactory.h"
 
 Literal::Literal() :
 	value(nullptr),
@@ -29,22 +30,22 @@ Literal::Literal() :
 
 void Literal::setValue()
 {
-	value=Value::undefined();
+	value=Value::factory.createUndefined();
 }
 
 void Literal::setValue(bool v)
 {
-	value=new BooleanValue(v);
+	value=Value::factory.createBoolean(v);
 }
 
 void Literal::setValue(decimal v)
 {
-	value=new NumberValue(v);
+	value=Value::factory.createNumber(v);
 }
 
 void Literal::setValue(const QString& v)
 {
-	value=new TextValue(v);
+	value=Value::factory.createText(v);
 }
 
 void Literal::setUnit(const QString& s)
@@ -83,7 +84,7 @@ Value* Literal::getValue() const
 
 	NumberValue* num=dynamic_cast<NumberValue*>(value);
 	if(num)
-		return Value::operation(num,Expression::Multiply,new NumberValue(unit));
+		return Value::operation(num,Expression::Multiply,Value::factory.createNumber(unit));
 
 	return value;
 }

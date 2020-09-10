@@ -20,6 +20,7 @@
 #include "rangeiterator.h"
 #include "vectorvalue.h"
 #include "booleanvalue.h"
+#include "valuefactory.h"
 
 RangeValue::RangeValue(Value* s,Value* st, Value* f) :
 	start(s),
@@ -31,7 +32,7 @@ RangeValue::RangeValue(Value* s,Value* st, Value* f) :
 
 	if(!step) {
 		decimal i=reverse?-1.0:1.0;
-		step=new NumberValue(i);
+		step=factory.createNumber(i);
 	}
 }
 
@@ -67,7 +68,7 @@ Value* RangeValue::getIndex(NumberValue* n)
 	Value* a=Value::operation(n,Expression::Multiply,x);
 	Value* b=Value::operation(start,reverse?Expression::Subtract:Expression::Add,a);
 
-	if(!inRange(b)) return undefined();
+	if(!inRange(b)) return factory.createUndefined();
 	return b;
 }
 
@@ -99,7 +100,7 @@ Value* RangeValue::getFinish() const
 Value* RangeValue::operation(Expression::Operator_e op)
 {
 	if(op==Expression::Invert) {
-		return new RangeValue(finish,step,start);
+		return factory.createRange(finish,step,start);
 	} else if(op==Expression::Length) {
 		Value* size=Value::operation(finish,Expression::Subtract,start);
 		size=Value::operation(size,op);
@@ -115,7 +116,7 @@ Value* RangeValue::operation(Expression::Operator_e op)
 			increment=Value::operation(step,op);
 	}
 
-	return new RangeValue(upper,increment,lower);
+	return factory.createRange(upper,increment,lower);
 }
 
 Value* RangeValue::operation(Value& v, Expression::Operator_e op)
@@ -135,16 +136,16 @@ Value* RangeValue::operation(Value& v, Expression::Operator_e op)
 		Value* d=range->finish;
 		if(op==Expression::Equal) {
 			bool result=compare(a,op,c)&&compare(b,op,d);
-			return new BooleanValue(result);
+			return factory.createBoolean(result);
 		} else if(op==Expression::NotEqual) {
 			bool result=compare(a,op,c)||compare(b,op,d);
-			return new BooleanValue(result);
+			return factory.createBoolean(result);
 		} else if(op==Expression::Add||op==Expression::Subtract) {
 
 			Value* lower=Value::operation(a,op,c);
 			Value* upper=Value::operation(b,op,d);
 
-			return new RangeValue(lower,nullptr,upper);
+			return factory.createRange(lower,nullptr,upper);
 
 		} else if(op==Expression::Multiply||op==Expression::Divide) {
 
@@ -160,7 +161,7 @@ Value* RangeValue::operation(Value& v, Expression::Operator_e op)
 			Value* lower=compareAll(vals,Expression::LessThan);
 			Value* upper=compareAll(vals,Expression::GreaterThan);
 
-			return new RangeValue(lower,nullptr,upper);
+			return factory.createRange(lower,nullptr,upper);
 
 		} else if(op==Expression::Concatenate) {
 
@@ -172,7 +173,7 @@ Value* RangeValue::operation(Value& v, Expression::Operator_e op)
 			Value* lower=compareAll(vals,Expression::LessThan);
 			Value* upper=compareAll(vals,Expression::GreaterThan);
 
-			return new RangeValue(lower,nullptr,upper);
+			return factory.createRange(lower,nullptr,upper);
 		}
 	}
 	return VectorValue::operation(v,op);

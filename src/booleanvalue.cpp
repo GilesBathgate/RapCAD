@@ -18,6 +18,7 @@
 
 #include "booleanvalue.h"
 #include "numbervalue.h"
+#include "valuefactory.h"
 
 BooleanValue::BooleanValue(bool value) :
 	boolean(value)
@@ -32,7 +33,7 @@ QString BooleanValue::getValueString() const
 Value* BooleanValue::toNumber()
 {
 	decimal result=boolean?1.0:0.0;
-	return new NumberValue(result);
+	return factory.createNumber(result);
 }
 
 bool BooleanValue::isTrue() const
@@ -43,7 +44,7 @@ bool BooleanValue::isTrue() const
 Value* BooleanValue::operation(Expression::Operator_e e)
 {
 	bool result=basicOperation(boolean,e);
-	return new BooleanValue(result);
+	return factory.createBoolean(result);
 }
 
 Value* BooleanValue::operation(Value& v,Expression::Operator_e e)
@@ -51,12 +52,12 @@ Value* BooleanValue::operation(Value& v,Expression::Operator_e e)
 	auto* that=dynamic_cast<BooleanValue*>(&v);
 	if(that) {
 		bool result=basicOperation(this->boolean,e,that->boolean);
-		return new BooleanValue(result);
+		return factory.createBoolean(result);
 	}
 	auto* num=dynamic_cast<NumberValue*>(&v);
 	if(num && isComparison(e)) {
 		bool result=basicOperation(this->boolean?1:0,e,num->toInteger());
-		return new BooleanValue(result);
+		return factory.createBoolean(result);
 	}
 
 	return Value::operation(v,e);

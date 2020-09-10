@@ -25,6 +25,7 @@
 #include "module/importmodule.h"
 #include "syntaxtreebuilder.h"
 #include "module/unionmodule.h"
+#include "valuefactory.h"
 
 TreeEvaluator::TreeEvaluator(Reporter& r) :
 	reporter(r),
@@ -37,7 +38,7 @@ TreeEvaluator::TreeEvaluator(Reporter& r) :
 
 TreeEvaluator::~TreeEvaluator()
 {
-	Value::cleanup();
+	Value::factory.cleanupValues();
 	for(Layout* l: scopeLookup.values())
 		delete l;
 }
@@ -279,7 +280,7 @@ void TreeEvaluator::visit(const Parameter& param)
 		e->accept(*this);
 		v = context->getCurrentValue();
 	} else {
-		v = Value::undefined();
+		v = Value::factory.createUndefined();
 	}
 
 	context->addParameter(name,v);
@@ -407,7 +408,7 @@ void TreeEvaluator::visit(const VectorExpression& exp)
 	if(commas>0)
 		reporter.reportWarning(tr("%1 additional comma(s) found at the end of vector expression").arg(commas));
 
-	Value* v = new VectorValue(childvalues);
+	Value* v = Value::factory.createVector(childvalues);
 	context->setCurrentValue(v);
 }
 
@@ -426,7 +427,7 @@ void TreeEvaluator::visit(const RangeExpression& exp)
 	exp.getFinish()->accept(*this);
 	Value* finish=context->getCurrentValue();
 
-	Value* result = new RangeValue(start,increment,finish);
+	Value* result = Value::factory.createRange(start,increment,finish);
 	context->setCurrentValue(result);
 }
 
@@ -511,7 +512,7 @@ void TreeEvaluator::visit(const Invocation& stmt)
 	}
 
 	if(!result)
-		result=Value::undefined();
+		result=Value::factory.createUndefined();
 
 	context->setCurrentValue(result);
 }
@@ -523,7 +524,7 @@ void TreeEvaluator::visit(Callback& c)
 	c.setResult(context->getCurrentValue());
 }
 
-QFileInfo TreeEvaluator::getFullPath(const QString &file)
+QFileInfo TreeEvaluator::getFullPath(const QString& file)
 {
 	if(!importLocations.isEmpty())
 		return QFileInfo(importLocations.top(),file);
@@ -651,7 +652,7 @@ void TreeEvaluator::visit(const ComplexExpression& exp)
 		e->accept(*this);
 		childvalues.append(context->getCurrentValue());
 	}
-	Value* v = new ComplexValue(result,childvalues);
+	Value* v = Value::factory.createComplex(result,childvalues);
 	context->setCurrentValue(v);
 }
 

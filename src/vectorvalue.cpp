@@ -23,6 +23,7 @@
 #include "booleanvalue.h"
 #include "rmath.h"
 #include "onceonly.h"
+#include "valuefactory.h"
 
 VectorValue::VectorValue()
 {
@@ -60,7 +61,7 @@ Value* VectorValue::toNumber()
 {
 	if(children.size()==1)
 		return children.at(0)->toNumber();
-	return Value::undefined();
+	return factory.createUndefined();
 }
 
 Point VectorValue::getPoint() const
@@ -91,7 +92,7 @@ Point VectorValue::getPoint() const
 Value* VectorValue::getIndex(NumberValue* n)
 {
 	int i=n->toInteger();
-	if(i<0||i>=children.size()) return undefined();
+	if(i<0||i>=children.size()) return factory.createUndefined();
 	return children.at(i);
 }
 
@@ -111,13 +112,13 @@ Value* VectorValue::operation(Expression::Operator_e e)
 		Value* v=Value::operation(this,Expression::Multiply,this);
 		auto* n=dynamic_cast<NumberValue*>(v);
 		if(n)
-			return new NumberValue(r_sqrt(n->getNumber()));
-		return Value::undefined();
+			return factory.createNumber(r_sqrt(n->getNumber()));
+		return factory.createUndefined();
 	}
 	QList<Value*> result;
 	for(Value* c: children)
 		result.append(Value::operation(c,e));
-	return new VectorValue(result);
+	return factory.createVector(result);
 }
 
 Value* VectorValue::operation(Value& v, Expression::Operator_e e)
@@ -131,7 +132,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 		if(e==Expression::CrossProduct) {
 			int s=a.size();
 			if(s<2||s>3||s!=b.size())
-				return Value::undefined();
+				return factory.createUndefined();
 
 			//[a1*b2 - a2*b1, a2*b0 - a0*b2, a0*b1 - a1*b0]
 			Value* a0b1=Value::operation(a.at(0),Expression::Multiply,b.at(1));
@@ -151,13 +152,13 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			result.append(x);
 			result.append(y);
 			result.append(z);
-			return new VectorValue(result);
+			return factory.createVector(result);
 
 		} else if(e==Expression::Multiply||e==Expression::DotProduct) {
 			int s=std::min(a.size(),b.size());
 			if(s<=0)
-				return Value::undefined();
-			Value* total=new NumberValue(0.0);
+				return factory.createUndefined();
+			Value* total=factory.createNumber(0.0);
 			for(auto i=0; i<s; ++i) {
 				Value* r=Value::operation(a.at(i),Expression::Multiply,b.at(i));
 				total=Value::operation(total,Expression::Add,r);
@@ -172,24 +173,24 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			Value* n=Value::operation(a,Expression::Multiply,b);
 			auto* l=dynamic_cast<NumberValue*>(n);
 			if(l)
-				return new NumberValue(r_sqrt(l->getNumber()));
-			return Value::undefined();
+				return factory.createNumber(r_sqrt(l->getNumber()));
+			return factory.createUndefined();
 		} else if(e==Expression::Concatenate) {
 			result=a;
 			result.append(b);
 		} else if(e==Expression::Equal||e==Expression::NotEqual) {
 			bool eq=(a.size()==b.size());
 			if(e==Expression::NotEqual && !eq)
-				return new BooleanValue(true);
+				return factory.createBoolean(true);
 			if(eq)
 				for(auto i=0; i<a.size(); ++i) {
 					Value* eqVec=Value::operation(a.at(i),e,b.at(i));
 					if(e==Expression::NotEqual && eqVec->isTrue())
-						return new BooleanValue(true);
+						return factory.createBoolean(true);
 					if(eqVec->isFalse())
 						eq=false;
 				}
-			return new BooleanValue(eq);
+			return factory.createBoolean(eq);
 		} else {
 			//Apply componentwise operations
 			e=convertOperation(e);
@@ -207,7 +208,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 				result.append(r);
 			}
 		}
-		return new VectorValue(result);
+		return factory.createVector(result);
 	}
 
 	auto* num = dynamic_cast<NumberValue*>(&v);
@@ -218,7 +219,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			result.append(num);
 		} else if(e==Expression::Exponent) {
 			QList<Value*> a=getChildren();
-			Value* total=new NumberValue(0);
+			Value* total=factory.createNumber(0);
 			for(Value* c: a) {
 				Value* r=Value::operation(c,e,num);
 				total=Value::operation(total,Expression::Add,r);
@@ -232,7 +233,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			for(Value* c: a)
 				result.append(Value::operation(c,e,num));
 		}
-		return new VectorValue(result);
+		return factory.createVector(result);
 	}
 
 	return Value::operation(v,e);

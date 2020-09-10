@@ -24,34 +24,21 @@
 #include "numbervalue.h"
 #include "rangevalue.h"
 #include "rmath.h"
+#include "valuefactory.h"
 
 Value::Value() :
 	defined(true),
 	storageClass(Variable::Const)
 {
-	values.append(this);
 }
 
-Value* Value::undefined()
-{
-	auto* v=new Value();
-	v->defined=false;
-	return v;
-}
 
 Value::~Value()
 {
-	values.removeAll(this);
+	factory.deleteValue(this);
 }
 
-void Value::cleanup()
-{
-	foreach(Value* val, values) {
-		delete val;
-	}
-}
-
-QList<Value*> Value::values;
+ValueFactory& Value::factory=ValueFactory::createFactory();
 
 void Value::setStorage(Variable::Storage_e c)
 {
@@ -84,12 +71,12 @@ VectorValue* Value::toVector(int size)
 	for(auto i=0; i<size; ++i)
 		children.append(this);
 
-	return new VectorValue(children);
+	return factory.createVector(children);
 }
 
 TextValue* Value::toText()
 {
-	return new TextValue(getValueString());
+	return factory.createText(getValueString());
 }
 
 Value* Value::toNumber()
@@ -296,7 +283,7 @@ Value* Value::operation(Expression::Operator_e e)
 {
 	if(e==Expression::Invert) {
 		bool result=basicOperation(defined,e);
-		return new BooleanValue(result);
+		return factory.createBoolean(result);
 	}
 
 	return this;
@@ -308,13 +295,13 @@ Value* Value::operation(Value& v, Expression::Operator_e e)
 	bool right=v.defined;
 	if((!left||!right) && isComparison(e)) {
 		bool result=basicOperation(left,e,right);
-		return new BooleanValue(result);
+		return factory.createBoolean(result);
 	}
 	if(e==Expression::Concatenate) {
 		return &v;
 	}
 
-	return Value::undefined();
+	return factory.createUndefined();
 }
 
 bool Value::isDefined() const
@@ -454,7 +441,7 @@ Value* Value::compareAll(const QList<Value*>& values, Expression::Operator_e op)
 		}
 	}
 	if(!result)
-		return Value::undefined();
+		return factory.createUndefined();
 
 	return result;
 }

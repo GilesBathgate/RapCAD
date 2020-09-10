@@ -33,5 +33,5 @@ Value* AbsFunction::evaluate(const Context& ctx) const
 	if(numVal) {
 		return Value::operation(numVal,Expression::Length);
 	}
-	return Value::undefined();
+	return Value::factory.createUndefined();
 }

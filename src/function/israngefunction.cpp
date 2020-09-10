@@ -30,7 +30,7 @@ Value* IsRangeFunction::evaluate(const Context& ctx) const
 {
 	auto* rng=dynamic_cast<RangeValue*>(getParameterArgument(ctx,0));
 	if(rng)
-		return new BooleanValue(true);
+		return Value::factory.createBoolean(true);
 
-	return new BooleanValue(false);
+	return Value::factory.createBoolean(false);
 }

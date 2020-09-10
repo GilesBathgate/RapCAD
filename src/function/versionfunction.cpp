@@ -37,15 +37,15 @@ Value* VersionFunction::evaluate(const Context&) const
 	int major=parts.at(0).toInt();
 	int minor=parts.at(1).toInt();
 	QString build=parts.at(2);
-	version.append(new NumberValue(major));
-	version.append(new NumberValue(minor));
+	version.append(Value::factory.createNumber(major));
+	version.append(Value::factory.createNumber(minor));
 	if(build=="git") {
-		version.append(new TextValue(build));
+		version.append(Value::factory.createText(build));
 		QString revision=parts.at(3);
-		version.append(new TextValue(revision));
+		version.append(Value::factory.createText(revision));
 	} else {
 		version.append(new NumberValue(build.toInt()));
 	}
 
-	return new VectorValue(version);
+	return Value::factory.createVector(version);
 }

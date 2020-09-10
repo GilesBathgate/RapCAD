@@ -33,7 +33,7 @@ Value* SqrtFunction::evaluate(const Context& ctx) const
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return new NumberValue(r_sqrt(num));
+		return Value::factory.createNumber(r_sqrt(num));
 	}
-	return Value::undefined();
+	return Value::factory.createUndefined();
 }

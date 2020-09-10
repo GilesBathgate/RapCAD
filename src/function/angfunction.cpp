@@ -36,14 +36,14 @@ Value* AngFunction::getResult(const decimal& a,const decimal& x,const decimal& y
 	decimal c=r_right_cos(w);
 	decimal s=r_right_sin(w);
 
-	Value* angle=new NumberValue(c);
+	Value* angle=Value::factory.createNumber(c);
 
 	QList<Value*> axis;
-	axis.append(new NumberValue(x*s));
-	axis.append(new NumberValue(y*s));
-	axis.append(new NumberValue(z*s));
+	axis.append(Value::factory.createNumber(x*s));
+	axis.append(Value::factory.createNumber(y*s));
+	axis.append(Value::factory.createNumber(z*s));
 
-	return new ComplexValue(angle,axis);
+	return Value::factory.createComplex(angle,axis);
 }
 
 Value* AngFunction::evaluate(const Context& ctx) const
@@ -60,10 +60,10 @@ Value* AngFunction::evaluate(const Context& ctx) const
 		// [x,y,z] = v1 x v2
 		Value* cross=Value::operation(vecVal1,Expression::CrossProduct,vecVal2);
 		auto* axis=dynamic_cast<VectorValue*>(cross);
-		if(!axis) return Value::undefined();
+		if(!axis) return Value::factory.createUndefined();
 
 		//Renormalise the quaternion
-		Value* q=new ComplexValue(angle,axis->getChildren());
+		Value* q=Value::factory.createComplex(angle,axis->getChildren());
 		Value* l=Value::operation(q,Expression::Length);
 		return Value::operation(q,Expression::Divide,l);
 	}
@@ -103,5 +103,5 @@ Value* AngFunction::evaluate(const Context& ctx) const
 		}
 	}
 
-	return Value::undefined();
+	return Value::factory.createUndefined();
 }

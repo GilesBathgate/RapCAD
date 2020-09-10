@@ -33,7 +33,7 @@ Value* AsinFunction::evaluate(const Context& ctx) const
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return new NumberValue(r_asin_deg(num));
+		return Value::factory.createNumber(r_asin_deg(num));
 	}
-	return Value::undefined();
+	return Value::factory.createUndefined();
 }

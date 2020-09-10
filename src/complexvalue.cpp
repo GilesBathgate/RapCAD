@@ -20,6 +20,7 @@
 #include "numbervalue.h"
 #include "booleanvalue.h"
 #include "rmath.h"
+#include "valuefactory.h"
 
 ComplexValue::ComplexValue(Value* r, const QList<Value*>& i) :
 	real(r),
@@ -69,8 +70,8 @@ Value* ComplexValue::operation(Expression::Operator_e e)
 		}
 		auto* l=dynamic_cast<NumberValue*>(n);
 		if(l)
-			return new NumberValue(r_sqrt(l->getNumber()));
-		return Value::undefined();
+			return factory.createNumber(r_sqrt(l->getNumber()));
+		return factory.createUndefined();
 	}
 	return this;
 }
@@ -135,21 +136,21 @@ Value* ComplexValue::operation(Value& v, Expression::Operator_e op)
 				i.append(y);
 				i.append(z);
 
-				return new ComplexValue(w,i);
+				return factory.createComplex(w,i);
 			} else if(op==Expression::Equal||op==Expression::NotEqual) {
 				Value* eqRe=Value::operation(real,op,c->real);
 				bool eq=eqRe->isTrue();
 				if(op==Expression::NotEqual && !eq)
-					return new BooleanValue(true);
+					return factory.createBoolean(true);
 				if(eq)
 					for(auto i=0; i<3; ++i) {
 						Value* eqIm=Value::operation(imaginary.at(i),op,c->imaginary.at(i));
 						if(op==Expression::NotEqual && eqIm->isTrue())
-							return new BooleanValue(true);
+							return factory.createBoolean(true);
 						if(eqIm->isFalse())
 							eq=false;
 					}
-				return new BooleanValue(eq);
+				return factory.createBoolean(eq);
 			}
 		}
 	}
@@ -163,9 +164,9 @@ Value* ComplexValue::operation(Value& v, Expression::Operator_e op)
 				Value* a=Value::operation(i,Expression::Divide,n);
 				result.append(a);
 			}
-			return new ComplexValue(w,result);
+			return factory.createComplex(w,result);
 		}
 	}
 
-	return Value::undefined();
+	return factory.createUndefined();
 }

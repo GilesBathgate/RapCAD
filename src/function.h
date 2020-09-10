@@ -27,6 +27,7 @@
 #include "declaration.h"
 #include "scope.h"
 #include "value.h"
+#include "valuefactory.h"
 
 class Context;
 

@@ -142,6 +142,7 @@ SOURCES += \
 	src/expression.cpp \
 	src/binaryexpression.cpp \
 	src/literal.cpp \
+	src/valuefactory.cpp \
 	src/variable.cpp \
 	src/declaration.cpp \
 	src/scope.cpp \
@@ -382,6 +383,7 @@ HEADERS  += \
 	src/expression.h \
 	src/binaryexpression.h \
 	src/literal.h \
+	src/valuefactory.h \
 	src/variable.h \
 	src/declaration.h \
 	src/scope.h \

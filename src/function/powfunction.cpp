@@ -33,5 +33,5 @@ Value* PowFunction::evaluate(const Context& ctx) const
 	if(val&&arg)
 		return Value::operation(val,Expression::Exponent,arg);
 
-	return Value::undefined();
+	return Value::factory.createUndefined();
 }

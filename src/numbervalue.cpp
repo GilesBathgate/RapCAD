@@ -19,6 +19,7 @@
 #include "numbervalue.h"
 #include "vectorvalue.h"
 #include "booleanvalue.h"
+#include "valuefactory.h"
 
 NumberValue::NumberValue(decimal value) : number(value)
 {
@@ -52,10 +53,10 @@ int NumberValue::toInteger() const
 Value* NumberValue::operation(Expression::Operator_e e)
 {
 	if(e==Expression::Invert)
-		return new BooleanValue(this->isFalse());
+		return factory.createBoolean(this->isFalse());
 
 	decimal result=basicOperation(number,e);
-	return new NumberValue(result);
+	return factory.createNumber(result);
 }
 
 Value* NumberValue::operation(Value& v, Expression::Operator_e e)
@@ -64,14 +65,14 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 	if(num) {
 		if(isComparison(e)) {
 			bool result=to_boolean(basicOperation(number,e,num->number));
-			return new BooleanValue(result);
+			return factory.createBoolean(result);
 		}
 		if(e==Expression::Divide||e==Expression::Modulus) {
 			if(num->number==0)
-				return Value::undefined();
+				return factory.createUndefined();
 		} else if(e==Expression::Exponent) {
 			if(number==0&&num->number<=0)
-				return Value::undefined();
+				return factory.createUndefined();
 		}
 
 		decimal result=basicOperation(number,e,num->number);
@@ -82,12 +83,12 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 		if(e==Expression::Concatenate) {
 			QList<Value*> r=vec->getChildren();
 			r.prepend(this);
-			return new VectorValue(r);
+			return factory.createVector(r);
 		} else if(e==Expression::Exponent) {
 			QList<Value*> result;
 			for(Value* c: vec->getChildren())
 				result.append(Value::operation(this,e,c));
-			return new VectorValue(result);
+			return factory.createVector(result);
 		} else {
 			// most operations between scalars and vectors are commutative e.g.
 			// [1,2,3]-1  is the same as 1-[1,2,3]
@@ -98,7 +99,7 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 	if(flag && isComparison(e)) {
 		//Use 0 for false and 1 for true to ensure 2>true
 		bool result=basicOperation(this->toInteger(),e,flag->isTrue()?1:0);
-		return new BooleanValue(result);
+		return factory.createBoolean(result);
 	}
 
 	return Value::operation(v,e);
