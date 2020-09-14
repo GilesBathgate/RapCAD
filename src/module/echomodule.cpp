@@ -42,7 +42,7 @@ Node* EchoModule::evaluate(const Context& ctx) const
 			output << ", ";
 		auto* t=dynamic_cast<TextValue*>(v);
 		if(t) output << "\"";
-		output << v->getValueString();
+		if(v) output << v->getValueString();
 		if(t) output << "\"";
 	}
 	output << "\n";

@@ -419,6 +419,7 @@ Primitive* CGALPrimitive::combine()
 
 Primitive* CGALPrimitive::join(Primitive* pr)
 {
+	if(!pr) return this;
 	auto* that=dynamic_cast<CGALPrimitive*>(pr);
 	if(!that) {
 		pr->appendChild(this);
@@ -433,6 +434,7 @@ Primitive* CGALPrimitive::join(Primitive* pr)
 
 Primitive* CGALPrimitive::intersection(Primitive* pr)
 {
+	if(!pr) return this;
 	auto* that=dynamic_cast<CGALPrimitive*>(pr);
 	if(!that) {
 		pr->appendChild(this);
@@ -447,6 +449,7 @@ Primitive* CGALPrimitive::intersection(Primitive* pr)
 
 Primitive* CGALPrimitive::difference(Primitive* pr)
 {
+	if(!pr) return this;
 	auto* that=dynamic_cast<CGALPrimitive*>(pr);
 	if(!that) {
 		pr->appendChild(this);
@@ -461,6 +464,7 @@ Primitive* CGALPrimitive::difference(Primitive* pr)
 
 Primitive* CGALPrimitive::symmetric_difference(Primitive* pr)
 {
+	if(!pr) return this;
 	auto* that=dynamic_cast<CGALPrimitive*>(pr);
 	if(!that) {
 		pr->appendChild(this);
@@ -475,6 +479,7 @@ Primitive* CGALPrimitive::symmetric_difference(Primitive* pr)
 
 Primitive* CGALPrimitive::minkowski(Primitive* pr)
 {
+	if(!pr) return this;
 	auto* that=dynamic_cast<CGALPrimitive*>(pr);
 	if(!that) {
 		pr->appendChild(this);

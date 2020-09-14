@@ -206,7 +206,7 @@ void CGALExport::descendChildren(Primitive* p,QXmlStreamWriter& xml)
 	auto* pr=dynamic_cast<CGALPrimitive*>(p);
 	if(pr) {
 		exportAMFObject(pr,xml);
-	} else {
+	} else if(p) {
 		for(Primitive* c: p->getChildren()) {
 			descendChildren(c,xml);
 		}

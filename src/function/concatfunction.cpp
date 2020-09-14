@@ -31,7 +31,7 @@ Value* ConcatFunction::evaluate(const Context& ctx) const
 	for(auto arg: ctx.getArguments()) {
 		Value* argVal = arg.second;
 		auto* vecVal = dynamic_cast<VectorValue*>(argVal);
-		if(!vecVal)
+		if(!vecVal&&argVal)
 			vecVal=argVal->toVector(1);
 
 		if(!val) {

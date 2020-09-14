@@ -38,7 +38,7 @@ void CGALRenderer::descendChildren(Primitive* p)
 	auto* pr=dynamic_cast<CGALPrimitive*>(p);
 	if(pr) {
 		converter::convert_to_OGLPolyhedron(pr->getNefPolyhedron(),this);
-	} else {
+	} else if(p) {
 		for(Primitive* c: p->getChildren())
 			descendChildren(c);
 	}
