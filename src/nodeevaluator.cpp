@@ -348,7 +348,10 @@ void NodeEvaluator::visit(const LinearExtrudeNode& op)
 
 		CGALExplorer explorer(result);
 		CGALPrimitive* peri=explorer.getPerimeters();
-		if(!peri) return;
+		if(!peri) {
+			delete cp;
+			return;
+		}
 
 		CGALPrimitive* prim=explorer.getPrimitive();
 		QList<CGALPolygon*> polys=prim->getCGALPolygons();
@@ -440,7 +443,10 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 
 	CGAL::Scalar phi,nphi;
 	CGALPrimitive* peri=explorer.getPerimeters();
-	if(!peri) return;
+	if(!peri) {
+		delete n;
+		return;
+	}
 
 	for(auto i=0; i<f; ++i) {
 		int j=caps?i+1:(i+1)%f;
