@@ -310,11 +310,11 @@ void GLView::drawBase()
 			glLineWidth(2);
 			glColor3f(0.6f,0.6f,0.6f);
 			glBegin(GL_LINES);
-			for(GLfloat o=0.0f; o<printWidth; o+=10.0f) {
+			for(GLint o=0; o<printWidth; o+=10) {
 				glVertex3f(printX+o,printY,z);
 				glVertex3f(printX+o,printY+printLength,z);
 			}
-			for(GLfloat j=5.0f; j<printLength; j+=10.0f) {
+			for(GLint j=5; j<printLength; j+=10) {
 				glVertex3f(printX,printY+j,z);
 				glVertex3f(printX+printWidth,printY+j,z);
 			}
@@ -323,11 +323,11 @@ void GLView::drawBase()
 			glLineWidth(4);
 			glColor3f(0.8f,0.8f,0.8f);
 			glBegin(GL_LINES);
-			for(GLfloat o=0.0f; o<printWidth; o+=50.0f) {
+			for(GLint o=0; o<printWidth; o+=50) {
 				glVertex3f(printX+o,printY,z);
 				glVertex3f(printX+o,printY+printLength,z);
 			}
-			for(GLfloat j=5.0f; j<printLength; j+=50.0f) {
+			for(GLint j=5; j<printLength; j+=50) {
 				glVertex3f(printX,printY+j,z);
 				glVertex3f(printX+printWidth,printY+j,z);
 			}
