@@ -939,18 +939,18 @@ void NodeEvaluator::visit(const VolumesNode& n)
 #ifdef USE_CGAL
 	auto* pr=static_cast<CGALPrimitive*>(result);
 	bool calcMass = n.getCalcMass();
-	CGALVolume v=pr->getVolume(calcMass);
+	const CGALVolume& v=pr->getVolume(calcMass);
 
-	CGAL::Scalar vn=v.getSize();
+	const CGAL::Scalar& vn=v.getSize();
 	QString vs=to_string(vn);
 	reporter.reportMessage(tr("Volume: %1").arg(vs));
 
-	CGAL::Point3 c=v.getCenter();
+	const CGAL::Point3& c=v.getCenter();
 
 	if(calcMass)
 		reporter.reportMessage(tr("Center of Mass: %1").arg(to_string(c)));
 
-	CGAL::Cuboid3 b=v.getBounds();
+	const CGAL::Cuboid3& b=v.getBounds();
 	CGAL::Scalar x,y,z;
 	x=b.xmax()+((b.xmax()-b.xmin())/10);
 	y=b.ymax()+((b.ymax()-b.ymin())/10);

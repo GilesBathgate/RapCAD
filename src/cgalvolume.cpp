@@ -19,24 +19,24 @@
 #ifdef USE_CGAL
 #include "cgalvolume.h"
 
-CGALVolume::CGALVolume(CGAL::Cuboid3 b,CGAL::Scalar s,CGAL::Point3 c) :
+CGALVolume::CGALVolume(const CGAL::Cuboid3& b,const CGAL::Scalar& s,const CGAL::Point3& c) :
 	bounds(b),
 	size(s),
 	centroid(c)
 {
 }
 
-CGAL::Scalar CGALVolume::getSize() const
+const CGAL::Scalar& CGALVolume::getSize() const
 {
 	return size;
 }
 
-CGAL::Point3 CGALVolume::getCenter() const
+const CGAL::Point3& CGALVolume::getCenter() const
 {
 	return centroid;
 }
 
-CGAL::Cuboid3 CGALVolume::getBounds() const
+const CGAL::Cuboid3& CGALVolume::getBounds() const
 {
 	return bounds;
 }
