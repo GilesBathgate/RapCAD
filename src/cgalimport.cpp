@@ -28,37 +28,38 @@
 #include "nodeevaluator.h"
 #include "contrib/qzipreader_p.h"
 
-CGALImport::CGALImport(Reporter& r) : reporter(r)
+CGALImport::CGALImport(const QFileInfo& f,Reporter& r) :
+	fileInfo(f),
+	reporter(r)
 {
 }
 
-Primitive* CGALImport::import(QString filename)
+Primitive* CGALImport::import() const
 {
-	QFileInfo file(filename);
-	reporter.reportMessage(tr("Importing '%1'").arg(file.absoluteFilePath()));
+	reporter.reportMessage(tr("Importing '%1'").arg(fileInfo.absoluteFilePath()));
 
-	QString suffix=file.suffix().toLower();
+	QString suffix=fileInfo.suffix().toLower();
 	if(suffix=="off")
-		return importOFF(file);
+		return importOFF();
 	if(suffix=="nef")
-		return importNEF(file);
+		return importNEF();
 	if(suffix=="stl")
-		return importSTL(file);
+		return importSTL();
 	if(suffix=="amf")
-		return importAMF(file);
+		return importAMF();
 	if(suffix=="3mf")
-		return import3MF(file);
+		return import3MF();
 	if(suffix=="rcad"||suffix=="csg")
-		return importRCAD(file);
+		return importRCAD();
 
 	reporter.reportWarning(tr("unknown import type '%1'").arg(suffix));
 	return nullptr;
 }
 
-Primitive* CGALImport::importOFF(QFileInfo fileinfo)
+Primitive* CGALImport::importOFF() const
 {
 	CGAL::Polyhedron3 poly;
-	std::ifstream file(fileinfo.absoluteFilePath().toLocal8Bit().constData());
+	std::ifstream file(fileInfo.absoluteFilePath().toLocal8Bit().constData());
 	file >> poly;
 	file.close();
 
@@ -67,10 +68,10 @@ Primitive* CGALImport::importOFF(QFileInfo fileinfo)
 	return p;
 }
 
-Primitive* CGALImport::importNEF(QFileInfo fileinfo)
+Primitive* CGALImport::importNEF() const
 {
 	CGAL::NefPolyhedron3 nef;
-	std::ifstream file(fileinfo.absoluteFilePath().toLocal8Bit().constData());
+	std::ifstream file(fileInfo.absoluteFilePath().toLocal8Bit().constData());
 	file >> nef;
 	file.close();
 
@@ -78,13 +79,13 @@ Primitive* CGALImport::importNEF(QFileInfo fileinfo)
 	return p;
 }
 
-Primitive* CGALImport::importSTL(QFileInfo fileinfo)
+Primitive* CGALImport::importSTL() const
 {
 	auto* p=new CGALPrimitive();
 	p->setSanitized(false);
-	QFile f(fileinfo.absoluteFilePath());
+	QFile f(fileInfo.absoluteFilePath());
 	if(!f.open(QIODevice::ReadOnly)) {
-		reporter.reportWarning(tr("Can't open import file '%1'").arg(fileinfo.absoluteFilePath()));
+		reporter.reportWarning(tr("Can't open import file '%1'").arg(fileInfo.absoluteFilePath()));
 		return p;
 	}
 
@@ -157,13 +158,13 @@ Primitive* CGALImport::importSTL(QFileInfo fileinfo)
 	return p;
 }
 
-Primitive* CGALImport::importAMF(QFileInfo fileinfo)
+Primitive* CGALImport::importAMF() const
 {
 	auto* p=new CGALPrimitive();
 	p->setSanitized(false);
-	QFile f(fileinfo.absoluteFilePath());
+	QFile f(fileInfo.absoluteFilePath());
 	if(!f.open(QIODevice::ReadOnly)) {
-		reporter.reportWarning(tr("Can't open import file '%1'").arg(fileinfo.absoluteFilePath()));
+		reporter.reportWarning(tr("Can't open import file '%1'").arg(fileInfo.absoluteFilePath()));
 		return p;
 	}
 
@@ -240,16 +241,16 @@ Primitive* CGALImport::importAMF(QFileInfo fileinfo)
 	return p;
 }
 
-Primitive* CGALImport::import3MF(QFileInfo fileinfo)
+Primitive* CGALImport::import3MF() const
 {
 	auto* p=new CGALPrimitive();
 	p->setSanitized(false);
-	QFile f(fileinfo.absoluteFilePath());
+	QFile f(fileInfo.absoluteFilePath());
 	if(!f.open(QIODevice::ReadOnly)) {
-		reporter.reportWarning(tr("Can't open import file '%1'").arg(fileinfo.absoluteFilePath()));
+		reporter.reportWarning(tr("Can't open import file '%1'").arg(fileInfo.absoluteFilePath()));
 		return p;
 	}
-	QZipReader zip(fileinfo.absoluteFilePath());
+	QZipReader zip(fileInfo.absoluteFilePath());
 	QByteArray data=zip.fileData("3D/3dmodel.model");
 	zip.close();
 	QXmlStreamReader xml(data);
@@ -320,10 +321,10 @@ Primitive* CGALImport::import3MF(QFileInfo fileinfo)
 	return p;
 }
 
-Primitive* CGALImport::importRCAD(QFileInfo f)
+Primitive* CGALImport::importRCAD() const
 {
 	Script s(reporter);
-	s.parse(f);
+	s.parse(fileInfo);
 	TreeEvaluator te(reporter);
 	s.accept(te);
 

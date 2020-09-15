@@ -28,16 +28,19 @@ class CGALImport
 {
 	Q_DECLARE_TR_FUNCTIONS(CGALImport)
 public:
-	explicit CGALImport(Reporter&);
-	Primitive* import(QString);
+	explicit CGALImport(const QFileInfo&,Reporter&);
+	Primitive* import() const;
 private:
+	Primitive* importOFF() const;
+	Primitive* importSTL() const;
+	Primitive* importRCAD() const;
+	Primitive* import3MF() const;
+	Primitive* importAMF() const;
+	Primitive* importNEF() const;
+
+	const QFileInfo& fileInfo;
 	Reporter& reporter;
-	Primitive* importOFF(QFileInfo);
-	Primitive* importSTL(QFileInfo);
-	Primitive* importRCAD(QFileInfo);
-	Primitive* import3MF(QFileInfo);
-	Primitive* importAMF(QFileInfo);
-	Primitive* importNEF(QFileInfo);
+
 };
 
 #endif // CGALIMPORT_H

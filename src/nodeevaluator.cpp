@@ -689,8 +689,9 @@ void NodeEvaluator::visit(const BoundaryNode& op)
 void NodeEvaluator::visit(const ImportNode& op)
 {
 #ifdef USE_CGAL
-	CGALImport i(reporter);
-	result=i.import(op.getImport());
+	const QFileInfo file(op.getImport());
+	const CGALImport i(file,reporter);
+	result=i.import();
 #else
 	result=nullptr;
 #endif
