@@ -36,12 +36,12 @@ Value* VersionFunction::evaluate(const Context&) const
 	QStringList parts=v.split(".");
 	int major=parts.at(0).toInt();
 	int minor=parts.at(1).toInt();
-	QString build=parts.at(2);
+	const QString& build=parts.at(2);
 	version.append(Value::factory.createNumber(major));
 	version.append(Value::factory.createNumber(minor));
 	if(build=="git") {
 		version.append(Value::factory.createText(build));
-		QString revision=parts.at(3);
+		const QString& revision=parts.at(3);
 		version.append(Value::factory.createText(revision));
 	} else {
 		version.append(new NumberValue(build.toInt()));

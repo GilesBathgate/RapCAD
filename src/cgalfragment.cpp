@@ -42,7 +42,7 @@ int CGALFragment::getFragments(const CGAL::Scalar& r)
 	if(fa > 0)
 		fa=CGAL::Scalar(360.0) / fa;
 
-	CGAL::Scalar f=std::min(fa,fs);
+	const CGAL::Scalar& f=std::min(fa,fs);
 	return std::max(int(ceil(to_double(f))),5);
 }
 #endif

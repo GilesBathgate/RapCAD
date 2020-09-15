@@ -49,7 +49,7 @@ QList<CGAL::Point2> CGALPolygon::getProjectedPoints()
 	auto& pr=static_cast<const CGALPrimitive&>(parent);
 	QList<CGAL::Point3> parentPoints=pr.getPoints();
 	for(auto i: indexes) {
-		CGAL::Point3 p3=parentPoints.at(i);
+		const CGAL::Point3& p3=parentPoints.at(i);
 		points.append(pro->project(p3));
 	}
 	return points;
