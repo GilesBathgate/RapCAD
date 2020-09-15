@@ -21,7 +21,7 @@
 #include "vectorvalue.h"
 #include "numbervalue.h"
 #include "rmath.h"
-#include <time.h>
+#include <ctime>
 
 RandFunction::RandFunction() : Function("rands")
 {

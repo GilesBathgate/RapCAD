@@ -17,7 +17,7 @@
  */
 
 #include <QApplication>
-#include <math.h>
+#include <cmath>
 #include "glview.h"
 #ifdef USE_QGLWIDGET
 #include <CGAL/glu.h>
