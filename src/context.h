@@ -87,7 +87,7 @@ private:
 	Scope* currentScope;
 	Value* matchArgumentIndex(bool,bool,int,const QString&) const;
 	Value* matchArgument(bool,bool,const QString&) const;
-	bool match(bool,bool,const QString&,const QString&) const;
+	static bool match(bool,bool,const QString&,const QString&);
 	QHash<QString,Value*> variables;
 };
 

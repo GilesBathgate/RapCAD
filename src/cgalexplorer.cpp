@@ -56,7 +56,7 @@ class ShellExplorer
 	typedef Nef::Vertex_const_handle VertexHandle;
 	typedef Nef::SVertex_const_handle SVertexHandle;
 
-	HalfEdgeHandle getID(HalfEdgeHandle h)
+	static HalfEdgeHandle getID(HalfEdgeHandle h)
 	{
 		HalfEdgeHandle t=h->twin();
 		return h<t?h:t;

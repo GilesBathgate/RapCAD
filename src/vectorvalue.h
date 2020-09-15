@@ -41,7 +41,7 @@ protected:
 	Value* operation(Expression::Operator_e) override;
 	Value* operation(Value&,Expression::Operator_e) override;
 private:
-	Expression::Operator_e convertOperation(Expression::Operator_e);
+	static Expression::Operator_e convertOperation(Expression::Operator_e);
 	QList<Value*> children;
 };
 

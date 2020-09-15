@@ -90,7 +90,7 @@ private:
 	void mouseReleaseEvent(QMouseEvent* event) override;
 	void wheelEvent(QWheelEvent* event) override;
 
-	void normalizeAngle(GLfloat&);
+	static void normalizeAngle(GLfloat&);
 	void zoomView(float);
 	void drawGradientBackground();
 	void drawAxes();

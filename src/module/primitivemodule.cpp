@@ -21,11 +21,11 @@
 #include "context.h"
 #include "numbervalue.h"
 
-PrimitiveModule::PrimitiveModule(Reporter& r, const QString &n) : Module(r,n)
+PrimitiveModule::PrimitiveModule(Reporter& r, const QString& n) : Module(r,n)
 {
 }
 
-QList<Point> PrimitiveModule::getCircle(const decimal& r,const decimal& f,const decimal& z) const
+QList<Point> PrimitiveModule::getCircle(const decimal& r,const decimal& f,const decimal& z)
 {
 	QList<Point> circle;
 	for(auto i=0; i<f; ++i) {

@@ -29,12 +29,12 @@ class Interactive : public QObject,public Strategy
 	Q_OBJECT
 public:
 	Interactive(Reporter&, QObject* parent=nullptr);
-	QString getPrompt() const;
+	static QString getPrompt();
 	int evaluate() override;
 public slots:
 	void execCommand(const QString&);
 private:
-	bool isExpression(const QString& s);
+	static bool isExpression(const QString& s);
 };
 
 #endif // INTERACTIVE_H

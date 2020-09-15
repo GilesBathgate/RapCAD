@@ -91,7 +91,7 @@ private:
 	void buildPrimitive();
 	CGAL::NefPolyhedron3* createVolume();
 	CGAL::NefPolyhedron3* createPolyline();
-	CGAL::NefPolyhedron3* createPolyline(QVector<CGAL::Point3>);
+	static CGAL::NefPolyhedron3* createPolyline(QVector<CGAL::Point3>);
 	CGAL::NefPolyhedron3* createPoints();
 
 	/**

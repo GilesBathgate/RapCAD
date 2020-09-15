@@ -51,7 +51,7 @@ private slots:
 	void grabFrameBuffer();
 	void showPreferences();
 	void disableRulers(bool);
-	void enableCaches(bool);
+	static void enableCaches(bool);
 	void clipboardDataChanged();
 	bool maybeSave(bool);
 	void newFile();
@@ -73,12 +73,12 @@ private slots:
 	void copy();
 	void paste();
 	void tabChanged(int);
-	void print();
-	void showAbout();
+	static void print();
+	static void showAbout();
 	void showAboutQt();
 	void showBuiltins();
-	void showUserGuide();
-	void flushCaches();
+	static void showUserGuide();
+	static void flushCaches();
 	void sendToCAM();
 	void exportFile(const QString&);
 	void preferencesUpdated();

@@ -53,7 +53,7 @@ protected:
 	bool print;
 	bool generate;
 private:
-	QList<Argument*> getArgs(decimal);
+	static QList<Argument*> getArgs(decimal);
 	void primary();
 	void generation();
 	decimal getBoundsHeight() const;

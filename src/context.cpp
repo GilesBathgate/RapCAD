@@ -292,7 +292,7 @@ Value* Context::matchArgument(bool allowChar,bool matchLast, const QString& name
 	return nullptr;
 }
 
-bool Context::match(bool allowChar,bool matchLast, const QString& a,const QString& n) const
+bool Context::match(bool allowChar,bool matchLast, const QString& a,const QString& n)
 {
 	if(allowChar) {
 		if(matchLast&&a.length()==2)

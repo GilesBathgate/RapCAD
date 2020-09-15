@@ -30,7 +30,7 @@ class PrimitiveModule : public Module
 public:
 	PrimitiveModule(Reporter&, const QString&);
 protected:
-	QList<Point> getCircle(const decimal&,const decimal&,const decimal&) const;
+	static QList<Point> getCircle(const decimal&,const decimal&,const decimal&);
 	QList<Point> getPolygon(const decimal&,const decimal&,const decimal&,const decimal&) const;
 };
 

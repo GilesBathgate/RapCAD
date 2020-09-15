@@ -37,7 +37,7 @@ private:
 	void writePass();
 	void writeFail();
 	void writeSkip();
-	bool testFunctionExists(Script&);
+	static bool testFunctionExists(Script&);
 	void testModule(Script&, QFileInfo);
 	void testFunction(Script&);
 	void exportTest(const QDir&);

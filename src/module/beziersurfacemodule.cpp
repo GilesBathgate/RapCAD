@@ -29,22 +29,22 @@ BezierSurfaceModule::BezierSurfaceModule(Reporter& r) : Module(r,"bezier_surface
 	addParameter("mesh",tr("A 4 by 4 matrix of points."));
 }
 
-decimal BezierSurfaceModule::bez03(const decimal& u) const
+decimal BezierSurfaceModule::bez03(const decimal& u)
 {
 	return r_pow((1-u), 3);
 }
 
-decimal BezierSurfaceModule::bez13(const decimal& u) const
+decimal BezierSurfaceModule::bez13(const decimal& u)
 {
 	return 3*u*(r_pow((1-u),2));
 }
 
-decimal BezierSurfaceModule::bez23(const decimal& u) const
+decimal BezierSurfaceModule::bez23(const decimal& u)
 {
 	return 3*(r_pow(u,2))*(1-u);
 }
 
-decimal BezierSurfaceModule::bez33(const decimal& u) const
+decimal BezierSurfaceModule::bez33(const decimal& u)
 {
 	return r_pow(u,3);
 }

@@ -67,7 +67,7 @@ void Interactive::execCommand(const QString& str)
 
 #define PROMPT "\u042F: "
 
-QString Interactive::getPrompt() const
+QString Interactive::getPrompt()
 {
 	return PROMPT;
 }

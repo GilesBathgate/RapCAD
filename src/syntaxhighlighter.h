@@ -30,7 +30,7 @@ class SyntaxHighlighter : public QSyntaxHighlighter, private AbstractTokenBuilde
 public:
 	explicit SyntaxHighlighter(QTextDocument* parent = nullptr);
 	void setModuleNames(const QHash<QString,Module*>&);
-	void stop();
+	static void stop();
 protected:
 	void highlightBlock(const QString& text) override;
 private:

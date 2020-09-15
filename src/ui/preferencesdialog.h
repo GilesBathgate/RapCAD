@@ -39,7 +39,7 @@ private slots:
 	void colorButtonPressed(QWidget*);
 	void vertexSizeChanged(double);
 	void edgeSizeChanged(double);
-	void autoSaveOnCompileChanged(int);
+	static void autoSaveOnCompileChanged(int);
 	void showTooltipsChanged(int);
 	void placesChanged(int);
 	void bitsChanged(int);
@@ -57,7 +57,7 @@ private slots:
 private:
 	Ui::Preferences* ui;
 	void setupWidgets();
-	void setColor(QWidget*,QColor);
+	static void setColor(QWidget*,QColor);
 	void setupButtons();
 	QSignalMapper* signalMapper;
 	void updatePrecision();

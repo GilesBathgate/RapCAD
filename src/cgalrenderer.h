@@ -34,7 +34,7 @@ public:
 	void preferencesUpdated() override;
 	void setCompiling(bool) override;
 private:
-	void setColor(CGAL::Color&,QColor);
+	static void setColor(CGAL::Color&,QColor);
 	CGAL::Color getVertexColor(bool mark) const override;
 	CGAL::Color getEdgeColor(bool mark) const override;
 	CGAL::Color getFacetColor(bool mark) const override;
