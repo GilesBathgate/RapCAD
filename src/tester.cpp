@@ -265,8 +265,7 @@ void Tester::builtinsTest()
 
 void Tester::handleSaveItemsDialog()
 {
-	for(int i=0; i<10; ++i)
-	{
+	for(int i=0; i<10; ++i) {
 		QDialog* sd=ui->findChild<QDialog*>("SaveItemsDialog");
 		if(sd) {
 			sd->activateWindow();
@@ -289,40 +288,40 @@ void Tester::exportTest(const QDir& dir)
 		NodeEvaluator ne(r);
 		Node* n=te.getRootNode();
 		n->accept(ne);
+		Primitive* p=ne.getResult();
 #if USE_CGAL
 		QDir path(file.absolutePath());
-		QString origPath(path.filePath(file.baseName()+".csg"));
 
-		CGALExport e(ne.getResult(),r);
-		QFile origFile(origPath);
-		e.exportResult(origPath);
+		const QFileInfo origPath(path.filePath(file.baseName()+".csg"));
+		const CGALExport e(origPath,p,r);
+		e.exportResult();
 
-		exportTest(e,origPath,file,".stl");
-		exportTest(e,origPath,file,".off");
-		exportTest(e,origPath,file,".amf");
-		exportTest(e,origPath,file,".3mf");
-		exportTest(e,origPath,file,".nef");
+		exportTest(p,origPath,file,".stl");
+		exportTest(p,origPath,file,".off");
+		exportTest(p,origPath,file,".amf");
+		exportTest(p,origPath,file,".3mf");
+		exportTest(p,origPath,file,".nef");
 
-		origFile.remove();
+		QFile::remove(origPath.absoluteFilePath());
+		delete p;
 		delete n;
 #endif
 	}
 }
 
 #if USE_CGAL
-void Tester::exportTest(CGALExport& e,const QString& origPath,QFileInfo file,const QString& ext)
+void Tester::exportTest(Primitive* p,const QFileInfo& origPath,const QFileInfo& file,const QString& ext)
 {
 	QString newName=file.baseName()+ext;
 
 	writeHeader(newName,++testcount);
 
 	QDir path(file.absolutePath());
-	QString newPath(path.filePath(newName));
-	QFile newfile(newPath);
-
-	e.exportResult(newPath);
+	const QFileInfo newPath(path.filePath(newName));
+	const CGALExport e(newPath,p,*nullreport);
+	e.exportResult();
 	Comparer c(*nullreport);
-	c.setup(origPath,newPath);
+	c.setup(origPath.absoluteFilePath(),newPath.absoluteFilePath());
 	c.evaluate();
 	if(c.evaluate()==0) {
 		writePass();
@@ -331,7 +330,8 @@ void Tester::exportTest(CGALExport& e,const QString& origPath,QFileInfo file,con
 		writeFail();
 		failcount++;
 	}
-	newfile.remove();
+
+	QFile::remove(newPath.absoluteFilePath());
 }
 #endif
 

@@ -28,23 +28,25 @@ class CGALExport
 {
 	Q_DECLARE_TR_FUNCTIONS(CGALExport)
 public:
-	CGALExport(Primitive*,Reporter&);
-	void exportResult(const QString&);
+	CGALExport(const QFileInfo&,Primitive*,Reporter&);
+	void exportResult() const;
 private:
-	void exportOFF(const QString&);
-	void exportAsciiSTL(const QString&);
-	void exportVRML(const QString&);
-	void exportOBJ(const QString&);
-	void exportAMF(const QString&);
-	void export3MF(const QString&);
-	void exportCSG(const QString&);
-	void exportNEF(const QString&);
-	void exportSVG(const QString&);
+	void exportOFF() const;
+	void exportAsciiSTL() const;
+	void exportVRML() const;
+	void exportOBJ() const;
+	void exportAMF() const;
+	void export3MF() const;
+	void exportCSG() const;
+	void exportNEF() const;
+	void exportSVG() const;
+	void exportAMFObject(CGALPrimitive* p, QXmlStreamWriter& xml) const;
+	void descendChildren(Primitive* p, QXmlStreamWriter& xml) const;
+
 	Reporter& reporter;
 	Primitive* primitive;
-	void exportAMFObject(CGALPrimitive* p, QXmlStreamWriter& xml);
-	void descendChildren(Primitive* p, QXmlStreamWriter& xml);
-	int id;
+	const QFileInfo& fileInfo;
+	mutable int id;
 };
 
 #endif // CGALEXPORT_H

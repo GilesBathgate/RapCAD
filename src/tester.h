@@ -42,7 +42,7 @@ private:
 	void testFunction(Script&);
 	void exportTest(const QDir&);
 #if USE_CGAL
-	void exportTest(class CGALExport&,const QString&,QFileInfo,const QString&);
+	void exportTest(Primitive* p,const QFileInfo&,const QFileInfo&,const QString&);
 #endif
 	void builtinsTest();
 	void consoleTest();

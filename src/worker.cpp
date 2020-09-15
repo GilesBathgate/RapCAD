@@ -211,8 +211,9 @@ void Worker::exportResult(const QString& fileName)
 	reporter.startTiming();
 
 	try {
-		CGALExport exporter(primitive,reporter);
-		exporter.exportResult(fileName);
+		const QFileInfo file(fileName);
+		const CGALExport exporter(file,primitive,reporter);
+		exporter.exportResult();
 	} catch(const CGAL::Failure_exception& e) {
 		resultFailed(QString::fromStdString(e.what()));
 	}
