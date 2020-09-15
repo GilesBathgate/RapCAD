@@ -82,8 +82,7 @@ struct FaceInfo {
 	int nestingLevel;
 };
 
-struct VertexInfo
-{
+struct VertexInfo {
 	VertexInfo() : index(-1) {}
 
 	bool isValid()
@@ -140,23 +139,23 @@ void insert_constraint(CT& ct,PointIterator first, PointIterator last, bool clos
 	typedef typename CT::Vertex_handle VertexHandle;
 	typedef typename CT::Geom_traits::Point_2 Point;
 
-	if(first == last){
+	if(first == last) {
 		return;
 	}
 	const Point& p0 = *first;
 	Point p = p0;
 	VertexHandle v0 = ct.insert(p0), v(v0), w(v0);
 	++first;
-	for(; first!=last; ++first){
+	for(; first!=last; ++first) {
 		const Point& q = *first;
-		if(p != q){
+		if(p != q) {
 			w = ct.insert(q);
 			ct.insert_constraint(v,w);
 			v = w;
 			p = q;
 		}
 	}
-	if(close && (p != p0)){
+	if(close && (p != p0)) {
 		ct.insert(w,v0);
 	}
 }
@@ -176,10 +175,8 @@ bool CGALBuilder::triangulate()
 
 	QList<CGAL::Point3> points3=primitive.getPoints();
 	int total=points3.size();
-	if(total<3)
-		return false;
-	else if(total==3)
-		return true;
+	if(total<3) return false;
+	if(total==3) return true;
 
 	CT ct;
 	TDS::size_type count=0;

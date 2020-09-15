@@ -88,7 +88,6 @@ QList<Point> PrimitiveModule::getPolygon(const decimal& a,const decimal& r,const
 			poly.append(Point(x,y,z));
 		}
 		return poly;
-	} else {
-		return getCircle(r,n,z);
 	}
+	return getCircle(r,n,z);
 }

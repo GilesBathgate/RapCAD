@@ -271,7 +271,8 @@ bool CodeEditor::event(QEvent* event)
 			QToolTip::hideText();
 		}
 		return true;
-	} else if(event->type()==QEvent::KeyPress) {
+	}
+	if(event->type()==QEvent::KeyPress) {
 		QToolTip::hideText();
 	}
 	return QPlainTextEdit::event(event);

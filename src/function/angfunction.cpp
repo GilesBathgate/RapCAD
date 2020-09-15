@@ -89,22 +89,22 @@ Value* AngFunction::evaluate(const Context& ctx) const
 			}
 		}
 		return getResult(a,x,y,z);
-	} else {
-		NumberValue* xVal=dynamic_cast<NumberValue*>(ctx.getArgument(0,"x"));
-		if(xVal) {
-			a=xVal->getNumber();
-			return getResult(a,1.0,0.0,0.0);
-		}
-		NumberValue* yVal=dynamic_cast<NumberValue*>(ctx.getArgument(0,"y"));
-		if(yVal) {
-			a=yVal->getNumber();
-			return getResult(a,0.0,1.0,0.0);
-		}
-		NumberValue* zVal=dynamic_cast<NumberValue*>(ctx.getArgument(0,"z"));
-		if(zVal) {
-			a=zVal->getNumber();
-			return getResult(a,0.0,0.0,1.0);
-		}
+	}
+
+	NumberValue* xVal=dynamic_cast<NumberValue*>(ctx.getArgument(0,"x"));
+	if(xVal) {
+		a=xVal->getNumber();
+		return getResult(a,1.0,0.0,0.0);
+	}
+	NumberValue* yVal=dynamic_cast<NumberValue*>(ctx.getArgument(0,"y"));
+	if(yVal) {
+		a=yVal->getNumber();
+		return getResult(a,0.0,1.0,0.0);
+	}
+	NumberValue* zVal=dynamic_cast<NumberValue*>(ctx.getArgument(0,"z"));
+	if(zVal) {
+		a=zVal->getNumber();
+		return getResult(a,0.0,0.0,1.0);
 	}
 
 	return Value::factory.createUndefined();

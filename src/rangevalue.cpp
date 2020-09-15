@@ -101,7 +101,8 @@ Value* RangeValue::operation(Expression::Operator_e op)
 {
 	if(op==Expression::Invert) {
 		return factory.createRange(finish,step,start);
-	} else if(op==Expression::Length) {
+	}
+	if(op==Expression::Length) {
 		Value* size=Value::operation(finish,Expression::Subtract,start);
 		size=Value::operation(size,op);
 		return Value::operation(size,Expression::Increment);
@@ -137,17 +138,20 @@ Value* RangeValue::operation(Value& v, Expression::Operator_e op)
 		if(op==Expression::Equal) {
 			bool result=compare(a,op,c)&&compare(b,op,d);
 			return factory.createBoolean(result);
-		} else if(op==Expression::NotEqual) {
+		}
+		if(op==Expression::NotEqual) {
 			bool result=compare(a,op,c)||compare(b,op,d);
 			return factory.createBoolean(result);
-		} else if(op==Expression::Add||op==Expression::Subtract) {
+		}
+		if(op==Expression::Add||op==Expression::Subtract) {
 
 			Value* lower=Value::operation(a,op,c);
 			Value* upper=Value::operation(b,op,d);
 
 			return factory.createRange(lower,nullptr,upper);
 
-		} else if(op==Expression::Multiply||op==Expression::Divide) {
+		}
+		if(op==Expression::Multiply||op==Expression::Divide) {
 
 			Value* ac=Value::operation(a,op,c);
 			Value* ad=Value::operation(a,op,d);
@@ -162,8 +166,8 @@ Value* RangeValue::operation(Value& v, Expression::Operator_e op)
 			Value* upper=compareAll(vals,Expression::GreaterThan);
 
 			return factory.createRange(lower,nullptr,upper);
-
-		} else if(op==Expression::Concatenate) {
+		}
+		if(op==Expression::Concatenate) {
 
 			QList<Value*> vals;
 			vals.append(start);

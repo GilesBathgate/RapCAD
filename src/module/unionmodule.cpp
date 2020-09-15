@@ -34,9 +34,9 @@ Node* UnionModule::createUnion(const QList<Node*>& childnodes)
 {
 	if(childnodes.size()==1) {
 		return childnodes.at(0);
-	} else {
-		auto* u=new UnionNode();
-		u->setChildren(childnodes);
-		return u;
 	}
+
+	auto* u=new UnionNode();
+	u->setChildren(childnodes);
+	return u;
 }

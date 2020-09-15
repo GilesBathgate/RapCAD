@@ -43,8 +43,8 @@ Value* TextValue::toNumber()
 	decimal n=to_decimal(text,&ok);
 	if(ok)
 		return factory.createNumber(n);
-	else
-		return factory.createUndefined();
+
+	return factory.createUndefined();
 }
 
 ValueIterator* TextValue::createIterator()
@@ -71,9 +71,8 @@ Value* TextValue::operation(Value& v,Expression::Operator_e e)
 	if(that) {
 		if(isComparison(e)) {
 			return factory.createBoolean(operation(this,e,that));
-		} else {
-			return factory.createText(operation(this->text,e,that->text));
 		}
+		return factory.createText(operation(this->text,e,that->text));
 	}
 
 	auto* num=dynamic_cast<NumberValue*>(&v);

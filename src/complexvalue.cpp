@@ -140,7 +140,8 @@ Value* ComplexValue::operation(Value& v, Expression::Operator_e op)
 				i.append(z);
 
 				return factory.createComplex(w,i);
-			} else if(op==Expression::Equal||op==Expression::NotEqual) {
+			}
+			if(op==Expression::Equal||op==Expression::NotEqual) {
 				Value* eqRe=Value::operation(real,op,c->real);
 				bool eq=eqRe->isTrue();
 				if(op==Expression::NotEqual && !eq)

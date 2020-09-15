@@ -529,8 +529,8 @@ QFileInfo TreeEvaluator::getFullPath(const QString& file)
 {
 	if(!importLocations.isEmpty())
 		return QFileInfo(importLocations.top(),file);
-	else
-		return QFileInfo(file); /* relative to working dir */
+
+	return QFileInfo(file); /* relative to working dir */
 }
 
 void TreeEvaluator::visit(const ModuleImport& mi)

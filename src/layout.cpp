@@ -51,7 +51,8 @@ const Function* Layout::lookupFunction(const QString& name) const
 {
 	if(functions.contains(name)) {
 		return functions.value(name);
-	} else if(parent) {
+	}
+	if(parent) {
 		return parent->lookupFunction(name);
 	}
 
@@ -89,7 +90,8 @@ bool Layout::inScope(Scope* sc) const
 {
 	if(sc==scope)
 		return true;
-	else if(parent)
+
+	if(parent)
 		return parent->inScope(sc);
 
 	return false;

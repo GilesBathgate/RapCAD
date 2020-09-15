@@ -319,14 +319,12 @@ int CGALPrimitive::findIndex(const CGAL::Point3& p)
 	/* Using pointMap.find allows to check whether the map contains the value
 	 * whilst also providing a way to access it instead of doing two lookups */
 	const auto& it=pointMap.find(p);
-	if(it!=pointMap.end()) {
-		return *it;
-	} else {
-		int i=points.size();
-		pointMap.insert(p,i);
-		createVertex(p);
-		return i;
-	}
+	if(it!=pointMap.end()) return *it;
+
+	int i=points.size();
+	pointMap.insert(p,i);
+	createVertex(p);
+	return i;
 }
 
 void CGALPrimitive::addVertex(const CGAL::Point3& p,bool direction)

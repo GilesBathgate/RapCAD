@@ -32,21 +32,18 @@ IsVecFunction::IsVecFunction(int s) :
 Value* IsVecFunction::evaluate(const Context& ctx) const
 {
 	auto* vec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
-	if(!vec) {
-		return Value::factory.createBoolean(false);
-	} else {
+	if(vec) {
 		QList<Value*> vals=vec->getChildren();
-		if(vals.count()!=size) {
-			return Value::factory.createBoolean(false);
-		} else {
+		if(vals.count()==size) {
 			for(Value* v: vals) {
 				auto* numVal=dynamic_cast<NumberValue*>(v);
 				if(!numVal) {
 					return Value::factory.createBoolean(false);
 				}
 			}
+			return Value::factory.createBoolean(true);
 		}
 	}
 
-	return Value::factory.createBoolean(true);
+	return Value::factory.createBoolean(false);
 }

@@ -97,34 +97,40 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Re
 
 	inputFiles=p.positionalArguments();
 	QString inputFile;
-	if(!inputFiles.isEmpty())
+	if(!inputFiles.isEmpty()) {
 		inputFile=inputFiles.at(0);
+	}
 
 	if(p.isSet(compareOption)) {
 		auto* c=new Comparer(reporter);
 		c->setup(inputFile,p.value(compareOption));
 		return c;
+	}
 #ifdef USE_INTEGTEST
-	} else if(p.isSet(testOption)) {
+	if(p.isSet(testOption)) {
 		showVersion(reporter.output);
 		return new Tester(reporter,p.value(testOption));
-	} else if(p.isSet(generateOption)) {
+	}
+	if(p.isSet(generateOption)) {
 		return new Generator(reporter);
+	}
 #endif
-	} else if(p.isSet(outputOption)) {
+	if(p.isSet(outputOption)) {
 		auto* w=new Worker(reporter);
 		w->setup(inputFile,p.value(outputOption),false,false);
 		return w;
-	} else if(p.isSet(printOption)) {
+	}
+	if(p.isSet(printOption)) {
 		auto* w=new Worker(reporter);
 		w->setup(inputFile,"",true,false);
 		return w;
+	}
 #ifdef USE_READLINE
-	} else if(p.isSet(interactOption)) {
+	if(p.isSet(interactOption)) {
 		showVersion(reporter.output);
 		return new Interactive(reporter);
-#endif
 	}
+#endif
 	return nullptr;
 }
 

@@ -158,7 +158,8 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			result.append(z);
 			return factory.createVector(result);
 
-		} else if(e==Expression::Multiply||e==Expression::DotProduct) {
+		}
+		if(e==Expression::Multiply||e==Expression::DotProduct) {
 			int s=std::min(a.size(),b.size());
 			if(s<=0)
 				return factory.createUndefined();
@@ -168,10 +169,12 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 				total=Value::operation(total,Expression::Add,r);
 			}
 			return total;
-		} else if(e==Expression::Divide) {
+		}
+		if(e==Expression::Divide) {
 			//TODO vector division?
 			return factory.createUndefined();
-		} else if(e==Expression::Length) {
+		}
+		if(e==Expression::Length) {
 			Value* a=Value::operation(this,Expression::Multiply,this);
 			Value* b=Value::operation(&v,Expression::Multiply,&v);
 			Value* n=Value::operation(a,Expression::Multiply,b);
@@ -179,7 +182,8 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			if(l)
 				return factory.createNumber(r_sqrt(l->getNumber()));
 			return factory.createUndefined();
-		} else if(e==Expression::Concatenate) {
+		}
+		if(e==Expression::Concatenate) {
 			result=a;
 			result.append(b);
 		} else if(e==Expression::Equal||e==Expression::NotEqual) {
