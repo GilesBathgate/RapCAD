@@ -257,7 +257,7 @@ void CGALBuilder::buildOffsetPolygons(const CGAL::Scalar& amount)
 
 	primitive.clear();
 
-	for(PolygonPtr ptr: offsetPolys) {
+	for(const auto& ptr: offsetPolys) {
 		if(!first()) {
 			primitive.createPolygon();
 			for(auto vi=ptr->vertices_begin(); vi!=ptr->vertices_end(); ++vi) {

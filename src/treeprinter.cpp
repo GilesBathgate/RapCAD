@@ -461,7 +461,7 @@ void TreePrinter::visit(Script& sc)
 	for(Declaration* d: sc.getDeclarations())
 		d->accept(*this);
 
-	for(QList<CodeDoc*> docs: sc.getDocumentation()) {
+	for(const auto& docs: sc.getDocumentation()) {
 		result << "/**\n";
 
 		for(CodeDoc* doc: docs)

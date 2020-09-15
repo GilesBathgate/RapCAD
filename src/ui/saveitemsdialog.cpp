@@ -37,7 +37,7 @@ SaveItemsDialog::SaveItemsDialog(QWidget* parent, bool compiling, const QList<QS
 	saveButton->setFocus(Qt::TabFocusReason);
 	saveButton->setMinimumWidth(130); // bad magic number to avoid resizing of button
 
-	for(QString fileName: items) {
+	for(const auto& fileName: items) {
 		QString visibleName;
 		QString directory;
 		if(fileName.isEmpty()) {

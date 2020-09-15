@@ -141,7 +141,7 @@ int Tester::evaluate()
 	QDir testDir(directory);
 	/* This hard coded filter need to be addressed
 	 * but it will do for now. */
-	for(QFileInfo entry: testDir.entryInfoList(QStringList("*_*"))) {
+	for(const auto& entry: testDir.entryInfoList(QStringList("*_*"))) {
 
 		QDir dir(entry.absoluteFilePath());
 		QString testDir=entry.fileName();
@@ -152,7 +152,7 @@ int Tester::evaluate()
 			continue;
 		}
 
-		for(QFileInfo file: dir.entryInfoList(QStringList("*.rcad"), QDir::Files)) {
+		for(const auto& file: dir.entryInfoList(QStringList("*.rcad"), QDir::Files)) {
 
 			writeHeader(file.fileName(),++testcount);
 
@@ -280,7 +280,7 @@ void Tester::handleSaveItemsDialog()
 void Tester::exportTest(const QDir& dir)
 {
 	Reporter& r=*nullreport;
-	for(QFileInfo file: dir.entryInfoList(QStringList("*.rcad"), QDir::Files)) {
+	for(const auto& file: dir.entryInfoList(QStringList("*.rcad"), QDir::Files)) {
 		Script s(r);
 		s.parse(file);
 		TreeEvaluator te(r);

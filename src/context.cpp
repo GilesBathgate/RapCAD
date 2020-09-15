@@ -146,7 +146,7 @@ void Context::setVariablesFromArguments()
 		QString paramName=param.first;
 		Value* paramVal=param.second;
 		bool found=false;
-		for(auto arg: arguments) {
+		for(const auto& arg: arguments) {
 			QString argName=arg.first;
 			Value* argVal=arg.second;
 			if(argVal->isDefined()&&argName==paramName) {
@@ -176,7 +176,7 @@ QList<QPair<QString,Value*>> Context::getArguments() const
 QList<Value*> Context::getArgumentValues() const
 {
 	QList<Value*> values;
-	for(auto arg: arguments)
+	for(const auto& arg: arguments)
 		values.append(arg.second);
 	return values;
 }
@@ -283,7 +283,7 @@ Value* Context::matchArgumentIndex(bool allowChar,bool matchLast, int index, con
 
 Value* Context::matchArgument(bool allowChar,bool matchLast, const QString& name) const
 {
-	for(auto namedArg: arguments) {
+	for(const auto& namedArg: arguments) {
 		QString namedArgName = namedArg.first;
 		if(match(allowChar,matchLast,namedArgName,name))
 			return namedArg.second;

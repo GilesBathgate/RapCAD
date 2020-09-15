@@ -28,7 +28,7 @@ ConcatFunction::ConcatFunction() : Function("concat")
 Value* ConcatFunction::evaluate(const Context& ctx) const
 {
 	VectorValue* val=nullptr;
-	for(auto arg: ctx.getArguments()) {
+	for(const auto& arg: ctx.getArguments()) {
 		Value* argVal = arg.second;
 		auto* vecVal = dynamic_cast<VectorValue*>(argVal);
 		if(!vecVal&&argVal)

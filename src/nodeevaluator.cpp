@@ -826,7 +826,7 @@ void NodeEvaluator::visit(const PointsNode& n)
 	cp->createPolygon();
 	if(points.count()==0)
 		cp->createVertex(Point(0,0,0));
-	for(Point p: points)
+	for(const auto& p: points)
 		cp->createVertex(p);
 	result=cp;
 }

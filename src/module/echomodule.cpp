@@ -36,7 +36,7 @@ Node* EchoModule::evaluate(const Context& ctx) const
 	auto args=ctx.getArguments();
 
 	OnceOnly first;
-	for(auto a: args) {
+	for(const auto& a: args) {
 		Value* v=a.second;
 		if(!first())
 			output << ", ";

@@ -138,7 +138,7 @@ void TreeEvaluator::visit(const Instance& inst)
 
 		/* Pull the arguments in that we evaluated previously into this
 		 * context */
-		for(auto a: arguments)
+		for(const auto& a: arguments)
 			context->addArgument(a);
 
 		for(Parameter* p: mod->getParameters())
@@ -491,7 +491,7 @@ void TreeEvaluator::visit(const Invocation& stmt)
 
 		/* Pull the arguments in that we evaluated previously into this
 		 * context */
-		for(auto a: arguments)
+		for(const auto& a: arguments)
 			context->addArgument(a);
 
 		for(Parameter* p: func->getParameters())

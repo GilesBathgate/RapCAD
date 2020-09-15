@@ -214,7 +214,7 @@ Primitive* SimpleTextBuilder::buildPrimitive() const
 	decimal z=location.z();
 	for(QChar c: text) {
 		Letter ch=characters->value(c);
-		for(Stroke p: ch) {
+		for(const auto& p: ch) {
 			Polygon* pg=ph->createPolygon();
 			for(const auto& pt: p) {
 				decimal cx=pt.x();

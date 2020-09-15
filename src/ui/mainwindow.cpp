@@ -469,7 +469,7 @@ void MainWindow::closeEvent(QCloseEvent* e)
 void MainWindow::loadFiles(const QStringList& filenames)
 {
 	int i=0;
-	for(QString file: filenames) {
+	for(const auto& file: filenames) {
 		CodeEditor* e=currentEditor();
 		if(e->getFileName().isEmpty()) {
 			e->loadFile(file);
