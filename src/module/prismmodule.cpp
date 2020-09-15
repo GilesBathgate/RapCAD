@@ -48,7 +48,8 @@ Node* PrismModule::evaluate(const Context& ctx) const
 	if(h==0||s<=0)
 		return pn;
 
-	decimal r=1.0,a=1.0;
+	decimal r=1.0;
+	decimal a=1.0;
 	auto* apothemVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));
 	if(apothemVal) {
 		a=apothemVal->getNumber();
@@ -66,9 +67,8 @@ Node* PrismModule::evaluate(const Context& ctx) const
 	if(centerVal)
 		center=centerVal->isTrue();
 
-	decimal z1,z2;
-	z1 = 0.0;
-	z2 = h;
+	decimal z1=0.0;
+	decimal z2=h;
 
 	QList<Point> p1=getPolygon(a,r,s,z1);
 	QList<Point> p2=getPolygon(a,r,s,z2);

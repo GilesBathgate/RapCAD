@@ -30,7 +30,8 @@ QList<Point> PrimitiveModule::getCircle(const decimal& r,const decimal& f,const 
 	QList<Point> circle;
 	for(auto i=0; i<f; ++i) {
 		decimal phi = (r_tau()*i) / f;
-		decimal x,y;
+		decimal x;
+		decimal y;
 		if(r > 0) {
 			x = r*r_cos(phi);
 			y = r*r_sin(phi);
@@ -50,7 +51,8 @@ QList<Point> PrimitiveModule::getPolygon(const decimal& a,const decimal& r,const
 	QList<Point> poly;
 	if(n==6) {
 		//TODO modify this to cater for all even values of n
-		decimal x=0,y=0;
+		decimal x=0;
+		decimal y=0;
 		decimal s2=r*r_sin(r_pi()/n);
 		for(auto i=0; i<n; ++i) {
 			switch(i) {

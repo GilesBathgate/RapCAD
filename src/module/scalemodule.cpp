@@ -38,7 +38,9 @@ Node* ScaleModule::evaluate(const Context& ctx) const
 		s=v->getPoint();
 	}
 
-	decimal x=s.x(),y=s.y(),z=s.z();
+	decimal x=s.x();
+	decimal y=s.y();
+	decimal z=s.z();
 	if(x==0.0||y==0.0||z==0.0)
 		return new PointsNode();
 
@@ -47,7 +49,9 @@ Node* ScaleModule::evaluate(const Context& ctx) const
 	if(refVal)
 		r=refVal->getPoint();
 
-	decimal a=r.x(),b=r.y(),c=r.z();
+	decimal a=r.x();
+	decimal b=r.y();
+	decimal c=r.z();
 
 	//Derived reference translation using
 	//http://tinyurl.com/nfmph3r

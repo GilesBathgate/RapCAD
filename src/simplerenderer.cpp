@@ -50,7 +50,9 @@ void SimpleRenderer::descendChildren(Primitive* p)
 			glBegin(GL_LINE_STRIP);
 			for(const auto& pt: p->getPoints()) {
 #ifdef USE_CGAL
-				GLfloat x,y,z;
+				GLfloat x;
+				GLfloat y;
+				GLfloat z;
 				to_glcoord(pt,x,y,z);
 #else
 				decimal x=pt.x(),y=pt.y(),z=pt.z();

@@ -41,7 +41,8 @@ Node* ConeModule::evaluate(const Context& ctx) const
 	if(heightValue)
 		h=heightValue->getNumber();
 
-	decimal r1=0,r2=0;
+	decimal r1=0;
+	decimal r2=0;
 	if(r1Value)
 		r1=r1Value->getNumber();
 	if(r2Value)
@@ -51,9 +52,8 @@ Node* ConeModule::evaluate(const Context& ctx) const
 	if(centerValue)
 		center=centerValue->isTrue();
 
-	decimal z1,z2;
-	z1 = 0.0;
-	z2 = h;
+	decimal z1=0.0;
+	decimal z2=h;
 
 	decimal r=r_max(r1,r2);
 

@@ -51,7 +51,10 @@ decimal BezierSurfaceModule::bez33(const decimal& u)
 
 Point BezierSurfaceModule::pointOnBez(const Points& cps, const decimal& u) const
 {
-	decimal a=bez03(u),b=bez13(u),c=bez23(u),d=bez33(u);
+	decimal a=bez03(u);
+	decimal b=bez13(u);
+	decimal c=bez23(u);
+	decimal d=bez33(u);
 	decimal x=a*cps[0].x()+b*cps[1].x()+c*cps[2].x()+d*cps[3].x();
 	decimal y=a*cps[0].y()+b*cps[1].y()+c*cps[2].y()+d*cps[3].y();
 	decimal z=a*cps[0].z()+b*cps[1].z()+c*cps[2].z()+d*cps[3].z();
@@ -84,7 +87,8 @@ Node* BezierSurfaceModule::evaluate(const Context& ctx) const
 	if(!meshVec)
 		return pn;
 
-	int i=0,j=0;
+	int i=0;
+	int j=0;
 	for(Value* pointsVal: meshVec->getChildren()) {
 		Points points;
 		auto* pointsVec=dynamic_cast<VectorValue*>(pointsVal);

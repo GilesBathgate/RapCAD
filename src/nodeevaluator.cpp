@@ -153,7 +153,8 @@ void NodeEvaluator::visit(const GlideNode& op)
 			bool closed=false;
 			auto* cp=new CGALPrimitive();
 			cp->setType(Primitive::Lines);
-			CGAL::Point3 fp,np;
+			CGAL::Point3 fp;
+			CGAL::Point3 np;
 			OnceOnly first_p;
 			cp->createPolygon();
 			for(const auto& pt: points) {
@@ -310,7 +311,9 @@ static CGAL::Point3 translate(const CGAL::Point3& p,const CGAL::Vector3& v)
 
 static CGAL::Point3 rotate(const CGAL::Point3& p,const CGAL::Scalar& a,const CGAL::Vector3& axis)
 {
-	CGAL::Scalar u=axis.x(),v=axis.y(),w=axis.z();
+	CGAL::Scalar u=axis.x();
+	CGAL::Scalar v=axis.y();
+	CGAL::Scalar w=axis.z();
 	CGAL::Scalar c=r_cos(a);
 	CGAL::Scalar s=r_sin(a);
 
@@ -441,7 +444,8 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 		return;
 	}
 
-	CGAL::Scalar phi,nphi;
+	CGAL::Scalar phi;
+	CGAL::Scalar nphi;
 	CGALPrimitive* peri=explorer.getPerimeters();
 	if(!peri) {
 		delete n;
@@ -711,7 +715,9 @@ void NodeEvaluator::visit(const ResizeNode& n)
 	auto* pr=static_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
 	CGAL::Point3 s=n.getSize();
-	CGAL::Scalar x=s.x(),y=s.y(),z=s.z();
+	CGAL::Scalar x=s.x();
+	CGAL::Scalar y=s.y();
+	CGAL::Scalar z=s.z();
 	CGAL::Scalar autosize=1.0;
 
 	if(z!=0.0) {
@@ -749,7 +755,9 @@ void NodeEvaluator::visit(const AlignNode& n)
 #ifdef USE_CGAL
 	auto* pr=static_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
-	CGAL::Scalar cx=0.0,cy=0.0,cz=0.0;
+	CGAL::Scalar cx=0.0;
+	CGAL::Scalar cy=0.0;
+	CGAL::Scalar cz=0.0;
 	CGAL::Scalar two(2.0);
 	if(n.getCenter()) {
 		cx=(b.xmin()+b.xmax())/two;
@@ -911,9 +919,8 @@ void NodeEvaluator::visit(const RadialsNode& n)
 	reporter.reportMessage(tr("Radius: %1").arg(rs));
 
 	CGAL::Point3 c=circle.center();
-	CGAL::Scalar a,b;
-	a=c.x();
-	b=c.y();
+	CGAL::Scalar a=c.x();
+	CGAL::Scalar b=c.y();
 
 	SimpleTextBuilder t;
 	t.setText(rs);
@@ -928,9 +935,8 @@ void NodeEvaluator::visit(const RadialsNode& n)
 	const int f=90;
 	for(auto i=0; i<=f; ++i) {
 		CGAL::Scalar phi = (r_tau()*i) / f;
-		CGAL::Scalar x,y;
-		x = a+r*r_cos(phi);
-		y = b+r*r_sin(phi);
+		CGAL::Scalar x = a+r*r_cos(phi);
+		CGAL::Scalar y = b+r*r_sin(phi);
 
 		p->createVertex(CGAL::Point3(x,y,0));
 		pg->append(i);
@@ -958,10 +964,9 @@ void NodeEvaluator::visit(const VolumesNode& n)
 		reporter.reportMessage(tr("Center of Mass: %1").arg(to_string(c)));
 
 	const CGAL::Cuboid3& b=v.getBounds();
-	CGAL::Scalar x,y,z;
-	x=b.xmax()+((b.xmax()-b.xmin())/10);
-	y=b.ymax()+((b.ymax()-b.ymin())/10);
-	z=b.zmax()+((b.zmax()-b.zmin())/10);
+	CGAL::Scalar x=b.xmax()+((b.xmax()-b.xmin())/10);
+	CGAL::Scalar y=b.ymax()+((b.ymax()-b.ymin())/10);
+	CGAL::Scalar z=b.zmax()+((b.zmax()-b.zmin())/10);
 	CGAL::Point3 tr(x,y,z);
 
 	auto* p = new Polyhedron();

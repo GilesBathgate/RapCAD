@@ -127,11 +127,12 @@ Primitive* CGALImport::importSTL() const
 				QStringList tokens=line.split(re);
 				bool ok=false;
 				if(tokens.size()==4) {
-					float x,y,z;
-					bool ox,oy,oz;
-					x=tokens[1].toFloat(&ox);
-					y=tokens[2].toFloat(&oy);
-					z=tokens[3].toFloat(&oz);
+					bool ox;
+					bool oy;
+					bool oz;
+					float x=tokens[1].toFloat(&ox);
+					float y=tokens[2].toFloat(&oy);
+					float z=tokens[3].toFloat(&oz);
 					if((ok=ox&&oy&&oz)) {
 						CGAL::Point3 pt(x,y,z);
 						p->appendVertex(pt);
@@ -180,7 +181,9 @@ Primitive* CGALImport::importAMF() const
 									if(xml.name()=="vertex") {
 										while(xml.readNextStartElement()) {
 											if(xml.name()=="coordinates") {
-												CGAL::Scalar x=0.0,y=0.0,z=0.0;
+												CGAL::Scalar x=0.0;
+												CGAL::Scalar y=0.0;
+												CGAL::Scalar z=0.0;
 												while(xml.readNextStartElement()) {
 													if(xml.name()=="x") {
 														x=to_decimal(xml.readElementText());
@@ -204,7 +207,9 @@ Primitive* CGALImport::importAMF() const
 							} else if(xml.name()=="volume") {
 								while(xml.readNextStartElement()) {
 									if(xml.name()=="triangle") {
-										int v1=0,v2=0,v3=0;
+										int v1=0;
+										int v2=0;
+										int v3=0;
 										while(xml.readNextStartElement()) {
 											if(xml.name()=="v1") {
 												v1=xml.readElementText().toInt();
@@ -265,7 +270,9 @@ Primitive* CGALImport::import3MF() const
 									if(xml.name() == "vertices") {
 										while(xml.readNextStartElement()) {
 											if(xml.name() == "vertex") {
-												CGAL::Scalar x=0.0,y=0.0,z=0.0;
+												CGAL::Scalar x=0.0;
+												CGAL::Scalar y=0.0;
+												CGAL::Scalar z=0.0;
 												for(const auto& attr: xml.attributes()) {
 													QStringRef n=attr.name();
 													QStringRef v=attr.value();
@@ -283,7 +290,9 @@ Primitive* CGALImport::import3MF() const
 									} else if(xml.name() == "triangles") {
 										while(xml.readNextStartElement()) {
 											if(xml.name() == "triangle") {
-												int v1=0,v2=0,v3=0;
+												int v1=0;
+												int v2=0;
+												int v3=0;
 												for(const auto& attr: xml.attributes()) {
 													QStringRef n=attr.name();
 													QStringRef v=attr.value();

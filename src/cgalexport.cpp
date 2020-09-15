@@ -227,10 +227,9 @@ void CGALExport::exportAMFObject(CGALPrimitive* p,QXmlStreamWriter& xml) const
 		CGAL::Point3 p=vi->point();
 		xml.writeStartElement("vertex");
 		xml.writeStartElement("coordinates");
-		QString x,y,z;
-		x=to_string(p.x());
-		y=to_string(p.y());
-		z=to_string(p.z());
+		QString x=to_string(p.x());
+		QString y=to_string(p.y());
+		QString z=to_string(p.z());
 		xml.writeTextElement("x",x);
 		xml.writeTextElement("y",y);
 		xml.writeTextElement("z",z);
@@ -245,10 +244,9 @@ void CGALExport::exportAMFObject(CGALPrimitive* p,QXmlStreamWriter& xml) const
 	xml.writeStartElement("volume");
 	for(const auto& t: generateTriangles(poly)) {
 		xml.writeStartElement("triangle");
-		int v1,v2,v3;
-		v1=vertices[t[0]];
-		v2=vertices[t[1]];
-		v3=vertices[t[2]];
+		int v1=vertices[t[0]];
+		int v2=vertices[t[1]];
+		int v3=vertices[t[2]];
 		xml.writeTextElement("v1",QString().setNum(v1));
 		xml.writeTextElement("v2",QString().setNum(v2));
 		xml.writeTextElement("v3",QString().setNum(v3));
@@ -333,10 +331,9 @@ void CGALExport::export3MF() const
 	for(VertexIterator vi=poly->vertices_begin(); vi!=poly->vertices_end(); ++vi) {
 		CGAL::Point3 p = vi->point();
 		xml.writeStartElement("vertex");
-		QString x,y,z;
-		x=to_string(p.x());
-		y=to_string(p.y());
-		z=to_string(p.z());
+		QString x=to_string(p.x());
+		QString y=to_string(p.y());
+		QString z=to_string(p.z());
 		xml.writeAttribute("x",x);
 		xml.writeAttribute("y",y);
 		xml.writeAttribute("z",z);
@@ -350,10 +347,9 @@ void CGALExport::export3MF() const
 	xml.writeStartElement("triangles");
 	for(const auto& t: generateTriangles(poly)) {
 		xml.writeStartElement("triangle");
-		int v1,v2,v3;
-		v1=vertices[t[0]];
-		v2=vertices[t[1]];
-		v3=vertices[t[2]];
+		int v1=vertices[t[0]];
+		int v2=vertices[t[1]];
+		int v3=vertices[t[2]];
 		xml.writeAttribute("v1",QString().setNum(v1));
 		xml.writeAttribute("v2",QString().setNum(v2));
 		xml.writeAttribute("v3",QString().setNum(v3));

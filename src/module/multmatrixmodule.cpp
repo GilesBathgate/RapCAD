@@ -40,7 +40,8 @@ Node* MultMatrixModule::evaluate(const Context& ctx) const
 
 	auto* matrix=new TransformMatrix();
 
-	int i=0,j=0;
+	int i=0;
+	int j=0;
 	for(Value* rowVal: matrixVec->getChildren()) {
 		auto* row=dynamic_cast<VectorValue*>(rowVal);
 		if(!row) continue;

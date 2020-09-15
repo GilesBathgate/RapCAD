@@ -209,13 +209,17 @@ Primitive* SimpleTextBuilder::buildPrimitive() const
 	ph->setType(Primitive::Lines);
 
 	int n=0;
-	decimal x=location.x(),y=location.y(),z=location.z();
+	decimal x=location.x();
+	decimal y=location.y();
+	decimal z=location.z();
 	for(QChar c: text) {
 		Letter ch=characters->value(c);
 		for(Stroke p: ch) {
 			Polygon* pg=ph->createPolygon();
 			for(const auto& pt: p) {
-				decimal cx=pt.x(),cy=pt.y(),cz=pt.z();
+				decimal cx=pt.x();
+				decimal cy=pt.y();
+				decimal cz=pt.z();
 				ph->createVertex(Point(cx+x,cy+y,cz+z));
 				pg->append(n++);
 			}

@@ -107,7 +107,12 @@ void MainWindow::savePreferences()
 void MainWindow::setDefaultViewport()
 {
 	Preferences& p=Preferences::getInstance();
-	float rx,ry,rz,x,z,d;
+	float rx;
+	float ry;
+	float rz;
+	float x;
+	float z;
+	float d;
 	ui->view->getViewport(rx,ry,rz,x,z,d);
 	p.setDefaultRotationX(rx);
 	p.setDefaultRotationY(ry);
@@ -180,13 +185,12 @@ void MainWindow::loadPreferences()
 void MainWindow::getDefaultViewport() const
 {
 	Preferences& p=Preferences::getInstance();
-	float rx,ry,rz,x,z,d;
-	rx=p.getDefaultRotationX();
-	ry=p.getDefaultRotationY();
-	rz=p.getDefaultRotationZ();
-	x=p.getDefaultX();
-	z=p.getDefaultZ();
-	d=p.getDefaultDistance();
+	float rx=p.getDefaultRotationX();
+	float ry=p.getDefaultRotationY();
+	float rz=p.getDefaultRotationZ();
+	float x=p.getDefaultX();
+	float z=p.getDefaultZ();
+	float d=p.getDefaultDistance();
 	ui->view->setViewport(rx,ry,rz,x,z,d);
 }
 
@@ -376,7 +380,8 @@ void MainWindow::enableCaches(bool b)
 void MainWindow::setupLayout()
 {
 	//TODO there must be a better way than this
-	QList<int> hSizes,vSizes;
+	QList<int> hSizes;
+	QList<int> vSizes;
 	hSizes << 160 << 540 << 300;
 	ui->vSplitter->setSizes(hSizes);
 	vSizes << 150 << 10;
@@ -784,7 +789,7 @@ void MainWindow::sendToCAM()
 
 	QString fileTemplate=QDir::tempPath().append("/XXXXXX.").append("3mf");
 	QTemporaryFile* file=new QTemporaryFile(fileTemplate);
-	if (!file->open()) {
+	if(!file->open()) {
 		QMessageBox::information(this,title, tr("Could not create tempory file"));
 		delete file;
 		return;

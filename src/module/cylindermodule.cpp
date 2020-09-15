@@ -42,7 +42,8 @@ Node* CylinderModule::evaluate(const Context& ctx) const
 	NumberValue* r2Value = dynamic_cast<NumberValue*>(ctx.getArgument(2,"radius2"));
 	BooleanValue* centerValue;
 
-	decimal r1=1.0,r2=1.0;
+	decimal r1=1.0;
+	decimal r2=1.0;
 	if(!r1Value) {
 		auto* rValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
 		centerValue = dynamic_cast<BooleanValue*>(getParameterArgument(ctx,2));
@@ -66,9 +67,8 @@ Node* CylinderModule::evaluate(const Context& ctx) const
 	if(centerValue)
 		center=centerValue->isTrue();
 
-	decimal z1,z2;
-	z1 = 0.0;
-	z2 = h;
+	decimal z1=0.0;
+	decimal z2=h;
 
 	decimal r=r_max(r1,r2);
 	Fragment* fg = Fragment::createFragment(ctx);

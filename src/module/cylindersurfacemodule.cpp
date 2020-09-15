@@ -47,9 +47,8 @@ Node* CylinderSurfaceModule::evaluate(const Context& ctx) const
 	if(centerValue)
 		center=centerValue->isTrue();
 
-	decimal z1,z2;
-	z1 = 0.0;
-	z2 = h;
+	decimal z1=0.0;
+	decimal z2=h;
 
 	Fragment* fg = Fragment::createFragment(ctx);
 	int f = fg->getFragments(r);

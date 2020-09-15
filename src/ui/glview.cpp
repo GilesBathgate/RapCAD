@@ -117,7 +117,12 @@ void GLView::setShowEdges(bool edges)
 
 void GLView::changeViewport(int t)
 {
-	float rx,ry,rz,x,z,d;
+	float rx;
+	float ry;
+	float rz;
+	float x;
+	float z;
+	float d;
 	getViewport(rx,ry,rz,x,z,d);
 
 	switch(t) {

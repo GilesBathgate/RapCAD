@@ -41,7 +41,9 @@ Node* AlignModule::evaluate(const Context& ctx) const
 	VectorValue* vecVal=dynamic_cast<VectorValue*>(ctx.getArgument(0,"anchor"));
 	if(vecVal) {
 		Point p = vecVal->getPoint();
-		decimal x=p.x(),y=p.y(),z=p.z();
+		decimal x=p.x();
+		decimal y=p.y();
+		decimal z=p.z();
 		if(x>0) {
 			align.append(AlignNode::North);
 		} else if(x<0) {

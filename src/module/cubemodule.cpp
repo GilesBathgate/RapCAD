@@ -46,8 +46,7 @@ Node* CubeModule::evaluate(const Context& ctx) const
 	Primitive* p=pn->createPrimitive();
 	pn->setChildren(ctx.getInputNodes());
 
-	decimal x1=0,y1=0,z1=0;
-	createCuboid<Point>(p,x1,pt.x(),y1,pt.y(),z1,pt.z());
+	createCuboid<Point>(p,decimal(0),pt.x(),decimal(0),pt.y(),decimal(0),pt.z());
 
 	if(center) {
 		auto* an=new AlignNode();

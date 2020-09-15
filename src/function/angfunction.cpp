@@ -69,7 +69,9 @@ Value* AngFunction::evaluate(const Context& ctx) const
 	}
 
 	decimal a=0.0;
-	decimal x=0.0,y=0.0,z=1.0;
+	decimal x=0.0;
+	decimal y=0.0;
+	decimal z=1.0;
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {
 		a=numVal->getNumber();
@@ -81,7 +83,9 @@ Value* AngFunction::evaluate(const Context& ctx) const
 			auto* unitVec=dynamic_cast<VectorValue*>(u);
 			if(unitVec) {
 				Point p=unitVec->getPoint();
-				x=p.x(); y=p.y(); z=p.z();
+				x=p.x();
+				y=p.y();
+				z=p.z();
 			}
 		}
 		return getResult(a,x,y,z);

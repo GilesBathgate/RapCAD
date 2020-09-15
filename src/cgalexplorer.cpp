@@ -103,7 +103,8 @@ public:
 						basePolygons.append(pg);
 
 					SHalfEdgeHandle h = fc;
-					SHalfEdgeCirculator hc(h), he(hc);
+					SHalfEdgeCirculator hc(h);
+					SHalfEdgeCirculator he(hc);
 					CGAL_For_all(hc,he) {
 						SVertexHandle sv = hc->source();
 						CGAL::Point3 sp = sv->source()->point();
@@ -320,11 +321,9 @@ CGALVolume CGALExplorer::getVolume(bool calcMass)
 	}
 	if(!calcMass) {
 		CGAL::Cuboid3 b=getBounds();
-		CGAL::Scalar cx=0.0,cy=0.0,cz=0.0;
-		cx=(b.xmin()+b.xmax())/2;
-		cy=(b.ymin()+b.ymax())/2;
-		cz=(b.zmin()+b.zmax())/2;
-
+		CGAL::Scalar cx=(b.xmin()+b.xmax())/2;
+		CGAL::Scalar cy=(b.ymin()+b.ymax())/2;
+		CGAL::Scalar cz=(b.zmin()+b.zmax())/2;
 		return CGALVolume(b,total,CGAL::Point3(cx,cy,cz));
 	}
 

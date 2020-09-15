@@ -43,21 +43,28 @@ Node* RotateModule::evaluate(const Context& ctx) const
 	n->setChildren(ctx.getInputNodes());
 
 	rotationType rotation=axis;
-	decimal a=0.0,x=0.0,y=0.0,z=1.0;
+	decimal a=0.0;
+	decimal x=0.0;
+	decimal y=0.0;
+	decimal z=1.0;
 	auto* angValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(angValue) {
 		a=angValue->getNumber();
 		auto* vecValue=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
 		if(vecValue) {
 			Point v=vecValue->getPoint();
-			x=v.x(); y=v.y(); z=v.z();
+			x=v.x();
+			y=v.y();
+			z=v.z();
 			rotation=axis;
 		}
 	} else {
 		auto* vecValue=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 		if(vecValue) {
 			Point v=vecValue->getPoint();
-			x=v.x(); y=v.y(); z=v.z();
+			x=v.x();
+			y=v.y();
+			z=v.z();
 			rotation=origin;
 		} else {
 			auto* cpxValue=dynamic_cast<ComplexValue*>(getParameterArgument(ctx,0));

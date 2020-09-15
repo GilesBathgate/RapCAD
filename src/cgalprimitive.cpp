@@ -699,10 +699,9 @@ void CGALPrimitive::appendChild(Primitive* p)
 
 static CGAL::Point3 discretePoint(const CGAL::Point3& pt,int places)
 {
-	CGAL::Scalar x,y,z;
-	x=r_round(pt.x(),places);
-	y=r_round(pt.y(),places);
-	z=r_round(pt.z(),places);
+	CGAL::Scalar x=r_round(pt.x(),places);
+	CGAL::Scalar y=r_round(pt.y(),places);
+	CGAL::Scalar z=r_round(pt.z(),places);
 	return CGAL::Point3(x,y,z);
 }
 
