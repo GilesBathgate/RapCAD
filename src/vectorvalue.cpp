@@ -170,7 +170,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			return total;
 		} else if(e==Expression::Divide) {
 			//TODO vector division?
-			return this;
+			return factory.createUndefined();
 		} else if(e==Expression::Length) {
 			Value* a=Value::operation(this,Expression::Multiply,this);
 			Value* b=Value::operation(&v,Expression::Multiply,&v);
