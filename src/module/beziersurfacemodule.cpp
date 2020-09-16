@@ -23,7 +23,7 @@
 #include "rmath.h"
 #include "fragment.h"
 
-BezierSurfaceModule::BezierSurfaceModule(Reporter& r) : Module(r,"bezier_surface")
+BezierSurfaceModule::BezierSurfaceModule(Reporter& r) : PrimitiveModule(r,"bezier_surface")
 {
 	addDescription(tr("Constructs a bezier surface."));
 	addParameter("mesh",tr("A 4 by 4 matrix of points."));
@@ -123,7 +123,6 @@ Node* BezierSurfaceModule::evaluate(const Context& ctx) const
 		}
 	}
 
-	Polygon* pg;
 	for(auto u=0; u<f-1; ++u) {
 		for(auto v=0; v<f-1; ++v) {
 
@@ -131,15 +130,8 @@ Node* BezierSurfaceModule::evaluate(const Context& ctx) const
 			int j=((u+1)*f)+v;
 			int k=i+1;
 			int l=j+1;
-			pg=p->createPolygon();
-			pg->append(i);
-			pg->append(j);
-			pg->append(k);
-
-			pg=p->createPolygon();
-			pg->append(l);
-			pg->append(k);
-			pg->append(j);
+			createTriangle(p,i,j,k);
+			createTriangle(p,l,k,j);
 		}
 	}
 

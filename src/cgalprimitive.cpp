@@ -165,21 +165,21 @@ static void fixZeroTriangles(CGAL::Polyhedron3& p)
 	}
 }
 
+static bool removeShortEdges(CGAL::Polyhedron3& p)
+{
+	typedef CGAL::Polyhedron3::Halfedge_iterator HalfedgeIterator;
+	for(HalfedgeIterator h=p.halfedges_begin(); h!=p.halfedges_end(); ++h) {
+		if(getLength(h)==0.0) {
+			removeShortEdge(p,h);
+			return true;
+		}
+	}
+	return false;
+}
+
 static void fixZeroEdges(CGAL::Polyhedron3& p)
 {
-	bool removed;
-	do {
-		removed=false;
-		typedef CGAL::Polyhedron3::Halfedge_iterator HalfedgeIterator;
-		for(HalfedgeIterator h=p.halfedges_begin(); h!=p.halfedges_end(); ++h) {
-			if(getLength(h)==0.0) {
-				removeShortEdge(p,h);
-				removed=true;
-				break;
-			}
-		}
-
-	} while(removed);
+	while(removeShortEdges(p));
 }
 
 void CGALPrimitive::buildPrimitive()

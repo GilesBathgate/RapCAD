@@ -74,9 +74,8 @@ Node* PrismModule::evaluate(const Context& ctx) const
 	QList<Point> p2=getPolygon(a,r,s,z2);
 
 	if(r > 0) {
-		Polygon* pg;
 		int n=0;
-		pg=p->createPolygon();
+		Polygon* pg=p->createPolygon();
 		for(const auto& pt: p1) {
 			p->createVertex(pt);
 			pg->append(n++);
@@ -92,11 +91,7 @@ Node* PrismModule::evaluate(const Context& ctx) const
 			int j=(i+1)%s;
 			int k=i+s;
 			int l=j+s;
-			pg=p->createPolygon();
-			pg->append(i);
-			pg->append(k);
-			pg->append(l);
-			pg->append(j);
+			createQuad(p,i,k,l,j);
 		}
 	}
 

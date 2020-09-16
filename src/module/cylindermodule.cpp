@@ -40,7 +40,7 @@ Node* CylinderModule::evaluate(const Context& ctx) const
 
 	NumberValue* r1Value = dynamic_cast<NumberValue*>(ctx.getArgument(1,"radius1"));
 	NumberValue* r2Value = dynamic_cast<NumberValue*>(ctx.getArgument(2,"radius2"));
-	BooleanValue* centerValue;
+	BooleanValue* centerValue=nullptr;
 
 	decimal r1=1.0;
 	decimal r2=1.0;
@@ -83,9 +83,8 @@ Node* CylinderModule::evaluate(const Context& ctx) const
 	pn->setChildren(ctx.getInputNodes());
 
 	int n=0;
-	Polygon* pg;
 	if(r1>0) {
-		pg=p->createPolygon();
+		Polygon* pg=p->createPolygon();
 		for(const auto& pt: c1) {
 			p->createVertex(pt);
 			pg->append(n++);
@@ -96,7 +95,7 @@ Node* CylinderModule::evaluate(const Context& ctx) const
 		return pn;
 
 	if(r2>0) {
-		pg=p->createPolygon();
+		Polygon* pg=p->createPolygon();
 		for(const auto& pt: c2) {
 			p->createVertex(pt);
 			pg->prepend(n++);
@@ -122,23 +121,13 @@ Node* CylinderModule::evaluate(const Context& ctx) const
 		}
 
 		if(r1 == r2) {
-			pg=p->createPolygon();
-			pg->append(i);
-			pg->append(k);
-			pg->append(j);
-			pg->append(l);
+			createQuad(p,i,k,j,l);
 		} else {
 			if(r1 > 0) {
-				pg=p->createPolygon();
-				pg->append(i);
-				pg->append(k);
-				pg->append(l);
+				createTriangle(p,i,k,l);
 			}
 			if(r2 > 0) {
-				pg=p->createPolygon();
-				pg->append(j);
-				pg->append(l);
-				pg->append(k);
+				createTriangle(p,j,l,k);
 			}
 		}
 	}

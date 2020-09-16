@@ -275,7 +275,7 @@ void TreeEvaluator::visit(const Parameter& param)
 {
 	QString name = param.getName();
 
-	Value* v;
+	Value* v=nullptr;
 	Expression* e = param.getExpression();
 	if(e) {
 		e->accept(*this);
@@ -306,7 +306,7 @@ void TreeEvaluator::visit(const BinaryExpression& exp)
 			break;
 	}
 
-	Value* result;
+	Value* result=nullptr;
 	if(shortc) {
 		result=left;
 	} else {
@@ -380,8 +380,7 @@ void TreeEvaluator::visit(const AssignStatement& stmt)
 	}
 	if(!result) return;
 
-	Variable::Storage_e c;
-	c=lvalue->getStorage();
+	auto c=lvalue->getStorage();
 	result->setStorage(c);
 	switch(c) {
 		case Variable::Const:

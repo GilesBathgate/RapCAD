@@ -39,7 +39,7 @@ TextValue* TextValue::toText()
 
 Value* TextValue::toNumber()
 {
-	bool ok;
+	bool ok=false;
 	decimal n=to_decimal(text,&ok);
 	if(ok)
 		return factory.createNumber(n);

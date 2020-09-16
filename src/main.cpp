@@ -134,6 +134,14 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Re
 	return nullptr;
 }
 
+static int runApplication(Strategy* s,int argc,char* argv[],QStringList inputFiles)
+{
+	if(s)
+		return s->evaluate();
+
+	return showUi(argc,argv,inputFiles);
+}
+
 int main(int argc, char* argv[])
 {
 	setupApplication();
@@ -145,13 +153,7 @@ int main(int argc, char* argv[])
 	QTextStream output(stdout);
 	Reporter reporter(output);
 	Strategy* s=parseArguments(argc,argv,inputFiles,reporter);
-
-	int retcode;
-	if(s)
-		retcode=s->evaluate();
-	else
-		retcode=showUi(argc,argv,inputFiles);
-
+	int retcode=runApplication(s,argc,argv,inputFiles);
 	delete s;
 
 	return retcode;

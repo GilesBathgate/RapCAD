@@ -77,11 +77,8 @@ int Interactive::evaluate()
 {
 #ifdef USE_READLINE
 	const char* prompt=PROMPT;
-	char* c;
-	do {
-		c=readline::readline(prompt);
+	while(char* c=readline::readline(prompt))
 		execCommand(c);
-	} while(c!=nullptr);
 	output << endl;
 #endif
 	return EXIT_SUCCESS;

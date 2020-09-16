@@ -70,16 +70,11 @@ Node* CylinderSurfaceModule::evaluate(const Context& ctx) const
 		p->createVertex(pt);
 	}
 
-	Polygon* pg;
 	for(auto i=0; i<f; ++i) {
 		int j=(i+1)%f;
 		int k=i+f;
 		int l=j+f;
-		pg=p->createPolygon();
-		pg->append(i);
-		pg->append(k);
-		pg->append(l);
-		pg->append(j);
+		createQuad(p,i,k,l,j);
 	}
 
 	if(center) {

@@ -102,8 +102,7 @@ Value* ComplexValue::operation(Value& v, Expression::Operator_e op)
 				Value* x1x2 = Value::operation(x1,op,x2);
 				Value* y1y2 = Value::operation(y1,op,y2);
 				Value* z1z2 = Value::operation(z1,op,z2);
-				Value* w;
-				w = Value::operation(w1w2,Expression::Subtract,x1x2);
+				Value* w = Value::operation(w1w2,Expression::Subtract,x1x2);
 				w = Value::operation(w,Expression::Subtract,y1y2);
 				w = Value::operation(w,Expression::Subtract,z1z2);
 
@@ -111,8 +110,7 @@ Value* ComplexValue::operation(Value& v, Expression::Operator_e op)
 				Value* x1w2 = Value::operation(x1,op,w2);
 				Value* y1z2 = Value::operation(y1,op,z2);
 				Value* z1y2 = Value::operation(z1,op,y2);
-				Value* x;
-				x = Value::operation(w1x2,Expression::Add,x1w2);
+				Value* x = Value::operation(w1x2,Expression::Add,x1w2);
 				x = Value::operation(x,Expression::Add,y1z2);
 				x = Value::operation(x,Expression::Subtract,z1y2);
 
@@ -120,8 +118,7 @@ Value* ComplexValue::operation(Value& v, Expression::Operator_e op)
 				Value* x1z2 = Value::operation(x1,op,z2);
 				Value* y1w2 = Value::operation(y1,op,w2);
 				Value* z1x2 = Value::operation(z1,op,x2);
-				Value* y;
-				y = Value::operation(w1y2,Expression::Subtract,x1z2);
+				Value* y = Value::operation(w1y2,Expression::Subtract,x1z2);
 				y = Value::operation(y,Expression::Add,y1w2);
 				y = Value::operation(y,Expression::Add,z1x2);
 
@@ -129,8 +126,7 @@ Value* ComplexValue::operation(Value& v, Expression::Operator_e op)
 				Value* x1y2 = Value::operation(x1,op,y2);
 				Value* y1x2 = Value::operation(y1,op,x2);
 				Value* z1w2 = Value::operation(z1,op,w2);
-				Value* z;
-				z = Value::operation(w1z2,Expression::Subtract,x1y2);
+				Value* z = Value::operation(w1z2,Expression::Subtract,x1y2);
 				z = Value::operation(z,Expression::Add,y1x2);
 				z = Value::operation(z,Expression::Add,z1w2);
 

@@ -19,11 +19,11 @@
 #ifndef BEZIERSURFACEMODULE_H
 #define BEZIERSURFACEMODULE_H
 
-#include "module.h"
+#include "primitivemodule.h"
 #include "context.h"
 #include "point.h"
 
-class BezierSurfaceModule : public Module
+class BezierSurfaceModule : public PrimitiveModule
 {
 	Q_DECLARE_TR_FUNCTIONS(BezierSurfaceModule)
 public:

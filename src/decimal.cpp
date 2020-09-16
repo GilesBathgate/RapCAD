@@ -61,7 +61,7 @@ QString to_string(const decimal& d)
 	QString res;
 #ifdef USE_CGAL
 
-	char* a;
+	char* a=nullptr;
 	if(numberFormat==2) {
 #ifndef USE_VALGRIND
 		gmp_asprintf(&a,"%Qd",d.exact().mpq());

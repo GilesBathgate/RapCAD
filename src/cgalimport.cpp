@@ -105,7 +105,7 @@ Primitive* CGALImport::importSTL() const
 	 * and check whether the size calculated
 	 * from the header matches the file size */
 	bool binary=false;
-	int numfacets;
+	int numfacets=0;
 	QByteArray header=f.read(80);
 	f.read((char*)&numfacets,4);
 	if(f.size() == 80+4+(datasize*numfacets))
@@ -127,9 +127,9 @@ Primitive* CGALImport::importSTL() const
 				QStringList tokens=line.split(re);
 				bool ok=false;
 				if(tokens.size()==4) {
-					bool ox;
-					bool oy;
-					bool oz;
+					bool ox=false;
+					bool oy=false;
+					bool oz=false;
 					float x=tokens[1].toFloat(&ox);
 					float y=tokens[2].toFloat(&oy);
 					float z=tokens[3].toFloat(&oz);

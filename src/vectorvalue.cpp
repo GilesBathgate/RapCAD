@@ -205,7 +205,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			int as=a.size();
 			int bs=b.size();
 			for(auto i=0; i<as||i<bs; ++i) {
-				Value* r;
+				Value* r=nullptr;
 				if(as<bs&&i>=as) {
 					r=b.at(i);
 				} else if(bs<as&&i>=bs) {
