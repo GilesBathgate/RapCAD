@@ -38,8 +38,8 @@ private:
 	static decimal bez13(const decimal&);
 	static decimal bez23(const decimal&);
 	static decimal bez33(const decimal&);
-	Point pointOnBez(const Points&,const decimal&) const;
-	Point pointOnBezMesh(const Mesh&,const Vector&) const;
+	static Point pointOnBez(const Points&,const decimal&);
+	static Point pointOnBezMesh(const Mesh&,const Vector&);
 };
 
 #endif // BEZIERSURFACEMODULE_H

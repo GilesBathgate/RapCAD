@@ -31,7 +31,7 @@ public:
 	PrimitiveModule(Reporter&, const QString&);
 protected:
 	static QList<Point> getCircle(const decimal&,const decimal&,const decimal&);
-	QList<Point> getPolygon(const decimal&,const decimal&,const decimal&,const decimal&) const;
+	static QList<Point> getPolygon(const decimal&,const decimal&,const decimal&,const decimal&);
 	static void createTriangle(Primitive*,int,int,int);
 	static void createQuad(Primitive*,int,int,int,int);
 };

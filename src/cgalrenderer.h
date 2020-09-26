@@ -49,7 +49,7 @@ private:
 	float vertexSize;
 	float edgeSize;
 	void loadPreferences();
-	void desaturate(CGAL::Color& c);
+	static void desaturate(CGAL::Color& c);
 	void descendChildren(Primitive* pr);
 	SimpleRenderer* simple;
 };

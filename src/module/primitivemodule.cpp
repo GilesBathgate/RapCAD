@@ -46,7 +46,7 @@ QList<Point> PrimitiveModule::getCircle(const decimal& r,const decimal& f,const 
 	return circle;
 }
 
-QList<Point> PrimitiveModule::getPolygon(const decimal& a,const decimal& r,const decimal& n,const decimal& z) const
+QList<Point> PrimitiveModule::getPolygon(const decimal& a,const decimal& r,const decimal& n,const decimal& z)
 {
 	QList<Point> poly;
 	if(n==6) {
@@ -94,7 +94,7 @@ QList<Point> PrimitiveModule::getPolygon(const decimal& a,const decimal& r,const
 
 void PrimitiveModule::createTriangle(Primitive* p,int a,int b,int c)
 {
-	Polygon*pg=p->createPolygon();
+	Polygon* pg=p->createPolygon();
 	pg->append(a);
 	pg->append(b);
 	pg->append(c);
@@ -102,7 +102,7 @@ void PrimitiveModule::createTriangle(Primitive* p,int a,int b,int c)
 
 void PrimitiveModule::createQuad(Primitive* p,int a,int b,int c,int d)
 {
-	Polygon*pg=p->createPolygon();
+	Polygon* pg=p->createPolygon();
 	pg->append(a);
 	pg->append(b);
 	pg->append(c);

@@ -49,7 +49,7 @@ decimal BezierSurfaceModule::bez33(const decimal& u)
 	return r_pow(u,3);
 }
 
-Point BezierSurfaceModule::pointOnBez(const Points& cps, const decimal& u) const
+Point BezierSurfaceModule::pointOnBez(const Points& cps, const decimal& u)
 {
 	decimal a=bez03(u);
 	decimal b=bez13(u);
@@ -62,7 +62,7 @@ Point BezierSurfaceModule::pointOnBez(const Points& cps, const decimal& u) const
 	return Point(x,y,z);
 }
 
-Point BezierSurfaceModule::pointOnBezMesh(const Mesh& mesh, const Vector& uv) const
+Point BezierSurfaceModule::pointOnBezMesh(const Mesh& mesh, const Vector& uv)
 {
 	Points p;
 	decimal uv0=uv[0];
