@@ -626,7 +626,7 @@ const CGAL::NefPolyhedron3& CGALPrimitive::getNefPolyhedron()
 CGAL::Polyhedron3* CGALPrimitive::getPolyhedron()
 {
 	this->buildPrimitive();
-	CGAL::Polyhedron3* poly = new CGAL::Polyhedron3();
+	auto* poly = new CGAL::Polyhedron3();
 	nefPolyhedron->convert_to_polyhedron(*poly);
 	return poly;
 }

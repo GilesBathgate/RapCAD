@@ -36,8 +36,8 @@ int Comparer::evaluate()
 {
 	reporter.startTiming();
 
-	ImportNode* a=new ImportNode(aFile);
-	ImportNode* b=new ImportNode(bFile);
+	auto* a=new ImportNode(aFile);
+	auto* b=new ImportNode(bFile);
 
 	QList<Node*> children;
 	children.append(a);

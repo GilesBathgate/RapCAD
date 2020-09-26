@@ -276,7 +276,7 @@ QHash<QString,Module*> BuiltinCreator::getModuleNames() const
 {
 	QHash<QString,Module*> names;
 	for(Declaration* d: builtins) {
-		Module* m=dynamic_cast<Module*>(d);
+		auto* m=dynamic_cast<Module*>(d);
 		if(m) names.insert(m->getName(),m);
 	}
 	return names;

@@ -254,11 +254,10 @@ void NodeEvaluator::visit(const HullNode& n)
 		typedef CGAL::Triangulation_data_structure_3<Vb,Fb>        Tds;
 		typedef CGAL::Delaunay_triangulation_3<CGAL::Kernel3, Tds> Triangulation_3;
 		typedef CGAL::Alpha_shape_3<Triangulation_3>               Alpha_shape_3;
-		typedef Alpha_shape_3::Alpha_iterator                      Alpha_iterator;
 		typedef Alpha_shape_3::Facet                               Facet;
 
 		Alpha_shape_3 as(points.begin(), points.end(),0.001,Alpha_shape_3::GENERAL);
-		Alpha_iterator opt = as.find_optimal_alpha(1);
+		const auto& opt = as.find_optimal_alpha(1);
 		if(opt == as.alpha_end()) {
 			result=nullptr;
 			return;

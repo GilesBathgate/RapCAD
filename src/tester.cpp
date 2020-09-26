@@ -205,11 +205,11 @@ void Tester::preferencesTest()
 {
 	ui->activateWindow();
 	QTest::keyClick(ui,Qt::Key_E,Qt::AltModifier);
-	QMenu* menuEdit = ui->findChild<QMenu*>("menuEdit");
+	auto* menuEdit = ui->findChild<QMenu*>("menuEdit");
 	QTest::keyClick(menuEdit,Qt::Key_Up);
 	QTest::keyClick(menuEdit,Qt::Key_Enter);
 
-	QDialog* prefs = ui->findChild<QDialog*>("Preferences");
+	auto* prefs = ui->findChild<QDialog*>("Preferences");
 	prefs->activateWindow();
 	QTest::keyClick(prefs,Qt::Key_Enter,Qt::NoModifier,100);
 }
@@ -218,8 +218,8 @@ void Tester::searchTest()
 {
 	ui->activateWindow();
 	QTest::keyClick(ui,Qt::Key_F,Qt::ControlModifier,100);
-	QWidget* search=ui->findChild<QWidget*>("searchWidget");
-	QLineEdit* edit=search->findChild<QLineEdit*>("searchLineEdit");
+	auto* search=ui->findChild<QWidget*>("searchWidget");
+	auto* edit=search->findChild<QLineEdit*>("searchLineEdit");
 	QTest::keyClicks(edit,"cube",Qt::NoModifier);
 	QTest::keyClick(edit,Qt::Key_F3,Qt::NoModifier,100);
 	QTest::keyClick(edit,Qt::Key_F3,Qt::ShiftModifier,100);
@@ -230,7 +230,7 @@ void Tester::renderingTest()
 {
 	QFile f("test.rcad");
 	ui->activateWindow();
-	CodeEditor* edit = ui->findChild<CodeEditor*>("scriptEditor");
+	auto* edit = ui->findChild<CodeEditor*>("scriptEditor");
 	edit->activateWindow();
 	QTest::keyClicks(edit,"cube(10);");
 	QTest::keyClick(edit,Qt::Key_Tab,Qt::NoModifier,100);
@@ -246,7 +246,7 @@ void Tester::renderingTest()
 void Tester::consoleTest()
 {
 	ui->activateWindow();
-	Console* console = ui->findChild<Console*>("console");
+	auto* console = ui->findChild<Console*>("console");
 	console->activateWindow();
 	QTest::keyClicks(console,"1+2");
 	QTest::keyClick(console,Qt::Key_Return,Qt::NoModifier,100);
@@ -259,14 +259,14 @@ void Tester::builtinsTest()
 {
 	ui->activateWindow();
 	QTest::keyClick(ui,Qt::Key_D,Qt::AltModifier,100);
-	QMenu* menuDesign = ui->findChild<QMenu*>("menuDesign");
+	auto* menuDesign = ui->findChild<QMenu*>("menuDesign");
 	QTest::keyClick(menuDesign,Qt::Key_B,Qt::NoModifier,100);
 }
 
 void Tester::handleSaveItemsDialog()
 {
 	for(int i=0; i<10; ++i) {
-		QDialog* sd=ui->findChild<QDialog*>("SaveItemsDialog");
+		auto* sd=ui->findChild<QDialog*>("SaveItemsDialog");
 		if(sd) {
 			sd->activateWindow();
 			QTest::keyClick(sd,Qt::Key_C,Qt::AltModifier,100);

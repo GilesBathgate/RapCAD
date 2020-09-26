@@ -253,7 +253,7 @@ void MainWindow::setupActions()
 
 void MainWindow::setupExportActions()
 {
-	QSignalMapper* signalMapper = new QSignalMapper(this);
+	auto* signalMapper = new QSignalMapper(this);
 	signalMapper->setMapping(ui->actionExportVRML,"wrl");
 	signalMapper->setMapping(ui->actionExportOBJ,"obj");
 	signalMapper->setMapping(ui->actionExportAsciiSTL,"stl");
@@ -279,7 +279,7 @@ void MainWindow::setupExportActions()
 
 void MainWindow::setupViewActions()
 {
-	QSignalMapper* signalMapper = new QSignalMapper(this);
+	auto* signalMapper = new QSignalMapper(this);
 	signalMapper->setMapping(ui->actionTop,GLView::Top);
 	signalMapper->setMapping(ui->actionBottom,GLView::Bottom);
 	signalMapper->setMapping(ui->actionLeft,GLView::Left);
@@ -345,7 +345,7 @@ void MainWindow::preferencesUpdated()
 	Preferences& p=Preferences::getInstance();
 
 	for(auto i=0; i<ui->tabWidget->count(); ++i) {
-		CodeEditor* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
+		auto* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
 		c->preferencesUpdated();
 	}
 
@@ -397,7 +397,7 @@ void MainWindow::setupTreeview()
 	treeModel->setHorizontalHeaderLabels(headers);
 	QStandardItem* parentItem = treeModel->invisibleRootItem();
 
-	QStandardItem* item = new QStandardItem("New Project.rpro");
+	auto* item = new QStandardItem("New Project.rpro");
 	parentItem->appendRow(item);
 	item->appendRow(new QStandardItem("New.rcad"));
 
@@ -491,7 +491,7 @@ bool MainWindow::maybeSave(bool compiling)
 	bool modified=false;
 	QList<QString> files;
 	for(auto i=0; i<ui->tabWidget->count(); ++i) {
-		CodeEditor* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
+		auto* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
 		if(c->document()->isModified()) {
 			files.append(c->getFileName());
 			modified=true;
@@ -520,7 +520,7 @@ bool MainWindow::maybeSave(bool compiling)
 
 void MainWindow::newFile()
 {
-	CodeEditor* e = new CodeEditor(this);
+	auto* e = new CodeEditor(this);
 	int i=ui->tabWidget->addTab(e,tr("[New]"));
 	ui->tabWidget->setCurrentIndex(i);
 
@@ -571,7 +571,7 @@ bool MainWindow::saveAllFiles()
 {
 	QList<QString> all;
 	for(auto i=0; i<ui->tabWidget->count(); ++i) {
-		CodeEditor* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
+		auto* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
 		if(c->document()->isModified()) {
 			QString file=c->getFileName();
 			all.append(file);
@@ -584,7 +584,7 @@ bool MainWindow::saveSelectedFiles(const QList<QString>& files)
 {
 	bool result=true;
 	for(auto i=0; i<ui->tabWidget->count(); ++i) {
-		CodeEditor* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
+		auto* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
 		QString file=c->getFileName();
 		if(files.contains(file))
 			if(!c->saveFile())
@@ -727,7 +727,7 @@ void MainWindow::showAboutQt()
 
 void MainWindow::showBuiltins()
 {
-	CodeEditor* e = new CodeEditor(this);
+	auto* e = new CodeEditor(this);
 	int i=ui->tabWidget->addTab(e,tr("Built In"));
 	ui->tabWidget->setCurrentIndex(i);
 
@@ -789,7 +789,7 @@ void MainWindow::sendToCAM()
 	}
 
 	QString fileTemplate=QDir::tempPath().append("/XXXXXX.").append("3mf");
-	QTemporaryFile* file=new QTemporaryFile(fileTemplate);
+	auto* file=new QTemporaryFile(fileTemplate);
 	if(!file->open()) {
 		QMessageBox::information(this,title, tr("Could not create tempory file"));
 		delete file;
