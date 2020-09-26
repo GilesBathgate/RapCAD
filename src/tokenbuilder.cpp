@@ -52,7 +52,7 @@ TokenBuilder::TokenBuilder(Reporter& r,const QString& s) : TokenBuilder()
 	lexerinit(this,&r,s);
 }
 
-TokenBuilder::TokenBuilder(Reporter& r,QFileInfo fileinfo) : TokenBuilder()
+TokenBuilder::TokenBuilder(Reporter& r,const QFileInfo& fileinfo) : TokenBuilder()
 {
 	lexerinit(this,&r,fileinfo);
 }

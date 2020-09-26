@@ -40,7 +40,7 @@ void Literal::setValue(bool value)
 	boolean = value;
 }
 
-void Literal::setValue(decimal value)
+void Literal::setValue(const decimal& value)
 {
 	type = Number;
 	number = value;

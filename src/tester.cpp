@@ -42,7 +42,7 @@
 #include "ui/console.h"
 #include "ui/searchwidget.h"
 
-Tester::Tester(Reporter& r, QString d, QObject* parent) :
+Tester::Tester(Reporter& r,const QString& d,QObject* parent) :
 	QObject(parent),
 	Strategy(r),
 	directory(d),
@@ -356,7 +356,7 @@ void Tester::testFunction(Script& s)
 	delete n;
 }
 
-void Tester::testModule(Script& s, QFileInfo file)
+void Tester::testModule(Script& s,const QFileInfo& file)
 {
 #ifdef Q_OS_WIN
 	writeSkip();

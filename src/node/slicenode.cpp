@@ -24,7 +24,7 @@ SliceNode::SliceNode() :
 {
 }
 
-void SliceNode::setHeight(decimal h)
+void SliceNode::setHeight(const decimal& h)
 {
 	height=h;
 }
@@ -34,7 +34,7 @@ decimal SliceNode::getHeight() const
 	return height;
 }
 
-void SliceNode::setThickness(decimal t)
+void SliceNode::setThickness(const decimal& t)
 {
 	thickness=t;
 }

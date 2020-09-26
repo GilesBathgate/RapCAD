@@ -32,7 +32,7 @@ public:
 	~Script() override;
 
 	void parse(const QString&);
-	void parse(QFileInfo);
+	void parse(const QFileInfo&);
 
 	void setDeclarations(const QList<Declaration*>&);
 	QList<Declaration*> getDeclarations() const override;
@@ -43,7 +43,7 @@ public:
 	QList<QList<CodeDoc*> > getDocumentation() const;
 	void accept(TreeVisitor&) override;
 	QDir getFileLocation() const;
-	void setFileLocation(QDir);
+	void setFileLocation(const QDir&);
 private:
 	QList<Declaration*> declarations;
 	QList<QList<CodeDoc*> > documentation;

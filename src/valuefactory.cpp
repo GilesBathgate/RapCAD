@@ -31,7 +31,7 @@ BooleanValue* ValueFactory::createBoolean(bool b)
 	return v;
 }
 
-NumberValue* ValueFactory::createNumber(decimal n)
+NumberValue* ValueFactory::createNumber(const decimal& n)
 {
 	auto* v = new NumberValue(n);
 	values.append(v);

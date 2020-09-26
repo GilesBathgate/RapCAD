@@ -150,7 +150,7 @@ public:
 	}
 };
 
-static HalfEdgeHandle findNewEdge(QList<HalfEdgeHandle> visited,QList<HalfEdgeHandle> edges)
+static HalfEdgeHandle findNewEdge(const QList<HalfEdgeHandle>& visited,const QList<HalfEdgeHandle>& edges)
 {
 	for(HalfEdgeHandle h: edges)
 		if(!visited.contains(h) && !visited.contains(h->twin()))

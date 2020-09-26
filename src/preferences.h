@@ -65,22 +65,22 @@ public:
 	void setDefaultDistance(float);
 
 	QColor getMarkedVertexColor() const;
-	void setMarkedVertexColor(QColor);
+	void setMarkedVertexColor(const QColor&);
 
 	QColor getVertexColor() const;
-	void setVertexColor(QColor);
+	void setVertexColor(const QColor&);
 
 	QColor getMarkedEdgeColor() const;
-	void setMarkedEdgeColor(QColor);
+	void setMarkedEdgeColor(const QColor&);
 
 	QColor getEdgeColor() const;
-	void setEdgeColor(QColor);
+	void setEdgeColor(const QColor&);
 
 	QColor getMarkedFacetColor() const;
-	void setMarkedFacetColor(QColor);
+	void setMarkedFacetColor(const QColor&);
 
 	QColor getFacetColor() const;
-	void setFacetColor(QColor);
+	void setFacetColor(const QColor&);
 
 	bool getShowAxes() const;
 	void setShowAxes(bool);

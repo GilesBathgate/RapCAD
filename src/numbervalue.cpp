@@ -21,7 +21,7 @@
 #include "booleanvalue.h"
 #include "valuefactory.h"
 
-NumberValue::NumberValue(decimal value) : number(value)
+NumberValue::NumberValue(const decimal& value) : number(value)
 {
 }
 

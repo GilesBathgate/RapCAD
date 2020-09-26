@@ -179,7 +179,7 @@ decimal Worker::getBoundsHeight() const
 #endif
 }
 
-QList<Argument*> Worker::getArgs(decimal value)
+QList<Argument*> Worker::getArgs(const decimal& value)
 {
 	QList<Argument*> args;
 	auto* a=new Argument();

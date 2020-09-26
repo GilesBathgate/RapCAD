@@ -53,7 +53,7 @@ static void showVersion(QTextStream& out)
 	out << QCoreApplication::applicationName() << " " << QCoreApplication::applicationVersion() << endl;
 }
 
-static int showUi(int argc, char* argv[],QStringList filenames)
+static int showUi(int argc, char* argv[],const QStringList& filenames)
 {
 	QApplication a(argc,argv);
 	MainWindow w;

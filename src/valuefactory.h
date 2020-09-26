@@ -21,7 +21,7 @@ public:
 
 	Value* createUndefined();
 	BooleanValue* createBoolean(bool b);
-	NumberValue* createNumber(decimal n);
+	NumberValue* createNumber(const decimal&);
 	TextValue* createText(const QString&);
 	VectorValue* createVector(const QList<Value*>&);
 	RangeValue* createRange(Value*,Value*,Value*);

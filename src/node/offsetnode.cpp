@@ -22,7 +22,7 @@ OffsetNode::OffsetNode()
 {
 }
 
-void OffsetNode::setAmount(decimal a)
+void OffsetNode::setAmount(const decimal& a)
 {
 	amount=a;
 }

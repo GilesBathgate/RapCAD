@@ -216,7 +216,7 @@ QColor Preferences::getMarkedVertexColor() const
 	return settings->value("MarkedVertexColor",QColor(0xff,0xff,0xff)).value<QColor>();
 }
 
-void Preferences::setMarkedVertexColor(QColor c)
+void Preferences::setMarkedVertexColor(const QColor& c)
 {
 	settings->setValue("MarkedVertexColor",c);
 }
@@ -226,7 +226,7 @@ QColor Preferences::getVertexColor() const
 	return settings->value("VertexColor",QColor(0xff,0xff,0xff)).value<QColor>();
 }
 
-void Preferences::setVertexColor(QColor c)
+void Preferences::setVertexColor(const QColor& c)
 {
 	settings->setValue("VertexColor",c);
 }
@@ -236,7 +236,7 @@ QColor Preferences::getMarkedEdgeColor() const
 	return settings->value("MarkedEdgeColor",QColor(0x00,0x00,0x00)).value<QColor>();
 }
 
-void Preferences::setMarkedEdgeColor(QColor c)
+void Preferences::setMarkedEdgeColor(const QColor& c)
 {
 	settings->setValue("MarkedEdgeColor",c);
 }
@@ -246,7 +246,7 @@ QColor Preferences::getEdgeColor() const
 	return settings->value("EdgeColor",QColor(0x00,0x00,0x00)).value<QColor>();
 }
 
-void Preferences::setEdgeColor(QColor c)
+void Preferences::setEdgeColor(const QColor& c)
 {
 	settings->setValue("EdgeColor",c);
 }
@@ -256,7 +256,7 @@ QColor Preferences::getMarkedFacetColor() const
 	return settings->value("MarkedFacetColor",QColor(0xff,0x55,0x00)).value<QColor>();
 }
 
-void Preferences::setMarkedFacetColor(QColor c)
+void Preferences::setMarkedFacetColor(const QColor& c)
 {
 	settings->setValue("MarkedFacetColor",c);
 }
@@ -266,7 +266,7 @@ QColor Preferences::getFacetColor() const
 	return settings->value("FacetColor",QColor(0xff,0xaa,0x00)).value<QColor>();
 }
 
-void Preferences::setFacetColor(QColor c)
+void Preferences::setFacetColor(const QColor& c)
 {
 	settings->setValue("FacetColor",c);
 }

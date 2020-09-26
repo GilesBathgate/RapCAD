@@ -57,7 +57,7 @@ private slots:
 private:
 	Ui::Preferences* ui;
 	void setupWidgets();
-	static void setColor(QWidget*,QColor);
+	static void setColor(QWidget*,const QColor&);
 	void setupButtons();
 	QSignalMapper* signalMapper;
 	void updatePrecision();

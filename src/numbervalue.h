@@ -24,7 +24,7 @@
 class NumberValue : public Value
 {
 public:
-	explicit NumberValue(decimal);
+	explicit NumberValue(const decimal&);
 	QString getValueString() const override;
 	bool isTrue() const override;
 	decimal getNumber() const;

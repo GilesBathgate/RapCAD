@@ -101,7 +101,7 @@ void CGALRenderer::paint(bool skeleton, bool showedges)
 
 }
 
-void CGALRenderer::setColor(CGAL::Color& t,QColor c)
+void CGALRenderer::setColor(CGAL::Color& t,const QColor& c)
 {
 	CGAL::Color cc(c.red(),c.green(),c.blue(),c.alpha());
 	t=cc;

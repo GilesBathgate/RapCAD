@@ -28,7 +28,7 @@ decimal SimplifyNode::getRatio() const
 	return ratio;
 }
 
-void SimplifyNode::setRatio(decimal value)
+void SimplifyNode::setRatio(const decimal& value)
 {
 	ratio=value;
 }

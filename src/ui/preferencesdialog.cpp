@@ -120,7 +120,7 @@ void PreferencesDialog::setupWidgets()
 	updatePrecision();
 }
 
-void PreferencesDialog::setColor(QWidget* w,QColor c)
+void PreferencesDialog::setColor(QWidget* w,const QColor& c)
 {
 	QString style=QString("* { background-color: rgb(%1,%2,%3); }").arg(c.red()).arg(c.green()).arg(c.blue());
 	w->setStyleSheet(style);

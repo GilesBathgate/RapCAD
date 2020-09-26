@@ -83,7 +83,7 @@ Value* TextValue::operation(Value& v,Expression::Operator_e e)
 	return Value::operation(v,e);
 }
 
-QString TextValue::operation(QString left, Expression::Operator_e e, QString right)
+QString TextValue::operation(QString& left, Expression::Operator_e e,QString& right)
 {
 	switch(e) {
 		case Expression::Concatenate:
