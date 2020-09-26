@@ -422,7 +422,7 @@ void MainWindow::setupEditor(CodeEditor* editor)
 	ui->searchWidget->setTextEdit(editor);
 }
 
-void MainWindow::setupTabs(QTabWidget* tabWidget)
+void MainWindow::setupTabs(QTabWidget* tabWidget) const
 {
 	tabWidget->setTabsClosable(true);
 	connect(tabWidget,&QTabWidget::tabCloseRequested,this,&MainWindow::closeFile);

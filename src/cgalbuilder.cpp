@@ -69,12 +69,12 @@ struct FaceInfo {
 
 	FaceInfo() : nestingLevel(-1) {}
 
-	bool inDomain()
+	bool inDomain() const
 	{
 		return nestingLevel%2;
 	}
 
-	bool isNested()
+	bool isNested() const
 	{
 		return nestingLevel != -1;
 	}
@@ -85,7 +85,7 @@ struct FaceInfo {
 struct VertexInfo {
 	VertexInfo() : index(-1) {}
 
-	bool isValid()
+	bool isValid() const
 	{
 		return index != -1;
 	}

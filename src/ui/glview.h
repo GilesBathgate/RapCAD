@@ -69,7 +69,7 @@ public slots:
 	void setViewport(GLfloat,GLfloat,GLfloat,GLfloat,GLfloat,GLfloat);
 	void setPrintOrigin(GLfloat,GLfloat);
 	void setPrintVolume(GLfloat,GLfloat,GLfloat);
-	void getViewport(GLfloat&,GLfloat&,GLfloat&,GLfloat&,GLfloat&,GLfloat&);
+	void getViewport(GLfloat&,GLfloat&,GLfloat&,GLfloat&,GLfloat&,GLfloat&) const;
 	void setShowAxes(bool);
 	void setShowRulers(bool);
 	void setShowBase(bool);

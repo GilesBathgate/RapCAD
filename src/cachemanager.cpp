@@ -60,7 +60,7 @@ void CacheManager::enableCaches()
 	flushCaches();
 }
 
-Cache* CacheManager::createCache()
+Cache* CacheManager::createCache() const
 {
 	if(disabled)
 		return new EmptyCache();

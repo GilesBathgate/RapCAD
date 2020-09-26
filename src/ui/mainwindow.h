@@ -91,7 +91,7 @@ private:
 	void setupExportActions();
 	void setupViewActions();
 	void setupEditor(CodeEditor*);
-	void setupTabs(QTabWidget*);
+	void setupTabs(QTabWidget*) const;
 	void setupConsole();
 	void setupTreeview();
 	CodeEditor* currentEditor();

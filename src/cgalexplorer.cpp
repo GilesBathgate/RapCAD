@@ -62,7 +62,7 @@ class ShellExplorer
 		return h<t?h:t;
 	}
 
-	bool isBase(CGALPolygon* p)
+	bool isBase(CGALPolygon* p) const
 	{
 		CGAL::Vector3 v=p->getNormal();
 		return (v.x()==0&&v.y()==0)&&direction?v.z()<0:v.z()>0;

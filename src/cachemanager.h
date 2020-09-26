@@ -33,7 +33,7 @@ public:
 private:
 	CacheManager();
 	~CacheManager();
-	Cache* createCache();
+	Cache* createCache() const;
 	Cache* cache;
 	bool disabled;
 };

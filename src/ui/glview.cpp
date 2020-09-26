@@ -67,7 +67,7 @@ GLView::~GLView()
 	delete render;
 }
 
-void GLView::getViewport(GLfloat& rx,GLfloat& ry,GLfloat& rz,GLfloat& x,GLfloat& z,GLfloat& d)
+void GLView::getViewport(GLfloat& rx,GLfloat& ry,GLfloat& rz,GLfloat& x,GLfloat& z,GLfloat& d) const
 {
 	rx=rotateX;
 	ry=rotateY;
