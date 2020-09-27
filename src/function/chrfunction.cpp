@@ -30,7 +30,7 @@ Value* ChrFunction::evaluate(const Context& ctx) const
 {
 	QString result;
 	for(const auto& arg: ctx.getArguments()) {
-		Value* argVal = arg.second;
+		Value* argVal = arg.getValue();
 		auto* code=dynamic_cast<NumberValue*>(argVal);
 		if(code) {
 			uint point=code->toInteger();

@@ -16,29 +16,21 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "strfunction.h"
-#include "context.h"
-#include "context.h"
-#include "textvalue.h"
+#ifndef NAMEDVALUE_H
+#define NAMEDVALUE_H
 
-StrFunction::StrFunction() : Function("str")
+#include <QString>
+#include "value.h"
+
+class NamedValue
 {
-	addDescription(tr("Converts the value to a text value."));
-}
+public:
+	NamedValue(const QString&,Value*);
+	const QString& getName() const;
+	Value* getValue() const;
+private:
+	QString name;
+	Value* value;
+};
 
-Value* StrFunction::evaluate(const Context& ctx) const
-{
-	TextValue* val=nullptr;
-	for(const auto& arg: ctx.getArguments()) {
-		Value* argVal = arg.getValue();
-		TextValue* textArg = argVal->toText();
-		if(!val) {
-			val=textArg;
-		} else {
-			Value* res=Value::operation(val,Expression::Concatenate,textArg);
-			val=res->toText();
-		}
-	}
-
-	return val;
-}
+#endif // NAMEDVALUE_H

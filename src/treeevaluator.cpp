@@ -258,8 +258,8 @@ void TreeEvaluator::visit(const ForStatement& forstmt)
 	if(!args.isEmpty()) {
 		//TODO for now just consider the first arg.
 		const auto& firstArg = args.at(0);
-		QString name=firstArg.first;
-		Value* val=firstArg.second;
+		const QString& name=firstArg.getName();
+		Value* val=firstArg.getValue();
 
 		ValueIterator* it=val->createIterator();
 		for(Value* v: *it) {

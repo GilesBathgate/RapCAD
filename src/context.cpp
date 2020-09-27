@@ -143,12 +143,12 @@ void Context::setVariablesFromArguments()
 {
 	for(auto i=0; i<parameters.size(); ++i) {
 		auto param=parameters.at(i);
-		QString paramName=param.first;
-		Value* paramVal=param.second;
+		const QString& paramName=param.getName();
+		Value* paramVal=param.getValue();
 		bool found=false;
 		for(const auto& arg: arguments) {
-			QString argName=arg.first;
-			Value* argVal=arg.second;
+			const QString& argName=arg.getName();
+			Value* argVal=arg.getValue();
 			if(argVal->isDefined()&&argName==paramName) {
 				paramVal=argVal;
 				found=true;
@@ -157,8 +157,8 @@ void Context::setVariablesFromArguments()
 		}
 		if(!found&&i<arguments.size()) {
 			auto arg=arguments.at(i);
-			QString argName=arg.first;
-			Value* argVal=arg.second;
+			const QString& argName=arg.getName();
+			Value* argVal=arg.getValue();
 			if(argVal->isDefined()&&argName.isEmpty()) {
 				paramVal=argVal;
 			}
@@ -168,7 +168,7 @@ void Context::setVariablesFromArguments()
 	}
 }
 
-QList<QPair<QString,Value*>> Context::getArguments() const
+QList<NamedValue> Context::getArguments() const
 {
 	return arguments;
 }
@@ -177,18 +177,18 @@ QList<Value*> Context::getArgumentValues() const
 {
 	QList<Value*> values;
 	for(const auto& arg: arguments)
-		values.append(arg.second);
+		values.append(arg.getValue());
 	return values;
 }
 
-void Context::addArgument(QPair<QString,Value*> value)
+void Context::addArgument(const NamedValue& value)
 {
 	arguments.append(value);
 }
 
 void Context::addArgument(const QString& name,Value* value)
 {
-	addArgument(QPair<QString,Value*>(name,value));
+	addArgument(NamedValue(name,value));
 }
 
 void Context::clearArguments()
@@ -231,7 +231,7 @@ void Context::clearParameters()
 
 void Context::addParameter(const QString& name,Value* value)
 {
-	parameters.append(QPair<QString,Value*>(name,value));
+	parameters.append(NamedValue(name,value));
 }
 
 void Context::setInputNodes(const QList<Node*>& value)
@@ -274,9 +274,9 @@ Value* Context::matchArgumentIndex(bool allowChar,bool matchLast, int index, con
 		return matchArgument(allowChar,matchLast,name);
 
 	auto arg = arguments.at(index);
-	QString argName = arg.first;
+	const QString& argName = arg.getName();
 	if(argName.isEmpty() || match(allowChar,matchLast,argName,name))
-		return arg.second;
+		return arg.getValue();
 
 	return matchArgument(allowChar,matchLast,name);
 }
@@ -284,9 +284,9 @@ Value* Context::matchArgumentIndex(bool allowChar,bool matchLast, int index, con
 Value* Context::matchArgument(bool allowChar,bool matchLast, const QString& name) const
 {
 	for(const auto& namedArg: arguments) {
-		QString namedArgName = namedArg.first;
+		const QString& namedArgName = namedArg.getName();
 		if(match(allowChar,matchLast,namedArgName,name))
-			return namedArg.second;
+			return namedArg.getValue();
 	}
 
 	return nullptr;

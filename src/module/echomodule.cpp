@@ -37,7 +37,7 @@ Node* EchoModule::evaluate(const Context& ctx) const
 
 	OnceOnly first;
 	for(const auto& a: args) {
-		Value* v=a.second;
+		Value* v=a.getValue();
 		if(!first())
 			output << ", ";
 		auto* t=dynamic_cast<TextValue*>(v);
