@@ -107,7 +107,7 @@ int to_integer(const decimal& n)
 
 bool to_boolean(const decimal& n)
 {
-	return n==decimal(0)?false:true;
+	return (n != decimal(0));
 }
 
 #ifdef USE_CGAL

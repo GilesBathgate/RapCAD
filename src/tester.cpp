@@ -110,9 +110,7 @@ static bool skipDir(const QString& dir)
 #ifndef USE_SUBDIV
 	if(dir=="090_subdiv") return true;
 #endif
-	if(dir=="") return true;
-
-	return false;
+	return (dir=="");
 }
 
 int Tester::evaluate()
