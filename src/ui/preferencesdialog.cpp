@@ -109,9 +109,9 @@ void PreferencesDialog::setupWidgets()
 	ui->YspinBox->setValue(o.y());
 
 	QVector3D v=p.getPrintVolume();
-	ui->widthSpinBox->setValue(v.x());
-	ui->lengthSpinBox->setValue(v.y());
-	ui->heightSpinBox->setValue(v.z());
+	ui->widthSpinBox->setValue(int(v.x()));
+	ui->lengthSpinBox->setValue(int(v.y()));
+	ui->heightSpinBox->setValue(int(v.z()));
 
 	ui->appearanceComboBox->setCurrentIndex(p.getPrintBedAppearance());
 
@@ -210,14 +210,14 @@ void PreferencesDialog::colorButtonPressed(QWidget* frame)
 void PreferencesDialog::vertexSizeChanged(double s)
 {
 	Preferences& p = Preferences::getInstance();
-	p.setVertexSize(s);
+	p.setVertexSize(float(s));
 	emit preferencesUpdated();
 }
 
 void PreferencesDialog::edgeSizeChanged(double s)
 {
 	Preferences& p = Preferences::getInstance();
-	p.setEdgeSize(s);
+	p.setEdgeSize(float(s));
 	emit preferencesUpdated();
 }
 
@@ -326,8 +326,10 @@ void PreferencesDialog::outputFormatChanged(bool)
 void PreferencesDialog::volumeChanged()
 {
 	Preferences& p = Preferences::getInstance();
-	QVector3D v(ui->widthSpinBox->value(),ui->lengthSpinBox->value(),ui->heightSpinBox->value());
-	p.setPrintVolume(v);
+	auto width = float(ui->widthSpinBox->value());
+	auto length = float(ui->lengthSpinBox->value());
+	auto height = float(ui->heightSpinBox->value());
+	p.setPrintVolume(QVector3D(width,length,height));
 	emit preferencesUpdated();
 }
 

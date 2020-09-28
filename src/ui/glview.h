@@ -91,7 +91,7 @@ private:
 	void wheelEvent(QWheelEvent* event) override;
 
 	static void normalizeAngle(GLfloat&);
-	void zoomView(float);
+	void zoomView(GLfloat);
 	void drawGradientBackground();
 	void drawAxes();
 	void drawBase();

@@ -117,12 +117,12 @@ void GLView::setShowEdges(bool edges)
 
 void GLView::changeViewport(int t)
 {
-	float rx;
-	float ry;
-	float rz;
-	float x;
-	float z;
-	float d;
+	GLfloat rx;
+	GLfloat ry;
+	GLfloat rz;
+	GLfloat x;
+	GLfloat z;
+	GLfloat d;
 	getViewport(rx,ry,rz,x,z,d);
 
 	switch(t) {
@@ -271,7 +271,7 @@ void GLView::drawAxes()
 	glLineWidth(1);
 	glColor3f(0.0F,0.0F,0.0F);
 	glBegin(GL_LINES);
-	float c=fmax(distance/2,GLfloat(rulerLength));
+	GLfloat c=fmaxf(distance/2.0F,GLfloat(rulerLength));
 	glVertex3f(-c,0.0F,0.0F);
 	glVertex3f(+c,0.0F,0.0F);
 	glVertex3f(0.0F,-c,0.0F);
@@ -491,7 +491,7 @@ void GLView::paintGL()
 
 void GLView::renderX(GLfloat x,GLfloat y,GLfloat z)
 {
-	const float d=2.0F;
+	const GLfloat d=2.0F;
 	glColor3f(1.0F,0.0F,0.0F);
 	glBegin(GL_LINES);
 	glVertex3f(x-d,y,z-d);
@@ -503,7 +503,7 @@ void GLView::renderX(GLfloat x,GLfloat y,GLfloat z)
 
 void GLView::renderY(GLfloat x,GLfloat y,GLfloat z)
 {
-	const float d=2.0F;
+	const GLfloat d=2.0F;
 	glColor3f(0.0F,1.0F,0.0F);
 	glBegin(GL_LINES);
 	glVertex3f(x+d,y,z+d);
@@ -517,7 +517,7 @@ void GLView::renderY(GLfloat x,GLfloat y,GLfloat z)
 
 void GLView::renderZ(GLfloat x,GLfloat y,GLfloat z)
 {
-	const float d=2.0F;
+	const GLfloat d=2.0F;
 	glColor3f(0.0F,0.0F,1.0F);
 	glBegin(GL_LINES);
 	glVertex3f(x-d,y,z-d);
@@ -531,13 +531,13 @@ void GLView::renderZ(GLfloat x,GLfloat y,GLfloat z)
 
 void GLView::wheelEvent(QWheelEvent* event)
 {
-	zoomView(event->delta()/12);
+	zoomView(GLfloat(event->delta()/12));
 	update();
 }
 
-void GLView::zoomView(float amt)
+void GLView::zoomView(GLfloat amt)
 {
-	distance*=GLfloat(pow(0.9,amt/10));
+	distance*=powf(0.9F,amt/10.0F);
 }
 
 void GLView::mousePressEvent(QMouseEvent* event)
@@ -576,7 +576,7 @@ void GLView::mouseMoveEvent(QMouseEvent* event)
 		normalizeAngle(rotateZ);
 	} else {
 		if(shift) {
-			zoomView(-dy);
+			zoomView(GLfloat(-dy));
 		} else {
 			viewportX+=GLfloat(dx);
 			viewportZ-=GLfloat(dy);
