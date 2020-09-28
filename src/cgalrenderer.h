@@ -40,18 +40,19 @@ private:
 	CGAL::Color getFacetColor(bool mark) const override;
 	float getVertexSize() const override;
 	float getEdgeSize() const override;
+	void loadPreferences();
+	static void desaturate(CGAL::Color& c);
+	void descendChildren(Primitive* pr);
+
 	CGAL::Color markedVertexColor;
 	CGAL::Color vertexColor;
 	CGAL::Color markedEdgeColor;
 	CGAL::Color edgeColor;
 	CGAL::Color markedFacetColor;
 	CGAL::Color facetColor;
+	SimpleRenderer* simple;
 	float vertexSize;
 	float edgeSize;
-	void loadPreferences();
-	static void desaturate(CGAL::Color& c);
-	void descendChildren(Primitive* pr);
-	SimpleRenderer* simple;
 };
 
 #endif // CGALRENDERER_H

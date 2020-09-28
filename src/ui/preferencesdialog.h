@@ -55,12 +55,12 @@ private slots:
 	void launchCommandChanged(const QString&);
 	void launchCommandUpdated();
 private:
-	Ui::Preferences* ui;
 	void setupWidgets();
 	static void setColor(QWidget*,const QColor&);
 	void setupButtons();
-	QSignalMapper* signalMapper;
 	void updatePrecision();
+	Ui::Preferences* ui;
+	QSignalMapper* signalMapper;
 };
 
 #endif // PREFERENCESDIALOG_H

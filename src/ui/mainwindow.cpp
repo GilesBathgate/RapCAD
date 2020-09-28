@@ -37,7 +37,13 @@
 
 MainWindow::MainWindow(QWidget* parent) :
 	QMainWindow(parent),
-	ui(new Ui::MainWindow)
+	ui(new Ui::MainWindow),
+	treeModel(nullptr),
+	console(nullptr),
+	output(nullptr),
+	reporter(nullptr),
+	worker(nullptr),
+	interact(nullptr)
 {
 	if(!QIcon::hasThemeIcon("document-open")) {
 		QIcon::setThemeName("gnome");

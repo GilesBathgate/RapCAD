@@ -21,7 +21,9 @@
 #include "primitive.h"
 
 CGALRenderer::CGALRenderer(Primitive* primitive) :
-	simple(new SimpleRenderer(primitive))
+	simple(new SimpleRenderer(primitive)),
+	vertexSize(0.0F),
+	edgeSize(0.0F)
 {
 	loadPreferences();
 	descendChildren(primitive);

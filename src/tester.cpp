@@ -51,7 +51,8 @@ Tester::Tester(Reporter& r,const QString& d,QObject* parent) :
 	nullreport(new Reporter(*nullstream)),
 	testcount(0),
 	passcount(0),
-	failcount(0)
+	failcount(0),
+	ui(nullptr)
 {
 }
 

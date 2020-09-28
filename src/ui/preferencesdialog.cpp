@@ -29,7 +29,8 @@
 
 PreferencesDialog::PreferencesDialog(QWidget* parent) :
 	QDialog(parent),
-	ui(new Ui::Preferences)
+	ui(new Ui::Preferences),
+	signalMapper(new QSignalMapper(this))
 {
 	ui->setupUi(this);
 
@@ -130,8 +131,6 @@ void PreferencesDialog::setupButtons()
 {
 	connect(ui->fontComboBox,SIGNAL(currentFontChanged(QFont)),SLOT(fontChanged(QFont)));
 	connect(ui->sizeComboBox,SIGNAL(currentIndexChanged(QString)),SLOT(fontSizeChanged(QString)));
-
-	signalMapper = new QSignalMapper(this);
 	signalMapper->setMapping(ui->markedVertexColorToolButton,ui->markedVertexColorFrame);
 	signalMapper->setMapping(ui->vertexColorToolButton,ui->vertexColorFrame);
 	signalMapper->setMapping(ui->markedEdgeColorToolButton,ui->markedEdgeColorFrame);

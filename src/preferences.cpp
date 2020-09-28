@@ -26,7 +26,8 @@
 #endif
 
 Preferences::Preferences() :
-	settings(new QSettings())
+	settings(new QSettings()),
+	precision(0)
 {
 	updatePrecision();
 }
