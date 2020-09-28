@@ -45,7 +45,7 @@ QString VectorValue::getValueString() const
 
 bool VectorValue::isTrue() const
 {
-	return children.size()>0;
+	return !children.empty();
 }
 
 VectorValue* VectorValue::toVector(int)

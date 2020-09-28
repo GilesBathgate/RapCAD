@@ -203,7 +203,7 @@ void CGALExplorer::explore()
 			outEdges.append(it.key());
 	}
 
-	if(outEdges.size()>0) {
+	if(!outEdges.empty()) {
 
 		/* Now walk the perimeter moving from source to target along
 		 * each halfedge so that the edges come out in the correct

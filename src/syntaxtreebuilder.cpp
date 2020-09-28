@@ -404,7 +404,7 @@ QList<Argument*>* SyntaxTreeBuilder::buildArguments(Argument* arg)
 QList<Argument*>* SyntaxTreeBuilder::buildArguments(QList<Argument*>* args,unsigned int count,Argument* arg)
 {
 	//if we are passed an empty list then we know that the first argument was blank.
-	if(args->size()==0)
+	if(args->empty())
 		args->append(new Argument());
 
 	for(unsigned int i=0; i<count; ++i)
