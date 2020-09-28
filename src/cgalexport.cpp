@@ -108,8 +108,8 @@ void CGALExport::exportOFF() const
 }
 
 typedef CGAL::Polyhedron3::Vertex_const_iterator VertexIterator;
-typedef CGAL::Polyhedron3::Facet_const_iterator FacetIterator;
-typedef CGAL::Polyhedron3::Halfedge_around_facet_const_circulator HalffacetCirculator;
+using FacetIterator = CGAL::Polyhedron3::Facet_const_iterator;
+using HalffacetCirculator = CGAL::Polyhedron3::Halfedge_around_facet_const_circulator;
 
 static QList<CGAL::Triangle3> generateTriangles(CGAL::Polyhedron3* poly)
 {

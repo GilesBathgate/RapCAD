@@ -250,11 +250,11 @@ void NodeEvaluator::visit(const HullNode& n)
 		}
 
 		typedef CGAL::Alpha_shape_vertex_base_3<CGAL::Kernel3>     Vb;
-		typedef CGAL::Alpha_shape_cell_base_3<CGAL::Kernel3>       Fb;
-		typedef CGAL::Triangulation_data_structure_3<Vb,Fb>        Tds;
-		typedef CGAL::Delaunay_triangulation_3<CGAL::Kernel3, Tds> Triangulation_3;
-		typedef CGAL::Alpha_shape_3<Triangulation_3>               Alpha_shape_3;
-		typedef Alpha_shape_3::Facet                               Facet;
+		using Fb = CGAL::Alpha_shape_cell_base_3<CGAL::Kernel3>;
+		using Tds = CGAL::Triangulation_data_structure_3<Vb, Fb>;
+		using Triangulation_3 = CGAL::Delaunay_triangulation_3<CGAL::Kernel3, Tds>;
+		using Alpha_shape_3 = CGAL::Alpha_shape_3<Triangulation_3>;
+		using Facet = Alpha_shape_3::Facet;
 
 		Alpha_shape_3 as(points.begin(), points.end(),0.001,Alpha_shape_3::GENERAL);
 		const auto& opt = as.find_optimal_alpha(1);

@@ -140,7 +140,7 @@ static void removeShortestEdges(CGAL::Polyhedron3& p,HalfedgeHandle h1,HalfedgeH
 
 static void fixZero(CGAL::Polyhedron3& p)
 {
-	typedef CGAL::Polyhedron3::Facet_iterator FacetIterator;
+	using FacetIterator = CGAL::Polyhedron3::Facet_iterator;
 	for(FacetIterator f=p.facets_begin(); f!=p.facets_end(); ++f) {
 		if(f->facet_degree()<3) {
 			p.erase_facet(f->halfedge());
@@ -150,7 +150,7 @@ static void fixZero(CGAL::Polyhedron3& p)
 
 static void fixZeroTriangles(CGAL::Polyhedron3& p)
 {
-	typedef CGAL::Polyhedron3::Facet_iterator FacetIterator;
+	using FacetIterator = CGAL::Polyhedron3::Facet_iterator;
 	for(FacetIterator f=p.facets_begin(); f!=p.facets_end(); ++f) {
 		if(f->facet_degree()>3) continue;
 		HalfedgeHandle h1=f->halfedge();
@@ -167,7 +167,7 @@ static void fixZeroTriangles(CGAL::Polyhedron3& p)
 
 static bool removeShortEdges(CGAL::Polyhedron3& p)
 {
-	typedef CGAL::Polyhedron3::Halfedge_iterator HalfedgeIterator;
+	using HalfedgeIterator = CGAL::Polyhedron3::Halfedge_iterator;
 	for(HalfedgeIterator h=p.halfedges_begin(); h!=p.halfedges_end(); ++h) {
 		if(getLength(h)==0.0) {
 			removeShortEdge(p,h);
@@ -243,8 +243,8 @@ CGAL::NefPolyhedron3* CGALPrimitive::createPolyline()
 
 CGAL::NefPolyhedron3* CGALPrimitive::createPolyline(QVector<CGAL::Point3> pl)
 {
-	typedef QPair<CGAL::Point3*,CGAL::Point3*>  PointRange;
-	typedef QList<PointRange> PolyLine;
+	using PointRange = QPair<CGAL::Point3*,CGAL::Point3*>;
+	using PolyLine = QList<PointRange>;
 
 	PointRange p(pl.begin(),pl.end());
 	PolyLine poly;
@@ -502,7 +502,7 @@ Primitive* CGALPrimitive::decompose()
 	this->buildPrimitive();
 	CGAL::convex_decomposition_3(*nefPolyhedron);
 
-	typedef CGAL::NefPolyhedron3::Volume_const_iterator VolumeIterator;
+	using VolumeIterator = CGAL::NefPolyhedron3::Volume_const_iterator;
 	// the first volume is the outer volume, which is
 	// ignored in the decomposition
 	VolumeIterator ci;
@@ -647,8 +647,8 @@ CGAL::Circle3 CGALPrimitive::getRadius()
 		points3=points;
 	}
 
-	typedef  CGAL::Min_circle_2_traits_2<CGAL::Kernel3> Traits;
-	typedef  CGAL::Min_circle_2<Traits> Min_circle;
+	using Traits = CGAL::Min_circle_2_traits_2<CGAL::Kernel3>;
+	using Min_circle = CGAL::Min_circle_2<Traits>;
 
 	QList<CGAL::Point2> points2;
 	for(const auto& pt3: points3) {

@@ -117,8 +117,8 @@ static void markDomain(CT& ct,FaceHandle start,int index,QList<Edge>& border)
 template <class CT>
 static void markDomains(CT& ct)
 {
-	typedef typename CT::Face_handle FaceHandle;
-	typedef typename CT::Edge Edge;
+	using FaceHandle = typename CT::Face_handle;
+	using Edge = typename CT::Edge;
 
 	QList<Edge> border;
 	markDomain(ct, ct.infinite_face(), 0, border);
@@ -163,14 +163,14 @@ void insert_constraint(CT& ct,PointIterator first, PointIterator last, bool clos
 
 bool CGALBuilder::triangulate()
 {
-	typedef CGAL::Triangulation_vertex_base_with_info_2<VertexInfo,CGAL::Kernel3> VertexBase;
-	typedef CGAL::Triangulation_face_base_with_info_2<FaceInfo,CGAL::Kernel3> Info;
-	typedef CGAL::Constrained_triangulation_face_base_2<CGAL::Kernel3,Info> FaceBase;
-	typedef CGAL::Triangulation_data_structure_2<VertexBase,FaceBase> TDS;
-	typedef CGAL::Exact_predicates_tag Tag;
-	typedef CGAL::Constrained_triangulation_2<CGAL::Kernel3,TDS,Tag> CT;
-	typedef CT::Vertex_handle VertexHandle;
-	typedef CT::Face_iterator FaceIterator;
+	using VertexBase = CGAL::Triangulation_vertex_base_with_info_2<VertexInfo, CGAL::Kernel3>;
+	using Info = CGAL::Triangulation_face_base_with_info_2<FaceInfo, CGAL::Kernel3>;
+	using FaceBase = CGAL::Constrained_triangulation_face_base_2<CGAL::Kernel3, Info>;
+	using TDS = CGAL::Triangulation_data_structure_2<VertexBase, FaceBase>;
+	using Tag = CGAL::Exact_predicates_tag;
+	using CT = CGAL::Constrained_triangulation_2<CGAL::Kernel3, TDS, Tag>;
+	using VertexHandle = CT::Vertex_handle;
+	using FaceIterator = CT::Face_iterator;
 
 
 	QList<CGAL::Point3> points3=primitive.getPoints();
@@ -227,8 +227,8 @@ void CGALBuilder::buildOffsetPolygons(const CGAL::Scalar&) {}
 #else
 void CGALBuilder::buildOffsetPolygons(const CGAL::Scalar& amount)
 {
-	typedef boost::shared_ptr<CGAL::Polygon2> PolygonPtr;
-	typedef std::vector<PolygonPtr> PolygonPtrVector;
+	using PolygonPtr = boost::shared_ptr<CGAL::Polygon2>;
+	using PolygonPtrVector = std::vector<PolygonPtr>;
 
 	CGAL::Polygon2 poly;
 	CGALExplorer e(&primitive);

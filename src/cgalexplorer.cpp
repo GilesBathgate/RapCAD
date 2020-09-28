@@ -33,10 +33,10 @@ CGALExplorer::CGALExplorer(Primitive* p) :
 }
 
 typedef CGAL::NefPolyhedron3 Nef;
-typedef Nef::Volume_const_iterator VolumeIterator;
-typedef Nef::Shell_entry_const_iterator ShellEntryIterator;
-typedef Nef::Halfedge_const_handle HalfEdgeHandle;
-typedef Nef::SFace_const_handle SFaceHandle;
+using VolumeIterator = Nef::Volume_const_iterator;
+using ShellEntryIterator = Nef::Shell_entry_const_iterator;
+using HalfEdgeHandle = Nef::Halfedge_const_handle;
+using SFaceHandle = Nef::SFace_const_handle;
 
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(3,7,0)
 static bool operator<(HalfEdgeHandle h1,HalfEdgeHandle h2)
@@ -47,14 +47,14 @@ static bool operator<(HalfEdgeHandle h1,HalfEdgeHandle h2)
 
 class ShellExplorer
 {
-	typedef Nef::Halffacet_const_handle HalfFacetHandle;
-	typedef Nef::Halffacet_const_iterator HalfFacetIterator;
-	typedef Nef::Halffacet_cycle_const_iterator HalfFacetCycleIterator;
-	typedef Nef::SHalfedge_const_handle SHalfEdgeHandle;
-	typedef Nef::SHalfloop_const_handle SHalfLoopHandle;
-	typedef Nef::SHalfedge_around_facet_const_circulator SHalfEdgeCirculator;
-	typedef Nef::Vertex_const_handle VertexHandle;
-	typedef Nef::SVertex_const_handle SVertexHandle;
+	using HalfFacetHandle = Nef::Halffacet_const_handle;
+	using HalfFacetIterator = Nef::Halffacet_const_iterator;
+	using HalfFacetCycleIterator = Nef::Halffacet_cycle_const_iterator;
+	using SHalfEdgeHandle = Nef::SHalfedge_const_handle;
+	using SHalfLoopHandle = Nef::SHalfloop_const_handle;
+	using SHalfEdgeCirculator = Nef::SHalfedge_around_facet_const_circulator;
+	using VertexHandle = Nef::Vertex_const_handle;
+	using SVertexHandle = Nef::SVertex_const_handle;
 
 	static HalfEdgeHandle getID(HalfEdgeHandle h)
 	{
@@ -303,10 +303,10 @@ CGALVolume CGALExplorer::getVolume(bool calcMass)
 {
 	if(!evaluated) evaluate();
 
-	typedef CGAL::Triangulation_3<CGAL::Kernel3> Triangulation;
-	typedef Triangulation::Finite_cells_iterator CellIterator;
-	typedef Triangulation::Cell_handle CellHandle;
-	typedef Triangulation::Tetrahedron Tetrahedron;
+	using Triangulation = CGAL::Triangulation_3<CGAL::Kernel3>;
+	using CellIterator = Triangulation::Finite_cells_iterator;
+	using CellHandle = Triangulation::Cell_handle;
+	using Tetrahedron = Triangulation::Tetrahedron;
 
 	CGAL::Scalar total=0;
 	QList<Tetrahedron> volumes;
