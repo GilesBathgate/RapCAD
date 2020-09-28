@@ -18,10 +18,6 @@
 
 #include "valueiterator.h"
 
-ValueIterator::ValueIterator() : ValueIterator(nullptr)
-{
-}
-
 ValueIterator::ValueIterator(Value* val) :
 	value(val),
 	done(false)

@@ -21,6 +21,7 @@
 #include "valuefactory.h"
 
 TextIterator::TextIterator(const QString& t) :
+	ValueIterator(nullptr),
 	text(t),
 	index(0)
 {
