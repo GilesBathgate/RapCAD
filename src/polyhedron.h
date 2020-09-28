@@ -24,7 +24,7 @@
 class Polyhedron : public Primitive
 {
 public:
-	Polyhedron();
+	Polyhedron() = default;
 	~Polyhedron() override;
 	Polygon* createPolygon() override;
 	void createVertex(const Point&) override;

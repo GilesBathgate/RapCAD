@@ -18,14 +18,6 @@
 
 #include "scriptimport.h"
 
-ScriptImport::ScriptImport()
-{
-}
-
-ScriptImport::~ScriptImport()
-{
-}
-
 void ScriptImport::setImport(const QString& imp)
 {
 	import = imp;

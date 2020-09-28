@@ -18,10 +18,6 @@
 
 #include "normalsnode.h"
 
-NormalsNode::NormalsNode()
-{
-}
-
 void NormalsNode::accept(NodeVisitor& v)
 {
 	v.visit(*this);

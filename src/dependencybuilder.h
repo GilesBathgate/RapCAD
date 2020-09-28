@@ -24,8 +24,8 @@
 class DependencyBuilder : public AbstractSyntaxTreeBuilder
 {
 public:
-	DependencyBuilder();
-	~DependencyBuilder() override;
+	DependencyBuilder() = default;
+	~DependencyBuilder() override = default;
 	void buildFileLocation(QDir) override;
 	void buildScript(Declaration*) override;
 	void buildScript(QList<Declaration*>*) override;

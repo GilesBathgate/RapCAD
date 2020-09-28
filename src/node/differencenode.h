@@ -24,7 +24,7 @@
 class DifferenceNode : public Node
 {
 public:
-	DifferenceNode();
+	DifferenceNode() = default;
 	void accept(NodeVisitor&) override;
 };
 

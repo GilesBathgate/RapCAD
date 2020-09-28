@@ -23,10 +23,6 @@ Variable::Variable() :
 {
 }
 
-Variable::~Variable()
-{
-}
-
 QString Variable::getName() const
 {
 	return name;

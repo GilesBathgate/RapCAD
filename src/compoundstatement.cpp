@@ -18,10 +18,6 @@
 
 #include "compoundstatement.h"
 
-CompoundStatement::CompoundStatement()
-{
-}
-
 CompoundStatement::~CompoundStatement()
 {
 	qDeleteAll(children);

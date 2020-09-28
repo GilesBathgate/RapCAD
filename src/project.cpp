@@ -19,10 +19,6 @@
 #include "project.h"
 #include <QFile>
 
-Project::Project()
-{
-}
-
 void Project::parseProject(const QString& filename)
 {
 	auto* file=new QFile(filename);

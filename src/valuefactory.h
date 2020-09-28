@@ -27,7 +27,7 @@ public:
 	RangeValue* createRange(Value*,Value*,Value*);
 	ComplexValue* createComplex(Value*,const QList<Value*>&);
 private:
-	ValueFactory();
+	ValueFactory() = default;
 	~ValueFactory();
 	QList<Value*> values;
 };

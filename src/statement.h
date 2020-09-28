@@ -24,8 +24,8 @@
 class Statement : public Declaration
 {
 public:
-	Statement();
-	~Statement() override;
+	Statement() = default;
+	~Statement() override = default;
 };
 
 #endif // STATEMENT_H

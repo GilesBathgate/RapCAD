@@ -24,7 +24,7 @@
 class ComplementNode : public Node
 {
 public:
-	ComplementNode();
+	ComplementNode() = default;
 	void accept(NodeVisitor&) override;
 };
 

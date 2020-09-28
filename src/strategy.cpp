@@ -25,10 +25,6 @@ Strategy::Strategy(Reporter& r) :
 {
 }
 
-Strategy::~Strategy()
-{
-}
-
 Callback* Strategy::addCallback(const QString &name, Script& s, const QList<Argument*>& args)
 {
 	auto* c=new Callback();

@@ -24,7 +24,7 @@
 class GlideNode : public Node
 {
 public:
-	GlideNode();
+	GlideNode() = default;
 	void accept(NodeVisitor&) override;
 };
 

@@ -18,10 +18,6 @@
 
 #include "materialnode.h"
 
-MaterialNode::MaterialNode()
-{
-}
-
 void MaterialNode::accept(NodeVisitor& v)
 {
 	v.visit(*this);

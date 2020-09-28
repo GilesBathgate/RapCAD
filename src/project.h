@@ -25,7 +25,7 @@
 class Project
 {
 public:
-	Project();
+	Project() = default;
 	QList<QString> getSources() const;
 	void setSources(const QList<QString>&);
 	void parseProject(const QString&);

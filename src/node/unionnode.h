@@ -24,7 +24,7 @@
 class UnionNode : public Node
 {
 public:
-	UnionNode();
+	UnionNode() = default;
 	void accept(NodeVisitor&) override;
 };
 

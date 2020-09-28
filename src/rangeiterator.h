@@ -28,7 +28,7 @@ class RangeIterator : public ValueIterator
 {
 public:
 	RangeIterator(RangeValue*,Value*,Value*);
-	~RangeIterator() override;
+	~RangeIterator() override = default;
 	ValueIterator& operator++() override;
 	bool operator!=(const Iterator&) const override;
 	Value* operator*() const override;

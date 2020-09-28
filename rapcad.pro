@@ -159,7 +159,6 @@ SOURCES += \
 	src/dependencybuilder.cpp \
 	src/instance.cpp \
 	src/argument.cpp \
-	src/statement.cpp \
 	src/function.cpp \
 	src/functionscope.cpp \
 	src/compoundstatement.cpp \

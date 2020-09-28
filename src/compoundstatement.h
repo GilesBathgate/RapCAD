@@ -25,7 +25,7 @@
 class CompoundStatement : public Scope
 {
 public:
-	CompoundStatement();
+	CompoundStatement() = default;
 	~CompoundStatement() override;
 	void setChildren(const QList<Statement*>&);
 	QList<Statement*> getChildren() const;

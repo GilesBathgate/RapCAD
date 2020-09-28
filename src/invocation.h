@@ -26,7 +26,7 @@
 class Invocation : public Expression
 {
 public:
-	Invocation();
+	Invocation() = default;
 	~Invocation() override;
 	void setName(const QString&);
 	QString getName() const;

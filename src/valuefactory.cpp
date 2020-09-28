@@ -1,10 +1,6 @@
 #include "valuefactory.h"
 #include <QtGlobal>
 
-ValueFactory::ValueFactory()
-{
-}
-
 ValueFactory::~ValueFactory()
 {
 	cleanupValues();

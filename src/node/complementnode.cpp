@@ -18,10 +18,6 @@
 
 #include "complementnode.h"
 
-ComplementNode::ComplementNode()
-{
-}
-
 void ComplementNode::accept(NodeVisitor& v)
 {
 	v.visit(*this);

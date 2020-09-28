@@ -25,10 +25,6 @@ TreePrinter::TreePrinter(QTextStream& s) :
 {
 }
 
-TreePrinter::~TreePrinter()
-{
-}
-
 void TreePrinter::createIndent()
 {
 	for(unsigned int i=0; i<indent; ++i)

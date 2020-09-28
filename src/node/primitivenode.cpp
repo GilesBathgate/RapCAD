@@ -27,10 +27,6 @@ PrimitiveNode::PrimitiveNode(Reporter&) :
 {
 }
 
-PrimitiveNode::~PrimitiveNode()
-{
-}
-
 Primitive* PrimitiveNode::getPrimitive() const
 {
 	return primitive;

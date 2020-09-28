@@ -45,7 +45,7 @@ class SyntaxTreeBuilder : public AbstractSyntaxTreeBuilder
 {
 public:
 	SyntaxTreeBuilder(Reporter&,Script&,AbstractTokenBuilder&);
-	~SyntaxTreeBuilder() override;
+	~SyntaxTreeBuilder() override = default;
 	void buildFileLocation(QDir) override;
 	void buildScript(Declaration*) override;
 	void buildScript(QList<Declaration*>*) override;

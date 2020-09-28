@@ -18,10 +18,6 @@
 
 #include "glidenode.h"
 
-GlideNode::GlideNode()
-{
-}
-
 void GlideNode::accept(NodeVisitor& v)
 {
 	v.visit(*this);

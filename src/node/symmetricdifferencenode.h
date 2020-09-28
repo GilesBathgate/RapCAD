@@ -24,7 +24,7 @@
 class SymmetricDifferenceNode : public Node
 {
 public:
-	SymmetricDifferenceNode();
+	SymmetricDifferenceNode() = default;
 	void accept(NodeVisitor&) override;
 };
 

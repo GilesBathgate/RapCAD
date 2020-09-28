@@ -23,10 +23,6 @@ Declaration::Declaration() :
 {
 }
 
-Declaration::~Declaration()
-{
-}
-
 int Declaration::getLineNumber() const
 {
 	return lineNumber;

@@ -30,10 +30,6 @@ QPathTextBuilder::QPathTextBuilder(Reporter& r) :
 	headless = QFont().family().isEmpty();
 }
 
-QPathTextBuilder::~QPathTextBuilder()
-{
-}
-
 void QPathTextBuilder::setText(const QString& value)
 {
 	text = value;

@@ -18,10 +18,6 @@
 
 #include "node.h"
 
-Node::Node()
-{
-}
-
 Node::~Node()
 {
 	qDeleteAll(children);

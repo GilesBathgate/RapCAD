@@ -25,10 +25,6 @@ Layout::Layout(Reporter& r) :
 {
 }
 
-Layout::~Layout()
-{
-}
-
 void Layout::setParent(Layout* value)
 {
 	parent=value;

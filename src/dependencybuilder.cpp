@@ -18,14 +18,6 @@
 
 #include "dependencybuilder.h"
 
-DependencyBuilder::DependencyBuilder()
-{
-}
-
-DependencyBuilder::~DependencyBuilder()
-{
-}
-
 void DependencyBuilder::buildFileLocation(QDir)
 {
 }

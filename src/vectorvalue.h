@@ -37,7 +37,7 @@ public:
 	ValueIterator* createIterator() override;
 	virtual QList<Value*> getChildren();
 protected:
-	VectorValue();
+	VectorValue() = default;
 	Value* operation(Expression::Operator_e) override;
 	Value* operation(Value&,Expression::Operator_e) override;
 private:

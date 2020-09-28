@@ -24,7 +24,7 @@
 class BoundaryNode : public Node
 {
 public:
-	BoundaryNode();
+	BoundaryNode() = default;
 	void accept(NodeVisitor&) override;
 };
 

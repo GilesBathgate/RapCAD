@@ -25,10 +25,6 @@ SyntaxTreeBuilder::SyntaxTreeBuilder(Reporter& r,Script& s,AbstractTokenBuilder&
 {
 }
 
-SyntaxTreeBuilder::~SyntaxTreeBuilder()
-{
-}
-
 void SyntaxTreeBuilder::buildFileLocation(QDir fileinfo)
 {
 	script.setFileLocation(fileinfo);

@@ -18,10 +18,6 @@
 
 #include "offsetnode.h"
 
-OffsetNode::OffsetNode()
-{
-}
-
 void OffsetNode::setAmount(const decimal& a)
 {
 	amount=a;

@@ -18,10 +18,6 @@
 
 #include "modulescope.h"
 
-ModuleScope::ModuleScope()
-{
-}
-
 ModuleScope::~ModuleScope()
 {
 	qDeleteAll(declarations);

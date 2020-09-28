@@ -24,7 +24,7 @@
 class IntersectionNode : public Node
 {
 public:
-	IntersectionNode();
+	IntersectionNode() = default;
 	void accept(NodeVisitor&) override;
 };
 

@@ -18,10 +18,6 @@
 
 #include "boundsnode.h"
 
-BoundsNode::BoundsNode()
-{
-}
-
 void BoundsNode::accept(NodeVisitor& v)
 {
 	v.visit(*this);

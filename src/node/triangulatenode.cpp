@@ -18,10 +18,6 @@
 
 #include "triangulatenode.h"
 
-TriangulateNode::TriangulateNode()
-{
-}
-
 void TriangulateNode::accept(NodeVisitor& v)
 {
 	v.visit(*this);

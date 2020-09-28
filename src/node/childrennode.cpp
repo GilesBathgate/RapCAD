@@ -18,10 +18,6 @@
 
 #include "childrennode.h"
 
-ChildrenNode::ChildrenNode()
-{
-}
-
 void ChildrenNode::addIndex(int i)
 {
 	indexes.append(i);

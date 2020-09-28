@@ -24,10 +24,6 @@ Expression::Expression() :
 {
 }
 
-Expression::~Expression()
-{
-}
-
 QString Expression::getOpString() const
 {
 	QString result;

@@ -26,7 +26,7 @@
 class ModuleScope : public Scope
 {
 public:
-	ModuleScope();
+	ModuleScope() = default;
 	~ModuleScope() override;
 	QList<Declaration*> getDeclarations() const override;
 	void setDeclarations(const QList<Declaration*>&);

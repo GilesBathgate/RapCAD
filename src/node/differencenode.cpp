@@ -18,10 +18,6 @@
 
 #include "differencenode.h"
 
-DifferenceNode::DifferenceNode()
-{
-}
-
 void DifferenceNode::accept(NodeVisitor& v)
 {
 	v.visit(*this);

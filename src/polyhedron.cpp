@@ -17,10 +17,6 @@
  */
 #include "polyhedron.h"
 
-Polyhedron::Polyhedron()
-{
-}
-
 Polyhedron::~Polyhedron()
 {
 	qDeleteAll(polygons);

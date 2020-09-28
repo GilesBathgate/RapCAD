@@ -24,7 +24,7 @@
 class BoundsNode : public Node
 {
 public:
-	BoundsNode();
+	BoundsNode() = default;
 	void accept(NodeVisitor&) override;
 };
 

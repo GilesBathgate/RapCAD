@@ -25,10 +25,6 @@
 #include "onceonly.h"
 #include "valuefactory.h"
 
-VectorValue::VectorValue()
-{
-}
-
 VectorValue::VectorValue(const QList<Value*>& values) : children(values)
 {
 }

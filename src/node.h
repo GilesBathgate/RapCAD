@@ -26,7 +26,7 @@
 class Node : public VisitableNode
 {
 public:
-	Node();
+	Node() = default;
 	~Node() override;
 	void addChild(Node*);
 	void setChildren(const QList<Node*>&);

@@ -20,10 +20,6 @@
 
 #include "cgalcache.h"
 
-CGALCache::CGALCache()
-{
-}
-
 Cache::i_Point CGALCache::hashPoint(const CGAL::Point3& pt)
 {
 	i_Point ip;

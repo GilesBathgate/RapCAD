@@ -18,14 +18,6 @@
 
 #include "scope.h"
 
-Scope::Scope()
-{
-}
-
-Scope::~Scope()
-{
-}
-
 QList<Declaration*> Scope::getDeclarations() const
 {
 	return QList<Declaration*>();

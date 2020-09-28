@@ -25,7 +25,7 @@
 class PointsNode : public Node
 {
 public:
-	PointsNode();
+	PointsNode() = default;
 	void setPoints(const QList<Point>&);
 	QList<Point> getPoints() const;
 	void accept(NodeVisitor&) override;

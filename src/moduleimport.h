@@ -27,8 +27,8 @@
 class ModuleImport : public Declaration
 {
 public:
-	ModuleImport();
-	~ModuleImport() override;
+	ModuleImport() = default;
+	~ModuleImport() override = default;
 	void setImport(const QString&);
 	QString getImport() const;
 	void setName(const QString&);

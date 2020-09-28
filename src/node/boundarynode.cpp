@@ -18,10 +18,6 @@
 
 #include "boundarynode.h"
 
-BoundaryNode::BoundaryNode()
-{
-}
-
 void BoundaryNode::accept(NodeVisitor& v)
 {
 	v.visit(*this);

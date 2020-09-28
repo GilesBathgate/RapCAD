@@ -18,14 +18,6 @@
 
 #include "moduleimport.h"
 
-ModuleImport::ModuleImport()
-{
-}
-
-ModuleImport::~ModuleImport()
-{
-}
-
 void ModuleImport::setImport(const QString& imp)
 {
 	import = imp;

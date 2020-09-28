@@ -18,10 +18,6 @@
 
 #include "pointsnode.h"
 
-PointsNode::PointsNode()
-{
-}
-
 QList<Point> PointsNode::getPoints() const
 {
 	return points;
