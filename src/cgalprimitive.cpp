@@ -395,17 +395,22 @@ QList<CGALPolygon*> CGALPrimitive::getCGALPerimeter() const
 
 QList<CGAL::Point3> CGALPrimitive::getPoints() const
 {
+	if(nefPolyhedron)
+	{
+		QList<CGAL::Point3> pts;
+		CGAL::NefPolyhedron3::Vertex_const_iterator v;
+		CGAL_forall_vertices(v, *nefPolyhedron->sncp())
+			pts.append(v->point());
+
+		return pts;
+	}
 	return points;
 }
 
 CGAL::Cuboid3 CGALPrimitive::getBounds()
 {
-	if(nefPolyhedron) {
-		CGALExplorer e(this);
-		return e.getBounds();
-	}
-
-	return CGAL::bounding_box(points.begin(),points.end());
+	QList<CGAL::Point3> pts=getPoints();
+	return CGAL::bounding_box(pts.begin(),pts.end());
 }
 
 void CGALPrimitive::add(Primitive* pr,bool force)
@@ -677,17 +682,10 @@ bool CGALPrimitive::isEmpty()
 
 CGAL::Circle3 CGALPrimitive::getRadius()
 {
-	QList<CGAL::Point3> points3;
-	if(nefPolyhedron) {
-		CGALExplorer e(this);
-		points3=e.getPoints();
-	} else {
-		points3=points;
-	}
-
 	using Traits = CGAL::Min_circle_2_traits_2<CGAL::Kernel3>;
 	using Min_circle = CGAL::Min_circle_2<Traits>;
 
+	QList<CGAL::Point3> points3=getPoints();
 	QList<CGAL::Point2> points2;
 	for(const auto& pt3: points3) {
 		CGAL::Point2 pt2(pt3.x(),pt3.y());

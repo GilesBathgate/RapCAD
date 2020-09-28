@@ -187,15 +187,11 @@ void NodeEvaluator::visit(const GlideNode& op)
 static void evaluateHull(Primitive* first,Primitive* previous, Primitive* next)
 {
 	QList<CGAL::Point3> points;
-	if(previous) {
-		CGALExplorer p(previous);
-		points.append(p.getPoints());
-	}
+	if(previous)
+		points.append(previous->getPoints());
 
-	if(next) {
-		CGALExplorer n(next);
-		points.append(n.getPoints());
-	}
+	if(next)
+		points.append(next->getPoints());
 
 	if(points.count()<3)
 		return;
@@ -232,18 +228,17 @@ void NodeEvaluator::visit(const HullNode& n)
 		QList<CGAL::Point3> points;
 		for(Node* c: n.getChildren()) {
 			c->accept(*this);
-			if(result) {
-				CGALExplorer explorer(result);
-				points.append(explorer.getPoints());
-				delete result;
-			}
+			if(result)
+				points.append(result->getPoints());
 		}
 		if(points.count()<3) return;
 
 		if(!n.getConcave()) {
 			CGAL::Polyhedron3 hull;
 			CGAL::convex_hull_3(points.begin(),points.end(),hull);
-			result=new CGALPrimitive(hull);
+			auto* cp=new CGALPrimitive(hull);
+			cp->appendChild(result);
+			result=cp;
 			return;
 		}
 
@@ -266,6 +261,7 @@ void NodeEvaluator::visit(const HullNode& n)
 		as.get_alpha_shape_facets(std::back_inserter(facets),Alpha_shape_3::REGULAR);
 
 		auto* cp = new CGALPrimitive();
+		cp->appendChild(result);
 		for(Facet f: facets) {
 			auto& t=f.first;
 			//To have a consistent orientation of the facet, always consider an exterior cell
@@ -413,7 +409,7 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 	CGALPrimitive* primitive=explorer.getPrimitive();
 	QList<CGALPolygon*> polygons=primitive->getCGALPolygons();
 
-	CGAL::Cuboid3 b=explorer.getBounds();
+	CGAL::Cuboid3 b=primitive->getBounds();
 	auto* fg=op.getFragments();
 	int f=fg->getFragments((b.xmax()-b.xmin())+r);
 	CGAL::Vector3 t(r,0.0,0.0);

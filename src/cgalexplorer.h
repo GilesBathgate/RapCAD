@@ -27,20 +27,15 @@ class CGALExplorer
 public:
 	explicit CGALExplorer(Primitive*);
 	explicit CGALExplorer(CGALPrimitive*);
+	~CGALExplorer();
 	CGALPrimitive* getPrimitive();
-	QList<CGAL::Point3> getPoints();
-	CGAL::Cuboid3 getBounds();
 	QList<CGALPolygon*> getBase();
 	CGALVolume getVolume(bool);
 private:
-	typedef QList<CGAL::Point3> Points;
 	void explore();
 	void evaluate();
-	bool evaluated;
 	CGALPrimitive* primitive;
-	QList<CGALPolygon*> basePolygons;
-	QList<Points> volumePoints;
-	Points allPoints;
+	class ShellExplorer* explorer;
 };
 
 #endif // CGALEXPLORER_H
