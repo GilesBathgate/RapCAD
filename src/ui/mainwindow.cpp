@@ -451,7 +451,7 @@ void MainWindow::setupConsole()
 	connect(worker,&BackgroundWorker::done,this,&MainWindow::evaluationDone);
 
 	interact=new Interactive(*reporter);
-	c->setPrompt(interact->getPrompt());
+	c->setPrompt(Interactive::getPrompt());
 	connect(c,&Console::execCommand,interact,&Interactive::execCommand);
 }
 
@@ -647,7 +647,7 @@ void MainWindow::compileOrGenerate(bool generate)
 			worker->setup(file,"",false,generate);
 
 			//Stop the syntax highlighter to prevent a crash
-			e->stopHighlighting();
+			CodeEditor::stopHighlighting();
 			worker->evaluate();
 			ui->actionCompileAndRender->setEnabled(false);
 			ui->actionGenerateGcode->setEnabled(false);

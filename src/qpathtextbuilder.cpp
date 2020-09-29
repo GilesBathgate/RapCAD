@@ -77,7 +77,6 @@ Primitive* QPathTextBuilder::buildPrimitive() const
 		before we can use fonts */
 		int c=0;
 		QApplication a(c,nullptr,false);
-		a.font(); //Just to ward off warning
 		path.addText(location,getFont(),text);
 
 	} else {

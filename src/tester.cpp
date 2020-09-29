@@ -182,7 +182,7 @@ int Tester::evaluate()
 	ui = new MainWindow();
 	ui->show();
 	QTimer::singleShot(100,this,SLOT(runUiTests()));
-	a.exec();
+	QApplication::exec();
 	delete ui;
 	reporter.reportTiming("ui testing");
 #endif

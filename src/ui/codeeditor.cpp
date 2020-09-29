@@ -83,7 +83,7 @@ void CodeEditor::highlightCurrentLine()
 
 void CodeEditor::stopHighlighting()
 {
-	highlighter->stop();
+	SyntaxHighlighter::stop();
 }
 
 void CodeEditor::setFileName(const QString& f)

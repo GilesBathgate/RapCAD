@@ -59,7 +59,7 @@ static int showUi(int argc, char* argv[],const QStringList& filenames)
 	MainWindow w;
 	w.loadFiles(filenames);
 	w.show();
-	return a.exec();
+	return QApplication::exec();
 }
 
 static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Reporter& reporter)
