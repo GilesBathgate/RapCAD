@@ -101,11 +101,18 @@ win32 {
 
 #LIBS += -Wl,-rpath,./librapcad -L./librapcad -lrapcad
 
-contains(DEFINES,USE_CGAL) {
-!clang {
-	QMAKE_CXXFLAGS += -frounding-math
+CONFIG(valgrind){
+	QMAKE_CXXFLAGS += -fno-rounding-math
+	DEFINES += CGAL_DISABLE_ROUNDING_MATH_CHECK
+	DEFINES += USE_VALGRIND
+} else {
+	contains(DEFINES,USE_CGAL) {
+		!clang {
+			QMAKE_CXXFLAGS += -frounding-math
+		}
+	}
 }
-}
+
 
 CONFIG(coverage){
 	QT += testlib
