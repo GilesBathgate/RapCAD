@@ -25,9 +25,8 @@ FunctionScope::FunctionScope() :
 
 FunctionScope::~FunctionScope()
 {
-	for(Statement* s: statements)
-		delete s;
-
+	qDeleteAll(statements);
+	statements.clear();
 	delete expression;
 }
 

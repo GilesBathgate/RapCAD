@@ -237,6 +237,7 @@ void NodeEvaluator::visit(const HullNode& n)
 			if(result) {
 				CGALExplorer explorer(result);
 				points.append(explorer.getPoints());
+				delete result;
 			}
 		}
 		if(points.count()<3) return;
@@ -642,6 +643,7 @@ void NodeEvaluator::visit(const NormalsNode& n)
 		np->append(i++);
 		np->append(i++);
 	}
+	delete prim;
 
 	result->appendChild(a);
 #endif

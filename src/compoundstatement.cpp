@@ -24,8 +24,8 @@ CompoundStatement::CompoundStatement()
 
 CompoundStatement::~CompoundStatement()
 {
-	for(Statement* s: children)
-		delete s;
+	qDeleteAll(children);
+	children.clear();
 }
 
 void CompoundStatement::setChildren(const QList<Statement*>& stmts)

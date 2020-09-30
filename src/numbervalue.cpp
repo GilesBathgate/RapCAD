@@ -76,7 +76,7 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 		}
 
 		decimal result=basicOperation(number,e,num->number);
-		return new NumberValue(result);
+		return factory.createNumber(result);
 	}
 	auto* vec = dynamic_cast<VectorValue*>(&v);
 	if(vec) {

@@ -39,8 +39,9 @@ TreeEvaluator::TreeEvaluator(Reporter& r) :
 TreeEvaluator::~TreeEvaluator()
 {
 	Value::factory.cleanupValues();
-	for(Layout* l: scopeLookup.values())
-		delete l;
+	qDeleteAll(scopeLookup.values());
+	scopeLookup.clear();
+	delete context;
 }
 
 void TreeEvaluator::startLayout(Scope* scp)
@@ -626,8 +627,8 @@ void TreeEvaluator::visit(Script& sc)
 	/* Clean up all the imported scripts as its not the responsibility of the
 	 * caller to do so as we created the imported script instances within this
 	 * evaluator */
-	for(Script* sc: imports)
-		delete sc;
+	qDeleteAll(imports);
+	imports.clear();
 
 	b.saveBuiltins(sc);
 }

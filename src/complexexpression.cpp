@@ -26,6 +26,8 @@ ComplexExpression::ComplexExpression() :
 
 ComplexExpression::~ComplexExpression()
 {
+	delete real;
+	delete imaginary;
 }
 
 Expression* ComplexExpression::getReal() const

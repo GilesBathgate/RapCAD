@@ -27,8 +27,8 @@ Script::Script(Reporter& r) : reporter(r)
 
 Script::~Script()
 {
-	for(Declaration* d: declarations)
-		delete d;
+	qDeleteAll(declarations);
+	declarations.clear();
 }
 
 void Script::parse(const QString &s)

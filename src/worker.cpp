@@ -120,6 +120,7 @@ void Worker::primary()
 	if(!primitive)
 		reporter.reportWarning(tr("no top level object."));
 	else if(!outputFile.isEmpty()) {
+		resultAccepted();
 		exportResult(outputFile);
 	}
 }

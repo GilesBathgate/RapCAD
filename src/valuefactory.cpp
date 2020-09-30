@@ -72,9 +72,8 @@ ComplexValue* ValueFactory::createComplex(Value* r,const QList<Value*>& i)
 
 void ValueFactory::cleanupValues()
 {
-	foreach(Value* val, values) {
-		delete val;
-	}
+	qDeleteAll(values);
+	values.clear();
 }
 
 void ValueFactory::deleteValue(Value* v)

@@ -241,8 +241,8 @@ BuiltinCreator& BuiltinCreator::getInstance(Reporter& r)
 
 BuiltinCreator::~BuiltinCreator()
 {
-	for(Declaration* d: builtins)
-		delete d;
+	qDeleteAll(builtins);
+	builtins.clear();
 }
 
 /**

@@ -23,6 +23,8 @@ Polyhedron::Polyhedron()
 
 Polyhedron::~Polyhedron()
 {
+	qDeleteAll(polygons);
+	polygons.clear();
 	qDeleteAll(children);
 	children.clear();
 }

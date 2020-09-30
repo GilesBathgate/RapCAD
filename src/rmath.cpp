@@ -457,9 +457,7 @@ void r_rand_seed(int seed)
 {
 #if USE_CGAL
 	gmp_randinit_mt(state);
-	mpz_t n;
-	mpz_init_set_ui(n,seed);
-	gmp_randseed(state,n);
+	gmp_randseed_ui(state,seed);
 #else
 	srand(seed);
 #endif
@@ -480,6 +478,13 @@ decimal r_rand(const decimal& min,const decimal& max)
 	return r_round_preference((min>max)?decimal(m)*(min-max)+max:decimal(m)*(max-min)+min,true);
 #else
 	return (min>max)?r_rand()*(min-max)+max:r_rand()*(max-min)+min;
+#endif
+}
+
+void r_rand_clear()
+{
+#ifdef USE_CGAL
+	gmp_randclear(state);
 #endif
 }
 

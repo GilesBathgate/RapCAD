@@ -24,8 +24,8 @@ ModuleScope::ModuleScope()
 
 ModuleScope::~ModuleScope()
 {
-	for(Declaration* d: declarations)
-		delete d;
+	qDeleteAll(declarations);
+	declarations.clear();
 }
 
 void ModuleScope::setDeclarations(const QList<Declaration*>& decls)
