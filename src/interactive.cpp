@@ -61,7 +61,9 @@ void Interactive::execCommand(const QString& str)
 	sc.parse(s);
 	TreeEvaluator e(reporter);
 	sc.accept(e);
+	Node* n=e.getRootNode();
 	output.flush();
+	delete n;
 }
 
 #define PROMPT "\u042F: "
