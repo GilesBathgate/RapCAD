@@ -19,7 +19,7 @@
 #include "interactive.h"
 #include "treeevaluator.h"
 #include "script.h"
-#include "tokenbuilder.h"
+#include "tokenreader.h"
 
 #ifdef USE_READLINE
 namespace readline
@@ -36,9 +36,8 @@ Interactive::Interactive(Reporter& r,QObject* parent) :
 
 bool Interactive::isExpression(const QString& s)
 {
-	TokenBuilder t(s);
-	int i;
-	while((i=t.nextToken())) {
+	TokenReader t(s);
+	while(int i=t.nextToken()) {
 		if(i==';'||i=='}') {
 			return false;
 		}

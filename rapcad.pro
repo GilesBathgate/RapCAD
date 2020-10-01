@@ -142,6 +142,7 @@ SOURCES += \
 	contrib/qcommandlineparser.cpp \
 	contrib/qcommandlineoption.cpp \
 	src/main.cpp \
+	src/tokenreader.cpp \
 	src/ui/mainwindow.cpp \
 	src/module.cpp \
 	src/syntaxtreebuilder.cpp \
@@ -383,6 +384,7 @@ HEADERS  += \
 	contrib/qcommandlineparser.h \
 	contrib/qcommandlineoption.h \
 	contrib/Copy_polyhedron_to.h \
+	src/tokenreader.h \
 	src/ui/mainwindow.h \
 	src/module.h \
 	src/syntaxtreebuilder.h \
