@@ -38,6 +38,7 @@ void NodePrinter::visit(const PrimitiveNode& n)
 	printPrimitive(pr);
 	result << "])";
 	printChildren(n);
+	delete pr;
 }
 
 void NodePrinter::printPrimitive(Primitive* pr)
