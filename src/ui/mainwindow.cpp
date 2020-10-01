@@ -70,6 +70,7 @@ MainWindow::MainWindow(QWidget* parent) :
 MainWindow::~MainWindow()
 {
 	deleteTempFiles();
+	delete treeModel;
 	delete console;
 	delete output;
 	delete reporter;
@@ -390,17 +391,17 @@ void MainWindow::setupLayout()
 
 void MainWindow::setupTreeview()
 {
-	myModel = new QStandardItemModel();
+	treeModel = new QStandardItemModel(this);
 	QStringList headers;
 	headers << tr("Projects");
-	myModel->setHorizontalHeaderLabels(headers);
-	QStandardItem* parentItem = myModel->invisibleRootItem();
+	treeModel->setHorizontalHeaderLabels(headers);
+	QStandardItem* parentItem = treeModel->invisibleRootItem();
 
 	QStandardItem* item = new QStandardItem("New Project.rpro");
 	parentItem->appendRow(item);
 	item->appendRow(new QStandardItem("New.rcad"));
 
-	ui->treeView->setModel(myModel);
+	ui->treeView->setModel(treeModel);
 	ui->treeView->expandAll();
 }
 

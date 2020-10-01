@@ -101,10 +101,10 @@ private:
 	void deleteTempFiles();
 
 	Ui::MainWindow* ui;
-	QStandardItemModel* myModel;
+	QStandardItemModel* treeModel;
+	TextEditIODevice* console;
 	QTextStream* output;
 	Reporter* reporter;
-	TextEditIODevice* console;
 	BackgroundWorker* worker;
 	Interactive* interact;
 	PreferencesDialog* preferencesDialog;
