@@ -28,8 +28,8 @@ public:
 	ComplexValue* createComplex(Value*,const QList<Value*>&);
 private:
 	ValueFactory();
+	~ValueFactory();
 	QList<Value*> values;
-	static ValueFactory* factory;
 };
 
 #endif // VALUEFACTORY_H

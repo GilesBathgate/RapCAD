@@ -119,8 +119,8 @@ int Tester::evaluate()
 {
 	reporter.startTiming();
 
-	CacheManager* cm=CacheManager::getInstance();
-	cm->disableCaches();
+	CacheManager& cm=CacheManager::getInstance();
+	cm.disableCaches();
 
 	output << QString("Qt:\t %1\n").arg(QT_VERSION_STR);
 #ifdef USE_CGAL

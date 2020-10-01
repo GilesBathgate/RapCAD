@@ -30,7 +30,6 @@ class Preferences
 {
 public:
 	static Preferences& getInstance();
-	static void cleanup();
 
 	int getPrecision() const;
 	void setPrecision(int);
@@ -151,9 +150,9 @@ public:
 
 private:
 	Preferences();
+	~Preferences();
 	void updatePrecision();
 
-	static Preferences* instance;
 	QSettings* settings;
 	int precision;
 };

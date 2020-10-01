@@ -31,6 +31,13 @@ Preferences::Preferences() :
 	updatePrecision();
 }
 
+Preferences::~Preferences()
+{
+	//Ensure preferences are saved.
+	settings->sync();
+	delete settings;
+}
+
 void Preferences::updatePrecision()
 {
 	precision=getSignificandBits();
@@ -87,14 +94,10 @@ void Preferences::setEditorFont(const QFont& value)
 	settings->setValue("EditorFont.Size",value.pointSize());
 }
 
-Preferences* Preferences::instance=nullptr;
-
 Preferences& Preferences::getInstance()
 {
-	if(!instance)
-		instance = new Preferences();
-
-	return *instance;
+	static Preferences instance;
+	return instance;
 }
 
 int Preferences::getPrecision() const
@@ -450,14 +453,4 @@ GLView::Appearance_t Preferences::getPrintBedAppearance() const
 void Preferences::setPrintBedAppearance(GLView::Appearance_t v)
 {
 	settings->setValue("PrintBedAppearance",(int)v);
-}
-
-void Preferences::cleanup()
-{
-	if(instance) {
-		//Ensure preferences are saved.
-		instance->settings->sync();
-		delete instance->settings;
-		delete instance;
-	}
 }

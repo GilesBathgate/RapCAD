@@ -20,8 +20,6 @@
 #include "cgalcache.h"
 #include "emptycache.h"
 
-CacheManager* CacheManager::instance=nullptr;
-
 CacheManager::CacheManager() :
 	disabled(true)
 {
@@ -33,10 +31,9 @@ CacheManager::~CacheManager()
 	delete cache;
 }
 
-CacheManager* CacheManager::getInstance()
+CacheManager& CacheManager::getInstance()
 {
-	if(!instance)
-		instance=new CacheManager();
+	static CacheManager instance;
 	return instance;
 }
 

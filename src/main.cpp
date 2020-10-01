@@ -128,13 +128,6 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Re
 	return nullptr;
 }
 
-void cleanup()
-{
-	Preferences::cleanup();
-	BuiltinCreator::cleanup();
-	ValueFactory::cleanup();
-}
-
 int main(int argc, char* argv[])
 {
 	setupApplication();
@@ -154,8 +147,6 @@ int main(int argc, char* argv[])
 		retcode=showUi(argc,argv,inputFiles);
 
 	delete s;
-
-	cleanup();
 
 	return retcode;
 }

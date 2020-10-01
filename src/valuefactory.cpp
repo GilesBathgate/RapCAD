@@ -5,19 +5,15 @@ ValueFactory::ValueFactory()
 {
 }
 
-ValueFactory* ValueFactory::factory=nullptr;
+ValueFactory::~ValueFactory()
+{
+	cleanupValues();
+}
 
 ValueFactory& ValueFactory::getInstance()
 {
-	if(!factory)
-		factory = new ValueFactory();
-
-	return *factory;
-}
-
-void ValueFactory::cleanup()
-{
-	delete factory;
+	static ValueFactory factory;
+	return factory;
 }
 
 Value* ValueFactory::createUndefined()

@@ -46,8 +46,8 @@ NodeEvaluator::NodeEvaluator(Reporter& r) :
 	reporter(r),
 	result(nullptr)
 {
-	CacheManager* m=CacheManager::getInstance();
-	cache=m->getCache();
+	CacheManager& m=CacheManager::getInstance();
+	cache=m.getCache();
 }
 
 Primitive* NodeEvaluator::createPrimitive()

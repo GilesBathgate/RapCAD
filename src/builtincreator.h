@@ -29,7 +29,6 @@ class BuiltinCreator
 {
 public:
 	static BuiltinCreator& getInstance(Reporter&);
-	static void cleanup();
 	void initBuiltins(Script&);
 	void saveBuiltins(Script&);
 	void generateDocs(QTextStream&);
@@ -38,7 +37,6 @@ public:
 private:
 	explicit BuiltinCreator(Reporter&);
 	~BuiltinCreator();
-	static BuiltinCreator* instance;
 	QList<Declaration*> builtins;
 };
 #endif // BUILTINCREATOR_H

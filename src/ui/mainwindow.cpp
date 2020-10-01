@@ -370,11 +370,11 @@ void MainWindow::disableRulers(bool checked)
 
 void MainWindow::enableCaches(bool b)
 {
-	CacheManager* cm=CacheManager::getInstance();
+	CacheManager& cm=CacheManager::getInstance();
 	if(b)
-		cm->enableCaches();
+		cm.enableCaches();
 	else
-		cm->disableCaches();
+		cm.disableCaches();
 }
 
 void MainWindow::setupLayout()
@@ -768,8 +768,8 @@ void MainWindow::showUserGuide()
 
 void MainWindow::flushCaches()
 {
-	CacheManager* m=CacheManager::getInstance();
-	m->flushCaches();
+	CacheManager& m=CacheManager::getInstance();
+	m.flushCaches();
 }
 
 void MainWindow::sendToCAM()

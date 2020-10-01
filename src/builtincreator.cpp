@@ -229,14 +229,10 @@ BuiltinCreator::BuiltinCreator(Reporter& r)
 	builtins.append(new VersionFunction());
 }
 
-BuiltinCreator* BuiltinCreator::instance=nullptr;
-
 BuiltinCreator& BuiltinCreator::getInstance(Reporter& r)
 {
-	if(!instance)
-		instance = new BuiltinCreator(r);
-
-	return *instance;
+	static BuiltinCreator instance(r);
+	return instance;
 }
 
 BuiltinCreator::~BuiltinCreator()
@@ -284,9 +280,4 @@ QHash<QString,Module*> BuiltinCreator::getModuleNames() const
 		if(m) names.insert(m->getName(),m);
 	}
 	return names;
-}
-
-void BuiltinCreator::cleanup()
-{
-	delete instance;
 }
