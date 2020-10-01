@@ -133,7 +133,7 @@ void SyntaxHighlighter::buildUseStart()
 	startIndex+=lexerleng;
 }
 
-unsigned int SyntaxHighlighter::buildUse(const QString&)
+int SyntaxHighlighter::buildUse(const QString&)
 {
 	setFormat(startIndex,lexerleng,stringFormat);
 	return YY_CONTINUE;
@@ -150,7 +150,7 @@ void SyntaxHighlighter::buildImportStart()
 	startIndex+=lexerleng;
 }
 
-unsigned int SyntaxHighlighter::buildImport(const QString&)
+int SyntaxHighlighter::buildImport(const QString&)
 {
 	setFormat(startIndex,lexerleng,stringFormat);
 	return YY_CONTINUE;
@@ -161,185 +161,185 @@ void SyntaxHighlighter::buildImportFinish()
 	startIndex++;
 }
 
-unsigned int SyntaxHighlighter::buildModule()
+int SyntaxHighlighter::buildModule()
 {
 	setFormat(startIndex,lexerleng,keywordFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildFunction()
+int SyntaxHighlighter::buildFunction()
 {
 	setFormat(startIndex,lexerleng,keywordFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildTrue()
+int SyntaxHighlighter::buildTrue()
 {
 	setFormat(startIndex,lexerleng,keywordFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildFalse()
+int SyntaxHighlighter::buildFalse()
 {
 	setFormat(startIndex,lexerleng,keywordFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildUndef()
+int SyntaxHighlighter::buildUndef()
 {
 	setFormat(startIndex,lexerleng,keywordFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildConst()
+int SyntaxHighlighter::buildConst()
 {
 	setFormat(startIndex,lexerleng,keywordFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildParam()
+int SyntaxHighlighter::buildParam()
 {
 	setFormat(startIndex,lexerleng,keywordFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildIf()
+int SyntaxHighlighter::buildIf()
 {
 	setFormat(startIndex,lexerleng,keywordFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildAs()
+int SyntaxHighlighter::buildAs()
 {
 	setFormat(startIndex,lexerleng,keywordFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildElse()
+int SyntaxHighlighter::buildElse()
 {
 	setFormat(startIndex,lexerleng,keywordFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildFor()
+int SyntaxHighlighter::buildFor()
 {
 	setFormat(startIndex,lexerleng,keywordFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildReturn()
+int SyntaxHighlighter::buildReturn()
 {
 	setFormat(startIndex,lexerleng,keywordFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildLessEqual()
+int SyntaxHighlighter::buildLessEqual()
 {
 	setFormat(startIndex,lexerleng,operatorFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildGreatEqual()
+int SyntaxHighlighter::buildGreatEqual()
 {
 	setFormat(startIndex,lexerleng,operatorFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildEqual()
+int SyntaxHighlighter::buildEqual()
 {
 	setFormat(startIndex,lexerleng,operatorFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildNotEqual()
+int SyntaxHighlighter::buildNotEqual()
 {
 	setFormat(startIndex,lexerleng,operatorFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildAnd()
+int SyntaxHighlighter::buildAnd()
 {
 	setFormat(startIndex,lexerleng,operatorFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildOr()
+int SyntaxHighlighter::buildOr()
 {
 	setFormat(startIndex,lexerleng,operatorFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildComponentwiseMultiply()
+int SyntaxHighlighter::buildComponentwiseMultiply()
 {
 	setFormat(startIndex,lexerleng,operatorFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildComponentwiseDivide()
+int SyntaxHighlighter::buildComponentwiseDivide()
 {
 	setFormat(startIndex,lexerleng,operatorFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildIncrement()
+int SyntaxHighlighter::buildIncrement()
 {
 	setFormat(startIndex,lexerleng,operatorFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildDecrement()
+int SyntaxHighlighter::buildDecrement()
 {
 	setFormat(startIndex,lexerleng,operatorFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildAddAssign()
+int SyntaxHighlighter::buildAddAssign()
 {
 	setFormat(startIndex,lexerleng,operatorFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildSubtractAssign()
+int SyntaxHighlighter::buildSubtractAssign()
 {
 	setFormat(startIndex,lexerleng,operatorFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildCrossProduct()
+int SyntaxHighlighter::buildCrossProduct()
 {
 	setFormat(startIndex,lexerleng,operatorFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildNamespace()
+int SyntaxHighlighter::buildNamespace()
 {
 	setFormat(startIndex,lexerleng,keywordFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildAppend()
+int SyntaxHighlighter::buildAppend()
 {
 	setFormat(startIndex,lexerleng,operatorFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildOperator(unsigned int)
+int SyntaxHighlighter::buildOperator(int)
 {
 	setFormat(startIndex,lexerleng,operatorFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildLegalChar(unsigned int)
+int SyntaxHighlighter::buildLegalChar(int)
 {
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildByteOrderMark()
+int SyntaxHighlighter::buildByteOrderMark()
 {
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildIllegalChar(const QString& s)
+int SyntaxHighlighter::buildIllegalChar(const QString& s)
 {
 	int stringLen=s.length();
 	setFormat(startIndex,stringLen,errorFormat);
@@ -347,31 +347,31 @@ unsigned int SyntaxHighlighter::buildIllegalChar(const QString& s)
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildNumber(const QString&)
+int SyntaxHighlighter::buildNumber(const QString&)
 {
 	setFormat(startIndex,lexerleng,numberFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildNumberExp(const QString&)
+int SyntaxHighlighter::buildNumberExp(const QString&)
 {
 	setFormat(startIndex,lexerleng,numberFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildRational()
+int SyntaxHighlighter::buildRational()
 {
 	setFormat(startIndex,lexerleng,numberFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildRational(const QString&)
+int SyntaxHighlighter::buildRational(const QString&)
 {
 	setFormat(startIndex,lexerleng,numberFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildIdentifier(const QString& i)
+int SyntaxHighlighter::buildIdentifier(const QString& i)
 {
 	if(moduleNames.contains(i))
 		setFormat(startIndex,lexerleng,moduleFormat);
@@ -397,7 +397,7 @@ void SyntaxHighlighter::buildString(const QString& s)
 	startIndex+=stringLen;
 }
 
-unsigned int SyntaxHighlighter::buildStringFinish()
+int SyntaxHighlighter::buildStringFinish()
 {
 	setFormat(startIndex,lexerleng,stringFormat);
 	return YY_CONTINUE;
@@ -424,14 +424,14 @@ void SyntaxHighlighter::buildCommentFinish()
 	startIndex+=lexerleng;
 }
 
-unsigned int SyntaxHighlighter::buildCodeDocStart()
+int SyntaxHighlighter::buildCodeDocStart()
 {
 	setCurrentBlockState(CodeDoc);
 	setFormat(startIndex,lexerleng,codeDocFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildCodeDoc(const QString& s)
+int SyntaxHighlighter::buildCodeDoc(const QString& s)
 {
 	int stringLen=s.length();
 	setFormat(startIndex,stringLen,codeDocFormat);
@@ -447,13 +447,13 @@ void SyntaxHighlighter::buildCodeDoc()
 	startIndex+=lexerleng;
 }
 
-unsigned int SyntaxHighlighter::buildCodeDocParam(const QString&)
+int SyntaxHighlighter::buildCodeDocParam(const QString&)
 {
 	setFormat(startIndex,lexerleng,codeDocParamFormat);
 	return YY_CONTINUE;
 }
 
-unsigned int SyntaxHighlighter::buildCodeDocFinish()
+int SyntaxHighlighter::buildCodeDocFinish()
 {
 	setCurrentBlockState(Initial);
 	setFormat(startIndex,lexerleng,codeDocFormat);

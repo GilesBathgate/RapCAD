@@ -42,217 +42,217 @@ int TokenReader::nextToken()
 	return lexerlex();
 }
 
-unsigned int TokenReader::buildUse(const QString&)
+int TokenReader::buildUse(const QString&)
 {
 	return USE;
 }
 
-unsigned int TokenReader::buildImport(const QString&)
+int TokenReader::buildImport(const QString&)
 {
 	return IMPORT;
 }
 
-unsigned int TokenReader::buildModule()
+int TokenReader::buildModule()
 {
 	return MODULE;
 }
 
-unsigned int TokenReader::buildFunction()
+int TokenReader::buildFunction()
 {
 	return FUNCTION;
 }
 
-unsigned int TokenReader::buildTrue()
+int TokenReader::buildTrue()
 {
 	return TOK_TRUE;
 }
 
-unsigned int TokenReader::buildFalse()
+int TokenReader::buildFalse()
 {
 	return TOK_FALSE;
 }
 
-unsigned int TokenReader::buildUndef()
+int TokenReader::buildUndef()
 {
 	return UNDEF;
 }
 
-unsigned int TokenReader::buildConst()
+int TokenReader::buildConst()
 {
 	return CONST;
 }
 
-unsigned int TokenReader::buildParam()
+int TokenReader::buildParam()
 {
 	return PARAM;
 }
 
-unsigned int TokenReader::buildIf()
+int TokenReader::buildIf()
 {
 	return TOK_IF;
 }
 
-unsigned int TokenReader::buildAs()
+int TokenReader::buildAs()
 {
 	return TOK_AS;
 }
 
-unsigned int TokenReader::buildElse()
+int TokenReader::buildElse()
 {
 	return ELSE;
 }
 
-unsigned int TokenReader::buildFor()
+int TokenReader::buildFor()
 {
 	return FOR;
 }
 
-unsigned int TokenReader::buildReturn()
+int TokenReader::buildReturn()
 {
 	return RETURN;
 }
 
-unsigned int TokenReader::buildLessEqual()
+int TokenReader::buildLessEqual()
 {
 	return LE;
 }
 
-unsigned int TokenReader::buildGreatEqual()
+int TokenReader::buildGreatEqual()
 {
 	return GE;
 }
 
-unsigned int TokenReader::buildEqual()
+int TokenReader::buildEqual()
 {
 	return EQ;
 }
 
-unsigned int TokenReader::buildNotEqual()
+int TokenReader::buildNotEqual()
 {
 	return NE;
 }
 
-unsigned int TokenReader::buildAnd()
+int TokenReader::buildAnd()
 {
 	return AND;
 }
 
-unsigned int TokenReader::buildOr()
+int TokenReader::buildOr()
 {
 	return OR;
 }
 
-unsigned int TokenReader::buildComponentwiseMultiply()
+int TokenReader::buildComponentwiseMultiply()
 {
 	return CM;
 }
 
-unsigned int TokenReader::buildComponentwiseDivide()
+int TokenReader::buildComponentwiseDivide()
 {
 	return CD;
 }
 
-unsigned int TokenReader::buildIncrement()
+int TokenReader::buildIncrement()
 {
 	return INC;
 }
 
-unsigned int TokenReader::buildDecrement()
+int TokenReader::buildDecrement()
 {
 	return DEC;
 }
 
-unsigned int TokenReader::buildAddAssign()
+int TokenReader::buildAddAssign()
 {
 	return ADDA;
 }
 
-unsigned int TokenReader::buildSubtractAssign()
+int TokenReader::buildSubtractAssign()
 {
 	return SUBA;
 }
 
-unsigned int TokenReader::buildCrossProduct()
+int TokenReader::buildCrossProduct()
 {
 	return CP;
 }
 
-unsigned int TokenReader::buildNamespace()
+int TokenReader::buildNamespace()
 {
 	return NS;
 }
 
-unsigned int TokenReader::buildAppend()
+int TokenReader::buildAppend()
 {
 	return APPEND;
 }
 
-unsigned int TokenReader::buildOperator(unsigned int c)
+int TokenReader::buildOperator(int c)
 {
 	return c;
 }
 
-unsigned int TokenReader::buildLegalChar(unsigned int c)
+int TokenReader::buildLegalChar(int c)
 {
 	return c;
 }
 
-unsigned int TokenReader::buildByteOrderMark()
+int TokenReader::buildByteOrderMark()
 {
 	return BOM;
 }
 
-unsigned int TokenReader::buildIllegalChar(const QString&)
+int TokenReader::buildIllegalChar(const QString&)
 {
 	return YY_NULL;
 }
 
-unsigned int TokenReader::buildNumber(const QString&)
+int TokenReader::buildNumber(const QString&)
 {
 	return NUMBER;
 }
 
-unsigned int TokenReader::buildNumberExp(const QString&)
+int TokenReader::buildNumberExp(const QString&)
 {
 	return NUMBER;
 }
 
-unsigned int TokenReader::buildRational()
+int TokenReader::buildRational()
 {
 	return UNDEF;
 }
 
-unsigned int TokenReader::buildRational(const QString&)
+int TokenReader::buildRational(const QString&)
 {
 	return NUMBER;
 }
 
-unsigned int TokenReader::buildIdentifier(const QString&)
+int TokenReader::buildIdentifier(const QString&)
 {
 	return IDENTIFIER;
 }
 
-unsigned int TokenReader::buildStringFinish()
+int TokenReader::buildStringFinish()
 {
 	return STRING;
 }
 
-unsigned int TokenReader::buildCodeDocStart()
+int TokenReader::buildCodeDocStart()
 {
 	return DOCSTART;
 }
 
-unsigned int TokenReader::buildCodeDoc(const QString&)
+int TokenReader::buildCodeDoc(const QString&)
 {
 	return DOCTEXT;
 }
 
-unsigned int TokenReader::buildCodeDocParam(const QString&)
+int TokenReader::buildCodeDocParam(const QString&)
 {
 	return DOCPARAM;
 }
 
-unsigned int TokenReader::buildCodeDocFinish()
+int TokenReader::buildCodeDocFinish()
 {
 	return DOCEND;
 }

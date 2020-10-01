@@ -33,59 +33,59 @@ public:
 	void buildIncludePath(const QString&) override {}
 	void buildIncludeFinish() override {}
 	void buildUseStart() override {}
-	unsigned int buildUse(const QString&) override;
+	int buildUse(const QString&) override;
 	void buildUseFinish() override {}
 	void buildImportStart() override {}
-	unsigned int buildImport(const QString&) override;
+	int buildImport(const QString&) override;
 	void buildImportFinish() override {}
-	unsigned int buildModule() override;
-	unsigned int buildFunction() override;
-	unsigned int buildTrue() override;
-	unsigned int buildFalse() override;
-	unsigned int buildUndef() override;
-	unsigned int buildConst() override;
-	unsigned int buildParam() override;
-	unsigned int buildIf() override;
-	unsigned int buildAs() override;
-	unsigned int buildElse() override;
-	unsigned int buildFor() override;
-	unsigned int buildReturn() override;
-	unsigned int buildLessEqual() override;
-	unsigned int buildGreatEqual() override;
-	unsigned int buildEqual() override;
-	unsigned int buildNotEqual() override;
-	unsigned int buildAnd() override;
-	unsigned int buildOr() override;
-	unsigned int buildComponentwiseMultiply() override;
-	unsigned int buildComponentwiseDivide() override;
-	unsigned int buildIncrement() override;
-	unsigned int buildDecrement() override;
-	unsigned int buildAddAssign() override;
-	unsigned int buildSubtractAssign() override;
-	unsigned int buildCrossProduct() override;
-	unsigned int buildNamespace() override;
-	unsigned int buildAppend() override;
-	unsigned int buildOperator(unsigned int c) override;
-	unsigned int buildLegalChar(unsigned int) override;
-	unsigned int buildByteOrderMark() override;
-	unsigned int buildIllegalChar(const QString&) override;
-	unsigned int buildNumber(const QString&) override;
-	unsigned int buildNumberExp(const QString&) override;
-	unsigned int buildRational() override;
-	unsigned int buildRational(const QString&) override;
-	unsigned int buildIdentifier(const QString&) override;
+	int buildModule() override;
+	int buildFunction() override;
+	int buildTrue() override;
+	int buildFalse() override;
+	int buildUndef() override;
+	int buildConst() override;
+	int buildParam() override;
+	int buildIf() override;
+	int buildAs() override;
+	int buildElse() override;
+	int buildFor() override;
+	int buildReturn() override;
+	int buildLessEqual() override;
+	int buildGreatEqual() override;
+	int buildEqual() override;
+	int buildNotEqual() override;
+	int buildAnd() override;
+	int buildOr() override;
+	int buildComponentwiseMultiply() override;
+	int buildComponentwiseDivide() override;
+	int buildIncrement() override;
+	int buildDecrement() override;
+	int buildAddAssign() override;
+	int buildSubtractAssign() override;
+	int buildCrossProduct() override;
+	int buildNamespace() override;
+	int buildAppend() override;
+	int buildOperator(int c) override;
+	int buildLegalChar(int) override;
+	int buildByteOrderMark() override;
+	int buildIllegalChar(const QString&) override;
+	int buildNumber(const QString&) override;
+	int buildNumberExp(const QString&) override;
+	int buildRational() override;
+	int buildRational(const QString&) override;
+	int buildIdentifier(const QString&) override;
 	void buildStringStart() override {}
 	void buildString(QChar) override {}
 	void buildString(const QString&) override {}
-	unsigned int buildStringFinish() override;
+	int buildStringFinish() override;
 	void buildCommentStart() override {}
 	void buildComment(const QString&) override {}
 	void buildCommentFinish() override {}
-	unsigned int buildCodeDocStart() override;
-	unsigned int buildCodeDoc(const QString&) override;
+	int buildCodeDocStart() override;
+	int buildCodeDoc(const QString&) override;
 	void buildCodeDoc() override {}
-	unsigned int buildCodeDocParam(const QString&) override;
-	unsigned int buildCodeDocFinish() override;
+	int buildCodeDocParam(const QString&) override;
+	int buildCodeDocFinish() override;
 	void buildWhiteSpaceError() override {}
 	void buildWhiteSpace() override {}
 	void buildNewLine() override {}
