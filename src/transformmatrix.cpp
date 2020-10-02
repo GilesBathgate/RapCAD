@@ -18,12 +18,9 @@
 
 #include "transformmatrix.h"
 
-TransformMatrix::TransformMatrix()
+TransformMatrix::TransformMatrix() :
+	matrix{{1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1}}
 {
-	int n=0;
-	for(auto i=0; i<4; ++i)
-		for(auto j=0; j<4; ++j)
-			matrix[i][j]=(n++%5)?0.0:1.0;
 }
 
 TransformMatrix::TransformMatrix(
