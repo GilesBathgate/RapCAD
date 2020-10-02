@@ -25,14 +25,18 @@
 #include "onceonly.h"
 
 CGALExplorer::CGALExplorer(Primitive* p) :
-	evaluated(false),
-	primitive(nullptr),
-	perimeters(nullptr),
-	nef(static_cast<CGALPrimitive*>(p)->getNefPolyhedron())
+	CGALExplorer(dynamic_cast<CGALPrimitive*>(p))
 {
 }
 
-typedef CGAL::NefPolyhedron3 Nef;
+CGALExplorer::CGALExplorer(CGALPrimitive* p) :
+	evaluated(false),
+	primitive(p),
+	perimeters(nullptr)
+{
+}
+
+using Nef = CGAL::NefPolyhedron3;
 using VolumeIterator = Nef::Volume_const_iterator;
 using ShellEntryIterator = Nef::Shell_entry_const_iterator;
 using HalfEdgeHandle = Nef::Halfedge_const_handle;
@@ -161,6 +165,8 @@ static HalfEdgeHandle findNewEdge(const QList<HalfEdgeHandle>& visited,const QLi
 
 void CGALExplorer::explore()
 {
+	if(!primitive) return;
+	const CGAL::NefPolyhedron3& nef=primitive->getNefPolyhedron();
 	primitive=new CGALPrimitive();
 	ShellExplorer se(primitive);
 	VolumeIterator vi;
