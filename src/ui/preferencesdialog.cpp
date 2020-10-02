@@ -190,18 +190,19 @@ void PreferencesDialog::colorButtonPressed(QWidget* frame)
 	setColor(frame,c);
 
 	Preferences& p = Preferences::getInstance();
-	if(frame==ui->markedVertexColorFrame)
+	if(frame==ui->markedVertexColorFrame) {
 		p.setMarkedVertexColor(c);
-	else if(frame==ui->vertexColorFrame)
+	} else if(frame==ui->vertexColorFrame) {
 		p.setVertexColor(c);
-	else if(frame==ui->markedEdgeColorFrame)
+	} else if(frame==ui->markedEdgeColorFrame) {
 		p.setMarkedEdgeColor(c);
-	else if(frame==ui->edgeColorFrame)
+	} else if(frame==ui->edgeColorFrame) {
 		p.setEdgeColor(c);
-	else if(frame==ui->markedFacetColorFrame)
+	} else if(frame==ui->markedFacetColorFrame) {
 		p.setMarkedFacetColor(c);
-	else if(frame==ui->facetColorFrame)
+	} else if(frame==ui->facetColorFrame) {
 		p.setFacetColor(c);
+	}
 
 	emit preferencesUpdated();
 }
