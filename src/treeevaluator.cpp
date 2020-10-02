@@ -349,8 +349,10 @@ void TreeEvaluator::visit(const AssignStatement& stmt)
 	Expression::Operator_e op=stmt.getOperation();
 	switch(op) {
 		case Expression::Increment:
-		case Expression::Decrement:
+		case Expression::Decrement: {
+			result=Value::operation(lvalue,op);
 			break;
+		}
 		default: {
 			Expression* expression = stmt.getExpression();
 			if(expression) {
@@ -365,14 +367,6 @@ void TreeEvaluator::visit(const AssignStatement& stmt)
 		case Expression::AddAssign:
 		case Expression::SubAssign: {
 			result=Value::operation(lvalue,op,result);
-			break;
-		}
-		case Expression::Increment: {
-			result=Value::operation(lvalue,op);
-			break;
-		}
-		case Expression::Decrement: {
-			result=Value::operation(lvalue,op);
 			break;
 		}
 		default:
