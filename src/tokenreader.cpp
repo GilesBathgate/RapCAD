@@ -22,7 +22,7 @@
 typedef union YYSTYPE YYSTYPE;
 #include "parser_yacc.h"
 
-#define YY_NULL 0
+static constexpr int YY_NULL=0;
 extern void lexerinit(AbstractTokenBuilder*,Reporter*,const QString&);
 extern int lexerdestroy();
 extern int lexerlex();

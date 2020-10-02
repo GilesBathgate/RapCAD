@@ -66,7 +66,7 @@ void Interactive::execCommand(const QString& str)
 	delete n;
 }
 
-#define PROMPT "\u042F: "
+static constexpr auto PROMPT="\u042F: ";
 
 QString Interactive::getPrompt()
 {
@@ -76,8 +76,7 @@ QString Interactive::getPrompt()
 int Interactive::evaluate()
 {
 #ifdef USE_READLINE
-	const char* prompt=PROMPT;
-	while(char* c=readline::readline(prompt))
+	while(char* c=readline::readline(PROMPT))
 		execCommand(c);
 	output << endl;
 #endif

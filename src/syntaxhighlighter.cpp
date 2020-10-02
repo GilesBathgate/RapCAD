@@ -27,7 +27,7 @@ extern void lexerbegin();
 extern void lexercomment();
 extern void lexercodedoc();
 extern int lexerleng;
-#define YY_CONTINUE 1;
+static constexpr int YY_CONTINUE=1;
 
 SyntaxHighlighter::SyntaxHighlighter(QTextDocument* parent) :
 	QSyntaxHighlighter(parent),
