@@ -421,7 +421,7 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 	CGALPrimitive* prim=explorer.getPrimitive();
 	QList<CGALPolygon*> polys=prim->getCGALPolygons();
 	auto* n = new CGALPrimitive();
-	auto* fg = static_cast<CGALFragment*>(op.getFragments());
+	auto* fg = op.getFragments();
 	CGAL::Cuboid3 b=explorer.getBounds();
 	int f=fg->getFragments((b.xmax()-b.xmin())+r);
 	CGAL::Vector3 t(r,0.0,0.0);
@@ -559,7 +559,7 @@ void NodeEvaluator::visit(const BoundsNode& n)
 {
 	if(!evaluate(n,Union)) return;
 #ifdef USE_CGAL
-	auto* pr=static_cast<CGALPrimitive*>(result);
+	auto* pr=dynamic_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
 
 	CGAL::Scalar xmin=b.xmin();
@@ -599,7 +599,7 @@ void NodeEvaluator::visit(const SubDivisionNode& n)
 {
 	if(!evaluate(n,Union)) return;
 #ifdef USE_CGAL
-	auto* cp=static_cast<CGALPrimitive*>(result);
+	auto* cp=dynamic_cast<CGALPrimitive*>(result);
 	CGAL::Polyhedron3& p=*cp->getPolyhedron();
 
 #if CGAL_VERSION_NR <= CGAL_VERSION_NUMBER(4,11,0)
@@ -713,7 +713,7 @@ void NodeEvaluator::visit(const ResizeNode& n)
 {
 	if(!evaluate(n,Union)) return;
 #ifdef USE_CGAL
-	auto* pr=static_cast<CGALPrimitive*>(result);
+	auto* pr=dynamic_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
 	CGAL::Point3 s=n.getSize();
 	CGAL::Scalar x=s.x();
@@ -754,7 +754,7 @@ void NodeEvaluator::visit(const AlignNode& n)
 {
 	if(!evaluate(n,Union)) return;
 #ifdef USE_CGAL
-	auto* pr=static_cast<CGALPrimitive*>(result);
+	auto* pr=dynamic_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
 	CGAL::Scalar cx=0.0;
 	CGAL::Scalar cy=0.0;
@@ -834,7 +834,7 @@ void NodeEvaluator::visit(const SliceNode& n)
 {
 	if(!evaluate(n,Union)) return;
 #ifdef USE_CGAL
-	auto* pr=static_cast<CGALPrimitive*>(result);
+	auto* pr=dynamic_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
 
 	const CGAL::Scalar& xmin=b.xmin();
@@ -913,7 +913,7 @@ void NodeEvaluator::visit(const RadialsNode& n)
 {
 	if(!evaluate(n,Union)) return;
 #ifdef USE_CGAL
-	auto* pr=static_cast<CGALPrimitive*>(result);
+	auto* pr=dynamic_cast<CGALPrimitive*>(result);
 	CGAL::Circle3 circle=pr->getRadius();
 	CGAL::Scalar r=r_sqrt(circle.squared_radius());
 	QString rs=to_string(r);
@@ -951,7 +951,7 @@ void NodeEvaluator::visit(const VolumesNode& n)
 {
 	if(!evaluate(n,Union)) return;
 #ifdef USE_CGAL
-	auto* pr=static_cast<CGALPrimitive*>(result);
+	auto* pr=dynamic_cast<CGALPrimitive*>(result);
 	bool calcMass = n.getCalcMass();
 	const CGALVolume& v=pr->getVolume(calcMass);
 

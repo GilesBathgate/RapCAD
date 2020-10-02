@@ -347,20 +347,21 @@ void CGALPrimitive::appendVertex(const CGAL::Point3& p)
 
 bool CGALPrimitive::overlaps(Primitive* pr)
 {
-	auto* that=static_cast<CGALPrimitive*>(pr);
+	auto* that=dynamic_cast<CGALPrimitive*>(pr);
 	return CGAL::do_intersect(this->getBounds(),that->getBounds());
 }
 
 
-Primitive* CGALPrimitive::group(Primitive* pr)
+Primitive* CGALPrimitive::group(Primitive* that)
 {
 	QList<Primitive*> primitives;
 	primitives.append(this);
-	primitives.append(pr);
+	primitives.append(that);
 
 	auto* cp=new CGALPrimitive();
 	for(Primitive* pr: primitives) {
-		auto* prim=static_cast<CGALPrimitive*>(pr);
+		auto* prim=dynamic_cast<CGALPrimitive*>(pr);
+		if(!prim) continue;
 		if(prim->nefPolyhedron) {
 			CGALExplorer e(prim);
 			prim=e.getPrimitive();

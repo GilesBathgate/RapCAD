@@ -260,7 +260,7 @@ bool CodeEditor::event(QEvent* event)
 		return QPlainTextEdit::event(event);
 
 	if(event->type()==QEvent::ToolTip) {
-		auto* helpEvent = static_cast<QHelpEvent*>(event);
+		auto* helpEvent = dynamic_cast<QHelpEvent*>(event);
 		QTextCursor cursor = cursorForPosition(helpEvent->pos());
 		cursor.select(QTextCursor::WordUnderCursor);
 		Module* m = moduleNames.value(cursor.selectedText());
