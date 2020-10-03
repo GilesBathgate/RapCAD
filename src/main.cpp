@@ -53,18 +53,18 @@ static void showVersion(QTextStream& out)
 	out << QCoreApplication::applicationName() << " " << QCoreApplication::applicationVersion() << endl;
 }
 
-static int showUi(int argc, char* argv[],const QStringList& filenames)
+static QStringList getArguments(int argc,char* argv[])
 {
-	QApplication a(argc,argv);
-	MainWindow w;
-	w.loadFiles(filenames);
-	w.show();
-	return QApplication::exec();
+	QStringList list;
+	for(int a=0; a<argc; ++a) {
+		list << QString::fromLocal8Bit(argv[a]);
+	}
+	return list;
 }
 
 static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Reporter& reporter)
 {
-	QCoreApplication a(argc,argv);
+	const QStringList& arguments=getArguments(argc,argv);
 
 	QCommandLineParser p;
 	p.setApplicationDescription(QCoreApplication::translate("main","RapCAD the rapid prototyping IDE"));
@@ -93,7 +93,7 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Re
 	QCommandLineOption interactOption(QStringList() << "i" << "interactive",QCoreApplication::translate("main","Start an interactive session"));
 	p.addOption(interactOption);
 #endif
-	p.process(a);
+	p.process(arguments);
 
 	inputFiles=p.positionalArguments();
 	QString inputFile;
@@ -139,7 +139,11 @@ static int runApplication(Strategy* s,int argc,char* argv[],QStringList inputFil
 	if(s)
 		return s->evaluate();
 
-	return showUi(argc,argv,inputFiles);
+	QApplication a(argc,argv);
+	MainWindow w;
+	w.loadFiles(inputFiles);
+	w.show();
+	return QApplication::exec();
 }
 
 int main(int argc, char* argv[])
