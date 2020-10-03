@@ -17,6 +17,7 @@
  */
 
 #include "transformmatrix.h"
+#include "onceonly.h"
 
 TransformMatrix::TransformMatrix() :
 	matrix{{1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1}}
@@ -37,7 +38,8 @@ TransformMatrix::TransformMatrix(
 
 void TransformMatrix::setValue(int i,int j,const decimal& d)
 {
-	matrix[i][j]=d;
+	if(i>=0&&i<4&&j>=0&&j<4)
+		matrix[i][j]=d;
 }
 
 #ifdef USE_CGAL
@@ -53,20 +55,20 @@ CGAL::AffTransformation3 TransformMatrix::getTransform() const
 
 QString TransformMatrix::toString() const
 {
-	QString result;
-	result.append("[[");
-	for(auto i=0; i<4; ++i) {
-		if(i>0)
+	QString result("[[");
+	OnceOnly firsti;
+	for(const auto& i : matrix) {
+		if(!firsti())
 			result.append("],[");
 
-		for(auto j=0; j<4; ++j) {
-			if(j>0)
+		OnceOnly firstj;
+		for(const auto& j : i) {
+			if(!firstj())
 				result.append(",");
 
-			result.append(to_string(matrix[i][j]));
+			result.append(to_string(j));
 		}
 	}
-	result.append("]]");
-	return result;
+	return result.append("]]");
 }
 
