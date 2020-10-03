@@ -110,13 +110,13 @@ void Worker::primary()
 		NodePrinter p(output);
 		n->accept(p);
 		output << endl;
+	} else {
+		NodeEvaluator ne(reporter);
+		n->accept(ne);
+		updatePrimitive(ne.getResult());
 	}
-
-	NodeEvaluator ne(reporter);
-	n->accept(ne);
 	delete n;
 
-	updatePrimitive(ne.getResult());
 	if(!primitive)
 		reporter.reportWarning(tr("no top level object."));
 	else if(!outputFile.isEmpty()) {
