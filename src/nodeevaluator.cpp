@@ -333,63 +333,65 @@ void NodeEvaluator::visit(const LinearExtrudeNode& op)
 {
 	if(!evaluate(op,Union)) return;
 #ifdef USE_CGAL
-	auto* cp=new CGALPrimitive();
-	CGAL::Scalar z=op.getHeight();
-	CGAL::Point3 a=op.getAxis();
-	CGAL::Vector3 axis(CGAL::ORIGIN,a);
-	CGAL::Vector3 t=axis*z;
 
+	CGAL::Scalar height=op.getHeight();
+	CGAL::Vector3 axis(CGAL::ORIGIN,op.getAxis());
+	CGAL::Vector3 t=axis*height;
+
+	auto* extruded=new CGALPrimitive();
 	if(result->isFullyDimentional()) {
-		cp->setType(Primitive::Lines);
-		cp->createPolygon();
-		cp->appendVertex(CGAL::ORIGIN);
-		cp->appendVertex(CGAL::Point3(t.x(),t.y(),t.z()));
-		result=result->minkowski(cp);
+		extruded->setType(Primitive::Lines);
+		extruded->createPolygon();
+		extruded->appendVertex(CGAL::ORIGIN);
+		extruded->appendVertex(CGAL::Point3(t.x(),t.y(),t.z()));
+		result=result->minkowski(extruded);
 	} else {
 
-		CGAL::Direction3 d=t.direction();
-
 		CGALExplorer explorer(result);
-		CGALPrimitive* peri=explorer.getPerimeters();
-		if(!peri) {
-			delete cp;
+		CGALPrimitive* perimeter=explorer.getPerimeters();
+		if(!perimeter) {
+			delete extruded;
 			return;
 		}
 
-		CGALPrimitive* prim=explorer.getPrimitive();
-		QList<CGALPolygon*> polys=prim->getCGALPolygons();
+		CGALPrimitive* primitive=explorer.getPrimitive();
+		QList<CGALPolygon*> polygons=primitive->getCGALPolygons();
 
-		for(CGALPolygon* pg: polys) {
-			cp->createPolygon();
+		CGAL::Direction3 d=t.direction();
+		for(CGALPolygon* pg: polygons) {
+			extruded->createPolygon();
 			bool up=(pg->getDirection()==d);
 			for(const auto& pt: pg->getPoints())
-				cp->addVertex(pt,up);
+				extruded->addVertex(pt,up);
 		}
 
-		for(CGALPolygon* pg: peri->getCGALPolygons()) {
+		for(CGALPolygon* pg: perimeter->getCGALPolygons()) {
 			bool up=(pg->getDirection()==d)!=pg->getHole();
 			OnceOnly first;
 			CGAL::Point3 pn;
 			for(const auto& pt: pg->getPoints()) {
 				if(!first()) {
-					cp->createPolygon();
-					cp->addVertex(translate(pn,t),up);
-					cp->addVertex(translate(pt,t),up);
-					cp->addVertex(pt,up);
-					cp->addVertex(pn,up);
+					extruded->createPolygon();
+					extruded->addVertex(translate(pn,t),up);
+					extruded->addVertex(translate(pt,t),up);
+					extruded->addVertex(pt,up);
+					extruded->addVertex(pn,up);
 				}
 				pn=pt;
 			}
 		}
 
-		for(CGALPolygon* pg: polys) {
-			cp->createPolygon();
+		for(CGALPolygon* pg: polygons) {
+			extruded->createPolygon();
 			bool up=(pg->getDirection()==d);
 			for(const auto& pt: pg->getPoints())
-				cp->addVertex(translate(pt,t),!up);
+				extruded->addVertex(translate(pt,t),!up);
 		}
+		delete primitive;
+		delete perimeter;
+		extruded->appendChild(result);
 
-		result=cp;
+		result=extruded;
 	}
 #endif
 }
@@ -403,62 +405,64 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 		return;
 	}
 #ifdef USE_CGAL
-	CGAL::Scalar r=op.getRadius();
-	CGAL::Scalar height=op.getHeight();
-	CGAL::Scalar sweep=op.getSweep();
-	CGAL::Point3 a=op.getAxis();
-
-	CGAL::Vector3 axis(CGAL::ORIGIN,a);
-	CGAL::Plane3 pn(CGAL::ORIGIN,axis);
-	CGAL::Direction3 d=pn.base2().direction();
+	CGAL::Vector3 axis(CGAL::ORIGIN,op.getAxis());
 	CGAL::Scalar mag=r_sqrt(axis.squared_length(),false);
 	if(mag==0)
 		return;
-
 	axis=axis/mag;
 
+	CGAL::Scalar r=op.getRadius();
+	CGAL::Scalar height=op.getHeight();
+	CGAL::Scalar sweep=op.getSweep();
+	CGAL::Plane3 plane(CGAL::ORIGIN,axis);
+	CGAL::Direction3 d=plane.base2().direction();
+
 	CGALExplorer explorer(result);
-	CGALPrimitive* prim=explorer.getPrimitive();
-	QList<CGALPolygon*> polys=prim->getCGALPolygons();
-	auto* n = new CGALPrimitive();
-	auto* fg = op.getFragments();
+	CGALPrimitive* primitive=explorer.getPrimitive();
+	QList<CGALPolygon*> polygons=primitive->getCGALPolygons();
+
 	CGAL::Cuboid3 b=explorer.getBounds();
+	auto* fg=op.getFragments();
 	int f=fg->getFragments((b.xmax()-b.xmin())+r);
 	CGAL::Vector3 t(r,0.0,0.0);
 
 	bool caps=(sweep!=360.0||height>0.0);
 
+	auto* extruded=new CGALPrimitive();
 	if(caps) {
-		foreach(CGALPolygon* pg,polys) {
-			n->createPolygon();
+		foreach(CGALPolygon* pg,polygons) {
+			extruded->createPolygon();
 			bool up=(pg->getDirection()==d);
 			foreach(CGAL::Point3 pt,pg->getPoints()) {
 				CGAL::Point3 q=translate(pt,t);
-				n->addVertex(q,up);
+				extruded->addVertex(q,up);
 			}
 		}
 	}
 
 	if(sweep==0.0) {
-		result = n;
+		delete primitive;
+		extruded->appendChild(result);
+		result=extruded;
+		return;
+	}
+
+	CGALPrimitive* perimeter=explorer.getPerimeters();
+	if(!perimeter) {
+		delete primitive;
+		delete extruded;
 		return;
 	}
 
 	CGAL::Scalar phi;
 	CGAL::Scalar nphi;
-	CGALPrimitive* peri=explorer.getPerimeters();
-	if(!peri) {
-		delete n;
-		return;
-	}
-
 	for(auto i=0; i<f; ++i) {
 		int j=caps?i+1:(i+1)%f;
-		CGAL::Scalar ang = r_tau()*sweep/360.0;
+		CGAL::Scalar ang=r_tau()*sweep/360.0;
 		phi=ang*i/f;
 		nphi=ang*j/f;
 
-		for(CGALPolygon* pg: peri->getCGALPolygons()) {
+		for(CGALPolygon* pg: perimeter->getCGALPolygons()) {
 			bool hole=pg->getHole();
 			if(!caps && hole) continue;
 			bool up=(pg->getDirection()==d)!=hole;
@@ -473,37 +477,40 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 						continue;
 					}
 
-					n->createPolygon();
+					extruded->createPolygon();
 					CGAL::Point3 q1=rotate(q,nphi,axis);
 					CGAL::Point3 p1=rotate(p,nphi,axis);
 					CGAL::Point3 p2=rotate(p,phi,axis);
 					CGAL::Point3 q2=rotate(q,phi,axis);
-					n->addVertex(q1,up);
-					n->addVertex(p1,up);
+					extruded->addVertex(q1,up);
+					extruded->addVertex(p1,up);
 					if(p2!=p1)
-						n->addVertex(p2,up);
+						extruded->addVertex(p2,up);
 					if(q2!=q1)
-						n->addVertex(q2,up);
+						extruded->addVertex(q2,up);
 				}
 				pn=pt;
 			}
 		}
 	}
 
-
 	if(caps) {
-		foreach(CGALPolygon* pg,polys) {
-			n->createPolygon();
+		foreach(CGALPolygon* pg,polygons) {
+			extruded->createPolygon();
 			bool up=(pg->getDirection()==d);
 			foreach(CGAL::Point3 pt,pg->getPoints()) {
 				CGAL::Point3 q=translate(pt,t);
 				CGAL::Point3 p=rotate(q,nphi,axis);
-				n->addVertex(p,!up);
+				extruded->addVertex(p,!up);
 			}
 		}
 	}
 
-	result=n;
+	delete primitive;
+	delete perimeter;
+	extruded->appendChild(result);
+
+	result=extruded;
 #endif
 }
 
