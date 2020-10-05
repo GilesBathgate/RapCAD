@@ -230,29 +230,31 @@ void CGALBuilder::buildOffsetPolygons(const CGAL::Scalar& amount)
 	using PolygonPtr = boost::shared_ptr<CGAL::Polygon2>;
 	using PolygonPtrVector = std::vector<PolygonPtr>;
 
-	CGAL::Polygon2 poly;
+	CGAL::Polygon2 polygon;
 	CGALExplorer e(&primitive);
-	CGALPrimitive* prim = e.getPrimitive();
+	CGALPrimitive* original=e.getPrimitive();
+	CGALPrimitive* perimeters=e.getPrimitive();
 
 	CGAL::Scalar z=0.0;
-	for(CGALPolygon* pg: prim->getCGALPolygons()) {
+	for(CGALPolygon* pg: original->getCGALPolygons()) {
 		for(const auto& pt: pg->getPoints()) {
 			CGAL::Point2 p2(pt.x(),pt.y());
-			poly.push_back(p2);
+			polygon.push_back(p2);
 			z=pt.z();
 		}
 		if(pg->getNormal().z()<0)
-			poly.reverse_orientation();
+			polygon.reverse_orientation();
 	}
-
+	delete perimeters;
+	delete original;
 
 	OnceOnly first;
 	PolygonPtrVector offsetPolys;
 	if(amount<0) {
-		offsetPolys=CGAL::create_interior_skeleton_and_offset_polygons_2(-amount,poly);
+		offsetPolys=CGAL::create_interior_skeleton_and_offset_polygons_2(-amount,polygon);
 		first();
 	} else {
-		offsetPolys=CGAL::create_exterior_skeleton_and_offset_polygons_2(amount,poly);
+		offsetPolys=CGAL::create_exterior_skeleton_and_offset_polygons_2(amount,polygon);
 	}
 
 	primitive.clear();
