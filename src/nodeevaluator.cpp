@@ -138,10 +138,8 @@ void NodeEvaluator::visit(const GlideNode& op)
 				points = result->getPoints();
 			} else {
 				CGALExplorer explorer(result);
-				CGALPrimitive* peri=explorer.getPerimeters();
-				if(!peri) return;
-
-				points = peri->getCGALPolygons().first()->getPoints();
+				CGALPrimitive* primitive=explorer.getPrimitive();
+				points = primitive->getCGALPerimeter().first()->getPoints();
 
 				/* TODO glide all polygons?
 				for(CGALPolygon* pg: peri->getCGALPolygons()) {
@@ -348,11 +346,6 @@ void NodeEvaluator::visit(const LinearExtrudeNode& op)
 	} else {
 
 		CGALExplorer explorer(result);
-		CGALPrimitive* perimeter=explorer.getPerimeters();
-		if(!perimeter) {
-			delete extruded;
-			return;
-		}
 
 		CGALPrimitive* primitive=explorer.getPrimitive();
 		QList<CGALPolygon*> polygons=primitive->getCGALPolygons();
@@ -365,7 +358,7 @@ void NodeEvaluator::visit(const LinearExtrudeNode& op)
 				extruded->addVertex(pt,up);
 		}
 
-		for(CGALPolygon* pg: perimeter->getCGALPolygons()) {
+		for(CGALPolygon* pg: primitive->getCGALPerimeter()) {
 			bool up=(pg->getDirection()==d)!=pg->getHole();
 			OnceOnly first;
 			CGAL::Point3 pn;
@@ -388,7 +381,6 @@ void NodeEvaluator::visit(const LinearExtrudeNode& op)
 				extruded->addVertex(translate(pt,t),!up);
 		}
 		delete primitive;
-		delete perimeter;
 		extruded->appendChild(result);
 
 		result=extruded;
@@ -447,13 +439,6 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 		return;
 	}
 
-	CGALPrimitive* perimeter=explorer.getPerimeters();
-	if(!perimeter) {
-		delete primitive;
-		delete extruded;
-		return;
-	}
-
 	CGAL::Scalar phi;
 	CGAL::Scalar nphi;
 	for(auto i=0; i<f; ++i) {
@@ -462,7 +447,7 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 		phi=ang*i/f;
 		nphi=ang*j/f;
 
-		for(CGALPolygon* pg: perimeter->getCGALPolygons()) {
+		for(CGALPolygon* pg: primitive->getCGALPerimeter()) {
 			bool hole=pg->getHole();
 			if(!caps && hole) continue;
 			bool up=(pg->getDirection()==d)!=hole;
@@ -507,7 +492,6 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 	}
 
 	delete primitive;
-	delete perimeter;
 	extruded->appendChild(result);
 
 	result=extruded;
@@ -688,14 +672,7 @@ void NodeEvaluator::visit(const BoundaryNode& op)
 {
 	if(!evaluate(op,Union)) return;
 
-#ifdef USE_CGAL
-	if(result->isFullyDimentional()) {
-		result=result->boundary();
-	} else {
-		CGALExplorer explorer(result);
-		result=explorer.getPerimeters();
-	}
-#endif
+	result=result->boundary();
 }
 
 void NodeEvaluator::visit(const ImportNode& op)

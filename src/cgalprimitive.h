@@ -47,11 +47,12 @@ public:
 	Primitive_t getType() override;
 	void setSanitized(bool) override;
 	bool getSanitized() override;
-	Polygon* createPolygon() override;
-	CGALPolygon* createCGALPolygon();
+	CGALPolygon* createPolygon() override;
+	CGALPolygon* createPerimeter();
 	void createVertex(const CGAL::Point3&) override;
 	void createVertex(const CGAL::Scalar&, const CGAL::Scalar&, const CGAL::Scalar&);
-	void addVertex(const CGAL::Point3&,bool);
+	void addVertex(const CGAL::Point3& p,bool);
+	void addVertex(CGALPolygon*,const CGAL::Point3&, bool);
 	void appendVertex(const CGAL::Point3&);
 	bool overlaps(Primitive*) override;
 	Primitive* group(Primitive*) override;
@@ -74,6 +75,7 @@ public:
 	/* Don't call this method instead use getCGALPolygons */
 	Q_DECL_DEPRECATED QList<Polygon*> getPolygons() const override;
 	QList<CGALPolygon*> getCGALPolygons() const;
+	QList<CGALPolygon*> getCGALPerimeter() const;
 	QList<CGAL::Point3> getPoints() const override;
 	const CGAL::NefPolyhedron3& getNefPolyhedron();
 	CGAL::Polyhedron3* getPolyhedron();
@@ -84,15 +86,18 @@ public:
 	void discrete(int) override;
 	CGAL::Circle3 getRadius();
 	CGALVolume getVolume(bool);
-	bool detectHoles(bool);
+	void detectPerimeterHoles();
 	void clear();
 	void clearPolygons();
 private:
 	void buildPrimitive();
+	void convertBoundary();
 	CGAL::NefPolyhedron3* createVolume();
 	CGAL::NefPolyhedron3* createPolyline();
 	static CGAL::NefPolyhedron3* createPolyline(QVector<CGAL::Point3>);
 	CGAL::NefPolyhedron3* createPoints();
+	bool detectHoles(QList<CGALPolygon*>,bool);
+	bool hasHoles();
 
 	/**
 	 * @brief Find the index of the point or add it to the points list
@@ -105,6 +110,7 @@ private:
 	QList<CGAL::Point3> points;
 	QMap<CGAL::Point3,int> pointMap;
 	QList<CGALPolygon*> polygons;
+	QList<CGALPolygon*> perimeters;
 	CGAL::NefPolyhedron3* nefPolyhedron;
 	Primitive_t type;
 	bool sanitized;

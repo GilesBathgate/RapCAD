@@ -210,7 +210,7 @@ bool CGALBuilder::triangulate()
 
 	for(FaceIterator f=ct.finite_faces_begin(); f!=ct.finite_faces_end(); ++f) {
 		if(f->info().inDomain()) {
-			auto* pg=primitive.createCGALPolygon();
+			CGALPolygon* pg=primitive.createPolygon();
 			for(auto i=0; i<3; ++i) {
 				VertexInfo info=f->vertex(i)->info();
 				if(info.isValid())
@@ -233,7 +233,6 @@ void CGALBuilder::buildOffsetPolygons(const CGAL::Scalar& amount)
 	CGAL::Polygon2 polygon;
 	CGALExplorer e(&primitive);
 	CGALPrimitive* original=e.getPrimitive();
-	CGALPrimitive* perimeters=e.getPrimitive();
 
 	CGAL::Scalar z=0.0;
 	for(CGALPolygon* pg: original->getCGALPolygons()) {
@@ -245,7 +244,6 @@ void CGALBuilder::buildOffsetPolygons(const CGAL::Scalar& amount)
 		if(pg->getNormal().z()<0)
 			polygon.reverse_orientation();
 	}
-	delete perimeters;
 	delete original;
 
 	OnceOnly first;

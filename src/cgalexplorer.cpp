@@ -31,8 +31,7 @@ CGALExplorer::CGALExplorer(Primitive* p) :
 
 CGALExplorer::CGALExplorer(CGALPrimitive* p) :
 	evaluated(false),
-	primitive(p),
-	perimeters(nullptr)
+	primitive(p)
 {
 }
 
@@ -101,7 +100,7 @@ public:
 					primitive->setSanitized(false);
 
 				if(fc.is_shalfedge()) {
-					auto* pg=primitive->createCGALPolygon();
+					CGALPolygon* pg=primitive->createPolygon();
 					pg->setPlane(f->plane());
 					if(isBase(pg))
 						basePolygons.append(pg);
@@ -215,9 +214,7 @@ void CGALExplorer::explore()
 		 * each halfedge so that the edges come out in the correct
 		 * order. We check that we didnt reverse direction and if
 		 * we did we walk along the twin edge. */
-		perimeters=new CGALPrimitive();
-		perimeters->setType(Primitive::Lines);
-		auto* poly=perimeters->createCGALPolygon();
+		CGALPolygon* perimeter=primitive->createPerimeter();
 		HalfEdgeHandle f=outEdges.first();
 		HalfEdgeHandle c=f;
 		QList<HalfEdgeHandle> visited;
@@ -237,19 +234,19 @@ void CGALExplorer::explore()
 							first=false;
 						}
 
-						perimeters->appendVertex(np);
+						perimeter->appendVertex(np);
 						visited.append(h);
 						c=h;
 
 						if(h==f) {
-							perimeters->appendVertex(fp);
-							poly->calculatePlane();
+							perimeter->appendVertex(fp);
+							perimeter->calculatePlane();
 
 							f=findNewEdge(visited,outEdges);
 							if(f==nullptr)
 								return;
 
-							poly=perimeters->createCGALPolygon();
+							perimeter=primitive->createPerimeter();
 							c=f;
 							first=true;
 						}
@@ -264,15 +261,9 @@ void CGALExplorer::explore()
 void CGALExplorer::evaluate()
 {
 	explore();
-	if(perimeters)
-		perimeters->detectHoles(false);
+	if(primitive)
+		primitive->detectPerimeterHoles();
 	evaluated=true;
-}
-
-CGALPrimitive* CGALExplorer::getPerimeters()
-{
-	if(!evaluated) evaluate();
-	return perimeters;
 }
 
 CGALPrimitive* CGALExplorer::getPrimitive()

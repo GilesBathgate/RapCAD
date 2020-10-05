@@ -19,7 +19,7 @@
 #include "polygon.h"
 #include "primitive.h"
 
-Polygon::Polygon(const Primitive& p) : parent(p)
+Polygon::Polygon(Primitive& p) : parent(p)
 {
 }
 

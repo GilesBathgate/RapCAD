@@ -67,6 +67,8 @@ void CGALPrimitive::clear()
 	nefPolyhedron=nullptr;
 
 	clearPolygons();
+	qDeleteAll(perimeters);
+	perimeters.clear();
 
 	pointMap.clear();
 	points.clear();
@@ -195,7 +197,7 @@ void CGALPrimitive::buildPrimitive()
 		}
 
 		case Primitive::Surface: {
-			if(!sanitized && detectHoles(true))
+			if(!sanitized && hasHoles())
 				triangulate();
 			nefPolyhedron=createVolume();
 			return;
@@ -291,15 +293,17 @@ CGAL::NefPolyhedron3* CGALPrimitive::createPoints()
 #endif
 }
 
-Polygon* CGALPrimitive::createPolygon()
-{
-	return createCGALPolygon();
-}
-
-CGALPolygon* CGALPrimitive::createCGALPolygon()
+CGALPolygon* CGALPrimitive::createPolygon()
 {
 	auto* pg = new CGALPolygon(*this);
 	polygons.append(pg);
+	return pg;
+}
+
+CGALPolygon* CGALPrimitive::createPerimeter()
+{
+	auto* pg = new CGALPolygon(*this);
+	perimeters.append(pg);
 	return pg;
 }
 
@@ -329,20 +333,23 @@ int CGALPrimitive::findIndex(const CGAL::Point3& p)
 
 void CGALPrimitive::addVertex(const CGAL::Point3& p,bool direction)
 {
-	if(!polygons.isEmpty()) {
+	if(!polygons.isEmpty())
+		addVertex(polygons.last(),p,direction);
+}
 
+void CGALPrimitive::addVertex(CGALPolygon* pg,const CGAL::Point3& p,bool direction)
+{
 		int i = findIndex(p);
-		CGALPolygon* l=polygons.last();
 		if(direction)
-			l->append(i);
+			pg->append(i);
 		else
-			l->prepend(i);
-	}
+			pg->prepend(i);
 }
 
 void CGALPrimitive::appendVertex(const CGAL::Point3& p)
 {
-	addVertex(p,true);
+	if(!polygons.isEmpty())
+		addVertex(polygons.last(),p,true);
 }
 
 bool CGALPrimitive::overlaps(Primitive* pr)
@@ -379,6 +386,11 @@ Primitive* CGALPrimitive::group(Primitive* that)
 QList<CGALPolygon*> CGALPrimitive::getCGALPolygons() const
 {
 	return polygons;
+}
+
+QList<CGALPolygon*> CGALPrimitive::getCGALPerimeter() const
+{
+	return perimeters;
 }
 
 QList<CGAL::Point3> CGALPrimitive::getPoints() const
@@ -526,12 +538,37 @@ Primitive* CGALPrimitive::complement()
 
 Primitive* CGALPrimitive::boundary()
 {
-	this->buildPrimitive();
-	*nefPolyhedron=nefPolyhedron->boundary();
+	if(isFullyDimentional()) {
+		this->buildPrimitive();
+		*nefPolyhedron=nefPolyhedron->boundary();
+	} else {
+		CGALExplorer explorer(this);
+		CGALPrimitive* primitive=explorer.getPrimitive();
+		primitive->convertBoundary();
+		primitive->appendChild(this);
+		return primitive;
+	}
 	return this;
 }
 
-bool CGALPrimitive::detectHoles(bool check)
+void CGALPrimitive::convertBoundary()
+{
+	setType(Primitive_t::Lines);
+	polygons=perimeters;
+	perimeters.clear();
+}
+
+void CGALPrimitive::detectPerimeterHoles()
+{
+	detectHoles(perimeters,false);
+}
+
+bool CGALPrimitive::hasHoles()
+{
+	return detectHoles(polygons,true);
+}
+
+bool CGALPrimitive::detectHoles(QList<CGALPolygon*> polygons,bool check)
 {
 	for(auto* pg1: polygons) {
 		for(auto* pg2: polygons) {
