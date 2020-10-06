@@ -334,11 +334,11 @@ void CGALPrimitive::addVertex(const CGAL::Point3& p,bool direction)
 
 void CGALPrimitive::addVertex(CGALPolygon* pg,const CGAL::Point3& p,bool direction)
 {
-		int i = findIndex(p);
-		if(direction)
-			pg->append(i);
-		else
-			pg->prepend(i);
+	int i = findIndex(p);
+	if(direction)
+		pg->append(i);
+	else
+		pg->prepend(i);
 }
 
 void CGALPrimitive::appendVertex(const CGAL::Point3& p)
@@ -390,16 +390,15 @@ QList<CGALPolygon*> CGALPrimitive::getCGALPerimeter() const
 
 QList<CGAL::Point3> CGALPrimitive::getPoints() const
 {
-	if(nefPolyhedron)
-	{
-		QList<CGAL::Point3> pts;
-		CGAL::NefPolyhedron3::Vertex_const_iterator v;
-		CGAL_forall_vertices(v, *nefPolyhedron->sncp())
-			pts.append(v->point());
+	if(!nefPolyhedron)
+		return points;
 
-		return pts;
-	}
-	return points;
+	QList<CGAL::Point3> pts;
+	CGAL::NefPolyhedron3::Vertex_const_iterator v;
+	CGAL_forall_vertices(v, *nefPolyhedron->sncp())
+		pts.append(v->point());
+
+	return pts;
 }
 
 CGAL::Cuboid3 CGALPrimitive::getBounds()
