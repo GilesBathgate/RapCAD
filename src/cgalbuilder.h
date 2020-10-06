@@ -30,7 +30,7 @@ class CGALBuilder : public CGAL::Modifier_base<CGAL::HalfedgeDS>
 {
 public:
 	explicit CGALBuilder(CGALPrimitive&);
-	void buildOffsetPolygons(const CGAL::Scalar&);
+	CGALPrimitive* buildOffset(const CGAL::Scalar&);
 	bool triangulate();
 private:
 	void operator()(CGAL::HalfedgeDS&) override;

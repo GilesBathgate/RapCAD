@@ -223,9 +223,9 @@ bool CGALBuilder::triangulate()
 }
 
 #ifndef USE_OFFSET
-void CGALBuilder::buildOffsetPolygons(const CGAL::Scalar&) {}
+CGALPrimitive* CGALBuilder::buildOffset(const CGAL::Scalar&) { return &primitive; }
 #else
-void CGALBuilder::buildOffsetPolygons(const CGAL::Scalar& amount)
+CGALPrimitive* CGALBuilder::buildOffset(const CGAL::Scalar& amount)
 {
 	using PolygonPtr = boost::shared_ptr<CGAL::Polygon2>;
 	using PolygonPtrVector = std::vector<PolygonPtr>;
@@ -255,17 +255,17 @@ void CGALBuilder::buildOffsetPolygons(const CGAL::Scalar& amount)
 		offsetPolys=CGAL::create_exterior_skeleton_and_offset_polygons_2(amount,polygon);
 	}
 
-	primitive.clear();
-
+	auto* offset=new CGALPrimitive();
 	for(const auto& ptr: offsetPolys) {
 		if(!first()) {
-			primitive.createPolygon();
+			offset->createPolygon();
 			for(auto vi=ptr->vertices_begin(); vi!=ptr->vertices_end(); ++vi) {
 				CGAL::Point3 p3(vi->x(),vi->y(),z);
-				primitive.appendVertex(p3);
+				offset->appendVertex(p3);
 			}
 		}
 	}
+	return offset;
 }
 #endif
 #endif

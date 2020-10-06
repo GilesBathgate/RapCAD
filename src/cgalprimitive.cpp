@@ -58,11 +58,6 @@ CGALPrimitive::CGALPrimitive(const CGAL::NefPolyhedron3& nef) : CGALPrimitive()
 
 CGALPrimitive::~CGALPrimitive()
 {
-	clear();
-}
-
-void CGALPrimitive::clear()
-{
 	delete nefPolyhedron;
 	nefPolyhedron=nullptr;
 
@@ -511,8 +506,9 @@ Primitive* CGALPrimitive::minkowski(Primitive* pr)
 Primitive* CGALPrimitive::inset(const CGAL::Scalar& amount)
 {
 	CGALBuilder b(*this);
-	b.buildOffsetPolygons(amount);
-	return this;
+	CGALPrimitive* offset=b.buildOffset(amount);
+	offset->appendChild(this);
+	return offset;
 }
 
 Primitive* CGALPrimitive::decompose()

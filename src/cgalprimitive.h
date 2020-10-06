@@ -87,7 +87,6 @@ public:
 	CGAL::Circle3 getRadius();
 	CGALVolume getVolume(bool);
 	void detectPerimeterHoles();
-	void clear();
 	void clearPolygons();
 private:
 	void buildPrimitive();
