@@ -26,6 +26,10 @@
 #include <CGAL/bounding_box.h>
 #include <CGAL/Polygon_2_algorithms.h>
 
+#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(4,12,2)
+#include <CGAL/boost/graph/convert_nef_polyhedron_to_polygon_mesh.h>
+#endif
+
 //Mesh simplification
 #include <CGAL/boost/graph/graph_traits_Polyhedron_3.h>
 #include <CGAL/Surface_mesh_simplification/edge_collapse.h>
@@ -665,7 +669,11 @@ CGAL::Polyhedron3* CGALPrimitive::getPolyhedron()
 {
 	this->buildPrimitive();
 	auto* poly = new CGAL::Polyhedron3();
+#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(4,12,2)
+	CGAL::convert_nef_polyhedron_to_polygon_mesh(*nefPolyhedron,*poly,true);
+#else
 	nefPolyhedron->convert_to_polyhedron(*poly);
+#endif
 	return poly;
 }
 
