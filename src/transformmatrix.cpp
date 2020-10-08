@@ -51,6 +51,11 @@ CGAL::AffTransformation3 TransformMatrix::getTransform() const
 				matrix[2][0], matrix[2][1], matrix[2][2], matrix[2][3],
 			  /*matrix[3][0], matrix[3][1], matrix[3][2]*/matrix[3][3]);
 }
+#else
+decimal* TransformMatrix::getValues() const
+{
+	return (decimal*)matrix;
+}
 #endif
 
 QString TransformMatrix::toString() const

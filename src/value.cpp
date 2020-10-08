@@ -234,19 +234,9 @@ bool Value::modulus(bool, bool)
 	return false;
 }
 
-decimal Value::modulus(const decimal& left, const decimal& right)
-{
-	return r_mod(left,right);
-}
-
 bool Value::multiply(bool left, bool right)
 {
 	return left&&right;
-}
-
-decimal Value::multiply(const decimal& left, const decimal& right)
-{
-	return left*right;
 }
 
 bool Value::exponent(bool left, bool right)
@@ -254,20 +244,32 @@ bool Value::exponent(bool left, bool right)
 	return left^right;
 }
 
-decimal Value::exponent(const decimal& left, const decimal& right)
-{
-	return r_pow(left,right);
-}
-
 bool Value::logic(bool a)
 {
 	return a;
+}
+
+#if USE_CGAL
+decimal Value::modulus(const decimal& left, const decimal& right)
+{
+	return r_mod(left,right);
+}
+
+decimal Value::multiply(const decimal& left, const decimal& right)
+{
+	return left*right;
+}
+
+decimal Value::exponent(const decimal& left, const decimal& right)
+{
+	return r_pow(left,right);
 }
 
 bool Value::logic(const decimal& a)
 {
 	return to_boolean(a);
 }
+#endif
 
 bool Value::length(bool left)
 {

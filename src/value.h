@@ -96,13 +96,15 @@ private:
 	QString name;
 
 	static bool modulus(bool,bool);
-	static decimal modulus(const decimal&,const decimal&);
 	static bool multiply(bool,bool);
-	static decimal multiply(const decimal&,const decimal&);
 	static bool exponent(bool,bool);
-	static decimal exponent(const decimal&,const decimal&);
 	static bool logic(bool);
+#if USE_CGAL
+	static decimal modulus(const decimal&,const decimal&);
+	static decimal multiply(const decimal&,const decimal&);
+	static decimal exponent(const decimal&,const decimal&);
 	static bool logic(const decimal&);
+#endif
 	static bool length(bool);
 	static decimal length(const decimal&);
 };

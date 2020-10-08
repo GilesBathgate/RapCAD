@@ -23,8 +23,8 @@
 
 decimal to_decimal(const QString& str,bool* ok)
 {
-#ifdef USE_CGAL
 	QString s(str);
+#ifdef USE_CGAL
 	int i = s.indexOf('.');
 	if(i>=0) {
 		s.remove(i,1);
@@ -89,7 +89,7 @@ QString to_string(const decimal& d)
 	return res;
 
 #else
-	res.setNum(d,'f',p->getPrecision());
+	res.setNum(d,'f',p.getPrecision());
 
 	return res;
 #endif
