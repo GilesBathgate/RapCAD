@@ -36,7 +36,7 @@ CGALRenderer::~CGALRenderer()
 
 void CGALRenderer::descendChildren(Primitive* p)
 {
-	typedef CGAL::OGL::Nef3_Converter<CGAL::NefPolyhedron3> converter;
+	using converter = CGAL::OGL::Nef3_Converter<CGAL::NefPolyhedron3>;
 	auto* pr=dynamic_cast<CGALPrimitive*>(p);
 	if(pr) {
 		converter::convert_to_OGLPolyhedron(pr->getNefPolyhedron(),this);

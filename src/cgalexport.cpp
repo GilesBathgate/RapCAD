@@ -107,7 +107,7 @@ void CGALExport::exportOFF() const
 	delete poly;
 }
 
-typedef CGAL::Polyhedron3::Vertex_const_iterator VertexIterator;
+using VertexIterator = CGAL::Polyhedron3::Vertex_const_iterator;
 using FacetIterator = CGAL::Polyhedron3::Facet_const_iterator;
 using HalffacetCirculator = CGAL::Polyhedron3::Halfedge_around_facet_const_circulator;
 

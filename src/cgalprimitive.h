@@ -32,8 +32,8 @@
 
 namespace CGAL
 {
-typedef Polyhedron_3<Kernel3> Polyhedron3;
-typedef Nef_polyhedron_3<Kernel3> NefPolyhedron3;
+using Polyhedron3 = Polyhedron_3<Kernel3> ;
+using NefPolyhedron3 = Nef_polyhedron_3<Kernel3>;
 }
 
 class CGALPrimitive : public Primitive

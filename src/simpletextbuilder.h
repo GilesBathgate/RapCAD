@@ -24,8 +24,8 @@
 
 class SimpleTextBuilder : public TextBuilder
 {
-	typedef QList<Point> Stroke;
-	typedef QList<Stroke> Letter;
+	using Stroke = QList<Point>;
+	using Letter = QList<Stroke>;
 public:
 	SimpleTextBuilder();
 	void setText(const QString&) override;

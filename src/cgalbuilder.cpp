@@ -35,7 +35,7 @@
 
 namespace CGAL
 {
-typedef Polygon_2<Kernel3> Polygon2;
+using Polygon2 = Polygon_2<Kernel3>;
 }
 
 CGALBuilder::CGALBuilder(CGALPrimitive& p) : primitive(p)
@@ -136,8 +136,8 @@ static void markDomains(CT& ct)
 template <class CT,class PointIterator>
 void insert_constraint(CT& ct,PointIterator first, PointIterator last, bool close=false)
 {
-	typedef typename CT::Vertex_handle VertexHandle;
-	typedef typename CT::Geom_traits::Point_2 Point;
+	using VertexHandle = typename CT::Vertex_handle;
+	using Point = typename CT::Geom_traits::Point_2 ;
 
 	if(first == last) {
 		return;

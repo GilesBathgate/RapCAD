@@ -30,9 +30,9 @@ public:
 	explicit BezierSurfaceModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 private:
-	typedef QList<decimal> Vector;
-	typedef QList<Point> Points;
-	typedef QList<Points> Mesh;
+	using Vector = QList<decimal>;
+	using Points = QList<Point>;
+	using Mesh = QList<Points>;
 
 	static decimal bez03(const decimal&);
 	static decimal bez13(const decimal&);

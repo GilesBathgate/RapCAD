@@ -242,7 +242,7 @@ void NodeEvaluator::visit(const HullNode& n)
 			return;
 		}
 
-		typedef CGAL::Alpha_shape_vertex_base_3<CGAL::Kernel3>     Vb;
+		using Vb = CGAL::Alpha_shape_vertex_base_3<CGAL::Kernel3>;
 		using Fb = CGAL::Alpha_shape_cell_base_3<CGAL::Kernel3>;
 		using Tds = CGAL::Triangulation_data_structure_3<Vb, Fb>;
 		using Triangulation_3 = CGAL::Delaunay_triangulation_3<CGAL::Kernel3, Tds>;

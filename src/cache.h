@@ -32,11 +32,11 @@ public:
 	virtual ~Cache();
 	virtual Primitive* fetch(Primitive*);
 protected:
-	typedef QVector<int> i_Point;
-	typedef QVector<i_Point> i_PointList;
-	typedef QVector<int> i_Polygon;
-	typedef QVector<i_Polygon> i_PolygonList;
-	typedef QPair<i_PointList,i_PolygonList> i_Primitive;
+	using i_Point = QVector<int> ;
+	using i_PointList = QVector<i_Point>;
+	using i_Polygon = QVector<int>;
+	using i_PolygonList = QVector<i_Polygon>;
+	using i_Primitive = QPair<i_PointList,i_PolygonList>;
 
 	int hashValue(const decimal&);
 	i_Point hashPoint(const Point&);
