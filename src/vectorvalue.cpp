@@ -74,9 +74,9 @@ Point VectorValue::getPoint() const
 	if(s>2)
 		nz=dynamic_cast<NumberValue*>(children.at(2));
 
-	decimal x=0;
-	decimal y=0;
-	decimal z=0;
+	decimal x=0.0;
+	decimal y=0.0;
+	decimal z=0.0;
 	if(nx)  {
 		x=nx->getNumber();
 	}
@@ -223,7 +223,7 @@ Value* VectorValue::operation(Value& v, Expression::Operator_e e)
 			result.append(num);
 		} else if(e==Expression::Exponent) {
 			QList<Value*> a=getChildren();
-			Value* total=factory.createNumber(0);
+			Value* total=factory.createNumber(0.0);
 			for(Value* c: a) {
 				Value* r=Value::operation(c,e,num);
 				total=Value::operation(total,Expression::Add,r);

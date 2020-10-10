@@ -83,7 +83,7 @@ Node* CylinderModule::evaluate(const Context& ctx) const
 	pn->setChildren(ctx.getInputNodes());
 
 	int n=0;
-	if(r1>0) {
+	if(r1>0.0) {
 		Polygon* pg=p->createPolygon();
 		for(const auto& pt: c1) {
 			p->createVertex(pt);
@@ -94,7 +94,7 @@ Node* CylinderModule::evaluate(const Context& ctx) const
 	if(h==0.0)
 		return pn;
 
-	if(r2>0) {
+	if(r2>0.0) {
 		Polygon* pg=p->createPolygon();
 		for(const auto& pt: c2) {
 			p->createVertex(pt);
@@ -104,18 +104,18 @@ Node* CylinderModule::evaluate(const Context& ctx) const
 
 	/* In the cases where r1 or r2 are 0,  n will now convinently be pointing
 	 * one past the end, and point to the apex as defined here when needed */
-	if(r1<=0)
+	if(r1<=0.0)
 		p->createVertex(Point(0.0,0.0,z1));
-	if(r2<=0)
+	if(r2<=0.0)
 		p->createVertex(Point(0.0,0.0,z2));
 
 	for(auto i=0; i<f; ++i) {
 		int j=(i+1)%f;
 
-		int k=r2<=0?n:i;
-		int l=r1<=0?n:j;
+		int k=r2<=0.0?n:i;
+		int l=r1<=0.0?n:j;
 
-		if(r1>0&&r2>0) {
+		if(r1>0.0&&r2>0.0) {
 			k+=f;
 			j+=f;
 		}
@@ -123,10 +123,10 @@ Node* CylinderModule::evaluate(const Context& ctx) const
 		if(r1 == r2) {
 			createQuad(p,i,k,j,l);
 		} else {
-			if(r1 > 0) {
+			if(r1>0.0) {
 				createTriangle(p,i,k,l);
 			}
-			if(r2 > 0) {
+			if(r2>0.0) {
 				createTriangle(p,j,l,k);
 			}
 		}

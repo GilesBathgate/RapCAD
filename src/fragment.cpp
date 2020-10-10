@@ -28,7 +28,7 @@ Fragment::Fragment() :
 	fragmentNumber(0),
 	fragmentSize(2.0),
 	fragmentAngle(12.0),
-	fragmentError(0)
+	fragmentError(0.0)
 {
 }
 

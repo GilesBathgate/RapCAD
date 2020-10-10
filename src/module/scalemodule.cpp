@@ -56,10 +56,10 @@ Node* ScaleModule::evaluate(const Context& ctx) const
 	//Derived reference translation using
 	//http://tinyurl.com/nfmph3r
 	auto* m = new TransformMatrix(
-		x,0,0,(a*x)-a,
-		0,y,0,(b*y)-b,
-		0,0,z,(c*z)-c,
-		0,0,0,1
+		x  ,0.0,0.0,(a*x)-a,
+		0.0,y  ,0.0,(b*y)-b,
+		0.0,0.0,z  ,(c*z)-c,
+		0.0,0.0,0.0,1.0
 	);
 
 	auto* n=new TransformationNode();

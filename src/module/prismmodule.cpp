@@ -45,7 +45,7 @@ Node* PrismModule::evaluate(const Context& ctx) const
 	Primitive* p=pn->createPrimitive();
 	pn->setChildren(ctx.getInputNodes());
 
-	if(h==0||s<=0)
+	if(h==0.0||s<=0.0)
 		return pn;
 
 	decimal r=1.0;
@@ -73,7 +73,7 @@ Node* PrismModule::evaluate(const Context& ctx) const
 	QList<Point> p1=getPolygon(a,r,s,z1);
 	QList<Point> p2=getPolygon(a,r,s,z2);
 
-	if(r > 0) {
+	if(r>0.0) {
 		int n=0;
 		Polygon* pg=p->createPolygon();
 		for(const auto& pt: p1) {

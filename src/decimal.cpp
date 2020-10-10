@@ -38,7 +38,7 @@ decimal to_decimal(const QString& str,bool* ok)
 	if(error) {
 		if(ok!=nullptr)
 			*ok=false;
-		return decimal(0);
+		return 0.0;
 	}
 
 	mpq_canonicalize(d.mpq());
@@ -107,7 +107,7 @@ int to_integer(const decimal& n)
 
 bool to_boolean(const decimal& n)
 {
-	return (n != decimal(0));
+	return (n!=0.0);
 }
 
 #ifdef USE_CGAL

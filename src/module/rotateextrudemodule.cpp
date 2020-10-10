@@ -67,7 +67,11 @@ Node* RotateExtrudeModule::evaluate(const Context& ctx) const
 
 	if(compatible) {
 		//if no axis is given we fall into legacy compatibility mode
-		auto* Rx90=new TransformMatrix(1,0,0,0,0,0,-1,0,0,1,0,0,0,0,0,1);
+		auto* Rx90=new TransformMatrix(
+			1.0,0.0, 0.0,0.0,
+			0.0,0.0,-1.0,0.0,
+			0.0,1.0, 0.0,0.0,
+			0.0,0.0, 0.0,1.0);
 		auto* t=new TransformationNode();
 		t->setMatrix(Rx90);
 		t->setChildren(ctx.getInputNodes());

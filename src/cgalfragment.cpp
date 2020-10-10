@@ -31,15 +31,15 @@ int CGALFragment::getFragments(const CGAL::Scalar& r)
 
 	CGAL::Scalar fe=fragmentError;
 	//solve R=r/cos(pi/n) for n where R=radius and r=inradius
-	if(fe > 0.0 && fe < r)
+	if(fe>0.0&&fe<r)
 		return to_integer(r_ceil(r_pi() / r_acos((r-fe)/r,false)));
 
 	CGAL::Scalar fs=fragmentSize;
-	if(fs > 0)
+	if(fs>0.0)
 		fs=r*r_tau()/fs;
 
 	CGAL::Scalar fa=fragmentAngle;
-	if(fa > 0)
+	if(fa>0.0)
 		fa=CGAL::Scalar(360.0) / fa;
 
 	const CGAL::Scalar& f=std::min(fa,fs);

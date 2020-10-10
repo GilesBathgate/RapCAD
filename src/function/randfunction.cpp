@@ -34,11 +34,11 @@ RandFunction::RandFunction() : Function("rands")
 
 Value* RandFunction::evaluate(const Context& ctx) const
 {
-	decimal min=0;
+	decimal min=0.0;
 	auto* minVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(minVal)
 		min=minVal->getNumber();
-	decimal max=0;
+	decimal max=0.0;
 	auto* maxVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
 	if(maxVal)
 		max=maxVal->getNumber();

@@ -59,10 +59,10 @@ Node* ShearModule::evaluate(const Context& ctx) const
 	decimal szy=sz.y();
 
 	auto* m = new TransformMatrix(
-		1,sxy,sxz,0,
-		syx,1,syz,0,
-		szx,szy,1,0,
-		0,0,0,1
+		1.0,sxy,sxz,0.0,
+		syx,1.0,syz,0.0,
+		szx,szy,1.0,0.0,
+		0.0,0.0,0.0,1.0
 	);
 
 	n->setMatrix(m);

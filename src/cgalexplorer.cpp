@@ -242,7 +242,7 @@ CGALVolume ShellExplorer::getVolume(bool calcMass) const
 	using CellHandle = Triangulation::Cell_handle;
 	using Tetrahedron = Triangulation::Tetrahedron;
 
-	CGAL::Scalar total=0;
+	CGAL::Scalar total=0.0;
 	QList<Tetrahedron> volumes;
 	QList<CGAL::Point3> allPoints;
 	for(const auto& pts: volumePoints) {
@@ -262,9 +262,9 @@ CGALVolume ShellExplorer::getVolume(bool calcMass) const
 		return CGALVolume(b,total,cm);
 	}
 
-	CGAL::Scalar cx=(b.xmin()+b.xmax())/2;
-	CGAL::Scalar cy=(b.ymin()+b.ymax())/2;
-	CGAL::Scalar cz=(b.zmin()+b.zmax())/2;
+	CGAL::Scalar cx=(b.xmin()+b.xmax())/2.0;
+	CGAL::Scalar cy=(b.ymin()+b.ymax())/2.0;
+	CGAL::Scalar cz=(b.zmin()+b.zmax())/2.0;
 	return CGALVolume(b,total,CGAL::Point3(cx,cy,cz));
 }
 
@@ -286,7 +286,7 @@ HalfEdgeHandle ShellExplorer::getID(HalfEdgeHandle h)
 bool ShellExplorer::isBase(CGALPolygon* p) const
 {
 	CGAL::Vector3 v=p->getNormal();
-	return (v.x()==0&&v.y()==0)&&direction?v.z()<0:v.z()>0;
+	return (v.x()==0.0&&v.y()==0.0)&&direction?v.z()<0.0:v.z()>0.0;
 }
 
 CGALExplorer::CGALExplorer(Primitive* p) :

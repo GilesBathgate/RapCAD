@@ -44,7 +44,7 @@ Node* MirrorModule::evaluate(const Context& ctx) const
 	decimal y=p.y();
 	decimal z=p.z();
 	decimal mag = r_sqrt(x*x + y*y + z*z);
-	if(mag==0)
+	if(mag==0.0)
 		return n;
 
 	decimal u = x/mag;
@@ -52,10 +52,10 @@ Node* MirrorModule::evaluate(const Context& ctx) const
 	decimal w = z/mag;
 
 	auto* m = new TransformMatrix(
-		1-2*u*u,-2*v*u,-2*w*u,0,
-		-2*u*v,1-2*v*v,-2*w*v,0,
-		-2*u*w,-2*v*w,1-2*w*w,0,
-		0,     0,      0,1
+		1.0-2.0*u*u,-2.0*v*u,-2.0*w*u,0.0,
+		-2.0*u*v,1.0-2.0*v*v,-2.0*w*v,0.0,
+		-2.0*u*w,-2.0*v*w,1.0-2.0*w*w,0.0,
+		0.0,0.0,0.0,1.0
 	);
 
 	n->setMatrix(m);

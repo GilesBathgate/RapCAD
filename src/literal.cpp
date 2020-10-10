@@ -25,7 +25,7 @@
 Literal::Literal() :
 	boolean(false),
 	type(Undef),
-	unit(1)
+	unit(1.0)
 {
 }
 
@@ -56,19 +56,19 @@ void Literal::setUnit(const QString& value)
 {
 	text=value;
 	if(value=="m")
-		unit=1000;
+		unit=1000.0;
 	else if(value=="cm")
-		unit=10;
+		unit=10.0;
 	else if(value=="mm")
-		unit=1;
+		unit=1.0;
 	else if(value=="um")
-		unit=decimal(1)/1000;
+		unit=decimal(1.0)/1000.0;
 	else if(value=="ft")
-		unit=decimal(3048)/10;
+		unit=decimal(3048.0)/10.0;
 	else if(value=="in")
-		unit=decimal(254)/10;
+		unit=decimal(254.0)/10.0;
 	else if(value=="th")
-		unit=decimal(254)/10000;
+		unit=decimal(254.0)/10000.0;
 	else
 		type=Undef;
 }

@@ -98,10 +98,10 @@ Node* RotateModule::evaluate(const Context& ctx) const
 		*/
 
 		auto* RzRyRx = new TransformMatrix(
-			cy*cz,cz*sx*sy-cx*sz,cx*cz*sy+sx*sz,0,
-			cy*sz,cx*cz+sx*sy*sz,-cz*sx+cx*sy*sz,0,
-			-sy,cy*sx,cx*cy,0,
-			0,0,0,1
+			cy*cz,cz*sx*sy-cx*sz,cx*cz*sy+sx*sz,0.0,
+			cy*sz,cx*cz+sx*sy*sz,-cz*sx+cx*sy*sz,0.0,
+			-sy,cy*sx,cx*cy,0.0,
+			0.0,0.0,0.0,1.0
 		);
 
 		n->setMatrix(RzRyRx);
@@ -112,19 +112,19 @@ Node* RotateModule::evaluate(const Context& ctx) const
 		decimal s=r_right_sin(a);
 
 		decimal mag = r_sqrt(x*x + y*y + z*z,false);
-		if(mag==0)
+		if(mag==0.0)
 			return n;
 
 		decimal u = x/mag;
 		decimal v = y/mag;
 		decimal w = z/mag;
-		decimal c1=1-c;
+		decimal c1=1.0-c;
 
 		auto* TxyTzRaTzTxy = new TransformMatrix(
-			u*u*c1+c,u*v*c1-w*s,u*w*c1+v*s,0,
-			u*v*c1+w*s,v*v*c1+c,v*w*c1-u*s,0,
-			u*w*c1-v*s,v*w*c1+u*s,w*w*c1+c,0,
-			0,0,0,1
+			u*u*c1+c,u*v*c1-w*s,u*w*c1+v*s,0.0,
+			u*v*c1+w*s,v*v*c1+c,v*w*c1-u*s,0.0,
+			u*w*c1-v*s,v*w*c1+u*s,w*w*c1+c,0.0,
+			0.0,0.0,0.0,1.0
 		);
 
 		n->setMatrix(TxyTzRaTzTxy);
@@ -147,10 +147,10 @@ Node* RotateModule::evaluate(const Context& ctx) const
 		 * as above for axis rotations, with the exception
 		 * that no normalisation is done. */
 		auto* mx = new TransformMatrix(
-			1-2*(yy+zz),2*(xy-za),2*(xz+ya),0,
-			2*(xy+za),1-2*(xx+zz),2*(yz-xa),0,
-			2*(xz-ya),2*(yz+xa),1-2*(xx+yy),0,
-			0,0,0,1
+			1.0-2.0*(yy+zz),2.0*(xy-za),2.0*(xz+ya),0.0,
+			2.0*(xy+za),1.0-2.0*(xx+zz),2.0*(yz-xa),0.0,
+			2.0*(xz-ya),2.0*(yz+xa),1.0-2.0*(xx+yy),0.0,
+			0.0,0.0,0.0,1.0
 		);
 
 		n->setMatrix(mx);

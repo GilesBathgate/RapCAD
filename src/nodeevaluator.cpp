@@ -291,15 +291,15 @@ void NodeEvaluator::visit(const HullNode& n)
 #ifdef USE_CGAL
 static CGAL::Point3 flatten(const CGAL::Point3& p)
 {
-	return CGAL::Point3(p.x(),p.y(),0);
+	return CGAL::Point3(p.x(),p.y(),0.0);
 }
 
 static CGAL::Point3 translate(const CGAL::Point3& p,const CGAL::Vector3& v)
 {
 	CGAL::AffTransformation3 t(
-		1, 0, 0, v.x(),
-		0, 1, 0, v.y(),
-		0, 0, 1, v.z(), 1);
+		1.0,0.0,0.0,v.x(),
+		0.0,1.0,0.0,v.y(),
+		0.0,0.0,1.0,v.z(),1.0);
 	return p.transform(t);
 }
 
@@ -311,12 +311,12 @@ static CGAL::Point3 rotate(const CGAL::Point3& p,const CGAL::Scalar& a,const CGA
 	CGAL::Scalar c=r_cos(a);
 	CGAL::Scalar s=r_sin(a);
 
-	CGAL::Scalar c1=1-c;
+	CGAL::Scalar c1=1.0-c;
 
 	CGAL::AffTransformation3 t(
-		u*u*c1+c,u*v*c1-w*s,u*w*c1+v*s,0,
-		u*v*c1+w*s,v*v*c1+c,v*w*c1-u*s,0,
-		u*w*c1-v*s,v*w*c1+u*s,w*w*c1+c,0, 1
+		u*u*c1+c,u*v*c1-w*s,u*w*c1+v*s,0.0,
+		u*v*c1+w*s,v*v*c1+c,v*w*c1-u*s,0.0,
+		u*w*c1-v*s,v*w*c1+u*s,w*w*c1+c,0.0,1.0
 	);
 
 	return p.transform(t);
@@ -395,7 +395,7 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 #ifdef USE_CGAL
 	CGAL::Vector3 axis(CGAL::ORIGIN,op.getAxis());
 	CGAL::Scalar mag=r_sqrt(axis.squared_length(),false);
-	if(mag==0)
+	if(mag==0.0)
 		return;
 	axis=axis/mag;
 
@@ -721,10 +721,10 @@ void NodeEvaluator::visit(const ResizeNode& n)
 	if(z==0.0) z=autosize;
 
 	TransformMatrix t(
-		x, 0, 0, 0,
-		0, y, 0, 0,
-		0, 0, z, 0,
-		0, 0, 0, 1);
+		x  ,0.0,0.0,0.0,
+		0.0,y  ,0.0,0.0,
+		0.0,0.0,z  ,0.0,
+		0.0,0.0,0.0,1.0);
 
 	result->transform(&t);
 #endif
@@ -739,11 +739,11 @@ void NodeEvaluator::visit(const AlignNode& n)
 	CGAL::Scalar cx=0.0;
 	CGAL::Scalar cy=0.0;
 	CGAL::Scalar cz=0.0;
-	CGAL::Scalar two(2.0);
+
 	if(n.getCenter()) {
-		cx=(b.xmin()+b.xmax())/two;
-		cy=(b.ymin()+b.ymax())/two;
-		cz=(b.zmin()+b.zmax())/two;
+		cx=(b.xmin()+b.xmax())/2.0;
+		cy=(b.ymin()+b.ymax())/2.0;
+		cz=(b.zmin()+b.zmax())/2.0;
 	} else {
 		bool top=false;
 		bool bottom=false;
@@ -780,18 +780,18 @@ void NodeEvaluator::visit(const AlignNode& n)
 			}
 		}
 		if(top&&bottom)
-			cz=(b.zmin()+b.zmax())/two;
+			cz=(b.zmin()+b.zmax())/2.0;
 		if(north&&south)
-			cx=(b.xmin()+b.xmax())/two;
+			cx=(b.xmin()+b.xmax())/2.0;
 		if(east&&west)
-			cy=(b.ymin()+b.ymax())/two;
+			cy=(b.ymin()+b.ymax())/2.0;
 	}
 
 	TransformMatrix t(
-		1, 0, 0, -cx,
-		0, 1, 0, -cy,
-		0, 0, 1, -cz,
-		0, 0, 0,  1);
+		1.0,0.0,0.0,-cx,
+		0.0,1.0,0.0,-cy,
+		0.0,0.0,1.0,-cz,
+		0.0,0.0,0.0,1.0);
 
 	result->transform(&t);
 #endif
@@ -860,7 +860,7 @@ void NodeEvaluator::visit(const ProjectionNode& op)
 		Primitive* r=new CGALPrimitive();
 		for(CGALPolygon* p: cp->getCGALPolygons()) {
 			CGAL::Vector3 normal=p->getNormal();
-			if(normal.z()==0)
+			if(normal.z()==0.0)
 				continue;
 
 			auto* t=new CGALPrimitive();
@@ -945,9 +945,9 @@ void NodeEvaluator::visit(const VolumesNode& n)
 		reporter.reportMessage(tr("Center of Mass: %1").arg(to_string(c)));
 
 	const CGAL::Cuboid3& b=v.getBounds();
-	CGAL::Scalar x=b.xmax()+((b.xmax()-b.xmin())/10);
-	CGAL::Scalar y=b.ymax()+((b.ymax()-b.ymin())/10);
-	CGAL::Scalar z=b.zmax()+((b.zmax()-b.zmin())/10);
+	CGAL::Scalar x=b.xmax()+((b.xmax()-b.xmin())/10.0);
+	CGAL::Scalar y=b.ymax()+((b.ymax()-b.ymin())/10.0);
+	CGAL::Scalar z=b.zmax()+((b.zmax()-b.zmin())/10.0);
 	CGAL::Point3 tr(x,y,z);
 
 	auto* p = new Polyhedron();

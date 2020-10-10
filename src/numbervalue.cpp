@@ -32,7 +32,7 @@ QString NumberValue::getValueString() const
 
 bool NumberValue::isTrue() const
 {
-	return number!=0;
+	return to_boolean(number);
 }
 
 decimal NumberValue::getNumber() const
@@ -68,10 +68,10 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 			return factory.createBoolean(result);
 		}
 		if(e==Expression::Divide||e==Expression::Modulus) {
-			if(num->number==0)
+			if(num->number==0.0)
 				return factory.createUndefined();
 		} else if(e==Expression::Exponent) {
-			if(number==0&&num->number<=0)
+			if(number==0.0&&num->number<=0.0)
 				return factory.createUndefined();
 		}
 

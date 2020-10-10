@@ -241,14 +241,14 @@ CGALPrimitive* CGALBuilder::buildOffset(const CGAL::Scalar& amount)
 			polygon.push_back(p2);
 			z=pt.z();
 		}
-		if(pg->getNormal().z()<0)
+		if(pg->getNormal().z()<0.0)
 			polygon.reverse_orientation();
 	}
 	delete original;
 
 	OnceOnly first;
 	PolygonPtrVector offsetPolys;
-	if(amount<0) {
+	if(amount<0.0) {
 		offsetPolys=CGAL::create_interior_skeleton_and_offset_polygons_2(-amount,polygon);
 		first();
 	} else {
