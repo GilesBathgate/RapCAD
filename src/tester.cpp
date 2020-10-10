@@ -41,6 +41,7 @@
 #include "ui/codeeditor.h"
 #include "ui/console.h"
 #include "ui/searchwidget.h"
+#include "preferences.h"
 
 Tester::Tester(Reporter& r,const QString& d,QObject* parent) :
 	QObject(parent),
@@ -177,6 +178,11 @@ int Tester::evaluate()
 	reporter.reportTiming("testing");
 #ifndef Q_OS_WIN
 	reporter.startTiming();
+
+	Preferences& p=Preferences::getInstance();
+	bool autosave=p.getAutoSaveOnCompile();
+	p.setAutoSaveOnCompile(false);
+
 	int c=0;
 	QApplication a(c,nullptr);
 	ui = new MainWindow();
@@ -184,6 +190,9 @@ int Tester::evaluate()
 	QTimer::singleShot(100,this,SLOT(runUiTests()));
 	QApplication::exec();
 	delete ui;
+
+	p.setAutoSaveOnCompile(autosave);
+
 	reporter.reportTiming("ui testing");
 #endif
 	return reporter.getReturnCode();
