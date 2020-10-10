@@ -24,37 +24,24 @@
 #include "cgalfragment.h"
 #endif
 
-Fragment::Fragment() :
+Fragment::Fragment(const Context& ctx) :
 	fragmentNumber(0),
 	fragmentSize(2.0),
 	fragmentAngle(12.0),
 	fragmentError(0.0)
 {
-}
-
-Fragment::Fragment(const Context& ctx)
-{
-	int fn=0;
-	decimal fs=2.0;
-	decimal fa=12.0;
-	decimal fe=0.0;
 	NumberValue* fnVal=dynamic_cast<NumberValue*>(ctx.getArgumentSpecial("fn"));
 	if(fnVal)
-		fn=fnVal->toInteger();
+		fragmentNumber=fnVal->toInteger();
 	NumberValue* fsVal=dynamic_cast<NumberValue*>(ctx.getArgumentSpecial("fs"));
 	if(fsVal)
-		fs=fsVal->getNumber();
+		fragmentSize=fsVal->getNumber();
 	NumberValue* faVal=dynamic_cast<NumberValue*>(ctx.getArgumentSpecial("fa"));
 	if(faVal)
-		fa=faVal->getNumber();
+		fragmentAngle=faVal->getNumber();
 	NumberValue* feVal=dynamic_cast<NumberValue*>(ctx.getArgumentSpecial("fe"));
 	if(feVal)
-		fe=feVal->getNumber();
-
-	fragmentNumber=fn;
-	fragmentSize=fs;
-	fragmentAngle=fa;
-	fragmentError=fe;
+		fragmentError=feVal->getNumber();
 }
 
 Fragment* Fragment::createFragment(const Context& ctx)

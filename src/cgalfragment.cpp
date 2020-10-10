@@ -19,20 +19,21 @@
 #include "cgalfragment.h"
 #include "rmath.h"
 
-CGALFragment::CGALFragment(const Context& ctx) : Fragment(ctx)
+CGALFragment::CGALFragment(const Context& ctx) :
+	Fragment(ctx)
 {
 }
 
 int CGALFragment::getFragments(const CGAL::Scalar& r)
 {
 	int fn=fragmentNumber;
-	if(fn > 0)
+	if(fn>0)
 		return int(fn>=3?fn:3);
 
 	CGAL::Scalar fe=fragmentError;
 	//solve R=r/cos(pi/n) for n where R=radius and r=inradius
 	if(fe>0.0&&fe<r)
-		return to_integer(r_ceil(r_pi() / r_acos((r-fe)/r,false)));
+		return to_integer(r_ceil(r_pi()/r_acos((r-fe)/r,false)));
 
 	CGAL::Scalar fs=fragmentSize;
 	if(fs>0.0)
@@ -40,9 +41,9 @@ int CGALFragment::getFragments(const CGAL::Scalar& r)
 
 	CGAL::Scalar fa=fragmentAngle;
 	if(fa>0.0)
-		fa=CGAL::Scalar(360.0) / fa;
+		fa=CGAL::Scalar(360.0)/fa;
 
-	const CGAL::Scalar& f=std::min(fa,fs);
-	return std::max(int(ceil(to_double(f))),5);
+	const CGAL::Scalar& f=r_min(fa,fs);
+	return std::max(to_integer(r_ceil(f)),5);
 }
 #endif
