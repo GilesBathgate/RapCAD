@@ -264,7 +264,7 @@ void NodePrinter::printArguments(const Polygon& pg)
 
 void NodePrinter::printArguments(const QList<int>& list)
 {
-	if(list.count()==0) {
+	if(list.isEmpty()) {
 		result << "()";
 		return;
 	}

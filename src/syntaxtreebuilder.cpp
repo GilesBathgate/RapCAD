@@ -567,7 +567,7 @@ QList<Expression*>* SyntaxTreeBuilder::buildVector(Expression* exp)
 
 QList<Expression*>* SyntaxTreeBuilder::buildVector(QList<Expression*>* exprs,unsigned int count,Expression* expr)
 {
-	if(exprs->size()==0)
+	if(exprs->isEmpty())
 		exprs->append(new Variable());
 
 	for(unsigned int i=0; i<count; ++i)

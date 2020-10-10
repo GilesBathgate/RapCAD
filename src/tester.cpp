@@ -331,7 +331,7 @@ void Tester::exportTest(Primitive* p,const QFileInfo& origPath,const QFileInfo& 
 	Comparer c(*nullreport);
 	c.setup(origPath.absoluteFilePath(),newPath.absoluteFilePath());
 	c.evaluate();
-	if(c.evaluate()==0) {
+	if(c.evaluate()==EXIT_SUCCESS) {
 		writePass();
 		passcount++;
 	} else {
@@ -394,7 +394,7 @@ void Tester::testModule(Script& s,const QFileInfo& file)
 	if(csgFile.exists()) {
 		Comparer co(*nullreport);
 		co.setup(examFileInfo.absoluteFilePath(),csgFileInfo.absoluteFilePath());
-		if(co.evaluate()==0) {
+		if(co.evaluate()==EXIT_SUCCESS) {
 			writePass();
 			passcount++;
 		} else {

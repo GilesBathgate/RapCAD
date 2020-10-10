@@ -644,7 +644,7 @@ void NodeEvaluator::visit(const SimplifyNode& n)
 
 void NodeEvaluator::visit(const ChildrenNode& n)
 {
-	if(n.getIndexes().count()<=0) {
+	if(n.getIndexes().isEmpty()) {
 		if(!evaluate(n,Union)) return;
 	} else {
 		QList<Node*> allChildren=n.getChildren();
@@ -803,7 +803,7 @@ void NodeEvaluator::visit(const PointsNode& n)
 	cp->setType(Primitive::Points);
 	QList<Point> points=n.getPoints();
 	cp->createPolygon();
-	if(points.count()==0)
+	if(points.isEmpty())
 		cp->createVertex(Point(0,0,0));
 	for(const auto& p: points)
 		cp->createVertex(p);
