@@ -140,6 +140,7 @@ void NodeEvaluator::visit(const GlideNode& op)
 				CGALExplorer explorer(result);
 				CGALPrimitive* primitive=explorer.getPrimitive();
 				points = primitive->getCGALPerimeter().first()->getPoints();
+				delete primitive;
 
 				/* TODO glide all polygons?
 				for(CGALPolygon* pg: peri->getCGALPolygons()) {
@@ -165,6 +166,8 @@ void NodeEvaluator::visit(const GlideNode& op)
 				cp->appendVertex(pt);
 				np=pt;
 			}
+			cp->appendChild(result);
+
 			if(!closed) {
 				result=first->minkowski(cp);
 			} else {
