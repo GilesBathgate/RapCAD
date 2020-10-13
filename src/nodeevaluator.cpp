@@ -229,10 +229,13 @@ void NodeEvaluator::visit(const HullNode& n)
 		}
 	} else {
 		QList<CGAL::Point3> points;
+		QList<Primitive*> children;
 		for(Node* c: n.getChildren()) {
 			c->accept(*this);
-			if(result)
+			if(result) {
 				points.append(result->getPoints());
+				children.append(result);
+			}
 		}
 		if(points.count()<3) return;
 
@@ -240,7 +243,8 @@ void NodeEvaluator::visit(const HullNode& n)
 			CGAL::Polyhedron3 hull;
 			CGAL::convex_hull_3(points.begin(),points.end(),hull);
 			auto* cp=new CGALPrimitive(hull);
-			cp->appendChild(result);
+			for(Primitive* p: children)
+				cp->appendChild(p);
 			result=cp;
 			return;
 		}
@@ -264,7 +268,6 @@ void NodeEvaluator::visit(const HullNode& n)
 		as.get_alpha_shape_facets(std::back_inserter(facets),Alpha_shape_3::REGULAR);
 
 		auto* cp = new CGALPrimitive();
-		cp->appendChild(result);
 		for(Facet f: facets) {
 			auto& t=f.first;
 			//To have a consistent orientation of the facet, always consider an exterior cell
@@ -286,6 +289,8 @@ void NodeEvaluator::visit(const HullNode& n)
 			cp->appendVertex(p2);
 			cp->appendVertex(p3);
 		}
+		for(Primitive* p: children)
+			cp->appendChild(p);
 		result=cp;
 	}
 #endif
