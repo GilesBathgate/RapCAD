@@ -22,7 +22,6 @@
 #include "rangevalue.h"
 #include "valueiterator.h"
 #include "builtincreator.h"
-#include "module/importmodule.h"
 #include "syntaxtreebuilder.h"
 #include "module/unionmodule.h"
 #include "valuefactory.h"
@@ -41,6 +40,10 @@ TreeEvaluator::~TreeEvaluator()
 	Value::factory.cleanupValues();
 	qDeleteAll(scopeLookup.values());
 	scopeLookup.clear();
+	qDeleteAll(imports);
+	imports.clear();
+	qDeleteAll(modules);
+	modules.clear();
 	delete context;
 }
 
@@ -532,6 +535,7 @@ void TreeEvaluator::visit(const ModuleImport& mi)
 	QFileInfo f=getFullPath(mi.getImport());
 	mod->setImport(f.absoluteFilePath());
 	mod->setName(mi.getName());
+	modules.append(mod);
 	//TODO global import args.
 
 	/* Adding the import module to the current layout is ok here because we
@@ -616,12 +620,6 @@ void TreeEvaluator::visit(Script& sc)
 		reporter.reportWarning(tr("return statement not valid inside global scope."));
 
 	rootNode=UnionModule::createUnion(childnodes);
-
-	/* Clean up all the imported scripts as its not the responsibility of the
-	 * caller to do so as we created the imported script instances within this
-	 * evaluator */
-	qDeleteAll(imports);
-	imports.clear();
 
 	b.saveBuiltins(sc);
 }
