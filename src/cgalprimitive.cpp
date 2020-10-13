@@ -712,7 +712,10 @@ CGALVolume CGALPrimitive::getVolume(bool calcMass)
 	p=p->decompose();
 
 	CGALExplorer e(p);
-	return e.getVolume(calcMass);
+	CGALVolume v=e.getVolume(calcMass);
+	delete e.getPrimitive();
+	delete p;
+	return v;
 }
 
 bool CGALPrimitive::isFullyDimentional()
