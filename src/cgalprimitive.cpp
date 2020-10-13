@@ -612,18 +612,21 @@ Primitive* CGALPrimitive::simplify(const CGAL::Scalar& ratio)
 {
 
 	namespace SMS=CGAL::Surface_mesh_simplification;
-	CGAL::Polyhedron3& p=*getPolyhedron();
+	CGAL::Polyhedron3* p=getPolyhedron();
 	SMS::Count_ratio_stop_predicate<CGAL::Polyhedron3> stop(to_double(ratio));
-	SMS::edge_collapse(p,stop,
+	SMS::edge_collapse(*p,stop,
 #if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(4,7,0)
-					   CGAL::parameters::vertex_index_map(get(CGAL::vertex_external_index,p))
+					   CGAL::parameters::vertex_index_map(get(CGAL::vertex_external_index,*p))
 #else
 					   CGAL::vertex_index_map(get(CGAL::vertex_external_index,p))
 #endif
-					   .halfedge_index_map(get(CGAL::halfedge_external_index,p))
+					   .halfedge_index_map(get(CGAL::halfedge_external_index,*p))
 					   .get_cost(SMS::Edge_length_cost<CGAL::Polyhedron3>())
 					   .get_placement(SMS::Midpoint_placement<CGAL::Polyhedron3>()));
-	return new CGALPrimitive(p);
+	auto* cp=new CGALPrimitive(*p);
+	cp->appendChild(this);
+	delete p;
+	return cp;
 }
 #endif
 
