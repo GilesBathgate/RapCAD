@@ -29,6 +29,13 @@ using Point = CGAL::Point3;
 using decimal = double;
 #endif
 
+enum NumberFormat_t
+{
+	DecimalFormat,
+	ScientificFormat,
+	RationalFormat
+};
+
 QString to_string(const decimal&);
 decimal to_decimal(const QString&, bool* ok=nullptr);
 int to_integer(const decimal&);

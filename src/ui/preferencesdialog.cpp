@@ -301,11 +301,11 @@ void PreferencesDialog::functionRoundingChanged(bool)
 {
 	Preferences& p = Preferences::getInstance();
 	if(ui->decimalRoundingRadio->isChecked())
-		p.setFunctionRounding(0);
+		p.setFunctionRounding(DecimalRounding);
 	else if(ui->base2RoundingRadio->isChecked())
-		p.setFunctionRounding(1);
+		p.setFunctionRounding(Base2Rounding);
 	else
-		p.setFunctionRounding(2);
+		p.setFunctionRounding(NoRounding);
 
 	updatePrecision();
 }
@@ -314,11 +314,11 @@ void PreferencesDialog::outputFormatChanged(bool)
 {
 	Preferences& p = Preferences::getInstance();
 	if(ui->rationalRadio->isChecked())
-		p.setNumberFormat(2);
+		p.setNumberFormat(RationalFormat);
 	else if(ui->scientificRadio->isChecked())
-		p.setNumberFormat(1);
+		p.setNumberFormat(ScientificFormat);
 	else
-		p.setNumberFormat(0);
+		p.setNumberFormat(DecimalFormat);
 
 	updatePrecision();
 }

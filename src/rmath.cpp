@@ -52,10 +52,12 @@ decimal r_round_preference(const decimal& a,bool round)
 		Preferences& p=Preferences::getInstance();
 		switch(p.getFunctionRounding())
 		{
-			case 0:
+			case DecimalRounding:
 				return r_round(a,p.getDecimalPlaces());
-			case 1:
+			case Base2Rounding:
 				return r_round_prec(a,p.getSignificandBits());
+			case NoRounding:
+				break;
 		}
 	}
 	return a;

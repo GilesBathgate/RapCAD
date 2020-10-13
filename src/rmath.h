@@ -21,6 +21,13 @@
 
 #include "decimal.h"
 
+enum Rounding_t
+{
+	DecimalRounding,
+	Base2Rounding,
+	NoRounding
+};
+
 decimal r_round_preference(const decimal& a,bool round=true);
 decimal r_tau(bool round=true);
 decimal r_pi(bool round=true);

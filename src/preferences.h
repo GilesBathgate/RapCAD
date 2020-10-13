@@ -25,6 +25,7 @@
 #include <QVector3D>
 #include <QFont>
 #include "ui/glview.h"
+#include "rmath.h"
 
 class Preferences
 {
@@ -40,11 +41,11 @@ public:
 	int getSignificandBits() const;
 	void setSignificandBits(int);
 
-	int getFunctionRounding() const;
-	void setFunctionRounding(int);
+	Rounding_t getFunctionRounding() const;
+	void setFunctionRounding(Rounding_t);
 
-	int getNumberFormat() const;
-	void setNumberFormat(int);
+	NumberFormat_t getNumberFormat() const;
+	void setNumberFormat(NumberFormat_t);
 
 	float getDefaultRotationX() const;
 	void setDefaultRotationX(float);

@@ -132,24 +132,26 @@ void Preferences::setSignificandBits(int b)
 	updatePrecision();
 }
 
-int Preferences::getFunctionRounding() const
+Rounding_t Preferences::getFunctionRounding() const
 {
-	return settings->value("FunctionRounding",0).toInt();
+	int rounding=settings->value("FunctionRounding",0).toInt();
+	return static_cast<Rounding_t>(rounding);
 }
 
-void Preferences::setFunctionRounding(int i)
+void Preferences::setFunctionRounding(Rounding_t i)
 {
-	settings->setValue("FunctionRounding",i);
+	settings->setValue("FunctionRounding",static_cast<int>(i));
 }
 
-int Preferences::getNumberFormat() const
+NumberFormat_t Preferences::getNumberFormat() const
 {
-	return settings->value("NumberFormat",0).toInt();
+	int format=settings->value("NumberFormat",0).toInt();
+	return static_cast<NumberFormat_t>(format);
 }
 
-void Preferences::setNumberFormat(int i)
+void Preferences::setNumberFormat(NumberFormat_t i)
 {
-	settings->setValue("NumberFormat",i);
+	settings->setValue("NumberFormat",static_cast<int>(i));
 }
 
 float Preferences::getDefaultRotationX() const
@@ -448,10 +450,10 @@ void Preferences::setPrintVolume(QVector3D v)
 GLView::Appearance_t Preferences::getPrintBedAppearance() const
 {
 	int i=settings->value("PrintBedAppearance",0).toInt();
-	return (GLView::Appearance_t)i;
+	return static_cast<GLView::Appearance_t>(i);
 }
 
 void Preferences::setPrintBedAppearance(GLView::Appearance_t v)
 {
-	settings->setValue("PrintBedAppearance",(int)v);
+	settings->setValue("PrintBedAppearance",static_cast<int>(v));
 }
