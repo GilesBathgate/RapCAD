@@ -301,6 +301,7 @@ void CGALExport::exportCSG() const
 	output << "]);";
 	output.flush();
 	data.close();
+	delete prim;
 }
 
 void CGALExport::export3MF() const
