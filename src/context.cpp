@@ -111,27 +111,13 @@ Value* Context::lookupVariable(const QString& name,Variable::Storage_e& c,Layout
 
 }
 
-/* Lookup child doesn't currently
- * check the lexical scope of the
- * parent */
-Node* Context::lookupChild(int index) const
-{
-	QList<Node*> children=getInputNodes();
-	if(index>=0&&index<children.length())
-		return children.at(index);
-	if(parent)
-		return parent->lookupChild(index);
-
-	return nullptr;
-}
-
 /* Lookup children doesn't currently
  * check the lexical scope of the
  * parent */
 QList<Node*> Context::lookupChildren() const
 {
 	QList<Node*> children=getInputNodes();
-	if(children.length()>0)
+	if(!children.isEmpty())
 		return children;
 	if(parent)
 		return parent->lookupChildren();

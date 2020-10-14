@@ -221,7 +221,6 @@ SOURCES += \
 	src/module/rotatemodule.cpp \
 	src/module/mirrormodule.cpp \
 	src/module/scalemodule.cpp \
-	src/module/childmodule.cpp \
 	src/module/spheremodule.cpp \
 	src/worker.cpp \
 	src/reporter.cpp \
@@ -473,7 +472,6 @@ HEADERS  += \
 	src/module/rotatemodule.h \
 	src/module/mirrormodule.h \
 	src/module/scalemodule.h \
-	src/module/childmodule.h \
 	src/module/spheremodule.h \
 	src/worker.h \
 	src/reporter.h \

@@ -47,7 +47,6 @@
 #include "module/scalemodule.h"
 #include "module/shearmodule.h"
 #include "module/spheremodule.h"
-#include "module/childmodule.h"
 #include "module/boundsmodule.h"
 #include "module/subdivisionmodule.h"
 #include "module/offsetmodule.h"
@@ -129,8 +128,8 @@ BuiltinCreator::BuiltinCreator(Reporter& r)
 	builtins.append(new BoundsModule(r));
 	builtins.append(new CenterModule(r));
 	builtins.append(new ChainHullModule(r));
-	builtins.append(new ChildModule(r));
-	builtins.append(new ChildrenModule(r));
+	builtins.append(new ChildrenModule(r,true));
+	builtins.append(new ChildrenModule(r,false));
 	builtins.append(new CircleModule(r));
 	builtins.append(new ComplementModule(r));
 	builtins.append(new ConeModule(r));

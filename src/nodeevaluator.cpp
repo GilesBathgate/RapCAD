@@ -658,12 +658,25 @@ void NodeEvaluator::visit(const ChildrenNode& n)
 		if(!evaluate(n,Union)) return;
 	} else {
 		QList<Node*> allChildren=n.getChildren();
+		QList<int> indexes=n.getIndexes();
 		QList<Node*> children;
-		for(auto i: n.getIndexes()) {
-			if(i>=0&&i<allChildren.count())
-				children.append(allChildren.at(i));
+		QList<Node*> others;
+		for(auto i=0; i<allChildren.count(); ++i) {
+			Node* child=allChildren.at(i);
+			if(indexes.contains(i)) {
+				children.append(child);
+			} else {
+				others.append(child);
+			}
 		}
+
 		if(!evaluate(children,Union,nullptr)) return;
+
+		for(auto* child: others) {
+			auto* p=dynamic_cast<PrimitiveNode*>(child);
+			if(p)
+				result->appendChild(p->getPrimitive());
+		}
 	}
 }
 

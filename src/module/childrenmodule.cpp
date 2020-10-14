@@ -22,10 +22,17 @@
 #include "vectorvalue.h"
 #include "numbervalue.h"
 
-ChildrenModule::ChildrenModule(Reporter& r) : Module(r,"children")
+ChildrenModule::ChildrenModule(Reporter& r,bool l) :
+	Module(r,l?"child":"children"),
+	legacy(l)
 {
-	addDescription(tr("Provides access to children as passed to a module."));
-	addParameter("index",tr("A list of indices which determines which children to use."));
+	if(legacy) {
+		addDeprecated(tr("The child module is deprecated, use the children module instead."));
+		addParameter("index",tr("The index of the child to use."));
+	} else {
+		addDescription(tr("Provides access to children as passed to a module."));
+		addParameter("index",tr("A list of indices which determines which children to use."));
+	}
 }
 
 Node* ChildrenModule::evaluate(const Context& ctx) const
@@ -33,17 +40,24 @@ Node* ChildrenModule::evaluate(const Context& ctx) const
 	auto* n=new ChildrenNode();
 
 	Value* val=getParameterArgument(ctx,0);
-	auto* vecVal=dynamic_cast<VectorValue*>(val);
-	if(vecVal) {
-		for(Value* v: vecVal->getChildren()) {
-			auto* num=dynamic_cast<NumberValue*>(v);
-			if(num)
-				n->addIndex(num->toInteger());
+	if(!legacy) {
+		auto* vecVal=dynamic_cast<VectorValue*>(val);
+		if(vecVal) {
+			for(Value* v: vecVal->getChildren()) {
+				auto* num=dynamic_cast<NumberValue*>(v);
+				if(num)
+					n->addIndex(num->toInteger());
+			}
 		}
 	}
+
 	auto* numVal=dynamic_cast<NumberValue*>(val);
 	if(numVal) {
 		n->addIndex(numVal->toInteger());
+	}
+
+	if(legacy&&ctx.getArguments().isEmpty()) {
+		n->addIndex(0);
 	}
 
 	n->setChildren(ctx.lookupChildren());

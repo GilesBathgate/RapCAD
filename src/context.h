@@ -52,7 +52,6 @@ public:
 	bool addVariable(const QString&,Value*);
 	void setVariable(const QString&,Value*);
 
-	Node* lookupChild(int) const;
 	QList<Node*> lookupChildren() const;
 
 	void setVariablesFromArguments();
