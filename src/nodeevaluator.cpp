@@ -867,34 +867,32 @@ void NodeEvaluator::visit(const ProjectionNode& op)
 
 #ifdef USE_CGAL
 	CGALExplorer explorer(result);
-
+	CGALPrimitive* cp=explorer.getPrimitive();
+	auto* projected=new CGALPrimitive();
 	bool base=op.getBase();
 	if(base) {
-		auto* r=new CGALPrimitive();
 		for(CGALPolygon* pg: explorer.getBase()) {
-			r->createPolygon();
+			projected->createPolygon();
 			for(const auto& pt: pg->getPoints())
-				r->appendVertex(pt);
+				projected->appendVertex(pt);
 		}
-		result=r;
 	} else {
-		CGALPrimitive* cp=explorer.getPrimitive();
-
-		Primitive* r=new CGALPrimitive();
 		for(CGALPolygon* p: cp->getCGALPolygons()) {
 			CGAL::Vector3 normal=p->getNormal();
 			if(normal.z()==0.0)
 				continue;
 
-			auto* t=new CGALPrimitive();
-			t->createPolygon();
+			auto* flat=new CGALPrimitive();
+			flat->createPolygon();
 			for(const auto& pt: p->getPoints()) {
-				t->appendVertex(flatten(pt));
+				flat->appendVertex(flatten(pt));
 			}
-			r=r->join(t);
+			projected->join(flat);
 		}
-		result=r;
 	}
+	projected->appendChild(result);
+	delete cp;
+	result=projected;
 #endif
 }
 
