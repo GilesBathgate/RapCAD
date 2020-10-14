@@ -597,9 +597,14 @@ bool CGALPrimitive::detectHoles(QList<CGALPolygon*> polygons,bool check)
 Primitive* CGALPrimitive::triangulate()
 {
 	CGALBuilder b(*this);
-	if(b.triangulate())
+	if(b.triangulate()) {
+		setType(Primitive::Surface);
 		return this;
-	return nullptr;
+	}
+
+	auto* cp=new CGALPrimitive();
+	cp->appendChild(this);
+	return cp;
 }
 
 #ifndef USE_SIMPLIFY

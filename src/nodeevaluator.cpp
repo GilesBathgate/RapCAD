@@ -71,8 +71,6 @@ void NodeEvaluator::visit(const TriangulateNode& n)
 	if(!evaluate(n,Union)) return;
 
 	result=result->triangulate();
-	if(result)
-		result->setType(Primitive::Surface);
 }
 
 void NodeEvaluator::visit(const MaterialNode& n)
