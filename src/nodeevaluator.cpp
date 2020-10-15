@@ -255,38 +255,37 @@ void NodeEvaluator::visit(const HullNode& n)
 		using Alpha_shape_3 = CGAL::Alpha_shape_3<Triangulation_3>;
 		using Facet = Alpha_shape_3::Facet;
 
+		auto* cp = new CGALPrimitive();
 		Alpha_shape_3 as(points.begin(), points.end(),0.001,Alpha_shape_3::GENERAL);
 		const auto& opt = as.find_optimal_alpha(1);
-		if(opt == as.alpha_end()) {
-			result=nullptr;
-			return;
-		}
-		as.set_alpha(*opt);
+		if(opt != as.alpha_end()) {
 
-		QList<Facet> facets;
-		as.get_alpha_shape_facets(std::back_inserter(facets),Alpha_shape_3::REGULAR);
+			as.set_alpha(*opt);
 
-		auto* cp = new CGALPrimitive();
-		for(Facet f: facets) {
-			auto& t=f.first;
-			//To have a consistent orientation of the facet, always consider an exterior cell
-			if(as.classify(t) != Alpha_shape_3::EXTERIOR)
-				f = as.mirror_facet(f);
+			QList<Facet> facets;
+			as.get_alpha_shape_facets(std::back_inserter(facets),Alpha_shape_3::REGULAR);
 
-			int i=f.second;
-			int indices[3] = { (i + 1) % 4, (i + 2) % 4, (i + 3) % 4 };
-			//According to the encoding of vertex indices, this is needed to get a consistent orientation
-			if(i % 2 == 0)
-				std::swap(indices[0], indices[1]);
+			for(Facet f: facets) {
+				auto& t=f.first;
+				//To have a consistent orientation of the facet, always consider an exterior cell
+				if(as.classify(t) != Alpha_shape_3::EXTERIOR)
+					f = as.mirror_facet(f);
 
-			//Build triangle faces
-			cp->createPolygon();
-			CGAL::Point3 p1=t->vertex(indices[0])->point();
-			CGAL::Point3 p2=t->vertex(indices[1])->point();
-			CGAL::Point3 p3=t->vertex(indices[2])->point();
-			cp->appendVertex(p1);
-			cp->appendVertex(p2);
-			cp->appendVertex(p3);
+				int i=f.second;
+				int indices[3] = { (i + 1) % 4, (i + 2) % 4, (i + 3) % 4 };
+				//According to the encoding of vertex indices, this is needed to get a consistent orientation
+				if(i % 2 == 0)
+					std::swap(indices[0], indices[1]);
+
+				//Build triangle faces
+				cp->createPolygon();
+				CGAL::Point3 p1=t->vertex(indices[0])->point();
+				CGAL::Point3 p2=t->vertex(indices[1])->point();
+				CGAL::Point3 p3=t->vertex(indices[2])->point();
+				cp->appendVertex(p1);
+				cp->appendVertex(p2);
+				cp->appendVertex(p3);
+			}
 		}
 		for(Primitive* p: children)
 			cp->appendChild(p);
