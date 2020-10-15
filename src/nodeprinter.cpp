@@ -23,6 +23,24 @@ NodePrinter::NodePrinter(QTextStream& s) : result(s)
 {
 }
 
+NodePrinter::~NodePrinter()
+{
+	qDeleteAll(primitives);
+	primitives.clear();
+}
+
+void NodePrinter::collectChildren(const Node& n)
+{
+	for(auto* child: n.getChildren())
+	{
+		auto* pn=dynamic_cast<PrimitiveNode*>(child);
+		if(pn)
+			primitives.append(pn->getPrimitive());
+
+		collectChildren(*child);
+	}
+}
+
 void NodePrinter::visit(const PrimitiveNode& n)
 {
 	Primitive* pr=n.getPrimitive();
@@ -38,7 +56,7 @@ void NodePrinter::visit(const PrimitiveNode& n)
 	printPrimitive(pr);
 	result << "])";
 	printChildren(n);
-	delete pr;
+	primitives.append(pr);
 }
 
 void NodePrinter::printPrimitive(Primitive* pr)
@@ -336,7 +354,12 @@ void NodePrinter::visit(const PointsNode& n)
 {
 	result << "points";
 	printArguments(n.getPoints());
-	printChildren(n);
+	if(n.getVisibleChildren()) {
+		printChildren(n);
+	} else {
+		collectChildren(n);
+		result << ";";
+	}
 }
 
 void NodePrinter::visit(const SliceNode& n)

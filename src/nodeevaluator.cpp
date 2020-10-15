@@ -650,6 +650,18 @@ void NodeEvaluator::visit(const SimplifyNode& n)
 	result=result->simplify(n.getRatio());
 }
 
+static void appendChildren(Primitive* p,const QList<Node*> children)
+{
+	for(auto* child: children)
+	{
+		auto* pn=dynamic_cast<PrimitiveNode*>(child);
+		if(pn)
+			p->appendChild(pn->getPrimitive());
+
+		appendChildren(p,child->getChildren());
+	}
+}
+
 void NodeEvaluator::visit(const ChildrenNode& n)
 {
 	if(n.getIndexes().isEmpty()) {
@@ -670,11 +682,7 @@ void NodeEvaluator::visit(const ChildrenNode& n)
 
 		if(!evaluate(children,Union,nullptr)) return;
 
-		for(auto* child: others) {
-			auto* p=dynamic_cast<PrimitiveNode*>(child);
-			if(p)
-				result->appendChild(p->getPrimitive());
-		}
+		appendChildren(result,others);
 	}
 }
 
@@ -825,10 +833,17 @@ void NodeEvaluator::visit(const PointsNode& n)
 	QList<Point> points=n.getPoints();
 	cp->createPolygon();
 	if(points.isEmpty())
-		cp->createVertex(Point(0,0,0));
+		cp->createVertex(Point(0.0,0.0,0.0));
 	for(const auto& p: points)
 		cp->createVertex(p);
-	result=cp;
+
+	if(n.getVisibleChildren()) {
+		if(!evaluate(n,Union,cp)) return;
+	} else {
+		appendChildren(cp,n.getChildren());
+		result=cp;
+	}
+
 }
 
 void NodeEvaluator::visit(const SliceNode& n)

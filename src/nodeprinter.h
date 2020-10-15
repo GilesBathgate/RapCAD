@@ -64,6 +64,7 @@ class NodePrinter : public NodeVisitor
 {
 public:
 	explicit NodePrinter(QTextStream&);
+	~NodePrinter() override;
 	void visit(const PrimitiveNode&) override;
 	void visit(const UnionNode&) override;
 	void visit(const GroupNode&) override;
@@ -99,6 +100,7 @@ public:
 	void visit(const ChildrenNode&) override;
 private:
 	QTextStream& result;
+	void collectChildren(const Node&);
 	void printChildren(const Node&);
 	void printArguments(const QList<Point>&);
 	void printArguments(const Polygon&);
@@ -109,6 +111,7 @@ private:
 	void printArguments(int);
 	void printArguments(const decimal&);
 	void printArguments(const QList<int>& list);
+	QList<Primitive*> primitives;
 };
 
 #endif // NODEPRINTER_H

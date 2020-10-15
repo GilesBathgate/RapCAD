@@ -25,12 +25,15 @@
 class PointsNode : public Node
 {
 public:
-	PointsNode() = default;
+	PointsNode();
 	void setPoints(const QList<Point>&);
 	QList<Point> getPoints() const;
+	bool getVisibleChildren() const;
+	void setVisibleChildren(bool value);
 	void accept(NodeVisitor&) override;
 private:
 	QList<Point> points;
+	bool visibleChildren;
 };
 
 #endif // POINTSNODE_H

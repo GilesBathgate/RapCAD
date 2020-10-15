@@ -41,8 +41,12 @@ Node* ScaleModule::evaluate(const Context& ctx) const
 	decimal x=s.x();
 	decimal y=s.y();
 	decimal z=s.z();
-	if(x==0.0||y==0.0||z==0.0)
-		return new PointsNode();
+	if(x==0.0||y==0.0||z==0.0) {
+		auto* pn=new PointsNode();
+		pn->setVisibleChildren(false);
+		pn->setChildren(ctx.getInputNodes());
+		return pn;
+	}
 
 	Point r(0,0,0);
 	auto* refVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
