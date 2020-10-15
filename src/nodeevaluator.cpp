@@ -216,6 +216,7 @@ void NodeEvaluator::visit(const HullNode& n)
 				first=result;
 			} else {
 				evaluateHull(first,previous,result);
+				first->appendChild(result);
 			}
 			previous=result;
 		}
