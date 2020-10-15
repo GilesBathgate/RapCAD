@@ -89,12 +89,12 @@ Node* BezierSurfaceModule::evaluate(const Context& ctx) const
 
 	int i=0;
 	int j=0;
-	for(Value* pointsVal: meshVec->getChildren()) {
+	for(Value* pointsVal: meshVec->getElements()) {
 		Points points;
 		auto* pointsVec=dynamic_cast<VectorValue*>(pointsVal);
 		if(!pointsVec) continue;
 		j=0;
-		for(Value* pointVal: pointsVec->getChildren()) {
+		for(Value* pointVal: pointsVec->getElements()) {
 			auto* pointVec=dynamic_cast<VectorValue*>(pointVal);
 			if(!pointVec) continue;
 			points.append(pointVec->getPoint());

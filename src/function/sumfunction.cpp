@@ -32,7 +32,7 @@ Value* SumFunction::evaluate(const Context& ctx) const
 	auto* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(vecVal) {
 		Value* resultVal = Value::factory.createNumber(0.0);
-		for(Value* child: vecVal->getChildren())
+		for(Value* child: vecVal->getElements())
 			resultVal=Value::operation(resultVal,Expression::Add,child);
 
 		return resultVal;

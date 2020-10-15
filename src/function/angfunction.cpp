@@ -63,7 +63,7 @@ Value* AngFunction::evaluate(const Context& ctx) const
 		if(!axis) return Value::factory.createUndefined();
 
 		//Renormalise the quaternion
-		Value* q=Value::factory.createComplex(angle,axis->getChildren());
+		Value* q=Value::factory.createComplex(angle,axis->getElements());
 		Value* l=Value::operation(q,Expression::Length);
 		return Value::operation(q,Expression::Divide,l);
 	}

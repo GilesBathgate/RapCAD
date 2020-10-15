@@ -43,7 +43,7 @@ Node* ChildrenModule::evaluate(const Context& ctx) const
 	if(!legacy) {
 		auto* vecVal=dynamic_cast<VectorValue*>(val);
 		if(vecVal) {
-			for(Value* v: vecVal->getChildren()) {
+			for(Value* v: vecVal->getElements()) {
 				auto* num=dynamic_cast<NumberValue*>(v);
 				if(num)
 					n->addIndex(num->toInteger());

@@ -45,7 +45,7 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 	if(!pointsVec)
 		return pn;
 
-	QList<Value*> points=pointsVec->getChildren();
+	QList<Value*> points=pointsVec->getElements();
 	if(points.isEmpty())
 		return pn;
 
@@ -69,7 +69,7 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 
 	/* Otherwise use the lines argument to describe the multiple
 	 * polygons */
-	QList<Value*> lines=linesVec->getChildren();
+	QList<Value*> lines=linesVec->getElements();
 
 	//This is to remove the need for duplicate vector syntax in the lines argument
 	// e.g. lines=[[0,1,2,3]] can just be writtern as lines=[0,1,2,3]
@@ -85,7 +85,7 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 		auto* lineVec=dynamic_cast<VectorValue*>(line);
 		if(!lineVec) continue;
 		Polygon* pg=p->createPolygon();
-		for(Value* indexVal: lineVec->getChildren()) {
+		for(Value* indexVal: lineVec->getElements()) {
 			auto* indexNum=dynamic_cast<NumberValue*>(indexVal);
 			if(!indexNum) continue;
 			int index = indexNum->toInteger();

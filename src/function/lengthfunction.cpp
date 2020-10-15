@@ -40,7 +40,7 @@ Value* LengthFunction::evaluate(const Context& ctx) const
 
 	auto* vecVal=dynamic_cast<VectorValue*>(v);
 	if(vecVal) {
-		return Value::factory.createNumber(vecVal->getChildren().count());
+		return Value::factory.createNumber(vecVal->getElements().count());
 	}
 
 	auto* txtVal=dynamic_cast<TextValue*>(v);

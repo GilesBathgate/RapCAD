@@ -32,12 +32,12 @@ Value* IsMat4x4Function::evaluate(const Context& ctx) const
 {
 	auto* matVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(matVal) {
-		QList<Value*> rows=matVal->getChildren();
+		QList<Value*> rows=matVal->getElements();
 		if(rows.count()==4) {
 			for(Value* c: rows) {
 				auto* rowVal=dynamic_cast<VectorValue*>(c);
 				if(rowVal) {
-					QList<Value*> cols=rowVal->getChildren();
+					QList<Value*> cols=rowVal->getElements();
 					if(cols.count()==4) {
 						for(Value* v: cols) {
 							auto* numVal=dynamic_cast<NumberValue*>(v);

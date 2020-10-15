@@ -428,7 +428,7 @@ Value* Value::compareAll(const QList<Value*>& values, Expression::Operator_e op)
 		}
 		auto* vecVal=dynamic_cast<VectorValue*>(a);
 		if(vecVal) {
-			Value* c=compareAll(vecVal->getChildren(),op);
+			Value* c=compareAll(vecVal->getElements(),op);
 			if(!result||compare(c,op,result))
 				result=c;
 		}

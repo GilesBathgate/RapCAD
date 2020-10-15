@@ -81,13 +81,13 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 	auto* vec = dynamic_cast<VectorValue*>(&v);
 	if(vec) {
 		if(e==Expression::Concatenate) {
-			QList<Value*> r=vec->getChildren();
+			QList<Value*> r=vec->getElements();
 			r.prepend(this);
 			return factory.createVector(r);
 		}
 		if(e==Expression::Exponent) {
 			QList<Value*> result;
-			for(Value* c: vec->getChildren())
+			for(Value* c: vec->getElements())
 				result.append(Value::operation(this,e,c));
 
 			return factory.createVector(result);

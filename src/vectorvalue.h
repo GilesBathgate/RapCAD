@@ -35,14 +35,14 @@ public:
 	Point getPoint() const;
 	virtual Value* getIndex(NumberValue*);
 	ValueIterator* createIterator() override;
-	virtual QList<Value*> getChildren();
+	virtual QList<Value*> getElements();
 protected:
 	VectorValue() = default;
 	Value* operation(Expression::Operator_e) override;
 	Value* operation(Value&,Expression::Operator_e) override;
 private:
 	static Expression::Operator_e convertOperation(Expression::Operator_e);
-	QList<Value*> children;
+	QList<Value*> elements;
 };
 
 #endif // VECTORVALUE_H

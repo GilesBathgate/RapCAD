@@ -33,7 +33,7 @@ Value* IsVecFunction::evaluate(const Context& ctx) const
 {
 	auto* vec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(vec) {
-		QList<Value*> vals=vec->getChildren();
+		QList<Value*> vals=vec->getElements();
 		if(vals.count()==size) {
 			for(Value* v: vals) {
 				auto* numVal=dynamic_cast<NumberValue*>(v);

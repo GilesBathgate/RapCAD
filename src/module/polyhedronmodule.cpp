@@ -42,7 +42,7 @@ Node* PolyhedronModule::evaluate(const Context& ctx) const
 	if(!points||!faces)
 		return pn;
 
-	QList<Value*> children = points->getChildren();
+	QList<Value*> children = points->getElements();
 	for(Value* child: children) {
 		auto* point=dynamic_cast<VectorValue*>(child);
 		if(!point) continue;
@@ -50,11 +50,11 @@ Node* PolyhedronModule::evaluate(const Context& ctx) const
 		p->createVertex(pt);
 	}
 
-	for(Value* face: faces->getChildren()) {
+	for(Value* face: faces->getElements()) {
 		auto* faceVec=dynamic_cast<VectorValue*>(face);
 		if(!faceVec) continue;
 		Polygon* pg=p->createPolygon();
-		for(Value* indexVal: faceVec->getChildren()) {
+		for(Value* indexVal: faceVec->getElements()) {
 			auto* indexNum=dynamic_cast<NumberValue*>(indexVal);
 			if(!indexNum) continue;
 			int index = indexNum->toInteger();

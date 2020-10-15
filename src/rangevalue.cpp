@@ -77,7 +77,7 @@ ValueIterator* RangeValue::createIterator()
 	return new RangeIterator(this,start,step);
 }
 
-QList<Value*> RangeValue::getChildren()
+QList<Value*> RangeValue::getElements()
 {
 	QList<Value*> result;
 	ValueIterator* it=createIterator();
