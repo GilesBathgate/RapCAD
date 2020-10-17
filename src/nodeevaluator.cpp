@@ -236,15 +236,30 @@ void NodeEvaluator::visit(const HullNode& n)
 				children.append(result);
 			}
 		}
-		if(points.count()<3) return;
 
 		if(!n.getConcave()) {
-			CGAL::Polyhedron3 hull;
-			CGAL::convex_hull_3(points.begin(),points.end(),hull);
-			auto* cp=new CGALPrimitive(hull);
-			for(Primitive* p: children)
-				cp->appendChild(p);
-			result=cp;
+			CGAL::Object o;
+			CGAL::convex_hull_3(points.begin(),points.end(),o);
+			const auto* t=CGAL::object_cast<CGAL::Triangle3>(&o);
+			if(t) {
+				auto* cp=new CGALPrimitive();
+				auto* ct=cp->createPolygon();
+				ct->appendVertex(t->vertex(0));
+				ct->appendVertex(t->vertex(1));
+				ct->appendVertex(t->vertex(2));
+				for(Primitive* p: children)
+					cp->appendChild(p);
+				result=cp;
+				return;
+			}
+			const auto* hull=CGAL::object_cast<CGAL::Polyhedron3>(&o);
+			if(hull) {
+				auto* cp=new CGALPrimitive(*hull);
+				for(Primitive* p: children)
+					cp->appendChild(p);
+				result=cp;
+				return;
+			}
 			return;
 		}
 
@@ -832,10 +847,12 @@ void NodeEvaluator::visit(const PointsNode& n)
 	cp->setType(Primitive::Points);
 	QList<Point> points=n.getPoints();
 	cp->createPolygon();
-	if(points.isEmpty())
+	if(points.isEmpty()) {
 		cp->createVertex(Point(0.0,0.0,0.0));
-	for(const auto& p: points)
-		cp->createVertex(p);
+	} else {
+		for(const auto& p: points)
+			cp->createVertex(p);
+	}
 
 	if(n.getVisibleChildren()) {
 		if(!evaluate(n,Union,cp)) return;

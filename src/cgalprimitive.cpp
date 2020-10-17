@@ -50,9 +50,9 @@ CGALPrimitive::CGALPrimitive() :
 {
 }
 
-CGALPrimitive::CGALPrimitive(CGAL::Polyhedron3& poly) : CGALPrimitive()
+CGALPrimitive::CGALPrimitive(const CGAL::Polyhedron3& poly) : CGALPrimitive()
 {
-	nefPolyhedron=new CGAL::NefPolyhedron3(poly);
+	nefPolyhedron=new CGAL::NefPolyhedron3(const_cast<CGAL::Polyhedron3&>(poly));
 }
 
 CGALPrimitive::CGALPrimitive(const CGAL::NefPolyhedron3& nef) : CGALPrimitive()

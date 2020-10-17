@@ -41,7 +41,7 @@ class CGALPrimitive : public Primitive
 public:
 	CGALPrimitive();
 	~CGALPrimitive() override;
-	explicit CGALPrimitive(CGAL::Polyhedron3&);
+	explicit CGALPrimitive(const CGAL::Polyhedron3&);
 	explicit CGALPrimitive(const CGAL::NefPolyhedron3&);
 	void setType(Primitive_t) override;
 	Primitive_t getType() override;
