@@ -103,6 +103,13 @@ win32 {
 
 #LIBS += -Wl,-rpath,./librapcad -L./librapcad -lrapcad
 
+CONFIG(fuzzing){
+	QMAKE_LINK = afl-clang-fast
+	QMAKE_LFLAGS += -lstdc++ -lm
+	QMAKE_CC = afl-clang-fast
+	QMAKE_CXX = afl-clang-fast++
+}
+
 CONFIG(valgrind){
 	QMAKE_CXXFLAGS += -fno-rounding-math
 	DEFINES += CGAL_DISABLE_ROUNDING_MATH_CHECK
