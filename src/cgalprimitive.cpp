@@ -38,6 +38,7 @@
 #include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Midpoint_placement.h>
 
 #include "cgalbuilder.h"
+#include "cgalsanitizer.h"
 #include "cgalexplorer.h"
 #include "onceonly.h"
 #include "rmath.h"
@@ -102,87 +103,6 @@ bool CGALPrimitive::getSanitized()
 	return sanitized;
 }
 
-using HalfedgeHandle = CGAL::Polyhedron3::Halfedge_handle;
-
-static CGAL::Scalar getLength(HalfedgeHandle h)
-{
-	return CGAL::squared_distance(h->vertex()->point(),h->opposite()->vertex()->point());
-}
-
-static void removeShortEdge(CGAL::Polyhedron3& p,HalfedgeHandle h)
-{
-	// Determine the number of edges surrounding the vertex. e.g. \|/ or |/
-	auto edges=circulator_size(h->vertex_begin());
-	if(edges<3) {
-		p.erase_facet(h);
-	} else if(edges==3) {
-		p.join_facet(h->next());
-		p.join_vertex(h);
-	} else {
-		p.join_facet(h->next());
-		p.join_facet(h->opposite()->next());
-		p.join_vertex(h);
-	}
-}
-
-static void removeShortestEdges(CGAL::Polyhedron3& p,HalfedgeHandle h1,HalfedgeHandle h2,HalfedgeHandle h3)
-{
-	CGAL::Scalar l1=getLength(h1);
-	CGAL::Scalar l2=getLength(h2);
-	CGAL::Scalar l3=getLength(h3);
-
-	if(l1<l2||l1<l3)
-		p.join_facet(h1);
-	if(l2<l1||l2<l3)
-		p.join_facet(h2);
-	if(l3<l1||l3<l2)
-		p.join_facet(h3);
-}
-
-static void fixZero(CGAL::Polyhedron3& p)
-{
-	using FacetIterator = CGAL::Polyhedron3::Facet_iterator;
-	for(FacetIterator f=p.facets_begin(); f!=p.facets_end(); ++f) {
-		if(f->facet_degree()<3) {
-			p.erase_facet(f->halfedge());
-		}
-	}
-}
-
-static void fixZeroTriangles(CGAL::Polyhedron3& p)
-{
-	using FacetIterator = CGAL::Polyhedron3::Facet_iterator;
-	for(FacetIterator f=p.facets_begin(); f!=p.facets_end(); ++f) {
-		if(f->facet_degree()>3) continue;
-		HalfedgeHandle h1=f->halfedge();
-		HalfedgeHandle h2=h1->next();
-		HalfedgeHandle h3=h2->next();
-		const CGAL::Point3& p1=h1->vertex()->point();
-		const CGAL::Point3& p2=h2->vertex()->point();
-		const CGAL::Point3& p3=h3->vertex()->point();
-		if(CGAL::collinear(p1,p2,p3)) {
-			removeShortestEdges(p,h1,h2,h3);
-		}
-	}
-}
-
-static bool removeShortEdges(CGAL::Polyhedron3& p)
-{
-	using HalfedgeIterator = CGAL::Polyhedron3::Halfedge_iterator;
-	for(HalfedgeIterator h=p.halfedges_begin(); h!=p.halfedges_end(); ++h) {
-		if(getLength(h)==0.0) {
-			removeShortEdge(p,h);
-			return true;
-		}
-	}
-	return false;
-}
-
-static void fixZeroEdges(CGAL::Polyhedron3& p)
-{
-	while(removeShortEdges(p));
-}
-
 void CGALPrimitive::buildPrimitive()
 {
 	if(nefPolyhedron)
@@ -221,9 +141,8 @@ CGAL::NefPolyhedron3* CGALPrimitive::createVolume()
 	poly.delegate(b);
 
 	if(!sanitized) {
-		fixZero(poly);
-		fixZeroEdges(poly);
-		fixZeroTriangles(poly);
+		CGALSanitizer s(poly);
+		s.sanitize();
 	}
 	setSanitized(true);
 
