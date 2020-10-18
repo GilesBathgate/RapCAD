@@ -226,6 +226,10 @@ CGAL::NefPolyhedron3* CGALPrimitive::createVolume()
 		fixZeroTriangles(poly);
 	}
 	setSanitized(true);
+
+	if(poly.empty())
+		return new CGAL::NefPolyhedron3();
+
 	return new CGAL::NefPolyhedron3(poly);
 }
 
