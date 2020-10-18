@@ -15,27 +15,25 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include "builtinmanager.h"
 
-#ifndef BUILTINCREATOR_H
-#define BUILTINCREATOR_H
-
-#include <QHash>
-#include "reporter.h"
-#include "declaration.h"
-#include "script.h"
-#include "module.h"
-
-class BuiltinCreator
+BuiltinManager::BuiltinManager(Script& sc,Reporter& reporter) :
+	script(sc),
+	creator(BuiltinCreator::getInstance(reporter))
 {
-public:
-	static BuiltinCreator& getInstance(Reporter&);
-	void generateDocs(QTextStream&);
-	void generateDocs(TreeVisitor&);
-	QHash<QString,Module*> getModuleNames() const;
-	QList<Declaration*> getBuiltins() const;
-private:
-	explicit BuiltinCreator(Reporter&);
-	~BuiltinCreator();
-	QList<Declaration*> builtins;
-};
-#endif // BUILTINCREATOR_H
+	/*
+	  Add the builtins to a script.
+	*/
+	for(Declaration* d: creator.getBuiltins())
+		sc.addDeclaration(d);
+}
+
+BuiltinManager::~BuiltinManager()
+{
+	/*
+	  To ensure that the builtins do not get deleted when the script
+	  is deleted we remove them from the script.
+	*/
+	for(Declaration* d: creator.getBuiltins())
+		script.removeDeclaration(d);
+}

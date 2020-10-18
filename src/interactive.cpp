@@ -20,6 +20,9 @@
 #include "treeevaluator.h"
 #include "script.h"
 #include "tokenreader.h"
+#ifdef USE_CGAL
+#include <CGAL/exceptions.h>
+#endif
 
 #ifdef USE_READLINE
 namespace readline
@@ -47,23 +50,31 @@ bool Interactive::isExpression(const QString& s)
 
 void Interactive::execCommand(const QString& str)
 {
-	QString s(str);
-	if(isExpression(s)) {
-		s=QString("writeln(%1);").arg(s);
-		/* Use a kludge factor so that the reporter doesn't include the 'write('
-		 * characters in its 'at character' output */
-		reporter.setKludge(-8);
-	} else {
-		reporter.setKludge(0);
-	}
+	try {
+		QString s(str);
+		if(isExpression(s)) {
+			s=QString("writeln(%1);").arg(s);
+			/* Use a kludge factor so that the reporter doesn't include the 'write('
+			 * characters in its 'at character' output */
+			reporter.setKludge(-8);
+		} else {
+			reporter.setKludge(0);
+		}
 
-	Script sc(reporter);
-	sc.parse(s);
-	TreeEvaluator e(reporter);
-	sc.accept(e);
-	Node* n=e.getRootNode();
-	output.flush();
-	delete n;
+		Script sc(reporter);
+		sc.parse(s);
+		TreeEvaluator e(reporter);
+		sc.accept(e);
+		Node* n=e.getRootNode();
+		output.flush();
+		delete n;
+#ifdef USE_CGAL
+	} catch(const CGAL::Failure_exception& e) {
+		reporter.reportException(QString::fromStdString(e.what()));
+#endif
+	} catch(...) {
+		reporter.reportException(tr("Unknown error."));
+	}
 }
 
 static constexpr auto PROMPT="\u042F: ";

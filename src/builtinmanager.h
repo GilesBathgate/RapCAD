@@ -15,27 +15,20 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef BUILTINMANAGER_H
+#define BUILTINMANAGER_H
 
-#ifndef BUILTINCREATOR_H
-#define BUILTINCREATOR_H
-
-#include <QHash>
-#include "reporter.h"
-#include "declaration.h"
 #include "script.h"
-#include "module.h"
+#include "builtincreator.h"
 
-class BuiltinCreator
+class BuiltinManager
 {
 public:
-	static BuiltinCreator& getInstance(Reporter&);
-	void generateDocs(QTextStream&);
-	void generateDocs(TreeVisitor&);
-	QHash<QString,Module*> getModuleNames() const;
-	QList<Declaration*> getBuiltins() const;
+	BuiltinManager(Script&,Reporter&);
+	~BuiltinManager();
 private:
-	explicit BuiltinCreator(Reporter&);
-	~BuiltinCreator();
-	QList<Declaration*> builtins;
+	Script& script;
+	BuiltinCreator& creator;
 };
-#endif // BUILTINCREATOR_H
+
+#endif // BUILTINMANAGER_H

@@ -150,6 +150,7 @@ YACCSOURCES += \
 SOURCES += \
 	contrib/qcommandlineparser.cpp \
 	contrib/qcommandlineoption.cpp \
+	src/builtinmanager.cpp \
 	src/cgalsanitizer.cpp \
 	src/main.cpp \
 	src/namedvalue.cpp \
@@ -393,6 +394,7 @@ HEADERS  += \
 	contrib/qcommandlineparser.h \
 	contrib/qcommandlineoption.h \
 	contrib/Copy_polyhedron_to.h \
+	src/builtinmanager.h \
 	src/cgalsanitizer.h \
 	src/namedvalue.h \
 	src/tokenreader.h \

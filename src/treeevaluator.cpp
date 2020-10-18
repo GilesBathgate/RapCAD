@@ -21,7 +21,7 @@
 #include "complexvalue.h"
 #include "rangevalue.h"
 #include "valueiterator.h"
-#include "builtincreator.h"
+#include "builtinmanager.h"
 #include "syntaxtreebuilder.h"
 #include "module/unionmodule.h"
 #include "valuefactory.h"
@@ -597,8 +597,7 @@ void TreeEvaluator::visit(const CodeDoc&)
 
 void TreeEvaluator::visit(Script& sc)
 {
-	BuiltinCreator& b=BuiltinCreator::getInstance(reporter);
-	b.initBuiltins(sc);
+	BuiltinManager m(sc,reporter);
 
 	/* Use the location of the current script as the root for all imports */
 	QDir loc=sc.getFileLocation();
@@ -621,7 +620,6 @@ void TreeEvaluator::visit(Script& sc)
 
 	rootNode=UnionModule::createUnion(childnodes);
 
-	b.saveBuiltins(sc);
 }
 
 void TreeEvaluator::visit(Product& p)

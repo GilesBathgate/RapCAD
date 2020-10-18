@@ -240,23 +240,9 @@ BuiltinCreator::~BuiltinCreator()
 	builtins.clear();
 }
 
-/**
-  Add the builtins to a script.
-*/
-void BuiltinCreator::initBuiltins(Script& sc)
+QList<Declaration*> BuiltinCreator::getBuiltins() const
 {
-	for(Declaration* d: builtins)
-		sc.addDeclaration(d);
-}
-
-/**
-  To ensure that the builtins do not get deleted when the script
-  is deleted we remove them from the script.
-*/
-void BuiltinCreator::saveBuiltins(Script& sc)
-{
-	for(Declaration* d: builtins)
-		sc.removeDeclaration(d);
+	return builtins;
 }
 
 void BuiltinCreator::generateDocs(QTextStream& out)
