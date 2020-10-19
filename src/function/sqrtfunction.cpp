@@ -32,6 +32,8 @@ Value* SqrtFunction::evaluate(const Context& ctx) const
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {
 		decimal num=numVal->getNumber();
+		if(num<0.0)
+			return Value::factory.createUndefined();
 
 		return Value::factory.createNumber(r_sqrt(num));
 	}
