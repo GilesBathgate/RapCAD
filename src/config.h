@@ -19,6 +19,8 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#define BOOST_NO_STDLIB_CONFIG
+
 #include <CGAL/config.h>
 
 #undef CGAL_USE_GMPXX

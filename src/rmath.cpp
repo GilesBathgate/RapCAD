@@ -15,13 +15,12 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include "rmath.h"
 
 #include <cmath>
 #include <cstdlib>
 #include <CGAL/Gmpfr.h>
 #include <mpfr.h>
-
-#include "rmath.h"
 #include "preferences.h"
 
 #ifndef USE_CGAL

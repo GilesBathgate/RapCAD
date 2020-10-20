@@ -20,10 +20,10 @@
 #define CGALRENDERER_H
 
 #include <QColor>
-#include "contrib/OGL_helper.h"
 #include "renderer.h"
 #include "cgalprimitive.h"
 #include "simplerenderer.h"
+#include "contrib/OGL_helper.h"
 
 class CGALRenderer : public Renderer, private CGAL::OGL::Polyhedron
 {
