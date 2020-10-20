@@ -62,7 +62,10 @@ win32 {
 	LIBS += -L$$(BOOST_ROOT)/stage/lib
 	LIBS += -lboost_thread-mgw53-mt-1_60
 	LIBS += -lboost_system-mgw53-mt-1_60
-	LIBS += -L$$(CGAL_ROOT)/lib -lCGAL -lCGAL_Core
+	LIBS += -L$$(CGAL_ROOT)/lib
+	exists( $$(CGAL_ROOT)/lib/libCGAL* ) {
+		LIBS +=  -lCGAL -lCGAL_Core
+	}
 	LIBS += -L$$(CGAL_ROOT)/auxiliary/gmp/lib -lmpfr-4 -lgmp-10
 	LIBS += -lopengl32 -lglu32
 	contains(DEFINES,USE_READLINE) {
