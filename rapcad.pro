@@ -78,7 +78,7 @@ win32 {
 	QMAKE_LEX = win_flex
 } else {
 	exists( /usr/lib/x86_64-linux-gnu/libCGAL* ) {
-                LIBS += -lCGAL -lCGAL_Core
+		LIBS += -lCGAL -lCGAL_Core
 	}
 	LIBS += -lmpfr -lgmp
 	contains(DEFINES,USE_READLINE) {
@@ -93,7 +93,9 @@ win32 {
 	ICON = icons/AppIcon.icns
 	INCLUDEPATH += /usr/local/include
 	LIBS += -L/usr/local/lib -lboost_thread-mt
-	LIBS += -lCGAL -lCGAL_Core
+	exists( /usr/local/lib/libCGAL* ) {
+		LIBS += -lCGAL -lCGAL_Core
+	}
   } else {
 	LIBS += -lboost_thread -lGLU
   }
