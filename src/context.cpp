@@ -184,9 +184,11 @@ void Context::clearArguments()
 
 Value* Context::getArgument(int index, const QString& name) const
 {
-	//TODO make matchLast work for name ending with any digit
-	bool matchLast = name.endsWith('1') || name.endsWith('2');
-
+#if QT_VERSION < QT_VERSION_CHECK(5,10,0)
+	bool matchLast=name.at(name.size()-1).isDigit();
+#else
+	bool matchLast=name.back().isDigit();
+#endif
 	return matchArgumentIndex(true,matchLast,index,name);
 }
 
