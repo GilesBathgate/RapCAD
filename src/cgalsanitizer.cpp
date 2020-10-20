@@ -24,7 +24,7 @@ CGALSanitizer::CGALSanitizer(CGAL::Polyhedron3& p) :
 
 void CGALSanitizer::sanitize()
 {
-	fixZero();
+	fixZeros();
 	fixZeroEdges();
 	fixZeroTriangles();
 	fixIsolated();
@@ -46,14 +46,21 @@ void CGALSanitizer::fixIsolated()
 	}
 }
 
-void CGALSanitizer::fixZero()
+bool CGALSanitizer::fixZero()
 {
 	using FacetIterator = CGAL::Polyhedron3::Facet_iterator;
 	for(FacetIterator f=polyhedron.facets_begin(); f!=polyhedron.facets_end(); ++f) {
 		if(f->facet_degree()<3) {
 			polyhedron.erase_facet(f->halfedge());
+			return true;
 		}
 	}
+	return false;
+}
+
+void CGALSanitizer::fixZeros()
+{
+	while(fixZero());
 }
 
 void CGALSanitizer::fixZeroTriangles()

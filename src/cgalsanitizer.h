@@ -37,7 +37,8 @@ public:
 private:
 	void erase(CGAL::VertexHandle);
 	void fixIsolated();
-	void fixZero();
+	bool fixZero();
+	void fixZeros();
 	void fixZeroTriangles();
 	void fixZeroEdges();
 	static CGAL::Scalar getLength(CGAL::HalfedgeHandle);
