@@ -59,9 +59,6 @@ win32 {
 	INCLUDEPATH += $$(CGAL_ROOT)/include
 	INCLUDEPATH += $$(CGAL_ROOT)/auxiliary/gmp/include
 	INCLUDEPATH += $$(BOOST_ROOT)
-	LIBS += -L$$(BOOST_ROOT)/stage/lib
-	LIBS += -lboost_thread-mgw53-mt-1_60
-	LIBS += -lboost_system-mgw53-mt-1_60
 	LIBS += -L$$(CGAL_ROOT)/lib
 	exists( $$(CGAL_ROOT)/lib/libCGAL* ) {
 		LIBS +=  -lCGAL -lCGAL_Core

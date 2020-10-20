@@ -1,17 +1,23 @@
 version: "#{build}"
 
 image:
-  - Visual Studio 2015
+  - Visual Studio 2019
 
 cache:
+  - windeployqtreleaseonly.zip -> appveyor.yml
   - FlexBison.zip -> appveyor.yml
   - CGAL-Setup.exe -> appveyor.yml
   - C:\CGAL -> appveyor.yml
 
 install:
   - set CGAL_ROOT=C:\CGAL\
-  - set BOOST_ROOT=C:\Libraries\boost_1_60_0
-  - set QTDIR=C:\Qt\5.9\mingw53_32
+  - set BOOST_ROOT=C:\Libraries\boost_1_73_0
+  - set QTDIR=C:\Qt\5.15.0\mingw81_32
+  - set PATH=%PATH%;C:\Qt\Tools\mingw810_32\bin
+  # install patched windeployqt
+  - if not exist windeployqtreleaseonly.zip
+      appveyor DownloadFile http://tripleboot.org/Uploads/windeployqtreleaseonly.zip
+  - 7z x -o%QTDIR%\bin windeployqtreleaseonly.zip
   # Install Flex/Bison
   - if not exist FlexBison.zip
       appveyor DownloadFile https://downloads.sourceforge.net/project/winflexbison/win_flex_bison-latest.zip
@@ -19,23 +25,10 @@ install:
   - 7z x -o%QTDIR%\bin FlexBison.zip
   # Install CGAL
   - if not exist CGAL-Setup.exe
-      appveyor DownloadFile https://github.com/CGAL/cgal/releases/download/releases/CGAL-4.11/CGAL-4.11-Setup.exe
+      appveyor DownloadFile https://github.com/CGAL/cgal/releases/download/v5.1/CGAL-5.1-Setup.exe
       -FileName CGAL-Setup.exe
   - if not exist %CGAL_ROOT%
       CGAL-Setup.exe /S /D=c:\CGAL
-  # Build Boost
-  - call %QTDIR%\bin\qtenv2.bat
-  - cd %BOOST_ROOT%
-  - call bootstrap.bat mingw
-  - .\b2 toolset=gcc variant=release --with-thread --with-system
-  # Build CGAL
-  - set CGAL_ROOT=C:\CGAL\
-  - set PATH=%PATH:C:\Program Files\Git\usr\bin;=%
-  - cd %CGAL_ROOT%
-  - if not exist C:\CGAL\Makefile
-      cmake -G"MinGW Makefiles" .
-  - if not exist C:\CGAL\bin\libCGAL.dll
-       mingw32-make
   # Setup environment
   - set PATH=%PATH%;%CGAL_ROOT%\bin
   - set PATH=%PATH%;%CGAL_ROOT%\auxiliary\gmp\lib
@@ -47,7 +40,7 @@ build_script:
   - qmake CONFIG+=coverage
   - mingw32-make -j4 -f Makefile.Release
   - cd release
-  - windeployqt --release rapcad.exe
+  - windeployqtreleaseonly --release rapcad.exe
 
 test_script:
   - cd %APPVEYOR_BUILD_FOLDER%
