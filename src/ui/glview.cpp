@@ -531,7 +531,12 @@ void GLView::renderZ(GLfloat x,GLfloat y,GLfloat z)
 
 void GLView::wheelEvent(QWheelEvent* event)
 {
-	zoomView(GLfloat(event->delta()/12));
+#if QT_VERSION < QT_VERSION_CHECK(5,5,0)
+	int delta=event->delta();
+#else
+	int delta=event->angleDelta().y();
+#endif
+	zoomView(GLfloat(delta/12.0F));
 	update();
 }
 
