@@ -111,16 +111,12 @@ CONFIG(fuzzing){
 }
 
 CONFIG(valgrind){
-	QMAKE_CXXFLAGS += -fno-rounding-math
-	DEFINES += CGAL_DISABLE_ROUNDING_MATH_CHECK
 	DEFINES += USE_VALGRIND
-} else {
-	contains(DEFINES,USE_CGAL) {
-		!clang {
-			QMAKE_CXXFLAGS += -frounding-math
-		}
-	}
+	QMAKE_CXXFLAGS += -fno-rounding-math
+} else:!macx {
+	QMAKE_CXXFLAGS += -frounding-math
 }
+DEFINES += CGAL_DISABLE_ROUNDING_MATH_CHECK
 
 
 CONFIG(coverage){
