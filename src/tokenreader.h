@@ -91,7 +91,7 @@ public:
 	void buildNewLine() override {}
 	void buildFileStart(QDir) override {}
 	void buildFileFinish() override {}
-	QString getToken() const override { return QString::null; }
+	QString getToken() const override { return QString(); }
 };
 
 #endif // TOKENREADER_H
