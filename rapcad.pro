@@ -80,6 +80,9 @@ win32 {
 	exists( /usr/lib/x86_64-linux-gnu/libCGAL* ) {
 		LIBS += -lCGAL -lCGAL_Core
 	}
+	exists( /usr/lib/i386-linux-gnu/libCGAL* ) {
+		LIBS += -lCGAL -lCGAL_Core
+	}
 	LIBS += -lmpfr -lgmp
 	contains(DEFINES,USE_READLINE) {
 	LIBS+= -lreadline
