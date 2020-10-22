@@ -3,16 +3,25 @@ version: "#{build}"
 image:
   - Visual Studio 2019
 
+configuration:
+  - coverage
+  - official
+
 cache:
   - windeployqtreleaseonly.zip -> appveyor.yml
   - FlexBison.zip -> appveyor.yml
   - CGAL-Setup.exe -> appveyor.yml
+  - asciidoc.zip -> appveyor.yml
+  - src-highlite.zip -> appveyor.yml
+  - csharp.lang -> appveyor.yml
   - C:\CGAL -> appveyor.yml
 
 install:
   - set CGAL_ROOT=C:\CGAL\
   - set BOOST_ROOT=C:\Libraries\boost_1_73_0
   - set QTDIR=C:\Qt\5.15.0\mingw81_32
+  - set ASCIIDOC=C:\asciidoc-8.6.10
+  - set SOURCEHIGHLIGHT=C:\source-highlight
   - set PATH=%PATH%;C:\Qt\Tools\mingw810_32\bin
   # install patched windeployqt
   - if not exist windeployqtreleaseonly.zip
@@ -29,20 +38,75 @@ install:
       -FileName CGAL-Setup.exe
   - if not exist %CGAL_ROOT%
       CGAL-Setup.exe /S /D=c:\CGAL
+  # Install asciidoc
+  - if not exist asciidoc.zip
+      appveyor DownloadFile https://github.com/asciidoc/asciidoc/archive/8.6.10.zip
+      -FileName asciidoc.zip
+  - 7z x -oC:\ asciidoc.zip
+  # Install source-highlight
+  - if not exist src-highlite.zip
+      appveyor DownloadFile https://downloads.sourceforge.net/project/gnuwin32/src-highlite/2.1.2/src-highlite-2.1.2-bin.zip
+      -FileName src-highlite.zip
+  - 7z x -o%SOURCEHIGHLIGHT% src-highlite.zip
+  - mv %SOURCEHIGHLIGHT%\bin\source-highlight.exe %SOURCEHIGHLIGHT%\bin\source-highlight-exe.exe
+  - cp %APPVEYOR_BUILD_FOLDER%\scripts\source-highlight.bat %SOURCEHIGHLIGHT%\bin
+  - if not exist csharp.lang
+      appveyor DownloadFile https://www.gnu.org/software/src-highlite/lang_files/csharp.lang
+      -FileName csharp.lang
+  - cp csharp.lang %SOURCEHIGHLIGHT%\share\source-highlight
+  - set LANGMAP=%SOURCEHIGHLIGHT%\share\source-highlight\lang.map
+  - echo. >> %LANGMAP%
+  - echo csharp = csharp.lang >> %LANGMAP%
   # Setup environment
   - set PATH=%PATH%;%CGAL_ROOT%\bin
+  - set PATH=%PATH%;%SOURCEHIGHLIGHT%\bin
   - set PATH=%PATH%;%CGAL_ROOT%\auxiliary\gmp\lib
   - set PATH=%PATH%;%QTDIR%\bin
   - set PATH=C:\Program Files\Git\usr\bin;%PATH%
 
-build_script:
-  - cd %APPVEYOR_BUILD_FOLDER%
-  - qmake CONFIG+=coverage
-  - mingw32-make -j4 -f Makefile.Release
-  - cd release
-  - windeployqtreleaseonly --release rapcad.exe
+for:
+-
+  matrix:
+    only:
+      - configuration: coverage
+  build_script:
+    - cd %APPVEYOR_BUILD_FOLDER%
+    - qmake CONFIG+=coverage
+    - mingw32-make -j4 -f Makefile.Release
+    - windeployqtreleaseonly
+        --no-svg
+        --no-translations
+        --no-angle
+        --release
+        release/rapcad.exe
+  test_script:
+    - cd %APPVEYOR_BUILD_FOLDER%
+    - release\rapcad.exe -t test
+-
+  matrix:
+    only:
+      - configuration: official
+  build_script:
+    - cd %APPVEYOR_BUILD_FOLDER%
+    - qmake CONFIG+=official
+    - mingw32-make -j4 -f Makefile.Release
+    - mingw32-make clean
+    - mingw32-make user_guide.html
+    - cp user_guide.html release
+    - set GMP="%CGAL_ROOT%/auxiliary/gmp/lib"
+    - cp
+        %GMP%/libgmp-10.dll
+        %GMP%/libmpfr-4.dll
+        release
+    - windeployqtreleaseonly
+        --no-svg
+        --no-translations
+        --no-angle
+        --release
+        release/rapcad.exe
+    - rm -r release/imageformats
+    - makensis installer.nsi
 
-test_script:
-  - cd %APPVEYOR_BUILD_FOLDER%
-  - release\rapcad.exe -t test
-
+  artifacts:
+    - path: rapcad_setup.exe
+      name: RapCAD

@@ -667,7 +667,7 @@ userguide.target = user_guide.html
 userguide.depends = $$PWD/doc/user_guide.asciidoc
 
 win32 {
-	userguide.commands = python ..\\asciidoc-8.6.9\\asciidoc.py -o $$userguide.target $$userguide.depends
+	userguide.commands = python $$(ASCIIDOC)\\asciidoc.py -o $$userguide.target $$userguide.depends
 } else {
 	userguide.commands = asciidoc -o $$userguide.target $$userguide.depends
 }
