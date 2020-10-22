@@ -36,6 +36,7 @@
 #else
 #include "qcommandlineparser.h"
 #endif
+#include "contrib/qtcompat.h"
 
 static void setupApplication()
 {
@@ -50,7 +51,7 @@ static void setupApplication()
 
 static void showVersion(QTextStream& out)
 {
-	out << QCoreApplication::applicationName() << " " << QCoreApplication::applicationVersion() << endl;
+	out << QCoreApplication::applicationName() << " " << QCoreApplication::applicationVersion() << Qt::endl;
 }
 
 static QStringList getArguments(int argc,char* argv[])

@@ -393,6 +393,7 @@ HEADERS  += \
 	contrib/qcommandlineparser.h \
 	contrib/qcommandlineoption.h \
 	contrib/Copy_polyhedron_to.h \
+	contrib/qtcompat.h \
 	src/builtinmanager.h \
 	src/cgalsanitizer.h \
 	src/namedvalue.h \

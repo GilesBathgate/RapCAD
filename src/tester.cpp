@@ -42,6 +42,7 @@
 #include "ui/console.h"
 #include "ui/searchwidget.h"
 #include "preferences.h"
+#include "contrib/qtcompat.h"
 
 Tester::Tester(Reporter& r,const QString& d,QObject* parent) :
 	QObject(parent),
@@ -74,27 +75,27 @@ void Tester::writeHeader(const QString& name, int num)
 void Tester::writePass()
 {
 #ifdef Q_OS_WIN
-	output << " Passed" << endl;
+	output << " Passed" << Qt::endl;
 #else
-	output << " \e[0;32mPassed\e[0m" << endl;
+	output << " \e[0;32mPassed\e[0m" << Qt::endl;
 #endif
 }
 
 void Tester::writeFail()
 {
 #ifdef Q_OS_WIN
-	output << " FAILED" << endl;
+	output << " FAILED" << Qt::endl;
 #else
-	output << " \e[0;31mFAILED\e[0m" << endl;
+	output << " \e[0;31mFAILED\e[0m" << Qt::endl;
 #endif
 }
 
 void Tester::writeSkip()
 {
 #ifdef Q_OS_WIN
-	output << " Skipped" << endl;
+	output << " Skipped" << Qt::endl;
 #else
-	output << " \e[0;33mSkipped\e[0m" << endl;
+	output << " \e[0;33mSkipped\e[0m" << Qt::endl;
 #endif
 }
 
@@ -122,13 +123,13 @@ int Tester::evaluate()
 	CacheManager& cm=CacheManager::getInstance();
 	cm.disableCaches();
 
-	output << QString("Qt:\t %1\n").arg(QT_VERSION_STR);
+	output << QString("Qt:\t %1").arg(QT_VERSION_STR) << Qt::endl;
 #ifdef USE_CGAL
-	output << QString("CGAL:\t %1\n").arg(CGAL_VERSION_STR);
+	output << QString("CGAL:\t %1").arg(CGAL_VERSION_STR)<< Qt::endl;
 #endif
-	output << QString("Boost:\t %1.%2.%3\n").arg(BOOST_VERSION / 100000).arg(BOOST_VERSION / 100 % 1000).arg(BOOST_VERSION % 100);
-	output << QString("MPFR:\t %1\n").arg(MPFR_VERSION_STRING);
-	output << QString("GMP:\t %1\n").arg(gmp_version);
+	output << QString("Boost:\t %1.%2.%3").arg(BOOST_VERSION / 100000).arg(BOOST_VERSION / 100 % 1000).arg(BOOST_VERSION % 100)<< Qt::endl;
+	output << QString("MPFR:\t %1").arg(MPFR_VERSION_STRING)<< Qt::endl;
+	output << QString("GMP:\t %1").arg(gmp_version)<< Qt::endl;
 
 	writeHeader("000_treeprinter",testcount);
 
@@ -173,7 +174,7 @@ int Tester::evaluate()
 	}
 	reporter.setReturnCode(failcount);
 
-	output << "Total: " << testcount << " Passed: " << passcount << " Failed: " << failcount << endl;
+	output << "Total: " << testcount << " Passed: " << passcount << " Failed: " << failcount << Qt::endl;
 
 	reporter.reportTiming("testing");
 #ifndef Q_OS_WIN
@@ -403,7 +404,7 @@ void Tester::testModule(Script& s,const QFileInfo& file)
 		}
 		examFile.remove();
 	} else {
-		output << "Created" << endl;
+		output << "Created" << Qt::endl;
 	}
 }
 

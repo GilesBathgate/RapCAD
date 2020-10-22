@@ -15,18 +15,20 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef QTCOMPAT_H
+#define QTCOMPAT_H
 
-#include "writelnmodule.h"
-#include "contrib/qtcompat.h"
+#include <QtGlobal>
 
-WriteLnModule::WriteLnModule(Reporter& r) : WriteModule(r,"writeln")
+#if QT_VERSION < QT_VERSION_CHECK(5,14,0)
+#include <QTextStream>
+namespace Qt
 {
-	addDescription(tr("Writes the given text line to the console window."));
-}
-
-Node* WriteLnModule::evaluate(const Context& ctx) const
+inline QTextStream& endl(QTextStream& s)
 {
-	WriteModule::evaluate(ctx);
-	output << Qt::endl;
-	return nullptr;
+	return ::endl(s);
 }
+}
+#endif
+
+#endif // QTCOMPAT_H

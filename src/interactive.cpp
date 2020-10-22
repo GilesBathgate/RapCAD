@@ -23,6 +23,7 @@
 #ifdef USE_CGAL
 #include <CGAL/exceptions.h>
 #endif
+#include "contrib/qtcompat.h"
 
 #ifdef USE_READLINE
 namespace readline
@@ -89,7 +90,7 @@ int Interactive::evaluate()
 #ifdef USE_READLINE
 	while(char* c=readline::readline(PROMPT))
 		execCommand(c);
-	output << endl;
+	output << Qt::endl;
 #endif
 	return EXIT_SUCCESS;
 }

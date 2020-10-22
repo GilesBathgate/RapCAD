@@ -32,6 +32,7 @@
 #else
 #include "simplerenderer.h"
 #endif
+#include "contrib/qtcompat.h"
 
 Worker::Worker(Reporter& r) :
 	Strategy(r),
@@ -98,7 +99,7 @@ void Worker::primary()
 	if(print) {
 		TreePrinter p(output);
 		s.accept(p);
-		output << endl;
+		output << Qt::endl;
 	}
 
 	TreeEvaluator e(reporter);
@@ -109,7 +110,7 @@ void Worker::primary()
 	if(print) {
 		NodePrinter p(output);
 		n->accept(p);
-		output << endl;
+		output << Qt::endl;
 	} else {
 		NodeEvaluator ne(reporter);
 		n->accept(ne);
