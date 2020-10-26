@@ -88,6 +88,7 @@ for:
       - configuration: official
   build_script:
     - cd %APPVEYOR_BUILD_FOLDER%
+    - set /p VERSION=<VERSION
     - qmake CONFIG+=official
     - mingw32-make -j4 -f Makefile.Release
     - mingw32-make clean
@@ -106,7 +107,7 @@ for:
         release/rapcad.exe
     - rm -r release/imageformats
     - makensis installer.nsi
-
+    - mv rapcad_setup.exe rapcad_%VERSION%_setup.exe
   artifacts:
-    - path: rapcad_setup.exe
+    - path: rapcad_*_setup.exe
       name: RapCAD
