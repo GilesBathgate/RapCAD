@@ -108,6 +108,10 @@ for:
     - rm -r release/imageformats
     - makensis installer.nsi
     - mv rapcad_setup.exe rapcad_%VERSION%_setup.exe
+    - mv release rapcad_%VERSION%
+    - 7z a -tzip rapcad_%VERSION%.zip rapcad_%VERSION%
   artifacts:
     - path: rapcad_*_setup.exe
-      name: RapCAD
+      name: RapCAD Installer
+    - path: rapcad_*.zip
+      name: RapCAD Binaries
