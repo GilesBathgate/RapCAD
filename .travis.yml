@@ -1,14 +1,20 @@
 group: travis_latest
 language: cpp
 
-matrix:
+jobs:
   include:
     - os: linux
       dist: focal
       compiler: gcc
+      env: CONFIG=coverage
     - os: osx
       osx_image: xcode12.2
       compiler: clang
+      env: CONFIG=coverage
+    - os: osx
+      osx_image: xcode12.2
+      compiler: clang
+      env: CONFIG=official
 
 addons:
   apt:
@@ -29,16 +35,23 @@ install:
 
 script:
   - qmake -v
-  - qmake CONFIG+=coverage
+  - qmake CONFIG+=$CONFIG
   - make -j4
-  - if [ $TRAVIS_OS_NAME = osx ]; then
-      ./rapcad.app/Contents/MacOS/rapcad -t test;
-    else
-      xvfb-run --server-args="-screen 0 1024x768x24" ./rapcad -t test;
-    fi;
+  - if [ $CONFIG = coverage ]; then
+      if [ $TRAVIS_OS_NAME = osx ]; then
+        ./rapcad.app/Contents/MacOS/rapcad -t test;
+      else
+        xvfb-run --server-args="-screen 0 1024x768x24" ./rapcad -t test;
+      fi
+    fi
+  - if [ $CONFIG = official ]; then
+      if [ $TRAVIS_OS_NAME = osx ]; then
+        macdeployqt rapcad.app -dmg;
+      fi
+    fi
 
 after_success:
-  - if [ $TRAVIS_OS_NAME != osx ]; then
+  - if [ $TRAVIS_OS_NAME != osx ] && [ $CONFIG = coverage ]; then
       bash <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/master/codecov) -a '-r';
     fi
 
