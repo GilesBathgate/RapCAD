@@ -11,7 +11,8 @@ jobs:
       osx_image: xcode12.2
       compiler: clang
       env: CONFIG=coverage
-    - os: osx
+    - if: branch = master
+      os: osx
       osx_image: xcode12.2
       compiler: clang
       env: CONFIG=official
