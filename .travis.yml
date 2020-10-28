@@ -1,66 +1,66 @@
 group: travis_latest
 language: cpp
-
 jobs:
   include:
-    - os: linux
-      dist: focal
-      compiler: gcc
-      env: CONFIG=coverage
-    - os: osx
-      osx_image: xcode12.2
-      compiler: clang
-      env: CONFIG=coverage
-    - if: branch = master
-      os: osx
-      osx_image: xcode12.2
-      compiler: clang
-      env: CONFIG=official
+  - os: linux
+    dist: focal
+    compiler: gcc
+    env: CONFIG=coverage
+  - os: osx
+    osx_image: xcode12.2
+    compiler: clang
+    env: CONFIG=coverage
+  - if: branch = master
+    os: osx
+    osx_image: xcode12.2
+    compiler: clang
+    env: CONFIG=official
 
 addons:
   apt:
     packages:
-      - qt5-default
-      - qtbase5-dev
-      - libqt5opengl5-dev
-      - libboost-dev
-      - libcgal-dev
-      - bison
-      - flex
-      - libreadline-dev
+    - qt5-default
+    - qtbase5-dev
+    - libqt5opengl5-dev
+    - libboost-dev
+    - libcgal-dev
+    - bison
+    - flex
+    - libreadline-dev
 
 install:
-  - if [ $TRAVIS_OS_NAME = osx ]; then
-      brew link --force qt5;
-    fi
+- if [ $TRAVIS_OS_NAME = osx ]; then
+    brew link --force qt5;
+  fi
 
 script:
-  - qmake -v
-  - qmake CONFIG+=$CONFIG
-  - make -j4
-  - if [ $CONFIG = coverage ]; then
-      if [ $TRAVIS_OS_NAME = osx ]; then
-        ./rapcad.app/Contents/MacOS/rapcad -t test;
-      else
-        xvfb-run --server-args="-screen 0 1024x768x24" ./rapcad -t test;
-      fi
+- qmake -v
+- qmake CONFIG+=$CONFIG
+- make -j4
+- if [ $CONFIG = coverage ]; then
+    if [ $TRAVIS_OS_NAME = osx ]; then
+      ./rapcad.app/Contents/MacOS/rapcad -t test;
+    else
+      xvfb-run --server-args="-screen 0 1024x768x24" ./rapcad -t test;
     fi
-  - if [ $CONFIG = official ]; then
-      if [ $TRAVIS_OS_NAME = osx ]; then
-        macdeployqt rapcad.app -dmg;
-      fi
+  fi
+- if [ $CONFIG = official ]; then
+    if [ $TRAVIS_OS_NAME = osx ]; then
+      macdeployqt rapcad.app -dmg;
     fi
+  fi
 
 after_success:
-  - if [ $TRAVIS_OS_NAME != osx ] && [ $CONFIG = coverage ]; then
-      bash <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/master/codecov) -a '-r';
-    fi
+- if [ $TRAVIS_OS_NAME != osx ] && [ $CONFIG = coverage ]; then
+    bash <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/master/codecov) -a '-r';
+  fi
 
 notifications:
   irc:
     channels:
-      - "irc.freenode.org#rapcad"
+    - irc.freenode.org#rapcad
     skip_join: true
     template:
-      - "%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}"
-      - "Build details : %{build_url}"
+    - "%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}"
+    - 'Build details : %{build_url}'
+
