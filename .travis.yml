@@ -55,6 +55,18 @@ after_success:
     bash <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/master/codecov) -a '-r';
   fi
 
+deploy:
+  provider: releases
+  token:
+    secure: mQDIQDIJLGeKGRtQmF/wc5YM9HiJ0tx8rDvX3NLuIwUSsI6RrmBwtXyqW0+CbT4tgPvZBbiyGhobK9hsOt2xtQKG4uhF+4kCmd9RZi3bLi4w1B3MwuCmtwLwZ0Z0d1hgtlWOnhVuOywxRbZFoem9/ckrFsVbu/LMucskyTzUl6s=
+  file: rapcad.dmg
+  edge: true
+  draft: true
+  on:
+    branch: master
+    condition: -e rapcad.dmg
+    tags: true
+
 notifications:
   irc:
     channels:
