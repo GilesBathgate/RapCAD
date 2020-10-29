@@ -11,6 +11,8 @@ cache:
   - windeployqtreleaseonly.zip -> appveyor.yml
   - FlexBison.zip -> appveyor.yml
   - CGAL-Setup.exe -> appveyor.yml
+  - gmp-all-CGAL-3.9.zip -> appveyor.yml
+  - mpfr-all-CGAL-3.9.zip -> appveyor.yml
   - asciidoc.zip -> appveyor.yml
   - src-highlite.zip -> appveyor.yml
   - csharp.lang -> appveyor.yml
@@ -19,10 +21,10 @@ cache:
 install:
   - set CGAL_DIR=C:\CGAL\
   - set BOOST_ROOT=C:\Libraries\boost_1_73_0
-  - set QTDIR=C:\Qt\5.15.1\mingw81_32
+  - set QTDIR=C:\Qt\5.15.1\mingw81_64
   - set ASCIIDOC=C:\asciidoc-8.6.10
   - set SOURCEHIGHLIGHT=C:\source-highlight
-  - set PATH=%PATH%;C:\Qt\Tools\mingw810_32\bin
+  - set PATH=%PATH%;C:\Qt\Tools\mingw810_64\bin
   # install patched windeployqt
   - if not exist windeployqtreleaseonly.zip
       appveyor DownloadFile http://tripleboot.org/Uploads/windeployqtreleaseonly.zip
@@ -38,6 +40,14 @@ install:
       -FileName CGAL-Setup.exe
   - if not exist %CGAL_DIR%
       CGAL-Setup.exe /S /D=c:\CGAL
+  # Install GMP
+  - if not exist gmp-all-CGAL-3.9.zip
+      appveyor DownloadFile https://cgal.geometryfactory.com/CGAL/precompiled_libs/auxiliary/x64/GMP/5.0.1/gmp-all-CGAL-3.9.zip
+  - 7z x -o%CGAL_DIR%\auxiliary\gmp gmp-all-CGAL-3.9.zip -aoa
+  # Install MPFR
+  - if not exist mpfr-all-CGAL-3.9.zip
+      appveyor DownloadFile https://cgal.geometryfactory.com/CGAL/precompiled_libs/auxiliary/x64/MPFR/3.0.0/mpfr-all-CGAL-3.9.zip
+  - 7z x -o%CGAL_DIR%\auxiliary\gmp mpfr-all-CGAL-3.9.zip -aoa
   # Install asciidoc
   - if not exist asciidoc.zip
       appveyor DownloadFile https://github.com/asciidoc/asciidoc/archive/8.6.10.zip
