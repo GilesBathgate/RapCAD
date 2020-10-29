@@ -20,6 +20,7 @@ cache:
 
 install:
   - set CGAL_DIR=C:\CGAL\
+  - set GMP=%CGAL_DIR%\auxiliary\gmp
   - set BOOST_ROOT=C:\Libraries\boost_1_73_0
   - set QTDIR=C:\Qt\5.15.1\mingw81_64
   - set ASCIIDOC=C:\asciidoc-8.6.10
@@ -43,11 +44,11 @@ install:
   # Install GMP
   - if not exist gmp-all-CGAL-3.9.zip
       appveyor DownloadFile https://cgal.geometryfactory.com/CGAL/precompiled_libs/auxiliary/x64/GMP/5.0.1/gmp-all-CGAL-3.9.zip
-  - 7z x -o%CGAL_DIR%\auxiliary\gmp gmp-all-CGAL-3.9.zip -aoa
+  - 7z x -o%GMP% gmp-all-CGAL-3.9.zip -aoa
   # Install MPFR
   - if not exist mpfr-all-CGAL-3.9.zip
       appveyor DownloadFile https://cgal.geometryfactory.com/CGAL/precompiled_libs/auxiliary/x64/MPFR/3.0.0/mpfr-all-CGAL-3.9.zip
-  - 7z x -o%CGAL_DIR%\auxiliary\gmp mpfr-all-CGAL-3.9.zip -aoa
+  - 7z x -o%GMP% mpfr-all-CGAL-3.9.zip -aoa
   # Install asciidoc
   - if not exist asciidoc.zip
       appveyor DownloadFile https://github.com/asciidoc/asciidoc/archive/8.6.10.zip
@@ -107,10 +108,9 @@ for:
     - mingw32-make clean
     - mingw32-make user_guide.html
     - cp user_guide.html release
-    - set GMP="%CGAL_DIR%/auxiliary/gmp/lib"
     - cp
-        %GMP%/libgmp-10.dll
-        %GMP%/libmpfr-4.dll
+        %GMP%\lib\libgmp-10.dll
+        %GMP%\lib\libmpfr-4.dll
         release
     - windeployqt64releaseonly
         --no-svg
