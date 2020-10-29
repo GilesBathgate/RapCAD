@@ -8,7 +8,7 @@ configuration:
   - official
 
 cache:
-  - windeployqtreleaseonly.zip -> appveyor.yml
+  - windeployqt64releaseonly.zip -> appveyor.yml
   - FlexBison.zip -> appveyor.yml
   - CGAL-Setup.exe -> appveyor.yml
   - gmp-all-CGAL-3.9.zip -> appveyor.yml
@@ -27,8 +27,8 @@ install:
   - set PATH=%PATH%;C:\Qt\Tools\mingw810_64\bin
   # install patched windeployqt
   - if not exist windeployqtreleaseonly.zip
-      appveyor DownloadFile http://tripleboot.org/Uploads/windeployqtreleaseonly.zip
-  - 7z x -o%QTDIR%\bin windeployqtreleaseonly.zip
+      appveyor DownloadFile http://tripleboot.org/Uploads/windeployqt64releaseonly.zip
+  - 7z x -o%QTDIR%\bin windeployqt64releaseonly.zip
   # Install Flex/Bison
   - if not exist FlexBison.zip
       appveyor DownloadFile https://downloads.sourceforge.net/project/winflexbison/win_flex_bison-latest.zip
@@ -83,7 +83,7 @@ for:
     - cd %APPVEYOR_BUILD_FOLDER%
     - qmake CONFIG+=coverage
     - mingw32-make -j4 -f Makefile.Release
-    - windeployqtreleaseonly
+    - windeployqt64releaseonly
         --no-svg
         --no-translations
         --no-angle
@@ -112,7 +112,7 @@ for:
         %GMP%/libgmp-10.dll
         %GMP%/libmpfr-4.dll
         release
-    - windeployqtreleaseonly
+    - windeployqt64releaseonly
         --no-svg
         --no-translations
         --no-angle
