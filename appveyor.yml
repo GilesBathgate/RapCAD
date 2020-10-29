@@ -17,7 +17,7 @@ cache:
   - C:\CGAL -> appveyor.yml
 
 install:
-  - set CGAL_ROOT=C:\CGAL\
+  - set CGAL_DIR=C:\CGAL\
   - set BOOST_ROOT=C:\Libraries\boost_1_73_0
   - set QTDIR=C:\Qt\5.15.1\mingw81_32
   - set ASCIIDOC=C:\asciidoc-8.6.10
@@ -36,7 +36,7 @@ install:
   - if not exist CGAL-Setup.exe
       appveyor DownloadFile https://github.com/CGAL/cgal/releases/download/v5.1/CGAL-5.1-Setup.exe
       -FileName CGAL-Setup.exe
-  - if not exist %CGAL_ROOT%
+  - if not exist %CGAL_DIR%
       CGAL-Setup.exe /S /D=c:\CGAL
   # Install asciidoc
   - if not exist asciidoc.zip
@@ -58,9 +58,9 @@ install:
   - echo. >> %LANGMAP%
   - echo csharp = csharp.lang >> %LANGMAP%
   # Setup environment
-  - set PATH=%PATH%;%CGAL_ROOT%\bin
+  - set PATH=%PATH%;%CGAL_DIR%\bin
   - set PATH=%PATH%;%SOURCEHIGHLIGHT%\bin
-  - set PATH=%PATH%;%CGAL_ROOT%\auxiliary\gmp\lib
+  - set PATH=%PATH%;%CGAL_DIR%\auxiliary\gmp\lib
   - set PATH=%PATH%;%QTDIR%\bin
   - set PATH=C:\Program Files\Git\usr\bin;%PATH%
 
@@ -97,7 +97,7 @@ for:
     - mingw32-make clean
     - mingw32-make user_guide.html
     - cp user_guide.html release
-    - set GMP="%CGAL_ROOT%/auxiliary/gmp/lib"
+    - set GMP="%CGAL_DIR%/auxiliary/gmp/lib"
     - cp
         %GMP%/libgmp-10.dll
         %GMP%/libmpfr-4.dll

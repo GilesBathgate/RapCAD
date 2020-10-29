@@ -56,14 +56,14 @@ win32 {
 	DEFINES += USE_QGLWIDGET
 
 	DXFLIBROOT = ../dxflib-3.3.4-src
-	INCLUDEPATH += $$(CGAL_ROOT)/include
-	INCLUDEPATH += $$(CGAL_ROOT)/auxiliary/gmp/include
+	INCLUDEPATH += $$(CGAL_DIR)/include
+	INCLUDEPATH += $$(CGAL_DIR)/auxiliary/gmp/include
 	INCLUDEPATH += $$(BOOST_ROOT)
-	LIBS += -L$$(CGAL_ROOT)/lib
-	exists( $$(CGAL_ROOT)/lib/libCGAL* ) {
+	LIBS += -L$$(CGAL_DIR)/lib
+	exists( $$(CGAL_DIR)/lib/libCGAL* ) {
 		LIBS +=  -lCGAL -lCGAL_Core
 	}
-	LIBS += -L$$(CGAL_ROOT)/auxiliary/gmp/lib -lmpfr-4 -lgmp-10
+	LIBS += -L$$(CGAL_DIR)/auxiliary/gmp/lib -lmpfr-4 -lgmp-10
 	LIBS += -lopengl32 -lglu32
 	contains(DEFINES,USE_READLINE) {
 	LIBS += -lreadline
