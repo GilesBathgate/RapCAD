@@ -125,9 +125,6 @@ CONFIG(coverage){
 	QT += testlib
 	DEFINES += USE_INTEGTEST
 	#CONFIG += debug #temporarily disabled due to segfault crash.
-  win32 {
-	DEFINES += USE_VALGRIND
-  }
   !macx {
 	QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage
 	LIBS += -lgcov
