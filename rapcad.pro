@@ -119,7 +119,6 @@ CONFIG(valgrind){
 } else:!macx {
 	QMAKE_CXXFLAGS += -frounding-math
 }
-DEFINES += CGAL_DISABLE_ROUNDING_MATH_CHECK
 
 
 CONFIG(coverage){
