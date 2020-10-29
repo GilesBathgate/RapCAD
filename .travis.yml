@@ -34,6 +34,7 @@ install:
   fi
 
 script:
+- export VERSION=$(cat VERSION)
 - qmake -v
 - qmake CONFIG+=$CONFIG
 - make -j4
@@ -47,6 +48,7 @@ script:
 - if [ $CONFIG = official ]; then
     if [ $TRAVIS_OS_NAME = osx ]; then
       macdeployqt rapcad.app -dmg;
+      mv rapcad.dmg rapcad_$VERSION.dmg;
     fi
   fi
 
@@ -59,12 +61,13 @@ deploy:
   provider: releases
   token:
     secure: mQDIQDIJLGeKGRtQmF/wc5YM9HiJ0tx8rDvX3NLuIwUSsI6RrmBwtXyqW0+CbT4tgPvZBbiyGhobK9hsOt2xtQKG4uhF+4kCmd9RZi3bLi4w1B3MwuCmtwLwZ0Z0d1hgtlWOnhVuOywxRbZFoem9/ckrFsVbu/LMucskyTzUl6s=
-  file: rapcad.dmg
+  file_glob: true
+  file: rapcad_*.dmg
   edge: true
   draft: true
   on:
     branch: master
-    condition: -e rapcad.dmg
+    condition: -e rapcad_$VERSION.dmg
     tags: true
 
 notifications:
