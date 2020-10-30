@@ -54,6 +54,19 @@ static void showVersion(QTextStream& out)
 	out << QCoreApplication::applicationName() << " " << QCoreApplication::applicationVersion() << Qt::endl;
 }
 
+#ifdef Q_OS_WIN
+static QStringList getArguments(int argc,char*[])
+{
+	QStringList list;
+	if (wchar_t** argv=CommandLineToArgvW(GetCommandLineW(),&argc)) {
+		for(int a=0; a<argc; ++a) {
+			list << QString::fromWCharArray(argv[a]);
+		}
+		LocalFree(argv);
+	}
+	return list;
+}
+#else
 static QStringList getArguments(int argc,char* argv[])
 {
 	QStringList list;
@@ -62,6 +75,7 @@ static QStringList getArguments(int argc,char* argv[])
 	}
 	return list;
 }
+#endif
 
 static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Reporter& reporter)
 {
