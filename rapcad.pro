@@ -120,6 +120,10 @@ CONFIG(valgrind){
 	QMAKE_CXXFLAGS += -frounding-math
 }
 
+CONFIG(test){
+	QT += testlib
+	DEFINES += USE_INTEGTEST
+}
 
 CONFIG(coverage){
 	QT += testlib
