@@ -1,7 +1,7 @@
 Name "RapCAD"
 Icon "rapcad.ico"
 OutFile "rapcad_setup.exe"
-InstallDir $PROGRAMFILES\RapCAD
+InstallDir $PROGRAMFILES64\RapCAD
 DirText "This will install RapCAD on your computer. Choose a directory"
 Section "install"
 SetOutPath $INSTDIR
