@@ -27,7 +27,7 @@ install:
   - set SOURCEHIGHLIGHT=C:\source-highlight
   - set PATH=%PATH%;C:\Qt\Tools\mingw810_64\bin
   # install patched windeployqt
-  - if not exist windeployqtreleaseonly.zip
+  - if not exist windeployqt64releaseonly.zip
       appveyor DownloadFile http://tripleboot.org/Uploads/windeployqt64releaseonly.zip
   - 7z x -o%QTDIR%\bin windeployqt64releaseonly.zip
   # Install Flex/Bison
