@@ -10,7 +10,7 @@ File release\Qt5Core.dll
 File release\Qt5Gui.dll
 File release\Qt5OpenGL.dll
 File release\Qt5Widgets.dll
-File release\libgcc_s_dw2-1.dll
+File release\libgcc_s_seh-1.dll
 File release\libgmp-10.dll
 File release\libmpfr-4.dll
 File release\libstdc++-6.dll
@@ -29,7 +29,7 @@ Delete $INSTDIR\Qt5Core.dll
 Delete $INSTDIR\Qt5Gui.dll
 Delete $INSTDIR\Qt5OpenGL.dll
 Delete $INSTDIR\Qt5Widgets.dll
-Delete $INSTDIR\libgcc_s_dw2-1.dll
+Delete $INSTDIR\libgcc_s_seh-1.dll
 Delete $INSTDIR\libgmp-10.dll
 Delete $INSTDIR\libmpfr-4.dll
 Delete $INSTDIR\libstdc++-6.dll
