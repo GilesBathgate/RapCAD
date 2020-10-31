@@ -32,8 +32,8 @@ public:
 	QList<CGALPolygon*> getBase();
 	CGALVolume getVolume(bool);
 private:
-	void explore();
-	void evaluate();
+	bool explore();
+	bool evaluate();
 	CGALPrimitive* primitive;
 	class ShellExplorer* explorer;
 };

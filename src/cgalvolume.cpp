@@ -19,6 +19,13 @@
 #ifdef USE_CGAL
 #include "cgalvolume.h"
 
+CGALVolume::CGALVolume() :
+	bounds(CGAL::Cuboid3()),
+	size(0),
+	centroid(CGAL::Point3(0.0,0.0,0.0))
+{
+}
+
 CGALVolume::CGALVolume(const CGAL::Cuboid3& b,const CGAL::Scalar& s,const CGAL::Point3& c) :
 	bounds(b),
 	size(s),
