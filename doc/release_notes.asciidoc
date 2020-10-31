@@ -1,3 +1,18 @@
+1.0.1
+   * Windows installer is now 64bit
+   * Official builds deployed by continuous integration
+   * Fix several minor memory leaks
+   * Fix crash for cube with undefined size
+   * Fix crash under macosx for degenerate polyhedron test
+   * Fix for sqrt with negative values
+   * Fix crash for asin(2)
+   * Fix crash for isolated points, move sanitize operations to class
+   * Fix crash for empty polyhedron
+   * Fix crash for num with no argument
+   * Fix crash in hull with duplicate points
+   * Modernize the code to use C++14
+   * Add external CAM launching operation
+
 1.0.0
    * Handle byte order marks by ignoring them in the parser
    * Implemented search/replace widget
