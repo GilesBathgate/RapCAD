@@ -33,7 +33,7 @@ Value* LnFunction::evaluate(const Context& ctx) const
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return new NumberValue(r_log(num));
+		return Value::factory.createNumber(r_log(num));
 	}
-	return Value::undefined();
+	return Value::factory.createUndefined();
 }

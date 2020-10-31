@@ -21,7 +21,9 @@
 #include "primitive.h"
 
 CGALRenderer::CGALRenderer(Primitive* primitive) :
-	simple(new SimpleRenderer(primitive))
+	simple(new SimpleRenderer(primitive)),
+	vertexSize(0.0F),
+	edgeSize(0.0F)
 {
 	loadPreferences();
 	descendChildren(primitive);
@@ -34,11 +36,11 @@ CGALRenderer::~CGALRenderer()
 
 void CGALRenderer::descendChildren(Primitive* p)
 {
-	typedef CGAL::OGL::Nef3_Converter<CGAL::NefPolyhedron3> converter;
+	using converter = CGAL::OGL::Nef3_Converter<CGAL::NefPolyhedron3>;
 	auto* pr=dynamic_cast<CGALPrimitive*>(p);
 	if(pr) {
 		converter::convert_to_OGLPolyhedron(pr->getNefPolyhedron(),this);
-	} else {
+	} else if(p) {
 		for(Primitive* c: p->getChildren())
 			descendChildren(c);
 	}
@@ -46,15 +48,15 @@ void CGALRenderer::descendChildren(Primitive* p)
 
 void CGALRenderer::loadPreferences()
 {
-	Preferences* p = Preferences::getInstance();
-	setColor(markedVertexColor,p->getMarkedVertexColor());
-	setColor(vertexColor,p->getVertexColor());
-	setColor(markedEdgeColor,p->getMarkedEdgeColor());
-	setColor(edgeColor,p->getEdgeColor());
-	setColor(markedFacetColor,p->getMarkedFacetColor());
-	setColor(facetColor,p->getFacetColor());
-	vertexSize=p->getVertexSize();
-	edgeSize=p->getEdgeSize();
+	Preferences& p = Preferences::getInstance();
+	setColor(markedVertexColor,p.getMarkedVertexColor());
+	setColor(vertexColor,p.getVertexColor());
+	setColor(markedEdgeColor,p.getMarkedEdgeColor());
+	setColor(edgeColor,p.getEdgeColor());
+	setColor(markedFacetColor,p.getMarkedFacetColor());
+	setColor(facetColor,p.getFacetColor());
+	vertexSize=p.getVertexSize();
+	edgeSize=p.getEdgeSize();
 }
 
 void CGALRenderer::preferencesUpdated()
@@ -101,7 +103,7 @@ void CGALRenderer::paint(bool skeleton, bool showedges)
 
 }
 
-void CGALRenderer::setColor(CGAL::Color& t,QColor c)
+void CGALRenderer::setColor(CGAL::Color& t,const QColor& c)
 {
 	CGAL::Color cc(c.red(),c.green(),c.blue(),c.alpha());
 	t=cc;

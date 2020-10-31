@@ -26,12 +26,14 @@ Generator::Generator(Reporter& r) : Strategy(r)
 
 int Generator::evaluate()
 {
-	QFile modFile("modules.asciidoc"),funcFile("functions.asciidoc");
+	QFile modFile("modules.asciidoc");
+	QFile funcFile("functions.asciidoc");
 	if(!modFile.open(QFile::WriteOnly | QFile::Truncate)) return EXIT_FAILURE;
 	if(!funcFile.open(QFile::WriteOnly | QFile::Truncate)) return EXIT_FAILURE;
-	QTextStream mod(&modFile),func(&funcFile);
+	QTextStream mod(&modFile);
+	QTextStream func(&funcFile);
 	AsciidocPrinter p(mod,func);
-	BuiltinCreator* b=BuiltinCreator::getInstance(reporter);
-	b->generateDocs(p);
+	BuiltinCreator& b=BuiltinCreator::getInstance(reporter);
+	b.generateDocs(p);
 	return EXIT_SUCCESS;
 }

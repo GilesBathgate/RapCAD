@@ -58,7 +58,7 @@ public:
 	};
 
 	Expression();
-	~Expression() override;
+	~Expression() override = default;
 
 	Operator_e getOp() const;
 	void setOp(Operator_e);

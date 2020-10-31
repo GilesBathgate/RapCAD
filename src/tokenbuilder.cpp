@@ -20,7 +20,7 @@
 #include "decimal.h"
 #include "parser_yacc.h"
 
-#define YY_NULL 0
+static constexpr int YY_NULL=0;
 extern void lexerinit(AbstractTokenBuilder*,Reporter*,const QString&);
 extern void lexerinit(AbstractTokenBuilder*,Reporter*,QFileInfo);
 extern int lexerdestroy();
@@ -52,7 +52,7 @@ TokenBuilder::TokenBuilder(Reporter& r,const QString& s) : TokenBuilder()
 	lexerinit(this,&r,s);
 }
 
-TokenBuilder::TokenBuilder(Reporter& r,QFileInfo fileinfo) : TokenBuilder()
+TokenBuilder::TokenBuilder(Reporter& r,const QFileInfo& fileinfo) : TokenBuilder()
 {
 	lexerinit(this,&r,fileinfo);
 }
@@ -124,7 +124,7 @@ void TokenBuilder::buildUseStart()
 {
 }
 
-unsigned int TokenBuilder::buildUse(const QString& str)
+int TokenBuilder::buildUse(const QString& str)
 {
 	parserlval.text = new QString(str);
 	return USE;
@@ -138,7 +138,7 @@ void TokenBuilder::buildImportStart()
 {
 }
 
-unsigned int TokenBuilder::buildImport(const QString& str)
+int TokenBuilder::buildImport(const QString& str)
 {
 	parserlval.text = new QString(str);
 	return IMPORT;
@@ -148,186 +148,186 @@ void TokenBuilder::buildImportFinish()
 {
 }
 
-unsigned int TokenBuilder::buildModule()
+int TokenBuilder::buildModule()
 {
 	return MODULE;
 }
 
-unsigned int TokenBuilder::buildFunction()
+int TokenBuilder::buildFunction()
 {
 	return FUNCTION;
 }
 
-unsigned int TokenBuilder::buildTrue()
+int TokenBuilder::buildTrue()
 {
 	return TOK_TRUE;
 }
 
-unsigned int TokenBuilder::buildFalse()
+int TokenBuilder::buildFalse()
 {
 	return TOK_FALSE;
 }
 
-unsigned int TokenBuilder::buildUndef()
+int TokenBuilder::buildUndef()
 {
 	return UNDEF;
 }
 
-unsigned int TokenBuilder::buildConst()
+int TokenBuilder::buildConst()
 {
 	return CONST;
 }
 
-unsigned int TokenBuilder::buildParam()
+int TokenBuilder::buildParam()
 {
 	return PARAM;
 }
 
-unsigned int TokenBuilder::buildIf()
+int TokenBuilder::buildIf()
 {
 	return TOK_IF;
 }
 
-unsigned int TokenBuilder::buildAs()
+int TokenBuilder::buildAs()
 {
 	return TOK_AS;
 }
 
-unsigned int TokenBuilder::buildElse()
+int TokenBuilder::buildElse()
 {
 	return ELSE;
 }
 
-unsigned int TokenBuilder::buildFor()
+int TokenBuilder::buildFor()
 {
 	return FOR;
 }
 
-unsigned int TokenBuilder::buildReturn()
+int TokenBuilder::buildReturn()
 {
 	return RETURN;
 }
 
-unsigned int TokenBuilder::buildLessEqual()
+int TokenBuilder::buildLessEqual()
 {
 	return LE;
 }
 
-unsigned int TokenBuilder::buildGreatEqual()
+int TokenBuilder::buildGreatEqual()
 {
 	return GE;
 }
 
-unsigned int TokenBuilder::buildEqual()
+int TokenBuilder::buildEqual()
 {
 	return EQ;
 }
 
-unsigned int TokenBuilder::buildNotEqual()
+int TokenBuilder::buildNotEqual()
 {
 	return NE;
 }
 
-unsigned int TokenBuilder::buildAnd()
+int TokenBuilder::buildAnd()
 {
 	return AND;
 }
 
-unsigned int TokenBuilder::buildOr()
+int TokenBuilder::buildOr()
 {
 	return OR;
 }
 
-unsigned int TokenBuilder::buildComponentwiseMultiply()
+int TokenBuilder::buildComponentwiseMultiply()
 {
 	return CM;
 }
 
-unsigned int TokenBuilder::buildComponentwiseDivide()
+int TokenBuilder::buildComponentwiseDivide()
 {
 	return CD;
 }
 
-unsigned int TokenBuilder::buildIncrement()
+int TokenBuilder::buildIncrement()
 {
 	return INC;
 }
 
-unsigned int TokenBuilder::buildDecrement()
+int TokenBuilder::buildDecrement()
 {
 	return DEC;
 }
 
-unsigned int TokenBuilder::buildAddAssign()
+int TokenBuilder::buildAddAssign()
 {
 	return ADDA;
 }
 
-unsigned int TokenBuilder::buildSubtractAssign()
+int TokenBuilder::buildSubtractAssign()
 {
 	return SUBA;
 }
 
-unsigned int TokenBuilder::buildCrossProduct()
+int TokenBuilder::buildCrossProduct()
 {
 	return CP;
 }
 
-unsigned int TokenBuilder::buildNamespace()
+int TokenBuilder::buildNamespace()
 {
 	return NS;
 }
 
-unsigned int TokenBuilder::buildAppend()
+int TokenBuilder::buildAppend()
 {
 	return APPEND;
 }
 
-unsigned int TokenBuilder::buildOperator(unsigned int c)
+int TokenBuilder::buildOperator(int c)
 {
 	return c;
 }
 
-unsigned int TokenBuilder::buildLegalChar(unsigned int c)
+int TokenBuilder::buildLegalChar(int c)
 {
 	return c;
 }
 
-unsigned int TokenBuilder::buildByteOrderMark()
+int TokenBuilder::buildByteOrderMark()
 {
 	return BOM;
 }
 
-unsigned int TokenBuilder::buildIllegalChar(const QString&)
+int TokenBuilder::buildIllegalChar(const QString&)
 {
 	lexererror();
 	return YY_NULL;
 }
 
-unsigned int TokenBuilder::buildNumber(const QString& str)
+int TokenBuilder::buildNumber(const QString& str)
 {
 	parserlval.number = new decimal(to_decimal(str));
 	return NUMBER;
 }
 
-unsigned int TokenBuilder::buildNumberExp(const QString& str)
+int TokenBuilder::buildNumberExp(const QString& str)
 {
 	parserlval.number = new decimal(parse_numberexp(str));
 	return NUMBER;
 }
 
-unsigned int TokenBuilder::buildRational()
+int TokenBuilder::buildRational()
 {
 	return UNDEF;
 }
 
-unsigned int TokenBuilder::buildRational(const QString& s)
+int TokenBuilder::buildRational(const QString& s)
 {
 	parserlval.number = new decimal(parse_rational(s));
 	return NUMBER;
 }
 
-unsigned int TokenBuilder::buildIdentifier(const QString& str)
+int TokenBuilder::buildIdentifier(const QString& str)
 {
 	parserlval.text = new QString(str);
 	return IDENTIFIER;
@@ -348,7 +348,7 @@ void TokenBuilder::buildString(const QString& s)
 	stringcontents->append(s);
 }
 
-unsigned int TokenBuilder::buildStringFinish()
+int TokenBuilder::buildStringFinish()
 {
 	parserlval.text = stringcontents;
 	return STRING;
@@ -366,12 +366,12 @@ void TokenBuilder::buildCommentFinish()
 {
 }
 
-unsigned int TokenBuilder::buildCodeDocStart()
+int TokenBuilder::buildCodeDocStart()
 {
 	return DOCSTART;
 }
 
-unsigned int TokenBuilder::buildCodeDoc(const QString& s)
+int TokenBuilder::buildCodeDoc(const QString& s)
 {
 	parserlval.text = new QString(s.trimmed());
 	return DOCTEXT;
@@ -381,13 +381,13 @@ void TokenBuilder::buildCodeDoc()
 {
 }
 
-unsigned int TokenBuilder::buildCodeDocParam(const QString& s)
+int TokenBuilder::buildCodeDocParam(const QString& s)
 {
 	parserlval.text = new QString(s.trimmed());
 	return DOCPARAM;
 }
 
-unsigned int TokenBuilder::buildCodeDocFinish()
+int TokenBuilder::buildCodeDocFinish()
 {
 	return DOCEND;
 }

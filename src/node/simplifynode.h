@@ -28,7 +28,7 @@ public:
 	void accept(NodeVisitor&) override;
 
 	decimal getRatio() const;
-	void setRatio(decimal value);
+	void setRatio(const decimal&);
 
 private:
 	decimal ratio;

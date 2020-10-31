@@ -47,7 +47,6 @@
 #include "module/scalemodule.h"
 #include "module/shearmodule.h"
 #include "module/spheremodule.h"
-#include "module/childmodule.h"
 #include "module/boundsmodule.h"
 #include "module/subdivisionmodule.h"
 #include "module/offsetmodule.h"
@@ -129,8 +128,8 @@ BuiltinCreator::BuiltinCreator(Reporter& r)
 	builtins.append(new BoundsModule(r));
 	builtins.append(new CenterModule(r));
 	builtins.append(new ChainHullModule(r));
-	builtins.append(new ChildModule(r));
-	builtins.append(new ChildrenModule(r));
+	builtins.append(new ChildrenModule(r,true));
+	builtins.append(new ChildrenModule(r,false));
 	builtins.append(new CircleModule(r));
 	builtins.append(new ComplementModule(r));
 	builtins.append(new ConeModule(r));
@@ -229,39 +228,21 @@ BuiltinCreator::BuiltinCreator(Reporter& r)
 	builtins.append(new VersionFunction());
 }
 
-BuiltinCreator* BuiltinCreator::instance=nullptr;
-
-BuiltinCreator* BuiltinCreator::getInstance(Reporter& r)
+BuiltinCreator& BuiltinCreator::getInstance(Reporter& r)
 {
-	if(!instance)
-		instance = new BuiltinCreator(r);
-
+	static BuiltinCreator instance(r);
 	return instance;
 }
 
 BuiltinCreator::~BuiltinCreator()
 {
-	for(Declaration* d: builtins)
-		delete d;
+	qDeleteAll(builtins);
+	builtins.clear();
 }
 
-/**
-  Add the builtins to a script.
-*/
-void BuiltinCreator::initBuiltins(Script& sc)
+QList<Declaration*> BuiltinCreator::getBuiltins() const
 {
-	for(Declaration* d: builtins)
-		sc.addDeclaration(d);
-}
-
-/**
-  To ensure that the builtins do not get deleted when the script
-  is deleted we remove them from the script.
-*/
-void BuiltinCreator::saveBuiltins(Script& sc)
-{
-	for(Declaration* d: builtins)
-		sc.removeDeclaration(d);
+	return builtins;
 }
 
 void BuiltinCreator::generateDocs(QTextStream& out)
@@ -280,13 +261,8 @@ QHash<QString,Module*> BuiltinCreator::getModuleNames() const
 {
 	QHash<QString,Module*> names;
 	for(Declaration* d: builtins) {
-		Module* m=dynamic_cast<Module*>(d);
+		auto* m=dynamic_cast<Module*>(d);
 		if(m) names.insert(m->getName(),m);
 	}
 	return names;
-}
-
-void BuiltinCreator::cleanUp()
-{
-	delete instance;
 }

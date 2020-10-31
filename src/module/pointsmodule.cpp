@@ -17,6 +17,7 @@
  */
 
 #include "pointsmodule.h"
+#include "context.h"
 #include "node/pointsnode.h"
 #include "vectorvalue.h"
 
@@ -32,10 +33,11 @@ Node* PointsModule::evaluate(const Context& ctx) const
 
 	QList<Point> points;
 	auto* n=new PointsNode();
+	n->setChildren(ctx.getInputNodes());
 	if(!pointsVal)
 		return n;
 
-	for(Value* child: pointsVal->getChildren()) {
+	for(Value* child: pointsVal->getElements()) {
 		auto* loc = dynamic_cast<VectorValue*>(child);
 		if(!loc) {
 			points.append(pointsVal->getPoint());

@@ -27,7 +27,7 @@ WriteModule::WriteModule(Reporter& r) :
 	addDescription(tr("Write the given text to the console window."));
 }
 
-WriteModule::WriteModule(Reporter& r, const QString &n) : Module(r,n), output(r.output)
+WriteModule::WriteModule(Reporter& r, const QString& n) : Module(r,n), output(r.output)
 {
 }
 
@@ -35,8 +35,8 @@ Node* WriteModule::evaluate(const Context& ctx) const
 {
 	auto args=ctx.getArguments();
 	OnceOnly first;
-	for(auto a: args) {
-		Value* val=a.second;
+	for(const auto& a: args) {
+		Value* val=a.getValue();
 		if(!first())
 			output << " ";
 		output << val->getValueString();

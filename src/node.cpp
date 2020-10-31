@@ -18,14 +18,10 @@
 
 #include "node.h"
 
-Node::Node()
-{
-}
-
 Node::~Node()
 {
-	for(Node* n: children)
-		delete n;
+	qDeleteAll(children);
+	children.clear();
 }
 
 void Node::addChild(Node* n)

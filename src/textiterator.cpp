@@ -18,8 +18,10 @@
 
 #include "textiterator.h"
 #include "textvalue.h"
+#include "valuefactory.h"
 
 TextIterator::TextIterator(const QString& t) :
+	ValueIterator(nullptr),
 	text(t),
 	index(0)
 {
@@ -38,5 +40,5 @@ bool TextIterator::operator!=(const Iterator&) const
 
 Value* TextIterator::operator*() const
 {
-	return new TextValue(text.at(index));
+	return Value::factory.createText(text.at(index));
 }

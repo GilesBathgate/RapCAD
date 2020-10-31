@@ -40,10 +40,10 @@ Node* TranslateModule::evaluate(const Context& ctx) const
 
 	v=vec->getPoint();
 	auto* m = new TransformMatrix(
-		1,0,0,v.x(),
-		0,1,0,v.y(),
-		0,0,1,v.z(),
-		0,0,0,1
+		1.0,0.0,0.0,v.x(),
+		0.0,1.0,0.0,v.y(),
+		0.0,0.0,1.0,v.z(),
+		0.0,0.0,0.0,1.0
 	);
 
 	n->setMatrix(m);

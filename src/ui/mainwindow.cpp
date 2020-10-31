@@ -37,7 +37,13 @@
 
 MainWindow::MainWindow(QWidget* parent) :
 	QMainWindow(parent),
-	ui(new Ui::MainWindow)
+	ui(new Ui::MainWindow),
+	treeModel(nullptr),
+	console(nullptr),
+	output(nullptr),
+	reporter(nullptr),
+	worker(nullptr),
+	interact(nullptr)
 {
 	if(!QIcon::hasThemeIcon("document-open")) {
 		QIcon::setThemeName("gnome");
@@ -70,6 +76,7 @@ MainWindow::MainWindow(QWidget* parent) :
 MainWindow::~MainWindow()
 {
 	deleteTempFiles();
+	delete treeModel;
 	delete console;
 	delete output;
 	delete reporter;
@@ -81,7 +88,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::deleteTempFiles()
 {
-	for(auto file: temporyFiles) {
+	for(auto* file: temporyFiles) {
 		file->close();
 		delete file;
 	}
@@ -89,104 +96,108 @@ void MainWindow::deleteTempFiles()
 
 void MainWindow::savePreferences()
 {
-	Preferences* p=Preferences::getInstance();
-	p->setShowRulers(ui->actionShowRulers->isChecked());
-	p->setShowAxes(ui->actionShowAxes->isChecked());
-	p->setShowEdges(ui->actionShowEdges->isChecked());
-	p->setSkeleton(ui->actionSkeleton->isChecked());
-	p->setShowBase(ui->actionShowBase->isChecked());
-	p->setShowPrintArea(ui->actionShowPrintArea->isChecked());
-	p->setShowEditor(ui->actionShowEditor->isChecked());
-	p->setShowConsole(ui->actionShowConsole->isChecked());
-	p->setShowProjects(ui->actionShowProjects->isChecked());
-	p->setCacheEnabled(ui->actionEnableCaches->isChecked());
-	p->setWindowPosition(pos());
-	p->setWindowSize(size());
+	Preferences& p=Preferences::getInstance();
+	p.setShowRulers(ui->actionShowRulers->isChecked());
+	p.setShowAxes(ui->actionShowAxes->isChecked());
+	p.setShowEdges(ui->actionShowEdges->isChecked());
+	p.setSkeleton(ui->actionSkeleton->isChecked());
+	p.setShowBase(ui->actionShowBase->isChecked());
+	p.setShowPrintArea(ui->actionShowPrintArea->isChecked());
+	p.setShowEditor(ui->actionShowEditor->isChecked());
+	p.setShowConsole(ui->actionShowConsole->isChecked());
+	p.setShowProjects(ui->actionShowProjects->isChecked());
+	p.setCacheEnabled(ui->actionEnableCaches->isChecked());
+	p.setWindowPosition(pos());
+	p.setWindowSize(size());
 }
 
 void MainWindow::setDefaultViewport()
 {
-	Preferences* p=Preferences::getInstance();
-	float rx,ry,rz,x,z,d;
+	Preferences& p=Preferences::getInstance();
+	float rx;
+	float ry;
+	float rz;
+	float x;
+	float z;
+	float d;
 	ui->view->getViewport(rx,ry,rz,x,z,d);
-	p->setDefaultRotationX(rx);
-	p->setDefaultRotationY(ry);
-	p->setDefaultRotationZ(rz);
-	p->setDefaultX(x);
-	p->setDefaultZ(z);
-	p->setDefaultDistance(d);
+	p.setDefaultRotationX(rx);
+	p.setDefaultRotationY(ry);
+	p.setDefaultRotationZ(rz);
+	p.setDefaultX(x);
+	p.setDefaultZ(z);
+	p.setDefaultDistance(d);
 }
 
 void MainWindow::loadPreferences()
 {
-	Preferences* p=Preferences::getInstance();
+	Preferences& p=Preferences::getInstance();
 
-	bool showRulers=p->getShowRulers();
+	bool showRulers=p.getShowRulers();
 	ui->actionShowRulers->setChecked(showRulers);
 	ui->view->setShowRulers(showRulers);
 
-	bool showAxes=p->getShowAxes();
+	bool showAxes=p.getShowAxes();
 	ui->actionShowAxes->setChecked(showAxes);
 	ui->view->setShowAxes(showAxes);
 	disableRulers(showAxes);
 
-	bool showEdges=p->getShowEdges();
+	bool showEdges=p.getShowEdges();
 	ui->actionShowEdges->setChecked(showEdges);
 	ui->view->setShowEdges(showEdges);
 
-	bool showSkeleton=p->getSkeleton();
+	bool showSkeleton=p.getSkeleton();
 	ui->actionSkeleton->setChecked(showSkeleton);
 	ui->view->setSkeleton(showSkeleton);
 
-	bool showBase=p->getShowBase();
+	bool showBase=p.getShowBase();
 	ui->actionShowBase->setChecked(showBase);
 	ui->view->setShowBase(showBase);
 
-	bool showPrintArea=p->getShowPrintArea();
+	bool showPrintArea=p.getShowPrintArea();
 	ui->actionShowPrintArea->setChecked(showPrintArea);
 	ui->view->setShowPrintArea(showPrintArea);
 
-	bool showEditor=p->getShowEditor();
+	bool showEditor=p.getShowEditor();
 	ui->actionShowEditor->setChecked(showEditor);
 	ui->tabWidget->setVisible(showEditor);
 
-	bool showConsole=p->getShowConsole();
+	bool showConsole=p.getShowConsole();
 	ui->actionShowConsole->setChecked(showConsole);
 	ui->console->setVisible(showConsole);
 
-	bool showProjects=p->getShowProjects();
+	bool showProjects=p.getShowProjects();
 	ui->actionShowProjects->setChecked(showProjects);
 	ui->treeView->setVisible(showProjects);
 
-	bool b=p->getCacheEnabled();
+	bool b=p.getCacheEnabled();
 	ui->actionEnableCaches->setChecked(b);
 	enableCaches(b);
 
-	move(p->getWindowPosition());
-	resize(p->getWindowSize());
+	move(p.getWindowPosition());
+	resize(p.getWindowSize());
 
 	getDefaultViewport();
 
-	QPointF o=p->getPrintOrigin();
+	QPointF o=p.getPrintOrigin();
 	ui->view->setPrintOrigin(o.x(), o.y());
 
-	QVector3D v=p->getPrintVolume();
+	QVector3D v=p.getPrintVolume();
 	ui->view->setPrintVolume(v.x(), v.y(), v.z());
 
-	ui->view->setBedAppearance(p->getPrintBedAppearance());
+	ui->view->setBedAppearance(p.getPrintBedAppearance());
 
 }
 
 void MainWindow::getDefaultViewport() const
 {
-	Preferences* p=Preferences::getInstance();
-	float rx,ry,rz,x,z,d;
-	rx=p->getDefaultRotationX();
-	ry=p->getDefaultRotationY();
-	rz=p->getDefaultRotationZ();
-	x=p->getDefaultX();
-	z=p->getDefaultZ();
-	d=p->getDefaultDistance();
+	Preferences& p=Preferences::getInstance();
+	float rx=p.getDefaultRotationX();
+	float ry=p.getDefaultRotationY();
+	float rz=p.getDefaultRotationZ();
+	float x=p.getDefaultX();
+	float z=p.getDefaultZ();
+	float d=p.getDefaultDistance();
 	ui->view->setViewport(rx,ry,rz,x,z,d);
 }
 
@@ -248,7 +259,7 @@ void MainWindow::setupActions()
 
 void MainWindow::setupExportActions()
 {
-	QSignalMapper* signalMapper = new QSignalMapper(this);
+	auto* signalMapper = new QSignalMapper(this);
 	signalMapper->setMapping(ui->actionExportVRML,"wrl");
 	signalMapper->setMapping(ui->actionExportOBJ,"obj");
 	signalMapper->setMapping(ui->actionExportAsciiSTL,"stl");
@@ -274,7 +285,7 @@ void MainWindow::setupExportActions()
 
 void MainWindow::setupViewActions()
 {
-	QSignalMapper* signalMapper = new QSignalMapper(this);
+	auto* signalMapper = new QSignalMapper(this);
 	signalMapper->setMapping(ui->actionTop,GLView::Top);
 	signalMapper->setMapping(ui->actionBottom,GLView::Bottom);
 	signalMapper->setMapping(ui->actionLeft,GLView::Left);
@@ -337,20 +348,20 @@ void MainWindow::showPreferences()
 
 void MainWindow::preferencesUpdated()
 {
-	Preferences* p=Preferences::getInstance();
+	Preferences& p=Preferences::getInstance();
 
 	for(auto i=0; i<ui->tabWidget->count(); ++i) {
-		CodeEditor* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
+		auto* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
 		c->preferencesUpdated();
 	}
 
-	QPointF o=p->getPrintOrigin();
+	QPointF o=p.getPrintOrigin();
 	ui->view->setPrintOrigin(o.x(),o.y());
 
-	QVector3D v=p->getPrintVolume();
+	QVector3D v=p.getPrintVolume();
 	ui->view->setPrintVolume(v.x(),v.y(),v.z());
 
-	ui->view->setBedAppearance(p->getPrintBedAppearance());
+	ui->view->setBedAppearance(p.getPrintBedAppearance());
 
 	ui->view->preferencesUpdated();
 }
@@ -366,17 +377,18 @@ void MainWindow::disableRulers(bool checked)
 
 void MainWindow::enableCaches(bool b)
 {
-	CacheManager* cm=CacheManager::getInstance();
+	CacheManager& cm=CacheManager::getInstance();
 	if(b)
-		cm->enableCaches();
+		cm.enableCaches();
 	else
-		cm->disableCaches();
+		cm.disableCaches();
 }
 
 void MainWindow::setupLayout()
 {
 	//TODO there must be a better way than this
-	QList<int> hSizes,vSizes;
+	QList<int> hSizes;
+	QList<int> vSizes;
 	hSizes << 160 << 540 << 300;
 	ui->vSplitter->setSizes(hSizes);
 	vSizes << 150 << 10;
@@ -385,17 +397,17 @@ void MainWindow::setupLayout()
 
 void MainWindow::setupTreeview()
 {
-	myModel = new QStandardItemModel();
+	treeModel = new QStandardItemModel(this);
 	QStringList headers;
 	headers << tr("Projects");
-	myModel->setHorizontalHeaderLabels(headers);
-	QStandardItem* parentItem = myModel->invisibleRootItem();
+	treeModel->setHorizontalHeaderLabels(headers);
+	QStandardItem* parentItem = treeModel->invisibleRootItem();
 
-	QStandardItem* item = new QStandardItem("New Project.rpro");
+	auto* item = new QStandardItem("New Project.rpro");
 	parentItem->appendRow(item);
 	item->appendRow(new QStandardItem("New.rcad"));
 
-	ui->treeView->setModel(myModel);
+	ui->treeView->setModel(treeModel);
 	ui->treeView->expandAll();
 }
 
@@ -411,12 +423,12 @@ void MainWindow::setupEditor(CodeEditor* editor)
 	connect(editor,&CodeEditor::copyAvailable,ui->actionCopy,&QAction::setEnabled);
 	connect(editor,&CodeEditor::fileNameChanged,this,&MainWindow::setTabTitle);
 
-	BuiltinCreator* b=BuiltinCreator::getInstance(*reporter);
-	editor->setModuleNames(b->getModuleNames());
+	BuiltinCreator& b=BuiltinCreator::getInstance(*reporter);
+	editor->setModuleNames(b.getModuleNames());
 	ui->searchWidget->setTextEdit(editor);
 }
 
-void MainWindow::setupTabs(QTabWidget* tabWidget)
+void MainWindow::setupTabs(QTabWidget* tabWidget) const
 {
 	tabWidget->setTabsClosable(true);
 	connect(tabWidget,&QTabWidget::tabCloseRequested,this,&MainWindow::closeFile);
@@ -439,7 +451,7 @@ void MainWindow::setupConsole()
 	connect(worker,&BackgroundWorker::done,this,&MainWindow::evaluationDone);
 
 	interact=new Interactive(*reporter);
-	c->setPrompt(interact->getPrompt());
+	c->setPrompt(Interactive::getPrompt());
 	connect(c,&Console::execCommand,interact,&Interactive::execCommand);
 }
 
@@ -463,7 +475,7 @@ void MainWindow::closeEvent(QCloseEvent* e)
 void MainWindow::loadFiles(const QStringList& filenames)
 {
 	int i=0;
-	for(QString file: filenames) {
+	for(const auto& file: filenames) {
 		CodeEditor* e=currentEditor();
 		if(e->getFileName().isEmpty()) {
 			e->loadFile(file);
@@ -485,7 +497,7 @@ bool MainWindow::maybeSave(bool compiling)
 	bool modified=false;
 	QList<QString> files;
 	for(auto i=0; i<ui->tabWidget->count(); ++i) {
-		CodeEditor* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
+		auto* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
 		if(c->document()->isModified()) {
 			files.append(c->getFileName());
 			modified=true;
@@ -493,9 +505,9 @@ bool MainWindow::maybeSave(bool compiling)
 	}
 	if(!modified) return true;
 
-	Preferences* p=Preferences::getInstance();
+	Preferences& p=Preferences::getInstance();
 
-	if(compiling && p->getAutoSaveOnCompile()) {
+	if(compiling && p.getAutoSaveOnCompile()) {
 		return saveSelectedFiles(files);
 	}
 
@@ -503,7 +515,7 @@ bool MainWindow::maybeSave(bool compiling)
 
 	if(s.exec()==QDialog::Accepted) {
 		bool autoSave = s.getAutoSaveOnCompile();
-		p->setAutoSaveOnCompile(autoSave);
+		p.setAutoSaveOnCompile(autoSave);
 
 		QList<QString> files=s.getItemsToSave();
 		return saveSelectedFiles(files);
@@ -514,7 +526,7 @@ bool MainWindow::maybeSave(bool compiling)
 
 void MainWindow::newFile()
 {
-	CodeEditor* e = new CodeEditor(this);
+	auto* e = new CodeEditor(this);
 	int i=ui->tabWidget->addTab(e,tr("[New]"));
 	ui->tabWidget->setCurrentIndex(i);
 
@@ -565,7 +577,7 @@ bool MainWindow::saveAllFiles()
 {
 	QList<QString> all;
 	for(auto i=0; i<ui->tabWidget->count(); ++i) {
-		CodeEditor* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
+		auto* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
 		if(c->document()->isModified()) {
 			QString file=c->getFileName();
 			all.append(file);
@@ -578,7 +590,7 @@ bool MainWindow::saveSelectedFiles(const QList<QString>& files)
 {
 	bool result=true;
 	for(auto i=0; i<ui->tabWidget->count(); ++i) {
-		CodeEditor* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
+		auto* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
 		QString file=c->getFileName();
 		if(files.contains(file))
 			if(!c->saveFile())
@@ -635,7 +647,7 @@ void MainWindow::compileOrGenerate(bool generate)
 			worker->setup(file,"",false,generate);
 
 			//Stop the syntax highlighter to prevent a crash
-			e->stopHighlighting();
+			CodeEditor::stopHighlighting();
 			worker->evaluate();
 			ui->actionCompileAndRender->setEnabled(false);
 			ui->actionGenerateGcode->setEnabled(false);
@@ -721,17 +733,17 @@ void MainWindow::showAboutQt()
 
 void MainWindow::showBuiltins()
 {
-	CodeEditor* e = new CodeEditor(this);
+	auto* e = new CodeEditor(this);
 	int i=ui->tabWidget->addTab(e,tr("Built In"));
 	ui->tabWidget->setCurrentIndex(i);
 
 	connect(e,&CodeEditor::copyAvailable,ui->actionCopy,&QAction::setEnabled);
 
-	BuiltinCreator* b = BuiltinCreator::getInstance(*reporter);
+	BuiltinCreator& b = BuiltinCreator::getInstance(*reporter);
 
 	TextEditIODevice t(e,this);
 	QTextStream out(&t);
-	b->generateDocs(out);
+	b.generateDocs(out);
 	out.flush();
 
 	//Scroll back to top
@@ -763,8 +775,8 @@ void MainWindow::showUserGuide()
 
 void MainWindow::flushCaches()
 {
-	CacheManager* m=CacheManager::getInstance();
-	m->flushCaches();
+	CacheManager& m=CacheManager::getInstance();
+	m.flushCaches();
 }
 
 void MainWindow::sendToCAM()
@@ -775,16 +787,16 @@ void MainWindow::sendToCAM()
 		return;
 	}
 
-	Preferences* p=Preferences::getInstance();
-	QString command = p->getLaunchCommand();
+	Preferences& p=Preferences::getInstance();
+	QString command = p.getLaunchCommand();
 	if(command.isEmpty()) {
 		QMessageBox::information(this,title, tr("No launch command set in preferences"));
 		return;
 	}
 
 	QString fileTemplate=QDir::tempPath().append("/XXXXXX.").append("3mf");
-	QTemporaryFile* file=new QTemporaryFile(fileTemplate);
-	if (!file->open()) {
+	auto* file=new QTemporaryFile(fileTemplate);
+	if(!file->open()) {
 		QMessageBox::information(this,title, tr("Could not create tempory file"));
 		delete file;
 		return;

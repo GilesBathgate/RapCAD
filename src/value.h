@@ -22,6 +22,7 @@
 class VectorValue;
 class TextValue;
 class ValueIterator;
+class ValueFactory;
 #include <QString>
 #include "iterator.h"
 #include "expression.h"
@@ -31,9 +32,7 @@ class ValueIterator;
 class Value
 {
 public:
-	static Value* undefined();
 	virtual ~Value();
-	static void cleanup();
 	void setStorage(Variable::Storage_e);
 	Variable::Storage_e getStorage() const;
 	virtual QString getValueString() const;
@@ -79,6 +78,8 @@ public:
 	static bool compare(Value*,Expression::Operator_e,Value*);
 	static Value* compareAll(const QList<Value*>&,Expression::Operator_e);
 
+	friend class ValueFactory;
+	static ValueFactory& factory;
 protected:
 	Value();
 	static bool isComparison(Expression::Operator_e);
@@ -91,18 +92,19 @@ protected:
 	virtual Value* operation(Value&,Expression::Operator_e);
 private:
 	bool defined;
-	static QList<Value*> values;
 	Variable::Storage_e storageClass;
 	QString name;
 
 	static bool modulus(bool,bool);
-	static decimal modulus(const decimal&,const decimal&);
 	static bool multiply(bool,bool);
-	static decimal multiply(const decimal&,const decimal&);
 	static bool exponent(bool,bool);
-	static decimal exponent(const decimal&,const decimal&);
 	static bool logic(bool);
+#if USE_CGAL
+	static decimal modulus(const decimal&,const decimal&);
+	static decimal multiply(const decimal&,const decimal&);
+	static decimal exponent(const decimal&,const decimal&);
 	static bool logic(const decimal&);
+#endif
 	static bool length(bool);
 	static decimal length(const decimal&);
 };

@@ -25,7 +25,7 @@
 class CodeDoc : VisitableTree
 {
 public:
-	CodeDoc();
+	CodeDoc() = default;
 	void setName(const QString&);
 	QString getName() const;
 	void setText(const QString&);

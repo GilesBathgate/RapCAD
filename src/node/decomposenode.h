@@ -24,7 +24,7 @@
 class DecomposeNode : public Node
 {
 public:
-	DecomposeNode();
+	DecomposeNode() = default;
 	void accept(NodeVisitor&) override;
 };
 

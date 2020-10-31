@@ -25,10 +25,6 @@ RangeIterator::RangeIterator(RangeValue* rng, Value* i, Value* s) :
 {
 }
 
-RangeIterator::~RangeIterator()
-{
-}
-
 ValueIterator& RangeIterator::operator++()
 {
 	index=Value::operation(index,Expression::Add,step);
@@ -37,7 +33,7 @@ ValueIterator& RangeIterator::operator++()
 
 bool RangeIterator::operator!=(const Iterator&) const
 {
-	auto* range=static_cast<RangeValue*>(value);
+	auto* range=dynamic_cast<RangeValue*>(value);
 	return range->inRange(index);
 }
 

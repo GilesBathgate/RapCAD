@@ -17,8 +17,8 @@
  */
 #include "preferences.h"
 
-#include <math.h>
-#define LOG10_2 0.30102999566398119521 /* log10(2) = log base 10 of 2 */
+#include <cmath>
+static constexpr double LOG10_2=0.30102999566398119521; /* log10(2) = log base 10 of 2 */
 
 #ifdef USE_CGAL
 #include <CGAL/exceptions.h>
@@ -26,9 +26,17 @@
 #endif
 
 Preferences::Preferences() :
-	settings(new QSettings())
+	settings(new QSettings()),
+	precision(0)
 {
 	updatePrecision();
+}
+
+Preferences::~Preferences()
+{
+	//Ensure preferences are saved.
+	settings->sync();
+	delete settings;
 }
 
 void Preferences::updatePrecision()
@@ -87,13 +95,9 @@ void Preferences::setEditorFont(const QFont& value)
 	settings->setValue("EditorFont.Size",value.pointSize());
 }
 
-Preferences* Preferences::instance=nullptr;
-
-Preferences* Preferences::getInstance()
+Preferences& Preferences::getInstance()
 {
-	if(!instance)
-		instance = new Preferences();
-
+	static Preferences instance;
 	return instance;
 }
 
@@ -128,24 +132,26 @@ void Preferences::setSignificandBits(int b)
 	updatePrecision();
 }
 
-int Preferences::getFunctionRounding() const
+Rounding_t Preferences::getFunctionRounding() const
 {
-	return settings->value("FunctionRounding",0).toInt();
+	int rounding=settings->value("FunctionRounding",0).toInt();
+	return static_cast<Rounding_t>(rounding);
 }
 
-void Preferences::setFunctionRounding(int i)
+void Preferences::setFunctionRounding(Rounding_t i)
 {
-	settings->setValue("FunctionRounding",i);
+	settings->setValue("FunctionRounding",static_cast<int>(i));
 }
 
-int Preferences::getNumberFormat() const
+NumberFormat_t Preferences::getNumberFormat() const
 {
-	return settings->value("NumberFormat",0).toInt();
+	int format=settings->value("NumberFormat",0).toInt();
+	return static_cast<NumberFormat_t>(format);
 }
 
-void Preferences::setNumberFormat(int i)
+void Preferences::setNumberFormat(NumberFormat_t i)
 {
-	settings->setValue("NumberFormat",i);
+	settings->setValue("NumberFormat",static_cast<int>(i));
 }
 
 float Preferences::getDefaultRotationX() const
@@ -213,7 +219,7 @@ QColor Preferences::getMarkedVertexColor() const
 	return settings->value("MarkedVertexColor",QColor(0xff,0xff,0xff)).value<QColor>();
 }
 
-void Preferences::setMarkedVertexColor(QColor c)
+void Preferences::setMarkedVertexColor(const QColor& c)
 {
 	settings->setValue("MarkedVertexColor",c);
 }
@@ -223,7 +229,7 @@ QColor Preferences::getVertexColor() const
 	return settings->value("VertexColor",QColor(0xff,0xff,0xff)).value<QColor>();
 }
 
-void Preferences::setVertexColor(QColor c)
+void Preferences::setVertexColor(const QColor& c)
 {
 	settings->setValue("VertexColor",c);
 }
@@ -233,7 +239,7 @@ QColor Preferences::getMarkedEdgeColor() const
 	return settings->value("MarkedEdgeColor",QColor(0x00,0x00,0x00)).value<QColor>();
 }
 
-void Preferences::setMarkedEdgeColor(QColor c)
+void Preferences::setMarkedEdgeColor(const QColor& c)
 {
 	settings->setValue("MarkedEdgeColor",c);
 }
@@ -243,7 +249,7 @@ QColor Preferences::getEdgeColor() const
 	return settings->value("EdgeColor",QColor(0x00,0x00,0x00)).value<QColor>();
 }
 
-void Preferences::setEdgeColor(QColor c)
+void Preferences::setEdgeColor(const QColor& c)
 {
 	settings->setValue("EdgeColor",c);
 }
@@ -253,7 +259,7 @@ QColor Preferences::getMarkedFacetColor() const
 	return settings->value("MarkedFacetColor",QColor(0xff,0x55,0x00)).value<QColor>();
 }
 
-void Preferences::setMarkedFacetColor(QColor c)
+void Preferences::setMarkedFacetColor(const QColor& c)
 {
 	settings->setValue("MarkedFacetColor",c);
 }
@@ -263,7 +269,7 @@ QColor Preferences::getFacetColor() const
 	return settings->value("FacetColor",QColor(0xff,0xaa,0x00)).value<QColor>();
 }
 
-void Preferences::setFacetColor(QColor c)
+void Preferences::setFacetColor(const QColor& c)
 {
 	settings->setValue("FacetColor",c);
 }
@@ -444,19 +450,10 @@ void Preferences::setPrintVolume(QVector3D v)
 GLView::Appearance_t Preferences::getPrintBedAppearance() const
 {
 	int i=settings->value("PrintBedAppearance",0).toInt();
-	return (GLView::Appearance_t)i;
+	return static_cast<GLView::Appearance_t>(i);
 }
 
 void Preferences::setPrintBedAppearance(GLView::Appearance_t v)
 {
-	settings->setValue("PrintBedAppearance",(int)v);
-}
-
-void Preferences::syncDelete()
-{
-	if(instance) {
-		instance->settings->sync();
-		delete instance->settings;
-		delete instance;
-	}
+	settings->setValue("PrintBedAppearance",static_cast<int>(v));
 }

@@ -33,8 +33,8 @@ Value* TanhFunction::evaluate(const Context& ctx) const
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return new NumberValue(r_tanh_deg(num));
+		return Value::factory.createNumber(r_tanh_deg(num));
 	}
-	return Value::undefined();
+	return Value::factory.createUndefined();
 }
 

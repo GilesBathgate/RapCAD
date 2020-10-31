@@ -19,8 +19,9 @@
 #include "numbervalue.h"
 #include "vectorvalue.h"
 #include "booleanvalue.h"
+#include "valuefactory.h"
 
-NumberValue::NumberValue(decimal value) : number(value)
+NumberValue::NumberValue(const decimal& value) : number(value)
 {
 }
 
@@ -31,7 +32,7 @@ QString NumberValue::getValueString() const
 
 bool NumberValue::isTrue() const
 {
-	return number!=0;
+	return to_boolean(number);
 }
 
 decimal NumberValue::getNumber() const
@@ -52,10 +53,10 @@ int NumberValue::toInteger() const
 Value* NumberValue::operation(Expression::Operator_e e)
 {
 	if(e==Expression::Invert)
-		return new BooleanValue(this->isFalse());
+		return factory.createBoolean(this->isFalse());
 
 	decimal result=basicOperation(number,e);
-	return new NumberValue(result);
+	return factory.createNumber(result);
 }
 
 Value* NumberValue::operation(Value& v, Expression::Operator_e e)
@@ -64,41 +65,43 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 	if(num) {
 		if(isComparison(e)) {
 			bool result=to_boolean(basicOperation(number,e,num->number));
-			return new BooleanValue(result);
+			return factory.createBoolean(result);
 		}
 		if(e==Expression::Divide||e==Expression::Modulus) {
-			if(num->number==0)
-				return Value::undefined();
+			if(num->number==0.0)
+				return factory.createUndefined();
 		} else if(e==Expression::Exponent) {
-			if(number==0&&num->number<=0)
-				return Value::undefined();
+			if(number==0.0&&num->number<=0.0)
+				return factory.createUndefined();
 		}
 
 		decimal result=basicOperation(number,e,num->number);
-		return new NumberValue(result);
+		return factory.createNumber(result);
 	}
 	auto* vec = dynamic_cast<VectorValue*>(&v);
 	if(vec) {
 		if(e==Expression::Concatenate) {
-			QList<Value*> r=vec->getChildren();
+			QList<Value*> r=vec->getElements();
 			r.prepend(this);
-			return new VectorValue(r);
-		} else if(e==Expression::Exponent) {
-			QList<Value*> result;
-			for(Value* c: vec->getChildren())
-				result.append(Value::operation(this,e,c));
-			return new VectorValue(result);
-		} else {
-			// most operations between scalars and vectors are commutative e.g.
-			// [1,2,3]-1  is the same as 1-[1,2,3]
-			return Value::operation(vec,e,this);
+			return factory.createVector(r);
 		}
+		if(e==Expression::Exponent) {
+			QList<Value*> result;
+			for(Value* c: vec->getElements())
+				result.append(Value::operation(this,e,c));
+
+			return factory.createVector(result);
+		}
+
+		// most operations between scalars and vectors are commutative e.g.
+		// [1,2,3]-1  is the same as 1-[1,2,3]
+		return Value::operation(vec,e,this);
 	}
 	auto* flag = dynamic_cast<BooleanValue*>(&v);
 	if(flag && isComparison(e)) {
 		//Use 0 for false and 1 for true to ensure 2>true
 		bool result=basicOperation(this->toInteger(),e,flag->isTrue()?1:0);
-		return new BooleanValue(result);
+		return factory.createBoolean(result);
 	}
 
 	return Value::operation(v,e);

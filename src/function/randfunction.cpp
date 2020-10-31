@@ -21,7 +21,7 @@
 #include "vectorvalue.h"
 #include "numbervalue.h"
 #include "rmath.h"
-#include <time.h>
+#include <ctime>
 
 RandFunction::RandFunction() : Function("rands")
 {
@@ -34,11 +34,11 @@ RandFunction::RandFunction() : Function("rands")
 
 Value* RandFunction::evaluate(const Context& ctx) const
 {
-	decimal min=0;
+	decimal min=0.0;
 	auto* minVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(minVal)
 		min=minVal->getNumber();
-	decimal max=0;
+	decimal max=0.0;
 	auto* maxVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
 	if(maxVal)
 		max=maxVal->getNumber();
@@ -55,7 +55,9 @@ Value* RandFunction::evaluate(const Context& ctx) const
 
 	QList<Value*> results;
 	for(auto i=0; i<count; ++i)
-		results.append(new NumberValue(r_rand(min,max)));
+		results.append(Value::factory.createNumber(r_rand(min,max)));
 
-	return new VectorValue(results);
+	r_rand_clear();
+
+	return Value::factory.createVector(results);
 }

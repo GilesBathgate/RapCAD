@@ -21,10 +21,10 @@
 #include "complexvalue.h"
 #include "rangevalue.h"
 #include "valueiterator.h"
-#include "builtincreator.h"
-#include "module/importmodule.h"
+#include "builtinmanager.h"
 #include "syntaxtreebuilder.h"
 #include "module/unionmodule.h"
+#include "valuefactory.h"
 
 TreeEvaluator::TreeEvaluator(Reporter& r) :
 	reporter(r),
@@ -37,9 +37,14 @@ TreeEvaluator::TreeEvaluator(Reporter& r) :
 
 TreeEvaluator::~TreeEvaluator()
 {
-	Value::cleanup();
-	for(Layout* l: scopeLookup.values())
-		delete l;
+	Value::factory.cleanupValues();
+	qDeleteAll(scopeLookup.values());
+	scopeLookup.clear();
+	qDeleteAll(imports);
+	imports.clear();
+	qDeleteAll(modules);
+	modules.clear();
+	delete context;
 }
 
 void TreeEvaluator::startLayout(Scope* scp)
@@ -99,7 +104,7 @@ void TreeEvaluator::visit(const Instance& inst)
 	Scope* c=context->getCurrentScope();
 	QList<Node*> childnodes;
 	QList <Statement*> stmts = inst.getChildren();
-	if(stmts.size()>0) {
+	if(!stmts.empty()) {
 		startContext(c);
 
 		for(Statement* s: stmts) {
@@ -136,7 +141,7 @@ void TreeEvaluator::visit(const Instance& inst)
 
 		/* Pull the arguments in that we evaluated previously into this
 		 * context */
-		for(auto a: arguments)
+		for(const auto& a: arguments)
 			context->addArgument(a);
 
 		for(Parameter* p: mod->getParameters())
@@ -255,9 +260,9 @@ void TreeEvaluator::visit(const ForStatement& forstmt)
 
 	if(!args.isEmpty()) {
 		//TODO for now just consider the first arg.
-		auto firstArg = args.at(0);
-		QString name=firstArg.first;
-		Value* val=firstArg.second;
+		const auto& firstArg = args.at(0);
+		const QString& name=firstArg.getName();
+		Value* val=firstArg.getValue();
 
 		ValueIterator* it=val->createIterator();
 		for(Value* v: *it) {
@@ -273,13 +278,13 @@ void TreeEvaluator::visit(const Parameter& param)
 {
 	QString name = param.getName();
 
-	Value* v;
+	Value* v=nullptr;
 	Expression* e = param.getExpression();
 	if(e) {
 		e->accept(*this);
 		v = context->getCurrentValue();
 	} else {
-		v = Value::undefined();
+		v = Value::factory.createUndefined();
 	}
 
 	context->addParameter(name,v);
@@ -304,7 +309,7 @@ void TreeEvaluator::visit(const BinaryExpression& exp)
 			break;
 	}
 
-	Value* result;
+	Value* result=nullptr;
 	if(shortc) {
 		result=left;
 	} else {
@@ -347,8 +352,10 @@ void TreeEvaluator::visit(const AssignStatement& stmt)
 	Expression::Operator_e op=stmt.getOperation();
 	switch(op) {
 		case Expression::Increment:
-		case Expression::Decrement:
+		case Expression::Decrement: {
+			result=Value::operation(lvalue,op);
 			break;
+		}
 		default: {
 			Expression* expression = stmt.getExpression();
 			if(expression) {
@@ -365,21 +372,12 @@ void TreeEvaluator::visit(const AssignStatement& stmt)
 			result=Value::operation(lvalue,op,result);
 			break;
 		}
-		case Expression::Increment: {
-			result=Value::operation(lvalue,op);
-			break;
-		}
-		case Expression::Decrement: {
-			result=Value::operation(lvalue,op);
-			break;
-		}
 		default:
 			break;
 	}
 	if(!result) return;
 
-	Variable::Storage_e c;
-	c=lvalue->getStorage();
+	auto c=lvalue->getStorage();
 	result->setStorage(c);
 	switch(c) {
 		case Variable::Const:
@@ -407,7 +405,7 @@ void TreeEvaluator::visit(const VectorExpression& exp)
 	if(commas>0)
 		reporter.reportWarning(tr("%1 additional comma(s) found at the end of vector expression").arg(commas));
 
-	Value* v = new VectorValue(childvalues);
+	Value* v = Value::factory.createVector(childvalues);
 	context->setCurrentValue(v);
 }
 
@@ -426,7 +424,7 @@ void TreeEvaluator::visit(const RangeExpression& exp)
 	exp.getFinish()->accept(*this);
 	Value* finish=context->getCurrentValue();
 
-	Value* result = new RangeValue(start,increment,finish);
+	Value* result = Value::factory.createRange(start,increment,finish);
 	context->setCurrentValue(result);
 }
 
@@ -489,7 +487,7 @@ void TreeEvaluator::visit(const Invocation& stmt)
 
 		/* Pull the arguments in that we evaluated previously into this
 		 * context */
-		for(auto a: arguments)
+		for(const auto& a: arguments)
 			context->addArgument(a);
 
 		for(Parameter* p: func->getParameters())
@@ -511,7 +509,7 @@ void TreeEvaluator::visit(const Invocation& stmt)
 	}
 
 	if(!result)
-		result=Value::undefined();
+		result=Value::factory.createUndefined();
 
 	context->setCurrentValue(result);
 }
@@ -523,12 +521,12 @@ void TreeEvaluator::visit(Callback& c)
 	c.setResult(context->getCurrentValue());
 }
 
-QFileInfo TreeEvaluator::getFullPath(const QString &file)
+QFileInfo TreeEvaluator::getFullPath(const QString& file)
 {
 	if(!importLocations.isEmpty())
 		return QFileInfo(importLocations.top(),file);
-	else
-		return QFileInfo(file); /* relative to working dir */
+
+	return QFileInfo(file); /* relative to working dir */
 }
 
 void TreeEvaluator::visit(const ModuleImport& mi)
@@ -537,6 +535,7 @@ void TreeEvaluator::visit(const ModuleImport& mi)
 	QFileInfo f=getFullPath(mi.getImport());
 	mod->setImport(f.absoluteFilePath());
 	mod->setName(mi.getName());
+	modules.append(mod);
 	//TODO global import args.
 
 	/* Adding the import module to the current layout is ok here because we
@@ -551,7 +550,7 @@ void TreeEvaluator::visit(const ScriptImport& sc)
 		return;
 
 	QFileInfo f=getFullPath(sc.getImport());
-	Script* s=new Script(reporter);
+	auto* s=new Script(reporter);
 	s->parse(f);
 	imports.append(s);
 	/* Now recursively descend any modules functions or script imports within
@@ -598,8 +597,7 @@ void TreeEvaluator::visit(const CodeDoc&)
 
 void TreeEvaluator::visit(Script& sc)
 {
-	BuiltinCreator* b=BuiltinCreator::getInstance(reporter);
-	b->initBuiltins(sc);
+	BuiltinManager m(sc,reporter);
 
 	/* Use the location of the current script as the root for all imports */
 	QDir loc=sc.getFileLocation();
@@ -622,13 +620,6 @@ void TreeEvaluator::visit(Script& sc)
 
 	rootNode=UnionModule::createUnion(childnodes);
 
-	/* Clean up all the imported scripts as its not the responsibility of the
-	 * caller to do so as we created the imported script instances within this
-	 * evaluator */
-	for(Script* sc: imports)
-		delete sc;
-
-	b->saveBuiltins(sc);
 }
 
 void TreeEvaluator::visit(Product& p)
@@ -651,7 +642,7 @@ void TreeEvaluator::visit(const ComplexExpression& exp)
 		e->accept(*this);
 		childvalues.append(context->getCurrentValue());
 	}
-	Value* v = new ComplexValue(result,childvalues);
+	Value* v = Value::factory.createComplex(result,childvalues);
 	context->setCurrentValue(v);
 }
 

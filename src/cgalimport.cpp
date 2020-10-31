@@ -28,37 +28,38 @@
 #include "nodeevaluator.h"
 #include "contrib/qzipreader_p.h"
 
-CGALImport::CGALImport(Reporter& r) : reporter(r)
+CGALImport::CGALImport(const QFileInfo& f,Reporter& r) :
+	fileInfo(f),
+	reporter(r)
 {
 }
 
-Primitive* CGALImport::import(QString filename)
+Primitive* CGALImport::import() const
 {
-	QFileInfo file(filename);
-	reporter.reportMessage(tr("Importing '%1'").arg(file.absoluteFilePath()));
+	reporter.reportMessage(tr("Importing '%1'").arg(fileInfo.absoluteFilePath()));
 
-	QString suffix=file.suffix().toLower();
+	QString suffix=fileInfo.suffix().toLower();
 	if(suffix=="off")
-		return importOFF(file);
+		return importOFF();
 	if(suffix=="nef")
-		return importNEF(file);
+		return importNEF();
 	if(suffix=="stl")
-		return importSTL(file);
+		return importSTL();
 	if(suffix=="amf")
-		return importAMF(file);
+		return importAMF();
 	if(suffix=="3mf")
-		return import3MF(file);
+		return import3MF();
 	if(suffix=="rcad"||suffix=="csg")
-		return importRCAD(file);
+		return importRCAD();
 
 	reporter.reportWarning(tr("unknown import type '%1'").arg(suffix));
 	return nullptr;
 }
 
-Primitive* CGALImport::importOFF(QFileInfo fileinfo)
+Primitive* CGALImport::importOFF() const
 {
 	CGAL::Polyhedron3 poly;
-	std::ifstream file(fileinfo.absoluteFilePath().toLocal8Bit().constData());
+	std::ifstream file(fileInfo.absoluteFilePath().toLocal8Bit().constData());
 	file >> poly;
 	file.close();
 
@@ -67,10 +68,10 @@ Primitive* CGALImport::importOFF(QFileInfo fileinfo)
 	return p;
 }
 
-Primitive* CGALImport::importNEF(QFileInfo fileinfo)
+Primitive* CGALImport::importNEF() const
 {
 	CGAL::NefPolyhedron3 nef;
-	std::ifstream file(fileinfo.absoluteFilePath().toLocal8Bit().constData());
+	std::ifstream file(fileInfo.absoluteFilePath().toLocal8Bit().constData());
 	file >> nef;
 	file.close();
 
@@ -78,13 +79,13 @@ Primitive* CGALImport::importNEF(QFileInfo fileinfo)
 	return p;
 }
 
-Primitive* CGALImport::importSTL(QFileInfo fileinfo)
+Primitive* CGALImport::importSTL() const
 {
 	auto* p=new CGALPrimitive();
 	p->setSanitized(false);
-	QFile f(fileinfo.absoluteFilePath());
+	QFile f(fileInfo.absoluteFilePath());
 	if(!f.open(QIODevice::ReadOnly)) {
-		reporter.reportWarning(tr("Can't open import file '%1'").arg(fileinfo.absoluteFilePath()));
+		reporter.reportWarning(tr("Can't open import file '%1'").arg(fileInfo.absoluteFilePath()));
 		return p;
 	}
 
@@ -104,7 +105,7 @@ Primitive* CGALImport::importSTL(QFileInfo fileinfo)
 	 * and check whether the size calculated
 	 * from the header matches the file size */
 	bool binary=false;
-	int numfacets;
+	int numfacets=0;
 	QByteArray header=f.read(80);
 	f.read((char*)&numfacets,4);
 	if(f.size() == 80+4+(datasize*numfacets))
@@ -126,11 +127,12 @@ Primitive* CGALImport::importSTL(QFileInfo fileinfo)
 				QStringList tokens=line.split(re);
 				bool ok=false;
 				if(tokens.size()==4) {
-					float x,y,z;
-					bool ox,oy,oz;
-					x=tokens[1].toFloat(&ox);
-					y=tokens[2].toFloat(&oy);
-					z=tokens[3].toFloat(&oz);
+					bool ox=false;
+					bool oy=false;
+					bool oz=false;
+					float x=tokens[1].toFloat(&ox);
+					float y=tokens[2].toFloat(&oy);
+					float z=tokens[3].toFloat(&oz);
 					if((ok=ox&&oy&&oz)) {
 						CGAL::Point3 pt(x,y,z);
 						p->appendVertex(pt);
@@ -157,13 +159,13 @@ Primitive* CGALImport::importSTL(QFileInfo fileinfo)
 	return p;
 }
 
-Primitive* CGALImport::importAMF(QFileInfo fileinfo)
+Primitive* CGALImport::importAMF() const
 {
 	auto* p=new CGALPrimitive();
 	p->setSanitized(false);
-	QFile f(fileinfo.absoluteFilePath());
+	QFile f(fileInfo.absoluteFilePath());
 	if(!f.open(QIODevice::ReadOnly)) {
-		reporter.reportWarning(tr("Can't open import file '%1'").arg(fileinfo.absoluteFilePath()));
+		reporter.reportWarning(tr("Can't open import file '%1'").arg(fileInfo.absoluteFilePath()));
 		return p;
 	}
 
@@ -179,7 +181,9 @@ Primitive* CGALImport::importAMF(QFileInfo fileinfo)
 									if(xml.name()=="vertex") {
 										while(xml.readNextStartElement()) {
 											if(xml.name()=="coordinates") {
-												CGAL::Scalar x=0.0,y=0.0,z=0.0;
+												CGAL::Scalar x=0.0;
+												CGAL::Scalar y=0.0;
+												CGAL::Scalar z=0.0;
 												while(xml.readNextStartElement()) {
 													if(xml.name()=="x") {
 														x=to_decimal(xml.readElementText());
@@ -203,7 +207,9 @@ Primitive* CGALImport::importAMF(QFileInfo fileinfo)
 							} else if(xml.name()=="volume") {
 								while(xml.readNextStartElement()) {
 									if(xml.name()=="triangle") {
-										int v1=0,v2=0,v3=0;
+										int v1=0;
+										int v2=0;
+										int v3=0;
 										while(xml.readNextStartElement()) {
 											if(xml.name()=="v1") {
 												v1=xml.readElementText().toInt();
@@ -240,16 +246,16 @@ Primitive* CGALImport::importAMF(QFileInfo fileinfo)
 	return p;
 }
 
-Primitive* CGALImport::import3MF(QFileInfo fileinfo)
+Primitive* CGALImport::import3MF() const
 {
 	auto* p=new CGALPrimitive();
 	p->setSanitized(false);
-	QFile f(fileinfo.absoluteFilePath());
+	QFile f(fileInfo.absoluteFilePath());
 	if(!f.open(QIODevice::ReadOnly)) {
-		reporter.reportWarning(tr("Can't open import file '%1'").arg(fileinfo.absoluteFilePath()));
+		reporter.reportWarning(tr("Can't open import file '%1'").arg(fileInfo.absoluteFilePath()));
 		return p;
 	}
-	QZipReader zip(fileinfo.absoluteFilePath());
+	QZipReader zip(fileInfo.absoluteFilePath());
 	QByteArray data=zip.fileData("3D/3dmodel.model");
 	zip.close();
 	QXmlStreamReader xml(data);
@@ -264,7 +270,9 @@ Primitive* CGALImport::import3MF(QFileInfo fileinfo)
 									if(xml.name() == "vertices") {
 										while(xml.readNextStartElement()) {
 											if(xml.name() == "vertex") {
-												CGAL::Scalar x=0.0,y=0.0,z=0.0;
+												CGAL::Scalar x=0.0;
+												CGAL::Scalar y=0.0;
+												CGAL::Scalar z=0.0;
 												for(const auto& attr: xml.attributes()) {
 													QStringRef n=attr.name();
 													QStringRef v=attr.value();
@@ -282,7 +290,9 @@ Primitive* CGALImport::import3MF(QFileInfo fileinfo)
 									} else if(xml.name() == "triangles") {
 										while(xml.readNextStartElement()) {
 											if(xml.name() == "triangle") {
-												int v1=0,v2=0,v3=0;
+												int v1=0;
+												int v2=0;
+												int v3=0;
 												for(const auto& attr: xml.attributes()) {
 													QStringRef n=attr.name();
 													QStringRef v=attr.value();
@@ -320,10 +330,10 @@ Primitive* CGALImport::import3MF(QFileInfo fileinfo)
 	return p;
 }
 
-Primitive* CGALImport::importRCAD(QFileInfo f)
+Primitive* CGALImport::importRCAD() const
 {
 	Script s(reporter);
-	s.parse(f);
+	s.parse(fileInfo);
 	TreeEvaluator te(reporter);
 	s.accept(te);
 

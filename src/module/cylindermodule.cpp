@@ -40,9 +40,10 @@ Node* CylinderModule::evaluate(const Context& ctx) const
 
 	NumberValue* r1Value = dynamic_cast<NumberValue*>(ctx.getArgument(1,"radius1"));
 	NumberValue* r2Value = dynamic_cast<NumberValue*>(ctx.getArgument(2,"radius2"));
-	BooleanValue* centerValue;
+	BooleanValue* centerValue=nullptr;
 
-	decimal r1=1.0,r2=1.0;
+	decimal r1=1.0;
+	decimal r2=1.0;
 	if(!r1Value) {
 		auto* rValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
 		centerValue = dynamic_cast<BooleanValue*>(getParameterArgument(ctx,2));
@@ -66,9 +67,8 @@ Node* CylinderModule::evaluate(const Context& ctx) const
 	if(centerValue)
 		center=centerValue->isTrue();
 
-	decimal z1,z2;
-	z1 = 0.0;
-	z2 = h;
+	decimal z1=0.0;
+	decimal z2=h;
 
 	decimal r=r_max(r1,r2);
 	Fragment* fg = Fragment::createFragment(ctx);
@@ -83,9 +83,8 @@ Node* CylinderModule::evaluate(const Context& ctx) const
 	pn->setChildren(ctx.getInputNodes());
 
 	int n=0;
-	Polygon* pg;
-	if(r1>0) {
-		pg=p->createPolygon();
+	if(r1>0.0) {
+		Polygon* pg=p->createPolygon();
 		for(const auto& pt: c1) {
 			p->createVertex(pt);
 			pg->append(n++);
@@ -95,8 +94,8 @@ Node* CylinderModule::evaluate(const Context& ctx) const
 	if(h==0.0)
 		return pn;
 
-	if(r2>0) {
-		pg=p->createPolygon();
+	if(r2>0.0) {
+		Polygon* pg=p->createPolygon();
 		for(const auto& pt: c2) {
 			p->createVertex(pt);
 			pg->prepend(n++);
@@ -105,40 +104,30 @@ Node* CylinderModule::evaluate(const Context& ctx) const
 
 	/* In the cases where r1 or r2 are 0,  n will now convinently be pointing
 	 * one past the end, and point to the apex as defined here when needed */
-	if(r1<=0)
+	if(r1<=0.0)
 		p->createVertex(Point(0.0,0.0,z1));
-	if(r2<=0)
+	if(r2<=0.0)
 		p->createVertex(Point(0.0,0.0,z2));
 
 	for(auto i=0; i<f; ++i) {
 		int j=(i+1)%f;
 
-		int k=r2<=0?n:i;
-		int l=r1<=0?n:j;
+		int k=r2<=0.0?n:i;
+		int l=r1<=0.0?n:j;
 
-		if(r1>0&&r2>0) {
+		if(r1>0.0&&r2>0.0) {
 			k+=f;
 			j+=f;
 		}
 
 		if(r1 == r2) {
-			pg=p->createPolygon();
-			pg->append(i);
-			pg->append(k);
-			pg->append(j);
-			pg->append(l);
+			createQuad(p,i,k,j,l);
 		} else {
-			if(r1 > 0) {
-				pg=p->createPolygon();
-				pg->append(i);
-				pg->append(k);
-				pg->append(l);
+			if(r1>0.0) {
+				createTriangle(p,i,k,l);
 			}
-			if(r2 > 0) {
-				pg=p->createPolygon();
-				pg->append(j);
-				pg->append(l);
-				pg->append(k);
+			if(r2>0.0) {
+				createTriangle(p,j,l,k);
 			}
 		}
 	}

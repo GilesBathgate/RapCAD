@@ -21,6 +21,13 @@
 
 #include "decimal.h"
 
+enum Rounding_t
+{
+	DecimalRounding,
+	Base2Rounding,
+	NoRounding
+};
+
 decimal r_round_preference(const decimal& a,bool round=true);
 decimal r_tau(bool round=true);
 decimal r_pi(bool round=true);
@@ -59,6 +66,7 @@ decimal r_log10(const decimal&,bool round=true);
 decimal r_sign(const decimal&);
 void r_rand_seed(int);
 decimal r_rand(const decimal&,const decimal&);
+void r_rand_clear();
 bool r_is_int(const decimal&);
 
 #endif // RMATH_H

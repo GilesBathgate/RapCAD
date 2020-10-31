@@ -33,9 +33,8 @@ Function::Function(const QString& n) :
 
 Function::~Function()
 {
-	for(Parameter* p: parameters)
-		delete p;
-
+	qDeleteAll(parameters);
+	parameters.clear();
 	delete scope;
 }
 

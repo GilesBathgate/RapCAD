@@ -18,12 +18,10 @@
 
 #include "invocation.h"
 
-Invocation::Invocation()
-{
-}
-
 Invocation::~Invocation()
 {
+	qDeleteAll(arguments);
+	arguments.clear();
 }
 
 void Invocation::setName(const QString& n)

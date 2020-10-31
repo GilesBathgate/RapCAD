@@ -27,8 +27,8 @@ Script::Script(Reporter& r) : reporter(r)
 
 Script::~Script()
 {
-	for(Declaration* d: declarations)
-		delete d;
+	qDeleteAll(declarations);
+	declarations.clear();
 }
 
 void Script::parse(const QString &s)
@@ -36,7 +36,7 @@ void Script::parse(const QString &s)
 	parsescript(*this,reporter,s);
 }
 
-void Script::parse(QFileInfo info)
+void Script::parse(const QFileInfo& info)
 {
 	if(!info.exists())
 		reporter.reportFileMissingError(info.absoluteFilePath());
@@ -89,7 +89,7 @@ QDir Script::getFileLocation() const
 	return fileLocation;
 }
 
-void Script::setFileLocation(QDir value)
+void Script::setFileLocation(const QDir& value)
 {
 	fileLocation = value;
 }

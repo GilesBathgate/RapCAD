@@ -30,7 +30,7 @@ Value* IsListFunction::evaluate(const Context& ctx) const
 {
 	auto* vec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(vec)
-		return new BooleanValue(true);
+		return Value::factory.createBoolean(true);
 
-	return new BooleanValue(false);
+	return Value::factory.createBoolean(false);
 }

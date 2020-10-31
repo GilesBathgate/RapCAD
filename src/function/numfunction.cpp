@@ -29,5 +29,8 @@ NumFunction::NumFunction() : Function("num")
 Value* NumFunction::evaluate(const Context& ctx) const
 {
 	Value* v=getParameterArgument(ctx,0);
-	return v->toNumber();
+	if(v)
+		return v->toNumber();
+
+	return Value::factory.createUndefined();
 }

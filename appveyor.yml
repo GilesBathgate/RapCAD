@@ -1,17 +1,35 @@
 version: "#{build}"
 
 image:
-  - Visual Studio 2015
+  - Visual Studio 2019
+
+configuration:
+  - coverage
+  - official
 
 cache:
+  - windeployqt64releaseonly.zip -> appveyor.yml
   - FlexBison.zip -> appveyor.yml
   - CGAL-Setup.exe -> appveyor.yml
+  - gmp-all-CGAL-3.9.zip -> appveyor.yml
+  - mpfr-all-CGAL-3.9.zip -> appveyor.yml
+  - asciidoc.zip -> appveyor.yml
+  - src-highlite.zip -> appveyor.yml
+  - csharp.lang -> appveyor.yml
   - C:\CGAL -> appveyor.yml
 
 install:
-  - set CGAL_ROOT=C:\CGAL\
-  - set BOOST_ROOT=C:\Libraries\boost_1_60_0
-  - set QTDIR=C:\Qt\5.9\mingw53_32
+  - set CGAL_DIR=C:\CGAL\
+  - set GMP=%CGAL_DIR%\auxiliary\gmp
+  - set BOOST_ROOT=C:\Libraries\boost_1_73_0
+  - set QTDIR=C:\Qt\5.15.1\mingw81_64
+  - set ASCIIDOC=C:\asciidoc-8.6.10
+  - set SOURCEHIGHLIGHT=C:\source-highlight
+  - set PATH=%PATH%;C:\Qt\Tools\mingw810_64\bin
+  # install patched windeployqt
+  - if not exist windeployqt64releaseonly.zip
+      appveyor DownloadFile http://tripleboot.org/Uploads/windeployqt64releaseonly.zip
+  - 7z x -o%QTDIR%\bin windeployqt64releaseonly.zip
   # Install Flex/Bison
   - if not exist FlexBison.zip
       appveyor DownloadFile https://downloads.sourceforge.net/project/winflexbison/win_flex_bison-latest.zip
@@ -19,37 +37,94 @@ install:
   - 7z x -o%QTDIR%\bin FlexBison.zip
   # Install CGAL
   - if not exist CGAL-Setup.exe
-      appveyor DownloadFile https://github.com/CGAL/cgal/releases/download/releases/CGAL-4.11/CGAL-4.11-Setup.exe
+      appveyor DownloadFile https://github.com/CGAL/cgal/releases/download/v5.1/CGAL-5.1-Setup.exe
       -FileName CGAL-Setup.exe
-  - if not exist %CGAL_ROOT%
+  - if not exist %CGAL_DIR%
       CGAL-Setup.exe /S /D=c:\CGAL
-  # Build Boost
-  - call %QTDIR%\bin\qtenv2.bat
-  - cd %BOOST_ROOT%
-  - call bootstrap.bat mingw
-  - .\b2 toolset=gcc variant=release --with-thread --with-system
-  # Build CGAL
-  - set CGAL_ROOT=C:\CGAL\
-  - set PATH=%PATH:C:\Program Files\Git\usr\bin;=%
-  - cd %CGAL_ROOT%
-  - if not exist C:\CGAL\Makefile
-      cmake -G"MinGW Makefiles" .
-  - if not exist C:\CGAL\bin\libCGAL.dll
-       mingw32-make
+  # Install GMP
+  - if not exist gmp-all-CGAL-3.9.zip
+      appveyor DownloadFile https://cgal.geometryfactory.com/CGAL/precompiled_libs/auxiliary/x64/GMP/5.0.1/gmp-all-CGAL-3.9.zip
+  - 7z x -o%GMP% gmp-all-CGAL-3.9.zip -aoa
+  # Install MPFR
+  - if not exist mpfr-all-CGAL-3.9.zip
+      appveyor DownloadFile https://cgal.geometryfactory.com/CGAL/precompiled_libs/auxiliary/x64/MPFR/3.0.0/mpfr-all-CGAL-3.9.zip
+  - 7z x -o%GMP% mpfr-all-CGAL-3.9.zip -aoa
+  # Install asciidoc
+  - if not exist asciidoc.zip
+      appveyor DownloadFile https://github.com/asciidoc/asciidoc/archive/8.6.10.zip
+      -FileName asciidoc.zip
+  - 7z x -oC:\ asciidoc.zip
+  # Install source-highlight
+  - if not exist src-highlite.zip
+      appveyor DownloadFile https://downloads.sourceforge.net/project/gnuwin32/src-highlite/2.1.2/src-highlite-2.1.2-bin.zip
+      -FileName src-highlite.zip
+  - 7z x -o%SOURCEHIGHLIGHT% src-highlite.zip
+  - mv %SOURCEHIGHLIGHT%\bin\source-highlight.exe %SOURCEHIGHLIGHT%\bin\source-highlight-exe.exe
+  - cp %APPVEYOR_BUILD_FOLDER%\scripts\source-highlight.bat %SOURCEHIGHLIGHT%\bin
+  - if not exist csharp.lang
+      appveyor DownloadFile https://www.gnu.org/software/src-highlite/lang_files/csharp.lang
+      -FileName csharp.lang
+  - cp csharp.lang %SOURCEHIGHLIGHT%\share\source-highlight
+  - set LANGMAP=%SOURCEHIGHLIGHT%\share\source-highlight\lang.map
+  - echo. >> %LANGMAP%
+  - echo csharp = csharp.lang >> %LANGMAP%
   # Setup environment
-  - set PATH=%PATH%;%CGAL_ROOT%\bin
-  - set PATH=%PATH%;%CGAL_ROOT%\auxiliary\gmp\lib
+  - set PATH=%PATH%;%CGAL_DIR%\bin
+  - set PATH=%PATH%;%SOURCEHIGHLIGHT%\bin
+  - set PATH=%PATH%;%CGAL_DIR%\auxiliary\gmp\lib
   - set PATH=%PATH%;%QTDIR%\bin
   - set PATH=C:\Program Files\Git\usr\bin;%PATH%
 
-build_script:
-  - cd %APPVEYOR_BUILD_FOLDER%
-  - qmake CONFIG+=coverage
-  - mingw32-make -j4 -f Makefile.Release
-  - cd release
-  - windeployqt --release rapcad.exe
-
-test_script:
-  - cd %APPVEYOR_BUILD_FOLDER%
-  - release\rapcad.exe -t test
-
+for:
+-
+  matrix:
+    only:
+      - configuration: coverage
+  build_script:
+    - cd %APPVEYOR_BUILD_FOLDER%
+    - qmake CONFIG+=coverage
+    - mingw32-make -j4 -f Makefile.Release
+    - windeployqt64releaseonly
+        --no-svg
+        --no-translations
+        --no-angle
+        --release
+        release/rapcad.exe
+  test_script:
+    - cd %APPVEYOR_BUILD_FOLDER%
+    - release\rapcad.exe -t test
+-
+  matrix:
+    only:
+      - configuration: official
+  branches:
+    only:
+      - master
+  build_script:
+    - cd %APPVEYOR_BUILD_FOLDER%
+    - set /p VERSION=<VERSION
+    - qmake CONFIG+=official
+    - mingw32-make -j4 -f Makefile.Release
+    - mingw32-make clean
+    - mingw32-make user_guide.html
+    - cp user_guide.html release
+    - cp
+        %GMP%\lib\libgmp-10.dll
+        %GMP%\lib\libmpfr-4.dll
+        release
+    - windeployqt64releaseonly
+        --no-svg
+        --no-translations
+        --no-angle
+        --release
+        release/rapcad.exe
+    - rm -r release/imageformats
+    - makensis installer.nsi
+    - mv rapcad_setup.exe rapcad_%VERSION%_setup.exe
+    - mv release rapcad_%VERSION%
+    - 7z a -tzip rapcad_%VERSION%.zip rapcad_%VERSION%
+  artifacts:
+    - path: rapcad_*_setup.exe
+      name: RapCAD Installer
+    - path: rapcad_*.zip
+      name: RapCAD Binaries

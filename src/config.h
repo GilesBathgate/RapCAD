@@ -19,6 +19,8 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#define BOOST_NO_STDLIB_CONFIG
+
 #include <CGAL/config.h>
 
 #undef CGAL_USE_GMPXX
@@ -29,6 +31,9 @@
 #define NDEBUG
 #include <CGAL/Nef_2/debug.h>
 #undef NDEBUG
+
+#define CGAL_DISABLE_ROUNDING_MATH_CHECK
+#include <CGAL/Interval_nt.h>
 
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,8,0)
 #include "cgalassert.h" // cgalassert hack

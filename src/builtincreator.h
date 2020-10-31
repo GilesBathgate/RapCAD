@@ -28,17 +28,14 @@
 class BuiltinCreator
 {
 public:
-	static BuiltinCreator* getInstance(Reporter&);
-	static void cleanUp();
-	void initBuiltins(Script&);
-	void saveBuiltins(Script&);
+	static BuiltinCreator& getInstance(Reporter&);
 	void generateDocs(QTextStream&);
 	void generateDocs(TreeVisitor&);
 	QHash<QString,Module*> getModuleNames() const;
+	QList<Declaration*> getBuiltins() const;
 private:
 	explicit BuiltinCreator(Reporter&);
 	~BuiltinCreator();
-	static BuiltinCreator* instance;
 	QList<Declaration*> builtins;
 };
 #endif // BUILTINCREATOR_H

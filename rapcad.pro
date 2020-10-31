@@ -56,14 +56,14 @@ win32 {
 	DEFINES += USE_QGLWIDGET
 
 	DXFLIBROOT = ../dxflib-3.3.4-src
-	INCLUDEPATH += $$(CGAL_ROOT)/include
-	INCLUDEPATH += $$(CGAL_ROOT)/auxiliary/gmp/include
+	INCLUDEPATH += $$(CGAL_DIR)/include
+	INCLUDEPATH += $$(CGAL_DIR)/auxiliary/gmp/include
 	INCLUDEPATH += $$(BOOST_ROOT)
-	LIBS += -L$$(BOOST_ROOT)/stage/lib
-	LIBS += -lboost_thread-mgw53-mt-1_60
-	LIBS += -lboost_system-mgw53-mt-1_60
-	LIBS += -L$$(CGAL_ROOT)/lib -lCGAL -lCGAL_Core
-	LIBS += -L$$(CGAL_ROOT)/auxiliary/gmp/lib -lmpfr-4 -lgmp-10
+	LIBS += -L$$(CGAL_DIR)/lib
+	exists( $$(CGAL_DIR)/lib/libCGAL* ) {
+		LIBS +=  -lCGAL -lCGAL_Core
+	}
+	LIBS += -L$$(CGAL_DIR)/auxiliary/gmp/lib -lmpfr-4 -lgmp-10
 	LIBS += -lopengl32 -lglu32
 	contains(DEFINES,USE_READLINE) {
 	LIBS += -lreadline
@@ -78,7 +78,10 @@ win32 {
 	QMAKE_LEX = win_flex
 } else {
 	exists( /usr/lib/x86_64-linux-gnu/libCGAL* ) {
-                LIBS += -lCGAL -lCGAL_Core
+		LIBS += -lCGAL -lCGAL_Core
+	}
+	exists( /usr/lib/i386-linux-gnu/libCGAL* ) {
+		LIBS += -lCGAL -lCGAL_Core
 	}
 	LIBS += -lmpfr -lgmp
 	contains(DEFINES,USE_READLINE) {
@@ -93,7 +96,9 @@ win32 {
 	ICON = icons/AppIcon.icns
 	INCLUDEPATH += /usr/local/include
 	LIBS += -L/usr/local/lib -lboost_thread-mt
-	LIBS += -lCGAL -lCGAL_Core
+	exists( /usr/local/lib/libCGAL* ) {
+		LIBS += -lCGAL -lCGAL_Core
+	}
   } else {
 	LIBS += -lboost_thread -lGLU
   }
@@ -101,16 +106,29 @@ win32 {
 
 #LIBS += -Wl,-rpath,./librapcad -L./librapcad -lrapcad
 
-contains(DEFINES,USE_CGAL) {
-!clang {
+CONFIG(fuzzing){
+	QMAKE_LINK = afl-clang-fast
+	QMAKE_LFLAGS += -lstdc++ -lm
+	QMAKE_CC = afl-clang-fast
+	QMAKE_CXX = afl-clang-fast++
+}
+
+CONFIG(valgrind){
+	DEFINES += USE_VALGRIND
+	QMAKE_CXXFLAGS += -fno-rounding-math
+} else:!macx {
 	QMAKE_CXXFLAGS += -frounding-math
 }
+
+CONFIG(test){
+	QT += testlib
+	DEFINES += USE_INTEGTEST
 }
 
 CONFIG(coverage){
 	QT += testlib
 	DEFINES += USE_INTEGTEST
-        #CONFIG += debug #temporarily disabled due to segfault crash.
+	#CONFIG += debug #temporarily disabled due to segfault crash.
   !macx {
 	QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage
 	LIBS += -lgcov
@@ -134,7 +152,11 @@ YACCSOURCES += \
 SOURCES += \
 	contrib/qcommandlineparser.cpp \
 	contrib/qcommandlineoption.cpp \
+	src/builtinmanager.cpp \
+	src/cgalsanitizer.cpp \
 	src/main.cpp \
+	src/namedvalue.cpp \
+	src/tokenreader.cpp \
 	src/ui/mainwindow.cpp \
 	src/module.cpp \
 	src/syntaxtreebuilder.cpp \
@@ -142,6 +164,7 @@ SOURCES += \
 	src/expression.cpp \
 	src/binaryexpression.cpp \
 	src/literal.cpp \
+	src/valuefactory.cpp \
 	src/variable.cpp \
 	src/declaration.cpp \
 	src/scope.cpp \
@@ -149,7 +172,6 @@ SOURCES += \
 	src/dependencybuilder.cpp \
 	src/instance.cpp \
 	src/argument.cpp \
-	src/statement.cpp \
 	src/function.cpp \
 	src/functionscope.cpp \
 	src/compoundstatement.cpp \
@@ -212,7 +234,6 @@ SOURCES += \
 	src/module/rotatemodule.cpp \
 	src/module/mirrormodule.cpp \
 	src/module/scalemodule.cpp \
-	src/module/childmodule.cpp \
 	src/module/spheremodule.cpp \
 	src/worker.cpp \
 	src/reporter.cpp \
@@ -375,6 +396,11 @@ HEADERS  += \
 	contrib/qcommandlineparser.h \
 	contrib/qcommandlineoption.h \
 	contrib/Copy_polyhedron_to.h \
+	contrib/qtcompat.h \
+	src/builtinmanager.h \
+	src/cgalsanitizer.h \
+	src/namedvalue.h \
+	src/tokenreader.h \
 	src/ui/mainwindow.h \
 	src/module.h \
 	src/syntaxtreebuilder.h \
@@ -382,6 +408,7 @@ HEADERS  += \
 	src/expression.h \
 	src/binaryexpression.h \
 	src/literal.h \
+	src/valuefactory.h \
 	src/variable.h \
 	src/declaration.h \
 	src/scope.h \
@@ -461,7 +488,6 @@ HEADERS  += \
 	src/module/rotatemodule.h \
 	src/module/mirrormodule.h \
 	src/module/scalemodule.h \
-	src/module/childmodule.h \
 	src/module/spheremodule.h \
 	src/worker.h \
 	src/reporter.h \
@@ -641,7 +667,7 @@ userguide.target = user_guide.html
 userguide.depends = $$PWD/doc/user_guide.asciidoc
 
 win32 {
-	userguide.commands = python ..\\asciidoc-8.6.9\\asciidoc.py -o $$userguide.target $$userguide.depends
+	userguide.commands = python $$(ASCIIDOC)\\asciidoc.py -o $$userguide.target $$userguide.depends
 } else {
 	userguide.commands = asciidoc -o $$userguide.target $$userguide.depends
 }

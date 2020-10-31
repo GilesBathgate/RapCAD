@@ -23,7 +23,7 @@ LinearExtrudeNode::LinearExtrudeNode() :
 {
 }
 
-void LinearExtrudeNode::setHeight(decimal h)
+void LinearExtrudeNode::setHeight(const decimal& h)
 {
 	height=h;
 }

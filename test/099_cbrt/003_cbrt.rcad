@@ -1,0 +1,3 @@
+function test() {
+return cbrt(-1)==-1;
+}

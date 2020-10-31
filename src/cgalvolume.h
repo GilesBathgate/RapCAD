@@ -24,10 +24,10 @@
 class CGALVolume
 {
 public:
-	CGALVolume(CGAL::Cuboid3,CGAL::Scalar,CGAL::Point3);
-	CGAL::Point3 getCenter() const;
-	CGAL::Scalar getSize() const;
-	CGAL::Cuboid3 getBounds() const;
+	CGALVolume(const CGAL::Cuboid3&,const CGAL::Scalar&,const CGAL::Point3&);
+	const CGAL::Point3& getCenter() const;
+	const CGAL::Scalar& getSize() const;
+	const CGAL::Cuboid3& getBounds() const;
 private:
 	CGAL::Cuboid3 bounds;
 	CGAL::Scalar size;

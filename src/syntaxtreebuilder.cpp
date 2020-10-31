@@ -25,10 +25,6 @@ SyntaxTreeBuilder::SyntaxTreeBuilder(Reporter& r,Script& s,AbstractTokenBuilder&
 {
 }
 
-SyntaxTreeBuilder::~SyntaxTreeBuilder()
-{
-}
-
 void SyntaxTreeBuilder::buildFileLocation(QDir fileinfo)
 {
 	script.setFileLocation(fileinfo);
@@ -408,7 +404,7 @@ QList<Argument*>* SyntaxTreeBuilder::buildArguments(Argument* arg)
 QList<Argument*>* SyntaxTreeBuilder::buildArguments(QList<Argument*>* args,unsigned int count,Argument* arg)
 {
 	//if we are passed an empty list then we know that the first argument was blank.
-	if(args->size()==0)
+	if(args->empty())
 		args->append(new Argument());
 
 	for(unsigned int i=0; i<count; ++i)
@@ -445,7 +441,9 @@ unsigned int SyntaxTreeBuilder::buildOptionalCommas(unsigned int count)
 
 Expression* SyntaxTreeBuilder::buildLiteral()
 {
-	return new Literal();
+	auto* result = new Literal();
+	result->setValue();
+	return result;
 }
 
 Expression* SyntaxTreeBuilder::buildLiteral(bool value)
@@ -569,7 +567,7 @@ QList<Expression*>* SyntaxTreeBuilder::buildVector(Expression* exp)
 
 QList<Expression*>* SyntaxTreeBuilder::buildVector(QList<Expression*>* exprs,unsigned int count,Expression* expr)
 {
-	if(exprs->size()==0)
+	if(exprs->isEmpty())
 		exprs->append(new Variable());
 
 	for(unsigned int i=0; i<count; ++i)

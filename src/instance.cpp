@@ -25,11 +25,10 @@ Instance::Instance()
 
 Instance::~Instance()
 {
-	for(Argument* a: arguments)
-		delete a;
-
-	for(Statement* s: children)
-		delete s;
+	qDeleteAll(arguments);
+	arguments.clear();
+	qDeleteAll(children);
+	children.clear();
 }
 
 void Instance::setName(const QString& n)

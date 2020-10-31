@@ -33,6 +33,8 @@ public:
 	QString toString() const;
 #if USE_CGAL
 	CGAL::AffTransformation3 getTransform() const;
+#else
+	decimal* getValues() const;
 #endif
 private:
 	decimal matrix[4][4];

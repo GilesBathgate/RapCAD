@@ -18,10 +18,6 @@
 
 #include "codedoc.h"
 
-CodeDoc::CodeDoc()
-{
-}
-
 void CodeDoc::setName(const QString& n)
 {
 	name=n;

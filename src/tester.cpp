@@ -41,8 +41,10 @@
 #include "ui/codeeditor.h"
 #include "ui/console.h"
 #include "ui/searchwidget.h"
+#include "preferences.h"
+#include "contrib/qtcompat.h"
 
-Tester::Tester(Reporter& r, QString d, QObject* parent) :
+Tester::Tester(Reporter& r,const QString& d,QObject* parent) :
 	QObject(parent),
 	Strategy(r),
 	directory(d),
@@ -51,7 +53,8 @@ Tester::Tester(Reporter& r, QString d, QObject* parent) :
 	nullreport(new Reporter(*nullstream)),
 	testcount(0),
 	passcount(0),
-	failcount(0)
+	failcount(0),
+	ui(nullptr)
 {
 }
 
@@ -72,27 +75,27 @@ void Tester::writeHeader(const QString& name, int num)
 void Tester::writePass()
 {
 #ifdef Q_OS_WIN
-	output << " Passed" << endl;
+	output << " Passed" << Qt::endl;
 #else
-	output << " \e[0;32mPassed\e[0m" << endl;
+	output << " \e[0;32mPassed\e[0m" << Qt::endl;
 #endif
 }
 
 void Tester::writeFail()
 {
 #ifdef Q_OS_WIN
-	output << " FAILED" << endl;
+	output << " FAILED" << Qt::endl;
 #else
-	output << " \e[0;31mFAILED\e[0m" << endl;
+	output << " \e[0;31mFAILED\e[0m" << Qt::endl;
 #endif
 }
 
 void Tester::writeSkip()
 {
 #ifdef Q_OS_WIN
-	output << " Skipped" << endl;
+	output << " Skipped" << Qt::endl;
 #else
-	output << " \e[0;33mSkipped\e[0m" << endl;
+	output << " \e[0;33mSkipped\e[0m" << Qt::endl;
 #endif
 }
 
@@ -110,38 +113,36 @@ static bool skipDir(const QString& dir)
 #ifndef USE_SUBDIV
 	if(dir=="090_subdiv") return true;
 #endif
-	if(dir=="") return true;
-
-	return false;
+	return (dir=="");
 }
 
 int Tester::evaluate()
 {
 	reporter.startTiming();
 
-	CacheManager* cm=CacheManager::getInstance();
-	cm->disableCaches();
+	CacheManager& cm=CacheManager::getInstance();
+	cm.disableCaches();
 
-	output << QString("Qt:\t %1\n").arg(QT_VERSION_STR);
+	output << QString("Qt:\t %1").arg(QT_VERSION_STR) << Qt::endl;
 #ifdef USE_CGAL
-	output << QString("CGAL:\t %1\n").arg(CGAL_VERSION_STR);
+	output << QString("CGAL:\t %1").arg(CGAL_VERSION_STR)<< Qt::endl;
 #endif
-	output << QString("Boost:\t %1.%2.%3\n").arg(BOOST_VERSION / 100000).arg(BOOST_VERSION / 100 % 1000).arg(BOOST_VERSION % 100);
-	output << QString("MPFR:\t %1\n").arg(MPFR_VERSION_STRING);
-	output << QString("GMP:\t %1\n").arg(gmp_version);
+	output << QString("Boost:\t %1.%2.%3").arg(BOOST_VERSION / 100000).arg(BOOST_VERSION / 100 % 1000).arg(BOOST_VERSION % 100)<< Qt::endl;
+	output << QString("MPFR:\t %1").arg(MPFR_VERSION_STRING)<< Qt::endl;
+	output << QString("GMP:\t %1").arg(gmp_version)<< Qt::endl;
 
 	writeHeader("000_treeprinter",testcount);
 
 	TreePrinter nulldocs(*nullstream);
-	BuiltinCreator* cr=BuiltinCreator::getInstance(*nullreport);
-	cr->generateDocs(nulldocs);
+	BuiltinCreator& cr=BuiltinCreator::getInstance(*nullreport);
+	cr.generateDocs(nulldocs);
 
 	writePass();
 
 	QDir testDir(directory);
 	/* This hard coded filter need to be addressed
 	 * but it will do for now. */
-	for(QFileInfo entry: testDir.entryInfoList(QStringList("*_*"))) {
+	for(const auto& entry: testDir.entryInfoList(QStringList("*_*"))) {
 
 		QDir dir(entry.absoluteFilePath());
 		QString testDir=entry.fileName();
@@ -152,7 +153,7 @@ int Tester::evaluate()
 			continue;
 		}
 
-		for(QFileInfo file: dir.entryInfoList(QStringList("*.rcad"), QDir::Files)) {
+		for(const auto& file: dir.entryInfoList(QStringList("*.rcad"), QDir::Files)) {
 
 			writeHeader(file.fileName(),++testcount);
 
@@ -173,18 +174,26 @@ int Tester::evaluate()
 	}
 	reporter.setReturnCode(failcount);
 
-	output << "Total: " << testcount << " Passed: " << passcount << " Failed: " << failcount << endl;
+	output << "Total: " << testcount << " Passed: " << passcount << " Failed: " << failcount << Qt::endl;
 
 	reporter.reportTiming("testing");
 #ifndef Q_OS_WIN
 	reporter.startTiming();
+
+	Preferences& p=Preferences::getInstance();
+	bool autosave=p.getAutoSaveOnCompile();
+	p.setAutoSaveOnCompile(false);
+
 	int c=0;
 	QApplication a(c,nullptr);
 	ui = new MainWindow();
 	ui->show();
 	QTimer::singleShot(100,this,SLOT(runUiTests()));
-	a.exec();
+	QApplication::exec();
 	delete ui;
+
+	p.setAutoSaveOnCompile(autosave);
+
 	reporter.reportTiming("ui testing");
 #endif
 	return reporter.getReturnCode();
@@ -205,11 +214,11 @@ void Tester::preferencesTest()
 {
 	ui->activateWindow();
 	QTest::keyClick(ui,Qt::Key_E,Qt::AltModifier);
-	QMenu* menuEdit = ui->findChild<QMenu*>("menuEdit");
+	auto* menuEdit = ui->findChild<QMenu*>("menuEdit");
 	QTest::keyClick(menuEdit,Qt::Key_Up);
 	QTest::keyClick(menuEdit,Qt::Key_Enter);
 
-	QDialog* prefs = ui->findChild<QDialog*>("Preferences");
+	auto* prefs = ui->findChild<QDialog*>("Preferences");
 	prefs->activateWindow();
 	QTest::keyClick(prefs,Qt::Key_Enter,Qt::NoModifier,100);
 }
@@ -218,8 +227,8 @@ void Tester::searchTest()
 {
 	ui->activateWindow();
 	QTest::keyClick(ui,Qt::Key_F,Qt::ControlModifier,100);
-	QWidget* search=ui->findChild<QWidget*>("searchWidget");
-	QLineEdit* edit=search->findChild<QLineEdit*>("searchLineEdit");
+	auto* search=ui->findChild<QWidget*>("searchWidget");
+	auto* edit=search->findChild<QLineEdit*>("searchLineEdit");
 	QTest::keyClicks(edit,"cube",Qt::NoModifier);
 	QTest::keyClick(edit,Qt::Key_F3,Qt::NoModifier,100);
 	QTest::keyClick(edit,Qt::Key_F3,Qt::ShiftModifier,100);
@@ -230,7 +239,7 @@ void Tester::renderingTest()
 {
 	QFile f("test.rcad");
 	ui->activateWindow();
-	CodeEditor* edit = ui->findChild<CodeEditor*>("scriptEditor");
+	auto* edit = ui->findChild<CodeEditor*>("scriptEditor");
 	edit->activateWindow();
 	QTest::keyClicks(edit,"cube(10);");
 	QTest::keyClick(edit,Qt::Key_Tab,Qt::NoModifier,100);
@@ -246,7 +255,7 @@ void Tester::renderingTest()
 void Tester::consoleTest()
 {
 	ui->activateWindow();
-	Console* console = ui->findChild<Console*>("console");
+	auto* console = ui->findChild<Console*>("console");
 	console->activateWindow();
 	QTest::keyClicks(console,"1+2");
 	QTest::keyClick(console,Qt::Key_Return,Qt::NoModifier,100);
@@ -259,15 +268,14 @@ void Tester::builtinsTest()
 {
 	ui->activateWindow();
 	QTest::keyClick(ui,Qt::Key_D,Qt::AltModifier,100);
-	QMenu* menuDesign = ui->findChild<QMenu*>("menuDesign");
+	auto* menuDesign = ui->findChild<QMenu*>("menuDesign");
 	QTest::keyClick(menuDesign,Qt::Key_B,Qt::NoModifier,100);
 }
 
 void Tester::handleSaveItemsDialog()
 {
-	for(int i=0; i<10; ++i)
-	{
-		QDialog* sd=ui->findChild<QDialog*>("SaveItemsDialog");
+	for(int i=0; i<10; ++i) {
+		auto* sd=ui->findChild<QDialog*>("SaveItemsDialog");
 		if(sd) {
 			sd->activateWindow();
 			QTest::keyClick(sd,Qt::Key_C,Qt::AltModifier,100);
@@ -281,7 +289,7 @@ void Tester::handleSaveItemsDialog()
 void Tester::exportTest(const QDir& dir)
 {
 	Reporter& r=*nullreport;
-	for(QFileInfo file: dir.entryInfoList(QStringList("*.rcad"), QDir::Files)) {
+	for(const auto& file: dir.entryInfoList(QStringList("*.rcad"), QDir::Files)) {
 		Script s(r);
 		s.parse(file);
 		TreeEvaluator te(r);
@@ -289,49 +297,50 @@ void Tester::exportTest(const QDir& dir)
 		NodeEvaluator ne(r);
 		Node* n=te.getRootNode();
 		n->accept(ne);
+		Primitive* p=ne.getResult();
 #if USE_CGAL
 		QDir path(file.absolutePath());
-		QString origPath(path.filePath(file.baseName()+".csg"));
 
-		CGALExport e(ne.getResult(),r);
-		QFile origFile(origPath);
-		e.exportResult(origPath);
+		const QFileInfo origPath(path.filePath(file.baseName()+".csg"));
+		const CGALExport e(origPath,p,r);
+		e.exportResult();
 
-		exportTest(e,origPath,file,".stl");
-		exportTest(e,origPath,file,".off");
-		exportTest(e,origPath,file,".amf");
-		exportTest(e,origPath,file,".3mf");
-		exportTest(e,origPath,file,".nef");
+		exportTest(p,origPath,file,".stl");
+		exportTest(p,origPath,file,".off");
+		exportTest(p,origPath,file,".amf");
+		exportTest(p,origPath,file,".3mf");
+		exportTest(p,origPath,file,".nef");
 
-		origFile.remove();
+		QFile::remove(origPath.absoluteFilePath());
+		delete p;
 		delete n;
 #endif
 	}
 }
 
 #if USE_CGAL
-void Tester::exportTest(CGALExport& e,const QString& origPath,QFileInfo file,const QString& ext)
+void Tester::exportTest(Primitive* p,const QFileInfo& origPath,const QFileInfo& file,const QString& ext)
 {
 	QString newName=file.baseName()+ext;
 
 	writeHeader(newName,++testcount);
 
 	QDir path(file.absolutePath());
-	QString newPath(path.filePath(newName));
-	QFile newfile(newPath);
-
-	e.exportResult(newPath);
+	const QFileInfo newPath(path.filePath(newName));
+	const CGALExport e(newPath,p,*nullreport);
+	e.exportResult();
 	Comparer c(*nullreport);
-	c.setup(origPath,newPath);
+	c.setup(origPath.absoluteFilePath(),newPath.absoluteFilePath());
 	c.evaluate();
-	if(c.evaluate()==0) {
+	if(c.evaluate()==EXIT_SUCCESS) {
 		writePass();
 		passcount++;
 	} else {
 		writeFail();
 		failcount++;
 	}
-	newfile.remove();
+
+	QFile::remove(newPath.absoluteFilePath());
 }
 #endif
 
@@ -356,7 +365,7 @@ void Tester::testFunction(Script& s)
 	delete n;
 }
 
-void Tester::testModule(Script& s, QFileInfo file)
+void Tester::testModule(Script& s,const QFileInfo& file)
 {
 #ifdef Q_OS_WIN
 	writeSkip();
@@ -386,7 +395,7 @@ void Tester::testModule(Script& s, QFileInfo file)
 	if(csgFile.exists()) {
 		Comparer co(*nullreport);
 		co.setup(examFileInfo.absoluteFilePath(),csgFileInfo.absoluteFilePath());
-		if(co.evaluate()==0) {
+		if(co.evaluate()==EXIT_SUCCESS) {
 			writePass();
 			passcount++;
 		} else {
@@ -395,7 +404,7 @@ void Tester::testModule(Script& s, QFileInfo file)
 		}
 		examFile.remove();
 	} else {
-		output << "Created" << endl;
+		output << "Created" << Qt::endl;
 	}
 }
 

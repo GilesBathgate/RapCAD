@@ -26,7 +26,7 @@ class Tester : public QObject,public Strategy
 {
 	Q_OBJECT
 public:
-	Tester(Reporter&,QString,QObject* parent = nullptr);
+	Tester(Reporter&,const QString&,QObject* parent=nullptr);
 	~Tester() override;
 	int evaluate() override;
 private slots:
@@ -37,12 +37,12 @@ private:
 	void writePass();
 	void writeFail();
 	void writeSkip();
-	bool testFunctionExists(Script&);
-	void testModule(Script&, QFileInfo);
+	static bool testFunctionExists(Script&);
+	void testModule(Script&,const QFileInfo&);
 	void testFunction(Script&);
 	void exportTest(const QDir&);
 #if USE_CGAL
-	void exportTest(class CGALExport&,const QString&,QFileInfo,const QString&);
+	void exportTest(Primitive* p,const QFileInfo&,const QFileInfo&,const QString&);
 #endif
 	void builtinsTest();
 	void consoleTest();

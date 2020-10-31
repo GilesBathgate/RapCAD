@@ -18,10 +18,6 @@
 
 #include "minkowskinode.h"
 
-MinkowskiNode::MinkowskiNode()
-{
-}
-
 void MinkowskiNode::accept(NodeVisitor& v)
 {
 	v.visit(*this);

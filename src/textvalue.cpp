@@ -20,6 +20,7 @@
 #include "numbervalue.h"
 #include "booleanvalue.h"
 #include "textiterator.h"
+#include "valuefactory.h"
 
 TextValue::TextValue(const QString& value) :
 	text(value)
@@ -38,12 +39,12 @@ TextValue* TextValue::toText()
 
 Value* TextValue::toNumber()
 {
-	bool ok;
+	bool ok=false;
 	decimal n=to_decimal(text,&ok);
 	if(ok)
-		return new NumberValue(n);
-	else
-		return Value::undefined();
+		return factory.createNumber(n);
+
+	return factory.createUndefined();
 }
 
 ValueIterator* TextValue::createIterator()
@@ -59,7 +60,7 @@ bool TextValue::isTrue() const
 Value* TextValue::operation(Expression::Operator_e op)
 {
 	if(op==Expression::Length) {
-		return new NumberValue(text.length());
+		return factory.createNumber(text.length());
 	}
 	return this;
 }
@@ -69,21 +70,20 @@ Value* TextValue::operation(Value& v,Expression::Operator_e e)
 	auto* that=dynamic_cast<TextValue*>(&v);
 	if(that) {
 		if(isComparison(e)) {
-			return new BooleanValue(operation(this,e,that));
-		} else {
-			return new TextValue(operation(this->text,e,that->text));
+			return factory.createBoolean(operation(this,e,that));
 		}
+		return factory.createText(operation(this->text,e,that->text));
 	}
 
 	auto* num=dynamic_cast<NumberValue*>(&v);
 	if(num)
 		if(e==Expression::Index)
-			return new TextValue(text.at(num->toInteger()));
+			return factory.createText(text.at(num->toInteger()));
 
 	return Value::operation(v,e);
 }
 
-QString TextValue::operation(QString left, Expression::Operator_e e, QString right)
+QString TextValue::operation(QString& left, Expression::Operator_e e,QString& right)
 {
 	switch(e) {
 		case Expression::Concatenate:

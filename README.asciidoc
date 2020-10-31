@@ -47,7 +47,7 @@ Ubuntu
 Mac OS X
 ~~~~~~~
 
-* Download the https://github.com/GilesBathgate/RapCAD/releases/download/v1.0.0/rapcad_1.0.0.dmg[latest disk image].
+* Download the https://github.com/GilesBathgate/RapCAD/releases/[latest disk image].
 * Open the image and run the rapcad package.
 
 Building

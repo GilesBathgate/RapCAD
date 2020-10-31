@@ -18,7 +18,8 @@
 
 #include "pointsnode.h"
 
-PointsNode::PointsNode()
+PointsNode::PointsNode() :
+	visibleChildren(true)
 {
 }
 
@@ -30,6 +31,16 @@ QList<Point> PointsNode::getPoints() const
 void PointsNode::setPoints(const QList<Point>& p)
 {
 	points=p;
+}
+
+bool PointsNode::getVisibleChildren() const
+{
+	return visibleChildren;
+}
+
+void PointsNode::setVisibleChildren(bool value)
+{
+	visibleChildren = value;
 }
 
 void PointsNode::accept(NodeVisitor& v)

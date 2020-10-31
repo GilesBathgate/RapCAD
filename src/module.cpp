@@ -30,9 +30,8 @@ Module::Module(Reporter& r, const QString& n) :
 
 Module::~Module()
 {
-	for(Parameter* p: parameters)
-		delete p;
-
+	qDeleteAll(parameters);
+	parameters.clear();
 	delete scope;
 }
 

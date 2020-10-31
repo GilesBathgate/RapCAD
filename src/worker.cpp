@@ -32,6 +32,7 @@
 #else
 #include "simplerenderer.h"
 #endif
+#include "contrib/qtcompat.h"
 
 Worker::Worker(Reporter& r) :
 	Strategy(r),
@@ -98,7 +99,7 @@ void Worker::primary()
 	if(print) {
 		TreePrinter p(output);
 		s.accept(p);
-		output << endl;
+		output << Qt::endl;
 	}
 
 	TreeEvaluator e(reporter);
@@ -109,17 +110,18 @@ void Worker::primary()
 	if(print) {
 		NodePrinter p(output);
 		n->accept(p);
-		output << endl;
+		output << Qt::endl;
+	} else {
+		NodeEvaluator ne(reporter);
+		n->accept(ne);
+		updatePrimitive(ne.getResult());
 	}
-
-	NodeEvaluator ne(reporter);
-	n->accept(ne);
 	delete n;
 
-	updatePrimitive(ne.getResult());
 	if(!primitive)
 		reporter.reportWarning(tr("no top level object."));
 	else if(!outputFile.isEmpty()) {
+		resultAccepted();
 		exportResult(outputFile);
 	}
 }
@@ -178,7 +180,7 @@ decimal Worker::getBoundsHeight() const
 #endif
 }
 
-QList<Argument*> Worker::getArgs(decimal value)
+QList<Argument*> Worker::getArgs(const decimal& value)
 {
 	QList<Argument*> args;
 	auto* a=new Argument();
@@ -211,8 +213,9 @@ void Worker::exportResult(const QString& fileName)
 	reporter.startTiming();
 
 	try {
-		CGALExport exporter(primitive,reporter);
-		exporter.exportResult(fileName);
+		const QFileInfo file(fileName);
+		const CGALExport exporter(file,primitive,reporter);
+		exporter.exportResult();
 	} catch(const CGAL::Failure_exception& e) {
 		resultFailed(QString::fromStdString(e.what()));
 	}

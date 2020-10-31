@@ -33,8 +33,8 @@ public:
 private:
 	Value* operation(Expression::Operator_e) override;
 	Value* operation(Value&,Expression::Operator_e) override;
-	QString operation(QString,Expression::Operator_e,QString);
-	bool operation(TextValue*,Expression::Operator_e,TextValue*);
+	QString operation(QString&,Expression::Operator_e,QString&);
+	static bool operation(TextValue*,Expression::Operator_e,TextValue*);
 	QString text;
 };
 

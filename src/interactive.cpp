@@ -19,7 +19,11 @@
 #include "interactive.h"
 #include "treeevaluator.h"
 #include "script.h"
-#include "tokenbuilder.h"
+#include "tokenreader.h"
+#ifdef USE_CGAL
+#include <CGAL/exceptions.h>
+#endif
+#include "contrib/qtcompat.h"
 
 #ifdef USE_READLINE
 namespace readline
@@ -36,9 +40,8 @@ Interactive::Interactive(Reporter& r,QObject* parent) :
 
 bool Interactive::isExpression(const QString& s)
 {
-	TokenBuilder t(s);
-	int i;
-	while((i=t.nextToken())) {
+	TokenReader t(s);
+	while(int i=t.nextToken()) {
 		if(i==';'||i=='}') {
 			return false;
 		}
@@ -48,26 +51,36 @@ bool Interactive::isExpression(const QString& s)
 
 void Interactive::execCommand(const QString& str)
 {
-	QString s(str);
-	if(isExpression(s)) {
-		s=QString("writeln(%1);").arg(s);
-		/* Use a kludge factor so that the reporter doesn't include the 'write('
-		 * characters in its 'at character' output */
-		reporter.setKludge(-8);
-	} else {
-		reporter.setKludge(0);
-	}
+	try {
+		QString s(str);
+		if(isExpression(s)) {
+			s=QString("writeln(%1);").arg(s);
+			/* Use a kludge factor so that the reporter doesn't include the 'write('
+			 * characters in its 'at character' output */
+			reporter.setKludge(-8);
+		} else {
+			reporter.setKludge(0);
+		}
 
-	Script sc(reporter);
-	sc.parse(s);
-	TreeEvaluator e(reporter);
-	sc.accept(e);
-	output.flush();
+		Script sc(reporter);
+		sc.parse(s);
+		TreeEvaluator e(reporter);
+		sc.accept(e);
+		Node* n=e.getRootNode();
+		output.flush();
+		delete n;
+#ifdef USE_CGAL
+	} catch(const CGAL::Failure_exception& e) {
+		reporter.reportException(QString::fromStdString(e.what()));
+#endif
+	} catch(...) {
+		reporter.reportException(tr("Unknown error."));
+	}
 }
 
-#define PROMPT "\u042F: "
+static constexpr auto PROMPT="\u042F: ";
 
-QString Interactive::getPrompt() const
+QString Interactive::getPrompt()
 {
 	return PROMPT;
 }
@@ -75,13 +88,9 @@ QString Interactive::getPrompt() const
 int Interactive::evaluate()
 {
 #ifdef USE_READLINE
-	const char* prompt=PROMPT;
-	char* c;
-	do {
-		c=readline::readline(prompt);
+	while(char* c=readline::readline(PROMPT))
 		execCommand(c);
-	} while(c!=nullptr);
-	output << endl;
+	output << Qt::endl;
 #endif
 	return EXIT_SUCCESS;
 }

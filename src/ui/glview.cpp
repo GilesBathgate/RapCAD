@@ -17,13 +17,13 @@
  */
 
 #include <QApplication>
-#include <math.h>
+#include <cmath>
 #include "glview.h"
 #ifdef USE_QGLWIDGET
 #include <CGAL/glu.h>
 #endif
 
-static const GLfloat farfarAway=100000.0f;
+static const GLfloat farfarAway=100000.0F;
 static const int rulerLength=200;
 
 GLView::GLView(QWidget* parent) :
@@ -35,7 +35,7 @@ GLView::GLView(QWidget* parent) :
 	modelview(new QMatrix4x4()),
 #endif
 	render(nullptr),
-	distance(500.0f),
+	distance(500.0F),
 	showAxes(true),
 	showCross(true),
 	showBase(true),
@@ -43,18 +43,18 @@ GLView::GLView(QWidget* parent) :
 	showRulers(true),
 	showEdges(false),
 	skeleton(false),
-	printX(0.0f),
-	printY(0.0f),
-	printWidth(0.0f),
-	printLength(0.0f),
-	printHeight(0.0f),
+	printX(0.0F),
+	printY(0.0F),
+	printWidth(0.0F),
+	printLength(0.0F),
+	printHeight(0.0F),
 	appearance(Appearance_t::MK42),
 	mouseDrag(false),
-	rotateX(35.0f),
-	rotateY(0.0f),
-	rotateZ(35.0f),
-	viewportX(0.0f),
-	viewportZ(0.0f)
+	rotateX(35.0F),
+	rotateY(0.0F),
+	rotateZ(35.0F),
+	viewportX(0.0F),
+	viewportZ(0.0F)
 {
 }
 
@@ -67,7 +67,7 @@ GLView::~GLView()
 	delete render;
 }
 
-void GLView::getViewport(GLfloat& rx,GLfloat& ry,GLfloat& rz,GLfloat& x,GLfloat& z,GLfloat& d)
+void GLView::getViewport(GLfloat& rx,GLfloat& ry,GLfloat& rz,GLfloat& x,GLfloat& z,GLfloat& d) const
 {
 	rx=rotateX;
 	ry=rotateY;
@@ -117,27 +117,32 @@ void GLView::setShowEdges(bool edges)
 
 void GLView::changeViewport(int t)
 {
-	float rx,ry,rz,x,z,d;
+	GLfloat rx;
+	GLfloat ry;
+	GLfloat rz;
+	GLfloat x;
+	GLfloat z;
+	GLfloat d;
 	getViewport(rx,ry,rz,x,z,d);
 
 	switch(t) {
 		case Top:
-			setViewport(90.0f,0.0f,0.0f,x,z,d);
+			setViewport(90.0F,0.0F,0.0F,x,z,d);
 			break;
 		case Bottom:
-			setViewport(-90.0f,0.0f,0.0f,x,z,d);
+			setViewport(-90.0F,0.0F,0.0F,x,z,d);
 			break;
 		case Left:
-			setViewport(0.0f,0.0f,90.0f,x,z,d);
+			setViewport(0.0F,0.0F,90.0F,x,z,d);
 			break;
 		case Right:
-			setViewport(0.0f,0.0f,-90.0f,x,z,d);
+			setViewport(0.0F,0.0F,-90.0F,x,z,d);
 			break;
 		case Front:
-			setViewport(0.0f,0.0f,0.0f,x,z,d);
+			setViewport(0.0F,0.0F,0.0F,x,z,d);
 			break;
 		case Back:
-			setViewport(0.0f,0.0f,-180.0f,x,z,d);
+			setViewport(0.0F,0.0F,-180.0F,x,z,d);
 			break;
 	}
 }
@@ -182,8 +187,8 @@ void GLView::preferencesUpdated()
 
 void GLView::setCompiling(bool value)
 {
-	GLfloat n=value?0.8f:1.0f;
-	glClearColor(n,n,n,0.0f);
+	GLfloat n=value?0.8F:1.0F;
+	glClearColor(n,n,n,0.0F);
 	if(render)
 		render->setCompiling(value);
 	update();
@@ -202,10 +207,10 @@ void GLView::initializeGL()
 #endif
 
 	glEnable(GL_DEPTH_TEST);
-	glClearColor(1.0f,1.0f,1.0f,0.0f);
-	GLfloat light_diffuse[]={1.0f,1.0f,1.0f,1.0f};
-	GLfloat light_position0[]={-1.0f,-1.0f,+1.0f,0.0f};
-	GLfloat light_position1[]={+1.0f,+1.0f,-1.0f,0.0f};
+	glClearColor(1.0F,1.0F,1.0F,0.0F);
+	GLfloat light_diffuse[]={1.0F,1.0F,1.0F,1.0F};
+	GLfloat light_position0[]={-1.0F,-1.0F,+1.0F,0.0F};
+	GLfloat light_position1[]={+1.0F,+1.0F,-1.0F,0.0F};
 
 	glLightfv(GL_LIGHT0,GL_DIFFUSE,light_diffuse);
 	glLightfv(GL_LIGHT0,GL_POSITION,light_position0);
@@ -222,7 +227,7 @@ void GLView::initializeGL()
 
 void GLView::resizeGL(int w,int h)
 {
-	glViewport(0.0f,0.0f,GLint(w),GLint(h));
+	glViewport(0.0F,0.0F,GLint(w),GLint(h));
 
 	glMatrixMode(GL_PROJECTION);
 
@@ -231,7 +236,7 @@ void GLView::resizeGL(int w,int h)
 	gluPerspective(45.0f,(GLfloat)w/(GLfloat)h,+10.0f,+farfarAway);
 #else
 	projection->setToIdentity();
-	projection->perspective(45.0f,GLfloat(w)/GLfloat(h),+10.0f,+farfarAway);
+	projection->perspective(45.0F,GLfloat(w)/GLfloat(h),+10.0F,+farfarAway);
 	glLoadMatrixf(projection->data());
 #endif
 
@@ -249,11 +254,11 @@ void GLView::drawGradientBackground()
 	glDisable(GL_DEPTH_TEST);
 	glBegin(GL_QUADS);
 	glColor3ub(119,119,119);
-	glVertex2f(-1.0f,-1.0f);
-	glVertex2f(1.0f,-1.0f);
+	glVertex2f(-1.0F,-1.0F);
+	glVertex2f(1.0F,-1.0F);
 	glColor3ub(186,186,186);
-	glVertex2f(1.0f,1.0f);
-	glVertex2f(-1.0f,1.0f);
+	glVertex2f(1.0F,1.0F);
+	glVertex2f(-1.0F,1.0F);
 	glEnd();
 	glEnable(GL_DEPTH_TEST);
 
@@ -264,15 +269,15 @@ void GLView::drawGradientBackground()
 void GLView::drawAxes()
 {
 	glLineWidth(1);
-	glColor3f(0.0f,0.0f,0.0f);
+	glColor3f(0.0F,0.0F,0.0F);
 	glBegin(GL_LINES);
-	float c=fmax(distance/2,GLfloat(rulerLength));
-	glVertex3f(-c,0.0f,0.0f);
-	glVertex3f(+c,0.0f,0.0f);
-	glVertex3f(0.0f,-c,0.0f);
-	glVertex3f(0.0f,+c,0.0f);
-	glVertex3f(0.0f,0.0f,-c);
-	glVertex3f(0.0f,0.0f,+c);
+	GLfloat c=fmaxf(distance/2.0F,GLfloat(rulerLength));
+	glVertex3f(-c,0.0F,0.0F);
+	glVertex3f(+c,0.0F,0.0F);
+	glVertex3f(0.0F,-c,0.0F);
+	glVertex3f(0.0F,+c,0.0F);
+	glVertex3f(0.0F,0.0F,-c);
+	glVertex3f(0.0F,0.0F,+c);
 	glEnd();
 }
 
@@ -280,16 +285,16 @@ void GLView::drawBase()
 {
 	glEnable(GL_CULL_FACE);
 
-	const GLfloat z=-0.01f;
+	const GLfloat z=-0.01F;
 	switch(appearance) {
 		case Appearance_t::MK42: {
-			const GLfloat baseX=-2.0f;
-			const GLfloat baseY=-9.4f;
-			const GLfloat baseWidth=254.0f;
-			const GLfloat baseLength=235.0f;
-			const GLfloat chamfer=4.0f;
+			const GLfloat baseX=-2.0F;
+			const GLfloat baseY=-9.4F;
+			const GLfloat baseWidth=254.0F;
+			const GLfloat baseLength=235.0F;
+			const GLfloat chamfer=4.0F;
 			glLineWidth(2);
-			glColor3f(0.2f,0.2f,0.2f);
+			glColor3f(0.2F,0.2F,0.2F);
 			glBegin(GL_QUADS);
 			glVertex3f(printX+baseX,printY+baseY+chamfer,z);
 			glVertex3f(printX+baseX+chamfer,printY+baseY,z);
@@ -308,26 +313,26 @@ void GLView::drawBase()
 			glEnd();
 
 			glLineWidth(2);
-			glColor3f(0.6f,0.6f,0.6f);
+			glColor3f(0.6F,0.6F,0.6F);
 			glBegin(GL_LINES);
-			for(GLfloat o=0.0f; o<printWidth; o+=10.0f) {
+			for(GLint o=0; o<printWidth; o+=10) {
 				glVertex3f(printX+o,printY,z);
 				glVertex3f(printX+o,printY+printLength,z);
 			}
-			for(GLfloat j=5.0f; j<printLength; j+=10.0f) {
+			for(GLint j=5; j<printLength; j+=10) {
 				glVertex3f(printX,printY+j,z);
 				glVertex3f(printX+printWidth,printY+j,z);
 			}
 			glEnd();
 
 			glLineWidth(4);
-			glColor3f(0.8f,0.8f,0.8f);
+			glColor3f(0.8F,0.8F,0.8F);
 			glBegin(GL_LINES);
-			for(GLfloat o=0.0f; o<printWidth; o+=50.0f) {
+			for(GLint o=0; o<printWidth; o+=50) {
 				glVertex3f(printX+o,printY,z);
 				glVertex3f(printX+o,printY+printLength,z);
 			}
-			for(GLfloat j=5.0f; j<printLength; j+=50.0f) {
+			for(GLint j=5; j<printLength; j+=50) {
 				glVertex3f(printX,printY+j,z);
 				glVertex3f(printX+printWidth,printY+j,z);
 			}
@@ -336,9 +341,9 @@ void GLView::drawBase()
 		break;
 		case Appearance_t::MK2: {
 			const GLfloat baseXY=-7.5;
-			const GLfloat baseWL=215.0f;
+			const GLfloat baseWL=215.0F;
 			glLineWidth(2);
-			glColor3f(0.6f,0.2f,0.2f);
+			glColor3f(0.6F,0.2F,0.2F);
 			glBegin(GL_QUADS);
 			glVertex3f(printX+baseXY,printY+baseXY,z);
 			glVertex3f(printX+baseXY+baseWL,printY+baseXY,z);
@@ -350,7 +355,7 @@ void GLView::drawBase()
 	}
 
 	glLineWidth(4);
-	glColor3f(0.8f,0.8f,0.8f);
+	glColor3f(0.8F,0.8F,0.8F);
 	glBegin(GL_LINE_LOOP);
 	glVertex3f(printX,printY,z);
 	glVertex3f(printX+printWidth,printY,z);
@@ -364,25 +369,25 @@ void GLView::drawBase()
 void GLView::drawPrintArea()
 {
 	glLineWidth(1);
-	glColor3f(0.8f,0.8f,0.8f);
+	glColor3f(0.8F,0.8F,0.8F);
 	glBegin(GL_LINE_LOOP);
-	glVertex3f(printX,printY,0.0f);
-	glVertex3f(printX+printWidth,printY,0.0f);
-	glVertex3f(printX+printWidth,printY+printLength,0.0f);
-	glVertex3f(printX,printY+printLength,0.0f);
+	glVertex3f(printX,printY,0.0F);
+	glVertex3f(printX+printWidth,printY,0.0F);
+	glVertex3f(printX+printWidth,printY+printLength,0.0F);
+	glVertex3f(printX,printY+printLength,0.0F);
 	glEnd();
 
 	glBegin(GL_LINES);
-	glVertex3f(printX,printY,0.0f);
+	glVertex3f(printX,printY,0.0F);
 	glVertex3f(printX,printY,printHeight);
 
-	glVertex3f(printX+printWidth,printY+printLength,0.0f);
+	glVertex3f(printX+printWidth,printY+printLength,0.0F);
 	glVertex3f(printX+printWidth,printY+printLength,printHeight);
 
-	glVertex3f(printX,printY+printLength,0.0f);
+	glVertex3f(printX,printY+printLength,0.0F);
 	glVertex3f(printX,printY+printLength,printHeight);
 
-	glVertex3f(printX+printWidth,printY,0.0f);
+	glVertex3f(printX+printWidth,printY,0.0F);
 	glVertex3f(printX+printWidth,printY,printHeight);
 	glEnd();
 
@@ -397,7 +402,7 @@ void GLView::drawPrintArea()
 void GLView::drawRulers()
 {
 	glLineWidth(1);
-	glColor3f(0.2f,0.2f,0.2f);
+	glColor3f(0.2F,0.2F,0.2F);
 	glBegin(GL_LINES);
 	int k=distance<200?1:10; //Only show milimeters when close up
 	for(int i=-rulerLength; i<rulerLength; i+=k) {
@@ -420,26 +425,26 @@ void GLView::drawRulers()
 
 void GLView::drawCross()
 {
-	const GLfloat n=0.2f;
-	glLineWidth(5.0f);
+	const GLfloat n=0.2F;
+	glLineWidth(5.0F);
 	glBegin(GL_LINES);
-	glColor3f(1.0f,0.0f,0.0f);
+	glColor3f(1.0F,0.0F,0.0F);
 	glVertex3f(printX,printY,n);
-	glVertex3f(printX+10.0f,printY,n);
+	glVertex3f(printX+10.0F,printY,n);
 
-	glColor3f(0.0f,1.0f,0.0f);
+	glColor3f(0.0F,1.0F,0.0F);
 	glVertex3f(printX,printY,n);
-	glVertex3f(printX,printY+10.0f,n);
+	glVertex3f(printX,printY+10.0F,n);
 
-	glColor3f(0.0f,0.0f,1.0f);
+	glColor3f(0.0F,0.0F,1.0F);
 	glVertex3f(printX-n,printY-n,n);
-	glVertex3f(printX-n,printY-n,10.0f);
+	glVertex3f(printX-n,printY-n,10.0F);
 	glEnd();
 
-	glLineWidth(2.0f);
-	renderX(printX+15.0f,printY,3.0f);
-	renderY(printX,printY+15.0f,3.0f);
-	renderZ(printX-n,printY-n,15.0f);
+	glLineWidth(2.0F);
+	renderX(printX+15.0F,printY,3.0F);
+	renderY(printX,printY+15.0F,3.0F);
+	renderZ(printX-n,printY-n,15.0F);
 }
 
 void GLView::paintGL()
@@ -461,13 +466,13 @@ void GLView::paintGL()
 #else
 	modelview->setToIdentity();
 	QVector3D eye(-viewportX,-distance,-viewportZ);
-	QVector3D center(-viewportX,0.0f,-viewportZ);
-	QVector3D up(0.0f,0.0f,1.0f);
+	QVector3D center(-viewportX,0.0F,-viewportZ);
+	QVector3D up(0.0F,0.0F,1.0F);
 	modelview->lookAt(eye,center,up);
 
-	modelview->rotate(rotateX,1.0f,0.0f,0.0f);
-	modelview->rotate(rotateY,0.0f,1.0f,0.0f);
-	modelview->rotate(rotateZ,0.0f,0.0f,1.0f);
+	modelview->rotate(rotateX,1.0F,0.0F,0.0F);
+	modelview->rotate(rotateY,0.0F,1.0F,0.0F);
+	modelview->rotate(rotateZ,0.0F,0.0F,1.0F);
 
 	glLoadMatrixf(modelview->data());
 #endif
@@ -486,8 +491,8 @@ void GLView::paintGL()
 
 void GLView::renderX(GLfloat x,GLfloat y,GLfloat z)
 {
-	const float d=2.0f;
-	glColor3f(1.0f,0.0f,0.0f);
+	const GLfloat d=2.0F;
+	glColor3f(1.0F,0.0F,0.0F);
 	glBegin(GL_LINES);
 	glVertex3f(x-d,y,z-d);
 	glVertex3f(x+d,y,z+d);
@@ -498,8 +503,8 @@ void GLView::renderX(GLfloat x,GLfloat y,GLfloat z)
 
 void GLView::renderY(GLfloat x,GLfloat y,GLfloat z)
 {
-	const float d=2.0f;
-	glColor3f(0.0f,1.0f,0.0f);
+	const GLfloat d=2.0F;
+	glColor3f(0.0F,1.0F,0.0F);
 	glBegin(GL_LINES);
 	glVertex3f(x+d,y,z+d);
 	glVertex3f(x,y,z);
@@ -512,8 +517,8 @@ void GLView::renderY(GLfloat x,GLfloat y,GLfloat z)
 
 void GLView::renderZ(GLfloat x,GLfloat y,GLfloat z)
 {
-	const float d=2.0f;
-	glColor3f(0.0f,0.0f,1.0f);
+	const GLfloat d=2.0F;
+	glColor3f(0.0F,0.0F,1.0F);
 	glBegin(GL_LINES);
 	glVertex3f(x-d,y,z-d);
 	glVertex3f(x+d,y,z-d);
@@ -526,13 +531,18 @@ void GLView::renderZ(GLfloat x,GLfloat y,GLfloat z)
 
 void GLView::wheelEvent(QWheelEvent* event)
 {
-	zoomView(event->delta()/12);
+#if QT_VERSION < QT_VERSION_CHECK(5,5,0)
+	int delta=event->delta();
+#else
+	int delta=event->angleDelta().y();
+#endif
+	zoomView(GLfloat(delta/12.0F));
 	update();
 }
 
-void GLView::zoomView(float amt)
+void GLView::zoomView(GLfloat amt)
 {
-	distance*=GLfloat(pow(0.9,amt/10));
+	distance*=powf(0.9F,amt/10.0F);
 }
 
 void GLView::mousePressEvent(QMouseEvent* event)
@@ -543,10 +553,10 @@ void GLView::mousePressEvent(QMouseEvent* event)
 
 void GLView::normalizeAngle(GLfloat& angle)
 {
-	while(angle < 0.0f)
-		angle+=360.0f;
-	while(angle > 360.0f)
-		angle-=360.0f;
+	while(angle < 0.0F)
+		angle+=360.0F;
+	while(angle > 360.0F)
+		angle-=360.0F;
 }
 
 
@@ -571,7 +581,7 @@ void GLView::mouseMoveEvent(QMouseEvent* event)
 		normalizeAngle(rotateZ);
 	} else {
 		if(shift) {
-			zoomView(-dy);
+			zoomView(GLfloat(-dy));
 		} else {
 			viewportX+=GLfloat(dx);
 			viewportZ-=GLfloat(dy);

@@ -23,8 +23,8 @@
 
 decimal to_decimal(const QString& str,bool* ok)
 {
-#ifdef USE_CGAL
 	QString s(str);
+#ifdef USE_CGAL
 	int i = s.indexOf('.');
 	if(i>=0) {
 		s.remove(i,1);
@@ -38,7 +38,7 @@ decimal to_decimal(const QString& str,bool* ok)
 	if(error) {
 		if(ok!=nullptr)
 			*ok=false;
-		return decimal(0);
+		return 0.0;
 	}
 
 	mpq_canonicalize(d.mpq());
@@ -52,25 +52,33 @@ decimal to_decimal(const QString& str,bool* ok)
 
 QString to_string(const decimal& d)
 {
-	Preferences* p=Preferences::getInstance();
-	int numberFormat=p->getNumberFormat();
+	Preferences& p=Preferences::getInstance();
+	NumberFormat_t format=p.getNumberFormat();
 
-	if(numberFormat!=1 && d==0.0)
+	if(format!=ScientificFormat && d==0.0)
 		return QString('0');
 
 	QString res;
 #ifdef USE_CGAL
 
-	char* a;
-	if(numberFormat==2) {
+	char* a=nullptr;
+	if(format==RationalFormat) {
+#ifndef USE_VALGRIND
 		gmp_asprintf(&a,"%Qd",d.exact().mpq());
+#else
+		gmp_asprintf(&a,"%Qd",d.mpq());
+#endif
 	} else {
 		mpf_t m;
-		mpf_init2(m,p->getSignificandBits());
+		mpf_init2(m,p.getSignificandBits());
+#ifndef USE_VALGRIND
 		mpf_set_q(m,d.exact().mpq());
+#else
+		mpf_set_q(m,d.mpq());
+#endif
 
-		if(numberFormat==1) {
-			gmp_asprintf(&a,"%.*Fe",p->getDecimalPlaces(),m);
+		if(format==ScientificFormat) {
+			gmp_asprintf(&a,"%.*Fe",p.getDecimalPlaces(),m);
 		} else {
 			gmp_asprintf(&a,"%.Ff",m);
 		}
@@ -81,7 +89,7 @@ QString to_string(const decimal& d)
 	return res;
 
 #else
-	res.setNum(d,'f',p->getPrecision());
+	res.setNum(d,'f',p.getPrecision());
 
 	return res;
 #endif
@@ -99,7 +107,7 @@ int to_integer(const decimal& n)
 
 bool to_boolean(const decimal& n)
 {
-	return n==decimal(0)?false:true;
+	return (n!=0.0);
 }
 
 #ifdef USE_CGAL
@@ -113,7 +121,11 @@ void to_glcoord(const Point& pt,float& x,float& y,float& z)
 CGAL::Gmpfr to_gmpfr(const decimal& d)
 {
 	CGAL::Gmpfr m;
+#ifndef USE_VALGRIND
 	mpfr_set_q(m.fr(),d.exact().mpq(),MPFR_RNDN);
+#else
+	mpfr_set_q(m.fr(),d.mpq(),MPFR_RNDN);
+#endif
 	return m;
 }
 #endif

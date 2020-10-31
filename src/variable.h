@@ -33,7 +33,7 @@ public:
 	};
 
 	Variable();
-	~Variable() override;
+	~Variable() override = default;
 	void setName(const QString&);
 	QString getName() const;
 	void setStorage(Storage_e);

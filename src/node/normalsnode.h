@@ -24,7 +24,7 @@
 class NormalsNode : public Node
 {
 public:
-	NormalsNode();
+	NormalsNode() = default;
 	void accept(NodeVisitor&) override;
 };
 

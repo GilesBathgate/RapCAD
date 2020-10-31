@@ -41,26 +41,28 @@ Node* AlignModule::evaluate(const Context& ctx) const
 	VectorValue* vecVal=dynamic_cast<VectorValue*>(ctx.getArgument(0,"anchor"));
 	if(vecVal) {
 		Point p = vecVal->getPoint();
-		decimal x=p.x(),y=p.y(),z=p.z();
-		if(x>0) {
+		decimal x=p.x();
+		decimal y=p.y();
+		decimal z=p.z();
+		if(x>0.0) {
 			align.append(AlignNode::North);
-		} else if(x<0) {
+		} else if(x<0.0) {
 			align.append(AlignNode::South);
 		} else {
 			align.append(AlignNode::North);
 			align.append(AlignNode::South);
 		}
-		if(y>0) {
+		if(y>0.0) {
 			align.append(AlignNode::West);
-		} else if(y<0) {
+		} else if(y<0.0) {
 			align.append(AlignNode::East);
 		} else {
 			align.append(AlignNode::East);
 			align.append(AlignNode::West);
 		}
-		if(z>0) {
+		if(z>0.0) {
 			align.append(AlignNode::Top);
-		} else if(z<0) {
+		} else if(z<0.0) {
 			align.append(AlignNode::Bottom);
 		} else {
 			align.append(AlignNode::Top);

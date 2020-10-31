@@ -19,6 +19,7 @@
 #include "echomodule.h"
 #include "context.h"
 #include "textvalue.h"
+#include "contrib/qtcompat.h"
 
 EchoModule::EchoModule(Reporter& r) : Module(r,"echo"), output(r.output)
 {
@@ -36,16 +37,16 @@ Node* EchoModule::evaluate(const Context& ctx) const
 	auto args=ctx.getArguments();
 
 	OnceOnly first;
-	for(auto a: args) {
-		Value* v=a.second;
+	for(const auto& a: args) {
+		Value* v=a.getValue();
 		if(!first())
 			output << ", ";
 		auto* t=dynamic_cast<TextValue*>(v);
 		if(t) output << "\"";
-		output << v->getValueString();
+		if(v) output << v->getValueString();
 		if(t) output << "\"";
 	}
-	output << "\n";
+	output << Qt::endl;
 
 	return nullptr;
 }

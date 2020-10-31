@@ -17,13 +17,11 @@
  */
 
 #include "transformmatrix.h"
+#include "onceonly.h"
 
-TransformMatrix::TransformMatrix()
+TransformMatrix::TransformMatrix() :
+	matrix{{1.0,0.0,0.0,0.0},{0.0,1.0,0.0,0.0},{0.0,0.0,1.0,0.0},{0.0,0.0,0.0,1.0}}
 {
-	int n=0;
-	for(auto i=0; i<4; ++i)
-		for(auto j=0; j<4; ++j)
-			matrix[i][j]=(n++%5)?0.0:1.0;
 }
 
 TransformMatrix::TransformMatrix(
@@ -40,7 +38,8 @@ TransformMatrix::TransformMatrix(
 
 void TransformMatrix::setValue(int i,int j,const decimal& d)
 {
-	matrix[i][j]=d;
+	if(i>=0&&i<4&&j>=0&&j<4)
+		matrix[i][j]=d;
 }
 
 #ifdef USE_CGAL
@@ -52,24 +51,29 @@ CGAL::AffTransformation3 TransformMatrix::getTransform() const
 				matrix[2][0], matrix[2][1], matrix[2][2], matrix[2][3],
 			  /*matrix[3][0], matrix[3][1], matrix[3][2]*/matrix[3][3]);
 }
+#else
+decimal* TransformMatrix::getValues() const
+{
+	return (decimal*)matrix;
+}
 #endif
 
 QString TransformMatrix::toString() const
 {
-	QString result;
-	result.append("[[");
-	for(auto i=0; i<4; ++i) {
-		if(i>0)
+	QString result("[[");
+	OnceOnly firsti;
+	for(const auto& i : matrix) {
+		if(!firsti())
 			result.append("],[");
 
-		for(auto j=0; j<4; ++j) {
-			if(j>0)
+		OnceOnly firstj;
+		for(const auto& j : i) {
+			if(!firstj())
 				result.append(",");
 
-			result.append(to_string(matrix[i][j]));
+			result.append(to_string(j));
 		}
 	}
-	result.append("]]");
-	return result;
+	return result.append("]]");
 }
 

@@ -50,6 +50,7 @@
 #include "value.h"
 #include "product.h"
 #include "complexexpression.h"
+#include "module/importmodule.h"
 
 class TreeEvaluator : public TreeVisitor
 {
@@ -104,6 +105,7 @@ private:
 	QHash<Scope*,Layout*> scopeLookup;
 	bool descendDone;
 	Node* rootNode;
+	QList<ImportModule*> modules;
 	QList<Script*> imports;
 	QStack<QDir> importLocations;
 };

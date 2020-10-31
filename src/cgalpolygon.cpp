@@ -20,7 +20,7 @@
 #include "cgalprimitive.h"
 #include <CGAL/normal_vector_newell_3.h>
 
-CGALPolygon::CGALPolygon(const CGALPrimitive& p) :
+CGALPolygon::CGALPolygon(CGALPrimitive& p) :
 	Polygon(p),
 	projection(nullptr),
 	hole(false)
@@ -32,10 +32,16 @@ CGALPolygon::~CGALPolygon()
 	delete projection;
 }
 
+void CGALPolygon::appendVertex(CGAL::Point3 pt)
+{
+	auto& pr=dynamic_cast<CGALPrimitive&>(parent);
+	pr.addVertex(this,pt,true);
+}
+
 QList<CGAL::Point3> CGALPolygon::getPoints() const
 {
 	QList<CGAL::Point3> points;
-	auto& pr=static_cast<const CGALPrimitive&>(parent);
+	const auto& pr=dynamic_cast<const CGALPrimitive&>(parent);
 	QList<CGAL::Point3> parentPoints=pr.getPoints();
 	for(auto i: indexes)
 		points.append(parentPoints.at(i));
@@ -46,10 +52,10 @@ QList<CGAL::Point2> CGALPolygon::getProjectedPoints()
 {
 	CGALProjection* pro=getProjection();
 	QList<CGAL::Point2> points;
-	auto& pr=static_cast<const CGALPrimitive&>(parent);
+	const auto& pr=dynamic_cast<const CGALPrimitive&>(parent);
 	QList<CGAL::Point3> parentPoints=pr.getPoints();
 	for(auto i: indexes) {
-		CGAL::Point3 p3=parentPoints.at(i);
+		const CGAL::Point3& p3=parentPoints.at(i);
 		points.append(pro->project(p3));
 	}
 	return points;

@@ -24,7 +24,7 @@
 class MinkowskiNode : public Node
 {
 public:
-	MinkowskiNode();
+	MinkowskiNode() = default;
 	void accept(NodeVisitor&) override;
 };
 

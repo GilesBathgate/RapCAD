@@ -25,12 +25,12 @@
 #include <QVector3D>
 #include <QFont>
 #include "ui/glview.h"
+#include "rmath.h"
 
 class Preferences
 {
 public:
-	static Preferences* getInstance();
-	static void syncDelete();
+	static Preferences& getInstance();
 
 	int getPrecision() const;
 	void setPrecision(int);
@@ -41,11 +41,11 @@ public:
 	int getSignificandBits() const;
 	void setSignificandBits(int);
 
-	int getFunctionRounding() const;
-	void setFunctionRounding(int);
+	Rounding_t getFunctionRounding() const;
+	void setFunctionRounding(Rounding_t);
 
-	int getNumberFormat() const;
-	void setNumberFormat(int);
+	NumberFormat_t getNumberFormat() const;
+	void setNumberFormat(NumberFormat_t);
 
 	float getDefaultRotationX() const;
 	void setDefaultRotationX(float);
@@ -66,22 +66,22 @@ public:
 	void setDefaultDistance(float);
 
 	QColor getMarkedVertexColor() const;
-	void setMarkedVertexColor(QColor);
+	void setMarkedVertexColor(const QColor&);
 
 	QColor getVertexColor() const;
-	void setVertexColor(QColor);
+	void setVertexColor(const QColor&);
 
 	QColor getMarkedEdgeColor() const;
-	void setMarkedEdgeColor(QColor);
+	void setMarkedEdgeColor(const QColor&);
 
 	QColor getEdgeColor() const;
-	void setEdgeColor(QColor);
+	void setEdgeColor(const QColor&);
 
 	QColor getMarkedFacetColor() const;
-	void setMarkedFacetColor(QColor);
+	void setMarkedFacetColor(const QColor&);
 
 	QColor getFacetColor() const;
-	void setFacetColor(QColor);
+	void setFacetColor(const QColor&);
 
 	bool getShowAxes() const;
 	void setShowAxes(bool);
@@ -151,9 +151,9 @@ public:
 
 private:
 	Preferences();
+	~Preferences();
 	void updatePrecision();
 
-	static Preferences* instance;
 	QSettings* settings;
 	int precision;
 };

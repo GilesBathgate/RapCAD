@@ -25,6 +25,8 @@ ForStatement::ForStatement() :
 
 ForStatement::~ForStatement()
 {
+	qDeleteAll(arguments);
+	arguments.clear();
 	delete statement;
 }
 

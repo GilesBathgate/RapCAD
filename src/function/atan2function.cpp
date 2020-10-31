@@ -36,7 +36,7 @@ Value* Atan2Function::evaluate(const Context& ctx) const
 		decimal y=yVal->getNumber();
 		decimal x=xVal->getNumber();
 
-		return new NumberValue(r_atan2_deg(y,x));
+		return Value::factory.createNumber(r_atan2_deg(y,x));
 	}
-	return Value::undefined();
+	return Value::factory.createUndefined();
 }

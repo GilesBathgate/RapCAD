@@ -21,6 +21,7 @@
 #include "ui/mainwindow.h"
 #include "preferences.h"
 #include "builtincreator.h"
+#include "valuefactory.h"
 #include "worker.h"
 #ifdef USE_INTEGTEST
 #include "tester.h"
@@ -35,6 +36,7 @@
 #else
 #include "qcommandlineparser.h"
 #endif
+#include "contrib/qtcompat.h"
 
 static void setupApplication()
 {
@@ -49,21 +51,35 @@ static void setupApplication()
 
 static void showVersion(QTextStream& out)
 {
-	out << QCoreApplication::applicationName() << " " << QCoreApplication::applicationVersion() << endl;
+	out << QCoreApplication::applicationName() << " " << QCoreApplication::applicationVersion() << Qt::endl;
 }
 
-static int showUi(int argc, char* argv[],QStringList filenames)
+#ifdef Q_OS_WIN
+static QStringList getArguments(int argc,char*[])
 {
-	QApplication a(argc,argv);
-	MainWindow w;
-	w.loadFiles(filenames);
-	w.show();
-	return a.exec();
+	QStringList list;
+	if (wchar_t** argv=CommandLineToArgvW(GetCommandLineW(),&argc)) {
+		for(int a=0; a<argc; ++a) {
+			list << QString::fromWCharArray(argv[a]);
+		}
+		LocalFree(argv);
+	}
+	return list;
 }
+#else
+static QStringList getArguments(int argc,char* argv[])
+{
+	QStringList list;
+	for(int a=0; a<argc; ++a) {
+		list << QString::fromLocal8Bit(argv[a]);
+	}
+	return list;
+}
+#endif
 
 static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Reporter& reporter)
 {
-	QCoreApplication a(argc,argv);
+	const QStringList& arguments=getArguments(argc,argv);
 
 	QCommandLineParser p;
 	p.setApplicationDescription(QCoreApplication::translate("main","RapCAD the rapid prototyping IDE"));
@@ -92,39 +108,57 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Re
 	QCommandLineOption interactOption(QStringList() << "i" << "interactive",QCoreApplication::translate("main","Start an interactive session"));
 	p.addOption(interactOption);
 #endif
-	p.process(a);
+	p.process(arguments);
 
 	inputFiles=p.positionalArguments();
 	QString inputFile;
-	if(!inputFiles.isEmpty())
+	if(!inputFiles.isEmpty()) {
 		inputFile=inputFiles.at(0);
+	}
 
 	if(p.isSet(compareOption)) {
 		auto* c=new Comparer(reporter);
 		c->setup(inputFile,p.value(compareOption));
 		return c;
+	}
 #ifdef USE_INTEGTEST
-	} else if(p.isSet(testOption)) {
+	if(p.isSet(testOption)) {
 		showVersion(reporter.output);
 		return new Tester(reporter,p.value(testOption));
-	} else if(p.isSet(generateOption)) {
+	}
+	if(p.isSet(generateOption)) {
 		return new Generator(reporter);
+	}
 #endif
-	} else if(p.isSet(outputOption)) {
+	if(p.isSet(outputOption)) {
 		auto* w=new Worker(reporter);
 		w->setup(inputFile,p.value(outputOption),false,false);
 		return w;
-	} else if(p.isSet(printOption)) {
+	}
+	if(p.isSet(printOption)) {
 		auto* w=new Worker(reporter);
 		w->setup(inputFile,"",true,false);
 		return w;
+	}
 #ifdef USE_READLINE
-	} else if(p.isSet(interactOption)) {
+	if(p.isSet(interactOption)) {
 		showVersion(reporter.output);
 		return new Interactive(reporter);
-#endif
 	}
+#endif
 	return nullptr;
+}
+
+static int runApplication(Strategy* s,int argc,char* argv[],QStringList inputFiles)
+{
+	if(s)
+		return s->evaluate();
+
+	QApplication a(argc,argv);
+	MainWindow w;
+	w.loadFiles(inputFiles);
+	w.show();
+	return QApplication::exec();
 }
 
 int main(int argc, char* argv[])
@@ -138,18 +172,8 @@ int main(int argc, char* argv[])
 	QTextStream output(stdout);
 	Reporter reporter(output);
 	Strategy* s=parseArguments(argc,argv,inputFiles,reporter);
-
-	int retcode;
-	if(s)
-		retcode=s->evaluate();
-	else
-		retcode=showUi(argc,argv,inputFiles);
-
+	int retcode=runApplication(s,argc,argv,inputFiles);
 	delete s;
-
-	//Ensure preferences are saved.
-	Preferences::syncDelete();
-	BuiltinCreator::cleanUp();
 
 	return retcode;
 }

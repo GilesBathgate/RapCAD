@@ -29,8 +29,8 @@ StrFunction::StrFunction() : Function("str")
 Value* StrFunction::evaluate(const Context& ctx) const
 {
 	TextValue* val=nullptr;
-	for(auto arg: ctx.getArguments()) {
-		Value* argVal = arg.second;
+	for(const auto& arg: ctx.getArguments()) {
+		Value* argVal = arg.getValue();
 		TextValue* textArg = argVal->toText();
 		if(!val) {
 			val=textArg;

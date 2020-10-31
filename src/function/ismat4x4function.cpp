@@ -31,33 +31,26 @@ IsMat4x4Function::IsMat4x4Function() : Function("is_mat4x4")
 Value* IsMat4x4Function::evaluate(const Context& ctx) const
 {
 	auto* matVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
-	if(!matVal) {
-		return new BooleanValue(false);
-	} else {
-		QList<Value*> rows=matVal->getChildren();
-		if(rows.count()!=4) {
-			return new BooleanValue(false);
-		} else {
+	if(matVal) {
+		QList<Value*> rows=matVal->getElements();
+		if(rows.count()==4) {
 			for(Value* c: rows) {
 				auto* rowVal=dynamic_cast<VectorValue*>(c);
-				if(!rowVal) {
-					return new BooleanValue(false);
-				} else {
-					QList<Value*> cols=rowVal->getChildren();
-					if(cols.count()!=4) {
-						return new BooleanValue(false);
-					} else {
+				if(rowVal) {
+					QList<Value*> cols=rowVal->getElements();
+					if(cols.count()==4) {
 						for(Value* v: cols) {
 							auto* numVal=dynamic_cast<NumberValue*>(v);
 							if(!numVal) {
-								return new BooleanValue(false);
+								return Value::factory.createBoolean(false);
 							}
 						}
+						return Value::factory.createBoolean(true);
 					}
 				}
 			}
 		}
 	}
 
-	return new BooleanValue(true);
+	return Value::factory.createBoolean(false);
 }

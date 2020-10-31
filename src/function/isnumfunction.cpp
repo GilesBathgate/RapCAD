@@ -30,7 +30,7 @@ Value* IsNumFunction::evaluate(const Context& ctx) const
 {
 	auto* num=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(num)
-		return new BooleanValue(true);
+		return Value::factory.createBoolean(true);
 
-	return new BooleanValue(false);
+	return Value::factory.createBoolean(false);
 }

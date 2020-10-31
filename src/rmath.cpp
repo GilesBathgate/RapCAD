@@ -15,13 +15,12 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include "rmath.h"
 
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdlib>
 #include <CGAL/Gmpfr.h>
 #include <mpfr.h>
-
-#include "rmath.h"
 #include "preferences.h"
 
 #ifndef USE_CGAL
@@ -49,13 +48,15 @@ static decimal r_round_prec(const decimal& a,int p)
 decimal r_round_preference(const decimal& a,bool round)
 {
 	if(round) {
-		Preferences* p=Preferences::getInstance();
-		switch(p->getFunctionRounding())
+		Preferences& p=Preferences::getInstance();
+		switch(p.getFunctionRounding())
 		{
-			case 0:
-				return r_round(a,p->getDecimalPlaces());
-			case 1:
-				return r_round_prec(a,p->getSignificandBits());
+			case DecimalRounding:
+				return r_round(a,p.getDecimalPlaces());
+			case Base2Rounding:
+				return r_round_prec(a,p.getSignificandBits());
+			case NoRounding:
+				break;
 		}
 	}
 	return a;
@@ -457,9 +458,7 @@ void r_rand_seed(int seed)
 {
 #if USE_CGAL
 	gmp_randinit_mt(state);
-	mpz_t n;
-	mpz_init_set_ui(n,seed);
-	gmp_randseed(state,n);
+	gmp_randseed_ui(state,seed);
 #else
 	srand(seed);
 #endif
@@ -480,6 +479,13 @@ decimal r_rand(const decimal& min,const decimal& max)
 	return r_round_preference((min>max)?decimal(m)*(min-max)+max:decimal(m)*(max-min)+min,true);
 #else
 	return (min>max)?r_rand()*(min-max)+max:r_rand()*(max-min)+min;
+#endif
+}
+
+void r_rand_clear()
+{
+#ifdef USE_CGAL
+	gmp_randclear(state);
 #endif
 }
 

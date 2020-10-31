@@ -30,20 +30,20 @@ AngFunction::AngFunction() : Function("ang")
 	addParameter("axis");
 }
 
-Value* AngFunction::getResult(const decimal& a,const decimal& x,const decimal& y,const decimal& z) const
+Value* AngFunction::getResult(const decimal& a,const decimal& x,const decimal& y,const decimal& z)
 {
 	decimal w=a/2.0;
 	decimal c=r_right_cos(w);
 	decimal s=r_right_sin(w);
 
-	Value* angle=new NumberValue(c);
+	Value* angle=Value::factory.createNumber(c);
 
 	QList<Value*> axis;
-	axis.append(new NumberValue(x*s));
-	axis.append(new NumberValue(y*s));
-	axis.append(new NumberValue(z*s));
+	axis.append(Value::factory.createNumber(x*s));
+	axis.append(Value::factory.createNumber(y*s));
+	axis.append(Value::factory.createNumber(z*s));
 
-	return new ComplexValue(angle,axis);
+	return Value::factory.createComplex(angle,axis);
 }
 
 Value* AngFunction::evaluate(const Context& ctx) const
@@ -60,16 +60,18 @@ Value* AngFunction::evaluate(const Context& ctx) const
 		// [x,y,z] = v1 x v2
 		Value* cross=Value::operation(vecVal1,Expression::CrossProduct,vecVal2);
 		auto* axis=dynamic_cast<VectorValue*>(cross);
-		if(!axis) return Value::undefined();
+		if(!axis) return Value::factory.createUndefined();
 
 		//Renormalise the quaternion
-		Value* q=new ComplexValue(angle,axis->getChildren());
+		Value* q=Value::factory.createComplex(angle,axis->getElements());
 		Value* l=Value::operation(q,Expression::Length);
 		return Value::operation(q,Expression::Divide,l);
 	}
 
 	decimal a=0.0;
-	decimal x=0.0,y=0.0,z=1.0;
+	decimal x=0.0;
+	decimal y=0.0;
+	decimal z=1.0;
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {
 		a=numVal->getNumber();
@@ -81,27 +83,29 @@ Value* AngFunction::evaluate(const Context& ctx) const
 			auto* unitVec=dynamic_cast<VectorValue*>(u);
 			if(unitVec) {
 				Point p=unitVec->getPoint();
-				x=p.x(); y=p.y(); z=p.z();
+				x=p.x();
+				y=p.y();
+				z=p.z();
 			}
 		}
 		return getResult(a,x,y,z);
-	} else {
-		NumberValue* xVal=dynamic_cast<NumberValue*>(ctx.getArgument(0,"x"));
-		if(xVal) {
-			a=xVal->getNumber();
-			return getResult(a,1.0,0.0,0.0);
-		}
-		NumberValue* yVal=dynamic_cast<NumberValue*>(ctx.getArgument(0,"y"));
-		if(yVal) {
-			a=yVal->getNumber();
-			return getResult(a,0.0,1.0,0.0);
-		}
-		NumberValue* zVal=dynamic_cast<NumberValue*>(ctx.getArgument(0,"z"));
-		if(zVal) {
-			a=zVal->getNumber();
-			return getResult(a,0.0,0.0,1.0);
-		}
 	}
 
-	return Value::undefined();
+	NumberValue* xVal=dynamic_cast<NumberValue*>(ctx.getArgument(0,"x"));
+	if(xVal) {
+		a=xVal->getNumber();
+		return getResult(a,1.0,0.0,0.0);
+	}
+	NumberValue* yVal=dynamic_cast<NumberValue*>(ctx.getArgument(0,"y"));
+	if(yVal) {
+		a=yVal->getNumber();
+		return getResult(a,0.0,1.0,0.0);
+	}
+	NumberValue* zVal=dynamic_cast<NumberValue*>(ctx.getArgument(0,"z"));
+	if(zVal) {
+		a=zVal->getNumber();
+		return getResult(a,0.0,0.0,1.0);
+	}
+
+	return Value::factory.createUndefined();
 }

@@ -29,20 +29,9 @@ ppa_build(){
 	mv rapcad_$version~"$vname"1* $ppadir
 }
 
-ppa_build "Eoan"
-ppa_build "Disco"
+ppa_build "Focal"
 ppa_build "Bionic"
 
 rm -rf rapcad-$version
-
-echo Building Windows version
-if [ ! -d "$windir" ]; then
- mkdir -p $windir
-fi
-popd
-scripts/vbox/start-vm.sh &&
-scripts/vbox/cmd.sh c:\\rapcad\\scripts\\release-win32.bat &&
-mv scripts/vbox/shared/rapcad_$version\_setup.exe ../$windir/ &&
-mv scripts/vbox/shared/rapcad_$version.zip ../$windir/
 
 echo "Complete"

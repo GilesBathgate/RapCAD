@@ -24,8 +24,8 @@
 class OffsetNode : public Node
 {
 public:
-	OffsetNode();
-	void setAmount(decimal);
+	OffsetNode() = default;
+	void setAmount(const decimal&);
 	decimal getAmount() const;
 	void accept(NodeVisitor&) override;
 private:

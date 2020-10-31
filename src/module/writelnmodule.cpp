@@ -17,6 +17,7 @@
  */
 
 #include "writelnmodule.h"
+#include "contrib/qtcompat.h"
 
 WriteLnModule::WriteLnModule(Reporter& r) : WriteModule(r,"writeln")
 {
@@ -26,6 +27,6 @@ WriteLnModule::WriteLnModule(Reporter& r) : WriteModule(r,"writeln")
 Node* WriteLnModule::evaluate(const Context& ctx) const
 {
 	WriteModule::evaluate(ctx);
-	output << endl;
+	output << Qt::endl;
 	return nullptr;
 }

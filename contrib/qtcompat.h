@@ -15,13 +15,20 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef QTCOMPAT_H
+#define QTCOMPAT_H
 
-#include "statement.h"
+#include <QtGlobal>
 
-Statement::Statement()
+#if QT_VERSION < QT_VERSION_CHECK(5,14,0)
+#include <QTextStream>
+namespace Qt
 {
-}
-
-Statement::~Statement()
+inline QTextStream& endl(QTextStream& s)
 {
+	return ::endl(s);
 }
+}
+#endif
+
+#endif // QTCOMPAT_H

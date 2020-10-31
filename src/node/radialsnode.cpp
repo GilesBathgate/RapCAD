@@ -18,10 +18,6 @@
 
 #include "radialsnode.h"
 
-RadialsNode::RadialsNode()
-{
-}
-
 void RadialsNode::accept(NodeVisitor& v)
 {
 	v.visit(*this);

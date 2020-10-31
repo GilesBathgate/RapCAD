@@ -24,8 +24,8 @@
 class ScriptImport : public Declaration
 {
 public:
-	ScriptImport();
-	~ScriptImport() override;
+	ScriptImport() = default;
+	~ScriptImport() override = default;
 	void setImport(const QString&);
 	QString getImport() const;
 	void setNamespace(const QString&);

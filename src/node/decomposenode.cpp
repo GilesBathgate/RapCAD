@@ -18,10 +18,6 @@
 
 #include "decomposenode.h"
 
-DecomposeNode::DecomposeNode()
-{
-}
-
 void DecomposeNode::accept(NodeVisitor& v)
 {
 	v.visit(*this);

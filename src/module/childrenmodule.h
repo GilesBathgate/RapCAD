@@ -25,8 +25,9 @@ class ChildrenModule : public Module
 {
 	Q_DECLARE_TR_FUNCTIONS(ChildrenModule)
 public:
-	explicit ChildrenModule(Reporter&);
+	ChildrenModule(Reporter&,bool);
 	Node* evaluate(const Context&) const override;
+	bool legacy;
 };
 
 #endif // CHILDRENMODULE_H

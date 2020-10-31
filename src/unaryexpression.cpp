@@ -25,6 +25,7 @@ UnaryExpression::UnaryExpression() :
 
 UnaryExpression::~UnaryExpression()
 {
+	delete expression;
 }
 
 void UnaryExpression::setExpression(Expression* exp)

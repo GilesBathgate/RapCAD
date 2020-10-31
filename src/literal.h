@@ -26,8 +26,9 @@ class Literal : public Expression
 {
 public:
 	Literal();
+	void setValue();
 	void setValue(bool);
-	void setValue(decimal);
+	void setValue(const decimal&);
 	void setValue(const QString&);
 	void setUnit(const QString&);
 

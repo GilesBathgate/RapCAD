@@ -33,7 +33,7 @@ Value* RadFunction::evaluate(const Context& ctx) const
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return new NumberValue(r_rad(num));
+		return Value::factory.createNumber(r_rad(num));
 	}
-	return Value::undefined();
+	return Value::factory.createUndefined();
 }

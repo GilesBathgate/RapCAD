@@ -110,7 +110,7 @@ public:
 
 	Primitive* getResult() const;
 private:
-	Primitive* createPrimitive();
+	static Primitive* createPrimitive();
 	bool evaluate(const Node&,Operation_e);
 	bool evaluate(const Node&,Operation_e,Primitive*);
 	bool evaluate(const QList<Node*>&,Operation_e,Primitive*);

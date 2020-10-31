@@ -29,7 +29,7 @@ Node* CircleModule::evaluate(const Context& ctx) const
 {
 	auto* rValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 
-	decimal r=1;
+	decimal r=1.0;
 	if(rValue) {
 		r=rValue->getNumber();
 	} else {
@@ -49,7 +49,7 @@ Node* CircleModule::evaluate(const Context& ctx) const
 	pn->setChildren(ctx.getInputNodes());
 
 	int i=0;
-	if(r > 0) {
+	if(r>0.0) {
 		Polygon* pg=p->createPolygon();
 		for(const auto& pt: c) {
 			p->createVertex(pt);

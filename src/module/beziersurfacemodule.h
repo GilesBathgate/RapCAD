@@ -19,27 +19,27 @@
 #ifndef BEZIERSURFACEMODULE_H
 #define BEZIERSURFACEMODULE_H
 
-#include "module.h"
+#include "primitivemodule.h"
 #include "context.h"
 #include "point.h"
 
-class BezierSurfaceModule : public Module
+class BezierSurfaceModule : public PrimitiveModule
 {
 	Q_DECLARE_TR_FUNCTIONS(BezierSurfaceModule)
 public:
 	explicit BezierSurfaceModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 private:
-	typedef QList<decimal> Vector;
-	typedef QList<Point> Points;
-	typedef QList<Points> Mesh;
+	using Vector = QList<decimal>;
+	using Points = QList<Point>;
+	using Mesh = QList<Points>;
 
-	decimal bez03(const decimal&) const;
-	decimal bez13(const decimal&) const;
-	decimal bez23(const decimal&) const;
-	decimal bez33(const decimal&) const;
-	Point pointOnBez(const Points&,const decimal&) const;
-	Point pointOnBezMesh(const Mesh&,const Vector&) const;
+	static decimal bez03(const decimal&);
+	static decimal bez13(const decimal&);
+	static decimal bez23(const decimal&);
+	static decimal bez33(const decimal&);
+	static Point pointOnBez(const Points&,const decimal&);
+	static Point pointOnBezMesh(const Mesh&,const Vector&);
 };
 
 #endif // BEZIERSURFACEMODULE_H

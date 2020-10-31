@@ -16,17 +16,21 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CHILDMODULE_H
-#define CHILDMODULE_H
+#ifndef NAMEDVALUE_H
+#define NAMEDVALUE_H
 
-#include "module.h"
+#include <QString>
+#include "value.h"
 
-class ChildModule : public Module
+class NamedValue
 {
-	Q_DECLARE_TR_FUNCTIONS(ChildModule)
 public:
-	explicit ChildModule(Reporter&);
-	Node* evaluate(const Context&) const override;
+	NamedValue(const QString&,Value*);
+	const QString& getName() const;
+	Value* getValue() const;
+private:
+	QString name;
+	Value* value;
 };
 
-#endif // CHILDMODULE_H
+#endif // NAMEDVALUE_H

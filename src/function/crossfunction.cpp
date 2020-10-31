@@ -35,5 +35,5 @@ Value* CrossFunction::evaluate(const Context& ctx) const
 	if(vec1&&vec2)
 		return Value::operation(vec1,Expression::CrossProduct,vec2);
 
-	return Value::undefined();
+	return Value::factory.createUndefined();
 }

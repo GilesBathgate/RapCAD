@@ -38,7 +38,7 @@ Value* NormFunction::evaluate(const Context& ctx) const
 	 * inherits from vector */
 	auto* rng=dynamic_cast<RangeValue*>(v);
 	if(rng)
-		return Value::undefined();
+		return Value::factory.createUndefined();
 
 	auto* vec=dynamic_cast<VectorValue*>(v);
 	if(vec)
@@ -52,5 +52,5 @@ Value* NormFunction::evaluate(const Context& ctx) const
 	if(cpx)
 		return Value::operation(cpx,Expression::Length);
 
-	return Value::undefined();
+	return Value::factory.createUndefined();
 }

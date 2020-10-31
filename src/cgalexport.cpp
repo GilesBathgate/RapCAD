@@ -35,66 +35,65 @@
 #include "polyhedron.h"
 #include "contrib/qzipwriter_p.h"
 
-CGALExport::CGALExport(Primitive* p,Reporter& r) :
+CGALExport::CGALExport(const QFileInfo& f,Primitive* p,Reporter& r) :
 	reporter(r),
 	primitive(p),
+	fileInfo(f),
 	id(0)
 {
 }
 
-void CGALExport::exportResult(const QString& fileName)
+void CGALExport::exportResult() const
 {
-	QFileInfo file(fileName);
-	QString suffix=file.suffix().toLower();
-	QString path=file.absoluteFilePath();
+	QString suffix=fileInfo.suffix().toLower();
 	if(suffix=="off")
-		return exportOFF(path);
+		return exportOFF();
 	if(suffix=="obj")
-		return exportOBJ(path);
+		return exportOBJ();
 	if(suffix=="wrl")
-		return exportVRML(path);
+		return exportVRML();
 	if(suffix=="amf")
-		return exportAMF(path);
+		return exportAMF();
 	if(suffix=="3mf")
-		return export3MF(path);
+		return export3MF();
 	if(suffix=="stl")
-		return exportAsciiSTL(path);
+		return exportAsciiSTL();
 	if(suffix=="csg")
-		return exportCSG(path);
+		return exportCSG();
 	if(suffix=="nef")
-		return exportNEF(path);
+		return exportNEF();
 	if(suffix=="svg")
-		return exportSVG(path);
+		return exportSVG();
 }
 
-void CGALExport::exportVRML(const QString& filename)
+void CGALExport::exportVRML() const
 {
 	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
 	if(!pr)
 		return;
 
 	CGAL::Polyhedron3* poly=pr->getPolyhedron();
-	std::ofstream file(QFile::encodeName(filename));
+	std::ofstream file(QFile::encodeName(fileInfo.absoluteFilePath()));
 	CGAL::VRML_2_ostream out(file);
 	out << *poly;
 	file.close();
 	delete poly;
 }
 
-void CGALExport::exportOBJ(const QString& filename)
+void CGALExport::exportOBJ() const
 {
 	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
 	if(!pr)
 		return;
 
 	CGAL::Polyhedron3* poly=pr->getPolyhedron();
-	std::ofstream file(QFile::encodeName(filename));
+	std::ofstream file(QFile::encodeName(fileInfo.absoluteFilePath()));
 	print_polyhedron_wavefront(file,*poly);
 	file.close();
 	delete poly;
 }
 
-void CGALExport::exportOFF(const QString& filename)
+void CGALExport::exportOFF() const
 {
 	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
 	if(!pr)
@@ -102,15 +101,15 @@ void CGALExport::exportOFF(const QString& filename)
 
 	//http://people.sc.fsu.edu/~jburkardt/data/off/off.html
 	CGAL::Polyhedron3* poly=pr->getPolyhedron();
-	std::ofstream file(QFile::encodeName(filename));
+	std::ofstream file(QFile::encodeName(fileInfo.absoluteFilePath()));
 	file << *poly;
 	file.close();
 	delete poly;
 }
 
-typedef CGAL::Polyhedron3::Vertex_const_iterator VertexIterator;
-typedef CGAL::Polyhedron3::Facet_const_iterator FacetIterator;
-typedef CGAL::Polyhedron3::Halfedge_around_facet_const_circulator HalffacetCirculator;
+using VertexIterator = CGAL::Polyhedron3::Vertex_const_iterator;
+using FacetIterator = CGAL::Polyhedron3::Facet_const_iterator;
+using HalffacetCirculator = CGAL::Polyhedron3::Halfedge_around_facet_const_circulator;
 
 static QList<CGAL::Triangle3> generateTriangles(CGAL::Polyhedron3* poly)
 {
@@ -127,15 +126,15 @@ static QList<CGAL::Triangle3> generateTriangles(CGAL::Polyhedron3* poly)
 	return triangles;
 }
 
-void CGALExport::exportAsciiSTL(const QString& filename)
+void CGALExport::exportAsciiSTL() const
 {
 	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
 	if(!pr)
 		return;
 
-	QFile data(filename);
+	QFile data(fileInfo.absoluteFilePath());
 	if(!data.open(QFile::WriteOnly | QFile::Truncate)) {
-		reporter.reportWarning(tr("Can't write file '%1'").arg(filename));
+		reporter.reportWarning(tr("Can't write file '%1'").arg(fileInfo.absoluteFilePath()));
 		return;
 	}
 
@@ -178,11 +177,11 @@ void CGALExport::exportAsciiSTL(const QString& filename)
 	delete poly;
 }
 
-void CGALExport::exportAMF(const QString& filename)
+void CGALExport::exportAMF() const
 {
-	auto* file=new QFile(filename);
+	auto* file=new QFile(fileInfo.absoluteFilePath());
 	if(!file->open(QIODevice::WriteOnly)) {
-		reporter.reportWarning(tr("Can't write file '%1'").arg(filename));
+		reporter.reportWarning(tr("Can't write file '%1'").arg(fileInfo.absoluteFilePath()));
 		return;
 	}
 
@@ -201,19 +200,19 @@ void CGALExport::exportAMF(const QString& filename)
 
 }
 
-void CGALExport::descendChildren(Primitive* p,QXmlStreamWriter& xml)
+void CGALExport::descendChildren(Primitive* p,QXmlStreamWriter& xml) const
 {
 	auto* pr=dynamic_cast<CGALPrimitive*>(p);
 	if(pr) {
 		exportAMFObject(pr,xml);
-	} else {
+	} else if(p) {
 		for(Primitive* c: p->getChildren()) {
 			descendChildren(c,xml);
 		}
 	}
 }
 
-void CGALExport::exportAMFObject(CGALPrimitive* p,QXmlStreamWriter& xml)
+void CGALExport::exportAMFObject(CGALPrimitive* p,QXmlStreamWriter& xml) const
 {
 	CGAL::Polyhedron3* poly=p->getPolyhedron();
 
@@ -228,10 +227,9 @@ void CGALExport::exportAMFObject(CGALPrimitive* p,QXmlStreamWriter& xml)
 		CGAL::Point3 p=vi->point();
 		xml.writeStartElement("vertex");
 		xml.writeStartElement("coordinates");
-		QString x,y,z;
-		x=to_string(p.x());
-		y=to_string(p.y());
-		z=to_string(p.z());
+		QString x=to_string(p.x());
+		QString y=to_string(p.y());
+		QString z=to_string(p.z());
 		xml.writeTextElement("x",x);
 		xml.writeTextElement("y",y);
 		xml.writeTextElement("z",z);
@@ -246,10 +244,9 @@ void CGALExport::exportAMFObject(CGALPrimitive* p,QXmlStreamWriter& xml)
 	xml.writeStartElement("volume");
 	for(const auto& t: generateTriangles(poly)) {
 		xml.writeStartElement("triangle");
-		int v1,v2,v3;
-		v1=vertices[t[0]];
-		v2=vertices[t[1]];
-		v3=vertices[t[2]];
+		int v1=vertices[t[0]];
+		int v2=vertices[t[1]];
+		int v3=vertices[t[2]];
 		xml.writeTextElement("v1",QString().setNum(v1));
 		xml.writeTextElement("v2",QString().setNum(v2));
 		xml.writeTextElement("v3",QString().setNum(v3));
@@ -262,11 +259,11 @@ void CGALExport::exportAMFObject(CGALPrimitive* p,QXmlStreamWriter& xml)
 	delete poly;
 }
 
-void CGALExport::exportCSG(const QString& filename)
+void CGALExport::exportCSG() const
 {
-	QFile data(filename);
+	QFile data(fileInfo.absoluteFilePath());
 	if(!data.open(QFile::WriteOnly | QFile::Truncate)) {
-		reporter.reportWarning(tr("Can't write file '%1'").arg(filename));
+		reporter.reportWarning(tr("Can't write file '%1'").arg(fileInfo.absoluteFilePath()));
 		return;
 	}
 
@@ -304,9 +301,10 @@ void CGALExport::exportCSG(const QString& filename)
 	output << "]);";
 	output.flush();
 	data.close();
+	delete prim;
 }
 
-void CGALExport::export3MF(const QString& filename)
+void CGALExport::export3MF() const
 {
 	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
 	if(!pr)
@@ -334,10 +332,9 @@ void CGALExport::export3MF(const QString& filename)
 	for(VertexIterator vi=poly->vertices_begin(); vi!=poly->vertices_end(); ++vi) {
 		CGAL::Point3 p = vi->point();
 		xml.writeStartElement("vertex");
-		QString x,y,z;
-		x=to_string(p.x());
-		y=to_string(p.y());
-		z=to_string(p.z());
+		QString x=to_string(p.x());
+		QString y=to_string(p.y());
+		QString z=to_string(p.z());
 		xml.writeAttribute("x",x);
 		xml.writeAttribute("y",y);
 		xml.writeAttribute("z",z);
@@ -351,10 +348,9 @@ void CGALExport::export3MF(const QString& filename)
 	xml.writeStartElement("triangles");
 	for(const auto& t: generateTriangles(poly)) {
 		xml.writeStartElement("triangle");
-		int v1,v2,v3;
-		v1=vertices[t[0]];
-		v2=vertices[t[1]];
-		v3=vertices[t[2]];
+		int v1=vertices[t[0]];
+		int v2=vertices[t[1]];
+		int v3=vertices[t[2]];
 		xml.writeAttribute("v1",QString().setNum(v1));
 		xml.writeAttribute("v2",QString().setNum(v2));
 		xml.writeAttribute("v3",QString().setNum(v3));
@@ -403,7 +399,7 @@ void CGALExport::export3MF(const QString& filename)
 	cxml.writeEndElement(); //Types
 	cxml.writeEndDocument();
 
-	QZipWriter zipwriter(filename);
+	QZipWriter zipwriter(fileInfo.absoluteFilePath());
 	zipwriter.addFile("3D/3dmodel.model",model);
 	zipwriter.addFile("_rels/.rels",rels);
 	zipwriter.addFile("[Content_Types].xml",ctype);
@@ -411,18 +407,18 @@ void CGALExport::export3MF(const QString& filename)
 	delete poly;
 }
 
-void CGALExport::exportNEF(const QString& f)
+void CGALExport::exportNEF() const
 {
 	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
 	if(pr) {
 		CGAL::NefPolyhedron3 nef=pr->getNefPolyhedron();
-		std::ofstream file(QFile::encodeName(f));
+		std::ofstream file(QFile::encodeName(fileInfo.absoluteFilePath()));
 		file << nef;
 		file.close();
 	}
 }
 
-void CGALExport::exportSVG(const QString& filename)
+void CGALExport::exportSVG() const
 {
 	if(primitive->isFullyDimentional()) {
 		reporter.reportWarning(tr("Cannot export 3D volume as SVG"));
@@ -432,7 +428,7 @@ void CGALExport::exportSVG(const QString& filename)
 	CGALExplorer e(primitive);
 	CGALPrimitive* pr=e.getPrimitive();
 
-	auto* file=new QFile(filename);
+	auto* file=new QFile(fileInfo.absoluteFilePath());
 	if(!file->open(QIODevice::WriteOnly)) {
 		return;
 	}

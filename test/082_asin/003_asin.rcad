@@ -1,0 +1,3 @@
+function test() {
+return asin(2)==undef;
+}

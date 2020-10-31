@@ -20,10 +20,10 @@
 #define CGALRENDERER_H
 
 #include <QColor>
-#include "contrib/OGL_helper.h"
 #include "renderer.h"
 #include "cgalprimitive.h"
 #include "simplerenderer.h"
+#include "contrib/OGL_helper.h"
 
 class CGALRenderer : public Renderer, private CGAL::OGL::Polyhedron
 {
@@ -34,24 +34,25 @@ public:
 	void preferencesUpdated() override;
 	void setCompiling(bool) override;
 private:
-	void setColor(CGAL::Color&,QColor);
+	static void setColor(CGAL::Color&,const QColor&);
 	CGAL::Color getVertexColor(bool mark) const override;
 	CGAL::Color getEdgeColor(bool mark) const override;
 	CGAL::Color getFacetColor(bool mark) const override;
 	float getVertexSize() const override;
 	float getEdgeSize() const override;
+	void loadPreferences();
+	static void desaturate(CGAL::Color& c);
+	void descendChildren(Primitive* pr);
+
 	CGAL::Color markedVertexColor;
 	CGAL::Color vertexColor;
 	CGAL::Color markedEdgeColor;
 	CGAL::Color edgeColor;
 	CGAL::Color markedFacetColor;
 	CGAL::Color facetColor;
+	SimpleRenderer* simple;
 	float vertexSize;
 	float edgeSize;
-	void loadPreferences();
-	void desaturate(CGAL::Color& c);
-	void descendChildren(Primitive* pr);
-	SimpleRenderer* simple;
 };
 
 #endif // CGALRENDERER_H

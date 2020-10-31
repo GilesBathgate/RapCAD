@@ -29,8 +29,8 @@ ChrFunction::ChrFunction() : Function("chr")
 Value* ChrFunction::evaluate(const Context& ctx) const
 {
 	QString result;
-	for(auto arg: ctx.getArguments()) {
-		Value* argVal = arg.second;
+	for(const auto& arg: ctx.getArguments()) {
+		Value* argVal = arg.getValue();
 		auto* code=dynamic_cast<NumberValue*>(argVal);
 		if(code) {
 			uint point=code->toInteger();
@@ -38,5 +38,5 @@ Value* ChrFunction::evaluate(const Context& ctx) const
 		}
 	}
 
-	return new TextValue(result);
+	return Value::factory.createText(result);
 }

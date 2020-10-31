@@ -28,7 +28,7 @@ public:
 	AngFunction();
 	Value* evaluate(const Context&) const override;
 private:
-	Value* getResult(const decimal&,const decimal&,const decimal&,const decimal&) const;
+	static Value* getResult(const decimal&,const decimal&,const decimal&,const decimal&);
 };
 
 #endif // ANGFUNCTION_H

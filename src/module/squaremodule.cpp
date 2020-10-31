@@ -34,11 +34,13 @@ Node* SquareModule::evaluate(const Context& ctx) const
 	if(centerVal)
 		center = centerVal->isTrue();
 
-	decimal x=1.0,y=1.0;
+	decimal x=1.0;
+	decimal y=1.0;
 	if(sizeVal) {
 		VectorValue* size=sizeVal->toVector(2);
 		Point pt = size->getPoint();
-		x=pt.x(); y=pt.y();
+		x=pt.x();
+		y=pt.y();
 	}
 
 	auto* pn=new PrimitiveNode(reporter);

@@ -21,21 +21,30 @@
 
 #include "config.h"
 
+#ifndef USE_VALGRIND
 #include <CGAL/Exact_predicates_exact_constructions_kernel.h>
+#else
+#include <CGAL/Cartesian.h>
+#include <CGAL/Gmpq.h>
+#endif
 
 namespace CGAL
 {
-typedef Exact_predicates_exact_constructions_kernel Kernel3;
-typedef Kernel3::FT Scalar;
-typedef Kernel3::Iso_cuboid_3 Cuboid3;
-typedef Kernel3::Point_3 Point3;
-typedef Kernel3::Triangle_3 Triangle3;
-typedef Kernel3::Point_2 Point2;
-typedef Kernel3::Vector_3 Vector3;
-typedef Kernel3::Direction_3 Direction3;
-typedef Kernel3::Plane_3 Plane3;
-typedef Kernel3::Circle_3 Circle3;
-typedef Kernel3::Aff_transformation_3 AffTransformation3;
+#ifndef USE_VALGRIND
+using Kernel3 = Exact_predicates_exact_constructions_kernel;
+#else
+using Kernel3 = Cartesian<Gmpq>;
+#endif
+using Scalar = Kernel3::FT;
+using Cuboid3 = Kernel3::Iso_cuboid_3;
+using Point3 = Kernel3::Point_3;
+using Triangle3 =  Kernel3::Triangle_3;
+using Point2 =  Kernel3::Point_2;
+using Vector3 = Kernel3::Vector_3;
+using Direction3 = Kernel3::Direction_3;
+using Plane3 = Kernel3::Plane_3;
+using Circle3 = Kernel3::Circle_3;
+using AffTransformation3 = Kernel3::Aff_transformation_3;
 }
 
 #endif // CGAL_H

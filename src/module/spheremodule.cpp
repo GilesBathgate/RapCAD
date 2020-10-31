@@ -38,8 +38,11 @@ Node* SphereModule::evaluate(const Context& ctx) const
 		if(dValue)
 			r=(dValue->getNumber()/2.0);
 	}
-	if(r==0.0)
-		return new PointsNode();
+	if(r==0.0) {
+		auto* p=new PointsNode();
+		p->setChildren(ctx.getInputNodes());
+		return p;
+	}
 
 	Fragment* fg = Fragment::createFragment(ctx);
 	int f = fg->getFragments(r);

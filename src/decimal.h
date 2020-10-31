@@ -23,11 +23,18 @@
 
 #ifdef USE_CGAL
 #include "cgal.h"
-typedef CGAL::Scalar decimal;
-typedef CGAL::Point3 Point;
+using decimal = CGAL::Scalar;
+using Point = CGAL::Point3;
 #else
-typedef double decimal;
+using decimal = double;
 #endif
+
+enum NumberFormat_t
+{
+	DecimalFormat,
+	ScientificFormat,
+	RationalFormat
+};
 
 QString to_string(const decimal&);
 decimal to_decimal(const QString&, bool* ok=nullptr);

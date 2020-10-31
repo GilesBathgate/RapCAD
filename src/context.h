@@ -25,6 +25,7 @@
 #include "node.h"
 #include "scope.h"
 #include "layout.h"
+#include "namedvalue.h"
 
 class Context
 {
@@ -51,14 +52,13 @@ public:
 	bool addVariable(const QString&,Value*);
 	void setVariable(const QString&,Value*);
 
-	Node* lookupChild(int) const;
 	QList<Node*> lookupChildren() const;
 
 	void setVariablesFromArguments();
-	QList<QPair<QString,Value*>> getArguments() const;
+	QList<NamedValue> getArguments() const;
 	QList<Value*> getArgumentValues() const;
 	void addArgument(const QString&, Value*);
-	void addArgument(QPair<QString,Value*>);
+	void addArgument(const NamedValue&);
 	void clearArguments();
 
 	Value* getArgument(int,const QString&) const;
@@ -77,8 +77,8 @@ public:
 	void addCurrentNode(Node*);
 private:
 	Context* parent;
-	QList<QPair<QString,Value*>> arguments;
-	QList<QPair<QString,Value*>> parameters;
+	QList<NamedValue> arguments;
+	QList<NamedValue> parameters;
 	QList<Node*> currentNodes;
 	QList<Node*> inputNodes;
 	Value* currentValue;
@@ -87,7 +87,7 @@ private:
 	Scope* currentScope;
 	Value* matchArgumentIndex(bool,bool,int,const QString&) const;
 	Value* matchArgument(bool,bool,const QString&) const;
-	bool match(bool,bool,const QString&,const QString&) const;
+	static bool match(bool,bool,const QString&,const QString&);
 	QHash<QString,Value*> variables;
 };
 

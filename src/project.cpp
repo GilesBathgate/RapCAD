@@ -19,10 +19,6 @@
 #include "project.h"
 #include <QFile>
 
-Project::Project()
-{
-}
-
 void Project::parseProject(const QString& filename)
 {
 	auto* file=new QFile(filename);
@@ -83,7 +79,7 @@ void Project::writeProject(const QString& filename)
 	xml.writeStartElement("project");
 	xml.writeAttribute("version","0.1");
 	xml.writeTextElement("name",name);
-	for(QString source: sources)
+	for(const auto& source: sources)
 		xml.writeTextElement("source",source);
 	xml.writeEndElement();
 	xml.writeEndDocument();

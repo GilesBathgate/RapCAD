@@ -26,7 +26,7 @@
 class CGALCache : public Cache
 {
 public:
-	CGALCache();
+	CGALCache() = default;
 private:
 	i_Point hashPoint(const CGAL::Point3&);
 	i_Primitive hashPrimitive(Primitive*) override;

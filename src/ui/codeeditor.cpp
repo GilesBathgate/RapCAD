@@ -83,7 +83,7 @@ void CodeEditor::highlightCurrentLine()
 
 void CodeEditor::stopHighlighting()
 {
-	highlighter->stop();
+	SyntaxHighlighter::stop();
 }
 
 void CodeEditor::setFileName(const QString& f)
@@ -152,12 +152,12 @@ bool CodeEditor::openFile()
 
 void CodeEditor::preferencesUpdated()
 {
-	Preferences* p=Preferences::getInstance();
-	QFont font=p->getEditorFont();
+	Preferences& p=Preferences::getInstance();
+	QFont font=p.getEditorFont();
 	font.setFixedPitch(true);
 	setFont(font);
-	showTooltips = p->getShowTooltips();
-	highlightLine = p->getHighlightLine();
+	showTooltips = p.getShowTooltips();
+	highlightLine = p.getHighlightLine();
 	highlightCurrentLine();
 }
 
@@ -260,7 +260,7 @@ bool CodeEditor::event(QEvent* event)
 		return QPlainTextEdit::event(event);
 
 	if(event->type()==QEvent::ToolTip) {
-		QHelpEvent* helpEvent = static_cast<QHelpEvent*>(event);
+		auto* helpEvent = dynamic_cast<QHelpEvent*>(event);
 		QTextCursor cursor = cursorForPosition(helpEvent->pos());
 		cursor.select(QTextCursor::WordUnderCursor);
 		Module* m = moduleNames.value(cursor.selectedText());
@@ -271,7 +271,8 @@ bool CodeEditor::event(QEvent* event)
 			QToolTip::hideText();
 		}
 		return true;
-	} else if(event->type()==QEvent::KeyPress) {
+	}
+	if(event->type()==QEvent::KeyPress) {
 		QToolTip::hideText();
 	}
 	return QPlainTextEdit::event(event);

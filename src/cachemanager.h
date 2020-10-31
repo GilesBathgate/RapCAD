@@ -25,7 +25,7 @@
 class CacheManager
 {
 public:
-	static CacheManager* getInstance();
+	static CacheManager& getInstance();
 	Cache* getCache() const;
 	void flushCaches();
 	void disableCaches();
@@ -33,8 +33,7 @@ public:
 private:
 	CacheManager();
 	~CacheManager();
-	static CacheManager* instance;
-	Cache* createCache();
+	Cache* createCache() const;
 	Cache* cache;
 	bool disabled;
 };

@@ -30,7 +30,6 @@ public:
 	virtual bool operator!=(const Iterator&) const override;
 	virtual Value* operator*() const override;
 protected:
-	ValueIterator();
 	Value* value;
 	bool done;
 };

@@ -84,9 +84,7 @@ bool Console::handleBackspace()
 	QTextCursor cursor=textCursor();
 	int column=cursor.columnNumber();
 	int block=cursor.blockNumber();
-	if(block == promptBlock && column == promptLength)
-		return true;
-	return false;
+	return (block == promptBlock && column == promptLength);
 }
 
 void Console::setPrompt(const QString& p)

@@ -25,6 +25,8 @@ VectorExpression::VectorExpression() :
 
 VectorExpression::~VectorExpression()
 {
+	qDeleteAll(children);
+	children.clear();
 }
 
 void VectorExpression::setChildren(const QList<Expression*>& exp)

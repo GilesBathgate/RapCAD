@@ -21,22 +21,23 @@
 #include "context.h"
 #include "numbervalue.h"
 
-PrimitiveModule::PrimitiveModule(Reporter& r, const QString &n) : Module(r,n)
+PrimitiveModule::PrimitiveModule(Reporter& r, const QString& n) : Module(r,n)
 {
 }
 
-QList<Point> PrimitiveModule::getCircle(const decimal& r,const decimal& f,const decimal& z) const
+QList<Point> PrimitiveModule::getCircle(const decimal& r,const decimal& f,const decimal& z)
 {
 	QList<Point> circle;
 	for(auto i=0; i<f; ++i) {
 		decimal phi = (r_tau()*i) / f;
-		decimal x,y;
-		if(r > 0) {
+		decimal x;
+		decimal y;
+		if(r>0.0) {
 			x = r*r_cos(phi);
 			y = r*r_sin(phi);
 		} else {
-			x=0;
-			y=0;
+			x=0.0;
+			y=0.0;
 		}
 		Point p(x,y,z);
 		circle.append(p);
@@ -45,12 +46,13 @@ QList<Point> PrimitiveModule::getCircle(const decimal& r,const decimal& f,const 
 	return circle;
 }
 
-QList<Point> PrimitiveModule::getPolygon(const decimal& a,const decimal& r,const decimal& n,const decimal& z) const
+QList<Point> PrimitiveModule::getPolygon(const decimal& a,const decimal& r,const decimal& n,const decimal& z)
 {
 	QList<Point> poly;
 	if(n==6) {
 		//TODO modify this to cater for all even values of n
-		decimal x=0,y=0;
+		decimal x=0.0;
+		decimal y=0.0;
 		decimal s2=r*r_sin(r_pi()/n);
 		for(auto i=0; i<n; ++i) {
 			switch(i) {
@@ -64,7 +66,7 @@ QList<Point> PrimitiveModule::getPolygon(const decimal& a,const decimal& r,const
 					break;
 				}
 				case 2: {
-					y=0;
+					y=0.0;
 					x=r;
 					break;
 				}
@@ -78,7 +80,7 @@ QList<Point> PrimitiveModule::getPolygon(const decimal& a,const decimal& r,const
 					break;
 				}
 				case 5: {
-					y=0;
+					y=0.0;
 					x=-r;
 					break;
 				}
@@ -86,7 +88,23 @@ QList<Point> PrimitiveModule::getPolygon(const decimal& a,const decimal& r,const
 			poly.append(Point(x,y,z));
 		}
 		return poly;
-	} else {
-		return getCircle(r,n,z);
 	}
+	return getCircle(r,n,z);
+}
+
+void PrimitiveModule::createTriangle(Primitive* p,int a,int b,int c)
+{
+	Polygon* pg=p->createPolygon();
+	pg->append(a);
+	pg->append(b);
+	pg->append(c);
+}
+
+void PrimitiveModule::createQuad(Primitive* p,int a,int b,int c,int d)
+{
+	Polygon* pg=p->createPolygon();
+	pg->append(a);
+	pg->append(b);
+	pg->append(c);
+	pg->append(d);
 }

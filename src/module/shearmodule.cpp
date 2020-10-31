@@ -51,15 +51,18 @@ Node* ShearModule::evaluate(const Context& ctx) const
 	if(!xVal&&!yVal&&!zVal)
 		return n;
 
-	decimal sxy=sx.y(),sxz=sx.z();
-	decimal syx=sy.x(),syz=sy.z();
-	decimal szx=sz.x(),szy=sz.y();
+	decimal sxy=sx.y();
+	decimal sxz=sx.z();
+	decimal syx=sy.x();
+	decimal syz=sy.z();
+	decimal szx=sz.x();
+	decimal szy=sz.y();
 
 	auto* m = new TransformMatrix(
-		1,sxy,sxz,0,
-		syx,1,syz,0,
-		szx,szy,1,0,
-		0,0,0,1
+		1.0,sxy,sxz,0.0,
+		syx,1.0,syz,0.0,
+		szx,szy,1.0,0.0,
+		0.0,0.0,0.0,1.0
 	);
 
 	n->setMatrix(m);
