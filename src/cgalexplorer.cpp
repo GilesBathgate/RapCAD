@@ -50,6 +50,7 @@ class ShellExplorer
 
 public:
 	explicit ShellExplorer(const CGAL::NefPolyhedron3&);
+	~ShellExplorer() = default;
 	void createPerimeters();
 	void explore();
 	void evaluate();
@@ -64,6 +65,7 @@ public:
 	QList<CGALPolygon*> getBase();
 	CGALPrimitive* getPrimitive() const;
 	CGALVolume getVolume(bool) const;
+
 private:
 	static HalfEdgeHandle findNewEdge(const QList<HalfEdgeHandle>&,const QList<HalfEdgeHandle>&);
 	static HalfEdgeHandle getID(HalfEdgeHandle);
@@ -314,6 +316,7 @@ void CGALExplorer::explore()
 
 void CGALExplorer::evaluate()
 {
+	if(!primitive) return;
 	explorer->evaluate();
 }
 

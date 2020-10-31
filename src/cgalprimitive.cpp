@@ -277,6 +277,7 @@ void CGALPrimitive::appendVertex(const CGAL::Point3& p)
 bool CGALPrimitive::overlaps(Primitive* pr)
 {
 	auto* that=dynamic_cast<CGALPrimitive*>(pr);
+	if(!that) return false;
 	return CGAL::do_intersect(this->getBounds(),that->getBounds());
 }
 
