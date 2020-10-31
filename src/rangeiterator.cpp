@@ -34,6 +34,7 @@ ValueIterator& RangeIterator::operator++()
 bool RangeIterator::operator!=(const Iterator&) const
 {
 	auto* range=dynamic_cast<RangeValue*>(value);
+	if(!range) return false;
 	return range->inRange(index);
 }
 
