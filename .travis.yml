@@ -10,7 +10,7 @@ jobs:
     osx_image: xcode12.2
     compiler: clang
     env: CONFIG=coverage
-  - if: branch = master
+  - if: branch = master OR tag IS present
     os: osx
     osx_image: xcode12.2
     compiler: clang
