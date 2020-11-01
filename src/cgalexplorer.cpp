@@ -50,7 +50,6 @@ class ShellExplorer
 
 public:
 	explicit ShellExplorer(const CGAL::NefPolyhedron3&);
-	~ShellExplorer() = default;
 	void createPerimeters();
 	void explore();
 	void evaluate();
@@ -84,7 +83,7 @@ private:
 ShellExplorer::ShellExplorer(const CGAL::NefPolyhedron3& n) :
 	direction(true),
 	nefPolyhedron(n),
-	primitive(new CGALPrimitive())
+	primitive(nullptr)
 {
 }
 
@@ -152,6 +151,7 @@ void ShellExplorer::createPerimeters()
 
 void ShellExplorer::explore()
 {
+	primitive=new CGALPrimitive();
 	VolumeIterator vi;
 	OnceOnly first_v;
 	CGAL_forall_volumes(vi,nefPolyhedron) {
@@ -307,37 +307,45 @@ CGALExplorer::~CGALExplorer()
 	delete explorer;
 }
 
-void CGALExplorer::explore()
+bool CGALExplorer::explore()
 {
-	if(!primitive) return;
-	explorer=new ShellExplorer(primitive->getNefPolyhedron());
-	explorer->explore();
+	if(!primitive) return false;
+	if(!explorer) {
+		explorer=new ShellExplorer(primitive->getNefPolyhedron());
+		explorer->explore();
+	}
+	return true;
 }
 
-void CGALExplorer::evaluate()
+bool CGALExplorer::evaluate()
 {
-	if(!primitive) return;
+	if(!explore()) return false;
+
 	explorer->evaluate();
+	return true;
 }
 
 CGALPrimitive* CGALExplorer::getPrimitive()
 {
-	if(!explorer) {
-		explore();
-		evaluate();
-	}
+	if(!evaluate())
+		return  nullptr;
+
 	return explorer->getPrimitive();
 }
 
 QList<CGALPolygon*> CGALExplorer::getBase()
 {
-	if(!explorer) explore();
+	if(!explore())
+		return QList<CGALPolygon*>();
+
 	return explorer->getBase();
 }
 
 CGALVolume CGALExplorer::getVolume(bool calcMass)
 {
-	if(!explorer) explore();
+	if(!explore())
+		return CGALVolume();
+
 	return explorer->getVolume(calcMass);
 }
 #endif
