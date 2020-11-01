@@ -101,12 +101,13 @@ Preferences& Preferences::getInstance()
 	return instance;
 }
 
-int Preferences::getPrecision() const
+Precision_t Preferences::getPrecision() const
 {
-	return settings->value("Precision",2).toInt();
+	int precision=settings->value("Precision",2).toInt();
+	return static_cast<Precision_t>(precision);
 }
 
-void Preferences::setPrecision(int p)
+void Preferences::setPrecision(Precision_t p)
 {
 	settings->setValue("Precision",p);
 }

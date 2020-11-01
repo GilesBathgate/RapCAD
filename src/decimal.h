@@ -36,6 +36,20 @@ enum NumberFormat_t
 	RationalFormat
 };
 
+enum Rounding_t
+{
+	DecimalRounding,
+	Base2Rounding,
+	NoRounding
+};
+
+enum Precision_t
+{
+	SinglePrecision,
+	DoublePrecision,
+	CustomPrecision
+};
+
 QString to_string(const decimal&);
 decimal to_decimal(const QString&, bool* ok=nullptr);
 int to_integer(const decimal&);
