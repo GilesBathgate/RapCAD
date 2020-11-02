@@ -92,6 +92,7 @@ win32 {
 	}
 	LIBS += -lz
 	QMAKE_YACC = bison
+	QMAKE_MOVE = cp
   macx {
 	ICON = icons/AppIcon.icns
 	INCLUDEPATH += /usr/local/include
