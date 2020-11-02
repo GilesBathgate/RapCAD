@@ -149,6 +149,12 @@ public:
 	QString getLaunchCommand() const;
 	void setLaunchCommand(const QString&);
 
+	bool getShowGCODEButton() const;
+	void setShowGCODEButton(bool value);
+
+	QString getCAMScript() const;
+	void setCAMScript(const QString& value);
+
 private:
 	Preferences();
 	~Preferences();

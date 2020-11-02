@@ -187,6 +187,8 @@ void MainWindow::loadPreferences()
 
 	ui->view->setBedAppearance(p.getPrintBedAppearance());
 
+	ui->actionGenerateGcode->setVisible(p.getShowGCODEButton());
+
 }
 
 void MainWindow::getDefaultViewport() const
@@ -354,6 +356,8 @@ void MainWindow::preferencesUpdated()
 		auto* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
 		c->preferencesUpdated();
 	}
+
+	ui->actionGenerateGcode->setVisible(p.getShowGCODEButton());
 
 	QPointF o=p.getPrintOrigin();
 	ui->view->setPrintOrigin(o.x(),o.y());

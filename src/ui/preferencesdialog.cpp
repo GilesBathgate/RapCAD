@@ -117,6 +117,10 @@ void PreferencesDialog::setupWidgets()
 	QString command=p.getLaunchCommand();
 	ui->launchCommandLineEdit->setText(command);
 	launchCommandChanged(command);
+
+	ui->showGCODEButtonCheckbox->setChecked(p.getShowGCODEButton());
+	ui->processingScriptlineEdit->setText(p.getCAMScript());
+
 	updatePrecision();
 }
 
@@ -176,6 +180,9 @@ void PreferencesDialog::setupButtons()
 
 	connect(ui->launchCommandLineEdit,SIGNAL(textChanged(QString)),this,SLOT(launchCommandChanged(QString)));
 	connect(ui->launchCommandLineEdit,SIGNAL(editingFinished()),this,SLOT(launchCommandUpdated()));
+
+	connect(ui->showGCODEButtonCheckbox, SIGNAL(stateChanged(int)),this,SLOT(showGCODEButtonChanged(int)));
+	connect(ui->processingScriptlineEdit, SIGNAL(editingFinished()),this,SLOT(processingScriptUpdated()));
 }
 
 void PreferencesDialog::updatePrecision()
@@ -253,6 +260,20 @@ void PreferencesDialog::launchCommandUpdated()
 {
 	Preferences& p=Preferences::getInstance();
 	p.setLaunchCommand(ui->launchCommandLineEdit->text());
+	emit preferencesUpdated();
+}
+
+void PreferencesDialog::showGCODEButtonChanged(int i)
+{
+	Preferences& p=Preferences::getInstance();
+	p.setShowGCODEButton(i == Qt::Checked);
+	emit preferencesUpdated();
+}
+
+void PreferencesDialog::processingScriptUpdated()
+{
+	Preferences& p=Preferences::getInstance();
+	p.setCAMScript(ui->processingScriptlineEdit->text());
 	emit preferencesUpdated();
 }
 
