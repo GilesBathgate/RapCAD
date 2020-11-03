@@ -37,7 +37,7 @@ Windows
 Ubuntu
 ~~~~~
 
-* Supports: Eoan, Disco, Bionic
+* Supports: Bionic, Focal, Groovy
 * Simply run the following commands in a terminal.
 
     sudo apt-add-repository ppa:gilesbathgate/rapcad

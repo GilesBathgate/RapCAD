@@ -29,6 +29,7 @@ ppa_build(){
 	mv rapcad_$version$snapshot~"$vname"1* $ppadir
 }
 
+ppa_build "Groovy"
 ppa_build "Focal"
 ppa_build "Bionic"
 
