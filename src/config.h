@@ -26,11 +26,11 @@
 #undef CGAL_USE_GMPXX
 #define CGAL_DO_NOT_USE_BOOST_MP 1
 
-#include <qglobal.h>
+#define CGAL_DEBUG
+#include <CGAL/assertions.h>
 
 #define NDEBUG
 #include <CGAL/Nef_2/debug.h>
-#undef NDEBUG
 
 #define CGAL_DISABLE_ROUNDING_MATH_CHECK
 #include <CGAL/Interval_nt.h>
