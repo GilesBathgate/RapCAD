@@ -669,6 +669,11 @@ void CGALPrimitive::appendChild(Primitive* p)
 		children.append(p);
 }
 
+void CGALPrimitive::appendChildren(QList<Primitive*> p)
+{
+	children.append(p);
+}
+
 static CGAL::Point3 discretePoint(const CGAL::Point3& pt,int places)
 {
 	CGAL::Scalar x=r_round(pt.x(),places);
