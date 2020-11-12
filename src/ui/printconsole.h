@@ -20,8 +20,9 @@
 
 #include <QDialog>
 
-namespace Ui {
-	class PrintConsole;
+namespace Ui
+{
+class PrintConsole;
 }
 
 class PrintConsole : public QDialog

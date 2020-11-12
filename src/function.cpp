@@ -105,7 +105,7 @@ QString Function::getDescription() const
 	return description;
 }
 
-void Function::addDescription(const QString &value)
+void Function::addDescription(const QString& value)
 {
 	description = value;
 }

@@ -21,9 +21,10 @@
 
 #include "librapcad_global.h"
 
-class LIBRAPCADSHARED_EXPORT rapcad {
+class LIBRAPCADSHARED_EXPORT rapcad
+{
 public:
-    rapcad();
+	rapcad();
 };
 
 #endif // RAPCAD_H

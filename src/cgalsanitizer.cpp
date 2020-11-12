@@ -39,8 +39,7 @@ void CGALSanitizer::erase(CGAL::VertexHandle h)
 void CGALSanitizer::fixIsolated()
 {
 	using VertexIterator = CGAL::Polyhedron3::Vertex_iterator;
-	for(VertexIterator vi=polyhedron.vertices_begin(); vi!=polyhedron.vertices_end(); ++vi)
-	{
+	for(VertexIterator vi=polyhedron.vertices_begin(); vi!=polyhedron.vertices_end(); ++vi) {
 		if(vi->halfedge() == nullptr)
 			erase(vi);
 	}

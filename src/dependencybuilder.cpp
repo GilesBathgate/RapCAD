@@ -384,7 +384,7 @@ Expression* DependencyBuilder::buildRange(Expression*,Expression*,Expression*)
 	return nullptr;
 }
 
-Expression*DependencyBuilder::buildComplex(Expression*, Expression*, Expression*, Expression*)
+Expression* DependencyBuilder::buildComplex(Expression*, Expression*, Expression*, Expression*)
 {
 	return nullptr;
 }

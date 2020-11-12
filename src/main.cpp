@@ -58,7 +58,7 @@ static void showVersion(QTextStream& out)
 static QStringList getArguments(int argc,char*[])
 {
 	QStringList list;
-	if (wchar_t** argv=CommandLineToArgvW(GetCommandLineW(),&argc)) {
+	if(wchar_t** argv=CommandLineToArgvW(GetCommandLineW(),&argc)) {
 		for(int a=0; a<argc; ++a) {
 			list << QString::fromWCharArray(argv[a]);
 		}

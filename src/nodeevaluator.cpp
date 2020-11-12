@@ -664,8 +664,7 @@ void NodeEvaluator::visit(const SimplifyNode& n)
 
 static void appendChildren(Primitive* p,const QList<Node*> children)
 {
-	for(auto* child: children)
-	{
+	for(auto* child: children) {
 		auto* pn=dynamic_cast<PrimitiveNode*>(child);
 		if(pn)
 			p->appendChild(pn->getPrimitive());

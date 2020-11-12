@@ -31,7 +31,7 @@ Script::~Script()
 	declarations.clear();
 }
 
-void Script::parse(const QString &s)
+void Script::parse(const QString& s)
 {
 	parsescript(*this,reporter,s);
 }

@@ -31,8 +31,7 @@ NodePrinter::~NodePrinter()
 
 void NodePrinter::collectChildren(const Node& n)
 {
-	for(auto* child: n.getChildren())
-	{
+	for(auto* child: n.getChildren()) {
 		auto* pn=dynamic_cast<PrimitiveNode*>(child);
 		if(pn)
 			primitives.append(pn->getPrimitive());
@@ -44,8 +43,7 @@ void NodePrinter::collectChildren(const Node& n)
 void NodePrinter::visit(const PrimitiveNode& n)
 {
 	Primitive* pr=n.getPrimitive();
-	switch(pr->getType())
-	{
+	switch(pr->getType()) {
 		case Primitive::Lines:
 			result << "polyline([";
 			break;
@@ -229,7 +227,7 @@ void NodePrinter::printChildren(const Node& n)
 	}
 }
 
-void NodePrinter::printArguments(const QString &name, bool a)
+void NodePrinter::printArguments(const QString& name, bool a)
 {
 	result << "(";
 	if(a) {
