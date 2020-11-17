@@ -134,6 +134,11 @@ void Polyhedron::appendChild(Primitive* p)
 	children.append(p);
 }
 
+void Polyhedron::appendChildren(QList<Primitive*> p)
+{
+	children.append(p);
+}
+
 void Polyhedron::discrete(int)
 {
 }

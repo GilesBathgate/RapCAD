@@ -20,8 +20,9 @@
 
 #include <QDialog>
 
-namespace Ui {
-	class SaveItemsDialog;
+namespace Ui
+{
+class SaveItemsDialog;
 }
 
 class SaveItemsDialog : public QDialog

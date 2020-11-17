@@ -25,15 +25,15 @@
 #include <QVector3D>
 #include <QFont>
 #include "ui/glview.h"
-#include "rmath.h"
+#include "decimal.h"
 
 class Preferences
 {
 public:
 	static Preferences& getInstance();
 
-	int getPrecision() const;
-	void setPrecision(int);
+	Precision_t getPrecision() const;
+	void setPrecision(Precision_t);
 
 	int getDecimalPlaces() const;
 	void setDecimalPlaces(int);
@@ -148,6 +148,12 @@ public:
 
 	QString getLaunchCommand() const;
 	void setLaunchCommand(const QString&);
+
+	bool getShowGCODEButton() const;
+	void setShowGCODEButton(bool value);
+
+	QString getCAMScript() const;
+	void setCAMScript(const QString& value);
 
 private:
 	Preferences();

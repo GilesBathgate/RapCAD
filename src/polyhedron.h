@@ -56,6 +56,7 @@ public:
 	QList<Point> getPoints() const override;
 	QList<Primitive*> getChildren() override;
 	void appendChild(Primitive*) override;
+	void appendChildren(QList<Primitive*>) override;
 	void discrete(int) override;
 private:
 	QList<Point> points;

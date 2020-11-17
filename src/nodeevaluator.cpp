@@ -247,16 +247,14 @@ void NodeEvaluator::visit(const HullNode& n)
 				ct->appendVertex(t->vertex(0));
 				ct->appendVertex(t->vertex(1));
 				ct->appendVertex(t->vertex(2));
-				for(Primitive* p: children)
-					cp->appendChild(p);
+				cp->appendChildren(children);
 				result=cp;
 				return;
 			}
 			const auto* hull=CGAL::object_cast<CGAL::Polyhedron3>(&o);
 			if(hull) {
 				auto* cp=new CGALPrimitive(*hull);
-				for(Primitive* p: children)
-					cp->appendChild(p);
+				cp->appendChildren(children);
 				result=cp;
 				return;
 			}
@@ -302,8 +300,7 @@ void NodeEvaluator::visit(const HullNode& n)
 				cp->appendVertex(p3);
 			}
 		}
-		for(Primitive* p: children)
-			cp->appendChild(p);
+		cp->appendChildren(children);
 		result=cp;
 	}
 #endif
@@ -667,8 +664,7 @@ void NodeEvaluator::visit(const SimplifyNode& n)
 
 static void appendChildren(Primitive* p,const QList<Node*> children)
 {
-	for(auto* child: children)
-	{
+	for(auto* child: children) {
 		auto* pn=dynamic_cast<PrimitiveNode*>(child);
 		if(pn)
 			p->appendChild(pn->getPrimitive());

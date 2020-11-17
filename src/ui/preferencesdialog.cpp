@@ -64,11 +64,11 @@ void PreferencesDialog::setupWidgets()
 	ui->checkBox->setChecked(p.getAutoSaveOnCompile());
 	bool enabled=true;
 	switch(p.getPrecision()) {
-		case 0:
+		case SinglePrecision:
 			ui->singleRadio->setChecked(true);
 			enabled=false;
 			break;
-		case 1:
+		case DoublePrecision:
 			ui->doubleRadio->setChecked(true);
 			enabled=false;
 			break;
@@ -81,10 +81,10 @@ void PreferencesDialog::setupWidgets()
 	ui->placesSpinBox->setValue(p.getDecimalPlaces());
 	ui->bitsSpinBox->setValue(p.getSignificandBits());
 	switch(p.getFunctionRounding()) {
-		case 0:
+		case DecimalRounding:
 			ui->decimalRoundingRadio->setChecked(true);
 			break;
-		case 1:
+		case Base2Rounding:
 			ui->base2RoundingRadio->setChecked(true);
 			break;
 		default:
@@ -92,10 +92,10 @@ void PreferencesDialog::setupWidgets()
 			break;
 	}
 	switch(p.getNumberFormat()) {
-		case 2:
+		case RationalFormat:
 			ui->rationalRadio->setChecked(true);
 			break;
-		case 1:
+		case ScientificFormat:
 			ui->scientificRadio->setChecked(true);
 			break;
 		default:
@@ -117,6 +117,10 @@ void PreferencesDialog::setupWidgets()
 	QString command=p.getLaunchCommand();
 	ui->launchCommandLineEdit->setText(command);
 	launchCommandChanged(command);
+
+	ui->showGCODEButtonCheckbox->setChecked(p.getShowGCODEButton());
+	ui->processingScriptlineEdit->setText(p.getCAMScript());
+
 	updatePrecision();
 }
 
@@ -176,6 +180,9 @@ void PreferencesDialog::setupButtons()
 
 	connect(ui->launchCommandLineEdit,SIGNAL(textChanged(QString)),this,SLOT(launchCommandChanged(QString)));
 	connect(ui->launchCommandLineEdit,SIGNAL(editingFinished()),this,SLOT(launchCommandUpdated()));
+
+	connect(ui->showGCODEButtonCheckbox, SIGNAL(stateChanged(int)),this,SLOT(showGCODEButtonChanged(int)));
+	connect(ui->processingScriptlineEdit, SIGNAL(editingFinished()),this,SLOT(processingScriptUpdated()));
 }
 
 void PreferencesDialog::updatePrecision()
@@ -256,6 +263,20 @@ void PreferencesDialog::launchCommandUpdated()
 	emit preferencesUpdated();
 }
 
+void PreferencesDialog::showGCODEButtonChanged(int i)
+{
+	Preferences& p=Preferences::getInstance();
+	p.setShowGCODEButton(i == Qt::Checked);
+	emit preferencesUpdated();
+}
+
+void PreferencesDialog::processingScriptUpdated()
+{
+	Preferences& p=Preferences::getInstance();
+	p.setCAMScript(ui->processingScriptlineEdit->text());
+	emit preferencesUpdated();
+}
+
 void PreferencesDialog::placesChanged(int i)
 {
 	Preferences& p = Preferences::getInstance();
@@ -284,14 +305,14 @@ void PreferencesDialog::precisionType(bool)
 	bool enabled=true;
 	if(ui->singleRadio->isChecked()) {
 		ui->bitsSpinBox->setValue(23);
-		p.setPrecision(0);
+		p.setPrecision(SinglePrecision);
 		enabled=false;
 	} else if(ui->doubleRadio->isChecked()) {
 		ui->bitsSpinBox->setValue(52);
-		p.setPrecision(1);
+		p.setPrecision(DoublePrecision);
 		enabled=false;
 	} else {
-		p.setPrecision(2);
+		p.setPrecision(CustomPrecision);
 	}
 	ui->placesSpinBox->setEnabled(enabled);
 	ui->bitsSpinBox->setEnabled(enabled);

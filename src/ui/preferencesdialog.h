@@ -54,6 +54,8 @@ private slots:
 	void highlightLineChanged(int s);
 	void launchCommandChanged(const QString&);
 	void launchCommandUpdated();
+	void showGCODEButtonChanged(int);
+	void processingScriptUpdated();
 private:
 	void setupWidgets();
 	static void setColor(QWidget*,const QColor&);

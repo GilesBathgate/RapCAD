@@ -51,6 +51,26 @@ void Preferences::updatePrecision()
 #endif
 }
 
+QString Preferences::getCAMScript() const
+{
+	return settings->value("CAMScript","reprap.rcam").toString();
+}
+
+void Preferences::setCAMScript(const QString& value)
+{
+	settings->setValue("CAMScript",value);
+}
+
+bool Preferences::getShowGCODEButton() const
+{
+	return settings->value("ShowGCODEButton",false).toBool();
+}
+
+void Preferences::setShowGCODEButton(bool value)
+{
+	settings->setValue("ShowGCODEButton",value);
+}
+
 bool Preferences::getHighlightLine() const
 {
 	return settings->value("HighlightLine",false).toBool();
@@ -101,12 +121,13 @@ Preferences& Preferences::getInstance()
 	return instance;
 }
 
-int Preferences::getPrecision() const
+Precision_t Preferences::getPrecision() const
 {
-	return settings->value("Precision",2).toInt();
+	int precision=settings->value("Precision",2).toInt();
+	return static_cast<Precision_t>(precision);
 }
 
-void Preferences::setPrecision(int p)
+void Preferences::setPrecision(Precision_t p)
 {
 	settings->setValue("Precision",p);
 }

@@ -23,6 +23,7 @@
 #include "nodeevaluator.h"
 #include "product.h"
 #include "numbervalue.h"
+#include "preferences.h"
 
 #ifdef USE_CGAL
 #include "CGAL/exceptions.h"
@@ -128,8 +129,10 @@ void Worker::primary()
 
 void Worker::generation()
 {
+	Preferences& p=Preferences::getInstance();
 	Script s(reporter);
-	s.parse(QFileInfo("reprap.rcam"));
+	QFileInfo camScript(p.getCAMScript());
+	s.parse(camScript);
 
 	auto* e = new TreeEvaluator(reporter);
 	decimal height=getBoundsHeight();

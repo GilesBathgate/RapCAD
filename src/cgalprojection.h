@@ -30,7 +30,7 @@ public:
 	CGAL::Direction3 getDirection(const CGAL::Vector3&) const;
 	bool operator==(const CGALProjection&) const;
 private:
-	using ProjectFunc = CGAL::Point2 (*) (const CGAL::Point3&);
+	using ProjectFunc = CGAL::Point2(*)(const CGAL::Point3&);
 	ProjectFunc projectFunc;
 	int ortho;
 };

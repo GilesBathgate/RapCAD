@@ -75,7 +75,7 @@ void AsciidocPrinter::visit(const Module& mod)
 	}
 }
 
-void AsciidocPrinter::visit(const Function & func)
+void AsciidocPrinter::visit(const Function& func)
 {
 	functionsOutput << "|" << func.getName() << "(";
 	OnceOnly first;
