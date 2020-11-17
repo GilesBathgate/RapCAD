@@ -70,6 +70,7 @@
 #include "module/simplifymodule.h"
 #include "module/chainhullmodule.h"
 #include "module/textmodule.h"
+#include "module/assertmodule.h"
 
 #include "function/lengthfunction.h"
 #include "function/sqrtfunction.h"
@@ -116,6 +117,7 @@
 #include "function/chrfunction.h"
 #include "function/cbrtfunction.h"
 #include "function/ordinalfunction.h"
+#include "function/assertfunction.h"
 
 #include "module/writemodule.h"
 #include "module/writelnmodule.h"
@@ -125,6 +127,7 @@
 BuiltinCreator::BuiltinCreator(Reporter& r)
 {
 	builtins.append(new AlignModule(r));
+	builtins.append(new AssertModule(r));
 	builtins.append(new BezierSurfaceModule(r));
 	builtins.append(new BoundsModule(r));
 	builtins.append(new CenterModule(r));
@@ -186,6 +189,7 @@ BuiltinCreator::BuiltinCreator(Reporter& r)
 	builtins.append(new AcosFunction());
 	builtins.append(new AngFunction());
 	builtins.append(new AsinFunction());
+	builtins.append(new AssertFunction());
 	builtins.append(new Atan2Function());
 	builtins.append(new AtanFunction());
 	builtins.append(new CbrtFunction());

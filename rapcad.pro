@@ -153,10 +153,13 @@ YACCSOURCES += \
 SOURCES += \
 	contrib/qcommandlineparser.cpp \
 	contrib/qcommandlineoption.cpp \
+	src/assertexception.cpp \
 	src/builtinmanager.cpp \
 	src/cgalsanitizer.cpp \
+	src/function/assertfunction.cpp \
 	src/function/ordinalfunction.cpp \
 	src/main.cpp \
+	src/module/assertmodule.cpp \
 	src/namedvalue.cpp \
 	src/tokenreader.cpp \
 	src/ui/mainwindow.cpp \
@@ -399,9 +402,12 @@ HEADERS  += \
 	contrib/qcommandlineoption.h \
 	contrib/Copy_polyhedron_to.h \
 	contrib/qtcompat.h \
+	src/assertexception.h \
 	src/builtinmanager.h \
 	src/cgalsanitizer.h \
+	src/function/assertfunction.h \
 	src/function/ordinalfunction.h \
+	src/module/assertmodule.h \
 	src/namedvalue.h \
 	src/tokenreader.h \
 	src/ui/mainwindow.h \

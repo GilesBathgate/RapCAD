@@ -33,6 +33,7 @@
 #else
 #include "simplerenderer.h"
 #endif
+#include "assertexception.h"
 #include "contrib/qtcompat.h"
 
 Worker::Worker(Reporter& r) :
@@ -83,6 +84,8 @@ void Worker::internal()
 	} catch(const CGAL::Failure_exception& e) {
 		resultFailed(QString::fromStdString(e.what()));
 #endif
+	} catch(const AssertException& e) {
+		reporter.reportMessage(e.getMessage());
 	} catch(...) {
 		resultFailed(tr("Unknown error."));
 	}
