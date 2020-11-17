@@ -21,6 +21,7 @@
 
 #define BOOST_NO_STDLIB_CONFIG
 
+#define CGAL_NO_CORE 1
 #include <CGAL/config.h>
 
 #undef CGAL_USE_GMPXX
