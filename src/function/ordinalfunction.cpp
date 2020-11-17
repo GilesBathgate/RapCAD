@@ -15,40 +15,29 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#include "chrfunction.h"
+#include "ordinalfunction.h"
 #include "context.h"
-#include "numbervalue.h"
 #include "textvalue.h"
+#include "numbervalue.h"
 
-ChrFunction::ChrFunction() : Function("chr")
+OrdinalFunction::OrdinalFunction() : Function("ord")
 {
-	addDescription(tr("Returns characters with the given unicode number values."));
+	addDescription(tr("Convert a character to a number representing the Unicode code point."));
 	addParameter("value");
 }
 
-Value* ChrFunction::evaluate(const Context& ctx) const
+Value* OrdinalFunction::evaluate(const Context& ctx) const
 {
-	QString result;
-	auto* codes=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
-	if(codes) {
-		for(const auto& codeVal: codes->getElements()) {
-			auto* code=dynamic_cast<NumberValue*>(codeVal);
-			if(code) {
-				uint unicode=code->toInteger();
-				result.append(QString::fromUcs4(&unicode,1));
-			}
-		}
-	} else {
-		for(const auto& arg: ctx.getArguments()) {
-			Value* argVal = arg.getValue();
-			auto* code=dynamic_cast<NumberValue*>(argVal);
-			if(code) {
-				uint unicode=code->toInteger();
-				result.append(QString::fromUcs4(&unicode,1));
-			}
-		}
+	auto* textVal=dynamic_cast<TextValue*>(getParameterArgument(ctx,0));
+	if(textVal) {
+		QString text = textVal->getValueString();
+		QList<Value*> results;
+		for(uint unicode: text.toUcs4())
+			results.append(Value::factory.createNumber(unicode));
+		if(results.count()==1)
+			return results.at(0);
+		return Value::factory.createVector(results);
 	}
 
-	return Value::factory.createText(result);
+	return Value::factory.createUndefined();
 }

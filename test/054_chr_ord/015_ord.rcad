@@ -1,0 +1,3 @@
+function test(){
+  return ord("ZYX")==[90,89,88];
+}

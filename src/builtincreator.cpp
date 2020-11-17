@@ -115,6 +115,7 @@
 #include "function/isvecfunction.h"
 #include "function/chrfunction.h"
 #include "function/cbrtfunction.h"
+#include "function/ordinalfunction.h"
 
 #include "module/writemodule.h"
 #include "module/writelnmodule.h"
@@ -213,6 +214,7 @@ BuiltinCreator::BuiltinCreator(Reporter& r)
 	builtins.append(new MinFunction());
 	builtins.append(new NormFunction());
 	builtins.append(new NumFunction());
+	builtins.append(new OrdinalFunction());
 	builtins.append(new PowFunction());
 	builtins.append(new RadFunction());
 	builtins.append(new RandFunction());

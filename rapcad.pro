@@ -155,6 +155,7 @@ SOURCES += \
 	contrib/qcommandlineoption.cpp \
 	src/builtinmanager.cpp \
 	src/cgalsanitizer.cpp \
+	src/function/ordinalfunction.cpp \
 	src/main.cpp \
 	src/namedvalue.cpp \
 	src/tokenreader.cpp \
@@ -400,6 +401,7 @@ HEADERS  += \
 	contrib/qtcompat.h \
 	src/builtinmanager.h \
 	src/cgalsanitizer.h \
+	src/function/ordinalfunction.h \
 	src/namedvalue.h \
 	src/tokenreader.h \
 	src/ui/mainwindow.h \

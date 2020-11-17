@@ -1,0 +1,3 @@
+function test(){
+  return ord("😀")==128512;
+}
