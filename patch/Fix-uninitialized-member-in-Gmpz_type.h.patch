@@ -1,0 +1,12 @@
+--- a/usr/include/CGAL/GMP/Gmpz_type.h
++++ b/usr/include/CGAL/GMP/Gmpz_type.h
+@@ -45,7 +45,7 @@ struct Gmpz_rep
+ 
+   mpz_t mpZ;
+ 
+-  Gmpz_rep() {}
++  Gmpz_rep() : mpZ{} {}
+   ~Gmpz_rep() { mpz_clear(mpZ); }
+ 
+ private:
+

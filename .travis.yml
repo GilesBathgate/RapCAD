@@ -34,6 +34,35 @@ install:
     export PATH="/usr/local/opt/bison/bin:$PATH";
     brew link --force qt5;
   fi
+- if [ $TRAVIS_OS_NAME != osx ]; then
+    sudo patch -l /usr/include/CGAL/Nef_S2/SM_overlayer.h < patch/Fix-use-of-uninitialized-variable-in-SM_overlayer.h.patch;
+    sudo patch -l /usr/include/CGAL/IO/File_scanner_OFF.h < patch/Fix-use-of-uninitialized-variable-in-File_scanner_OFF.h.patch;
+    sudo patch -l /usr/include/CGAL/IO/File_writer_OFF.h < patch/Fix-uninitialized-member-in-File_writer_OFF.h.patch;
+    sudo patch -l /usr/include/CGAL/IO/File_writer_VRML_2.h < patch/Fix-uninitialized-member-in-File_writer_VRML_2.h.patch;
+    sudo patch -l /usr/include/CGAL/internal/Triangulation_ds_iterators_3.h < patch/Fix-uninitialized-member-in-Triangulation_ds_iterators_3.h.patch;
+    sudo patch -l /usr/include/CGAL/Triangulation_2/internal/Triangulation_line_face_circulator_2.h < patch/Fix-uninitialized-member-in-Triangulation_line_face_circulator_2.h.patch;
+    sudo patch -l /usr/include/CGAL/Triangulation_3.h < patch/Fix-uninitialized-member-in-Triangulation_3.h.patch;
+    sudo patch -l /usr/include/CGAL/Tools/chained_map.h < patch/Fix-uninitialized-member-in-chained_map.h.patch;
+    sudo patch -l /usr/include/CGAL/Nef_3/ID_support_handler.h < patch/Performance-in-ID_support_handler.h.patch;
+    sudo patch -l /usr/include/CGAL/Nef_3/K3_tree.h < patch/Fix-uninitialized-member-in-K3_tree.h.patch;
+    sudo patch -l /usr/include/CGAL/Mpzf.h < patch/Fix-uninitialized-member-in-Mpzf.h.patch;
+    sudo patch -l /usr/include/CGAL/GMP/Gmpz_type.h < patch/Fix-uninitialized-member-in-Gmpz_type.h.patch;
+    sudo patch -l /usr/include/CGAL/GMP/Gmpfr_type.h < patch/Fix-uninitialized-member-in-Gmpfr_type.h.patch;
+    sudo patch -l /usr/include/CGAL/Multiset.h < patch/Fix-uninitialized-members-in-Multiset.h.patch;
+    sudo patch -l /usr/include/CGAL/Convex_decomposition_3/Single_wall_creator.h < patch/Fix-uninitialized-member-in-Single_wall_creator.h.patch;
+    sudo patch -l /usr/include/CGAL/Convex_decomposition_3/Edge_sorter.h < patch/Fix-uninitialized-member-in-Edge_sorter.h.patch;
+    sudo patch -l /usr/include/CGAL/Convex_decomposition_3/Ray_hit_generator2.h < patch/Fix-uninitialized-members-in-Ray_hit_generator2.h.patch;
+    sudo patch -l /usr/include/CGAL/Nef_3/SNC_io_parser.h < patch/Fix-uninitialized-member-in-SNC_io_parser.h.patch;
+    sudo patch -l /usr/include/CGAL/Nef_3/Volume.h < patch/Fix-uninitialized-member-in-Volume.h.patch;
+    sudo patch -l /usr/include/CGAL/Polyhedron_incremental_builder_3.h < patch/Fix-uninitialized-member-in-Polyhedron_incremental_builder.h.patch;
+    sudo patch -l /usr/include/CGAL/Triangulation_vertex_base_with_info_2.h < patch/Fix-uninitialized-member-in-Triangulation_vertex_base_with_info_2.h.patch;
+    sudo patch -l /usr/include/CGAL/utility.h < patch/Fix-uninitialized-members-in-utility.h.patch;
+    sudo patch -l /usr/include/CGAL/boost/graph/iterator.h < patch/Fix-uninitialized-member-in-iterator.h.patch;
+    sudo patch -l /usr/include/CGAL/Straight_skeleton_2/Straight_skeleton_builder_events_2.h < patch/Fix-uninitialized-member-in-Straight_skeleton_builder_events_2.h.patch;
+    sudo patch -l /usr/include/CGAL/Filtered_predicate.h < patch/Fix-uninitialized-member-in-Filtered_predicate.h.patch;
+    sudo patch -l /usr/include/CGAL/Intersections_2/Segment_2_Segment_2.h < patch/Fix-uninitialized-member-in-Segment_2_Segment_2.h.patch;
+    sudo patch -l /usr/include/CGAL/Intersections_2/Line_2_Line_2.h < patch/Fix-uninitialized-member-in-Line_2_Line_2.h.patch;
+  fi
 
 script:
 - export VERSION=$(cat VERSION)

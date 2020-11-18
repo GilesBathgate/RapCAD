@@ -1,0 +1,12 @@
+--- a/usr/include/CGAL/Nef_3/Volume.h
++++ b/usr/include/CGAL/Nef_3/Volume.h
+@@ -47,7 +47,7 @@ class Volume_base  {
+ 
+  public:
+ 
+-  Volume_base() {}
++  Volume_base() : mark_{} {}
+ 
+   Volume_base(Mark m) : mark_(m) {}
+ 
+

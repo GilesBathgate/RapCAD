@@ -1,0 +1,23 @@
+--- a/usr/include/CGAL/Tools/chained_map.h
++++ b/usr/include/CGAL/Tools/chained_map.h
+@@ -271,7 +271,8 @@ T& chained_map<T, Allocator>::access(chained_map_item p, std::size_t x)
+ 
+ template <typename T, typename Allocator>
+ chained_map<T, Allocator>::chained_map(std::size_t n) :
+-  nullptrKEY(0), NONnullptrKEY(1), old_table(0)
++  nullptrKEY(0), NONnullptrKEY(1), old_table(0), old_table_end(0),
++  old_free(0), old_table_size(0), old_table_size_1(0), old_index(0)
+ {
+   if (n < 512)
+     init_table(512);
+@@ -285,7 +286,8 @@ chained_map<T, Allocator>::chained_map(std::size_t n) :
+ 
+ template <typename T, typename Allocator>
+ chained_map<T, Allocator>::chained_map(const chained_map<T, Allocator>& D) :
+-  nullptrKEY(0), NONnullptrKEY(1), old_table(0)
++  nullptrKEY(0), NONnullptrKEY(1), old_table(0), old_table_end(0),
++  old_free(0), old_table_size(0), old_table_size_1(0), old_index(0)
+ {
+   init_table(D.table_size);
+   STOP.i = D.STOP.i; // xdef
+

@@ -1,0 +1,11 @@
+--- a/usr/include/CGAL/Straight_skeleton_2/Straight_skeleton_builder_events_2.h
++++ b/usr/include/CGAL/Straight_skeleton_2/Straight_skeleton_builder_events_2.h
+@@ -54,6 +54,7 @@ public:
+     :
+      mTriedge   (aTriedge)
+     ,mTrisegment(aTrisegment)
++    ,mTime{}
+   {}
+ 
+   virtual ~ Event_2() {}
+
