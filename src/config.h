@@ -33,6 +33,9 @@
 #define NDEBUG
 #include <CGAL/Nef_2/debug.h>
 
+#undef NDEBUG
+#include <CGAL/triangulation_assertions.h>
+
 #define CGAL_DISABLE_ROUNDING_MATH_CHECK
 #include <CGAL/Interval_nt.h>
 
