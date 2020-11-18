@@ -15,41 +15,29 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include "assertmodule.h"
+#include "assertexception.h"
 
-#ifndef CONFIG_H
-#define CONFIG_H
+AssertModule::AssertModule(Reporter& r) : Module(r,"assert")
+{
+	addDescription(tr("Checks the expected value and stops execution when false"));
+	addParameter("condition",tr("A value that is expected to be true"));
+	addParameter("message",tr("A message that is displayed when the assertion fails"));
+}
 
-#define BOOST_NO_STDLIB_CONFIG
+Node* AssertModule::evaluate(const Context& ctx) const
+{
+	Value* expectedVal=getParameterArgument(ctx,0);
+	Value* messageVal=getParameterArgument(ctx,1);
 
-#define CGAL_NO_CORE 1
-#include <CGAL/config.h>
+	QString message;
+	if(messageVal)
+		message=messageVal->getValueString();
+	else
+		message=tr("Assertion failed");
 
-#undef CGAL_USE_GMPXX
-#define CGAL_DO_NOT_USE_BOOST_MP 1
+	if(expectedVal&&expectedVal->isFalse())
+		throw AssertException(message);
 
-#define CGAL_DEBUG
-#include <CGAL/assertions.h>
-
-#define NDEBUG
-#include <CGAL/Nef_2/debug.h>
-
-#undef NDEBUG
-#include <CGAL/triangulation_assertions.h>
-
-#define CGAL_DISABLE_ROUNDING_MATH_CHECK
-#include <CGAL/Interval_nt.h>
-
-#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,8,0)
-#include "cgalassert.h" // cgalassert hack
-#endif
-
-#if CGAL_VERSION_NR > CGAL_VERSION_NUMBER(4,2,0)
-#define USE_SIMPLIFY
-#define USE_SUBDIV
-#endif
-
-#if __cplusplus > 199711 && CGAL_VERSION_NR > CGAL_VERSION_NUMBER(4,2,0)
-#define USE_OFFSET
-#endif
-
-#endif // CONFIG_H
+	return nullptr;
+}

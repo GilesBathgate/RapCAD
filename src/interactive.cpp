@@ -23,6 +23,7 @@
 #ifdef USE_CGAL
 #include <CGAL/exceptions.h>
 #endif
+#include "assertexception.h"
 #include "contrib/qtcompat.h"
 
 #ifdef USE_READLINE
@@ -73,6 +74,8 @@ void Interactive::execCommand(const QString& str)
 	} catch(const CGAL::Failure_exception& e) {
 		reporter.reportException(QString::fromStdString(e.what()));
 #endif
+	} catch(const AssertException& e) {
+		reporter.reportMessage(e.getMessage());
 	} catch(...) {
 		reporter.reportException(tr("Unknown error."));
 	}
