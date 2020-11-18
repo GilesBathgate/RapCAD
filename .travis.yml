@@ -30,6 +30,8 @@ addons:
 
 install:
 - if [ $TRAVIS_OS_NAME = osx ]; then
+    brew install bison;
+    export PATH="/usr/local/opt/bison/bin:$PATH";
     brew link --force qt5;
   fi
 

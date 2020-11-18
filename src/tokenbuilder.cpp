@@ -160,12 +160,12 @@ int TokenBuilder::buildFunction()
 
 int TokenBuilder::buildTrue()
 {
-	return TOK_TRUE;
+	return TRUE;
 }
 
 int TokenBuilder::buildFalse()
 {
-	return TOK_FALSE;
+	return FALSE;
 }
 
 int TokenBuilder::buildUndef()
@@ -185,12 +185,12 @@ int TokenBuilder::buildParam()
 
 int TokenBuilder::buildIf()
 {
-	return TOK_IF;
+	return IF;
 }
 
 int TokenBuilder::buildAs()
 {
-	return TOK_AS;
+	return AS;
 }
 
 int TokenBuilder::buildElse()

@@ -62,15 +62,15 @@ static AbstractTokenBuilder* tokenizer;
 %token <text> USE
 %token <text> IMPORT
 %token MODULE FUNCTION
-%token TOK_IF
+%token IF
 %right THEN ELSE
 %token FOR
 %token CONST PARAM
 %token <text> IDENTIFIER
 %token <text> STRING
 %token <number> NUMBER
-%token TOK_TRUE TOK_FALSE UNDEF
-%token TOK_AS NS
+%token TRUE FALSE UNDEF
+%token AS NS
 %token BOM
 
 %right RETURN
@@ -140,14 +140,14 @@ codedoc_param
 use_declaration
 	: USE
 	{ $$ = builder->buildUse($1); }
-	| USE TOK_AS IDENTIFIER ';'
+	| USE AS IDENTIFIER ';'
 	{ $$ = builder->buildUse($1,$3); }
 	;
 
 import_declaration
-	: IMPORT TOK_AS IDENTIFIER ';'
+	: IMPORT AS IDENTIFIER ';'
 	{ $$ = builder->buildImport($1,$3); }
-	| IMPORT TOK_AS IDENTIFIER '(' parameters ')' ';'
+	| IMPORT AS IDENTIFIER '(' parameters ')' ';'
 	{ $$ = builder->buildImport($1,$3,$5); }
 	;
 
@@ -266,9 +266,9 @@ assign_statement
 	;
 
 ifelse_statement
-	: TOK_IF '(' expression ')' statement %prec THEN
+	: IF '(' expression ')' statement %prec THEN
 	{ $$ = builder->buildIfElseStatement($3,$5); }
-	| TOK_IF '(' expression ')' statement ELSE statement
+	| IF '(' expression ')' statement ELSE statement
 	{ $$ = builder->buildIfElseStatement($3,$5,$7); }
 	;
 
@@ -285,9 +285,9 @@ variable
 	;
 
 expression
-	: TOK_TRUE
+	: TRUE
 	{ $$ = builder->buildLiteral(true); }
-	| TOK_FALSE
+	| FALSE
 	{ $$ = builder->buildLiteral(false); }
 	| UNDEF
 	{ $$ = builder->buildLiteral(); }
