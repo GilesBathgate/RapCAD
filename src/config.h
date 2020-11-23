@@ -32,6 +32,9 @@
 
 #define NDEBUG
 #include <CGAL/Nef_2/debug.h>
+#include <CGAL/intersection_3.h> //Dependency
+#include <CGAL/Nef_3/SNC_decorator.h> //Dependency
+#include <CGAL/Nef_3/SNC_external_structure.h>
 
 #undef NDEBUG
 #include <CGAL/triangulation_assertions.h>

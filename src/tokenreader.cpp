@@ -64,12 +64,12 @@ int TokenReader::buildFunction()
 
 int TokenReader::buildTrue()
 {
-	return TOK_TRUE;
+	return TRUE;
 }
 
 int TokenReader::buildFalse()
 {
-	return TOK_FALSE;
+	return FALSE;
 }
 
 int TokenReader::buildUndef()
@@ -89,12 +89,12 @@ int TokenReader::buildParam()
 
 int TokenReader::buildIf()
 {
-	return TOK_IF;
+	return IF;
 }
 
 int TokenReader::buildAs()
 {
-	return TOK_AS;
+	return AS;
 }
 
 int TokenReader::buildElse()

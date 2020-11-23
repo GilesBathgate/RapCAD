@@ -1,0 +1,16 @@
+--- a/usr/include/CGAL/Intersections_2/Line_2_Line_2.h
++++ b/usr/include/CGAL/Intersections_2/Line_2_Line_2.h
+@@ -36,10 +36,10 @@ namespace internal {
+ template <class K>
+ class Line_2_Line_2_pair {
+ public:
+-    enum Intersection_results {NO_INTERSECTION, POINT, LINE};
++    enum Intersection_results {NOT_COMPUTED_YET, NO_INTERSECTION, POINT, LINE};
+     Line_2_Line_2_pair(typename K::Line_2 const *line1,
+                        typename K::Line_2 const *line2)
+-      : _line1(line1), _line2(line2), _known(false) {}
++      : _line1(line1), _line2(line2), _known(false), _result(NOT_COMPUTED_YET) {}
+ 
+     Intersection_results intersection_type() const;
+ 
+
