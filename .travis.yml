@@ -65,9 +65,13 @@ install:
     sudo patch -l /usr/include/CGAL/Mpzf.h < patch/Fix-dead-code-warning-in-Mpzf.h.patch;
   fi
 
+before_script:
+- qmake -v
+- bison -V
+- flex -V
+
 script:
 - export VERSION=$(cat VERSION)
-- qmake -v
 - qmake CONFIG+=$CONFIG
 - make -j4
 - if [ $CONFIG = coverage ]; then
