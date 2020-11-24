@@ -62,6 +62,7 @@ install:
     sudo patch -l /usr/include/CGAL/Filtered_predicate.h < patch/Fix-uninitialized-member-in-Filtered_predicate.h.patch;
     sudo patch -l /usr/include/CGAL/Intersections_2/Segment_2_Segment_2.h < patch/Fix-uninitialized-member-in-Segment_2_Segment_2.h.patch;
     sudo patch -l /usr/include/CGAL/Intersections_2/Line_2_Line_2.h < patch/Fix-uninitialized-member-in-Line_2_Line_2.h.patch;
+    sudo patch -l /usr/include/CGAL/Mpzf.h < patch/Fix-dead-code-warning-in-Mpzf.h.patch;
   fi
 
 script:
