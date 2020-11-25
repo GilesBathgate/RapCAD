@@ -1,15 +1,15 @@
 --- a/usr/include/CGAL/Mpzf.h
 +++ b/usr/include/CGAL/Mpzf.h
-@@ -300,8 +300,10 @@ struct Mpzf {
+@@ -300,7 +300,11 @@ struct Mpzf {
      pool::push(data());
    }
  
--  Mpzf(noalloc){}
--  Mpzf(allocate,int i) { init(i); }
-+  Mpzf(noalloc)
-+    : data_(nullptr), size(0), exp(0) {}
-+  Mpzf(allocate,int i)
-+    : size(0), exp(0) { init(i); }
++  // These constructors intentionally
++  // don't initialize any members
++  // coverity[uninit_member]
+   Mpzf(noalloc){}
++  // coverity[uninit_member]
+   Mpzf(allocate,int i) { init(i); }
  
    public:
 
