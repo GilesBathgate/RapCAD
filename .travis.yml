@@ -63,19 +63,5 @@ install:
     sudo patch -l /usr/include/CGAL/Mpzf.h < patch/Fix-dead-code-warning-in-Mpzf.h.patch;
   fi
 
-before_script:
-- qmake -v
-- bison -V
-- flex -V
-
 script:
   - qmake -v
-
-notifications:
-  irc:
-    channels:
-      - "irc.freenode.org#rapcad"
-    skip_join: true
-    template:
-      - "%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}"
-      - "Build details : %{build_url}"
