@@ -31,12 +31,15 @@ addons:
 install:
 - if [ $TRAVIS_OS_NAME = osx ]; then
     export CGAL_DIR=/usr/local/include/CGAL;
+    export BOOST_ROOT=/usr/local/include/boost;
     brew install bison;
     export PATH="/usr/local/opt/bison/bin:$PATH";
     brew link --force qt5;
   else
     export CGAL_DIR=/usr/include/CGAL;
+    export BOOST_ROOT=/usr/include/boost;
   fi
+- sudo patch -l $BOOST_ROOT/random/linear_congruential.hpp < patch/Fix-Wtautological-overlap-compare-clang-warning.patch;
 - sudo patch -l $CGAL_DIR/Nef_S2/SM_overlayer.h < patch/Fix-use-of-uninitialized-variable-in-SM_overlayer.h.patch;
 - sudo patch -l $CGAL_DIR/IO/File_scanner_OFF.h < patch/Fix-use-of-uninitialized-variable-in-File_scanner_OFF.h.patch;
 - sudo patch -l $CGAL_DIR/IO/File_writer_OFF.h < patch/Fix-uninitialized-member-in-File_writer_OFF.h.patch;
