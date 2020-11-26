@@ -1,15 +1,30 @@
 --- a/usr/include/CGAL/Mpzf.h
 +++ b/usr/include/CGAL/Mpzf.h
-@@ -300,7 +300,11 @@ struct Mpzf {
+@@ -253,6 +253,7 @@ struct Mpzf {
+   typedef Mpzf_impl::no_pool<mp_limb_t*,Mpzf> pool;
+ //#endif
+ 
++  // coverity[member_decl]
+   mp_limb_t* data_; /* data_[0] is never 0 (except possibly for 0). */
+   inline mp_limb_t*& data() { return data_; }
+   inline mp_limb_t const* data() const { return data_; }
+@@ -260,7 +261,9 @@ struct Mpzf {
+ #ifdef CGAL_MPZF_USE_CACHE
+   mp_limb_t cache[cache_size + 1];
+ #endif
++  // coverity[member_decl]
+   int size; /* Number of relevant limbs in data_. */
++  // coverity[member_decl]
+   int exp; /* The number is data_ (an integer) * 2 ^ (64 * exp). */
+   typedef int Exponent_type;
+   typedef int Size_type;
+@@ -300,6 +303,8 @@ struct Mpzf {
      pool::push(data());
    }
  
 +  // These constructors intentionally
 +  // don't initialize any members
-+  // coverity[uninit_member]
    Mpzf(noalloc){}
-+  // coverity[uninit_member]
    Mpzf(allocate,int i) { init(i); }
  
-   public:
 
