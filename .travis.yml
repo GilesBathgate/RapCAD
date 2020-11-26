@@ -1,6 +1,9 @@
 group: travis_latest
 language: cpp
 
+git:
+  depth: 4
+
 env:
   global:
    - secure: "TdT9Gj2QhbsjwGvEP1fosSxNdYFDfemAWzkwE2tX/iWy5gFFqmKsyr6GIvbqYLvtWwCiL/8ahZBfUL1as1ZbJci0dgMNCqj4quA6G3OvibA+VB9NXRRM0Il/p/3TDTm+nzO2Z1TkECtuzJkco2CHaDZQIdg/ul3zSyAGL+OSYSg="
