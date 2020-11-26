@@ -64,6 +64,7 @@ install:
     sudo patch -l /usr/include/CGAL/Intersections_2/Line_2_Line_2.h < patch/Fix-uninitialized-member-in-Line_2_Line_2.h.patch;
     sudo patch -l /usr/include/CGAL/Mpzf.h < patch/Fix-dead-code-warning-in-Mpzf.h.patch;
     sudo patch -l /usr/include/CGAL/Nef_3/Vertex.h < patch/Fix-dereference-after-null-check-in-Nef_3-Vertex.h.patch;
+    sudo patch -l /usr/include/CGAL/Nef_3/SNC_io_parser.h < patch/Fix-passing-big-parameters-by-value-in-SNC_io_parser.patch;
   fi
 
 before_script:
