@@ -28,7 +28,7 @@ addons:
       description: "Build submitted via Travis CI"
     notification_email: gilesbathgate@gmail.com
     build_command_prepend: "qmake CONFIG+=official"
-    build_command:   "make -j4"
+    build_command:   "make -j2"
     branch_pattern: coverity_scan
 
 install:
