@@ -1,0 +1,12 @@
+--- a/usr/include/boost/random/linear_congruential.hpp
++++ b/usr/include/boost/random/linear_congruential.hpp
+@@ -137,7 +137,7 @@ public:
+             _x = x0 % modulus;
+         }
+         // handle negative seeds
+-        if(_x <= 0 && _x != 0) {
++        if(_x < 0) {
+             _x += modulus;
+         }
+         // adjust to the correct range
+
