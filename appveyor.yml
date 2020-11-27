@@ -16,7 +16,6 @@ cache:
   - asciidoc.zip -> appveyor.yml
   - src-highlite.zip -> appveyor.yml
   - csharp.lang -> appveyor.yml
-  - C:\CGAL -> appveyor.yml
 
 install:
   - set CGAL_DIR=C:\CGAL\
