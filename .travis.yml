@@ -71,4 +71,4 @@ install:
 - sudo patch -l $CGAL_DIR/Intersections_2/Line_2_Line_2.h < patch/Fix-uninitialized-member-in-Line_2_Line_2.h.patch;
 
 script:
-  - qmake -v
+  - cat cov-int/scm_log.txt
