@@ -51,7 +51,6 @@ install:
   - patch -l %CGAL_DIR%\include\CGAL\Tools\chained_map.h < patch\Fix-uninitialized-member-in-chained_map.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\Nef_3\ID_support_handler.h < patch\Performance-in-ID_support_handler.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\Nef_3\K3_tree.h < patch\Fix-uninitialized-member-in-K3_tree.h.patch
-  - patch -l %CGAL_DIR%\include\CGAL\Mpzf.h < patch\Fix-uninitialized-member-in-Mpzf.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\GMP\Gmpz_type.h < patch\Fix-uninitialized-member-in-Gmpz_type.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\GMP\Gmpfr_type.h < patch\Fix-uninitialized-member-in-Gmpfr_type.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\Multiset.h < patch\Fix-uninitialized-members-in-Multiset.h.patch
@@ -67,7 +66,6 @@ install:
   - patch -l %CGAL_DIR%\include\CGAL\Straight_skeleton_2\Straight_skeleton_builder_events_2.h < patch\Fix-uninitialized-member-in-Straight_skeleton_builder_events_2.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\Filtered_predicate.h < patch\Fix-uninitialized-member-in-Filtered_predicate.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\Intersections_2\Segment_2_Segment_2.h < patch\Fix-uninitialized-member-in-Segment_2_Segment_2.h.patch
-  - patch -l %CGAL_DIR%\include\CGAL\Mpzf.h < patch\Fix-dead-code-warning-in-Mpzf.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\Nef_3\Vertex.h < patch\Fix-dereference-after-null-check-in-Nef_3-Vertex.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\Nef_3\SNC_io_parser.h < patch\Fix-passing-big-parameters-by-value-in-SNC_io_parser.patch
   - patch -l %CGAL_DIR%\include\CGAL\Nef_2\debug.h < patch\Fix-warning-cgal-nef-debug.patch
