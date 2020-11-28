@@ -1,0 +1,24 @@
+--- a/usr/include/CGAL/Nef_3/K3_tree.h
++++ b/usr/include/CGAL/Nef_3/K3_tree.h
+@@ -442,12 +442,15 @@ friend std::ostream& operator<<
+ }
+ 
+ 
+-~Node() {
++~Node() CGAL_NOEXCEPT(CGAL_NO_ASSERTIONS_BOOL)
++{
+   CGAL_NEF_TRACEN("~Node: deleting node...");
+-  if( !is_leaf()) {
+-    delete left_node;
+-    delete right_node;
+-  }
++  CGAL_destructor_assertion_catch(
++    if( !is_leaf()) {
++      delete left_node;
++      delete right_node;
++    }
++  );
+ }
+ 
+ private:
+
