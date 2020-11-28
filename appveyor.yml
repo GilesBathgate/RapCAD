@@ -72,6 +72,7 @@ install:
   - patch -l %CGAL_DIR%\include\CGAL\assertions.h < patch\Add-a-destructor-assertion-catch-macro.patch
   - patch -l %CGAL_DIR%\include\CGAL\Nef_3\K3_tree.h < patch\Fix-uncaught-exception-in-K3_tree.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\IO\VRML_2_ostream.h < patch\Fix-uncaught-exception-in-VRML_2_ostream.h.patch
+  - patch -l %CGAL_DIR%\include\CGAL\Nef_S2\Sphere_map.h < patch\Fix-uncaught-exception-in-Sphere_map.h.patch
   # Install GMP
   - if not exist gmp-all-CGAL-3.9.zip
       appveyor DownloadFile https://cgal.geometryfactory.com/CGAL/precompiled_libs/auxiliary/x64/GMP/5.0.1/gmp-all-CGAL-3.9.zip

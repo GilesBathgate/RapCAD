@@ -71,6 +71,7 @@ install:
 - sudo patch -l $CGAL_DIR/assertions.h < patch/Add-a-destructor-assertion-catch-macro.patch;
 - sudo patch -l $CGAL_DIR/Nef_3/K3_tree.h < patch/Fix-uncaught-exception-in-K3_tree.h.patch;
 - sudo patch -l $CGAL_DIR/IO/VRML_2_ostream.h < patch/Fix-uncaught-exception-in-VRML_2_ostream.h.patch;
+- sudo patch -l $CGAL_DIR/Nef_S2/Sphere_map.h < patch/Fix-uncaught-exception-in-Sphere_map.h.patch;
 - if [ $TRAVIS_OS_NAME != osx ]; then
     sudo patch -l $CGAL_DIR/Intersections_2/Line_2_Line_2.h < patch/Fix-uninitialized-member-in-Line_2_Line_2.h.patch;
   fi
