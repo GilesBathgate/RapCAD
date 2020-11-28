@@ -48,7 +48,6 @@ install:
 - sudo patch -l $CGAL_DIR/Tools/chained_map.h < patch/Fix-uninitialized-member-in-chained_map.h.patch;
 - sudo patch -l $CGAL_DIR/Nef_3/ID_support_handler.h < patch/Performance-in-ID_support_handler.h.patch;
 - sudo patch -l $CGAL_DIR/Nef_3/K3_tree.h < patch/Fix-uninitialized-member-in-K3_tree.h.patch;
-- sudo patch -l $CGAL_DIR/Mpzf.h < patch/Fix-uninitialized-member-in-Mpzf.h.patch;
 - sudo patch -l $CGAL_DIR/GMP/Gmpz_type.h < patch/Fix-uninitialized-member-in-Gmpz_type.h.patch;
 - sudo patch -l $CGAL_DIR/GMP/Gmpfr_type.h < patch/Fix-uninitialized-member-in-Gmpfr_type.h.patch;
 - sudo patch -l $CGAL_DIR/Multiset.h < patch/Fix-uninitialized-members-in-Multiset.h.patch;
@@ -64,10 +63,11 @@ install:
 - sudo patch -l $CGAL_DIR/Straight_skeleton_2/Straight_skeleton_builder_events_2.h < patch/Fix-uninitialized-member-in-Straight_skeleton_builder_events_2.h.patch;
 - sudo patch -l $CGAL_DIR/Filtered_predicate.h < patch/Fix-uninitialized-member-in-Filtered_predicate.h.patch;
 - sudo patch -l $CGAL_DIR/Intersections_2/Segment_2_Segment_2.h < patch/Fix-uninitialized-member-in-Segment_2_Segment_2.h.patch;
-- sudo patch -l $CGAL_DIR/Mpzf.h < patch/Fix-dead-code-warning-in-Mpzf.h.patch;
 - sudo patch -l $CGAL_DIR/Nef_3/Vertex.h < patch/Fix-dereference-after-null-check-in-Nef_3-Vertex.h.patch;
 - sudo patch -l $CGAL_DIR/Nef_3/SNC_io_parser.h < patch/Fix-passing-big-parameters-by-value-in-SNC_io_parser.patch;
 - sudo patch -l $CGAL_DIR/Nef_2/debug.h < patch/Fix-warning-cgal-nef-debug.patch;
+- sudo patch -l $CGAL_DIR/assertions.h < patch/Add-a-destructor-assertion-catch-macro.patch;
+- sudo patch -l $CGAL_DIR/Nef_3/K3_tree.h < patch/Fix-uncaught-exception-in-K3_tree.h.patch;
 - sudo patch -l $CGAL_DIR/Intersections_2/Line_2_Line_2.h < patch/Fix-uninitialized-member-in-Line_2_Line_2.h.patch;
 
 script:
