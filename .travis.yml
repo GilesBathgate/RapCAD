@@ -71,4 +71,6 @@ install:
 - sudo patch -l $CGAL_DIR/Intersections_2/Line_2_Line_2.h < patch/Fix-uninitialized-member-in-Line_2_Line_2.h.patch;
 
 script:
-  - cat cov-int/scm_log.txt
+  - if [ -f cov-int/scm_log.txt ]; then
+      cat cov-int/scm_log.txt;
+    fi
