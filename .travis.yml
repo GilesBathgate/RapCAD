@@ -76,6 +76,7 @@ install:
 - sudo patch -l $CGAL_DIR/Nef_3/SNC_point_locator.h < patch/Fix-uncaught-exception-in-SNC_point_locator.h.patch;
 - sudo patch -l $CGAL_DIR/Handle_for.h < patch/Fix-uncaught-exception-in-Handle_for.h.patch;
 - sudo patch -l $CGAL_DIR/Straight_skeleton_2/Straight_skeleton_aux.h < patch/Add-noexcept-to-Ref_counted_base-in-Straight_skeleton_aux.h.patch;
+- sudo patch -l $CGAL_DIR/Nef_3/SNC_io_parser.h < patch/Add-bounds-checks-in-SNC_io_parser.h.patch;
 - if [ $TRAVIS_OS_NAME != osx ]; then
     sudo patch -l $CGAL_DIR/Intersections_2/Line_2_Line_2.h < patch/Fix-uninitialized-member-in-Line_2_Line_2.h.patch;
   fi
