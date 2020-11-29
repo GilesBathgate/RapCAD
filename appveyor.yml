@@ -75,6 +75,7 @@ install:
   - patch -l %CGAL_DIR%\include\CGAL\Nef_S2\Sphere_map.h < patch\Fix-uncaught-exception-in-Sphere_map.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\Nef_polyhedron_S2.h < patch\Fix-uncaught-exception-in-Nef_polyhedron_S2.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\Nef_3\SNC_point_locator.h < patch\Fix-uncaught-exception-in-SNC_point_locator.h.patch
+  - patch -l %CGAL_DIR%\include\CGAL\Handle_for.h < patch\Fix-uncaught-exception-in-Handle_for.h.patch
   # Install GMP
   - if not exist gmp-all-CGAL-3.9.zip
       appveyor DownloadFile https://cgal.geometryfactory.com/CGAL/precompiled_libs/auxiliary/x64/GMP/5.0.1/gmp-all-CGAL-3.9.zip

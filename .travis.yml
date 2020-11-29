@@ -74,6 +74,7 @@ install:
 - sudo patch -l $CGAL_DIR/Nef_S2/Sphere_map.h < patch/Fix-uncaught-exception-in-Sphere_map.h.patch;
 - sudo patch -l $CGAL_DIR/Nef_polyhedron_S2.h < patch/Fix-uncaught-exception-in-Nef_polyhedron_S2.h.patch;
 - sudo patch -l $CGAL_DIR/Nef_3/SNC_point_locator.h < patch/Fix-uncaught-exception-in-SNC_point_locator.h.patch;
+- sudo patch -l $CGAL_DIR/Handle_for.h < patch/Fix-uncaught-exception-in-Handle_for.h.patch;
 - if [ $TRAVIS_OS_NAME != osx ]; then
     sudo patch -l $CGAL_DIR/Intersections_2/Line_2_Line_2.h < patch/Fix-uninitialized-member-in-Line_2_Line_2.h.patch;
   fi
