@@ -31,6 +31,9 @@
 #define CGAL_DEBUG
 #include <CGAL/assertions.h>
 
+#define CGAL_NDEBUG
+#include <CGAL/test_FPU_rounding_mode_impl.h>
+
 #define NDEBUG
 #include <CGAL/Nef_2/debug.h>
 #include <CGAL/intersection_3.h> //Dependency
