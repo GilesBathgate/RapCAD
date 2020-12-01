@@ -53,19 +53,19 @@ Value* AngFunction::evaluate(const Context& ctx) const
 	if(vecVal1&&vecVal2) {
 
 		// a = |v1|*|v2| + v1 . v2
-		Value* norm=Value::operation(vecVal1,Expression::Length,vecVal2);
-		Value* dot=Value::operation(vecVal1,Expression::DotProduct,vecVal2);
-		Value* angle=Value::operation(norm,Expression::Add,dot);
+		Value* norm=Value::operation(vecVal1,Operators::Length,vecVal2);
+		Value* dot=Value::operation(vecVal1,Operators::DotProduct,vecVal2);
+		Value* angle=Value::operation(norm,Operators::Add,dot);
 
 		// [x,y,z] = v1 x v2
-		Value* cross=Value::operation(vecVal1,Expression::CrossProduct,vecVal2);
+		Value* cross=Value::operation(vecVal1,Operators::CrossProduct,vecVal2);
 		auto* axis=dynamic_cast<VectorValue*>(cross);
 		if(!axis) return Value::factory.createUndefined();
 
 		//Renormalise the quaternion
 		Value* q=Value::factory.createComplex(angle,axis->getElements());
-		Value* l=Value::operation(q,Expression::Length);
-		return Value::operation(q,Expression::Divide,l);
+		Value* l=Value::operation(q,Operators::Length);
+		return Value::operation(q,Operators::Divide,l);
 	}
 
 	decimal a=0.0;
@@ -78,8 +78,8 @@ Value* AngFunction::evaluate(const Context& ctx) const
 
 		auto* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
 		if(vecVal) {
-			Value* n=Value::operation(vecVal,Expression::Length);
-			Value* u=Value::operation(vecVal,Expression::Divide,n);
+			Value* n=Value::operation(vecVal,Operators::Length);
+			Value* u=Value::operation(vecVal,Operators::Divide,n);
 			auto* unitVec=dynamic_cast<VectorValue*>(u);
 			if(unitVec) {
 				Point p=unitVec->getPoint();

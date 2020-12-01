@@ -275,10 +275,10 @@ void TreePrinter::visit(const AssignStatement& stmt)
 		var->accept(*this);
 
 	switch(stmt.getOperation()) {
-		case Expression::Increment:
+		case Operators::Increment:
 			result << "++";
 			break;
-		case Expression::Decrement:
+		case Operators::Decrement:
 			result << "--";
 			break;
 		default: {

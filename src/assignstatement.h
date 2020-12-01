@@ -32,13 +32,13 @@ public:
 	Variable* getVariable() const;
 	void setExpression(Expression*);
 	Expression* getExpression() const;
-	void setOperation(Expression::Operator_e);
-	Expression::Operator_e getOperation() const;
+	void setOperation(Operators);
+	Operators getOperation() const;
 	void accept(TreeVisitor&) override;
 private:
 	Variable* variable;
 	Expression* expression;
-	Expression::Operator_e operation;
+	Operators operation;
 };
 
 #endif // ASSIGNSTATEMENT_H

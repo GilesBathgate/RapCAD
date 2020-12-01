@@ -15,23 +15,39 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef OPERATORS_H
+#define OPERATORS_H
 
-#include "powfunction.h"
-#include "context.h"
+enum class Operators {
+	None,
+	Exponent,
+	Multiply,
+	Concatenate,
+	Append,
+	ComponentwiseMultiply,
+	Divide,
+	ComponentwiseDivide,
+	Increment,
+	Decrement,
+	AddAssign,
+	SubAssign,
+	CrossProduct,
+	DotProduct,
+	Modulus,
+	Dot,
+	Add,
+	Subtract,
+	LessThan,
+	LessOrEqual,
+	Equal,
+	NotEqual,
+	GreaterOrEqual,
+	GreaterThan,
+	LogicalAnd,
+	LogicalOr,
+	Invert,
+	Index,
+	Length
+};
 
-PowFunction::PowFunction() : Function("pow")
-{
-	addDescription(tr("Returns the value raised to the power of exponent."));
-	addParameter("value");
-	addParameter("exponent");
-}
-
-Value* PowFunction::evaluate(const Context& ctx) const
-{
-	Value* val=getParameterArgument(ctx,0);
-	Value* arg=getParameterArgument(ctx,1);
-	if(val&&arg)
-		return Value::operation(val,Operators::Exponent,arg);
-
-	return Value::factory.createUndefined();
-}
+#endif // OPERATORS_H

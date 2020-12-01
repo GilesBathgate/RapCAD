@@ -64,8 +64,8 @@ public:
 	QList<Declaration*>* buildDeclarations(QList<Declaration*>*) override;
 	QList<Declaration*>* buildDeclarations(QList<Declaration*>*,Declaration*) override;
 	Statement* buildStatement(Statement*) override;
-	Statement* buildStatement(Variable*,Expression::Operator_e) override;
-	Statement* buildStatement(Variable*,Expression::Operator_e,Expression*) override;
+	Statement* buildStatement(Variable*,Operators) override;
+	Statement* buildStatement(Variable*,Operators,Expression*) override;
 	Statement* buildStatement(QList<Statement*>*) override;
 	Statement* buildStatement(Variable*,Expression*) override;
 	Statement* buildStatement(QString*,Variable::Storage_e,Expression*) override;
@@ -111,8 +111,8 @@ public:
 	Variable* buildVariable(QString*,Variable::Storage_e) override;
 	Expression* buildExpression(Expression*,QString*) override;
 	Expression* buildExpression(Expression*) override;
-	Expression* buildExpression(Expression::Operator_e,Expression*) override;
-	Expression* buildExpression(Expression*,Expression::Operator_e,Expression*) override;
+	Expression* buildExpression(Operators,Expression*) override;
+	Expression* buildExpression(Expression*,Operators,Expression*) override;
 	Expression* buildExpression(Expression*,Expression*,Expression*) override;
 	Expression* buildExpression(QList<Expression*>*,int) override;
 	QList<Expression*>* buildVector() override;

@@ -296,13 +296,13 @@ void TreeEvaluator::visit(const BinaryExpression& exp)
 	Value* left=context->getCurrentValue();
 
 	bool shortc=false;
-	Expression::Operator_e op=exp.getOp();
+	Operators op=exp.getOp();
 
 	switch(op) {
-		case Expression::LogicalAnd:
+		case Operators::LogicalAnd:
 			shortc=left->isFalse();
 			break;
-		case Expression::LogicalOr:
+		case Operators::LogicalOr:
 			shortc=left->isTrue();
 			break;
 		default:
@@ -349,10 +349,10 @@ void TreeEvaluator::visit(const AssignStatement& stmt)
 	Value* lvalue = context->getCurrentValue();
 
 	Value* result=nullptr;
-	Expression::Operator_e op=stmt.getOperation();
+	Operators op=stmt.getOperation();
 	switch(op) {
-		case Expression::Increment:
-		case Expression::Decrement: {
+		case Operators::Increment:
+		case Operators::Decrement: {
 			result=Value::operation(lvalue,op);
 			break;
 		}
@@ -366,9 +366,9 @@ void TreeEvaluator::visit(const AssignStatement& stmt)
 	}
 
 	switch(op) {
-		case Expression::Append:
-		case Expression::AddAssign:
-		case Expression::SubAssign: {
+		case Operators::Append:
+		case Operators::AddAssign:
+		case Operators::SubAssign: {
 			result=Value::operation(lvalue,op,result);
 			break;
 		}

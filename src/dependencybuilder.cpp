@@ -104,12 +104,12 @@ Statement* DependencyBuilder::buildStatement(Statement*)
 	return nullptr;
 }
 
-Statement* DependencyBuilder::buildStatement(Variable*,Expression::Operator_e)
+Statement* DependencyBuilder::buildStatement(Variable*,Operators)
 {
 	return nullptr;
 }
 
-Statement* DependencyBuilder::buildStatement(Variable*,Expression::Operator_e,Expression*)
+Statement* DependencyBuilder::buildStatement(Variable*,Operators,Expression*)
 {
 	return nullptr;
 }
@@ -339,12 +339,12 @@ Expression* DependencyBuilder::buildExpression(Expression*)
 	return nullptr;
 }
 
-Expression* DependencyBuilder::buildExpression(Expression::Operator_e,Expression*)
+Expression* DependencyBuilder::buildExpression(Operators,Expression*)
 {
 	return nullptr;
 }
 
-Expression* DependencyBuilder::buildExpression(Expression*,Expression::Operator_e, Expression*)
+Expression* DependencyBuilder::buildExpression(Expression*,Operators, Expression*)
 {
 	return nullptr;
 }

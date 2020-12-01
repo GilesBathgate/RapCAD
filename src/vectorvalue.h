@@ -38,10 +38,10 @@ public:
 	virtual QList<Value*> getElements();
 protected:
 	VectorValue() = default;
-	Value* operation(Expression::Operator_e) override;
-	Value* operation(Value&,Expression::Operator_e) override;
+	Value* operation(Operators) override;
+	Value* operation(Value&,Operators) override;
 private:
-	static Expression::Operator_e convertOperation(Expression::Operator_e);
+	static Operators convertOperation(Operators);
 	QList<Value*> elements;
 };
 

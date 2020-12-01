@@ -31,10 +31,10 @@ public:
 	Value* toNumber() override;
 	ValueIterator* createIterator() override;
 private:
-	Value* operation(Expression::Operator_e) override;
-	Value* operation(Value&,Expression::Operator_e) override;
-	QString operation(QString&,Expression::Operator_e,QString&);
-	static bool operation(TextValue*,Expression::Operator_e,TextValue*);
+	Value* operation(Operators) override;
+	Value* operation(Value&,Operators) override;
+	QString operation(QString&,Operators,QString&);
+	static bool operation(TextValue*,Operators,TextValue*);
 	QString text;
 };
 

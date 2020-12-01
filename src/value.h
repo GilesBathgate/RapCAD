@@ -73,23 +73,23 @@ public:
 	Value* operator[](Value&);
 	Value* operator!();
 
-	static Value* operation(Value*,Expression::Operator_e);
-	static Value* operation(Value*,Expression::Operator_e,Value*);
-	static bool compare(Value*,Expression::Operator_e,Value*);
-	static Value* compareAll(const QList<Value*>&,Expression::Operator_e);
+	static Value* operation(Value*,Operators);
+	static Value* operation(Value*,Operators,Value*);
+	static bool compare(Value*,Operators,Value*);
+	static Value* compareAll(const QList<Value*>&,Operators);
 
 	friend class ValueFactory;
 	static ValueFactory& factory;
 protected:
 	Value();
-	static bool isComparison(Expression::Operator_e);
+	static bool isComparison(Operators);
 	template <class T>
-	static T basicOperation(T,Expression::Operator_e,T);
+	static T basicOperation(T,Operators,T);
 	template <class T>
-	static T basicOperation(T,Expression::Operator_e);
+	static T basicOperation(T,Operators);
 
-	virtual Value* operation(Expression::Operator_e);
-	virtual Value* operation(Value&,Expression::Operator_e);
+	virtual Value* operation(Operators);
+	virtual Value* operation(Value&,Operators);
 private:
 	bool defined;
 	Variable::Storage_e storageClass;
@@ -110,40 +110,40 @@ private:
 };
 
 template <class T>
-T Value::basicOperation(T left, Expression::Operator_e e, T right)
+T Value::basicOperation(T left, Operators e, T right)
 {
 	switch(e) {
-		case Expression::Exponent:
+		case Operators::Exponent:
 			return exponent(left,right);
-		case Expression::Multiply:
+		case Operators::Multiply:
 			return multiply(left,right);
-		case Expression::Divide:
+		case Operators::Divide:
 			return left/right;
-		case Expression::Modulus:
+		case Operators::Modulus:
 			return modulus(left,right);
-		case Expression::Add:
+		case Operators::Add:
 			return left+right;
-		case Expression::Subtract:
+		case Operators::Subtract:
 			return left-right;
-		case Expression::AddAssign:
+		case Operators::AddAssign:
 			return left+=right;
-		case Expression::SubAssign:
+		case Operators::SubAssign:
 			return left-=right;
-		case Expression::LessThan:
+		case Operators::LessThan:
 			return left<right;
-		case Expression::LessOrEqual:
+		case Operators::LessOrEqual:
 			return left<=right;
-		case Expression::Equal:
+		case Operators::Equal:
 			return left==right;
-		case Expression::NotEqual:
+		case Operators::NotEqual:
 			return left!=right;
-		case Expression::GreaterOrEqual:
+		case Operators::GreaterOrEqual:
 			return left>=right;
-		case Expression::GreaterThan:
+		case Operators::GreaterThan:
 			return left>right;
-		case Expression::LogicalAnd:
+		case Operators::LogicalAnd:
 			return logic(left)&&logic(right);
-		case Expression::LogicalOr:
+		case Operators::LogicalOr:
 			return logic(left)||logic(right);
 		default:
 			return left;
@@ -151,20 +151,20 @@ T Value::basicOperation(T left, Expression::Operator_e e, T right)
 }
 
 template <class T>
-T Value::basicOperation(T left, Expression::Operator_e e)
+T Value::basicOperation(T left, Operators e)
 {
 	switch(e) {
-		case Expression::Add:
+		case Operators::Add:
 			return +left;
-		case Expression::Subtract:
+		case Operators::Subtract:
 			return -left;
-		case Expression::Invert:
+		case Operators::Invert:
 			return !logic(left);
-		case Expression::Increment:
+		case Operators::Increment:
 			return left+1;
-		case Expression::Decrement:
+		case Operators::Decrement:
 			return left-1;
-		case Expression::Length:
+		case Operators::Length:
 			return length(left);
 		default:
 			return left;

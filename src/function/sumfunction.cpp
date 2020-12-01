@@ -33,7 +33,7 @@ Value* SumFunction::evaluate(const Context& ctx) const
 	if(vecVal) {
 		Value* resultVal = Value::factory.createNumber(0.0);
 		for(Value* child: vecVal->getElements())
-			resultVal=Value::operation(resultVal,Expression::Add,child);
+			resultVal=Value::operation(resultVal,Operators::Add,child);
 
 		return resultVal;
 	}

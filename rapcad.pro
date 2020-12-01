@@ -409,6 +409,7 @@ HEADERS  += \
 	src/function/ordinalfunction.h \
 	src/module/assertmodule.h \
 	src/namedvalue.h \
+	src/operators.h \
 	src/tokenreader.h \
 	src/ui/mainwindow.h \
 	src/module.h \

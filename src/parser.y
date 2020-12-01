@@ -250,15 +250,15 @@ assign_statement
 	: variable '=' expression
 	{ $$ = builder->buildStatement($1,$3); }
 	| variable APPEND expression
-	{ $$ = builder->buildStatement($1,Expression::Append,$3); }
+	{ $$ = builder->buildStatement($1,Operators::Append,$3); }
 	| variable INC
-	{ $$ = builder->buildStatement($1,Expression::Increment); }
+	{ $$ = builder->buildStatement($1,Operators::Increment); }
 	| variable DEC
-	{ $$ = builder->buildStatement($1,Expression::Decrement); }
+	{ $$ = builder->buildStatement($1,Operators::Decrement); }
 	| variable ADDA expression
-	{ $$ = builder->buildStatement($1,Expression::AddAssign,$3); }
+	{ $$ = builder->buildStatement($1,Operators::AddAssign,$3); }
 	| variable SUBA expression
-	{ $$ = builder->buildStatement($1,Expression::SubAssign,$3); }
+	{ $$ = builder->buildStatement($1,Operators::SubAssign,$3); }
 	| CONST IDENTIFIER '=' expression
 	{ $$ = builder->buildStatement($2,Variable::Const,$4); }
 	| PARAM IDENTIFIER '=' expression
@@ -310,59 +310,59 @@ expression
 	| '<' expression ',' expression ',' expression ',' expression '>'
 	{ $$ = builder->buildComplex($2,$4,$6,$8); }
 	| '|' expression '|'
-	{ $$ = builder->buildExpression(Expression::Length,$2); }
+	{ $$ = builder->buildExpression(Operators::Length,$2); }
 	| expression '^' expression
-	{ $$ = builder->buildExpression($1,Expression::Exponent,$3); }
+	{ $$ = builder->buildExpression($1,Operators::Exponent,$3); }
 	| expression '*' expression
-	{ $$ = builder->buildExpression($1,Expression::Multiply,$3); }
+	{ $$ = builder->buildExpression($1,Operators::Multiply,$3); }
 	| expression '~' expression
-	{ $$ = builder->buildExpression($1,Expression::Concatenate,$3); }
+	{ $$ = builder->buildExpression($1,Operators::Concatenate,$3); }
 	| expression CM expression
-	{ $$ = builder->buildExpression($1,Expression::ComponentwiseMultiply,$3); }
+	{ $$ = builder->buildExpression($1,Operators::ComponentwiseMultiply,$3); }
 	| expression '/' expression
-	{ $$ = builder->buildExpression($1,Expression::Divide,$3); }
+	{ $$ = builder->buildExpression($1,Operators::Divide,$3); }
 	| expression CD expression
-	{ $$ = builder->buildExpression($1,Expression::ComponentwiseDivide,$3); }
+	{ $$ = builder->buildExpression($1,Operators::ComponentwiseDivide,$3); }
 	| expression CP expression
-	{ $$ = builder->buildExpression($1,Expression::CrossProduct,$3); }
+	{ $$ = builder->buildExpression($1,Operators::CrossProduct,$3); }
 	| expression '%' expression
-	{ $$ = builder->buildExpression($1,Expression::Modulus,$3); }
+	{ $$ = builder->buildExpression($1,Operators::Modulus,$3); }
 	| expression '+' expression
-	{ $$ = builder->buildExpression($1,Expression::Add,$3); }
+	{ $$ = builder->buildExpression($1,Operators::Add,$3); }
 	| expression '-' expression
-	{ $$ = builder->buildExpression($1,Expression::Subtract,$3); }
+	{ $$ = builder->buildExpression($1,Operators::Subtract,$3); }
 	| expression '<' expression
-	{ $$ = builder->buildExpression($1,Expression::LessThan,$3); }
+	{ $$ = builder->buildExpression($1,Operators::LessThan,$3); }
 	| expression LE expression
-	{ $$ = builder->buildExpression($1,Expression::LessOrEqual,$3); }
+	{ $$ = builder->buildExpression($1,Operators::LessOrEqual,$3); }
 	| expression EQ expression
-	{ $$ = builder->buildExpression($1,Expression::Equal,$3); }
+	{ $$ = builder->buildExpression($1,Operators::Equal,$3); }
 	| expression NE expression
-	{ $$ = builder->buildExpression($1,Expression::NotEqual,$3); }
+	{ $$ = builder->buildExpression($1,Operators::NotEqual,$3); }
 	| expression GE expression
-	{ $$ = builder->buildExpression($1,Expression::GreaterOrEqual,$3); }
+	{ $$ = builder->buildExpression($1,Operators::GreaterOrEqual,$3); }
 	| expression '>' expression
-	{ $$ = builder->buildExpression($1,Expression::GreaterThan,$3); }
+	{ $$ = builder->buildExpression($1,Operators::GreaterThan,$3); }
 	| expression AND expression
-	{ $$ = builder->buildExpression($1,Expression::LogicalAnd,$3); }
+	{ $$ = builder->buildExpression($1,Operators::LogicalAnd,$3); }
 	| expression OR expression
-	{ $$ = builder->buildExpression($1,Expression::LogicalOr,$3); }
+	{ $$ = builder->buildExpression($1,Operators::LogicalOr,$3); }
 	| expression INC
-	{ $$ = builder->buildExpression(Expression::Increment,$1); }
+	{ $$ = builder->buildExpression(Operators::Increment,$1); }
 	| expression DEC
-	{ $$ = builder->buildExpression(Expression::Decrement,$1); }
+	{ $$ = builder->buildExpression(Operators::Decrement,$1); }
 	| '+' expression
-	{ $$ = builder->buildExpression(Expression::Add,$2); }
+	{ $$ = builder->buildExpression(Operators::Add,$2); }
 	| '-' expression
-	{ $$ = builder->buildExpression(Expression::Subtract,$2); }
+	{ $$ = builder->buildExpression(Operators::Subtract,$2); }
 	| '!' expression
-	{ $$ = builder->buildExpression(Expression::Invert,$2); }
+	{ $$ = builder->buildExpression(Operators::Invert,$2); }
 	| '(' expression ')'
 	{ $$ = builder->buildExpression($2); }
 	| expression '?' expression ':' expression
 	{ $$ = builder->buildExpression($1,$3,$5); }
 	| expression '[' expression ']'
-	{ $$ = builder->buildExpression($1,Expression::Index,$3); }
+	{ $$ = builder->buildExpression($1,Operators::Index,$3); }
 	| invocation
 	{ $$ = builder->buildExpression($1); }
 	;

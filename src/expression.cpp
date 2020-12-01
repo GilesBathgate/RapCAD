@@ -20,7 +20,7 @@
 
 Expression::Expression() :
 	lineNumber(0),
-	op(None)
+	op(Operators::None)
 {
 }
 
@@ -28,88 +28,88 @@ QString Expression::getOpString() const
 {
 	QString result;
 	switch(getOp()) {
-		case Exponent:
+		case Operators::Exponent:
 			result.append('^');
 			break;
-		case DotProduct:
-		case Multiply:
+		case Operators::DotProduct:
+		case Operators::Multiply:
 			result.append('*');
 			break;
-		case Concatenate:
+		case Operators::Concatenate:
 			result.append("~");
 			break;
-		case Append:
+		case Operators::Append:
 			result.append("~=");
 			break;
-		case ComponentwiseMultiply:
+		case Operators::ComponentwiseMultiply:
 			result.append(".*");
 			break;
-		case Divide:
+		case Operators::Divide:
 			result.append('/');
 			break;
-		case ComponentwiseDivide:
+		case Operators::ComponentwiseDivide:
 			result.append("./");
 			break;
-		case Increment:
+		case Operators::Increment:
 			result.append("++");
 			break;
-		case Decrement:
+		case Operators::Decrement:
 			result.append("--");
 			break;
-		case CrossProduct:
+		case Operators::CrossProduct:
 			result.append("**");
 			break;
-		case Modulus:
+		case Operators::Modulus:
 			result.append('%');
 			break;
-		case Dot:
+		case Operators::Dot:
 			result.append('.');
 			break;
-		case Add:
+		case Operators::Add:
 			result.append('+');
 			break;
-		case Subtract:
+		case Operators::Subtract:
 			result.append('-');
 			break;
-		case LessThan:
+		case Operators::LessThan:
 			result.append('<');
 			break;
-		case LessOrEqual:
+		case Operators::LessOrEqual:
 			result.append("<=");
 			break;
-		case Equal:
+		case Operators::Equal:
 			result.append("==");
 			break;
-		case NotEqual:
+		case Operators::NotEqual:
 			result.append("!=");
 			break;
-		case GreaterOrEqual:
+		case Operators::GreaterOrEqual:
 			result.append(">=");
 			break;
-		case GreaterThan:
+		case Operators::GreaterThan:
 			result.append('>');
 			break;
-		case LogicalAnd:
+		case Operators::LogicalAnd:
 			result.append("&&");
 			break;
-		case LogicalOr:
+		case Operators::LogicalOr:
 			result.append("||");
 			break;
-		case Invert:
+		case Operators::Invert:
 			result.append('!');
 			break;
-		case Index:
+		case Operators::Index:
 			result.append("[]");
 			break;
-		case AddAssign:
+		case Operators::AddAssign:
 			result.append("+=");
 			break;
-		case SubAssign:
+		case Operators::SubAssign:
 			result.append("-=");
 			break;
-		case Length:
+		case Operators::Length:
 			result.append("|");
-		case None:
+		case Operators::None:
 			break;
 	}
 	return result;
@@ -117,15 +117,15 @@ QString Expression::getOpString() const
 
 bool Expression::postFix() const
 {
-	return op==Increment||op==Decrement;
+	return op==Operators::Increment||op==Operators::Decrement;
 }
 
-void Expression::setOp(Operator_e o)
+void Expression::setOp(Operators o)
 {
 	op = o;
 }
 
-Expression::Operator_e Expression::getOp() const
+Operators Expression::getOp() const
 {
 	return op;
 }

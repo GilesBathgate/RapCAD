@@ -55,8 +55,8 @@ public:
 	virtual QList<Declaration*>* buildDeclarations(QList<Declaration*>*)=0;
 	virtual QList<Declaration*>* buildDeclarations(QList<Declaration*>*,Declaration*)=0;
 	virtual Statement* buildStatement(Statement*)=0;
-	virtual Statement* buildStatement(Variable*,Expression::Operator_e)=0;
-	virtual Statement* buildStatement(Variable*,Expression::Operator_e,Expression*)=0;
+	virtual Statement* buildStatement(Variable*,Operators)=0;
+	virtual Statement* buildStatement(Variable*,Operators,Expression*)=0;
 	virtual Statement* buildStatement(QList<Statement*>*)=0;
 	virtual Statement* buildStatement(Variable*,Expression*)=0;
 	virtual Statement* buildStatement(QString*,Variable::Storage_e,Expression*)=0;
@@ -102,8 +102,8 @@ public:
 	virtual Variable* buildVariable(QString*,Variable::Storage_e)=0;
 	virtual Expression* buildExpression(Expression*,QString*)=0;
 	virtual Expression* buildExpression(Expression*)=0;
-	virtual Expression* buildExpression(Expression::Operator_e,Expression*)=0;
-	virtual Expression* buildExpression(Expression*,Expression::Operator_e,Expression*)=0;
+	virtual Expression* buildExpression(Operators,Expression*)=0;
+	virtual Expression* buildExpression(Expression*,Operators,Expression*)=0;
 	virtual Expression* buildExpression(Expression*,Expression*,Expression*)=0;
 	virtual Expression* buildExpression(QList<Expression*>*,int)=0;
 	virtual QList<Expression*>* buildVector()=0;

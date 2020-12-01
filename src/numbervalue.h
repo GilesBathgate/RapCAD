@@ -31,8 +31,8 @@ public:
 	Value* toNumber() override;
 	int toInteger() const;
 private:
-	Value* operation(Expression::Operator_e) override;
-	Value* operation(Value&,Expression::Operator_e) override;
+	Value* operation(Operators) override;
+	Value* operation(Value&,Operators) override;
 	decimal number;
 };
 

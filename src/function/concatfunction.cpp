@@ -37,7 +37,7 @@ Value* ConcatFunction::evaluate(const Context& ctx) const
 		if(!val) {
 			val=vecVal;
 		} else {
-			Value* res=Value::operation(val,Expression::Concatenate,vecVal);
+			Value* res=Value::operation(val,Operators::Concatenate,vecVal);
 			val=res->toVector(1);
 		}
 	}
