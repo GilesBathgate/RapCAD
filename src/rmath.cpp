@@ -50,11 +50,11 @@ decimal r_round_preference(const decimal& a,bool round)
 	if(round) {
 		Preferences& p=Preferences::getInstance();
 		switch(p.getFunctionRounding()) {
-			case DecimalRounding:
+			case Rounding::Decimal:
 				return r_round(a,p.getDecimalPlaces());
-			case Base2Rounding:
+			case Rounding::Base2:
 				return r_round_prec(a,p.getSignificandBits());
-			case NoRounding:
+			case Rounding::None:
 				break;
 		}
 	}

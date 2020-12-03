@@ -121,15 +121,15 @@ Preferences& Preferences::getInstance()
 	return instance;
 }
 
-Precision_t Preferences::getPrecision() const
+Precision Preferences::getPrecision() const
 {
 	int precision=settings->value("Precision",2).toInt();
-	return static_cast<Precision_t>(precision);
+	return static_cast<Precision>(precision);
 }
 
-void Preferences::setPrecision(Precision_t p)
+void Preferences::setPrecision(Precision p)
 {
-	settings->setValue("Precision",p);
+	settings->setValue("Precision",static_cast<int>(p));
 }
 
 int Preferences::getDecimalPlaces() const
@@ -153,24 +153,24 @@ void Preferences::setSignificandBits(int b)
 	updatePrecision();
 }
 
-Rounding_t Preferences::getFunctionRounding() const
+Rounding Preferences::getFunctionRounding() const
 {
 	int rounding=settings->value("FunctionRounding",0).toInt();
-	return static_cast<Rounding_t>(rounding);
+	return static_cast<Rounding>(rounding);
 }
 
-void Preferences::setFunctionRounding(Rounding_t i)
+void Preferences::setFunctionRounding(Rounding i)
 {
 	settings->setValue("FunctionRounding",static_cast<int>(i));
 }
 
-NumberFormat_t Preferences::getNumberFormat() const
+NumberFormats Preferences::getNumberFormat() const
 {
 	int format=settings->value("NumberFormat",0).toInt();
-	return static_cast<NumberFormat_t>(format);
+	return static_cast<NumberFormats>(format);
 }
 
-void Preferences::setNumberFormat(NumberFormat_t i)
+void Preferences::setNumberFormat(NumberFormats i)
 {
 	settings->setValue("NumberFormat",static_cast<int>(i));
 }

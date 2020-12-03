@@ -64,11 +64,11 @@ void PreferencesDialog::setupWidgets()
 	ui->checkBox->setChecked(p.getAutoSaveOnCompile());
 	bool enabled=true;
 	switch(p.getPrecision()) {
-		case SinglePrecision:
+		case Precision::Single:
 			ui->singleRadio->setChecked(true);
 			enabled=false;
 			break;
-		case DoublePrecision:
+		case Precision::Double:
 			ui->doubleRadio->setChecked(true);
 			enabled=false;
 			break;
@@ -81,10 +81,10 @@ void PreferencesDialog::setupWidgets()
 	ui->placesSpinBox->setValue(p.getDecimalPlaces());
 	ui->bitsSpinBox->setValue(p.getSignificandBits());
 	switch(p.getFunctionRounding()) {
-		case DecimalRounding:
+		case Rounding::Decimal:
 			ui->decimalRoundingRadio->setChecked(true);
 			break;
-		case Base2Rounding:
+		case Rounding::Base2:
 			ui->base2RoundingRadio->setChecked(true);
 			break;
 		default:
@@ -92,10 +92,10 @@ void PreferencesDialog::setupWidgets()
 			break;
 	}
 	switch(p.getNumberFormat()) {
-		case RationalFormat:
+		case NumberFormats::Rational:
 			ui->rationalRadio->setChecked(true);
 			break;
-		case ScientificFormat:
+		case NumberFormats::Scientific:
 			ui->scientificRadio->setChecked(true);
 			break;
 		default:
@@ -305,14 +305,14 @@ void PreferencesDialog::precisionType(bool)
 	bool enabled=true;
 	if(ui->singleRadio->isChecked()) {
 		ui->bitsSpinBox->setValue(23);
-		p.setPrecision(SinglePrecision);
+		p.setPrecision(Precision::Single);
 		enabled=false;
 	} else if(ui->doubleRadio->isChecked()) {
 		ui->bitsSpinBox->setValue(52);
-		p.setPrecision(DoublePrecision);
+		p.setPrecision(Precision::Double);
 		enabled=false;
 	} else {
-		p.setPrecision(CustomPrecision);
+		p.setPrecision(Precision::Custom);
 	}
 	ui->placesSpinBox->setEnabled(enabled);
 	ui->bitsSpinBox->setEnabled(enabled);
@@ -322,11 +322,11 @@ void PreferencesDialog::functionRoundingChanged(bool)
 {
 	Preferences& p = Preferences::getInstance();
 	if(ui->decimalRoundingRadio->isChecked())
-		p.setFunctionRounding(DecimalRounding);
+		p.setFunctionRounding(Rounding::Decimal);
 	else if(ui->base2RoundingRadio->isChecked())
-		p.setFunctionRounding(Base2Rounding);
+		p.setFunctionRounding(Rounding::Base2);
 	else
-		p.setFunctionRounding(NoRounding);
+		p.setFunctionRounding(Rounding::None);
 
 	updatePrecision();
 }
@@ -335,11 +335,11 @@ void PreferencesDialog::outputFormatChanged(bool)
 {
 	Preferences& p = Preferences::getInstance();
 	if(ui->rationalRadio->isChecked())
-		p.setNumberFormat(RationalFormat);
+		p.setNumberFormat(NumberFormats::Rational);
 	else if(ui->scientificRadio->isChecked())
-		p.setNumberFormat(ScientificFormat);
+		p.setNumberFormat(NumberFormats::Scientific);
 	else
-		p.setNumberFormat(DecimalFormat);
+		p.setNumberFormat(NumberFormats::Decimal);
 
 	updatePrecision();
 }

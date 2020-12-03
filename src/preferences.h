@@ -32,8 +32,8 @@ class Preferences
 public:
 	static Preferences& getInstance();
 
-	Precision_t getPrecision() const;
-	void setPrecision(Precision_t);
+	Precision getPrecision() const;
+	void setPrecision(Precision);
 
 	int getDecimalPlaces() const;
 	void setDecimalPlaces(int);
@@ -41,11 +41,11 @@ public:
 	int getSignificandBits() const;
 	void setSignificandBits(int);
 
-	Rounding_t getFunctionRounding() const;
-	void setFunctionRounding(Rounding_t);
+	Rounding getFunctionRounding() const;
+	void setFunctionRounding(Rounding);
 
-	NumberFormat_t getNumberFormat() const;
-	void setNumberFormat(NumberFormat_t);
+	NumberFormats getNumberFormat() const;
+	void setNumberFormat(NumberFormats);
 
 	float getDefaultRotationX() const;
 	void setDefaultRotationX(float);
