@@ -112,7 +112,8 @@ void PreferencesDialog::setupWidgets()
 	ui->lengthSpinBox->setValue(int(v.y()));
 	ui->heightSpinBox->setValue(int(v.z()));
 
-	ui->appearanceComboBox->setCurrentIndex(p.getPrintBedAppearance());
+	int i=static_cast<int>(p.getPrintBedAppearance());
+	ui->appearanceComboBox->setCurrentIndex(i);
 
 	QString command=p.getLaunchCommand();
 	ui->launchCommandLineEdit->setText(command);
@@ -364,10 +365,10 @@ void PreferencesDialog::originChanged()
 
 void PreferencesDialog::appearanceChanged(int i)
 {
-	auto a = (GLView::Appearance_t)i;
+	auto a = static_cast<BedAppearance>(i);
 	Preferences& p = Preferences::getInstance();
 	switch(a) {
-		case GLView::Appearance_t::MK42: {
+		case BedAppearance::MK42: {
 			ui->XspinBox->setValue(-125);
 			ui->YspinBox->setValue(-105);
 			originChanged();
@@ -377,7 +378,7 @@ void PreferencesDialog::appearanceChanged(int i)
 			p.setPrintBedAppearance(a);
 		}
 		break;
-		case GLView::Appearance_t::MK2: {
+		case BedAppearance::MK2: {
 			ui->XspinBox->setValue(-100);
 			ui->YspinBox->setValue(-100);
 			originChanged();

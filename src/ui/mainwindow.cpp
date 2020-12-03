@@ -288,12 +288,12 @@ void MainWindow::setupExportActions()
 void MainWindow::setupViewActions()
 {
 	auto* signalMapper = new QSignalMapper(this);
-	signalMapper->setMapping(ui->actionTop,GLView::Top);
-	signalMapper->setMapping(ui->actionBottom,GLView::Bottom);
-	signalMapper->setMapping(ui->actionLeft,GLView::Left);
-	signalMapper->setMapping(ui->actionRight,GLView::Right);
-	signalMapper->setMapping(ui->actionBack,GLView::Back);
-	signalMapper->setMapping(ui->actionFront,GLView::Front);
+	signalMapper->setMapping(ui->actionTop,static_cast<int>(ViewDirection::Top));
+	signalMapper->setMapping(ui->actionBottom,static_cast<int>(ViewDirection::Bottom));
+	signalMapper->setMapping(ui->actionLeft,static_cast<int>(ViewDirection::Left));
+	signalMapper->setMapping(ui->actionRight,static_cast<int>(ViewDirection::Right));
+	signalMapper->setMapping(ui->actionBack,static_cast<int>(ViewDirection::Back));
+	signalMapper->setMapping(ui->actionFront,static_cast<int>(ViewDirection::Front));
 
 	connect(ui->actionTop,SIGNAL(triggered()),signalMapper,SLOT(map()));
 	connect(ui->actionBottom,SIGNAL(triggered()),signalMapper,SLOT(map()));

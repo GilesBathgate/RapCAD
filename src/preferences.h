@@ -134,8 +134,8 @@ public:
 	QVector3D getPrintVolume() const;
 	void setPrintVolume(QVector3D v);
 
-	GLView::Appearance_t getPrintBedAppearance() const;
-	void setPrintBedAppearance(GLView::Appearance_t);
+	BedAppearance getPrintBedAppearance() const;
+	void setPrintBedAppearance(BedAppearance);
 
 	QFont getEditorFont() const;
 	void setEditorFont(const QFont&);

@@ -48,7 +48,7 @@ GLView::GLView(QWidget* parent) :
 	printWidth(0.0F),
 	printLength(0.0F),
 	printHeight(0.0F),
-	appearance(Appearance_t::MK42),
+	appearance(BedAppearance::MK42),
 	mouseDrag(false),
 	rotateX(35.0F),
 	rotateY(0.0F),
@@ -125,23 +125,23 @@ void GLView::changeViewport(int t)
 	GLfloat d;
 	getViewport(rx,ry,rz,x,z,d);
 
-	switch(t) {
-		case Top:
+	switch(static_cast<ViewDirection>(t)) {
+		case ViewDirection::Top:
 			setViewport(90.0F,0.0F,0.0F,x,z,d);
 			break;
-		case Bottom:
+		case ViewDirection::Bottom:
 			setViewport(-90.0F,0.0F,0.0F,x,z,d);
 			break;
-		case Left:
+		case ViewDirection::Left:
 			setViewport(0.0F,0.0F,90.0F,x,z,d);
 			break;
-		case Right:
+		case ViewDirection::Right:
 			setViewport(0.0F,0.0F,-90.0F,x,z,d);
 			break;
-		case Front:
+		case ViewDirection::Front:
 			setViewport(0.0F,0.0F,0.0F,x,z,d);
 			break;
-		case Back:
+		case ViewDirection::Back:
 			setViewport(0.0F,0.0F,-180.0F,x,z,d);
 			break;
 	}
@@ -194,7 +194,7 @@ void GLView::setCompiling(bool value)
 	update();
 }
 
-void GLView::setBedAppearance(Appearance_t v)
+void GLView::setBedAppearance(BedAppearance v)
 {
 	appearance=v;
 	update();
@@ -287,7 +287,7 @@ void GLView::drawBase()
 
 	const GLfloat z=-0.01F;
 	switch(appearance) {
-		case Appearance_t::MK42: {
+		case BedAppearance::MK42: {
 			const GLfloat baseX=-2.0F;
 			const GLfloat baseY=-9.4F;
 			const GLfloat baseWidth=254.0F;
@@ -339,7 +339,7 @@ void GLView::drawBase()
 			glEnd();
 		}
 		break;
-		case Appearance_t::MK2: {
+		case BedAppearance::MK2: {
 			const GLfloat baseXY=-7.5;
 			const GLfloat baseWL=215.0F;
 			glLineWidth(2);
