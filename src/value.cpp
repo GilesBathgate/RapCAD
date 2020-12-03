@@ -28,10 +28,9 @@
 
 Value::Value() :
 	defined(true),
-	storageClass(Variable::Const)
+	storageClass(Storage::Constant)
 {
 }
-
 
 Value::~Value()
 {
@@ -40,12 +39,12 @@ Value::~Value()
 
 ValueFactory& Value::factory=ValueFactory::getInstance();
 
-void Value::setStorage(Variable::Storage_e c)
+void Value::setStorage(Storage c)
 {
 	storageClass=c;
 }
 
-Variable::Storage_e Value::getStorage() const
+Storage Value::getStorage() const
 {
 	return storageClass;
 }

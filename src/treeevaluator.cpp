@@ -324,7 +324,7 @@ void TreeEvaluator::visit(const BinaryExpression& exp)
 void TreeEvaluator::visit(const Argument& arg)
 {
 	QString name;
-	Variable::Storage_e c=Variable::Var;
+	Storage c=Storage::Variable;
 	Variable* var = arg.getVariable();
 	if(var) {
 		var->accept(*this);
@@ -380,11 +380,11 @@ void TreeEvaluator::visit(const AssignStatement& stmt)
 	auto c=lvalue->getStorage();
 	result->setStorage(c);
 	switch(c) {
-		case Variable::Const:
+		case Storage::Constant:
 			if(!context->addVariable(name,result))
 				reporter.reportWarning(tr("attempt to alter constant variable '%1'").arg(name));
 			break;
-		case Variable::Param:
+		case Storage::Parametric:
 			if(!context->addVariable(name,result))
 				reporter.reportWarning(tr("attempt to alter parametric variable '%1'").arg(name));
 			break;
@@ -571,16 +571,16 @@ void TreeEvaluator::visit(const Literal& lit)
 void TreeEvaluator::visit(const Variable& var)
 {
 	QString name = var.getName();
-	Variable::Storage_e oldStorage=var.getStorage();
-	Variable::Storage_e currentStorage=oldStorage;
+	Storage oldStorage=var.getStorage();
+	Storage currentStorage=oldStorage;
 	Layout* l=scopeLookup.value(context->getCurrentScope());
 	Value* v=context->lookupVariable(name,currentStorage,l);
 	if(currentStorage!=oldStorage)
 		switch(oldStorage) {
-			case Variable::Const:
+			case Storage::Constant:
 				reporter.reportWarning(tr("attempt to make previously non-constant variable '%1' constant").arg(name));
 				break;
-			case Variable::Param:
+			case Storage::Parametric:
 				reporter.reportWarning(tr("attempt to make previously non-parametric variable '%1' parametric").arg(name));
 				break;
 			default:

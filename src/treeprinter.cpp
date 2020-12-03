@@ -432,17 +432,17 @@ void TreePrinter::visit(const Literal& lit)
 void TreePrinter::visit(const Variable& var)
 {
 	switch(var.getStorage()) {
-		case Variable::Const:
+		case Storage::Constant:
 			result << "const ";
 			break;
-		case Variable::Param:
+		case Storage::Parametric:
 			result << "param ";
 			break;
 		default:
 			break;
 	}
 
-	if(var.getStorage()==Variable::Special)
+	if(var.getStorage()==Storage::Special)
 		result << "$";
 	result << var.getName();
 }

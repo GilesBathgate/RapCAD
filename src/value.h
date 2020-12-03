@@ -33,8 +33,8 @@ class Value
 {
 public:
 	virtual ~Value();
-	void setStorage(Variable::Storage_e);
-	Variable::Storage_e getStorage() const;
+	void setStorage(Storage);
+	Storage getStorage() const;
 	virtual QString getValueString() const;
 	virtual bool isTrue() const;
 	bool isFalse() const;
@@ -92,7 +92,7 @@ protected:
 	virtual Value* operation(Value&,Operators);
 private:
 	bool defined;
-	Variable::Storage_e storageClass;
+	Storage storageClass;
 	QString name;
 
 	static bool modulus(bool,bool);

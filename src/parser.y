@@ -260,9 +260,9 @@ assign_statement
 	| variable SUBA expression
 	{ $$ = builder->buildStatement($1,Operators::SubAssign,$3); }
 	| CONST IDENTIFIER '=' expression
-	{ $$ = builder->buildStatement($2,Variable::Const,$4); }
+	{ $$ = builder->buildStatement($2,Storage::Constant,$4); }
 	| PARAM IDENTIFIER '=' expression
-	{ $$ = builder->buildStatement($2,Variable::Param,$4); }
+	{ $$ = builder->buildStatement($2,Storage::Parametric,$4); }
 	;
 
 ifelse_statement
@@ -281,7 +281,7 @@ variable
 	: IDENTIFIER
 	{ $$ = builder->buildVariable($1); }
 	| '$' IDENTIFIER
-	{ $$ = builder->buildVariable($2,Variable::Special); }
+	{ $$ = builder->buildVariable($2,Storage::Special); }
 	;
 
 expression

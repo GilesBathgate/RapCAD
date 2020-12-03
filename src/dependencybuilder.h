@@ -48,7 +48,7 @@ public:
 	Statement* buildStatement(Variable*,Operators,Expression*) override;
 	Statement* buildStatement(QList<Statement*>*) override;
 	Statement* buildStatement(Variable*,Expression*) override;
-	Statement* buildStatement(QString*,Variable::Storage_e,Expression*) override;
+	Statement* buildStatement(QString*,Storage,Expression*) override;
 	Statement* buildReturnStatement(Expression*) override;
 	Statement* buildIfElseStatement(Expression*,Statement*) override;
 	Statement* buildIfElseStatement(Expression*,Statement*,Statement*) override;
@@ -88,7 +88,7 @@ public:
 	Expression* buildLiteral(QString*) override;
 	Variable* buildVariable(QString*) override;
 	Expression* buildVariable(Variable*) override;
-	Variable* buildVariable(QString*,Variable::Storage_e) override;
+	Variable* buildVariable(QString*,Storage) override;
 	Expression* buildExpression(Expression*,QString*) override;
 	Expression* buildExpression(Expression*) override;
 	Expression* buildExpression(Operators,Expression*) override;

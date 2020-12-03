@@ -59,7 +59,7 @@ public:
 	virtual Statement* buildStatement(Variable*,Operators,Expression*)=0;
 	virtual Statement* buildStatement(QList<Statement*>*)=0;
 	virtual Statement* buildStatement(Variable*,Expression*)=0;
-	virtual Statement* buildStatement(QString*,Variable::Storage_e,Expression*)=0;
+	virtual Statement* buildStatement(QString*,Storage,Expression*)=0;
 	virtual Statement* buildReturnStatement(Expression*)=0;
 	virtual Statement* buildIfElseStatement(Expression*,Statement*)=0;
 	virtual Statement* buildIfElseStatement(Expression*,Statement*,Statement*)=0;
@@ -99,7 +99,7 @@ public:
 	virtual Expression* buildLiteral(QString*)=0;
 	virtual Variable* buildVariable(QString*)=0;
 	virtual Expression* buildVariable(Variable*)=0;
-	virtual Variable* buildVariable(QString*,Variable::Storage_e)=0;
+	virtual Variable* buildVariable(QString*,Storage)=0;
 	virtual Expression* buildExpression(Expression*,QString*)=0;
 	virtual Expression* buildExpression(Expression*)=0;
 	virtual Expression* buildExpression(Operators,Expression*)=0;

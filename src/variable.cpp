@@ -19,7 +19,7 @@
 #include "variable.h"
 
 Variable::Variable() :
-	storage(Variable::Var)
+	storage(Storage::Variable)
 {
 }
 
@@ -33,12 +33,12 @@ void Variable::setName(const QString& n)
 	name = n;
 }
 
-void Variable::setStorage(Storage_e c)
+void Variable::setStorage(Storage c)
 {
 	storage = c;
 }
 
-Variable::Storage_e Variable::getStorage() const
+Storage Variable::getStorage() const
 {
 	return storage;
 }

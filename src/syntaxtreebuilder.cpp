@@ -185,7 +185,7 @@ Statement* SyntaxTreeBuilder::buildStatement(Variable* var,Expression* exp)
 	return result;
 }
 
-Statement* SyntaxTreeBuilder::buildStatement(QString* name,Variable::Storage_e c, Expression* exp)
+Statement* SyntaxTreeBuilder::buildStatement(QString* name,Storage c, Expression* exp)
 {
 	auto* result = new AssignStatement();
 	auto* var = new Variable();
@@ -492,7 +492,7 @@ Expression* SyntaxTreeBuilder::buildVariable(Variable* var)
 	return var;
 }
 
-Variable* SyntaxTreeBuilder::buildVariable(QString* name,Variable::Storage_e c)
+Variable* SyntaxTreeBuilder::buildVariable(QString* name,Storage c)
 {
 	auto* result = new Variable();
 	result->setStorage(c);
