@@ -33,16 +33,16 @@ RotateModule::RotateModule(Reporter& r) : Module(r,"rotate")
 
 Node* RotateModule::evaluate(const Context& ctx) const
 {
-	enum rotationType {
-		axis,
-		origin,
-		quaternion
+	enum class RotationTypes {
+		Axis,
+		Origin,
+		Quaternion
 	};
 
 	auto* n=new TransformationNode();
 	n->setChildren(ctx.getInputNodes());
 
-	rotationType rotation=axis;
+	RotationTypes rotation=RotationTypes::Axis;
 	decimal a=0.0;
 	decimal x=0.0;
 	decimal y=0.0;
@@ -56,7 +56,7 @@ Node* RotateModule::evaluate(const Context& ctx) const
 			x=v.x();
 			y=v.y();
 			z=v.z();
-			rotation=axis;
+			rotation=RotationTypes::Axis;
 		}
 	} else {
 		auto* vecValue=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
@@ -65,17 +65,17 @@ Node* RotateModule::evaluate(const Context& ctx) const
 			x=v.x();
 			y=v.y();
 			z=v.z();
-			rotation=origin;
+			rotation=RotationTypes::Origin;
 		} else {
 			auto* cpxValue=dynamic_cast<ComplexValue*>(getParameterArgument(ctx,0));
 			if(cpxValue) {
 				cpxValue->toQuaternion(a,x,y,z);
-				rotation=quaternion;
+				rotation=RotationTypes::Quaternion;
 			}
 		}
 	}
 
-	if(rotation==origin) {
+	if(rotation==RotationTypes::Origin) {
 
 		decimal cx = r_right_cos(x);
 		decimal cy = r_right_cos(y);
@@ -106,7 +106,7 @@ Node* RotateModule::evaluate(const Context& ctx) const
 
 		n->setMatrix(RzRyRx);
 
-	} else if(rotation==axis) {
+	} else if(rotation==RotationTypes::Axis) {
 
 		decimal c=r_right_cos(a);
 		decimal s=r_right_sin(a);
