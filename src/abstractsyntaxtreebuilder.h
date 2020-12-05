@@ -76,8 +76,8 @@ public:
 	virtual Scope* buildScope(QList<Statement*>*)=0;
 	virtual Instance* buildInstance(Instance*)=0;
 	virtual Instance* buildInstance(QString*,Instance*)=0;
-	virtual Instance* buildInstance(Instance::Type_e,Instance*)=0;
-	virtual Instance* buildInstance(Instance::Type_e,QString*,QList<Argument*>*)=0;
+	virtual Instance* buildInstance(InstanceTypes,Instance*)=0;
+	virtual Instance* buildInstance(InstanceTypes,QString*,QList<Argument*>*)=0;
 	virtual Instance* buildInstance(QString*,QList<Argument*>*)=0;
 	virtual Instance* buildInstance(Instance*,QList<Statement*>*)=0;
 	virtual QList<Parameter*>* buildParameters()=0;

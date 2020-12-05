@@ -65,8 +65,8 @@ public:
 	Scope* buildScope(QList<Statement*>*) override;
 	Instance* buildInstance(Instance*) override;
 	Instance* buildInstance(QString*,Instance*) override;
-	Instance* buildInstance(Instance::Type_e,Instance*) override;
-	Instance* buildInstance(Instance::Type_e,QString*,QList<Argument*>*) override;
+	Instance* buildInstance(InstanceTypes,Instance*) override;
+	Instance* buildInstance(InstanceTypes,QString*,QList<Argument*>*) override;
 	Instance* buildInstance(QString*,QList<Argument*>*) override;
 	Instance* buildInstance(Instance*,QList<Statement*>*) override;
 	QList<Parameter*>* buildParameters() override;

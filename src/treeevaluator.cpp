@@ -96,7 +96,7 @@ void TreeEvaluator::visit(const ModuleScope& scp)
 void TreeEvaluator::visit(const Instance& inst)
 {
 	QString name = inst.getName();
-	bool aux=(inst.getType()==Instance::Auxilary);
+	bool aux=(inst.getType()==InstanceTypes::Auxilary);
 
 	/* The first step for module invocations is to evaluate all the children if
 	 * there are any, we do this in a seperate context because children can

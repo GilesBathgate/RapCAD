@@ -20,7 +20,7 @@
 
 Instance::Instance()
 {
-	type = Default;
+	type = InstanceTypes::Default;
 }
 
 Instance::~Instance()
@@ -56,12 +56,12 @@ void Instance::setChildren(const QList <Statement*>& childs)
 	children = childs;
 }
 
-void Instance::setType(Type_e t)
+void Instance::setType(InstanceTypes t)
 {
 	type = t;
 }
 
-Instance::Type_e Instance::getType() const
+InstanceTypes Instance::getType() const
 {
 	return type;
 }

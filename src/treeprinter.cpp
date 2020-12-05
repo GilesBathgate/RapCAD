@@ -45,16 +45,16 @@ void TreePrinter::visit(const Instance& inst)
 {
 
 	switch(inst.getType()) {
-		case Instance::Root:
+		case InstanceTypes::Root:
 			result << "!";
 			break;
-		case Instance::Debug:
+		case InstanceTypes::Debug:
 			result << "#";
 			break;
-		case Instance::Background:
+		case InstanceTypes::Background:
 			result << "%";
 			break;
-		case Instance::Disable:
+		case InstanceTypes::Disable:
 			result << "*";
 			break;
 		default:

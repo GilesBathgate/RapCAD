@@ -209,12 +209,12 @@ Instance* DependencyBuilder::buildInstance(QString*,Instance*)
 	return nullptr;
 }
 
-Instance* DependencyBuilder::buildInstance(Instance::Type_e,Instance*)
+Instance* DependencyBuilder::buildInstance(InstanceTypes,Instance*)
 {
 	return nullptr;
 }
 
-Instance* DependencyBuilder::buildInstance(Instance::Type_e,QString*,QList<Argument*>*)
+Instance* DependencyBuilder::buildInstance(InstanceTypes,QString*,QList<Argument*>*)
 {
 	return nullptr;
 }

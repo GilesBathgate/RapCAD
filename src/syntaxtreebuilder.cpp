@@ -318,13 +318,13 @@ Instance* SyntaxTreeBuilder::buildInstance(QString* name,Instance* inst)
 	return inst;
 }
 
-Instance* SyntaxTreeBuilder::buildInstance(Instance::Type_e type,Instance* inst)
+Instance* SyntaxTreeBuilder::buildInstance(InstanceTypes type,Instance* inst)
 {
 	inst->setType(type);
 	return inst;
 }
 
-Instance* SyntaxTreeBuilder::buildInstance(Instance::Type_e type,QString* name,QList<Argument*>* args)
+Instance* SyntaxTreeBuilder::buildInstance(InstanceTypes type,QString* name,QList<Argument*>* args)
 {
 	auto* result = new Instance();
 	result->setLineNumber(getLineNumber());

@@ -423,15 +423,15 @@ single_instance
 	| IDENTIFIER '(' arguments ')'
 	{ $$ = builder->buildInstance($1,$3); }
 	| IDENTIFIER '$' '(' arguments ')'
-	{ $$ = builder->buildInstance(Instance::Auxilary,$1,$4); }
+	{ $$ = builder->buildInstance(InstanceTypes::Auxilary,$1,$4); }
 	| '!' single_instance
-	{ $$ = builder->buildInstance(Instance::Root,$2); }
+	{ $$ = builder->buildInstance(InstanceTypes::Root,$2); }
 	| '#' single_instance
-	{ $$ = builder->buildInstance(Instance::Debug,$2); }
+	{ $$ = builder->buildInstance(InstanceTypes::Debug,$2); }
 	| '%' single_instance
-	{ $$ = builder->buildInstance(Instance::Background,$2); }
+	{ $$ = builder->buildInstance(InstanceTypes::Background,$2); }
 	| '*' single_instance
-	{ $$ = builder->buildInstance(Instance::Disable,$2); }
+	{ $$ = builder->buildInstance(InstanceTypes::Disable,$2); }
 	;
 
 arguments
