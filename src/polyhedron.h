@@ -28,8 +28,8 @@ public:
 	~Polyhedron() override;
 	Polygon* createPolygon() override;
 	void createVertex(const Point&) override;
-	void setType(Primitive_t) override { }
-	Primitive_t getType() override { return Lines; }
+	void setType(PrimitiveTypes) override { }
+	PrimitiveTypes getType() override { return PrimitiveTypes::Lines; }
 	void setSanitized(bool) override { }
 	bool getSanitized() override { return false; }
 	Primitive* buildPrimitive() { return this; }

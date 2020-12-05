@@ -206,7 +206,7 @@ void SimpleTextBuilder::setLocation(const Point& p)
 Primitive* SimpleTextBuilder::buildPrimitive() const
 {
 	auto* ph=new Polyhedron();
-	ph->setType(Primitive::Lines);
+	ph->setType(PrimitiveTypes::Lines);
 
 	int n=0;
 	decimal x=location.x();

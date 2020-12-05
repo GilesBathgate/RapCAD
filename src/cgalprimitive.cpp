@@ -45,7 +45,7 @@
 
 CGALPrimitive::CGALPrimitive() :
 	nefPolyhedron(nullptr),
-	type(Primitive::Volume),
+	type(PrimitiveTypes::Volume),
 	sanitized(true),
 	nUnion(nullptr)
 {
@@ -83,12 +83,12 @@ void CGALPrimitive::clearPolygons()
 	polygons.clear();
 }
 
-void CGALPrimitive::setType(Primitive_t t)
+void CGALPrimitive::setType(PrimitiveTypes t)
 {
 	type=t;
 }
 
-Primitive::Primitive_t CGALPrimitive::getType()
+PrimitiveTypes CGALPrimitive::getType()
 {
 	return type;
 }
@@ -110,19 +110,19 @@ void CGALPrimitive::buildPrimitive()
 
 	switch(type) {
 
-		case Primitive::Volume: {
+		case PrimitiveTypes::Volume: {
 			nefPolyhedron=createVolume();
 			return;
 		}
 
-		case Primitive::Surface: {
+		case PrimitiveTypes::Surface: {
 			if(!sanitized && hasHoles())
 				triangulate();
 			nefPolyhedron=createVolume();
 			return;
 		}
 
-		case Primitive::Lines: {
+		case PrimitiveTypes::Lines: {
 			nefPolyhedron=createPolyline();
 			return;
 		}
@@ -481,7 +481,7 @@ Primitive* CGALPrimitive::boundary()
 
 void CGALPrimitive::convertBoundary()
 {
-	setType(Primitive_t::Lines);
+	setType(PrimitiveTypes::Lines);
 	polygons=perimeters;
 	perimeters.clear();
 }
@@ -522,7 +522,7 @@ Primitive* CGALPrimitive::triangulate()
 {
 	CGALBuilder b(*this);
 	if(b.triangulate()) {
-		setType(Primitive::Surface);
+		setType(PrimitiveTypes::Surface);
 		return this;
 	}
 

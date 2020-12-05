@@ -44,7 +44,7 @@ void NodePrinter::visit(const PrimitiveNode& n)
 {
 	Primitive* pr=n.getPrimitive();
 	switch(pr->getType()) {
-		case Primitive::Lines:
+		case PrimitiveTypes::Lines:
 			result << "polyline([";
 			break;
 		default:

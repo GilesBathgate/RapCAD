@@ -24,7 +24,7 @@
 
 PolygonModule::PolygonModule(Reporter& r,bool polygon) :
 	Module(r,polygon?"polygon":"polyline"),
-	type(polygon?Primitive::Surface:Primitive::Lines)
+	type(polygon?PrimitiveTypes::Surface:PrimitiveTypes::Lines)
 {
 	addDescription(polygon?tr("Constructs a polygon."):tr("Constructs a line connecting multiple points."));
 	addParameter("points",tr("The vertices are provided by the points list."));

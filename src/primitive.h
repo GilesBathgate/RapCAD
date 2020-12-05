@@ -23,20 +23,20 @@
 #include "polygon.h"
 #include "transformmatrix.h"
 
+enum class PrimitiveTypes {
+	Volume,
+	Surface,
+	Lines,
+	Points
+};
+
 class Primitive
 {
 public:
-	enum Primitive_t {
-		Volume,
-		Surface,
-		Lines,
-		Points
-	};
-
 	virtual ~Primitive() {}
 	virtual Polygon* createPolygon()=0;
-	virtual void setType(Primitive_t)=0;
-	virtual Primitive_t getType()=0;
+	virtual void setType(PrimitiveTypes)=0;
+	virtual PrimitiveTypes getType()=0;
 	virtual void setSanitized(bool)=0;
 	virtual bool getSanitized()=0;
 	virtual void createVertex(const Point&)=0;

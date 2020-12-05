@@ -54,7 +54,7 @@ Node* TextModule::evaluate(const Context& ctx) const
 
 	auto* pn=new PrimitiveNode(reporter);
 	Primitive* p=tb.buildPrimitive();
-	p->setType(Primitive::Surface);
+	p->setType(PrimitiveTypes::Surface);
 	p->setSanitized(false);
 	pn->setPrimitive(p);
 	pn->setChildren(ctx.getInputNodes());

@@ -132,7 +132,7 @@ void NodeEvaluator::visit(const GlideNode& op)
 				return;
 			}
 			QList<CGAL::Point3> points;
-			if(result->getType()==Primitive::Lines) {
+			if(result->getType()==PrimitiveTypes::Lines) {
 				points = result->getPoints();
 			} else {
 				CGALExplorer explorer(result);
@@ -149,7 +149,7 @@ void NodeEvaluator::visit(const GlideNode& op)
 			}
 			bool closed=false;
 			auto* cp=new CGALPrimitive();
-			cp->setType(Primitive::Lines);
+			cp->setType(PrimitiveTypes::Lines);
 			CGAL::Point3 fp;
 			CGAL::Point3 np;
 			OnceOnly first_p;
@@ -172,7 +172,7 @@ void NodeEvaluator::visit(const GlideNode& op)
 				Primitive* next=first->copy();
 				result=first->minkowski(cp);
 				cp=new CGALPrimitive();
-				cp->setType(Primitive::Lines);
+				cp->setType(PrimitiveTypes::Lines);
 				cp->createPolygon();
 				cp->appendVertex(np);
 				cp->appendVertex(fp);
@@ -352,7 +352,7 @@ void NodeEvaluator::visit(const LinearExtrudeNode& op)
 
 	auto* extruded=new CGALPrimitive();
 	if(result->isFullyDimentional()) {
-		extruded->setType(Primitive::Lines);
+		extruded->setType(PrimitiveTypes::Lines);
 		extruded->createPolygon();
 		extruded->appendVertex(CGAL::ORIGIN);
 		extruded->appendVertex(CGAL::Point3(t.x(),t.y(),t.z()));
@@ -588,7 +588,7 @@ void NodeEvaluator::visit(const BoundsNode& n)
 	}
 
 	Primitive* a=new Polyhedron();
-	a->setType(Primitive::Lines);
+	a->setType(PrimitiveTypes::Lines);
 	CubeModule::createCuboid<CGAL::Point3>(a,xmin,xmax,ymin,ymax,zmin,zmax);
 
 	result->appendChild(a);
@@ -627,7 +627,7 @@ void NodeEvaluator::visit(const NormalsNode& n)
 	CGALPrimitive* prim=e.getPrimitive();
 
 	auto* a=new Polyhedron();
-	a->setType(Primitive::Lines);
+	a->setType(PrimitiveTypes::Lines);
 	int i=0;
 	for(CGALPolygon* pg: prim->getCGALPolygons()) {
 		CGAL::Vector3 v=pg->getNormal();
@@ -840,7 +840,7 @@ void NodeEvaluator::visit(const AlignNode& n)
 void NodeEvaluator::visit(const PointsNode& n)
 {
 	Primitive* cp=createPrimitive();
-	cp->setType(Primitive::Points);
+	cp->setType(PrimitiveTypes::Points);
 	QList<Point> points=n.getPoints();
 	cp->createPolygon();
 	if(points.isEmpty()) {
@@ -957,7 +957,7 @@ void NodeEvaluator::visit(const RadialsNode& n)
 	result->appendChild(cp);
 
 	auto* p = new Polyhedron();
-	p->setType(Primitive::Lines);
+	p->setType(PrimitiveTypes::Lines);
 	Polygon* pg=p->createPolygon();
 
 	const int f=90;
@@ -998,7 +998,7 @@ void NodeEvaluator::visit(const VolumesNode& n)
 	CGAL::Point3 tr(x,y,z);
 
 	auto* p = new Polyhedron();
-	p->setType(Primitive::Lines);
+	p->setType(PrimitiveTypes::Lines);
 	Polygon* pg=p->createPolygon();
 	p->createVertex(c);
 	p->createVertex(tr);
