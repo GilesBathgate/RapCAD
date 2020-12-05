@@ -405,6 +405,7 @@ HEADERS  += \
 	src/assertexception.h \
 	src/builtinmanager.h \
 	src/cgalsanitizer.h \
+	src/cgaltrace.h \
 	src/function/assertfunction.h \
 	src/function/ordinalfunction.h \
 	src/module/assertmodule.h \

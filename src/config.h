@@ -34,17 +34,12 @@
 #define CGAL_NDEBUG
 #include <CGAL/test_FPU_rounding_mode_impl.h>
 
-#define NDEBUG
-#include <CGAL/Nef_2/debug.h>
-#include <CGAL/intersection_3.h> //Dependency
-#include <CGAL/Nef_3/SNC_decorator.h> //Dependency
-#include <CGAL/Nef_3/SNC_external_structure.h>
-
-#undef NDEBUG
-#include <CGAL/triangulation_assertions.h>
-
 #define CGAL_DISABLE_ROUNDING_MATH_CHECK
 #include <CGAL/Interval_nt.h>
+
+#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(5,3,0)
+#include "cgaltrace.h" // nef trace hack
+#endif
 
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,8,0)
 #include "cgalassert.h" // cgalassert hack
