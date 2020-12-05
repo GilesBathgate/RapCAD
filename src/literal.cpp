@@ -24,31 +24,31 @@
 
 Literal::Literal() :
 	boolean(false),
-	type(Undef),
+	type(DataTypes::Undef),
 	unit(1.0)
 {
 }
 
 void Literal::setValue()
 {
-	type = Undef;
+	type = DataTypes::Undef;
 }
 
 void Literal::setValue(bool value)
 {
-	type = Boolean;
+	type = DataTypes::Boolean;
 	boolean = value;
 }
 
 void Literal::setValue(const decimal& value)
 {
-	type = Number;
+	type = DataTypes::Number;
 	number = value;
 }
 
 void Literal::setValue(const QString& value)
 {
-	type = Text;
+	type = DataTypes::Text;
 	text = value;
 }
 
@@ -70,17 +70,17 @@ void Literal::setUnit(const QString& value)
 	else if(value=="th")
 		unit=decimal(254.0)/10000.0;
 	else
-		type=Undef;
+		type=DataTypes::Undef;
 }
 
 QString Literal::getValueString() const
 {
 	switch(type) {
-		case Boolean:
+		case DataTypes::Boolean:
 			return boolean ? "true" : "false";
-		case Number:
+		case DataTypes::Number:
 			return to_string(number).append(text);
-		case Text:
+		case DataTypes::Text:
 			return QString("\"%1\"").arg(text);
 		default:
 			return "undef";
@@ -90,11 +90,11 @@ QString Literal::getValueString() const
 Value* Literal::getValue() const
 {
 	switch(type) {
-		case Boolean:
+		case DataTypes::Boolean:
 			return Value::factory.createBoolean(boolean);
-		case Number:
+		case DataTypes::Number:
 			return Value::factory.createNumber(number*unit);
-		case Text:
+		case DataTypes::Text:
 			return Value::factory.createText(text);
 		default:
 			return Value::factory.createUndefined();
