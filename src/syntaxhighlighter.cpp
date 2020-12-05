@@ -63,16 +63,16 @@ void SyntaxHighlighter::highlightBlock(const QString& text)
 	lexerinit(this,nullptr,text);
 
 	//Force lexer into correct state
-	switch(previousBlockState()) {
-		case Initial:
+	switch(static_cast<BlockStates>(previousBlockState())) {
+		case BlockStates::Initial:
 			lexerbegin();
 			break;
-		case Comment:
-			setCurrentBlockState(Comment);
+		case BlockStates::Comment:
+			setCurrentBlockState(static_cast<int>(BlockStates::Comment));
 			lexercomment();
 			break;
-		case CodeDoc:
-			setCurrentBlockState(CodeDoc);
+		case BlockStates::CodeDoc:
+			setCurrentBlockState(static_cast<int>(BlockStates::CodeDoc));
 			lexercodedoc();
 			break;
 	}
@@ -405,7 +405,7 @@ int SyntaxHighlighter::buildStringFinish()
 
 void SyntaxHighlighter::buildCommentStart()
 {
-	setCurrentBlockState(Comment);
+	setCurrentBlockState(static_cast<int>(BlockStates::Comment));
 	setFormat(startIndex,lexerleng,stringFormat);
 	startIndex+=lexerleng;
 }
@@ -419,14 +419,14 @@ void SyntaxHighlighter::buildComment(const QString& s)
 
 void SyntaxHighlighter::buildCommentFinish()
 {
-	setCurrentBlockState(Initial);
+	setCurrentBlockState(static_cast<int>(BlockStates::Initial));
 	setFormat(startIndex,lexerleng,stringFormat);
 	startIndex+=lexerleng;
 }
 
 int SyntaxHighlighter::buildCodeDocStart()
 {
-	setCurrentBlockState(CodeDoc);
+	setCurrentBlockState(static_cast<int>(BlockStates::CodeDoc));
 	setFormat(startIndex,lexerleng,codeDocFormat);
 	return YY_CONTINUE;
 }
@@ -455,7 +455,7 @@ int SyntaxHighlighter::buildCodeDocParam(const QString&)
 
 int SyntaxHighlighter::buildCodeDocFinish()
 {
-	setCurrentBlockState(Initial);
+	setCurrentBlockState(static_cast<int>(BlockStates::Initial));
 	setFormat(startIndex,lexerleng,codeDocFormat);
 	return YY_CONTINUE;
 }
