@@ -29,15 +29,7 @@
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include "renderer.h"
-
-enum class ViewDirection {
-	Top,
-	Bottom,
-	Left,
-	Right,
-	Back,
-	Front
-};
+#include "viewdirections.h"
 
 enum class BedAppearance {
 	MK42=0,

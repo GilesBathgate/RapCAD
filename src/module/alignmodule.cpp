@@ -37,7 +37,7 @@ AlignModule::AlignModule(Reporter& r) : Module(r,"align")
 
 Node* AlignModule::evaluate(const Context& ctx) const
 {
-	QList<AlignNode::Face_t> align;
+	QList<ViewDirections> align;
 	VectorValue* vecVal=dynamic_cast<VectorValue*>(ctx.getArgument(0,"anchor"));
 	if(vecVal) {
 		Point p = vecVal->getPoint();
@@ -45,28 +45,28 @@ Node* AlignModule::evaluate(const Context& ctx) const
 		decimal y=p.y();
 		decimal z=p.z();
 		if(x>0.0) {
-			align.append(AlignNode::North);
+			align.append(ViewDirections::East);
 		} else if(x<0.0) {
-			align.append(AlignNode::South);
+			align.append(ViewDirections::West);
 		} else {
-			align.append(AlignNode::North);
-			align.append(AlignNode::South);
+			align.append(ViewDirections::East);
+			align.append(ViewDirections::West);
 		}
 		if(y>0.0) {
-			align.append(AlignNode::West);
+			align.append(ViewDirections::North);
 		} else if(y<0.0) {
-			align.append(AlignNode::East);
+			align.append(ViewDirections::South);
 		} else {
-			align.append(AlignNode::East);
-			align.append(AlignNode::West);
+			align.append(ViewDirections::North);
+			align.append(ViewDirections::South);
 		}
 		if(z>0.0) {
-			align.append(AlignNode::Top);
+			align.append(ViewDirections::Top);
 		} else if(z<0.0) {
-			align.append(AlignNode::Bottom);
+			align.append(ViewDirections::Bottom);
 		} else {
-			align.append(AlignNode::Top);
-			align.append(AlignNode::Bottom);
+			align.append(ViewDirections::Top);
+			align.append(ViewDirections::Bottom);
 		}
 	} else {
 
@@ -78,22 +78,22 @@ Node* AlignModule::evaluate(const Context& ctx) const
 		auto* westVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,5,0));
 
 		if(topVal&&topVal->isTrue()) {
-			align.append(AlignNode::Top);
+			align.append(ViewDirections::Top);
 		}
 		if(bottomVal&&bottomVal->isTrue()) {
-			align.append(AlignNode::Bottom);
+			align.append(ViewDirections::Bottom);
 		}
 		if(northVal&&northVal->isTrue()) {
-			align.append(AlignNode::North);
+			align.append(ViewDirections::North);
 		}
 		if(southVal&&southVal->isTrue()) {
-			align.append(AlignNode::South);
+			align.append(ViewDirections::South);
 		}
 		if(eastVal&&eastVal->isTrue()) {
-			align.append(AlignNode::East);
+			align.append(ViewDirections::East);
 		}
 		if(westVal&&westVal->isTrue()) {
-			align.append(AlignNode::West);
+			align.append(ViewDirections::West);
 		}
 	}
 

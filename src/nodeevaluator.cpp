@@ -791,39 +791,39 @@ void NodeEvaluator::visit(const AlignNode& n)
 		bool south=false;
 		bool west=false;
 		bool east=false;
-		for(AlignNode::Face_t a: n.getAlign()) {
+		for(ViewDirections a: n.getAlign()) {
 			switch(a) {
-				case AlignNode::Top:
+				case ViewDirections::Top:
 					top=true;
 					cz=b.zmax();
 					break;
-				case AlignNode::Bottom:
+				case ViewDirections::Bottom:
 					bottom=true;
 					cz=b.zmin();
 					break;
-				case AlignNode::North:
+				case ViewDirections::North:
 					north=true;
-					cx=b.xmax();
-					break;
-				case AlignNode::South:
-					south=true;
-					cx=b.xmin();
-					break;
-				case AlignNode::West:
-					west=true;
 					cy=b.ymax();
 					break;
-				case AlignNode::East:
-					east=true;
+				case ViewDirections::South:
+					south=true;
 					cy=b.ymin();
+					break;
+				case ViewDirections::West:
+					west=true;
+					cx=b.xmin();
+					break;
+				case ViewDirections::East:
+					east=true;
+					cx=b.xmax();
 					break;
 			}
 		}
 		if(top&&bottom)
 			cz=(b.zmin()+b.zmax())/2.0;
-		if(north&&south)
-			cx=(b.xmin()+b.xmax())/2.0;
 		if(east&&west)
+			cx=(b.xmin()+b.xmax())/2.0;
+		if(north&&south)
 			cy=(b.ymin()+b.ymax())/2.0;
 	}
 

@@ -125,24 +125,24 @@ void GLView::changeViewport(int t)
 	GLfloat d;
 	getViewport(rx,ry,rz,x,z,d);
 
-	switch(static_cast<ViewDirection>(t)) {
-		case ViewDirection::Top:
+	switch(static_cast<ViewDirections>(t)) {
+		case ViewDirections::Top:
 			setViewport(90.0F,0.0F,0.0F,x,z,d);
 			break;
-		case ViewDirection::Bottom:
+		case ViewDirections::Bottom:
 			setViewport(-90.0F,0.0F,0.0F,x,z,d);
 			break;
-		case ViewDirection::Left:
-			setViewport(0.0F,0.0F,90.0F,x,z,d);
+		case ViewDirections::North:
+			setViewport(0.0F,0.0F,-180.0F,x,z,d);
 			break;
-		case ViewDirection::Right:
-			setViewport(0.0F,0.0F,-90.0F,x,z,d);
-			break;
-		case ViewDirection::Front:
+		case ViewDirections::South:
 			setViewport(0.0F,0.0F,0.0F,x,z,d);
 			break;
-		case ViewDirection::Back:
-			setViewport(0.0F,0.0F,-180.0F,x,z,d);
+		case ViewDirections::West:
+			setViewport(0.0F,0.0F,90.0F,x,z,d);
+			break;
+		case ViewDirections::East:
+			setViewport(0.0F,0.0F,-90.0F,x,z,d);
 			break;
 	}
 }

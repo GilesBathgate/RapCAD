@@ -443,6 +443,7 @@ HEADERS  += \
 	src/moduleimport.h \
 	src/treevisitor.h \
 	src/treeprinter.h \
+	src/viewdirections.h \
 	src/visitabletree.h \
 	src/script.h \
 	src/syntaxhighlighter.h \

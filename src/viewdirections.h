@@ -15,41 +15,16 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef VIEWDIRECTIONS_H
+#define VIEWDIRECTIONS_H
 
-#include "alignnode.h"
+enum class ViewDirections {
+        Top,
+        Bottom,
+        North,
+        South,
+        West,
+        East
+};
 
-AlignNode::AlignNode() :
-	center(false)
-{
-}
-
-void AlignNode::accept(NodeVisitor& v)
-{
-	v.visit(*this);
-}
-
-bool AlignNode::getCenter() const
-{
-	return center;
-}
-
-void AlignNode::setCenter(bool value)
-{
-	center = value;
-}
-
-void AlignNode::setCenterVertical()
-{
-	align.append(ViewDirections::Top);
-	align.append(ViewDirections::Bottom);
-}
-
-QList<ViewDirections> AlignNode::getAlign() const
-{
-	return align;
-}
-
-void AlignNode::setAlign(const QList<ViewDirections>& value)
-{
-	align = value;
-}
+#endif // VIEWDIRECTIONS_H

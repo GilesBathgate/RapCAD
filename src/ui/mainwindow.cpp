@@ -288,19 +288,20 @@ void MainWindow::setupExportActions()
 void MainWindow::setupViewActions()
 {
 	auto* signalMapper = new QSignalMapper(this);
-	signalMapper->setMapping(ui->actionTop,static_cast<int>(ViewDirection::Top));
-	signalMapper->setMapping(ui->actionBottom,static_cast<int>(ViewDirection::Bottom));
-	signalMapper->setMapping(ui->actionLeft,static_cast<int>(ViewDirection::Left));
-	signalMapper->setMapping(ui->actionRight,static_cast<int>(ViewDirection::Right));
-	signalMapper->setMapping(ui->actionBack,static_cast<int>(ViewDirection::Back));
-	signalMapper->setMapping(ui->actionFront,static_cast<int>(ViewDirection::Front));
+	signalMapper->setMapping(ui->actionTop,static_cast<int>(ViewDirections::Top));
+	signalMapper->setMapping(ui->actionBottom,static_cast<int>(ViewDirections::Bottom));
+	signalMapper->setMapping(ui->actionNorth,static_cast<int>(ViewDirections::North));
+	signalMapper->setMapping(ui->actionSouth,static_cast<int>(ViewDirections::South));
+	signalMapper->setMapping(ui->actionWest,static_cast<int>(ViewDirections::West));
+	signalMapper->setMapping(ui->actionEast,static_cast<int>(ViewDirections::East));
+
 
 	connect(ui->actionTop,SIGNAL(triggered()),signalMapper,SLOT(map()));
 	connect(ui->actionBottom,SIGNAL(triggered()),signalMapper,SLOT(map()));
-	connect(ui->actionLeft,SIGNAL(triggered()),signalMapper,SLOT(map()));
-	connect(ui->actionRight,SIGNAL(triggered()),signalMapper,SLOT(map()));
-	connect(ui->actionBack,SIGNAL(triggered()),signalMapper,SLOT(map()));
-	connect(ui->actionFront,SIGNAL(triggered()),signalMapper,SLOT(map()));
+	connect(ui->actionNorth,SIGNAL(triggered()),signalMapper,SLOT(map()));
+	connect(ui->actionSouth,SIGNAL(triggered()),signalMapper,SLOT(map()));
+	connect(ui->actionWest,SIGNAL(triggered()),signalMapper,SLOT(map()));
+	connect(ui->actionEast,SIGNAL(triggered()),signalMapper,SLOT(map()));
 
 	connect(signalMapper,SIGNAL(mapped(int)),ui->view,SLOT(changeViewport(int)));
 
