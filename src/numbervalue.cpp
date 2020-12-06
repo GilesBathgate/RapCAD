@@ -50,16 +50,16 @@ int NumberValue::toInteger() const
 	return to_integer(number);
 }
 
-Value* NumberValue::operation(Expression::Operator_e e)
+Value* NumberValue::operation(Operators e)
 {
-	if(e==Expression::Invert)
+	if(e==Operators::Invert)
 		return factory.createBoolean(this->isFalse());
 
 	decimal result=basicOperation(number,e);
 	return factory.createNumber(result);
 }
 
-Value* NumberValue::operation(Value& v, Expression::Operator_e e)
+Value* NumberValue::operation(Value& v, Operators e)
 {
 	auto* num = dynamic_cast<NumberValue*>(&v);
 	if(num) {
@@ -67,10 +67,10 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 			bool result=to_boolean(basicOperation(number,e,num->number));
 			return factory.createBoolean(result);
 		}
-		if(e==Expression::Divide||e==Expression::Modulus) {
+		if(e==Operators::Divide||e==Operators::Modulus) {
 			if(num->number==0.0)
 				return factory.createUndefined();
-		} else if(e==Expression::Exponent) {
+		} else if(e==Operators::Exponent) {
 			if(number==0.0&&num->number<=0.0)
 				return factory.createUndefined();
 		}
@@ -80,12 +80,12 @@ Value* NumberValue::operation(Value& v, Expression::Operator_e e)
 	}
 	auto* vec = dynamic_cast<VectorValue*>(&v);
 	if(vec) {
-		if(e==Expression::Concatenate) {
+		if(e==Operators::Concatenate) {
 			QList<Value*> r=vec->getElements();
 			r.prepend(this);
 			return factory.createVector(r);
 		}
-		if(e==Expression::Exponent) {
+		if(e==Operators::Exponent) {
 			QList<Value*> result;
 			for(Value* c: vec->getElements())
 				result.append(Value::operation(this,e,c));

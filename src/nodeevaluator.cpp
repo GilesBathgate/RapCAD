@@ -63,19 +63,19 @@ void NodeEvaluator::visit(const PrimitiveNode& n)
 {
 	Primitive* cp=n.getPrimitive();
 	cp=cache->fetch(cp);
-	if(!evaluate(n,Union,cp)) return;
+	if(!evaluate(n,Operations::Union,cp)) return;
 }
 
 void NodeEvaluator::visit(const TriangulateNode& n)
 {
-	if(!evaluate(n,Union)) return;
+	if(!evaluate(n,Operations::Union)) return;
 
 	result=result->triangulate();
 }
 
 void NodeEvaluator::visit(const MaterialNode& n)
 {
-	if(!evaluate(n,Union)) return;
+	if(!evaluate(n,Operations::Union)) return;
 	auto* p=new Polyhedron();
 	p->appendChild(result);
 	result=p;
@@ -83,39 +83,39 @@ void NodeEvaluator::visit(const MaterialNode& n)
 
 void NodeEvaluator::visit(const DiscreteNode& n)
 {
-	if(!evaluate(n,Union)) return;
+	if(!evaluate(n,Operations::Union)) return;
 
 	result->discrete(n.getPlaces());
 }
 
 void NodeEvaluator::visit(const UnionNode& op)
 {
-	if(!evaluate(op,Union)) return;
+	if(!evaluate(op,Operations::Union)) return;
 }
 
 void NodeEvaluator::visit(const GroupNode& op)
 {
-	if(!evaluate(op,Group)) return;
+	if(!evaluate(op,Operations::Group)) return;
 }
 
 void NodeEvaluator::visit(const DifferenceNode& op)
 {
-	if(!evaluate(op,Difference)) return;
+	if(!evaluate(op,Operations::Difference)) return;
 }
 
 void NodeEvaluator::visit(const IntersectionNode& op)
 {
-	if(!evaluate(op,Intersection)) return;
+	if(!evaluate(op,Operations::Intersection)) return;
 }
 
 void NodeEvaluator::visit(const SymmetricDifferenceNode& op)
 {
-	if(!evaluate(op,SymmetricDifference)) return;
+	if(!evaluate(op,Operations::SymmetricDifference)) return;
 }
 
 void NodeEvaluator::visit(const MinkowskiNode& op)
 {
-	if(!evaluate(op,Minkowski)) return;
+	if(!evaluate(op,Operations::Minkowski)) return;
 }
 
 void NodeEvaluator::visit(const GlideNode& op)
@@ -132,7 +132,7 @@ void NodeEvaluator::visit(const GlideNode& op)
 				return;
 			}
 			QList<CGAL::Point3> points;
-			if(result->getType()==Primitive::Lines) {
+			if(result->getType()==PrimitiveTypes::Lines) {
 				points = result->getPoints();
 			} else {
 				CGALExplorer explorer(result);
@@ -149,7 +149,7 @@ void NodeEvaluator::visit(const GlideNode& op)
 			}
 			bool closed=false;
 			auto* cp=new CGALPrimitive();
-			cp->setType(Primitive::Lines);
+			cp->setType(PrimitiveTypes::Lines);
 			CGAL::Point3 fp;
 			CGAL::Point3 np;
 			OnceOnly first_p;
@@ -172,7 +172,7 @@ void NodeEvaluator::visit(const GlideNode& op)
 				Primitive* next=first->copy();
 				result=first->minkowski(cp);
 				cp=new CGALPrimitive();
-				cp->setType(Primitive::Lines);
+				cp->setType(PrimitiveTypes::Lines);
 				cp->createPolygon();
 				cp->appendVertex(np);
 				cp->appendVertex(fp);
@@ -343,7 +343,7 @@ static CGAL::Point3 rotate(const CGAL::Point3& p,const CGAL::Scalar& a,const CGA
 
 void NodeEvaluator::visit(const LinearExtrudeNode& op)
 {
-	if(!evaluate(op,Union)) return;
+	if(!evaluate(op,Operations::Union)) return;
 #ifdef USE_CGAL
 
 	CGAL::Scalar height=op.getHeight();
@@ -352,7 +352,7 @@ void NodeEvaluator::visit(const LinearExtrudeNode& op)
 
 	auto* extruded=new CGALPrimitive();
 	if(result->isFullyDimentional()) {
-		extruded->setType(Primitive::Lines);
+		extruded->setType(PrimitiveTypes::Lines);
 		extruded->createPolygon();
 		extruded->appendVertex(CGAL::ORIGIN);
 		extruded->appendVertex(CGAL::Point3(t.x(),t.y(),t.z()));
@@ -404,7 +404,7 @@ void NodeEvaluator::visit(const LinearExtrudeNode& op)
 
 void NodeEvaluator::visit(const RotateExtrudeNode& op)
 {
-	if(!evaluate(op,Union)) return;
+	if(!evaluate(op,Operations::Union)) return;
 
 	if(result->isFullyDimentional()) {
 		reporter.reportWarning(tr("Rotate extrude for volume not implemented"));
@@ -512,17 +512,17 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 #endif
 }
 
-bool NodeEvaluator::evaluate(const Node& op,Operation_e type)
+bool NodeEvaluator::evaluate(const Node& op,Operations type)
 {
 	return evaluate(op,type,nullptr);
 }
 
-bool NodeEvaluator::evaluate(const Node& op,Operation_e type,Primitive* first)
+bool NodeEvaluator::evaluate(const Node& op,Operations type,Primitive* first)
 {
 	return evaluate(op.getChildren(),type,first);
 }
 
-bool NodeEvaluator::evaluate(const QList<Node*>& children, Operation_e type, Primitive* first)
+bool NodeEvaluator::evaluate(const QList<Node*>& children, Operations type, Primitive* first)
 {
 	for(Node* n: children) {
 		n->accept(*this);
@@ -530,22 +530,22 @@ bool NodeEvaluator::evaluate(const QList<Node*>& children, Operation_e type, Pri
 			first=result;
 		} else if(result) {
 			switch(type) {
-				case Group:
+				case Operations::Group:
 					first->add(result,false);
 					break;
-				case Union:
+				case Operations::Union:
 					first->add(result,true);
 					break;
-				case Difference:
+				case Operations::Difference:
 					first=first->difference(result);
 					break;
-				case Intersection:
+				case Operations::Intersection:
 					first=first->intersection(result);
 					break;
-				case SymmetricDifference:
+				case Operations::SymmetricDifference:
 					first=first->symmetric_difference(result);
 					break;
-				case Minkowski:
+				case Operations::Minkowski:
 					first=first->minkowski(result);
 					break;
 			}
@@ -562,7 +562,7 @@ bool NodeEvaluator::evaluate(const QList<Node*>& children, Operation_e type, Pri
 
 void NodeEvaluator::visit(const BoundsNode& n)
 {
-	if(!evaluate(n,Union)) return;
+	if(!evaluate(n,Operations::Union)) return;
 #ifdef USE_CGAL
 	auto* pr=dynamic_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
@@ -588,7 +588,7 @@ void NodeEvaluator::visit(const BoundsNode& n)
 	}
 
 	Primitive* a=new Polyhedron();
-	a->setType(Primitive::Lines);
+	a->setType(PrimitiveTypes::Lines);
 	CubeModule::createCuboid<CGAL::Point3>(a,xmin,xmax,ymin,ymax,zmin,zmax);
 
 	result->appendChild(a);
@@ -602,7 +602,7 @@ void NodeEvaluator::visit(const BoundsNode& n)
 
 void NodeEvaluator::visit(const SubDivisionNode& n)
 {
-	if(!evaluate(n,Union)) return;
+	if(!evaluate(n,Operations::Union)) return;
 #ifdef USE_CGAL
 	auto* cp=dynamic_cast<CGALPrimitive*>(result);
 	CGAL::Polyhedron3* p=cp->getPolyhedron();
@@ -621,13 +621,13 @@ void NodeEvaluator::visit(const SubDivisionNode& n)
 
 void NodeEvaluator::visit(const NormalsNode& n)
 {
-	if(!evaluate(n,Union)) return;
+	if(!evaluate(n,Operations::Union)) return;
 #ifdef USE_CGAL
 	CGALExplorer e(result);
 	CGALPrimitive* prim=e.getPrimitive();
 
 	auto* a=new Polyhedron();
-	a->setType(Primitive::Lines);
+	a->setType(PrimitiveTypes::Lines);
 	int i=0;
 	for(CGALPolygon* pg: prim->getCGALPolygons()) {
 		CGAL::Vector3 v=pg->getNormal();
@@ -657,7 +657,7 @@ void NodeEvaluator::visit(const NormalsNode& n)
 
 void NodeEvaluator::visit(const SimplifyNode& n)
 {
-	if(!evaluate(n,Union)) return;
+	if(!evaluate(n,Operations::Union)) return;
 
 	result=result->simplify(n.getRatio());
 }
@@ -676,7 +676,7 @@ static void appendChildren(Primitive* p,const QList<Node*> children)
 void NodeEvaluator::visit(const ChildrenNode& n)
 {
 	if(n.getIndexes().isEmpty()) {
-		if(!evaluate(n,Union)) return;
+		if(!evaluate(n,Operations::Union)) return;
 	} else {
 		QList<Node*> allChildren=n.getChildren();
 		QList<int> indexes=n.getIndexes();
@@ -691,7 +691,7 @@ void NodeEvaluator::visit(const ChildrenNode& n)
 			}
 		}
 
-		if(!evaluate(children,Union,nullptr)) return;
+		if(!evaluate(children,Operations::Union,nullptr)) return;
 
 		appendChildren(result,others);
 	}
@@ -699,14 +699,14 @@ void NodeEvaluator::visit(const ChildrenNode& n)
 
 void NodeEvaluator::visit(const OffsetNode& n)
 {
-	if(!evaluate(n,Union)) return;
+	if(!evaluate(n,Operations::Union)) return;
 
 	result=result->inset(n.getAmount());
 }
 
 void NodeEvaluator::visit(const BoundaryNode& op)
 {
-	if(!evaluate(op,Union)) return;
+	if(!evaluate(op,Operations::Union)) return;
 
 	result=result->boundary();
 }
@@ -724,14 +724,14 @@ void NodeEvaluator::visit(const ImportNode& op)
 
 void NodeEvaluator::visit(const TransformationNode& tr)
 {
-	if(!evaluate(tr,Union)) return;
+	if(!evaluate(tr,Operations::Union)) return;
 
 	result->transform(tr.getMatrix());
 }
 
 void NodeEvaluator::visit(const ResizeNode& n)
 {
-	if(!evaluate(n,Union)) return;
+	if(!evaluate(n,Operations::Union)) return;
 #ifdef USE_CGAL
 	auto* pr=dynamic_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
@@ -772,7 +772,7 @@ void NodeEvaluator::visit(const ResizeNode& n)
 
 void NodeEvaluator::visit(const AlignNode& n)
 {
-	if(!evaluate(n,Union)) return;
+	if(!evaluate(n,Operations::Union)) return;
 #ifdef USE_CGAL
 	auto* pr=dynamic_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
@@ -791,39 +791,39 @@ void NodeEvaluator::visit(const AlignNode& n)
 		bool south=false;
 		bool west=false;
 		bool east=false;
-		for(AlignNode::Face_t a: n.getAlign()) {
+		for(ViewDirections a: n.getAlign()) {
 			switch(a) {
-				case AlignNode::Top:
+				case ViewDirections::Top:
 					top=true;
 					cz=b.zmax();
 					break;
-				case AlignNode::Bottom:
+				case ViewDirections::Bottom:
 					bottom=true;
 					cz=b.zmin();
 					break;
-				case AlignNode::North:
+				case ViewDirections::North:
 					north=true;
-					cx=b.xmax();
-					break;
-				case AlignNode::South:
-					south=true;
-					cx=b.xmin();
-					break;
-				case AlignNode::West:
-					west=true;
 					cy=b.ymax();
 					break;
-				case AlignNode::East:
-					east=true;
+				case ViewDirections::South:
+					south=true;
 					cy=b.ymin();
+					break;
+				case ViewDirections::West:
+					west=true;
+					cx=b.xmin();
+					break;
+				case ViewDirections::East:
+					east=true;
+					cx=b.xmax();
 					break;
 			}
 		}
 		if(top&&bottom)
 			cz=(b.zmin()+b.zmax())/2.0;
-		if(north&&south)
-			cx=(b.xmin()+b.xmax())/2.0;
 		if(east&&west)
+			cx=(b.xmin()+b.xmax())/2.0;
+		if(north&&south)
 			cy=(b.ymin()+b.ymax())/2.0;
 	}
 
@@ -840,7 +840,7 @@ void NodeEvaluator::visit(const AlignNode& n)
 void NodeEvaluator::visit(const PointsNode& n)
 {
 	Primitive* cp=createPrimitive();
-	cp->setType(Primitive::Points);
+	cp->setType(PrimitiveTypes::Points);
 	QList<Point> points=n.getPoints();
 	cp->createPolygon();
 	if(points.isEmpty()) {
@@ -851,7 +851,7 @@ void NodeEvaluator::visit(const PointsNode& n)
 	}
 
 	if(n.getVisibleChildren()) {
-		if(!evaluate(n,Union,cp)) return;
+		if(!evaluate(n,Operations::Union,cp)) return;
 	} else {
 		appendChildren(cp,n.getChildren());
 		result=cp;
@@ -861,7 +861,7 @@ void NodeEvaluator::visit(const PointsNode& n)
 
 void NodeEvaluator::visit(const SliceNode& n)
 {
-	if(!evaluate(n,Union)) return;
+	if(!evaluate(n,Operations::Union)) return;
 #ifdef USE_CGAL
 	auto* pr=dynamic_cast<CGALPrimitive*>(result);
 	CGAL::Cuboid3 b=pr->getBounds();
@@ -889,7 +889,7 @@ void NodeEvaluator::visit(const ProductNode& p)
 
 void NodeEvaluator::visit(const ProjectionNode& op)
 {
-	if(!evaluate(op,Union)) return;
+	if(!evaluate(op,Operations::Union)) return;
 
 #ifdef USE_CGAL
 	CGALExplorer explorer(result);
@@ -924,21 +924,21 @@ void NodeEvaluator::visit(const ProjectionNode& op)
 
 void NodeEvaluator::visit(const DecomposeNode& n)
 {
-	if(!evaluate(n,Union)) return;
+	if(!evaluate(n,Operations::Union)) return;
 
 	result=result->decompose();
 }
 
 void NodeEvaluator::visit(const ComplementNode& n)
 {
-	if(!evaluate(n,Union)) return;
+	if(!evaluate(n,Operations::Union)) return;
 
 	result=result->complement();
 }
 
 void NodeEvaluator::visit(const RadialsNode& n)
 {
-	if(!evaluate(n,Union)) return;
+	if(!evaluate(n,Operations::Union)) return;
 #ifdef USE_CGAL
 	auto* pr=dynamic_cast<CGALPrimitive*>(result);
 	CGAL::Circle3 circle=pr->getRadius();
@@ -957,7 +957,7 @@ void NodeEvaluator::visit(const RadialsNode& n)
 	result->appendChild(cp);
 
 	auto* p = new Polyhedron();
-	p->setType(Primitive::Lines);
+	p->setType(PrimitiveTypes::Lines);
 	Polygon* pg=p->createPolygon();
 
 	const int f=90;
@@ -976,7 +976,7 @@ void NodeEvaluator::visit(const RadialsNode& n)
 
 void NodeEvaluator::visit(const VolumesNode& n)
 {
-	if(!evaluate(n,Union)) return;
+	if(!evaluate(n,Operations::Union)) return;
 #ifdef USE_CGAL
 	auto* pr=dynamic_cast<CGALPrimitive*>(result);
 	bool calcMass = n.getCalcMass();
@@ -998,7 +998,7 @@ void NodeEvaluator::visit(const VolumesNode& n)
 	CGAL::Point3 tr(x,y,z);
 
 	auto* p = new Polyhedron();
-	p->setType(Primitive::Lines);
+	p->setType(PrimitiveTypes::Lines);
 	Polygon* pg=p->createPolygon();
 	p->createVertex(c);
 	p->createVertex(tr);

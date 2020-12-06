@@ -15,23 +15,16 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef CGALTRACE_H
+#define CGALTRACE_H
 
-#include "powfunction.h"
-#include "context.h"
+#define NDEBUG
+#include <CGAL/Nef_2/debug.h>
+#include <CGAL/intersection_3.h> //Dependency
+#include <CGAL/Nef_3/SNC_decorator.h> //Dependency
+#include <CGAL/Nef_3/SNC_external_structure.h>
 
-PowFunction::PowFunction() : Function("pow")
-{
-	addDescription(tr("Returns the value raised to the power of exponent."));
-	addParameter("value");
-	addParameter("exponent");
-}
+#undef NDEBUG
+#include <CGAL/triangulation_assertions.h>
 
-Value* PowFunction::evaluate(const Context& ctx) const
-{
-	Value* val=getParameterArgument(ctx,0);
-	Value* arg=getParameterArgument(ctx,1);
-	if(val&&arg)
-		return Value::operation(val,Operators::Exponent,arg);
-
-	return Value::factory.createUndefined();
-}
+#endif // CGALTRACE_H

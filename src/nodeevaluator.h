@@ -63,15 +63,6 @@ class NodeEvaluator : public NodeVisitor
 {
 	Q_DECLARE_TR_FUNCTIONS(NodeEvaluator)
 public:
-	enum Operation_e {
-		Group,
-		Union,
-		Difference,
-		Intersection,
-		SymmetricDifference,
-		Minkowski
-	};
-
 	explicit NodeEvaluator(Reporter&);
 
 	void visit(const PrimitiveNode&) override;
@@ -110,10 +101,18 @@ public:
 
 	Primitive* getResult() const;
 private:
+	enum class Operations {
+		Group,
+		Union,
+		Difference,
+		Intersection,
+		SymmetricDifference,
+		Minkowski
+	};
 	static Primitive* createPrimitive();
-	bool evaluate(const Node&,Operation_e);
-	bool evaluate(const Node&,Operation_e,Primitive*);
-	bool evaluate(const QList<Node*>&,Operation_e,Primitive*);
+	bool evaluate(const Node&,Operations);
+	bool evaluate(const Node&,Operations,Primitive*);
+	bool evaluate(const QList<Node*>&,Operations,Primitive*);
 
 	Reporter& reporter;
 	Primitive* result;

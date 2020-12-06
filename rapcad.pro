@@ -404,10 +404,12 @@ HEADERS  += \
 	src/assertexception.h \
 	src/builtinmanager.h \
 	src/cgalsanitizer.h \
+	src/cgaltrace.h \
 	src/function/assertfunction.h \
 	src/function/ordinalfunction.h \
 	src/module/assertmodule.h \
 	src/namedvalue.h \
+	src/operators.h \
 	src/tokenreader.h \
 	src/ui/mainwindow.h \
 	src/module.h \
@@ -441,6 +443,7 @@ HEADERS  += \
 	src/moduleimport.h \
 	src/treevisitor.h \
 	src/treeprinter.h \
+	src/viewdirections.h \
 	src/visitabletree.h \
 	src/script.h \
 	src/syntaxhighlighter.h \

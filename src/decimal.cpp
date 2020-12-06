@@ -53,16 +53,16 @@ decimal to_decimal(const QString& str,bool* ok)
 QString to_string(const decimal& d)
 {
 	Preferences& p=Preferences::getInstance();
-	NumberFormat_t format=p.getNumberFormat();
+	NumberFormats format=p.getNumberFormat();
 
-	if(format!=ScientificFormat && d==0.0)
+	if(format!=NumberFormats::Scientific && d==0.0)
 		return QString('0');
 
 	QString res;
 #ifdef USE_CGAL
 
 	char* a=nullptr;
-	if(format==RationalFormat) {
+	if(format==NumberFormats::Rational) {
 #ifndef USE_VALGRIND
 		gmp_asprintf(&a,"%Qd",d.exact().mpq());
 #else
@@ -77,7 +77,7 @@ QString to_string(const decimal& d)
 		mpf_set_q(m,d.mpq());
 #endif
 
-		if(format==ScientificFormat) {
+		if(format==NumberFormats::Scientific) {
 			gmp_asprintf(&a,"%.*Fe",p.getDecimalPlaces(),m);
 		} else {
 			gmp_asprintf(&a,"%.Ff",m);

@@ -38,7 +38,7 @@ public:
 	void accept(TreeVisitor&) override;
 private:
 
-	enum DataType {
+	enum class DataTypes {
 		Undef,
 		Boolean,
 		Number,
@@ -48,7 +48,7 @@ private:
 	bool boolean;
 	decimal number;
 	QString text;
-	DataType type;
+	DataTypes type;
 	decimal unit;
 };
 

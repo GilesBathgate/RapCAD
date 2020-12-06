@@ -45,16 +45,16 @@ void TreePrinter::visit(const Instance& inst)
 {
 
 	switch(inst.getType()) {
-		case Instance::Root:
+		case InstanceTypes::Root:
 			result << "!";
 			break;
-		case Instance::Debug:
+		case InstanceTypes::Debug:
 			result << "#";
 			break;
-		case Instance::Background:
+		case InstanceTypes::Background:
 			result << "%";
 			break;
-		case Instance::Disable:
+		case InstanceTypes::Disable:
 			result << "*";
 			break;
 		default:
@@ -275,10 +275,10 @@ void TreePrinter::visit(const AssignStatement& stmt)
 		var->accept(*this);
 
 	switch(stmt.getOperation()) {
-		case Expression::Increment:
+		case Operators::Increment:
 			result << "++";
 			break;
-		case Expression::Decrement:
+		case Operators::Decrement:
 			result << "--";
 			break;
 		default: {
@@ -432,17 +432,17 @@ void TreePrinter::visit(const Literal& lit)
 void TreePrinter::visit(const Variable& var)
 {
 	switch(var.getStorage()) {
-		case Variable::Const:
+		case Storage::Constant:
 			result << "const ";
 			break;
-		case Variable::Param:
+		case Storage::Parametric:
 			result << "param ";
 			break;
 		default:
 			break;
 	}
 
-	if(var.getStorage()==Variable::Special)
+	if(var.getStorage()==Storage::Special)
 		result << "$";
 	result << var.getName();
 }

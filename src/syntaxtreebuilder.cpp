@@ -152,7 +152,7 @@ Statement* SyntaxTreeBuilder::buildStatement(Statement* stmt)
 	return stmt;
 }
 
-Statement* SyntaxTreeBuilder::buildStatement(Variable* var,Expression::Operator_e op)
+Statement* SyntaxTreeBuilder::buildStatement(Variable* var,Operators op)
 {
 	auto* result = new AssignStatement();
 	result->setVariable(var);
@@ -160,7 +160,7 @@ Statement* SyntaxTreeBuilder::buildStatement(Variable* var,Expression::Operator_
 	return result;
 }
 
-Statement* SyntaxTreeBuilder::buildStatement(Variable* var,Expression::Operator_e op,Expression* exp)
+Statement* SyntaxTreeBuilder::buildStatement(Variable* var,Operators op,Expression* exp)
 {
 	auto* result = new AssignStatement();
 	result->setVariable(var);
@@ -185,7 +185,7 @@ Statement* SyntaxTreeBuilder::buildStatement(Variable* var,Expression* exp)
 	return result;
 }
 
-Statement* SyntaxTreeBuilder::buildStatement(QString* name,Variable::Storage_e c, Expression* exp)
+Statement* SyntaxTreeBuilder::buildStatement(QString* name,Storage c, Expression* exp)
 {
 	auto* result = new AssignStatement();
 	auto* var = new Variable();
@@ -318,13 +318,13 @@ Instance* SyntaxTreeBuilder::buildInstance(QString* name,Instance* inst)
 	return inst;
 }
 
-Instance* SyntaxTreeBuilder::buildInstance(Instance::Type_e type,Instance* inst)
+Instance* SyntaxTreeBuilder::buildInstance(InstanceTypes type,Instance* inst)
 {
 	inst->setType(type);
 	return inst;
 }
 
-Instance* SyntaxTreeBuilder::buildInstance(Instance::Type_e type,QString* name,QList<Argument*>* args)
+Instance* SyntaxTreeBuilder::buildInstance(InstanceTypes type,QString* name,QList<Argument*>* args)
 {
 	auto* result = new Instance();
 	result->setLineNumber(getLineNumber());
@@ -492,7 +492,7 @@ Expression* SyntaxTreeBuilder::buildVariable(Variable* var)
 	return var;
 }
 
-Variable* SyntaxTreeBuilder::buildVariable(QString* name,Variable::Storage_e c)
+Variable* SyntaxTreeBuilder::buildVariable(QString* name,Storage c)
 {
 	auto* result = new Variable();
 	result->setStorage(c);
@@ -509,7 +509,7 @@ Expression* SyntaxTreeBuilder::buildExpression(Expression* exp,QString* name)
 	val->setName(*name);
 	delete name;
 	result->setRight(val);
-	result->setOp(Expression::Dot);
+	result->setOp(Operators::Dot);
 	return result;
 }
 
@@ -518,7 +518,7 @@ Expression* SyntaxTreeBuilder::buildExpression(Expression* exp)
 	return exp;
 }
 
-Expression* SyntaxTreeBuilder::buildExpression(Expression::Operator_e op,Expression* exp)
+Expression* SyntaxTreeBuilder::buildExpression(Operators op,Expression* exp)
 {
 	auto* result = new UnaryExpression();
 	result->setExpression(exp);
@@ -526,7 +526,7 @@ Expression* SyntaxTreeBuilder::buildExpression(Expression::Operator_e op,Express
 	return result;
 }
 
-Expression* SyntaxTreeBuilder::buildExpression(Expression* left,Expression::Operator_e op, Expression* right)
+Expression* SyntaxTreeBuilder::buildExpression(Expression* left,Operators op, Expression* right)
 {
 	auto* result = new BinaryExpression();
 	result->setLeft(left);

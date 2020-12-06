@@ -27,7 +27,7 @@ RangeIterator::RangeIterator(RangeValue* rng, Value* i, Value* s) :
 
 ValueIterator& RangeIterator::operator++()
 {
-	index=Value::operation(index,Expression::Add,step);
+	index=Value::operation(index,Operators::Add,step);
 	return *this;
 }
 

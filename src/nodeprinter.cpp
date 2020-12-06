@@ -44,7 +44,7 @@ void NodePrinter::visit(const PrimitiveNode& n)
 {
 	Primitive* pr=n.getPrimitive();
 	switch(pr->getType()) {
-		case Primitive::Lines:
+		case PrimitiveTypes::Lines:
 			result << "polyline([";
 			break;
 		default:
@@ -295,30 +295,30 @@ void NodePrinter::printArguments(const QList<int>& list)
 	result << "])";
 }
 
-void NodePrinter::printArguments(const QList<AlignNode::Face_t>& t)
+void NodePrinter::printArguments(const QList<ViewDirections>& t)
 {
 	result << "(";
 	OnceOnly first;
-	for(AlignNode::Face_t a: t) {
+	for(ViewDirections a: t) {
 		if(!first())
 			result << ",";
 		switch(a) {
-			case AlignNode::Top:
+			case ViewDirections::Top:
 				result << "top";
 				break;
-			case AlignNode::Bottom:
+			case ViewDirections::Bottom:
 				result << "bottom";
 				break;
-			case AlignNode::North:
+			case ViewDirections::North:
 				result << "north";
 				break;
-			case AlignNode::South:
+			case ViewDirections::South:
 				result << "south";
 				break;
-			case AlignNode::West:
+			case ViewDirections::West:
 				result << "west";
 				break;
-			case AlignNode::East:
+			case ViewDirections::East:
 				result << "east";
 				break;
 		}

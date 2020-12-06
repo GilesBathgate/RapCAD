@@ -29,8 +29,8 @@ public:
 	Value* toNumber() override;
 	bool isTrue() const override;
 private:
-	Value* operation(Expression::Operator_e) override;
-	Value* operation(Value&,Expression::Operator_e) override;
+	Value* operation(Operators) override;
+	Value* operation(Value&,Operators) override;
 	bool boolean;
 };
 

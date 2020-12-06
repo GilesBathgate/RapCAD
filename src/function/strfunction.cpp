@@ -35,7 +35,7 @@ Value* StrFunction::evaluate(const Context& ctx) const
 		if(!val) {
 			val=textArg;
 		} else {
-			Value* res=Value::operation(val,Expression::Concatenate,textArg);
+			Value* res=Value::operation(val,Operators::Concatenate,textArg);
 			val=res->toText();
 		}
 	}

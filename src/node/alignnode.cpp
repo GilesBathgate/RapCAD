@@ -40,16 +40,16 @@ void AlignNode::setCenter(bool value)
 
 void AlignNode::setCenterVertical()
 {
-	align.append(Top);
-	align.append(Bottom);
+	align.append(ViewDirections::Top);
+	align.append(ViewDirections::Bottom);
 }
 
-QList<AlignNode::Face_t> AlignNode::getAlign() const
+QList<ViewDirections> AlignNode::getAlign() const
 {
 	return align;
 }
 
-void AlignNode::setAlign(const QList<Face_t>& value)
+void AlignNode::setAlign(const QList<ViewDirections>& value)
 {
 	align = value;
 }

@@ -28,10 +28,9 @@
 
 Value::Value() :
 	defined(true),
-	storageClass(Variable::Const)
+	storageClass(Storage::Constant)
 {
 }
-
 
 Value::~Value()
 {
@@ -40,12 +39,12 @@ Value::~Value()
 
 ValueFactory& Value::factory=ValueFactory::getInstance();
 
-void Value::setStorage(Variable::Storage_e c)
+void Value::setStorage(Storage c)
 {
 	storageClass=c;
 }
 
-Variable::Storage_e Value::getStorage() const
+Storage Value::getStorage() const
 {
 	return storageClass;
 }
@@ -91,142 +90,142 @@ ValueIterator* Value::createIterator()
 
 Value* Value::operator^(Value& v)
 {
-	return operation(v,Expression::Exponent);
+	return operation(v,Operators::Exponent);
 }
 
 Value* Value::operator*(Value& v)
 {
-	return operation(v,Expression::Multiply);
+	return operation(v,Operators::Multiply);
 }
 
 Value* Value::concatenate(Value& v)
 {
-	return operation(v,Expression::Concatenate);
+	return operation(v,Operators::Concatenate);
 }
 
 Value* Value::componentwiseMultiply(Value& v)
 {
-	return operation(v,Expression::ComponentwiseMultiply);
+	return operation(v,Operators::ComponentwiseMultiply);
 }
 
 Value* Value::operator/(Value& v)
 {
-	return operation(v,Expression::Divide);
+	return operation(v,Operators::Divide);
 }
 
 Value* Value::componentwiseDivide(Value& v)
 {
-	return operation(v,Expression::ComponentwiseDivide);
+	return operation(v,Operators::ComponentwiseDivide);
 }
 
 Value* Value::crossProduct(Value& v)
 {
-	return operation(v,Expression::CrossProduct);
+	return operation(v,Operators::CrossProduct);
 }
 
 Value* Value::operator%(Value& v)
 {
-	return operation(v,Expression::Modulus);
+	return operation(v,Operators::Modulus);
 }
 
 Value* Value::operator+()
 {
-	return operation(Expression::Add);
+	return operation(Operators::Add);
 }
 
 Value* Value::operator+(Value& v)
 {
-	return operation(v,Expression::Add);
+	return operation(v,Operators::Add);
 }
 
 Value* Value::operator+=(Value& v)
 {
-	return operation(v,Expression::AddAssign);
+	return operation(v,Operators::AddAssign);
 }
 
 Value* Value::operator++(int)
 {
-	return operation(Expression::Increment);
+	return operation(Operators::Increment);
 }
 
 Value* Value::length()
 {
-	return operation(Expression::Length);
+	return operation(Operators::Length);
 }
 
 Value* Value::length(Value& v)
 {
-	return operation(v,Expression::Length);
+	return operation(v,Operators::Length);
 }
 
 Value* Value::operator-()
 {
-	return operation(Expression::Subtract);
+	return operation(Operators::Subtract);
 }
 
 Value* Value::operator-(Value& v)
 {
-	return operation(v,Expression::Subtract);
+	return operation(v,Operators::Subtract);
 }
 
 Value* Value::operator-=(Value& v)
 {
-	return operation(v,Expression::SubAssign);
+	return operation(v,Operators::SubAssign);
 }
 
 Value* Value::operator--(int)
 {
-	return operation(Expression::Decrement);
+	return operation(Operators::Decrement);
 }
 
 Value* Value::operator<(Value& v)
 {
-	return operation(v,Expression::LessThan);
+	return operation(v,Operators::LessThan);
 }
 
 Value* Value::operator<=(Value& v)
 {
-	return operation(v,Expression::LessOrEqual);
+	return operation(v,Operators::LessOrEqual);
 }
 
 Value* Value::operator==(Value& v)
 {
-	return operation(v,Expression::Equal);
+	return operation(v,Operators::Equal);
 }
 
 Value* Value::operator!=(Value& v)
 {
-	return operation(v,Expression::NotEqual);
+	return operation(v,Operators::NotEqual);
 }
 
 Value* Value::operator>=(Value& v)
 {
-	return operation(v,Expression::GreaterOrEqual);
+	return operation(v,Operators::GreaterOrEqual);
 }
 
 Value* Value::operator>(Value& v)
 {
-	return operation(v,Expression::GreaterThan);
+	return operation(v,Operators::GreaterThan);
 }
 
 Value* Value::operator&&(Value& v)
 {
-	return operation(v,Expression::LogicalAnd);
+	return operation(v,Operators::LogicalAnd);
 }
 
 Value* Value::operator||(Value& v)
 {
-	return operation(v,Expression::LogicalOr);
+	return operation(v,Operators::LogicalOr);
 }
 
 Value* Value::operator[](Value& v)
 {
-	return operation(v,Expression::Index);
+	return operation(v,Operators::Index);
 }
 
 Value* Value::operator!()
 {
-	return operation(Expression::Invert);
+	return operation(Operators::Invert);
 }
 
 bool Value::modulus(bool, bool)
@@ -281,9 +280,9 @@ decimal Value::length(const decimal& left)
 	return r_abs(left);
 }
 
-Value* Value::operation(Expression::Operator_e e)
+Value* Value::operation(Operators e)
 {
-	if(e==Expression::Invert) {
+	if(e==Operators::Invert) {
 		bool result=basicOperation(defined,e);
 		return factory.createBoolean(result);
 	}
@@ -291,7 +290,7 @@ Value* Value::operation(Expression::Operator_e e)
 	return this;
 }
 
-Value* Value::operation(Value& v, Expression::Operator_e e)
+Value* Value::operation(Value& v, Operators e)
 {
 	bool left=defined;
 	bool right=v.defined;
@@ -299,7 +298,7 @@ Value* Value::operation(Value& v, Expression::Operator_e e)
 		bool result=basicOperation(left,e,right);
 		return factory.createBoolean(result);
 	}
-	if(e==Expression::Concatenate) {
+	if(e==Operators::Concatenate) {
 		return &v;
 	}
 
@@ -316,108 +315,108 @@ bool Value::isUndefined() const
 	return !defined;
 }
 
-Value* Value::operation(Value* p_left, Expression::Operator_e e, Value* p_right)
+Value* Value::operation(Value* p_left, Operators e, Value* p_right)
 {
 	Value& left=*p_left;
 	Value& right=*p_right;
 	switch(e) {
-		case Expression::Exponent:
+		case Operators::Exponent:
 			return left^right;
-		case Expression::DotProduct:
-		case Expression::Multiply:
+		case Operators::DotProduct:
+		case Operators::Multiply:
 			return left*right;
-		case Expression::Append:
-		case Expression::Concatenate:
+		case Operators::Append:
+		case Operators::Concatenate:
 			return left.concatenate(right);
-		case Expression::ComponentwiseMultiply:
+		case Operators::ComponentwiseMultiply:
 			return left.componentwiseMultiply(right);
-		case Expression::Divide:
+		case Operators::Divide:
 			return left/right;
-		case Expression::ComponentwiseDivide:
+		case Operators::ComponentwiseDivide:
 			return left.componentwiseDivide(right);
-		case Expression::CrossProduct:
+		case Operators::CrossProduct:
 			return left.crossProduct(right);
-		case Expression::Modulus:
+		case Operators::Modulus:
 			return left%right;
-		case Expression::Add:
+		case Operators::Add:
 			return left+right;
-		case Expression::Subtract:
+		case Operators::Subtract:
 			return left-right;
-		case Expression::AddAssign:
+		case Operators::AddAssign:
 			return left+=right;
-		case Expression::SubAssign:
+		case Operators::SubAssign:
 			return left-=right;
-		case Expression::LessThan:
+		case Operators::LessThan:
 			return left<right;
-		case Expression::LessOrEqual:
+		case Operators::LessOrEqual:
 			return left<=right;
-		case Expression::Equal:
+		case Operators::Equal:
 			return left==right;
-		case Expression::NotEqual:
+		case Operators::NotEqual:
 			return left!=right;
-		case Expression::GreaterOrEqual:
+		case Operators::GreaterOrEqual:
 			return left>=right;
-		case Expression::GreaterThan:
+		case Operators::GreaterThan:
 			return left>right;
-		case Expression::LogicalAnd:
+		case Operators::LogicalAnd:
 			return left&&right;
-		case Expression::LogicalOr:
+		case Operators::LogicalOr:
 			return left||right;
-		case Expression::Index:
+		case Operators::Index:
 			return left[right];
-		case Expression::Length:
+		case Operators::Length:
 			return left.length(right);
 		default:
 			return &left;
 	}
 }
 
-Value* Value::operation(Value* p_left, Expression::Operator_e e)
+Value* Value::operation(Value* p_left, Operators e)
 {
 	Value& left=*p_left;
 	switch(e) {
-		case Expression::Add:
+		case Operators::Add:
 			return +left;
-		case Expression::Subtract:
+		case Operators::Subtract:
 			return -left;
-		case Expression::Invert:
+		case Operators::Invert:
 			return !left;
-		case Expression::Increment:
+		case Operators::Increment:
 			return left++;
-		case Expression::Decrement:
+		case Operators::Decrement:
 			return left--;
-		case Expression::Length:
+		case Operators::Length:
 			return left.length();
 		default:
 			return &left;
 	}
 }
 
-bool Value::isComparison(Expression::Operator_e e)
+bool Value::isComparison(Operators e)
 {
 	switch(e) {
-		case Expression::LessThan:
-		case Expression::LessOrEqual:
-		case Expression::Equal:
-		case Expression::NotEqual:
-		case Expression::GreaterOrEqual:
-		case Expression::GreaterThan:
+		case Operators::LessThan:
+		case Operators::LessOrEqual:
+		case Operators::Equal:
+		case Operators::NotEqual:
+		case Operators::GreaterOrEqual:
+		case Operators::GreaterThan:
 		//The following are not really comparisons but
 		//we expect them to return a boolean result
-		case Expression::LogicalAnd:
-		case Expression::LogicalOr:
+		case Operators::LogicalAnd:
+		case Operators::LogicalOr:
 			return true;
 		default:
 			return false;
 	}
 }
 
-bool Value::compare(Value* left, Expression::Operator_e op, Value* right)
+bool Value::compare(Value* left, Operators op, Value* right)
 {
 	return Value::operation(left,op,right)->isTrue();
 }
 
-Value* Value::compareAll(const QList<Value*>& values, Expression::Operator_e op)
+Value* Value::compareAll(const QList<Value*>& values, Operators op)
 {
 	Value* result=nullptr;
 	for(Value* a: values) {

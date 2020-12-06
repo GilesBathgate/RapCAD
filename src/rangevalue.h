@@ -34,8 +34,8 @@ public:
 	Value* getFinish() const;
 	bool inRange(Value*);
 private:
-	Value* operation(Expression::Operator_e) override;
-	Value* operation(Value&,Expression::Operator_e) override;
+	Value* operation(Operators) override;
+	Value* operation(Value&,Operators) override;
 	Value* start;
 	Value* step;
 	Value* finish;

@@ -96,7 +96,7 @@ void TreeEvaluator::visit(const ModuleScope& scp)
 void TreeEvaluator::visit(const Instance& inst)
 {
 	QString name = inst.getName();
-	bool aux=(inst.getType()==Instance::Auxilary);
+	bool aux=(inst.getType()==InstanceTypes::Auxilary);
 
 	/* The first step for module invocations is to evaluate all the children if
 	 * there are any, we do this in a seperate context because children can
@@ -296,13 +296,13 @@ void TreeEvaluator::visit(const BinaryExpression& exp)
 	Value* left=context->getCurrentValue();
 
 	bool shortc=false;
-	Expression::Operator_e op=exp.getOp();
+	Operators op=exp.getOp();
 
 	switch(op) {
-		case Expression::LogicalAnd:
+		case Operators::LogicalAnd:
 			shortc=left->isFalse();
 			break;
-		case Expression::LogicalOr:
+		case Operators::LogicalOr:
 			shortc=left->isTrue();
 			break;
 		default:
@@ -324,7 +324,7 @@ void TreeEvaluator::visit(const BinaryExpression& exp)
 void TreeEvaluator::visit(const Argument& arg)
 {
 	QString name;
-	Variable::Storage_e c=Variable::Var;
+	Storage c=Storage::Variable;
 	Variable* var = arg.getVariable();
 	if(var) {
 		var->accept(*this);
@@ -349,10 +349,10 @@ void TreeEvaluator::visit(const AssignStatement& stmt)
 	Value* lvalue = context->getCurrentValue();
 
 	Value* result=nullptr;
-	Expression::Operator_e op=stmt.getOperation();
+	Operators op=stmt.getOperation();
 	switch(op) {
-		case Expression::Increment:
-		case Expression::Decrement: {
+		case Operators::Increment:
+		case Operators::Decrement: {
 			result=Value::operation(lvalue,op);
 			break;
 		}
@@ -366,9 +366,9 @@ void TreeEvaluator::visit(const AssignStatement& stmt)
 	}
 
 	switch(op) {
-		case Expression::Append:
-		case Expression::AddAssign:
-		case Expression::SubAssign: {
+		case Operators::Append:
+		case Operators::AddAssign:
+		case Operators::SubAssign: {
 			result=Value::operation(lvalue,op,result);
 			break;
 		}
@@ -380,11 +380,11 @@ void TreeEvaluator::visit(const AssignStatement& stmt)
 	auto c=lvalue->getStorage();
 	result->setStorage(c);
 	switch(c) {
-		case Variable::Const:
+		case Storage::Constant:
 			if(!context->addVariable(name,result))
 				reporter.reportWarning(tr("attempt to alter constant variable '%1'").arg(name));
 			break;
-		case Variable::Param:
+		case Storage::Parametric:
 			if(!context->addVariable(name,result))
 				reporter.reportWarning(tr("attempt to alter parametric variable '%1'").arg(name));
 			break;
@@ -571,16 +571,16 @@ void TreeEvaluator::visit(const Literal& lit)
 void TreeEvaluator::visit(const Variable& var)
 {
 	QString name = var.getName();
-	Variable::Storage_e oldStorage=var.getStorage();
-	Variable::Storage_e currentStorage=oldStorage;
+	Storage oldStorage=var.getStorage();
+	Storage currentStorage=oldStorage;
 	Layout* l=scopeLookup.value(context->getCurrentScope());
 	Value* v=context->lookupVariable(name,currentStorage,l);
 	if(currentStorage!=oldStorage)
 		switch(oldStorage) {
-			case Variable::Const:
+			case Storage::Constant:
 				reporter.reportWarning(tr("attempt to make previously non-constant variable '%1' constant").arg(name));
 				break;
-			case Variable::Param:
+			case Storage::Parametric:
 				reporter.reportWarning(tr("attempt to make previously non-parametric variable '%1' parametric").arg(name));
 				break;
 			default:

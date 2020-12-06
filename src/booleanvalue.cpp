@@ -41,13 +41,13 @@ bool BooleanValue::isTrue() const
 	return boolean;
 }
 
-Value* BooleanValue::operation(Expression::Operator_e e)
+Value* BooleanValue::operation(Operators e)
 {
 	bool result=basicOperation(boolean,e);
 	return factory.createBoolean(result);
 }
 
-Value* BooleanValue::operation(Value& v,Expression::Operator_e e)
+Value* BooleanValue::operation(Value& v,Operators e)
 {
 	auto* that=dynamic_cast<BooleanValue*>(&v);
 	if(that) {

@@ -29,26 +29,26 @@ using Point = CGAL::Point3;
 using decimal = double;
 #endif
 
-enum NumberFormat_t {
-	DecimalFormat,
-	ScientificFormat,
-	RationalFormat
+enum class NumberFormats {
+	Decimal,
+	Scientific,
+	Rational
 };
 
-enum Rounding_t {
-	DecimalRounding,
-	Base2Rounding,
-	NoRounding
+enum class Rounding {
+	Decimal,
+	Base2,
+	None
 };
 
-enum Precision_t {
-	SinglePrecision,
-	DoublePrecision,
-	CustomPrecision
+enum class Precision {
+	Single,
+	Double,
+	Custom
 };
 
 QString to_string(const decimal&);
-decimal to_decimal(const QString&, bool* ok=nullptr);
+decimal to_decimal(const QString&,bool* ok=nullptr);
 int to_integer(const decimal&);
 bool to_boolean(const decimal&);
 decimal parse_rational(const QString&,bool* ok=nullptr);

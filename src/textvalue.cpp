@@ -57,15 +57,15 @@ bool TextValue::isTrue() const
 	return !text.isEmpty();
 }
 
-Value* TextValue::operation(Expression::Operator_e op)
+Value* TextValue::operation(Operators op)
 {
-	if(op==Expression::Length) {
+	if(op==Operators::Length) {
 		return factory.createNumber(text.length());
 	}
 	return this;
 }
 
-Value* TextValue::operation(Value& v,Expression::Operator_e e)
+Value* TextValue::operation(Value& v,Operators e)
 {
 	auto* that=dynamic_cast<TextValue*>(&v);
 	if(that) {
@@ -77,28 +77,28 @@ Value* TextValue::operation(Value& v,Expression::Operator_e e)
 
 	auto* num=dynamic_cast<NumberValue*>(&v);
 	if(num)
-		if(e==Expression::Index)
+		if(e==Operators::Index)
 			return factory.createText(text.at(num->toInteger()));
 
 	return Value::operation(v,e);
 }
 
-QString TextValue::operation(QString& left, Expression::Operator_e e,QString& right)
+QString TextValue::operation(QString& left, Operators e,QString& right)
 {
 	switch(e) {
-		case Expression::Concatenate:
+		case Operators::Concatenate:
 			return left.append(right);
 		default:
 			return text;
 	}
 }
 
-bool TextValue::operation(TextValue* left, Expression::Operator_e e, TextValue* right)
+bool TextValue::operation(TextValue* left, Operators e, TextValue* right)
 {
 	switch(e) {
-		case Expression::Equal:
+		case Operators::Equal:
 			return left->text==right->text;
-		case Expression::NotEqual:
+		case Operators::NotEqual:
 			return left->text!=right->text;
 		default:
 			return basicOperation(left->isTrue(),e,right->isTrue());

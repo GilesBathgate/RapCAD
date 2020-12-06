@@ -34,7 +34,7 @@ public:
 protected:
 	void highlightBlock(const QString& text) override;
 private:
-	enum Blockstate_e {
+	enum class BlockStates {
 		Initial=-1,
 		Comment,
 		CodeDoc

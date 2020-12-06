@@ -29,6 +29,12 @@
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include "renderer.h"
+#include "viewdirections.h"
+
+enum class BedAppearance {
+	MK42=0,
+	MK2=1
+};
 
 class GLView :
 #ifdef USE_QGLWIDGET
@@ -40,25 +46,11 @@ class GLView :
 	Q_OBJECT
 
 public:
-	enum View_t {
-		Top,
-		Bottom,
-		Left,
-		Right,
-		Back,
-		Front
-	};
-
-	enum Appearance_t {
-		MK42=0,
-		MK2=1
-	};
-
 	explicit GLView(QWidget* parent=nullptr);
 	~GLView() override;
 	void setRenderer(Renderer* r);
 	void setCompiling(bool value);
-	void setBedAppearance(Appearance_t);
+	void setBedAppearance(BedAppearance);
 	void preferencesUpdated();
 
 #ifdef USE_QGLWIDGET
@@ -117,7 +109,7 @@ private:
 	GLfloat printWidth;
 	GLfloat printLength;
 	GLfloat printHeight;
-	Appearance_t appearance;
+	BedAppearance appearance;
 
 	bool mouseDrag;
 	QPoint last;

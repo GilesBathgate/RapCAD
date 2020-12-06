@@ -43,8 +43,8 @@ public:
 	~CGALPrimitive() override;
 	explicit CGALPrimitive(const CGAL::Polyhedron3&);
 	explicit CGALPrimitive(const CGAL::NefPolyhedron3&);
-	void setType(Primitive_t) override;
-	Primitive_t getType() override;
+	void setType(PrimitiveTypes) override;
+	PrimitiveTypes getType() override;
 	void setSanitized(bool) override;
 	bool getSanitized() override;
 	CGALPolygon* createPolygon() override;
@@ -112,7 +112,7 @@ private:
 	QList<CGALPolygon*> polygons;
 	QList<CGALPolygon*> perimeters;
 	CGAL::NefPolyhedron3* nefPolyhedron;
-	Primitive_t type;
+	PrimitiveTypes type;
 	bool sanitized;
 
 	/* Simple wrapper class to enable Primitive

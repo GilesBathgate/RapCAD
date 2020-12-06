@@ -75,6 +75,10 @@ install:
 - sudo patch -l $CGAL_DIR/Handle_for.h < patch/Fix-uncaught-exception-in-Handle_for.h.patch;
 - sudo patch -l $CGAL_DIR/Straight_skeleton_2/Straight_skeleton_aux.h < patch/Add-noexcept-to-Ref_counted_base-in-Straight_skeleton_aux.h.patch;
 - sudo patch -l $CGAL_DIR/Nef_3/SNC_io_parser.h < patch/Add-bounds-checks-in-SNC_io_parser.h.patch;
+- sudo patch -l $CGAL_DIR/Handle.h < patch/Add-a-move-assignment-operator-to-Handle.h.patch;
+- sudo patch -l $CGAL_DIR/Nef_polyhedron_3.h < patch/Add-a-move-assignement-operator-to-Nef_Polyhedron_3.h.patch;
+- sudo patch -l $CGAL_DIR/GMP/Gmpq_type.h < patch/Add-explicit-move-copy-default-assignement-operators-to-Gmpq_type.h.patch;
+- sudo patch -l $CGAL_DIR/internal/Static_filters/Collinear_3.h < patch/Remove-dead-code-in-Collinear_3.h.patch;
 - sudo patch -l $CGAL_DIR/Intersections_2/Line_2_Line_2.h < patch/Fix-uninitialized-member-in-Line_2_Line_2.h.patch;
 
 script:

@@ -104,12 +104,12 @@ Statement* DependencyBuilder::buildStatement(Statement*)
 	return nullptr;
 }
 
-Statement* DependencyBuilder::buildStatement(Variable*,Expression::Operator_e)
+Statement* DependencyBuilder::buildStatement(Variable*,Operators)
 {
 	return nullptr;
 }
 
-Statement* DependencyBuilder::buildStatement(Variable*,Expression::Operator_e,Expression*)
+Statement* DependencyBuilder::buildStatement(Variable*,Operators,Expression*)
 {
 	return nullptr;
 }
@@ -124,7 +124,7 @@ Statement* DependencyBuilder::buildStatement(Variable*,Expression*)
 	return nullptr;
 }
 
-Statement* DependencyBuilder::buildStatement(QString*,Variable::Storage_e,Expression*)
+Statement* DependencyBuilder::buildStatement(QString*,Storage,Expression*)
 {
 	return nullptr;
 }
@@ -209,12 +209,12 @@ Instance* DependencyBuilder::buildInstance(QString*,Instance*)
 	return nullptr;
 }
 
-Instance* DependencyBuilder::buildInstance(Instance::Type_e,Instance*)
+Instance* DependencyBuilder::buildInstance(InstanceTypes,Instance*)
 {
 	return nullptr;
 }
 
-Instance* DependencyBuilder::buildInstance(Instance::Type_e,QString*,QList<Argument*>*)
+Instance* DependencyBuilder::buildInstance(InstanceTypes,QString*,QList<Argument*>*)
 {
 	return nullptr;
 }
@@ -324,7 +324,7 @@ Expression* DependencyBuilder::buildVariable(Variable*)
 	return nullptr;
 }
 
-Variable* DependencyBuilder::buildVariable(QString*,Variable::Storage_e)
+Variable* DependencyBuilder::buildVariable(QString*,Storage)
 {
 	return nullptr;
 }
@@ -339,12 +339,12 @@ Expression* DependencyBuilder::buildExpression(Expression*)
 	return nullptr;
 }
 
-Expression* DependencyBuilder::buildExpression(Expression::Operator_e,Expression*)
+Expression* DependencyBuilder::buildExpression(Operators,Expression*)
 {
 	return nullptr;
 }
 
-Expression* DependencyBuilder::buildExpression(Expression*,Expression::Operator_e, Expression*)
+Expression* DependencyBuilder::buildExpression(Expression*,Operators, Expression*)
 {
 	return nullptr;
 }

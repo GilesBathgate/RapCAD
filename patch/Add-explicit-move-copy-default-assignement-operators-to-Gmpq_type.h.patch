@@ -1,0 +1,14 @@
+--- a/usr/include/CGAL/GMP/Gmpq_type.h
++++ b/usr/include/CGAL/GMP/Gmpq_type.h
+@@ -237,6 +237,10 @@ public:
+                              (unsigned) ( ::log(double(size())) / ::log(double(2)) )  );
+   }
+ 
++  inline Gmpq(const Gmpq&) = default;
++  inline Gmpq& operator=(const Gmpq&) = default;
++  inline Gmpq& operator=(Gmpq&&) = default;
++
+   // Interoperability with int
+   Gmpq& operator+=(int z){return (*this)+= Gmpq(z);}
+   Gmpq& operator-=(int z){return (*this)-= Gmpq(z);}
+

@@ -29,7 +29,7 @@ public:
 	explicit PolygonModule(Reporter&,bool);
 	Node* evaluate(const Context&) const override;
 private:
-	Primitive::Primitive_t type;
+	PrimitiveTypes type;
 };
 
 #endif // POLYGONMODULE_H

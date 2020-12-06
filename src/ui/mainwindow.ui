@@ -283,10 +283,10 @@
     <addaction name="separator"/>
     <addaction name="actionTop"/>
     <addaction name="actionBottom"/>
-    <addaction name="actionLeft"/>
-    <addaction name="actionRight"/>
-    <addaction name="actionFront"/>
-    <addaction name="actionBack"/>
+    <addaction name="actionNorth"/>
+    <addaction name="actionSouth"/>
+    <addaction name="actionEast"/>
+    <addaction name="actionWest"/>
     <addaction name="actionDefaultView"/>
     <addaction name="separator"/>
     <addaction name="actionSetViewport"/>
@@ -739,6 +739,9 @@
    <property name="text">
     <string>Top</string>
    </property>
+   <property name="toolTip">
+    <string>View from the top</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+4</string>
    </property>
@@ -747,40 +750,55 @@
    <property name="text">
     <string>Bottom</string>
    </property>
+   <property name="toolTip">
+    <string>View from the bottom</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+5</string>
    </property>
   </action>
-  <action name="actionLeft">
+  <action name="actionWest">
    <property name="text">
-    <string>Left</string>
+    <string>West</string>
+   </property>
+   <property name="toolTip">
+    <string>View from the west</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+6</string>
+    <string>Ctrl+9</string>
    </property>
   </action>
-  <action name="actionRight">
+  <action name="actionEast">
    <property name="text">
-    <string>Right</string>
+    <string>East</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+7</string>
-   </property>
-  </action>
-  <action name="actionFront">
-   <property name="text">
-    <string>Front</string>
+   <property name="toolTip">
+    <string>View from the east</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+8</string>
    </property>
   </action>
-  <action name="actionBack">
+  <action name="actionSouth">
    <property name="text">
-    <string>Back</string>
+    <string>South</string>
+   </property>
+   <property name="toolTip">
+    <string>View from the south</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+9</string>
+    <string>Ctrl+7</string>
+   </property>
+  </action>
+  <action name="actionNorth">
+   <property name="text">
+    <string>North</string>
+   </property>
+   <property name="toolTip">
+    <string>View from the north</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+6</string>
    </property>
   </action>
   <action name="actionSaveAll">

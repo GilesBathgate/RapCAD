@@ -22,26 +22,26 @@
 #include <QString>
 #include "expression.h"
 
+enum class Storage {
+	Variable,
+	Special,
+	Constant,
+	Parametric
+};
+
 class Variable : public Expression
 {
 public:
-	enum Storage_e {
-		Var,
-		Special,
-		Const,
-		Param
-	};
-
 	Variable();
 	~Variable() override = default;
 	void setName(const QString&);
 	QString getName() const;
-	void setStorage(Storage_e);
-	Storage_e getStorage() const;
+	void setStorage(Storage);
+	Storage getStorage() const;
 	void accept(TreeVisitor&) override;
 private:
 	QString name;
-	Storage_e storage;
+	Storage storage;
 };
 
 #endif // VARIABLE_H

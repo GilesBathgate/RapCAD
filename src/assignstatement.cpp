@@ -21,7 +21,7 @@
 AssignStatement::AssignStatement() :
 	variable(nullptr),
 	expression(nullptr),
-	operation(Expression::None)
+	operation(Operators::None)
 {
 }
 
@@ -51,12 +51,12 @@ Expression* AssignStatement::getExpression() const
 	return expression;
 }
 
-void AssignStatement::setOperation(Expression::Operator_e op)
+void AssignStatement::setOperation(Operators op)
 {
 	operation=op;
 }
 
-Expression::Operator_e AssignStatement::getOperation() const
+Operators AssignStatement::getOperation() const
 {
 	return operation;
 }

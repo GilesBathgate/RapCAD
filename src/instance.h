@@ -24,18 +24,18 @@
 #include "statement.h"
 #include "argument.h"
 
+enum class InstanceTypes {
+	Default,
+	Root,
+	Debug,
+	Background,
+	Disable,
+	Auxilary
+};
+
 class Instance : public Statement
 {
 public:
-	enum Type_e {
-		Default,
-		Root,
-		Debug,
-		Background,
-		Disable,
-		Auxilary
-	};
-
 	Instance();
 	~Instance() override;
 	void setName(const QString&);
@@ -44,8 +44,8 @@ public:
 	QList<Argument*> getArguments() const;
 	void setChildren(const QList <Statement*>&);
 	QList <Statement*> getChildren() const;
-	void setType(Type_e);
-	Type_e getType() const;
+	void setType(InstanceTypes);
+	InstanceTypes getType() const;
 	void setNamespace(const QString&);
 	QString getNamespace() const;
 	void accept(TreeVisitor&) override;
@@ -53,7 +53,7 @@ private:
 	QString name;
 	QList<Argument*> arguments;
 	QList<Statement*> children;
-	Type_e type;
+	InstanceTypes type;
 	QString name_space;
 };
 

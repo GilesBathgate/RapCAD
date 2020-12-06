@@ -21,47 +21,18 @@
 
 #include <QString>
 #include "visitabletree.h"
+#include "operators.h"
 
 class Expression : public VisitableTree
 {
 public:
-	enum Operator_e {
-		None,
-		Exponent,
-		Multiply,
-		Concatenate,
-		Append,
-		ComponentwiseMultiply,
-		Divide,
-		ComponentwiseDivide,
-		Increment,
-		Decrement,
-		AddAssign,
-		SubAssign,
-		CrossProduct,
-		DotProduct,
-		Modulus,
-		Dot,
-		Add,
-		Subtract,
-		LessThan,
-		LessOrEqual,
-		Equal,
-		NotEqual,
-		GreaterOrEqual,
-		GreaterThan,
-		LogicalAnd,
-		LogicalOr,
-		Invert,
-		Index,
-		Length
-	};
+
 
 	Expression();
 	~Expression() override = default;
 
-	Operator_e getOp() const;
-	void setOp(Operator_e);
+	Operators getOp() const;
+	void setOp(Operators);
 	QString getOpString() const;
 	bool postFix() const;
 
@@ -69,7 +40,7 @@ public:
 	void setLineNumber(int value);
 private:
 	int lineNumber;
-	Operator_e op;
+	Operators op;
 };
 
 #endif // EXPRESSION_H

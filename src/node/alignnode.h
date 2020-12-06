@@ -21,31 +21,23 @@
 
 #include "node.h"
 #include "point.h"
+#include "viewdirections.h"
 
 class AlignNode : public Node
 {
 public:
-	enum Face_t {
-		Top,
-		Bottom,
-		North,
-		South,
-		East,
-		West
-	};
-
 	AlignNode();
 
 	bool getCenter() const;
 	void setCenter(bool value);
 	void setCenterVertical();
 
-	QList<Face_t> getAlign() const;
-	void setAlign(const QList<Face_t>& value);
+	QList<ViewDirections> getAlign() const;
+	void setAlign(const QList<ViewDirections>& value);
 
 	void accept(NodeVisitor&) override;
 private:
-	QList<Face_t> align;
+	QList<ViewDirections> align;
 	bool center;
 };
 

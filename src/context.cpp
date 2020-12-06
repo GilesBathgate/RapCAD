@@ -93,7 +93,7 @@ void Context::setVariable(const QString& name, Value* v)
 	variables.insert(name,v);
 }
 
-Value* Context::lookupVariable(const QString& name,Variable::Storage_e& c,Layout* l) const
+Value* Context::lookupVariable(const QString& name,Storage& c,Layout* l) const
 {
 	if(variables.contains(name)) {
 		if(l->inScope(currentScope)) {
@@ -250,7 +250,7 @@ void Context::addCurrentNode(Node* value)
 Value* Context::getArgumentSpecial(const QString& name) const
 {
 	Value* v=matchArgument(false,false,name);
-	if(v && v->getStorage()==Variable::Special)
+	if(v && v->getStorage()==Storage::Special)
 		return v;
 
 	return nullptr;

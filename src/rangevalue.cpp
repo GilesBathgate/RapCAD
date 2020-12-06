@@ -27,7 +27,7 @@ RangeValue::RangeValue(Value* s,Value* st, Value* f) :
 	step(st),
 	finish(f)
 {
-	Value* v=Value::operation(start,Expression::GreaterThan,finish);
+	Value* v=Value::operation(start,Operators::GreaterThan,finish);
 	reverse = v->isTrue();
 
 	if(!step) {
@@ -56,17 +56,17 @@ bool RangeValue::inRange(Value* index)
 	if(start->isUndefined()||finish->isUndefined()||step->isFalse())
 		return false;
 
-	Value*	lower = Value::operation(index,Expression::LessThan,reverse?finish:start);
-	Value*	upper = Value::operation(index,Expression::GreaterThan,reverse?start:finish);
+	Value*	lower = Value::operation(index,Operators::LessThan,reverse?finish:start);
+	Value*	upper = Value::operation(index,Operators::GreaterThan,reverse?start:finish);
 
 	return lower->isFalse() && upper->isFalse();
 }
 
 Value* RangeValue::getIndex(NumberValue* n)
 {
-	Value* x=reverse?Value::operation(step,Expression::Subtract):step;
-	Value* a=Value::operation(n,Expression::Multiply,x);
-	Value* b=Value::operation(start,reverse?Expression::Subtract:Expression::Add,a);
+	Value* x=reverse?Value::operation(step,Operators::Subtract):step;
+	Value* a=Value::operation(n,Operators::Multiply,x);
+	Value* b=Value::operation(start,reverse?Operators::Subtract:Operators::Add,a);
 
 	if(!inRange(b)) return factory.createUndefined();
 	return b;
@@ -97,22 +97,22 @@ Value* RangeValue::getFinish() const
 	return finish;
 }
 
-Value* RangeValue::operation(Expression::Operator_e op)
+Value* RangeValue::operation(Operators op)
 {
-	if(op==Expression::Invert) {
+	if(op==Operators::Invert) {
 		return factory.createRange(finish,step,start);
 	}
-	if(op==Expression::Length) {
-		Value* size=Value::operation(finish,Expression::Subtract,start);
+	if(op==Operators::Length) {
+		Value* size=Value::operation(finish,Operators::Subtract,start);
 		size=Value::operation(size,op);
-		return Value::operation(size,Expression::Increment);
+		return Value::operation(size,Operators::Increment);
 	}
 
 	Value* upper=Value::operation(start,op);
 	Value* lower=Value::operation(finish,op);
 
 	Value* increment=nullptr;
-	if(op==Expression::Add||op==Expression::Subtract) {
+	if(op==Operators::Add||op==Operators::Subtract) {
 		if(step)
 			increment=Value::operation(step,op);
 	}
@@ -120,7 +120,7 @@ Value* RangeValue::operation(Expression::Operator_e op)
 	return factory.createRange(upper,increment,lower);
 }
 
-Value* RangeValue::operation(Value& v, Expression::Operator_e op)
+Value* RangeValue::operation(Value& v, Operators op)
 {
 	auto* range=dynamic_cast<RangeValue*>(&v);
 	if(range) {
@@ -135,15 +135,15 @@ Value* RangeValue::operation(Value& v, Expression::Operator_e op)
 		Value* b=this->finish;
 		Value* c=range->start;
 		Value* d=range->finish;
-		if(op==Expression::Equal) {
+		if(op==Operators::Equal) {
 			bool result=compare(a,op,c)&&compare(b,op,d);
 			return factory.createBoolean(result);
 		}
-		if(op==Expression::NotEqual) {
+		if(op==Operators::NotEqual) {
 			bool result=compare(a,op,c)||compare(b,op,d);
 			return factory.createBoolean(result);
 		}
-		if(op==Expression::Add||op==Expression::Subtract) {
+		if(op==Operators::Add||op==Operators::Subtract) {
 
 			Value* lower=Value::operation(a,op,c);
 			Value* upper=Value::operation(b,op,d);
@@ -151,7 +151,7 @@ Value* RangeValue::operation(Value& v, Expression::Operator_e op)
 			return factory.createRange(lower,nullptr,upper);
 
 		}
-		if(op==Expression::Multiply||op==Expression::Divide) {
+		if(op==Operators::Multiply||op==Operators::Divide) {
 
 			Value* ac=Value::operation(a,op,c);
 			Value* ad=Value::operation(a,op,d);
@@ -162,20 +162,20 @@ Value* RangeValue::operation(Value& v, Expression::Operator_e op)
 			vals.append(ad);
 			vals.append(bc);
 			vals.append(bd);
-			Value* lower=compareAll(vals,Expression::LessThan);
-			Value* upper=compareAll(vals,Expression::GreaterThan);
+			Value* lower=compareAll(vals,Operators::LessThan);
+			Value* upper=compareAll(vals,Operators::GreaterThan);
 
 			return factory.createRange(lower,nullptr,upper);
 		}
-		if(op==Expression::Concatenate) {
+		if(op==Operators::Concatenate) {
 
 			QList<Value*> vals;
 			vals.append(start);
 			vals.append(finish);
 			vals.append(range->start);
 			vals.append(range->finish);
-			Value* lower=compareAll(vals,Expression::LessThan);
-			Value* upper=compareAll(vals,Expression::GreaterThan);
+			Value* lower=compareAll(vals,Operators::LessThan);
+			Value* upper=compareAll(vals,Operators::GreaterThan);
 
 			return factory.createRange(lower,nullptr,upper);
 		}
