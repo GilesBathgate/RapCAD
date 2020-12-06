@@ -78,6 +78,9 @@ install:
   - patch -l %CGAL_DIR%\include\CGAL\Handle_for.h < patch\Fix-uncaught-exception-in-Handle_for.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\Straight_skeleton_2\Straight_skeleton_aux.h < patch\Add-noexcept-to-Ref_counted_base-in-Straight_skeleton_aux.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\Nef_3\SNC_io_parser.h < patch\Add-bounds-checks-in-SNC_io_parser.h.patch
+  - patch -l %CGAL_DIR%\include\CGAL\Handle.h < patch\Add-a-move-assignment-operator-to-Handle.h.patch
+  - patch -l %CGAL_DIR%\include\CGAL\Nef_polyhedron_3.h < patch\Add-a-move-assignement-operator-to-Nef_Polyhedron_3.h.patch
+  - patch -l %CGAL_DIR%\include\CGAL\GMP\Gmpq_type.h < patch\Add-explicit-move-copy-default-assignement-operators-to-Gmpq_type.h.patch
   # Install GMP
   - if not exist gmp-all-CGAL-3.9.zip
       appveyor DownloadFile https://cgal.geometryfactory.com/CGAL/precompiled_libs/auxiliary/x64/GMP/5.0.1/gmp-all-CGAL-3.9.zip
