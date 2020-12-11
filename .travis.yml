@@ -83,6 +83,7 @@ install:
 - sudo patch -l $CGAL_DIR/internal/Static_filters/Collinear_3.h < patch/Remove-dead-code-in-Collinear_3.h.patch;
 - sudo patch -l $CGAL_DIR/HalfedgeDS_list.h < patch/Fix-uncaught-exception-in-HalfedgeDS_list.h.patch;
 - sudo patch -l $CGAL_DIR/In_place_list.h < patch/Fix-uncaught-exception-in-In_place_list.h.patch;
+- sudo patch -l $CGAL_DIR/Nef_3/SNC_simplify.h < patch/Fix-structurally-dead-code-in-SNC_simplify.h.patch;
 - if [ $TRAVIS_OS_NAME != osx ]; then
     sudo patch -l $CGAL_DIR/Intersections_2/Line_2_Line_2.h < patch/Fix-uninitialized-member-in-Line_2_Line_2.h.patch;
   fi
