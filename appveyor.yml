@@ -82,6 +82,9 @@ install:
   - patch -l %CGAL_DIR%\include\CGAL\Nef_polyhedron_3.h < patch\Add-a-move-assignement-operator-to-Nef_Polyhedron_3.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\GMP\Gmpq_type.h < patch\Add-explicit-move-copy-default-assignement-operators-to-Gmpq_type.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\internal\Static_filters\Collinear_3.h < patch\Remove-dead-code-in-Collinear_3.h.patch
+  - patch -l %CGAL_DIR%\include\CGAL\HalfedgeDS_list.h < patch\Fix-uncaught-exception-in-HalfedgeDS_list.h.patch
+  - patch -l %CGAL_DIR%\include\CGAL\In_place_list.h < patch\Fix-uncaught-exception-in-In_place_list.h.patch
+  - patch -l %CGAL_DIR%\include\CGAL\Nef_3\SNC_simplify.h < patch\Fix-structurally-dead-code-in-SNC_simplify.h.patch
   # Install GMP
   - if not exist gmp-all-CGAL-3.9.zip
       appveyor DownloadFile https://cgal.geometryfactory.com/CGAL/precompiled_libs/auxiliary/x64/GMP/5.0.1/gmp-all-CGAL-3.9.zip
