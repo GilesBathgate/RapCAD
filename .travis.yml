@@ -76,15 +76,16 @@ install:
 - sudo patch -l $CGAL_DIR/Straight_skeleton_2/Straight_skeleton_aux.h < patch/Add-noexcept-to-Ref_counted_base-in-Straight_skeleton_aux.h.patch;
 - sudo patch -l $CGAL_DIR/Nef_3/SNC_io_parser.h < patch/Add-bounds-checks-in-SNC_io_parser.h.patch;
 - sudo patch -l $CGAL_DIR/Handle.h < patch/Add-a-move-assignment-operator-to-Handle.h.patch;
-- sudo patch -l $CGAL_DIR/Nef_polyhedron_3.h < patch/Add-a-move-assignement-operator-to-Nef_Polyhedron_3.h.patch;
-- sudo patch -l $CGAL_DIR/GMP/Gmpq_type.h < patch/Add-explicit-move-copy-default-assignement-operators-to-Gmpq_type.h.patch;
+- sudo patch -l $CGAL_DIR/Nef_polyhedron_3.h < patch/Add-a-move-assignment-operator-to-Nef_Polyhedron_3.h.patch;
 - sudo patch -l $CGAL_DIR/internal/Static_filters/Collinear_3.h < patch/Remove-dead-code-in-Collinear_3.h.patch;
 - sudo patch -l $CGAL_DIR/HalfedgeDS_list.h < patch/Fix-uncaught-exception-in-HalfedgeDS_list.h.patch;
 - sudo patch -l $CGAL_DIR/In_place_list.h < patch/Fix-uncaught-exception-in-In_place_list.h.patch;
 - sudo patch -l $CGAL_DIR/Nef_3/SNC_simplify.h < patch/Fix-structurally-dead-code-in-SNC_simplify.h.patch;
 - sudo patch -l $CGAL_DIR/Nef_S2/SM_point_locator.h < patch/Fix-unchecked-return-value-warning-in-SM_point_locator.h.patch;
+- sudo patch -l $CGAL_DIR/Nef_3/SHalfloop.h < patch/Add-move-assignment-operator-to-SHalfloop.h.patch;
 - sudo patch -l $CGAL_DIR/Intersections_2/Line_2_Line_2.h < patch/Fix-uninitialized-member-in-Line_2_Line_2.h.patch;
 - sudo patch -l $CGAL_DIR/Surface_mesh_simplification/Detail/Edge_collapse_impl.h < patch/Fix-uninitialized-member-in-Edge_collapse_impl.h.patch;
+- sudo patch -l $CGAL_DIR/GMP/Gmpq_type.h < patch/Disable-destructor-when-CGAL_PROFILE-is-defined.patch;
 
 script:
   - if [ -f cov-int/scm_log.txt ]; then

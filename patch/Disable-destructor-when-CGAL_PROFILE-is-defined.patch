@@ -1,14 +1,18 @@
 --- a/usr/include/CGAL/GMP/Gmpq_type.h
 +++ b/usr/include/CGAL/GMP/Gmpq_type.h
-@@ -237,6 +237,10 @@ public:
+@@ -230,12 +230,13 @@ public:
+ 
+   const mpq_t & mpq() const { return Ptr()->mpQ; }
+   mpq_t & mpq() { return ptr()->mpQ; }
+-
++#ifdef CGAL_PROFILE
+   ~Gmpq()
+   {
+      CGAL_HISTOGRAM_PROFILER("[Gmpq sizes in log2 scale]",
                               (unsigned) ( ::log(double(size())) / ::log(double(2)) )  );
    }
++#endif
  
-+  inline Gmpq(const Gmpq&) = default;
-+  inline Gmpq& operator=(const Gmpq&) = default;
-+  inline Gmpq& operator=(Gmpq&&) = default;
-+
    // Interoperability with int
    Gmpq& operator+=(int z){return (*this)+= Gmpq(z);}
-   Gmpq& operator-=(int z){return (*this)-= Gmpq(z);}
 
