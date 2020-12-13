@@ -80,7 +80,6 @@ install:
   - patch -l %CGAL_DIR%\include\CGAL\Nef_3\SNC_io_parser.h < patch\Add-bounds-checks-in-SNC_io_parser.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\Handle.h < patch\Add-a-move-assignment-operator-to-Handle.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\Nef_polyhedron_3.h < patch\Add-a-move-assignment-operator-to-Nef_Polyhedron_3.h.patch
-  - patch -l %CGAL_DIR%\include\CGAL\GMP\Gmpq_type.h < patch\Disable-destructor-when-CGAL_PROFILE-is-defined.patch
   - patch -l %CGAL_DIR%\include\CGAL\internal\Static_filters\Collinear_3.h < patch\Remove-dead-code-in-Collinear_3.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\HalfedgeDS_list.h < patch\Fix-uncaught-exception-in-HalfedgeDS_list.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\In_place_list.h < patch\Fix-uncaught-exception-in-In_place_list.h.patch
