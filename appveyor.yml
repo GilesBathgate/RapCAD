@@ -86,6 +86,8 @@ install:
   - patch -l %CGAL_DIR%\include\CGAL\Nef_3\SNC_simplify.h < patch\Fix-structurally-dead-code-in-SNC_simplify.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\Nef_S2\SM_point_locator.h < patch\Fix-unchecked-return-value-warning-in-SM_point_locator.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\Nef_3\SHalfloop.h < patch\Add-move-assignment-operator-to-SHalfloop.h.patch
+  - patch -l %CGAL_DIR%\include\CGAL\Nef_3\Halfedge.h < patch\Add-move-assignment-operator-to-Halfedge.h.patch
+  - patch -l %CGAL_DIR%\include\CGAL\Nef_3\SHalfedge.h < patch\Add-move-assignment-operator-to-SHalfedge.h.patch
   # Install GMP
   - if not exist gmp-all-CGAL-3.9.zip
       appveyor DownloadFile https://cgal.geometryfactory.com/CGAL/precompiled_libs/auxiliary/x64/GMP/5.0.1/gmp-all-CGAL-3.9.zip

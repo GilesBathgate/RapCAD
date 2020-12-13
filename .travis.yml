@@ -83,6 +83,8 @@ install:
 - sudo patch -l $CGAL_DIR/Nef_3/SNC_simplify.h < patch/Fix-structurally-dead-code-in-SNC_simplify.h.patch;
 - sudo patch -l $CGAL_DIR/Nef_S2/SM_point_locator.h < patch/Fix-unchecked-return-value-warning-in-SM_point_locator.h.patch;
 - sudo patch -l $CGAL_DIR/Nef_3/SHalfloop.h < patch/Add-move-assignment-operator-to-SHalfloop.h.patch;
+- sudo patch -l $CGAL_DIR/Nef_3/Halfedge.h < patch/Add-move-assignment-operator-to-Halfedge.h.patch;
+- sudo patch -l $CGAL_DIR/Nef_3/SHalfedge.h < patch/Add-move-assignment-operator-to-SHalfedge.h.patch;
 - sudo patch -l $CGAL_DIR/Intersections_2/Line_2_Line_2.h < patch/Fix-uninitialized-member-in-Line_2_Line_2.h.patch;
 - sudo patch -l $CGAL_DIR/Surface_mesh_simplification/Detail/Edge_collapse_impl.h < patch/Fix-uninitialized-member-in-Edge_collapse_impl.h.patch;
 - sudo patch -l $CGAL_DIR/GMP/Gmpq_type.h < patch/Disable-destructor-when-CGAL_PROFILE-is-defined.patch;

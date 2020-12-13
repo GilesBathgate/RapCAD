@@ -31,11 +31,12 @@
 #define CGAL_DEBUG
 #include <CGAL/assertions.h>
 
+#define CGAL_NDEBUG
+#include <CGAL/FPU.h>
+
 #undef CGAL_NDEBUG
 #include <CGAL/Chinese_remainder_traits.h>
-
 #define CGAL_NDEBUG
-#include <CGAL/test_FPU_rounding_mode_impl.h>
 
 #define CGAL_DISABLE_ROUNDING_MATH_CHECK
 #include <CGAL/Interval_nt.h>
