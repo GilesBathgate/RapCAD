@@ -91,6 +91,4 @@ install:
 - sudo patch -l $CGAL_DIR/GMP/Gmpq_type.h < patch/Disable-destructor-when-CGAL_PROFILE-is-defined.patch;
 
 script:
-  - if [ -f cov-int/scm_log.txt ]; then
-      cat cov-int/scm_log.txt;
-    fi
+  - echo "Complete"
