@@ -87,6 +87,7 @@ install:
 - sudo patch -l $CGAL_DIR/Nef_3/SHalfedge.h < patch/Add-move-assignment-operator-to-SHalfedge.h.patch;
 - sudo patch -l $CGAL_DIR/Subdivision_method_3/subdivision_masks_3.h < patch/Fix-division-by-zero-in-subdivision_masks_3.h.patch;
 - sudo patch -l $CGAL_DIR/Convex_decomposition_3/SM_walls.h < patch/Fix-copy-paste-warning-in-SM_walls.h.patch;
+- sudo patch -l $CGAL_DIR/Compact_container.h < patch/Fix-null-dereference-warnings-in-Compact_container.h.patch;
 - sudo patch -l $CGAL_DIR/Intersections_2/Line_2_Line_2.h < patch/Fix-uninitialized-member-in-Line_2_Line_2.h.patch;
 - sudo patch -l $CGAL_DIR/Surface_mesh_simplification/Detail/Edge_collapse_impl.h < patch/Fix-uninitialized-member-in-Edge_collapse_impl.h.patch;
 - sudo patch -l $CGAL_DIR/GMP/Gmpq_type.h < patch/Disable-destructor-when-CGAL_PROFILE-is-defined.patch;
