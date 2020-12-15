@@ -90,6 +90,7 @@ install:
   - patch -l %CGAL_DIR%\include\CGAL\Nef_3\SHalfedge.h < patch\Add-move-assignment-operator-to-SHalfedge.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\Subdivision_method_3\subdivision_masks_3.h < patch\Fix-division-by-zero-in-subdivision_masks_3.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\Convex_decomposition_3\SM_walls.h < patch\Fix-copy-paste-warning-in-SM_walls.h.patch
+  - patch -l %CGAL_DIR%\include\CGAL\Compact_container.h < patch\Fix-null-dereference-warnings-in-Compact_container.h.patch
   # Install GMP
   - if not exist gmp-all-CGAL-3.9.zip
       appveyor DownloadFile https://cgal.geometryfactory.com/CGAL/precompiled_libs/auxiliary/x64/GMP/5.0.1/gmp-all-CGAL-3.9.zip
