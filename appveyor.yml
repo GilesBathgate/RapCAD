@@ -21,7 +21,7 @@ install:
   - set CGAL_DIR=C:\CGAL\
   - set GMP=%CGAL_DIR%\auxiliary\gmp
   - set BOOST_ROOT=C:\Libraries\boost_1_73_0
-  - set QTDIR=C:\Qt\5.15.1\mingw81_64
+  - set QTDIR=C:\Qt\5.15.2\mingw81_64
   - set ASCIIDOC=C:\asciidoc-8.6.10
   - set SOURCEHIGHLIGHT=C:\source-highlight
   - set PATH=%PATH%;C:\Qt\Tools\mingw810_64\bin
