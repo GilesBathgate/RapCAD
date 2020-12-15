@@ -1,0 +1,25 @@
+--- a/usr/include/CGAL/Convex_decomposition_3/SM_walls.h
++++ b/usr/include/CGAL/Convex_decomposition_3/SM_walls.h
+@@ -132,16 +132,17 @@ class SM_walls : SM_decorator<SMap> {
+     //    SM_decorator SD(sphere_map());
+     //    SM_io_parser<SM_decorator>::dump(SD,std::cerr);
+ 
+-    CGAL_assertion(se->circle().has_on(sv->point()));
++    const Sphere_circle& se_circle = se->circle();
++    CGAL_assertion(se_circle.has_on(sv->point()));
+ 
+     SHalfedge_handle se_new = this->new_shalfedge_pair();
+     SHalfedge_handle se_opp = se_new->twin();
+     se_new->source() = sv;
+     se_opp->source() = se->twin()->source();
+ 
+-    se_new->circle() = se->circle();
+-    CGAL_assertion(se_new->circle().has_on(se_new->source()->point()) &&
+-                   se_new->circle().has_on(se_opp->source()->point()));
++    se_new->circle() = se_circle;
++    CGAL_assertion(se_circle.has_on(se_new->source()->point()) &&
++                   se_circle.has_on(se_opp->source()->point()));
+     se_opp->circle() = se->twin()->circle();
+     se->twin()->source() = sv;
+     se_new->mark() = se_opp->mark() = se->mark();
+
