@@ -32,6 +32,7 @@ public:
 	Primitive* import() const;
 private:
 	Primitive* importOFF() const;
+	Primitive* importOBJ() const;
 	Primitive* importSTL() const;
 	Primitive* importRCAD() const;
 	Primitive* import3MF() const;
