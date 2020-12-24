@@ -227,9 +227,6 @@ CGALPrimitive* CGALBuilder::buildOffset(const CGAL::Scalar&) { return &primitive
 #else
 CGALPrimitive* CGALBuilder::buildOffset(const CGAL::Scalar& amount)
 {
-	using PolygonPtr = boost::shared_ptr<CGAL::Polygon2>;
-	using PolygonPtrVector = std::vector<PolygonPtr>;
-
 	CGAL::Polygon2 polygon;
 	CGALExplorer e(&primitive);
 	CGALPrimitive* original=e.getPrimitive();
@@ -246,14 +243,21 @@ CGALPrimitive* CGALBuilder::buildOffset(const CGAL::Scalar& amount)
 	}
 	delete original;
 
+	bool interior=amount<0.0;
+	const auto& offsetPolys {
+		interior?
+#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(5,2,0)
+		CGAL::create_interior_skeleton_and_offset_polygons_2(-amount,polygon):
+		CGAL::create_exterior_skeleton_and_offset_polygons_2(amount,polygon)
+#else
+		CGAL::create_interior_skeleton_and_offset_polygons_2(to_double(-amount),polygon):
+		CGAL::create_exterior_skeleton_and_offset_polygons_2(to_double(amount),polygon)
+#endif
+	};
+
 	OnceOnly first;
-	PolygonPtrVector offsetPolys;
-	if(amount<0.0) {
-		offsetPolys=CGAL::create_interior_skeleton_and_offset_polygons_2(-amount,polygon);
+	if(interior)
 		first();
-	} else {
-		offsetPolys=CGAL::create_exterior_skeleton_and_offset_polygons_2(amount,polygon);
-	}
 
 	auto* offset=new CGALPrimitive();
 	for(const auto& ptr: offsetPolys) {
