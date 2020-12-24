@@ -40,7 +40,6 @@ install:
   - if not exist %CGAL_DIR%
       7z x -oC:\ CGAL-release.zip
   # Patch CGAL
-  - patch -l %CGAL_DIR%\include\CGAL\Nef_S2\SM_overlayer.h < patch\Fix-use-of-uninitialized-variable-in-SM_overlayer.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\IO\File_scanner_OFF.h < patch\Fix-use-of-uninitialized-variable-in-File_scanner_OFF.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\IO\File_writer_OFF.h < patch\Fix-uninitialized-member-in-File_writer_OFF.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\IO\File_writer_VRML_2.h < patch\Fix-uninitialized-member-in-File_writer_VRML_2.h.patch
