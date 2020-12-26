@@ -25,11 +25,11 @@ Polyhedron::~Polyhedron()
 	children.clear();
 }
 
-Polygon* Polyhedron::createPolygon()
+Polygon& Polyhedron::createPolygon()
 {
 	auto* pg = new Polygon(*this);
 	polygons.append(pg);
-	return pg;
+	return *pg;
 }
 
 void Polyhedron::createVertex(const Point& p)
@@ -85,8 +85,8 @@ Primitive* Polyhedron::copy()
 		c->createVertex(p);
 	}
 	for(Polygon* pg: polygons) {
-		Polygon* npg=c->createPolygon();
-		npg->setIndexes(pg->getIndexes());
+		Polygon& npg=c->createPolygon();
+		npg.setIndexes(pg->getIndexes());
 	}
 	return c;
 }

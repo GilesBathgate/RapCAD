@@ -34,7 +34,7 @@ class Primitive
 {
 public:
 	virtual ~Primitive() {}
-	virtual Polygon* createPolygon()=0;
+	virtual Polygon& createPolygon()=0;
 	virtual void setType(PrimitiveTypes)=0;
 	virtual PrimitiveTypes getType()=0;
 	virtual void setSanitized(bool)=0;

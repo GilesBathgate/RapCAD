@@ -50,10 +50,10 @@ Node* CircleModule::evaluate(const Context& ctx) const
 
 	int i=0;
 	if(r>0.0) {
-		Polygon* pg=p->createPolygon();
+		Polygon& pg=p->createPolygon();
 		for(const auto& pt: c) {
 			p->createVertex(pt);
-			pg->append(i++);
+			pg.append(i++);
 		}
 	}
 

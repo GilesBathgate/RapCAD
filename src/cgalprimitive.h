@@ -47,8 +47,8 @@ public:
 	PrimitiveTypes getType() override;
 	void setSanitized(bool) override;
 	bool getSanitized() override;
-	CGALPolygon* createPolygon() override;
-	CGALPolygon* createPerimeter();
+	CGALPolygon& createPolygon() override;
+	CGALPolygon& createPerimeter();
 	void createVertex(const CGAL::Point3&) override;
 	void createVertex(const CGAL::Scalar&, const CGAL::Scalar&, const CGAL::Scalar&);
 	void addVertex(const CGAL::Point3& p,bool);

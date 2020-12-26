@@ -26,7 +26,7 @@ class Polyhedron : public Primitive
 public:
 	Polyhedron() = default;
 	~Polyhedron() override;
-	Polygon* createPolygon() override;
+	Polygon& createPolygon() override;
 	void createVertex(const Point&) override;
 	void setType(PrimitiveTypes) override { }
 	PrimitiveTypes getType() override { return PrimitiveTypes::Lines; }

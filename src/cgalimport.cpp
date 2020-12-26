@@ -93,9 +93,9 @@ Primitive* CGALImport::importOBJ() const
 		cp->createVertex(pt);
 
 	for(const auto& f : faces) {
-		CGALPolygon* pg=cp->createPolygon();
+		CGALPolygon& pg=cp->createPolygon();
 		for(const auto& i : f)
-			pg->append(i);
+			pg.append(i);
 	}
 	return cp;
 }
@@ -242,10 +242,10 @@ Primitive* CGALImport::importAMF() const
 												xml.skipCurrentElement();
 											}
 										}
-										Polygon* pg=p->createPolygon();
-										pg->append(v1);
-										pg->append(v2);
-										pg->append(v3);
+										Polygon& pg=p->createPolygon();
+										pg.append(v1);
+										pg.append(v2);
+										pg.append(v3);
 									} else {
 										xml.skipCurrentElement();
 									}
@@ -324,10 +324,10 @@ Primitive* CGALImport::import3MF() const
 													else if(n == "v3")
 														v3=v.toInt();
 												}
-												Polygon* pg=p->createPolygon();
-												pg->append(v1);
-												pg->append(v2);
-												pg->append(v3);
+												Polygon& pg=p->createPolygon();
+												pg.append(v1);
+												pg.append(v2);
+												pg.append(v3);
 											}
 											xml.skipCurrentElement();
 										}

@@ -215,18 +215,18 @@ CGAL::NefPolyhedron3* CGALPrimitive::createPoints()
 #endif
 }
 
-CGALPolygon* CGALPrimitive::createPolygon()
+CGALPolygon& CGALPrimitive::createPolygon()
 {
 	auto* pg = new CGALPolygon(*this);
 	polygons.append(pg);
-	return pg;
+	return *pg;
 }
 
-CGALPolygon* CGALPrimitive::createPerimeter()
+CGALPolygon& CGALPrimitive::createPerimeter()
 {
 	auto* pg = new CGALPolygon(*this);
 	perimeters.append(pg);
-	return pg;
+	return *pg;
 }
 
 void CGALPrimitive::createVertex(const CGAL::Scalar& x,const CGAL::Scalar& y,const CGAL::Scalar& z)

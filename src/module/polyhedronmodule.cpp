@@ -53,13 +53,13 @@ Node* PolyhedronModule::evaluate(const Context& ctx) const
 	for(Value* face: faces->getElements()) {
 		auto* faceVec=dynamic_cast<VectorValue*>(face);
 		if(!faceVec) continue;
-		Polygon* pg=p->createPolygon();
+		Polygon& pg=p->createPolygon();
 		for(Value* indexVal: faceVec->getElements()) {
 			auto* indexNum=dynamic_cast<NumberValue*>(indexVal);
 			if(!indexNum) continue;
 			int index = indexNum->toInteger();
 			if(index>=0&&index<children.count()) {
-				pg->append(index);
+				pg.append(index);
 			}
 		}
 	}

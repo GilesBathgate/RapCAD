@@ -210,13 +210,13 @@ bool CGALBuilder::triangulate()
 
 	for(FaceIterator f=ct.finite_faces_begin(); f!=ct.finite_faces_end(); ++f) {
 		if(f->info().inDomain()) {
-			CGALPolygon* pg=primitive.createPolygon();
+			CGALPolygon& pg=primitive.createPolygon();
 			for(auto i=0; i<3; ++i) {
 				VertexInfo info=f->vertex(i)->info();
 				if(info.isValid())
-					pg->append(info.index);
+					pg.append(info.index);
 			}
-			pg->calculatePlane();
+			pg.calculatePlane();
 		}
 	}
 	return true;

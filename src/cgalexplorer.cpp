@@ -68,7 +68,7 @@ public:
 private:
 	static HalfEdgeHandle findNewEdge(const QList<HalfEdgeHandle>&,const QList<HalfEdgeHandle>&);
 	static HalfEdgeHandle getID(HalfEdgeHandle);
-	bool isBase(CGALPolygon*) const;
+	bool isBase(const CGALPolygon&) const;
 
 	bool direction;
 	const CGAL::NefPolyhedron3& nefPolyhedron;
@@ -105,7 +105,7 @@ void ShellExplorer::createPerimeters()
 			 * each halfedge so that the edges come out in the correct
 			 * order. We check that we didnt reverse direction and if
 			 * we did we walk along the twin edge. */
-		CGALPolygon* perimeter=primitive->createPerimeter();
+		CGALPolygon* perimeter=&primitive->createPerimeter();
 		HalfEdgeHandle f=outEdges.first();
 		HalfEdgeHandle c=f;
 		QList<HalfEdgeHandle> visited;
@@ -137,7 +137,7 @@ void ShellExplorer::createPerimeters()
 							if(f==nullptr)
 								return;
 
-							perimeter=primitive->createPerimeter();
+							perimeter=&primitive->createPerimeter();
 							c=f;
 							first=true;
 						}
@@ -203,10 +203,10 @@ void ShellExplorer::visit(ShellExplorer::HalfFacetHandle f)
 				primitive->setSanitized(false);
 
 			if(fc.is_shalfedge()) {
-				CGALPolygon* pg=primitive->createPolygon();
-				pg->setPlane(f->plane());
+				CGALPolygon& pg=primitive->createPolygon();
+				pg.setPlane(f->plane());
 				if(isBase(pg))
-					basePolygons.append(pg);
+					basePolygons.append(&pg);
 
 				SHalfEdgeHandle h = fc;
 				SHalfEdgeCirculator hc(h);
@@ -285,9 +285,9 @@ HalfEdgeHandle ShellExplorer::getID(HalfEdgeHandle h)
 	return h<t?h:t;
 }
 
-bool ShellExplorer::isBase(CGALPolygon* p) const
+bool ShellExplorer::isBase(const CGALPolygon& p) const
 {
-	CGAL::Vector3 v=p->getNormal();
+	CGAL::Vector3 v=p.getNormal();
 	return (v.x()==0.0&&v.y()==0.0)&&direction?v.z()<0.0:v.z()>0.0;
 }
 

@@ -89,12 +89,12 @@ Primitive* QPathTextBuilder::buildPrimitive() const
 	PrimitiveNode pn(reporter);
 	Primitive* p=pn.createPrimitive();
 	for(const auto& path: paths) {
-		Polygon* pg=p->createPolygon();
+		Polygon& pg=p->createPolygon();
 		OnceOnly first;
 		for(const auto& pt: path) {
 			if(!first()) {
 				p->createVertex(Point(pt.x(),-pt.y(),0.0));
-				pg->append(index);
+				pg.append(index);
 				index++;
 			}
 		}

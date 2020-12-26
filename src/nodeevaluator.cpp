@@ -243,10 +243,10 @@ void NodeEvaluator::visit(const HullNode& n)
 			const auto* t=CGAL::object_cast<CGAL::Triangle3>(&o);
 			if(t) {
 				auto* cp=new CGALPrimitive();
-				auto* ct=cp->createPolygon();
-				ct->appendVertex(t->vertex(0));
-				ct->appendVertex(t->vertex(1));
-				ct->appendVertex(t->vertex(2));
+				auto& ct=cp->createPolygon();
+				ct.appendVertex(t->vertex(0));
+				ct.appendVertex(t->vertex(1));
+				ct.appendVertex(t->vertex(2));
 				cp->appendChildren(children);
 				result=cp;
 				return;
@@ -641,13 +641,13 @@ void NodeEvaluator::visit(const NormalsNode& n)
 		l=r_sqrt(b.squared_length());
 		b=b/(l*8.0);
 
-		Polygon* np=a->createPolygon();
+		Polygon& np=a->createPolygon();
 		a->createVertex(c+b);
 		a->createVertex(n);
 		a->createVertex(c-b);
-		np->append(i++);
-		np->append(i++);
-		np->append(i++);
+		np.append(i++);
+		np.append(i++);
+		np.append(i++);
 	}
 	delete prim;
 
@@ -958,7 +958,7 @@ void NodeEvaluator::visit(const RadialsNode& n)
 
 	auto* p = new Polyhedron();
 	p->setType(PrimitiveTypes::Lines);
-	Polygon* pg=p->createPolygon();
+	Polygon& pg=p->createPolygon();
 
 	const int f=90;
 	for(auto i=0; i<=f; ++i) {
@@ -967,7 +967,7 @@ void NodeEvaluator::visit(const RadialsNode& n)
 		CGAL::Scalar y = b+r*r_sin(phi);
 
 		p->createVertex(CGAL::Point3(x,y,0));
-		pg->append(i);
+		pg.append(i);
 	}
 
 	result->appendChild(p);
@@ -999,11 +999,11 @@ void NodeEvaluator::visit(const VolumesNode& n)
 
 	auto* p = new Polyhedron();
 	p->setType(PrimitiveTypes::Lines);
-	Polygon* pg=p->createPolygon();
+	Polygon& pg=p->createPolygon();
 	p->createVertex(c);
 	p->createVertex(tr);
-	pg->append(0);
-	pg->append(1);
+	pg.append(0);
+	pg.append(1);
 	result->appendChild(p);
 
 	SimpleTextBuilder t;

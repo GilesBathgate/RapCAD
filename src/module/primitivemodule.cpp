@@ -94,17 +94,17 @@ QList<Point> PrimitiveModule::getPolygon(const decimal& a,const decimal& r,const
 
 void PrimitiveModule::createTriangle(Primitive* p,int a,int b,int c)
 {
-	Polygon* pg=p->createPolygon();
-	pg->append(a);
-	pg->append(b);
-	pg->append(c);
+	Polygon& pg=p->createPolygon();
+	pg.append(a);
+	pg.append(b);
+	pg.append(c);
 }
 
 void PrimitiveModule::createQuad(Primitive* p,int a,int b,int c,int d)
 {
-	Polygon* pg=p->createPolygon();
-	pg->append(a);
-	pg->append(b);
-	pg->append(c);
-	pg->append(d);
+	Polygon& pg=p->createPolygon();
+	pg.append(a);
+	pg.append(b);
+	pg.append(c);
+	pg.append(d);
 }

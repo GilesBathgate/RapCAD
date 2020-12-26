@@ -84,10 +84,10 @@ Node* CylinderModule::evaluate(const Context& ctx) const
 
 	int n=0;
 	if(r1>0.0) {
-		Polygon* pg=p->createPolygon();
+		Polygon& pg=p->createPolygon();
 		for(const auto& pt: c1) {
 			p->createVertex(pt);
-			pg->append(n++);
+			pg.append(n++);
 		}
 	}
 
@@ -95,10 +95,10 @@ Node* CylinderModule::evaluate(const Context& ctx) const
 		return pn;
 
 	if(r2>0.0) {
-		Polygon* pg=p->createPolygon();
+		Polygon& pg=p->createPolygon();
 		for(const auto& pt: c2) {
 			p->createVertex(pt);
-			pg->prepend(n++);
+			pg.prepend(n++);
 		}
 	}
 

@@ -61,9 +61,9 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 	/* If we are just given a single argument of points
 	 * build a polygon from that. */
 	if(!linesVec) {
-		Polygon* pg=p->createPolygon();
+		Polygon& pg=p->createPolygon();
 		for(auto i=0; i<count; ++i)
-			pg->append(i);
+			pg.append(i);
 		return pn;
 	}
 
@@ -84,13 +84,13 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 	for(Value* line: lines) {
 		auto* lineVec=dynamic_cast<VectorValue*>(line);
 		if(!lineVec) continue;
-		Polygon* pg=p->createPolygon();
+		Polygon& pg=p->createPolygon();
 		for(Value* indexVal: lineVec->getElements()) {
 			auto* indexNum=dynamic_cast<NumberValue*>(indexVal);
 			if(!indexNum) continue;
 			int index = indexNum->toInteger();
 			if(index>=0&&index<count) {
-				pg->append(index);
+				pg.append(index);
 			}
 		}
 	}
