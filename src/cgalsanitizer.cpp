@@ -30,7 +30,7 @@ void CGALSanitizer::sanitize()
 	fixIsolated();
 }
 
-void CGALSanitizer::erase(CGAL::VertexHandle h)
+void CGALSanitizer::erase(const CGAL::VertexHandle& h)
 {
 	handle=h;
 	polyhedron.delegate(*this);
@@ -45,11 +45,27 @@ void CGALSanitizer::fixIsolated()
 	}
 }
 
+CGAL::Scalar CGALSanitizer::getLength(const CGAL::HalfedgeConstHandle& h)
+{
+	return CGAL::squared_distance(h->vertex()->point(),h->opposite()->vertex()->point());
+}
+
+bool CGALSanitizer::isZero(const CGAL::Polyhedron3::Facet& facet)
+{
+	using FacetCirculator = CGAL::Polyhedron3::Halfedge_around_facet_const_circulator;
+	FacetCirculator s(facet.facet_begin()),f(s);
+	do {
+		if(getLength(s)!=0.0)
+			return false;
+	} while(++s!=f);
+	return true;
+}
+
 bool CGALSanitizer::fixZero()
 {
 	using FacetIterator = CGAL::Polyhedron3::Facet_iterator;
 	for(FacetIterator f=polyhedron.facets_begin(); f!=polyhedron.facets_end(); ++f) {
-		if(f->facet_degree()<3) {
+		if(f->facet_degree()<3 || isZero(*f)) {
 			polyhedron.erase_facet(f->halfedge());
 			return true;
 		}
@@ -84,12 +100,7 @@ void CGALSanitizer::fixZeroEdges()
 	while(removeShortEdges());
 }
 
-CGAL::Scalar CGALSanitizer::getLength(CGAL::HalfedgeHandle h)
-{
-	return CGAL::squared_distance(h->vertex()->point(),h->opposite()->vertex()->point());
-}
-
-void CGALSanitizer::removeShortEdge(CGAL::HalfedgeHandle h)
+void CGALSanitizer::removeShortEdge(const CGAL::HalfedgeHandle& h)
 {
 	// Determine the number of edges surrounding the vertex. e.g. \|/ or |/
 	auto edges=circulator_size(h->vertex_begin());
@@ -105,7 +116,7 @@ void CGALSanitizer::removeShortEdge(CGAL::HalfedgeHandle h)
 	}
 }
 
-void CGALSanitizer::removeShortestEdges(CGAL::HalfedgeHandle h1, CGAL::HalfedgeHandle h2, CGAL::HalfedgeHandle h3)
+void CGALSanitizer::removeShortestEdges(const CGAL::HalfedgeHandle& h1, const CGAL::HalfedgeHandle& h2, const CGAL::HalfedgeHandle& h3)
 {
 	CGAL::Scalar l1=getLength(h1);
 	CGAL::Scalar l2=getLength(h2);
