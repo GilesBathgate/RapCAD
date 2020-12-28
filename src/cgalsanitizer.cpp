@@ -103,7 +103,7 @@ void CGALSanitizer::fixZeroEdges()
 void CGALSanitizer::removeShortEdge(const CGAL::HalfedgeHandle& h)
 {
 	// Determine the number of edges surrounding the vertex. e.g. \|/ or |/
-	auto edges=circulator_size(h->vertex_begin());
+	auto edges=h->vertex_degree();
 	if(edges<3) {
 		polyhedron.erase_facet(h);
 	} else if(edges==3) {
