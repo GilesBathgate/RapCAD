@@ -50,12 +50,17 @@ CGAL::Scalar CGALSanitizer::getLength(const CGAL::HalfedgeConstHandle& h)
 	return CGAL::squared_distance(h->vertex()->point(),h->opposite()->vertex()->point());
 }
 
+bool CGALSanitizer::hasLength(const CGAL::HalfedgeConstHandle& h)
+{
+	return getLength(h)!=0.0;
+}
+
 bool CGALSanitizer::isZero(const CGAL::Polyhedron3::Facet& facet)
 {
 	using FacetCirculator = CGAL::Polyhedron3::Halfedge_around_facet_const_circulator;
 	FacetCirculator s(facet.facet_begin()),f(s);
 	do {
-		if(getLength(s)!=0.0)
+		if(hasLength(s))
 			return false;
 	} while(++s!=f);
 	return true;
@@ -108,15 +113,15 @@ void CGALSanitizer::removeShortEdge(const CGAL::HalfedgeHandle& h1)
 		polyhedron.erase_facet(h1);
 	} else if(edges==3) {
 		CGAL::HalfedgeHandle h2(h1->next());
-		if(getLength(h2)!=0.0)
+		if(hasLength(h2))
 			polyhedron.join_facet(h2);
 		polyhedron.join_vertex(h1);
 	} else {
 		CGAL::HalfedgeHandle h2(h1->next());
 		CGAL::HalfedgeHandle h3(h1->opposite()->next());
-		if(getLength(h2)!=0.0)
+		if(hasLength(h2))
 			polyhedron.join_facet(h2);
-		if(getLength(h3)!=0.0)
+		if(hasLength(h3))
 			polyhedron.join_facet(h3);
 		polyhedron.join_vertex(h1);
 	}
@@ -140,7 +145,7 @@ bool CGALSanitizer::removeShortEdges()
 {
 	using HalfedgeIterator = CGAL::Polyhedron3::Halfedge_iterator;
 	for(HalfedgeIterator h=polyhedron.halfedges_begin(); h!=polyhedron.halfedges_end(); ++h) {
-		if(getLength(h)==0.0) {
+		if(!hasLength(h)) {
 			removeShortEdge(h);
 			return true;
 		}

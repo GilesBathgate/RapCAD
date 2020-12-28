@@ -52,6 +52,7 @@ private:
 	 */
 	static bool isZero(const CGAL::Polyhedron3::Facet&);
 	static CGAL::Scalar getLength(const CGAL::HalfedgeConstHandle&);
+	static bool hasLength(const CGAL::HalfedgeConstHandle& h);
 	void removeShortEdge(const CGAL::HalfedgeHandle&);
 	void removeShortestEdges(const CGAL::HalfedgeHandle&,const CGAL::HalfedgeHandle&,const CGAL::HalfedgeHandle&);
 	bool removeShortEdges();
