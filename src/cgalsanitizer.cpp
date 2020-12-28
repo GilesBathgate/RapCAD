@@ -100,19 +100,25 @@ void CGALSanitizer::fixZeroEdges()
 	while(removeShortEdges());
 }
 
-void CGALSanitizer::removeShortEdge(const CGAL::HalfedgeHandle& h)
+void CGALSanitizer::removeShortEdge(const CGAL::HalfedgeHandle& h1)
 {
 	// Determine the number of edges surrounding the vertex. e.g. \|/ or |/
-	auto edges=h->vertex_degree();
+	auto edges=h1->vertex_degree();
 	if(edges<3) {
-		polyhedron.erase_facet(h);
+		polyhedron.erase_facet(h1);
 	} else if(edges==3) {
-		polyhedron.join_facet(h->next());
-		polyhedron.join_vertex(h);
+		CGAL::HalfedgeHandle h2(h1->next());
+		if(getLength(h2)!=0.0)
+			polyhedron.join_facet(h2);
+		polyhedron.join_vertex(h1);
 	} else {
-		polyhedron.join_facet(h->next());
-		polyhedron.join_facet(h->opposite()->next());
-		polyhedron.join_vertex(h);
+		CGAL::HalfedgeHandle h2(h1->next());
+		CGAL::HalfedgeHandle h3(h1->opposite()->next());
+		if(getLength(h2)!=0.0)
+			polyhedron.join_facet(h2);
+		if(getLength(h3)!=0.0)
+			polyhedron.join_facet(h3);
+		polyhedron.join_vertex(h1);
 	}
 }
 
