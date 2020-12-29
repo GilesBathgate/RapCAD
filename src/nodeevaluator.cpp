@@ -187,6 +187,26 @@ void NodeEvaluator::visit(const GlideNode& op)
 }
 
 #ifdef USE_CGAL
+static CGALPrimitive* createHull(const QList<CGAL::Point3>& points)
+{
+	CGAL::Object o;
+	CGAL::convex_hull_3(points.begin(),points.end(),o);
+	const auto* t=CGAL::object_cast<CGAL::Triangle3>(&o);
+	if(t) {
+		auto* cp=new CGALPrimitive();
+		auto& ct=cp->createPolygon();
+		ct.appendVertex(t->vertex(0));
+		ct.appendVertex(t->vertex(1));
+		ct.appendVertex(t->vertex(2));
+		return cp;
+	}
+	const auto* p=CGAL::object_cast<CGAL::Polyhedron3>(&o);
+	if(p)
+		return new CGALPrimitive(*p);
+
+	return nullptr;
+}
+
 static void evaluateHull(Primitive* first,Primitive* previous, Primitive* next)
 {
 	QList<CGAL::Point3> points;
@@ -199,9 +219,9 @@ static void evaluateHull(Primitive* first,Primitive* previous, Primitive* next)
 	if(points.count()<3)
 		return;
 
-	CGAL::Polyhedron3 hull;
-	CGAL::convex_hull_3(points.begin(),points.end(),hull);
-	first->add(new CGALPrimitive(hull),true);
+	auto* cp=createHull(points);
+	if(cp)
+		first->add(cp,true);
 }
 #endif
 
@@ -240,25 +260,10 @@ void NodeEvaluator::visit(const HullNode& n)
 		}
 
 		if(!n.getConcave()) {
-			CGAL::Object o;
-			CGAL::convex_hull_3(points.begin(),points.end(),o);
-			const auto* t=CGAL::object_cast<CGAL::Triangle3>(&o);
-			if(t) {
-				auto* cp=new CGALPrimitive();
-				auto& ct=cp->createPolygon();
-				ct.appendVertex(t->vertex(0));
-				ct.appendVertex(t->vertex(1));
-				ct.appendVertex(t->vertex(2));
+			auto* cp=createHull(points);
+			if(cp) {
 				cp->appendChildren(children);
 				result=cp;
-				return;
-			}
-			const auto* hull=CGAL::object_cast<CGAL::Polyhedron3>(&o);
-			if(hull) {
-				auto* cp=new CGALPrimitive(*hull);
-				cp->appendChildren(children);
-				result=cp;
-				return;
 			}
 			return;
 		}
