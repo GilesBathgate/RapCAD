@@ -137,7 +137,9 @@ void NodeEvaluator::visit(const GlideNode& op)
 			} else {
 				CGALExplorer explorer(result);
 				CGALPrimitive* primitive=explorer.getPrimitive();
-				points = primitive->getCGALPerimeter().first()->getPoints();
+				QList<CGALPolygon*> perimeter=primitive->getCGALPerimeter();
+				if(!perimeter.isEmpty())
+					points=perimeter.first()->getPoints();
 				delete primitive;
 
 				/* TODO glide all polygons?
