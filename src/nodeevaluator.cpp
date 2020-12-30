@@ -708,6 +708,10 @@ void NodeEvaluator::visit(const OffsetNode& n)
 {
 	if(!evaluate(n,Operations::Union)) return;
 
+	if(result->isFullyDimentional()) {
+		reporter.reportWarning(tr("Offset for volume not implemented"));
+		return;
+	}
 	result=result->inset(n.getAmount());
 }
 

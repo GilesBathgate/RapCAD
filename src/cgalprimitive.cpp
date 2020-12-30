@@ -652,6 +652,9 @@ CGALVolume CGALPrimitive::getVolume(bool calcMass)
 
 bool CGALPrimitive::isFullyDimentional()
 {
+	if(getType() != PrimitiveTypes::Volume)
+		return false;
+
 	this->buildPrimitive();
 	//For fully dimentional polyhedra there are always two volumes the outer
 	//volume and the inner volume. So check volumes > 1
