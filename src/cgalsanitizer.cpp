@@ -28,14 +28,9 @@ void CGALSanitizer::sanitize()
 	fixZeroTriangles();
 }
 
-CGAL::Scalar CGALSanitizer::getLength(const CGAL::HalfedgeConstHandle& h)
+void CGALSanitizer::fixZeroEdges()
 {
-	return CGAL::squared_distance(h->vertex()->point(),h->opposite()->vertex()->point());
-}
-
-bool CGALSanitizer::hasLength(const CGAL::HalfedgeConstHandle& h)
-{
-	return getLength(h)!=0.0;
+	while(removeShortEdges());
 }
 
 void CGALSanitizer::fixZeroTriangles()
@@ -50,14 +45,33 @@ void CGALSanitizer::fixZeroTriangles()
 		const CGAL::Point3& p2=h2->vertex()->point();
 		const CGAL::Point3& p3=h3->vertex()->point();
 		if(CGAL::collinear(p1,p2,p3)) {
-			removeShortestEdges(h1,h2,h3);
+			removeLongestEdge(h1,h2,h3);
 		}
 	}
 }
 
-void CGALSanitizer::fixZeroEdges()
+void CGALSanitizer::removeLongestEdge(const CGAL::HalfedgeHandle& h1, const CGAL::HalfedgeHandle& h2, const CGAL::HalfedgeHandle& h3)
 {
-	while(removeShortEdges());
+	CGAL::Scalar l1=getLength(h1);
+	CGAL::Scalar l2=getLength(h2);
+	CGAL::Scalar l3=getLength(h3);
+
+	if(l1>l2&&l1>l3)
+		polyhedron.join_facet(h1);
+	if(l2>l1&&l2>l3)
+		polyhedron.join_facet(h2);
+	if(l3>l1&&l3>l2)
+		polyhedron.join_facet(h3);
+}
+
+CGAL::Scalar CGALSanitizer::getLength(const CGAL::HalfedgeConstHandle& h)
+{
+	return CGAL::squared_distance(h->vertex()->point(),h->opposite()->vertex()->point());
+}
+
+bool CGALSanitizer::hasLength(const CGAL::HalfedgeConstHandle& h)
+{
+	return getLength(h)!=0.0;
 }
 
 void CGALSanitizer::removeShortEdge(const CGAL::HalfedgeHandle& h1)
@@ -80,20 +94,6 @@ void CGALSanitizer::removeShortEdge(const CGAL::HalfedgeHandle& h1)
 			polyhedron.join_facet(h3);
 		polyhedron.join_vertex(h1);
 	}
-}
-
-void CGALSanitizer::removeShortestEdges(const CGAL::HalfedgeHandle& h1, const CGAL::HalfedgeHandle& h2, const CGAL::HalfedgeHandle& h3)
-{
-	CGAL::Scalar l1=getLength(h1);
-	CGAL::Scalar l2=getLength(h2);
-	CGAL::Scalar l3=getLength(h3);
-
-	if(l1<l2||l1<l3)
-		polyhedron.join_facet(h1);
-	if(l2<l1||l2<l3)
-		polyhedron.join_facet(h2);
-	if(l3<l1||l3<l2)
-		polyhedron.join_facet(h3);
 }
 
 bool CGALSanitizer::removeShortEdges()

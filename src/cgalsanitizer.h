@@ -39,8 +39,8 @@ private:
 	void fixZeroEdges();
 	static CGAL::Scalar getLength(const CGAL::HalfedgeConstHandle&);
 	static bool hasLength(const CGAL::HalfedgeConstHandle& h);
+	void removeLongestEdge(const CGAL::HalfedgeHandle& h1, const CGAL::HalfedgeHandle& h2, const CGAL::HalfedgeHandle& h3);
 	void removeShortEdge(const CGAL::HalfedgeHandle&);
-	void removeShortestEdges(const CGAL::HalfedgeHandle&,const CGAL::HalfedgeHandle&,const CGAL::HalfedgeHandle&);
 	bool removeShortEdges();
 
 	CGAL::Polyhedron3& polyhedron;
