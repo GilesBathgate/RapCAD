@@ -24,25 +24,8 @@ CGALSanitizer::CGALSanitizer(CGAL::Polyhedron3& p) :
 
 void CGALSanitizer::sanitize()
 {
-	//fixZeros();
 	fixZeroEdges();
 	fixZeroTriangles();
-	//fixIsolated();
-}
-
-void CGALSanitizer::erase(const CGAL::VertexHandle& h)
-{
-	handle=h;
-	polyhedron.delegate(*this);
-}
-
-void CGALSanitizer::fixIsolated()
-{
-	using VertexIterator = CGAL::Polyhedron3::Vertex_iterator;
-	for(VertexIterator vi=polyhedron.vertices_begin(); vi!=polyhedron.vertices_end(); ++vi) {
-		if(vi->halfedge() == nullptr)
-			erase(vi);
-	}
 }
 
 CGAL::Scalar CGALSanitizer::getLength(const CGAL::HalfedgeConstHandle& h)
@@ -53,34 +36,6 @@ CGAL::Scalar CGALSanitizer::getLength(const CGAL::HalfedgeConstHandle& h)
 bool CGALSanitizer::hasLength(const CGAL::HalfedgeConstHandle& h)
 {
 	return getLength(h)!=0.0;
-}
-
-bool CGALSanitizer::isZero(const CGAL::Polyhedron3::Facet& facet)
-{
-	using FacetCirculator = CGAL::Polyhedron3::Halfedge_around_facet_const_circulator;
-	FacetCirculator s(facet.facet_begin()),f(s);
-	do {
-		if(hasLength(s))
-			return false;
-	} while(++s!=f);
-	return true;
-}
-
-bool CGALSanitizer::fixZero()
-{
-	using FacetIterator = CGAL::Polyhedron3::Facet_iterator;
-	for(FacetIterator f=polyhedron.facets_begin(); f!=polyhedron.facets_end(); ++f) {
-		if(f->facet_degree()<3 || isZero(*f)) {
-			polyhedron.erase_facet(f->halfedge());
-			return true;
-		}
-	}
-	return false;
-}
-
-void CGALSanitizer::fixZeros()
-{
-	while(fixZero());
 }
 
 void CGALSanitizer::fixZeroTriangles()
@@ -151,10 +106,4 @@ bool CGALSanitizer::removeShortEdges()
 		}
 	}
 	return false;
-}
-
-void CGALSanitizer::operator()(CGAL::HalfedgeDS& hds)
-{
-	CGAL::HalfedgeDS_decorator<CGAL::HalfedgeDS> d(hds);
-	d.vertices_erase(handle);
 }

@@ -24,42 +24,25 @@
 namespace CGAL
 {
 using Polyhedron3 = Polyhedron_3<Kernel3> ;
-using HalfedgeDS = Polyhedron3::HalfedgeDS;
 using VertexHandle = CGAL::Polyhedron3::Vertex_handle;
 using HalfedgeHandle = CGAL::Polyhedron3::Halfedge_handle;
 using HalfedgeConstHandle = CGAL::Polyhedron3::Halfedge_const_handle;
 }
 
-class CGALSanitizer :  public CGAL::Modifier_base<CGAL::HalfedgeDS>
+class CGALSanitizer
 {
 public:
 	CGALSanitizer(CGAL::Polyhedron3& p);
 	void sanitize();
 private:
-	void erase(const CGAL::VertexHandle&);
-	void fixIsolated();
-	/**
-	 * @brief CGALSanitizer::fixZero removes all facets from the polyhedron
-	 * that have zero area, i.e non triangles, or all edges with zero length.
-	 */
-	bool fixZero();
-	void fixZeros();
 	void fixZeroTriangles();
 	void fixZeroEdges();
-	/**
-	 * @brief CGALSanitizer::isZero determines if the facet has all edges of zero length
-	 * @return true if all all edges have zero length.
-	 */
-	static bool isZero(const CGAL::Polyhedron3::Facet&);
 	static CGAL::Scalar getLength(const CGAL::HalfedgeConstHandle&);
 	static bool hasLength(const CGAL::HalfedgeConstHandle& h);
 	void removeShortEdge(const CGAL::HalfedgeHandle&);
 	void removeShortestEdges(const CGAL::HalfedgeHandle&,const CGAL::HalfedgeHandle&,const CGAL::HalfedgeHandle&);
 	bool removeShortEdges();
-	void operator()(CGAL::HalfedgeDS&) override;
 
-
-	CGAL::VertexHandle handle;
 	CGAL::Polyhedron3& polyhedron;
 };
 
