@@ -24,10 +24,10 @@ CGALSanitizer::CGALSanitizer(CGAL::Polyhedron3& p) :
 
 void CGALSanitizer::sanitize()
 {
-	fixZeros();
+	//fixZeros();
 	fixZeroEdges();
 	fixZeroTriangles();
-	fixIsolated();
+	//fixIsolated();
 }
 
 void CGALSanitizer::erase(const CGAL::VertexHandle& h)

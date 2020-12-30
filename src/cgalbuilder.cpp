@@ -50,19 +50,28 @@ void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
 	CGAL::Polyhedron_incremental_builder_3<CGAL::HalfedgeDS> builder(hds,true);
 	builder.begin_surface(points.size(), polygons.size());
 
-	for(const auto& p: points) {
+	for(const auto& p: points)
 		builder.add_vertex(p);
-	}
 
+	bool sanitized=primitive.getSanitized();
 	for(CGALPolygon* pg: polygons) {
-		builder.begin_facet();
-		for(auto index: pg->getIndexes()) {
-			builder.add_vertex_to_facet(index);
+		if(!sanitized) {
+			auto indexes=pg->getIndexes();
+			const auto& begin=indexes.begin();
+			const auto& end=std::unique(begin,indexes.end());
+			if(builder.test_facet(begin,end))
+				builder.add_facet(begin,end);
+		} else {
+			const auto& indexes=pg->getIndexes();
+			builder.add_facet(indexes.begin(),indexes.end());
 		}
-		builder.end_facet();
 	}
 
 	builder.end_surface();
+
+	if(!sanitized) {
+		builder.remove_unconnected_vertices();
+	}
 }
 
 struct FaceInfo {
