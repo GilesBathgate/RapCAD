@@ -658,7 +658,7 @@ bool CGALPrimitive::isFullyDimentional()
 	this->buildPrimitive();
 	//For fully dimentional polyhedra there are always two volumes the outer
 	//volume and the inner volume. So check volumes > 1
-	return nefPolyhedron->number_of_volumes()>1;
+	return nefPolyhedron->number_of_volumes()>1 && nefPolyhedron->number_of_facets()>3;
 }
 
 QList<Primitive*> CGALPrimitive::getChildren()
