@@ -191,6 +191,13 @@ static CGALPrimitive* createHull(const QList<CGAL::Point3>& points)
 {
 	CGAL::Object o;
 	CGAL::convex_hull_3(points.begin(),points.end(),o);
+	const auto* pt=CGAL::object_cast<CGAL::Point3>(&o);
+	if(pt) {
+		auto* cp=new CGALPrimitive();
+		cp->setType(PrimitiveTypes::Points);
+		cp->createVertex(*pt);
+		return cp;
+	}
 	const auto* t=CGAL::object_cast<CGAL::Triangle3>(&o);
 	if(t) {
 		auto* cp=new CGALPrimitive();
@@ -261,10 +268,9 @@ void NodeEvaluator::visit(const HullNode& n)
 
 		if(!n.getConcave()) {
 			auto* cp=createHull(points);
-			if(cp) {
+			if(cp)
 				cp->appendChildren(children);
-				result=cp;
-			}
+			result=cp;
 			return;
 		}
 
@@ -853,7 +859,6 @@ void NodeEvaluator::visit(const PointsNode& n)
 	Primitive* cp=createPrimitive();
 	cp->setType(PrimitiveTypes::Points);
 	QList<Point> points=n.getPoints();
-	cp->createPolygon();
 	if(points.isEmpty()) {
 		cp->createVertex(Point(0.0,0.0,0.0));
 	} else {
