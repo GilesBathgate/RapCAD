@@ -177,7 +177,7 @@ int Tester::evaluate()
 	output << "Total: " << testcount << " Passed: " << passcount << " Failed: " << failcount << Qt::endl;
 
 	reporter.reportTiming("testing");
-#ifndef Q_OS_WIN
+#if !defined(Q_OS_WIN) && !defined(USE_VALGRIND)
 	reporter.startTiming();
 
 	Preferences& p=Preferences::getInstance();
