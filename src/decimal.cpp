@@ -89,7 +89,7 @@ QString to_string(const decimal& d)
 	return res;
 
 #else
-	res.setNum(d,'f',p.getPrecision());
+	res.setNum(d,'f',p.getDecimalPlaces());
 
 	return res;
 #endif
