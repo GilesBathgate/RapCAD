@@ -120,16 +120,16 @@ void NodeEvaluator::visit(const MinkowskiNode& op)
 
 void NodeEvaluator::visit(const GlideNode& op)
 {
+#ifdef USE_CGAL
 	Primitive* first=nullptr;
 	for(Node* n: op.getChildren()) {
 		n->accept(*this);
 		if(!first) {
 			first=result;
 		} else if(result) {
-#ifdef USE_CGAL
 			if(result->isFullyDimentional()) {
 				reporter.reportWarning(tr("Second child of glide module cannot be fully dimentional"));
-				return;
+				return noResult(op);
 			}
 			QList<CGAL::Point3> points;
 			if(result->getType()==PrimitiveTypes::Lines) {
@@ -181,9 +181,11 @@ void NodeEvaluator::visit(const GlideNode& op)
 				result->join(next->minkowski(cp));
 			}
 			if(result) break;
-#endif
 		}
 	}
+#else
+	return noResult(op);
+#endif
 }
 
 #ifdef USE_CGAL
@@ -235,7 +237,6 @@ static void evaluateHull(Primitive* first,Primitive* previous, Primitive* next)
 void NodeEvaluator::visit(const HullNode& n)
 {
 #ifdef USE_CGAL
-
 	if(n.getChain()) {
 		Primitive* first=nullptr;
 		Primitive* previous=nullptr;
@@ -316,6 +317,8 @@ void NodeEvaluator::visit(const HullNode& n)
 		cp->appendChildren(children);
 		result=cp;
 	}
+#else
+	return noResult(n);
 #endif
 }
 
@@ -421,13 +424,13 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 
 	if(result->isFullyDimentional()) {
 		reporter.reportWarning(tr("Rotate extrude for volume not implemented"));
-		return;
+		return noResult(op);
 	}
 #ifdef USE_CGAL
 	CGAL::Vector3 axis(CGAL::ORIGIN,op.getAxis());
 	CGAL::Scalar mag=r_sqrt(axis.squared_length(),false);
 	if(mag==0.0)
-		return;
+		return noResult(op);
 	axis=axis/mag;
 
 	CGAL::Scalar r=op.getRadius();
@@ -573,6 +576,11 @@ bool NodeEvaluator::evaluate(const QList<Node*>& children, Operations type, Prim
 	return (result!=nullptr);
 }
 
+void NodeEvaluator::noResult(const Node&)
+{
+	result=nullptr;
+}
+
 void NodeEvaluator::visit(const BoundsNode& n)
 {
 	if(!evaluate(n,Operations::Union)) return;
@@ -716,7 +724,7 @@ void NodeEvaluator::visit(const OffsetNode& n)
 
 	if(result->isFullyDimentional()) {
 		reporter.reportWarning(tr("Offset for volume not implemented"));
-		return;
+		return noResult(n);
 	}
 	result=result->inset(n.getAmount());
 }
@@ -735,7 +743,7 @@ void NodeEvaluator::visit(const ImportNode& op)
 	const CGALImport i(file,reporter);
 	result=i.import();
 #else
-	result=nullptr;
+	return noResult(op);
 #endif
 }
 

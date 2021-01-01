@@ -113,6 +113,7 @@ private:
 	bool evaluate(const Node&,Operations);
 	bool evaluate(const Node&,Operations,Primitive*);
 	bool evaluate(const QList<Node*>&,Operations,Primitive*);
+	void noResult(const Node&);
 
 	Reporter& reporter;
 	Primitive* result;
