@@ -429,8 +429,10 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 #ifdef USE_CGAL
 	CGAL::Vector3 axis(CGAL::ORIGIN,op.getAxis());
 	CGAL::Scalar mag=r_sqrt(axis.squared_length(),false);
-	if(mag==0.0)
+	if(mag==0.0) {
+		reporter.reportWarning(tr("Invalid rotation axis specified"));
 		return noResult(op);
+	}
 	axis=axis/mag;
 
 	CGAL::Scalar r=op.getRadius();
