@@ -22,4 +22,6 @@ jobs:
     - name: Build
       run: make -j4
     - name: Test
-      run: export QT_DEBUG_PLUGINS=1 && xvfb-run --server-args="-screen 0 1024x768x24" ./rapcad -t test
+      run: xvfb-run --server-args="-screen 0 1024x768x24" ./rapcad -t test
+    - name: Coverage
+      run: bash <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/master/codecov) -a '-r'
