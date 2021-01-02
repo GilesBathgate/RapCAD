@@ -1,0 +1,25 @@
+name: RapCAD
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2.11.1
+    - name: Install Dependencies
+      run: sudo apt-get install -y libboost-dev libcgal-dev libglu1-mesa-dev libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0
+    - uses: actions/checkout@v2
+    - name: Configure
+      run: qmake CONFIG+=coverage
+    - name: Build
+      run: make -j4
+    - name: Test
+      run: export QT_DEBUG_PLUGINS=1 && xvfb-run --server-args="-screen 0 1024x768x24" ./rapcad -t test

@@ -1,4 +1,5 @@
 image:https://ci.appveyor.com/api/projects/status/oqtpb3i3nm3bdwnp/branch/master?svg=true[link=https://ci.appveyor.com/project/GilesBathgate/rapcad-gdedf]
+image:https://github.com/GilesBathgate/RapCAD/workflows/RapCAD/badge.svg[link=https://github.com/GilesBathgate/RapCAD/actions?query=workflow%3ARapCAD]
 image:https://api.travis-ci.com/GilesBathgate/RapCAD.svg[link=https://travis-ci.com/GilesBathgate/RapCAD]
 image:https://codecov.io/gh/GilesBathgate/RapCAD/branch/master/graph/badge.svg[link=https://codecov.io/gh/GilesBathgate/RapCAD]
 image:https://scan.coverity.com/projects/4301/badge.svg[link=https://scan.coverity.com/projects/gilesbathgate-rapcad]
