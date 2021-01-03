@@ -30,6 +30,9 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install Qt
       uses: jurplel/install-qt-action@v2.11.1
+    - name: Download CGAL
+      shell: pwsh
+      run: Invoke-WebRequest https://github.com/CGAL/cgal/releases/download/v5.2/CGAL-5.2.zip -OutFile CGAL-release.zip
 
   macos:
     runs-on: macos-latest
