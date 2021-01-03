@@ -29,7 +29,6 @@ jobs:
     env:
       CGAL_DIR: C:\CGAL-5.2\
       GMP:      C:\CGAL-5.2\auxiliary\gmp
-      QTDIR:    C:\Qt\5.15.2\mingw81_64
       BOOST_ROOT: C:\hostedtoolcache\windows\Boost\1.72.0\x86_64\include\boost-1_72
     steps:
     - uses: actions/checkout@v2
@@ -37,11 +36,14 @@ jobs:
       uses: jurplel/install-qt-action@v2.11.1
       with:
         arch: win64_mingw81
+    - name: Install patched windeployqt
+      run: |
+        Invoke-WebRequest http://tripleboot.org/Uploads/windeployqt64releaseonly.zip -OutFile windeployqt64releaseonly.zip
+        7z x -o"$env:Qt5_DIR\bin" windeployqt64releaseonly.zip
     - name: Install Flex/Bison
       run: |
         Invoke-WebRequest https://vorboss.dl.sourceforge.net/project/winflexbison/win_flex_bison-latest.zip -OutFile FlexBison.zip
-        7z x -oC:\Bison FlexBison.zip
-        echo "C:\Bison" >> $env:GITHUB_PATH
+        7z x -o"$env:Qt5_DIR\bin" FlexBison.zip
     - name: Install CGAL
       run: |
         Invoke-WebRequest https://github.com/CGAL/cgal/releases/download/v5.2/CGAL-5.2.zip -OutFile CGAL-release.zip
@@ -53,7 +55,13 @@ jobs:
     - name: Configure
       run: qmake CONFIG+=coverage
     - name: Build
-      run: mingw32-make -j4 -f Makefile.Release
+      run: |
+        mingw32-make -j4 -f Makefile.Release
+        cp "$env:GMP\lib\libgmp-10.dll" -Destination release
+        cp "$env:GMP\lib\libmpfr-4.dll" -Destination release
+        windeployqt64releaseonly --no-svg --no-translations --no-angle --release release/rapcad.exe
+    - name: Test
+      run: .\release\rapcad.exe -t test
 
   macos:
     runs-on: macos-latest
