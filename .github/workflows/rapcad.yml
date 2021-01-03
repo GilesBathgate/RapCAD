@@ -7,10 +7,8 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-
+  linux:
     runs-on: ubuntu-latest
-
     steps:
     - name: Install Qt
       uses: jurplel/install-qt-action@v2.11.1
@@ -25,3 +23,16 @@ jobs:
       run: xvfb-run --server-args="-screen 0 1024x768x24" ./rapcad -t test
     - name: Coverage
       run: bash <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/master/codecov) -a '-r'
+
+  windows:
+    runs-on: windows-latest
+    steps:
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2.11.1
+
+  macos:
+    runs-on: macos-latest
+    steps:
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2.11.1
+
