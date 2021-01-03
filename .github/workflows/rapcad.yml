@@ -28,10 +28,14 @@ jobs:
     runs-on: windows-latest
     env:
       CGAL_DIR: C:\CGAL-5.2\
+      GMP:      C:\CGAL-5.2\auxiliary\gmp
+      QTDIR:    C:\Qt\5.15.2\mingw81_64
     steps:
     - uses: actions/checkout@v2
     - name: Install Qt
       uses: jurplel/install-qt-action@v2.11.1
+      with:
+        arch: win64_mingw81
     - name: Install CGAL
       shell: pwsh
       run: |
@@ -42,6 +46,8 @@ jobs:
       run: |
         Invoke-WebRequest https://github.com/CGAL/cgal/releases/download/v5.2/CGAL-5.2-win64-auxiliary-libraries-gmp-mpfr.zip -OutFile CGAL-gmp-mpfr.zip
         7z x -o%CGAL_DIR% CGAL-gmp-mpfr.zip -aoa
+    - name: Show environment
+      run: Get-Item Env:BOOST_ROOT_1_72_0
 
   macos:
     runs-on: macos-latest
