@@ -26,6 +26,8 @@ jobs:
 
   windows:
     runs-on: windows-latest
+    env:
+      CGAL_DIR: C:\CGAL-5.2\
     steps:
     - uses: actions/checkout@v2
     - name: Install Qt
@@ -35,6 +37,11 @@ jobs:
       run: |
         Invoke-WebRequest https://github.com/CGAL/cgal/releases/download/v5.2/CGAL-5.2.zip -OutFile CGAL-release.zip
         7z x -oC:\ CGAL-release.zip
+    - name: Install GMP/MPFR
+      shell: pwsh
+      run: |
+        Invoke-WebRequest https://github.com/CGAL/cgal/releases/download/v5.2/CGAL-5.2-win64-auxiliary-libraries-gmp-mpfr.zip -OutFile CGAL-gmp-mpfr.zip
+        7z x -o%CGAL_DIR% CGAL-gmp-mpfr.zip -aoa
 
   macos:
     runs-on: macos-latest
