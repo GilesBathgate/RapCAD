@@ -43,4 +43,6 @@ jobs:
       run: qmake CONFIG+=coverage
     - name: Build
       run: export PATH="/usr/local/opt/bison/bin:$PATH" && make -j4
+    - name: Test
+      run: ./rapcad.app/Contents/MacOS/rapcad -t test
 
