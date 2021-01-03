@@ -38,5 +38,9 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v2.11.1
     - name: Install Dependencies
-      run: brew install cgal
+      run: brew install cgal bison
+    - name: Configure
+      run: qmake CONFIG+=coverage
+    - name: Build
+      run: export PATH="/usr/local/opt/bison/bin:$PATH" && make -j4
 
