@@ -10,11 +10,11 @@ jobs:
   linux:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
     - name: Install Qt
       uses: jurplel/install-qt-action@v2.11.1
     - name: Install Dependencies
       run: sudo apt-get install -y libboost-dev libcgal-dev libglu1-mesa-dev libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0
-    - uses: actions/checkout@v2
     - name: Configure
       run: qmake CONFIG+=coverage
     - name: Build
@@ -27,12 +27,16 @@ jobs:
   windows:
     runs-on: windows-latest
     steps:
+    - uses: actions/checkout@v2
     - name: Install Qt
       uses: jurplel/install-qt-action@v2.11.1
 
   macos:
     runs-on: macos-latest
     steps:
+    - uses: actions/checkout@v2
     - name: Install Qt
       uses: jurplel/install-qt-action@v2.11.1
+    - name: Install Dependencies
+      run: brew install cgal
 
