@@ -9,6 +9,9 @@ on:
 jobs:
   linux:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        config: [coverage, official]
     steps:
     - uses: actions/checkout@v2
     - name: Install Qt
@@ -16,12 +19,14 @@ jobs:
     - name: Install Dependencies
       run: sudo apt-get install -y libboost-dev libcgal-dev libglu1-mesa-dev libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0
     - name: Configure
-      run: qmake CONFIG+=coverage
+      run: qmake CONFIG+=${{ matrix.config }}
     - name: Build
       run: make -j4
     - name: Test
+      if: ${{ matrix.config == 'coverage' }}
       run: xvfb-run --server-args="-screen 0 1024x768x24" ./rapcad -t test
     - name: Coverage
+      if: ${{ matrix.config == 'coverage' }}
       run: bash <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/master/codecov) -a '-r'
 
   windows:
