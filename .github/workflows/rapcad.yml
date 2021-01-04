@@ -39,8 +39,10 @@ jobs:
       GMP:      C:\CGAL-5.2\auxiliary\gmp
       BOOST_ROOT: C:\hostedtoolcache\windows\Boost\1.72.0\x86_64\include\boost-1_72
       ASCIIDOC: C:\asciidoc-8.6.10\
+      MINGW: C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
     - name: Install Qt
       uses: jurplel/install-qt-action@v2.11.1
       with:
@@ -51,7 +53,7 @@ jobs:
         7z x -o"$env:Qt5_DIR\bin" windeployqt64releaseonly.zip
     - name: Install Flex/Bison
       run: |
-        Invoke-WebRequest https://vorboss.dl.sourceforge.net/project/winflexbison/win_flex_bison-latest.zip -OutFile FlexBison.zip
+        Invoke-WebRequest https://netix.dl.sourceforge.net/project/winflexbison/win_flex_bison-latest.zip -OutFile FlexBison.zip
         7z x -o"$env:Qt5_DIR\bin" FlexBison.zip
     - name: Install CGAL
       run: |
@@ -69,30 +71,53 @@ jobs:
       run: |
         Invoke-WebRequest https://github.com/asciidoc/asciidoc/archive/8.6.10.zip -OutFile asciidoc.zip
         7z x -oC:\ asciidoc.zip
-        Invoke-WebRequest https://vorboss.dl.sourceforge.net/project/gnuwin32/src-highlite/2.1.2/src-highlite-2.1.2-bin.zip -OutFile src-highlite.zip
+        Invoke-WebRequest https://netix.dl.sourceforge.net/project/gnuwin32/src-highlite/2.1.2/src-highlite-2.1.2-bin.zip -OutFile src-highlite.zip
         7z x -oC:\source-highlight src-highlite.zip
         mv C:\source-highlight\bin\source-highlight.exe C:\source-highlight\bin\source-highlight-exe.exe
-        cp .\scripts\source-highlight.bat C:\source-highlight\bin
+        cp scripts\source-highlight.bat C:\source-highlight\bin
         Invoke-WebRequest https://www.gnu.org/software/src-highlite/lang_files/csharp.lang -OutFile csharp.lang
         cp csharp.lang C:\source-highlight\share\source-highlight
         echo "`ncsharp = csharp.lang" >> C:\source-highlight\share\source-highlight\lang.map
         echo "C:\source-highlight\bin" >> $env:GITHUB_PATH
     - name: Configure
-      run: qmake CONFIG+=${{ matrix.config }}
+      run: |
+        echo "VERSION=$(cat VERSION)" >> $env:GITHUB_ENV
+        qmake CONFIG+=${{ matrix.config }}
     - name: Build
       run: mingw32-make -j4 -f Makefile.Release
+    - name: Clean
+      run: mingw32-make clean -f Makefile.Release
     - name: Build documentation
       run: |
-        mingw32-make user_guide.html
+        mingw32-make user_guide.html -f Makefile.Release
         cp user_guide.html release
     - name: Package
       run: |
         cp "$env:GMP\lib\libgmp-10.dll" release
         cp "$env:GMP\lib\libmpfr-4.dll" release
-        windeployqt64releaseonly --no-svg --no-translations --no-angle --release release/rapcad.exe
+        windeployqt64releaseonly --no-svg --no-translations --no-angle --release release\rapcad.exe
+    - name: Build installer
+      if: ${{ matrix.config == 'official' }}
+      run: |
+        rm -Recurse release\imageformats
+        cp "$env:MINGW\libgcc_s_seh-1.dll" release
+        cp "$env:MINGW\libstdc++-6.dll" release
+        cp "$env:MINGW\libwinpthread-1.dll" release
+        makensis installer.nsi
+        mv rapcad_setup.exe "rapcad_$($env:VERSION)_setup.exe"
+        mv release "rapcad_$env:VERSION"
+        7z a -tzip "rapcad_$env:VERSION.zip" "rapcad_$env:VERSION"
     - name: Test
       if: ${{ matrix.config == 'coverage' }}
       run: .\release\rapcad.exe -t test
+    - name: Store
+      if: ${{ matrix.config == 'official' }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: windows-artifacts
+        path: |
+          rapcad_*.exe
+          rapcad_*.zip
 
   macos:
     runs-on: macos-latest
@@ -122,6 +147,6 @@ jobs:
       if: ${{ matrix.config == 'official' }}
       uses: actions/upload-artifact@v2
       with:
-        name: rapcad.dmg
+        name: macos-artifacts
         path: rapcad_*.dmg
 
