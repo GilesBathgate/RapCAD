@@ -38,6 +38,7 @@ jobs:
       CGAL_DIR: C:\CGAL-5.2\
       GMP:      C:\CGAL-5.2\auxiliary\gmp
       BOOST_ROOT: C:\hostedtoolcache\windows\Boost\1.72.0\x86_64\include\boost-1_72
+      ASCIIDOC: C:\asciidoc-8.6.10\
     steps:
     - uses: actions/checkout@v2
     - name: Install Qt
@@ -60,13 +61,34 @@ jobs:
       run: |
         Invoke-WebRequest https://github.com/CGAL/cgal/releases/download/v5.2/CGAL-5.2-win64-auxiliary-libraries-gmp-mpfr.zip -OutFile CGAL-gmp-mpfr.zip
         7z x -o"$env:CGAL_DIR" CGAL-gmp-mpfr.zip -aoa
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 2.7
+    - name: Install asciidoc/source-highlight
+      run: |
+        Invoke-WebRequest https://github.com/asciidoc/asciidoc/archive/8.6.10.zip -OutFile asciidoc.zip
+        7z x -oC:\ asciidoc.zip
+        Invoke-WebRequest https://vorboss.dl.sourceforge.net/project/gnuwin32/src-highlite/2.1.2/src-highlite-2.1.2-bin.zip -OutFile src-highlite.zip
+        7z x -oC:\source-highlight src-highlite.zip
+        mv C:\source-highlight\bin\source-highlight.exe C:\source-highlight\bin\source-highlight-exe.exe
+        cp .\scripts\source-highlight.bat C:\source-highlight\bin
+        Invoke-WebRequest https://www.gnu.org/software/src-highlite/lang_files/csharp.lang -OutFile csharp.lang
+        cp csharp.lang C:\source-highlight\share\source-highlight
+        echo "`ncsharp = csharp.lang" >> C:\source-highlight\share\source-highlight\lang.map
+        echo "C:\source-highlight\bin" >> $env:GITHUB_PATH
     - name: Configure
       run: qmake CONFIG+=${{ matrix.config }}
     - name: Build
+      run: mingw32-make -j4 -f Makefile.Release
+    - name: Build documentation
       run: |
-        mingw32-make -j4 -f Makefile.Release
-        cp "$env:GMP\lib\libgmp-10.dll" -Destination release
-        cp "$env:GMP\lib\libmpfr-4.dll" -Destination release
+        mingw32-make user_guide.html
+        cp user_guide.html release
+    - name: Package
+      run: |
+        cp "$env:GMP\lib\libgmp-10.dll" release
+        cp "$env:GMP\lib\libmpfr-4.dll" release
         windeployqt64releaseonly --no-svg --no-translations --no-angle --release release/rapcad.exe
     - name: Test
       if: ${{ matrix.config == 'coverage' }}
@@ -88,8 +110,9 @@ jobs:
     - name: Configure
       run: qmake CONFIG+=${{ matrix.config }}
     - name: Build
+      run: make -j4
+    - name: Package
       run: |
-        make -j4
         macdeployqt rapcad.app -dmg
         mv rapcad.dmg rapcad_$(cat VERSION).dmg
     - name: Test
