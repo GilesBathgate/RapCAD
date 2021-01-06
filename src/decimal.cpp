@@ -149,3 +149,37 @@ decimal parse_rational(const QString& s, bool* ok)
 
 	return parse_rational(s.left(i),ok)/parse_numberexp(s.mid(i+1),ok);
 }
+
+decimal get_unit(const QString& s,QString& number)
+{
+	if(s.endsWith("um")) {
+		number=s.chopped(2);
+		return decimal(1.0)/1000.0;
+	}
+	if(s.endsWith("mm")) {
+		number=s.chopped(2);
+		return decimal(1.0);
+	}
+	if(s.endsWith("cm")) {
+		number=s.chopped(2);
+		return decimal(10.0);
+	}
+	if(s.endsWith("m")) {
+		number=s.chopped(1);
+		return decimal(1000.0);
+	}
+	if(s.endsWith("th")) {
+		number=s.chopped(2);
+		return decimal(254.0)/10000.0;
+	}
+	if(s.endsWith("in")) {
+		number=s.chopped(2);
+		return decimal(254.0)/10.0;
+	}
+	if(s.endsWith("ft")) {
+		number=s.chopped(2);
+		return decimal(3048.0)/10.0;
+	}
+	number=s;
+	return decimal(1.0);
+}

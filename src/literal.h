@@ -30,7 +30,6 @@ public:
 	void setValue(bool);
 	void setValue(const decimal&);
 	void setValue(const QString&);
-	void setUnit(const QString&);
 
 	QString getValueString() const;
 	Value* getValue() const;
@@ -49,7 +48,6 @@ private:
 	decimal number;
 	QString text;
 	DataTypes type;
-	decimal unit;
 };
 
 #endif // LITERAL_H

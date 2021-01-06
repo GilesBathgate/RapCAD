@@ -104,7 +104,6 @@ public:
 	Expression* buildLiteral() override;
 	Expression* buildLiteral(bool) override;
 	Expression* buildLiteral(decimal*) override;
-	Expression* buildLiteral(decimal*,QString*) override;
 	Expression* buildLiteral(QString*) override;
 	Variable* buildVariable(QString*) override;
 	Expression* buildVariable(Variable*) override;

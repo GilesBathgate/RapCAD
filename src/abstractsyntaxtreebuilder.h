@@ -95,7 +95,6 @@ public:
 	virtual Expression* buildLiteral()=0;
 	virtual Expression* buildLiteral(bool)=0;
 	virtual Expression* buildLiteral(decimal*)=0;
-	virtual Expression* buildLiteral(decimal*,QString*)=0;
 	virtual Expression* buildLiteral(QString*)=0;
 	virtual Variable* buildVariable(QString*)=0;
 	virtual Expression* buildVariable(Variable*)=0;

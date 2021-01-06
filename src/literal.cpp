@@ -24,8 +24,7 @@
 
 Literal::Literal() :
 	boolean(false),
-	type(DataTypes::Undef),
-	unit(1.0)
+	type(DataTypes::Undef)
 {
 }
 
@@ -52,27 +51,6 @@ void Literal::setValue(const QString& value)
 	text = value;
 }
 
-void Literal::setUnit(const QString& value)
-{
-	text=value;
-	if(value=="m")
-		unit=1000.0;
-	else if(value=="cm")
-		unit=10.0;
-	else if(value=="mm")
-		unit=1.0;
-	else if(value=="um")
-		unit=decimal(1.0)/1000.0;
-	else if(value=="ft")
-		unit=decimal(3048.0)/10.0;
-	else if(value=="in")
-		unit=decimal(254.0)/10.0;
-	else if(value=="th")
-		unit=decimal(254.0)/10000.0;
-	else
-		type=DataTypes::Undef;
-}
-
 QString Literal::getValueString() const
 {
 	switch(type) {
@@ -93,7 +71,7 @@ Value* Literal::getValue() const
 		case DataTypes::Boolean:
 			return Value::factory.createBoolean(boolean);
 		case DataTypes::Number:
-			return Value::factory.createNumber(number*unit);
+			return Value::factory.createNumber(number);
 		case DataTypes::Text:
 			return Value::factory.createText(text);
 		default:

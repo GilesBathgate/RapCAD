@@ -461,16 +461,6 @@ Expression* SyntaxTreeBuilder::buildLiteral(decimal* value)
 	return result;
 }
 
-Expression* SyntaxTreeBuilder::buildLiteral(decimal* value,QString* unit)
-{
-	auto* result = new Literal();
-	result->setValue(*value);
-	delete value;
-	result->setUnit(*unit);
-	delete unit;
-	return result;
-}
-
 Expression* SyntaxTreeBuilder::buildLiteral(QString* value)
 {
 	auto* result = new Literal();
