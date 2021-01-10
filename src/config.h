@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2020 Giles Bathgate
+ *   Copyright (C) 2010-2021 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -34,12 +34,12 @@
 #define CGAL_NDEBUG
 #include <CGAL/FPU.h>
 
+#define CGAL_DISABLE_ROUNDING_MATH_CHECK
+#include <CGAL/Interval_nt.h>
+
 #undef CGAL_NDEBUG
 #include <CGAL/Chinese_remainder_traits.h>
 #define CGAL_NDEBUG
-
-#define CGAL_DISABLE_ROUNDING_MATH_CHECK
-#include <CGAL/Interval_nt.h>
 
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(5,3,0)
 #include "cgaltrace.h" // nef trace hack

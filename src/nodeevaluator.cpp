@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2020 Giles Bathgate
+ *   Copyright (C) 2010-2021 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -120,16 +120,16 @@ void NodeEvaluator::visit(const MinkowskiNode& op)
 
 void NodeEvaluator::visit(const GlideNode& op)
 {
+#ifdef USE_CGAL
 	Primitive* first=nullptr;
 	for(Node* n: op.getChildren()) {
 		n->accept(*this);
 		if(!first) {
 			first=result;
 		} else if(result) {
-#ifdef USE_CGAL
 			if(result->isFullyDimentional()) {
 				reporter.reportWarning(tr("Second child of glide module cannot be fully dimentional"));
-				return;
+				return noResult(op);
 			}
 			QList<CGAL::Point3> points;
 			if(result->getType()==PrimitiveTypes::Lines) {
@@ -137,7 +137,9 @@ void NodeEvaluator::visit(const GlideNode& op)
 			} else {
 				CGALExplorer explorer(result);
 				CGALPrimitive* primitive=explorer.getPrimitive();
-				points = primitive->getCGALPerimeter().first()->getPoints();
+				QList<CGALPolygon*> perimeter=primitive->getCGALPerimeter();
+				if(!perimeter.isEmpty())
+					points=perimeter.first()->getPoints();
 				delete primitive;
 
 				/* TODO glide all polygons?
@@ -179,12 +181,41 @@ void NodeEvaluator::visit(const GlideNode& op)
 				result->join(next->minkowski(cp));
 			}
 			if(result) break;
-#endif
 		}
 	}
+#else
+	return noResult(op);
+#endif
 }
 
 #ifdef USE_CGAL
+static CGALPrimitive* createHull(const QList<CGAL::Point3>& points)
+{
+	CGAL::Object o;
+	CGAL::convex_hull_3(points.begin(),points.end(),o);
+	const auto* pt=CGAL::object_cast<CGAL::Point3>(&o);
+	if(pt) {
+		auto* cp=new CGALPrimitive();
+		cp->setType(PrimitiveTypes::Points);
+		cp->createVertex(*pt);
+		return cp;
+	}
+	const auto* t=CGAL::object_cast<CGAL::Triangle3>(&o);
+	if(t) {
+		auto* cp=new CGALPrimitive();
+		auto& ct=cp->createPolygon();
+		ct.appendVertex(t->vertex(0));
+		ct.appendVertex(t->vertex(1));
+		ct.appendVertex(t->vertex(2));
+		return cp;
+	}
+	const auto* p=CGAL::object_cast<CGAL::Polyhedron3>(&o);
+	if(p)
+		return new CGALPrimitive(*p);
+
+	return nullptr;
+}
+
 static void evaluateHull(Primitive* first,Primitive* previous, Primitive* next)
 {
 	QList<CGAL::Point3> points;
@@ -197,16 +228,15 @@ static void evaluateHull(Primitive* first,Primitive* previous, Primitive* next)
 	if(points.count()<3)
 		return;
 
-	CGAL::Polyhedron3 hull;
-	CGAL::convex_hull_3(points.begin(),points.end(),hull);
-	first->add(new CGALPrimitive(hull),true);
+	auto* cp=createHull(points);
+	if(cp)
+		first->add(cp,true);
 }
 #endif
 
 void NodeEvaluator::visit(const HullNode& n)
 {
 #ifdef USE_CGAL
-
 	if(n.getChain()) {
 		Primitive* first=nullptr;
 		Primitive* previous=nullptr;
@@ -238,26 +268,10 @@ void NodeEvaluator::visit(const HullNode& n)
 		}
 
 		if(!n.getConcave()) {
-			CGAL::Object o;
-			CGAL::convex_hull_3(points.begin(),points.end(),o);
-			const auto* t=CGAL::object_cast<CGAL::Triangle3>(&o);
-			if(t) {
-				auto* cp=new CGALPrimitive();
-				auto* ct=cp->createPolygon();
-				ct->appendVertex(t->vertex(0));
-				ct->appendVertex(t->vertex(1));
-				ct->appendVertex(t->vertex(2));
+			auto* cp=createHull(points);
+			if(cp)
 				cp->appendChildren(children);
-				result=cp;
-				return;
-			}
-			const auto* hull=CGAL::object_cast<CGAL::Polyhedron3>(&o);
-			if(hull) {
-				auto* cp=new CGALPrimitive(*hull);
-				cp->appendChildren(children);
-				result=cp;
-				return;
-			}
+			result=cp;
 			return;
 		}
 
@@ -303,6 +317,8 @@ void NodeEvaluator::visit(const HullNode& n)
 		cp->appendChildren(children);
 		result=cp;
 	}
+#else
+	return noResult(n);
 #endif
 }
 
@@ -408,13 +424,15 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 
 	if(result->isFullyDimentional()) {
 		reporter.reportWarning(tr("Rotate extrude for volume not implemented"));
-		return;
+		return noResult(op);
 	}
 #ifdef USE_CGAL
 	CGAL::Vector3 axis(CGAL::ORIGIN,op.getAxis());
 	CGAL::Scalar mag=r_sqrt(axis.squared_length(),false);
-	if(mag==0.0)
-		return;
+	if(mag==0.0) {
+		reporter.reportWarning(tr("Invalid rotation axis specified"));
+		return noResult(op);
+	}
 	axis=axis/mag;
 
 	CGAL::Scalar r=op.getRadius();
@@ -560,6 +578,11 @@ bool NodeEvaluator::evaluate(const QList<Node*>& children, Operations type, Prim
 	return (result!=nullptr);
 }
 
+void NodeEvaluator::noResult(const Node&)
+{
+	result=nullptr;
+}
+
 void NodeEvaluator::visit(const BoundsNode& n)
 {
 	if(!evaluate(n,Operations::Union)) return;
@@ -641,13 +664,13 @@ void NodeEvaluator::visit(const NormalsNode& n)
 		l=r_sqrt(b.squared_length());
 		b=b/(l*8.0);
 
-		Polygon* np=a->createPolygon();
+		Polygon& np=a->createPolygon();
 		a->createVertex(c+b);
 		a->createVertex(n);
 		a->createVertex(c-b);
-		np->append(i++);
-		np->append(i++);
-		np->append(i++);
+		np.append(i++);
+		np.append(i++);
+		np.append(i++);
 	}
 	delete prim;
 
@@ -701,6 +724,10 @@ void NodeEvaluator::visit(const OffsetNode& n)
 {
 	if(!evaluate(n,Operations::Union)) return;
 
+	if(result->isFullyDimentional()) {
+		reporter.reportWarning(tr("Offset for volume not implemented"));
+		return noResult(n);
+	}
 	result=result->inset(n.getAmount());
 }
 
@@ -718,7 +745,7 @@ void NodeEvaluator::visit(const ImportNode& op)
 	const CGALImport i(file,reporter);
 	result=i.import();
 #else
-	result=nullptr;
+	return noResult(op);
 #endif
 }
 
@@ -842,7 +869,6 @@ void NodeEvaluator::visit(const PointsNode& n)
 	Primitive* cp=createPrimitive();
 	cp->setType(PrimitiveTypes::Points);
 	QList<Point> points=n.getPoints();
-	cp->createPolygon();
 	if(points.isEmpty()) {
 		cp->createVertex(Point(0.0,0.0,0.0));
 	} else {
@@ -958,7 +984,7 @@ void NodeEvaluator::visit(const RadialsNode& n)
 
 	auto* p = new Polyhedron();
 	p->setType(PrimitiveTypes::Lines);
-	Polygon* pg=p->createPolygon();
+	Polygon& pg=p->createPolygon();
 
 	const int f=90;
 	for(auto i=0; i<=f; ++i) {
@@ -967,7 +993,7 @@ void NodeEvaluator::visit(const RadialsNode& n)
 		CGAL::Scalar y = b+r*r_sin(phi);
 
 		p->createVertex(CGAL::Point3(x,y,0));
-		pg->append(i);
+		pg.append(i);
 	}
 
 	result->appendChild(p);
@@ -999,11 +1025,11 @@ void NodeEvaluator::visit(const VolumesNode& n)
 
 	auto* p = new Polyhedron();
 	p->setType(PrimitiveTypes::Lines);
-	Polygon* pg=p->createPolygon();
+	Polygon& pg=p->createPolygon();
 	p->createVertex(c);
 	p->createVertex(tr);
-	pg->append(0);
-	pg->append(1);
+	pg.append(0);
+	pg.append(1);
 	result->appendChild(p);
 
 	SimpleTextBuilder t;

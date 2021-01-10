@@ -1,0 +1,152 @@
+name: RapCAD
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        config: [coverage, official]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2.11.1
+    - name: Install Dependencies
+      run: sudo apt-get install -y libboost-dev libcgal-dev libglu1-mesa-dev libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0
+    - name: Configure
+      run: qmake CONFIG+=${{ matrix.config }}
+    - name: Build
+      run: make -j4
+    - name: Test
+      if: ${{ matrix.config == 'coverage' }}
+      run: xvfb-run --server-args="-screen 0 1024x768x24" ./rapcad -t test
+    - name: Coverage
+      if: ${{ matrix.config == 'coverage' }}
+      run: bash <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/master/codecov) -a '-r'
+
+  windows:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        config: [coverage, official]
+    env:
+      CGAL_DIR: C:\CGAL-5.2\
+      GMP:      C:\CGAL-5.2\auxiliary\gmp
+      BOOST_ROOT: C:\hostedtoolcache\windows\Boost\1.72.0\x86_64\include\boost-1_72
+      ASCIIDOC: C:\asciidoc-8.6.10\
+      MINGW: C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2.11.1
+      with:
+        arch: win64_mingw81
+    - name: Install patched windeployqt
+      run: |
+        Invoke-WebRequest http://tripleboot.org/Uploads/windeployqt64releaseonly.zip -OutFile windeployqt64releaseonly.zip
+        7z x -o"$env:Qt5_DIR\bin" windeployqt64releaseonly.zip
+    - name: Install Flex/Bison
+      run: |
+        Invoke-WebRequest https://netix.dl.sourceforge.net/project/winflexbison/win_flex_bison-latest.zip -OutFile FlexBison.zip
+        7z x -o"$env:Qt5_DIR\bin" FlexBison.zip
+    - name: Install CGAL
+      run: |
+        Invoke-WebRequest https://github.com/CGAL/cgal/releases/download/v5.2/CGAL-5.2.zip -OutFile CGAL-release.zip
+        7z x -oC:\ CGAL-release.zip
+    - name: Install GMP/MPFR
+      run: |
+        Invoke-WebRequest https://github.com/CGAL/cgal/releases/download/v5.2/CGAL-5.2-win64-auxiliary-libraries-gmp-mpfr.zip -OutFile CGAL-gmp-mpfr.zip
+        7z x -o"$env:CGAL_DIR" CGAL-gmp-mpfr.zip -aoa
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 2.7
+    - name: Install asciidoc/source-highlight
+      run: |
+        Invoke-WebRequest https://github.com/asciidoc/asciidoc/archive/8.6.10.zip -OutFile asciidoc.zip
+        7z x -oC:\ asciidoc.zip
+        Invoke-WebRequest https://netix.dl.sourceforge.net/project/gnuwin32/src-highlite/2.1.2/src-highlite-2.1.2-bin.zip -OutFile src-highlite.zip
+        7z x -oC:\source-highlight src-highlite.zip
+        mv C:\source-highlight\bin\source-highlight.exe C:\source-highlight\bin\source-highlight-exe.exe
+        cp scripts\source-highlight.bat C:\source-highlight\bin
+        Invoke-WebRequest https://www.gnu.org/software/src-highlite/lang_files/csharp.lang -OutFile csharp.lang
+        cp csharp.lang C:\source-highlight\share\source-highlight
+        echo "`ncsharp = csharp.lang" >> C:\source-highlight\share\source-highlight\lang.map
+        echo "C:\source-highlight\bin" >> $env:GITHUB_PATH
+    - name: Configure
+      run: |
+        echo "VERSION=$(cat VERSION)" >> $env:GITHUB_ENV
+        qmake CONFIG+=${{ matrix.config }}
+    - name: Build
+      run: mingw32-make -j4 -f Makefile.Release
+    - name: Clean
+      run: mingw32-make clean -f Makefile.Release
+    - name: Build documentation
+      run: |
+        mingw32-make user_guide.html -f Makefile.Release
+        cp user_guide.html release
+    - name: Package
+      run: |
+        cp "$env:GMP\lib\libgmp-10.dll" release
+        cp "$env:GMP\lib\libmpfr-4.dll" release
+        windeployqt64releaseonly --no-svg --no-translations --no-angle --release release\rapcad.exe
+    - name: Build installer
+      if: ${{ matrix.config == 'official' }}
+      run: |
+        rm -Recurse release\imageformats
+        cp "$env:MINGW\libgcc_s_seh-1.dll" release
+        cp "$env:MINGW\libstdc++-6.dll" release
+        cp "$env:MINGW\libwinpthread-1.dll" release
+        makensis installer.nsi
+        mv rapcad_setup.exe "rapcad_$($env:VERSION)_setup.exe"
+        mv release "rapcad_$env:VERSION"
+        7z a -tzip "rapcad_$env:VERSION.zip" "rapcad_$env:VERSION"
+    - name: Test
+      if: ${{ matrix.config == 'coverage' }}
+      run: .\release\rapcad.exe -t test
+    - name: Store
+      if: ${{ matrix.config == 'official' }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: windows-artifacts
+        path: |
+          rapcad_*.exe
+          rapcad_*.zip
+
+  macos:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        config: [coverage, official]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2.11.1
+    - name: Install Dependencies
+      run: |
+        brew install cgal bison
+        echo "/usr/local/opt/bison/bin" >> $GITHUB_PATH
+    - name: Configure
+      run: qmake CONFIG+=${{ matrix.config }}
+    - name: Build
+      run: make -j4
+    - name: Package
+      run: |
+        macdeployqt rapcad.app -dmg
+        mv rapcad.dmg rapcad_$(cat VERSION).dmg
+    - name: Test
+      if: ${{ matrix.config == 'coverage' }}
+      run: ./rapcad.app/Contents/MacOS/rapcad -t test
+    - name: Store
+      if: ${{ matrix.config == 'official' }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: macos-artifacts
+        path: rapcad_*.dmg
+

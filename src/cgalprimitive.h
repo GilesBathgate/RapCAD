@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2020 Giles Bathgate
+ *   Copyright (C) 2010-2021 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -47,8 +47,8 @@ public:
 	PrimitiveTypes getType() override;
 	void setSanitized(bool) override;
 	bool getSanitized() override;
-	CGALPolygon* createPolygon() override;
-	CGALPolygon* createPerimeter();
+	CGALPolygon& createPolygon() override;
+	CGALPolygon& createPerimeter();
 	void createVertex(const CGAL::Point3&) override;
 	void createVertex(const CGAL::Scalar&, const CGAL::Scalar&, const CGAL::Scalar&);
 	void addVertex(const CGAL::Point3& p,bool);

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2020 Giles Bathgate
+ *   Copyright (C) 2010-2021 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,8 +19,10 @@
 
 #include <cmath>
 #include <cstdlib>
+#ifdef USE_CGAL
 #include <CGAL/Gmpfr.h>
 #include <mpfr.h>
+#endif
 #include "preferences.h"
 
 #ifndef USE_CGAL
@@ -451,7 +453,9 @@ decimal r_sign(const decimal& a)
 	return a<d0?decimal(-1.0):a>d0?decimal(1.0):d0;
 }
 
+#ifdef USE_CGAL
 static gmp_randstate_t state;
+#endif
 
 void r_rand_seed(int seed)
 {

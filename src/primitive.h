@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2020 Giles Bathgate
+ *   Copyright (C) 2010-2021 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ class Primitive
 {
 public:
 	virtual ~Primitive() {}
-	virtual Polygon* createPolygon()=0;
+	virtual Polygon& createPolygon()=0;
 	virtual void setType(PrimitiveTypes)=0;
 	virtual PrimitiveTypes getType()=0;
 	virtual void setSanitized(bool)=0;

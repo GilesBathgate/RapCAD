@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2020 Giles Bathgate
+ *   Copyright (C) 2010-2021 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -94,17 +94,17 @@ QList<Point> PrimitiveModule::getPolygon(const decimal& a,const decimal& r,const
 
 void PrimitiveModule::createTriangle(Primitive* p,int a,int b,int c)
 {
-	Polygon* pg=p->createPolygon();
-	pg->append(a);
-	pg->append(b);
-	pg->append(c);
+	Polygon& pg=p->createPolygon();
+	pg.append(a);
+	pg.append(b);
+	pg.append(c);
 }
 
 void PrimitiveModule::createQuad(Primitive* p,int a,int b,int c,int d)
 {
-	Polygon* pg=p->createPolygon();
-	pg->append(a);
-	pg->append(b);
-	pg->append(c);
-	pg->append(d);
+	Polygon& pg=p->createPolygon();
+	pg.append(a);
+	pg.append(b);
+	pg.append(c);
+	pg.append(d);
 }

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2020 Giles Bathgate
+ *   Copyright (C) 2010-2021 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -25,11 +25,11 @@ Polyhedron::~Polyhedron()
 	children.clear();
 }
 
-Polygon* Polyhedron::createPolygon()
+Polygon& Polyhedron::createPolygon()
 {
 	auto* pg = new Polygon(*this);
 	polygons.append(pg);
-	return pg;
+	return *pg;
 }
 
 void Polyhedron::createVertex(const Point& p)
@@ -85,8 +85,8 @@ Primitive* Polyhedron::copy()
 		c->createVertex(p);
 	}
 	for(Polygon* pg: polygons) {
-		Polygon* npg=c->createPolygon();
-		npg->setIndexes(pg->getIndexes());
+		Polygon& npg=c->createPolygon();
+		npg.setIndexes(pg->getIndexes());
 	}
 	return c;
 }

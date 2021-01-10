@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2020 Giles Bathgate
+ *   Copyright (C) 2010-2021 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -47,15 +47,15 @@ Node* SquareModule::evaluate(const Context& ctx) const
 	Primitive* p=pn->createPrimitive();
 	pn->setChildren(ctx.getInputNodes());
 
-	Polygon* pg=p->createPolygon();
+	Polygon& pg=p->createPolygon();
 	p->createVertex(Point(0, 0, 0));
 	p->createVertex(Point(x, 0, 0));
 	p->createVertex(Point(x, y, 0));
 	p->createVertex(Point(0, y, 0));
-	pg->append(0);
-	pg->append(1);
-	pg->append(2);
-	pg->append(3);
+	pg.append(0);
+	pg.append(1);
+	pg.append(2);
+	pg.append(3);
 
 	if(center) {
 		auto* an=new AlignNode();

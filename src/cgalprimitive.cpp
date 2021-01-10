@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2020 Giles Bathgate
+ *   Copyright (C) 2010-2021 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -215,18 +215,18 @@ CGAL::NefPolyhedron3* CGALPrimitive::createPoints()
 #endif
 }
 
-CGALPolygon* CGALPrimitive::createPolygon()
+CGALPolygon& CGALPrimitive::createPolygon()
 {
 	auto* pg = new CGALPolygon(*this);
 	polygons.append(pg);
-	return pg;
+	return *pg;
 }
 
-CGALPolygon* CGALPrimitive::createPerimeter()
+CGALPolygon& CGALPrimitive::createPerimeter()
 {
 	auto* pg = new CGALPolygon(*this);
 	perimeters.append(pg);
-	return pg;
+	return *pg;
 }
 
 void CGALPrimitive::createVertex(const CGAL::Scalar& x,const CGAL::Scalar& y,const CGAL::Scalar& z)
@@ -652,10 +652,13 @@ CGALVolume CGALPrimitive::getVolume(bool calcMass)
 
 bool CGALPrimitive::isFullyDimentional()
 {
+	if(getType() != PrimitiveTypes::Volume)
+		return false;
+
 	this->buildPrimitive();
 	//For fully dimentional polyhedra there are always two volumes the outer
 	//volume and the inner volume. So check volumes > 1
-	return nefPolyhedron->number_of_volumes()>1;
+	return nefPolyhedron->number_of_volumes()>1 && nefPolyhedron->number_of_facets()>3;
 }
 
 QList<Primitive*> CGALPrimitive::getChildren()

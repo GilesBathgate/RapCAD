@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2020 Giles Bathgate
+ *   Copyright (C) 2010-2021 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ class Polyhedron : public Primitive
 public:
 	Polyhedron() = default;
 	~Polyhedron() override;
-	Polygon* createPolygon() override;
+	Polygon& createPolygon() override;
 	void createVertex(const Point&) override;
 	void setType(PrimitiveTypes) override { }
 	PrimitiveTypes getType() override { return PrimitiveTypes::Lines; }

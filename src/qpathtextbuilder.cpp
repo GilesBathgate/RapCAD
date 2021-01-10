@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2020 Giles Bathgate
+ *   Copyright (C) 2010-2021 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -89,12 +89,12 @@ Primitive* QPathTextBuilder::buildPrimitive() const
 	PrimitiveNode pn(reporter);
 	Primitive* p=pn.createPrimitive();
 	for(const auto& path: paths) {
-		Polygon* pg=p->createPolygon();
+		Polygon& pg=p->createPolygon();
 		OnceOnly first;
 		for(const auto& pt: path) {
 			if(!first()) {
 				p->createVertex(Point(pt.x(),-pt.y(),0.0));
-				pg->append(index);
+				pg.append(index);
 				index++;
 			}
 		}

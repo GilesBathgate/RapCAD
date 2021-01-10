@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2020 Giles Bathgate
+ *   Copyright (C) 2010-2021 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -39,11 +39,11 @@ void CubeModule::createCuboid(Primitive* p,Scalar x1,Scalar x2,Scalar y1,Scalar 
 		p->createVertex(Point(x1,y1,z1)); //1
 		p->createVertex(Point(x1,y1,z2)); //2
 		p->createVertex(Point(x1,y2,z2)); //3
-		Polygon* pg=p->createPolygon();
-		pg->append(0);
-		pg->append(1);
-		pg->append(2);
-		pg->append(3);
+		Polygon& pg=p->createPolygon();
+		pg.append(0);
+		pg.append(1);
+		pg.append(2);
+		pg.append(3);
 		return;
 	}
 
@@ -52,11 +52,11 @@ void CubeModule::createCuboid(Primitive* p,Scalar x1,Scalar x2,Scalar y1,Scalar 
 		p->createVertex(Point(x2,y1,z1)); //1
 		p->createVertex(Point(x2,y1,z2)); //2
 		p->createVertex(Point(x1,y1,z2)); //3
-		Polygon* pg=p->createPolygon();
-		pg->append(0);
-		pg->append(1);
-		pg->append(2);
-		pg->append(3);
+		Polygon& pg=p->createPolygon();
+		pg.append(0);
+		pg.append(1);
+		pg.append(2);
+		pg.append(3);
 		return;
 	}
 
@@ -65,11 +65,11 @@ void CubeModule::createCuboid(Primitive* p,Scalar x1,Scalar x2,Scalar y1,Scalar 
 		p->createVertex(Point(x2,y2,z1)); //1
 		p->createVertex(Point(x2,y1,z1)); //2
 		p->createVertex(Point(x1,y1,z1)); //3
-		Polygon* pg=p->createPolygon();
-		pg->append(0);
-		pg->append(1);
-		pg->append(2);
-		pg->append(3);
+		Polygon& pg=p->createPolygon();
+		pg.append(0);
+		pg.append(1);
+		pg.append(2);
+		pg.append(3);
 		return;
 	}
 
@@ -83,42 +83,42 @@ void CubeModule::createCuboid(Primitive* p,Scalar x1,Scalar x2,Scalar y1,Scalar 
 	p->createVertex(Point(x1,y2,z1)); //7
 
 	//Top
-	Polygon* pg=p->createPolygon();
-	pg->append(0);
-	pg->append(1);
-	pg->append(2);
-	pg->append(3);
+	Polygon& pg0=p->createPolygon();
+	pg0.append(0);
+	pg0.append(1);
+	pg0.append(2);
+	pg0.append(3);
 
-	pg=p->createPolygon();
-	pg->append(4);
-	pg->append(5);
-	pg->append(1);
-	pg->append(0);
+	Polygon& pg1=p->createPolygon();
+	pg1.append(4);
+	pg1.append(5);
+	pg1.append(1);
+	pg1.append(0);
 
-	pg=p->createPolygon();
-	pg->append(5);
-	pg->append(6);
-	pg->append(2);
-	pg->append(1);
+	Polygon& pg2=p->createPolygon();
+	pg2.append(5);
+	pg2.append(6);
+	pg2.append(2);
+	pg2.append(1);
 
-	pg=p->createPolygon();
-	pg->append(6);
-	pg->append(7);
-	pg->append(3);
-	pg->append(2);
+	Polygon& pg3=p->createPolygon();
+	pg3.append(6);
+	pg3.append(7);
+	pg3.append(3);
+	pg3.append(2);
 
-	pg=p->createPolygon();
-	pg->append(7);
-	pg->append(4);
-	pg->append(0);
-	pg->append(3);
+	Polygon& pg4=p->createPolygon();
+	pg4.append(7);
+	pg4.append(4);
+	pg4.append(0);
+	pg4.append(3);
 
 	//Bottom
-	pg=p->createPolygon();
-	pg->append(7);
-	pg->append(6);
-	pg->append(5);
-	pg->append(4);
+	Polygon& pg5=p->createPolygon();
+	pg5.append(7);
+	pg5.append(6);
+	pg5.append(5);
+	pg5.append(4);
 }
 
 #endif // CUBEMODULE_H

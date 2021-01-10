@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2020 Giles Bathgate
+ *   Copyright (C) 2010-2021 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -89,7 +89,7 @@ QString to_string(const decimal& d)
 	return res;
 
 #else
-	res.setNum(d,'f',p.getPrecision());
+	res.setNum(d,'f',p.getDecimalPlaces());
 
 	return res;
 #endif
@@ -148,4 +148,38 @@ decimal parse_rational(const QString& s, bool* ok)
 		return parse_numberexp(s,ok);
 
 	return parse_rational(s.left(i),ok)/parse_numberexp(s.mid(i+1),ok);
+}
+
+decimal get_unit(const QString& s,QString& number)
+{
+	if(s.endsWith("um")) {
+		number=s.chopped(2);
+		return decimal(1.0)/1000.0;
+	}
+	if(s.endsWith("mm")) {
+		number=s.chopped(2);
+		return decimal(1.0);
+	}
+	if(s.endsWith("cm")) {
+		number=s.chopped(2);
+		return decimal(10.0);
+	}
+	if(s.endsWith("m")) {
+		number=s.chopped(1);
+		return decimal(1000.0);
+	}
+	if(s.endsWith("th")) {
+		number=s.chopped(2);
+		return decimal(254.0)/10000.0;
+	}
+	if(s.endsWith("in")) {
+		number=s.chopped(2);
+		return decimal(254.0)/10.0;
+	}
+	if(s.endsWith("ft")) {
+		number=s.chopped(2);
+		return decimal(3048.0)/10.0;
+	}
+	number=s;
+	return decimal(1.0);
 }

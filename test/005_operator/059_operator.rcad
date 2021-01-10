@@ -1,0 +1,5 @@
+function test() {
+	a=5;
+	b=a--;
+	return b==4;
+}

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2020 Giles Bathgate
+ *   Copyright (C) 2010-2021 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -63,10 +63,11 @@ U1 [\x80-\xbf]
 U2 [\xc2-\xdf]
 U3 [\xe0-\xef]
 U4 [\xf0-\xf4]
-U {U2}{U1}|{U3}{U1}{U1}|{U4}{U1}{U1}{U1}
+UNICODE {U2}{U1}|{U3}{U1}{U1}|{U4}{U1}{U1}{U1}
 B \xef\xbb\xbf
 O [\?\+\-!\*\|/%~<>]
 T [\[\].;:#${}(),^=]
+U "um"|"mm"|"cm"|"m"|"th"|"in"|"ft"
 
 %%
 "include"{WS}*"<"              { BEGIN(include); tokenizer->buildIncludeStart(); }
@@ -111,10 +112,10 @@ T [\[\].;:#${}(),^=]
 "~="                           { return tokenizer->buildAppend(); }
 {O}                            { return tokenizer->buildOperator(lexertext[0]); }
 {T}                            { return tokenizer->buildLegalChar(lexertext[0]); }
-{N}                            { return tokenizer->buildNumber(lexertext); }
-{N}{E}                         { return tokenizer->buildNumberExp(lexertext); }
-{N}\/{Z}{E}?                   { return tokenizer->buildRational(); }
-{R}+{N}{E}?                    { return tokenizer->buildRational(lexertext); }
+{N}{U}?                        { return tokenizer->buildNumber(lexertext); }
+{N}{E}{U}?                     { return tokenizer->buildNumberExp(lexertext); }
+{R}{Z}{E}?{U}?                 { return tokenizer->buildRational(); }
+{R}+{N}{E}?{U}                 { return tokenizer->buildRational(lexertext); }
 {L}{I}*                        { return tokenizer->buildIdentifier(lexertext); }
 \"                             { BEGIN(string); tokenizer->buildStringStart(); }
 <string>{
@@ -144,7 +145,7 @@ T [\[\].;:#${}(),^=]
 {WS}+                          { tokenizer->buildWhiteSpace(); }
 {NL}                           { tokenizer->buildNewLine(); }
 {B}                            { return tokenizer->buildByteOrderMark(); }
-{U}                            { return tokenizer->buildIllegalChar(lexertext); }
+{UNICODE}                      { return tokenizer->buildIllegalChar(lexertext); }
 .                              { return tokenizer->buildIllegalChar(lexertext); }
 %%
 

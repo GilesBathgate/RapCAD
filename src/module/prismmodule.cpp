@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2020 Giles Bathgate
+ *   Copyright (C) 2010-2021 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -75,16 +75,16 @@ Node* PrismModule::evaluate(const Context& ctx) const
 
 	if(r>0.0) {
 		int n=0;
-		Polygon* pg=p->createPolygon();
+		Polygon& pg0=p->createPolygon();
 		for(const auto& pt: p1) {
 			p->createVertex(pt);
-			pg->append(n++);
+			pg0.append(n++);
 		}
 
-		pg=p->createPolygon();
+		Polygon& pg1=p->createPolygon();
 		for(const auto& pt: p2) {
 			p->createVertex(pt);
-			pg->prepend(n++);
+			pg1.prepend(n++);
 		}
 
 		for(auto i=0; i<s; ++i) {

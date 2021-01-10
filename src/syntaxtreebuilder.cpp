@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2020 Giles Bathgate
+ *   Copyright (C) 2010-2021 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -458,16 +458,6 @@ Expression* SyntaxTreeBuilder::buildLiteral(decimal* value)
 	auto* result = new Literal();
 	result->setValue(*value);
 	delete value;
-	return result;
-}
-
-Expression* SyntaxTreeBuilder::buildLiteral(decimal* value,QString* unit)
-{
-	auto* result = new Literal();
-	result->setValue(*value);
-	delete value;
-	result->setUnit(*unit);
-	delete unit;
 	return result;
 }
 

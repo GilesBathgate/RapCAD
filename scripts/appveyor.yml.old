@@ -10,18 +10,17 @@ configuration:
 cache:
   - windeployqt64releaseonly.zip -> appveyor.yml
   - FlexBison.zip -> appveyor.yml
-  - CGAL-Setup.exe -> appveyor.yml
-  - gmp-all-CGAL-3.9.zip -> appveyor.yml
-  - mpfr-all-CGAL-3.9.zip -> appveyor.yml
+  - CGAL-release.zip -> appveyor.yml
+  - CGAL-gmp-mpfr.zip -> appveyor.yml
   - asciidoc.zip -> appveyor.yml
   - src-highlite.zip -> appveyor.yml
   - csharp.lang -> appveyor.yml
 
 install:
-  - set CGAL_DIR=C:\CGAL\
+  - set CGAL_DIR=C:\CGAL-5.2\
   - set GMP=%CGAL_DIR%\auxiliary\gmp
   - set BOOST_ROOT=C:\Libraries\boost_1_73_0
-  - set QTDIR=C:\Qt\5.15.1\mingw81_64
+  - set QTDIR=C:\Qt\5.15.2\mingw81_64
   - set ASCIIDOC=C:\asciidoc-8.6.10
   - set SOURCEHIGHLIGHT=C:\source-highlight
   - set PATH=%PATH%;C:\Qt\Tools\mingw810_64\bin
@@ -35,13 +34,12 @@ install:
       -FileName FlexBison.zip
   - 7z x -o%QTDIR%\bin FlexBison.zip
   # Install CGAL
-  - if not exist CGAL-Setup.exe
-      appveyor DownloadFile https://github.com/CGAL/cgal/releases/download/v5.1/CGAL-5.1-Setup.exe
-      -FileName CGAL-Setup.exe
+  - if not exist CGAL-release.zip
+      appveyor DownloadFile https://github.com/CGAL/cgal/releases/download/v5.2/CGAL-5.2.zip
+      -FileName CGAL-release.zip
   - if not exist %CGAL_DIR%
-      CGAL-Setup.exe /S /D=c:\CGAL
+      7z x -oC:\ CGAL-release.zip
   # Patch CGAL
-  - patch -l %CGAL_DIR%\include\CGAL\Nef_S2\SM_overlayer.h < patch\Fix-use-of-uninitialized-variable-in-SM_overlayer.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\IO\File_scanner_OFF.h < patch\Fix-use-of-uninitialized-variable-in-File_scanner_OFF.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\IO\File_writer_OFF.h < patch\Fix-uninitialized-member-in-File_writer_OFF.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\IO\File_writer_VRML_2.h < patch\Fix-uninitialized-member-in-File_writer_VRML_2.h.patch
@@ -91,14 +89,11 @@ install:
   - patch -l %CGAL_DIR%\include\CGAL\Subdivision_method_3\subdivision_masks_3.h < patch\Fix-division-by-zero-in-subdivision_masks_3.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\Convex_decomposition_3\SM_walls.h < patch\Fix-copy-paste-warning-in-SM_walls.h.patch
   - patch -l %CGAL_DIR%\include\CGAL\Compact_container.h < patch\Fix-null-dereference-warnings-in-Compact_container.h.patch
-  # Install GMP
-  - if not exist gmp-all-CGAL-3.9.zip
-      appveyor DownloadFile https://cgal.geometryfactory.com/CGAL/precompiled_libs/auxiliary/x64/GMP/5.0.1/gmp-all-CGAL-3.9.zip
-  - 7z x -o%GMP% gmp-all-CGAL-3.9.zip -aoa
-  # Install MPFR
-  - if not exist mpfr-all-CGAL-3.9.zip
-      appveyor DownloadFile https://cgal.geometryfactory.com/CGAL/precompiled_libs/auxiliary/x64/MPFR/3.0.0/mpfr-all-CGAL-3.9.zip
-  - 7z x -o%GMP% mpfr-all-CGAL-3.9.zip -aoa
+  # Install GMP/MPFR
+  - if not exist CGAL-gmp-mpfr.zip
+      appveyor DownloadFile https://github.com/CGAL/cgal/releases/download/v5.2/CGAL-5.2-win64-auxiliary-libraries-gmp-mpfr.zip
+      -FileName CGAL-gmp-mpfr.zip
+  - 7z x -o%CGAL_DIR% CGAL-gmp-mpfr.zip -aoa
   # Install asciidoc
   - if not exist asciidoc.zip
       appveyor DownloadFile https://github.com/asciidoc/asciidoc/archive/8.6.10.zip

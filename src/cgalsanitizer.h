@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2020 Giles Bathgate
+ *   Copyright (C) 2010-2021 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -15,6 +15,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifdef USE_CGAL
 #ifndef CGALSANITIZER_H
 #define CGALSANITIZER_H
 
@@ -24,31 +25,27 @@
 namespace CGAL
 {
 using Polyhedron3 = Polyhedron_3<Kernel3> ;
-using HalfedgeDS = Polyhedron3::HalfedgeDS;
 using VertexHandle = CGAL::Polyhedron3::Vertex_handle;
 using HalfedgeHandle = CGAL::Polyhedron3::Halfedge_handle;
+using HalfedgeConstHandle = CGAL::Polyhedron3::Halfedge_const_handle;
 }
 
-class CGALSanitizer :  public CGAL::Modifier_base<CGAL::HalfedgeDS>
+class CGALSanitizer
 {
 public:
 	CGALSanitizer(CGAL::Polyhedron3& p);
 	void sanitize();
 private:
-	void erase(CGAL::VertexHandle);
-	void fixIsolated();
-	bool fixZero();
-	void fixZeros();
 	void fixZeroTriangles();
 	void fixZeroEdges();
-	static CGAL::Scalar getLength(CGAL::HalfedgeHandle);
-	void removeShortEdge(CGAL::HalfedgeHandle);
-	void removeShortestEdges(CGAL::HalfedgeHandle,CGAL::HalfedgeHandle,CGAL::HalfedgeHandle);
+	static CGAL::Scalar getLength(const CGAL::HalfedgeConstHandle&);
+	static bool hasLength(const CGAL::HalfedgeConstHandle& h);
+	void removeLongestEdge(const CGAL::HalfedgeHandle& h1, const CGAL::HalfedgeHandle& h2, const CGAL::HalfedgeHandle& h3);
+	void removeShortEdge(const CGAL::HalfedgeHandle&);
 	bool removeShortEdges();
-	void operator()(CGAL::HalfedgeDS&) override;
 
-	CGAL::VertexHandle handle;
 	CGAL::Polyhedron3& polyhedron;
 };
 
 #endif // CGALSANITIZER_H
+#endif

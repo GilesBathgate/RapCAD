@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2020 Giles Bathgate
+ *   Copyright (C) 2010-2021 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -64,9 +64,9 @@ Node* SphereModule::evaluate(const Context& ctx) const
 		}
 	}
 
-	Polygon* pg=p->createPolygon();
+	Polygon& pg0=p->createPolygon();
 	for(auto i=0; i<f; ++i) {
-		pg->append(i);
+		pg0.append(i);
 	}
 
 	for(auto i=0; i<ringCount-1; ++i) {
@@ -80,21 +80,21 @@ Node* SphereModule::evaluate(const Context& ctx) const
 			int m=j2+i2;
 			int l=j+i2;
 
-			pg=p->createPolygon();
-			pg->append(k);
-			pg->append(o);
-			pg->append(l);
+			Polygon& pg1=p->createPolygon();
+			pg1.append(k);
+			pg1.append(o);
+			pg1.append(l);
 
-			pg=p->createPolygon();
-			pg->append(l);
-			pg->append(m);
-			pg->append(k);
+			Polygon& pg2=p->createPolygon();
+			pg2.append(l);
+			pg2.append(m);
+			pg2.append(k);
 		}
 	}
 
-	pg=p->createPolygon();
+	Polygon& pg3=p->createPolygon();
 	for(auto i=f*ringCount; i>f*(ringCount-1); i--) {
-		pg->append(i-1);
+		pg3.append(i-1);
 	}
 
 	return pn;

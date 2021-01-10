@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2020 Giles Bathgate
+ *   Copyright (C) 2010-2021 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -84,7 +84,6 @@ public:
 	Expression* buildLiteral() override;
 	Expression* buildLiteral(bool) override;
 	Expression* buildLiteral(decimal*) override;
-	Expression* buildLiteral(decimal*,QString*) override;
 	Expression* buildLiteral(QString*) override;
 	Variable* buildVariable(QString*) override;
 	Expression* buildVariable(Variable*) override;

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2020 Giles Bathgate
+ *   Copyright (C) 2010-2021 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -50,19 +50,28 @@ void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
 	CGAL::Polyhedron_incremental_builder_3<CGAL::HalfedgeDS> builder(hds,true);
 	builder.begin_surface(points.size(), polygons.size());
 
-	for(const auto& p: points) {
+	for(const auto& p: points)
 		builder.add_vertex(p);
-	}
 
+	bool sanitized=primitive.getSanitized();
 	for(CGALPolygon* pg: polygons) {
-		builder.begin_facet();
-		for(auto index: pg->getIndexes()) {
-			builder.add_vertex_to_facet(index);
+		if(!sanitized) {
+			auto indexes=pg->getIndexes();
+			const auto& begin=indexes.begin();
+			const auto& end=std::unique(begin,indexes.end());
+			if(builder.test_facet(begin,end))
+				builder.add_facet(begin,end);
+		} else {
+			const auto& indexes=pg->getIndexes();
+			builder.add_facet(indexes.begin(),indexes.end());
 		}
-		builder.end_facet();
 	}
 
 	builder.end_surface();
+
+	if(!sanitized) {
+		builder.remove_unconnected_vertices();
+	}
 }
 
 struct FaceInfo {
@@ -210,13 +219,13 @@ bool CGALBuilder::triangulate()
 
 	for(FaceIterator f=ct.finite_faces_begin(); f!=ct.finite_faces_end(); ++f) {
 		if(f->info().inDomain()) {
-			CGALPolygon* pg=primitive.createPolygon();
+			CGALPolygon& pg=primitive.createPolygon();
 			for(auto i=0; i<3; ++i) {
 				VertexInfo info=f->vertex(i)->info();
 				if(info.isValid())
-					pg->append(info.index);
+					pg.append(info.index);
 			}
-			pg->calculatePlane();
+			pg.calculatePlane();
 		}
 	}
 	return true;
@@ -227,9 +236,6 @@ CGALPrimitive* CGALBuilder::buildOffset(const CGAL::Scalar&) { return &primitive
 #else
 CGALPrimitive* CGALBuilder::buildOffset(const CGAL::Scalar& amount)
 {
-	using PolygonPtr = boost::shared_ptr<CGAL::Polygon2>;
-	using PolygonPtrVector = std::vector<PolygonPtr>;
-
 	CGAL::Polygon2 polygon;
 	CGALExplorer e(&primitive);
 	CGALPrimitive* original=e.getPrimitive();
@@ -246,14 +252,21 @@ CGALPrimitive* CGALBuilder::buildOffset(const CGAL::Scalar& amount)
 	}
 	delete original;
 
+	bool interior=amount<0.0;
+	const auto& offsetPolys {
+		interior?
+#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(5,2,0)
+		CGAL::create_interior_skeleton_and_offset_polygons_2(-amount,polygon):
+		CGAL::create_exterior_skeleton_and_offset_polygons_2(amount,polygon)
+#else
+		CGAL::create_interior_skeleton_and_offset_polygons_2(to_double(-amount),polygon):
+		CGAL::create_exterior_skeleton_and_offset_polygons_2(to_double(amount),polygon)
+#endif
+	};
+
 	OnceOnly first;
-	PolygonPtrVector offsetPolys;
-	if(amount<0.0) {
-		offsetPolys=CGAL::create_interior_skeleton_and_offset_polygons_2(-amount,polygon);
+	if(interior)
 		first();
-	} else {
-		offsetPolys=CGAL::create_exterior_skeleton_and_offset_polygons_2(amount,polygon);
-	}
 
 	auto* offset=new CGALPrimitive();
 	for(const auto& ptr: offsetPolys) {

@@ -1,0 +1,1 @@
+hull(){cube();cube();hull();}

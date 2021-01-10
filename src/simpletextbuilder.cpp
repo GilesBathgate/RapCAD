@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2020 Giles Bathgate
+ *   Copyright (C) 2010-2021 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -215,13 +215,13 @@ Primitive* SimpleTextBuilder::buildPrimitive() const
 	for(QChar c: text) {
 		Letter ch=characters->value(c);
 		for(const auto& p: ch) {
-			Polygon* pg=ph->createPolygon();
+			Polygon& pg=ph->createPolygon();
 			for(const auto& pt: p) {
 				decimal cx=pt.x();
 				decimal cy=pt.y();
 				decimal cz=pt.z();
 				ph->createVertex(Point(cx+x,cy+y,cz+z));
-				pg->append(n++);
+				pg.append(n++);
 			}
 		}
 		if(c=='.')

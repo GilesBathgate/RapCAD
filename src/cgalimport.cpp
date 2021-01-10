@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2020 Giles Bathgate
+ *   Copyright (C) 2010-2021 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 #include "cgalimport.h"
 #include <CGAL/IO/Polyhedron_iostream.h>
 #include <CGAL/IO/Nef_polyhedron_iostream_3.h>
+#include <CGAL/IO/OBJ_reader.h>
 #include <fstream>
 #include <QRegExp>
 #include <QStringList>
@@ -47,6 +48,8 @@ Primitive* CGALImport::import() const
 		return importSTL();
 	if(suffix=="amf")
 		return importAMF();
+	if(suffix=="obj")
+		return importOBJ();
 	if(suffix=="3mf")
 		return import3MF();
 	if(suffix=="rcad"||suffix=="csg")
@@ -77,6 +80,24 @@ Primitive* CGALImport::importNEF() const
 
 	auto* p=new CGALPrimitive(nef);
 	return p;
+}
+
+Primitive* CGALImport::importOBJ() const
+{
+	auto* cp=new CGALPrimitive();
+	std::vector<CGAL::Point3> points;
+	std::vector<std::vector<std::size_t> > faces;
+	std::ifstream file(fileInfo.absoluteFilePath().toLocal8Bit().constData());
+	CGAL::read_OBJ(file,points,faces);
+	for(const auto& pt : points)
+		cp->createVertex(pt);
+
+	for(const auto& f : faces) {
+		CGALPolygon& pg=cp->createPolygon();
+		for(const auto& i : f)
+			pg.append(i);
+	}
+	return cp;
 }
 
 Primitive* CGALImport::importSTL() const
@@ -221,10 +242,10 @@ Primitive* CGALImport::importAMF() const
 												xml.skipCurrentElement();
 											}
 										}
-										Polygon* pg=p->createPolygon();
-										pg->append(v1);
-										pg->append(v2);
-										pg->append(v3);
+										Polygon& pg=p->createPolygon();
+										pg.append(v1);
+										pg.append(v2);
+										pg.append(v3);
 									} else {
 										xml.skipCurrentElement();
 									}
@@ -303,10 +324,10 @@ Primitive* CGALImport::import3MF() const
 													else if(n == "v3")
 														v3=v.toInt();
 												}
-												Polygon* pg=p->createPolygon();
-												pg->append(v1);
-												pg->append(v2);
-												pg->append(v3);
+												Polygon& pg=p->createPolygon();
+												pg.append(v1);
+												pg.append(v2);
+												pg.append(v3);
 											}
 											xml.skipCurrentElement();
 										}

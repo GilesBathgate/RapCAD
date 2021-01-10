@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2020 Giles Bathgate
+ *   Copyright (C) 2010-2021 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -306,13 +306,17 @@ int TokenBuilder::buildIllegalChar(const QString&)
 
 int TokenBuilder::buildNumber(const QString& str)
 {
-	parserlval.number = new decimal(to_decimal(str));
+	QString number;
+	decimal unit=get_unit(str,number);
+	parserlval.number = new decimal(to_decimal(number)*unit);
 	return NUMBER;
 }
 
 int TokenBuilder::buildNumberExp(const QString& str)
 {
-	parserlval.number = new decimal(parse_numberexp(str));
+	QString number;
+	decimal unit=get_unit(str,number);
+	parserlval.number = new decimal(parse_numberexp(number)*unit);
 	return NUMBER;
 }
 
@@ -323,7 +327,9 @@ int TokenBuilder::buildRational()
 
 int TokenBuilder::buildRational(const QString& s)
 {
-	parserlval.number = new decimal(parse_rational(s));
+	QString number;
+	decimal unit=get_unit(s,number);
+	parserlval.number = new decimal(parse_rational(number)*unit);
 	return NUMBER;
 }
 
