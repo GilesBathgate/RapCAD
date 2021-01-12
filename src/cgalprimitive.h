@@ -94,7 +94,7 @@ private:
 	void convertBoundary();
 	CGAL::NefPolyhedron3* createVolume();
 	CGAL::NefPolyhedron3* createPolyline();
-	static CGAL::NefPolyhedron3* createPolyline(QVector<CGAL::Point3>);
+	static CGAL::NefPolyhedron3* createPolyline(CGALPolygon*);
 	CGAL::NefPolyhedron3* createPoints();
 	bool detectHoles(QList<CGALPolygon*>,bool);
 	bool hasHoles();

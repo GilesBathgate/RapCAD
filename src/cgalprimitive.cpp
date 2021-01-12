@@ -154,22 +154,29 @@ CGAL::NefPolyhedron3* CGALPrimitive::createVolume()
 
 CGAL::NefPolyhedron3* CGALPrimitive::createPolyline()
 {
-	auto* result=new CGAL::NefPolyhedron3();
+	if(polygons.isEmpty())
+		return new CGAL::NefPolyhedron3();
+
+	CGAL::NefPolyhedron3* result=nullptr;
 	for(CGALPolygon* pg: polygons) {
-		QVector<CGAL::Point3> pl=pg->getPoints().toVector();
-		CGAL::NefPolyhedron3* np=createPolyline(pl);
-		*result=result->join(*np);
-		delete np;
+		if(!result) {
+			result=createPolyline(pg);
+		} else {
+			auto* np=createPolyline(pg);
+			*result=result->join(*np);
+			delete np;
+		}
 	}
 
 	return result;
 }
 
-CGAL::NefPolyhedron3* CGALPrimitive::createPolyline(QVector<CGAL::Point3> pl)
+CGAL::NefPolyhedron3* CGALPrimitive::createPolyline(CGALPolygon* pg)
 {
 	using PointRange = QPair<CGAL::Point3*,CGAL::Point3*>;
 	using PolyLine = QList<PointRange>;
 
+	QVector<CGAL::Point3> pl=pg->getPoints().toVector();
 	PointRange p(pl.begin(),pl.end());
 	PolyLine poly;
 	poly.push_back(p);
@@ -179,6 +186,9 @@ CGAL::NefPolyhedron3* CGALPrimitive::createPolyline(QVector<CGAL::Point3> pl)
 CGAL::NefPolyhedron3* CGALPrimitive::createPoints()
 {
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,8,0)
+	using PointRange = QPair<CGAL::Point3*,CGAL::Point3*>;
+	using PolyLine = QList<PointRange>;
+
 	CGAL::NefPolyhedron3* result=nullptr;
 	QVector<CGAL::Point3> pl1,pl2;
 	CGAL::Point3 p1=CGAL::Point3(0.0,0.0,0.0);
@@ -187,11 +197,17 @@ CGAL::NefPolyhedron3* CGALPrimitive::createPoints()
 
 	pl1.append(p1);
 	pl1.append(p2);
-	const CGAL::NefPolyhedron3* np1=createPolyline(pl1);
+	PointRange pr1(pl1.begin(),pl1.end());
+	PolyLine poly1;
+	poly1.push_back(pr1);
+	const CGAL::NefPolyhedron3* np1=new CGAL::NefPolyhedron3(poly1.begin(), poly1.end(), CGAL::NefPolyhedron3::Polylines_tag());
 
 	pl2.append(p1);
 	pl2.append(p3);
-	const CGAL::NefPolyhedron3* np2=createPolyline(pl2);
+	PointRange pr2(pl2.begin(),pl2.end());
+	PolyLine poly2;
+	poly2.push_back(pr2);
+	const CGAL::NefPolyhedron3* np2=new CGAL::NefPolyhedron3(poly2.begin(), poly2.end(), CGAL::NefPolyhedron3::Polylines_tag());
 
 	const CGAL::NefPolyhedron3& sp=np1->intersection(*np2);
 	delete np1;
