@@ -221,7 +221,9 @@ Value* VectorValue::operation(Value& v, Operators e)
 			QList<Value*> a=getElements();
 			result=a;
 			result.append(num);
-		} else if(e==Operators::Exponent) {
+			return factory.createVector(result);
+		}
+		if(e==Operators::Exponent) {
 			QList<Value*> a=getElements();
 			Value* total=factory.createNumber(0.0);
 			for(Value* c: a) {
@@ -229,15 +231,21 @@ Value* VectorValue::operation(Value& v, Operators e)
 				total=Value::operation(total,Operators::Add,r);
 			}
 			return total;
-		} else if(e==Operators::Index) {
-			return getIndex(num);
-		} else {
-			QList<Value*> a=getElements();
-			e=convertOperation(e);
-			for(Value* c: a)
-				result.append(Value::operation(c,e,num));
 		}
+		if(e==Operators::Index) {
+			return getIndex(num);
+		}
+		if(e==Operators::CrossProduct) {
+			return factory.createUndefined();
+		}
+
+		QList<Value*> a=getElements();
+		e=convertOperation(e);
+		for(Value* c: a)
+			result.append(Value::operation(c,e,num));
+
 		return factory.createVector(result);
+
 	}
 
 	return Value::operation(v,e);
