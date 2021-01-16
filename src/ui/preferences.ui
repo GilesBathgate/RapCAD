@@ -742,6 +742,8 @@
   <tabstop>tabWidget</tabstop>
   <tabstop>fontComboBox</tabstop>
   <tabstop>sizeComboBox</tabstop>
+  <tabstop>highlightLineCheckbox</tabstop>
+  <tabstop>tooltipsCheckBox</tabstop>
   <tabstop>markedFacetColorToolButton</tabstop>
   <tabstop>facetColorToolButton</tabstop>
   <tabstop>markedEdgeColorToolButton</tabstop>
@@ -764,7 +766,15 @@
   <tabstop>decimalRoundingRadio</tabstop>
   <tabstop>base2RoundingRadio</tabstop>
   <tabstop>noRoundingRadio</tabstop>
+  <tabstop>scientificRadio</tabstop>
+  <tabstop>rationalRadio</tabstop>
+  <tabstop>fixedRadio</tabstop>
   <tabstop>checkBox</tabstop>
+  <tabstop>launchCommandLineEdit</tabstop>
+  <tabstop>_3mfRadioButton</tabstop>
+  <tabstop>AMFRadioButton</tabstop>
+  <tabstop>processingScriptlineEdit</tabstop>
+  <tabstop>showGCODEButtonCheckbox</tabstop>
  </tabstops>
  <resources/>
  <connections>
