@@ -19,6 +19,7 @@
 #include "cgalpolygon.h"
 #include "cgalprimitive.h"
 #include <CGAL/normal_vector_newell_3.h>
+#include "onceonly.h"
 
 CGALPolygon::CGALPolygon(CGALPrimitive& p) :
 	Polygon(p),
@@ -59,6 +60,20 @@ QList<CGAL::Point2> CGALPolygon::getProjectedPoints()
 		points.append(pro->project(p3));
 	}
 	return points;
+}
+
+QList<CGAL::Segment3> CGALPolygon::getSegments()
+{
+		QList<CGAL::Segment3> segments;
+		CGAL::Point3 prev;
+		OnceOnly first;
+		for(const auto& next: getPoints())
+		{
+			if(!first())
+				segments.append(CGAL::Segment3(prev,next));
+			prev=next;
+		}
+		return segments;
 }
 
 CGAL::Direction3 CGALPolygon::getDirection() const

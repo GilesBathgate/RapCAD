@@ -25,6 +25,11 @@
 #include "polygon.h"
 #include "cgalprojection.h"
 
+namespace CGAL
+{
+using Segment3 = CGAL::Segment_3<CGAL::Kernel3>;
+}
+
 class CGALPolygon : public Polygon
 {
 public:
@@ -36,6 +41,7 @@ public:
 
 	QList<CGAL::Point3> getPoints() const;
 	QList<CGAL::Point2> getProjectedPoints();
+	QList<CGAL::Segment3> getSegments();
 
 	CGAL::Direction3 getDirection() const;
 	CGAL::Vector3 getNormal() const;

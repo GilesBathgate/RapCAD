@@ -34,6 +34,7 @@ namespace CGAL
 {
 using Polyhedron3 = Polyhedron_3<Kernel3> ;
 using NefPolyhedron3 = Nef_polyhedron_3<Kernel3>;
+using Segment3 = CGAL::Segment_3<CGAL::Kernel3>;
 }
 
 class CGALPrimitive : public Primitive
@@ -95,6 +96,8 @@ private:
 	CGAL::NefPolyhedron3* createVolume();
 	CGAL::NefPolyhedron3* createPolyline();
 	static CGAL::NefPolyhedron3* createPolyline(CGALPolygon*);
+	static CGAL::NefPolyhedron3* createPolyline(const CGAL::Segment3&);
+	static CGAL::NefPolyhedron3* createPolyline(QVector<CGAL::Point3>);
 	CGAL::NefPolyhedron3* createPoints();
 	bool detectHoles(QList<CGALPolygon*>,bool);
 	bool hasHoles();

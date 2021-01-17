@@ -152,6 +152,21 @@ CGAL::NefPolyhedron3* CGALPrimitive::createVolume()
 	return new CGAL::NefPolyhedron3(poly);
 }
 
+static bool connected(const CGAL::Segment3& a,const CGAL::Segment3& b)
+{
+	return (a.source()==b.source()||a.source()==b.target()||a.target()==b.source()||a.target()==b.target());
+}
+
+static bool validPolyLine(const QList<CGAL::Segment3>& segments)
+{
+	for(const auto& segment: segments)
+		for(const auto& other: segments)
+			if(!segment.identical(other) && !connected(segment,other) && do_intersect(segment,other))
+				return false;
+
+	return true;
+}
+
 CGAL::NefPolyhedron3* CGALPrimitive::createPolyline()
 {
 	if(polygons.isEmpty())
@@ -159,6 +174,19 @@ CGAL::NefPolyhedron3* CGALPrimitive::createPolyline()
 
 	CGAL::NefPolyhedron3* result=nullptr;
 	for(CGALPolygon* pg: polygons) {
+		auto segments=pg->getSegments();
+		if(!sanitized && !validPolyLine(segments))
+			for(const auto& segment: segments)
+			{
+				if(!result) {
+					result=createPolyline(segment);
+				} else {
+					auto* np=createPolyline(segment);
+					*result=result->join(*np);
+					delete np;
+				}
+			}
+
 		if(!result) {
 			result=createPolyline(pg);
 		} else {
@@ -167,16 +195,31 @@ CGAL::NefPolyhedron3* CGALPrimitive::createPolyline()
 			delete np;
 		}
 	}
+	if(!result)
+		return new CGAL::NefPolyhedron3();
 
+	setSanitized(true);
 	return result;
 }
 
 CGAL::NefPolyhedron3* CGALPrimitive::createPolyline(CGALPolygon* pg)
 {
+	return createPolyline(pg->getPoints().toVector());
+}
+
+CGAL::NefPolyhedron3* CGALPrimitive::createPolyline(const CGAL::Segment3& s)
+{
+	QVector<CGAL::Point3> pl;
+	pl.append(s.source());
+	pl.append(s.target());
+	return createPolyline(pl);
+}
+
+CGAL::NefPolyhedron3* CGALPrimitive::createPolyline(QVector<CGAL::Point3> pl)
+{
 	using PointRange = QPair<CGAL::Point3*,CGAL::Point3*>;
 	using PolyLine = QList<PointRange>;
 
-	QVector<CGAL::Point3> pl=pg->getPoints().toVector();
 	PointRange p(pl.begin(),pl.end());
 	PolyLine poly;
 	poly.push_back(p);
