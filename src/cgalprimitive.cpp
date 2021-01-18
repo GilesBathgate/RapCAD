@@ -174,18 +174,20 @@ CGAL::NefPolyhedron3* CGALPrimitive::createPolyline()
 
 	CGAL::NefPolyhedron3* result=nullptr;
 	for(CGALPolygon* pg: polygons) {
-		auto segments=pg->getSegments();
-		if(!sanitized && !validPolyLine(segments))
-			for(const auto& segment: segments)
-			{
-				if(!result) {
-					result=createPolyline(segment);
-				} else {
-					auto* np=createPolyline(segment);
-					*result=result->join(*np);
-					delete np;
+		if(!sanitized) {
+			auto segments=pg->getSegments();
+			if(!validPolyLine(segments)) {
+				for(const auto& segment: segments) {
+					if(!result) {
+						result=createPolyline(segment);
+					} else {
+						auto* np=createPolyline(segment);
+						*result=result->join(*np);
+						delete np;
+					}
 				}
 			}
+		}
 
 		if(!result) {
 			result=createPolyline(pg);
