@@ -70,9 +70,13 @@ Value* NumberValue::operation(Value& v, Operators e)
 		if(e==Operators::Divide||e==Operators::Modulus) {
 			if(num->number==0.0)
 				return factory.createUndefined();
-		} else if(e==Operators::Exponent) {
+		}
+		if(e==Operators::Exponent) {
 			if(number==0.0&&num->number<=0.0)
 				return factory.createUndefined();
+		}
+		if(e==Operators::CrossProduct) {
+			return factory.createUndefined();
 		}
 
 		decimal result=basicOperation(number,e,num->number);
@@ -91,6 +95,11 @@ Value* NumberValue::operation(Value& v, Operators e)
 				result.append(Value::operation(this,e,c));
 
 			return factory.createVector(result);
+		}
+		if(e==Operators::CrossProduct) {
+			//Q: "What do you get when you cross a mountain-climber with a mosquito?"
+			//A: "Nothing: you can't cross a scaler with a vector"
+			return factory.createUndefined();
 		}
 
 		// most operations between scalars and vectors are commutative e.g.

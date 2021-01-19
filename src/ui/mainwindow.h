@@ -28,6 +28,7 @@
 #include "texteditiodevice.h"
 #include "backgroundworker.h"
 #include "preferencesdialog.h"
+#include "aboutdialog.h"
 #include "interactive.h"
 
 namespace Ui
@@ -74,7 +75,7 @@ private slots:
 	void paste();
 	void tabChanged(int);
 	static void print();
-	static void showAbout();
+	void showAbout();
 	void showAboutQt();
 	void showBuiltins();
 	static void showUserGuide();
@@ -107,6 +108,7 @@ private:
 	Reporter* reporter;
 	BackgroundWorker* worker;
 	Interactive* interact;
+	AboutDialog* aboutDialog;
 	PreferencesDialog* preferencesDialog;
 	QList<QTemporaryFile*> temporyFiles;
 };

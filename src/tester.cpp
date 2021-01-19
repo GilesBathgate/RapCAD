@@ -201,6 +201,7 @@ int Tester::evaluate()
 
 void Tester::runUiTests()
 {
+	aboutTest();
 	preferencesTest();
 	renderingTest();
 	searchTest();
@@ -208,6 +209,21 @@ void Tester::runUiTests()
 	builtinsTest();
 
 	QTimer::singleShot(1000,ui,SLOT(close()));
+}
+
+void Tester::aboutTest()
+{
+	ui->activateWindow();
+	QTest::keyClick(ui,Qt::Key_E,Qt::AltModifier);
+	auto* menuHelp = ui->findChild<QMenu*>("menuHelp");
+	QTest::keyClick(menuHelp,Qt::Key_Up);
+	QTest::keyClick(menuHelp,Qt::Key_Up);
+	QTest::keyClick(menuHelp,Qt::Key_Up);
+	QTest::keyClick(menuHelp,Qt::Key_Enter);
+
+	auto* about = ui->findChild<QDialog*>("AboutDialog");
+	about->activateWindow();
+	QTest::keyClick(about,Qt::Key_Enter,Qt::NoModifier,100);
 }
 
 void Tester::preferencesTest()

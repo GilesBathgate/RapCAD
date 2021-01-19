@@ -30,7 +30,6 @@
 #include "preferences.h"
 #include "saveitemsdialog.h"
 #include "printconsole.h"
-#include "aboutdialog.h"
 #include "builtincreator.h"
 #include "stringify.h"
 #include "cachemanager.h"
@@ -61,6 +60,7 @@ MainWindow::MainWindow(QWidget* parent) :
 	setupConsole();
 	setupEditor(ui->scriptEditor);
 
+	aboutDialog=nullptr;
 	preferencesDialog=nullptr;
 	loadPreferences();
 
@@ -82,6 +82,7 @@ MainWindow::~MainWindow()
 	delete reporter;
 	delete worker;
 	delete interact;
+	delete aboutDialog;
 	delete preferencesDialog;
 	delete ui;
 }
@@ -727,8 +728,10 @@ void MainWindow::print()
 
 void MainWindow::showAbout()
 {
-	AboutDialog about;
-	about.exec();
+	if(!aboutDialog)
+		aboutDialog = new AboutDialog(this);
+
+	aboutDialog->show();
 }
 
 void MainWindow::showAboutQt()

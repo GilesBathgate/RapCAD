@@ -33,6 +33,7 @@ AboutDialog::AboutDialog(QWidget* parent) :
 	ui(new Ui::AboutDialog)
 {
 	ui->setupUi(this);
+	setModal(true);
 	setFixedSize(width(),height());
 
 	QIcon rapcadIcon(":/icons/rapcad-16x16.png");
