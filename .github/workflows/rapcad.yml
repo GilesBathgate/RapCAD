@@ -18,6 +18,8 @@ jobs:
       uses: actions/checkout@v2
     - name: Install Qt
       uses: jurplel/install-qt-action@v2.11.1
+      with:
+        mirror: http://mirrors.ocf.berkeley.edu/qt/
     - name: Install Dependencies
       run: sudo apt-get install -y libboost-dev libcgal-dev libglu1-mesa-dev libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0
     - name: Configure
@@ -49,6 +51,7 @@ jobs:
       uses: jurplel/install-qt-action@v2.11.1
       with:
         arch: win64_mingw81
+        mirror: http://mirrors.ocf.berkeley.edu/qt/
     - name: Install patched windeployqt
       run: |
         Invoke-WebRequest http://tripleboot.org/Uploads/windeployqt64releaseonly.zip -OutFile windeployqt64releaseonly.zip
@@ -131,6 +134,8 @@ jobs:
       uses: actions/checkout@v2
     - name: Install Qt
       uses: jurplel/install-qt-action@v2.11.1
+      with:
+        mirror: http://mirrors.ocf.berkeley.edu/qt/
     - name: Install Dependencies
       run: |
         brew install cgal bison
