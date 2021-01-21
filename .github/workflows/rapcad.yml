@@ -75,10 +75,12 @@ jobs:
         cached: ${{ steps.cache-qt.outputs.cache-hit }}
         arch: win64_mingw81
     - name: Install patched windeployqt
+      if: ${{ !steps.cache-qt.outputs.cache-hit }}
       run: |
         Invoke-WebRequest http://tripleboot.org/Uploads/windeployqt64releaseonly.zip -OutFile windeployqt64releaseonly.zip
         7z x -o"$env:Qt5_DIR\bin" windeployqt64releaseonly.zip
     - name: Install Flex/Bison
+      if: ${{ !steps.cache-qt.outputs.cache-hit }}
       run: |
         Invoke-WebRequest https://netix.dl.sourceforge.net/project/winflexbison/win_flex_bison-latest.zip -OutFile FlexBison.zip
         7z x -o"$env:Qt5_DIR\bin" FlexBison.zip
