@@ -60,13 +60,6 @@ void Worker::setup(const QString& i,const QString& o,bool g)
 
 int Worker::evaluate()
 {
-	internal();
-	return reporter.getReturnCode();
-}
-
-void Worker::internal()
-{
-
 	try {
 		reporter.startTiming();
 
@@ -91,6 +84,7 @@ void Worker::internal()
 	update();
 
 	finish();
+	return reporter.getReturnCode();
 }
 
 void Worker::primary()

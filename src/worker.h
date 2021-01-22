@@ -43,24 +43,22 @@ public:
 	void resultAccepted();
 	Renderer* getRenderer();
 protected:
-	void internal();
 	virtual void update() {}
 	virtual void finish() {}
-	Instance* addProductInstance(const QString&, Script&);
-
-	QFileInfo inputFile;
-	QString outputFile;
-	bool generate;
 private:
+	Instance* addProductInstance(const QString&, Script&);
 	static QList<Argument*> getArgs(const decimal&);
-	void primary();
-	void generation();
 	decimal getBoundsHeight() const;
+	void generation();
+	void primary();
 	void resultFailed(const QString&);
 	void updatePrimitive(Primitive*);
 
 	Primitive* primitive;
 	Primitive* previous;
+	QFileInfo inputFile;
+	QString outputFile;
+	bool generate;
 };
 
 #endif // WORKER_H
