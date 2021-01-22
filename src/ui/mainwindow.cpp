@@ -650,7 +650,7 @@ void MainWindow::compileOrGenerate(bool generate)
 		QString file=e->getFileName();
 		if(!file.isEmpty()) {
 			ui->view->setCompiling(!generate);
-			worker->setup(file,"",false,generate);
+			worker->setup(file,"",generate);
 
 			//Stop the syntax highlighter to prevent a crash
 			CodeEditor::stopHighlighting();

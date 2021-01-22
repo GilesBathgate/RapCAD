@@ -40,7 +40,6 @@ Worker::Worker(Reporter& r) :
 	Strategy(r),
 	inputFile(""),
 	outputFile(""),
-	print(false),
 	generate(false),
 	primitive(nullptr),
 	previous(nullptr)
@@ -52,11 +51,10 @@ Worker::~Worker()
 	delete primitive;
 }
 
-void Worker::setup(const QString& i,const QString& o,bool p,bool g)
+void Worker::setup(const QString& i,const QString& o,bool g)
 {
 	inputFile=i;
 	outputFile=o;
-	print=p;
 	generate=g;
 }
 
@@ -100,26 +98,14 @@ void Worker::primary()
 	Script s(reporter);
 	s.parse(inputFile);
 
-	if(print) {
-		TreePrinter p(output);
-		s.accept(p);
-		output << Qt::endl;
-	}
-
 	TreeEvaluator e(reporter);
 	s.accept(e);
 	output.flush();
 
 	Node* n = e.getRootNode();
-	if(print) {
-		NodePrinter p(output);
-		n->accept(p);
-		output << Qt::endl;
-	} else {
-		NodeEvaluator ne(reporter);
-		n->accept(ne);
-		updatePrimitive(ne.getResult());
-	}
+	NodeEvaluator ne(reporter);
+	n->accept(ne);
+	updatePrimitive(ne.getResult());
 	delete n;
 
 	if(!primitive)

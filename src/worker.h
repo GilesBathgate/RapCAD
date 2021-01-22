@@ -36,7 +36,7 @@ class Worker : public Strategy
 public:
 	explicit Worker(Reporter&);
 	~Worker() override;
-	void setup(const QString&,const QString&,bool,bool);
+	void setup(const QString&,const QString&,bool);
 	int evaluate() override;
 	void exportResult(const QString&);
 	bool resultAvailable();
@@ -50,7 +50,6 @@ protected:
 
 	QFileInfo inputFile;
 	QString outputFile;
-	bool print;
 	bool generate;
 private:
 	static QList<Argument*> getArgs(const decimal&);

@@ -98,9 +98,6 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Re
 	QCommandLineOption compareOption(QStringList() << "c" << "compare", QCoreApplication::translate("main","Compare two files to see if they are identical."),"filename");
 	p.addOption(compareOption);
 
-	QCommandLineOption printOption(QStringList() << "p" << "print", QCoreApplication::translate("main","Print debugging output."));
-	p.addOption(printOption);
-
 	QCommandLineOption outputOption(QStringList() << "o" << "output",QCoreApplication::translate("main","Create output file <filename>."),"filename");
 	p.addOption(outputOption);
 
@@ -132,12 +129,7 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Re
 #endif
 	if(p.isSet(outputOption)) {
 		auto* w=new Worker(reporter);
-		w->setup(inputFile,p.value(outputOption),false,false);
-		return w;
-	}
-	if(p.isSet(printOption)) {
-		auto* w=new Worker(reporter);
-		w->setup(inputFile,"",true,false);
+		w->setup(inputFile,p.value(outputOption),false);
 		return w;
 	}
 #ifdef USE_READLINE
