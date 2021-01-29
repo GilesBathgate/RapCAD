@@ -38,11 +38,11 @@
 
 Worker::Worker(Reporter& r) :
 	Strategy(r),
+	primitive(nullptr),
+	previous(nullptr),
 	inputFile(""),
 	outputFile(""),
-	generate(false),
-	primitive(nullptr),
-	previous(nullptr)
+	generate(false)
 {
 }
 
