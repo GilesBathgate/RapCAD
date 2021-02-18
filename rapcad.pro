@@ -155,6 +155,7 @@ SOURCES += \
 	contrib/qcommandlineoption.cpp \
 	src/assertexception.cpp \
 	src/builtinmanager.cpp \
+	src/cgaldiscretemodifier.cpp \
 	src/cgalsanitizer.cpp \
 	src/function/assertfunction.cpp \
 	src/function/ordinalfunction.cpp \
@@ -404,6 +405,7 @@ HEADERS  += \
 	contrib/qtcompat.h \
 	src/assertexception.h \
 	src/builtinmanager.h \
+	src/cgaldiscretemodifier.h \
 	src/cgalsanitizer.h \
 	src/cgaltrace.h \
 	src/function/assertfunction.h \

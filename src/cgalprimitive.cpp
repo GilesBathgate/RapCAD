@@ -40,6 +40,7 @@
 #include "cgalbuilder.h"
 #include "cgalsanitizer.h"
 #include "cgalexplorer.h"
+#include "cgaldiscretemodifier.h"
 #include "onceonly.h"
 #include "rmath.h"
 
@@ -738,35 +739,15 @@ void CGALPrimitive::appendChildren(QList<Primitive*> p)
 	children.append(p);
 }
 
-static CGAL::Point3 discretePoint(const CGAL::Point3& pt,int places)
-{
-	CGAL::Scalar x=r_round(pt.x(),places);
-	CGAL::Scalar y=r_round(pt.y(),places);
-	CGAL::Scalar z=r_round(pt.z(),places);
-	return CGAL::Point3(x,y,z);
-}
-
-class DiscreteNef : public CGAL::NefPolyhedron3
-{
-public:
-	void discrete(int places)
-	{
-		Vertex_iterator v;
-		CGAL_forall_vertices(v,snc()) {
-			v->point()=discretePoint(v->point(),places);
-		}
-	}
-};
-
 void CGALPrimitive::discrete(int places)
 {
 	if(nefPolyhedron) {
-		auto* n=static_cast<DiscreteNef*>(nefPolyhedron);
-		n->discrete(places);
+		CGALDiscreteModifier n(places);
+		nefPolyhedron->delegate(n,false,false);
 	} else {
 		QList<CGAL::Point3> nps;
 		for(const auto& pt: points) {
-			nps.append(discretePoint(pt,places));
+			nps.append(CGALDiscreteModifier::discretePoint(pt,places));
 		}
 		points=nps;
 	}
