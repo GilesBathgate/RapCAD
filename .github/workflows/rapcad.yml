@@ -93,6 +93,7 @@ jobs:
         Invoke-WebRequest https://github.com/CGAL/cgal/releases/download/v5.2/CGAL-5.2-win64-auxiliary-libraries-gmp-mpfr.zip -OutFile CGAL-gmp-mpfr.zip
         7z x -o"$env:CGAL_DIR" CGAL-gmp-mpfr.zip -aoa
     - name: Install asciidoc/source-highlight
+      if: ${{ matrix.config == 'official' }}
       run: |
         Invoke-WebRequest https://github.com/asciidoc-py/asciidoc-py/releases/download/9.1.0/asciidoc-9.1.0.zip -OutFile asciidoc.zip
         7z x -oC:\ asciidoc.zip
@@ -113,6 +114,7 @@ jobs:
     - name: Clean
       run: mingw32-make clean -f Makefile.Release
     - name: Build documentation
+      if: ${{ matrix.config == 'official' }}
       run: |
         mingw32-make user_guide.html -f Makefile.Release
         cp user_guide.html release
