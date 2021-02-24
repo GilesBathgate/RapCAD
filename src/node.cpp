@@ -38,3 +38,8 @@ QList<Node*> Node::getChildren() const
 {
 	return children;
 }
+
+int Node::childCount() const
+{
+	return children.count();
+}
