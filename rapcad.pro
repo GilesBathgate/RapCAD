@@ -156,6 +156,7 @@ SOURCES += \
 	src/assertexception.cpp \
 	src/builtinmanager.cpp \
 	src/cgaldiscretemodifier.cpp \
+	src/cgalgroupmodifier.cpp \
 	src/cgalsanitizer.cpp \
 	src/function/assertfunction.cpp \
 	src/function/ordinalfunction.cpp \
@@ -406,6 +407,7 @@ HEADERS  += \
 	src/assertexception.h \
 	src/builtinmanager.h \
 	src/cgaldiscretemodifier.h \
+	src/cgalgroupmodifier.h \
 	src/cgalsanitizer.h \
 	src/cgaltrace.h \
 	src/function/assertfunction.h \

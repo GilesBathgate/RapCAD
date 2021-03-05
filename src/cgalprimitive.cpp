@@ -25,6 +25,7 @@
 #include <CGAL/Min_circle_2_traits_2.h>
 #include <CGAL/bounding_box.h>
 #include <CGAL/Polygon_2_algorithms.h>
+#include <CGAL/Nef_3/Mark_bounded_volumes.h>
 
 #if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(4,12,2)
 #include <CGAL/boost/graph/convert_nef_polyhedron_to_polygon_mesh.h>
@@ -41,6 +42,7 @@
 #include "cgalsanitizer.h"
 #include "cgalexplorer.h"
 #include "cgaldiscretemodifier.h"
+#include "cgalgroupmodifier.h"
 #include "onceonly.h"
 #include "rmath.h"
 
@@ -343,29 +345,26 @@ bool CGALPrimitive::overlaps(Primitive* pr)
 	return CGAL::do_intersect(this->getBounds(),that->getBounds());
 }
 
-
-Primitive* CGALPrimitive::group(Primitive* that)
+Primitive* CGALPrimitive::group(Primitive* pr)
 {
-	QList<Primitive*> primitives;
-	primitives.append(this);
-	primitives.append(that);
-
-	auto* cp=new CGALPrimitive();
-	for(Primitive* pr: primitives) {
-		auto* prim=dynamic_cast<CGALPrimitive*>(pr);
-		if(!prim) continue;
-		if(prim->nefPolyhedron) {
-			CGALExplorer e(prim);
-			prim=e.getPrimitive();
-		}
-		for(CGALPolygon* p: prim->getCGALPolygons()) {
-			cp->createPolygon();
-			for(const auto& pt: p->getPoints()) {
-				cp->appendVertex(pt);
-			}
-		}
+	if(!pr) return this;
+	auto* that=dynamic_cast<CGALPrimitive*>(pr);
+	if(!that) {
+		pr->appendChild(this);
+		return pr;
 	}
-	return cp;
+	this->buildPrimitive();
+	that->buildPrimitive();
+
+	CGALGroupModifier m(*that->nefPolyhedron);
+	nefPolyhedron->delegate(m,true,false);
+
+	CGAL::Mark_bounded_volumes<CGAL::NefPolyhedron3::SNC_structure> mbv(true);
+	nefPolyhedron->delegate(mbv,false,false);
+
+	this->appendChild(that);
+	return this;
+
 }
 
 QList<CGALPolygon*> CGALPrimitive::getCGALPolygons() const
