@@ -46,9 +46,9 @@ void SimpleRenderer::descendChildren(Primitive* p)
 	for(Primitive* c: p->getChildren()) {
 		descendChildren(c);
 
-		for(Polygon* p: c->getPolygons()) {
+		for(Polygon* pg: c->getPolygons()) {
 			glBegin(GL_LINE_STRIP);
-			for(const auto& pt: p->getPoints()) {
+			for(const auto& pt: pg->getPoints()) {
 #ifdef USE_CGAL
 				GLfloat x;
 				GLfloat y;

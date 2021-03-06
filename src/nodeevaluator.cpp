@@ -457,10 +457,10 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 
 	auto* extruded=new CGALPrimitive();
 	if(caps) {
-		foreach(CGALPolygon* pg,polygons) {
+		for(CGALPolygon* pg: polygons) {
 			extruded->createPolygon();
 			bool up=(pg->getDirection()==d);
-			foreach(CGAL::Point3 pt,pg->getPoints()) {
+			for(CGAL::Point3 pt: pg->getPoints()) {
 				CGAL::Point3 q=translate(pt,t);
 				extruded->addVertex(q,up);
 			}
@@ -515,10 +515,10 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 	}
 
 	if(caps) {
-		foreach(CGALPolygon* pg,polygons) {
+		for(CGALPolygon* pg: polygons) {
 			extruded->createPolygon();
 			bool up=(pg->getDirection()==d);
-			foreach(CGAL::Point3 pt,pg->getPoints()) {
+			for(CGAL::Point3 pt: pg->getPoints()) {
 				CGAL::Point3 q=translate(pt,t);
 				CGAL::Point3 p=rotate(q,nphi,axis);
 				extruded->addVertex(p,!up);
@@ -663,13 +663,13 @@ void NodeEvaluator::visit(const NormalsNode& n)
 		CGAL::Point3 c=CGAL::centroid(pts.begin(),pts.end());
 
 		CGAL::Scalar l=r_sqrt(v.squared_length());
-		CGAL::Point3 n=c+(v/l);
+		CGAL::Point3 norm=c+(v/l);
 		l=r_sqrt(b.squared_length());
 		b=b/(l*8.0);
 
 		Polygon& np=a->createPolygon();
 		a->createVertex(c+b);
-		a->createVertex(n);
+		a->createVertex(norm);
 		a->createVertex(c-b);
 		np.append(i++);
 		np.append(i++);

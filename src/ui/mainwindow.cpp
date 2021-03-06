@@ -523,8 +523,8 @@ bool MainWindow::maybeSave(bool compiling)
 		bool autoSave = s.getAutoSaveOnCompile();
 		p.setAutoSaveOnCompile(autoSave);
 
-		QList<QString> files=s.getItemsToSave();
-		return saveSelectedFiles(files);
+		QList<QString> f=s.getItemsToSave();
+		return saveSelectedFiles(f);
 	}
 
 	return false;

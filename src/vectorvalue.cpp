@@ -171,9 +171,9 @@ Value* VectorValue::operation(Value& v, Operators e)
 			return factory.createUndefined();
 		}
 		if(e==Operators::Length) {
-			Value* a=Value::operation(this,Operators::Multiply,this);
-			Value* b=Value::operation(&v,Operators::Multiply,&v);
-			Value* n=Value::operation(a,Operators::Multiply,b);
+			Value* a2=Value::operation(this,Operators::Multiply,this);
+			Value* b2=Value::operation(&v,Operators::Multiply,&v);
+			Value* n=Value::operation(a2,Operators::Multiply,b2);
 			auto* l=dynamic_cast<NumberValue*>(n);
 			if(l)
 				return factory.createNumber(r_sqrt(l->getNumber()));

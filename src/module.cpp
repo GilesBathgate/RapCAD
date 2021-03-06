@@ -96,11 +96,11 @@ void Module::addDeprecated(const QString& d)
 	description=d;
 }
 
-void Module::addParameter(const QString& name, const QString& desc)
+void Module::addParameter(const QString& n, const QString& d)
 {
 	auto* p=new Parameter();
-	p->setName(name);
-	p->addDescription(desc);
+	p->setName(n);
+	p->addDescription(d);
 	parameters.append(p);
 }
 

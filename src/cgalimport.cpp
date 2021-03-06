@@ -134,10 +134,10 @@ Primitive* CGALImport::importSTL() const
 
 	if(!binary && QString(header).startsWith("solid")) {
 		f.seek(0);
-		QTextStream data(&f);
+		QTextStream stream(&f);
 		QRegExp re=QRegExp("\\s*(vertex)?\\s+");
-		while(!data.atEnd()) {
-			QString line=data.readLine();
+		while(!stream.atEnd()) {
+			QString line=stream.readLine();
 			if(line.contains("solid") || line.contains("facet") || line.contains("endloop"))
 				continue;
 			if(line.contains("outer loop")) {

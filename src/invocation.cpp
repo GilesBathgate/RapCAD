@@ -34,9 +34,9 @@ QString Invocation::getName() const
 	return name;
 }
 
-void Invocation::setNamespace(const QString& name)
+void Invocation::setNamespace(const QString& ns)
 {
-	nameSpace = name;
+	nameSpace = ns;
 }
 
 QString Invocation::getNamespace() const

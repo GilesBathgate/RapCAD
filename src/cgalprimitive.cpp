@@ -557,10 +557,10 @@ bool CGALPrimitive::hasHoles()
 	return detectHoles(polygons,true);
 }
 
-bool CGALPrimitive::detectHoles(QList<CGALPolygon*> polygons,bool check)
+bool CGALPrimitive::detectHoles(QList<CGALPolygon*> polys,bool check)
 {
-	for(auto* pg1: polygons) {
-		for(auto* pg2: polygons) {
+	for(auto* pg1: polys) {
+		for(auto* pg2: polys) {
 			if(pg1==pg2) continue;
 			if(!pg1->sameProjection(pg2)) continue;
 

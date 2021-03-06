@@ -71,14 +71,14 @@ QList <Statement*> Instance::getChildren() const
 	return children;
 }
 
-void Instance::setNamespace(const QString& name)
+void Instance::setNamespace(const QString& ns)
 {
-	name_space = name;
+	nameSpace = ns;
 }
 
 QString Instance::getNamespace() const
 {
-	return name_space;
+	return nameSpace;
 }
 
 void Instance::accept(TreeVisitor& v)

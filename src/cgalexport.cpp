@@ -221,22 +221,22 @@ void CGALExport::exportAMFObject(CGALPrimitive* p,QXmlStreamWriter& xml) const
 	xml.writeStartElement("mesh");
 	xml.writeStartElement("vertices");
 
-	int vertex_count=0;
+	int vertexCount=0;
 	QMap<CGAL::Point3,int> vertices;
 	for(VertexIterator vi=poly->vertices_begin(); vi!=poly->vertices_end(); ++vi) {
-		CGAL::Point3 p=vi->point();
+		CGAL::Point3 pt=vi->point();
 		xml.writeStartElement("vertex");
 		xml.writeStartElement("coordinates");
-		QString x=to_string(p.x());
-		QString y=to_string(p.y());
-		QString z=to_string(p.z());
+		QString x=to_string(pt.x());
+		QString y=to_string(pt.y());
+		QString z=to_string(pt.z());
 		xml.writeTextElement("x",x);
 		xml.writeTextElement("y",y);
 		xml.writeTextElement("z",z);
 		xml.writeEndElement(); //coordinates
 		xml.writeEndElement(); //vertex
 
-		vertices.insert(p,vertex_count++);
+		vertices.insert(pt,vertexCount++);
 	}
 
 	xml.writeEndElement(); //vertices
@@ -327,7 +327,7 @@ void CGALExport::export3MF() const
 	xml.writeStartElement("mesh");
 	xml.writeStartElement("vertices");
 
-	int vertex_count=0;
+	int vertexCount=0;
 	QMap<CGAL::Point3,int> vertices;
 	for(VertexIterator vi=poly->vertices_begin(); vi!=poly->vertices_end(); ++vi) {
 		CGAL::Point3 p = vi->point();
@@ -340,7 +340,7 @@ void CGALExport::export3MF() const
 		xml.writeAttribute("z",z);
 		xml.writeEndElement(); //vertex
 
-		vertices.insert(p,vertex_count++);
+		vertices.insert(p,vertexCount++);
 	}
 
 	xml.writeEndElement(); //vertices

@@ -123,8 +123,8 @@ Preferences& Preferences::getInstance()
 
 Precision Preferences::getPrecision() const
 {
-	int precision=settings->value("Precision",2).toInt();
-	return static_cast<Precision>(precision);
+	int p=settings->value("Precision",2).toInt();
+	return static_cast<Precision>(p);
 }
 
 void Preferences::setPrecision(Precision p)

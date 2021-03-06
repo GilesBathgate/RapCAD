@@ -135,8 +135,8 @@ void Worker::generation()
 			}
 			reporter.reportMessage(tr("Manufacturing layer: %1").arg(i));
 
-			QList<Argument*> args=getArgs(i);
-			m->setArguments(args);
+			QList<Argument*> arg=getArgs(i);
+			m->setArguments(arg);
 
 			s.accept(*e);
 			Node* n=e->getRootNode();

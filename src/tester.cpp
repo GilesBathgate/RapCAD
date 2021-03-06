@@ -145,8 +145,8 @@ int Tester::evaluate()
 	for(const auto& entry: testDir.entryInfoList(QStringList("*_*"))) {
 
 		QDir dir(entry.absoluteFilePath());
-		QString testDir=entry.fileName();
-		if(testDir=="061_export") {
+		QString testDirName=entry.fileName();
+		if(testDirName=="061_export") {
 #ifndef Q_OS_WIN
 			exportTest(dir);
 #endif
@@ -157,7 +157,7 @@ int Tester::evaluate()
 
 			writeHeader(file.fileName(),++testcount);
 
-			if(skipDir(testDir)) {
+			if(skipDir(testDirName)) {
 				writeSkip();
 				continue;
 			}

@@ -54,7 +54,7 @@ private:
 	QList<Argument*> arguments;
 	QList<Statement*> children;
 	InstanceTypes type;
-	QString name_space;
+	QString nameSpace;
 };
 
 #endif // INSTANCE_H

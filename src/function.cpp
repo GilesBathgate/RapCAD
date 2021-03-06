@@ -79,18 +79,18 @@ Value* Function::evaluate(const Context&) const
 	return nullptr;
 }
 
-void Function::addParameter(const QString& name)
+void Function::addParameter(const QString& n)
 {
 	auto* p = new Parameter();
-	p->setName(name);
+	p->setName(n);
 	parameters.append(p);
 }
 
-void Function::addParameter(const QString& name, const QString& desc)
+void Function::addParameter(const QString& n, const QString& d)
 {
 	auto* p=new Parameter();
-	p->setName(name);
-	p->addDescription(desc);
+	p->setName(n);
+	p->addDescription(d);
 	parameters.append(p);
 }
 

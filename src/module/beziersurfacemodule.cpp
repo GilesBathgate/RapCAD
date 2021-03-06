@@ -89,24 +89,24 @@ Node* BezierSurfaceModule::evaluate(const Context& ctx) const
 
 	const int cols = 4;
 	const int rows = 4;
-	int i=0;
+	int row=0;
 	for(Value* pointsVal: meshVec->getElements()) {
 		Points points;
 		auto* pointsVec=dynamic_cast<VectorValue*>(pointsVal);
 		if(!pointsVec) continue;
-		int j=0;
+		int col=0;
 		for(Value* pointVal: pointsVec->getElements()) {
 			auto* pointVec=dynamic_cast<VectorValue*>(pointVal);
 			if(!pointVec) continue;
 			points.append(pointVec->getPoint());
-			if(++j >= cols) break;
+			if(++col >= cols) break;
 		}
-		if(j < cols)
+		if(col < cols)
 			return pn;
 		mesh.append(points);
-		if(++i >= rows) break;
+		if(++row >= rows) break;
 	}
-	if(i < rows)
+	if(row < rows)
 		return pn;
 
 	Fragment* fg = Fragment::createFragment(ctx);
