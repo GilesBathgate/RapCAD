@@ -57,12 +57,17 @@ jobs:
     env:
       CGAL_DIR: C:\CGAL-5.2\
       GMP:      C:\CGAL-5.2\auxiliary\gmp
-      BOOST_ROOT: C:\hostedtoolcache\windows\Boost\1.72.0\x86_64\include\boost-1_72
+      BOOST_ROOT: C:\boost_1_72_0
       ASCIIDOC: C:\asciidoc-9.1.0\
       MINGW: C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+    - name: Install Boost
+      run: |
+        $Url = "https://sourceforge.net/projects/boost/files/boost/1.72.0/boost_1_72_0.7z"
+        (New-Object System.Net.WebClient).DownloadFile($Url, "$env:TEMP\boost.7z")
+        7z x -oC:\ "$env:TEMP\boost.7z"
     - name: Cache Qt
       id: cache-qt
       uses: actions/cache@v1
