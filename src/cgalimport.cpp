@@ -19,7 +19,11 @@
 #include "cgalimport.h"
 #include <CGAL/IO/Polyhedron_iostream.h>
 #include <CGAL/IO/Nef_polyhedron_iostream_3.h>
+#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,3,0)
+#include <CGAL/IO/OBJ.h>
+#else
 #include <CGAL/IO/OBJ_reader.h>
+#endif
 #include <fstream>
 #include <QRegExp>
 #include <QStringList>

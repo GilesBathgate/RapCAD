@@ -25,7 +25,11 @@
 #include <QTextStream>
 #include <QString>
 #include <CGAL/IO/Polyhedron_iostream.h>
+#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,3,0)
+#include <CGAL/boost/graph/IO/polygon_mesh_io.h>
+#else
 #include <CGAL/IO/print_wavefront.h>
+#endif
 #include <CGAL/IO/Polyhedron_VRML_2_ostream.h>
 #include <CGAL/IO/Nef_polyhedron_iostream_3.h>
 #include <fstream>
@@ -87,9 +91,13 @@ void CGALExport::exportOBJ() const
 		return;
 
 	CGAL::Polyhedron3* poly=pr->getPolyhedron();
+#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,3,0)
+	CGAL::write_OBJ(fileInfo.absoluteFilePath().toStdString(),*poly);
+#else
 	std::ofstream file(QFile::encodeName(fileInfo.absoluteFilePath()));
 	print_polyhedron_wavefront(file,*poly);
 	file.close();
+#endif
 	delete poly;
 }
 
