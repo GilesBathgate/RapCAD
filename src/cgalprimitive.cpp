@@ -643,8 +643,10 @@ void CGALPrimitive::transform(TransformMatrix* matrix)
 		points=nps;
 	}
 
+	//Only transform auxilliary modules children.
 	for(Primitive* p: children)
-		p->transform(matrix);
+		if(!dynamic_cast<CGALPrimitive*>(p))
+			p->transform(matrix);
 }
 
 QList<Polygon*> CGALPrimitive::getPolygons() const
