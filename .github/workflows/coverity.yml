@@ -6,30 +6,38 @@ on:
 
 jobs:
   linux:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Install Qt
-      uses: jurplel/install-qt-action@v2.11.1
-      with:
-        mirror: http://mirrors.ocf.berkeley.edu/qt/
+      uses: jurplel/install-qt-action@v2.13.0
     - name: Install Dependencies
-      run: sudo apt-get install -y libboost-dev libcgal-dev libglu1-mesa-dev libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0
+      run: sudo apt-get install -y libboost-dev libboost-thread-dev libgmp-dev libmpfr-dev libglu1-mesa-dev libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-randr0
+    - name: Checkout CGAL
+      uses: actions/checkout@v2
+      with:
+        repository: CGAL/cgal
+        path: cgal
+    - name: Install CGAL
+      run: |
+        pushd cgal;
+        mkdir build;
+        pushd build;
+        cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release ..;
+        sudo make install;
+        popd;
+        popd;
+        rm -r cgal;
     - name: Patch CGAL
       run: |
         export CGAL_DIR=/usr/include/CGAL;
         export BOOST_ROOT=/usr/include/boost;
         sudo patch -l $BOOST_ROOT/random/linear_congruential.hpp < patch/Fix-Wtautological-overlap-compare-clang-warning.patch;
-        sudo patch -l $CGAL_DIR/Nef_S2/SM_overlayer.h < patch/Fix-use-of-uninitialized-variable-in-SM_overlayer.h.patch;
-        sudo patch -l $CGAL_DIR/IO/File_scanner_OFF.h < patch/Fix-use-of-uninitialized-variable-in-File_scanner_OFF.h.patch;
-        sudo patch -l $CGAL_DIR/IO/File_writer_OFF.h < patch/Fix-uninitialized-member-in-File_writer_OFF.h.patch;
-        sudo patch -l $CGAL_DIR/IO/File_writer_VRML_2.h < patch/Fix-uninitialized-member-in-File_writer_VRML_2.h.patch;
         sudo patch -l $CGAL_DIR/internal/Triangulation_ds_iterators_3.h < patch/Fix-uninitialized-member-in-Triangulation_ds_iterators_3.h.patch;
         sudo patch -l $CGAL_DIR/Triangulation_2/internal/Triangulation_line_face_circulator_2.h < patch/Fix-uninitialized-member-in-Triangulation_line_face_circulator_2.h.patch;
         sudo patch -l $CGAL_DIR/Triangulation_3.h < patch/Fix-uninitialized-member-in-Triangulation_3.h.patch;
         sudo patch -l $CGAL_DIR/Tools/chained_map.h < patch/Fix-uninitialized-member-in-chained_map.h.patch;
-        sudo patch -l $CGAL_DIR/Nef_3/ID_support_handler.h < patch/Performance-in-ID_support_handler.h.patch;
         sudo patch -l $CGAL_DIR/Nef_3/K3_tree.h < patch/Fix-uninitialized-member-in-K3_tree.h.patch;
         sudo patch -l $CGAL_DIR/GMP/Gmpz_type.h < patch/Fix-uninitialized-member-in-Gmpz_type.h.patch;
         sudo patch -l $CGAL_DIR/GMP/Gmpfr_type.h < patch/Fix-uninitialized-member-in-Gmpfr_type.h.patch;
@@ -46,34 +54,11 @@ jobs:
         sudo patch -l $CGAL_DIR/Straight_skeleton_2/Straight_skeleton_builder_events_2.h < patch/Fix-uninitialized-member-in-Straight_skeleton_builder_events_2.h.patch;
         sudo patch -l $CGAL_DIR/Filtered_predicate.h < patch/Fix-uninitialized-member-in-Filtered_predicate.h.patch;
         sudo patch -l $CGAL_DIR/Intersections_2/Segment_2_Segment_2.h < patch/Fix-uninitialized-member-in-Segment_2_Segment_2.h.patch;
-        sudo patch -l $CGAL_DIR/Nef_3/Vertex.h < patch/Fix-dereference-after-null-check-in-Nef_3-Vertex.h.patch;
-        sudo patch -l $CGAL_DIR/Nef_3/SNC_io_parser.h < patch/Fix-passing-big-parameters-by-value-in-SNC_io_parser.patch;
-        sudo patch -l $CGAL_DIR/Nef_2/debug.h < patch/Fix-warning-cgal-nef-debug.patch;
-        sudo patch -l $CGAL_DIR/assertions.h < patch/Add-a-destructor-assertion-catch-macro.patch;
-        sudo patch -l $CGAL_DIR/Nef_3/K3_tree.h < patch/Fix-uncaught-exception-in-K3_tree.h.patch;
-        sudo patch -l $CGAL_DIR/IO/VRML_2_ostream.h < patch/Fix-uncaught-exception-in-VRML_2_ostream.h.patch;
-        sudo patch -l $CGAL_DIR/Nef_S2/Sphere_map.h < patch/Fix-uncaught-exception-in-Sphere_map.h.patch;
-        sudo patch -l $CGAL_DIR/Nef_polyhedron_S2.h < patch/Fix-uncaught-exception-in-Nef_polyhedron_S2.h.patch;
-        sudo patch -l $CGAL_DIR/Nef_3/SNC_point_locator.h < patch/Fix-uncaught-exception-in-SNC_point_locator.h.patch;
-        sudo patch -l $CGAL_DIR/Handle_for.h < patch/Fix-uncaught-exception-in-Handle_for.h.patch;
-        sudo patch -l $CGAL_DIR/Straight_skeleton_2/Straight_skeleton_aux.h < patch/Add-noexcept-to-Ref_counted_base-in-Straight_skeleton_aux.h.patch;
-        sudo patch -l $CGAL_DIR/Nef_3/SNC_io_parser.h < patch/Add-bounds-checks-in-SNC_io_parser.h.patch;
-        sudo patch -l $CGAL_DIR/Handle.h < patch/Add-a-move-assignment-operator-to-Handle.h.patch;
-        sudo patch -l $CGAL_DIR/Nef_polyhedron_3.h < patch/Add-a-move-assignment-operator-to-Nef_Polyhedron_3.h.patch;
-        sudo patch -l $CGAL_DIR/internal/Static_filters/Collinear_3.h < patch/Remove-dead-code-in-Collinear_3.h.patch;
-        sudo patch -l $CGAL_DIR/HalfedgeDS_list.h < patch/Fix-uncaught-exception-in-HalfedgeDS_list.h.patch;
-        sudo patch -l $CGAL_DIR/In_place_list.h < patch/Fix-uncaught-exception-in-In_place_list.h.patch;
-        sudo patch -l $CGAL_DIR/Nef_3/SNC_simplify.h < patch/Fix-structurally-dead-code-in-SNC_simplify.h.patch;
         sudo patch -l $CGAL_DIR/Nef_S2/SM_point_locator.h < patch/Fix-unchecked-return-value-warning-in-SM_point_locator.h.patch;
-        sudo patch -l $CGAL_DIR/Nef_3/SHalfloop.h < patch/Add-move-assignment-operator-to-SHalfloop.h.patch;
-        sudo patch -l $CGAL_DIR/Nef_3/Halfedge.h < patch/Add-move-assignment-operator-to-Halfedge.h.patch;
-        sudo patch -l $CGAL_DIR/Nef_3/SHalfedge.h < patch/Add-move-assignment-operator-to-SHalfedge.h.patch;
         sudo patch -l $CGAL_DIR/Subdivision_method_3/subdivision_masks_3.h < patch/Fix-division-by-zero-in-subdivision_masks_3.h.patch;
         sudo patch -l $CGAL_DIR/Convex_decomposition_3/SM_walls.h < patch/Fix-copy-paste-warning-in-SM_walls.h.patch;
         sudo patch -l $CGAL_DIR/Compact_container.h < patch/Fix-null-dereference-warnings-in-Compact_container.h.patch;
-        sudo patch -l $CGAL_DIR/Intersections_2/Line_2_Line_2.h < patch/Fix-uninitialized-member-in-Line_2_Line_2.h.patch;
-        sudo patch -l $CGAL_DIR/Surface_mesh_simplification/Detail/Edge_collapse_impl.h < patch/Fix-uninitialized-member-in-Edge_collapse_impl.h.patch;
-        sudo patch -l $CGAL_DIR/GMP/Gmpq_type.h < patch/Disable-destructor-when-CGAL_PROFILE-is-defined.patch;
+        sudo patch -l $CGAL_DIR/version.h < patch/update-version.h.patch;
     - name: Download coverity
       run: |
         wget -q https://scan.coverity.com/download/cxx/linux64 --post-data "token=$TOKEN&project=GilesBathgate%2FRapCAD" -O cov-analysis-linux64.tar.gz
@@ -82,11 +67,11 @@ jobs:
       env:
         TOKEN: ${{ secrets.COVERITY_SCAN_TOKEN }}
     - name: Configure
-      run: qmake CONFIG+=official
+      run: qmake -spec linux-clang CONFIG+=official
     - name: Build
       run: |
         export PATH=`pwd`/cov-analysis-linux64/bin:$PATH
-        cov-build --dir cov-int make -j4
+        cov-build --dir cov-int make -j2
     - name: Submit
       run: |
         tar czvf rapcad.tgz cov-int
