@@ -17,7 +17,7 @@
  */
 #ifdef USE_CGAL
 #include "cgalexplorer.h"
-#include <QMap>
+#include <QHash>
 #include <CGAL/config.h>
 #include <CGAL/Triangulation_3.h>
 #include <CGAL/centroid.h>
@@ -27,7 +27,6 @@
 using Nef = CGAL::NefPolyhedron3;
 using VolumeIterator = Nef::Volume_const_iterator;
 using ShellEntryIterator = Nef::Shell_entry_const_iterator;
-using HalfEdgeHandle = Nef::Halfedge_const_handle;
 using SFaceHandle = Nef::SFace_const_handle;
 
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(3,7,0)
@@ -74,7 +73,7 @@ private:
 	const CGAL::NefPolyhedron3& nefPolyhedron;
 	CGALPrimitive* primitive;
 	QList<CGAL::Point3> points;
-	QMap<HalfEdgeHandle,int> perimeterMap;
+	QHash<HalfEdgeHandle,int> perimeterMap;
 	QList<CGALPolygon*> basePolygons;
 	using Points = QList<CGAL::Point3>;
 	QList<Points> volumePoints;
@@ -93,8 +92,7 @@ void ShellExplorer::createPerimeters()
 		 * halffacet and the lower halffacet. If this is not the
 		 * case then the edge is not on the perimeter. */
 	QList<HalfEdgeHandle> outEdges;
-	QMap<HalfEdgeHandle, int>::const_iterator it;
-	for(it = perimeterMap.constBegin(); it!=perimeterMap.constEnd(); ++it) {
+	for(auto it=perimeterMap.constBegin(); it!=perimeterMap.constEnd(); ++it) {
 		if(it.value()==2)
 			outEdges.append(it.key());
 	}

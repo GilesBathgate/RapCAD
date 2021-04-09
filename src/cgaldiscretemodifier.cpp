@@ -15,46 +15,28 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifdef USE_CGAL
 
-#include "invocation.h"
+#include "cgaldiscretemodifier.h"
 
-Invocation::~Invocation()
+CGALDiscreteModifier::CGALDiscreteModifier(int p) : places(p)
 {
-	qDeleteAll(arguments);
-	arguments.clear();
 }
 
-void Invocation::setName(const QString& n)
+CGAL::Point3 CGALDiscreteModifier::discretePoint(const CGAL::Point3& pt, int places)
 {
-	name = n;
+	CGAL::Scalar x=r_round(pt.x(),places);
+	CGAL::Scalar y=r_round(pt.y(),places);
+	CGAL::Scalar z=r_round(pt.z(),places);
+	return CGAL::Point3(x,y,z);
 }
 
-QString Invocation::getName() const
+void CGALDiscreteModifier::operator()(CGAL::NefPolyhedron3::SNC_structure& snc)
 {
-	return name;
+	CGAL::NefPolyhedron3::Vertex_iterator v;
+	CGAL_forall_vertices(v,snc) {
+		v->point()=discretePoint(v->point(),places);
+	}
 }
 
-void Invocation::setNamespace(const QString& ns)
-{
-	nameSpace = ns;
-}
-
-QString Invocation::getNamespace() const
-{
-	return nameSpace;
-}
-
-void Invocation::setArguments(const QList<Argument*>& args)
-{
-	arguments = args;
-}
-
-QList<Argument*> Invocation::getArguments() const
-{
-	return arguments;
-}
-
-void Invocation::accept(TreeVisitor& v)
-{
-	v.visit(*this);
-}
+#endif

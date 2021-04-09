@@ -2,26 +2,37 @@ name: RapCAD
 
 on:
   push:
-    branches: [ master ]
+    branches: [master, development]
     tags: v[0-9]+.[0-9]+.[0-9]+
   pull_request:
-    branches: [ master ]
+    branches: [master, development]
 
 jobs:
   linux:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        config: [coverage, official]
+        config: ['coverage', 'official']
+        shouldRelease:
+          - ${{ contains(github.ref, 'master') || startsWith(github.ref, 'refs/heads/v') }}
+        exclude:
+          - shouldRelease: false
+            config: official
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Install Qt
-      uses: jurplel/install-qt-action@v2.11.1
+    - name: Cache Qt
+      id: cache-qt
+      uses: actions/cache@v1
       with:
-        mirror: http://mirrors.ocf.berkeley.edu/qt/
+        path: ../Qt
+        key: ${{ runner.os }}-QtCache
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2.12.0
+      with:
+        cached: ${{ steps.cache-qt.outputs.cache-hit }}
     - name: Install Dependencies
-      run: sudo apt-get install -y libboost-dev libcgal-dev libglu1-mesa-dev libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0
+      run: sudo apt-get install -y libboost-dev libcgal-dev libglu1-mesa-dev libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-randr0
     - name: Configure
       run: qmake CONFIG+=${{ matrix.config }}
     - name: Build
@@ -37,26 +48,44 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        config: [coverage, official]
+        config: ['coverage', 'official']
+        shouldRelease:
+          - ${{ contains(github.ref, 'master') || startsWith(github.ref, 'refs/heads/v') }}
+        exclude:
+          - shouldRelease: false
+            config: official
     env:
       CGAL_DIR: C:\CGAL-5.2\
       GMP:      C:\CGAL-5.2\auxiliary\gmp
-      BOOST_ROOT: C:\hostedtoolcache\windows\Boost\1.72.0\x86_64\include\boost-1_72
-      ASCIIDOC: C:\asciidoc-8.6.10\
+      BOOST_ROOT: C:\boost_1_72_0
+      ASCIIDOC: C:\asciidoc-9.1.0\
       MINGW: C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Install Qt
-      uses: jurplel/install-qt-action@v2.11.1
+    - name: Install Boost
+      run: |
+        $Url = "https://sourceforge.net/projects/boost/files/boost/1.72.0/boost_1_72_0.7z"
+        (New-Object System.Net.WebClient).DownloadFile($Url, "$env:TEMP\boost.7z")
+        7z x -oC:\ "$env:TEMP\boost.7z"
+    - name: Cache Qt
+      id: cache-qt
+      uses: actions/cache@v1
       with:
+        path: ../Qt
+        key: ${{ runner.os }}-QtCache
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2.12.0
+      with:
+        cached: ${{ steps.cache-qt.outputs.cache-hit }}
         arch: win64_mingw81
-        mirror: http://mirrors.ocf.berkeley.edu/qt/
     - name: Install patched windeployqt
+      if: ${{ !steps.cache-qt.outputs.cache-hit }}
       run: |
         Invoke-WebRequest http://tripleboot.org/Uploads/windeployqt64releaseonly.zip -OutFile windeployqt64releaseonly.zip
         7z x -o"$env:Qt5_DIR\bin" windeployqt64releaseonly.zip
     - name: Install Flex/Bison
+      if: ${{ !steps.cache-qt.outputs.cache-hit }}
       run: |
         Invoke-WebRequest https://netix.dl.sourceforge.net/project/winflexbison/win_flex_bison-latest.zip -OutFile FlexBison.zip
         7z x -o"$env:Qt5_DIR\bin" FlexBison.zip
@@ -68,13 +97,10 @@ jobs:
       run: |
         Invoke-WebRequest https://github.com/CGAL/cgal/releases/download/v5.2/CGAL-5.2-win64-auxiliary-libraries-gmp-mpfr.zip -OutFile CGAL-gmp-mpfr.zip
         7z x -o"$env:CGAL_DIR" CGAL-gmp-mpfr.zip -aoa
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 2.7
     - name: Install asciidoc/source-highlight
+      if: ${{ matrix.config == 'official' }}
       run: |
-        Invoke-WebRequest https://github.com/asciidoc/asciidoc/archive/8.6.10.zip -OutFile asciidoc.zip
+        Invoke-WebRequest https://github.com/asciidoc-py/asciidoc-py/releases/download/9.1.0/asciidoc-9.1.0.zip -OutFile asciidoc.zip
         7z x -oC:\ asciidoc.zip
         Invoke-WebRequest https://netix.dl.sourceforge.net/project/gnuwin32/src-highlite/2.1.2/src-highlite-2.1.2-bin.zip -OutFile src-highlite.zip
         7z x -oC:\source-highlight src-highlite.zip
@@ -93,6 +119,7 @@ jobs:
     - name: Clean
       run: mingw32-make clean -f Makefile.Release
     - name: Build documentation
+      if: ${{ matrix.config == 'official' }}
       run: |
         mingw32-make user_guide.html -f Makefile.Release
         cp user_guide.html release
@@ -128,14 +155,25 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        config: [coverage, official]
+        config: ['coverage', 'official']
+        shouldRelease:
+          - ${{ contains(github.ref, 'master') || startsWith(github.ref, 'refs/heads/v') }}
+        exclude:
+          - shouldRelease: false
+            config: official
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Install Qt
-      uses: jurplel/install-qt-action@v2.11.1
+    - name: Cache Qt
+      id: cache-qt
+      uses: actions/cache@v1
       with:
-        mirror: http://mirrors.ocf.berkeley.edu/qt/
+        path: ../Qt
+        key: ${{ runner.os }}-QtCache
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2.12.0
+      with:
+        cached: ${{ steps.cache-qt.outputs.cache-hit }}
     - name: Install Dependencies
       run: |
         brew install cgal bison

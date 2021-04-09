@@ -164,8 +164,8 @@ void TreePrinter::visit(const FunctionScope& scp)
 	}
 
 	QList<Statement*> statements = scp.getStatements();
-	int s = statements.size();
-	if(s>0) {
+	int size = statements.size();
+	if(size>0) {
 		result << "{\n";
 		++indent;
 		for(Statement* s: statements) {

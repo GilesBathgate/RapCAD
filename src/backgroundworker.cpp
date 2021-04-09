@@ -40,7 +40,7 @@ int BackgroundWorker::evaluate()
 
 void BackgroundWorker::start()
 {
-	internal();
+	Worker::evaluate();
 }
 
 void BackgroundWorker::update()

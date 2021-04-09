@@ -15,46 +15,25 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef CGALGROUPMODIFIER_H
+#define CGALGROUPMODIFIER_H
 
-#include "invocation.h"
+#include "cgal.h"
+#include <CGAL/Nef_polyhedron_3.h>
+#include <CGAL/Modifier_base.h>
 
-Invocation::~Invocation()
+namespace CGAL
 {
-	qDeleteAll(arguments);
-	arguments.clear();
+	using NefPolyhedron3 = Nef_polyhedron_3<Kernel3>;
 }
 
-void Invocation::setName(const QString& n)
+class CGALGroupModifier : public CGAL::Modifier_base<CGAL::NefPolyhedron3::SNC_structure>
 {
-	name = n;
-}
+public:
+	CGALGroupModifier(const CGAL::NefPolyhedron3&);
+	void operator()(CGAL::NefPolyhedron3::SNC_structure&);
+private:
+	const CGAL::NefPolyhedron3& primitive;
+};
 
-QString Invocation::getName() const
-{
-	return name;
-}
-
-void Invocation::setNamespace(const QString& ns)
-{
-	nameSpace = ns;
-}
-
-QString Invocation::getNamespace() const
-{
-	return nameSpace;
-}
-
-void Invocation::setArguments(const QList<Argument*>& args)
-{
-	arguments = args;
-}
-
-QList<Argument*> Invocation::getArguments() const
-{
-	return arguments;
-}
-
-void Invocation::accept(TreeVisitor& v)
-{
-	v.visit(*this);
-}
+#endif // CGALGROUPMODIFIER_H

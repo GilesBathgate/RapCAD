@@ -20,8 +20,21 @@
 
 #define NDEBUG
 #include <CGAL/Nef_2/debug.h>
-#include <CGAL/intersection_3.h> //Dependency
-#include <CGAL/Nef_3/SNC_decorator.h> //Dependency
+
+#undef CGAL_NEF_TRACE
+#undef CGAL_NEF_TRACEN
+#undef CGAL_NEF_TRACEV
+#undef CGAL_NEF_CTRACE
+#undef CGAL_NEF_CTRACEN
+
+#define CGAL_NEF_TRACE(t) (static_cast<void>(0))
+#define CGAL_NEF_TRACEN(t) (static_cast<void>(0))
+#define CGAL_NEF_TRACEV(t) (static_cast<void>(0))
+#define CGAL_NEF_CTRACE(b,t) (static_cast<void>(0))
+#define CGAL_NEF_CTRACEN(b,t) (static_cast<void>(0))
+
+#include <CGAL/intersection_3.h> // SNC_external_structure.h dependency
+#include <CGAL/Nef_3/SNC_decorator.h> // SNC_external_structure.h dependency
 #include <CGAL/Nef_3/SNC_external_structure.h>
 
 #undef NDEBUG

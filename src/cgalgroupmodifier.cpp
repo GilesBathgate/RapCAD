@@ -15,46 +15,16 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include "cgalgroupmodifier.h"
+#include <CGAL/Nef_3/shell_to_nef_3.h>
 
-#include "invocation.h"
-
-Invocation::~Invocation()
+CGALGroupModifier::CGALGroupModifier(const CGAL::NefPolyhedron3& p) : primitive(p)
 {
-	qDeleteAll(arguments);
-	arguments.clear();
 }
 
-void Invocation::setName(const QString& n)
+void CGALGroupModifier::operator()(CGAL::NefPolyhedron3::SNC_structure& snc)
 {
-	name = n;
-}
-
-QString Invocation::getName() const
-{
-	return name;
-}
-
-void Invocation::setNamespace(const QString& ns)
-{
-	nameSpace = ns;
-}
-
-QString Invocation::getNamespace() const
-{
-	return nameSpace;
-}
-
-void Invocation::setArguments(const QList<Argument*>& args)
-{
-	arguments = args;
-}
-
-QList<Argument*> Invocation::getArguments() const
-{
-	return arguments;
-}
-
-void Invocation::accept(TreeVisitor& v)
-{
-	v.visit(*this);
+	CGAL::NefPolyhedron3::Shell_entry_const_iterator si;
+	CGAL_forall_shells_of(si,primitive.volumes_begin())
+		CGAL::shell_to_nef_3(primitive,si,snc);
 }

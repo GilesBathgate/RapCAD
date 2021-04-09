@@ -19,7 +19,11 @@
 #include "cgalimport.h"
 #include <CGAL/IO/Polyhedron_iostream.h>
 #include <CGAL/IO/Nef_polyhedron_iostream_3.h>
+#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,3,0)
+#include <CGAL/IO/OBJ.h>
+#else
 #include <CGAL/IO/OBJ_reader.h>
+#endif
 #include <fstream>
 #include <QRegExp>
 #include <QStringList>
@@ -134,10 +138,10 @@ Primitive* CGALImport::importSTL() const
 
 	if(!binary && QString(header).startsWith("solid")) {
 		f.seek(0);
-		QTextStream data(&f);
+		QTextStream stream(&f);
 		QRegExp re=QRegExp("\\s*(vertex)?\\s+");
-		while(!data.atEnd()) {
-			QString line=data.readLine();
+		while(!stream.atEnd()) {
+			QString line=stream.readLine();
 			if(line.contains("solid") || line.contains("facet") || line.contains("endloop"))
 				continue;
 			if(line.contains("outer loop")) {

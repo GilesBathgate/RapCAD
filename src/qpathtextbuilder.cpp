@@ -71,19 +71,19 @@ QFont QPathTextBuilder::getFont() const
 
 Primitive* QPathTextBuilder::buildPrimitive() const
 {
-	QPainterPath path;
+	QPainterPath painterPath;
 	if(headless) {
 		/* Hack: in headless mode we need to initalise QApplication
 		before we can use fonts */
 		int c=0;
 		QApplication a(c,nullptr,false);
-		path.addText(location,getFont(),text);
+		painterPath.addText(location,getFont(),text);
 
 	} else {
-		path.addText(location,getFont(),text);
+		painterPath.addText(location,getFont(),text);
 	}
 
-	QList<QPolygonF> paths = path.toSubpathPolygons();
+	QList<QPolygonF> paths = painterPath.toSubpathPolygons();
 
 	int index=0;
 	PrimitiveNode pn(reporter);

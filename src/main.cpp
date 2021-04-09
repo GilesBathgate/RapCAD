@@ -54,33 +54,8 @@ static void showVersion(QTextStream& out)
 	out << QCoreApplication::applicationName() << " " << QCoreApplication::applicationVersion() << Qt::endl;
 }
 
-#ifdef Q_OS_WIN
-static QStringList getArguments(int argc,char*[])
-{
-	QStringList list;
-	if(wchar_t** argv=CommandLineToArgvW(GetCommandLineW(),&argc)) {
-		for(int a=0; a<argc; ++a) {
-			list << QString::fromWCharArray(argv[a]);
-		}
-		LocalFree(argv);
-	}
-	return list;
-}
-#else
-static QStringList getArguments(int argc,char* argv[])
-{
-	QStringList list;
-	for(int a=0; a<argc; ++a) {
-		list << QString::fromLocal8Bit(argv[a]);
-	}
-	return list;
-}
-#endif
-
 static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Reporter& reporter)
 {
-	const QStringList& arguments=getArguments(argc,argv);
-
 	QCommandLineParser p;
 	p.setApplicationDescription(QCoreApplication::translate("main","RapCAD the rapid prototyping IDE"));
 	p.addHelpOption();
@@ -98,9 +73,6 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Re
 	QCommandLineOption compareOption(QStringList() << "c" << "compare", QCoreApplication::translate("main","Compare two files to see if they are identical."),"filename");
 	p.addOption(compareOption);
 
-	QCommandLineOption printOption(QStringList() << "p" << "print", QCoreApplication::translate("main","Print debugging output."));
-	p.addOption(printOption);
-
 	QCommandLineOption outputOption(QStringList() << "o" << "output",QCoreApplication::translate("main","Create output file <filename>."),"filename");
 	p.addOption(outputOption);
 
@@ -108,7 +80,8 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Re
 	QCommandLineOption interactOption(QStringList() << "i" << "interactive",QCoreApplication::translate("main","Start an interactive session"));
 	p.addOption(interactOption);
 #endif
-	p.process(arguments);
+	QCoreApplication a(argc,argv);
+	p.process(a);
 
 	inputFiles=p.positionalArguments();
 	QString inputFile;
@@ -132,12 +105,7 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Re
 #endif
 	if(p.isSet(outputOption)) {
 		auto* w=new Worker(reporter);
-		w->setup(inputFile,p.value(outputOption),false,false);
-		return w;
-	}
-	if(p.isSet(printOption)) {
-		auto* w=new Worker(reporter);
-		w->setup(inputFile,"",true,false);
+		w->setup(inputFile,p.value(outputOption),false);
 		return w;
 	}
 #ifdef USE_READLINE

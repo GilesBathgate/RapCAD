@@ -523,8 +523,8 @@ bool MainWindow::maybeSave(bool compiling)
 		bool autoSave = s.getAutoSaveOnCompile();
 		p.setAutoSaveOnCompile(autoSave);
 
-		QList<QString> files=s.getItemsToSave();
-		return saveSelectedFiles(files);
+		QList<QString> f=s.getItemsToSave();
+		return saveSelectedFiles(f);
 	}
 
 	return false;
@@ -650,7 +650,7 @@ void MainWindow::compileOrGenerate(bool generate)
 		QString file=e->getFileName();
 		if(!file.isEmpty()) {
 			ui->view->setCompiling(!generate);
-			worker->setup(file,"",false,generate);
+			worker->setup(file,"",generate);
 
 			//Stop the syntax highlighter to prevent a crash
 			CodeEditor::stopHighlighting();

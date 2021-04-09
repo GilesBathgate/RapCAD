@@ -1,0 +1,16 @@
+diff --git a/version.h b/version.h
+index 9016834234..1873b025be 100644
+--- a/version.h
++++ b/version.h
+@@ -17,8 +17,8 @@
+ #ifndef CGAL_VERSION_H
+ #define CGAL_VERSION_H
+ 
+-#define CGAL_VERSION 5.3-I-900
+-#define CGAL_VERSION_NR 1050300900
++#define CGAL_VERSION 5.3.0
++#define CGAL_VERSION_NR 1050301000
+ #define CGAL_SVN_REVISION 99999
+ 
+ #define CGAL_RELEASE_DATE 20210409
+

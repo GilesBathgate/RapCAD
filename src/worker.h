@@ -36,32 +36,29 @@ class Worker : public Strategy
 public:
 	explicit Worker(Reporter&);
 	~Worker() override;
-	void setup(const QString&,const QString&,bool,bool);
+	void setup(const QString&,const QString&,bool);
 	int evaluate() override;
 	void exportResult(const QString&);
 	bool resultAvailable();
 	void resultAccepted();
 	Renderer* getRenderer();
 protected:
-	void internal();
 	virtual void update() {}
 	virtual void finish() {}
-	Instance* addProductInstance(const QString&, Script&);
-
-	QFileInfo inputFile;
-	QString outputFile;
-	bool print;
-	bool generate;
 private:
+	Instance* addProductInstance(const QString&, Script&);
 	static QList<Argument*> getArgs(const decimal&);
-	void primary();
-	void generation();
 	decimal getBoundsHeight() const;
+	void generation();
+	void primary();
 	void resultFailed(const QString&);
 	void updatePrimitive(Primitive*);
 
 	Primitive* primitive;
 	Primitive* previous;
+	QFileInfo inputFile;
+	QString outputFile;
+	bool generate;
 };
 
 #endif // WORKER_H

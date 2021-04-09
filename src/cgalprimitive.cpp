@@ -25,6 +25,7 @@
 #include <CGAL/Min_circle_2_traits_2.h>
 #include <CGAL/bounding_box.h>
 #include <CGAL/Polygon_2_algorithms.h>
+#include <CGAL/Nef_3/Mark_bounded_volumes.h>
 
 #if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(4,12,2)
 #include <CGAL/boost/graph/convert_nef_polyhedron_to_polygon_mesh.h>
@@ -40,6 +41,8 @@
 #include "cgalbuilder.h"
 #include "cgalsanitizer.h"
 #include "cgalexplorer.h"
+#include "cgaldiscretemodifier.h"
+#include "cgalgroupmodifier.h"
 #include "onceonly.h"
 #include "rmath.h"
 
@@ -342,29 +345,26 @@ bool CGALPrimitive::overlaps(Primitive* pr)
 	return CGAL::do_intersect(this->getBounds(),that->getBounds());
 }
 
-
-Primitive* CGALPrimitive::group(Primitive* that)
+Primitive* CGALPrimitive::group(Primitive* pr)
 {
-	QList<Primitive*> primitives;
-	primitives.append(this);
-	primitives.append(that);
-
-	auto* cp=new CGALPrimitive();
-	for(Primitive* pr: primitives) {
-		auto* prim=dynamic_cast<CGALPrimitive*>(pr);
-		if(!prim) continue;
-		if(prim->nefPolyhedron) {
-			CGALExplorer e(prim);
-			prim=e.getPrimitive();
-		}
-		for(CGALPolygon* p: prim->getCGALPolygons()) {
-			cp->createPolygon();
-			for(const auto& pt: p->getPoints()) {
-				cp->appendVertex(pt);
-			}
-		}
+	if(!pr) return this;
+	auto* that=dynamic_cast<CGALPrimitive*>(pr);
+	if(!that) {
+		pr->appendChild(this);
+		return pr;
 	}
-	return cp;
+	this->buildPrimitive();
+	that->buildPrimitive();
+
+	CGALGroupModifier m(*that->nefPolyhedron);
+	nefPolyhedron->delegate(m,true,false);
+
+	CGAL::Mark_bounded_volumes<CGAL::NefPolyhedron3::SNC_structure> mbv(true);
+	nefPolyhedron->delegate(mbv,false,false);
+
+	this->appendChild(that);
+	return this;
+
 }
 
 QList<CGALPolygon*> CGALPrimitive::getCGALPolygons() const
@@ -557,10 +557,10 @@ bool CGALPrimitive::hasHoles()
 	return detectHoles(polygons,true);
 }
 
-bool CGALPrimitive::detectHoles(QList<CGALPolygon*> polygons,bool check)
+bool CGALPrimitive::detectHoles(QList<CGALPolygon*> polys,bool check)
 {
-	for(auto* pg1: polygons) {
-		for(auto* pg2: polygons) {
+	for(auto* pg1: polys) {
+		for(auto* pg2: polys) {
 			if(pg1==pg2) continue;
 			if(!pg1->sameProjection(pg2)) continue;
 
@@ -643,8 +643,10 @@ void CGALPrimitive::transform(TransformMatrix* matrix)
 		points=nps;
 	}
 
+	//Only transform auxilliary modules children.
 	for(Primitive* p: children)
-		p->transform(matrix);
+		if(!dynamic_cast<CGALPrimitive*>(p))
+			p->transform(matrix);
 }
 
 QList<Polygon*> CGALPrimitive::getPolygons() const
@@ -738,35 +740,15 @@ void CGALPrimitive::appendChildren(QList<Primitive*> p)
 	children.append(p);
 }
 
-static CGAL::Point3 discretePoint(const CGAL::Point3& pt,int places)
-{
-	CGAL::Scalar x=r_round(pt.x(),places);
-	CGAL::Scalar y=r_round(pt.y(),places);
-	CGAL::Scalar z=r_round(pt.z(),places);
-	return CGAL::Point3(x,y,z);
-}
-
-class DiscreteNef : public CGAL::NefPolyhedron3
-{
-public:
-	void discrete(int places)
-	{
-		Vertex_iterator v;
-		CGAL_forall_vertices(v,snc()) {
-			v->point()=discretePoint(v->point(),places);
-		}
-	}
-};
-
 void CGALPrimitive::discrete(int places)
 {
 	if(nefPolyhedron) {
-		auto* n=static_cast<DiscreteNef*>(nefPolyhedron);
-		n->discrete(places);
+		CGALDiscreteModifier n(places);
+		nefPolyhedron->delegate(n,false,false);
 	} else {
 		QList<CGAL::Point3> nps;
 		for(const auto& pt: points) {
-			nps.append(discretePoint(pt,places));
+			nps.append(CGALDiscreteModifier::discretePoint(pt,places));
 		}
 		points=nps;
 	}
