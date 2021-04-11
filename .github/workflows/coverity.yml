@@ -61,6 +61,7 @@ jobs:
         sudo patch -l $CGAL_DIR/Lazy.h < patch/Fix-uninitialized-scalar-variable-in-Lazy.h.patch;
         sudo patch -l $CGAL_DIR/Modifiable_priority_queue.h < patch/Fix-uninitialized-scalar-variable-in-Modifiable_priority_queue.h.patch;
         sudo patch -l $CGAL_DIR/Cartesian_converter.h < patch/Fix-uninitalized-scalar-in-Cartesian_converter.h.patch;
+        sudo patch -l $CGAL_DIR/Straight_skeleton_2/Straight_skeleton_builder_traits_2_aux.h < patch/Fix-uninitalized-scalar-in-Straight_skeleton_builder_traits_2_aux.h.patch;
         sudo patch -l $CGAL_DIR/version.h < patch/update-version.h.patch;
     - name: Download coverity
       run: |
