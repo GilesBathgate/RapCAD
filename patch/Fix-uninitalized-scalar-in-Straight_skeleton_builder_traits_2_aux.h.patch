@@ -1,0 +1,18 @@
+diff --git a/usr/include/CGAL/Straight_skeleton_2/Straight_skeleton_builder_traits_2_aux.h b/usr/include/CGAL/Straight_skeleton_2/Straight_skeleton_builder_traits_2_aux.h
+index 4b11a21744..99e7cff6ee 100644
+--- a/usr/include/CGAL/Straight_skeleton_2/Straight_skeleton_builder_traits_2_aux.h
++++ b/usr/include/CGAL/Straight_skeleton_2/Straight_skeleton_builder_traits_2_aux.h
+@@ -349,10 +349,10 @@ struct SS_converter : Converter
+ 
+   Target_opt_FT cvt_n(Source_opt_FT const& n) const
+   {
+-    Target_opt_FT r ;
++    Target_opt_FT r{};
+     if ( n )
+       r = cvt_n(*n);
+-    return r ;
++    return r;
+   }
+ 
+   Target_point_2   cvt_p(Source_point_2 const& p) const  { return this->Converter::operator()(p); }
+
