@@ -1,0 +1,190 @@
+--- /usr/include/boost/optional/optional.hpp	2020-07-27 16:39:01.000000000 +0100
++++ /usr/include/boost/optional/optional.hpp	2021-04-11 16:15:42.803524839 +0100
+@@ -139,19 +139,19 @@
+     // No-throw
+     optional_base()
+       :
+-      m_initialized(false) {}
++      m_initialized(false), m_storage{} {}
+ 
+     // Creates an optional<T> uninitialized.
+     // No-throw
+     optional_base ( none_t )
+       :
+-      m_initialized(false) {}
++      m_initialized(false), m_storage{} {}
+ 
+     // Creates an optional<T> initialized with 'val'.
+     // Can throw if T::T(T const&) does
+     optional_base ( init_value_tag, argument_type val )
+       :
+-      m_initialized(false)
++      m_initialized(false), m_storage{}
+     {
+         construct(val);
+     }
+@@ -161,7 +161,7 @@
+     // Can throw if T::T(T&&) does
+     optional_base ( init_value_tag, rval_reference_type val )
+       :
+-      m_initialized(false)
++      m_initialized(false), m_storage{}
+     {
+       construct( boost::move(val) );
+     }
+@@ -171,7 +171,7 @@
+     // Can throw if T::T(T const&) does
+     optional_base ( bool cond, argument_type val )
+       :
+-      m_initialized(false)
++      m_initialized(false), m_storage{}
+     {
+       if ( cond )
+         construct(val);
+@@ -182,7 +182,7 @@
+     // Can throw if T::T(T &&) does
+     optional_base ( bool cond, rval_reference_type val )
+       :
+-      m_initialized(false)
++      m_initialized(false), m_storage{}
+     {
+       if ( cond )
+         construct(boost::move(val));
+@@ -193,7 +193,7 @@
+     // Can throw if T::T(T const&) does
+     optional_base ( optional_base const& rhs )
+       :
+-      m_initialized(false)
++      m_initialized(false), m_storage{}
+     {
+       if ( rhs.is_initialized() )
+         construct(rhs.get_impl());
+@@ -205,7 +205,7 @@
+     optional_base ( optional_base&& rhs )
+     BOOST_NOEXCEPT_IF(::boost::is_nothrow_move_constructible<T>::value)
+       :
+-      m_initialized(false)
++      m_initialized(false), m_storage{}
+     {
+       if ( rhs.is_initialized() )
+         construct( boost::move(rhs.get_impl()) );
+@@ -217,7 +217,7 @@
+     template<class Expr, class PtrExpr>
+     explicit optional_base ( Expr&& expr, PtrExpr const* tag )
+       :
+-      m_initialized(false)
++      m_initialized(false), m_storage{}
+     {
+       construct(boost::forward<Expr>(expr),tag);
+     }
+@@ -229,7 +229,7 @@
+     template<class Expr>
+     explicit optional_base ( Expr const& expr, Expr const* tag )
+       :
+-      m_initialized(false)
++      m_initialized(false), m_storage{}
+     {
+       construct(expr,tag);
+     }
+@@ -432,7 +432,7 @@
+     template<class... Args>
+     explicit optional_base ( in_place_init_t, Args&&... args )
+       :
+-      m_initialized(false)
++      m_initialized(false), m_storage{}
+     {
+       construct(in_place_init, boost::forward<Args>(args)...);
+     }
+@@ -440,7 +440,7 @@
+     template<class... Args>
+     explicit optional_base ( in_place_init_if_t, bool cond, Args&&... args )
+       :
+-      m_initialized(false)
++      m_initialized(false), m_storage{}
+     {
+       if ( cond )
+         construct(in_place_init, boost::forward<Args>(args)...);
+@@ -475,14 +475,14 @@
+     template<class Arg>
+     explicit optional_base ( in_place_init_t, Arg&& arg )
+       :
+-      m_initialized(false)
++      m_initialized(false), m_storage{}
+     {
+       construct(in_place_init, boost::forward<Arg>(arg));
+     }
+ 
+     explicit optional_base ( in_place_init_t )
+       :
+-      m_initialized(false)
++      m_initialized(false), m_storage{}
+     {
+       construct(in_place_init);
+     }
+@@ -490,7 +490,7 @@
+     template<class Arg>
+     explicit optional_base ( in_place_init_if_t, bool cond, Arg&& arg )
+       :
+-      m_initialized(false)
++      m_initialized(false), m_storage{}
+     {
+       if ( cond )
+         construct(in_place_init, boost::forward<Arg>(arg));
+@@ -498,7 +498,7 @@
+ 
+     explicit optional_base ( in_place_init_if_t, bool cond )
+       :
+-      m_initialized(false)
++      m_initialized(false), m_storage{}
+     {
+       if ( cond )
+         construct(in_place_init);
+@@ -548,27 +548,27 @@
+ 
+     template<class Arg>
+     explicit optional_base ( in_place_init_t, const Arg& arg )
+-      : m_initialized(false)
++      : m_initialized(false), m_storage{}
+     {
+       construct(in_place_init, arg);
+     }
+ 
+     template<class Arg>
+     explicit optional_base ( in_place_init_t, Arg& arg )
+-      : m_initialized(false)
++      : m_initialized(false), m_storage{}
+     {
+       construct(in_place_init, arg);
+     }
+ 
+     explicit optional_base ( in_place_init_t )
+-      : m_initialized(false)
++      : m_initialized(false), m_storage{}
+     {
+       construct(in_place_init);
+     }
+ 
+     template<class Arg>
+     explicit optional_base ( in_place_init_if_t, bool cond, const Arg& arg )
+-      : m_initialized(false)
++      : m_initialized(false), m_storage{}
+     {
+       if ( cond )
+         construct(in_place_init, arg);
+@@ -576,14 +576,14 @@
+ 
+     template<class Arg>
+     explicit optional_base ( in_place_init_if_t, bool cond, Arg& arg )
+-      : m_initialized(false)
++      : m_initialized(false), m_storage{}
+     {
+       if ( cond )
+         construct(in_place_init, arg);
+     }
+ 
+     explicit optional_base ( in_place_init_if_t, bool cond )
+-      : m_initialized(false)
++      : m_initialized(false), m_storage{}
+     {
+       if ( cond )
+         construct(in_place_init);
