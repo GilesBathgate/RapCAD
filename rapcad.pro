@@ -92,7 +92,7 @@ win32 {
 	}
 	LIBS += -lz
 	QMAKE_YACC = bison
-	QMAKE_MOVE = cp
+	QMAKE_MOVE = f() { sed s/parser\.tab\./parser_yacc./ \$\$1 > \$\$2 && rm \$\$1; }; f
   macx {
 	ICON = icons/AppIcon.icns
 	INCLUDEPATH += /usr/local/include
