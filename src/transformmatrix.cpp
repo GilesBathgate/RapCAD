@@ -20,7 +20,8 @@
 #include "onceonly.h"
 
 TransformMatrix::TransformMatrix() :
-	matrix{{1.0,0.0,0.0,0.0},{0.0,1.0,0.0,0.0},{0.0,0.0,1.0,0.0},{0.0,0.0,0.0,1.0}}
+	matrix{{1.0,0.0,0.0,0.0},{0.0,1.0,0.0,0.0},{0.0,0.0,1.0,0.0},{0.0,0.0,0.0,1.0}},
+	type(TransformType::Custom)
 {
 }
 
@@ -28,7 +29,8 @@ TransformMatrix::TransformMatrix(
 	const decimal& m00,const decimal& m01,const decimal& m02,const decimal& m03,
 	const decimal& m10,const decimal& m11,const decimal& m12,const decimal& m13,
 	const decimal& m20,const decimal& m21,const decimal& m22,const decimal& m23,
-	const decimal& m30,const decimal& m31,const decimal& m32,const decimal& m33)
+	const decimal& m30,const decimal& m31,const decimal& m32,const decimal& m33) :
+	type(TransformType::Custom)
 {
 	matrix[0][0]=m00; matrix[0][1]=m01; matrix[0][2]=m02; matrix[0][3]=m03;
 	matrix[1][0]=m10; matrix[1][1]=m11; matrix[1][2]=m12; matrix[1][3]=m13;
@@ -45,11 +47,19 @@ void TransformMatrix::setValue(int i,int j,const decimal& d)
 #ifdef USE_CGAL
 CGAL::AffTransformation3 TransformMatrix::getTransform() const
 {
-	return CGAL::AffTransformation3(
-				matrix[0][0], matrix[0][1], matrix[0][2], matrix[0][3],
-				matrix[1][0], matrix[1][1], matrix[1][2], matrix[1][3],
-				matrix[2][0], matrix[2][1], matrix[2][2], matrix[2][3],
-			  /*matrix[3][0], matrix[3][1], matrix[3][2]*/matrix[3][3]);
+	switch(type) {
+		case TransformType::Translation:
+			return CGAL::AffTransformation3(CGAL::TRANSLATION,
+					CGAL::Vector3(matrix[0][3],matrix[1][3],matrix[2][3]));
+		case TransformType::UniformScaling:
+			return CGAL::AffTransformation3(CGAL::SCALING,matrix[0][0]);
+		default:
+			return CGAL::AffTransformation3(
+					matrix[0][0], matrix[0][1], matrix[0][2], matrix[0][3],
+					matrix[1][0], matrix[1][1], matrix[1][2], matrix[1][3],
+					matrix[2][0], matrix[2][1], matrix[2][2], matrix[2][3],
+				  /*matrix[3][0], matrix[3][1], matrix[3][2]*/matrix[3][3]);
+	}
 }
 #else
 decimal* TransformMatrix::getValues() const
@@ -75,5 +85,10 @@ QString TransformMatrix::toString() const
 		}
 	}
 	return result.append("]]");
+}
+
+void TransformMatrix::setType(const TransformType& value)
+{
+    type = value;
 }
 

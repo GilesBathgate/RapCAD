@@ -333,10 +333,7 @@ static CGAL::Point3 flatten(const CGAL::Point3& p)
 
 static CGAL::Point3 translate(const CGAL::Point3& p,const CGAL::Vector3& v)
 {
-	CGAL::AffTransformation3 t(
-		1.0,0.0,0.0,v.x(),
-		0.0,1.0,0.0,v.y(),
-		0.0,0.0,1.0,v.z(),1.0);
+	CGAL::AffTransformation3 t(CGAL::TRANSLATION,v);
 	return p.transform(t);
 }
 

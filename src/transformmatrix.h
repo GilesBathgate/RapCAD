@@ -21,6 +21,14 @@
 
 #include "decimal.h"
 
+enum class TransformType
+{
+	Translation,
+	UniformScaling,
+	Rotation,
+	Custom
+};
+
 class TransformMatrix
 {
 public:
@@ -36,8 +44,11 @@ public:
 #else
 	decimal* getValues() const;
 #endif
+	void setType(const TransformType& value);
+
 private:
 	decimal matrix[4][4];
+	TransformType type;
 };
 
 #endif // TRANSFORMMATRIX_H

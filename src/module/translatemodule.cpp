@@ -45,6 +45,7 @@ Node* TranslateModule::evaluate(const Context& ctx) const
 		0.0,0.0,1.0,v.z(),
 		0.0,0.0,0.0,1.0
 	);
+	m->setType(TransformType::Translation);
 
 	n->setMatrix(m);
 	return n;
