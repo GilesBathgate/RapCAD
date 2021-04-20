@@ -48,23 +48,33 @@ Node* ScaleModule::evaluate(const Context& ctx) const
 		return pn;
 	}
 
-	Point r(0,0,0);
+	TransformMatrix* m;
 	auto* refVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
-	if(refVal)
-		r=refVal->getPoint();
+	if(refVal) {
+		Point r=refVal->getPoint();
 
-	decimal a=r.x();
-	decimal b=r.y();
-	decimal c=r.z();
+		decimal a=r.x();
+		decimal b=r.y();
+		decimal c=r.z();
 
-	//Derived reference translation using
-	//http://tinyurl.com/nfmph3r
-	auto* m = new TransformMatrix(
-		x  ,0.0,0.0,(a*x)-a,
-		0.0,y  ,0.0,(b*y)-b,
-		0.0,0.0,z  ,(c*z)-c,
-		0.0,0.0,0.0,1.0
-	);
+		//Derived reference translation using
+		//http://tinyurl.com/nfmph3r
+		m = new TransformMatrix(
+			x  ,0.0,0.0,(a*x)-a,
+			0.0,y  ,0.0,(b*y)-b,
+			0.0,0.0,z  ,(c*z)-c,
+			0.0,0.0,0.0,1.0
+		);
+	} else {
+		m = new TransformMatrix(
+			x  ,0.0,0.0,0.0,
+			0.0,y  ,0.0,0.0,
+			0.0,0.0,z  ,0.0,
+			0.0,0.0,0.0,1.0
+		);
+		if(x==y==z)
+			m->setType(TransformType::UniformScaling);
+	}
 
 	auto* n=new TransformationNode();
 	n->setChildren(ctx.getInputNodes());

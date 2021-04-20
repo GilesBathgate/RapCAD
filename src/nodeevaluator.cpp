@@ -331,16 +331,8 @@ static CGAL::Point3 flatten(const CGAL::Point3& p)
 	return CGAL::Point3(p.x(),p.y(),0.0);
 }
 
-static CGAL::Point3 translate(const CGAL::Point3& p,const CGAL::Vector3& v)
-{
-	CGAL::AffTransformation3 t(
-		1.0,0.0,0.0,v.x(),
-		0.0,1.0,0.0,v.y(),
-		0.0,0.0,1.0,v.z(),1.0);
-	return p.transform(t);
-}
 
-static CGAL::Point3 rotate(const CGAL::Point3& p,const CGAL::Scalar& a,const CGAL::Vector3& axis)
+static CGAL::AffTransformation3 getRotatation(const CGAL::Scalar& a,const CGAL::Vector3& axis)
 {
 	CGAL::Scalar u=axis.x();
 	CGAL::Scalar v=axis.y();
@@ -350,13 +342,11 @@ static CGAL::Point3 rotate(const CGAL::Point3& p,const CGAL::Scalar& a,const CGA
 
 	CGAL::Scalar c1=1.0-c;
 
-	CGAL::AffTransformation3 t(
+	return CGAL::AffTransformation3(
 		u*u*c1+c,u*v*c1-w*s,u*w*c1+v*s,0.0,
 		u*v*c1+w*s,v*v*c1+c,v*w*c1-u*s,0.0,
 		u*w*c1-v*s,v*w*c1+u*s,w*w*c1+c,0.0,1.0
 	);
-
-	return p.transform(t);
 }
 #endif
 
@@ -382,7 +372,7 @@ void NodeEvaluator::visit(const LinearExtrudeNode& op)
 
 		CGALPrimitive* primitive=explorer.getPrimitive();
 		QList<CGALPolygon*> polygons=primitive->getCGALPolygons();
-
+		CGAL::AffTransformation3 translate(CGAL::TRANSLATION,t);
 		CGAL::Direction3 d=t.direction();
 		for(CGALPolygon* pg: polygons) {
 			extruded->createPolygon();
@@ -398,8 +388,8 @@ void NodeEvaluator::visit(const LinearExtrudeNode& op)
 			for(const auto& pt: pg->getPoints()) {
 				if(!first()) {
 					extruded->createPolygon();
-					extruded->addVertex(translate(pn,t),up);
-					extruded->addVertex(translate(pt,t),up);
+					extruded->addVertex(pn.transform(translate),up);
+					extruded->addVertex(pt.transform(translate),up);
 					extruded->addVertex(pt,up);
 					extruded->addVertex(pn,up);
 				}
@@ -411,7 +401,7 @@ void NodeEvaluator::visit(const LinearExtrudeNode& op)
 			extruded->createPolygon();
 			bool up=(pg->getDirection()==d);
 			for(const auto& pt: pg->getPoints())
-				extruded->addVertex(translate(pt,t),!up);
+				extruded->addVertex(pt.transform(translate),!up);
 		}
 		delete primitive;
 		extruded->appendChild(result);
@@ -451,7 +441,7 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 	CGAL::Cuboid3 b=primitive->getBounds();
 	auto* fg=op.getFragments();
 	int f=fg->getFragments((b.xmax()-b.xmin())+r);
-	CGAL::Vector3 t(r,0.0,0.0);
+	CGAL::AffTransformation3 translate(CGAL::TRANSLATION,CGAL::Vector3(r,0.0,0.0));
 
 	bool caps=(sweep!=360.0||height>0.0);
 
@@ -461,7 +451,7 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 			extruded->createPolygon();
 			bool up=(pg->getDirection()==d);
 			for(CGAL::Point3 pt: pg->getPoints()) {
-				CGAL::Point3 q=translate(pt,t);
+				CGAL::Point3 q=pt.transform(translate);
 				extruded->addVertex(q,up);
 			}
 		}
@@ -474,13 +464,14 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 		return;
 	}
 
-	CGAL::Scalar phi;
-	CGAL::Scalar nphi;
+	CGAL::AffTransformation3 rotate;
+	CGAL::AffTransformation3 nrotate;
 	for(auto i=0; i<f; ++i) {
 		int j=caps?i+1:(i+1)%f;
 		CGAL::Scalar ang=r_tau()*sweep/360.0;
-		phi=ang*i/f;
-		nphi=ang*j/f;
+
+		rotate=getRotatation(ang*i/f,axis);
+		nrotate=getRotatation(ang*j/f,axis);
 
 		for(CGALPolygon* pg: primitive->getCGALPerimeter()) {
 			bool hole=pg->getHole();
@@ -490,18 +481,18 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 			OnceOnly first;
 			for(const auto& pt: pg->getPoints()) {
 				if(!first()) {
-					CGAL::Point3 q=translate(pn,t);
-					CGAL::Point3 p=translate(pt,t);
+					CGAL::Point3 q=pn.transform(translate);
+					CGAL::Point3 p=pt.transform(translate);
 					if(q.x()<=0.0&&p.x()<=0.0) {
 						pn=pt;
 						continue;
 					}
 
 					extruded->createPolygon();
-					CGAL::Point3 q1=rotate(q,nphi,axis);
-					CGAL::Point3 p1=rotate(p,nphi,axis);
-					CGAL::Point3 p2=rotate(p,phi,axis);
-					CGAL::Point3 q2=rotate(q,phi,axis);
+					CGAL::Point3 q1=q.transform(nrotate);
+					CGAL::Point3 p1=p.transform(nrotate);
+					CGAL::Point3 p2=p.transform(rotate);
+					CGAL::Point3 q2=q.transform(rotate);
 					extruded->addVertex(q1,up);
 					extruded->addVertex(p1,up);
 					if(p2!=p1)
@@ -519,8 +510,8 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 			extruded->createPolygon();
 			bool up=(pg->getDirection()==d);
 			for(CGAL::Point3 pt: pg->getPoints()) {
-				CGAL::Point3 q=translate(pt,t);
-				CGAL::Point3 p=rotate(q,nphi,axis);
+				CGAL::Point3 q=pt.transform(translate);
+				CGAL::Point3 p=q.transform(nrotate);
 				extruded->addVertex(p,!up);
 			}
 		}
