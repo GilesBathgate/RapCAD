@@ -1,0 +1,281 @@
+diff --git a/usr/include/CGAL/Combinatorial_map_iterators_base.h
+index b0f2943c70..d000154f25 100644
+--- a/usr/include/CGAL/Combinatorial_map_iterators_base.h
++++ b/usr/include/CGAL/Combinatorial_map_iterators_base.h
+@@ -389,7 +389,7 @@ namespace CGAL {
+     {}
+ 
+     /// Destructor.
+-    ~CMap_non_basic_iterator() CGAL_NOEXCEPT(CGAL_NO_ASSERTIONS_BOOL)
++    ~CMap_non_basic_iterator() noexcept(!CGAL_assertions)
+     {
+       CGAL_destructor_assertion( this->mmark_number!=Map::INVALID_MARK );
+       if (this->mmap->get_number_of_times_mark_reserved
+diff --git a/usr/include/CGAL/HalfedgeDS_list.h
+index 664be1c2c3..d8ef523ca7 100644
+--- a/usr/include/CGAL/HalfedgeDS_list.h
++++ b/usr/include/CGAL/HalfedgeDS_list.h
+@@ -396,9 +396,9 @@ public:
+         // optimizing storage allocation. They are not used here.
+ 
+     ~HalfedgeDS_list() noexcept {
+-      try {
++      CGAL_assertion_drop(
+         clear();
+-      } catch (...) {}
++      );
+     }
+ 
+     HalfedgeDS_list( const Self& hds)
+diff --git a/usr/include/CGAL/config.h
+index 76d6fd9366..5ee324b0fd 100644
+--- a/usr/include/CGAL/config.h
++++ b/usr/include/CGAL/config.h
+@@ -655,12 +655,6 @@ typedef const void * Nullptr_t;   // Anticipate C++0x's std::nullptr_t
+ 
+ } //namespace CGAL
+ 
+-//Support for c++11 noexcept
+-#if BOOST_VERSION > 104600 && !defined(BOOST_NO_CXX11_NOEXCEPT) && !defined(BOOST_NO_NOEXCEPT)
+-#define CGAL_NOEXCEPT(x) noexcept(x)
+-#else
+-#define CGAL_NOEXCEPT(x)
+-#endif
+ 
+ // The fallthrough attribute
+ // See for clang:
+@@ -684,12 +678,6 @@ typedef const void * Nullptr_t;   // Anticipate C++0x's std::nullptr_t
+ #define CGAL_CFG_BOOST_VARIANT_SWAP_BUG 1
+ #endif
+ 
+-#ifndef CGAL_NO_ASSERTIONS
+-#  define CGAL_NO_ASSERTIONS_BOOL false
+-#else
+-#  define CGAL_NO_ASSERTIONS_BOOL true
+-#endif
+-
+ #if defined( __INTEL_COMPILER)
+ #define CGAL_ADDITIONAL_VARIANT_FOR_ICL ,int
+ #else
+diff --git a/usr/include/CGAL/Nef_3/K3_tree.h
+index b551b5c162..79cac6645e 100644
+--- a/usr/include/CGAL/Nef_3/K3_tree.h
++++ b/usr/include/CGAL/Nef_3/K3_tree.h
+@@ -442,7 +442,7 @@ friend std::ostream& operator<<
+ }
+ 
+ 
+-~Node() CGAL_NOEXCEPT(CGAL_NO_ASSERTIONS_BOOL)
++~Node() noexcept(!CGAL_assertions)
+ {
+   CGAL_NEF_TRACEN("~Node: deleting node...");
+   CGAL_destructor_assertion_catch(
+@@ -1106,7 +1106,7 @@ bool update( Node* node,
+   return (left_updated || right_updated);
+ }
+ 
+-~K3_tree() CGAL_NOEXCEPT(CGAL_NO_ASSERTIONS_BOOL)
++~K3_tree() noexcept(!CGAL_assertions)
+ {
+   CGAL_NEF_TRACEN("~K3_tree: deleting root...");
+   CGAL_destructor_assertion_catch(
+diff --git a/usr/include/CGAL/Nef_3/SNC_point_locator.h
+index 74dd49f210..fdf9d8da18 100644
+--- a/usr/include/CGAL/Nef_3/SNC_point_locator.h
++++ b/usr/include/CGAL/Nef_3/SNC_point_locator.h
+@@ -126,7 +126,7 @@ public:
+ 
+   virtual void add_vertex(Vertex_handle) {}
+ 
+-  virtual ~SNC_point_locator() CGAL_NOEXCEPT(CGAL_NO_ASSERTIONS_BOOL)
++  virtual ~SNC_point_locator() noexcept(!CGAL_assertions)
+   {
+     CGAL_NEF_CLOG("");
+     CGAL_NEF_CLOG("construction_time:  "<<ct_t.time());
+@@ -423,7 +423,7 @@ public:
+     return updated;
+   }
+ 
+-  virtual ~SNC_point_locator_by_spatial_subdivision() CGAL_NOEXCEPT(CGAL_NO_ASSERTIONS_BOOL)
++  virtual ~SNC_point_locator_by_spatial_subdivision() noexcept(!CGAL_assertions)
+   {
+     CGAL_destructor_warning(initialized ||
+                  candidate_provider == 0); // required?
+diff --git a/usr/include/CGAL/Nef_S2/Sphere_map.h
+index 0ee5d43129..70bb7cbd52 100644
+--- a/usr/include/CGAL/Nef_S2/Sphere_map.h
++++ b/usr/include/CGAL/Nef_S2/Sphere_map.h
+@@ -229,7 +229,7 @@ public:
+   Sphere_map(bool = false) : boundary_item_(boost::none),
+     svertices_(), sedges_(), sfaces_(), shalfloop_() {}
+ 
+-  ~Sphere_map() CGAL_NOEXCEPT(CGAL_NO_ASSERTIONS_BOOL)
++  ~Sphere_map() noexcept(!CGAL_assertions)
+   {
+     CGAL_destructor_assertion_catch(
+       clear();
+diff --git a/usr/include/CGAL/Nef_polyhedron_S2.h
+index 5961324938..da9e647137 100644
+--- a/usr/include/CGAL/Nef_polyhedron_S2.h
++++ b/usr/include/CGAL/Nef_polyhedron_S2.h
+@@ -73,7 +73,7 @@ class Nef_polyhedron_S2_rep {
+ public:
+   Nef_polyhedron_S2_rep() : sm_() {}
+   Nef_polyhedron_S2_rep(const Self&) : sm_() {}
+-  ~Nef_polyhedron_S2_rep() CGAL_NOEXCEPT(CGAL_NO_ASSERTIONS_BOOL)
++  ~Nef_polyhedron_S2_rep() noexcept(!CGAL_assertions)
+   {
+     CGAL_destructor_assertion_catch(
+       sm_.clear();
+diff --git a/usr/include/CGAL/Polyhedron_incremental_builder_3.h
+index f5686239a5..b857dde4d0 100644
+--- a/usr/include/CGAL/Polyhedron_incremental_builder_3.h
++++ b/usr/include/CGAL/Polyhedron_incremental_builder_3.h
+@@ -191,7 +191,7 @@ public:
+         CGAL_assertion_code(check_protocoll = 0;)
+     }
+ 
+-    ~Polyhedron_incremental_builder_3() CGAL_NOEXCEPT(CGAL_NO_ASSERTIONS_BOOL)
++    ~Polyhedron_incremental_builder_3() noexcept(!CGAL_assertions)
+     {
+         CGAL_destructor_assertion( check_protocoll == 0);
+     }
+diff --git a/usr/include/CGAL/Exponent_vector.h
+index d841191d59..5f34cb4869 100644
+--- a/usr/include/CGAL/Exponent_vector.h
++++ b/usr/include/CGAL/Exponent_vector.h
+@@ -161,7 +161,7 @@ inline std::ostream& operator << (std::ostream& os, const Exponent_vector& ev) {
+ namespace std{
+ template <> inline
+ void swap(CGAL::Exponent_vector& ev1, CGAL::Exponent_vector& ev2)
+-  CGAL_NOEXCEPT(std::is_nothrow_move_constructible<CGAL::Exponent_vector>::value
++  noexcept(std::is_nothrow_move_constructible<CGAL::Exponent_vector>::value
+                 && std::is_nothrow_move_assignable<CGAL::Exponent_vector>::value)
+ {
+   ev1.swap(ev2);
+diff --git a/usr/include/CGAL/Handle.h
+index e39f538742..98a50681c6 100644
+--- a/usr/include/CGAL/Handle.h
++++ b/usr/include/CGAL/Handle.h
+@@ -46,8 +46,7 @@ class Handle
+     Handle() noexcept
+         : PTR(static_cast<Rep*>(0)) {}
+ 
+-    // FIXME: if the precondition throws in a noexcept function, the program terminates
+-    Handle(const Handle& x) noexcept
++    Handle(const Handle& x) noexcept(!(CGAL_preconditions || CGAL_assertions))
+     {
+       CGAL_precondition( x.PTR != static_cast<Rep*>(0) );
+       PTR = x.PTR;
+@@ -68,7 +67,7 @@ class Handle
+     }
+ 
+     Handle&
+-    operator=(const Handle& x) noexcept
++    operator=(const Handle& x) noexcept(!CGAL_preconditions)
+     {
+       CGAL_precondition( x.PTR != static_cast<Rep*>(0) );
+       x.PTR->count++;
+diff --git a/usr/include/CGAL/Handle_for.h
+index 97543f58db..afb803cd03 100644
+--- a/usr/include/CGAL/Handle_for.h
++++ b/usr/include/CGAL/Handle_for.h
+@@ -102,7 +102,7 @@ public:
+         ptr_ = p;
+     }
+ 
+-    Handle_for(const Handle_for& h) noexcept
++    Handle_for(const Handle_for& h) noexcept(!CGAL_assertions)
+       : ptr_(h.ptr_)
+     {
+         CGAL_assume (ptr_->count > 0);
+@@ -149,14 +149,14 @@ public:
+         return *this;
+     }
+ 
+-    ~Handle_for() noexcept
++    ~Handle_for()
+     {
+-      try{
++      CGAL_assertion_drop(
+         if (--(ptr_->count) == 0) {
+           Allocator_traits::destroy(allocator, ptr_);
+           allocator.deallocate( ptr_, 1);
+         }
+-      } catch(...) {}
++      );
+     }
+ 
+     void
+diff --git a/usr/include/CGAL/assertions.h
+index e13f181f97..0a904228f5 100644
+--- a/usr/include/CGAL/assertions.h
++++ b/usr/include/CGAL/assertions.h
+@@ -77,9 +77,11 @@ inline bool possibly(Uncertain<bool> c);
+ // ----------
+ 
+ #if defined(CGAL_NO_ASSERTIONS)
++#  define CGAL_assertions false
+ #  define CGAL_assertion(EX) (static_cast<void>(0))
+ #  define CGAL_destructor_assertion(EX) (static_cast<void>(0))
+ #  define CGAL_destructor_assertion_catch(CODE) CODE
++#  define CGAL_assertion_drop(CODE) CODE
+ #  define CGAL_assertion_msg(EX,MSG) (static_cast<void>(0))
+ #  define CGAL_assertion_code(CODE)
+ #  ifdef CGAL_ASSUME
+@@ -90,6 +92,7 @@ inline bool possibly(Uncertain<bool> c);
+ #    define CGAL_assume_code(CODE) CGAL_assertion_code(CODE)
+ #  endif // not def CGAL_ASSUME
+ #else // no CGAL_NO_ASSERTIONS
++#  define CGAL_assertions true
+ #  define CGAL_assertion(EX) \
+    (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__))
+ #  if __cpp_lib_uncaught_exceptions || ( _MSVC_LANG >= 201703L )  // C++17
+@@ -104,6 +107,7 @@ inline bool possibly(Uncertain<bool> c);
+ #  define CGAL_assertion_msg(EX,MSG)                                    \
+    (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, MSG))
+ #  define CGAL_assertion_code(CODE) CODE
++#  define CGAL_assertion_drop(CODE) try{ CODE } catch(...) {}
+ #  define CGAL_assume(EX) CGAL_assertion(EX)
+ #  define CGAL_assume_code(CODE) CGAL_assertion_code(CODE)
+ #endif // no CGAL_NO_ASSERTIONS
+@@ -191,10 +195,12 @@ inline bool possibly(Uncertain<bool> c);
+ // -------------
+ 
+ #if defined(CGAL_NO_PRECONDITIONS)
++#  define CGAL_preconditions false
+ #  define CGAL_precondition(EX) (static_cast<void>(0))
+ #  define CGAL_precondition_msg(EX,MSG) (static_cast<void>(0))
+ #  define CGAL_precondition_code(CODE)
+ #else
++#  define CGAL_preconditions true
+ #  define CGAL_precondition(EX) \
+    (CGAL::possibly(EX)?(static_cast<void>(0)): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__))
+ #  define CGAL_precondition_msg(EX,MSG) \
+diff --git a/usr/include/CGAL/Straight_skeleton_2/Straight_skeleton_aux.h
+index 7e642e8b10..ea762999ca 100644
+--- a/usr/include/CGAL/Straight_skeleton_2/Straight_skeleton_aux.h
++++ b/usr/include/CGAL/Straight_skeleton_2/Straight_skeleton_aux.h
+@@ -164,7 +164,7 @@ private:
+   Ref_counted_base& operator=( Ref_counted_base const &);
+ protected:
+   Ref_counted_base(): mCount(0) {}
+-  virtual ~Ref_counted_base() CGAL_NOEXCEPT(CGAL_NO_ASSERTIONS_BOOL) {}
++  virtual ~Ref_counted_base() noexcept(!CGAL_assertions) {}
+ public:
+     void AddRef() const { ++mCount; }
+     void Release() const
+diff --git a/usr/include/CGAL/IO/VRML/VRML_2_ostream.h
+index d200643068..0eb0fc4b90 100644
+--- a/usr/include/CGAL/IO/VRML/VRML_2_ostream.h
++++ b/usr/include/CGAL/IO/VRML/VRML_2_ostream.h
+@@ -30,7 +30,7 @@ class VRML_2_ostream
+ public:
+   VRML_2_ostream() : m_os(nullptr) {}
+   VRML_2_ostream(std::ostream& o) : m_os(&o) { header(); }
+-  ~VRML_2_ostream() CGAL_NOEXCEPT(CGAL_NO_ASSERTIONS_BOOL)
++  ~VRML_2_ostream() noexcept(!CGAL_assertions)
+   {
+     CGAL_destructor_assertion_catch(
+       close();
+
