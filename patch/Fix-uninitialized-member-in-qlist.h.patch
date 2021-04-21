@@ -1,0 +1,11 @@
+--- /a/usr/include/x86_64-linux-gnu/qt5/QtCore/qlist.h
++++ /b/usr/include/x86_64-linux-gnu/qt5/QtCore/qlist.h
+@@ -144,7 +144,7 @@
+ private:
+     template <typename V, typename U> friend int QtPrivate::indexOf(const QList<V> &list, const U &u, int from);
+     template <typename V, typename U> friend int QtPrivate::lastIndexOf(const QList<V> &list, const U &u, int from);
+-    struct Node { void *v;
++    struct Node { void *v=nullptr;
+ #if defined(Q_CC_BOR)
+         Q_INLINE_TEMPLATE T &t();
+ #else
