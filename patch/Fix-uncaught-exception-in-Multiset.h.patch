@@ -1,0 +1,25 @@
+diff --git a/STL_Extension/include/CGAL/Multiset.h b/STL_Extension/include/CGAL/Multiset.h
+index 5be3bc3b41..4b0cb4c8a4 100644
+--- a/STL_Extension/include/CGAL/Multiset.h
++++ b/STL_Extension/include/CGAL/Multiset.h
+@@ -1565,14 +1565,16 @@ Multiset<Type, Compare, Allocator, UseCompactContainer>::Multiset (const Self& t
+ // Destructor.
+ //
+ template <class Type, class Compare, typename Allocator, typename UseCompactContainer>
+-Multiset<Type, Compare, Allocator, UseCompactContainer>::~Multiset ()
++Multiset<Type, Compare, Allocator, UseCompactContainer>::~Multiset () noexcept(!CGAL_assertions)
+ {
+   if (UseCompactContainer::value)
+     return;
+ 
+   // Delete the entire tree recursively.
+-  if (rootP != nullptr)
+-    _destroy (rootP);
++  CGAL_destructor_assertion_catch(
++    if (rootP != nullptr)
++      _destroy (rootP);
++  );
+ 
+   rootP = nullptr;
+   beginNode.parentP = nullptr;
+
