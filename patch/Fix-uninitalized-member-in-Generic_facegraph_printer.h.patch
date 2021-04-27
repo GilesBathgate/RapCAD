@@ -1,0 +1,14 @@
+diff --git a/usr/include/CGAL/boost/graph/IO/Generic_facegraph_printer.h b/BGL/include/CGAL/boost/graph/IO/Generic_facegraph_printer.h
+index 5fb75be536..236bf95859 100644
+--- a/usr/include/CGAL/boost/graph/IO/Generic_facegraph_printer.h
++++ b/usr/include/CGAL/boost/graph/IO/Generic_facegraph_printer.h
+@@ -85,7 +85,7 @@ class Generic_facegraph_printer
+   typedef typename boost::graph_traits<Graph>::face_descriptor                     face_descriptor;
+ 
+ public:
+-  Generic_facegraph_printer(Stream& os) : m_os(os) { }
++  Generic_facegraph_printer(Stream& os) : m_os(os), m_writer{} { }
+   Generic_facegraph_printer(Stream& os, FileWriter writer) : m_os(os), m_writer(writer) { }
+ 
+   template <typename NamedParameters>
+
