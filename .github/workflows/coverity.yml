@@ -64,6 +64,7 @@ jobs:
         sudo patch -l -p4 -d $CGAL_DIR < patch/Fix-uncaught-exceptions-in-Handle.h-and-Handle_for.h.patch;
         sudo patch -l $CGAL_DIR/Multiset.h < patch/Fix-uncaught-exception-in-Multiset.h.patch;
         sudo patch -l $CGAL_DIR/Nef_3/K3_tree.h < patch/Fix-dereference-after-null-check-in-K3_tree.h.patch;
+        sudo patch -l $CGAL_DIR/Intersections_2/Ray_2_Segment_2.h < patch/Fix-uninitialized-member-in-Ray_2_Segment_2.h.patch;
         sudo patch -l $CGAL_DIR/version.h < patch/update-version.h.patch;
     - name: Download coverity
       run: |
