@@ -41,28 +41,6 @@ index 76d6fd9366..5ee324b0fd 100644
  #if defined( __INTEL_COMPILER)
  #define CGAL_ADDITIONAL_VARIANT_FOR_ICL ,int
  #else
-diff --git a/usr/include/CGAL/Nef_3/K3_tree.h
-index b551b5c162..79cac6645e 100644
---- a/usr/include/CGAL/Nef_3/K3_tree.h
-+++ b/usr/include/CGAL/Nef_3/K3_tree.h
-@@ -442,7 +442,7 @@ friend std::ostream& operator<<
- }
- 
- 
--~Node() CGAL_NOEXCEPT(CGAL_NO_ASSERTIONS_BOOL)
-+~Node() noexcept(!CGAL_assertions)
- {
-   CGAL_NEF_TRACEN("~Node: deleting node...");
-   CGAL_destructor_assertion_catch(
-@@ -1106,7 +1106,7 @@ bool update( Node* node,
-   return (left_updated || right_updated);
- }
- 
--~K3_tree() CGAL_NOEXCEPT(CGAL_NO_ASSERTIONS_BOOL)
-+~K3_tree() noexcept(!CGAL_assertions)
- {
-   CGAL_NEF_TRACEN("~K3_tree: deleting root...");
-   CGAL_destructor_assertion_catch(
 diff --git a/usr/include/CGAL/Nef_3/SNC_point_locator.h
 index 74dd49f210..fdf9d8da18 100644
 --- a/usr/include/CGAL/Nef_3/SNC_point_locator.h
