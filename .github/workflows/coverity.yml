@@ -69,6 +69,7 @@ jobs:
         sudo patch -l $CGAL_DIR/boost/graph/IO/Generic_facegraph_printer.h < patch/Fix-uninitalized-member-in-Generic_facegraph_printer.h.patch;
         sudo patch -l $CGAL_DIR/Convex_decomposition_3/Reflex_vertex_searcher.h < patch/Fix-dereference-after-null-in-Reflex_vertex_searcher.h.patch;
         sudo patch -l $CGAL_DIR/Triangulation_data_structure_3.h < patch/Fix-dereference-after-null-in-Triangulation_data_structure.h.patch;
+        sudo patch -l -p4 -d $CGAL_DIR < patch/Fix-dereference-after-null-in-Polyhedron_incremental_builder.h.patch;
         sudo patch -l $CGAL_DIR/version.h < patch/update-version.h.patch;
     - name: Download coverity
       run: |
