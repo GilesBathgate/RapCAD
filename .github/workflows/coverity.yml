@@ -68,6 +68,7 @@ jobs:
         sudo patch -l $CGAL_DIR/Surface_mesh_simplification/internal/Edge_collapse.h < patch/Fix-uninitialized-members-in-Edge_collapse.h.patch;
         sudo patch -l $CGAL_DIR/boost/graph/IO/Generic_facegraph_printer.h < patch/Fix-uninitalized-member-in-Generic_facegraph_printer.h.patch;
         sudo patch -l $CGAL_DIR/Convex_decomposition_3/Reflex_vertex_searcher.h < patch/Fix-dereference-after-null-in-Reflex_vertex_searcher.h.patch;
+        sudo patch -l $CGAL_DIR/Triangulation_data_structure_3.h < patch/Fix-dereference-after-null-in-Triangulation_data_structure.h.patch;
         sudo patch -l $CGAL_DIR/version.h < patch/update-version.h.patch;
     - name: Download coverity
       run: |
