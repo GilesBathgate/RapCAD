@@ -50,9 +50,7 @@ Node* CylinderSurfaceModule::evaluate(const Context& ctx) const
 	decimal z1=0.0;
 	decimal z2=h;
 
-	Fragment* fg = Fragment::createFragment(ctx);
-	int f = fg->getFragments(r);
-	delete fg;
+	int f = Fragment::getFragments(ctx,r);
 
 	QList<Point> c1=getCircle(r,f,z1);
 	QList<Point> c2=getCircle(r,f,z2);

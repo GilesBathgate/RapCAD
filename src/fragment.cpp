@@ -44,6 +44,15 @@ Fragment::Fragment(const Context& ctx) :
 		fragmentError=feVal->getNumber();
 }
 
+int Fragment::getFragments(const Context& ctx,const decimal& r)
+{
+#ifdef USE_CGAL
+	return CGALFragment(ctx).getFragments(r);
+#else
+	return Fragment(ctx).getFragments(r);
+#endif
+}
+
 Fragment* Fragment::createFragment(const Context& ctx)
 {
 #ifdef USE_CGAL

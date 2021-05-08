@@ -27,6 +27,7 @@ class Fragment
 public:
 	virtual ~Fragment() {}
 	static Fragment* createFragment(const Context&);
+	static int getFragments(const Context&,const decimal&);
 	virtual int getFragments(const decimal&);
 protected:
 	explicit Fragment(const Context&);
