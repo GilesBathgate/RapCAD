@@ -685,8 +685,8 @@ static void appendChildren(Primitive* p,const QList<Node*> children)
 		auto* pn=dynamic_cast<PrimitiveNode*>(child);
 		if(pn)
 			p->appendChild(pn->getPrimitive());
-
-		appendChildren(p,child->getChildren());
+		if(child)
+			appendChildren(p,child->getChildren());
 	}
 }
 

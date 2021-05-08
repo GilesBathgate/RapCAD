@@ -645,7 +645,7 @@ void CGALPrimitive::transform(TransformMatrix* matrix)
 
 	//Only transform auxilliary modules children.
 	for(Primitive* p: children)
-		if(!dynamic_cast<CGALPrimitive*>(p))
+		if(p && !dynamic_cast<CGALPrimitive*>(p))
 			p->transform(matrix);
 }
 
