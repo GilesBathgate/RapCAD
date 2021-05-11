@@ -38,6 +38,11 @@
 #endif
 #include "contrib/qtcompat.h"
 
+#ifdef USE_CGAL
+#include "cgal.h"
+static void rapcadErrorHandler(const char*,const char*,const char*,int,const char*){}
+#endif
+
 static void setupApplication()
 {
 #ifdef Q_OS_WIN
@@ -47,6 +52,11 @@ static void setupApplication()
 	QCoreApplication::setOrganizationDomain("rapcad.org");
 	QCoreApplication::setApplicationName("RapCAD");
 	QCoreApplication::setApplicationVersion(STRINGIFY(RAPCAD_VERSION));
+#ifdef USE_CGAL
+	CGAL::set_error_handler(rapcadErrorHandler);
+#endif
+	//Ensure preferences have been initialised early.
+	Preferences::getInstance();
 }
 
 static void showVersion(QTextStream& out)
@@ -117,7 +127,7 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Re
 	return nullptr;
 }
 
-static int runApplication(Strategy* s,int argc,char* argv[],QStringList inputFiles)
+static int runApplication(Strategy* s,int argc,char* argv[],const QStringList& inputFiles)
 {
 	if(s)
 		return s->evaluate();
@@ -132,9 +142,6 @@ static int runApplication(Strategy* s,int argc,char* argv[],QStringList inputFil
 int main(int argc, char* argv[])
 {
 	setupApplication();
-
-	//Ensure preferences have been initialised early.
-	Preferences::getInstance();
 
 	QStringList inputFiles;
 	QTextStream output(stdout);
