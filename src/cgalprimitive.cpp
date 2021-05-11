@@ -164,8 +164,13 @@ static bool validPolyLine(const QList<CGAL::Segment3>& segments)
 {
 	for(const auto& segment: segments)
 		for(const auto& other: segments)
-			if(!segment.identical(other) && !connected(segment,other) && do_intersect(segment,other))
-				return false;
+#ifndef USE_VALGRIND
+			if(!segment.identical(other))
+#else
+			if(segment!=other)
+#endif
+				if(!connected(segment,other) && do_intersect(segment,other))
+					return false;
 
 	return true;
 }
