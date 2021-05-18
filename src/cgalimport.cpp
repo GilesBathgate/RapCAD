@@ -92,7 +92,11 @@ Primitive* CGALImport::importOBJ() const
 	std::vector<CGAL::Point3> points;
 	std::vector<std::vector<std::size_t> > faces;
 	std::ifstream file(fileInfo.absoluteFilePath().toLocal8Bit().constData());
+#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,3,0)
+	CGAL::IO::read_OBJ(file,points,faces);
+#else
 	CGAL::read_OBJ(file,points,faces);
+#endif
 	for(const auto& pt : points)
 		cp->createVertex(pt);
 
