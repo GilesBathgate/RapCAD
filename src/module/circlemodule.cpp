@@ -38,9 +38,7 @@ Node* CircleModule::evaluate(const Context& ctx) const
 			r=(dValue->getNumber()/2.0);
 	}
 
-	Fragment* fg = Fragment::createFragment(ctx);
-	int f = fg->getFragments(r);
-	delete fg;
+	int f = Fragment::getFragments(ctx,r);
 
 	QList<Point> c = getCircle(r,f,0);
 

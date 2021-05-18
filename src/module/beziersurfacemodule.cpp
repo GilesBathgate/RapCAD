@@ -109,9 +109,7 @@ Node* BezierSurfaceModule::evaluate(const Context& ctx) const
 	if(row < rows)
 		return pn;
 
-	Fragment* fg = Fragment::createFragment(ctx);
-	int f = fg->getFragments(1);
-	delete fg;
+	int f = Fragment::getFragments(ctx,1);
 
 	for(auto i=0; i<f; ++i) {
 		for(auto j=0; j<f; ++j) {

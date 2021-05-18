@@ -35,8 +35,8 @@ void NodePrinter::collectChildren(const Node& n)
 		auto* pn=dynamic_cast<PrimitiveNode*>(child);
 		if(pn)
 			primitives.append(pn->getPrimitive());
-
-		collectChildren(*child);
+		if(child)
+			collectChildren(*child);
 	}
 }
 

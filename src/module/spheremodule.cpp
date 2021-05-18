@@ -44,9 +44,7 @@ Node* SphereModule::evaluate(const Context& ctx) const
 		return p;
 	}
 
-	Fragment* fg = Fragment::createFragment(ctx);
-	int f = fg->getFragments(r);
-	delete fg;
+	int f = Fragment::getFragments(ctx,r);
 
 	int ringCount=f/2;
 

@@ -92,7 +92,7 @@ void CGALExport::exportOBJ() const
 
 	CGAL::Polyhedron3* poly=pr->getPolyhedron();
 #if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,3,0)
-	CGAL::write_OBJ(fileInfo.absoluteFilePath().toStdString(),*poly);
+	CGAL::IO::write_OBJ(fileInfo.absoluteFilePath().toStdString(),*poly);
 #else
 	std::ofstream file(QFile::encodeName(fileInfo.absoluteFilePath()));
 	print_polyhedron_wavefront(file,*poly);
