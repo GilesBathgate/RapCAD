@@ -2,7 +2,7 @@ name: Coverity
 
 on:
   push:
-    branches: [ coverity_scan ]
+    branches: [ coverity_development ]
 
 jobs:
   linux:
@@ -80,6 +80,7 @@ jobs:
         export PATH=`pwd`/cov-analysis-linux64/bin:$PATH
         cov-build --dir cov-int make -j2
     - name: Submit
+      if: ${{ false }}
       run: |
         tar czvf rapcad.tgz cov-int
         curl \
