@@ -42,7 +42,9 @@ MainWindow::MainWindow(QWidget* parent) :
 	output(nullptr),
 	reporter(nullptr),
 	worker(nullptr),
-	interact(nullptr)
+	interact(nullptr),
+	aboutDialog(nullptr),
+	preferencesDialog(nullptr)
 {
 	if(!QIcon::hasThemeIcon("document-open")) {
 		QIcon::setThemeName("gnome");
@@ -60,17 +62,16 @@ MainWindow::MainWindow(QWidget* parent) :
 	setupConsole();
 	setupEditor(ui->scriptEditor);
 
-	aboutDialog=nullptr;
-	preferencesDialog=nullptr;
+	ui->searchWidget->setVisible(false);
+	ui->mainToolBar->setContextMenuPolicy(Qt::ActionsContextMenu);
+
 	loadPreferences();
 
-	//Make project treeview hidden until its useful.
-	ui->treeView->setVisible(false);
-	ui->searchWidget->setVisible(false);
+	//Make project treeview actions disabled until its useful.
+	ui->actionNewProject->setEnabled(false);
 	ui->actionShowProjects->setChecked(false);
 	ui->actionShowProjects->setEnabled(false);
 
-	ui->mainToolBar->setContextMenuPolicy(Qt::ActionsContextMenu);
 }
 
 MainWindow::~MainWindow()
@@ -207,6 +208,7 @@ void MainWindow::getDefaultViewport() const
 void MainWindow::setupActions()
 {
 	connect(ui->actionNew,&QAction::triggered,this,&MainWindow::newFile);
+	connect(ui->actionNewProject,&QAction::triggered,this,&MainWindow::newProject);
 	connect(ui->actionOpen,&QAction::triggered,this,&MainWindow::openFile);
 	connect(ui->actionSave,&QAction::triggered,this,&MainWindow::saveFile);
 	connect(ui->actionSaveAll,&QAction::triggered,this,&MainWindow::saveAllFiles);
@@ -425,18 +427,30 @@ void MainWindow::setupLayout()
 
 void MainWindow::setupTreeview()
 {
-	treeModel = new QStandardItemModel(this);
-	QStringList headers;
-	headers << tr("Projects");
+	treeModel=new QStandardItemModel(this);
+	QStringList headers(tr("Projects"));
 	treeModel->setHorizontalHeaderLabels(headers);
-	QStandardItem* parentItem = treeModel->invisibleRootItem();
-
-	auto* item = new QStandardItem("New Project.rpro");
-	parentItem->appendRow(item);
-	item->appendRow(new QStandardItem("New.rcad"));
 
 	ui->treeView->setModel(treeModel);
-	ui->treeView->expandAll();
+}
+
+void MainWindow::newProject()
+{
+	ui->treeView->setVisible(true);
+
+	QString dirName=QFileDialog::getExistingDirectory(this,tr("New Project..."));
+	if(dirName.isEmpty())
+		return;
+
+	QDir directory(dirName);
+	QString projectName=directory.dirName();
+	QString projectFileName=QString("%1.rpro").arg(projectName);
+	QStandardItem* parentItem=treeModel->invisibleRootItem();
+	auto* item=new QStandardItem(projectName);
+	parentItem->appendRow(item);
+	item->appendRow(new QStandardItem(projectFileName));
+	item->appendRow(new QStandardItem("assembly.rcad"));
+
 }
 
 void MainWindow::setupEditor(CodeEditor* editor)

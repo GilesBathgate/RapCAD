@@ -84,6 +84,7 @@ private slots:
 	void sendToCAM();
 	void exportFile(const QString&);
 	void preferencesUpdated();
+	void newProject();
 private:
 	void compileOrGenerate(bool generate);
 	void loadPreferences();

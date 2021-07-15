@@ -377,7 +377,7 @@ void Preferences::setShowConsole(bool show)
 
 bool Preferences::getShowProjects() const
 {
-	return settings->value("ShowProjects",true).toBool();
+	return settings->value("ShowProjects",false).toBool();
 }
 
 void Preferences::setShowProjects(bool show)
