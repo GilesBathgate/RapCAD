@@ -44,6 +44,7 @@ public:
 	explicit MainWindow(QWidget* parent = nullptr);
 	~MainWindow() override;
 	void loadFiles(const QStringList&);
+	static QString getSaveFileName(QWidget*,const QString&,const QString&,const QString&,const QString&);
 protected:
 	void closeEvent(QCloseEvent*) override;
 private slots:

@@ -310,34 +310,56 @@ void MainWindow::setupViewActions()
 
 void MainWindow::grabFrameBuffer()
 {
-	QImage image = ui->view->grabFramebuffer();
-	QString fn = QFileDialog::getSaveFileName(this, tr("Export..."),
-				 QString(), tr("PNG Files (*.png)"));
-	image.save(fn);
+	QImage image=ui->view->grabFramebuffer();
+	QString fileName=MainWindow::getSaveFileName(this, tr("Export..."),
+				 QString(), tr("PNG Files (*.png)"), "png");
+	if(fileName.isEmpty())
+		return;
+	image.save(fileName);
+}
+
+QString MainWindow::getSaveFileName(QWidget* parent,const QString& caption,const QString& dir,const QString& filter,const QString& suffix)
+{
+	QFileDialog dialog(parent,caption,dir,filter);
+	dialog.setDefaultSuffix(suffix);
+	dialog.setOption(QFileDialog::DontConfirmOverwrite,true);
+	dialog.setAcceptMode(QFileDialog::AcceptSave);
+	while (dialog.exec() == QDialog::Accepted) {
+		QString fileName=dialog.selectedFiles().first();
+		QFileInfo info(fileName);
+		if(!info.exists())
+			return fileName;
+
+		auto result=QMessageBox::warning(parent,caption,
+			tr("A file named \"%1\" already exists. Do you want to replace it?").arg(info.fileName()),
+			QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel,QMessageBox::No);
+		if(result==QMessageBox::Cancel) break;
+		if(result==QMessageBox::Yes) return fileName;
+	}
+	return QString();
 }
 
 void MainWindow::exportFile(const QString& type)
 {
-	if(worker->resultAvailable()) {
-
-		QFileInfo fileInfo(currentEditor()->getFileName());
-
-		QString ext="."+type.toLower();
-		QString filter=tr("%1 Files (*%2);;All Files (*)").arg(type.toUpper()).arg(ext);
-		QString suggestedName=fileInfo.completeBaseName()+ext;
-		QString suggestedLocation=fileInfo.absoluteDir().filePath(suggestedName);
-
-		QString fileName=QFileDialog::getSaveFileName(this,tr("Export..."),suggestedLocation,filter);
-
-		fileInfo=QFileInfo(fileName);
-		if(fileInfo.suffix()=="")
-			fileName.append(ext);
-
-		worker->exportResult(fileName);
-	} else {
+	if(!worker->resultAvailable()) {
 		QMessageBox::information(this,tr("Export"),
 			tr("You have to compile the script before you can export"));
+		return;
 	}
+
+	QFileInfo fileInfo(currentEditor()->getFileName());
+
+	QString ext=QString(".%1").arg(type.toLower());
+	QString filter=tr("%1 Files (*%2);;All Files (*)").arg(type.toUpper()).arg(ext);
+	QString suggestedName=fileInfo.completeBaseName().append(ext);
+	QString suggestedLocation=fileInfo.absoluteDir().filePath(suggestedName);
+
+	QString fileName=MainWindow::getSaveFileName(this,tr("Export..."),suggestedLocation,filter,ext);
+	if(fileName.isEmpty())
+		return;
+
+	worker->exportResult(fileName);
+
 }
 
 void MainWindow::showPreferences()
