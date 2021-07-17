@@ -37,7 +37,7 @@
 MainWindow::MainWindow(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow),
-	treeModel(nullptr),
+	projectModel(nullptr),
 	console(nullptr),
 	output(nullptr),
 	reporter(nullptr),
@@ -77,7 +77,7 @@ MainWindow::MainWindow(QWidget* parent) :
 MainWindow::~MainWindow()
 {
 	deleteTempFiles();
-	delete treeModel;
+	delete projectModel;
 	delete console;
 	delete output;
 	delete reporter;
@@ -427,11 +427,8 @@ void MainWindow::setupLayout()
 
 void MainWindow::setupTreeview()
 {
-	treeModel=new QStandardItemModel(this);
-	QStringList headers(tr("Projects"));
-	treeModel->setHorizontalHeaderLabels(headers);
-
-	ui->treeView->setModel(treeModel);
+	projectModel=new Project(this);
+	ui->treeView->setModel(projectModel);
 }
 
 void MainWindow::newProject()
@@ -444,12 +441,8 @@ void MainWindow::newProject()
 
 	QDir directory(dirName);
 	QString projectName=directory.dirName();
-	QString projectFileName=QString("%1.rpro").arg(projectName);
-	QStandardItem* parentItem=treeModel->invisibleRootItem();
-	auto* item=new QStandardItem(projectName);
-	parentItem->appendRow(item);
-	item->appendRow(new QStandardItem(projectFileName));
-	item->appendRow(new QStandardItem("assembly.rcad"));
+	projectModel->setName(projectName);
+	projectModel->createDefaultItems();
 
 }
 

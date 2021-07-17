@@ -30,6 +30,7 @@
 #include "preferencesdialog.h"
 #include "aboutdialog.h"
 #include "interactive.h"
+#include "project.h"
 
 namespace Ui
 {
@@ -104,7 +105,7 @@ private:
 	void deleteTempFiles();
 
 	Ui::MainWindow* ui;
-	QStandardItemModel* treeModel;
+	Project* projectModel;
 	TextEditIODevice* console;
 	QTextStream* output;
 	Reporter* reporter;
