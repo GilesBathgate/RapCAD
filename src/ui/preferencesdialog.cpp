@@ -121,6 +121,7 @@ void PreferencesDialog::setupWidgets()
 
 	ui->showGCODEButtonCheckbox->setChecked(p.getShowGCODEButton());
 	ui->processingScriptlineEdit->setText(p.getCAMScript());
+	ui->translateCheckBox->setChecked(p.getTranslateOrigin());
 
 	updatePrecision();
 }
@@ -183,6 +184,7 @@ void PreferencesDialog::setupButtons()
 	connect(ui->launchCommandLineEdit,SIGNAL(editingFinished()),this,SLOT(launchCommandUpdated()));
 
 	connect(ui->showGCODEButtonCheckbox, SIGNAL(stateChanged(int)),this,SLOT(showGCODEButtonChanged(int)));
+	connect(ui->translateCheckBox, SIGNAL(stateChanged(int)),this,SLOT(translateChanged(int)));
 	connect(ui->processingScriptlineEdit, SIGNAL(editingFinished()),this,SLOT(processingScriptUpdated()));
 }
 
@@ -268,6 +270,13 @@ void PreferencesDialog::showGCODEButtonChanged(int i)
 {
 	Preferences& p=Preferences::getInstance();
 	p.setShowGCODEButton(i == Qt::Checked);
+	emit preferencesUpdated();
+}
+
+void PreferencesDialog::translateChanged(int i)
+{
+	Preferences& p=Preferences::getInstance();
+	p.setTranslateOrigin(i == Qt::Checked);
 	emit preferencesUpdated();
 }
 
