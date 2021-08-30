@@ -57,7 +57,6 @@ jobs:
         sudo patch -l $CGAL_DIR/Filtered_predicate.h < patch/Fix-uninitialized-member-in-Filtered_predicate.h.patch;
         sudo patch -l $CGAL_DIR/Intersections_2/Segment_2_Segment_2.h < patch/Fix-uninitialized-member-in-Segment_2_Segment_2.h.patch;
         sudo patch -l $CGAL_DIR/Nef_S2/SM_point_locator.h < patch/Fix-unchecked-return-value-warning-in-SM_point_locator.h.patch;
-        sudo patch -l $CGAL_DIR/Subdivision_method_3/subdivision_masks_3.h < patch/Fix-division-by-zero-in-subdivision_masks_3.h.patch;
         sudo patch -l $CGAL_DIR/Convex_decomposition_3/SM_walls.h < patch/Fix-copy-paste-warning-in-SM_walls.h.patch;
         sudo patch -l $CGAL_DIR/Compact_container.h < patch/Fix-null-dereference-warnings-in-Compact_container.h.patch;
         sudo patch -l $CGAL_DIR/Box_intersection_d/segment_tree.h < patch/Dependency-inversion-in-segment_tree.h.patch;
