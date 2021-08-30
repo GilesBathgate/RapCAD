@@ -55,6 +55,7 @@ private slots:
 	void launchCommandChanged(const QString&);
 	void launchCommandUpdated();
 	void showGCODEButtonChanged(int);
+	void translateChanged(int);
 	void processingScriptUpdated();
 private:
 	void setupWidgets();

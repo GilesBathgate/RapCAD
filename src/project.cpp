@@ -19,6 +19,12 @@
 #include "project.h"
 #include <QFile>
 
+Project::Project(QObject* parent) : QStandardItemModel(parent)
+{
+	QStringList headers(tr("Project"));
+	setHorizontalHeaderLabels(headers);
+}
+
 void Project::parseProject(const QString& filename)
 {
 	auto* file=new QFile(filename);
@@ -27,6 +33,7 @@ void Project::parseProject(const QString& filename)
 	}
 
 	QXmlStreamReader xml(file);
+	createRootItem();
 	while(!xml.atEnd() && !xml.hasError()) {
 		QXmlStreamReader::TokenType token = xml.readNext();
 		if(token == QXmlStreamReader::StartDocument) {
@@ -34,6 +41,7 @@ void Project::parseProject(const QString& filename)
 		}
 		if(token == QXmlStreamReader::StartElement) {
 			if(xml.name() == "project") {
+
 				continue;
 			}
 			if(xml.name() == "name") {
@@ -62,7 +70,7 @@ void Project::parseSource(QXmlStreamReader& xml)
 	while(xml.tokenType() != QXmlStreamReader::EndElement) {
 		QXmlStreamReader::TokenType token=xml.readNext();
 		if(token == QXmlStreamReader::Characters) {
-			sources.append(xml.text().toString());
+			addSource(xml.text().toString());
 		}
 	}
 }
@@ -86,12 +94,33 @@ void Project::writeProject(const QString& filename)
 	delete file;
 }
 
+void Project::setName(const QString& value)
+{
+	name = value;
+}
+
+void Project::createDefaultItems()
+{
+	createRootItem();
+	projectFileName=QString("%1.rpro").arg(name);
+	addSource(projectFileName);
+	addSource("assembly.rcad");
+}
+
+void Project::createRootItem()
+{
+	auto* rootItem=new QStandardItem(name);
+	invisibleRootItem()->appendRow(rootItem);
+}
+
+void Project::addSource(const QString& value)
+{
+	sources.append(value);
+	auto* rootItem=invisibleRootItem()->child(0);
+	rootItem->appendRow(new QStandardItem(value));
+}
+
 QList<QString> Project::getSources() const
 {
 	return sources;
-}
-
-void Project::setSources(const QList<QString>& value)
-{
-	sources = value;
 }

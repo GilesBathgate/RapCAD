@@ -29,8 +29,10 @@ class CGALExport
 	Q_DECLARE_TR_FUNCTIONS(CGALExport)
 public:
 	CGALExport(const QFileInfo&,Primitive*,Reporter&);
+	~CGALExport();
 	void exportResult() const;
 private:
+	CGALPrimitive* transformPrimitive() const;
 	void exportOFF() const;
 	void exportAsciiSTL() const;
 	void exportVRML() const;
@@ -45,6 +47,7 @@ private:
 
 	Reporter& reporter;
 	Primitive* primitive;
+	mutable Primitive* transformed;
 	const QFileInfo& fileInfo;
 	mutable int id;
 };

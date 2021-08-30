@@ -25,6 +25,7 @@
 #include "codeeditor.h"
 #include "linenumberarea.h"
 #include "preferences.h"
+#include "mainwindow.h"
 
 static const char* indent="\t";
 
@@ -114,11 +115,11 @@ bool CodeEditor::saveFile()
 
 bool CodeEditor::saveAsFile()
 {
-	QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
-		QString(), tr("RapCAD Files (*.rcad);;All Files (*)"));
-	if(fn.isEmpty())
+	QString fileName=MainWindow::getSaveFileName(this, tr("Save as..."),
+		QString(),tr("RapCAD Files (*.rcad);;All Files (*)"),"rcad");
+	if(fileName.isEmpty())
 		return false;
-	setFileName(fn);
+	setFileName(fileName);
 	return saveFile();
 }
 
@@ -140,10 +141,10 @@ bool CodeEditor::loadFile(const QString& f)
 
 bool CodeEditor::openFile()
 {
-	QString fn = QFileDialog::getOpenFileName(this, tr("Open File..."),
-		QString(), tr("RapCAD Files (*.rcad);;All Files (*)"));
-	if(!fn.isEmpty())
-		loadFile(fn);
+	QString fileName=QFileDialog::getOpenFileName(this, tr("Open File..."),
+		QString(),tr("RapCAD Files (*.rcad);;All Files (*)"));
+	if(!fileName.isEmpty())
+		loadFile(fileName);
 	else
 		return false;
 

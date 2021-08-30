@@ -21,20 +21,25 @@
 #include <QString>
 #include <QList>
 #include <QXmlStreamReader>
+#include <QStandardItemModel>
 
-class Project
+class Project : public QStandardItemModel
 {
 public:
-	Project() = default;
+	Project(QObject*);
 	QList<QString> getSources() const;
-	void setSources(const QList<QString>&);
 	void parseProject(const QString&);
 	void parseSource(QXmlStreamReader&);
 	void parseName(QXmlStreamReader&);
 	void writeProject(const QString&);
+	void setName(const QString&);
+	void createDefaultItems();
+	void addSource(const QString &value);
+	void createRootItem();
 private:
 	QList<QString> sources;
 	QString name;
+	QString projectFileName;
 };
 
 #endif // PROJECT_H

@@ -37,14 +37,21 @@
 #include "onceonly.h"
 #include "rmath.h"
 #include "polyhedron.h"
+#include "preferences.h"
 #include "contrib/qzipwriter_p.h"
 
 CGALExport::CGALExport(const QFileInfo& f,Primitive* p,Reporter& r) :
 	reporter(r),
 	primitive(p),
+	transformed(nullptr),
 	fileInfo(f),
 	id(0)
 {
+}
+
+CGALExport::~CGALExport()
+{
+	delete transformed;
 }
 
 void CGALExport::exportResult() const
@@ -70,9 +77,29 @@ void CGALExport::exportResult() const
 		return exportSVG();
 }
 
-void CGALExport::exportVRML() const
+CGALPrimitive *CGALExport::transformPrimitive() const
 {
 	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
+	Preferences& p=Preferences::getInstance();
+	if(pr && p.getTranslateOrigin()) {
+		pr=static_cast<CGALPrimitive*>(pr->copy());
+		QPointF o=p.getPrintOrigin();
+		auto* m=new TransformMatrix(
+			1.0,0.0,0.0,-o.x(),
+			0.0,1.0,0.0,-o.y(),
+			0.0,0.0,1.0,0.0,
+			0.0,0.0,0.0,1.0
+		);
+		m->setType(TransformType::Translation);
+		pr->transform(m);
+		transformed=pr;
+	}
+	return pr;
+}
+
+void CGALExport::exportVRML() const
+{
+	auto* pr=transformPrimitive();
 	if(!pr)
 		return;
 
@@ -86,7 +113,7 @@ void CGALExport::exportVRML() const
 
 void CGALExport::exportOBJ() const
 {
-	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
+	auto* pr=transformPrimitive();
 	if(!pr)
 		return;
 
@@ -103,7 +130,7 @@ void CGALExport::exportOBJ() const
 
 void CGALExport::exportOFF() const
 {
-	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
+	auto* pr=transformPrimitive();
 	if(!pr)
 		return;
 
@@ -136,7 +163,7 @@ static QList<CGAL::Triangle3> generateTriangles(CGAL::Polyhedron3* poly)
 
 void CGALExport::exportAsciiSTL() const
 {
-	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
+	auto* pr=transformPrimitive();
 	if(!pr)
 		return;
 
@@ -314,7 +341,7 @@ void CGALExport::exportCSG() const
 
 void CGALExport::export3MF() const
 {
-	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
+	auto* pr=transformPrimitive();
 	if(!pr)
 		return;
 
@@ -417,7 +444,7 @@ void CGALExport::export3MF() const
 
 void CGALExport::exportNEF() const
 {
-	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
+	auto* pr=transformPrimitive();
 	if(pr) {
 		CGAL::NefPolyhedron3 nef=pr->getNefPolyhedron();
 		std::ofstream file(QFile::encodeName(fileInfo.absoluteFilePath()));

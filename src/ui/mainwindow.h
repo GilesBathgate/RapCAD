@@ -30,6 +30,7 @@
 #include "preferencesdialog.h"
 #include "aboutdialog.h"
 #include "interactive.h"
+#include "project.h"
 
 namespace Ui
 {
@@ -44,6 +45,7 @@ public:
 	explicit MainWindow(QWidget* parent = nullptr);
 	~MainWindow() override;
 	void loadFiles(const QStringList&);
+	static QString getSaveFileName(QWidget*,const QString&,const QString&,const QString&,const QString&);
 protected:
 	void closeEvent(QCloseEvent*) override;
 private slots:
@@ -83,6 +85,7 @@ private slots:
 	void sendToCAM();
 	void exportFile(const QString&);
 	void preferencesUpdated();
+	void newProject();
 private:
 	void compileOrGenerate(bool generate);
 	void loadPreferences();
@@ -102,7 +105,7 @@ private:
 	void deleteTempFiles();
 
 	Ui::MainWindow* ui;
-	QStandardItemModel* treeModel;
+	Project* projectModel;
 	TextEditIODevice* console;
 	QTextStream* output;
 	Reporter* reporter;

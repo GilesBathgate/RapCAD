@@ -61,6 +61,16 @@ void Preferences::setCAMScript(const QString& value)
 	settings->setValue("CAMScript",value);
 }
 
+bool Preferences::getTranslateOrigin() const
+{
+	return settings->value("TranslateOrigin",false).toBool();
+}
+
+void Preferences::setTranslateOrigin(bool value)
+{
+	settings->setValue("TranslateOrigin",value);
+}
+
 bool Preferences::getShowGCODEButton() const
 {
 	return settings->value("ShowGCODEButton",false).toBool();
@@ -377,7 +387,7 @@ void Preferences::setShowConsole(bool show)
 
 bool Preferences::getShowProjects() const
 {
-	return settings->value("ShowProjects",true).toBool();
+	return settings->value("ShowProjects",false).toBool();
 }
 
 void Preferences::setShowProjects(bool show)

@@ -155,6 +155,9 @@ public:
 	QString getCAMScript() const;
 	void setCAMScript(const QString& value);
 
+	bool getTranslateOrigin() const;
+	void setTranslateOrigin(bool);
+
 private:
 	Preferences();
 	~Preferences();

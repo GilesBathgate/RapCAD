@@ -37,12 +37,14 @@
 MainWindow::MainWindow(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow),
-	treeModel(nullptr),
+	projectModel(nullptr),
 	console(nullptr),
 	output(nullptr),
 	reporter(nullptr),
 	worker(nullptr),
-	interact(nullptr)
+	interact(nullptr),
+	aboutDialog(nullptr),
+	preferencesDialog(nullptr)
 {
 	if(!QIcon::hasThemeIcon("document-open")) {
 		QIcon::setThemeName("gnome");
@@ -60,23 +62,22 @@ MainWindow::MainWindow(QWidget* parent) :
 	setupConsole();
 	setupEditor(ui->scriptEditor);
 
-	aboutDialog=nullptr;
-	preferencesDialog=nullptr;
+	ui->searchWidget->setVisible(false);
+	ui->mainToolBar->setContextMenuPolicy(Qt::ActionsContextMenu);
+
 	loadPreferences();
 
-	//Make project treeview hidden until its useful.
-	ui->treeView->setVisible(false);
-	ui->searchWidget->setVisible(false);
+	//Make project treeview actions disabled until its useful.
+	ui->actionNewProject->setEnabled(false);
 	ui->actionShowProjects->setChecked(false);
 	ui->actionShowProjects->setEnabled(false);
 
-	ui->mainToolBar->setContextMenuPolicy(Qt::ActionsContextMenu);
 }
 
 MainWindow::~MainWindow()
 {
 	deleteTempFiles();
-	delete treeModel;
+	delete projectModel;
 	delete console;
 	delete output;
 	delete reporter;
@@ -207,6 +208,7 @@ void MainWindow::getDefaultViewport() const
 void MainWindow::setupActions()
 {
 	connect(ui->actionNew,&QAction::triggered,this,&MainWindow::newFile);
+	connect(ui->actionNewProject,&QAction::triggered,this,&MainWindow::newProject);
 	connect(ui->actionOpen,&QAction::triggered,this,&MainWindow::openFile);
 	connect(ui->actionSave,&QAction::triggered,this,&MainWindow::saveFile);
 	connect(ui->actionSaveAll,&QAction::triggered,this,&MainWindow::saveAllFiles);
@@ -310,34 +312,56 @@ void MainWindow::setupViewActions()
 
 void MainWindow::grabFrameBuffer()
 {
-	QImage image = ui->view->grabFramebuffer();
-	QString fn = QFileDialog::getSaveFileName(this, tr("Export..."),
-				 QString(), tr("PNG Files (*.png)"));
-	image.save(fn);
+	QImage image=ui->view->grabFramebuffer();
+	QString fileName=MainWindow::getSaveFileName(this, tr("Export..."),
+				 QString(), tr("PNG Files (*.png)"), "png");
+	if(fileName.isEmpty())
+		return;
+	image.save(fileName);
+}
+
+QString MainWindow::getSaveFileName(QWidget* parent,const QString& caption,const QString& dir,const QString& filter,const QString& suffix)
+{
+	QFileDialog dialog(parent,caption,dir,filter);
+	dialog.setDefaultSuffix(suffix);
+	dialog.setOption(QFileDialog::DontConfirmOverwrite,true);
+	dialog.setAcceptMode(QFileDialog::AcceptSave);
+	while (dialog.exec() == QDialog::Accepted) {
+		QString fileName=dialog.selectedFiles().first();
+		QFileInfo info(fileName);
+		if(!info.exists())
+			return fileName;
+
+		auto result=QMessageBox::warning(parent,caption,
+			tr("A file named \"%1\" already exists. Do you want to replace it?").arg(info.fileName()),
+			QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel,QMessageBox::No);
+		if(result==QMessageBox::Cancel) break;
+		if(result==QMessageBox::Yes) return fileName;
+	}
+	return QString();
 }
 
 void MainWindow::exportFile(const QString& type)
 {
-	if(worker->resultAvailable()) {
-
-		QFileInfo fileInfo(currentEditor()->getFileName());
-
-		QString ext="."+type.toLower();
-		QString filter=tr("%1 Files (*%2);;All Files (*)").arg(type.toUpper()).arg(ext);
-		QString suggestedName=fileInfo.completeBaseName()+ext;
-		QString suggestedLocation=fileInfo.absoluteDir().filePath(suggestedName);
-
-		QString fileName=QFileDialog::getSaveFileName(this,tr("Export..."),suggestedLocation,filter);
-
-		fileInfo=QFileInfo(fileName);
-		if(fileInfo.suffix()=="")
-			fileName.append(ext);
-
-		worker->exportResult(fileName);
-	} else {
+	if(!worker->resultAvailable()) {
 		QMessageBox::information(this,tr("Export"),
 			tr("You have to compile the script before you can export"));
+		return;
 	}
+
+	QFileInfo fileInfo(currentEditor()->getFileName());
+
+	QString ext=QString(".%1").arg(type.toLower());
+	QString filter=tr("%1 Files (*%2);;All Files (*)").arg(type.toUpper()).arg(ext);
+	QString suggestedName=fileInfo.completeBaseName().append(ext);
+	QString suggestedLocation=fileInfo.absoluteDir().filePath(suggestedName);
+
+	QString fileName=MainWindow::getSaveFileName(this,tr("Export..."),suggestedLocation,filter,ext);
+	if(fileName.isEmpty())
+		return;
+
+	worker->exportResult(fileName);
+
 }
 
 void MainWindow::showPreferences()
@@ -403,18 +427,23 @@ void MainWindow::setupLayout()
 
 void MainWindow::setupTreeview()
 {
-	treeModel = new QStandardItemModel(this);
-	QStringList headers;
-	headers << tr("Projects");
-	treeModel->setHorizontalHeaderLabels(headers);
-	QStandardItem* parentItem = treeModel->invisibleRootItem();
+	projectModel=new Project(this);
+	ui->treeView->setModel(projectModel);
+}
 
-	auto* item = new QStandardItem("New Project.rpro");
-	parentItem->appendRow(item);
-	item->appendRow(new QStandardItem("New.rcad"));
+void MainWindow::newProject()
+{
+	ui->treeView->setVisible(true);
 
-	ui->treeView->setModel(treeModel);
-	ui->treeView->expandAll();
+	QString dirName=QFileDialog::getExistingDirectory(this,tr("New Project..."));
+	if(dirName.isEmpty())
+		return;
+
+	QDir directory(dirName);
+	QString projectName=directory.dirName();
+	projectModel->setName(projectName);
+	projectModel->createDefaultItems();
+
 }
 
 void MainWindow::setupEditor(CodeEditor* editor)
