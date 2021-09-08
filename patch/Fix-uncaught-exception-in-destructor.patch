@@ -1,0 +1,52 @@
+--- a/usr/include/CGAL/Handle_for.h
++++ b/usr/include/CGAL/Handle_for.h
+@@ -147,27 +147,29 @@ public:
+ 
+     ~Handle_for()
+     {
+-      if (is_currently_single_threaded()) {
+-        auto c = ptr_->count.load(std::memory_order_relaxed);
+-        if (c == 1) {
+-          Allocator_traits::destroy(allocator, ptr_);
+-          allocator.deallocate(ptr_, 1);
++      try {
++        if (is_currently_single_threaded()) {
++          auto c = ptr_->count.load(std::memory_order_relaxed);
++          if (c == 1) {
++            Allocator_traits::destroy(allocator, ptr_);
++            allocator.deallocate(ptr_, 1);
++          } else {
++            ptr_->count.store(c - 1, std::memory_order_relaxed);
++          }
+         } else {
+-          ptr_->count.store(c - 1, std::memory_order_relaxed);
++        // TSAN does not support fences :-(
++  #if !defined __SANITIZE_THREAD__ && !__has_feature(thread_sanitizer)
++          if (ptr_->count.load(std::memory_order_relaxed) == 1
++              || ptr_->count.fetch_sub(1, std::memory_order_release) == 1) {
++            std::atomic_thread_fence(std::memory_order_acquire);
++  #else
++          if (ptr_->count.fetch_sub(1, std::memory_order_acq_rel) == 1) {
++  #endif
++            Allocator_traits::destroy(allocator, ptr_);
++            allocator.deallocate(ptr_, 1);
++          }
+         }
+-      } else {
+-      // TSAN does not support fences :-(
+-#if !defined __SANITIZE_THREAD__ && !__has_feature(thread_sanitizer)
+-        if (ptr_->count.load(std::memory_order_relaxed) == 1
+-            || ptr_->count.fetch_sub(1, std::memory_order_release) == 1) {
+-          std::atomic_thread_fence(std::memory_order_acquire);
+-#else
+-        if (ptr_->count.fetch_sub(1, std::memory_order_acq_rel) == 1) {
+-#endif
+-          Allocator_traits::destroy(allocator, ptr_);
+-          allocator.deallocate(ptr_, 1);
+-        }
+-      }
++      } catch (...) {}
+     }
+ 
+     void
+

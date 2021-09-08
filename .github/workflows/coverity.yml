@@ -63,6 +63,7 @@ jobs:
         sudo patch -l $CGAL_DIR/Intersections_2/Ray_2_Segment_2.h < patch/Fix-uninitialized-member-in-Ray_2_Segment_2.h.patch;
         sudo patch -l $CGAL_DIR/Surface_mesh_simplification/internal/Edge_collapse.h < patch/Fix-uninitialized-members-in-Edge_collapse.h.patch;
         sudo patch -l $CGAL_DIR/boost/graph/IO/Generic_facegraph_printer.h < patch/Fix-uninitalized-member-in-Generic_facegraph_printer.h.patch;
+        sudo patch -l $CGAL_DIR/Handle_for.h < patch/Fix-uncaught-exception-in-destructor.patch;
         sudo patch -l $CGAL_DIR/version.h < patch/update-version.h.patch;
     - name: Download coverity
       run: |
