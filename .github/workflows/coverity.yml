@@ -36,6 +36,7 @@ jobs:
         sudo patch -l $Qt5_DIR/include/QtCore/qlist.h < patch/Fix-uninitialized-member-in-qlist.h.patch;
         sudo patch -l $BOOST_ROOT/random/linear_congruential.hpp < patch/Fix-Wtautological-overlap-compare-clang-warning.patch;
         sudo patch -l $BOOST_ROOT/optional/optional.hpp < patch/Fix-uninitialized-member-optional.hpp.patch;
+        sudo patch -l $CGAL_DIR/TDS_3/internal/Triangulation_ds_iterators_3.h < patch/Fix-uninitialized-member-in-Triangulation_ds_iterators_3.h.patch;
         sudo patch -l $CGAL_DIR/Triangulation_2/internal/Triangulation_line_face_circulator_2.h < patch/Fix-uninitialized-member-in-Triangulation_line_face_circulator_2.h.patch;
         sudo patch -l $CGAL_DIR/Triangulation_3.h < patch/Fix-uninitialized-member-in-Triangulation_3.h.patch;
         sudo patch -l $CGAL_DIR/Tools/chained_map.h < patch/Fix-uninitialized-member-in-chained_map.h.patch;
