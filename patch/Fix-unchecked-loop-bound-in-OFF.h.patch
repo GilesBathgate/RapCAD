@@ -1,0 +1,40 @@
+--- a/usr/include/CGAL/IO/OFF/File_header_OFF_impl.h
++++ b/usr/include/CGAL/IO/OFF/File_header_OFF_impl.h
+@@ -317,10 +317,19 @@ std::istream& operator>>( std::istream& in, File_header_OFF& h) {
+             }
+         }
+         in >> skip_comment_OFF >> c;
+-        if (c >= 0 &&  std::isdigit(c)) {
++        if (c >= 0 && std::isdigit(c) || c == '-') {
+             in.putback(c);
+             int n;
+             in >> n;
++            if (n<0) {
++              in.clear( std::ios::badbit );
++              if ( h.verbose()) {
++                  std::cerr << " " << std::endl;
++                  std::cerr << "error: File_header_OFF(): File contains < 0 vertices."
++                            << std::endl;
++              }
++              return in;
++            }
+             h.set_vertices(n);
+         } else {
+             i = 0;
+@@ -376,6 +385,15 @@ std::istream& operator>>( std::istream& in, File_header_OFF& h) {
+         if ( h.n_dimensional()) {
+             h.set_dimension( static_cast<int>(h.size_of_vertices()));
+             in >> n;
++            if (n<0) {
++              in.clear( std::ios::badbit );
++              if ( h.verbose()) {
++                  std::cerr << " " << std::endl;
++                  std::cerr << "error: File_header_OFF(): File contains < 0 vertices."
++                            << std::endl;
++              }
++              return in;
++            }
+             h.set_vertices(n);
+         }
+         in >> n;
+
