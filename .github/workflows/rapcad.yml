@@ -21,15 +21,20 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+    - name: Create Qt Directory
+      run: |
+        sudo mkdir /usr/Qt
+        sudo chown $(whoami) /usr/Qt
     - name: Cache Qt
       id: cache-qt
       uses: actions/cache@v1
       with:
-        path: ../Qt
+        path: /usr/Qt
         key: ${{ runner.os }}-QtCache
     - name: Install Qt
       uses: jurplel/install-qt-action@v2.12.0
       with:
+        dir: /usr
         cached: ${{ steps.cache-qt.outputs.cache-hit }}
     - name: Install Dependencies
       run: sudo apt-get install -y libboost-dev libcgal-dev libglu1-mesa-dev libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-randr0
