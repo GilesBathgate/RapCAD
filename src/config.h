@@ -47,6 +47,13 @@
 #define CGAL_NDEBUG
 
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(5,3,0)
+#include <CGAL/IO/Color.h>
+namespace CGAL { namespace IO {
+using Color = CGAL::Color;
+}}
+#endif
+
+#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(5,3,0)
 #include "cgaltrace.h" // nef trace hack
 #endif
 

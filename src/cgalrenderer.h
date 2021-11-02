@@ -34,22 +34,22 @@ public:
 	void preferencesUpdated() override;
 	void setCompiling(bool) override;
 private:
-	static void setColor(CGAL::Color&,const QColor&);
-	CGAL::Color getVertexColor(bool mark) const override;
-	CGAL::Color getEdgeColor(bool mark) const override;
-	CGAL::Color getFacetColor(bool mark) const override;
+	static void setColor(CGAL::IO::Color&,const QColor&);
+	CGAL::IO::Color getVertexColor(bool mark) const override;
+	CGAL::IO::Color getEdgeColor(bool mark) const override;
+	CGAL::IO::Color getFacetColor(bool mark) const override;
 	float getVertexSize() const override;
 	float getEdgeSize() const override;
 	void loadPreferences();
-	static void desaturate(CGAL::Color& c);
+	static void desaturate(CGAL::IO::Color& c);
 	void descendChildren(Primitive* pr);
 
-	CGAL::Color markedVertexColor;
-	CGAL::Color vertexColor;
-	CGAL::Color markedEdgeColor;
-	CGAL::Color edgeColor;
-	CGAL::Color markedFacetColor;
-	CGAL::Color facetColor;
+	CGAL::IO::Color markedVertexColor;
+	CGAL::IO::Color vertexColor;
+	CGAL::IO::Color markedEdgeColor;
+	CGAL::IO::Color edgeColor;
+	CGAL::IO::Color markedFacetColor;
+	CGAL::IO::Color facetColor;
 	SimpleRenderer* simple;
 	float vertexSize;
 	float edgeSize;

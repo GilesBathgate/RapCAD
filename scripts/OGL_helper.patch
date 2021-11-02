@@ -26,7 +26,7 @@ index 9e164c9..f11bf93 100644
 @@ -227,7 +227,7 @@ namespace OGL {
    { const GLubyte *estring;
      estring = gluErrorString(errorCode);
-     fprintf(stderr, "Tessellation Error: %s\n", estring);
+     std::cerr << "Tessellation Error: " << estring << std::endl;
 -    std::exit (0);
 +    //std::exit (0);
    }
@@ -66,11 +66,11 @@ index 9e164c9..f11bf93 100644
      Bbox_3  bbox() const { return bbox_; }
      Bbox_3& bbox()       { return bbox_; }
  
-+    virtual CGAL::Color getVertexColor(bool mark) const
++    virtual CGAL::IO::Color getVertexColor(bool mark) const
 +    {
-+      CGAL::Color cf(CGAL_NEF3_MARKED_VERTEX_COLOR),
++      CGAL::IO::Color cf(CGAL_NEF3_MARKED_VERTEX_COLOR),
 +        ct(CGAL_NEF3_UNMARKED_VERTEX_COLOR); // more blue-ish
-+      CGAL::Color c = mark ? ct : cf;
++      CGAL::IO::Color c = mark ? ct : cf;
 +      return c;
 +    }
 +
@@ -81,13 +81,13 @@ index 9e164c9..f11bf93 100644
 +
      void draw(Vertex_iterator v) const {
        //      CGAL_NEF_TRACEN("drawing vertex "<<*v);
--      CGAL::Color cf(CGAL_NEF3_MARKED_VERTEX_COLOR),
+-      CGAL::IO::Color cf(CGAL_NEF3_MARKED_VERTEX_COLOR),
 -    ct(CGAL_NEF3_UNMARKED_VERTEX_COLOR); // more blue-ish
--      CGAL::Color c = v->mark() ? ct : cf;
+-      CGAL::IO::Color c = v->mark() ? ct : cf;
 -      glPointSize(10);
 +      float p = getVertexSize();
 +      if(p==0) return;
-+      CGAL::Color c = getVertexColor(v->mark());
++      CGAL::IO::Color c = getVertexColor(v->mark());
 +      glPointSize(p);
        glColor3ub(c.red(), c.green(), c.blue());
        glBegin(GL_POINTS);
@@ -96,11 +96,11 @@ index 9e164c9..f11bf93 100644
        glEnd();
      }
  
-+    virtual CGAL::Color getEdgeColor(bool mark) const
++    virtual CGAL::IO::Color getEdgeColor(bool mark) const
 +    {
-+      CGAL::Color cf(CGAL_NEF3_MARKED_EDGE_COLOR),
++      CGAL::IO::Color cf(CGAL_NEF3_MARKED_EDGE_COLOR),
 +        ct(CGAL_NEF3_UNMARKED_EDGE_COLOR); // more blue-ish
-+      CGAL::Color c = mark ? ct : cf;
++      CGAL::IO::Color c = mark ? ct : cf;
 +      return c;
 +    }
 +
@@ -114,11 +114,11 @@ index 9e164c9..f11bf93 100644
 +      float w = getEdgeSize();
 +      if(w==0) return;
        float_point p = e->source(), q = e->target();
--      CGAL::Color cf(CGAL_NEF3_MARKED_EDGE_COLOR),
+-      CGAL::IO::Color cf(CGAL_NEF3_MARKED_EDGE_COLOR),
 -    ct(CGAL_NEF3_UNMARKED_EDGE_COLOR); // more blue-ish
--      CGAL::Color c = e->mark() ? ct : cf;
+-      CGAL::IO::Color c = e->mark() ? ct : cf;
 -      glLineWidth(5);
-+      CGAL::Color c = getEdgeColor(e->mark());
++      CGAL::IO::Color c = getEdgeColor(e->mark());
 +      glLineWidth(w);
        glColor3ub(c.red(),c.green(),c.blue());
        glBegin(GL_LINE_STRIP);
@@ -127,11 +127,11 @@ index 9e164c9..f11bf93 100644
        glEnd();
      }
  
-+    virtual CGAL::Color getFacetColor(bool mark) const
++    virtual CGAL::IO::Color getFacetColor(bool mark) const
 +    {
-+      CGAL::Color cf(CGAL_NEF3_MARKED_FACET_COLOR),
++      CGAL::IO::Color cf(CGAL_NEF3_MARKED_FACET_COLOR),
 +        ct(CGAL_NEF3_UNMARKED_FACET_COLOR); // more blue-ish
-+      CGAL::Color c = (mark ? ct : cf);
++      CGAL::IO::Color c = (mark ? ct : cf);
 +      return c;
 +    }
 +
@@ -149,10 +149,10 @@ index 9e164c9..f11bf93 100644
                GLU_TESS_WINDING_POSITIVE);
  
        DFacet::Coord_const_iterator cit;
--      CGAL::Color cf(CGAL_NEF3_MARKED_FACET_COLOR),
+-      CGAL::IO::Color cf(CGAL_NEF3_MARKED_FACET_COLOR),
 -    ct(CGAL_NEF3_UNMARKED_FACET_COLOR); // more blue-ish
--      CGAL::Color c = (f->mark() ? ct : cf);
-+      CGAL::Color c = getFacetColor(f->mark());
+-      CGAL::IO::Color c = (f->mark() ? ct : cf);
++      CGAL::IO::Color c = getFacetColor(f->mark());
        glColor3ub(c.red(),c.green(),c.blue());
        gluTessBeginPolygon(tess_,f->normal());
        //      CGAL_NEF_TRACEN(" ");

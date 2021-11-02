@@ -80,7 +80,7 @@ void CGALRenderer::setCompiling(bool value)
 	init_=false;
 }
 
-void CGALRenderer::desaturate(CGAL::Color& c)
+void CGALRenderer::desaturate(CGAL::IO::Color& c)
 {
 	QColor rgb(c.red(),c.green(),c.blue());
 	setColor(c,QColor::fromHsv(rgb.hue(),0,rgb.value()));
@@ -103,23 +103,23 @@ void CGALRenderer::paint(bool skeleton, bool showedges)
 
 }
 
-void CGALRenderer::setColor(CGAL::Color& t,const QColor& c)
+void CGALRenderer::setColor(CGAL::IO::Color& t,const QColor& c)
 {
-	CGAL::Color cc(c.red(),c.green(),c.blue(),c.alpha());
+	CGAL::IO::Color cc(c.red(),c.green(),c.blue(),c.alpha());
 	t=cc;
 }
 
-CGAL::Color CGALRenderer::getVertexColor(bool mark) const
+CGAL::IO::Color CGALRenderer::getVertexColor(bool mark) const
 {
 	return mark ? markedVertexColor : vertexColor;
 }
 
-CGAL::Color CGALRenderer::getEdgeColor(bool mark) const
+CGAL::IO::Color CGALRenderer::getEdgeColor(bool mark) const
 {
 	return mark ? markedEdgeColor : edgeColor;
 }
 
-CGAL::Color CGALRenderer::getFacetColor(bool mark) const
+CGAL::IO::Color CGALRenderer::getFacetColor(bool mark) const
 {
 	return mark ? markedFacetColor : facetColor;
 }
