@@ -72,7 +72,7 @@ Node* ScaleModule::evaluate(const Context& ctx) const
 			0.0,0.0,z  ,0.0,
 			0.0,0.0,0.0,1.0
 		);
-		if(x==y==z)
+		if(x==y && y==z)
 			m->setType(TransformType::UniformScaling);
 	}
 
