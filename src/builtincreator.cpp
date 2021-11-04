@@ -107,6 +107,7 @@
 #include "function/angfunction.h"
 #include "function/crossfunction.h"
 #include "function/isboolfunction.h"
+#include "function/isundeffunction.h"
 #include "function/islistfunction.h"
 #include "function/isnumfunction.h"
 #include "function/israngefunction.h"
@@ -203,6 +204,7 @@ BuiltinCreator::BuiltinCreator(Reporter& r)
 	builtins.append(new ExpFunction());
 	builtins.append(new FloorFunction());
 	builtins.append(new IsBoolFunction());
+	builtins.append(new IsUndefFunction());
 	builtins.append(new IsIntFunction());
 	builtins.append(new IsListFunction());
 	builtins.append(new IsNumFunction());

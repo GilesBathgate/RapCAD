@@ -159,6 +159,7 @@ SOURCES += \
 	src/cgalgroupmodifier.cpp \
 	src/cgalsanitizer.cpp \
 	src/function/assertfunction.cpp \
+	src/function/isundeffunction.cpp \
 	src/function/ordinalfunction.cpp \
 	src/main.cpp \
 	src/module/assertmodule.cpp \
@@ -411,6 +412,7 @@ HEADERS  += \
 	src/cgalsanitizer.h \
 	src/cgaltrace.h \
 	src/function/assertfunction.h \
+	src/function/isundeffunction.h \
 	src/function/ordinalfunction.h \
 	src/module/assertmodule.h \
 	src/namedvalue.h \
