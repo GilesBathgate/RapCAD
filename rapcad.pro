@@ -163,6 +163,7 @@ SOURCES += \
 	src/function/ordinalfunction.cpp \
 	src/main.cpp \
 	src/module/assertmodule.cpp \
+	src/module/colormodule.cpp \
 	src/namedvalue.cpp \
 	src/tokenreader.cpp \
 	src/ui/mainwindow.cpp \
@@ -415,6 +416,7 @@ HEADERS  += \
 	src/function/isundeffunction.h \
 	src/function/ordinalfunction.h \
 	src/module/assertmodule.h \
+	src/module/colormodule.h \
 	src/namedvalue.h \
 	src/operators.h \
 	src/tokenreader.h \

@@ -22,6 +22,7 @@
 #include "module/cubemodule.h"
 #include "module/squaremodule.h"
 #include "module/cylindermodule.h"
+#include "module/colormodule.h"
 #include "module/conemodule.h"
 #include "module/cylindersurfacemodule.h"
 #include "module/prismmodule.h"
@@ -136,6 +137,7 @@ BuiltinCreator::BuiltinCreator(Reporter& r)
 	builtins.append(new ChildrenModule(r,true));
 	builtins.append(new ChildrenModule(r,false));
 	builtins.append(new CircleModule(r));
+	builtins.append(new ColorModule(r));
 	builtins.append(new ComplementModule(r));
 	builtins.append(new ConeModule(r));
 	builtins.append(new CubeModule(r));
