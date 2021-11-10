@@ -1,0 +1,4 @@
+function test() {
+a=circumcenter([-13,-5,5],[-5,11,-11],[-3,-9,15]);
+return a==[3,3,3];
+}

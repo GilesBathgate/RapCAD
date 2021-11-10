@@ -80,6 +80,7 @@
 #include "function/versionfunction.h"
 #include "function/strfunction.h"
 #include "function/sinfunction.h"
+#include "function/circumcenterfunction.h"
 #include "function/cosfunction.h"
 #include "function/concatfunction.h"
 #include "function/tanfunction.h"
@@ -198,6 +199,7 @@ BuiltinCreator::BuiltinCreator(Reporter& r)
 	builtins.append(new CbrtFunction());
 	builtins.append(new CeilFunction());
 	builtins.append(new ChrFunction());
+	builtins.append(new CircumcenterFunction());
 	builtins.append(new ConcatFunction());
 	builtins.append(new CosFunction());
 	builtins.append(new CoshFunction());
