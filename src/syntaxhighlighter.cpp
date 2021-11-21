@@ -19,6 +19,7 @@
 #include "syntaxhighlighter.h"
 #include "reporter.h"
 #include "builtincreator.h"
+#include "preferences.h"
 
 extern int lexerlex_destroy();
 extern void lexerinit(AbstractTokenBuilder*,Reporter*,const QString&);
@@ -33,23 +34,48 @@ SyntaxHighlighter::SyntaxHighlighter(QTextDocument* parent) :
 	QSyntaxHighlighter(parent),
 	startIndex(0)
 {
-	keywordFormat.setForeground(Qt::darkBlue);
-	keywordFormat.setFontWeight(QFont::Bold);
+	auto& p=Preferences::getInstance();
+	if(p.getDarkTheme()) {
+		keywordFormat.setForeground(QColorConstants::Svg::dodgerblue);
+		keywordFormat.setFontWeight(QFont::Bold);
 
-	numberFormat.setForeground(Qt::red);
+		numberFormat.setForeground(QColorConstants::Svg::palegreen);
 
-	operatorFormat.setForeground(Qt::darkMagenta);
+		operatorFormat.setForeground(QColorConstants::Svg::plum);
 
-	errorFormat.setBackground(Qt::red);
+		errorFormat.setBackground(Qt::red);
 
-	stringFormat.setForeground(Qt::darkGreen);
+		stringFormat.setForeground(QColorConstants::Svg::orange);
 
-	moduleFormat.setForeground(Qt::darkCyan);
+		commentFormat.setForeground(QColorConstants::Svg::springgreen);
 
-	codeDocFormat.setForeground(Qt::darkBlue);
+		moduleFormat.setForeground(Qt::cyan);
 
-	codeDocParamFormat.setForeground(Qt::blue);
-	codeDocParamFormat.setFontWeight(QFont::Bold);
+		codeDocFormat.setForeground(QColorConstants::Svg::skyblue);
+
+		codeDocParamFormat.setForeground(QColorConstants::Svg::deepskyblue);
+		codeDocParamFormat.setFontWeight(QFont::Bold);
+	} else {
+		keywordFormat.setForeground(Qt::darkBlue);
+		keywordFormat.setFontWeight(QFont::Bold);
+
+		numberFormat.setForeground(Qt::red);
+
+		operatorFormat.setForeground(Qt::darkMagenta);
+
+		errorFormat.setBackground(Qt::red);
+
+		stringFormat.setForeground(Qt::darkGreen);
+
+		commentFormat.setForeground(Qt::darkGreen);
+
+		moduleFormat.setForeground(Qt::darkCyan);
+
+		codeDocFormat.setForeground(Qt::darkBlue);
+
+		codeDocParamFormat.setForeground(Qt::blue);
+		codeDocParamFormat.setFontWeight(QFont::Bold);
+	}
 }
 
 void SyntaxHighlighter::setModuleNames(const QHash<QString,Module*>& names)
@@ -406,21 +432,21 @@ int SyntaxHighlighter::buildStringFinish()
 void SyntaxHighlighter::buildCommentStart()
 {
 	setCurrentBlockState(static_cast<int>(BlockStates::Comment));
-	setFormat(startIndex,lexerleng,stringFormat);
+	setFormat(startIndex,lexerleng,commentFormat);
 	startIndex+=lexerleng;
 }
 
 void SyntaxHighlighter::buildComment(const QString& s)
 {
 	int stringLen=s.length();
-	setFormat(startIndex,stringLen,stringFormat);
+	setFormat(startIndex,stringLen,commentFormat);
 	startIndex+=stringLen;
 }
 
 void SyntaxHighlighter::buildCommentFinish()
 {
 	setCurrentBlockState(static_cast<int>(BlockStates::Initial));
-	setFormat(startIndex,lexerleng,stringFormat);
+	setFormat(startIndex,lexerleng,commentFormat);
 	startIndex+=lexerleng;
 }
 

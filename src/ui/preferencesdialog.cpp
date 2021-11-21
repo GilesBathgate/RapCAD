@@ -50,6 +50,7 @@ void PreferencesDialog::setupWidgets()
 		if(size==pointSize)
 			c->setCurrentIndex(c->count()-1);
 	}
+	ui->darkThemeCheckBox->setChecked(p.getDarkTheme());
 	ui->tooltipsCheckBox->setChecked(p.getShowTooltips());
 	ui->highlightLineCheckbox->setChecked(p.getHighlightLine());
 
@@ -177,6 +178,7 @@ void PreferencesDialog::setupButtons()
 
 	connect(ui->appearanceComboBox,SIGNAL(currentIndexChanged(int)),this,SLOT(appearanceChanged(int)));
 
+	connect(ui->darkThemeCheckBox,SIGNAL(stateChanged(int)),this,SLOT(darkThemeChanged(int)));
 	connect(ui->tooltipsCheckBox,SIGNAL(stateChanged(int)),this,SLOT(showTooltipsChanged(int)));
 	connect(ui->highlightLineCheckbox,SIGNAL(stateChanged(int)),this,SLOT(highlightLineChanged(int)));
 
@@ -235,6 +237,13 @@ void PreferencesDialog::autoSaveOnCompileChanged(int s)
 {
 	Preferences& p = Preferences::getInstance();
 	p.setAutoSaveOnCompile(s == Qt::Checked);
+}
+
+void PreferencesDialog::darkThemeChanged(int s)
+{
+	Preferences& p = Preferences::getInstance();
+	p.setDarkTheme(s == Qt::Checked);
+	emit preferencesUpdated();
 }
 
 void PreferencesDialog::showTooltipsChanged(int s)

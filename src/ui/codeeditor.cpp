@@ -22,6 +22,8 @@
 #include <QTextDocumentWriter>
 #include <QFileDialog>
 #include <QToolTip>
+#include <QApplication>
+
 #include "codeeditor.h"
 #include "linenumberarea.h"
 #include "preferences.h"
@@ -281,8 +283,10 @@ bool CodeEditor::event(QEvent* event)
 
 void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent* event)
 {
+	const auto& p = QApplication::palette();
+
 	QPainter painter(lineNumberArea);
-	painter.fillRect(event->rect(), QColor(240,240,240));
+	painter.fillRect(event->rect(), p.color(QPalette::Window));
 
 	QTextBlock block = firstVisibleBlock();
 	int blockNumber = block.blockNumber();

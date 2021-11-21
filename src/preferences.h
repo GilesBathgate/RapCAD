@@ -158,6 +158,8 @@ public:
 	bool getTranslateOrigin() const;
 	void setTranslateOrigin(bool);
 
+	bool getDarkTheme() const;
+	void setDarkTheme(bool);
 private:
 	Preferences();
 	~Preferences();

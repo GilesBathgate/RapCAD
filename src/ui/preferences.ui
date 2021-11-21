@@ -80,6 +80,13 @@
           </spacer>
          </item>
          <item>
+          <widget class="QCheckBox" name="darkThemeCheckBox">
+           <property name="text">
+            <string>Use dark theme (requires restart)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QCheckBox" name="highlightLineCheckbox">
            <property name="text">
             <string>Highlight current line</string>

@@ -71,6 +71,16 @@ void Preferences::setTranslateOrigin(bool value)
 	settings->setValue("TranslateOrigin",value);
 }
 
+bool Preferences::getDarkTheme() const
+{
+	return settings->value("DarkTheme",false).toBool();
+}
+
+void Preferences::setDarkTheme(bool b)
+{
+	settings->setValue("DarkTheme",b);
+}
+
 bool Preferences::getShowGCODEButton() const
 {
 	return settings->value("ShowGCODEButton",false).toBool();

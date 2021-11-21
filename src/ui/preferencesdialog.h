@@ -40,6 +40,7 @@ private slots:
 	void vertexSizeChanged(double);
 	void edgeSizeChanged(double);
 	static void autoSaveOnCompileChanged(int);
+	void darkThemeChanged(int);
 	void showTooltipsChanged(int);
 	void placesChanged(int);
 	void bitsChanged(int);
