@@ -29,7 +29,7 @@ IsVecFunction::IsVecFunction(int s) :
 	addParameter("value");
 }
 
-Value* IsVecFunction::evaluate(const Context& ctx) const
+Value& IsVecFunction::evaluate(const Context& ctx) const
 {
 	auto* vec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(vec) {

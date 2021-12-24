@@ -32,7 +32,7 @@ RangeValue::RangeValue(Value* s,Value* st, Value* f) :
 
 	if(!step) {
 		decimal i=reverse?-1.0:1.0;
-		step=factory.createNumber(i);
+		step=&factory.createNumber(i);
 	}
 }
 
@@ -62,14 +62,14 @@ bool RangeValue::inRange(Value* index)
 	return lower->isFalse() && upper->isFalse();
 }
 
-Value* RangeValue::getIndex(NumberValue* n)
+Value& RangeValue::getIndex(NumberValue* n)
 {
 	Value* x=reverse?Value::operation(step,Operators::Subtract):step;
 	Value* a=Value::operation(n,Operators::Multiply,x);
 	Value* b=Value::operation(start,reverse?Operators::Subtract:Operators::Add,a);
 
 	if(!inRange(b)) return factory.createUndefined();
-	return b;
+	return *b;
 }
 
 ValueIterator* RangeValue::createIterator()
@@ -97,7 +97,7 @@ Value* RangeValue::getFinish() const
 	return finish;
 }
 
-Value* RangeValue::operation(Operators op)
+Value& RangeValue::operation(Operators op)
 {
 	if(op==Operators::Invert) {
 		return factory.createRange(finish,step,start);
@@ -105,7 +105,7 @@ Value* RangeValue::operation(Operators op)
 	if(op==Operators::Length) {
 		Value* size=Value::operation(finish,Operators::Subtract,start);
 		size=Value::operation(size,op);
-		return Value::operation(size,Operators::Increment);
+		return *Value::operation(size,Operators::Increment);
 	}
 
 	Value* upper=Value::operation(start,op);
@@ -120,7 +120,7 @@ Value* RangeValue::operation(Operators op)
 	return factory.createRange(upper,increment,lower);
 }
 
-Value* RangeValue::operation(Value& v, Operators op)
+Value& RangeValue::operation(Value& v, Operators op)
 {
 	auto* range=dynamic_cast<RangeValue*>(&v);
 	if(range) {

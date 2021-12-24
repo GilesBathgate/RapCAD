@@ -26,7 +26,7 @@ class RoundFunction : public Function
 	Q_DECLARE_TR_FUNCTIONS(RoundFunction)
 public:
 	RoundFunction();
-	Value* evaluate(const Context&) const override;
+	Value& evaluate(const Context&) const override;
 };
 
 #endif // ROUNDFUNCTION_H

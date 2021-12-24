@@ -26,7 +26,7 @@ class SqrtFunction : public Function
 	Q_DECLARE_TR_FUNCTIONS(SqrtFunction)
 public:
 	SqrtFunction();
-	Value* evaluate(const Context&) const override;
+	Value& evaluate(const Context&) const override;
 };
 
 #endif // SQRTFUNCTION_H

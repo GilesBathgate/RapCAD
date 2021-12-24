@@ -26,7 +26,7 @@ class SinFunction : public Function
 	Q_DECLARE_TR_FUNCTIONS(SinFunction)
 public:
 	SinFunction();
-	Value* evaluate(const Context&) const override;
+	Value& evaluate(const Context&) const override;
 };
 
 #endif // SINFUNCTION_H

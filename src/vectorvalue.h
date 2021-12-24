@@ -30,16 +30,16 @@ public:
 	explicit VectorValue(const QList<Value*>&);
 	QString getValueString() const override;
 	bool isTrue() const override;
-	VectorValue* toVector(int) override;
-	Value* toNumber() override;
+	VectorValue& toVector(int) override;
+	Value& toNumber() override;
 	Point getPoint() const;
-	virtual Value* getIndex(NumberValue*);
+	virtual Value& getIndex(NumberValue*);
 	ValueIterator* createIterator() override;
 	virtual QList<Value*> getElements();
 protected:
 	VectorValue() = default;
-	Value* operation(Operators) override;
-	Value* operation(Value&,Operators) override;
+	Value& operation(Operators) override;
+	Value& operation(Value&,Operators) override;
 private:
 	static Operators convertOperation(Operators);
 	QList<Value*> elements;

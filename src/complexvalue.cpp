@@ -59,7 +59,7 @@ void ComplexValue::toQuaternion(decimal& w,decimal& x,decimal& y,decimal& z)
 	x=y=z=w=0;
 }
 
-Value* ComplexValue::operation(Operators e)
+Value& ComplexValue::operation(Operators e)
 {
 	if(e==Operators::Length) {
 		//l = sqrt(w^2+x^2+y^2,z^2)
@@ -73,10 +73,10 @@ Value* ComplexValue::operation(Operators e)
 			return factory.createNumber(r_sqrt(l->getNumber()));
 		return factory.createUndefined();
 	}
-	return this;
+	return *this;
 }
 
-Value* ComplexValue::operation(Value& v, Operators op)
+Value& ComplexValue::operation(Value& v, Operators op)
 {
 	auto* c=dynamic_cast<ComplexValue*>(&v);
 	if(c) {

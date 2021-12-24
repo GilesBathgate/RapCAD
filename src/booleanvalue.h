@@ -26,11 +26,11 @@ class BooleanValue : public Value
 public:
 	explicit BooleanValue(bool);
 	QString getValueString() const override;
-	Value* toNumber() override;
+	Value& toNumber() override;
 	bool isTrue() const override;
 private:
-	Value* operation(Operators) override;
-	Value* operation(Value&,Operators) override;
+	Value& operation(Operators) override;
+	Value& operation(Value&,Operators) override;
 	bool boolean;
 };
 

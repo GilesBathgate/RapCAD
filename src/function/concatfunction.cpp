@@ -25,22 +25,22 @@ ConcatFunction::ConcatFunction() : Function("concat")
 	addDescription(tr("Returns a vector with the passed in vector appended."));
 }
 
-Value* ConcatFunction::evaluate(const Context& ctx) const
+Value& ConcatFunction::evaluate(const Context& ctx) const
 {
 	VectorValue* val=nullptr;
 	for(const auto& arg: ctx.getArguments()) {
-		Value* argVal = arg.getValue();
-		auto* vecVal = dynamic_cast<VectorValue*>(argVal);
+		Value* argVal=arg.getValue();
+		auto* vecVal=dynamic_cast<VectorValue*>(argVal);
 		if(!vecVal&&argVal)
-			vecVal=argVal->toVector(1);
+			vecVal=&argVal->toVector(1);
 
 		if(!val) {
 			val=vecVal;
 		} else {
 			Value* res=Value::operation(val,Operators::Concatenate,vecVal);
-			val=res->toVector(1);
+			val=&res->toVector(1);
 		}
 	}
 
-	return val;
+	return *val;
 }

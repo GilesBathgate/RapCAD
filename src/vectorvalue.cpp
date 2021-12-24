@@ -48,12 +48,12 @@ bool VectorValue::isTrue() const
 	return !elements.empty();
 }
 
-VectorValue* VectorValue::toVector(int)
+VectorValue& VectorValue::toVector(int)
 {
-	return this;
+	return *this;
 }
 
-Value* VectorValue::toNumber()
+Value& VectorValue::toNumber()
 {
 	if(elements.size()==1)
 		return elements.at(0)->toNumber();
@@ -89,11 +89,11 @@ Point VectorValue::getPoint() const
 	return Point(x,y,z);
 }
 
-Value* VectorValue::getIndex(NumberValue* n)
+Value& VectorValue::getIndex(NumberValue* n)
 {
 	int i=n->toInteger();
 	if(i<0||i>=elements.size()) return factory.createUndefined();
-	return elements.at(i);
+	return *elements.at(i);
 }
 
 ValueIterator* VectorValue::createIterator()
@@ -106,7 +106,7 @@ QList<Value*> VectorValue::getElements()
 	return elements;
 }
 
-Value* VectorValue::operation(Operators e)
+Value& VectorValue::operation(Operators e)
 {
 	if(e==Operators::Length) {
 		Value* v=Value::operation(this,Operators::Multiply,this);
@@ -121,7 +121,7 @@ Value* VectorValue::operation(Operators e)
 	return factory.createVector(result);
 }
 
-Value* VectorValue::operation(Value& v, Operators e)
+Value& VectorValue::operation(Value& v, Operators e)
 {
 	QList<Value*> result;
 	auto* vec=dynamic_cast<VectorValue*>(&v);
@@ -140,7 +140,7 @@ Value* VectorValue::operation(Value& v, Operators e)
 			Value* z=Value::operation(a0b1,Operators::Subtract,a1b0);
 
 			if(s==2)
-				return z;
+				return *z;
 
 			Value* a1b2=Value::operation(a.at(1),Operators::Multiply,b.at(2));
 			Value* a2b1=Value::operation(a.at(2),Operators::Multiply,b.at(1));
@@ -159,12 +159,12 @@ Value* VectorValue::operation(Value& v, Operators e)
 			int s=std::min(a.size(),b.size());
 			if(s<=0)
 				return factory.createUndefined();
-			Value* total=factory.createNumber(0.0);
+			Value* total=&factory.createNumber(0.0);
 			for(auto i=0; i<s; ++i) {
 				Value* r=Value::operation(a.at(i),Operators::Multiply,b.at(i));
 				total=Value::operation(total,Operators::Add,r);
 			}
-			return total;
+			return *total;
 		}
 		if(e==Operators::Divide) {
 			//TODO vector division?
@@ -225,12 +225,12 @@ Value* VectorValue::operation(Value& v, Operators e)
 		}
 		if(e==Operators::Exponent) {
 			QList<Value*> a=getElements();
-			Value* total=factory.createNumber(0.0);
+			Value* total=&factory.createNumber(0.0);
 			for(Value* c: a) {
 				Value* r=Value::operation(c,e,num);
 				total=Value::operation(total,Operators::Add,r);
 			}
-			return total;
+			return *total;
 		}
 		if(e==Operators::Index) {
 			return getIndex(num);

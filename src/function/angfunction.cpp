@@ -30,23 +30,23 @@ AngFunction::AngFunction() : Function("ang")
 	addParameter("axis");
 }
 
-Value* AngFunction::getResult(const decimal& a,const decimal& x,const decimal& y,const decimal& z)
+Value& AngFunction::getResult(const decimal& a,const decimal& x,const decimal& y,const decimal& z)
 {
 	decimal w=a/2.0;
 	decimal c=r_right_cos(w);
 	decimal s=r_right_sin(w);
 
-	Value* angle=Value::factory.createNumber(c);
+	Value* angle=&Value::factory.createNumber(c);
 
 	QList<Value*> axis;
-	axis.append(Value::factory.createNumber(x*s));
-	axis.append(Value::factory.createNumber(y*s));
-	axis.append(Value::factory.createNumber(z*s));
+	axis.append(&Value::factory.createNumber(x*s));
+	axis.append(&Value::factory.createNumber(y*s));
+	axis.append(&Value::factory.createNumber(z*s));
 
 	return Value::factory.createComplex(angle,axis);
 }
 
-Value* AngFunction::evaluate(const Context& ctx) const
+Value& AngFunction::evaluate(const Context& ctx) const
 {
 	VectorValue* vecVal1=dynamic_cast<VectorValue*>(ctx.getArgument(0,"v1"));
 	VectorValue* vecVal2=dynamic_cast<VectorValue*>(ctx.getArgument(1,"v2"));
@@ -63,9 +63,9 @@ Value* AngFunction::evaluate(const Context& ctx) const
 		if(!axis) return Value::factory.createUndefined();
 
 		//Renormalise the quaternion
-		Value* q=Value::factory.createComplex(angle,axis->getElements());
+		Value* q=&Value::factory.createComplex(angle,axis->getElements());
 		Value* l=Value::operation(q,Operators::Length);
-		return Value::operation(q,Operators::Divide,l);
+		return *Value::operation(q,Operators::Divide,l);
 	}
 
 	decimal a=0.0;

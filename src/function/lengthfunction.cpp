@@ -29,13 +29,13 @@ LengthFunction::LengthFunction() : Function("len")
 	addParameter("value");
 }
 
-Value* LengthFunction::evaluate(const Context& ctx) const
+Value& LengthFunction::evaluate(const Context& ctx) const
 {
 	Value* v=getParameterArgument(ctx,0);
 
 	auto* rngVal=dynamic_cast<RangeValue*>(v);
 	if(rngVal) {
-		return Value::operation(rngVal,Operators::Length);
+		return *Value::operation(rngVal,Operators::Length);
 	}
 
 	auto* vecVal=dynamic_cast<VectorValue*>(v);
@@ -45,7 +45,7 @@ Value* LengthFunction::evaluate(const Context& ctx) const
 
 	auto* txtVal=dynamic_cast<TextValue*>(v);
 	if(txtVal) {
-		return Value::operation(txtVal,Operators::Length);
+		return *Value::operation(txtVal,Operators::Length);
 	}
 	return Value::factory.createUndefined();
 }

@@ -27,7 +27,7 @@ CircumcenterFunction::CircumcenterFunction() : Function("circumcenter")
 	addParameter("c");
 }
 
-Value *CircumcenterFunction::evaluate(const Context& ctx) const
+Value& CircumcenterFunction::evaluate(const Context& ctx) const
 {
 #if USE_CGAL
 	auto* aVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
@@ -39,9 +39,9 @@ Value *CircumcenterFunction::evaluate(const Context& ctx) const
 		Point pc=cVal->getPoint();
 		Point result=CGAL::circumcenter(pa,pb,pc);
 		QList<Value*> resultVector;
-		resultVector.append(Value::factory.createNumber(result.x()));
-		resultVector.append(Value::factory.createNumber(result.y()));
-		resultVector.append(Value::factory.createNumber(result.z()));
+		resultVector.append(&Value::factory.createNumber(result.x()));
+		resultVector.append(&Value::factory.createNumber(result.y()));
+		resultVector.append(&Value::factory.createNumber(result.z()));
 		return Value::factory.createVector(resultVector);
 	}
 #endif

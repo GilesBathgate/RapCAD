@@ -26,7 +26,7 @@ class CircumcenterFunction : public Function
 	Q_DECLARE_TR_FUNCTIONS(CircumcenterFunction)
 public:
 	CircumcenterFunction();
-	Value* evaluate(const Context&) const override;
+	Value& evaluate(const Context&) const override;
 };
 
 #endif // CIRCUMCENTERFUNCTION_H

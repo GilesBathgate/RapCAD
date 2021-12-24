@@ -32,7 +32,7 @@ RandFunction::RandFunction() : Function("rands")
 	addParameter("seed",tr("The seed number can be optionally used to give consistent results."));
 }
 
-Value* RandFunction::evaluate(const Context& ctx) const
+Value& RandFunction::evaluate(const Context& ctx) const
 {
 	decimal min=0.0;
 	auto* minVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
@@ -55,7 +55,7 @@ Value* RandFunction::evaluate(const Context& ctx) const
 
 	QList<Value*> results;
 	for(auto i=0; i<count; ++i)
-		results.append(Value::factory.createNumber(r_rand(min,max)));
+		results.append(&Value::factory.createNumber(r_rand(min,max)));
 
 	r_rand_clear();
 

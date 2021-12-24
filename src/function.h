@@ -44,7 +44,7 @@ public:
 	Scope* getScope() const;
 	void setScope(Scope*);
 	void accept(TreeVisitor&) override;
-	virtual Value* evaluate(const Context&) const;
+	virtual Value& evaluate(const Context&) const;
 	QString getDescription() const;
 
 protected:

@@ -7,7 +7,7 @@ IsUndefFunction::IsUndefFunction() : Function("is_undef")
 	addParameter("value");
 }
 
-Value* IsUndefFunction::evaluate(const Context& ctx) const
+Value& IsUndefFunction::evaluate(const Context& ctx) const
 {
 	auto* val=getParameterArgument(ctx,0);
 	if(val)

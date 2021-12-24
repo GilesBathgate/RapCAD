@@ -27,7 +27,7 @@ AsinFunction::AsinFunction() : Function("asin")
 	addParameter("value");
 }
 
-Value* AsinFunction::evaluate(const Context& ctx) const
+Value& AsinFunction::evaluate(const Context& ctx) const
 {
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {

@@ -34,8 +34,8 @@ Node* ScaleModule::evaluate(const Context& ctx) const
 	Point s(1,1,1);
 	auto* sizeVal=getParameterArgument(ctx,0);
 	if(sizeVal) {
-		VectorValue* v=sizeVal->toVector(3);
-		s=v->getPoint();
+		VectorValue& v=sizeVal->toVector(3);
+		s=v.getPoint();
 	}
 
 	decimal x=s.x();

@@ -27,7 +27,7 @@ ChrFunction::ChrFunction() : Function("chr")
 	addParameter("value");
 }
 
-Value* ChrFunction::evaluate(const Context& ctx) const
+Value& ChrFunction::evaluate(const Context& ctx) const
 {
 	QString result;
 	auto* codes=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));

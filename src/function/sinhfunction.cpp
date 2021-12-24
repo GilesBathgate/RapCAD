@@ -27,7 +27,7 @@ SinhFunction::SinhFunction() : Function("sinh")
 	addParameter("value");
 }
 
-Value* SinhFunction::evaluate(const Context& ctx) const
+Value& SinhFunction::evaluate(const Context& ctx) const
 {
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {

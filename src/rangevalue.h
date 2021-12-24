@@ -26,7 +26,7 @@ class RangeValue : public VectorValue
 public:
 	RangeValue(Value*,Value*,Value*);
 	QString getValueString() const override;
-	Value* getIndex(NumberValue*) override;
+	Value& getIndex(NumberValue*) override;
 	ValueIterator* createIterator() override;
 	QList<Value*> getElements() override;
 
@@ -34,8 +34,8 @@ public:
 	Value* getFinish() const;
 	bool inRange(Value*);
 private:
-	Value* operation(Operators) override;
-	Value* operation(Value&,Operators) override;
+	Value& operation(Operators) override;
+	Value& operation(Value&,Operators) override;
 	Value* start;
 	Value* step;
 	Value* finish;

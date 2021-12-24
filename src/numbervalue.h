@@ -28,11 +28,11 @@ public:
 	QString getValueString() const override;
 	bool isTrue() const override;
 	decimal getNumber() const;
-	Value* toNumber() override;
+	Value& toNumber() override;
 	int toInteger() const;
 private:
-	Value* operation(Operators) override;
-	Value* operation(Value&,Operators) override;
+	Value& operation(Operators) override;
+	Value& operation(Value&,Operators) override;
 	decimal number;
 };
 

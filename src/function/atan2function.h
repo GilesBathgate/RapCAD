@@ -26,7 +26,7 @@ class Atan2Function : public Function
 	Q_DECLARE_TR_FUNCTIONS(Atan2Function)
 public:
 	Atan2Function();
-	Value* evaluate(const Context&) const override;
+	Value& evaluate(const Context&) const override;
 };
 
 #endif // ATAN2FUNCTION_H

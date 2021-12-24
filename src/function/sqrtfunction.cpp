@@ -27,7 +27,7 @@ SqrtFunction::SqrtFunction() : Function("sqrt")
 	addParameter("number");
 }
 
-Value* SqrtFunction::evaluate(const Context& ctx) const
+Value& SqrtFunction::evaluate(const Context& ctx) const
 {
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {

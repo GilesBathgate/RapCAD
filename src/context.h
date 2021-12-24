@@ -48,7 +48,7 @@ public:
 	QString getCurrentName() const;
 	void setCurrentName(const QString&);
 
-	Value* lookupVariable(const QString&,Storage&,Layout*) const;
+	Value& lookupVariable(const QString&,Storage&,Layout*) const;
 	bool addVariable(const QString&,Value*);
 	void setVariable(const QString&,Value*);
 

@@ -30,8 +30,8 @@ public:
 	void toQuaternion(decimal&,decimal&,decimal&,decimal&);
 private:
 	ComplexValue();
-	Value* operation(Operators) override;
-	Value* operation(Value&,Operators) override;
+	Value& operation(Operators) override;
+	Value& operation(Value&,Operators) override;
 	Value* real;
 	QList<Value*> imaginary;
 };

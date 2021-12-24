@@ -25,7 +25,7 @@ class CbrtFunction : public Function
 	Q_DECLARE_TR_FUNCTIONS(CbrtFunction)
 public:
 	CbrtFunction();
-	Value* evaluate(const Context&) const override;
+	Value& evaluate(const Context&) const override;
 };
 
 #endif // CBRTFUNCTION_H

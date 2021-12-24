@@ -30,7 +30,7 @@ QString BooleanValue::getValueString() const
 	return boolean ? "true" : "false";
 }
 
-Value* BooleanValue::toNumber()
+Value& BooleanValue::toNumber()
 {
 	decimal result=boolean?1.0:0.0;
 	return factory.createNumber(result);
@@ -41,13 +41,13 @@ bool BooleanValue::isTrue() const
 	return boolean;
 }
 
-Value* BooleanValue::operation(Operators e)
+Value& BooleanValue::operation(Operators e)
 {
 	bool result=basicOperation(boolean,e);
 	return factory.createBoolean(result);
 }
 
-Value* BooleanValue::operation(Value& v,Operators e)
+Value& BooleanValue::operation(Value& v,Operators e)
 {
 	auto* that=dynamic_cast<BooleanValue*>(&v);
 	if(that) {

@@ -27,7 +27,7 @@ LnFunction::LnFunction() : Function("ln")
 	addParameter("value");
 }
 
-Value* LnFunction::evaluate(const Context& ctx) const
+Value& LnFunction::evaluate(const Context& ctx) const
 {
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {

@@ -27,12 +27,12 @@ public:
 	explicit TextValue(const QString&);
 	QString getValueString() const override;
 	bool isTrue() const override;
-	TextValue* toText() override;
-	Value* toNumber() override;
+	TextValue& toText() override;
+	Value& toNumber() override;
 	ValueIterator* createIterator() override;
 private:
-	Value* operation(Operators) override;
-	Value* operation(Value&,Operators) override;
+	Value& operation(Operators) override;
+	Value& operation(Value&,Operators) override;
 	QString operation(QString&,Operators,QString&);
 	static bool operation(TextValue*,Operators,TextValue*);
 	QString text;

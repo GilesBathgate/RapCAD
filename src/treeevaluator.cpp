@@ -284,7 +284,7 @@ void TreeEvaluator::visit(const Parameter& param)
 		e->accept(*this);
 		v = context->getCurrentValue();
 	} else {
-		v = Value::factory.createUndefined();
+		v = &Value::factory.createUndefined();
 	}
 
 	context->addParameter(name,v);
@@ -405,8 +405,8 @@ void TreeEvaluator::visit(const VectorExpression& exp)
 	if(commas>0)
 		reporter.reportWarning(tr("%1 additional comma(s) found at the end of vector expression").arg(commas));
 
-	Value* v = Value::factory.createVector(childvalues);
-	context->setCurrentValue(v);
+	Value& v = Value::factory.createVector(childvalues);
+	context->setCurrentValue(&v);
 }
 
 void TreeEvaluator::visit(const RangeExpression& exp)
@@ -424,8 +424,8 @@ void TreeEvaluator::visit(const RangeExpression& exp)
 	exp.getFinish()->accept(*this);
 	Value* finish=context->getCurrentValue();
 
-	Value* result = Value::factory.createRange(start,increment,finish);
-	context->setCurrentValue(result);
+	Value& result = Value::factory.createRange(start,increment,finish);
+	context->setCurrentValue(&result);
 }
 
 void TreeEvaluator::visit(const UnaryExpression& exp)
@@ -499,7 +499,7 @@ void TreeEvaluator::visit(const Invocation& stmt)
 			scp->accept(*this);
 			result=context->getReturnValue();
 		} else {
-			result=func->evaluate(*context);
+			result=&func->evaluate(*context);
 		}
 
 		finishContext();
@@ -509,7 +509,7 @@ void TreeEvaluator::visit(const Invocation& stmt)
 	}
 
 	if(!result)
-		result=Value::factory.createUndefined();
+		result=&Value::factory.createUndefined();
 
 	context->setCurrentValue(result);
 }
@@ -563,9 +563,9 @@ void TreeEvaluator::visit(const ScriptImport& sc)
 
 void TreeEvaluator::visit(const Literal& lit)
 {
-	Value* v= lit.getValue();
+	Value& v=lit.getValue();
 
-	context->setCurrentValue(v);
+	context->setCurrentValue(&v);
 }
 
 void TreeEvaluator::visit(const Variable& var)
@@ -574,7 +574,7 @@ void TreeEvaluator::visit(const Variable& var)
 	Storage oldStorage=var.getStorage();
 	Storage currentStorage=oldStorage;
 	Layout* l=scopeLookup.value(context->getCurrentScope());
-	Value* v=context->lookupVariable(name,currentStorage,l);
+	Value& v=context->lookupVariable(name,currentStorage,l);
 	if(currentStorage!=oldStorage)
 		switch(oldStorage) {
 			case Storage::Constant:
@@ -587,7 +587,7 @@ void TreeEvaluator::visit(const Variable& var)
 				break;
 		}
 
-	context->setCurrentValue(v);
+	context->setCurrentValue(&v);
 	context->setCurrentName(name);
 }
 
@@ -642,8 +642,8 @@ void TreeEvaluator::visit(const ComplexExpression& exp)
 		e->accept(*this);
 		childvalues.append(context->getCurrentValue());
 	}
-	Value* v = Value::factory.createComplex(result,childvalues);
-	context->setCurrentValue(v);
+	Value& v=Value::factory.createComplex(result,childvalues);
+	context->setCurrentValue(&v);
 }
 
 Node* TreeEvaluator::getRootNode() const

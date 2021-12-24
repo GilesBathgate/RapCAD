@@ -40,9 +40,9 @@ decimal NumberValue::getNumber() const
 	return number;
 }
 
-Value* NumberValue::toNumber()
+Value& NumberValue::toNumber()
 {
-	return this;
+	return *this;
 }
 
 int NumberValue::toInteger() const
@@ -50,7 +50,7 @@ int NumberValue::toInteger() const
 	return to_integer(number);
 }
 
-Value* NumberValue::operation(Operators e)
+Value& NumberValue::operation(Operators e)
 {
 	if(e==Operators::Invert)
 		return factory.createBoolean(this->isFalse());
@@ -59,7 +59,7 @@ Value* NumberValue::operation(Operators e)
 	return factory.createNumber(result);
 }
 
-Value* NumberValue::operation(Value& v, Operators e)
+Value& NumberValue::operation(Value& v, Operators e)
 {
 	auto* num = dynamic_cast<NumberValue*>(&v);
 	if(num) {
@@ -104,7 +104,7 @@ Value* NumberValue::operation(Value& v, Operators e)
 
 		// most operations between scalars and vectors are commutative e.g.
 		// [1,2,3]-1  is the same as 1-[1,2,3]
-		return Value::operation(vec,e,this);
+		return *Value::operation(vec,e,this);
 	}
 	auto* flag = dynamic_cast<BooleanValue*>(&v);
 	if(flag && isComparison(e)) {

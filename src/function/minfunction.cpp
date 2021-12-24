@@ -25,9 +25,9 @@ MinFunction::MinFunction() : Function("min")
 	addParameter("values");
 }
 
-Value* MinFunction::evaluate(const Context& ctx) const
+Value& MinFunction::evaluate(const Context& ctx) const
 {
 	QList<Value*> values=ctx.getArgumentValues();
 
-	return Value::compareAll(values,Operators::LessThan);
+	return *Value::compareAll(values,Operators::LessThan);
 }

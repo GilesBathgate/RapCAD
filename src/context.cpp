@@ -93,20 +93,20 @@ void Context::setVariable(const QString& name, Value* v)
 	variables.insert(name,v);
 }
 
-Value* Context::lookupVariable(const QString& name,Storage& c,Layout* l) const
+Value& Context::lookupVariable(const QString& name,Storage& c,Layout* l) const
 {
 	if(variables.contains(name)) {
 		if(l->inScope(currentScope)) {
-			Value* v=variables.value(name);
-			c=v->getStorage();
+			Value& v=*variables.value(name);
+			c=v.getStorage();
 			return v;
 		}
 	} else if(parent) {
 		return parent->lookupVariable(name,c,l);
 	}
 
-	Value* v=Value::factory.createUndefined();
-	v->setStorage(c);
+	Value& v=Value::factory.createUndefined();
+	v.setStorage(c);
 	return v;
 
 }

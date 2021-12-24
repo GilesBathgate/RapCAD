@@ -29,7 +29,7 @@ VersionFunction::VersionFunction() : Function("version")
 	addDescription(tr("Returns the version of RapCAD."));
 }
 
-Value* VersionFunction::evaluate(const Context&) const
+Value& VersionFunction::evaluate(const Context&) const
 {
 	QList<Value*> version;
 	QString v=STRINGIFY(RAPCAD_VERSION);
@@ -37,12 +37,12 @@ Value* VersionFunction::evaluate(const Context&) const
 	int major=parts.at(0).toInt();
 	int minor=parts.at(1).toInt();
 	const QString& build=parts.at(2);
-	version.append(Value::factory.createNumber(major));
-	version.append(Value::factory.createNumber(minor));
+	version.append(&Value::factory.createNumber(major));
+	version.append(&Value::factory.createNumber(minor));
 	if(build=="git") {
-		version.append(Value::factory.createText(build));
+		version.append(&Value::factory.createText(build));
 		const QString& revision=parts.at(3);
-		version.append(Value::factory.createText(revision));
+		version.append(&Value::factory.createText(revision));
 	} else {
 		version.append(new NumberValue(build.toInt()));
 	}

@@ -25,7 +25,7 @@ class AssertFunction : public Function
 	Q_DECLARE_TR_FUNCTIONS(AssertFunction)
 public:
 	AssertFunction();
-	Value* evaluate(const Context&) const override;
+	Value& evaluate(const Context&) const override;
 };
 
 #endif // ASSERTFUNCTION_H

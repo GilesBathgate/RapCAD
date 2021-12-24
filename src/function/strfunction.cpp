@@ -26,19 +26,19 @@ StrFunction::StrFunction() : Function("str")
 	addDescription(tr("Converts the value to a text value."));
 }
 
-Value* StrFunction::evaluate(const Context& ctx) const
+Value& StrFunction::evaluate(const Context& ctx) const
 {
 	TextValue* val=nullptr;
 	for(const auto& arg: ctx.getArguments()) {
-		Value* argVal = arg.getValue();
-		TextValue* textArg = argVal->toText();
+		Value* argVal=arg.getValue();
+		TextValue* textArg=&argVal->toText();
 		if(!val) {
 			val=textArg;
 		} else {
 			Value* res=Value::operation(val,Operators::Concatenate,textArg);
-			val=res->toText();
+			val=&res->toText();
 		}
 	}
 
-	return val;
+	return *val;
 }

@@ -26,7 +26,7 @@ class CrossFunction : public Function
 	Q_DECLARE_TR_FUNCTIONS(CrossFunction)
 public:
 	CrossFunction();
-	Value* evaluate(const Context&) const override;
+	Value& evaluate(const Context&) const override;
 };
 
 #endif // CROSSFUNCTION_H

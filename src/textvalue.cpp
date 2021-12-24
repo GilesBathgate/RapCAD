@@ -32,12 +32,12 @@ QString TextValue::getValueString() const
 	return text;
 }
 
-TextValue* TextValue::toText()
+TextValue& TextValue::toText()
 {
-	return this;
+	return *this;
 }
 
-Value* TextValue::toNumber()
+Value& TextValue::toNumber()
 {
 	bool ok=false;
 	decimal n=to_decimal(text,&ok);
@@ -57,15 +57,15 @@ bool TextValue::isTrue() const
 	return !text.isEmpty();
 }
 
-Value* TextValue::operation(Operators op)
+Value& TextValue::operation(Operators op)
 {
 	if(op==Operators::Length) {
 		return factory.createNumber(text.length());
 	}
-	return this;
+	return *this;
 }
 
-Value* TextValue::operation(Value& v,Operators e)
+Value& TextValue::operation(Value& v,Operators e)
 {
 	auto* that=dynamic_cast<TextValue*>(&v);
 	if(that) {

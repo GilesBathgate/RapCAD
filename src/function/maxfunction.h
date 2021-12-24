@@ -26,7 +26,7 @@ class MaxFunction : public Function
 	Q_DECLARE_TR_FUNCTIONS(MaxFunction)
 public:
 	MaxFunction();
-	Value* evaluate(const Context&) const override;
+	Value& evaluate(const Context&) const override;
 };
 
 #endif // MAXFUNCTION_H

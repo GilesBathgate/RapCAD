@@ -26,7 +26,7 @@ class IsUndefFunction : public Function
 	Q_DECLARE_TR_FUNCTIONS(IsUndefFunction)
 public:
 	IsUndefFunction();
-	Value* evaluate(const Context&) const override;
+	Value& evaluate(const Context&) const override;
 };
 
 #endif // ISUNDEFFUNCTION_H

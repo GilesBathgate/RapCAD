@@ -26,7 +26,7 @@ CbrtFunction::CbrtFunction() : Function("cbrt")
 	addParameter("number");
 }
 
-Value* CbrtFunction::evaluate(const Context& ctx) const
+Value& CbrtFunction::evaluate(const Context& ctx) const
 {
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {

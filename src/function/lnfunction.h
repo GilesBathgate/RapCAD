@@ -26,7 +26,7 @@ class LnFunction : public Function
 	Q_DECLARE_TR_FUNCTIONS(LnFunction)
 public:
 	LnFunction();
-	Value* evaluate(const Context&) const override;
+	Value& evaluate(const Context&) const override;
 };
 
 #endif // LNFUNCTION_H
