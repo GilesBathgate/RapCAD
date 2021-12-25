@@ -36,6 +36,7 @@ public:
 private:
 	Value& operation(Operators) override;
 	Value& operation(Value&,Operators) override;
+	Value& operation(RangeValue&,Operators);
 	Value* start;
 	Value* step;
 	Value* finish;

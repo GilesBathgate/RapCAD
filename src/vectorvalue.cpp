@@ -121,134 +121,142 @@ Value& VectorValue::operation(Operators e)
 	return factory.createVector(result);
 }
 
-Value& VectorValue::operation(Value& v, Operators e)
+Value& VectorValue::operation(Value& v,Operators e)
 {
-	QList<Value*> result;
 	auto* vec=dynamic_cast<VectorValue*>(&v);
-	if(vec) {
-		QList<Value*> a=getElements();
-		QList<Value*> b=vec->getElements();
+	if(vec)
+		return operation(*vec,e);
 
-		if(e==Operators::CrossProduct) {
-			int s=a.size();
-			if(s<2||s>3||s!=b.size())
-				return factory.createUndefined();
-
-			//[a1*b2 - a2*b1, a2*b0 - a0*b2, a0*b1 - a1*b0]
-			Value* a0b1=Value::operation(a.at(0),Operators::Multiply,b.at(1));
-			Value* a1b0=Value::operation(a.at(1),Operators::Multiply,b.at(0));
-			Value* z=Value::operation(a0b1,Operators::Subtract,a1b0);
-
-			if(s==2)
-				return *z;
-
-			Value* a1b2=Value::operation(a.at(1),Operators::Multiply,b.at(2));
-			Value* a2b1=Value::operation(a.at(2),Operators::Multiply,b.at(1));
-			Value* a2b0=Value::operation(a.at(2),Operators::Multiply,b.at(0));
-			Value* a0b2=Value::operation(a.at(0),Operators::Multiply,b.at(2));
-			Value* x=Value::operation(a1b2,Operators::Subtract,a2b1);
-			Value* y=Value::operation(a2b0,Operators::Subtract,a0b2);
-
-			result.append(x);
-			result.append(y);
-			result.append(z);
-			return factory.createVector(result);
-
-		}
-		if(e==Operators::Multiply||e==Operators::DotProduct) {
-			int s=std::min(a.size(),b.size());
-			if(s<=0)
-				return factory.createUndefined();
-			Value* total=&factory.createNumber(0.0);
-			for(auto i=0; i<s; ++i) {
-				Value* r=Value::operation(a.at(i),Operators::Multiply,b.at(i));
-				total=Value::operation(total,Operators::Add,r);
-			}
-			return *total;
-		}
-		if(e==Operators::Divide) {
-			//TODO vector division?
-			return factory.createUndefined();
-		}
-		if(e==Operators::Length) {
-			Value* a2=Value::operation(this,Operators::Multiply,this);
-			Value* b2=Value::operation(&v,Operators::Multiply,&v);
-			Value* n=Value::operation(a2,Operators::Multiply,b2);
-			auto* l=dynamic_cast<NumberValue*>(n);
-			if(l)
-				return factory.createNumber(r_sqrt(l->getNumber()));
-			return factory.createUndefined();
-		}
-		if(e==Operators::Concatenate) {
-			result=a;
-			result.append(b);
-		} else if(e==Operators::Equal||e==Operators::NotEqual) {
-			bool eq=(a.size()==b.size());
-			if(e==Operators::NotEqual && !eq)
-				return factory.createBoolean(true);
-			if(eq)
-				for(auto i=0; i<a.size(); ++i) {
-					Value* eqVec=Value::operation(a.at(i),e,b.at(i));
-					if(e==Operators::NotEqual && eqVec->isTrue())
-						return factory.createBoolean(true);
-					if(eqVec->isFalse())
-						eq=false;
-				}
-			return factory.createBoolean(eq);
-		} else {
-			//Apply componentwise operations
-			e=convertOperation(e);
-			int as=a.size();
-			int bs=b.size();
-			for(auto i=0; i<as||i<bs; ++i) {
-				Value* r=nullptr;
-				if(as<bs&&i>=as) {
-					r=b.at(i);
-				} else if(bs<as&&i>=bs) {
-					r=a.at(i);
-				} else {
-					r=Value::operation(a.at(i),e,b.at(i));
-				}
-				result.append(r);
-			}
-		}
-		return factory.createVector(result);
-	}
-
-	auto* num = dynamic_cast<NumberValue*>(&v);
-	if(num) {
-		if(e==Operators::Concatenate) {
-			QList<Value*> a=getElements();
-			result=a;
-			result.append(num);
-			return factory.createVector(result);
-		}
-		if(e==Operators::Exponent) {
-			QList<Value*> a=getElements();
-			Value* total=&factory.createNumber(0.0);
-			for(Value* c: a) {
-				Value* r=Value::operation(c,e,num);
-				total=Value::operation(total,Operators::Add,r);
-			}
-			return *total;
-		}
-		if(e==Operators::Index) {
-			return getIndex(num);
-		}
-		if(e==Operators::CrossProduct) {
-			return factory.createUndefined();
-		}
-
-		QList<Value*> a=getElements();
-		e=convertOperation(e);
-		for(Value* c: a)
-			result.append(Value::operation(c,e,num));
-
-		return factory.createVector(result);
-
-	}
+	auto* num=dynamic_cast<NumberValue*>(&v);
+	if(num)
+		return operation(*num,e);
 
 	return Value::operation(v,e);
+}
+
+Value& VectorValue::operation(NumberValue& num,Operators e)
+{
+	QList<Value*> result;
+	if(e==Operators::Concatenate) {
+		QList<Value*> a=getElements();
+		result=a;
+		result.append(&num);
+		return factory.createVector(result);
+	}
+	if(e==Operators::Exponent) {
+		QList<Value*> a=getElements();
+		Value* total=&factory.createNumber(0.0);
+		for(Value* c: a) {
+			Value* r=Value::operation(c,e,&num);
+			total=Value::operation(total,Operators::Add,r);
+		}
+		return *total;
+	}
+	if(e==Operators::Index) {
+		return getIndex(&num);
+	}
+	if(e==Operators::CrossProduct) {
+		return factory.createUndefined();
+	}
+
+	QList<Value*> a=getElements();
+	e=convertOperation(e);
+	for(Value* c: a)
+		result.append(Value::operation(c,e,&num));
+
+	return factory.createVector(result);
+}
+
+Value& VectorValue::operation(VectorValue& vec,Operators e)
+{
+	QList<Value*> result;
+	QList<Value*> a=getElements();
+	QList<Value*> b=vec.getElements();
+
+	if(e==Operators::CrossProduct) {
+		int s=a.size();
+		if(s<2||s>3||s!=b.size())
+			return factory.createUndefined();
+
+		//[a1*b2 - a2*b1, a2*b0 - a0*b2, a0*b1 - a1*b0]
+		Value* a0b1=Value::operation(a.at(0),Operators::Multiply,b.at(1));
+		Value* a1b0=Value::operation(a.at(1),Operators::Multiply,b.at(0));
+		Value* z=Value::operation(a0b1,Operators::Subtract,a1b0);
+
+		if(s==2)
+			return *z;
+
+		Value* a1b2=Value::operation(a.at(1),Operators::Multiply,b.at(2));
+		Value* a2b1=Value::operation(a.at(2),Operators::Multiply,b.at(1));
+		Value* a2b0=Value::operation(a.at(2),Operators::Multiply,b.at(0));
+		Value* a0b2=Value::operation(a.at(0),Operators::Multiply,b.at(2));
+		Value* x=Value::operation(a1b2,Operators::Subtract,a2b1);
+		Value* y=Value::operation(a2b0,Operators::Subtract,a0b2);
+
+		result.append(x);
+		result.append(y);
+		result.append(z);
+		return factory.createVector(result);
+
+	}
+	if(e==Operators::Multiply||e==Operators::DotProduct) {
+		int s=std::min(a.size(),b.size());
+		if(s<=0)
+			return factory.createUndefined();
+		Value* total=&factory.createNumber(0.0);
+		for(auto i=0; i<s; ++i) {
+			Value* r=Value::operation(a.at(i),Operators::Multiply,b.at(i));
+			total=Value::operation(total,Operators::Add,r);
+		}
+		return *total;
+	}
+	if(e==Operators::Divide) {
+		//TODO vector division?
+		return factory.createUndefined();
+	}
+	if(e==Operators::Length) {
+		Value* a2=Value::operation(this,Operators::Multiply,this);
+		Value* b2=Value::operation(&vec,Operators::Multiply,&vec);
+		Value* n=Value::operation(a2,Operators::Multiply,b2);
+		auto* l=dynamic_cast<NumberValue*>(n);
+		if(l)
+			return factory.createNumber(r_sqrt(l->getNumber()));
+		return factory.createUndefined();
+	}
+	if(e==Operators::Concatenate) {
+		result=a;
+		result.append(b);
+	} else if(e==Operators::Equal||e==Operators::NotEqual) {
+		bool eq=(a.size()==b.size());
+		if(e==Operators::NotEqual && !eq)
+			return factory.createBoolean(true);
+		if(eq)
+			for(auto i=0; i<a.size(); ++i) {
+				Value* eqVec=Value::operation(a.at(i),e,b.at(i));
+				if(e==Operators::NotEqual && eqVec->isTrue())
+					return factory.createBoolean(true);
+				if(eqVec->isFalse())
+					eq=false;
+			}
+		return factory.createBoolean(eq);
+	} else {
+		//Apply componentwise operations
+		e=convertOperation(e);
+		int as=a.size();
+		int bs=b.size();
+		for(auto i=0; i<as||i<bs; ++i) {
+			Value* r=nullptr;
+			if(as<bs&&i>=as) {
+				r=b.at(i);
+			} else if(bs<as&&i>=bs) {
+				r=a.at(i);
+			} else {
+				r=Value::operation(a.at(i),e,b.at(i));
+			}
+			result.append(r);
+		}
+	}
+	return factory.createVector(result);
 }
 
 Operators VectorValue::convertOperation(Operators e)

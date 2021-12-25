@@ -120,65 +120,72 @@ Value& RangeValue::operation(Operators op)
 	return factory.createRange(upper,increment,lower);
 }
 
-Value& RangeValue::operation(Value& v, Operators op)
+Value& RangeValue::operation(Value& v,Operators op)
 {
 	auto* range=dynamic_cast<RangeValue*>(&v);
-	if(range) {
-		/* Interval arithmetic has the following rules:
-		 * when x = [a:b] and y = [c:d] then
-		 * x+y = [a+c:b+d]
-		 * x-y = [a-d:b-c]
-		 * x*y = [min(a*c,a*d,b*c,b*d):max(a*c,a*d,b*c,b*d)]
-		 * x/y = [min(a/c,a/d,b/c,b/d):max(a/c,a/d,b/c,b/d)]
-		 */
-		Value* a=this->start;
-		Value* b=this->finish;
-		Value* c=range->start;
-		Value* d=range->finish;
-		if(op==Operators::Equal) {
-			bool result=compare(a,op,c)&&compare(b,op,d);
-			return factory.createBoolean(result);
-		}
-		if(op==Operators::NotEqual) {
-			bool result=compare(a,op,c)||compare(b,op,d);
-			return factory.createBoolean(result);
-		}
-		if(op==Operators::Add||op==Operators::Subtract) {
+	if(range)
+		return operation(*range,op);
 
-			Value* lower=Value::operation(a,op,c);
-			Value* upper=Value::operation(b,op,d);
-
-			return factory.createRange(lower,nullptr,upper);
-
-		}
-		if(op==Operators::Multiply||op==Operators::Divide) {
-
-			Value* ac=Value::operation(a,op,c);
-			Value* ad=Value::operation(a,op,d);
-			Value* bc=Value::operation(b,op,c);
-			Value* bd=Value::operation(b,op,d);
-			QList<Value*> vals;
-			vals.append(ac);
-			vals.append(ad);
-			vals.append(bc);
-			vals.append(bd);
-			Value* lower=compareAll(vals,Operators::LessThan);
-			Value* upper=compareAll(vals,Operators::GreaterThan);
-
-			return factory.createRange(lower,nullptr,upper);
-		}
-		if(op==Operators::Concatenate) {
-
-			QList<Value*> vals;
-			vals.append(start);
-			vals.append(finish);
-			vals.append(range->start);
-			vals.append(range->finish);
-			Value* lower=compareAll(vals,Operators::LessThan);
-			Value* upper=compareAll(vals,Operators::GreaterThan);
-
-			return factory.createRange(lower,nullptr,upper);
-		}
-	}
 	return VectorValue::operation(v,op);
+}
+
+Value& RangeValue::operation(RangeValue& range,Operators op)
+{
+	/* Interval arithmetic has the following rules:
+	 * when x = [a:b] and y = [c:d] then
+	 * x+y = [a+c:b+d]
+	 * x-y = [a-d:b-c]
+	 * x*y = [min(a*c,a*d,b*c,b*d):max(a*c,a*d,b*c,b*d)]
+	 * x/y = [min(a/c,a/d,b/c,b/d):max(a/c,a/d,b/c,b/d)]
+	 */
+	Value* a=this->start;
+	Value* b=this->finish;
+	Value* c=range.start;
+	Value* d=range.finish;
+	if(op==Operators::Equal) {
+		bool result=compare(a,op,c)&&compare(b,op,d);
+		return factory.createBoolean(result);
+	}
+	if(op==Operators::NotEqual) {
+		bool result=compare(a,op,c)||compare(b,op,d);
+		return factory.createBoolean(result);
+	}
+	if(op==Operators::Add||op==Operators::Subtract) {
+
+		Value* lower=Value::operation(a,op,c);
+		Value* upper=Value::operation(b,op,d);
+
+		return factory.createRange(lower,nullptr,upper);
+
+	}
+	if(op==Operators::Multiply||op==Operators::Divide) {
+
+		Value* ac=Value::operation(a,op,c);
+		Value* ad=Value::operation(a,op,d);
+		Value* bc=Value::operation(b,op,c);
+		Value* bd=Value::operation(b,op,d);
+		QList<Value*> vals;
+		vals.append(ac);
+		vals.append(ad);
+		vals.append(bc);
+		vals.append(bd);
+		Value* lower=compareAll(vals,Operators::LessThan);
+		Value* upper=compareAll(vals,Operators::GreaterThan);
+
+		return factory.createRange(lower,nullptr,upper);
+	}
+	if(op==Operators::Concatenate) {
+
+		QList<Value*> vals;
+		vals.append(a);
+		vals.append(b);
+		vals.append(c);
+		vals.append(d);
+		Value* lower=compareAll(vals,Operators::LessThan);
+		Value* upper=compareAll(vals,Operators::GreaterThan);
+
+		return factory.createRange(lower,nullptr,upper);
+	}
+
+	return VectorValue::operation(range,op);
 }

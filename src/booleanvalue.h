@@ -19,6 +19,7 @@
 #ifndef BOOLEANVALUE_H
 #define BOOLEANVALUE_H
 
+class NumberValue;
 #include "value.h"
 
 class BooleanValue : public Value
@@ -31,6 +32,8 @@ public:
 private:
 	Value& operation(Operators) override;
 	Value& operation(Value&,Operators) override;
+	Value& operation(BooleanValue&,Operators);
+	Value& operation(NumberValue&,Operators);
 	bool boolean;
 };
 

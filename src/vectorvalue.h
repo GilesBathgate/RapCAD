@@ -40,7 +40,9 @@ protected:
 	VectorValue() = default;
 	Value& operation(Operators) override;
 	Value& operation(Value&,Operators) override;
+	Value& operation(VectorValue&,Operators);
 private:
+	Value& operation(NumberValue&,Operators);
 	static Operators convertOperation(Operators);
 	QList<Value*> elements;
 };

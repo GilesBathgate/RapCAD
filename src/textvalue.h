@@ -19,6 +19,7 @@
 #ifndef TEXTVALUE_H
 #define TEXTVALUE_H
 
+class NumberValue;
 #include "value.h"
 
 class TextValue : public Value
@@ -33,8 +34,8 @@ public:
 private:
 	Value& operation(Operators) override;
 	Value& operation(Value&,Operators) override;
-	QString operation(QString&,Operators,QString&);
-	static bool operation(TextValue*,Operators,TextValue*);
+	Value& operation(TextValue&,Operators);
+	Value& operation(NumberValue&,Operators);
 	QString text;
 };
 

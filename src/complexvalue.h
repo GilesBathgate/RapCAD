@@ -19,6 +19,7 @@
 #ifndef COMPLEXVALUE_H
 #define COMPLEXVALUE_H
 
+class NumberValue;
 #include "value.h"
 #include <QList>
 
@@ -32,6 +33,8 @@ private:
 	ComplexValue();
 	Value& operation(Operators) override;
 	Value& operation(Value&,Operators) override;
+	Value& operation(ComplexValue&,Operators);
+	Value& operation(NumberValue&,Operators);
 	Value* real;
 	QList<Value*> imaginary;
 };

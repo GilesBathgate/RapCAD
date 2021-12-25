@@ -68,39 +68,39 @@ Value& TextValue::operation(Operators op)
 Value& TextValue::operation(Value& v,Operators e)
 {
 	auto* that=dynamic_cast<TextValue*>(&v);
-	if(that) {
-		if(isComparison(e)) {
-			return factory.createBoolean(operation(this,e,that));
-		}
-		return factory.createText(operation(this->text,e,that->text));
-	}
+	if(that)
+		return operation(*that,e);
 
 	auto* num=dynamic_cast<NumberValue*>(&v);
 	if(num)
-		if(e==Operators::Index)
-			return factory.createText(text.at(num->toInteger()));
+		return operation(*num,e);
 
 	return Value::operation(v,e);
 }
 
-QString TextValue::operation(QString& left, Operators e,QString& right)
+Value& TextValue::operation(TextValue& that,Operators e)
 {
-	switch(e) {
-		case Operators::Concatenate:
-			return left.append(right);
-		default:
-			return text;
+	if(isComparison(e)) {
+		switch(e) {
+			case Operators::Equal:
+				return factory.createBoolean(text==that.text);
+			case Operators::NotEqual:
+				return factory.createBoolean(text!=that.text);
+			default:
+				return factory.createBoolean(basicOperation(isTrue(),e,that.isTrue()));
+		}
 	}
+
+	if(e==Operators::Concatenate)
+		return factory.createText(text.append(that.text));
+
+	return Value::operation(that,e);
 }
 
-bool TextValue::operation(TextValue* left, Operators e, TextValue* right)
+Value& TextValue::operation(NumberValue& num,Operators e)
 {
-	switch(e) {
-		case Operators::Equal:
-			return left->text==right->text;
-		case Operators::NotEqual:
-			return left->text!=right->text;
-		default:
-			return basicOperation(left->isTrue(),e,right->isTrue());
-	}
+	if(e==Operators::Index)
+		return factory.createText(text.at(num.toInteger()));
+
+	return Value::operation(num,e);
 }
