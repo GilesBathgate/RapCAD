@@ -24,8 +24,9 @@ public:
 	NumberValue& createNumber(const decimal&);
 	TextValue& createText(const QString&);
 	VectorValue& createVector(const QList<Value*>&);
-	RangeValue& createRange(Value*,Value*,Value*);
-	ComplexValue& createComplex(Value*,const QList<Value*>&);
+	RangeValue& createRange(Value&,Value&);
+	RangeValue& createRange(Value&,Value&,Value&);
+	ComplexValue& createComplex(Value&,const QList<Value*>&);
 
 private:
 	ValueFactory() = default;

@@ -36,7 +36,7 @@ Value& AngFunction::getResult(const decimal& a,const decimal& x,const decimal& y
 	decimal c=r_right_cos(w);
 	decimal s=r_right_sin(w);
 
-	Value* angle=&Value::factory.createNumber(c);
+	Value& angle=Value::factory.createNumber(c);
 
 	QList<Value*> axis;
 	axis.append(&Value::factory.createNumber(x*s));
@@ -53,19 +53,19 @@ Value& AngFunction::evaluate(const Context& ctx) const
 	if(vecVal1&&vecVal2) {
 
 		// a = |v1|*|v2| + v1 . v2
-		Value* norm=Value::operation(vecVal1,Operators::Length,vecVal2);
-		Value* dot=Value::operation(vecVal1,Operators::DotProduct,vecVal2);
-		Value* angle=Value::operation(norm,Operators::Add,dot);
+		Value& norm=Value::evaluate(*vecVal1,Operators::Length,*vecVal2);
+		Value& dot=Value::evaluate(*vecVal1,Operators::DotProduct,*vecVal2);
+		Value& angle=Value::evaluate(norm,Operators::Add,dot);
 
 		// [x,y,z] = v1 x v2
-		Value* cross=Value::operation(vecVal1,Operators::CrossProduct,vecVal2);
-		auto* axis=dynamic_cast<VectorValue*>(cross);
+		Value& cross=Value::evaluate(*vecVal1,Operators::CrossProduct,*vecVal2);
+		auto* axis=dynamic_cast<VectorValue*>(&cross);
 		if(!axis) return Value::factory.createUndefined();
 
 		//Renormalise the quaternion
-		Value* q=&Value::factory.createComplex(angle,axis->getElements());
-		Value* l=Value::operation(q,Operators::Length);
-		return *Value::operation(q,Operators::Divide,l);
+		Value& q=Value::factory.createComplex(angle,axis->getElements());
+		Value& l=Value::evaluate(q,Operators::Length);
+		return Value::evaluate(q,Operators::Divide,l);
 	}
 
 	decimal a=0.0;
@@ -78,9 +78,9 @@ Value& AngFunction::evaluate(const Context& ctx) const
 
 		auto* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
 		if(vecVal) {
-			Value* n=Value::operation(vecVal,Operators::Length);
-			Value* u=Value::operation(vecVal,Operators::Divide,n);
-			auto* unitVec=dynamic_cast<VectorValue*>(u);
+			Value& n=Value::evaluate(*vecVal,Operators::Length);
+			Value& u=Value::evaluate(*vecVal,Operators::Divide,n);
+			auto* unitVec=dynamic_cast<VectorValue*>(&u);
 			if(unitVec) {
 				Point p=unitVec->getPoint();
 				x=p.x();

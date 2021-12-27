@@ -33,7 +33,7 @@ public:
 	VectorValue& toVector(int) override;
 	Value& toNumber() override;
 	Point getPoint() const;
-	virtual Value& getIndex(NumberValue*);
+	virtual Value& getIndex(NumberValue&);
 	ValueIterator* createIterator() override;
 	virtual QList<Value*> getElements();
 protected:

@@ -31,7 +31,7 @@ Value& AbsFunction::evaluate(const Context& ctx) const
 {
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {
-		return *Value::operation(numVal,Operators::Length);
+		return Value::evaluate(*numVal,Operators::Length);
 	}
 	return Value::factory.createUndefined();
 }

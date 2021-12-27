@@ -89,9 +89,9 @@ Point VectorValue::getPoint() const
 	return Point(x,y,z);
 }
 
-Value& VectorValue::getIndex(NumberValue* n)
+Value& VectorValue::getIndex(NumberValue& n)
 {
-	int i=n->toInteger();
+	int i=n.toInteger();
 	if(i<0||i>=elements.size()) return factory.createUndefined();
 	return *elements.at(i);
 }
@@ -109,15 +109,15 @@ QList<Value*> VectorValue::getElements()
 Value& VectorValue::operation(Operators e)
 {
 	if(e==Operators::Length) {
-		Value* v=Value::operation(this,Operators::Multiply,this);
-		auto* n=dynamic_cast<NumberValue*>(v);
+		Value& v=Value::evaluate(*this,Operators::Multiply,*this);
+		auto* n=dynamic_cast<NumberValue*>(&v);
 		if(n)
 			return factory.createNumber(r_sqrt(n->getNumber()));
 		return factory.createUndefined();
 	}
 	QList<Value*> result;
 	for(Value* c: elements)
-		result.append(Value::operation(c,e));
+		result.append(Value::evaluate(c,e));
 	return factory.createVector(result);
 }
 
@@ -138,8 +138,7 @@ Value& VectorValue::operation(NumberValue& num,Operators e)
 {
 	QList<Value*> result;
 	if(e==Operators::Concatenate) {
-		QList<Value*> a=getElements();
-		result=a;
+		result=getElements();
 		result.append(&num);
 		return factory.createVector(result);
 	}
@@ -147,13 +146,13 @@ Value& VectorValue::operation(NumberValue& num,Operators e)
 		QList<Value*> a=getElements();
 		Value* total=&factory.createNumber(0.0);
 		for(Value* c: a) {
-			Value* r=Value::operation(c,e,&num);
-			total=Value::operation(total,Operators::Add,r);
+			Value& r=Value::evaluate(*c,e,num);
+			total=Value::evaluate(total,Operators::Add,&r);
 		}
 		return *total;
 	}
 	if(e==Operators::Index) {
-		return getIndex(&num);
+		return getIndex(num);
 	}
 	if(e==Operators::CrossProduct) {
 		return factory.createUndefined();
@@ -162,7 +161,7 @@ Value& VectorValue::operation(NumberValue& num,Operators e)
 	QList<Value*> a=getElements();
 	e=convertOperation(e);
 	for(Value* c: a)
-		result.append(Value::operation(c,e,&num));
+		result.append(Value::evaluate(c,e,&num));
 
 	return factory.createVector(result);
 }
@@ -179,23 +178,23 @@ Value& VectorValue::operation(VectorValue& vec,Operators e)
 			return factory.createUndefined();
 
 		//[a1*b2 - a2*b1, a2*b0 - a0*b2, a0*b1 - a1*b0]
-		Value* a0b1=Value::operation(a.at(0),Operators::Multiply,b.at(1));
-		Value* a1b0=Value::operation(a.at(1),Operators::Multiply,b.at(0));
-		Value* z=Value::operation(a0b1,Operators::Subtract,a1b0);
+		Value& a0b1=Value::evaluate(*a.at(0),Operators::Multiply,*b.at(1));
+		Value& a1b0=Value::evaluate(*a.at(1),Operators::Multiply,*b.at(0));
+		Value& z=Value::evaluate(a0b1,Operators::Subtract,a1b0);
 
 		if(s==2)
-			return *z;
+			return z;
 
-		Value* a1b2=Value::operation(a.at(1),Operators::Multiply,b.at(2));
-		Value* a2b1=Value::operation(a.at(2),Operators::Multiply,b.at(1));
-		Value* a2b0=Value::operation(a.at(2),Operators::Multiply,b.at(0));
-		Value* a0b2=Value::operation(a.at(0),Operators::Multiply,b.at(2));
-		Value* x=Value::operation(a1b2,Operators::Subtract,a2b1);
-		Value* y=Value::operation(a2b0,Operators::Subtract,a0b2);
+		Value& a1b2=Value::evaluate(*a.at(1),Operators::Multiply,*b.at(2));
+		Value& a2b1=Value::evaluate(*a.at(2),Operators::Multiply,*b.at(1));
+		Value& a2b0=Value::evaluate(*a.at(2),Operators::Multiply,*b.at(0));
+		Value& a0b2=Value::evaluate(*a.at(0),Operators::Multiply,*b.at(2));
+		Value& x=Value::evaluate(a1b2,Operators::Subtract,a2b1);
+		Value& y=Value::evaluate(a2b0,Operators::Subtract,a0b2);
 
-		result.append(x);
-		result.append(y);
-		result.append(z);
+		result.append(&x);
+		result.append(&y);
+		result.append(&z);
 		return factory.createVector(result);
 
 	}
@@ -205,8 +204,8 @@ Value& VectorValue::operation(VectorValue& vec,Operators e)
 			return factory.createUndefined();
 		Value* total=&factory.createNumber(0.0);
 		for(auto i=0; i<s; ++i) {
-			Value* r=Value::operation(a.at(i),Operators::Multiply,b.at(i));
-			total=Value::operation(total,Operators::Add,r);
+			Value& r=Value::evaluate(*a.at(i),Operators::Multiply,*b.at(i));
+			total=Value::evaluate(total,Operators::Add,&r);
 		}
 		return *total;
 	}
@@ -215,10 +214,10 @@ Value& VectorValue::operation(VectorValue& vec,Operators e)
 		return factory.createUndefined();
 	}
 	if(e==Operators::Length) {
-		Value* a2=Value::operation(this,Operators::Multiply,this);
-		Value* b2=Value::operation(&vec,Operators::Multiply,&vec);
-		Value* n=Value::operation(a2,Operators::Multiply,b2);
-		auto* l=dynamic_cast<NumberValue*>(n);
+		Value& a2=Value::evaluate(*this,Operators::Multiply,*this);
+		Value& b2=Value::evaluate(vec,Operators::Multiply,vec);
+		Value& n=Value::evaluate(a2,Operators::Multiply,b2);
+		auto* l=dynamic_cast<NumberValue*>(&n);
 		if(l)
 			return factory.createNumber(r_sqrt(l->getNumber()));
 		return factory.createUndefined();
@@ -232,10 +231,10 @@ Value& VectorValue::operation(VectorValue& vec,Operators e)
 			return factory.createBoolean(true);
 		if(eq)
 			for(auto i=0; i<a.size(); ++i) {
-				Value* eqVec=Value::operation(a.at(i),e,b.at(i));
-				if(e==Operators::NotEqual && eqVec->isTrue())
+				Value& eqVec=Value::evaluate(*a.at(i),e,*b.at(i));
+				if(e==Operators::NotEqual && eqVec.isTrue())
 					return factory.createBoolean(true);
-				if(eqVec->isFalse())
+				if(eqVec.isFalse())
 					eq=false;
 			}
 		return factory.createBoolean(eq);
@@ -245,15 +244,14 @@ Value& VectorValue::operation(VectorValue& vec,Operators e)
 		int as=a.size();
 		int bs=b.size();
 		for(auto i=0; i<as||i<bs; ++i) {
-			Value* r=nullptr;
 			if(as<bs&&i>=as) {
-				r=b.at(i);
+				result.append(b.at(i));
 			} else if(bs<as&&i>=bs) {
-				r=a.at(i);
+				result.append(a.at(i));
 			} else {
-				r=Value::operation(a.at(i),e,b.at(i));
+				Value& r=Value::evaluate(*a.at(i),e,*b.at(i));
+				result.append(&r);
 			}
-			result.append(r);
 		}
 	}
 	return factory.createVector(result);

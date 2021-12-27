@@ -42,15 +42,15 @@ Value& NormFunction::evaluate(const Context& ctx) const
 
 	auto* vec=dynamic_cast<VectorValue*>(v);
 	if(vec)
-		return *Value::operation(vec,Operators::Length);
+		return Value::evaluate(*vec,Operators::Length);
 
 	auto* num=dynamic_cast<NumberValue*>(v);
 	if(num)
-		return *Value::operation(num,Operators::Length);
+		return Value::evaluate(*num,Operators::Length);
 
 	auto* cpx=dynamic_cast<ComplexValue*>(v);
 	if(cpx)
-		return *Value::operation(cpx,Operators::Length);
+		return Value::evaluate(*cpx,Operators::Length);
 
 	return Value::factory.createUndefined();
 }

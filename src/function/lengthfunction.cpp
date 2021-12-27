@@ -35,7 +35,7 @@ Value& LengthFunction::evaluate(const Context& ctx) const
 
 	auto* rngVal=dynamic_cast<RangeValue*>(v);
 	if(rngVal) {
-		return *Value::operation(rngVal,Operators::Length);
+		return Value::evaluate(*rngVal,Operators::Length);
 	}
 
 	auto* vecVal=dynamic_cast<VectorValue*>(v);
@@ -45,7 +45,7 @@ Value& LengthFunction::evaluate(const Context& ctx) const
 
 	auto* txtVal=dynamic_cast<TextValue*>(v);
 	if(txtVal) {
-		return *Value::operation(txtVal,Operators::Length);
+		return Value::evaluate(*txtVal,Operators::Length);
 	}
 	return Value::factory.createUndefined();
 }

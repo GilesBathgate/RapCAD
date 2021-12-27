@@ -73,10 +73,12 @@ public:
 	Value& operator[](Value&);
 	Value& operator!();
 
-	static Value* operation(Value*,Operators);
-	static Value* operation(Value*,Operators,Value*);
-	static bool compare(Value*,Operators,Value*);
-	static Value* compareAll(const QList<Value*>&,Operators);
+	static Value* evaluate(Value*,Operators);
+	static Value& evaluate(Value&,Operators);
+	static Value* evaluate(Value*,Operators,Value*);
+	static Value& evaluate(Value&,Operators,Value&);
+	static bool compare(Value&,Operators,Value&);
+	static Value& compareAll(const QList<Value*>&,Operators);
 
 	friend class ValueFactory;
 	static ValueFactory& factory;

@@ -108,7 +108,7 @@ Value& NumberValue::operation(VectorValue& vec,Operators e)
 	if(e==Operators::Exponent) {
 		QList<Value*> result;
 		for(Value* c: vec.getElements())
-			result.append(Value::operation(this,e,c));
+			result.append(Value::evaluate(this,e,c));
 
 		return factory.createVector(result);
 	}
@@ -120,7 +120,7 @@ Value& NumberValue::operation(VectorValue& vec,Operators e)
 
 	// most operations between scalars and vectors are commutative e.g.
 	// [1,2,3]-1  is the same as 1-[1,2,3]
-	return *Value::operation(&vec,e,this);
+	return Value::evaluate(vec,e,*this);
 }
 
 Value& NumberValue::operation(BooleanValue& flag,Operators e)

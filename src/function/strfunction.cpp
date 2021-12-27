@@ -28,17 +28,20 @@ StrFunction::StrFunction() : Function("str")
 
 Value& StrFunction::evaluate(const Context& ctx) const
 {
-	TextValue* val=nullptr;
+	TextValue* result=nullptr;
 	for(const auto& arg: ctx.getArguments()) {
 		Value* argVal=arg.getValue();
-		TextValue* textArg=&argVal->toText();
-		if(!val) {
-			val=textArg;
+		TextValue& textArg=argVal->toText();
+		if(!result) {
+			result=&textArg;
 		} else {
-			Value* res=Value::operation(val,Operators::Concatenate,textArg);
-			val=&res->toText();
+			Value& res=Value::evaluate(*result,Operators::Concatenate,textArg);
+			result=&res.toText();
 		}
 	}
 
-	return *val;
+	if(result)
+		return *result;
+
+	return Value::factory.createUndefined();
 }

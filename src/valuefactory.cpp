@@ -48,16 +48,23 @@ VectorValue& ValueFactory::createVector(const QList<Value*>& l)
 	return *v;
 }
 
-RangeValue& ValueFactory::createRange(Value* start,Value* step,Value* finish)
+RangeValue& ValueFactory::createRange(Value& start,Value& finish)
 {
-	auto* v = new RangeValue(start,step,finish);
+	auto* v = new RangeValue(&start,nullptr,&finish);
 	values.append(v);
 	return *v;
 }
 
-ComplexValue& ValueFactory::createComplex(Value* r,const QList<Value*>& i)
+RangeValue& ValueFactory::createRange(Value& start,Value& step,Value& finish)
 {
-	auto* v = new ComplexValue(r,i);
+	auto* v = new RangeValue(&start,&step,&finish);
+	values.append(v);
+	return *v;
+}
+
+ComplexValue& ValueFactory::createComplex(Value& r,const QList<Value*>& i)
+{
+	auto* v = new ComplexValue(&r,i);
 	values.append(v);
 	return *v;
 }

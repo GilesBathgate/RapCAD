@@ -315,80 +315,87 @@ bool Value::isUndefined() const
 	return !defined;
 }
 
-Value* Value::operation(Value* p_left, Operators e, Value* p_right)
+Value* Value::evaluate(Value* left, Operators e, Value* right)
 {
-	Value& left=*p_left;
-	Value& right=*p_right;
+	return &Value::evaluate(*left,e,*right);
+}
+
+Value& Value::evaluate(Value& left, Operators e, Value& right)
+{
 	switch(e) {
 		case Operators::Exponent:
-			return &(left^right);
+			return left^right;
 		case Operators::DotProduct:
 		case Operators::Multiply:
-			return &(left*right);
+			return left*right;
 		case Operators::Append:
 		case Operators::Concatenate:
-			return &left.concatenate(right);
+			return left.concatenate(right);
 		case Operators::ComponentwiseMultiply:
-			return &left.componentwiseMultiply(right);
+			return left.componentwiseMultiply(right);
 		case Operators::Divide:
-			return &(left/right);
+			return left/right;
 		case Operators::ComponentwiseDivide:
-			return &left.componentwiseDivide(right);
+			return left.componentwiseDivide(right);
 		case Operators::CrossProduct:
-			return &left.crossProduct(right);
+			return left.crossProduct(right);
 		case Operators::Modulus:
-			return &(left%right);
+			return left%right;
 		case Operators::Add:
-			return &(left+right);
+			return left+right;
 		case Operators::Subtract:
-			return &(left-right);
+			return left-right;
 		case Operators::AddAssign:
-			return &(left+=right);
+			return left+=right;
 		case Operators::SubAssign:
-			return &(left-=right);
+			return left-=right;
 		case Operators::LessThan:
-			return &(left<right);
+			return left<right;
 		case Operators::LessOrEqual:
-			return &(left<=right);
+			return left<=right;
 		case Operators::Equal:
-			return &(left==right);
+			return left==right;
 		case Operators::NotEqual:
-			return &(left!=right);
+			return left!=right;
 		case Operators::GreaterOrEqual:
-			return &(left>=right);
+			return left>=right;
 		case Operators::GreaterThan:
-			return &(left>right);
+			return left>right;
 		case Operators::LogicalAnd:
-			return &(left&&right);
+			return left&&right;
 		case Operators::LogicalOr:
-			return &(left||right);
+			return left||right;
 		case Operators::Index:
-			return &left[right];
+			return left[right];
 		case Operators::Length:
-			return &left.length(right);
+			return left.length(right);
 		default:
-			return &left;
+			return left;
 	}
 }
 
-Value* Value::operation(Value* p_left, Operators e)
+Value* Value::evaluate(Value* left, Operators e)
 {
-	Value& left=*p_left;
+	return &Value::evaluate(*left,e);
+}
+
+Value& Value::evaluate(Value& left,Operators e)
+{
 	switch(e) {
 		case Operators::Add:
-			return &(+left);
+			return +left;
 		case Operators::Subtract:
-			return &(-left);
+			return -left;
 		case Operators::Invert:
-			return &(!left);
+			return !left;
 		case Operators::Increment:
-			return &(left++);
+			return left++;
 		case Operators::Decrement:
-			return &(left--);
+			return left--;
 		case Operators::Length:
-			return &left.length();
+			return left.length();
 		default:
-			return &left;
+			return left;
 	}
 }
 
@@ -411,38 +418,39 @@ bool Value::isComparison(Operators e)
 	}
 }
 
-bool Value::compare(Value* left, Operators op, Value* right)
+bool Value::compare(Value& left, Operators op, Value& right)
 {
-	return Value::operation(left,op,right)->isTrue();
+	return Value::evaluate(left,op,right).isTrue();
 }
 
-Value* Value::compareAll(const QList<Value*>& values, Operators op)
+Value& Value::compareAll(const QList<Value*>& values, Operators op)
 {
 	Value* result=nullptr;
 	for(Value* a: values) {
 		auto* numVal=dynamic_cast<NumberValue*>(a);
 		if(numVal) {
-			if(!result||compare(a,op,result))
+			if(!result||compare(*a,op,*result))
 				result=a;
 		}
 		auto* vecVal=dynamic_cast<VectorValue*>(a);
 		if(vecVal) {
-			Value* c=compareAll(vecVal->getElements(),op);
-			if(!result||compare(c,op,result))
-				result=c;
+			Value& c=compareAll(vecVal->getElements(),op);
+			if(!result||compare(c,op,*result))
+				result=&c;
 		}
 		auto* rngVal=dynamic_cast<RangeValue*>(a);
 		if(rngVal) {
 			QList<Value*> rng;
 			rng.append(rngVal->getStart());
 			rng.append(rngVal->getFinish());
-			Value* c=compareAll(rng,op);
-			if(!result||compare(c,op,result))
-				result=c;
+			Value& c=compareAll(rng,op);
+			if(!result||compare(c,op,*result))
+				result=&c;
 		}
 	}
-	if(!result)
-		return &factory.createUndefined();
 
-	return result;
+	if(result)
+		return *result;
+
+	return factory.createUndefined();
 }

@@ -315,7 +315,7 @@ void TreeEvaluator::visit(const BinaryExpression& exp)
 	} else {
 		exp.getRight()->accept(*this);
 		Value* right=context->getCurrentValue();
-		result=Value::operation(left,op,right);
+		result=Value::evaluate(left,op,right);
 	}
 
 	context->setCurrentValue(result);
@@ -353,7 +353,7 @@ void TreeEvaluator::visit(const AssignStatement& stmt)
 	switch(op) {
 		case Operators::Increment:
 		case Operators::Decrement: {
-			result=Value::operation(lvalue,op);
+			result=Value::evaluate(lvalue,op);
 			break;
 		}
 		default: {
@@ -369,7 +369,7 @@ void TreeEvaluator::visit(const AssignStatement& stmt)
 		case Operators::Append:
 		case Operators::AddAssign:
 		case Operators::SubAssign: {
-			result=Value::operation(lvalue,op,result);
+			result=Value::evaluate(lvalue,op,result);
 			break;
 		}
 		default:
@@ -424,7 +424,7 @@ void TreeEvaluator::visit(const RangeExpression& exp)
 	exp.getFinish()->accept(*this);
 	Value* finish=context->getCurrentValue();
 
-	Value& result = Value::factory.createRange(start,increment,finish);
+	Value& result = Value::factory.createRange(*start,*increment,*finish);
 	context->setCurrentValue(&result);
 }
 
@@ -433,7 +433,7 @@ void TreeEvaluator::visit(const UnaryExpression& exp)
 	exp.getExpression()->accept(*this);
 	Value* left=context->getCurrentValue();
 
-	Value* result = Value::operation(left,exp.getOp());
+	Value* result = Value::evaluate(left,exp.getOp());
 
 	context->setCurrentValue(result);
 }
@@ -642,7 +642,7 @@ void TreeEvaluator::visit(const ComplexExpression& exp)
 		e->accept(*this);
 		childvalues.append(context->getCurrentValue());
 	}
-	Value& v=Value::factory.createComplex(result,childvalues);
+	Value& v=Value::factory.createComplex(*result,childvalues);
 	context->setCurrentValue(&v);
 }
 
