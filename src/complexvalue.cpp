@@ -137,8 +137,8 @@ Value& ComplexValue::operation(ComplexValue& c,Operators e)
 			Value& x1y2 = Value::evaluate(x1,e,y2);
 			Value& y1x2 = Value::evaluate(y1,e,x2);
 			Value& z1w2 = Value::evaluate(z1,e,w2);
-			Value* z = Value::evaluate(&w1z2,Operators::Subtract,&x1y2);
-			z = Value::evaluate(z,Operators::Add,&y1x2);
+			Value* z = Value::evaluate(&w1z2,Operators::Add,&x1y2);
+			z = Value::evaluate(z,Operators::Subtract,&y1x2);
 			z = Value::evaluate(z,Operators::Add,&z1w2);
 
 			QList<Value*> i {x,y,z};
