@@ -109,40 +109,13 @@ Value& ComplexValue::operation(ComplexValue& c,Operators e)
 			//(Q1 * Q2).x = (w1x2 + x1w2 + y1z2 - z1y2)
 			//(Q1 * Q2).y = (w1y2 - x1z2 + y1w2 + z1x2)
 			//(Q1 * Q2).z = (w1z2 + x1y2 - y1x2 + z1w2)
-			Value& w1w2 = Value::evaluate(w1,e,w2);
-			Value& x1x2 = Value::evaluate(x1,e,x2);
-			Value& y1y2 = Value::evaluate(y1,e,y2);
-			Value& z1z2 = Value::evaluate(z1,e,z2);
-			Value* w = Value::evaluate(&w1w2,Operators::Subtract,&x1x2);
-			w = Value::evaluate(w,Operators::Subtract,&y1y2);
-			w = Value::evaluate(w,Operators::Subtract,&z1z2);
+			Value& w = (w1 * w2) - (x1 * x2) - (y1 * y2) - (z1 * z2);
+			Value& x = (w1 * x2) + (x1 * w2) + (y1 * z2) - (z1 * y2);
+			Value& y = (w1 * y2) - (x1 * z2) + (y1 * w2) + (z1 * x2);
+			Value& z = (w1 * z2) + (x1 * y2) - (y1 * x2) + (z1 * w2);
 
-			Value& w1x2 = Value::evaluate(w1,e,x2);
-			Value& x1w2 = Value::evaluate(x1,e,w2);
-			Value& y1z2 = Value::evaluate(y1,e,z2);
-			Value& z1y2 = Value::evaluate(z1,e,y2);
-			Value* x = Value::evaluate(&w1x2,Operators::Add,&x1w2);
-			x = Value::evaluate(x,Operators::Add,&y1z2);
-			x = Value::evaluate(x,Operators::Subtract,&z1y2);
-
-			Value& w1y2 = Value::evaluate(w1,e,y2);
-			Value& x1z2 = Value::evaluate(x1,e,z2);
-			Value& y1w2 = Value::evaluate(y1,e,w2);
-			Value& z1x2 = Value::evaluate(z1,e,x2);
-			Value* y = Value::evaluate(&w1y2,Operators::Subtract,&x1z2);
-			y = Value::evaluate(y,Operators::Add,&y1w2);
-			y = Value::evaluate(y,Operators::Add,&z1x2);
-
-			Value& w1z2 = Value::evaluate(w1,e,z2);
-			Value& x1y2 = Value::evaluate(x1,e,y2);
-			Value& y1x2 = Value::evaluate(y1,e,x2);
-			Value& z1w2 = Value::evaluate(z1,e,w2);
-			Value* z = Value::evaluate(&w1z2,Operators::Add,&x1y2);
-			z = Value::evaluate(z,Operators::Subtract,&y1x2);
-			z = Value::evaluate(z,Operators::Add,&z1w2);
-
-			QList<Value*> i {x,y,z};
-			return factory.createComplex(*w,i);
+			QList<Value*> i {&x,&y,&z};
+			return factory.createComplex(w,i);
 		}
 		if(e==Operators::Equal||e==Operators::NotEqual) {
 			Value& eqRe=Value::evaluate(w1,e,w2);

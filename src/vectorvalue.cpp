@@ -178,19 +178,19 @@ Value& VectorValue::operation(VectorValue& vec,Operators e)
 			return factory.createUndefined();
 
 		//[a1*b2 - a2*b1, a2*b0 - a0*b2, a0*b1 - a1*b0]
-		Value& a0b1=Value::evaluate(*a.at(0),Operators::Multiply,*b.at(1));
-		Value& a1b0=Value::evaluate(*a.at(1),Operators::Multiply,*b.at(0));
-		Value& z=Value::evaluate(a0b1,Operators::Subtract,a1b0);
+		Value& a0=*a.at(0);
+		Value& b0=*b.at(0);
+		Value& a1=*a.at(1);
+		Value& b1=*b.at(1);
+		Value& z = (a0 * b1) - (a1 * b0);
 
 		if(s==2)
 			return z;
 
-		Value& a1b2=Value::evaluate(*a.at(1),Operators::Multiply,*b.at(2));
-		Value& a2b1=Value::evaluate(*a.at(2),Operators::Multiply,*b.at(1));
-		Value& a2b0=Value::evaluate(*a.at(2),Operators::Multiply,*b.at(0));
-		Value& a0b2=Value::evaluate(*a.at(0),Operators::Multiply,*b.at(2));
-		Value& x=Value::evaluate(a1b2,Operators::Subtract,a2b1);
-		Value& y=Value::evaluate(a2b0,Operators::Subtract,a0b2);
+		Value& a2=*a.at(2);
+		Value& b2=*b.at(2);
+		Value& x = (a1 * b2) - (a2 * b1);
+		Value& y = (a2 * b0) - (a0 * b2);
 
 		result.append(&x);
 		result.append(&y);
