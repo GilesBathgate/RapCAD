@@ -22,30 +22,30 @@
 #include "booleanvalue.h"
 #include "valuefactory.h"
 
-RangeValue::RangeValue(Value* s,Value* st, Value* f) :
+RangeValue::RangeValue(Value& s,Value& f) :
 	start(s),
-	step(st),
-	finish(f)
+	finish(f),
+	reverse(getReverse()),
+	step(defaultStep())
 {
-	Value& v=Value::evaluate(*start,Operators::GreaterThan,*finish);
-	reverse = v.isTrue();
+}
 
-	if(!step) {
-		decimal i=reverse?-1.0:1.0;
-		step=&factory.createNumber(i);
-	}
+RangeValue::RangeValue(Value& s,Value& st,Value& f) :
+	start(s),
+	finish(f),
+	reverse(getReverse()),
+	step(st)
+{
 }
 
 QString RangeValue::getValueString() const
 {
 	QString result="[";
-	result.append(start->getValueString());
+	result.append(start.getValueString());
 	result.append(":");
-	if(step) {
-		result.append(step->getValueString());
-		result.append(":");
-	}
-	result.append(finish->getValueString());
+	result.append(step.getValueString());
+	result.append(":");
+	result.append(finish.getValueString());
 	result.append("]");
 	return result;
 }
@@ -53,20 +53,20 @@ QString RangeValue::getValueString() const
 bool RangeValue::inRange(Value& index)
 {
 	//Check for a valid range
-	if(start->isUndefined()||finish->isUndefined()||step->isFalse())
+	if(start.isUndefined()||finish.isUndefined()||step.isFalse())
 		return false;
 
-	Value& lower = Value::evaluate(index,Operators::LessThan,*(reverse?finish:start));
-	Value& upper = Value::evaluate(index,Operators::GreaterThan,*(reverse?start:finish));
+	Value& lower = Value::evaluate(index,Operators::LessThan,reverse?finish:start);
+	Value& upper = Value::evaluate(index,Operators::GreaterThan,reverse?start:finish);
 
 	return lower.isFalse() && upper.isFalse();
 }
 
 Value& RangeValue::getIndex(NumberValue& n)
 {
-	Value& x=reverse?Value::evaluate(*step,Operators::Subtract):*step;
+	Value& x=reverse?Value::evaluate(step,Operators::Subtract):step;
 	Value& a=Value::evaluate(n,Operators::Multiply,x);
-	Value& b=Value::evaluate(*start,reverse?Operators::Subtract:Operators::Add,a);
+	Value& b=Value::evaluate(start,reverse?Operators::Subtract:Operators::Add,a);
 
 	if(inRange(b))
 		return b;
@@ -76,7 +76,7 @@ Value& RangeValue::getIndex(NumberValue& n)
 
 ValueIterator* RangeValue::createIterator()
 {
-	return new RangeIterator(this,start,step);
+	return new RangeIterator(this,&start,&step);
 }
 
 QList<Value*> RangeValue::getElements()
@@ -89,12 +89,12 @@ QList<Value*> RangeValue::getElements()
 	return result;
 }
 
-Value* RangeValue::getStart() const
+Value& RangeValue::getStart() const
 {
 	return start;
 }
 
-Value* RangeValue::getFinish() const
+Value& RangeValue::getFinish() const
 {
 	return finish;
 }
@@ -102,24 +102,23 @@ Value* RangeValue::getFinish() const
 Value& RangeValue::operation(Operators op)
 {
 	if(op==Operators::Invert) {
-		return factory.createRange(*finish,*step,*start);
+		return factory.createRange(finish,step,start);
 	}
 	if(op==Operators::Length) {
-		Value& difference=Value::evaluate(*finish,Operators::Subtract,*start);
+		Value& difference=Value::evaluate(finish,Operators::Subtract,start);
 		Value& size=Value::evaluate(difference,op);
 		return Value::evaluate(size,Operators::Increment);
 	}
 
-	Value& upper=Value::evaluate(*start,op);
-	Value& lower=Value::evaluate(*finish,op);
+	Value& upper=Value::evaluate(start,op);
+	Value& lower=Value::evaluate(finish,op);
 
-	Value* increment=nullptr;
 	if(op==Operators::Add||op==Operators::Subtract) {
-		if(step)
-			increment=Value::evaluate(step,op);
+			Value& increment=Value::evaluate(step,op);
+			return factory.createRange(upper,increment,lower);
 	}
 
-	return factory.createRange(upper,*increment,lower);
+	return factory.createRange(upper,lower);
 }
 
 Value& RangeValue::operation(Value& v,Operators op)
@@ -140,10 +139,10 @@ Value& RangeValue::operation(RangeValue& range,Operators op)
 	 * x*y = [min(a*c,a*d,b*c,b*d):max(a*c,a*d,b*c,b*d)]
 	 * x/y = [min(a/c,a/d,b/c,b/d):max(a/c,a/d,b/c,b/d)]
 	 */
-	Value& a=*start;
-	Value& b=*finish;
-	Value& c=*range.start;
-	Value& d=*range.finish;
+	Value& a=start;
+	Value& b=finish;
+	Value& c=range.start;
+	Value& d=range.finish;
 	if(op==Operators::Equal) {
 		bool result=compare(a,op,c)&&compare(b,op,d);
 		return factory.createBoolean(result);
@@ -182,4 +181,16 @@ Value& RangeValue::operation(RangeValue& range,Operators op)
 	}
 
 	return VectorValue::operation(range,op);
+}
+
+bool RangeValue::getReverse()
+{
+	Value& v=Value::evaluate(start,Operators::GreaterThan,finish);
+	return v.isTrue();
+}
+
+Value& RangeValue::defaultStep()
+{
+	decimal i=reverse?-1.0:1.0;
+	return factory.createNumber(i);
 }

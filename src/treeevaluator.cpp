@@ -424,8 +424,13 @@ void TreeEvaluator::visit(const RangeExpression& exp)
 	exp.getFinish()->accept(*this);
 	Value* finish=context->getCurrentValue();
 
-	Value& result = Value::factory.createRange(*start,*increment,*finish);
-	context->setCurrentValue(&result);
+	if(increment) {
+		Value& result = Value::factory.createRange(*start,*increment,*finish);
+		context->setCurrentValue(&result);
+	} else {
+		Value& result = Value::factory.createRange(*start,*finish);
+		context->setCurrentValue(&result);
+	}
 }
 
 void TreeEvaluator::visit(const UnaryExpression& exp)

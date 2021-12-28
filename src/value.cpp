@@ -441,8 +441,8 @@ Value& Value::compareAll(const QList<Value*>& values, Operators op)
 		auto* rngVal=dynamic_cast<RangeValue*>(a);
 		if(rngVal) {
 			QList<Value*> rng;
-			rng.append(rngVal->getStart());
-			rng.append(rngVal->getFinish());
+			rng.append(&rngVal->getStart());
+			rng.append(&rngVal->getFinish());
 			Value& c=compareAll(rng,op);
 			if(!result||compare(c,op,*result))
 				result=&c;

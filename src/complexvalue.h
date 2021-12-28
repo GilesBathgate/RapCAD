@@ -26,7 +26,7 @@ class NumberValue;
 class ComplexValue : public Value
 {
 public:
-	ComplexValue(Value*,const QList<Value*>&);
+	ComplexValue(Value&,const QList<Value*>&);
 	QString getValueString() const override;
 	void toQuaternion(decimal&,decimal&,decimal&,decimal&);
 private:
@@ -35,7 +35,7 @@ private:
 	Value& operation(Value&,Operators) override;
 	Value& operation(ComplexValue&,Operators);
 	Value& operation(NumberValue&,Operators);
-	Value* real;
+	Value& real;
 	QList<Value*> imaginary;
 };
 

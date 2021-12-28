@@ -22,7 +22,7 @@
 #include "rmath.h"
 #include "valuefactory.h"
 
-ComplexValue::ComplexValue(Value* r, const QList<Value*>& i) :
+ComplexValue::ComplexValue(Value& r, const QList<Value*>& i) :
 	real(r),
 	imaginary(i)
 {
@@ -32,7 +32,7 @@ QString ComplexValue::getValueString() const
 {
 	QString result;
 	result.append("<");
-	result.append(real->getValueString());
+	result.append(real.getValueString());
 	for(Value* v: imaginary) {
 		result.append(",");
 		result.append(v->getValueString());
@@ -44,7 +44,7 @@ QString ComplexValue::getValueString() const
 void ComplexValue::toQuaternion(decimal& w,decimal& x,decimal& y,decimal& z)
 {
 	if(imaginary.size()>2) {
-		auto* nw=dynamic_cast<NumberValue*>(real);
+		auto* nw=dynamic_cast<NumberValue*>(&real);
 		auto* nx=dynamic_cast<NumberValue*>(imaginary.at(0));
 		auto* ny=dynamic_cast<NumberValue*>(imaginary.at(1));
 		auto* nz=dynamic_cast<NumberValue*>(imaginary.at(2));
@@ -63,7 +63,7 @@ Value& ComplexValue::operation(Operators e)
 {
 	if(e==Operators::Length) {
 		//l = sqrt(w^2+x^2+y^2,z^2)
-		Value* n=Value::evaluate(real,Operators::Multiply,real);
+		Value* n=Value::evaluate(&real,Operators::Multiply,&real);
 		for(Value* i: imaginary) {
 			Value& r=Value::evaluate(*i,Operators::Multiply,*i);
 			n=Value::evaluate(n,Operators::Add,&r);
@@ -92,8 +92,8 @@ Value& ComplexValue::operation(Value& v, Operators e)
 Value& ComplexValue::operation(ComplexValue& c,Operators e)
 {
 	if(imaginary.size()>2&&c.imaginary.size()>2) {
-		Value& w1=*real;
-		Value& w2=*c.real;
+		Value& w1=real;
+		Value& w2=c.real;
 
 		Value& x1=*imaginary.at(0);
 		Value& x2=*c.imaginary.at(0);
@@ -167,7 +167,7 @@ Value& ComplexValue::operation(ComplexValue& c,Operators e)
 Value& ComplexValue::operation(NumberValue& n,Operators e)
 {
 	if(e==Operators::Divide) {
-		Value& w=Value::evaluate(*real,Operators::Divide,n);
+		Value& w=Value::evaluate(real,Operators::Divide,n);
 		QList<Value*> result;
 		for(Value* i: imaginary) {
 			Value& a=Value::evaluate(*i,Operators::Divide,n);
