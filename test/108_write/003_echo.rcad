@@ -1,0 +1,4 @@
+function test(){
+  echo("test");
+  return true;
+}
