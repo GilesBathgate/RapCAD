@@ -1,0 +1,3 @@
+function test(){
+  return [16:24]/[4:8]==[2:6];
+}

@@ -151,13 +151,19 @@ Value& RangeValue::operation(RangeValue& range,Operators op)
 		bool result=compare(a,op,c)||compare(b,op,d);
 		return factory.createBoolean(result);
 	}
-	if(op==Operators::Add||op==Operators::Subtract) {
+	if(op==Operators::Add) {
 
 		Value& lower=Value::evaluate(a,op,c);
 		Value& upper=Value::evaluate(b,op,d);
 
 		return factory.createRange(lower,upper);
+	}
+	if(op==Operators::Subtract) {
 
+		Value& lower=Value::evaluate(a,op,d);
+		Value& upper=Value::evaluate(b,op,c);
+
+		return factory.createRange(lower,upper);
 	}
 	if(op==Operators::Multiply||op==Operators::Divide) {
 
