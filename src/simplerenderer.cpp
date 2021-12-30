@@ -27,7 +27,8 @@ SimpleRenderer::SimpleRenderer(Primitive* pr) :
 void SimpleRenderer::paint(bool, bool)
 {
 	glLineWidth(1);
-	glColor3f(0.0, 0.0, 1.0);
+	glColor4f(0.0,0.0,1.0,0.5);
+	glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
 	descendChildren(primitive);
 }
 
@@ -46,21 +47,37 @@ void SimpleRenderer::descendChildren(Primitive* p)
 	for(Primitive* c: p->getChildren()) {
 		descendChildren(c);
 
+		if(c->getType()!=PrimitiveTypes::Lines) {
+			glEnable(GL_BLEND);
+			for(Polygon* pg: c->getPolygons()) {
+				glBegin(GL_QUADS);
+				for(const auto& pt: pg->getPoints()) {
+					drawPoint(pt);
+				}
+				glEnd();
+			}
+			glDisable(GL_BLEND);
+		}
+
 		for(Polygon* pg: c->getPolygons()) {
 			glBegin(GL_LINE_STRIP);
 			for(const auto& pt: pg->getPoints()) {
-#ifdef USE_CGAL
-				GLfloat x;
-				GLfloat y;
-				GLfloat z;
-				to_glcoord(pt,x,y,z);
-#else
-				decimal x=pt.x(),y=pt.y(),z=pt.z();
-#endif
-				glVertex3f(x,y,z);
+				drawPoint(pt);
 			}
 			glEnd();
 		}
 	}
 }
 
+void SimpleRenderer::drawPoint(const Point& pt)
+{
+#ifdef USE_CGAL
+	GLfloat x;
+	GLfloat y;
+	GLfloat z;
+	to_glcoord(pt,x,y,z);
+#else
+	decimal x=pt.x(),y=pt.y(),z=pt.z();
+#endif
+	glVertex3f(x,y,z);
+}

@@ -30,7 +30,7 @@
 #include "module/polyhedronmodule.h"
 #include "module/polygonmodule.h"
 #include "module/beziersurfacemodule.h"
-
+#include "module/datummodule.h"
 #include "module/differencemodule.h"
 #include "module/unionmodule.h"
 #include "module/groupmodule.h"
@@ -144,6 +144,7 @@ BuiltinCreator::BuiltinCreator(Reporter& r)
 	builtins.append(new CubeModule(r));
 	builtins.append(new CylinderModule(r));
 	builtins.append(new CylinderSurfaceModule(r));
+	builtins.append(new DatumModule(r));
 	builtins.append(new DecomposeModule(r));
 	builtins.append(new DifferenceModule(r));
 	builtins.append(new DiscreteModule(r));

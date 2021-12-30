@@ -28,8 +28,8 @@ public:
 	~Polyhedron() override;
 	Polygon& createPolygon() override;
 	void createVertex(const Point&) override;
-	void setType(PrimitiveTypes) override { }
-	PrimitiveTypes getType() override { return PrimitiveTypes::Lines; }
+	void setType(PrimitiveTypes) override;
+	PrimitiveTypes getType() override;
 	void setSanitized(bool) override { }
 	bool getSanitized() override { return false; }
 	Primitive* buildPrimitive() { return this; }
@@ -62,5 +62,6 @@ private:
 	QList<Point> points;
 	QList<Polygon*> polygons;
 	QList<Primitive*> children;
+	PrimitiveTypes type;
 };
 #endif // POLYHEDRON_H

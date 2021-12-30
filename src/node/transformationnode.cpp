@@ -19,7 +19,8 @@
 #include "transformationnode.h"
 
 TransformationNode::TransformationNode() :
-	matrix(nullptr)
+	matrix(nullptr),
+	datumAxis(Axis::None)
 {
 }
 
@@ -41,4 +42,14 @@ TransformMatrix* TransformationNode::getMatrix() const
 void TransformationNode::setMatrix(TransformMatrix* value)
 {
 	matrix = value;
+}
+
+TransformationNode::Axis TransformationNode::getDatumAxis() const
+{
+	return datumAxis;
+}
+
+void TransformationNode::setDatumAxis(const Axis& value)
+{
+	datumAxis = value;
 }

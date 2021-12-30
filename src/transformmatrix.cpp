@@ -89,6 +89,6 @@ QString TransformMatrix::toString() const
 
 void TransformMatrix::setType(const TransformType& value)
 {
-    type = value;
+	type = value;
 }
 

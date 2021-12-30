@@ -32,6 +32,7 @@ public:
 private:
 	void descendChildren(Primitive* p);
 	Primitive* primitive;
+	void drawPoint(const Point&);
 };
 
 #endif // SIMPLERENDERER_H

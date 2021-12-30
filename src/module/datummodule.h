@@ -16,31 +16,17 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TRANSFORMATIONNODE_H
-#define TRANSFORMATIONNODE_H
+#ifndef DATUMMODULE_H
+#define DATUMMODULE_H
 
-#include "node.h"
-#include "transformmatrix.h"
+#include "module.h"
 
-class TransformationNode : public Node
+class DatumModule : public Module
 {
+	Q_DECLARE_TR_FUNCTIONS(DatumModule)
 public:
-	enum class Axis {
-		None,
-		X,
-		Y,
-		Z
-	};
-	TransformationNode();
-	~TransformationNode();
-	void accept(NodeVisitor&) override;
-	TransformMatrix* getMatrix() const;
-	void setMatrix(TransformMatrix*);
-	Axis getDatumAxis() const;
-	void setDatumAxis(const Axis&);
-private:
-	TransformMatrix* matrix;
-	Axis datumAxis;
+	explicit DatumModule(Reporter&);
+	Node* evaluate(const Context&) const override;
 };
 
-#endif // TRANSFORMATIONNODE_H
+#endif // DATUMMODULE_H
