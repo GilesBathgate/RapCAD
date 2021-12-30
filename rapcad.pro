@@ -77,13 +77,16 @@ win32 {
 	QMAKE_YACCFLAGS += "-b y"
 	QMAKE_LEX = win_flex
 } else {
+
+	DEFINES += CGAL_USE_GMPXX
+
 	exists( /usr/lib/x86_64-linux-gnu/libCGAL* ) {
 		LIBS += -lCGAL -lCGAL_Core
 	}
 	exists( /usr/lib/i386-linux-gnu/libCGAL* ) {
 		LIBS += -lCGAL -lCGAL_Core
 	}
-	LIBS += -lmpfr -lgmp
+	LIBS += -lmpfr -lgmp -lgmpxx
 	contains(DEFINES,USE_READLINE) {
 	LIBS+= -lreadline
 	}

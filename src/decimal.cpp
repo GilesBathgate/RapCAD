@@ -32,19 +32,22 @@ decimal to_decimal(const QString& str,bool* ok)
 		s.append("/1");
 		s.append(QString().fill('0',p));
 	}
-
-	CGAL::Gmpq d;
-	int error=mpq_set_str(d.mpq(),s.toLatin1().constData(),10);
+	mpq_t d;
+	mpq_init(d);
+	int error=mpq_set_str(d,s.toLatin1().constData(),10);
 	if(error) {
 		if(ok!=nullptr)
 			*ok=false;
 		return 0.0;
 	}
-
-	mpq_canonicalize(d.mpq());
+	mpq_canonicalize(d);
 	if(ok!=nullptr)
 		*ok=true;
+#ifdef CGAL_USE_GMPXX
+	return mpq_class(d);
+#else
 	return decimal(d);
+#endif
 #else
 	return s.toDouble(ok);
 #endif
@@ -63,19 +66,11 @@ QString to_string(const decimal& d)
 
 	char* a=nullptr;
 	if(format==NumberFormats::Rational) {
-#ifndef USE_VALGRIND
-		gmp_asprintf(&a,"%Qd",d.exact().mpq());
-#else
-		gmp_asprintf(&a,"%Qd",d.mpq());
-#endif
+		gmp_asprintf(&a,"%Qd",to_mpq(d));
 	} else {
 		mpf_t m;
 		mpf_init2(m,p.getSignificandBits());
-#ifndef USE_VALGRIND
-		mpf_set_q(m,d.exact().mpq());
-#else
-		mpf_set_q(m,d.mpq());
-#endif
+		mpf_set_q(m,to_mpq(d));
 
 		if(format==NumberFormats::Scientific) {
 			gmp_asprintf(&a,"%.*Fe",p.getDecimalPlaces(),m);
@@ -118,17 +113,31 @@ void to_glcoord(const Point& pt,float& x,float& y,float& z)
 	z=to_double(pt.z());
 }
 
-CGAL::Gmpfr to_gmpfr(const decimal& d)
+#ifdef CGAL_USE_GMPXX
+mpq_srcptr to_mpq(const decimal& d)
 {
-	CGAL::Gmpfr m;
 #ifndef USE_VALGRIND
-	mpfr_set_q(m.fr(),d.exact().mpq(),MPFR_RNDN);
+	return d.exact().get_mpq_t();
 #else
-	mpfr_set_q(m.fr(),d.mpq(),MPFR_RNDN);
+	return d.get_mpq_t();
 #endif
-	return m;
+}
+#else
+const mpq_t& to_mpq(const decimal& d)
+{
+#ifndef USE_VALGRIND
+	return d.exact().mpq();
+#else
+	return d.mpq();
+#endif
 }
 #endif
+
+void to_mpfr(mpfr_t& m, const decimal& d)
+{
+	mpfr_init(m);
+	mpfr_set_q(m,to_mpq(d),MPFR_RNDN);
+}
 
 decimal parse_numberexp(const QString& s, bool* ok)
 {
@@ -183,3 +192,16 @@ decimal get_unit(const QString& s,QString& number)
 	number=s;
 	return decimal(1.0);
 }
+
+decimal to_decimal(const mpfr_t& m)
+{
+#ifdef CGAL_USE_GMPXX
+	mpq_t q;
+	mpq_init(q);
+	mpfr_get_q(q,m);
+	return mpq_class(q);
+#else
+	return decimal(CGAL::Gmpfr(m));
+#endif
+}
+#endif

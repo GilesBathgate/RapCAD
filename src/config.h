@@ -28,7 +28,6 @@
 #define CGAL_NO_ATOMIC 1
 #include <CGAL/atomic.h>
 
-#undef CGAL_USE_GMPXX
 #define CGAL_DO_NOT_USE_BOOST_MP 1
 #define CGAL_DO_NOT_USE_MPZF 1
 
