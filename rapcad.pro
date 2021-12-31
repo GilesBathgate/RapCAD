@@ -119,6 +119,7 @@ CONFIG(fuzzing){
 
 CONFIG(valgrind){
 	DEFINES += USE_VALGRIND
+	DEFINES -= CGAL_USE_GMPXX
 	QMAKE_CXXFLAGS += -fno-rounding-math
 } else:!macx {
 	QMAKE_CXXFLAGS += -frounding-math

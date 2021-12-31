@@ -35,22 +35,20 @@ decimal to_decimal(const QString& str,bool* ok)
 		s.append("/1");
 		s.append(QString().fill('0',p));
 	}
-	mpq_t d;
-	mpq_init(d);
-	int error=mpq_set_str(d,s.toLatin1().constData(),10);
+	mpq_t q;
+	mpq_init(q);
+	int error=mpq_set_str(q,s.toLatin1().constData(),10);
 	if(error) {
+		mpq_clear(q);
 		if(ok!=nullptr)
 			*ok=false;
 		return 0.0;
 	}
-	mpq_canonicalize(d);
+	mpq_canonicalize(q);
 	if(ok!=nullptr)
 		*ok=true;
-#ifdef CGAL_USE_GMPXX
-	return mpq_class(d);
-#else
-	return decimal(d);
-#endif
+
+	return to_decimal(q);
 #else
 	return s.toDouble(ok);
 #endif
@@ -193,15 +191,23 @@ decimal get_unit(const QString& s,QString& number)
 	return decimal(1.0);
 }
 
-decimal to_decimal(const mpfr_t& m)
+decimal to_decimal(mpfr_t& m)
 {
 	mpq_t q;
 	mpq_init(q);
 	mpfr_get_q(q,m);
+	mpfr_clear(m);
+	return to_decimal(q);
+}
+
+decimal to_decimal(mpq_t& q)
+{
 #ifdef CGAL_USE_GMPXX
-	return mpq_class(q);
+	decimal r(mpq_class{q});
 #else
-	return decimal(q);
+	decimal r(q);
 #endif
+	mpq_clear(q);
+	return r;
 }
 #endif
