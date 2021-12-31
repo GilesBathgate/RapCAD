@@ -20,6 +20,9 @@
 #include "preferences.h"
 #include "rmath.h"
 #include "point.h"
+#if MPFR_VERSION < MPFR_VERSION_NUM(4,1,0)
+#include "contrib/mpfr-get_q.h"
+#endif
 
 decimal to_decimal(const QString& str,bool* ok)
 {
@@ -113,25 +116,22 @@ void to_glcoord(const Point& pt,float& x,float& y,float& z)
 	z=to_double(pt.z());
 }
 
-#ifdef CGAL_USE_GMPXX
 mpq_srcptr to_mpq(const decimal& d)
 {
 #ifndef USE_VALGRIND
+#ifdef CGAL_USE_BOOST_MP
+	return d.exact().backend().data();
+#else
+#ifdef CGAL_USE_GMPXX
 	return d.exact().get_mpq_t();
 #else
-	return d.get_mpq_t();
-#endif
-}
-#else
-const mpq_t& to_mpq(const decimal& d)
-{
-#ifndef USE_VALGRIND
 	return d.exact().mpq();
+#endif
+#endif
 #else
 	return d.mpq();
 #endif
 }
-#endif
 
 void to_mpfr(mpfr_t& m, const decimal& d)
 {
@@ -195,13 +195,13 @@ decimal get_unit(const QString& s,QString& number)
 
 decimal to_decimal(const mpfr_t& m)
 {
-#ifdef CGAL_USE_GMPXX
 	mpq_t q;
 	mpq_init(q);
 	mpfr_get_q(q,m);
+#ifdef CGAL_USE_GMPXX
 	return mpq_class(q);
 #else
-	return decimal(CGAL::Gmpfr(m));
+	return decimal(q);
 #endif
 }
 #endif

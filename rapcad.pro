@@ -407,6 +407,8 @@ SOURCES += \
 HEADERS  += \
 	contrib/OGL_helper.h \
 	contrib/fragments.h \
+	contrib/mpfr-get_q.h \
+	contrib/mpfr-impl.h \
 	contrib/qcommandlineparser.h \
 	contrib/qcommandlineoption.h \
 	contrib/Copy_polyhedron_to.h \
