@@ -106,37 +106,6 @@ bool to_boolean(const decimal& n)
 	return (n!=0.0);
 }
 
-#ifdef USE_CGAL
-void to_glcoord(const Point& pt,float& x,float& y,float& z)
-{
-	x=to_double(pt.x());
-	y=to_double(pt.y());
-	z=to_double(pt.z());
-}
-
-mpq_srcptr to_mpq(const decimal& d)
-{
-#ifndef USE_VALGRIND
-#ifdef CGAL_USE_BOOST_MP
-	return d.exact().backend().data();
-#else
-#ifdef CGAL_USE_GMPXX
-	return d.exact().get_mpq_t();
-#else
-	return d.exact().mpq();
-#endif
-#endif
-#else
-	return d.mpq();
-#endif
-}
-
-void to_mpfr(mpfr_t& m, const decimal& d)
-{
-	mpfr_init(m);
-	mpfr_set_q(m,to_mpq(d),MPFR_RNDN);
-}
-
 decimal parse_numberexp(const QString& s, bool* ok)
 {
 	int i=s.indexOf('e',0,Qt::CaseInsensitive);
@@ -189,6 +158,37 @@ decimal get_unit(const QString& s,QString& number)
 	}
 	number=s;
 	return decimal(1.0);
+}
+
+#ifdef USE_CGAL
+void to_glcoord(const Point& pt,float& x,float& y,float& z)
+{
+	x=to_double(pt.x());
+	y=to_double(pt.y());
+	z=to_double(pt.z());
+}
+
+mpq_srcptr to_mpq(const decimal& d)
+{
+#ifndef USE_VALGRIND
+#ifdef CGAL_USE_BOOST_MP
+	return d.exact().backend().data();
+#else
+#ifdef CGAL_USE_GMPXX
+	return d.exact().get_mpq_t();
+#else
+	return d.exact().mpq();
+#endif
+#endif
+#else
+	return d.mpq();
+#endif
+}
+
+void to_mpfr(mpfr_t& m, const decimal& d)
+{
+	mpfr_init(m);
+	mpfr_set_q(m,to_mpq(d),MPFR_RNDN);
 }
 
 decimal to_decimal(mpfr_t& m)
