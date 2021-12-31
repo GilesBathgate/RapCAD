@@ -29,6 +29,11 @@ Script::~Script()
 {
 	qDeleteAll(declarations);
 	declarations.clear();
+	for(auto& d: documentation) {
+		qDeleteAll(d);
+		d.clear();
+	}
+	documentation.clear();
 }
 
 void Script::parse(const QString& s)
