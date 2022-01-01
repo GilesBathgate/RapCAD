@@ -330,6 +330,7 @@ void Tester::exportTest(const QDir& dir)
 		e.exportResult();
 
 		exportTest(p,origPath,file,".stl");
+		exportTest(p,origPath,file,".obj");
 		exportTest(p,origPath,file,".off");
 		exportTest(p,origPath,file,".amf");
 		exportTest(p,origPath,file,".3mf");
