@@ -51,6 +51,16 @@ void Preferences::updatePrecision()
 #endif
 }
 
+QString Preferences::getIndent() const
+{
+	return settings->value("Indent","\t").toString();
+}
+
+void Preferences::setIndent(const QString& value)
+{
+	settings->setValue("Indent", value);
+}
+
 QString Preferences::getCAMScript() const
 {
 	return settings->value("CAMScript","reprap.rcam").toString();

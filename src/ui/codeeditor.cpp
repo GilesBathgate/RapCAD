@@ -29,8 +29,6 @@
 #include "preferences.h"
 #include "mainwindow.h"
 
-static const char* indent="\t";
-
 CodeEditor::CodeEditor(QWidget* parent) :
 	QPlainTextEdit(parent),
 	showTooltips(true),
@@ -219,12 +217,13 @@ void CodeEditor::increaseSelectionIndent()
 	cursor.setPosition(std::min(cursor.anchor(),cursor.position()));
 
 	cursor.beginEditBlock();
+	auto& p=Preferences::getInstance();
 	for(auto i=0; i<=blockCount; ++i) {
 		cursor.movePosition(QTextCursor::StartOfBlock);
 		QTextCursor current(cursor);
 		current.movePosition(QTextCursor::EndOfBlock,QTextCursor::KeepAnchor);
 		if(current.hasSelection())
-			cursor.insertText(indent);
+			cursor.insertText(p.getIndent());
 		cursor.movePosition(QTextCursor::NextBlock);
 	}
 	cursor.endEditBlock();
@@ -238,11 +237,12 @@ void CodeEditor::decreaseSelectionIndent()
 	cursor.setPosition(std::min(cursor.anchor(),cursor.position()));
 
 	cursor.beginEditBlock();
+	auto& p=Preferences::getInstance();
 	for(auto i=0; i<=blockCount; ++i) {
 		cursor.movePosition(QTextCursor::StartOfBlock);
 		QTextCursor current(cursor);
 		current.movePosition(QTextCursor::NextCharacter,QTextCursor::KeepAnchor);
-		if(current.selectedText()==indent)
+		if(current.selectedText()==p.getIndent())
 			current.removeSelectedText();
 		cursor.movePosition(QTextCursor::NextBlock);
 	}

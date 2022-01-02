@@ -58,6 +58,8 @@ private slots:
 	void showGCODEButtonChanged(int);
 	void translateChanged(int);
 	void processingScriptUpdated();
+	void indentRadioChanged(bool);
+	void indentSpacesChanged(int);
 private:
 	void setupWidgets();
 	static void setColor(QWidget*,const QColor&);

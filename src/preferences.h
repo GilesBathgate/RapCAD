@@ -160,6 +160,10 @@ public:
 
 	bool getDarkTheme() const;
 	void setDarkTheme(bool);
+
+	QString getIndent() const;
+	void setIndent(const QString& value);
+
 private:
 	Preferences();
 	~Preferences();

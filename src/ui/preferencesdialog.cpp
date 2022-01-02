@@ -124,6 +124,15 @@ void PreferencesDialog::setupWidgets()
 	ui->processingScriptlineEdit->setText(p.getCAMScript());
 	ui->translateCheckBox->setChecked(p.getTranslateOrigin());
 
+	QString indent=p.getIndent();
+	if(indent.contains('\t')) {
+		ui->tabsRadioButton->setChecked(true);
+	} else {
+		ui->spacesRadioButton->setChecked(true);
+		ui->spacesSpinBox->setEnabled(true);
+		ui->spacesSpinBox->setValue(indent.length());
+	}
+
 	updatePrecision();
 }
 
@@ -188,6 +197,9 @@ void PreferencesDialog::setupButtons()
 	connect(ui->showGCODEButtonCheckbox, SIGNAL(stateChanged(int)),this,SLOT(showGCODEButtonChanged(int)));
 	connect(ui->translateCheckBox, SIGNAL(stateChanged(int)),this,SLOT(translateChanged(int)));
 	connect(ui->processingScriptlineEdit, SIGNAL(editingFinished()),this,SLOT(processingScriptUpdated()));
+
+	connect(ui->tabsRadioButton,SIGNAL(toggled(bool)),this,SLOT(indentRadioChanged(bool)));
+	connect(ui->spacesSpinBox,SIGNAL(valueChanged(int)),this,SLOT(indentSpacesChanged(int)));
 }
 
 void PreferencesDialog::updatePrecision()
@@ -294,6 +306,23 @@ void PreferencesDialog::processingScriptUpdated()
 	Preferences& p=Preferences::getInstance();
 	p.setCAMScript(ui->processingScriptlineEdit->text());
 	emit preferencesUpdated();
+}
+
+void PreferencesDialog::indentRadioChanged(bool checked)
+{
+	auto& p=Preferences::getInstance();
+	if(checked) {
+		ui->spacesSpinBox->setEnabled(false);
+		p.setIndent("\t");
+	} else {
+		ui->spacesSpinBox->setEnabled(true);
+		p.setIndent(QString().fill(' ',ui->spacesSpinBox->value()));
+	}
+}
+
+void PreferencesDialog::indentSpacesChanged(int)
+{
+	indentRadioChanged(ui->tabsRadioButton->isChecked());
 }
 
 void PreferencesDialog::placesChanged(int i)
