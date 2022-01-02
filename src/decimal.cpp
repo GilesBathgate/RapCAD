@@ -33,7 +33,7 @@ decimal to_decimal(const QString& str,bool* ok)
 		s.remove(i,1);
 		int p=s.length()-i;
 		s.append("/1");
-		s.append(QString().fill('0',p));
+		s.append(QString(p,'0'));
 	}
 	mpq_t q;
 	mpq_init(q);

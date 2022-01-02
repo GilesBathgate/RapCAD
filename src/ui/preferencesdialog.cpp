@@ -316,7 +316,7 @@ void PreferencesDialog::indentRadioChanged(bool checked)
 		p.setIndent("\t");
 	} else {
 		ui->spacesSpinBox->setEnabled(true);
-		p.setIndent(QString().fill(' ',ui->spacesSpinBox->value()));
+		p.setIndent(QString(ui->spacesSpinBox->value(),' '));
 	}
 }
 
