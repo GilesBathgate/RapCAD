@@ -218,12 +218,13 @@ void CodeEditor::increaseSelectionIndent()
 
 	cursor.beginEditBlock();
 	auto& p=Preferences::getInstance();
+	QString indent=p.getIndent();
 	for(auto i=0; i<=blockCount; ++i) {
 		cursor.movePosition(QTextCursor::StartOfBlock);
 		QTextCursor current(cursor);
 		current.movePosition(QTextCursor::EndOfBlock,QTextCursor::KeepAnchor);
 		if(current.hasSelection())
-			cursor.insertText(p.getIndent());
+			cursor.insertText(indent);
 		cursor.movePosition(QTextCursor::NextBlock);
 	}
 	cursor.endEditBlock();
@@ -238,11 +239,12 @@ void CodeEditor::decreaseSelectionIndent()
 
 	cursor.beginEditBlock();
 	auto& p=Preferences::getInstance();
+	QString indent=p.getIndent();
 	for(auto i=0; i<=blockCount; ++i) {
 		cursor.movePosition(QTextCursor::StartOfBlock);
 		QTextCursor current(cursor);
 		current.movePosition(QTextCursor::NextCharacter,QTextCursor::KeepAnchor);
-		if(current.selectedText()==p.getIndent())
+		if(current.selectedText()==indent)
 			current.removeSelectedText();
 		cursor.movePosition(QTextCursor::NextBlock);
 	}
