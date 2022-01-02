@@ -58,7 +58,7 @@ decimal r_round_preference(mpfr_t& a,bool round)
 decimal r_round_preference(const decimal& a,bool round)
 {
 	if(round) {
-		Preferences& p=Preferences::getInstance();
+		auto& p=Preferences::getInstance();
 		switch(p.getFunctionRounding()) {
 			case Rounding::Decimal:
 				return r_round(a,p.getDecimalPlaces());

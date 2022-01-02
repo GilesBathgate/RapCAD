@@ -40,7 +40,7 @@ PreferencesDialog::PreferencesDialog(QWidget* parent) :
 
 void PreferencesDialog::setupWidgets()
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	QFont f=p.getEditorFont();
 	ui->fontComboBox->setCurrentFont(f);
 	int pointSize=f.pointSize();
@@ -213,7 +213,7 @@ void PreferencesDialog::colorButtonPressed(QWidget* frame)
 	QColor c = QColorDialog::getColor(Qt::white,this);
 	setColor(frame,c);
 
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	if(frame==ui->markedVertexColorFrame) {
 		p.setMarkedVertexColor(c);
 	} else if(frame==ui->vertexColorFrame) {
@@ -233,41 +233,41 @@ void PreferencesDialog::colorButtonPressed(QWidget* frame)
 
 void PreferencesDialog::vertexSizeChanged(double s)
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	p.setVertexSize(float(s));
 	emit preferencesUpdated();
 }
 
 void PreferencesDialog::edgeSizeChanged(double s)
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	p.setEdgeSize(float(s));
 	emit preferencesUpdated();
 }
 
 void PreferencesDialog::autoSaveOnCompileChanged(int s)
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	p.setAutoSaveOnCompile(s == Qt::Checked);
 }
 
 void PreferencesDialog::darkThemeChanged(int s)
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	p.setDarkTheme(s == Qt::Checked);
 	emit preferencesUpdated();
 }
 
 void PreferencesDialog::showTooltipsChanged(int s)
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	p.setShowTooltips(s == Qt::Checked);
 	emit preferencesUpdated();
 }
 
 void PreferencesDialog::highlightLineChanged(int s)
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	p.setHighlightLine(s == Qt::Checked);
 	emit preferencesUpdated();
 }
@@ -282,28 +282,28 @@ void PreferencesDialog::launchCommandChanged(const QString& command)
 
 void PreferencesDialog::launchCommandUpdated()
 {
-	Preferences& p=Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	p.setLaunchCommand(ui->launchCommandLineEdit->text());
 	emit preferencesUpdated();
 }
 
 void PreferencesDialog::showGCODEButtonChanged(int i)
 {
-	Preferences& p=Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	p.setShowGCODEButton(i == Qt::Checked);
 	emit preferencesUpdated();
 }
 
 void PreferencesDialog::translateChanged(int i)
 {
-	Preferences& p=Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	p.setTranslateOrigin(i == Qt::Checked);
 	emit preferencesUpdated();
 }
 
 void PreferencesDialog::processingScriptUpdated()
 {
-	Preferences& p=Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	p.setCAMScript(ui->processingScriptlineEdit->text());
 	emit preferencesUpdated();
 }
@@ -327,7 +327,7 @@ void PreferencesDialog::indentSpacesChanged(int)
 
 void PreferencesDialog::placesChanged(int i)
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	p.setDecimalPlaces(i);
 	QSpinBox* sb=ui->bitsSpinBox;
 	bool block=sb->blockSignals(true);
@@ -338,7 +338,7 @@ void PreferencesDialog::placesChanged(int i)
 
 void PreferencesDialog::bitsChanged(int i)
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	p.setSignificandBits(i);
 	QSpinBox* sb=ui->placesSpinBox;
 	bool block=sb->blockSignals(true);
@@ -349,7 +349,7 @@ void PreferencesDialog::bitsChanged(int i)
 
 void PreferencesDialog::precisionType(bool)
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	bool enabled=true;
 	if(ui->singleRadio->isChecked()) {
 		ui->bitsSpinBox->setValue(23);
@@ -368,7 +368,7 @@ void PreferencesDialog::precisionType(bool)
 
 void PreferencesDialog::functionRoundingChanged(bool)
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	if(ui->decimalRoundingRadio->isChecked())
 		p.setFunctionRounding(Rounding::Decimal);
 	else if(ui->base2RoundingRadio->isChecked())
@@ -381,7 +381,7 @@ void PreferencesDialog::functionRoundingChanged(bool)
 
 void PreferencesDialog::outputFormatChanged(bool)
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	if(ui->rationalRadio->isChecked())
 		p.setNumberFormat(NumberFormats::Rational);
 	else if(ui->scientificRadio->isChecked())
@@ -394,7 +394,7 @@ void PreferencesDialog::outputFormatChanged(bool)
 
 void PreferencesDialog::volumeChanged()
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	auto width = float(ui->widthSpinBox->value());
 	auto length = float(ui->lengthSpinBox->value());
 	auto height = float(ui->heightSpinBox->value());
@@ -404,7 +404,7 @@ void PreferencesDialog::volumeChanged()
 
 void PreferencesDialog::originChanged()
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	QPointF o(ui->XspinBox->value(),ui->YspinBox->value());
 	p.setPrintOrigin(o);
 	emit preferencesUpdated();
@@ -413,7 +413,7 @@ void PreferencesDialog::originChanged()
 void PreferencesDialog::appearanceChanged(int i)
 {
 	auto a = static_cast<BedAppearance>(i);
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	switch(a) {
 		case BedAppearance::MK42: {
 			ui->XspinBox->setValue(-125);
@@ -441,7 +441,7 @@ void PreferencesDialog::appearanceChanged(int i)
 
 void PreferencesDialog::fontChanged(QFont f)
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	QString s=ui->sizeComboBox->currentText();
 	f.setPointSize(s.toInt());
 	p.setEditorFont(f);
@@ -450,7 +450,7 @@ void PreferencesDialog::fontChanged(QFont f)
 
 void PreferencesDialog::fontSizeChanged(const QString& s)
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	QFont f=ui->fontComboBox->currentFont();
 	f.setPointSize(s.toInt());
 	p.setEditorFont(f);

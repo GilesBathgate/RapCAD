@@ -46,7 +46,7 @@ NodeEvaluator::NodeEvaluator(Reporter& r) :
 	reporter(r),
 	result(nullptr)
 {
-	CacheManager& m=CacheManager::getInstance();
+	auto& m=CacheManager::getInstance();
 	cache=m.getCache();
 }
 

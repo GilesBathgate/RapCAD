@@ -48,7 +48,7 @@ void CGALRenderer::descendChildren(Primitive* p)
 
 void CGALRenderer::loadPreferences()
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	setColor(markedVertexColor,p.getMarkedVertexColor());
 	setColor(vertexColor,p.getVertexColor());
 	setColor(markedEdgeColor,p.getMarkedEdgeColor());

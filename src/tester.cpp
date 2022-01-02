@@ -120,7 +120,7 @@ int Tester::evaluate()
 {
 	reporter.startTiming();
 
-	CacheManager& cm=CacheManager::getInstance();
+	auto& cm=CacheManager::getInstance();
 	cm.disableCaches();
 
 	output << QString("Qt:\t %1").arg(QT_VERSION_STR) << Qt::endl;
@@ -134,7 +134,7 @@ int Tester::evaluate()
 	writeHeader("000_treeprinter",testcount);
 
 	TreePrinter nulldocs(*nullstream);
-	BuiltinCreator& cr=BuiltinCreator::getInstance(*nullreport);
+	auto& cr=BuiltinCreator::getInstance(*nullreport);
 	cr.generateDocs(nulldocs);
 
 	writePass();
@@ -180,7 +180,7 @@ int Tester::evaluate()
 #if !defined(Q_OS_WIN) && !defined(USE_VALGRIND)
 	reporter.startTiming();
 
-	Preferences& p=Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	bool autosave=p.getAutoSaveOnCompile();
 	p.setAutoSaveOnCompile(false);
 

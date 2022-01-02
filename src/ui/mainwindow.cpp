@@ -98,7 +98,7 @@ void MainWindow::deleteTempFiles()
 
 void MainWindow::savePreferences()
 {
-	Preferences& p=Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	p.setShowRulers(ui->actionShowRulers->isChecked());
 	p.setShowAxes(ui->actionShowAxes->isChecked());
 	p.setShowEdges(ui->actionShowEdges->isChecked());
@@ -115,7 +115,7 @@ void MainWindow::savePreferences()
 
 void MainWindow::setDefaultViewport()
 {
-	Preferences& p=Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	float rx;
 	float ry;
 	float rz;
@@ -133,7 +133,7 @@ void MainWindow::setDefaultViewport()
 
 void MainWindow::loadPreferences()
 {
-	Preferences& p=Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 
 	bool showRulers=p.getShowRulers();
 	ui->actionShowRulers->setChecked(showRulers);
@@ -195,7 +195,7 @@ void MainWindow::loadPreferences()
 
 void MainWindow::getDefaultViewport() const
 {
-	Preferences& p=Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	float rx=p.getDefaultRotationX();
 	float ry=p.getDefaultRotationY();
 	float rz=p.getDefaultRotationZ();
@@ -376,7 +376,7 @@ void MainWindow::showPreferences()
 
 void MainWindow::preferencesUpdated()
 {
-	Preferences& p=Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 
 	for(auto i=0; i<ui->tabWidget->count(); ++i) {
 		auto* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
@@ -407,7 +407,7 @@ void MainWindow::disableRulers(bool checked)
 
 void MainWindow::enableCaches(bool b)
 {
-	CacheManager& cm=CacheManager::getInstance();
+	auto& cm=CacheManager::getInstance();
 	if(b)
 		cm.enableCaches();
 	else
@@ -458,7 +458,7 @@ void MainWindow::setupEditor(CodeEditor* editor)
 	connect(editor,&CodeEditor::copyAvailable,ui->actionCopy,&QAction::setEnabled);
 	connect(editor,&CodeEditor::fileNameChanged,this,&MainWindow::setTabTitle);
 
-	BuiltinCreator& b=BuiltinCreator::getInstance(*reporter);
+	auto& b=BuiltinCreator::getInstance(*reporter);
 	editor->setModuleNames(b.getModuleNames());
 	ui->searchWidget->setTextEdit(editor);
 }
@@ -540,7 +540,7 @@ bool MainWindow::maybeSave(bool compiling)
 	}
 	if(!modified) return true;
 
-	Preferences& p=Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 
 	if(compiling && p.getAutoSaveOnCompile()) {
 		return saveSelectedFiles(files);
@@ -776,7 +776,7 @@ void MainWindow::showBuiltins()
 
 	connect(e,&CodeEditor::copyAvailable,ui->actionCopy,&QAction::setEnabled);
 
-	BuiltinCreator& b = BuiltinCreator::getInstance(*reporter);
+	auto& b=BuiltinCreator::getInstance(*reporter);
 
 	TextEditIODevice t(e,this);
 	QTextStream out(&t);
@@ -812,7 +812,7 @@ void MainWindow::showUserGuide()
 
 void MainWindow::flushCaches()
 {
-	CacheManager& m=CacheManager::getInstance();
+	auto& m=CacheManager::getInstance();
 	m.flushCaches();
 }
 
@@ -824,7 +824,7 @@ void MainWindow::sendToCAM()
 		return;
 	}
 
-	Preferences& p=Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	QString command = p.getLaunchCommand();
 	if(command.isEmpty()) {
 		QMessageBox::information(this,title, tr("No launch command set in preferences"));

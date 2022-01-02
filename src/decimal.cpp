@@ -56,7 +56,7 @@ decimal to_decimal(const QString& str,bool* ok)
 
 QString to_string(const decimal& d)
 {
-	Preferences& p=Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	NumberFormats format=p.getNumberFormat();
 
 	if(format!=NumberFormats::Scientific && d==0.0)
