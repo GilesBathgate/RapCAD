@@ -36,6 +36,7 @@
 #include "comparer.h"
 #include "cachemanager.h"
 #include "treeprinter.h"
+#include "asciidocprinter.h"
 #include "builtincreator.h"
 #include "nodeevaluator.h"
 #include "ui/codeeditor.h"
@@ -133,9 +134,13 @@ int Tester::evaluate()
 
 	writeHeader("000_treeprinter",testcount);
 
-	TreePrinter nulldocs(*nullstream);
 	auto& cr=BuiltinCreator::getInstance(*nullreport);
+
+	TreePrinter nulldocs(*nullstream);
 	cr.generateDocs(nulldocs);
+
+	AsciidocPrinter nullasciidocs(*nullstream,*nullstream);
+	cr.generateDocs(nullasciidocs);
 
 	writePass();
 
