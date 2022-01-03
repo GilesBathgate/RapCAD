@@ -6,7 +6,6 @@ Aligns its children to the given faces.
 Parameters
 ++++++++++
 |=========
-|anchor|alignment in +/- x, y, z
 |top|Specifies alignment to the top face.
 |bottom|Specifies alignment to the bottom face.
 |north|Specifies alignment to the north face.
@@ -19,14 +18,28 @@ Examples
 ++++++++
 [source,csharp]
 ---------------
-align() children;
+align();
+align(top,bottom,north,south,east,west);
+---------------
 
-// using vector notation
-align([-1,0,0]); // align right face to x=0
-align([0,1,0]);  // align bottom face to y=0
+Assert
+^^^^^^
 
-// using boolean descriptors
-align(top=true,north=true,east=true);
+Checks the expected value and stops execution when false
+
+Parameters
+++++++++++
+|=========
+|condition|A value that is expected to be true
+|message|A message that is displayed when the assertion fails
+|=========
+
+Examples
+++++++++
+[source,csharp]
+---------------
+assert();
+assert(condition,message);
 ---------------
 
 Bezier_surface
@@ -49,23 +62,9 @@ bezier_surface(mesh);
 ---------------
 
 Bound$
-^^^^^
+^^^^^^
 
-Outputs the bounding box of its children to the console
-
-Parameters
-++++++++++
-|=========
-|none|
-|=========
-
-Examples
-++++++++
-[source,csharp]
----------------
-bound$() children;
-bound$() cylinder(r=5,h=10);
----------------
+Shows the bounding box of its children.
 
 Center
 ^^^^^^
@@ -147,6 +146,11 @@ Examples
 circle();
 circle(radius);
 ---------------
+
+Color
+^^^^^
+
+Sets its children to the given color.
 
 Complement
 ^^^^^^^^^^
@@ -237,6 +241,27 @@ cylinder_surface();
 cylinder_surface(height,radius,center);
 ---------------
 
+Datum
+^^^^^
+
+Creates a plane from which children will be relative to
+
+Parameters
+++++++++++
+|=========
+|x|An yz plane offset by x
+|y|An xz plane offset by y
+|z|An xy plane offset by z
+|=========
+
+Examples
+++++++++
+[source,csharp]
+---------------
+datum();
+datum(x,y,z);
+---------------
+
 Decompose
 ^^^^^^^^^
 
@@ -275,22 +300,6 @@ Glide
 ^^^^^
 
 Glides the first child along the outline of the second child.
-
-Parameters
-++++++++++
-|=========
-|none|
-|=========
-
-Examples
-++++++++
-[source,csharp]
----------------
-glide() {
-    cube(2);
-    polyline([[0,0,0],[10,0,0],[10,10,0],[10,10,10],[0,0,0]]);
-}
----------------
 
 Group
 ^^^^^
@@ -408,8 +417,8 @@ multmatrix();
 multmatrix(matrix);
 ---------------
 
-Normal
-^^^^^^
+Normal$
+^^^^^^^
 
 Shows normal vectors on the faces of its children.
 
@@ -581,8 +590,8 @@ projection();
 projection(base);
 ---------------
 
-Radial
-^^^^^^
+Radial$
+^^^^^^^
 
 Shows the radius of its children.
 
@@ -841,8 +850,8 @@ Union
 
 Unions its children into single geometry.
 
-Volume
-^^^^^^
+Volume$
+^^^^^^^
 
 Provides information about the volume of its children.
 
@@ -856,8 +865,8 @@ Examples
 ++++++++
 [source,csharp]
 ---------------
-volume();
-volume(mass);
+volume$();
+volume$(mass);
 ---------------
 
 Writeln
