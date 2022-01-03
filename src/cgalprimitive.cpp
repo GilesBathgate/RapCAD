@@ -364,7 +364,7 @@ Primitive* CGALPrimitive::group(Primitive* pr)
 	CGALGroupModifier m(*that->nefPolyhedron);
 	nefPolyhedron->delegate(m,true,false);
 
-	CGAL::Mark_bounded_volumes<CGAL::NefPolyhedron3::SNC_structure> mbv(true);
+	CGAL::Mark_bounded_volumes<CGAL::NefPolyhedron3> mbv(true);
 	nefPolyhedron->delegate(mbv,false,false);
 
 	this->appendChild(that);
