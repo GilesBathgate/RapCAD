@@ -551,19 +551,33 @@ void TreeEvaluator::visit(const ModuleImport& mi)
 
 void TreeEvaluator::visit(const ScriptImport& sc)
 {
-	if(descendDone)
+	if(!descendDone) {
+		QFileInfo f=getFullPath(sc.getImport());
+		auto* s=new Script(reporter);
+		s->parse(f);
+		imports.insert(&sc,s);
+		/* Now recursively descend any modules functions or script imports within
+		 * the imported script and add them to the main script */
+		QDir loc=f.absoluteDir();
+		importLocations.push(loc);
+		descend(s);
+		importLocations.pop();
 		return;
+	}
 
-	QFileInfo f=getFullPath(sc.getImport());
-	auto* s=new Script(reporter);
-	s->parse(f);
-	imports.append(s);
-	/* Now recursively descend any modules functions or script imports within
-	 * the imported script and add them to the main script */
-	QDir loc=f.absoluteDir();
-	importLocations.push(loc);
-	descend(s);
-	importLocations.pop();
+	/* Evaluate the global variables of the imported scripts in the context
+	 * of the main script */
+	Script* scp=imports.value(&sc);
+	if(scp) {
+		for(Declaration* d: scp->getDeclarations()) {
+			auto* i=dynamic_cast<ScriptImport*>(d);
+			if(i)
+				i->accept(*this);
+			auto* a=dynamic_cast<AssignStatement*>(d);
+			if(a)
+				a->accept(*this);
+		}
+	}
 }
 
 void TreeEvaluator::visit(const Literal& lit)
