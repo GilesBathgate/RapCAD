@@ -40,7 +40,7 @@ CodeEditor::CodeEditor(QWidget* parent) :
 
 	connect(this,&CodeEditor::blockCountChanged,this,&CodeEditor::updateLineNumberAreaWidth);
 	connect(this,&CodeEditor::updateRequest,this,&CodeEditor::updateLineNumberArea);
-	connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
+	connect(this,&CodeEditor::cursorPositionChanged,this,&CodeEditor::highlightCurrentLine);
 
 	updateLineNumberAreaWidth(0);
 }

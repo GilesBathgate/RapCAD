@@ -264,50 +264,25 @@ void MainWindow::setupActions()
 
 void MainWindow::setupExportActions()
 {
-	auto* signalMapper = new QSignalMapper(this);
-	signalMapper->setMapping(ui->actionExportVRML,"wrl");
-	signalMapper->setMapping(ui->actionExportOBJ,"obj");
-	signalMapper->setMapping(ui->actionExportAsciiSTL,"stl");
-	signalMapper->setMapping(ui->actionExportAMF,"amf");
-	signalMapper->setMapping(ui->actionExport3MF,"3mf");
-	signalMapper->setMapping(ui->actionExportOFF,"stl");
-	signalMapper->setMapping(ui->actionExportCSG,"csg");
-	signalMapper->setMapping(ui->actionExportNEF,"nef");
-	signalMapper->setMapping(ui->actionExportSVG,"svg");
-
-	connect(ui->actionExportAsciiSTL,SIGNAL(triggered()),signalMapper,SLOT(map()));
-	connect(ui->actionExportVRML,SIGNAL(triggered()),signalMapper,SLOT(map()));
-	connect(ui->actionExportOBJ,SIGNAL(triggered()),signalMapper,SLOT(map()));
-	connect(ui->actionExportOFF,SIGNAL(triggered()),signalMapper,SLOT(map()));
-	connect(ui->actionExportAMF,SIGNAL(triggered()),signalMapper,SLOT(map()));
-	connect(ui->actionExport3MF,SIGNAL(triggered()),signalMapper,SLOT(map()));
-	connect(ui->actionExportCSG,SIGNAL(triggered()),signalMapper,SLOT(map()));
-	connect(ui->actionExportNEF,SIGNAL(triggered()),signalMapper,SLOT(map()));
-	connect(ui->actionExportSVG,SIGNAL(triggered()),signalMapper,SLOT(map()));
-
-	connect(signalMapper,SIGNAL(mapped(QString)),this,SLOT(exportFile(QString)));
+	connect(ui->actionExportAsciiSTL,&QAction::triggered,[this](){exportFile("stl");});
+	connect(ui->actionExportVRML,&QAction::triggered,[this](){exportFile("wrl");});
+	connect(ui->actionExportOBJ,&QAction::triggered,[this](){exportFile("obj");});
+	connect(ui->actionExportOFF,&QAction::triggered,[this](){exportFile("off");});
+	connect(ui->actionExportAMF,&QAction::triggered,[this](){exportFile("amf");});
+	connect(ui->actionExport3MF,&QAction::triggered,[this](){exportFile("3mf");});
+	connect(ui->actionExportCSG,&QAction::triggered,[this](){exportFile("csg");});
+	connect(ui->actionExportNEF,&QAction::triggered,[this](){exportFile("nef");});
+	connect(ui->actionExportSVG,&QAction::triggered,[this](){exportFile("svg");});
 }
 
 void MainWindow::setupViewActions()
 {
-	auto* signalMapper = new QSignalMapper(this);
-	signalMapper->setMapping(ui->actionTop,static_cast<int>(ViewDirections::Top));
-	signalMapper->setMapping(ui->actionBottom,static_cast<int>(ViewDirections::Bottom));
-	signalMapper->setMapping(ui->actionNorth,static_cast<int>(ViewDirections::North));
-	signalMapper->setMapping(ui->actionSouth,static_cast<int>(ViewDirections::South));
-	signalMapper->setMapping(ui->actionWest,static_cast<int>(ViewDirections::West));
-	signalMapper->setMapping(ui->actionEast,static_cast<int>(ViewDirections::East));
-
-
-	connect(ui->actionTop,SIGNAL(triggered()),signalMapper,SLOT(map()));
-	connect(ui->actionBottom,SIGNAL(triggered()),signalMapper,SLOT(map()));
-	connect(ui->actionNorth,SIGNAL(triggered()),signalMapper,SLOT(map()));
-	connect(ui->actionSouth,SIGNAL(triggered()),signalMapper,SLOT(map()));
-	connect(ui->actionWest,SIGNAL(triggered()),signalMapper,SLOT(map()));
-	connect(ui->actionEast,SIGNAL(triggered()),signalMapper,SLOT(map()));
-
-	connect(signalMapper,SIGNAL(mapped(int)),ui->view,SLOT(changeViewport(int)));
-
+	connect(ui->actionTop,&QAction::triggered,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::Top));});
+	connect(ui->actionBottom,&QAction::triggered,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::Bottom));});
+	connect(ui->actionNorth,&QAction::triggered,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::North));});
+	connect(ui->actionSouth,&QAction::triggered,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::South));});
+	connect(ui->actionWest,&QAction::triggered,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::West));});
+	connect(ui->actionEast,&QAction::triggered,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::East));});
 }
 
 void MainWindow::grabFrameBuffer()

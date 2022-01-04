@@ -19,7 +19,6 @@
 #define PREFERENCESDIALOG_H
 
 #include <QDialog>
-#include <QSignalMapper>
 
 namespace Ui
 {
@@ -51,7 +50,7 @@ private slots:
 	void originChanged();
 	void appearanceChanged(int);
 	void fontChanged(QFont);
-	void fontSizeChanged(const QString&);
+	void fontSizeChanged(int);
 	void highlightLineChanged(int s);
 	void launchCommandChanged(const QString&);
 	void launchCommandUpdated();
@@ -66,7 +65,6 @@ private:
 	void setupButtons();
 	void updatePrecision();
 	Ui::Preferences* ui;
-	QSignalMapper* signalMapper;
 };
 
 #endif // PREFERENCESDIALOG_H
