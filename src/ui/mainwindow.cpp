@@ -806,7 +806,8 @@ void MainWindow::sendToCAM()
 		return;
 	}
 
-	QString fileTemplate=QDir::tempPath().append("/XXXXXX.").append("3mf");
+	QFileInfo info(currentEditor()->getFileName());
+	QString fileTemplate=QDir::tempPath().append("%1%2_XXXXXX.3mf").arg(QDir::separator()).arg(info.baseName());
 	auto* file=new QTemporaryFile(fileTemplate);
 	if(!file->open()) {
 		QMessageBox::information(this,title, tr("Could not create tempory file"));
