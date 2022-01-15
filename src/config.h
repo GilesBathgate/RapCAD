@@ -25,6 +25,7 @@
 #include <CGAL/config.h>
 
 // CGAL usage is not yet multithreaded
+#define CGAL_HAS_NO_THREADS 1
 #define CGAL_NO_ATOMIC 1
 #include <CGAL/atomic.h>
 
