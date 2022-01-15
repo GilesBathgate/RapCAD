@@ -73,7 +73,7 @@ jobs:
       uses: actions/checkout@v2
     - name: Install Boost
       run: |
-        $Url = "https://sourceforge.net/projects/boost/files/boost/1.72.0/boost_1_72_0.7z"
+        $Url = "https://boostorg.jfrog.io/artifactory/main/release/1.72.0/source/boost_1_72_0.7z"
         (New-Object System.Net.WebClient).DownloadFile($Url, "$env:TEMP\boost.7z")
         7z x -oC:\ "$env:TEMP\boost.7z"
     - name: Cache Qt
