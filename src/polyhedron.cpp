@@ -17,6 +17,11 @@
  */
 #include "polyhedron.h"
 
+Polyhedron::Polyhedron() :
+	type(PrimitiveTypes::Lines)
+{
+}
+
 Polyhedron::~Polyhedron()
 {
 	qDeleteAll(polygons);
