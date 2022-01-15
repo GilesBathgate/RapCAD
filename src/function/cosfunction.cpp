@@ -27,7 +27,7 @@ CosFunction::CosFunction() : Function("cos")
 	addParameter("value");
 }
 
-Value* CosFunction::evaluate(const Context& ctx) const
+Value& CosFunction::evaluate(const Context& ctx) const
 {
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {

@@ -28,7 +28,6 @@
 #define CGAL_NO_ATOMIC 1
 #include <CGAL/atomic.h>
 
-#undef CGAL_USE_GMPXX
 #define CGAL_DO_NOT_USE_BOOST_MP 1
 #define CGAL_DO_NOT_USE_MPZF 1
 
@@ -45,6 +44,13 @@
 #undef CGAL_NDEBUG
 #include <CGAL/Chinese_remainder_traits.h>
 #define CGAL_NDEBUG
+
+#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(5,3,0)
+#include <CGAL/IO/Color.h>
+namespace CGAL { namespace IO {
+using Color = CGAL::Color;
+}}
+#endif
 
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(5,3,0)
 #include "cgaltrace.h" // nef trace hack

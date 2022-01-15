@@ -22,59 +22,61 @@
 #include "booleanvalue.h"
 #include "valuefactory.h"
 
-RangeValue::RangeValue(Value* s,Value* st, Value* f) :
+RangeValue::RangeValue(Value& s,Value& f) :
 	start(s),
-	step(st),
-	finish(f)
+	finish(f),
+	reverse(getReverse()),
+	step(defaultStep())
 {
-	Value* v=Value::operation(start,Operators::GreaterThan,finish);
-	reverse = v->isTrue();
+}
 
-	if(!step) {
-		decimal i=reverse?-1.0:1.0;
-		step=factory.createNumber(i);
-	}
+RangeValue::RangeValue(Value& s,Value& st,Value& f) :
+	start(s),
+	finish(f),
+	reverse(getReverse()),
+	step(st)
+{
 }
 
 QString RangeValue::getValueString() const
 {
 	QString result="[";
-	result.append(start->getValueString());
+	result.append(start.getValueString());
 	result.append(":");
-	if(step) {
-		result.append(step->getValueString());
-		result.append(":");
-	}
-	result.append(finish->getValueString());
+	result.append(step.getValueString());
+	result.append(":");
+	result.append(finish.getValueString());
 	result.append("]");
 	return result;
 }
 
-bool RangeValue::inRange(Value* index)
+bool RangeValue::inRange(Value& index)
 {
 	//Check for a valid range
-	if(start->isUndefined()||finish->isUndefined()||step->isFalse())
+	if(start.isUndefined()||finish.isUndefined()||step.isFalse())
 		return false;
 
-	Value*	lower = Value::operation(index,Operators::LessThan,reverse?finish:start);
-	Value*	upper = Value::operation(index,Operators::GreaterThan,reverse?start:finish);
+	Value& lower = Value::evaluate(index,Operators::LessThan,reverse?finish:start);
+	Value& upper = Value::evaluate(index,Operators::GreaterThan,reverse?start:finish);
 
-	return lower->isFalse() && upper->isFalse();
+	return lower.isFalse() && upper.isFalse();
 }
 
-Value* RangeValue::getIndex(NumberValue* n)
+Value& RangeValue::getIndex(NumberValue& n)
 {
-	Value* x=reverse?Value::operation(step,Operators::Subtract):step;
-	Value* a=Value::operation(n,Operators::Multiply,x);
-	Value* b=Value::operation(start,reverse?Operators::Subtract:Operators::Add,a);
+	Value& x=reverse?Value::evaluate(step,Operators::Subtract):step;
+	Value& a=Value::evaluate(n,Operators::Multiply,x);
+	Value& b=Value::evaluate(start,reverse?Operators::Subtract:Operators::Add,a);
 
-	if(!inRange(b)) return factory.createUndefined();
-	return b;
+	if(inRange(b))
+		return b;
+
+	return factory.createUndefined();
 }
 
 ValueIterator* RangeValue::createIterator()
 {
-	return new RangeIterator(this,start,step);
+	return new RangeIterator(this,&start,&step);
 }
 
 QList<Value*> RangeValue::getElements()
@@ -87,98 +89,106 @@ QList<Value*> RangeValue::getElements()
 	return result;
 }
 
-Value* RangeValue::getStart() const
+Value& RangeValue::getStart() const
 {
 	return start;
 }
 
-Value* RangeValue::getFinish() const
+Value& RangeValue::getFinish() const
 {
 	return finish;
 }
 
-Value* RangeValue::operation(Operators op)
+Value& RangeValue::operation(Operators op)
 {
 	if(op==Operators::Invert) {
 		return factory.createRange(finish,step,start);
 	}
 	if(op==Operators::Length) {
-		Value* size=Value::operation(finish,Operators::Subtract,start);
-		size=Value::operation(size,op);
-		return Value::operation(size,Operators::Increment);
+		Value& difference=Value::evaluate(finish,Operators::Subtract,start);
+		Value& size=Value::evaluate(difference,op);
+		return Value::evaluate(size,Operators::Increment);
 	}
 
-	Value* upper=Value::operation(start,op);
-	Value* lower=Value::operation(finish,op);
+	Value& upper=Value::evaluate(start,op);
+	Value& lower=Value::evaluate(finish,op);
 
-	Value* increment=nullptr;
 	if(op==Operators::Add||op==Operators::Subtract) {
-		if(step)
-			increment=Value::operation(step,op);
+			Value& increment=Value::evaluate(step,op);
+			return factory.createRange(upper,increment,lower);
 	}
 
-	return factory.createRange(upper,increment,lower);
+	return factory.createRange(upper,lower);
 }
 
-Value* RangeValue::operation(Value& v, Operators op)
+Value& RangeValue::operation(Value& v,Operators op)
 {
 	auto* range=dynamic_cast<RangeValue*>(&v);
-	if(range) {
-		/* Interval arithmetic has the following rules:
-		 * when x = [a:b] and y = [c:d] then
-		 * x+y = [a+c:b+d]
-		 * x-y = [a-d:b-c]
-		 * x*y = [min(a*c,a*d,b*c,b*d):max(a*c,a*d,b*c,b*d)]
-		 * x/y = [min(a/c,a/d,b/c,b/d):max(a/c,a/d,b/c,b/d)]
-		 */
-		Value* a=this->start;
-		Value* b=this->finish;
-		Value* c=range->start;
-		Value* d=range->finish;
-		if(op==Operators::Equal) {
-			bool result=compare(a,op,c)&&compare(b,op,d);
-			return factory.createBoolean(result);
-		}
-		if(op==Operators::NotEqual) {
-			bool result=compare(a,op,c)||compare(b,op,d);
-			return factory.createBoolean(result);
-		}
-		if(op==Operators::Add||op==Operators::Subtract) {
+	if(range)
+		return operation(*range,op);
 
-			Value* lower=Value::operation(a,op,c);
-			Value* upper=Value::operation(b,op,d);
-
-			return factory.createRange(lower,nullptr,upper);
-
-		}
-		if(op==Operators::Multiply||op==Operators::Divide) {
-
-			Value* ac=Value::operation(a,op,c);
-			Value* ad=Value::operation(a,op,d);
-			Value* bc=Value::operation(b,op,c);
-			Value* bd=Value::operation(b,op,d);
-			QList<Value*> vals;
-			vals.append(ac);
-			vals.append(ad);
-			vals.append(bc);
-			vals.append(bd);
-			Value* lower=compareAll(vals,Operators::LessThan);
-			Value* upper=compareAll(vals,Operators::GreaterThan);
-
-			return factory.createRange(lower,nullptr,upper);
-		}
-		if(op==Operators::Concatenate) {
-
-			QList<Value*> vals;
-			vals.append(start);
-			vals.append(finish);
-			vals.append(range->start);
-			vals.append(range->finish);
-			Value* lower=compareAll(vals,Operators::LessThan);
-			Value* upper=compareAll(vals,Operators::GreaterThan);
-
-			return factory.createRange(lower,nullptr,upper);
-		}
-	}
 	return VectorValue::operation(v,op);
+}
+
+Value& RangeValue::operation(RangeValue& range,Operators op)
+{
+	/* Interval arithmetic has the following rules:
+	 * when x = [a:b] and y = [c:d] then
+	 * x+y = [a+c:b+d]
+	 * x-y = [a-d:b-c]
+	 * x*y = [min(a*c,a*d,b*c,b*d):max(a*c,a*d,b*c,b*d)]
+	 * x/y = [min(a/c,a/d,b/c,b/d):max(a/c,a/d,b/c,b/d)]
+	 */
+	Value& a=start;
+	Value& b=finish;
+	Value& c=range.start;
+	Value& d=range.finish;
+	if(op==Operators::Equal) {
+		bool result=compare(a,op,c)&&compare(b,op,d);
+		return factory.createBoolean(result);
+	}
+	if(op==Operators::NotEqual) {
+		bool result=compare(a,op,c)||compare(b,op,d);
+		return factory.createBoolean(result);
+	}
+	if(op==Operators::Add) {
+		return factory.createRange(a+c,b+d);
+	}
+	if(op==Operators::Subtract) {
+		return factory.createRange(a-d,b-c);
+	}
+	if(op==Operators::Multiply||op==Operators::Divide) {
+
+		Value& ac=Value::evaluate(a,op,c);
+		Value& ad=Value::evaluate(a,op,d);
+		Value& bc=Value::evaluate(b,op,c);
+		Value& bd=Value::evaluate(b,op,d);
+		QList<Value*> vals {&ac,&ad,&bc,&bd};
+		Value& lower=compareAll(vals,Operators::LessThan);
+		Value& upper=compareAll(vals,Operators::GreaterThan);
+
+		return factory.createRange(lower,upper);
+	}
+	if(op==Operators::Concatenate) {
+
+		QList<Value*> vals {&a,&b,&c,&d};
+		Value& lower=compareAll(vals,Operators::LessThan);
+		Value& upper=compareAll(vals,Operators::GreaterThan);
+
+		return factory.createRange(lower,upper);
+	}
+
+	return VectorValue::operation(range,op);
+}
+
+bool RangeValue::getReverse()
+{
+	Value& v=Value::evaluate(start,Operators::GreaterThan,finish);
+	return v.isTrue();
+}
+
+Value& RangeValue::defaultStep()
+{
+	decimal i=reverse?-1.0:1.0;
+	return factory.createNumber(i);
 }

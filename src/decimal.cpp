@@ -20,6 +20,9 @@
 #include "preferences.h"
 #include "rmath.h"
 #include "point.h"
+#if MPFR_VERSION < MPFR_VERSION_NUM(4,1,0)
+#include "contrib/mpfr-get_q.h"
+#endif
 
 decimal to_decimal(const QString& str,bool* ok)
 {
@@ -30,21 +33,22 @@ decimal to_decimal(const QString& str,bool* ok)
 		s.remove(i,1);
 		int p=s.length()-i;
 		s.append("/1");
-		s.append(QString().fill('0',p));
+		s.append(QString(p,'0'));
 	}
-
-	CGAL::Gmpq d;
-	int error=mpq_set_str(d.mpq(),s.toLatin1().constData(),10);
+	mpq_t q;
+	mpq_init(q);
+	int error=mpq_set_str(q,s.toLatin1().constData(),10);
 	if(error) {
+		mpq_clear(q);
 		if(ok!=nullptr)
 			*ok=false;
 		return 0.0;
 	}
-
-	mpq_canonicalize(d.mpq());
+	mpq_canonicalize(q);
 	if(ok!=nullptr)
 		*ok=true;
-	return decimal(d);
+
+	return to_decimal(q);
 #else
 	return s.toDouble(ok);
 #endif
@@ -52,7 +56,7 @@ decimal to_decimal(const QString& str,bool* ok)
 
 QString to_string(const decimal& d)
 {
-	Preferences& p=Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	NumberFormats format=p.getNumberFormat();
 
 	if(format!=NumberFormats::Scientific && d==0.0)
@@ -63,19 +67,11 @@ QString to_string(const decimal& d)
 
 	char* a=nullptr;
 	if(format==NumberFormats::Rational) {
-#ifndef USE_VALGRIND
-		gmp_asprintf(&a,"%Qd",d.exact().mpq());
-#else
-		gmp_asprintf(&a,"%Qd",d.mpq());
-#endif
+		gmp_asprintf(&a,"%Qd",to_mpq(d));
 	} else {
 		mpf_t m;
 		mpf_init2(m,p.getSignificandBits());
-#ifndef USE_VALGRIND
-		mpf_set_q(m,d.exact().mpq());
-#else
-		mpf_set_q(m,d.mpq());
-#endif
+		mpf_set_q(m,to_mpq(d));
 
 		if(format==NumberFormats::Scientific) {
 			gmp_asprintf(&a,"%.*Fe",p.getDecimalPlaces(),m);
@@ -109,26 +105,6 @@ bool to_boolean(const decimal& n)
 {
 	return (n!=0.0);
 }
-
-#ifdef USE_CGAL
-void to_glcoord(const Point& pt,float& x,float& y,float& z)
-{
-	x=to_double(pt.x());
-	y=to_double(pt.y());
-	z=to_double(pt.z());
-}
-
-CGAL::Gmpfr to_gmpfr(const decimal& d)
-{
-	CGAL::Gmpfr m;
-#ifndef USE_VALGRIND
-	mpfr_set_q(m.fr(),d.exact().mpq(),MPFR_RNDN);
-#else
-	mpfr_set_q(m.fr(),d.mpq(),MPFR_RNDN);
-#endif
-	return m;
-}
-#endif
 
 decimal parse_numberexp(const QString& s, bool* ok)
 {
@@ -183,3 +159,55 @@ decimal get_unit(const QString& s,QString& number)
 	number=s;
 	return decimal(1.0);
 }
+
+#ifdef USE_CGAL
+void to_glcoord(const Point& pt,float& x,float& y,float& z)
+{
+	x=to_double(pt.x());
+	y=to_double(pt.y());
+	z=to_double(pt.z());
+}
+
+mpq_srcptr to_mpq(const decimal& d)
+{
+#ifndef USE_VALGRIND
+#ifdef CGAL_USE_BOOST_MP
+	return d.exact().backend().data();
+#else
+#ifdef CGAL_USE_GMPXX
+	return d.exact().get_mpq_t();
+#else
+	return d.exact().mpq();
+#endif
+#endif
+#else
+	return d.mpq();
+#endif
+}
+
+void to_mpfr(mpfr_t& m, const decimal& d)
+{
+	mpfr_init(m);
+	mpfr_set_q(m,to_mpq(d),MPFR_RNDN);
+}
+
+decimal to_decimal(mpfr_t& m)
+{
+	mpq_t q;
+	mpq_init(q);
+	mpfr_get_q(q,m);
+	mpfr_clear(m);
+	return to_decimal(q);
+}
+
+decimal to_decimal(mpq_t& q)
+{
+#ifdef CGAL_USE_GMPXX
+	decimal r(mpq_class{q});
+#else
+	decimal r(q);
+#endif
+	mpq_clear(q);
+	return r;
+}
+#endif

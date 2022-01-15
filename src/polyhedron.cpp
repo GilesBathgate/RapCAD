@@ -37,6 +37,16 @@ void Polyhedron::createVertex(const Point& p)
 	points.append(p);
 }
 
+void Polyhedron::setType(PrimitiveTypes t)
+{
+	type=t;
+}
+
+PrimitiveTypes Polyhedron::getType()
+{
+	return type;
+}
+
 void Polyhedron::add(Primitive* p, bool)
 {
 	appendChild(p);

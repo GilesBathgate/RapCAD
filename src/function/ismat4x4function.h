@@ -26,7 +26,7 @@ class IsMat4x4Function : public Function
 	Q_DECLARE_TR_FUNCTIONS(IsMat4x4Function)
 public:
 	IsMat4x4Function();
-	Value* evaluate(const Context&) const override;
+	Value& evaluate(const Context&) const override;
 };
 
 #endif // ISMAT4X4FUNCTION_H

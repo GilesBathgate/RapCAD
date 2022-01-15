@@ -15,6 +15,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifdef USE_CGAL
 #include "cgalgroupmodifier.h"
 #include <CGAL/Nef_3/shell_to_nef_3.h>
 
@@ -28,3 +29,4 @@ void CGALGroupModifier::operator()(CGAL::NefPolyhedron3::SNC_structure& snc)
 	CGAL_forall_shells_of(si,primitive.volumes_begin())
 		CGAL::shell_to_nef_3(primitive,si,snc);
 }
+#endif

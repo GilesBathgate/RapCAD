@@ -106,7 +106,7 @@ private:
 	bool descendDone;
 	Node* rootNode;
 	QList<ImportModule*> modules;
-	QList<Script*> imports;
+	QHash<const ScriptImport*,Script*> imports;
 	QStack<QDir> importLocations;
 };
 

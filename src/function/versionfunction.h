@@ -26,7 +26,7 @@ class VersionFunction : public Function
 	Q_DECLARE_TR_FUNCTIONS(VersionFunction)
 public:
 	VersionFunction();
-	Value* evaluate(const Context&) const override;
+	Value& evaluate(const Context&) const override;
 };
 
 #endif // VERSIONFUNCTION_H

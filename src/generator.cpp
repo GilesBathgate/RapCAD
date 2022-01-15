@@ -33,7 +33,7 @@ int Generator::evaluate()
 	QTextStream mod(&modFile);
 	QTextStream func(&funcFile);
 	AsciidocPrinter p(mod,func);
-	BuiltinCreator& b=BuiltinCreator::getInstance(reporter);
+	auto& b=BuiltinCreator::getInstance(reporter);
 	b.generateDocs(p);
 	return EXIT_SUCCESS;
 }

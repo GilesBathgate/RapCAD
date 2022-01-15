@@ -19,6 +19,7 @@
 #ifndef BOOLEANVALUE_H
 #define BOOLEANVALUE_H
 
+class NumberValue;
 #include "value.h"
 
 class BooleanValue : public Value
@@ -26,11 +27,13 @@ class BooleanValue : public Value
 public:
 	explicit BooleanValue(bool);
 	QString getValueString() const override;
-	Value* toNumber() override;
+	Value& toNumber() override;
 	bool isTrue() const override;
 private:
-	Value* operation(Operators) override;
-	Value* operation(Value&,Operators) override;
+	Value& operation(Operators) override;
+	Value& operation(Value&,Operators) override;
+	Value& operation(BooleanValue&,Operators);
+	Value& operation(NumberValue&,Operators);
 	bool boolean;
 };
 

@@ -27,7 +27,7 @@ FloorFunction::FloorFunction() : Function("floor")
 	addParameter("value");
 }
 
-Value* FloorFunction::evaluate(const Context& ctx) const
+Value& FloorFunction::evaluate(const Context& ctx) const
 {
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {

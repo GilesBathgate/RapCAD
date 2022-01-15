@@ -37,8 +37,8 @@ Node* SquareModule::evaluate(const Context& ctx) const
 	decimal x=1.0;
 	decimal y=1.0;
 	if(sizeVal) {
-		VectorValue* size=sizeVal->toVector(2);
-		Point pt = size->getPoint();
+		VectorValue& size=sizeVal->toVector(2);
+		Point pt = size.getPoint();
 		x=pt.x();
 		y=pt.y();
 	}

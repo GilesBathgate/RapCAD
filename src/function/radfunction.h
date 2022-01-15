@@ -26,7 +26,7 @@ class RadFunction : public Function
 	Q_DECLARE_TR_FUNCTIONS(RadFunction)
 public:
 	RadFunction();
-	Value* evaluate(const Context&) const override;
+	Value& evaluate(const Context&) const override;
 };
 
 #endif // RADFUNCTION_H

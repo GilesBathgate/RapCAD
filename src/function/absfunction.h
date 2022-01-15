@@ -26,7 +26,7 @@ class AbsFunction : public Function
 	Q_DECLARE_TR_FUNCTIONS(AbsFunction)
 public:
 	AbsFunction();
-	Value* evaluate(const Context&) const override;
+	Value& evaluate(const Context&) const override;
 };
 
 #endif // ABSFUNCTION_H

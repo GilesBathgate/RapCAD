@@ -30,7 +30,7 @@ QString BooleanValue::getValueString() const
 	return boolean ? "true" : "false";
 }
 
-Value* BooleanValue::toNumber()
+Value& BooleanValue::toNumber()
 {
 	decimal result=boolean?1.0:0.0;
 	return factory.createNumber(result);
@@ -41,24 +41,37 @@ bool BooleanValue::isTrue() const
 	return boolean;
 }
 
-Value* BooleanValue::operation(Operators e)
+Value& BooleanValue::operation(Operators e)
 {
 	bool result=basicOperation(boolean,e);
 	return factory.createBoolean(result);
 }
 
-Value* BooleanValue::operation(Value& v,Operators e)
+Value& BooleanValue::operation(Value& v,Operators e)
 {
 	auto* that=dynamic_cast<BooleanValue*>(&v);
-	if(that) {
-		bool result=basicOperation(this->boolean,e,that->boolean);
-		return factory.createBoolean(result);
-	}
+	if(that)
+		return operation(*that,e);
+
 	auto* num=dynamic_cast<NumberValue*>(&v);
-	if(num && isComparison(e)) {
-		bool result=basicOperation(this->boolean?1:0,e,num->toInteger());
+	if(num)
+		return operation(*num,e);
+
+	return Value::operation(v,e);
+}
+
+Value& BooleanValue::operation(BooleanValue& that,Operators e)
+{
+	bool result=basicOperation(this->boolean,e,that.boolean);
+	return factory.createBoolean(result);
+}
+
+Value& BooleanValue::operation(NumberValue& num,Operators e)
+{
+	if(isComparison(e)) {
+		bool result=basicOperation(this->boolean?1:0,e,num.toInteger());
 		return factory.createBoolean(result);
 	}
 
-	return Value::operation(v,e);
+	return Value::operation(num,e);
 }

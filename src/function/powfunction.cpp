@@ -26,12 +26,12 @@ PowFunction::PowFunction() : Function("pow")
 	addParameter("exponent");
 }
 
-Value* PowFunction::evaluate(const Context& ctx) const
+Value& PowFunction::evaluate(const Context& ctx) const
 {
 	Value* val=getParameterArgument(ctx,0);
 	Value* arg=getParameterArgument(ctx,1);
 	if(val&&arg)
-		return Value::operation(val,Operators::Exponent,arg);
+		return Value::evaluate(*val,Operators::Exponent,*arg);
 
 	return Value::factory.createUndefined();
 }

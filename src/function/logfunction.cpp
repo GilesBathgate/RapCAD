@@ -28,7 +28,7 @@ LogFunction::LogFunction() : Function("log")
 	addParameter("base");
 }
 
-Value* LogFunction::evaluate(const Context& ctx) const
+Value& LogFunction::evaluate(const Context& ctx) const
 {
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	auto* baseVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));

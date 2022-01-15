@@ -1,0 +1,3 @@
+use <003_use1.data>
+
+function test() = external_function();

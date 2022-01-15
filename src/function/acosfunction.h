@@ -26,7 +26,7 @@ class AcosFunction : public Function
 	Q_DECLARE_TR_FUNCTIONS(AcosFunction)
 public:
 	AcosFunction();
-	Value* evaluate(const Context&) const override;
+	Value& evaluate(const Context&) const override;
 };
 
 #endif // ACOSFUNCTION_H

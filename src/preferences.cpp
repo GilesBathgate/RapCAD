@@ -44,11 +44,21 @@ void Preferences::updatePrecision()
 	precision=getSignificandBits();
 #ifdef USE_CGAL
 	try {
-		CGAL::Gmpfr::set_default_precision(precision);
+		mpfr_set_default_prec(precision);
 	} catch(CGAL::Assertion_exception&) {
 		//Ignore
 	}
 #endif
+}
+
+QString Preferences::getIndent() const
+{
+	return settings->value("Indent","\t").toString();
+}
+
+void Preferences::setIndent(const QString& value)
+{
+	settings->setValue("Indent", value);
 }
 
 QString Preferences::getCAMScript() const
@@ -69,6 +79,16 @@ bool Preferences::getTranslateOrigin() const
 void Preferences::setTranslateOrigin(bool value)
 {
 	settings->setValue("TranslateOrigin",value);
+}
+
+bool Preferences::getDarkTheme() const
+{
+	return settings->value("DarkTheme",false).toBool();
+}
+
+void Preferences::setDarkTheme(bool b)
+{
+	settings->setValue("DarkTheme",b);
 }
 
 bool Preferences::getShowGCODEButton() const

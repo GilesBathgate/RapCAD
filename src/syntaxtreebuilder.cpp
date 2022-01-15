@@ -38,6 +38,7 @@ void SyntaxTreeBuilder::buildScript(Declaration* dec)
 void SyntaxTreeBuilder::buildScript(QList<CodeDoc*>* cdocs)
 {
 	script.addDocumentation(*cdocs);
+	delete cdocs;
 }
 
 QList<CodeDoc*>* SyntaxTreeBuilder::buildCodeDoc(QList<CodeDoc*>* cdocs)

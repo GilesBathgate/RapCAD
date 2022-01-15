@@ -112,7 +112,7 @@ void Worker::primary()
 
 void Worker::generation()
 {
-	Preferences& p=Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	Script s(reporter);
 	QFileInfo camScript(p.getCAMScript());
 	s.parse(camScript);

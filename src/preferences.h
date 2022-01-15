@@ -158,6 +158,12 @@ public:
 	bool getTranslateOrigin() const;
 	void setTranslateOrigin(bool);
 
+	bool getDarkTheme() const;
+	void setDarkTheme(bool);
+
+	QString getIndent() const;
+	void setIndent(const QString& value);
+
 private:
 	Preferences();
 	~Preferences();

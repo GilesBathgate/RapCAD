@@ -32,7 +32,7 @@ public:
 	void setValue(const QString&);
 
 	QString getValueString() const;
-	Value* getValue() const;
+	Value& getValue() const;
 
 	void accept(TreeVisitor&) override;
 private:

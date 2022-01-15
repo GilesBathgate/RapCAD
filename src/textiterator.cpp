@@ -40,5 +40,5 @@ bool TextIterator::operator!=(const Iterator&) const
 
 Value* TextIterator::operator*() const
 {
-	return Value::factory.createText(text.at(index));
+	return &Value::factory.createText(text.at(index));
 }

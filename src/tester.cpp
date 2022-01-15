@@ -36,6 +36,7 @@
 #include "comparer.h"
 #include "cachemanager.h"
 #include "treeprinter.h"
+#include "asciidocprinter.h"
 #include "builtincreator.h"
 #include "nodeevaluator.h"
 #include "ui/codeeditor.h"
@@ -120,7 +121,7 @@ int Tester::evaluate()
 {
 	reporter.startTiming();
 
-	CacheManager& cm=CacheManager::getInstance();
+	auto& cm=CacheManager::getInstance();
 	cm.disableCaches();
 
 	output << QString("Qt:\t %1").arg(QT_VERSION_STR) << Qt::endl;
@@ -133,9 +134,13 @@ int Tester::evaluate()
 
 	writeHeader("000_treeprinter",testcount);
 
+	auto& cr=BuiltinCreator::getInstance(*nullreport);
+
 	TreePrinter nulldocs(*nullstream);
-	BuiltinCreator& cr=BuiltinCreator::getInstance(*nullreport);
 	cr.generateDocs(nulldocs);
+
+	AsciidocPrinter nullasciidocs(*nullstream,*nullstream);
+	cr.generateDocs(nullasciidocs);
 
 	writePass();
 
@@ -180,7 +185,7 @@ int Tester::evaluate()
 #if !defined(Q_OS_WIN) && !defined(USE_VALGRIND)
 	reporter.startTiming();
 
-	Preferences& p=Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	bool autosave=p.getAutoSaveOnCompile();
 	p.setAutoSaveOnCompile(false);
 
@@ -253,6 +258,14 @@ void Tester::searchTest()
 
 void Tester::renderingTest()
 {
+	ui->activateWindow();
+	QTest::keyClick(ui,Qt::Key_D,Qt::AltModifier,100);
+	auto* menuDesign = ui->findChild<QMenu*>("menuDesign");
+	QTest::keyClick(menuDesign,Qt::Key_Down,Qt::NoModifier,100);
+	QTest::keyClick(menuDesign,Qt::Key_Down,Qt::NoModifier,100);
+	QTest::keyClick(menuDesign,Qt::Key_Down,Qt::NoModifier,100);
+	QTest::keyClick(menuDesign,Qt::Key_Return,Qt::NoModifier,100);
+
 	QFile f("test.rcad");
 	ui->activateWindow();
 	auto* edit = ui->findChild<CodeEditor*>("scriptEditor");
@@ -322,6 +335,7 @@ void Tester::exportTest(const QDir& dir)
 		e.exportResult();
 
 		exportTest(p,origPath,file,".stl");
+		exportTest(p,origPath,file,".obj");
 		exportTest(p,origPath,file,".off");
 		exportTest(p,origPath,file,".amf");
 		exportTest(p,origPath,file,".3mf");

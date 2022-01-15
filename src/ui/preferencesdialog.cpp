@@ -29,8 +29,7 @@
 
 PreferencesDialog::PreferencesDialog(QWidget* parent) :
 	QDialog(parent),
-	ui(new Ui::Preferences),
-	signalMapper(new QSignalMapper(this))
+	ui(new Ui::Preferences)
 {
 	ui->setupUi(this);
 
@@ -40,7 +39,7 @@ PreferencesDialog::PreferencesDialog(QWidget* parent) :
 
 void PreferencesDialog::setupWidgets()
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	QFont f=p.getEditorFont();
 	ui->fontComboBox->setCurrentFont(f);
 	int pointSize=f.pointSize();
@@ -50,6 +49,7 @@ void PreferencesDialog::setupWidgets()
 		if(size==pointSize)
 			c->setCurrentIndex(c->count()-1);
 	}
+	ui->darkThemeCheckBox->setChecked(p.getDarkTheme());
 	ui->tooltipsCheckBox->setChecked(p.getShowTooltips());
 	ui->highlightLineCheckbox->setChecked(p.getHighlightLine());
 
@@ -123,6 +123,15 @@ void PreferencesDialog::setupWidgets()
 	ui->processingScriptlineEdit->setText(p.getCAMScript());
 	ui->translateCheckBox->setChecked(p.getTranslateOrigin());
 
+	QString indent=p.getIndent();
+	if(indent.contains('\t')) {
+		ui->tabsRadioButton->setChecked(true);
+	} else {
+		ui->spacesRadioButton->setChecked(true);
+		ui->spacesSpinBox->setEnabled(true);
+		ui->spacesSpinBox->setValue(indent.length());
+	}
+
 	updatePrecision();
 }
 
@@ -134,58 +143,54 @@ void PreferencesDialog::setColor(QWidget* w,const QColor& c)
 
 void PreferencesDialog::setupButtons()
 {
-	connect(ui->fontComboBox,SIGNAL(currentFontChanged(QFont)),SLOT(fontChanged(QFont)));
-	connect(ui->sizeComboBox,SIGNAL(currentIndexChanged(QString)),SLOT(fontSizeChanged(QString)));
-	signalMapper->setMapping(ui->markedVertexColorToolButton,ui->markedVertexColorFrame);
-	signalMapper->setMapping(ui->vertexColorToolButton,ui->vertexColorFrame);
-	signalMapper->setMapping(ui->markedEdgeColorToolButton,ui->markedEdgeColorFrame);
-	signalMapper->setMapping(ui->edgeColorToolButton,ui->edgeColorFrame);
-	signalMapper->setMapping(ui->markedFacetColorToolButton,ui->markedFacetColorFrame);
-	signalMapper->setMapping(ui->facetColorToolButton,ui->facetColorFrame);
+	connect(ui->fontComboBox,&QFontComboBox::currentFontChanged,this,&PreferencesDialog::fontChanged);
+	connect(ui->sizeComboBox,QOverload<int>::of(&QComboBox::currentIndexChanged),this,&PreferencesDialog::fontSizeChanged);
 
-	connect(ui->markedVertexColorToolButton,SIGNAL(clicked()),signalMapper,SLOT(map()));
-	connect(ui->vertexColorToolButton,SIGNAL(clicked()),signalMapper,SLOT(map()));
-	connect(ui->markedEdgeColorToolButton,SIGNAL(clicked()),signalMapper,SLOT(map()));
-	connect(ui->edgeColorToolButton,SIGNAL(clicked()),signalMapper,SLOT(map()));
-	connect(ui->markedFacetColorToolButton,SIGNAL(clicked()),signalMapper,SLOT(map()));
-	connect(ui->facetColorToolButton,SIGNAL(clicked()),signalMapper,SLOT(map()));
+	connect(ui->markedVertexColorToolButton,&QToolButton::clicked,[this](){colorButtonPressed(ui->markedVertexColorFrame);});
+	connect(ui->vertexColorToolButton,&QToolButton::clicked,[this](){colorButtonPressed(ui->vertexColorFrame);});
+	connect(ui->markedEdgeColorToolButton,&QToolButton::clicked,[this](){colorButtonPressed(ui->markedEdgeColorFrame);});
+	connect(ui->edgeColorToolButton,&QToolButton::clicked,[this](){colorButtonPressed(ui->edgeColorFrame);});
+	connect(ui->markedFacetColorToolButton,&QToolButton::clicked,[this](){colorButtonPressed(ui->markedFacetColorFrame);});
+	connect(ui->facetColorToolButton,&QToolButton::clicked,[this](){colorButtonPressed(ui->facetColorFrame);});
 
-	connect(signalMapper,SIGNAL(mapped(QWidget*)),this,SLOT(colorButtonPressed(QWidget*)));
-
-	connect(ui->vertexSizeSpinBox,SIGNAL(valueChanged(double)),SLOT(vertexSizeChanged(double)));
-	connect(ui->edgeSizeSpinBox,SIGNAL(valueChanged(double)),SLOT(edgeSizeChanged(double)));
-	connect(ui->placesSpinBox,SIGNAL(valueChanged(int)),SLOT(placesChanged(int)));
-	connect(ui->bitsSpinBox,SIGNAL(valueChanged(int)),SLOT(bitsChanged(int)));
-	connect(ui->doubleRadio,SIGNAL(toggled(bool)),SLOT(precisionType(bool)));
-	connect(ui->singleRadio,SIGNAL(toggled(bool)),SLOT(precisionType(bool)));
+	connect(ui->vertexSizeSpinBox,QOverload<double>::of(&QDoubleSpinBox::valueChanged),this,&PreferencesDialog::vertexSizeChanged);
+	connect(ui->edgeSizeSpinBox,QOverload<double>::of(&QDoubleSpinBox::valueChanged),this,&PreferencesDialog::edgeSizeChanged);
+	connect(ui->placesSpinBox,QOverload<int>::of(&QSpinBox::valueChanged),this,&PreferencesDialog::placesChanged);
+	connect(ui->bitsSpinBox,QOverload<int>::of(&QSpinBox::valueChanged),this,&PreferencesDialog::bitsChanged);
+	connect(ui->doubleRadio,&QRadioButton::toggled,this,&PreferencesDialog::precisionType);
+	connect(ui->singleRadio,&QRadioButton::toggled,this,&PreferencesDialog::precisionType);
 
 	connect(ui->checkBox,&QCheckBox::stateChanged,this,&PreferencesDialog::autoSaveOnCompileChanged);
-	connect(ui->noRoundingRadio,SIGNAL(toggled(bool)),SLOT(functionRoundingChanged(bool)));
-	connect(ui->decimalRoundingRadio,SIGNAL(toggled(bool)),SLOT(functionRoundingChanged(bool)));
-	connect(ui->base2RoundingRadio,SIGNAL(toggled(bool)),SLOT(functionRoundingChanged(bool)));
+	connect(ui->noRoundingRadio,&QRadioButton::toggled,this,&PreferencesDialog::functionRoundingChanged);
+	connect(ui->decimalRoundingRadio,&QRadioButton::toggled,this,&PreferencesDialog::functionRoundingChanged);
+	connect(ui->base2RoundingRadio,&QRadioButton::toggled,this,&PreferencesDialog::functionRoundingChanged);
 
-	connect(ui->fixedRadio,SIGNAL(toggled(bool)),this,SLOT(outputFormatChanged(bool)));
-	connect(ui->scientificRadio,SIGNAL(toggled(bool)),this,SLOT(outputFormatChanged(bool)));
-	connect(ui->rationalRadio,SIGNAL(toggled(bool)),this,SLOT(outputFormatChanged(bool)));
+	connect(ui->fixedRadio,&QRadioButton::toggled,this,&PreferencesDialog::outputFormatChanged);
+	connect(ui->scientificRadio,&QRadioButton::toggled,this,&PreferencesDialog::outputFormatChanged);
+	connect(ui->rationalRadio,&QRadioButton::toggled,this,&PreferencesDialog::outputFormatChanged);
 
-	connect(ui->widthSpinBox,SIGNAL(valueChanged(int)),this,SLOT(volumeChanged()));
-	connect(ui->lengthSpinBox,SIGNAL(valueChanged(int)),this,SLOT(volumeChanged()));
-	connect(ui->heightSpinBox,SIGNAL(valueChanged(int)),this,SLOT(volumeChanged()));
+	connect(ui->widthSpinBox,QOverload<int>::of(&QSpinBox::valueChanged),this,&PreferencesDialog::volumeChanged);
+	connect(ui->lengthSpinBox,QOverload<int>::of(&QSpinBox::valueChanged),this,&PreferencesDialog::volumeChanged);
+	connect(ui->heightSpinBox,QOverload<int>::of(&QSpinBox::valueChanged),this,&PreferencesDialog::volumeChanged);
 
-	connect(ui->XspinBox,SIGNAL(valueChanged(int)),this,SLOT(originChanged()));
-	connect(ui->YspinBox,SIGNAL(valueChanged(int)),this,SLOT(originChanged()));
+	connect(ui->XspinBox,QOverload<int>::of(&QSpinBox::valueChanged),this,&PreferencesDialog::originChanged);
+	connect(ui->YspinBox,QOverload<int>::of(&QSpinBox::valueChanged),this,&PreferencesDialog::originChanged);
 
-	connect(ui->appearanceComboBox,SIGNAL(currentIndexChanged(int)),this,SLOT(appearanceChanged(int)));
+	connect(ui->appearanceComboBox,QOverload<int>::of(&QComboBox::currentIndexChanged),this,&PreferencesDialog::appearanceChanged);
 
-	connect(ui->tooltipsCheckBox,SIGNAL(stateChanged(int)),this,SLOT(showTooltipsChanged(int)));
-	connect(ui->highlightLineCheckbox,SIGNAL(stateChanged(int)),this,SLOT(highlightLineChanged(int)));
+	connect(ui->darkThemeCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::darkThemeChanged);
+	connect(ui->tooltipsCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::showTooltipsChanged);
+	connect(ui->highlightLineCheckbox,&QCheckBox::stateChanged,this,&PreferencesDialog::highlightLineChanged);
 
-	connect(ui->launchCommandLineEdit,SIGNAL(textChanged(QString)),this,SLOT(launchCommandChanged(QString)));
-	connect(ui->launchCommandLineEdit,SIGNAL(editingFinished()),this,SLOT(launchCommandUpdated()));
+	connect(ui->launchCommandLineEdit,&QLineEdit::textChanged,this,&PreferencesDialog::launchCommandChanged);
+	connect(ui->launchCommandLineEdit,&QLineEdit::editingFinished,this,&PreferencesDialog::launchCommandUpdated);
 
-	connect(ui->showGCODEButtonCheckbox, SIGNAL(stateChanged(int)),this,SLOT(showGCODEButtonChanged(int)));
-	connect(ui->translateCheckBox, SIGNAL(stateChanged(int)),this,SLOT(translateChanged(int)));
-	connect(ui->processingScriptlineEdit, SIGNAL(editingFinished()),this,SLOT(processingScriptUpdated()));
+	connect(ui->showGCODEButtonCheckbox,&QCheckBox::stateChanged,this,&PreferencesDialog::showGCODEButtonChanged);
+	connect(ui->translateCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::translateChanged);
+	connect(ui->processingScriptlineEdit,&QLineEdit::editingFinished,this,&PreferencesDialog::processingScriptUpdated);
+
+	connect(ui->tabsRadioButton,&QRadioButton::toggled,this,&PreferencesDialog::indentRadioChanged);
+	connect(ui->spacesSpinBox,QOverload<int>::of(&QSpinBox::valueChanged),this,&PreferencesDialog::indentSpacesChanged);
 }
 
 void PreferencesDialog::updatePrecision()
@@ -199,7 +204,7 @@ void PreferencesDialog::colorButtonPressed(QWidget* frame)
 	QColor c = QColorDialog::getColor(Qt::white,this);
 	setColor(frame,c);
 
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	if(frame==ui->markedVertexColorFrame) {
 		p.setMarkedVertexColor(c);
 	} else if(frame==ui->vertexColorFrame) {
@@ -219,34 +224,41 @@ void PreferencesDialog::colorButtonPressed(QWidget* frame)
 
 void PreferencesDialog::vertexSizeChanged(double s)
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	p.setVertexSize(float(s));
 	emit preferencesUpdated();
 }
 
 void PreferencesDialog::edgeSizeChanged(double s)
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	p.setEdgeSize(float(s));
 	emit preferencesUpdated();
 }
 
 void PreferencesDialog::autoSaveOnCompileChanged(int s)
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	p.setAutoSaveOnCompile(s == Qt::Checked);
+}
+
+void PreferencesDialog::darkThemeChanged(int s)
+{
+	auto& p=Preferences::getInstance();
+	p.setDarkTheme(s == Qt::Checked);
+	emit preferencesUpdated();
 }
 
 void PreferencesDialog::showTooltipsChanged(int s)
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	p.setShowTooltips(s == Qt::Checked);
 	emit preferencesUpdated();
 }
 
 void PreferencesDialog::highlightLineChanged(int s)
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	p.setHighlightLine(s == Qt::Checked);
 	emit preferencesUpdated();
 }
@@ -261,35 +273,52 @@ void PreferencesDialog::launchCommandChanged(const QString& command)
 
 void PreferencesDialog::launchCommandUpdated()
 {
-	Preferences& p=Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	p.setLaunchCommand(ui->launchCommandLineEdit->text());
 	emit preferencesUpdated();
 }
 
 void PreferencesDialog::showGCODEButtonChanged(int i)
 {
-	Preferences& p=Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	p.setShowGCODEButton(i == Qt::Checked);
 	emit preferencesUpdated();
 }
 
 void PreferencesDialog::translateChanged(int i)
 {
-	Preferences& p=Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	p.setTranslateOrigin(i == Qt::Checked);
 	emit preferencesUpdated();
 }
 
 void PreferencesDialog::processingScriptUpdated()
 {
-	Preferences& p=Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	p.setCAMScript(ui->processingScriptlineEdit->text());
 	emit preferencesUpdated();
 }
 
+void PreferencesDialog::indentRadioChanged(bool checked)
+{
+	auto& p=Preferences::getInstance();
+	if(checked) {
+		ui->spacesSpinBox->setEnabled(false);
+		p.setIndent("\t");
+	} else {
+		ui->spacesSpinBox->setEnabled(true);
+		p.setIndent(QString(ui->spacesSpinBox->value(),' '));
+	}
+}
+
+void PreferencesDialog::indentSpacesChanged(int)
+{
+	indentRadioChanged(ui->tabsRadioButton->isChecked());
+}
+
 void PreferencesDialog::placesChanged(int i)
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	p.setDecimalPlaces(i);
 	QSpinBox* sb=ui->bitsSpinBox;
 	bool block=sb->blockSignals(true);
@@ -300,7 +329,7 @@ void PreferencesDialog::placesChanged(int i)
 
 void PreferencesDialog::bitsChanged(int i)
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	p.setSignificandBits(i);
 	QSpinBox* sb=ui->placesSpinBox;
 	bool block=sb->blockSignals(true);
@@ -311,7 +340,7 @@ void PreferencesDialog::bitsChanged(int i)
 
 void PreferencesDialog::precisionType(bool)
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	bool enabled=true;
 	if(ui->singleRadio->isChecked()) {
 		ui->bitsSpinBox->setValue(23);
@@ -330,7 +359,7 @@ void PreferencesDialog::precisionType(bool)
 
 void PreferencesDialog::functionRoundingChanged(bool)
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	if(ui->decimalRoundingRadio->isChecked())
 		p.setFunctionRounding(Rounding::Decimal);
 	else if(ui->base2RoundingRadio->isChecked())
@@ -343,7 +372,7 @@ void PreferencesDialog::functionRoundingChanged(bool)
 
 void PreferencesDialog::outputFormatChanged(bool)
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	if(ui->rationalRadio->isChecked())
 		p.setNumberFormat(NumberFormats::Rational);
 	else if(ui->scientificRadio->isChecked())
@@ -356,7 +385,7 @@ void PreferencesDialog::outputFormatChanged(bool)
 
 void PreferencesDialog::volumeChanged()
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	auto width = float(ui->widthSpinBox->value());
 	auto length = float(ui->lengthSpinBox->value());
 	auto height = float(ui->heightSpinBox->value());
@@ -366,7 +395,7 @@ void PreferencesDialog::volumeChanged()
 
 void PreferencesDialog::originChanged()
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	QPointF o(ui->XspinBox->value(),ui->YspinBox->value());
 	p.setPrintOrigin(o);
 	emit preferencesUpdated();
@@ -375,7 +404,7 @@ void PreferencesDialog::originChanged()
 void PreferencesDialog::appearanceChanged(int i)
 {
 	auto a = static_cast<BedAppearance>(i);
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	switch(a) {
 		case BedAppearance::MK42: {
 			ui->XspinBox->setValue(-125);
@@ -403,17 +432,18 @@ void PreferencesDialog::appearanceChanged(int i)
 
 void PreferencesDialog::fontChanged(QFont f)
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	QString s=ui->sizeComboBox->currentText();
 	f.setPointSize(s.toInt());
 	p.setEditorFont(f);
 	emit preferencesUpdated();
 }
 
-void PreferencesDialog::fontSizeChanged(const QString& s)
+void PreferencesDialog::fontSizeChanged(int i)
 {
-	Preferences& p = Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	QFont f=ui->fontComboBox->currentFont();
+	QString s=ui->sizeComboBox->itemText(i);
 	f.setPointSize(s.toInt());
 	p.setEditorFont(f);
 	emit preferencesUpdated();

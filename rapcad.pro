@@ -77,13 +77,16 @@ win32 {
 	QMAKE_YACCFLAGS += "-b y"
 	QMAKE_LEX = win_flex
 } else {
+
+	DEFINES += CGAL_USE_GMPXX
+
 	exists( /usr/lib/x86_64-linux-gnu/libCGAL* ) {
 		LIBS += -lCGAL -lCGAL_Core
 	}
 	exists( /usr/lib/i386-linux-gnu/libCGAL* ) {
 		LIBS += -lCGAL -lCGAL_Core
 	}
-	LIBS += -lmpfr -lgmp
+	LIBS += -lmpfr -lgmp -lgmpxx
 	contains(DEFINES,USE_READLINE) {
 	LIBS+= -lreadline
 	}
@@ -116,6 +119,7 @@ CONFIG(fuzzing){
 
 CONFIG(valgrind){
 	DEFINES += USE_VALGRIND
+	DEFINES -= CGAL_USE_GMPXX
 	QMAKE_CXXFLAGS += -fno-rounding-math
 } else:!macx {
 	QMAKE_CXXFLAGS += -frounding-math
@@ -159,9 +163,13 @@ SOURCES += \
 	src/cgalgroupmodifier.cpp \
 	src/cgalsanitizer.cpp \
 	src/function/assertfunction.cpp \
+	src/function/circumcenterfunction.cpp \
+	src/function/isundeffunction.cpp \
 	src/function/ordinalfunction.cpp \
 	src/main.cpp \
 	src/module/assertmodule.cpp \
+	src/module/colormodule.cpp \
+	src/module/datummodule.cpp \
 	src/namedvalue.cpp \
 	src/tokenreader.cpp \
 	src/ui/mainwindow.cpp \
@@ -400,6 +408,8 @@ SOURCES += \
 HEADERS  += \
 	contrib/OGL_helper.h \
 	contrib/fragments.h \
+	contrib/mpfr-get_q.h \
+	contrib/mpfr-impl.h \
 	contrib/qcommandlineparser.h \
 	contrib/qcommandlineoption.h \
 	contrib/Copy_polyhedron_to.h \
@@ -411,8 +421,12 @@ HEADERS  += \
 	src/cgalsanitizer.h \
 	src/cgaltrace.h \
 	src/function/assertfunction.h \
+	src/function/circumcenterfunction.h \
+	src/function/isundeffunction.h \
 	src/function/ordinalfunction.h \
 	src/module/assertmodule.h \
+	src/module/colormodule.h \
+	src/module/datummodule.h \
 	src/namedvalue.h \
 	src/operators.h \
 	src/tokenreader.h \

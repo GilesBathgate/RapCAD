@@ -19,20 +19,23 @@
 #ifndef COMPLEXVALUE_H
 #define COMPLEXVALUE_H
 
+class NumberValue;
 #include "value.h"
 #include <QList>
 
 class ComplexValue : public Value
 {
 public:
-	ComplexValue(Value*,const QList<Value*>&);
+	ComplexValue(Value&,const QList<Value*>&);
 	QString getValueString() const override;
 	void toQuaternion(decimal&,decimal&,decimal&,decimal&);
 private:
 	ComplexValue();
-	Value* operation(Operators) override;
-	Value* operation(Value&,Operators) override;
-	Value* real;
+	Value& operation(Operators) override;
+	Value& operation(Value&,Operators) override;
+	Value& operation(ComplexValue&,Operators);
+	Value& operation(NumberValue&,Operators);
+	Value& real;
 	QList<Value*> imaginary;
 };
 

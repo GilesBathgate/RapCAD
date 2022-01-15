@@ -46,7 +46,7 @@ NodeEvaluator::NodeEvaluator(Reporter& r) :
 	reporter(r),
 	result(nullptr)
 {
-	CacheManager& m=CacheManager::getInstance();
+	auto& m=CacheManager::getInstance();
 	cache=m.getCache();
 }
 
@@ -747,6 +747,50 @@ void NodeEvaluator::visit(const TransformationNode& tr)
 {
 	if(!evaluate(tr,Operations::Union)) return;
 
+	decimal l=50.0;
+#if USE_CGAL
+	auto* pr=dynamic_cast<CGALPrimitive*>(result);
+	CGAL::Cuboid3 b=pr->getBounds();
+	CGAL::Point3 size(b.xmax()-b.xmin(),b.ymax()-b.ymin(),b.zmax()-b.zmin());
+	l=r_max(size.x(),r_max(size.y(),size.z()))*2.0;
+#endif
+	using Axis = TransformationNode::Axis;
+	Axis axis=tr.getDatumAxis();
+	if(axis!=Axis::None) {
+		Primitive* a=new Polyhedron();
+		a->setType(PrimitiveTypes::Surface);
+		switch(axis) {
+			case Axis::X: {
+				a->createVertex(Point(0,-l,-l));
+				a->createVertex(Point(0,-l,+l));
+				a->createVertex(Point(0,+l,+l));
+				a->createVertex(Point(0,+l,-l));
+			}
+			break;
+			case Axis::Y: {
+				a->createVertex(Point(-l,0,-l));
+				a->createVertex(Point(-l,0,+l));
+				a->createVertex(Point(+l,0,+l));
+				a->createVertex(Point(+l,0,-l));
+			}
+			break;
+			case Axis::Z: {
+				a->createVertex(Point(-l,-l,0));
+				a->createVertex(Point(-l,+l,0));
+				a->createVertex(Point(+l,+l,0));
+				a->createVertex(Point(+l,-l,0));
+			}
+			break;
+			default:
+				break;
+		}
+		Polygon& p=a->createPolygon();
+		p.append(0);
+		p.append(1);
+		p.append(2);
+		p.append(3);
+		result->appendChild(a);
+	}
 	result->transform(tr.getMatrix());
 }
 

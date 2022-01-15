@@ -24,22 +24,26 @@
 class RangeValue : public VectorValue
 {
 public:
-	RangeValue(Value*,Value*,Value*);
+	RangeValue(Value&,Value&);
+	RangeValue(Value&,Value&,Value&);
 	QString getValueString() const override;
-	Value* getIndex(NumberValue*) override;
+	Value& getIndex(NumberValue&) override;
 	ValueIterator* createIterator() override;
 	QList<Value*> getElements() override;
 
-	Value* getStart() const;
-	Value* getFinish() const;
-	bool inRange(Value*);
+	Value& getStart() const;
+	Value& getFinish() const;
+	bool inRange(Value&);
 private:
-	Value* operation(Operators) override;
-	Value* operation(Value&,Operators) override;
-	Value* start;
-	Value* step;
-	Value* finish;
+	Value& operation(Operators) override;
+	Value& operation(Value&,Operators) override;
+	Value& operation(RangeValue&,Operators);
+	bool getReverse();
+	Value& defaultStep();
+	Value& start;
+	Value& finish;
 	bool reverse;
+	Value& step;
 };
 
 #endif // RANGEVALUE_H

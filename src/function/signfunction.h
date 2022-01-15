@@ -26,7 +26,7 @@ class SignFunction : public Function
 	Q_DECLARE_TR_FUNCTIONS(SignFunction)
 public:
 	SignFunction();
-	Value* evaluate(const Context&) const override;
+	Value& evaluate(const Context&) const override;
 };
 
 #endif // SIGNFUNCTION_H

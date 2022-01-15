@@ -107,13 +107,13 @@ static AbstractTokenBuilder* tokenizer;
 
 %%
 input
-	: //empty
-	| BOM declarations
+	: BOM declarations
 	| declarations
 	;
 
 declarations
-	: use_declaration declarations
+	: //empty
+	| use_declaration declarations
 	{ builder->buildScript($1); }
 	| import_declaration declarations
 	{ builder->buildScript($1); }

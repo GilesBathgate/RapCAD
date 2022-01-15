@@ -1,0 +1,4 @@
+function test() {
+a=acos(-1);
+return ang(a,[0,1,0])*ang(a,[0,0,1])==ang(a,[1,0,0]);
+}

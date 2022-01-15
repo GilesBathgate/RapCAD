@@ -114,6 +114,7 @@ private:
 	QTextCharFormat errorFormat;
 	QTextCharFormat operatorFormat;
 	QTextCharFormat moduleFormat;
+	QTextCharFormat commentFormat;
 	QTextCharFormat codeDocFormat;
 	QTextCharFormat codeDocParamFormat;
 	QHash<QString,Module*> moduleNames;

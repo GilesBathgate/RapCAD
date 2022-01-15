@@ -26,7 +26,7 @@ NumFunction::NumFunction() : Function("num")
 	addParameter("value");
 }
 
-Value* NumFunction::evaluate(const Context& ctx) const
+Value& NumFunction::evaluate(const Context& ctx) const
 {
 	Value* v=getParameterArgument(ctx,0);
 	if(v)

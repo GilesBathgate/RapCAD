@@ -25,13 +25,22 @@
 class TransformationNode : public Node
 {
 public:
+	enum class Axis {
+		None,
+		X,
+		Y,
+		Z
+	};
 	TransformationNode();
 	~TransformationNode();
 	void accept(NodeVisitor&) override;
 	TransformMatrix* getMatrix() const;
 	void setMatrix(TransformMatrix*);
+	Axis getDatumAxis() const;
+	void setDatumAxis(const Axis&);
 private:
 	TransformMatrix* matrix;
+	Axis datumAxis;
 };
 
 #endif // TRANSFORMATIONNODE_H

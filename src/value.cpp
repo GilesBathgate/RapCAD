@@ -64,7 +64,7 @@ bool Value::isFalse() const
 	return !isTrue();
 }
 
-VectorValue* Value::toVector(int size)
+VectorValue& Value::toVector(int size)
 {
 	QList<Value*> children;
 	for(auto i=0; i<size; ++i)
@@ -73,14 +73,14 @@ VectorValue* Value::toVector(int size)
 	return factory.createVector(children);
 }
 
-TextValue* Value::toText()
+TextValue& Value::toText()
 {
 	return factory.createText(getValueString());
 }
 
-Value* Value::toNumber()
+Value& Value::toNumber()
 {
-	return this;
+	return *this;
 }
 
 ValueIterator* Value::createIterator()
@@ -88,142 +88,142 @@ ValueIterator* Value::createIterator()
 	return new ValueIterator(this);
 }
 
-Value* Value::operator^(Value& v)
+Value& Value::operator^(Value& v)
 {
 	return operation(v,Operators::Exponent);
 }
 
-Value* Value::operator*(Value& v)
+Value& Value::operator*(Value& v)
 {
 	return operation(v,Operators::Multiply);
 }
 
-Value* Value::concatenate(Value& v)
+Value& Value::concatenate(Value& v)
 {
 	return operation(v,Operators::Concatenate);
 }
 
-Value* Value::componentwiseMultiply(Value& v)
+Value& Value::componentwiseMultiply(Value& v)
 {
 	return operation(v,Operators::ComponentwiseMultiply);
 }
 
-Value* Value::operator/(Value& v)
+Value& Value::operator/(Value& v)
 {
 	return operation(v,Operators::Divide);
 }
 
-Value* Value::componentwiseDivide(Value& v)
+Value& Value::componentwiseDivide(Value& v)
 {
 	return operation(v,Operators::ComponentwiseDivide);
 }
 
-Value* Value::crossProduct(Value& v)
+Value& Value::crossProduct(Value& v)
 {
 	return operation(v,Operators::CrossProduct);
 }
 
-Value* Value::operator%(Value& v)
+Value& Value::operator%(Value& v)
 {
 	return operation(v,Operators::Modulus);
 }
 
-Value* Value::operator+()
+Value& Value::operator+()
 {
 	return operation(Operators::Add);
 }
 
-Value* Value::operator+(Value& v)
+Value& Value::operator+(Value& v)
 {
 	return operation(v,Operators::Add);
 }
 
-Value* Value::operator+=(Value& v)
+Value& Value::operator+=(Value& v)
 {
 	return operation(v,Operators::AddAssign);
 }
 
-Value* Value::operator++(int)
+Value& Value::operator++(int)
 {
 	return operation(Operators::Increment);
 }
 
-Value* Value::length()
+Value& Value::length()
 {
 	return operation(Operators::Length);
 }
 
-Value* Value::length(Value& v)
+Value& Value::length(Value& v)
 {
 	return operation(v,Operators::Length);
 }
 
-Value* Value::operator-()
+Value& Value::operator-()
 {
 	return operation(Operators::Subtract);
 }
 
-Value* Value::operator-(Value& v)
+Value& Value::operator-(Value& v)
 {
 	return operation(v,Operators::Subtract);
 }
 
-Value* Value::operator-=(Value& v)
+Value& Value::operator-=(Value& v)
 {
 	return operation(v,Operators::SubAssign);
 }
 
-Value* Value::operator--(int)
+Value& Value::operator--(int)
 {
 	return operation(Operators::Decrement);
 }
 
-Value* Value::operator<(Value& v)
+Value& Value::operator<(Value& v)
 {
 	return operation(v,Operators::LessThan);
 }
 
-Value* Value::operator<=(Value& v)
+Value& Value::operator<=(Value& v)
 {
 	return operation(v,Operators::LessOrEqual);
 }
 
-Value* Value::operator==(Value& v)
+Value& Value::operator==(Value& v)
 {
 	return operation(v,Operators::Equal);
 }
 
-Value* Value::operator!=(Value& v)
+Value& Value::operator!=(Value& v)
 {
 	return operation(v,Operators::NotEqual);
 }
 
-Value* Value::operator>=(Value& v)
+Value& Value::operator>=(Value& v)
 {
 	return operation(v,Operators::GreaterOrEqual);
 }
 
-Value* Value::operator>(Value& v)
+Value& Value::operator>(Value& v)
 {
 	return operation(v,Operators::GreaterThan);
 }
 
-Value* Value::operator&&(Value& v)
+Value& Value::operator&&(Value& v)
 {
 	return operation(v,Operators::LogicalAnd);
 }
 
-Value* Value::operator||(Value& v)
+Value& Value::operator||(Value& v)
 {
 	return operation(v,Operators::LogicalOr);
 }
 
-Value* Value::operator[](Value& v)
+Value& Value::operator[](Value& v)
 {
 	return operation(v,Operators::Index);
 }
 
-Value* Value::operator!()
+Value& Value::operator!()
 {
 	return operation(Operators::Invert);
 }
@@ -280,17 +280,17 @@ decimal Value::length(const decimal& left)
 	return r_abs(left);
 }
 
-Value* Value::operation(Operators e)
+Value& Value::operation(Operators e)
 {
 	if(e==Operators::Invert) {
 		bool result=basicOperation(defined,e);
 		return factory.createBoolean(result);
 	}
 
-	return this;
+	return *this;
 }
 
-Value* Value::operation(Value& v, Operators e)
+Value& Value::operation(Value& v, Operators e)
 {
 	bool left=defined;
 	bool right=v.defined;
@@ -299,7 +299,7 @@ Value* Value::operation(Value& v, Operators e)
 		return factory.createBoolean(result);
 	}
 	if(e==Operators::Concatenate) {
-		return &v;
+		return v;
 	}
 
 	return factory.createUndefined();
@@ -315,10 +315,13 @@ bool Value::isUndefined() const
 	return !defined;
 }
 
-Value* Value::operation(Value* p_left, Operators e, Value* p_right)
+Value* Value::evaluate(Value* left, Operators e, Value* right)
 {
-	Value& left=*p_left;
-	Value& right=*p_right;
+	return &Value::evaluate(*left,e,*right);
+}
+
+Value& Value::evaluate(Value& left, Operators e, Value& right)
+{
 	switch(e) {
 		case Operators::Exponent:
 			return left^right;
@@ -367,13 +370,17 @@ Value* Value::operation(Value* p_left, Operators e, Value* p_right)
 		case Operators::Length:
 			return left.length(right);
 		default:
-			return &left;
+			return left;
 	}
 }
 
-Value* Value::operation(Value* p_left, Operators e)
+Value* Value::evaluate(Value* left, Operators e)
 {
-	Value& left=*p_left;
+	return &Value::evaluate(*left,e);
+}
+
+Value& Value::evaluate(Value& left,Operators e)
+{
 	switch(e) {
 		case Operators::Add:
 			return +left;
@@ -388,7 +395,7 @@ Value* Value::operation(Value* p_left, Operators e)
 		case Operators::Length:
 			return left.length();
 		default:
-			return &left;
+			return left;
 	}
 }
 
@@ -411,38 +418,39 @@ bool Value::isComparison(Operators e)
 	}
 }
 
-bool Value::compare(Value* left, Operators op, Value* right)
+bool Value::compare(Value& left, Operators op, Value& right)
 {
-	return Value::operation(left,op,right)->isTrue();
+	return Value::evaluate(left,op,right).isTrue();
 }
 
-Value* Value::compareAll(const QList<Value*>& values, Operators op)
+Value& Value::compareAll(const QList<Value*>& values, Operators op)
 {
 	Value* result=nullptr;
 	for(Value* a: values) {
 		auto* numVal=dynamic_cast<NumberValue*>(a);
 		if(numVal) {
-			if(!result||compare(a,op,result))
+			if(!result||compare(*a,op,*result))
 				result=a;
 		}
 		auto* vecVal=dynamic_cast<VectorValue*>(a);
 		if(vecVal) {
-			Value* c=compareAll(vecVal->getElements(),op);
-			if(!result||compare(c,op,result))
-				result=c;
+			Value& c=compareAll(vecVal->getElements(),op);
+			if(!result||compare(c,op,*result))
+				result=&c;
 		}
 		auto* rngVal=dynamic_cast<RangeValue*>(a);
 		if(rngVal) {
 			QList<Value*> rng;
-			rng.append(rngVal->getStart());
-			rng.append(rngVal->getFinish());
-			Value* c=compareAll(rng,op);
-			if(!result||compare(c,op,result))
-				result=c;
+			rng.append(&rngVal->getStart());
+			rng.append(&rngVal->getFinish());
+			Value& c=compareAll(rng,op);
+			if(!result||compare(c,op,*result))
+				result=&c;
 		}
 	}
-	if(!result)
-		return factory.createUndefined();
 
-	return result;
+	if(result)
+		return *result;
+
+	return factory.createUndefined();
 }

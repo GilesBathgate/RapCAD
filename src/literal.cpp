@@ -65,7 +65,7 @@ QString Literal::getValueString() const
 	}
 }
 
-Value* Literal::getValue() const
+Value& Literal::getValue() const
 {
 	switch(type) {
 		case DataTypes::Boolean:

@@ -26,16 +26,16 @@ OrdinalFunction::OrdinalFunction() : Function("ord")
 	addParameter("value");
 }
 
-Value* OrdinalFunction::evaluate(const Context& ctx) const
+Value& OrdinalFunction::evaluate(const Context& ctx) const
 {
 	auto* textVal=dynamic_cast<TextValue*>(getParameterArgument(ctx,0));
 	if(textVal) {
-		QString text = textVal->getValueString();
+		QString text=textVal->getValueString();
 		QList<Value*> results;
 		for(uint unicode: text.toUcs4())
-			results.append(Value::factory.createNumber(unicode));
+			results.append(&Value::factory.createNumber(unicode));
 		if(results.count()==1)
-			return results.at(0);
+			return *results.at(0);
 		return Value::factory.createVector(results);
 	}
 

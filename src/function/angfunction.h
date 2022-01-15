@@ -26,9 +26,9 @@ class AngFunction : public Function
 	Q_DECLARE_TR_FUNCTIONS(AngFunction)
 public:
 	AngFunction();
-	Value* evaluate(const Context&) const override;
+	Value& evaluate(const Context&) const override;
 private:
-	static Value* getResult(const decimal&,const decimal&,const decimal&,const decimal&);
+	static Value& getResult(const decimal&,const decimal&,const decimal&,const decimal&);
 };
 
 #endif // ANGFUNCTION_H

@@ -1,0 +1,3 @@
+function test(){
+  return is_undef(12345)==false;
+}

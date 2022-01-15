@@ -57,7 +57,10 @@ decimal get_unit(const QString&,QString&);
 
 #ifdef USE_CGAL
 void to_glcoord(const Point&,float&,float&,float&);
-CGAL::Gmpfr to_gmpfr(const decimal&);
+mpq_srcptr to_mpq(const decimal&);
+void to_mpfr(mpfr_t&,const decimal&);
+decimal to_decimal(mpfr_t&);
+decimal to_decimal(mpq_t&);
 #endif
 
 #endif // DECIMAL_H

@@ -26,7 +26,7 @@ AssertFunction::AssertFunction() : Function("assert")
 	addParameter("message",tr("A message that is displayed when the assertion fails"));
 }
 
-Value* AssertFunction::evaluate(const Context& ctx) const
+Value& AssertFunction::evaluate(const Context& ctx) const
 {
 	Value* expectedVal=getParameterArgument(ctx,0);
 	Value* messageVal=getParameterArgument(ctx,1);

@@ -22,12 +22,12 @@
 #include <QTextDocumentWriter>
 #include <QFileDialog>
 #include <QToolTip>
+#include <QApplication>
+
 #include "codeeditor.h"
 #include "linenumberarea.h"
 #include "preferences.h"
 #include "mainwindow.h"
-
-static const char* indent="\t";
 
 CodeEditor::CodeEditor(QWidget* parent) :
 	QPlainTextEdit(parent),
@@ -40,7 +40,7 @@ CodeEditor::CodeEditor(QWidget* parent) :
 
 	connect(this,&CodeEditor::blockCountChanged,this,&CodeEditor::updateLineNumberAreaWidth);
 	connect(this,&CodeEditor::updateRequest,this,&CodeEditor::updateLineNumberArea);
-	connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
+	connect(this,&CodeEditor::cursorPositionChanged,this,&CodeEditor::highlightCurrentLine);
 
 	updateLineNumberAreaWidth(0);
 }
@@ -153,7 +153,7 @@ bool CodeEditor::openFile()
 
 void CodeEditor::preferencesUpdated()
 {
-	Preferences& p=Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	QFont font=p.getEditorFont();
 	font.setFixedPitch(true);
 	setFont(font);
@@ -217,6 +217,8 @@ void CodeEditor::increaseSelectionIndent()
 	cursor.setPosition(std::min(cursor.anchor(),cursor.position()));
 
 	cursor.beginEditBlock();
+	auto& p=Preferences::getInstance();
+	QString indent=p.getIndent();
 	for(auto i=0; i<=blockCount; ++i) {
 		cursor.movePosition(QTextCursor::StartOfBlock);
 		QTextCursor current(cursor);
@@ -236,6 +238,8 @@ void CodeEditor::decreaseSelectionIndent()
 	cursor.setPosition(std::min(cursor.anchor(),cursor.position()));
 
 	cursor.beginEditBlock();
+	auto& p=Preferences::getInstance();
+	QString indent=p.getIndent();
 	for(auto i=0; i<=blockCount; ++i) {
 		cursor.movePosition(QTextCursor::StartOfBlock);
 		QTextCursor current(cursor);
@@ -281,8 +285,10 @@ bool CodeEditor::event(QEvent* event)
 
 void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent* event)
 {
+	const auto& p = QApplication::palette();
+
 	QPainter painter(lineNumberArea);
-	painter.fillRect(event->rect(), QColor(240,240,240));
+	painter.fillRect(event->rect(), p.color(QPalette::Window));
 
 	QTextBlock block = firstVisibleBlock();
 	int blockNumber = block.blockNumber();

@@ -26,7 +26,7 @@ class PowFunction : public Function
 	Q_DECLARE_TR_FUNCTIONS(PowFunction)
 public:
 	PowFunction();
-	Value* evaluate(const Context&) const override;
+	Value& evaluate(const Context&) const override;
 };
 
 #endif // POWFUNCTION_H

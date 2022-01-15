@@ -74,9 +74,9 @@ void Function::accept(TreeVisitor& v)
 	v.visit(*this);
 }
 
-Value* Function::evaluate(const Context&) const
+Value& Function::evaluate(const Context&) const
 {
-	return nullptr;
+	return Value::factory.createUndefined();
 }
 
 void Function::addParameter(const QString& n)

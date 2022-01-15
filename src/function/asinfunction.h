@@ -26,7 +26,7 @@ class AsinFunction : public Function
 	Q_DECLARE_TR_FUNCTIONS(AsinFunction)
 public:
 	AsinFunction();
-	Value* evaluate(const Context&) const override;
+	Value& evaluate(const Context&) const override;
 };
 
 #endif // ASINFUNCTION_H

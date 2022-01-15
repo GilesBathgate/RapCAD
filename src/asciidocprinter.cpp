@@ -43,9 +43,17 @@ static QString capitalize(QString str)
 	return str;
 }
 
-void AsciidocPrinter::visit(const Module& mod)
+static QString getModuleName(const Module& mod)
 {
 	QString name=mod.getName();
+	if(mod.getAuxilary())
+		name += "$";
+	return name;
+}
+
+void AsciidocPrinter::visit(const Module& mod)
+{
+	QString name=getModuleName(mod);
 	modulesOutput << capitalize(name) << "\n";
 	modulesOutput << QString(name.length(),'^') << "\n\n";
 	modulesOutput << mod.getDescription() << "\n\n";

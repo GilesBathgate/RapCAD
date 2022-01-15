@@ -1,0 +1,3 @@
+use <004_use1.data>
+
+function test() = external_value;

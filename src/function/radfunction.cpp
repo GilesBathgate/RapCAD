@@ -27,7 +27,7 @@ RadFunction::RadFunction() : Function("rad")
 	addParameter("degrees");
 }
 
-Value* RadFunction::evaluate(const Context& ctx) const
+Value& RadFunction::evaluate(const Context& ctx) const
 {
 	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(numVal) {

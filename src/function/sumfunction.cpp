@@ -27,15 +27,15 @@ SumFunction::SumFunction() : Function("sum")
 	addParameter("values");
 }
 
-Value* SumFunction::evaluate(const Context& ctx) const
+Value& SumFunction::evaluate(const Context& ctx) const
 {
 	auto* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(vecVal) {
-		Value* resultVal = Value::factory.createNumber(0.0);
+		Value* resultVal=&Value::factory.createNumber(0.0);
 		for(Value* child: vecVal->getElements())
-			resultVal=Value::operation(resultVal,Operators::Add,child);
+			resultVal=Value::evaluate(resultVal,Operators::Add,child);
 
-		return resultVal;
+		return *resultVal;
 	}
 	return Value::factory.createUndefined();
 }

@@ -26,7 +26,7 @@ class ExpFunction : public Function
 	Q_DECLARE_TR_FUNCTIONS(ExpFunction)
 public:
 	ExpFunction();
-	Value* evaluate(const Context&) const override;
+	Value& evaluate(const Context&) const override;
 };
 
 #endif // EXPFUNCTION_H

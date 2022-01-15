@@ -26,7 +26,7 @@ class LogFunction : public Function
 	Q_DECLARE_TR_FUNCTIONS(LogFunction)
 public:
 	LogFunction();
-	Value* evaluate(const Context&) const override;
+	Value& evaluate(const Context&) const override;
 };
 
 #endif // LOGFUNCTION_H

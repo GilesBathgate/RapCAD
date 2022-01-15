@@ -80,7 +80,7 @@ void CGALExport::exportResult() const
 CGALPrimitive *CGALExport::transformPrimitive() const
 {
 	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
-	Preferences& p=Preferences::getInstance();
+	auto& p=Preferences::getInstance();
 	if(pr && p.getTranslateOrigin()) {
 		pr=static_cast<CGALPrimitive*>(pr->copy());
 		QPointF o=p.getPrintOrigin();
