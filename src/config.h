@@ -19,8 +19,6 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define BOOST_NO_STDLIB_CONFIG
-
 #define CGAL_NO_CORE 1
 #include <CGAL/config.h>
 
@@ -29,7 +27,6 @@
 #define CGAL_NO_ATOMIC 1
 #include <CGAL/atomic.h>
 
-#define CGAL_DO_NOT_USE_BOOST_MP 1
 #define CGAL_DO_NOT_USE_MPZF 1
 
 #define CGAL_DEBUG

@@ -122,6 +122,8 @@ jobs:
       run: |
         echo "VERSION=$(cat VERSION)" >> $env:GITHUB_ENV
         qmake CONFIG+=${{ matrix.config }}
+        rm VERSION
+        touch version
     - name: Build
       run: mingw32-make -j4 -f Makefile.Release
     - name: Clean
@@ -187,13 +189,17 @@ jobs:
         brew install cgal bison
         echo "/usr/local/opt/bison/bin" >> $GITHUB_PATH
     - name: Configure
-      run: qmake CONFIG+=${{ matrix.config }}
+      run: |
+        echo "VERSION=$(cat VERSION)" >> $env:GITHUB_ENV
+        qmake CONFIG+=${{ matrix.config }}
+        rm VERSION
+        touch version
     - name: Build
       run: make -j4
     - name: Package
       run: |
         macdeployqt rapcad.app -dmg
-        mv rapcad.dmg rapcad_$(cat VERSION).dmg
+        mv rapcad.dmg rapcad_$env:VERSION.dmg
     - name: Test
       if: ${{ matrix.config == 'coverage' }}
       run: ./rapcad.app/Contents/MacOS/rapcad -t test

@@ -78,8 +78,6 @@ win32 {
 	QMAKE_LEX = win_flex
 } else {
 
-	DEFINES += CGAL_USE_GMPXX
-
 	exists( /usr/lib/x86_64-linux-gnu/libCGAL* ) {
 		LIBS += -lCGAL -lCGAL_Core
 	}
