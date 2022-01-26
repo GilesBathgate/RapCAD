@@ -66,7 +66,7 @@ Primitive* CGALImport::import() const
 Primitive* CGALImport::importOFF() const
 {
 	CGAL::Polyhedron3 poly;
-	std::ifstream file(fileInfo.absoluteFilePath().toLocal8Bit().constData());
+	std::ifstream file(fileInfo.absoluteFilePath().toStdString());
 	file >> poly;
 	file.close();
 
@@ -78,7 +78,7 @@ Primitive* CGALImport::importOFF() const
 Primitive* CGALImport::importNEF() const
 {
 	CGAL::NefPolyhedron3 nef;
-	std::ifstream file(fileInfo.absoluteFilePath().toLocal8Bit().constData());
+	std::ifstream file(fileInfo.absoluteFilePath().toStdString());
 	file >> nef;
 	file.close();
 
@@ -91,7 +91,7 @@ Primitive* CGALImport::importOBJ() const
 	auto* cp=new CGALPrimitive();
 	std::vector<CGAL::Point3> points;
 	std::vector<std::vector<std::size_t> > faces;
-	std::ifstream file(fileInfo.absoluteFilePath().toLocal8Bit().constData());
+	std::ifstream file(fileInfo.absoluteFilePath().toStdString());
 #if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,3,0)
 	CGAL::IO::read_OBJ(file,points,faces);
 #else
