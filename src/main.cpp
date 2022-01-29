@@ -26,6 +26,7 @@
 #include "worker.h"
 #ifdef USE_INTEGTEST
 #include "tester.h"
+#include "concurrentworker.h"
 #endif
 #include "comparer.h"
 #include "stringify.h"
@@ -79,6 +80,9 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Re
 
 	QCommandLineOption generateOption(QStringList() << "g" << "generate", QCoreApplication::translate("main","Generate documentation"));
 	p.addOption(generateOption);
+
+	QCommandLineOption concurrentOption(QStringList() << "k" << "concurrent", QCoreApplication::translate("main","Concurrency tests"));
+	p.addOption(concurrentOption);
 #endif
 
 	QCommandLineOption compareOption(QStringList() << "c" << "compare", QCoreApplication::translate("main","Compare two files to see if they are identical."),"filename");
@@ -112,6 +116,9 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Re
 	}
 	if(p.isSet(generateOption)) {
 		return new Generator(reporter);
+	}
+	if(p.isSet(concurrentOption)) {
+		return new ConcurrentWorker(reporter);
 	}
 #endif
 	if(p.isSet(outputOption)) {

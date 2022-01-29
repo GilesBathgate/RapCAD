@@ -23,7 +23,7 @@
 #-------------------------------------------------
 VERSION = $$cat(VERSION)
 
-QT  += core gui opengl widgets
+QT  += core gui opengl widgets concurrent
 
 CONFIG += c++14
 TARGET = rapcad
@@ -160,10 +160,12 @@ SOURCES += \
 	src/cgaldiscretemodifier.cpp \
 	src/cgalgroupmodifier.cpp \
 	src/cgalsanitizer.cpp \
+	src/concurrentworker.cpp \
 	src/function/assertfunction.cpp \
 	src/function/circumcenterfunction.cpp \
 	src/function/isundeffunction.cpp \
 	src/function/ordinalfunction.cpp \
+	src/geometryevaluator.cpp \
 	src/main.cpp \
 	src/module/assertmodule.cpp \
 	src/module/colormodule.cpp \
@@ -418,10 +420,12 @@ HEADERS  += \
 	src/cgalgroupmodifier.h \
 	src/cgalsanitizer.h \
 	src/cgaltrace.h \
+	src/concurrentworker.h \
 	src/function/assertfunction.h \
 	src/function/circumcenterfunction.h \
 	src/function/isundeffunction.h \
 	src/function/ordinalfunction.h \
+	src/geometryevaluator.h \
 	src/module/assertmodule.h \
 	src/module/colormodule.h \
 	src/module/datummodule.h \
