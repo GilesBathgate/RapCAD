@@ -190,7 +190,7 @@ jobs:
         echo "/usr/local/opt/bison/bin" >> $GITHUB_PATH
     - name: Configure
       run: |
-        echo "VERSION=$(cat VERSION)" >> $env:GITHUB_ENV
+        echo "VERSION=$(cat VERSION)" >> $GITHUB_ENV
         qmake CONFIG+=${{ matrix.config }}
         rm VERSION
         touch version
@@ -199,7 +199,7 @@ jobs:
     - name: Package
       run: |
         macdeployqt rapcad.app -dmg
-        mv rapcad.dmg rapcad_$env:VERSION.dmg
+        mv rapcad.dmg rapcad_${{ env.VERSION }}.dmg
     - name: Test
       if: ${{ matrix.config == 'coverage' }}
       run: ./rapcad.app/Contents/MacOS/rapcad -t test
