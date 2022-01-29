@@ -24,8 +24,10 @@
 #define CGAL_HAS_NO_THREADS 1
 #include <CGAL/config.h>
 
-#define CGAL_NO_ATOMIC 1
 #include <CGAL/atomic.h>
+#ifndef CGAL_NO_ATOMIC
+#define CGAL_NO_ATOMIC 1
+#endif
 
 #define CGAL_DO_NOT_USE_MPZF 1
 
