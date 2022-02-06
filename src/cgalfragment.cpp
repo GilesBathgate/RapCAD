@@ -24,7 +24,7 @@ CGALFragment::CGALFragment(const Context& ctx) :
 {
 }
 
-int CGALFragment::getFragments(const CGAL::Scalar& r)
+int CGALFragment::getFragments(const CGAL::Scalar& r) const
 {
 	int fn=fragmentNumber;
 	if(fn>0)

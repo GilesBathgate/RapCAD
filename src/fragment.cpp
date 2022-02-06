@@ -19,6 +19,7 @@
 #include "fragment.h"
 #include "contrib/fragments.h"
 #include "numbervalue.h"
+#include "context.h"
 
 #ifdef USE_CGAL
 #include "cgalfragment.h"
@@ -63,12 +64,12 @@ Fragment* Fragment::createFragment(const Context& ctx)
 }
 
 #ifdef USE_CGAL
-int Fragment::getFragments(const decimal&)
+int Fragment::getFragments(const decimal&) const
 {
 	throw;
 }
 #else
-int Fragment::getFragments(const decimal& r)
+int Fragment::getFragments(const decimal& r) const
 {
 	return get_fragments_from_r(r,fragmentNumber,fragmentSize,fragmentAngle);
 }

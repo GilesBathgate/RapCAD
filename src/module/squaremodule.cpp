@@ -18,6 +18,7 @@
 
 #include "squaremodule.h"
 #include "vectorvalue.h"
+#include "context.h"
 
 SquareModule::SquareModule(Reporter& r) : PrimitiveModule(r,"square")
 {

@@ -21,6 +21,7 @@
 #include "node/transformationnode.h"
 #include "numbervalue.h"
 #include "vectorvalue.h"
+#include "context.h"
 
 RotateExtrudeModule::RotateExtrudeModule(Reporter& r) : PrimitiveModule(r,"rotate_extrude")
 {

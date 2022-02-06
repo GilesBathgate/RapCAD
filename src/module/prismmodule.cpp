@@ -19,6 +19,7 @@
 #include "prismmodule.h"
 #include "numbervalue.h"
 #include "rmath.h"
+#include "context.h"
 
 PrismModule::PrismModule(Reporter& r) : PrimitiveModule(r,"prism")
 {

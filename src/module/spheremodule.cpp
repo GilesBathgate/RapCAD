@@ -20,6 +20,7 @@
 #include "numbervalue.h"
 #include "rmath.h"
 #include "node/pointsnode.h"
+#include "context.h"
 
 SphereModule::SphereModule(Reporter& r) : PrimitiveModule(r,"sphere")
 {
