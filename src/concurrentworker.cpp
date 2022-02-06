@@ -16,15 +16,43 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "concurrentworker.h"
+#include "treeevaluator.h"
+#include "geometryevaluator.h"
+#include "cgalexport.h"
 #include <QCoreApplication>
 
-ConcurrentWorker::ConcurrentWorker(Reporter& r) : Worker(r)
+ConcurrentWorker::ConcurrentWorker(Reporter& r) : Strategy(r)
 {
+}
+
+void ConcurrentWorker::setup(const QString &i, const QString &o)
+{
+	inputFile=i;
+	outputFile=o;
 }
 
 int ConcurrentWorker::evaluate()
 {
 	int c=0;
 	QCoreApplication a(c,nullptr);
+
+	Script s(reporter);
+	s.parse(inputFile);
+
+	TreeEvaluator e(reporter);
+	s.accept(e);
+	output.flush();
+
+	Node* n = e.getRootNode();
+	GeometryEvaluator g;
+	n->accept(g);
+
+	Primitive* result = g.getResult();
+	delete n;
+
+	const QFileInfo file(outputFile);
+	const CGALExport exporter(file,result,reporter);
+	exporter.exportResult();
+
 	return 0;
 }

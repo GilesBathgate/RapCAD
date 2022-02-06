@@ -157,7 +157,9 @@ Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Reporter&
 		return new Generator(reporter);
 	}
 	if(p.isSet(concurrentOption)) {
-		return new ConcurrentWorker(reporter);
+		auto* cw=new ConcurrentWorker(reporter);
+		cw->setup(inputFile,p.value(outputOption));
+		return cw;
 	}
 #endif
 	if(p.isSet(outputOption)) {

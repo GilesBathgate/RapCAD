@@ -18,13 +18,17 @@
 #ifndef CONCURRENTWORKER_H
 #define CONCURRENTWORKER_H
 
-#include "worker.h"
+#include "strategy.h"
 
-class ConcurrentWorker : public Worker
+class ConcurrentWorker : public Strategy
 {
 public:
 	ConcurrentWorker(Reporter&);
+	void setup(const QString& i,const QString& o);
 	int evaluate() override;
+private:
+	QFileInfo inputFile;
+	QString outputFile;
 };
 
 #endif // CONCURRENTWORKER_H

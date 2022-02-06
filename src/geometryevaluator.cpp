@@ -30,22 +30,26 @@ static Primitive* evaluateChildren(Node* n)
 }
 
 template <typename Function>
-static QFuture<Primitive*> reduceChildren(const Node& n,Function f)
+static QFuture<Primitive*> reduceChildren(
+	const Node& n,Function f,QtConcurrent::ReduceOptions r=QtConcurrent::OrderedReduce)
 {
 	const auto& children=n.getChildren();
-	return QtConcurrent::mappedReduced<Primitive*>(children,evaluateChildren,f,QtConcurrent::SequentialReduce);
+	return QtConcurrent::mappedReduced<Primitive*>(children,evaluateChildren,f,r);
 }
 
+// blocking because we can't apply operations until evaluated
 static Primitive* groupChildren(const Node& n)
 {
-	auto r=reduceChildren(n,[](auto& p,auto c) {
+	const auto& children=n.getChildren();
+	return QtConcurrent::blockingMappedReduced<Primitive*>(children,evaluateChildren,
+	[](auto& p,auto c) {
 		p=p?p->group(c):c;
-	});
-	return r.result();
+	},QtConcurrent::UnorderedReduce);
 }
 
 void GeometryEvaluator::visit(const PrimitiveNode& n)
 {
+
 	result=QtConcurrent::run([&n]() {
 		return n.getPrimitive();
 	});
@@ -82,14 +86,14 @@ void GeometryEvaluator::visit(const UnionNode& n)
 {
 	result=reduceChildren(n,[](auto& p,auto c) {
 		p=p?p->join(c):c;
-	});
+	},QtConcurrent::UnorderedReduce);
 }
 
 void GeometryEvaluator::visit(const GroupNode& n)
 {
 	result=reduceChildren(n,[](auto& p,auto c) {
 		p=p?p->group(c):c;
-	});
+	},QtConcurrent::UnorderedReduce);
 }
 
 void GeometryEvaluator::visit(const DifferenceNode& n)
@@ -129,13 +133,20 @@ void GeometryEvaluator::visit(const HullNode&)
 {
 }
 
-void GeometryEvaluator::visit(const LinearExtrudeNode&)
+void GeometryEvaluator::visit(const LinearExtrudeNode& n)
 {
-
+	result=QtConcurrent::run([&n]() {
+		Primitive* p=groupChildren(n);
+		return p?p->linear_extrude(n.getHeight(),n.getAxis()):nullptr;
+	});
 }
 
-void GeometryEvaluator::visit(const RotateExtrudeNode&)
+void GeometryEvaluator::visit(const RotateExtrudeNode& n)
 {
+	result=QtConcurrent::run([&n]() {
+		Primitive* p=groupChildren(n);
+		return p?p->rotate_extrude(n.getHeight(),n.getRadius(),n.getSweep(),n.getFragments(),n.getAxis()):nullptr;
+	});
 }
 
 
