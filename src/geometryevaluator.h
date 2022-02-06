@@ -18,6 +18,7 @@
 #ifndef GEOMETRYEVALUATOR_H
 #define GEOMETRYEVALUATOR_H
 
+#include <QtConcurrent>
 #include "primitive.h"
 #include "nodevisitor.h"
 #include "reporter.h"
@@ -93,6 +94,9 @@ public:
 	void visit(const NormalsNode&) override;
 	void visit(const SimplifyNode&) override;
 	void visit(const ChildrenNode&) override;
+	Primitive* getResult() const;
+private:
+	QFuture<Primitive*> result;
 };
 
 #endif // GEOMETRYEVALUATOR_H

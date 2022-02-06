@@ -16,50 +16,108 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "geometryevaluator.h"
-#include <QtConcurrent>
+#include "polyhedron.h"
 
 GeometryEvaluator::GeometryEvaluator()
 {
 }
 
-void GeometryEvaluator::visit(const PrimitiveNode&)
+static Primitive* evaluateChildren(Node* n)
 {
+	GeometryEvaluator g;
+	n->accept(g);
+	return g.getResult();
 }
 
-void GeometryEvaluator::visit(const TriangulateNode&)
+template <typename Function>
+static QFuture<Primitive*> reduceChildren(const Node& n,Function f)
 {
+	const auto& children=n.getChildren();
+	return QtConcurrent::mappedReduced<Primitive*>(children,evaluateChildren,f,QtConcurrent::SequentialReduce);
 }
 
-void GeometryEvaluator::visit(const MaterialNode&)
+static Primitive* groupChildren(const Node& n)
 {
+	auto r=reduceChildren(n,[](auto& p,auto c) {
+		p=p?p->group(c):c;
+	});
+	return r.result();
 }
 
-void GeometryEvaluator::visit(const DiscreteNode&)
+void GeometryEvaluator::visit(const PrimitiveNode& n)
 {
+	result=QtConcurrent::run([&n]() {
+		return n.getPrimitive();
+	});
 }
 
-void GeometryEvaluator::visit(const UnionNode&)
+void GeometryEvaluator::visit(const TriangulateNode& n)
 {
+	result=QtConcurrent::run([&n]() {
+		Primitive* p=groupChildren(n);
+		return p?p->triangulate():nullptr;
+	});
 }
 
-void GeometryEvaluator::visit(const GroupNode&)
+void GeometryEvaluator::visit(const MaterialNode& n)
 {
+	result=QtConcurrent::run([&n]() {
+		auto* p=groupChildren(n);
+		Primitive* ph=new Polyhedron();
+		ph->appendChild(p);
+		return ph;
+	});
 }
 
-void GeometryEvaluator::visit(const DifferenceNode&)
+void GeometryEvaluator::visit(const DiscreteNode& n)
 {
+	result=QtConcurrent::run([&n]() {
+		Primitive* p=groupChildren(n);
+		p->discrete(n.getPlaces());
+		return p;
+	});
 }
 
-void GeometryEvaluator::visit(const IntersectionNode&)
+void GeometryEvaluator::visit(const UnionNode& n)
 {
+	result=reduceChildren(n,[](auto& p,auto c) {
+		p=p?p->join(c):c;
+	});
 }
 
-void GeometryEvaluator::visit(const SymmetricDifferenceNode&)
+void GeometryEvaluator::visit(const GroupNode& n)
 {
+	result=reduceChildren(n,[](auto& p,auto c) {
+		p=p?p->group(c):c;
+	});
 }
 
-void GeometryEvaluator::visit(const MinkowskiNode&)
+void GeometryEvaluator::visit(const DifferenceNode& n)
 {
+	result=reduceChildren(n,[](auto& p,auto c) {
+		p=p?p->difference(c):c;
+	});
+}
+
+void GeometryEvaluator::visit(const IntersectionNode& n)
+{
+	result=reduceChildren(n,[](auto& p,auto c) {
+		p=p?p->intersection(c):c;
+	});
+}
+
+void GeometryEvaluator::visit(const SymmetricDifferenceNode& n)
+{
+	result=reduceChildren(n,[](auto& p,auto c) {
+		p=p?p->symmetric_difference(c):c;
+	});
+}
+
+void GeometryEvaluator::visit(const MinkowskiNode& n)
+{
+	result=reduceChildren(n,[](auto& p,auto c) {
+		p=p?p->minkowski(c):c;
+	});
 }
 
 void GeometryEvaluator::visit(const GlideNode&)
@@ -115,8 +173,14 @@ void GeometryEvaluator::visit(const ImportNode&)
 {
 }
 
-void GeometryEvaluator::visit(const TransformationNode&)
+void GeometryEvaluator::visit(const TransformationNode& n)
 {
+	result=QtConcurrent::run([&n]() {
+		Primitive* p=groupChildren(n);
+		if(p) p->transform(n.getMatrix());
+		return p;
+	});
+
 }
 
 void GeometryEvaluator::visit(const ResizeNode&)
@@ -161,4 +225,9 @@ void GeometryEvaluator::visit(const RadialsNode&)
 
 void GeometryEvaluator::visit(const VolumesNode&)
 {
+}
+
+Primitive* GeometryEvaluator::getResult() const
+{
+	return result.result();
 }
