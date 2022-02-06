@@ -683,7 +683,7 @@ Primitive* CGALPrimitive::linear_extrude(const CGAL::Scalar& height,const CGAL::
 
 }
 
-static CGAL::AffTransformation3 getRotatation(const CGAL::Scalar& a,const CGAL::Vector3& axis)
+static CGAL::AffTransformation3 getRotation(const CGAL::Scalar& a,const CGAL::Vector3& axis)
 {
 	CGAL::Scalar u=axis.x();
 	CGAL::Scalar v=axis.y();
@@ -703,11 +703,11 @@ static CGAL::AffTransformation3 getRotatation(const CGAL::Scalar& a,const CGAL::
 Primitive* CGALPrimitive::rotate_extrude(const CGAL::Scalar& height,const CGAL::Scalar& r,const CGAL::Scalar& sweep,const Fragment* fg,const CGAL::Point3& pAxis)
 {
 	CGAL::Vector3 axis(CGAL::ORIGIN,pAxis);
-	CGAL::Scalar mag=r_sqrt(axis.squared_length(),false);
-	axis=axis/mag;
-
-	CGAL::Plane3 plane(CGAL::ORIGIN,axis);
+	CGAL::Plane3 plane(CGAL::ORIGIN,axis.direction());
 	CGAL::Direction3 d=plane.base2().direction();
+
+	CGAL::Scalar mag=r_sqrt(axis.squared_length(),false);
+	axis/=mag; // needed for getRotation
 
 	CGALExplorer explorer(this);
 	CGALPrimitive* primitive=explorer.getPrimitive();
@@ -743,8 +743,8 @@ Primitive* CGALPrimitive::rotate_extrude(const CGAL::Scalar& height,const CGAL::
 		int j=caps?i+1:(i+1)%f;
 		CGAL::Scalar ang=r_tau()*sweep/360.0;
 
-		rotate=getRotatation(ang*i/f,axis);
-		nrotate=getRotatation(ang*j/f,axis);
+		rotate=getRotation(ang*i/f,axis);
+		nrotate=getRotation(ang*j/f,axis);
 
 		for(CGALPolygon* pg: primitive->getCGALPerimeter()) {
 			bool hole=pg->getHole();
