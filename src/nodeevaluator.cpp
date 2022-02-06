@@ -30,11 +30,6 @@
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/Alpha_shape_vertex_base_3.h>
 #include <CGAL/Alpha_shape_3.h>
-#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,11,0)
-#include <CGAL/Subdivision_method_3.h>
-#else
-#include <CGAL/Subdivision_method_3/subdivision_methods_3.h>
-#endif
 #include "cgalimport.h"
 #include "cgalexplorer.h"
 #include "cgalprimitive.h"
@@ -453,20 +448,8 @@ void NodeEvaluator::visit(const BoundsNode& n)
 void NodeEvaluator::visit(const SubDivisionNode& n)
 {
 	if(!evaluate(n,Operations::Union)) return;
-#ifdef USE_CGAL
-	auto* cp=dynamic_cast<CGALPrimitive*>(result);
-	CGAL::Polyhedron3* p=cp->getPolyhedron();
 
-#if CGAL_VERSION_NR <= CGAL_VERSION_NUMBER(4,11,0)
-	CGAL::Subdivision_method_3::Loop_subdivision(*p,n.getLevel());
-#else
-	CGAL::Subdivision_method_3::Loop_subdivision(*p,CGAL::parameters::number_of_iterations(n.getLevel()));
-#endif
-	cp=new CGALPrimitive(*p);
-	cp->appendChild(result);
-	delete p;
-	result=cp;
-#endif
+	result=result->subdivide(n.getLevel());
 }
 
 void NodeEvaluator::visit(const NormalsNode& n)

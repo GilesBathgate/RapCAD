@@ -38,6 +38,12 @@
 #include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Edge_length_cost.h>
 #include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Midpoint_placement.h>
 
+#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,11,0)
+#include <CGAL/Subdivision_method_3.h>
+#else
+#include <CGAL/Subdivision_method_3/subdivision_methods_3.h>
+#endif
+
 #include "cgalbuilder.h"
 #include "cgalsanitizer.h"
 #include "cgalexplorer.h"
@@ -940,3 +946,17 @@ CGALPrimitive::Unionable& CGALPrimitive::Unionable::operator+(Unionable& other)
 	return *this;
 }
 #endif
+
+Primitive* CGALPrimitive::subdivide(int level)
+{
+	CGAL::Polyhedron3* p=this->getPolyhedron();
+#if CGAL_VERSION_NR <= CGAL_VERSION_NUMBER(4,11,0)
+	CGAL::Subdivision_method_3::Loop_subdivision(*p,level);
+#else
+	CGAL::Subdivision_method_3::Loop_subdivision(*p,CGAL::parameters::number_of_iterations(level));
+#endif
+	auto* cp=new CGALPrimitive(*p);
+	cp->appendChild(this);
+	delete p;
+	return cp;
+}

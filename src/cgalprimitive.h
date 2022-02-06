@@ -73,6 +73,7 @@ public:
 	Primitive* simplify(const CGAL::Scalar&) override;
 	Primitive* linear_extrude(const CGAL::Scalar&,const CGAL::Point3&) override;
 	Primitive* rotate_extrude(const CGAL::Scalar&,const CGAL::Scalar&,const CGAL::Scalar&,const Fragment*,const CGAL::Point3&) override;
+	Primitive* subdivide(int) override;
 	CGAL::Cuboid3 getBounds();
 	void transform(TransformMatrix*) override;
 	/* Don't call this method instead use getCGALPolygons */
