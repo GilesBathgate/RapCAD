@@ -48,7 +48,7 @@ Node* SphereModule::evaluate(const Context& ctx) const
 
 	int ringCount=f/2;
 
-	auto* pn=new PrimitiveNode(reporter);
+	auto* pn=new PrimitiveNode();
 	Primitive* p=pn->createPrimitive();
 	pn->setChildren(ctx.getInputNodes());
 

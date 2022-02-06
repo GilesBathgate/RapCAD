@@ -41,7 +41,7 @@ Node* PrismModule::evaluate(const Context& ctx) const
 	if(sidesVal)
 		s=sidesVal->toInteger();
 
-	auto* pn=new PrimitiveNode(reporter);
+	auto* pn=new PrimitiveNode();
 	Primitive* p=pn->createPrimitive();
 	pn->setChildren(ctx.getInputNodes());
 

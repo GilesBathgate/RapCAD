@@ -18,7 +18,7 @@
 #include "geometryevaluator.h"
 #include <QtConcurrent>
 
-GeometryEvaluator::GeometryEvaluator(Reporter&)
+GeometryEvaluator::GeometryEvaluator()
 {
 }
 

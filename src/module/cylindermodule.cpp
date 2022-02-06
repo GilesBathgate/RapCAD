@@ -76,7 +76,7 @@ Node* CylinderModule::evaluate(const Context& ctx) const
 	QList<Point> c1=getCircle(r1,f,z1);
 	QList<Point> c2=getCircle(r2,f,z2);
 
-	auto* pn=new PrimitiveNode(reporter);
+	auto* pn=new PrimitiveNode();
 	Primitive* p=pn->createPrimitive();
 	pn->setChildren(ctx.getInputNodes());
 

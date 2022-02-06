@@ -42,7 +42,7 @@ Node* CubeModule::evaluate(const Context& ctx) const
 		pt=size.getPoint();
 	}
 
-	auto* pn=new PrimitiveNode(reporter);
+	auto* pn=new PrimitiveNode();
 	Primitive* p=pn->createPrimitive();
 	pn->setChildren(ctx.getInputNodes());
 

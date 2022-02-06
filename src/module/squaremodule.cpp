@@ -43,7 +43,7 @@ Node* SquareModule::evaluate(const Context& ctx) const
 		y=pt.y();
 	}
 
-	auto* pn=new PrimitiveNode(reporter);
+	auto* pn=new PrimitiveNode();
 	Primitive* p=pn->createPrimitive();
 	pn->setChildren(ctx.getInputNodes());
 

@@ -47,12 +47,12 @@ Node* TextModule::evaluate(const Context& ctx) const
 	if(sizeVal)
 		size=sizeVal->toInteger();
 
-	QPathTextBuilder tb(reporter);
+	QPathTextBuilder tb;
 	tb.setText(textVal->getValueString());
 	tb.setFamily(family);
 	tb.setSize(size);
 
-	auto* pn=new PrimitiveNode(reporter);
+	auto* pn=new PrimitiveNode();
 	Primitive* p=tb.buildPrimitive();
 	p->setType(PrimitiveTypes::Surface);
 	p->setSanitized(false);

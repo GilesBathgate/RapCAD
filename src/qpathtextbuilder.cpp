@@ -23,9 +23,8 @@
 #include "onceonly.h"
 #include "node/primitivenode.h"
 
-QPathTextBuilder::QPathTextBuilder(Reporter& r) :
-	size(0),
-	reporter(r)
+QPathTextBuilder::QPathTextBuilder() :
+	size(0)
 {
 	headless = QFont().family().isEmpty();
 }
@@ -86,7 +85,7 @@ Primitive* QPathTextBuilder::buildPrimitive() const
 	QList<QPolygonF> paths = painterPath.toSubpathPolygons();
 
 	int index=0;
-	PrimitiveNode pn(reporter);
+	PrimitiveNode pn;
 	Primitive* p=pn.createPrimitive();
 	for(const auto& path: paths) {
 		Polygon& pg=p->createPolygon();
