@@ -330,24 +330,6 @@ static CGAL::Point3 flatten(const CGAL::Point3& p)
 {
 	return CGAL::Point3(p.x(),p.y(),0.0);
 }
-
-
-static CGAL::AffTransformation3 getRotatation(const CGAL::Scalar& a,const CGAL::Vector3& axis)
-{
-	CGAL::Scalar u=axis.x();
-	CGAL::Scalar v=axis.y();
-	CGAL::Scalar w=axis.z();
-	CGAL::Scalar c=r_cos(a);
-	CGAL::Scalar s=r_sin(a);
-
-	CGAL::Scalar c1=1.0-c;
-
-	return CGAL::AffTransformation3(
-		u*u*c1+c,u*v*c1-w*s,u*w*c1+v*s,0.0,
-		u*v*c1+w*s,v*v*c1+c,v*w*c1-u*s,0.0,
-		u*w*c1-v*s,v*w*c1+u*s,w*w*c1+c,0.0,1.0
-	);
-}
 #endif
 
 void NodeEvaluator::visit(const LinearExtrudeNode& op)
@@ -367,107 +349,12 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 	}
 #ifdef USE_CGAL
 	CGAL::Vector3 axis(CGAL::ORIGIN,op.getAxis());
-	CGAL::Scalar mag=r_sqrt(axis.squared_length(),false);
-	if(mag==0.0) {
+	if(axis.squared_length()==0.0) {
 		reporter.reportWarning(tr("Invalid rotation axis specified"));
 		return noResult(op);
 	}
-	axis=axis/mag;
-
-	CGAL::Scalar r=op.getRadius();
-	CGAL::Scalar height=op.getHeight();
-	CGAL::Scalar sweep=op.getSweep();
-	CGAL::Plane3 plane(CGAL::ORIGIN,axis);
-	CGAL::Direction3 d=plane.base2().direction();
-
-	CGALExplorer explorer(result);
-	CGALPrimitive* primitive=explorer.getPrimitive();
-	QList<CGALPolygon*> polygons=primitive->getCGALPolygons();
-
-	CGAL::Cuboid3 b=primitive->getBounds();
-	auto* fg=op.getFragments();
-	int f=fg->getFragments((b.xmax()-b.xmin())+r);
-	CGAL::AffTransformation3 translate(CGAL::TRANSLATION,CGAL::Vector3(r,0.0,0.0));
-
-	bool caps=(sweep!=360.0||height>0.0);
-
-	auto* extruded=new CGALPrimitive();
-	if(caps) {
-		for(CGALPolygon* pg: polygons) {
-			extruded->createPolygon();
-			bool up=(pg->getDirection()==d);
-			for(CGAL::Point3 pt: pg->getPoints()) {
-				CGAL::Point3 q=pt.transform(translate);
-				extruded->addVertex(q,up);
-			}
-		}
-	}
-
-	if(sweep==0.0) {
-		delete primitive;
-		extruded->appendChild(result);
-		result=extruded;
-		return;
-	}
-
-	CGAL::AffTransformation3 rotate;
-	CGAL::AffTransformation3 nrotate;
-	for(auto i=0; i<f; ++i) {
-		int j=caps?i+1:(i+1)%f;
-		CGAL::Scalar ang=r_tau()*sweep/360.0;
-
-		rotate=getRotatation(ang*i/f,axis);
-		nrotate=getRotatation(ang*j/f,axis);
-
-		for(CGALPolygon* pg: primitive->getCGALPerimeter()) {
-			bool hole=pg->getHole();
-			if(!caps && hole) continue;
-			bool up=(pg->getDirection()==d)!=hole;
-			CGAL::Point3 pn;
-			OnceOnly first;
-			for(const auto& pt: pg->getPoints()) {
-				if(!first()) {
-					CGAL::Point3 q=pn.transform(translate);
-					CGAL::Point3 p=pt.transform(translate);
-					if(q.x()<=0.0&&p.x()<=0.0) {
-						pn=pt;
-						continue;
-					}
-
-					extruded->createPolygon();
-					CGAL::Point3 q1=q.transform(nrotate);
-					CGAL::Point3 p1=p.transform(nrotate);
-					CGAL::Point3 p2=p.transform(rotate);
-					CGAL::Point3 q2=q.transform(rotate);
-					extruded->addVertex(q1,up);
-					extruded->addVertex(p1,up);
-					if(p2!=p1)
-						extruded->addVertex(p2,up);
-					if(q2!=q1)
-						extruded->addVertex(q2,up);
-				}
-				pn=pt;
-			}
-		}
-	}
-
-	if(caps) {
-		for(CGALPolygon* pg: polygons) {
-			extruded->createPolygon();
-			bool up=(pg->getDirection()==d);
-			for(CGAL::Point3 pt: pg->getPoints()) {
-				CGAL::Point3 q=pt.transform(translate);
-				CGAL::Point3 p=q.transform(nrotate);
-				extruded->addVertex(p,!up);
-			}
-		}
-	}
-
-	delete primitive;
-	extruded->appendChild(result);
-
-	result=extruded;
 #endif
+	result=result->rotate_extrude(op.getHeight(),op.getRadius(),op.getSweep(),op.getFragments(),op.getAxis());
 }
 
 bool NodeEvaluator::evaluate(const Node& op,Operations type)
