@@ -56,6 +56,7 @@ public:
 	virtual Primitive* copy()=0;
 	virtual Primitive* triangulate()=0;
 	virtual Primitive* simplify(const decimal&)=0;
+	virtual Primitive* linear_extrude(const decimal&,const Point&)=0;
 	virtual void transform(TransformMatrix*)=0;
 	virtual bool isEmpty()=0;
 	virtual bool isFullyDimentional()=0;

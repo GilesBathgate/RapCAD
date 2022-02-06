@@ -50,6 +50,7 @@ public:
 	Primitive* copy() override;
 	Primitive* triangulate() override { return this; }
 	Primitive* simplify(const decimal&) override { return this; }
+	Primitive* linear_extrude(const decimal&,const Point&) override { return this; }
 	void transform(TransformMatrix*) override;
 	bool isEmpty() override;
 	QList<Polygon*> getPolygons() const override;

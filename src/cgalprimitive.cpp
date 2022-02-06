@@ -625,6 +625,64 @@ Primitive* CGALPrimitive::simplify(const CGAL::Scalar& ratio)
 }
 #endif
 
+Primitive* CGALPrimitive::linear_extrude(const CGAL::Scalar& height,const CGAL::Point3& pAxis)
+{
+
+	CGAL::Vector3 axis(CGAL::ORIGIN,pAxis);
+	CGAL::Vector3 t=axis*height;
+
+	auto* extruded=new CGALPrimitive();
+	if(isFullyDimentional()) {
+		extruded->setType(PrimitiveTypes::Lines);
+		extruded->createPolygon();
+		extruded->appendVertex(CGAL::ORIGIN);
+		extruded->appendVertex(CGAL::Point3(t.x(),t.y(),t.z()));
+		return minkowski(extruded);
+	} else {
+
+		CGALExplorer explorer(this);
+
+		CGALPrimitive* primitive=explorer.getPrimitive();
+		QList<CGALPolygon*> polygons=primitive->getCGALPolygons();
+		CGAL::AffTransformation3 translate(CGAL::TRANSLATION,t);
+		CGAL::Direction3 d=t.direction();
+		for(CGALPolygon* pg: polygons) {
+			extruded->createPolygon();
+			bool up=(pg->getDirection()==d);
+			for(const auto& pt: pg->getPoints())
+				extruded->addVertex(pt,up);
+		}
+
+		for(CGALPolygon* pg: primitive->getCGALPerimeter()) {
+			bool up=(pg->getDirection()==d)!=pg->getHole();
+			OnceOnly first;
+			CGAL::Point3 pn;
+			for(const auto& pt: pg->getPoints()) {
+				if(!first()) {
+					extruded->createPolygon();
+					extruded->addVertex(pn.transform(translate),up);
+					extruded->addVertex(pt.transform(translate),up);
+					extruded->addVertex(pt,up);
+					extruded->addVertex(pn,up);
+				}
+				pn=pt;
+			}
+		}
+
+		for(CGALPolygon* pg: polygons) {
+			extruded->createPolygon();
+			bool up=(pg->getDirection()==d);
+			for(const auto& pt: pg->getPoints())
+				extruded->addVertex(pt.transform(translate),!up);
+		}
+		delete primitive;
+		extruded->appendChild(this);
+
+		return extruded;
+	}
+
+}
+
 Primitive* CGALPrimitive::copy()
 {
 	auto* p=new CGALPrimitive();

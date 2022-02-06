@@ -353,62 +353,8 @@ static CGAL::AffTransformation3 getRotatation(const CGAL::Scalar& a,const CGAL::
 void NodeEvaluator::visit(const LinearExtrudeNode& op)
 {
 	if(!evaluate(op,Operations::Union)) return;
-#ifdef USE_CGAL
 
-	CGAL::Scalar height=op.getHeight();
-	CGAL::Vector3 axis(CGAL::ORIGIN,op.getAxis());
-	CGAL::Vector3 t=axis*height;
-
-	auto* extruded=new CGALPrimitive();
-	if(result->isFullyDimentional()) {
-		extruded->setType(PrimitiveTypes::Lines);
-		extruded->createPolygon();
-		extruded->appendVertex(CGAL::ORIGIN);
-		extruded->appendVertex(CGAL::Point3(t.x(),t.y(),t.z()));
-		result=result->minkowski(extruded);
-	} else {
-
-		CGALExplorer explorer(result);
-
-		CGALPrimitive* primitive=explorer.getPrimitive();
-		QList<CGALPolygon*> polygons=primitive->getCGALPolygons();
-		CGAL::AffTransformation3 translate(CGAL::TRANSLATION,t);
-		CGAL::Direction3 d=t.direction();
-		for(CGALPolygon* pg: polygons) {
-			extruded->createPolygon();
-			bool up=(pg->getDirection()==d);
-			for(const auto& pt: pg->getPoints())
-				extruded->addVertex(pt,up);
-		}
-
-		for(CGALPolygon* pg: primitive->getCGALPerimeter()) {
-			bool up=(pg->getDirection()==d)!=pg->getHole();
-			OnceOnly first;
-			CGAL::Point3 pn;
-			for(const auto& pt: pg->getPoints()) {
-				if(!first()) {
-					extruded->createPolygon();
-					extruded->addVertex(pn.transform(translate),up);
-					extruded->addVertex(pt.transform(translate),up);
-					extruded->addVertex(pt,up);
-					extruded->addVertex(pn,up);
-				}
-				pn=pt;
-			}
-		}
-
-		for(CGALPolygon* pg: polygons) {
-			extruded->createPolygon();
-			bool up=(pg->getDirection()==d);
-			for(const auto& pt: pg->getPoints())
-				extruded->addVertex(pt.transform(translate),!up);
-		}
-		delete primitive;
-		extruded->appendChild(result);
-
-		result=extruded;
-	}
-#endif
+	result=result->linear_extrude(op.getHeight(),op.getAxis());
 }
 
 void NodeEvaluator::visit(const RotateExtrudeNode& op)
