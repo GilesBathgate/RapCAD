@@ -960,3 +960,57 @@ Primitive* CGALPrimitive::subdivide(int level)
 	delete p;
 	return cp;
 }
+
+Primitive* CGALPrimitive::glide(Primitive* pr)
+{
+	QList<CGAL::Point3> points;
+	if(pr->getType()==PrimitiveTypes::Lines) {
+		points = pr->getPoints();
+	} else {
+		CGALExplorer explorer(pr);
+		CGALPrimitive* primitive=explorer.getPrimitive();
+		QList<CGALPolygon*> perimeter=primitive->getCGALPerimeter();
+		if(!perimeter.isEmpty())
+			points=perimeter.first()->getPoints();
+		delete primitive;
+
+		/* TODO glide all polygons?
+		for(CGALPolygon* pg: peri->getCGALPolygons()) {
+			points = pg->getPoints();
+			// break;
+		}
+		*/
+	}
+	bool closed=false;
+	auto* cp=new CGALPrimitive();
+	cp->setType(PrimitiveTypes::Lines);
+	CGAL::Point3 fp;
+	CGAL::Point3 np;
+	OnceOnly first_p;
+	cp->createPolygon();
+	for(const auto& pt: points) {
+		if(first_p()) {
+			fp=pt;
+		} else if(pt==fp) {
+			closed=true;
+			break;
+		}
+		cp->appendVertex(pt);
+		np=pt;
+	}
+	cp->appendChild(pr);
+
+	if(!closed) {
+		pr=this->minkowski(cp);
+	} else {
+		Primitive* next=this->copy();
+		pr=this->minkowski(cp);
+		cp=new CGALPrimitive();
+		cp->setType(PrimitiveTypes::Lines);
+		cp->createPolygon();
+		cp->appendVertex(np);
+		cp->appendVertex(fp);
+		pr->join(next->minkowski(cp));
+	}
+	return pr;
+}

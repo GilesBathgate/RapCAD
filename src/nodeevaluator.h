@@ -107,7 +107,8 @@ private:
 		Difference,
 		Intersection,
 		SymmetricDifference,
-		Minkowski
+		Minkowski,
+		Glide
 	};
 	static Primitive* createPrimitive();
 	bool evaluate(const Node&,Operations);

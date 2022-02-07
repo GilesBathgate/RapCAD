@@ -53,6 +53,7 @@ public:
 	Primitive* linear_extrude(const decimal&,const Point&) override { return this; }
 	Primitive* rotate_extrude(const decimal&,const decimal&,const decimal&,const Fragment*,const Point&) override { return this; }
 	Primitive* subdivide(int) override { return this; }
+	Primitive* glide(Primitive*) override { return this; }
 	void transform(TransformMatrix*) override;
 	bool isEmpty() override;
 	QList<Polygon*> getPolygons() const override;

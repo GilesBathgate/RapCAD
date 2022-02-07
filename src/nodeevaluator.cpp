@@ -118,72 +118,7 @@ void NodeEvaluator::visit(const MinkowskiNode& op)
 
 void NodeEvaluator::visit(const GlideNode& op)
 {
-#ifdef USE_CGAL
-	Primitive* first=nullptr;
-	for(Node* n: op.getChildren()) {
-		n->accept(*this);
-		if(!first) {
-			first=result;
-		} else if(result) {
-			if(result->isFullyDimentional()) {
-				reporter.reportWarning(tr("Second child of glide module cannot be fully dimentional"));
-				return noResult(op);
-			}
-			QList<CGAL::Point3> points;
-			if(result->getType()==PrimitiveTypes::Lines) {
-				points = result->getPoints();
-			} else {
-				CGALExplorer explorer(result);
-				CGALPrimitive* primitive=explorer.getPrimitive();
-				QList<CGALPolygon*> perimeter=primitive->getCGALPerimeter();
-				if(!perimeter.isEmpty())
-					points=perimeter.first()->getPoints();
-				delete primitive;
-
-				/* TODO glide all polygons?
-				for(CGALPolygon* pg: peri->getCGALPolygons()) {
-					points = pg->getPoints();
-					// break;
-				}
-				*/
-			}
-			bool closed=false;
-			auto* cp=new CGALPrimitive();
-			cp->setType(PrimitiveTypes::Lines);
-			CGAL::Point3 fp;
-			CGAL::Point3 np;
-			OnceOnly first_p;
-			cp->createPolygon();
-			for(const auto& pt: points) {
-				if(first_p()) {
-					fp=pt;
-				} else if(pt==fp) {
-					closed=true;
-					break;
-				}
-				cp->appendVertex(pt);
-				np=pt;
-			}
-			cp->appendChild(result);
-
-			if(!closed) {
-				result=first->minkowski(cp);
-			} else {
-				Primitive* next=first->copy();
-				result=first->minkowski(cp);
-				cp=new CGALPrimitive();
-				cp->setType(PrimitiveTypes::Lines);
-				cp->createPolygon();
-				cp->appendVertex(np);
-				cp->appendVertex(fp);
-				result->join(next->minkowski(cp));
-			}
-			if(result) break;
-		}
-	}
-#else
-	return noResult(op);
-#endif
+	if(!evaluate(op,Operations::Glide)) return;
 }
 
 #ifdef USE_CGAL
@@ -387,6 +322,9 @@ bool NodeEvaluator::evaluate(const QList<Node*>& children, Operations type, Prim
 					break;
 				case Operations::Minkowski:
 					first=first->minkowski(result);
+					break;
+				case Operations::Glide:
+					first=first->glide(result);
 					break;
 			}
 		}
