@@ -61,6 +61,7 @@ public:
 	virtual	Primitive* rotate_extrude(const decimal&,const decimal&,const decimal&,const Fragment*,const Point&)=0;
 	virtual Primitive* subdivide(int)=0;
 	virtual Primitive* glide(Primitive*)=0;
+	virtual Primitive* slice(const decimal&,const decimal&)=0;
 	virtual void transform(TransformMatrix*)=0;
 	virtual bool isEmpty()=0;
 	virtual bool isFullyDimentional()=0;

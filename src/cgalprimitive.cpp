@@ -49,6 +49,7 @@
 #include "cgalexplorer.h"
 #include "cgaldiscretemodifier.h"
 #include "cgalgroupmodifier.h"
+#include "module/cubemodule.h"
 #include "onceonly.h"
 #include "rmath.h"
 
@@ -1013,4 +1014,19 @@ Primitive* CGALPrimitive::glide(Primitive* pr)
 		pr->join(next->minkowski(cp));
 	}
 	return pr;
+}
+
+Primitive* CGALPrimitive::slice(const CGAL::Scalar& h,const CGAL::Scalar& t)
+{
+	CGAL::Cuboid3 b=getBounds();
+
+	const CGAL::Scalar& xmin=b.xmin();
+	const CGAL::Scalar& ymin=b.ymin();
+	const CGAL::Scalar& xmax=b.xmax();
+	const CGAL::Scalar& ymax=b.ymax();
+
+	Primitive* cp=new CGALPrimitive();
+	CubeModule::createCuboid<CGAL::Point3>(cp,xmin,xmax,ymin,ymax,h,h+t);
+
+	return intersection(cp);
 }

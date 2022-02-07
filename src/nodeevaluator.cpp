@@ -680,23 +680,8 @@ void NodeEvaluator::visit(const PointsNode& n)
 void NodeEvaluator::visit(const SliceNode& n)
 {
 	if(!evaluate(n,Operations::Union)) return;
-#ifdef USE_CGAL
-	auto* pr=dynamic_cast<CGALPrimitive*>(result);
-	CGAL::Cuboid3 b=pr->getBounds();
 
-	const CGAL::Scalar& xmin=b.xmin();
-	const CGAL::Scalar& ymin=b.ymin();
-	const CGAL::Scalar& xmax=b.xmax();
-	const CGAL::Scalar& ymax=b.ymax();
-
-	const CGAL::Scalar& h=n.getHeight();
-	const CGAL::Scalar& t=n.getThickness();
-
-	Primitive* cp=new CGALPrimitive();
-	CubeModule::createCuboid<CGAL::Point3>(cp,xmin,xmax,ymin,ymax,h,h+t);
-
-	result=result->intersection(cp);
-#endif
+	result=result->slice(n.getHeight(),n.getThickness());
 }
 
 void NodeEvaluator::visit(const ProductNode& p)
