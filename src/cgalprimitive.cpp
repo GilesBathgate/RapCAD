@@ -1030,3 +1030,66 @@ Primitive* CGALPrimitive::slice(const CGAL::Scalar& h,const CGAL::Scalar& t)
 
 	return intersection(cp);
 }
+
+void CGALPrimitive::align(bool center,QList<ViewDirections> directions)
+{
+	CGAL::Cuboid3 b=getBounds();
+	CGAL::Scalar cx=0.0;
+	CGAL::Scalar cy=0.0;
+	CGAL::Scalar cz=0.0;
+
+	if(center) {
+		cx=(b.xmin()+b.xmax())/2.0;
+		cy=(b.ymin()+b.ymax())/2.0;
+		cz=(b.zmin()+b.zmax())/2.0;
+	} else {
+		bool top=false;
+		bool bottom=false;
+		bool north=false;
+		bool south=false;
+		bool west=false;
+		bool east=false;
+		for(ViewDirections a: directions) {
+			switch(a) {
+				case ViewDirections::Top:
+					top=true;
+					cz=b.zmax();
+					break;
+				case ViewDirections::Bottom:
+					bottom=true;
+					cz=b.zmin();
+					break;
+				case ViewDirections::North:
+					north=true;
+					cy=b.ymax();
+					break;
+				case ViewDirections::South:
+					south=true;
+					cy=b.ymin();
+					break;
+				case ViewDirections::West:
+					west=true;
+					cx=b.xmin();
+					break;
+				case ViewDirections::East:
+					east=true;
+					cx=b.xmax();
+					break;
+			}
+		}
+		if(top&&bottom)
+			cz=(b.zmin()+b.zmax())/2.0;
+		if(east&&west)
+			cx=(b.xmin()+b.xmax())/2.0;
+		if(north&&south)
+			cy=(b.ymin()+b.ymax())/2.0;
+	}
+
+	TransformMatrix t(
+		1.0,0.0,0.0,-cx,
+		0.0,1.0,0.0,-cy,
+		0.0,0.0,1.0,-cz,
+		0.0,0.0,0.0,1.0);
+
+	transform(&t);
+}

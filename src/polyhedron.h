@@ -55,6 +55,7 @@ public:
 	Primitive* subdivide(int) override { return this; }
 	Primitive* glide(Primitive*) override { return this; }
 	Primitive* slice(const decimal&,const decimal&) override { return this; }
+	void align(bool,QList<ViewDirections>) override {}
 	void transform(TransformMatrix*) override;
 	bool isEmpty() override;
 	QList<Polygon*> getPolygons() const override;

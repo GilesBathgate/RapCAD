@@ -23,6 +23,7 @@
 #include "polygon.h"
 #include "fragment.h"
 #include "transformmatrix.h"
+#include "viewdirections.h"
 
 enum class PrimitiveTypes {
 	Volume,
@@ -62,6 +63,7 @@ public:
 	virtual Primitive* subdivide(int)=0;
 	virtual Primitive* glide(Primitive*)=0;
 	virtual Primitive* slice(const decimal&,const decimal&)=0;
+	virtual void align(bool,QList<ViewDirections>)=0;
 	virtual void transform(TransformMatrix*)=0;
 	virtual bool isEmpty()=0;
 	virtual bool isFullyDimentional()=0;

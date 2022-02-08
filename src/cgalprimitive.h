@@ -76,6 +76,7 @@ public:
 	Primitive* subdivide(int) override;
 	Primitive* glide(Primitive*) override;
 	Primitive* slice(const CGAL::Scalar&,const CGAL::Scalar&) override;
+	void align(bool,QList<ViewDirections>) override;
 	CGAL::Cuboid3 getBounds();
 	void transform(TransformMatrix*) override;
 	/* Don't call this method instead use getCGALPolygons */
