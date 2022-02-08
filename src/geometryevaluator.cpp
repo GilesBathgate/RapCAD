@@ -20,7 +20,11 @@
 
 GeometryEvaluator::GeometryEvaluator()
 {
+	if(setThreads())
+		QThreadPool::globalInstance()->setMaxThreadCount(100);
 }
+
+OnceOnly GeometryEvaluator::setThreads;
 
 static Primitive* evaluateChildren(Node* n)
 {
@@ -123,8 +127,11 @@ void GeometryEvaluator::visit(const MinkowskiNode& n)
 	});
 }
 
-void GeometryEvaluator::visit(const GlideNode&)
+void GeometryEvaluator::visit(const GlideNode& n)
 {
+	result=reduceChildren(n,[](auto& p,auto c) {
+		p=p?p->glide(c):c;
+	});
 }
 
 
@@ -154,17 +161,26 @@ void GeometryEvaluator::visit(const BoundsNode&)
 
 }
 
-void GeometryEvaluator::visit(const SubDivisionNode&)
+void GeometryEvaluator::visit(const SubDivisionNode& n)
 {
-
+	result=QtConcurrent::run([&n](){
+		Primitive* p=unionChildren(n);
+		if(p) p->subdivide(n.getLevel());
+		return p;
+	});
 }
 
 void GeometryEvaluator::visit(const NormalsNode&)
 {
 }
 
-void GeometryEvaluator::visit(const SimplifyNode&)
+void GeometryEvaluator::visit(const SimplifyNode& n)
 {
+	result=QtConcurrent::run([&n](){
+		Primitive* p=unionChildren(n);
+		if(p) p->simplify(n.getRatio());
+		return p;
+	});
 }
 
 void GeometryEvaluator::visit(const ChildrenNode&)
@@ -198,9 +214,13 @@ void GeometryEvaluator::visit(const ResizeNode&)
 
 }
 
-void GeometryEvaluator::visit(const AlignNode&)
+void GeometryEvaluator::visit(const AlignNode& n)
 {
-
+	result=QtConcurrent::run([&n](){
+		Primitive* p=unionChildren(n);
+		if(p) p->align(n.getCenter(),n.getAlign());
+		return p;
+	});
 }
 
 void GeometryEvaluator::visit(const PointsNode&)
@@ -208,9 +228,13 @@ void GeometryEvaluator::visit(const PointsNode&)
 
 }
 
-void GeometryEvaluator::visit(const SliceNode&)
+void GeometryEvaluator::visit(const SliceNode& n)
 {
-
+	result=QtConcurrent::run([&n](){
+		Primitive* p=unionChildren(n);
+		if(p) p->slice(n.getHeight(),n.getThickness());
+		return p;
+	});
 }
 
 void GeometryEvaluator::visit(const ProductNode&)

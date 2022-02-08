@@ -55,6 +55,7 @@
 #include "node/normalsnode.h"
 #include "node/simplifynode.h"
 #include "node/childrennode.h"
+#include "onceonly.h"
 
 class GeometryEvaluator : public NodeVisitor
 {
@@ -97,6 +98,7 @@ public:
 	Primitive* getResult() const;
 private:
 	QFuture<Primitive*> result;
+	static OnceOnly setThreads;
 };
 
 #endif // GEOMETRYEVALUATOR_H
