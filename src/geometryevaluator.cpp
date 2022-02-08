@@ -38,18 +38,17 @@ static QFuture<Primitive*> reduceChildren(
 }
 
 // blocking because we can't apply operations until evaluated
-static Primitive* groupChildren(const Node& n)
+static Primitive* unionChildren(const Node& n)
 {
 	const auto& children=n.getChildren();
 	return QtConcurrent::blockingMappedReduced<Primitive*>(children,evaluateChildren,
 	[](auto& p,auto c) {
-		p=p?p->group(c):c;
+		p=p?p->join(c):c;
 	},QtConcurrent::UnorderedReduce);
 }
 
 void GeometryEvaluator::visit(const PrimitiveNode& n)
 {
-
 	result=QtConcurrent::run([&n]() {
 		return n.getPrimitive();
 	});
@@ -58,7 +57,7 @@ void GeometryEvaluator::visit(const PrimitiveNode& n)
 void GeometryEvaluator::visit(const TriangulateNode& n)
 {
 	result=QtConcurrent::run([&n]() {
-		Primitive* p=groupChildren(n);
+		Primitive* p=unionChildren(n);
 		return p?p->triangulate():nullptr;
 	});
 }
@@ -66,7 +65,7 @@ void GeometryEvaluator::visit(const TriangulateNode& n)
 void GeometryEvaluator::visit(const MaterialNode& n)
 {
 	result=QtConcurrent::run([&n]() {
-		auto* p=groupChildren(n);
+		auto* p=unionChildren(n);
 		Primitive* ph=new Polyhedron();
 		ph->appendChild(p);
 		return ph;
@@ -76,7 +75,7 @@ void GeometryEvaluator::visit(const MaterialNode& n)
 void GeometryEvaluator::visit(const DiscreteNode& n)
 {
 	result=QtConcurrent::run([&n]() {
-		Primitive* p=groupChildren(n);
+		Primitive* p=unionChildren(n);
 		p->discrete(n.getPlaces());
 		return p;
 	});
@@ -136,7 +135,7 @@ void GeometryEvaluator::visit(const HullNode&)
 void GeometryEvaluator::visit(const LinearExtrudeNode& n)
 {
 	result=QtConcurrent::run([&n]() {
-		Primitive* p=groupChildren(n);
+		Primitive* p=unionChildren(n);
 		return p?p->linear_extrude(n.getHeight(),n.getAxis()):nullptr;
 	});
 }
@@ -144,7 +143,7 @@ void GeometryEvaluator::visit(const LinearExtrudeNode& n)
 void GeometryEvaluator::visit(const RotateExtrudeNode& n)
 {
 	result=QtConcurrent::run([&n]() {
-		Primitive* p=groupChildren(n);
+		Primitive* p=unionChildren(n);
 		return p?p->rotate_extrude(n.getHeight(),n.getRadius(),n.getSweep(),n.getFragments(),n.getAxis()):nullptr;
 	});
 }
@@ -187,7 +186,7 @@ void GeometryEvaluator::visit(const ImportNode&)
 void GeometryEvaluator::visit(const TransformationNode& n)
 {
 	result=QtConcurrent::run([&n]() {
-		Primitive* p=groupChildren(n);
+		Primitive* p=unionChildren(n);
 		if(p) p->transform(n.getMatrix());
 		return p;
 	});
