@@ -408,6 +408,26 @@ CGAL::Cuboid3 CGALPrimitive::getBounds()
 	return CGAL::bounding_box(pts.begin(),pts.end());
 }
 
+/* Simple wrapper class to enable Primitive
+ * to be used with CGAL::Nef_nary_union_3 */
+class CGALPrimitive::Unionable
+{
+public:
+	Unionable() : primitive(nullptr),force(false) {}
+	Unionable(Primitive* p,bool f) : primitive(p),force(f) {}
+	Unionable& operator+(Unionable& other)
+	{
+		if(force||primitive->overlaps(other.primitive))
+			primitive=primitive->join(other.primitive);
+		else
+			primitive=primitive->group(other.primitive);
+
+		return *this;
+	}
+	Primitive* primitive;
+	bool force;
+};
+
 void CGALPrimitive::add(Primitive* pr,bool force)
 {
 	if(!nUnion) {
@@ -937,17 +957,6 @@ void CGALPrimitive::discrete(int places)
 	}
 }
 
-CGALPrimitive::Unionable& CGALPrimitive::Unionable::operator+(Unionable& other)
-{
-	if(force||primitive->overlaps(other.primitive))
-		primitive=primitive->join(other.primitive);
-	else
-		primitive=primitive->group(other.primitive);
-
-	return *this;
-}
-#endif
-
 Primitive* CGALPrimitive::subdivide(int level)
 {
 	CGAL::Polyhedron3* p=this->getPolyhedron();
@@ -1129,3 +1138,5 @@ void CGALPrimitive::resize(bool autosize, const CGAL::Point3& s)
 
 	transform(&t);
 }
+
+#endif

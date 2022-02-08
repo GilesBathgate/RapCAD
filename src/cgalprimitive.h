@@ -124,19 +124,7 @@ private:
 	CGAL::NefPolyhedron3* nefPolyhedron;
 	PrimitiveTypes type;
 	bool sanitized;
-
-	/* Simple wrapper class to enable Primitive
-	 * to be used with CGAL::Nef_nary_union_3 */
-	class Unionable
-	{
-	public:
-		Unionable() : primitive(nullptr),force(false) {}
-		Unionable(Primitive* p, bool f) { primitive=p; force=f; }
-		Unionable& operator+(Unionable&);
-		Primitive* primitive;
-		bool force;
-	};
-
+	class Unionable;
 	CGAL::Nef_nary_union_3<Unionable>* nUnion;
 };
 
