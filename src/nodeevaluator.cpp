@@ -26,10 +26,7 @@
 
 #ifdef USE_CGAL
 #include <CGAL/centroid.h>
-#include <CGAL/convex_hull_3.h>
-#include <CGAL/Delaunay_triangulation_3.h>
-#include <CGAL/Alpha_shape_vertex_base_3.h>
-#include <CGAL/Alpha_shape_3.h>
+
 #include "cgalimport.h"
 #include "cgalexplorer.h"
 #include "cgalprimitive.h"
@@ -121,55 +118,8 @@ void NodeEvaluator::visit(const GlideNode& op)
 	if(!evaluate(op,Operations::Glide)) return;
 }
 
-#ifdef USE_CGAL
-static CGALPrimitive* createHull(const QList<CGAL::Point3>& points)
-{
-	CGAL::Object o;
-	CGAL::convex_hull_3(points.begin(),points.end(),o);
-	const auto* pt=CGAL::object_cast<CGAL::Point3>(&o);
-	if(pt) {
-		auto* cp=new CGALPrimitive();
-		cp->setType(PrimitiveTypes::Points);
-		cp->createVertex(*pt);
-		return cp;
-	}
-	const auto* t=CGAL::object_cast<CGAL::Triangle3>(&o);
-	if(t) {
-		auto* cp=new CGALPrimitive();
-		auto& ct=cp->createPolygon();
-		ct.appendVertex(t->vertex(0));
-		ct.appendVertex(t->vertex(1));
-		ct.appendVertex(t->vertex(2));
-		return cp;
-	}
-	const auto* p=CGAL::object_cast<CGAL::Polyhedron3>(&o);
-	if(p)
-		return new CGALPrimitive(*p);
-
-	return nullptr;
-}
-
-static void evaluateHull(Primitive* first,Primitive* previous, Primitive* next)
-{
-	QList<CGAL::Point3> points;
-	if(previous)
-		points.append(previous->getPoints());
-
-	if(next)
-		points.append(next->getPoints());
-
-	if(points.count()<3)
-		return;
-
-	auto* cp=createHull(points);
-	if(cp)
-		first->add(cp,true);
-}
-#endif
-
 void NodeEvaluator::visit(const HullNode& n)
 {
-#ifdef USE_CGAL
 	if(n.getChain()) {
 		Primitive* first=nullptr;
 		Primitive* previous=nullptr;
@@ -178,81 +128,28 @@ void NodeEvaluator::visit(const HullNode& n)
 			if(!previous) {
 				first=result;
 			} else {
-				evaluateHull(first,previous,result);
+				first=first->chain_hull(previous,result);
 				first->appendChild(result);
 			}
+
 			previous=result;
 		}
 		if(first) {
 			if(n.getClosed())
-				evaluateHull(first,first,previous);
+				first=first->chain_hull(first,previous);
 
 			result=first->combine();
 		}
 	} else {
-		QList<CGAL::Point3> points;
-		QList<Primitive*> children;
+		auto* cp=createPrimitive();
 		for(Node* c: n.getChildren()) {
 			c->accept(*this);
-			if(result) {
-				points.append(result->getPoints());
-				children.append(result);
-			}
+			if(result)
+				cp->appendChild(result);
 		}
 
-		if(!n.getConcave()) {
-			auto* cp=createHull(points);
-			if(cp)
-				cp->appendChildren(children);
-			result=cp;
-			return;
-		}
-
-		using Vb = CGAL::Alpha_shape_vertex_base_3<CGAL::Kernel3>;
-		using Fb = CGAL::Alpha_shape_cell_base_3<CGAL::Kernel3>;
-		using Tds = CGAL::Triangulation_data_structure_3<Vb, Fb>;
-		using Triangulation_3 = CGAL::Delaunay_triangulation_3<CGAL::Kernel3, Tds>;
-		using Alpha_shape_3 = CGAL::Alpha_shape_3<Triangulation_3>;
-		using Facet = Alpha_shape_3::Facet;
-
-		auto* cp = new CGALPrimitive();
-		Alpha_shape_3 as(points.begin(), points.end(),0.001,Alpha_shape_3::GENERAL);
-		const auto& opt = as.find_optimal_alpha(1);
-		if(opt != as.alpha_end()) {
-
-			as.set_alpha(*opt);
-
-			QList<Facet> facets;
-			as.get_alpha_shape_facets(std::back_inserter(facets),Alpha_shape_3::REGULAR);
-
-			for(Facet f: facets) {
-				auto& t=f.first;
-				//To have a consistent orientation of the facet, always consider an exterior cell
-				if(as.classify(t) != Alpha_shape_3::EXTERIOR)
-					f = as.mirror_facet(f);
-
-				int i=f.second;
-				int indices[3] = { (i + 1) % 4, (i + 2) % 4, (i + 3) % 4 };
-				//According to the encoding of vertex indices, this is needed to get a consistent orientation
-				if(i % 2 == 0)
-					std::swap(indices[0], indices[1]);
-
-				//Build triangle faces
-				cp->createPolygon();
-				CGAL::Point3 p1=t->vertex(indices[0])->point();
-				CGAL::Point3 p2=t->vertex(indices[1])->point();
-				CGAL::Point3 p3=t->vertex(indices[2])->point();
-				cp->appendVertex(p1);
-				cp->appendVertex(p2);
-				cp->appendVertex(p3);
-			}
-		}
-		cp->appendChildren(children);
-		result=cp;
+		result=cp->hull(n.getConcave());
 	}
-#else
-	return noResult(n);
-#endif
 }
 
 void NodeEvaluator::visit(const LinearExtrudeNode& op)

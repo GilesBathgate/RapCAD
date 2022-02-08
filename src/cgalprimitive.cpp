@@ -44,6 +44,11 @@
 #include <CGAL/Subdivision_method_3/subdivision_methods_3.h>
 #endif
 
+#include <CGAL/convex_hull_3.h>
+#include <CGAL/Delaunay_triangulation_3.h>
+#include <CGAL/Alpha_shape_vertex_base_3.h>
+#include <CGAL/Alpha_shape_3.h>
+
 #include "cgalbuilder.h"
 #include "cgalsanitizer.h"
 #include "cgalexplorer.h"
@@ -1172,6 +1177,106 @@ void CGALPrimitive::resize(bool autosize, const CGAL::Point3& s)
 		0.0,0.0,0.0,1.0);
 
 	transform(&t);
+}
+
+Primitive* CGALPrimitive::hull(bool concave)
+{
+	using Vb = CGAL::Alpha_shape_vertex_base_3<CGAL::Kernel3>;
+	using Fb = CGAL::Alpha_shape_cell_base_3<CGAL::Kernel3>;
+	using Tds = CGAL::Triangulation_data_structure_3<Vb, Fb>;
+	using Triangulation_3 = CGAL::Delaunay_triangulation_3<CGAL::Kernel3, Tds>;
+	using Alpha_shape_3 = CGAL::Alpha_shape_3<Triangulation_3>;
+	using Facet = Alpha_shape_3::Facet;
+
+	QList<CGAL::Point3> pts;
+	for(Primitive* c: children)
+		pts.append(c->getPoints());
+
+	if(!concave) {
+		return hull(pts);
+	}
+
+	Alpha_shape_3 as(pts.begin(), pts.end(),0.001,Alpha_shape_3::GENERAL);
+	const auto& opt = as.find_optimal_alpha(1);
+	if(opt != as.alpha_end()) {
+
+		as.set_alpha(*opt);
+
+		QList<Facet> facets;
+		as.get_alpha_shape_facets(std::back_inserter(facets),Alpha_shape_3::REGULAR);
+
+		for(Facet f: facets) {
+			auto& t=f.first;
+			//To have a consistent orientation of the facet, always consider an exterior cell
+			if(as.classify(t) != Alpha_shape_3::EXTERIOR)
+				f = as.mirror_facet(f);
+
+			int i=f.second;
+			int indices[3] = { (i + 1) % 4, (i + 2) % 4, (i + 3) % 4 };
+			//According to the encoding of vertex indices, this is needed to get a consistent orientation
+			if(i % 2 == 0)
+				std::swap(indices[0], indices[1]);
+
+			//Build triangle faces
+			createPolygon();
+			CGAL::Point3 p1=t->vertex(indices[0])->point();
+			CGAL::Point3 p2=t->vertex(indices[1])->point();
+			CGAL::Point3 p3=t->vertex(indices[2])->point();
+			appendVertex(p1);
+			appendVertex(p2);
+			appendVertex(p3);
+		}
+	}
+
+	return this;
+}
+
+Primitive* CGALPrimitive::hull(QList<CGAL::Point3> pts)
+{
+	CGAL::Object o;
+	CGAL::convex_hull_3(pts.begin(),pts.end(),o);
+	const auto* pt=CGAL::object_cast<CGAL::Point3>(&o);
+	if(pt) {
+		setType(PrimitiveTypes::Points);
+		createVertex(*pt);
+		return this;
+	}
+	const auto* s=CGAL::object_cast<CGAL::Segment3>(&o);
+	if(s) {
+		setType(PrimitiveTypes::Lines);
+		auto& cl=createPolygon();
+		cl.appendVertex(s->source());
+		cl.appendVertex(s->target());
+		return this;
+	}
+	const auto* t=CGAL::object_cast<CGAL::Triangle3>(&o);
+	if(t) {
+		auto& ct=createPolygon();
+		ct.appendVertex(t->vertex(0));
+		ct.appendVertex(t->vertex(1));
+		ct.appendVertex(t->vertex(2));
+		return this;
+	}
+	const auto* p=CGAL::object_cast<CGAL::Polyhedron3>(&o);
+	if(p)
+		nefPolyhedron=new CGAL::NefPolyhedron3(const_cast<CGAL::Polyhedron3&>(*p));
+
+	return this;
+}
+
+Primitive* CGALPrimitive::chain_hull(Primitive* previous,Primitive* next)
+{
+	QList<CGAL::Point3> points;
+	if(previous)
+		points.append(previous->getPoints());
+
+	if(next)
+		points.append(next->getPoints());
+
+	auto* cp=new CGALPrimitive();
+	add(cp->hull(points),true);
+
+	return this;
 }
 
 #endif

@@ -64,6 +64,9 @@ public:
 	virtual Primitive* glide(Primitive*)=0;
 	virtual Primitive* slice(const decimal&,const decimal&)=0;
 	virtual Primitive* projection(bool)=0;
+	virtual Primitive* hull(bool)=0;
+	virtual Primitive* hull(QList<Point>)=0;
+	virtual Primitive* chain_hull(Primitive*,Primitive*)=0;
 	virtual void align(bool,QList<ViewDirections>)=0;
 	virtual void resize(bool,const Point&)=0;
 	virtual void transform(TransformMatrix*)=0;
