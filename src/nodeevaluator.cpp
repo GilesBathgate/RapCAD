@@ -255,13 +255,6 @@ void NodeEvaluator::visit(const HullNode& n)
 #endif
 }
 
-#ifdef USE_CGAL
-static CGAL::Point3 flatten(const CGAL::Point3& p)
-{
-	return CGAL::Point3(p.x(),p.y(),0.0);
-}
-#endif
-
 void NodeEvaluator::visit(const LinearExtrudeNode& op)
 {
 	if(!evaluate(op,Operations::Union)) return;
@@ -600,35 +593,7 @@ void NodeEvaluator::visit(const ProjectionNode& op)
 {
 	if(!evaluate(op,Operations::Union)) return;
 
-#ifdef USE_CGAL
-	CGALExplorer explorer(result);
-	CGALPrimitive* cp=explorer.getPrimitive();
-	auto* projected=new CGALPrimitive();
-	bool base=op.getBase();
-	if(base) {
-		for(CGALPolygon* pg: explorer.getBase()) {
-			projected->createPolygon();
-			for(const auto& pt: pg->getPoints())
-				projected->appendVertex(pt);
-		}
-	} else {
-		for(CGALPolygon* p: cp->getCGALPolygons()) {
-			CGAL::Vector3 normal=p->getNormal();
-			if(normal.z()==0.0)
-				continue;
-
-			auto* flat=new CGALPrimitive();
-			flat->createPolygon();
-			for(const auto& pt: p->getPoints()) {
-				flat->appendVertex(flatten(pt));
-			}
-			projected->join(flat);
-		}
-	}
-	projected->appendChild(result);
-	delete cp;
-	result=projected;
-#endif
+	result=result->projection(op.getBase());
 }
 
 void NodeEvaluator::visit(const DecomposeNode& n)

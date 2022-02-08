@@ -76,6 +76,7 @@ public:
 	Primitive* subdivide(int) override;
 	Primitive* glide(Primitive*) override;
 	Primitive* slice(const CGAL::Scalar&,const CGAL::Scalar&) override;
+	Primitive* projection(bool) override;
 	void align(bool,QList<ViewDirections>) override;
 	void resize(bool,const CGAL::Point3&) override;
 	CGAL::Cuboid3 getBounds();

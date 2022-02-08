@@ -55,6 +55,7 @@ public:
 	Primitive* subdivide(int) override { return this; }
 	Primitive* glide(Primitive*) override { return this; }
 	Primitive* slice(const decimal&,const decimal&) override { return this; }
+	Primitive* projection(bool) override { return this; }
 	void align(bool,QList<ViewDirections>) override {}
 	void resize(bool,const Point&) override	{}
 	void transform(TransformMatrix*) override;
