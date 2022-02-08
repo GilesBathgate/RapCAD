@@ -64,6 +64,7 @@ public:
 	virtual Primitive* glide(Primitive*)=0;
 	virtual Primitive* slice(const decimal&,const decimal&)=0;
 	virtual void align(bool,QList<ViewDirections>)=0;
+	virtual void resize(bool,const Point&)=0;
 	virtual void transform(TransformMatrix*)=0;
 	virtual bool isEmpty()=0;
 	virtual bool isFullyDimentional()=0;

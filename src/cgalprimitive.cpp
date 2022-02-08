@@ -1093,3 +1093,39 @@ void CGALPrimitive::align(bool center,QList<ViewDirections> directions)
 
 	transform(&t);
 }
+
+void CGALPrimitive::resize(bool autosize, const CGAL::Point3& s)
+{
+	CGAL::Cuboid3 b=getBounds();
+	CGAL::Scalar x=s.x();
+	CGAL::Scalar y=s.y();
+	CGAL::Scalar z=s.z();
+	CGAL::Scalar a=1.0;
+
+	if(z!=0.0) {
+		z/=(b.zmax()-b.zmin());
+		a=z;
+	}
+	if(y!=0.0) {
+		y/=(b.ymax()-b.ymin());
+		a=y;
+	}
+	if(x!=0.0) {
+		x/=(b.xmax()-b.xmin());
+		a=x;
+	}
+	if(!autosize)
+		a=1.0;
+
+	if(x==0.0) x=a;
+	if(y==0.0) y=a;
+	if(z==0.0) z=a;
+
+	TransformMatrix t(
+		x  ,0.0,0.0,0.0,
+		0.0,y  ,0.0,0.0,
+		0.0,0.0,z  ,0.0,
+		0.0,0.0,0.0,1.0);
+
+	transform(&t);
+}

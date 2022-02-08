@@ -551,42 +551,8 @@ void NodeEvaluator::visit(const TransformationNode& tr)
 void NodeEvaluator::visit(const ResizeNode& n)
 {
 	if(!evaluate(n,Operations::Union)) return;
-#ifdef USE_CGAL
-	auto* pr=dynamic_cast<CGALPrimitive*>(result);
-	CGAL::Cuboid3 b=pr->getBounds();
-	CGAL::Point3 s=n.getSize();
-	CGAL::Scalar x=s.x();
-	CGAL::Scalar y=s.y();
-	CGAL::Scalar z=s.z();
-	CGAL::Scalar autosize=1.0;
 
-	if(z!=0.0) {
-		z/=(b.zmax()-b.zmin());
-		autosize=z;
-	}
-	if(y!=0.0) {
-		y/=(b.ymax()-b.ymin());
-		autosize=y;
-	}
-	if(x!=0.0) {
-		x/=(b.xmax()-b.xmin());
-		autosize=x;
-	}
-	if(!n.getAutoSize())
-		autosize=1.0;
-
-	if(x==0.0) x=autosize;
-	if(y==0.0) y=autosize;
-	if(z==0.0) z=autosize;
-
-	TransformMatrix t(
-		x  ,0.0,0.0,0.0,
-		0.0,y  ,0.0,0.0,
-		0.0,0.0,z  ,0.0,
-		0.0,0.0,0.0,1.0);
-
-	result->transform(&t);
-#endif
+	result->resize(n.getAutoSize(),n.getSize());
 }
 
 void NodeEvaluator::visit(const AlignNode& n)
