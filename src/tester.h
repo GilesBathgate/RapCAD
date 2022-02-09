@@ -50,6 +50,7 @@ private:
 	void searchTest();
 	void aboutTest();
 	void preferencesTest();
+	void writeTestTime();
 
 	QString directory;
 	QString* nullout;
@@ -59,6 +60,7 @@ private:
 	int passcount;
 	int failcount;
 	MainWindow* ui;
+	QElapsedTimer testTimer;
 };
 
 #endif // TESTER_H

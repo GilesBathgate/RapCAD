@@ -68,18 +68,34 @@ Tester::~Tester()
 
 void Tester::writeHeader(const QString& name, int num)
 {
+	testTimer.start();
 	output << "Test #" << QString().setNum(num).rightJustified(3,'0') << ": ";
-	output << name.leftJustified(62,'.',true);
+	output << name.leftJustified(50,'.',true);
 	output.flush();
+}
+
+void Tester::writeTestTime()
+{
+	float timeTaken = testTimer.nsecsElapsed()/1000000.0f;
+#ifndef Q_OS_WIN
+	output << "\e[0;33m";
+#endif
+	output << QString("%1ms").arg(timeTaken,10,'f',2);
+#ifndef Q_OS_WIN
+	output << "\e[0m";
+#endif
+	testTimer.invalidate();
 }
 
 void Tester::writePass()
 {
 #ifdef Q_OS_WIN
-	output << " Passed" << Qt::endl;
+	output << " Passed";
 #else
-	output << " \e[0;32mPassed\e[0m" << Qt::endl;
+	output << " \e[0;32mPassed\e[0m";
 #endif
+	writeTestTime();
+	output << Qt::endl;
 }
 
 void Tester::writeFail()
@@ -89,6 +105,7 @@ void Tester::writeFail()
 #else
 	output << " \e[0;31mFAILED\e[0m" << Qt::endl;
 #endif
+	testTimer.invalidate();
 }
 
 void Tester::writeSkip()
@@ -98,6 +115,7 @@ void Tester::writeSkip()
 #else
 	output << " \e[0;33mSkipped\e[0m" << Qt::endl;
 #endif
+	testTimer.invalidate();
 }
 
 static bool skipDir(const QString& dir)
