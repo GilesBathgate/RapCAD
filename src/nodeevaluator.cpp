@@ -456,23 +456,13 @@ void NodeEvaluator::visit(const AlignNode& n)
 
 void NodeEvaluator::visit(const PointsNode& n)
 {
-	Primitive* cp=createPrimitive();
-	cp->setType(PrimitiveTypes::Points);
-	QList<Point> points=n.getPoints();
-	if(points.isEmpty()) {
-		cp->createVertex(Point(0.0,0.0,0.0));
-	} else {
-		for(const auto& p: points)
-			cp->createVertex(p);
-	}
-
+	Primitive* cp=n.getPrimitive();
 	if(n.getVisibleChildren()) {
 		if(!evaluate(n,Operations::Union,cp)) return;
 	} else {
 		appendChildren(cp,n.getChildren());
 		result=cp;
 	}
-
 }
 
 void NodeEvaluator::visit(const SliceNode& n)

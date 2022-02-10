@@ -23,14 +23,11 @@ PointsNode::PointsNode() :
 {
 }
 
-QList<Point> PointsNode::getPoints() const
+void PointsNode::createSinglePoint()
 {
-	return points;
-}
-
-void PointsNode::setPoints(const QList<Point>& p)
-{
-	points=p;
+	Primitive* cp=createPrimitive();
+	cp->setType(PrimitiveTypes::Points);
+	cp->createVertex(Point(0.0,0.0,0.0));
 }
 
 bool PointsNode::getVisibleChildren() const

@@ -41,6 +41,7 @@ Node* SphereModule::evaluate(const Context& ctx) const
 	}
 	if(r==0.0) {
 		auto* p=new PointsNode();
+		p->createSinglePoint();
 		p->setChildren(ctx.getInputNodes());
 		return p;
 	}

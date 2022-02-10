@@ -20,19 +20,17 @@
 #define POINTSNODE_H
 
 #include "point.h"
-#include "node.h"
+#include "node/primitivenode.h"
 
-class PointsNode : public Node
+class PointsNode : public PrimitiveNode
 {
 public:
 	PointsNode();
-	void setPoints(const QList<Point>&);
-	QList<Point> getPoints() const;
+	void createSinglePoint();
 	bool getVisibleChildren() const;
 	void setVisibleChildren(bool value);
 	void accept(NodeVisitor&) override;
 private:
-	QList<Point> points;
 	bool visibleChildren;
 };
 

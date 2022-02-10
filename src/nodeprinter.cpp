@@ -351,7 +351,8 @@ void NodePrinter::visit(const AlignNode& n)
 void NodePrinter::visit(const PointsNode& n)
 {
 	result << "points";
-	printArguments(n.getPoints());
+	Primitive* pr=n.getPrimitive();
+	printArguments(pr->getPoints());
 	if(n.getVisibleChildren()) {
 		printChildren(n);
 	} else {
