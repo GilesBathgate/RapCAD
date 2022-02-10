@@ -18,6 +18,10 @@
 #include "geometryevaluator.h"
 #include "polyhedron.h"
 
+#ifdef USE_CGAL
+#include "cgalprimitive.h"
+#endif
+
 GeometryEvaluator::GeometryEvaluator()
 {
 	if(setThreads())
@@ -25,6 +29,15 @@ GeometryEvaluator::GeometryEvaluator()
 }
 
 OnceOnly GeometryEvaluator::setThreads;
+
+static Primitive* createPrimitive()
+{
+#ifdef USE_CGAL
+	return new CGALPrimitive();
+#else
+	return new Polyhedron();
+#endif
+}
 
 static Primitive* evaluateChildren(Node* n)
 {
@@ -48,6 +61,16 @@ static Primitive* unionChildren(const Node& n)
 	return QtConcurrent::blockingMappedReduced<Primitive*>(children,evaluateChildren,
 	[](auto& p,auto c) {
 		p=p?p->join(c):c;
+	},QtConcurrent::UnorderedReduce);
+}
+
+static Primitive* appendChildren(const Node& n)
+{
+	const auto& children=n.getChildren();
+	return QtConcurrent::blockingMappedReduced<Primitive*>(children,evaluateChildren,
+	[](auto& p,auto c) {
+		if(!p) p=createPrimitive();
+		p->appendChild(c);
 	},QtConcurrent::UnorderedReduce);
 }
 
@@ -135,8 +158,12 @@ void GeometryEvaluator::visit(const GlideNode& n)
 }
 
 
-void GeometryEvaluator::visit(const HullNode&)
+void GeometryEvaluator::visit(const HullNode& n)
 {
+	result=QtConcurrent::run([&n]() {
+		Primitive* p=appendChildren(n);
+		return p?p->hull(n.getConcave()):nullptr;
+	});
 }
 
 void GeometryEvaluator::visit(const LinearExtrudeNode& n)
@@ -223,9 +250,11 @@ void GeometryEvaluator::visit(const AlignNode& n)
 	});
 }
 
-void GeometryEvaluator::visit(const PointsNode&)
+void GeometryEvaluator::visit(const PointsNode& n)
 {
-
+	result=QtConcurrent::run([&n](){
+		return n.getPrimitive();
+	});
 }
 
 void GeometryEvaluator::visit(const SliceNode& n)
@@ -241,16 +270,31 @@ void GeometryEvaluator::visit(const ProductNode&)
 {
 }
 
-void GeometryEvaluator::visit(const ProjectionNode&)
+void GeometryEvaluator::visit(const ProjectionNode& n)
 {
+	result=QtConcurrent::run([&n](){
+		Primitive* p=unionChildren(n);
+		if(p) p->projection(n.getBase());
+		return p;
+	});
 }
 
-void GeometryEvaluator::visit(const DecomposeNode&)
+void GeometryEvaluator::visit(const DecomposeNode& n)
 {
+	result=QtConcurrent::run([&n](){
+		Primitive* p=unionChildren(n);
+		if(p) p->decompose();
+		return p;
+	});
 }
 
-void GeometryEvaluator::visit(const ComplementNode&)
+void GeometryEvaluator::visit(const ComplementNode& n)
 {
+	result=QtConcurrent::run([&n](){
+		Primitive* p=unionChildren(n);
+		if(p) p->complement();
+		return p;
+	});
 }
 
 void GeometryEvaluator::visit(const RadialsNode&)
