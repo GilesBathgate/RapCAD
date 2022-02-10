@@ -61,7 +61,7 @@ class GeometryEvaluator : public NodeVisitor
 {
 	Q_DECLARE_TR_FUNCTIONS(GeometryEvaluator)
 public:
-	GeometryEvaluator();
+	GeometryEvaluator(Reporter&);
 	void visit(const PrimitiveNode&) override;
 	void visit(const UnionNode&) override;
 	void visit(const GroupNode&) override;
@@ -97,8 +97,15 @@ public:
 	void visit(const ChildrenNode&) override;
 	Primitive* getResult() const;
 private:
+	using MapFunction = std::function<Primitive*(Node*)>;
+	using ReduceFunction = std::function<void(Primitive*&,Primitive*)>;
+	QFuture<Primitive *> reduceChildren(const Node&,ReduceFunction,QtConcurrent::ReduceOptions=QtConcurrent::OrderedReduce);
+	Primitive* unionChildren(const Node&);
+	Primitive* appendChildren(const Node&);
 	QFuture<Primitive*> result;
+	Reporter& reporter;
 	static OnceOnly setThreads;
+
 };
 
 #endif // GEOMETRYEVALUATOR_H

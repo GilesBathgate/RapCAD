@@ -44,7 +44,7 @@ int ConcurrentWorker::evaluate()
 	output.flush();
 
 	Node* n = e.getRootNode();
-	GeometryEvaluator g;
+	GeometryEvaluator g(reporter);
 	n->accept(g);
 
 	Primitive* result = g.getResult();
