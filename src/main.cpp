@@ -61,13 +61,40 @@ static void setupApplication()
 	Preferences::getInstance();
 }
 
+#ifdef USE_INTEGTEST
 static void showVersion(QTextStream& out)
 {
 	out << QCoreApplication::applicationName() << " " << QCoreApplication::applicationVersion() << Qt::endl;
 }
+#endif
+
+#ifdef Q_OS_WIN
+static QStringList getArguments(int argc,char*[])
+{
+	QStringList list;
+	if(wchar_t** argv=CommandLineToArgvW(GetCommandLineW(),&argc)) {
+		for(int a=0; a<argc; ++a) {
+			list << QString::fromWCharArray(argv[a]);
+		}
+		LocalFree(argv);
+	}
+	return list;
+}
+#else
+static QStringList getArguments(int argc,char* argv[])
+{
+	QStringList list;
+	for(int a=0; a<argc; ++a) {
+		list << QString::fromLocal8Bit(argv[a]);
+	}
+	return list;
+}
+#endif
 
 static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Reporter& reporter)
 {
+	const QStringList& arguments=getArguments(argc,argv);
+
 	QCommandLineParser p;
 	p.setApplicationDescription(QCoreApplication::translate("main","RapCAD the rapid prototyping IDE"));
 	p.addHelpOption();
@@ -95,8 +122,19 @@ static Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Re
 	QCommandLineOption interactOption(QStringList() << "i" << "interactive",QCoreApplication::translate("main","Start an interactive session"));
 	p.addOption(interactOption);
 #endif
-	QCoreApplication a(argc,argv);
-	p.process(a);
+
+	// Work around for Qt dependency
+	// on QCoreApplication in showHelp
+	if(!p.parse(arguments)) {
+		p.process(arguments); // exits
+	} else {
+		if(p.isSet("help")) {
+			QCoreApplication a(argc,argv);
+			p.showHelp(); // exits
+		} else if(p.isSet("version")) {
+			p.showVersion(); // exits
+		}
+	}
 
 	inputFiles=p.positionalArguments();
 	QString inputFile;
