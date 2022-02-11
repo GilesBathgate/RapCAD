@@ -15,22 +15,15 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef APPLICATION_H
+#define APPLICATION_H
+
 #include <QStringList>
-#include <QTextStream>
-#include "application.h"
 #include "reporter.h"
 #include "strategy.h"
 
-int main(int argc, char* argv[])
-{
-	setupApplication();
+void setupApplication();
+Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Reporter& reporter);
+int runApplication(Strategy* s,int argc,char* argv[],const QStringList& inputFiles);
 
-	QStringList inputFiles;
-	QTextStream output(stdout);
-	Reporter reporter(output);
-	Strategy* s=parseArguments(argc,argv,inputFiles,reporter);
-	int retcode=runApplication(s,argc,argv,inputFiles);
-	delete s;
-
-	return retcode;
-}
+#endif // APPLICATION_H

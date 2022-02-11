@@ -155,6 +155,7 @@ YACCSOURCES += \
 SOURCES += \
 	contrib/qcommandlineparser.cpp \
 	contrib/qcommandlineoption.cpp \
+	src/application.cpp \
 	src/assertexception.cpp \
 	src/builtinmanager.cpp \
 	src/cgaldiscretemodifier.cpp \
@@ -414,6 +415,7 @@ HEADERS  += \
 	contrib/qcommandlineoption.h \
 	contrib/Copy_polyhedron_to.h \
 	contrib/qtcompat.h \
+	src/application.h \
 	src/assertexception.h \
 	src/builtinmanager.h \
 	src/cgaldiscretemodifier.h \
