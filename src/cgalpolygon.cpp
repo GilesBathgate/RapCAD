@@ -35,8 +35,13 @@ CGALPolygon::~CGALPolygon()
 
 void CGALPolygon::appendVertex(CGAL::Point3 pt)
 {
+	appendVertex(pt,true);
+}
+
+void CGALPolygon::appendVertex(CGAL::Point3 pt,bool direction)
+{
 	auto& pr=dynamic_cast<CGALPrimitive&>(parent);
-	pr.addVertex(this,pt,true);
+	pr.appendVertex(this,pt,direction);
 }
 
 QList<CGAL::Point3> CGALPolygon::getPoints() const

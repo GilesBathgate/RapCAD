@@ -334,25 +334,19 @@ int CGALPrimitive::findIndex(const CGAL::Point3& p)
 	return i;
 }
 
-void CGALPrimitive::addVertex(const CGAL::Point3& p,bool direction)
+void CGALPrimitive::appendVertex(const CGAL::Point3 & p)
 {
-	if(!polygons.isEmpty())
-		addVertex(polygons.last(),p,direction);
+	if(!polygons.empty())
+		appendVertex(polygons.last(),p,true);
 }
 
-void CGALPrimitive::addVertex(CGALPolygon* pg,const CGAL::Point3& p,bool direction)
+void CGALPrimitive::appendVertex(CGALPolygon* pg,const CGAL::Point3& p,bool direction)
 {
 	int i = findIndex(p);
 	if(direction)
 		pg->append(i);
 	else
 		pg->prepend(i);
-}
-
-void CGALPrimitive::appendVertex(const CGAL::Point3& p)
-{
-	if(!polygons.isEmpty())
-		addVertex(polygons.last(),p,true);
 }
 
 bool CGALPrimitive::overlaps(Primitive* pr)
@@ -676,9 +670,9 @@ Primitive* CGALPrimitive::linear_extrude(const CGAL::Scalar& height,const CGAL::
 	auto* extruded=new CGALPrimitive();
 	if(isFullyDimentional()) {
 		extruded->setType(PrimitiveTypes::Lines);
-		extruded->createPolygon();
-		extruded->appendVertex(CGAL::ORIGIN);
-		extruded->appendVertex(CGAL::Point3(t.x(),t.y(),t.z()));
+		auto& np=extruded->createPolygon();
+		np.appendVertex(CGAL::ORIGIN);
+		np.appendVertex(CGAL::Point3(t.x(),t.y(),t.z()));
 		return minkowski(extruded);
 	} else {
 
@@ -689,10 +683,10 @@ Primitive* CGALPrimitive::linear_extrude(const CGAL::Scalar& height,const CGAL::
 		CGAL::AffTransformation3 translate(CGAL::TRANSLATION,t);
 		CGAL::Direction3 d=t.direction();
 		for(CGALPolygon* pg: polygons) {
-			extruded->createPolygon();
+			auto& np=extruded->createPolygon();
 			bool up=(pg->getDirection()==d);
 			for(const auto& pt: pg->getPoints())
-				extruded->addVertex(pt,up);
+				np.appendVertex(pt,up);
 		}
 
 		for(CGALPolygon* pg: primitive->getCGALPerimeter()) {
@@ -701,21 +695,21 @@ Primitive* CGALPrimitive::linear_extrude(const CGAL::Scalar& height,const CGAL::
 			CGAL::Point3 pn;
 			for(const auto& pt: pg->getPoints()) {
 				if(!first()) {
-					extruded->createPolygon();
-					extruded->addVertex(pn.transform(translate),up);
-					extruded->addVertex(pt.transform(translate),up);
-					extruded->addVertex(pt,up);
-					extruded->addVertex(pn,up);
+					auto& np=extruded->createPolygon();
+					np.appendVertex(pn.transform(translate),up);
+					np.appendVertex(pt.transform(translate),up);
+					np.appendVertex(pt,up);
+					np.appendVertex(pn,up);
 				}
 				pn=pt;
 			}
 		}
 
 		for(CGALPolygon* pg: polygons) {
-			extruded->createPolygon();
+			auto& np=extruded->createPolygon();
 			bool up=(pg->getDirection()==d);
 			for(const auto& pt: pg->getPoints())
-				extruded->addVertex(pt.transform(translate),!up);
+				np.appendVertex(pt.transform(translate),!up);
 		}
 		delete primitive;
 		extruded->appendChild(this);
@@ -764,11 +758,11 @@ Primitive* CGALPrimitive::rotate_extrude(const CGAL::Scalar& height,const CGAL::
 	auto* extruded=new CGALPrimitive();
 	if(caps) {
 		for(CGALPolygon* pg: polygons) {
-			extruded->createPolygon();
+			auto& np=extruded->createPolygon();
 			bool up=(pg->getDirection()==d);
 			for(CGAL::Point3 pt: pg->getPoints()) {
 				CGAL::Point3 q=pt.transform(translate);
-				extruded->addVertex(q,up);
+				np.appendVertex(q,up);
 			}
 		}
 	}
@@ -803,17 +797,17 @@ Primitive* CGALPrimitive::rotate_extrude(const CGAL::Scalar& height,const CGAL::
 						continue;
 					}
 
-					extruded->createPolygon();
+					auto& np=extruded->createPolygon();
 					CGAL::Point3 q1=q.transform(nrotate);
 					CGAL::Point3 p1=p.transform(nrotate);
 					CGAL::Point3 p2=p.transform(rotate);
 					CGAL::Point3 q2=q.transform(rotate);
-					extruded->addVertex(q1,up);
-					extruded->addVertex(p1,up);
+					np.appendVertex(q1,up);
+					np.appendVertex(p1,up);
 					if(p2!=p1)
-						extruded->addVertex(p2,up);
+						np.appendVertex(p2,up);
 					if(q2!=q1)
-						extruded->addVertex(q2,up);
+						np.appendVertex(q2,up);
 				}
 				pn=pt;
 			}
@@ -822,12 +816,12 @@ Primitive* CGALPrimitive::rotate_extrude(const CGAL::Scalar& height,const CGAL::
 
 	if(caps) {
 		for(CGALPolygon* pg: polygons) {
-			extruded->createPolygon();
+			auto& np=extruded->createPolygon();
 			bool up=(pg->getDirection()==d);
 			for(CGAL::Point3 pt: pg->getPoints()) {
 				CGAL::Point3 q=pt.transform(translate);
 				CGAL::Point3 p=q.transform(nrotate);
-				extruded->addVertex(p,!up);
+				np.appendVertex(p,!up);
 			}
 		}
 	}
@@ -1012,7 +1006,7 @@ Primitive* CGALPrimitive::glide(Primitive* pr)
 	CGAL::Point3 fp;
 	CGAL::Point3 np;
 	OnceOnly first_p;
-	cp->createPolygon();
+	auto& pg=cp->createPolygon();
 	for(const auto& pt: points) {
 		if(first_p()) {
 			fp=pt;
@@ -1020,7 +1014,7 @@ Primitive* CGALPrimitive::glide(Primitive* pr)
 			closed=true;
 			break;
 		}
-		cp->appendVertex(pt);
+		pg.appendVertex(pt);
 		np=pt;
 	}
 	cp->appendChild(pr);
@@ -1032,9 +1026,9 @@ Primitive* CGALPrimitive::glide(Primitive* pr)
 		pr=this->minkowski(cp);
 		cp=new CGALPrimitive();
 		cp->setType(PrimitiveTypes::Lines);
-		cp->createPolygon();
-		cp->appendVertex(np);
-		cp->appendVertex(fp);
+		auto& pg=cp->createPolygon();
+		pg.appendVertex(np);
+		pg.appendVertex(fp);
 		pr->join(next->minkowski(cp));
 	}
 	return pr;
@@ -1067,9 +1061,9 @@ Primitive* CGALPrimitive::projection(bool base)
 	auto* projected=new CGALPrimitive();
 	if(base) {
 		for(CGALPolygon* pg: explorer.getBase()) {
-			projected->createPolygon();
+			auto& np=projected->createPolygon();
 			for(const auto& pt: pg->getPoints())
-				projected->appendVertex(pt);
+				np.appendVertex(pt);
 		}
 	} else {
 		for(CGALPolygon* p: cp->getCGALPolygons()) {
@@ -1078,9 +1072,9 @@ Primitive* CGALPrimitive::projection(bool base)
 				continue;
 
 			auto* flat=new CGALPrimitive();
-			flat->createPolygon();
+			auto& np=flat->createPolygon();
 			for(const auto& pt: p->getPoints()) {
-				flat->appendVertex(flatten(pt));
+				np.appendVertex(flatten(pt));
 			}
 			projected->join(flat);
 		}
@@ -1228,13 +1222,13 @@ Primitive* CGALPrimitive::hull(bool concave)
 				std::swap(indices[0], indices[1]);
 
 			//Build triangle faces
-			createPolygon();
+			auto& np=createPolygon();
 			CGAL::Point3 p1=t->vertex(indices[0])->point();
 			CGAL::Point3 p2=t->vertex(indices[1])->point();
 			CGAL::Point3 p3=t->vertex(indices[2])->point();
-			appendVertex(p1);
-			appendVertex(p2);
-			appendVertex(p3);
+			np.appendVertex(p1);
+			np.appendVertex(p2);
+			np.appendVertex(p3);
 		}
 	}
 

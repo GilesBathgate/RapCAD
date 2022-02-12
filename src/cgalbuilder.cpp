@@ -271,10 +271,10 @@ CGALPrimitive* CGALBuilder::buildOffset(const CGAL::Scalar& amount)
 	auto* offset=new CGALPrimitive();
 	for(const auto& ptr: offsetPolys) {
 		if(!first()) {
-			offset->createPolygon();
+			auto& np=offset->createPolygon();
 			for(auto vi=ptr->vertices_begin(); vi!=ptr->vertices_end(); ++vi) {
 				CGAL::Point3 p3(vi->x(),vi->y(),z);
-				offset->appendVertex(p3);
+				np.appendVertex(p3);
 			}
 		}
 	}

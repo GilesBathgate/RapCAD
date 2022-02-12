@@ -51,10 +51,9 @@ public:
 	CGALPolygon& createPolygon() override;
 	CGALPolygon& createPerimeter();
 	void createVertex(const CGAL::Point3&) override;
-	void createVertex(const CGAL::Scalar&, const CGAL::Scalar&, const CGAL::Scalar&);
-	void addVertex(const CGAL::Point3& p,bool);
-	void addVertex(CGALPolygon*,const CGAL::Point3&, bool);
+	void createVertex(const CGAL::Scalar&,const CGAL::Scalar&,const CGAL::Scalar&);
 	void appendVertex(const CGAL::Point3&);
+	void appendVertex(CGALPolygon*,const CGAL::Point3&,bool);
 	bool overlaps(Primitive*) override;
 	Primitive* group(Primitive*) override;
 	Primitive* join(Primitive*) override;

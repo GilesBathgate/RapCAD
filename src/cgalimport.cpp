@@ -176,13 +176,13 @@ Primitive* CGALImport::importSTL() const
 		while(!f.atEnd()) {
 			if(f.read((char*)&data, datasize) != datasize)
 				break;
-			p->createPolygon();
+			auto& pg=p->createPolygon();
 			CGAL::Point3 v1(data.x1,data.y1,data.z1);
-			p->appendVertex(v1);
+			pg.appendVertex(v1);
 			CGAL::Point3 v2(data.x2,data.y2,data.z2);
-			p->appendVertex(v2);
+			pg.appendVertex(v2);
 			CGAL::Point3 v3(data.x3,data.y3,data.z3);
-			p->appendVertex(v3);
+			pg.appendVertex(v3);
 		}
 	}
 	return p;

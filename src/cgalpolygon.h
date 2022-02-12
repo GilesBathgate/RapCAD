@@ -38,6 +38,7 @@ public:
 	~CGALPolygon();
 
 	void appendVertex(CGAL::Point3);
+	void appendVertex(CGAL::Point3,bool);
 
 	QList<CGAL::Point3> getPoints() const;
 	QList<CGAL::Point2> getProjectedPoints();

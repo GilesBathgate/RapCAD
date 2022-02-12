@@ -212,7 +212,7 @@ void ShellExplorer::visit(ShellExplorer::HalfFacetHandle f)
 				CGAL_For_all(hc,he) {
 					SVertexHandle sv = hc->source();
 					CGAL::Point3 sp = sv->source()->point();
-					primitive->addVertex(sp,direction);
+					pg.appendVertex(sp,direction);
 				}
 			}
 		}
