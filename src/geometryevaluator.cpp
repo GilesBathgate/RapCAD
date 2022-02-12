@@ -84,7 +84,7 @@ Primitive* GeometryEvaluator::appendChildren(const Node& n)
 		p->appendChild(c);
 	},QtConcurrent::UnorderedReduce);
 
-	// Ward of warning (Unreachable)
+	// Ward off unused function warning (Unreachable)
 	createPrimitive();
 }
 
@@ -205,8 +205,7 @@ void GeometryEvaluator::visit(const SubDivisionNode& n)
 {
 	result=QtConcurrent::run([&n,this](){
 		Primitive* p=unionChildren(n);
-		if(p) p->subdivide(n.getLevel());
-		return p;
+		return p?p->subdivide(n.getLevel()):nullptr;
 	});
 }
 
@@ -218,8 +217,7 @@ void GeometryEvaluator::visit(const SimplifyNode& n)
 {
 	result=QtConcurrent::run([&n,this](){
 		Primitive* p=unionChildren(n);
-		if(p) p->simplify(n.getRatio());
-		return p;
+		return p?p->simplify(n.getRatio()):nullptr;
 	});
 }
 
@@ -231,8 +229,7 @@ void GeometryEvaluator::visit(const OffsetNode& n)
 {
 	result=QtConcurrent::run([&n,this](){
 		Primitive* p=unionChildren(n);
-		if(p) p->inset(n.getAmount());
-		return p;
+		return p?p->inset(n.getAmount()):nullptr;
 	});
 }
 
@@ -240,17 +237,20 @@ void GeometryEvaluator::visit(const BoundaryNode& n)
 {
 	result=QtConcurrent::run([&n,this](){
 		Primitive* p=unionChildren(n);
-		if(p) p->boundary();
-		return p;
+		return p?p->boundary():nullptr;
 	});
 }
 
 void GeometryEvaluator::visit(const ImportNode& n)
 {
 	result=QtConcurrent::run([&n,this](){
+#ifdef USE_CGAL
 		QFileInfo f(n.getImport());
 		CGALImport i(f,reporter);
 		return i.import();
+#else
+		return nullptr;
+#endif
 	});
 }
 
@@ -292,8 +292,7 @@ void GeometryEvaluator::visit(const SliceNode& n)
 {
 	result=QtConcurrent::run([&n,this](){
 		Primitive* p=unionChildren(n);
-		if(p) p->slice(n.getHeight(),n.getThickness());
-		return p;
+		return p?p->slice(n.getHeight(),n.getThickness()):nullptr;
 	});
 }
 
@@ -305,8 +304,7 @@ void GeometryEvaluator::visit(const ProjectionNode& n)
 {
 	result=QtConcurrent::run([&n,this](){
 		Primitive* p=unionChildren(n);
-		if(p) p->projection(n.getBase());
-		return p;
+		return p?p->projection(n.getBase()):nullptr;
 	});
 }
 
@@ -314,8 +312,7 @@ void GeometryEvaluator::visit(const DecomposeNode& n)
 {
 	result=QtConcurrent::run([&n,this](){
 		Primitive* p=unionChildren(n);
-		if(p) p->decompose();
-		return p;
+		return p?p->decompose():nullptr;
 	});
 }
 
@@ -323,8 +320,7 @@ void GeometryEvaluator::visit(const ComplementNode& n)
 {
 	result=QtConcurrent::run([&n,this](){
 		Primitive* p=unionChildren(n);
-		if(p) p->complement();
-		return p;
+		return p?p->complement():nullptr;
 	});
 }
 
