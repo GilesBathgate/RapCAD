@@ -25,6 +25,7 @@
 
 class Project : public QStandardItemModel
 {
+	Q_OBJECT
 public:
 	Project(QObject*);
 	QList<QString> getSources() const;
