@@ -418,11 +418,11 @@ CGAL::Cuboid3 CGALPrimitive::getBounds()
 class CGALPrimitive::Unionable
 {
 public:
-	Unionable() : primitive(nullptr),force(false) {}
-	Unionable(Primitive* p,bool f) : primitive(p),force(f) {}
+	Unionable() : primitive(nullptr),forceJoin(false) {}
+	Unionable(Primitive* p,bool f) : primitive(p),forceJoin(f) {}
 	Unionable& operator+(Unionable& other)
 	{
-		if(force||primitive->overlaps(other.primitive))
+		if(forceJoin||primitive->overlaps(other.primitive))
 			primitive=primitive->join(other.primitive);
 		else
 			primitive=primitive->group(other.primitive);
@@ -430,16 +430,26 @@ public:
 		return *this;
 	}
 	Primitive* primitive;
-	bool force;
+	bool forceJoin;
 };
 
-void CGALPrimitive::add(Primitive* pr,bool force)
+void CGALPrimitive::groupLater(Primitive *pr)
+{
+	add(pr,false);
+}
+
+void CGALPrimitive::joinLater(Primitive* pr)
+{
+	add(pr,true);
+}
+
+void CGALPrimitive::add(Primitive* pr,bool forceJoin)
 {
 	if(!nUnion) {
 		nUnion=new CGAL::Nef_nary_union_3<Unionable>();
-		nUnion->add_polyhedron(Unionable(this,force));
+		nUnion->add_polyhedron(Unionable(this,forceJoin));
 	}
-	nUnion->add_polyhedron(Unionable(pr,force));
+	nUnion->add_polyhedron(Unionable(pr,forceJoin));
 }
 
 Primitive* CGALPrimitive::combine()

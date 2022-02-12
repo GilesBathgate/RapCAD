@@ -196,10 +196,10 @@ bool NodeEvaluator::evaluate(const QList<Node*>& children, Operations type, Prim
 		} else if(result) {
 			switch(type) {
 				case Operations::Group:
-					first->add(result,false);
+					first->groupLater(result);
 					break;
 				case Operations::Union:
-					first->add(result,true);
+					first->joinLater(result);
 					break;
 				case Operations::Difference:
 					first=first->difference(result);

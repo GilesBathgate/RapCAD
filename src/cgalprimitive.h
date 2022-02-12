@@ -58,7 +58,8 @@ public:
 	bool overlaps(Primitive*) override;
 	Primitive* group(Primitive*) override;
 	Primitive* join(Primitive*) override;
-	void add(Primitive*,bool) override;
+	void groupLater(Primitive*) override;
+	void joinLater(Primitive*) override;
 	Primitive* combine() override;
 	Primitive* intersection(Primitive*) override;
 	Primitive* difference(Primitive*) override;
@@ -102,6 +103,7 @@ public:
 	void detectPerimeterHoles();
 	void clearPolygons();
 private:
+	void add(Primitive*,bool);
 	void buildPrimitive();
 	void convertBoundary();
 	CGAL::NefPolyhedron3* createVolume();

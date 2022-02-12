@@ -52,7 +52,12 @@ PrimitiveTypes Polyhedron::getType()
 	return type;
 }
 
-void Polyhedron::add(Primitive* p, bool)
+void Polyhedron::groupLater(Primitive *p)
+{
+	appendChild(p);
+}
+
+void Polyhedron::joinLater(Primitive *p)
 {
 	appendChild(p);
 }

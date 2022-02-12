@@ -34,9 +34,10 @@ public:
 	bool getSanitized() override { return false; }
 	Primitive* buildPrimitive() { return this; }
 	bool overlaps(Primitive*) override { return false; }
-	void add(Primitive*,bool) override;
 	Primitive* group(Primitive*) override;
 	Primitive* join(Primitive*) override;
+	void groupLater(Primitive*) override;
+	void joinLater(Primitive*) override;
 	Primitive* combine() override;
 	Primitive* intersection(Primitive*) override;
 	Primitive* difference(Primitive*) override;

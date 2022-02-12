@@ -45,7 +45,8 @@ public:
 	virtual bool overlaps(Primitive*)=0;
 	virtual Primitive* group(Primitive*)=0;
 	virtual Primitive* join(Primitive*)=0;
-	virtual void add(Primitive*,bool)=0;
+	virtual void groupLater(Primitive*)=0;
+	virtual void joinLater(Primitive*)=0;
 	virtual Primitive* combine()=0;
 	virtual Primitive* intersection(Primitive*)=0;
 	virtual Primitive* difference(Primitive*)=0;
