@@ -62,7 +62,7 @@ void setupApplication()
 	Preferences::getInstance();
 }
 
-#ifdef USE_INTEGTEST
+#if defined (USE_INTEGTEST) || defined (USE_READLINE)
 static void showVersion(QTextStream& out)
 {
 	out << QCoreApplication::applicationName() << " " << QCoreApplication::applicationVersion() << Qt::endl;
