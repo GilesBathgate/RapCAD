@@ -49,7 +49,8 @@ static void rapcadErrorHandler(const char*,const char*,const char*,int,const cha
 Application::Application() :
 	output(stdout),
 	reporter(output),
-	strategy(nullptr)
+	strategy(nullptr),
+	redirectFile(nullptr)
 {
 #ifdef Q_OS_WIN
 	QCoreApplication::setAttribute(Qt::AA_UseDesktopOpenGL);
@@ -67,6 +68,8 @@ Application::Application() :
 
 Application::~Application()
 {
+	if(redirectFile)
+		delete redirectFile;
 	if(strategy)
 		delete strategy;
 }
@@ -137,6 +140,9 @@ Strategy* Application::parseArguments(int argc,char* argv[])
 	QCommandLineOption outputOption(QStringList() << "o" << "output",QCoreApplication::translate("main","Create output file <filename>."),"filename");
 	p.addOption(outputOption);
 
+	QCommandLineOption redirectOption(QStringList() << "r" << "redirect",QCoreApplication::translate("main","Redirect output to file <filename>."),"filename");
+	p.addOption(redirectOption);
+
 #ifdef USE_READLINE
 	QCommandLineOption interactOption(QStringList() << "i" << "interactive",QCoreApplication::translate("main","Start an interactive session"));
 	p.addOption(interactOption);
@@ -153,6 +159,12 @@ Strategy* Application::parseArguments(int argc,char* argv[])
 		} else if(p.isSet("version")) {
 			p.showVersion(); // exits
 		}
+	}
+
+	if(p.isSet(redirectOption)) {
+		redirectFile=new QFile(p.value(redirectOption));
+		if(redirectFile->open(QFile::WriteOnly))
+			output.setDevice(redirectFile);
 	}
 
 	inputFiles=p.positionalArguments();

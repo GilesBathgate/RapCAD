@@ -36,6 +36,7 @@ private:
 	QTextStream output;
 	Reporter reporter;
 	Strategy* strategy;
+	QFile* redirectFile;
 };
 
 #endif // APPLICATION_H
