@@ -22,8 +22,20 @@
 #include "reporter.h"
 #include "strategy.h"
 
-void setupApplication();
-Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Reporter& reporter);
-int runApplication(Strategy* s,int argc,char* argv[],const QStringList& inputFiles);
+class Application
+{
+public:
+	Application();
+	int run(int argc,char* argv[]);
+	~Application();
+private:
+	Strategy* parseArguments(int,char*[]);
+	int runUserInterface(int,char*[]);
+
+	QStringList inputFiles;
+	QTextStream output;
+	Reporter reporter;
+	Strategy* strategy;
+};
 
 #endif // APPLICATION_H

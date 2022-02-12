@@ -46,7 +46,10 @@
 static void rapcadErrorHandler(const char*,const char*,const char*,int,const char*){}
 #endif
 
-void setupApplication()
+Application::Application() :
+	output(stdout),
+	reporter(output),
+	strategy(nullptr)
 {
 #ifdef Q_OS_WIN
 	QCoreApplication::setAttribute(Qt::AA_UseDesktopOpenGL);
@@ -60,6 +63,12 @@ void setupApplication()
 #endif
 	//Ensure preferences have been initialised early.
 	Preferences::getInstance();
+}
+
+Application::~Application()
+{
+	if(strategy)
+		delete strategy;
 }
 
 #if defined (USE_INTEGTEST) || defined (USE_READLINE)
@@ -92,7 +101,16 @@ static QStringList getArguments(int argc,char* argv[])
 }
 #endif
 
-Strategy* parseArguments(int argc,char* argv[],QStringList& inputFiles,Reporter& reporter)
+int Application::run(int argc,char* argv[])
+{
+	strategy=parseArguments(argc,argv);
+	if(strategy)
+		return strategy->evaluate();
+
+	return runUserInterface(argc,argv);
+}
+
+Strategy* Application::parseArguments(int argc,char* argv[])
 {
 	const QStringList& arguments=getArguments(argc,argv);
 
@@ -204,11 +222,8 @@ static void setTheme()
 	}
 }
 
-int runApplication(Strategy* s,int argc,char* argv[],const QStringList& inputFiles)
+int Application::runUserInterface(int argc,char* argv[])
 {
-	if(s)
-		return s->evaluate();
-
 	QApplication a(argc,argv);
 	setTheme();
 
