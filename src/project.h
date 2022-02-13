@@ -28,7 +28,7 @@ class Project : public QStandardItemModel
 	Q_OBJECT
 public:
 	Project(QObject*);
-	QList<QString> getSources() const;
+	const QList<QString> getSources() const;
 	void parseProject(const QString&);
 	void parseSource(QXmlStreamReader&);
 	void parseName(QXmlStreamReader&);

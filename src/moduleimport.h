@@ -35,7 +35,7 @@ public:
 	QString getName() const;
 	void accept(TreeVisitor&) override;
 	void setParameters(const QList<Parameter*>&);
-	QList<Parameter*> getParameters() const;
+	const QList<Parameter*> getParameters() const;
 private:
 	QString import;
 	QString name;

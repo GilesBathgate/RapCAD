@@ -54,7 +54,7 @@ void Script::setDeclarations(const QList<Declaration*>& decls)
 	declarations = decls;
 }
 
-QList<Declaration*> Script::getDeclarations() const
+const QList<Declaration*> Script::getDeclarations() const
 {
 	return declarations;
 }
@@ -79,7 +79,7 @@ void Script::addDocumentation(const QList<CodeDoc*>& docs)
 	documentation.append(docs);
 }
 
-QList<QList<CodeDoc*> > Script::getDocumentation() const
+const QList<QList<CodeDoc*> > Script::getDocumentation() const
 {
 	return documentation;
 }

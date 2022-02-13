@@ -28,7 +28,7 @@ public:
 	VectorExpression();
 	~VectorExpression() override;
 	void setChildren(const QList<Expression*>&);
-	QList<Expression*> getChildren() const;
+	const QList<Expression*> getChildren() const;
 	void setAdditionalCommas(int);
 	int getAdditionalCommas() const;
 	void accept(TreeVisitor&) override;

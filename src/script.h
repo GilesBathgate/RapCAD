@@ -35,12 +35,12 @@ public:
 	void parse(const QFileInfo&);
 
 	void setDeclarations(const QList<Declaration*>&);
-	QList<Declaration*> getDeclarations() const override;
+	const QList<Declaration*> getDeclarations() const override;
 	void addDeclaration(Declaration*);
 	void appendDeclaration(Declaration*);
 	void removeDeclaration(Declaration*);
 	void addDocumentation(const QList<CodeDoc*>&);
-	QList<QList<CodeDoc*> > getDocumentation() const;
+	const QList<QList<CodeDoc*> > getDocumentation() const;
 	void accept(TreeVisitor&) override;
 	QDir getFileLocation() const;
 	void setFileLocation(const QDir&);

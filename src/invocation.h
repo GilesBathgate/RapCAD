@@ -33,7 +33,7 @@ public:
 	void setNamespace(const QString&);
 	QString getNamespace() const;
 	void setArguments(const QList<Argument*>&);
-	QList<Argument*> getArguments() const;
+	const QList<Argument*> getArguments() const;
 	void accept(TreeVisitor&) override;
 private:
 	QString name;

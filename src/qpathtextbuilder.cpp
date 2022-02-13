@@ -82,7 +82,7 @@ Primitive* QPathTextBuilder::buildPrimitive() const
 		painterPath.addText(location,getFont(),text);
 	}
 
-	QList<QPolygonF> paths = painterPath.toSubpathPolygons();
+	const QList<QPolygonF> paths = painterPath.toSubpathPolygons();
 
 	int index=0;
 	PrimitiveNode pn;

@@ -44,30 +44,30 @@ void CGALPolygon::appendVertex(CGAL::Point3 pt,bool direction)
 	pr.appendVertex(this,pt,direction);
 }
 
-QList<CGAL::Point3> CGALPolygon::getPoints() const
+const QList<CGAL::Point3> CGALPolygon::getPoints() const
 {
 	QList<CGAL::Point3> points;
 	const auto& pr=dynamic_cast<const CGALPrimitive&>(parent);
-	QList<CGAL::Point3> parentPoints=pr.getPoints();
+	const QList<CGAL::Point3> parentPoints=pr.getPoints();
 	for(auto i: indexes)
 		points.append(parentPoints.at(i));
 	return points;
 }
 
-QList<CGAL::Point2> CGALPolygon::getProjectedPoints()
+const QList<CGAL::Point2> CGALPolygon::getProjectedPoints()
 {
 	CGALProjection* pro=getProjection();
 	QList<CGAL::Point2> points;
 	const auto& pr=dynamic_cast<const CGALPrimitive&>(parent);
 	QList<CGAL::Point3> parentPoints=pr.getPoints();
-	for(auto i: indexes) {
+	for(auto i: getIndexes()) {
 		const CGAL::Point3& p3=parentPoints.at(i);
 		points.append(pro->project(p3));
 	}
 	return points;
 }
 
-QList<CGAL::Segment3> CGALPolygon::getSegments()
+const QList<CGAL::Segment3> CGALPolygon::getSegments()
 {
 		QList<CGAL::Segment3> segments;
 		CGAL::Point3 prev;

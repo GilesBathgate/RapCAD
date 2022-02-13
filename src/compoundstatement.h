@@ -28,7 +28,7 @@ public:
 	CompoundStatement() = default;
 	~CompoundStatement() override;
 	void setChildren(const QList<Statement*>&);
-	QList<Statement*> getChildren() const;
+	const QList<Statement*> getChildren() const;
 	void accept(TreeVisitor&) override;
 private:
 	QList<Statement*> children;

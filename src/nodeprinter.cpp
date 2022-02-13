@@ -216,7 +216,7 @@ void NodePrinter::visit(const ImportNode& im)
 
 void NodePrinter::printChildren(const Node& n)
 {
-	QList<Node*> children = n.getChildren();
+	const QList<Node*> children = n.getChildren();
 	if(children.length()>0) {
 		result << "{";
 		for(Node* c: children)

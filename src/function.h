@@ -39,7 +39,7 @@ public:
 	~Function() override;
 	QString getName() const;
 	void setName(const QString&);
-	QList<Parameter*> getParameters() const;
+	const QList<Parameter*> getParameters() const;
 	void setParameters(const QList<Parameter*>&);
 	Scope* getScope() const;
 	void setScope(Scope*);

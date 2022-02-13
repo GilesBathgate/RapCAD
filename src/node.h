@@ -30,7 +30,7 @@ public:
 	~Node() override;
 	void addChild(Node*);
 	void setChildren(const QList<Node*>&);
-	QList<Node*> getChildren() const;
+	const QList<Node*> getChildren() const;
 	int childCount() const;
 private:
 	QList<Node*> children;

@@ -71,8 +71,8 @@ Node* PrismModule::evaluate(const Context& ctx) const
 	decimal z1=0.0;
 	decimal z2=h;
 
-	QList<Point> p1=getPolygon(a,r,s,z1);
-	QList<Point> p2=getPolygon(a,r,s,z2);
+	const QList<Point> p1=getPolygon(a,r,s,z1);
+	const QList<Point> p2=getPolygon(a,r,s,z2);
 
 	if(r>0.0) {
 		int n=0;

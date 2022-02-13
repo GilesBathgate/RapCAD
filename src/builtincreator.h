@@ -32,7 +32,7 @@ public:
 	void generateDocs(QTextStream&);
 	void generateDocs(TreeVisitor&);
 	QHash<QString,Module*> getModuleNames() const;
-	QList<Declaration*> getBuiltins() const;
+	const QList<Declaration*> getBuiltins() const;
 private:
 	explicit BuiltinCreator(Reporter&);
 	~BuiltinCreator();

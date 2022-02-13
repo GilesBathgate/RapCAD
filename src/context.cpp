@@ -132,7 +132,7 @@ void Context::setVariablesFromArguments()
 		const QString& paramName=param.getName();
 		Value* paramVal=param.getValue();
 		bool found=false;
-		for(const auto& arg: arguments) {
+		for(const auto& arg: getArguments()) {
 			const QString& argName=arg.getName();
 			Value* argVal=arg.getValue();
 			if(argVal->isDefined()&&argName==paramName) {
@@ -154,7 +154,7 @@ void Context::setVariablesFromArguments()
 	}
 }
 
-QList<NamedValue> Context::getArguments() const
+const QList<NamedValue> Context::getArguments() const
 {
 	return arguments;
 }

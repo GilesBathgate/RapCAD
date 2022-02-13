@@ -41,7 +41,7 @@ Node* CircleModule::evaluate(const Context& ctx) const
 
 	int f = Fragment::getFragments(ctx,r);
 
-	QList<Point> c = getCircle(r,f,0);
+	const QList<Point> c = getCircle(r,f,0);
 
 	auto* pn=new PrimitiveNode();
 	Primitive* p=pn->createPrimitive();

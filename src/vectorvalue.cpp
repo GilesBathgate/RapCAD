@@ -101,7 +101,7 @@ ValueIterator* VectorValue::createIterator()
 	return new VectorIterator(elements);
 }
 
-QList<Value*> VectorValue::getElements()
+const QList<Value*> VectorValue::getElements()
 {
 	return elements;
 }
@@ -116,7 +116,7 @@ Value& VectorValue::operation(Operators e)
 		return factory.createUndefined();
 	}
 	QList<Value*> result;
-	for(Value* c: elements)
+	for(Value* c: getElements())
 		result.append(Value::evaluate(c,e));
 	return factory.createVector(result);
 }
@@ -143,7 +143,7 @@ Value& VectorValue::operation(NumberValue& num,Operators e)
 		return factory.createVector(result);
 	}
 	if(e==Operators::Exponent) {
-		QList<Value*> a=getElements();
+		const QList<Value*> a=getElements();
 		Value* total=&factory.createNumber(0.0);
 		for(Value* c: a) {
 			Value& r=Value::evaluate(*c,e,num);
@@ -158,7 +158,7 @@ Value& VectorValue::operation(NumberValue& num,Operators e)
 		return factory.createUndefined();
 	}
 
-	QList<Value*> a=getElements();
+	const QList<Value*> a=getElements();
 	e=convertOperation(e);
 	for(Value* c: a)
 		result.append(Value::evaluate(c,e,&num));

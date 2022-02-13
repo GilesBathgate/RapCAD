@@ -85,15 +85,15 @@ public:
 	CGAL::Cuboid3 getBounds();
 	void transform(TransformMatrix*) override;
 	/* Don't call this method instead use getCGALPolygons */
-	Q_DECL_DEPRECATED QList<Polygon*> getPolygons() const override;
-	QList<CGALPolygon*> getCGALPolygons() const;
-	QList<CGALPolygon*> getCGALPerimeter() const;
-	QList<CGAL::Point3> getPoints() const override;
+	Q_DECL_DEPRECATED const QList<Polygon*> getPolygons() const override;
+	const QList<CGALPolygon*> getCGALPolygons() const;
+	const QList<CGALPolygon*> getCGALPerimeter() const;
+	const QList<CGAL::Point3> getPoints() const override;
 	const CGAL::NefPolyhedron3& getNefPolyhedron();
 	CGAL::Polyhedron3* getPolyhedron();
 	bool isEmpty() override;
 	bool isFullyDimentional() override;
-	QList<Primitive*> getChildren() override;
+	const QList<Primitive*> getChildren() override;
 	void appendChild(Primitive*) override;
 	void appendChildren(QList<Primitive*>) override;
 	void discrete(int) override;

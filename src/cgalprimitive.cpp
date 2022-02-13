@@ -193,9 +193,9 @@ CGAL::NefPolyhedron3* CGALPrimitive::createPolyline()
 		return new CGAL::NefPolyhedron3();
 
 	CGAL::NefPolyhedron3* result=nullptr;
-	for(CGALPolygon* pg: polygons) {
+	for(CGALPolygon* pg: getCGALPolygons()) {
 		if(!sanitized) {
-			auto segments=pg->getSegments();
+			const auto segments=pg->getSegments();
 			if(!validPolyLine(segments)) {
 				for(const auto& segment: segments) {
 					if(!result) {
@@ -378,17 +378,17 @@ Primitive* CGALPrimitive::group(Primitive* pr)
 
 }
 
-QList<CGALPolygon*> CGALPrimitive::getCGALPolygons() const
+const QList<CGALPolygon*> CGALPrimitive::getCGALPolygons() const
 {
 	return polygons;
 }
 
-QList<CGALPolygon*> CGALPrimitive::getCGALPerimeter() const
+const QList<CGALPolygon*> CGALPrimitive::getCGALPerimeter() const
 {
 	return perimeters;
 }
 
-QList<CGAL::Point3> CGALPrimitive::getPoints() const
+const QList<CGAL::Point3> CGALPrimitive::getPoints() const
 {
 	if(!nefPolyhedron)
 		return points;
@@ -679,7 +679,7 @@ Primitive* CGALPrimitive::linear_extrude(const CGAL::Scalar& height,const CGAL::
 		CGALExplorer explorer(this);
 
 		CGALPrimitive* primitive=explorer.getPrimitive();
-		QList<CGALPolygon*> polygons=primitive->getCGALPolygons();
+		const QList<CGALPolygon*> polygons=primitive->getCGALPolygons();
 		CGAL::AffTransformation3 translate(CGAL::TRANSLATION,t);
 		CGAL::Direction3 d=t.direction();
 		for(CGALPolygon* pg: polygons) {
@@ -747,7 +747,7 @@ Primitive* CGALPrimitive::rotate_extrude(const CGAL::Scalar& height,const CGAL::
 
 	CGALExplorer explorer(this);
 	CGALPrimitive* primitive=explorer.getPrimitive();
-	QList<CGALPolygon*> polygons=primitive->getCGALPolygons();
+	const QList<CGALPolygon*> polygons=primitive->getCGALPolygons();
 
 	CGAL::Cuboid3 b=primitive->getBounds();
 	int f=fg->getFragments((b.xmax()-b.xmin())+r);
@@ -760,7 +760,7 @@ Primitive* CGALPrimitive::rotate_extrude(const CGAL::Scalar& height,const CGAL::
 		for(CGALPolygon* pg: polygons) {
 			auto& np=extruded->createPolygon();
 			bool up=(pg->getDirection()==d);
-			for(CGAL::Point3 pt: pg->getPoints()) {
+			for(const CGAL::Point3& pt: pg->getPoints()) {
 				CGAL::Point3 q=pt.transform(translate);
 				np.appendVertex(q,up);
 			}
@@ -818,7 +818,7 @@ Primitive* CGALPrimitive::rotate_extrude(const CGAL::Scalar& height,const CGAL::
 		for(CGALPolygon* pg: polygons) {
 			auto& np=extruded->createPolygon();
 			bool up=(pg->getDirection()==d);
-			for(CGAL::Point3 pt: pg->getPoints()) {
+			for(const CGAL::Point3& pt: pg->getPoints()) {
 				CGAL::Point3 q=pt.transform(translate);
 				CGAL::Point3 p=q.transform(nrotate);
 				np.appendVertex(p,!up);
@@ -850,18 +850,18 @@ void CGALPrimitive::transform(TransformMatrix* matrix)
 		nefPolyhedron->transform(t);
 	} else {
 		QList<CGAL::Point3> nps;
-		for(const auto& pt: points)
+		for(const auto& pt: qAsConst(points))
 			nps.append(pt.transform(t));
 		points=nps;
 	}
 
 	//Only transform auxilliary modules children.
-	for(Primitive* p: children)
+	for(Primitive* p: getChildren())
 		if(p && !dynamic_cast<CGALPrimitive*>(p))
 			p->transform(matrix);
 }
 
-QList<Polygon*> CGALPrimitive::getPolygons() const
+const QList<Polygon*> CGALPrimitive::getPolygons() const
 {
 	return QList<Polygon*>();
 }
@@ -895,7 +895,7 @@ CGAL::Circle3 CGALPrimitive::getRadius()
 	using Traits = CGAL::Min_circle_2_traits_2<CGAL::Kernel3>;
 	using Min_circle = CGAL::Min_circle_2<Traits>;
 
-	QList<CGAL::Point3> points3=getPoints();
+	const QList<CGAL::Point3> points3=getPoints();
 	QList<CGAL::Point2> points2;
 	for(const auto& pt3: points3) {
 		CGAL::Point2 pt2(pt3.x(),pt3.y());
@@ -936,7 +936,7 @@ bool CGALPrimitive::isFullyDimentional()
 	return nefPolyhedron->number_of_volumes()>1 && nefPolyhedron->number_of_facets()>3;
 }
 
-QList<Primitive*> CGALPrimitive::getChildren()
+const QList<Primitive*> CGALPrimitive::getChildren()
 {
 	return children;
 }
@@ -959,7 +959,7 @@ void CGALPrimitive::discrete(int places)
 		nefPolyhedron->delegate(n,false,false);
 	} else {
 		QList<CGAL::Point3> nps;
-		for(const auto& pt: points) {
+		for(const auto& pt: qAsConst(points)) {
 			nps.append(CGALDiscreteModifier::discretePoint(pt,places));
 		}
 		points=nps;
@@ -1007,7 +1007,7 @@ Primitive* CGALPrimitive::glide(Primitive* pr)
 	CGAL::Point3 np;
 	OnceOnly first_p;
 	auto& pg=cp->createPolygon();
-	for(const auto& pt: points) {
+	for(const auto& pt: qAsConst(points)) {
 		if(first_p()) {
 			fp=pt;
 		} else if(pt==fp) {
@@ -1193,7 +1193,7 @@ Primitive* CGALPrimitive::hull(bool concave)
 	using Facet = Alpha_shape_3::Facet;
 
 	QList<CGAL::Point3> pts;
-	for(Primitive* c: children)
+	for(Primitive* c: getChildren())
 		pts.append(c->getPoints());
 
 	if(!concave) {
@@ -1209,7 +1209,7 @@ Primitive* CGALPrimitive::hull(bool concave)
 		QList<Facet> facets;
 		as.get_alpha_shape_facets(std::back_inserter(facets),Alpha_shape_3::REGULAR);
 
-		for(Facet f: facets) {
+		for(Facet f: qAsConst(facets)) {
 			auto& t=f.first;
 			//To have a consistent orientation of the facet, always consider an exterior cell
 			if(as.classify(t) != Alpha_shape_3::EXTERIOR)

@@ -49,7 +49,7 @@ void Invocation::setArguments(const QList<Argument*>& args)
 	arguments = args;
 }
 
-QList<Argument*> Invocation::getArguments() const
+const QList<Argument*> Invocation::getArguments() const
 {
 	return arguments;
 }

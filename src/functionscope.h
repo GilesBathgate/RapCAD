@@ -32,7 +32,7 @@ public:
 	void setExpression(Expression*);
 	Expression* getExpression() const;
 	void setStatements(const QList<Statement*>&);
-	QList<Statement*> getStatements() const;
+	const QList<Statement*> getStatements() const;
 	void accept(TreeVisitor&) override;
 private:
 	Expression* expression;

@@ -33,7 +33,7 @@ void Polygon::prepend(int i)
 	indexes.prepend(i);
 }
 
-QList<Point> Polygon::getPoints() const
+const QList<Point> Polygon::getPoints() const
 {
 	QList<Point> parentPoints=parent.getPoints();
 	QList<Point> points;
@@ -42,7 +42,7 @@ QList<Point> Polygon::getPoints() const
 	return points;
 }
 
-QList<int> Polygon::getIndexes() const
+const QList<int> Polygon::getIndexes() const
 {
 	return indexes;
 }

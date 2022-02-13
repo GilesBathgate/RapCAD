@@ -87,7 +87,7 @@ void Project::writeProject(const QString& filename)
 	xml.writeStartElement("project");
 	xml.writeAttribute("version","0.1");
 	xml.writeTextElement("name",name);
-	for(const auto& source: sources)
+	for(const auto& source: getSources())
 		xml.writeTextElement("source",source);
 	xml.writeEndElement();
 	xml.writeEndDocument();
@@ -120,7 +120,7 @@ void Project::addSource(const QString& value)
 	rootItem->appendRow(new QStandardItem(value));
 }
 
-QList<QString> Project::getSources() const
+const QList<QString> Project::getSources() const
 {
 	return sources;
 }

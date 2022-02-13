@@ -29,7 +29,7 @@ void ModuleScope::setDeclarations(const QList<Declaration*>& decls)
 	declarations = decls;
 }
 
-QList<Declaration*> ModuleScope::getDeclarations() const
+const QList<Declaration*> ModuleScope::getDeclarations() const
 {
 	return declarations;
 }

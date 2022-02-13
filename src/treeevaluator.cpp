@@ -103,7 +103,7 @@ void TreeEvaluator::visit(const Instance& inst)
 	 * have children */
 	Scope* c=context->getCurrentScope();
 	QList<Node*> childnodes;
-	QList <Statement*> stmts = inst.getChildren();
+	const QList <Statement*> stmts = inst.getChildren();
 	if(!stmts.empty()) {
 		startContext(c);
 
@@ -120,7 +120,7 @@ void TreeEvaluator::visit(const Instance& inst)
 	startContext(c);
 	for(Argument* arg: inst.getArguments())
 		arg->accept(*this);
-	auto arguments=context->getArguments();
+	const auto arguments=context->getArguments();
 	finishContext();
 
 	/* Look up the layout which is currently in scope and then lookup the
@@ -471,7 +471,7 @@ void TreeEvaluator::visit(const Invocation& stmt)
 	startContext(c);
 	for(Argument* arg: stmt.getArguments())
 		arg->accept(*this);
-	auto arguments=context->getArguments();
+	const auto arguments=context->getArguments();
 	finishContext();
 
 	Value* result=nullptr;

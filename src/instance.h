@@ -41,9 +41,9 @@ public:
 	void setName(const QString&);
 	QString getName() const;
 	void setArguments(const QList<Argument*>&);
-	QList<Argument*> getArguments() const;
+	const QList<Argument*> getArguments() const;
 	void setChildren(const QList <Statement*>&);
-	QList <Statement*> getChildren() const;
+	const QList <Statement*> getChildren() const;
 	void setType(InstanceTypes);
 	InstanceTypes getType() const;
 	void setNamespace(const QString&);

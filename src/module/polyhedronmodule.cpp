@@ -42,7 +42,7 @@ Node* PolyhedronModule::evaluate(const Context& ctx) const
 	if(!points||!faces)
 		return pn;
 
-	QList<Value*> children = points->getElements();
+	const QList<Value*> children = points->getElements();
 	for(Value* child: children) {
 		auto* point=dynamic_cast<VectorValue*>(child);
 		if(!point) continue;

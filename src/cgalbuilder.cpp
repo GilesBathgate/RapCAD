@@ -44,8 +44,8 @@ CGALBuilder::CGALBuilder(CGALPrimitive& p) : primitive(p)
 
 void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
 {
-	QList<CGAL::Point3> points=primitive.getPoints();
-	QList<CGALPolygon*> polygons=primitive.getCGALPolygons();
+	const QList<CGAL::Point3> points=primitive.getPoints();
+	const QList<CGALPolygon*> polygons=primitive.getCGALPolygons();
 
 	CGAL::Polyhedron_incremental_builder_3<CGAL::HalfedgeDS> builder(hds,true);
 	builder.begin_surface(points.size(), polygons.size());
@@ -190,7 +190,7 @@ bool CGALBuilder::triangulate()
 	CT ct;
 	TDS::size_type count=0;
 	for(CGALPolygon* pg: primitive.getCGALPolygons()) {
-		QList<int> indexes=pg->getIndexes();
+		const QList<int> indexes=pg->getIndexes();
 		if(indexes.size()<3) continue;
 		CGALProjection* pro=pg->getProjection();
 		QList<CGAL::Point2> points2;

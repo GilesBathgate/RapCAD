@@ -64,9 +64,9 @@ public:
 	void resize(bool,const Point&) override	{}
 	void transform(TransformMatrix*) override;
 	bool isEmpty() override;
-	QList<Polygon*> getPolygons() const override;
-	QList<Point> getPoints() const override;
-	QList<Primitive*> getChildren() override;
+	const QList<Polygon*> getPolygons() const override;
+	const QList<Point> getPoints() const override;
+	const QList<Primitive*> getChildren() override;
 	void appendChild(Primitive*) override;
 	void appendChildren(QList<Primitive*>) override;
 	void discrete(int) override;

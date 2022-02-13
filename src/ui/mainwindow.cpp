@@ -89,7 +89,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::deleteTempFiles()
 {
-	for(auto* file: temporyFiles) {
+	for(auto* file: qAsConst(temporyFiles)) {
 		file->close();
 		delete file;
 	}

@@ -30,9 +30,9 @@ Value& OrdinalFunction::evaluate(const Context& ctx) const
 {
 	auto* textVal=dynamic_cast<TextValue*>(getParameterArgument(ctx,0));
 	if(textVal) {
-		QString text=textVal->getValueString();
+		const QVector<uint> codepoints=textVal->getValueString().toUcs4();
 		QList<Value*> results;
-		for(uint unicode: text.toUcs4())
+		for(uint unicode: codepoints)
 			results.append(&Value::factory.createNumber(unicode));
 		if(results.count()==1)
 			return *results.at(0);

@@ -31,6 +31,7 @@ public:
 	void toQuaternion(decimal&,decimal&,decimal&,decimal&);
 private:
 	ComplexValue();
+	const QList<Value*> getImaginary() const;
 	Value& operation(Operators) override;
 	Value& operation(Value&,Operators) override;
 	Value& operation(ComplexValue&,Operators);

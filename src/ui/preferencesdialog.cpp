@@ -44,7 +44,8 @@ void PreferencesDialog::setupWidgets()
 	ui->fontComboBox->setCurrentFont(f);
 	int pointSize=f.pointSize();
 	QComboBox* c=ui->sizeComboBox;
-	for(auto size: QFontDatabase::standardSizes()) {
+	const QList<int> sizes=QFontDatabase::standardSizes();
+	for(auto size: sizes) {
 		c->addItem(QString::number(size));
 		if(size==pointSize)
 			c->setCurrentIndex(c->count()-1);

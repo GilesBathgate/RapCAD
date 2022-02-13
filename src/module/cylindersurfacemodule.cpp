@@ -53,8 +53,8 @@ Node* CylinderSurfaceModule::evaluate(const Context& ctx) const
 
 	int f = Fragment::getFragments(ctx,r);
 
-	QList<Point> c1=getCircle(r,f,z1);
-	QList<Point> c2=getCircle(r,f,z2);
+	const QList<Point> c1=getCircle(r,f,z1);
+	const QList<Point> c2=getCircle(r,f,z2);
 
 	auto* pn=new PrimitiveNode();
 	Primitive* p=pn->createPrimitive();

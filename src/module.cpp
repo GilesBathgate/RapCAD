@@ -55,7 +55,7 @@ bool Module::getAuxilary() const
 	return auxilary;
 }
 
-QList<Parameter*> Module::getParameters() const
+const QList<Parameter*> Module::getParameters() const
 {
 	return parameters;
 }

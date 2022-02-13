@@ -213,7 +213,7 @@ Primitive* SimpleTextBuilder::buildPrimitive() const
 	decimal y=location.y();
 	decimal z=location.z();
 	for(QChar c: text) {
-		Letter ch=characters->value(c);
+		const Letter ch=characters->value(c);
 		for(const auto& p: ch) {
 			Polygon& pg=ph->createPolygon();
 			for(const auto& pt: p) {

@@ -67,7 +67,8 @@ SaveItemsDialog::~SaveItemsDialog()
 void SaveItemsDialog::collectItemsToSave()
 {
 	itemsToSave.clear();
-	for(QTreeWidgetItem* item: ui->treeWidget->selectedItems()) {
+	const QList<QTreeWidgetItem*> items=ui->treeWidget->selectedItems();
+	for(QTreeWidgetItem* item: items) {
 		itemsToSave.append(item->data(0, Qt::UserRole).toString());
 	}
 	accept();

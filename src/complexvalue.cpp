@@ -64,7 +64,7 @@ Value& ComplexValue::operation(Operators e)
 	if(e==Operators::Length) {
 		//l = sqrt(w^2+x^2+y^2,z^2)
 		Value* n=Value::evaluate(&real,Operators::Multiply,&real);
-		for(Value* i: imaginary) {
+		for(Value* i: getImaginary()) {
 			Value& r=Value::evaluate(*i,Operators::Multiply,*i);
 			n=Value::evaluate(n,Operators::Add,&r);
 		}
@@ -142,7 +142,7 @@ Value& ComplexValue::operation(NumberValue& n,Operators e)
 	if(e==Operators::Divide) {
 		Value& w=Value::evaluate(real,Operators::Divide,n);
 		QList<Value*> result;
-		for(Value* i: imaginary) {
+		for(Value* i: getImaginary()) {
 			Value& a=Value::evaluate(*i,Operators::Divide,n);
 			result.append(&a);
 		}
@@ -150,4 +150,9 @@ Value& ComplexValue::operation(NumberValue& n,Operators e)
 	}
 
 	return Value::operation(n,e);
+}
+
+const QList<Value*> ComplexValue::getImaginary() const
+{
+	return imaginary;
 }

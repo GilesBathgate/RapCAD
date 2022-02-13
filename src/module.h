@@ -40,7 +40,7 @@ public:
 	void setName(const QString&);
 	QString getDescription() const;
 	bool getAuxilary() const;
-	QList<Parameter*> getParameters() const;
+	const QList<Parameter*> getParameters() const;
 	void setParameters(const QList<Parameter*>&);
 	Scope* getScope() const;
 	void setScope(Scope*);

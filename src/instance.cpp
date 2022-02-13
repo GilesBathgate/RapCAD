@@ -46,7 +46,7 @@ void Instance::setArguments(const QList<Argument*>& args)
 	arguments = args;
 }
 
-QList<Argument*> Instance::getArguments() const
+const QList<Argument*> Instance::getArguments() const
 {
 	return arguments;
 }
@@ -66,7 +66,7 @@ InstanceTypes Instance::getType() const
 	return type;
 }
 
-QList <Statement*> Instance::getChildren() const
+const QList <Statement*> Instance::getChildren() const
 {
 	return children;
 }

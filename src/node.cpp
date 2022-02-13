@@ -34,7 +34,7 @@ void Node::setChildren(const QList<Node*>& c)
 	children = c;
 }
 
-QList<Node*> Node::getChildren() const
+const QList<Node*> Node::getChildren() const
 {
 	return children;
 }

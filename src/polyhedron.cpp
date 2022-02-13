@@ -101,10 +101,10 @@ Primitive* Polyhedron::minkowski(Primitive* p)
 Primitive* Polyhedron::copy()
 {
 	auto* c=new Polyhedron();
-	for(const auto& p: points) {
+	for(const auto& p: getPoints()) {
 		c->createVertex(p);
 	}
-	for(Polygon* pg: polygons) {
+	for(Polygon* pg: getPolygons()) {
 		Polygon& npg=c->createPolygon();
 		npg.setIndexes(pg->getIndexes());
 	}
@@ -120,12 +120,12 @@ void Polyhedron::transform(TransformMatrix* matrix)
 	TransformMatrix* t=matrix;
 #endif
 	QList<Point> nps;
-	for(const auto& p: points) {
+	for(const auto& p: getPoints()) {
 		nps.append(p.transform(t));
 	}
 	points=nps;
 
-	for(Primitive* p: children)
+	for(Primitive* p: getChildren())
 		p->transform(matrix);
 }
 
@@ -134,17 +134,17 @@ bool Polyhedron::isEmpty()
 	return polygons.isEmpty();
 }
 
-QList<Polygon*> Polyhedron::getPolygons() const
+const QList<Polygon*> Polyhedron::getPolygons() const
 {
 	return polygons;
 }
 
-QList<Point> Polyhedron::getPoints() const
+const QList<Point> Polyhedron::getPoints() const
 {
 	return points;
 }
 
-QList<Primitive*> Polyhedron::getChildren()
+const QList<Primitive*> Polyhedron::getChildren()
 {
 	return children;
 }

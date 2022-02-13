@@ -252,7 +252,7 @@ BuiltinCreator::~BuiltinCreator()
 	builtins.clear();
 }
 
-QList<Declaration*> BuiltinCreator::getBuiltins() const
+const QList<Declaration*> BuiltinCreator::getBuiltins() const
 {
 	return builtins;
 }
@@ -265,14 +265,14 @@ void BuiltinCreator::generateDocs(QTextStream& out)
 
 void BuiltinCreator::generateDocs(TreeVisitor& p)
 {
-	for(Declaration* d: builtins)
+	for(Declaration* d: getBuiltins())
 		d->accept(p);
 }
 
 QHash<QString,Module*> BuiltinCreator::getModuleNames() const
 {
 	QHash<QString,Module*> names;
-	for(Declaration* d: builtins) {
+	for(Declaration* d: getBuiltins()) {
 		auto* m=dynamic_cast<Module*>(d);
 		if(m) names.insert(m->getName(),m);
 	}

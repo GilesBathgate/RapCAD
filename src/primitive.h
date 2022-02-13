@@ -73,9 +73,9 @@ public:
 	virtual void transform(TransformMatrix*)=0;
 	virtual bool isEmpty()=0;
 	virtual bool isFullyDimentional()=0;
-	virtual QList<Point> getPoints() const=0;
-	virtual QList<Polygon*> getPolygons() const=0;
-	virtual QList<Primitive*> getChildren()=0;
+	virtual const QList<Point> getPoints() const=0;
+	virtual const QList<Polygon*> getPolygons() const=0;
+	virtual const QList<Primitive*> getChildren()=0;
 	virtual void appendChild(Primitive*)=0;
 	virtual void appendChildren(QList<Primitive*>)=0;
 	virtual void discrete(int)=0;

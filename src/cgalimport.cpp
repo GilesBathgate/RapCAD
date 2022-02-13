@@ -302,7 +302,8 @@ Primitive* CGALImport::import3MF() const
 												CGAL::Scalar x=0.0;
 												CGAL::Scalar y=0.0;
 												CGAL::Scalar z=0.0;
-												for(const auto& attr: xml.attributes()) {
+												const auto attributes=xml.attributes();
+												for(const auto& attr: attributes) {
 													QStringRef n=attr.name();
 													QStringRef v=attr.value();
 													if(n == "x")
@@ -322,7 +323,8 @@ Primitive* CGALImport::import3MF() const
 												int v1=0;
 												int v2=0;
 												int v3=0;
-												for(const auto& attr: xml.attributes()) {
+												const auto attributes=xml.attributes();
+												for(const auto& attr: attributes) {
 													QStringRef n=attr.name();
 													QStringRef v=attr.value();
 													if(n == "v1")

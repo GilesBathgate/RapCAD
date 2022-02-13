@@ -18,7 +18,7 @@
 
 #include "scope.h"
 
-QList<Declaration*> Scope::getDeclarations() const
+const QList<Declaration*> Scope::getDeclarations() const
 {
 	return QList<Declaration*>();
 }

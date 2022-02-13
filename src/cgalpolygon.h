@@ -40,9 +40,9 @@ public:
 	void appendVertex(CGAL::Point3);
 	void appendVertex(CGAL::Point3,bool);
 
-	QList<CGAL::Point3> getPoints() const;
-	QList<CGAL::Point2> getProjectedPoints();
-	QList<CGAL::Segment3> getSegments();
+	const QList<CGAL::Point3> getPoints() const;
+	const QList<CGAL::Point2> getProjectedPoints();
+	const QList<CGAL::Segment3> getSegments();
 
 	CGAL::Direction3 getDirection() const;
 	CGAL::Vector3 getNormal() const;

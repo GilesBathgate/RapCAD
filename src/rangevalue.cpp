@@ -79,7 +79,7 @@ ValueIterator* RangeValue::createIterator()
 	return new RangeIterator(this,&start,&step);
 }
 
-QList<Value*> RangeValue::getElements()
+const QList<Value*> RangeValue::getElements()
 {
 	QList<Value*> result;
 	ValueIterator* it=createIterator();

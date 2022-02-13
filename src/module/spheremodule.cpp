@@ -58,7 +58,7 @@ Node* SphereModule::evaluate(const Context& ctx) const
 		decimal phi = (r_pi()*(i+0.5)) / ringCount;
 		decimal r2 = r*r_sin(phi);
 		decimal z = r*r_cos(phi);
-		QList<Point> c = getCircle(r2,f,z);
+		const QList<Point> c = getCircle(r2,f,z);
 		for(const auto& pt: c) {
 			p->createVertex(pt);
 		}

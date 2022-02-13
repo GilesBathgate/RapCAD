@@ -45,7 +45,7 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 	if(!pointsVec)
 		return pn;
 
-	QList<Value*> points=pointsVec->getElements();
+	const QList<Value*> points=pointsVec->getElements();
 	if(points.isEmpty())
 		return pn;
 
@@ -81,7 +81,7 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 		}
 	}
 
-	for(Value* line: lines) {
+	for(Value* line: qAsConst(lines)) {
 		auto* lineVec=dynamic_cast<VectorValue*>(line);
 		if(!lineVec) continue;
 		Polygon& pg=p->createPolygon();
