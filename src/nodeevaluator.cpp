@@ -544,15 +544,11 @@ void NodeEvaluator::visit(const VolumesNode& n)
 	auto* pr=dynamic_cast<CGALPrimitive*>(result);
 	bool calcMass = n.getCalcMass();
 	const CGALVolume& v=pr->getVolume(calcMass);
-
-	const CGAL::Scalar& vn=v.getSize();
-	QString vs=to_string(vn);
+	const QString vs=v.getSizeString();
 	reporter.reportMessage(tr("Volume: %1").arg(vs));
 
-	const CGAL::Point3& c=v.getCenter();
-
 	if(calcMass)
-		reporter.reportMessage(tr("Center of Mass: %1").arg(to_string(c)));
+		reporter.reportMessage(tr("Center of Mass: %1").arg(v.getCenterString()));
 
 	const CGAL::Cuboid3& b=v.getBounds();
 	CGAL::Scalar x=b.xmax()+((b.xmax()-b.xmin())/10.0);
@@ -560,6 +556,7 @@ void NodeEvaluator::visit(const VolumesNode& n)
 	CGAL::Scalar z=b.zmax()+((b.zmax()-b.zmin())/10.0);
 	CGAL::Point3 tr(x,y,z);
 
+	const CGAL::Point3& c=v.getCenter();
 	auto* p = new Polyhedron();
 	p->setType(PrimitiveTypes::Lines);
 	Polygon& pg=p->createPolygon();

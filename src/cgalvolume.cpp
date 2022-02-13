@@ -18,6 +18,7 @@
 
 #ifdef USE_CGAL
 #include "cgalvolume.h"
+#include "point.h"
 
 CGALVolume::CGALVolume() :
 	bounds(CGAL::Cuboid3()),
@@ -47,4 +48,15 @@ const CGAL::Cuboid3& CGALVolume::getBounds() const
 {
 	return bounds;
 }
+
+const QString CGALVolume::getSizeString() const
+{
+	return to_string(size);
+}
+
+const QString CGALVolume::getCenterString() const
+{
+	return to_string(centroid);
+}
+
 #endif
