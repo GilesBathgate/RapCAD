@@ -19,7 +19,6 @@
 
 #include <QApplication>
 #include <QTextStream>
-#include <QStyleFactory>
 #include "ui/mainwindow.h"
 #include "preferences.h"
 #include "builtincreator.h"
@@ -206,39 +205,10 @@ Strategy* Application::parseArguments(int argc,char* argv[])
 	return nullptr;
 }
 
-static void setTheme()
-{
-	auto& prefs=Preferences::getInstance();
-	if(prefs.getDarkTheme()) {
-		QApplication::setStyle(QStyleFactory::create("Fusion"));
-		auto p = QApplication::palette();
-		p.setColor(QPalette::Window, QColor(53, 53, 53));
-		p.setColor(QPalette::WindowText, Qt::white);
-		p.setColor(QPalette::Base, QColor(35, 35, 35));
-		p.setColor(QPalette::AlternateBase, QColor(53, 53, 53));
-		p.setColor(QPalette::ToolTipBase, QColor(25, 25, 25));
-		p.setColor(QPalette::ToolTipText, Qt::white);
-		p.setColor(QPalette::Text, Qt::white);
-		p.setColor(QPalette::Button, QColor(53, 53, 53));
-		p.setColor(QPalette::ButtonText, Qt::white);
-		p.setColor(QPalette::BrightText, Qt::red);
-		p.setColor(QPalette::Link, QColor(42, 130, 218));
-		p.setColor(QPalette::Highlight, QColorConstants::Svg::dodgerblue);
-		p.setColor(QPalette::HighlightedText, QColor(35, 35, 35));
-		p.setColor(QPalette::Active, QPalette::Button, QColor(53, 53, 53));
-		p.setColor(QPalette::Disabled, QPalette::ButtonText, Qt::darkGray);
-		p.setColor(QPalette::Disabled, QPalette::WindowText, Qt::darkGray);
-		p.setColor(QPalette::Disabled, QPalette::Text, Qt::darkGray);
-		p.setColor(QPalette::Disabled, QPalette::Light, QColor(53, 53, 53));
-		QApplication::setPalette(p);
-	}
-}
 
 int Application::runUserInterface(int argc,char* argv[])
 {
 	QApplication a(argc,argv);
-	setTheme();
-
 	MainWindow w;
 	w.loadFiles(inputFiles);
 	w.show();

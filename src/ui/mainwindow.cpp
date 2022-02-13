@@ -23,6 +23,7 @@
 #include <QMessageBox>
 #include <QDesktopServices>
 #include <QProcess>
+#include <QStyleFactory>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -46,9 +47,7 @@ MainWindow::MainWindow(QWidget* parent) :
 	aboutDialog(nullptr),
 	preferencesDialog(nullptr)
 {
-	if(!QIcon::hasThemeIcon("document-open")) {
-		QIcon::setThemeName("gnome");
-	}
+	setTheme();
 
 	ui->setupUi(this);
 	QIcon rapcadIcon(":/icons/rapcad-16x16.png");
@@ -93,6 +92,38 @@ void MainWindow::deleteTempFiles()
 	for(auto* file: temporyFiles) {
 		file->close();
 		delete file;
+	}
+}
+
+void MainWindow::setTheme()
+{
+	if(!QIcon::hasThemeIcon("document-open")) {
+		QIcon::setThemeName("gnome");
+	}
+
+	auto& prefs=Preferences::getInstance();
+	if(prefs.getDarkTheme()) {
+		QApplication::setStyle(QStyleFactory::create("Fusion"));
+		auto p = QApplication::palette();
+		p.setColor(QPalette::Window, QColor(53, 53, 53));
+		p.setColor(QPalette::WindowText, Qt::white);
+		p.setColor(QPalette::Base, QColor(35, 35, 35));
+		p.setColor(QPalette::AlternateBase, QColor(53, 53, 53));
+		p.setColor(QPalette::ToolTipBase, QColor(25, 25, 25));
+		p.setColor(QPalette::ToolTipText, Qt::white);
+		p.setColor(QPalette::Text, Qt::white);
+		p.setColor(QPalette::Button, QColor(53, 53, 53));
+		p.setColor(QPalette::ButtonText, Qt::white);
+		p.setColor(QPalette::BrightText, Qt::red);
+		p.setColor(QPalette::Link, QColor(42, 130, 218));
+		p.setColor(QPalette::Highlight, QColorConstants::Svg::dodgerblue);
+		p.setColor(QPalette::HighlightedText, QColor(35, 35, 35));
+		p.setColor(QPalette::Active, QPalette::Button, QColor(53, 53, 53));
+		p.setColor(QPalette::Disabled, QPalette::ButtonText, Qt::darkGray);
+		p.setColor(QPalette::Disabled, QPalette::WindowText, Qt::darkGray);
+		p.setColor(QPalette::Disabled, QPalette::Text, Qt::darkGray);
+		p.setColor(QPalette::Disabled, QPalette::Light, QColor(53, 53, 53));
+		QApplication::setPalette(p);
 	}
 }
 

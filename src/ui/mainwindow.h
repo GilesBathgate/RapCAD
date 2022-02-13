@@ -87,6 +87,7 @@ private slots:
 	void preferencesUpdated();
 	void newProject();
 private:
+	void setTheme();
 	void compileOrGenerate(bool generate);
 	void loadPreferences();
 	void savePreferences();
