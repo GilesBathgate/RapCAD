@@ -146,12 +146,12 @@ void PreferencesDialog::setupButtons()
 	connect(ui->fontComboBox,&QFontComboBox::currentFontChanged,this,&PreferencesDialog::fontChanged);
 	connect(ui->sizeComboBox,QOverload<int>::of(&QComboBox::currentIndexChanged),this,&PreferencesDialog::fontSizeChanged);
 
-	connect(ui->markedVertexColorToolButton,&QToolButton::clicked,[this](){colorButtonPressed(ui->markedVertexColorFrame);});
-	connect(ui->vertexColorToolButton,&QToolButton::clicked,[this](){colorButtonPressed(ui->vertexColorFrame);});
-	connect(ui->markedEdgeColorToolButton,&QToolButton::clicked,[this](){colorButtonPressed(ui->markedEdgeColorFrame);});
-	connect(ui->edgeColorToolButton,&QToolButton::clicked,[this](){colorButtonPressed(ui->edgeColorFrame);});
-	connect(ui->markedFacetColorToolButton,&QToolButton::clicked,[this](){colorButtonPressed(ui->markedFacetColorFrame);});
-	connect(ui->facetColorToolButton,&QToolButton::clicked,[this](){colorButtonPressed(ui->facetColorFrame);});
+	connect(ui->markedVertexColorToolButton,&QToolButton::clicked,this,[this](){colorButtonPressed(ui->markedVertexColorFrame);});
+	connect(ui->vertexColorToolButton,&QToolButton::clicked,this,[this](){colorButtonPressed(ui->vertexColorFrame);});
+	connect(ui->markedEdgeColorToolButton,&QToolButton::clicked,this,[this](){colorButtonPressed(ui->markedEdgeColorFrame);});
+	connect(ui->edgeColorToolButton,&QToolButton::clicked,this,[this](){colorButtonPressed(ui->edgeColorFrame);});
+	connect(ui->markedFacetColorToolButton,&QToolButton::clicked,this,[this](){colorButtonPressed(ui->markedFacetColorFrame);});
+	connect(ui->facetColorToolButton,&QToolButton::clicked,this,[this](){colorButtonPressed(ui->facetColorFrame);});
 
 	connect(ui->vertexSizeSpinBox,QOverload<double>::of(&QDoubleSpinBox::valueChanged),this,&PreferencesDialog::vertexSizeChanged);
 	connect(ui->edgeSizeSpinBox,QOverload<double>::of(&QDoubleSpinBox::valueChanged),this,&PreferencesDialog::edgeSizeChanged);

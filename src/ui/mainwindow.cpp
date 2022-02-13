@@ -295,25 +295,25 @@ void MainWindow::setupActions()
 
 void MainWindow::setupExportActions()
 {
-	connect(ui->actionExportAsciiSTL,&QAction::triggered,[this](){exportFile("stl");});
-	connect(ui->actionExportVRML,&QAction::triggered,[this](){exportFile("wrl");});
-	connect(ui->actionExportOBJ,&QAction::triggered,[this](){exportFile("obj");});
-	connect(ui->actionExportOFF,&QAction::triggered,[this](){exportFile("off");});
-	connect(ui->actionExportAMF,&QAction::triggered,[this](){exportFile("amf");});
-	connect(ui->actionExport3MF,&QAction::triggered,[this](){exportFile("3mf");});
-	connect(ui->actionExportCSG,&QAction::triggered,[this](){exportFile("csg");});
-	connect(ui->actionExportNEF,&QAction::triggered,[this](){exportFile("nef");});
-	connect(ui->actionExportSVG,&QAction::triggered,[this](){exportFile("svg");});
+	connect(ui->actionExportAsciiSTL,&QAction::triggered,this,[this](){exportFile("stl");});
+	connect(ui->actionExportVRML,&QAction::triggered,this,[this](){exportFile("wrl");});
+	connect(ui->actionExportOBJ,&QAction::triggered,this,[this](){exportFile("obj");});
+	connect(ui->actionExportOFF,&QAction::triggered,this,[this](){exportFile("off");});
+	connect(ui->actionExportAMF,&QAction::triggered,this,[this](){exportFile("amf");});
+	connect(ui->actionExport3MF,&QAction::triggered,this,[this](){exportFile("3mf");});
+	connect(ui->actionExportCSG,&QAction::triggered,this,[this](){exportFile("csg");});
+	connect(ui->actionExportNEF,&QAction::triggered,this,[this](){exportFile("nef");});
+	connect(ui->actionExportSVG,&QAction::triggered,this,[this](){exportFile("svg");});
 }
 
 void MainWindow::setupViewActions()
 {
-	connect(ui->actionTop,&QAction::triggered,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::Top));});
-	connect(ui->actionBottom,&QAction::triggered,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::Bottom));});
-	connect(ui->actionNorth,&QAction::triggered,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::North));});
-	connect(ui->actionSouth,&QAction::triggered,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::South));});
-	connect(ui->actionWest,&QAction::triggered,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::West));});
-	connect(ui->actionEast,&QAction::triggered,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::East));});
+	connect(ui->actionTop,&QAction::triggered,this,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::Top));});
+	connect(ui->actionBottom,&QAction::triggered,this,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::Bottom));});
+	connect(ui->actionNorth,&QAction::triggered,this,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::North));});
+	connect(ui->actionSouth,&QAction::triggered,this,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::South));});
+	connect(ui->actionWest,&QAction::triggered,this,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::West));});
+	connect(ui->actionEast,&QAction::triggered,this,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::East));});
 }
 
 void MainWindow::grabFrameBuffer()
