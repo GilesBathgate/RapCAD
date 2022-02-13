@@ -48,9 +48,9 @@ int Comparer::evaluate()
 
 	NodeEvaluator ne(reporter);
 	d->accept(ne);
+	Primitive* p=ne.getResult();
 	delete d;
 
-	Primitive* p=ne.getResult();
 	if(p) {
 		if(p->isEmpty()) {
 			reporter.reportMessage(tr("The objects are identical."));
