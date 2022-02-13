@@ -90,9 +90,16 @@ Primitive* GeometryEvaluator::appendChildren(const Node& n)
 
 void GeometryEvaluator::visit(const PrimitiveNode& n)
 {
-	result=QtConcurrent::run([&n]() {
-		return n.getPrimitive();
-	});
+	if(n.childCount()>0) {
+		result=reduceChildren(n,[&n](auto& p,auto c){
+			if(!p) p=n.getPrimitive();
+			p=p->join(c);
+		});
+	} else {
+		result=QtConcurrent::run([&n]() {
+			return n.getPrimitive();
+		});
+	}
 }
 
 void GeometryEvaluator::visit(const TriangulateNode& n)
