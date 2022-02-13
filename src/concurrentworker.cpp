@@ -18,7 +18,9 @@
 #include "concurrentworker.h"
 #include "treeevaluator.h"
 #include "geometryevaluator.h"
+#ifdef USE_CGAL
 #include "cgalexport.h"
+#endif
 #include <QCoreApplication>
 
 ConcurrentWorker::ConcurrentWorker(Reporter& r) : Strategy(r)
@@ -50,9 +52,10 @@ int ConcurrentWorker::evaluate()
 	Primitive* result = g.getResult();
 	delete n;
 
+#ifdef USE_CGAL
 	const QFileInfo file(outputFile);
 	const CGALExport exporter(file,result,reporter);
 	exporter.exportResult();
-
+#endif
 	return 0;
 }

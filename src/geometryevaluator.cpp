@@ -249,7 +249,7 @@ void GeometryEvaluator::visit(const ImportNode& n)
 		CGALImport i(f,reporter);
 		return i.import();
 #else
-		return nullptr;
+		return static_cast<Primitive*>(nullptr);
 #endif
 	});
 }
