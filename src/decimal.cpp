@@ -116,7 +116,7 @@ decimal parse_numberexp(const QString& s, bool* ok)
 
 	QString e=s.mid(i+1).remove('+');
 	decimal p=to_decimal(e,ok);
-	return to_decimal(s.left(i),ok) * r_pow(decimal(10),p,p<0);
+	return to_decimal(s.left(i),ok) * r_pow(decimal(10),p);
 }
 
 decimal parse_rational(const QString& s, bool* ok)

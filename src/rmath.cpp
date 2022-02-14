@@ -105,6 +105,8 @@ decimal r_deg(const decimal& a,bool round)
 decimal r_pow(const decimal& a,const decimal& e,bool round)
 {
 #ifdef USE_CGAL
+	if(r_is_int(a)&&e>d0)
+		round=false;
 	mpfr_t m;
 	mpfr_init(m);
 	mpfr_t n;
