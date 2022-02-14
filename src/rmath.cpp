@@ -530,9 +530,9 @@ decimal r_log10(const decimal& a,bool round)
 #endif
 }
 
-decimal r_sign(const decimal& a)
+int r_sign(const decimal& a)
 {
-	return a<d0?decimal(-1.0):a>d0?decimal(1.0):d0;
+	return a<d0?-1:a>d0?1:0;
 }
 
 #ifdef USE_CGAL
