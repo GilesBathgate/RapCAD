@@ -34,6 +34,7 @@ public:
 	void parse(const QString&);
 	void parse(const QFileInfo&);
 
+	bool isEmpty();
 	void setDeclarations(const QList<Declaration*>&);
 	const QList<Declaration*> getDeclarations() const override;
 	void addDeclaration(Declaration*);

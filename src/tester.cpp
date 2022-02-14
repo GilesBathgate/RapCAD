@@ -189,8 +189,11 @@ int Tester::evaluate()
 
 			Script s(*nullreport);
 			s.parse(file);
-
-			if(testFunctionExists(s)) {
+			if(s.isEmpty()) {
+				writeFail();
+				failcount++;
+				continue;
+			} else if(testFunctionExists(s)) {
 				testFunction(s);
 			} else {
 				testModule(s,file);

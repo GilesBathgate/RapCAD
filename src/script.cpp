@@ -49,6 +49,11 @@ void Script::parse(const QFileInfo& info)
 		parsescript(*this,reporter,info);
 }
 
+bool Script::isEmpty()
+{
+	return declarations.isEmpty() && documentation.isEmpty();
+}
+
 void Script::setDeclarations(const QList<Declaration*>& decls)
 {
 	declarations = decls;
