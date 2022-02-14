@@ -114,7 +114,7 @@ U "um"|"mm"|"cm"|"m"|"th"|"in"|"ft"
 {T}                            { return tokenizer->buildLegalChar(lexertext[0]); }
 {N}{U}?                        { return tokenizer->buildNumber(lexertext); }
 {N}{E}{U}?                     { return tokenizer->buildNumberExp(lexertext); }
-{R}{Z}{E}?{U}?                 { return tokenizer->buildRational(); }
+{R}{Z}{E}?{U}                  { return tokenizer->buildRational(); }
 {R}+{N}{E}?{U}                 { return tokenizer->buildRational(lexertext); }
 {L}{I}*                        { return tokenizer->buildIdentifier(lexertext); }
 \"                             { BEGIN(string); tokenizer->buildStringStart(); }
