@@ -189,8 +189,7 @@ mpq_srcptr to_mpq(const decimal& d)
 
 void to_mpfr(mpfr_t& m, const decimal& d)
 {
-	mpfr_init(m);
-	mpfr_set_q(m,to_mpq(d),MPFR_RNDN);
+	mpfr_init_set_q(m,to_mpq(d),MPFR_RNDN);
 }
 
 decimal to_decimal(mpfr_t& m)

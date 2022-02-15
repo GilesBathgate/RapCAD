@@ -36,6 +36,10 @@ static decimal d90(90.0);
 static decimal d2(2.0);
 static decimal d0(0.0);
 
+enum {
+	MPFR_EXACT=0
+};
+
 static decimal r_round_prec(const decimal& a,int p)
 {
 #ifdef USE_CGAL
@@ -105,15 +109,14 @@ decimal r_deg(const decimal& a,bool round)
 decimal r_pow(const decimal& a,const decimal& e,bool round)
 {
 #ifdef USE_CGAL
-	if(r_is_int(a)&&e>d0)
-		round=false;
 	mpfr_t m;
 	mpfr_init(m);
 	mpfr_t n;
 	to_mpfr(n,a);
 	mpfr_t o;
 	to_mpfr(o,e);
-	mpfr_pow(m,n,o,MPFR_RNDN);
+	if(mpfr_pow(m,n,o,MPFR_RNDN)==MPFR_EXACT)
+		round=false;
 	mpfr_clear(n);
 	mpfr_clear(o);
 	return r_round_preference(m,round);
