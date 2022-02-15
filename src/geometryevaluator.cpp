@@ -21,6 +21,7 @@
 #ifdef USE_CGAL
 #include "cgalprimitive.h"
 #include "cgalimport.h"
+#include "cgalauxiliarybuilder.h"
 #endif
 
 GeometryEvaluator::GeometryEvaluator(Reporter& r) :
@@ -88,6 +89,11 @@ Primitive* GeometryEvaluator::appendChildren(const Node& n)
 	createPrimitive();
 }
 
+static Primitive* noResult()
+{
+	return nullptr;
+}
+
 void GeometryEvaluator::visit(const PrimitiveNode& n)
 {
 	if(n.childCount()>0) {
@@ -106,7 +112,7 @@ void GeometryEvaluator::visit(const TriangulateNode& n)
 {
 	result=QtConcurrent::run([&n,this]() {
 		Primitive* p=unionChildren(n);
-		return p?p->triangulate():nullptr;
+		return p?p->triangulate():noResult();
 	});
 }
 
@@ -178,12 +184,11 @@ void GeometryEvaluator::visit(const GlideNode& n)
 	});
 }
 
-
 void GeometryEvaluator::visit(const HullNode& n)
 {
 	result=QtConcurrent::run([&n,this]() {
 		Primitive* p=appendChildren(n);
-		return p?p->hull(n.getConcave()):nullptr;
+		return p?p->hull(n.getConcave()):noResult();
 	});
 }
 
@@ -191,7 +196,7 @@ void GeometryEvaluator::visit(const LinearExtrudeNode& n)
 {
 	result=QtConcurrent::run([&n,this]() {
 		Primitive* p=unionChildren(n);
-		return p?p->linear_extrude(n.getHeight(),n.getAxis()):nullptr;
+		return p?p->linear_extrude(n.getHeight(),n.getAxis()):noResult();
 	});
 }
 
@@ -199,32 +204,49 @@ void GeometryEvaluator::visit(const RotateExtrudeNode& n)
 {
 	result=QtConcurrent::run([&n,this]() {
 		Primitive* p=unionChildren(n);
-		return p?p->rotate_extrude(n.getHeight(),n.getRadius(),n.getSweep(),n.getFragments(),n.getAxis()):nullptr;
+		return p?p->rotate_extrude(n.getHeight(),n.getRadius(),n.getSweep(),n.getFragments(),n.getAxis()):noResult();
 	});
 }
 
-void GeometryEvaluator::visit(const BoundsNode&)
+void GeometryEvaluator::visit(const BoundsNode& n)
 {
-
+	result=QtConcurrent::run([&n,this](){
+		Primitive* p=unionChildren(n);
+#ifdef USE_CGAL
+		CGALAuxiliaryBuilder b(reporter);
+		return b.buildBoundsPrimitive(p);
+#else
+		return noResult();
+#endif
+	});
 }
 
 void GeometryEvaluator::visit(const SubDivisionNode& n)
 {
 	result=QtConcurrent::run([&n,this](){
 		Primitive* p=unionChildren(n);
-		return p?p->subdivide(n.getLevel()):nullptr;
+		return p?p->subdivide(n.getLevel()):noResult();
 	});
 }
 
-void GeometryEvaluator::visit(const NormalsNode&)
+void GeometryEvaluator::visit(const NormalsNode& n)
 {
+	result=QtConcurrent::run([&n,this](){
+		Primitive* p=unionChildren(n);
+#ifdef USE_CGAL
+		CGALAuxiliaryBuilder b(reporter);
+		return b.buildNormalsPrimitive(p);
+#else
+		return noResult();
+#endif
+	});
 }
 
 void GeometryEvaluator::visit(const SimplifyNode& n)
 {
 	result=QtConcurrent::run([&n,this](){
 		Primitive* p=unionChildren(n);
-		return p?p->simplify(n.getRatio()):nullptr;
+		return p?p->simplify(n.getRatio()):noResult();
 	});
 }
 
@@ -236,7 +258,7 @@ void GeometryEvaluator::visit(const OffsetNode& n)
 {
 	result=QtConcurrent::run([&n,this](){
 		Primitive* p=unionChildren(n);
-		return p?p->inset(n.getAmount()):nullptr;
+		return p?p->inset(n.getAmount()):noResult();
 	});
 }
 
@@ -244,7 +266,7 @@ void GeometryEvaluator::visit(const BoundaryNode& n)
 {
 	result=QtConcurrent::run([&n,this](){
 		Primitive* p=unionChildren(n);
-		return p?p->boundary():nullptr;
+		return p?p->boundary():noResult();
 	});
 }
 
@@ -256,7 +278,7 @@ void GeometryEvaluator::visit(const ImportNode& n)
 		CGALImport i(f,reporter);
 		return i.import();
 #else
-		return static_cast<Primitive*>(nullptr);
+		return noResult();
 #endif
 	});
 }
@@ -265,7 +287,16 @@ void GeometryEvaluator::visit(const TransformationNode& n)
 {
 	result=QtConcurrent::run([&n,this]() {
 		Primitive* p=unionChildren(n);
-		if(p) p->transform(n.getMatrix());
+		if(!p) return noResult();
+#ifdef USE_CGAL
+		using Axis = TransformationNode::Axis;
+		Axis axis=n.getDatumAxis();
+		if(axis!=Axis::None) {
+			CGALAuxiliaryBuilder b(reporter);
+			p=b.buildDatumsPrimitive(p,axis);
+		}
+#endif
+		p->transform(n.getMatrix());
 		return p;
 	});
 }
@@ -299,19 +330,23 @@ void GeometryEvaluator::visit(const SliceNode& n)
 {
 	result=QtConcurrent::run([&n,this](){
 		Primitive* p=unionChildren(n);
-		return p?p->slice(n.getHeight(),n.getThickness()):nullptr;
+		return p?p->slice(n.getHeight(),n.getThickness()):noResult();
 	});
 }
 
-void GeometryEvaluator::visit(const ProductNode&)
+void GeometryEvaluator::visit(const ProductNode& n)
 {
+	result=QtConcurrent::run([&n](){
+		Primitive* p=n.getPrimitive();
+		return p?p->copy():noResult();
+	});
 }
 
 void GeometryEvaluator::visit(const ProjectionNode& n)
 {
 	result=QtConcurrent::run([&n,this](){
 		Primitive* p=unionChildren(n);
-		return p?p->projection(n.getBase()):nullptr;
+		return p?p->projection(n.getBase()):noResult();
 	});
 }
 
@@ -319,7 +354,7 @@ void GeometryEvaluator::visit(const DecomposeNode& n)
 {
 	result=QtConcurrent::run([&n,this](){
 		Primitive* p=unionChildren(n);
-		return p?p->decompose():nullptr;
+		return p?p->decompose():noResult();
 	});
 }
 
@@ -327,16 +362,34 @@ void GeometryEvaluator::visit(const ComplementNode& n)
 {
 	result=QtConcurrent::run([&n,this](){
 		Primitive* p=unionChildren(n);
-		return p?p->complement():nullptr;
+		return p?p->complement():noResult();
 	});
 }
 
-void GeometryEvaluator::visit(const RadialsNode&)
+void GeometryEvaluator::visit(const RadialsNode& n)
 {
+	result=QtConcurrent::run([&n,this](){
+		Primitive* p=unionChildren(n);
+#ifdef USE_CGAL
+		CGALAuxiliaryBuilder b(reporter);
+		return b.buildRadialsPrimitive(p);
+#else
+		return noResult();
+#endif
+	});
 }
 
-void GeometryEvaluator::visit(const VolumesNode&)
+void GeometryEvaluator::visit(const VolumesNode& n)
 {
+	result=QtConcurrent::run([&n,this](){
+		Primitive* p=unionChildren(n);
+#ifdef USE_CGAL
+		CGALAuxiliaryBuilder b(reporter);
+		return b.buildVolumesPrimitive(p,n.getCalcMass());
+#else
+		return noResult();
+#endif
+	});
 }
 
 Primitive* GeometryEvaluator::getResult() const
