@@ -26,6 +26,7 @@ DatumModule::DatumModule(Reporter& r) : Module(r,"datum")
 	addParameter("x",tr("An yz plane offset by x"));
 	addParameter("y",tr("An xz plane offset by y"));
 	addParameter("z",tr("An xy plane offset by z"));
+	auxilary=true;
 }
 
 Node* DatumModule::evaluate(const Context& ctx) const

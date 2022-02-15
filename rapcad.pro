@@ -158,6 +158,7 @@ SOURCES += \
 	src/application.cpp \
 	src/assertexception.cpp \
 	src/builtinmanager.cpp \
+	src/cgalauxiliarybuilder.cpp \
 	src/cgaldiscretemodifier.cpp \
 	src/cgalgroupmodifier.cpp \
 	src/cgalsanitizer.cpp \
@@ -418,6 +419,7 @@ HEADERS  += \
 	src/application.h \
 	src/assertexception.h \
 	src/builtinmanager.h \
+	src/cgalauxiliarybuilder.h \
 	src/cgaldiscretemodifier.h \
 	src/cgalgroupmodifier.h \
 	src/cgalsanitizer.h \
