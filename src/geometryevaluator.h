@@ -19,8 +19,8 @@
 #define GEOMETRYEVALUATOR_H
 
 #include <QtConcurrent>
-#include "primitive.h"
 #include "nodevisitor.h"
+#include "primitive.h"
 #include "reporter.h"
 #include "node/primitivenode.h"
 #include "node/unionnode.h"
@@ -55,7 +55,6 @@
 #include "node/normalsnode.h"
 #include "node/simplifynode.h"
 #include "node/childrennode.h"
-#include "onceonly.h"
 
 class GeometryEvaluator : public NodeVisitor
 {
@@ -95,7 +94,7 @@ public:
 	void visit(const NormalsNode&) override;
 	void visit(const SimplifyNode&) override;
 	void visit(const ChildrenNode&) override;
-	Primitive* getResult() const;
+	Primitive* getResult() const override;
 private:
 	using MapFunction = std::function<Primitive*(Node*)>;
 	using ReduceFunction = std::function<void(Primitive*&,Primitive*)>;
@@ -104,8 +103,6 @@ private:
 	Primitive* appendChildren(const Node&);
 	QFuture<Primitive*> result;
 	Reporter& reporter;
-	static OnceOnly setThreads;
-
 };
 
 #endif // GEOMETRYEVALUATOR_H

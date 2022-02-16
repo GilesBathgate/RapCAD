@@ -133,6 +133,8 @@ void PreferencesDialog::setupWidgets()
 		ui->spacesSpinBox->setValue(indent.length());
 	}
 
+	ui->threadPoolSizeSpinBox->setValue(p.getThreadPoolSize());
+
 	updatePrecision();
 }
 
@@ -192,6 +194,8 @@ void PreferencesDialog::setupButtons()
 
 	connect(ui->tabsRadioButton,&QRadioButton::toggled,this,&PreferencesDialog::indentRadioChanged);
 	connect(ui->spacesSpinBox,QOverload<int>::of(&QSpinBox::valueChanged),this,&PreferencesDialog::indentSpacesChanged);
+
+	connect(ui->threadPoolSizeSpinBox,QOverload<int>::of(&QSpinBox::valueChanged),this,&PreferencesDialog::threadPoolSizeChanged);
 }
 
 void PreferencesDialog::updatePrecision()
@@ -315,6 +319,12 @@ void PreferencesDialog::indentRadioChanged(bool checked)
 void PreferencesDialog::indentSpacesChanged(int)
 {
 	indentRadioChanged(ui->tabsRadioButton->isChecked());
+}
+
+void PreferencesDialog::threadPoolSizeChanged(int value)
+{
+	auto& p=Preferences::getInstance();
+	p.setThreadPoolSize(value);
 }
 
 void PreferencesDialog::placesChanged(int i)

@@ -17,6 +17,7 @@
  */
 #include "geometryevaluator.h"
 #include "polyhedron.h"
+#include "preferences.h"
 
 #ifdef USE_CGAL
 #include "cgalprimitive.h"
@@ -27,11 +28,7 @@
 GeometryEvaluator::GeometryEvaluator(Reporter& r) :
 	reporter(r)
 {
-	if(setThreads())
-		QThreadPool::globalInstance()->setMaxThreadCount(100);
 }
-
-OnceOnly GeometryEvaluator::setThreads;
 
 static Primitive* createPrimitive()
 {

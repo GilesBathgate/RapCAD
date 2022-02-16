@@ -51,6 +51,16 @@ void Preferences::updatePrecision()
 #endif
 }
 
+int Preferences::getThreadPoolSize() const
+{
+	return settings->value("ThreadPoolSize",0).toInt();
+}
+
+void Preferences::setThreadPoolSize(int value)
+{
+	settings->setValue("ThreadPoolSize",value);
+}
+
 QString Preferences::getIndent() const
 {
 	return settings->value("Indent","\t").toString();

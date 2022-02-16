@@ -56,6 +56,7 @@ public:
 	virtual void visit(const class NormalsNode&)=0;
 	virtual void visit(const class SimplifyNode&)=0;
 	virtual void visit(const class ChildrenNode&)=0;
+	virtual class Primitive* getResult() const=0;
 };
 
 #endif // NODEVISITOR_H

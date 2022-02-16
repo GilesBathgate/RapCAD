@@ -98,6 +98,7 @@ public:
 	void visit(const NormalsNode&) override;
 	void visit(const SimplifyNode&) override;
 	void visit(const ChildrenNode&) override;
+	Primitive* getResult() const override { return nullptr; }
 private:
 	QTextStream& result;
 	void collectChildren(const Node&);

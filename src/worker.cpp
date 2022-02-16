@@ -21,6 +21,7 @@
 #include "treeevaluator.h"
 #include "nodeprinter.h"
 #include "nodeevaluator.h"
+#include "geometryevaluator.h"
 #include "product.h"
 #include "numbervalue.h"
 #include "preferences.h"
@@ -96,11 +97,10 @@ void Worker::primary()
 	s.accept(e);
 	output.flush();
 
-	Node* n = e.getRootNode();
-	NodeEvaluator ne(reporter);
-	n->accept(ne);
-	updatePrimitive(ne.getResult());
-	delete n;
+	QScopedPointer<Node> n(e.getRootNode());
+	QScopedPointer<NodeVisitor> ne(getNodeVisitor());
+	n->accept(*ne);
+	updatePrimitive(ne->getResult());
 
 	if(!primitive)
 		reporter.reportWarning(tr("no top level object."));
@@ -248,4 +248,15 @@ Renderer* Worker::getRenderer()
 	return new SimpleRenderer(primitive);
 #endif
 
+}
+
+NodeVisitor *Worker::getNodeVisitor()
+{
+	auto& p=Preferences::getInstance();
+	int threads=p.getThreadPoolSize();
+	if(threads==0)
+		return new NodeEvaluator(reporter);
+
+	QThreadPool::globalInstance()->setMaxThreadCount(threads);
+	return new GeometryEvaluator(reporter);
 }

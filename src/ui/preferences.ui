@@ -511,6 +511,47 @@
          </item>
         </layout>
        </widget>
+       <widget class="QWidget" name="performanceTab">
+        <attribute name="title">
+         <string>Performance</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_7">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_9">
+           <item>
+            <widget class="QLabel" name="threadPoolSizeLabel">
+             <property name="text">
+              <string>Thread pool size (Recommended 100+)</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="threadPoolSizeSpinBox">
+             <property name="maximum">
+              <number>900</number>
+             </property>
+             <property name="singleStep">
+              <number>10</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
        <widget class="QWidget" name="outputOptions">
         <attribute name="title">
          <string>Output</string>

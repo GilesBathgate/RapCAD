@@ -29,6 +29,7 @@
 #include "callback.h"
 #include "instance.h"
 #include "renderer.h"
+#include "nodevisitor.h"
 
 class Worker : public Strategy
 {
@@ -46,6 +47,7 @@ protected:
 	virtual void update() {}
 	virtual void finish() {}
 private:
+	NodeVisitor* getNodeVisitor();
 	Instance* addProductInstance(const QString&, Script&);
 	static QList<Argument*> getArgs(const decimal&);
 	decimal getBoundsHeight() const;

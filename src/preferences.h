@@ -164,6 +164,9 @@ public:
 	QString getIndent() const;
 	void setIndent(const QString& value);
 
+	int getThreadPoolSize() const;
+	void setThreadPoolSize(int value);
+
 private:
 	Preferences();
 	~Preferences();

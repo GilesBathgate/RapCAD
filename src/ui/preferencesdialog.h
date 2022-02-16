@@ -59,6 +59,7 @@ private slots:
 	void processingScriptUpdated();
 	void indentRadioChanged(bool);
 	void indentSpacesChanged(int);
+	void threadPoolSizeChanged(int);
 private:
 	void setupWidgets();
 	static void setColor(QWidget*,const QColor&);
