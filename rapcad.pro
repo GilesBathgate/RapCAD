@@ -162,7 +162,6 @@ SOURCES += \
 	src/cgaldiscretemodifier.cpp \
 	src/cgalgroupmodifier.cpp \
 	src/cgalsanitizer.cpp \
-	src/concurrentworker.cpp \
 	src/function/assertfunction.cpp \
 	src/function/circumcenterfunction.cpp \
 	src/function/isundeffunction.cpp \
@@ -424,7 +423,6 @@ HEADERS  += \
 	src/cgalgroupmodifier.h \
 	src/cgalsanitizer.h \
 	src/cgaltrace.h \
-	src/concurrentworker.h \
 	src/function/assertfunction.h \
 	src/function/circumcenterfunction.h \
 	src/function/isundeffunction.h \
