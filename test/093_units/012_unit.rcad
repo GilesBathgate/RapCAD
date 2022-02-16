@@ -1,0 +1,4 @@
+function test() {
+return 1/2ft==152.4;
+}
+
