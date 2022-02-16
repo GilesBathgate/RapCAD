@@ -34,6 +34,7 @@ private:
 
 	QStringList inputFiles;
 	QTextStream output;
+	QTextStream messages;
 	Reporter reporter;
 	Strategy* strategy;
 	QFile* redirectFile;

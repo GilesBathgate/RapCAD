@@ -47,7 +47,8 @@ static void rapcadErrorHandler(const char*,const char*,const char*,int,const cha
 
 Application::Application() :
 	output(stdout),
-	reporter(output),
+	messages(stderr),
+	reporter(output,messages),
 	strategy(nullptr),
 	redirectFile(nullptr)
 {
@@ -163,7 +164,7 @@ Strategy* Application::parseArguments(int argc,char* argv[])
 	if(p.isSet(redirectOption)) {
 		redirectFile=new QFile(p.value(redirectOption));
 		if(redirectFile->open(QFile::WriteOnly))
-			output.setDevice(redirectFile);
+			reporter.output.setDevice(redirectFile);
 	}
 
 	inputFiles=p.positionalArguments();

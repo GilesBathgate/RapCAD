@@ -28,7 +28,8 @@ class Reporter
 {
 	Q_DECLARE_TR_FUNCTIONS(Reporter)
 public:
-	explicit Reporter(QTextStream& s);
+	explicit Reporter(QTextStream&);
+	Reporter(QTextStream&,QTextStream&);
 	void startTiming();
 	void reportTiming(const QString&);
 	void reportSyntaxError(const AbstractTokenBuilder&, const QString&);
@@ -41,6 +42,7 @@ public:
 	bool getReturnCode() const;
 	void setKludge(int);
 	QTextStream& output;
+	QTextStream& messages;
 private:
 	QElapsedTimer* timer;
 	int returnCode;

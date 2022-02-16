@@ -19,7 +19,13 @@
 #include "reporter.h"
 
 Reporter::Reporter(QTextStream& s) :
-	output(s),
+	Reporter(s,s)
+{
+}
+
+Reporter::Reporter(QTextStream & o, QTextStream & s):
+	output(o),
+	messages(s),
 	timer(nullptr),
 	returnCode(EXIT_FAILURE),
 	kludge(0)
@@ -42,7 +48,7 @@ void Reporter::reportTiming(const QString& what)
 	qint64 mins=ticks%60;
 	ticks/=60;
 	qint64 hours=ticks;
-	output << tr("Total %1 time: %2h %3m %4s %5ms.").arg(what).arg(hours).arg(mins).arg(secs).arg(ms) << Qt::endl;
+	messages << tr("Total %1 time: %2h %3m %4s %5ms.").arg(what).arg(hours).arg(mins).arg(secs).arg(ms) << Qt::endl;
 	delete timer; //Need to delete timer.
 }
 
@@ -51,34 +57,34 @@ void Reporter::reportSyntaxError(const AbstractTokenBuilder& t,const QString& ms
 	QString text=t.getToken();
 	int pos=t.getPosition()+kludge;
 	int line=t.getLineNumber();
-	output << tr("Line %1: %2 at character %3: '%4'").arg(line).arg(msg).arg(pos).arg(text) << Qt::endl;
+	messages << tr("Line %1: %2 at character %3: '%4'").arg(line).arg(msg).arg(pos).arg(text) << Qt::endl;
 }
 
 void Reporter::reportLexicalError(const AbstractTokenBuilder& t,const QString& text)
 {
 	int pos=t.getPosition()+kludge;
 	int line=t.getLineNumber();
-	output << tr("Line %1: illegal token at character %2: '%3'").arg(line).arg(pos).arg(text) << Qt::endl;
+	messages << tr("Line %1: illegal token at character %2: '%3'").arg(line).arg(pos).arg(text) << Qt::endl;
 }
 
 void Reporter::reportFileMissingError(const QString& fullpath)
 {
-	output << tr("Can't open input file '%1'").arg(fullpath) << Qt::endl;
+	messages << tr("Can't open input file '%1'").arg(fullpath) << Qt::endl;
 }
 
 void Reporter::reportWarning(const QString& warning)
 {
-	output << tr("Warning: %1").arg(warning) << Qt::endl;
+	messages << tr("Warning: %1").arg(warning) << Qt::endl;
 }
 
 void Reporter::reportMessage(const QString& msg)
 {
-	output << msg << Qt::endl;
+	messages << msg << Qt::endl;
 }
 
 void Reporter::reportException(const QString& ex)
 {
-	output << tr("Exception: %1").arg(ex) << Qt::endl;
+	messages << tr("Exception: %1").arg(ex) << Qt::endl;
 }
 
 void Reporter::setReturnCode(int code)
