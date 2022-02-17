@@ -39,7 +39,7 @@ static Primitive* createPrimitive()
 #endif
 }
 
-class MapFunctor
+class GeometryEvaluator::MapFunctor
 {
 public:
 	explicit MapFunctor(Reporter& r) : reporter(r) {}
@@ -53,11 +53,39 @@ private:
 	Reporter& reporter;
 };
 
+class GeometryEvaluator::ReduceFunctor
+{
+public:
+	explicit ReduceFunctor(Reporter& r,const ReduceFunction& f) :
+		reporter(r),function(f) {}
+	void operator()(Primitive*& p,Primitive* c)
+	{
+		try {
+			function(p,c);
+#ifdef USE_CGAL
+		} catch(const CGAL::Failure_exception& e) {
+			destroy(p);
+			destroy(c);
+			reporter.reportException(QString::fromStdString(e.what()));
+#endif
+		} catch (...) {
+			destroy(p);
+			destroy(c);
+			reporter.reportException();
+		}
+	}
+private:
+	static void destroy(Primitive*& p) { delete p; p=nullptr; }
+	Reporter& reporter;
+	ReduceFunction function;
+};
+
 QFuture<Primitive*> GeometryEvaluator::reduceChildren(
-	const Node& n,ReduceFunction reduce,QtConcurrent::ReduceOptions options)
+	const Node& n,const ReduceFunction& function,QtConcurrent::ReduceOptions options)
 {
 	const auto& children=n.getChildren();
-	MapFunction map=MapFunctor(reporter);
+	const MapFunction& map=MapFunctor(reporter);
+	const ReduceFunction& reduce=ReduceFunctor(reporter,function);
 	return QtConcurrent::mappedReduced<Primitive*>(children,map,reduce,options);
 }
 

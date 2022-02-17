@@ -96,9 +96,12 @@ public:
 	void visit(const ChildrenNode&) override;
 	Primitive* getResult() const override;
 private:
+	class MapFunctor;
+	class ReduceFunctor;
 	using MapFunction = std::function<Primitive*(Node*)>;
 	using ReduceFunction = std::function<void(Primitive*&,Primitive*)>;
-	QFuture<Primitive *> reduceChildren(const Node&,ReduceFunction,QtConcurrent::ReduceOptions=QtConcurrent::OrderedReduce);
+	QFuture<Primitive *> reduceChildren(const Node&,const ReduceFunction&,
+		QtConcurrent::ReduceOptions=QtConcurrent::OrderedReduce);
 	Primitive* unionChildren(const Node&);
 	Primitive* appendChildren(const Node&);
 	QFuture<Primitive*> result;

@@ -37,6 +37,7 @@ public:
 	void reportFileMissingError(const QString&);
 	void reportWarning(const QString&);
 	void reportMessage(const QString&);
+	void reportException();
 	void reportException(const QString&);
 	void setReturnCode(int);
 	bool getReturnCode() const;

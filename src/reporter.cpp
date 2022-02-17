@@ -82,6 +82,11 @@ void Reporter::reportMessage(const QString& msg)
 	messages << msg << Qt::endl;
 }
 
+void Reporter::reportException()
+{
+	reportException(tr("Unknown error."));
+}
+
 void Reporter::reportException(const QString& ex)
 {
 	messages << tr("Exception: %1").arg(ex) << Qt::endl;
