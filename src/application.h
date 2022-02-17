@@ -19,6 +19,8 @@
 #define APPLICATION_H
 
 #include <QStringList>
+#include <QTextStream>
+#include <QFile>
 #include "reporter.h"
 #include "strategy.h"
 

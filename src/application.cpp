@@ -18,19 +18,16 @@
 #include "application.h"
 
 #include <QApplication>
-#include <QTextStream>
 #include "ui/mainwindow.h"
 #include "preferences.h"
-#include "builtincreator.h"
-#include "valuefactory.h"
 #include "worker.h"
 #ifdef USE_INTEGTEST
 #include "tester.h"
+#include "generator.h"
 #endif
 #include "comparer.h"
 #include "stringify.h"
 #include "interactive.h"
-#include "generator.h"
 
 #ifdef USE_COMMANDLINE_PARSER
 #include "contrib/qcommandlineparser.h"
