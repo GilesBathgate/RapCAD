@@ -284,9 +284,9 @@ bool Context::match(bool allowChar,bool matchLast, const QString& a,const QStrin
 {
 	if(allowChar) {
 		if(matchLast&&a.length()==2)
-			return a.left(1)==n.left(1) && a.right(1)==n.right(1);
+			return a.at(0)==n.at(0) && a.right(1)==n.right(1);
 		if(!matchLast&&a.length()==1)
-			return a.left(1)==n.left(1);
+			return a.at(0)==n.at(0);
 	}
 	return a==n;
 }
