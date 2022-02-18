@@ -40,9 +40,13 @@ private:
 
 using HalfEdgeHandle = CGAL::NefPolyhedron3::Halfedge_const_handle;
 
-inline uint qHash(const HalfEdgeHandle& key,uint seed)
-{
-	return qHash(&*key,seed);
+namespace CGAL {
+namespace internal {
+	inline uint qHash(const HalfEdgeHandle& key,uint seed)
+	{
+		return ::qHash(&*key,seed);
+	}
+}
 }
 
 #endif // CGALEXPLORER_H
