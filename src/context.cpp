@@ -196,7 +196,7 @@ Value* Context::getArgumentDeprecatedModule(int index, const QString& deprecated
 {
 	Value* v = matchArgumentIndex(false,false,index,deprecated);
 	if(v)
-		r.reportWarning(tr("'%1' parameter is deprecated use %2 instead").arg(deprecated).arg(module));
+		r.reportWarning(tr("'%1' parameter is deprecated use %2 instead").arg(deprecated,module));
 	return v;
 }
 
@@ -206,7 +206,7 @@ Value* Context::getArgumentDeprecated(int index, const QString& name, const QStr
 	if(!v) {
 		v = matchArgumentIndex(false,false,index,deprecated);
 		if(v)
-			r.reportWarning(tr("'%1' parameter is deprecated use '%2' instead").arg(deprecated).arg(name));
+			r.reportWarning(tr("'%1' parameter is deprecated use '%2' instead").arg(deprecated,name));
 	}
 
 	return v;

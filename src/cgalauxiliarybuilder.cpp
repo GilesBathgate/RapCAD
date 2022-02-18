@@ -47,7 +47,7 @@ Primitive* CGALAuxiliaryBuilder::buildBoundsPrimitive(Primitive* pr)
 	if(zmin!=0.0) {
 		QString pos=to_string(zmin);
 		QString where = zmin<0.0?tr("below"):tr("above");
-		reporter.reportWarning(tr("the model is %1 %2 the build platform.").arg(pos).arg(where));
+		reporter.reportWarning(tr("the model is %1 %2 the build platform.").arg(pos,where));
 
 		SimpleTextBuilder t;
 		t.setText(pos);

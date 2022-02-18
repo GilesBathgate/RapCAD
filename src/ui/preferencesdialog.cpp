@@ -273,7 +273,7 @@ void PreferencesDialog::launchCommandChanged(const QString& command)
 	if(command.isEmpty())
 		ui->exampleCommandLabel->clear();
 	else
-		ui->exampleCommandLabel->setText(QString("Example: %1 %2/tempfile.3mf").arg(command).arg(QDir::tempPath()));
+		ui->exampleCommandLabel->setText(QString("Example: %1 %2/tempfile.3mf").arg(command,QDir::tempPath()));
 }
 
 void PreferencesDialog::launchCommandUpdated()

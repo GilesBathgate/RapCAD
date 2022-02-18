@@ -163,7 +163,7 @@ void TreeEvaluator::visit(const Instance& inst)
 			context->addCurrentNode(node);
 
 	} else {
-		reporter.reportWarning(tr("cannot find module '%1%2'").arg(name).arg(aux?"$":""));
+		reporter.reportWarning(tr("cannot find module '%1%2'").arg(name,aux?"$":""));
 	}
 }
 

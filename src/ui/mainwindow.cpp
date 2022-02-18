@@ -358,7 +358,7 @@ void MainWindow::exportFile(const QString& type)
 	QFileInfo fileInfo(currentEditor()->getFileName());
 
 	QString ext=QString(".%1").arg(type.toLower());
-	QString filter=tr("%1 Files (*%2);;All Files (*)").arg(type.toUpper()).arg(ext);
+	QString filter=tr("%1 Files (*%2);;All Files (*)").arg(type.toUpper(),ext);
 	QString suggestedName=fileInfo.completeBaseName().append(ext);
 	QString suggestedLocation=fileInfo.absoluteDir().filePath(suggestedName);
 
