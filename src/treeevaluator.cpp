@@ -38,7 +38,7 @@ TreeEvaluator::TreeEvaluator(Reporter& r) :
 TreeEvaluator::~TreeEvaluator()
 {
 	Value::factory.cleanupValues();
-	qDeleteAll(scopeLookup.values());
+	qDeleteAll(scopeLookup);
 	scopeLookup.clear();
 	qDeleteAll(imports);
 	imports.clear();
