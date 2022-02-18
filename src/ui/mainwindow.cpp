@@ -333,7 +333,8 @@ QString MainWindow::getSaveFileName(QWidget* parent,const QString& caption,const
 	dialog.setOption(QFileDialog::DontConfirmOverwrite,true);
 	dialog.setAcceptMode(QFileDialog::AcceptSave);
 	while (dialog.exec() == QDialog::Accepted) {
-		QString fileName=dialog.selectedFiles().first();
+		const auto& selected=dialog.selectedFiles();
+		QString fileName=selected.first();
 		QFileInfo info(fileName);
 		if(!info.exists())
 			return fileName;
