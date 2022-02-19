@@ -17,10 +17,10 @@
  */
 
 #include "projectionmodule.h"
+#include "booleanvalue.h"
+#include "context.h"
 #include "node/projectionnode.h"
 #include "node/slicenode.h"
-#include "context.h"
-#include "booleanvalue.h"
 
 ProjectionModule::ProjectionModule(Reporter& r) : Module(r,"projection")
 {

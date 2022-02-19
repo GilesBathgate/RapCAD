@@ -21,14 +21,14 @@
 
 #include "cgal.h"
 
-#include <QVector>
-#include <QMap>
-#include <CGAL/Polyhedron_3.h>
-#include <CGAL/Nef_polyhedron_3.h>
-#include <CGAL/Nef_nary_union_3.h>
 #include "cgalpolygon.h"
 #include "cgalvolume.h"
 #include "primitive.h"
+#include <CGAL/Nef_nary_union_3.h>
+#include <CGAL/Nef_polyhedron_3.h>
+#include <CGAL/Polyhedron_3.h>
+#include <QMap>
+#include <QVector>
 
 namespace CGAL
 {

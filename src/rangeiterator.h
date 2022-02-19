@@ -20,8 +20,8 @@
 #define RANGEITERATOR_H
 
 #include "valueiterator.h"
-#include "value.h"
 #include "rangevalue.h"
+#include "value.h"
 
 class RangeIterator : public ValueIterator
 {

@@ -19,8 +19,8 @@
 #include "childrenmodule.h"
 #include "context.h"
 #include "node/childrennode.h"
-#include "vectorvalue.h"
 #include "numbervalue.h"
+#include "vectorvalue.h"
 
 ChildrenModule::ChildrenModule(Reporter& r,bool l) :
 	Module(r,l?"child":"children"),

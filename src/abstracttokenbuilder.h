@@ -19,9 +19,9 @@
 #ifndef ABSTRACTTOKENBUILDER_H
 #define ABSTRACTTOKENBUILDER_H
 
-#include <QString>
 #include <QChar>
 #include <QDir>
+#include <QString>
 
 class AbstractTokenBuilder
 {

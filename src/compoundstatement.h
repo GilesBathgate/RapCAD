@@ -19,8 +19,8 @@
 #ifndef COMPOUNDSTATEMENT_H
 #define COMPOUNDSTATEMENT_H
 
-#include <QList>
 #include "scope.h"
+#include <QList>
 
 class CompoundStatement : public Scope
 {

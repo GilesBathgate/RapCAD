@@ -17,11 +17,11 @@
  */
 
 #include "cylindermodule.h"
-#include "context.h"
-#include "numbervalue.h"
 #include "booleanvalue.h"
-#include "node/primitivenode.h"
+#include "context.h"
 #include "node/alignnode.h"
+#include "node/primitivenode.h"
+#include "numbervalue.h"
 #include "rmath.h"
 
 CylinderModule::CylinderModule(Reporter& r) : PrimitiveModule(r,"cylinder")

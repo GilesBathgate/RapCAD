@@ -21,9 +21,9 @@
 
 #include "cgal.h"
 
-#include <QList>
-#include "polygon.h"
 #include "cgalprojection.h"
+#include "polygon.h"
+#include <QList>
 
 namespace CGAL
 {

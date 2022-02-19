@@ -20,8 +20,8 @@
 #define ASSIGNSTATEMENT_H
 
 #include "statement.h"
-#include "variable.h"
 #include "expression.h"
+#include "variable.h"
 
 class AssignStatement : public Statement
 {

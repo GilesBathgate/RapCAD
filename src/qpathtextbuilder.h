@@ -19,10 +19,10 @@
 #ifndef QPATHTEXTBUILDER_H
 #define QPATHTEXTBUILDER_H
 
-#include <QString>
+#include "textbuilder.h"
 #include <QFont>
 #include <QPointF>
-#include "textbuilder.h"
+#include <QString>
 
 class QPathTextBuilder : public TextBuilder
 {

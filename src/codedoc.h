@@ -19,8 +19,8 @@
 #ifndef CODEDOC_H
 #define CODEDOC_H
 
-#include <QString>
 #include "visitabletree.h"
+#include <QString>
 
 class CodeDoc : VisitableTree
 {

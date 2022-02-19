@@ -19,12 +19,12 @@
 #ifndef CONTEXT_H
 #define CONTEXT_H
 
-#include <QHash>
-#include "value.h"
-#include "node.h"
-#include "scope.h"
 #include "layout.h"
 #include "namedvalue.h"
+#include "node.h"
+#include "scope.h"
+#include "value.h"
+#include <QHash>
 
 class Context
 {

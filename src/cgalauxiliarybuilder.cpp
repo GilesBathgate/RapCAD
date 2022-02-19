@@ -16,15 +16,15 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #ifdef USE_CGAL
-
-#include <CGAL/centroid.h>
 #include "cgalauxiliarybuilder.h"
-#include "polyhedron.h"
-#include "simpletextbuilder.h"
-#include "module/cubemodule.h"
-#include "cgalprimitive.h"
+
 #include "cgalexplorer.h"
+#include "cgalprimitive.h"
+#include "module/cubemodule.h"
+#include "polyhedron.h"
 #include "rmath.h"
+#include "simpletextbuilder.h"
+#include <CGAL/centroid.h>
 
 
 CGALAuxiliaryBuilder::CGALAuxiliaryBuilder(Reporter& r) :

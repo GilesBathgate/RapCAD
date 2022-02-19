@@ -17,13 +17,13 @@
  */
 
 #include "treeevaluator.h"
-#include "vectorvalue.h"
-#include "complexvalue.h"
-#include "rangevalue.h"
-#include "valueiterator.h"
 #include "builtinmanager.h"
+#include "complexvalue.h"
 #include "module/unionmodule.h"
+#include "rangevalue.h"
 #include "valuefactory.h"
+#include "valueiterator.h"
+#include "vectorvalue.h"
 
 TreeEvaluator::TreeEvaluator(Reporter& r) :
 	reporter(r),

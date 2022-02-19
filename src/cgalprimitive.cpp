@@ -18,45 +18,42 @@
 
 #ifdef USE_CGAL
 #include "cgalprimitive.h"
-#include <QPair>
-#include <CGAL/minkowski_sum_3.h>
-#include <CGAL/convex_decomposition_3.h>
+
+#include "cgalbuilder.h"
+#include "cgaldiscretemodifier.h"
+#include "cgalexplorer.h"
+#include "cgalgroupmodifier.h"
+#include "cgalsanitizer.h"
+#include "module/cubemodule.h"
+#include "onceonly.h"
+#include "rmath.h"
+
+#include <CGAL/Alpha_shape_3.h>
+#include <CGAL/Alpha_shape_vertex_base_3.h>
+#include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/Min_circle_2.h>
 #include <CGAL/Min_circle_2_traits_2.h>
-#include <CGAL/bounding_box.h>
-#include <CGAL/Polygon_2_algorithms.h>
 #include <CGAL/Nef_3/Mark_bounded_volumes.h>
-
-#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(4,12,2)
-#include <CGAL/boost/graph/convert_nef_polyhedron_to_polygon_mesh.h>
-#endif
-
-//Mesh simplification
-#include <CGAL/boost/graph/graph_traits_Polyhedron_3.h>
-#include <CGAL/Surface_mesh_simplification/edge_collapse.h>
-#include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Count_ratio_stop_predicate.h>
-#include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Edge_length_cost.h>
-#include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Midpoint_placement.h>
-
+#include <CGAL/Polygon_2_algorithms.h>
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,11,0)
 #include <CGAL/Subdivision_method_3.h>
 #else
 #include <CGAL/Subdivision_method_3/subdivision_methods_3.h>
 #endif
-
+//Mesh simplification
+#include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Count_ratio_stop_predicate.h>
+#include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Edge_length_cost.h>
+#include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Midpoint_placement.h>
+#include <CGAL/Surface_mesh_simplification/edge_collapse.h>
+#include <CGAL/bounding_box.h>
+#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(4,12,2)
+#include <CGAL/boost/graph/convert_nef_polyhedron_to_polygon_mesh.h>
+#endif
+#include <CGAL/boost/graph/graph_traits_Polyhedron_3.h>
+#include <CGAL/convex_decomposition_3.h>
 #include <CGAL/convex_hull_3.h>
-#include <CGAL/Delaunay_triangulation_3.h>
-#include <CGAL/Alpha_shape_vertex_base_3.h>
-#include <CGAL/Alpha_shape_3.h>
-
-#include "cgalbuilder.h"
-#include "cgalsanitizer.h"
-#include "cgalexplorer.h"
-#include "cgaldiscretemodifier.h"
-#include "cgalgroupmodifier.h"
-#include "module/cubemodule.h"
-#include "onceonly.h"
-#include "rmath.h"
+#include <CGAL/minkowski_sum_3.h>
+#include <QPair>
 
 CGALPrimitive::CGALPrimitive() :
 	nefPolyhedron(nullptr),

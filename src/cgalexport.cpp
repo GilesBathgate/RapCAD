@@ -16,28 +16,27 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #ifdef USE_CGAL
+#include "cgalexport.h"
 
 #include "cgal.h"
-
-#include "cgalexport.h"
-#include <QFile>
-#include <QFileInfo>
-#include <QTextStream>
-#include <QString>
+#include "cgalexplorer.h"
+#include "onceonly.h"
+#include "preferences.h"
+#include "rmath.h"
+#include <CGAL/IO/Nef_polyhedron_iostream_3.h>
+#include <CGAL/IO/Polyhedron_VRML_2_ostream.h>
 #include <CGAL/IO/Polyhedron_iostream.h>
 #if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,3,0)
 #include <CGAL/boost/graph/IO/polygon_mesh_io.h>
 #else
 #include <CGAL/IO/print_wavefront.h>
 #endif
-#include <CGAL/IO/Polyhedron_VRML_2_ostream.h>
-#include <CGAL/IO/Nef_polyhedron_iostream_3.h>
+#include <QFile>
+#include <QFileInfo>
+#include <QString>
+#include <QTextStream>
+#include <contrib/qzipwriter_p.h>
 #include <fstream>
-#include "cgalexplorer.h"
-#include "onceonly.h"
-#include "rmath.h"
-#include "preferences.h"
-#include "contrib/qzipwriter_p.h"
 
 CGALExport::CGALExport(const QFileInfo& f,Primitive* p,Reporter& r) :
 	reporter(r),

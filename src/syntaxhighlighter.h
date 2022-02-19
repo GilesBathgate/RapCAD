@@ -19,10 +19,10 @@
 #ifndef SYNTAXHIGHLIGHTER_H
 #define SYNTAXHIGHLIGHTER_H
 
-#include <QSyntaxHighlighter>
-#include <QHash>
 #include "abstracttokenbuilder.h"
 #include "module.h"
+#include <QHash>
+#include <QSyntaxHighlighter>
 
 class SyntaxHighlighter : public QSyntaxHighlighter, private AbstractTokenBuilder
 {

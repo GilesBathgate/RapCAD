@@ -17,8 +17,8 @@
  */
 
 #include "complexvalue.h"
-#include "numbervalue.h"
 #include "booleanvalue.h"
+#include "numbervalue.h"
 #include "rmath.h"
 #include "valuefactory.h"
 

@@ -17,10 +17,10 @@
  */
 
 #include "multmatrixmodule.h"
-#include "node/transformationnode.h"
 #include "context.h"
-#include "vectorvalue.h"
+#include "node/transformationnode.h"
 #include "numbervalue.h"
+#include "vectorvalue.h"
 
 MultMatrixModule::MultMatrixModule(Reporter& r) : Module(r,"multmatrix")
 {

@@ -18,10 +18,10 @@
 #ifndef PROJECT_H
 #define PROJECT_H
 
-#include <QString>
 #include <QList>
-#include <QXmlStreamReader>
 #include <QStandardItemModel>
+#include <QString>
+#include <QXmlStreamReader>
 
 class Project : public QStandardItemModel
 {

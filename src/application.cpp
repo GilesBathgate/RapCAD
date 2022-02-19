@@ -17,27 +17,29 @@
  */
 #include "application.h"
 
-#include <QApplication>
-#include "ui/mainwindow.h"
-#include "preferences.h"
-#include "worker.h"
-#ifdef USE_INTEGTEST
-#include "tester.h"
-#include "generator.h"
-#endif
-#include "comparer.h"
-#include "stringify.h"
-#include "interactive.h"
-
-#ifdef USE_COMMANDLINE_PARSER
-#include "contrib/qcommandlineparser.h"
-#else
-#include "qcommandlineparser.h"
-#endif
-#include "contrib/qtcompat.h"
-
 #ifdef USE_CGAL
 #include "cgal.h"
+#endif
+#include "comparer.h"
+#ifdef USE_INTEGTEST
+#include "generator.h"
+#include "tester.h"
+#endif
+#include "interactive.h"
+#include "preferences.h"
+#include "stringify.h"
+#include "ui/mainwindow.h"
+#include "worker.h"
+#include <QApplication>
+#include <contrib/qtcompat.h>
+#ifdef USE_COMMANDLINE_PARSER
+#include <contrib/qcommandlineparser.h>
+#else
+#include <QCommandLineOption>
+#include <QCommandLineParser>
+#endif
+
+#ifdef USE_CGAL
 static void rapcadErrorHandler(const char*,const char*,const char*,int,const char*){}
 #endif
 

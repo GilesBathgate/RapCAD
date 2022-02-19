@@ -17,9 +17,9 @@
  */
 
 #include "importmodule.h"
+#include "context.h"
 #include "node/importnode.h"
 #include "textvalue.h"
-#include "context.h"
 
 ImportModule::ImportModule(Reporter& r) : Module(r,"import")
 {

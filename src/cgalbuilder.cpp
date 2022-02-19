@@ -16,21 +16,20 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #ifdef USE_CGAL
+#include "cgalbuilder.h"
 
 #include "cgal.h"
-
-#include <QList>
+#include "cgalexplorer.h"
+#include "cgalprojection.h"
+#include "onceonly.h"
 #include <CGAL/Constrained_triangulation_2.h>
-#include <CGAL/Triangulation_vertex_base_with_info_2.h>
-#include <CGAL/Triangulation_face_base_with_info_2.h>
 #ifdef USE_OFFSET
 #include <CGAL/create_offset_polygons_2.h>
 #endif
 #include <CGAL/Polygon_2.h>
-#include "cgalbuilder.h"
-#include "cgalexplorer.h"
-#include "cgalprojection.h"
-#include "onceonly.h"
+#include <CGAL/Triangulation_face_base_with_info_2.h>
+#include <CGAL/Triangulation_vertex_base_with_info_2.h>
+#include <QList>
 
 namespace CGAL
 {

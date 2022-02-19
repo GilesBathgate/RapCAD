@@ -16,32 +16,33 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #ifdef USE_INTEGTEST
-#include <QDir>
-#include <QTimer>
-#include <QApplication>
-#include <QLineEdit>
-#include <QtTest/QTest>
-#include <QMenu>
-#include <boost/version.hpp>
-#include <mpfr.h>
-#include <gmp.h>
+
+#include "asciidocprinter.h"
+#include "booleanvalue.h"
+#include "builtincreator.h"
+#include "cachemanager.h"
 #ifdef USE_CGAL
 #include "cgalexport.h"
 #endif
+#include "comparer.h"
+#include "nodeevaluator.h"
+#include "nodeprinter.h"
+#include "preferences.h"
 #include "tester.h"
 #include "treeevaluator.h"
-#include "nodeprinter.h"
-#include "booleanvalue.h"
-#include "comparer.h"
-#include "cachemanager.h"
 #include "treeprinter.h"
-#include "asciidocprinter.h"
-#include "builtincreator.h"
-#include "nodeevaluator.h"
 #include "ui/codeeditor.h"
 #include "ui/console.h"
-#include "preferences.h"
-#include "contrib/qtcompat.h"
+#include <QApplication>
+#include <QDir>
+#include <QLineEdit>
+#include <QMenu>
+#include <QTimer>
+#include <QtTest/QTest>
+#include <boost/version.hpp>
+#include <contrib/qtcompat.h>
+#include <gmp.h>
+#include <mpfr.h>
 
 Tester::Tester(Reporter& r,const QString& d,QObject* parent) :
 	QObject(parent),

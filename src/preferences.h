@@ -18,14 +18,14 @@
 #ifndef PREFERENCES_H
 #define PREFERENCES_H
 
-#include <QSettings>
+#include "decimal.h"
+#include "ui/glview.h"
 #include <QColor>
+#include <QFont>
 #include <QPoint>
+#include <QSettings>
 #include <QSize>
 #include <QVector3D>
-#include <QFont>
-#include "ui/glview.h"
-#include "decimal.h"
 
 class Preferences
 {

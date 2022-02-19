@@ -17,11 +17,11 @@
  */
 
 #include "textmodule.h"
-#include "textvalue.h"
+#include "context.h"
+#include "node/primitivenode.h"
 #include "numbervalue.h"
 #include "qpathtextbuilder.h"
-#include "node/primitivenode.h"
-#include "context.h"
+#include "textvalue.h"
 
 TextModule::TextModule(Reporter& r) : Module(r, "text")
 {

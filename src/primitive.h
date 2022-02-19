@@ -20,8 +20,8 @@
 #define PRIMITIVE_H
 
 #include "point.h"
-#include "polygon.h"
 #include "fragment.h"
+#include "polygon.h"
 #include "transformmatrix.h"
 #include "viewdirections.h"
 

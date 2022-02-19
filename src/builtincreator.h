@@ -19,10 +19,10 @@
 #ifndef BUILTINCREATOR_H
 #define BUILTINCREATOR_H
 
-#include <QHash>
-#include "reporter.h"
 #include "declaration.h"
 #include "module.h"
+#include "reporter.h"
+#include <QHash>
 
 class BuiltinCreator
 {

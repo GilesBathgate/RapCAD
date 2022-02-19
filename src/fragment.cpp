@@ -17,9 +17,9 @@
  */
 
 #include "fragment.h"
-#include "contrib/fragments.h"
-#include "numbervalue.h"
 #include "context.h"
+#include "numbervalue.h"
+#include <contrib/fragments.h>
 
 #ifdef USE_CGAL
 #include "cgalfragment.h"

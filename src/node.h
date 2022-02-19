@@ -19,8 +19,8 @@
 #ifndef NODE_H
 #define NODE_H
 
-#include <QList>
 #include "visitablenode.h"
+#include <QList>
 
 class Node : public VisitableNode
 {

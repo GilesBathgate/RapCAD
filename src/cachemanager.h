@@ -19,8 +19,8 @@
 #ifndef CACHEMANAGER_H
 #define CACHEMANAGER_H
 
-#include <stddef.h>
 #include "cache.h"
+#include <stddef.h>
 
 class CacheManager
 {

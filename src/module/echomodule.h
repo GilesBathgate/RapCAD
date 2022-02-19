@@ -19,9 +19,9 @@
 #ifndef ECHOMODULE_H
 #define ECHOMODULE_H
 
-#include <QTextStream>
 #include "module.h"
 #include "onceonly.h"
+#include <QTextStream>
 
 class EchoModule : public Module
 {

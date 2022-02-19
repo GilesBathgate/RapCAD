@@ -17,9 +17,9 @@
  */
 
 #include "hullmodule.h"
+#include "booleanvalue.h"
 #include "context.h"
 #include "node/hullnode.h"
-#include "booleanvalue.h"
 
 HullModule::HullModule(Reporter& r) : Module(r,"hull")
 {

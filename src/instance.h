@@ -19,10 +19,10 @@
 #ifndef INSTANCE_H
 #define INSTANCE_H
 
-#include <QString>
-#include <QList>
-#include "statement.h"
 #include "argument.h"
+#include "statement.h"
+#include <QList>
+#include <QString>
 
 enum class InstanceTypes {
 	Default,

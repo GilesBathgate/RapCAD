@@ -17,9 +17,9 @@
  */
 
 #include "numbervalue.h"
-#include "vectorvalue.h"
 #include "booleanvalue.h"
 #include "valuefactory.h"
+#include "vectorvalue.h"
 
 NumberValue::NumberValue(const decimal& value) : number(value)
 {

@@ -18,8 +18,8 @@
 
 #include "nodeevaluator.h"
 
-#include "polyhedron.h"
 #include "cachemanager.h"
+#include "polyhedron.h"
 
 #ifdef USE_CGAL
 #include "cgalauxiliarybuilder.h"

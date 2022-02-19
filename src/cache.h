@@ -19,11 +19,11 @@
 #ifndef CACHE_H
 #define CACHE_H
 
-#include <QtGlobal>
-#include <QVector>
-#include <QMap>
-#include <QHash>
 #include "primitive.h"
+#include <QHash>
+#include <QMap>
+#include <QVector>
+#include <QtGlobal>
 
 class Cache
 {

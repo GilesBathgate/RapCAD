@@ -16,10 +16,10 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QPushButton>
-#include <QFileInfo>
 #include "saveitemsdialog.h"
 #include "ui_saveitemsdialog.h"
+#include <QFileInfo>
+#include <QPushButton>
 
 SaveItemsDialog::SaveItemsDialog(QWidget* parent, bool compiling, const QList<QString>& items) :
 	QDialog(parent),

@@ -17,8 +17,8 @@
  */
 
 #include "generator.h"
-#include "builtincreator.h"
 #include "asciidocprinter.h"
+#include "builtincreator.h"
 
 Generator::Generator(Reporter& r) : Strategy(r)
 {

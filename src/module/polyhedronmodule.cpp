@@ -18,9 +18,9 @@
 
 #include "polyhedronmodule.h"
 #include "context.h"
-#include "vectorvalue.h"
-#include "numbervalue.h"
 #include "node/primitivenode.h"
+#include "numbervalue.h"
+#include "vectorvalue.h"
 
 PolyhedronModule::PolyhedronModule(Reporter& r) : PrimitiveModule(r,"polyhedron")
 {

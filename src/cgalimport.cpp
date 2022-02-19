@@ -19,21 +19,22 @@
 #include "cgalimport.h"
 
 #include "cgalprimitive.h"
-#include <CGAL/IO/Polyhedron_iostream.h>
+#include "nodeevaluator.h"
+#include "script.h"
+#include "treeevaluator.h"
+#include <contrib/qzipreader_p.h>
+
 #include <CGAL/IO/Nef_polyhedron_iostream_3.h>
 #if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,3,0)
 #include <CGAL/IO/OBJ.h>
 #else
 #include <CGAL/IO/OBJ_reader.h>
 #endif
-#include <fstream>
+#include <CGAL/IO/Polyhedron_iostream.h>
 #include <QRegExp>
 #include <QStringList>
 #include <QXmlStreamReader>
-#include "script.h"
-#include "treeevaluator.h"
-#include "nodeevaluator.h"
-#include "contrib/qzipreader_p.h"
+#include <fstream>
 
 CGALImport::CGALImport(const QFileInfo& f,Reporter& r) :
 	fileInfo(f),

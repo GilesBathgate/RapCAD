@@ -18,9 +18,9 @@
 
 #include "mirrormodule.h"
 #include "context.h"
-#include "vectorvalue.h"
 #include "node/transformationnode.h"
 #include "rmath.h"
+#include "vectorvalue.h"
 
 MirrorModule::MirrorModule(Reporter& r) : Module(r,"mirror")
 {

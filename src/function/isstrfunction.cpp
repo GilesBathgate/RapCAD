@@ -17,8 +17,8 @@
  */
 
 #include "isstrfunction.h"
-#include "textvalue.h"
 #include "booleanvalue.h"
+#include "textvalue.h"
 
 IsStrFunction::IsStrFunction() : Function("is_str")
 {

@@ -17,8 +17,8 @@
  */
 
 #include "isintfunction.h"
-#include "numbervalue.h"
 #include "booleanvalue.h"
+#include "numbervalue.h"
 #include "rmath.h"
 
 IsIntFunction::IsIntFunction() : Function("is_int")

@@ -19,8 +19,8 @@
 #ifndef VECTOREXPRESSION_H
 #define VECTOREXPRESSION_H
 
-#include <QList>
 #include "expression.h"
+#include <QList>
 
 class VectorExpression : public Expression
 {

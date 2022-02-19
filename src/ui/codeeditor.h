@@ -19,8 +19,8 @@
 #ifndef CODEEDITOR_H
 #define CODEEDITOR_H
 
-#include <QPlainTextEdit>
 #include "syntaxhighlighter.h"
+#include <QPlainTextEdit>
 
 class CodeEditor : public QPlainTextEdit
 {

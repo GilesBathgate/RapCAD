@@ -18,9 +18,9 @@
 
 #ifndef PARAMETER_H
 #define PARAMETER_H
-#include <QString>
 #include "expression.h"
 #include "visitabletree.h"
+#include <QString>
 
 class Parameter : public VisitableTree
 {

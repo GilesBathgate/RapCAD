@@ -17,14 +17,14 @@
  */
 
 #include "value.h"
-#include "valueiterator.h"
-#include "vectorvalue.h"
 #include "booleanvalue.h"
-#include "textvalue.h"
 #include "numbervalue.h"
 #include "rangevalue.h"
 #include "rmath.h"
+#include "textvalue.h"
 #include "valuefactory.h"
+#include "valueiterator.h"
+#include "vectorvalue.h"
 
 Value::Value() :
 	defined(true),

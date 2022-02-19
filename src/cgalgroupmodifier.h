@@ -20,8 +20,8 @@
 #define CGALGROUPMODIFIER_H
 
 #include "cgal.h"
-#include <CGAL/Nef_polyhedron_3.h>
 #include <CGAL/Modifier_base.h>
+#include <CGAL/Nef_polyhedron_3.h>
 
 namespace CGAL
 {

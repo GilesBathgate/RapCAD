@@ -19,9 +19,9 @@
 #ifndef BACKGROUNDWORKER_H
 #define BACKGROUNDWORKER_H
 
+#include "worker.h"
 #include <QObject>
 #include <QThread>
-#include "worker.h"
 
 class BackgroundWorker : public QObject, public Worker
 {

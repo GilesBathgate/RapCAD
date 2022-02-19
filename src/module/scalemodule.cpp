@@ -18,9 +18,9 @@
 
 #include "scalemodule.h"
 #include "context.h"
-#include "vectorvalue.h"
-#include "node/transformationnode.h"
 #include "node/pointsnode.h"
+#include "node/transformationnode.h"
+#include "vectorvalue.h"
 
 ScaleModule::ScaleModule(Reporter& r) : Module(r,"scale")
 {

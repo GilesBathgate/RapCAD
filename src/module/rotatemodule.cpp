@@ -17,12 +17,12 @@
  */
 
 #include "rotatemodule.h"
+#include "complexvalue.h"
 #include "context.h"
 #include "node/transformationnode.h"
 #include "numbervalue.h"
-#include "vectorvalue.h"
-#include "complexvalue.h"
 #include "rmath.h"
+#include "vectorvalue.h"
 
 RotateModule::RotateModule(Reporter& r) : Module(r,"rotate")
 {

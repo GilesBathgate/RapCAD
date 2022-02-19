@@ -18,9 +18,9 @@
 
 #include "randfunction.h"
 #include "context.h"
-#include "vectorvalue.h"
 #include "numbervalue.h"
 #include "rmath.h"
+#include "vectorvalue.h"
 #include <ctime>
 
 RandFunction::RandFunction() : Function("rands")

@@ -16,15 +16,14 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QColorDialog>
-#include <QDir>
-
-#include "preferencesdialog.h"
-#include "ui_preferences.h"
-#include "preferences.h"
 #include "decimal.h"
+#include "preferences.h"
+#include "preferencesdialog.h"
 #include "rmath.h"
 #include "ui/glview.h"
+#include "ui_preferences.h"
+#include <QColorDialog>
+#include <QDir>
 
 PreferencesDialog::PreferencesDialog(QWidget* parent) :
 	QDialog(parent),

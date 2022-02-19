@@ -19,9 +19,9 @@
 #ifndef MODULESCOPE_H
 #define MODULESCOPE_H
 
-#include <QList>
-#include "scope.h"
 #include "declaration.h"
+#include "scope.h"
+#include <QList>
 
 class ModuleScope : public Scope
 {

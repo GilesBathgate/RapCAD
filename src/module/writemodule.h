@@ -19,8 +19,8 @@
 #ifndef WRITEMODULE_H
 #define WRITEMODULE_H
 
-#include <QTextStream>
 #include "module.h"
+#include <QTextStream>
 
 class WriteModule : public Module
 {

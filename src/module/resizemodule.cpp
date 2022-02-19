@@ -17,10 +17,10 @@
  */
 
 #include "resizemodule.h"
+#include "booleanvalue.h"
 #include "context.h"
 #include "node/resizenode.h"
 #include "vectorvalue.h"
-#include "booleanvalue.h"
 
 ResizeModule::ResizeModule(Reporter& r) : Module(r,"resize")
 {

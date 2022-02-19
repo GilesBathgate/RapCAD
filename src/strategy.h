@@ -19,10 +19,10 @@
 #ifndef STRATEGY_H
 #define STRATEGY_H
 
-#include <QTextStream>
-#include "script.h"
 #include "callback.h"
 #include "reporter.h"
+#include "script.h"
+#include <QTextStream>
 
 class Strategy
 {

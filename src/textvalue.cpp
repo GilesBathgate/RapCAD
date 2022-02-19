@@ -17,8 +17,8 @@
  */
 
 #include "textvalue.h"
-#include "numbervalue.h"
 #include "booleanvalue.h"
+#include "numbervalue.h"
 #include "textiterator.h"
 #include "valuefactory.h"
 

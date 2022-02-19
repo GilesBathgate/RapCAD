@@ -17,8 +17,8 @@
  */
 
 #include "isnumfunction.h"
-#include "numbervalue.h"
 #include "booleanvalue.h"
+#include "numbervalue.h"
 
 IsNumFunction::IsNumFunction() : Function("is_num")
 {

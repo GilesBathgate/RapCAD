@@ -18,10 +18,10 @@
 #ifndef INVOCATION_H
 #define INVOCATION_H
 
-#include <QString>
-#include <QList>
-#include "expression.h"
 #include "argument.h"
+#include "expression.h"
+#include <QList>
+#include <QString>
 
 class Invocation : public Expression
 {

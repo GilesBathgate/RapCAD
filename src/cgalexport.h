@@ -19,9 +19,9 @@
 #ifndef CGALEXPORT_H
 #define CGALEXPORT_H
 
-#include <QXmlStreamWriter>
 #include "cgalprimitive.h"
 #include "reporter.h"
+#include <QXmlStreamWriter>
 
 class CGALExport
 {

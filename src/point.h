@@ -19,8 +19,8 @@
 #ifndef POINT_H
 #define POINT_H
 
-#include <QString>
 #include "decimal.h"
+#include <QString>
 
 #ifndef USE_CGAL
 #include "transformmatrix.h"

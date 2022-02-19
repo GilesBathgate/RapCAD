@@ -19,7 +19,7 @@
 #include "echomodule.h"
 #include "context.h"
 #include "textvalue.h"
-#include "contrib/qtcompat.h"
+#include <contrib/qtcompat.h>
 
 EchoModule::EchoModule(Reporter& r) : Module(r,"echo"), output(r.output)
 {

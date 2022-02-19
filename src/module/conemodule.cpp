@@ -18,9 +18,9 @@
 
 #include "conemodule.h"
 #include "context.h"
-#include "rmath.h"
-#include "numbervalue.h"
 #include "node/alignnode.h"
+#include "numbervalue.h"
+#include "rmath.h"
 
 ConeModule::ConeModule(Reporter& r) : PrimitiveModule(r,"cone")
 {

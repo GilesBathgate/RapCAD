@@ -19,8 +19,8 @@
 #ifndef TEXTBUILDER_H
 #define TEXTBUILDER_H
 
-#include <QString>
 #include "primitive.h"
+#include <QString>
 
 class TextBuilder
 {

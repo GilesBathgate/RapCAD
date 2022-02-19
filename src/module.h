@@ -19,14 +19,14 @@
 #ifndef MODULE_H
 #define MODULE_H
 
-#include <QString>
-#include <QList>
-#include "parameter.h"
 #include "declaration.h"
-#include "scope.h"
 #include "node.h"
-#include "value.h"
+#include "parameter.h"
 #include "reporter.h"
+#include "scope.h"
+#include "value.h"
+#include <QList>
+#include <QString>
 
 class Context;
 

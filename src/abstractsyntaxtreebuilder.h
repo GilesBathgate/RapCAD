@@ -19,19 +19,19 @@
 #ifndef ABSTRACTSYNTAXTREEBUILDER_H
 #define ABSTRACTSYNTAXTREEBUILDER_H
 
-#include <QList>
+#include "abstracttokenbuilder.h"
+#include "argument.h"
 #include "decimal.h"
 #include "declaration.h"
-#include "statement.h"
-#include "variable.h"
 #include "expression.h"
-#include "argument.h"
+#include "instance.h"
+#include "invocation.h"
 #include "parameter.h"
 #include "scope.h"
-#include "instance.h"
 #include "script.h"
-#include "invocation.h"
-#include "abstracttokenbuilder.h"
+#include "statement.h"
+#include "variable.h"
+#include <QList>
 
 class AbstractSyntaxTreeBuilder
 {

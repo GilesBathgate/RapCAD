@@ -17,8 +17,8 @@
  */
 
 #include "israngefunction.h"
-#include "rangevalue.h"
 #include "booleanvalue.h"
+#include "rangevalue.h"
 
 IsRangeFunction::IsRangeFunction() : Function("is_range")
 {

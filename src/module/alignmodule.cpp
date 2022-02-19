@@ -17,10 +17,10 @@
  */
 
 #include "alignmodule.h"
-#include "context.h"
 #include "booleanvalue.h"
-#include "vectorvalue.h"
+#include "context.h"
 #include "node/alignnode.h"
+#include "vectorvalue.h"
 
 AlignModule::AlignModule(Reporter& r) : Module(r,"align")
 {

@@ -19,9 +19,9 @@
 #ifndef CGALIMPORT_H
 #define CGALIMPORT_H
 
-#include <QFileInfo>
 #include "primitive.h"
 #include "reporter.h"
+#include <QFileInfo>
 
 class CGALImport
 {

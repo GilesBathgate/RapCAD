@@ -19,10 +19,10 @@
 #ifndef VECTORVALUE_H
 #define VECTORVALUE_H
 
-#include <QList>
+#include "numbervalue.h"
 #include "point.h"
 #include "value.h"
-#include "numbervalue.h"
+#include <QList>
 
 class VectorValue : public Value
 {

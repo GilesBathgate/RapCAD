@@ -17,9 +17,9 @@
  */
 
 #include "isvecfunction.h"
-#include "vectorvalue.h"
 #include "booleanvalue.h"
 #include "context.h"
+#include "vectorvalue.h"
 
 IsVecFunction::IsVecFunction(int s) :
 	Function(QString("is_vec%1").arg(s)),

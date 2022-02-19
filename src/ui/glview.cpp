@@ -16,10 +16,10 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QApplication>
-#include <cmath>
 #include "glview.h"
 #include "viewdirections.h"
+#include <QApplication>
+#include <cmath>
 #ifdef USE_QGLWIDGET
 #include <CGAL/glu.h>
 #endif

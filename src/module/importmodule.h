@@ -19,8 +19,8 @@
 #ifndef IMPORTMODULE_H
 #define IMPORTMODULE_H
 
-#include <QString>
 #include "module.h"
+#include <QString>
 
 class ImportModule : public Module
 {

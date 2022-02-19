@@ -17,12 +17,12 @@
  */
 
 #include "normfunction.h"
-#include "context.h"
-#include "vectorvalue.h"
-#include "rangevalue.h"
-#include "numbervalue.h"
 #include "complexvalue.h"
+#include "context.h"
+#include "numbervalue.h"
+#include "rangevalue.h"
 #include "rmath.h"
+#include "vectorvalue.h"
 
 NormFunction::NormFunction() : Function("norm")
 {

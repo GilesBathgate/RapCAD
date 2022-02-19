@@ -17,11 +17,11 @@
  */
 
 #include "angfunction.h"
+#include "complexvalue.h"
 #include "context.h"
 #include "numbervalue.h"
-#include "vectorvalue.h"
-#include "complexvalue.h"
 #include "rmath.h"
+#include "vectorvalue.h"
 
 AngFunction::AngFunction() : Function("ang")
 {

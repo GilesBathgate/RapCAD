@@ -19,10 +19,10 @@
 #ifndef REPORTER_H
 #define REPORTER_H
 
+#include "abstracttokenbuilder.h"
 #include <QCoreApplication>
 #include <QElapsedTimer>
 #include <QTextStream>
-#include "abstracttokenbuilder.h"
 
 class Reporter
 {

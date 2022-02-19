@@ -19,8 +19,8 @@
 #ifndef CGALEXPLORER_H
 #define CGALEXPLORER_H
 
-#include <QList>
 #include "cgalprimitive.h"
+#include <QList>
 
 class CGALExplorer
 {

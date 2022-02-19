@@ -21,8 +21,8 @@
 
 #include "cgal.h"
 #include "rmath.h"
-#include <CGAL/Nef_polyhedron_3.h>
 #include <CGAL/Modifier_base.h>
+#include <CGAL/Nef_polyhedron_3.h>
 
 namespace CGAL
 {

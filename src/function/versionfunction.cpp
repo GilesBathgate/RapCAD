@@ -16,13 +16,13 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QStringList>
-#include "versionfunction.h"
 #include "context.h"
-#include "vectorvalue.h"
 #include "numbervalue.h"
-#include "textvalue.h"
 #include "stringify.h"
+#include "textvalue.h"
+#include "vectorvalue.h"
+#include "versionfunction.h"
+#include <QStringList>
 
 VersionFunction::VersionFunction() : Function("version")
 {

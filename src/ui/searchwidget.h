@@ -1,8 +1,8 @@
 #ifndef SEARCHWIDGET_H
 #define SEARCHWIDGET_H
 
-#include <QWidget>
 #include <QPlainTextEdit>
+#include <QWidget>
 
 namespace Ui
 {

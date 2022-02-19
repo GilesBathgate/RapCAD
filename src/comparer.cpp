@@ -17,8 +17,8 @@
  */
 
 #include "comparer.h"
-#include "node/symmetricdifferencenode.h"
 #include "node/importnode.h"
+#include "node/symmetricdifferencenode.h"
 #include "nodeevaluator.h"
 
 Comparer::Comparer(Reporter& r) : Strategy(r)

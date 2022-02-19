@@ -19,8 +19,8 @@
 #ifndef IMPORTNODE_H
 #define IMPORTNODE_H
 
-#include <QString>
 #include "node.h"
+#include <QString>
 
 class ImportNode : public Node
 {

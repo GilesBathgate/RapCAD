@@ -18,10 +18,10 @@
 
 #include "lengthfunction.h"
 #include "context.h"
-#include "vectorvalue.h"
-#include "textvalue.h"
 #include "numbervalue.h"
 #include "rangevalue.h"
+#include "textvalue.h"
+#include "vectorvalue.h"
 
 LengthFunction::LengthFunction() : Function("len")
 {

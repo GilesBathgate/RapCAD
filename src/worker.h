@@ -19,14 +19,14 @@
 #ifndef WORKER_H
 #define WORKER_H
 
-#include <QCoreApplication>
-#include "strategy.h"
+#include "instance.h"
+#include "nodevisitor.h"
 #include "primitive.h"
 #include "renderer.h"
 #include "reporter.h"
 #include "script.h"
-#include "instance.h"
-#include "nodevisitor.h"
+#include "strategy.h"
+#include <QCoreApplication>
 
 class Worker : public Strategy
 {

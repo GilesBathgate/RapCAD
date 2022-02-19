@@ -17,12 +17,13 @@
  */
 #ifdef USE_CGAL
 #include "cgalexplorer.h"
-#include <QHash>
-#include <CGAL/config.h>
-#include <CGAL/Triangulation_3.h>
-#include <CGAL/centroid.h>
-#include <CGAL/bounding_box.h>
+
 #include "onceonly.h"
+#include <CGAL/Triangulation_3.h>
+#include <CGAL/bounding_box.h>
+#include <CGAL/centroid.h>
+#include <CGAL/config.h>
+#include <QHash>
 
 using Nef = CGAL::NefPolyhedron3;
 using VolumeIterator = Nef::Volume_const_iterator;

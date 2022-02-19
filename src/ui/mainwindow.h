@@ -19,17 +19,16 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QTextStream>
-#include <QTemporaryFile>
-
-#include "codeeditor.h"
-#include "texteditiodevice.h"
-#include "backgroundworker.h"
-#include "preferencesdialog.h"
 #include "aboutdialog.h"
+#include "backgroundworker.h"
+#include "codeeditor.h"
 #include "interactive.h"
+#include "preferencesdialog.h"
 #include "project.h"
+#include "texteditiodevice.h"
+#include <QMainWindow>
+#include <QTemporaryFile>
+#include <QTextStream>
 
 namespace Ui
 {

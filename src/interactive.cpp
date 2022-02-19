@@ -17,15 +17,15 @@
  */
 
 #include "interactive.h"
-#include "treeevaluator.h"
+
+#include "assertexception.h"
 #include "script.h"
 #include "tokenreader.h"
+#include "treeevaluator.h"
 #ifdef USE_CGAL
 #include <CGAL/exceptions.h>
 #endif
-#include "assertexception.h"
-#include "contrib/qtcompat.h"
-
+#include <contrib/qtcompat.h>
 #ifdef USE_READLINE
 namespace readline
 {

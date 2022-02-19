@@ -20,8 +20,8 @@
 #define CGALAUXILIARYBUILDER_H
 
 #include "reporter.h"
-#include "primitive.h"
 #include "node/transformationnode.h"
+#include "primitive.h"
 
 class CGALAuxiliaryBuilder
 {

@@ -19,8 +19,8 @@
 #ifndef VARIABLE_H
 #define VARIABLE_H
 
-#include <QString>
 #include "expression.h"
+#include <QString>
 
 enum class Storage {
 	Variable,

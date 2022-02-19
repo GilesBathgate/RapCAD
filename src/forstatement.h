@@ -19,9 +19,9 @@
 #ifndef FORSTATEMENT_H
 #define FORSTATEMENT_H
 
-#include <QList>
-#include "statement.h"
 #include "argument.h"
+#include "statement.h"
+#include <QList>
 
 class ForStatement : public Statement
 {

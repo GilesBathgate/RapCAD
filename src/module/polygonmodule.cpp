@@ -19,8 +19,8 @@
 #include "polygonmodule.h"
 #include "context.h"
 #include "node/primitivenode.h"
-#include "vectorvalue.h"
 #include "numbervalue.h"
+#include "vectorvalue.h"
 
 PolygonModule::PolygonModule(Reporter& r,bool polygon) :
 	Module(r,polygon?"polygon":"polyline"),

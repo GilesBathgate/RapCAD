@@ -19,11 +19,11 @@
 #ifndef LAYOUT_H
 #define LAYOUT_H
 
-#include <QHash>
-#include "reporter.h"
-#include "module.h"
 #include "function.h"
+#include "module.h"
+#include "reporter.h"
 #include "scope.h"
+#include <QHash>
 
 class Layout
 {

@@ -18,10 +18,10 @@
 
 #include "beziersurfacemodule.h"
 #include "context.h"
-#include "vectorvalue.h"
+#include "fragment.h"
 #include "node/primitivenode.h"
 #include "rmath.h"
-#include "fragment.h"
+#include "vectorvalue.h"
 
 BezierSurfaceModule::BezierSurfaceModule(Reporter& r) : PrimitiveModule(r,"bezier_surface")
 {

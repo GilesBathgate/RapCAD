@@ -17,8 +17,8 @@
  */
 
 #include "chainhullmodule.h"
-#include "context.h"
 #include "booleanvalue.h"
+#include "context.h"
 #include "node/hullnode.h"
 
 ChainHullModule::ChainHullModule(Reporter& r) : Module(r,"chain_hull")

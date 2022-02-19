@@ -19,10 +19,10 @@
 #ifndef FUNCTIONSCOPE_H
 #define FUNCTIONSCOPE_H
 
-#include <QList>
-#include "scope.h"
 #include "expression.h"
+#include "scope.h"
 #include "statement.h"
+#include <QList>
 
 class FunctionScope : public Scope
 {

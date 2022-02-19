@@ -1,14 +1,14 @@
 #ifndef VALUEFACTORY_H
 #define VALUEFACTORY_H
 
-#include <QList>
-#include "value.h"
-#include "numbervalue.h"
 #include "booleanvalue.h"
-#include "textvalue.h"
-#include "vectorvalue.h"
-#include "rangevalue.h"
 #include "complexvalue.h"
+#include "numbervalue.h"
+#include "rangevalue.h"
+#include "textvalue.h"
+#include "value.h"
+#include "vectorvalue.h"
+#include <QList>
 
 class ValueFactory
 {

@@ -17,9 +17,9 @@
  */
 
 #include "shearmodule.h"
-#include "vectorvalue.h"
 #include "context.h"
 #include "node/transformationnode.h"
+#include "vectorvalue.h"
 
 ShearModule::ShearModule(Reporter& r) : Module(r,"shear")
 {

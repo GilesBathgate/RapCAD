@@ -19,10 +19,10 @@
 #ifndef MODULEIMPORT_H
 #define MODULEIMPORT_H
 
-#include <QString>
-#include <QList>
 #include "declaration.h"
 #include "parameter.h"
+#include <QList>
+#include <QString>
 
 class ModuleImport : public Declaration
 {

@@ -19,9 +19,9 @@
 #ifndef VECTORITERATOR_H
 #define VECTORITERATOR_H
 
-#include <QList>
-#include "valueiterator.h"
 #include "value.h"
+#include "valueiterator.h"
+#include <QList>
 
 class VectorIterator : public ValueIterator
 {

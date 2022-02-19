@@ -18,9 +18,9 @@
 
 #include "cubemodule.h"
 #include "context.h"
-#include "vectorvalue.h"
-#include "node/primitivenode.h"
 #include "node/alignnode.h"
+#include "node/primitivenode.h"
+#include "vectorvalue.h"
 
 CubeModule::CubeModule(Reporter& r) : PrimitiveModule(r,"cube")
 {

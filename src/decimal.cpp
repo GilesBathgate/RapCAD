@@ -17,12 +17,12 @@
  */
 
 #include "decimal.h"
+#include "point.h"
 #include "preferences.h"
 #include "rmath.h"
-#include "point.h"
 #ifdef USE_CGAL
 #if MPFR_VERSION < MPFR_VERSION_NUM(4,1,0)
-#include "contrib/mpfr-get_q.h"
+#include <contrib/mpfr-get_q.h>
 #endif
 #endif
 

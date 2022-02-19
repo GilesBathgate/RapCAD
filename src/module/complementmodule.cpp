@@ -17,8 +17,8 @@
  */
 
 #include "complementmodule.h"
-#include "node/complementnode.h"
 #include "context.h"
+#include "node/complementnode.h"
 
 ComplementModule::ComplementModule(Reporter& r) : Module(r,"complement")
 {

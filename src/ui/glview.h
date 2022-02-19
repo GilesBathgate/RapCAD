@@ -19,16 +19,16 @@
 #ifndef GLVIEW_H
 #define GLVIEW_H
 
+#include "renderer.h"
 #ifdef USE_QGLWIDGET
 #include <QGLWidget>
 #else
-#include <QOpenGLWidget>
-#include <QOpenGLFunctions_1_0>
 #include <QMatrix4x4>
+#include <QOpenGLFunctions_1_0>
+#include <QOpenGLWidget>
 #endif
 #include <QMouseEvent>
 #include <QWheelEvent>
-#include "renderer.h"
 
 enum class BedAppearance {
 	MK42=0,

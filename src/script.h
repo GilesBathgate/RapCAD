@@ -19,11 +19,11 @@
 #ifndef SCRIPT_H
 #define SCRIPT_H
 
-#include <QList>
-#include "declaration.h"
-#include "scope.h"
 #include "codedoc.h"
+#include "declaration.h"
 #include "reporter.h"
+#include "scope.h"
+#include <QList>
 
 class Script : public Scope
 {

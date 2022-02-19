@@ -19,9 +19,9 @@
 #ifndef EXPRESSION_H
 #define EXPRESSION_H
 
-#include <QString>
-#include "visitabletree.h"
 #include "operators.h"
+#include "visitabletree.h"
+#include <QString>
 
 class Expression : public VisitableTree
 {

@@ -17,8 +17,8 @@
  */
 #include "ordinalfunction.h"
 #include "context.h"
-#include "textvalue.h"
 #include "numbervalue.h"
+#include "textvalue.h"
 
 OrdinalFunction::OrdinalFunction() : Function("ord")
 {

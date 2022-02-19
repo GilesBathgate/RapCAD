@@ -19,8 +19,8 @@
 #ifndef SIMPLETEXTBUILDER_H
 #define SIMPLETEXTBUILDER_H
 
-#include <QMap>
 #include "textbuilder.h"
+#include <QMap>
 
 class SimpleTextBuilder : public TextBuilder
 {

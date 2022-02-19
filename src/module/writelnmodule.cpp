@@ -17,7 +17,7 @@
  */
 
 #include "writelnmodule.h"
-#include "contrib/qtcompat.h"
+#include <contrib/qtcompat.h>
 
 WriteLnModule::WriteLnModule(Reporter& r) : WriteModule(r,"writeln")
 {

@@ -17,10 +17,10 @@
  */
 
 #include "prismmodule.h"
-#include "numbervalue.h"
-#include "rmath.h"
 #include "context.h"
 #include "node/alignnode.h"
+#include "numbervalue.h"
+#include "rmath.h"
 
 PrismModule::PrismModule(Reporter& r) : PrimitiveModule(r,"prism")
 {

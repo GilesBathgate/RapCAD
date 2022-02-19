@@ -17,10 +17,10 @@
  */
 
 #include "rangevalue.h"
-#include "rangeiterator.h"
-#include "vectorvalue.h"
 #include "booleanvalue.h"
+#include "rangeiterator.h"
 #include "valuefactory.h"
+#include "vectorvalue.h"
 
 RangeValue::RangeValue(Value& s,Value& f) :
 	start(s),

@@ -24,8 +24,8 @@
 
 #if !defined(CGAL_NO_ASSERTIONS)
 
-#include <CGAL/Random_access_adaptor.h>
 #include <CGAL/HalfedgeDS_decorator.h>
+#include <CGAL/Random_access_adaptor.h>
 
 /* Redefine CGAL_assertion so that it checks for an
  * uncaught exception before throwing an exception */

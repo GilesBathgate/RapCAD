@@ -19,9 +19,9 @@
 #include "polyhedron.h"
 
 #ifdef USE_CGAL
-#include "cgalprimitive.h"
-#include "cgalimport.h"
 #include "cgalauxiliarybuilder.h"
+#include "cgalimport.h"
+#include "cgalprimitive.h"
 #endif
 
 GeometryEvaluator::GeometryEvaluator(Reporter& r) :

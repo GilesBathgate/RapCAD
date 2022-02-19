@@ -19,12 +19,12 @@
 #ifndef TOKENBUILDER_H
 #define TOKENBUILDER_H
 
-#include <QString>
-#include <QChar>
-#include <QStack>
-#include <QDir>
 #include "abstracttokenbuilder.h"
 #include "reporter.h"
+#include <QChar>
+#include <QDir>
+#include <QStack>
+#include <QString>
 
 class TokenBuilder : public AbstractTokenBuilder
 {

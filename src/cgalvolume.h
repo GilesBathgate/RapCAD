@@ -19,8 +19,8 @@
 #ifndef CGALVOLUME_H
 #define CGALVOLUME_H
 
-#include <QString>
 #include "cgal.h"
+#include <QString>
 
 class CGALVolume
 {

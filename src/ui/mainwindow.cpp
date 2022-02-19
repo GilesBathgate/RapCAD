@@ -15,25 +15,23 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#include <QFileDialog>
-#include <QMimeData>
-#include <QClipboard>
-#include <QScrollBar>
-#include <QMessageBox>
-#include <QDesktopServices>
-#include <QProcess>
-#include <QStyleFactory>
-
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include "renderer.h"
-#include "preferences.h"
-#include "saveitemsdialog.h"
-#include "printconsole.h"
 #include "builtincreator.h"
-#include "stringify.h"
 #include "cachemanager.h"
+#include "mainwindow.h"
+#include "preferences.h"
+#include "printconsole.h"
+#include "renderer.h"
+#include "saveitemsdialog.h"
+#include "stringify.h"
+#include "ui_mainwindow.h"
+#include <QClipboard>
+#include <QDesktopServices>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QMimeData>
+#include <QProcess>
+#include <QScrollBar>
+#include <QStyleFactory>
 
 MainWindow::MainWindow(QWidget* parent) :
 	QMainWindow(parent),

@@ -17,8 +17,8 @@
  */
 
 #include "triangulatemodule.h"
-#include "node/triangulatenode.h"
 #include "context.h"
+#include "node/triangulatenode.h"
 
 TriangulateModule::TriangulateModule(Reporter& r) : Module(r,"triangulate")
 {

@@ -19,8 +19,8 @@
 #ifndef NAMEDVALUE_H
 #define NAMEDVALUE_H
 
-#include <QString>
 #include "value.h"
+#include <QString>
 
 class NamedValue
 {

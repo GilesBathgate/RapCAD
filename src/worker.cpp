@@ -17,12 +17,12 @@
  */
 
 #include "worker.h"
-#include "treeevaluator.h"
-#include "nodeevaluator.h"
 #include "geometryevaluator.h"
-#include "product.h"
+#include "nodeevaluator.h"
 #include "numbervalue.h"
 #include "preferences.h"
+#include "product.h"
+#include "treeevaluator.h"
 
 #ifdef USE_CGAL
 #include "CGAL/exceptions.h"
@@ -32,7 +32,7 @@
 #include "simplerenderer.h"
 #endif
 #include "assertexception.h"
-#include "contrib/qtcompat.h"
+#include <contrib/qtcompat.h>
 
 Worker::Worker(Reporter& r) :
 	Strategy(r),

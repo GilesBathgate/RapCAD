@@ -19,9 +19,9 @@
 #ifndef INTERACTIVE_H
 #define INTERACTIVE_H
 
-#include <QString>
-#include "strategy.h"
 #include "reporter.h"
+#include "strategy.h"
+#include <QString>
 
 class Interactive : public QObject,public Strategy
 {

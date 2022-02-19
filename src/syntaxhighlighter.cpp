@@ -17,8 +17,8 @@
  */
 
 #include "syntaxhighlighter.h"
-#include "reporter.h"
 #include "preferences.h"
+#include "reporter.h"
 
 extern int lexerlex_destroy();
 extern void lexerinit(AbstractTokenBuilder*,Reporter*,const QString&);

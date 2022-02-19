@@ -17,9 +17,10 @@
  */
 #ifdef USE_CGAL
 #include "cgalpolygon.h"
+
 #include "cgalprimitive.h"
-#include <CGAL/normal_vector_newell_3.h>
 #include "onceonly.h"
+#include <CGAL/normal_vector_newell_3.h>
 
 CGALPolygon::CGALPolygon(CGALPrimitive& p) :
 	Polygon(p),

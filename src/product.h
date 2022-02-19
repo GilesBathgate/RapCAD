@@ -20,8 +20,8 @@
 #define PRODUCT_H
 
 #include "instance.h"
-#include "primitive.h"
 #include "context.h"
+#include "primitive.h"
 
 class Product : public Instance
 {

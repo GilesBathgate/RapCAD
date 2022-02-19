@@ -27,8 +27,8 @@ class Primitive;
 #define Polygon _Polygon
 #endif
 
-#include <QList>
 #include "point.h"
+#include <QList>
 
 class Polygon
 {

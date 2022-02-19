@@ -18,8 +18,8 @@
 
 #include "translatemodule.h"
 #include "context.h"
-#include "vectorvalue.h"
 #include "node/transformationnode.h"
+#include "vectorvalue.h"
 
 TranslateModule::TranslateModule(Reporter& r) : Module(r,"translate")
 {

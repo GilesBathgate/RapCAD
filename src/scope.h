@@ -19,8 +19,8 @@
 #ifndef SCOPE_H
 #define SCOPE_H
 
-#include <QList>
 #include "statement.h"
+#include <QList>
 
 class Scope : public Statement
 {

@@ -19,14 +19,14 @@
 #ifndef FUNCTION_H
 #define FUNCTION_H
 
-#include <QCoreApplication>
-#include <QString>
-#include <QList>
-#include "parameter.h"
 #include "declaration.h"
+#include "parameter.h"
 #include "scope.h"
 #include "value.h"
 #include "valuefactory.h"
+#include <QCoreApplication>
+#include <QList>
+#include <QString>
 
 class Context;
 
