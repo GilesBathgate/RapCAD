@@ -21,7 +21,6 @@
 
 #include <QColor>
 #include "renderer.h"
-#include "cgalprimitive.h"
 #include "simplerenderer.h"
 #include "contrib/OGL_helper.h"
 

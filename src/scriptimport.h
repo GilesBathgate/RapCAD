@@ -19,6 +19,7 @@
 #ifndef SCRIPTIMPORT_H
 #define SCRIPTIMPORT_H
 
+#include <QString>
 #include "declaration.h"
 
 class ScriptImport : public Declaration

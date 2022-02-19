@@ -17,11 +17,14 @@
  */
 
 #include "nodeevaluator.h"
+
 #include "polyhedron.h"
+#include "cachemanager.h"
 
 #ifdef USE_CGAL
-#include "cgalimport.h"
 #include "cgalauxiliarybuilder.h"
+#include "cgalimport.h"
+#include "cgalprimitive.h"
 #endif
 
 NodeEvaluator::NodeEvaluator(Reporter& r) :

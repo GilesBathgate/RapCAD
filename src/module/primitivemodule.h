@@ -21,9 +21,8 @@
 
 #include "module.h"
 #include "polygon.h"
+#include "primitive.h"
 #include "node/primitivenode.h"
-#include "node/alignnode.h"
-#include "fragment.h"
 
 class PrimitiveModule : public Module
 {

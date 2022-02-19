@@ -19,7 +19,6 @@
 #ifndef IFELSESTATEMENT_H
 #define IFELSESTATEMENT_H
 
-#include <QString>
 #include "statement.h"
 #include "expression.h"
 

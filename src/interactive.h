@@ -20,7 +20,6 @@
 #define INTERACTIVE_H
 
 #include <QString>
-#include <QTextStream>
 #include "strategy.h"
 #include "reporter.h"
 

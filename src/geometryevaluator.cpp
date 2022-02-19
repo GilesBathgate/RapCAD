@@ -17,7 +17,6 @@
  */
 #include "geometryevaluator.h"
 #include "polyhedron.h"
-#include "preferences.h"
 
 #ifdef USE_CGAL
 #include "cgalprimitive.h"

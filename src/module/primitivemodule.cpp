@@ -16,10 +16,9 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "rmath.h"
 #include "primitivemodule.h"
-#include "context.h"
-#include "numbervalue.h"
+
+#include "rmath.h"
 
 PrimitiveModule::PrimitiveModule(Reporter& r, const QString& n) : Module(r,n)
 {

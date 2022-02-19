@@ -18,7 +18,6 @@
 #ifndef RETURNSTATEMENT_H
 #define RETURNSTATEMENT_H
 
-#include <QString>
 #include "statement.h"
 #include "expression.h"
 

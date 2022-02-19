@@ -20,8 +20,8 @@
 #define VECTORVALUE_H
 
 #include <QList>
-#include "value.h"
 #include "point.h"
+#include "value.h"
 #include "numbervalue.h"
 
 class VectorValue : public Value

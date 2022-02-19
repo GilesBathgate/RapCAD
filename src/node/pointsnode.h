@@ -19,7 +19,6 @@
 #ifndef POINTSNODE_H
 #define POINTSNODE_H
 
-#include "point.h"
 #include "node/primitivenode.h"
 
 class PointsNode : public PrimitiveNode

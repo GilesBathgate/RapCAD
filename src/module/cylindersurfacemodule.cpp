@@ -18,8 +18,8 @@
 
 #include "cylindersurfacemodule.h"
 #include "numbervalue.h"
-#include "booleanvalue.h"
 #include "context.h"
+#include "node/alignnode.h"
 
 CylinderSurfaceModule::CylinderSurfaceModule(Reporter& r) : PrimitiveModule(r,"cylinder_surface")
 {

@@ -17,7 +17,6 @@
  */
 
 #include "comparer.h"
-#include "script.h"
 #include "node/symmetricdifferencenode.h"
 #include "node/importnode.h"
 #include "nodeevaluator.h"

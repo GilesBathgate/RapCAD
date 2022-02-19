@@ -17,6 +17,7 @@
  */
 #ifdef USE_CGAL
 #include "cgalrenderer.h"
+#include "cgalprimitive.h"
 #include "preferences.h"
 #include "primitive.h"
 

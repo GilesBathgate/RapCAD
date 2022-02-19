@@ -18,7 +18,6 @@
 
 #include "boundsmodule.h"
 #include "context.h"
-#include "numbervalue.h"
 #include "node/boundsnode.h"
 
 BoundsModule::BoundsModule(Reporter& r) : Module(r,"bound")

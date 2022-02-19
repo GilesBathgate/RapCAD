@@ -20,6 +20,7 @@
 #define OFFSETNODE_H
 
 #include "node.h"
+#include "decimal.h"
 
 class OffsetNode : public Node
 {

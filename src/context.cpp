@@ -17,7 +17,6 @@
  */
 
 #include "context.h"
-#include "modulescope.h"
 #include "valuefactory.h"
 
 Context::Context() :

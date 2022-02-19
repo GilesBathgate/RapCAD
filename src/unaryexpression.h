@@ -18,7 +18,6 @@
 #ifndef UNARYEXPRESSION_H
 #define UNARYEXPRESSION_H
 
-#include <QString>
 #include "expression.h"
 
 class UnaryExpression : public Expression

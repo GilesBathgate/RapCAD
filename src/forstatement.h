@@ -19,7 +19,6 @@
 #ifndef FORSTATEMENT_H
 #define FORSTATEMENT_H
 
-#include <QString>
 #include <QList>
 #include "statement.h"
 #include "argument.h"

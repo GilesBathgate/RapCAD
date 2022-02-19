@@ -22,7 +22,7 @@ static constexpr double LOG10_2=0.30102999566398119521; /* log10(2) = log base 1
 
 #ifdef USE_CGAL
 #include <CGAL/exceptions.h>
-#include <CGAL/Gmpfr.h>
+#include <mpfr.h>
 #endif
 
 Preferences::Preferences() :

@@ -18,6 +18,25 @@
 
 #include "syntaxtreebuilder.h"
 
+#include "assignstatement.h"
+#include "binaryexpression.h"
+#include "complexexpression.h"
+#include "compoundstatement.h"
+#include "forstatement.h"
+#include "function.h"
+#include "functionscope.h"
+#include "ifelsestatement.h"
+#include "literal.h"
+#include "module.h"
+#include "moduleimport.h"
+#include "modulescope.h"
+#include "rangeexpression.h"
+#include "returnstatement.h"
+#include "scriptimport.h"
+#include "ternaryexpression.h"
+#include "unaryexpression.h"
+#include "vectorexpression.h"
+
 SyntaxTreeBuilder::SyntaxTreeBuilder(Reporter& r,Script& s,AbstractTokenBuilder& t) :
 	reporter(r),
 	script(s),

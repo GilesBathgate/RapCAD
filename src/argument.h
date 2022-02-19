@@ -19,7 +19,6 @@
 #ifndef ARGUMENT_H
 #define ARGUMENT_H
 
-#include <QString>
 #include "expression.h"
 #include "variable.h"
 #include "visitabletree.h"

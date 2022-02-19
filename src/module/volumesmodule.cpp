@@ -19,7 +19,6 @@
 #include "volumesmodule.h"
 #include "context.h"
 #include "booleanvalue.h"
-#include "numbervalue.h"
 #include "node/volumesnode.h"
 
 VolumesModule::VolumesModule(Reporter& r) : Module(r,"volume")

@@ -21,6 +21,7 @@
 #include "numbervalue.h"
 #include "booleanvalue.h"
 #include "node/primitivenode.h"
+#include "node/alignnode.h"
 #include "rmath.h"
 
 CylinderModule::CylinderModule(Reporter& r) : PrimitiveModule(r,"cylinder")

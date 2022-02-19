@@ -26,7 +26,6 @@
 #include <mpfr.h>
 #include <gmp.h>
 #ifdef USE_CGAL
-#include "cgal.h"
 #include "cgalexport.h"
 #endif
 #include "tester.h"
@@ -41,7 +40,6 @@
 #include "nodeevaluator.h"
 #include "ui/codeeditor.h"
 #include "ui/console.h"
-#include "ui/searchwidget.h"
 #include "preferences.h"
 #include "contrib/qtcompat.h"
 

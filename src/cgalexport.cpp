@@ -33,10 +33,9 @@
 #include <CGAL/IO/Polyhedron_VRML_2_ostream.h>
 #include <CGAL/IO/Nef_polyhedron_iostream_3.h>
 #include <fstream>
-#include"cgalexplorer.h"
+#include "cgalexplorer.h"
 #include "onceonly.h"
 #include "rmath.h"
-#include "polyhedron.h"
 #include "preferences.h"
 #include "contrib/qzipwriter_p.h"
 

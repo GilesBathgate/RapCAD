@@ -21,7 +21,6 @@
 
 #include <QList>
 #include "visitablenode.h"
-#include "decimal.h"
 
 class Node : public VisitableNode
 {

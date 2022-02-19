@@ -18,7 +18,6 @@
 #ifndef TERNARYEXPRESSION_H
 #define TERNARYEXPRESSION_H
 
-#include <QString>
 #include "expression.h"
 
 class TernaryExpression : public Expression

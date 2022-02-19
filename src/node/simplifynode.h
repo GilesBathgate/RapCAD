@@ -20,6 +20,7 @@
 #define SIMPLIFYNODE_H
 
 #include "node.h"
+#include "decimal.h"
 
 class SimplifyNode : public Node
 {

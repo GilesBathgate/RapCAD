@@ -19,7 +19,8 @@
 #include "aboutdialog.h"
 #include "ui_aboutdialog.h"
 #include "stringify.h"
-#include "qglobal.h"
+#include <qconfig.h>
+#include <QIcon>
 #ifdef USE_CGAL
 #include <CGAL/version.h>
 #endif

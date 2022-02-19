@@ -17,9 +17,7 @@
  */
 
 #include "worker.h"
-#include "treeprinter.h"
 #include "treeevaluator.h"
-#include "nodeprinter.h"
 #include "nodeevaluator.h"
 #include "geometryevaluator.h"
 #include "product.h"
@@ -30,7 +28,6 @@
 #include "CGAL/exceptions.h"
 #include "cgalexport.h"
 #include "cgalrenderer.h"
-#include "cgalexplorer.h"
 #else
 #include "simplerenderer.h"
 #endif

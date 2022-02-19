@@ -22,7 +22,6 @@
 #include "valueiterator.h"
 #include "value.h"
 #include "rangevalue.h"
-#include "numbervalue.h"
 
 class RangeIterator : public ValueIterator
 {

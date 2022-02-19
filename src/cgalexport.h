@@ -19,7 +19,6 @@
 #ifndef CGALEXPORT_H
 #define CGALEXPORT_H
 
-#include <QString>
 #include <QXmlStreamWriter>
 #include "cgalprimitive.h"
 #include "reporter.h"

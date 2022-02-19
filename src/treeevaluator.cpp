@@ -22,7 +22,6 @@
 #include "rangevalue.h"
 #include "valueiterator.h"
 #include "builtinmanager.h"
-#include "syntaxtreebuilder.h"
 #include "module/unionmodule.h"
 #include "valuefactory.h"
 

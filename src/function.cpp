@@ -17,7 +17,6 @@
  */
 
 #include "function.h"
-#include "functionscope.h"
 #include "context.h"
 
 Function::Function() :

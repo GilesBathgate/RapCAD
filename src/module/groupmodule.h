@@ -19,7 +19,7 @@
 #ifndef GROUPMODULE_H
 #define GROUPMODULE_H
 
-#include "unionmodule.h"
+#include "module.h"
 
 class GroupModule : public Module
 {

@@ -22,7 +22,6 @@
 #include <QTextStream>
 #include "treevisitor.h"
 #include "script.h"
-#include "declaration.h"
 #include "module.h"
 #include "modulescope.h"
 #include "instance.h"
@@ -32,7 +31,6 @@
 #include "ifelsestatement.h"
 #include "forstatement.h"
 #include "parameter.h"
-#include "expression.h"
 #include "binaryexpression.h"
 #include "argument.h"
 #include "assignstatement.h"

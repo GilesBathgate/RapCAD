@@ -24,8 +24,6 @@ class TextValue;
 class ValueIterator;
 class ValueFactory;
 #include <QString>
-#include "iterator.h"
-#include "expression.h"
 #include "variable.h"
 #include "decimal.h"
 

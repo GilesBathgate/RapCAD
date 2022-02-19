@@ -19,7 +19,6 @@
 #ifndef NODEEVALUATOR_H
 #define NODEEVALUATOR_H
 
-#include <QString>
 #include "nodevisitor.h"
 #include "primitive.h"
 #include "reporter.h"
@@ -57,7 +56,7 @@
 #include "node/simplifynode.h"
 #include "node/childrennode.h"
 
-#include "cachemanager.h"
+#include "cache.h"
 
 class NodeEvaluator : public NodeVisitor
 {

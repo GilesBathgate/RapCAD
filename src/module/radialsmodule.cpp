@@ -18,7 +18,6 @@
 
 #include "radialsmodule.h"
 #include "context.h"
-#include "numbervalue.h"
 #include "node/radialsnode.h"
 
 RadialsModule::RadialsModule(Reporter& r) : Module(r,"radial")

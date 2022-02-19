@@ -19,6 +19,7 @@
 #include <QApplication>
 #include <cmath>
 #include "glview.h"
+#include "viewdirections.h"
 #ifdef USE_QGLWIDGET
 #include <CGAL/glu.h>
 #endif

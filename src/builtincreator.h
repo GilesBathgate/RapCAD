@@ -22,7 +22,6 @@
 #include <QHash>
 #include "reporter.h"
 #include "declaration.h"
-#include "script.h"
 #include "module.h"
 
 class BuiltinCreator

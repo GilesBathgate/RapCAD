@@ -19,7 +19,6 @@
 #ifndef DECLARATION_H
 #define DECLARATION_H
 
-#include <QString>
 #include "visitabletree.h"
 
 class Declaration : public VisitableTree

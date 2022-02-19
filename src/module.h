@@ -23,7 +23,6 @@
 #include <QList>
 #include "parameter.h"
 #include "declaration.h"
-#include "instance.h"
 #include "scope.h"
 #include "node.h"
 #include "value.h"

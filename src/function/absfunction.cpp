@@ -19,7 +19,6 @@
 #include "absfunction.h"
 #include "context.h"
 #include "numbervalue.h"
-#include "rmath.h"
 
 AbsFunction::AbsFunction() : Function("abs")
 {

@@ -19,7 +19,6 @@
 #include "glidemodule.h"
 #include "context.h"
 #include "node/glidenode.h"
-#include "value.h"
 
 GlideModule::GlideModule(Reporter& r) : Module(r,"glide")
 {

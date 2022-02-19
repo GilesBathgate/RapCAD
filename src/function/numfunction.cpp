@@ -18,7 +18,6 @@
 
 #include "numfunction.h"
 #include "context.h"
-#include "numbervalue.h"
 
 NumFunction::NumFunction() : Function("num")
 {

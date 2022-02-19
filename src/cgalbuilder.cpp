@@ -20,7 +20,6 @@
 #include "cgal.h"
 
 #include <QList>
-#include <QMap>
 #include <CGAL/Constrained_triangulation_2.h>
 #include <CGAL/Triangulation_vertex_base_with_info_2.h>
 #include <CGAL/Triangulation_face_base_with_info_2.h>

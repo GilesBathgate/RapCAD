@@ -23,7 +23,6 @@
 #include <QFont>
 #include <QPointF>
 #include "textbuilder.h"
-#include "reporter.h"
 
 class QPathTextBuilder : public TextBuilder
 {

@@ -18,7 +18,6 @@
 
 #include "syntaxhighlighter.h"
 #include "reporter.h"
-#include "builtincreator.h"
 #include "preferences.h"
 
 extern int lexerlex_destroy();

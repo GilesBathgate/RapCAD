@@ -20,7 +20,7 @@
 #define POLYGONMODULE_H
 
 #include "module.h"
-#include "node/primitivenode.h"
+#include "primitive.h"
 
 class PolygonModule : public Module
 {

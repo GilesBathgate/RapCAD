@@ -19,16 +19,13 @@
 #ifndef WORKER_H
 #define WORKER_H
 
-#include <QObject>
-#include <QTextStream>
+#include <QCoreApplication>
 #include "strategy.h"
 #include "primitive.h"
 #include "renderer.h"
 #include "reporter.h"
 #include "script.h"
-#include "callback.h"
 #include "instance.h"
-#include "renderer.h"
 #include "nodevisitor.h"
 
 class Worker : public Strategy

@@ -29,7 +29,6 @@
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include "renderer.h"
-#include "viewdirections.h"
 
 enum class BedAppearance {
 	MK42=0,

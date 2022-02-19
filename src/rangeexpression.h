@@ -19,7 +19,6 @@
 #ifndef RANGEEXPRESSION_H
 #define RANGEEXPRESSION_H
 
-#include <QString>
 #include "expression.h"
 
 class RangeExpression : public Expression

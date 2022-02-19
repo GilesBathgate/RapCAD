@@ -20,6 +20,7 @@
 #define SLICENODE_H
 
 #include "node.h"
+#include "decimal.h"
 
 class SliceNode : public Node
 {

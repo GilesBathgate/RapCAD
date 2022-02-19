@@ -20,7 +20,6 @@
 #include <cmath>
 #include <cstdlib>
 #ifdef USE_CGAL
-#include <CGAL/Gmpfr.h>
 #include <mpfr.h>
 #endif
 #include "preferences.h"

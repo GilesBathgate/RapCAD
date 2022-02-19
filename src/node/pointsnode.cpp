@@ -17,6 +17,7 @@
  */
 
 #include "pointsnode.h"
+#include "point.h"
 
 PointsNode::PointsNode() :
 	visibleChildren(true)

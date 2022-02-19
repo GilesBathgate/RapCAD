@@ -20,6 +20,7 @@
 #include "context.h"
 #include "vectorvalue.h"
 #include "node/primitivenode.h"
+#include "node/alignnode.h"
 
 CubeModule::CubeModule(Reporter& r) : PrimitiveModule(r,"cube")
 {

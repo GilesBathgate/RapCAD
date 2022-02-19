@@ -19,7 +19,6 @@
 #ifndef SCOPE_H
 #define SCOPE_H
 
-#include <QString>
 #include <QList>
 #include "statement.h"
 

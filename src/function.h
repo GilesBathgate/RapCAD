@@ -22,7 +22,6 @@
 #include <QCoreApplication>
 #include <QString>
 #include <QList>
-#include "declaration.h"
 #include "parameter.h"
 #include "declaration.h"
 #include "scope.h"

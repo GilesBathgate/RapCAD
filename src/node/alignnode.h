@@ -20,7 +20,6 @@
 #define CENTERNODE_H
 
 #include "node.h"
-#include "point.h"
 #include "viewdirections.h"
 
 class AlignNode : public Node

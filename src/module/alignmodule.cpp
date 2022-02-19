@@ -20,9 +20,7 @@
 #include "context.h"
 #include "booleanvalue.h"
 #include "vectorvalue.h"
-#include "numbervalue.h"
 #include "node/alignnode.h"
-#include "point.h"
 
 AlignModule::AlignModule(Reporter& r) : Module(r,"align")
 {

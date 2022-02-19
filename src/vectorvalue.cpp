@@ -17,13 +17,14 @@
  */
 
 #include "vectorvalue.h"
-#include "numbervalue.h"
-#include "vectoriterator.h"
-#include "rangevalue.h"
+
 #include "booleanvalue.h"
-#include "rmath.h"
+#include "numbervalue.h"
 #include "onceonly.h"
+#include "point.h"
+#include "rmath.h"
 #include "valuefactory.h"
+#include "vectoriterator.h"
 
 VectorValue::VectorValue(const QList<Value*>& values) : elements(values)
 {
