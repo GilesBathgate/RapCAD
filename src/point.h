@@ -19,12 +19,17 @@
 #ifndef POINT_H
 #define POINT_H
 
+#ifdef USE_CGAL
+#include "cgal.h"
+#else
 #include "decimal.h"
+#include "transformmatrix.h"
+#endif
 #include <QString>
 
-#ifndef USE_CGAL
-#include "transformmatrix.h"
-
+#ifdef USE_CGAL
+using Point = CGAL::Point3;
+#else
 class Point
 {
 public:
@@ -42,5 +47,8 @@ private:
 
 QString to_string(const Point&);
 QString to_string(const Point&,const bool);
+#ifdef USE_CGAL
+void to_glcoord(const Point&,float&,float&,float&);
+#endif
 
 #endif // POINT_H

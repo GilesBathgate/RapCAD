@@ -17,6 +17,7 @@
  */
 
 #include "point.h"
+#include "decimal.h"
 
 #ifndef USE_CGAL
 bool Point::operator ==(const Point& that) const
@@ -47,6 +48,13 @@ Point Point::transform(TransformMatrix* matrix) const
 	ny=(m[ 4]*_x+m[ 5]*_y+m[ 6]*_z+m[ 7]);
 	nz=(m[ 8]*_x+m[ 9]*_y+m[10]*_z+m[11]);
 	return Point(nx,ny,nz);
+}
+#else
+void to_glcoord(const Point& pt,float& x,float& y,float& z)
+{
+	x=to_double(pt.x());
+	y=to_double(pt.y());
+	z=to_double(pt.z());
 }
 #endif
 

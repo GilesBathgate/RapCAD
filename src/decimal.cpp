@@ -163,13 +163,6 @@ decimal get_unit(const QString& s,QString& number)
 }
 
 #ifdef USE_CGAL
-void to_glcoord(const Point& pt,float& x,float& y,float& z)
-{
-	x=to_double(pt.x());
-	y=to_double(pt.y());
-	z=to_double(pt.z());
-}
-
 mpq_srcptr to_mpq(const decimal& d)
 {
 #ifndef USE_VALGRIND

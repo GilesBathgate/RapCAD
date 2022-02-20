@@ -18,6 +18,7 @@
 
 #ifdef USE_CGAL
 #include "cgalvolume.h"
+#include "decimal.h"
 #include "point.h"
 
 CGALVolume::CGALVolume() :

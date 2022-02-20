@@ -19,12 +19,13 @@
 #ifndef DECIMAL_H
 #define DECIMAL_H
 
+#ifdef USE_CGAL
+#include "cgal.h"
+#endif
 #include <QString>
 
 #ifdef USE_CGAL
-#include "cgal.h"
 using decimal = CGAL::Scalar;
-using Point = CGAL::Point3;
 #else
 using decimal = double;
 #endif
@@ -56,7 +57,6 @@ decimal parse_numberexp(const QString&,bool* ok=nullptr);
 decimal get_unit(const QString&,QString&);
 
 #ifdef USE_CGAL
-void to_glcoord(const Point&,float&,float&,float&);
 mpq_srcptr to_mpq(const decimal&);
 void to_mpfr(mpfr_t&,const decimal&);
 decimal to_decimal(mpfr_t&);

@@ -20,6 +20,7 @@
 #define LINEAREXTRUDENODE_H
 
 #include "node.h"
+#include "decimal.h"
 #include "point.h"
 
 class LinearExtrudeNode : public Node
