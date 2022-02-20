@@ -17,22 +17,19 @@
  */
 
 %{
+
+#include "abstractsyntaxtreebuilder.h"
+#include "decimal.h"
 #include <QString>
 #include <QList>
-#include "decimal.h"
-#include "syntaxtreebuilder.h"
-#include "tokenbuilder.h"
-#include "script.h"
-#include "reporter.h"
-
-void parsescript(Script&,Reporter&,QFileInfo);
-void parsescript(Script&,Reporter&,const QString&);
 
 static void parsererror(AbstractSyntaxTreeBuilder&,const char*);
 static int parserlex(AbstractSyntaxTreeBuilder&);
 
 %}
+
 %param {class AbstractSyntaxTreeBuilder& builder}
+
 %union {
 	QString* text;
 	decimal* number;
@@ -463,21 +460,4 @@ static int parserlex(AbstractSyntaxTreeBuilder& b)
 static void parsererror(AbstractSyntaxTreeBuilder& b,const char* s)
 {
 	b.reportSyntaxError(s);
-}
-
-void parsescript(Script& s,Reporter& r,QFileInfo input)
-{
-	TokenBuilder t(r,input);
-	SyntaxTreeBuilder b(r,s,t);
-	b.buildFileLocation(input.absoluteDir());
-
-	parserparse(b);
-}
-
-void parsescript(Script& s,Reporter& r,const QString& input)
-{
-	TokenBuilder t(r,input);
-	SyntaxTreeBuilder b(r,s,t);
-
-	parserparse(b);
 }

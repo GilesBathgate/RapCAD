@@ -18,8 +18,10 @@
 
 #include "script.h"
 
-extern void parsescript(Script&,Reporter&,const QString&);
-extern void parsescript(Script&,Reporter&,QFileInfo);
+#include "syntaxtreebuilder.h"
+#include "tokenbuilder.h"
+
+extern void parserparse(AbstractSyntaxTreeBuilder&);
 
 Script::Script(Reporter& r) : reporter(r)
 {
@@ -36,17 +38,26 @@ Script::~Script()
 	documentation.clear();
 }
 
-void Script::parse(const QString& s)
+void Script::parse(const QString& input)
 {
-	parsescript(*this,reporter,s);
+	TokenBuilder t(reporter,input);
+	SyntaxTreeBuilder b(reporter,*this,t);
+
+	parserparse(b);
 }
 
 void Script::parse(const QFileInfo& info)
 {
-	if(!info.exists())
+	if(!info.exists()) {
 		reporter.reportFileMissingError(info.absoluteFilePath());
-	else
-		parsescript(*this,reporter,info);
+		return;
+	}
+
+	TokenBuilder t(reporter,info);
+	SyntaxTreeBuilder b(reporter,*this,t);
+	b.buildFileLocation(info.absoluteDir());
+
+	parserparse(b);
 }
 
 bool Script::isEmpty()
