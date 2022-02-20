@@ -29,7 +29,6 @@
 class TokenBuilder : public AbstractTokenBuilder
 {
 public:
-	explicit TokenBuilder(const QString&);
 	TokenBuilder(Reporter&,const QString&);
 	TokenBuilder(Reporter&,const QFileInfo&);
 	~TokenBuilder() override;
@@ -97,17 +96,20 @@ public:
 	void buildWhiteSpaceError() override;
 	void buildWhiteSpace() override;
 	void buildNewLine() override;
-	void buildFileStart(QDir) override;
+	void buildFileStart(QFileInfo) override;
 	void buildFileFinish() override;
 	QString getToken() const override;
 private:
-	TokenBuilder();
+	TokenBuilder(Reporter& r);
+	bool openfile(QFileInfo);
 	QString token;
 	QString* stringcontents;
 	QString filename;
 	QString filepath;
 	QStack<QDir> path_stack;
+	QList<FILE*> openfiles;
 	int position;
+	Reporter& reporter;
 };
 
 #endif // TOKENBUILDER_H

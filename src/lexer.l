@@ -18,23 +18,18 @@
 
 %{
 #include "abstracttokenbuilder.h"
-#include "reporter.h"
 #include "decimal.h"
 #include "unistd.h"
 
-void lexererror();
-void lexerinclude(QFileInfo);
-void lexerinit(AbstractTokenBuilder*,Reporter*,QFileInfo);
-void lexerinit(AbstractTokenBuilder*,Reporter*,const QString&);
+void lexerinclude();
+void lexerinit(AbstractTokenBuilder*,const QFileInfo&);
+void lexerinit(AbstractTokenBuilder*,const QString&);
 void lexerdestroy();
 void lexerbegin();
 void lexercomment();
 void lexercodedoc();
 
-static bool openfile(QFileInfo);
 static AbstractTokenBuilder* tokenizer;
-static Reporter* reporter;
-static QList<FILE*> openfiles;
 
 #define yyfinish()\
 	lexerpop_buffer_state();\
@@ -149,34 +144,20 @@ U "um"|"mm"|"cm"|"m"|"th"|"in"|"ft"
 .                              { return tokenizer->buildIllegalChar(lexertext); }
 %%
 
-void lexererror()
-{
-	if(reporter) //Reporter can be null
-		reporter->reportLexicalError(*tokenizer,lexertext);
-}
-
-void lexerinit(AbstractTokenBuilder* b,Reporter* r,QFileInfo fileinfo)
+void lexerinit(AbstractTokenBuilder* b,const QFileInfo& fileinfo)
 {
 	tokenizer=b;
-	reporter=r;
-
-	openfile(fileinfo);
-	tokenizer->buildFileStart(fileinfo.absoluteDir());
+	tokenizer->buildFileStart(fileinfo);
 }
 
-void lexerinit(AbstractTokenBuilder* b,Reporter* r,const QString& input)
+void lexerinit(AbstractTokenBuilder* b, const QString& input)
 {
 	tokenizer=b;
-	reporter=r;
 	lexer_scan_string(input.toUtf8().constData());
 }
 
 void lexerdestroy()
 {
-	foreach(FILE* f, openfiles)
-		fclose(f);
-	openfiles.clear();
-
 	lexerlex_destroy();
 }
 
@@ -195,22 +176,7 @@ void lexercodedoc()
 	BEGIN(codedoc);
 }
 
-bool openfile(QFileInfo f)
+void lexerinclude()
 {
-	QString fullpath=f.absoluteFilePath();
-	FILE* fd=fopen(QFile::encodeName(fullpath),"r");
-	if(!fd) {
-		if(reporter) //Reporter can be null
-			reporter->reportFileMissingError(fullpath);
-		return false;
-	}
-	openfiles.append(fd);
-	lexerin=fd;
-	return true;
-}
-
-void lexerinclude(QFileInfo f)
-{
-	if(openfile(f))
-		lexerpush_buffer_state(lexer_create_buffer(lexerin, YY_BUF_SIZE));
+	lexerpush_buffer_state(lexer_create_buffer(lexerin, YY_BUF_SIZE));
 }

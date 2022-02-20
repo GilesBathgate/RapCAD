@@ -21,7 +21,7 @@
 #include "reporter.h"
 
 extern int lexerlex_destroy();
-extern void lexerinit(AbstractTokenBuilder*,Reporter*,const QString&);
+extern void lexerinit(AbstractTokenBuilder*,const QString&);
 extern int lexerlex();
 extern void lexerbegin();
 extern void lexercomment();
@@ -85,7 +85,7 @@ void SyntaxHighlighter::setModuleNames(const QHash<QString,Module*>& names)
 void SyntaxHighlighter::highlightBlock(const QString& text)
 {
 	startIndex=0;
-	lexerinit(this,nullptr,text);
+	lexerinit(this,text);
 
 	//Force lexer into correct state
 	switch(static_cast<BlockStates>(previousBlockState())) {
@@ -499,7 +499,7 @@ void SyntaxHighlighter::buildNewLine()
 {
 }
 
-void SyntaxHighlighter::buildFileStart(QDir)
+void SyntaxHighlighter::buildFileStart(QFileInfo)
 {
 }
 

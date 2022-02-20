@@ -23,13 +23,13 @@ typedef union YYSTYPE YYSTYPE;
 #include "parser_yacc.h"
 
 static constexpr int YY_NULL=0;
-extern void lexerinit(AbstractTokenBuilder*,Reporter*,const QString&);
+extern void lexerinit(AbstractTokenBuilder*,const QString&);
 extern int lexerdestroy();
 extern int lexerlex();
 
 TokenReader::TokenReader(const QString& s)
 {
-	lexerinit(this,nullptr,s);
+	lexerinit(this,s);
 }
 
 TokenReader::~TokenReader()

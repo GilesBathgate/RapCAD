@@ -91,7 +91,7 @@ public:
 	virtual void buildWhiteSpaceError()=0;
 	virtual void buildWhiteSpace()=0;
 	virtual void buildNewLine()=0;
-	virtual void buildFileStart(QDir)=0;
+	virtual void buildFileStart(QFileInfo)=0;
 	virtual void buildFileFinish()=0;
 	virtual QString getToken() const=0;
 };

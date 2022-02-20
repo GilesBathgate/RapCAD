@@ -21,19 +21,20 @@
 #include "parser_yacc.h"
 
 static constexpr int YY_NULL=0;
-extern void lexerinit(AbstractTokenBuilder*,Reporter*,const QString&);
-extern void lexerinit(AbstractTokenBuilder*,Reporter*,QFileInfo);
+extern void lexerinit(AbstractTokenBuilder*,const QString&);
+extern void lexerinit(AbstractTokenBuilder*,const QFileInfo&);
 extern int lexerdestroy();
-extern void lexerinclude(QFileInfo);
-extern void lexererror();
+extern void lexerinclude();
 extern int lexerlex();
 extern char* lexertext;
 extern int lexerleng;
 extern int lexerlineno;
+extern FILE* lexerin;
 
-TokenBuilder::TokenBuilder() :
+TokenBuilder::TokenBuilder(Reporter& r) :
 	stringcontents(nullptr),
-	position(0)
+	position(0),
+	reporter(r)
 {
 }
 
@@ -42,23 +43,21 @@ QString TokenBuilder::getToken() const
 	return token;
 }
 
-TokenBuilder::TokenBuilder(const QString& s) : TokenBuilder()
+TokenBuilder::TokenBuilder(Reporter& r,const QString& s) : TokenBuilder(r)
 {
-	lexerinit(this,nullptr,s);
+	lexerinit(this,s);
 }
 
-TokenBuilder::TokenBuilder(Reporter& r,const QString& s) : TokenBuilder()
+TokenBuilder::TokenBuilder(Reporter& r,const QFileInfo& fileinfo) : TokenBuilder(r)
 {
-	lexerinit(this,&r,s);
-}
-
-TokenBuilder::TokenBuilder(Reporter& r,const QFileInfo& fileinfo) : TokenBuilder()
-{
-	lexerinit(this,&r,fileinfo);
+	lexerinit(this,fileinfo);
 }
 
 TokenBuilder::~TokenBuilder()
 {
+	foreach(FILE* f, openfiles)
+		fclose(f);
+	openfiles.clear();
 	lexerdestroy();
 }
 
@@ -94,6 +93,19 @@ void TokenBuilder::buildIncludePath(const QString& str)
 	filepath = str;
 }
 
+bool TokenBuilder::openfile(QFileInfo f)
+{
+	QString fullpath=f.absoluteFilePath();
+	FILE* fd=fopen(QFile::encodeName(fullpath),"r");
+	if(!fd) {
+		reporter.reportFileMissingError(fullpath);
+		return false;
+	}
+	openfiles.append(fd);
+	lexerin=fd;
+	return true;
+}
+
 void TokenBuilder::buildIncludeFinish()
 {
 	if(filename.isEmpty())
@@ -116,8 +128,8 @@ void TokenBuilder::buildIncludeFinish()
 
 	filename.clear();
 
-	lexerinclude(fileinfo);
-
+	if(openfile(fileinfo))
+		lexerinclude();
 }
 
 void TokenBuilder::buildUseStart()
@@ -300,7 +312,7 @@ int TokenBuilder::buildByteOrderMark()
 
 int TokenBuilder::buildIllegalChar(const QString&)
 {
-	lexererror();
+	reporter.reportLexicalError(*this,lexertext);
 	return YY_NULL;
 }
 
@@ -413,9 +425,10 @@ void TokenBuilder::buildNewLine()
 	position=1;
 }
 
-void TokenBuilder::buildFileStart(QDir pth)
+void TokenBuilder::buildFileStart(QFileInfo file)
 {
-	path_stack.push(pth);
+	openfile(file);
+	path_stack.push(file.absoluteDir());
 }
 
 void TokenBuilder::buildFileFinish()

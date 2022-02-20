@@ -89,7 +89,7 @@ public:
 	void buildWhiteSpaceError() override {}
 	void buildWhiteSpace() override {}
 	void buildNewLine() override {}
-	void buildFileStart(QDir) override {}
+	void buildFileStart(QFileInfo) override {}
 	void buildFileFinish() override {}
 	QString getToken() const override { return QString(); }
 };
