@@ -144,7 +144,7 @@ const QList<Point> Polyhedron::getPoints() const
 	return points;
 }
 
-const QList<Primitive*> Polyhedron::getChildren()
+const QList<Primitive*> Polyhedron::getChildren() const
 {
 	return children;
 }

@@ -933,7 +933,7 @@ bool CGALPrimitive::isFullyDimentional()
 	return nefPolyhedron->number_of_volumes()>1 && nefPolyhedron->number_of_facets()>3;
 }
 
-const QList<Primitive*> CGALPrimitive::getChildren()
+const QList<Primitive*> CGALPrimitive::getChildren() const
 {
 	return children;
 }
