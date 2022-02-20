@@ -47,8 +47,6 @@ private:
 
 QString to_string(const Point&);
 QString to_string(const Point&,const bool);
-#ifdef USE_CGAL
 void to_glcoord(const Point&,float&,float&,float&);
-#endif
 
 #endif // POINT_H
