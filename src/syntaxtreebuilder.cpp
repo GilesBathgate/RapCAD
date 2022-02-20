@@ -640,6 +640,11 @@ void SyntaxTreeBuilder::reportSyntaxError(QString s)
 	reporter.reportSyntaxError(tokenBuilder,s);
 }
 
+int SyntaxTreeBuilder::nextToken()
+{
+	return tokenBuilder.nextToken();
+}
+
 int SyntaxTreeBuilder::getLineNumber() const
 {
 	return tokenBuilder.getLineNumber();

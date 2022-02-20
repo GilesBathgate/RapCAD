@@ -28,13 +28,11 @@
 void parsescript(Script&,Reporter&,QFileInfo);
 void parsescript(Script&,Reporter&,const QString&);
 
-static void parsererror(const char*);
-static int parserlex();
-static AbstractSyntaxTreeBuilder* builder;
-static AbstractTokenBuilder* tokenizer;
+static void parsererror(AbstractSyntaxTreeBuilder*,const char*);
+static int parserlex(AbstractSyntaxTreeBuilder*);
 
 %}
-
+%param {class AbstractSyntaxTreeBuilder* builder}
 %union {
 	QString* text;
 	decimal* number;
@@ -457,36 +455,30 @@ argument
 
 %%
 
-static int parserlex()
+static int parserlex(AbstractSyntaxTreeBuilder* b)
 {
-	return tokenizer->nextToken();
+	return b->nextToken();
 }
 
-static void parsererror(const char* s)
+static void parsererror(AbstractSyntaxTreeBuilder* b, const char* s)
 {
-	if(builder)
-		builder->reportSyntaxError(s);
+	if(b)
+		b->reportSyntaxError(s);
 }
 
 void parsescript(Script& s,Reporter& r,QFileInfo input)
 {
-	tokenizer=new TokenBuilder(r,input);
-	builder=new SyntaxTreeBuilder(r,s,*tokenizer);
-	builder->buildFileLocation(input.absoluteDir());
+	TokenBuilder t(r,input);
+	SyntaxTreeBuilder b(r,s,t);
+	b.buildFileLocation(input.absoluteDir());
 
-	parserparse();
-
-	delete builder;
-	delete tokenizer;
+	parserparse(&b);
 }
 
 void parsescript(Script& s,Reporter& r,const QString& input)
 {
-	tokenizer=new TokenBuilder(r,input);
-	builder=new SyntaxTreeBuilder(r,s,*tokenizer);
+	TokenBuilder t(r,input);
+	SyntaxTreeBuilder b(r,s,t);
 
-	parserparse();
-
-	delete builder;
-	delete tokenizer;
+	parserparse(&b);
 }

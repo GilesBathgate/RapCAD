@@ -114,6 +114,7 @@ public:
 	virtual Invocation* buildInvocation(QString*,QList<Argument*>*)=0;
 	virtual Invocation* buildInvocation(QString*,Invocation*)=0;
 	virtual void reportSyntaxError(QString)=0;
+	virtual int nextToken()=0;
 };
 
 #endif // ABSTRACTSYNTAXTREEBUILDER_H

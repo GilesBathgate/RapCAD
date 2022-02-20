@@ -104,6 +104,7 @@ public:
 	Invocation* buildInvocation(QString*,QList<Argument*>*) override;
 	Invocation* buildInvocation(QString*,Invocation*) override;
 	void reportSyntaxError(QString) override;
+	int nextToken() override;
 private:
 	int getLineNumber() const;
 
