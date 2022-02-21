@@ -19,6 +19,7 @@
 #define TOKENREADER_H
 
 #include "abstracttokenbuilder.h"
+using yyscan_t = void*;
 
 class TokenReader : public AbstractTokenBuilder
 {
@@ -93,6 +94,8 @@ public:
 	void buildFileFinish() override {}
 	QString getToken() const override { return QString(); }
 	void setParser(union YYSTYPE*) override {}
+private:
+	yyscan_t scanner;
 };
 
 #endif // TOKENREADER_H

@@ -21,21 +21,23 @@
 #include "parser_yacc.h"
 
 static constexpr int YY_NULL=0;
-extern void lexerinit(AbstractTokenBuilder*,const QString&);
-extern void lexerinit(AbstractTokenBuilder*,const QFileInfo&);
-extern int lexerdestroy();
-extern void lexerinclude();
-extern int lexerlex();
-extern char* lexertext;
-extern int lexerleng;
-extern int lexerlineno;
-extern FILE* lexerin;
+extern void lexerinit(yyscan_t*,AbstractTokenBuilder*,const QString&);
+extern void lexerinit(yyscan_t*,AbstractTokenBuilder*,const QFileInfo&);
+extern int lexerdestroy(yyscan_t);
+extern void lexerinclude(yyscan_t);
+extern int lexerlex(yyscan_t);
+extern char* lexerget_text(yyscan_t);
+extern int lexerget_leng(yyscan_t);
+extern int lexerget_lineno(yyscan_t);
+extern FILE* lexerget_in(yyscan_t);
+extern void lexerset_in(FILE*,yyscan_t);
 
 TokenBuilder::TokenBuilder(Reporter& r) :
 	stringcontents(nullptr),
 	position(0),
 	reporter(r),
-	parser(nullptr)
+	parser(nullptr),
+	scanner(nullptr)
 {
 }
 
@@ -51,12 +53,12 @@ void TokenBuilder::setParser(YYSTYPE* p)
 
 TokenBuilder::TokenBuilder(Reporter& r,const QString& s) : TokenBuilder(r)
 {
-	lexerinit(this,s);
+	lexerinit(&scanner,this,s);
 }
 
 TokenBuilder::TokenBuilder(Reporter& r,const QFileInfo& fileinfo) : TokenBuilder(r)
 {
-	lexerinit(this,fileinfo);
+	lexerinit(&scanner,this,fileinfo);
 }
 
 TokenBuilder::~TokenBuilder()
@@ -64,14 +66,15 @@ TokenBuilder::~TokenBuilder()
 	foreach(FILE* f, openfiles)
 		fclose(f);
 	openfiles.clear();
-	lexerdestroy();
+	lexerdestroy(scanner);
 }
 
 int TokenBuilder::nextToken()
 {
-	position+=lexerleng;
-	int next=lexerlex();
-	if(next) token=QString::fromUtf8(lexertext,lexerleng);
+	int len=lexerget_leng(scanner);
+	position+=len;
+	int next=lexerlex(scanner);
+	if(next) token=QString::fromUtf8(lexerget_text(scanner),len);
 	return next;
 }
 
@@ -82,7 +85,7 @@ int TokenBuilder::getPosition() const
 
 int TokenBuilder::getLineNumber() const
 {
-	return lexerlineno;
+	return lexerget_lineno(scanner);
 }
 
 void TokenBuilder::buildIncludeStart()
@@ -108,7 +111,7 @@ bool TokenBuilder::openfile(QFileInfo f)
 		return false;
 	}
 	openfiles.append(fd);
-	lexerin=fd;
+	lexerset_in(fd,scanner);
 	return true;
 }
 
@@ -135,7 +138,7 @@ void TokenBuilder::buildIncludeFinish()
 	filename.clear();
 
 	if(openfile(fileinfo))
-		lexerinclude();
+		lexerinclude(scanner);
 }
 
 void TokenBuilder::buildUseStart()
@@ -318,7 +321,7 @@ int TokenBuilder::buildByteOrderMark()
 
 int TokenBuilder::buildIllegalChar(const QString&)
 {
-	reporter.reportLexicalError(*this,lexertext);
+	reporter.reportLexicalError(*this,lexerget_text(scanner));
 	return YY_NULL;
 }
 
@@ -418,12 +421,12 @@ int TokenBuilder::buildCodeDocFinish()
 
 void TokenBuilder::buildWhiteSpaceError()
 {
-	position+=lexerleng;
+	position+=lexerget_leng(scanner);
 }
 
 void TokenBuilder::buildWhiteSpace()
 {
-	position+=lexerleng;
+	position+=lexerget_leng(scanner);
 }
 
 void TokenBuilder::buildNewLine()

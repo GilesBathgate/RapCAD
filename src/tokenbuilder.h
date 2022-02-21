@@ -26,6 +26,8 @@
 #include <QStack>
 #include <QString>
 
+using yyscan_t = void*;
+
 class TokenBuilder : public AbstractTokenBuilder
 {
 public:
@@ -112,6 +114,7 @@ private:
 	int position;
 	Reporter& reporter;
 	union YYSTYPE* parser;
+	yyscan_t scanner;
 };
 
 #endif // TOKENBUILDER_H

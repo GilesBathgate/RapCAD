@@ -33,7 +33,6 @@ public:
 	void lineNumberAreaPaintEvent(QPaintEvent*);
 	int lineNumberAreaWidth();
 
-	static void stopHighlighting();
 	void setFileName(const QString&);
 	QString getFileName() const;
 	bool saveFile();

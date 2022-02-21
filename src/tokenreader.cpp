@@ -23,23 +23,24 @@ typedef union YYSTYPE YYSTYPE;
 #include "parser_yacc.h"
 
 static constexpr int YY_NULL=0;
-extern void lexerinit(AbstractTokenBuilder*,const QString&);
-extern int lexerdestroy();
-extern int lexerlex();
+extern void lexerinit(yyscan_t*,AbstractTokenBuilder*,const QString&);
+extern int lexerdestroy(yyscan_t);
+extern int lexerlex(yyscan_t);
 
-TokenReader::TokenReader(const QString& s)
+TokenReader::TokenReader(const QString& s) :
+	scanner(nullptr)
 {
-	lexerinit(this,s);
+	lexerinit(&scanner,this,s);
 }
 
 TokenReader::~TokenReader()
 {
-	lexerdestroy();
+	lexerdestroy(scanner);
 }
 
 int TokenReader::nextToken()
 {
-	return lexerlex();
+	return lexerlex(scanner);
 }
 
 int TokenReader::buildUse(const QString&)

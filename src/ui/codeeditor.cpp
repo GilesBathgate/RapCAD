@@ -81,11 +81,6 @@ void CodeEditor::highlightCurrentLine()
 	setExtraSelections(extraSelections);
 }
 
-void CodeEditor::stopHighlighting()
-{
-	SyntaxHighlighter::stop();
-}
-
 void CodeEditor::setFileName(const QString& f)
 {
 	fileName=f;

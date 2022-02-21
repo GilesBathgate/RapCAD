@@ -686,8 +686,6 @@ void MainWindow::compileOrGenerate(bool generate)
 			ui->view->setCompiling(!generate);
 			worker->setup(file,"",generate);
 
-			//Stop the syntax highlighter to prevent a crash
-			CodeEditor::stopHighlighting();
 			worker->evaluate();
 			ui->actionCompileAndRender->setEnabled(false);
 			ui->actionGenerateGcode->setEnabled(false);

@@ -23,6 +23,7 @@
 #include "module.h"
 #include <QHash>
 #include <QSyntaxHighlighter>
+using yyscan_t = void*;
 
 class SyntaxHighlighter : public QSyntaxHighlighter, private AbstractTokenBuilder
 {
@@ -30,7 +31,6 @@ class SyntaxHighlighter : public QSyntaxHighlighter, private AbstractTokenBuilde
 public:
 	explicit SyntaxHighlighter(QTextDocument* parent = nullptr);
 	void setModuleNames(const QHash<QString,Module*>&);
-	static void stop();
 protected:
 	void highlightBlock(const QString& text) override;
 private:
@@ -120,5 +120,6 @@ private:
 	QTextCharFormat codeDocParamFormat;
 	QHash<QString,Module*> moduleNames;
 	int startIndex;
+	yyscan_t scanner;
 };
 #endif // SYNTAXHIGHLIGHTER_H

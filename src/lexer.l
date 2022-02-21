@@ -22,21 +22,24 @@
 #include "unistd.h"
 
 void lexerinclude();
-void lexerinit(AbstractTokenBuilder*,const QFileInfo&);
-void lexerinit(AbstractTokenBuilder*,const QString&);
+void lexerinit(yyscan_t*,AbstractTokenBuilder*,const QFileInfo&);
+void lexerinit(yyscan_t*,AbstractTokenBuilder*,const QString&);
 void lexerdestroy();
 void lexerbegin();
 void lexercomment();
 void lexercodedoc();
 
-static AbstractTokenBuilder* tokenizer;
+#define lexertext yytext
+#define tokenizer yyextra
 
 #define yyfinish()\
-	lexerpop_buffer_state();\
+	lexerpop_buffer_state(yyscanner);\
 	if(!YY_CURRENT_BUFFER)\
 		yyterminate()
 %}
 
+%option reentrant
+%option extra-type="AbstractTokenBuilder*"
 %option yylineno
 %option noyywrap
 %option nounput
@@ -144,39 +147,42 @@ U "um"|"mm"|"cm"|"m"|"th"|"in"|"ft"
 .                              { return tokenizer->buildIllegalChar(lexertext); }
 %%
 
-void lexerinit(AbstractTokenBuilder* b,const QFileInfo& fileinfo)
+void lexerinit(yyscan_t* s,AbstractTokenBuilder* b,const QFileInfo& fileinfo)
 {
-	tokenizer=b;
-	tokenizer->buildFileStart(fileinfo);
+	lexerlex_init_extra(b,s);
+	b->buildFileStart(fileinfo);
 }
 
-void lexerinit(AbstractTokenBuilder* b, const QString& input)
+void lexerinit(yyscan_t* s,AbstractTokenBuilder* b, const QString& input)
 {
-	tokenizer=b;
-	lexer_scan_string(input.toUtf8().constData());
+	lexerlex_init_extra(b,s);
+	lexer_scan_string(input.toUtf8().constData(),*s);
 }
 
-void lexerdestroy()
+void lexerdestroy(yyscan_t s)
 {
-	lexerlex_destroy();
+	lexerlex_destroy(s);
 }
 
-void lexerbegin()
+void lexerbegin(yyscan_t s)
 {
+	auto* yyg=static_cast<struct yyguts_t*>(s);
 	BEGIN(INITIAL);
 }
 
-void lexercomment()
+void lexercomment(yyscan_t s)
 {
+	auto* yyg=static_cast<struct yyguts_t*>(s);
 	BEGIN(comment);
 }
 
-void lexercodedoc()
+void lexercodedoc(yyscan_t s)
 {
+	auto* yyg=static_cast<struct yyguts_t*>(s);
 	BEGIN(codedoc);
 }
 
-void lexerinclude()
+void lexerinclude(yyscan_t s)
 {
-	lexerpush_buffer_state(lexer_create_buffer(lexerin, YY_BUF_SIZE));
+	lexerpush_buffer_state(lexer_create_buffer(lexerget_in(s),YY_BUF_SIZE,s),s);
 }
