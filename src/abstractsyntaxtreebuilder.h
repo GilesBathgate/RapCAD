@@ -115,6 +115,7 @@ public:
 	virtual Invocation* buildInvocation(QString*,Invocation*)=0;
 	virtual void reportSyntaxError(QString)=0;
 	virtual int nextToken()=0;
+	virtual void setParser(union YYSTYPE*)=0;
 };
 
 #endif // ABSTRACTSYNTAXTREEBUILDER_H

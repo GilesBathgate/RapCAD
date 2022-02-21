@@ -105,6 +105,7 @@ public:
 	Invocation* buildInvocation(QString*,Invocation*) override;
 	void reportSyntaxError(QString) override;
 	int nextToken() override;
+	void setParser(union YYSTYPE*) override;
 private:
 	int getLineNumber() const;
 

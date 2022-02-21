@@ -92,6 +92,7 @@ public:
 	void buildFileStart(QFileInfo) override {}
 	void buildFileFinish() override {}
 	QString getToken() const override { return QString(); }
+	void setParser(union YYSTYPE*) override {}
 };
 
 #endif // TOKENREADER_H

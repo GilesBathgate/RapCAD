@@ -99,6 +99,7 @@ public:
 	void buildFileStart(QFileInfo) override;
 	void buildFileFinish() override;
 	QString getToken() const override;
+	void setParser(union YYSTYPE*) override;
 private:
 	TokenBuilder(Reporter& r);
 	bool openfile(QFileInfo);
@@ -110,6 +111,7 @@ private:
 	QList<FILE*> openfiles;
 	int position;
 	Reporter& reporter;
+	union YYSTYPE* parser;
 };
 
 #endif // TOKENBUILDER_H

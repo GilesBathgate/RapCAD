@@ -24,9 +24,11 @@
 #include <QList>
 
 static void parsererror(AbstractSyntaxTreeBuilder&,const char*);
-static int parserlex(AbstractSyntaxTreeBuilder&);
+static int parserlex(union YYSTYPE*,AbstractSyntaxTreeBuilder&);
 
 %}
+
+%define api.pure
 
 %param {class AbstractSyntaxTreeBuilder& builder}
 
@@ -452,8 +454,9 @@ argument
 
 %%
 
-static int parserlex(AbstractSyntaxTreeBuilder& b)
+static int parserlex(YYSTYPE* p,AbstractSyntaxTreeBuilder& b)
 {
+	b.setParser(p);
 	return b.nextToken();
 }
 

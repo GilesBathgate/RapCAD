@@ -34,13 +34,19 @@ extern FILE* lexerin;
 TokenBuilder::TokenBuilder(Reporter& r) :
 	stringcontents(nullptr),
 	position(0),
-	reporter(r)
+	reporter(r),
+	parser(nullptr)
 {
 }
 
 QString TokenBuilder::getToken() const
 {
 	return token;
+}
+
+void TokenBuilder::setParser(YYSTYPE* p)
+{
+	parser=p;
 }
 
 TokenBuilder::TokenBuilder(Reporter& r,const QString& s) : TokenBuilder(r)
@@ -138,7 +144,7 @@ void TokenBuilder::buildUseStart()
 
 int TokenBuilder::buildUse(const QString& str)
 {
-	parserlval.text = new QString(str);
+	parser->text = new QString(str);
 	return USE;
 }
 
@@ -152,7 +158,7 @@ void TokenBuilder::buildImportStart()
 
 int TokenBuilder::buildImport(const QString& str)
 {
-	parserlval.text = new QString(str);
+	parser->text = new QString(str);
 	return IMPORT;
 }
 
@@ -320,7 +326,7 @@ int TokenBuilder::buildNumber(const QString& str)
 {
 	QString number;
 	decimal unit=get_unit(str,number);
-	parserlval.number = new decimal(to_decimal(number)*unit);
+	parser->number = new decimal(to_decimal(number)*unit);
 	return NUMBER;
 }
 
@@ -328,7 +334,7 @@ int TokenBuilder::buildNumberExp(const QString& str)
 {
 	QString number;
 	decimal unit=get_unit(str,number);
-	parserlval.number = new decimal(parse_numberexp(number)*unit);
+	parser->number = new decimal(parse_numberexp(number)*unit);
 	return NUMBER;
 }
 
@@ -341,13 +347,13 @@ int TokenBuilder::buildRational(const QString& s)
 {
 	QString number;
 	decimal unit=get_unit(s,number);
-	parserlval.number = new decimal(parse_rational(number)*unit);
+	parser->number = new decimal(parse_rational(number)*unit);
 	return NUMBER;
 }
 
 int TokenBuilder::buildIdentifier(const QString& str)
 {
-	parserlval.text = new QString(str);
+	parser->text = new QString(str);
 	return IDENTIFIER;
 }
 
@@ -368,7 +374,7 @@ void TokenBuilder::buildString(const QString& s)
 
 int TokenBuilder::buildStringFinish()
 {
-	parserlval.text = stringcontents;
+	parser->text = stringcontents;
 	return STRING;
 }
 
@@ -391,7 +397,7 @@ int TokenBuilder::buildCodeDocStart()
 
 int TokenBuilder::buildCodeDoc(const QString& s)
 {
-	parserlval.text = new QString(s.trimmed());
+	parser->text = new QString(s.trimmed());
 	return DOCTEXT;
 }
 
@@ -401,7 +407,7 @@ void TokenBuilder::buildCodeDoc()
 
 int TokenBuilder::buildCodeDocParam(const QString& s)
 {
-	parserlval.text = new QString(s.trimmed());
+	parser->text = new QString(s.trimmed());
 	return DOCPARAM;
 }
 

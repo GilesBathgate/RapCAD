@@ -107,6 +107,7 @@ private:
 	void buildFileStart(QFileInfo) override;
 	void buildFileFinish() override;
 	QString getToken() const override;
+	void setParser(union YYSTYPE*) override {}
 
 	QTextCharFormat keywordFormat;
 	QTextCharFormat	numberFormat;

@@ -645,6 +645,11 @@ int SyntaxTreeBuilder::nextToken()
 	return tokenBuilder.nextToken();
 }
 
+void SyntaxTreeBuilder::setParser(union YYSTYPE* p)
+{
+	tokenBuilder.setParser(p);
+}
+
 int SyntaxTreeBuilder::getLineNumber() const
 {
 	return tokenBuilder.getLineNumber();

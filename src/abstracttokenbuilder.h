@@ -94,6 +94,7 @@ public:
 	virtual void buildFileStart(QFileInfo)=0;
 	virtual void buildFileFinish()=0;
 	virtual QString getToken() const=0;
+	virtual void setParser(union YYSTYPE*)=0;
 };
 
 #endif // ABSTRACTTOKENBUILDER_H
