@@ -36,7 +36,7 @@ TreeEvaluator::TreeEvaluator(Reporter& r) :
 
 TreeEvaluator::~TreeEvaluator()
 {
-	Value::factory.cleanupValues();
+	ValueFactory::getInstance().cleanupValues();
 	qDeleteAll(scopeLookup);
 	scopeLookup.clear();
 	qDeleteAll(imports);
@@ -283,7 +283,7 @@ void TreeEvaluator::visit(const Parameter& param)
 		e->accept(*this);
 		v = context->getCurrentValue();
 	} else {
-		v = &Value::factory.createUndefined();
+		v = &ValueFactory::createUndefined();
 	}
 
 	context->addParameter(name,v);
@@ -404,7 +404,7 @@ void TreeEvaluator::visit(const VectorExpression& exp)
 	if(commas>0)
 		reporter.reportWarning(tr("%1 additional comma(s) found at the end of vector expression").arg(commas));
 
-	Value& v = Value::factory.createVector(childvalues);
+	Value& v = ValueFactory::createVector(childvalues);
 	context->setCurrentValue(&v);
 }
 
@@ -424,10 +424,10 @@ void TreeEvaluator::visit(const RangeExpression& exp)
 	Value* finish=context->getCurrentValue();
 
 	if(increment) {
-		Value& result = Value::factory.createRange(*start,*increment,*finish);
+		Value& result = ValueFactory::createRange(*start,*increment,*finish);
 		context->setCurrentValue(&result);
 	} else {
-		Value& result = Value::factory.createRange(*start,*finish);
+		Value& result = ValueFactory::createRange(*start,*finish);
 		context->setCurrentValue(&result);
 	}
 }
@@ -513,7 +513,7 @@ void TreeEvaluator::visit(const Invocation& stmt)
 	}
 
 	if(!result)
-		result=&Value::factory.createUndefined();
+		result=&ValueFactory::createUndefined();
 
 	context->setCurrentValue(result);
 }
@@ -660,7 +660,7 @@ void TreeEvaluator::visit(const ComplexExpression& exp)
 		e->accept(*this);
 		childvalues.append(context->getCurrentValue());
 	}
-	Value& v=Value::factory.createComplex(*result,childvalues);
+	Value& v=ValueFactory::createComplex(*result,childvalues);
 	context->setCurrentValue(&v);
 }
 

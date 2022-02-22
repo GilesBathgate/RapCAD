@@ -77,9 +77,6 @@ public:
 	static Value& evaluate(Value&,Operators,Value&);
 	static bool compare(Value&,Operators,Value&);
 	static Value& compareAll(const QList<Value*>&,Operators);
-
-	friend class ValueFactory;
-	static ValueFactory& factory;
 protected:
 	Value();
 	static bool isComparison(Operators);
@@ -91,6 +88,7 @@ protected:
 	virtual Value& operation(Operators);
 	virtual Value& operation(Value&,Operators);
 private:
+	friend class ValueFactory;
 	bool defined;
 	Storage storageClass;
 	QString name;

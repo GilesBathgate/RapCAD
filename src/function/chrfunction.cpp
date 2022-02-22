@@ -50,5 +50,5 @@ Value& ChrFunction::evaluate(const Context& ctx) const
 		}
 	}
 
-	return Value::factory.createText(result);
+	return ValueFactory::createText(result);
 }

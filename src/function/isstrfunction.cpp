@@ -30,7 +30,7 @@ Value& IsStrFunction::evaluate(const Context& ctx) const
 {
 	auto* text=dynamic_cast<TextValue*>(getParameterArgument(ctx,0));
 	if(text)
-		return Value::factory.createBoolean(true);
+		return ValueFactory::createBoolean(true);
 
-	return Value::factory.createBoolean(false);
+	return ValueFactory::createBoolean(false);
 }

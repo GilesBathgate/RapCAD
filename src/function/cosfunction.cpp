@@ -33,7 +33,7 @@ Value& CosFunction::evaluate(const Context& ctx) const
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return Value::factory.createNumber(r_cos_deg(num));
+		return ValueFactory::createNumber(r_cos_deg(num));
 	}
-	return Value::factory.createUndefined();
+	return ValueFactory::createUndefined();
 }

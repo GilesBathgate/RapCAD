@@ -71,7 +71,7 @@ Value& RangeValue::getIndex(NumberValue& n)
 	if(inRange(b))
 		return b;
 
-	return factory.createUndefined();
+	return ValueFactory::createUndefined();
 }
 
 ValueIterator* RangeValue::createIterator()
@@ -102,7 +102,7 @@ Value& RangeValue::getFinish() const
 Value& RangeValue::operation(Operators op)
 {
 	if(op==Operators::Invert) {
-		return factory.createRange(finish,step,start);
+		return ValueFactory::createRange(finish,step,start);
 	}
 	if(op==Operators::Length) {
 		Value& difference=Value::evaluate(finish,Operators::Subtract,start);
@@ -115,10 +115,10 @@ Value& RangeValue::operation(Operators op)
 
 	if(op==Operators::Add||op==Operators::Subtract) {
 			Value& increment=Value::evaluate(step,op);
-			return factory.createRange(upper,increment,lower);
+			return ValueFactory::createRange(upper,increment,lower);
 	}
 
-	return factory.createRange(upper,lower);
+	return ValueFactory::createRange(upper,lower);
 }
 
 Value& RangeValue::operation(Value& v,Operators op)
@@ -145,17 +145,17 @@ Value& RangeValue::operation(RangeValue& range,Operators op)
 	Value& d=range.finish;
 	if(op==Operators::Equal) {
 		bool result=compare(a,op,c)&&compare(b,op,d);
-		return factory.createBoolean(result);
+		return ValueFactory::createBoolean(result);
 	}
 	if(op==Operators::NotEqual) {
 		bool result=compare(a,op,c)||compare(b,op,d);
-		return factory.createBoolean(result);
+		return ValueFactory::createBoolean(result);
 	}
 	if(op==Operators::Add) {
-		return factory.createRange(a+c,b+d);
+		return ValueFactory::createRange(a+c,b+d);
 	}
 	if(op==Operators::Subtract) {
-		return factory.createRange(a-d,b-c);
+		return ValueFactory::createRange(a-d,b-c);
 	}
 	if(op==Operators::Multiply||op==Operators::Divide) {
 
@@ -167,7 +167,7 @@ Value& RangeValue::operation(RangeValue& range,Operators op)
 		Value& lower=compareAll(vals,Operators::LessThan);
 		Value& upper=compareAll(vals,Operators::GreaterThan);
 
-		return factory.createRange(lower,upper);
+		return ValueFactory::createRange(lower,upper);
 	}
 	if(op==Operators::Concatenate) {
 
@@ -175,7 +175,7 @@ Value& RangeValue::operation(RangeValue& range,Operators op)
 		Value& lower=compareAll(vals,Operators::LessThan);
 		Value& upper=compareAll(vals,Operators::GreaterThan);
 
-		return factory.createRange(lower,upper);
+		return ValueFactory::createRange(lower,upper);
 	}
 
 	return VectorValue::operation(range,op);
@@ -190,5 +190,5 @@ bool RangeValue::getReverse()
 Value& RangeValue::defaultStep()
 {
 	decimal i=reverse?-1.0:1.0;
-	return factory.createNumber(i);
+	return ValueFactory::createNumber(i);
 }

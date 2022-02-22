@@ -42,5 +42,5 @@ Value& StrFunction::evaluate(const Context& ctx) const
 	if(result)
 		return *result;
 
-	return Value::factory.createUndefined();
+	return ValueFactory::createUndefined();
 }

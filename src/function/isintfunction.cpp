@@ -32,8 +32,8 @@ Value& IsIntFunction::evaluate(const Context& ctx) const
 	auto* num=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
 	if(num) {
 		if(r_is_int(num->getNumber()))
-			return Value::factory.createBoolean(true);
+			return ValueFactory::createBoolean(true);
 	}
 
-	return Value::factory.createBoolean(false);
+	return ValueFactory::createBoolean(false);
 }

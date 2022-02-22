@@ -33,7 +33,7 @@ Value& ExpFunction::evaluate(const Context& ctx) const
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return Value::factory.createNumber(r_exp(num));
+		return ValueFactory::createNumber(r_exp(num));
 	}
-	return Value::factory.createUndefined();
+	return ValueFactory::createUndefined();
 }

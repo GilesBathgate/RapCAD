@@ -29,7 +29,7 @@ Value& IsBoolFunction::evaluate(const Context& ctx) const
 {
 	auto* bVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));
 	if(bVal)
-		return Value::factory.createBoolean(true);
+		return ValueFactory::createBoolean(true);
 
-	return Value::factory.createBoolean(false);
+	return ValueFactory::createBoolean(false);
 }

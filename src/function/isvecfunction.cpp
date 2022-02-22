@@ -38,12 +38,12 @@ Value& IsVecFunction::evaluate(const Context& ctx) const
 			for(Value* v: vals) {
 				auto* numVal=dynamic_cast<NumberValue*>(v);
 				if(!numVal) {
-					return Value::factory.createBoolean(false);
+					return ValueFactory::createBoolean(false);
 				}
 			}
-			return Value::factory.createBoolean(true);
+			return ValueFactory::createBoolean(true);
 		}
 	}
 
-	return Value::factory.createBoolean(false);
+	return ValueFactory::createBoolean(false);
 }

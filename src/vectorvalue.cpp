@@ -58,7 +58,7 @@ Value& VectorValue::toNumber()
 {
 	if(elements.size()==1)
 		return elements.at(0)->toNumber();
-	return factory.createUndefined();
+	return ValueFactory::createUndefined();
 }
 
 Point VectorValue::getPoint() const
@@ -93,7 +93,7 @@ Point VectorValue::getPoint() const
 Value& VectorValue::getIndex(NumberValue& n)
 {
 	int i=n.toInteger();
-	if(i<0||i>=elements.size()) return factory.createUndefined();
+	if(i<0||i>=elements.size()) return ValueFactory::createUndefined();
 	return *elements.at(i);
 }
 
@@ -113,13 +113,13 @@ Value& VectorValue::operation(Operators e)
 		Value& v=Value::evaluate(*this,Operators::Multiply,*this);
 		auto* n=dynamic_cast<NumberValue*>(&v);
 		if(n)
-			return factory.createNumber(r_sqrt(n->getNumber()));
-		return factory.createUndefined();
+			return ValueFactory::createNumber(r_sqrt(n->getNumber()));
+		return ValueFactory::createUndefined();
 	}
 	QList<Value*> result;
 	for(Value* c: getElements())
 		result.append(Value::evaluate(c,e));
-	return factory.createVector(result);
+	return ValueFactory::createVector(result);
 }
 
 Value& VectorValue::operation(Value& v,Operators e)
@@ -141,11 +141,11 @@ Value& VectorValue::operation(NumberValue& num,Operators e)
 	if(e==Operators::Concatenate) {
 		result=getElements();
 		result.append(&num);
-		return factory.createVector(result);
+		return ValueFactory::createVector(result);
 	}
 	if(e==Operators::Exponent) {
 		const QList<Value*> a=getElements();
-		Value* total=&factory.createNumber(0.0);
+		Value* total=&ValueFactory::createNumber(0.0);
 		for(Value* c: a) {
 			Value& r=Value::evaluate(*c,e,num);
 			total=Value::evaluate(total,Operators::Add,&r);
@@ -156,7 +156,7 @@ Value& VectorValue::operation(NumberValue& num,Operators e)
 		return getIndex(num);
 	}
 	if(e==Operators::CrossProduct) {
-		return factory.createUndefined();
+		return ValueFactory::createUndefined();
 	}
 
 	const QList<Value*> a=getElements();
@@ -164,7 +164,7 @@ Value& VectorValue::operation(NumberValue& num,Operators e)
 	for(Value* c: a)
 		result.append(Value::evaluate(c,e,&num));
 
-	return factory.createVector(result);
+	return ValueFactory::createVector(result);
 }
 
 Value& VectorValue::operation(VectorValue& vec,Operators e)
@@ -176,7 +176,7 @@ Value& VectorValue::operation(VectorValue& vec,Operators e)
 	if(e==Operators::CrossProduct) {
 		int s=a.size();
 		if(s<2||s>3||s!=b.size())
-			return factory.createUndefined();
+			return ValueFactory::createUndefined();
 
 		//[a1*b2 - a2*b1, a2*b0 - a0*b2, a0*b1 - a1*b0]
 		Value& a0=*a.at(0);
@@ -196,14 +196,14 @@ Value& VectorValue::operation(VectorValue& vec,Operators e)
 		result.append(&x);
 		result.append(&y);
 		result.append(&z);
-		return factory.createVector(result);
+		return ValueFactory::createVector(result);
 
 	}
 	if(e==Operators::Multiply||e==Operators::DotProduct) {
 		int s=std::min(a.size(),b.size());
 		if(s<=0)
-			return factory.createUndefined();
-		Value* total=&factory.createNumber(0.0);
+			return ValueFactory::createUndefined();
+		Value* total=&ValueFactory::createNumber(0.0);
 		for(auto i=0; i<s; ++i) {
 			Value& r=Value::evaluate(*a.at(i),Operators::Multiply,*b.at(i));
 			total=Value::evaluate(total,Operators::Add,&r);
@@ -212,7 +212,7 @@ Value& VectorValue::operation(VectorValue& vec,Operators e)
 	}
 	if(e==Operators::Divide) {
 		//TODO vector division?
-		return factory.createUndefined();
+		return ValueFactory::createUndefined();
 	}
 	if(e==Operators::Length) {
 		Value& a2=Value::evaluate(*this,Operators::Multiply,*this);
@@ -220,8 +220,8 @@ Value& VectorValue::operation(VectorValue& vec,Operators e)
 		Value& n=Value::evaluate(a2,Operators::Multiply,b2);
 		auto* l=dynamic_cast<NumberValue*>(&n);
 		if(l)
-			return factory.createNumber(r_sqrt(l->getNumber()));
-		return factory.createUndefined();
+			return ValueFactory::createNumber(r_sqrt(l->getNumber()));
+		return ValueFactory::createUndefined();
 	}
 	if(e==Operators::Concatenate) {
 		result=a;
@@ -229,16 +229,16 @@ Value& VectorValue::operation(VectorValue& vec,Operators e)
 	} else if(e==Operators::Equal||e==Operators::NotEqual) {
 		bool eq=(a.size()==b.size());
 		if(e==Operators::NotEqual && !eq)
-			return factory.createBoolean(true);
+			return ValueFactory::createBoolean(true);
 		if(eq)
 			for(auto i=0; i<a.size(); ++i) {
 				Value& eqVec=Value::evaluate(*a.at(i),e,*b.at(i));
 				if(e==Operators::NotEqual && eqVec.isTrue())
-					return factory.createBoolean(true);
+					return ValueFactory::createBoolean(true);
 				if(eqVec.isFalse())
 					eq=false;
 			}
-		return factory.createBoolean(eq);
+		return ValueFactory::createBoolean(eq);
 	} else {
 		//Apply componentwise operations
 		e=convertOperation(e);
@@ -255,7 +255,7 @@ Value& VectorValue::operation(VectorValue& vec,Operators e)
 			}
 		}
 	}
-	return factory.createVector(result);
+	return ValueFactory::createVector(result);
 }
 
 Operators VectorValue::convertOperation(Operators e)

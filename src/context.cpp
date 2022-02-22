@@ -104,7 +104,7 @@ Value& Context::lookupVariable(const QString& name,Storage& c,Layout* l) const
 		return parent->lookupVariable(name,c,l);
 	}
 
-	Value& v=Value::factory.createUndefined();
+	Value& v=ValueFactory::createUndefined();
 	v.setStorage(c);
 	return v;
 

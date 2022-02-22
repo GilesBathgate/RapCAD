@@ -32,5 +32,5 @@ Value& AbsFunction::evaluate(const Context& ctx) const
 	if(numVal) {
 		return Value::evaluate(*numVal,Operators::Length);
 	}
-	return Value::factory.createUndefined();
+	return ValueFactory::createUndefined();
 }

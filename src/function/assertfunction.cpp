@@ -40,5 +40,5 @@ Value& AssertFunction::evaluate(const Context& ctx) const
 	if(expectedVal&&expectedVal->isFalse())
 		throw AssertException(message);
 
-	return Value::factory.createBoolean(true);
+	return ValueFactory::createBoolean(true);
 }

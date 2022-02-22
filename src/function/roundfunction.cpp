@@ -37,10 +37,10 @@ Value& RoundFunction::evaluate(const Context& ctx) const
 		auto* placesVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
 		if(placesVal) {
 			int places=placesVal->toInteger();
-			return Value::factory.createNumber(r_round(num,places));
+			return ValueFactory::createNumber(r_round(num,places));
 		}
 
-		return Value::factory.createNumber(r_round(num));
+		return ValueFactory::createNumber(r_round(num));
 	}
-	return Value::factory.createUndefined();
+	return ValueFactory::createUndefined();
 }

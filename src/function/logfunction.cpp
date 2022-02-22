@@ -39,11 +39,11 @@ Value& LogFunction::evaluate(const Context& ctx) const
 		if(baseVal) {
 			decimal base=baseVal->getNumber();
 
-			return Value::factory.createNumber(r_log(num)/r_log(base));
+			return ValueFactory::createNumber(r_log(num)/r_log(base));
 		}
 
-		return Value::factory.createNumber(r_log10(num));
+		return ValueFactory::createNumber(r_log10(num));
 	}
 
-	return Value::factory.createUndefined();
+	return ValueFactory::createUndefined();
 }

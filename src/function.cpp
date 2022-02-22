@@ -74,7 +74,7 @@ void Function::accept(TreeVisitor& v)
 
 Value& Function::evaluate(const Context&) const
 {
-	return Value::factory.createUndefined();
+	return ValueFactory::createUndefined();
 }
 
 void Function::addParameter(const QString& n)

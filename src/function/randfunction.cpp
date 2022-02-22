@@ -55,9 +55,9 @@ Value& RandFunction::evaluate(const Context& ctx) const
 
 	QList<Value*> results;
 	for(auto i=0; i<count; ++i)
-		results.append(&Value::factory.createNumber(r_rand(min,max)));
+		results.append(&ValueFactory::createNumber(r_rand(min,max)));
 
 	r_rand_clear();
 
-	return Value::factory.createVector(results);
+	return ValueFactory::createVector(results);
 }

@@ -31,5 +31,5 @@ Value& NumFunction::evaluate(const Context& ctx) const
 	if(v)
 		return v->toNumber();
 
-	return Value::factory.createUndefined();
+	return ValueFactory::createUndefined();
 }

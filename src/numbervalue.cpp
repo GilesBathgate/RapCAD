@@ -53,10 +53,10 @@ int NumberValue::toInteger() const
 Value& NumberValue::operation(Operators e)
 {
 	if(e==Operators::Invert)
-		return factory.createBoolean(this->isFalse());
+		return ValueFactory::createBoolean(this->isFalse());
 
 	decimal result=basicOperation(number,e);
-	return factory.createNumber(result);
+	return ValueFactory::createNumber(result);
 }
 
 Value& NumberValue::operation(Value& v, Operators e)
@@ -80,22 +80,22 @@ Value& NumberValue::operation(NumberValue& num,Operators e)
 {
 	if(isComparison(e)) {
 		bool result=to_boolean(basicOperation(number,e,num.number));
-		return factory.createBoolean(result);
+		return ValueFactory::createBoolean(result);
 	}
 	if(e==Operators::Divide||e==Operators::Modulus) {
 		if(num.number==0.0)
-			return factory.createUndefined();
+			return ValueFactory::createUndefined();
 	}
 	if(e==Operators::Exponent) {
 		if(number==0.0&&num.number<=0.0)
-			return factory.createUndefined();
+			return ValueFactory::createUndefined();
 	}
 	if(e==Operators::CrossProduct) {
-		return factory.createUndefined();
+		return ValueFactory::createUndefined();
 	}
 
 	decimal result=basicOperation(number,e,num.number);
-	return factory.createNumber(result);
+	return ValueFactory::createNumber(result);
 }
 
 Value& NumberValue::operation(VectorValue& vec,Operators e)
@@ -103,19 +103,19 @@ Value& NumberValue::operation(VectorValue& vec,Operators e)
 	if(e==Operators::Concatenate) {
 		QList<Value*> r=vec.getElements();
 		r.prepend(this);
-		return factory.createVector(r);
+		return ValueFactory::createVector(r);
 	}
 	if(e==Operators::Exponent) {
 		QList<Value*> result;
 		for(Value* c: vec.getElements())
 			result.append(Value::evaluate(this,e,c));
 
-		return factory.createVector(result);
+		return ValueFactory::createVector(result);
 	}
 	if(e==Operators::CrossProduct) {
 		//Q: "What do you get when you cross a mountain-climber with a mosquito?"
 		//A: "Nothing: you can't cross a scaler with a vector"
-		return factory.createUndefined();
+		return ValueFactory::createUndefined();
 	}
 
 	// most operations between scalars and vectors are commutative e.g.
@@ -128,7 +128,7 @@ Value& NumberValue::operation(BooleanValue& flag,Operators e)
 	if(isComparison(e)) {
 		//Use 0 for false and 1 for true to ensure 2>true
 		bool result=basicOperation(this->toInteger(),e,flag.isTrue()?1:0);
-		return factory.createBoolean(result);
+		return ValueFactory::createBoolean(result);
 	}
 
 	return Value::operation(flag,e);

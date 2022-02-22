@@ -40,12 +40,12 @@ Value& LengthFunction::evaluate(const Context& ctx) const
 
 	auto* vecVal=dynamic_cast<VectorValue*>(v);
 	if(vecVal) {
-		return Value::factory.createNumber(vecVal->getElements().count());
+		return ValueFactory::createNumber(vecVal->getElements().count());
 	}
 
 	auto* txtVal=dynamic_cast<TextValue*>(v);
 	if(txtVal) {
 		return Value::evaluate(*txtVal,Operators::Length);
 	}
-	return Value::factory.createUndefined();
+	return ValueFactory::createUndefined();
 }

@@ -32,7 +32,7 @@ Value& CbrtFunction::evaluate(const Context& ctx) const
 	if(numVal) {
 		decimal num=numVal->getNumber();
 
-		return Value::factory.createNumber(r_cbrt(num));
+		return ValueFactory::createNumber(r_cbrt(num));
 	}
-	return Value::factory.createUndefined();
+	return ValueFactory::createUndefined();
 }

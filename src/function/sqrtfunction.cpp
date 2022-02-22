@@ -33,9 +33,9 @@ Value& SqrtFunction::evaluate(const Context& ctx) const
 	if(numVal) {
 		decimal num=numVal->getNumber();
 		if(num<0.0)
-			return Value::factory.createUndefined();
+			return ValueFactory::createUndefined();
 
-		return Value::factory.createNumber(r_sqrt(num));
+		return ValueFactory::createNumber(r_sqrt(num));
 	}
-	return Value::factory.createUndefined();
+	return ValueFactory::createUndefined();
 }

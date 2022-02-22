@@ -33,11 +33,11 @@ Value& OrdinalFunction::evaluate(const Context& ctx) const
 		const QVector<uint> codepoints=textVal->getValueString().toUcs4();
 		QList<Value*> results;
 		for(uint unicode: codepoints)
-			results.append(&Value::factory.createNumber(unicode));
+			results.append(&ValueFactory::createNumber(unicode));
 		if(results.count()==1)
 			return *results.at(0);
-		return Value::factory.createVector(results);
+		return ValueFactory::createVector(results);
 	}
 
-	return Value::factory.createUndefined();
+	return ValueFactory::createUndefined();
 }
