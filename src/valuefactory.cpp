@@ -76,8 +76,10 @@ ComplexValue& ValueFactory::createComplex(Value& r,const QList<Value*>& i)
 
 void ValueFactory::cleanupValues()
 {
-	qDeleteAll(values);
+	//Optimisation call clear before delete
+	QList<Value*> deleteLater(values);
 	values.clear();
+	qDeleteAll(deleteLater);
 }
 
 void ValueFactory::deleteValue(Value* v)
