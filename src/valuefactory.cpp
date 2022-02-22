@@ -8,7 +8,7 @@ ValueFactory::~ValueFactory()
 
 ValueFactory& ValueFactory::getInstance()
 {
-	static ValueFactory factory;
+	static thread_local ValueFactory factory;
 	return factory;
 }
 
