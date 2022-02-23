@@ -25,7 +25,6 @@
 #include "stringify.h"
 #include "ui_mainwindow.h"
 #include <QClipboard>
-#include <QColor>
 #include <QDesktopServices>
 #include <QFileDialog>
 #include <QMessageBox>
@@ -33,6 +32,7 @@
 #include <QProcess>
 #include <QScrollBar>
 #include <QStyleFactory>
+#include <contrib/qtcompat.h>
 
 MainWindow::MainWindow(QWidget* parent) :
 	QMainWindow(parent),

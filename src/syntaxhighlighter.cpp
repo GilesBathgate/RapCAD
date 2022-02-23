@@ -19,6 +19,7 @@
 #include "syntaxhighlighter.h"
 #include "preferences.h"
 #include "reporter.h"
+#include <contrib/qtcompat.h>
 
 extern int lexerdestroy(yyscan_t);
 extern void lexerinit(yyscan_t*,AbstractTokenBuilder*,const QString&);
