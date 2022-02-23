@@ -25,6 +25,7 @@
 #include "stringify.h"
 #include "ui_mainwindow.h"
 #include <QClipboard>
+#include <QColor>
 #include <QDesktopServices>
 #include <QFileDialog>
 #include <QMessageBox>
