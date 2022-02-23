@@ -29,7 +29,6 @@ static int parserlex(union YYSTYPE*,AbstractSyntaxTreeBuilder&);
 %}
 
 %define api.pure
-%define api.header.include {"parser_yacc.h"}
 
 %param {class AbstractSyntaxTreeBuilder& builder}
 

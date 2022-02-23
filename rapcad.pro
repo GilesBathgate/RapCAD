@@ -105,6 +105,8 @@ win32 {
   }
 }
 
+QMAKE_YACCFLAGS += "-F api.header.include={\\\"parser_yacc.h\\\"}"
+
 #LIBS += -Wl,-rpath,./librapcad -L./librapcad -lrapcad
 
 CONFIG(fuzzing){
