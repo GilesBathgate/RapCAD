@@ -22,6 +22,7 @@
 #include "cgalauxiliarybuilder.h"
 #include "cgalimport.h"
 #include "cgalprimitive.h"
+#include <CGAL/exceptions.h>
 #endif
 
 GeometryEvaluator::GeometryEvaluator(Reporter& r) :
