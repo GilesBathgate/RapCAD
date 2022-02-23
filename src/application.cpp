@@ -18,7 +18,7 @@
 #include "application.h"
 
 #ifdef USE_CGAL
-#include "cgal.h"
+#include <CGAL/assertions_impl.h>
 #endif
 #include "comparer.h"
 #ifdef USE_INTEGTEST
