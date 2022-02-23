@@ -17,9 +17,6 @@
  */
 #include "application.h"
 
-#ifdef USE_CGAL
-#include <CGAL/assertions_impl.h>
-#endif
 #include "comparer.h"
 #ifdef USE_INTEGTEST
 #include "generator.h"
@@ -40,6 +37,10 @@
 #endif
 
 #ifdef USE_CGAL
+namespace CGAL {
+typedef void (*Failure_function)(const char*, const char*, const char*, int, const char*);
+extern Failure_function set_error_handler( Failure_function handler);
+}
 static void rapcadErrorHandler(const char*,const char*,const char*,int,const char*){}
 #endif
 
