@@ -105,7 +105,10 @@ win32 {
   }
 }
 
-QMAKE_YACCFLAGS += "-F api.header.include={\\\"parser_yacc.h\\\"}"
+BISON=$$system($$QMAKE_YACC --version)
+contains(BISON,"[3-9]+.[6-9][0-9]*.[0-9]+") {
+QMAKE_YACCFLAGS += "-D api.header.include={\\\"parser_yacc.h\\\"}"
+}
 
 #LIBS += -Wl,-rpath,./librapcad -L./librapcad -lrapcad
 
