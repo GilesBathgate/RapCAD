@@ -39,15 +39,15 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 
 # Check for Qt Version 5.2 and above
 # (so Major > 4 && Minor > 1)
- greaterThan(QT_MINOR_VERSION, 1) {
-	DEFINES -= USE_COMMANDLINE_PARSER
- }
+	greaterThan(QT_MINOR_VERSION, 1) | greaterThan(QT_MAJOR_VERSION, 5) {
+		DEFINES -= USE_COMMANDLINE_PARSER
+	}
 
 # Check for Qt Version 5.4 and above
 # (so Major > 4 && Minor > 3)
- greaterThan(QT_MINOR_VERSION, 3) {
-	DEFINES -= USE_QGLWIDGET
- }
+	greaterThan(QT_MINOR_VERSION, 3) | greaterThan(QT_MAJOR_VERSION, 5) {
+		DEFINES -= USE_QGLWIDGET
+	}
 }
 
 
@@ -105,9 +105,18 @@ win32 {
   }
 }
 
-BISON=$$system($$QMAKE_YACC --version)
-contains(BISON,"[3-9]+.[6-9][0-9]*.[0-9]+") {
-QMAKE_YACCFLAGS += "-D api.header.include={\\\"parser_yacc.h\\\"}"
+BISON_VERSION = $$system($$QMAKE_YACC --version)
+BISON_VERSION = $$find(BISON_VERSION, [0-9]+.[0-9]+.[0-9]+)
+BISON_VERSIONS = $$split(BISON_VERSION, ".")
+BISON_MAJOR_VERSION = $$member(BISON_VERSIONS, 0)
+BISON_MINOR_VERSION = $$member(BISON_VERSIONS, 1)
+
+# Check for Bison Version 3.6 and above
+# (so Major > 2 && Minor > 5)
+greaterThan(BISON_MAJOR_VERSION, 2) {
+	greaterThan(BISON_MINOR_VERSION, 5) | greaterThan(BISON_MAJOR_VERSION, 3) {
+		QMAKE_YACCFLAGS += "-D api.header.include={\\\"parser_yacc.h\\\"}"
+	}
 }
 
 #LIBS += -Wl,-rpath,./librapcad -L./librapcad -lrapcad
