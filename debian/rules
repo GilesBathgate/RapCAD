@@ -13,7 +13,7 @@
 	dh $@
 
 override_dh_auto_configure:
-	dh_auto_configure -- CONFIG+=official
+	QT_SELECT=qt5 dh_auto_configure -- CONFIG+=official
 
 override_dh_auto_build:
 	dh_auto_build -- user_guide.html
