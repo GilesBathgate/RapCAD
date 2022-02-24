@@ -21,7 +21,7 @@
 #include "syntaxtreebuilder.h"
 #include "tokenbuilder.h"
 
-extern void parserparse(AbstractSyntaxTreeBuilder&);
+extern int parserparse(AbstractSyntaxTreeBuilder&);
 
 Script::Script(Reporter& r) : reporter(r)
 {
