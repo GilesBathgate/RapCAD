@@ -35,13 +35,13 @@ inline QTextStream& endl(QTextStream& s)
 #include <QColor>
 namespace QColorConstants {
 namespace Svg {
-Q_DECL_UNUSED QColor dodgerblue  {0x1e,0x90,0xff};
-Q_DECL_UNUSED QColor palegreen   {0x98,0xfb,0x98};
-Q_DECL_UNUSED QColor plum        {0xdd,0xa0,0xdd};
-Q_DECL_UNUSED QColor orange      {0xff,0xa5,0x00};
-Q_DECL_UNUSED QColor springgreen {0x00,0xff,0x7f};
-Q_DECL_UNUSED QColor skyblue     {0x87,0xce,0xeb};
-Q_DECL_UNUSED QColor deepskyblue {0x00,0xbf,0xff};
+static Q_DECL_UNUSED QColor dodgerblue  {0x1e,0x90,0xff};
+static Q_DECL_UNUSED QColor palegreen   {0x98,0xfb,0x98};
+static Q_DECL_UNUSED QColor plum        {0xdd,0xa0,0xdd};
+static Q_DECL_UNUSED QColor orange      {0xff,0xa5,0x00};
+static Q_DECL_UNUSED QColor springgreen {0x00,0xff,0x7f};
+static Q_DECL_UNUSED QColor skyblue     {0x87,0xce,0xeb};
+static Q_DECL_UNUSED QColor deepskyblue {0x00,0xbf,0xff};
 }
 }
 #endif
