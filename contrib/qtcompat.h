@@ -31,7 +31,7 @@ inline QTextStream& endl(QTextStream& s)
 }
 #endif
 
-#if QT_VERSION < QT_VERSION_CHECK(5,12,0)
+#if QT_VERSION < QT_VERSION_CHECK(5,14,0)
 #include <QColor>
 namespace QColorConstants {
 namespace Svg {
