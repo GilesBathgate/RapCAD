@@ -327,16 +327,16 @@ int TokenBuilder::buildIllegalChar(const QString&)
 
 int TokenBuilder::buildNumber(const QString& str)
 {
-	QString number;
-	decimal unit=get_unit(str,number);
+	QString number(str);
+	decimal unit=get_unit(number);
 	parser->number = new decimal(to_decimal(number)*unit);
 	return NUMBER;
 }
 
 int TokenBuilder::buildNumberExp(const QString& str)
 {
-	QString number;
-	decimal unit=get_unit(str,number);
+	QString number(str);
+	decimal unit=get_unit(number);
 	parser->number = new decimal(parse_numberexp(number)*unit);
 	return NUMBER;
 }
@@ -348,8 +348,8 @@ int TokenBuilder::buildRational()
 
 int TokenBuilder::buildRational(const QString& s)
 {
-	QString number;
-	decimal unit=get_unit(s,number);
+	QString number(s);
+	decimal unit=get_unit(number);
 	parser->number = new decimal(parse_rational(number)*unit);
 	return NUMBER;
 }
