@@ -34,7 +34,7 @@ inline QTextStream& endl(QTextStream& s)
 #if QT_VERSION < QT_VERSION_CHECK(5,12,0)
 #include <QColor>
 namespace QColorConstants {
-namespace svg {
+namespace Svg {
 Q_DECL_UNUSED QColor dodgerblue  {0x1e,0x90,0xff};
 Q_DECL_UNUSED QColor palegreen   {0x98,0xfb,0x98};
 Q_DECL_UNUSED QColor plum        {0xdd,0xa0,0xdd};
