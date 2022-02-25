@@ -118,6 +118,9 @@ jobs:
         cp csharp.lang C:\source-highlight\share\source-highlight
         echo "`ncsharp = csharp.lang" >> C:\source-highlight\share\source-highlight\lang.map
         echo "C:\source-highlight\bin" >> $env:GITHUB_PATH
+    - name: Remove Choco cc1plus
+      run: |
+        rm "C:\ProgramData\Chocolatey\bin\cc1plus.exe"
     - name: Configure
       run: |
         echo "VERSION=$(cat VERSION)" >> $env:GITHUB_ENV
