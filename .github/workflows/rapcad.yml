@@ -63,8 +63,8 @@ jobs:
           - shouldRelease: false
             config: official
     env:
-      CGAL_DIR: C:\CGAL-5.2\
-      GMP:      C:\CGAL-5.2\auxiliary\gmp
+      CGAL_DIR: C:\CGAL-5.4\
+      GMP:      C:\CGAL-5.4\auxiliary\gmp
       BOOST_ROOT: C:\boost_1_72_0
       ASCIIDOC: C:\asciidoc-9.1.0\
       MINGW: C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
@@ -99,11 +99,11 @@ jobs:
         7z x -o"$env:Qt5_DIR\bin" FlexBison.zip -aoa
     - name: Install CGAL
       run: |
-        Invoke-WebRequest https://github.com/CGAL/cgal/releases/download/v5.2/CGAL-5.2.zip -OutFile CGAL-release.zip
+        Invoke-WebRequest https://github.com/CGAL/cgal/releases/download/v5.4/CGAL-5.4.zip -OutFile CGAL-release.zip
         7z x -oC:\ CGAL-release.zip
     - name: Install GMP/MPFR
       run: |
-        Invoke-WebRequest https://github.com/CGAL/cgal/releases/download/v5.2/CGAL-5.2-win64-auxiliary-libraries-gmp-mpfr.zip -OutFile CGAL-gmp-mpfr.zip
+        Invoke-WebRequest https://github.com/CGAL/cgal/releases/download/v5.4/CGAL-5.4-win64-auxiliary-libraries-gmp-mpfr.zip -OutFile CGAL-gmp-mpfr.zip
         7z x -o"$env:CGAL_DIR" CGAL-gmp-mpfr.zip -aoa
     - name: Install asciidoc/source-highlight
       if: ${{ matrix.config == 'official' }}
