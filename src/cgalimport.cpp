@@ -27,6 +27,7 @@
 #include <CGAL/IO/Nef_polyhedron_iostream_3.h>
 #if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,3,0)
 #include <CGAL/IO/OBJ.h>
+#include <CGAL/IO/STL.h>
 #else
 #include <CGAL/IO/OBJ_reader.h>
 #endif
@@ -113,6 +114,22 @@ Primitive* CGALImport::importOBJ() const
 
 Primitive* CGALImport::importSTL() const
 {
+#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,3,0)
+	auto* cp=new CGALPrimitive();
+	std::vector<CGAL::Point3> points;
+	std::vector<std::vector<std::size_t> > faces;
+	std::ifstream file(fileInfo.absoluteFilePath().toStdString());
+	CGAL::IO::read_STL(file,points,faces);
+	for(const auto& pt : points)
+		cp->createVertex(pt);
+
+	for(const auto& f : faces) {
+		CGALPolygon& pg=cp->createPolygon();
+		for(const auto& i : f)
+			pg.append(i);
+	}
+	return cp;
+#else
 	auto* p=new CGALPrimitive();
 	p->setSanitized(false);
 	QFile f(fileInfo.absoluteFilePath());
@@ -189,6 +206,7 @@ Primitive* CGALImport::importSTL() const
 		}
 	}
 	return p;
+#endif
 }
 
 Primitive* CGALImport::importAMF() const
