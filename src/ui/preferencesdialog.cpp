@@ -132,6 +132,11 @@ void PreferencesDialog::setupWidgets()
 	}
 
 	ui->threadPoolSizeSpinBox->setValue(p.getThreadPoolSize());
+#ifdef USE_CGAL
+#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(5,4,0)
+	ui->threadPoolSizeSpinBox->setDisabled(true);
+#endif
+#endif
 
 	updatePrecision();
 }
