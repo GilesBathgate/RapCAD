@@ -26,6 +26,9 @@
 #include <CGAL/IO/Nef_polyhedron_iostream_3.h>
 #include <CGAL/IO/Polyhedron_VRML_2_ostream.h>
 #include <CGAL/IO/Polyhedron_iostream.h>
+#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,5,0)
+#include <CGAL/IO/STL.h>
+#endif
 #if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,3,0)
 #include <CGAL/boost/graph/IO/polygon_mesh_io.h>
 #else
@@ -164,6 +167,13 @@ void CGALExport::exportAsciiSTL() const
 	if(!pr)
 		return;
 
+#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,5,0)
+	std::ofstream file(QFile::encodeName(fileInfo.absoluteFilePath()));
+	CGAL::Polyhedron3* poly=pr->getPolyhedron();
+	CGAL::IO::write_STL(file,*poly,name);
+	file.close();
+	delete poly;
+#else
 	QFile data(fileInfo.absoluteFilePath());
 	if(!data.open(QFile::WriteOnly | QFile::Truncate)) {
 		reporter.reportWarning(tr("Can't write file '%1'").arg(fileInfo.absoluteFilePath()));
@@ -207,6 +217,7 @@ void CGALExport::exportAsciiSTL() const
 	output.flush();
 	data.close();
 	delete poly;
+#endif
 }
 
 void CGALExport::exportAMF() const
