@@ -40,7 +40,6 @@ private:
 	QString text;
 	QString family;
 	int size;
-	bool headless;
 	QPointF location;
 };
 

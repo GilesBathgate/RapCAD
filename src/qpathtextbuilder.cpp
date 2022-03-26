@@ -22,11 +22,11 @@
 #include <QApplication>
 #include <QFontMetrics>
 #include <QPainterPath>
+#include <QMutexLocker>
 
 QPathTextBuilder::QPathTextBuilder() :
 	size(0)
 {
-	headless = QFont().family().isEmpty();
 }
 
 void QPathTextBuilder::setText(const QString& value)
@@ -68,19 +68,28 @@ QFont QPathTextBuilder::getFont() const
 	return f;
 }
 
+/* Hack: in headless mode we need to initalise QApplication
+before we can use fonts */
+static QMutex mutex;
+static bool headless=true;
+static QApplication* application=nullptr;
+
+static void headlessOverride()
+{
+	QMutexLocker locker(&mutex);
+	if(headless && QFont().family().isEmpty()) {
+		int c=0;
+		application=new QApplication(c,nullptr,false);
+	}
+	headless=false;
+}
+
 Primitive* QPathTextBuilder::buildPrimitive() const
 {
-	QPainterPath painterPath;
-	if(headless) {
-		/* Hack: in headless mode we need to initalise QApplication
-		before we can use fonts */
-		int c=0;
-		QApplication a(c,nullptr,false);
-		painterPath.addText(location,getFont(),text);
+	headlessOverride();
 
-	} else {
-		painterPath.addText(location,getFont(),text);
-	}
+	QPainterPath painterPath;
+	painterPath.addText(location,getFont(),text);
 
 	const QList<QPolygonF> paths = painterPath.toSubpathPolygons();
 
