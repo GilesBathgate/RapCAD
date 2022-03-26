@@ -82,11 +82,6 @@ const QList<CGAL::Segment3> CGALPolygon::getSegments()
 		return segments;
 }
 
-CGAL::Direction3 CGALPolygon::getDirection() const
-{
-	return direction;
-}
-
 CGAL::Vector3 CGALPolygon::getNormal() const
 {
 	return plane.orthogonal_vector();
@@ -96,7 +91,6 @@ void CGALPolygon::calculateProjection()
 {
 	CGAL::Vector3 v=plane.orthogonal_vector();
 	projection=new CGALProjection(v);
-	direction=projection->getDirection(v);
 }
 
 void CGALPolygon::calculatePlane()

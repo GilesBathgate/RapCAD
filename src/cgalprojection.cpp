@@ -62,15 +62,4 @@ bool CGALProjection::operator==(const CGALProjection& other) const
 	return ortho==other.ortho;
 }
 
-CGAL::Direction3 CGALProjection::getDirection(const CGAL::Vector3& v) const
-{
-	switch(ortho) {
-		case 0:
-			return CGAL::Direction3((v[0]>0.0?1.0:-1.0),0.0,0.0);
-		case 1:
-			return CGAL::Direction3(0.0,(v[1]>0.0?1.0:-1.0),0.0);
-		default:
-			return CGAL::Direction3(0.0,0.0,(v[2]>0.0?1.0:-1.0));
-	}
-}
 #endif

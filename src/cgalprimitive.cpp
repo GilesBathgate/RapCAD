@@ -678,16 +678,20 @@ Primitive* CGALPrimitive::linear_extrude(const CGAL::Scalar& height,const CGAL::
 		CGALPrimitive* primitive=explorer.getPrimitive();
 		const QList<CGALPolygon*> polygons=primitive->getCGALPolygons();
 		CGAL::AffTransformation3 translate(CGAL::TRANSLATION,t);
-		CGAL::Direction3 d=t.direction();
+		CGAL::Plane3 plane(CGAL::ORIGIN,axis.direction());
+		CGAL::Vector3 b1=plane.base1();
+		CGAL::Vector3 b2=plane.base2();
 		for(CGALPolygon* pg: polygons) {
 			auto& np=extruded->createPolygon();
-			bool up=(pg->getDirection()==d);
+			auto orientation=CGAL::orientation(b1,b2,pg->getNormal());
+			bool up=(orientation==CGAL::POSITIVE);
 			for(const auto& pt: pg->getPoints())
 				np.appendVertex(pt,up);
 		}
 
 		for(CGALPolygon* pg: primitive->getCGALPerimeter()) {
-			bool up=(pg->getDirection()==d)!=pg->getHole();
+			auto orientation=CGAL::orientation(b1,b2,pg->getNormal());
+			bool up=(orientation==CGAL::POSITIVE)!=pg->getHole();
 			OnceOnly first;
 			CGAL::Point3 pn;
 			for(const auto& pt: pg->getPoints()) {
@@ -704,7 +708,8 @@ Primitive* CGALPrimitive::linear_extrude(const CGAL::Scalar& height,const CGAL::
 
 		for(CGALPolygon* pg: polygons) {
 			auto& np=extruded->createPolygon();
-			bool up=(pg->getDirection()==d);
+			auto orientation=CGAL::orientation(b1,b2,pg->getNormal());
+			bool up=(orientation==CGAL::POSITIVE);
 			for(const auto& pt: pg->getPoints())
 				np.appendVertex(pt.transform(translate),!up);
 		}
@@ -736,8 +741,10 @@ static CGAL::AffTransformation3 getRotation(const CGAL::Scalar& a,const CGAL::Ve
 Primitive* CGALPrimitive::rotate_extrude(const CGAL::Scalar& height,const CGAL::Scalar& r,const CGAL::Scalar& sweep,const Fragment* fg,const CGAL::Point3& pAxis)
 {
 	CGAL::Vector3 axis(CGAL::ORIGIN,pAxis);
-	CGAL::Plane3 plane(CGAL::ORIGIN,axis.direction());
-	CGAL::Direction3 d=plane.base2().direction();
+	CGAL::Plane3 rotation_plane(CGAL::ORIGIN,axis.direction());
+	CGAL::Plane3 plane(CGAL::ORIGIN,rotation_plane.base2());
+	CGAL::Vector3 b1=plane.base1();
+	CGAL::Vector3 b2=plane.base2();
 
 	CGAL::Scalar mag=r_sqrt(axis.squared_length(),false);
 	axis/=mag; // needed for getRotation
@@ -756,7 +763,8 @@ Primitive* CGALPrimitive::rotate_extrude(const CGAL::Scalar& height,const CGAL::
 	if(caps) {
 		for(CGALPolygon* pg: polygons) {
 			auto& np=extruded->createPolygon();
-			bool up=(pg->getDirection()==d);
+			auto orientation=CGAL::orientation(b1,b2,pg->getNormal());
+			bool up=(orientation==CGAL::POSITIVE);
 			for(const CGAL::Point3& pt: pg->getPoints()) {
 				CGAL::Point3 q=pt.transform(translate);
 				np.appendVertex(q,up);
@@ -782,7 +790,8 @@ Primitive* CGALPrimitive::rotate_extrude(const CGAL::Scalar& height,const CGAL::
 		for(CGALPolygon* pg: primitive->getCGALPerimeter()) {
 			bool hole=pg->getHole();
 			if(!caps && hole) continue;
-			bool up=(pg->getDirection()==d)!=hole;
+			auto orientation=CGAL::orientation(b1,b2,pg->getNormal());
+			bool up=(orientation==CGAL::POSITIVE)!=hole;
 			CGAL::Point3 pn;
 			OnceOnly first;
 			for(const auto& pt: pg->getPoints()) {
@@ -814,7 +823,8 @@ Primitive* CGALPrimitive::rotate_extrude(const CGAL::Scalar& height,const CGAL::
 	if(caps) {
 		for(CGALPolygon* pg: polygons) {
 			auto& np=extruded->createPolygon();
-			bool up=(pg->getDirection()==d);
+			auto orientation=CGAL::orientation(b1,b2,pg->getNormal());
+			bool up=(orientation==CGAL::POSITIVE);
 			for(const CGAL::Point3& pt: pg->getPoints()) {
 				CGAL::Point3 q=pt.transform(translate);
 				CGAL::Point3 p=q.transform(nrotate);

@@ -27,7 +27,6 @@ class CGALProjection
 public:
 	explicit CGALProjection(const CGAL::Vector3&);
 	CGAL::Point2 project(const CGAL::Point3&) const;
-	CGAL::Direction3 getDirection(const CGAL::Vector3&) const;
 	bool operator==(const CGALProjection&) const;
 private:
 	using ProjectFunc = CGAL::Point2(*)(const CGAL::Point3&);

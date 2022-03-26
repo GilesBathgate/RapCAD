@@ -44,7 +44,6 @@ public:
 	const QList<CGAL::Point2> getProjectedPoints();
 	const QList<CGAL::Segment3> getSegments();
 
-	CGAL::Direction3 getDirection() const;
 	CGAL::Vector3 getNormal() const;
 	void calculatePlane();
 
@@ -61,7 +60,6 @@ private:
 
 	CGAL::Plane3 plane;
 	CGALProjection* projection;
-	CGAL::Direction3 direction;
 	bool hole;
 };
 #endif // CGALPOLYGON_H
