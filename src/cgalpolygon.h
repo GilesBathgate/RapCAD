@@ -50,17 +50,18 @@ public:
 	CGAL::Plane3 getPlane() const;
 	void setPlane(const CGAL::Plane3&);
 
-	bool getHole() const;
-	void setHole(bool value);
-
 	CGALProjection* getProjection();
 	bool sameProjection(CGALPolygon*);
+
+	CGAL::Orientation getOrientation() const;
+	void setOrientation(const CGAL::Orientation&);
+
 private:
 	void calculateProjection();
 
 	CGAL::Plane3 plane;
 	CGALProjection* projection;
-	bool hole;
+	CGAL::Orientation orientation;
 };
 #endif // CGALPOLYGON_H
 #endif

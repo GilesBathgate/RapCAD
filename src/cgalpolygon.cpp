@@ -25,7 +25,7 @@
 CGALPolygon::CGALPolygon(CGALPrimitive& p) :
 	Polygon(p),
 	projection(nullptr),
-	hole(false)
+	orientation(CGAL::POSITIVE)
 {
 }
 
@@ -93,6 +93,16 @@ void CGALPolygon::calculateProjection()
 	projection=new CGALProjection(v);
 }
 
+CGAL::Orientation CGALPolygon::getOrientation() const
+{
+	return orientation;
+}
+
+void CGALPolygon::setOrientation(const CGAL::Orientation& value)
+{
+	orientation=value;
+}
+
 void CGALPolygon::calculatePlane()
 {
 	QList<CGAL::Point3> points=getPoints();
@@ -118,16 +128,6 @@ void CGALPolygon::setPlane(const CGAL::Plane3& p)
 {
 	plane=p;
 	calculateProjection();
-}
-
-bool CGALPolygon::getHole() const
-{
-	return hole;
-}
-
-void CGALPolygon::setHole(bool value)
-{
-	hole = value;
 }
 
 CGALProjection* CGALPolygon::getProjection()

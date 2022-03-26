@@ -608,7 +608,7 @@ bool CGALPrimitive::detectHoles(QList<CGALPolygon*> polys,bool check)
 				if(side==CGAL::ON_BOUNDED_SIDE) {
 					if(check && pg1->getPlane()==pg2->getPlane().opposite())
 						return true;
-					pg1->setHole(true);
+					pg1->setOrientation(CGAL::NEGATIVE);
 					break;
 				}
 			}
@@ -691,7 +691,7 @@ Primitive* CGALPrimitive::linear_extrude(const CGAL::Scalar& height,const CGAL::
 
 		for(CGALPolygon* pg: primitive->getCGALPerimeter()) {
 			auto orientation=CGAL::orientation(b1,b2,pg->getNormal());
-			bool up=(orientation==CGAL::POSITIVE)!=pg->getHole();
+			bool up=(orientation==pg->getOrientation());
 			OnceOnly first;
 			CGAL::Point3 pn;
 			for(const auto& pt: pg->getPoints()) {
@@ -788,10 +788,10 @@ Primitive* CGALPrimitive::rotate_extrude(const CGAL::Scalar& height,const CGAL::
 		nrotate=getRotation(ang*j/f,axis);
 
 		for(CGALPolygon* pg: primitive->getCGALPerimeter()) {
-			bool hole=pg->getHole();
+			bool hole=pg->getOrientation()==CGAL::NEGATIVE;
 			if(!caps && hole) continue;
 			auto orientation=CGAL::orientation(b1,b2,pg->getNormal());
-			bool up=(orientation==CGAL::POSITIVE)!=hole;
+			bool up=(orientation==pg->getOrientation());
 			CGAL::Point3 pn;
 			OnceOnly first;
 			for(const auto& pt: pg->getPoints()) {
