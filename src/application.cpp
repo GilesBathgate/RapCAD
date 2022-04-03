@@ -118,8 +118,8 @@ Strategy* Application::parseArguments(int argc,char* argv[])
 
 	QCommandLineParser p;
 	p.setApplicationDescription(QCoreApplication::translate("main","RapCAD the rapid prototyping IDE"));
-	p.addHelpOption();
-	p.addVersionOption();
+	QCommandLineOption helpOption=p.addHelpOption();
+	QCommandLineOption versionOption=p.addVersionOption();
 	p.addPositionalArgument("filename", QCoreApplication::translate("main","File to open or process."));
 
 #ifdef USE_INTEGTEST
@@ -149,10 +149,10 @@ Strategy* Application::parseArguments(int argc,char* argv[])
 	if(!p.parse(arguments)) {
 		p.process(arguments); // exits
 	} else {
-		if(p.isSet("help")) {
+		if(p.isSet(helpOption)) {
 			QCoreApplication a(argc,argv);
 			p.showHelp(); // exits
-		} else if(p.isSet("version")) {
+		} else if(p.isSet(versionOption)) {
 			p.showVersion(); // exits
 		}
 	}
