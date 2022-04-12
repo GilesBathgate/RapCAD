@@ -57,6 +57,7 @@ GLView::GLView(QWidget* parent) :
 	viewportX(0.0F),
 	viewportZ(0.0F)
 {
+	setCursor(Qt::CrossCursor);
 }
 
 GLView::~GLView()
@@ -549,6 +550,7 @@ void GLView::zoomView(GLfloat amt)
 void GLView::mousePressEvent(QMouseEvent* event)
 {
 	mouseDrag=true;
+	setCursor(Qt::SizeAllCursor);
 	last=event->globalPos();
 }
 
@@ -596,4 +598,5 @@ void GLView::mouseMoveEvent(QMouseEvent* event)
 void GLView::mouseReleaseEvent(QMouseEvent*)
 {
 	mouseDrag=false;
+	setCursor(Qt::CrossCursor);
 }
