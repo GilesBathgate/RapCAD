@@ -1285,7 +1285,7 @@ Primitive* CGALPrimitive::chain_hull(Primitive* previous,Primitive* next)
 		points.append(next->getPoints());
 
 	auto* cp=new CGALPrimitive();
-	add(cp->hull(points),true);
+	joinLater(cp->hull(points));
 
 	return this;
 }
