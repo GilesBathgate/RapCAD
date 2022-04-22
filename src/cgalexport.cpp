@@ -312,6 +312,7 @@ void CGALExport::exportCSG() const
 
 	CGALExplorer e(primitive);
 	CGALPrimitive* prim=e.getPrimitive();
+	if(!prim) return;
 
 	QTextStream output(&data);
 
