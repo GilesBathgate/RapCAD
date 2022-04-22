@@ -102,7 +102,10 @@ public:
 	void createVertex(const CGAL::Scalar&,const CGAL::Scalar&,const CGAL::Scalar&);
 	void detectPerimeterHoles();
 private:
-	void add(Primitive*,bool);
+	bool overlaps(Primitive*,Primitive*) const;
+	Primitive* groupAppend(Primitive*);
+	Primitive* groupAll(const QList<Primitive*>&) const;
+	Primitive* joinAll(const QList<Primitive*>&) const;
 	void buildPrimitive();
 	void convertBoundary();
 	CGAL::NefPolyhedron3* createVolume();
@@ -129,8 +132,8 @@ private:
 	CGAL::NefPolyhedron3* nefPolyhedron;
 	PrimitiveTypes type;
 	bool sanitized;
-	class Unionable;
-	CGAL::Nef_nary_union_3<Unionable>* nUnion;
+	QList<Primitive*> joinable;
+	QList<Primitive*> groupable;
 };
 
 #endif // CGALPRIMITIVE_H

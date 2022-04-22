@@ -58,8 +58,7 @@
 CGALPrimitive::CGALPrimitive() :
 	nefPolyhedron(nullptr),
 	type(PrimitiveTypes::Volume),
-	sanitized(true),
-	nUnion(nullptr)
+	sanitized(true)
 {
 }
 
@@ -348,12 +347,18 @@ void CGALPrimitive::appendVertex(CGALPolygon* pg,const CGAL::Point3& p,bool dire
 
 bool CGALPrimitive::overlaps(Primitive* pr)
 {
-	auto* that=dynamic_cast<CGALPrimitive*>(pr);
-	if(!that) return false;
-	return CGAL::do_intersect(this->getBounds(),that->getBounds());
+	return overlaps(this,pr);
 }
 
-Primitive* CGALPrimitive::group(Primitive* pr)
+bool CGALPrimitive::overlaps(Primitive* a,Primitive* b) const
+{
+	auto* pa=dynamic_cast<CGALPrimitive*>(a);
+	auto* pb=dynamic_cast<CGALPrimitive*>(b);
+	if(!pa||!pb) return false;
+	return CGAL::do_intersect(pa->getBounds(),pb->getBounds());
+}
+
+Primitive* CGALPrimitive::groupAppend(Primitive* pr)
 {
 	if(!pr) return this;
 	auto* that=dynamic_cast<CGALPrimitive*>(pr);
@@ -367,12 +372,73 @@ Primitive* CGALPrimitive::group(Primitive* pr)
 	CGALGroupModifier m(*that->nefPolyhedron);
 	nefPolyhedron->delegate(m,true,false);
 
+	this->appendChild(that);
+
+	return this;
+}
+
+Primitive* CGALPrimitive::group(Primitive* pr)
+{
+	groupAppend(pr);
 	CGAL::Mark_bounded_volumes<CGAL::NefPolyhedron3> mbv(true);
 	nefPolyhedron->delegate(mbv,false,false);
-
-	this->appendChild(that);
 	return this;
+}
 
+Primitive* CGALPrimitive::groupAll(const QList<Primitive*>& primitives) const
+{
+	if(primitives.empty())
+		return nullptr;
+
+	if(primitives.size()==1)
+		return primitives.first();
+
+	Primitive* result=nullptr;
+	for(const auto& o: primitives) {
+		auto* cp=dynamic_cast<CGALPrimitive*>(result);
+		if(cp)
+			result=cp->groupAppend(o);
+		else
+			result=o;
+	}
+
+	auto* cp=dynamic_cast<CGALPrimitive*>(result);
+	if(cp&&cp->nefPolyhedron) {
+		CGAL::Mark_bounded_volumes<CGAL::NefPolyhedron3> mbv(true);
+		cp->nefPolyhedron->delegate(mbv,false,false);
+	}
+	return result;
+}
+
+/* Simple wrapper class to enable Primitive
+ * to be used with CGAL::Nef_nary_union_3 */
+class Joinable
+{
+public:
+	Joinable() : primitive(nullptr) {}
+	Joinable(Primitive* p) : primitive(p) {}
+	Joinable& operator+(Joinable& other)
+	{
+		primitive=primitive->join(other.primitive);
+		return *this;
+	}
+	Primitive* primitive;
+};
+
+Primitive* CGALPrimitive::joinAll(const QList<Primitive*>& primitives) const
+{
+	if(primitives.empty())
+		return nullptr;
+
+	if(primitives.size()==1)
+		return primitives.first();
+
+	CGAL::Nef_nary_union_3<Joinable> nary;
+	for(const auto& p: primitives)
+		nary.add_polyhedron(p);
+
+	const Joinable& joined=nary.get_union();
+	return joined.primitive;
 }
 
 const QList<CGALPolygon*> CGALPrimitive::getCGALPolygons() const
@@ -404,54 +470,41 @@ CGAL::Cuboid3 CGALPrimitive::getBounds()
 	return CGAL::bounding_box(pts.begin(),pts.end());
 }
 
-/* Simple wrapper class to enable Primitive
- * to be used with CGAL::Nef_nary_union_3 */
-class CGALPrimitive::Unionable
-{
-public:
-	Unionable() : primitive(nullptr),forceJoin(false) {}
-	Unionable(Primitive* p,bool f) : primitive(p),forceJoin(f) {}
-	Unionable& operator+(Unionable& other)
-	{
-		if(forceJoin||primitive->overlaps(other.primitive))
-			primitive=primitive->join(other.primitive);
-		else
-			primitive=primitive->group(other.primitive);
-
-		return *this;
-	}
-	Primitive* primitive;
-	bool forceJoin;
-};
-
 void CGALPrimitive::groupLater(Primitive *pr)
 {
-	add(pr,false);
+	for(const auto& l: {joinable,groupable}) {
+		for(const auto& o: l) {
+			if(overlaps(o,pr)) {
+				joinable.append(pr);
+				return;
+			}
+		}
+	}
+	groupable.append(pr);
 }
 
 void CGALPrimitive::joinLater(Primitive* pr)
 {
-	add(pr,true);
-}
-
-void CGALPrimitive::add(Primitive* pr,bool forceJoin)
-{
-	if(!nUnion) {
-		nUnion=new CGAL::Nef_nary_union_3<Unionable>();
-		nUnion->add_polyhedron(Unionable(this,forceJoin));
-	}
-	nUnion->add_polyhedron(Unionable(pr,forceJoin));
+	joinable.append(pr);
 }
 
 Primitive* CGALPrimitive::combine()
 {
-	if(nUnion) {
-		const Unionable& un=nUnion->get_union();
-		delete nUnion;
-		nUnion=nullptr;
-		return un.primitive;
-	}
-	return this;
+	if(groupable.empty()&&joinable.empty())
+		return this;
+
+	groupLater(this);
+
+	auto* result=groupAll(groupable);
+	groupable.clear();
+
+	if(result)
+		joinable.append(result);
+
+	result=joinAll(joinable);
+	joinable.clear();
+
+	return result;
 }
 
 Primitive* CGALPrimitive::join(Primitive* pr)
