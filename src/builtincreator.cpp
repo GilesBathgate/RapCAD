@@ -105,6 +105,7 @@
 #include "module/prismmodule.h"
 #include "module/projectionmodule.h"
 #include "module/radialsmodule.h"
+#include "module/regularpolygonmodule.h"
 #include "module/resizemodule.h"
 #include "module/rotateextrudemodule.h"
 #include "module/rotatemodule.h"
@@ -220,6 +221,7 @@ BuiltinCreator::BuiltinCreator(Reporter& r)
 	builtins.append(new PrismModule(r));
 	builtins.append(new ProjectionModule(r));
 	builtins.append(new RadialsModule(r));
+	builtins.append(new RegularPolygonModule(r));
 	builtins.append(new ResizeModule(r));
 	builtins.append(new RotateExtrudeModule(r));
 	builtins.append(new RotateModule(r));

@@ -184,6 +184,7 @@ SOURCES += \
 	src/module/assertmodule.cpp \
 	src/module/colormodule.cpp \
 	src/module/datummodule.cpp \
+	src/module/regularpolygonmodule.cpp \
 	src/namedvalue.cpp \
 	src/tokenreader.cpp \
 	src/ui/mainwindow.cpp \
@@ -444,6 +445,7 @@ HEADERS  += \
 	src/module/assertmodule.h \
 	src/module/colormodule.h \
 	src/module/datummodule.h \
+	src/module/regularpolygonmodule.h \
 	src/namedvalue.h \
 	src/operators.h \
 	src/tokenreader.h \
