@@ -155,7 +155,7 @@ void GeometryEvaluator::visit(const DiscreteNode& n)
 {
 	result=QtConcurrent::run([&n,this]() {
 		Primitive* p=unionChildren(n);
-		p->discrete(n.getPlaces());
+		if(p) p->discrete(n.getPlaces());
 		return p;
 	});
 }

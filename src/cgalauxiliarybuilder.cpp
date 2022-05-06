@@ -35,6 +35,7 @@ CGALAuxiliaryBuilder::CGALAuxiliaryBuilder(Reporter& r) :
 Primitive* CGALAuxiliaryBuilder::buildBoundsPrimitive(Primitive* pr)
 {
 	auto* cp=dynamic_cast<CGALPrimitive*>(pr);
+	if(!cp) return pr;
 	CGAL::Cuboid3 b=cp->getBounds();
 
 	CGAL::Scalar xmin=b.xmin();
@@ -75,7 +76,7 @@ Primitive* CGALAuxiliaryBuilder::buildNormalsPrimitive(Primitive* pr)
 {
 	CGALExplorer e(pr);
 	CGALPrimitive* prim=e.getPrimitive();
-
+	if(!prim) return pr;
 	auto* a=new Polyhedron();
 	a->setType(PrimitiveTypes::Lines);
 	int i=0;
@@ -153,6 +154,7 @@ Primitive *CGALAuxiliaryBuilder::buildDatumsPrimitive(Primitive* pr,Axis axis)
 Primitive* CGALAuxiliaryBuilder::buildRadialsPrimitive(Primitive* pr)
 {
 	auto* cp=dynamic_cast<CGALPrimitive*>(pr);
+	if(!cp) return pr;
 	CGAL::Circle3 circle=cp->getRadius();
 	CGAL::Scalar r=r_sqrt(circle.squared_radius());
 	QString rs=to_string(r);
@@ -189,6 +191,7 @@ Primitive* CGALAuxiliaryBuilder::buildRadialsPrimitive(Primitive* pr)
 Primitive* CGALAuxiliaryBuilder::buildVolumesPrimitive(Primitive* pr,bool calcMass)
 {
 	auto* cp=dynamic_cast<CGALPrimitive*>(pr);
+	if(!cp) return pr;
 	const CGALVolume& v=cp->getVolume(calcMass);
 	const QString vs=v.getSizeString();
 	reporter.reportMessage(tr("Volume: %1").arg(vs));

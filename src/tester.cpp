@@ -20,11 +20,13 @@
 #include "asciidocprinter.h"
 #include "booleanvalue.h"
 #include "builtincreator.h"
+#include "builtinmanager.h"
 #include "cachemanager.h"
 #ifdef USE_CGAL
 #include "cgalexport.h"
 #endif
 #include "comparer.h"
+#include "geometryevaluator.h"
 #include "nodeevaluator.h"
 #include "nodeprinter.h"
 #include "preferences.h"
@@ -201,9 +203,31 @@ int Tester::evaluate()
 	}
 	reporter.setReturnCode(failcount);
 
-	output << "Total: " << testcount << " Passed: " << passcount << " Failed: " << failcount << Qt::endl;
-
 	reporter.reportTiming("testing");
+
+	reporter.startTiming();
+	GeometryEvaluator ge(*nullreport);
+	const QList<Declaration*> builtins=BuiltinCreator::getInstance(*nullreport).getBuiltins();
+	int modulecount=0;
+	for(auto& b: builtins) {
+		auto* m=dynamic_cast<Module*>(b);
+		if(m) {
+			Context ctx;
+			Node* node=m->evaluate(ctx);
+			if(node) {
+				writeHeader(QString("%1_multithread_%2").arg(++modulecount).arg(m->getName()),++testcount);
+				node->accept(ge);
+				(void)ge.getResult();
+				writePass();
+				passcount++;
+			}
+		}
+	}
+	reporter.setReturnCode(failcount);
+
+	output << "Total: " << testcount << " Passed: " << passcount << " Failed: " << failcount << Qt::endl;
+	reporter.reportTiming("multithread testing");
+
 #if !defined(Q_OS_WIN) && !defined(USE_VALGRIND)
 	reporter.startTiming();
 
