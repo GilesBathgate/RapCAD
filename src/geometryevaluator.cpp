@@ -275,8 +275,12 @@ void GeometryEvaluator::visit(const SimplifyNode& n)
 	});
 }
 
-void GeometryEvaluator::visit(const ChildrenNode&)
+void GeometryEvaluator::visit(const ChildrenNode& n)
 {
+	result=QtConcurrent::run([&n,this](){
+		//TODO: implement index based selection
+		return unionChildren(n);
+	});
 }
 
 void GeometryEvaluator::visit(const OffsetNode& n)
