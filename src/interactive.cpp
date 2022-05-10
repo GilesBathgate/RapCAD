@@ -56,11 +56,11 @@ void Interactive::execCommand(const QString& str)
 		QString s(str);
 		if(isExpression(s)) {
 			s=QString("writeln(%1);").arg(s);
-			/* Use a kludge factor so that the reporter doesn't include the 'write('
-			 * characters in its 'at character' output */
-			reporter.setKludge(-8);
+			/* Use a position offset 'kludge' so that the reporter doesn't include
+			 * the 'write(' characters in its 'at character' output */
+			reporter.setPositionOffset(-8);
 		} else {
-			reporter.setKludge(0);
+			reporter.setPositionOffset(0);
 		}
 
 		Script sc(reporter);

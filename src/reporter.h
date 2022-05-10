@@ -43,14 +43,14 @@ public:
 	void reportException(const QString&);
 	void setReturnCode(int);
 	bool getReturnCode() const;
-	void setKludge(int);
+	void setPositionOffset(int);
 	QTextStream& output;
 	QTextStream& messages;
 private:
 	QElapsedTimer* timer;
 	QList<QString> timings;
 	int returnCode;
-	int kludge;
+	int positionOffset;
 };
 
 #endif // REPORTER_H

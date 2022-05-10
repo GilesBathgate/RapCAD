@@ -28,7 +28,7 @@ Reporter::Reporter(QTextStream & o, QTextStream & s):
 	messages(s),
 	timer(nullptr),
 	returnCode(EXIT_FAILURE),
-	kludge(0)
+	positionOffset(0)
 {
 }
 
@@ -68,14 +68,14 @@ void Reporter::reportTimings()
 void Reporter::reportSyntaxError(const AbstractTokenBuilder& t,const QString& msg)
 {
 	QString text=t.getToken();
-	int pos=t.getPosition()+kludge;
+	int pos=t.getPosition()+positionOffset;
 	int line=t.getLineNumber();
 	messages << tr("Line %1: %2 at character %3: '%4'").arg(line).arg(msg).arg(pos).arg(text) << Qt::endl;
 }
 
 void Reporter::reportLexicalError(const AbstractTokenBuilder& t,const QString& text)
 {
-	int pos=t.getPosition()+kludge;
+	int pos=t.getPosition()+positionOffset;
 	int line=t.getLineNumber();
 	messages << tr("Line %1: illegal token at character %2: '%3'").arg(line).arg(pos).arg(text) << Qt::endl;
 }
@@ -115,7 +115,7 @@ bool Reporter::getReturnCode() const
 	return returnCode;
 }
 
-void Reporter::setKludge(int k)
+void Reporter::setPositionOffset(int o)
 {
-	kludge=k;
+	positionOffset=o;
 }
