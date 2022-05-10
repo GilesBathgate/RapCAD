@@ -203,7 +203,7 @@ int Tester::evaluate()
 	}
 	reporter.setReturnCode(failcount);
 
-	reporter.reportTiming("testing");
+	reporter.stopTiming("testing");
 
 	reporter.startTiming();
 	GeometryEvaluator ge(*nullreport);
@@ -226,7 +226,7 @@ int Tester::evaluate()
 	reporter.setReturnCode(failcount);
 
 	output << "Total: " << testcount << " Passed: " << passcount << " Failed: " << failcount << Qt::endl;
-	reporter.reportTiming("multithread testing");
+	reporter.stopTiming("multithread testing");
 
 #if !defined(Q_OS_WIN) && !defined(USE_VALGRIND)
 	reporter.startTiming();
@@ -245,8 +245,9 @@ int Tester::evaluate()
 
 	p.setAutoSaveOnCompile(autosave);
 
-	reporter.reportTiming("ui testing");
+	reporter.stopTiming("ui testing");
 #endif
+	reporter.reportTimings();
 	return reporter.getReturnCode();
 }
 

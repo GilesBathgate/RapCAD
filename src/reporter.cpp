@@ -38,7 +38,7 @@ void Reporter::startTiming()
 	timer->start();
 }
 
-void Reporter::reportTiming(const QString& what)
+void Reporter::stopTiming(const QString& what)
 {
 	qint64 ticks=timer->elapsed();
 	qint64 ms=ticks%1000;
@@ -48,8 +48,21 @@ void Reporter::reportTiming(const QString& what)
 	qint64 mins=ticks%60;
 	ticks/=60;
 	qint64 hours=ticks;
-	messages << tr("Total %1 time: %2h %3m %4s %5ms.").arg(what).arg(hours).arg(mins).arg(secs).arg(ms) << Qt::endl;
+	timings << tr("Total %1 time: %2h %3m %4s %5ms.").arg(what).arg(hours).arg(mins).arg(secs).arg(ms);
 	delete timer; //Need to delete timer.
+}
+
+void Reporter::reportTiming(const QString& what)
+{
+	stopTiming(what);
+	reportTimings();
+}
+
+void Reporter::reportTimings()
+{
+	for(auto& m: qAsConst(timings))
+		messages << m << Qt::endl;
+	timings.clear();
 }
 
 void Reporter::reportSyntaxError(const AbstractTokenBuilder& t,const QString& msg)

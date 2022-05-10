@@ -31,7 +31,9 @@ public:
 	explicit Reporter(QTextStream&);
 	Reporter(QTextStream&,QTextStream&);
 	void startTiming();
+	void stopTiming(const QString&);
 	void reportTiming(const QString&);
+	void reportTimings();
 	void reportSyntaxError(const AbstractTokenBuilder&, const QString&);
 	void reportLexicalError(const AbstractTokenBuilder&,const QString&);
 	void reportFileMissingError(const QString&);
@@ -46,6 +48,7 @@ public:
 	QTextStream& messages;
 private:
 	QElapsedTimer* timer;
+	QList<QString> timings;
 	int returnCode;
 	int kludge;
 };
