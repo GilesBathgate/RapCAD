@@ -109,9 +109,7 @@ void TreePrinter::visit(const Module& mod)
 	QString desc=mod.getDescription();
 	printCodeDoc(desc,parameters);
 	result << "module ";
-	result << mod.getName();
-	if(mod.getAuxilary())
-		result << "$";
+	result << mod.getFullName();
 	result << "(";
 	OnceOnly first;
 	for(Parameter* p: parameters) {

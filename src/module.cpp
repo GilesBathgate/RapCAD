@@ -45,6 +45,12 @@ void Module::setName(const QString& n)
 	name=n;
 }
 
+QString Module::getFullName() const
+{
+	if(auxilary) return QString("%1$").arg(name);
+	return name;
+}
+
 QString Module::getDescription() const
 {
 	return description;

@@ -37,6 +37,7 @@ public:
 	~Module() override;
 	QString getName() const;
 	void setName(const QString&);
+	QString getFullName() const;
 	QString getDescription() const;
 	bool getAuxilary() const;
 	const QList<Parameter*> getParameters() const;

@@ -215,7 +215,7 @@ int Tester::evaluate()
 			Context ctx;
 			Node* node=m->evaluate(ctx);
 			if(node) {
-				writeHeader(QString("%1_multithread_%2").arg(++modulecount).arg(m->getName()),++testcount);
+				writeHeader(QString("%1_multithread_%2").arg(++modulecount,3,10,QChar('0')).arg(m->getFullName()),++testcount);
 				node->accept(ge);
 				(void)ge.getResult();
 				writePass();
