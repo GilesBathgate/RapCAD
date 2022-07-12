@@ -117,7 +117,7 @@ Strategy* Application::parseArguments(int argc,char* argv[])
 	const QStringList& arguments=getArguments(argc,argv);
 
 	QCommandLineParser p;
-	p.setApplicationDescription(QCoreApplication::translate("main","RapCAD the rapid prototyping IDE"));
+	p.setApplicationDescription(QCoreApplication::translate("main","RapCAD the rapid prototyping IDE."));
 	QCommandLineOption helpOption=p.addHelpOption();
 	QCommandLineOption versionOption=p.addVersionOption();
 	p.addPositionalArgument("filename", QCoreApplication::translate("main","File to open or process."));
@@ -126,21 +126,21 @@ Strategy* Application::parseArguments(int argc,char* argv[])
 	QCommandLineOption testOption(QStringList() << "t" << "test", QCoreApplication::translate("main","Run through tests in working directory."),"directory");
 	p.addOption(testOption);
 
-	QCommandLineOption generateOption(QStringList() << "g" << "generate", QCoreApplication::translate("main","Generate documentation"));
+	QCommandLineOption generateOption(QStringList() << "g" << "generate", QCoreApplication::translate("main","Generate documentation."));
 	p.addOption(generateOption);
 #endif
 
 	QCommandLineOption compareOption(QStringList() << "c" << "compare", QCoreApplication::translate("main","Compare two files to see if they are identical."),"filename");
 	p.addOption(compareOption);
 
-	QCommandLineOption outputOption(QStringList() << "o" << "output",QCoreApplication::translate("main","Create output file <filename>."),"filename");
+	QCommandLineOption outputOption(QStringList() << "o" << "output",QCoreApplication::translate("main","Create output geometry <filename> filename must end with known extension (.stl/.amf/.3mf/...)."),"filename");
 	p.addOption(outputOption);
 
-	QCommandLineOption redirectOption(QStringList() << "r" << "redirect",QCoreApplication::translate("main","Redirect output to file <filename>."),"filename");
+	QCommandLineOption redirectOption(QStringList() << "r" << "redirect",QCoreApplication::translate("main","Redirect text output to file <filename>."),"filename");
 	p.addOption(redirectOption);
 
 #ifdef USE_READLINE
-	QCommandLineOption interactOption(QStringList() << "i" << "interactive",QCoreApplication::translate("main","Start an interactive session"));
+	QCommandLineOption interactOption(QStringList() << "i" << "interactive",QCoreApplication::translate("main","Start an interactive session."));
 	p.addOption(interactOption);
 #endif
 
