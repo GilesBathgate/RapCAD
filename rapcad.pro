@@ -72,7 +72,6 @@ win32 {
 	INCLUDEPATH += $$DXFLIBROOT
 	LIBS += -L$$DXFLIBROOT/release -ldxflib
 	}
-	LIBS += -lz
 	QMAKE_YACC = win_bison
 	QMAKE_YACCFLAGS += "-b y"
 	QMAKE_LEX = win_flex
@@ -91,7 +90,6 @@ win32 {
 	contains(DEFINES,USE_DXF) {
 	LIBS += -ldxflib
 	}
-	LIBS += -lz
 	QMAKE_YACC = bison
   macx {
 	ICON = icons/AppIcon.icns
