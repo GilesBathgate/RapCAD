@@ -144,13 +144,13 @@ jobs:
         cp "$env:GMP\lib\libgmp-10.dll" release
         cp "$env:GMP\lib\libmpfr-4.dll" release
         windeployqt64releaseonly --no-svg --no-translations --no-angle --release release\rapcad.exe
+        cp "$env:MINGW\libgcc_s_seh-1.dll" release
+        cp "$env:MINGW\libstdc++-6.dll" release
+        cp "$env:MINGW\libwinpthread-1.dll" release
     - name: Build installer
       if: ${{ matrix.config == 'official' }}
       run: |
         rm -Recurse release\imageformats
-        cp "$env:MINGW\libgcc_s_seh-1.dll" release
-        cp "$env:MINGW\libstdc++-6.dll" release
-        cp "$env:MINGW\libwinpthread-1.dll" release
         makensis installer.nsi
         mv rapcad_setup.exe "rapcad_$($env:VERSION)_setup.exe"
         mv release "rapcad_$env:VERSION"
