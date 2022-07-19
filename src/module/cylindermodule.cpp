@@ -51,9 +51,20 @@ Node* CylinderModule::evaluate(const Context& ctx) const
 		if(rValue) {
 			r1=r2=rValue->getNumber();
 		} else {
-			NumberValue* dValue = dynamic_cast<NumberValue*>(ctx.getArgument(1,"diameter"));
-			if(dValue)
-				r1=r2=(dValue->getNumber()/2.0);
+			NumberValue* d1Value = dynamic_cast<NumberValue*>(ctx.getArgument(1,"diameter1"));
+			NumberValue* d2Value = dynamic_cast<NumberValue*>(ctx.getArgument(2,"diameter2"));
+			if(!d1Value) {
+				NumberValue* dValue = dynamic_cast<NumberValue*>(ctx.getArgument(1,"diameter"));
+				if(dValue)
+					r1=r2=(dValue->getNumber()/2.0);
+			} else {
+				if(d1Value)
+					r1=(d1Value->getNumber()/2.0);
+				if(d2Value)
+					r2=(d2Value->getNumber()/2.0);
+				else
+					r2=r1;
+			}
 		}
 	} else {
 		if(r1Value)

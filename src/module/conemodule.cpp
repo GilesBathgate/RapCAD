@@ -44,10 +44,20 @@ Node* ConeModule::evaluate(const Context& ctx) const
 
 	decimal r1=0.0;
 	decimal r2=0.0;
-	if(r1Value)
+	if(r1Value) {
 		r1=r1Value->getNumber();
-	if(r2Value)
+	} else {
+		NumberValue* d1Value = dynamic_cast<NumberValue*>(ctx.getArgument(1,"diameter1"));
+		if(d1Value)
+			r1=(d1Value->getNumber()/2.0);
+	}
+	if(r2Value) {
 		r2=r2Value->getNumber();
+	} else {
+		NumberValue* d2Value = dynamic_cast<NumberValue*>(ctx.getArgument(2,"diameter2"));
+		if(d2Value)
+			r2=(d2Value->getNumber()/2.0);
+	}
 
 	bool center = false;
 	if(centerValue)
