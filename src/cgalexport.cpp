@@ -170,7 +170,7 @@ void CGALExport::exportAsciiSTL() const
 #if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,5,0)
 	std::ofstream file(QFile::encodeName(fileInfo.absoluteFilePath()));
 	CGAL::Polyhedron3* poly=pr->getPolyhedron();
-	CGAL::IO::write_STL(file,*poly,name);
+	CGAL::IO::write_STL(file,*poly); //TODO: Set STL name (via named parameter?)
 	file.close();
 	delete poly;
 #else
