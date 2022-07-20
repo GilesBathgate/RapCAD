@@ -107,9 +107,10 @@ Primitive* CGALAuxiliaryBuilder::buildNormalsPrimitive(Primitive* pr)
 	return pr;
 }
 
-Primitive *CGALAuxiliaryBuilder::buildDatumsPrimitive(Primitive* pr,Axis axis)
+Primitive* CGALAuxiliaryBuilder::buildDatumsPrimitive(Primitive* pr,Axis axis)
 {
 	auto* cp=dynamic_cast<CGALPrimitive*>(pr);
+	if(!cp) return pr;
 	CGAL::Cuboid3 b=cp->getBounds();
 	CGAL::Point3 size(b.xmax()-b.xmin(),b.ymax()-b.ymin(),b.zmax()-b.zmin());
 	CGAL::Scalar l=r_max(size.x(),r_max(size.y(),size.z()))*2.0;
