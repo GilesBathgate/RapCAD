@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,26 +20,7 @@
 #define SYNTAXTREEBUILDER_H
 
 #include "abstractsyntaxtreebuilder.h"
-#include "moduleimport.h"
-#include "scriptimport.h"
-#include "compoundstatement.h"
-#include "assignstatement.h"
-#include "ifelsestatement.h"
-#include "returnstatement.h"
-#include "forstatement.h"
-#include "module.h"
-#include "modulescope.h"
-#include "function.h"
-#include "functionscope.h"
-#include "literal.h"
-#include "binaryexpression.h"
-#include "unaryexpression.h"
-#include "ternaryexpression.h"
-#include "vectorexpression.h"
-#include "rangeexpression.h"
-#include "invocation.h"
 #include "codedoc.h"
-#include "complexexpression.h"
 
 class SyntaxTreeBuilder : public AbstractSyntaxTreeBuilder
 {
@@ -123,6 +104,8 @@ public:
 	Invocation* buildInvocation(QString*,QList<Argument*>*) override;
 	Invocation* buildInvocation(QString*,Invocation*) override;
 	void reportSyntaxError(QString) override;
+	int nextToken() override;
+	void setParser(union YYSTYPE*) override;
 private:
 	int getLineNumber() const;
 

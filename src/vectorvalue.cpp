@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,13 +17,14 @@
  */
 
 #include "vectorvalue.h"
-#include "numbervalue.h"
-#include "vectoriterator.h"
-#include "rangevalue.h"
+
 #include "booleanvalue.h"
-#include "rmath.h"
+#include "numbervalue.h"
 #include "onceonly.h"
+#include "point.h"
+#include "rmath.h"
 #include "valuefactory.h"
+#include "vectoriterator.h"
 
 VectorValue::VectorValue(const QList<Value*>& values) : elements(values)
 {
@@ -57,7 +58,7 @@ Value& VectorValue::toNumber()
 {
 	if(elements.size()==1)
 		return elements.at(0)->toNumber();
-	return factory.createUndefined();
+	return ValueFactory::createUndefined();
 }
 
 Point VectorValue::getPoint() const
@@ -92,7 +93,7 @@ Point VectorValue::getPoint() const
 Value& VectorValue::getIndex(NumberValue& n)
 {
 	int i=n.toInteger();
-	if(i<0||i>=elements.size()) return factory.createUndefined();
+	if(i<0||i>=elements.size()) return ValueFactory::createUndefined();
 	return *elements.at(i);
 }
 
@@ -101,7 +102,7 @@ ValueIterator* VectorValue::createIterator()
 	return new VectorIterator(elements);
 }
 
-QList<Value*> VectorValue::getElements()
+const QList<Value*> VectorValue::getElements()
 {
 	return elements;
 }
@@ -112,13 +113,13 @@ Value& VectorValue::operation(Operators e)
 		Value& v=Value::evaluate(*this,Operators::Multiply,*this);
 		auto* n=dynamic_cast<NumberValue*>(&v);
 		if(n)
-			return factory.createNumber(r_sqrt(n->getNumber()));
-		return factory.createUndefined();
+			return ValueFactory::createNumber(r_sqrt(n->getNumber()));
+		return ValueFactory::createUndefined();
 	}
 	QList<Value*> result;
-	for(Value* c: elements)
+	for(Value* c: getElements())
 		result.append(Value::evaluate(c,e));
-	return factory.createVector(result);
+	return ValueFactory::createVector(result);
 }
 
 Value& VectorValue::operation(Value& v,Operators e)
@@ -140,11 +141,11 @@ Value& VectorValue::operation(NumberValue& num,Operators e)
 	if(e==Operators::Concatenate) {
 		result=getElements();
 		result.append(&num);
-		return factory.createVector(result);
+		return ValueFactory::createVector(result);
 	}
 	if(e==Operators::Exponent) {
-		QList<Value*> a=getElements();
-		Value* total=&factory.createNumber(0.0);
+		const QList<Value*> a=getElements();
+		Value* total=&ValueFactory::createNumber(0.0);
 		for(Value* c: a) {
 			Value& r=Value::evaluate(*c,e,num);
 			total=Value::evaluate(total,Operators::Add,&r);
@@ -155,15 +156,15 @@ Value& VectorValue::operation(NumberValue& num,Operators e)
 		return getIndex(num);
 	}
 	if(e==Operators::CrossProduct) {
-		return factory.createUndefined();
+		return ValueFactory::createUndefined();
 	}
 
-	QList<Value*> a=getElements();
+	const QList<Value*> a=getElements();
 	e=convertOperation(e);
 	for(Value* c: a)
 		result.append(Value::evaluate(c,e,&num));
 
-	return factory.createVector(result);
+	return ValueFactory::createVector(result);
 }
 
 Value& VectorValue::operation(VectorValue& vec,Operators e)
@@ -175,7 +176,7 @@ Value& VectorValue::operation(VectorValue& vec,Operators e)
 	if(e==Operators::CrossProduct) {
 		int s=a.size();
 		if(s<2||s>3||s!=b.size())
-			return factory.createUndefined();
+			return ValueFactory::createUndefined();
 
 		//[a1*b2 - a2*b1, a2*b0 - a0*b2, a0*b1 - a1*b0]
 		Value& a0=*a.at(0);
@@ -195,14 +196,14 @@ Value& VectorValue::operation(VectorValue& vec,Operators e)
 		result.append(&x);
 		result.append(&y);
 		result.append(&z);
-		return factory.createVector(result);
+		return ValueFactory::createVector(result);
 
 	}
 	if(e==Operators::Multiply||e==Operators::DotProduct) {
 		int s=std::min(a.size(),b.size());
 		if(s<=0)
-			return factory.createUndefined();
-		Value* total=&factory.createNumber(0.0);
+			return ValueFactory::createUndefined();
+		Value* total=&ValueFactory::createNumber(0.0);
 		for(auto i=0; i<s; ++i) {
 			Value& r=Value::evaluate(*a.at(i),Operators::Multiply,*b.at(i));
 			total=Value::evaluate(total,Operators::Add,&r);
@@ -211,7 +212,7 @@ Value& VectorValue::operation(VectorValue& vec,Operators e)
 	}
 	if(e==Operators::Divide) {
 		//TODO vector division?
-		return factory.createUndefined();
+		return ValueFactory::createUndefined();
 	}
 	if(e==Operators::Length) {
 		Value& a2=Value::evaluate(*this,Operators::Multiply,*this);
@@ -219,8 +220,8 @@ Value& VectorValue::operation(VectorValue& vec,Operators e)
 		Value& n=Value::evaluate(a2,Operators::Multiply,b2);
 		auto* l=dynamic_cast<NumberValue*>(&n);
 		if(l)
-			return factory.createNumber(r_sqrt(l->getNumber()));
-		return factory.createUndefined();
+			return ValueFactory::createNumber(r_sqrt(l->getNumber()));
+		return ValueFactory::createUndefined();
 	}
 	if(e==Operators::Concatenate) {
 		result=a;
@@ -228,16 +229,16 @@ Value& VectorValue::operation(VectorValue& vec,Operators e)
 	} else if(e==Operators::Equal||e==Operators::NotEqual) {
 		bool eq=(a.size()==b.size());
 		if(e==Operators::NotEqual && !eq)
-			return factory.createBoolean(true);
+			return ValueFactory::createBoolean(true);
 		if(eq)
 			for(auto i=0; i<a.size(); ++i) {
 				Value& eqVec=Value::evaluate(*a.at(i),e,*b.at(i));
 				if(e==Operators::NotEqual && eqVec.isTrue())
-					return factory.createBoolean(true);
+					return ValueFactory::createBoolean(true);
 				if(eqVec.isFalse())
 					eq=false;
 			}
-		return factory.createBoolean(eq);
+		return ValueFactory::createBoolean(eq);
 	} else {
 		//Apply componentwise operations
 		e=convertOperation(e);
@@ -254,7 +255,7 @@ Value& VectorValue::operation(VectorValue& vec,Operators e)
 			}
 		}
 	}
-	return factory.createVector(result);
+	return ValueFactory::createVector(result);
 }
 
 Operators VectorValue::convertOperation(Operators e)

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -16,34 +16,35 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #ifdef USE_INTEGTEST
-#include <QDir>
-#include <QTimer>
-#include <QApplication>
-#include <QLineEdit>
-#include <QtTest/QTest>
-#include <QMenu>
-#include <boost/version.hpp>
-#include <mpfr.h>
-#include <gmp.h>
+
+#include "asciidocprinter.h"
+#include "booleanvalue.h"
+#include "builtincreator.h"
+#include "builtinmanager.h"
+#include "cachemanager.h"
 #ifdef USE_CGAL
-#include "cgal.h"
 #include "cgalexport.h"
 #endif
+#include "comparer.h"
+#include "geometryevaluator.h"
+#include "nodeevaluator.h"
+#include "nodeprinter.h"
+#include "preferences.h"
 #include "tester.h"
 #include "treeevaluator.h"
-#include "nodeprinter.h"
-#include "booleanvalue.h"
-#include "comparer.h"
-#include "cachemanager.h"
 #include "treeprinter.h"
-#include "asciidocprinter.h"
-#include "builtincreator.h"
-#include "nodeevaluator.h"
 #include "ui/codeeditor.h"
 #include "ui/console.h"
-#include "ui/searchwidget.h"
-#include "preferences.h"
-#include "contrib/qtcompat.h"
+#include <QApplication>
+#include <QDir>
+#include <QLineEdit>
+#include <QMenu>
+#include <QTimer>
+#include <QtTest/QTest>
+#include <boost/version.hpp>
+#include <contrib/qtcompat.h>
+#include <gmp.h>
+#include <mpfr.h>
 
 Tester::Tester(Reporter& r,const QString& d,QObject* parent) :
 	QObject(parent),
@@ -68,18 +69,34 @@ Tester::~Tester()
 
 void Tester::writeHeader(const QString& name, int num)
 {
+	testTimer.start();
 	output << "Test #" << QString().setNum(num).rightJustified(3,'0') << ": ";
-	output << name.leftJustified(62,'.',true);
+	output << name.leftJustified(50,'.',true);
 	output.flush();
+}
+
+void Tester::writeTestTime()
+{
+	float timeTaken = testTimer.nsecsElapsed()/1000000.0f;
+#ifndef Q_OS_WIN
+	output << "\e[0;33m";
+#endif
+	output << QString("%1ms").arg(timeTaken,10,'f',2);
+#ifndef Q_OS_WIN
+	output << "\e[0m";
+#endif
+	testTimer.invalidate();
 }
 
 void Tester::writePass()
 {
 #ifdef Q_OS_WIN
-	output << " Passed" << Qt::endl;
+	output << " Passed";
 #else
-	output << " \e[0;32mPassed\e[0m" << Qt::endl;
+	output << " \e[0;32mPassed\e[0m";
 #endif
+	writeTestTime();
+	output << Qt::endl;
 }
 
 void Tester::writeFail()
@@ -89,6 +106,7 @@ void Tester::writeFail()
 #else
 	output << " \e[0;31mFAILED\e[0m" << Qt::endl;
 #endif
+	testTimer.invalidate();
 }
 
 void Tester::writeSkip()
@@ -98,6 +116,7 @@ void Tester::writeSkip()
 #else
 	output << " \e[0;33mSkipped\e[0m" << Qt::endl;
 #endif
+	testTimer.invalidate();
 }
 
 static bool skipDir(const QString& dir)
@@ -147,7 +166,8 @@ int Tester::evaluate()
 	QDir testDir(directory);
 	/* This hard coded filter need to be addressed
 	 * but it will do for now. */
-	for(const auto& entry: testDir.entryInfoList(QStringList("*_*"))) {
+	const auto entries=testDir.entryInfoList(QStringList("*_*"));
+	for(const auto& entry: entries) {
 
 		QDir dir(entry.absoluteFilePath());
 		QString testDirName=entry.fileName();
@@ -158,7 +178,8 @@ int Tester::evaluate()
 			continue;
 		}
 
-		for(const auto& file: dir.entryInfoList(QStringList("*.rcad"), QDir::Files)) {
+		const auto files=dir.entryInfoList(QStringList("*.rcad"), QDir::Files);
+		for(const auto& file: files) {
 
 			writeHeader(file.fileName(),++testcount);
 
@@ -169,8 +190,11 @@ int Tester::evaluate()
 
 			Script s(*nullreport);
 			s.parse(file);
-
-			if(testFunctionExists(s)) {
+			if(s.isEmpty()) {
+				writeFail();
+				failcount++;
+				continue;
+			} else if(testFunctionExists(s)) {
 				testFunction(s);
 			} else {
 				testModule(s,file);
@@ -179,9 +203,31 @@ int Tester::evaluate()
 	}
 	reporter.setReturnCode(failcount);
 
-	output << "Total: " << testcount << " Passed: " << passcount << " Failed: " << failcount << Qt::endl;
+	reporter.stopTiming("testing");
 
-	reporter.reportTiming("testing");
+	reporter.startTiming();
+	GeometryEvaluator ge(*nullreport);
+	const QList<Declaration*> builtins=BuiltinCreator::getInstance(*nullreport).getBuiltins();
+	int modulecount=0;
+	for(auto& b: builtins) {
+		auto* m=dynamic_cast<Module*>(b);
+		if(m) {
+			Context ctx;
+			Node* node=m->evaluate(ctx);
+			if(node) {
+				writeHeader(QString("%1_multithread_%2").arg(++modulecount,3,10,QChar('0')).arg(m->getFullName()),++testcount);
+				node->accept(ge);
+				(void)ge.getResult();
+				writePass();
+				passcount++;
+			}
+		}
+	}
+	reporter.setReturnCode(failcount);
+
+	output << "Total: " << testcount << " Passed: " << passcount << " Failed: " << failcount << Qt::endl;
+	reporter.stopTiming("multithread testing");
+
 #if !defined(Q_OS_WIN) && !defined(USE_VALGRIND)
 	reporter.startTiming();
 
@@ -199,8 +245,9 @@ int Tester::evaluate()
 
 	p.setAutoSaveOnCompile(autosave);
 
-	reporter.reportTiming("ui testing");
+	reporter.stopTiming("ui testing");
 #endif
+	reporter.reportTimings();
 	return reporter.getReturnCode();
 }
 
@@ -318,7 +365,8 @@ void Tester::handleSaveItemsDialog()
 void Tester::exportTest(const QDir& dir)
 {
 	Reporter& r=*nullreport;
-	for(const auto& file: dir.entryInfoList(QStringList("*.rcad"), QDir::Files)) {
+	const auto files=dir.entryInfoList(QStringList("*.rcad"), QDir::Files);
+	for(const auto& file: files) {
 		Script s(r);
 		s.parse(file);
 		TreeEvaluator te(r);

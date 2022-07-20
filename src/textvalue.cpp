@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
  */
 
 #include "textvalue.h"
-#include "numbervalue.h"
 #include "booleanvalue.h"
+#include "numbervalue.h"
 #include "textiterator.h"
 #include "valuefactory.h"
 
@@ -42,9 +42,9 @@ Value& TextValue::toNumber()
 	bool ok=false;
 	decimal n=to_decimal(text,&ok);
 	if(ok)
-		return factory.createNumber(n);
+		return ValueFactory::createNumber(n);
 
-	return factory.createUndefined();
+	return ValueFactory::createUndefined();
 }
 
 ValueIterator* TextValue::createIterator()
@@ -60,7 +60,7 @@ bool TextValue::isTrue() const
 Value& TextValue::operation(Operators op)
 {
 	if(op==Operators::Length) {
-		return factory.createNumber(text.length());
+		return ValueFactory::createNumber(text.length());
 	}
 	return *this;
 }
@@ -83,16 +83,16 @@ Value& TextValue::operation(TextValue& that,Operators e)
 	if(isComparison(e)) {
 		switch(e) {
 			case Operators::Equal:
-				return factory.createBoolean(text==that.text);
+				return ValueFactory::createBoolean(text==that.text);
 			case Operators::NotEqual:
-				return factory.createBoolean(text!=that.text);
+				return ValueFactory::createBoolean(text!=that.text);
 			default:
-				return factory.createBoolean(basicOperation(isTrue(),e,that.isTrue()));
+				return ValueFactory::createBoolean(basicOperation(isTrue(),e,that.isTrue()));
 		}
 	}
 
 	if(e==Operators::Concatenate)
-		return factory.createText(text.append(that.text));
+		return ValueFactory::createText(text.append(that.text));
 
 	return Value::operation(that,e);
 }
@@ -100,7 +100,7 @@ Value& TextValue::operation(TextValue& that,Operators e)
 Value& TextValue::operation(NumberValue& num,Operators e)
 {
 	if(e==Operators::Index)
-		return factory.createText(text.at(num.toInteger()));
+		return ValueFactory::createText(text.at(num.toInteger()));
 
 	return Value::operation(num,e);
 }

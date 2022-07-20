@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,30 +18,28 @@
 
 %{
 #include "abstracttokenbuilder.h"
-#include "reporter.h"
 #include "decimal.h"
 #include "unistd.h"
 
-void lexererror();
-void lexerinclude(QFileInfo);
-void lexerinit(AbstractTokenBuilder*,Reporter*,QFileInfo);
-void lexerinit(AbstractTokenBuilder*,Reporter*,const QString&);
+void lexerinclude();
+void lexerinit(yyscan_t*,AbstractTokenBuilder*,const QFileInfo&);
+void lexerinit(yyscan_t*,AbstractTokenBuilder*,const QString&);
 void lexerdestroy();
 void lexerbegin();
 void lexercomment();
 void lexercodedoc();
 
-static bool openfile(QFileInfo);
-static AbstractTokenBuilder* tokenizer;
-static Reporter* reporter;
-static QList<FILE*> openfiles;
+#define lexertext yytext
+#define tokenizer yyextra
 
 #define yyfinish()\
-	lexerpop_buffer_state();\
+	lexerpop_buffer_state(yyscanner);\
 	if(!YY_CURRENT_BUFFER)\
 		yyterminate()
 %}
 
+%option reentrant
+%option extra-type="AbstractTokenBuilder*"
 %option yylineno
 %option noyywrap
 %option nounput
@@ -114,7 +112,7 @@ U "um"|"mm"|"cm"|"m"|"th"|"in"|"ft"
 {T}                            { return tokenizer->buildLegalChar(lexertext[0]); }
 {N}{U}?                        { return tokenizer->buildNumber(lexertext); }
 {N}{E}{U}?                     { return tokenizer->buildNumberExp(lexertext); }
-{R}{Z}{E}?{U}?                 { return tokenizer->buildRational(); }
+{R}{Z}{E}?{U}                  { return tokenizer->buildRational(); }
 {R}+{N}{E}?{U}                 { return tokenizer->buildRational(lexertext); }
 {L}{I}*                        { return tokenizer->buildIdentifier(lexertext); }
 \"                             { BEGIN(string); tokenizer->buildStringStart(); }
@@ -149,68 +147,42 @@ U "um"|"mm"|"cm"|"m"|"th"|"in"|"ft"
 .                              { return tokenizer->buildIllegalChar(lexertext); }
 %%
 
-void lexererror()
+void lexerinit(yyscan_t* s,AbstractTokenBuilder* b,const QFileInfo& fileinfo)
 {
-	if(reporter) //Reporter can be null
-		reporter->reportLexicalError(*tokenizer,lexertext);
+	lexerlex_init_extra(b,s);
+	b->buildFileStart(fileinfo);
 }
 
-void lexerinit(AbstractTokenBuilder* b,Reporter* r,QFileInfo fileinfo)
+void lexerinit(yyscan_t* s,AbstractTokenBuilder* b, const QString& input)
 {
-	tokenizer=b;
-	reporter=r;
-
-	openfile(fileinfo);
-	tokenizer->buildFileStart(fileinfo.absoluteDir());
+	lexerlex_init_extra(b,s);
+	lexer_scan_string(input.toUtf8().constData(),*s);
 }
 
-void lexerinit(AbstractTokenBuilder* b,Reporter* r,const QString& input)
+void lexerdestroy(yyscan_t s)
 {
-	tokenizer=b;
-	reporter=r;
-	lexer_scan_string(input.toUtf8().constData());
+	lexerlex_destroy(s);
 }
 
-void lexerdestroy()
+void lexerbegin(yyscan_t s)
 {
-	foreach(FILE* f, openfiles)
-		fclose(f);
-	openfiles.clear();
-
-	lexerlex_destroy();
-}
-
-void lexerbegin()
-{
+	auto* yyg=static_cast<struct yyguts_t*>(s);
 	BEGIN(INITIAL);
 }
 
-void lexercomment()
+void lexercomment(yyscan_t s)
 {
+	auto* yyg=static_cast<struct yyguts_t*>(s);
 	BEGIN(comment);
 }
 
-void lexercodedoc()
+void lexercodedoc(yyscan_t s)
 {
+	auto* yyg=static_cast<struct yyguts_t*>(s);
 	BEGIN(codedoc);
 }
 
-bool openfile(QFileInfo f)
+void lexerinclude(yyscan_t s)
 {
-	QString fullpath=f.absoluteFilePath();
-	FILE* fd=fopen(QFile::encodeName(fullpath),"r");
-	if(!fd) {
-		if(reporter) //Reporter can be null
-			reporter->reportFileMissingError(fullpath);
-		return false;
-	}
-	openfiles.append(fd);
-	lexerin=fd;
-	return true;
-}
-
-void lexerinclude(QFileInfo f)
-{
-	if(openfile(f))
-		lexerpush_buffer_state(lexer_create_buffer(lexerin, YY_BUF_SIZE));
+	lexerpush_buffer_state(lexer_create_buffer(lexerget_in(s),YY_BUF_SIZE,s),s);
 }

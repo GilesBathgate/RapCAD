@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,12 +19,17 @@
 #ifndef POINT_H
 #define POINT_H
 
-#include <QString>
+#ifdef USE_CGAL
+#include "cgal.h"
+#else
 #include "decimal.h"
-
-#ifndef USE_CGAL
 #include "transformmatrix.h"
+#endif
+#include <QString>
 
+#ifdef USE_CGAL
+using Point = CGAL::Point3;
+#else
 class Point
 {
 public:
@@ -42,5 +47,6 @@ private:
 
 QString to_string(const Point&);
 QString to_string(const Point&,const bool);
+void to_glcoord(const Point&,float&,float&,float&);
 
 #endif // POINT_H

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,7 +17,6 @@
  */
 
 #include "context.h"
-#include "modulescope.h"
 #include "valuefactory.h"
 
 Context::Context() :
@@ -105,7 +104,7 @@ Value& Context::lookupVariable(const QString& name,Storage& c,Layout* l) const
 		return parent->lookupVariable(name,c,l);
 	}
 
-	Value& v=Value::factory.createUndefined();
+	Value& v=ValueFactory::createUndefined();
 	v.setStorage(c);
 	return v;
 
@@ -132,7 +131,7 @@ void Context::setVariablesFromArguments()
 		const QString& paramName=param.getName();
 		Value* paramVal=param.getValue();
 		bool found=false;
-		for(const auto& arg: arguments) {
+		for(const auto& arg: getArguments()) {
 			const QString& argName=arg.getName();
 			Value* argVal=arg.getValue();
 			if(argVal->isDefined()&&argName==paramName) {
@@ -154,7 +153,7 @@ void Context::setVariablesFromArguments()
 	}
 }
 
-QList<NamedValue> Context::getArguments() const
+const QList<NamedValue> Context::getArguments() const
 {
 	return arguments;
 }
@@ -196,7 +195,7 @@ Value* Context::getArgumentDeprecatedModule(int index, const QString& deprecated
 {
 	Value* v = matchArgumentIndex(false,false,index,deprecated);
 	if(v)
-		r.reportWarning(tr("'%1' parameter is deprecated use %2 instead").arg(deprecated).arg(module));
+		r.reportWarning(tr("'%1' parameter is deprecated use %2 instead").arg(deprecated,module));
 	return v;
 }
 
@@ -206,7 +205,7 @@ Value* Context::getArgumentDeprecated(int index, const QString& name, const QStr
 	if(!v) {
 		v = matchArgumentIndex(false,false,index,deprecated);
 		if(v)
-			r.reportWarning(tr("'%1' parameter is deprecated use '%2' instead").arg(deprecated).arg(name));
+			r.reportWarning(tr("'%1' parameter is deprecated use '%2' instead").arg(deprecated,name));
 	}
 
 	return v;
@@ -284,9 +283,9 @@ bool Context::match(bool allowChar,bool matchLast, const QString& a,const QStrin
 {
 	if(allowChar) {
 		if(matchLast&&a.length()==2)
-			return a.left(1)==n.left(1) && a.right(1)==n.right(1);
+			return a.at(0)==n.at(0) && a.right(1)==n.right(1);
 		if(!matchLast&&a.length()==1)
-			return a.left(1)==n.left(1);
+			return a.at(0)==n.at(0);
 	}
 	return a==n;
 }

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -68,7 +68,7 @@ void TreePrinter::visit(const Instance& inst)
 	}
 	result << inst.getName();
 	result << "(";
-	QList<Argument*> arguments = inst.getArguments();
+	const QList<Argument*> arguments = inst.getArguments();
 	OnceOnly first;
 	for(Argument* a: arguments) {
 		if(!first())
@@ -105,13 +105,11 @@ void TreePrinter::visit(const Module& mod)
 {
 	if(mod.isDeprecated()) return;
 
-	QList<Parameter*> parameters = mod.getParameters();
+	const QList<Parameter*> parameters = mod.getParameters();
 	QString desc=mod.getDescription();
 	printCodeDoc(desc,parameters);
 	result << "module ";
-	result << mod.getName();
-	if(mod.getAuxilary())
-		result << "$";
+	result << mod.getFullName();
 	result << "(";
 	OnceOnly first;
 	for(Parameter* p: parameters) {
@@ -131,7 +129,7 @@ void TreePrinter::visit(const Module& mod)
 
 void TreePrinter::visit(const Function& func)
 {
-	QList<Parameter*> parameters = func.getParameters();
+	const QList<Parameter*> parameters = func.getParameters();
 	QString desc=func.getDescription();
 	printCodeDoc(desc,parameters);
 	result << "function ";
@@ -163,7 +161,7 @@ void TreePrinter::visit(const FunctionScope& scp)
 		return;
 	}
 
-	QList<Statement*> statements = scp.getStatements();
+	const QList<Statement*> statements = scp.getStatements();
 	int size = statements.size();
 	if(size>0) {
 		result << "{\n";
@@ -295,7 +293,7 @@ void TreePrinter::visit(const AssignStatement& stmt)
 void TreePrinter::visit(const VectorExpression& exp)
 {
 	result << "[";
-	QList<Expression*> children = exp.getChildren();
+	const QList<Expression*> children = exp.getChildren();
 	OnceOnly first;
 	for(Expression* e: children) {
 		if(!first())
@@ -359,7 +357,7 @@ void TreePrinter::visit(const Invocation& stmt)
 	}
 	result << stmt.getName();
 	result << "(";
-	QList<Argument*> arguments = stmt.getArguments();
+	const QList<Argument*> arguments = stmt.getArguments();
 	OnceOnly first;
 	for(Argument* a: arguments) {
 		if(!first())
@@ -394,7 +392,7 @@ void TreePrinter::visit(const ModuleImport& decl)
 		result << " as ";
 		result << name;
 	}
-	QList<Parameter*> parameters = decl.getParameters();
+	const QList<Parameter*> parameters = decl.getParameters();
 	int s = parameters.size();
 	if(s>0) {
 		result << "(";

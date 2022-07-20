@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,6 +17,7 @@
  */
 
 #include "circlemodule.h"
+#include "context.h"
 #include "numbervalue.h"
 
 CircleModule::CircleModule(Reporter& r) : PrimitiveModule(r,"circle")
@@ -40,9 +41,9 @@ Node* CircleModule::evaluate(const Context& ctx) const
 
 	int f = Fragment::getFragments(ctx,r);
 
-	QList<Point> c = getCircle(r,f,0);
+	const QList<Point> c = getCircle(r,f,0);
 
-	auto* pn=new PrimitiveNode(reporter);
+	auto* pn=new PrimitiveNode();
 	Primitive* p=pn->createPrimitive();
 	pn->setChildren(ctx.getInputNodes());
 

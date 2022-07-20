@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,15 +19,14 @@
 #ifndef MODULE_H
 #define MODULE_H
 
-#include <QString>
-#include <QList>
-#include "parameter.h"
 #include "declaration.h"
-#include "instance.h"
-#include "scope.h"
 #include "node.h"
-#include "value.h"
+#include "parameter.h"
 #include "reporter.h"
+#include "scope.h"
+#include "value.h"
+#include <QList>
+#include <QString>
 
 class Context;
 
@@ -38,9 +37,10 @@ public:
 	~Module() override;
 	QString getName() const;
 	void setName(const QString&);
+	QString getFullName() const;
 	QString getDescription() const;
 	bool getAuxilary() const;
-	QList<Parameter*> getParameters() const;
+	const QList<Parameter*> getParameters() const;
 	void setParameters(const QList<Parameter*>&);
 	Scope* getScope() const;
 	void setScope(Scope*);

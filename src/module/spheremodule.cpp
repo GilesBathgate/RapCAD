@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,9 +17,10 @@
  */
 
 #include "spheremodule.h"
+#include "context.h"
+#include "node/pointsnode.h"
 #include "numbervalue.h"
 #include "rmath.h"
-#include "node/pointsnode.h"
 
 SphereModule::SphereModule(Reporter& r) : PrimitiveModule(r,"sphere")
 {
@@ -40,6 +41,7 @@ Node* SphereModule::evaluate(const Context& ctx) const
 	}
 	if(r==0.0) {
 		auto* p=new PointsNode();
+		p->createSinglePoint();
 		p->setChildren(ctx.getInputNodes());
 		return p;
 	}
@@ -48,7 +50,7 @@ Node* SphereModule::evaluate(const Context& ctx) const
 
 	int ringCount=f/2;
 
-	auto* pn=new PrimitiveNode(reporter);
+	auto* pn=new PrimitiveNode();
 	Primitive* p=pn->createPrimitive();
 	pn->setChildren(ctx.getInputNodes());
 
@@ -56,7 +58,7 @@ Node* SphereModule::evaluate(const Context& ctx) const
 		decimal phi = (r_pi()*(i+0.5)) / ringCount;
 		decimal r2 = r*r_sin(phi);
 		decimal z = r*r_cos(phi);
-		QList<Point> c = getCircle(r2,f,z);
+		const QList<Point> c = getCircle(r2,f,z);
 		for(const auto& pt: c) {
 			p->createVertex(pt);
 		}

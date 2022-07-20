@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -16,16 +16,15 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "rmath.h"
 #include "primitivemodule.h"
-#include "context.h"
-#include "numbervalue.h"
+
+#include "rmath.h"
 
 PrimitiveModule::PrimitiveModule(Reporter& r, const QString& n) : Module(r,n)
 {
 }
 
-QList<Point> PrimitiveModule::getCircle(const decimal& r,const decimal& f,const decimal& z)
+const QList<Point> PrimitiveModule::getCircle(const decimal& r,const decimal& f,const decimal& z)
 {
 	QList<Point> circle;
 	for(auto i=0; i<f; ++i) {
@@ -46,7 +45,7 @@ QList<Point> PrimitiveModule::getCircle(const decimal& r,const decimal& f,const 
 	return circle;
 }
 
-QList<Point> PrimitiveModule::getPolygon(const decimal& a,const decimal& r,const decimal& n,const decimal& z)
+const QList<Point> PrimitiveModule::getPolygon(const decimal& a,const decimal& r,const decimal& n,const decimal& z)
 {
 	QList<Point> poly;
 	if(n==6) {

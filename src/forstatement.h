@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,10 +19,9 @@
 #ifndef FORSTATEMENT_H
 #define FORSTATEMENT_H
 
-#include <QString>
-#include <QList>
-#include "statement.h"
 #include "argument.h"
+#include "statement.h"
+#include <QList>
 
 class ForStatement : public Statement
 {
@@ -31,7 +30,7 @@ public:
 	~ForStatement() override;
 
 	void setArguments(const QList<Argument*>&);
-	QList<Argument*> getArguments() const;
+	const QList<Argument*> getArguments() const;
 	void setStatement(Statement*);
 	Statement* getStatement() const;
 	void accept(TreeVisitor&) override;

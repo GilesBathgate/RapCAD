@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,13 +19,12 @@
 #ifndef CONTEXT_H
 #define CONTEXT_H
 
-#include <QHash>
-#include <QTextStream>
-#include "value.h"
-#include "node.h"
-#include "scope.h"
 #include "layout.h"
 #include "namedvalue.h"
+#include "node.h"
+#include "scope.h"
+#include "value.h"
+#include <QHash>
 
 class Context
 {
@@ -55,7 +54,7 @@ public:
 	QList<Node*> lookupChildren() const;
 
 	void setVariablesFromArguments();
-	QList<NamedValue> getArguments() const;
+	const QList<NamedValue> getArguments() const;
 	QList<Value*> getArgumentValues() const;
 	void addArgument(const QString&, Value*);
 	void addArgument(const NamedValue&);

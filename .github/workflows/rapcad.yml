@@ -37,7 +37,7 @@ jobs:
         dir: /usr
         cached: ${{ steps.cache-qt.outputs.cache-hit }}
     - name: Install Dependencies
-      run: sudo apt-get install -y libboost-dev libcgal-dev libglu1-mesa-dev libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-randr0
+      run: sudo apt-get install -y libboost-dev libcgal-dev libglu1-mesa-dev libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-randr0 libxcb-shape0
     - name: Configure
       run: qmake CONFIG+=${{ matrix.config }}
     - name: Build
@@ -63,8 +63,8 @@ jobs:
           - shouldRelease: false
             config: official
     env:
-      CGAL_DIR: C:\CGAL-5.2\
-      GMP:      C:\CGAL-5.2\auxiliary\gmp
+      CGAL_DIR: C:\CGAL-5.4\
+      GMP:      C:\CGAL-5.4\auxiliary\gmp
       BOOST_ROOT: C:\boost_1_72_0
       ASCIIDOC: C:\asciidoc-9.1.0\
       MINGW: C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
@@ -73,7 +73,7 @@ jobs:
       uses: actions/checkout@v2
     - name: Install Boost
       run: |
-        $Url = "https://sourceforge.net/projects/boost/files/boost/1.72.0/boost_1_72_0.7z"
+        $Url = "https://boostorg.jfrog.io/artifactory/main/release/1.72.0/source/boost_1_72_0.7z"
         (New-Object System.Net.WebClient).DownloadFile($Url, "$env:TEMP\boost.7z")
         7z x -oC:\ "$env:TEMP\boost.7z"
     - name: Cache Qt
@@ -81,7 +81,7 @@ jobs:
       uses: actions/cache@v1
       with:
         path: ../Qt
-        key: ${{ runner.os }}-QtCache
+        key: ${{ runner.os }}-QtCache-v2
     - name: Install Qt
       uses: jurplel/install-qt-action@v2.12.0
       with:
@@ -95,15 +95,15 @@ jobs:
     - name: Install Flex/Bison
       if: ${{ !steps.cache-qt.outputs.cache-hit }}
       run: |
-        Invoke-WebRequest https://netix.dl.sourceforge.net/project/winflexbison/win_flex_bison-latest.zip -OutFile FlexBison.zip
-        7z x -o"$env:Qt5_DIR\bin" FlexBison.zip
+        Invoke-WebRequest https://github.com/lexxmark/winflexbison/releases/download/v2.5.25/win_flex_bison-2.5.25.zip -OutFile FlexBison.zip
+        7z x -o"$env:Qt5_DIR\bin" FlexBison.zip -aoa
     - name: Install CGAL
       run: |
-        Invoke-WebRequest https://github.com/CGAL/cgal/releases/download/v5.2/CGAL-5.2.zip -OutFile CGAL-release.zip
+        Invoke-WebRequest https://github.com/CGAL/cgal/releases/download/v5.4/CGAL-5.4.zip -OutFile CGAL-release.zip
         7z x -oC:\ CGAL-release.zip
     - name: Install GMP/MPFR
       run: |
-        Invoke-WebRequest https://github.com/CGAL/cgal/releases/download/v5.2/CGAL-5.2-win64-auxiliary-libraries-gmp-mpfr.zip -OutFile CGAL-gmp-mpfr.zip
+        Invoke-WebRequest https://github.com/CGAL/cgal/releases/download/v5.4/CGAL-5.4-win64-auxiliary-libraries-gmp-mpfr.zip -OutFile CGAL-gmp-mpfr.zip
         7z x -o"$env:CGAL_DIR" CGAL-gmp-mpfr.zip -aoa
     - name: Install asciidoc/source-highlight
       if: ${{ matrix.config == 'official' }}
@@ -118,10 +118,18 @@ jobs:
         cp csharp.lang C:\source-highlight\share\source-highlight
         echo "`ncsharp = csharp.lang" >> C:\source-highlight\share\source-highlight\lang.map
         echo "C:\source-highlight\bin" >> $env:GITHUB_PATH
+    - name: Configure pagefile
+      uses: al-cheb/configure-pagefile-action@v1.2
+      with:
+        minimum-size: 16GB
+        maximum-size: 16GB
+        disk-root: "C:"
     - name: Configure
       run: |
         echo "VERSION=$(cat VERSION)" >> $env:GITHUB_ENV
         qmake CONFIG+=${{ matrix.config }}
+        rm VERSION
+        touch version
     - name: Build
       run: mingw32-make -j4 -f Makefile.Release
     - name: Clean
@@ -136,13 +144,13 @@ jobs:
         cp "$env:GMP\lib\libgmp-10.dll" release
         cp "$env:GMP\lib\libmpfr-4.dll" release
         windeployqt64releaseonly --no-svg --no-translations --no-angle --release release\rapcad.exe
+        cp "$env:MINGW\libgcc_s_seh-1.dll" release
+        cp "$env:MINGW\libstdc++-6.dll" release
+        cp "$env:MINGW\libwinpthread-1.dll" release
     - name: Build installer
       if: ${{ matrix.config == 'official' }}
       run: |
         rm -Recurse release\imageformats
-        cp "$env:MINGW\libgcc_s_seh-1.dll" release
-        cp "$env:MINGW\libstdc++-6.dll" release
-        cp "$env:MINGW\libwinpthread-1.dll" release
         makensis installer.nsi
         mv rapcad_setup.exe "rapcad_$($env:VERSION)_setup.exe"
         mv release "rapcad_$env:VERSION"
@@ -187,13 +195,17 @@ jobs:
         brew install cgal bison
         echo "/usr/local/opt/bison/bin" >> $GITHUB_PATH
     - name: Configure
-      run: qmake CONFIG+=${{ matrix.config }}
+      run: |
+        echo "VERSION=$(cat VERSION)" >> $GITHUB_ENV
+        qmake CONFIG+=${{ matrix.config }}
+        rm VERSION
+        touch version
     - name: Build
       run: make -j4
     - name: Package
       run: |
         macdeployqt rapcad.app -dmg
-        mv rapcad.dmg rapcad_$(cat VERSION).dmg
+        mv rapcad.dmg rapcad_${{ env.VERSION }}.dmg
     - name: Test
       if: ${{ matrix.config == 'coverage' }}
       run: ./rapcad.app/Contents/MacOS/rapcad -t test

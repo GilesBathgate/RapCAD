@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -105,6 +105,7 @@
 #include "module/prismmodule.h"
 #include "module/projectionmodule.h"
 #include "module/radialsmodule.h"
+#include "module/regularpolygonmodule.h"
 #include "module/resizemodule.h"
 #include "module/rotateextrudemodule.h"
 #include "module/rotatemodule.h"
@@ -220,6 +221,7 @@ BuiltinCreator::BuiltinCreator(Reporter& r)
 	builtins.append(new PrismModule(r));
 	builtins.append(new ProjectionModule(r));
 	builtins.append(new RadialsModule(r));
+	builtins.append(new RegularPolygonModule(r));
 	builtins.append(new ResizeModule(r));
 	builtins.append(new RotateExtrudeModule(r));
 	builtins.append(new RotateModule(r));
@@ -252,7 +254,7 @@ BuiltinCreator::~BuiltinCreator()
 	builtins.clear();
 }
 
-QList<Declaration*> BuiltinCreator::getBuiltins() const
+const QList<Declaration*> BuiltinCreator::getBuiltins() const
 {
 	return builtins;
 }
@@ -265,14 +267,14 @@ void BuiltinCreator::generateDocs(QTextStream& out)
 
 void BuiltinCreator::generateDocs(TreeVisitor& p)
 {
-	for(Declaration* d: builtins)
+	for(Declaration* d: getBuiltins())
 		d->accept(p);
 }
 
 QHash<QString,Module*> BuiltinCreator::getModuleNames() const
 {
 	QHash<QString,Module*> names;
-	for(Declaration* d: builtins) {
+	for(Declaration* d: getBuiltins()) {
 		auto* m=dynamic_cast<Module*>(d);
 		if(m) names.insert(m->getName(),m);
 	}

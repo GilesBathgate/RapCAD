@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -45,6 +45,12 @@ void Module::setName(const QString& n)
 	name=n;
 }
 
+QString Module::getFullName() const
+{
+	if(auxilary) return QString("%1$").arg(name);
+	return name;
+}
+
 QString Module::getDescription() const
 {
 	return description;
@@ -55,7 +61,7 @@ bool Module::getAuxilary() const
 	return auxilary;
 }
 
-QList<Parameter*> Module::getParameters() const
+const QList<Parameter*> Module::getParameters() const
 {
 	return parameters;
 }

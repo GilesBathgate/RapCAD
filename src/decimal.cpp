@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,11 +17,13 @@
  */
 
 #include "decimal.h"
+#include "point.h"
 #include "preferences.h"
 #include "rmath.h"
-#include "point.h"
+#ifdef USE_CGAL
 #if MPFR_VERSION < MPFR_VERSION_NUM(4,1,0)
-#include "contrib/mpfr-get_q.h"
+#include <contrib/mpfr-get_q.h>
+#endif
 #endif
 
 decimal to_decimal(const QString& str,bool* ok)
@@ -114,7 +116,7 @@ decimal parse_numberexp(const QString& s, bool* ok)
 
 	QString e=s.mid(i+1).remove('+');
 	decimal p=to_decimal(e,ok);
-	return to_decimal(s.left(i),ok) * r_pow(decimal(10),p,p<0);
+	return to_decimal(s.left(i),ok) * r_pow(decimal(10),p);
 }
 
 decimal parse_rational(const QString& s, bool* ok)
@@ -126,48 +128,40 @@ decimal parse_rational(const QString& s, bool* ok)
 	return parse_rational(s.left(i),ok)/parse_numberexp(s.mid(i+1),ok);
 }
 
-decimal get_unit(const QString& s,QString& number)
+decimal get_unit(QString& number)
 {
-	if(s.endsWith("um")) {
-		number=s.chopped(2);
+	if(number.endsWith("um")) {
+		number.chop(2);
 		return decimal(1.0)/1000.0;
 	}
-	if(s.endsWith("mm")) {
-		number=s.chopped(2);
+	if(number.endsWith("mm")) {
+		number.chop(2);
 		return decimal(1.0);
 	}
-	if(s.endsWith("cm")) {
-		number=s.chopped(2);
+	if(number.endsWith("cm")) {
+		number.chop(2);
 		return decimal(10.0);
 	}
-	if(s.endsWith("m")) {
-		number=s.chopped(1);
+	if(number.endsWith("m")) {
+		number.chop(1);
 		return decimal(1000.0);
 	}
-	if(s.endsWith("th")) {
-		number=s.chopped(2);
+	if(number.endsWith("th")) {
+		number.chop(2);
 		return decimal(254.0)/10000.0;
 	}
-	if(s.endsWith("in")) {
-		number=s.chopped(2);
+	if(number.endsWith("in")) {
+		number.chop(2);
 		return decimal(254.0)/10.0;
 	}
-	if(s.endsWith("ft")) {
-		number=s.chopped(2);
+	if(number.endsWith("ft")) {
+		number.chop(2);
 		return decimal(3048.0)/10.0;
 	}
-	number=s;
 	return decimal(1.0);
 }
 
 #ifdef USE_CGAL
-void to_glcoord(const Point& pt,float& x,float& y,float& z)
-{
-	x=to_double(pt.x());
-	y=to_double(pt.y());
-	z=to_double(pt.z());
-}
-
 mpq_srcptr to_mpq(const decimal& d)
 {
 #ifndef USE_VALGRIND
@@ -187,8 +181,7 @@ mpq_srcptr to_mpq(const decimal& d)
 
 void to_mpfr(mpfr_t& m, const decimal& d)
 {
-	mpfr_init(m);
-	mpfr_set_q(m,to_mpq(d),MPFR_RNDN);
+	mpfr_init_set_q(m,to_mpq(d),MPFR_RNDN);
 }
 
 decimal to_decimal(mpfr_t& m)

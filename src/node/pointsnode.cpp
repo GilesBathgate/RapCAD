@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,20 +17,18 @@
  */
 
 #include "pointsnode.h"
+#include "point.h"
 
 PointsNode::PointsNode() :
 	visibleChildren(true)
 {
 }
 
-QList<Point> PointsNode::getPoints() const
+void PointsNode::createSinglePoint()
 {
-	return points;
-}
-
-void PointsNode::setPoints(const QList<Point>& p)
-{
-	points=p;
+	Primitive* cp=createPrimitive();
+	cp->setType(PrimitiveTypes::Points);
+	cp->createVertex(Point(0.0,0.0,0.0));
 }
 
 bool PointsNode::getVisibleChildren() const

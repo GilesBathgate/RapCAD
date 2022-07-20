@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,10 +18,10 @@
 
 #include "lengthfunction.h"
 #include "context.h"
-#include "vectorvalue.h"
-#include "textvalue.h"
 #include "numbervalue.h"
 #include "rangevalue.h"
+#include "textvalue.h"
+#include "vectorvalue.h"
 
 LengthFunction::LengthFunction() : Function("len")
 {
@@ -40,12 +40,12 @@ Value& LengthFunction::evaluate(const Context& ctx) const
 
 	auto* vecVal=dynamic_cast<VectorValue*>(v);
 	if(vecVal) {
-		return Value::factory.createNumber(vecVal->getElements().count());
+		return ValueFactory::createNumber(vecVal->getElements().count());
 	}
 
 	auto* txtVal=dynamic_cast<TextValue*>(v);
 	if(txtVal) {
 		return Value::evaluate(*txtVal,Operators::Length);
 	}
-	return Value::factory.createUndefined();
+	return ValueFactory::createUndefined();
 }

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,9 +19,9 @@
 #ifndef ABSTRACTTOKENBUILDER_H
 #define ABSTRACTTOKENBUILDER_H
 
-#include <QString>
 #include <QChar>
 #include <QDir>
+#include <QString>
 
 class AbstractTokenBuilder
 {
@@ -91,9 +91,10 @@ public:
 	virtual void buildWhiteSpaceError()=0;
 	virtual void buildWhiteSpace()=0;
 	virtual void buildNewLine()=0;
-	virtual void buildFileStart(QDir)=0;
+	virtual void buildFileStart(QFileInfo)=0;
 	virtual void buildFileFinish()=0;
 	virtual QString getToken() const=0;
+	virtual void setParser(union YYSTYPE*)=0;
 };
 
 #endif // ABSTRACTTOKENBUILDER_H

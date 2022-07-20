@@ -48,13 +48,15 @@ sudo apt-get install g++ libcgal-dev libqt5opengl5-dev bison flex libreadline-de
 RapCAD
 ++++++
 [source,shell]
--------------------------------------
-git clone git://git.rapcad.org/rapcad
+-----------------------------------------------------
+git clone https://github.com/GilesBathgate/RapCAD.git
 
 cd rapcad &&
 qmake &&
 make
--------------------------------------
+-----------------------------------------------------
+
+Note: Some distros have both qt4 and qt5 in which case `qmake` should be replaced with `qt5-qmake`
 
 Windows
 ~~~~~~~

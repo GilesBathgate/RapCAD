@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -23,11 +23,9 @@ class VectorValue;
 class TextValue;
 class ValueIterator;
 class ValueFactory;
-#include <QString>
-#include "iterator.h"
-#include "expression.h"
-#include "variable.h"
 #include "decimal.h"
+#include "variable.h"
+#include <QString>
 
 class Value
 {
@@ -79,9 +77,6 @@ public:
 	static Value& evaluate(Value&,Operators,Value&);
 	static bool compare(Value&,Operators,Value&);
 	static Value& compareAll(const QList<Value*>&,Operators);
-
-	friend class ValueFactory;
-	static ValueFactory& factory;
 protected:
 	Value();
 	static bool isComparison(Operators);
@@ -93,6 +88,7 @@ protected:
 	virtual Value& operation(Operators);
 	virtual Value& operation(Value&,Operators);
 private:
+	friend class ValueFactory;
 	bool defined;
 	Storage storageClass;
 	QString name;

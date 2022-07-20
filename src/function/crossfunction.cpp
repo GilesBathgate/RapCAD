@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -35,5 +35,5 @@ Value& CrossFunction::evaluate(const Context& ctx) const
 	if(vec1&&vec2)
 		return Value::evaluate(*vec1,Operators::CrossProduct,*vec2);
 
-	return Value::factory.createUndefined();
+	return ValueFactory::createUndefined();
 }

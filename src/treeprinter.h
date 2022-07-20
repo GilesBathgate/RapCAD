@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,37 +19,35 @@
 #ifndef TREEPRINTER_H
 #define TREEPRINTER_H
 
-#include <QTextStream>
-#include "treevisitor.h"
-#include "script.h"
-#include "declaration.h"
-#include "module.h"
-#include "modulescope.h"
-#include "instance.h"
-#include "function.h"
-#include "functionscope.h"
-#include "compoundstatement.h"
-#include "ifelsestatement.h"
-#include "forstatement.h"
-#include "parameter.h"
-#include "expression.h"
-#include "binaryexpression.h"
 #include "argument.h"
 #include "assignstatement.h"
-#include "vectorexpression.h"
-#include "rangeexpression.h"
-#include "unaryexpression.h"
-#include "returnstatement.h"
-#include "ternaryexpression.h"
-#include "invocation.h"
+#include "binaryexpression.h"
 #include "callback.h"
-#include "moduleimport.h"
-#include "scriptimport.h"
-#include "literal.h"
-#include "variable.h"
 #include "codedoc.h"
-#include "product.h"
 #include "complexexpression.h"
+#include "compoundstatement.h"
+#include "forstatement.h"
+#include "function.h"
+#include "functionscope.h"
+#include "ifelsestatement.h"
+#include "instance.h"
+#include "invocation.h"
+#include "literal.h"
+#include "module.h"
+#include "moduleimport.h"
+#include "modulescope.h"
+#include "parameter.h"
+#include "product.h"
+#include "rangeexpression.h"
+#include "returnstatement.h"
+#include "script.h"
+#include "scriptimport.h"
+#include "ternaryexpression.h"
+#include "treevisitor.h"
+#include "unaryexpression.h"
+#include "variable.h"
+#include "vectorexpression.h"
+#include <QTextStream>
 
 class TreePrinter : public TreeVisitor
 {

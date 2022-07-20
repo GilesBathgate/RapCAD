@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,10 +17,11 @@
  */
 
 #include "cylindermodule.h"
-#include "context.h"
-#include "numbervalue.h"
 #include "booleanvalue.h"
+#include "context.h"
+#include "node/alignnode.h"
 #include "node/primitivenode.h"
+#include "numbervalue.h"
 #include "rmath.h"
 
 CylinderModule::CylinderModule(Reporter& r) : PrimitiveModule(r,"cylinder")
@@ -50,9 +51,20 @@ Node* CylinderModule::evaluate(const Context& ctx) const
 		if(rValue) {
 			r1=r2=rValue->getNumber();
 		} else {
-			NumberValue* dValue = dynamic_cast<NumberValue*>(ctx.getArgument(1,"diameter"));
-			if(dValue)
-				r1=r2=(dValue->getNumber()/2.0);
+			NumberValue* d1Value = dynamic_cast<NumberValue*>(ctx.getArgument(1,"diameter1"));
+			NumberValue* d2Value = dynamic_cast<NumberValue*>(ctx.getArgument(2,"diameter2"));
+			if(!d1Value) {
+				NumberValue* dValue = dynamic_cast<NumberValue*>(ctx.getArgument(1,"diameter"));
+				if(dValue)
+					r1=r2=(dValue->getNumber()/2.0);
+			} else {
+				if(d1Value)
+					r1=(d1Value->getNumber()/2.0);
+				if(d2Value)
+					r2=(d2Value->getNumber()/2.0);
+				else
+					r2=r1;
+			}
 		}
 	} else {
 		if(r1Value)
@@ -73,10 +85,10 @@ Node* CylinderModule::evaluate(const Context& ctx) const
 	decimal r=r_max(r1,r2);
 	int f = Fragment::getFragments(ctx,r);
 
-	QList<Point> c1=getCircle(r1,f,z1);
-	QList<Point> c2=getCircle(r2,f,z2);
+	const QList<Point> c1=getCircle(r1,f,z1);
+	const QList<Point> c2=getCircle(r2,f,z2);
 
-	auto* pn=new PrimitiveNode(reporter);
+	auto* pn=new PrimitiveNode();
 	Primitive* p=pn->createPrimitive();
 	pn->setChildren(ctx.getInputNodes());
 

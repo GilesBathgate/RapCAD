@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -33,9 +33,9 @@ Value& AsinFunction::evaluate(const Context& ctx) const
 	if(numVal) {
 		decimal num=numVal->getNumber();
 		if(num>1.0||num<-1.0)
-			return Value::factory.createUndefined();
+			return ValueFactory::createUndefined();
 
-		return Value::factory.createNumber(r_asin_deg(num));
+		return ValueFactory::createNumber(r_asin_deg(num));
 	}
-	return Value::factory.createUndefined();
+	return ValueFactory::createUndefined();
 }

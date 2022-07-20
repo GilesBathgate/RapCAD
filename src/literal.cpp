@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -69,13 +69,13 @@ Value& Literal::getValue() const
 {
 	switch(type) {
 		case DataTypes::Boolean:
-			return Value::factory.createBoolean(boolean);
+			return ValueFactory::createBoolean(boolean);
 		case DataTypes::Number:
-			return Value::factory.createNumber(number);
+			return ValueFactory::createNumber(number);
 		case DataTypes::Text:
-			return Value::factory.createText(text);
+			return ValueFactory::createText(text);
 		default:
-			return Value::factory.createUndefined();
+			return ValueFactory::createUndefined();
 	}
 }
 

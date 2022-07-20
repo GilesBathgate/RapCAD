@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
  */
 
 #include "complexvalue.h"
-#include "numbervalue.h"
 #include "booleanvalue.h"
+#include "numbervalue.h"
 #include "rmath.h"
 #include "valuefactory.h"
 
@@ -64,14 +64,14 @@ Value& ComplexValue::operation(Operators e)
 	if(e==Operators::Length) {
 		//l = sqrt(w^2+x^2+y^2,z^2)
 		Value* n=Value::evaluate(&real,Operators::Multiply,&real);
-		for(Value* i: imaginary) {
+		for(Value* i: getImaginary()) {
 			Value& r=Value::evaluate(*i,Operators::Multiply,*i);
 			n=Value::evaluate(n,Operators::Add,&r);
 		}
 		auto* l=dynamic_cast<NumberValue*>(n);
 		if(l)
-			return factory.createNumber(r_sqrt(l->getNumber()));
-		return factory.createUndefined();
+			return ValueFactory::createNumber(r_sqrt(l->getNumber()));
+		return ValueFactory::createUndefined();
 	}
 	return *this;
 }
@@ -115,22 +115,22 @@ Value& ComplexValue::operation(ComplexValue& c,Operators e)
 			Value& z = (w1 * z2) + (x1 * y2) - (y1 * x2) + (z1 * w2);
 
 			QList<Value*> i {&x,&y,&z};
-			return factory.createComplex(w,i);
+			return ValueFactory::createComplex(w,i);
 		}
 		if(e==Operators::Equal||e==Operators::NotEqual) {
 			Value& eqRe=Value::evaluate(w1,e,w2);
 			bool eq=eqRe.isTrue();
 			if(e==Operators::NotEqual && !eq)
-				return factory.createBoolean(true);
+				return ValueFactory::createBoolean(true);
 			if(eq)
 				for(auto i=0; i<3; ++i) {
 					Value& eqIm=Value::evaluate(*imaginary.at(i),e,*c.imaginary.at(i));
 					if(e==Operators::NotEqual && eqIm.isTrue())
-						return factory.createBoolean(true);
+						return ValueFactory::createBoolean(true);
 					if(eqIm.isFalse())
 						eq=false;
 				}
-			return factory.createBoolean(eq);
+			return ValueFactory::createBoolean(eq);
 		}
 	}
 
@@ -142,12 +142,17 @@ Value& ComplexValue::operation(NumberValue& n,Operators e)
 	if(e==Operators::Divide) {
 		Value& w=Value::evaluate(real,Operators::Divide,n);
 		QList<Value*> result;
-		for(Value* i: imaginary) {
+		for(Value* i: getImaginary()) {
 			Value& a=Value::evaluate(*i,Operators::Divide,n);
 			result.append(&a);
 		}
-		return factory.createComplex(w,result);
+		return ValueFactory::createComplex(w,result);
 	}
 
 	return Value::operation(n,e);
+}
+
+const QList<Value*> ComplexValue::getImaginary() const
+{
+	return imaginary;
 }

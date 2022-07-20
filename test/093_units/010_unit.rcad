@@ -1,0 +1,4 @@
+function test() {
+return 1/2mm==0.5;
+}
+

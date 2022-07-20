@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -15,24 +15,24 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#include <QFileDialog>
-#include <QMimeData>
-#include <QClipboard>
-#include <QScrollBar>
-#include <QMessageBox>
-#include <QDesktopServices>
-#include <QProcess>
-
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include "renderer.h"
-#include "preferences.h"
-#include "saveitemsdialog.h"
-#include "printconsole.h"
 #include "builtincreator.h"
-#include "stringify.h"
 #include "cachemanager.h"
+#include "mainwindow.h"
+#include "preferences.h"
+#include "printconsole.h"
+#include "renderer.h"
+#include "saveitemsdialog.h"
+#include "stringify.h"
+#include "ui_mainwindow.h"
+#include <QClipboard>
+#include <QDesktopServices>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QMimeData>
+#include <QProcess>
+#include <QScrollBar>
+#include <QStyleFactory>
+#include <contrib/qtcompat.h>
 
 MainWindow::MainWindow(QWidget* parent) :
 	QMainWindow(parent),
@@ -46,9 +46,7 @@ MainWindow::MainWindow(QWidget* parent) :
 	aboutDialog(nullptr),
 	preferencesDialog(nullptr)
 {
-	if(!QIcon::hasThemeIcon("document-open")) {
-		QIcon::setThemeName("gnome");
-	}
+	setTheme();
 
 	ui->setupUi(this);
 	QIcon rapcadIcon(":/icons/rapcad-16x16.png");
@@ -90,9 +88,41 @@ MainWindow::~MainWindow()
 
 void MainWindow::deleteTempFiles()
 {
-	for(auto* file: temporyFiles) {
+	for(auto* file: qAsConst(temporyFiles)) {
 		file->close();
 		delete file;
+	}
+}
+
+void MainWindow::setTheme()
+{
+	if(!QIcon::hasThemeIcon("document-open")) {
+		QIcon::setThemeName("gnome");
+	}
+
+	auto& prefs=Preferences::getInstance();
+	if(prefs.getDarkTheme()) {
+		QApplication::setStyle(QStyleFactory::create("Fusion"));
+		auto p = QApplication::palette();
+		p.setColor(QPalette::Window, QColor(53, 53, 53));
+		p.setColor(QPalette::WindowText, Qt::white);
+		p.setColor(QPalette::Base, QColor(35, 35, 35));
+		p.setColor(QPalette::AlternateBase, QColor(53, 53, 53));
+		p.setColor(QPalette::ToolTipBase, QColor(25, 25, 25));
+		p.setColor(QPalette::ToolTipText, Qt::white);
+		p.setColor(QPalette::Text, Qt::white);
+		p.setColor(QPalette::Button, QColor(53, 53, 53));
+		p.setColor(QPalette::ButtonText, Qt::white);
+		p.setColor(QPalette::BrightText, Qt::red);
+		p.setColor(QPalette::Link, QColor(42, 130, 218));
+		p.setColor(QPalette::Highlight, QColorConstants::Svg::dodgerblue);
+		p.setColor(QPalette::HighlightedText, QColor(35, 35, 35));
+		p.setColor(QPalette::Active, QPalette::Button, QColor(53, 53, 53));
+		p.setColor(QPalette::Disabled, QPalette::ButtonText, Qt::darkGray);
+		p.setColor(QPalette::Disabled, QPalette::WindowText, Qt::darkGray);
+		p.setColor(QPalette::Disabled, QPalette::Text, Qt::darkGray);
+		p.setColor(QPalette::Disabled, QPalette::Light, QColor(53, 53, 53));
+		QApplication::setPalette(p);
 	}
 }
 
@@ -264,25 +294,25 @@ void MainWindow::setupActions()
 
 void MainWindow::setupExportActions()
 {
-	connect(ui->actionExportAsciiSTL,&QAction::triggered,[this](){exportFile("stl");});
-	connect(ui->actionExportVRML,&QAction::triggered,[this](){exportFile("wrl");});
-	connect(ui->actionExportOBJ,&QAction::triggered,[this](){exportFile("obj");});
-	connect(ui->actionExportOFF,&QAction::triggered,[this](){exportFile("off");});
-	connect(ui->actionExportAMF,&QAction::triggered,[this](){exportFile("amf");});
-	connect(ui->actionExport3MF,&QAction::triggered,[this](){exportFile("3mf");});
-	connect(ui->actionExportCSG,&QAction::triggered,[this](){exportFile("csg");});
-	connect(ui->actionExportNEF,&QAction::triggered,[this](){exportFile("nef");});
-	connect(ui->actionExportSVG,&QAction::triggered,[this](){exportFile("svg");});
+	connect(ui->actionExportAsciiSTL,&QAction::triggered,this,[this](){exportFile("stl");});
+	connect(ui->actionExportVRML,&QAction::triggered,this,[this](){exportFile("wrl");});
+	connect(ui->actionExportOBJ,&QAction::triggered,this,[this](){exportFile("obj");});
+	connect(ui->actionExportOFF,&QAction::triggered,this,[this](){exportFile("off");});
+	connect(ui->actionExportAMF,&QAction::triggered,this,[this](){exportFile("amf");});
+	connect(ui->actionExport3MF,&QAction::triggered,this,[this](){exportFile("3mf");});
+	connect(ui->actionExportCSG,&QAction::triggered,this,[this](){exportFile("csg");});
+	connect(ui->actionExportNEF,&QAction::triggered,this,[this](){exportFile("nef");});
+	connect(ui->actionExportSVG,&QAction::triggered,this,[this](){exportFile("svg");});
 }
 
 void MainWindow::setupViewActions()
 {
-	connect(ui->actionTop,&QAction::triggered,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::Top));});
-	connect(ui->actionBottom,&QAction::triggered,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::Bottom));});
-	connect(ui->actionNorth,&QAction::triggered,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::North));});
-	connect(ui->actionSouth,&QAction::triggered,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::South));});
-	connect(ui->actionWest,&QAction::triggered,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::West));});
-	connect(ui->actionEast,&QAction::triggered,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::East));});
+	connect(ui->actionTop,&QAction::triggered,this,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::Top));});
+	connect(ui->actionBottom,&QAction::triggered,this,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::Bottom));});
+	connect(ui->actionNorth,&QAction::triggered,this,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::North));});
+	connect(ui->actionSouth,&QAction::triggered,this,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::South));});
+	connect(ui->actionWest,&QAction::triggered,this,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::West));});
+	connect(ui->actionEast,&QAction::triggered,this,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::East));});
 }
 
 void MainWindow::grabFrameBuffer()
@@ -302,7 +332,8 @@ QString MainWindow::getSaveFileName(QWidget* parent,const QString& caption,const
 	dialog.setOption(QFileDialog::DontConfirmOverwrite,true);
 	dialog.setAcceptMode(QFileDialog::AcceptSave);
 	while (dialog.exec() == QDialog::Accepted) {
-		QString fileName=dialog.selectedFiles().first();
+		const auto& selected=dialog.selectedFiles();
+		QString fileName=selected.first();
 		QFileInfo info(fileName);
 		if(!info.exists())
 			return fileName;
@@ -327,7 +358,7 @@ void MainWindow::exportFile(const QString& type)
 	QFileInfo fileInfo(currentEditor()->getFileName());
 
 	QString ext=QString(".%1").arg(type.toLower());
-	QString filter=tr("%1 Files (*%2);;All Files (*)").arg(type.toUpper()).arg(ext);
+	QString filter=tr("%1 Files (*%2);;All Files (*)").arg(type.toUpper(),ext);
 	QString suggestedName=fileInfo.completeBaseName().append(ext);
 	QString suggestedLocation=fileInfo.absoluteDir().filePath(suggestedName);
 
@@ -656,8 +687,6 @@ void MainWindow::compileOrGenerate(bool generate)
 			ui->view->setCompiling(!generate);
 			worker->setup(file,"",generate);
 
-			//Stop the syntax highlighter to prevent a crash
-			CodeEditor::stopHighlighting();
 			worker->evaluate();
 			ui->actionCompileAndRender->setEnabled(false);
 			ui->actionGenerateGcode->setEnabled(false);

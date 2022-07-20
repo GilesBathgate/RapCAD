@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,8 +18,10 @@
 
 #include "script.h"
 
-extern void parsescript(Script&,Reporter&,const QString&);
-extern void parsescript(Script&,Reporter&,QFileInfo);
+#include "syntaxtreebuilder.h"
+#include "tokenbuilder.h"
+
+extern int parserparse(AbstractSyntaxTreeBuilder&);
 
 Script::Script(Reporter& r) : reporter(r)
 {
@@ -36,17 +38,31 @@ Script::~Script()
 	documentation.clear();
 }
 
-void Script::parse(const QString& s)
+void Script::parse(const QString& input)
 {
-	parsescript(*this,reporter,s);
+	TokenBuilder t(reporter,input);
+	SyntaxTreeBuilder b(reporter,*this,t);
+
+	parserparse(b);
 }
 
 void Script::parse(const QFileInfo& info)
 {
-	if(!info.exists())
+	if(!info.exists()) {
 		reporter.reportFileMissingError(info.absoluteFilePath());
-	else
-		parsescript(*this,reporter,info);
+		return;
+	}
+
+	TokenBuilder t(reporter,info);
+	SyntaxTreeBuilder b(reporter,*this,t);
+	b.buildFileLocation(info.absoluteDir());
+
+	parserparse(b);
+}
+
+bool Script::isEmpty()
+{
+	return declarations.isEmpty() && documentation.isEmpty();
 }
 
 void Script::setDeclarations(const QList<Declaration*>& decls)
@@ -54,7 +70,7 @@ void Script::setDeclarations(const QList<Declaration*>& decls)
 	declarations = decls;
 }
 
-QList<Declaration*> Script::getDeclarations() const
+const QList<Declaration*> Script::getDeclarations() const
 {
 	return declarations;
 }
@@ -79,7 +95,7 @@ void Script::addDocumentation(const QList<CodeDoc*>& docs)
 	documentation.append(docs);
 }
 
-QList<QList<CodeDoc*> > Script::getDocumentation() const
+const QList<QList<CodeDoc*> > Script::getDocumentation() const
 {
 	return documentation;
 }

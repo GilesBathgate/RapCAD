@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -16,18 +16,17 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtGlobal>
+#include "codeeditor.h"
+#include "linenumberarea.h"
+#include "mainwindow.h"
+#include "preferences.h"
+#include <QApplication>
+#include <QFileDialog>
 #include <QPainter>
 #include <QTextBlock>
 #include <QTextDocumentWriter>
-#include <QFileDialog>
 #include <QToolTip>
-#include <QApplication>
-
-#include "codeeditor.h"
-#include "linenumberarea.h"
-#include "preferences.h"
-#include "mainwindow.h"
+#include <QtGlobal>
 
 CodeEditor::CodeEditor(QWidget* parent) :
 	QPlainTextEdit(parent),
@@ -80,11 +79,6 @@ void CodeEditor::highlightCurrentLine()
 		extraSelections.append(selection);
 	}
 	setExtraSelections(extraSelections);
-}
-
-void CodeEditor::stopHighlighting()
-{
-	SyntaxHighlighter::stop();
 }
 
 void CodeEditor::setFileName(const QString& f)

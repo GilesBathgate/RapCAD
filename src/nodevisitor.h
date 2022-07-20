@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -56,6 +56,7 @@ public:
 	virtual void visit(const class NormalsNode&)=0;
 	virtual void visit(const class SimplifyNode&)=0;
 	virtual void visit(const class ChildrenNode&)=0;
+	virtual class Primitive* getResult() const=0;
 };
 
 #endif // NODEVISITOR_H

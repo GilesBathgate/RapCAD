@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,9 +18,9 @@
 
 #include "scalemodule.h"
 #include "context.h"
-#include "vectorvalue.h"
-#include "node/transformationnode.h"
 #include "node/pointsnode.h"
+#include "node/transformationnode.h"
+#include "vectorvalue.h"
 
 ScaleModule::ScaleModule(Reporter& r) : Module(r,"scale")
 {
@@ -43,6 +43,7 @@ Node* ScaleModule::evaluate(const Context& ctx) const
 	decimal z=s.z();
 	if(x==0.0||y==0.0||z==0.0) {
 		auto* pn=new PointsNode();
+		pn->createSinglePoint();
 		pn->setVisibleChildren(false);
 		pn->setChildren(ctx.getInputNodes());
 		return pn;

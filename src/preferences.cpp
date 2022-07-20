@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ static constexpr double LOG10_2=0.30102999566398119521; /* log10(2) = log base 1
 
 #ifdef USE_CGAL
 #include <CGAL/exceptions.h>
-#include <CGAL/Gmpfr.h>
+#include <mpfr.h>
 #endif
 
 Preferences::Preferences() :
@@ -49,6 +49,16 @@ void Preferences::updatePrecision()
 		//Ignore
 	}
 #endif
+}
+
+int Preferences::getThreadPoolSize() const
+{
+	return settings->value("ThreadPoolSize",0).toInt();
+}
+
+void Preferences::setThreadPoolSize(int value)
+{
+	settings->setValue("ThreadPoolSize",value);
 }
 
 QString Preferences::getIndent() const

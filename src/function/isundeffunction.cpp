@@ -11,7 +11,7 @@ Value& IsUndefFunction::evaluate(const Context& ctx) const
 {
 	auto* val=getParameterArgument(ctx,0);
 	if(val)
-		return Value::factory.createBoolean(!val->isDefined());
+		return ValueFactory::createBoolean(!val->isDefined());
 
-	return Value::factory.createUndefined();
+	return ValueFactory::createUndefined();
 }

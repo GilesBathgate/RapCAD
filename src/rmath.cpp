@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,7 +20,6 @@
 #include <cmath>
 #include <cstdlib>
 #ifdef USE_CGAL
-#include <CGAL/Gmpfr.h>
 #include <mpfr.h>
 #endif
 #include "preferences.h"
@@ -35,6 +34,10 @@ static decimal d360(360.0);
 static decimal d90(90.0);
 static decimal d2(2.0);
 static decimal d0(0.0);
+
+enum {
+	MPFR_EXACT=0
+};
 
 static decimal r_round_prec(const decimal& a,int p)
 {
@@ -111,7 +114,8 @@ decimal r_pow(const decimal& a,const decimal& e,bool round)
 	to_mpfr(n,a);
 	mpfr_t o;
 	to_mpfr(o,e);
-	mpfr_pow(m,n,o,MPFR_RNDN);
+	if(mpfr_pow(m,n,o,MPFR_RNDN)==MPFR_EXACT)
+		round=false;
 	mpfr_clear(n);
 	mpfr_clear(o);
 	return r_round_preference(m,round);
@@ -528,9 +532,9 @@ decimal r_log10(const decimal& a,bool round)
 #endif
 }
 
-decimal r_sign(const decimal& a)
+int r_sign(const decimal& a)
 {
-	return a<d0?decimal(-1.0):a>d0?decimal(1.0):d0;
+	return a<d0?-1:a>d0?1:0;
 }
 
 #ifdef USE_CGAL

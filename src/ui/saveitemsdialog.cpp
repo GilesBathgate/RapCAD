@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -16,10 +16,10 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QPushButton>
-#include <QFileInfo>
 #include "saveitemsdialog.h"
 #include "ui_saveitemsdialog.h"
+#include <QFileInfo>
+#include <QPushButton>
 
 SaveItemsDialog::SaveItemsDialog(QWidget* parent, bool compiling, const QList<QString>& items) :
 	QDialog(parent),
@@ -67,7 +67,8 @@ SaveItemsDialog::~SaveItemsDialog()
 void SaveItemsDialog::collectItemsToSave()
 {
 	itemsToSave.clear();
-	for(QTreeWidgetItem* item: ui->treeWidget->selectedItems()) {
+	const QList<QTreeWidgetItem*> items=ui->treeWidget->selectedItems();
+	for(QTreeWidgetItem* item: items) {
 		itemsToSave.append(item->data(0, Qt::UserRole).toString());
 	}
 	accept();

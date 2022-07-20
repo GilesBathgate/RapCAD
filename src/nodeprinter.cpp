@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -216,7 +216,7 @@ void NodePrinter::visit(const ImportNode& im)
 
 void NodePrinter::printChildren(const Node& n)
 {
-	QList<Node*> children = n.getChildren();
+	const QList<Node*> children = n.getChildren();
 	if(children.length()>0) {
 		result << "{";
 		for(Node* c: children)
@@ -351,7 +351,8 @@ void NodePrinter::visit(const AlignNode& n)
 void NodePrinter::visit(const PointsNode& n)
 {
 	result << "points";
-	printArguments(n.getPoints());
+	Primitive* pr=n.getPrimitive();
+	printArguments(pr->getPoints());
 	if(n.getVisibleChildren()) {
 		printChildren(n);
 	} else {

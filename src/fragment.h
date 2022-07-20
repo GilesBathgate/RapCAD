@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,7 +20,8 @@
 #define FRAGMENT_H
 
 #include "decimal.h"
-#include "context.h"
+
+class Context;
 
 class Fragment
 {
@@ -28,7 +29,7 @@ public:
 	virtual ~Fragment() {}
 	static Fragment* createFragment(const Context&);
 	static int getFragments(const Context&,const decimal&);
-	virtual int getFragments(const decimal&);
+	virtual int getFragments(const decimal&) const;
 protected:
 	explicit Fragment(const Context&);
 	int fragmentNumber;

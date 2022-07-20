@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -21,9 +21,9 @@
 
 #include "cgal.h"
 
-#include <QList>
-#include "polygon.h"
 #include "cgalprojection.h"
+#include "polygon.h"
+#include <QList>
 
 namespace CGAL
 {
@@ -38,30 +38,30 @@ public:
 	~CGALPolygon();
 
 	void appendVertex(CGAL::Point3);
+	void appendVertex(CGAL::Point3,bool);
 
-	QList<CGAL::Point3> getPoints() const;
-	QList<CGAL::Point2> getProjectedPoints();
-	QList<CGAL::Segment3> getSegments();
+	const QList<CGAL::Point3> getPoints() const;
+	const QList<CGAL::Point2> getProjectedPoints();
+	const QList<CGAL::Segment3> getSegments();
 
-	CGAL::Direction3 getDirection() const;
 	CGAL::Vector3 getNormal() const;
 	void calculatePlane();
 
 	CGAL::Plane3 getPlane() const;
 	void setPlane(const CGAL::Plane3&);
 
-	bool getHole() const;
-	void setHole(bool value);
-
 	CGALProjection* getProjection();
 	bool sameProjection(CGALPolygon*);
+
+	CGAL::Orientation getOrientation() const;
+	void setOrientation(const CGAL::Orientation&);
+
 private:
 	void calculateProjection();
 
 	CGAL::Plane3 plane;
 	CGALProjection* projection;
-	CGAL::Direction3 direction;
-	bool hole;
+	CGAL::Orientation orientation;
 };
 #endif // CGALPOLYGON_H
 #endif

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,21 +17,25 @@
  */
 #ifdef USE_CGAL
 #include "cgalimport.h"
-#include <CGAL/IO/Polyhedron_iostream.h>
+
+#include "cgalprimitive.h"
+#include "nodeevaluator.h"
+#include "script.h"
+#include "treeevaluator.h"
+#include <contrib/qzipreader_p.h>
+
 #include <CGAL/IO/Nef_polyhedron_iostream_3.h>
 #if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,3,0)
 #include <CGAL/IO/OBJ.h>
+#include <CGAL/IO/STL.h>
 #else
 #include <CGAL/IO/OBJ_reader.h>
 #endif
-#include <fstream>
+#include <CGAL/IO/Polyhedron_iostream.h>
 #include <QRegExp>
 #include <QStringList>
 #include <QXmlStreamReader>
-#include "script.h"
-#include "treeevaluator.h"
-#include "nodeevaluator.h"
-#include "contrib/qzipreader_p.h"
+#include <fstream>
 
 CGALImport::CGALImport(const QFileInfo& f,Reporter& r) :
 	fileInfo(f),
@@ -66,7 +70,7 @@ Primitive* CGALImport::import() const
 Primitive* CGALImport::importOFF() const
 {
 	CGAL::Polyhedron3 poly;
-	std::ifstream file(fileInfo.absoluteFilePath().toLocal8Bit().constData());
+	std::ifstream file(fileInfo.absoluteFilePath().toStdString());
 	file >> poly;
 	file.close();
 
@@ -78,7 +82,7 @@ Primitive* CGALImport::importOFF() const
 Primitive* CGALImport::importNEF() const
 {
 	CGAL::NefPolyhedron3 nef;
-	std::ifstream file(fileInfo.absoluteFilePath().toLocal8Bit().constData());
+	std::ifstream file(fileInfo.absoluteFilePath().toStdString());
 	file >> nef;
 	file.close();
 
@@ -91,7 +95,7 @@ Primitive* CGALImport::importOBJ() const
 	auto* cp=new CGALPrimitive();
 	std::vector<CGAL::Point3> points;
 	std::vector<std::vector<std::size_t> > faces;
-	std::ifstream file(fileInfo.absoluteFilePath().toLocal8Bit().constData());
+	std::ifstream file(fileInfo.absoluteFilePath().toStdString());
 #if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,3,0)
 	CGAL::IO::read_OBJ(file,points,faces);
 #else
@@ -110,6 +114,22 @@ Primitive* CGALImport::importOBJ() const
 
 Primitive* CGALImport::importSTL() const
 {
+#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,3,0)
+	auto* cp=new CGALPrimitive();
+	std::vector<CGAL::Point3> points;
+	std::vector<std::vector<std::size_t> > faces;
+	std::ifstream file(fileInfo.absoluteFilePath().toStdString());
+	CGAL::IO::read_STL(file,points,faces);
+	for(const auto& pt : points)
+		cp->createVertex(pt);
+
+	for(const auto& f : faces) {
+		CGALPolygon& pg=cp->createPolygon();
+		for(const auto& i : f)
+			pg.append(i);
+	}
+	return cp;
+#else
 	auto* p=new CGALPrimitive();
 	p->setSanitized(false);
 	QFile f(fileInfo.absoluteFilePath());
@@ -176,16 +196,17 @@ Primitive* CGALImport::importSTL() const
 		while(!f.atEnd()) {
 			if(f.read((char*)&data, datasize) != datasize)
 				break;
-			p->createPolygon();
+			auto& pg=p->createPolygon();
 			CGAL::Point3 v1(data.x1,data.y1,data.z1);
-			p->appendVertex(v1);
+			pg.appendVertex(v1);
 			CGAL::Point3 v2(data.x2,data.y2,data.z2);
-			p->appendVertex(v2);
+			pg.appendVertex(v2);
 			CGAL::Point3 v3(data.x3,data.y3,data.z3);
-			p->appendVertex(v3);
+			pg.appendVertex(v3);
 		}
 	}
 	return p;
+#endif
 }
 
 Primitive* CGALImport::importAMF() const
@@ -302,7 +323,8 @@ Primitive* CGALImport::import3MF() const
 												CGAL::Scalar x=0.0;
 												CGAL::Scalar y=0.0;
 												CGAL::Scalar z=0.0;
-												for(const auto& attr: xml.attributes()) {
+												const auto attributes=xml.attributes();
+												for(const auto& attr: attributes) {
 													QStringRef n=attr.name();
 													QStringRef v=attr.value();
 													if(n == "x")
@@ -322,7 +344,8 @@ Primitive* CGALImport::import3MF() const
 												int v1=0;
 												int v2=0;
 												int v3=0;
-												for(const auto& attr: xml.attributes()) {
+												const auto attributes=xml.attributes();
+												for(const auto& attr: attributes) {
 													QStringRef n=attr.name();
 													QStringRef v=attr.value();
 													if(n == "v1")

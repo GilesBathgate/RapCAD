@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -52,7 +52,12 @@ PrimitiveTypes Polyhedron::getType()
 	return type;
 }
 
-void Polyhedron::add(Primitive* p, bool)
+void Polyhedron::groupLater(Primitive *p)
+{
+	appendChild(p);
+}
+
+void Polyhedron::joinLater(Primitive *p)
 {
 	appendChild(p);
 }
@@ -96,10 +101,10 @@ Primitive* Polyhedron::minkowski(Primitive* p)
 Primitive* Polyhedron::copy()
 {
 	auto* c=new Polyhedron();
-	for(const auto& p: points) {
+	for(const auto& p: getPoints()) {
 		c->createVertex(p);
 	}
-	for(Polygon* pg: polygons) {
+	for(Polygon* pg: getPolygons()) {
 		Polygon& npg=c->createPolygon();
 		npg.setIndexes(pg->getIndexes());
 	}
@@ -115,12 +120,12 @@ void Polyhedron::transform(TransformMatrix* matrix)
 	TransformMatrix* t=matrix;
 #endif
 	QList<Point> nps;
-	for(const auto& p: points) {
+	for(const auto& p: getPoints()) {
 		nps.append(p.transform(t));
 	}
 	points=nps;
 
-	for(Primitive* p: children)
+	for(Primitive* p: getChildren())
 		p->transform(matrix);
 }
 
@@ -129,17 +134,17 @@ bool Polyhedron::isEmpty()
 	return polygons.isEmpty();
 }
 
-QList<Polygon*> Polyhedron::getPolygons() const
+const QList<Polygon*> Polyhedron::getPolygons() const
 {
 	return polygons;
 }
 
-QList<Point> Polyhedron::getPoints() const
+const QList<Point> Polyhedron::getPoints() const
 {
 	return points;
 }
 
-QList<Primitive*> Polyhedron::getChildren()
+const QList<Primitive*> Polyhedron::getChildren() const
 {
 	return children;
 }

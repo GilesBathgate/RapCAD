@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,11 +17,11 @@
  */
 
 #include "textmodule.h"
-#include "textvalue.h"
+#include "context.h"
+#include "node/primitivenode.h"
 #include "numbervalue.h"
 #include "qpathtextbuilder.h"
-#include "node/primitivenode.h"
-#include "context.h"
+#include "textvalue.h"
 
 TextModule::TextModule(Reporter& r) : Module(r, "text")
 {
@@ -47,12 +47,12 @@ Node* TextModule::evaluate(const Context& ctx) const
 	if(sizeVal)
 		size=sizeVal->toInteger();
 
-	QPathTextBuilder tb(reporter);
+	QPathTextBuilder tb;
 	tb.setText(textVal->getValueString());
 	tb.setFamily(family);
 	tb.setSize(size);
 
-	auto* pn=new PrimitiveNode(reporter);
+	auto* pn=new PrimitiveNode();
 	Primitive* p=tb.buildPrimitive();
 	p->setType(PrimitiveTypes::Surface);
 	p->setSanitized(false);

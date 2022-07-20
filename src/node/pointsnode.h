@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,20 +19,17 @@
 #ifndef POINTSNODE_H
 #define POINTSNODE_H
 
-#include "point.h"
-#include "node.h"
+#include "node/primitivenode.h"
 
-class PointsNode : public Node
+class PointsNode : public PrimitiveNode
 {
 public:
 	PointsNode();
-	void setPoints(const QList<Point>&);
-	QList<Point> getPoints() const;
+	void createSinglePoint();
 	bool getVisibleChildren() const;
 	void setVisibleChildren(bool value);
 	void accept(NodeVisitor&) override;
 private:
-	QList<Point> points;
 	bool visibleChildren;
 };
 

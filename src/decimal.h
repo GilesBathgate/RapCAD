@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,12 +19,13 @@
 #ifndef DECIMAL_H
 #define DECIMAL_H
 
+#ifdef USE_CGAL
+#include "cgal.h"
+#endif
 #include <QString>
 
 #ifdef USE_CGAL
-#include "cgal.h"
 using decimal = CGAL::Scalar;
-using Point = CGAL::Point3;
 #else
 using decimal = double;
 #endif
@@ -53,10 +54,9 @@ int to_integer(const decimal&);
 bool to_boolean(const decimal&);
 decimal parse_rational(const QString&,bool* ok=nullptr);
 decimal parse_numberexp(const QString&,bool* ok=nullptr);
-decimal get_unit(const QString&,QString&);
+decimal get_unit(QString&);
 
 #ifdef USE_CGAL
-void to_glcoord(const Point&,float&,float&,float&);
 mpq_srcptr to_mpq(const decimal&);
 void to_mpfr(mpfr_t&,const decimal&);
 decimal to_decimal(mpfr_t&);

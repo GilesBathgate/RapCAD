@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QStringList>
-#include "versionfunction.h"
 #include "context.h"
-#include "vectorvalue.h"
 #include "numbervalue.h"
-#include "textvalue.h"
 #include "stringify.h"
+#include "textvalue.h"
+#include "vectorvalue.h"
+#include "versionfunction.h"
+#include <QStringList>
 
 VersionFunction::VersionFunction() : Function("version")
 {
@@ -37,15 +37,15 @@ Value& VersionFunction::evaluate(const Context&) const
 	int major=parts.at(0).toInt();
 	int minor=parts.at(1).toInt();
 	const QString& build=parts.at(2);
-	version.append(&Value::factory.createNumber(major));
-	version.append(&Value::factory.createNumber(minor));
+	version.append(&ValueFactory::createNumber(major));
+	version.append(&ValueFactory::createNumber(minor));
 	if(build=="git") {
-		version.append(&Value::factory.createText(build));
+		version.append(&ValueFactory::createText(build));
 		const QString& revision=parts.at(3);
-		version.append(&Value::factory.createText(revision));
+		version.append(&ValueFactory::createText(revision));
 	} else {
 		version.append(new NumberValue(build.toInt()));
 	}
 
-	return Value::factory.createVector(version);
+	return ValueFactory::createVector(version);
 }

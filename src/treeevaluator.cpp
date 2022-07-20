@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,14 +17,13 @@
  */
 
 #include "treeevaluator.h"
-#include "vectorvalue.h"
-#include "complexvalue.h"
-#include "rangevalue.h"
-#include "valueiterator.h"
 #include "builtinmanager.h"
-#include "syntaxtreebuilder.h"
+#include "complexvalue.h"
 #include "module/unionmodule.h"
+#include "rangevalue.h"
 #include "valuefactory.h"
+#include "valueiterator.h"
+#include "vectorvalue.h"
 
 TreeEvaluator::TreeEvaluator(Reporter& r) :
 	reporter(r),
@@ -37,8 +36,8 @@ TreeEvaluator::TreeEvaluator(Reporter& r) :
 
 TreeEvaluator::~TreeEvaluator()
 {
-	Value::factory.cleanupValues();
-	qDeleteAll(scopeLookup.values());
+	ValueFactory::getInstance().cleanupValues();
+	qDeleteAll(scopeLookup);
 	scopeLookup.clear();
 	qDeleteAll(imports);
 	imports.clear();
@@ -103,7 +102,7 @@ void TreeEvaluator::visit(const Instance& inst)
 	 * have children */
 	Scope* c=context->getCurrentScope();
 	QList<Node*> childnodes;
-	QList <Statement*> stmts = inst.getChildren();
+	const QList <Statement*> stmts = inst.getChildren();
 	if(!stmts.empty()) {
 		startContext(c);
 
@@ -120,7 +119,7 @@ void TreeEvaluator::visit(const Instance& inst)
 	startContext(c);
 	for(Argument* arg: inst.getArguments())
 		arg->accept(*this);
-	auto arguments=context->getArguments();
+	const auto arguments=context->getArguments();
 	finishContext();
 
 	/* Look up the layout which is currently in scope and then lookup the
@@ -163,7 +162,7 @@ void TreeEvaluator::visit(const Instance& inst)
 			context->addCurrentNode(node);
 
 	} else {
-		reporter.reportWarning(tr("cannot find module '%1%2'").arg(name).arg(aux?"$":""));
+		reporter.reportWarning(tr("cannot find module '%1%2'").arg(name,aux?"$":""));
 	}
 }
 
@@ -284,7 +283,7 @@ void TreeEvaluator::visit(const Parameter& param)
 		e->accept(*this);
 		v = context->getCurrentValue();
 	} else {
-		v = &Value::factory.createUndefined();
+		v = &ValueFactory::createUndefined();
 	}
 
 	context->addParameter(name,v);
@@ -405,7 +404,7 @@ void TreeEvaluator::visit(const VectorExpression& exp)
 	if(commas>0)
 		reporter.reportWarning(tr("%1 additional comma(s) found at the end of vector expression").arg(commas));
 
-	Value& v = Value::factory.createVector(childvalues);
+	Value& v = ValueFactory::createVector(childvalues);
 	context->setCurrentValue(&v);
 }
 
@@ -425,10 +424,10 @@ void TreeEvaluator::visit(const RangeExpression& exp)
 	Value* finish=context->getCurrentValue();
 
 	if(increment) {
-		Value& result = Value::factory.createRange(*start,*increment,*finish);
+		Value& result = ValueFactory::createRange(*start,*increment,*finish);
 		context->setCurrentValue(&result);
 	} else {
-		Value& result = Value::factory.createRange(*start,*finish);
+		Value& result = ValueFactory::createRange(*start,*finish);
 		context->setCurrentValue(&result);
 	}
 }
@@ -471,7 +470,7 @@ void TreeEvaluator::visit(const Invocation& stmt)
 	startContext(c);
 	for(Argument* arg: stmt.getArguments())
 		arg->accept(*this);
-	auto arguments=context->getArguments();
+	const auto arguments=context->getArguments();
 	finishContext();
 
 	Value* result=nullptr;
@@ -514,7 +513,7 @@ void TreeEvaluator::visit(const Invocation& stmt)
 	}
 
 	if(!result)
-		result=&Value::factory.createUndefined();
+		result=&ValueFactory::createUndefined();
 
 	context->setCurrentValue(result);
 }
@@ -661,7 +660,7 @@ void TreeEvaluator::visit(const ComplexExpression& exp)
 		e->accept(*this);
 		childvalues.append(context->getCurrentValue());
 	}
-	Value& v=Value::factory.createComplex(*result,childvalues);
+	Value& v=ValueFactory::createComplex(*result,childvalues);
 	context->setCurrentValue(&v);
 }
 

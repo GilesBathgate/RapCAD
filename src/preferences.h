@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,14 +18,14 @@
 #ifndef PREFERENCES_H
 #define PREFERENCES_H
 
-#include <QSettings>
+#include "decimal.h"
+#include "ui/glview.h"
 #include <QColor>
+#include <QFont>
 #include <QPoint>
+#include <QSettings>
 #include <QSize>
 #include <QVector3D>
-#include <QFont>
-#include "ui/glview.h"
-#include "decimal.h"
 
 class Preferences
 {
@@ -163,6 +163,9 @@ public:
 
 	QString getIndent() const;
 	void setIndent(const QString& value);
+
+	int getThreadPoolSize() const;
+	void setThreadPoolSize(int value);
 
 private:
 	Preferences();

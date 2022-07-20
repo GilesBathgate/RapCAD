@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,10 +17,10 @@
  */
 
 #include "ismat4x4function.h"
-#include "context.h"
-#include "vectorvalue.h"
-#include "numbervalue.h"
 #include "booleanvalue.h"
+#include "context.h"
+#include "numbervalue.h"
+#include "vectorvalue.h"
 
 IsMat4x4Function::IsMat4x4Function() : Function("is_mat4x4")
 {
@@ -32,25 +32,25 @@ Value& IsMat4x4Function::evaluate(const Context& ctx) const
 {
 	auto* matVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	if(matVal) {
-		QList<Value*> rows=matVal->getElements();
+		const QList<Value*> rows=matVal->getElements();
 		if(rows.count()==4) {
 			for(Value* c: rows) {
 				auto* rowVal=dynamic_cast<VectorValue*>(c);
 				if(rowVal) {
-					QList<Value*> cols=rowVal->getElements();
+					const QList<Value*> cols=rowVal->getElements();
 					if(cols.count()==4) {
 						for(Value* v: cols) {
 							auto* numVal=dynamic_cast<NumberValue*>(v);
 							if(!numVal) {
-								return Value::factory.createBoolean(false);
+								return ValueFactory::createBoolean(false);
 							}
 						}
-						return Value::factory.createBoolean(true);
+						return ValueFactory::createBoolean(true);
 					}
 				}
 			}
 		}
 	}
 
-	return Value::factory.createBoolean(false);
+	return ValueFactory::createBoolean(false);
 }

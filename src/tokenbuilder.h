@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,17 +19,18 @@
 #ifndef TOKENBUILDER_H
 #define TOKENBUILDER_H
 
-#include <QString>
-#include <QChar>
-#include <QStack>
-#include <QDir>
 #include "abstracttokenbuilder.h"
 #include "reporter.h"
+#include <QChar>
+#include <QDir>
+#include <QStack>
+#include <QString>
+
+using yyscan_t = void*;
 
 class TokenBuilder : public AbstractTokenBuilder
 {
 public:
-	explicit TokenBuilder(const QString&);
 	TokenBuilder(Reporter&,const QString&);
 	TokenBuilder(Reporter&,const QFileInfo&);
 	~TokenBuilder() override;
@@ -97,17 +98,23 @@ public:
 	void buildWhiteSpaceError() override;
 	void buildWhiteSpace() override;
 	void buildNewLine() override;
-	void buildFileStart(QDir) override;
+	void buildFileStart(QFileInfo) override;
 	void buildFileFinish() override;
 	QString getToken() const override;
+	void setParser(union YYSTYPE*) override;
 private:
-	TokenBuilder();
+	TokenBuilder(Reporter& r);
+	bool openfile(QFileInfo);
 	QString token;
 	QString* stringcontents;
 	QString filename;
 	QString filepath;
 	QStack<QDir> path_stack;
+	QList<FILE*> openfiles;
 	int position;
+	Reporter& reporter;
+	union YYSTYPE* parser;
+	yyscan_t scanner;
 };
 
 #endif // TOKENBUILDER_H

@@ -8,71 +8,78 @@ ValueFactory::~ValueFactory()
 
 ValueFactory& ValueFactory::getInstance()
 {
-	static ValueFactory factory;
+	static thread_local ValueFactory factory;
 	return factory;
+}
+
+void ValueFactory::appendValue(Value* v)
+{
+	getInstance().values.append(v);
 }
 
 Value& ValueFactory::createUndefined()
 {
 	auto* v = new Value();
 	v->defined = false;
-	values.append(v);
+	appendValue(v);
 	return *v;
 }
 
 BooleanValue& ValueFactory::createBoolean(bool b)
 {
 	auto* v = new BooleanValue(b);
-	values.append(v);
+	appendValue(v);
 	return *v;
 }
 
 NumberValue& ValueFactory::createNumber(const decimal& n)
 {
 	auto* v = new NumberValue(n);
-	values.append(v);
+	appendValue(v);
 	return *v;
 }
 
 TextValue& ValueFactory::createText(const QString& s)
 {
 	auto* v = new TextValue(s);
-	values.append(v);
+	appendValue(v);
 	return *v;
 }
 
 VectorValue& ValueFactory::createVector(const QList<Value*>& l)
 {
 	auto* v = new VectorValue(l);
-	values.append(v);
+	appendValue(v);
 	return *v;
 }
 
 RangeValue& ValueFactory::createRange(Value& start,Value& finish)
 {
 	auto* v = new RangeValue(start,finish);
-	values.append(v);
+	appendValue(v);
 	return *v;
 }
 
 RangeValue& ValueFactory::createRange(Value& start,Value& step,Value& finish)
 {
 	auto* v = new RangeValue(start,step,finish);
-	values.append(v);
+	appendValue(v);
 	return *v;
 }
 
 ComplexValue& ValueFactory::createComplex(Value& r,const QList<Value*>& i)
 {
 	auto* v = new ComplexValue(r,i);
-	values.append(v);
+	appendValue(v);
 	return *v;
 }
 
 void ValueFactory::cleanupValues()
 {
-	qDeleteAll(values);
+	//Optimisation call clear before delete
+	QList<Value*> deleteLater(values);
 	values.clear();
+	qDeleteAll(deleteLater);
 }
 
 void ValueFactory::deleteValue(Value* v)

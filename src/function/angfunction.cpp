@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,11 +17,11 @@
  */
 
 #include "angfunction.h"
+#include "complexvalue.h"
 #include "context.h"
 #include "numbervalue.h"
-#include "vectorvalue.h"
-#include "complexvalue.h"
 #include "rmath.h"
+#include "vectorvalue.h"
 
 AngFunction::AngFunction() : Function("ang")
 {
@@ -36,14 +36,14 @@ Value& AngFunction::getResult(const decimal& a,const decimal& x,const decimal& y
 	decimal c=r_right_cos(w);
 	decimal s=r_right_sin(w);
 
-	Value& angle=Value::factory.createNumber(c);
+	Value& angle=ValueFactory::createNumber(c);
 
 	QList<Value*> axis;
-	axis.append(&Value::factory.createNumber(x*s));
-	axis.append(&Value::factory.createNumber(y*s));
-	axis.append(&Value::factory.createNumber(z*s));
+	axis.append(&ValueFactory::createNumber(x*s));
+	axis.append(&ValueFactory::createNumber(y*s));
+	axis.append(&ValueFactory::createNumber(z*s));
 
-	return Value::factory.createComplex(angle,axis);
+	return ValueFactory::createComplex(angle,axis);
 }
 
 Value& AngFunction::evaluate(const Context& ctx) const
@@ -60,10 +60,10 @@ Value& AngFunction::evaluate(const Context& ctx) const
 		// [x,y,z] = v1 x v2
 		Value& cross=Value::evaluate(*vecVal1,Operators::CrossProduct,*vecVal2);
 		auto* axis=dynamic_cast<VectorValue*>(&cross);
-		if(!axis) return Value::factory.createUndefined();
+		if(!axis) return ValueFactory::createUndefined();
 
 		//Renormalise the quaternion
-		Value& q=Value::factory.createComplex(angle,axis->getElements());
+		Value& q=ValueFactory::createComplex(angle,axis->getElements());
 		Value& l=Value::evaluate(q,Operators::Length);
 		return Value::evaluate(q,Operators::Divide,l);
 	}
@@ -107,5 +107,5 @@ Value& AngFunction::evaluate(const Context& ctx) const
 		return getResult(a,0.0,0.0,1.0);
 	}
 
-	return Value::factory.createUndefined();
+	return ValueFactory::createUndefined();
 }

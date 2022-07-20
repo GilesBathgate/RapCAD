@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -50,6 +50,7 @@ private:
 	void searchTest();
 	void aboutTest();
 	void preferencesTest();
+	void writeTestTime();
 
 	QString directory;
 	QString* nullout;
@@ -59,6 +60,7 @@ private:
 	int passcount;
 	int failcount;
 	MainWindow* ui;
+	QElapsedTimer testTimer;
 };
 
 #endif // TESTER_H

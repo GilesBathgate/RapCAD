@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,15 +17,15 @@
  */
 
 #include "interactive.h"
-#include "treeevaluator.h"
+
+#include "assertexception.h"
 #include "script.h"
 #include "tokenreader.h"
+#include "treeevaluator.h"
 #ifdef USE_CGAL
 #include <CGAL/exceptions.h>
 #endif
-#include "assertexception.h"
-#include "contrib/qtcompat.h"
-
+#include <contrib/qtcompat.h>
 #ifdef USE_READLINE
 namespace readline
 {
@@ -56,11 +56,11 @@ void Interactive::execCommand(const QString& str)
 		QString s(str);
 		if(isExpression(s)) {
 			s=QString("writeln(%1);").arg(s);
-			/* Use a kludge factor so that the reporter doesn't include the 'write('
-			 * characters in its 'at character' output */
-			reporter.setKludge(-8);
+			/* Use a position offset 'kludge' so that the reporter doesn't include
+			 * the 'write(' characters in its 'at character' output */
+			reporter.setPositionOffset(-8);
 		} else {
-			reporter.setKludge(0);
+			reporter.setPositionOffset(0);
 		}
 
 		Script sc(reporter);

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -87,7 +87,7 @@ void Project::writeProject(const QString& filename)
 	xml.writeStartElement("project");
 	xml.writeAttribute("version","0.1");
 	xml.writeTextElement("name",name);
-	for(const auto& source: sources)
+	for(const auto& source: getSources())
 		xml.writeTextElement("source",source);
 	xml.writeEndElement();
 	xml.writeEndDocument();
@@ -120,7 +120,7 @@ void Project::addSource(const QString& value)
 	rootItem->appendRow(new QStandardItem(value));
 }
 
-QList<QString> Project::getSources() const
+const QList<QString> Project::getSources() const
 {
 	return sources;
 }

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,42 +19,42 @@
 #ifndef NODEPRINTER_H
 #define NODEPRINTER_H
 
-#include <QTextStream>
-#include "nodevisitor.h"
-#include "polyhedron.h"
-#include "node/primitivenode.h"
-#include "node/unionnode.h"
-#include "node/groupnode.h"
-#include "node/differencenode.h"
-#include "node/intersectionnode.h"
-#include "node/symmetricdifferencenode.h"
-#include "node/minkowskinode.h"
-#include "node/glidenode.h"
-#include "node/transformationnode.h"
-#include "node/linearextrudenode.h"
-#include "node/rotateextrudenode.h"
-#include "node/hullnode.h"
-#include "node/boundsnode.h"
-#include "node/subdivisionnode.h"
-#include "node/offsetnode.h"
-#include "node/boundarynode.h"
-#include "node/importnode.h"
-#include "node/resizenode.h"
 #include "node/alignnode.h"
+#include "node/boundarynode.h"
+#include "node/boundsnode.h"
+#include "node/childrennode.h"
+#include "node/complementnode.h"
+#include "node/decomposenode.h"
+#include "node/differencenode.h"
+#include "node/discretenode.h"
+#include "node/glidenode.h"
+#include "node/groupnode.h"
+#include "node/hullnode.h"
+#include "node/importnode.h"
+#include "node/intersectionnode.h"
+#include "node/linearextrudenode.h"
+#include "node/materialnode.h"
+#include "node/minkowskinode.h"
+#include "node/normalsnode.h"
+#include "node/offsetnode.h"
 #include "node/pointsnode.h"
-#include "node/slicenode.h"
+#include "node/primitivenode.h"
 #include "node/productnode.h"
 #include "node/projectionnode.h"
-#include "node/decomposenode.h"
-#include "node/complementnode.h"
 #include "node/radialsnode.h"
-#include "node/volumesnode.h"
-#include "node/triangulatenode.h"
-#include "node/materialnode.h"
-#include "node/discretenode.h"
-#include "node/normalsnode.h"
+#include "node/resizenode.h"
+#include "node/rotateextrudenode.h"
 #include "node/simplifynode.h"
-#include "node/childrennode.h"
+#include "node/slicenode.h"
+#include "node/subdivisionnode.h"
+#include "node/symmetricdifferencenode.h"
+#include "node/transformationnode.h"
+#include "node/triangulatenode.h"
+#include "node/unionnode.h"
+#include "node/volumesnode.h"
+#include "nodevisitor.h"
+#include "polyhedron.h"
+#include <QTextStream>
 
 #ifdef USE_CGAL
 #include "cgalprimitive.h"
@@ -98,6 +98,7 @@ public:
 	void visit(const NormalsNode&) override;
 	void visit(const SimplifyNode&) override;
 	void visit(const ChildrenNode&) override;
+	Primitive* getResult() const override { return nullptr; }
 private:
 	QTextStream& result;
 	void collectChildren(const Node&);

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,11 +19,10 @@
 #ifndef CGALRENDERER_H
 #define CGALRENDERER_H
 
-#include <QColor>
 #include "renderer.h"
-#include "cgalprimitive.h"
 #include "simplerenderer.h"
-#include "contrib/OGL_helper.h"
+#include <QColor>
+#include <contrib/OGL_helper.h>
 
 class CGALRenderer : public Renderer, private CGAL::OGL::Polyhedron
 {

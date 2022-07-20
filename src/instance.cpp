@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ void Instance::setArguments(const QList<Argument*>& args)
 	arguments = args;
 }
 
-QList<Argument*> Instance::getArguments() const
+const QList<Argument*> Instance::getArguments() const
 {
 	return arguments;
 }
@@ -66,7 +66,7 @@ InstanceTypes Instance::getType() const
 	return type;
 }
 
-QList <Statement*> Instance::getChildren() const
+const QList <Statement*> Instance::getChildren() const
 {
 	return children;
 }

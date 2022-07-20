@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,8 +17,9 @@
  */
 
 #include "cylindersurfacemodule.h"
+#include "context.h"
+#include "node/alignnode.h"
 #include "numbervalue.h"
-#include "booleanvalue.h"
 
 CylinderSurfaceModule::CylinderSurfaceModule(Reporter& r) : PrimitiveModule(r,"cylinder_surface")
 {
@@ -52,10 +53,10 @@ Node* CylinderSurfaceModule::evaluate(const Context& ctx) const
 
 	int f = Fragment::getFragments(ctx,r);
 
-	QList<Point> c1=getCircle(r,f,z1);
-	QList<Point> c2=getCircle(r,f,z2);
+	const QList<Point> c1=getCircle(r,f,z1);
+	const QList<Point> c2=getCircle(r,f,z2);
 
-	auto* pn=new PrimitiveNode(reporter);
+	auto* pn=new PrimitiveNode();
 	Primitive* p=pn->createPrimitive();
 	p->setType(PrimitiveTypes::Surface);
 	pn->setChildren(ctx.getInputNodes());

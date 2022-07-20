@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -71,13 +71,9 @@ void SimpleRenderer::descendChildren(Primitive* p)
 
 void SimpleRenderer::drawPoint(const Point& pt)
 {
-#ifdef USE_CGAL
 	GLfloat x;
 	GLfloat y;
 	GLfloat z;
 	to_glcoord(pt,x,y,z);
-#else
-	decimal x=pt.x(),y=pt.y(),z=pt.z();
-#endif
 	glVertex3f(x,y,z);
 }

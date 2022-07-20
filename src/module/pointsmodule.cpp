@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -32,21 +32,26 @@ Node* PointsModule::evaluate(const Context& ctx) const
 	auto* pointsVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 
 	QList<Point> points;
-	auto* n=new PointsNode();
-	n->setChildren(ctx.getInputNodes());
-	if(!pointsVal)
-		return n;
-
-	for(Value* child: pointsVal->getElements()) {
-		auto* loc = dynamic_cast<VectorValue*>(child);
-		if(!loc) {
-			points.append(pointsVal->getPoint());
-			n->setPoints(points);
-			return n;
+	if(pointsVal) {
+		for(Value* child: pointsVal->getElements()) {
+			auto* loc=dynamic_cast<VectorValue*>(child);
+			if(!loc) {
+				points.append(pointsVal->getPoint());
+				break;
+			}
+			points.append(loc->getPoint());
 		}
-		points.append(loc->getPoint());
 	}
 
-	n->setPoints(points);
+	auto* n=new PointsNode();
+	n->setChildren(ctx.getInputNodes());
+	if(points.isEmpty()) {
+		n->createSinglePoint();
+	} else {
+		Primitive* cp=n->createPrimitive();
+		cp->setType(PrimitiveTypes::Points);
+		for(const auto& p: points)
+			cp->createVertex(p);
+	}
 	return n;
 }

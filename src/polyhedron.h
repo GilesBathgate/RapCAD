@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -26,38 +26,49 @@ class Polyhedron : public Primitive
 public:
 	Polyhedron();
 	~Polyhedron() override;
-	Polygon& createPolygon() override;
-	void createVertex(const Point&) override;
-	void setType(PrimitiveTypes) override;
-	PrimitiveTypes getType() override;
-	void setSanitized(bool) override { }
 	bool getSanitized() override { return false; }
-	Primitive* buildPrimitive() { return this; }
-	bool overlaps(Primitive*) override { return false; }
-	void add(Primitive*,bool) override;
-	Primitive* group(Primitive*) override;
-	Primitive* join(Primitive*) override;
-	Primitive* combine() override;
-	Primitive* intersection(Primitive*) override;
-	Primitive* difference(Primitive*) override;
-	Primitive* symmetric_difference(Primitive*) override;
-	Primitive* minkowski(Primitive*) override;
-	Primitive* inset(const decimal&) override { return this; }
-	Primitive* decompose() override { return this; }
-	Primitive* complement() override { return this; }
-	Primitive* boundary() override { return this; }
-	bool isFullyDimentional() override { return false; }
-	Primitive* copy() override;
-	Primitive* triangulate() override { return this; }
-	Primitive* simplify(const decimal&) override { return this; }
-	void transform(TransformMatrix*) override;
 	bool isEmpty() override;
-	QList<Polygon*> getPolygons() const override;
-	QList<Point> getPoints() const override;
-	QList<Primitive*> getChildren() override;
+	bool isFullyDimentional() override { return false; }
+	bool overlaps(Primitive*) override { return false; }
+	Polygon& createPolygon() override;
+	Primitive* boundary() override { return this; }
+	Primitive* chain_hull(Primitive*,Primitive*) override { return this; }
+	Primitive* combine() override;
+	Primitive* complement() override { return this; }
+	Primitive* copy() override;
+	Primitive* decompose() override { return this; }
+	Primitive* difference(Primitive*) override;
+	Primitive* glide(Primitive*) override { return this; }
+	Primitive* group(Primitive*) override;
+	Primitive* hull(bool) override { return this; }
+	Primitive* hull(QList<Point>) override { return this; }
+	Primitive* inset(const decimal&) override { return this; }
+	Primitive* intersection(Primitive*) override;
+	Primitive* join(Primitive*) override;
+	Primitive* linear_extrude(const decimal&,const Point&) override { return this; }
+	Primitive* minkowski(Primitive*) override;
+	Primitive* projection(bool) override { return this; }
+	Primitive* rotate_extrude(const decimal&,const decimal&,const decimal&,const Fragment*,const Point&) override { return this; }
+	Primitive* simplify(const decimal&) override { return this; }
+	Primitive* slice(const decimal&,const decimal&) override { return this; }
+	Primitive* subdivide(int) override { return this; }
+	Primitive* symmetric_difference(Primitive*) override;
+	Primitive* triangulate() override { return this; }
+	PrimitiveTypes getType() override;
+	const QList<Point> getPoints() const override;
+	const QList<Polygon*> getPolygons() const override;
+	const QList<Primitive*> getChildren() const override;
+	void align(bool,QList<ViewDirections>) override {}
 	void appendChild(Primitive*) override;
 	void appendChildren(QList<Primitive*>) override;
+	void createVertex(const Point&) override;
 	void discrete(int) override;
+	void groupLater(Primitive*) override;
+	void joinLater(Primitive*) override;
+	void resize(bool,const Point&) override	{}
+	void setSanitized(bool) override { }
+	void setType(PrimitiveTypes) override;
+	void transform(TransformMatrix*) override;
 private:
 	QList<Point> points;
 	QList<Polygon*> polygons;

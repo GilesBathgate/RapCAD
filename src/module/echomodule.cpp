@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 #include "echomodule.h"
 #include "context.h"
 #include "textvalue.h"
-#include "contrib/qtcompat.h"
+#include <contrib/qtcompat.h>
 
 EchoModule::EchoModule(Reporter& r) : Module(r,"echo"), output(r.output)
 {
@@ -34,7 +34,7 @@ Node* EchoModule::evaluate(const Context& ctx) const
 		reporter.reportWarning(tr("'echo' module is deprecated please use 'write' or 'writeln'\n"));
 
 	output << "ECHO: ";
-	auto args=ctx.getArguments();
+	const QList<NamedValue> args=ctx.getArguments();
 
 	OnceOnly first;
 	for(const auto& a: args) {

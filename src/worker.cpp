@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,24 +17,22 @@
  */
 
 #include "worker.h"
-#include "treeprinter.h"
-#include "treeevaluator.h"
-#include "nodeprinter.h"
+#include "geometryevaluator.h"
 #include "nodeevaluator.h"
-#include "product.h"
 #include "numbervalue.h"
 #include "preferences.h"
+#include "product.h"
+#include "treeevaluator.h"
 
 #ifdef USE_CGAL
 #include "CGAL/exceptions.h"
 #include "cgalexport.h"
 #include "cgalrenderer.h"
-#include "cgalexplorer.h"
 #else
 #include "simplerenderer.h"
 #endif
 #include "assertexception.h"
-#include "contrib/qtcompat.h"
+#include <contrib/qtcompat.h>
 
 Worker::Worker(Reporter& r) :
 	Strategy(r),
@@ -96,11 +94,10 @@ void Worker::primary()
 	s.accept(e);
 	output.flush();
 
-	Node* n = e.getRootNode();
-	NodeEvaluator ne(reporter);
-	n->accept(ne);
-	updatePrimitive(ne.getResult());
-	delete n;
+	QScopedPointer<Node> n(e.getRootNode());
+	QScopedPointer<NodeVisitor> ne(getNodeVisitor());
+	n->accept(*ne);
+	updatePrimitive(ne->getResult());
 
 	if(!primitive)
 		reporter.reportWarning(tr("no top level object."));
@@ -248,4 +245,15 @@ Renderer* Worker::getRenderer()
 	return new SimpleRenderer(primitive);
 #endif
 
+}
+
+NodeVisitor *Worker::getNodeVisitor()
+{
+	auto& p=Preferences::getInstance();
+	int threads=p.getThreadPoolSize();
+	if(threads==0)
+		return new NodeEvaluator(reporter);
+
+	QThreadPool::globalInstance()->setMaxThreadCount(threads);
+	return new GeometryEvaluator(reporter);
 }

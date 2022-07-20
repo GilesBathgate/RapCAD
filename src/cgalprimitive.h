@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -21,14 +21,14 @@
 
 #include "cgal.h"
 
-#include <QVector>
-#include <QMap>
-#include <CGAL/Polyhedron_3.h>
-#include <CGAL/Nef_polyhedron_3.h>
-#include <CGAL/Nef_nary_union_3.h>
 #include "cgalpolygon.h"
 #include "cgalvolume.h"
 #include "primitive.h"
+#include <CGAL/Nef_nary_union_3.h>
+#include <CGAL/Nef_polyhedron_3.h>
+#include <CGAL/Polyhedron_3.h>
+#include <QMap>
+#include <QVector>
 
 namespace CGAL
 {
@@ -44,53 +44,68 @@ public:
 	~CGALPrimitive() override;
 	explicit CGALPrimitive(const CGAL::Polyhedron3&);
 	explicit CGALPrimitive(const CGAL::NefPolyhedron3&);
-	void setType(PrimitiveTypes) override;
-	PrimitiveTypes getType() override;
-	void setSanitized(bool) override;
 	bool getSanitized() override;
-	CGALPolygon& createPolygon() override;
-	CGALPolygon& createPerimeter();
-	void createVertex(const CGAL::Point3&) override;
-	void createVertex(const CGAL::Scalar&, const CGAL::Scalar&, const CGAL::Scalar&);
-	void addVertex(const CGAL::Point3& p,bool);
-	void addVertex(CGALPolygon*,const CGAL::Point3&, bool);
-	void appendVertex(const CGAL::Point3&);
-	bool overlaps(Primitive*) override;
-	Primitive* group(Primitive*) override;
-	Primitive* join(Primitive*) override;
-	void add(Primitive*,bool) override;
-	Primitive* combine() override;
-	Primitive* intersection(Primitive*) override;
-	Primitive* difference(Primitive*) override;
-	Primitive* symmetric_difference(Primitive*) override;
-	Primitive* minkowski(Primitive*) override;
-	Primitive* inset(const CGAL::Scalar&) override;
-	Primitive* decompose() override;
-	Primitive* complement() override;
-	Primitive* boundary() override;
-	Primitive* copy() override;
-	Primitive* triangulate() override;
-	Primitive* simplify(const CGAL::Scalar&) override;
-	CGAL::Cuboid3 getBounds();
-	void transform(TransformMatrix*) override;
-	/* Don't call this method instead use getCGALPolygons */
-	Q_DECL_DEPRECATED QList<Polygon*> getPolygons() const override;
-	QList<CGALPolygon*> getCGALPolygons() const;
-	QList<CGALPolygon*> getCGALPerimeter() const;
-	QList<CGAL::Point3> getPoints() const override;
-	const CGAL::NefPolyhedron3& getNefPolyhedron();
-	CGAL::Polyhedron3* getPolyhedron();
 	bool isEmpty() override;
 	bool isFullyDimentional() override;
-	QList<Primitive*> getChildren() override;
+	bool overlaps(Primitive*) override;
+	CGALPolygon& createPolygon() override;
+	const QList<CGAL::Point3> getPoints() const override;
+	const QList<Primitive*> getChildren() const override;
+	Primitive* boundary() override;
+	Primitive* chain_hull(Primitive*,Primitive*) override;
+	Primitive* combine() override;
+	Primitive* complement() override;
+	Primitive* copy() override;
+	Primitive* decompose() override;
+	Primitive* difference(Primitive*) override;
+	Primitive* glide(Primitive*) override;
+	Primitive* group(Primitive*) override;
+	Primitive* hull(bool) override;
+	Primitive* hull(QList<CGAL::Point3>) override;
+	Primitive* inset(const CGAL::Scalar&) override;
+	Primitive* intersection(Primitive*) override;
+	Primitive* join(Primitive*) override;
+	Primitive* linear_extrude(const CGAL::Scalar&,const CGAL::Point3&) override;
+	Primitive* minkowski(Primitive*) override;
+	Primitive* projection(bool) override;
+	Primitive* rotate_extrude(const CGAL::Scalar&,const CGAL::Scalar&,const CGAL::Scalar&,const Fragment*,const CGAL::Point3&) override;
+	Primitive* simplify(const CGAL::Scalar&) override;
+	Primitive* slice(const CGAL::Scalar&,const CGAL::Scalar&) override;
+	Primitive* subdivide(int) override;
+	Primitive* symmetric_difference(Primitive*) override;
+	Primitive* triangulate() override;
+	PrimitiveTypes getType() override;
+	/* Don't call this method instead use getCGALPolygons */
+	Q_DECL_DEPRECATED const QList<Polygon*> getPolygons() const override;
+	void align(bool,QList<ViewDirections>) override;
 	void appendChild(Primitive*) override;
 	void appendChildren(QList<Primitive*>) override;
+	void createVertex(const CGAL::Point3&) override;
 	void discrete(int) override;
+	void groupLater(Primitive*) override;
+	void joinLater(Primitive*) override;
+	void resize(bool,const CGAL::Point3&) override;
+	void setSanitized(bool) override;
+	void setType(PrimitiveTypes) override;
+	void transform(TransformMatrix*) override;
 	CGAL::Circle3 getRadius();
+	CGAL::Cuboid3 getBounds();
+	CGALPolygon& createPerimeter();
+	CGAL::Polyhedron3* getPolyhedron();
 	CGALVolume getVolume(bool);
-	void detectPerimeterHoles();
+	const CGAL::NefPolyhedron3& getNefPolyhedron();
+	const QList<CGALPolygon*> getCGALPerimeter() const;
+	const QList<CGALPolygon*> getCGALPolygons() const;
+	void appendVertex(CGALPolygon*,const CGAL::Point3&,bool);
+	void appendVertex(const CGAL::Point3&);
 	void clearPolygons();
+	void createVertex(const CGAL::Scalar&,const CGAL::Scalar&,const CGAL::Scalar&);
+	void detectPerimeterHoles();
 private:
+	bool overlaps(Primitive*,Primitive*) const;
+	Primitive* groupAppend(Primitive*);
+	Primitive* groupAll(const QList<Primitive*>&) const;
+	Primitive* joinAll(const QList<Primitive*>&) const;
 	void buildPrimitive();
 	void convertBoundary();
 	CGAL::NefPolyhedron3* createVolume();
@@ -117,20 +132,8 @@ private:
 	CGAL::NefPolyhedron3* nefPolyhedron;
 	PrimitiveTypes type;
 	bool sanitized;
-
-	/* Simple wrapper class to enable Primitive
-	 * to be used with CGAL::Nef_nary_union_3 */
-	class Unionable
-	{
-	public:
-		Unionable() : primitive(nullptr),force(false) {}
-		Unionable(Primitive* p, bool f) { primitive=p; force=f; }
-		Unionable& operator+(Unionable&);
-		Primitive* primitive;
-		bool force;
-	};
-
-	CGAL::Nef_nary_union_3<Unionable>* nUnion;
+	QList<Primitive*> joinable;
+	QList<Primitive*> groupable;
 };
 
 #endif // CGALPRIMITIVE_H

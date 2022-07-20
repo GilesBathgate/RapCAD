@@ -1,3 +1,23 @@
+1.0.2
+   * Implement multithread support using QtConcurrent
+   * Lexer usage is now reentrant
+   * Parser usage is now pure parser
+   * Seperate messages from output and add commandline param to redirect output to file
+   * Implement dark theme preference
+   * Faster STL output using generator for generateTriangles
+   * Use boost mp for number types
+   * Make indents configurable
+   * Implement datum$ module
+   * Add circumcenter function to find the center of three points
+   * Add passive color module
+   * Implement is_undef function
+   * Implemented translate output in export
+   * Faster group implementation
+   * Fix self-intersecting polylines
+   * Add warning when invalid rotation axis given
+   * Added basic assert function and module
+   * Implement an ord function to get unicode ordinals.
+
 1.0.1
    * Windows installer is now 64bit
    * Official builds deployed by continuous integration

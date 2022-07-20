@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,18 +19,16 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QStandardItemModel>
-#include <QTextStream>
-#include <QTemporaryFile>
-
-#include "codeeditor.h"
-#include "texteditiodevice.h"
-#include "backgroundworker.h"
-#include "preferencesdialog.h"
 #include "aboutdialog.h"
+#include "backgroundworker.h"
+#include "codeeditor.h"
 #include "interactive.h"
+#include "preferencesdialog.h"
 #include "project.h"
+#include "texteditiodevice.h"
+#include <QMainWindow>
+#include <QTemporaryFile>
+#include <QTextStream>
 
 namespace Ui
 {
@@ -87,6 +85,7 @@ private slots:
 	void preferencesUpdated();
 	void newProject();
 private:
+	void setTheme();
 	void compileOrGenerate(bool generate);
 	void loadPreferences();
 	void savePreferences();

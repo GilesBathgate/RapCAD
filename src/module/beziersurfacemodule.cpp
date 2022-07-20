@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,10 +18,10 @@
 
 #include "beziersurfacemodule.h"
 #include "context.h"
-#include "vectorvalue.h"
+#include "fragment.h"
 #include "node/primitivenode.h"
 #include "rmath.h"
-#include "fragment.h"
+#include "vectorvalue.h"
 
 BezierSurfaceModule::BezierSurfaceModule(Reporter& r) : PrimitiveModule(r,"bezier_surface")
 {
@@ -79,7 +79,7 @@ Node* BezierSurfaceModule::evaluate(const Context& ctx) const
 	Mesh mesh;
 	auto* meshVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 
-	auto* pn=new PrimitiveNode(reporter);
+	auto* pn=new PrimitiveNode();
 	Primitive* p=pn->createPrimitive();
 	p->setType(PrimitiveTypes::Surface);
 	pn->setChildren(ctx.getInputNodes());

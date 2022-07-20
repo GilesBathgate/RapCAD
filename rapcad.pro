@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------
 #	RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
-#	Copyright (C) 2010-2021 Giles Bathgate
+#	Copyright (C) 2010-2022 Giles Bathgate
 #
 #	This program is free software: you can redistribute it and/or modify
 #	it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 #-------------------------------------------------
 VERSION = $$cat(VERSION)
 
-QT  += core gui opengl widgets
+QT  += core gui opengl widgets concurrent
 
 CONFIG += c++14
 TARGET = rapcad
@@ -39,15 +39,15 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 
 # Check for Qt Version 5.2 and above
 # (so Major > 4 && Minor > 1)
- greaterThan(QT_MINOR_VERSION, 1) {
-	DEFINES -= USE_COMMANDLINE_PARSER
- }
+	greaterThan(QT_MINOR_VERSION, 1) | greaterThan(QT_MAJOR_VERSION, 5) {
+		DEFINES -= USE_COMMANDLINE_PARSER
+	}
 
 # Check for Qt Version 5.4 and above
 # (so Major > 4 && Minor > 3)
- greaterThan(QT_MINOR_VERSION, 3) {
-	DEFINES -= USE_QGLWIDGET
- }
+	greaterThan(QT_MINOR_VERSION, 3) | greaterThan(QT_MAJOR_VERSION, 5) {
+		DEFINES -= USE_QGLWIDGET
+	}
 }
 
 
@@ -72,13 +72,10 @@ win32 {
 	INCLUDEPATH += $$DXFLIBROOT
 	LIBS += -L$$DXFLIBROOT/release -ldxflib
 	}
-	LIBS += -lz
 	QMAKE_YACC = win_bison
 	QMAKE_YACCFLAGS += "-b y"
 	QMAKE_LEX = win_flex
 } else {
-
-	DEFINES += CGAL_USE_GMPXX
 
 	exists( /usr/lib/x86_64-linux-gnu/libCGAL* ) {
 		LIBS += -lCGAL -lCGAL_Core
@@ -93,9 +90,7 @@ win32 {
 	contains(DEFINES,USE_DXF) {
 	LIBS += -ldxflib
 	}
-	LIBS += -lz
 	QMAKE_YACC = bison
-	QMAKE_MOVE = f() { sed s/parser\.tab\./parser_yacc./ \$\$1 > \$\$2 && rm \$\$1; }; f
   macx {
 	ICON = icons/AppIcon.icns
 	INCLUDEPATH += /usr/local/include
@@ -106,6 +101,20 @@ win32 {
   } else {
 	LIBS += -lboost_thread -lGLU
   }
+}
+
+BISON_VERSION = $$system($$QMAKE_YACC --version)
+BISON_VERSION = $$find(BISON_VERSION, [0-9]+.[0-9]+.[0-9]+)
+BISON_VERSIONS = $$split(BISON_VERSION, ".")
+BISON_MAJOR_VERSION = $$member(BISON_VERSIONS, 0)
+BISON_MINOR_VERSION = $$member(BISON_VERSIONS, 1)
+
+# Check for Bison Version 3.6 and above
+# (so Major > 2 && Minor > 5)
+greaterThan(BISON_MAJOR_VERSION, 2) {
+	greaterThan(BISON_MINOR_VERSION, 5) | greaterThan(BISON_MAJOR_VERSION, 3) {
+		QMAKE_YACCFLAGS += "-D api.header.include={\\\"parser_yacc.h\\\"}"
+	}
 }
 
 #LIBS += -Wl,-rpath,./librapcad -L./librapcad -lrapcad
@@ -157,8 +166,10 @@ YACCSOURCES += \
 SOURCES += \
 	contrib/qcommandlineparser.cpp \
 	contrib/qcommandlineoption.cpp \
+	src/application.cpp \
 	src/assertexception.cpp \
 	src/builtinmanager.cpp \
+	src/cgalauxiliarybuilder.cpp \
 	src/cgaldiscretemodifier.cpp \
 	src/cgalgroupmodifier.cpp \
 	src/cgalsanitizer.cpp \
@@ -166,10 +177,12 @@ SOURCES += \
 	src/function/circumcenterfunction.cpp \
 	src/function/isundeffunction.cpp \
 	src/function/ordinalfunction.cpp \
+	src/geometryevaluator.cpp \
 	src/main.cpp \
 	src/module/assertmodule.cpp \
 	src/module/colormodule.cpp \
 	src/module/datummodule.cpp \
+	src/module/regularpolygonmodule.cpp \
 	src/namedvalue.cpp \
 	src/tokenreader.cpp \
 	src/ui/mainwindow.cpp \
@@ -414,8 +427,10 @@ HEADERS  += \
 	contrib/qcommandlineoption.h \
 	contrib/Copy_polyhedron_to.h \
 	contrib/qtcompat.h \
+	src/application.h \
 	src/assertexception.h \
 	src/builtinmanager.h \
+	src/cgalauxiliarybuilder.h \
 	src/cgaldiscretemodifier.h \
 	src/cgalgroupmodifier.h \
 	src/cgalsanitizer.h \
@@ -424,9 +439,11 @@ HEADERS  += \
 	src/function/circumcenterfunction.h \
 	src/function/isundeffunction.h \
 	src/function/ordinalfunction.h \
+	src/geometryevaluator.h \
 	src/module/assertmodule.h \
 	src/module/colormodule.h \
 	src/module/datummodule.h \
+	src/module/regularpolygonmodule.h \
 	src/namedvalue.h \
 	src/operators.h \
 	src/tokenreader.h \

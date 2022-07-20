@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,16 +19,13 @@
 #ifndef PRIMITIVENODE_H
 #define PRIMITIVENODE_H
 
-#include <QList>
-#include <QString>
 #include "node.h"
 #include "primitive.h"
-#include "reporter.h"
 
 class PrimitiveNode : public Node
 {
 public:
-	explicit PrimitiveNode(Reporter&);
+	PrimitiveNode();
 	~PrimitiveNode() = default;
 	void accept(NodeVisitor&) override;
 	Primitive* createPrimitive();

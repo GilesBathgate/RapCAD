@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
 #include "polygonmodule.h"
 #include "context.h"
 #include "node/primitivenode.h"
-#include "vectorvalue.h"
 #include "numbervalue.h"
+#include "vectorvalue.h"
 
 PolygonModule::PolygonModule(Reporter& r,bool polygon) :
 	Module(r,polygon?"polygon":"polyline"),
@@ -36,7 +36,7 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 	auto* pointsVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
 	VectorValue* linesVec=dynamic_cast<VectorValue*>(ctx.getArgumentDeprecated(1,"lines","paths",reporter));
 
-	auto* pn=new PrimitiveNode(reporter);
+	auto* pn=new PrimitiveNode();
 	Primitive* p=pn->createPrimitive();
 	p->setType(type);
 	p->setSanitized(false);
@@ -45,7 +45,7 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 	if(!pointsVec)
 		return pn;
 
-	QList<Value*> points=pointsVec->getElements();
+	const QList<Value*> points=pointsVec->getElements();
 	if(points.isEmpty())
 		return pn;
 
@@ -81,7 +81,7 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 		}
 	}
 
-	for(Value* line: lines) {
+	for(Value* line: qAsConst(lines)) {
 		auto* lineVec=dynamic_cast<VectorValue*>(line);
 		if(!lineVec) continue;
 		Polygon& pg=p->createPolygon();

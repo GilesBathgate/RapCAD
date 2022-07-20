@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,14 +17,14 @@
  */
 
 #include "value.h"
-#include "valueiterator.h"
-#include "vectorvalue.h"
 #include "booleanvalue.h"
-#include "textvalue.h"
 #include "numbervalue.h"
 #include "rangevalue.h"
 #include "rmath.h"
+#include "textvalue.h"
 #include "valuefactory.h"
+#include "valueiterator.h"
+#include "vectorvalue.h"
 
 Value::Value() :
 	defined(true),
@@ -34,10 +34,8 @@ Value::Value() :
 
 Value::~Value()
 {
-	factory.deleteValue(this);
+	ValueFactory::getInstance().deleteValue(this);
 }
-
-ValueFactory& Value::factory=ValueFactory::getInstance();
 
 void Value::setStorage(Storage c)
 {
@@ -70,12 +68,12 @@ VectorValue& Value::toVector(int size)
 	for(auto i=0; i<size; ++i)
 		children.append(this);
 
-	return factory.createVector(children);
+	return ValueFactory::createVector(children);
 }
 
 TextValue& Value::toText()
 {
-	return factory.createText(getValueString());
+	return ValueFactory::createText(getValueString());
 }
 
 Value& Value::toNumber()
@@ -284,7 +282,7 @@ Value& Value::operation(Operators e)
 {
 	if(e==Operators::Invert) {
 		bool result=basicOperation(defined,e);
-		return factory.createBoolean(result);
+		return ValueFactory::createBoolean(result);
 	}
 
 	return *this;
@@ -296,13 +294,13 @@ Value& Value::operation(Value& v, Operators e)
 	bool right=v.defined;
 	if((!left||!right) && isComparison(e)) {
 		bool result=basicOperation(left,e,right);
-		return factory.createBoolean(result);
+		return ValueFactory::createBoolean(result);
 	}
 	if(e==Operators::Concatenate) {
 		return v;
 	}
 
-	return factory.createUndefined();
+	return ValueFactory::createUndefined();
 }
 
 bool Value::isDefined() const
@@ -452,5 +450,5 @@ Value& Value::compareAll(const QList<Value*>& values, Operators op)
 	if(result)
 		return *result;
 
-	return factory.createUndefined();
+	return ValueFactory::createUndefined();
 }

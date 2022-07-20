@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -23,23 +23,24 @@ typedef union YYSTYPE YYSTYPE;
 #include "parser_yacc.h"
 
 static constexpr int YY_NULL=0;
-extern void lexerinit(AbstractTokenBuilder*,Reporter*,const QString&);
-extern int lexerdestroy();
-extern int lexerlex();
+extern void lexerinit(yyscan_t*,AbstractTokenBuilder*,const QString&);
+extern int lexerdestroy(yyscan_t);
+extern int lexerlex(yyscan_t);
 
-TokenReader::TokenReader(const QString& s)
+TokenReader::TokenReader(const QString& s) :
+	scanner(nullptr)
 {
-	lexerinit(this,nullptr,s);
+	lexerinit(&scanner,this,s);
 }
 
 TokenReader::~TokenReader()
 {
-	lexerdestroy();
+	lexerdestroy(scanner);
 }
 
 int TokenReader::nextToken()
 {
-	return lexerlex();
+	return lexerlex(scanner);
 }
 
 int TokenReader::buildUse(const QString&)

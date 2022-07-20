@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,8 +18,9 @@
 
 #include "conemodule.h"
 #include "context.h"
-#include "rmath.h"
+#include "node/alignnode.h"
 #include "numbervalue.h"
+#include "rmath.h"
 
 ConeModule::ConeModule(Reporter& r) : PrimitiveModule(r,"cone")
 {
@@ -43,10 +44,20 @@ Node* ConeModule::evaluate(const Context& ctx) const
 
 	decimal r1=0.0;
 	decimal r2=0.0;
-	if(r1Value)
+	if(r1Value) {
 		r1=r1Value->getNumber();
-	if(r2Value)
+	} else {
+		NumberValue* d1Value = dynamic_cast<NumberValue*>(ctx.getArgument(1,"diameter1"));
+		if(d1Value)
+			r1=(d1Value->getNumber()/2.0);
+	}
+	if(r2Value) {
 		r2=r2Value->getNumber();
+	} else {
+		NumberValue* d2Value = dynamic_cast<NumberValue*>(ctx.getArgument(2,"diameter2"));
+		if(d2Value)
+			r2=(d2Value->getNumber()/2.0);
+	}
 
 	bool center = false;
 	if(centerValue)
@@ -61,10 +72,10 @@ Node* ConeModule::evaluate(const Context& ctx) const
 	int f = fg->getFragments(r);
 	delete fg;
 
-	QList<Point> c1=getCircle(r1,f,z1);
-	QList<Point> c2=getCircle(r2,f,z2);
+	const QList<Point> c1=getCircle(r1,f,z1);
+	const QList<Point> c2=getCircle(r2,f,z2);
 
-	auto* pn=new PrimitiveNode(reporter);
+	auto* pn=new PrimitiveNode();
 	Primitive* p=pn->createPrimitive();
 	pn->setChildren(ctx.getInputNodes());
 

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -41,7 +41,6 @@ using Point3 = Kernel3::Point_3;
 using Triangle3 =  Kernel3::Triangle_3;
 using Point2 =  Kernel3::Point_2;
 using Vector3 = Kernel3::Vector_3;
-using Direction3 = Kernel3::Direction_3;
 using Plane3 = Kernel3::Plane_3;
 using Circle3 = Kernel3::Circle_3;
 using AffTransformation3 = Kernel3::Aff_transformation_3;

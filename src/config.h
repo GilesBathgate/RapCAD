@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,17 +19,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define BOOST_NO_STDLIB_CONFIG
-
 #define CGAL_NO_CORE 1
-#include <CGAL/config.h>
-
-// CGAL usage is not yet multithreaded
-#define CGAL_HAS_NO_THREADS 1
-#define CGAL_NO_ATOMIC 1
-#include <CGAL/atomic.h>
-
-#define CGAL_DO_NOT_USE_BOOST_MP 1
 #define CGAL_DO_NOT_USE_MPZF 1
 
 #define CGAL_DEBUG

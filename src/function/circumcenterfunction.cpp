@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -39,13 +39,13 @@ Value& CircumcenterFunction::evaluate(const Context& ctx) const
 		Point pc=cVal->getPoint();
 		Point result=CGAL::circumcenter(pa,pb,pc);
 		QList<Value*> resultVector;
-		resultVector.append(&Value::factory.createNumber(result.x()));
-		resultVector.append(&Value::factory.createNumber(result.y()));
-		resultVector.append(&Value::factory.createNumber(result.z()));
-		return Value::factory.createVector(resultVector);
+		resultVector.append(&ValueFactory::createNumber(result.x()));
+		resultVector.append(&ValueFactory::createNumber(result.y()));
+		resultVector.append(&ValueFactory::createNumber(result.z()));
+		return ValueFactory::createVector(resultVector);
 	}
 #endif
-	return Value::factory.createUndefined();
+	return ValueFactory::createUndefined();
 }
 
 

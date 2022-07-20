@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,18 +20,17 @@
 #define PRIMITIVEMODULE_H
 
 #include "module.h"
-#include "polygon.h"
 #include "node/primitivenode.h"
-#include "node/alignnode.h"
-#include "fragment.h"
+#include "polygon.h"
+#include "primitive.h"
 
 class PrimitiveModule : public Module
 {
 public:
 	PrimitiveModule(Reporter&, const QString&);
 protected:
-	static QList<Point> getCircle(const decimal&,const decimal&,const decimal&);
-	static QList<Point> getPolygon(const decimal&,const decimal&,const decimal&,const decimal&);
+	static const QList<Point> getCircle(const decimal&,const decimal&,const decimal&);
+	static const QList<Point> getPolygon(const decimal&,const decimal&,const decimal&,const decimal&);
 	static void createTriangle(Primitive*,int,int,int);
 	static void createQuad(Primitive*,int,int,int,int);
 };

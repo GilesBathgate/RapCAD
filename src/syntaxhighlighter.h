@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,10 +19,11 @@
 #ifndef SYNTAXHIGHLIGHTER_H
 #define SYNTAXHIGHLIGHTER_H
 
-#include <QSyntaxHighlighter>
-#include <QHash>
 #include "abstracttokenbuilder.h"
 #include "module.h"
+#include <QHash>
+#include <QSyntaxHighlighter>
+using yyscan_t = void*;
 
 class SyntaxHighlighter : public QSyntaxHighlighter, private AbstractTokenBuilder
 {
@@ -30,7 +31,6 @@ class SyntaxHighlighter : public QSyntaxHighlighter, private AbstractTokenBuilde
 public:
 	explicit SyntaxHighlighter(QTextDocument* parent = nullptr);
 	void setModuleNames(const QHash<QString,Module*>&);
-	static void stop();
 protected:
 	void highlightBlock(const QString& text) override;
 private:
@@ -104,9 +104,10 @@ private:
 	void buildWhiteSpaceError() override;
 	void buildWhiteSpace() override;
 	void buildNewLine() override;
-	void buildFileStart(QDir) override;
+	void buildFileStart(QFileInfo) override;
 	void buildFileFinish() override;
 	QString getToken() const override;
+	void setParser(union YYSTYPE*) override {}
 
 	QTextCharFormat keywordFormat;
 	QTextCharFormat	numberFormat;
@@ -119,5 +120,6 @@ private:
 	QTextCharFormat codeDocParamFormat;
 	QHash<QString,Module*> moduleNames;
 	int startIndex;
+	yyscan_t scanner;
 };
 #endif // SYNTAXHIGHLIGHTER_H

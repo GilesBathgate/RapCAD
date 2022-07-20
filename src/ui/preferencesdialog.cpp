@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -16,16 +16,14 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QPushButton>
-#include <QColorDialog>
-#include <QDir>
-
-#include "preferencesdialog.h"
-#include "ui_preferences.h"
-#include "preferences.h"
 #include "decimal.h"
+#include "preferences.h"
+#include "preferencesdialog.h"
 #include "rmath.h"
 #include "ui/glview.h"
+#include "ui_preferences.h"
+#include <QColorDialog>
+#include <QDir>
 
 PreferencesDialog::PreferencesDialog(QWidget* parent) :
 	QDialog(parent),
@@ -44,7 +42,8 @@ void PreferencesDialog::setupWidgets()
 	ui->fontComboBox->setCurrentFont(f);
 	int pointSize=f.pointSize();
 	QComboBox* c=ui->sizeComboBox;
-	for(auto size: QFontDatabase::standardSizes()) {
+	const QList<int> sizes=QFontDatabase::standardSizes();
+	for(auto size: sizes) {
 		c->addItem(QString::number(size));
 		if(size==pointSize)
 			c->setCurrentIndex(c->count()-1);
@@ -132,6 +131,13 @@ void PreferencesDialog::setupWidgets()
 		ui->spacesSpinBox->setValue(indent.length());
 	}
 
+	ui->threadPoolSizeSpinBox->setValue(p.getThreadPoolSize());
+#ifdef USE_CGAL
+#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(5,4,0)
+	ui->threadPoolSizeSpinBox->setDisabled(true);
+#endif
+#endif
+
 	updatePrecision();
 }
 
@@ -146,12 +152,12 @@ void PreferencesDialog::setupButtons()
 	connect(ui->fontComboBox,&QFontComboBox::currentFontChanged,this,&PreferencesDialog::fontChanged);
 	connect(ui->sizeComboBox,QOverload<int>::of(&QComboBox::currentIndexChanged),this,&PreferencesDialog::fontSizeChanged);
 
-	connect(ui->markedVertexColorToolButton,&QToolButton::clicked,[this](){colorButtonPressed(ui->markedVertexColorFrame);});
-	connect(ui->vertexColorToolButton,&QToolButton::clicked,[this](){colorButtonPressed(ui->vertexColorFrame);});
-	connect(ui->markedEdgeColorToolButton,&QToolButton::clicked,[this](){colorButtonPressed(ui->markedEdgeColorFrame);});
-	connect(ui->edgeColorToolButton,&QToolButton::clicked,[this](){colorButtonPressed(ui->edgeColorFrame);});
-	connect(ui->markedFacetColorToolButton,&QToolButton::clicked,[this](){colorButtonPressed(ui->markedFacetColorFrame);});
-	connect(ui->facetColorToolButton,&QToolButton::clicked,[this](){colorButtonPressed(ui->facetColorFrame);});
+	connect(ui->markedVertexColorToolButton,&QToolButton::clicked,this,[this](){colorButtonPressed(ui->markedVertexColorFrame);});
+	connect(ui->vertexColorToolButton,&QToolButton::clicked,this,[this](){colorButtonPressed(ui->vertexColorFrame);});
+	connect(ui->markedEdgeColorToolButton,&QToolButton::clicked,this,[this](){colorButtonPressed(ui->markedEdgeColorFrame);});
+	connect(ui->edgeColorToolButton,&QToolButton::clicked,this,[this](){colorButtonPressed(ui->edgeColorFrame);});
+	connect(ui->markedFacetColorToolButton,&QToolButton::clicked,this,[this](){colorButtonPressed(ui->markedFacetColorFrame);});
+	connect(ui->facetColorToolButton,&QToolButton::clicked,this,[this](){colorButtonPressed(ui->facetColorFrame);});
 
 	connect(ui->vertexSizeSpinBox,QOverload<double>::of(&QDoubleSpinBox::valueChanged),this,&PreferencesDialog::vertexSizeChanged);
 	connect(ui->edgeSizeSpinBox,QOverload<double>::of(&QDoubleSpinBox::valueChanged),this,&PreferencesDialog::edgeSizeChanged);
@@ -191,6 +197,8 @@ void PreferencesDialog::setupButtons()
 
 	connect(ui->tabsRadioButton,&QRadioButton::toggled,this,&PreferencesDialog::indentRadioChanged);
 	connect(ui->spacesSpinBox,QOverload<int>::of(&QSpinBox::valueChanged),this,&PreferencesDialog::indentSpacesChanged);
+
+	connect(ui->threadPoolSizeSpinBox,QOverload<int>::of(&QSpinBox::valueChanged),this,&PreferencesDialog::threadPoolSizeChanged);
 }
 
 void PreferencesDialog::updatePrecision()
@@ -268,7 +276,7 @@ void PreferencesDialog::launchCommandChanged(const QString& command)
 	if(command.isEmpty())
 		ui->exampleCommandLabel->clear();
 	else
-		ui->exampleCommandLabel->setText(QString("Example: %1 %2/tempfile.3mf").arg(command).arg(QDir::tempPath()));
+		ui->exampleCommandLabel->setText(QString("Example: %1 %2/tempfile.3mf").arg(command,QDir::tempPath()));
 }
 
 void PreferencesDialog::launchCommandUpdated()
@@ -314,6 +322,12 @@ void PreferencesDialog::indentRadioChanged(bool checked)
 void PreferencesDialog::indentSpacesChanged(int)
 {
 	indentRadioChanged(ui->tabsRadioButton->isChecked());
+}
+
+void PreferencesDialog::threadPoolSizeChanged(int value)
+{
+	auto& p=Preferences::getInstance();
+	p.setThreadPoolSize(value);
 }
 
 void PreferencesDialog::placesChanged(int i)

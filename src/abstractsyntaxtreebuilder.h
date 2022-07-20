@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,19 +19,19 @@
 #ifndef ABSTRACTSYNTAXTREEBUILDER_H
 #define ABSTRACTSYNTAXTREEBUILDER_H
 
-#include <QList>
+#include "abstracttokenbuilder.h"
+#include "argument.h"
 #include "decimal.h"
 #include "declaration.h"
-#include "statement.h"
-#include "variable.h"
 #include "expression.h"
-#include "argument.h"
+#include "instance.h"
+#include "invocation.h"
 #include "parameter.h"
 #include "scope.h"
-#include "instance.h"
 #include "script.h"
-#include "invocation.h"
-#include "abstracttokenbuilder.h"
+#include "statement.h"
+#include "variable.h"
+#include <QList>
 
 class AbstractSyntaxTreeBuilder
 {
@@ -114,6 +114,8 @@ public:
 	virtual Invocation* buildInvocation(QString*,QList<Argument*>*)=0;
 	virtual Invocation* buildInvocation(QString*,Invocation*)=0;
 	virtual void reportSyntaxError(QString)=0;
+	virtual int nextToken()=0;
+	virtual void setParser(union YYSTYPE*)=0;
 };
 
 #endif // ABSTRACTSYNTAXTREEBUILDER_H

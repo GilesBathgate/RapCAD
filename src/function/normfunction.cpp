@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,12 +17,12 @@
  */
 
 #include "normfunction.h"
-#include "context.h"
-#include "vectorvalue.h"
-#include "rangevalue.h"
-#include "numbervalue.h"
 #include "complexvalue.h"
+#include "context.h"
+#include "numbervalue.h"
+#include "rangevalue.h"
 #include "rmath.h"
+#include "vectorvalue.h"
 
 NormFunction::NormFunction() : Function("norm")
 {
@@ -38,7 +38,7 @@ Value& NormFunction::evaluate(const Context& ctx) const
 	 * inherits from vector */
 	auto* rng=dynamic_cast<RangeValue*>(v);
 	if(rng)
-		return Value::factory.createUndefined();
+		return ValueFactory::createUndefined();
 
 	auto* vec=dynamic_cast<VectorValue*>(v);
 	if(vec)
@@ -52,5 +52,5 @@ Value& NormFunction::evaluate(const Context& ctx) const
 	if(cpx)
 		return Value::evaluate(*cpx,Operators::Length);
 
-	return Value::factory.createUndefined();
+	return ValueFactory::createUndefined();
 }

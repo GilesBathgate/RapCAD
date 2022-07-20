@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -16,22 +16,20 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #ifdef USE_CGAL
+#include "cgalbuilder.h"
 
 #include "cgal.h"
-
-#include <QList>
-#include <QMap>
+#include "cgalexplorer.h"
+#include "cgalprojection.h"
+#include "onceonly.h"
 #include <CGAL/Constrained_triangulation_2.h>
-#include <CGAL/Triangulation_vertex_base_with_info_2.h>
-#include <CGAL/Triangulation_face_base_with_info_2.h>
 #ifdef USE_OFFSET
 #include <CGAL/create_offset_polygons_2.h>
 #endif
 #include <CGAL/Polygon_2.h>
-#include "cgalbuilder.h"
-#include "cgalexplorer.h"
-#include "cgalprojection.h"
-#include "onceonly.h"
+#include <CGAL/Triangulation_face_base_with_info_2.h>
+#include <CGAL/Triangulation_vertex_base_with_info_2.h>
+#include <QList>
 
 namespace CGAL
 {
@@ -44,8 +42,8 @@ CGALBuilder::CGALBuilder(CGALPrimitive& p) : primitive(p)
 
 void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
 {
-	QList<CGAL::Point3> points=primitive.getPoints();
-	QList<CGALPolygon*> polygons=primitive.getCGALPolygons();
+	const QList<CGAL::Point3> points=primitive.getPoints();
+	const QList<CGALPolygon*> polygons=primitive.getCGALPolygons();
 
 	CGAL::Polyhedron_incremental_builder_3<CGAL::HalfedgeDS> builder(hds,true);
 	builder.begin_surface(points.size(), polygons.size());
@@ -190,7 +188,7 @@ bool CGALBuilder::triangulate()
 	CT ct;
 	TDS::size_type count=0;
 	for(CGALPolygon* pg: primitive.getCGALPolygons()) {
-		QList<int> indexes=pg->getIndexes();
+		const QList<int> indexes=pg->getIndexes();
 		if(indexes.size()<3) continue;
 		CGALProjection* pro=pg->getProjection();
 		QList<CGAL::Point2> points2;
@@ -271,10 +269,10 @@ CGALPrimitive* CGALBuilder::buildOffset(const CGAL::Scalar& amount)
 	auto* offset=new CGALPrimitive();
 	for(const auto& ptr: offsetPolys) {
 		if(!first()) {
-			offset->createPolygon();
+			auto& np=offset->createPolygon();
 			for(auto vi=ptr->vertices_begin(); vi!=ptr->vertices_end(); ++vi) {
 				CGAL::Point3 p3(vi->x(),vi->y(),z);
-				offset->appendVertex(p3);
+				np.appendVertex(p3);
 			}
 		}
 	}

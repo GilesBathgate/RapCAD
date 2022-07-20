@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -16,9 +16,10 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "glview.h"
+#include "viewdirections.h"
 #include <QApplication>
 #include <cmath>
-#include "glview.h"
 #ifdef USE_QGLWIDGET
 #include <CGAL/glu.h>
 #endif
@@ -56,6 +57,7 @@ GLView::GLView(QWidget* parent) :
 	viewportX(0.0F),
 	viewportZ(0.0F)
 {
+	setCursor(Qt::CrossCursor);
 }
 
 GLView::~GLView()
@@ -548,6 +550,7 @@ void GLView::zoomView(GLfloat amt)
 void GLView::mousePressEvent(QMouseEvent* event)
 {
 	mouseDrag=true;
+	setCursor(Qt::SizeAllCursor);
 	last=event->globalPos();
 }
 
@@ -595,4 +598,5 @@ void GLView::mouseMoveEvent(QMouseEvent* event)
 void GLView::mouseReleaseEvent(QMouseEvent*)
 {
 	mouseDrag=false;
+	setCursor(Qt::CrossCursor);
 }

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,14 +17,15 @@
  */
 #ifdef USE_CGAL
 #include "cgalpolygon.h"
+
 #include "cgalprimitive.h"
-#include <CGAL/normal_vector_newell_3.h>
 #include "onceonly.h"
+#include <CGAL/normal_vector_newell_3.h>
 
 CGALPolygon::CGALPolygon(CGALPrimitive& p) :
 	Polygon(p),
 	projection(nullptr),
-	hole(false)
+	orientation(CGAL::POSITIVE)
 {
 }
 
@@ -35,34 +36,39 @@ CGALPolygon::~CGALPolygon()
 
 void CGALPolygon::appendVertex(CGAL::Point3 pt)
 {
-	auto& pr=dynamic_cast<CGALPrimitive&>(parent);
-	pr.addVertex(this,pt,true);
+	appendVertex(pt,true);
 }
 
-QList<CGAL::Point3> CGALPolygon::getPoints() const
+void CGALPolygon::appendVertex(CGAL::Point3 pt,bool direction)
+{
+	auto& pr=dynamic_cast<CGALPrimitive&>(parent);
+	pr.appendVertex(this,pt,direction);
+}
+
+const QList<CGAL::Point3> CGALPolygon::getPoints() const
 {
 	QList<CGAL::Point3> points;
 	const auto& pr=dynamic_cast<const CGALPrimitive&>(parent);
-	QList<CGAL::Point3> parentPoints=pr.getPoints();
+	const QList<CGAL::Point3> parentPoints=pr.getPoints();
 	for(auto i: indexes)
 		points.append(parentPoints.at(i));
 	return points;
 }
 
-QList<CGAL::Point2> CGALPolygon::getProjectedPoints()
+const QList<CGAL::Point2> CGALPolygon::getProjectedPoints()
 {
 	CGALProjection* pro=getProjection();
 	QList<CGAL::Point2> points;
 	const auto& pr=dynamic_cast<const CGALPrimitive&>(parent);
 	QList<CGAL::Point3> parentPoints=pr.getPoints();
-	for(auto i: indexes) {
+	for(auto i: getIndexes()) {
 		const CGAL::Point3& p3=parentPoints.at(i);
 		points.append(pro->project(p3));
 	}
 	return points;
 }
 
-QList<CGAL::Segment3> CGALPolygon::getSegments()
+const QList<CGAL::Segment3> CGALPolygon::getSegments()
 {
 		QList<CGAL::Segment3> segments;
 		CGAL::Point3 prev;
@@ -76,11 +82,6 @@ QList<CGAL::Segment3> CGALPolygon::getSegments()
 		return segments;
 }
 
-CGAL::Direction3 CGALPolygon::getDirection() const
-{
-	return direction;
-}
-
 CGAL::Vector3 CGALPolygon::getNormal() const
 {
 	return plane.orthogonal_vector();
@@ -90,7 +91,16 @@ void CGALPolygon::calculateProjection()
 {
 	CGAL::Vector3 v=plane.orthogonal_vector();
 	projection=new CGALProjection(v);
-	direction=projection->getDirection(v);
+}
+
+CGAL::Orientation CGALPolygon::getOrientation() const
+{
+	return orientation;
+}
+
+void CGALPolygon::setOrientation(const CGAL::Orientation& value)
+{
+	orientation=value;
 }
 
 void CGALPolygon::calculatePlane()
@@ -118,16 +128,6 @@ void CGALPolygon::setPlane(const CGAL::Plane3& p)
 {
 	plane=p;
 	calculateProjection();
-}
-
-bool CGALPolygon::getHole() const
-{
-	return hole;
-}
-
-void CGALPolygon::setHole(bool value)
-{
-	hole = value;
 }
 
 CGALProjection* CGALPolygon::getProjection()

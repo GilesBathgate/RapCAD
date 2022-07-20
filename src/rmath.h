@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ decimal r_floor(const decimal&);
 decimal r_exp(const decimal&,bool round=true);
 decimal r_log(const decimal&,bool round=true);
 decimal r_log10(const decimal&,bool round=true);
-decimal r_sign(const decimal&);
+int r_sign(const decimal&);
 void r_rand_seed(int);
 decimal r_rand(const decimal&,const decimal&);
 void r_rand_clear();

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,15 +19,14 @@
 #ifndef FUNCTION_H
 #define FUNCTION_H
 
-#include <QCoreApplication>
-#include <QString>
-#include <QList>
 #include "declaration.h"
 #include "parameter.h"
-#include "declaration.h"
 #include "scope.h"
 #include "value.h"
 #include "valuefactory.h"
+#include <QCoreApplication>
+#include <QList>
+#include <QString>
 
 class Context;
 
@@ -39,7 +38,7 @@ public:
 	~Function() override;
 	QString getName() const;
 	void setName(const QString&);
-	QList<Parameter*> getParameters() const;
+	const QList<Parameter*> getParameters() const;
 	void setParameters(const QList<Parameter*>&);
 	Scope* getScope() const;
 	void setScope(Scope*);

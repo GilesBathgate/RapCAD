@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,12 +17,13 @@
  */
 #ifdef USE_CGAL
 #include "cgalexplorer.h"
-#include <QHash>
-#include <CGAL/config.h>
-#include <CGAL/Triangulation_3.h>
-#include <CGAL/centroid.h>
-#include <CGAL/bounding_box.h>
+
 #include "onceonly.h"
+#include <CGAL/Triangulation_3.h>
+#include <CGAL/bounding_box.h>
+#include <CGAL/centroid.h>
+#include <CGAL/config.h>
+#include <QHash>
 
 using Nef = CGAL::NefPolyhedron3;
 using VolumeIterator = Nef::Volume_const_iterator;
@@ -212,7 +213,7 @@ void ShellExplorer::visit(ShellExplorer::HalfFacetHandle f)
 				CGAL_For_all(hc,he) {
 					SVertexHandle sv = hc->source();
 					CGAL::Point3 sp = sv->source()->point();
-					primitive->addVertex(sp,direction);
+					pg.appendVertex(sp,direction);
 				}
 			}
 		}
@@ -331,7 +332,7 @@ CGALPrimitive* CGALExplorer::getPrimitive()
 	return explorer->getPrimitive();
 }
 
-QList<CGALPolygon*> CGALExplorer::getBase()
+const QList<CGALPolygon*> CGALExplorer::getBase()
 {
 	if(!explore())
 		return QList<CGALPolygon*>();

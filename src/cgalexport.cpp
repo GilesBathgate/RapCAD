@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -16,29 +16,30 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #ifdef USE_CGAL
+#include "cgalexport.h"
 
 #include "cgal.h"
-
-#include "cgalexport.h"
-#include <QFile>
-#include <QFileInfo>
-#include <QTextStream>
-#include <QString>
+#include "cgalexplorer.h"
+#include "onceonly.h"
+#include "preferences.h"
+#include "rmath.h"
+#include <CGAL/IO/Nef_polyhedron_iostream_3.h>
+#include <CGAL/IO/Polyhedron_VRML_2_ostream.h>
 #include <CGAL/IO/Polyhedron_iostream.h>
+#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,5,0)
+#include <CGAL/IO/STL.h>
+#endif
 #if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,3,0)
 #include <CGAL/boost/graph/IO/polygon_mesh_io.h>
 #else
 #include <CGAL/IO/print_wavefront.h>
 #endif
-#include <CGAL/IO/Polyhedron_VRML_2_ostream.h>
-#include <CGAL/IO/Nef_polyhedron_iostream_3.h>
+#include <QFile>
+#include <QFileInfo>
+#include <QString>
+#include <QTextStream>
+#include <contrib/qzipwriter_p.h>
 #include <fstream>
-#include"cgalexplorer.h"
-#include "onceonly.h"
-#include "rmath.h"
-#include "polyhedron.h"
-#include "preferences.h"
-#include "contrib/qzipwriter_p.h"
 
 CGALExport::CGALExport(const QFileInfo& f,Primitive* p,Reporter& r) :
 	reporter(r),
@@ -146,9 +147,9 @@ using VertexIterator = CGAL::Polyhedron3::Vertex_const_iterator;
 using FacetIterator = CGAL::Polyhedron3::Facet_const_iterator;
 using HalffacetCirculator = CGAL::Polyhedron3::Halfedge_around_facet_const_circulator;
 
-static QList<CGAL::Triangle3> generateTriangles(CGAL::Polyhedron3* poly)
+template<typename Generator>
+static void generateTriangles(CGAL::Polyhedron3* poly,Generator g)
 {
-	QList<CGAL::Triangle3> triangles;
 	for(FacetIterator fi=poly->facets_begin(); fi!=poly->facets_end(); ++fi) {
 		HalffacetCirculator hc=fi->facet_begin();
 		CGAL_assertion(circulator_size(hc)==3);
@@ -156,9 +157,8 @@ static QList<CGAL::Triangle3> generateTriangles(CGAL::Polyhedron3* poly)
 		CGAL::Point3 p2=(hc++)->vertex()->point();
 		CGAL::Point3 p3=(hc++)->vertex()->point();
 		CGAL::Triangle3 t(p1,p2,p3);
-		triangles.append(t);
+		g(t);
 	}
-	return triangles;
 }
 
 void CGALExport::exportAsciiSTL() const
@@ -167,6 +167,13 @@ void CGALExport::exportAsciiSTL() const
 	if(!pr)
 		return;
 
+#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,5,0)
+	std::ofstream file(QFile::encodeName(fileInfo.absoluteFilePath()));
+	CGAL::Polyhedron3* poly=pr->getPolyhedron();
+	CGAL::IO::write_STL(file,*poly); //TODO: Set STL name (via named parameter?)
+	file.close();
+	delete poly;
+#else
 	QFile data(fileInfo.absoluteFilePath());
 	if(!data.open(QFile::WriteOnly | QFile::Truncate)) {
 		reporter.reportWarning(tr("Can't write file '%1'").arg(fileInfo.absoluteFilePath()));
@@ -178,7 +185,7 @@ void CGALExport::exportAsciiSTL() const
 
 	output << "solid RapCAD_Model\n";
 
-	for(const auto& t: generateTriangles(poly)) {
+	generateTriangles(poly, [&output](const auto& t) {
 		CGAL::Vector3 n=t.supporting_plane().orthogonal_vector();
 		CGAL::Scalar ls=n.squared_length();
 		CGAL::Scalar l=r_sqrt(ls);
@@ -204,12 +211,13 @@ void CGALExport::exportAsciiSTL() const
 		output << "      vertex " << x3 << " " << y3 << " " << z3 << "\n";
 		output << "    endloop\n";
 		output << "  endfacet\n";
-	}
+	});
 
 	output << "endsolid RapCAD_Model\n";
 	output.flush();
 	data.close();
 	delete poly;
+#endif
 }
 
 void CGALExport::exportAMF() const
@@ -277,7 +285,7 @@ void CGALExport::exportAMFObject(CGALPrimitive* p,QXmlStreamWriter& xml) const
 	xml.writeEndElement(); //vertices
 
 	xml.writeStartElement("volume");
-	for(const auto& t: generateTriangles(poly)) {
+	generateTriangles(poly,[&xml,&vertices](const auto& t) {
 		xml.writeStartElement("triangle");
 		int v1=vertices[t[0]];
 		int v2=vertices[t[1]];
@@ -286,7 +294,7 @@ void CGALExport::exportAMFObject(CGALPrimitive* p,QXmlStreamWriter& xml) const
 		xml.writeTextElement("v2",QString().setNum(v2));
 		xml.writeTextElement("v3",QString().setNum(v3));
 		xml.writeEndElement(); //triangle
-	}
+	});
 	xml.writeEndElement(); //volume
 
 	xml.writeEndElement(); //mesh
@@ -304,12 +312,13 @@ void CGALExport::exportCSG() const
 
 	CGALExplorer e(primitive);
 	CGALPrimitive* prim=e.getPrimitive();
+	if(!prim) return;
 
 	QTextStream output(&data);
 
 	output << "polyhedron([";
 
-	QList<CGAL::Point3> points=prim->getPoints();
+	const QList<CGAL::Point3> points=prim->getPoints();
 	OnceOnly first;
 	for(const auto& p: points) {
 		if(!first())
@@ -381,7 +390,7 @@ void CGALExport::export3MF() const
 	xml.writeEndElement(); //vertices
 
 	xml.writeStartElement("triangles");
-	for(const auto& t: generateTriangles(poly)) {
+	generateTriangles(poly,[&xml,&vertices](const auto& t) {
 		xml.writeStartElement("triangle");
 		int v1=vertices[t[0]];
 		int v2=vertices[t[1]];
@@ -390,7 +399,7 @@ void CGALExport::export3MF() const
 		xml.writeAttribute("v2",QString().setNum(v2));
 		xml.writeAttribute("v3",QString().setNum(v3));
 		xml.writeEndElement(); //triangle
-	}
+	});
 	xml.writeEndElement(); //triangles
 	xml.writeEndElement(); //mesh
 	xml.writeEndElement(); //object

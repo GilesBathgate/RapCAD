@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,10 +19,10 @@
 #ifndef VECTORVALUE_H
 #define VECTORVALUE_H
 
-#include <QList>
-#include "value.h"
-#include "point.h"
 #include "numbervalue.h"
+#include "point.h"
+#include "value.h"
+#include <QList>
 
 class VectorValue : public Value
 {
@@ -35,7 +35,7 @@ public:
 	Point getPoint() const;
 	virtual Value& getIndex(NumberValue&);
 	ValueIterator* createIterator() override;
-	virtual QList<Value*> getElements();
+	virtual const QList<Value*> getElements();
 protected:
 	VectorValue() = default;
 	Value& operation(Operators) override;

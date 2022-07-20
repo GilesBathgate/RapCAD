@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,17 +19,16 @@
 #ifndef GLVIEW_H
 #define GLVIEW_H
 
+#include "renderer.h"
 #ifdef USE_QGLWIDGET
 #include <QGLWidget>
 #else
-#include <QOpenGLWidget>
-#include <QOpenGLFunctions_1_0>
 #include <QMatrix4x4>
+#include <QOpenGLFunctions_1_0>
+#include <QOpenGLWidget>
 #endif
 #include <QMouseEvent>
 #include <QWheelEvent>
-#include "renderer.h"
-#include "viewdirections.h"
 
 enum class BedAppearance {
 	MK42=0,

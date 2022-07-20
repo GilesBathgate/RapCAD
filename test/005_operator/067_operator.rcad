@@ -1,0 +1,3 @@
+function test() {
+	return 3000^3==27000000000;
+}

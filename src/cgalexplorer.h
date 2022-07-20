@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
 #ifndef CGALEXPLORER_H
 #define CGALEXPLORER_H
 
-#include <QList>
 #include "cgalprimitive.h"
+#include <QList>
 
 class CGALExplorer
 {
@@ -29,7 +29,7 @@ public:
 	explicit CGALExplorer(CGALPrimitive*);
 	~CGALExplorer();
 	CGALPrimitive* getPrimitive();
-	QList<CGALPolygon*> getBase();
+	const QList<CGALPolygon*> getBase();
 	CGALVolume getVolume(bool);
 private:
 	bool explore();
@@ -40,9 +40,13 @@ private:
 
 using HalfEdgeHandle = CGAL::NefPolyhedron3::Halfedge_const_handle;
 
-inline uint qHash(const HalfEdgeHandle& key,uint seed)
-{
-	return qHash(&*key,seed);
+namespace CGAL {
+namespace internal {
+	inline uint qHash(const HalfEdgeHandle& key,uint seed)
+	{
+		return ::qHash(&*key,seed);
+	}
+}
 }
 
 #endif // CGALEXPLORER_H

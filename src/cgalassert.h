@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -24,8 +24,8 @@
 
 #if !defined(CGAL_NO_ASSERTIONS)
 
-#include <CGAL/Random_access_adaptor.h>
 #include <CGAL/HalfedgeDS_decorator.h>
+#include <CGAL/Random_access_adaptor.h>
 
 /* Redefine CGAL_assertion so that it checks for an
  * uncaught exception before throwing an exception */

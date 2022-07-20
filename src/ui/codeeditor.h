@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
 #ifndef CODEEDITOR_H
 #define CODEEDITOR_H
 
-#include <QPlainTextEdit>
 #include "syntaxhighlighter.h"
+#include <QPlainTextEdit>
 
 class CodeEditor : public QPlainTextEdit
 {
@@ -33,7 +33,6 @@ public:
 	void lineNumberAreaPaintEvent(QPaintEvent*);
 	int lineNumberAreaWidth();
 
-	static void stopHighlighting();
 	void setFileName(const QString&);
 	QString getFileName() const;
 	bool saveFile();

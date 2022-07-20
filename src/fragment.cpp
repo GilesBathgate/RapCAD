@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2021 Giles Bathgate
+ *   Copyright (C) 2010-2022 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,8 +17,9 @@
  */
 
 #include "fragment.h"
-#include "contrib/fragments.h"
+#include "context.h"
 #include "numbervalue.h"
+#include <contrib/fragments.h>
 
 #ifdef USE_CGAL
 #include "cgalfragment.h"
@@ -63,12 +64,12 @@ Fragment* Fragment::createFragment(const Context& ctx)
 }
 
 #ifdef USE_CGAL
-int Fragment::getFragments(const decimal&)
+int Fragment::getFragments(const decimal&) const
 {
 	throw;
 }
 #else
-int Fragment::getFragments(const decimal& r)
+int Fragment::getFragments(const decimal& r) const
 {
 	return get_fragments_from_r(r,fragmentNumber,fragmentSize,fragmentAngle);
 }
