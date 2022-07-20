@@ -106,8 +106,7 @@ void CGALRenderer::paint(bool skeleton, bool showedges)
 
 void CGALRenderer::setColor(CGAL::IO::Color& t,const QColor& c)
 {
-	CGAL::IO::Color cc(c.red(),c.green(),c.blue(),c.alpha());
-	t=cc;
+	t.set_rgb(c.red(),c.green(),c.blue(),c.alpha());
 }
 
 CGAL::IO::Color CGALRenderer::getVertexColor(bool mark) const
