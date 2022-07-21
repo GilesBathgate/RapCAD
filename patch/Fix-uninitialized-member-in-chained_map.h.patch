@@ -13,4 +13,12 @@
  {
    template<typename T2, typename Alloc> friend class chained_map;
    std::size_t k; T i;
+@@ -229,7 +229,7 @@ T& chained_map<T, Allocator>::access(Item p, std::size_t x)
+ 
+ template <typename T, typename Allocator>
+ chained_map<T, Allocator>::chained_map(std::size_t n, const T& d)
+-  : table(nullptr), reserved_size(n), def(d)
++  : table(nullptr), table_end(nullptr), free(nullptr), table_size(0), table_size_1(0), reserved_size(n), def(d)
+ {
+ }
 

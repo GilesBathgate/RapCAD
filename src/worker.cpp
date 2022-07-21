@@ -216,6 +216,7 @@ void Worker::resultAccepted()
 {
 	reporter.reportTiming(tr("compiling"));
 	delete previous;
+	previous=nullptr;
 }
 
 void Worker::resultFailed(const QString& error)
