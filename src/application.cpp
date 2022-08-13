@@ -139,6 +139,9 @@ Strategy* Application::parseArguments(int argc,char* argv[])
 	QCommandLineOption redirectOption(QStringList() << "r" << "redirect",QCoreApplication::translate("main","Redirect text output to file <filename>."),"filename");
 	p.addOption(redirectOption);
 
+	QCommandLineOption viewAllOption("viewall",QCoreApplication::translate("main","adjust camera to fit object"));
+	p.addOption(viewAllOption);
+
 #ifdef USE_READLINE
 	QCommandLineOption interactOption(QStringList() << "i" << "interactive",QCoreApplication::translate("main","Start an interactive session."));
 	p.addOption(interactOption);
