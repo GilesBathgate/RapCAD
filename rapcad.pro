@@ -57,7 +57,6 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 
 win32 {
 	DEFINES -= USE_READLINE
-	DEFINES += USE_QGLWIDGET
 
 	DXFLIBROOT = ../dxflib-3.3.4-src
 	INCLUDEPATH += $$(CGAL_DIR)/include
