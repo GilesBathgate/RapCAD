@@ -30,12 +30,13 @@ jobs:
       uses: actions/cache@v1
       with:
         path: /usr/Qt
-        key: ${{ runner.os }}-QtCache
+        key: ${{ runner.os }}-QtCache-6
     - name: Install Qt
-      uses: jurplel/install-qt-action@v2.12.0
+      uses: jurplel/install-qt-action@v3.0.0
       with:
+        version: '6.*.*'
         dir: /usr
-        cached: ${{ steps.cache-qt.outputs.cache-hit }}
+        cache: ${{ steps.cache-qt.outputs.cache-hit }}
     - name: Install Dependencies
       run: sudo apt-get install -y libboost-dev libcgal-dev libglu1-mesa-dev libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-randr0 libxcb-shape0
     - name: Configure
@@ -81,22 +82,23 @@ jobs:
       uses: actions/cache@v1
       with:
         path: ../Qt
-        key: ${{ runner.os }}-QtCache-v2
+        key: ${{ runner.os }}-QtCache-6
     - name: Install Qt
-      uses: jurplel/install-qt-action@v2.12.0
+      uses: jurplel/install-qt-action@v3.0.0
       with:
-        cached: ${{ steps.cache-qt.outputs.cache-hit }}
-        arch: win64_mingw81
+        version: '6.*.*'
+        cache: ${{ steps.cache-qt.outputs.cache-hit }}
+        arch: win64_mingw
     - name: Install patched windeployqt
       if: ${{ !steps.cache-qt.outputs.cache-hit }}
       run: |
         Invoke-WebRequest http://tripleboot.org/Uploads/windeployqt64releaseonly.zip -OutFile windeployqt64releaseonly.zip
-        7z x -o"$env:Qt5_DIR\bin" windeployqt64releaseonly.zip
+        7z x -o"$env:Qt6_DIR\bin" windeployqt64releaseonly.zip
     - name: Install Flex/Bison
       if: ${{ !steps.cache-qt.outputs.cache-hit }}
       run: |
         Invoke-WebRequest https://github.com/lexxmark/winflexbison/releases/download/v2.5.25/win_flex_bison-2.5.25.zip -OutFile FlexBison.zip
-        7z x -o"$env:Qt5_DIR\bin" FlexBison.zip -aoa
+        7z x -o"$env:Qt6_DIR\bin" FlexBison.zip -aoa
     - name: Install CGAL
       run: |
         Invoke-WebRequest https://github.com/CGAL/cgal/releases/download/v5.4/CGAL-5.4.zip -OutFile CGAL-release.zip
@@ -185,11 +187,12 @@ jobs:
       uses: actions/cache@v1
       with:
         path: ../Qt
-        key: ${{ runner.os }}-QtCache
+        key: ${{ runner.os }}-QtCache-6
     - name: Install Qt
-      uses: jurplel/install-qt-action@v2.12.0
+      uses: jurplel/install-qt-action@v3.0.0
       with:
-        cached: ${{ steps.cache-qt.outputs.cache-hit }}
+        version: '6.*.*'
+        cache: ${{ steps.cache-qt.outputs.cache-hit }}
     - name: Install Dependencies
       run: |
         brew install cgal bison
