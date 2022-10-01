@@ -35,7 +35,7 @@ Value& ChrFunction::evaluate(const Context& ctx) const
 		for(const auto& codeVal: codes->getElements()) {
 			auto* code=dynamic_cast<NumberValue*>(codeVal);
 			if(code) {
-				uint unicode=code->toInteger();
+				char32_t unicode=code->toInteger();
 				result.append(QString::fromUcs4(&unicode,1));
 			}
 		}
@@ -44,7 +44,7 @@ Value& ChrFunction::evaluate(const Context& ctx) const
 			Value* argVal = arg.getValue();
 			auto* code=dynamic_cast<NumberValue*>(argVal);
 			if(code) {
-				uint unicode=code->toInteger();
+				char32_t unicode=code->toInteger();
 				result.append(QString::fromUcs4(&unicode,1));
 			}
 		}

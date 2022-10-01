@@ -40,14 +40,14 @@ void Project::parseProject(const QString& filename)
 			continue;
 		}
 		if(token == QXmlStreamReader::StartElement) {
-			if(xml.name() == "project") {
+			if(xml.name()==QString("project")) {
 
 				continue;
 			}
-			if(xml.name() == "name") {
+			if(xml.name()==QString("name")) {
 				parseName(xml);
 			}
-			if(xml.name() == "source") {
+			if(xml.name()==QString("source")) {
 				parseSource(xml);
 			}
 		}

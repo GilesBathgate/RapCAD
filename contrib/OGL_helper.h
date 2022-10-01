@@ -19,7 +19,6 @@
 #include <CGAL/Nef_S2/OGL_base_object.h>
 #include <CGAL/Simple_cartesian.h>
 #include <CGAL/Nef_3/SNC_decorator.h>
-#include <qgl.h>
 #include <CGAL/glu.h>
 #include <cstdlib>
 #include <iostream>

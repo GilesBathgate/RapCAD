@@ -42,8 +42,8 @@
         <bool>false</bool>
        </property>
        <widget class="CodeEditor" name="scriptEditor">
-        <property name="tabStopWidth">
-         <double>40</double>
+        <property name="tabStopDistance">
+         <double>40.000000000000000</double>
         </property>
         <attribute name="title">
          <string>[New]</string>

@@ -20,6 +20,7 @@
 #define GLVIEW_H
 
 #include "renderer.h"
+#include "bedappearance.h"
 #ifdef USE_QGLWIDGET
 #include <QGLWidget>
 #else
@@ -29,11 +30,6 @@
 #endif
 #include <QMouseEvent>
 #include <QWheelEvent>
-
-enum class BedAppearance {
-	MK42=0,
-	MK2=1
-};
 
 class GLView :
 #ifdef USE_QGLWIDGET
@@ -111,7 +107,11 @@ private:
 	BedAppearance appearance;
 
 	bool mouseDrag;
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 	QPoint last;
+#else
+	QPointF last;
+#endif
 	GLfloat rotateX;
 	GLfloat rotateY;
 	GLfloat rotateZ;

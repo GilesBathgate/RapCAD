@@ -32,7 +32,7 @@
 #include <CGAL/IO/OBJ_reader.h>
 #endif
 #include <CGAL/IO/Polyhedron_iostream.h>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QStringList>
 #include <QXmlStreamReader>
 #include <fstream>
@@ -163,7 +163,7 @@ Primitive* CGALImport::importSTL() const
 	if(!binary && QString(header).startsWith("solid")) {
 		f.seek(0);
 		QTextStream stream(&f);
-		QRegExp re=QRegExp("\\s*(vertex)?\\s+");
+		auto re=QRegularExpression("\\s*(vertex)?\\s+");
 		while(!stream.atEnd()) {
 			QString line=stream.readLine();
 			if(line.contains("solid") || line.contains("facet") || line.contains("endloop"))
@@ -220,26 +220,26 @@ Primitive* CGALImport::importAMF() const
 	}
 
 	QXmlStreamReader xml(&f);
-	if(xml.readNextStartElement() && xml.name()=="amf") {
+	if(xml.readNextStartElement() && xml.name()==QString("amf")) {
 		while(xml.readNextStartElement()) {
-			if(xml.name()=="object") {
+			if(xml.name()==QString("object")) {
 				while(xml.readNextStartElement()) {
-					if(xml.name()=="mesh") {
+					if(xml.name()==QString("mesh")) {
 						while(xml.readNextStartElement()) {
-							if(xml.name()=="vertices") {
+							if(xml.name()==QString("vertices")) {
 								while(xml.readNextStartElement()) {
-									if(xml.name()=="vertex") {
+									if(xml.name()==QString("vertex")) {
 										while(xml.readNextStartElement()) {
-											if(xml.name()=="coordinates") {
+											if(xml.name()==QString("coordinates")) {
 												CGAL::Scalar x=0.0;
 												CGAL::Scalar y=0.0;
 												CGAL::Scalar z=0.0;
 												while(xml.readNextStartElement()) {
-													if(xml.name()=="x") {
+													if(xml.name()==QString("x")) {
 														x=to_decimal(xml.readElementText());
-													} else if(xml.name()=="y") {
+													} else if(xml.name()==QString("y")) {
 														y=to_decimal(xml.readElementText());
-													} else if(xml.name()=="z") {
+													} else if(xml.name()==QString("z")) {
 														z=to_decimal(xml.readElementText());
 													} else {
 														xml.skipCurrentElement();
@@ -254,18 +254,18 @@ Primitive* CGALImport::importAMF() const
 										xml.skipCurrentElement();
 									}
 								}
-							} else if(xml.name()=="volume") {
+							} else if(xml.name()==QString("volume")) {
 								while(xml.readNextStartElement()) {
-									if(xml.name()=="triangle") {
+									if(xml.name()==QString("triangle")) {
 										int v1=0;
 										int v2=0;
 										int v3=0;
 										while(xml.readNextStartElement()) {
-											if(xml.name()=="v1") {
+											if(xml.name()==QString("v1")) {
 												v1=xml.readElementText().toInt();
-											} else if(xml.name()=="v2") {
+											} else if(xml.name()==QString("v2")) {
 												v2=xml.readElementText().toInt();
-											} else if(xml.name()=="v3") {
+											} else if(xml.name()==QString("v3")) {
 												v3=xml.readElementText().toInt();
 											} else {
 												xml.skipCurrentElement();
@@ -309,50 +309,50 @@ Primitive* CGALImport::import3MF() const
 	QByteArray data=zip.fileData("3D/3dmodel.model");
 	zip.close();
 	QXmlStreamReader xml(data);
-	if(xml.readNextStartElement() && xml.name() == "model") {
+	if(xml.readNextStartElement() && xml.name()==QString("model")) {
 		while(xml.readNextStartElement()) {
-			if(xml.name() == "resources") {
+			if(xml.name()==QString("resources")) {
 				while(xml.readNextStartElement()) {
-					if(xml.name() == "object") {
+					if(xml.name()==QString("object")) {
 						while(xml.readNextStartElement()) {
-							if(xml.name() == "mesh") {
+							if(xml.name()==QString("mesh")) {
 								while(xml.readNextStartElement()) {
-									if(xml.name() == "vertices") {
+									if(xml.name()==QString("vertices")) {
 										while(xml.readNextStartElement()) {
-											if(xml.name() == "vertex") {
+											if(xml.name()==QString("vertex")) {
 												CGAL::Scalar x=0.0;
 												CGAL::Scalar y=0.0;
 												CGAL::Scalar z=0.0;
 												const auto attributes=xml.attributes();
 												for(const auto& attr: attributes) {
-													QStringRef n=attr.name();
-													QStringRef v=attr.value();
-													if(n == "x")
+													auto n=attr.name();
+													auto v=attr.value();
+													if(n==QString("x"))
 														x=to_decimal(v.toString());
-													else if(n == "y")
+													else if(n==QString("y"))
 														y=to_decimal(v.toString());
-													else if(n == "z")
+													else if(n==QString("z"))
 														z=to_decimal(v.toString());
 												}
 												p->createVertex(x,y,z);
 											}
 											xml.skipCurrentElement();
 										}
-									} else if(xml.name() == "triangles") {
+									} else if(xml.name()==QString("triangles")) {
 										while(xml.readNextStartElement()) {
-											if(xml.name() == "triangle") {
+											if(xml.name()==QString("triangle")) {
 												int v1=0;
 												int v2=0;
 												int v3=0;
 												const auto attributes=xml.attributes();
 												for(const auto& attr: attributes) {
-													QStringRef n=attr.name();
-													QStringRef v=attr.value();
-													if(n == "v1")
+													auto n=attr.name();
+													auto v=attr.value();
+													if(n == QString("v1"))
 														v1=v.toInt();
-													else if(n == "v2")
+													else if(n == QString("v2"))
 														v2=v.toInt();
-													else if(n == "v3")
+													else if(n == QString("v3"))
 														v3=v.toInt();
 												}
 												Polygon& pg=p->createPolygon();

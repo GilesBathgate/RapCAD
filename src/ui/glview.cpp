@@ -551,7 +551,11 @@ void GLView::mousePressEvent(QMouseEvent* event)
 {
 	mouseDrag=true;
 	setCursor(Qt::SizeAllCursor);
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 	last=event->globalPos();
+#else
+	last=event->globalPosition();
+#endif
 }
 
 void GLView::normalizeAngle(GLfloat& angle)
@@ -568,7 +572,11 @@ void GLView::mouseMoveEvent(QMouseEvent* event)
 	if(!mouseDrag)
 		return;
 
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 	QPoint current=event->globalPos();
+#else
+	QPointF current=event->globalPosition();
+#endif
 	int dx=current.x()-last.x();
 	int dy=current.y()-last.y();
 	bool shift=QApplication::keyboardModifiers() & Qt::ShiftModifier;

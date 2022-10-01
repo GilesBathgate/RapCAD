@@ -18,8 +18,8 @@
 #ifndef PREFERENCES_H
 #define PREFERENCES_H
 
+#include "bedappearance.h"
 #include "decimal.h"
-#include "ui/glview.h"
 #include <QColor>
 #include <QFont>
 #include <QPoint>

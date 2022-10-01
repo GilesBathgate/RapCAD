@@ -51,7 +51,7 @@ Worker::~Worker()
 
 void Worker::setup(const QString& i,const QString& o,bool g)
 {
-	inputFile=i;
+	inputFile=QFileInfo(i);
 	outputFile=o;
 	generate=g;
 }

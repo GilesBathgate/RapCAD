@@ -25,6 +25,10 @@ VERSION = $$cat(VERSION)
 
 QT  += core gui opengl widgets concurrent
 
+greaterThan(QT_MAJOR_VERSION, 5) {
+	QT += openglwidgets
+}
+
 CONFIG += c++14
 TARGET = rapcad
 TEMPLATE = app
@@ -429,6 +433,7 @@ HEADERS  += \
 	contrib/qtcompat.h \
 	src/application.h \
 	src/assertexception.h \
+	src/bedappearance.h \
 	src/builtinmanager.h \
 	src/cgalauxiliarybuilder.h \
 	src/cgaldiscretemodifier.h \
