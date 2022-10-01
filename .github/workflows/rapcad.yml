@@ -89,11 +89,6 @@ jobs:
         version: '6.*.*'
         cache: ${{ steps.cache-qt.outputs.cache-hit }}
         arch: win64_mingw
-    - name: Install patched windeployqt
-      if: ${{ !steps.cache-qt.outputs.cache-hit }}
-      run: |
-        Invoke-WebRequest http://tripleboot.org/Uploads/windeployqt64releaseonly.zip -OutFile windeployqt64releaseonly.zip
-        7z x -o"$env:Qt6_DIR\bin" windeployqt64releaseonly.zip
     - name: Install Flex/Bison
       if: ${{ !steps.cache-qt.outputs.cache-hit }}
       run: |
@@ -145,7 +140,7 @@ jobs:
       run: |
         cp "$env:GMP\lib\libgmp-10.dll" release
         cp "$env:GMP\lib\libmpfr-4.dll" release
-        windeployqt64releaseonly --no-svg --no-translations --no-angle --release release\rapcad.exe
+        windeployqt --no-svg --no-translations --release release\rapcad.exe
         cp "$env:MINGW\libgcc_s_seh-1.dll" release
         cp "$env:MINGW\libstdc++-6.dll" release
         cp "$env:MINGW\libwinpthread-1.dll" release
