@@ -52,6 +52,7 @@ private:
 	void primary();
 	void resultFailed(const QString&);
 	void updatePrimitive(Primitive*);
+	void destroyPrevious();
 
 	Primitive* primitive;
 	Primitive* previous;

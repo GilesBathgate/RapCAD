@@ -102,8 +102,9 @@ void Worker::primary()
 	if(!primitive)
 		reporter.reportWarning(tr("no top level object."));
 	else if(!outputFile.isEmpty()) {
-		resultAccepted();
+		reporter.reportTiming(tr("compiling"));
 		exportResult(outputFile);
+		destroyPrevious();
 	}
 }
 
@@ -215,6 +216,11 @@ bool Worker::resultAvailable()
 void Worker::resultAccepted()
 {
 	reporter.reportTiming(tr("compiling"));
+	destroyPrevious();
+}
+
+void Worker::destroyPrevious()
+{
 	delete previous;
 	previous=nullptr;
 }
