@@ -45,7 +45,7 @@ public:
 	virtual void visit(const class ScriptImport&)=0;
 	virtual void visit(const class Literal&)=0;
 	virtual void visit(const class Variable&)=0;
-	virtual void visit(const class CodeDoc&)=0;
+	virtual void visit(const class CodeDocParam&)=0;
 	virtual void visit(const class ComplexExpression&)=0;
 
 	virtual void visit(class Script&)=0;

@@ -90,12 +90,12 @@ void Script::removeDeclaration(Declaration* dec)
 	declarations.removeAll(dec);
 }
 
-void Script::addDocumentation(const QList<CodeDoc*>& docs)
+void Script::addDocumentation(const QList<CodeDocParam*>& docs)
 {
 	documentation.append(docs);
 }
 
-const QList<QList<CodeDoc*> > Script::getDocumentation() const
+const QList<QList<CodeDocParam*> > Script::getDocumentation() const
 {
 	return documentation;
 }

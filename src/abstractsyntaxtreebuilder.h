@@ -40,11 +40,11 @@ public:
 	virtual void buildFileLocation(QDir)=0;
 	virtual void buildScript(Declaration*)=0;
 	virtual void buildScript(QList<Declaration*>*)=0;
-	virtual void buildScript(QList<CodeDoc*>*)=0;
-	virtual QList<CodeDoc*>* buildCodeDoc(QList<CodeDoc*>*)=0;
-	virtual QList<CodeDoc*>* buildCodeDoc()=0;
-	virtual QList<CodeDoc*>* buildCodeDoc(QString*,QList<CodeDoc*>*)=0;
-	virtual QList<CodeDoc*>* buildCodeDoc(QString*,QString*,QList<CodeDoc*>*)=0;
+	virtual void buildScript(QList<CodeDocParam*>*)=0;
+	virtual QList<CodeDocParam*>* buildCodeDoc(QList<CodeDocParam*>*)=0;
+	virtual QList<CodeDocParam*>* buildCodeDoc()=0;
+	virtual QList<CodeDocParam*>* buildCodeDoc(QString*,QList<CodeDocParam*>*)=0;
+	virtual QList<CodeDocParam*>* buildCodeDoc(QString*,QString*,QList<CodeDocParam*>*)=0;
 	virtual Declaration* buildUse(QString*)=0;
 	virtual Declaration* buildUse(QString*,QString*)=0;
 	virtual Declaration* buildImport(QString*,QString*)=0;

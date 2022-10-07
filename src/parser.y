@@ -50,7 +50,7 @@ static int parserlex(union YYSTYPE*,AbstractSyntaxTreeBuilder&);
 	class Scope* scp;
 	class Variable* var;
 	class Invocation* inv;
-	class QList<class CodeDoc*>* cdocs;
+	class QList<class CodeDocParam*>* cdocs;
 }
 
 %token DOCSTART DOCEND

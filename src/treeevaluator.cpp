@@ -609,7 +609,7 @@ void TreeEvaluator::visit(const Variable& var)
 	context->setCurrentName(name);
 }
 
-void TreeEvaluator::visit(const CodeDoc&)
+void TreeEvaluator::visit(const CodeDocParam&)
 {
 }
 

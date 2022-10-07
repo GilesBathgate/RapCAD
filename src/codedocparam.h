@@ -22,10 +22,10 @@
 #include "visitabletree.h"
 #include <QString>
 
-class CodeDoc : VisitableTree
+class CodeDocParam : VisitableTree
 {
 public:
-	CodeDoc() = default;
+	CodeDocParam() = default;
 	void setName(const QString&);
 	QString getName() const;
 	void setText(const QString&);

@@ -445,7 +445,7 @@ void TreePrinter::visit(const Variable& var)
 	result << var.getName();
 }
 
-void TreePrinter::visit(const CodeDoc& cd)
+void TreePrinter::visit(const CodeDocParam& cd)
 {
 	result << cd.getName() << " " << cd.getText() << "\n";
 }
@@ -458,7 +458,7 @@ void TreePrinter::visit(Script& sc)
 	for(const auto& docs: sc.getDocumentation()) {
 		result << "/**\n";
 
-		for(CodeDoc* doc: docs)
+		for(CodeDocParam* doc: docs)
 			doc->accept(*this);
 
 		result << "*/\n";

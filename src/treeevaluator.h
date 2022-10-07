@@ -79,7 +79,7 @@ public:
 	void visit(const ScriptImport&) override;
 	void visit(const Literal&) override;
 	void visit(const Variable&) override;
-	void visit(const CodeDoc&) override;
+	void visit(const CodeDocParam&) override;
 	void visit(const ComplexExpression&) override;
 
 	void visit(Script&) override;

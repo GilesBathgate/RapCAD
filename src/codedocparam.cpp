@@ -18,27 +18,27 @@
 
 #include "codedocparam.h"
 
-void CodeDoc::setName(const QString& n)
+void CodeDocParam::setName(const QString& n)
 {
 	name=n;
 }
 
-QString CodeDoc::getName() const
+QString CodeDocParam::getName() const
 {
 	return name;
 }
 
-void CodeDoc::setText(const QString& t)
+void CodeDocParam::setText(const QString& t)
 {
 	text=t;
 }
 
-QString CodeDoc::getText() const
+QString CodeDocParam::getText() const
 {
 	return text;
 }
 
-void CodeDoc::accept(TreeVisitor& v)
+void CodeDocParam::accept(TreeVisitor& v)
 {
 	v.visit(*this);
 }

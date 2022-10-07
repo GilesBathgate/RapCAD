@@ -40,14 +40,14 @@ public:
 	void addDeclaration(Declaration*);
 	void appendDeclaration(Declaration*);
 	void removeDeclaration(Declaration*);
-	void addDocumentation(const QList<CodeDoc*>&);
-	const QList<QList<CodeDoc*> > getDocumentation() const;
+	void addDocumentation(const QList<CodeDocParam*>&);
+	const QList<QList<CodeDocParam*> > getDocumentation() const;
 	void accept(TreeVisitor&) override;
 	QDir getFileLocation() const;
 	void setFileLocation(const QDir&);
 private:
 	QList<Declaration*> declarations;
-	QList<QList<CodeDoc*> > documentation;
+	QList<QList<CodeDocParam*> > documentation;
 	QDir fileLocation;
 	Reporter& reporter;
 };
