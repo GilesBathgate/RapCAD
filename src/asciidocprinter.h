@@ -23,7 +23,7 @@
 #include "assignstatement.h"
 #include "binaryexpression.h"
 #include "callback.h"
-#include "codedoc.h"
+#include "codedocparam.h"
 #include "complexexpression.h"
 #include "compoundstatement.h"
 #include "forstatement.h"

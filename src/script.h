@@ -19,7 +19,7 @@
 #ifndef SCRIPT_H
 #define SCRIPT_H
 
-#include "codedoc.h"
+#include "codedocparam.h"
 #include "declaration.h"
 #include "reporter.h"
 #include "scope.h"

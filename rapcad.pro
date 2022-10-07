@@ -268,7 +268,7 @@ SOURCES += \
 	src/module/spheremodule.cpp \
 	src/worker.cpp \
 	src/reporter.cpp \
-	src/codedoc.cpp \
+	src/codedocparam.cpp \
 	src/dxfbuilder.cpp \
 	src/module/shearmodule.cpp \
 	src/module/groupmodule.cpp \
@@ -542,7 +542,7 @@ HEADERS  += \
 	src/module/spheremodule.h \
 	src/worker.h \
 	src/reporter.h \
-	src/codedoc.h \
+	src/codedocparam.h \
 	src/dxfbuilder.h \
 	src/module/shearmodule.h \
 	src/module/groupmodule.h \
