@@ -1,0 +1,15 @@
+/** another test function
+ * @param a the parameter
+*/
+function another_test(a)
+{
+	return a;
+}
+
+/** a test function
+ * @name test
+*/
+function test()
+{
+	return another_test(true);
+}
