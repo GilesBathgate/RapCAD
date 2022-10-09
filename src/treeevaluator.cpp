@@ -613,6 +613,10 @@ void TreeEvaluator::visit(const CodeDocParam&)
 {
 }
 
+void TreeEvaluator::visit(const CodeDocDeclaration&)
+{
+}
+
 void TreeEvaluator::visit(Script& sc)
 {
 	BuiltinManager m(sc,reporter);

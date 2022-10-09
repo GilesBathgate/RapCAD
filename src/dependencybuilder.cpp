@@ -30,26 +30,27 @@ void DependencyBuilder::buildScript(QList<Declaration*>*)
 {
 }
 
-void DependencyBuilder::buildScript(QList<CodeDocParam*>*)
-{
-}
-
-QList<CodeDocParam*>* DependencyBuilder::buildCodeDoc(QList<CodeDocParam*>*)
+Declaration* DependencyBuilder::buildCodeDoc(QList<CodeDocParam*>*)
 {
 	return nullptr;
 }
 
-QList<CodeDocParam*>* DependencyBuilder::buildCodeDoc()
+QList<CodeDocParam*>* DependencyBuilder::buildCodeDocParams(QList<CodeDocParam*>*)
 {
 	return nullptr;
 }
 
-QList<CodeDocParam*>* DependencyBuilder::buildCodeDoc(QString*,QList<CodeDocParam*>*)
+QList<CodeDocParam*>* DependencyBuilder::buildCodeDocParams()
 {
 	return nullptr;
 }
 
-QList<CodeDocParam*>* DependencyBuilder::buildCodeDoc(QString*,QString*,QList<CodeDocParam*>*)
+QList<CodeDocParam*>* DependencyBuilder::buildCodeDocParams(QString*,QList<CodeDocParam*>*)
+{
+	return nullptr;
+}
+
+QList<CodeDocParam*>* DependencyBuilder::buildCodeDocParams(QString*,QString*,QList<CodeDocParam*>*)
 {
 	return nullptr;
 }

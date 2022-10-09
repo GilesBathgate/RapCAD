@@ -15,38 +15,19 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include "codedocdeclaration.h"
 
-#ifndef SCRIPT_H
-#define SCRIPT_H
-
-#include "codedocparam.h"
-#include "declaration.h"
-#include "reporter.h"
-#include "scope.h"
-#include <QList>
-
-class Script : public Scope
+const QList<CodeDocParam*>& CodeDocDeclaration::getParameters() const
 {
-public:
-	Script(Reporter&);
-	~Script() override;
+	return parameters;
+}
 
-	void parse(const QString&);
-	void parse(const QFileInfo&);
+void CodeDocDeclaration::setParameters(const QList<CodeDocParam*>& p)
+{
+	parameters=p;
+}
 
-	bool isEmpty();
-	void setDeclarations(const QList<Declaration*>&);
-	const QList<Declaration*> getDeclarations() const override;
-	void addDeclaration(Declaration*);
-	void appendDeclaration(Declaration*);
-	void removeDeclaration(Declaration*);
-	void accept(TreeVisitor&) override;
-	QDir getFileLocation() const;
-	void setFileLocation(const QDir&);
-private:
-	QList<Declaration*> declarations;
-	QDir fileLocation;
-	Reporter& reporter;
-};
-
-#endif // SCRIPT_H
+void CodeDocDeclaration::accept(TreeVisitor& v)
+{
+	v.visit(*this);
+}

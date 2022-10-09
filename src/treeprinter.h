@@ -23,6 +23,7 @@
 #include "assignstatement.h"
 #include "binaryexpression.h"
 #include "callback.h"
+#include "codedocdeclaration.h"
 #include "codedocparam.h"
 #include "complexexpression.h"
 #include "compoundstatement.h"
@@ -77,6 +78,7 @@ public:
 	void visit(const Literal&) override;
 	void visit(const Variable&) override;
 	void visit(const CodeDocParam&) override;
+	void visit(const CodeDocDeclaration&) override;
 	void visit(const ComplexExpression&) override;
 
 	void visit(Script&) override;

@@ -54,23 +54,17 @@ void SyntaxTreeBuilder::buildScript(Declaration* dec)
 	script.addDeclaration(dec);
 }
 
-void SyntaxTreeBuilder::buildScript(QList<CodeDocParam*>* cdocs)
-{
-	script.addDocumentation(*cdocs);
-	delete cdocs;
-}
-
-QList<CodeDocParam*>* SyntaxTreeBuilder::buildCodeDoc(QList<CodeDocParam*>* cdocs)
+QList<CodeDocParam*>* SyntaxTreeBuilder::buildCodeDocParams(QList<CodeDocParam*>* cdocs)
 {
 	return cdocs;
 }
 
-QList<CodeDocParam*>* SyntaxTreeBuilder::buildCodeDoc()
+QList<CodeDocParam*>* SyntaxTreeBuilder::buildCodeDocParams()
 {
 	return new QList<CodeDocParam*>();
 }
 
-QList<CodeDocParam*>* SyntaxTreeBuilder::buildCodeDoc(QString* t,QList<CodeDocParam*>* cdocs)
+QList<CodeDocParam*>* SyntaxTreeBuilder::buildCodeDocParams(QString* t,QList<CodeDocParam*>* cdocs)
 {
 	auto* cdoc = new CodeDocParam();
 	cdoc->setName("@description");
@@ -80,7 +74,7 @@ QList<CodeDocParam*>* SyntaxTreeBuilder::buildCodeDoc(QString* t,QList<CodeDocPa
 	return cdocs;
 }
 
-QList<CodeDocParam*>* SyntaxTreeBuilder::buildCodeDoc(QString* n,QString* t,QList<CodeDocParam*>* cdocs)
+QList<CodeDocParam*>* SyntaxTreeBuilder::buildCodeDocParams(QString* n,QString* t,QList<CodeDocParam*>* cdocs)
 {
 	auto* cdoc = new CodeDocParam();
 	cdoc->setName(*n);
@@ -137,6 +131,14 @@ void SyntaxTreeBuilder::buildScript(QList<Declaration*>* decls)
 {
 	script.setDeclarations(*decls);
 	delete decls;
+}
+
+Declaration* SyntaxTreeBuilder::buildCodeDoc(QList<CodeDocParam*>* params)
+{
+	auto result=new CodeDocDeclaration();
+	result->setParameters(*params);
+	delete params;
+	return result;
 }
 
 Declaration* SyntaxTreeBuilder::buildDeclaration(Declaration* dec)

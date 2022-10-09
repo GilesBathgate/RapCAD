@@ -29,11 +29,11 @@ public:
 	void buildFileLocation(QDir) override;
 	void buildScript(Declaration*) override;
 	void buildScript(QList<Declaration*>*) override;
-	void buildScript(QList<CodeDocParam*>*) override;
-	QList<CodeDocParam*>* buildCodeDoc(QList<CodeDocParam*>*) override;
-	QList<CodeDocParam*>* buildCodeDoc() override;
-	QList<CodeDocParam*>* buildCodeDoc(QString*,QList<CodeDocParam*>*) override;
-	QList<CodeDocParam*>* buildCodeDoc(QString*,QString*,QList<CodeDocParam*>*) override;
+	Declaration* buildCodeDoc(QList<CodeDocParam*>*) override;
+	QList<CodeDocParam*>* buildCodeDocParams(QList<CodeDocParam*>*) override;
+	QList<CodeDocParam*>* buildCodeDocParams() override;
+	QList<CodeDocParam*>* buildCodeDocParams(QString*,QList<CodeDocParam*>*) override;
+	QList<CodeDocParam*>* buildCodeDocParams(QString*,QString*,QList<CodeDocParam*>*) override;
 	Declaration* buildUse(QString*) override;
 	Declaration* buildUse(QString*,QString*) override;
 	Declaration* buildImport(QString*,QString*) override;

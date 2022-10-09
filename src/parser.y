@@ -116,22 +116,20 @@ declarations
 	{ builder.buildScript($1); }
 	| single_declaration_list
 	{ builder.buildScript($1); }
-	| codedoc declarations
-	{ builder.buildScript($1); }
 	;
 
 codedoc
 	: DOCSTART codedoc_param DOCEND
-	{ $$ = builder.buildCodeDoc($2); }
+	{ $$ = builder.buildCodeDocParams($2); }
 	;
 
 codedoc_param
 	: //empty
-	{ $$ = builder.buildCodeDoc(); }
+	{ $$ = builder.buildCodeDocParams(); }
 	| DOCTEXT codedoc_param
-	{ $$ = builder.buildCodeDoc($1,$2); }
+	{ $$ = builder.buildCodeDocParams($1,$2); }
 	| DOCPARAM DOCTEXT codedoc_param
-	{ $$ = builder.buildCodeDoc($1,$2,$3); }
+	{ $$ = builder.buildCodeDocParams($1,$2,$3); }
 	;
 
 use_declaration
@@ -174,6 +172,8 @@ single_declaration
 	{ $$ = builder.buildStatement($1); }
 	| define_declaration
 	{ $$ = builder.buildDeclaration($1); }
+	| codedoc
+	{ $$ = builder.buildCodeDoc($1); }
 	;
 
 declaration

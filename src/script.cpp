@@ -31,11 +31,6 @@ Script::~Script()
 {
 	qDeleteAll(declarations);
 	declarations.clear();
-	for(auto& d: documentation) {
-		qDeleteAll(d);
-		d.clear();
-	}
-	documentation.clear();
 }
 
 void Script::parse(const QString& input)
@@ -62,7 +57,7 @@ void Script::parse(const QFileInfo& info)
 
 bool Script::isEmpty()
 {
-	return declarations.isEmpty() && documentation.isEmpty();
+	return declarations.isEmpty();
 }
 
 void Script::setDeclarations(const QList<Declaration*>& decls)
@@ -88,16 +83,6 @@ void Script::appendDeclaration(Declaration* dec)
 void Script::removeDeclaration(Declaration* dec)
 {
 	declarations.removeAll(dec);
-}
-
-void Script::addDocumentation(const QList<CodeDocParam*>& docs)
-{
-	documentation.append(docs);
-}
-
-const QList<QList<CodeDocParam*> > Script::getDocumentation() const
-{
-	return documentation;
 }
 
 void Script::accept(TreeVisitor& v)

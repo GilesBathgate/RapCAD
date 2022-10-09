@@ -450,19 +450,20 @@ void TreePrinter::visit(const CodeDocParam& cd)
 	result << cd.getName() << " " << cd.getText() << "\n";
 }
 
+void TreePrinter::visit(const CodeDocDeclaration& docs)
+{
+	result << "/**\n";
+
+	for(CodeDocParam* param: docs.getParameters())
+		param->accept(*this);
+
+	result << "*/\n";
+}
+
 void TreePrinter::visit(Script& sc)
 {
 	for(Declaration* d: sc.getDeclarations())
 		d->accept(*this);
-
-	for(const auto& docs: sc.getDocumentation()) {
-		result << "/**\n";
-
-		for(CodeDocParam* doc: docs)
-			doc->accept(*this);
-
-		result << "*/\n";
-	}
 }
 
 void TreePrinter::visit(Product&)
