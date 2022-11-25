@@ -29,7 +29,7 @@ greaterThan(QT_MAJOR_VERSION, 5) {
 	QT += openglwidgets
 }
 
-CONFIG += c++14
+CONFIG += c++17
 TARGET = rapcad
 TEMPLATE = app
 INCLUDEPATH += src
