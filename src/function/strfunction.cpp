@@ -22,7 +22,7 @@
 
 StrFunction::StrFunction() : Function("str")
 {
-	addDescription(tr("Converts the value to a text value."));
+	addDescription(tr("Converts the value to a text string."));
 }
 
 Value& StrFunction::evaluate(const Context& ctx) const

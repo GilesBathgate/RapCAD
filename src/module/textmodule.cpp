@@ -25,7 +25,7 @@
 
 TextModule::TextModule(Reporter& r) : Module(r, "text")
 {
-	addDescription(tr("Generates text."));
+	addDescription(tr("Generates 2d text geometry."));
 	addParameter("text",tr("The text to generate"));
 	addParameter("font",tr("The font of the text"));
 	addParameter("size",tr("The size of the text"));
