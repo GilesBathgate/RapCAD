@@ -24,7 +24,7 @@
 DegFunction::DegFunction() : Function("deg")
 {
 	addDescription(tr("Returns the number of degrees for the given number of radians."));
-	addParameter("radians");
+	addParameter("radians","num",tr("The value for which to find the degrees."));
 }
 
 Value& DegFunction::evaluate(const Context& ctx) const

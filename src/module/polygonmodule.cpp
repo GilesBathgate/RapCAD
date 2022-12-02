@@ -27,8 +27,8 @@ PolygonModule::PolygonModule(Reporter& r,bool polygon) :
 	type(polygon?PrimitiveTypes::Surface:PrimitiveTypes::Lines)
 {
 	addDescription(polygon?tr("Constructs a polygon."):tr("Constructs a line connecting multiple points."));
-	addParameter("points",tr("The vertices are provided by the points list."));
-	addParameter("lines",tr("The lines are a list of indices to the vertices."));
+	addParameter("points","list",tr("The vertices are provided by the points list."));
+	addParameter("lines","list",tr("The lines are a list of indices to the vertices."));
 }
 
 Node* PolygonModule::evaluate(const Context& ctx) const

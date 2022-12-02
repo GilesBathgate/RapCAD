@@ -24,7 +24,7 @@
 ChrFunction::ChrFunction() : Function("chr")
 {
 	addDescription(tr("Returns characters with the given unicode number values."));
-	addParameter("value");
+	addParameter("values","list",tr("The values to convert to characters."));
 }
 
 Value& ChrFunction::evaluate(const Context& ctx) const

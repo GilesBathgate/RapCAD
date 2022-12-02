@@ -24,7 +24,7 @@
 SignFunction::SignFunction() : Function("sign")
 {
 	addDescription(tr("Returns a number value of -1 or 1 depending on the sign of the given number value."));
-	addParameter("value");
+	addParameter("value","num",tr("The value for which to find the sign."));
 }
 
 Value& SignFunction::evaluate(const Context& ctx) const

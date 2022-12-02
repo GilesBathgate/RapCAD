@@ -50,7 +50,7 @@ public:
 protected:
 	void addDescription(const QString&);
 	void addDeprecated(const QString&);
-	void addParameter(const QString&,const QString&);
+	void addParameter(const QString&,const QString& t,const QString&);
 	Value* getParameterArgument(const Context&, int) const;
 	Value* getParameterArgument(const Context&, int, int) const;
 

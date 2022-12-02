@@ -23,8 +23,8 @@
 
 SumFunction::SumFunction() : Function("sum")
 {
-	addDescription(tr("Returns the sum of the given vector of values."));
-	addParameter("values");
+	addDescription(tr("Returns the sum of the given list of values."));
+	addParameter("values","list",tr("The list to sum."));
 }
 
 Value& SumFunction::evaluate(const Context& ctx) const

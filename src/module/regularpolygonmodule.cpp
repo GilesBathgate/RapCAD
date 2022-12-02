@@ -24,8 +24,8 @@
 RegularPolygonModule::RegularPolygonModule(Reporter& r) : PrimitiveModule(r, "regular_polygon")
 {
 	addDescription(tr("Constructs a regular polygon. It will be placed centered on the xy plane."));
-	addParameter("sides",tr("The number of size to the polygon."));
-	addParameter("apothem",tr("The radius from the center to the outer faces of the polygon."));
+	addParameter("sides","int",tr("The number of sides to the polygon."));
+	addParameter("apothem","num",tr("The radius from the center to the outer faces of the polygon."));
 }
 
 Node* RegularPolygonModule::evaluate(const Context& ctx) const

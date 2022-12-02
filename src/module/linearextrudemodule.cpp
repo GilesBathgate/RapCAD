@@ -25,8 +25,8 @@
 LinearExtrudeModule::LinearExtrudeModule(Reporter& r) : Module(r,"linear_extrude")
 {
 	addDescription(tr("Extrudes its children along the given axis."));
-	addParameter("height",tr("The height of the extrusion."));
-	addParameter("axis",tr("The axis along which to perform the extrusion"));
+	addParameter("height","num",tr("The height of the extrusion."));
+	addParameter("axis","vec3",tr("The axis along which to perform the extrusion"));
 }
 
 Node* LinearExtrudeModule::evaluate(const Context& ctx) const

@@ -4,7 +4,7 @@
 IsUndefFunction::IsUndefFunction() : Function("is_undef")
 {
 	addDescription(tr("Returns true when the given value is an undefined value"));
-	addParameter("value");
+	addParameter("value","undef",tr("The value to test."));
 }
 
 Value& IsUndefFunction::evaluate(const Context& ctx) const

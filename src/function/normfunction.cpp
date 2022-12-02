@@ -27,7 +27,7 @@
 NormFunction::NormFunction() : Function("norm")
 {
 	addDescription(tr("Returns the strictly positive length of a given number, vector or complex value."));
-	addParameter("value");
+	addParameter("value","list",tr("The value for which to find the norm."));
 }
 
 Value& NormFunction::evaluate(const Context& ctx) const

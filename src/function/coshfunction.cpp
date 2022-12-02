@@ -24,7 +24,7 @@
 CoshFunction::CoshFunction() : Function("cosh")
 {
 	addDescription(tr("Returns the hyperbolic cosine of the number value."));
-	addParameter("value");
+	addParameter("value","num",tr("The value for which to find the hyperbolic cosine."));
 }
 
 Value& CoshFunction::evaluate(const Context& ctx) const

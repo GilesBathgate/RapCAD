@@ -22,8 +22,8 @@
 PowFunction::PowFunction() : Function("pow")
 {
 	addDescription(tr("Returns the value raised to the power of exponent."));
-	addParameter("value");
-	addParameter("exponent");
+	addParameter("value","num",tr("The value for which to find the power."));
+	addParameter("exponent","num",tr("The exponent."));
 }
 
 Value& PowFunction::evaluate(const Context& ctx) const

@@ -24,7 +24,7 @@
 AsinFunction::AsinFunction() : Function("asin")
 {
 	addDescription(tr("Returns the arc sine of the number value."));
-	addParameter("value");
+	addParameter("value","num",tr("The value for which to find the arc sine."));
 }
 
 Value& AsinFunction::evaluate(const Context& ctx) const

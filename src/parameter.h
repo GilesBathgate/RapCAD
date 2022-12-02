@@ -29,13 +29,17 @@ public:
 	~Parameter() override;
 	QString getName() const;
 	void setName(const QString&);
+	const QString& getType() const;
+	void setType(const QString&);
 	Expression* getExpression() const;
 	void setExpression(Expression*);
 	void addDescription(const QString&);
 	QString getDescription() const;
 	void accept(TreeVisitor&) override;
+
 private:
 	QString name;
+	QString type;
 	QString description;
 	Expression* expression;
 };

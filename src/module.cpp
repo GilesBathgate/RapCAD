@@ -102,10 +102,11 @@ void Module::addDeprecated(const QString& d)
 	description=d;
 }
 
-void Module::addParameter(const QString& n, const QString& d)
+void Module::addParameter(const QString& n,const QString& t,const QString& d)
 {
 	auto* p=new Parameter();
 	p->setName(n);
+	p->setType(t);
 	p->addDescription(d);
 	parameters.append(p);
 }

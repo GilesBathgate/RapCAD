@@ -24,7 +24,7 @@
 PointsModule::PointsModule(Reporter& r, bool multiple) : Module(r,multiple?"points":"point")
 {
 	addDescription(tr("Constructs points."));
-	addParameter("points",tr("The location of the points."));
+	addParameter("points","list",tr("The location of the points."));
 }
 
 Node* PointsModule::evaluate(const Context& ctx) const

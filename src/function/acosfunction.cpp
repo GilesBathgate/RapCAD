@@ -24,7 +24,7 @@
 AcosFunction::AcosFunction() : Function("acos")
 {
 	addDescription(tr("Returns the arc cosine of the number value."));
-	addParameter("value");
+	addParameter("value","num",tr("The value for which to find the arc cosine."));
 }
 
 Value& AcosFunction::evaluate(const Context& ctx) const

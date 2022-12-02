@@ -23,8 +23,8 @@
 CrossFunction::CrossFunction() : Function("cross")
 {
 	addDescription(tr("Returns the cross product of the two vectors."));
-	addParameter("v1");
-	addParameter("v2");
+	addParameter("v1","vec3",tr("The first value for which to find the cross product."));
+	addParameter("v2","vec3",tr("The second value for which to find the cross product."));
 }
 
 Value& CrossFunction::evaluate(const Context& ctx) const

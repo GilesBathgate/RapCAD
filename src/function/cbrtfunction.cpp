@@ -23,7 +23,7 @@
 CbrtFunction::CbrtFunction() : Function("cbrt")
 {
 	addDescription(tr("Returns the cube root of the number value."));
-	addParameter("number");
+	addParameter("number","num",tr("The value for which to find the cube root."));
 }
 
 Value& CbrtFunction::evaluate(const Context& ctx) const

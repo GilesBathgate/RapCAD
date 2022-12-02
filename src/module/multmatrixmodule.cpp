@@ -25,7 +25,7 @@
 MultMatrixModule::MultMatrixModule(Reporter& r) : Module(r,"multmatrix")
 {
 	addDescription(tr("Multiplies its children with the given 4 by 4 affine transformation matrix."));
-	addParameter("matrix",tr("The 4 by 4 affine transformation matrix"));
+	addParameter("matrix","mat4x4",tr("The 4 by 4 affine transformation matrix"));
 }
 
 Node* MultMatrixModule::evaluate(const Context& ctx) const

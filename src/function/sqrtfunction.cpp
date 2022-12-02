@@ -24,7 +24,7 @@
 SqrtFunction::SqrtFunction() : Function("sqrt")
 {
 	addDescription(tr("Returns the square root of the number value."));
-	addParameter("number");
+	addParameter("number","num",tr("The number for which to find the square root."));
 }
 
 Value& SqrtFunction::evaluate(const Context& ctx) const

@@ -392,6 +392,10 @@ parameter
 	{ $$ = builder.buildParameter($1); }
 	| IDENTIFIER '=' expression
 	{ $$ = builder.buildParameter($1,$3); }
+	| IDENTIFIER ':' UNDEF '=' expression
+	{ $$ = builder.buildParameter($1,$5); }
+	| IDENTIFIER ':' IDENTIFIER '=' expression
+	{ $$ = builder.buildParameter($1,$3,$5); }
 	;
 
 compound_instance

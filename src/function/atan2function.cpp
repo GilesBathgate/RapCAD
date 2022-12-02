@@ -24,8 +24,8 @@
 Atan2Function::Atan2Function() : Function("atan2")
 {
 	addDescription(tr("Returns the arc tangent of the two number values."));
-	addParameter("y");
-	addParameter("x");
+	addParameter("y","num",tr("The y value for which to find the arc tangent."));
+	addParameter("x","num",tr("The x value for which to find the arc tangent."));
 }
 
 Value& Atan2Function::evaluate(const Context& ctx) const

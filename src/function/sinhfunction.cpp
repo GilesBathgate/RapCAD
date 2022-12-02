@@ -24,7 +24,7 @@
 SinhFunction::SinhFunction() : Function("sinh")
 {
 	addDescription(tr("Returns the hyperbolic sine of the number value."));
-	addParameter("value");
+	addParameter("value","num",tr("The value for which to find the hyperbolic sine."));
 }
 
 Value& SinhFunction::evaluate(const Context& ctx) const

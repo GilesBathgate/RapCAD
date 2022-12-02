@@ -21,8 +21,8 @@
 AssertModule::AssertModule(Reporter& r) : Module(r,"assert")
 {
 	addDescription(tr("Checks the expected value and stops execution when false"));
-	addParameter("condition",tr("A value that is expected to be true"));
-	addParameter("message",tr("A message that is displayed when the assertion fails"));
+	addParameter("condition","bool",tr("A value that is expected to be true"));
+	addParameter("message","str",tr("A message that is displayed when the assertion fails"));
 }
 
 Node* AssertModule::evaluate(const Context& ctx) const

@@ -411,6 +411,17 @@ Parameter* SyntaxTreeBuilder::buildParameter(QString* name,Expression* expr)
 	return result;
 }
 
+Parameter* SyntaxTreeBuilder::buildParameter(QString* name, QString* type, Expression* expr)
+{
+	auto* result = new Parameter();
+	result->setName(*name);
+	delete name;
+	result->setType(*type);
+	delete type;
+	result->setExpression(expr);
+	return result;
+}
+
 QList<Argument*>* SyntaxTreeBuilder::buildArguments()
 {
 	return new QList<Argument*>();

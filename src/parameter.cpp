@@ -19,6 +19,7 @@
 #include "parameter.h"
 
 Parameter::Parameter() :
+	type("undef"),
 	expression(nullptr)
 {
 }
@@ -35,7 +36,17 @@ QString Parameter::getName() const
 
 void Parameter::setName(const QString& n)
 {
-	name = n;
+	name=n;
+}
+
+const QString& Parameter::getType() const
+{
+	return type;
+}
+
+void Parameter::setType(const QString& t)
+{
+	type=t;
 }
 
 Expression* Parameter::getExpression() const
@@ -45,7 +56,7 @@ Expression* Parameter::getExpression() const
 
 void Parameter::setExpression(Expression* expr)
 {
-	expression = expr;
+	expression=expr;
 }
 
 void Parameter::addDescription(const QString& d)

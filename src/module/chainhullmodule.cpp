@@ -24,7 +24,7 @@
 ChainHullModule::ChainHullModule(Reporter& r) : Module(r,"chain_hull")
 {
 	addDescription(tr("Constructs a chained hull of its children."));
-	addParameter("closed",tr("Specifies whether to close the chain."));
+	addParameter("closed","bool",tr("Specifies whether to close the chain."));
 }
 
 Node* ChainHullModule::evaluate(const Context& ctx) const

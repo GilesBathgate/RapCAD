@@ -24,7 +24,7 @@
 CeilFunction::CeilFunction() : Function("ceil")
 {
 	addDescription(tr("Returns the number value rounded up to the nearest integer."));
-	addParameter("value");
+	addParameter("value","num",tr("The value for which to find the nearest integer."));
 }
 
 Value& CeilFunction::evaluate(const Context& ctx) const

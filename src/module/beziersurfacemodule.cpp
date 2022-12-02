@@ -26,7 +26,7 @@
 BezierSurfaceModule::BezierSurfaceModule(Reporter& r) : PrimitiveModule(r,"bezier_surface")
 {
 	addDescription(tr("Constructs a bezier surface."));
-	addParameter("mesh",tr("A 4 by 4 matrix of points."));
+	addParameter("mesh","mat4x4",tr("A 4 by 4 matrix of points."));
 }
 
 decimal BezierSurfaceModule::bez03(const decimal& u)

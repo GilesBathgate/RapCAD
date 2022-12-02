@@ -22,9 +22,9 @@
 CircumcenterFunction::CircumcenterFunction() : Function("circumcenter")
 {
 	addDescription(tr("Finds the circumcenter of the given points"));
-	addParameter("a");
-	addParameter("b");
-	addParameter("c");
+	addParameter("a","vec3",tr("The first point."));
+	addParameter("b","vec3",tr("The second point."));
+	addParameter("c","vec3",tr("The third point."));
 }
 
 Value& CircumcenterFunction::evaluate(const Context& ctx) const

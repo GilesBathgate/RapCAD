@@ -24,8 +24,8 @@
 RoundFunction::RoundFunction() : Function("round")
 {
 	addDescription(tr("Returns the number value rounded up, or down, to the nearest integer."));
-	addParameter("value");
-	addParameter("places");
+	addParameter("value","num",tr("The value for which to find the nearest integer."));
+	addParameter("places","int",tr("The number of decimal places."));
 }
 
 Value& RoundFunction::evaluate(const Context& ctx) const

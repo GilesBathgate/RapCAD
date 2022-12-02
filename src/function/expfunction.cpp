@@ -24,7 +24,7 @@
 ExpFunction::ExpFunction() : Function("exp")
 {
 	addDescription(tr("Returns the exponential of the number value."));
-	addParameter("value");
+	addParameter("value","num",tr("The value for which to find the exponential."));
 }
 
 Value& ExpFunction::evaluate(const Context& ctx) const

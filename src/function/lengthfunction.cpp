@@ -26,7 +26,7 @@
 LengthFunction::LengthFunction() : Function("len")
 {
 	addDescription(tr("Returns the length of a range, list or text value."));
-	addParameter("value");
+	addParameter("value","list",tr("The value to measure."));
 }
 
 Value& LengthFunction::evaluate(const Context& ctx) const

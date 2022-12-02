@@ -26,8 +26,8 @@
 AngFunction::AngFunction() : Function("ang")
 {
 	addDescription(tr("Returns a quaternion with the given angle and axis."));
-	addParameter("angle");
-	addParameter("axis");
+	addParameter("angle","num",tr("The angle."));
+	addParameter("axis","vec3",tr("The axis."));
 }
 
 Value& AngFunction::getResult(const decimal& a,const decimal& x,const decimal& y,const decimal& z)

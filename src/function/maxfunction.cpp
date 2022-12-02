@@ -22,7 +22,7 @@
 MaxFunction::MaxFunction() : Function("max")
 {
 	addDescription(tr("Returns the largest of the given values."));
-	addParameter("values");
+	addParameter("values","list",tr("The values for which to find the maximum value."));
 }
 
 Value& MaxFunction::evaluate(const Context& ctx) const

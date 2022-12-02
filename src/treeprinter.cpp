@@ -101,6 +101,16 @@ void TreePrinter::visit(const Instance& inst)
 	result << "\n";
 }
 
+void TreePrinter::printParameters(const QList<Parameter*>& parameters)
+{
+	OnceOnly first;
+	for(Parameter* p: parameters) {
+		if(!first())
+			result << ", ";
+		p->accept(*this);
+	}
+}
+
 void TreePrinter::visit(const Module& mod)
 {
 	if(mod.isDeprecated()) return;
@@ -111,12 +121,7 @@ void TreePrinter::visit(const Module& mod)
 	result << "module ";
 	result << mod.getFullName();
 	result << "(";
-	OnceOnly first;
-	for(Parameter* p: parameters) {
-		if(!first())
-			result << ",";
-		p->accept(*this);
-	}
+	printParameters(parameters);
 	result << "){";
 	Scope* scp=mod.getScope();
 	if(scp) {
@@ -135,13 +140,7 @@ void TreePrinter::visit(const Function& func)
 	result << "function ";
 	result << func.getName();
 	result << "(";
-	OnceOnly first;
-	for(Parameter* p: parameters) {
-		if(!first())
-			result << ",";
-		p->accept(*this);
-	}
-
+	printParameters(parameters);
 	result << ")";
 	Scope* scp=func.getScope();
 	if(scp)
@@ -238,6 +237,9 @@ void TreePrinter::visit(const ForStatement& forstmt)
 void TreePrinter::visit(const Parameter& param)
 {
 	result << param.getName();
+	const QString& type=param.getType();
+	if(!type.isEmpty())
+		result << ": " << type;
 
 	Expression* expression = param.getExpression();
 	if(expression) {
@@ -396,13 +398,7 @@ void TreePrinter::visit(const ModuleImport& decl)
 	int s = parameters.size();
 	if(s>0) {
 		result << "(";
-		OnceOnly first;
-		for(Parameter* p: parameters) {
-			if(!first())
-				result << ",";
-			p->accept(*this);
-		}
-
+		printParameters(parameters);
 		result << ")";
 	}
 	result << ";\n";

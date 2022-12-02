@@ -22,7 +22,7 @@
 MinFunction::MinFunction() : Function("min")
 {
 	addDescription(tr("Returns the smallest of the given values."));
-	addParameter("values");
+	addParameter("values","list",tr("The values for which to find the minimum value."));
 }
 
 Value& MinFunction::evaluate(const Context& ctx) const

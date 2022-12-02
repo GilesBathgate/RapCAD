@@ -25,7 +25,7 @@
 DiscreteModule::DiscreteModule(Reporter& r) : Module(r,"discrete")
 {
 	addDescription(tr("Rearranges the vertices of its children to lie on discrete values rounded to the given number of decimal places."));
-	addParameter("places",tr("The number of decimal places to which to round."));
+	addParameter("places","int",tr("The number of decimal places to which to round."));
 }
 
 Node* DiscreteModule::evaluate(const Context& ctx) const

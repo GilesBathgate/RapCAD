@@ -24,7 +24,7 @@
 TanFunction::TanFunction() : Function("tan")
 {
 	addDescription(tr("Returns the tangent of the number value."));
-	addParameter("value");
+	addParameter("value","num",tr("The value for which to find the tangent."));
 }
 
 Value& TanFunction::evaluate(const Context& ctx) const

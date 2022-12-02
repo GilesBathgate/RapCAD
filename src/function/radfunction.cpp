@@ -24,7 +24,7 @@
 RadFunction::RadFunction() : Function("rad")
 {
 	addDescription(tr("Returns the number of radians for the given number of degrees."));
-	addParameter("degrees");
+	addParameter("degrees","num",tr("The value for which to find the radians."));
 }
 
 Value& RadFunction::evaluate(const Context& ctx) const

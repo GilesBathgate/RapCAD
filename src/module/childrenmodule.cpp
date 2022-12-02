@@ -28,10 +28,10 @@ ChildrenModule::ChildrenModule(Reporter& r,bool l) :
 {
 	if(legacy) {
 		addDeprecated(tr("The child module is deprecated, use the children module instead."));
-		addParameter("index",tr("The index of the child to use."));
+		addParameter("index","int",tr("The index of the child to use."));
 	} else {
 		addDescription(tr("Provides access to children as passed to a module."));
-		addParameter("index",tr("A list of indices which determines which children to use."));
+		addParameter("index","list",tr("A list of indices which determines which children to use."));
 	}
 }
 

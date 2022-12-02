@@ -23,7 +23,7 @@
 AbsFunction::AbsFunction() : Function("abs")
 {
 	addDescription(tr("Returns the absolute value of the number value."));
-	addParameter("value");
+	addParameter("value","num",tr("The value for which to find the absolute value."));
 }
 
 Value& AbsFunction::evaluate(const Context& ctx) const

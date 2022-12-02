@@ -26,10 +26,10 @@
 RandFunction::RandFunction() : Function("rands")
 {
 	addDescription(tr("Returns a vector of numbers between the given min and max values."));
-	addParameter("min");
-	addParameter("max");
-	addParameter("count",tr("The quantity of random numbers to create"));
-	addParameter("seed",tr("The seed number can be optionally used to give consistent results."));
+	addParameter("min","num",tr("The minimum value"));
+	addParameter("max","num",tr("The maximum value"));
+	addParameter("count","int",tr("The quantity of random numbers to create"));
+	addParameter("seed","int",tr("The seed number can be optionally used to give consistent results."));
 }
 
 Value& RandFunction::evaluate(const Context& ctx) const

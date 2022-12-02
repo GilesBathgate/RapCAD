@@ -25,8 +25,8 @@
 ResizeModule::ResizeModule(Reporter& r) : Module(r,"resize")
 {
 	addDescription(tr("Modifies its children to match the given size."));
-	addParameter("newsize",tr("The new size of the shape."));
-	addParameter("auto",tr("Specifies whether to auto-scale any 0-dimensions"));
+	addParameter("newsize","vec3",tr("The new size of the shape."));
+	addParameter("auto","bool",tr("Specifies whether to auto-scale any 0-dimensions"));
 }
 
 Node* ResizeModule::evaluate(const Context& ctx) const

@@ -22,7 +22,7 @@
 NumFunction::NumFunction() : Function("num")
 {
 	addDescription(tr("Converts the value to a number value."));
-	addParameter("value");
+	addParameter("value","num",tr("The value for which to find the number."));
 }
 
 Value& NumFunction::evaluate(const Context& ctx) const

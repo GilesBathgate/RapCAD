@@ -24,8 +24,8 @@
 LogFunction::LogFunction() : Function("log")
 {
 	addDescription(tr("Returns the logarithm of the number value to the given base."));
-	addParameter("value");
-	addParameter("base");
+	addParameter("value","num",tr("The value for which to find the log."));
+	addParameter("base","num",tr("The base."));
 }
 
 Value& LogFunction::evaluate(const Context& ctx) const

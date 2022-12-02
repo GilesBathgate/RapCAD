@@ -24,7 +24,7 @@
 TanhFunction::TanhFunction() : Function("tanh")
 {
 	addDescription(tr("Returns the hyperbolic tangent of the number value."));
-	addParameter("value");
+	addParameter("value","num",tr("The value for which to find the hyperbolic tangent."));
 }
 
 Value& TanhFunction::evaluate(const Context& ctx) const

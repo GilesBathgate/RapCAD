@@ -24,7 +24,7 @@
 OffsetModule::OffsetModule(Reporter& r) : Module(r,"offset")
 {
 	addDescription(tr("Moves the outlines of polygons outward or inward by a given amount."));
-	addParameter("delta",tr("The amount to offset the polygon. The polygon is offset inwards, when negative."));
+	addParameter("delta","num",tr("The amount to offset the polygon. The polygon is offset inwards, when negative."));
 }
 
 Node* OffsetModule::evaluate(const Context& ctx) const

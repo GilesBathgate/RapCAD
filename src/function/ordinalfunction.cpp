@@ -23,7 +23,7 @@
 OrdinalFunction::OrdinalFunction() : Function("ord")
 {
 	addDescription(tr("Convert a character to a number representing the Unicode code point."));
-	addParameter("value");
+	addParameter("value","str",tr("The value to convert."));
 }
 
 Value& OrdinalFunction::evaluate(const Context& ctx) const

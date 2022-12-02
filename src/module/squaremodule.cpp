@@ -24,8 +24,8 @@
 SquareModule::SquareModule(Reporter& r) : PrimitiveModule(r,"square")
 {
 	addDescription(tr("Constructs a square or rectangle. It will be placed in the first quadrant."));
-	addParameter("size",tr("The size of the square"));
-	addParameter("center",tr("Specifies whether to center the square on the xy plane"));
+	addParameter("size","vec2",tr("The size of the square"));
+	addParameter("center","bool",tr("Specifies whether to center the square on the xy plane"));
 }
 
 Node* SquareModule::evaluate(const Context& ctx) const

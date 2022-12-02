@@ -23,7 +23,7 @@
 IsListFunction::IsListFunction() : Function("is_list")
 {
 	addDescription(tr("Returns true when the given value is a list."));
-	addParameter("value");
+	addParameter("value","list",tr("The value to test."));
 }
 
 Value& IsListFunction::evaluate(const Context& ctx) const

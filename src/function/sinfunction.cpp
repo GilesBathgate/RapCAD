@@ -24,7 +24,7 @@
 SinFunction::SinFunction() : Function("sin")
 {
 	addDescription(tr("Returns the sine of the number value."));
-	addParameter("value");
+	addParameter("value","num",tr("The value for which to find the sine."));
 }
 
 Value& SinFunction::evaluate(const Context& ctx) const

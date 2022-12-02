@@ -24,7 +24,7 @@
 TranslateModule::TranslateModule(Reporter& r) : Module(r,"translate")
 {
 	addDescription(tr("Moves its children along the given vector."));
-	addParameter("vector",tr("The vector to move along"));
+	addParameter("vector","vec3",tr("The vector to move along"));
 }
 
 Node* TranslateModule::evaluate(const Context& ctx) const

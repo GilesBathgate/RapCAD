@@ -76,6 +76,7 @@ public:
 	QList<Parameter*>* buildParameters(QList<Parameter*>*,Parameter*) override;
 	Parameter* buildParameter(QString*) override;
 	Parameter* buildParameter(QString*,Expression*) override;
+	Parameter* buildParameter(QString*,QString*,Expression*) override;
 	QList<Argument*>* buildArguments() override;
 	QList<Argument*>* buildArguments(Argument*) override;
 	QList<Argument*>* buildArguments(QList<Argument*>*,unsigned int,Argument*) override;

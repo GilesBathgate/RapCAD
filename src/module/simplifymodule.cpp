@@ -24,7 +24,7 @@
 SimplifyModule::SimplifyModule(Reporter& r) : Module(r,"simplify")
 {
 	addDescription(tr("Performs a mesh simplification on its children."));
-	addParameter("ratio",tr("The mesh simplification stops when the number of edges is below the ratio of the initial number of edges"));
+	addParameter("ratio","num",tr("The mesh simplification stops when the number of edges is below the ratio of the initial number of edges"));
 }
 
 Node* SimplifyModule::evaluate(const Context& ctx) const

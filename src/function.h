@@ -48,8 +48,7 @@ public:
 
 protected:
 	void addDescription(const QString&);
-	void addParameter(const QString&);
-	void addParameter(const QString&,const QString&);
+	void addParameter(const QString&,const QString&,const QString&);
 	Value* getParameterArgument(const Context&, int) const;
 private:
 	Scope* scope;

@@ -77,17 +77,11 @@ Value& Function::evaluate(const Context&) const
 	return ValueFactory::createUndefined();
 }
 
-void Function::addParameter(const QString& n)
-{
-	auto* p = new Parameter();
-	p->setName(n);
-	parameters.append(p);
-}
-
-void Function::addParameter(const QString& n, const QString& d)
+void Function::addParameter(const QString& n,const QString& t,const QString& d)
 {
 	auto* p=new Parameter();
 	p->setName(n);
+	p->setType(t);
 	p->addDescription(d);
 	parameters.append(p);
 }

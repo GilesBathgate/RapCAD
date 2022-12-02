@@ -24,7 +24,7 @@
 IsIntFunction::IsIntFunction() : Function("is_int")
 {
 	addDescription(tr("Returns true when the given value is an integer."));
-	addParameter("value");
+	addParameter("value","int",tr("The value to test."));
 }
 
 Value& IsIntFunction::evaluate(const Context& ctx) const

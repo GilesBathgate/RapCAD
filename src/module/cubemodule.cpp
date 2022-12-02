@@ -25,8 +25,8 @@
 CubeModule::CubeModule(Reporter& r) : PrimitiveModule(r,"cube")
 {
 	addDescription(tr("Constructs a cube or cuboid. It will be placed in the first octant unless the center parameter is true."));
-	addParameter("size",tr("The size of the cube. A single value or x,y,z"));
-	addParameter("center",tr("Specifies whether to center the cube at the origin"));
+	addParameter("size","vec3",tr("The size of the cube. A single value or x,y,z"));
+	addParameter("center","bool",tr("Specifies whether to center the cube at the origin"));
 }
 
 Node* CubeModule::evaluate(const Context& ctx) const

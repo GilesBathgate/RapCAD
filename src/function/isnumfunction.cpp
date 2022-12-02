@@ -23,7 +23,7 @@
 IsNumFunction::IsNumFunction() : Function("is_num")
 {
 	addDescription(tr("Returns true when the given value is a number."));
-	addParameter("value");
+	addParameter("value","num",tr("The value to test."));
 }
 
 Value& IsNumFunction::evaluate(const Context& ctx) const

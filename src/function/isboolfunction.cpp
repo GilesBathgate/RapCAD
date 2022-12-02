@@ -22,7 +22,7 @@
 IsBoolFunction::IsBoolFunction() : Function("is_bool")
 {
 	addDescription(tr("Returns true when the given value is a boolean."));
-	addParameter("value");
+	addParameter("value","bool",tr("The value to test."));
 }
 
 Value& IsBoolFunction::evaluate(const Context& ctx) const

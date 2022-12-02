@@ -24,7 +24,7 @@
 AtanFunction::AtanFunction() : Function("atan")
 {
 	addDescription(tr("Returns the arc tangent of the number value."));
-	addParameter("value");
+	addParameter("value","num",tr("The value for which to find the arc tangent."));
 }
 
 Value& AtanFunction::evaluate(const Context& ctx) const

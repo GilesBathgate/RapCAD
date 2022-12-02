@@ -85,6 +85,7 @@ public:
 	virtual QList<Parameter*>* buildParameters(QList<Parameter*>*,Parameter*)=0;
 	virtual Parameter* buildParameter(QString*)=0;
 	virtual Parameter* buildParameter(QString*,Expression*)=0;
+	virtual Parameter* buildParameter(QString*,QString*,Expression*)=0;
 	virtual QList<Argument*>* buildArguments()=0;
 	virtual QList<Argument*>* buildArguments(Argument*)=0;
 	virtual QList<Argument*>* buildArguments(QList<Argument*>*,unsigned int,Argument*)=0;

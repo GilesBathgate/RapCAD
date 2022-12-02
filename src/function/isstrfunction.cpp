@@ -23,7 +23,7 @@
 IsStrFunction::IsStrFunction() : Function("is_str")
 {
 	addDescription(tr("Returns true when the given value is a text string."));
-	addParameter("value");
+	addParameter("value","str",tr("The value to test."));
 }
 
 Value& IsStrFunction::evaluate(const Context& ctx) const

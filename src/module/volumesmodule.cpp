@@ -24,7 +24,7 @@
 VolumesModule::VolumesModule(Reporter& r) : Module(r,"volume")
 {
 	addDescription(tr("Provides information about the volume of its children."));
-	addParameter("mass",tr("Specifies that the center of mass also be calculated."));
+	addParameter("mass","bool",tr("Specifies that the center of mass also be calculated."));
 	auxilary=true;
 }
 

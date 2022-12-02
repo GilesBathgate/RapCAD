@@ -26,7 +26,7 @@ IsVecFunction::IsVecFunction(int s) :
 	size(s)
 {
 	addDescription(tr("Returns true when the given value is a %1 vector.").arg(s));
-	addParameter("value");
+	addParameter("value",QString("vec%1").arg(s),tr("The value to test."));
 }
 
 Value& IsVecFunction::evaluate(const Context& ctx) const

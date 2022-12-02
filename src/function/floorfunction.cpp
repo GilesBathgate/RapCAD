@@ -24,7 +24,7 @@
 FloorFunction::FloorFunction() : Function("floor")
 {
 	addDescription(tr("Returns the number value rounded down to the nearest integer."));
-	addParameter("value");
+	addParameter("value","num",tr("The value for which to find the nearest integer."));
 }
 
 Value& FloorFunction::evaluate(const Context& ctx) const

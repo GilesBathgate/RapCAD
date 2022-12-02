@@ -86,6 +86,7 @@ public:
 	void visit(Callback&) override;
 private:
 	void printCodeDoc(const QString&,const QList<Parameter*>&);
+	void printParameters(const QList<Parameter*>&);
 	void createIndent();
 	QTextStream& result;
 	unsigned int indent;

@@ -26,10 +26,10 @@
 RotateExtrudeModule::RotateExtrudeModule(Reporter& r) : PrimitiveModule(r,"rotate_extrude")
 {
 	addDescription(tr("Extrudes its children about the given axis."));
-	addParameter("angle",tr("The sweep angle for the extrusion."));
-	addParameter("axis",tr("The axis of rotation. When no axis is given the shape is first rotated 90° about the x axis, then extruded about the z axis."));
-	addParameter("radius",tr("The radius of the extrusion."));
-	addParameter("height",tr("The helical height of the extrusion."));
+	addParameter("angle","num",tr("The sweep angle for the extrusion."));
+	addParameter("axis","vec3",tr("The axis of rotation. When no axis is given the shape is first rotated 90° about the x axis, then extruded about the z axis."));
+	addParameter("radius","num",tr("The radius of the extrusion."));
+	addParameter("height","num",tr("The helical height of the extrusion."));
 }
 
 Node* RotateExtrudeModule::evaluate(const Context& ctx) const

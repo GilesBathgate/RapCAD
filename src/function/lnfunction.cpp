@@ -24,7 +24,7 @@
 LnFunction::LnFunction() : Function("ln")
 {
 	addDescription(tr("Returns the natural log of the number."));
-	addParameter("value");
+	addParameter("value","num",tr("The value for which to find the natural log."));
 }
 
 Value& LnFunction::evaluate(const Context& ctx) const
