@@ -66,7 +66,7 @@ jobs:
     env:
       CGAL_DIR: C:\CGAL-5.4\
       GMP:      C:\CGAL-5.4\auxiliary\gmp
-      BOOST_ROOT: C:\boost_1_72_0
+      BOOST_ROOT: C:\boost_1_80_0
       ASCIIDOC: C:\asciidoc-9.1.0\
       MINGW: C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
     steps:
@@ -74,8 +74,7 @@ jobs:
       uses: actions/checkout@v2
     - name: Install Boost
       run: |
-        $Url = "https://boostorg.jfrog.io/artifactory/main/release/1.72.0/source/boost_1_72_0.7z"
-        (New-Object System.Net.WebClient).DownloadFile($Url, "$env:TEMP\boost.7z")
+        Invoke-WebRequest "https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/boost_1_80_0.7z" -OutFile "$env:TEMP\boost.7z"
         7z x -oC:\ "$env:TEMP\boost.7z"
     - name: Cache Qt
       id: cache-qt
