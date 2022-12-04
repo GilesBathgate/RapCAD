@@ -107,7 +107,7 @@ jobs:
       run: |
         Invoke-WebRequest https://github.com/asciidoc-py/asciidoc-py/releases/download/9.1.0/asciidoc-9.1.0.zip -OutFile asciidoc.zip
         7z x -oC:\ asciidoc.zip
-        Invoke-WebRequest https://netix.dl.sourceforge.net/project/gnuwin32/src-highlite/2.1.2/src-highlite-2.1.2-bin.zip -OutFile src-highlite.zip
+        Invoke-WebRequest -UserAgent "Wget" https://downloads.sourceforge.net/project/gnuwin32/src-highlite/2.1.2/src-highlite-2.1.2-bin.zip -OutFile src-highlite.zip
         7z x -oC:\source-highlight src-highlite.zip
         mv C:\source-highlight\bin\source-highlight.exe C:\source-highlight\bin\source-highlight-exe.exe
         cp scripts\source-highlight.bat C:\source-highlight\bin
