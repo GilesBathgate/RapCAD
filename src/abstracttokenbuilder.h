@@ -60,6 +60,7 @@ public:
 	virtual int buildOr()=0;
 	virtual int buildComponentwiseMultiply()=0;
 	virtual int buildComponentwiseDivide()=0;
+	virtual int buildPlusMinus()=0;
 	virtual int buildIncrement()=0;
 	virtual int buildDecrement()=0;
 	virtual int buildAddAssign()=0;

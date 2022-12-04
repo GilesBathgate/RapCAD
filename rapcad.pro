@@ -182,6 +182,8 @@ SOURCES += \
 	src/function/isundeffunction.cpp \
 	src/function/ordinalfunction.cpp \
 	src/geometryevaluator.cpp \
+	src/intervalexpression.cpp \
+	src/intervalvalue.cpp \
 	src/main.cpp \
 	src/module/assertmodule.cpp \
 	src/module/colormodule.cpp \
@@ -446,6 +448,8 @@ HEADERS  += \
 	src/function/isundeffunction.h \
 	src/function/ordinalfunction.h \
 	src/geometryevaluator.h \
+	src/intervalexpression.h \
+	src/intervalvalue.h \
 	src/module/assertmodule.h \
 	src/module/colormodule.h \
 	src/module/datummodule.h \

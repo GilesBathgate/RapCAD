@@ -325,6 +325,16 @@ Variable* DependencyBuilder::buildVariable(QString*,Storage)
 	return nullptr;
 }
 
+Expression* DependencyBuilder::buildInterval(decimal*,Expression*)
+{
+	return nullptr;
+}
+
+Expression* DependencyBuilder::buildInterval(decimal*,Expression*,Expression*)
+{
+	return nullptr;
+}
+
 Expression* DependencyBuilder::buildExpression(Expression*,QString*)
 {
 	return nullptr;

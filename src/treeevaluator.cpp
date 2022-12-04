@@ -408,6 +408,28 @@ void TreeEvaluator::visit(const VectorExpression& exp)
 	context->setCurrentValue(&v);
 }
 
+void TreeEvaluator::visit(const IntervalExpression& inv)
+{
+	auto& n = ValueFactory::createNumber(inv.getValue());
+
+	inv.getMore()->accept(*this);
+	Value* more = context->getCurrentValue();
+
+	Expression* exp = inv.getLess();
+	Value* less;
+	if(exp) {
+		exp->accept(*this);
+		less = context->getCurrentValue();
+	} else {
+		less = more; // less is more ;)
+	}
+
+	Value& lower = n - (*less);
+	Value& upper = n + (*more);
+	Value& result = ValueFactory::createInterval(lower,upper);
+	context->setCurrentValue(&result);
+}
+
 void TreeEvaluator::visit(const RangeExpression& exp)
 {
 	exp.getStart()->accept(*this);

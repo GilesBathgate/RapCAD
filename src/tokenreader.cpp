@@ -153,6 +153,11 @@ int TokenReader::buildComponentwiseDivide()
 	return CD;
 }
 
+int TokenReader::buildPlusMinus()
+{
+	return PM;
+}
+
 int TokenReader::buildIncrement()
 {
 	return INC;

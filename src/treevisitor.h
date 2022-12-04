@@ -36,6 +36,7 @@ public:
 	virtual void visit(const class Argument&)=0;
 	virtual void visit(const class AssignStatement&)=0;
 	virtual void visit(const class VectorExpression&)=0;
+	virtual void visit(const class IntervalExpression&)=0;
 	virtual void visit(const class RangeExpression&)=0;
 	virtual void visit(const class UnaryExpression&)=0;
 	virtual void visit(const class ReturnStatement&)=0;

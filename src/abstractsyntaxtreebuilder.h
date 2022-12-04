@@ -100,6 +100,8 @@ public:
 	virtual Variable* buildVariable(QString*)=0;
 	virtual Expression* buildVariable(Variable*)=0;
 	virtual Variable* buildVariable(QString*,Storage)=0;
+	virtual Expression* buildInterval(decimal*,Expression*)=0;
+	virtual Expression* buildInterval(decimal*,Expression*,Expression*)=0;
 	virtual Expression* buildExpression(Expression*,QString*)=0;
 	virtual Expression* buildExpression(Expression*)=0;
 	virtual Expression* buildExpression(Operators,Expression*)=0;

@@ -269,6 +269,11 @@ int TokenBuilder::buildComponentwiseDivide()
 	return CD;
 }
 
+int TokenBuilder::buildPlusMinus()
+{
+	return PM;
+}
+
 int TokenBuilder::buildIncrement()
 {
 	return INC;

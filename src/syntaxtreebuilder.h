@@ -91,6 +91,8 @@ public:
 	Variable* buildVariable(QString*) override;
 	Expression* buildVariable(Variable*) override;
 	Variable* buildVariable(QString*,Storage) override;
+	Expression* buildInterval(decimal*,Expression*) override;
+	Expression* buildInterval(decimal*,Expression*,Expression*) override;
 	Expression* buildExpression(Expression*,QString*) override;
 	Expression* buildExpression(Expression*) override;
 	Expression* buildExpression(Operators,Expression*) override;

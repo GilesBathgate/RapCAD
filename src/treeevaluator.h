@@ -33,6 +33,7 @@
 #include "functionscope.h"
 #include "ifelsestatement.h"
 #include "instance.h"
+#include "intervalexpression.h"
 #include "invocation.h"
 #include "layout.h"
 #include "literal.h"
@@ -72,6 +73,7 @@ public:
 	void visit(const Argument&) override;
 	void visit(const AssignStatement&) override;
 	void visit(const VectorExpression&) override;
+	void visit(const IntervalExpression&) override;
 	void visit(const RangeExpression&) override;
 	void visit(const UnaryExpression&) override;
 	void visit(const ReturnStatement&) override;

@@ -67,6 +67,13 @@ RangeValue& ValueFactory::createRange(Value& start,Value& step,Value& finish)
 	return *v;
 }
 
+IntervalValue& ValueFactory::createInterval(Value& lower,Value& upper)
+{
+	auto* v = new IntervalValue(lower,upper);
+	appendValue(v);
+	return *v;
+}
+
 ComplexValue& ValueFactory::createComplex(Value& r,const QList<Value*>& i)
 {
 	auto* v = new ComplexValue(r,i);

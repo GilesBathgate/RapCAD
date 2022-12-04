@@ -80,7 +80,7 @@ static int parserlex(union YYSTYPE*,AbstractSyntaxTreeBuilder&);
 %left '!' '+' '-' '~' '|'
 %left '*' '/' '%'
 %left INC DEC ADDA SUBA
-%left CM CD CP
+%left CM CD CP PM
 %right '^'
 %left '[' ']'
 %left '.'
@@ -296,6 +296,12 @@ expression
 	{ $$ = builder.buildLiteral($1); }
 	| NUMBER
 	{ $$ = builder.buildLiteral($1); }
+	| NUMBER PM expression
+	{ $$ = builder.buildInterval($1,$3); }
+	| NUMBER '[' expression ']'
+	{ $$ = builder.buildInterval($1,$3); }
+	| NUMBER '[' expression ',' expression ']'
+	{ $$ = builder.buildInterval($1,$3,$5); }
 	| '[' expression ':' expression ']'
 	{ $$ = builder.buildRange($2,$4); }
 	| '[' expression ':' expression ':' expression ']'

@@ -99,6 +99,7 @@ U "um"|"mm"|"cm"|"m"|"th"|"in"|"ft"
 "!="                           { return tokenizer->buildNotEqual(); }
 "&&"                           { return tokenizer->buildAnd(); }
 "||"                           { return tokenizer->buildOr(); }
+\xc2\xb1                       { return tokenizer->buildPlusMinus(); }
 "++"                           { return tokenizer->buildIncrement(); }
 "+="                           { return tokenizer->buildAddAssign(); }
 "--"                           { return tokenizer->buildDecrement(); }

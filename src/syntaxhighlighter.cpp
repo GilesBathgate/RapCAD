@@ -310,6 +310,13 @@ int SyntaxHighlighter::buildComponentwiseDivide()
 	return YY_CONTINUE;
 }
 
+int SyntaxHighlighter::buildPlusMinus()
+{
+	// this adjusts for 2 byte unicode char
+	setFormat(startIndex--,1,operatorFormat);
+	return YY_CONTINUE;
+}
+
 int SyntaxHighlighter::buildIncrement()
 {
 	setFormat(startIndex,lexerget_leng(scanner),operatorFormat);

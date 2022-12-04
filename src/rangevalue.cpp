@@ -114,8 +114,8 @@ Value& RangeValue::operation(Operators op)
 	Value& lower=Value::evaluate(finish,op);
 
 	if(op==Operators::Add||op==Operators::Subtract) {
-			Value& increment=Value::evaluate(step,op);
-			return ValueFactory::createRange(upper,increment,lower);
+		Value& increment=Value::evaluate(step,op);
+		return ValueFactory::createRange(upper,increment,lower);
 	}
 
 	return ValueFactory::createRange(upper,lower);
@@ -132,13 +132,6 @@ Value& RangeValue::operation(Value& v,Operators op)
 
 Value& RangeValue::operation(RangeValue& range,Operators op)
 {
-	/* Interval arithmetic has the following rules:
-	 * when x = [a:b] and y = [c:d] then
-	 * x+y = [a+c:b+d]
-	 * x-y = [a-d:b-c]
-	 * x*y = [min(a*c,a*d,b*c,b*d):max(a*c,a*d,b*c,b*d)]
-	 * x/y = [min(a/c,a/d,b/c,b/d):max(a/c,a/d,b/c,b/d)]
-	 */
 	Value& a=start;
 	Value& b=finish;
 	Value& c=range.start;
@@ -150,24 +143,6 @@ Value& RangeValue::operation(RangeValue& range,Operators op)
 	if(op==Operators::NotEqual) {
 		bool result=compare(a,op,c)||compare(b,op,d);
 		return ValueFactory::createBoolean(result);
-	}
-	if(op==Operators::Add) {
-		return ValueFactory::createRange(a+c,b+d);
-	}
-	if(op==Operators::Subtract) {
-		return ValueFactory::createRange(a-d,b-c);
-	}
-	if(op==Operators::Multiply||op==Operators::Divide) {
-
-		Value& ac=Value::evaluate(a,op,c);
-		Value& ad=Value::evaluate(a,op,d);
-		Value& bc=Value::evaluate(b,op,c);
-		Value& bd=Value::evaluate(b,op,d);
-		QList<Value*> vals {&ac,&ad,&bc,&bd};
-		Value& lower=compareAll(vals,Operators::LessThan);
-		Value& upper=compareAll(vals,Operators::GreaterThan);
-
-		return ValueFactory::createRange(lower,upper);
 	}
 	if(op==Operators::Concatenate) {
 

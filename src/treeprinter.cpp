@@ -305,6 +305,19 @@ void TreePrinter::visit(const VectorExpression& exp)
 	result << "]";
 }
 
+void TreePrinter::visit(const IntervalExpression& exp)
+{
+	result << to_string(exp.getValue());
+	result << "[";
+	exp.getMore()->accept(*this);
+	Expression* less=exp.getLess();
+	if(less) {
+		result << ",";
+		less->accept(*this);
+	}
+	result << "]";
+}
+
 void TreePrinter::visit(const RangeExpression& exp)
 {
 	result << "[";

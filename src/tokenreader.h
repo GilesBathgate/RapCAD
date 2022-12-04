@@ -59,6 +59,7 @@ public:
 	int buildOr() override;
 	int buildComponentwiseMultiply() override;
 	int buildComponentwiseDivide() override;
+	int buildPlusMinus() override;
 	int buildIncrement() override;
 	int buildDecrement() override;
 	int buildAddAssign() override;

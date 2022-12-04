@@ -26,6 +26,7 @@
 #include "function.h"
 #include "functionscope.h"
 #include "ifelsestatement.h"
+#include "intervalexpression.h"
 #include "literal.h"
 #include "module.h"
 #include "moduleimport.h"
@@ -491,6 +492,25 @@ Expression* SyntaxTreeBuilder::buildLiteral(decimal* value)
 	auto* result = new Literal();
 	result->setValue(*value);
 	delete value;
+	return result;
+}
+
+Expression* SyntaxTreeBuilder::buildInterval(decimal* number,Expression* approx)
+{
+	auto* result = new IntervalExpression();
+	result->setValue(*number);
+	delete number;
+	result->setMore(approx);
+	return result;
+}
+
+Expression* SyntaxTreeBuilder::buildInterval(decimal* number,Expression* more,Expression* less)
+{
+	auto* result = new IntervalExpression();
+	result->setValue(*number);
+	delete number;
+	result->setMore(more);
+	result->setLess(less);
 	return result;
 }
 
