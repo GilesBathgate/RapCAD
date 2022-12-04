@@ -35,18 +35,18 @@ RandFunction::RandFunction() : Function("rands")
 Value& RandFunction::evaluate(const Context& ctx) const
 {
 	decimal min=0.0;
-	auto* minVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* minVal=getParameterArgument<NumberValue>(ctx,0);
 	if(minVal)
 		min=minVal->getNumber();
 	decimal max=0.0;
-	auto* maxVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
+	auto* maxVal=getParameterArgument<NumberValue>(ctx,1);
 	if(maxVal)
 		max=maxVal->getNumber();
 	int count=1;
-	auto* countVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));
+	auto* countVal=getParameterArgument<NumberValue>(ctx,2);
 	if(countVal)
 		count=countVal->toInteger();
-	auto* seedVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,3));
+	auto* seedVal=getParameterArgument<NumberValue>(ctx,3);
 	int seed=time(nullptr);
 	if(seedVal)
 		seed=seedVal->toInteger();

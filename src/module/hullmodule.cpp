@@ -30,7 +30,7 @@ HullModule::HullModule(Reporter& r) : Module(r,"hull")
 Node* HullModule::evaluate(const Context& ctx) const
 {
 	bool concave=false;
-	auto* concaveVal = dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));
+	auto* concaveVal=getParameterArgument<BooleanValue>(ctx,0);
 	if(concaveVal)
 		concave=concaveVal->isTrue();
 

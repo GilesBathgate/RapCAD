@@ -29,7 +29,7 @@ SumFunction::SumFunction() : Function("sum")
 
 Value& SumFunction::evaluate(const Context& ctx) const
 {
-	auto* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* vecVal=getParameterArgument<VectorValue>(ctx,0);
 	if(vecVal) {
 		Value* resultVal=&ValueFactory::createNumber(0.0);
 		for(Value* child: vecVal->getElements())

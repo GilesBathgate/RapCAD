@@ -30,8 +30,8 @@ SquareModule::SquareModule(Reporter& r) : PrimitiveModule(r,"square")
 
 Node* SquareModule::evaluate(const Context& ctx) const
 {
-	Value* sizeVal=getParameterArgument(ctx,0);
-	Value* centerVal=getParameterArgument(ctx,1);
+	auto* sizeVal=getParameterArgument<Value>(ctx,0);
+	auto* centerVal=getParameterArgument<Value>(ctx,1);
 	bool center=false;
 	if(centerVal)
 		center = centerVal->isTrue();

@@ -28,8 +28,8 @@ AssertFunction::AssertFunction() : Function("assert")
 
 Value& AssertFunction::evaluate(const Context& ctx) const
 {
-	Value* expectedVal=getParameterArgument(ctx,0);
-	Value* messageVal=getParameterArgument(ctx,1);
+	auto* expectedVal=getParameterArgument<Value>(ctx,0);
+	auto* messageVal=getParameterArgument<Value>(ctx,1);
 
 	QString message;
 	if(messageVal)

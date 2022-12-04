@@ -86,10 +86,9 @@ void Function::addParameter(const QString& n,const QString& t,const QString& d)
 	parameters.append(p);
 }
 
-Value* Function::getParameterArgument(const Context& ctx, int index) const
+Value* Function::getArgument(const Context& ctx,int index,const QString& name) const
 {
-	Parameter* p = parameters.at(index);
-	return ctx.getArgument(index,p->getName());
+	return ctx.getArgument(index,name);
 }
 
 QString Function::getDescription() const

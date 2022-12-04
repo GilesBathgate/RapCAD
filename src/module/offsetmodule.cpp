@@ -30,7 +30,7 @@ OffsetModule::OffsetModule(Reporter& r) : Module(r,"offset")
 Node* OffsetModule::evaluate(const Context& ctx) const
 {
 	decimal a=1.0;
-	auto* amountVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* amountVal=getParameterArgument<NumberValue>(ctx,0);
 	if(amountVal)
 		a=amountVal->getNumber();
 

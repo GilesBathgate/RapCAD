@@ -30,8 +30,8 @@ LogFunction::LogFunction() : Function("log")
 
 Value& LogFunction::evaluate(const Context& ctx) const
 {
-	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
-	auto* baseVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
+	auto* numVal=getParameterArgument<NumberValue>(ctx,0);
+	auto* baseVal=getParameterArgument<NumberValue>(ctx,1);
 
 	if(numVal) {
 		decimal num=numVal->getNumber();

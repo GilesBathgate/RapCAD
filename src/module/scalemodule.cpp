@@ -32,7 +32,7 @@ ScaleModule::ScaleModule(Reporter& r) : Module(r,"scale")
 Node* ScaleModule::evaluate(const Context& ctx) const
 {
 	Point s(1,1,1);
-	auto* sizeVal=getParameterArgument(ctx,0);
+	auto* sizeVal=getParameterArgument<Value>(ctx,0);
 	if(sizeVal) {
 		VectorValue& v=sizeVal->toVector(3);
 		s=v.getPoint();
@@ -50,7 +50,7 @@ Node* ScaleModule::evaluate(const Context& ctx) const
 	}
 
 	TransformMatrix* m;
-	auto* refVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
+	auto* refVal=getParameterArgument<VectorValue>(ctx,1);
 	if(refVal) {
 		Point r=refVal->getPoint();
 

@@ -33,13 +33,13 @@ PrismModule::PrismModule(Reporter& r) : PrimitiveModule(r,"prism")
 
 Node* PrismModule::evaluate(const Context& ctx) const
 {
-	auto* heightVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* heightVal=getParameterArgument<NumberValue>(ctx,0);
 	decimal h=1.0;
 	if(heightVal)
 		h=heightVal->getNumber();
 
 	int s=3;
-	auto* sidesVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
+	auto* sidesVal=getParameterArgument<NumberValue>(ctx,1);
 	if(sidesVal)
 		s=sidesVal->toInteger();
 
@@ -52,7 +52,7 @@ Node* PrismModule::evaluate(const Context& ctx) const
 
 	decimal r=1.0;
 	decimal a=1.0;
-	auto* apothemVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));
+	auto* apothemVal=getParameterArgument<NumberValue>(ctx,2);
 	if(apothemVal) {
 		a=apothemVal->getNumber();
 		r=a/r_cos(r_pi()/s);
@@ -64,7 +64,7 @@ Node* PrismModule::evaluate(const Context& ctx) const
 		}
 	}
 
-	Value* centerVal = getParameterArgument(ctx,3);
+	auto* centerVal=getParameterArgument<Value>(ctx,3);
 	bool center=false;
 	if(centerVal)
 		center=centerVal->isTrue();

@@ -49,12 +49,21 @@ public:
 protected:
 	void addDescription(const QString&);
 	void addParameter(const QString&,const QString&,const QString&);
-	Value* getParameterArgument(const Context&, int) const;
+	template <class V>
+	V* getParameterArgument(const Context&,int) const;
 private:
+	Value* getArgument(const Context&,int,const QString&) const;
 	Scope* scope;
 	QString name;
 	QString description;
 	QList<Parameter*> parameters;
 };
+
+template <class V>
+V* Function::getParameterArgument(const Context& ctx,int index) const
+{
+	Parameter* p=parameters.at(index);
+	return dynamic_cast<V*>(getArgument(ctx,index,p->getName()));
+}
 
 #endif // FUNCTION_H

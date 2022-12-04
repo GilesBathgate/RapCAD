@@ -31,7 +31,7 @@ IsVecFunction::IsVecFunction(int s) :
 
 Value& IsVecFunction::evaluate(const Context& ctx) const
 {
-	auto* vec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* vec=getParameterArgument<VectorValue>(ctx,0);
 	if(vec) {
 		const QList<Value*> vals=vec->getElements();
 		if(vals.count()==size) {

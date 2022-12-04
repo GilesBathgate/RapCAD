@@ -31,12 +31,12 @@ SliceModule::SliceModule(Reporter& r) : Module(r,"slice")
 Node* SliceModule::evaluate(const Context& ctx) const
 {
 	decimal h=0.0;
-	auto* height=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* height=getParameterArgument<NumberValue>(ctx,0);
 	if(height)
 		h=height->getNumber();
 
 	decimal t=0.0;
-	auto* thick=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
+	auto* thick=getParameterArgument<NumberValue>(ctx,1);
 	if(thick)
 		t=thick->getNumber();
 

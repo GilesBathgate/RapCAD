@@ -51,17 +51,33 @@ protected:
 	void addDescription(const QString&);
 	void addDeprecated(const QString&);
 	void addParameter(const QString&,const QString& t,const QString&);
-	Value* getParameterArgument(const Context&, int) const;
-	Value* getParameterArgument(const Context&, int, int) const;
+	template <class V>
+	V* getParameterArgument(const Context&,int) const;
+	template <class V>
+	V* getParameterArgument(const Context&,int,int) const;
 
 	bool auxilary;
 	Reporter& reporter;
 private:
+	Value* getArgument(const Context&,int,const QString&) const;
 	QString name;
 	QString description;
 	bool deprecated;
 	QList<Parameter*> parameters;
 	Scope* scope;
 };
+
+template <class V>
+V* Module::getParameterArgument(const Context& ctx,int index) const
+{
+	return getParameterArgument<V>(ctx,index,index);
+}
+
+template <class V>
+V* Module::getParameterArgument(const Context& ctx,int index,int expectedIndex) const
+{
+	Parameter* p=parameters.at(index);
+	return dynamic_cast<V*>(getArgument(ctx,expectedIndex,p->getName()));
+}
 
 #endif // MODULE_H

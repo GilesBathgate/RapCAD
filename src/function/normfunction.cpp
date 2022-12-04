@@ -32,7 +32,7 @@ NormFunction::NormFunction() : Function("norm")
 
 Value& NormFunction::evaluate(const Context& ctx) const
 {
-	Value* v=getParameterArgument(ctx,0);
+	auto* v=getParameterArgument<Value>(ctx,0);
 
 	/* Explicitly return undefined for range which
 	 * inherits from vector */

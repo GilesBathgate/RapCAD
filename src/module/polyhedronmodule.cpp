@@ -31,7 +31,7 @@ PolyhedronModule::PolyhedronModule(Reporter& r) : PrimitiveModule(r,"polyhedron"
 
 Node* PolyhedronModule::evaluate(const Context& ctx) const
 {
-	auto* points=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* points=getParameterArgument<VectorValue>(ctx,0);
 	VectorValue* faces=dynamic_cast<VectorValue*>(ctx.getArgumentDeprecated(1,"faces","triangles",reporter));
 
 	auto* pn=new PrimitiveNode();

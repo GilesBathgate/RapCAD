@@ -31,7 +31,7 @@ DiscreteModule::DiscreteModule(Reporter& r) : Module(r,"discrete")
 Node* DiscreteModule::evaluate(const Context& ctx) const
 {
 	int places=6;
-	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* numVal=getParameterArgument<NumberValue>(ctx,0);
 	if(numVal)
 		places=numVal->toInteger();
 

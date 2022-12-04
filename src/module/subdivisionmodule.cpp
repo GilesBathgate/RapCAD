@@ -30,7 +30,7 @@ SubDivisionModule::SubDivisionModule(Reporter& r) : Module(r,"subdiv")
 Node* SubDivisionModule::evaluate(const Context& ctx) const
 {
 	int level=0;
-	auto* levelVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* levelVal=getParameterArgument<NumberValue>(ctx,0);
 	if(levelVal)
 		level=levelVal->toInteger();
 

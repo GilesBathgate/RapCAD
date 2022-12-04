@@ -29,7 +29,7 @@ IsIntFunction::IsIntFunction() : Function("is_int")
 
 Value& IsIntFunction::evaluate(const Context& ctx) const
 {
-	auto* num=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* num=getParameterArgument<NumberValue>(ctx,0);
 	if(num) {
 		if(r_is_int(num->getNumber()))
 			return ValueFactory::createBoolean(true);

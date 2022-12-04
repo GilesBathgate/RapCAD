@@ -28,7 +28,7 @@ AbsFunction::AbsFunction() : Function("abs")
 
 Value& AbsFunction::evaluate(const Context& ctx) const
 {
-	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* numVal=getParameterArgument<NumberValue>(ctx,0);
 	if(numVal) {
 		return Value::evaluate(*numVal,Operators::Length);
 	}

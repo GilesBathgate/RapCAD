@@ -30,7 +30,7 @@ MultMatrixModule::MultMatrixModule(Reporter& r) : Module(r,"multmatrix")
 
 Node* MultMatrixModule::evaluate(const Context& ctx) const
 {
-	auto* matrixVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* matrixVec=getParameterArgument<VectorValue>(ctx,0);
 
 	auto* n=new TransformationNode();
 	n->setChildren(ctx.getInputNodes());

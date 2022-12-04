@@ -68,12 +68,12 @@ Node* AlignModule::evaluate(const Context& ctx) const
 		}
 	} else {
 
-		auto* topVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0,0));
-		auto* bottomVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,1,0));
-		auto* northVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,2,0));
-		auto* southVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,3,0));
-		auto* eastVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,4,0));
-		auto* westVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,5,0));
+		auto* topVal=getParameterArgument<BooleanValue>(ctx,0,0);
+		auto* bottomVal=getParameterArgument<BooleanValue>(ctx,1,0);
+		auto* northVal=getParameterArgument<BooleanValue>(ctx,2,0);
+		auto* southVal=getParameterArgument<BooleanValue>(ctx,3,0);
+		auto* eastVal=getParameterArgument<BooleanValue>(ctx,4,0);
+		auto* westVal=getParameterArgument<BooleanValue>(ctx,5,0);
 
 		if(topVal&&topVal->isTrue()) {
 			align.append(ViewDirections::Top);

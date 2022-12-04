@@ -30,7 +30,7 @@ SimplifyModule::SimplifyModule(Reporter& r) : Module(r,"simplify")
 Node* SimplifyModule::evaluate(const Context& ctx) const
 {
 	decimal ratio=0.1;
-	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* numVal=getParameterArgument<NumberValue>(ctx,0);
 	if(numVal)
 		ratio=numVal->getNumber();
 

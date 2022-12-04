@@ -31,7 +31,7 @@ MirrorModule::MirrorModule(Reporter& r) : Module(r,"mirror")
 Node* MirrorModule::evaluate(const Context& ctx) const
 {
 	Point p(0,0,0);
-	auto* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* vecVal=getParameterArgument<VectorValue>(ctx,0);
 
 	auto* n=new TransformationNode();
 	n->setChildren(ctx.getInputNodes());

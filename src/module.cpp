@@ -111,15 +111,9 @@ void Module::addParameter(const QString& n,const QString& t,const QString& d)
 	parameters.append(p);
 }
 
-Value* Module::getParameterArgument(const Context& ctx, int index) const
+Value* Module::getArgument(const Context& ctx,int expectedIndex,const QString& name) const
 {
-	return getParameterArgument(ctx,index,index);
-}
-
-Value* Module::getParameterArgument(const Context& ctx, int index, int expectedIndex) const
-{
-	Parameter* p=parameters.at(index);
-	return ctx.getArgument(expectedIndex,p->getName());
+	return ctx.getArgument(expectedIndex,name);
 }
 
 bool Module::isDeprecated() const

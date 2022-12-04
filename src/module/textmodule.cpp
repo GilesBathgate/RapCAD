@@ -33,17 +33,17 @@ TextModule::TextModule(Reporter& r) : Module(r, "text")
 
 Node* TextModule::evaluate(const Context& ctx) const
 {
-	auto* textVal=dynamic_cast<TextValue*>(getParameterArgument(ctx,0));
+	auto* textVal=getParameterArgument<TextValue>(ctx,0);
 	if(!textVal)
 		return nullptr;
 
 	QString family;
-	auto* fontVal=dynamic_cast<TextValue*>(getParameterArgument(ctx,1));
+	auto* fontVal=getParameterArgument<TextValue>(ctx,1);
 	if(fontVal)
 		family=fontVal->getValueString();
 
 	int size=12;
-	auto* sizeVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));
+	auto* sizeVal=getParameterArgument<NumberValue>(ctx,2);
 	if(sizeVal)
 		size=sizeVal->toInteger();
 

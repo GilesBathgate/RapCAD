@@ -9,7 +9,7 @@ IsUndefFunction::IsUndefFunction() : Function("is_undef")
 
 Value& IsUndefFunction::evaluate(const Context& ctx) const
 {
-	auto* val=getParameterArgument(ctx,0);
+	auto* val=getParameterArgument<Value>(ctx,0);
 	if(val)
 		return ValueFactory::createBoolean(!val->isDefined());
 

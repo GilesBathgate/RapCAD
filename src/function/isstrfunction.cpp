@@ -28,7 +28,7 @@ IsStrFunction::IsStrFunction() : Function("is_str")
 
 Value& IsStrFunction::evaluate(const Context& ctx) const
 {
-	auto* text=dynamic_cast<TextValue*>(getParameterArgument(ctx,0));
+	auto* text=getParameterArgument<TextValue>(ctx,0);
 	if(text)
 		return ValueFactory::createBoolean(true);
 

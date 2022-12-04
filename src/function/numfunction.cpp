@@ -27,7 +27,7 @@ NumFunction::NumFunction() : Function("num")
 
 Value& NumFunction::evaluate(const Context& ctx) const
 {
-	Value* v=getParameterArgument(ctx,0);
+	auto* v=getParameterArgument<Value>(ctx,0);
 	if(v)
 		return v->toNumber();
 

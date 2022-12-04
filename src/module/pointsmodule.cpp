@@ -29,7 +29,7 @@ PointsModule::PointsModule(Reporter& r, bool multiple) : Module(r,multiple?"poin
 
 Node* PointsModule::evaluate(const Context& ctx) const
 {
-	auto* pointsVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* pointsVal=getParameterArgument<VectorValue>(ctx,0);
 
 	QList<Point> points;
 	if(pointsVal) {

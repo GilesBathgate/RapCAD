@@ -32,12 +32,12 @@ ResizeModule::ResizeModule(Reporter& r) : Module(r,"resize")
 Node* ResizeModule::evaluate(const Context& ctx) const
 {
 	Point size(0,0,0);
-	auto* sizeVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* sizeVal=getParameterArgument<VectorValue>(ctx,0);
 	if(sizeVal)
 		size=sizeVal->getPoint();
 
 	bool autoSize=false;
-	auto* autoSizeVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,1));
+	auto* autoSizeVal=getParameterArgument<BooleanValue>(ctx,1);
 	if(autoSizeVal)
 		autoSize=autoSizeVal->isTrue();
 

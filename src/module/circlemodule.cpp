@@ -28,7 +28,7 @@ CircleModule::CircleModule(Reporter& r) : PrimitiveModule(r,"circle")
 
 Node* CircleModule::evaluate(const Context& ctx) const
 {
-	auto* rValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* rValue=getParameterArgument<NumberValue>(ctx,0);
 
 	decimal r=1.0;
 	if(rValue) {

@@ -72,11 +72,11 @@ Value& AngFunction::evaluate(const Context& ctx) const
 	decimal x=0.0;
 	decimal y=0.0;
 	decimal z=1.0;
-	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* numVal=getParameterArgument<NumberValue>(ctx,0);
 	if(numVal) {
 		a=numVal->getNumber();
 
-		auto* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
+		auto* vecVal=getParameterArgument<VectorValue>(ctx,1);
 		if(vecVal) {
 			Value& n=Value::evaluate(*vecVal,Operators::Length);
 			Value& u=Value::evaluate(*vecVal,Operators::Divide,n);

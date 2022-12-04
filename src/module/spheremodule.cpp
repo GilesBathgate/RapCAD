@@ -30,7 +30,7 @@ SphereModule::SphereModule(Reporter& r) : PrimitiveModule(r,"sphere")
 
 Node* SphereModule::evaluate(const Context& ctx) const
 {
-	auto* rValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* rValue=getParameterArgument<NumberValue>(ctx,0);
 	decimal r=0.0;
 	if(rValue) {
 		r=rValue->getNumber();

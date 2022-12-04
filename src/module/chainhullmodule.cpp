@@ -30,7 +30,7 @@ ChainHullModule::ChainHullModule(Reporter& r) : Module(r,"chain_hull")
 Node* ChainHullModule::evaluate(const Context& ctx) const
 {
 	bool closed=false;
-	auto* bVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));
+	auto* bVal=getParameterArgument<BooleanValue>(ctx,0);
 	if(bVal)
 		closed=bVal->isTrue();
 

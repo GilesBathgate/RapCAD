@@ -39,7 +39,7 @@ Node* ChildrenModule::evaluate(const Context& ctx) const
 {
 	auto* n=new ChildrenNode();
 
-	Value* val=getParameterArgument(ctx,0);
+	auto* val=getParameterArgument<Value>(ctx,0);
 	if(!legacy) {
 		auto* vecVal=dynamic_cast<VectorValue*>(val);
 		if(vecVal) {

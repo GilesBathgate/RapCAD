@@ -28,7 +28,7 @@ IsRangeFunction::IsRangeFunction() : Function("is_range")
 
 Value& IsRangeFunction::evaluate(const Context& ctx) const
 {
-	auto* rng=dynamic_cast<RangeValue*>(getParameterArgument(ctx,0));
+	auto* rng=getParameterArgument<RangeValue>(ctx,0);
 	if(rng)
 		return ValueFactory::createBoolean(true);
 

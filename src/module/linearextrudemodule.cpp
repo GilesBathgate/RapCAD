@@ -32,12 +32,12 @@ LinearExtrudeModule::LinearExtrudeModule(Reporter& r) : Module(r,"linear_extrude
 Node* LinearExtrudeModule::evaluate(const Context& ctx) const
 {
 	decimal h=1.0;
-	auto* height=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* height=getParameterArgument<NumberValue>(ctx,0);
 	if(height)
 		h=height->getNumber();
 
 	Point axis(0,0,1);
-	auto* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
+	auto* vecVal=getParameterArgument<VectorValue>(ctx,1);
 	if(vecVal)
 		axis=vecVal->getPoint();
 

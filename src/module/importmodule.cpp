@@ -29,7 +29,7 @@ ImportModule::ImportModule(Reporter& r) : Module(r,"import")
 
 Node* ImportModule::evaluate(const Context& ctx) const
 {
-	auto* fileVal = dynamic_cast<TextValue*>(getParameterArgument(ctx,0));
+	auto* fileVal=getParameterArgument<TextValue>(ctx,0);
 	if(fileVal)
 		return new ImportNode(fileVal->getValueString());
 

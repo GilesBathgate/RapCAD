@@ -30,7 +30,7 @@ TranslateModule::TranslateModule(Reporter& r) : Module(r,"translate")
 Node* TranslateModule::evaluate(const Context& ctx) const
 {
 	Point v(0,0,0);
-	auto* vec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* vec=getParameterArgument<VectorValue>(ctx,0);
 
 	auto* n=new TransformationNode();
 	n->setChildren(ctx.getInputNodes());

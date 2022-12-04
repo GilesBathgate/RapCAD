@@ -31,7 +31,7 @@ LengthFunction::LengthFunction() : Function("len")
 
 Value& LengthFunction::evaluate(const Context& ctx) const
 {
-	Value* v=getParameterArgument(ctx,0);
+	auto* v=getParameterArgument<Value>(ctx,0);
 
 	auto* rngVal=dynamic_cast<RangeValue*>(v);
 	if(rngVal) {

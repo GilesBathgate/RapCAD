@@ -32,17 +32,17 @@ CylinderSurfaceModule::CylinderSurfaceModule(Reporter& r) : PrimitiveModule(r,"c
 
 Node* CylinderSurfaceModule::evaluate(const Context& ctx) const
 {
-	auto* heightValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* heightValue=getParameterArgument<NumberValue>(ctx,0);
 	decimal h=1.0;
 	if(heightValue)
 		h=heightValue->getNumber();
 
-	auto* rValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
+	auto* rValue=getParameterArgument<NumberValue>(ctx,1);
 	decimal r=1.0;
 	if(rValue)
 		r=rValue->getNumber();
 
-	Value* centerValue=getParameterArgument(ctx,2);
+	auto* centerValue=getParameterArgument<Value>(ctx,2);
 	bool center=false;
 
 	if(centerValue)

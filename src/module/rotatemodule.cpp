@@ -47,10 +47,10 @@ Node* RotateModule::evaluate(const Context& ctx) const
 	decimal x=0.0;
 	decimal y=0.0;
 	decimal z=1.0;
-	auto* angValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* angValue=getParameterArgument<NumberValue>(ctx,0);
 	if(angValue) {
 		a=angValue->getNumber();
-		auto* vecValue=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
+		auto* vecValue=getParameterArgument<VectorValue>(ctx,1);
 		if(vecValue) {
 			Point v=vecValue->getPoint();
 			x=v.x();
@@ -59,7 +59,7 @@ Node* RotateModule::evaluate(const Context& ctx) const
 			rotation=RotationTypes::Axis;
 		}
 	} else {
-		auto* vecValue=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+		auto* vecValue=getParameterArgument<VectorValue>(ctx,0);
 		if(vecValue) {
 			Point v=vecValue->getPoint();
 			x=v.x();
@@ -67,7 +67,7 @@ Node* RotateModule::evaluate(const Context& ctx) const
 			z=v.z();
 			rotation=RotationTypes::Origin;
 		} else {
-			auto* cpxValue=dynamic_cast<ComplexValue*>(getParameterArgument(ctx,0));
+			auto* cpxValue=getParameterArgument<ComplexValue>(ctx,0);
 			if(cpxValue) {
 				cpxValue->toQuaternion(a,x,y,z);
 				rotation=RotationTypes::Quaternion;

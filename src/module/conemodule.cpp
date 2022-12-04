@@ -33,10 +33,10 @@ ConeModule::ConeModule(Reporter& r) : PrimitiveModule(r,"cone")
 
 Node* ConeModule::evaluate(const Context& ctx) const
 {
-	auto* heightValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
-	auto* r1Value = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
-	auto* r2Value = dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));
-	Value* centerValue = getParameterArgument(ctx,3);
+	auto* heightValue=getParameterArgument<NumberValue>(ctx,0);
+	auto* r1Value=getParameterArgument<NumberValue>(ctx,1);
+	auto* r2Value=getParameterArgument<NumberValue>(ctx,2);
+	auto* centerValue=getParameterArgument<Value>(ctx,3);
 
 	decimal h=1.0;
 	if(heightValue)

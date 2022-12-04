@@ -31,7 +31,7 @@ VolumesModule::VolumesModule(Reporter& r) : Module(r,"volume")
 Node* VolumesModule::evaluate(const Context& ctx) const
 {
 	bool mass=false;
-	auto* massVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));
+	auto* massVal=getParameterArgument<BooleanValue>(ctx,0);
 	if(massVal)
 		mass=massVal->isTrue();
 

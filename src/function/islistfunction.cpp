@@ -28,7 +28,7 @@ IsListFunction::IsListFunction() : Function("is_list")
 
 Value& IsListFunction::evaluate(const Context& ctx) const
 {
-	auto* vec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* vec=getParameterArgument<VectorValue>(ctx,0);
 	if(vec)
 		return ValueFactory::createBoolean(true);
 

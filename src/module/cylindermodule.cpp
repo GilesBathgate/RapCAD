@@ -34,7 +34,7 @@ CylinderModule::CylinderModule(Reporter& r) : PrimitiveModule(r,"cylinder")
 
 Node* CylinderModule::evaluate(const Context& ctx) const
 {
-	auto* heightValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* heightValue=getParameterArgument<NumberValue>(ctx,0);
 	decimal h=1.0;
 	if(heightValue)
 		h=heightValue->getNumber();
@@ -46,8 +46,8 @@ Node* CylinderModule::evaluate(const Context& ctx) const
 	decimal r1=1.0;
 	decimal r2=1.0;
 	if(!r1Value) {
-		auto* rValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
-		centerValue = dynamic_cast<BooleanValue*>(getParameterArgument(ctx,2));
+		auto* rValue=getParameterArgument<NumberValue>(ctx,1);
+		centerValue=getParameterArgument<BooleanValue>(ctx,2);
 		if(rValue) {
 			r1=r2=rValue->getNumber();
 		} else {

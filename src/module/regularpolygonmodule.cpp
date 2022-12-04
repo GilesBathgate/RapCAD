@@ -31,7 +31,7 @@ RegularPolygonModule::RegularPolygonModule(Reporter& r) : PrimitiveModule(r, "re
 Node* RegularPolygonModule::evaluate(const Context& ctx) const
 {
 	int s=3;
-	auto* sidesVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* sidesVal=getParameterArgument<NumberValue>(ctx,0);
 	if(sidesVal)
 		s=sidesVal->toInteger();
 
@@ -45,7 +45,7 @@ Node* RegularPolygonModule::evaluate(const Context& ctx) const
 
 	decimal r=1.0;
 	decimal a=1.0;
-	auto* apothemVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
+	auto* apothemVal=getParameterArgument<NumberValue>(ctx,1);
 	if(apothemVal) {
 		a=apothemVal->getNumber();
 		r=a/r_cos(r_pi()/s);

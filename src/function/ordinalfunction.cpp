@@ -28,7 +28,7 @@ OrdinalFunction::OrdinalFunction() : Function("ord")
 
 Value& OrdinalFunction::evaluate(const Context& ctx) const
 {
-	auto* textVal=dynamic_cast<TextValue*>(getParameterArgument(ctx,0));
+	auto* textVal=getParameterArgument<TextValue>(ctx,0);
 	if(textVal) {
 		const QVector<uint> codepoints=textVal->getValueString().toUcs4();
 		QList<Value*> results;

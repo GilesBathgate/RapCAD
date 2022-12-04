@@ -30,8 +30,8 @@ Atan2Function::Atan2Function() : Function("atan2")
 
 Value& Atan2Function::evaluate(const Context& ctx) const
 {
-	auto* yVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
-	auto* xVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
+	auto* yVal=getParameterArgument<NumberValue>(ctx,0);
+	auto* xVal=getParameterArgument<NumberValue>(ctx,1);
 	if(yVal&&xVal) {
 		decimal y=yVal->getNumber();
 		decimal x=xVal->getNumber();

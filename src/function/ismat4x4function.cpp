@@ -30,7 +30,7 @@ IsMat4x4Function::IsMat4x4Function() : Function("is_mat4x4")
 
 Value& IsMat4x4Function::evaluate(const Context& ctx) const
 {
-	auto* matVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* matVal=getParameterArgument<VectorValue>(ctx,0);
 	if(matVal) {
 		const QList<Value*> rows=matVal->getElements();
 		if(rows.count()==4) {

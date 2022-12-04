@@ -28,7 +28,7 @@ CbrtFunction::CbrtFunction() : Function("cbrt")
 
 Value& CbrtFunction::evaluate(const Context& ctx) const
 {
-	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* numVal=getParameterArgument<NumberValue>(ctx,0);
 	if(numVal) {
 		decimal num=numVal->getNumber();
 

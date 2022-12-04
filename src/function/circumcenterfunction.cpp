@@ -30,9 +30,9 @@ CircumcenterFunction::CircumcenterFunction() : Function("circumcenter")
 Value& CircumcenterFunction::evaluate(const Context& ctx) const
 {
 #if USE_CGAL
-	auto* aVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
-	auto* bVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
-	auto* cVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,2));
+	auto* aVal=getParameterArgument<VectorValue>(ctx,0);
+	auto* bVal=getParameterArgument<VectorValue>(ctx,1);
+	auto* cVal=getParameterArgument<VectorValue>(ctx,2);
 	if(aVal&&bVal&&cVal) {
 		Point pa=aVal->getPoint();
 		Point pb=bVal->getPoint();

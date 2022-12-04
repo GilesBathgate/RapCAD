@@ -38,7 +38,7 @@ Node* ProjectionModule::evaluate(const Context& ctx) const
 	}
 
 	bool base=false;
-	auto* baseVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));
+	auto* baseVal=getParameterArgument<BooleanValue>(ctx,0);
 	if(baseVal)
 		base=baseVal->isTrue();
 
