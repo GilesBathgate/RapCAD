@@ -187,6 +187,7 @@ SOURCES += \
 	src/main.cpp \
 	src/module/assertmodule.cpp \
 	src/module/colormodule.cpp \
+	src/module/cuboidmodule.cpp \
 	src/module/datummodule.cpp \
 	src/module/regularpolygonmodule.cpp \
 	src/namedvalue.cpp \
@@ -452,6 +453,7 @@ HEADERS  += \
 	src/intervalvalue.h \
 	src/module/assertmodule.h \
 	src/module/colormodule.h \
+	src/module/cuboidmodule.h \
 	src/module/datummodule.h \
 	src/module/regularpolygonmodule.h \
 	src/namedvalue.h \

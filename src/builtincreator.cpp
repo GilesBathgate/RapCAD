@@ -80,6 +80,7 @@
 #include "module/complementmodule.h"
 #include "module/conemodule.h"
 #include "module/cubemodule.h"
+#include "module/cuboidmodule.h"
 #include "module/cylindermodule.h"
 #include "module/cylindersurfacemodule.h"
 #include "module/datummodule.h"
@@ -194,6 +195,7 @@ BuiltinCreator::BuiltinCreator(Reporter& r)
 	builtins.append(new ComplementModule(r));
 	builtins.append(new ConeModule(r));
 	builtins.append(new CubeModule(r));
+	builtins.append(new CuboidModule(r));
 	builtins.append(new CylinderModule(r));
 	builtins.append(new CylinderSurfaceModule(r));
 	builtins.append(new DatumModule(r));
