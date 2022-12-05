@@ -20,7 +20,7 @@ jobs:
             config: official
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Create Qt Directory
       run: |
         sudo mkdir /usr/Qt
@@ -71,7 +71,7 @@ jobs:
       MINGW: C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Install Boost
       run: |
         Invoke-WebRequest "https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/boost_1_80_0.7z" -OutFile "$env:TEMP\boost.7z"
@@ -175,7 +175,7 @@ jobs:
             config: official
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Cache Qt
       id: cache-qt
       uses: actions/cache@v3
