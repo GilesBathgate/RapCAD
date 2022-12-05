@@ -115,7 +115,7 @@ jobs:
         echo "`ncsharp = csharp.lang" >> C:\source-highlight\share\source-highlight\lang.map
         echo "C:\source-highlight\bin" >> $env:GITHUB_PATH
     - name: Configure pagefile
-      uses: al-cheb/configure-pagefile-action@v1.2
+      uses: al-cheb/configure-pagefile-action@v1.3
       with:
         minimum-size: 16GB
         maximum-size: 16GB
