@@ -107,8 +107,8 @@ public:
 	bool getShowConsole() const;
 	void setShowConsole(bool);
 
-	bool getShowProjects() const;
-	void setShowProjects(bool);
+	bool getShowExplorer() const;
+	void setShowExplorer(bool);
 
 	void setWindowPosition(QPoint);
 	QPoint getWindowPosition() const;

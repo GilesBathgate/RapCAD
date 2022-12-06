@@ -56,6 +56,11 @@ QString Module::getDescription() const
 	return description;
 }
 
+QString Module::getExample() const
+{
+	return example;
+}
+
 bool Module::getAuxilary() const
 {
 	return auxilary;
@@ -96,6 +101,11 @@ void Module::addDescription(const QString& d)
 	description=d;
 }
 
+void Module::addExample(const QString& e)
+{
+	example=e;
+}
+
 void Module::addDeprecated(const QString& d)
 {
 	deprecated=true;
@@ -119,4 +129,9 @@ Value* Module::getArgument(const Context& ctx,int expectedIndex,const QString& n
 bool Module::isDeprecated() const
 {
 	return deprecated;
+}
+
+bool Module::hasExample() const
+{
+	return !example.isEmpty();
 }

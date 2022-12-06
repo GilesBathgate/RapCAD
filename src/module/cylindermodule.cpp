@@ -30,6 +30,7 @@ CylinderModule::CylinderModule(Reporter& r) : PrimitiveModule(r,"cylinder")
 	addParameter("height","num",tr("The height of the cylinder"));
 	addParameter("radius","num",tr("The radius of the cylinder"));
 	addParameter("center","bool",tr("Specifies whether to center the cylinder vertically along the z axis."));
+	addExample("cylinder(h=10,r=5);");
 }
 
 Node* CylinderModule::evaluate(const Context& ctx) const

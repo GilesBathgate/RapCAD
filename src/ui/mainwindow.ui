@@ -30,7 +30,40 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="QTreeView" name="treeView"/>
+      <widget class="QToolBox" name="toolBox">
+       <widget class="QWidget" name="projectPage">
+        <attribute name="label">
+         <string>Projects</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QTreeView" name="treeView"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="examplesPage">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>338</width>
+          <height>421</height>
+         </rect>
+        </property>
+        <attribute name="label">
+         <string>Examples</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
+          <widget class="QListWidget" name="examplesList">
+           <property name="toolTip">
+            <string>Double click to insert</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
       <widget class="QTabWidget" name="tabWidget">
        <property name="tabShape">
         <enum>QTabWidget::Rounded</enum>
@@ -253,7 +286,7 @@
     <addaction name="separator"/>
     <addaction name="actionShowEditor"/>
     <addaction name="actionShowConsole"/>
-    <addaction name="actionShowProjects"/>
+    <addaction name="actionShowExplorer"/>
     <addaction name="separator"/>
     <addaction name="actionTop"/>
     <addaction name="actionBottom"/>
@@ -685,7 +718,7 @@
     <string>Show Console</string>
    </property>
   </action>
-  <action name="actionShowProjects">
+  <action name="actionShowExplorer">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -693,7 +726,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Show Projects</string>
+    <string>Show Explorer</string>
    </property>
   </action>
   <action name="actionSetViewport">

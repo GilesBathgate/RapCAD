@@ -23,6 +23,7 @@
 IntersectionModule::IntersectionModule(Reporter& r) : Module(r,"intersection")
 {
 	addDescription(tr("Intersects the first child its subsequent children."));
+	addExample("intersection(){\n%1cube(10);\n%1translate([5,5,5])cube(10);\n}");
 }
 
 Node* IntersectionModule::evaluate(const Context& ctx) const

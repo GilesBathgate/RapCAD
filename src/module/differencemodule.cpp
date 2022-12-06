@@ -23,6 +23,7 @@
 DifferenceModule::DifferenceModule(Reporter& r) : Module(r,"difference")
 {
 	addDescription(tr("Subtracts from the first child its subsequent children."));
+	addExample("difference(){\n%1cube(10);\n%1translate([5,5,5])cube(10);\n}");
 }
 
 Node* DifferenceModule::evaluate(const Context& ctx) const

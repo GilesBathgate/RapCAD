@@ -39,6 +39,7 @@ public:
 	void setName(const QString&);
 	QString getFullName() const;
 	QString getDescription() const;
+	QString getExample() const;
 	bool getAuxilary() const;
 	const QList<Parameter*> getParameters() const;
 	void setParameters(const QList<Parameter*>&);
@@ -47,8 +48,10 @@ public:
 	void accept(TreeVisitor&) override;
 	virtual Node* evaluate(const Context&) const;
 	bool isDeprecated() const;
+	bool hasExample() const;
 protected:
 	void addDescription(const QString&);
+	void addExample(const QString&);
 	void addDeprecated(const QString&);
 	void addParameter(const QString&,const QString& t,const QString&);
 	template <class V>
@@ -62,6 +65,7 @@ private:
 	Value* getArgument(const Context&,int,const QString&) const;
 	QString name;
 	QString description;
+	QString example;
 	bool deprecated;
 	QList<Parameter*> parameters;
 	Scope* scope;

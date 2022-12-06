@@ -65,6 +65,7 @@ private slots:
 	void compileAndRender();
 	void compileAndGenerate();
 	void evaluationDone();
+	void examplesListClicked(const QModelIndex&);
 	void setTabTitle(const QString&);
 	void undo();
 	void redo();
@@ -96,6 +97,7 @@ private:
 	void setupEditor(CodeEditor*);
 	void setupTabs(QTabWidget*) const;
 	void setupConsole();
+	void setupExamples();
 	void setupTreeview();
 	CodeEditor* currentEditor();
 	CodeEditor* getEditor(int i);

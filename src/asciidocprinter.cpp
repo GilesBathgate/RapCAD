@@ -62,15 +62,19 @@ void AsciidocPrinter::visit(const Module& mod)
 		modulesOutput << "++++++++\n";
 		modulesOutput << "[source,csharp]\n";
 		modulesOutput << "---------------\n";
-		modulesOutput << name << "();\n";
-		modulesOutput << name << "(";
-		OnceOnly first;
-		for(Parameter* p: params) {
-			if(!first())
-				modulesOutput << ",";
-			modulesOutput << p->getName();
+		if(mod.hasExample()) {
+			modulesOutput << mod.getExample() << "\n";
+		} else {
+			modulesOutput << name << "();\n";
+			modulesOutput << name << "(";
+			OnceOnly first;
+			for(Parameter* p: params) {
+				if(!first())
+					modulesOutput << ",";
+				modulesOutput << p->getName();
+			}
+			modulesOutput << ");\n";
 		}
-		modulesOutput << ");\n";
 		modulesOutput << "---------------\n\n";
 	}
 }

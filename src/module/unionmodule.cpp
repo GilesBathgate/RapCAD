@@ -23,6 +23,7 @@
 UnionModule::UnionModule(Reporter& r) : Module(r,"union")
 {
 	addDescription(tr("Unions its children into single geometry."));
+	addExample("union(){\n%1cube(10);\n%1translate([5,5,5])cube(10);\n}");
 }
 
 Node* UnionModule::evaluate(const Context& ctx) const

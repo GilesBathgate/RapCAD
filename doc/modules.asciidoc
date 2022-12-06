@@ -61,6 +61,16 @@ bezier_surface();
 bezier_surface(mesh);
 ---------------
 
+Boundary
+^^^^^^^^
+
+Creates the boundary of its children.
+
+Outline
+^^^^^^^
+
+Creates the outline of its children.
+
 Bound$
 ^^^^^^
 
@@ -90,25 +100,6 @@ chain_hull();
 chain_hull(closed);
 ---------------
 
-Child
-^^^^^
-
-The child module is deprecated, use the children module instead.
-
-Parameters
-++++++++++
-|=========
-|index|The index of the child to use.
-|=========
-
-Examples
-++++++++
-[source,csharp]
----------------
-child();
-child(index);
----------------
-
 Children
 ^^^^^^^^
 
@@ -126,6 +117,25 @@ Examples
 ---------------
 children();
 children(index);
+---------------
+
+Child
+^^^^^
+
+The child module is deprecated, use the children module instead.
+
+Parameters
+++++++++++
+|=========
+|index|The index of the child to use.
+|=========
+
+Examples
+++++++++
+[source,csharp]
+---------------
+child();
+child(index);
 ---------------
 
 Circle
@@ -195,8 +205,27 @@ Examples
 ++++++++
 [source,csharp]
 ---------------
-cube();
-cube(size,center);
+cube([10,10,10]);
+---------------
+
+Cuboid
+^^^^^^
+
+Constructs a cuboid. It will be placed in the first octant
+
+Parameters
+++++++++++
+|=========
+|width|The width (x) of the cuboid.
+|depth|The depth (y) of the cuboid.
+|height|The height (z) of the cuboid.
+|=========
+
+Examples
+++++++++
+[source,csharp]
+---------------
+cuboid(1cm,2cm,3cm);
 ---------------
 
 Cylinder
@@ -216,8 +245,7 @@ Examples
 ++++++++
 [source,csharp]
 ---------------
-cylinder();
-cylinder(height,radius,center);
+cylinder(h=10,r=5);
 ---------------
 
 Cylinder_surface
@@ -241,8 +269,8 @@ cylinder_surface();
 cylinder_surface(height,radius,center);
 ---------------
 
-Datum
-^^^^^
+Datum$
+^^^^^^
 
 Creates a plane from which children will be relative to
 
@@ -258,8 +286,8 @@ Examples
 ++++++++
 [source,csharp]
 ---------------
-datum();
-datum(x,y,z);
+datum$();
+datum$(x,y,z);
 ---------------
 
 Decompose
@@ -441,15 +469,24 @@ offset();
 offset(delta);
 ---------------
 
-Outline
-^^^^^^^
+Point
+^^^^^
 
-Creates the outline of its children.
+Constructs points.
 
-Boundary
-^^^^^^^^
+Parameters
+++++++++++
+|=========
+|points|The location of the points.
+|=========
 
-Creates the boundary of its children.
+Examples
+++++++++
+[source,csharp]
+---------------
+point();
+point(points);
+---------------
 
 Points
 ^^^^^^
@@ -470,23 +507,24 @@ points();
 points(points);
 ---------------
 
-Point
-^^^^^
+Polyline
+^^^^^^^^
 
-Constructs points.
+Constructs a line connecting multiple points.
 
 Parameters
 ++++++++++
 |=========
-|points|The location of the points.
+|points|The vertices are provided by the points list.
+|lines|The lines are a list of indices to the vertices.
 |=========
 
 Examples
 ++++++++
 [source,csharp]
 ---------------
-point();
-point(points);
+polyline();
+polyline(points,lines);
 ---------------
 
 Polygon
@@ -507,26 +545,6 @@ Examples
 ---------------
 polygon();
 polygon(points,lines);
----------------
-
-Polyline
-^^^^^^^^
-
-Constructs a line connecting multiple points.
-
-Parameters
-++++++++++
-|=========
-|points|The vertices are provided by the points list.
-|lines|The lines are a list of indices to the vertices.
-|=========
-
-Examples
-++++++++
-[source,csharp]
----------------
-polyline();
-polyline(points,lines);
 ---------------
 
 Polyhedron
@@ -594,6 +612,26 @@ Radial$
 ^^^^^^^
 
 Shows the radius of its children.
+
+Regular_polygon
+^^^^^^^^^^^^^^^
+
+Constructs a regular polygon. It will be placed centered on the xy plane.
+
+Parameters
+++++++++++
+|=========
+|sides|The number of sides to the polygon.
+|apothem|The radius from the center to the outer faces of the polygon.
+|=========
+
+Examples
+++++++++
+[source,csharp]
+---------------
+regular_polygon();
+regular_polygon(sides,apothem);
+---------------
 
 Resize
 ^^^^^^
@@ -803,7 +841,7 @@ Subtracts its children from each other.
 Text
 ^^^^
 
-Generates text.
+Generates 2d text geometry.
 
 Parameters
 ++++++++++

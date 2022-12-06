@@ -59,6 +59,7 @@ MainWindow::MainWindow(QWidget* parent) :
 	setupTabs(ui->tabWidget);
 	setupConsole();
 	setupEditor(ui->scriptEditor);
+	setupExamples();
 
 	ui->searchWidget->setVisible(false);
 	ui->mainToolBar->setContextMenuPolicy(Qt::ActionsContextMenu);
@@ -67,8 +68,8 @@ MainWindow::MainWindow(QWidget* parent) :
 
 	//Make project treeview actions disabled until its useful.
 	ui->actionNewProject->setEnabled(false);
-	ui->actionShowProjects->setChecked(false);
-	ui->actionShowProjects->setEnabled(false);
+	ui->projectPage->setEnabled(false);
+	ui->toolBox->setCurrentIndex(1);
 
 }
 
@@ -137,7 +138,7 @@ void MainWindow::savePreferences()
 	p.setShowPrintArea(ui->actionShowPrintArea->isChecked());
 	p.setShowEditor(ui->actionShowEditor->isChecked());
 	p.setShowConsole(ui->actionShowConsole->isChecked());
-	p.setShowProjects(ui->actionShowProjects->isChecked());
+	p.setShowExplorer(ui->actionShowExplorer->isChecked());
 	p.setCacheEnabled(ui->actionEnableCaches->isChecked());
 	p.setWindowPosition(pos());
 	p.setWindowSize(size());
@@ -198,9 +199,9 @@ void MainWindow::loadPreferences()
 	ui->actionShowConsole->setChecked(showConsole);
 	ui->console->setVisible(showConsole);
 
-	bool showProjects=p.getShowProjects();
-	ui->actionShowProjects->setChecked(showProjects);
-	ui->treeView->setVisible(showProjects);
+	bool showExplorer=p.getShowExplorer();
+	ui->actionShowExplorer->setChecked(showExplorer);
+	ui->toolBox->setVisible(showExplorer);
 
 	bool b=p.getCacheEnabled();
 	ui->actionEnableCaches->setChecked(b);
@@ -273,7 +274,7 @@ void MainWindow::setupActions()
 	connect(ui->actionExportImage,&QAction::triggered,this,&MainWindow::grabFrameBuffer);
 	connect(ui->actionShowEditor,&QAction::triggered,ui->tabWidget,&QTabWidget::setVisible);
 	connect(ui->actionShowConsole,&QAction::triggered,ui->console,&Console::setVisible);
-	connect(ui->actionShowProjects,&QAction::triggered,ui->treeView,&QTreeView::setVisible);
+	connect(ui->actionShowExplorer,&QAction::triggered,ui->toolBox,&QToolBox::setVisible);
 	connect(ui->actionSetViewport,&QAction::triggered,this,&MainWindow::setDefaultViewport);
 	connect(ui->actionDefaultView,&QAction::triggered,this,&MainWindow::getDefaultViewport);
 
@@ -439,7 +440,7 @@ void MainWindow::setupTreeview()
 
 void MainWindow::newProject()
 {
-	ui->treeView->setVisible(true);
+	ui->toolBox->setVisible(true);
 
 	QString dirName=QFileDialog::getExistingDirectory(this,tr("New Project..."));
 	if(dirName.isEmpty())
@@ -494,6 +495,21 @@ void MainWindow::setupConsole()
 	interact=new Interactive(*reporter);
 	c->setPrompt(Interactive::getPrompt());
 	connect(c,&Console::execCommand,interact,&Interactive::execCommand);
+}
+
+void MainWindow::setupExamples()
+{
+	auto& b=BuiltinCreator::getInstance(*reporter);
+	QHash<QString,Module*> modules=b.getModuleNames();
+	for (Module* m : modules.values()) {
+		if(!m->isDeprecated()&&m->hasExample()) {
+			auto* item=new QListWidgetItem(m->getFullName(),ui->examplesList);
+			item->setData(Qt::UserRole,QVariant::fromValue(m));
+		}
+	}
+
+	ui->examplesList->sortItems();
+	connect(ui->examplesList,&QListView::doubleClicked,this,&MainWindow::examplesListClicked);
 }
 
 void MainWindow::clipboardDataChanged()
@@ -706,6 +722,19 @@ void MainWindow::evaluationDone()
 	ui->view->setCompiling(false);
 
 	ui->console->displayPrompt();
+}
+
+void MainWindow::examplesListClicked(const QModelIndex& item)
+{
+	Module* m=item.data(Qt::UserRole).value<Module*>();
+
+	QString example=m->getExample();
+	if(example.contains('%')) {
+		auto& p=Preferences::getInstance();
+		example=example.arg(p.getIndent());
+	}
+
+	currentEditor()->appendPlainText(example);
 }
 
 void MainWindow::undo()

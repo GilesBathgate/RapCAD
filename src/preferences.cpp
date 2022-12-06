@@ -415,14 +415,14 @@ void Preferences::setShowConsole(bool show)
 	settings->setValue("ShowConsole",show);
 }
 
-bool Preferences::getShowProjects() const
+bool Preferences::getShowExplorer() const
 {
-	return settings->value("ShowProjects",false).toBool();
+	return settings->value("ShowExplorer",false).toBool();
 }
 
-void Preferences::setShowProjects(bool show)
+void Preferences::setShowExplorer(bool show)
 {
-	settings->setValue("ShowProjects",show);
+	settings->setValue("ShowExplorer",show);
 }
 
 QPoint Preferences::getWindowPosition() const
