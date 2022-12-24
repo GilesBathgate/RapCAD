@@ -61,6 +61,7 @@ private:
 	QHash<QString,Module*> moduleNames;
 	bool showTooltips;
 	bool highlightLine;
+	void setVisibleWhiteSpace(bool enabled);
 };
 
 #endif // CODEEDITOR_H

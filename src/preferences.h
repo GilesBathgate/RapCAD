@@ -167,6 +167,9 @@ public:
 	int getThreadPoolSize() const;
 	void setThreadPoolSize(int value);
 
+	bool getVisibleWhiteSpace() const;
+	void setVisibleWhiteSpace(bool newVisibleWhiteSpace);
+
 private:
 	Preferences();
 	~Preferences();

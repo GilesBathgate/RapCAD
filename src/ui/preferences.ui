@@ -147,6 +147,13 @@
           </spacer>
          </item>
          <item>
+          <widget class="QCheckBox" name="visibleWhiteSpacdCheckBox">
+           <property name="text">
+            <string>Show visible white space</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QCheckBox" name="darkThemeCheckBox">
            <property name="text">
             <string>Use dark theme (requires restart)</string>

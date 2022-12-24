@@ -51,6 +51,16 @@ void Preferences::updatePrecision()
 #endif
 }
 
+bool Preferences::getVisibleWhiteSpace() const
+{
+	return settings->value("VisibleWhiteSpace",false).toBool();
+}
+
+void Preferences::setVisibleWhiteSpace(bool value)
+{
+	settings->setValue("VisibleWhiteSpace",value);
+}
+
 int Preferences::getThreadPoolSize() const
 {
 	return settings->value("ThreadPoolSize",0).toInt();

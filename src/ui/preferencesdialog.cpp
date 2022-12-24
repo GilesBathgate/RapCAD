@@ -48,6 +48,7 @@ void PreferencesDialog::setupWidgets()
 		if(size==pointSize)
 			c->setCurrentIndex(c->count()-1);
 	}
+	ui->visibleWhiteSpacdCheckBox->setChecked(p.getVisibleWhiteSpace());
 	ui->darkThemeCheckBox->setChecked(p.getDarkTheme());
 	ui->tooltipsCheckBox->setChecked(p.getShowTooltips());
 	ui->highlightLineCheckbox->setChecked(p.getHighlightLine());
@@ -184,6 +185,7 @@ void PreferencesDialog::setupButtons()
 
 	connect(ui->appearanceComboBox,QOverload<int>::of(&QComboBox::currentIndexChanged),this,&PreferencesDialog::appearanceChanged);
 
+	connect(ui->visibleWhiteSpacdCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::visibleWhiteSpaceChanged);
 	connect(ui->darkThemeCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::darkThemeChanged);
 	connect(ui->tooltipsCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::showTooltipsChanged);
 	connect(ui->highlightLineCheckbox,&QCheckBox::stateChanged,this,&PreferencesDialog::highlightLineChanged);
@@ -248,6 +250,13 @@ void PreferencesDialog::autoSaveOnCompileChanged(int s)
 {
 	auto& p=Preferences::getInstance();
 	p.setAutoSaveOnCompile(s == Qt::Checked);
+}
+
+void PreferencesDialog::visibleWhiteSpaceChanged(int s)
+{
+	auto& p=Preferences::getInstance();
+	p.setVisibleWhiteSpace(s == Qt::Checked);
+	emit preferencesUpdated();
 }
 
 void PreferencesDialog::darkThemeChanged(int s)

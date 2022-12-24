@@ -154,6 +154,18 @@ void CodeEditor::preferencesUpdated()
 	showTooltips = p.getShowTooltips();
 	highlightLine = p.getHighlightLine();
 	highlightCurrentLine();
+	setVisibleWhiteSpace(p.getVisibleWhiteSpace());
+}
+
+void CodeEditor::setVisibleWhiteSpace(bool enabled)
+{
+	QTextOption option=document()->defaultTextOption();
+	if(enabled){
+		option.setFlags(option.flags()|QTextOption::ShowTabsAndSpaces);
+	} else {
+		option.setFlags(option.flags()&(~QTextOption::ShowTabsAndSpaces));
+	}
+	document()->setDefaultTextOption(option);
 }
 
 void CodeEditor::setModuleNames(const QHash<QString,Module*>& names)
