@@ -156,7 +156,7 @@ jobs:
       run: .\release\rapcad.exe -t test
     - name: Store
       if: ${{ matrix.config == 'official' }}
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: windows-artifacts
         path: |
@@ -208,7 +208,7 @@ jobs:
       run: ./rapcad.app/Contents/MacOS/rapcad -t test
     - name: Store
       if: ${{ matrix.config == 'official' }}
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: macos-artifacts
         path: rapcad_*.dmg
