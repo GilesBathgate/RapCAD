@@ -111,7 +111,7 @@ Primitive* GeometryEvaluator::appendChildren(const Node& n)
 	},QtConcurrent::UnorderedReduce);
 
 	// Ward off unused function warning (Unreachable)
-	createPrimitive();
+	return createPrimitive();
 }
 
 static Primitive* noResult()
