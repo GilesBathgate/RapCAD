@@ -21,22 +21,14 @@
 
 #include "renderer.h"
 #include "bedappearance.h"
-#ifdef USE_QGLWIDGET
-#include <QGLWidget>
-#else
 #include <QMatrix4x4>
 #include <QOpenGLFunctions_1_0>
 #include <QOpenGLWidget>
-#endif
 #include <QMouseEvent>
 #include <QWheelEvent>
 
 class GLView :
-#ifdef USE_QGLWIDGET
-	public QGLWidget
-#else
 	public QOpenGLWidget, private QOpenGLFunctions_1_0
-#endif
 {
 	Q_OBJECT
 
@@ -48,9 +40,6 @@ public:
 	void setBedAppearance(BedAppearance);
 	void preferencesUpdated();
 
-#ifdef USE_QGLWIDGET
-	inline QImage grabFramebuffer(){ return grabFrameBuffer(); }
-#endif
 
 public slots:
 	void setViewport(GLfloat,GLfloat,GLfloat,GLfloat,GLfloat,GLfloat);
@@ -86,10 +75,8 @@ private:
 	void drawRulers();
 	void drawCross();
 
-#ifndef USE_QGLWIDGET
 	QMatrix4x4* projection;
 	QMatrix4x4* modelview;
-#endif
 	Renderer* render;
 	GLfloat distance;
 	bool showAxes;

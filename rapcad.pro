@@ -23,11 +23,7 @@
 #-------------------------------------------------
 VERSION = $$cat(VERSION)
 
-QT  += core gui opengl widgets concurrent
-
-greaterThan(QT_MAJOR_VERSION, 5) {
-	QT += openglwidgets
-}
+QT  += core gui openglwidgets concurrent
 
 CONFIG += c++17
 TARGET = rapcad
@@ -36,24 +32,6 @@ INCLUDEPATH += src
 
 DEFINES += USE_CGAL
 DEFINES += USE_READLINE
-DEFINES += USE_COMMANDLINE_PARSER
-DEFINES += USE_QGLWIDGET
-
-greaterThan(QT_MAJOR_VERSION, 4) {
-
-# Check for Qt Version 5.2 and above
-# (so Major > 4 && Minor > 1)
-	greaterThan(QT_MINOR_VERSION, 1) | greaterThan(QT_MAJOR_VERSION, 5) {
-		DEFINES -= USE_COMMANDLINE_PARSER
-	}
-
-# Check for Qt Version 5.4 and above
-# (so Major > 4 && Minor > 3)
-	greaterThan(QT_MINOR_VERSION, 3) | greaterThan(QT_MAJOR_VERSION, 5) {
-		DEFINES -= USE_QGLWIDGET
-	}
-}
-
 
 win32 {
 	DEFINES -= USE_READLINE
@@ -167,8 +145,6 @@ YACCSOURCES += \
 	src/parser.y
 
 SOURCES += \
-	contrib/qcommandlineparser.cpp \
-	contrib/qcommandlineoption.cpp \
 	src/application.cpp \
 	src/assertexception.cpp \
 	src/builtinmanager.cpp \
@@ -430,8 +406,6 @@ HEADERS  += \
 	contrib/fragments.h \
 	contrib/mpfr-get_q.h \
 	contrib/mpfr-impl.h \
-	contrib/qcommandlineparser.h \
-	contrib/qcommandlineoption.h \
 	contrib/Copy_polyhedron_to.h \
 	contrib/qtcompat.h \
 	src/application.h \

@@ -20,21 +20,14 @@
 #include "viewdirections.h"
 #include <QApplication>
 #include <cmath>
-#ifdef USE_QGLWIDGET
-#include <CGAL/glu.h>
-#endif
 
 static const GLfloat farfarAway=100000.0F;
 static const int rulerLength=200;
 
 GLView::GLView(QWidget* parent) :
-#ifdef USE_QGLWIDGET
-	QGLWidget(parent),
-#else
 	QOpenGLWidget(parent),
 	projection(new QMatrix4x4()),
 	modelview(new QMatrix4x4()),
-#endif
 	render(nullptr),
 	distance(500.0F),
 	showAxes(true),
@@ -62,10 +55,8 @@ GLView::GLView(QWidget* parent) :
 
 GLView::~GLView()
 {
-#ifndef USE_QGLWIDGET
 	delete projection;
 	delete modelview;
-#endif
 	delete render;
 }
 
@@ -204,9 +195,7 @@ void GLView::setBedAppearance(BedAppearance v)
 
 void GLView::initializeGL()
 {
-#ifndef USE_QGLWIDGET
 	initializeOpenGLFunctions();
-#endif
 
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(1.0F,1.0F,1.0F,0.0F);
@@ -233,14 +222,9 @@ void GLView::resizeGL(int w,int h)
 
 	glMatrixMode(GL_PROJECTION);
 
-#ifdef USE_QGLWIDGET
-	glLoadIdentity();
-	gluPerspective(45.0f,(GLfloat)w/(GLfloat)h,+10.0f,+farfarAway);
-#else
 	projection->setToIdentity();
 	projection->perspective(45.0F,GLfloat(w)/GLfloat(h),+10.0F,+farfarAway);
 	glLoadMatrixf(projection->data());
-#endif
 
 }
 
@@ -458,14 +442,6 @@ void GLView::paintGL()
 
 	glMatrixMode(GL_MODELVIEW);
 
-#ifdef USE_QGLWIDGET
-	glLoadIdentity();
-	gluLookAt(-viewportX,-distance,-viewportZ,-viewportX,0.0f,-viewportZ,0.0f,0.0f,1.0f);
-
-	glRotatef(rotateX,1.0f,0.0f,0.0f);
-	glRotatef(rotateY,0.0f,1.0f,0.0f);
-	glRotatef(rotateZ,0.0f,0.0f,1.0f);
-#else
 	modelview->setToIdentity();
 	QVector3D eye(-viewportX,-distance,-viewportZ);
 	QVector3D center(-viewportX,0.0F,-viewportZ);
@@ -477,7 +453,6 @@ void GLView::paintGL()
 	modelview->rotate(rotateZ,0.0F,0.0F,1.0F);
 
 	glLoadMatrixf(modelview->data());
-#endif
 
 	if(showAxes) drawAxes();
 	if(showBase) drawBase();

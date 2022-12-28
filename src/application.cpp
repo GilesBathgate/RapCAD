@@ -29,12 +29,8 @@
 #include "worker.h"
 #include <QApplication>
 #include <contrib/qtcompat.h>
-#ifdef USE_COMMANDLINE_PARSER
-#include <contrib/qcommandlineparser.h>
-#else
 #include <QCommandLineOption>
 #include <QCommandLineParser>
-#endif
 
 #ifdef USE_CGAL
 namespace CGAL {
