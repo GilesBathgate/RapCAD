@@ -26,11 +26,11 @@ class SimpleRenderer : public Renderer
 {
 public:
 	explicit SimpleRenderer(Primitive*);
-	void paint(bool,bool) override;
+	void paint(QOpenGLFunctions_1_0&,bool,bool) override;
 	void preferencesUpdated() override;
 	void setCompiling(bool) override;
 private:
-	void descendChildren(Primitive* p);
+	void descendChildren(QOpenGLFunctions_1_0& f,Primitive* p);
 	Primitive* primitive;
 	void drawPoint(const Point&);
 };

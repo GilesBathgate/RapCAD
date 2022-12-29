@@ -22,9 +22,9 @@
 #include "primitive.h"
 
 CGALRenderer::CGALRenderer(Primitive* primitive) :
-	simple(new SimpleRenderer(primitive)),
-	vertexSize(0.0F),
-	edgeSize(0.0F)
+  simple(new SimpleRenderer(primitive)),
+  vertexSize(0.0F),
+  edgeSize(0.0F)
 {
 	loadPreferences();
 	descendChildren(primitive);
@@ -37,7 +37,7 @@ CGALRenderer::~CGALRenderer()
 
 void CGALRenderer::descendChildren(Primitive* p)
 {
-	using converter = CGAL::OGL::Nef3_Converter<CGAL::NefPolyhedron3>;
+	using converter=CGAL::OGL::Nef3_Converter<CGAL::NefPolyhedron3>;
 	auto* pr=dynamic_cast<CGALPrimitive*>(p);
 	if(pr) {
 		converter::convert_to_OGLPolyhedron(pr->getNefPolyhedron(),this);
@@ -87,20 +87,150 @@ void CGALRenderer::desaturate(CGAL::IO::Color& c)
 	setColor(c,QColor::fromHsv(rgb.hue(),0,rgb.value()));
 }
 
-void CGALRenderer::paint(bool skeleton, bool showedges)
+void CGALRenderer::drawVertices(QOpenGLFunctions_1_0& f,Vertex_iterator v) const
 {
-	init(); //init returns instantly if its already been called.
+	float p=getVertexSize();
+	if(p==0) return;
+	CGAL::IO::Color c=getVertexColor(v->mark());
+	f.glPointSize(p);
+	f.glColor3ub(c.red(),c.green(),c.blue());
+	f.glBegin(GL_POINTS);
+	f.glVertex3f(v->x(),v->y(),v->z());
+	f.glEnd();
+}
+
+void CGALRenderer::drawEdges(QOpenGLFunctions_1_0& f,Edge_iterator e) const
+{
+	float w=getEdgeSize();
+	if(w==0) return;
+	auto p=e->source(),q=e->target();
+	CGAL::IO::Color c=getEdgeColor(e->mark());
+	f.glLineWidth(w);
+	f.glColor3ub(c.red(),c.green(),c.blue());
+	f.glBegin(GL_LINE_STRIP);
+	f.glVertex3f(p.x(),p.y(),p.z());
+	f.glVertex3f(q.x(),q.y(),q.z());
+	f.glEnd();
+}
+
+struct CallbackData
+{
+	QOpenGLFunctions_1_0& functions;
+	float* normal;
+};
+
+inline void CGAL_GLU_TESS_CALLBACK vertexCallback(GLvoid* vertex,GLvoid* data)
+{
+	auto* v=static_cast<GLfloat*>(vertex);
+	auto* d=static_cast<CallbackData*>(data);
+	auto& f=d->functions;
+	f.glNormal3fv(d->normal);
+	f.glVertex3fv(v);
+}
+
+inline void CGAL_GLU_TESS_CALLBACK combineCallback(GLdouble vertex[3],GLvoid*[4],GLfloat[4],GLvoid** dataOut)
+{
+	static std::list<GLdouble*> cache;
+	if (dataOut) {
+		cache.push_back(vertex);
+		*dataOut=vertex;
+	} else {
+		for (auto v : cache)
+			delete[] v;
+		cache.clear();
+	}
+}
+
+inline void CGAL_GLU_TESS_CALLBACK beginCallback(GLenum which,GLvoid* data)
+{
+	auto& f=static_cast<CallbackData*>(data)->functions;
+	f.glBegin(which);
+}
+
+inline void CGAL_GLU_TESS_CALLBACK endCallback(GLvoid* data)
+{
+	auto& f=static_cast<CallbackData*>(data)->functions;
+	f.glEnd();
+}
+
+inline void CGAL_GLU_TESS_CALLBACK errorCallback(GLenum errorCode)
+{
+	const GLubyte* estring=gluErrorString(errorCode);
+	std::cerr << "Tessellation Error: " << estring << std::endl;
+}
+
+void CGALRenderer::drawFacets(QOpenGLFunctions_1_0& f,Halffacet_iterator fc) const
+{
+	GLUtesselator* t=gluNewTess();
+	using Callback=void (CGAL_GLU_TESS_CALLBACK *)(CGAL_GLU_TESS_DOTS);
+	gluTessCallback(t,GLenum(GLU_TESS_VERTEX_DATA),(Callback)&vertexCallback);
+	gluTessCallback(t,GLenum(GLU_TESS_COMBINE),(Callback)&combineCallback);
+	gluTessCallback(t,GLenum(GLU_TESS_BEGIN_DATA),(Callback)&beginCallback);
+	gluTessCallback(t,GLenum(GLU_TESS_END_DATA),(Callback)&endCallback);
+	gluTessCallback(t,GLenum(GLU_TESS_ERROR),(Callback)&errorCallback);
+	gluTessProperty(t,GLenum(GLU_TESS_WINDING_RULE),GLU_TESS_WINDING_POSITIVE);
+
+	CGAL::OGL::DFacet::Coord_const_iterator cit;
+	CGAL::IO::Color c=getFacetColor(fc->mark());
+	f.glColor3ub(c.red(),c.green(),c.blue());
+	CallbackData data{f,fc->normal()};
+	gluTessBeginPolygon(t,&data);
+	gluTessNormal(t,fc->dx(),fc->dy(),fc->dz());
+	for(unsigned i=0; i < fc->number_of_facet_cycles(); ++i) {
+		gluTessBeginContour(t);
+		for(cit=fc->facet_cycle_begin(i); cit != fc->facet_cycle_end(i); ++cit) {
+			double loc[3];
+			loc[0]=(*cit)[0];
+			loc[1]=(*cit)[1];
+			loc[2]=(*cit)[2];
+			gluTessVertex(t,loc,*cit);
+		}
+		gluTessEndContour(t);
+	}
+	gluTessEndPolygon(t);
+	gluDeleteTess(t);
+	combineCallback(nullptr,nullptr,nullptr,nullptr);
+}
+
+void CGALRenderer::fillDisplayLists(QOpenGLFunctions_1_0& f) {
+	f.glNewList(object_list_+0,GL_COMPILE);
+	Vertex_iterator v;
+	for(v=vertices_.begin();v!=vertices_.end();++v)
+		drawVertices(f,v);
+	f.glEndList();
+
+	f.glNewList(object_list_+1,GL_COMPILE);
+	Edge_iterator e;
+	for(e=edges_.begin();e!=edges_.end();++e)
+		drawEdges(f,e);
+	f.glEndList();
+
+	f.glNewList(object_list_+2,GL_COMPILE);
+	Halffacet_iterator fc;
+	for(fc=halffacets_.begin();fc!=halffacets_.end();++fc)
+		drawFacets(f,fc);
+	f.glEndList();
+}
+
+void CGALRenderer::paint(QOpenGLFunctions_1_0& f,bool skeleton,bool showedges)
+{
+	if (!init_) {
+		init_=true;
+		object_list_=f.glGenLists(3);
+		CGAL_assertion(object_list_);
+		fillDisplayLists(f);
+	}
 	if(!skeleton) {
-		glCallList(object_list_+2);
+		f.glCallList(object_list_+2);
 	}
 	if(skeleton||showedges) {
-		glDisable(GL_LIGHTING);
-		glCallList(object_list_+1);
-		glCallList(object_list_);
-		glEnable(GL_LIGHTING);
+		f.glDisable(GL_LIGHTING);
+		f.glCallList(object_list_+1);
+		f.glCallList(object_list_+0);
+		f.glEnable(GL_LIGHTING);
 	}
 
-	simple->paint(skeleton,showedges);
+	simple->paint(f,skeleton,showedges);
 
 }
 

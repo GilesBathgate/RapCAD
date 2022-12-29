@@ -24,12 +24,12 @@ SimpleRenderer::SimpleRenderer(Primitive* pr) :
 {
 }
 
-void SimpleRenderer::paint(bool, bool)
+void SimpleRenderer::paint(QOpenGLFunctions_1_0& f,bool, bool)
 {
-	glLineWidth(1);
-	glColor4f(0.0,0.0,1.0,0.5);
-	glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
-	descendChildren(primitive);
+	f.glLineWidth(1);
+	f.glColor4f(0.0,0.0,1.0,0.5);
+	f.glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
+	descendChildren(f,primitive);
 }
 
 void SimpleRenderer::preferencesUpdated()
@@ -42,29 +42,29 @@ void SimpleRenderer::setCompiling(bool)
 
 }
 
-void SimpleRenderer::descendChildren(Primitive* p)
+void SimpleRenderer::descendChildren(QOpenGLFunctions_1_0& f, Primitive* p)
 {
 	for(Primitive* c: p->getChildren()) {
-		descendChildren(c);
+		descendChildren(f,c);
 
 		if(c->getType()!=PrimitiveTypes::Lines) {
-			glEnable(GL_BLEND);
+			f.glEnable(GL_BLEND);
 			for(Polygon* pg: c->getPolygons()) {
-				glBegin(GL_QUADS);
+				f.glBegin(GL_QUADS);
 				for(const auto& pt: pg->getPoints()) {
 					drawPoint(pt);
 				}
-				glEnd();
+				f.glEnd();
 			}
-			glDisable(GL_BLEND);
+			f.glDisable(GL_BLEND);
 		}
 
 		for(Polygon* pg: c->getPolygons()) {
-			glBegin(GL_LINE_STRIP);
+			f.glBegin(GL_LINE_STRIP);
 			for(const auto& pt: pg->getPoints()) {
 				drawPoint(pt);
 			}
-			glEnd();
+			f.glEnd();
 		}
 	}
 }

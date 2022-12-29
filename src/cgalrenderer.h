@@ -29,11 +29,15 @@ class CGALRenderer : public Renderer, private CGAL::OGL::Polyhedron
 public:
 	explicit CGALRenderer(Primitive*);
 	~CGALRenderer() override;
-	void paint(bool,bool) override;
+	void paint(QOpenGLFunctions_1_0&,bool,bool) override;
 	void preferencesUpdated() override;
 	void setCompiling(bool) override;
 private:
 	static void setColor(CGAL::IO::Color&,const QColor&);
+	void fillDisplayLists(QOpenGLFunctions_1_0&);
+	void drawVertices(QOpenGLFunctions_1_0&,Vertex_iterator) const;
+	void drawEdges(QOpenGLFunctions_1_0&,Edge_iterator) const;
+	void drawFacets(QOpenGLFunctions_1_0&,Halffacet_iterator) const;
 	CGAL::IO::Color getVertexColor(bool mark) const override;
 	CGAL::IO::Color getEdgeColor(bool mark) const override;
 	CGAL::IO::Color getFacetColor(bool mark) const override;

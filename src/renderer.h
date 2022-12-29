@@ -19,11 +19,13 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
+#include <QOpenGLFunctions_1_0>
+
 class Renderer
 {
 public:
 	virtual ~Renderer() {}
-	virtual void paint(bool,bool)=0;
+	virtual void paint(QOpenGLFunctions_1_0&,bool,bool)=0;
 	virtual void preferencesUpdated()=0;
 	virtual void setCompiling(bool)=0;
 };

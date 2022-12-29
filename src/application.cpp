@@ -47,9 +47,6 @@ Application::Application() :
 	strategy(nullptr),
 	redirectFile(nullptr)
 {
-#ifdef Q_OS_WIN
-	QCoreApplication::setAttribute(Qt::AA_UseDesktopOpenGL);
-#endif
 	QCoreApplication::setOrganizationName("rapcad");
 	QCoreApplication::setOrganizationDomain("rapcad.org");
 	QCoreApplication::setApplicationName("RapCAD");

@@ -463,7 +463,7 @@ void GLView::paintGL()
 	glEnable(GL_LIGHTING);
 
 	if(render)
-		render->paint(skeleton,showEdges);
+		render->paint(*this,skeleton,showEdges);
 }
 
 void GLView::renderX(GLfloat x,GLfloat y,GLfloat z)
