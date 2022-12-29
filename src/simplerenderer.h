@@ -30,9 +30,9 @@ public:
 	void preferencesUpdated() override;
 	void setCompiling(bool) override;
 private:
-	void descendChildren(QOpenGLFunctions_1_0& f,Primitive* p);
+	void descendChildren(QOpenGLFunctions_1_0&,Primitive*);
 	Primitive* primitive;
-	void drawPoint(const Point&);
+	void drawPoint(QOpenGLFunctions_1_0&,const Point&);
 };
 
 #endif // SIMPLERENDERER_H

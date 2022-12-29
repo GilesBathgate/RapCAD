@@ -52,7 +52,7 @@ void SimpleRenderer::descendChildren(QOpenGLFunctions_1_0& f, Primitive* p)
 			for(Polygon* pg: c->getPolygons()) {
 				f.glBegin(GL_QUADS);
 				for(const auto& pt: pg->getPoints()) {
-					drawPoint(pt);
+					drawPoint(f,pt);
 				}
 				f.glEnd();
 			}
@@ -62,18 +62,18 @@ void SimpleRenderer::descendChildren(QOpenGLFunctions_1_0& f, Primitive* p)
 		for(Polygon* pg: c->getPolygons()) {
 			f.glBegin(GL_LINE_STRIP);
 			for(const auto& pt: pg->getPoints()) {
-				drawPoint(pt);
+				drawPoint(f,pt);
 			}
 			f.glEnd();
 		}
 	}
 }
 
-void SimpleRenderer::drawPoint(const Point& pt)
+void SimpleRenderer::drawPoint(QOpenGLFunctions_1_0& f,const Point& pt)
 {
 	GLfloat x;
 	GLfloat y;
 	GLfloat z;
 	to_glcoord(pt,x,y,z);
-	glVertex3f(x,y,z);
+	f.glVertex3f(x,y,z);
 }
