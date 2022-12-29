@@ -93,7 +93,7 @@ static int parserlex(union YYSTYPE*,AbstractSyntaxTreeBuilder&);
 %type <params> parameters
 %type <arg> argument
 %type <args> arguments
-%type <expr> expression
+%type <expr> expression indexable
 %type <exprs> vector_expression
 %type <scp> module_scope function_scope
 %type <inst> module_instance single_instance
@@ -302,12 +302,6 @@ expression
 	{ $$ = builder.buildInterval($1,$3); }
 	| NUMBER '[' expression ',' expression ']'
 	{ $$ = builder.buildInterval($1,$3,$5); }
-	| '[' expression ':' expression ']'
-	{ $$ = builder.buildRange($2,$4); }
-	| '[' expression ':' expression ':' expression ']'
-	{ $$ = builder.buildRange($2,$4,$6); }
-	| '[' vector_expression optional_commas ']'
-	{ $$ = builder.buildExpression($2,$3); }
 	| '<' expression ',' expression ',' expression ',' expression '>'
 	{ $$ = builder.buildComplex($2,$4,$6,$8); }
 	| '|' expression '|'
@@ -362,10 +356,23 @@ expression
 	{ $$ = builder.buildExpression($2); }
 	| expression '?' expression ':' expression
 	{ $$ = builder.buildExpression($1,$3,$5); }
-	| expression '[' expression ']'
-	{ $$ = builder.buildExpression($1,Operators::Index,$3); }
 	| invocation
 	{ $$ = builder.buildExpression($1); }
+	| indexable
+	{ $$ = builder.buildExpression($1); }
+	;
+
+indexable
+	: '[' expression ':' expression ']'
+	{ $$ = builder.buildRange($2,$4); }
+	| '[' expression ':' expression ':' expression ']'
+	{ $$ = builder.buildRange($2,$4,$6); }
+	| '[' vector_expression optional_commas ']'
+	{ $$ = builder.buildExpression($2,$3); }
+	| variable '[' expression ']'
+	{ $$ = builder.buildExpression($1,Operators::Index,$3); }
+	| indexable '[' expression ']'
+	{ $$ = builder.buildExpression($1,Operators::Index,$3); }
 	;
 
 invocation
