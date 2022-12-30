@@ -22,9 +22,13 @@
 #include "renderer.h"
 #include "simplerenderer.h"
 #include <QColor>
-#include <contrib/OGL_helper.h>
+#include <QList>
 
-class CGALRenderer : public Renderer, private CGAL::OGL::Polyhedron
+class PointF;
+class SegmentF;
+class FacetF;
+
+class CGALRenderer : public Renderer
 {
 public:
 	explicit CGALRenderer(Primitive*);
@@ -32,30 +36,38 @@ public:
 	void paint(QOpenGLFunctions_1_0&,bool,bool) override;
 	void preferencesUpdated() override;
 	void setCompiling(bool) override;
+
 private:
-	static void setColor(CGAL::IO::Color&,const QColor&);
 	void fillDisplayLists(QOpenGLFunctions_1_0&);
-	void drawVertices(QOpenGLFunctions_1_0&,Vertex_iterator) const;
-	void drawEdges(QOpenGLFunctions_1_0&,Edge_iterator) const;
-	void drawFacets(QOpenGLFunctions_1_0&,Halffacet_iterator) const;
-	CGAL::IO::Color getVertexColor(bool mark) const override;
-	CGAL::IO::Color getEdgeColor(bool mark) const override;
-	CGAL::IO::Color getFacetColor(bool mark) const override;
-	float getVertexSize() const override;
-	float getEdgeSize() const override;
+	void drawVertices(QOpenGLFunctions_1_0&,const PointF&) const;
+	void drawEdges(QOpenGLFunctions_1_0&,const SegmentF&) const;
+	void drawFacets(QOpenGLFunctions_1_0&,const FacetF&) const;
+	friend class NefConverter;
+	void appendVertex(const PointF&);
+	void appendEdge(const SegmentF&);
+	void appendFacet(const FacetF&);
+	const QColor& getVertexColor(bool mark) const;
+	const QColor& getEdgeColor(bool mark) const;
+	const QColor& getFacetColor(bool mark) const;
+	GLfloat getVertexSize() const;
+	GLfloat getEdgeSize() const;
 	void loadPreferences();
-	static void desaturate(CGAL::IO::Color& c);
+	static void desaturate(QColor&);
 	void descendChildren(Primitive* pr);
 
-	CGAL::IO::Color markedVertexColor;
-	CGAL::IO::Color vertexColor;
-	CGAL::IO::Color markedEdgeColor;
-	CGAL::IO::Color edgeColor;
-	CGAL::IO::Color markedFacetColor;
-	CGAL::IO::Color facetColor;
+	QColor markedVertexColor;
+	QColor vertexColor;
+	QColor markedEdgeColor;
+	QColor edgeColor;
+	QColor markedFacetColor;
+	QColor facetColor;
 	SimpleRenderer* simple;
+	class DisplayList* displayList;
 	float vertexSize;
 	float edgeSize;
+	QList<PointF> vertices;
+	QList<SegmentF> edges;
+	QList<FacetF> facets;
 };
 
 #endif // CGALRENDERER_H

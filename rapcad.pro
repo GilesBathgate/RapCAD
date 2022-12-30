@@ -45,7 +45,7 @@ win32 {
 		LIBS +=  -lCGAL -lCGAL_Core
 	}
 	LIBS += -L$$(CGAL_DIR)/auxiliary/gmp/lib -lmpfr-4 -lgmp-10
-	LIBS += -lopengl32 -lglu32
+	LIBS += -lglu32
 	contains(DEFINES,USE_READLINE) {
 	LIBS += -lreadline
 	}
@@ -402,7 +402,6 @@ SOURCES += \
 	src/ui/searchwidget.cpp
 
 HEADERS  += \
-	contrib/OGL_helper.h \
 	contrib/fragments.h \
 	contrib/mpfr-get_q.h \
 	contrib/mpfr-impl.h \

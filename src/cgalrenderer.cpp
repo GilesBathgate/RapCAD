@@ -20,11 +20,225 @@
 #include "cgalprimitive.h"
 #include "preferences.h"
 #include "primitive.h"
+#include "rmath.h"
+#include <CGAL/glu.h>
+
+#ifndef GLAPIENTRY
+#define GLAPIENTRY
+#endif
+
+using KernelF=CGAL::Simple_cartesian<GLfloat>;
+
+class PointF : public KernelF::Point_3
+{
+	bool mark;
+public:
+	PointF(GLfloat x,GLfloat y,GLfloat z,bool m) : KernelF::Point_3(x,y,z),mark(m) {}
+	bool getMark() const
+	{
+		return mark;
+	}
+};
+
+class SegmentF : public KernelF::Segment_3
+{
+	bool mark;
+public:
+	SegmentF(const PointF& p,const PointF& q,bool m) : KernelF::Segment_3(p,q),mark(m) {}
+	bool getMark() const
+	{
+		return mark;
+	}
+};
+
+class FacetF
+{
+	using Coord_vector=QVector<PointF>;
+	using Cycle_vector=QVector<uint>;
+
+	Coord_vector coordinates;
+	Cycle_vector facetCycles;
+	GLfloat normal[3];
+	bool mark;
+
+public:
+	using Coord_const_iterator=Coord_vector::const_iterator;
+
+	FacetF()=default;
+	FacetF(const FacetF&)=default;
+	FacetF& operator=(const FacetF&)=default;
+	FacetF(FacetF&&)=default;
+	~FacetF()
+	{
+		coordinates.clear();
+		facetCycles.clear();
+	}
+
+	void appendVertex(const PointF& p)
+	{
+		coordinates.append(p);
+	}
+
+	void setNormal(GLfloat x,GLfloat y,GLfloat z)
+	{
+		normal[0]=x; normal[1]=y; normal[2]=z;
+	}
+
+	GLfloat dx() const
+	{
+		return normal[0];
+	}
+
+	GLfloat dy() const
+	{
+		return normal[1];
+	}
+
+	GLfloat dz() const
+	{
+		return normal[2];
+	}
+
+	void setMark(bool m)
+	{
+		mark=m;
+	}
+
+	bool getMark() const
+	{
+		return mark;
+	}
+
+	void newFacetCycle()
+	{
+		facetCycles.append(coordinates.size());
+	}
+
+	uint facetCyclesSize() const
+	{
+		return facetCycles.size();
+	}
+
+	Coord_const_iterator facetCyclesBegin(uint i) const
+	{
+		CGAL_assertion(i<facetCyclesSize());
+		if(i==0)
+			return coordinates.begin();
+		else
+			return coordinates.begin()+facetCycles[i];
+	}
+
+	Coord_const_iterator facetCyclesEnd(uint i) const
+	{
+		CGAL_assertion(i<facetCyclesSize());
+		if(i<facetCyclesSize()-1)
+			return coordinates.begin()+facetCycles[i+1];
+		else
+			return coordinates.end();
+	}
+};
+
+class NefConverter
+{
+	using SNC_structure=CGAL::NefPolyhedron3::SNC_structure;
+	using Vertex_const_iterator=SNC_structure::Vertex_const_iterator;
+	using Halfedge_const_iterator=SNC_structure::Halfedge_const_iterator;
+	using Halffacet_const_iterator=SNC_structure::Halffacet_const_iterator;
+	using Halffacet_cycle_const_iterator=SNC_structure::Halffacet_cycle_const_iterator;
+	using SHalfedge_const_handle=SNC_structure::SHalfedge_const_handle;
+	using Vertex_const_handle=SNC_structure::Vertex_const_handle;
+	using Halfedge_const_handle=SNC_structure::Halfedge_const_handle;
+	using Halffacet_const_handle=SNC_structure::Halffacet_const_handle;
+	using SHalfedge_around_facet_const_circulator=SNC_structure::SHalfedge_around_facet_const_circulator;
+
+	static PointF to_pointf(const CGAL::Point3& p,bool m)
+	{
+		return PointF(CGAL::to_double(p.x()),CGAL::to_double(p.y()),CGAL::to_double(p.z()),m);
+	}
+
+	static void convert(Vertex_const_handle v,const CGAL::NefPolyhedron3&,CGALRenderer& r)
+	{
+		r.appendVertex(to_pointf(v->point(),v->mark()));
+	}
+
+	static void convert(Halfedge_const_handle e,const CGAL::NefPolyhedron3&,CGALRenderer& r)
+	{
+		const PointF& p=to_pointf(e->source()->point(),false);
+		const PointF& q=to_pointf(e->twin()->source()->point(),false);
+		r.appendEdge(SegmentF(p,q,e->mark()));
+	}
+
+	static void convert(Halffacet_const_handle f,const CGAL::NefPolyhedron3&,CGALRenderer& r)
+	{
+		FacetF g;
+		Halffacet_cycle_const_iterator fc;
+		CGAL_forall_facet_cycles_of(fc,f) {
+			if(fc.is_shalfedge()) {
+				g.newFacetCycle();
+				SHalfedge_const_handle h=fc;
+				SHalfedge_around_facet_const_circulator hc(h),he(hc);
+				CGAL_For_all(hc,he) {
+					g.appendVertex(to_pointf(hc->source()->source()->point(),false));
+				}
+			}
+		}
+		const auto& v=f->plane().orthogonal_vector();
+		const auto& n=v/r_sqrt(v.squared_length());
+		g.setNormal(CGAL::to_double(n.x()),CGAL::to_double(n.y()),CGAL::to_double(n.z()));
+		g.setMark(f->mark());
+		r.appendFacet(g);
+	}
+
+public:
+	static void convert(const CGAL::NefPolyhedron3& n,CGALRenderer& r)
+	{
+		Vertex_const_iterator v;
+		CGAL_forall_vertices(v,*n.sncp()) {
+			convert(v,n,r);
+		}
+		Halfedge_const_iterator e;
+		CGAL_forall_edges(e,*n.sncp()) {
+			convert(e,n,r);
+		}
+		Halffacet_const_iterator f;
+		CGAL_forall_facets(f,*n.sncp()) {
+			convert(f,n,r);
+		}
+	}
+
+};
+
+class DisplayList
+{
+	QOpenGLFunctions_1_0& functions;
+	GLuint listId;
+	GLsizei range;
+
+public:
+	DisplayList(QOpenGLFunctions_1_0& f,GLsizei r) :
+		functions(f),
+		range(r)
+	{
+		listId=functions.glGenLists(range);
+	}
+
+	~DisplayList()
+	{
+		functions.glDeleteLists(listId,range);
+	}
+
+	GLuint getId(GLuint i)
+	{
+		CGAL_assertion((GLsizei)i<range);
+		return listId+i;
+	}
+};
 
 CGALRenderer::CGALRenderer(Primitive* primitive) :
-  simple(new SimpleRenderer(primitive)),
-  vertexSize(0.0F),
-  edgeSize(0.0F)
+	simple(new SimpleRenderer(primitive)),
+	displayList(nullptr),
+	vertexSize(0.0F),
+	edgeSize(0.0F)
 {
 	loadPreferences();
 	descendChildren(primitive);
@@ -33,14 +247,14 @@ CGALRenderer::CGALRenderer(Primitive* primitive) :
 CGALRenderer::~CGALRenderer()
 {
 	delete simple;
+	delete displayList;
 }
 
 void CGALRenderer::descendChildren(Primitive* p)
 {
-	using converter=CGAL::OGL::Nef3_Converter<CGAL::NefPolyhedron3>;
 	auto* pr=dynamic_cast<CGALPrimitive*>(p);
 	if(pr) {
-		converter::convert_to_OGLPolyhedron(pr->getNefPolyhedron(),this);
+		NefConverter::convert(pr->getNefPolyhedron(),*this);
 	} else if(p) {
 		for(Primitive* c: p->getChildren())
 			descendChildren(c);
@@ -50,12 +264,12 @@ void CGALRenderer::descendChildren(Primitive* p)
 void CGALRenderer::loadPreferences()
 {
 	auto& p=Preferences::getInstance();
-	setColor(markedVertexColor,p.getMarkedVertexColor());
-	setColor(vertexColor,p.getVertexColor());
-	setColor(markedEdgeColor,p.getMarkedEdgeColor());
-	setColor(edgeColor,p.getEdgeColor());
-	setColor(markedFacetColor,p.getMarkedFacetColor());
-	setColor(facetColor,p.getFacetColor());
+	markedVertexColor=p.getMarkedVertexColor();
+	vertexColor=p.getVertexColor();
+	markedEdgeColor=p.getMarkedEdgeColor();
+	edgeColor=p.getEdgeColor();
+	markedFacetColor=p.getMarkedFacetColor();
+	facetColor=p.getFacetColor();
 	vertexSize=p.getVertexSize();
 	edgeSize=p.getEdgeSize();
 }
@@ -63,7 +277,8 @@ void CGALRenderer::loadPreferences()
 void CGALRenderer::preferencesUpdated()
 {
 	loadPreferences();
-	init_=false;
+	delete displayList;
+	displayList=nullptr;
 }
 
 void CGALRenderer::setCompiling(bool value)
@@ -78,33 +293,33 @@ void CGALRenderer::setCompiling(bool value)
 	} else {
 		loadPreferences();
 	}
-	init_=false;
+	delete displayList;
+	displayList=nullptr;
 }
 
-void CGALRenderer::desaturate(CGAL::IO::Color& c)
+void CGALRenderer::desaturate(QColor& c)
 {
-	QColor rgb(c.red(),c.green(),c.blue());
-	setColor(c,QColor::fromHsv(rgb.hue(),0,rgb.value()));
+	c=QColor::fromHsv(c.hue(),0,c.value());
 }
 
-void CGALRenderer::drawVertices(QOpenGLFunctions_1_0& f,Vertex_iterator v) const
+void CGALRenderer::drawVertices(QOpenGLFunctions_1_0& f,const PointF& v) const
 {
 	float p=getVertexSize();
 	if(p==0) return;
-	CGAL::IO::Color c=getVertexColor(v->mark());
+	const QColor& c=getVertexColor(v.getMark());
 	f.glPointSize(p);
 	f.glColor3ub(c.red(),c.green(),c.blue());
 	f.glBegin(GL_POINTS);
-	f.glVertex3f(v->x(),v->y(),v->z());
+	f.glVertex3f(v.x(),v.y(),v.z());
 	f.glEnd();
 }
 
-void CGALRenderer::drawEdges(QOpenGLFunctions_1_0& f,Edge_iterator e) const
+void CGALRenderer::drawEdges(QOpenGLFunctions_1_0& f,const SegmentF& e) const
 {
 	float w=getEdgeSize();
 	if(w==0) return;
-	auto p=e->source(),q=e->target();
-	CGAL::IO::Color c=getEdgeColor(e->mark());
+	auto p=e.source(),q=e.target();
+	const QColor& c=getEdgeColor(e.getMark());
 	f.glLineWidth(w);
 	f.glColor3ub(c.red(),c.green(),c.blue());
 	f.glBegin(GL_LINE_STRIP);
@@ -113,56 +328,54 @@ void CGALRenderer::drawEdges(QOpenGLFunctions_1_0& f,Edge_iterator e) const
 	f.glEnd();
 }
 
-struct CallbackData
-{
+struct PolygonData {
 	QOpenGLFunctions_1_0& functions;
-	float* normal;
+	const FacetF& facet;
 };
 
-inline void CGAL_GLU_TESS_CALLBACK vertexCallback(GLvoid* vertex,GLvoid* data)
+inline void vertexCallback(GLvoid* vertexData,GLvoid* polygonData)
 {
-	auto* v=static_cast<GLfloat*>(vertex);
-	auto* d=static_cast<CallbackData*>(data);
-	auto& f=d->functions;
-	f.glNormal3fv(d->normal);
-	f.glVertex3fv(v);
+	auto& v=*static_cast<PointF*>(vertexData);
+	auto& d=*static_cast<PolygonData*>(polygonData);
+	auto& f=d.functions;
+	auto& fc=d.facet;
+	f.glNormal3f(fc.dx(),fc.dy(),fc.dz());
+	f.glVertex3f(v.x(),v.y(),v.z());
 }
 
-inline void CGAL_GLU_TESS_CALLBACK combineCallback(GLdouble vertex[3],GLvoid*[4],GLfloat[4],GLvoid** dataOut)
+inline void combineCallback(GLdouble v[3],GLvoid*[4],GLfloat[4],GLvoid** dataOut)
 {
-	static std::list<GLdouble*> cache;
-	if (dataOut) {
-		cache.push_back(vertex);
-		*dataOut=vertex;
+	static QList<PointF> cache;
+	if(dataOut) {
+		cache.append(PointF(v[0],v[1],v[2],false));
+		*dataOut=&cache.back();
 	} else {
-		for (auto v : cache)
-			delete[] v;
 		cache.clear();
 	}
 }
 
-inline void CGAL_GLU_TESS_CALLBACK beginCallback(GLenum which,GLvoid* data)
+inline void beginCallback(GLenum which,GLvoid* data)
 {
-	auto& f=static_cast<CallbackData*>(data)->functions;
+	auto& f=static_cast<PolygonData*>(data)->functions;
 	f.glBegin(which);
 }
 
-inline void CGAL_GLU_TESS_CALLBACK endCallback(GLvoid* data)
+inline void endCallback(GLvoid* data)
 {
-	auto& f=static_cast<CallbackData*>(data)->functions;
+	auto& f=static_cast<PolygonData*>(data)->functions;
 	f.glEnd();
 }
 
-inline void CGAL_GLU_TESS_CALLBACK errorCallback(GLenum errorCode)
+inline void errorCallback(GLenum errorCode)
 {
 	const GLubyte* estring=gluErrorString(errorCode);
 	std::cerr << "Tessellation Error: " << estring << std::endl;
 }
 
-void CGALRenderer::drawFacets(QOpenGLFunctions_1_0& f,Halffacet_iterator fc) const
+void CGALRenderer::drawFacets(QOpenGLFunctions_1_0& f,const FacetF& fc) const
 {
 	GLUtesselator* t=gluNewTess();
-	using Callback=void (CGAL_GLU_TESS_CALLBACK *)(CGAL_GLU_TESS_DOTS);
+	using Callback=void (GLAPIENTRY*)(void);
 	gluTessCallback(t,GLenum(GLU_TESS_VERTEX_DATA),(Callback)&vertexCallback);
 	gluTessCallback(t,GLenum(GLU_TESS_COMBINE),(Callback)&combineCallback);
 	gluTessCallback(t,GLenum(GLU_TESS_BEGIN_DATA),(Callback)&beginCallback);
@@ -170,63 +383,72 @@ void CGALRenderer::drawFacets(QOpenGLFunctions_1_0& f,Halffacet_iterator fc) con
 	gluTessCallback(t,GLenum(GLU_TESS_ERROR),(Callback)&errorCallback);
 	gluTessProperty(t,GLenum(GLU_TESS_WINDING_RULE),GLU_TESS_WINDING_POSITIVE);
 
-	CGAL::OGL::DFacet::Coord_const_iterator cit;
-	CGAL::IO::Color c=getFacetColor(fc->mark());
+	FacetF::Coord_const_iterator cit;
+	const QColor& c=getFacetColor(fc.getMark());
 	f.glColor3ub(c.red(),c.green(),c.blue());
-	CallbackData data{f,fc->normal()};
+	PolygonData data{f,fc};
 	gluTessBeginPolygon(t,&data);
-	gluTessNormal(t,fc->dx(),fc->dy(),fc->dz());
-	for(unsigned i=0; i < fc->number_of_facet_cycles(); ++i) {
+	gluTessNormal(t,fc.dx(),fc.dy(),fc.dz());
+	for(uint i=0; i<fc.facetCyclesSize(); ++i) {
 		gluTessBeginContour(t);
-		for(cit=fc->facet_cycle_begin(i); cit != fc->facet_cycle_end(i); ++cit) {
-			double loc[3];
-			loc[0]=(*cit)[0];
-			loc[1]=(*cit)[1];
-			loc[2]=(*cit)[2];
-			gluTessVertex(t,loc,*cit);
+		for(cit=fc.facetCyclesBegin(i); cit!=fc.facetCyclesEnd(i); ++cit) {
+			const PointF& p=*cit;
+			GLdouble c[] {p.x(),p.y(),p.z()};
+			gluTessVertex(t,c,(GLvoid*)&p);
 		}
 		gluTessEndContour(t);
 	}
 	gluTessEndPolygon(t);
 	gluDeleteTess(t);
-	combineCallback(nullptr,nullptr,nullptr,nullptr);
+	combineCallback(0,nullptr,0,nullptr);
 }
 
-void CGALRenderer::fillDisplayLists(QOpenGLFunctions_1_0& f) {
-	f.glNewList(object_list_+0,GL_COMPILE);
-	Vertex_iterator v;
-	for(v=vertices_.begin();v!=vertices_.end();++v)
+void CGALRenderer::appendVertex(const PointF& p)
+{
+	vertices.append(p);
+}
+
+void CGALRenderer::appendEdge(const SegmentF& s)
+{
+	edges.append(s);
+}
+
+void CGALRenderer::appendFacet(const FacetF& f)
+{
+	facets.append(f);
+}
+
+void CGALRenderer::fillDisplayLists(QOpenGLFunctions_1_0& f)
+{
+	f.glNewList(displayList->getId(0),GL_COMPILE);
+	for(const auto& v :vertices)
 		drawVertices(f,v);
 	f.glEndList();
 
-	f.glNewList(object_list_+1,GL_COMPILE);
-	Edge_iterator e;
-	for(e=edges_.begin();e!=edges_.end();++e)
+	f.glNewList(displayList->getId(1),GL_COMPILE);
+	for(const auto& e : edges)
 		drawEdges(f,e);
 	f.glEndList();
 
-	f.glNewList(object_list_+2,GL_COMPILE);
-	Halffacet_iterator fc;
-	for(fc=halffacets_.begin();fc!=halffacets_.end();++fc)
+	f.glNewList(displayList->getId(2),GL_COMPILE);
+	for(const auto& fc : facets)
 		drawFacets(f,fc);
 	f.glEndList();
 }
 
 void CGALRenderer::paint(QOpenGLFunctions_1_0& f,bool skeleton,bool showedges)
 {
-	if (!init_) {
-		init_=true;
-		object_list_=f.glGenLists(3);
-		CGAL_assertion(object_list_);
+	if(!displayList) {
+		displayList=new DisplayList(f,3);
 		fillDisplayLists(f);
 	}
 	if(!skeleton) {
-		f.glCallList(object_list_+2);
+		f.glCallList(displayList->getId(2));
 	}
 	if(skeleton||showedges) {
 		f.glDisable(GL_LIGHTING);
-		f.glCallList(object_list_+1);
-		f.glCallList(object_list_+0);
+		f.glCallList(displayList->getId(1));
+		f.glCallList(displayList->getId(0));
 		f.glEnable(GL_LIGHTING);
 	}
 
@@ -234,32 +456,27 @@ void CGALRenderer::paint(QOpenGLFunctions_1_0& f,bool skeleton,bool showedges)
 
 }
 
-void CGALRenderer::setColor(CGAL::IO::Color& t,const QColor& c)
-{
-	t.set_rgb(c.red(),c.green(),c.blue(),c.alpha());
-}
-
-CGAL::IO::Color CGALRenderer::getVertexColor(bool mark) const
+const QColor& CGALRenderer::getVertexColor(bool mark) const
 {
 	return mark ? markedVertexColor : vertexColor;
 }
 
-CGAL::IO::Color CGALRenderer::getEdgeColor(bool mark) const
+const QColor& CGALRenderer::getEdgeColor(bool mark) const
 {
 	return mark ? markedEdgeColor : edgeColor;
 }
 
-CGAL::IO::Color CGALRenderer::getFacetColor(bool mark) const
+const QColor& CGALRenderer::getFacetColor(bool mark) const
 {
 	return mark ? markedFacetColor : facetColor;
 }
 
-float CGALRenderer::getVertexSize() const
+GLfloat CGALRenderer::getVertexSize() const
 {
 	return vertexSize;
 }
 
-float CGALRenderer::getEdgeSize() const
+GLfloat CGALRenderer::getEdgeSize() const
 {
 	return edgeSize;
 }
