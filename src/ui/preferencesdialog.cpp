@@ -50,6 +50,10 @@ void PreferencesDialog::setupWidgets()
 	}
 	ui->visibleWhiteSpacdCheckBox->setChecked(p.getVisibleWhiteSpace());
 	ui->darkThemeCheckBox->setChecked(p.getDarkTheme());
+	ui->softwareOpenGLCheckBox->setChecked(p.getSoftwareOpenGL());
+#ifndef Q_OS_WIN
+	ui->softwareOpenGLCheckBox->setEnabled(false);
+#endif
 	ui->tooltipsCheckBox->setChecked(p.getShowTooltips());
 	ui->highlightLineCheckbox->setChecked(p.getHighlightLine());
 
@@ -187,6 +191,7 @@ void PreferencesDialog::setupButtons()
 
 	connect(ui->visibleWhiteSpacdCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::visibleWhiteSpaceChanged);
 	connect(ui->darkThemeCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::darkThemeChanged);
+	connect(ui->softwareOpenGLCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::softwareOpenGLChanged);
 	connect(ui->tooltipsCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::showTooltipsChanged);
 	connect(ui->highlightLineCheckbox,&QCheckBox::stateChanged,this,&PreferencesDialog::highlightLineChanged);
 
@@ -263,6 +268,13 @@ void PreferencesDialog::darkThemeChanged(int s)
 {
 	auto& p=Preferences::getInstance();
 	p.setDarkTheme(s == Qt::Checked);
+	emit preferencesUpdated();
+}
+
+void PreferencesDialog::softwareOpenGLChanged(int s)
+{
+	auto& p=Preferences::getInstance();
+	p.setSoftwareOpenGL(s == Qt::Checked);
 	emit preferencesUpdated();
 }
 

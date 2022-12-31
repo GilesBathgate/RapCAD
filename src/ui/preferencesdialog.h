@@ -60,7 +60,8 @@ private slots:
 	void indentRadioChanged(bool);
 	void indentSpacesChanged(int);
 	void threadPoolSizeChanged(int);
-	void visibleWhiteSpaceChanged(int s);
+	void visibleWhiteSpaceChanged(int);
+	void softwareOpenGLChanged(int);
 private:
 	void setupWidgets();
 	static void setColor(QWidget*,const QColor&);

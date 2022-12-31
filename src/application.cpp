@@ -55,7 +55,10 @@ Application::Application() :
 	CGAL::set_error_handler(rapcadErrorHandler);
 #endif
 	//Ensure preferences have been initialised early.
-	Preferences::getInstance();
+	auto& p=Preferences::getInstance();
+	if(p.getSoftwareOpenGL()) {
+		QCoreApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
+	}
 }
 
 Application::~Application()

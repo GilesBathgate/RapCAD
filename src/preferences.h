@@ -150,10 +150,10 @@ public:
 	void setLaunchCommand(const QString&);
 
 	bool getShowGCODEButton() const;
-	void setShowGCODEButton(bool value);
+	void setShowGCODEButton(bool);
 
 	QString getCAMScript() const;
-	void setCAMScript(const QString& value);
+	void setCAMScript(const QString&);
 
 	bool getTranslateOrigin() const;
 	void setTranslateOrigin(bool);
@@ -162,13 +162,16 @@ public:
 	void setDarkTheme(bool);
 
 	QString getIndent() const;
-	void setIndent(const QString& value);
+	void setIndent(const QString&);
 
 	int getThreadPoolSize() const;
-	void setThreadPoolSize(int value);
+	void setThreadPoolSize(int);
 
 	bool getVisibleWhiteSpace() const;
-	void setVisibleWhiteSpace(bool newVisibleWhiteSpace);
+	void setVisibleWhiteSpace(bool);
+
+	bool getSoftwareOpenGL() const;
+	void setSoftwareOpenGL(bool);
 
 private:
 	Preferences();

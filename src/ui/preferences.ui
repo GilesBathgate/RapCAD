@@ -161,6 +161,13 @@
           </widget>
          </item>
          <item>
+          <widget class="QCheckBox" name="softwareOpenGLCheckBox">
+           <property name="text">
+            <string>Use software only OpenGL (requires restart)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QCheckBox" name="highlightLineCheckbox">
            <property name="text">
             <string>Highlight current line</string>

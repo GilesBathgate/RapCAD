@@ -51,6 +51,20 @@ void Preferences::updatePrecision()
 #endif
 }
 
+bool Preferences::getSoftwareOpenGL() const
+{
+#ifdef Q_OS_WIN
+	return settings->value("SoftwareOpenGL",true).toBool();
+#else
+	return false;
+#endif
+}
+
+void Preferences::setSoftwareOpenGL(bool value)
+{
+	settings->setValue("SoftwareOpenGL",value);
+}
+
 bool Preferences::getVisibleWhiteSpace() const
 {
 	return settings->value("VisibleWhiteSpace",false).toBool();
