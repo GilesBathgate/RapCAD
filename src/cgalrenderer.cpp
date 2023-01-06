@@ -33,7 +33,8 @@ class PointF : public KernelF::Point_3
 {
 	bool mark;
 public:
-	PointF(GLfloat x,GLfloat y,GLfloat z,bool m) : KernelF::Point_3(x,y,z),mark(m) {}
+	PointF(GLfloat x,GLfloat y,GLfloat z,bool m) :
+		KernelF::Point_3(x,y,z),mark(m) {}
 	bool getMark() const
 	{
 		return mark;
@@ -44,7 +45,8 @@ class SegmentF : public KernelF::Segment_3
 {
 	bool mark;
 public:
-	SegmentF(const PointF& p,const PointF& q,bool m) : KernelF::Segment_3(p,q),mark(m) {}
+	SegmentF(const PointF& p,const PointF& q,bool m) :
+		KernelF::Segment_3(p,q),mark(m) {}
 	bool getMark() const
 	{
 		return mark;
@@ -55,6 +57,7 @@ class FacetF
 {
 	using Coord_vector=QVector<PointF>;
 	using Cycle_vector=QVector<uint>;
+	using Coord_const_iterator=Coord_vector::const_iterator;
 
 	Coord_vector coordinates;
 	Cycle_vector facetCycles;
@@ -62,7 +65,6 @@ class FacetF
 	bool mark;
 
 public:
-	using Coord_const_iterator=Coord_vector::const_iterator;
 
 	FacetF()=default;
 	FacetF(const FacetF&)=default;
@@ -156,19 +158,19 @@ class NefConverter
 		return PointF(CGAL::to_double(p.x()),CGAL::to_double(p.y()),CGAL::to_double(p.z()),m);
 	}
 
-	static void convert(Vertex_const_handle v,const CGAL::NefPolyhedron3&,CGALRenderer& r)
+	void convert(Vertex_const_handle v)
 	{
-		r.appendVertex(to_pointf(v->point(),v->mark()));
+		renderer.appendVertex(to_pointf(v->point(),v->mark()));
 	}
 
-	static void convert(Halfedge_const_handle e,const CGAL::NefPolyhedron3&,CGALRenderer& r)
+	void convert(Halfedge_const_handle e)
 	{
 		const PointF& p=to_pointf(e->source()->point(),false);
 		const PointF& q=to_pointf(e->twin()->source()->point(),false);
-		r.appendEdge(SegmentF(p,q,e->mark()));
+		renderer.appendEdge(SegmentF(p,q,e->mark()));
 	}
 
-	static void convert(Halffacet_const_handle f,const CGAL::NefPolyhedron3&,CGALRenderer& r)
+	void convert(Halffacet_const_handle f)
 	{
 		FacetF g;
 		Halffacet_cycle_const_iterator fc;
@@ -186,23 +188,29 @@ class NefConverter
 		const auto& n=v/r_sqrt(v.squared_length());
 		g.setNormal(CGAL::to_double(n.x()),CGAL::to_double(n.y()),CGAL::to_double(n.z()));
 		g.setMark(f->mark());
-		r.appendFacet(g);
+		renderer.appendFacet(g);
 	}
 
+	CGALRenderer& renderer;
+
 public:
-	static void convert(const CGAL::NefPolyhedron3& n,CGALRenderer& r)
+	NefConverter(CGALRenderer& r) :
+		renderer(r)
+	{}
+
+	void convert(const CGAL::NefPolyhedron3& n)
 	{
 		Vertex_const_iterator v;
 		CGAL_forall_vertices(v,*n.sncp()) {
-			convert(v,n,r);
+			convert(v);
 		}
 		Halfedge_const_iterator e;
 		CGAL_forall_edges(e,*n.sncp()) {
-			convert(e,n,r);
+			convert(e);
 		}
 		Halffacet_const_iterator f;
 		CGAL_forall_facets(f,*n.sncp()) {
-			convert(f,n,r);
+			convert(f);
 		}
 	}
 
@@ -234,7 +242,8 @@ public:
 	}
 };
 
-CGALRenderer::CGALRenderer(Primitive* primitive) :
+CGALRenderer::CGALRenderer(Reporter& r, Primitive* primitive) :
+	reporter(r),
 	simple(new SimpleRenderer(primitive)),
 	displayList(nullptr),
 	vertexSize(0.0F),
@@ -254,7 +263,8 @@ void CGALRenderer::descendChildren(Primitive* p)
 {
 	auto* pr=dynamic_cast<CGALPrimitive*>(p);
 	if(pr) {
-		NefConverter::convert(pr->getNefPolyhedron(),*this);
+		NefConverter c(*this);
+		c.convert(pr->getNefPolyhedron());
 	} else if(p) {
 		for(Primitive* c: p->getChildren())
 			descendChildren(c);
@@ -329,6 +339,7 @@ void CGALRenderer::drawEdges(QOpenGLFunctions_1_0& f,const SegmentF& e) const
 }
 
 struct PolygonData {
+	Reporter& reporter;
 	QOpenGLFunctions_1_0& functions;
 	const FacetF& facet;
 };
@@ -366,10 +377,10 @@ inline void endCallback(GLvoid* data)
 	f.glEnd();
 }
 
-inline void errorCallback(GLenum errorCode)
+inline void errorCallback(GLenum errorCode,GLvoid* data)
 {
-	const GLubyte* estring=gluErrorString(errorCode);
-	std::cerr << "Tessellation Error: " << estring << std::endl;
+	auto& r=static_cast<PolygonData*>(data)->reporter;
+	r.reportTesselationError(QString::fromLocal8Bit(gluErrorString(errorCode)));
 }
 
 void CGALRenderer::drawFacets(QOpenGLFunctions_1_0& f,const FacetF& fc) const
@@ -380,18 +391,17 @@ void CGALRenderer::drawFacets(QOpenGLFunctions_1_0& f,const FacetF& fc) const
 	gluTessCallback(t,GLenum(GLU_TESS_COMBINE),(Callback)&combineCallback);
 	gluTessCallback(t,GLenum(GLU_TESS_BEGIN_DATA),(Callback)&beginCallback);
 	gluTessCallback(t,GLenum(GLU_TESS_END_DATA),(Callback)&endCallback);
-	gluTessCallback(t,GLenum(GLU_TESS_ERROR),(Callback)&errorCallback);
+	gluTessCallback(t,GLenum(GLU_TESS_ERROR_DATA),(Callback)&errorCallback);
 	gluTessProperty(t,GLenum(GLU_TESS_WINDING_RULE),GLU_TESS_WINDING_POSITIVE);
 
-	FacetF::Coord_const_iterator cit;
 	const QColor& c=getFacetColor(fc.getMark());
 	f.glColor3ub(c.red(),c.green(),c.blue());
-	PolygonData data{f,fc};
+	PolygonData data{reporter,f,fc};
 	gluTessBeginPolygon(t,&data);
 	gluTessNormal(t,fc.dx(),fc.dy(),fc.dz());
 	for(uint i=0; i<fc.facetCyclesSize(); ++i) {
 		gluTessBeginContour(t);
-		for(cit=fc.facetCyclesBegin(i); cit!=fc.facetCyclesEnd(i); ++cit) {
+		for(auto cit=fc.facetCyclesBegin(i); cit!=fc.facetCyclesEnd(i); ++cit) {
 			const PointF& p=*cit;
 			GLdouble c[] {p.x(),p.y(),p.z()};
 			gluTessVertex(t,c,(GLvoid*)&p);
@@ -418,21 +428,39 @@ void CGALRenderer::appendFacet(const FacetF& f)
 	facets.append(f);
 }
 
+const QList<PointF>& CGALRenderer::getVertices() const
+{
+	return vertices;
+}
+
+const QList<SegmentF>& CGALRenderer::getEdges() const
+{
+	return edges;
+}
+
+const QList<FacetF>& CGALRenderer::getFacets() const
+{
+	return facets;
+}
+
 void CGALRenderer::fillDisplayLists(QOpenGLFunctions_1_0& f)
 {
 	f.glNewList(displayList->getId(0),GL_COMPILE);
-	for(const auto& v :vertices)
+	for(const auto& v :getVertices()) {
 		drawVertices(f,v);
+	}
 	f.glEndList();
 
 	f.glNewList(displayList->getId(1),GL_COMPILE);
-	for(const auto& e : edges)
+	for(const auto& e : getEdges()) {
 		drawEdges(f,e);
+	}
 	f.glEndList();
 
 	f.glNewList(displayList->getId(2),GL_COMPILE);
-	for(const auto& fc : facets)
+	for(const auto& fc : getFacets()) {
 		drawFacets(f,fc);
+	}
 	f.glEndList();
 }
 

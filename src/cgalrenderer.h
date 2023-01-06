@@ -20,6 +20,7 @@
 #define CGALRENDERER_H
 
 #include "renderer.h"
+#include "reporter.h"
 #include "simplerenderer.h"
 #include <QColor>
 #include <QList>
@@ -31,7 +32,7 @@ class FacetF;
 class CGALRenderer : public Renderer
 {
 public:
-	explicit CGALRenderer(Primitive*);
+	explicit CGALRenderer(Reporter&,Primitive*);
 	~CGALRenderer() override;
 	void paint(QOpenGLFunctions_1_0&,bool,bool) override;
 	void preferencesUpdated() override;
@@ -54,17 +55,21 @@ private:
 	void loadPreferences();
 	static void desaturate(QColor&);
 	void descendChildren(Primitive* pr);
+	const QList<PointF>& getVertices() const;
+	const QList<SegmentF>& getEdges() const;
+	const QList<FacetF>& getFacets() const;
 
+	Reporter& reporter;
+	SimpleRenderer* simple;
+	class DisplayList* displayList;
+	float vertexSize;
+	float edgeSize;
 	QColor markedVertexColor;
 	QColor vertexColor;
 	QColor markedEdgeColor;
 	QColor edgeColor;
 	QColor markedFacetColor;
 	QColor facetColor;
-	SimpleRenderer* simple;
-	class DisplayList* displayList;
-	float vertexSize;
-	float edgeSize;
 	QList<PointF> vertices;
 	QList<SegmentF> edges;
 	QList<FacetF> facets;

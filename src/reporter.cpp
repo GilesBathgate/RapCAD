@@ -85,6 +85,11 @@ void Reporter::reportFileMissingError(const QString& fullpath)
 	messages << tr("Can't open input file '%1'").arg(fullpath) << Qt::endl;
 }
 
+void Reporter::reportTesselationError(const QString& text)
+{
+	messages << tr("Tessellation Error: %1").arg(text) << Qt::endl;
+}
+
 void Reporter::reportWarning(const QString& warning)
 {
 	messages << tr("Warning: %1").arg(warning) << Qt::endl;

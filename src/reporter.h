@@ -37,6 +37,7 @@ public:
 	void reportSyntaxError(const AbstractTokenBuilder&, const QString&);
 	void reportLexicalError(const AbstractTokenBuilder&,const QString&);
 	void reportFileMissingError(const QString&);
+	void reportTesselationError(const QString&);
 	void reportWarning(const QString&);
 	void reportMessage(const QString&);
 	void reportException();

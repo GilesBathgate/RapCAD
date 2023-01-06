@@ -242,7 +242,7 @@ Renderer* Worker::getRenderer()
 #ifdef USE_CGAL
 	try {
 
-		return new CGALRenderer(primitive);
+		return new CGALRenderer(reporter,primitive);
 
 	} catch(const CGAL::Failure_exception& e) {
 		resultFailed(QString::fromStdString(e.what()));
