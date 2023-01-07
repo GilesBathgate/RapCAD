@@ -1,13 +1,12 @@
 <input> ::=
-	<empty>
-	| <bom> <declarations>
+	<bom> <declarations>
 	| <declarations>
 
 <declarations> ::=
-	<use_declaration> <declarations>
+	<empty>
+	| <use_declaration> <declarations>
 	| <import_declaration> <declarations>
 	| <single_declaration_list>
-	| <codedoc> <declarations>
 
 <codedoc> ::=
 	"/**" <codedoc_param> "*/"
@@ -40,6 +39,7 @@
 <single_declaration> ::=
 	<single_statement>
 	| <define_declaration>
+	| <codedoc>
 
 <declaration> ::=
 	<statement>
@@ -108,10 +108,9 @@
 	| <expression> '.' <identifier>
 	| <string>
 	| <number>
-	| <number> <identifier>
-	| '[' <expression> ':' <expression> ']'
-	| '[' <expression> ':' <expression> ':' <expression> ']'
-	| '[' <vector_expression> <optional_commas> ']'
+	| <number> <plus_minus> <expression>
+	| <number> '[' <expression> ']'
+	| <number> '[' <expression> ',' <expression> ']'
 	| '<' <expression> ',' <expression> ',' <expression> ',' <expression> '>'
 	| '|' <expression> '|'
 	| <expression> '^' <expression>
@@ -139,8 +138,15 @@
 	| '!' <expression>
 	| '(' <expression> ')'
 	| <expression> '?' <expression> ':' <expression>
-	| <expression> '[' <expression> ']'
 	| <invocation>
+	| <indexable>
+
+<indexable> ::=
+	'[' <expression> ':' <expression> ']'
+	| '[' <expression> ':' <expression> ':' <expression> ']'
+	| '[' <vector_expression> <optional_commas> ']'
+	| <variable> '[' <expression> ']'
+	| <indexable> '[' <expression> ']'
 
 <invocation> ::=
 	<identifier> "::" <invocation>
@@ -159,6 +165,8 @@
 <parameter> ::=
 	<identifier>
 	| <identifier> '=' <expression>
+	| <identifier> ':' "undef" '=' <expression>
+	| <identifier> ':' "identifier" '=' <expression>
 
 <compound_instance> ::=
 	<compound_statement>
