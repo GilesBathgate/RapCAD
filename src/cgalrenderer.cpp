@@ -312,35 +312,40 @@ void CGALRenderer::desaturate(QColor& c)
 	c=QColor::fromHsv(c.hue(),0,c.value());
 }
 
-void CGALRenderer::drawVertices(QOpenGLFunctions_1_0& f,const PointF& v) const
+void CGALRenderer::drawVertices(QOpenGLFunctions_1_0& f) const
 {
 	float p=getVertexSize();
 	if(p==0) return;
-	const QColor& c=getVertexColor(v.getMark());
-	f.glPointSize(p);
-	f.glColor3ub(c.red(),c.green(),c.blue());
-	f.glBegin(GL_POINTS);
-	f.glVertex3f(v.x(),v.y(),v.z());
-	f.glEnd();
+	for(const auto& v : getVertices()) {
+		const QColor& c=getVertexColor(v.getMark());
+		f.glPointSize(p);
+		f.glColor3ub(c.red(),c.green(),c.blue());
+		f.glBegin(GL_POINTS);
+		f.glVertex3f(v.x(),v.y(),v.z());
+		f.glEnd();
+	}
 }
 
-void CGALRenderer::drawEdges(QOpenGLFunctions_1_0& f,const SegmentF& e) const
+void CGALRenderer::drawEdges(QOpenGLFunctions_1_0& f) const
 {
 	float w=getEdgeSize();
 	if(w==0) return;
-	auto p=e.source(),q=e.target();
-	const QColor& c=getEdgeColor(e.getMark());
-	f.glLineWidth(w);
-	f.glColor3ub(c.red(),c.green(),c.blue());
-	f.glBegin(GL_LINE_STRIP);
-	f.glVertex3f(p.x(),p.y(),p.z());
-	f.glVertex3f(q.x(),q.y(),q.z());
-	f.glEnd();
+	for(const auto& e : getEdges()) {
+		auto p=e.source(),q=e.target();
+		const QColor& c=getEdgeColor(e.getMark());
+		f.glLineWidth(w);
+		f.glColor3ub(c.red(),c.green(),c.blue());
+		f.glBegin(GL_LINE_STRIP);
+		f.glVertex3f(p.x(),p.y(),p.z());
+		f.glVertex3f(q.x(),q.y(),q.z());
+		f.glEnd();
+	}
 }
 
 struct PolygonData {
 	Reporter& reporter;
 	QOpenGLFunctions_1_0& functions;
+	QList<PointF>& extraPoints;
 	const FacetF& facet;
 };
 
@@ -354,15 +359,10 @@ inline void vertexCallback(GLvoid* vertexData,GLvoid* polygonData)
 	f.glVertex3f(v.x(),v.y(),v.z());
 }
 
-inline void combineCallback(GLdouble v[3],GLvoid*[4],GLfloat[4],GLvoid** dataOut)
+inline void combineCallback(GLdouble v[3],GLvoid*[4],GLfloat[4],GLvoid** dataOut,GLvoid* polygonData)
 {
-	static QList<PointF> cache;
-	if(dataOut) {
-		cache.append(PointF(v[0],v[1],v[2],false));
-		*dataOut=&cache.back();
-	} else {
-		cache.clear();
-	}
+	auto& points=static_cast<PolygonData*>(polygonData)->extraPoints;
+	*dataOut=&points.emplaceBack(v[0],v[1],v[2],false);
 }
 
 inline void beginCallback(GLenum which,GLvoid* data)
@@ -383,34 +383,39 @@ inline void errorCallback(GLenum errorCode,GLvoid* data)
 	r.reportTesselationError(QString::fromLocal8Bit(gluErrorString(errorCode)));
 }
 
-void CGALRenderer::drawFacets(QOpenGLFunctions_1_0& f,const FacetF& fc) const
+void CGALRenderer::drawFacets(QOpenGLFunctions_1_0& f) const
 {
 	GLUtesselator* t=gluNewTess();
 	using Callback=void (GLAPIENTRY*)(void);
 	gluTessCallback(t,GLenum(GLU_TESS_VERTEX_DATA),(Callback)&vertexCallback);
-	gluTessCallback(t,GLenum(GLU_TESS_COMBINE),(Callback)&combineCallback);
+	gluTessCallback(t,GLenum(GLU_TESS_COMBINE_DATA),(Callback)&combineCallback);
 	gluTessCallback(t,GLenum(GLU_TESS_BEGIN_DATA),(Callback)&beginCallback);
 	gluTessCallback(t,GLenum(GLU_TESS_END_DATA),(Callback)&endCallback);
 	gluTessCallback(t,GLenum(GLU_TESS_ERROR_DATA),(Callback)&errorCallback);
 	gluTessProperty(t,GLenum(GLU_TESS_WINDING_RULE),GLU_TESS_WINDING_POSITIVE);
 
-	const QColor& c=getFacetColor(fc.getMark());
-	f.glColor3ub(c.red(),c.green(),c.blue());
-	PolygonData data{reporter,f,fc};
-	gluTessBeginPolygon(t,&data);
-	gluTessNormal(t,fc.dx(),fc.dy(),fc.dz());
-	for(uint i=0; i<fc.facetCyclesSize(); ++i) {
-		gluTessBeginContour(t);
-		for(auto cit=fc.facetCyclesBegin(i); cit!=fc.facetCyclesEnd(i); ++cit) {
-			const PointF& p=*cit;
-			GLdouble c[] {p.x(),p.y(),p.z()};
-			gluTessVertex(t,c,(GLvoid*)&p);
+	for(const auto& fc : getFacets()) {
+		const QColor& c=getFacetColor(fc.getMark());
+		f.glColor3ub(c.red(),c.green(),c.blue());
+
+		QList<PointF> extraPoints;
+		PolygonData data{reporter,f,extraPoints,fc};
+		gluTessBeginPolygon(t,&data);
+		gluTessNormal(t,fc.dx(),fc.dy(),fc.dz());
+		for(uint i=0; i<fc.facetCyclesSize(); ++i) {
+			gluTessBeginContour(t);
+			for(auto cit=fc.facetCyclesBegin(i); cit!=fc.facetCyclesEnd(i); ++cit) {
+				const PointF& p=*cit;
+				GLdouble c[] {p.x(),p.y(),p.z()};
+				gluTessVertex(t,c,(GLvoid*)&p);
+			}
+			gluTessEndContour(t);
 		}
-		gluTessEndContour(t);
+		gluTessEndPolygon(t);
 	}
-	gluTessEndPolygon(t);
+
 	gluDeleteTess(t);
-	combineCallback(0,nullptr,0,nullptr);
+
 }
 
 void CGALRenderer::appendVertex(const PointF& p)
@@ -446,21 +451,15 @@ const QList<FacetF>& CGALRenderer::getFacets() const
 void CGALRenderer::fillDisplayLists(QOpenGLFunctions_1_0& f)
 {
 	f.glNewList(displayList->getId(0),GL_COMPILE);
-	for(const auto& v :getVertices()) {
-		drawVertices(f,v);
-	}
+	drawVertices(f);
 	f.glEndList();
 
 	f.glNewList(displayList->getId(1),GL_COMPILE);
-	for(const auto& e : getEdges()) {
-		drawEdges(f,e);
-	}
+	drawEdges(f);
 	f.glEndList();
 
 	f.glNewList(displayList->getId(2),GL_COMPILE);
-	for(const auto& fc : getFacets()) {
-		drawFacets(f,fc);
-	}
+	drawFacets(f);
 	f.glEndList();
 }
 

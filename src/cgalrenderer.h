@@ -40,9 +40,9 @@ public:
 
 private:
 	void fillDisplayLists(QOpenGLFunctions_1_0&);
-	void drawVertices(QOpenGLFunctions_1_0&,const PointF&) const;
-	void drawEdges(QOpenGLFunctions_1_0&,const SegmentF&) const;
-	void drawFacets(QOpenGLFunctions_1_0&,const FacetF&) const;
+	void drawVertices(QOpenGLFunctions_1_0&) const;
+	void drawEdges(QOpenGLFunctions_1_0&) const;
+	void drawFacets(QOpenGLFunctions_1_0&) const;
 	friend class NefConverter;
 	void appendVertex(const PointF&);
 	void appendEdge(const SegmentF&);
