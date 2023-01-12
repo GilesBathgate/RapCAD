@@ -173,9 +173,13 @@ public:
 	bool getSoftwareOpenGL() const;
 	void setSoftwareOpenGL(bool);
 
+	bool getUseCGALAssertions() const;
+	void setUseCGALAssertions(bool);
+
 private:
 	Preferences();
 	~Preferences();
+	void updateAssertions();
 	void updatePrecision();
 
 	QSettings* settings;

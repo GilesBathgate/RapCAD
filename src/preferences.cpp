@@ -21,14 +21,21 @@
 static constexpr double LOG10_2=0.30102999566398119521; /* log10(2) = log base 10 of 2 */
 
 #ifdef USE_CGAL
+#include <CGAL/config.h>
 #include <CGAL/exceptions.h>
 #include <mpfr.h>
+namespace CGAL {
+#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,6,0)
+extern void set_use_assertions(bool);
+#endif
+}
 #endif
 
 Preferences::Preferences() :
 	settings(new QSettings()),
 	precision(0)
 {
+	updateAssertions();
 	updatePrecision();
 }
 
@@ -49,6 +56,27 @@ void Preferences::updatePrecision()
 		//Ignore
 	}
 #endif
+}
+
+void Preferences::updateAssertions()
+{
+#ifdef USE_CGAL
+#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,6,0)
+	bool b=getUseCGALAssertions();
+	CGAL::set_use_assertions(b);
+#endif
+#endif
+}
+
+bool Preferences::getUseCGALAssertions() const
+{
+	return settings->value("UseCGALAssertions",true).toBool();
+}
+
+void Preferences::setUseCGALAssertions(bool b)
+{
+	settings->setValue("UseCGALAssertions",b);
+	updateAssertions();
 }
 
 bool Preferences::getSoftwareOpenGL() const

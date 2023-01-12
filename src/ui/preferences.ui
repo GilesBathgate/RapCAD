@@ -552,6 +552,16 @@
           </layout>
          </item>
          <item>
+          <widget class="QCheckBox" name="useCGALAssertionsCheckBox">
+           <property name="toolTip">
+            <string>disable to improve performance</string>
+           </property>
+           <property name="text">
+            <string>Use CGAL Assertions</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer name="verticalSpacer_4">
            <property name="orientation">
             <enum>Qt::Vertical</enum>

@@ -60,6 +60,7 @@ private slots:
 	void indentRadioChanged(bool);
 	void indentSpacesChanged(int);
 	void threadPoolSizeChanged(int);
+	void useCGALAssertionsChanged(int);
 	void visibleWhiteSpaceChanged(int);
 	void softwareOpenGLChanged(int);
 private:

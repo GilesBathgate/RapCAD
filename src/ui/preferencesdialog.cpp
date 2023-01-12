@@ -137,11 +137,16 @@ void PreferencesDialog::setupWidgets()
 	}
 
 	ui->threadPoolSizeSpinBox->setValue(p.getThreadPoolSize());
+	ui->useCGALAssertionsCheckBox->setChecked(p.getUseCGALAssertions());
 #ifdef USE_CGAL
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(5,4,0)
 	ui->threadPoolSizeSpinBox->setDisabled(true);
 #endif
+#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(5,6,0)
+	ui->useCGALAssertionsCheckBox->setDisabled(true);
 #endif
+#endif
+
 
 	updatePrecision();
 }
@@ -206,6 +211,7 @@ void PreferencesDialog::setupButtons()
 	connect(ui->spacesSpinBox,QOverload<int>::of(&QSpinBox::valueChanged),this,&PreferencesDialog::indentSpacesChanged);
 
 	connect(ui->threadPoolSizeSpinBox,QOverload<int>::of(&QSpinBox::valueChanged),this,&PreferencesDialog::threadPoolSizeChanged);
+	connect(ui->useCGALAssertionsCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::useCGALAssertionsChanged);
 }
 
 void PreferencesDialog::updatePrecision()
@@ -349,6 +355,13 @@ void PreferencesDialog::threadPoolSizeChanged(int value)
 {
 	auto& p=Preferences::getInstance();
 	p.setThreadPoolSize(value);
+}
+
+void PreferencesDialog::useCGALAssertionsChanged(int s)
+{
+	auto& p=Preferences::getInstance();
+	p.setUseCGALAssertions(s == Qt::Checked);
+	emit preferencesUpdated();
 }
 
 void PreferencesDialog::placesChanged(int i)

@@ -23,6 +23,7 @@
 #define CGAL_DO_NOT_USE_MPZF 1
 
 #define CGAL_DEBUG
+#define CGAL_ENABLE_DISABLE_ASSERTIONS_AT_RUNTIME
 #define CGAL_NO_WARNINGS
 #include <CGAL/assertions.h>
 
