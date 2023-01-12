@@ -41,7 +41,11 @@
 #include <CGAL/Subdivision_method_3/subdivision_methods_3.h>
 #endif
 //Mesh simplification
+#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,6,0)
+#include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Edge_count_ratio_stop_predicate.h>
+#else
 #include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Count_ratio_stop_predicate.h>
+#endif
 #include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Edge_length_cost.h>
 #include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Midpoint_placement.h>
 #include <CGAL/Surface_mesh_simplification/edge_collapse.h>
@@ -694,7 +698,11 @@ Primitive* CGALPrimitive::simplify(const CGAL::Scalar& ratio)
 
 	namespace SMS=CGAL::Surface_mesh_simplification;
 	CGAL::Polyhedron3* p=getPolyhedron();
+#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,6,0)
+	SMS::Edge_count_ratio_stop_predicate<CGAL::Polyhedron3> stop(to_double(ratio));
+#else
 	SMS::Count_ratio_stop_predicate<CGAL::Polyhedron3> stop(to_double(ratio));
+#endif
 	SMS::edge_collapse(*p,stop,
 #if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(4,7,0)
 					   CGAL::parameters::vertex_index_map(get(CGAL::vertex_external_index,*p))
