@@ -218,7 +218,7 @@ void GLView::initializeGL()
 
 void GLView::resizeGL(int w,int h)
 {
-	glViewport(0.0F,0.0F,GLint(w),GLint(h));
+	glViewport(0,0,GLint(w),GLint(h));
 
 	glMatrixMode(GL_PROJECTION);
 
