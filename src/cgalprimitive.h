@@ -66,6 +66,7 @@ public:
 	Primitive* intersection(Primitive*) override;
 	Primitive* join(Primitive*) override;
 	Primitive* linear_extrude(const CGAL::Scalar&,const CGAL::Point3&) override;
+	Point locate(const Point&,const Point&) override;
 	Primitive* minkowski(Primitive*) override;
 	Primitive* projection(bool) override;
 	Primitive* rotate_extrude(const CGAL::Scalar&,const CGAL::Scalar&,const CGAL::Scalar&,const Fragment*,const CGAL::Point3&) override;

@@ -242,9 +242,10 @@ public:
 	}
 };
 
-CGALRenderer::CGALRenderer(Reporter& r, Primitive* primitive) :
+CGALRenderer::CGALRenderer(Reporter& r, Primitive* pr) :
 	reporter(r),
-	simple(new SimpleRenderer(primitive)),
+	primitive(pr),
+	simple(new SimpleRenderer(pr)),
 	displayList(nullptr),
 	vertexSize(0.0F),
 	edgeSize(0.0F)
@@ -481,6 +482,12 @@ void CGALRenderer::paint(QOpenGLFunctions_1_0& f,bool skeleton,bool showedges)
 
 	simple->paint(f,skeleton,showedges);
 
+}
+
+void CGALRenderer::locate(const QVector3D& s,const QVector3D& t)
+{
+	Point p=primitive->locate(Point(s.x(),s.y(),s.z()),Point(t.x(),t.y(),t.z()));
+	reporter.reportMessage(to_string(p));
 }
 
 const QColor& CGALRenderer::getVertexColor(bool mark) const

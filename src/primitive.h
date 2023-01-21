@@ -56,6 +56,7 @@ public:
 	virtual Primitive* intersection(Primitive*)=0;
 	virtual Primitive* join(Primitive*)=0;
 	virtual Primitive* linear_extrude(const decimal&,const Point&)=0;
+	virtual Point locate(const Point&,const Point&)=0;
 	virtual Primitive* minkowski(Primitive*)=0;
 	virtual Primitive* projection(bool)=0;
 	virtual	Primitive* rotate_extrude(const decimal&,const decimal&,const decimal&,const Fragment*,const Point&)=0;

@@ -61,10 +61,11 @@ private:
 	void renderY(GLfloat,GLfloat,GLfloat);
 	void renderZ(GLfloat,GLfloat,GLfloat);
 
-	void mousePressEvent(QMouseEvent* event) override;
-	void mouseMoveEvent(QMouseEvent* event) override;
-	void mouseReleaseEvent(QMouseEvent* event) override;
-	void wheelEvent(QWheelEvent* event) override;
+	void mouseDoubleClickEvent(QMouseEvent*) override;
+	void mousePressEvent(QMouseEvent*) override;
+	void mouseMoveEvent(QMouseEvent*) override;
+	void mouseReleaseEvent(QMouseEvent*) override;
+	void wheelEvent(QWheelEvent*) override;
 
 	static void normalizeAngle(GLfloat&);
 	void zoomView(GLfloat);

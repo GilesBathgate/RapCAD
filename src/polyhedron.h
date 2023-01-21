@@ -46,6 +46,7 @@ public:
 	Primitive* intersection(Primitive*) override;
 	Primitive* join(Primitive*) override;
 	Primitive* linear_extrude(const decimal&,const Point&) override { return this; }
+	Point locate(const Point&,const Point& t) override { return t; }
 	Primitive* minkowski(Primitive*) override;
 	Primitive* projection(bool) override { return this; }
 	Primitive* rotate_extrude(const decimal&,const decimal&,const decimal&,const Fragment*,const Point&) override { return this; }

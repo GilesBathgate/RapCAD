@@ -517,6 +517,28 @@ void GLView::wheelEvent(QWheelEvent* event)
 	update();
 }
 
+void GLView::mouseDoubleClickEvent(QMouseEvent* event)
+{
+	if(render) {
+		QPointF mousePos=event->position();
+		int w=width();
+		int h=height();
+		GLfloat x,y,z;
+		x=mousePos.x();
+		y=h-mousePos.y();
+		makeCurrent();
+		glReadPixels(x,y,1,1,GL_DEPTH_COMPONENT,GL_FLOAT,&z);
+		doneCurrent();
+		QRect viewport(0,0,w,h);
+		QVector3D target(x,y,z);
+		target = target.unproject(*modelview,*projection,viewport);
+		QVector3D source(x,y,0);
+		source = source.unproject(*modelview,*projection,viewport);
+
+		render->locate(source,target);
+	}
+}
+
 void GLView::zoomView(GLfloat amt)
 {
 	distance*=powf(0.9F,amt/10.0F);

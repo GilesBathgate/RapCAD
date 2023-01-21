@@ -32,6 +32,10 @@ void SimpleRenderer::paint(QOpenGLFunctions_1_0& f,bool, bool)
 	descendChildren(f,primitive);
 }
 
+void SimpleRenderer::locate(const QVector3D&,const QVector3D&)
+{
+}
+
 void SimpleRenderer::preferencesUpdated()
 {
 

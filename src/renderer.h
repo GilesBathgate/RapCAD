@@ -20,12 +20,14 @@
 #define RENDERER_H
 
 #include <QOpenGLFunctions_1_0>
+#include <QVector3D>
 
 class Renderer
 {
 public:
 	virtual ~Renderer() {}
 	virtual void paint(QOpenGLFunctions_1_0&,bool,bool)=0;
+	virtual void locate(const QVector3D&,const QVector3D&)=0;
 	virtual void preferencesUpdated()=0;
 	virtual void setCompiling(bool)=0;
 };

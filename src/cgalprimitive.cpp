@@ -782,6 +782,32 @@ Primitive* CGALPrimitive::linear_extrude(const CGAL::Scalar& height,const CGAL::
 
 }
 
+struct NefLocator : public CGAL::NefPolyhedron3
+{
+	using CGAL::NefPolyhedron3::pl;
+};
+
+Point CGALPrimitive::locate(const Point& s,const Point& t)
+{
+	using SNC_structure=CGAL::NefPolyhedron3::SNC_structure;
+	using HalfFacetHandle=SNC_structure::Halffacet_handle;
+	using Ray3=CGAL::Kernel3::Ray_3;
+	enum { Vertex=1, Edge=2, Facet=4};
+
+	CGAL::Point3 p;
+	if(nefPolyhedron) {
+		auto& locator=static_cast<NefLocator&>(*nefPolyhedron);
+		Ray3 ray(s,t);
+		auto o=locator.pl()->shoot(ray,Facet);
+		HalfFacetHandle f;
+		if(CGAL::assign(f,o)) {
+			auto i=CGAL::intersection(f->plane(),ray);
+			CGAL::assign(p,i);
+		}
+	}
+	return p;
+}
+
 static CGAL::AffTransformation3 getRotation(const CGAL::Scalar& a,const CGAL::Vector3& axis)
 {
 	CGAL::Scalar u=axis.x();
