@@ -501,7 +501,7 @@ void MainWindow::setupExamples()
 {
 	auto& b=BuiltinCreator::getInstance(*reporter);
 	QHash<QString,Module*> modules=b.getModuleNames();
-	for (Module* m : modules.values()) {
+	for (Module* m : modules) {
 		if(!m->isDeprecated()&&m->hasExample()) {
 			auto* item=new QListWidgetItem(m->getFullName(),ui->examplesList);
 			item->setData(Qt::UserRole,QVariant::fromValue(m));
