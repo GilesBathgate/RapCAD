@@ -69,19 +69,14 @@ QFont QPathTextBuilder::getFont() const
 }
 
 /* Hack: in headless mode we need to initalise QApplication
-before we can use fonts */
-static QMutex mutex;
-static bool headless=true;
-static QApplication* application=nullptr;
-
-static void headlessOverride()
+ * before we can use fonts */
+static QCoreApplication* headlessOverride()
 {
-	QMutexLocker locker(&mutex);
-	if(headless && QFont().family().isEmpty()) {
-		int c=0;
-		application=new QApplication(c,nullptr,false);
-	}
-	headless=false;
+	int c=0;
+	static auto* instance {
+		QApplication::instance() ?: new QApplication(c,nullptr)
+	};
+	return instance;
 }
 
 Primitive* QPathTextBuilder::buildPrimitive() const

@@ -30,11 +30,6 @@
 #define M_TAU		6.28318530717958647692
 #endif
 
-static decimal d360(360.0);
-static decimal d90(90.0);
-static decimal d2(2.0);
-static decimal d0(0.0);
-
 enum {
 	MPFR_EXACT=0
 };
@@ -77,7 +72,7 @@ decimal r_round_preference(const decimal& a,bool round)
 decimal r_tau(bool round)
 {
 #ifdef USE_CGAL
-	return r_pi(round)*d2;
+	return r_pi(round)*decimal(2.0);
 #else
 	return r_round_preference(M_TAU,round);
 #endif
@@ -97,12 +92,12 @@ decimal r_pi(bool round)
 
 decimal r_rad(const decimal& a,bool round)
 {
-	return a*(r_tau(round)/d360);
+	return a*(r_tau(round)/decimal(360.0));
 }
 
 decimal r_deg(const decimal& a,bool round)
 {
-	return a*d360/r_tau(round);
+	return a*decimal(360.0)/r_tau(round);
 }
 
 decimal r_pow(const decimal& a,const decimal& e,bool round)
@@ -220,7 +215,7 @@ decimal r_tan_deg(const decimal& a,bool round)
 
 static bool r_right(const decimal& a)
 {
-	return r_mod(a,d90)==d0;
+	return r_mod(a,decimal(90.0))==decimal(0.0);
 }
 
 decimal r_right_sin(const decimal& a)
@@ -290,7 +285,7 @@ decimal r_mod(const decimal& a,const decimal& b)
 decimal r_abs(const decimal& a)
 {
 #ifdef USE_CGAL
-	return a>=d0?a:-a;
+	return a>=decimal(0.0)?a:-a;
 #else
 	return fabs(a);
 #endif
@@ -534,7 +529,7 @@ decimal r_log10(const decimal& a,bool round)
 
 int r_sign(const decimal& a)
 {
-	return a<d0?-1:a>d0?1:0;
+	return a<decimal(0.0)?-1:a>decimal(0.0)?1:0;
 }
 
 #ifdef USE_CGAL
