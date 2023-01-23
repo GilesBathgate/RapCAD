@@ -76,8 +76,8 @@ private:
 	void drawRulers();
 	void drawCross();
 
-	QMatrix4x4* projection;
-	QMatrix4x4* modelview;
+	QMatrix4x4 projection;
+	QMatrix4x4 modelview;
 	Renderer* render;
 	GLfloat distance;
 	bool showAxes;

@@ -239,22 +239,23 @@ void Worker::updatePrimitive(Primitive* pr)
 
 Renderer* Worker::getRenderer()
 {
+	if(!primitive) return nullptr;
 #ifdef USE_CGAL
 	try {
 
-		return new CGALRenderer(reporter,primitive);
+		return new CGALRenderer(reporter,*primitive);
 
 	} catch(const CGAL::Failure_exception& e) {
 		resultFailed(QString::fromStdString(e.what()));
 		return nullptr;
 	}
 #else
-	return new SimpleRenderer(primitive);
+	return new SimpleRenderer(*primitive);
 #endif
 
 }
 
-NodeVisitor *Worker::getNodeVisitor()
+NodeVisitor* Worker::getNodeVisitor()
 {
 	auto& p=Preferences::getInstance();
 	int threads=p.getThreadPoolSize();

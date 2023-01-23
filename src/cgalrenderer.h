@@ -32,7 +32,7 @@ class FacetF;
 class CGALRenderer : public Renderer
 {
 public:
-	explicit CGALRenderer(Reporter&,Primitive*);
+	explicit CGALRenderer(Reporter&,Primitive&);
 	~CGALRenderer() override;
 	void paint(QOpenGLFunctions_1_0&,bool,bool) override;
 	void locate(const QVector3D&,const QVector3D&) override;
@@ -55,14 +55,14 @@ private:
 	GLfloat getEdgeSize() const;
 	void loadPreferences();
 	static void desaturate(QColor&);
-	void descendChildren(Primitive*);
+	void descendChildren(Primitive&);
 	const QList<PointF>& getVertices() const;
 	const QList<SegmentF>& getEdges() const;
 	const QList<FacetF>& getFacets() const;
 
 	Reporter& reporter;
-	Primitive* primitive;
-	SimpleRenderer* simple;
+	Primitive& primitive;
+	SimpleRenderer simpleRenderer;
 	class DisplayList* displayList;
 	float vertexSize;
 	float edgeSize;

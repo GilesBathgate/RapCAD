@@ -19,7 +19,7 @@
 #include "simplerenderer.h"
 #include "qopengl.h"
 
-SimpleRenderer::SimpleRenderer(Primitive* pr) :
+SimpleRenderer::SimpleRenderer(const Primitive& pr) :
 	primitive(pr)
 {
 }
@@ -46,10 +46,10 @@ void SimpleRenderer::setCompiling(bool)
 
 }
 
-void SimpleRenderer::descendChildren(QOpenGLFunctions_1_0& f, Primitive* p)
+void SimpleRenderer::descendChildren(QOpenGLFunctions_1_0& f,const Primitive& p)
 {
-	for(Primitive* c: p->getChildren()) {
-		descendChildren(f,c);
+	for(Primitive* c: p.getChildren()) {
+		descendChildren(f,*c);
 
 		if(c->getType()!=PrimitiveTypes::Lines) {
 			f.glEnable(GL_BLEND);

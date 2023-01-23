@@ -242,10 +242,10 @@ public:
 	}
 };
 
-CGALRenderer::CGALRenderer(Reporter& r, Primitive* pr) :
+CGALRenderer::CGALRenderer(Reporter& r,Primitive& pr) :
 	reporter(r),
 	primitive(pr),
-	simple(new SimpleRenderer(pr)),
+	simpleRenderer(pr),
 	displayList(nullptr),
 	vertexSize(0.0F),
 	edgeSize(0.0F)
@@ -256,19 +256,18 @@ CGALRenderer::CGALRenderer(Reporter& r, Primitive* pr) :
 
 CGALRenderer::~CGALRenderer()
 {
-	delete simple;
 	delete displayList;
 }
 
-void CGALRenderer::descendChildren(Primitive* p)
+void CGALRenderer::descendChildren(Primitive& p)
 {
-	auto* pr=dynamic_cast<CGALPrimitive*>(p);
+	auto* pr=dynamic_cast<CGALPrimitive*>(&p);
 	if(pr) {
 		NefConverter c(*this);
 		c.convert(pr->getNefPolyhedron());
-	} else if(p) {
-		for(Primitive* c: p->getChildren())
-			descendChildren(c);
+	} else {
+		for(Primitive* c: p.getChildren())
+			descendChildren(*c);
 	}
 }
 
@@ -480,13 +479,13 @@ void CGALRenderer::paint(QOpenGLFunctions_1_0& f,bool skeleton,bool showedges)
 		f.glEnable(GL_LIGHTING);
 	}
 
-	simple->paint(f,skeleton,showedges);
+	simpleRenderer.paint(f,skeleton,showedges);
 
 }
 
 void CGALRenderer::locate(const QVector3D& s,const QVector3D& t)
 {
-	Point p=primitive->locate(Point(s.x(),s.y(),s.z()),Point(t.x(),t.y(),t.z()));
+	Point p=primitive.locate(Point(s.x(),s.y(),s.z()),Point(t.x(),t.y(),t.z()));
 	reporter.reportMessage(to_string(p));
 }
 

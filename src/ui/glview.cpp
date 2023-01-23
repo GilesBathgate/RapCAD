@@ -26,8 +26,6 @@ static const int rulerLength=200;
 
 GLView::GLView(QWidget* parent) :
 	QOpenGLWidget(parent),
-	projection(new QMatrix4x4()),
-	modelview(new QMatrix4x4()),
 	render(nullptr),
 	distance(500.0F),
 	showAxes(true),
@@ -55,8 +53,6 @@ GLView::GLView(QWidget* parent) :
 
 GLView::~GLView()
 {
-	delete projection;
-	delete modelview;
 	delete render;
 }
 
@@ -222,9 +218,9 @@ void GLView::resizeGL(int w,int h)
 
 	glMatrixMode(GL_PROJECTION);
 
-	projection->setToIdentity();
-	projection->perspective(45.0F,GLfloat(w)/GLfloat(h),+10.0F,+farfarAway);
-	glLoadMatrixf(projection->data());
+	projection.setToIdentity();
+	projection.perspective(45.0F,GLfloat(w)/GLfloat(h),+10.0F,+farfarAway);
+	glLoadMatrixf(projection.data());
 
 }
 
@@ -442,17 +438,17 @@ void GLView::paintGL()
 
 	glMatrixMode(GL_MODELVIEW);
 
-	modelview->setToIdentity();
+	modelview.setToIdentity();
 	QVector3D eye(-viewportX,-distance,-viewportZ);
 	QVector3D center(-viewportX,0.0F,-viewportZ);
 	QVector3D up(0.0F,0.0F,1.0F);
-	modelview->lookAt(eye,center,up);
+	modelview.lookAt(eye,center,up);
 
-	modelview->rotate(rotateX,1.0F,0.0F,0.0F);
-	modelview->rotate(rotateY,0.0F,1.0F,0.0F);
-	modelview->rotate(rotateZ,0.0F,0.0F,1.0F);
+	modelview.rotate(rotateX,1.0F,0.0F,0.0F);
+	modelview.rotate(rotateY,0.0F,1.0F,0.0F);
+	modelview.rotate(rotateZ,0.0F,0.0F,1.0F);
 
-	glLoadMatrixf(modelview->data());
+	glLoadMatrixf(modelview.data());
 
 	if(showAxes) drawAxes();
 	if(showBase) drawBase();
@@ -531,9 +527,9 @@ void GLView::mouseDoubleClickEvent(QMouseEvent* event)
 		doneCurrent();
 		QRect viewport(0,0,w,h);
 		QVector3D target(x,y,z);
-		target = target.unproject(*modelview,*projection,viewport);
+		target = target.unproject(modelview,projection,viewport);
 		QVector3D source(x,y,0);
-		source = source.unproject(*modelview,*projection,viewport);
+		source = source.unproject(modelview,projection,viewport);
 
 		render->locate(source,target);
 	}
