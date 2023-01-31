@@ -32,14 +32,6 @@
 #include <QCommandLineOption>
 #include <QCommandLineParser>
 
-#ifdef USE_CGAL
-namespace CGAL {
-typedef void (*Failure_function)(const char*, const char*, const char*, int, const char*);
-extern Failure_function set_error_handler( Failure_function handler);
-}
-static void rapcadErrorHandler(const char*,const char*,const char*,int,const char*){}
-#endif
-
 Application::Application() :
 	output(stdout),
 	messages(stderr),
@@ -52,7 +44,7 @@ Application::Application() :
 	QCoreApplication::setApplicationName("RapCAD");
 	QCoreApplication::setApplicationVersion(STRINGIFY(RAPCAD_VERSION));
 #ifdef USE_CGAL
-	CGAL::set_error_handler(rapcadErrorHandler);
+	CGAL::set_error_handler([](auto...){});
 #endif
 	//Ensure preferences have been initialised early.
 	auto& p=Preferences::getInstance();
