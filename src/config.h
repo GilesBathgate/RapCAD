@@ -28,8 +28,10 @@
 #define CGAL_NO_WARNINGS
 #include <CGAL/assertions.h>
 
+#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,9,0)
 #define CGAL_NDEBUG
 #include <CGAL/FPU.h>
+#endif
 
 #define CGAL_DISABLE_ROUNDING_MATH_CHECK
 #include <CGAL/Interval_nt.h>
