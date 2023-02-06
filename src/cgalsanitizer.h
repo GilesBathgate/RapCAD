@@ -28,19 +28,19 @@ using Polyhedron3 = Polyhedron_3<Kernel3> ;
 using VertexHandle = CGAL::Polyhedron3::Vertex_handle;
 using HalfedgeHandle = CGAL::Polyhedron3::Halfedge_handle;
 using HalfedgeConstHandle = CGAL::Polyhedron3::Halfedge_const_handle;
+using FacetIterator = CGAL::Polyhedron3::Facet_iterator;
 }
 
 class CGALSanitizer
 {
 public:
-	CGALSanitizer(CGAL::Polyhedron3& p);
-	void sanitize();
+	CGALSanitizer(CGAL::Polyhedron3&);
+	bool sanitize();
 private:
 	void fixZeroTriangles();
 	void fixZeroEdges();
-	static CGAL::Scalar getLength(const CGAL::HalfedgeConstHandle&);
-	static bool hasLength(const CGAL::HalfedgeConstHandle& h);
-	void removeLongestEdge(const CGAL::HalfedgeHandle& h1, const CGAL::HalfedgeHandle& h2, const CGAL::HalfedgeHandle& h3);
+	bool allFacetsSimple();
+	void removeLongestEdge(const CGAL::HalfedgeHandle&,const CGAL::HalfedgeHandle&,const CGAL::HalfedgeHandle&);
 	void removeShortEdge(const CGAL::HalfedgeHandle&);
 	bool removeShortEdges();
 

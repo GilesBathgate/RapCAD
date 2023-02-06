@@ -110,6 +110,7 @@ private:
 	void buildPrimitive();
 	void convertBoundary();
 	CGAL::NefPolyhedron3* createVolume();
+	CGAL::NefPolyhedron3* createFromFacets();
 	CGAL::NefPolyhedron3* createPolyline();
 	static CGAL::NefPolyhedron3* createPolyline(CGALPolygon*);
 	static CGAL::NefPolyhedron3* createPolyline(const CGAL::Segment3&);

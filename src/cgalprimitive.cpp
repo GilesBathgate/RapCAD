@@ -157,14 +157,32 @@ CGAL::NefPolyhedron3* CGALPrimitive::createVolume()
 
 	if(!sanitized) {
 		CGALSanitizer s(poly);
-		s.sanitize();
+		setSanitized(s.sanitize());
+		if(!sanitized)
+			return createFromFacets();
 	}
-	setSanitized(true);
 
 	if(poly.empty())
 		return new CGAL::NefPolyhedron3();
 
 	return new CGAL::NefPolyhedron3(poly);
+}
+
+CGAL::NefPolyhedron3* CGALPrimitive::createFromFacets()
+{
+	CGAL::Nef_nary_union_3<CGAL::NefPolyhedron3> nary;
+	for(const auto& facet: polygons) {
+		const auto& points=facet->getPoints();
+		if(points.empty()) continue;
+		CGAL::NefPolyhedron3 n(points.begin(),points.end());
+		if(n.is_empty()) continue;
+		nary.add_polyhedron(n);
+	}
+	auto result=nary.get_union();
+	CGAL::Mark_bounded_volumes<CGAL::NefPolyhedron3> mbv(true);
+	result.delegate(mbv);
+	setSanitized(true);
+	return new CGAL::NefPolyhedron3(result);
 }
 
 static bool connected(const CGAL::Segment3& a,const CGAL::Segment3& b)
@@ -334,7 +352,7 @@ int CGALPrimitive::findIndex(const CGAL::Point3& p)
 	return i;
 }
 
-void CGALPrimitive::appendVertex(const CGAL::Point3 & p)
+void CGALPrimitive::appendVertex(const CGAL::Point3& p)
 {
 	if(!polygons.empty())
 		appendVertex(polygons.last(),p,true);
@@ -474,7 +492,7 @@ CGAL::Cuboid3 CGALPrimitive::getBounds()
 	return CGAL::bounding_box(pts.begin(),pts.end());
 }
 
-void CGALPrimitive::groupLater(Primitive *pr)
+void CGALPrimitive::groupLater(Primitive* pr)
 {
 	for(const auto& l: {joinable,groupable}) {
 		for(const auto& o: l) {

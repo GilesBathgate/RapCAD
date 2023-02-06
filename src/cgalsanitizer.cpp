@@ -23,10 +23,11 @@ CGALSanitizer::CGALSanitizer(CGAL::Polyhedron3& p) :
 	polyhedron(p)
 {}
 
-void CGALSanitizer::sanitize()
+bool CGALSanitizer::sanitize()
 {
 	fixZeroEdges();
 	fixZeroTriangles();
+	return allFacetsSimple();
 }
 
 void CGALSanitizer::fixZeroEdges()
@@ -34,10 +35,62 @@ void CGALSanitizer::fixZeroEdges()
 	while(removeShortEdges());
 }
 
+static bool connected(const CGAL::HalfedgeHandle& h1,const CGAL::HalfedgeHandle& h2)
+{
+	return(h1==h2||h1->next()==h2||h2->next()==h1||h1->prev()==h2||h2->prev()==h1);
+}
+
+static bool do_intersect(const CGAL::HalfedgeHandle& h1, const CGAL::HalfedgeHandle& h2)
+{
+	using Segment3 = CGAL::Segment_3<CGAL::Kernel3>;
+	Segment3 s1(h1->vertex()->point(),h1->opposite()->vertex()->point());
+	Segment3 s2(h2->vertex()->point(),h2->opposite()->vertex()->point());
+	return CGAL::do_intersect(s1,s2);
+}
+
+static bool facetIntersecting(const CGAL::FacetIterator& f)
+{
+	auto b=f->facet_begin(),e(b),o(b);
+	CGAL_For_all(b,e) {
+		CGAL_For_all(o,e) {
+			if(connected(b,o)) continue;
+			if(do_intersect(b,o))
+				return true;
+		}
+	}
+	return false;
+}
+
+static bool facetNoncoplanar(const CGAL::FacetIterator& f)
+{
+	auto b=f->facet_begin(),e(b);
+	CGAL::Point3 p[4];
+	for(auto i=0; i<3; ++i,++b)
+		p[i]=b->vertex()->point();
+	CGAL_For_all(b,e) {
+		p[3]=b->vertex()->point();
+		if(!CGAL::coplanar(p[0],p[1],p[2],p[3]))
+			return true;
+	}
+
+	return false;
+}
+
+bool CGALSanitizer::allFacetsSimple()
+{
+	for(auto f=polyhedron.facets_begin(); f!=polyhedron.facets_end(); ++f) {
+		if(f->facet_degree()<=3) continue;
+		if(facetIntersecting(f))
+			return false;
+		if(facetNoncoplanar(f))
+			return false;
+	}
+	return true;
+}
+
 void CGALSanitizer::fixZeroTriangles()
 {
-	using FacetIterator = CGAL::Polyhedron3::Facet_iterator;
-	for(FacetIterator f=polyhedron.facets_begin(); f!=polyhedron.facets_end(); ++f) {
+	for(auto f=polyhedron.facets_begin(); f!=polyhedron.facets_end(); ++f) {
 		if(f->facet_degree()>3) continue;
 		CGAL::HalfedgeHandle h1=f->halfedge();
 		CGAL::HalfedgeHandle h2=h1->next();
@@ -51,7 +104,17 @@ void CGALSanitizer::fixZeroTriangles()
 	}
 }
 
-void CGALSanitizer::removeLongestEdge(const CGAL::HalfedgeHandle& h1, const CGAL::HalfedgeHandle& h2, const CGAL::HalfedgeHandle& h3)
+static CGAL::Scalar getLength(const CGAL::HalfedgeConstHandle& h)
+{
+	return CGAL::squared_distance(h->vertex()->point(),h->opposite()->vertex()->point());
+}
+
+static bool hasLength(const CGAL::HalfedgeConstHandle& h)
+{
+	return getLength(h)!=0.0;
+}
+
+void CGALSanitizer::removeLongestEdge(const CGAL::HalfedgeHandle& h1,const CGAL::HalfedgeHandle& h2,const CGAL::HalfedgeHandle& h3)
 {
 	CGAL::Scalar l1=getLength(h1);
 	CGAL::Scalar l2=getLength(h2);
@@ -63,16 +126,6 @@ void CGALSanitizer::removeLongestEdge(const CGAL::HalfedgeHandle& h1, const CGAL
 		polyhedron.join_facet(h2);
 	if(l3>l1&&l3>l2)
 		polyhedron.join_facet(h3);
-}
-
-CGAL::Scalar CGALSanitizer::getLength(const CGAL::HalfedgeConstHandle& h)
-{
-	return CGAL::squared_distance(h->vertex()->point(),h->opposite()->vertex()->point());
-}
-
-bool CGALSanitizer::hasLength(const CGAL::HalfedgeConstHandle& h)
-{
-	return getLength(h)!=0.0;
 }
 
 void CGALSanitizer::removeShortEdge(const CGAL::HalfedgeHandle& h1)
@@ -99,8 +152,7 @@ void CGALSanitizer::removeShortEdge(const CGAL::HalfedgeHandle& h1)
 
 bool CGALSanitizer::removeShortEdges()
 {
-	using HalfedgeIterator = CGAL::Polyhedron3::Halfedge_iterator;
-	for(HalfedgeIterator h=polyhedron.halfedges_begin(); h!=polyhedron.halfedges_end(); ++h) {
+	for(auto h=polyhedron.halfedges_begin(); h!=polyhedron.halfedges_end(); ++h) {
 		if(!hasLength(h)) {
 			removeShortEdge(h);
 			return true;
