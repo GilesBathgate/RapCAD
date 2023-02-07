@@ -120,7 +120,12 @@ void CGALSanitizer::fixZeroTriangles()
 		const CGAL::Point3& p2=h2->vertex()->point();
 		const CGAL::Point3& p3=h3->vertex()->point();
 		if(CGAL::collinear(p1,p2,p3)) {
-			removeLongestEdge(h1,h2,h3);
+			if(h1->is_border_edge()&&h2->is_border_edge()&&h3->is_border_edge()) {
+				// facet is isolated just erase it
+				polyhedron.erase_facet(h1);
+			} else {
+				removeLongestEdge(h1,h2,h3);
+			}
 		}
 	}
 }
