@@ -18,6 +18,7 @@
 #ifdef USE_CGAL
 #include "cgalsanitizer.h"
 
+#include <QtGlobal>
 
 CGALSanitizer::CGALSanitizer(CGAL::Polyhedron3& p) :
 	polyhedron(p)
@@ -27,12 +28,32 @@ bool CGALSanitizer::sanitize()
 {
 	fixZeroEdges();
 	fixZeroTriangles();
-	return allFacetsSimple();
+	return allEdgesSimple() && allFacetsSimple();
 }
 
 void CGALSanitizer::fixZeroEdges()
 {
 	while(removeShortEdges());
+}
+
+bool CGALSanitizer::allEdgesSimple()
+{
+	// Circulate around each of the vertices edges.
+	// If a vertex has more than 2 edges then it is a facet fan,
+	// which must have at most 2 border edges on the shared vertex
+	for(auto v=polyhedron.vertices_begin(); v!=polyhedron.vertices_end(); ++v) {
+		if(v->vertex_degree()<=2) continue;
+		uint borderEdges=0;
+		auto b=v->vertex_begin(),e(b);
+		CGAL_For_all(e,b) {
+			if(e->is_border_edge())
+				++borderEdges;
+		}
+		if(borderEdges>2)
+			return false;
+	}
+
+	return true;
 }
 
 static bool connected(const CGAL::HalfedgeHandle& h1,const CGAL::HalfedgeHandle& h2)

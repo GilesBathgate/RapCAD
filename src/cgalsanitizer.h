@@ -39,6 +39,7 @@ public:
 private:
 	void fixZeroTriangles();
 	void fixZeroEdges();
+	bool allEdgesSimple();
 	bool allFacetsSimple();
 	void removeLongestEdge(const CGAL::HalfedgeHandle&,const CGAL::HalfedgeHandle&,const CGAL::HalfedgeHandle&);
 	void removeShortEdge(const CGAL::HalfedgeHandle&);
