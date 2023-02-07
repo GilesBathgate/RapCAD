@@ -154,6 +154,8 @@ CGAL::NefPolyhedron3* CGALPrimitive::createVolume()
 	CGALBuilder b(*this);
 	CGAL::Polyhedron3 poly;
 	poly.delegate(b);
+	if(!b.getComplete())
+		return createFromFacets();
 
 	if(!sanitized) {
 		CGALSanitizer s(poly);

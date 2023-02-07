@@ -36,8 +36,15 @@ namespace CGAL
 using Polygon2 = Polygon_2<Kernel3>;
 }
 
-CGALBuilder::CGALBuilder(CGALPrimitive& p) : primitive(p)
+CGALBuilder::CGALBuilder(CGALPrimitive& p) :
+	primitive(p),
+	complete(false)
 {
+}
+
+bool CGALBuilder::getComplete() const
+{
+	return complete;
 }
 
 void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
@@ -57,8 +64,11 @@ void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
 			auto indexes=pg->getIndexes();
 			const auto& begin=indexes.begin();
 			const auto& end=std::unique(begin,indexes.end());
-			if(builder.test_facet(begin,end))
-				builder.add_facet(begin,end);
+			if(!builder.test_facet(begin,end)) {
+				builder.rollback();
+				return;
+			}
+			builder.add_facet(begin,end);
 		} else {
 			const auto& indexes=pg->getIndexes();
 			builder.add_facet(indexes.begin(),indexes.end());
@@ -70,6 +80,8 @@ void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
 	if(!sanitized) {
 		builder.remove_unconnected_vertices();
 	}
+
+	complete=true;
 }
 
 struct FaceInfo {
