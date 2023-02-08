@@ -87,12 +87,14 @@ Primitive* CGALImport::importNEF() const
 	file.close();
 
 	auto* p=new CGALPrimitive(nef);
+	// Nef does not need to be sanitized
 	return p;
 }
 
 Primitive* CGALImport::importOBJ() const
 {
 	auto* cp=new CGALPrimitive();
+	cp->setSanitized(false);
 	std::vector<CGAL::Point3> points;
 	std::vector<std::vector<std::size_t> > faces;
 	std::ifstream file(fileInfo.absoluteFilePath().toStdString());
@@ -116,6 +118,7 @@ Primitive* CGALImport::importSTL() const
 {
 #if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,3,0)
 	auto* cp=new CGALPrimitive();
+	cp->setSanitized(false);
 	std::vector<CGAL::Point3> points;
 	std::vector<std::vector<std::size_t> > faces;
 	std::ifstream file(fileInfo.absoluteFilePath().toStdString());
