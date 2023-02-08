@@ -27,6 +27,7 @@
 #endif
 #include "comparer.h"
 #include "geometryevaluator.h"
+#include "module/cubemodule.h"
 #include "nodeevaluator.h"
 #include "nodeprinter.h"
 #include "preferences.h"
@@ -209,17 +210,25 @@ int Tester::evaluate()
 	GeometryEvaluator ge(*nullreport);
 	const QList<Declaration*> builtins=BuiltinCreator::getInstance(*nullreport).getBuiltins();
 	int modulecount=0;
-	for(auto& b: builtins) {
-		auto* m=dynamic_cast<Module*>(b);
-		if(m) {
-			Context ctx;
-			Node* node=m->evaluate(ctx);
-			if(node) {
-				writeHeader(QString("%1_multithread_%2").arg(++modulecount,3,10,QChar('0')).arg(m->getFullName()),++testcount);
-				node->accept(ge);
-				(void)ge.getResult();
-				writePass();
-				passcount++;
+	for(int testphase=0; testphase<2; ++testphase) {
+		for(auto& b: builtins) {
+			auto* m=dynamic_cast<Module*>(b);
+			if(m) {
+				Context ctx;
+				if(testphase) {
+					CubeModule cube(*nullreport);
+					Node* cubeNode = cube.evaluate(ctx);
+					QList<Node*> inputNodes { cubeNode };
+					ctx.setInputNodes(inputNodes);
+				}
+				Node* node=m->evaluate(ctx);
+				if(node) {
+					writeHeader(QString("%1_multithread_%2").arg(++modulecount,3,10,QChar('0')).arg(m->getFullName()),++testcount);
+					node->accept(ge);
+					QScopedPointer<Primitive>(ge.getResult());
+					writePass();
+					passcount++;
+				}
 			}
 		}
 	}
