@@ -436,6 +436,12 @@ void NodePrinter::visit(const SimplifyNode& n)
 	printChildren(n);
 }
 
+void NodePrinter::visit(const SolidNode& n)
+{
+	result << "solid()";
+	printChildren(n);
+}
+
 void NodePrinter::visit(const ChildrenNode& n)
 {
 	result << "children";

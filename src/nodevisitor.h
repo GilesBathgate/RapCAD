@@ -44,6 +44,7 @@ public:
 	virtual void visit(const class AlignNode&)=0;
 	virtual void visit(const class PointsNode&)=0;
 	virtual void visit(const class SliceNode&)=0;
+	virtual void visit(const class SolidNode&)=0;
 	virtual void visit(const class ProductNode&)=0;
 	virtual void visit(const class ProjectionNode&)=0;
 	virtual void visit(const class DecomposeNode&)=0;

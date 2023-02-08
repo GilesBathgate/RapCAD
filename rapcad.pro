@@ -166,7 +166,9 @@ SOURCES += \
 	src/module/cuboidmodule.cpp \
 	src/module/datummodule.cpp \
 	src/module/regularpolygonmodule.cpp \
+	src/module/solidmodule.cpp \
 	src/namedvalue.cpp \
+	src/node/solidnode.cpp \
 	src/tokenreader.cpp \
 	src/ui/mainwindow.cpp \
 	src/module.cpp \
@@ -429,7 +431,9 @@ HEADERS  += \
 	src/module/cuboidmodule.h \
 	src/module/datummodule.h \
 	src/module/regularpolygonmodule.h \
+	src/module/solidmodule.h \
 	src/namedvalue.h \
+	src/node/solidnode.h \
 	src/operators.h \
 	src/tokenreader.h \
 	src/ui/mainwindow.h \

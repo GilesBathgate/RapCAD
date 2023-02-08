@@ -275,6 +275,14 @@ void GeometryEvaluator::visit(const SimplifyNode& n)
 	});
 }
 
+void GeometryEvaluator::visit(const SolidNode& n)
+{
+	result=QtConcurrent::run([&n,this](){
+		Primitive* p=unionChildren(n);
+		return p?p->solidify():noResult();
+	});
+}
+
 void GeometryEvaluator::visit(const ChildrenNode& n)
 {
 	result=QtConcurrent::run([&n,this](){

@@ -54,6 +54,7 @@ public:
 	Primitive* slice(const decimal&,const decimal&) override { return this; }
 	Primitive* subdivide(int) override { return this; }
 	Primitive* symmetric_difference(Primitive*) override;
+	Primitive* solidify() override { return this; }
 	Primitive* triangulate() override { return this; }
 	PrimitiveTypes getType() override;
 	const QList<Point> getPoints() const override;

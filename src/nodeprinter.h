@@ -46,6 +46,7 @@
 #include "node/rotateextrudenode.h"
 #include "node/simplifynode.h"
 #include "node/slicenode.h"
+#include "node/solidnode.h"
 #include "node/subdivisionnode.h"
 #include "node/symmetricdifferencenode.h"
 #include "node/transformationnode.h"
@@ -97,6 +98,7 @@ public:
 	void visit(const DiscreteNode&) override;
 	void visit(const NormalsNode&) override;
 	void visit(const SimplifyNode&) override;
+	void visit(const SolidNode&) override;
 	void visit(const ChildrenNode&) override;
 	Primitive* getResult() const override { return nullptr; }
 private:

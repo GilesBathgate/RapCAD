@@ -114,6 +114,7 @@
 #include "module/shearmodule.h"
 #include "module/simplifymodule.h"
 #include "module/slicemodule.h"
+#include "module/solidmodule.h"
 #include "module/spheremodule.h"
 #include "module/squaremodule.h"
 #include "module/subdivisionmodule.h"
@@ -231,6 +232,7 @@ BuiltinCreator::BuiltinCreator(Reporter& r)
 	builtins.append(new ShearModule(r));
 	builtins.append(new SimplifyModule(r));
 	builtins.append(new SliceModule(r));
+	builtins.append(new SolidModule(r));
 	builtins.append(new SphereModule(r));
 	builtins.append(new SquareModule(r));
 	builtins.append(new SubDivisionModule(r));

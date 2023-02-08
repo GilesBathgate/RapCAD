@@ -64,6 +64,7 @@ public:
 	virtual Primitive* slice(const decimal&,const decimal&)=0;
 	virtual Primitive* subdivide(int)=0;
 	virtual Primitive* symmetric_difference(Primitive*)=0;
+	virtual Primitive* solidify()=0;
 	virtual Primitive* triangulate()=0;
 	virtual PrimitiveTypes getType()=0;
 	virtual const QList<Point> getPoints() const=0;

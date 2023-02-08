@@ -187,6 +187,14 @@ CGAL::NefPolyhedron3* CGALPrimitive::createFromFacets()
 	return new CGAL::NefPolyhedron3(result);
 }
 
+Primitive* CGALPrimitive::solidify()
+{
+	buildPrimitive();
+	CGAL::Mark_bounded_volumes<CGAL::NefPolyhedron3> mbv(true);
+	nefPolyhedron->delegate(mbv);
+	return this;
+}
+
 static bool connected(const CGAL::Segment3& a,const CGAL::Segment3& b)
 {
 	return (a.source()==b.source()||a.source()==b.target()||a.target()==b.source()||a.target()==b.target());

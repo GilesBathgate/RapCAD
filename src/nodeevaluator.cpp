@@ -264,6 +264,13 @@ void NodeEvaluator::visit(const SimplifyNode& n)
 	result=result->simplify(n.getRatio());
 }
 
+void NodeEvaluator::visit(const SolidNode& n)
+{
+	if(!evaluate(n,Operations::Union)) return;
+
+	result=result->solidify();
+}
+
 static void appendChildren(Primitive* p,const QList<Node*> children)
 {
 	for(auto* child: children) {
