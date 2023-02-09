@@ -61,7 +61,7 @@ static bool connected(const CGAL::HalfedgeHandle& h1,const CGAL::HalfedgeHandle&
 	return(h1==h2||h1->next()==h2||h2->next()==h1||h1->prev()==h2||h2->prev()==h1);
 }
 
-static bool do_intersect(const CGAL::HalfedgeHandle& h1, const CGAL::HalfedgeHandle& h2)
+static bool do_intersect(const CGAL::HalfedgeHandle& h1,const CGAL::HalfedgeHandle& h2)
 {
 	using Segment3 = CGAL::Segment_3<CGAL::Kernel3>;
 	Segment3 s1(h1->vertex()->point(),h1->opposite()->vertex()->point());

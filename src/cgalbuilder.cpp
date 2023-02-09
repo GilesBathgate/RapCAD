@@ -49,38 +49,42 @@ bool CGALBuilder::getComplete() const
 
 void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
 {
+	CGAL::Polyhedron_incremental_builder_3<CGAL::HalfedgeDS> builder(hds,false);
 	const QList<CGAL::Point3> points=primitive.getPoints();
 	const QList<CGALPolygon*> polygons=primitive.getCGALPolygons();
 
-	CGAL::Polyhedron_incremental_builder_3<CGAL::HalfedgeDS> builder(hds,true);
-	builder.begin_surface(points.size(), polygons.size());
+	builder.begin_surface(points.size(),polygons.size());
 
 	for(const auto& p: points)
 		builder.add_vertex(p);
 
 	bool sanitized=primitive.getSanitized();
-	for(CGALPolygon* pg: polygons) {
-		if(!sanitized) {
-			auto indexes=pg->getIndexes();
-			const auto& begin=indexes.begin();
-			const auto& end=std::unique(begin,indexes.end());
-			if(!builder.test_facet(begin,end)) {
-				builder.rollback();
-				return;
-			}
-			builder.add_facet(begin,end);
-		} else {
-			const auto& indexes=pg->getIndexes();
-			builder.add_facet(indexes.begin(),indexes.end());
+	if(sanitized) {
+		//Simple case polyhedron is well formed
+		for(CGALPolygon* pg: polygons) {
+				const auto& indexes=pg->getIndexes();
+				builder.add_facet(indexes.begin(),indexes.end());
 		}
+
+		builder.end_surface();
+		complete=true;
+		return;
+	}
+
+
+	for(CGALPolygon* pg: polygons) {
+		auto indexes=pg->getIndexes();
+		const auto& begin=indexes.begin();
+		const auto& end=std::unique(begin,indexes.end());
+		if(!builder.test_facet(begin,end)) {
+			builder.rollback();
+			return;
+		}
+		builder.add_facet(begin,end);
 	}
 
 	builder.end_surface();
-
-	if(!sanitized) {
-		builder.remove_unconnected_vertices();
-	}
-
+	builder.remove_unconnected_vertices();
 	complete=true;
 }
 
