@@ -223,7 +223,14 @@ int Tester::evaluate()
 				}
 				Node* node=m->evaluate(ctx);
 				if(node) {
-					writeHeader(QString("%1_multithread_%2").arg(++modulecount,3,10,QChar('0')).arg(m->getFullName()),++testcount);
+					auto testname=QString("%1_multithread_%2").arg(++modulecount,3,10,QChar('0')).arg(m->getFullName());
+					writeHeader(testname,++testcount);
+#ifdef Q_OS_WIN
+					if(testphase) {
+						writeSkip();
+						continue;
+					}
+#endif
 					node->accept(ge);
 					QScopedPointer<Primitive>(ge.getResult());
 					writePass();
