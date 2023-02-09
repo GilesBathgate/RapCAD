@@ -173,9 +173,7 @@ int Tester::evaluate()
 		QDir dir(entry.absoluteFilePath());
 		QString testDirName=entry.fileName();
 		if(testDirName=="061_export") {
-#ifndef Q_OS_WIN
 			exportTest(dir);
-#endif
 			continue;
 		}
 
@@ -380,9 +378,14 @@ void Tester::handleSaveItemsDialog()
 
 void Tester::exportTest(const QDir& dir)
 {
-	Reporter& r=*nullreport;
+#if USE_CGAL
 	const auto files=dir.entryInfoList(QStringList("*.rcad"), QDir::Files);
 	for(const auto& file: files) {
+		QDir path(file.absolutePath());
+		const QFileInfo origPath(path.filePath(file.baseName()+".csg"));
+		Primitive* p=nullptr;
+#ifndef Q_OS_WIN
+		Reporter& r=*nullreport;
 		Script s(r);
 		s.parse(file);
 		TreeEvaluator te(r);
@@ -390,13 +393,11 @@ void Tester::exportTest(const QDir& dir)
 		NodeEvaluator ne(r);
 		Node* n=te.getRootNode();
 		n->accept(ne);
-		Primitive* p=ne.getResult();
-#if USE_CGAL
-		QDir path(file.absolutePath());
+		p=ne.getResult();
 
-		const QFileInfo origPath(path.filePath(file.baseName()+".csg"));
 		const CGALExport e(origPath,p,r);
 		e.exportResult();
+#endif
 
 		exportTest(p,origPath,file,".stl");
 		exportTest(p,origPath,file,".obj");
@@ -405,11 +406,13 @@ void Tester::exportTest(const QDir& dir)
 		exportTest(p,origPath,file,".3mf");
 		exportTest(p,origPath,file,".nef");
 
+#ifndef Q_OS_WIN
 		QFile::remove(origPath.absoluteFilePath());
 		delete p;
 		delete n;
 #endif
 	}
+#endif
 }
 
 #if USE_CGAL
@@ -418,6 +421,10 @@ void Tester::exportTest(Primitive* p,const QFileInfo& origPath,const QFileInfo& 
 	QString newName=file.baseName()+ext;
 
 	writeHeader(newName,++testcount);
+#ifdef Q_OS_WIN
+	writeSkip();
+	return;
+#endif
 
 	QDir path(file.absolutePath());
 	const QFileInfo newPath(path.filePath(newName));
