@@ -86,8 +86,16 @@ static bool facetNoncoplanar(const CGAL::FacetIterator& f)
 {
 	auto b=f->facet_begin(),e(b);
 	CGAL::Point3 p[4];
-	for(auto i=0; i<3; ++i,++b)
+	for(auto i=0; i<2; ++i,++b)
 		p[i]=b->vertex()->point();
+	CGAL_For_all(b,e) {
+		p[2]=b->vertex()->point();
+		if(!CGAL::collinear(p[0],p[1],p[2]))
+			break;
+	}
+	if(b==e) // all points are collinear
+		return true;
+	e=b;
 	CGAL_For_all(b,e) {
 		p[3]=b->vertex()->point();
 		if(!CGAL::coplanar(p[0],p[1],p[2],p[3]))
