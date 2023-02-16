@@ -28,14 +28,15 @@
 #endif
 
 using KernelF=CGAL::Simple_cartesian<GLfloat>;
+using Mark=CGAL::NefPolyhedron3::Mark;
 
 class PointF : public KernelF::Point_3
 {
-	bool mark;
+	Mark mark;
 public:
-	PointF(GLfloat x,GLfloat y,GLfloat z,bool m) :
+	PointF(GLfloat x,GLfloat y,GLfloat z,const Mark& m) :
 		KernelF::Point_3(x,y,z),mark(m) {}
-	bool getMark() const
+	const Mark& getMark() const
 	{
 		return mark;
 	}
@@ -43,11 +44,11 @@ public:
 
 class SegmentF : public KernelF::Segment_3
 {
-	bool mark;
+	Mark mark;
 public:
-	SegmentF(const PointF& p,const PointF& q,bool m) :
+	SegmentF(const PointF& p,const PointF& q,const Mark& m) :
 		KernelF::Segment_3(p,q),mark(m) {}
-	bool getMark() const
+	const Mark& getMark() const
 	{
 		return mark;
 	}
@@ -62,7 +63,7 @@ class FacetF
 	Coord_vector coordinates;
 	Cycle_vector facetCycles;
 	GLfloat normal[3];
-	bool mark;
+	Mark mark;
 
 public:
 
@@ -101,12 +102,12 @@ public:
 		return normal[2];
 	}
 
-	void setMark(bool m)
+	void setMark(Mark m)
 	{
 		mark=m;
 	}
 
-	bool getMark() const
+	const Mark& getMark() const
 	{
 		return mark;
 	}
@@ -153,7 +154,7 @@ class NefConverter
 	using Halffacet_const_handle=SNC_structure::Halffacet_const_handle;
 	using SHalfedge_around_facet_const_circulator=SNC_structure::SHalfedge_around_facet_const_circulator;
 
-	static PointF to_pointf(const CGAL::Point3& p,bool m)
+	static PointF to_pointf(const CGAL::Point3& p,const Mark& m)
 	{
 		return PointF(CGAL::to_double(p.x()),CGAL::to_double(p.y()),CGAL::to_double(p.z()),m);
 	}
@@ -165,8 +166,8 @@ class NefConverter
 
 	void convert(Halfedge_const_handle e)
 	{
-		const PointF& p=to_pointf(e->source()->point(),false);
-		const PointF& q=to_pointf(e->twin()->source()->point(),false);
+		const PointF& p=to_pointf(e->source()->point(),Mark());
+		const PointF& q=to_pointf(e->twin()->source()->point(),Mark());
 		renderer.appendEdge(SegmentF(p,q,e->mark()));
 	}
 
@@ -180,7 +181,7 @@ class NefConverter
 				SHalfedge_const_handle h=fc;
 				SHalfedge_around_facet_const_circulator hc(h),he(hc);
 				CGAL_For_all(hc,he) {
-					g.appendVertex(to_pointf(hc->source()->source()->point(),false));
+					g.appendVertex(to_pointf(hc->source()->source()->point(),Mark()));
 				}
 			}
 		}
@@ -362,7 +363,7 @@ inline void vertexCallback(GLvoid* vertexData,GLvoid* polygonData)
 inline void combineCallback(GLdouble v[3],GLvoid*[4],GLfloat[4],GLvoid** dataOut,GLvoid* polygonData)
 {
 	auto& points=static_cast<PolygonData*>(polygonData)->extraPoints;
-	*dataOut=&points.emplaceBack(v[0],v[1],v[2],false);
+	*dataOut=&points.emplaceBack(v[0],v[1],v[2],Mark());
 }
 
 inline void beginCallback(GLenum which,GLvoid* data)
