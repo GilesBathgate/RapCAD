@@ -253,7 +253,7 @@ int Tester::evaluate()
 	QApplication a(c,nullptr);
 	ui = new MainWindow();
 	ui->show();
-	QTimer::singleShot(100,this,SLOT(runUiTests()));
+	QTimer::singleShot(100,this,&Tester::runUiTests);
 	QApplication::exec();
 	delete ui;
 
@@ -274,7 +274,7 @@ void Tester::runUiTests()
 	consoleTest();
 	builtinsTest();
 
-	QTimer::singleShot(1000,ui,SLOT(close()));
+	QTimer::singleShot(1000,ui,&MainWindow::close);
 }
 
 void Tester::aboutTest()
@@ -298,8 +298,12 @@ void Tester::preferencesTest()
 	QTest::keyClick(ui,Qt::Key_E,Qt::AltModifier);
 	auto* menuEdit = ui->findChild<QMenu*>("menuEdit");
 	QTest::keyClick(menuEdit,Qt::Key_Up);
+	QTimer::singleShot(100,this,&Tester::handlePreferencesDialog);
 	QTest::keyClick(menuEdit,Qt::Key_Enter);
+}
 
+void Tester::handlePreferencesDialog()
+{
 	auto* prefs = ui->findChild<QDialog*>("Preferences");
 	prefs->activateWindow();
 	QTest::keyClick(prefs,Qt::Key_Enter,Qt::NoModifier,100);
@@ -334,7 +338,7 @@ void Tester::renderingTest()
 	QTest::keyClicks(edit,"cube(10);");
 	QTest::keyClick(edit,Qt::Key_Tab,Qt::NoModifier,100);
 	QTest::keyClick(edit,Qt::Key_Tab,Qt::ControlModifier,100);
-	QTimer::singleShot(100,this,SLOT(handleSaveItemsDialog()));
+	QTimer::singleShot(100,this,&Tester::handleSaveItemsDialog);
 	QTest::keyClick(ui,Qt::Key_F6);
 	edit->setFileName(f.fileName());
 	edit->saveFile();

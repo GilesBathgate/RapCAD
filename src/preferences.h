@@ -18,6 +18,7 @@
 #ifndef PREFERENCES_H
 #define PREFERENCES_H
 
+#include "abstractsettings.h"
 #include "bedappearance.h"
 #include "decimal.h"
 #include <QColor>
@@ -31,6 +32,10 @@ class Preferences
 {
 public:
 	static Preferences& getInstance();
+	static Preferences& getTemporary();
+
+	void clear();
+	void sync();
 
 	Precision getPrecision() const;
 	void setPrecision(Precision);
@@ -177,12 +182,12 @@ public:
 	void setUseCGALAssertions(bool);
 
 private:
-	Preferences();
+	Preferences(AbstractSettings*);
 	~Preferences();
 	void updateAssertions();
 	void updatePrecision();
 
-	QSettings* settings;
+	AbstractSettings* settings;
 	int precision;
 };
 

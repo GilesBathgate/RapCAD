@@ -113,7 +113,6 @@ private:
 	BackgroundWorker* worker;
 	Interactive* interact;
 	AboutDialog* aboutDialog;
-	PreferencesDialog* preferencesDialog;
 	QList<QTemporaryFile*> temporyFiles;
 };
 

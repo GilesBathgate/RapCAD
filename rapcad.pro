@@ -409,6 +409,7 @@ HEADERS  += \
 	contrib/mpfr-impl.h \
 	contrib/Copy_polyhedron_to.h \
 	contrib/qtcompat.h \
+	src/abstractsettings.h \
 	src/application.h \
 	src/assertexception.h \
 	src/bedappearance.h \

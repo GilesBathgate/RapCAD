@@ -31,8 +31,92 @@ extern void set_use_assertions(bool);
 }
 #endif
 
-Preferences::Preferences() :
-	settings(new QSettings()),
+class Settings :
+	public AbstractSettings,
+	private QSettings
+{
+	using Base=QSettings;
+public:
+	void sync() override
+	{
+		Base::sync();
+	}
+
+	QVariant value(QString k,QVariant d) const override
+	{
+		return Base::value(k,d);
+	}
+
+	void setValue(QString k,QVariant v) override
+	{
+		Base::setValue(k,v);
+	}
+
+	void clear() override
+	{
+		Base::clear();
+	}
+};
+
+class TemporarySettings :
+	public AbstractSettings,
+	private QMap<QString,QVariant>
+{
+	using Base=QMap<QString,QVariant>;
+	AbstractSettings* realSettings;
+public:
+	TemporarySettings(AbstractSettings* s) : realSettings(s) {}
+
+	void sync() override
+	{
+		for(const auto& k: Base::keys()) {
+			const auto& v=Base::value(k);
+			realSettings->setValue(k,v);
+		}
+		Base::clear();
+	}
+
+	QVariant value(QString k,QVariant d) const override
+	{
+		return realSettings->value(k,d);
+	}
+
+	void setValue(QString k,QVariant v) override
+	{
+		Base::insert(k,v);
+	}
+
+	void clear() override
+	{
+		Base::clear();
+	}
+};
+
+Preferences& Preferences::getInstance()
+{
+	static Preferences instance(new Settings);
+	return instance;
+}
+
+Preferences& Preferences::getTemporary()
+{
+	static Preferences temporary(new TemporarySettings(getInstance().settings));
+	temporary.clear();
+	return temporary;
+}
+
+void Preferences::clear()
+{
+	settings->clear();
+}
+
+void Preferences::sync()
+{
+	settings->sync();
+}
+
+Preferences::Preferences(AbstractSettings* s) :
+	settings(s),
 	precision(0)
 {
 	updateAssertions();
@@ -205,12 +289,6 @@ void Preferences::setEditorFont(const QFont& value)
 {
 	settings->setValue("EditorFont.Family",value.family());
 	settings->setValue("EditorFont.Size",value.pointSize());
-}
-
-Preferences& Preferences::getInstance()
-{
-	static Preferences instance;
-	return instance;
 }
 
 Precision Preferences::getPrecision() const

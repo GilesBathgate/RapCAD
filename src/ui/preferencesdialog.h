@@ -18,7 +18,9 @@
 #ifndef PREFERENCESDIALOG_H
 #define PREFERENCESDIALOG_H
 
+#include "preferences.h"
 #include <QDialog>
+#include <QAbstractButton>
 
 namespace Ui
 {
@@ -32,13 +34,12 @@ class PreferencesDialog : public QDialog
 public:
 	explicit PreferencesDialog(QWidget* parent = nullptr);
 	~PreferencesDialog() override;
-signals:
-	void preferencesUpdated();
 private slots:
+	void reset(QAbstractButton*);
 	void colorButtonPressed(QWidget*);
 	void vertexSizeChanged(double);
 	void edgeSizeChanged(double);
-	static void autoSaveOnCompileChanged(int);
+	void autoSaveOnCompileChanged(int);
 	void darkThemeChanged(int);
 	void showTooltipsChanged(int);
 	void placesChanged(int);
@@ -64,11 +65,14 @@ private slots:
 	void visibleWhiteSpaceChanged(int);
 	void softwareOpenGLChanged(int);
 private:
+	void accept() override;
+	void reject() override;
 	void setupWidgets();
 	static void setColor(QWidget*,const QColor&);
 	void setupButtons();
 	void updatePrecision();
 	Ui::Preferences* ui;
+	Preferences& preferences;
 };
 
 #endif // PREFERENCESDIALOG_H

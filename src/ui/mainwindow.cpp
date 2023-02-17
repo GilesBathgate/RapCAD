@@ -43,8 +43,7 @@ MainWindow::MainWindow(QWidget* parent) :
 	reporter(nullptr),
 	worker(nullptr),
 	interact(nullptr),
-	aboutDialog(nullptr),
-	preferencesDialog(nullptr)
+	aboutDialog(nullptr)
 {
 	setTheme();
 
@@ -83,7 +82,6 @@ MainWindow::~MainWindow()
 	delete worker;
 	delete interact;
 	delete aboutDialog;
-	delete preferencesDialog;
 	delete ui;
 }
 
@@ -332,7 +330,7 @@ QString MainWindow::getSaveFileName(QWidget* parent,const QString& caption,const
 	dialog.setDefaultSuffix(suffix);
 	dialog.setOption(QFileDialog::DontConfirmOverwrite,true);
 	dialog.setAcceptMode(QFileDialog::AcceptSave);
-	while (dialog.exec() == QDialog::Accepted) {
+	while(dialog.exec() == QDialog::Accepted) {
 		const auto& selected=dialog.selectedFiles();
 		QString fileName=selected.first();
 		QFileInfo info(fileName);
@@ -373,12 +371,9 @@ void MainWindow::exportFile(const QString& type)
 
 void MainWindow::showPreferences()
 {
-	if(!preferencesDialog) {
-		preferencesDialog = new PreferencesDialog(this);
-		connect(preferencesDialog,&PreferencesDialog::preferencesUpdated,this,&MainWindow::preferencesUpdated);
-	}
-
-	preferencesDialog->show();
+	PreferencesDialog preferencesDialog(this);
+	preferencesDialog.exec();
+	preferencesUpdated();
 }
 
 void MainWindow::preferencesUpdated()
@@ -501,7 +496,7 @@ void MainWindow::setupExamples()
 {
 	auto& b=BuiltinCreator::getInstance(*reporter);
 	QHash<QString,Module*> modules=b.getModuleNames();
-	for (Module* m : modules) {
+	for(Module* m : modules) {
 		if(!m->isDeprecated()&&m->hasExample()) {
 			auto* item=new QListWidgetItem(m->getFullName(),ui->examplesList);
 			item->setData(Qt::UserRole,QVariant::fromValue(m));

@@ -24,10 +24,12 @@
 #include "ui_preferences.h"
 #include <QColorDialog>
 #include <QDir>
+#include <QMessageBox>
 
 PreferencesDialog::PreferencesDialog(QWidget* parent) :
 	QDialog(parent),
-	ui(new Ui::Preferences)
+	ui(new Ui::Preferences),
+	preferences(Preferences::getTemporary())
 {
 	ui->setupUi(this);
 
@@ -37,37 +39,36 @@ PreferencesDialog::PreferencesDialog(QWidget* parent) :
 
 void PreferencesDialog::setupWidgets()
 {
-	auto& p=Preferences::getInstance();
-	QFont f=p.getEditorFont();
+	QFont f=preferences.getEditorFont();
 	ui->fontComboBox->setCurrentFont(f);
 	int pointSize=f.pointSize();
-	QComboBox* c=ui->sizeComboBox;
+	QComboBox& c(*ui->sizeComboBox);
 	const QList<int> sizes=QFontDatabase::standardSizes();
 	for(auto size: sizes) {
-		c->addItem(QString::number(size));
+		c.addItem(QString::number(size));
 		if(size==pointSize)
-			c->setCurrentIndex(c->count()-1);
+			c.setCurrentIndex(c.count()-1);
 	}
-	ui->visibleWhiteSpacdCheckBox->setChecked(p.getVisibleWhiteSpace());
-	ui->darkThemeCheckBox->setChecked(p.getDarkTheme());
-	ui->softwareOpenGLCheckBox->setChecked(p.getSoftwareOpenGL());
+	ui->visibleWhiteSpacdCheckBox->setChecked(preferences.getVisibleWhiteSpace());
+	ui->darkThemeCheckBox->setChecked(preferences.getDarkTheme());
+	ui->softwareOpenGLCheckBox->setChecked(preferences.getSoftwareOpenGL());
 #ifndef Q_OS_WIN
 	ui->softwareOpenGLCheckBox->setEnabled(false);
 #endif
-	ui->tooltipsCheckBox->setChecked(p.getShowTooltips());
-	ui->highlightLineCheckbox->setChecked(p.getHighlightLine());
+	ui->tooltipsCheckBox->setChecked(preferences.getShowTooltips());
+	ui->highlightLineCheckbox->setChecked(preferences.getHighlightLine());
 
-	setColor(ui->markedVertexColorFrame,p.getMarkedVertexColor());
-	setColor(ui->vertexColorFrame,p.getVertexColor());
-	setColor(ui->markedEdgeColorFrame,p.getMarkedEdgeColor());
-	setColor(ui->edgeColorFrame,p.getEdgeColor());
-	setColor(ui->markedFacetColorFrame,p.getMarkedFacetColor());
-	setColor(ui->facetColorFrame,p.getFacetColor());
-	ui->vertexSizeSpinBox->setValue(p.getVertexSize());
-	ui->edgeSizeSpinBox->setValue(p.getEdgeSize());
-	ui->checkBox->setChecked(p.getAutoSaveOnCompile());
+	setColor(ui->markedVertexColorFrame,preferences.getMarkedVertexColor());
+	setColor(ui->vertexColorFrame,preferences.getVertexColor());
+	setColor(ui->markedEdgeColorFrame,preferences.getMarkedEdgeColor());
+	setColor(ui->edgeColorFrame,preferences.getEdgeColor());
+	setColor(ui->markedFacetColorFrame,preferences.getMarkedFacetColor());
+	setColor(ui->facetColorFrame,preferences.getFacetColor());
+	ui->vertexSizeSpinBox->setValue(preferences.getVertexSize());
+	ui->edgeSizeSpinBox->setValue(preferences.getEdgeSize());
+	ui->checkBox->setChecked(preferences.getAutoSaveOnCompile());
 	bool enabled=true;
-	switch(p.getPrecision()) {
+	switch(preferences.getPrecision()) {
 		case Precision::Single:
 			ui->singleRadio->setChecked(true);
 			enabled=false;
@@ -82,9 +83,9 @@ void PreferencesDialog::setupWidgets()
 	}
 	ui->placesSpinBox->setEnabled(enabled);
 	ui->bitsSpinBox->setEnabled(enabled);
-	ui->placesSpinBox->setValue(p.getDecimalPlaces());
-	ui->bitsSpinBox->setValue(p.getSignificandBits());
-	switch(p.getFunctionRounding()) {
+	ui->placesSpinBox->setValue(preferences.getDecimalPlaces());
+	ui->bitsSpinBox->setValue(preferences.getSignificandBits());
+	switch(preferences.getFunctionRounding()) {
 		case Rounding::Decimal:
 			ui->decimalRoundingRadio->setChecked(true);
 			break;
@@ -95,7 +96,7 @@ void PreferencesDialog::setupWidgets()
 			ui->noRoundingRadio->setChecked(true);
 			break;
 	}
-	switch(p.getNumberFormat()) {
+	switch(preferences.getNumberFormat()) {
 		case NumberFormats::Rational:
 			ui->rationalRadio->setChecked(true);
 			break;
@@ -107,27 +108,27 @@ void PreferencesDialog::setupWidgets()
 			break;
 	}
 
-	QPointF o=p.getPrintOrigin();
+	QPointF o=preferences.getPrintOrigin();
 	ui->XspinBox->setValue(o.x());
 	ui->YspinBox->setValue(o.y());
 
-	QVector3D v=p.getPrintVolume();
+	QVector3D v=preferences.getPrintVolume();
 	ui->widthSpinBox->setValue(int(v.x()));
 	ui->lengthSpinBox->setValue(int(v.y()));
 	ui->heightSpinBox->setValue(int(v.z()));
 
-	int i=static_cast<int>(p.getPrintBedAppearance());
+	int i=static_cast<int>(preferences.getPrintBedAppearance());
 	ui->appearanceComboBox->setCurrentIndex(i);
 
-	QString command=p.getLaunchCommand();
+	QString command=preferences.getLaunchCommand();
 	ui->launchCommandLineEdit->setText(command);
 	launchCommandChanged(command);
 
-	ui->showGCODEButtonCheckbox->setChecked(p.getShowGCODEButton());
-	ui->processingScriptlineEdit->setText(p.getCAMScript());
-	ui->translateCheckBox->setChecked(p.getTranslateOrigin());
+	ui->showGCODEButtonCheckbox->setChecked(preferences.getShowGCODEButton());
+	ui->processingScriptlineEdit->setText(preferences.getCAMScript());
+	ui->translateCheckBox->setChecked(preferences.getTranslateOrigin());
 
-	QString indent=p.getIndent();
+	QString indent=preferences.getIndent();
 	if(indent.contains('\t')) {
 		ui->tabsRadioButton->setChecked(true);
 	} else {
@@ -136,8 +137,8 @@ void PreferencesDialog::setupWidgets()
 		ui->spacesSpinBox->setValue(indent.length());
 	}
 
-	ui->threadPoolSizeSpinBox->setValue(p.getThreadPoolSize());
-	ui->useCGALAssertionsCheckBox->setChecked(p.getUseCGALAssertions());
+	ui->threadPoolSizeSpinBox->setValue(preferences.getThreadPoolSize());
+	ui->useCGALAssertionsCheckBox->setChecked(preferences.getUseCGALAssertions());
 #ifdef USE_CGAL
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(5,4,0)
 	ui->threadPoolSizeSpinBox->setDisabled(true);
@@ -159,6 +160,8 @@ void PreferencesDialog::setColor(QWidget* w,const QColor& c)
 
 void PreferencesDialog::setupButtons()
 {
+	connect(ui->buttonBox,&QDialogButtonBox::clicked,this,&PreferencesDialog::reset);
+
 	connect(ui->fontComboBox,&QFontComboBox::currentFontChanged,this,&PreferencesDialog::fontChanged);
 	connect(ui->sizeComboBox,QOverload<int>::of(&QComboBox::currentIndexChanged),this,&PreferencesDialog::fontSizeChanged);
 
@@ -220,82 +223,90 @@ void PreferencesDialog::updatePrecision()
 	ui->exampleLabel->setText(to_string(ex));
 }
 
+void PreferencesDialog::reset(QAbstractButton* button)
+{
+	auto role=ui->buttonBox->buttonRole(button);
+	if(role==QDialogButtonBox::ResetRole) {
+		auto sure=QMessageBox::question(this,tr("Are you sure?"),tr("This will reset all the preferences to thier defaults."));
+		if(sure==QMessageBox::Yes) {
+			Preferences::getInstance().clear();
+			reject();
+		}
+	}
+}
+
 void PreferencesDialog::colorButtonPressed(QWidget* frame)
 {
 	QColor c = QColorDialog::getColor(Qt::white,this);
 	setColor(frame,c);
 
-	auto& p=Preferences::getInstance();
+
 	if(frame==ui->markedVertexColorFrame) {
-		p.setMarkedVertexColor(c);
+		preferences.setMarkedVertexColor(c);
 	} else if(frame==ui->vertexColorFrame) {
-		p.setVertexColor(c);
+		preferences.setVertexColor(c);
 	} else if(frame==ui->markedEdgeColorFrame) {
-		p.setMarkedEdgeColor(c);
+		preferences.setMarkedEdgeColor(c);
 	} else if(frame==ui->edgeColorFrame) {
-		p.setEdgeColor(c);
+		preferences.setEdgeColor(c);
 	} else if(frame==ui->markedFacetColorFrame) {
-		p.setMarkedFacetColor(c);
+		preferences.setMarkedFacetColor(c);
 	} else if(frame==ui->facetColorFrame) {
-		p.setFacetColor(c);
+		preferences.setFacetColor(c);
 	}
 
-	emit preferencesUpdated();
 }
 
 void PreferencesDialog::vertexSizeChanged(double s)
 {
-	auto& p=Preferences::getInstance();
-	p.setVertexSize(float(s));
-	emit preferencesUpdated();
+	preferences.setVertexSize(float(s));
 }
 
 void PreferencesDialog::edgeSizeChanged(double s)
 {
-	auto& p=Preferences::getInstance();
-	p.setEdgeSize(float(s));
-	emit preferencesUpdated();
+	preferences.setEdgeSize(float(s));
 }
 
 void PreferencesDialog::autoSaveOnCompileChanged(int s)
 {
-	auto& p=Preferences::getInstance();
-	p.setAutoSaveOnCompile(s == Qt::Checked);
+	preferences.setAutoSaveOnCompile(s == Qt::Checked);
 }
 
 void PreferencesDialog::visibleWhiteSpaceChanged(int s)
 {
-	auto& p=Preferences::getInstance();
-	p.setVisibleWhiteSpace(s == Qt::Checked);
-	emit preferencesUpdated();
+	preferences.setVisibleWhiteSpace(s == Qt::Checked);
 }
 
 void PreferencesDialog::darkThemeChanged(int s)
 {
-	auto& p=Preferences::getInstance();
-	p.setDarkTheme(s == Qt::Checked);
-	emit preferencesUpdated();
+	preferences.setDarkTheme(s == Qt::Checked);
 }
 
 void PreferencesDialog::softwareOpenGLChanged(int s)
 {
-	auto& p=Preferences::getInstance();
-	p.setSoftwareOpenGL(s == Qt::Checked);
-	emit preferencesUpdated();
+	preferences.setSoftwareOpenGL(s == Qt::Checked);
+}
+
+void PreferencesDialog::accept()
+{
+	preferences.sync();
+	QDialog::accept();
+}
+
+void PreferencesDialog::reject()
+{
+	preferences.clear();
+	QDialog::reject();
 }
 
 void PreferencesDialog::showTooltipsChanged(int s)
 {
-	auto& p=Preferences::getInstance();
-	p.setShowTooltips(s == Qt::Checked);
-	emit preferencesUpdated();
+	preferences.setShowTooltips(s == Qt::Checked);
 }
 
 void PreferencesDialog::highlightLineChanged(int s)
 {
-	auto& p=Preferences::getInstance();
-	p.setHighlightLine(s == Qt::Checked);
-	emit preferencesUpdated();
+	preferences.setHighlightLine(s == Qt::Checked);
 }
 
 void PreferencesDialog::launchCommandChanged(const QString& command)
@@ -308,41 +319,32 @@ void PreferencesDialog::launchCommandChanged(const QString& command)
 
 void PreferencesDialog::launchCommandUpdated()
 {
-	auto& p=Preferences::getInstance();
-	p.setLaunchCommand(ui->launchCommandLineEdit->text());
-	emit preferencesUpdated();
+	preferences.setLaunchCommand(ui->launchCommandLineEdit->text());
 }
 
 void PreferencesDialog::showGCODEButtonChanged(int i)
 {
-	auto& p=Preferences::getInstance();
-	p.setShowGCODEButton(i == Qt::Checked);
-	emit preferencesUpdated();
+	preferences.setShowGCODEButton(i == Qt::Checked);
 }
 
 void PreferencesDialog::translateChanged(int i)
 {
-	auto& p=Preferences::getInstance();
-	p.setTranslateOrigin(i == Qt::Checked);
-	emit preferencesUpdated();
+	preferences.setTranslateOrigin(i == Qt::Checked);
 }
 
 void PreferencesDialog::processingScriptUpdated()
 {
-	auto& p=Preferences::getInstance();
-	p.setCAMScript(ui->processingScriptlineEdit->text());
-	emit preferencesUpdated();
+	preferences.setCAMScript(ui->processingScriptlineEdit->text());
 }
 
 void PreferencesDialog::indentRadioChanged(bool checked)
 {
-	auto& p=Preferences::getInstance();
 	if(checked) {
 		ui->spacesSpinBox->setEnabled(false);
-		p.setIndent("\t");
+		preferences.setIndent("\t");
 	} else {
 		ui->spacesSpinBox->setEnabled(true);
-		p.setIndent(QString(ui->spacesSpinBox->value(),' '));
+		preferences.setIndent(QString(ui->spacesSpinBox->value(),' '));
 	}
 }
 
@@ -353,53 +355,47 @@ void PreferencesDialog::indentSpacesChanged(int)
 
 void PreferencesDialog::threadPoolSizeChanged(int value)
 {
-	auto& p=Preferences::getInstance();
-	p.setThreadPoolSize(value);
+	preferences.setThreadPoolSize(value);
 }
 
 void PreferencesDialog::useCGALAssertionsChanged(int s)
 {
-	auto& p=Preferences::getInstance();
-	p.setUseCGALAssertions(s == Qt::Checked);
-	emit preferencesUpdated();
+	preferences.setUseCGALAssertions(s == Qt::Checked);
 }
 
 void PreferencesDialog::placesChanged(int i)
 {
-	auto& p=Preferences::getInstance();
-	p.setDecimalPlaces(i);
+	preferences.setDecimalPlaces(i);
 	QSpinBox* sb=ui->bitsSpinBox;
 	bool block=sb->blockSignals(true);
-	sb->setValue(p.getSignificandBits());
+	sb->setValue(preferences.getSignificandBits());
 	sb->blockSignals(block);
 	updatePrecision();
 }
 
 void PreferencesDialog::bitsChanged(int i)
 {
-	auto& p=Preferences::getInstance();
-	p.setSignificandBits(i);
+	preferences.setSignificandBits(i);
 	QSpinBox* sb=ui->placesSpinBox;
 	bool block=sb->blockSignals(true);
-	sb->setValue(p.getDecimalPlaces());
+	sb->setValue(preferences.getDecimalPlaces());
 	sb->blockSignals(block);
 	updatePrecision();
 }
 
 void PreferencesDialog::precisionType(bool)
 {
-	auto& p=Preferences::getInstance();
 	bool enabled=true;
 	if(ui->singleRadio->isChecked()) {
 		ui->bitsSpinBox->setValue(23);
-		p.setPrecision(Precision::Single);
+		preferences.setPrecision(Precision::Single);
 		enabled=false;
 	} else if(ui->doubleRadio->isChecked()) {
 		ui->bitsSpinBox->setValue(52);
-		p.setPrecision(Precision::Double);
+		preferences.setPrecision(Precision::Double);
 		enabled=false;
 	} else {
-		p.setPrecision(Precision::Custom);
+		preferences.setPrecision(Precision::Custom);
 	}
 	ui->placesSpinBox->setEnabled(enabled);
 	ui->bitsSpinBox->setEnabled(enabled);
@@ -407,52 +403,45 @@ void PreferencesDialog::precisionType(bool)
 
 void PreferencesDialog::functionRoundingChanged(bool)
 {
-	auto& p=Preferences::getInstance();
 	if(ui->decimalRoundingRadio->isChecked())
-		p.setFunctionRounding(Rounding::Decimal);
+		preferences.setFunctionRounding(Rounding::Decimal);
 	else if(ui->base2RoundingRadio->isChecked())
-		p.setFunctionRounding(Rounding::Base2);
+		preferences.setFunctionRounding(Rounding::Base2);
 	else
-		p.setFunctionRounding(Rounding::None);
+		preferences.setFunctionRounding(Rounding::None);
 
 	updatePrecision();
 }
 
 void PreferencesDialog::outputFormatChanged(bool)
 {
-	auto& p=Preferences::getInstance();
 	if(ui->rationalRadio->isChecked())
-		p.setNumberFormat(NumberFormats::Rational);
+		preferences.setNumberFormat(NumberFormats::Rational);
 	else if(ui->scientificRadio->isChecked())
-		p.setNumberFormat(NumberFormats::Scientific);
+		preferences.setNumberFormat(NumberFormats::Scientific);
 	else
-		p.setNumberFormat(NumberFormats::Decimal);
+		preferences.setNumberFormat(NumberFormats::Decimal);
 
 	updatePrecision();
 }
 
 void PreferencesDialog::volumeChanged()
 {
-	auto& p=Preferences::getInstance();
 	auto width = float(ui->widthSpinBox->value());
 	auto length = float(ui->lengthSpinBox->value());
 	auto height = float(ui->heightSpinBox->value());
-	p.setPrintVolume(QVector3D(width,length,height));
-	emit preferencesUpdated();
+	preferences.setPrintVolume(QVector3D(width,length,height));
 }
 
 void PreferencesDialog::originChanged()
 {
-	auto& p=Preferences::getInstance();
 	QPointF o(ui->XspinBox->value(),ui->YspinBox->value());
-	p.setPrintOrigin(o);
-	emit preferencesUpdated();
+	preferences.setPrintOrigin(o);
 }
 
 void PreferencesDialog::appearanceChanged(int i)
 {
 	auto a = static_cast<BedAppearance>(i);
-	auto& p=Preferences::getInstance();
 	switch(a) {
 		case BedAppearance::MK42: {
 			ui->XspinBox->setValue(-125);
@@ -461,7 +450,7 @@ void PreferencesDialog::appearanceChanged(int i)
 			ui->widthSpinBox->setValue(250);
 			ui->lengthSpinBox->setValue(210);
 			volumeChanged();
-			p.setPrintBedAppearance(a);
+			preferences.setPrintBedAppearance(a);
 		}
 		break;
 		case BedAppearance::MK2: {
@@ -471,30 +460,25 @@ void PreferencesDialog::appearanceChanged(int i)
 			ui->widthSpinBox->setValue(200);
 			ui->lengthSpinBox->setValue(200);
 			volumeChanged();
-			p.setPrintBedAppearance(a);
+			preferences.setPrintBedAppearance(a);
 		}
 		break;
 	}
-	emit preferencesUpdated();
 }
 
 void PreferencesDialog::fontChanged(QFont f)
 {
-	auto& p=Preferences::getInstance();
 	QString s=ui->sizeComboBox->currentText();
 	f.setPointSize(s.toInt());
-	p.setEditorFont(f);
-	emit preferencesUpdated();
+	preferences.setEditorFont(f);
 }
 
 void PreferencesDialog::fontSizeChanged(int i)
 {
-	auto& p=Preferences::getInstance();
 	QFont f=ui->fontComboBox->currentFont();
 	QString s=ui->sizeComboBox->itemText(i);
 	f.setPointSize(s.toInt());
-	p.setEditorFont(f);
-	emit preferencesUpdated();
+	preferences.setEditorFont(f);
 }
 
 PreferencesDialog::~PreferencesDialog()
