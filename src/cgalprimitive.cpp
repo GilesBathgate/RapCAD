@@ -170,6 +170,12 @@ CGAL::NefPolyhedron3* CGALPrimitive::createVolume()
 	return new CGAL::NefPolyhedron3(poly);
 }
 
+static void markBoundedVolumes(CGAL::NefPolyhedron3& p)
+{
+	CGAL::Mark_bounded_volumes<CGAL::NefPolyhedron3> mbv;
+	p.delegate(mbv,false,false);
+}
+
 CGAL::NefPolyhedron3* CGALPrimitive::createFromFacets()
 {
 	CGAL::Nef_nary_union_3<CGAL::NefPolyhedron3> nary;
@@ -181,8 +187,7 @@ CGAL::NefPolyhedron3* CGALPrimitive::createFromFacets()
 		nary.add_polyhedron(n);
 	}
 	auto result=nary.get_union();
-	CGAL::Mark_bounded_volumes<CGAL::NefPolyhedron3> mbv(true);
-	result.delegate(mbv);
+	markBoundedVolumes(result);
 	setSanitized(true);
 	return new CGAL::NefPolyhedron3(result);
 }
@@ -190,8 +195,7 @@ CGAL::NefPolyhedron3* CGALPrimitive::createFromFacets()
 Primitive* CGALPrimitive::solidify()
 {
 	buildPrimitive();
-	CGAL::Mark_bounded_volumes<CGAL::NefPolyhedron3> mbv(true);
-	nefPolyhedron->delegate(mbv);
+	markBoundedVolumes(*nefPolyhedron);
 	return this;
 }
 
@@ -412,8 +416,7 @@ Primitive* CGALPrimitive::groupAppend(Primitive* pr)
 Primitive* CGALPrimitive::group(Primitive* pr)
 {
 	groupAppend(pr);
-	CGAL::Mark_bounded_volumes<CGAL::NefPolyhedron3> mbv(true);
-	nefPolyhedron->delegate(mbv,false,false);
+	markBoundedVolumes(*nefPolyhedron);
 	return this;
 }
 
@@ -436,8 +439,7 @@ Primitive* CGALPrimitive::groupAll(const QList<Primitive*>& primitives) const
 
 	auto* cp=dynamic_cast<CGALPrimitive*>(result);
 	if(cp&&cp->nefPolyhedron) {
-		CGAL::Mark_bounded_volumes<CGAL::NefPolyhedron3> mbv(true);
-		cp->nefPolyhedron->delegate(mbv,false,false);
+		markBoundedVolumes(*cp->nefPolyhedron);
 	}
 	return result;
 }
