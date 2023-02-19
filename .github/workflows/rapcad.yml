@@ -38,7 +38,7 @@ jobs:
         dir: /usr
         cache: ${{ steps.cache-qt.outputs.cache-hit }}
     - name: Install Dependencies
-      run: sudo apt-get install -y libboost-dev libcgal-dev libglu1-mesa-dev libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-randr0 libxcb-shape0 libxcb-cursor0
+      run: sudo apt-get install -y libboost-dev libcgal-dev libglu1-mesa-dev libxkbcommon-x11-0 libxcb-cursor0
     - name: Configure
       run: qmake CONFIG+=${{ matrix.config }}
     - name: Build
