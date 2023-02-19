@@ -871,7 +871,8 @@ Primitive* CGALPrimitive::rotate_extrude(const CGAL::Scalar& height,const CGAL::
 	const QList<CGALPolygon*> polygons=primitive->getCGALPolygons();
 
 	CGAL::Cuboid3 b=primitive->getBounds();
-	int f=fg->getFragments((b.xmax()-b.xmin())+r);
+	if(b.xmin()+r<0.0) return this;
+	int f=fg->getFragments(b.xmax()+r);
 	CGAL::AffTransformation3 translate(CGAL::TRANSLATION,CGAL::Vector3(r,0.0,0.0));
 
 	bool caps=(sweep!=360.0||height>0.0);
