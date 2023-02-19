@@ -20,7 +20,6 @@
 #include "asciidocprinter.h"
 #include "booleanvalue.h"
 #include "builtincreator.h"
-#include "builtinmanager.h"
 #include "cachemanager.h"
 #ifdef USE_CGAL
 #include "cgalexport.h"
@@ -205,7 +204,7 @@ int Tester::evaluate()
 	reporter.stopTiming("testing");
 
 	reporter.startTiming();
-	QThreadPool::globalInstance()->setMaxThreadCount(100);
+	QThreadPool::globalInstance()->setMaxThreadCount(10);
 	GeometryEvaluator ge(*nullreport);
 	const QList<Declaration*> builtins=BuiltinCreator::getInstance(*nullreport).getBuiltins();
 	int modulecount=0;
@@ -231,7 +230,7 @@ int Tester::evaluate()
 					}
 #endif
 					node->accept(ge);
-					QScopedPointer<Primitive>(ge.getResult());
+					QScopedPointer<Primitive> r(ge.getResult());
 					writePass();
 					passcount++;
 				}
