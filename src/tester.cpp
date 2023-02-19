@@ -205,6 +205,7 @@ int Tester::evaluate()
 	reporter.stopTiming("testing");
 
 	reporter.startTiming();
+	QThreadPool::globalInstance()->setMaxThreadCount(100);
 	GeometryEvaluator ge(*nullreport);
 	const QList<Declaration*> builtins=BuiltinCreator::getInstance(*nullreport).getBuiltins();
 	int modulecount=0;
