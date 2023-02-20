@@ -242,7 +242,7 @@ int Tester::evaluate()
 	output << "Total: " << testcount << " Passed: " << passcount << " Failed: " << failcount << Qt::endl;
 	reporter.stopTiming("multithread testing");
 
-#if !defined(Q_OS_WIN) && !defined(USE_VALGRIND)
+#if !defined(Q_OS_WIN) && !defined(Q_OS_MACOS) && !defined(USE_VALGRIND)
 	reporter.startTiming();
 
 	auto& p=Preferences::getInstance();
