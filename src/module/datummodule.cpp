@@ -19,6 +19,7 @@
 #include "datummodule.h"
 #include "context.h"
 #include "node/transformationnode.h"
+#include "numbervalue.h"
 
 DatumModule::DatumModule(Reporter& r) : Module(r,"datum")
 {

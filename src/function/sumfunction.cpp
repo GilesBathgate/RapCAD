@@ -19,6 +19,7 @@
 #include "sumfunction.h"
 #include "context.h"
 #include "numbervalue.h"
+#include "valuefactory.h"
 #include "vectorvalue.h"
 
 SumFunction::SumFunction() : Function("sum")

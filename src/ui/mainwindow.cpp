@@ -23,6 +23,7 @@
 #include "renderer.h"
 #include "saveitemsdialog.h"
 #include "stringify.h"
+#include "ui/preferencesdialog.h"
 #include "ui_mainwindow.h"
 #include <QClipboard>
 #include <QDesktopServices>

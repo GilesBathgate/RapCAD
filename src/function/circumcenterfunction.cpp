@@ -18,6 +18,9 @@
 
 #include "circumcenterfunction.h"
 #include "context.h"
+#include "point.h"
+#include "valuefactory.h"
+#include "vectorvalue.h"
 
 CircumcenterFunction::CircumcenterFunction() : Function("circumcenter")
 {

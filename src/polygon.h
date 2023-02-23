@@ -20,7 +20,7 @@
 #define POLYGON_H
 
 class Primitive;
-#include <qglobal.h>
+#include <QtGlobal>
 
 #ifdef Q_OS_WIN
 #include <windows.h>

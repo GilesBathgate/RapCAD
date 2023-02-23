@@ -21,6 +21,7 @@
 #include "context.h"
 #include "numbervalue.h"
 #include "rmath.h"
+#include "valuefactory.h"
 #include "vectorvalue.h"
 
 AngFunction::AngFunction() : Function("ang")

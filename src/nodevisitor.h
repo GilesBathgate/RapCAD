@@ -19,7 +19,7 @@
 #ifndef NODEVISITOR_H
 #define NODEVISITOR_H
 
-#include <qglobal.h>
+#include <QtGlobal>
 
 class NodeVisitor
 {

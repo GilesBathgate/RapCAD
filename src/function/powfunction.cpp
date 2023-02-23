@@ -18,6 +18,7 @@
 
 #include "powfunction.h"
 #include "context.h"
+#include "valuefactory.h"
 
 PowFunction::PowFunction() : Function("pow")
 {

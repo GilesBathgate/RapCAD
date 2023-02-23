@@ -20,7 +20,7 @@
 #define VISITABLENODE_H
 
 #include "nodevisitor.h"
-#include <qglobal.h>
+#include <QtGlobal>
 
 class VisitableNode
 {

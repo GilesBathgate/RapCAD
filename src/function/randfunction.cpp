@@ -20,7 +20,7 @@
 #include "context.h"
 #include "numbervalue.h"
 #include "rmath.h"
-#include "vectorvalue.h"
+#include "valuefactory.h"
 #include <ctime>
 
 RandFunction::RandFunction() : Function("rands")

@@ -18,6 +18,7 @@
 
 #include "nodeprinter.h"
 #include "onceonly.h"
+#include "polyhedron.h"
 
 NodePrinter::NodePrinter(QTextStream& s) : result(s)
 {

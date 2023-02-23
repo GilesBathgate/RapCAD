@@ -18,6 +18,7 @@
 
 #include "function.h"
 #include "context.h"
+#include "valuefactory.h"
 
 Function::Function() :
 	scope(nullptr)

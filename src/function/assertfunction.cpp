@@ -18,6 +18,7 @@
 #include "assertfunction.h"
 #include "assertexception.h"
 #include "context.h"
+#include "valuefactory.h"
 
 AssertFunction::AssertFunction() : Function("assert")
 {

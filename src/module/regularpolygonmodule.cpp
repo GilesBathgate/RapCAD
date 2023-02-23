@@ -19,6 +19,7 @@
 #include "regularpolygonmodule.h"
 #include "context.h"
 #include "node/primitivenode.h"
+#include "numbervalue.h"
 #include "rmath.h"
 
 RegularPolygonModule::RegularPolygonModule(Reporter& r) : PrimitiveModule(r, "regular_polygon")

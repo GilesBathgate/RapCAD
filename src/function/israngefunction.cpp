@@ -19,6 +19,7 @@
 #include "israngefunction.h"
 #include "booleanvalue.h"
 #include "rangevalue.h"
+#include "valuefactory.h"
 
 IsRangeFunction::IsRangeFunction() : Function("is_range")
 {

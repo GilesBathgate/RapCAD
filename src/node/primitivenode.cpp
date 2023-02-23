@@ -17,7 +17,6 @@
  */
 
 #include "primitivenode.h"
-#include "polyhedron.h"
 #ifdef USE_CGAL
 #include "cgalprimitive.h"
 #endif

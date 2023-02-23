@@ -18,6 +18,7 @@
 
 #include "circlemodule.h"
 #include "context.h"
+#include "node/primitivenode.h"
 #include "numbervalue.h"
 
 CircleModule::CircleModule(Reporter& r) : PrimitiveModule(r,"circle")

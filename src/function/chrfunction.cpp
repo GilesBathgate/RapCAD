@@ -20,6 +20,7 @@
 #include "context.h"
 #include "numbervalue.h"
 #include "textvalue.h"
+#include "valuefactory.h"
 
 ChrFunction::ChrFunction() : Function("chr")
 {

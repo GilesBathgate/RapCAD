@@ -18,6 +18,8 @@
 #include "cuboidmodule.h"
 #include "context.h"
 #include "cubemodule.h"
+#include "node/primitivenode.h"
+#include "numbervalue.h"
 
 CuboidModule::CuboidModule(Reporter& r) : PrimitiveModule(r,"cuboid")
 {

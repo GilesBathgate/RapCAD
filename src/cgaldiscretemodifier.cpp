@@ -18,6 +18,7 @@
 #ifdef USE_CGAL
 
 #include "cgaldiscretemodifier.h"
+#include "rmath.h"
 
 CGALDiscreteModifier::CGALDiscreteModifier(int p) : places(p)
 {

@@ -21,8 +21,8 @@
 #include "onceonly.h"
 #include <QApplication>
 #include <QFontMetrics>
-#include <QPainterPath>
 #include <QMutexLocker>
+#include <QPainterPath>
 
 QPathTextBuilder::QPathTextBuilder() :
 	size(0)

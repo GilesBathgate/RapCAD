@@ -22,12 +22,13 @@
 #include "cgalexplorer.h"
 #include "onceonly.h"
 #include "preferences.h"
-#include "rmath.h"
 #include <CGAL/IO/Nef_polyhedron_iostream_3.h>
 #include <CGAL/IO/Polyhedron_VRML_2_ostream.h>
 #include <CGAL/IO/Polyhedron_iostream.h>
 #if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,5,0)
 #include <CGAL/IO/STL.h>
+#else
+#include "rmath.h"
 #endif
 #if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,3,0)
 #include <CGAL/boost/graph/IO/polygon_mesh_io.h>

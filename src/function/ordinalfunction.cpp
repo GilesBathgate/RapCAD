@@ -19,6 +19,7 @@
 #include "context.h"
 #include "numbervalue.h"
 #include "textvalue.h"
+#include "valuefactory.h"
 
 OrdinalFunction::OrdinalFunction() : Function("ord")
 {

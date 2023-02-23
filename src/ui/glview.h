@@ -22,9 +22,9 @@
 #include "renderer.h"
 #include "bedappearance.h"
 #include <QMatrix4x4>
+#include <QMouseEvent>
 #include <QOpenGLFunctions_1_0>
 #include <QOpenGLWidget>
-#include <QMouseEvent>
 #include <QWheelEvent>
 
 class GLView :

@@ -19,7 +19,7 @@
 #ifndef CGAL_H
 #define CGAL_H
 
-#include "config.h"
+#include "config.h" // IWYU pragma: keep
 
 #ifndef USE_VALGRIND
 #include <CGAL/Exact_predicates_exact_constructions_kernel.h>

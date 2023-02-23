@@ -54,7 +54,6 @@
 #include "node/unionnode.h"
 #include "node/volumesnode.h"
 #include "nodevisitor.h"
-#include "polyhedron.h"
 #include <QTextStream>
 
 #ifdef USE_CGAL

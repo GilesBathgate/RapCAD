@@ -21,7 +21,7 @@
 #include "context.h"
 #include "numbervalue.h"
 #include "rangevalue.h"
-#include "rmath.h"
+#include "valuefactory.h"
 #include "vectorvalue.h"
 
 NormFunction::NormFunction() : Function("norm")

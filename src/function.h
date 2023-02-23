@@ -23,7 +23,6 @@
 #include "parameter.h"
 #include "scope.h"
 #include "value.h"
-#include "valuefactory.h"
 #include <QCoreApplication>
 #include <QList>
 #include <QString>

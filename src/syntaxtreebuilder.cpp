@@ -20,6 +20,7 @@
 
 #include "assignstatement.h"
 #include "binaryexpression.h"
+#include "codedocdeclaration.h"
 #include "complexexpression.h"
 #include "compoundstatement.h"
 #include "forstatement.h"
@@ -33,6 +34,7 @@
 #include "modulescope.h"
 #include "rangeexpression.h"
 #include "returnstatement.h"
+#include "script.h"
 #include "scriptimport.h"
 #include "ternaryexpression.h"
 #include "unaryexpression.h"

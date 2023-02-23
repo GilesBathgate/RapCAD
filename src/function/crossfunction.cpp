@@ -18,6 +18,7 @@
 
 #include "crossfunction.h"
 #include "context.h"
+#include "valuefactory.h"
 #include "vectorvalue.h"
 
 CrossFunction::CrossFunction() : Function("cross")

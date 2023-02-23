@@ -17,7 +17,6 @@
  */
 
 #include "simplerenderer.h"
-#include "qopengl.h"
 
 SimpleRenderer::SimpleRenderer(const Primitive& pr) :
 	primitive(pr)

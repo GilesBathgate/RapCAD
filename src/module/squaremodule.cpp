@@ -19,6 +19,7 @@
 #include "squaremodule.h"
 #include "context.h"
 #include "node/alignnode.h"
+#include "node/primitivenode.h"
 #include "vectorvalue.h"
 
 SquareModule::SquareModule(Reporter& r) : PrimitiveModule(r,"square")

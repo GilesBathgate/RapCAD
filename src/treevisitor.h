@@ -19,7 +19,7 @@
 #ifndef TREEVISITOR_H
 #define TREEVISITOR_H
 
-#include <qglobal.h>
+#include <QtGlobal>
 
 class TreeVisitor
 {

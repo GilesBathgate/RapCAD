@@ -20,6 +20,7 @@
 #include "context.h"
 #include "numbervalue.h"
 #include "rmath.h"
+#include "valuefactory.h"
 
 AsinFunction::AsinFunction() : Function("asin")
 {

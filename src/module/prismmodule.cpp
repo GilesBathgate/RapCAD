@@ -19,6 +19,7 @@
 #include "prismmodule.h"
 #include "context.h"
 #include "node/alignnode.h"
+#include "node/primitivenode.h"
 #include "numbervalue.h"
 #include "rmath.h"
 

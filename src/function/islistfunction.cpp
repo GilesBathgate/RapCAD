@@ -18,6 +18,7 @@
 
 #include "islistfunction.h"
 #include "booleanvalue.h"
+#include "valuefactory.h"
 #include "vectorvalue.h"
 
 IsListFunction::IsListFunction() : Function("is_list")

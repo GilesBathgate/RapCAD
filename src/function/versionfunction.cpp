@@ -20,6 +20,7 @@
 #include "numbervalue.h"
 #include "stringify.h"
 #include "textvalue.h"
+#include "valuefactory.h"
 #include "vectorvalue.h"
 #include "versionfunction.h"
 #include <QStringList>

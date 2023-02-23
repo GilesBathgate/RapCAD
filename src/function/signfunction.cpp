@@ -20,6 +20,7 @@
 #include "context.h"
 #include "numbervalue.h"
 #include "rmath.h"
+#include "valuefactory.h"
 
 SignFunction::SignFunction() : Function("sign")
 {

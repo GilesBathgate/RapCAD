@@ -20,6 +20,7 @@
 #include "booleanvalue.h"
 #include "numbervalue.h"
 #include "rmath.h"
+#include "valuefactory.h"
 
 IsIntFunction::IsIntFunction() : Function("is_int")
 {

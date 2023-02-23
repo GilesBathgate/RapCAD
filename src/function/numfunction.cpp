@@ -18,6 +18,7 @@
 
 #include "numfunction.h"
 #include "context.h"
+#include "valuefactory.h"
 
 NumFunction::NumFunction() : Function("num")
 {

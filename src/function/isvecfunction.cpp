@@ -19,6 +19,7 @@
 #include "isvecfunction.h"
 #include "booleanvalue.h"
 #include "context.h"
+#include "valuefactory.h"
 #include "vectorvalue.h"
 
 IsVecFunction::IsVecFunction(int s) :

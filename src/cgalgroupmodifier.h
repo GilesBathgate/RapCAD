@@ -22,7 +22,7 @@
 #include "cgal.h"
 #include <CGAL/Modifier_base.h>
 #include <CGAL/Nef_polyhedron_3.h>
-#include <qglobal.h>
+#include <QtGlobal>
 
 namespace CGAL
 {

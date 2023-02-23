@@ -20,8 +20,8 @@
 #define SYNTAXTREEBUILDER_H
 
 #include "abstractsyntaxtreebuilder.h"
-#include "codedocdeclaration.h"
 #include "codedocparam.h"
+#include "reporter.h"
 
 class SyntaxTreeBuilder : public AbstractSyntaxTreeBuilder
 {

@@ -18,9 +18,9 @@
 
 #include "lengthfunction.h"
 #include "context.h"
-#include "numbervalue.h"
 #include "rangevalue.h"
 #include "textvalue.h"
+#include "valuefactory.h"
 #include "vectorvalue.h"
 
 LengthFunction::LengthFunction() : Function("len")

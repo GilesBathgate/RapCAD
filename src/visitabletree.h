@@ -20,7 +20,7 @@
 #define VISITABLETREE_H
 
 #include "treevisitor.h"
-#include <qglobal.h>
+#include <QtGlobal>
 
 class VisitableTree
 {

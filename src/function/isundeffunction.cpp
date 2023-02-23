@@ -1,5 +1,6 @@
 #include "isundeffunction.h"
 #include "context.h"
+#include "valuefactory.h"
 
 IsUndefFunction::IsUndefFunction() : Function("is_undef")
 {

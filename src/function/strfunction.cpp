@@ -19,6 +19,7 @@
 #include "strfunction.h"
 #include "context.h"
 #include "textvalue.h"
+#include "valuefactory.h"
 
 StrFunction::StrFunction() : Function("str")
 {

@@ -23,7 +23,6 @@
 #include "backgroundworker.h"
 #include "codeeditor.h"
 #include "interactive.h"
-#include "preferencesdialog.h"
 #include "project.h"
 #include "texteditiodevice.h"
 #include <QMainWindow>

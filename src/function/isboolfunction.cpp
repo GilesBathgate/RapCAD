@@ -18,6 +18,7 @@
 
 #include "isboolfunction.h"
 #include "booleanvalue.h"
+#include "valuefactory.h"
 
 IsBoolFunction::IsBoolFunction() : Function("is_bool")
 {

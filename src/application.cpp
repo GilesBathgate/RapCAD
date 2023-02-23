@@ -28,9 +28,9 @@
 #include "ui/mainwindow.h"
 #include "worker.h"
 #include <QApplication>
-#include <contrib/qtcompat.h>
 #include <QCommandLineOption>
 #include <QCommandLineParser>
+#include <contrib/qtcompat.h>
 
 Application::Application() :
 	output(stdout),

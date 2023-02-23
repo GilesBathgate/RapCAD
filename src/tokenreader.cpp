@@ -16,7 +16,6 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "tokenreader.h"
-#include "reporter.h"
 
 #define YYSTYPE_IS_DECLARED
 typedef union YYSTYPE YYSTYPE;

@@ -19,6 +19,7 @@
 #include "isnumfunction.h"
 #include "booleanvalue.h"
 #include "numbervalue.h"
+#include "valuefactory.h"
 
 IsNumFunction::IsNumFunction() : Function("is_num")
 {

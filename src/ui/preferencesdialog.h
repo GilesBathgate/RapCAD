@@ -19,8 +19,8 @@
 #define PREFERENCESDIALOG_H
 
 #include "preferences.h"
-#include <QDialog>
 #include <QAbstractButton>
+#include <QDialog>
 
 namespace Ui
 {

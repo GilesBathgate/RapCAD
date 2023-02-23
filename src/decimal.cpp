@@ -17,7 +17,6 @@
  */
 
 #include "decimal.h"
-#include "point.h"
 #include "preferences.h"
 #include "rmath.h"
 #ifdef USE_CGAL

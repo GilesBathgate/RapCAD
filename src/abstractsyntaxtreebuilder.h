@@ -28,7 +28,6 @@
 #include "invocation.h"
 #include "parameter.h"
 #include "scope.h"
-#include "script.h"
 #include "statement.h"
 #include "variable.h"
 #include <QList>

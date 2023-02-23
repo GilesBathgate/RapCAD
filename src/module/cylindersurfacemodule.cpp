@@ -19,6 +19,7 @@
 #include "cylindersurfacemodule.h"
 #include "context.h"
 #include "node/alignnode.h"
+#include "node/primitivenode.h"
 #include "numbervalue.h"
 
 CylinderSurfaceModule::CylinderSurfaceModule(Reporter& r) : PrimitiveModule(r,"cylinder_surface")

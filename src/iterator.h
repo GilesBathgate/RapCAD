@@ -19,8 +19,6 @@
 #ifndef ITERATOR_H
 #define ITERATOR_H
 
-#include <qglobal.h>
-
 template <typename T>
 struct Iterator
 {

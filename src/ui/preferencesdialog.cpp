@@ -20,7 +20,6 @@
 #include "preferences.h"
 #include "preferencesdialog.h"
 #include "rmath.h"
-#include "ui/glview.h"
 #include "ui_preferences.h"
 #include <QColorDialog>
 #include <QDir>
