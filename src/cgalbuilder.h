@@ -26,8 +26,9 @@ namespace CGAL
 using HalfedgeDS = Polyhedron3::HalfedgeDS;
 }
 
-class CGALBuilder : public CGAL::Modifier_base<CGAL::HalfedgeDS>
+class CGALBuilder final : public CGAL::Modifier_base<CGAL::HalfedgeDS>
 {
+	Q_DISABLE_COPY_MOVE(CGALBuilder)
 public:
 	explicit CGALBuilder(CGALPrimitive&);
 	bool getComplete() const;

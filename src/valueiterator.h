@@ -24,6 +24,7 @@
 
 class ValueIterator : public Iterator<Value*>
 {
+	Q_DISABLE_COPY_MOVE(ValueIterator)
 public:
 	explicit ValueIterator(Value*);
 	virtual ValueIterator& operator++() override;

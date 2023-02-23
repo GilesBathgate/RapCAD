@@ -28,6 +28,7 @@
 
 class Context
 {
+	Q_DISABLE_COPY_MOVE(Context)
 	Q_DECLARE_TR_FUNCTIONS(Context)
 public:
 	Context();

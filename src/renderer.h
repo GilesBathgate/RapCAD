@@ -24,8 +24,11 @@
 
 class Renderer
 {
+	Q_DISABLE_COPY_MOVE(Renderer)
+protected:
+	Renderer()=default;
 public:
-	virtual ~Renderer() {}
+	virtual ~Renderer()=default;
 	virtual void paint(QOpenGLFunctions_1_0&,bool,bool)=0;
 	virtual void locate(const QVector3D&,const QVector3D&)=0;
 	virtual void preferencesUpdated()=0;

@@ -23,6 +23,9 @@
 
 class AbstractSettings
 {
+	Q_DISABLE_COPY_MOVE(AbstractSettings)
+protected:
+	AbstractSettings()=default;
 public:
 	virtual ~AbstractSettings()=default;
 	virtual void sync()=0;

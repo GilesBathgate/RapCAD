@@ -29,8 +29,9 @@ namespace CGAL
 using NefPolyhedron3 = Nef_polyhedron_3<Kernel3>;
 }
 
-class CGALDiscreteModifier : public CGAL::Modifier_base<CGAL::NefPolyhedron3::SNC_structure>
+class CGALDiscreteModifier final : public CGAL::Modifier_base<CGAL::NefPolyhedron3::SNC_structure>
 {
+	Q_DISABLE_COPY_MOVE(CGALDiscreteModifier)
 public:
 	explicit CGALDiscreteModifier(int);
 	static CGAL::Point3 discretePoint(const CGAL::Point3&,int);

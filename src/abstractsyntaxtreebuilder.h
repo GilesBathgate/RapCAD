@@ -35,8 +35,11 @@
 
 class AbstractSyntaxTreeBuilder
 {
+	Q_DISABLE_COPY_MOVE(AbstractSyntaxTreeBuilder)
+protected:
+	AbstractSyntaxTreeBuilder()=default;
+	virtual ~AbstractSyntaxTreeBuilder()=default;
 public:
-	virtual ~AbstractSyntaxTreeBuilder() {}
 	virtual void buildFileLocation(QDir)=0;
 	virtual void buildScript(Declaration*)=0;
 	virtual void buildScript(QList<Declaration*>*)=0;

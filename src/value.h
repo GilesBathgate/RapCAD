@@ -29,6 +29,7 @@ class ValueFactory;
 
 class Value
 {
+	Q_DISABLE_COPY_MOVE(Value)
 public:
 	virtual ~Value();
 	void setStorage(Storage);

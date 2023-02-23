@@ -20,11 +20,15 @@
 #define VISITABLETREE_H
 
 #include "treevisitor.h"
+#include <qglobal.h>
 
 class VisitableTree
 {
+	Q_DISABLE_COPY_MOVE(VisitableTree)
+protected:
+	VisitableTree()=default;
+	virtual ~VisitableTree()=default;
 public:
-	virtual ~VisitableTree() {}
 	virtual void accept(TreeVisitor&)=0;
 };
 

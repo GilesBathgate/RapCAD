@@ -25,12 +25,14 @@ class Context;
 
 class Fragment
 {
+	Q_DISABLE_COPY_MOVE(Fragment)
 public:
-	virtual ~Fragment() {}
+	virtual ~Fragment()=default;
 	static Fragment* createFragment(const Context&);
 	static int getFragments(const Context&,const decimal&);
 	virtual int getFragments(const decimal&) const;
 protected:
+	Fragment()=default;
 	explicit Fragment(const Context&);
 	int fragmentNumber;
 	decimal fragmentSize;

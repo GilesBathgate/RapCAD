@@ -34,8 +34,11 @@ enum class PrimitiveTypes {
 
 class Primitive
 {
+	Q_DISABLE_COPY_MOVE(Primitive)
+protected:
+	Primitive()=default;
 public:
-	virtual ~Primitive() {}
+	virtual ~Primitive()=default;
 	virtual bool getSanitized()=0;
 	virtual bool isEmpty()=0;
 	virtual bool isFullyDimentional()=0;

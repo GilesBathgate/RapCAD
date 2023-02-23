@@ -27,11 +27,12 @@
 
 class Cache
 {
+	Q_DISABLE_COPY_MOVE(Cache)
 public:
-	Cache();
 	virtual ~Cache();
 	virtual Primitive* fetch(Primitive*);
 protected:
+	Cache();
 	using i_Point = QVector<int> ;
 	using i_PointList = QVector<i_Point>;
 	using i_Polygon = QVector<int>;

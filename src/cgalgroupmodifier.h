@@ -22,14 +22,16 @@
 #include "cgal.h"
 #include <CGAL/Modifier_base.h>
 #include <CGAL/Nef_polyhedron_3.h>
+#include <qglobal.h>
 
 namespace CGAL
 {
 	using NefPolyhedron3 = Nef_polyhedron_3<Kernel3>;
 }
 
-class CGALGroupModifier : public CGAL::Modifier_base<CGAL::NefPolyhedron3::SNC_structure>
+class CGALGroupModifier final : public CGAL::Modifier_base<CGAL::NefPolyhedron3::SNC_structure>
 {
+	Q_DISABLE_COPY_MOVE(CGALGroupModifier)
 public:
 	CGALGroupModifier(const CGAL::NefPolyhedron3&);
 	void operator()(CGAL::NefPolyhedron3::SNC_structure&);

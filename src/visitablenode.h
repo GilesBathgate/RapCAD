@@ -20,11 +20,15 @@
 #define VISITABLENODE_H
 
 #include "nodevisitor.h"
+#include <qglobal.h>
 
 class VisitableNode
 {
+	Q_DISABLE_COPY_MOVE(VisitableNode)
+protected:
+	VisitableNode()=default;
+	virtual ~VisitableNode()=default;
 public:
-	virtual ~VisitableNode() {}
 	virtual void accept(NodeVisitor&)=0;
 };
 

@@ -26,6 +26,7 @@
 
 class Strategy
 {
+	Q_DISABLE_COPY_MOVE(Strategy)
 public:
 	explicit Strategy(Reporter&);
 	virtual ~Strategy() = default;

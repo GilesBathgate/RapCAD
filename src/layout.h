@@ -27,6 +27,7 @@
 
 class Layout
 {
+	Q_DISABLE_COPY_MOVE(Layout)
 	Q_DECLARE_TR_FUNCTIONS(Layout)
 public:
 	explicit Layout(Reporter&);

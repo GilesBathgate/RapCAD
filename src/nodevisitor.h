@@ -19,10 +19,15 @@
 #ifndef NODEVISITOR_H
 #define NODEVISITOR_H
 
+#include <qglobal.h>
+
 class NodeVisitor
 {
+	Q_DISABLE_COPY_MOVE(NodeVisitor)
+protected:
+	NodeVisitor()=default;
 public:
-	virtual ~NodeVisitor() {}
+	virtual ~NodeVisitor()=default;
 	virtual void visit(const class PrimitiveNode&)=0;
 	virtual void visit(const class UnionNode&)=0;
 	virtual void visit(const class GroupNode&)=0;

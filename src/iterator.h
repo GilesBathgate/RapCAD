@@ -19,6 +19,8 @@
 #ifndef ITERATOR_H
 #define ITERATOR_H
 
+#include <qglobal.h>
+
 template <typename T>
 struct Iterator
 {
@@ -26,7 +28,7 @@ struct Iterator
 protected:
 	Iterator() : p(*this) {}
 public:
-	virtual ~Iterator(){}
+	virtual ~Iterator()=default;
 #ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Winfinite-recursion"
