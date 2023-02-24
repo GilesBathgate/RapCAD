@@ -1,0 +1,7 @@
+function test() {
+a="";
+for(i="abc")
+a~=i;
+
+return a=="abc";
+}
