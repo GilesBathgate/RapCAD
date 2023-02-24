@@ -125,9 +125,9 @@ void Worker::generation()
 	if(v) {
 		reporter.reportMessage(tr("Layers: %1").arg(v->getValueString()));
 
-		const int itterations=v->toInteger();
+		const int iterations=v->toInteger();
 		Instance* m=addProductInstance("manufacture",s);
-		for(auto i=0; i<=itterations; ++i) {
+		for(auto i=0; i<=iterations; ++i) {
 			if(i>0) {
 				e = new TreeEvaluator(reporter);
 			}
