@@ -28,29 +28,36 @@ IsMat4x4Function::IsMat4x4Function() : Function("is_mat4x4")
 	addParameter("value","mat4x4",tr("The value to test."));
 }
 
-Value& IsMat4x4Function::evaluate(const Context& ctx) const
+static bool isMat4x4(VectorValue* matVal)
 {
-	auto* matVal=getParameterArgument<VectorValue>(ctx,0);
-	if(matVal) {
-		const QList<Value*> rows=matVal->getElements();
-		if(rows.count()==4) {
-			for(Value* c: rows) {
-				auto* rowVal=dynamic_cast<VectorValue*>(c);
-				if(rowVal) {
-					const QList<Value*> cols=rowVal->getElements();
-					if(cols.count()==4) {
-						for(Value* v: cols) {
-							auto* numVal=dynamic_cast<NumberValue*>(v);
-							if(!numVal) {
-								return ValueFactory::createBoolean(false);
-							}
-						}
-						return ValueFactory::createBoolean(true);
-					}
-				}
-			}
+	const QList<Value*>& rows=matVal->getElements();
+	if(rows.count()!=4)
+		return false;
+
+	for(Value* c: rows) {
+		auto* rowVal=dynamic_cast<VectorValue*>(c);
+		if(!rowVal)
+			return false;
+
+		const QList<Value*> cols=rowVal->getElements();
+		if(cols.count()!=4)
+			return false;
+
+		for(Value* v: cols) {
+			auto* numVal=dynamic_cast<NumberValue*>(v);
+			if(!numVal)
+				return false;
 		}
 	}
 
-	return ValueFactory::createBoolean(false);
+	return true;
+}
+
+Value& IsMat4x4Function::evaluate(const Context& ctx) const
+{
+	auto* matVal=getParameterArgument<VectorValue>(ctx,0);
+	if(matVal)
+		return ValueFactory::createBoolean(isMat4x4(matVal));
+
+	return  ValueFactory::createBoolean(false);
 }
