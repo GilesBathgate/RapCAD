@@ -59,9 +59,9 @@ int CodeEditor::lineNumberAreaWidth()
 	}
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 11, 0)
-	int space = 3 + fontMetrics().width(QLatin1Char('9')) * digits;
+	const int space = 3 + fontMetrics().width(QLatin1Char('9')) * digits;
 #else
-	int space = 3 + fontMetrics().horizontalAdvance(QLatin1Char('9')) * digits;
+	const int space = 3 + fontMetrics().horizontalAdvance(QLatin1Char('9')) * digits;
 #endif
 
 	return space;
@@ -100,7 +100,7 @@ bool CodeEditor::saveFile()
 
 	QTextDocumentWriter writer(fileName);
 	writer.setFormat("plaintext");
-	bool success = writer.write(document());
+	const bool success = writer.write(document());
 	if(success)
 		document()->setModified(false);
 
@@ -109,7 +109,7 @@ bool CodeEditor::saveFile()
 
 bool CodeEditor::saveAsFile()
 {
-	QString fileName=MainWindow::getSaveFileName(this, tr("Save as..."),
+	const QString& fileName=MainWindow::getSaveFileName(this, tr("Save as..."),
 		QString(),tr("RapCAD Files (*.rcad);;All Files (*)"),"rcad");
 	if(fileName.isEmpty())
 		return false;
@@ -125,8 +125,8 @@ bool CodeEditor::loadFile(const QString& f)
 	if(!file.open(QFile::ReadOnly))
 		return false;
 
-	QByteArray data=file.readAll();
-	QString str=QString::fromLocal8Bit(data);
+	const QByteArray& data=file.readAll();
+	const QString& str=QString::fromLocal8Bit(data);
 	setPlainText(str);
 
 	setFileName(f);
@@ -135,7 +135,7 @@ bool CodeEditor::loadFile(const QString& f)
 
 bool CodeEditor::openFile()
 {
-	QString fileName=QFileDialog::getOpenFileName(this, tr("Open File..."),
+	const QString& fileName=QFileDialog::getOpenFileName(this, tr("Open File..."),
 		QString(),tr("RapCAD Files (*.rcad);;All Files (*)"));
 	if(!fileName.isEmpty())
 		loadFile(fileName);
@@ -208,23 +208,23 @@ int CodeEditor::getSelectionBlockCount()
 	if(!cursor.hasSelection())
 		return 0;
 
-	int finish=cursor.blockNumber();
+	const int finish=cursor.blockNumber();
 	cursor.setPosition(cursor.anchor());
-	int start=cursor.blockNumber();
+	const int start=cursor.blockNumber();
 
 	return std::abs(finish-start);
 }
 
 void CodeEditor::increaseSelectionIndent()
 {
-	int blockCount=getSelectionBlockCount();
+	const int blockCount=getSelectionBlockCount();
 
 	QTextCursor cursor=textCursor();
 	cursor.setPosition(std::min(cursor.anchor(),cursor.position()));
 
 	cursor.beginEditBlock();
 	auto& p=Preferences::getInstance();
-	QString indent=p.getIndent();
+	const QString& indent=p.getIndent();
 	for(auto i=0; i<=blockCount; ++i) {
 		cursor.movePosition(QTextCursor::StartOfBlock);
 		QTextCursor current(cursor);
@@ -238,14 +238,14 @@ void CodeEditor::increaseSelectionIndent()
 
 void CodeEditor::decreaseSelectionIndent()
 {
-	int blockCount=getSelectionBlockCount();
+	const int blockCount=getSelectionBlockCount();
 
 	QTextCursor cursor=textCursor();
 	cursor.setPosition(std::min(cursor.anchor(),cursor.position()));
 
 	cursor.beginEditBlock();
 	auto& p=Preferences::getInstance();
-	QString indent=p.getIndent();
+	const QString& indent=p.getIndent();
 	for(auto i=0; i<=blockCount; ++i) {
 		cursor.movePosition(QTextCursor::StartOfBlock);
 		QTextCursor current(cursor);
@@ -261,7 +261,7 @@ void CodeEditor::resizeEvent(QResizeEvent* e)
 {
 	QPlainTextEdit::resizeEvent(e);
 
-	QRect cr = contentsRect();
+	const QRect& cr = contentsRect();
 	lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
 }
 
@@ -276,7 +276,7 @@ bool CodeEditor::event(QEvent* event)
 		cursor.select(QTextCursor::WordUnderCursor);
 		Module* m = moduleNames.value(cursor.selectedText());
 		if(m) {
-			QRect r=cursorRect(cursor);
+			const QRect& r=cursorRect(cursor);
 			QToolTip::showText(mapToGlobal(QPoint(r.x(),r.y())), m->getDescription());
 		} else {
 			QToolTip::hideText();
@@ -298,14 +298,14 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent* event)
 
 	QTextBlock block = firstVisibleBlock();
 	int blockNumber = block.blockNumber();
-	int currentBlock = textCursor().block().blockNumber();
+	const int currentBlock = textCursor().block().blockNumber();
 	int top = int(blockBoundingGeometry(block).translated(contentOffset()).top());
 	int bottom = top + int(blockBoundingRect(block).height());
 
-	bool readOnly=isReadOnly();
+	const bool readOnly=isReadOnly();
 	while(block.isValid() && top <= event->rect().bottom()) {
 		if(block.isVisible() && bottom >= event->rect().top()) {
-			QString number = QString::number(blockNumber + 1);
+			const QString& number = QString::number(blockNumber + 1);
 			if(!readOnly&&blockNumber==currentBlock)
 				painter.setPen(Qt::black);
 			else

@@ -68,11 +68,11 @@ Value& IntervalValue::operation(IntervalValue& i,Operators op)
 	Value& c=i.lower;
 	Value& d=i.upper;
 	if(op==Operators::Equal) {
-		bool result=compare(a,op,c)&&compare(b,op,d);
+		const bool result=compare(a,op,c)&&compare(b,op,d);
 		return ValueFactory::createBoolean(result);
 	}
 	if(op==Operators::NotEqual) {
-		bool result=compare(a,op,c)||compare(b,op,d);
+		const bool result=compare(a,op,c)||compare(b,op,d);
 		return ValueFactory::createBoolean(result);
 	}
 	if(op==Operators::Add) {
@@ -87,7 +87,7 @@ Value& IntervalValue::operation(IntervalValue& i,Operators op)
 		Value& ad=Value::evaluate(a,op,d);
 		Value& bc=Value::evaluate(b,op,c);
 		Value& bd=Value::evaluate(b,op,d);
-		QList<Value*> vals {&ac,&ad,&bc,&bd};
+		const QList<Value*> vals {&ac,&ad,&bc,&bd};
 		Value& lower=compareAll(vals,Operators::LessThan);
 		Value& upper=compareAll(vals,Operators::GreaterThan);
 

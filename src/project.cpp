@@ -21,7 +21,7 @@
 
 Project::Project(QObject* parent) : QStandardItemModel(parent)
 {
-	QStringList headers(tr("Project"));
+	const QStringList headers(tr("Project"));
 	setHorizontalHeaderLabels(headers);
 }
 
@@ -35,7 +35,7 @@ void Project::parseProject(const QString& filename)
 	QXmlStreamReader xml(file);
 	createRootItem();
 	while(!xml.atEnd() && !xml.hasError()) {
-		QXmlStreamReader::TokenType token = xml.readNext();
+		const QXmlStreamReader::TokenType token = xml.readNext();
 		if(token == QXmlStreamReader::StartDocument) {
 			continue;
 		}
@@ -58,7 +58,7 @@ void Project::parseProject(const QString& filename)
 void Project::parseName(QXmlStreamReader& xml)
 {
 	while(xml.tokenType() != QXmlStreamReader::EndElement) {
-		QXmlStreamReader::TokenType token=xml.readNext();
+		const QXmlStreamReader::TokenType token=xml.readNext();
 		if(token == QXmlStreamReader::Characters) {
 			name = xml.text().toString();
 		}
@@ -68,7 +68,7 @@ void Project::parseName(QXmlStreamReader& xml)
 void Project::parseSource(QXmlStreamReader& xml)
 {
 	while(xml.tokenType() != QXmlStreamReader::EndElement) {
-		QXmlStreamReader::TokenType token=xml.readNext();
+		const QXmlStreamReader::TokenType token=xml.readNext();
 		if(token == QXmlStreamReader::Characters) {
 			addSource(xml.text().toString());
 		}

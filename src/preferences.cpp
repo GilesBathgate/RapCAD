@@ -146,7 +146,7 @@ void Preferences::updateAssertions()
 {
 #ifdef USE_CGAL
 #if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,6,0)
-	bool b=getUseCGALAssertions();
+	const bool b=getUseCGALAssertions();
 	CGAL::set_use_assertions(b);
 #endif
 #endif
@@ -279,8 +279,8 @@ void Preferences::setShowTooltips(bool value)
 
 QFont Preferences::getEditorFont() const
 {
-	QString family=settings->value("EditorFont.Family","Courier").toString();
-	int size=settings->value("EditorFont.Size",10).toInt();
+	const QString& family=settings->value("EditorFont.Family","Courier").toString();
+	const int size=settings->value("EditorFont.Size",10).toInt();
 
 	return QFont(family,size);
 }
@@ -293,7 +293,7 @@ void Preferences::setEditorFont(const QFont& value)
 
 Precision Preferences::getPrecision() const
 {
-	int p=settings->value("Precision",2).toInt();
+	const int p=settings->value("Precision",2).toInt();
 	return static_cast<Precision>(p);
 }
 
@@ -325,7 +325,7 @@ void Preferences::setSignificandBits(int b)
 
 Rounding Preferences::getFunctionRounding() const
 {
-	int rounding=settings->value("FunctionRounding",0).toInt();
+	const int rounding=settings->value("FunctionRounding",0).toInt();
 	return static_cast<Rounding>(rounding);
 }
 
@@ -336,7 +336,7 @@ void Preferences::setFunctionRounding(Rounding i)
 
 NumberFormats Preferences::getNumberFormat() const
 {
-	int format=settings->value("NumberFormat",0).toInt();
+	const int format=settings->value("NumberFormat",0).toInt();
 	return static_cast<NumberFormats>(format);
 }
 
@@ -627,20 +627,20 @@ void Preferences::setPrintOrigin(QPointF s)
 
 QVector3D Preferences::getPrintVolume() const
 {
-	QList<QVariant> v=settings->value("PrintVolume", QList<QVariant>({250.0,210.0,200.0})).toList();
+	const QList<QVariant>& v=settings->value("PrintVolume", QList<QVariant>({250.0,210.0,200.0})).toList();
 	return QVector3D(v.at(0).toFloat(),v.at(1).toFloat(),v.at(2).toFloat());
 }
 
 void Preferences::setPrintVolume(QVector3D v)
 {
 	//Cast to double needed so QSettings formats strings nicely.
-	QList<QVariant> d({(double)v.x(),(double)v.y(),(double)v.z()});
+	const QList<QVariant> d({(double)v.x(),(double)v.y(),(double)v.z()});
 	settings->setValue("PrintVolume",d);
 }
 
 BedAppearance Preferences::getPrintBedAppearance() const
 {
-	int i=settings->value("PrintBedAppearance",0).toInt();
+	const int i=settings->value("PrintBedAppearance",0).toInt();
 	return static_cast<BedAppearance>(i);
 }
 

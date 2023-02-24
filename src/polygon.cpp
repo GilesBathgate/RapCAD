@@ -35,7 +35,7 @@ void Polygon::prepend(int i)
 
 const QList<Point> Polygon::getPoints() const
 {
-	QList<Point> parentPoints=parent.getPoints();
+	const QList<Point>& parentPoints=parent.getPoints();
 	QList<Point> points;
 	for(auto i: indexes)
 		points.append(parentPoints.at(i));

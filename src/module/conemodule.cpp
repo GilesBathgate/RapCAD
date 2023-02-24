@@ -64,13 +64,13 @@ Node* ConeModule::evaluate(const Context& ctx) const
 	if(centerValue)
 		center=centerValue->isTrue();
 
-	decimal z1=0.0;
-	decimal z2=h;
+	const decimal& z1=0.0;
+	const decimal& z2=h;
 
-	decimal r=r_max(r1,r2);
+	const decimal& r=r_max(r1,r2);
 
 	Fragment* fg = Fragment::createFragment(ctx);
-	int f = fg->getFragments(r);
+	const int f = fg->getFragments(r);
 	delete fg;
 
 	const QList<Point> c1=getCircle(r1,f,z1);

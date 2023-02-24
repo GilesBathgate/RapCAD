@@ -33,11 +33,11 @@ Value& RoundFunction::evaluate(const Context& ctx) const
 {
 	auto* numVal=getParameterArgument<NumberValue>(ctx,0);
 	if(numVal) {
-		decimal num=numVal->getNumber();
+		const decimal& num=numVal->getNumber();
 
 		auto* placesVal=getParameterArgument<NumberValue>(ctx,1);
 		if(placesVal) {
-			int places=placesVal->toInteger();
+			const int places=placesVal->toInteger();
 			return ValueFactory::createNumber(r_round(num,places));
 		}
 

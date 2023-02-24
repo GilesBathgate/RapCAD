@@ -38,10 +38,10 @@ Node* AlignModule::evaluate(const Context& ctx) const
 	QList<ViewDirections> align;
 	VectorValue* vecVal=dynamic_cast<VectorValue*>(ctx.getArgument(0,"anchor"));
 	if(vecVal) {
-		Point p = vecVal->getPoint();
-		decimal x=p.x();
-		decimal y=p.y();
-		decimal z=p.z();
+		const Point& p = vecVal->getPoint();
+		const decimal& x=p.x();
+		const decimal& y=p.y();
+		const decimal& z=p.z();
 		if(x>0.0) {
 			align.append(ViewDirections::East);
 		} else if(x<0.0) {

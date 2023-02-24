@@ -184,9 +184,9 @@ void Context::clearArguments()
 Value* Context::getArgument(int index, const QString& name) const
 {
 #if QT_VERSION < QT_VERSION_CHECK(5,10,0)
-	bool matchLast=name.at(name.size()-1).isDigit();
+	const bool matchLast=name.at(name.size()-1).isDigit();
 #else
-	bool matchLast=name.back().isDigit();
+	const bool matchLast=name.back().isDigit();
 #endif
 	return matchArgumentIndex(true,matchLast,index,name);
 }

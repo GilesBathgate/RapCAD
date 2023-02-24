@@ -32,7 +32,7 @@ Value& SqrtFunction::evaluate(const Context& ctx) const
 {
 	auto* numVal=getParameterArgument<NumberValue>(ctx,0);
 	if(numVal) {
-		decimal num=numVal->getNumber();
+		const decimal& num=numVal->getNumber();
 		if(num<0.0)
 			return ValueFactory::createUndefined();
 

@@ -56,8 +56,8 @@ bool RangeValue::inRange(Value& index)
 	if(start.isUndefined()||finish.isUndefined()||step.isFalse())
 		return false;
 
-	Value& lower = Value::evaluate(index,Operators::LessThan,reverse?finish:start);
-	Value& upper = Value::evaluate(index,Operators::GreaterThan,reverse?start:finish);
+	const Value& lower = Value::evaluate(index,Operators::LessThan,reverse?finish:start);
+	const Value& upper = Value::evaluate(index,Operators::GreaterThan,reverse?start:finish);
 
 	return lower.isFalse() && upper.isFalse();
 }
@@ -137,16 +137,16 @@ Value& RangeValue::operation(RangeValue& range,Operators op)
 	Value& c=range.start;
 	Value& d=range.finish;
 	if(op==Operators::Equal) {
-		bool result=compare(a,op,c)&&compare(b,op,d);
+		const bool result=compare(a,op,c)&&compare(b,op,d);
 		return ValueFactory::createBoolean(result);
 	}
 	if(op==Operators::NotEqual) {
-		bool result=compare(a,op,c)||compare(b,op,d);
+		const bool result=compare(a,op,c)||compare(b,op,d);
 		return ValueFactory::createBoolean(result);
 	}
 	if(op==Operators::Concatenate) {
 
-		QList<Value*> vals {&a,&b,&c,&d};
+		const QList<Value*> vals {&a,&b,&c,&d};
 		Value& lower=compareAll(vals,Operators::LessThan);
 		Value& upper=compareAll(vals,Operators::GreaterThan);
 
@@ -158,12 +158,12 @@ Value& RangeValue::operation(RangeValue& range,Operators op)
 
 bool RangeValue::getReverse()
 {
-	Value& v=Value::evaluate(start,Operators::GreaterThan,finish);
+	const Value& v=Value::evaluate(start,Operators::GreaterThan,finish);
 	return v.isTrue();
 }
 
 Value& RangeValue::defaultStep()
 {
-	decimal i=reverse?-1.0:1.0;
+	const decimal& i=reverse?-1.0:1.0;
 	return ValueFactory::createNumber(i);
 }

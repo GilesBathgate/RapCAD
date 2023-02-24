@@ -56,16 +56,16 @@ bool CGALSanitizer::allEdgesSimple()
 	return true;
 }
 
-static bool connected(const CGAL::HalfedgeHandle& h1,const CGAL::HalfedgeHandle& h2)
+static bool connected(const CGAL::HalfedgeConstHandle& h1,const CGAL::HalfedgeConstHandle& h2)
 {
 	return(h1==h2||h1->next()==h2||h2->next()==h1||h1->prev()==h2||h2->prev()==h1);
 }
 
-static bool do_intersect(const CGAL::HalfedgeHandle& h1,const CGAL::HalfedgeHandle& h2)
+static bool do_intersect(const CGAL::HalfedgeConstHandle& h1,const CGAL::HalfedgeConstHandle& h2)
 {
 	using Segment3 = CGAL::Segment_3<CGAL::Kernel3>;
-	Segment3 s1(h1->vertex()->point(),h1->opposite()->vertex()->point());
-	Segment3 s2(h2->vertex()->point(),h2->opposite()->vertex()->point());
+	const Segment3 s1(h1->vertex()->point(),h1->opposite()->vertex()->point());
+	const Segment3 s2(h2->vertex()->point(),h2->opposite()->vertex()->point());
 	return CGAL::do_intersect(s1,s2);
 }
 
@@ -150,9 +150,9 @@ static bool hasLength(const CGAL::HalfedgeConstHandle& h)
 
 void CGALSanitizer::removeLongestEdge(const CGAL::HalfedgeHandle& h1,const CGAL::HalfedgeHandle& h2,const CGAL::HalfedgeHandle& h3)
 {
-	CGAL::Scalar l1=getLength(h1);
-	CGAL::Scalar l2=getLength(h2);
-	CGAL::Scalar l3=getLength(h3);
+	const CGAL::Scalar& l1=getLength(h1);
+	const CGAL::Scalar& l2=getLength(h2);
+	const CGAL::Scalar& l3=getLength(h3);
 
 	if(l1>l2&&l1>l3)
 		polyhedron.join_facet(h1);

@@ -37,10 +37,10 @@ AboutDialog::AboutDialog(QWidget* parent) :
 	setModal(true);
 	setFixedSize(width(),height());
 
-	QIcon rapcadIcon(":/icons/rapcad-16x16.png");
+	const QIcon rapcadIcon(":/icons/rapcad-16x16.png");
 	setWindowIcon(rapcadIcon);
 
-	QPixmap rapcadPicture(":/icons/rapcad-100x100.png");
+	const QPixmap rapcadPicture(":/icons/rapcad-100x100.png");
 	ui->picture->setPixmap(rapcadPicture);
 
 	ui->name->setText(tr("RapCAD Version %1").arg(QSTRINGIFY(RAPCAD_VERSION)));

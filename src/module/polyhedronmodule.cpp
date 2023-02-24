@@ -46,7 +46,7 @@ Node* PolyhedronModule::evaluate(const Context& ctx) const
 	for(Value* child: children) {
 		auto* point=dynamic_cast<VectorValue*>(child);
 		if(!point) continue;
-		Point pt = point->getPoint();
+		const Point& pt = point->getPoint();
 		p->createVertex(pt);
 	}
 
@@ -57,7 +57,7 @@ Node* PolyhedronModule::evaluate(const Context& ctx) const
 		for(Value* indexVal: faceVec->getElements()) {
 			auto* indexNum=dynamic_cast<NumberValue*>(indexVal);
 			if(!indexNum) continue;
-			int index = indexNum->toInteger();
+			const int index = indexNum->toInteger();
 			if(index>=0&&index<children.count()) {
 				pg.append(index);
 			}

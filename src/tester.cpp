@@ -77,7 +77,7 @@ void Tester::writeHeader(const QString& name, int num)
 
 void Tester::writeTestTime()
 {
-	float timeTaken = testTimer.nsecsElapsed()/1000000.0f;
+	const float timeTaken = testTimer.nsecsElapsed()/1000000.0f;
 #ifndef Q_OS_WIN
 	output << "\e[0;33m";
 #endif
@@ -163,14 +163,14 @@ int Tester::evaluate()
 
 	writePass();
 
-	QDir testDir(directory);
+	const QDir testDir(directory);
 	/* This hard coded filter need to be addressed
 	 * but it will do for now. */
 	const auto entries=testDir.entryInfoList(QStringList("*_*"));
 	for(const auto& entry: entries) {
 
-		QDir dir(entry.absoluteFilePath());
-		QString testDirName=entry.fileName();
+		const QDir dir(entry.absoluteFilePath());
+		const QString& testDirName=entry.fileName();
 		if(testDirName=="061_export") {
 			exportTest(dir);
 			continue;
@@ -214,9 +214,9 @@ int Tester::evaluate()
 			if(m) {
 				Context ctx;
 				if(testphase) {
-					CubeModule cube(*nullreport);
+					const CubeModule cube(*nullreport);
 					Node* cubeNode = cube.evaluate(ctx);
-					QList<Node*> inputNodes { cubeNode };
+					const QList<Node*> inputNodes { cubeNode };
 					ctx.setInputNodes(inputNodes);
 				}
 				Node* node=m->evaluate(ctx);
@@ -230,7 +230,7 @@ int Tester::evaluate()
 					}
 #endif
 					node->accept(ge);
-					QScopedPointer<Primitive> r(ge.getResult());
+					const QScopedPointer<Primitive> r(ge.getResult());
 					writePass();
 					passcount++;
 				}
@@ -246,11 +246,11 @@ int Tester::evaluate()
 	reporter.startTiming();
 
 	auto& p=Preferences::getInstance();
-	bool autosave=p.getAutoSaveOnCompile();
+	const bool autosave=p.getAutoSaveOnCompile();
 	p.setAutoSaveOnCompile(false);
 
 	int c=0;
-	QApplication a(c,nullptr);
+	const QApplication a(c,nullptr);
 	ui = new MainWindow();
 	ui->show();
 	QTimer::singleShot(100,this,&Tester::runUiTests);
@@ -385,7 +385,7 @@ void Tester::exportTest(const QDir& dir)
 #if USE_CGAL
 	const auto files=dir.entryInfoList(QStringList("*.rcad"), QDir::Files);
 	for(const auto& file: files) {
-		QDir path(file.absolutePath());
+		const QDir path(file.absolutePath());
 		const QFileInfo origPath(path.filePath(file.baseName()+".csg"));
 		Primitive* p=nullptr;
 #ifndef Q_OS_WIN
@@ -422,7 +422,7 @@ void Tester::exportTest(const QDir& dir)
 #if USE_CGAL
 void Tester::exportTest(Primitive* p,const QFileInfo& origPath,const QFileInfo& file,const QString& ext)
 {
-	QString newName=file.baseName()+ext;
+	const QString& newName=file.baseName()+ext;
 
 	writeHeader(newName,++testcount);
 #ifdef Q_OS_WIN
@@ -430,7 +430,7 @@ void Tester::exportTest(Primitive* p,const QFileInfo& origPath,const QFileInfo& 
 	return;
 #endif
 
-	QDir path(file.absolutePath());
+	const QDir path(file.absolutePath());
 	const QFileInfo newPath(path.filePath(newName));
 	const CGALExport e(newPath,p,*nullreport);
 	e.exportResult();
@@ -453,7 +453,7 @@ void Tester::testFunction(Script& s)
 {
 	TreeEvaluator te(*nullreport);
 	//If a test function exists check it returns true
-	QList<Argument*> args;
+	const QList<Argument*> args;
 	Callback* c = addCallback("test",s,args);
 	s.accept(te);
 	auto* v = dynamic_cast<BooleanValue*>(c->getResult());
@@ -478,11 +478,11 @@ void Tester::testModule(Script& s,const QFileInfo& file)
 #endif
 	TreeEvaluator te(*nullreport);
 
-	QString basename=file.baseName();
-	QString examFileName=basename + ".exam.csg";
-	QString csgFileName=basename + ".csg";
-	QFileInfo examFileInfo(file.absoluteDir(),examFileName);
-	QFileInfo csgFileInfo(file.absoluteDir(),csgFileName);
+	const QString& basename=file.baseName();
+	const QString& examFileName=basename + ".exam.csg";
+	const QString& csgFileName=basename + ".csg";
+	const QFileInfo examFileInfo(file.absoluteDir(),examFileName);
+	const QFileInfo csgFileInfo(file.absoluteDir(),csgFileName);
 	QFile examFile(examFileInfo.absoluteFilePath());
 	s.accept(te);
 
@@ -496,7 +496,7 @@ void Tester::testModule(Script& s,const QFileInfo& file)
 	examout.flush();
 	examFile.close();
 
-	QFile csgFile(csgFileInfo.absoluteFilePath());
+	const QFile csgFile(csgFileInfo.absoluteFilePath());
 	if(csgFile.exists()) {
 		Comparer co(*nullreport);
 		co.setup(examFileInfo.absoluteFilePath(),csgFileInfo.absoluteFilePath());

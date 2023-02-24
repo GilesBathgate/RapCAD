@@ -176,7 +176,7 @@ void GLView::preferencesUpdated()
 
 void GLView::setCompiling(bool value)
 {
-	GLfloat n=value?0.8F:1.0F;
+	const GLfloat n=value?0.8F:1.0F;
 	glClearColor(n,n,n,0.0F);
 	if(render)
 		render->setCompiling(value);
@@ -253,7 +253,7 @@ void GLView::drawAxes()
 	glLineWidth(1);
 	glColor3f(0.0F,0.0F,0.0F);
 	glBegin(GL_LINES);
-	GLfloat c=fmaxf(distance/2.0F,GLfloat(rulerLength));
+	const GLfloat c=fmaxf(distance/2.0F,GLfloat(rulerLength));
 	glVertex3f(-c,0.0F,0.0F);
 	glVertex3f(+c,0.0F,0.0F);
 	glVertex3f(0.0F,-c,0.0F);
@@ -386,19 +386,19 @@ void GLView::drawRulers()
 	glLineWidth(1);
 	glColor3f(0.2F,0.2F,0.2F);
 	glBegin(GL_LINES);
-	int k=distance<200?1:10; //Only show milimeters when close up
+	const int k=distance<200?1:10; //Only show milimeters when close up
 	for(int i=-rulerLength; i<rulerLength; i+=k) {
-		int j=i%10?2:5;
+		const int j=i%10?2:5;
 		glVertex3i(i,0,0);
 		glVertex3i(i,j,0);
 	}
 	for(int i=-rulerLength; i<rulerLength; i+=k) {
-		int j=i%10?2:5;
+		const int j=i%10?2:5;
 		glVertex3i(0,i,0);
 		glVertex3i(j,i,0);
 	}
 	for(int i=-rulerLength; i<rulerLength; i+=k) {
-		int j=i%10?2:5;
+		const int j=i%10?2:5;
 		glVertex3i(0,0,i);
 		glVertex3i(j,0,i);
 	}
@@ -439,9 +439,9 @@ void GLView::paintGL()
 	glMatrixMode(GL_MODELVIEW);
 
 	modelview.setToIdentity();
-	QVector3D eye(-viewportX,-distance,-viewportZ);
-	QVector3D center(-viewportX,0.0F,-viewportZ);
-	QVector3D up(0.0F,0.0F,1.0F);
+	const QVector3D eye(-viewportX,-distance,-viewportZ);
+	const QVector3D center(-viewportX,0.0F,-viewportZ);
+	const QVector3D up(0.0F,0.0F,1.0F);
 	modelview.lookAt(eye,center,up);
 
 	modelview.rotate(rotateX,1.0F,0.0F,0.0F);
@@ -505,9 +505,9 @@ void GLView::renderZ(GLfloat x,GLfloat y,GLfloat z)
 void GLView::wheelEvent(QWheelEvent* event)
 {
 #if QT_VERSION < QT_VERSION_CHECK(5,5,0)
-	int delta=event->delta();
+	const int delta=event->delta();
 #else
-	int delta=event->angleDelta().y();
+	const int delta=event->angleDelta().y();
 #endif
 	zoomView(GLfloat(delta/12.0F));
 	update();
@@ -516,16 +516,16 @@ void GLView::wheelEvent(QWheelEvent* event)
 void GLView::mouseDoubleClickEvent(QMouseEvent* event)
 {
 	if(render) {
-		QPointF mousePos=event->position();
-		int w=width();
-		int h=height();
+		const QPointF& mousePos=event->position();
+		const int w=width();
+		const int h=height();
 		GLfloat x,y,z;
 		x=mousePos.x();
 		y=h-mousePos.y();
 		makeCurrent();
 		glReadPixels(x,y,1,1,GL_DEPTH_COMPONENT,GL_FLOAT,&z);
 		doneCurrent();
-		QRect viewport(0,0,w,h);
+		const QRect viewport(0,0,w,h);
 		QVector3D target(x,y,z);
 		target = target.unproject(modelview,projection,viewport);
 		QVector3D source(x,y,0);
@@ -566,13 +566,13 @@ void GLView::mouseMoveEvent(QMouseEvent* event)
 		return;
 
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-	QPoint current=event->globalPos();
+	const QPoint current=event->globalPos();
 #else
-	QPointF current=event->globalPosition();
+	const QPointF current=event->globalPosition();
 #endif
-	int dx=current.x()-last.x();
-	int dy=current.y()-last.y();
-	bool shift=QApplication::keyboardModifiers() & Qt::ShiftModifier;
+	const int dx=current.x()-last.x();
+	const int dy=current.y()-last.y();
+	const bool shift=QApplication::keyboardModifiers() & Qt::ShiftModifier;
 	if(event->buttons() & Qt::LeftButton) {
 		rotateX+=GLfloat(dy);
 		if(shift) {

@@ -46,7 +46,7 @@ void QPathTextBuilder::setSize(int value)
 
 decimal QPathTextBuilder::getHeight()
 {
-	QFontMetrics fm(getFont());
+	const QFontMetrics fm(getFont());
 	return fm.height();
 }
 

@@ -60,7 +60,7 @@ const QList<CGAL::Point2> CGALPolygon::getProjectedPoints()
 	CGALProjection* pro=getProjection();
 	QList<CGAL::Point2> points;
 	const auto& pr=dynamic_cast<const CGALPrimitive&>(parent);
-	QList<CGAL::Point3> parentPoints=pr.getPoints();
+	const QList<CGAL::Point3>& parentPoints=pr.getPoints();
 	for(auto i: getIndexes()) {
 		const CGAL::Point3& p3=parentPoints.at(i);
 		points.append(pro->project(p3));
@@ -89,7 +89,7 @@ CGAL::Vector3 CGALPolygon::getNormal() const
 
 void CGALPolygon::calculateProjection()
 {
-	CGAL::Vector3 v=plane.orthogonal_vector();
+	const CGAL::Vector3& v=plane.orthogonal_vector();
 	projection=new CGALProjection(v);
 }
 

@@ -114,17 +114,17 @@ Value& ComplexValue::operation(ComplexValue& c,Operators e)
 			Value& y = (w1 * y2) - (x1 * z2) + (y1 * w2) + (z1 * x2);
 			Value& z = (w1 * z2) + (x1 * y2) - (y1 * x2) + (z1 * w2);
 
-			QList<Value*> i {&x,&y,&z};
+			const QList<Value*> i {&x,&y,&z};
 			return ValueFactory::createComplex(w,i);
 		}
 		if(e==Operators::Equal||e==Operators::NotEqual) {
-			Value& eqRe=Value::evaluate(w1,e,w2);
+			const Value& eqRe=Value::evaluate(w1,e,w2);
 			bool eq=eqRe.isTrue();
 			if(e==Operators::NotEqual && !eq)
 				return ValueFactory::createBoolean(true);
 			if(eq)
 				for(auto i=0; i<3; ++i) {
-					Value& eqIm=Value::evaluate(*imaginary.at(i),e,*c.imaginary.at(i));
+					const Value& eqIm=Value::evaluate(*imaginary.at(i),e,*c.imaginary.at(i));
 					if(e==Operators::NotEqual && eqIm.isTrue())
 						return ValueFactory::createBoolean(true);
 					if(eqIm.isFalse())

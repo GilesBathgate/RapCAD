@@ -33,9 +33,9 @@ AngFunction::AngFunction() : Function("ang")
 
 Value& AngFunction::getResult(const decimal& a,const decimal& x,const decimal& y,const decimal& z)
 {
-	decimal w=a/2.0;
-	decimal c=r_right_cos(w);
-	decimal s=r_right_sin(w);
+	const decimal& w=a/2.0;
+	const decimal& c=r_right_cos(w);
+	const decimal& s=r_right_sin(w);
 
 	Value& angle=ValueFactory::createNumber(c);
 
@@ -83,7 +83,7 @@ Value& AngFunction::evaluate(const Context& ctx) const
 			Value& u=Value::evaluate(*vecVal,Operators::Divide,n);
 			auto* unitVec=dynamic_cast<VectorValue*>(&u);
 			if(unitVec) {
-				Point p=unitVec->getPoint();
+				const Point& p=unitVec->getPoint();
 				x=p.x();
 				y=p.y();
 				z=p.z();

@@ -146,7 +146,7 @@ decimal r_round(const decimal& a,int places)
 	mpfr_pow(m,n,o,MPFR_RNDN);
 	mpfr_clear(n);
 	mpfr_clear(o);
-	decimal f=to_decimal(m);
+	const decimal& f=to_decimal(m);
 #else
 	decimal f=pow(10.0,places);
 #endif
@@ -577,7 +577,7 @@ bool r_is_int(const decimal& a)
 #ifdef USE_CGAL
 	mpfr_t n;
 	to_mpfr(n,a);
-	bool r=mpfr_integer_p(n);
+	const bool r=mpfr_integer_p(n);
 	mpfr_clear(n);
 	return r;
 #else

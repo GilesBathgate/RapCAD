@@ -32,7 +32,7 @@ Value& RadFunction::evaluate(const Context& ctx) const
 {
 	auto* numVal=getParameterArgument<NumberValue>(ctx,0);
 	if(numVal) {
-		decimal num=numVal->getNumber();
+		const decimal& num=numVal->getNumber();
 
 		return ValueFactory::createNumber(r_rad(num));
 	}

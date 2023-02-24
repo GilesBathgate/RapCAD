@@ -85,7 +85,7 @@ void NodeEvaluator::visit(const GroupNode& op)
 
 void NodeEvaluator::visit(const DifferenceNode& op)
 {
-	int count=op.childCount();
+	const int count=op.childCount();
 	if(count>2)
 		reporter.reportWarning(tr("%1 children in difference may compute faster with union/group").arg(count));
 	if(!evaluate(op,Operations::Difference)) return;
@@ -161,7 +161,7 @@ void NodeEvaluator::visit(const RotateExtrudeNode& op)
 		return noResult(op);
 	}
 #ifdef USE_CGAL
-	CGAL::Vector3 axis(CGAL::ORIGIN,op.getAxis());
+	const CGAL::Vector3 axis(CGAL::ORIGIN,op.getAxis());
 	if(axis.squared_length()==0.0) {
 		reporter.reportWarning(tr("Invalid rotation axis specified"));
 		return noResult(op);
@@ -287,8 +287,8 @@ void NodeEvaluator::visit(const ChildrenNode& n)
 	if(n.getIndexes().isEmpty()) {
 		if(!evaluate(n,Operations::Union)) return;
 	} else {
-		QList<Node*> allChildren=n.getChildren();
-		QList<int> indexes=n.getIndexes();
+		const QList<Node*>& allChildren=n.getChildren();
+		const QList<int>& indexes=n.getIndexes();
 		QList<Node*> children;
 		QList<Node*> others;
 		for(auto i=0; i<allChildren.count(); ++i) {
@@ -340,7 +340,7 @@ void NodeEvaluator::visit(const TransformationNode& tr)
 	if(!evaluate(tr,Operations::Union)) return;
 #ifdef USE_CGAL
 	using Axis = TransformationNode::Axis;
-	Axis axis=tr.getDatumAxis();
+	const Axis axis=tr.getDatumAxis();
 	if(axis!=Axis::None) {
 		CGALAuxiliaryBuilder b(reporter);
 		result=b.buildDatumsPrimitive(result,axis);

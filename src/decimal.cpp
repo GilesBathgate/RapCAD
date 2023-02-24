@@ -29,16 +29,16 @@ decimal to_decimal(const QString& str,bool* ok)
 {
 	QString s(str);
 #ifdef USE_CGAL
-	int i = s.indexOf('.');
+	const int i = s.indexOf('.');
 	if(i>=0) {
 		s.remove(i,1);
-		int p=s.length()-i;
+		const int p=s.length()-i;
 		s.append("/1");
 		s.append(QString(p,'0'));
 	}
 	mpq_t q;
 	mpq_init(q);
-	int error=mpq_set_str(q,s.toLatin1().constData(),10);
+	const int error=mpq_set_str(q,s.toLatin1().constData(),10);
 	if(error) {
 		mpq_clear(q);
 		if(ok!=nullptr)
@@ -58,7 +58,7 @@ decimal to_decimal(const QString& str,bool* ok)
 QString to_string(const decimal& d)
 {
 	auto& p=Preferences::getInstance();
-	NumberFormats format=p.getNumberFormat();
+	const NumberFormats format=p.getNumberFormat();
 
 	if(format!=NumberFormats::Scientific && d==0.0)
 		return QString('0');
@@ -109,18 +109,18 @@ bool to_boolean(const decimal& n)
 
 decimal parse_numberexp(const QString& s, bool* ok)
 {
-	int i=s.indexOf('e',0,Qt::CaseInsensitive);
+	const int i=s.indexOf('e',0,Qt::CaseInsensitive);
 	if(i<0)
 		return to_decimal(s);
 
-	QString e=s.mid(i+1).remove('+');
-	decimal p=to_decimal(e,ok);
+	const QString& e=s.mid(i+1).remove('+');
+	const decimal& p=to_decimal(e,ok);
 	return to_decimal(s.left(i),ok) * r_pow(decimal(10),p);
 }
 
 decimal parse_rational(const QString& s, bool* ok)
 {
-	int i=s.lastIndexOf('/');
+	const int i=s.lastIndexOf('/');
 	if(i<0)
 		return parse_numberexp(s,ok);
 

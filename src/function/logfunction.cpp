@@ -35,10 +35,10 @@ Value& LogFunction::evaluate(const Context& ctx) const
 	auto* baseVal=getParameterArgument<NumberValue>(ctx,1);
 
 	if(numVal) {
-		decimal num=numVal->getNumber();
+		const decimal& num=numVal->getNumber();
 
 		if(baseVal) {
-			decimal base=baseVal->getNumber();
+			const decimal& base=baseVal->getNumber();
 
 			return ValueFactory::createNumber(r_log(num)/r_log(base));
 		}

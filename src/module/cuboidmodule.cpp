@@ -36,9 +36,9 @@ Node* CuboidModule::evaluate(const Context& ctx) const
 	auto* depthVal=getParameterArgument<NumberValue>(ctx,1);
 	auto* heightVal=getParameterArgument<NumberValue>(ctx,2);
 
-	decimal w=widthVal?widthVal->getNumber():1.0;
-	decimal d=depthVal?depthVal->getNumber():1.0;
-	decimal h=heightVal?heightVal->getNumber():1.0;
+	const decimal& w=widthVal?widthVal->getNumber():1.0;
+	const decimal& d=depthVal?depthVal->getNumber():1.0;
+	const decimal& h=heightVal?heightVal->getNumber():1.0;
 
 	auto* pn=new PrimitiveNode();
 	Primitive* p=pn->createPrimitive();

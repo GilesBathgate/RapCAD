@@ -40,7 +40,7 @@ TextValue& TextValue::toText()
 Value& TextValue::toNumber()
 {
 	bool ok=false;
-	decimal n=to_decimal(text,&ok);
+	const decimal& n=to_decimal(text,&ok);
 	if(ok)
 		return ValueFactory::createNumber(n);
 

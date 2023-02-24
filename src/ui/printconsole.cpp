@@ -24,7 +24,7 @@ PrintConsole::PrintConsole(QWidget* parent) :
 	ui(new Ui::PrintConsole)
 {
 	ui->setupUi(this);
-	QIcon rapcadIcon(":/icons/rapcad-16x16.png");
+	const QIcon rapcadIcon(":/icons/rapcad-16x16.png");
 	setWindowIcon(rapcadIcon);
 	QString start("#ff0");
 	QString finish("#cc0");

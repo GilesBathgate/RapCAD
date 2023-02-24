@@ -47,7 +47,7 @@ Primitive* CGALImport::import() const
 {
 	reporter.reportMessage(tr("Importing '%1'").arg(fileInfo.absoluteFilePath()));
 
-	QString suffix=fileInfo.suffix().toLower();
+	const QString& suffix=fileInfo.suffix().toLower();
 	if(suffix=="off")
 		return importOFF();
 	if(suffix=="nef")
@@ -309,7 +309,7 @@ Primitive* CGALImport::import3MF() const
 		return p;
 	}
 	QZipReader zip(fileInfo.absoluteFilePath());
-	QByteArray data=zip.fileData("3D/3dmodel.model");
+	const QByteArray& data=zip.fileData("3D/3dmodel.model");
 	zip.close();
 	QXmlStreamReader xml(data);
 	if(xml.readNextStartElement() && xml.name()==QString("model")) {

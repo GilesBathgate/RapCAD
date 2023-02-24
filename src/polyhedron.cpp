@@ -115,7 +115,7 @@ void Polyhedron::transform(TransformMatrix* matrix)
 {
 	if(!matrix) return;
 #if USE_CGAL
-	CGAL::AffTransformation3 t=matrix->getTransform();
+	const CGAL::AffTransformation3& t=matrix->getTransform();
 #else
 	TransformMatrix* t=matrix;
 #endif

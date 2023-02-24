@@ -315,7 +315,7 @@ void CGALRenderer::desaturate(QColor& c)
 
 void CGALRenderer::drawVertices(QOpenGLFunctions_1_0& f) const
 {
-	float p=getVertexSize();
+	const float p=getVertexSize();
 	if(p==0) return;
 	for(const auto& v : getVertices()) {
 		const QColor& c=getVertexColor(v.getMark());
@@ -329,7 +329,7 @@ void CGALRenderer::drawVertices(QOpenGLFunctions_1_0& f) const
 
 void CGALRenderer::drawEdges(QOpenGLFunctions_1_0& f) const
 {
-	float w=getEdgeSize();
+	const float w=getEdgeSize();
 	if(w==0) return;
 	for(const auto& e : getEdges()) {
 		auto p=e.source(),q=e.target();
@@ -486,7 +486,7 @@ void CGALRenderer::paint(QOpenGLFunctions_1_0& f,bool skeleton,bool showedges)
 
 void CGALRenderer::locate(const QVector3D& s,const QVector3D& t)
 {
-	Point p=primitive.locate(Point(s.x(),s.y(),s.z()),Point(t.x(),t.y(),t.z()));
+	const Point& p=primitive.locate(Point(s.x(),s.y(),s.z()),Point(t.x(),t.y(),t.z()));
 	reporter.reportMessage(to_string(p));
 }
 

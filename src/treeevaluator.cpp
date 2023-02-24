@@ -94,8 +94,8 @@ void TreeEvaluator::visit(const ModuleScope& scp)
 
 void TreeEvaluator::visit(const Instance& inst)
 {
-	QString name = inst.getName();
-	bool aux=(inst.getType()==InstanceTypes::Auxilary);
+	const QString& name = inst.getName();
+	const bool aux=(inst.getType()==InstanceTypes::Auxilary);
 
 	/* The first step for module invocations is to evaluate all the children if
 	 * there are any, we do this in a seperate context because children can
@@ -275,7 +275,7 @@ void TreeEvaluator::visit(const ForStatement& forstmt)
 
 void TreeEvaluator::visit(const Parameter& param)
 {
-	QString name = param.getName();
+	const QString& name = param.getName();
 
 	Value* v=nullptr;
 	Expression* e = param.getExpression();
@@ -295,7 +295,7 @@ void TreeEvaluator::visit(const BinaryExpression& exp)
 	Value* left=context->getCurrentValue();
 
 	bool shortc=false;
-	Operators op=exp.getOp();
+	const Operators op=exp.getOp();
 
 	switch(op) {
 		case Operators::LogicalAnd:
@@ -343,12 +343,12 @@ void TreeEvaluator::visit(const Argument& arg)
 void TreeEvaluator::visit(const AssignStatement& stmt)
 {
 	stmt.getVariable()->accept(*this);
-	QString name = context->getCurrentName();
+	const QString& name = context->getCurrentName();
 
 	Value* lvalue = context->getCurrentValue();
 
 	Value* result=nullptr;
-	Operators op=stmt.getOperation();
+	const Operators op=stmt.getOperation();
 	switch(op) {
 		case Operators::Increment:
 		case Operators::Decrement: {
@@ -400,7 +400,7 @@ void TreeEvaluator::visit(const VectorExpression& exp)
 		e->accept(*this);
 		childvalues.append(context->getCurrentValue());
 	}
-	int commas=exp.getAdditionalCommas();
+	const int commas=exp.getAdditionalCommas();
 	if(commas>0)
 		reporter.reportWarning(tr("%1 additional comma(s) found at the end of vector expression").arg(commas));
 
@@ -484,7 +484,7 @@ void TreeEvaluator::visit(const TernaryExpression& exp)
 
 void TreeEvaluator::visit(const Invocation& stmt)
 {
-	QString name = stmt.getName();
+	const QString& name = stmt.getName();
 
 	Scope* c=context->getCurrentScope();
 	/* Process the arguments first. Arguments can themselves contain references
@@ -558,7 +558,7 @@ QFileInfo TreeEvaluator::getFullPath(const QString& file)
 void TreeEvaluator::visit(const ModuleImport& mi)
 {
 	auto* mod=new ImportModule(reporter);
-	QFileInfo f=getFullPath(mi.getImport());
+	const QFileInfo& f=getFullPath(mi.getImport());
 	mod->setImport(f.absoluteFilePath());
 	mod->setName(mi.getName());
 	modules.append(mod);
@@ -573,13 +573,13 @@ void TreeEvaluator::visit(const ModuleImport& mi)
 void TreeEvaluator::visit(const ScriptImport& sc)
 {
 	if(!descendDone) {
-		QFileInfo f=getFullPath(sc.getImport());
+		const QFileInfo& f=getFullPath(sc.getImport());
 		auto* s=new Script(reporter);
 		s->parse(f);
 		imports.insert(&sc,s);
 		/* Now recursively descend any modules functions or script imports within
 		 * the imported script and add them to the main script */
-		QDir loc=f.absoluteDir();
+		const QDir& loc=f.absoluteDir();
 		importLocations.push(loc);
 		descend(s);
 		importLocations.pop();
@@ -610,8 +610,8 @@ void TreeEvaluator::visit(const Literal& lit)
 
 void TreeEvaluator::visit(const Variable& var)
 {
-	QString name = var.getName();
-	Storage oldStorage=var.getStorage();
+	const QString& name = var.getName();
+	const Storage oldStorage=var.getStorage();
 	Storage currentStorage=oldStorage;
 	Layout* l=scopeLookup.value(context->getCurrentScope());
 	Value& v=context->lookupVariable(name,currentStorage,l);
@@ -641,10 +641,10 @@ void TreeEvaluator::visit(const CodeDocDeclaration&)
 
 void TreeEvaluator::visit(Script& sc)
 {
-	BuiltinManager m(sc,reporter);
+	const BuiltinManager m(sc,reporter);
 
 	/* Use the location of the current script as the root for all imports */
-	QDir loc=sc.getFileLocation();
+	const QDir& loc=sc.getFileLocation();
 	importLocations.push(loc);
 
 	Script* scp=&sc;
@@ -657,7 +657,7 @@ void TreeEvaluator::visit(Script& sc)
 	for(Declaration* d: sc.getDeclarations()) {
 		d->accept(*this);
 	}
-	QList<Node*> childnodes=context->getCurrentNodes();
+	const QList<Node*>& childnodes=context->getCurrentNodes();
 
 	if(context->getReturnValue())
 		reporter.reportWarning(tr("return statement not valid inside global scope."));

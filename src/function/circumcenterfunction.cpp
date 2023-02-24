@@ -37,10 +37,10 @@ Value& CircumcenterFunction::evaluate(const Context& ctx) const
 	auto* bVal=getParameterArgument<VectorValue>(ctx,1);
 	auto* cVal=getParameterArgument<VectorValue>(ctx,2);
 	if(aVal&&bVal&&cVal) {
-		Point pa=aVal->getPoint();
-		Point pb=bVal->getPoint();
-		Point pc=cVal->getPoint();
-		Point result=CGAL::circumcenter(pa,pb,pc);
+		const Point& pa=aVal->getPoint();
+		const Point& pb=bVal->getPoint();
+		const Point& pc=cVal->getPoint();
+		const Point& result=CGAL::circumcenter(pa,pb,pc);
 		QList<Value*> resultVector;
 		resultVector.append(&ValueFactory::createNumber(result.x()));
 		resultVector.append(&ValueFactory::createNumber(result.y()));

@@ -93,7 +93,7 @@ QFuture<Primitive*> GeometryEvaluator::reduceChildren(
 Primitive* GeometryEvaluator::unionChildren(const Node& n)
 {
 	const auto& children=n.getChildren();
-	MapFunction map=MapFunctor(reporter);
+	const MapFunction map=MapFunctor(reporter);
 	return QtConcurrent::blockingMappedReduced<Primitive*>(children,map,
 	[](auto& p,auto c) {
 		p=p?p->join(c):c;
@@ -103,7 +103,7 @@ Primitive* GeometryEvaluator::unionChildren(const Node& n)
 Primitive* GeometryEvaluator::appendChildren(const Node& n)
 {
 	const auto& children=n.getChildren();
-	MapFunction map=MapFunctor(reporter);
+	const MapFunction map=MapFunctor(reporter);
 	return QtConcurrent::blockingMappedReduced<Primitive*>(children,map,
 	[](auto& p,auto c) {
 		if(!p) p=createPrimitive();
@@ -311,8 +311,8 @@ void GeometryEvaluator::visit(const ImportNode& n)
 {
 	result=QtConcurrent::run([&n,this](){
 #ifdef USE_CGAL
-		QFileInfo f(n.getImport());
-		CGALImport i(f,reporter);
+		const QFileInfo f(n.getImport());
+		const CGALImport i(f,reporter);
 		return i.import();
 #else
 		return noResult();
@@ -327,7 +327,7 @@ void GeometryEvaluator::visit(const TransformationNode& n)
 		if(!p) return noResult();
 #ifdef USE_CGAL
 		using Axis = TransformationNode::Axis;
-		Axis axis=n.getDatumAxis();
+		const Axis axis=n.getDatumAxis();
 		if(axis!=Axis::None) {
 			CGALAuxiliaryBuilder b(reporter);
 			p=b.buildDatumsPrimitive(p,axis);

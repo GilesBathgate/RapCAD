@@ -58,7 +58,7 @@ void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
 	for(const auto& p: points)
 		builder.add_vertex(p);
 
-	bool sanitized=primitive.getSanitized();
+	const bool sanitized=primitive.getSanitized();
 	if(sanitized) {
 		//Simple case polyhedron is well formed
 		for(CGALPolygon* pg: polygons) {
@@ -146,7 +146,7 @@ static void markDomains(CT& ct)
 	QList<Edge> border;
 	markDomain(ct, ct.infinite_face(), 0, border);
 	while(!border.isEmpty()) {
-		Edge e=border.takeFirst();
+		const Edge& e=border.takeFirst();
 		FaceHandle c=e.first;
 		FaceHandle n=c->neighbor(e.second);
 		if(!n->info().isNested()) {
@@ -196,8 +196,8 @@ bool CGALBuilder::triangulate()
 	using FaceIterator = CT::Face_iterator;
 
 
-	QList<CGAL::Point3> points3=primitive.getPoints();
-	int total=points3.size();
+	const QList<CGAL::Point3>& points3=primitive.getPoints();
+	const int total=points3.size();
 	if(total<3) return false;
 	if(total==3) return true;
 
@@ -209,7 +209,7 @@ bool CGALBuilder::triangulate()
 		CGALProjection* pro=pg->getProjection();
 		QList<CGAL::Point2> points2;
 		for(auto i: indexes) {
-			CGAL::Point2 p2=pro->project(points3.at(i));
+			const CGAL::Point2 p2=pro->project(points3.at(i));
 			VertexHandle h=ct.insert(p2);
 			h->info().index = i;
 			points2.append(p2);
@@ -235,7 +235,7 @@ bool CGALBuilder::triangulate()
 		if(f->info().inDomain()) {
 			CGALPolygon& pg=primitive.createPolygon();
 			for(auto i=0; i<3; ++i) {
-				VertexInfo info=f->vertex(i)->info();
+				const VertexInfo& info=f->vertex(i)->info();
 				if(info.isValid())
 					pg.append(info.index);
 			}
@@ -257,7 +257,7 @@ CGALPrimitive* CGALBuilder::buildOffset(const CGAL::Scalar& amount)
 	CGAL::Scalar z=0.0;
 	for(CGALPolygon* pg: original->getCGALPolygons()) {
 		for(const auto& pt: pg->getPoints()) {
-			CGAL::Point2 p2(pt.x(),pt.y());
+			const CGAL::Point2 p2(pt.x(),pt.y());
 			polygon.push_back(p2);
 			z=pt.z();
 		}
@@ -266,7 +266,7 @@ CGALPrimitive* CGALBuilder::buildOffset(const CGAL::Scalar& amount)
 	}
 	delete original;
 
-	bool interior=amount<0.0;
+	const bool interior=amount<0.0;
 	const auto& offsetPolys {
 		interior?
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(5,2,0)
@@ -287,7 +287,7 @@ CGALPrimitive* CGALBuilder::buildOffset(const CGAL::Scalar& amount)
 		if(!first()) {
 			auto& np=offset->createPolygon();
 			for(auto vi=ptr->vertices_begin(); vi!=ptr->vertices_end(); ++vi) {
-				CGAL::Point3 p3(vi->x(),vi->y(),z);
+				const CGAL::Point3 p3(vi->x(),vi->y(),z);
 				np.appendVertex(p3);
 			}
 		}

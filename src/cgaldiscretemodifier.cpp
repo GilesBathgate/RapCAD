@@ -26,9 +26,9 @@ CGALDiscreteModifier::CGALDiscreteModifier(int p) : places(p)
 
 CGAL::Point3 CGALDiscreteModifier::discretePoint(const CGAL::Point3& pt, int places)
 {
-	CGAL::Scalar x=r_round(pt.x(),places);
-	CGAL::Scalar y=r_round(pt.y(),places);
-	CGAL::Scalar z=r_round(pt.z(),places);
+	const CGAL::Scalar& x=r_round(pt.x(),places);
+	const CGAL::Scalar& y=r_round(pt.y(),places);
+	const CGAL::Scalar& z=r_round(pt.z(),places);
 	return CGAL::Point3(x,y,z);
 }
 

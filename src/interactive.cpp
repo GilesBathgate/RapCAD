@@ -42,7 +42,7 @@ Interactive::Interactive(Reporter& r,QObject* parent) :
 bool Interactive::isExpression(const QString& s)
 {
 	TokenReader t(s);
-	while(int i=t.nextToken()) {
+	while(const int i=t.nextToken()) {
 		if(i==';'||i=='}') {
 			return false;
 		}

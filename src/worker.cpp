@@ -94,8 +94,8 @@ void Worker::primary()
 	s.accept(e);
 	output.flush();
 
-	QScopedPointer<Node> n(e.getRootNode());
-	QScopedPointer<NodeVisitor> ne(getNodeVisitor());
+	const QScopedPointer<Node> n(e.getRootNode());
+	const QScopedPointer<NodeVisitor> ne(getNodeVisitor());
 	n->accept(*ne);
 	updatePrimitive(ne->getResult());
 
@@ -112,12 +112,12 @@ void Worker::generation()
 {
 	auto& p=Preferences::getInstance();
 	Script s(reporter);
-	QFileInfo camScript(p.getCAMScript());
+	const QFileInfo camScript(p.getCAMScript());
 	s.parse(camScript);
 
 	auto* e = new TreeEvaluator(reporter);
-	decimal height=getBoundsHeight();
-	QList<Argument*> args=getArgs(height);
+	const decimal& height=getBoundsHeight();
+	const QList<Argument*>& args=getArgs(height);
 	Callback* c = addCallback("layers",s,args);
 	s.accept(*e);
 
@@ -125,7 +125,7 @@ void Worker::generation()
 	if(v) {
 		reporter.reportMessage(tr("Layers: %1").arg(v->getValueString()));
 
-		int itterations=v->toInteger();
+		const int itterations=v->toInteger();
 		Instance* m=addProductInstance("manufacture",s);
 		for(auto i=0; i<=itterations; ++i) {
 			if(i>0) {
@@ -133,7 +133,7 @@ void Worker::generation()
 			}
 			reporter.reportMessage(tr("Manufacturing layer: %1").arg(i));
 
-			QList<Argument*> arg=getArgs(i);
+			const QList<Argument*>& arg=getArgs(i);
 			m->setArguments(arg);
 
 			s.accept(*e);
@@ -157,7 +157,7 @@ decimal Worker::getBoundsHeight() const
 #ifdef USE_CGAL
 	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
 	if(!pr) return 1;
-	CGAL::Cuboid3 b=pr->getBounds();
+	const CGAL::Cuboid3& b=pr->getBounds();
 	return b.zmax();
 #else
 	return 1;
@@ -258,7 +258,7 @@ Renderer* Worker::getRenderer()
 NodeVisitor* Worker::getNodeVisitor()
 {
 	auto& p=Preferences::getInstance();
-	int threads=p.getThreadPoolSize();
+	const int threads=p.getThreadPoolSize();
 	if(threads==0)
 		return new NodeEvaluator(reporter);
 

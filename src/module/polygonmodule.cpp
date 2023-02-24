@@ -53,7 +53,7 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 	for(Value* point: points) {
 		auto* pointVec=dynamic_cast<VectorValue*>(point);
 		if(!pointVec) continue;
-		Point pt = pointVec->getPoint();
+		const Point& pt = pointVec->getPoint();
 		p->createVertex(pt);
 		++count;
 	}
@@ -88,7 +88,7 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 		for(Value* indexVal: lineVec->getElements()) {
 			auto* indexNum=dynamic_cast<NumberValue*>(indexVal);
 			if(!indexNum) continue;
-			int index = indexNum->toInteger();
+			const int index = indexNum->toInteger();
 			if(index>=0&&index<count) {
 				pg.append(index);
 			}

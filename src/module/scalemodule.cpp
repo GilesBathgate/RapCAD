@@ -34,13 +34,13 @@ Node* ScaleModule::evaluate(const Context& ctx) const
 	Point s(1,1,1);
 	auto* sizeVal=getParameterArgument<Value>(ctx,0);
 	if(sizeVal) {
-		VectorValue& v=sizeVal->toVector(3);
+		const VectorValue& v=sizeVal->toVector(3);
 		s=v.getPoint();
 	}
 
-	decimal x=s.x();
-	decimal y=s.y();
-	decimal z=s.z();
+	const decimal& x=s.x();
+	const decimal& y=s.y();
+	const decimal& z=s.z();
 	if(x==0.0||y==0.0||z==0.0) {
 		auto* pn=new PointsNode();
 		pn->createSinglePoint();
@@ -52,11 +52,11 @@ Node* ScaleModule::evaluate(const Context& ctx) const
 	TransformMatrix* m;
 	auto* refVal=getParameterArgument<VectorValue>(ctx,1);
 	if(refVal) {
-		Point r=refVal->getPoint();
+		const Point& r=refVal->getPoint();
 
-		decimal a=r.x();
-		decimal b=r.y();
-		decimal c=r.z();
+		const decimal& a=r.x();
+		const decimal& b=r.y();
+		const decimal& c=r.z();
 
 		//Derived reference translation using
 		//http://tinyurl.com/nfmph3r

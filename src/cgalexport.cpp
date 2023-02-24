@@ -58,7 +58,7 @@ CGALExport::~CGALExport()
 
 void CGALExport::exportResult() const
 {
-	QString suffix=fileInfo.suffix().toLower();
+	const QString& suffix=fileInfo.suffix().toLower();
 	if(suffix=="off")
 		return exportOFF();
 	if(suffix=="obj")
@@ -85,7 +85,7 @@ CGALPrimitive *CGALExport::transformPrimitive() const
 	auto& p=Preferences::getInstance();
 	if(pr && p.getTranslateOrigin()) {
 		pr=static_cast<CGALPrimitive*>(pr->copy());
-		QPointF o=p.getPrintOrigin();
+		const QPointF& o=p.getPrintOrigin();
 		auto* m=new TransformMatrix(
 			1.0,0.0,0.0,-o.x(),
 			0.0,1.0,0.0,-o.y(),
@@ -154,10 +154,10 @@ static void generateTriangles(CGAL::Polyhedron3* poly,Generator g)
 	for(FacetIterator fi=poly->facets_begin(); fi!=poly->facets_end(); ++fi) {
 		HalffacetCirculator hc=fi->facet_begin();
 		CGAL_assertion(circulator_size(hc)==3);
-		CGAL::Point3 p1=(hc++)->vertex()->point();
-		CGAL::Point3 p2=(hc++)->vertex()->point();
-		CGAL::Point3 p3=(hc++)->vertex()->point();
-		CGAL::Triangle3 t(p1,p2,p3);
+		const CGAL::Point3& p1=(hc++)->vertex()->point();
+		const CGAL::Point3& p2=(hc++)->vertex()->point();
+		const CGAL::Point3& p3=(hc++)->vertex()->point();
+		const CGAL::Triangle3 t(p1,p2,p3);
 		g(t);
 	}
 }
@@ -268,12 +268,12 @@ void CGALExport::exportAMFObject(CGALPrimitive* p,QXmlStreamWriter& xml) const
 	int vertexCount=0;
 	QMap<CGAL::Point3,int> vertices;
 	for(VertexIterator vi=poly->vertices_begin(); vi!=poly->vertices_end(); ++vi) {
-		CGAL::Point3 pt=vi->point();
+		const CGAL::Point3& pt=vi->point();
 		xml.writeStartElement("vertex");
 		xml.writeStartElement("coordinates");
-		QString x=to_string(pt.x());
-		QString y=to_string(pt.y());
-		QString z=to_string(pt.z());
+		const QString& x=to_string(pt.x());
+		const QString& y=to_string(pt.y());
+		const QString& z=to_string(pt.z());
 		xml.writeTextElement("x",x);
 		xml.writeTextElement("y",y);
 		xml.writeTextElement("z",z);
@@ -288,9 +288,9 @@ void CGALExport::exportAMFObject(CGALPrimitive* p,QXmlStreamWriter& xml) const
 	xml.writeStartElement("volume");
 	generateTriangles(poly,[&xml,&vertices](const auto& t) {
 		xml.writeStartElement("triangle");
-		int v1=vertices[t[0]];
-		int v2=vertices[t[1]];
-		int v3=vertices[t[2]];
+		const int v1=vertices[t[0]];
+		const int v2=vertices[t[1]];
+		const int v3=vertices[t[2]];
 		xml.writeTextElement("v1",QString().setNum(v1));
 		xml.writeTextElement("v2",QString().setNum(v2));
 		xml.writeTextElement("v3",QString().setNum(v3));
@@ -338,7 +338,7 @@ void CGALExport::exportCSG() const
 		for(const auto& p: poly->getPoints()) {
 			if(!first_p())
 				output << ",";
-			int i=points.indexOf(p); //eek, this could be slow on large models.
+			const int i=points.indexOf(p); //eek, this could be slow on large models.
 			output << i;
 		}
 		output << "]";
@@ -375,11 +375,11 @@ void CGALExport::export3MF() const
 	int vertexCount=0;
 	QMap<CGAL::Point3,int> vertices;
 	for(VertexIterator vi=poly->vertices_begin(); vi!=poly->vertices_end(); ++vi) {
-		CGAL::Point3 p = vi->point();
+		const CGAL::Point3& p = vi->point();
 		xml.writeStartElement("vertex");
-		QString x=to_string(p.x());
-		QString y=to_string(p.y());
-		QString z=to_string(p.z());
+		const QString& x=to_string(p.x());
+		const QString& y=to_string(p.y());
+		const QString& z=to_string(p.z());
 		xml.writeAttribute("x",x);
 		xml.writeAttribute("y",y);
 		xml.writeAttribute("z",z);
@@ -393,9 +393,9 @@ void CGALExport::export3MF() const
 	xml.writeStartElement("triangles");
 	generateTriangles(poly,[&xml,&vertices](const auto& t) {
 		xml.writeStartElement("triangle");
-		int v1=vertices[t[0]];
-		int v2=vertices[t[1]];
-		int v3=vertices[t[2]];
+		const int v1=vertices[t[0]];
+		const int v2=vertices[t[1]];
+		const int v3=vertices[t[2]];
 		xml.writeAttribute("v1",QString().setNum(v1));
 		xml.writeAttribute("v2",QString().setNum(v2));
 		xml.writeAttribute("v3",QString().setNum(v3));

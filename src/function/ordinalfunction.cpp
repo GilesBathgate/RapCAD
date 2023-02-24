@@ -33,7 +33,7 @@ Value& OrdinalFunction::evaluate(const Context& ctx) const
 	if(textVal) {
 		const QVector<uint> codepoints=textVal->getValueString().toUcs4();
 		QList<Value*> results;
-		for(uint unicode: codepoints)
+		for(const uint unicode: codepoints)
 			results.append(&ValueFactory::createNumber(unicode));
 		if(results.count()==1)
 			return *results.at(0);

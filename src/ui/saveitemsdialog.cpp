@@ -43,7 +43,7 @@ SaveItemsDialog::SaveItemsDialog(QWidget* parent, bool compiling, const QList<QS
 		if(fileName.isEmpty()) {
 			visibleName = tr("[New]");
 		} else {
-			QFileInfo info = QFileInfo(fileName);
+			const QFileInfo& info = QFileInfo(fileName);
 			directory = info.absolutePath();
 			visibleName = info.fileName();
 		}
@@ -82,9 +82,9 @@ void SaveItemsDialog::discardAll()
 
 void SaveItemsDialog::updateSaveButton()
 {
-	int count=ui->treeWidget->selectedItems().count();
+	const int count=ui->treeWidget->selectedItems().count();
 	QPushButton* button = ui->buttonBox->button(QDialogButtonBox::Save);
-	int total=ui->treeWidget->topLevelItemCount();
+	const int total=ui->treeWidget->topLevelItemCount();
 	if(total==1) {
 		button->setEnabled(true);
 		button->setText(tr("Save"));

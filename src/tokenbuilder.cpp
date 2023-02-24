@@ -71,9 +71,9 @@ TokenBuilder::~TokenBuilder()
 
 int TokenBuilder::nextToken()
 {
-	int len=lexerget_leng(scanner);
+	const int len=lexerget_leng(scanner);
 	position+=len;
-	int next=lexerlex(scanner);
+	const int next=lexerlex(scanner);
 	if(next) token=QString::fromUtf8(lexerget_text(scanner),len);
 	return next;
 }
@@ -104,7 +104,7 @@ void TokenBuilder::buildIncludePath(const QString& str)
 
 bool TokenBuilder::openfile(QFileInfo f)
 {
-	QString fullpath=f.absoluteFilePath();
+	const QString& fullpath=f.absoluteFilePath();
 	FILE* fd=fopen(QFile::encodeName(fullpath),"r");
 	if(!fd) {
 		reporter.reportFileMissingError(fullpath);
@@ -124,13 +124,13 @@ void TokenBuilder::buildIncludeFinish()
 	if(filepath.isEmpty()) {
 		path_stack.push(currentpath);
 	} else {
-		QFileInfo dirinfo(currentpath,filepath);
+		const QFileInfo dirinfo(currentpath,filepath);
 		path_stack.push(dirinfo.dir());
 		filepath.clear();
 	}
 
 	currentpath = path_stack.top();
-	QFileInfo fileinfo(currentpath,filename);
+	const QFileInfo fileinfo(currentpath,filename);
 
 	if(!fileinfo.exists())
 		path_stack.pop();
@@ -333,7 +333,7 @@ int TokenBuilder::buildIllegalChar(const QString&)
 int TokenBuilder::buildNumber(const QString& str)
 {
 	QString number(str);
-	decimal unit=get_unit(number);
+	const decimal& unit=get_unit(number);
 	parser->number = new decimal(to_decimal(number)*unit);
 	return NUMBER;
 }
@@ -341,7 +341,7 @@ int TokenBuilder::buildNumber(const QString& str)
 int TokenBuilder::buildNumberExp(const QString& str)
 {
 	QString number(str);
-	decimal unit=get_unit(number);
+	const decimal& unit=get_unit(number);
 	parser->number = new decimal(parse_numberexp(number)*unit);
 	return NUMBER;
 }
@@ -354,7 +354,7 @@ int TokenBuilder::buildRational()
 int TokenBuilder::buildRational(const QString& s)
 {
 	QString number(s);
-	decimal unit=get_unit(number);
+	const decimal& unit=get_unit(number);
 	parser->number = new decimal(parse_rational(number)*unit);
 	return NUMBER;
 }

@@ -80,11 +80,11 @@ Node* CylinderModule::evaluate(const Context& ctx) const
 	if(centerValue)
 		center=centerValue->isTrue();
 
-	decimal z1=0.0;
-	decimal z2=h;
+	const decimal& z1=0.0;
+	const decimal& z2=h;
 
-	decimal r=r_max(r1,r2);
-	int f = Fragment::getFragments(ctx,r);
+	const decimal& r=r_max(r1,r2);
+	const int f = Fragment::getFragments(ctx,r);
 
 	const QList<Point> c1=getCircle(r1,f,z1);
 	const QList<Point> c2=getCircle(r2,f,z2);

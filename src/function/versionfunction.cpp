@@ -33,10 +33,10 @@ VersionFunction::VersionFunction() : Function("version")
 Value& VersionFunction::evaluate(const Context&) const
 {
 	QList<Value*> version;
-	QString v=STRINGIFY(RAPCAD_VERSION);
-	QStringList parts=v.split(".");
-	int major=parts.at(0).toInt();
-	int minor=parts.at(1).toInt();
+	const QString& v=STRINGIFY(RAPCAD_VERSION);
+	const QStringList& parts=v.split(".");
+	const int major=parts.at(0).toInt();
+	const int minor=parts.at(1).toInt();
 	const QString& build=parts.at(2);
 	version.append(&ValueFactory::createNumber(major));
 	version.append(&ValueFactory::createNumber(minor));

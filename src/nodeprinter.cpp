@@ -300,7 +300,7 @@ void NodePrinter::printArguments(const QList<ViewDirections>& t)
 {
 	result << "(";
 	OnceOnly first;
-	for(ViewDirections a: t) {
+	for(const ViewDirections a: t) {
 		if(!first())
 			result << ",";
 		switch(a) {

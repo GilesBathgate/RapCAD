@@ -106,32 +106,32 @@ Strategy* Application::parseArguments(int argc,char* argv[])
 
 	QCommandLineParser p;
 	p.setApplicationDescription(QCoreApplication::translate("main","RapCAD the rapid prototyping IDE."));
-	QCommandLineOption helpOption=p.addHelpOption();
-	QCommandLineOption versionOption=p.addVersionOption();
+	const QCommandLineOption& helpOption=p.addHelpOption();
+	const QCommandLineOption& versionOption=p.addVersionOption();
 	p.addPositionalArgument("filename", QCoreApplication::translate("main","File to open or process."));
 
 #ifdef USE_INTEGTEST
-	QCommandLineOption testOption(QStringList() << "t" << "test", QCoreApplication::translate("main","Run through tests in working directory."),"directory");
+	const QCommandLineOption testOption(QStringList() << "t" << "test", QCoreApplication::translate("main","Run through tests in working directory."),"directory");
 	p.addOption(testOption);
 
-	QCommandLineOption generateOption(QStringList() << "g" << "generate", QCoreApplication::translate("main","Generate documentation."));
+	const QCommandLineOption generateOption(QStringList() << "g" << "generate", QCoreApplication::translate("main","Generate documentation."));
 	p.addOption(generateOption);
 #endif
 
-	QCommandLineOption compareOption(QStringList() << "c" << "compare", QCoreApplication::translate("main","Compare two files to see if they are identical."),"filename");
+	const QCommandLineOption compareOption(QStringList() << "c" << "compare", QCoreApplication::translate("main","Compare two files to see if they are identical."),"filename");
 	p.addOption(compareOption);
 
-	QCommandLineOption outputOption(QStringList() << "o" << "output",QCoreApplication::translate("main","Create output geometry <filename> filename must end with known extension (.stl/.amf/.3mf/...)."),"filename");
+	const QCommandLineOption outputOption(QStringList() << "o" << "output",QCoreApplication::translate("main","Create output geometry <filename> filename must end with known extension (.stl/.amf/.3mf/...)."),"filename");
 	p.addOption(outputOption);
 
-	QCommandLineOption redirectOption(QStringList() << "r" << "redirect",QCoreApplication::translate("main","Redirect text output to file <filename>."),"filename");
+	const QCommandLineOption redirectOption(QStringList() << "r" << "redirect",QCoreApplication::translate("main","Redirect text output to file <filename>."),"filename");
 	p.addOption(redirectOption);
 
-	QCommandLineOption viewAllOption("viewall",QCoreApplication::translate("main","adjust camera to fit object"));
+	const QCommandLineOption viewAllOption("viewall",QCoreApplication::translate("main","adjust camera to fit object"));
 	p.addOption(viewAllOption);
 
 #ifdef USE_READLINE
-	QCommandLineOption interactOption(QStringList() << "i" << "interactive",QCoreApplication::translate("main","Start an interactive session."));
+	const QCommandLineOption interactOption(QStringList() << "i" << "interactive",QCoreApplication::translate("main","Start an interactive session."));
 	p.addOption(interactOption);
 #endif
 
@@ -141,7 +141,7 @@ Strategy* Application::parseArguments(int argc,char* argv[])
 		p.process(arguments); // exits
 	} else {
 		if(p.isSet(helpOption)) {
-			QCoreApplication a(argc,argv);
+			const QCoreApplication a(argc,argv);
 			p.showHelp(); // exits
 		} else if(p.isSet(versionOption)) {
 			p.showVersion(); // exits
@@ -191,7 +191,7 @@ Strategy* Application::parseArguments(int argc,char* argv[])
 
 int Application::runUserInterface(int argc,char* argv[])
 {
-	QApplication a(argc,argv);
+	const QApplication a(argc,argv);
 	MainWindow w;
 	w.loadFiles(inputFiles);
 	w.show();

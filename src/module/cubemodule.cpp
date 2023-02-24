@@ -40,7 +40,7 @@ Node* CubeModule::evaluate(const Context& ctx) const
 
 	Point pt(1.0,1.0,1.0);
 	if(sizeVal&&sizeVal->isDefined()) {
-		VectorValue& size=sizeVal->toVector(3);
+		const VectorValue& size=sizeVal->toVector(3);
 		pt=size.getPoint();
 	}
 

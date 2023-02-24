@@ -34,8 +34,8 @@ Value& Atan2Function::evaluate(const Context& ctx) const
 	auto* yVal=getParameterArgument<NumberValue>(ctx,0);
 	auto* xVal=getParameterArgument<NumberValue>(ctx,1);
 	if(yVal&&xVal) {
-		decimal y=yVal->getNumber();
-		decimal x=xVal->getNumber();
+		const decimal& y=yVal->getNumber();
+		const decimal& x=xVal->getNumber();
 
 		return ValueFactory::createNumber(r_atan2_deg(y,x));
 	}

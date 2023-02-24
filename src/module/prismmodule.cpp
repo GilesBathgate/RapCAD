@@ -70,8 +70,8 @@ Node* PrismModule::evaluate(const Context& ctx) const
 	if(centerVal)
 		center=centerVal->isTrue();
 
-	decimal z1=0.0;
-	decimal z2=h;
+	const decimal& z1=0.0;
+	const decimal& z2=h;
 
 	const QList<Point> p1=getPolygon(a,r,s,z1);
 	const QList<Point> p2=getPolygon(a,r,s,z2);
@@ -91,9 +91,9 @@ Node* PrismModule::evaluate(const Context& ctx) const
 		}
 
 		for(auto i=0; i<s; ++i) {
-			int j=(i+1)%s;
-			int k=i+s;
-			int l=j+s;
+			const int j=(i+1)%s;
+			const int k=i+s;
+			const int l=j+s;
 			createQuad(p,i,k,l,j);
 		}
 	}

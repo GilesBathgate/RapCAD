@@ -38,9 +38,9 @@ PreferencesDialog::PreferencesDialog(QWidget* parent) :
 
 void PreferencesDialog::setupWidgets()
 {
-	QFont f=preferences.getEditorFont();
+	const QFont& f=preferences.getEditorFont();
 	ui->fontComboBox->setCurrentFont(f);
-	int pointSize=f.pointSize();
+	const int pointSize=f.pointSize();
 	QComboBox& c(*ui->sizeComboBox);
 	const QList<int> sizes=QFontDatabase::standardSizes();
 	for(auto size: sizes) {
@@ -107,19 +107,19 @@ void PreferencesDialog::setupWidgets()
 			break;
 	}
 
-	QPointF o=preferences.getPrintOrigin();
+	const QPointF& o=preferences.getPrintOrigin();
 	ui->XspinBox->setValue(o.x());
 	ui->YspinBox->setValue(o.y());
 
-	QVector3D v=preferences.getPrintVolume();
+	const QVector3D& v=preferences.getPrintVolume();
 	ui->widthSpinBox->setValue(int(v.x()));
 	ui->lengthSpinBox->setValue(int(v.y()));
 	ui->heightSpinBox->setValue(int(v.z()));
 
-	int i=static_cast<int>(preferences.getPrintBedAppearance());
+	const int i=static_cast<int>(preferences.getPrintBedAppearance());
 	ui->appearanceComboBox->setCurrentIndex(i);
 
-	QString command=preferences.getLaunchCommand();
+	const QString& command=preferences.getLaunchCommand();
 	ui->launchCommandLineEdit->setText(command);
 	launchCommandChanged(command);
 
@@ -127,7 +127,7 @@ void PreferencesDialog::setupWidgets()
 	ui->processingScriptlineEdit->setText(preferences.getCAMScript());
 	ui->translateCheckBox->setChecked(preferences.getTranslateOrigin());
 
-	QString indent=preferences.getIndent();
+	const QString& indent=preferences.getIndent();
 	if(indent.contains('\t')) {
 		ui->tabsRadioButton->setChecked(true);
 	} else {
@@ -153,7 +153,7 @@ void PreferencesDialog::setupWidgets()
 
 void PreferencesDialog::setColor(QWidget* w,const QColor& c)
 {
-	QString style=QString("* { background-color: rgb(%1,%2,%3); }").arg(c.red()).arg(c.green()).arg(c.blue());
+	const QString& style=QString("* { background-color: rgb(%1,%2,%3); }").arg(c.red()).arg(c.green()).arg(c.blue());
 	w->setStyleSheet(style);
 }
 
@@ -218,7 +218,7 @@ void PreferencesDialog::setupButtons()
 
 void PreferencesDialog::updatePrecision()
 {
-	decimal ex=r_round_preference(decimal(10)/decimal(9));
+	const decimal& ex=r_round_preference(decimal(10)/decimal(9));
 	ui->exampleLabel->setText(to_string(ex));
 }
 
@@ -236,7 +236,7 @@ void PreferencesDialog::reset(QAbstractButton* button)
 
 void PreferencesDialog::colorButtonPressed(QWidget* frame)
 {
-	QColor c = QColorDialog::getColor(Qt::white,this);
+	const QColor& c = QColorDialog::getColor(Qt::white,this);
 	setColor(frame,c);
 
 
@@ -366,7 +366,7 @@ void PreferencesDialog::placesChanged(int i)
 {
 	preferences.setDecimalPlaces(i);
 	QSpinBox* sb=ui->bitsSpinBox;
-	bool block=sb->blockSignals(true);
+	const bool block=sb->blockSignals(true);
 	sb->setValue(preferences.getSignificandBits());
 	sb->blockSignals(block);
 	updatePrecision();
@@ -376,7 +376,7 @@ void PreferencesDialog::bitsChanged(int i)
 {
 	preferences.setSignificandBits(i);
 	QSpinBox* sb=ui->placesSpinBox;
-	bool block=sb->blockSignals(true);
+	const bool block=sb->blockSignals(true);
 	sb->setValue(preferences.getDecimalPlaces());
 	sb->blockSignals(block);
 	updatePrecision();
@@ -434,7 +434,7 @@ void PreferencesDialog::volumeChanged()
 
 void PreferencesDialog::originChanged()
 {
-	QPointF o(ui->XspinBox->value(),ui->YspinBox->value());
+	const QPointF o(ui->XspinBox->value(),ui->YspinBox->value());
 	preferences.setPrintOrigin(o);
 }
 
@@ -467,7 +467,7 @@ void PreferencesDialog::appearanceChanged(int i)
 
 void PreferencesDialog::fontChanged(QFont f)
 {
-	QString s=ui->sizeComboBox->currentText();
+	const QString& s=ui->sizeComboBox->currentText();
 	f.setPointSize(s.toInt());
 	preferences.setEditorFont(f);
 }
@@ -475,7 +475,7 @@ void PreferencesDialog::fontChanged(QFont f)
 void PreferencesDialog::fontSizeChanged(int i)
 {
 	QFont f=ui->fontComboBox->currentFont();
-	QString s=ui->sizeComboBox->itemText(i);
+	const QString& s=ui->sizeComboBox->itemText(i);
 	f.setPointSize(s.toInt());
 	preferences.setEditorFont(f);
 }

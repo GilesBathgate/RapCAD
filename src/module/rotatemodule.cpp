@@ -52,7 +52,7 @@ Node* RotateModule::evaluate(const Context& ctx) const
 		a=angValue->getNumber();
 		auto* vecValue=getParameterArgument<VectorValue>(ctx,1);
 		if(vecValue) {
-			Point v=vecValue->getPoint();
+			const Point& v=vecValue->getPoint();
 			x=v.x();
 			y=v.y();
 			z=v.z();
@@ -61,7 +61,7 @@ Node* RotateModule::evaluate(const Context& ctx) const
 	} else {
 		auto* vecValue=getParameterArgument<VectorValue>(ctx,0);
 		if(vecValue) {
-			Point v=vecValue->getPoint();
+			const Point& v=vecValue->getPoint();
 			x=v.x();
 			y=v.y();
 			z=v.z();
@@ -77,12 +77,12 @@ Node* RotateModule::evaluate(const Context& ctx) const
 
 	if(rotation==RotationTypes::Origin) {
 
-		decimal cx = r_right_cos(x);
-		decimal cy = r_right_cos(y);
-		decimal cz = r_right_cos(z);
-		decimal sx = r_right_sin(x);
-		decimal sy = r_right_sin(y);
-		decimal sz = r_right_sin(z);
+		const decimal& cx = r_right_cos(x);
+		const decimal& cy = r_right_cos(y);
+		const decimal& cz = r_right_cos(z);
+		const decimal& sx = r_right_sin(x);
+		const decimal& sy = r_right_sin(y);
+		const decimal& sz = r_right_sin(z);
 
 		/*
 		Given the three affine transformation matricies for counter-clockwise
@@ -108,17 +108,17 @@ Node* RotateModule::evaluate(const Context& ctx) const
 
 	} else if(rotation==RotationTypes::Axis) {
 
-		decimal c=r_right_cos(a);
-		decimal s=r_right_sin(a);
+		const decimal& c=r_right_cos(a);
+		const decimal& s=r_right_sin(a);
 
-		decimal mag = r_sqrt(x*x + y*y + z*z,false);
+		const decimal& mag = r_sqrt(x*x + y*y + z*z,false);
 		if(mag==0.0)
 			return n;
 
-		decimal u = x/mag;
-		decimal v = y/mag;
-		decimal w = z/mag;
-		decimal c1=1.0-c;
+		const decimal& u = x/mag;
+		const decimal& v = y/mag;
+		const decimal& w = z/mag;
+		const decimal& c1=1.0-c;
 
 		auto* TxyTzRaTzTxy = new TransformMatrix(
 			u*u*c1+c,u*v*c1-w*s,u*w*c1+v*s,0.0,
@@ -131,17 +131,17 @@ Node* RotateModule::evaluate(const Context& ctx) const
 
 	} else {
 
-		decimal xx=x*x;
-		decimal xy=x*y;
-		decimal xz=x*z;
-		decimal xa=x*a;
+		const decimal& xx=x*x;
+		const decimal& xy=x*y;
+		const decimal& xz=x*z;
+		const decimal& xa=x*a;
 
-		decimal yy=y*y;
-		decimal yz=y*z;
-		decimal ya=y*a;
+		const decimal& yy=y*y;
+		const decimal& yz=y*z;
+		const decimal& ya=y*a;
 
-		decimal zz=z*z;
-		decimal za=z*a;
+		const decimal& zz=z*z;
+		const decimal& za=z*a;
 
 		/* The following rotation matrix is the same
 		 * as above for axis rotations, with the exception

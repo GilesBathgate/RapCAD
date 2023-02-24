@@ -77,7 +77,7 @@ Cache::i_Primitive Cache::hashPrimitive(Primitive* pr)
 Primitive* Cache::fetch(Primitive* pr)
 {
 	if(pr) {
-		i_Primitive ip=hashPrimitive(pr);
+		const i_Primitive& ip=hashPrimitive(pr);
 		Primitive* np=allPrimitives.value(ip,nullptr);
 		if(np) {
 			return np->copy();

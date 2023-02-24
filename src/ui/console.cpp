@@ -73,17 +73,17 @@ void Console::keyPressEvent(QKeyEvent* e)
 
 bool Console::inPromptBlock()
 {
-	QTextCursor cursor=textCursor();
-	int block=cursor.blockNumber();
-	int column=cursor.columnNumber();
+	const QTextCursor& cursor=textCursor();
+	const int block=cursor.blockNumber();
+	const int column=cursor.columnNumber();
 	return (block > promptBlock) || ((block == promptBlock) && (column >= promptLength));
 }
 
 bool Console::handleBackspace()
 {
-	QTextCursor cursor=textCursor();
-	int column=cursor.columnNumber();
-	int block=cursor.blockNumber();
+	const QTextCursor& cursor=textCursor();
+	const int column=cursor.columnNumber();
+	const int block=cursor.blockNumber();
 	return (block == promptBlock && column == promptLength);
 }
 
@@ -96,7 +96,7 @@ void Console::setPrompt(const QString& p)
 
 void Console::handleReturn()
 {
-	QString command=getCommand();
+	const QString& command=getCommand();
 	if(!command.trimmed().isEmpty()) {
 		commands.append(command);
 		historyPos=commands.count();
@@ -109,7 +109,7 @@ void Console::handleReturn()
 
 void Console::handleHistory(int pos)
 {
-	int c=commands.count();
+	const int c=commands.count();
 	if(pos<0||pos>c) return;
 
 	QTextCursor cursor=textCursor();

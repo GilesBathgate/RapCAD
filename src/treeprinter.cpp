@@ -61,7 +61,7 @@ void TreePrinter::visit(const Instance& inst)
 			break;
 	}
 
-	QString name = inst.getNamespace();
+	const QString& name = inst.getNamespace();
 	if(!name.isEmpty()) {
 		result << name;
 		result << "::";
@@ -77,8 +77,8 @@ void TreePrinter::visit(const Instance& inst)
 	}
 	result << ")";
 
-	QList<Statement*> children = inst.getChildren();
-	int c = children.size();
+	const QList<Statement*>& children = inst.getChildren();
+	const int c = children.size();
 	if(c>0) {
 		if(c>1) {
 			result << "{\n";
@@ -116,7 +116,7 @@ void TreePrinter::visit(const Module& mod)
 	if(mod.isDeprecated()) return;
 
 	const QList<Parameter*> parameters = mod.getParameters();
-	QString desc=mod.getDescription();
+	const QString& desc=mod.getDescription();
 	printCodeDoc(desc,parameters);
 	result << "module ";
 	result << mod.getFullName();
@@ -135,7 +135,7 @@ void TreePrinter::visit(const Module& mod)
 void TreePrinter::visit(const Function& func)
 {
 	const QList<Parameter*> parameters = func.getParameters();
-	QString desc=func.getDescription();
+	const QString& desc=func.getDescription();
 	printCodeDoc(desc,parameters);
 	result << "function ";
 	result << func.getName();
@@ -161,7 +161,7 @@ void TreePrinter::visit(const FunctionScope& scp)
 	}
 
 	const QList<Statement*> statements = scp.getStatements();
-	int size = statements.size();
+	const int size = statements.size();
 	if(size>0) {
 		result << "{\n";
 		++indent;
@@ -180,8 +180,8 @@ void TreePrinter::visit(const FunctionScope& scp)
 
 void TreePrinter::visit(const CompoundStatement& stmt)
 {
-	QList<Statement*> children = stmt.getChildren();
-	int c = children.size();
+	const QList<Statement*>& children = stmt.getChildren();
+	const int c = children.size();
 	if(c>0) {
 		if(c>1) {
 			result << "{\n";
@@ -336,8 +336,8 @@ void TreePrinter::visit(const RangeExpression& exp)
 
 void TreePrinter::visit(const UnaryExpression& exp)
 {
-	QString op = exp.getOpString();
-	bool p = exp.postFix();
+	const QString& op = exp.getOpString();
+	const bool p = exp.postFix();
 	if(!p)
 		result << op;
 	exp.getExpression()->accept(*this);
@@ -365,7 +365,7 @@ void TreePrinter::visit(const TernaryExpression& exp)
 
 void TreePrinter::visit(const Invocation& stmt)
 {
-	QString nameSpace = stmt.getNamespace();
+	const QString& nameSpace = stmt.getNamespace();
 	if(!nameSpace.isEmpty()) {
 		result << nameSpace;
 		result << "::";
@@ -402,13 +402,13 @@ void TreePrinter::visit(const ModuleImport& decl)
 	result << "import <";
 	result << decl.getImport();
 	result << ">";
-	QString name = decl.getName();
+	const QString& name = decl.getName();
 	if(!name.isEmpty()) {
 		result << " as ";
 		result << name;
 	}
 	const QList<Parameter*> parameters = decl.getParameters();
-	int s = parameters.size();
+	const int s = parameters.size();
 	if(s>0) {
 		result << "(";
 		printParameters(parameters);
@@ -422,7 +422,7 @@ void TreePrinter::visit(const ScriptImport& decl)
 	result << "use <";
 	result << decl.getImport();
 	result << ">";
-	QString name = decl.getNamespace();
+	const QString& name = decl.getNamespace();
 	if(!name.isEmpty()) {
 		result << " as ";
 		result << name;

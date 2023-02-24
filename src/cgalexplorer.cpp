@@ -115,8 +115,8 @@ void ShellExplorer::createPerimeters()
 			for(HalfEdgeHandle h: outEdges) {
 				if(twin) h=h->twin();
 				if(c!=nullptr && h!=c && h!=c->twin()) {
-					CGAL::Point3 cp=c->target()->point();
-					CGAL::Point3 np=h->source()->point();
+					const CGAL::Point3& cp=c->target()->point();
+					const CGAL::Point3& np=h->source()->point();
 					if(cp==np) {
 
 						if(first) {
@@ -192,7 +192,7 @@ void ShellExplorer::visit(ShellExplorer::VertexHandle v)
 
 void ShellExplorer::visit(ShellExplorer::HalfFacetHandle f)
 {
-	bool facet = !f->is_twin();
+	const bool facet = !f->is_twin();
 	if(facet) {
 		OnceOnly first;
 		HalfFacetCycleIterator fc;
@@ -212,7 +212,7 @@ void ShellExplorer::visit(ShellExplorer::HalfFacetHandle f)
 				SHalfEdgeCirculator he(hc);
 				CGAL_For_all(hc,he) {
 					SVertexHandle sv = hc->source();
-					CGAL::Point3 sp = sv->source()->point();
+					const CGAL::Point3& sp = sv->source()->point();
 					pg.appendVertex(sp,direction);
 				}
 			}
@@ -247,25 +247,25 @@ CGALVolume ShellExplorer::getVolume(bool calcMass) const
 	QList<Tetrahedron> volumes;
 	QList<CGAL::Point3> allPoints;
 	for(const auto& pts: volumePoints) {
-		Triangulation tr(pts.begin(),pts.end());
+		const Triangulation tr(pts.begin(),pts.end());
 		CellIterator ci;
 		for(ci=tr.finite_cells_begin(); ci!=tr.finite_cells_end(); ++ci) {
-			Tetrahedron t=tr.tetrahedron(CellHandle(ci));
+			const Tetrahedron& t=tr.tetrahedron(CellHandle(ci));
 			volumes.append(t);
 			total+=t.volume();
 		}
 		allPoints.append(pts);
 	}
 
-	CGAL::Cuboid3 b=CGAL::bounding_box(allPoints.begin(),allPoints.end());
+	const CGAL::Cuboid3& b=CGAL::bounding_box(allPoints.begin(),allPoints.end());
 	if(calcMass) {
-		CGAL::Point3 cm=CGAL::centroid(volumes.begin(),volumes.end());
+		const CGAL::Point3& cm=CGAL::centroid(volumes.begin(),volumes.end());
 		return CGALVolume(b,total,cm);
 	}
 
-	CGAL::Scalar cx=(b.xmin()+b.xmax())/2.0;
-	CGAL::Scalar cy=(b.ymin()+b.ymax())/2.0;
-	CGAL::Scalar cz=(b.zmin()+b.zmax())/2.0;
+	const CGAL::Scalar& cx=(b.xmin()+b.xmax())/2.0;
+	const CGAL::Scalar& cy=(b.ymin()+b.ymax())/2.0;
+	const CGAL::Scalar& cz=(b.zmin()+b.zmax())/2.0;
 	return CGALVolume(b,total,CGAL::Point3(cx,cy,cz));
 }
 
@@ -286,7 +286,7 @@ HalfEdgeHandle ShellExplorer::getID(HalfEdgeHandle h)
 
 bool ShellExplorer::isBase(const CGALPolygon& p) const
 {
-	CGAL::Vector3 v=p.getNormal();
+	const CGAL::Vector3& v=p.getNormal();
 	return (v.x()==0.0&&v.y()==0.0)&&direction?v.z()<0.0:v.z()>0.0;
 }
 

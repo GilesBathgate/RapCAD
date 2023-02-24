@@ -49,10 +49,10 @@ Node* CylinderSurfaceModule::evaluate(const Context& ctx) const
 	if(centerValue)
 		center=centerValue->isTrue();
 
-	decimal z1=0.0;
-	decimal z2=h;
+	const decimal& z1=0.0;
+	const decimal& z2=h;
 
-	int f = Fragment::getFragments(ctx,r);
+	const int f = Fragment::getFragments(ctx,r);
 
 	const QList<Point> c1=getCircle(r,f,z1);
 	const QList<Point> c2=getCircle(r,f,z2);
@@ -71,9 +71,9 @@ Node* CylinderSurfaceModule::evaluate(const Context& ctx) const
 	}
 
 	for(auto i=0; i<f; ++i) {
-		int j=(i+1)%f;
-		int k=i+f;
-		int l=j+f;
+		const int j=(i+1)%f;
+		const int k=i+f;
+		const int l=j+f;
 		createQuad(p,i,k,l,j);
 	}
 
