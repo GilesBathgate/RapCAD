@@ -27,16 +27,9 @@ protected:
 	Iterator() : p(*this) {}
 public:
 	virtual ~Iterator()=default;
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Winfinite-recursion"
-#endif
-	virtual bool operator!=(const Iterator& o) const { return p!=o; }
-	virtual Iterator& operator++() { ++p; return *this; }
-	virtual T operator*() const { return *p; }
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
+	virtual bool operator!=(const Iterator& o) const { return p.operator!=(o); }
+	virtual Iterator& operator++() { p.operator++(); return *this; }
+	virtual T& operator*() const { return p.operator*(); }
 	Iterator& begin() { return *this; }
 	Iterator& end() { return *this; }
 };

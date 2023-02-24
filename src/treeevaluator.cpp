@@ -24,6 +24,7 @@
 #include "valuefactory.h"
 #include "valueiterator.h"
 #include "vectorvalue.h"
+#include <QScopedPointer>
 
 TreeEvaluator::TreeEvaluator(Reporter& r) :
 	reporter(r),
@@ -263,13 +264,12 @@ void TreeEvaluator::visit(const ForStatement& forstmt)
 		const QString& name=firstArg.getName();
 		Value* val=firstArg.getValue();
 
-		ValueIterator* it=val->createIterator();
-		for(Value* v: *it) {
-			context->setVariable(name,v);
+		QScopedPointer<ValueIterator> it(val->createIterator());
+		for(Value& v: *it) {
+			context->setVariable(name,&v);
 
 			forstmt.getStatement()->accept(*this);
 		}
-		delete it;
 	}
 }
 

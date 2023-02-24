@@ -36,7 +36,7 @@ bool VectorIterator::operator!=(const Iterator&) const
 	return index<items.size();
 }
 
-Value* VectorIterator::operator*() const
+Value& VectorIterator::operator*() const
 {
-	return items.at(index);
+	return *items.at(index);
 }

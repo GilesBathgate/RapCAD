@@ -21,6 +21,7 @@
 #include "rangeiterator.h"
 #include "valuefactory.h"
 #include "vectorvalue.h"
+#include <QScopedPointer>
 
 RangeValue::RangeValue(Value& s,Value& f) :
 	start(s),
@@ -82,10 +83,9 @@ ValueIterator* RangeValue::createIterator()
 const QList<Value*> RangeValue::getElements()
 {
 	QList<Value*> result;
-	ValueIterator* it=createIterator();
-	for(Value* v: *it)
-		result.append(v);
-	delete it;
+	QScopedPointer<ValueIterator> it(createIterator());
+	for(Value& v: *it)
+		result.append(&v);
 	return result;
 }
 

@@ -28,7 +28,7 @@ public:
 	explicit TextIterator(const QString&);
 	ValueIterator& operator++() override;
 	bool operator!=(const Iterator&) const override;
-	Value* operator*() const override;
+	Value& operator*() const override;
 private:
 	QString text;
 	int index;

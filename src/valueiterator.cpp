@@ -35,7 +35,7 @@ bool ValueIterator::operator!=(const Iterator&) const
 	return !done;
 }
 
-Value* ValueIterator::operator*() const
+Value& ValueIterator::operator*() const
 {
-	return value;
+	return *value;
 }

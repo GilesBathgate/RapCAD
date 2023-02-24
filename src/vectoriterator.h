@@ -29,7 +29,7 @@ public:
 	explicit VectorIterator(const QList<Value*>&);
 	ValueIterator& operator++() override;
 	bool operator!=(const Iterator&) const override;
-	Value* operator*() const override;
+	Value& operator*() const override;
 private:
 	QList<Value*> items;
 	int index;

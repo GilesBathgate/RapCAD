@@ -30,7 +30,7 @@ public:
 	~RangeIterator() override = default;
 	ValueIterator& operator++() override;
 	bool operator!=(const Iterator&) const override;
-	Value* operator*() const override;
+	Value& operator*() const override;
 private:
 	Value* index;
 	Value* step;

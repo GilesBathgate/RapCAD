@@ -38,7 +38,7 @@ bool TextIterator::operator!=(const Iterator&) const
 	return index<text.size();
 }
 
-Value* TextIterator::operator*() const
+Value& TextIterator::operator*() const
 {
-	return &ValueFactory::createText(text.at(index));
+	return ValueFactory::createText(text.at(index));
 }

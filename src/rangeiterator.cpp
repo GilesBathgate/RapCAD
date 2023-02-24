@@ -38,7 +38,7 @@ bool RangeIterator::operator!=(const Iterator&) const
 	return range->inRange(*index);
 }
 
-Value* RangeIterator::operator*() const
+Value& RangeIterator::operator*() const
 {
-	return index;
+	return *index;
 }
