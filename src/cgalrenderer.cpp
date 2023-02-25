@@ -156,7 +156,10 @@ class NefConverter
 
 	static PointF to_pointf(const CGAL::Point3& p,const Mark& m)
 	{
-		return PointF(CGAL::to_double(p.x()),CGAL::to_double(p.y()),CGAL::to_double(p.z()),m);
+		const float x=static_cast<float>(CGAL::to_double(p.x()));
+		const float y=static_cast<float>(CGAL::to_double(p.y()));
+		const float z=static_cast<float>(CGAL::to_double(p.z()));
+		return PointF(x,y,z,m);
 	}
 
 	void convert(Vertex_const_handle v)
@@ -187,7 +190,10 @@ class NefConverter
 		}
 		const auto& v=f->plane().orthogonal_vector();
 		const auto& n=v/r_sqrt(v.squared_length());
-		g.setNormal(CGAL::to_double(n.x()),CGAL::to_double(n.y()),CGAL::to_double(n.z()));
+		const float nx=static_cast<float>(CGAL::to_double(n.x()));
+		const float ny=static_cast<float>(CGAL::to_double(n.y()));
+		const float nz=static_cast<float>(CGAL::to_double(n.z()));
+		g.setNormal(nx,ny,nz);
 		g.setMark(f->mark());
 		renderer.appendFacet(g);
 	}

@@ -35,11 +35,11 @@ GLView::GLView(QWidget* parent) :
 	showRulers(true),
 	showEdges(false),
 	skeleton(false),
-	printX(0.0F),
-	printY(0.0F),
-	printWidth(0.0F),
-	printLength(0.0F),
-	printHeight(0.0F),
+	printX(0),
+	printY(0),
+	printWidth(0),
+	printLength(0),
+	printHeight(0),
 	appearance(BedAppearance::MK42),
 	mouseDrag(false),
 	rotateX(35.0F),
@@ -77,14 +77,14 @@ void GLView::setViewport(GLfloat rx,GLfloat ry,GLfloat rz,GLfloat x,GLfloat z,GL
 	update();
 }
 
-void GLView::setPrintOrigin(GLfloat x,GLfloat y)
+void GLView::setPrintOrigin(GLint x,GLint y)
 {
 	printX=x;
 	printY=y;
 	update();
 }
 
-void GLView::setPrintVolume(GLfloat w,GLfloat l,GLfloat h)
+void GLView::setPrintVolume(GLint w,GLint l,GLint h)
 {
 	printWidth=w;
 	printLength=l;
@@ -509,7 +509,7 @@ void GLView::wheelEvent(QWheelEvent* event)
 #else
 	const int delta=event->angleDelta().y();
 #endif
-	zoomView(GLfloat(delta/12.0F));
+	zoomView(static_cast<GLfloat>(delta)/12.0F);
 	update();
 }
 
@@ -519,11 +519,11 @@ void GLView::mouseDoubleClickEvent(QMouseEvent* event)
 		const QPointF& mousePos=event->position();
 		const int w=width();
 		const int h=height();
-		GLfloat x,y,z;
-		x=mousePos.x();
-		y=h-mousePos.y();
+		const auto x=static_cast<GLfloat>(mousePos.x());
+		const auto y=static_cast<GLfloat>(h-mousePos.y());
 		makeCurrent();
-		glReadPixels(x,y,1,1,GL_DEPTH_COMPONENT,GL_FLOAT,&z);
+		GLfloat z;
+		glReadPixels(static_cast<GLint>(x),static_cast<GLint>(y),1,1,GL_DEPTH_COMPONENT,GL_FLOAT,&z);
 		doneCurrent();
 		const QRect viewport(0,0,w,h);
 		QVector3D target(x,y,z);
@@ -570,25 +570,25 @@ void GLView::mouseMoveEvent(QMouseEvent* event)
 #else
 	const QPointF current=event->globalPosition();
 #endif
-	const int dx=current.x()-last.x();
-	const int dy=current.y()-last.y();
+	const auto dx=static_cast<GLfloat>(current.x()-last.x());
+	const auto dy=static_cast<GLfloat>(current.y()-last.y());
 	const bool shift=QApplication::keyboardModifiers() & Qt::ShiftModifier;
 	if(event->buttons() & Qt::LeftButton) {
-		rotateX+=GLfloat(dy);
+		rotateX+=dy;
 		if(shift) {
-			rotateY+=GLfloat(dx);
+			rotateY+=dx;
 		} else {
-			rotateZ+=GLfloat(dx);
+			rotateZ+=dx;
 		}
 		normalizeAngle(rotateX);
 		normalizeAngle(rotateY);
 		normalizeAngle(rotateZ);
 	} else {
 		if(shift) {
-			zoomView(GLfloat(-dy));
+			zoomView(-dy);
 		} else {
-			viewportX+=GLfloat(dx);
-			viewportZ-=GLfloat(dy);
+			viewportX+=dx;
+			viewportZ-=dy;
 		}
 	}
 	update();

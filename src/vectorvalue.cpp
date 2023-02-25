@@ -67,7 +67,7 @@ Point VectorValue::getPoint() const
 	NumberValue* nx=nullptr;
 	NumberValue* ny=nullptr;
 	NumberValue* nz=nullptr;
-	const int s=elements.size();
+	const auto s=elements.size();
 	if(s>0)
 		nx=dynamic_cast<NumberValue*>(elements.at(0));
 	if(s>1)
@@ -174,7 +174,7 @@ Value& VectorValue::operation(VectorValue& vec,Operators e)
 	const QList<Value*>& b=vec.getElements();
 
 	if(e==Operators::CrossProduct) {
-		const int s=a.size();
+		const auto s=a.size();
 		if(s<2||s>3||s!=b.size())
 			return ValueFactory::createUndefined();
 
@@ -200,7 +200,7 @@ Value& VectorValue::operation(VectorValue& vec,Operators e)
 
 	}
 	if(e==Operators::Multiply||e==Operators::DotProduct) {
-		const int s=std::min(a.size(),b.size());
+		const auto s=std::min(a.size(),b.size());
 		if(s<=0)
 			return ValueFactory::createUndefined();
 		Value* total=&ValueFactory::createNumber(0.0);
@@ -242,8 +242,8 @@ Value& VectorValue::operation(VectorValue& vec,Operators e)
 	} else {
 		//Apply componentwise operations
 		e=convertOperation(e);
-		const int as=a.size();
-		const int bs=b.size();
+		const auto as=a.size();
+		const auto bs=b.size();
 		for(auto i=0; i<as||i<bs; ++i) {
 			if(as<bs&&i>=as) {
 				result.append(b.at(i));

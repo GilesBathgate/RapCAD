@@ -24,13 +24,14 @@
 
 class Node : public VisitableNode
 {
+	using size_type=QList<Node*>::size_type;
 public:
 	Node() = default;
 	~Node() override;
 	void addChild(Node*);
 	void setChildren(const QList<Node*>&);
 	const QList<Node*> getChildren() const;
-	int childCount() const;
+	size_type childCount() const;
 private:
 	QList<Node*> children;
 };

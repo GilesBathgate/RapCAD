@@ -376,7 +376,7 @@ int SyntaxHighlighter::buildByteOrderMark()
 
 int SyntaxHighlighter::buildIllegalChar(const QString& s)
 {
-	const int stringLen=s.length();
+	const int stringLen=static_cast<int>(s.length());
 	setFormat(startIndex,stringLen,errorFormat);
 	startIndex-=(lexerget_leng(scanner)-stringLen);
 	return YY_CONTINUE;
@@ -429,7 +429,7 @@ void SyntaxHighlighter::buildString(QChar)
 
 void SyntaxHighlighter::buildString(const QString& s)
 {
-	const int stringLen=s.length();
+	const int stringLen=static_cast<int>(s.length());
 	setFormat(startIndex,stringLen,stringFormat);
 	startIndex+=stringLen;
 }
@@ -450,7 +450,7 @@ void SyntaxHighlighter::buildCommentStart()
 
 void SyntaxHighlighter::buildComment(const QString& s)
 {
-	const int stringLen=s.length();
+	const int stringLen=static_cast<int>(s.length());
 	setFormat(startIndex,stringLen,commentFormat);
 	startIndex+=stringLen;
 }
@@ -472,7 +472,7 @@ int SyntaxHighlighter::buildCodeDocStart()
 
 int SyntaxHighlighter::buildCodeDoc(const QString& s)
 {
-	const int stringLen=s.length();
+	const int stringLen=static_cast<int>(s.length());
 	setFormat(startIndex,stringLen,codeDocFormat);
 	/* Need to adjust back the index because this is a token and thus
 	 * index is incremented in the NextToken() call */

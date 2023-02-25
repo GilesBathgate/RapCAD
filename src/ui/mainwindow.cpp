@@ -211,11 +211,11 @@ void MainWindow::loadPreferences()
 
 	getDefaultViewport();
 
-	const QPointF& o=p.getPrintOrigin();
+	const QPoint& o=p.getPrintOrigin();
 	ui->view->setPrintOrigin(o.x(), o.y());
 
-	const QVector3D& v=p.getPrintVolume();
-	ui->view->setPrintVolume(v.x(), v.y(), v.z());
+	const QList<int>& v=p.getPrintVolume();
+	ui->view->setPrintVolume(v.at(0),v.at(1),v.at(2));
 
 	ui->view->setBedAppearance(p.getPrintBedAppearance());
 
@@ -388,11 +388,11 @@ void MainWindow::preferencesUpdated()
 
 	ui->actionGenerateGcode->setVisible(p.getShowGCODEButton());
 
-	const QPointF& o=p.getPrintOrigin();
+	const QPoint& o=p.getPrintOrigin();
 	ui->view->setPrintOrigin(o.x(),o.y());
 
-	const QVector3D& v=p.getPrintVolume();
-	ui->view->setPrintVolume(v.x(),v.y(),v.z());
+	const QList<int>& v=p.getPrintVolume();
+	ui->view->setPrintVolume(v.at(0),v.at(1),v.at(2));
 
 	ui->view->setBedAppearance(p.getPrintBedAppearance());
 

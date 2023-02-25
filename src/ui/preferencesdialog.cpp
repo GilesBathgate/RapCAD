@@ -107,14 +107,14 @@ void PreferencesDialog::setupWidgets()
 			break;
 	}
 
-	const QPointF& o=preferences.getPrintOrigin();
+	const QPoint& o=preferences.getPrintOrigin();
 	ui->XspinBox->setValue(o.x());
 	ui->YspinBox->setValue(o.y());
 
-	const QVector3D& v=preferences.getPrintVolume();
-	ui->widthSpinBox->setValue(int(v.x()));
-	ui->lengthSpinBox->setValue(int(v.y()));
-	ui->heightSpinBox->setValue(int(v.z()));
+	const QList<int>& v=preferences.getPrintVolume();
+	ui->widthSpinBox->setValue(v.at(0));
+	ui->lengthSpinBox->setValue(v.at(1));
+	ui->heightSpinBox->setValue(v.at(2));
 
 	const int i=static_cast<int>(preferences.getPrintBedAppearance());
 	ui->appearanceComboBox->setCurrentIndex(i);
@@ -426,15 +426,15 @@ void PreferencesDialog::outputFormatChanged(bool)
 
 void PreferencesDialog::volumeChanged()
 {
-	auto width = float(ui->widthSpinBox->value());
-	auto length = float(ui->lengthSpinBox->value());
-	auto height = float(ui->heightSpinBox->value());
-	preferences.setPrintVolume(QVector3D(width,length,height));
+	auto width=ui->widthSpinBox->value();
+	auto length=ui->lengthSpinBox->value();
+	auto height=ui->heightSpinBox->value();
+	preferences.setPrintVolume({width,length,height});
 }
 
 void PreferencesDialog::originChanged()
 {
-	const QPointF o(ui->XspinBox->value(),ui->YspinBox->value());
+	const QPoint o(ui->XspinBox->value(),ui->YspinBox->value());
 	preferences.setPrintOrigin(o);
 }
 

@@ -29,10 +29,10 @@ decimal to_decimal(const QString& str,bool* ok)
 {
 	QString s(str);
 #ifdef USE_CGAL
-	const int i = s.indexOf('.');
+	const auto i=s.indexOf('.');
 	if(i>=0) {
 		s.remove(i,1);
-		const int p=s.length()-i;
+		const auto p=s.length()-i;
 		s.append("/1");
 		s.append(QString(p,'0'));
 	}
@@ -109,7 +109,7 @@ bool to_boolean(const decimal& n)
 
 decimal parse_numberexp(const QString& s, bool* ok)
 {
-	const int i=s.indexOf('e',0,Qt::CaseInsensitive);
+	const auto i=s.indexOf('e',0,Qt::CaseInsensitive);
 	if(i<0)
 		return to_decimal(s);
 
@@ -120,7 +120,7 @@ decimal parse_numberexp(const QString& s, bool* ok)
 
 decimal parse_rational(const QString& s, bool* ok)
 {
-	const int i=s.lastIndexOf('/');
+	const auto i=s.lastIndexOf('/');
 	if(i<0)
 		return parse_numberexp(s,ok);
 

@@ -39,7 +39,7 @@ const QList<Node*> Node::getChildren() const
 	return children;
 }
 
-int Node::childCount() const
+Node::size_type Node::childCount() const
 {
 	return children.count();
 }

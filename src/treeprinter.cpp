@@ -78,7 +78,7 @@ void TreePrinter::visit(const Instance& inst)
 	result << ")";
 
 	const QList<Statement*>& children = inst.getChildren();
-	const int c = children.size();
+	const auto c=children.size();
 	if(c>0) {
 		if(c>1) {
 			result << "{\n";
@@ -161,7 +161,7 @@ void TreePrinter::visit(const FunctionScope& scp)
 	}
 
 	const QList<Statement*> statements = scp.getStatements();
-	const int size = statements.size();
+	const auto size=statements.size();
 	if(size>0) {
 		result << "{\n";
 		++indent;
@@ -181,7 +181,7 @@ void TreePrinter::visit(const FunctionScope& scp)
 void TreePrinter::visit(const CompoundStatement& stmt)
 {
 	const QList<Statement*>& children = stmt.getChildren();
-	const int c = children.size();
+	const auto c=children.size();
 	if(c>0) {
 		if(c>1) {
 			result << "{\n";
@@ -408,7 +408,7 @@ void TreePrinter::visit(const ModuleImport& decl)
 		result << name;
 	}
 	const QList<Parameter*> parameters = decl.getParameters();
-	const int s = parameters.size();
+	const auto s=parameters.size();
 	if(s>0) {
 		result << "(";
 		printParameters(parameters);

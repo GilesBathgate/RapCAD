@@ -615,26 +615,26 @@ bool Preferences::getCacheEnabled() const
 	return settings->value("CacheEnabled",false).toBool();
 }
 
-QPointF Preferences::getPrintOrigin() const
+QPoint Preferences::getPrintOrigin() const
 {
-	return settings->value("PrintOrigin", QPointF(-125.0, -105.0)).toPointF();
+	return settings->value("PrintOrigin",QPoint(-125,-105)).toPoint();
 }
 
-void Preferences::setPrintOrigin(QPointF s)
+void Preferences::setPrintOrigin(QPoint s)
 {
-	return settings->setValue("PrintOrigin", s);
+	return settings->setValue("PrintOrigin",s);
 }
 
-QVector3D Preferences::getPrintVolume() const
+QList<int> Preferences::getPrintVolume() const
 {
-	const QList<QVariant>& v=settings->value("PrintVolume", QList<QVariant>({250.0,210.0,200.0})).toList();
-	return QVector3D(v.at(0).toFloat(),v.at(1).toFloat(),v.at(2).toFloat());
+	const QList<QVariant>& v=settings->value("PrintVolume",QList<QVariant>{250,210,200}).toList();
+	return {v.at(0).toInt(),v.at(1).toInt(),v.at(2).toInt()};
 }
 
-void Preferences::setPrintVolume(QVector3D v)
+void Preferences::setPrintVolume(QList<int> v)
 {
-	//Cast to double needed so QSettings formats strings nicely.
-	const QList<QVariant> d({(double)v.x(),(double)v.y(),(double)v.z()});
+	//Cast to int needed so QSettings formats strings nicely.
+	const QList<QVariant> d{v.at(0),v.at(1),v.at(2)};
 	settings->setValue("PrintVolume",d);
 }
 

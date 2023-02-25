@@ -109,7 +109,7 @@ Primitive* CGALImport::importOBJ() const
 	for(const auto& f : faces) {
 		CGALPolygon& pg=cp->createPolygon();
 		for(const auto& i : f)
-			pg.append(i);
+			pg.append(static_cast<Polygon::size_type>(i));
 	}
 	return cp;
 }
@@ -129,7 +129,7 @@ Primitive* CGALImport::importSTL() const
 	for(const auto& f : faces) {
 		CGALPolygon& pg=cp->createPolygon();
 		for(const auto& i : f)
-			pg.append(i);
+			pg.append(static_cast<Polygon::size_type>(i));
 	}
 	return cp;
 #else

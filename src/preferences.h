@@ -133,11 +133,11 @@ public:
 	void setCacheEnabled(bool);
 	bool getCacheEnabled() const;
 
-	QPointF getPrintOrigin() const;
-	void setPrintOrigin(QPointF s);
+	QPoint getPrintOrigin() const;
+	void setPrintOrigin(QPoint);
 
-	QVector3D getPrintVolume() const;
-	void setPrintVolume(QVector3D v);
+	QList<int> getPrintVolume() const;
+	void setPrintVolume(QList<int> v);
 
 	BedAppearance getPrintBedAppearance() const;
 	void setPrintBedAppearance(BedAppearance);

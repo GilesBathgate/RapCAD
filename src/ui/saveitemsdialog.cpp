@@ -82,7 +82,7 @@ void SaveItemsDialog::discardAll()
 
 void SaveItemsDialog::updateSaveButton()
 {
-	const int count=ui->treeWidget->selectedItems().count();
+	const auto count=ui->treeWidget->selectedItems().count();
 	QPushButton* button = ui->buttonBox->button(QDialogButtonBox::Save);
 	const int total=ui->treeWidget->topLevelItemCount();
 	if(total==1) {

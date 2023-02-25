@@ -90,7 +90,7 @@ bool Console::handleBackspace()
 void Console::setPrompt(const QString& p)
 {
 	prompt=p;
-	promptLength=prompt.length();
+	promptLength=static_cast<int>(prompt.length());
 	displayPrompt();
 }
 
@@ -99,7 +99,7 @@ void Console::handleReturn()
 	const QString& command=getCommand();
 	if(!command.trimmed().isEmpty()) {
 		commands.append(command);
-		historyPos=commands.count();
+		historyPos=static_cast<int>(commands.count());
 	}
 	moveCursor(QTextCursor::End,QTextCursor::MoveAnchor);
 	insertPlainText("\n");
@@ -109,7 +109,7 @@ void Console::handleReturn()
 
 void Console::handleHistory(int pos)
 {
-	const int c=commands.count();
+	const auto c=commands.count();
 	if(pos<0||pos>c) return;
 
 	QTextCursor cursor=textCursor();

@@ -59,9 +59,9 @@ void to_glcoord(const Point& pt,float& x,float& y,float& z)
 #else
 void to_glcoord(const Point& pt,float& x,float& y,float& z)
 {
-	x=to_double(pt.x());
-	y=to_double(pt.y());
-	z=to_double(pt.z());
+	x=static_cast<float>(to_double(pt.x()));
+	y=static_cast<float>(to_double(pt.y()));
+	z=static_cast<float>(to_double(pt.z()));
 }
 #endif
 

@@ -85,7 +85,7 @@ CGALPrimitive *CGALExport::transformPrimitive() const
 	auto& p=Preferences::getInstance();
 	if(pr && p.getTranslateOrigin()) {
 		pr=static_cast<CGALPrimitive*>(pr->copy());
-		const QPointF& o=p.getPrintOrigin();
+		const QPoint& o=p.getPrintOrigin();
 		auto* m=new TransformMatrix(
 			1.0,0.0,0.0,-o.x(),
 			0.0,1.0,0.0,-o.y(),
@@ -338,7 +338,7 @@ void CGALExport::exportCSG() const
 		for(const auto& p: poly->getPoints()) {
 			if(!first_p())
 				output << ",";
-			const int i=points.indexOf(p); //eek, this could be slow on large models.
+			const auto i=points.indexOf(p); //eek, this could be slow on large models.
 			output << i;
 		}
 		output << "]";

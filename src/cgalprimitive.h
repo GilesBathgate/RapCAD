@@ -125,11 +125,12 @@ private:
 	 * @param p The point to find or add.
 	 * @return The index of the point.
 	 */
-	int findIndex(const CGAL::Point3& p);
+	using size_type=QList<CGAL::Point3>::size_type;
+	size_type findIndex(const CGAL::Point3& p);
 
 	QList<Primitive*> children;
 	QList<CGAL::Point3> points;
-	QMap<CGAL::Point3,int> pointMap;
+	QMap<CGAL::Point3,size_type> pointMap;
 	QList<CGALPolygon*> polygons;
 	QList<CGALPolygon*> perimeters;
 	CGAL::NefPolyhedron3* nefPolyhedron;

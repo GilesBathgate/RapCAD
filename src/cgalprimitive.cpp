@@ -353,14 +353,14 @@ void CGALPrimitive::createVertex(const CGAL::Point3& p)
 	points.append(p);
 }
 
-int CGALPrimitive::findIndex(const CGAL::Point3& p)
+CGALPrimitive::size_type CGALPrimitive::findIndex(const CGAL::Point3& p)
 {
 	/* Using pointMap.find allows to check whether the map contains the value
 	 * whilst also providing a way to access it instead of doing two lookups */
 	const auto& it=pointMap.find(p);
 	if(it!=pointMap.end()) return *it;
 
-	const int i=points.size();
+	const auto i=points.size();
 	pointMap.insert(p,i);
 	createVertex(p);
 	return i;
@@ -374,7 +374,7 @@ void CGALPrimitive::appendVertex(const CGAL::Point3& p)
 
 void CGALPrimitive::appendVertex(CGALPolygon* pg,const CGAL::Point3& p,bool direction)
 {
-	const int i = findIndex(p);
+	const auto i = findIndex(p);
 	if(direction)
 		pg->append(i);
 	else

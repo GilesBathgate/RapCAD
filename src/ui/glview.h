@@ -43,8 +43,8 @@ public:
 
 public slots:
 	void setViewport(GLfloat,GLfloat,GLfloat,GLfloat,GLfloat,GLfloat);
-	void setPrintOrigin(GLfloat,GLfloat);
-	void setPrintVolume(GLfloat,GLfloat,GLfloat);
+	void setPrintOrigin(GLint,GLint);
+	void setPrintVolume(GLint,GLint,GLint);
 	void getViewport(GLfloat&,GLfloat&,GLfloat&,GLfloat&,GLfloat&,GLfloat&) const;
 	void setShowAxes(bool);
 	void setShowRulers(bool);
@@ -87,11 +87,11 @@ private:
 	bool showRulers;
 	bool showEdges;
 	bool skeleton;
-	GLfloat printX;
-	GLfloat printY;
-	GLfloat printWidth;
-	GLfloat printLength;
-	GLfloat printHeight;
+	GLint printX;
+	GLint printY;
+	GLint printWidth;
+	GLint printLength;
+	GLint printHeight;
 	BedAppearance appearance;
 
 	bool mouseDrag;

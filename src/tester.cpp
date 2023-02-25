@@ -77,7 +77,7 @@ void Tester::writeHeader(const QString& name, int num)
 
 void Tester::writeTestTime()
 {
-	const float timeTaken = testTimer.nsecsElapsed()/1000000.0f;
+	const float timeTaken=static_cast<float>(testTimer.nsecsElapsed())*1e-6F;
 #ifndef Q_OS_WIN
 	output << "\e[0;33m";
 #endif

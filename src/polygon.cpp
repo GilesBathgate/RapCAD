@@ -23,12 +23,12 @@ Polygon::Polygon(Primitive& p) : parent(p)
 {
 }
 
-void Polygon::append(int i)
+void Polygon::append(size_type i)
 {
 	indexes.append(i);
 }
 
-void Polygon::prepend(int i)
+void Polygon::prepend(size_type i)
 {
 	indexes.prepend(i);
 }
@@ -42,12 +42,12 @@ const QList<Point> Polygon::getPoints() const
 	return points;
 }
 
-const QList<int> Polygon::getIndexes() const
+const QList<Polygon::size_type> Polygon::getIndexes() const
 {
 	return indexes;
 }
 
-void Polygon::setIndexes(const QList<int>& value)
+void Polygon::setIndexes(const QList<size_type>& value)
 {
 	indexes=value;
 }

@@ -536,7 +536,7 @@ int r_sign(const decimal& a)
 static gmp_randstate_t state;
 #endif
 
-void r_rand_seed(int seed)
+void r_rand_seed(unsigned int seed)
 {
 #if USE_CGAL
 	gmp_randinit_mt(state);

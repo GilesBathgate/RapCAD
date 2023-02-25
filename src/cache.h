@@ -35,7 +35,7 @@ protected:
 	Cache();
 	using i_Point = QVector<int> ;
 	using i_PointList = QVector<i_Point>;
-	using i_Polygon = QVector<int>;
+	using i_Polygon = QVector<i_Point::size_type>;
 	using i_PolygonList = QVector<i_Polygon>;
 	using i_Primitive = QPair<i_PointList,i_PolygonList>;
 

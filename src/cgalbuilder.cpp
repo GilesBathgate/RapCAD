@@ -113,7 +113,7 @@ struct VertexInfo {
 		return index != -1;
 	}
 
-	int index;
+	Polygon::size_type index;
 };
 
 template <class CT, class FaceHandle, class Edge>
@@ -197,14 +197,14 @@ bool CGALBuilder::triangulate()
 
 
 	const QList<CGAL::Point3>& points3=primitive.getPoints();
-	const int total=points3.size();
+	const auto total=points3.size();
 	if(total<3) return false;
 	if(total==3) return true;
 
 	CT ct;
 	TDS::size_type count=0;
 	for(CGALPolygon* pg: primitive.getCGALPolygons()) {
-		const QList<int> indexes=pg->getIndexes();
+		const auto& indexes=pg->getIndexes();
 		if(indexes.size()<3) continue;
 		CGALProjection* pro=pg->getProjection();
 		QList<CGAL::Point2> points2;

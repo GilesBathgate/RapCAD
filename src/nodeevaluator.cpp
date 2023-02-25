@@ -85,7 +85,7 @@ void NodeEvaluator::visit(const GroupNode& op)
 
 void NodeEvaluator::visit(const DifferenceNode& op)
 {
-	const int count=op.childCount();
+	const auto count=op.childCount();
 	if(count>2)
 		reporter.reportWarning(tr("%1 children in difference may compute faster with union/group").arg(count));
 	if(!evaluate(op,Operations::Difference)) return;
