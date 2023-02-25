@@ -83,14 +83,15 @@ ComplexValue& ValueFactory::createComplex(Value& r,const QList<Value*>& i)
 
 void ValueFactory::cleanupValues()
 {
-	//Optimisation call clear before delete
-	const QList<Value*> deleteLater(values);
-	values.clear();
+	//Optimisation clear by swapping
+	QList<Value*> deleteLater;
+	values.swap(deleteLater);
 	qDeleteAll(deleteLater);
 }
 
 void ValueFactory::deleteValue(Value* v)
 {
+	if(values.empty()) return;
 #if QT_VERSION >= QT_VERSION_CHECK(4,4,0)
 	values.removeOne(v);
 #else
