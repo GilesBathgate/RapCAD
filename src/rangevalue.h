@@ -39,7 +39,7 @@ private:
 	Value& operation(Value&,Operators) override;
 	Value& operation(RangeValue&,Operators);
 	bool getReverse();
-	Value& defaultStep();
+	Value& defaultStep() const;
 	Value& start;
 	Value& finish;
 	bool reverse;

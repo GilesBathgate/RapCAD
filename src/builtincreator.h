@@ -28,8 +28,8 @@ class BuiltinCreator
 {
 public:
 	static BuiltinCreator& getInstance(Reporter&);
-	void generateDocs(QTextStream&);
-	void generateDocs(TreeVisitor&);
+	void generateDocs(QTextStream&) const;
+	void generateDocs(TreeVisitor&) const;
 	QHash<QString,Module*> getModuleNames() const;
 	const QList<Declaration*> getBuiltins() const;
 private:

@@ -42,7 +42,7 @@ public:
 
 	const QList<CGAL::Point3> getPoints() const;
 	const QList<CGAL::Point2> getProjectedPoints();
-	const QList<CGAL::Segment3> getSegments();
+	const QList<CGAL::Segment3> getSegments() const;
 
 	CGAL::Vector3 getNormal() const;
 	void calculatePlane();

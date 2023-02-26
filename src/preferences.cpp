@@ -142,7 +142,7 @@ void Preferences::updatePrecision()
 #endif
 }
 
-void Preferences::updateAssertions()
+void Preferences::updateAssertions() const
 {
 #ifdef USE_CGAL
 #if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,6,0)

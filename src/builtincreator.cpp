@@ -263,13 +263,13 @@ const QList<Declaration*> BuiltinCreator::getBuiltins() const
 	return builtins;
 }
 
-void BuiltinCreator::generateDocs(QTextStream& out)
+void BuiltinCreator::generateDocs(QTextStream& out) const
 {
 	TreePrinter p(out);
 	generateDocs(p);
 }
 
-void BuiltinCreator::generateDocs(TreeVisitor& p)
+void BuiltinCreator::generateDocs(TreeVisitor& p) const
 {
 	for(Declaration* d: getBuiltins())
 		d->accept(p);

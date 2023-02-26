@@ -90,8 +90,8 @@ public:
 	void setSanitized(bool) override;
 	void setType(PrimitiveTypes) override;
 	void transform(TransformMatrix*) override;
-	CGAL::Circle3 getRadius();
-	CGAL::Cuboid3 getBounds();
+	CGAL::Circle3 getRadius() const;
+	CGAL::Cuboid3 getBounds() const;
 	CGALPolygon& createPerimeter();
 	CGAL::Polyhedron3* getPolyhedron();
 	CGALVolume getVolume(bool);

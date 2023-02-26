@@ -184,7 +184,7 @@ public:
 private:
 	Preferences(AbstractSettings*);
 	~Preferences();
-	void updateAssertions();
+	void updateAssertions() const;
 	void updatePrecision();
 
 	AbstractSettings* settings;

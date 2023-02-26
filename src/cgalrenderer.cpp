@@ -242,7 +242,7 @@ public:
 		functions.glDeleteLists(listId,range);
 	}
 
-	GLuint getId(GLuint i)
+	GLuint getId(GLuint i) const
 	{
 		CGAL_assertion((GLsizei)i<range);
 		return listId+i;

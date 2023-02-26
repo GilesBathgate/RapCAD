@@ -162,7 +162,7 @@ bool RangeValue::getReverse()
 	return v.isTrue();
 }
 
-Value& RangeValue::defaultStep()
+Value& RangeValue::defaultStep() const
 {
 	const decimal& i=reverse?-1.0:1.0;
 	return ValueFactory::createNumber(i);

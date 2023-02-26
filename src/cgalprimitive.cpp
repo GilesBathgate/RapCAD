@@ -498,7 +498,7 @@ const QList<CGAL::Point3> CGALPrimitive::getPoints() const
 	return pts;
 }
 
-CGAL::Cuboid3 CGALPrimitive::getBounds()
+CGAL::Cuboid3 CGALPrimitive::getBounds() const
 {
 	QList<CGAL::Point3> pts=getPoints();
 	return CGAL::bounding_box(pts.begin(),pts.end());
@@ -1015,7 +1015,7 @@ bool CGALPrimitive::isEmpty()
 	return nefPolyhedron->is_empty();
 }
 
-CGAL::Circle3 CGALPrimitive::getRadius()
+CGAL::Circle3 CGALPrimitive::getRadius() const
 {
 	using Traits = CGAL::Min_circle_2_traits_2<CGAL::Kernel3>;
 	using Min_circle = CGAL::Min_circle_2<Traits>;

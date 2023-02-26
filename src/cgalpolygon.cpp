@@ -68,7 +68,7 @@ const QList<CGAL::Point2> CGALPolygon::getProjectedPoints()
 	return points;
 }
 
-const QList<CGAL::Segment3> CGALPolygon::getSegments()
+const QList<CGAL::Segment3> CGALPolygon::getSegments() const
 {
 		QList<CGAL::Segment3> segments;
 		CGAL::Point3 prev;
