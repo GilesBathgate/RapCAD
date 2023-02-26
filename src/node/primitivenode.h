@@ -26,7 +26,6 @@ class PrimitiveNode : public Node
 {
 public:
 	PrimitiveNode();
-	~PrimitiveNode() override=default;
 	void accept(NodeVisitor&) override;
 	Primitive* createPrimitive();
 	Primitive* getPrimitive() const;

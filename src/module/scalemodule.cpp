@@ -49,7 +49,7 @@ Node* ScaleModule::evaluate(const Context& ctx) const
 		return pn;
 	}
 
-	TransformMatrix* m;
+	TransformMatrix* m=nullptr;
 	auto* refVal=getParameterArgument<VectorValue>(ctx,1);
 	if(refVal) {
 		const Point& r=refVal->getPoint();

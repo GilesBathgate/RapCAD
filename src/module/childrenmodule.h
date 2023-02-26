@@ -27,6 +27,7 @@ class ChildrenModule : public Module
 public:
 	ChildrenModule(Reporter&,bool);
 	Node* evaluate(const Context&) const override;
+private:
 	bool legacy;
 };
 

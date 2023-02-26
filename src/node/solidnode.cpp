@@ -17,10 +17,6 @@
  */
 #include "solidnode.h"
 
-SolidNode::SolidNode()
-{
-}
-
 void SolidNode::accept(NodeVisitor& v)
 {
 	v.visit(*this);

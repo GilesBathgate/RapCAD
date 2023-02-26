@@ -722,7 +722,7 @@ void MainWindow::evaluationDone()
 
 void MainWindow::examplesListClicked(const QModelIndex& item)
 {
-	Module* m=item.data(Qt::UserRole).value<Module*>();
+	auto* m=item.data(Qt::UserRole).value<Module*>();
 
 	QString example=m->getExample();
 	if(example.contains('%')) {

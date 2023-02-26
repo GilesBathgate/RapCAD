@@ -24,7 +24,7 @@ class CuboidModule : public PrimitiveModule
 {
 	Q_DECLARE_TR_FUNCTIONS(CuboidModule)
 public:
-	CuboidModule(Reporter&);
+	explicit CuboidModule(Reporter&);
 	Node* evaluate(const Context& ctx) const override;
 };
 

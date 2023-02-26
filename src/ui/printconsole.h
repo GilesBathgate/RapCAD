@@ -30,7 +30,7 @@ class PrintConsole : public QDialog
 	Q_OBJECT
 
 public:
-	explicit PrintConsole(QWidget* parent = 0);
+	explicit PrintConsole(QWidget* parent=nullptr);
 	~PrintConsole() override;
 private:
 	static QString getStyleString(const QString&,const QString&);

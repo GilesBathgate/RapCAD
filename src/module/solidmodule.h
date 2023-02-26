@@ -24,7 +24,7 @@ class SolidModule : public Module
 {
 	Q_DECLARE_TR_FUNCTIONS(SolidModule)
 public:
-	SolidModule(Reporter&);
+	explicit SolidModule(Reporter&);
 	Node* evaluate(const Context&) const override;
 };
 

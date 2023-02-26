@@ -24,7 +24,7 @@
 class EmptyCache : public Cache
 {
 public:
-	EmptyCache() {}
+	EmptyCache()=default;
 	Primitive* fetch(Primitive* p) override { return p; }
 };
 

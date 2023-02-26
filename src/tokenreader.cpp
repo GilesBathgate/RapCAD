@@ -18,7 +18,7 @@
 #include "tokenreader.h"
 
 #define YYSTYPE_IS_DECLARED
-typedef union YYSTYPE YYSTYPE;
+using YYSTYPE=union YYSTYPE;
 #include "parser_yacc.h"
 
 static constexpr int YY_NULL=0;
