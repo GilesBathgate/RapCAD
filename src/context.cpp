@@ -116,12 +116,10 @@ Value& Context::lookupVariable(const QString& name,Storage& c,Layout* l) const
 QList<Node*> Context::lookupChildren() const
 {
 	QList<Node*> children=getInputNodes();
-	if(!children.isEmpty())
-		return children;
-	if(parent)
+	if(children.isEmpty()&&parent)
 		return parent->lookupChildren();
 
-	return QList<Node*>();
+	return children;
 }
 
 void Context::setVariablesFromArguments()
