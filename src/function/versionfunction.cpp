@@ -45,7 +45,7 @@ Value& VersionFunction::evaluate(const Context&) const
 		const QString& revision=parts.at(3);
 		version.append(&ValueFactory::createText(revision));
 	} else {
-		version.append(new NumberValue(build.toInt()));
+		version.append(&ValueFactory::createNumber(build.toInt()));
 	}
 
 	return ValueFactory::createVector(version);
