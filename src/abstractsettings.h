@@ -29,8 +29,8 @@ protected:
 public:
 	virtual ~AbstractSettings()=default;
 	virtual void sync()=0;
-	virtual QVariant value(QString,QVariant) const=0;
-	virtual void setValue(QString,QVariant)=0;
+	virtual QVariant value(const QString&,const QVariant&) const=0;
+	virtual void setValue(const QString&,const QVariant&)=0;
 	virtual void clear()=0;
 };
 

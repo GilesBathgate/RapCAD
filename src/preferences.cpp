@@ -42,12 +42,12 @@ public:
 		Base::sync();
 	}
 
-	QVariant value(QString k,QVariant d) const override
+	QVariant value(const QString& k,const QVariant& d) const override
 	{
 		return Base::value(k,d);
 	}
 
-	void setValue(QString k,QVariant v) override
+	void setValue(const QString& k,const QVariant& v) override
 	{
 		Base::setValue(k,v);
 	}
@@ -76,12 +76,12 @@ public:
 		Base::clear();
 	}
 
-	QVariant value(QString k,QVariant d) const override
+	QVariant value(const QString& k,const QVariant& d) const override
 	{
 		return realSettings->value(k,d);
 	}
 
-	void setValue(QString k,QVariant v) override
+	void setValue(const QString& k,const QVariant& v) override
 	{
 		Base::insert(k,v);
 	}
