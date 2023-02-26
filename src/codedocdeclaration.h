@@ -26,12 +26,12 @@ class CodeDocDeclaration : public Declaration
 {
 public:
 	CodeDocDeclaration() = default;
-	virtual ~CodeDocDeclaration() = default;
+	~CodeDocDeclaration() override=default;
 
 	const QList<CodeDocParam*>& getParameters() const;
 	void setParameters(const QList<CodeDocParam*>&);
 
-	virtual void accept(TreeVisitor&);
+	void accept(TreeVisitor&) override;
 private:
 	QList<CodeDocParam*> parameters;
 };

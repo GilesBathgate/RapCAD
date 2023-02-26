@@ -31,7 +31,7 @@ class PrintConsole : public QDialog
 
 public:
 	explicit PrintConsole(QWidget* parent = 0);
-	~PrintConsole();
+	~PrintConsole() override;
 private:
 	static QString getStyleString(const QString&,const QString&);
 	Ui::PrintConsole* ui;

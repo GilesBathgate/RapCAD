@@ -27,9 +27,9 @@ class ValueIterator : public Iterator<Value>
 	Q_DISABLE_COPY_MOVE(ValueIterator)
 public:
 	explicit ValueIterator(Value*);
-	virtual ValueIterator& operator++() override;
-	virtual bool operator!=(const Iterator&) const override;
-	virtual Value& operator*() const override;
+	ValueIterator& operator++() override;
+	bool operator!=(const Iterator&) const override;
+	Value& operator*() const override;
 protected:
 	Value* value;
 	bool done;

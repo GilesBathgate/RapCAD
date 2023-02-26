@@ -35,7 +35,7 @@ class CGALDiscreteModifier final : public CGAL::Modifier_base<CGAL::NefPolyhedro
 public:
 	explicit CGALDiscreteModifier(int);
 	static CGAL::Point3 discretePoint(const CGAL::Point3&,int);
-	void operator()(CGAL::NefPolyhedron3::SNC_structure&);
+	void operator()(CGAL::NefPolyhedron3::SNC_structure&) override;
 private:
 	int places;
 };

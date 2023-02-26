@@ -31,7 +31,7 @@ class SaveItemsDialog : public QDialog
 
 public:
 	SaveItemsDialog(QWidget* parent,bool,const QList<QString>&);
-	~SaveItemsDialog();
+	~SaveItemsDialog() override;
 
 	QList<QString> getItemsToSave() const;
 	bool getAutoSaveOnCompile() const;

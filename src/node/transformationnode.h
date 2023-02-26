@@ -32,7 +32,7 @@ public:
 		Z
 	};
 	TransformationNode();
-	~TransformationNode();
+	~TransformationNode() override;
 	void accept(NodeVisitor&) override;
 	TransformMatrix* getMatrix() const;
 	void setMatrix(TransformMatrix*);

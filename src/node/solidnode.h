@@ -24,7 +24,7 @@ class SolidNode : public Node
 {
 public:
 	SolidNode();
-	void accept(NodeVisitor&);
+	void accept(NodeVisitor&) override;
 };
 
 #endif // SOLIDNODE_H
