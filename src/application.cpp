@@ -55,10 +55,8 @@ Application::Application() :
 
 Application::~Application()
 {
-	if(redirectFile)
-		delete redirectFile;
-	if(strategy)
-		delete strategy;
+	delete redirectFile;
+	delete strategy;
 }
 
 #if defined (USE_INTEGTEST) || defined (USE_READLINE)

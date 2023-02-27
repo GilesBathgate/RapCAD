@@ -223,8 +223,7 @@ bool NodeEvaluator::evaluate(const QList<Node*>& children, Operations type, Prim
 
 void NodeEvaluator::noResult(const Node&)
 {
-	if(result)
-		delete result;
+	delete result;
 	result=nullptr;
 }
 
