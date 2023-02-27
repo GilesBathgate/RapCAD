@@ -20,7 +20,6 @@
 #define ECHOMODULE_H
 
 #include "module.h"
-#include "onceonly.h"
 #include <QTextStream>
 
 class EchoModule : public Module
@@ -31,7 +30,7 @@ public:
 	Node* evaluate(const Context&) const override;
 private:
 	QTextStream& output;
-	static OnceOnly depricateWarning;
+	static bool depricateWarning();
 };
 
 #endif // ECHOMODULE_H

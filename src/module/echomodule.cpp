@@ -18,6 +18,7 @@
 
 #include "echomodule.h"
 #include "context.h"
+#include "onceonly.h"
 #include "textvalue.h"
 #include <contrib/qtcompat.h>
 
@@ -26,7 +27,11 @@ EchoModule::EchoModule(Reporter& r) : Module(r,"echo"), output(r.output)
 	addDeprecated(tr("The echo module is deprecated please use 'write' or 'writeln' module instead."));
 }
 
-OnceOnly EchoModule::depricateWarning;
+bool EchoModule::depricateWarning()
+{
+	static OnceOnly warning;
+	return warning();
+}
 
 Node* EchoModule::evaluate(const Context& ctx) const
 {

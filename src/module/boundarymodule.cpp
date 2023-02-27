@@ -19,6 +19,7 @@
 #include "boundarymodule.h"
 #include "context.h"
 #include "node/boundarynode.h"
+#include "onceonly.h"
 
 BoundaryModule::BoundaryModule(Reporter& r, bool l) :
 	Module(r,l?"outline":"boundary"),
@@ -30,7 +31,11 @@ BoundaryModule::BoundaryModule(Reporter& r, bool l) :
 		addDescription(tr("Creates the boundary of its children."));
 }
 
-OnceOnly BoundaryModule::depricateWarning;
+bool BoundaryModule::depricateWarning()
+{
+	static OnceOnly warning;
+	return warning();
+}
 
 Node* BoundaryModule::evaluate(const Context& ctx) const
 {

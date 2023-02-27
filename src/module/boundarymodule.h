@@ -20,7 +20,6 @@
 #define BOUNDARYMODULE_H
 
 #include "module.h"
-#include "onceonly.h"
 
 class BoundaryModule : public Module
 {
@@ -29,7 +28,7 @@ public:
 	BoundaryModule(Reporter&, bool);
 	Node* evaluate(const Context&) const override;
 private:
-	static OnceOnly depricateWarning;
+	static bool depricateWarning();
 	bool legacy;
 };
 
