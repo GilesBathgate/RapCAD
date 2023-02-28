@@ -48,8 +48,8 @@ public:
 	QString getCurrentName() const;
 	void setCurrentName(const QString&);
 
-	Value& lookupVariable(const QString&,Storage&,Layout*) const;
-	bool addVariable(const QString&,Value*);
+	Value& lookupVariable(const QString&,Storage,Layout*) const;
+	bool updateVariable(const QString&,Value*,Storage);
 	void setVariable(const QString&,Value*);
 
 	QList<Node*> lookupChildren() const;

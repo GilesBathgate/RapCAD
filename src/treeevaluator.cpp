@@ -378,18 +378,20 @@ void TreeEvaluator::visit(const AssignStatement& stmt)
 
 	auto c=lvalue->getStorage();
 	result->setStorage(c);
-	switch(c) {
-		case Storage::Constant:
-			if(!context->addVariable(name,result))
-				reporter.reportWarning(tr("attempt to alter constant variable '%1'").arg(name));
-			break;
-		case Storage::Parametric:
-			if(!context->addVariable(name,result))
-				reporter.reportWarning(tr("attempt to alter parametric variable '%1'").arg(name));
-			break;
-		default:
-			context->setVariable(name,result);
-			break;
+
+	if(!context->updateVariable(name,result,c))
+	{
+		switch(c) {
+			case Storage::Constant:
+				reporter.reportWarning(tr("attempt to alter constant value '%1'").arg(name));
+				break;
+			case Storage::Parametric:
+				reporter.reportWarning(tr("attempt to alter parametric value '%1'").arg(name));
+				break;
+			default:
+				reporter.reportException(tr("unable to set value '%1'").arg(name));
+				break;
+		}
 	}
 }
 

@@ -78,12 +78,20 @@ void Context::setCurrentName(const QString& value)
 	currentName=value;
 }
 
-bool Context::addVariable(const QString& name,Value* v)
+bool Context::updateVariable(const QString& name,Value* v,Storage s)
 {
+	if(s==Storage::Variable||s==Storage::Special) {
+		setVariable(name,v);
+		return true;
+	}
 	if(!variables.contains(name)) {
 		setVariable(name,v);
 		return true;
 	}
+	Value* e=Value::evaluate(variables.value(name),Operators::Equal,v);
+	if(e)
+		return e->isTrue();
+
 	return false;
 }
 
@@ -92,7 +100,7 @@ void Context::setVariable(const QString& name, Value* v)
 	variables.insert(name,v);
 }
 
-Value& Context::lookupVariable(const QString& name,Storage& c,Layout* l) const
+Value& Context::lookupVariable(const QString& name,Storage c,Layout* l) const
 {
 	if(variables.contains(name)) {
 		if(l->inScope(currentScope)) {
