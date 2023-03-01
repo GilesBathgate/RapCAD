@@ -35,7 +35,7 @@ void ForStatement::setArguments(const QList<Argument*>& args)
 	arguments = args;
 }
 
-const QList<Argument*> ForStatement::getArguments() const
+const QList<Argument*>& ForStatement::getArguments() const
 {
 	return arguments;
 }

@@ -49,8 +49,8 @@ public:
 	bool isFullyDimentional() override;
 	bool overlaps(Primitive*) override;
 	CGALPolygon& createPolygon() override;
-	const QList<CGAL::Point3> getPoints() const override;
-	const QList<Primitive*> getChildren() const override;
+	QList<CGAL::Point3> getPoints() const override;
+	const QList<Primitive*>& getChildren() const override;
 	Primitive* boundary() override;
 	Primitive* chain_hull(Primitive*,Primitive*) override;
 	Primitive* combine() override;
@@ -78,7 +78,7 @@ public:
 	Primitive* solidify() override;
 	PrimitiveTypes getType() override;
 	/* Don't call this method instead use getCGALPolygons */
-	Q_DECL_DEPRECATED const QList<Polygon*> getPolygons() const override;
+	Q_DECL_DEPRECATED const QList<Polygon*>& getPolygons() const override;
 	void align(bool,QList<ViewDirections>) override;
 	void appendChild(Primitive*) override;
 	void appendChildren(QList<Primitive*>) override;
@@ -96,8 +96,8 @@ public:
 	CGAL::Polyhedron3* getPolyhedron();
 	CGALVolume getVolume(bool);
 	const CGAL::NefPolyhedron3& getNefPolyhedron();
-	const QList<CGALPolygon*> getCGALPerimeter() const;
-	const QList<CGALPolygon*> getCGALPolygons() const;
+	const QList<CGALPolygon*>& getCGALPerimeter() const;
+	const QList<CGALPolygon*>& getCGALPolygons() const;
 	void appendVertex(CGALPolygon*,const CGAL::Point3&,bool);
 	void appendVertex(const CGAL::Point3&);
 	void clearPolygons();

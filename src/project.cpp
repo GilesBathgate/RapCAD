@@ -120,7 +120,7 @@ void Project::addSource(const QString& value)
 	rootItem->appendRow(new QStandardItem(value));
 }
 
-const QList<QString> Project::getSources() const
+const QList<QString>& Project::getSources() const
 {
 	return sources;
 }

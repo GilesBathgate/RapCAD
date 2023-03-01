@@ -28,7 +28,7 @@ class ModuleScope : public Scope
 public:
 	ModuleScope() = default;
 	~ModuleScope() override;
-	const QList<Declaration*> getDeclarations() const override;
+	const QList<Declaration*>& getDeclarations() const override;
 	void setDeclarations(const QList<Declaration*>&);
 	void accept(TreeVisitor&) override;
 private:

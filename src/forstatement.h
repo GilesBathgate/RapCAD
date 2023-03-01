@@ -30,7 +30,7 @@ public:
 	~ForStatement() override;
 
 	void setArguments(const QList<Argument*>&);
-	const QList<Argument*> getArguments() const;
+	const QList<Argument*>& getArguments() const;
 	void setStatement(Statement*);
 	Statement* getStatement() const;
 	void accept(TreeVisitor&) override;

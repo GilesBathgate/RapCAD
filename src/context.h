@@ -55,7 +55,7 @@ public:
 	QList<Node*> lookupChildren() const;
 
 	void setVariablesFromArguments();
-	const QList<NamedValue> getArguments() const;
+	const QList<NamedValue>& getArguments() const;
 	QList<Value*> getArgumentValues() const;
 	void addArgument(const QString&, Value*);
 	void addArgument(const NamedValue&);

@@ -35,7 +35,7 @@ public:
 	Point getPoint() const;
 	virtual Value& getIndex(NumberValue&);
 	ValueIterator* createIterator() override;
-	virtual const QList<Value*> getElements();
+	virtual QList<Value*> getElements();
 protected:
 	VectorValue() = default;
 	Value& operation(Operators) override;

@@ -29,7 +29,7 @@ public:
 	QString getValueString() const override;
 	Value& getIndex(NumberValue&) override;
 	ValueIterator* createIterator() override;
-	const QList<Value*> getElements() override;
+	QList<Value*> getElements() override;
 
 	Value& getStart() const;
 	Value& getFinish() const;

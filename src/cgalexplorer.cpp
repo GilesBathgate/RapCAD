@@ -332,7 +332,7 @@ CGALPrimitive* CGALExplorer::getPrimitive()
 	return explorer->getPrimitive();
 }
 
-const QList<CGALPolygon*> CGALExplorer::getBase()
+QList<CGALPolygon*> CGALExplorer::getBase()
 {
 	if(!explore())
 		return QList<CGALPolygon*>();

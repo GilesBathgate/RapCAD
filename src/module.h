@@ -41,7 +41,7 @@ public:
 	QString getDescription() const;
 	QString getExample() const;
 	bool getAuxilary() const;
-	const QList<Parameter*> getParameters() const;
+	const QList<Parameter*>& getParameters() const;
 	void setParameters(const QList<Parameter*>&);
 	Scope* getScope() const;
 	void setScope(Scope*);

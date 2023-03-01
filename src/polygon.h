@@ -37,8 +37,8 @@ public:
 	explicit Polygon(Primitive&);
 	void append(size_type);
 	void prepend(size_type);
-	const QList<Point> getPoints() const;
-	const QList<size_type> getIndexes() const;
+	QList<Point> getPoints() const;
+	const QList<size_type>& getIndexes() const;
 	void setIndexes(const QList<size_type>& value);
 protected:
 	QList<size_type> indexes;

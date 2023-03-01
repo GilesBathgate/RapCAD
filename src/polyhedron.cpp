@@ -134,17 +134,17 @@ bool Polyhedron::isEmpty()
 	return polygons.isEmpty();
 }
 
-const QList<Polygon*> Polyhedron::getPolygons() const
-{
-	return polygons;
-}
-
-const QList<Point> Polyhedron::getPoints() const
+QList<Point> Polyhedron::getPoints() const
 {
 	return points;
 }
 
-const QList<Primitive*> Polyhedron::getChildren() const
+const QList<Polygon*>& Polyhedron::getPolygons() const
+{
+	return polygons;
+}
+
+const QList<Primitive*>& Polyhedron::getChildren() const
 {
 	return children;
 }

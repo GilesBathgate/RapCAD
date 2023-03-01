@@ -102,7 +102,7 @@ ValueIterator* VectorValue::createIterator()
 	return new VectorIterator(elements);
 }
 
-const QList<Value*> VectorValue::getElements()
+QList<Value*> VectorValue::getElements()
 {
 	return elements;
 }

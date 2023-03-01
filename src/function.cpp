@@ -48,7 +48,7 @@ void Function::setName(const QString& n)
 	name = n;
 }
 
-const QList<Parameter*> Function::getParameters() const
+const QList<Parameter*>& Function::getParameters() const
 {
 	return parameters;
 }

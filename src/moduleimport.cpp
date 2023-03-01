@@ -43,7 +43,7 @@ void ModuleImport::setParameters(const QList<Parameter*>& params)
 	parameters = params;
 }
 
-const QList<Parameter*> ModuleImport::getParameters() const
+const QList<Parameter*>& ModuleImport::getParameters() const
 {
 	return parameters;
 }

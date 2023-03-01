@@ -70,9 +70,9 @@ public:
 	virtual Primitive* solidify()=0;
 	virtual Primitive* triangulate()=0;
 	virtual PrimitiveTypes getType()=0;
-	virtual const QList<Point> getPoints() const=0;
-	virtual const QList<Polygon*> getPolygons() const=0;
-	virtual const QList<Primitive*> getChildren() const=0;
+	virtual QList<Point> getPoints() const=0;
+	virtual const QList<Polygon*>& getPolygons() const=0;
+	virtual const QList<Primitive*>& getChildren() const=0;
 	virtual void align(bool,QList<ViewDirections>)=0;
 	virtual void appendChild(Primitive*)=0;
 	virtual void appendChildren(QList<Primitive*>)=0;

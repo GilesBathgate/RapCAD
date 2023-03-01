@@ -50,12 +50,12 @@ const CGAL::Cuboid3& CGALVolume::getBounds() const
 	return bounds;
 }
 
-const QString CGALVolume::getSizeString() const
+QString CGALVolume::getSizeString() const
 {
 	return to_string(size);
 }
 
-const QString CGALVolume::getCenterString() const
+QString CGALVolume::getCenterString() const
 {
 	return to_string(centroid);
 }

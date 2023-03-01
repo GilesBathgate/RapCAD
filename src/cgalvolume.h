@@ -30,8 +30,8 @@ public:
 	const CGAL::Point3& getCenter() const;
 	const CGAL::Scalar& getSize() const;
 	const CGAL::Cuboid3& getBounds() const;
-	const QString getSizeString() const;
-	const QString getCenterString() const;
+	QString getSizeString() const;
+	QString getCenterString() const;
 private:
 	CGAL::Cuboid3 bounds;
 	CGAL::Scalar size;

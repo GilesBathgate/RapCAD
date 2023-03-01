@@ -258,7 +258,7 @@ BuiltinCreator::~BuiltinCreator()
 	builtins.clear();
 }
 
-const QList<Declaration*> BuiltinCreator::getBuiltins() const
+const QList<Declaration*>& BuiltinCreator::getBuiltins() const
 {
 	return builtins;
 }

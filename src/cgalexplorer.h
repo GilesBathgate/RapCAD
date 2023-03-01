@@ -29,7 +29,7 @@ public:
 	explicit CGALExplorer(CGALPrimitive*);
 	~CGALExplorer();
 	CGALPrimitive* getPrimitive();
-	const QList<CGALPolygon*> getBase();
+	QList<CGALPolygon*> getBase();
 	CGALVolume getVolume(bool);
 private:
 	bool explore();

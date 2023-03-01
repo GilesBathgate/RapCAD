@@ -159,7 +159,7 @@ void Context::setVariablesFromArguments()
 	}
 }
 
-const QList<NamedValue> Context::getArguments() const
+const QList<NamedValue>& Context::getArguments() const
 {
 	return arguments;
 }

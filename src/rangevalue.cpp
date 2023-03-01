@@ -80,7 +80,7 @@ ValueIterator* RangeValue::createIterator()
 	return new RangeIterator(this,&start,&step);
 }
 
-const QList<Value*> RangeValue::getElements()
+QList<Value*> RangeValue::getElements()
 {
 	QList<Value*> result;
 	QScopedPointer<ValueIterator> it(createIterator());

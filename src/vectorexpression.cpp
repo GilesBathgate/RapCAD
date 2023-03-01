@@ -34,7 +34,7 @@ void VectorExpression::setChildren(const QList<Expression*>& exp)
 	children = exp;
 }
 
-const QList<Expression*> VectorExpression::getChildren() const
+const QList<Expression*>& VectorExpression::getChildren() const
 {
 	return children;
 }

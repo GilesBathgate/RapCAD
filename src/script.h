@@ -36,7 +36,7 @@ public:
 
 	bool isEmpty();
 	void setDeclarations(const QList<Declaration*>&);
-	const QList<Declaration*> getDeclarations() const override;
+	const QList<Declaration*>& getDeclarations() const override;
 	void addDeclaration(Declaration*);
 	void appendDeclaration(Declaration*);
 	void removeDeclaration(Declaration*);

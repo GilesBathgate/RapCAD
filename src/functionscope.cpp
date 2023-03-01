@@ -45,7 +45,7 @@ void FunctionScope::setStatements(const QList<Statement*>& stmts)
 	statements = stmts;
 }
 
-const QList<Statement*> FunctionScope::getStatements() const
+const QList<Statement*>& FunctionScope::getStatements() const
 {
 	return statements;
 }

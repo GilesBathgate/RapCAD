@@ -57,9 +57,9 @@ public:
 	Primitive* solidify() override { return this; }
 	Primitive* triangulate() override { return this; }
 	PrimitiveTypes getType() override;
-	const QList<Point> getPoints() const override;
-	const QList<Polygon*> getPolygons() const override;
-	const QList<Primitive*> getChildren() const override;
+	QList<Point> getPoints() const override;
+	const QList<Polygon*>& getPolygons() const override;
+	const QList<Primitive*>& getChildren() const override;
 	void align(bool,QList<ViewDirections>) override {}
 	void appendChild(Primitive*) override;
 	void appendChildren(QList<Primitive*>) override;

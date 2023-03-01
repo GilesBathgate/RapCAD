@@ -152,7 +152,7 @@ Value& ComplexValue::operation(NumberValue& n,Operators e)
 	return Value::operation(n,e);
 }
 
-const QList<Value*> ComplexValue::getImaginary() const
+const QList<Value*>& ComplexValue::getImaginary() const
 {
 	return imaginary;
 }

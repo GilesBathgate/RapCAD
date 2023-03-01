@@ -475,17 +475,17 @@ Primitive* CGALPrimitive::joinAll(const QList<Primitive*>& primitives) const
 	return joined.primitive;
 }
 
-const QList<CGALPolygon*> CGALPrimitive::getCGALPolygons() const
+const QList<CGALPolygon*>& CGALPrimitive::getCGALPolygons() const
 {
 	return polygons;
 }
 
-const QList<CGALPolygon*> CGALPrimitive::getCGALPerimeter() const
+const QList<CGALPolygon*>& CGALPrimitive::getCGALPerimeter() const
 {
 	return perimeters;
 }
 
-const QList<CGAL::Point3> CGALPrimitive::getPoints() const
+QList<CGAL::Point3> CGALPrimitive::getPoints() const
 {
 	if(!nefPolyhedron)
 		return points;
@@ -986,9 +986,10 @@ void CGALPrimitive::transform(TransformMatrix* matrix)
 			p->transform(matrix);
 }
 
-const QList<Polygon*> CGALPrimitive::getPolygons() const
+const QList<Polygon*>& CGALPrimitive::getPolygons() const
 {
-	return QList<Polygon*>();
+	static const QList<Polygon*> empty;
+	return empty;
 }
 
 const CGAL::NefPolyhedron3& CGALPrimitive::getNefPolyhedron()
@@ -1061,7 +1062,7 @@ bool CGALPrimitive::isFullyDimentional()
 	return nefPolyhedron->number_of_volumes()>1 && nefPolyhedron->number_of_facets()>3;
 }
 
-const QList<Primitive*> CGALPrimitive::getChildren() const
+const QList<Primitive*>& CGALPrimitive::getChildren() const
 {
 	return children;
 }

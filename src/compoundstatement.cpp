@@ -29,7 +29,7 @@ void CompoundStatement::setChildren(const QList<Statement*>& stmts)
 	children = stmts;
 }
 
-const QList<Statement*> CompoundStatement::getChildren() const
+const QList<Statement*>& CompoundStatement::getChildren() const
 {
 	return children;
 }

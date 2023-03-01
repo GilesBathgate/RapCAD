@@ -24,7 +24,7 @@ PrimitiveModule::PrimitiveModule(Reporter& r, const QString& n) : Module(r,n)
 {
 }
 
-const QList<Point> PrimitiveModule::getCircle(const decimal& r,const decimal& f,const decimal& z)
+QList<Point> PrimitiveModule::getCircle(const decimal& r,const decimal& f,const decimal& z)
 {
 	QList<Point> circle;
 	for(auto i=0; i<f; ++i) {
@@ -45,7 +45,7 @@ const QList<Point> PrimitiveModule::getCircle(const decimal& r,const decimal& f,
 	return circle;
 }
 
-const QList<Point> PrimitiveModule::getPolygon(const decimal& a,const decimal& r,const decimal& n,const decimal& z)
+QList<Point> PrimitiveModule::getPolygon(const decimal& a,const decimal& r,const decimal& n,const decimal& z)
 {
 	QList<Point> poly;
 	if(n==6) {

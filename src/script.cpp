@@ -65,7 +65,7 @@ void Script::setDeclarations(const QList<Declaration*>& decls)
 	declarations = decls;
 }
 
-const QList<Declaration*> Script::getDeclarations() const
+const QList<Declaration*>& Script::getDeclarations() const
 {
 	return declarations;
 }
