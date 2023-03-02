@@ -120,7 +120,7 @@ void TokenBuilder::buildIncludeFinish()
 	if(filename.isEmpty())
 		return;
 
-	QDir currentpath = path_stack.top();
+	const QDir& currentpath=path_stack.constLast();
 	if(filepath.isEmpty()) {
 		path_stack.push(currentpath);
 	} else {
@@ -129,8 +129,7 @@ void TokenBuilder::buildIncludeFinish()
 		filepath.clear();
 	}
 
-	currentpath = path_stack.top();
-	const QFileInfo fileinfo(currentpath,filename);
+	const QFileInfo fileinfo(path_stack.constLast(),filename);
 
 	if(!fileinfo.exists())
 		path_stack.pop();

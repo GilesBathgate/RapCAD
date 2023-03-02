@@ -324,7 +324,7 @@ CGAL::NefPolyhedron3* CGALPrimitive::createPoints()
 	}
 	return result;
 #else
-	return new CGAL::NefPolyhedron3(points.begin(), points.end(), CGAL::NefPolyhedron3::Points_tag());
+	return new CGAL::NefPolyhedron3(points.constBegin(), points.constEnd(), CGAL::NefPolyhedron3::Points_tag());
 #endif
 }
 
@@ -357,8 +357,8 @@ CGALPrimitive::size_type CGALPrimitive::findIndex(const CGAL::Point3& p)
 {
 	/* Using pointMap.find allows to check whether the map contains the value
 	 * whilst also providing a way to access it instead of doing two lookups */
-	const auto& it=pointMap.find(p);
-	if(it!=pointMap.end()) return *it;
+	const auto& it=pointMap.constFind(p);
+	if(it!=pointMap.constEnd()) return *it;
 
 	const auto i=points.size();
 	pointMap.insert(p,i);
@@ -369,7 +369,7 @@ CGALPrimitive::size_type CGALPrimitive::findIndex(const CGAL::Point3& p)
 void CGALPrimitive::appendVertex(const CGAL::Point3& p)
 {
 	if(!polygons.empty())
-		appendVertex(polygons.last(),p,true);
+		appendVertex(polygons.constLast(),p,true);
 }
 
 void CGALPrimitive::appendVertex(CGALPolygon* pg,const CGAL::Point3& p,bool direction)

@@ -60,7 +60,7 @@ void TreeEvaluator::startLayout(Scope* scp)
 void TreeEvaluator::finishLayout()
 {
 	layoutStack.pop();
-	layout=layoutStack.top();
+	layout=layoutStack.constLast();
 }
 
 void TreeEvaluator::startContext(Scope* scp)
@@ -76,7 +76,7 @@ void TreeEvaluator::finishContext()
 {
 	delete context;
 	contextStack.pop();
-	context=contextStack.top();
+	context=contextStack.constLast();
 }
 
 void TreeEvaluator::visit(const ModuleScope& scp)
@@ -552,7 +552,7 @@ void TreeEvaluator::visit(Callback& c)
 QFileInfo TreeEvaluator::getFullPath(const QString& file)
 {
 	if(!importLocations.isEmpty())
-		return QFileInfo(importLocations.top(),file);
+		return QFileInfo(importLocations.constLast(),file);
 
 	return QFileInfo(file); /* relative to working dir */
 }
