@@ -110,7 +110,7 @@ private:
 	QString* stringcontents;
 	QString filename;
 	QString filepath;
-	QStack<QDir> path_stack;
+	QStack<QDir> pathstack;
 	QList<FILE*> openfiles;
 	int position;
 	Reporter& reporter;

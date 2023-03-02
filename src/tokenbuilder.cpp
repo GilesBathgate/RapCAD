@@ -120,19 +120,19 @@ void TokenBuilder::buildIncludeFinish()
 	if(filename.isEmpty())
 		return;
 
-	const QDir& currentpath=path_stack.constLast();
+	const QDir& currentpath=pathstack.constLast();
 	if(filepath.isEmpty()) {
-		path_stack.push(currentpath);
+		pathstack.push(currentpath);
 	} else {
 		const QFileInfo dirinfo(currentpath,filepath);
-		path_stack.push(dirinfo.dir());
+		pathstack.push(dirinfo.dir());
 		filepath.clear();
 	}
 
-	const QFileInfo fileinfo(path_stack.constLast(),filename);
+	const QFileInfo fileinfo(pathstack.constLast(),filename);
 
 	if(!fileinfo.exists())
-		path_stack.pop();
+		pathstack.pop();
 
 	filename.clear();
 
@@ -441,11 +441,11 @@ void TokenBuilder::buildNewLine()
 void TokenBuilder::buildFileStart(QFileInfo file)
 {
 	openfile(file);
-	path_stack.push(file.absoluteDir());
+	pathstack.push(file.absoluteDir());
 }
 
 void TokenBuilder::buildFileFinish()
 {
-	if(!path_stack.isEmpty())
-		path_stack.pop();
+	if(!pathstack.isEmpty())
+		pathstack.pop();
 }
