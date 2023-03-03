@@ -103,7 +103,7 @@ void TreeEvaluator::visit(const Instance& inst)
 	 * have children */
 	Scope* c=context->getCurrentScope();
 	QList<Node*> childnodes;
-	const QList <Statement*> stmts = inst.getChildren();
+	const QList <Statement*>& stmts = inst.getChildren();
 	if(!stmts.empty()) {
 		startContext(c);
 

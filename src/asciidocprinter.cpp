@@ -49,7 +49,7 @@ void AsciidocPrinter::visit(const Module& mod)
 	modulesOutput << capitalize(name) << "\n";
 	modulesOutput << QString(name.length(),'^') << "\n\n";
 	modulesOutput << mod.getDescription() << "\n\n";
-	const QList<Parameter*> params=mod.getParameters();
+	const QList<Parameter*>& params=mod.getParameters();
 	if(!params.isEmpty()) {
 		modulesOutput << "Parameters\n";
 		modulesOutput << "++++++++++\n";
