@@ -30,12 +30,12 @@
 
 CodeEditor::CodeEditor(QWidget* parent) :
 	QPlainTextEdit(parent),
+	highlighter(new SyntaxHighlighter(document())),
+	lineNumberArea(new LineNumberArea(this)),
 	showTooltips(true),
 	highlightLine(false)
 {
 	preferencesUpdated();
-	highlighter = new SyntaxHighlighter(document());
-	lineNumberArea = new LineNumberArea(this);
 
 	connect(this,&CodeEditor::blockCountChanged,this,&CodeEditor::updateLineNumberAreaWidth);
 	connect(this,&CodeEditor::updateRequest,this,&CodeEditor::updateLineNumberArea);

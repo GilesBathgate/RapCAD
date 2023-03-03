@@ -18,9 +18,9 @@
 
 #include "instance.h"
 
-Instance::Instance()
+Instance::Instance() :
+	type(InstanceTypes::Default)
 {
-	type = InstanceTypes::Default;
 }
 
 Instance::~Instance()

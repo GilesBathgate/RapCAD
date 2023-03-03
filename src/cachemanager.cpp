@@ -21,9 +21,9 @@
 #include "emptycache.h"
 
 CacheManager::CacheManager() :
+	cache(createCache()),
 	disabled(true)
 {
-	cache=createCache();
 }
 
 CacheManager::~CacheManager()

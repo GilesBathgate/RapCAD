@@ -3,12 +3,12 @@
 
 SearchWidget::SearchWidget(QWidget* parent) :
 	QWidget(parent),
+	currentSearchResult(0),
+	searchResultCount(0),
+	textEdit(nullptr),
 	ui(new Ui::SearchWidget)
 {
 	ui->setupUi(this);
-	textEdit=nullptr;
-	currentSearchResult=0;
-	searchResultCount=0;
 	setupActions();
 }
 
