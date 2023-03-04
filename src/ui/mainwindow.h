@@ -46,8 +46,8 @@ public:
 protected:
 	void closeEvent(QCloseEvent*) override;
 private slots:
-	void getDefaultViewport() const;
-	void setDefaultViewport();
+	void getDefaultCamera() const;
+	void setDefaultCamera();
 	void grabFrameBuffer();
 	void showPreferences();
 	void disableRulers(bool);

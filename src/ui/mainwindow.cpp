@@ -143,22 +143,16 @@ void MainWindow::savePreferences()
 	p.setWindowSize(size());
 }
 
-void MainWindow::setDefaultViewport()
+void MainWindow::setDefaultCamera()
 {
 	auto& p=Preferences::getInstance();
-	float rx;
-	float ry;
-	float rz;
-	float x;
-	float z;
-	float d;
-	ui->view->getViewport(rx,ry,rz,x,z,d);
-	p.setDefaultRotationX(rx);
-	p.setDefaultRotationY(ry);
-	p.setDefaultRotationZ(rz);
-	p.setDefaultX(x);
-	p.setDefaultZ(z);
-	p.setDefaultDistance(d);
+	const Camera& c=ui->view->getCamera();
+	p.setDefaultRotationX(c.getRotateX());
+	p.setDefaultRotationY(c.getRotateY());
+	p.setDefaultRotationZ(c.getRotateZ());
+	p.setDefaultX(c.getPositionX());
+	p.setDefaultZ(c.getPositionZ());
+	p.setDefaultDistance(c.getPositionY());
 }
 
 void MainWindow::loadPreferences()
@@ -209,7 +203,7 @@ void MainWindow::loadPreferences()
 	move(p.getWindowPosition());
 	resize(p.getWindowSize());
 
-	getDefaultViewport();
+	getDefaultCamera();
 
 	const QPoint& o=p.getPrintOrigin();
 	ui->view->setPrintOrigin(o.x(), o.y());
@@ -223,16 +217,18 @@ void MainWindow::loadPreferences()
 
 }
 
-void MainWindow::getDefaultViewport() const
+void MainWindow::getDefaultCamera() const
 {
 	auto& p=Preferences::getInstance();
-	const float rx=p.getDefaultRotationX();
-	const float ry=p.getDefaultRotationY();
-	const float rz=p.getDefaultRotationZ();
-	const float x=p.getDefaultX();
-	const float z=p.getDefaultZ();
-	const float d=p.getDefaultDistance();
-	ui->view->setViewport(rx,ry,rz,x,z,d);
+	const Camera c{
+		p.getDefaultRotationX(),
+		p.getDefaultRotationY(),
+		p.getDefaultRotationZ(),
+		p.getDefaultX(),
+		p.getDefaultDistance(),
+		p.getDefaultZ()
+	};
+	ui->view->setCamera(c);
 }
 
 void MainWindow::setupActions()
@@ -274,8 +270,8 @@ void MainWindow::setupActions()
 	connect(ui->actionShowEditor,&QAction::triggered,ui->tabWidget,&QTabWidget::setVisible);
 	connect(ui->actionShowConsole,&QAction::triggered,ui->console,&Console::setVisible);
 	connect(ui->actionShowExplorer,&QAction::triggered,ui->toolBox,&QToolBox::setVisible);
-	connect(ui->actionSetViewport,&QAction::triggered,this,&MainWindow::setDefaultViewport);
-	connect(ui->actionDefaultView,&QAction::triggered,this,&MainWindow::getDefaultViewport);
+	connect(ui->actionSetViewport,&QAction::triggered,this,&MainWindow::setDefaultCamera);
+	connect(ui->actionDefaultView,&QAction::triggered,this,&MainWindow::getDefaultCamera);
 
 	connect(ui->tabWidget,&QTabWidget::currentChanged,this,&MainWindow::tabChanged);
 
@@ -307,12 +303,12 @@ void MainWindow::setupExportActions()
 
 void MainWindow::setupViewActions()
 {
-	connect(ui->actionTop,&QAction::triggered,this,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::Top));});
-	connect(ui->actionBottom,&QAction::triggered,this,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::Bottom));});
-	connect(ui->actionNorth,&QAction::triggered,this,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::North));});
-	connect(ui->actionSouth,&QAction::triggered,this,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::South));});
-	connect(ui->actionWest,&QAction::triggered,this,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::West));});
-	connect(ui->actionEast,&QAction::triggered,this,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::East));});
+	connect(ui->actionTop,&QAction::triggered,this,[this](){ui->view->changeViewDirection(ViewDirections::Top);});
+	connect(ui->actionBottom,&QAction::triggered,this,[this](){ui->view->changeViewDirection(ViewDirections::Bottom);});
+	connect(ui->actionNorth,&QAction::triggered,this,[this](){ui->view->changeViewDirection(ViewDirections::North);});
+	connect(ui->actionSouth,&QAction::triggered,this,[this](){ui->view->changeViewDirection(ViewDirections::South);});
+	connect(ui->actionWest,&QAction::triggered,this,[this](){ui->view->changeViewDirection(ViewDirections::West);});
+	connect(ui->actionEast,&QAction::triggered,this,[this](){ui->view->changeViewDirection(ViewDirections::East);});
 }
 
 void MainWindow::grabFrameBuffer()

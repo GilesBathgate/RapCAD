@@ -19,8 +19,10 @@
 #ifndef GLVIEW_H
 #define GLVIEW_H
 
-#include "renderer.h"
 #include "bedappearance.h"
+#include "camera.h"
+#include "renderer.h"
+#include "viewdirections.h"
 #include <QMatrix4x4>
 #include <QMouseEvent>
 #include <QOpenGLFunctions_1_0>
@@ -42,17 +44,17 @@ public:
 
 
 public slots:
-	void setViewport(GLfloat,GLfloat,GLfloat,GLfloat,GLfloat,GLfloat);
 	void setPrintOrigin(GLint,GLint);
 	void setPrintVolume(GLint,GLint,GLint);
-	void getViewport(GLfloat&,GLfloat&,GLfloat&,GLfloat&,GLfloat&,GLfloat&) const;
+	const Camera& getCamera() const;
+	void setCamera(const Camera&);
 	void setShowAxes(bool);
 	void setShowRulers(bool);
 	void setShowBase(bool);
 	void setShowPrintArea(bool);
 	void setSkeleton(bool);
 	void setShowEdges(bool);
-	void changeViewport(int);
+	void changeViewDirection(ViewDirections);
 private:
 	void initializeGL() override;
 	void resizeGL(int w,int h) override;
@@ -67,8 +69,6 @@ private:
 	void mouseReleaseEvent(QMouseEvent*) override;
 	void wheelEvent(QWheelEvent*) override;
 
-	static void normalizeAngle(GLfloat&);
-	void zoomView(GLfloat);
 	void drawGradientBackground();
 	void drawAxes();
 	void drawBase();
@@ -79,7 +79,7 @@ private:
 	QMatrix4x4 projection;
 	QMatrix4x4 modelview;
 	Renderer* render;
-	GLfloat distance;
+	Camera camera;
 	bool showAxes;
 	bool showCross;
 	bool showBase;
@@ -100,11 +100,7 @@ private:
 #else
 	QPointF last;
 #endif
-	GLfloat rotateX;
-	GLfloat rotateY;
-	GLfloat rotateZ;
-	GLfloat viewportX;
-	GLfloat viewportZ;
+
 };
 
 #endif // GLVIEW_H

@@ -17,7 +17,6 @@
  */
 
 #include "glview.h"
-#include "viewdirections.h"
 #include <QApplication>
 #include <cmath>
 
@@ -27,7 +26,7 @@ static const int rulerLength=200;
 GLView::GLView(QWidget* parent) :
 	QOpenGLWidget(parent),
 	render(nullptr),
-	distance(500.0F),
+	camera(35.0F,0.0F,35.0F,0.0F,500.0F,0.0F),
 	showAxes(true),
 	showCross(true),
 	showBase(true),
@@ -41,12 +40,7 @@ GLView::GLView(QWidget* parent) :
 	printLength(0),
 	printHeight(0),
 	appearance(BedAppearance::MK42),
-	mouseDrag(false),
-	rotateX(35.0F),
-	rotateY(0.0F),
-	rotateZ(35.0F),
-	viewportX(0.0F),
-	viewportZ(0.0F)
+	mouseDrag(false)
 {
 	setCursor(Qt::CrossCursor);
 }
@@ -56,24 +50,14 @@ GLView::~GLView()
 	delete render;
 }
 
-void GLView::getViewport(GLfloat& rx,GLfloat& ry,GLfloat& rz,GLfloat& x,GLfloat& z,GLfloat& d) const
+const Camera& GLView::getCamera() const
 {
-	rx=rotateX;
-	ry=rotateY;
-	rz=rotateZ;
-	x=viewportX;
-	z=viewportZ;
-	d=distance;
+	return camera;
 }
 
-void GLView::setViewport(GLfloat rx,GLfloat ry,GLfloat rz,GLfloat x,GLfloat z,GLfloat d)
+void GLView::setCamera(const Camera& c)
 {
-	rotateX=rx;
-	rotateY=ry;
-	rotateZ=rz;
-	viewportX=x;
-	viewportZ=z;
-	distance=d;
+	camera=c;
 	update();
 }
 
@@ -104,36 +88,10 @@ void GLView::setShowEdges(bool edges)
 	update();
 }
 
-void GLView::changeViewport(int t)
+void GLView::changeViewDirection(ViewDirections d)
 {
-	GLfloat rx;
-	GLfloat ry;
-	GLfloat rz;
-	GLfloat x;
-	GLfloat z;
-	GLfloat d;
-	getViewport(rx,ry,rz,x,z,d);
-
-	switch(static_cast<ViewDirections>(t)) {
-		case ViewDirections::Top:
-			setViewport(90.0F,0.0F,0.0F,x,z,d);
-			break;
-		case ViewDirections::Bottom:
-			setViewport(-90.0F,0.0F,0.0F,x,z,d);
-			break;
-		case ViewDirections::North:
-			setViewport(0.0F,0.0F,-180.0F,x,z,d);
-			break;
-		case ViewDirections::South:
-			setViewport(0.0F,0.0F,0.0F,x,z,d);
-			break;
-		case ViewDirections::West:
-			setViewport(0.0F,0.0F,90.0F,x,z,d);
-			break;
-		case ViewDirections::East:
-			setViewport(0.0F,0.0F,-90.0F,x,z,d);
-			break;
-	}
+	camera.changeViewDirection(d);
+	update();
 }
 
 void GLView::setShowAxes(bool axes)
@@ -253,6 +211,7 @@ void GLView::drawAxes()
 	glLineWidth(1);
 	glColor3f(0.0F,0.0F,0.0F);
 	glBegin(GL_LINES);
+	const int distance=camera.getPositionY();
 	const GLfloat c=fmaxf(distance/2.0F,GLfloat(rulerLength));
 	glVertex3f(-c,0.0F,0.0F);
 	glVertex3f(+c,0.0F,0.0F);
@@ -386,6 +345,7 @@ void GLView::drawRulers()
 	glLineWidth(1);
 	glColor3f(0.2F,0.2F,0.2F);
 	glBegin(GL_LINES);
+	const int distance=camera.getPositionY();
 	const int k=distance<200?1:10; //Only show milimeters when close up
 	for(int i=-rulerLength; i<rulerLength; i+=k) {
 		const int j=i%10?2:5;
@@ -439,15 +399,7 @@ void GLView::paintGL()
 	glMatrixMode(GL_MODELVIEW);
 
 	modelview.setToIdentity();
-	const QVector3D eye(-viewportX,-distance,-viewportZ);
-	const QVector3D center(-viewportX,0.0F,-viewportZ);
-	const QVector3D up(0.0F,0.0F,1.0F);
-	modelview.lookAt(eye,center,up);
-
-	modelview.rotate(rotateX,1.0F,0.0F,0.0F);
-	modelview.rotate(rotateY,0.0F,1.0F,0.0F);
-	modelview.rotate(rotateZ,0.0F,0.0F,1.0F);
-
+	camera.applyTo(modelview);
 	glLoadMatrixf(modelview.data());
 
 	if(showAxes) drawAxes();
@@ -509,7 +461,7 @@ void GLView::wheelEvent(QWheelEvent* event)
 #else
 	const int delta=event->angleDelta().y();
 #endif
-	zoomView(static_cast<GLfloat>(delta)/12.0F);
+	camera.zoom(static_cast<GLfloat>(delta)/12.0F);
 	update();
 }
 
@@ -535,10 +487,6 @@ void GLView::mouseDoubleClickEvent(QMouseEvent* event)
 	}
 }
 
-void GLView::zoomView(GLfloat amt)
-{
-	distance*=powf(0.9F,amt/10.0F);
-}
 
 void GLView::mousePressEvent(QMouseEvent* event)
 {
@@ -550,15 +498,6 @@ void GLView::mousePressEvent(QMouseEvent* event)
 	last=event->globalPosition();
 #endif
 }
-
-void GLView::normalizeAngle(GLfloat& angle)
-{
-	while(angle < 0.0F)
-		angle+=360.0F;
-	while(angle > 360.0F)
-		angle-=360.0F;
-}
-
 
 void GLView::mouseMoveEvent(QMouseEvent* event)
 {
@@ -574,21 +513,17 @@ void GLView::mouseMoveEvent(QMouseEvent* event)
 	const auto dy=static_cast<GLfloat>(current.y()-last.y());
 	const bool shift=QApplication::keyboardModifiers() & Qt::ShiftModifier;
 	if(event->buttons() & Qt::LeftButton) {
-		rotateX+=dy;
+		camera.pitch(dy);
 		if(shift) {
-			rotateY+=dx;
+			camera.roll(dx);
 		} else {
-			rotateZ+=dx;
+			camera.yaw(dx);
 		}
-		normalizeAngle(rotateX);
-		normalizeAngle(rotateY);
-		normalizeAngle(rotateZ);
 	} else {
 		if(shift) {
-			zoomView(-dy);
+			camera.zoom(-dy);
 		} else {
-			viewportX+=dx;
-			viewportZ-=dy;
+			camera.pan(dx,-dy);
 		}
 	}
 	update();

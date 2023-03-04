@@ -170,6 +170,7 @@ SOURCES += \
 	src/namedvalue.cpp \
 	src/node/solidnode.cpp \
 	src/tokenreader.cpp \
+	src/ui/camera.cpp \
 	src/ui/mainwindow.cpp \
 	src/module.cpp \
 	src/syntaxtreebuilder.cpp \
@@ -437,6 +438,7 @@ HEADERS  += \
 	src/node/solidnode.h \
 	src/operators.h \
 	src/tokenreader.h \
+	src/ui/camera.h \
 	src/ui/mainwindow.h \
 	src/module.h \
 	src/syntaxtreebuilder.h \
