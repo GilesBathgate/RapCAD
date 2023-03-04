@@ -474,7 +474,7 @@ void GLView::mouseDoubleClickEvent(QMouseEvent* event)
 		const auto x=static_cast<GLfloat>(mousePos.x());
 		const auto y=static_cast<GLfloat>(h-mousePos.y());
 		makeCurrent();
-		GLfloat z;
+		GLfloat z=0.0F;
 		glReadPixels(static_cast<GLint>(x),static_cast<GLint>(y),1,1,GL_DEPTH_COMPONENT,GL_FLOAT,&z);
 		doneCurrent();
 		const QRect viewport(0,0,w,h);

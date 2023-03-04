@@ -49,20 +49,6 @@ Point Point::transform(TransformMatrix* matrix) const
 	nz=(m[ 8]*_x+m[ 9]*_y+m[10]*_z+m[11]);
 	return Point(nx,ny,nz);
 }
-
-void to_glcoord(const Point& pt,float& x,float& y,float& z)
-{
-	x=pt.x();
-	y=pt.y();
-	z=pt.z();
-}
-#else
-void to_glcoord(const Point& pt,float& x,float& y,float& z)
-{
-	x=static_cast<float>(to_double(pt.x()));
-	y=static_cast<float>(to_double(pt.y()));
-	z=static_cast<float>(to_double(pt.z()));
-}
 #endif
 
 QString to_string(const Point& p)

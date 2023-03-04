@@ -74,9 +74,12 @@ void SimpleRenderer::descendChildren(QOpenGLFunctions_1_0& f,const Primitive& p)
 
 void SimpleRenderer::drawPoint(QOpenGLFunctions_1_0& f,const Point& pt)
 {
-	GLfloat x;
-	GLfloat y;
-	GLfloat z;
-	to_glcoord(pt,x,y,z);
+#ifndef USE_CGAL
+	f.glVertex3f(pt.x(),pt.y(),pt.z());
+#else
+	const float x=static_cast<float>(to_double(pt.x()));
+	const float y=static_cast<float>(to_double(pt.y()));
+	const float z=static_cast<float>(to_double(pt.z()));
 	f.glVertex3f(x,y,z);
+#endif
 }

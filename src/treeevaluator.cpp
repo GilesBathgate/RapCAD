@@ -418,7 +418,7 @@ void TreeEvaluator::visit(const IntervalExpression& inv)
 	Value* more = context->getCurrentValue();
 
 	Expression* exp = inv.getLess();
-	Value* less;
+	Value* less=nullptr;
 	if(exp) {
 		exp->accept(*this);
 		less = context->getCurrentValue();
