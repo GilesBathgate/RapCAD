@@ -19,6 +19,8 @@
 #include "primitivenode.h"
 #ifdef USE_CGAL
 #include "cgalprimitive.h"
+#else
+#include "polyhedron.h"
 #endif
 
 PrimitiveNode::PrimitiveNode() :
