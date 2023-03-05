@@ -21,7 +21,7 @@
 #include "numbervalue.h"
 #include "rmath.h"
 #include "valuefactory.h"
-#include <ctime>
+#include <random>
 
 RandFunction::RandFunction() : Function("rands")
 {
@@ -47,9 +47,7 @@ Value& RandFunction::evaluate(const Context& ctx) const
 	if(countVal)
 		count=countVal->toInteger();
 	auto* seedVal=getParameterArgument<NumberValue>(ctx,3);
-	unsigned int seed=static_cast<unsigned int>(std::time(nullptr));
-	if(seedVal)
-		seed=seedVal->toInteger();
+	unsigned int seed=seedVal?seedVal->toInteger():std::random_device{}();
 
 	r_rand_seed(seed);
 
