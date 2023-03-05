@@ -47,7 +47,7 @@ Value& RandFunction::evaluate(const Context& ctx) const
 	if(countVal)
 		count=countVal->toInteger();
 	auto* seedVal=getParameterArgument<NumberValue>(ctx,3);
-	unsigned int seed=std::time(nullptr);
+	unsigned int seed=static_cast<unsigned int>(std::time(nullptr));
 	if(seedVal)
 		seed=seedVal->toInteger();
 
