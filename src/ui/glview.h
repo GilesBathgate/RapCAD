@@ -41,13 +41,12 @@ public:
 	void setCompiling(bool value);
 	void setBedAppearance(BedAppearance);
 	void preferencesUpdated();
-
-
-public slots:
 	void setPrintOrigin(GLint,GLint);
 	void setPrintVolume(GLint,GLint,GLint);
 	const Camera& getCamera() const;
 	void setCamera(const Camera&);
+
+public slots:
 	void setShowAxes(bool);
 	void setShowRulers(bool);
 	void setShowBase(bool);
@@ -55,6 +54,7 @@ public slots:
 	void setSkeleton(bool);
 	void setShowEdges(bool);
 	void changeViewDirection(ViewDirections);
+
 private:
 	void initializeGL() override;
 	void resizeGL(int w,int h) override;
