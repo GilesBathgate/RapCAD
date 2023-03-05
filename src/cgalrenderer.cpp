@@ -67,15 +67,7 @@ class FacetF
 
 public:
 
-	FacetF()=default;
-	FacetF(const FacetF&)=default;
-	FacetF& operator=(const FacetF&)=default;
-	FacetF(FacetF&&)=default;
-	~FacetF()
-	{
-		coordinates.clear();
-		facetCycles.clear();
-	}
+	FacetF() : mark() {}
 
 	void appendVertex(const PointF& p)
 	{
