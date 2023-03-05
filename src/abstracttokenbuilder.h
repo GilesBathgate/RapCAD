@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -25,8 +25,11 @@
 
 class AbstractTokenBuilder
 {
+	Q_DISABLE_COPY_MOVE(AbstractTokenBuilder)
+protected:
+	AbstractTokenBuilder()=default;
+	virtual ~AbstractTokenBuilder()=default;
 public:
-	virtual ~AbstractTokenBuilder() {}
 	virtual int nextToken()=0;
 	virtual int getPosition() const=0;
 	virtual int getLineNumber() const=0;
@@ -60,6 +63,7 @@ public:
 	virtual int buildOr()=0;
 	virtual int buildComponentwiseMultiply()=0;
 	virtual int buildComponentwiseDivide()=0;
+	virtual int buildPlusMinus()=0;
 	virtual int buildIncrement()=0;
 	virtual int buildDecrement()=0;
 	virtual int buildAddAssign()=0;

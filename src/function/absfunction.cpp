@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,16 +19,17 @@
 #include "absfunction.h"
 #include "context.h"
 #include "numbervalue.h"
+#include "valuefactory.h"
 
 AbsFunction::AbsFunction() : Function("abs")
 {
 	addDescription(tr("Returns the absolute value of the number value."));
-	addParameter("value");
+	addParameter("value","num",tr("The value for which to find the absolute value."));
 }
 
 Value& AbsFunction::evaluate(const Context& ctx) const
 {
-	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* numVal=getParameterArgument<NumberValue>(ctx,0);
 	if(numVal) {
 		return Value::evaluate(*numVal,Operators::Length);
 	}

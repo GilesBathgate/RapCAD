@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,13 +19,14 @@
 #include "datummodule.h"
 #include "context.h"
 #include "node/transformationnode.h"
+#include "numbervalue.h"
 
 DatumModule::DatumModule(Reporter& r) : Module(r,"datum")
 {
 	addDescription(tr("Creates a plane from which children will be relative to"));
-	addParameter("x",tr("An yz plane offset by x"));
-	addParameter("y",tr("An xz plane offset by y"));
-	addParameter("z",tr("An xy plane offset by z"));
+	addParameter("x","num",tr("An yz plane offset by x"));
+	addParameter("y","num",tr("An xz plane offset by y"));
+	addParameter("z","num",tr("An xy plane offset by z"));
 	auxilary=true;
 }
 

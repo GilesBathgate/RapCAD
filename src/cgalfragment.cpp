@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -26,11 +26,11 @@ CGALFragment::CGALFragment(const Context& ctx) :
 
 int CGALFragment::getFragments(const CGAL::Scalar& r) const
 {
-	int fn=fragmentNumber;
+	const int fn=fragmentNumber;
 	if(fn>0)
 		return int(fn>=3?fn:3);
 
-	CGAL::Scalar fe=fragmentError;
+	const CGAL::Scalar& fe=fragmentError;
 	//solve R=r/cos(pi/n) for n where R=radius and r=inradius
 	if(fe>0.0&&fe<r)
 		return to_integer(r_ceil(r_pi()/r_acos((r-fe)/r,false)));

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -24,13 +24,13 @@
 SubDivisionModule::SubDivisionModule(Reporter& r) : Module(r,"subdiv")
 {
 	addDescription(tr("Sibdivides its children into smoother geometry."));
-	addParameter("level",tr("The number of smoothing levels to apply."));
+	addParameter("level","int",tr("The number of smoothing levels to apply."));
 }
 
 Node* SubDivisionModule::evaluate(const Context& ctx) const
 {
 	int level=0;
-	auto* levelVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* levelVal=getParameterArgument<NumberValue>(ctx,0);
 	if(levelVal)
 		level=levelVal->toInteger();
 

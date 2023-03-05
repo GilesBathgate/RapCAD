@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,23 +20,24 @@
 #include "context.h"
 #include "numbervalue.h"
 #include "rmath.h"
+#include "valuefactory.h"
 
 RoundFunction::RoundFunction() : Function("round")
 {
 	addDescription(tr("Returns the number value rounded up, or down, to the nearest integer."));
-	addParameter("value");
-	addParameter("places");
+	addParameter("value","num",tr("The value for which to find the nearest integer."));
+	addParameter("places","int",tr("The number of decimal places."));
 }
 
 Value& RoundFunction::evaluate(const Context& ctx) const
 {
-	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* numVal=getParameterArgument<NumberValue>(ctx,0);
 	if(numVal) {
-		decimal num=numVal->getNumber();
+		const decimal& num=numVal->getNumber();
 
-		auto* placesVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
+		auto* placesVal=getParameterArgument<NumberValue>(ctx,1);
 		if(placesVal) {
-			int places=placesVal->toInteger();
+			const int places=placesVal->toInteger();
 			return ValueFactory::createNumber(r_round(num,places));
 		}
 

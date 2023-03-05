@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -114,17 +114,17 @@ Value& ComplexValue::operation(ComplexValue& c,Operators e)
 			Value& y = (w1 * y2) - (x1 * z2) + (y1 * w2) + (z1 * x2);
 			Value& z = (w1 * z2) + (x1 * y2) - (y1 * x2) + (z1 * w2);
 
-			QList<Value*> i {&x,&y,&z};
+			const QList<Value*> i {&x,&y,&z};
 			return ValueFactory::createComplex(w,i);
 		}
 		if(e==Operators::Equal||e==Operators::NotEqual) {
-			Value& eqRe=Value::evaluate(w1,e,w2);
+			const Value& eqRe=Value::evaluate(w1,e,w2);
 			bool eq=eqRe.isTrue();
 			if(e==Operators::NotEqual && !eq)
 				return ValueFactory::createBoolean(true);
 			if(eq)
 				for(auto i=0; i<3; ++i) {
-					Value& eqIm=Value::evaluate(*imaginary.at(i),e,*c.imaginary.at(i));
+					const Value& eqIm=Value::evaluate(*imaginary.at(i),e,*c.imaginary.at(i));
 					if(e==Operators::NotEqual && eqIm.isTrue())
 						return ValueFactory::createBoolean(true);
 					if(eqIm.isFalse())
@@ -152,7 +152,7 @@ Value& ComplexValue::operation(NumberValue& n,Operators e)
 	return Value::operation(n,e);
 }
 
-const QList<Value*> ComplexValue::getImaginary() const
+const QList<Value*>& ComplexValue::getImaginary() const
 {
 	return imaginary;
 }

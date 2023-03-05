@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,26 +17,16 @@
  */
 
 #include "glview.h"
-#include "viewdirections.h"
 #include <QApplication>
 #include <cmath>
-#ifdef USE_QGLWIDGET
-#include <CGAL/glu.h>
-#endif
 
 static const GLfloat farfarAway=100000.0F;
 static const int rulerLength=200;
 
 GLView::GLView(QWidget* parent) :
-#ifdef USE_QGLWIDGET
-	QGLWidget(parent),
-#else
 	QOpenGLWidget(parent),
-	projection(new QMatrix4x4()),
-	modelview(new QMatrix4x4()),
-#endif
 	render(nullptr),
-	distance(500.0F),
+	camera(35.0F,0.0F,35.0F,0.0F,500.0F,0.0F),
 	showAxes(true),
 	showCross(true),
 	showBase(true),
@@ -44,60 +34,41 @@ GLView::GLView(QWidget* parent) :
 	showRulers(true),
 	showEdges(false),
 	skeleton(false),
-	printX(0.0F),
-	printY(0.0F),
-	printWidth(0.0F),
-	printLength(0.0F),
-	printHeight(0.0F),
+	printX(0),
+	printY(0),
+	printWidth(0),
+	printLength(0),
+	printHeight(0),
 	appearance(BedAppearance::MK42),
-	mouseDrag(false),
-	rotateX(35.0F),
-	rotateY(0.0F),
-	rotateZ(35.0F),
-	viewportX(0.0F),
-	viewportZ(0.0F)
+	mouseDrag(false)
 {
 	setCursor(Qt::CrossCursor);
 }
 
 GLView::~GLView()
 {
-#ifndef USE_QGLWIDGET
-	delete projection;
-	delete modelview;
-#endif
 	delete render;
 }
 
-void GLView::getViewport(GLfloat& rx,GLfloat& ry,GLfloat& rz,GLfloat& x,GLfloat& z,GLfloat& d) const
+const Camera& GLView::getCamera() const
 {
-	rx=rotateX;
-	ry=rotateY;
-	rz=rotateZ;
-	x=viewportX;
-	z=viewportZ;
-	d=distance;
+	return camera;
 }
 
-void GLView::setViewport(GLfloat rx,GLfloat ry,GLfloat rz,GLfloat x,GLfloat z,GLfloat d)
+void GLView::setCamera(const Camera& c)
 {
-	rotateX=rx;
-	rotateY=ry;
-	rotateZ=rz;
-	viewportX=x;
-	viewportZ=z;
-	distance=d;
+	camera=c;
 	update();
 }
 
-void GLView::setPrintOrigin(GLfloat x,GLfloat y)
+void GLView::setPrintOrigin(GLint x,GLint y)
 {
 	printX=x;
 	printY=y;
 	update();
 }
 
-void GLView::setPrintVolume(GLfloat w,GLfloat l,GLfloat h)
+void GLView::setPrintVolume(GLint w,GLint l,GLint h)
 {
 	printWidth=w;
 	printLength=l;
@@ -117,36 +88,10 @@ void GLView::setShowEdges(bool edges)
 	update();
 }
 
-void GLView::changeViewport(int t)
+void GLView::changeViewDirection(ViewDirections d)
 {
-	GLfloat rx;
-	GLfloat ry;
-	GLfloat rz;
-	GLfloat x;
-	GLfloat z;
-	GLfloat d;
-	getViewport(rx,ry,rz,x,z,d);
-
-	switch(static_cast<ViewDirections>(t)) {
-		case ViewDirections::Top:
-			setViewport(90.0F,0.0F,0.0F,x,z,d);
-			break;
-		case ViewDirections::Bottom:
-			setViewport(-90.0F,0.0F,0.0F,x,z,d);
-			break;
-		case ViewDirections::North:
-			setViewport(0.0F,0.0F,-180.0F,x,z,d);
-			break;
-		case ViewDirections::South:
-			setViewport(0.0F,0.0F,0.0F,x,z,d);
-			break;
-		case ViewDirections::West:
-			setViewport(0.0F,0.0F,90.0F,x,z,d);
-			break;
-		case ViewDirections::East:
-			setViewport(0.0F,0.0F,-90.0F,x,z,d);
-			break;
-	}
+	camera.changeViewDirection(d);
+	update();
 }
 
 void GLView::setShowAxes(bool axes)
@@ -189,7 +134,7 @@ void GLView::preferencesUpdated()
 
 void GLView::setCompiling(bool value)
 {
-	GLfloat n=value?0.8F:1.0F;
+	const GLfloat n=value?0.8F:1.0F;
 	glClearColor(n,n,n,0.0F);
 	if(render)
 		render->setCompiling(value);
@@ -204,9 +149,7 @@ void GLView::setBedAppearance(BedAppearance v)
 
 void GLView::initializeGL()
 {
-#ifndef USE_QGLWIDGET
 	initializeOpenGLFunctions();
-#endif
 
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(1.0F,1.0F,1.0F,0.0F);
@@ -229,18 +172,13 @@ void GLView::initializeGL()
 
 void GLView::resizeGL(int w,int h)
 {
-	glViewport(0.0F,0.0F,GLint(w),GLint(h));
+	glViewport(0,0,GLint(w),GLint(h));
 
 	glMatrixMode(GL_PROJECTION);
 
-#ifdef USE_QGLWIDGET
-	glLoadIdentity();
-	gluPerspective(45.0f,(GLfloat)w/(GLfloat)h,+10.0f,+farfarAway);
-#else
-	projection->setToIdentity();
-	projection->perspective(45.0F,GLfloat(w)/GLfloat(h),+10.0F,+farfarAway);
-	glLoadMatrixf(projection->data());
-#endif
+	projection.setToIdentity();
+	projection.perspective(45.0F,GLfloat(w)/GLfloat(h),+10.0F,+farfarAway);
+	glLoadMatrixf(projection.data());
 
 }
 
@@ -273,7 +211,8 @@ void GLView::drawAxes()
 	glLineWidth(1);
 	glColor3f(0.0F,0.0F,0.0F);
 	glBegin(GL_LINES);
-	GLfloat c=fmaxf(distance/2.0F,GLfloat(rulerLength));
+	const int distance=camera.getPositionY();
+	const GLfloat c=fmaxf(distance/2.0F,GLfloat(rulerLength));
 	glVertex3f(-c,0.0F,0.0F);
 	glVertex3f(+c,0.0F,0.0F);
 	glVertex3f(0.0F,-c,0.0F);
@@ -406,19 +345,20 @@ void GLView::drawRulers()
 	glLineWidth(1);
 	glColor3f(0.2F,0.2F,0.2F);
 	glBegin(GL_LINES);
-	int k=distance<200?1:10; //Only show milimeters when close up
+	const int distance=camera.getPositionY();
+	const int k=distance<200?1:10; //Only show milimeters when close up
 	for(int i=-rulerLength; i<rulerLength; i+=k) {
-		int j=i%10?2:5;
+		const int j=i%10?2:5;
 		glVertex3i(i,0,0);
 		glVertex3i(i,j,0);
 	}
 	for(int i=-rulerLength; i<rulerLength; i+=k) {
-		int j=i%10?2:5;
+		const int j=i%10?2:5;
 		glVertex3i(0,i,0);
 		glVertex3i(j,i,0);
 	}
 	for(int i=-rulerLength; i<rulerLength; i+=k) {
-		int j=i%10?2:5;
+		const int j=i%10?2:5;
 		glVertex3i(0,0,i);
 		glVertex3i(j,0,i);
 	}
@@ -458,26 +398,9 @@ void GLView::paintGL()
 
 	glMatrixMode(GL_MODELVIEW);
 
-#ifdef USE_QGLWIDGET
-	glLoadIdentity();
-	gluLookAt(-viewportX,-distance,-viewportZ,-viewportX,0.0f,-viewportZ,0.0f,0.0f,1.0f);
-
-	glRotatef(rotateX,1.0f,0.0f,0.0f);
-	glRotatef(rotateY,0.0f,1.0f,0.0f);
-	glRotatef(rotateZ,0.0f,0.0f,1.0f);
-#else
-	modelview->setToIdentity();
-	QVector3D eye(-viewportX,-distance,-viewportZ);
-	QVector3D center(-viewportX,0.0F,-viewportZ);
-	QVector3D up(0.0F,0.0F,1.0F);
-	modelview->lookAt(eye,center,up);
-
-	modelview->rotate(rotateX,1.0F,0.0F,0.0F);
-	modelview->rotate(rotateY,0.0F,1.0F,0.0F);
-	modelview->rotate(rotateZ,0.0F,0.0F,1.0F);
-
-	glLoadMatrixf(modelview->data());
-#endif
+	modelview.setToIdentity();
+	camera.applyTo(modelview);
+	glLoadMatrixf(modelview.data());
 
 	if(showAxes) drawAxes();
 	if(showBase) drawBase();
@@ -488,7 +411,7 @@ void GLView::paintGL()
 	glEnable(GL_LIGHTING);
 
 	if(render)
-		render->paint(skeleton,showEdges);
+		render->paint(*this,skeleton,showEdges);
 }
 
 void GLView::renderX(GLfloat x,GLfloat y,GLfloat z)
@@ -534,60 +457,73 @@ void GLView::renderZ(GLfloat x,GLfloat y,GLfloat z)
 void GLView::wheelEvent(QWheelEvent* event)
 {
 #if QT_VERSION < QT_VERSION_CHECK(5,5,0)
-	int delta=event->delta();
+	const int delta=event->delta();
 #else
-	int delta=event->angleDelta().y();
+	const int delta=event->angleDelta().y();
 #endif
-	zoomView(GLfloat(delta/12.0F));
+	camera.zoom(static_cast<GLfloat>(delta)/12.0F);
 	update();
 }
 
-void GLView::zoomView(GLfloat amt)
+void GLView::mouseDoubleClickEvent(QMouseEvent* event)
 {
-	distance*=powf(0.9F,amt/10.0F);
+	if(render) {
+		const QPointF& mousePos=event->position();
+		const int w=width();
+		const int h=height();
+		const auto x=static_cast<GLfloat>(mousePos.x());
+		const auto y=static_cast<GLfloat>(h-mousePos.y());
+		makeCurrent();
+		GLfloat z=0.0F;
+		glReadPixels(static_cast<GLint>(x),static_cast<GLint>(y),1,1,GL_DEPTH_COMPONENT,GL_FLOAT,&z);
+		doneCurrent();
+		const QRect viewport(0,0,w,h);
+		QVector3D target(x,y,z);
+		target = target.unproject(modelview,projection,viewport);
+		QVector3D source(x,y,0);
+		source = source.unproject(modelview,projection,viewport);
+
+		render->locate(source,target);
+	}
 }
+
 
 void GLView::mousePressEvent(QMouseEvent* event)
 {
 	mouseDrag=true;
 	setCursor(Qt::SizeAllCursor);
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 	last=event->globalPos();
+#else
+	last=event->globalPosition();
+#endif
 }
-
-void GLView::normalizeAngle(GLfloat& angle)
-{
-	while(angle < 0.0F)
-		angle+=360.0F;
-	while(angle > 360.0F)
-		angle-=360.0F;
-}
-
 
 void GLView::mouseMoveEvent(QMouseEvent* event)
 {
 	if(!mouseDrag)
 		return;
 
-	QPoint current=event->globalPos();
-	int dx=current.x()-last.x();
-	int dy=current.y()-last.y();
-	bool shift=QApplication::keyboardModifiers() & Qt::ShiftModifier;
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+	const QPoint current=event->globalPos();
+#else
+	const QPointF current=event->globalPosition();
+#endif
+	const auto dx=static_cast<GLfloat>(current.x()-last.x());
+	const auto dy=static_cast<GLfloat>(current.y()-last.y());
+	const bool shift=QApplication::keyboardModifiers() & Qt::ShiftModifier;
 	if(event->buttons() & Qt::LeftButton) {
-		rotateX+=GLfloat(dy);
+		camera.pitch(dy);
 		if(shift) {
-			rotateY+=GLfloat(dx);
+			camera.roll(dx);
 		} else {
-			rotateZ+=GLfloat(dx);
+			camera.yaw(dx);
 		}
-		normalizeAngle(rotateX);
-		normalizeAngle(rotateY);
-		normalizeAngle(rotateZ);
 	} else {
 		if(shift) {
-			zoomView(GLfloat(-dy));
+			camera.zoom(-dy);
 		} else {
-			viewportX+=GLfloat(dx);
-			viewportZ-=GLfloat(dy);
+			camera.pan(dx,-dy);
 		}
 	}
 	update();

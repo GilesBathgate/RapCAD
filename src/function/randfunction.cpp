@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,34 +20,34 @@
 #include "context.h"
 #include "numbervalue.h"
 #include "rmath.h"
-#include "vectorvalue.h"
+#include "valuefactory.h"
 #include <ctime>
 
 RandFunction::RandFunction() : Function("rands")
 {
 	addDescription(tr("Returns a vector of numbers between the given min and max values."));
-	addParameter("min");
-	addParameter("max");
-	addParameter("count",tr("The quantity of random numbers to create"));
-	addParameter("seed",tr("The seed number can be optionally used to give consistent results."));
+	addParameter("min","num",tr("The minimum value"));
+	addParameter("max","num",tr("The maximum value"));
+	addParameter("count","int",tr("The quantity of random numbers to create"));
+	addParameter("seed","int",tr("The seed number can be optionally used to give consistent results."));
 }
 
 Value& RandFunction::evaluate(const Context& ctx) const
 {
 	decimal min=0.0;
-	auto* minVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* minVal=getParameterArgument<NumberValue>(ctx,0);
 	if(minVal)
 		min=minVal->getNumber();
 	decimal max=0.0;
-	auto* maxVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
+	auto* maxVal=getParameterArgument<NumberValue>(ctx,1);
 	if(maxVal)
 		max=maxVal->getNumber();
 	int count=1;
-	auto* countVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));
+	auto* countVal=getParameterArgument<NumberValue>(ctx,2);
 	if(countVal)
 		count=countVal->toInteger();
-	auto* seedVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,3));
-	int seed=time(nullptr);
+	auto* seedVal=getParameterArgument<NumberValue>(ctx,3);
+	unsigned int seed=std::time(nullptr);
 	if(seedVal)
 		seed=seedVal->toInteger();
 

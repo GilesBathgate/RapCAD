@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@ static int parserlex(union YYSTYPE*,AbstractSyntaxTreeBuilder&);
 	class Scope* scp;
 	class Variable* var;
 	class Invocation* inv;
-	class QList<class CodeDoc*>* cdocs;
+	class QList<class CodeDocParam*>* cdocs;
 }
 
 %token DOCSTART DOCEND
@@ -80,7 +80,7 @@ static int parserlex(union YYSTYPE*,AbstractSyntaxTreeBuilder&);
 %left '!' '+' '-' '~' '|'
 %left '*' '/' '%'
 %left INC DEC ADDA SUBA
-%left CM CD CP
+%left CM CD CP PM
 %right '^'
 %left '[' ']'
 %left '.'
@@ -93,7 +93,7 @@ static int parserlex(union YYSTYPE*,AbstractSyntaxTreeBuilder&);
 %type <params> parameters
 %type <arg> argument
 %type <args> arguments
-%type <expr> expression
+%type <expr> expression indexable
 %type <exprs> vector_expression
 %type <scp> module_scope function_scope
 %type <inst> module_instance single_instance
@@ -116,22 +116,20 @@ declarations
 	{ builder.buildScript($1); }
 	| single_declaration_list
 	{ builder.buildScript($1); }
-	| codedoc declarations
-	{ builder.buildScript($1); }
 	;
 
 codedoc
 	: DOCSTART codedoc_param DOCEND
-	{ $$ = builder.buildCodeDoc($2); }
+	{ $$ = builder.buildCodeDocParams($2); }
 	;
 
 codedoc_param
 	: //empty
-	{ $$ = builder.buildCodeDoc(); }
+	{ $$ = builder.buildCodeDocParams(); }
 	| DOCTEXT codedoc_param
-	{ $$ = builder.buildCodeDoc($1,$2); }
+	{ $$ = builder.buildCodeDocParams($1,$2); }
 	| DOCPARAM DOCTEXT codedoc_param
-	{ $$ = builder.buildCodeDoc($1,$2,$3); }
+	{ $$ = builder.buildCodeDocParams($1,$2,$3); }
 	;
 
 use_declaration
@@ -174,6 +172,8 @@ single_declaration
 	{ $$ = builder.buildStatement($1); }
 	| define_declaration
 	{ $$ = builder.buildDeclaration($1); }
+	| codedoc
+	{ $$ = builder.buildCodeDoc($1); }
 	;
 
 declaration
@@ -296,12 +296,12 @@ expression
 	{ $$ = builder.buildLiteral($1); }
 	| NUMBER
 	{ $$ = builder.buildLiteral($1); }
-	| '[' expression ':' expression ']'
-	{ $$ = builder.buildRange($2,$4); }
-	| '[' expression ':' expression ':' expression ']'
-	{ $$ = builder.buildRange($2,$4,$6); }
-	| '[' vector_expression optional_commas ']'
-	{ $$ = builder.buildExpression($2,$3); }
+	| NUMBER PM expression
+	{ $$ = builder.buildInterval($1,$3); }
+	| NUMBER '[' expression ']'
+	{ $$ = builder.buildInterval($1,$3); }
+	| NUMBER '[' expression ',' expression ']'
+	{ $$ = builder.buildInterval($1,$3,$5); }
 	| '<' expression ',' expression ',' expression ',' expression '>'
 	{ $$ = builder.buildComplex($2,$4,$6,$8); }
 	| '|' expression '|'
@@ -356,10 +356,23 @@ expression
 	{ $$ = builder.buildExpression($2); }
 	| expression '?' expression ':' expression
 	{ $$ = builder.buildExpression($1,$3,$5); }
-	| expression '[' expression ']'
-	{ $$ = builder.buildExpression($1,Operators::Index,$3); }
 	| invocation
 	{ $$ = builder.buildExpression($1); }
+	| indexable
+	{ $$ = builder.buildExpression($1); }
+	;
+
+indexable
+	: '[' expression ':' expression ']'
+	{ $$ = builder.buildRange($2,$4); }
+	| '[' expression ':' expression ':' expression ']'
+	{ $$ = builder.buildRange($2,$4,$6); }
+	| '[' vector_expression optional_commas ']'
+	{ $$ = builder.buildExpression($2,$3); }
+	| variable '[' expression ']'
+	{ $$ = builder.buildExpression($1,Operators::Index,$3); }
+	| indexable '[' expression ']'
+	{ $$ = builder.buildExpression($1,Operators::Index,$3); }
 	;
 
 invocation
@@ -392,6 +405,10 @@ parameter
 	{ $$ = builder.buildParameter($1); }
 	| IDENTIFIER '=' expression
 	{ $$ = builder.buildParameter($1,$3); }
+	| IDENTIFIER ':' UNDEF '=' expression
+	{ $$ = builder.buildParameter($1,$5); }
+	| IDENTIFIER ':' IDENTIFIER '=' expression
+	{ $$ = builder.buildParameter($1,$3,$5); }
 	;
 
 compound_instance

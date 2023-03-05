@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ QString BooleanValue::getValueString() const
 
 Value& BooleanValue::toNumber()
 {
-	decimal result=boolean?1.0:0.0;
+	const decimal& result=boolean?1.0:0.0;
 	return ValueFactory::createNumber(result);
 }
 
@@ -43,7 +43,7 @@ bool BooleanValue::isTrue() const
 
 Value& BooleanValue::operation(Operators e)
 {
-	bool result=basicOperation(boolean,e);
+	const bool result=basicOperation(boolean,e);
 	return ValueFactory::createBoolean(result);
 }
 
@@ -62,14 +62,14 @@ Value& BooleanValue::operation(Value& v,Operators e)
 
 Value& BooleanValue::operation(BooleanValue& that,Operators e)
 {
-	bool result=basicOperation(this->boolean,e,that.boolean);
+	const bool result=basicOperation(this->boolean,e,that.boolean);
 	return ValueFactory::createBoolean(result);
 }
 
 Value& BooleanValue::operation(NumberValue& num,Operators e)
 {
 	if(isComparison(e)) {
-		bool result=basicOperation(this->boolean?1:0,e,num.toInteger());
+		const bool result=basicOperation(this->boolean?1:0,e,num.toInteger());
 		return ValueFactory::createBoolean(result);
 	}
 

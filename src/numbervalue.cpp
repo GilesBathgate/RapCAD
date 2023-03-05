@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ Value& NumberValue::operation(Operators e)
 	if(e==Operators::Invert)
 		return ValueFactory::createBoolean(this->isFalse());
 
-	decimal result=basicOperation(number,e);
+	const decimal& result=basicOperation(number,e);
 	return ValueFactory::createNumber(result);
 }
 
@@ -79,7 +79,7 @@ Value& NumberValue::operation(Value& v, Operators e)
 Value& NumberValue::operation(NumberValue& num,Operators e)
 {
 	if(isComparison(e)) {
-		bool result=to_boolean(basicOperation(number,e,num.number));
+		const bool result=to_boolean(basicOperation(number,e,num.number));
 		return ValueFactory::createBoolean(result);
 	}
 	if(e==Operators::Divide||e==Operators::Modulus) {
@@ -94,7 +94,7 @@ Value& NumberValue::operation(NumberValue& num,Operators e)
 		return ValueFactory::createUndefined();
 	}
 
-	decimal result=basicOperation(number,e,num.number);
+	const decimal& result=basicOperation(number,e,num.number);
 	return ValueFactory::createNumber(result);
 }
 
@@ -127,7 +127,7 @@ Value& NumberValue::operation(BooleanValue& flag,Operators e)
 {
 	if(isComparison(e)) {
 		//Use 0 for false and 1 for true to ensure 2>true
-		bool result=basicOperation(this->toInteger(),e,flag.isTrue()?1:0);
+		const bool result=basicOperation(this->toInteger(),e,flag.isTrue()?1:0);
 		return ValueFactory::createBoolean(result);
 	}
 

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -21,13 +21,23 @@
 
 #define CGAL_NO_CORE 1
 #define CGAL_DO_NOT_USE_MPZF 1
+#define CGAL_NO_DEPRECATED_CODE 1
 
 #define CGAL_DEBUG
+#define CGAL_TSS_H
+#define CGAL_STATIC_THREAD_LOCAL_VARIABLE(TYPE,VAR,ARG1) \
+	static TYPE VAR(ARG1)
+#define CGAL_ENABLE_DISABLE_ASSERTIONS_AT_RUNTIME
 #define CGAL_NO_WARNINGS
 #include <CGAL/assertions.h>
+#undef CGAL_STATIC_THREAD_LOCAL_VARIABLE
+#undef CGAL_TSS_H
 
+
+#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(4,9,0)
 #define CGAL_NDEBUG
 #include <CGAL/FPU.h>
+#endif
 
 #define CGAL_DISABLE_ROUNDING_MATH_CHECK
 #include <CGAL/Interval_nt.h>

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -28,10 +28,10 @@ ChildrenModule::ChildrenModule(Reporter& r,bool l) :
 {
 	if(legacy) {
 		addDeprecated(tr("The child module is deprecated, use the children module instead."));
-		addParameter("index",tr("The index of the child to use."));
+		addParameter("index","int",tr("The index of the child to use."));
 	} else {
 		addDescription(tr("Provides access to children as passed to a module."));
-		addParameter("index",tr("A list of indices which determines which children to use."));
+		addParameter("index","list",tr("A list of indices which determines which children to use."));
 	}
 }
 
@@ -39,7 +39,7 @@ Node* ChildrenModule::evaluate(const Context& ctx) const
 {
 	auto* n=new ChildrenNode();
 
-	Value* val=getParameterArgument(ctx,0);
+	auto* val=getParameterArgument<Value>(ctx,0);
 	if(!legacy) {
 		auto* vecVal=dynamic_cast<VectorValue*>(val);
 		if(vecVal) {

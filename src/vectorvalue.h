@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ public:
 	Point getPoint() const;
 	virtual Value& getIndex(NumberValue&);
 	ValueIterator* createIterator() override;
-	virtual const QList<Value*> getElements();
+	virtual QList<Value*> getElements();
 protected:
 	VectorValue() = default;
 	Value& operation(Operators) override;

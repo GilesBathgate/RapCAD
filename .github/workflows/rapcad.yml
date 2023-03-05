@@ -20,24 +20,25 @@ jobs:
             config: official
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Create Qt Directory
       run: |
         sudo mkdir /usr/Qt
         sudo chown $(whoami) /usr/Qt
     - name: Cache Qt
       id: cache-qt
-      uses: actions/cache@v1
+      uses: actions/cache@v3
       with:
         path: /usr/Qt
-        key: ${{ runner.os }}-QtCache
+        key: ${{ runner.os }}-QtCache-6
     - name: Install Qt
-      uses: jurplel/install-qt-action@v2.12.0
+      uses: jurplel/install-qt-action@v3.0.0
       with:
+        version: '6.*.*'
         dir: /usr
-        cached: ${{ steps.cache-qt.outputs.cache-hit }}
+        cache: ${{ steps.cache-qt.outputs.cache-hit }}
     - name: Install Dependencies
-      run: sudo apt-get install -y libboost-dev libcgal-dev libglu1-mesa-dev libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libxcb-randr0 libxcb-shape0
+      run: sudo apt-get install -y libboost-dev libcgal-dev libglu1-mesa-dev libxkbcommon-x11-0 libxcb-cursor0
     - name: Configure
       run: qmake CONFIG+=${{ matrix.config }}
     - name: Build
@@ -50,7 +51,7 @@ jobs:
       run: find . -type f -name '*.gcno' -exec gcov -p -r {} +
     - name: Upload Coverage
       if: ${{ matrix.config == 'coverage' }}
-      uses: codecov/codecov-action@v2
+      uses: codecov/codecov-action@v3
 
   windows:
     runs-on: windows-latest
@@ -65,53 +66,48 @@ jobs:
     env:
       CGAL_DIR: C:\CGAL-5.4\
       GMP:      C:\CGAL-5.4\auxiliary\gmp
-      BOOST_ROOT: C:\boost_1_72_0
+      BOOST_ROOT: C:\boost_1_80_0
       ASCIIDOC: C:\asciidoc-9.1.0\
       MINGW: C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Install Boost
       run: |
-        $Url = "https://boostorg.jfrog.io/artifactory/main/release/1.72.0/source/boost_1_72_0.7z"
-        (New-Object System.Net.WebClient).DownloadFile($Url, "$env:TEMP\boost.7z")
+        Invoke-WebRequest "https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/boost_1_80_0.7z" -OutFile "$env:TEMP\boost.7z"
         7z x -oC:\ "$env:TEMP\boost.7z"
     - name: Cache Qt
       id: cache-qt
-      uses: actions/cache@v1
+      uses: actions/cache@v3
       with:
         path: ../Qt
-        key: ${{ runner.os }}-QtCache-v2
+        key: ${{ runner.os }}-QtCache-6
     - name: Install Qt
-      uses: jurplel/install-qt-action@v2.12.0
+      uses: jurplel/install-qt-action@v3.0.0
       with:
-        cached: ${{ steps.cache-qt.outputs.cache-hit }}
-        arch: win64_mingw81
-    - name: Install patched windeployqt
-      if: ${{ !steps.cache-qt.outputs.cache-hit }}
-      run: |
-        Invoke-WebRequest http://tripleboot.org/Uploads/windeployqt64releaseonly.zip -OutFile windeployqt64releaseonly.zip
-        7z x -o"$env:Qt5_DIR\bin" windeployqt64releaseonly.zip
+        version: '6.*.*'
+        cache: ${{ steps.cache-qt.outputs.cache-hit }}
+        arch: win64_mingw
     - name: Install Flex/Bison
       if: ${{ !steps.cache-qt.outputs.cache-hit }}
       run: |
-        Invoke-WebRequest https://github.com/lexxmark/winflexbison/releases/download/v2.5.25/win_flex_bison-2.5.25.zip -OutFile FlexBison.zip
-        7z x -o"$env:Qt5_DIR\bin" FlexBison.zip -aoa
+        Invoke-WebRequest https://github.com/lexxmark/winflexbison/releases/download/v2.5.25/win_flex_bison-2.5.25.zip -OutFile "$env:TEMP\FlexBison.zip"
+        7z x -o"$env:Qt6_DIR\bin" "$env:TEMP\FlexBison.zip" -aoa
     - name: Install CGAL
       run: |
-        Invoke-WebRequest https://github.com/CGAL/cgal/releases/download/v5.4/CGAL-5.4.zip -OutFile CGAL-release.zip
-        7z x -oC:\ CGAL-release.zip
+        Invoke-WebRequest https://github.com/CGAL/cgal/releases/download/v5.4/CGAL-5.4.zip -OutFile "$env:TEMP\CGAL-release.zip"
+        7z x -oC:\ "$env:TEMP\CGAL-release.zip"
     - name: Install GMP/MPFR
       run: |
-        Invoke-WebRequest https://github.com/CGAL/cgal/releases/download/v5.4/CGAL-5.4-win64-auxiliary-libraries-gmp-mpfr.zip -OutFile CGAL-gmp-mpfr.zip
-        7z x -o"$env:CGAL_DIR" CGAL-gmp-mpfr.zip -aoa
+        Invoke-WebRequest https://github.com/CGAL/cgal/releases/download/v5.4/CGAL-5.4-win64-auxiliary-libraries-gmp-mpfr.zip -OutFile "$env:TEMP\CGAL-gmp-mpfr.zip"
+        7z x -o"$env:CGAL_DIR" "$env:TEMP\CGAL-gmp-mpfr.zip" -aoa
     - name: Install asciidoc/source-highlight
       if: ${{ matrix.config == 'official' }}
       run: |
-        Invoke-WebRequest https://github.com/asciidoc-py/asciidoc-py/releases/download/9.1.0/asciidoc-9.1.0.zip -OutFile asciidoc.zip
-        7z x -oC:\ asciidoc.zip
-        Invoke-WebRequest https://netix.dl.sourceforge.net/project/gnuwin32/src-highlite/2.1.2/src-highlite-2.1.2-bin.zip -OutFile src-highlite.zip
-        7z x -oC:\source-highlight src-highlite.zip
+        Invoke-WebRequest https://github.com/asciidoc-py/asciidoc-py/releases/download/9.1.0/asciidoc-9.1.0.zip -OutFile "$env:TEMP\asciidoc.zip"
+        7z x -oC:\ "$env:TEMP\asciidoc.zip"
+        Invoke-WebRequest -UserAgent "Wget" https://downloads.sourceforge.net/project/gnuwin32/src-highlite/2.1.2/src-highlite-2.1.2-bin.zip -OutFile "$env:TEMP\src-highlite.zip"
+        7z x -oC:\source-highlight "$env:TEMP\src-highlite.zip"
         mv C:\source-highlight\bin\source-highlight.exe C:\source-highlight\bin\source-highlight-exe.exe
         cp scripts\source-highlight.bat C:\source-highlight\bin
         Invoke-WebRequest https://www.gnu.org/software/src-highlite/lang_files/csharp.lang -OutFile csharp.lang
@@ -119,7 +115,7 @@ jobs:
         echo "`ncsharp = csharp.lang" >> C:\source-highlight\share\source-highlight\lang.map
         echo "C:\source-highlight\bin" >> $env:GITHUB_PATH
     - name: Configure pagefile
-      uses: al-cheb/configure-pagefile-action@v1.2
+      uses: al-cheb/configure-pagefile-action@v1.3
       with:
         minimum-size: 16GB
         maximum-size: 16GB
@@ -143,7 +139,7 @@ jobs:
       run: |
         cp "$env:GMP\lib\libgmp-10.dll" release
         cp "$env:GMP\lib\libmpfr-4.dll" release
-        windeployqt64releaseonly --no-svg --no-translations --no-angle --release release\rapcad.exe
+        windeployqt --no-svg --no-translations release\rapcad.exe
         cp "$env:MINGW\libgcc_s_seh-1.dll" release
         cp "$env:MINGW\libstdc++-6.dll" release
         cp "$env:MINGW\libwinpthread-1.dll" release
@@ -160,7 +156,7 @@ jobs:
       run: .\release\rapcad.exe -t test
     - name: Store
       if: ${{ matrix.config == 'official' }}
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: windows-artifacts
         path: |
@@ -179,17 +175,18 @@ jobs:
             config: official
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Cache Qt
       id: cache-qt
-      uses: actions/cache@v1
+      uses: actions/cache@v3
       with:
         path: ../Qt
-        key: ${{ runner.os }}-QtCache
+        key: ${{ runner.os }}-QtCache-6
     - name: Install Qt
-      uses: jurplel/install-qt-action@v2.12.0
+      uses: jurplel/install-qt-action@v3.0.0
       with:
-        cached: ${{ steps.cache-qt.outputs.cache-hit }}
+        version: '6.*.*'
+        cache: ${{ steps.cache-qt.outputs.cache-hit }}
     - name: Install Dependencies
       run: |
         brew install cgal bison
@@ -211,7 +208,7 @@ jobs:
       run: ./rapcad.app/Contents/MacOS/rapcad -t test
     - name: Store
       if: ${{ matrix.config == 'official' }}
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: macos-artifacts
         path: rapcad_*.dmg

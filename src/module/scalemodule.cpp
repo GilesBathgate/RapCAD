@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -25,22 +25,22 @@
 ScaleModule::ScaleModule(Reporter& r) : Module(r,"scale")
 {
 	addDescription(tr("Scales its children by the given vector."));
-	addParameter("size",tr("The factor by which to scale the object."));
-	addParameter("reference",tr("A center reference point for the scaling."));
+	addParameter("size","num",tr("The factor by which to scale the object."));
+	addParameter("reference","vec3",tr("A center reference point for the scaling."));
 }
 
 Node* ScaleModule::evaluate(const Context& ctx) const
 {
 	Point s(1,1,1);
-	auto* sizeVal=getParameterArgument(ctx,0);
+	auto* sizeVal=getParameterArgument<Value>(ctx,0);
 	if(sizeVal) {
-		VectorValue& v=sizeVal->toVector(3);
+		const VectorValue& v=sizeVal->toVector(3);
 		s=v.getPoint();
 	}
 
-	decimal x=s.x();
-	decimal y=s.y();
-	decimal z=s.z();
+	const decimal& x=s.x();
+	const decimal& y=s.y();
+	const decimal& z=s.z();
 	if(x==0.0||y==0.0||z==0.0) {
 		auto* pn=new PointsNode();
 		pn->createSinglePoint();
@@ -49,14 +49,14 @@ Node* ScaleModule::evaluate(const Context& ctx) const
 		return pn;
 	}
 
-	TransformMatrix* m;
-	auto* refVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
+	TransformMatrix* m=nullptr;
+	auto* refVal=getParameterArgument<VectorValue>(ctx,1);
 	if(refVal) {
-		Point r=refVal->getPoint();
+		const Point& r=refVal->getPoint();
 
-		decimal a=r.x();
-		decimal b=r.y();
-		decimal c=r.z();
+		const decimal& a=r.x();
+		const decimal& b=r.y();
+		const decimal& c=r.z();
 
 		//Derived reference translation using
 		//http://tinyurl.com/nfmph3r

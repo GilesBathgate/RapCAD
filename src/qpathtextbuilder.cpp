@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -21,8 +21,8 @@
 #include "onceonly.h"
 #include <QApplication>
 #include <QFontMetrics>
-#include <QPainterPath>
 #include <QMutexLocker>
+#include <QPainterPath>
 
 QPathTextBuilder::QPathTextBuilder() :
 	size(0)
@@ -46,7 +46,7 @@ void QPathTextBuilder::setSize(int value)
 
 decimal QPathTextBuilder::getHeight()
 {
-	QFontMetrics fm(getFont());
+	const QFontMetrics fm(getFont());
 	return fm.height();
 }
 
@@ -69,19 +69,14 @@ QFont QPathTextBuilder::getFont() const
 }
 
 /* Hack: in headless mode we need to initalise QApplication
-before we can use fonts */
-static QMutex mutex;
-static bool headless=true;
-static QApplication* application=nullptr;
-
-static void headlessOverride()
+ * before we can use fonts */
+static QCoreApplication* headlessOverride()
 {
-	QMutexLocker locker(&mutex);
-	if(headless && QFont().family().isEmpty()) {
-		int c=0;
-		application=new QApplication(c,nullptr,false);
-	}
-	headless=false;
+	int c=0;
+	static auto* instance {
+		QApplication::instance() ?: new QApplication(c,nullptr)
+	};
+	return instance;
 }
 
 Primitive* QPathTextBuilder::buildPrimitive() const

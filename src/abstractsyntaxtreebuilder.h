@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -28,23 +28,25 @@
 #include "invocation.h"
 #include "parameter.h"
 #include "scope.h"
-#include "script.h"
 #include "statement.h"
 #include "variable.h"
 #include <QList>
 
 class AbstractSyntaxTreeBuilder
 {
+	Q_DISABLE_COPY_MOVE(AbstractSyntaxTreeBuilder)
+protected:
+	AbstractSyntaxTreeBuilder()=default;
+	virtual ~AbstractSyntaxTreeBuilder()=default;
 public:
-	virtual ~AbstractSyntaxTreeBuilder() {}
 	virtual void buildFileLocation(QDir)=0;
 	virtual void buildScript(Declaration*)=0;
 	virtual void buildScript(QList<Declaration*>*)=0;
-	virtual void buildScript(QList<CodeDoc*>*)=0;
-	virtual QList<CodeDoc*>* buildCodeDoc(QList<CodeDoc*>*)=0;
-	virtual QList<CodeDoc*>* buildCodeDoc()=0;
-	virtual QList<CodeDoc*>* buildCodeDoc(QString*,QList<CodeDoc*>*)=0;
-	virtual QList<CodeDoc*>* buildCodeDoc(QString*,QString*,QList<CodeDoc*>*)=0;
+	virtual Declaration* buildCodeDoc(QList<CodeDocParam*>*)=0;
+	virtual QList<CodeDocParam*>* buildCodeDocParams(QList<CodeDocParam*>*)=0;
+	virtual QList<CodeDocParam*>* buildCodeDocParams()=0;
+	virtual QList<CodeDocParam*>* buildCodeDocParams(QString*,QList<CodeDocParam*>*)=0;
+	virtual QList<CodeDocParam*>* buildCodeDocParams(QString*,QString*,QList<CodeDocParam*>*)=0;
 	virtual Declaration* buildUse(QString*)=0;
 	virtual Declaration* buildUse(QString*,QString*)=0;
 	virtual Declaration* buildImport(QString*,QString*)=0;
@@ -85,6 +87,7 @@ public:
 	virtual QList<Parameter*>* buildParameters(QList<Parameter*>*,Parameter*)=0;
 	virtual Parameter* buildParameter(QString*)=0;
 	virtual Parameter* buildParameter(QString*,Expression*)=0;
+	virtual Parameter* buildParameter(QString*,QString*,Expression*)=0;
 	virtual QList<Argument*>* buildArguments()=0;
 	virtual QList<Argument*>* buildArguments(Argument*)=0;
 	virtual QList<Argument*>* buildArguments(QList<Argument*>*,unsigned int,Argument*)=0;
@@ -99,6 +102,8 @@ public:
 	virtual Variable* buildVariable(QString*)=0;
 	virtual Expression* buildVariable(Variable*)=0;
 	virtual Variable* buildVariable(QString*,Storage)=0;
+	virtual Expression* buildInterval(decimal*,Expression*)=0;
+	virtual Expression* buildInterval(decimal*,Expression*,Expression*)=0;
 	virtual Expression* buildExpression(Expression*,QString*)=0;
 	virtual Expression* buildExpression(Expression*)=0;
 	virtual Expression* buildExpression(Operators,Expression*)=0;

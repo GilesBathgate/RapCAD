@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,20 +18,21 @@
 
 #include "crossfunction.h"
 #include "context.h"
+#include "valuefactory.h"
 #include "vectorvalue.h"
 
 CrossFunction::CrossFunction() : Function("cross")
 {
 	addDescription(tr("Returns the cross product of the two vectors."));
-	addParameter("v1");
-	addParameter("v2");
+	addParameter("v1","vec3",tr("The first value for which to find the cross product."));
+	addParameter("v2","vec3",tr("The second value for which to find the cross product."));
 }
 
 Value& CrossFunction::evaluate(const Context& ctx) const
 {
 
-	auto* vec1=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
-	auto* vec2=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
+	auto* vec1=getParameterArgument<VectorValue>(ctx,0);
+	auto* vec2=getParameterArgument<VectorValue>(ctx,1);
 	if(vec1&&vec2)
 		return Value::evaluate(*vec1,Operators::CrossProduct,*vec2);
 

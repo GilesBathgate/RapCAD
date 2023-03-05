@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,8 +18,9 @@
 #ifndef PREFERENCES_H
 #define PREFERENCES_H
 
+#include "abstractsettings.h"
+#include "bedappearance.h"
 #include "decimal.h"
-#include "ui/glview.h"
 #include <QColor>
 #include <QFont>
 #include <QPoint>
@@ -31,6 +32,10 @@ class Preferences
 {
 public:
 	static Preferences& getInstance();
+	static Preferences& getTemporary();
+
+	void clear();
+	void sync();
 
 	Precision getPrecision() const;
 	void setPrecision(Precision);
@@ -107,8 +112,8 @@ public:
 	bool getShowConsole() const;
 	void setShowConsole(bool);
 
-	bool getShowProjects() const;
-	void setShowProjects(bool);
+	bool getShowExplorer() const;
+	void setShowExplorer(bool);
 
 	void setWindowPosition(QPoint);
 	QPoint getWindowPosition() const;
@@ -128,11 +133,11 @@ public:
 	void setCacheEnabled(bool);
 	bool getCacheEnabled() const;
 
-	QPointF getPrintOrigin() const;
-	void setPrintOrigin(QPointF s);
+	QPoint getPrintOrigin() const;
+	void setPrintOrigin(QPoint);
 
-	QVector3D getPrintVolume() const;
-	void setPrintVolume(QVector3D v);
+	QList<int> getPrintVolume() const;
+	void setPrintVolume(QList<int> v);
 
 	BedAppearance getPrintBedAppearance() const;
 	void setPrintBedAppearance(BedAppearance);
@@ -150,10 +155,10 @@ public:
 	void setLaunchCommand(const QString&);
 
 	bool getShowGCODEButton() const;
-	void setShowGCODEButton(bool value);
+	void setShowGCODEButton(bool);
 
 	QString getCAMScript() const;
-	void setCAMScript(const QString& value);
+	void setCAMScript(const QString&);
 
 	bool getTranslateOrigin() const;
 	void setTranslateOrigin(bool);
@@ -162,17 +167,27 @@ public:
 	void setDarkTheme(bool);
 
 	QString getIndent() const;
-	void setIndent(const QString& value);
+	void setIndent(const QString&);
 
 	int getThreadPoolSize() const;
-	void setThreadPoolSize(int value);
+	void setThreadPoolSize(int);
+
+	bool getVisibleWhiteSpace() const;
+	void setVisibleWhiteSpace(bool);
+
+	bool getSoftwareOpenGL() const;
+	void setSoftwareOpenGL(bool);
+
+	bool getUseCGALAssertions() const;
+	void setUseCGALAssertions(bool);
 
 private:
-	Preferences();
+	Preferences(AbstractSettings*);
 	~Preferences();
+	void updateAssertions() const;
 	void updatePrecision();
 
-	QSettings* settings;
+	AbstractSettings* settings;
 	int precision;
 };
 

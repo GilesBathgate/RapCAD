@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,21 +20,22 @@
 #define CGALDISCRETEMODIFIER_H
 
 #include "cgal.h"
-#include "rmath.h"
 #include <CGAL/Modifier_base.h>
 #include <CGAL/Nef_polyhedron_3.h>
+#include <QtGlobal>
 
 namespace CGAL
 {
 using NefPolyhedron3 = Nef_polyhedron_3<Kernel3>;
 }
 
-class CGALDiscreteModifier : public CGAL::Modifier_base<CGAL::NefPolyhedron3::SNC_structure>
+class CGALDiscreteModifier final : public CGAL::Modifier_base<CGAL::NefPolyhedron3::SNC_structure>
 {
+	Q_DISABLE_COPY_MOVE(CGALDiscreteModifier)
 public:
 	explicit CGALDiscreteModifier(int);
 	static CGAL::Point3 discretePoint(const CGAL::Point3&,int);
-	void operator()(CGAL::NefPolyhedron3::SNC_structure&);
+	void operator()(CGAL::NefPolyhedron3::SNC_structure&) override;
 private:
 	int places;
 };

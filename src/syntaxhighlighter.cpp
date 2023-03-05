@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,7 +18,6 @@
 
 #include "syntaxhighlighter.h"
 #include "preferences.h"
-#include "reporter.h"
 #include <contrib/qtcompat.h>
 
 extern int lexerdestroy(yyscan_t);
@@ -111,7 +110,7 @@ void SyntaxHighlighter::highlightBlock(const QString& text)
 
 int SyntaxHighlighter::nextToken()
 {
-	int res=lexerlex(scanner);
+	const int res=lexerlex(scanner);
 	startIndex+=lexerget_leng(scanner);
 	return res;
 }
@@ -129,21 +128,21 @@ int SyntaxHighlighter::getLineNumber() const
 
 void SyntaxHighlighter::buildIncludeStart()
 {
-	int len=lexerget_leng(scanner);
+	const int len=lexerget_leng(scanner);
 	setFormat(startIndex,len-1,keywordFormat);
 	startIndex+=len;
 }
 
 void SyntaxHighlighter::buildIncludeFile(const QString&)
 {
-	int len=lexerget_leng(scanner);
+	const int len=lexerget_leng(scanner);
 	setFormat(startIndex,len,stringFormat);
 	startIndex+=len;
 }
 
 void SyntaxHighlighter::buildIncludePath(const QString&)
 {
-	int len=lexerget_leng(scanner);
+	const int len=lexerget_leng(scanner);
 	setFormat(startIndex,len,stringFormat);
 	startIndex+=len;
 }
@@ -155,14 +154,14 @@ void SyntaxHighlighter::buildIncludeFinish()
 
 void SyntaxHighlighter::buildUseStart()
 {
-	int len=lexerget_leng(scanner);
+	const int len=lexerget_leng(scanner);
 	setFormat(startIndex,len-1,keywordFormat);
 	startIndex+=len;
 }
 
 int SyntaxHighlighter::buildUse(const QString&)
 {
-	int len=lexerget_leng(scanner);
+	const int len=lexerget_leng(scanner);
 	setFormat(startIndex,len,stringFormat);
 	return YY_CONTINUE;
 }
@@ -174,7 +173,7 @@ void SyntaxHighlighter::buildUseFinish()
 
 void SyntaxHighlighter::buildImportStart()
 {
-	int len=lexerget_leng(scanner);
+	const int len=lexerget_leng(scanner);
 	setFormat(startIndex,len-1,keywordFormat);
 	startIndex+=len;
 }
@@ -310,6 +309,13 @@ int SyntaxHighlighter::buildComponentwiseDivide()
 	return YY_CONTINUE;
 }
 
+int SyntaxHighlighter::buildPlusMinus()
+{
+	// this adjusts for 2 byte unicode char
+	setFormat(startIndex--,1,operatorFormat);
+	return YY_CONTINUE;
+}
+
 int SyntaxHighlighter::buildIncrement()
 {
 	setFormat(startIndex,lexerget_leng(scanner),operatorFormat);
@@ -370,7 +376,7 @@ int SyntaxHighlighter::buildByteOrderMark()
 
 int SyntaxHighlighter::buildIllegalChar(const QString& s)
 {
-	int stringLen=s.length();
+	const int stringLen=static_cast<int>(s.length());
 	setFormat(startIndex,stringLen,errorFormat);
 	startIndex-=(lexerget_leng(scanner)-stringLen);
 	return YY_CONTINUE;
@@ -409,21 +415,21 @@ int SyntaxHighlighter::buildIdentifier(const QString& i)
 
 void SyntaxHighlighter::buildStringStart()
 {
-	int len=lexerget_leng(scanner);
+	const int len=lexerget_leng(scanner);
 	setFormat(startIndex,len,stringFormat);
 	startIndex+=len;
 }
 
 void SyntaxHighlighter::buildString(QChar)
 {
-	int len=lexerget_leng(scanner);
+	const int len=lexerget_leng(scanner);
 	setFormat(startIndex,len,stringFormat);
 	startIndex+=len;
 }
 
 void SyntaxHighlighter::buildString(const QString& s)
 {
-	int stringLen=s.length();
+	const int stringLen=static_cast<int>(s.length());
 	setFormat(startIndex,stringLen,stringFormat);
 	startIndex+=stringLen;
 }
@@ -437,14 +443,14 @@ int SyntaxHighlighter::buildStringFinish()
 void SyntaxHighlighter::buildCommentStart()
 {
 	setCurrentBlockState(static_cast<int>(BlockStates::Comment));
-	int len=lexerget_leng(scanner);
+	const int len=lexerget_leng(scanner);
 	setFormat(startIndex,len,commentFormat);
 	startIndex+=len;
 }
 
 void SyntaxHighlighter::buildComment(const QString& s)
 {
-	int stringLen=s.length();
+	const int stringLen=static_cast<int>(s.length());
 	setFormat(startIndex,stringLen,commentFormat);
 	startIndex+=stringLen;
 }
@@ -452,7 +458,7 @@ void SyntaxHighlighter::buildComment(const QString& s)
 void SyntaxHighlighter::buildCommentFinish()
 {
 	setCurrentBlockState(static_cast<int>(BlockStates::Initial));
-	int len=lexerget_leng(scanner);
+	const int len=lexerget_leng(scanner);
 	setFormat(startIndex,len,commentFormat);
 	startIndex+=len;
 }
@@ -466,7 +472,7 @@ int SyntaxHighlighter::buildCodeDocStart()
 
 int SyntaxHighlighter::buildCodeDoc(const QString& s)
 {
-	int stringLen=s.length();
+	const int stringLen=static_cast<int>(s.length());
 	setFormat(startIndex,stringLen,codeDocFormat);
 	/* Need to adjust back the index because this is a token and thus
 	 * index is incremented in the NextToken() call */
@@ -476,7 +482,7 @@ int SyntaxHighlighter::buildCodeDoc(const QString& s)
 
 void SyntaxHighlighter::buildCodeDoc()
 {
-	int len=lexerget_leng(scanner);
+	const int len=lexerget_leng(scanner);
 	setFormat(startIndex,len,codeDocFormat);
 	startIndex+=len;
 }

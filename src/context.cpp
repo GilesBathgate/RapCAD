@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -78,12 +78,20 @@ void Context::setCurrentName(const QString& value)
 	currentName=value;
 }
 
-bool Context::addVariable(const QString& name,Value* v)
+bool Context::updateVariable(const QString& name,Value* v,Storage s)
 {
+	if(s==Storage::Variable||s==Storage::Special) {
+		setVariable(name,v);
+		return true;
+	}
 	if(!variables.contains(name)) {
 		setVariable(name,v);
 		return true;
 	}
+	Value* e=Value::evaluate(variables.value(name),Operators::Equal,v);
+	if(e)
+		return e->isTrue();
+
 	return false;
 }
 
@@ -92,7 +100,7 @@ void Context::setVariable(const QString& name, Value* v)
 	variables.insert(name,v);
 }
 
-Value& Context::lookupVariable(const QString& name,Storage& c,Layout* l) const
+Value& Context::lookupVariable(const QString& name,Storage c,Layout* l) const
 {
 	if(variables.contains(name)) {
 		if(l->inScope(currentScope)) {
@@ -116,12 +124,10 @@ Value& Context::lookupVariable(const QString& name,Storage& c,Layout* l) const
 QList<Node*> Context::lookupChildren() const
 {
 	QList<Node*> children=getInputNodes();
-	if(!children.isEmpty())
-		return children;
-	if(parent)
+	if(children.isEmpty()&&parent)
 		return parent->lookupChildren();
 
-	return QList<Node*>();
+	return children;
 }
 
 void Context::setVariablesFromArguments()
@@ -153,7 +159,7 @@ void Context::setVariablesFromArguments()
 	}
 }
 
-const QList<NamedValue> Context::getArguments() const
+const QList<NamedValue>& Context::getArguments() const
 {
 	return arguments;
 }
@@ -184,9 +190,9 @@ void Context::clearArguments()
 Value* Context::getArgument(int index, const QString& name) const
 {
 #if QT_VERSION < QT_VERSION_CHECK(5,10,0)
-	bool matchLast=name.at(name.size()-1).isDigit();
+	const bool matchLast=name.at(name.size()-1).isDigit();
 #else
-	bool matchLast=name.back().isDigit();
+	const bool matchLast=name.back().isDigit();
 #endif
 	return matchArgumentIndex(true,matchLast,index,name);
 }

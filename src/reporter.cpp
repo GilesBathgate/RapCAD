@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -41,13 +41,13 @@ void Reporter::startTiming()
 void Reporter::stopTiming(const QString& what)
 {
 	qint64 ticks=timer->elapsed();
-	qint64 ms=ticks%1000;
+	const qint64 ms=ticks%1000;
 	ticks/=1000;
-	qint64 secs=ticks%60;
+	const qint64 secs=ticks%60;
 	ticks/=60;
-	qint64 mins=ticks%60;
+	const qint64 mins=ticks%60;
 	ticks/=60;
-	qint64 hours=ticks;
+	const qint64 hours=ticks;
 	timings << tr("Total %1 time: %2h %3m %4s %5ms.").arg(what).arg(hours).arg(mins).arg(secs).arg(ms);
 	delete timer; //Need to delete timer.
 }
@@ -67,22 +67,27 @@ void Reporter::reportTimings()
 
 void Reporter::reportSyntaxError(const AbstractTokenBuilder& t,const QString& msg)
 {
-	QString text=t.getToken();
-	int pos=t.getPosition()+positionOffset;
-	int line=t.getLineNumber();
+	const QString& text=t.getToken();
+	const int pos=t.getPosition()+positionOffset;
+	const int line=t.getLineNumber();
 	messages << tr("Line %1: %2 at character %3: '%4'").arg(line).arg(msg).arg(pos).arg(text) << Qt::endl;
 }
 
 void Reporter::reportLexicalError(const AbstractTokenBuilder& t,const QString& text)
 {
-	int pos=t.getPosition()+positionOffset;
-	int line=t.getLineNumber();
+	const int pos=t.getPosition()+positionOffset;
+	const int line=t.getLineNumber();
 	messages << tr("Line %1: illegal token at character %2: '%3'").arg(line).arg(pos).arg(text) << Qt::endl;
 }
 
 void Reporter::reportFileMissingError(const QString& fullpath)
 {
 	messages << tr("Can't open input file '%1'").arg(fullpath) << Qt::endl;
+}
+
+void Reporter::reportTesselationError(const QString& text)
+{
+	messages << tr("Tessellation Error: %1").arg(text) << Qt::endl;
 }
 
 void Reporter::reportWarning(const QString& warning)

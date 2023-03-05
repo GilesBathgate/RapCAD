@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -25,12 +25,12 @@
 AlignModule::AlignModule(Reporter& r) : Module(r,"align")
 {
 	addDescription(tr("Aligns its children to the given faces."));
-	addParameter("top",tr("Specifies alignment to the top face."));
-	addParameter("bottom",tr("Specifies alignment to the bottom face."));
-	addParameter("north",tr("Specifies alignment to the north face."));
-	addParameter("south",tr("Specifies alignment to the south face."));
-	addParameter("east",tr("Specifies alignment to the east face."));
-	addParameter("west",tr("Specifies alignment to the west face."));
+	addParameter("top","bool",tr("Specifies alignment to the top face."));
+	addParameter("bottom","bool",tr("Specifies alignment to the bottom face."));
+	addParameter("north","bool",tr("Specifies alignment to the north face."));
+	addParameter("south","bool",tr("Specifies alignment to the south face."));
+	addParameter("east","bool",tr("Specifies alignment to the east face."));
+	addParameter("west","bool",tr("Specifies alignment to the west face."));
 }
 
 Node* AlignModule::evaluate(const Context& ctx) const
@@ -38,10 +38,10 @@ Node* AlignModule::evaluate(const Context& ctx) const
 	QList<ViewDirections> align;
 	VectorValue* vecVal=dynamic_cast<VectorValue*>(ctx.getArgument(0,"anchor"));
 	if(vecVal) {
-		Point p = vecVal->getPoint();
-		decimal x=p.x();
-		decimal y=p.y();
-		decimal z=p.z();
+		const Point& p = vecVal->getPoint();
+		const decimal& x=p.x();
+		const decimal& y=p.y();
+		const decimal& z=p.z();
 		if(x>0.0) {
 			align.append(ViewDirections::East);
 		} else if(x<0.0) {
@@ -68,12 +68,12 @@ Node* AlignModule::evaluate(const Context& ctx) const
 		}
 	} else {
 
-		auto* topVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0,0));
-		auto* bottomVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,1,0));
-		auto* northVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,2,0));
-		auto* southVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,3,0));
-		auto* eastVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,4,0));
-		auto* westVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,5,0));
+		auto* topVal=getParameterArgument<BooleanValue>(ctx,0,0);
+		auto* bottomVal=getParameterArgument<BooleanValue>(ctx,1,0);
+		auto* northVal=getParameterArgument<BooleanValue>(ctx,2,0);
+		auto* southVal=getParameterArgument<BooleanValue>(ctx,3,0);
+		auto* eastVal=getParameterArgument<BooleanValue>(ctx,4,0);
+		auto* westVal=getParameterArgument<BooleanValue>(ctx,5,0);
 
 		if(topVal&&topVal->isTrue()) {
 			align.append(ViewDirections::Top);

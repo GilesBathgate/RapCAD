@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -46,6 +46,7 @@ public:
 	Primitive* intersection(Primitive*) override;
 	Primitive* join(Primitive*) override;
 	Primitive* linear_extrude(const decimal&,const Point&) override { return this; }
+	Point locate(const Point&,const Point& t) override { return t; }
 	Primitive* minkowski(Primitive*) override;
 	Primitive* projection(bool) override { return this; }
 	Primitive* rotate_extrude(const decimal&,const decimal&,const decimal&,const Fragment*,const Point&) override { return this; }
@@ -53,11 +54,12 @@ public:
 	Primitive* slice(const decimal&,const decimal&) override { return this; }
 	Primitive* subdivide(int) override { return this; }
 	Primitive* symmetric_difference(Primitive*) override;
+	Primitive* solidify() override { return this; }
 	Primitive* triangulate() override { return this; }
 	PrimitiveTypes getType() override;
-	const QList<Point> getPoints() const override;
-	const QList<Polygon*> getPolygons() const override;
-	const QList<Primitive*> getChildren() const override;
+	QList<Point> getPoints() const override;
+	const QList<Polygon*>& getPolygons() const override;
+	const QList<Primitive*>& getChildren() const override;
 	void align(bool,QList<ViewDirections>) override {}
 	void appendChild(Primitive*) override;
 	void appendChildren(QList<Primitive*>) override;

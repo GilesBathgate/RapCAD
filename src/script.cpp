@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -31,11 +31,6 @@ Script::~Script()
 {
 	qDeleteAll(declarations);
 	declarations.clear();
-	for(auto& d: documentation) {
-		qDeleteAll(d);
-		d.clear();
-	}
-	documentation.clear();
 }
 
 void Script::parse(const QString& input)
@@ -62,7 +57,7 @@ void Script::parse(const QFileInfo& info)
 
 bool Script::isEmpty()
 {
-	return declarations.isEmpty() && documentation.isEmpty();
+	return declarations.isEmpty();
 }
 
 void Script::setDeclarations(const QList<Declaration*>& decls)
@@ -70,7 +65,7 @@ void Script::setDeclarations(const QList<Declaration*>& decls)
 	declarations = decls;
 }
 
-const QList<Declaration*> Script::getDeclarations() const
+const QList<Declaration*>& Script::getDeclarations() const
 {
 	return declarations;
 }
@@ -88,16 +83,6 @@ void Script::appendDeclaration(Declaration* dec)
 void Script::removeDeclaration(Declaration* dec)
 {
 	declarations.removeAll(dec);
-}
-
-void Script::addDocumentation(const QList<CodeDoc*>& docs)
-{
-	documentation.append(docs);
-}
-
-const QList<QList<CodeDoc*> > Script::getDocumentation() const
-{
-	return documentation;
 }
 
 void Script::accept(TreeVisitor& v)

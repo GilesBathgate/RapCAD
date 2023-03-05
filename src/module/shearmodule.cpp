@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -24,9 +24,9 @@
 ShearModule::ShearModule(Reporter& r) : Module(r,"shear")
 {
 	addDescription(tr("Shears its children in the given planes."));
-	addParameter("x",tr("The yz plane."));
-	addParameter("y",tr("The xz plane."));
-	addParameter("z",tr("The xy plane."));
+	addParameter("x","vec3",tr("The yz plane."));
+	addParameter("y","vec3",tr("The xz plane."));
+	addParameter("z","vec3",tr("The xy plane."));
 }
 
 Node* ShearModule::evaluate(const Context& ctx) const
@@ -51,12 +51,12 @@ Node* ShearModule::evaluate(const Context& ctx) const
 	if(!xVal&&!yVal&&!zVal)
 		return n;
 
-	decimal sxy=sx.y();
-	decimal sxz=sx.z();
-	decimal syx=sy.x();
-	decimal syz=sy.z();
-	decimal szx=sz.x();
-	decimal szy=sz.y();
+	const decimal& sxy=sx.y();
+	const decimal& sxz=sx.z();
+	const decimal& syx=sy.x();
+	const decimal& syz=sy.z();
+	const decimal& szx=sz.x();
+	const decimal& szy=sz.y();
 
 	auto* m = new TransformMatrix(
 		1.0,sxy,sxz,0.0,

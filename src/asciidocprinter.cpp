@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -45,11 +45,11 @@ static QString capitalize(QString str)
 
 void AsciidocPrinter::visit(const Module& mod)
 {
-	QString name=mod.getFullName();
+	const QString& name=mod.getFullName();
 	modulesOutput << capitalize(name) << "\n";
 	modulesOutput << QString(name.length(),'^') << "\n\n";
 	modulesOutput << mod.getDescription() << "\n\n";
-	const QList<Parameter*> params=mod.getParameters();
+	const QList<Parameter*>& params=mod.getParameters();
 	if(!params.isEmpty()) {
 		modulesOutput << "Parameters\n";
 		modulesOutput << "++++++++++\n";
@@ -62,15 +62,19 @@ void AsciidocPrinter::visit(const Module& mod)
 		modulesOutput << "++++++++\n";
 		modulesOutput << "[source,csharp]\n";
 		modulesOutput << "---------------\n";
-		modulesOutput << name << "();\n";
-		modulesOutput << name << "(";
-		OnceOnly first;
-		for(Parameter* p: params) {
-			if(!first())
-				modulesOutput << ",";
-			modulesOutput << p->getName();
+		if(mod.hasExample()) {
+			modulesOutput << mod.getExample() << "\n";
+		} else {
+			modulesOutput << name << "();\n";
+			modulesOutput << name << "(";
+			OnceOnly first;
+			for(Parameter* p: params) {
+				if(!first())
+					modulesOutput << ",";
+				modulesOutput << p->getName();
+			}
+			modulesOutput << ");\n";
 		}
-		modulesOutput << ");\n";
 		modulesOutput << "---------------\n\n";
 	}
 }

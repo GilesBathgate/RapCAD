@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -67,7 +67,7 @@ Point VectorValue::getPoint() const
 	NumberValue* nx=nullptr;
 	NumberValue* ny=nullptr;
 	NumberValue* nz=nullptr;
-	int s=elements.size();
+	const auto s=elements.size();
 	if(s>0)
 		nx=dynamic_cast<NumberValue*>(elements.at(0));
 	if(s>1)
@@ -92,7 +92,7 @@ Point VectorValue::getPoint() const
 
 Value& VectorValue::getIndex(NumberValue& n)
 {
-	int i=n.toInteger();
+	const int i=n.toInteger();
 	if(i<0||i>=elements.size()) return ValueFactory::createUndefined();
 	return *elements.at(i);
 }
@@ -102,7 +102,7 @@ ValueIterator* VectorValue::createIterator()
 	return new VectorIterator(elements);
 }
 
-const QList<Value*> VectorValue::getElements()
+QList<Value*> VectorValue::getElements()
 {
 	return elements;
 }
@@ -170,11 +170,11 @@ Value& VectorValue::operation(NumberValue& num,Operators e)
 Value& VectorValue::operation(VectorValue& vec,Operators e)
 {
 	QList<Value*> result;
-	QList<Value*> a=getElements();
-	QList<Value*> b=vec.getElements();
+	const QList<Value*>& a=getElements();
+	const QList<Value*>& b=vec.getElements();
 
 	if(e==Operators::CrossProduct) {
-		int s=a.size();
+		const auto s=a.size();
 		if(s<2||s>3||s!=b.size())
 			return ValueFactory::createUndefined();
 
@@ -200,7 +200,7 @@ Value& VectorValue::operation(VectorValue& vec,Operators e)
 
 	}
 	if(e==Operators::Multiply||e==Operators::DotProduct) {
-		int s=std::min(a.size(),b.size());
+		const auto s=std::min(a.size(),b.size());
 		if(s<=0)
 			return ValueFactory::createUndefined();
 		Value* total=&ValueFactory::createNumber(0.0);
@@ -232,7 +232,7 @@ Value& VectorValue::operation(VectorValue& vec,Operators e)
 			return ValueFactory::createBoolean(true);
 		if(eq)
 			for(auto i=0; i<a.size(); ++i) {
-				Value& eqVec=Value::evaluate(*a.at(i),e,*b.at(i));
+				const Value& eqVec=Value::evaluate(*a.at(i),e,*b.at(i));
 				if(e==Operators::NotEqual && eqVec.isTrue())
 					return ValueFactory::createBoolean(true);
 				if(eqVec.isFalse())
@@ -242,8 +242,8 @@ Value& VectorValue::operation(VectorValue& vec,Operators e)
 	} else {
 		//Apply componentwise operations
 		e=convertOperation(e);
-		int as=a.size();
-		int bs=b.size();
+		const auto as=a.size();
+		const auto bs=b.size();
 		for(auto i=0; i<as||i<bs; ++i) {
 			if(as<bs&&i>=as) {
 				result.append(b.at(i));

@@ -28,6 +28,7 @@ s/STRING/<string>/;
 s/NUMBER/<number>/;
 s/IDENTIFIER/<identifier>/;
 s/DOCTEXT/<doctext>/;
-s/ BOM / <bom> /;
+s/BOM /<bom> /;
+s/ PM / <plus_minus> /;
 s/[[:upper:]]\+/"\L&\E"/g;
 p;}

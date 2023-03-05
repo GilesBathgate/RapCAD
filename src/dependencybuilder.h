@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -29,11 +29,11 @@ public:
 	void buildFileLocation(QDir) override;
 	void buildScript(Declaration*) override;
 	void buildScript(QList<Declaration*>*) override;
-	void buildScript(QList<CodeDoc*>*) override;
-	QList<CodeDoc*>* buildCodeDoc(QList<CodeDoc*>*) override;
-	QList<CodeDoc*>* buildCodeDoc() override;
-	QList<CodeDoc*>* buildCodeDoc(QString*,QList<CodeDoc*>*) override;
-	QList<CodeDoc*>* buildCodeDoc(QString*,QString*,QList<CodeDoc*>*) override;
+	Declaration* buildCodeDoc(QList<CodeDocParam*>*) override;
+	QList<CodeDocParam*>* buildCodeDocParams(QList<CodeDocParam*>*) override;
+	QList<CodeDocParam*>* buildCodeDocParams() override;
+	QList<CodeDocParam*>* buildCodeDocParams(QString*,QList<CodeDocParam*>*) override;
+	QList<CodeDocParam*>* buildCodeDocParams(QString*,QString*,QList<CodeDocParam*>*) override;
 	Declaration* buildUse(QString*) override;
 	Declaration* buildUse(QString*,QString*) override;
 	Declaration* buildImport(QString*,QString*) override;
@@ -88,6 +88,8 @@ public:
 	Variable* buildVariable(QString*) override;
 	Expression* buildVariable(Variable*) override;
 	Variable* buildVariable(QString*,Storage) override;
+	Expression* buildInterval(decimal*,Expression*) override;
+	Expression* buildInterval(decimal*,Expression*,Expression*) override;
 	Expression* buildExpression(Expression*,QString*) override;
 	Expression* buildExpression(Expression*) override;
 	Expression* buildExpression(Operators,Expression*) override;

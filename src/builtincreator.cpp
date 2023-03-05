@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -80,6 +80,7 @@
 #include "module/complementmodule.h"
 #include "module/conemodule.h"
 #include "module/cubemodule.h"
+#include "module/cuboidmodule.h"
 #include "module/cylindermodule.h"
 #include "module/cylindersurfacemodule.h"
 #include "module/datummodule.h"
@@ -113,6 +114,7 @@
 #include "module/shearmodule.h"
 #include "module/simplifymodule.h"
 #include "module/slicemodule.h"
+#include "module/solidmodule.h"
 #include "module/spheremodule.h"
 #include "module/squaremodule.h"
 #include "module/subdivisionmodule.h"
@@ -194,6 +196,7 @@ BuiltinCreator::BuiltinCreator(Reporter& r)
 	builtins.append(new ComplementModule(r));
 	builtins.append(new ConeModule(r));
 	builtins.append(new CubeModule(r));
+	builtins.append(new CuboidModule(r));
 	builtins.append(new CylinderModule(r));
 	builtins.append(new CylinderSurfaceModule(r));
 	builtins.append(new DatumModule(r));
@@ -229,6 +232,7 @@ BuiltinCreator::BuiltinCreator(Reporter& r)
 	builtins.append(new ShearModule(r));
 	builtins.append(new SimplifyModule(r));
 	builtins.append(new SliceModule(r));
+	builtins.append(new SolidModule(r));
 	builtins.append(new SphereModule(r));
 	builtins.append(new SquareModule(r));
 	builtins.append(new SubDivisionModule(r));
@@ -254,18 +258,18 @@ BuiltinCreator::~BuiltinCreator()
 	builtins.clear();
 }
 
-const QList<Declaration*> BuiltinCreator::getBuiltins() const
+const QList<Declaration*>& BuiltinCreator::getBuiltins() const
 {
 	return builtins;
 }
 
-void BuiltinCreator::generateDocs(QTextStream& out)
+void BuiltinCreator::generateDocs(QTextStream& out) const
 {
 	TreePrinter p(out);
 	generateDocs(p);
 }
 
-void BuiltinCreator::generateDocs(TreeVisitor& p)
+void BuiltinCreator::generateDocs(TreeVisitor& p) const
 {
 	for(Declaration* d: getBuiltins())
 		d->accept(p);

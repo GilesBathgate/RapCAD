@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -281,7 +281,7 @@ decimal Value::length(const decimal& left)
 Value& Value::operation(Operators e)
 {
 	if(e==Operators::Invert) {
-		bool result=basicOperation(defined,e);
+		const bool result=basicOperation(defined,e);
 		return ValueFactory::createBoolean(result);
 	}
 
@@ -290,10 +290,10 @@ Value& Value::operation(Operators e)
 
 Value& Value::operation(Value& v, Operators e)
 {
-	bool left=defined;
-	bool right=v.defined;
+	const bool left=defined;
+	const bool right=v.defined;
 	if((!left||!right) && isComparison(e)) {
-		bool result=basicOperation(left,e,right);
+		const bool result=basicOperation(left,e,right);
 		return ValueFactory::createBoolean(result);
 	}
 	if(e==Operators::Concatenate) {

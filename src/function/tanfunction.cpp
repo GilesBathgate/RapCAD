@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,18 +20,19 @@
 #include "context.h"
 #include "numbervalue.h"
 #include "rmath.h"
+#include "valuefactory.h"
 
 TanFunction::TanFunction() : Function("tan")
 {
 	addDescription(tr("Returns the tangent of the number value."));
-	addParameter("value");
+	addParameter("value","num",tr("The value for which to find the tangent."));
 }
 
 Value& TanFunction::evaluate(const Context& ctx) const
 {
-	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* numVal=getParameterArgument<NumberValue>(ctx,0);
 	if(numVal) {
-		decimal num=numVal->getNumber();
+		const decimal& num=numVal->getNumber();
 
 		return ValueFactory::createNumber(r_tan_deg(num));
 	}

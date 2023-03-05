@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,24 +20,25 @@
 #include "context.h"
 #include "numbervalue.h"
 #include "rmath.h"
+#include "valuefactory.h"
 
 LogFunction::LogFunction() : Function("log")
 {
 	addDescription(tr("Returns the logarithm of the number value to the given base."));
-	addParameter("value");
-	addParameter("base");
+	addParameter("value","num",tr("The value for which to find the log."));
+	addParameter("base","num",tr("The base."));
 }
 
 Value& LogFunction::evaluate(const Context& ctx) const
 {
-	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
-	auto* baseVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
+	auto* numVal=getParameterArgument<NumberValue>(ctx,0);
+	auto* baseVal=getParameterArgument<NumberValue>(ctx,1);
 
 	if(numVal) {
-		decimal num=numVal->getNumber();
+		const decimal& num=numVal->getNumber();
 
 		if(baseVal) {
-			decimal base=baseVal->getNumber();
+			const decimal& base=baseVal->getNumber();
 
 			return ValueFactory::createNumber(r_log(num)/r_log(base));
 		}

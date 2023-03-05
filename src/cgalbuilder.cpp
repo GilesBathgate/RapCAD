@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -36,40 +36,56 @@ namespace CGAL
 using Polygon2 = Polygon_2<Kernel3>;
 }
 
-CGALBuilder::CGALBuilder(CGALPrimitive& p) : primitive(p)
+CGALBuilder::CGALBuilder(CGALPrimitive& p) :
+	primitive(p),
+	complete(false)
 {
+}
+
+bool CGALBuilder::getComplete() const
+{
+	return complete;
 }
 
 void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
 {
+	CGAL::Polyhedron_incremental_builder_3<CGAL::HalfedgeDS> builder(hds,false);
 	const QList<CGAL::Point3> points=primitive.getPoints();
 	const QList<CGALPolygon*> polygons=primitive.getCGALPolygons();
 
-	CGAL::Polyhedron_incremental_builder_3<CGAL::HalfedgeDS> builder(hds,true);
-	builder.begin_surface(points.size(), polygons.size());
+	builder.begin_surface(points.size(),polygons.size());
 
 	for(const auto& p: points)
 		builder.add_vertex(p);
 
-	bool sanitized=primitive.getSanitized();
-	for(CGALPolygon* pg: polygons) {
-		if(!sanitized) {
-			auto indexes=pg->getIndexes();
-			const auto& begin=indexes.begin();
-			const auto& end=std::unique(begin,indexes.end());
-			if(builder.test_facet(begin,end))
-				builder.add_facet(begin,end);
-		} else {
-			const auto& indexes=pg->getIndexes();
-			builder.add_facet(indexes.begin(),indexes.end());
+	const bool sanitized=primitive.getSanitized();
+	if(sanitized) {
+		//Simple case polyhedron is well formed
+		for(CGALPolygon* pg: polygons) {
+				const auto& indexes=pg->getIndexes();
+				builder.add_facet(indexes.begin(),indexes.end());
 		}
+
+		builder.end_surface();
+		complete=true;
+		return;
+	}
+
+
+	for(CGALPolygon* pg: polygons) {
+		auto indexes=pg->getIndexes();
+		const auto& begin=indexes.begin();
+		const auto& end=std::unique(begin,indexes.end());
+		if(!builder.test_facet(begin,end)) {
+			builder.rollback();
+			return;
+		}
+		builder.add_facet(begin,end);
 	}
 
 	builder.end_surface();
-
-	if(!sanitized) {
-		builder.remove_unconnected_vertices();
-	}
+	builder.remove_unconnected_vertices();
+	complete=true;
 }
 
 struct FaceInfo {
@@ -97,7 +113,7 @@ struct VertexInfo {
 		return index != -1;
 	}
 
-	int index;
+	Polygon::size_type index;
 };
 
 template <class CT, class FaceHandle, class Edge>
@@ -130,7 +146,7 @@ static void markDomains(CT& ct)
 	QList<Edge> border;
 	markDomain(ct, ct.infinite_face(), 0, border);
 	while(!border.isEmpty()) {
-		Edge e=border.takeFirst();
+		const Edge& e=border.takeFirst();
 		FaceHandle c=e.first;
 		FaceHandle n=c->neighbor(e.second);
 		if(!n->info().isNested()) {
@@ -180,20 +196,20 @@ bool CGALBuilder::triangulate()
 	using FaceIterator = CT::Face_iterator;
 
 
-	QList<CGAL::Point3> points3=primitive.getPoints();
-	int total=points3.size();
+	const QList<CGAL::Point3>& points3=primitive.getPoints();
+	const auto total=points3.size();
 	if(total<3) return false;
 	if(total==3) return true;
 
 	CT ct;
 	TDS::size_type count=0;
 	for(CGALPolygon* pg: primitive.getCGALPolygons()) {
-		const QList<int> indexes=pg->getIndexes();
+		const auto& indexes=pg->getIndexes();
 		if(indexes.size()<3) continue;
 		CGALProjection* pro=pg->getProjection();
 		QList<CGAL::Point2> points2;
 		for(auto i: indexes) {
-			CGAL::Point2 p2=pro->project(points3.at(i));
+			const CGAL::Point2 p2=pro->project(points3.at(i));
 			VertexHandle h=ct.insert(p2);
 			h->info().index = i;
 			points2.append(p2);
@@ -219,7 +235,7 @@ bool CGALBuilder::triangulate()
 		if(f->info().inDomain()) {
 			CGALPolygon& pg=primitive.createPolygon();
 			for(auto i=0; i<3; ++i) {
-				VertexInfo info=f->vertex(i)->info();
+				const VertexInfo& info=f->vertex(i)->info();
 				if(info.isValid())
 					pg.append(info.index);
 			}
@@ -241,7 +257,7 @@ CGALPrimitive* CGALBuilder::buildOffset(const CGAL::Scalar& amount)
 	CGAL::Scalar z=0.0;
 	for(CGALPolygon* pg: original->getCGALPolygons()) {
 		for(const auto& pt: pg->getPoints()) {
-			CGAL::Point2 p2(pt.x(),pt.y());
+			const CGAL::Point2 p2(pt.x(),pt.y());
 			polygon.push_back(p2);
 			z=pt.z();
 		}
@@ -250,7 +266,7 @@ CGALPrimitive* CGALBuilder::buildOffset(const CGAL::Scalar& amount)
 	}
 	delete original;
 
-	bool interior=amount<0.0;
+	const bool interior=amount<0.0;
 	const auto& offsetPolys {
 		interior?
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(5,2,0)
@@ -271,7 +287,7 @@ CGALPrimitive* CGALBuilder::buildOffset(const CGAL::Scalar& amount)
 		if(!first()) {
 			auto& np=offset->createPolygon();
 			for(auto vi=ptr->vertices_begin(); vi!=ptr->vertices_end(); ++vi) {
-				CGAL::Point3 p3(vi->x(),vi->y(),z);
+				const CGAL::Point3 p3(vi->x(),vi->y(),z);
 				np.appendVertex(p3);
 			}
 		}

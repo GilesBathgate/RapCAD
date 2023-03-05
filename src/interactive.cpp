@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ Interactive::Interactive(Reporter& r,QObject* parent) :
 bool Interactive::isExpression(const QString& s)
 {
 	TokenReader t(s);
-	while(int i=t.nextToken()) {
+	while(const int i=t.nextToken()) {
 		if(i==';'||i=='}') {
 			return false;
 		}

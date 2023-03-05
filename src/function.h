@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -23,7 +23,6 @@
 #include "parameter.h"
 #include "scope.h"
 #include "value.h"
-#include "valuefactory.h"
 #include <QCoreApplication>
 #include <QList>
 #include <QString>
@@ -38,7 +37,7 @@ public:
 	~Function() override;
 	QString getName() const;
 	void setName(const QString&);
-	const QList<Parameter*> getParameters() const;
+	const QList<Parameter*>& getParameters() const;
 	void setParameters(const QList<Parameter*>&);
 	Scope* getScope() const;
 	void setScope(Scope*);
@@ -48,14 +47,22 @@ public:
 
 protected:
 	void addDescription(const QString&);
-	void addParameter(const QString&);
-	void addParameter(const QString&,const QString&);
-	Value* getParameterArgument(const Context&, int) const;
+	void addParameter(const QString&,const QString&,const QString&);
+	template <class V>
+	V* getParameterArgument(const Context&,int) const;
 private:
+	Value* getArgument(const Context&,int,const QString&) const;
 	Scope* scope;
 	QString name;
 	QString description;
 	QList<Parameter*> parameters;
 };
+
+template <class V>
+V* Function::getParameterArgument(const Context& ctx,int index) const
+{
+	Parameter* p=parameters.at(index);
+	return dynamic_cast<V*>(getArgument(ctx,index,p->getName()));
+}
 
 #endif // FUNCTION_H

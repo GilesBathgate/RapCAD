@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -115,7 +115,7 @@ void Polyhedron::transform(TransformMatrix* matrix)
 {
 	if(!matrix) return;
 #if USE_CGAL
-	CGAL::AffTransformation3 t=matrix->getTransform();
+	const CGAL::AffTransformation3& t=matrix->getTransform();
 #else
 	TransformMatrix* t=matrix;
 #endif
@@ -134,17 +134,17 @@ bool Polyhedron::isEmpty()
 	return polygons.isEmpty();
 }
 
-const QList<Polygon*> Polyhedron::getPolygons() const
-{
-	return polygons;
-}
-
-const QList<Point> Polyhedron::getPoints() const
+QList<Point> Polyhedron::getPoints() const
 {
 	return points;
 }
 
-const QList<Primitive*> Polyhedron::getChildren() const
+const QList<Polygon*>& Polyhedron::getPolygons() const
+{
+	return polygons;
+}
+
+const QList<Primitive*>& Polyhedron::getChildren() const
 {
 	return children;
 }

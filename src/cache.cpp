@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -77,7 +77,7 @@ Cache::i_Primitive Cache::hashPrimitive(Primitive* pr)
 Primitive* Cache::fetch(Primitive* pr)
 {
 	if(pr) {
-		i_Primitive ip=hashPrimitive(pr);
+		const i_Primitive& ip=hashPrimitive(pr);
 		Primitive* np=allPrimitives.value(ip,nullptr);
 		if(np) {
 			return np->copy();

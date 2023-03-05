@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -24,13 +24,13 @@
 TranslateModule::TranslateModule(Reporter& r) : Module(r,"translate")
 {
 	addDescription(tr("Moves its children along the given vector."));
-	addParameter("vector",tr("The vector to move along"));
+	addParameter("vector","vec3",tr("The vector to move along"));
 }
 
 Node* TranslateModule::evaluate(const Context& ctx) const
 {
 	Point v(0,0,0);
-	auto* vec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* vec=getParameterArgument<VectorValue>(ctx,0);
 
 	auto* n=new TransformationNode();
 	n->setChildren(ctx.getInputNodes());

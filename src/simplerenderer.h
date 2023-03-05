@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -25,14 +25,15 @@
 class SimpleRenderer : public Renderer
 {
 public:
-	explicit SimpleRenderer(Primitive*);
-	void paint(bool,bool) override;
+	explicit SimpleRenderer(const Primitive&);
+	void paint(QOpenGLFunctions_1_0&,bool,bool) override;
+	void locate(const QVector3D&,const QVector3D&) override;
 	void preferencesUpdated() override;
 	void setCompiling(bool) override;
 private:
-	void descendChildren(Primitive* p);
-	Primitive* primitive;
-	void drawPoint(const Point&);
+	void descendChildren(QOpenGLFunctions_1_0&,const Primitive&);
+	const Primitive& primitive;
+	void drawPoint(QOpenGLFunctions_1_0&,const Point&);
 };
 
 #endif // SIMPLERENDERER_H

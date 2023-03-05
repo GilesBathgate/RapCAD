@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -25,25 +25,25 @@
 
 TextModule::TextModule(Reporter& r) : Module(r, "text")
 {
-	addDescription(tr("Generates text."));
-	addParameter("text",tr("The text to generate"));
-	addParameter("font",tr("The font of the text"));
-	addParameter("size",tr("The size of the text"));
+	addDescription(tr("Generates 2d text geometry."));
+	addParameter("text","str",tr("The text to generate"));
+	addParameter("font","str",tr("The font of the text"));
+	addParameter("size","int",tr("The size of the text"));
 }
 
 Node* TextModule::evaluate(const Context& ctx) const
 {
-	auto* textVal=dynamic_cast<TextValue*>(getParameterArgument(ctx,0));
+	auto* textVal=getParameterArgument<TextValue>(ctx,0);
 	if(!textVal)
 		return nullptr;
 
 	QString family;
-	auto* fontVal=dynamic_cast<TextValue*>(getParameterArgument(ctx,1));
+	auto* fontVal=getParameterArgument<TextValue>(ctx,1);
 	if(fontVal)
 		family=fontVal->getValueString();
 
 	int size=12;
-	auto* sizeVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));
+	auto* sizeVal=getParameterArgument<NumberValue>(ctx,2);
 	if(sizeVal)
 		size=sizeVal->toInteger();
 

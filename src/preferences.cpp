@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -21,14 +21,105 @@
 static constexpr double LOG10_2=0.30102999566398119521; /* log10(2) = log base 10 of 2 */
 
 #ifdef USE_CGAL
+#include <CGAL/config.h>
 #include <CGAL/exceptions.h>
 #include <mpfr.h>
+namespace CGAL {
+#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,6,0)
+extern void set_use_assertions(bool);
+#endif
+}
 #endif
 
-Preferences::Preferences() :
-	settings(new QSettings()),
+class Settings :
+	public AbstractSettings,
+	private QSettings
+{
+	using Base=QSettings;
+public:
+	void sync() override
+	{
+		Base::sync();
+	}
+
+	QVariant value(const QString& k,const QVariant& d) const override
+	{
+		return Base::value(k,d);
+	}
+
+	void setValue(const QString& k,const QVariant& v) override
+	{
+		Base::setValue(k,v);
+	}
+
+	void clear() override
+	{
+		Base::clear();
+	}
+};
+
+class TemporarySettings :
+	public AbstractSettings,
+	private QMap<QString,QVariant>
+{
+	using Base=QMap<QString,QVariant>;
+	AbstractSettings* realSettings;
+public:
+	TemporarySettings(AbstractSettings* s) : realSettings(s) {}
+
+	void sync() override
+	{
+		for(const auto& k: Base::keys()) {
+			const auto& v=Base::value(k);
+			realSettings->setValue(k,v);
+		}
+		Base::clear();
+	}
+
+	QVariant value(const QString& k,const QVariant& d) const override
+	{
+		return realSettings->value(k,d);
+	}
+
+	void setValue(const QString& k,const QVariant& v) override
+	{
+		Base::insert(k,v);
+	}
+
+	void clear() override
+	{
+		Base::clear();
+	}
+};
+
+Preferences& Preferences::getInstance()
+{
+	static Preferences instance(new Settings);
+	return instance;
+}
+
+Preferences& Preferences::getTemporary()
+{
+	static Preferences temporary(new TemporarySettings(getInstance().settings));
+	temporary.clear();
+	return temporary;
+}
+
+void Preferences::clear()
+{
+	settings->clear();
+}
+
+void Preferences::sync()
+{
+	settings->sync();
+}
+
+Preferences::Preferences(AbstractSettings* s) :
+	settings(s),
 	precision(0)
 {
+	updateAssertions();
 	updatePrecision();
 }
 
@@ -49,6 +140,51 @@ void Preferences::updatePrecision()
 		//Ignore
 	}
 #endif
+}
+
+void Preferences::updateAssertions() const
+{
+#ifdef USE_CGAL
+#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,6,0)
+	const bool b=getUseCGALAssertions();
+	CGAL::set_use_assertions(b);
+#endif
+#endif
+}
+
+bool Preferences::getUseCGALAssertions() const
+{
+	return settings->value("UseCGALAssertions",true).toBool();
+}
+
+void Preferences::setUseCGALAssertions(bool b)
+{
+	settings->setValue("UseCGALAssertions",b);
+	updateAssertions();
+}
+
+bool Preferences::getSoftwareOpenGL() const
+{
+#ifdef Q_OS_WIN
+	return settings->value("SoftwareOpenGL",true).toBool();
+#else
+	return false;
+#endif
+}
+
+void Preferences::setSoftwareOpenGL(bool value)
+{
+	settings->setValue("SoftwareOpenGL",value);
+}
+
+bool Preferences::getVisibleWhiteSpace() const
+{
+	return settings->value("VisibleWhiteSpace",false).toBool();
+}
+
+void Preferences::setVisibleWhiteSpace(bool value)
+{
+	settings->setValue("VisibleWhiteSpace",value);
 }
 
 int Preferences::getThreadPoolSize() const
@@ -143,8 +279,8 @@ void Preferences::setShowTooltips(bool value)
 
 QFont Preferences::getEditorFont() const
 {
-	QString family=settings->value("EditorFont.Family","Courier").toString();
-	int size=settings->value("EditorFont.Size",10).toInt();
+	const QString& family=settings->value("EditorFont.Family","Courier").toString();
+	const int size=settings->value("EditorFont.Size",10).toInt();
 
 	return QFont(family,size);
 }
@@ -155,15 +291,9 @@ void Preferences::setEditorFont(const QFont& value)
 	settings->setValue("EditorFont.Size",value.pointSize());
 }
 
-Preferences& Preferences::getInstance()
-{
-	static Preferences instance;
-	return instance;
-}
-
 Precision Preferences::getPrecision() const
 {
-	int p=settings->value("Precision",2).toInt();
+	const int p=settings->value("Precision",2).toInt();
 	return static_cast<Precision>(p);
 }
 
@@ -195,7 +325,7 @@ void Preferences::setSignificandBits(int b)
 
 Rounding Preferences::getFunctionRounding() const
 {
-	int rounding=settings->value("FunctionRounding",0).toInt();
+	const int rounding=settings->value("FunctionRounding",0).toInt();
 	return static_cast<Rounding>(rounding);
 }
 
@@ -206,7 +336,7 @@ void Preferences::setFunctionRounding(Rounding i)
 
 NumberFormats Preferences::getNumberFormat() const
 {
-	int format=settings->value("NumberFormat",0).toInt();
+	const int format=settings->value("NumberFormat",0).toInt();
 	return static_cast<NumberFormats>(format);
 }
 
@@ -415,14 +545,14 @@ void Preferences::setShowConsole(bool show)
 	settings->setValue("ShowConsole",show);
 }
 
-bool Preferences::getShowProjects() const
+bool Preferences::getShowExplorer() const
 {
-	return settings->value("ShowProjects",false).toBool();
+	return settings->value("ShowExplorer",false).toBool();
 }
 
-void Preferences::setShowProjects(bool show)
+void Preferences::setShowExplorer(bool show)
 {
-	settings->setValue("ShowProjects",show);
+	settings->setValue("ShowExplorer",show);
 }
 
 QPoint Preferences::getWindowPosition() const
@@ -485,32 +615,32 @@ bool Preferences::getCacheEnabled() const
 	return settings->value("CacheEnabled",false).toBool();
 }
 
-QPointF Preferences::getPrintOrigin() const
+QPoint Preferences::getPrintOrigin() const
 {
-	return settings->value("PrintOrigin", QPointF(-125.0, -105.0)).toPointF();
+	return settings->value("PrintOrigin",QPoint(-125,-105)).toPoint();
 }
 
-void Preferences::setPrintOrigin(QPointF s)
+void Preferences::setPrintOrigin(QPoint s)
 {
-	return settings->setValue("PrintOrigin", s);
+	return settings->setValue("PrintOrigin",s);
 }
 
-QVector3D Preferences::getPrintVolume() const
+QList<int> Preferences::getPrintVolume() const
 {
-	QList<QVariant> v=settings->value("PrintVolume", QList<QVariant>({250.0,210.0,200.0})).toList();
-	return QVector3D(v.at(0).toFloat(),v.at(1).toFloat(),v.at(2).toFloat());
+	const QList<QVariant>& v=settings->value("PrintVolume",QList<QVariant>{250,210,200}).toList();
+	return {v.at(0).toInt(),v.at(1).toInt(),v.at(2).toInt()};
 }
 
-void Preferences::setPrintVolume(QVector3D v)
+void Preferences::setPrintVolume(QList<int> v)
 {
-	//Cast to double needed so QSettings formats strings nicely.
-	QList<QVariant> d({(double)v.x(),(double)v.y(),(double)v.z()});
+	//Cast to int needed so QSettings formats strings nicely.
+	const QList<QVariant> d{v.at(0),v.at(1),v.at(2)};
 	settings->setValue("PrintVolume",d);
 }
 
 BedAppearance Preferences::getPrintBedAppearance() const
 {
-	int i=settings->value("PrintBedAppearance",0).toInt();
+	const int i=settings->value("PrintBedAppearance",0).toInt();
 	return static_cast<BedAppearance>(i);
 }
 

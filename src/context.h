@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@
 
 class Context
 {
+	Q_DISABLE_COPY_MOVE(Context)
 	Q_DECLARE_TR_FUNCTIONS(Context)
 public:
 	Context();
@@ -47,14 +48,14 @@ public:
 	QString getCurrentName() const;
 	void setCurrentName(const QString&);
 
-	Value& lookupVariable(const QString&,Storage&,Layout*) const;
-	bool addVariable(const QString&,Value*);
+	Value& lookupVariable(const QString&,Storage,Layout*) const;
+	bool updateVariable(const QString&,Value*,Storage);
 	void setVariable(const QString&,Value*);
 
 	QList<Node*> lookupChildren() const;
 
 	void setVariablesFromArguments();
-	const QList<NamedValue> getArguments() const;
+	const QList<NamedValue>& getArguments() const;
 	QList<Value*> getArgumentValues() const;
 	void addArgument(const QString&, Value*);
 	void addArgument(const NamedValue&);

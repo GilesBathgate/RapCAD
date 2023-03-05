@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -99,6 +99,7 @@ U "um"|"mm"|"cm"|"m"|"th"|"in"|"ft"
 "!="                           { return tokenizer->buildNotEqual(); }
 "&&"                           { return tokenizer->buildAnd(); }
 "||"                           { return tokenizer->buildOr(); }
+\xc2\xb1                       { return tokenizer->buildPlusMinus(); }
 "++"                           { return tokenizer->buildIncrement(); }
 "+="                           { return tokenizer->buildAddAssign(); }
 "--"                           { return tokenizer->buildDecrement(); }

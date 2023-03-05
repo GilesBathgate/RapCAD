@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 UnionModule::UnionModule(Reporter& r) : Module(r,"union")
 {
 	addDescription(tr("Unions its children into single geometry."));
+	addExample("union(){\n%1cube(10);\n%1translate([5,5,5])cube(10);\n}");
 }
 
 Node* UnionModule::evaluate(const Context& ctx) const

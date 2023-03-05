@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -40,9 +40,9 @@ public:
 	void appendVertex(CGAL::Point3);
 	void appendVertex(CGAL::Point3,bool);
 
-	const QList<CGAL::Point3> getPoints() const;
-	const QList<CGAL::Point2> getProjectedPoints();
-	const QList<CGAL::Segment3> getSegments();
+	QList<CGAL::Point3> getPoints() const;
+	QList<CGAL::Point2> getProjectedPoints();
+	QList<CGAL::Segment3> getSegments() const;
 
 	CGAL::Vector3 getNormal() const;
 	void calculatePlane();

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -93,7 +93,7 @@ QFuture<Primitive*> GeometryEvaluator::reduceChildren(
 Primitive* GeometryEvaluator::unionChildren(const Node& n)
 {
 	const auto& children=n.getChildren();
-	MapFunction map=MapFunctor(reporter);
+	const MapFunction map=MapFunctor(reporter);
 	return QtConcurrent::blockingMappedReduced<Primitive*>(children,map,
 	[](auto& p,auto c) {
 		p=p?p->join(c):c;
@@ -103,7 +103,7 @@ Primitive* GeometryEvaluator::unionChildren(const Node& n)
 Primitive* GeometryEvaluator::appendChildren(const Node& n)
 {
 	const auto& children=n.getChildren();
-	MapFunction map=MapFunctor(reporter);
+	const MapFunction map=MapFunctor(reporter);
 	return QtConcurrent::blockingMappedReduced<Primitive*>(children,map,
 	[](auto& p,auto c) {
 		if(!p) p=createPrimitive();
@@ -111,7 +111,7 @@ Primitive* GeometryEvaluator::appendChildren(const Node& n)
 	},QtConcurrent::UnorderedReduce);
 
 	// Ward off unused function warning (Unreachable)
-	createPrimitive();
+	return createPrimitive();
 }
 
 static Primitive* noResult()
@@ -275,6 +275,14 @@ void GeometryEvaluator::visit(const SimplifyNode& n)
 	});
 }
 
+void GeometryEvaluator::visit(const SolidNode& n)
+{
+	result=QtConcurrent::run([&n,this](){
+		Primitive* p=unionChildren(n);
+		return p?p->solidify():noResult();
+	});
+}
+
 void GeometryEvaluator::visit(const ChildrenNode& n)
 {
 	result=QtConcurrent::run([&n,this](){
@@ -303,8 +311,8 @@ void GeometryEvaluator::visit(const ImportNode& n)
 {
 	result=QtConcurrent::run([&n,this](){
 #ifdef USE_CGAL
-		QFileInfo f(n.getImport());
-		CGALImport i(f,reporter);
+		const QFileInfo f(n.getImport());
+		const CGALImport i(f,reporter);
 		return i.import();
 #else
 		return noResult();
@@ -319,7 +327,7 @@ void GeometryEvaluator::visit(const TransformationNode& n)
 		if(!p) return noResult();
 #ifdef USE_CGAL
 		using Axis = TransformationNode::Axis;
-		Axis axis=n.getDatumAxis();
+		const Axis axis=n.getDatumAxis();
 		if(axis!=Axis::None) {
 			CGALAuxiliaryBuilder b(reporter);
 			p=b.buildDatumsPrimitive(p,axis);

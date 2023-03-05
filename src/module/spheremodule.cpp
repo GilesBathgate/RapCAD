@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -25,12 +25,12 @@
 SphereModule::SphereModule(Reporter& r) : PrimitiveModule(r,"sphere")
 {
 	addDescription(tr("Constructs a sphere. The sphere will be centered at the origin."));
-	addParameter("radius",tr("The radius of the sphere."));
+	addParameter("radius","num",tr("The radius of the sphere."));
 }
 
 Node* SphereModule::evaluate(const Context& ctx) const
 {
-	auto* rValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* rValue=getParameterArgument<NumberValue>(ctx,0);
 	decimal r=0.0;
 	if(rValue) {
 		r=rValue->getNumber();
@@ -46,18 +46,18 @@ Node* SphereModule::evaluate(const Context& ctx) const
 		return p;
 	}
 
-	int f = Fragment::getFragments(ctx,r);
+	const int f = Fragment::getFragments(ctx,r);
 
-	int ringCount=f/2;
+	const int ringCount=f/2;
 
 	auto* pn=new PrimitiveNode();
 	Primitive* p=pn->createPrimitive();
 	pn->setChildren(ctx.getInputNodes());
 
 	for(auto i=0; i<ringCount; ++i) {
-		decimal phi = (r_pi()*(i+0.5)) / ringCount;
-		decimal r2 = r*r_sin(phi);
-		decimal z = r*r_cos(phi);
+		const decimal& phi = (r_pi()*(i+0.5)) / ringCount;
+		const decimal& r2 = r*r_sin(phi);
+		const decimal& z = r*r_cos(phi);
 		const QList<Point> c = getCircle(r2,f,z);
 		for(const auto& pt: c) {
 			p->createVertex(pt);
@@ -70,15 +70,15 @@ Node* SphereModule::evaluate(const Context& ctx) const
 	}
 
 	for(auto i=0; i<ringCount-1; ++i) {
-		int i1=i*f;
-		int i2=(i+1)*f;
+		const int i1=i*f;
+		const int i2=(i+1)*f;
 		for(auto j=0; j<f; ++j) {
-			int j2=(j+1)%f;
+			const int j2=(j+1)%f;
 
-			int o=j+i1;
-			int k=j2+i1;
-			int m=j2+i2;
-			int l=j+i2;
+			const int o=j+i1;
+			const int k=j2+i1;
+			const int m=j2+i2;
+			const int l=j+i2;
 
 			Polygon& pg1=p->createPolygon();
 			pg1.append(k);

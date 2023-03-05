@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -22,17 +22,19 @@
 #include "cgal.h"
 #include <CGAL/Modifier_base.h>
 #include <CGAL/Nef_polyhedron_3.h>
+#include <QtGlobal>
 
 namespace CGAL
 {
 	using NefPolyhedron3 = Nef_polyhedron_3<Kernel3>;
 }
 
-class CGALGroupModifier : public CGAL::Modifier_base<CGAL::NefPolyhedron3::SNC_structure>
+class CGALGroupModifier final : public CGAL::Modifier_base<CGAL::NefPolyhedron3::SNC_structure>
 {
+	Q_DISABLE_COPY_MOVE(CGALGroupModifier)
 public:
 	CGALGroupModifier(const CGAL::NefPolyhedron3&);
-	void operator()(CGAL::NefPolyhedron3::SNC_structure&);
+	void operator()(CGAL::NefPolyhedron3::SNC_structure&) override;
 private:
 	const CGAL::NefPolyhedron3& primitive;
 };

@@ -3,6 +3,7 @@
 
 #include "booleanvalue.h"
 #include "complexvalue.h"
+#include "intervalvalue.h"
 #include "numbervalue.h"
 #include "rangevalue.h"
 #include "textvalue.h"
@@ -26,7 +27,7 @@ public:
 	static RangeValue& createRange(Value&,Value&);
 	static RangeValue& createRange(Value&,Value&,Value&);
 	static ComplexValue& createComplex(Value&,const QList<Value*>&);
-
+	static IntervalValue& createInterval(Value&,Value&);
 private:
 	ValueFactory() = default;
 	~ValueFactory();

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -39,29 +39,49 @@ public:
 	void setName(const QString&);
 	QString getFullName() const;
 	QString getDescription() const;
+	QString getExample() const;
 	bool getAuxilary() const;
-	const QList<Parameter*> getParameters() const;
+	const QList<Parameter*>& getParameters() const;
 	void setParameters(const QList<Parameter*>&);
 	Scope* getScope() const;
 	void setScope(Scope*);
 	void accept(TreeVisitor&) override;
 	virtual Node* evaluate(const Context&) const;
 	bool isDeprecated() const;
+	bool hasExample() const;
 protected:
 	void addDescription(const QString&);
+	void addExample(const QString&);
 	void addDeprecated(const QString&);
-	void addParameter(const QString&,const QString&);
-	Value* getParameterArgument(const Context&, int) const;
-	Value* getParameterArgument(const Context&, int, int) const;
+	void addParameter(const QString&,const QString& t,const QString&);
+	template <class V>
+	V* getParameterArgument(const Context&,int) const;
+	template <class V>
+	V* getParameterArgument(const Context&,int,int) const;
 
 	bool auxilary;
 	Reporter& reporter;
 private:
+	Value* getArgument(const Context&,int,const QString&) const;
 	QString name;
 	QString description;
+	QString example;
 	bool deprecated;
 	QList<Parameter*> parameters;
 	Scope* scope;
 };
+
+template <class V>
+V* Module::getParameterArgument(const Context& ctx,int index) const
+{
+	return getParameterArgument<V>(ctx,index,index);
+}
+
+template <class V>
+V* Module::getParameterArgument(const Context& ctx,int index,int expectedIndex) const
+{
+	Parameter* p=parameters.at(index);
+	return dynamic_cast<V*>(getArgument(ctx,expectedIndex,p->getName()));
+}
 
 #endif // MODULE_H

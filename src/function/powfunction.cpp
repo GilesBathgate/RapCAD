@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,18 +18,19 @@
 
 #include "powfunction.h"
 #include "context.h"
+#include "valuefactory.h"
 
 PowFunction::PowFunction() : Function("pow")
 {
 	addDescription(tr("Returns the value raised to the power of exponent."));
-	addParameter("value");
-	addParameter("exponent");
+	addParameter("value","num",tr("The value for which to find the power."));
+	addParameter("exponent","num",tr("The exponent."));
 }
 
 Value& PowFunction::evaluate(const Context& ctx) const
 {
-	Value* val=getParameterArgument(ctx,0);
-	Value* arg=getParameterArgument(ctx,1);
+	auto* val=getParameterArgument<Value>(ctx,0);
+	auto* arg=getParameterArgument<Value>(ctx,1);
 	if(val&&arg)
 		return Value::evaluate(*val,Operators::Exponent,*arg);
 

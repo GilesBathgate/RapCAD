@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -50,12 +50,12 @@ const CGAL::Cuboid3& CGALVolume::getBounds() const
 	return bounds;
 }
 
-const QString CGALVolume::getSizeString() const
+QString CGALVolume::getSizeString() const
 {
 	return to_string(size);
 }
 
-const QString CGALVolume::getCenterString() const
+QString CGALVolume::getCenterString() const
 {
 	return to_string(centroid);
 }

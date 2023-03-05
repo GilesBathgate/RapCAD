@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,22 +20,23 @@
 #include "context.h"
 #include "numbervalue.h"
 #include "textvalue.h"
+#include "valuefactory.h"
 
 ChrFunction::ChrFunction() : Function("chr")
 {
 	addDescription(tr("Returns characters with the given unicode number values."));
-	addParameter("value");
+	addParameter("values","list",tr("The values to convert to characters."));
 }
 
 Value& ChrFunction::evaluate(const Context& ctx) const
 {
 	QString result;
-	auto* codes=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* codes=getParameterArgument<VectorValue>(ctx,0);
 	if(codes) {
 		for(const auto& codeVal: codes->getElements()) {
 			auto* code=dynamic_cast<NumberValue*>(codeVal);
 			if(code) {
-				uint unicode=code->toInteger();
+				const char32_t unicode=code->toInteger();
 				result.append(QString::fromUcs4(&unicode,1));
 			}
 		}
@@ -44,7 +45,7 @@ Value& ChrFunction::evaluate(const Context& ctx) const
 			Value* argVal = arg.getValue();
 			auto* code=dynamic_cast<NumberValue*>(argVal);
 			if(code) {
-				uint unicode=code->toInteger();
+				const char32_t unicode=code->toInteger();
 				result.append(QString::fromUcs4(&unicode,1));
 			}
 		}

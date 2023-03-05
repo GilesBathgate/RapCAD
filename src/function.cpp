@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 
 #include "function.h"
 #include "context.h"
+#include "valuefactory.h"
 
 Function::Function() :
 	scope(nullptr)
@@ -47,7 +48,7 @@ void Function::setName(const QString& n)
 	name = n;
 }
 
-const QList<Parameter*> Function::getParameters() const
+const QList<Parameter*>& Function::getParameters() const
 {
 	return parameters;
 }
@@ -77,25 +78,18 @@ Value& Function::evaluate(const Context&) const
 	return ValueFactory::createUndefined();
 }
 
-void Function::addParameter(const QString& n)
-{
-	auto* p = new Parameter();
-	p->setName(n);
-	parameters.append(p);
-}
-
-void Function::addParameter(const QString& n, const QString& d)
+void Function::addParameter(const QString& n,const QString& t,const QString& d)
 {
 	auto* p=new Parameter();
 	p->setName(n);
+	p->setType(t);
 	p->addDescription(d);
 	parameters.append(p);
 }
 
-Value* Function::getParameterArgument(const Context& ctx, int index) const
+Value* Function::getArgument(const Context& ctx,int index,const QString& name) const
 {
-	Parameter* p = parameters.at(index);
-	return ctx.getArgument(index,p->getName());
+	return ctx.getArgument(index,name);
 }
 
 QString Function::getDescription() const

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,10 +19,15 @@
 #ifndef TREEVISITOR_H
 #define TREEVISITOR_H
 
+#include <QtGlobal>
+
 class TreeVisitor
 {
+	Q_DISABLE_COPY_MOVE(TreeVisitor)
+protected:
+	TreeVisitor()=default;
+	virtual ~TreeVisitor()=default;
 public:
-	virtual ~TreeVisitor() {}
 	virtual void visit(const class Module&)=0;
 	virtual void visit(const class ModuleScope&)=0;
 	virtual void visit(const class Instance&)=0;
@@ -36,6 +41,7 @@ public:
 	virtual void visit(const class Argument&)=0;
 	virtual void visit(const class AssignStatement&)=0;
 	virtual void visit(const class VectorExpression&)=0;
+	virtual void visit(const class IntervalExpression&)=0;
 	virtual void visit(const class RangeExpression&)=0;
 	virtual void visit(const class UnaryExpression&)=0;
 	virtual void visit(const class ReturnStatement&)=0;
@@ -45,7 +51,8 @@ public:
 	virtual void visit(const class ScriptImport&)=0;
 	virtual void visit(const class Literal&)=0;
 	virtual void visit(const class Variable&)=0;
-	virtual void visit(const class CodeDoc&)=0;
+	virtual void visit(const class CodeDocParam&)=0;
+	virtual void visit(const class CodeDocDeclaration&)=0;
 	virtual void visit(const class ComplexExpression&)=0;
 
 	virtual void visit(class Script&)=0;

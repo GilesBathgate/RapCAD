@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,28 +19,18 @@
 #ifndef GLVIEW_H
 #define GLVIEW_H
 
+#include "bedappearance.h"
+#include "camera.h"
 #include "renderer.h"
-#ifdef USE_QGLWIDGET
-#include <QGLWidget>
-#else
+#include "viewdirections.h"
 #include <QMatrix4x4>
+#include <QMouseEvent>
 #include <QOpenGLFunctions_1_0>
 #include <QOpenGLWidget>
-#endif
-#include <QMouseEvent>
 #include <QWheelEvent>
 
-enum class BedAppearance {
-	MK42=0,
-	MK2=1
-};
-
 class GLView :
-#ifdef USE_QGLWIDGET
-	public QGLWidget
-#else
 	public QOpenGLWidget, private QOpenGLFunctions_1_0
-#endif
 {
 	Q_OBJECT
 
@@ -52,22 +42,19 @@ public:
 	void setBedAppearance(BedAppearance);
 	void preferencesUpdated();
 
-#ifdef USE_QGLWIDGET
-	inline QImage grabFramebuffer(){ return grabFrameBuffer(); }
-#endif
 
 public slots:
-	void setViewport(GLfloat,GLfloat,GLfloat,GLfloat,GLfloat,GLfloat);
-	void setPrintOrigin(GLfloat,GLfloat);
-	void setPrintVolume(GLfloat,GLfloat,GLfloat);
-	void getViewport(GLfloat&,GLfloat&,GLfloat&,GLfloat&,GLfloat&,GLfloat&) const;
+	void setPrintOrigin(GLint,GLint);
+	void setPrintVolume(GLint,GLint,GLint);
+	const Camera& getCamera() const;
+	void setCamera(const Camera&);
 	void setShowAxes(bool);
 	void setShowRulers(bool);
 	void setShowBase(bool);
 	void setShowPrintArea(bool);
 	void setSkeleton(bool);
 	void setShowEdges(bool);
-	void changeViewport(int);
+	void changeViewDirection(ViewDirections);
 private:
 	void initializeGL() override;
 	void resizeGL(int w,int h) override;
@@ -76,13 +63,12 @@ private:
 	void renderY(GLfloat,GLfloat,GLfloat);
 	void renderZ(GLfloat,GLfloat,GLfloat);
 
-	void mousePressEvent(QMouseEvent* event) override;
-	void mouseMoveEvent(QMouseEvent* event) override;
-	void mouseReleaseEvent(QMouseEvent* event) override;
-	void wheelEvent(QWheelEvent* event) override;
+	void mouseDoubleClickEvent(QMouseEvent*) override;
+	void mousePressEvent(QMouseEvent*) override;
+	void mouseMoveEvent(QMouseEvent*) override;
+	void mouseReleaseEvent(QMouseEvent*) override;
+	void wheelEvent(QWheelEvent*) override;
 
-	static void normalizeAngle(GLfloat&);
-	void zoomView(GLfloat);
 	void drawGradientBackground();
 	void drawAxes();
 	void drawBase();
@@ -90,12 +76,10 @@ private:
 	void drawRulers();
 	void drawCross();
 
-#ifndef USE_QGLWIDGET
-	QMatrix4x4* projection;
-	QMatrix4x4* modelview;
-#endif
+	QMatrix4x4 projection;
+	QMatrix4x4 modelview;
 	Renderer* render;
-	GLfloat distance;
+	Camera camera;
 	bool showAxes;
 	bool showCross;
 	bool showBase;
@@ -103,20 +87,20 @@ private:
 	bool showRulers;
 	bool showEdges;
 	bool skeleton;
-	GLfloat printX;
-	GLfloat printY;
-	GLfloat printWidth;
-	GLfloat printLength;
-	GLfloat printHeight;
+	GLint printX;
+	GLint printY;
+	GLint printWidth;
+	GLint printLength;
+	GLint printHeight;
 	BedAppearance appearance;
 
 	bool mouseDrag;
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 	QPoint last;
-	GLfloat rotateX;
-	GLfloat rotateY;
-	GLfloat rotateZ;
-	GLfloat viewportX;
-	GLfloat viewportZ;
+#else
+	QPointF last;
+#endif
+
 };
 
 #endif // GLVIEW_H

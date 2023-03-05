@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -24,19 +24,19 @@
 SliceModule::SliceModule(Reporter& r) : Module(r,"slice")
 {
 	addDescription(tr("Slices its children at the given height."));
-	addParameter("height",tr("The height at which to slice."));
-	addParameter("thickness",tr("The thickness of the slice."));
+	addParameter("height","num",tr("The height at which to slice."));
+	addParameter("thickness","num",tr("The thickness of the slice."));
 }
 
 Node* SliceModule::evaluate(const Context& ctx) const
 {
 	decimal h=0.0;
-	auto* height=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* height=getParameterArgument<NumberValue>(ctx,0);
 	if(height)
 		h=height->getNumber();
 
 	decimal t=0.0;
-	auto* thick=dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
+	auto* thick=getParameterArgument<NumberValue>(ctx,1);
 	if(thick)
 		t=thick->getNumber();
 

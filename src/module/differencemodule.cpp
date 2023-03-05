@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 DifferenceModule::DifferenceModule(Reporter& r) : Module(r,"difference")
 {
 	addDescription(tr("Subtracts from the first child its subsequent children."));
+	addExample("difference(){\n%1cube(10);\n%1translate([5,5,5])cube(10);\n}");
 }
 
 Node* DifferenceModule::evaluate(const Context& ctx) const

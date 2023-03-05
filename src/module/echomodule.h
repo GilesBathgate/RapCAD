@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,7 +20,6 @@
 #define ECHOMODULE_H
 
 #include "module.h"
-#include "onceonly.h"
 #include <QTextStream>
 
 class EchoModule : public Module
@@ -31,7 +30,7 @@ public:
 	Node* evaluate(const Context&) const override;
 private:
 	QTextStream& output;
-	static OnceOnly depricateWarning;
+	static bool depricateWarning();
 };
 
 #endif // ECHOMODULE_H

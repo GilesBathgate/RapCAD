@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -25,13 +25,13 @@
 PolyhedronModule::PolyhedronModule(Reporter& r) : PrimitiveModule(r,"polyhedron")
 {
 	addDescription(tr("Construct a polyhedron. Special care must be taken to ensure the correct winding order."));
-	addParameter("points",tr("The vertices of the shape are provided by the points list"));
-	addParameter("faces",tr("The faces is list of indices to the vertices. These relate to the facets of the polyhedron."));
+	addParameter("points","list",tr("The vertices of the shape are provided by the points list"));
+	addParameter("faces","list",tr("The faces is list of indices to the vertices. These relate to the facets of the polyhedron."));
 }
 
 Node* PolyhedronModule::evaluate(const Context& ctx) const
 {
-	auto* points=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* points=getParameterArgument<VectorValue>(ctx,0);
 	VectorValue* faces=dynamic_cast<VectorValue*>(ctx.getArgumentDeprecated(1,"faces","triangles",reporter));
 
 	auto* pn=new PrimitiveNode();
@@ -46,7 +46,7 @@ Node* PolyhedronModule::evaluate(const Context& ctx) const
 	for(Value* child: children) {
 		auto* point=dynamic_cast<VectorValue*>(child);
 		if(!point) continue;
-		Point pt = point->getPoint();
+		const Point& pt = point->getPoint();
 		p->createVertex(pt);
 	}
 
@@ -57,7 +57,7 @@ Node* PolyhedronModule::evaluate(const Context& ctx) const
 		for(Value* indexVal: faceVec->getElements()) {
 			auto* indexNum=dynamic_cast<NumberValue*>(indexVal);
 			if(!indexNum) continue;
-			int index = indexNum->toInteger();
+			const int index = indexNum->toInteger();
 			if(index>=0&&index<children.count()) {
 				pg.append(index);
 			}

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 #ifndef SCRIPT_H
 #define SCRIPT_H
 
-#include "codedoc.h"
+#include "codedocparam.h"
 #include "declaration.h"
 #include "reporter.h"
 #include "scope.h"
@@ -36,18 +36,15 @@ public:
 
 	bool isEmpty();
 	void setDeclarations(const QList<Declaration*>&);
-	const QList<Declaration*> getDeclarations() const override;
+	const QList<Declaration*>& getDeclarations() const override;
 	void addDeclaration(Declaration*);
 	void appendDeclaration(Declaration*);
 	void removeDeclaration(Declaration*);
-	void addDocumentation(const QList<CodeDoc*>&);
-	const QList<QList<CodeDoc*> > getDocumentation() const;
 	void accept(TreeVisitor&) override;
 	QDir getFileLocation() const;
 	void setFileLocation(const QDir&);
 private:
 	QList<Declaration*> declarations;
-	QList<QList<CodeDoc*> > documentation;
 	QDir fileLocation;
 	Reporter& reporter;
 };

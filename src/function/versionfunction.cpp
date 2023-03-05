@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
 #include "numbervalue.h"
 #include "stringify.h"
 #include "textvalue.h"
+#include "valuefactory.h"
 #include "vectorvalue.h"
 #include "versionfunction.h"
 #include <QStringList>
@@ -32,10 +33,10 @@ VersionFunction::VersionFunction() : Function("version")
 Value& VersionFunction::evaluate(const Context&) const
 {
 	QList<Value*> version;
-	QString v=STRINGIFY(RAPCAD_VERSION);
-	QStringList parts=v.split(".");
-	int major=parts.at(0).toInt();
-	int minor=parts.at(1).toInt();
+	const QString& v=STRINGIFY(RAPCAD_VERSION);
+	const QStringList& parts=v.split(".");
+	const int major=parts.at(0).toInt();
+	const int minor=parts.at(1).toInt();
 	const QString& build=parts.at(2);
 	version.append(&ValueFactory::createNumber(major));
 	version.append(&ValueFactory::createNumber(minor));
@@ -44,7 +45,7 @@ Value& VersionFunction::evaluate(const Context&) const
 		const QString& revision=parts.at(3);
 		version.append(&ValueFactory::createText(revision));
 	} else {
-		version.append(new NumberValue(build.toInt()));
+		version.append(&ValueFactory::createNumber(build.toInt()));
 	}
 
 	return ValueFactory::createVector(version);

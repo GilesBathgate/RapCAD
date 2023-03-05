@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -23,7 +23,6 @@
 #include "backgroundworker.h"
 #include "codeeditor.h"
 #include "interactive.h"
-#include "preferencesdialog.h"
 #include "project.h"
 #include "texteditiodevice.h"
 #include <QMainWindow>
@@ -47,8 +46,8 @@ public:
 protected:
 	void closeEvent(QCloseEvent*) override;
 private slots:
-	void getDefaultViewport() const;
-	void setDefaultViewport();
+	void getDefaultCamera() const;
+	void setDefaultCamera();
 	void grabFrameBuffer();
 	void showPreferences();
 	void disableRulers(bool);
@@ -65,6 +64,7 @@ private slots:
 	void compileAndRender();
 	void compileAndGenerate();
 	void evaluationDone();
+	void examplesListClicked(const QModelIndex&);
 	void setTabTitle(const QString&);
 	void undo();
 	void redo();
@@ -96,6 +96,7 @@ private:
 	void setupEditor(CodeEditor*);
 	void setupTabs(QTabWidget*) const;
 	void setupConsole();
+	void setupExamples();
 	void setupTreeview();
 	CodeEditor* currentEditor();
 	CodeEditor* getEditor(int i);
@@ -111,7 +112,6 @@ private:
 	BackgroundWorker* worker;
 	Interactive* interact;
 	AboutDialog* aboutDialog;
-	PreferencesDialog* preferencesDialog;
 	QList<QTemporaryFile*> temporyFiles;
 };
 

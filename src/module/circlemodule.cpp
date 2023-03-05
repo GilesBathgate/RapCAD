@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,17 +18,18 @@
 
 #include "circlemodule.h"
 #include "context.h"
+#include "node/primitivenode.h"
 #include "numbervalue.h"
 
 CircleModule::CircleModule(Reporter& r) : PrimitiveModule(r,"circle")
 {
 	addDescription(tr("Constructs a circle. It will be placed centered on the xy plane."));
-	addParameter("radius",tr("The radius of the circle."));
+	addParameter("radius","num",tr("The radius of the circle."));
 }
 
 Node* CircleModule::evaluate(const Context& ctx) const
 {
-	auto* rValue=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* rValue=getParameterArgument<NumberValue>(ctx,0);
 
 	decimal r=1.0;
 	if(rValue) {
@@ -39,7 +40,7 @@ Node* CircleModule::evaluate(const Context& ctx) const
 			r=(dValue->getNumber()/2.0);
 	}
 
-	int f = Fragment::getFragments(ctx,r);
+	const int f = Fragment::getFragments(ctx,r);
 
 	const QList<Point> c = getCircle(r,f,0);
 

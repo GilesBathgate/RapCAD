@@ -1,6 +1,6 @@
 /* Layers function called by RapCAD.
 *  RapCAD will call this function to determine
-*  the number of manufacturing itterations to
+*  the number of manufacturing iterations to
 *  run
 */
 function layers(height) = ceil(height/0.4);

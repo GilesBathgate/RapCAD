@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -24,14 +24,14 @@
 VolumesModule::VolumesModule(Reporter& r) : Module(r,"volume")
 {
 	addDescription(tr("Provides information about the volume of its children."));
-	addParameter("mass",tr("Specifies that the center of mass also be calculated."));
+	addParameter("mass","bool",tr("Specifies that the center of mass also be calculated."));
 	auxilary=true;
 }
 
 Node* VolumesModule::evaluate(const Context& ctx) const
 {
 	bool mass=false;
-	auto* massVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));
+	auto* massVal=getParameterArgument<BooleanValue>(ctx,0);
 	if(massVal)
 		mass=massVal->isTrue();
 

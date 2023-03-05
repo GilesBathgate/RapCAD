@@ -1,3 +1,3 @@
-function test(){
-  return ![1:5]==[5:1];
+function test() {
+  return [1:2:3]++ == [2:2:4];
 }

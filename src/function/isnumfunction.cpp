@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,16 +19,17 @@
 #include "isnumfunction.h"
 #include "booleanvalue.h"
 #include "numbervalue.h"
+#include "valuefactory.h"
 
 IsNumFunction::IsNumFunction() : Function("is_num")
 {
 	addDescription(tr("Returns true when the given value is a number."));
-	addParameter("value");
+	addParameter("value","num",tr("The value to test."));
 }
 
 Value& IsNumFunction::evaluate(const Context& ctx) const
 {
-	auto* num=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* num=getParameterArgument<NumberValue>(ctx,0);
 	if(num)
 		return ValueFactory::createBoolean(true);
 

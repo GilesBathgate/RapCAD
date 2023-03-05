@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ bool RangeIterator::operator!=(const Iterator&) const
 	return range->inRange(*index);
 }
 
-Value* RangeIterator::operator*() const
+Value& RangeIterator::operator*() const
 {
-	return index;
+	return *index;
 }

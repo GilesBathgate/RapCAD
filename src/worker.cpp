@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ Worker::~Worker()
 
 void Worker::setup(const QString& i,const QString& o,bool g)
 {
-	inputFile=i;
+	inputFile=QFileInfo(i);
 	outputFile=o;
 	generate=g;
 }
@@ -94,16 +94,17 @@ void Worker::primary()
 	s.accept(e);
 	output.flush();
 
-	QScopedPointer<Node> n(e.getRootNode());
-	QScopedPointer<NodeVisitor> ne(getNodeVisitor());
+	const QScopedPointer<Node> n(e.getRootNode());
+	const QScopedPointer<NodeVisitor> ne(getNodeVisitor());
 	n->accept(*ne);
 	updatePrimitive(ne->getResult());
 
 	if(!primitive)
 		reporter.reportWarning(tr("no top level object."));
 	else if(!outputFile.isEmpty()) {
-		resultAccepted();
+		reporter.reportTiming(tr("compiling"));
 		exportResult(outputFile);
+		destroyPrevious();
 	}
 }
 
@@ -111,12 +112,12 @@ void Worker::generation()
 {
 	auto& p=Preferences::getInstance();
 	Script s(reporter);
-	QFileInfo camScript(p.getCAMScript());
+	const QFileInfo camScript(p.getCAMScript());
 	s.parse(camScript);
 
 	auto* e = new TreeEvaluator(reporter);
-	decimal height=getBoundsHeight();
-	QList<Argument*> args=getArgs(height);
+	const decimal& height=getBoundsHeight();
+	const QList<Argument*>& args=getArgs(height);
 	Callback* c = addCallback("layers",s,args);
 	s.accept(*e);
 
@@ -124,15 +125,15 @@ void Worker::generation()
 	if(v) {
 		reporter.reportMessage(tr("Layers: %1").arg(v->getValueString()));
 
-		int itterations=v->toInteger();
+		const int iterations=v->toInteger();
 		Instance* m=addProductInstance("manufacture",s);
-		for(auto i=0; i<=itterations; ++i) {
+		for(auto i=0; i<=iterations; ++i) {
 			if(i>0) {
 				e = new TreeEvaluator(reporter);
 			}
 			reporter.reportMessage(tr("Manufacturing layer: %1").arg(i));
 
-			QList<Argument*> arg=getArgs(i);
+			const QList<Argument*>& arg=getArgs(i);
 			m->setArguments(arg);
 
 			s.accept(*e);
@@ -156,7 +157,7 @@ decimal Worker::getBoundsHeight() const
 #ifdef USE_CGAL
 	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
 	if(!pr) return 1;
-	CGAL::Cuboid3 b=pr->getBounds();
+	const CGAL::Cuboid3& b=pr->getBounds();
 	return b.zmax();
 #else
 	return 1;
@@ -215,6 +216,11 @@ bool Worker::resultAvailable()
 void Worker::resultAccepted()
 {
 	reporter.reportTiming(tr("compiling"));
+	destroyPrevious();
+}
+
+void Worker::destroyPrevious()
+{
 	delete previous;
 	previous=nullptr;
 }
@@ -233,25 +239,26 @@ void Worker::updatePrimitive(Primitive* pr)
 
 Renderer* Worker::getRenderer()
 {
+	if(!primitive) return nullptr;
 #ifdef USE_CGAL
 	try {
 
-		return new CGALRenderer(primitive);
+		return new CGALRenderer(reporter,*primitive);
 
 	} catch(const CGAL::Failure_exception& e) {
 		resultFailed(QString::fromStdString(e.what()));
 		return nullptr;
 	}
 #else
-	return new SimpleRenderer(primitive);
+	return new SimpleRenderer(*primitive);
 #endif
 
 }
 
-NodeVisitor *Worker::getNodeVisitor()
+NodeVisitor* Worker::getNodeVisitor()
 {
 	auto& p=Preferences::getInstance();
-	int threads=p.getThreadPoolSize();
+	const int threads=p.getThreadPoolSize();
 	if(threads==0)
 		return new NodeEvaluator(reporter);
 

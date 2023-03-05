@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,19 +19,20 @@
 #include "regularpolygonmodule.h"
 #include "context.h"
 #include "node/primitivenode.h"
+#include "numbervalue.h"
 #include "rmath.h"
 
 RegularPolygonModule::RegularPolygonModule(Reporter& r) : PrimitiveModule(r, "regular_polygon")
 {
 	addDescription(tr("Constructs a regular polygon. It will be placed centered on the xy plane."));
-	addParameter("sides",tr("The number of size to the polygon."));
-	addParameter("apothem",tr("The radius from the center to the outer faces of the polygon."));
+	addParameter("sides","int",tr("The number of sides to the polygon."));
+	addParameter("apothem","num",tr("The radius from the center to the outer faces of the polygon."));
 }
 
 Node* RegularPolygonModule::evaluate(const Context& ctx) const
 {
 	int s=3;
-	auto* sidesVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* sidesVal=getParameterArgument<NumberValue>(ctx,0);
 	if(sidesVal)
 		s=sidesVal->toInteger();
 
@@ -45,7 +46,7 @@ Node* RegularPolygonModule::evaluate(const Context& ctx) const
 
 	decimal r=1.0;
 	decimal a=1.0;
-	auto* apothemVal = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
+	auto* apothemVal=getParameterArgument<NumberValue>(ctx,1);
 	if(apothemVal) {
 		a=apothemVal->getNumber();
 		r=a/r_cos(r_pi()/s);

@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------
 #	RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
-#	Copyright (C) 2010-2022 Giles Bathgate
+#	Copyright (C) 2010-2023 Giles Bathgate
 #
 #	This program is free software: you can redistribute it and/or modify
 #	it under the terms of the GNU General Public License as published by
@@ -23,37 +23,18 @@
 #-------------------------------------------------
 VERSION = $$cat(VERSION)
 
-QT  += core gui opengl widgets concurrent
+QT  += core gui openglwidgets concurrent
 
-CONFIG += c++14
+CONFIG += c++17
 TARGET = rapcad
 TEMPLATE = app
 INCLUDEPATH += src
 
 DEFINES += USE_CGAL
 DEFINES += USE_READLINE
-DEFINES += USE_COMMANDLINE_PARSER
-DEFINES += USE_QGLWIDGET
-
-greaterThan(QT_MAJOR_VERSION, 4) {
-
-# Check for Qt Version 5.2 and above
-# (so Major > 4 && Minor > 1)
-	greaterThan(QT_MINOR_VERSION, 1) | greaterThan(QT_MAJOR_VERSION, 5) {
-		DEFINES -= USE_COMMANDLINE_PARSER
-	}
-
-# Check for Qt Version 5.4 and above
-# (so Major > 4 && Minor > 3)
-	greaterThan(QT_MINOR_VERSION, 3) | greaterThan(QT_MAJOR_VERSION, 5) {
-		DEFINES -= USE_QGLWIDGET
-	}
-}
-
 
 win32 {
 	DEFINES -= USE_READLINE
-	DEFINES += USE_QGLWIDGET
 
 	DXFLIBROOT = ../dxflib-3.3.4-src
 	INCLUDEPATH += $$(CGAL_DIR)/include
@@ -64,7 +45,7 @@ win32 {
 		LIBS +=  -lCGAL -lCGAL_Core
 	}
 	LIBS += -L$$(CGAL_DIR)/auxiliary/gmp/lib -lmpfr-4 -lgmp-10
-	LIBS += -lopengl32 -lglu32
+	LIBS += -lglu32
 	contains(DEFINES,USE_READLINE) {
 	LIBS += -lreadline
 	}
@@ -129,7 +110,7 @@ CONFIG(fuzzing){
 CONFIG(valgrind){
 	DEFINES += USE_VALGRIND
 	DEFINES -= CGAL_USE_GMPXX
-	QMAKE_CXXFLAGS += -fno-rounding-math
+	QMAKE_CXXFLAGS += -fno-rounding-math -fdebug-default-version=4
 } else:!macx {
 	QMAKE_CXXFLAGS += -frounding-math
 }
@@ -164,8 +145,6 @@ YACCSOURCES += \
 	src/parser.y
 
 SOURCES += \
-	contrib/qcommandlineparser.cpp \
-	contrib/qcommandlineoption.cpp \
 	src/application.cpp \
 	src/assertexception.cpp \
 	src/builtinmanager.cpp \
@@ -173,18 +152,25 @@ SOURCES += \
 	src/cgaldiscretemodifier.cpp \
 	src/cgalgroupmodifier.cpp \
 	src/cgalsanitizer.cpp \
+	src/codedocdeclaration.cpp \
 	src/function/assertfunction.cpp \
 	src/function/circumcenterfunction.cpp \
 	src/function/isundeffunction.cpp \
 	src/function/ordinalfunction.cpp \
 	src/geometryevaluator.cpp \
+	src/intervalexpression.cpp \
+	src/intervalvalue.cpp \
 	src/main.cpp \
 	src/module/assertmodule.cpp \
 	src/module/colormodule.cpp \
+	src/module/cuboidmodule.cpp \
 	src/module/datummodule.cpp \
 	src/module/regularpolygonmodule.cpp \
+	src/module/solidmodule.cpp \
 	src/namedvalue.cpp \
+	src/node/solidnode.cpp \
 	src/tokenreader.cpp \
+	src/ui/camera.cpp \
 	src/ui/mainwindow.cpp \
 	src/module.cpp \
 	src/syntaxtreebuilder.cpp \
@@ -265,7 +251,7 @@ SOURCES += \
 	src/module/spheremodule.cpp \
 	src/worker.cpp \
 	src/reporter.cpp \
-	src/codedoc.cpp \
+	src/codedocparam.cpp \
 	src/dxfbuilder.cpp \
 	src/module/shearmodule.cpp \
 	src/module/groupmodule.cpp \
@@ -419,34 +405,40 @@ SOURCES += \
 	src/ui/searchwidget.cpp
 
 HEADERS  += \
-	contrib/OGL_helper.h \
 	contrib/fragments.h \
 	contrib/mpfr-get_q.h \
 	contrib/mpfr-impl.h \
-	contrib/qcommandlineparser.h \
-	contrib/qcommandlineoption.h \
 	contrib/Copy_polyhedron_to.h \
 	contrib/qtcompat.h \
+	src/abstractsettings.h \
 	src/application.h \
 	src/assertexception.h \
+	src/bedappearance.h \
 	src/builtinmanager.h \
 	src/cgalauxiliarybuilder.h \
 	src/cgaldiscretemodifier.h \
 	src/cgalgroupmodifier.h \
 	src/cgalsanitizer.h \
 	src/cgaltrace.h \
+	src/codedocdeclaration.h \
 	src/function/assertfunction.h \
 	src/function/circumcenterfunction.h \
 	src/function/isundeffunction.h \
 	src/function/ordinalfunction.h \
 	src/geometryevaluator.h \
+	src/intervalexpression.h \
+	src/intervalvalue.h \
 	src/module/assertmodule.h \
 	src/module/colormodule.h \
+	src/module/cuboidmodule.h \
 	src/module/datummodule.h \
 	src/module/regularpolygonmodule.h \
+	src/module/solidmodule.h \
 	src/namedvalue.h \
+	src/node/solidnode.h \
 	src/operators.h \
 	src/tokenreader.h \
+	src/ui/camera.h \
 	src/ui/mainwindow.h \
 	src/module.h \
 	src/syntaxtreebuilder.h \
@@ -538,7 +530,7 @@ HEADERS  += \
 	src/module/spheremodule.h \
 	src/worker.h \
 	src/reporter.h \
-	src/codedoc.h \
+	src/codedocparam.h \
 	src/dxfbuilder.h \
 	src/module/shearmodule.h \
 	src/module/groupmodule.h \

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,19 +19,20 @@
 #include "squaremodule.h"
 #include "context.h"
 #include "node/alignnode.h"
+#include "node/primitivenode.h"
 #include "vectorvalue.h"
 
 SquareModule::SquareModule(Reporter& r) : PrimitiveModule(r,"square")
 {
 	addDescription(tr("Constructs a square or rectangle. It will be placed in the first quadrant."));
-	addParameter("size",tr("The size of the square"));
-	addParameter("center",tr("Specifies whether to center the square on the xy plane"));
+	addParameter("size","vec2",tr("The size of the square"));
+	addParameter("center","bool",tr("Specifies whether to center the square on the xy plane"));
 }
 
 Node* SquareModule::evaluate(const Context& ctx) const
 {
-	Value* sizeVal=getParameterArgument(ctx,0);
-	Value* centerVal=getParameterArgument(ctx,1);
+	auto* sizeVal=getParameterArgument<Value>(ctx,0);
+	auto* centerVal=getParameterArgument<Value>(ctx,1);
 	bool center=false;
 	if(centerVal)
 		center = centerVal->isTrue();
@@ -39,8 +40,8 @@ Node* SquareModule::evaluate(const Context& ctx) const
 	decimal x=1.0;
 	decimal y=1.0;
 	if(sizeVal) {
-		VectorValue& size=sizeVal->toVector(2);
-		Point pt = size.getPoint();
+		const VectorValue& size=sizeVal->toVector(2);
+		const Point& pt = size.getPoint();
 		x=pt.x();
 		y=pt.y();
 	}

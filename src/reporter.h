@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -37,6 +37,7 @@ public:
 	void reportSyntaxError(const AbstractTokenBuilder&, const QString&);
 	void reportLexicalError(const AbstractTokenBuilder&,const QString&);
 	void reportFileMissingError(const QString&);
+	void reportTesselationError(const QString&);
 	void reportWarning(const QString&);
 	void reportMessage(const QString&);
 	void reportException();

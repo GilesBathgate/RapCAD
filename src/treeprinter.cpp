@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -61,14 +61,14 @@ void TreePrinter::visit(const Instance& inst)
 			break;
 	}
 
-	QString name = inst.getNamespace();
+	const QString& name = inst.getNamespace();
 	if(!name.isEmpty()) {
 		result << name;
 		result << "::";
 	}
 	result << inst.getName();
 	result << "(";
-	const QList<Argument*> arguments = inst.getArguments();
+	const QList<Argument*>& arguments = inst.getArguments();
 	OnceOnly first;
 	for(Argument* a: arguments) {
 		if(!first())
@@ -77,8 +77,8 @@ void TreePrinter::visit(const Instance& inst)
 	}
 	result << ")";
 
-	QList<Statement*> children = inst.getChildren();
-	int c = children.size();
+	const QList<Statement*>& children = inst.getChildren();
+	const auto c=children.size();
 	if(c>0) {
 		if(c>1) {
 			result << "{\n";
@@ -101,22 +101,27 @@ void TreePrinter::visit(const Instance& inst)
 	result << "\n";
 }
 
+void TreePrinter::printParameters(const QList<Parameter*>& parameters)
+{
+	OnceOnly first;
+	for(Parameter* p: parameters) {
+		if(!first())
+			result << ", ";
+		p->accept(*this);
+	}
+}
+
 void TreePrinter::visit(const Module& mod)
 {
 	if(mod.isDeprecated()) return;
 
-	const QList<Parameter*> parameters = mod.getParameters();
-	QString desc=mod.getDescription();
+	const QList<Parameter*>& parameters = mod.getParameters();
+	const QString& desc=mod.getDescription();
 	printCodeDoc(desc,parameters);
 	result << "module ";
 	result << mod.getFullName();
 	result << "(";
-	OnceOnly first;
-	for(Parameter* p: parameters) {
-		if(!first())
-			result << ",";
-		p->accept(*this);
-	}
+	printParameters(parameters);
 	result << "){";
 	Scope* scp=mod.getScope();
 	if(scp) {
@@ -129,19 +134,13 @@ void TreePrinter::visit(const Module& mod)
 
 void TreePrinter::visit(const Function& func)
 {
-	const QList<Parameter*> parameters = func.getParameters();
-	QString desc=func.getDescription();
+	const QList<Parameter*>& parameters = func.getParameters();
+	const QString& desc=func.getDescription();
 	printCodeDoc(desc,parameters);
 	result << "function ";
 	result << func.getName();
 	result << "(";
-	OnceOnly first;
-	for(Parameter* p: parameters) {
-		if(!first())
-			result << ",";
-		p->accept(*this);
-	}
-
+	printParameters(parameters);
 	result << ")";
 	Scope* scp=func.getScope();
 	if(scp)
@@ -161,8 +160,8 @@ void TreePrinter::visit(const FunctionScope& scp)
 		return;
 	}
 
-	const QList<Statement*> statements = scp.getStatements();
-	int size = statements.size();
+	const QList<Statement*>& statements = scp.getStatements();
+	const auto size=statements.size();
 	if(size>0) {
 		result << "{\n";
 		++indent;
@@ -181,8 +180,8 @@ void TreePrinter::visit(const FunctionScope& scp)
 
 void TreePrinter::visit(const CompoundStatement& stmt)
 {
-	QList<Statement*> children = stmt.getChildren();
-	int c = children.size();
+	const QList<Statement*>& children = stmt.getChildren();
+	const auto c=children.size();
 	if(c>0) {
 		if(c>1) {
 			result << "{\n";
@@ -238,6 +237,9 @@ void TreePrinter::visit(const ForStatement& forstmt)
 void TreePrinter::visit(const Parameter& param)
 {
 	result << param.getName();
+	const QString& type=param.getType();
+	if(!type.isEmpty())
+		result << ": " << type;
 
 	Expression* expression = param.getExpression();
 	if(expression) {
@@ -293,12 +295,25 @@ void TreePrinter::visit(const AssignStatement& stmt)
 void TreePrinter::visit(const VectorExpression& exp)
 {
 	result << "[";
-	const QList<Expression*> children = exp.getChildren();
+	const QList<Expression*>& children = exp.getChildren();
 	OnceOnly first;
 	for(Expression* e: children) {
 		if(!first())
 			result << ",";
 		e->accept(*this);
+	}
+	result << "]";
+}
+
+void TreePrinter::visit(const IntervalExpression& exp)
+{
+	result << to_string(exp.getValue());
+	result << "[";
+	exp.getMore()->accept(*this);
+	Expression* less=exp.getLess();
+	if(less) {
+		result << ",";
+		less->accept(*this);
 	}
 	result << "]";
 }
@@ -321,8 +336,8 @@ void TreePrinter::visit(const RangeExpression& exp)
 
 void TreePrinter::visit(const UnaryExpression& exp)
 {
-	QString op = exp.getOpString();
-	bool p = exp.postFix();
+	const QString& op = exp.getOpString();
+	const bool p = exp.postFix();
 	if(!p)
 		result << op;
 	exp.getExpression()->accept(*this);
@@ -350,14 +365,14 @@ void TreePrinter::visit(const TernaryExpression& exp)
 
 void TreePrinter::visit(const Invocation& stmt)
 {
-	QString nameSpace = stmt.getNamespace();
+	const QString& nameSpace = stmt.getNamespace();
 	if(!nameSpace.isEmpty()) {
 		result << nameSpace;
 		result << "::";
 	}
 	result << stmt.getName();
 	result << "(";
-	const QList<Argument*> arguments = stmt.getArguments();
+	const QList<Argument*>& arguments = stmt.getArguments();
 	OnceOnly first;
 	for(Argument* a: arguments) {
 		if(!first())
@@ -387,22 +402,16 @@ void TreePrinter::visit(const ModuleImport& decl)
 	result << "import <";
 	result << decl.getImport();
 	result << ">";
-	QString name = decl.getName();
+	const QString& name = decl.getName();
 	if(!name.isEmpty()) {
 		result << " as ";
 		result << name;
 	}
-	const QList<Parameter*> parameters = decl.getParameters();
-	int s = parameters.size();
+	const QList<Parameter*>& parameters = decl.getParameters();
+	const auto s=parameters.size();
 	if(s>0) {
 		result << "(";
-		OnceOnly first;
-		for(Parameter* p: parameters) {
-			if(!first())
-				result << ",";
-			p->accept(*this);
-		}
-
+		printParameters(parameters);
 		result << ")";
 	}
 	result << ";\n";
@@ -413,7 +422,7 @@ void TreePrinter::visit(const ScriptImport& decl)
 	result << "use <";
 	result << decl.getImport();
 	result << ">";
-	QString name = decl.getNamespace();
+	const QString& name = decl.getNamespace();
 	if(!name.isEmpty()) {
 		result << " as ";
 		result << name;
@@ -445,24 +454,25 @@ void TreePrinter::visit(const Variable& var)
 	result << var.getName();
 }
 
-void TreePrinter::visit(const CodeDoc& cd)
+void TreePrinter::visit(const CodeDocParam& cd)
 {
 	result << cd.getName() << " " << cd.getText() << "\n";
+}
+
+void TreePrinter::visit(const CodeDocDeclaration& docs)
+{
+	result << "/**\n";
+
+	for(CodeDocParam* param: docs.getParameters())
+		param->accept(*this);
+
+	result << "*/\n";
 }
 
 void TreePrinter::visit(Script& sc)
 {
 	for(Declaration* d: sc.getDeclarations())
 		d->accept(*this);
-
-	for(const auto& docs: sc.getDocumentation()) {
-		result << "/**\n";
-
-		for(CodeDoc* doc: docs)
-			doc->accept(*this);
-
-		result << "*/\n";
-	}
 }
 
 void TreePrinter::visit(Product&)

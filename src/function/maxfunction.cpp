@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -22,12 +22,12 @@
 MaxFunction::MaxFunction() : Function("max")
 {
 	addDescription(tr("Returns the largest of the given values."));
-	addParameter("values");
+	addParameter("values","list",tr("The values for which to find the maximum value."));
 }
 
 Value& MaxFunction::evaluate(const Context& ctx) const
 {
-	QList<Value*> values=ctx.getArgumentValues();
+	const QList<Value*>& values=ctx.getArgumentValues();
 
 	return Value::compareAll(values,Operators::GreaterThan);
 }

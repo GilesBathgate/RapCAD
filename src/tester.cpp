@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,13 +20,13 @@
 #include "asciidocprinter.h"
 #include "booleanvalue.h"
 #include "builtincreator.h"
-#include "builtinmanager.h"
 #include "cachemanager.h"
 #ifdef USE_CGAL
 #include "cgalexport.h"
 #endif
 #include "comparer.h"
 #include "geometryevaluator.h"
+#include "module/cubemodule.h"
 #include "nodeevaluator.h"
 #include "nodeprinter.h"
 #include "preferences.h"
@@ -77,7 +77,7 @@ void Tester::writeHeader(const QString& name, int num)
 
 void Tester::writeTestTime()
 {
-	float timeTaken = testTimer.nsecsElapsed()/1000000.0f;
+	const float timeTaken=static_cast<float>(testTimer.nsecsElapsed())*1e-6F;
 #ifndef Q_OS_WIN
 	output << "\e[0;33m";
 #endif
@@ -163,18 +163,16 @@ int Tester::evaluate()
 
 	writePass();
 
-	QDir testDir(directory);
+	const QDir testDir(directory);
 	/* This hard coded filter need to be addressed
 	 * but it will do for now. */
 	const auto entries=testDir.entryInfoList(QStringList("*_*"));
 	for(const auto& entry: entries) {
 
-		QDir dir(entry.absoluteFilePath());
-		QString testDirName=entry.fileName();
+		const QDir dir(entry.absoluteFilePath());
+		const QString& testDirName=entry.fileName();
 		if(testDirName=="061_export") {
-#ifndef Q_OS_WIN
 			exportTest(dir);
-#endif
 			continue;
 		}
 
@@ -206,20 +204,36 @@ int Tester::evaluate()
 	reporter.stopTiming("testing");
 
 	reporter.startTiming();
+	QThreadPool::globalInstance()->setMaxThreadCount(10);
 	GeometryEvaluator ge(*nullreport);
 	const QList<Declaration*> builtins=BuiltinCreator::getInstance(*nullreport).getBuiltins();
 	int modulecount=0;
-	for(auto& b: builtins) {
-		auto* m=dynamic_cast<Module*>(b);
-		if(m) {
-			Context ctx;
-			Node* node=m->evaluate(ctx);
-			if(node) {
-				writeHeader(QString("%1_multithread_%2").arg(++modulecount,3,10,QChar('0')).arg(m->getFullName()),++testcount);
-				node->accept(ge);
-				(void)ge.getResult();
-				writePass();
-				passcount++;
+	for(int testphase=0; testphase<2; ++testphase) {
+		for(auto& b: builtins) {
+			auto* m=dynamic_cast<Module*>(b);
+			if(m) {
+				Context ctx;
+				if(testphase) {
+					const CubeModule cube(*nullreport);
+					Node* cubeNode = cube.evaluate(ctx);
+					const QList<Node*> inputNodes { cubeNode };
+					ctx.setInputNodes(inputNodes);
+				}
+				Node* node=m->evaluate(ctx);
+				if(node) {
+					auto testname=QString("%1_multithread_%2").arg(++modulecount,3,10,QChar('0')).arg(m->getFullName());
+					writeHeader(testname,++testcount);
+#ifdef Q_OS_WIN
+					if(testphase) {
+						writeSkip();
+						continue;
+					}
+#endif
+					node->accept(ge);
+					const QScopedPointer<Primitive> r(ge.getResult());
+					writePass();
+					passcount++;
+				}
 			}
 		}
 	}
@@ -228,18 +242,18 @@ int Tester::evaluate()
 	output << "Total: " << testcount << " Passed: " << passcount << " Failed: " << failcount << Qt::endl;
 	reporter.stopTiming("multithread testing");
 
-#if !defined(Q_OS_WIN) && !defined(USE_VALGRIND)
+#if !defined(Q_OS_WIN) && !defined(Q_OS_MACOS) && !defined(USE_VALGRIND)
 	reporter.startTiming();
 
 	auto& p=Preferences::getInstance();
-	bool autosave=p.getAutoSaveOnCompile();
+	const bool autosave=p.getAutoSaveOnCompile();
 	p.setAutoSaveOnCompile(false);
 
 	int c=0;
-	QApplication a(c,nullptr);
+	const QApplication a(c,nullptr);
 	ui = new MainWindow();
 	ui->show();
-	QTimer::singleShot(100,this,SLOT(runUiTests()));
+	QTimer::singleShot(100,this,&Tester::runUiTests);
 	QApplication::exec();
 	delete ui;
 
@@ -260,7 +274,7 @@ void Tester::runUiTests()
 	consoleTest();
 	builtinsTest();
 
-	QTimer::singleShot(1000,ui,SLOT(close()));
+	QTimer::singleShot(1000,ui,&MainWindow::close);
 }
 
 void Tester::aboutTest()
@@ -284,8 +298,12 @@ void Tester::preferencesTest()
 	QTest::keyClick(ui,Qt::Key_E,Qt::AltModifier);
 	auto* menuEdit = ui->findChild<QMenu*>("menuEdit");
 	QTest::keyClick(menuEdit,Qt::Key_Up);
+	QTimer::singleShot(100,this,&Tester::handlePreferencesDialog);
 	QTest::keyClick(menuEdit,Qt::Key_Enter);
+}
 
+void Tester::handlePreferencesDialog()
+{
 	auto* prefs = ui->findChild<QDialog*>("Preferences");
 	prefs->activateWindow();
 	QTest::keyClick(prefs,Qt::Key_Enter,Qt::NoModifier,100);
@@ -320,7 +338,7 @@ void Tester::renderingTest()
 	QTest::keyClicks(edit,"cube(10);");
 	QTest::keyClick(edit,Qt::Key_Tab,Qt::NoModifier,100);
 	QTest::keyClick(edit,Qt::Key_Tab,Qt::ControlModifier,100);
-	QTimer::singleShot(100,this,SLOT(handleSaveItemsDialog()));
+	QTimer::singleShot(100,this,&Tester::handleSaveItemsDialog);
 	QTest::keyClick(ui,Qt::Key_F6);
 	edit->setFileName(f.fileName());
 	edit->saveFile();
@@ -364,9 +382,14 @@ void Tester::handleSaveItemsDialog()
 
 void Tester::exportTest(const QDir& dir)
 {
-	Reporter& r=*nullreport;
+#if USE_CGAL
 	const auto files=dir.entryInfoList(QStringList("*.rcad"), QDir::Files);
 	for(const auto& file: files) {
+		const QDir path(file.absolutePath());
+		const QFileInfo origPath(path.filePath(file.baseName()+".csg"));
+		Primitive* p=nullptr;
+#ifndef Q_OS_WIN
+		Reporter& r=*nullreport;
 		Script s(r);
 		s.parse(file);
 		TreeEvaluator te(r);
@@ -374,13 +397,11 @@ void Tester::exportTest(const QDir& dir)
 		NodeEvaluator ne(r);
 		Node* n=te.getRootNode();
 		n->accept(ne);
-		Primitive* p=ne.getResult();
-#if USE_CGAL
-		QDir path(file.absolutePath());
+		p=ne.getResult();
 
-		const QFileInfo origPath(path.filePath(file.baseName()+".csg"));
 		const CGALExport e(origPath,p,r);
 		e.exportResult();
+#endif
 
 		exportTest(p,origPath,file,".stl");
 		exportTest(p,origPath,file,".obj");
@@ -389,21 +410,27 @@ void Tester::exportTest(const QDir& dir)
 		exportTest(p,origPath,file,".3mf");
 		exportTest(p,origPath,file,".nef");
 
+#ifndef Q_OS_WIN
 		QFile::remove(origPath.absoluteFilePath());
 		delete p;
 		delete n;
 #endif
 	}
+#endif
 }
 
 #if USE_CGAL
 void Tester::exportTest(Primitive* p,const QFileInfo& origPath,const QFileInfo& file,const QString& ext)
 {
-	QString newName=file.baseName()+ext;
+	const QString& newName=file.baseName()+ext;
 
 	writeHeader(newName,++testcount);
+#ifdef Q_OS_WIN
+	writeSkip();
+	return;
+#endif
 
-	QDir path(file.absolutePath());
+	const QDir path(file.absolutePath());
 	const QFileInfo newPath(path.filePath(newName));
 	const CGALExport e(newPath,p,*nullreport);
 	e.exportResult();
@@ -426,7 +453,7 @@ void Tester::testFunction(Script& s)
 {
 	TreeEvaluator te(*nullreport);
 	//If a test function exists check it returns true
-	QList<Argument*> args;
+	const QList<Argument*> args;
 	Callback* c = addCallback("test",s,args);
 	s.accept(te);
 	auto* v = dynamic_cast<BooleanValue*>(c->getResult());
@@ -451,11 +478,11 @@ void Tester::testModule(Script& s,const QFileInfo& file)
 #endif
 	TreeEvaluator te(*nullreport);
 
-	QString basename=file.baseName();
-	QString examFileName=basename + ".exam.csg";
-	QString csgFileName=basename + ".csg";
-	QFileInfo examFileInfo(file.absoluteDir(),examFileName);
-	QFileInfo csgFileInfo(file.absoluteDir(),csgFileName);
+	const QString& basename=file.baseName();
+	const QString& examFileName=basename + ".exam.csg";
+	const QString& csgFileName=basename + ".csg";
+	const QFileInfo examFileInfo(file.absoluteDir(),examFileName);
+	const QFileInfo csgFileInfo(file.absoluteDir(),csgFileName);
 	QFile examFile(examFileInfo.absoluteFilePath());
 	s.accept(te);
 
@@ -469,7 +496,7 @@ void Tester::testModule(Script& s,const QFileInfo& file)
 	examout.flush();
 	examFile.close();
 
-	QFile csgFile(csgFileInfo.absoluteFilePath());
+	const QFile csgFile(csgFileInfo.absoluteFilePath());
 	if(csgFile.exists()) {
 		Comparer co(*nullreport);
 		co.setup(examFileInfo.absoluteFilePath(),csgFileInfo.absoluteFilePath());

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,16 +18,17 @@
 
 #include "isboolfunction.h"
 #include "booleanvalue.h"
+#include "valuefactory.h"
 
 IsBoolFunction::IsBoolFunction() : Function("is_bool")
 {
 	addDescription(tr("Returns true when the given value is a boolean."));
-	addParameter("value");
+	addParameter("value","bool",tr("The value to test."));
 }
 
 Value& IsBoolFunction::evaluate(const Context& ctx) const
 {
-	auto* bVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));
+	auto* bVal=getParameterArgument<BooleanValue>(ctx,0);
 	if(bVal)
 		return ValueFactory::createBoolean(true);
 

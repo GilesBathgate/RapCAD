@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 
 #include "nodeprinter.h"
 #include "onceonly.h"
+#include "polyhedron.h"
 
 NodePrinter::NodePrinter(QTextStream& s) : result(s)
 {
@@ -216,7 +217,7 @@ void NodePrinter::visit(const ImportNode& im)
 
 void NodePrinter::printChildren(const Node& n)
 {
-	const QList<Node*> children = n.getChildren();
+	const QList<Node*>& children = n.getChildren();
 	if(children.length()>0) {
 		result << "{";
 		for(Node* c: children)
@@ -299,7 +300,7 @@ void NodePrinter::printArguments(const QList<ViewDirections>& t)
 {
 	result << "(";
 	OnceOnly first;
-	for(ViewDirections a: t) {
+	for(const ViewDirections a: t) {
 		if(!first())
 			result << ",";
 		switch(a) {
@@ -433,6 +434,12 @@ void NodePrinter::visit(const SimplifyNode& n)
 {
 	result << "simplify";
 	printArguments(n.getRatio());
+	printChildren(n);
+}
+
+void NodePrinter::visit(const SolidNode& n)
+{
+	result << "solid()";
 	printChildren(n);
 }
 

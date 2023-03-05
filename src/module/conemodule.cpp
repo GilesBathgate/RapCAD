@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,24 +19,25 @@
 #include "conemodule.h"
 #include "context.h"
 #include "node/alignnode.h"
+#include "node/primitivenode.h"
 #include "numbervalue.h"
 #include "rmath.h"
 
 ConeModule::ConeModule(Reporter& r) : PrimitiveModule(r,"cone")
 {
 	addDescription(tr("Constructs a cone. It is placed centered on the xy plane."));
-	addParameter("height",tr("The height of the cone."));
-	addParameter("radius1",tr("The radius of the bottom of the cone."));
-	addParameter("radius2",tr("The radius of the top of the cone."));
-	addParameter("center",tr("Specifies whether the cone should be vertically centered along the z axis."));
+	addParameter("height","num",tr("The height of the cone."));
+	addParameter("radius1","num",tr("The radius of the bottom of the cone."));
+	addParameter("radius2","num",tr("The radius of the top of the cone."));
+	addParameter("center","bool",tr("Specifies whether the cone should be vertically centered along the z axis."));
 }
 
 Node* ConeModule::evaluate(const Context& ctx) const
 {
-	auto* heightValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
-	auto* r1Value = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
-	auto* r2Value = dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));
-	Value* centerValue = getParameterArgument(ctx,3);
+	auto* heightValue=getParameterArgument<NumberValue>(ctx,0);
+	auto* r1Value=getParameterArgument<NumberValue>(ctx,1);
+	auto* r2Value=getParameterArgument<NumberValue>(ctx,2);
+	auto* centerValue=getParameterArgument<Value>(ctx,3);
 
 	decimal h=1.0;
 	if(heightValue)
@@ -63,13 +64,13 @@ Node* ConeModule::evaluate(const Context& ctx) const
 	if(centerValue)
 		center=centerValue->isTrue();
 
-	decimal z1=0.0;
-	decimal z2=h;
+	const decimal& z1=0.0;
+	const decimal& z2=h;
 
-	decimal r=r_max(r1,r2);
+	const decimal& r=r_max(r1,r2);
 
 	Fragment* fg = Fragment::createFragment(ctx);
-	int f = fg->getFragments(r);
+	const int f = fg->getFragments(r);
 	delete fg;
 
 	const QList<Point> c1=getCircle(r1,f,z1);

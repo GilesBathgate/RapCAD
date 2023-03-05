@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -25,19 +25,19 @@
 ResizeModule::ResizeModule(Reporter& r) : Module(r,"resize")
 {
 	addDescription(tr("Modifies its children to match the given size."));
-	addParameter("newsize",tr("The new size of the shape."));
-	addParameter("auto",tr("Specifies whether to auto-scale any 0-dimensions"));
+	addParameter("newsize","vec3",tr("The new size of the shape."));
+	addParameter("auto","bool",tr("Specifies whether to auto-scale any 0-dimensions"));
 }
 
 Node* ResizeModule::evaluate(const Context& ctx) const
 {
 	Point size(0,0,0);
-	auto* sizeVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* sizeVal=getParameterArgument<VectorValue>(ctx,0);
 	if(sizeVal)
 		size=sizeVal->getPoint();
 
 	bool autoSize=false;
-	auto* autoSizeVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,1));
+	auto* autoSizeVal=getParameterArgument<BooleanValue>(ctx,1);
 	if(autoSizeVal)
 		autoSize=autoSizeVal->isTrue();
 

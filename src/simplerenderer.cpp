@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,19 +17,22 @@
  */
 
 #include "simplerenderer.h"
-#include "qgl.h"
 
-SimpleRenderer::SimpleRenderer(Primitive* pr) :
+SimpleRenderer::SimpleRenderer(const Primitive& pr) :
 	primitive(pr)
 {
 }
 
-void SimpleRenderer::paint(bool, bool)
+void SimpleRenderer::paint(QOpenGLFunctions_1_0& f,bool, bool)
 {
-	glLineWidth(1);
-	glColor4f(0.0,0.0,1.0,0.5);
-	glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
-	descendChildren(primitive);
+	f.glLineWidth(1);
+	f.glColor4f(0.0,0.0,1.0,0.5);
+	f.glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
+	descendChildren(f,primitive);
+}
+
+void SimpleRenderer::locate(const QVector3D&,const QVector3D&)
+{
 }
 
 void SimpleRenderer::preferencesUpdated()
@@ -42,38 +45,41 @@ void SimpleRenderer::setCompiling(bool)
 
 }
 
-void SimpleRenderer::descendChildren(Primitive* p)
+void SimpleRenderer::descendChildren(QOpenGLFunctions_1_0& f,const Primitive& p)
 {
-	for(Primitive* c: p->getChildren()) {
-		descendChildren(c);
+	for(Primitive* c: p.getChildren()) {
+		descendChildren(f,*c);
 
 		if(c->getType()!=PrimitiveTypes::Lines) {
-			glEnable(GL_BLEND);
+			f.glEnable(GL_BLEND);
 			for(Polygon* pg: c->getPolygons()) {
-				glBegin(GL_QUADS);
+				f.glBegin(GL_QUADS);
 				for(const auto& pt: pg->getPoints()) {
-					drawPoint(pt);
+					drawPoint(f,pt);
 				}
-				glEnd();
+				f.glEnd();
 			}
-			glDisable(GL_BLEND);
+			f.glDisable(GL_BLEND);
 		}
 
 		for(Polygon* pg: c->getPolygons()) {
-			glBegin(GL_LINE_STRIP);
+			f.glBegin(GL_LINE_STRIP);
 			for(const auto& pt: pg->getPoints()) {
-				drawPoint(pt);
+				drawPoint(f,pt);
 			}
-			glEnd();
+			f.glEnd();
 		}
 	}
 }
 
-void SimpleRenderer::drawPoint(const Point& pt)
+void SimpleRenderer::drawPoint(QOpenGLFunctions_1_0& f,const Point& pt)
 {
-	GLfloat x;
-	GLfloat y;
-	GLfloat z;
-	to_glcoord(pt,x,y,z);
-	glVertex3f(x,y,z);
+#ifndef USE_CGAL
+	f.glVertex3f(pt.x(),pt.y(),pt.z());
+#else
+	const float x=static_cast<float>(to_double(pt.x()));
+	const float y=static_cast<float>(to_double(pt.y()));
+	const float z=static_cast<float>(to_double(pt.z()));
+	f.glVertex3f(x,y,z);
+#endif
 }

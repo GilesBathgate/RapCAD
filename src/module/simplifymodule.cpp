@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -24,13 +24,13 @@
 SimplifyModule::SimplifyModule(Reporter& r) : Module(r,"simplify")
 {
 	addDescription(tr("Performs a mesh simplification on its children."));
-	addParameter("ratio",tr("The mesh simplification stops when the number of edges is below the ratio of the initial number of edges"));
+	addParameter("ratio","num",tr("The mesh simplification stops when the number of edges is below the ratio of the initial number of edges"));
 }
 
 Node* SimplifyModule::evaluate(const Context& ctx) const
 {
 	decimal ratio=0.1;
-	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* numVal=getParameterArgument<NumberValue>(ctx,0);
 	if(numVal)
 		ratio=numVal->getNumber();
 

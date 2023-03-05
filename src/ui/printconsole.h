@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -30,8 +30,8 @@ class PrintConsole : public QDialog
 	Q_OBJECT
 
 public:
-	explicit PrintConsole(QWidget* parent = 0);
-	~PrintConsole();
+	explicit PrintConsole(QWidget* parent=nullptr);
+	~PrintConsole() override;
 private:
 	static QString getStyleString(const QString&,const QString&);
 	Ui::PrintConsole* ui;

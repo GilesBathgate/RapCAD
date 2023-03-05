@@ -11,7 +11,7 @@
 |atan(value) | Returns the arc tangent of the number value.
 |cbrt(number) | Returns the cube root of the number value.
 |ceil(value) | Returns the number value rounded up to the nearest integer.
-|chr(value) | Returns characters with the given unicode number values.
+|chr(values) | Returns characters with the given unicode number values.
 |circumcenter(a,b,c) | Finds the circumcenter of the given points
 |concat() | Returns a vector with the passed in vector appended.
 |cos(value) | Returns the cosine of the number value.
@@ -21,13 +21,13 @@
 |exp(value) | Returns the exponential of the number value.
 |floor(value) | Returns the number value rounded down to the nearest integer.
 |is_bool(value) | Returns true when the given value is a boolean.
-|is_undef(value) | Returns true when the given value is an undefined value
 |is_int(value) | Returns true when the given value is an integer.
 |is_list(value) | Returns true when the given value is a list.
-|is_num(value) | Returns true when the given value is a number.
 |is_mat4x4(value) | Returns true when the given value is a 4x4 matrix.
+|is_num(value) | Returns true when the given value is a number.
 |is_range(value) | Returns true when the given value is a range.
-|is_str(value) | Returns true when the given value is text.
+|is_str(value) | Returns true when the given value is a text string.
+|is_undef(value) | Returns true when the given value is an undefined value
 |is_vec2(value) | Returns true when the given value is a 2 vector.
 |is_vec3(value) | Returns true when the given value is a 3 vector.
 |len(value) | Returns the length of a range, list or text value.
@@ -46,8 +46,8 @@
 |sin(value) | Returns the sine of the number value.
 |sinh(value) | Returns the hyperbolic sine of the number value.
 |sqrt(number) | Returns the square root of the number value.
-|str() | Converts the value to a text value.
-|sum(values) | Returns the sum of the given vector of values.
+|str() | Converts the value to a text string.
+|sum(values) | Returns the sum of the given list of values.
 |tan(value) | Returns the tangent of the number value.
 |tanh(value) | Returns the hyperbolic tangent of the number value.
 |version() | Returns the version of RapCAD.

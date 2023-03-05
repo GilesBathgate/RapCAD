@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -27,13 +27,13 @@ PolygonModule::PolygonModule(Reporter& r,bool polygon) :
 	type(polygon?PrimitiveTypes::Surface:PrimitiveTypes::Lines)
 {
 	addDescription(polygon?tr("Constructs a polygon."):tr("Constructs a line connecting multiple points."));
-	addParameter("points",tr("The vertices are provided by the points list."));
-	addParameter("lines",tr("The lines are a list of indices to the vertices."));
+	addParameter("points","list",tr("The vertices are provided by the points list."));
+	addParameter("lines","list",tr("The lines are a list of indices to the vertices."));
 }
 
 Node* PolygonModule::evaluate(const Context& ctx) const
 {
-	auto* pointsVec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* pointsVec=getParameterArgument<VectorValue>(ctx,0);
 	VectorValue* linesVec=dynamic_cast<VectorValue*>(ctx.getArgumentDeprecated(1,"lines","paths",reporter));
 
 	auto* pn=new PrimitiveNode();
@@ -53,7 +53,7 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 	for(Value* point: points) {
 		auto* pointVec=dynamic_cast<VectorValue*>(point);
 		if(!pointVec) continue;
-		Point pt = pointVec->getPoint();
+		const Point& pt = pointVec->getPoint();
 		p->createVertex(pt);
 		++count;
 	}
@@ -88,7 +88,7 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 		for(Value* indexVal: lineVec->getElements()) {
 			auto* indexNum=dynamic_cast<NumberValue*>(indexVal);
 			if(!indexNum) continue;
-			int index = indexNum->toInteger();
+			const int index = indexNum->toInteger();
 			if(index>=0&&index<count) {
 				pg.append(index);
 			}

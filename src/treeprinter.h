@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -23,7 +23,8 @@
 #include "assignstatement.h"
 #include "binaryexpression.h"
 #include "callback.h"
-#include "codedoc.h"
+#include "codedocdeclaration.h"
+#include "codedocparam.h"
 #include "complexexpression.h"
 #include "compoundstatement.h"
 #include "forstatement.h"
@@ -31,6 +32,7 @@
 #include "functionscope.h"
 #include "ifelsestatement.h"
 #include "instance.h"
+#include "intervalexpression.h"
 #include "invocation.h"
 #include "literal.h"
 #include "module.h"
@@ -67,6 +69,7 @@ public:
 	void visit(const Argument&) override;
 	void visit(const AssignStatement&) override;
 	void visit(const VectorExpression&) override;
+	void visit(const IntervalExpression&) override;
 	void visit(const RangeExpression&) override;
 	void visit(const UnaryExpression&) override;
 	void visit(const ReturnStatement&) override;
@@ -76,7 +79,8 @@ public:
 	void visit(const ScriptImport&) override;
 	void visit(const Literal&) override;
 	void visit(const Variable&) override;
-	void visit(const CodeDoc&) override;
+	void visit(const CodeDocParam&) override;
+	void visit(const CodeDocDeclaration&) override;
 	void visit(const ComplexExpression&) override;
 
 	void visit(Script&) override;
@@ -84,6 +88,7 @@ public:
 	void visit(Callback&) override;
 private:
 	void printCodeDoc(const QString&,const QList<Parameter*>&);
+	void printParameters(const QList<Parameter*>&);
 	void createIndent();
 	QTextStream& result;
 	unsigned int indent;

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -71,9 +71,9 @@ TokenBuilder::~TokenBuilder()
 
 int TokenBuilder::nextToken()
 {
-	int len=lexerget_leng(scanner);
+	const int len=lexerget_leng(scanner);
 	position+=len;
-	int next=lexerlex(scanner);
+	const int next=lexerlex(scanner);
 	if(next) token=QString::fromUtf8(lexerget_text(scanner),len);
 	return next;
 }
@@ -104,7 +104,7 @@ void TokenBuilder::buildIncludePath(const QString& str)
 
 bool TokenBuilder::openfile(QFileInfo f)
 {
-	QString fullpath=f.absoluteFilePath();
+	const QString& fullpath=f.absoluteFilePath();
 	FILE* fd=fopen(QFile::encodeName(fullpath),"r");
 	if(!fd) {
 		reporter.reportFileMissingError(fullpath);
@@ -120,20 +120,19 @@ void TokenBuilder::buildIncludeFinish()
 	if(filename.isEmpty())
 		return;
 
-	QDir currentpath = path_stack.top();
+	const QDir& currentpath=pathstack.constLast();
 	if(filepath.isEmpty()) {
-		path_stack.push(currentpath);
+		pathstack.push(currentpath);
 	} else {
-		QFileInfo dirinfo(currentpath,filepath);
-		path_stack.push(dirinfo.dir());
+		const QFileInfo dirinfo(currentpath,filepath);
+		pathstack.push(dirinfo.dir());
 		filepath.clear();
 	}
 
-	currentpath = path_stack.top();
-	QFileInfo fileinfo(currentpath,filename);
+	const QFileInfo fileinfo(pathstack.constLast(),filename);
 
 	if(!fileinfo.exists())
-		path_stack.pop();
+		pathstack.pop();
 
 	filename.clear();
 
@@ -269,6 +268,11 @@ int TokenBuilder::buildComponentwiseDivide()
 	return CD;
 }
 
+int TokenBuilder::buildPlusMinus()
+{
+	return PM;
+}
+
 int TokenBuilder::buildIncrement()
 {
 	return INC;
@@ -328,7 +332,7 @@ int TokenBuilder::buildIllegalChar(const QString&)
 int TokenBuilder::buildNumber(const QString& str)
 {
 	QString number(str);
-	decimal unit=get_unit(number);
+	const decimal& unit=get_unit(number);
 	parser->number = new decimal(to_decimal(number)*unit);
 	return NUMBER;
 }
@@ -336,7 +340,7 @@ int TokenBuilder::buildNumber(const QString& str)
 int TokenBuilder::buildNumberExp(const QString& str)
 {
 	QString number(str);
-	decimal unit=get_unit(number);
+	const decimal& unit=get_unit(number);
 	parser->number = new decimal(parse_numberexp(number)*unit);
 	return NUMBER;
 }
@@ -349,7 +353,7 @@ int TokenBuilder::buildRational()
 int TokenBuilder::buildRational(const QString& s)
 {
 	QString number(s);
-	decimal unit=get_unit(number);
+	const decimal& unit=get_unit(number);
 	parser->number = new decimal(parse_rational(number)*unit);
 	return NUMBER;
 }
@@ -437,11 +441,11 @@ void TokenBuilder::buildNewLine()
 void TokenBuilder::buildFileStart(QFileInfo file)
 {
 	openfile(file);
-	path_stack.push(file.absoluteDir());
+	pathstack.push(file.absoluteDir());
 }
 
 void TokenBuilder::buildFileFinish()
 {
-	if(!path_stack.isEmpty())
-		path_stack.pop();
+	if(!pathstack.isEmpty())
+		pathstack.pop();
 }

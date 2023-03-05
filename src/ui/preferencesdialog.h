@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,6 +18,8 @@
 #ifndef PREFERENCESDIALOG_H
 #define PREFERENCESDIALOG_H
 
+#include "preferences.h"
+#include <QAbstractButton>
 #include <QDialog>
 
 namespace Ui
@@ -32,13 +34,12 @@ class PreferencesDialog : public QDialog
 public:
 	explicit PreferencesDialog(QWidget* parent = nullptr);
 	~PreferencesDialog() override;
-signals:
-	void preferencesUpdated();
 private slots:
+	void reset(QAbstractButton*);
 	void colorButtonPressed(QWidget*);
 	void vertexSizeChanged(double);
 	void edgeSizeChanged(double);
-	static void autoSaveOnCompileChanged(int);
+	void autoSaveOnCompileChanged(int);
 	void darkThemeChanged(int);
 	void showTooltipsChanged(int);
 	void placesChanged(int);
@@ -60,12 +61,18 @@ private slots:
 	void indentRadioChanged(bool);
 	void indentSpacesChanged(int);
 	void threadPoolSizeChanged(int);
+	void useCGALAssertionsChanged(int);
+	void visibleWhiteSpaceChanged(int);
+	void softwareOpenGLChanged(int);
 private:
+	void accept() override;
+	void reject() override;
 	void setupWidgets();
 	static void setColor(QWidget*,const QColor&);
 	void setupButtons();
 	void updatePrecision();
 	Ui::Preferences* ui;
+	Preferences& preferences;
 };
 
 #endif // PREFERENCESDIALOG_H

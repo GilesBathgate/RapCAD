@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
 ProjectionModule::ProjectionModule(Reporter& r) : Module(r,"projection")
 {
 	addDescription(tr("Flattens its children onto the xy plane."));
-	addParameter("base",tr("Specifies that only polygons with normals perpendicular to the xy plane be considered."));
+	addParameter("base","bool",tr("Specifies that only polygons with normals perpendicular to the xy plane be considered."));
 }
 
 Node* ProjectionModule::evaluate(const Context& ctx) const
@@ -38,7 +38,7 @@ Node* ProjectionModule::evaluate(const Context& ctx) const
 	}
 
 	bool base=false;
-	auto* baseVal=dynamic_cast<BooleanValue*>(getParameterArgument(ctx,0));
+	auto* baseVal=getParameterArgument<BooleanValue>(ctx,0);
 	if(baseVal)
 		base=baseVal->isTrue();
 

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,18 +20,21 @@
 
 #include "assignstatement.h"
 #include "binaryexpression.h"
+#include "codedocdeclaration.h"
 #include "complexexpression.h"
 #include "compoundstatement.h"
 #include "forstatement.h"
 #include "function.h"
 #include "functionscope.h"
 #include "ifelsestatement.h"
+#include "intervalexpression.h"
 #include "literal.h"
 #include "module.h"
 #include "moduleimport.h"
 #include "modulescope.h"
 #include "rangeexpression.h"
 #include "returnstatement.h"
+#include "script.h"
 #include "scriptimport.h"
 #include "ternaryexpression.h"
 #include "unaryexpression.h"
@@ -54,25 +57,19 @@ void SyntaxTreeBuilder::buildScript(Declaration* dec)
 	script.addDeclaration(dec);
 }
 
-void SyntaxTreeBuilder::buildScript(QList<CodeDoc*>* cdocs)
-{
-	script.addDocumentation(*cdocs);
-	delete cdocs;
-}
-
-QList<CodeDoc*>* SyntaxTreeBuilder::buildCodeDoc(QList<CodeDoc*>* cdocs)
+QList<CodeDocParam*>* SyntaxTreeBuilder::buildCodeDocParams(QList<CodeDocParam*>* cdocs)
 {
 	return cdocs;
 }
 
-QList<CodeDoc*>* SyntaxTreeBuilder::buildCodeDoc()
+QList<CodeDocParam*>* SyntaxTreeBuilder::buildCodeDocParams()
 {
-	return new QList<CodeDoc*>();
+	return new QList<CodeDocParam*>();
 }
 
-QList<CodeDoc*>* SyntaxTreeBuilder::buildCodeDoc(QString* t,QList<CodeDoc*>* cdocs)
+QList<CodeDocParam*>* SyntaxTreeBuilder::buildCodeDocParams(QString* t,QList<CodeDocParam*>* cdocs)
 {
-	auto* cdoc = new CodeDoc();
+	auto* cdoc = new CodeDocParam();
 	cdoc->setName("@description");
 	cdoc->setText(*t);
 	delete t;
@@ -80,9 +77,9 @@ QList<CodeDoc*>* SyntaxTreeBuilder::buildCodeDoc(QString* t,QList<CodeDoc*>* cdo
 	return cdocs;
 }
 
-QList<CodeDoc*>* SyntaxTreeBuilder::buildCodeDoc(QString* n,QString* t,QList<CodeDoc*>* cdocs)
+QList<CodeDocParam*>* SyntaxTreeBuilder::buildCodeDocParams(QString* n,QString* t,QList<CodeDocParam*>* cdocs)
 {
-	auto* cdoc = new CodeDoc();
+	auto* cdoc = new CodeDocParam();
 	cdoc->setName(*n);
 	delete n;
 	cdoc->setText(*t);
@@ -137,6 +134,14 @@ void SyntaxTreeBuilder::buildScript(QList<Declaration*>* decls)
 {
 	script.setDeclarations(*decls);
 	delete decls;
+}
+
+Declaration* SyntaxTreeBuilder::buildCodeDoc(QList<CodeDocParam*>* params)
+{
+	auto result=new CodeDocDeclaration();
+	result->setParameters(*params);
+	delete params;
+	return result;
 }
 
 Declaration* SyntaxTreeBuilder::buildDeclaration(Declaration* dec)
@@ -409,6 +414,17 @@ Parameter* SyntaxTreeBuilder::buildParameter(QString* name,Expression* expr)
 	return result;
 }
 
+Parameter* SyntaxTreeBuilder::buildParameter(QString* name, QString* type, Expression* expr)
+{
+	auto* result = new Parameter();
+	result->setName(*name);
+	delete name;
+	result->setType(*type);
+	delete type;
+	result->setExpression(expr);
+	return result;
+}
+
 QList<Argument*>* SyntaxTreeBuilder::buildArguments()
 {
 	return new QList<Argument*>();
@@ -478,6 +494,25 @@ Expression* SyntaxTreeBuilder::buildLiteral(decimal* value)
 	auto* result = new Literal();
 	result->setValue(*value);
 	delete value;
+	return result;
+}
+
+Expression* SyntaxTreeBuilder::buildInterval(decimal* number,Expression* approx)
+{
+	auto* result = new IntervalExpression();
+	result->setValue(*number);
+	delete number;
+	result->setMore(approx);
+	return result;
+}
+
+Expression* SyntaxTreeBuilder::buildInterval(decimal* number,Expression* more,Expression* less)
+{
+	auto* result = new IntervalExpression();
+	result->setValue(*number);
+	delete number;
+	result->setMore(more);
+	result->setLess(less);
 	return result;
 }
 

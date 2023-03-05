@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -21,20 +21,21 @@
 #include "context.h"
 #include "numbervalue.h"
 #include "rmath.h"
+#include "valuefactory.h"
 #include "vectorvalue.h"
 
 AngFunction::AngFunction() : Function("ang")
 {
 	addDescription(tr("Returns a quaternion with the given angle and axis."));
-	addParameter("angle");
-	addParameter("axis");
+	addParameter("angle","num",tr("The angle."));
+	addParameter("axis","vec3",tr("The axis."));
 }
 
 Value& AngFunction::getResult(const decimal& a,const decimal& x,const decimal& y,const decimal& z)
 {
-	decimal w=a/2.0;
-	decimal c=r_right_cos(w);
-	decimal s=r_right_sin(w);
+	const decimal& w=a/2.0;
+	const decimal& c=r_right_cos(w);
+	const decimal& s=r_right_sin(w);
 
 	Value& angle=ValueFactory::createNumber(c);
 
@@ -72,17 +73,17 @@ Value& AngFunction::evaluate(const Context& ctx) const
 	decimal x=0.0;
 	decimal y=0.0;
 	decimal z=1.0;
-	auto* numVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* numVal=getParameterArgument<NumberValue>(ctx,0);
 	if(numVal) {
 		a=numVal->getNumber();
 
-		auto* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
+		auto* vecVal=getParameterArgument<VectorValue>(ctx,1);
 		if(vecVal) {
 			Value& n=Value::evaluate(*vecVal,Operators::Length);
 			Value& u=Value::evaluate(*vecVal,Operators::Divide,n);
 			auto* unitVec=dynamic_cast<VectorValue*>(&u);
 			if(unitVec) {
-				Point p=unitVec->getPoint();
+				const Point& p=unitVec->getPoint();
 				x=p.x();
 				y=p.y();
 				z=p.z();

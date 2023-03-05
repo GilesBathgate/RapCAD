@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -26,34 +26,34 @@
 RotateExtrudeModule::RotateExtrudeModule(Reporter& r) : PrimitiveModule(r,"rotate_extrude")
 {
 	addDescription(tr("Extrudes its children about the given axis."));
-	addParameter("angle",tr("The sweep angle for the extrusion."));
-	addParameter("axis",tr("The axis of rotation. When no axis is given the shape is first rotated 90° about the x axis, then extruded about the z axis."));
-	addParameter("radius",tr("The radius of the extrusion."));
-	addParameter("height",tr("The helical height of the extrusion."));
+	addParameter("angle","num",tr("The sweep angle for the extrusion."));
+	addParameter("axis","vec3",tr("The axis of rotation. When no axis is given the shape is first rotated 90° about the x axis, then extruded about the z axis."));
+	addParameter("radius","num",tr("The radius of the extrusion."));
+	addParameter("height","num",tr("The helical height of the extrusion."));
 }
 
 Node* RotateExtrudeModule::evaluate(const Context& ctx) const
 {
 	decimal angle=360.0;
-	auto* angleVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* angleVal=getParameterArgument<NumberValue>(ctx,0);
 	if(angleVal)
 		angle=angleVal->getNumber();
 
 	bool compatible=true;
 	Point axis(0,0,1);
-	auto* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
+	auto* vecVal=getParameterArgument<VectorValue>(ctx,1);
 	if(vecVal) {
 		axis=vecVal->getPoint();
 		compatible=false;
 	}
 
 	decimal radius=0.0;
-	auto* radiusVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,2));
+	auto* radiusVal=getParameterArgument<NumberValue>(ctx,2);
 	if(radiusVal)
 		radius=radiusVal->getNumber();
 
 	decimal height=0.0;
-	auto* heightVal=dynamic_cast<NumberValue*>(getParameterArgument(ctx,3));
+	auto* heightVal=getParameterArgument<NumberValue>(ctx,3);
 	if(heightVal)
 		height=heightVal->getNumber();
 

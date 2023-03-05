@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ void CGALPolygon::appendVertex(CGAL::Point3 pt,bool direction)
 	pr.appendVertex(this,pt,direction);
 }
 
-const QList<CGAL::Point3> CGALPolygon::getPoints() const
+QList<CGAL::Point3> CGALPolygon::getPoints() const
 {
 	QList<CGAL::Point3> points;
 	const auto& pr=dynamic_cast<const CGALPrimitive&>(parent);
@@ -55,12 +55,12 @@ const QList<CGAL::Point3> CGALPolygon::getPoints() const
 	return points;
 }
 
-const QList<CGAL::Point2> CGALPolygon::getProjectedPoints()
+QList<CGAL::Point2> CGALPolygon::getProjectedPoints()
 {
 	CGALProjection* pro=getProjection();
 	QList<CGAL::Point2> points;
 	const auto& pr=dynamic_cast<const CGALPrimitive&>(parent);
-	QList<CGAL::Point3> parentPoints=pr.getPoints();
+	const QList<CGAL::Point3>& parentPoints=pr.getPoints();
 	for(auto i: getIndexes()) {
 		const CGAL::Point3& p3=parentPoints.at(i);
 		points.append(pro->project(p3));
@@ -68,7 +68,7 @@ const QList<CGAL::Point2> CGALPolygon::getProjectedPoints()
 	return points;
 }
 
-const QList<CGAL::Segment3> CGALPolygon::getSegments()
+QList<CGAL::Segment3> CGALPolygon::getSegments() const
 {
 		QList<CGAL::Segment3> segments;
 		CGAL::Point3 prev;
@@ -89,7 +89,7 @@ CGAL::Vector3 CGALPolygon::getNormal() const
 
 void CGALPolygon::calculateProjection()
 {
-	CGAL::Vector3 v=plane.orthogonal_vector();
+	const CGAL::Vector3& v=plane.orthogonal_vector();
 	projection=new CGALProjection(v);
 }
 

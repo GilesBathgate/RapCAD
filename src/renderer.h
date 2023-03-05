@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,11 +19,18 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
+#include <QOpenGLFunctions_1_0>
+#include <QVector3D>
+
 class Renderer
 {
+	Q_DISABLE_COPY_MOVE(Renderer)
+protected:
+	Renderer()=default;
 public:
-	virtual ~Renderer() {}
-	virtual void paint(bool,bool)=0;
+	virtual ~Renderer()=default;
+	virtual void paint(QOpenGLFunctions_1_0&,bool,bool)=0;
+	virtual void locate(const QVector3D&,const QVector3D&)=0;
 	virtual void preferencesUpdated()=0;
 	virtual void setCompiling(bool)=0;
 };

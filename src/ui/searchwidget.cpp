@@ -3,12 +3,12 @@
 
 SearchWidget::SearchWidget(QWidget* parent) :
 	QWidget(parent),
+	currentSearchResult(0),
+	searchResultCount(0),
+	textEdit(nullptr),
 	ui(new Ui::SearchWidget)
 {
 	ui->setupUi(this);
-	textEdit=nullptr;
-	currentSearchResult=0;
-	searchResultCount=0;
 	setupActions();
 }
 
@@ -67,7 +67,7 @@ void SearchWidget::setReplaceMode(bool enabled)
 
 void SearchWidget::searchCount()
 {
-	QTextCursor cursor=textEdit->textCursor();
+	const QTextCursor& cursor=textEdit->textCursor();
 	textEdit->moveCursor(QTextCursor::Start, QTextCursor::MoveAnchor);
 
 	searchResultCount=0;
@@ -128,7 +128,7 @@ bool SearchWidget::replace(bool forAll)
 	if(!forAll&&cursor.selectedText().isEmpty())
 		return false;
 
-	bool blocked=textEdit->blockSignals(true);
+	const bool blocked=textEdit->blockSignals(true);
 	cursor.insertText(ui->replaceLineEdit->text());
 	textEdit->blockSignals(blocked);
 

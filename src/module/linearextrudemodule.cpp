@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -25,19 +25,19 @@
 LinearExtrudeModule::LinearExtrudeModule(Reporter& r) : Module(r,"linear_extrude")
 {
 	addDescription(tr("Extrudes its children along the given axis."));
-	addParameter("height",tr("The height of the extrusion."));
-	addParameter("axis",tr("The axis along which to perform the extrusion"));
+	addParameter("height","num",tr("The height of the extrusion."));
+	addParameter("axis","vec3",tr("The axis along which to perform the extrusion"));
 }
 
 Node* LinearExtrudeModule::evaluate(const Context& ctx) const
 {
 	decimal h=1.0;
-	auto* height=dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* height=getParameterArgument<NumberValue>(ctx,0);
 	if(height)
 		h=height->getNumber();
 
 	Point axis(0,0,1);
-	auto* vecVal=dynamic_cast<VectorValue*>(getParameterArgument(ctx,1));
+	auto* vecVal=getParameterArgument<VectorValue>(ctx,1);
 	if(vecVal)
 		axis=vecVal->getPoint();
 

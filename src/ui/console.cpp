@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -73,33 +73,33 @@ void Console::keyPressEvent(QKeyEvent* e)
 
 bool Console::inPromptBlock()
 {
-	QTextCursor cursor=textCursor();
-	int block=cursor.blockNumber();
-	int column=cursor.columnNumber();
+	const QTextCursor& cursor=textCursor();
+	const int block=cursor.blockNumber();
+	const int column=cursor.columnNumber();
 	return (block > promptBlock) || ((block == promptBlock) && (column >= promptLength));
 }
 
 bool Console::handleBackspace()
 {
-	QTextCursor cursor=textCursor();
-	int column=cursor.columnNumber();
-	int block=cursor.blockNumber();
+	const QTextCursor& cursor=textCursor();
+	const int column=cursor.columnNumber();
+	const int block=cursor.blockNumber();
 	return (block == promptBlock && column == promptLength);
 }
 
 void Console::setPrompt(const QString& p)
 {
 	prompt=p;
-	promptLength=prompt.length();
+	promptLength=static_cast<int>(prompt.length());
 	displayPrompt();
 }
 
 void Console::handleReturn()
 {
-	QString command=getCommand();
+	const QString& command=getCommand();
 	if(!command.trimmed().isEmpty()) {
 		commands.append(command);
-		historyPos=commands.count();
+		historyPos=static_cast<int>(commands.count());
 	}
 	moveCursor(QTextCursor::End,QTextCursor::MoveAnchor);
 	insertPlainText("\n");
@@ -109,7 +109,7 @@ void Console::handleReturn()
 
 void Console::handleHistory(int pos)
 {
-	int c=commands.count();
+	const auto c=commands.count();
 	if(pos<0||pos>c) return;
 
 	QTextCursor cursor=textCursor();

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,39 +19,40 @@
 #include "cylindersurfacemodule.h"
 #include "context.h"
 #include "node/alignnode.h"
+#include "node/primitivenode.h"
 #include "numbervalue.h"
 
 CylinderSurfaceModule::CylinderSurfaceModule(Reporter& r) : PrimitiveModule(r,"cylinder_surface")
 {
 	addDescription(tr("Constructs the surface of a cylinder without top and bottom facets."));
-	addParameter("height",tr("The height of the cylinder surface."));
-	addParameter("radius",tr("The radius of the cylinder surface."));
-	addParameter("center",tr("Specifies whether to center the cylinder along the z axis."));
+	addParameter("height","num",tr("The height of the cylinder surface."));
+	addParameter("radius","num",tr("The radius of the cylinder surface."));
+	addParameter("center","bool",tr("Specifies whether to center the cylinder along the z axis."));
 }
 
 
 Node* CylinderSurfaceModule::evaluate(const Context& ctx) const
 {
-	auto* heightValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,0));
+	auto* heightValue=getParameterArgument<NumberValue>(ctx,0);
 	decimal h=1.0;
 	if(heightValue)
 		h=heightValue->getNumber();
 
-	auto* rValue = dynamic_cast<NumberValue*>(getParameterArgument(ctx,1));
+	auto* rValue=getParameterArgument<NumberValue>(ctx,1);
 	decimal r=1.0;
 	if(rValue)
 		r=rValue->getNumber();
 
-	Value* centerValue=getParameterArgument(ctx,2);
+	auto* centerValue=getParameterArgument<Value>(ctx,2);
 	bool center=false;
 
 	if(centerValue)
 		center=centerValue->isTrue();
 
-	decimal z1=0.0;
-	decimal z2=h;
+	const decimal& z1=0.0;
+	const decimal& z2=h;
 
-	int f = Fragment::getFragments(ctx,r);
+	const int f = Fragment::getFragments(ctx,r);
 
 	const QList<Point> c1=getCircle(r,f,z1);
 	const QList<Point> c2=getCircle(r,f,z2);
@@ -70,9 +71,9 @@ Node* CylinderSurfaceModule::evaluate(const Context& ctx) const
 	}
 
 	for(auto i=0; i<f; ++i) {
-		int j=(i+1)%f;
-		int k=i+f;
-		int l=j+f;
+		const int j=(i+1)%f;
+		const int k=i+f;
+		const int l=j+f;
 		createQuad(p,i,k,l,j);
 	}
 

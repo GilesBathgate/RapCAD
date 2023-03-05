@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -24,9 +24,11 @@
 
 class TextBuilder
 {
+	Q_DISABLE_COPY_MOVE(TextBuilder)
+protected:
+	TextBuilder()=default;
+	virtual ~TextBuilder()=default;
 public:
-	TextBuilder() {}
-	virtual ~TextBuilder() {}
 	virtual void setText(const QString&)=0;
 	virtual decimal getHeight()=0;
 	virtual void setLocation(const Point&)=0;

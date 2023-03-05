@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,16 +19,17 @@
 #include "isstrfunction.h"
 #include "booleanvalue.h"
 #include "textvalue.h"
+#include "valuefactory.h"
 
 IsStrFunction::IsStrFunction() : Function("is_str")
 {
-	addDescription(tr("Returns true when the given value is text."));
-	addParameter("value");
+	addDescription(tr("Returns true when the given value is a text string."));
+	addParameter("value","str",tr("The value to test."));
 }
 
 Value& IsStrFunction::evaluate(const Context& ctx) const
 {
-	auto* text=dynamic_cast<TextValue*>(getParameterArgument(ctx,0));
+	auto* text=getParameterArgument<TextValue>(ctx,0);
 	if(text)
 		return ValueFactory::createBoolean(true);
 

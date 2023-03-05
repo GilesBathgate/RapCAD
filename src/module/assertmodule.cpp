@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -21,14 +21,14 @@
 AssertModule::AssertModule(Reporter& r) : Module(r,"assert")
 {
 	addDescription(tr("Checks the expected value and stops execution when false"));
-	addParameter("condition",tr("A value that is expected to be true"));
-	addParameter("message",tr("A message that is displayed when the assertion fails"));
+	addParameter("condition","bool",tr("A value that is expected to be true"));
+	addParameter("message","str",tr("A message that is displayed when the assertion fails"));
 }
 
 Node* AssertModule::evaluate(const Context& ctx) const
 {
-	Value* expectedVal=getParameterArgument(ctx,0);
-	Value* messageVal=getParameterArgument(ctx,1);
+	auto* expectedVal=getParameterArgument<Value>(ctx,0);
+	auto* messageVal=getParameterArgument<Value>(ctx,1);
 
 	QString message;
 	if(messageVal)

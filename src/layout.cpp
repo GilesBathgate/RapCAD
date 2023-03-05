@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -57,7 +57,7 @@ const Function* Layout::lookupFunction(const QString& name) const
 
 void Layout::addModule(const Module& mod)
 {
-	QString name=mod.getName();
+	const QString& name=mod.getName();
 	if(modules.contains(name)) {
 		reporter.reportWarning(tr("module '%1' was already defined.").arg(name));
 		return;
@@ -68,7 +68,7 @@ void Layout::addModule(const Module& mod)
 
 void Layout::addFunction(const Function& func)
 {
-	QString name=func.getName();
+	const QString& name=func.getName();
 	if(functions.contains(name)) {
 		reporter.reportWarning(tr("function '%1' was already defined.").arg(name));
 		return;

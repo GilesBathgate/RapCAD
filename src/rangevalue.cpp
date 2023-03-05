@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 #include "rangeiterator.h"
 #include "valuefactory.h"
 #include "vectorvalue.h"
+#include <QScopedPointer>
 
 RangeValue::RangeValue(Value& s,Value& f) :
 	start(s),
@@ -56,8 +57,8 @@ bool RangeValue::inRange(Value& index)
 	if(start.isUndefined()||finish.isUndefined()||step.isFalse())
 		return false;
 
-	Value& lower = Value::evaluate(index,Operators::LessThan,reverse?finish:start);
-	Value& upper = Value::evaluate(index,Operators::GreaterThan,reverse?start:finish);
+	const Value& lower = Value::evaluate(index,Operators::LessThan,reverse?finish:start);
+	const Value& upper = Value::evaluate(index,Operators::GreaterThan,reverse?start:finish);
 
 	return lower.isFalse() && upper.isFalse();
 }
@@ -79,13 +80,12 @@ ValueIterator* RangeValue::createIterator()
 	return new RangeIterator(this,&start,&step);
 }
 
-const QList<Value*> RangeValue::getElements()
+QList<Value*> RangeValue::getElements()
 {
 	QList<Value*> result;
-	ValueIterator* it=createIterator();
-	for(Value* v: *it)
-		result.append(v);
-	delete it;
+	QScopedPointer<ValueIterator> it(createIterator());
+	for(Value& v: *it)
+		result.append(&v);
 	return result;
 }
 
@@ -114,8 +114,8 @@ Value& RangeValue::operation(Operators op)
 	Value& lower=Value::evaluate(finish,op);
 
 	if(op==Operators::Add||op==Operators::Subtract) {
-			Value& increment=Value::evaluate(step,op);
-			return ValueFactory::createRange(upper,increment,lower);
+		Value& increment=Value::evaluate(step,op);
+		return ValueFactory::createRange(upper,increment,lower);
 	}
 
 	return ValueFactory::createRange(upper,lower);
@@ -132,46 +132,21 @@ Value& RangeValue::operation(Value& v,Operators op)
 
 Value& RangeValue::operation(RangeValue& range,Operators op)
 {
-	/* Interval arithmetic has the following rules:
-	 * when x = [a:b] and y = [c:d] then
-	 * x+y = [a+c:b+d]
-	 * x-y = [a-d:b-c]
-	 * x*y = [min(a*c,a*d,b*c,b*d):max(a*c,a*d,b*c,b*d)]
-	 * x/y = [min(a/c,a/d,b/c,b/d):max(a/c,a/d,b/c,b/d)]
-	 */
 	Value& a=start;
 	Value& b=finish;
 	Value& c=range.start;
 	Value& d=range.finish;
 	if(op==Operators::Equal) {
-		bool result=compare(a,op,c)&&compare(b,op,d);
+		const bool result=compare(a,op,c)&&compare(b,op,d);
 		return ValueFactory::createBoolean(result);
 	}
 	if(op==Operators::NotEqual) {
-		bool result=compare(a,op,c)||compare(b,op,d);
+		const bool result=compare(a,op,c)||compare(b,op,d);
 		return ValueFactory::createBoolean(result);
-	}
-	if(op==Operators::Add) {
-		return ValueFactory::createRange(a+c,b+d);
-	}
-	if(op==Operators::Subtract) {
-		return ValueFactory::createRange(a-d,b-c);
-	}
-	if(op==Operators::Multiply||op==Operators::Divide) {
-
-		Value& ac=Value::evaluate(a,op,c);
-		Value& ad=Value::evaluate(a,op,d);
-		Value& bc=Value::evaluate(b,op,c);
-		Value& bd=Value::evaluate(b,op,d);
-		QList<Value*> vals {&ac,&ad,&bc,&bd};
-		Value& lower=compareAll(vals,Operators::LessThan);
-		Value& upper=compareAll(vals,Operators::GreaterThan);
-
-		return ValueFactory::createRange(lower,upper);
 	}
 	if(op==Operators::Concatenate) {
 
-		QList<Value*> vals {&a,&b,&c,&d};
+		const QList<Value*> vals {&a,&b,&c,&d};
 		Value& lower=compareAll(vals,Operators::LessThan);
 		Value& upper=compareAll(vals,Operators::GreaterThan);
 
@@ -183,12 +158,12 @@ Value& RangeValue::operation(RangeValue& range,Operators op)
 
 bool RangeValue::getReverse()
 {
-	Value& v=Value::evaluate(start,Operators::GreaterThan,finish);
+	const Value& v=Value::evaluate(start,Operators::GreaterThan,finish);
 	return v.isTrue();
 }
 
-Value& RangeValue::defaultStep()
+Value& RangeValue::defaultStep() const
 {
-	decimal i=reverse?-1.0:1.0;
+	const decimal& i=reverse?-1.0:1.0;
 	return ValueFactory::createNumber(i);
 }

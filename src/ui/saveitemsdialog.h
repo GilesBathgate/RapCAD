@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ class SaveItemsDialog : public QDialog
 
 public:
 	SaveItemsDialog(QWidget* parent,bool,const QList<QString>&);
-	~SaveItemsDialog();
+	~SaveItemsDialog() override;
 
 	QList<QString> getItemsToSave() const;
 	bool getAutoSaveOnCompile() const;

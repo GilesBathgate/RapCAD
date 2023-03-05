@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 
 Project::Project(QObject* parent) : QStandardItemModel(parent)
 {
-	QStringList headers(tr("Project"));
+	const QStringList headers(tr("Project"));
 	setHorizontalHeaderLabels(headers);
 }
 
@@ -35,19 +35,19 @@ void Project::parseProject(const QString& filename)
 	QXmlStreamReader xml(file);
 	createRootItem();
 	while(!xml.atEnd() && !xml.hasError()) {
-		QXmlStreamReader::TokenType token = xml.readNext();
+		const QXmlStreamReader::TokenType token = xml.readNext();
 		if(token == QXmlStreamReader::StartDocument) {
 			continue;
 		}
 		if(token == QXmlStreamReader::StartElement) {
-			if(xml.name() == "project") {
+			if(xml.name()==QString("project")) {
 
 				continue;
 			}
-			if(xml.name() == "name") {
+			if(xml.name()==QString("name")) {
 				parseName(xml);
 			}
-			if(xml.name() == "source") {
+			if(xml.name()==QString("source")) {
 				parseSource(xml);
 			}
 		}
@@ -58,7 +58,7 @@ void Project::parseProject(const QString& filename)
 void Project::parseName(QXmlStreamReader& xml)
 {
 	while(xml.tokenType() != QXmlStreamReader::EndElement) {
-		QXmlStreamReader::TokenType token=xml.readNext();
+		const QXmlStreamReader::TokenType token=xml.readNext();
 		if(token == QXmlStreamReader::Characters) {
 			name = xml.text().toString();
 		}
@@ -68,7 +68,7 @@ void Project::parseName(QXmlStreamReader& xml)
 void Project::parseSource(QXmlStreamReader& xml)
 {
 	while(xml.tokenType() != QXmlStreamReader::EndElement) {
-		QXmlStreamReader::TokenType token=xml.readNext();
+		const QXmlStreamReader::TokenType token=xml.readNext();
 		if(token == QXmlStreamReader::Characters) {
 			addSource(xml.text().toString());
 		}
@@ -120,7 +120,7 @@ void Project::addSource(const QString& value)
 	rootItem->appendRow(new QStandardItem(value));
 }
 
-const QList<QString> Project::getSources() const
+const QList<QString>& Project::getSources() const
 {
 	return sources;
 }

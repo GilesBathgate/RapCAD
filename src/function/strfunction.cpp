@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,10 +19,11 @@
 #include "strfunction.h"
 #include "context.h"
 #include "textvalue.h"
+#include "valuefactory.h"
 
 StrFunction::StrFunction() : Function("str")
 {
-	addDescription(tr("Converts the value to a text value."));
+	addDescription(tr("Converts the value to a text string."));
 }
 
 Value& StrFunction::evaluate(const Context& ctx) const

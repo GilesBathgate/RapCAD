@@ -147,9 +147,23 @@
           </spacer>
          </item>
          <item>
+          <widget class="QCheckBox" name="visibleWhiteSpacdCheckBox">
+           <property name="text">
+            <string>Show visible white space</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QCheckBox" name="darkThemeCheckBox">
            <property name="text">
             <string>Use dark theme (requires restart)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="softwareOpenGLCheckBox">
+           <property name="text">
+            <string>Use software only OpenGL (requires restart)</string>
            </property>
           </widget>
          </item>
@@ -538,6 +552,16 @@
           </layout>
          </item>
          <item>
+          <widget class="QCheckBox" name="useCGALAssertionsCheckBox">
+           <property name="toolTip">
+            <string>disable to improve performance</string>
+           </property>
+           <property name="text">
+            <string>Use CGAL Assertions</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer name="verticalSpacer_4">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -854,7 +878,7 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Close|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
      </property>
     </widget>
    </item>

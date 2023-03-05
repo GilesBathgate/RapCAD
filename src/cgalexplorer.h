@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ public:
 	explicit CGALExplorer(CGALPrimitive*);
 	~CGALExplorer();
 	CGALPrimitive* getPrimitive();
-	const QList<CGALPolygon*> getBase();
+	QList<CGALPolygon*> getBase();
 	CGALVolume getVolume(bool);
 private:
 	bool explore();

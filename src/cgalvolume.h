@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -30,8 +30,8 @@ public:
 	const CGAL::Point3& getCenter() const;
 	const CGAL::Scalar& getSize() const;
 	const CGAL::Cuboid3& getBounds() const;
-	const QString getSizeString() const;
-	const QString getCenterString() const;
+	QString getSizeString() const;
+	QString getCenterString() const;
 private:
 	CGAL::Cuboid3 bounds;
 	CGAL::Scalar size;

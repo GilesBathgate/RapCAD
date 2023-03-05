@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 #include "isvecfunction.h"
 #include "booleanvalue.h"
 #include "context.h"
+#include "valuefactory.h"
 #include "vectorvalue.h"
 
 IsVecFunction::IsVecFunction(int s) :
@@ -26,12 +27,12 @@ IsVecFunction::IsVecFunction(int s) :
 	size(s)
 {
 	addDescription(tr("Returns true when the given value is a %1 vector.").arg(s));
-	addParameter("value");
+	addParameter("value",QString("vec%1").arg(s),tr("The value to test."));
 }
 
 Value& IsVecFunction::evaluate(const Context& ctx) const
 {
-	auto* vec=dynamic_cast<VectorValue*>(getParameterArgument(ctx,0));
+	auto* vec=getParameterArgument<VectorValue>(ctx,0);
 	if(vec) {
 		const QList<Value*> vals=vec->getElements();
 		if(vals.count()==size) {

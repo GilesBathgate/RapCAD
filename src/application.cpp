@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -28,21 +28,9 @@
 #include "ui/mainwindow.h"
 #include "worker.h"
 #include <QApplication>
-#include <contrib/qtcompat.h>
-#ifdef USE_COMMANDLINE_PARSER
-#include <contrib/qcommandlineparser.h>
-#else
 #include <QCommandLineOption>
 #include <QCommandLineParser>
-#endif
-
-#ifdef USE_CGAL
-namespace CGAL {
-typedef void (*Failure_function)(const char*, const char*, const char*, int, const char*);
-extern Failure_function set_error_handler( Failure_function handler);
-}
-static void rapcadErrorHandler(const char*,const char*,const char*,int,const char*){}
-#endif
+#include <contrib/qtcompat.h>
 
 Application::Application() :
 	output(stdout),
@@ -51,26 +39,24 @@ Application::Application() :
 	strategy(nullptr),
 	redirectFile(nullptr)
 {
-#ifdef Q_OS_WIN
-	QCoreApplication::setAttribute(Qt::AA_UseDesktopOpenGL);
-#endif
 	QCoreApplication::setOrganizationName("rapcad");
 	QCoreApplication::setOrganizationDomain("rapcad.org");
 	QCoreApplication::setApplicationName("RapCAD");
 	QCoreApplication::setApplicationVersion(STRINGIFY(RAPCAD_VERSION));
 #ifdef USE_CGAL
-	CGAL::set_error_handler(rapcadErrorHandler);
+	CGAL::set_error_handler([](auto...){});
 #endif
 	//Ensure preferences have been initialised early.
-	Preferences::getInstance();
+	auto& p=Preferences::getInstance();
+	if(p.getSoftwareOpenGL()) {
+		QCoreApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
+	}
 }
 
 Application::~Application()
 {
-	if(redirectFile)
-		delete redirectFile;
-	if(strategy)
-		delete strategy;
+	delete redirectFile;
+	delete strategy;
 }
 
 #if defined (USE_INTEGTEST) || defined (USE_READLINE)
@@ -118,29 +104,32 @@ Strategy* Application::parseArguments(int argc,char* argv[])
 
 	QCommandLineParser p;
 	p.setApplicationDescription(QCoreApplication::translate("main","RapCAD the rapid prototyping IDE."));
-	QCommandLineOption helpOption=p.addHelpOption();
-	QCommandLineOption versionOption=p.addVersionOption();
+	const QCommandLineOption& helpOption=p.addHelpOption();
+	const QCommandLineOption& versionOption=p.addVersionOption();
 	p.addPositionalArgument("filename", QCoreApplication::translate("main","File to open or process."));
 
 #ifdef USE_INTEGTEST
-	QCommandLineOption testOption(QStringList() << "t" << "test", QCoreApplication::translate("main","Run through tests in working directory."),"directory");
+	const QCommandLineOption testOption(QStringList() << "t" << "test", QCoreApplication::translate("main","Run through tests in working directory."),"directory");
 	p.addOption(testOption);
 
-	QCommandLineOption generateOption(QStringList() << "g" << "generate", QCoreApplication::translate("main","Generate documentation."));
+	const QCommandLineOption generateOption(QStringList() << "g" << "generate", QCoreApplication::translate("main","Generate documentation."));
 	p.addOption(generateOption);
 #endif
 
-	QCommandLineOption compareOption(QStringList() << "c" << "compare", QCoreApplication::translate("main","Compare two files to see if they are identical."),"filename");
+	const QCommandLineOption compareOption(QStringList() << "c" << "compare", QCoreApplication::translate("main","Compare two files to see if they are identical."),"filename");
 	p.addOption(compareOption);
 
-	QCommandLineOption outputOption(QStringList() << "o" << "output",QCoreApplication::translate("main","Create output geometry <filename> filename must end with known extension (.stl/.amf/.3mf/...)."),"filename");
+	const QCommandLineOption outputOption(QStringList() << "o" << "output",QCoreApplication::translate("main","Create output geometry <filename> filename must end with known extension (.stl/.amf/.3mf/...)."),"filename");
 	p.addOption(outputOption);
 
-	QCommandLineOption redirectOption(QStringList() << "r" << "redirect",QCoreApplication::translate("main","Redirect text output to file <filename>."),"filename");
+	const QCommandLineOption redirectOption(QStringList() << "r" << "redirect",QCoreApplication::translate("main","Redirect text output to file <filename>."),"filename");
 	p.addOption(redirectOption);
 
+	const QCommandLineOption viewAllOption("viewall",QCoreApplication::translate("main","adjust camera to fit object"));
+	p.addOption(viewAllOption);
+
 #ifdef USE_READLINE
-	QCommandLineOption interactOption(QStringList() << "i" << "interactive",QCoreApplication::translate("main","Start an interactive session."));
+	const QCommandLineOption interactOption(QStringList() << "i" << "interactive",QCoreApplication::translate("main","Start an interactive session."));
 	p.addOption(interactOption);
 #endif
 
@@ -150,7 +139,7 @@ Strategy* Application::parseArguments(int argc,char* argv[])
 		p.process(arguments); // exits
 	} else {
 		if(p.isSet(helpOption)) {
-			QCoreApplication a(argc,argv);
+			const QCoreApplication a(argc,argv);
 			p.showHelp(); // exits
 		} else if(p.isSet(versionOption)) {
 			p.showVersion(); // exits
@@ -200,7 +189,7 @@ Strategy* Application::parseArguments(int argc,char* argv[])
 
 int Application::runUserInterface(int argc,char* argv[])
 {
-	QApplication a(argc,argv);
+	const QApplication a(argc,argv);
 	MainWindow w;
 	w.loadFiles(inputFiles);
 	w.show();

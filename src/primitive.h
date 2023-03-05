@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -34,8 +34,11 @@ enum class PrimitiveTypes {
 
 class Primitive
 {
+	Q_DISABLE_COPY_MOVE(Primitive)
+protected:
+	Primitive()=default;
 public:
-	virtual ~Primitive() {}
+	virtual ~Primitive()=default;
 	virtual bool getSanitized()=0;
 	virtual bool isEmpty()=0;
 	virtual bool isFullyDimentional()=0;
@@ -56,6 +59,7 @@ public:
 	virtual Primitive* intersection(Primitive*)=0;
 	virtual Primitive* join(Primitive*)=0;
 	virtual Primitive* linear_extrude(const decimal&,const Point&)=0;
+	virtual Point locate(const Point&,const Point&)=0;
 	virtual Primitive* minkowski(Primitive*)=0;
 	virtual Primitive* projection(bool)=0;
 	virtual	Primitive* rotate_extrude(const decimal&,const decimal&,const decimal&,const Fragment*,const Point&)=0;
@@ -63,11 +67,12 @@ public:
 	virtual Primitive* slice(const decimal&,const decimal&)=0;
 	virtual Primitive* subdivide(int)=0;
 	virtual Primitive* symmetric_difference(Primitive*)=0;
+	virtual Primitive* solidify()=0;
 	virtual Primitive* triangulate()=0;
 	virtual PrimitiveTypes getType()=0;
-	virtual const QList<Point> getPoints() const=0;
-	virtual const QList<Polygon*> getPolygons() const=0;
-	virtual const QList<Primitive*> getChildren() const=0;
+	virtual QList<Point> getPoints() const=0;
+	virtual const QList<Polygon*>& getPolygons() const=0;
+	virtual const QList<Primitive*>& getChildren() const=0;
 	virtual void align(bool,QList<ViewDirections>)=0;
 	virtual void appendChild(Primitive*)=0;
 	virtual void appendChildren(QList<Primitive*>)=0;

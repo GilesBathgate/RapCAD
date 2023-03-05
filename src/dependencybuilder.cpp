@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -30,26 +30,27 @@ void DependencyBuilder::buildScript(QList<Declaration*>*)
 {
 }
 
-void DependencyBuilder::buildScript(QList<CodeDoc*>*)
-{
-}
-
-QList<CodeDoc*>* DependencyBuilder::buildCodeDoc(QList<CodeDoc*>*)
+Declaration* DependencyBuilder::buildCodeDoc(QList<CodeDocParam*>*)
 {
 	return nullptr;
 }
 
-QList<CodeDoc*>* DependencyBuilder::buildCodeDoc()
+QList<CodeDocParam*>* DependencyBuilder::buildCodeDocParams(QList<CodeDocParam*>*)
 {
 	return nullptr;
 }
 
-QList<CodeDoc*>* DependencyBuilder::buildCodeDoc(QString*,QList<CodeDoc*>*)
+QList<CodeDocParam*>* DependencyBuilder::buildCodeDocParams()
 {
 	return nullptr;
 }
 
-QList<CodeDoc*>* DependencyBuilder::buildCodeDoc(QString*,QString*,QList<CodeDoc*>*)
+QList<CodeDocParam*>* DependencyBuilder::buildCodeDocParams(QString*,QList<CodeDocParam*>*)
+{
+	return nullptr;
+}
+
+QList<CodeDocParam*>* DependencyBuilder::buildCodeDocParams(QString*,QString*,QList<CodeDocParam*>*)
 {
 	return nullptr;
 }
@@ -320,6 +321,16 @@ Expression* DependencyBuilder::buildVariable(Variable*)
 }
 
 Variable* DependencyBuilder::buildVariable(QString*,Storage)
+{
+	return nullptr;
+}
+
+Expression* DependencyBuilder::buildInterval(decimal*,Expression*)
+{
+	return nullptr;
+}
+
+Expression* DependencyBuilder::buildInterval(decimal*,Expression*,Expression*)
 {
 	return nullptr;
 }

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 #include "parameter.h"
 
 Parameter::Parameter() :
+	type("undef"),
 	expression(nullptr)
 {
 }
@@ -35,7 +36,17 @@ QString Parameter::getName() const
 
 void Parameter::setName(const QString& n)
 {
-	name = n;
+	name=n;
+}
+
+const QString& Parameter::getType() const
+{
+	return type;
+}
+
+void Parameter::setType(const QString& t)
+{
+	type=t;
 }
 
 Expression* Parameter::getExpression() const
@@ -45,7 +56,7 @@ Expression* Parameter::getExpression() const
 
 void Parameter::setExpression(Expression* expr)
 {
-	expression = expr;
+	expression=expr;
 }
 
 void Parameter::addDescription(const QString& d)

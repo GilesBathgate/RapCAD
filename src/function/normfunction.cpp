@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -21,18 +21,18 @@
 #include "context.h"
 #include "numbervalue.h"
 #include "rangevalue.h"
-#include "rmath.h"
+#include "valuefactory.h"
 #include "vectorvalue.h"
 
 NormFunction::NormFunction() : Function("norm")
 {
 	addDescription(tr("Returns the strictly positive length of a given number, vector or complex value."));
-	addParameter("value");
+	addParameter("value","list",tr("The value for which to find the norm."));
 }
 
 Value& NormFunction::evaluate(const Context& ctx) const
 {
-	Value* v=getParameterArgument(ctx,0);
+	auto* v=getParameterArgument<Value>(ctx,0);
 
 	/* Explicitly return undefined for range which
 	 * inherits from vector */

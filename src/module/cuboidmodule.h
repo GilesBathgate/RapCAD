@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -15,25 +15,17 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef CUBOIDMODULE_H
+#define CUBOIDMODULE_H
 
-#ifndef CODEDOC_H
-#define CODEDOC_H
+#include "primitivemodule.h"
 
-#include "visitabletree.h"
-#include <QString>
-
-class CodeDoc : VisitableTree
+class CuboidModule : public PrimitiveModule
 {
+	Q_DECLARE_TR_FUNCTIONS(CuboidModule)
 public:
-	CodeDoc() = default;
-	void setName(const QString&);
-	QString getName() const;
-	void setText(const QString&);
-	QString getText() const;
-	void accept(TreeVisitor&) override;
-private:
-	QString name;
-	QString text;
+	explicit CuboidModule(Reporter&);
+	Node* evaluate(const Context& ctx) const override;
 };
 
-#endif // CODEDOC_H
+#endif // CUBOIDMODULE_H

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -15,30 +15,19 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include "codedocdeclaration.h"
 
-#include "codedoc.h"
-
-void CodeDoc::setName(const QString& n)
+const QList<CodeDocParam*>& CodeDocDeclaration::getParameters() const
 {
-	name=n;
+	return parameters;
 }
 
-QString CodeDoc::getName() const
+void CodeDocDeclaration::setParameters(const QList<CodeDocParam*>& p)
 {
-	return name;
+	parameters=p;
 }
 
-void CodeDoc::setText(const QString& t)
-{
-	text=t;
-}
-
-QString CodeDoc::getText() const
-{
-	return text;
-}
-
-void CodeDoc::accept(TreeVisitor& v)
+void CodeDocDeclaration::accept(TreeVisitor& v)
 {
 	v.visit(*this);
 }

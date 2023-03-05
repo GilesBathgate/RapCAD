@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,16 +18,17 @@
 
 #include "numfunction.h"
 #include "context.h"
+#include "valuefactory.h"
 
 NumFunction::NumFunction() : Function("num")
 {
 	addDescription(tr("Converts the value to a number value."));
-	addParameter("value");
+	addParameter("value","num",tr("The value for which to find the number."));
 }
 
 Value& NumFunction::evaluate(const Context& ctx) const
 {
-	Value* v=getParameterArgument(ctx,0);
+	auto* v=getParameterArgument<Value>(ctx,0);
 	if(v)
 		return v->toNumber();
 

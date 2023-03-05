@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -25,21 +25,22 @@
 CubeModule::CubeModule(Reporter& r) : PrimitiveModule(r,"cube")
 {
 	addDescription(tr("Constructs a cube or cuboid. It will be placed in the first octant unless the center parameter is true."));
-	addParameter("size",tr("The size of the cube. A single value or x,y,z"));
-	addParameter("center",tr("Specifies whether to center the cube at the origin"));
+	addParameter("size","vec3",tr("The size of the cube. A single value or x,y,z"));
+	addParameter("center","bool",tr("Specifies whether to center the cube at the origin"));
+	addExample("cube([10,10,10]);");
 }
 
 Node* CubeModule::evaluate(const Context& ctx) const
 {
-	Value* sizeVal=getParameterArgument(ctx,0);
-	Value* centerVal=getParameterArgument(ctx,1);
+	auto* sizeVal=getParameterArgument<Value>(ctx,0);
+	auto* centerVal=getParameterArgument<Value>(ctx,1);
 	bool center=false;
 	if(centerVal)
 		center = centerVal->isTrue();
 
 	Point pt(1.0,1.0,1.0);
 	if(sizeVal&&sizeVal->isDefined()) {
-		VectorValue& size=sizeVal->toVector(3);
+		const VectorValue& size=sizeVal->toVector(3);
 		pt=size.getPoint();
 	}
 

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -49,8 +49,8 @@ public:
 	bool isFullyDimentional() override;
 	bool overlaps(Primitive*) override;
 	CGALPolygon& createPolygon() override;
-	const QList<CGAL::Point3> getPoints() const override;
-	const QList<Primitive*> getChildren() const override;
+	QList<CGAL::Point3> getPoints() const override;
+	const QList<Primitive*>& getChildren() const override;
 	Primitive* boundary() override;
 	Primitive* chain_hull(Primitive*,Primitive*) override;
 	Primitive* combine() override;
@@ -66,6 +66,7 @@ public:
 	Primitive* intersection(Primitive*) override;
 	Primitive* join(Primitive*) override;
 	Primitive* linear_extrude(const CGAL::Scalar&,const CGAL::Point3&) override;
+	Point locate(const Point&,const Point&) override;
 	Primitive* minkowski(Primitive*) override;
 	Primitive* projection(bool) override;
 	Primitive* rotate_extrude(const CGAL::Scalar&,const CGAL::Scalar&,const CGAL::Scalar&,const Fragment*,const CGAL::Point3&) override;
@@ -74,9 +75,10 @@ public:
 	Primitive* subdivide(int) override;
 	Primitive* symmetric_difference(Primitive*) override;
 	Primitive* triangulate() override;
+	Primitive* solidify() override;
 	PrimitiveTypes getType() override;
 	/* Don't call this method instead use getCGALPolygons */
-	Q_DECL_DEPRECATED const QList<Polygon*> getPolygons() const override;
+	Q_DECL_DEPRECATED const QList<Polygon*>& getPolygons() const override;
 	void align(bool,QList<ViewDirections>) override;
 	void appendChild(Primitive*) override;
 	void appendChildren(QList<Primitive*>) override;
@@ -88,14 +90,14 @@ public:
 	void setSanitized(bool) override;
 	void setType(PrimitiveTypes) override;
 	void transform(TransformMatrix*) override;
-	CGAL::Circle3 getRadius();
-	CGAL::Cuboid3 getBounds();
+	CGAL::Circle3 getRadius() const;
+	CGAL::Cuboid3 getBounds() const;
 	CGALPolygon& createPerimeter();
 	CGAL::Polyhedron3* getPolyhedron();
 	CGALVolume getVolume(bool);
 	const CGAL::NefPolyhedron3& getNefPolyhedron();
-	const QList<CGALPolygon*> getCGALPerimeter() const;
-	const QList<CGALPolygon*> getCGALPolygons() const;
+	const QList<CGALPolygon*>& getCGALPerimeter() const;
+	const QList<CGALPolygon*>& getCGALPolygons() const;
 	void appendVertex(CGALPolygon*,const CGAL::Point3&,bool);
 	void appendVertex(const CGAL::Point3&);
 	void clearPolygons();
@@ -109,6 +111,7 @@ private:
 	void buildPrimitive();
 	void convertBoundary();
 	CGAL::NefPolyhedron3* createVolume();
+	CGAL::NefPolyhedron3* createFromFacets();
 	CGAL::NefPolyhedron3* createPolyline();
 	static CGAL::NefPolyhedron3* createPolyline(CGALPolygon*);
 	static CGAL::NefPolyhedron3* createPolyline(const CGAL::Segment3&);
@@ -122,11 +125,12 @@ private:
 	 * @param p The point to find or add.
 	 * @return The index of the point.
 	 */
-	int findIndex(const CGAL::Point3& p);
+	using size_type=QList<CGAL::Point3>::size_type;
+	size_type findIndex(const CGAL::Point3& p);
 
 	QList<Primitive*> children;
 	QList<CGAL::Point3> points;
-	QMap<CGAL::Point3,int> pointMap;
+	QMap<CGAL::Point3,size_type> pointMap;
 	QList<CGALPolygon*> polygons;
 	QList<CGALPolygon*> perimeters;
 	CGAL::NefPolyhedron3* nefPolyhedron;

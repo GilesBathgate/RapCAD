@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 #define POLYGON_H
 
 class Primitive;
-#include <qglobal.h>
+#include <QtGlobal>
 
 #ifdef Q_OS_WIN
 #include <windows.h>
@@ -33,14 +33,15 @@ class Primitive;
 class Polygon
 {
 public:
+	using size_type=QList<Point>::size_type;
 	explicit Polygon(Primitive&);
-	void append(int);
-	void prepend(int);
-	const QList<Point> getPoints() const;
-	const QList<int> getIndexes() const;
-	void setIndexes(const QList<int>& value);
+	void append(size_type);
+	void prepend(size_type);
+	QList<Point> getPoints() const;
+	const QList<size_type>& getIndexes() const;
+	void setIndexes(const QList<size_type>& value);
 protected:
-	QList<int> indexes;
+	QList<size_type> indexes;
 	Primitive& parent;
 };
 

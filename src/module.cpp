@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -56,12 +56,17 @@ QString Module::getDescription() const
 	return description;
 }
 
+QString Module::getExample() const
+{
+	return example;
+}
+
 bool Module::getAuxilary() const
 {
 	return auxilary;
 }
 
-const QList<Parameter*> Module::getParameters() const
+const QList<Parameter*>& Module::getParameters() const
 {
 	return parameters;
 }
@@ -96,32 +101,37 @@ void Module::addDescription(const QString& d)
 	description=d;
 }
 
+void Module::addExample(const QString& e)
+{
+	example=e;
+}
+
 void Module::addDeprecated(const QString& d)
 {
 	deprecated=true;
 	description=d;
 }
 
-void Module::addParameter(const QString& n, const QString& d)
+void Module::addParameter(const QString& n,const QString& t,const QString& d)
 {
 	auto* p=new Parameter();
 	p->setName(n);
+	p->setType(t);
 	p->addDescription(d);
 	parameters.append(p);
 }
 
-Value* Module::getParameterArgument(const Context& ctx, int index) const
+Value* Module::getArgument(const Context& ctx,int expectedIndex,const QString& name) const
 {
-	return getParameterArgument(ctx,index,index);
-}
-
-Value* Module::getParameterArgument(const Context& ctx, int index, int expectedIndex) const
-{
-	Parameter* p=parameters.at(index);
-	return ctx.getArgument(expectedIndex,p->getName());
+	return ctx.getArgument(expectedIndex,name);
 }
 
 bool Module::isDeprecated() const
 {
 	return deprecated;
+}
+
+bool Module::hasExample() const
+{
+	return !example.isEmpty();
 }

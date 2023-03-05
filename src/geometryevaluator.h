@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -45,6 +45,7 @@
 #include "node/rotateextrudenode.h"
 #include "node/simplifynode.h"
 #include "node/slicenode.h"
+#include "node/solidnode.h"
 #include "node/subdivisionnode.h"
 #include "node/symmetricdifferencenode.h"
 #include "node/transformationnode.h"
@@ -93,6 +94,7 @@ public:
 	void visit(const DiscreteNode&) override;
 	void visit(const NormalsNode&) override;
 	void visit(const SimplifyNode&) override;
+	void visit(const SolidNode&) override;
 	void visit(const ChildrenNode&) override;
 	Primitive* getResult() const override;
 private:

@@ -1,6 +1,6 @@
 /*
  *   RapCAD - Rapid prototyping CAD IDE (www.rapcad.org)
- *   Copyright (C) 2010-2022 Giles Bathgate
+ *   Copyright (C) 2010-2023 Giles Bathgate
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 #include "renderer.h"
 #include "saveitemsdialog.h"
 #include "stringify.h"
+#include "ui/preferencesdialog.h"
 #include "ui_mainwindow.h"
 #include <QClipboard>
 #include <QDesktopServices>
@@ -43,13 +44,12 @@ MainWindow::MainWindow(QWidget* parent) :
 	reporter(nullptr),
 	worker(nullptr),
 	interact(nullptr),
-	aboutDialog(nullptr),
-	preferencesDialog(nullptr)
+	aboutDialog(nullptr)
 {
 	setTheme();
 
 	ui->setupUi(this);
-	QIcon rapcadIcon(":/icons/rapcad-16x16.png");
+	const QIcon rapcadIcon(":/icons/rapcad-16x16.png");
 	setWindowIcon(rapcadIcon);
 	setupLayout();
 	setupActions();
@@ -59,6 +59,7 @@ MainWindow::MainWindow(QWidget* parent) :
 	setupTabs(ui->tabWidget);
 	setupConsole();
 	setupEditor(ui->scriptEditor);
+	setupExamples();
 
 	ui->searchWidget->setVisible(false);
 	ui->mainToolBar->setContextMenuPolicy(Qt::ActionsContextMenu);
@@ -67,8 +68,8 @@ MainWindow::MainWindow(QWidget* parent) :
 
 	//Make project treeview actions disabled until its useful.
 	ui->actionNewProject->setEnabled(false);
-	ui->actionShowProjects->setChecked(false);
-	ui->actionShowProjects->setEnabled(false);
+	ui->projectPage->setEnabled(false);
+	ui->toolBox->setCurrentIndex(1);
 
 }
 
@@ -82,7 +83,6 @@ MainWindow::~MainWindow()
 	delete worker;
 	delete interact;
 	delete aboutDialog;
-	delete preferencesDialog;
 	delete ui;
 }
 
@@ -137,85 +137,79 @@ void MainWindow::savePreferences()
 	p.setShowPrintArea(ui->actionShowPrintArea->isChecked());
 	p.setShowEditor(ui->actionShowEditor->isChecked());
 	p.setShowConsole(ui->actionShowConsole->isChecked());
-	p.setShowProjects(ui->actionShowProjects->isChecked());
+	p.setShowExplorer(ui->actionShowExplorer->isChecked());
 	p.setCacheEnabled(ui->actionEnableCaches->isChecked());
 	p.setWindowPosition(pos());
 	p.setWindowSize(size());
 }
 
-void MainWindow::setDefaultViewport()
+void MainWindow::setDefaultCamera()
 {
 	auto& p=Preferences::getInstance();
-	float rx;
-	float ry;
-	float rz;
-	float x;
-	float z;
-	float d;
-	ui->view->getViewport(rx,ry,rz,x,z,d);
-	p.setDefaultRotationX(rx);
-	p.setDefaultRotationY(ry);
-	p.setDefaultRotationZ(rz);
-	p.setDefaultX(x);
-	p.setDefaultZ(z);
-	p.setDefaultDistance(d);
+	const Camera& c=ui->view->getCamera();
+	p.setDefaultRotationX(c.getRotateX());
+	p.setDefaultRotationY(c.getRotateY());
+	p.setDefaultRotationZ(c.getRotateZ());
+	p.setDefaultX(c.getPositionX());
+	p.setDefaultZ(c.getPositionZ());
+	p.setDefaultDistance(c.getPositionY());
 }
 
 void MainWindow::loadPreferences()
 {
 	auto& p=Preferences::getInstance();
 
-	bool showRulers=p.getShowRulers();
+	const bool showRulers=p.getShowRulers();
 	ui->actionShowRulers->setChecked(showRulers);
 	ui->view->setShowRulers(showRulers);
 
-	bool showAxes=p.getShowAxes();
+	const bool showAxes=p.getShowAxes();
 	ui->actionShowAxes->setChecked(showAxes);
 	ui->view->setShowAxes(showAxes);
 	disableRulers(showAxes);
 
-	bool showEdges=p.getShowEdges();
+	const bool showEdges=p.getShowEdges();
 	ui->actionShowEdges->setChecked(showEdges);
 	ui->view->setShowEdges(showEdges);
 
-	bool showSkeleton=p.getSkeleton();
+	const bool showSkeleton=p.getSkeleton();
 	ui->actionSkeleton->setChecked(showSkeleton);
 	ui->view->setSkeleton(showSkeleton);
 
-	bool showBase=p.getShowBase();
+	const bool showBase=p.getShowBase();
 	ui->actionShowBase->setChecked(showBase);
 	ui->view->setShowBase(showBase);
 
-	bool showPrintArea=p.getShowPrintArea();
+	const bool showPrintArea=p.getShowPrintArea();
 	ui->actionShowPrintArea->setChecked(showPrintArea);
 	ui->view->setShowPrintArea(showPrintArea);
 
-	bool showEditor=p.getShowEditor();
+	const bool showEditor=p.getShowEditor();
 	ui->actionShowEditor->setChecked(showEditor);
 	ui->tabWidget->setVisible(showEditor);
 
-	bool showConsole=p.getShowConsole();
+	const bool showConsole=p.getShowConsole();
 	ui->actionShowConsole->setChecked(showConsole);
 	ui->console->setVisible(showConsole);
 
-	bool showProjects=p.getShowProjects();
-	ui->actionShowProjects->setChecked(showProjects);
-	ui->treeView->setVisible(showProjects);
+	const bool showExplorer=p.getShowExplorer();
+	ui->actionShowExplorer->setChecked(showExplorer);
+	ui->toolBox->setVisible(showExplorer);
 
-	bool b=p.getCacheEnabled();
+	const bool b=p.getCacheEnabled();
 	ui->actionEnableCaches->setChecked(b);
 	enableCaches(b);
 
 	move(p.getWindowPosition());
 	resize(p.getWindowSize());
 
-	getDefaultViewport();
+	getDefaultCamera();
 
-	QPointF o=p.getPrintOrigin();
+	const QPoint& o=p.getPrintOrigin();
 	ui->view->setPrintOrigin(o.x(), o.y());
 
-	QVector3D v=p.getPrintVolume();
-	ui->view->setPrintVolume(v.x(), v.y(), v.z());
+	const QList<int>& v=p.getPrintVolume();
+	ui->view->setPrintVolume(v.at(0),v.at(1),v.at(2));
 
 	ui->view->setBedAppearance(p.getPrintBedAppearance());
 
@@ -223,16 +217,18 @@ void MainWindow::loadPreferences()
 
 }
 
-void MainWindow::getDefaultViewport() const
+void MainWindow::getDefaultCamera() const
 {
 	auto& p=Preferences::getInstance();
-	float rx=p.getDefaultRotationX();
-	float ry=p.getDefaultRotationY();
-	float rz=p.getDefaultRotationZ();
-	float x=p.getDefaultX();
-	float z=p.getDefaultZ();
-	float d=p.getDefaultDistance();
-	ui->view->setViewport(rx,ry,rz,x,z,d);
+	const Camera c{
+		p.getDefaultRotationX(),
+		p.getDefaultRotationY(),
+		p.getDefaultRotationZ(),
+		p.getDefaultX(),
+		p.getDefaultDistance(),
+		p.getDefaultZ()
+	};
+	ui->view->setCamera(c);
 }
 
 void MainWindow::setupActions()
@@ -273,9 +269,9 @@ void MainWindow::setupActions()
 	connect(ui->actionExportImage,&QAction::triggered,this,&MainWindow::grabFrameBuffer);
 	connect(ui->actionShowEditor,&QAction::triggered,ui->tabWidget,&QTabWidget::setVisible);
 	connect(ui->actionShowConsole,&QAction::triggered,ui->console,&Console::setVisible);
-	connect(ui->actionShowProjects,&QAction::triggered,ui->treeView,&QTreeView::setVisible);
-	connect(ui->actionSetViewport,&QAction::triggered,this,&MainWindow::setDefaultViewport);
-	connect(ui->actionDefaultView,&QAction::triggered,this,&MainWindow::getDefaultViewport);
+	connect(ui->actionShowExplorer,&QAction::triggered,ui->toolBox,&QToolBox::setVisible);
+	connect(ui->actionSetViewport,&QAction::triggered,this,&MainWindow::setDefaultCamera);
+	connect(ui->actionDefaultView,&QAction::triggered,this,&MainWindow::getDefaultCamera);
 
 	connect(ui->tabWidget,&QTabWidget::currentChanged,this,&MainWindow::tabChanged);
 
@@ -307,18 +303,18 @@ void MainWindow::setupExportActions()
 
 void MainWindow::setupViewActions()
 {
-	connect(ui->actionTop,&QAction::triggered,this,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::Top));});
-	connect(ui->actionBottom,&QAction::triggered,this,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::Bottom));});
-	connect(ui->actionNorth,&QAction::triggered,this,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::North));});
-	connect(ui->actionSouth,&QAction::triggered,this,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::South));});
-	connect(ui->actionWest,&QAction::triggered,this,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::West));});
-	connect(ui->actionEast,&QAction::triggered,this,[this](){ui->view->changeViewport(static_cast<int>(ViewDirections::East));});
+	connect(ui->actionTop,&QAction::triggered,this,[this](){ui->view->changeViewDirection(ViewDirections::Top);});
+	connect(ui->actionBottom,&QAction::triggered,this,[this](){ui->view->changeViewDirection(ViewDirections::Bottom);});
+	connect(ui->actionNorth,&QAction::triggered,this,[this](){ui->view->changeViewDirection(ViewDirections::North);});
+	connect(ui->actionSouth,&QAction::triggered,this,[this](){ui->view->changeViewDirection(ViewDirections::South);});
+	connect(ui->actionWest,&QAction::triggered,this,[this](){ui->view->changeViewDirection(ViewDirections::West);});
+	connect(ui->actionEast,&QAction::triggered,this,[this](){ui->view->changeViewDirection(ViewDirections::East);});
 }
 
 void MainWindow::grabFrameBuffer()
 {
-	QImage image=ui->view->grabFramebuffer();
-	QString fileName=MainWindow::getSaveFileName(this, tr("Export..."),
+	const QImage& image=ui->view->grabFramebuffer();
+	const QString& fileName=MainWindow::getSaveFileName(this, tr("Export..."),
 				 QString(), tr("PNG Files (*.png)"), "png");
 	if(fileName.isEmpty())
 		return;
@@ -331,10 +327,10 @@ QString MainWindow::getSaveFileName(QWidget* parent,const QString& caption,const
 	dialog.setDefaultSuffix(suffix);
 	dialog.setOption(QFileDialog::DontConfirmOverwrite,true);
 	dialog.setAcceptMode(QFileDialog::AcceptSave);
-	while (dialog.exec() == QDialog::Accepted) {
+	while(dialog.exec() == QDialog::Accepted) {
 		const auto& selected=dialog.selectedFiles();
 		QString fileName=selected.first();
-		QFileInfo info(fileName);
+		const QFileInfo info(fileName);
 		if(!info.exists())
 			return fileName;
 
@@ -355,14 +351,14 @@ void MainWindow::exportFile(const QString& type)
 		return;
 	}
 
-	QFileInfo fileInfo(currentEditor()->getFileName());
+	const QFileInfo fileInfo(currentEditor()->getFileName());
 
-	QString ext=QString(".%1").arg(type.toLower());
-	QString filter=tr("%1 Files (*%2);;All Files (*)").arg(type.toUpper(),ext);
-	QString suggestedName=fileInfo.completeBaseName().append(ext);
-	QString suggestedLocation=fileInfo.absoluteDir().filePath(suggestedName);
+	const QString& ext=QString(".%1").arg(type.toLower());
+	const QString& filter=tr("%1 Files (*%2);;All Files (*)").arg(type.toUpper(),ext);
+	const QString& suggestedName=fileInfo.completeBaseName().append(ext);
+	const QString& suggestedLocation=fileInfo.absoluteDir().filePath(suggestedName);
 
-	QString fileName=MainWindow::getSaveFileName(this,tr("Export..."),suggestedLocation,filter,ext);
+	const QString& fileName=MainWindow::getSaveFileName(this,tr("Export..."),suggestedLocation,filter,ext);
 	if(fileName.isEmpty())
 		return;
 
@@ -372,12 +368,9 @@ void MainWindow::exportFile(const QString& type)
 
 void MainWindow::showPreferences()
 {
-	if(!preferencesDialog) {
-		preferencesDialog = new PreferencesDialog(this);
-		connect(preferencesDialog,&PreferencesDialog::preferencesUpdated,this,&MainWindow::preferencesUpdated);
-	}
-
-	preferencesDialog->show();
+	PreferencesDialog preferencesDialog(this);
+	preferencesDialog.exec();
+	preferencesUpdated();
 }
 
 void MainWindow::preferencesUpdated()
@@ -391,11 +384,11 @@ void MainWindow::preferencesUpdated()
 
 	ui->actionGenerateGcode->setVisible(p.getShowGCODEButton());
 
-	QPointF o=p.getPrintOrigin();
+	const QPoint& o=p.getPrintOrigin();
 	ui->view->setPrintOrigin(o.x(),o.y());
 
-	QVector3D v=p.getPrintVolume();
-	ui->view->setPrintVolume(v.x(),v.y(),v.z());
+	const QList<int>& v=p.getPrintVolume();
+	ui->view->setPrintVolume(v.at(0),v.at(1),v.at(2));
 
 	ui->view->setBedAppearance(p.getPrintBedAppearance());
 
@@ -439,14 +432,14 @@ void MainWindow::setupTreeview()
 
 void MainWindow::newProject()
 {
-	ui->treeView->setVisible(true);
+	ui->toolBox->setVisible(true);
 
-	QString dirName=QFileDialog::getExistingDirectory(this,tr("New Project..."));
+	const QString& dirName=QFileDialog::getExistingDirectory(this,tr("New Project..."));
 	if(dirName.isEmpty())
 		return;
 
-	QDir directory(dirName);
-	QString projectName=directory.dirName();
+	const QDir directory(dirName);
+	const QString& projectName=directory.dirName();
 	projectModel->setName(projectName);
 	projectModel->createDefaultItems();
 
@@ -494,6 +487,21 @@ void MainWindow::setupConsole()
 	interact=new Interactive(*reporter);
 	c->setPrompt(Interactive::getPrompt());
 	connect(c,&Console::execCommand,interact,&Interactive::execCommand);
+}
+
+void MainWindow::setupExamples()
+{
+	auto& b=BuiltinCreator::getInstance(*reporter);
+	const QHash<QString,Module*>& modules=b.getModuleNames();
+	for(Module* m : modules) {
+		if(!m->isDeprecated()&&m->hasExample()) {
+			auto* item=new QListWidgetItem(m->getFullName(),ui->examplesList);
+			item->setData(Qt::UserRole,QVariant::fromValue(m));
+		}
+	}
+
+	ui->examplesList->sortItems();
+	connect(ui->examplesList,&QListView::doubleClicked,this,&MainWindow::examplesListClicked);
 }
 
 void MainWindow::clipboardDataChanged()
@@ -555,10 +563,10 @@ bool MainWindow::maybeSave(bool compiling)
 	SaveItemsDialog s(this,compiling,files);
 
 	if(s.exec()==QDialog::Accepted) {
-		bool autoSave = s.getAutoSaveOnCompile();
+		const bool autoSave = s.getAutoSaveOnCompile();
 		p.setAutoSaveOnCompile(autoSave);
 
-		QList<QString> f=s.getItemsToSave();
+		const QList<QString>& f=s.getItemsToSave();
 		return saveSelectedFiles(f);
 	}
 
@@ -568,7 +576,7 @@ bool MainWindow::maybeSave(bool compiling)
 void MainWindow::newFile()
 {
 	auto* e = new CodeEditor(this);
-	int i=ui->tabWidget->addTab(e,tr("[New]"));
+	const int i=ui->tabWidget->addTab(e,tr("[New]"));
 	ui->tabWidget->setCurrentIndex(i);
 
 	setupEditor(e);
@@ -620,7 +628,7 @@ bool MainWindow::saveAllFiles()
 	for(auto i=0; i<ui->tabWidget->count(); ++i) {
 		auto* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
 		if(c->document()->isModified()) {
-			QString file=c->getFileName();
+			const QString& file=c->getFileName();
 			all.append(file);
 		}
 	}
@@ -632,7 +640,7 @@ bool MainWindow::saveSelectedFiles(const QList<QString>& files)
 	bool result=true;
 	for(auto i=0; i<ui->tabWidget->count(); ++i) {
 		auto* c=qobject_cast<CodeEditor*>(ui->tabWidget->widget(i));
-		QString file=c->getFileName();
+		const QString& file=c->getFileName();
 		if(files.contains(file))
 			if(!c->saveFile())
 				result=false;
@@ -653,8 +661,8 @@ void MainWindow::openFile()
 void MainWindow::setTabTitle(const QString& fileName)
 {
 	QWidget* editor=qobject_cast<QWidget*>(QObject::sender());
-	QString n=QFileInfo(fileName).fileName();
-	int i=ui->tabWidget->indexOf(editor);
+	const QString& n=QFileInfo(fileName).fileName();
+	const int i=ui->tabWidget->indexOf(editor);
 	ui->tabWidget->setTabText(i,n);
 }
 
@@ -682,7 +690,7 @@ void MainWindow::compileOrGenerate(bool generate)
 {
 	if(maybeSave(true)) {
 		CodeEditor* e=currentEditor();
-		QString file=e->getFileName();
+		const QString& file=e->getFileName();
 		if(!file.isEmpty()) {
 			ui->view->setCompiling(!generate);
 			worker->setup(file,"",generate);
@@ -706,6 +714,19 @@ void MainWindow::evaluationDone()
 	ui->view->setCompiling(false);
 
 	ui->console->displayPrompt();
+}
+
+void MainWindow::examplesListClicked(const QModelIndex& item)
+{
+	auto* m=item.data(Qt::UserRole).value<Module*>();
+
+	QString example=m->getExample();
+	if(example.contains('%')) {
+		auto& p=Preferences::getInstance();
+		example=example.arg(p.getIndent());
+	}
+
+	currentEditor()->appendPlainText(example);
 }
 
 void MainWindow::undo()
@@ -775,7 +796,7 @@ void MainWindow::showAboutQt()
 void MainWindow::showBuiltins()
 {
 	auto* e = new CodeEditor(this);
-	int i=ui->tabWidget->addTab(e,tr("Built In"));
+	const int i=ui->tabWidget->addTab(e,tr("Built In"));
 	ui->tabWidget->setCurrentIndex(i);
 
 	connect(e,&CodeEditor::copyAvailable,ui->actionCopy,&QAction::setEnabled);
@@ -799,12 +820,12 @@ void MainWindow::showBuiltins()
 void MainWindow::showUserGuide()
 {
 #ifdef DOCDIR
-	QDir docdir(QSTRINGIFY(DOCDIR));
+	const QDir docdir(QSTRINGIFY(DOCDIR));
 #else
-	QDir docdir(QCoreApplication::applicationDirPath());
+	const QDir docdir(QCoreApplication::applicationDirPath());
 #endif
 
-	QFileInfo guide(docdir,"user_guide.html");
+	const QFileInfo guide(docdir,"user_guide.html");
 	QUrl url;
 	if(guide.exists())
 		url=QUrl(QString("file:///%1").arg(guide.absoluteFilePath()));
@@ -829,14 +850,14 @@ void MainWindow::sendToCAM()
 	}
 
 	auto& p=Preferences::getInstance();
-	QString command = p.getLaunchCommand();
+	const QString& command = p.getLaunchCommand();
 	if(command.isEmpty()) {
 		QMessageBox::information(this,title, tr("No launch command set in preferences"));
 		return;
 	}
 
-	QFileInfo info(currentEditor()->getFileName());
-	QString fileTemplate=QDir::tempPath().append("%1%2_XXXXXX.3mf").arg(QDir::separator()).arg(info.baseName());
+	const QFileInfo info(currentEditor()->getFileName());
+	const QString& fileTemplate=QDir::tempPath().append("%1%2_XXXXXX.3mf").arg(QDir::separator()).arg(info.baseName());
 	auto* file=new QTemporaryFile(fileTemplate);
 	if(!file->open()) {
 		QMessageBox::information(this,title, tr("Could not create tempory file"));
@@ -845,7 +866,7 @@ void MainWindow::sendToCAM()
 	}
 	temporyFiles.append(file);
 
-	QString fileName=file->fileName();
+	const QString& fileName=file->fileName();
 	worker->exportResult(fileName);
 	QProcess::startDetached(command,QStringList()<<fileName);
 }
