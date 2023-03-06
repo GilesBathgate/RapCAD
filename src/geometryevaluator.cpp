@@ -25,20 +25,6 @@
 #include <CGAL/exceptions.h>
 #endif
 
-GeometryEvaluator::GeometryEvaluator(Reporter& r) :
-	reporter(r)
-{
-}
-
-static Primitive* createPrimitive()
-{
-#ifdef USE_CGAL
-	return new CGALPrimitive();
-#else
-	return new Polyhedron();
-#endif
-}
-
 class GeometryEvaluator::MapFunctor
 {
 public:
@@ -80,6 +66,25 @@ private:
 	ReduceFunction function;
 };
 
+GeometryEvaluator::GeometryEvaluator(Reporter& r) :
+	reporter(r)
+{
+}
+
+Primitive* GeometryEvaluator::createPrimitive()
+{
+#ifdef USE_CGAL
+	return new CGALPrimitive();
+#else
+	return new Polyhedron();
+#endif
+}
+
+Primitive* GeometryEvaluator::noResult()
+{
+	return nullptr;
+}
+
 QFuture<Primitive*> GeometryEvaluator::reduceChildren(
 	const Node& n,const ReduceFunction& function,QtConcurrent::ReduceOptions options)
 {
@@ -93,7 +98,7 @@ QFuture<Primitive*> GeometryEvaluator::reduceChildren(
 Primitive* GeometryEvaluator::unionChildren(const Node& n)
 {
 	const auto& children=n.getChildren();
-	const MapFunction map=MapFunctor(reporter);
+	const MapFunction& map=MapFunctor(reporter);
 	return QtConcurrent::blockingMappedReduced<Primitive*>(children,map,
 	[](auto& p,auto c) {
 		p=p?p->join(c):c;
@@ -103,20 +108,12 @@ Primitive* GeometryEvaluator::unionChildren(const Node& n)
 Primitive* GeometryEvaluator::appendChildren(const Node& n)
 {
 	const auto& children=n.getChildren();
-	const MapFunction map=MapFunctor(reporter);
+	const MapFunction& map=MapFunctor(reporter);
 	return QtConcurrent::blockingMappedReduced<Primitive*>(children,map,
 	[](auto& p,auto c) {
 		if(!p) p=createPrimitive();
 		p->appendChild(c);
 	},QtConcurrent::UnorderedReduce);
-
-	// Ward off unused function warning (Unreachable)
-	return createPrimitive();
-}
-
-static Primitive* noResult()
-{
-	return nullptr;
 }
 
 void GeometryEvaluator::visit(const PrimitiveNode& n)

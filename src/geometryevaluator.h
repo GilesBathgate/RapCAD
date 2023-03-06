@@ -100,12 +100,14 @@ public:
 private:
 	class MapFunctor;
 	class ReduceFunctor;
-	using MapFunction = std::function<Primitive*(Node*)>;
-	using ReduceFunction = std::function<void(Primitive*&,Primitive*)>;
-	QFuture<Primitive *> reduceChildren(const Node&,const ReduceFunction&,
+	using MapFunction=std::function<Primitive*(Node*)>;
+	using ReduceFunction=std::function<void(Primitive*&,Primitive*)>;
+	QFuture<Primitive*> reduceChildren(const Node&,const ReduceFunction&,
 		QtConcurrent::ReduceOptions=QtConcurrent::OrderedReduce);
 	Primitive* unionChildren(const Node&);
 	Primitive* appendChildren(const Node&);
+	static Primitive* createPrimitive();
+	static Primitive* noResult();
 	QFuture<Primitive*> result;
 	Reporter& reporter;
 };
