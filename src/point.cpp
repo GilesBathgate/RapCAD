@@ -42,11 +42,11 @@ decimal Point::z() const
 
 Point Point::transform(TransformMatrix* matrix) const
 {
-	const decimal* m=matrix->getValues();
+	const auto& m=matrix->getValues();
 	decimal nx,ny,nz;
-	nx=(m[ 0]*_x+m[ 1]*_y+m[ 2]*_z+m[ 3]);
-	ny=(m[ 4]*_x+m[ 5]*_y+m[ 6]*_z+m[ 7]);
-	nz=(m[ 8]*_x+m[ 9]*_y+m[10]*_z+m[11]);
+	nx=(m(0,0)*_x+m(0,1)*_y+m(0,2)*_z+m(0,3));
+	ny=(m(1,0)*_x+m(1,1)*_y+m(1,2)*_z+m(1,3));
+	nz=(m(2,0)*_x+m(2,1)*_y+m(2,2)*_z+m(2,3));
 	return Point(nx,ny,nz);
 }
 #endif

@@ -20,6 +20,7 @@
 #define TRANSFORMMATRIX_H
 
 #include "decimal.h"
+#include <QGenericMatrix>
 
 enum class TransformType
 {
@@ -31,9 +32,12 @@ enum class TransformType
 
 class TransformMatrix
 {
+	static constexpr int N=4;
+	static constexpr int M=4;
 public:
 	TransformMatrix();
-	TransformMatrix(const decimal&,const decimal&,const decimal&,const decimal&,
+	TransformMatrix(
+					const decimal&,const decimal&,const decimal&,const decimal&,
 					const decimal&,const decimal&,const decimal&,const decimal&,
 					const decimal&,const decimal&,const decimal&,const decimal&,
 					const decimal&,const decimal&,const decimal&,const decimal&);
@@ -42,12 +46,12 @@ public:
 #if USE_CGAL
 	CGAL::AffTransformation3 getTransform() const;
 #else
-	decimal* getValues() const;
+	const QGenericMatrix<N,M,decimal>& getValues() const;
 #endif
 	void setType(const TransformType& value);
 
 private:
-	decimal matrix[4][4];
+	QGenericMatrix<N,M,decimal> matrix;
 	TransformType type;
 };
 

@@ -20,7 +20,6 @@
 #include "onceonly.h"
 
 TransformMatrix::TransformMatrix() :
-	matrix{{1.0,0.0,0.0,0.0},{0.0,1.0,0.0,0.0},{0.0,0.0,1.0,0.0},{0.0,0.0,0.0,1.0}},
 	type(TransformType::Custom)
 {
 }
@@ -32,16 +31,16 @@ TransformMatrix::TransformMatrix(
 	const decimal& m30,const decimal& m31,const decimal& m32,const decimal& m33) :
 	type(TransformType::Custom)
 {
-	matrix[0][0]=m00; matrix[0][1]=m01; matrix[0][2]=m02; matrix[0][3]=m03;
-	matrix[1][0]=m10; matrix[1][1]=m11; matrix[1][2]=m12; matrix[1][3]=m13;
-	matrix[2][0]=m20; matrix[2][1]=m21; matrix[2][2]=m22; matrix[2][3]=m23;
-	matrix[3][0]=m30; matrix[3][1]=m31; matrix[3][2]=m32; matrix[3][3]=m33;
+	matrix(0,0)=m00; matrix(0,1)=m01; matrix(0,2)=m02; matrix(0,3)=m03;
+	matrix(1,0)=m10; matrix(1,1)=m11; matrix(1,2)=m12; matrix(1,3)=m13;
+	matrix(2,0)=m20; matrix(2,1)=m21; matrix(2,2)=m22; matrix(2,3)=m23;
+	matrix(3,0)=m30; matrix(3,1)=m31; matrix(3,2)=m32; matrix(3,3)=m33;
 }
 
 void TransformMatrix::setValue(int i,int j,const decimal& d)
 {
 	if(i>=0&&i<4&&j>=0&&j<4)
-		matrix[i][j]=d;
+		matrix(i,j)=d;
 }
 
 #ifdef USE_CGAL
@@ -50,21 +49,21 @@ CGAL::AffTransformation3 TransformMatrix::getTransform() const
 	switch(type) {
 		case TransformType::Translation:
 			return CGAL::AffTransformation3(CGAL::TRANSLATION,
-					CGAL::Vector3(matrix[0][3],matrix[1][3],matrix[2][3]));
+					CGAL::Vector3(matrix(0,3),matrix(1,3),matrix(2,3)));
 		case TransformType::UniformScaling:
-			return CGAL::AffTransformation3(CGAL::SCALING,matrix[0][0]);
+			return CGAL::AffTransformation3(CGAL::SCALING,matrix(0,0));
 		default:
 			return CGAL::AffTransformation3(
-					matrix[0][0], matrix[0][1], matrix[0][2], matrix[0][3],
-					matrix[1][0], matrix[1][1], matrix[1][2], matrix[1][3],
-					matrix[2][0], matrix[2][1], matrix[2][2], matrix[2][3],
-				  /*matrix[3][0], matrix[3][1], matrix[3][2]*/matrix[3][3]);
+					matrix(0,0), matrix(0,1), matrix(0,2), matrix(0,3),
+					matrix(1,0), matrix(1,1), matrix(1,2), matrix(1,3),
+					matrix(2,0), matrix(2,1), matrix(2,2), matrix(2,3),
+				  /*matrix(3,0), matrix(3,1), matrix(3,2)*/matrix(3,3));
 	}
 }
 #else
-decimal* TransformMatrix::getValues() const
+const QGenericMatrix<4,4,decimal>& TransformMatrix::getValues() const
 {
-	return (decimal*)matrix;
+	return matrix;
 }
 #endif
 
@@ -72,16 +71,16 @@ QString TransformMatrix::toString() const
 {
 	QString result("[[");
 	OnceOnly firsti;
-	for(const auto& i : matrix) {
+	for(int i=0; i<N; ++i) {
 		if(!firsti())
 			result.append("],[");
 
 		OnceOnly firstj;
-		for(const auto& j : i) {
+		for(int j=0; j<M; ++j) {
 			if(!firstj())
 				result.append(",");
 
-			result.append(to_string(j));
+			result.append(to_string(matrix(i,j)));
 		}
 	}
 	return result.append("]]");
