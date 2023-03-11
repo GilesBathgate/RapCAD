@@ -258,12 +258,12 @@ void PreferencesDialog::colorButtonPressed(QWidget* frame)
 
 void PreferencesDialog::vertexSizeChanged(double s)
 {
-	preferences.setVertexSize(float(s));
+	preferences.setVertexSize(static_cast<float>(s));
 }
 
 void PreferencesDialog::edgeSizeChanged(double s)
 {
-	preferences.setEdgeSize(float(s));
+	preferences.setEdgeSize(static_cast<float>(s));
 }
 
 void PreferencesDialog::autoSaveOnCompileChanged(int s)

@@ -28,7 +28,7 @@ int CGALFragment::getFragments(const CGAL::Scalar& r) const
 {
 	const int fn=fragmentNumber;
 	if(fn>0)
-		return int(fn>=3?fn:3);
+		return fn>=3?fn:3;
 
 	const CGAL::Scalar& fe=fragmentError;
 	//solve R=r/cos(pi/n) for n where R=radius and r=inradius

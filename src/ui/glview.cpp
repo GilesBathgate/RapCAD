@@ -172,12 +172,12 @@ void GLView::initializeGL()
 
 void GLView::resizeGL(int w,int h)
 {
-	glViewport(0,0,GLint(w),GLint(h));
+	glViewport(0,0,static_cast<GLint>(w),static_cast<GLint>(h));
 
 	glMatrixMode(GL_PROJECTION);
 
 	projection.setToIdentity();
-	projection.perspective(45.0F,GLfloat(w)/GLfloat(h),+10.0F,+farfarAway);
+	projection.perspective(45.0F,static_cast<GLfloat>(w)/static_cast<GLfloat>(h),+10.0F,+farfarAway);
 	glLoadMatrixf(projection.data());
 
 }
@@ -212,7 +212,7 @@ void GLView::drawAxes()
 	glColor3f(0.0F,0.0F,0.0F);
 	glBegin(GL_LINES);
 	const int distance=camera.getPositionY();
-	const GLfloat c=fmaxf(distance/2.0F,GLfloat(rulerLength));
+	const GLfloat c=fmaxf(distance/2.0F,static_cast<GLfloat>(rulerLength));
 	glVertex3f(-c,0.0F,0.0F);
 	glVertex3f(+c,0.0F,0.0F);
 	glVertex3f(0.0F,-c,0.0F);

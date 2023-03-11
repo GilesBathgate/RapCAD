@@ -386,12 +386,12 @@ void CGALRenderer::drawFacets(QOpenGLFunctions_1_0& f) const
 {
 	GLUtesselator* t=gluNewTess();
 	using Callback=void (GLAPIENTRY*)(void);
-	gluTessCallback(t,GLenum(GLU_TESS_VERTEX_DATA),(Callback)&vertexCallback);
-	gluTessCallback(t,GLenum(GLU_TESS_COMBINE_DATA),(Callback)&combineCallback);
-	gluTessCallback(t,GLenum(GLU_TESS_BEGIN_DATA),(Callback)&beginCallback);
-	gluTessCallback(t,GLenum(GLU_TESS_END_DATA),(Callback)&endCallback);
-	gluTessCallback(t,GLenum(GLU_TESS_ERROR_DATA),(Callback)&errorCallback);
-	gluTessProperty(t,GLenum(GLU_TESS_WINDING_RULE),GLU_TESS_WINDING_POSITIVE);
+	gluTessCallback(t,GLU_TESS_VERTEX_DATA,reinterpret_cast<Callback>(&vertexCallback));
+	gluTessCallback(t,GLU_TESS_COMBINE_DATA,reinterpret_cast<Callback>(&combineCallback));
+	gluTessCallback(t,GLU_TESS_BEGIN_DATA,reinterpret_cast<Callback>(&beginCallback));
+	gluTessCallback(t,GLU_TESS_END_DATA,reinterpret_cast<Callback>(&endCallback));
+	gluTessCallback(t,GLU_TESS_ERROR_DATA,reinterpret_cast<Callback>(&errorCallback));
+	gluTessProperty(t,GLU_TESS_WINDING_RULE,GLU_TESS_WINDING_POSITIVE);
 
 	for(const auto& fc : getFacets()) {
 		const QColor& c=getFacetColor(fc.getMark());

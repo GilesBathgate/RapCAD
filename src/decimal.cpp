@@ -96,9 +96,9 @@ QString to_string(const decimal& d)
 int to_integer(const decimal& n)
 {
 #ifdef USE_CGAL
-	return int(to_double(n));
+	return static_cast<int>(to_double(n));
 #else
-	return int(n);
+	return static_cast<int>(n);
 #endif
 }
 

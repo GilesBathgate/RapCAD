@@ -159,7 +159,7 @@ void ShellExplorer::explore()
 			/* In the list of shells of a volume, the first one is always the
 				 * enclosing shell. In case of the outer volume, there is no outer
 				 * shell. */
-			nefPolyhedron.visit_shell_objects(SFaceHandle(si),*this);
+			nefPolyhedron.visit_shell_objects(static_cast<SFaceHandle>(si),*this);
 		}
 
 		/* The first volume, i.e. N.volumes_begin(), is always the outer
@@ -250,7 +250,7 @@ CGALVolume ShellExplorer::getVolume(bool calcMass) const
 		const Triangulation tr(pts.begin(),pts.end());
 		CellIterator ci;
 		for(ci=tr.finite_cells_begin(); ci!=tr.finite_cells_end(); ++ci) {
-			const Tetrahedron& t=tr.tetrahedron(CellHandle(ci));
+			const Tetrahedron& t=tr.tetrahedron(static_cast<CellHandle>(ci));
 			volumes.append(t);
 			total+=t.volume();
 		}
