@@ -26,8 +26,8 @@ class TreeVisitor
 	Q_DISABLE_COPY_MOVE(TreeVisitor)
 protected:
 	TreeVisitor()=default;
-	virtual ~TreeVisitor()=default;
 public:
+	virtual ~TreeVisitor()=default;
 	virtual void visit(const class Module&)=0;
 	virtual void visit(const class ModuleScope&)=0;
 	virtual void visit(const class Instance&)=0;

@@ -27,8 +27,8 @@ class TextBuilder
 	Q_DISABLE_COPY_MOVE(TextBuilder)
 protected:
 	TextBuilder()=default;
-	virtual ~TextBuilder()=default;
 public:
+	virtual ~TextBuilder()=default;
 	virtual void setText(const QString&)=0;
 	virtual decimal getHeight()=0;
 	virtual void setLocation(const Point&)=0;

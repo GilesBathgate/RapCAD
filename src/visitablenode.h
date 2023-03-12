@@ -27,8 +27,8 @@ class VisitableNode
 	Q_DISABLE_COPY_MOVE(VisitableNode)
 protected:
 	VisitableNode()=default;
-	virtual ~VisitableNode()=default;
 public:
+	virtual ~VisitableNode()=default;
 	virtual void accept(NodeVisitor&)=0;
 };
 

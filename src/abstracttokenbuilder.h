@@ -28,8 +28,8 @@ class AbstractTokenBuilder
 	Q_DISABLE_COPY_MOVE(AbstractTokenBuilder)
 protected:
 	AbstractTokenBuilder()=default;
-	virtual ~AbstractTokenBuilder()=default;
 public:
+	virtual ~AbstractTokenBuilder()=default;
 	virtual int nextToken()=0;
 	virtual int getPosition() const=0;
 	virtual int getLineNumber() const=0;
