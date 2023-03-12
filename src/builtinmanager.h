@@ -23,6 +23,7 @@
 
 class BuiltinManager
 {
+	Q_DISABLE_COPY_MOVE(BuiltinManager)
 public:
 	BuiltinManager(Script&,Reporter&);
 	~BuiltinManager();

@@ -31,6 +31,7 @@ class FacetF;
 
 class CGALRenderer : public Renderer
 {
+	Q_DISABLE_COPY_MOVE(CGALRenderer)
 public:
 	explicit CGALRenderer(Reporter&,Primitive&);
 	~CGALRenderer() override;

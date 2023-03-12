@@ -31,6 +31,7 @@ enum class Storage {
 
 class Variable : public Expression
 {
+	Q_DISABLE_COPY_MOVE(Variable)
 public:
 	Variable();
 	~Variable() override = default;

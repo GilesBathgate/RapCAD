@@ -23,6 +23,7 @@
 
 class BinaryExpression : public Expression
 {
+	Q_DISABLE_COPY_MOVE(BinaryExpression)
 public:
 	BinaryExpression();
 	~BinaryExpression() override;

@@ -25,6 +25,7 @@
 
 class RotateExtrudeNode : public Node
 {
+	Q_DISABLE_COPY_MOVE(RotateExtrudeNode)
 public:
 	RotateExtrudeNode();
 	~RotateExtrudeNode() override;

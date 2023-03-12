@@ -25,9 +25,8 @@
 
 class Expression : public VisitableTree
 {
+	Q_DISABLE_COPY_MOVE(Expression)
 public:
-
-
 	Expression();
 	~Expression() override = default;
 

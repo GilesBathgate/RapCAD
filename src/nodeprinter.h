@@ -62,6 +62,7 @@
 
 class NodePrinter : public NodeVisitor
 {
+	Q_DISABLE_COPY_MOVE(NodePrinter)
 public:
 	explicit NodePrinter(QTextStream&);
 	~NodePrinter() override;

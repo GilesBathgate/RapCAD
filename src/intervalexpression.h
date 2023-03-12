@@ -23,6 +23,7 @@
 
 class IntervalExpression : public Expression
 {
+	Q_DISABLE_COPY_MOVE(IntervalExpression)
 public:
 	IntervalExpression();
 	~IntervalExpression() override;

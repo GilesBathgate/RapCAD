@@ -34,6 +34,7 @@ class CGALGroupModifier final : public CGAL::Modifier_base<CGAL::NefPolyhedron3:
 	Q_DISABLE_COPY_MOVE(CGALGroupModifier)
 public:
 	CGALGroupModifier(const CGAL::NefPolyhedron3&);
+	~CGALGroupModifier() override=default;
 	void operator()(CGAL::NefPolyhedron3::SNC_structure&) override;
 private:
 	const CGAL::NefPolyhedron3& primitive;

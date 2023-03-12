@@ -24,6 +24,7 @@
 
 class CGALExplorer
 {
+	Q_DISABLE_COPY_MOVE(CGALExplorer)
 public:
 	explicit CGALExplorer(Primitive*);
 	explicit CGALExplorer(CGALPrimitive*);

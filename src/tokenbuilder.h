@@ -30,6 +30,7 @@ using yyscan_t = void*;
 
 class TokenBuilder : public AbstractTokenBuilder
 {
+	Q_DISABLE_COPY_MOVE(TokenBuilder)
 public:
 	TokenBuilder(Reporter&,const QString&);
 	TokenBuilder(Reporter&,const QFileInfo&);

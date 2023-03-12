@@ -26,6 +26,7 @@
 
 class FunctionScope : public Scope
 {
+	Q_DISABLE_COPY_MOVE(FunctionScope)
 public:
 	FunctionScope();
 	~FunctionScope() override;

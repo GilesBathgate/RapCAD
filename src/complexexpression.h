@@ -23,6 +23,7 @@
 
 class ComplexExpression : public Expression
 {
+	Q_DISABLE_COPY_MOVE(ComplexExpression)
 public:
 	ComplexExpression();
 	~ComplexExpression() override;

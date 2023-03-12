@@ -32,9 +32,11 @@ class Primitive;
 
 class Polygon
 {
+	Q_DISABLE_COPY_MOVE(Polygon)
 public:
 	using size_type=QList<Point>::size_type;
 	explicit Polygon(Primitive&);
+	virtual ~Polygon()=default;
 	void append(size_type);
 	void prepend(size_type);
 	QList<Point> getPoints() const;

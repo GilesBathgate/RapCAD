@@ -26,6 +26,7 @@
 
 class Application
 {
+	Q_DISABLE_COPY_MOVE(Application)
 public:
 	Application();
 	int run(int argc,char* argv[]);

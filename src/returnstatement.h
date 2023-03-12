@@ -23,6 +23,7 @@
 
 class ReturnStatement : public Statement
 {
+	Q_DISABLE_COPY_MOVE(ReturnStatement)
 public:
 	ReturnStatement();
 	~ReturnStatement() override;

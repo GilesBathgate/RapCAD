@@ -28,7 +28,7 @@ class PrintConsole;
 class PrintConsole : public QDialog
 {
 	Q_OBJECT
-
+	Q_DISABLE_COPY_MOVE(PrintConsole)
 public:
 	explicit PrintConsole(QWidget* parent=nullptr);
 	~PrintConsole() override;

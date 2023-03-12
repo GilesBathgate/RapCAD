@@ -25,6 +25,7 @@
 
 class ModuleScope : public Scope
 {
+	Q_DISABLE_COPY_MOVE(ModuleScope)
 public:
 	ModuleScope() = default;
 	~ModuleScope() override;

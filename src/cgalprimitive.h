@@ -39,6 +39,7 @@ using Segment3 = CGAL::Segment_3<CGAL::Kernel3>;
 
 class CGALPrimitive : public Primitive
 {
+	Q_DISABLE_COPY_MOVE(CGALPrimitive)
 public:
 	CGALPrimitive();
 	~CGALPrimitive() override;

@@ -25,6 +25,7 @@
 
 class SyntaxTreeBuilder : public AbstractSyntaxTreeBuilder
 {
+	Q_DISABLE_COPY_MOVE(SyntaxTreeBuilder)
 public:
 	SyntaxTreeBuilder(Reporter&,Script&,AbstractTokenBuilder&);
 	~SyntaxTreeBuilder() override = default;

@@ -31,6 +31,7 @@ class CGALBuilder final : public CGAL::Modifier_base<CGAL::HalfedgeDS>
 	Q_DISABLE_COPY_MOVE(CGALBuilder)
 public:
 	explicit CGALBuilder(CGALPrimitive&);
+	~CGALBuilder() override=default;
 	bool getComplete() const;
 	CGALPrimitive* buildOffset(const CGAL::Scalar&);
 	bool triangulate();

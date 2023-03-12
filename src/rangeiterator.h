@@ -25,6 +25,7 @@
 
 class RangeIterator : public ValueIterator
 {
+	Q_DISABLE_COPY_MOVE(RangeIterator)
 public:
 	RangeIterator(RangeValue*,Value*,Value*);
 	~RangeIterator() override = default;

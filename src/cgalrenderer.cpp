@@ -217,6 +217,8 @@ public:
 
 class DisplayList
 {
+	Q_DISABLE_COPY_MOVE(DisplayList)
+
 	QOpenGLFunctions_1_0& functions;
 	GLuint listId;
 	GLsizei range;

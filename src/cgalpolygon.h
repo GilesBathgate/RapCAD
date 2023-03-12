@@ -32,10 +32,10 @@ using Segment3 = CGAL::Segment_3<CGAL::Kernel3>;
 
 class CGALPolygon : public Polygon
 {
+	Q_DISABLE_COPY_MOVE(CGALPolygon)
 public:
-
 	explicit CGALPolygon(class CGALPrimitive&);
-	~CGALPolygon();
+	~CGALPolygon() override;
 
 	void appendVertex(CGAL::Point3);
 	void appendVertex(CGAL::Point3,bool);

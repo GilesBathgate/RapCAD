@@ -24,6 +24,7 @@
 
 class CompoundStatement : public Scope
 {
+	Q_DISABLE_COPY_MOVE(CompoundStatement)
 public:
 	CompoundStatement() = default;
 	~CompoundStatement() override;

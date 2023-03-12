@@ -33,7 +33,7 @@ class GLView :
 	public QOpenGLWidget, private QOpenGLFunctions_1_0
 {
 	Q_OBJECT
-
+	Q_DISABLE_COPY_MOVE(GLView)
 public:
 	explicit GLView(QWidget* parent=nullptr);
 	~GLView() override;

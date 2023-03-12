@@ -23,6 +23,7 @@
 
 class Statement : public Declaration
 {
+	Q_DISABLE_COPY_MOVE(Statement)
 public:
 	Statement() = default;
 	~Statement() override = default;

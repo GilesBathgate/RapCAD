@@ -57,6 +57,7 @@
 class TreeEvaluator : public TreeVisitor
 {
 	Q_DECLARE_TR_FUNCTIONS(TreeEvaluator)
+	Q_DISABLE_COPY_MOVE(TreeEvaluator)
 public:
 	explicit TreeEvaluator(Reporter&);
 	~TreeEvaluator() override;

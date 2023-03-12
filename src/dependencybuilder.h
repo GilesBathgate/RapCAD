@@ -23,6 +23,7 @@
 
 class DependencyBuilder : public AbstractSyntaxTreeBuilder
 {
+	Q_DISABLE_COPY_MOVE(DependencyBuilder)
 public:
 	DependencyBuilder() = default;
 	~DependencyBuilder() override = default;

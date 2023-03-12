@@ -26,6 +26,7 @@
 class CGALExport
 {
 	Q_DECLARE_TR_FUNCTIONS(CGALExport)
+	Q_DISABLE_COPY_MOVE(CGALExport)
 public:
 	CGALExport(const QFileInfo&,Primitive*,Reporter&);
 	~CGALExport();

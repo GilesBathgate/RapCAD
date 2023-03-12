@@ -23,6 +23,7 @@ using yyscan_t = void*;
 
 class TokenReader : public AbstractTokenBuilder
 {
+	Q_DISABLE_COPY_MOVE(TokenReader)
 public:
 	explicit TokenReader(const QString&);
 	~TokenReader() override;

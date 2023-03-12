@@ -22,6 +22,7 @@
 
 class UnaryExpression : public Expression
 {
+	Q_DISABLE_COPY_MOVE(UnaryExpression)
 public:
 	UnaryExpression();
 	~UnaryExpression() override;

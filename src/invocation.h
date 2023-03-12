@@ -25,6 +25,7 @@
 
 class Invocation : public Expression
 {
+	Q_DISABLE_COPY_MOVE(Invocation)
 public:
 	Invocation() = default;
 	~Invocation() override;

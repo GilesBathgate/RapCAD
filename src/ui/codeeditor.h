@@ -25,7 +25,7 @@
 class CodeEditor : public QPlainTextEdit
 {
 	Q_OBJECT
-
+	Q_DISABLE_COPY_MOVE(CodeEditor)
 public:
 	explicit CodeEditor(QWidget* parent=nullptr);
 	~CodeEditor() override;

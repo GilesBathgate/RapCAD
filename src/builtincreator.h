@@ -26,6 +26,7 @@
 
 class BuiltinCreator
 {
+	Q_DISABLE_COPY_MOVE(BuiltinCreator)
 public:
 	static BuiltinCreator& getInstance(Reporter&);
 	void generateDocs(QTextStream&) const;

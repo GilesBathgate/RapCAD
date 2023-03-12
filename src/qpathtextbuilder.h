@@ -26,6 +26,7 @@
 
 class QPathTextBuilder : public TextBuilder
 {
+	Q_DISABLE_COPY_MOVE(QPathTextBuilder)
 public:
 	QPathTextBuilder();
 	~QPathTextBuilder() override = default;

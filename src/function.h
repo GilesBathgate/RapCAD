@@ -31,6 +31,7 @@ class Context;
 
 class Function : public Declaration
 {
+	Q_DISABLE_COPY_MOVE(Function)
 public:
 	Function();
 	explicit Function(const QString&);

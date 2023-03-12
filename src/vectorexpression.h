@@ -24,6 +24,7 @@
 
 class VectorExpression : public Expression
 {
+	Q_DISABLE_COPY_MOVE(VectorExpression)
 public:
 	VectorExpression();
 	~VectorExpression() override;

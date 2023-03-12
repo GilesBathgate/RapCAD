@@ -25,6 +25,7 @@
 
 class AssignStatement : public Statement
 {
+	Q_DISABLE_COPY_MOVE(AssignStatement)
 public:
 	AssignStatement();
 	~AssignStatement() override;

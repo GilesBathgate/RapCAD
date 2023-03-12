@@ -35,6 +35,7 @@ enum class InstanceTypes {
 
 class Instance : public Statement
 {
+	Q_DISABLE_COPY_MOVE(Instance)
 public:
 	Instance();
 	~Instance() override;

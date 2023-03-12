@@ -24,6 +24,7 @@
 
 class TransformationNode : public Node
 {
+	Q_DISABLE_COPY_MOVE(TransformationNode)
 public:
 	enum class Axis {
 		None,

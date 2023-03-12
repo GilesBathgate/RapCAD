@@ -48,6 +48,7 @@
 
 class AsciidocPrinter : public TreeVisitor
 {
+	Q_DISABLE_COPY_MOVE(AsciidocPrinter)
 public:
 	explicit AsciidocPrinter(QTextStream&,QTextStream&);
 	~AsciidocPrinter() override;

@@ -24,6 +24,7 @@
 
 class CodeDocDeclaration : public Declaration
 {
+	Q_DISABLE_COPY_MOVE(CodeDocDeclaration)
 public:
 	CodeDocDeclaration() = default;
 	~CodeDocDeclaration() override=default;

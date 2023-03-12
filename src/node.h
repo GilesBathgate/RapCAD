@@ -24,6 +24,7 @@
 
 class Node : public VisitableNode
 {
+	Q_DISABLE_COPY_MOVE(Node)
 	using size_type=QList<Node*>::size_type;
 public:
 	Node() = default;

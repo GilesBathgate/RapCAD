@@ -30,7 +30,7 @@ class Preferences;
 class PreferencesDialog : public QDialog
 {
 	Q_OBJECT
-
+	Q_DISABLE_COPY_MOVE(PreferencesDialog)
 public:
 	explicit PreferencesDialog(QWidget* parent = nullptr);
 	~PreferencesDialog() override;

@@ -24,6 +24,7 @@
 
 class Scope : public Statement
 {
+	Q_DISABLE_COPY_MOVE(Scope)
 public:
 	Scope() = default;
 	~Scope() override = default;

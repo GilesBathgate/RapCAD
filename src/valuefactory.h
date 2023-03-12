@@ -13,6 +13,7 @@
 
 class ValueFactory
 {
+	Q_DISABLE_COPY_MOVE(ValueFactory)
 public:
 	static ValueFactory& getInstance();
 

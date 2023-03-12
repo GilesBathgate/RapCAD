@@ -22,6 +22,7 @@
 
 class TernaryExpression : public Expression
 {
+	Q_DISABLE_COPY_MOVE(TernaryExpression)
 public:
 	TernaryExpression();
 	~TernaryExpression() override;

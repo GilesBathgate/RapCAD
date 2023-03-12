@@ -25,6 +25,7 @@
 class Tester : public QObject,public Strategy
 {
 	Q_OBJECT
+	Q_DISABLE_COPY_MOVE(Tester)
 public:
 	Tester(Reporter&,const QString&,QObject* parent=nullptr);
 	~Tester() override;

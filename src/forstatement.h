@@ -25,6 +25,7 @@
 
 class ForStatement : public Statement
 {
+	Q_DISABLE_COPY_MOVE(ForStatement)
 public:
 	ForStatement();
 	~ForStatement() override;

@@ -23,6 +23,7 @@
 
 class RangeExpression : public Expression
 {
+	Q_DISABLE_COPY_MOVE(RangeExpression)
 public:
 	RangeExpression();
 	~RangeExpression() override;

@@ -12,6 +12,7 @@ class SearchWidget;
 class SearchWidget : public QWidget
 {
 	Q_OBJECT
+	Q_DISABLE_COPY_MOVE(SearchWidget)
 public:
 	explicit SearchWidget(QWidget* parent=nullptr);
 	~SearchWidget() override;

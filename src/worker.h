@@ -31,6 +31,7 @@
 class Worker : public Strategy
 {
 	Q_DECLARE_TR_FUNCTIONS(Worker)
+	Q_DISABLE_COPY_MOVE(Worker)
 public:
 	explicit Worker(Reporter&);
 	~Worker() override;

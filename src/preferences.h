@@ -30,6 +30,7 @@
 
 class Preferences
 {
+	Q_DISABLE_COPY_MOVE(Preferences)
 public:
 	static Preferences& getInstance();
 	static Preferences& getTemporary();

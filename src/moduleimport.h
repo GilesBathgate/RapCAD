@@ -26,6 +26,7 @@
 
 class ModuleImport : public Declaration
 {
+	Q_DISABLE_COPY_MOVE(ModuleImport)
 public:
 	ModuleImport() = default;
 	~ModuleImport() override = default;

@@ -23,6 +23,7 @@
 
 class Declaration : public VisitableTree
 {
+	Q_DISABLE_COPY_MOVE(Declaration)
 public:
 	Declaration();
 	~Declaration() override = default;

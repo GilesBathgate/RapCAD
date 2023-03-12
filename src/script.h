@@ -27,6 +27,7 @@
 
 class Script : public Scope
 {
+	Q_DISABLE_COPY_MOVE(Script)
 public:
 	Script(Reporter&);
 	~Script() override;

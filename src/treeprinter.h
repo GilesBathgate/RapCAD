@@ -53,6 +53,7 @@
 
 class TreePrinter : public TreeVisitor
 {
+	Q_DISABLE_COPY_MOVE(TreePrinter)
 public:
 	explicit TreePrinter(QTextStream&);
 	~TreePrinter() override = default;

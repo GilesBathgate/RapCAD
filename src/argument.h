@@ -25,6 +25,7 @@
 
 class Argument : public VisitableTree
 {
+	Q_DISABLE_COPY_MOVE(Argument)
 public:
 	Argument();
 	~Argument() override;

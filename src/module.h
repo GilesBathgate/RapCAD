@@ -32,6 +32,7 @@ class Context;
 
 class Module : public Declaration
 {
+	Q_DISABLE_COPY_MOVE(Module)
 public:
 	Module(Reporter&, const QString&);
 	~Module() override;

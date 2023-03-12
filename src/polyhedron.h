@@ -23,6 +23,7 @@
 
 class Polyhedron : public Primitive
 {
+	Q_DISABLE_COPY_MOVE(Polyhedron)
 public:
 	Polyhedron();
 	~Polyhedron() override;

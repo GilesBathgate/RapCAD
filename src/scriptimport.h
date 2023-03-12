@@ -24,6 +24,7 @@
 
 class ScriptImport : public Declaration
 {
+	Q_DISABLE_COPY_MOVE(ScriptImport)
 public:
 	ScriptImport() = default;
 	~ScriptImport() override = default;

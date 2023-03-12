@@ -24,6 +24,7 @@
 
 class CacheManager
 {
+	Q_DISABLE_COPY_MOVE(CacheManager)
 public:
 	static CacheManager& getInstance();
 	Cache* getCache() const;

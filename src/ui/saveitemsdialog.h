@@ -28,7 +28,7 @@ class SaveItemsDialog;
 class SaveItemsDialog : public QDialog
 {
 	Q_OBJECT
-
+	Q_DISABLE_COPY_MOVE(SaveItemsDialog)
 public:
 	SaveItemsDialog(QWidget* parent,bool,const QList<QString>&);
 	~SaveItemsDialog() override;

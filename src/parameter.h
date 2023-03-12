@@ -24,6 +24,7 @@
 
 class Parameter : public VisitableTree
 {
+	Q_DISABLE_COPY_MOVE(Parameter)
 public:
 	Parameter();
 	~Parameter() override;

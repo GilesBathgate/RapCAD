@@ -24,6 +24,7 @@
 
 class IfElseStatement : public Statement
 {
+	Q_DISABLE_COPY_MOVE(IfElseStatement)
 public:
 	IfElseStatement();
 	~IfElseStatement() override;
