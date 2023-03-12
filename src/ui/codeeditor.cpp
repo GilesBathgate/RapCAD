@@ -97,8 +97,12 @@ bool CodeEditor::saveFile()
 {
 	if(fileName.isEmpty())
 		return saveAsFile();
+	return saveFile(fileName);
+}
 
-	QTextDocumentWriter writer(fileName);
+bool CodeEditor::saveFile(const QString& f)
+{
+	QTextDocumentWriter writer(f);
 	writer.setFormat("plaintext");
 	const bool success = writer.write(document());
 	if(success)
@@ -109,12 +113,12 @@ bool CodeEditor::saveFile()
 
 bool CodeEditor::saveAsFile()
 {
-	const QString& fileName=MainWindow::getSaveFileName(this, tr("Save as..."),
+	const QString& f=MainWindow::getSaveFileName(this, tr("Save as..."),
 		QString(),tr("RapCAD Files (*.rcad);;All Files (*)"),"rcad");
-	if(fileName.isEmpty())
+	if(f.isEmpty())
 		return false;
-	setFileName(fileName);
-	return saveFile();
+	setFileName(f);
+	return saveFile(f);
 }
 
 bool CodeEditor::loadFile(const QString& f)

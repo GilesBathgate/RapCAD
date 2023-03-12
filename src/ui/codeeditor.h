@@ -62,6 +62,7 @@ private:
 	bool showTooltips;
 	bool highlightLine;
 	void setVisibleWhiteSpace(bool enabled);
+	bool saveFile(const QString&);
 };
 
 #endif // CODEEDITOR_H
