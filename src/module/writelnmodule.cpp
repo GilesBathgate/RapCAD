@@ -27,6 +27,6 @@ WriteLnModule::WriteLnModule(Reporter& r) : WriteModule(r,"writeln")
 Node* WriteLnModule::evaluate(const Context& ctx) const
 {
 	WriteModule::evaluate(ctx);
-	output << Qt::endl;
+	WriteModule::newLine();
 	return nullptr;
 }

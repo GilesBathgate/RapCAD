@@ -43,3 +43,8 @@ Node* WriteModule::evaluate(const Context& ctx) const
 	}
 	return nullptr;
 }
+
+void WriteModule::newLine() const
+{
+	output << Qt::endl;
+}

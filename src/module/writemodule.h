@@ -30,6 +30,8 @@ public:
 	WriteModule(Reporter&,const QString&);
 	Node* evaluate(const Context&) const override;
 protected:
+	void newLine() const;
+private:
 	QTextStream& output;
 };
 
