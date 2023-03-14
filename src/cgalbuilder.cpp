@@ -34,7 +34,7 @@
 namespace CGAL
 {
 using Polygon2 = Polygon_2<Kernel3>;
-}
+} // namespace CGAL
 
 CGALBuilder::CGALBuilder(CGALPrimitive& p) :
 	primitive(p),

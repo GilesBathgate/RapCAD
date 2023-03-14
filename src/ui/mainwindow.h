@@ -32,7 +32,7 @@
 namespace Ui
 {
 class MainWindow;
-}
+} // namespace Ui
 
 class MainWindow : public QMainWindow
 {

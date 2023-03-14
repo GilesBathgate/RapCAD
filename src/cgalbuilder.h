@@ -24,7 +24,7 @@
 namespace CGAL
 {
 using HalfedgeDS = Polyhedron3::HalfedgeDS;
-}
+} // namespace CGAL
 
 class CGALBuilder final : public CGAL::Modifier_base<CGAL::HalfedgeDS>
 {

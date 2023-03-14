@@ -35,7 +35,7 @@ namespace CGAL
 using Polyhedron3 = Polyhedron_3<Kernel3>;
 using NefPolyhedron3 = Nef_polyhedron_3<Kernel3>;
 using Segment3 = CGAL::Segment_3<CGAL::Kernel3>;
-}
+} // namespace CGAL
 
 class CGALPrimitive : public Primitive
 {

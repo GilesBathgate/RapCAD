@@ -28,7 +28,7 @@ namespace CGAL {
 #if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,6,0)
 extern void set_use_assertions(bool);
 #endif
-}
+} // namespace CGAL
 #endif
 
 class Settings :

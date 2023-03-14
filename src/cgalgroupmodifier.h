@@ -27,7 +27,7 @@
 namespace CGAL
 {
 	using NefPolyhedron3 = Nef_polyhedron_3<Kernel3>;
-}
+} // namespace CGAL
 
 class CGALGroupModifier final : public CGAL::Modifier_base<CGAL::NefPolyhedron3::SNC_structure>
 {

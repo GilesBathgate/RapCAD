@@ -29,7 +29,7 @@ using VertexHandle = CGAL::Polyhedron3::Vertex_handle;
 using HalfedgeHandle = CGAL::Polyhedron3::Halfedge_handle;
 using HalfedgeConstHandle = CGAL::Polyhedron3::Halfedge_const_handle;
 using FacetIterator = CGAL::Polyhedron3::Facet_iterator;
-}
+} // namespace CGAL
 
 class CGALSanitizer
 {

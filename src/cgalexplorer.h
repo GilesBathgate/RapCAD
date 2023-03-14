@@ -47,8 +47,8 @@ namespace internal {
 	{
 		return ::qHash(&*key,seed);
 	}
-}
-}
+} // namespace internal
+} // namespace CGAL
 
 #endif // CGALEXPLORER_H
 #endif

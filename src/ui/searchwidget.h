@@ -7,7 +7,7 @@
 namespace Ui
 {
 class SearchWidget;
-}
+} // namespace Ui
 
 class SearchWidget : public QWidget
 {

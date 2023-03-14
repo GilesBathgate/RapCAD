@@ -30,7 +30,7 @@
 namespace readline
 {
 #include "readline/readline.h"
-}
+} // namespace readline
 #endif
 
 Interactive::Interactive(Reporter& r,QObject* parent) :

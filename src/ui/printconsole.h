@@ -23,7 +23,7 @@
 namespace Ui
 {
 class PrintConsole;
-}
+} // namespace Ui
 
 class PrintConsole : public QDialog
 {

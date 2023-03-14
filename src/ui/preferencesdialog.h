@@ -25,7 +25,7 @@
 namespace Ui
 {
 class Preferences;
-}
+} // namespace Ui
 
 class PreferencesDialog : public QDialog
 {

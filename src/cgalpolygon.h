@@ -28,7 +28,7 @@
 namespace CGAL
 {
 using Segment3 = CGAL::Segment_3<CGAL::Kernel3>;
-}
+} // namespace CGAL
 
 class CGALPolygon : public Polygon
 {

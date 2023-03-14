@@ -44,7 +44,7 @@ using Vector3 = Kernel3::Vector_3;
 using Plane3 = Kernel3::Plane_3;
 using Circle3 = Kernel3::Circle_3;
 using AffTransformation3 = Kernel3::Aff_transformation_3;
-}
+} // namespace CGAL
 
 #endif // CGAL_H
 #endif

@@ -23,7 +23,7 @@
 namespace Ui
 {
 class SaveItemsDialog;
-}
+} // namespace Ui
 
 class SaveItemsDialog : public QDialog
 {
