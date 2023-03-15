@@ -1,8 +1,6 @@
 name: Coverity
 
-on:
-  push:
-    branches: [ coverity_scan ]
+on: workflow_dispatch
 
 jobs:
   linux:
@@ -83,7 +81,7 @@ jobs:
           --form token=$TOKEN \
           --form email=gilesbathgate@gmail.com \
           --form file=@rapcad.tgz \
-          --form version=trunk \
+          --form version=$(git rev-parse --short HEAD) \
           --form description="Github CI build" \
           https://scan.coverity.com/builds?project=GilesBathgate%2FRapCAD
       env:
