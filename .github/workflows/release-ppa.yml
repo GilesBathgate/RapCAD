@@ -1,0 +1,49 @@
+name: Release PPA
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        type: choice
+        options:
+          - snapshot
+          - release
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        config: ['kinetic', 'jammy']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install Dependencies
+        run: sudo apt-get install -y debhelper devscripts qt6-base-dev qmake6 libqt6opengl6-dev libglu1-mesa-dev libboost-dev libcgal-dev asciidoc source-highlight
+      - name: Import GPG
+        uses: crazy-max/ghaction-import-gpg@v5
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+      - name: Update snapshot changelog
+        if: ${{ github.event.inputs.mode == 'snapshot' }}
+        run: |
+          version=$(cat VERSION)
+          vname=${{ matrix.config }}
+          today=$(date +%Y%m%d)
+          snapshot="+1SNAPSHOT$today"
+          sed "s/rapcad ($version) unstable/rapcad ($version$snapshot~"$vname"1) $vname/" -i debian/changelog
+      - name: Update release changelog
+        if: ${{ github.event.inputs.mode == 'release' }}
+        run: |
+          version=$(cat VERSION)
+          vname=${{ matrix.config }}
+          sed "s/rapcad ($version) unstable/rapcad ($version~"$vname"1) $vname/" -i debian/changelog
+      - name: Build source package
+        run: debuild -S -k1032C45A8369382E6429DC284076B4A013AA9CDF
+      - name: Publish snapshot
+        if: ${{ github.event.inputs.mode == 'snapshot' }}
+        run: dput ppa:gilesbathgate/rapcad-snapshot ../rapcad_*.changes
+      - name: Publish release
+        if: ${{ github.event.inputs.mode == 'release' }}
+        run: dput ppa:gilesbathgate/rapcad ../rapcad_*.changes
+
