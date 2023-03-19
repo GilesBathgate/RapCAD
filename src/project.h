@@ -35,7 +35,7 @@ public:
 	void writeProject(const QString&);
 	void setName(const QString&);
 	void createDefaultItems();
-	void addSource(const QString &value);
+	void addSource(const QString& value);
 	void createRootItem();
 private:
 	QList<QString> sources;

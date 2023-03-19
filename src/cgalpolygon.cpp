@@ -70,16 +70,15 @@ QList<CGAL::Point2> CGALPolygon::getProjectedPoints()
 
 QList<CGAL::Segment3> CGALPolygon::getSegments() const
 {
-		QList<CGAL::Segment3> segments;
-		CGAL::Point3 prev;
-		OnceOnly first;
-		for(const auto& next: getPoints())
-		{
-			if(!first())
-				segments.append(CGAL::Segment3(prev,next));
-			prev=next;
-		}
-		return segments;
+	QList<CGAL::Segment3> segments;
+	CGAL::Point3 prev;
+	OnceOnly first;
+	for(const auto& next: getPoints()) {
+		if(!first())
+			segments.append(CGAL::Segment3(prev,next));
+		prev=next;
+	}
+	return segments;
 }
 
 CGAL::Vector3 CGALPolygon::getNormal() const

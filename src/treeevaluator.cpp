@@ -379,8 +379,7 @@ void TreeEvaluator::visit(const AssignStatement& stmt)
 	auto c=lvalue->getStorage();
 	result->setStorage(c);
 
-	if(!context->updateVariable(name,result,c))
-	{
+	if(!context->updateVariable(name,result,c)) {
 		switch(c) {
 			case Storage::Constant:
 				reporter.reportWarning(tr("attempt to alter constant value '%1'").arg(name));

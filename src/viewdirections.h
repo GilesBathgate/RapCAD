@@ -19,12 +19,12 @@
 #define VIEWDIRECTIONS_H
 
 enum class ViewDirections {
-        Top,
-        Bottom,
-        North,
-        South,
-        West,
-        East
+	Top,
+	Bottom,
+	North,
+	South,
+	West,
+	East
 };
 
 #endif // VIEWDIRECTIONS_H

@@ -164,7 +164,7 @@ void CodeEditor::preferencesUpdated()
 void CodeEditor::setVisibleWhiteSpace(bool enabled)
 {
 	QTextOption option=document()->defaultTextOption();
-	if(enabled){
+	if(enabled) {
 		option.setFlags(option.flags()|QTextOption::ShowTabsAndSpaces);
 	} else {
 		option.setFlags(option.flags()&(~QTextOption::ShowTabsAndSpaces));

@@ -62,8 +62,8 @@ void CGALBuilder::operator()(CGAL::HalfedgeDS& hds)
 	if(sanitized) {
 		//Simple case polyhedron is well formed
 		for(CGALPolygon* pg: polygons) {
-				const auto& indexes=pg->getIndexes();
-				builder.add_facet(indexes.begin(),indexes.end());
+			const auto& indexes=pg->getIndexes();
+			builder.add_facet(indexes.begin(),indexes.end());
 		}
 
 		builder.end_surface();

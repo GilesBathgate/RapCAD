@@ -23,7 +23,7 @@ Reporter::Reporter(QTextStream& s) :
 {
 }
 
-Reporter::Reporter(QTextStream & o, QTextStream & s):
+Reporter::Reporter(QTextStream& o, QTextStream& s):
 	output(o),
 	messages(s),
 	timer(nullptr),

@@ -79,7 +79,7 @@ void CGALExport::exportResult() const
 		return exportSVG();
 }
 
-CGALPrimitive *CGALExport::transformPrimitive() const
+CGALPrimitive* CGALExport::transformPrimitive() const
 {
 	auto* pr=dynamic_cast<CGALPrimitive*>(primitive);
 	auto& p=Preferences::getInstance();
