@@ -28,14 +28,15 @@
 class GeometryEvaluator::MapFunctor
 {
 public:
-	explicit MapFunctor(Reporter& r) : reporter(r) {}
+	MapFunctor(QThreadPool* p,Reporter& r) : pool(p),reporter(r) {}
 	Primitive* operator()(Node* n)
 	{
-		GeometryEvaluator g(reporter);
+		GeometryEvaluator g(pool,reporter);
 		n->accept(g);
 		return g.getResult();
 	}
 private:
+	QThreadPool* pool;
 	Reporter& reporter;
 };
 
@@ -66,7 +67,8 @@ private:
 	ReduceFunction function;
 };
 
-GeometryEvaluator::GeometryEvaluator(Reporter& r) :
+GeometryEvaluator::GeometryEvaluator(QThreadPool* p,Reporter& r) :
+	pool(p),
 	reporter(r)
 {
 }
@@ -89,17 +91,17 @@ QFuture<Primitive*> GeometryEvaluator::reduceChildren(
 	const Node& n,const ReduceFunction& function,QtConcurrent::ReduceOptions options)
 {
 	const auto& children=n.getChildren();
-	const MapFunction& map=MapFunctor(reporter);
+	const MapFunction& map=MapFunctor(pool,reporter);
 	const ReduceFunction& reduce=ReduceFunctor(reporter,function);
-	return QtConcurrent::mappedReduced<Primitive*>(children,map,reduce,options);
+	return QtConcurrent::mappedReduced<Primitive*>(pool,children,map,reduce,options);
 }
 
 // blocking because we can't apply operations until evaluated
 Primitive* GeometryEvaluator::unionChildren(const Node& n)
 {
 	const auto& children=n.getChildren();
-	const MapFunction& map=MapFunctor(reporter);
-	return QtConcurrent::blockingMappedReduced<Primitive*>(children,map,
+	const MapFunction& map=MapFunctor(pool,reporter);
+	return QtConcurrent::blockingMappedReduced<Primitive*>(pool,children,map,
 	[](auto& p,auto c) {
 		p=p?p->join(c):c;
 	},QtConcurrent::UnorderedReduce);
@@ -108,8 +110,8 @@ Primitive* GeometryEvaluator::unionChildren(const Node& n)
 Primitive* GeometryEvaluator::appendChildren(const Node& n)
 {
 	const auto& children=n.getChildren();
-	const MapFunction& map=MapFunctor(reporter);
-	return QtConcurrent::blockingMappedReduced<Primitive*>(children,map,
+	const MapFunction& map=MapFunctor(pool,reporter);
+	return QtConcurrent::blockingMappedReduced<Primitive*>(pool,children,map,
 	[](auto& p,auto c) {
 		if(!p) p=createPrimitive();
 		p->appendChild(c);
@@ -124,7 +126,7 @@ void GeometryEvaluator::visit(const PrimitiveNode& n)
 			p=p->join(c);
 		});
 	} else {
-		result=QtConcurrent::run([&n]() {
+		result=QtConcurrent::run(pool,[&n]() {
 			return n.getPrimitive();
 		});
 	}
@@ -132,7 +134,7 @@ void GeometryEvaluator::visit(const PrimitiveNode& n)
 
 void GeometryEvaluator::visit(const TriangulateNode& n)
 {
-	result=QtConcurrent::run([&n,this]() {
+	result=QtConcurrent::run(pool,[&n,this]() {
 		Primitive* p=unionChildren(n);
 		return p?p->triangulate():noResult();
 	});
@@ -140,7 +142,7 @@ void GeometryEvaluator::visit(const TriangulateNode& n)
 
 void GeometryEvaluator::visit(const MaterialNode& n)
 {
-	result=QtConcurrent::run([&n,this]() {
+	result=QtConcurrent::run(pool,[&n,this]() {
 		auto* p=unionChildren(n);
 		Primitive* ph=new Polyhedron();
 		ph->appendChild(p);
@@ -150,7 +152,7 @@ void GeometryEvaluator::visit(const MaterialNode& n)
 
 void GeometryEvaluator::visit(const DiscreteNode& n)
 {
-	result=QtConcurrent::run([&n,this]() {
+	result=QtConcurrent::run(pool,[&n,this]() {
 		Primitive* p=unionChildren(n);
 		if(p) p->discrete(n.getPlaces());
 		return p;
@@ -208,7 +210,7 @@ void GeometryEvaluator::visit(const GlideNode& n)
 
 void GeometryEvaluator::visit(const HullNode& n)
 {
-	result=QtConcurrent::run([&n,this]() {
+	result=QtConcurrent::run(pool,[&n,this]() {
 		Primitive* p=appendChildren(n);
 		return p?p->hull(n.getConcave()):noResult();
 	});
@@ -216,7 +218,7 @@ void GeometryEvaluator::visit(const HullNode& n)
 
 void GeometryEvaluator::visit(const LinearExtrudeNode& n)
 {
-	result=QtConcurrent::run([&n,this]() {
+	result=QtConcurrent::run(pool,[&n,this]() {
 		Primitive* p=unionChildren(n);
 		return p?p->linear_extrude(n.getHeight(),n.getAxis()):noResult();
 	});
@@ -224,7 +226,7 @@ void GeometryEvaluator::visit(const LinearExtrudeNode& n)
 
 void GeometryEvaluator::visit(const RotateExtrudeNode& n)
 {
-	result=QtConcurrent::run([&n,this]() {
+	result=QtConcurrent::run(pool,[&n,this]() {
 		Primitive* p=unionChildren(n);
 		return p?p->rotate_extrude(n.getHeight(),n.getRadius(),n.getSweep(),n.getFragments(),n.getAxis()):noResult();
 	});
@@ -232,7 +234,7 @@ void GeometryEvaluator::visit(const RotateExtrudeNode& n)
 
 void GeometryEvaluator::visit(const BoundsNode& n)
 {
-	result=QtConcurrent::run([&n,this]() {
+	result=QtConcurrent::run(pool,[&n,this]() {
 		Primitive* p=unionChildren(n);
 #ifdef USE_CGAL
 		CGALAuxiliaryBuilder b(reporter);
@@ -245,7 +247,7 @@ void GeometryEvaluator::visit(const BoundsNode& n)
 
 void GeometryEvaluator::visit(const SubDivisionNode& n)
 {
-	result=QtConcurrent::run([&n,this]() {
+	result=QtConcurrent::run(pool,[&n,this]() {
 		Primitive* p=unionChildren(n);
 		return p?p->subdivide(n.getLevel()):noResult();
 	});
@@ -253,7 +255,7 @@ void GeometryEvaluator::visit(const SubDivisionNode& n)
 
 void GeometryEvaluator::visit(const NormalsNode& n)
 {
-	result=QtConcurrent::run([&n,this]() {
+	result=QtConcurrent::run(pool,[&n,this]() {
 		Primitive* p=unionChildren(n);
 #ifdef USE_CGAL
 		CGALAuxiliaryBuilder b(reporter);
@@ -266,7 +268,7 @@ void GeometryEvaluator::visit(const NormalsNode& n)
 
 void GeometryEvaluator::visit(const SimplifyNode& n)
 {
-	result=QtConcurrent::run([&n,this]() {
+	result=QtConcurrent::run(pool,[&n,this]() {
 		Primitive* p=unionChildren(n);
 		return p?p->simplify(n.getRatio()):noResult();
 	});
@@ -274,7 +276,7 @@ void GeometryEvaluator::visit(const SimplifyNode& n)
 
 void GeometryEvaluator::visit(const SolidNode& n)
 {
-	result=QtConcurrent::run([&n,this]() {
+	result=QtConcurrent::run(pool,[&n,this]() {
 		Primitive* p=unionChildren(n);
 		return p?p->solidify():noResult();
 	});
@@ -282,7 +284,7 @@ void GeometryEvaluator::visit(const SolidNode& n)
 
 void GeometryEvaluator::visit(const ChildrenNode& n)
 {
-	result=QtConcurrent::run([&n,this]() {
+	result=QtConcurrent::run(pool,[&n,this]() {
 		//TODO: implement index based selection
 		return unionChildren(n);
 	});
@@ -290,7 +292,7 @@ void GeometryEvaluator::visit(const ChildrenNode& n)
 
 void GeometryEvaluator::visit(const OffsetNode& n)
 {
-	result=QtConcurrent::run([&n,this]() {
+	result=QtConcurrent::run(pool,[&n,this]() {
 		Primitive* p=unionChildren(n);
 		return p?p->inset(n.getAmount()):noResult();
 	});
@@ -298,7 +300,7 @@ void GeometryEvaluator::visit(const OffsetNode& n)
 
 void GeometryEvaluator::visit(const BoundaryNode& n)
 {
-	result=QtConcurrent::run([&n,this]() {
+	result=QtConcurrent::run(pool,[&n,this]() {
 		Primitive* p=unionChildren(n);
 		return p?p->boundary():noResult();
 	});
@@ -306,7 +308,7 @@ void GeometryEvaluator::visit(const BoundaryNode& n)
 
 void GeometryEvaluator::visit(const ImportNode& n)
 {
-	result=QtConcurrent::run([&n,this]() {
+	result=QtConcurrent::run(pool,[&n,this]() {
 #ifdef USE_CGAL
 		const QFileInfo f(n.getImport());
 		const CGALImport i(f,reporter);
@@ -319,7 +321,7 @@ void GeometryEvaluator::visit(const ImportNode& n)
 
 void GeometryEvaluator::visit(const TransformationNode& n)
 {
-	result=QtConcurrent::run([&n,this]() {
+	result=QtConcurrent::run(pool,[&n,this]() {
 		Primitive* p=unionChildren(n);
 		if(!p) return noResult();
 #ifdef USE_CGAL
@@ -337,7 +339,7 @@ void GeometryEvaluator::visit(const TransformationNode& n)
 
 void GeometryEvaluator::visit(const ResizeNode& n)
 {
-	result=QtConcurrent::run([&n,this]() {
+	result=QtConcurrent::run(pool,[&n,this]() {
 		Primitive* p=unionChildren(n);
 		if(p) p->resize(n.getAutoSize(),n.getSize());
 		return p;
@@ -346,7 +348,7 @@ void GeometryEvaluator::visit(const ResizeNode& n)
 
 void GeometryEvaluator::visit(const AlignNode& n)
 {
-	result=QtConcurrent::run([&n,this]() {
+	result=QtConcurrent::run(pool,[&n,this]() {
 		Primitive* p=unionChildren(n);
 		if(p) p->align(n.getCenter(),n.getAlign());
 		return p;
@@ -355,14 +357,14 @@ void GeometryEvaluator::visit(const AlignNode& n)
 
 void GeometryEvaluator::visit(const PointsNode& n)
 {
-	result=QtConcurrent::run([&n]() {
+	result=QtConcurrent::run(pool,[&n]() {
 		return n.getPrimitive();
 	});
 }
 
 void GeometryEvaluator::visit(const SliceNode& n)
 {
-	result=QtConcurrent::run([&n,this]() {
+	result=QtConcurrent::run(pool,[&n,this]() {
 		Primitive* p=unionChildren(n);
 		return p?p->slice(n.getHeight(),n.getThickness()):noResult();
 	});
@@ -370,7 +372,7 @@ void GeometryEvaluator::visit(const SliceNode& n)
 
 void GeometryEvaluator::visit(const ProductNode& n)
 {
-	result=QtConcurrent::run([&n]() {
+	result=QtConcurrent::run(pool,[&n]() {
 		Primitive* p=n.getPrimitive();
 		return p?p->copy():noResult();
 	});
@@ -378,7 +380,7 @@ void GeometryEvaluator::visit(const ProductNode& n)
 
 void GeometryEvaluator::visit(const ProjectionNode& n)
 {
-	result=QtConcurrent::run([&n,this]() {
+	result=QtConcurrent::run(pool,[&n,this]() {
 		Primitive* p=unionChildren(n);
 		return p?p->projection(n.getBase()):noResult();
 	});
@@ -386,7 +388,7 @@ void GeometryEvaluator::visit(const ProjectionNode& n)
 
 void GeometryEvaluator::visit(const DecomposeNode& n)
 {
-	result=QtConcurrent::run([&n,this]() {
+	result=QtConcurrent::run(pool,[&n,this]() {
 		Primitive* p=unionChildren(n);
 		return p?p->decompose():noResult();
 	});
@@ -394,7 +396,7 @@ void GeometryEvaluator::visit(const DecomposeNode& n)
 
 void GeometryEvaluator::visit(const ComplementNode& n)
 {
-	result=QtConcurrent::run([&n,this]() {
+	result=QtConcurrent::run(pool,[&n,this]() {
 		Primitive* p=unionChildren(n);
 		return p?p->complement():noResult();
 	});
@@ -402,7 +404,7 @@ void GeometryEvaluator::visit(const ComplementNode& n)
 
 void GeometryEvaluator::visit(const RadialsNode& n)
 {
-	result=QtConcurrent::run([&n,this]() {
+	result=QtConcurrent::run(pool,[&n,this]() {
 		Primitive* p=unionChildren(n);
 #ifdef USE_CGAL
 		CGALAuxiliaryBuilder b(reporter);
@@ -415,7 +417,7 @@ void GeometryEvaluator::visit(const RadialsNode& n)
 
 void GeometryEvaluator::visit(const VolumesNode& n)
 {
-	result=QtConcurrent::run([&n,this]() {
+	result=QtConcurrent::run(pool,[&n,this]() {
 		Primitive* p=unionChildren(n);
 #ifdef USE_CGAL
 		CGALAuxiliaryBuilder b(reporter);

@@ -61,7 +61,7 @@ class GeometryEvaluator : public NodeVisitor
 {
 	Q_DECLARE_TR_FUNCTIONS(GeometryEvaluator)
 public:
-	GeometryEvaluator(Reporter&);
+	GeometryEvaluator(QThreadPool*,Reporter&);
 	void visit(const PrimitiveNode&) override;
 	void visit(const UnionNode&) override;
 	void visit(const GroupNode&) override;
@@ -109,6 +109,7 @@ private:
 	static Primitive* createPrimitive();
 	static Primitive* noResult();
 	QFuture<Primitive*> result;
+	QThreadPool* pool;
 	Reporter& reporter;
 };
 
