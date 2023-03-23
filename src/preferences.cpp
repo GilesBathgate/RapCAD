@@ -189,7 +189,7 @@ void Preferences::setVisibleWhiteSpace(bool value)
 
 int Preferences::getThreadPoolSize() const
 {
-	return settings->value("ThreadPoolSize",0).toInt();
+	return settings->value("ThreadPoolSize",100).toInt();
 }
 
 void Preferences::setThreadPoolSize(int value)

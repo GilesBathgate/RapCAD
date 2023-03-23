@@ -28,15 +28,14 @@
 class GeometryEvaluator::MapFunctor
 {
 public:
-	MapFunctor(QThreadPool* p,Reporter& r) : pool(p),reporter(r) {}
+	MapFunctor(Reporter& r) : reporter(r) {}
 	Primitive* operator()(Node* n)
 	{
-		GeometryEvaluator g(pool,reporter);
+		GeometryEvaluator g(reporter);
 		n->accept(g);
 		return g.getResult();
 	}
 private:
-	QThreadPool* pool;
 	Reporter& reporter;
 };
 
@@ -67,10 +66,15 @@ private:
 	ReduceFunction function;
 };
 
-GeometryEvaluator::GeometryEvaluator(QThreadPool* p,Reporter& r) :
-	pool(p),
+GeometryEvaluator::GeometryEvaluator(Reporter& r) :
+	pool(new QThreadPool()),
 	reporter(r)
 {
+}
+
+GeometryEvaluator::~GeometryEvaluator()
+{
+	delete pool;
 }
 
 Primitive* GeometryEvaluator::createPrimitive()
@@ -91,7 +95,7 @@ QFuture<Primitive*> GeometryEvaluator::reduceChildren(
 	const Node& n,const ReduceFunction& function,QtConcurrent::ReduceOptions options)
 {
 	const auto& children=n.getChildren();
-	const MapFunction& map=MapFunctor(pool,reporter);
+	const MapFunction& map=MapFunctor(reporter);
 	const ReduceFunction& reduce=ReduceFunctor(reporter,function);
 	return QtConcurrent::mappedReduced<Primitive*>(pool,children,map,reduce,options);
 }
@@ -100,7 +104,7 @@ QFuture<Primitive*> GeometryEvaluator::reduceChildren(
 Primitive* GeometryEvaluator::unionChildren(const Node& n)
 {
 	const auto& children=n.getChildren();
-	const MapFunction& map=MapFunctor(pool,reporter);
+	const MapFunction& map=MapFunctor(reporter);
 	return QtConcurrent::blockingMappedReduced<Primitive*>(pool,children,map,
 	[](auto& p,auto c) {
 		p=p?p->join(c):c;
@@ -110,7 +114,7 @@ Primitive* GeometryEvaluator::unionChildren(const Node& n)
 Primitive* GeometryEvaluator::appendChildren(const Node& n)
 {
 	const auto& children=n.getChildren();
-	const MapFunction& map=MapFunctor(pool,reporter);
+	const MapFunction& map=MapFunctor(reporter);
 	return QtConcurrent::blockingMappedReduced<Primitive*>(pool,children,map,
 	[](auto& p,auto c) {
 		if(!p) p=createPrimitive();

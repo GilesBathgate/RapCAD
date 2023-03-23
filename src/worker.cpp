@@ -262,7 +262,5 @@ NodeVisitor* Worker::getNodeVisitor()
 	if(threads==0)
 		return new NodeEvaluator(reporter);
 
-	auto* pool=QThreadPool::globalInstance();
-	pool->setMaxThreadCount(threads);
-	return new GeometryEvaluator(pool,reporter);
+	return new GeometryEvaluator(reporter);
 }

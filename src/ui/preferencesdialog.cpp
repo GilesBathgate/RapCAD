@@ -136,7 +136,8 @@ void PreferencesDialog::setupWidgets()
 		ui->spacesSpinBox->setValue(indent.length());
 	}
 
-	ui->threadPoolSizeSpinBox->setValue(preferences.getThreadPoolSize());
+	const int threads=preferences.getThreadPoolSize();
+	ui->UseMultipleThreadsCheckBox->setChecked(threads>0);
 	ui->useCGALAssertionsCheckBox->setChecked(preferences.getUseCGALAssertions());
 #ifdef USE_CGAL
 #if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(5,4,0)
@@ -212,7 +213,7 @@ void PreferencesDialog::setupButtons()
 	connect(ui->tabsRadioButton,&QRadioButton::toggled,this,&PreferencesDialog::indentRadioChanged);
 	connect(ui->spacesSpinBox,QOverload<int>::of(&QSpinBox::valueChanged),this,&PreferencesDialog::indentSpacesChanged);
 
-	connect(ui->threadPoolSizeSpinBox,QOverload<int>::of(&QSpinBox::valueChanged),this,&PreferencesDialog::threadPoolSizeChanged);
+	connect(ui->UseMultipleThreadsCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::threadPoolSizeChanged);
 	connect(ui->useCGALAssertionsCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::useCGALAssertionsChanged);
 }
 
@@ -352,9 +353,10 @@ void PreferencesDialog::indentSpacesChanged(int)
 	indentRadioChanged(ui->tabsRadioButton->isChecked());
 }
 
-void PreferencesDialog::threadPoolSizeChanged(int value)
+void PreferencesDialog::threadPoolSizeChanged(int s)
 {
-	preferences.setThreadPoolSize(value);
+	const int threads = (s == Qt::Checked)?100:0;
+	preferences.setThreadPoolSize(threads);
 }
 
 void PreferencesDialog::useCGALAssertionsChanged(int s)
