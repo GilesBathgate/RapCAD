@@ -107,6 +107,7 @@ private:
 		QtConcurrent::ReduceOptions=QtConcurrent::OrderedReduce);
 	Primitive* unionChildren(const Node&);
 	Primitive* appendChildren(const Node&);
+	Primitive* chainHull(const HullNode& n);
 	static Primitive* createPrimitive();
 	static Primitive* noResult();
 	QFuture<Primitive*> result;

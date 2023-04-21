@@ -54,7 +54,7 @@ public:
 			destroy(c);
 			reporter.reportException(QString::fromStdString(e.what()));
 #endif
-		} catch (...) {
+		} catch(...) {
 			destroy(p);
 			destroy(c);
 			reporter.reportException();
@@ -212,11 +212,40 @@ void GeometryEvaluator::visit(const GlideNode& n)
 	});
 }
 
+Primitive* GeometryEvaluator::chainHull(const HullNode& n)
+{
+	Primitive* first=nullptr;
+	Primitive* previous=nullptr;
+	for(Node* c: n.getChildren()) {
+		GeometryEvaluator g(reporter);
+		c->accept(g);
+		Primitive* current=g.getResult();
+		if(!previous) {
+			first=current;
+		} else {
+			first=first->chain_hull(previous,current);
+			first->appendChild(current);
+		}
+		previous=current;
+	}
+	if(first) {
+		if(n.getClosed())
+			first=first->chain_hull(first,previous);
+		return first->combine();
+	}
+
+	return noResult();
+}
+
 void GeometryEvaluator::visit(const HullNode& n)
 {
 	result=QtConcurrent::run(pool,[&n,this]() {
-		Primitive* p=appendChildren(n);
-		return p?p->hull(n.getConcave()):noResult();
+		if(n.getChain()) {
+			return chainHull(n);
+		} else {
+			Primitive* p=appendChildren(n);
+			return p?p->hull(n.getConcave()):noResult();
+		}
 	});
 }
 
