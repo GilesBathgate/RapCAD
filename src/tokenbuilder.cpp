@@ -354,7 +354,7 @@ int TokenBuilder::buildRational(const QString& s)
 {
 	QString number(s);
 	const decimal& unit=get_unit(number);
-	parser->number = new decimal(parse_rational(number)*unit);
+	parser->number = new decimal(parse_mixed_rational(number)*unit);
 	return NUMBER;
 }
 

@@ -52,6 +52,7 @@ QString to_string(const decimal&);
 decimal to_decimal(const QString&,bool* ok=nullptr);
 int to_integer(const decimal&);
 bool to_boolean(const decimal&);
+decimal parse_mixed_rational(const QString&,bool* ok=nullptr);
 decimal parse_rational(const QString&,bool* ok=nullptr);
 decimal parse_numberexp(const QString&,bool* ok=nullptr);
 decimal get_unit(QString&);

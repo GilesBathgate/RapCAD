@@ -118,6 +118,15 @@ decimal parse_numberexp(const QString& s, bool* ok)
 	return to_decimal(s.left(i),ok) * r_pow(decimal(10),p);
 }
 
+decimal parse_mixed_rational(const QString& s, bool* ok)
+{
+	const auto m=s.indexOf(' ');
+	if(m<0)
+		return parse_rational(s,ok);
+
+	return to_decimal(s.left(m))+parse_rational(s.mid(m+1),ok);
+}
+
 decimal parse_rational(const QString& s, bool* ok)
 {
 	const auto i=s.lastIndexOf('/');

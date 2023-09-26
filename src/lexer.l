@@ -55,6 +55,7 @@ E [eE][+-]?{D}+
 Z 0+|0*\.0+|0+\.0*
 N {D}+|{D}*\.{D}+|{D}+\.{D}*
 R {N}\/
+M {N}[ ]
 WS [ \t]
 NL \n|\r\n
 U1 [\x80-\xbf]
@@ -113,8 +114,8 @@ U "um"|"mm"|"cm"|"m"|"th"|"in"|"ft"
 {T}                            { return tokenizer->buildLegalChar(lexertext[0]); }
 {N}{U}?                        { return tokenizer->buildNumber(lexertext); }
 {N}{E}{U}?                     { return tokenizer->buildNumberExp(lexertext); }
-{R}{Z}{E}?{U}                  { return tokenizer->buildRational(); }
-{R}+{N}{E}?{U}                 { return tokenizer->buildRational(lexertext); }
+{M}?{R}{Z}{E}?{U}              { return tokenizer->buildRational(); }
+{M}?{R}+{N}{E}?{U}             { return tokenizer->buildRational(lexertext); }
 {L}{I}*                        { return tokenizer->buildIdentifier(lexertext); }
 \"                             { BEGIN(string); tokenizer->buildStringStart(); }
 <string>{
