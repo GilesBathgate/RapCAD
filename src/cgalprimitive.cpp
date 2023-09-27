@@ -274,7 +274,7 @@ CGAL::NefPolyhedron3* CGALPrimitive::createPolyline(QVector<CGAL::Point3> pl)
 	using PointRange = QPair<CGAL::Point3*,CGAL::Point3*>;
 	using PolyLine = QVector<PointRange>;
 
-	const PointRange p(pl.begin(),pl.end());
+	const PointRange p(&*pl.begin(),&*pl.end());
 	PolyLine poly;
 	poly.push_back(p);
 	return new CGAL::NefPolyhedron3(poly.begin(), poly.end(), CGAL::NefPolyhedron3::Polylines_tag());
