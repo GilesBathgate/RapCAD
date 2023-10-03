@@ -65,33 +65,36 @@ QString to_string(const decimal& d)
 
 	QString res;
 #ifdef USE_CGAL
-
+	int l=0;
 	char* a=nullptr;
 	if(format==NumberFormats::Rational) {
-		gmp_asprintf(&a,"%Qd",to_mpq(d));
+		l=gmp_asprintf(&a,"%Qd",to_mpq(d));
 	} else {
 		mpf_t m;
 		mpf_init2(m,p.getSignificandBits());
 		mpf_set_q(m,to_mpq(d));
 
 		if(format==NumberFormats::Scientific) {
-			gmp_asprintf(&a,"%.*Fe",p.getDecimalPlaces(),m);
+			l=gmp_asprintf(&a,"%.*Fe",p.getDecimalPlaces(),m);
 		} else {
-			gmp_asprintf(&a,"%.Ff",m);
+			l=gmp_asprintf(&a,"%.Ff",m);
 		}
 		mpf_clear(m);
 	}
-	res=QString(a);
+	res=QString::fromLocal8Bit(a,l);
+#ifdef Q_OS_WIN
+	void (*dalloc)(void*,size_t);
+	mp_get_memory_functions(nullptr,nullptr,&dalloc);
+	dalloc(a,l);
+#else
 	free(a);
+#endif
 	return res;
-
 #else
 	res.setNum(d,'f',p.getDecimalPlaces());
-
 	return res;
 #endif
 }
-
 
 int to_integer(const decimal& n)
 {
