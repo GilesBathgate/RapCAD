@@ -51,7 +51,7 @@ private:
 
 #if QT_VERSION < 0x050600
 template <class T>
-inline uint qHash(const QVector<T>& l,uint seed)
+inline size_t qHash(const QVector<T>& l,size_t seed)
 {
 	uint h = seed;
 	foreach(T i,l)

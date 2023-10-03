@@ -43,7 +43,7 @@ using HalfEdgeHandle = CGAL::NefPolyhedron3::Halfedge_const_handle;
 
 namespace CGAL {
 namespace internal {
-	inline uint qHash(const HalfEdgeHandle& key,uint seed)
+	inline size_t qHash(const HalfEdgeHandle& key,size_t seed)
 	{
 		return ::qHash(&*key,seed);
 	}
