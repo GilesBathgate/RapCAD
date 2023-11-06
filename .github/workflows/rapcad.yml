@@ -68,7 +68,7 @@ jobs:
       GMP:      C:\CGAL-5.4\auxiliary\gmp
       BOOST_ROOT: C:\boost_1_80_0
       ASCIIDOC: C:\asciidoc-9.1.0\
-      MINGW: C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
+      MINGW: C:\mingw64\bin
     steps:
     - name: Checkout
       uses: actions/checkout@v3
