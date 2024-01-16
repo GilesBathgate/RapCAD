@@ -975,7 +975,7 @@ void CGALPrimitive::transform(TransformMatrix* matrix)
 		nefPolyhedron->transform(t);
 	} else {
 		QList<CGAL::Point3> nps;
-		for(const auto& pt: qAsConst(points))
+		for(const auto& pt: std::as_const(points))
 			nps.append(pt.transform(t));
 		points=nps;
 	}
@@ -1085,7 +1085,7 @@ void CGALPrimitive::discrete(int places)
 		nefPolyhedron->delegate(n,false,false);
 	} else {
 		QList<CGAL::Point3> nps;
-		for(const auto& pt: qAsConst(points)) {
+		for(const auto& pt: std::as_const(points)) {
 			nps.append(CGALDiscreteModifier::discretePoint(pt,places));
 		}
 		points=nps;
@@ -1133,7 +1133,7 @@ Primitive* CGALPrimitive::glide(Primitive* pr)
 	CGAL::Point3 np;
 	OnceOnly first_p;
 	auto& pg=cp->createPolygon();
-	for(const auto& pt: qAsConst(points)) {
+	for(const auto& pt: std::as_const(points)) {
 		if(first_p()) {
 			fp=pt;
 		} else if(pt==fp) {
@@ -1335,7 +1335,7 @@ Primitive* CGALPrimitive::hull(bool concave)
 		QList<Facet> facets;
 		as.get_alpha_shape_facets(std::back_inserter(facets),Alpha_shape_3::REGULAR);
 
-		for(Facet f: qAsConst(facets)) {
+		for(Facet f: std::as_const(facets)) {
 			auto& t=f.first;
 			//To have a consistent orientation of the facet, always consider an exterior cell
 			if(as.classify(t) != Alpha_shape_3::EXTERIOR)

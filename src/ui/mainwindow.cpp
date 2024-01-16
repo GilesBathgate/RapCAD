@@ -88,7 +88,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::deleteTempFiles()
 {
-	for(auto* file: qAsConst(temporyFiles)) {
+	for(auto* file: std::as_const(temporyFiles)) {
 		file->close();
 		delete file;
 	}

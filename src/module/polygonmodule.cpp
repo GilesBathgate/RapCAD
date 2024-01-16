@@ -81,7 +81,7 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 		}
 	}
 
-	for(Value* line: qAsConst(lines)) {
+	for(Value* line: std::as_const(lines)) {
 		auto* lineVec=dynamic_cast<VectorValue*>(line);
 		if(!lineVec) continue;
 		Polygon& pg=p->createPolygon();

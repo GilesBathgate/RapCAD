@@ -60,7 +60,7 @@ void Reporter::reportTiming(const QString& what)
 
 void Reporter::reportTimings()
 {
-	for(auto& m: qAsConst(timings))
+	for(auto& m: std::as_const(timings))
 		messages << m << Qt::endl;
 	timings.clear();
 }
