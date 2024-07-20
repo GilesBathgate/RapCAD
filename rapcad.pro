@@ -53,9 +53,6 @@ win32 {
 	INCLUDEPATH += $$DXFLIBROOT
 	LIBS += -L$$DXFLIBROOT/release -ldxflib
 	}
-	QMAKE_YACC = win_bison
-	QMAKE_YACCFLAGS += "-b y"
-	QMAKE_LEX = win_flex
 } else {
 
 	exists( /usr/lib/x86_64-linux-gnu/libCGAL* ) {
@@ -71,7 +68,6 @@ win32 {
 	contains(DEFINES,USE_DXF) {
 	LIBS += -ldxflib
 	}
-	QMAKE_YACC = bison
   macx {
 	ICON = icons/AppIcon.icns
 	INCLUDEPATH += $$(CGAL_DIR)/include
@@ -86,6 +82,16 @@ win32 {
   } else {
 	LIBS += -lboost_thread -lGLU
   }
+}
+
+# Configure yacc/lex
+win32 {
+	QMAKE_YACC = win_bison
+	QMAKE_YACCFLAGS += "-b y"
+	QMAKE_LEX = win_flex
+} else {
+	QMAKE_YACC = bison
+	QMAKE_LEX = flex
 }
 
 BISON_VERSION = $$system($$QMAKE_YACC --version)
