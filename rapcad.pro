@@ -74,8 +74,8 @@ win32 {
 	QMAKE_YACC = bison
   macx {
 	ICON = icons/AppIcon.icns
-	INCLUDEPATH += /usr/local/include
-	LIBS += -L/usr/local/lib -lboost_thread-mt
+	INCLUDEPATH += $$(CGAL_DIR)/include
+	INCLUDEPATH += $$(BOOST_ROOT)/include
 	exists( /usr/local/lib/libCGAL* ) {
 		LIBS += -lCGAL -lCGAL_Core
 	}
