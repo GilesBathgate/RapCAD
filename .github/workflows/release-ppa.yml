@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        config: ['kinetic', 'jammy']
+        config: ['jammy', 'noble']
     steps:
       - name: Checkout
         uses: actions/checkout@v3
