@@ -21,6 +21,8 @@
 
 #ifdef USE_CGAL
 #include "cgal.h"
+#include <gmp.h>
+#include <mpfr.h>
 #endif
 #include <QString>
 

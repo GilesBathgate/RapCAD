@@ -75,7 +75,11 @@ win32 {
   macx {
 	ICON = icons/AppIcon.icns
 	INCLUDEPATH += $$(CGAL_DIR)/include
+	INCLUDEPATH += $$(GMP)/include
+	INCLUDEPATH += $$(MPFR)/include
 	INCLUDEPATH += $$(BOOST_ROOT)/include
+	LIBS += -L$$(GMP)/lib
+	LIBS += -L$$(MPFR)/lib
 	exists( /usr/local/lib/libCGAL* ) {
 		LIBS += -lCGAL -lCGAL_Core
 	}
