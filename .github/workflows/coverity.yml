@@ -59,7 +59,6 @@ jobs:
         sudo patch -l $CGAL_DIR/Handle_for.h < patch/Fix-uncaught-exception-in-destructor.patch;
         sudo patch -l $CGAL_DIR/Convex_hull_vertex_base_2.h < patch/Fix-uninitialized-members-in-Convex_hull_vertex_base_2.patch;
         sudo patch -l $CGAL_DIR/Random_impl.h < patch/Fix-use-of-time_t.patch;
-        sudo patch -l $CGAL_DIR/version.h < patch/update-version.h.patch;
     - name: Download coverity
       run: |
         wget -q https://scan.coverity.com/download/cxx/linux64 --post-data "token=$TOKEN&project=GilesBathgate%2FRapCAD" -O cov-analysis-linux64.tar.gz
