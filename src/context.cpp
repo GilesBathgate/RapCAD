@@ -133,7 +133,7 @@ QList<Node*> Context::lookupChildren() const
 void Context::setVariablesFromArguments()
 {
 	for(auto i=0; i<parameters.size(); ++i) {
-		auto param=parameters.at(i);
+		const auto& param=parameters.at(i);
 		const QString& paramName=param.getName();
 		Value* paramVal=param.getValue();
 		bool found=false;
@@ -147,7 +147,7 @@ void Context::setVariablesFromArguments()
 			}
 		}
 		if(!found&&i<arguments.size()) {
-			auto arg=arguments.at(i);
+			const auto& arg=arguments.at(i);
 			const QString& argName=arg.getName();
 			Value* argVal=arg.getValue();
 			if(argVal->isDefined()&&argName.isEmpty()) {
@@ -266,7 +266,7 @@ Value* Context::matchArgumentIndex(bool allowChar,bool matchLast, int index, con
 	if(index >= arguments.size())
 		return matchArgument(allowChar,matchLast,name);
 
-	auto arg = arguments.at(index);
+	const auto& arg = arguments.at(index);
 	const QString& argName = arg.getName();
 	if(argName.isEmpty() || match(allowChar,matchLast,argName,name))
 		return arg.getValue();
