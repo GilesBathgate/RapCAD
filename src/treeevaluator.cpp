@@ -120,7 +120,7 @@ void TreeEvaluator::visit(const Instance& inst)
 	startContext(c);
 	for(Argument* arg: inst.getArguments())
 		arg->accept(*this);
-	const auto arguments=context->getArguments();
+	const QList<NamedValue> arguments=context->getArguments();
 	finishContext();
 
 	/* Look up the layout which is currently in scope and then lookup the
@@ -255,7 +255,7 @@ void TreeEvaluator::visit(const ForStatement& forstmt)
 {
 	for(Argument* arg: forstmt.getArguments())
 		arg->accept(*this);
-	auto args=context->getArguments();
+	QList<NamedValue> args=context->getArguments();
 	context->clearArguments();
 
 	if(!args.isEmpty()) {
@@ -376,7 +376,7 @@ void TreeEvaluator::visit(const AssignStatement& stmt)
 	}
 	if(!result) return;
 
-	auto c=lvalue->getStorage();
+	Storage c=lvalue->getStorage();
 	result->setStorage(c);
 
 	if(!context->updateVariable(name,result,c)) {
@@ -493,7 +493,7 @@ void TreeEvaluator::visit(const Invocation& stmt)
 	startContext(c);
 	for(Argument* arg: stmt.getArguments())
 		arg->accept(*this);
-	const auto arguments=context->getArguments();
+	const QList<NamedValue> arguments=context->getArguments();
 	finishContext();
 
 	Value* result=nullptr;
