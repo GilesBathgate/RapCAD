@@ -62,7 +62,7 @@ public:
 	Primitive* glide(Primitive*) override;
 	Primitive* group(Primitive*) override;
 	Primitive* hull(bool) override;
-	Primitive* hull(QList<CGAL::Point3>) override;
+	Primitive* hull(const QList<CGAL::Point3>&) override;
 	Primitive* inset(const CGAL::Scalar&) override;
 	Primitive* intersection(Primitive*) override;
 	Primitive* join(Primitive*) override;
@@ -116,7 +116,7 @@ private:
 	CGAL::NefPolyhedron3* createPolyline();
 	static CGAL::NefPolyhedron3* createPolyline(CGALPolygon*);
 	static CGAL::NefPolyhedron3* createPolyline(const CGAL::Segment3&);
-	static CGAL::NefPolyhedron3* createPolyline(QVector<CGAL::Point3>);
+	static CGAL::NefPolyhedron3* createPolyline(const QVector<CGAL::Point3>&);
 	CGAL::NefPolyhedron3* createPoints();
 	bool detectHoles(QList<CGALPolygon*>,bool);
 	bool hasHoles();

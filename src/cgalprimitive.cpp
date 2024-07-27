@@ -269,9 +269,9 @@ CGAL::NefPolyhedron3* CGALPrimitive::createPolyline(const CGAL::Segment3& s)
 	return createPolyline(pl);
 }
 
-CGAL::NefPolyhedron3* CGALPrimitive::createPolyline(QVector<CGAL::Point3> pl)
+CGAL::NefPolyhedron3* CGALPrimitive::createPolyline(const QVector<CGAL::Point3>& pl)
 {
-	using PointRange = QPair<CGAL::Point3*,CGAL::Point3*>;
+	using PointRange = QPair<const CGAL::Point3*,const CGAL::Point3*>;
 	using PolyLine = QVector<PointRange>;
 
 	const PointRange p(&*pl.begin(),&*pl.end());
@@ -1361,7 +1361,7 @@ Primitive* CGALPrimitive::hull(bool concave)
 	return this;
 }
 
-Primitive* CGALPrimitive::hull(QList<CGAL::Point3> pts)
+Primitive* CGALPrimitive::hull(const QList<CGAL::Point3>& pts)
 {
 	CGAL::Object o;
 	CGAL::convex_hull_3(pts.begin(),pts.end(),o);

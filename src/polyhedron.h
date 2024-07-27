@@ -42,7 +42,7 @@ public:
 	Primitive* glide(Primitive*) override { return this; }
 	Primitive* group(Primitive*) override;
 	Primitive* hull(bool) override { return this; }
-	Primitive* hull(QList<Point>) override { return this; }
+	Primitive* hull(const QList<Point>&) override { return this; }
 	Primitive* inset(const decimal&) override { return this; }
 	Primitive* intersection(Primitive*) override;
 	Primitive* join(Primitive*) override;

@@ -54,7 +54,7 @@ public:
 	virtual Primitive* glide(Primitive*)=0;
 	virtual Primitive* group(Primitive*)=0;
 	virtual Primitive* hull(bool)=0;
-	virtual Primitive* hull(QList<Point>)=0;
+	virtual Primitive* hull(const QList<Point>&)=0;
 	virtual Primitive* inset(const decimal&)=0;
 	virtual Primitive* intersection(Primitive*)=0;
 	virtual Primitive* join(Primitive*)=0;

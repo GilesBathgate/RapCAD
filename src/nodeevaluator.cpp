@@ -270,7 +270,7 @@ void NodeEvaluator::visit(const SolidNode& n)
 	result=result->solidify();
 }
 
-static void appendChildren(Primitive* p,const QList<Node*> children)
+static void appendChildren(Primitive* p,const QList<Node*>& children)
 {
 	for(auto* child: children) {
 		auto* pn=dynamic_cast<PrimitiveNode*>(child);
