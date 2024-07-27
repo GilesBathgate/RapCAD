@@ -34,12 +34,12 @@ CGALPolygon::~CGALPolygon()
 	delete projection;
 }
 
-void CGALPolygon::appendVertex(CGAL::Point3 pt)
+void CGALPolygon::appendVertex(const CGAL::Point3& pt)
 {
 	appendVertex(pt,true);
 }
 
-void CGALPolygon::appendVertex(CGAL::Point3 pt,bool direction)
+void CGALPolygon::appendVertex(const CGAL::Point3& pt, bool direction)
 {
 	auto& pr=dynamic_cast<CGALPrimitive&>(parent);
 	pr.appendVertex(this,pt,direction);

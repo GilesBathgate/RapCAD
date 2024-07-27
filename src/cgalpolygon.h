@@ -37,8 +37,8 @@ public:
 	explicit CGALPolygon(class CGALPrimitive&);
 	~CGALPolygon() override;
 
-	void appendVertex(CGAL::Point3);
-	void appendVertex(CGAL::Point3,bool);
+	void appendVertex(const CGAL::Point3&);
+	void appendVertex(const CGAL::Point3&,bool);
 
 	QList<CGAL::Point3> getPoints() const;
 	QList<CGAL::Point2> getProjectedPoints();
