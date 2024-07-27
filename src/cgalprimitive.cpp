@@ -974,10 +974,11 @@ void CGALPrimitive::transform(TransformMatrix* matrix)
 	if(nefPolyhedron) {
 		nefPolyhedron->transform(t);
 	} else {
-		QList<CGAL::Point3> nps;
-		for(const auto& pt: std::as_const(points))
-			nps.append(pt.transform(t));
-		points=nps;
+		QList<CGAL::Point3> transformedPoints;
+		for(const auto& pt: std::as_const(points)) {
+			transformedPoints.append(pt.transform(t));
+		}
+		points=std::move(transformedPoints);
 	}
 
 	//Only transform auxilliary modules children.
@@ -1084,11 +1085,11 @@ void CGALPrimitive::discrete(int places)
 		CGALDiscreteModifier n(places);
 		nefPolyhedron->delegate(n,false,false);
 	} else {
-		QList<CGAL::Point3> nps;
+		QList<CGAL::Point3> discretePoints;
 		for(const auto& pt: std::as_const(points)) {
-			nps.append(CGALDiscreteModifier::discretePoint(pt,places));
+			discretePoints.append(CGALDiscreteModifier::discretePoint(pt,places));
 		}
-		points=nps;
+		points=std::move(discretePoints);
 	}
 }
 

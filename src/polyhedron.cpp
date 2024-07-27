@@ -119,11 +119,11 @@ void Polyhedron::transform(TransformMatrix* matrix)
 #else
 	TransformMatrix* t=matrix;
 #endif
-	QList<Point> nps;
-	for(const auto& p: getPoints()) {
-		nps.append(p.transform(t));
+	QList<Point> transformedPoints;
+	for(const auto& p: std::as_const(points)) {
+		transformedPoints.append(p.transform(t));
 	}
-	points=nps;
+	points=std::move(transformedPoints);
 
 	for(Primitive* p: getChildren())
 		p->transform(matrix);
