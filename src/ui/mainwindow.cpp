@@ -353,12 +353,12 @@ void MainWindow::exportFile(const QString& type)
 
 	const QFileInfo fileInfo(currentEditor()->getFileName());
 
-	const auto& ext=QString(".%1").arg(type.toLower());
-	const auto& filter=tr("%1 Files (*%2);;All Files (*)").arg(type.toUpper(),ext);
-	const auto& suggestedName=fileInfo.completeBaseName().append(ext);
-	const auto& suggestedLocation=fileInfo.absoluteDir().filePath(suggestedName);
+	const QString ext=QString(".%1").arg(type.toLower());
+	const QString filter=tr("%1 Files (*%2);;All Files (*)").arg(type.toUpper(),ext);
+	const QString suggestedName=fileInfo.completeBaseName().append(ext);
+	const QString suggestedLocation=fileInfo.absoluteDir().filePath(suggestedName);
 
-	const auto& fileName=MainWindow::getSaveFileName(this,tr("Export..."),suggestedLocation,filter,ext);
+	const QString fileName=MainWindow::getSaveFileName(this,tr("Export..."),suggestedLocation,filter,ext);
 	if(fileName.isEmpty())
 		return;
 
