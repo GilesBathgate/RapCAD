@@ -27,8 +27,8 @@ class PrimitiveModule : public Module
 public:
 	PrimitiveModule(Reporter&, const QString&);
 protected:
-	static QList<Point> getCircle(const decimal&,const decimal&,const decimal&);
-	static QList<Point> getPolygon(const decimal&,const decimal&,const decimal&,const decimal&);
+	static QList<Point> getCircle(const decimal&,int,const decimal&);
+	static QList<Point> getPolygon(const decimal&,const decimal&,int,const decimal&);
 	static void createTriangle(Primitive*,int,int,int);
 	static void createQuad(Primitive*,int,int,int,int);
 };
