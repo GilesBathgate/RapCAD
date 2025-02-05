@@ -26,18 +26,22 @@ PrimitiveModule::PrimitiveModule(Reporter& r, const QString& n) : Module(r,n)
 
 QList<Point> PrimitiveModule::getCircle(const decimal& r,int f,const decimal& z)
 {
+	return getSpiral(r,f,f,z,z);
+}
+
+QList<Point> PrimitiveModule::getSpiral(const decimal& r,int f,int n,const decimal& z1,const decimal& z2)
+{
 	QList<Point> circle;
-	for(auto i=0; i<f; ++i) {
-		const decimal& phi = (r_tau()*i) / f;
-		decimal x;
-		decimal y;
-		if(r>0.0) {
-			x = r*r_cos(phi);
-			y = r*r_sin(phi);
-		} else {
-			x=0.0;
-			y=0.0;
-		}
+	if(f<=0||n<=0||r<0.0) return circle;
+
+	const auto dz=(z2-z1)/n;
+	const auto dgz=dz>0.0;
+
+	for(auto i=0; i<n; ++i) {
+		const decimal& phi=(r_tau()*i)/f;
+		const decimal x=r*r_cos(phi);
+		const decimal y=r*r_sin(phi);
+		const decimal z=dgz?z1+(i*dz):z1;
 		const Point p(x,y,z);
 		circle.append(p);
 	}

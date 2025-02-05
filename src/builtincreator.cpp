@@ -120,6 +120,7 @@
 #include "module/subdivisionmodule.h"
 #include "module/symmetricdifferencemodule.h"
 #include "module/textmodule.h"
+#include "module/threadmodule.h"
 #include "module/translatemodule.h"
 #include "module/triangulatemodule.h"
 #include "module/unionmodule.h"
@@ -238,6 +239,7 @@ BuiltinCreator::BuiltinCreator(Reporter& r)
 	builtins.append(new SubDivisionModule(r));
 	builtins.append(new SymmetricDifferenceModule(r));
 	builtins.append(new TextModule(r));
+	builtins.append(new ThreadModule(r));
 	builtins.append(new TranslateModule(r));
 	builtins.append(new TriangulateModule(r));
 	builtins.append(new UnionModule(r));

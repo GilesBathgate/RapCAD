@@ -177,6 +177,7 @@ SOURCES += \
 	src/module/datummodule.cpp \
 	src/module/regularpolygonmodule.cpp \
 	src/module/solidmodule.cpp \
+	src/module/threadmodule.cpp \
 	src/namedvalue.cpp \
 	src/node/solidnode.cpp \
 	src/tokenreader.cpp \
@@ -444,6 +445,7 @@ HEADERS  += \
 	src/module/datummodule.h \
 	src/module/regularpolygonmodule.h \
 	src/module/solidmodule.h \
+	src/module/threadmodule.h \
 	src/namedvalue.h \
 	src/node/solidnode.h \
 	src/operators.h \
