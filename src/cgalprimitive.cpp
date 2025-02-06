@@ -501,6 +501,7 @@ QList<CGAL::Point3> CGALPrimitive::getPoints() const
 CGAL::Cuboid3 CGALPrimitive::getBounds() const
 {
 	QList<CGAL::Point3> pts=getPoints();
+	if(pts.isEmpty()) return CGAL::Cuboid3();
 	return CGAL::bounding_box(pts.begin(),pts.end());
 }
 
