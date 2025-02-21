@@ -40,11 +40,13 @@ win32 {
 	INCLUDEPATH += $$(CGAL_DIR)/include
 	INCLUDEPATH += $$(CGAL_DIR)/auxiliary/gmp/include
 	INCLUDEPATH += $$(BOOST_ROOT)
+	INCLUDEPATH += $$(LIBGIT2_DIR)/include
 	LIBS += -L$$(CGAL_DIR)/lib
 	exists( $$(CGAL_DIR)/lib/libCGAL* ) {
 		LIBS +=  -lCGAL -lCGAL_Core
 	}
 	LIBS += -L$$(CGAL_DIR)/auxiliary/gmp/lib -lmpfr-4 -lgmp-10
+	LIBS += -L$$(LIBGIT2_DIR)/lib -lgit2
 	LIBS += -lglu32
 	contains(DEFINES,USE_READLINE) {
 	LIBS += -lreadline
@@ -68,17 +70,20 @@ win32 {
 	contains(DEFINES,USE_DXF) {
 	LIBS += -ldxflib
 	}
+	LIBS += -lgit2
   macx {
 	ICON = icons/AppIcon.icns
 	INCLUDEPATH += $$(CGAL_DIR)/include
 	INCLUDEPATH += $$(GMP)/include
 	INCLUDEPATH += $$(MPFR)/include
 	INCLUDEPATH += $$(BOOST_ROOT)/include
+	INCLUDEPATH += $$(LIBGIT2_DIR)/include
 	LIBS += -L$$(GMP)/lib
 	LIBS += -L$$(MPFR)/lib
 	exists( /usr/local/lib/libCGAL* ) {
 		LIBS += -lCGAL -lCGAL_Core
 	}
+	LIBS += -L$$(LIBGIT2_DIR)/lib -lgit2
   } else {
 	LIBS += -lboost_thread -lGLU
   }
@@ -168,6 +173,13 @@ SOURCES += \
 	src/function/isundeffunction.cpp \
 	src/function/ordinalfunction.cpp \
 	src/geometryevaluator.cpp \
+	src/git/commit.cpp \
+	src/git/gitexception.cpp \
+	src/git/index.cpp \
+	src/git/oid.cpp \
+	src/git/repository.cpp \
+	src/git/signature.cpp \
+	src/git/tree.cpp \
 	src/intervalexpression.cpp \
 	src/intervalvalue.cpp \
 	src/main.cpp \
@@ -182,6 +194,7 @@ SOURCES += \
 	src/node/solidnode.cpp \
 	src/tokenreader.cpp \
 	src/ui/camera.cpp \
+	src/ui/commitdialog.cpp \
 	src/ui/mainwindow.cpp \
 	src/module.cpp \
 	src/syntaxtreebuilder.cpp \
@@ -437,6 +450,13 @@ HEADERS  += \
 	src/function/isundeffunction.h \
 	src/function/ordinalfunction.h \
 	src/geometryevaluator.h \
+	src/git/commit.h \
+	src/git/gitexception.h \
+	src/git/index.h \
+	src/git/oid.h \
+	src/git/repository.h \
+	src/git/signature.h \
+	src/git/tree.h \
 	src/intervalexpression.h \
 	src/intervalvalue.h \
 	src/module/assertmodule.h \
@@ -451,6 +471,7 @@ HEADERS  += \
 	src/operators.h \
 	src/tokenreader.h \
 	src/ui/camera.h \
+	src/ui/commitdialog.h \
 	src/ui/mainwindow.h \
 	src/module.h \
 	src/syntaxtreebuilder.h \
@@ -704,6 +725,7 @@ HEADERS  += \
 	src/ui/searchwidget.h
 
 FORMS += \
+	src/ui/commitdialog.ui \
 	src/ui/mainwindow.ui \
 	src/ui/preferences.ui \
 	src/ui/saveitemsdialog.ui \

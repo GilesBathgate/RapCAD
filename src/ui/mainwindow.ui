@@ -32,6 +32,14 @@
       </property>
       <widget class="QToolBox" name="toolBox">
        <widget class="QWidget" name="projectPage">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>338</width>
+          <height>421</height>
+         </rect>
+        </property>
         <attribute name="label">
          <string>Projects</string>
         </attribute>
@@ -237,6 +245,7 @@
     <addaction name="actionNewProject"/>
     <addaction name="actionOpen"/>
     <addaction name="separator"/>
+    <addaction name="actionCommit"/>
     <addaction name="actionSave"/>
     <addaction name="actionSaveAs"/>
     <addaction name="actionSaveAll"/>
@@ -328,6 +337,7 @@
    <addaction name="actionNew"/>
    <addaction name="actionOpen"/>
    <addaction name="actionSave"/>
+   <addaction name="actionCommit"/>
    <addaction name="separator"/>
    <addaction name="actionUndo"/>
    <addaction name="actionRedo"/>
@@ -980,6 +990,14 @@
    </property>
    <property name="text">
     <string>New Project</string>
+   </property>
+  </action>
+  <action name="actionCommit">
+   <property name="icon">
+    <iconset theme="go-next"/>
+   </property>
+   <property name="text">
+    <string>Commit</string>
    </property>
   </action>
  </widget>

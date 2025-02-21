@@ -38,7 +38,7 @@ jobs:
         dir: /usr
         cache: ${{ steps.cache-qt.outputs.cache-hit }}
     - name: Install Dependencies
-      run: sudo apt-get install -y libboost-dev libcgal-dev libglu1-mesa-dev libxkbcommon-x11-0 libxcb-cursor0 libreadline-dev
+      run: sudo apt-get install -y libboost-dev libcgal-dev libglu1-mesa-dev libxkbcommon-x11-0 libxcb-cursor0 libreadline-dev libgit2-dev
     - name: Configure
       run: qmake CONFIG+=${{ matrix.config }}
     - name: Build
@@ -69,11 +69,22 @@ jobs:
       BOOST_ROOT: C:\boost_1_80_0
       ASCIIDOC: C:\asciidoc-9.1.0\
       MINGW: C:\mingw64\bin
+      LIBGIT2_DIR: C:\libgit2-1.9.0\
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-    - name: Install Dependencies
-      run: choco install -y winflexbison3
+    - name: Install Flex/Bison
+      run: |
+        choco install -y winflexbison3
+    - name: Install LibGIT2
+      run: |
+        choco install -y libgit2
+        Invoke-WebRequest "https://github.com/libgit2/libgit2/archive/refs/tags/v1.9.0.zip" -OutFile "$env:TEMP\libgit2.zip"
+        7z x -oC:\ "$env:TEMP\libgit2.zip"
+        mkdir "$env:LIBGIT2_DIR\lib"
+        cp "C:\ProgramData\chocolatey\lib\libgit2\tools\libgit2.dll" "$env:LIBGIT2_DIR\lib"
+        gendef "$env:LIBGIT2_DIR\lib\libgit2.dll"
+        dlltool -d libgit2.def --dllname libgit2.dll --output-lib "$env:LIBGIT2_DIR\lib\libgit2.lib"
     - name: Install Boost
       run: |
         Invoke-WebRequest "https://archives.boost.io/release/1.80.0/source/boost_1_80_0.7z" -OutFile "$env:TEMP\boost.7z"
@@ -140,6 +151,7 @@ jobs:
         cp "$env:MINGW\libgcc_s_seh-1.dll" release
         cp "$env:MINGW\libstdc++-6.dll" release
         cp "$env:MINGW\libwinpthread-1.dll" release
+        cp "$env:LIBGIT2_DIR\lib\libgit2.dll" release
     - name: Build installer
       if: ${{ matrix.config == 'official' }}
       run: |
@@ -186,12 +198,13 @@ jobs:
         cache: ${{ steps.cache-qt.outputs.cache-hit }}
     - name: Install Dependencies
       run: |
-        brew install cgal bison
+        brew install cgal bison libgit2
         echo "$(brew --prefix bison)/bin" >> $GITHUB_PATH
         echo "BOOST_ROOT=$(brew --prefix boost)" >> $GITHUB_ENV
         echo "CGAL_DIR=$(brew --prefix cgal)" >> $GITHUB_ENV
         echo "GMP=$(brew --prefix gmp)" >> $GITHUB_ENV
         echo "MPFR=$(brew --prefix mpfr)" >> $GITHUB_ENV
+        echo "LIBGIT2_DIR=$(brew --prefix libgit2)" >> $GITHUB_ENV
     - name: Configure
       run: |
         echo "VERSION=$(cat VERSION)" >> $GITHUB_ENV

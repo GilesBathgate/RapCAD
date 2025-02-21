@@ -23,6 +23,7 @@
 #include "renderer.h"
 #include "saveitemsdialog.h"
 #include "stringify.h"
+#include "ui/commitdialog.h"
 #include "ui/preferencesdialog.h"
 #include "ui_mainwindow.h"
 #include <QClipboard>
@@ -34,6 +35,7 @@
 #include <QScrollBar>
 #include <QStyleFactory>
 #include <contrib/qtcompat.h>
+#include "git/index.h"
 
 MainWindow::MainWindow(QWidget* parent) :
 	QMainWindow(parent),
@@ -44,7 +46,8 @@ MainWindow::MainWindow(QWidget* parent) :
 	reporter(nullptr),
 	worker(nullptr),
 	interact(nullptr),
-	aboutDialog(nullptr)
+	aboutDialog(nullptr),
+	repository(nullptr)
 {
 	setTheme();
 
@@ -83,6 +86,7 @@ MainWindow::~MainWindow()
 	delete worker;
 	delete interact;
 	delete aboutDialog;
+	delete repository;
 	delete ui;
 }
 
@@ -286,6 +290,7 @@ void MainWindow::setupActions()
 
 	connect(ui->actionSendToCAM,&QAction::triggered,this,&MainWindow::sendToCAM);
 
+	connect(ui->actionCommit, &QAction::triggered, this, &MainWindow::commitChanges);
 }
 
 void MainWindow::setupExportActions()
@@ -443,6 +448,45 @@ void MainWindow::newProject()
 	projectModel->setName(projectName);
 	projectModel->createDefaultItems();
 
+}
+
+void MainWindow::initializeRepository()
+{
+	if(!repository) {
+		repository = new Repository(QDir::currentPath());
+	}
+}
+
+void MainWindow::commitChanges()
+{
+	CodeEditor* e = currentEditor();
+	e->saveFile();
+
+	CommitDialog dialog(this);
+
+	if(dialog.exec() != QDialog::Accepted)
+		return;
+
+	try {
+		initializeRepository();
+
+		QString path = repository->relativeFilePath(e->getFileName());
+
+		Index index(*repository);
+		index.addByPath(path);
+		index.write();
+
+		Oid treeId = index.writeTree();
+		Tree tree = repository->lookupTree(treeId);
+
+		QString commitMessage = dialog.getCommitMessage();
+		Oid commitId = repository->createCommit("HEAD", commitMessage, tree);
+
+		QMessageBox::information(this, tr("Success"), commitId.toHex());
+
+	} catch(const std::exception& e) {
+		QMessageBox::critical(this, tr("Error"), e.what());
+	}
 }
 
 void MainWindow::setupEditor(CodeEditor* editor)
