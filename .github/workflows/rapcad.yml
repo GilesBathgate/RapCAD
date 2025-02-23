@@ -72,6 +72,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+    - name: Install Dependencies
+      run: choco install -y winflexbison3
     - name: Install Boost
       run: |
         Invoke-WebRequest "https://archives.boost.io/release/1.80.0/source/boost_1_80_0.7z" -OutFile "$env:TEMP\boost.7z"
@@ -88,11 +90,6 @@ jobs:
         version: '6.5.*'
         cache: ${{ steps.cache-qt.outputs.cache-hit }}
         arch: win64_mingw
-    - name: Install Flex/Bison
-      if: ${{ !steps.cache-qt.outputs.cache-hit }}
-      run: |
-        Invoke-WebRequest https://github.com/lexxmark/winflexbison/releases/download/v2.5.25/win_flex_bison-2.5.25.zip -OutFile "$env:TEMP\FlexBison.zip"
-        7z x -o"$env:Qt6_DIR\bin" "$env:TEMP\FlexBison.zip" -aoa
     - name: Install CGAL
       run: |
         Invoke-WebRequest https://github.com/CGAL/cgal/releases/download/v5.4/CGAL-5.4.zip -OutFile "$env:TEMP\CGAL-release.zip"
