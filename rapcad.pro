@@ -178,6 +178,7 @@ SOURCES += \
 	src/git/index.cpp \
 	src/git/oid.cpp \
 	src/git/repository.cpp \
+	src/git/repositorymanager.cpp \
 	src/git/signature.cpp \
 	src/git/tree.cpp \
 	src/intervalexpression.cpp \
@@ -455,6 +456,7 @@ HEADERS  += \
 	src/git/index.h \
 	src/git/oid.h \
 	src/git/repository.h \
+	src/git/repositorymanager.h \
 	src/git/signature.h \
 	src/git/tree.h \
 	src/intervalexpression.h \

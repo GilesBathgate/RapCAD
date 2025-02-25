@@ -9,7 +9,7 @@ Commit::Commit()
 
 Commit::Commit(const Repository& r, const Oid& o)
 {
-	int error=git_commit_lookup(&commit, r.repo, &o.oid);
+	const auto error=git_commit_lookup(&commit, r.repo, &o.oid);
 	GitException::checkError(error);
 }
 

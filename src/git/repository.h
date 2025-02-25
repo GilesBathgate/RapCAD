@@ -19,8 +19,6 @@ public:
 	QString relativeFilePath(const QString& path);
 private:
 	Commit getParent(const QString& ref);
-	static void initialize();
-	static int state;
 
 	friend class Index;
 	friend class Commit;

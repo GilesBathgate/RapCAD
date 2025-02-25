@@ -3,7 +3,7 @@
 
 Signature::Signature(const Repository& r)
 {
-	auto error=git_signature_default(&signature, r.repo);
+	const auto error=git_signature_default(&signature, r.repo);
 	GitException::checkError(error);
 }
 

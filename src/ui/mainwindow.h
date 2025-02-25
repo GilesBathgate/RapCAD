@@ -22,7 +22,7 @@
 #include "aboutdialog.h"
 #include "backgroundworker.h"
 #include "codeeditor.h"
-#include "git/repository.h"
+#include "git/repositorymanager.h"
 #include "interactive.h"
 #include "project.h"
 #include "texteditiodevice.h"
@@ -105,7 +105,6 @@ private:
 	void disableActions(CodeEditor*);
 	bool saveSelectedFiles(const QList<QString>&);
 	void deleteTempFiles();
-	void initializeRepository();
 
 	Ui::MainWindow* ui;
 	Project* projectModel;
@@ -116,7 +115,7 @@ private:
 	Interactive* interact;
 	AboutDialog* aboutDialog;
 	QList<QTemporaryFile*> temporyFiles;
-	Repository* repository;
+	RepositoryManager* repositoryManager;
 };
 
 #endif // MAINWINDOW_H

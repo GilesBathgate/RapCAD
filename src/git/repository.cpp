@@ -5,18 +5,9 @@
 Repository::Repository(const QDir& directory)
 	: directory(directory)
 {
-	initialize();
 
 	const auto error=git_repository_open(&repo, directory.absolutePath().toUtf8());
 	GitException::checkError(error);
-}
-
-int Repository::state=0;
-
-void Repository::initialize()
-{
-	if(state==0)
-		state=git_libgit2_init();
 }
 
 Repository::~Repository()
@@ -44,7 +35,7 @@ Commit Repository::getParent(const QString& ref)
 
 Oid Repository::createCommit(const QString& ref, const QString& message, const Tree& t)
 {
-	auto parent=getParent(ref);
+	const auto parent=getParent(ref);
 
 	Signature author(*this);
 

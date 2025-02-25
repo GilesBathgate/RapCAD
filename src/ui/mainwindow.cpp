@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget* parent) :
 	worker(nullptr),
 	interact(nullptr),
 	aboutDialog(nullptr),
-	repository(nullptr)
+	repositoryManager(new RepositoryManager)
 {
 	setTheme();
 
@@ -86,7 +86,7 @@ MainWindow::~MainWindow()
 	delete worker;
 	delete interact;
 	delete aboutDialog;
-	delete repository;
+	delete repositoryManager;
 	delete ui;
 }
 
@@ -450,13 +450,6 @@ void MainWindow::newProject()
 
 }
 
-void MainWindow::initializeRepository()
-{
-	if(!repository) {
-		repository = new Repository(QDir::currentPath());
-	}
-}
-
 void MainWindow::commitChanges()
 {
 	CodeEditor* e = currentEditor();
@@ -468,19 +461,19 @@ void MainWindow::commitChanges()
 		return;
 
 	try {
-		initializeRepository();
+		auto repository=repositoryManager->getRepository(QDir::current());
 
-		QString path = repository->relativeFilePath(e->getFileName());
+		QString path = repository.relativeFilePath(e->getFileName());
 
-		Index index(*repository);
+		Index index(repository);
 		index.addByPath(path);
 		index.write();
 
 		Oid treeId = index.writeTree();
-		Tree tree = repository->lookupTree(treeId);
+		Tree tree = repository.lookupTree(treeId);
 
 		QString commitMessage = dialog.getCommitMessage();
-		Oid commitId = repository->createCommit("HEAD", commitMessage, tree);
+		Oid commitId = repository.createCommit("HEAD", commitMessage, tree);
 
 		QMessageBox::information(this, tr("Success"), commitId.toHex());
 

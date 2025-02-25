@@ -10,7 +10,7 @@
 class Index
 {
 public:
-	Index(const Repository&);
+	explicit Index(const Repository&);
 	~Index();
 	void addByPath(const QString& path);
 	void write();
