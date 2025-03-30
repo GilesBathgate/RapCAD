@@ -170,6 +170,7 @@ SOURCES += \
 	src/codedocdeclaration.cpp \
 	src/function/assertfunction.cpp \
 	src/function/circumcenterfunction.cpp \
+	src/function/fragmentsfunction.cpp \
 	src/function/isundeffunction.cpp \
 	src/function/ordinalfunction.cpp \
 	src/geometryevaluator.cpp \
@@ -448,6 +449,7 @@ HEADERS  += \
 	src/codedocdeclaration.h \
 	src/function/assertfunction.h \
 	src/function/circumcenterfunction.h \
+	src/function/fragmentsfunction.h \
 	src/function/isundeffunction.h \
 	src/function/ordinalfunction.h \
 	src/geometryevaluator.h \

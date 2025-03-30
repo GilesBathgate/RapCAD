@@ -36,6 +36,7 @@
 #include "function/degfunction.h"
 #include "function/expfunction.h"
 #include "function/floorfunction.h"
+#include "function/fragmentsfunction.h"
 #include "function/isboolfunction.h"
 #include "function/isintfunction.h"
 #include "function/islistfunction.h"
@@ -150,6 +151,7 @@ BuiltinCreator::BuiltinCreator(Reporter& r)
 	builtins.append(new DegFunction());
 	builtins.append(new ExpFunction());
 	builtins.append(new FloorFunction());
+	builtins.append(new FragmentsFunction());
 	builtins.append(new IsBoolFunction());
 	builtins.append(new IsIntFunction());
 	builtins.append(new IsListFunction());
