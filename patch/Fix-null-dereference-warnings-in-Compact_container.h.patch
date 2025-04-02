@@ -1,11 +1,12 @@
 --- a/usr/include/CGAL/Compact_container.h
 +++ b/usr/include/CGAL/Compact_container.h
-@@ -765,6 +765,7 @@ void Compact_container<T, Allocator, Increment_policy, TimeStamper>::allocate_ne
-   typedef internal::Erase_counter_strategy<
-     internal::has_increment_erase_counter<T>::value> EraseCounterStrategy;
- 
+@@ -765,6 +765,7 @@ template < class T, class Allocator, class Increment_policy, class TimeStamper >
+ auto Compact_container<T, Allocator, Increment_policy, TimeStamper>::push_back_new_block()
+     -> std::pair<pointer, size_type>
+ {
 +  CGAL_assertion(block_size > 0);
    pointer new_block = alloc.allocate(block_size + 2);
+   std::pair<pointer, size_type> result{new_block, block_size};
    all_items.push_back(std::make_pair(new_block, block_size + 2));
    capacity_ += block_size;
 
