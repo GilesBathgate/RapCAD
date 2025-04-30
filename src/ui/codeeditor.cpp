@@ -199,8 +199,7 @@ void CodeEditor::keyPressEvent(QKeyEvent* e)
 	if(e->key()==Qt::Key_Tab) {
 		if(e->modifiers()==Qt::ControlModifier)
 			return decreaseSelectionIndent();
-		if(textCursor().hasSelection())
-			return increaseSelectionIndent();
+		return increaseSelectionIndent();
 	}
 
 	return QPlainTextEdit::keyPressEvent(e);
@@ -233,8 +232,7 @@ void CodeEditor::increaseSelectionIndent()
 		cursor.movePosition(QTextCursor::StartOfBlock);
 		QTextCursor current(cursor);
 		current.movePosition(QTextCursor::EndOfBlock,QTextCursor::KeepAnchor);
-		if(current.hasSelection())
-			cursor.insertText(indent);
+		cursor.insertText(indent);
 		cursor.movePosition(QTextCursor::NextBlock);
 	}
 	cursor.endEditBlock();
@@ -253,7 +251,7 @@ void CodeEditor::decreaseSelectionIndent()
 	for(auto i=0; i<=blockCount; ++i) {
 		cursor.movePosition(QTextCursor::StartOfBlock);
 		QTextCursor current(cursor);
-		current.movePosition(QTextCursor::NextCharacter,QTextCursor::KeepAnchor);
+		current.movePosition(QTextCursor::NextCharacter,QTextCursor::KeepAnchor,indent.length());
 		if(current.selectedText()==indent)
 			current.removeSelectedText();
 		cursor.movePosition(QTextCursor::NextBlock);
