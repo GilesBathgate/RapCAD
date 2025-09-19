@@ -42,7 +42,7 @@ jobs:
     - name: Configure
       run: qmake CONFIG+=${{ matrix.config }}
     - name: Build
-      run: make -j4
+      run: make -j$(nproc)
     - name: Test
       if: ${{ matrix.config == 'coverage' }}
       run: xvfb-run --server-args="-screen 0 1024x768x24" ./rapcad -t test
