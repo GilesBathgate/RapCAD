@@ -135,7 +135,7 @@ jobs:
         rm VERSION
         touch version
     - name: Build
-      run: mingw32-make -j4 -f Makefile.Release
+      run: mingw32-make -j $env:NUMBER_OF_PROCESSORS -f Makefile.Release
     - name: Clean
       run: mingw32-make clean -f Makefile.Release
     - name: Build documentation
