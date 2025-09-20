@@ -205,16 +205,18 @@ int Tester::evaluate()
 
 	reporter.startTiming();
 	QThreadPool::globalInstance()->setMaxThreadCount(10);
-	GeometryEvaluator ge(*nullreport);
 	const QList<Declaration*> builtins=BuiltinCreator::getInstance(*nullreport).getBuiltins();
 	int modulecount=0;
 	for(int testphase=0; testphase<2; ++testphase) {
 		for(auto& b: builtins) {
 			auto* m=dynamic_cast<Module*>(b);
 			if(m) {
+				QString multithread_nullout;
+				QTextStream multithread_nullstream(&multithread_nullout);
+				Reporter multithread_nullreport(multithread_nullstream);
 				Context ctx;
 				if(testphase) {
-					const CubeModule cube(*nullreport);
+					const CubeModule cube(multithread_nullreport);
 					Node* cubeNode = cube.evaluate(ctx);
 					const QList<Node*> inputNodes { cubeNode };
 					ctx.setInputNodes(inputNodes);
@@ -229,6 +231,7 @@ int Tester::evaluate()
 						continue;
 					}
 #endif
+					GeometryEvaluator ge(multithread_nullreport);
 					node->accept(ge);
 					const QScopedPointer<Primitive> r(ge.getResult());
 					writePass();
