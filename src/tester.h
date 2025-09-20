@@ -46,6 +46,7 @@ private:
 #if USE_CGAL
 	void exportTest(Primitive* p,const QFileInfo&,const QFileInfo&,const QString&);
 #endif
+	void runTestPhase(Module*,int,int&);
 	void builtinsTest();
 	void consoleTest();
 	void renderingTest();

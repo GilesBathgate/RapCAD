@@ -210,34 +210,8 @@ int Tester::evaluate()
 	for(int testphase=0; testphase<2; ++testphase) {
 		for(auto& b: builtins) {
 			auto* m=dynamic_cast<Module*>(b);
-			if(m) {
-				QString multithread_nullout;
-				QTextStream multithread_nullstream(&multithread_nullout);
-				Reporter multithread_nullreport(multithread_nullstream);
-				Context ctx;
-				if(testphase) {
-					const CubeModule cube(multithread_nullreport);
-					Node* cubeNode = cube.evaluate(ctx);
-					const QList<Node*> inputNodes { cubeNode };
-					ctx.setInputNodes(inputNodes);
-				}
-				Node* node=m->evaluate(ctx);
-				if(node) {
-					auto testname=QString("%1_multithread_%2").arg(++modulecount,3,10,QChar('0')).arg(m->getFullName());
-					writeHeader(testname,++testcount);
-#ifdef Q_OS_WIN
-					if(testphase) {
-						writeSkip();
-						continue;
-					}
-#endif
-					GeometryEvaluator ge(multithread_nullreport);
-					node->accept(ge);
-					const QScopedPointer<Primitive> r(ge.getResult());
-					writePass();
-					passcount++;
-				}
-			}
+			if(m)
+				runTestPhase(m,testphase,modulecount);
 		}
 	}
 	reporter.setReturnCode(failcount);
@@ -266,6 +240,37 @@ int Tester::evaluate()
 #endif
 	reporter.reportTimings();
 	return reporter.getReturnCode();
+}
+
+void Tester::runTestPhase(Module* m,int testphase,int& modulecount)
+{
+	QString multithread_nullout;
+	QTextStream multithread_nullstream(&multithread_nullout);
+	Reporter multithread_nullreport(multithread_nullstream);
+
+	Context ctx;
+	if(testphase) {
+		const CubeModule cube(multithread_nullreport);
+		Node* cubeNode = cube.evaluate(ctx);
+		const QList<Node*> inputNodes { cubeNode };
+		ctx.setInputNodes(inputNodes);
+	}
+	Node* node=m->evaluate(ctx);
+	if(node) {
+		auto testname=QString("%1_phase%2_multithread_%3").arg(++modulecount,3,10,QChar('0')).arg(testphase+1).arg(m->getFullName());
+		writeHeader(testname,++testcount);
+#ifdef Q_OS_WIN
+		if(testphase) {
+			writeSkip();
+			return;
+		}
+#endif
+		GeometryEvaluator ge(multithread_nullreport);
+		node->accept(ge);
+		const QScopedPointer<Primitive> r(ge.getResult());
+		writePass();
+		passcount++;
+	}
 }
 
 void Tester::runUiTests()
