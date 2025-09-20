@@ -212,7 +212,7 @@ jobs:
         rm VERSION
         touch version
     - name: Build
-      run: make -j4
+      run: make -j$(sysctl -n hw.ncpu)
     - name: Package
       run: |
         macdeployqt rapcad.app -dmg
