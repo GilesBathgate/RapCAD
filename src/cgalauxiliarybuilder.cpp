@@ -192,7 +192,8 @@ Primitive* CGALAuxiliaryBuilder::buildRadialsPrimitive(Primitive* pr)
 Primitive* CGALAuxiliaryBuilder::buildVolumesPrimitive(Primitive* pr,bool calcMass)
 {
 	auto* cp=dynamic_cast<CGALPrimitive*>(pr);
-	if(!cp) return pr;
+	if(!cp||!cp->isFullyDimentional()) return pr;
+
 	const CGALVolume& v=cp->getVolume(calcMass);
 	const QString vs=v.getSizeString();
 	reporter.reportMessage(tr("Volume: %1").arg(vs));
