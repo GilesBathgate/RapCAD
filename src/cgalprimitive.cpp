@@ -619,6 +619,9 @@ Primitive* CGALPrimitive::minkowski(Primitive* pr)
 
 Primitive* CGALPrimitive::inset(const CGAL::Scalar& amount)
 {
+	if(isFullyDimentional())
+		return nullptr;
+
 	CGALBuilder b(*this);
 	CGALPrimitive* offset=b.buildOffset(amount);
 	offset->appendChild(this);
