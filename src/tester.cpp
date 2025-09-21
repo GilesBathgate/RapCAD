@@ -27,6 +27,7 @@
 #include "comparer.h"
 #include "geometryevaluator.h"
 #include "module/cubemodule.h"
+#include "module/squaremodule.h"
 #include "nodeevaluator.h"
 #include "nodeprinter.h"
 #include "preferences.h"
@@ -207,7 +208,7 @@ int Tester::evaluate()
 	QThreadPool::globalInstance()->setMaxThreadCount(10);
 	const QList<Declaration*> builtins=BuiltinCreator::getInstance(*nullreport).getBuiltins();
 	int modulecount=0;
-	for(int testphase=0; testphase<2; ++testphase) {
+	for(int testphase=0; testphase<=2; ++testphase) {
 		for(auto& b: builtins) {
 			auto* m=dynamic_cast<Module*>(b);
 			if(m)
@@ -249,11 +250,26 @@ void Tester::runTestPhase(Module* m,int testphase,int& modulecount)
 	Reporter multithread_nullreport(multithread_nullstream);
 
 	Context ctx;
-	if(testphase) {
-		const CubeModule cube(multithread_nullreport);
-		Node* cubeNode = cube.evaluate(ctx);
-		const QList<Node*> inputNodes { cubeNode };
-		ctx.setInputNodes(inputNodes);
+	switch(testphase)
+	{
+		case 0:
+			break;
+		case 1:
+			{
+				const CubeModule cube(multithread_nullreport);
+				Node* cubeNode = cube.evaluate(ctx);
+				const QList<Node*> inputNodes { cubeNode };
+				ctx.setInputNodes(inputNodes);
+			}
+			break;
+		case 2:
+			{
+				const SquareModule square(multithread_nullreport);
+				Node* squareNode = square.evaluate(ctx);
+				const QList<Node*> inputNodes { squareNode };
+				ctx.setInputNodes(inputNodes);
+			}
+			break;
 	}
 	Node* node=m->evaluate(ctx);
 	if(node) {
