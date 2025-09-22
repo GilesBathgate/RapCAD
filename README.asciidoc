@@ -22,34 +22,3 @@ only provides compatibility with traditional text-based source control
 management software, but it also allows for the creation of re-usable component
 modules that can be distributed as a design library.
 
-image::screenshot.png[Screenshot]
-
-Installation
-------------
-
-Windows
-~~~~~~
-
-* Download the https://github.com/GilesBathgate/RapCAD/releases/[latest installer].
-* Double click the installer exe and follow the on-screen instructions.
-
-Ubuntu
-~~~~~
-
-* Supports: Bionic, Focal, Groovy
-* Simply run the following commands in a terminal.
-
-    sudo apt-add-repository ppa:gilesbathgate/rapcad
-    sudo apt-get update
-    sudo apt-get install rapcad
-
-Mac OS X
-~~~~~~~
-
-* Download the https://github.com/GilesBathgate/RapCAD/releases/[latest disk image].
-* Open the image and run the rapcad package.
-
-Building
---------
-
-If you wish to build from source, please read link:./doc/compiling.asciidoc[doc/compiling.asciidoc]
