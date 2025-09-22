@@ -202,6 +202,7 @@ int Tester::evaluate()
 
 	reporter.stopTiming("testing");
 
+#ifndef DISABLE_MULTITHREAD_TESTS
 	reporter.startTiming();
 	QThreadPool::globalInstance()->setMaxThreadCount(10);
 	const QList<Declaration*> builtins=BuiltinCreator::getInstance(*nullreport).getBuiltins();
@@ -217,8 +218,9 @@ int Tester::evaluate()
 
 	output << "Total: " << testcount << " Passed: " << passcount << " Failed: " << failcount << Qt::endl;
 	reporter.stopTiming("multithread testing");
+#endif
 
-#if !defined(Q_OS_WIN) && !defined(Q_OS_MACOS) && !defined(USE_VALGRIND)
+#if !defined(Q_OS_WIN) && !defined(Q_OS_MACOS) && !defined(USE_VALGRIND) && !defined(DISABLE_UI_TESTS)
 	reporter.startTiming();
 
 	auto& p=Preferences::getInstance();
