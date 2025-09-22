@@ -35,7 +35,6 @@ public:
 	static QCoreApplication* headlessOverride();
 private:
 	Strategy* parseArguments(int,char*[]);
-	int runUserInterface(int,char*[]);
 
 	QStringList inputFiles;
 	QTextStream output;

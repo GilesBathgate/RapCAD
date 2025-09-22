@@ -104,7 +104,9 @@ int Application::run(int argc,char* argv[])
 	if(strategy)
 		return strategy->evaluate();
 
-	return runUserInterface(argc,argv);
+	QTextStream out(stdout);
+	out << "Warning: User interface is unavailable in headless environment." << Qt::endl;
+	return 0;
 }
 
 Strategy* Application::parseArguments(int argc,char* argv[])
@@ -205,12 +207,3 @@ Strategy* Application::parseArguments(int argc,char* argv[])
 	return nullptr;
 }
 
-
-int Application::runUserInterface(int argc,char* argv[])
-{
-	const QApplication a(argc,argv);
-	MainWindow w;
-	w.loadFiles(inputFiles);
-	w.show();
-	return QApplication::exec();
-}
