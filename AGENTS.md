@@ -1,18 +1,14 @@
-# Agent Build and Test Workflow
+# Agent Development Workflow version 2.1
 
-This document outlines the specific build and testing workflow for this repository.
+This document outlines the specific build and testing workflow for this repository. It is very important to run the commands seperately as documented.
+Do not combine commands for example `command1 && command2`. Use separate run_in_bash_session tool calls for each command.
 
 ## Cleaning
 
 Before building its a essential to remove the old application binary. This will prevent false test results
 
 ```bash
-rm -f /build/rapcad
-```
-We ensure it is gone
-
-```bash
-ls /build/rapcad
+rm -vf /build/rapcad
 ```
 
 ## Configuring
