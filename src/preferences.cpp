@@ -163,6 +163,21 @@ void Preferences::setUseCGALAssertions(bool b)
 	updateAssertions();
 }
 
+void Preferences::setNamedPreference(QString nameValue)
+{
+	const auto parts=nameValue.split('=');
+	if(parts.length()==2) {
+		const QString name=parts.at(0);
+		const QVariant value=parts.at(1);
+		setNamedPreference(name,value);
+	}
+}
+
+void Preferences::setNamedPreference(QString name,QVariant value)
+{
+	settings->setValue(name,value);
+}
+
 bool Preferences::getSoftwareOpenGL() const
 {
 #ifdef Q_OS_WIN

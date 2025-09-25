@@ -182,6 +182,9 @@ public:
 	bool getUseCGALAssertions() const;
 	void setUseCGALAssertions(bool);
 
+	void setNamedPreference(QString);
+	void setNamedPreference(QString,QVariant);
+
 private:
 	Preferences(AbstractSettings*);
 	~Preferences();

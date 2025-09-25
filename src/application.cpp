@@ -122,6 +122,9 @@ Strategy* Application::parseArguments(int argc,char* argv[])
 	const QCommandLineOption outputOption(QStringList() << "o" << "output",QCoreApplication::translate("main","Create output geometry <filename> filename must end with known extension (.stl/.amf/.3mf/...)."),"filename");
 	p.addOption(outputOption);
 
+	const QCommandLineOption preferenceOption(QStringList() << "p" << "preference",QCoreApplication::translate("main","Set a preference value"),"name-value");
+	p.addOption(preferenceOption);
+
 	const QCommandLineOption redirectOption(QStringList() << "r" << "redirect",QCoreApplication::translate("main","Redirect text output to file <filename>."),"filename");
 	p.addOption(redirectOption);
 
@@ -156,6 +159,13 @@ Strategy* Application::parseArguments(int argc,char* argv[])
 	QString inputFile;
 	if(!inputFiles.isEmpty()) {
 		inputFile=inputFiles.at(0);
+	}
+
+	if(p.isSet(preferenceOption)) {
+		auto& preferences=Preferences::getInstance();
+		for(const auto& nameValue : p.values(preferenceOption)) {
+			preferences.setNamedPreference(nameValue);
+		}
 	}
 
 	if(p.isSet(compareOption)) {
