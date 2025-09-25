@@ -66,7 +66,7 @@ jobs:
     env:
       CGAL_DIR: C:\CGAL-5.4\
       GMP:      C:\CGAL-5.4\auxiliary\gmp
-      BOOST_ROOT: C:\boost_1_80_0
+      BOOST_ROOT: C:\boost_1_83_0
       ASCIIDOC: C:\asciidoc-9.1.0\
       MINGW: C:\mingw64\bin
       LIBGIT2_DIR: C:\libgit2-1.9.0\
@@ -87,7 +87,7 @@ jobs:
         dlltool -d libgit2.def --dllname libgit2.dll --output-lib "$env:LIBGIT2_DIR\lib\libgit2.lib"
     - name: Install Boost
       run: |
-        Invoke-WebRequest "https://archives.boost.io/release/1.80.0/source/boost_1_80_0.7z" -OutFile "$env:TEMP\boost.7z"
+        Invoke-WebRequest "https://archives.boost.io/release/1.83.0/source/boost_1_83_0.7z" -OutFile "$env:TEMP\boost.7z"
         7z x -oC:\ "$env:TEMP\boost.7z"
     - name: Cache Qt
       id: cache-qt
