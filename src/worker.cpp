@@ -198,8 +198,8 @@ void Worker::exportResult(const QString& fileName)
 
 	try {
 		const QFileInfo file(fileName);
-		const CGALExport exporter(file,primitive,reporter);
-		exporter.exportResult();
+		const Export exporter(primitive,reporter);
+		exporter.exportResult(file);
 	} catch(const CGAL::Failure_exception& e) {
 		resultFailed(QString::fromStdString(e.what()));
 	}

@@ -21,9 +21,7 @@
 #include "booleanvalue.h"
 #include "builtincreator.h"
 #include "cachemanager.h"
-#ifdef USE_CGAL
-#include "cgalexport.h"
-#endif
+#include "export.h"
 #include "comparer.h"
 #include "geometryevaluator.h"
 #include "module/cubemodule.h"
@@ -423,8 +421,8 @@ void Tester::exportTest(const QDir& dir)
 		n->accept(ne);
 		p=ne.getResult();
 
-		const CGALExport e(origPath,p,r);
-		e.exportResult();
+		const Export e(p,r);
+		e.exportResult(origPath);
 #endif
 
 		exportTest(p,origPath,file,".stl");
@@ -456,8 +454,8 @@ void Tester::exportTest(Primitive* p,const QFileInfo& origPath,const QFileInfo& 
 
 	const QDir path(file.absolutePath());
 	const QFileInfo newPath(path.filePath(newName));
-	const CGALExport e(newPath,p,*nullreport);
-	e.exportResult();
+	const Export e(p,*nullreport);
+	e.exportResult(newPath);
 	Comparer c(*nullreport);
 	c.setup(origPath.absoluteFilePath(),newPath.absoluteFilePath());
 	c.evaluate();

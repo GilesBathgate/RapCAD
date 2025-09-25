@@ -19,20 +19,19 @@
 #ifndef CGALEXPORT_H
 #define CGALEXPORT_H
 
+#include "export.h"
 #include "cgalprimitive.h"
 #include "reporter.h"
 #include <QXmlStreamWriter>
 
-class CGALExport
+class CGALExport : public Export
 {
 	Q_DECLARE_TR_FUNCTIONS(CGALExport)
 	Q_DISABLE_COPY_MOVE(CGALExport)
 public:
 	CGALExport(const QFileInfo&,Primitive*,Reporter&);
 	~CGALExport();
-	void exportResult() const;
-private:
-	CGALPrimitive* transformPrimitive() const;
+
 	void exportOFF() const;
 	void exportAsciiSTL() const;
 	void exportVRML() const;
@@ -42,11 +41,11 @@ private:
 	void exportCSG() const;
 	void exportNEF() const;
 	void exportSVG() const;
+private:
+	CGALPrimitive* transformPrimitive() const;
 	void exportAMFObject(CGALPrimitive* p, QXmlStreamWriter& xml) const;
 	void descendChildren(Primitive* p, QXmlStreamWriter& xml) const;
 
-	Reporter& reporter;
-	Primitive* primitive;
 	mutable Primitive* transformed;
 	const QFileInfo& fileInfo;
 	mutable int id;
