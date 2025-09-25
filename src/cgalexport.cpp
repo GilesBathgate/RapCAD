@@ -43,8 +43,7 @@
 #include <fstream>
 
 CGALExport::CGALExport(const QFileInfo& f,Primitive* p,Reporter& r) :
-	reporter(r),
-	primitive(p),
+	Export(p,r),
 	transformed(nullptr),
 	fileInfo(f),
 	id(0)
@@ -54,29 +53,6 @@ CGALExport::CGALExport(const QFileInfo& f,Primitive* p,Reporter& r) :
 CGALExport::~CGALExport()
 {
 	delete transformed;
-}
-
-void CGALExport::exportResult() const
-{
-	const QString& suffix=fileInfo.suffix().toLower();
-	if(suffix=="off")
-		return exportOFF();
-	if(suffix=="obj")
-		return exportOBJ();
-	if(suffix=="wrl")
-		return exportVRML();
-	if(suffix=="amf")
-		return exportAMF();
-	if(suffix=="3mf")
-		return export3MF();
-	if(suffix=="stl")
-		return exportAsciiSTL();
-	if(suffix=="csg")
-		return exportCSG();
-	if(suffix=="nef")
-		return exportNEF();
-	if(suffix=="svg")
-		return exportSVG();
 }
 
 CGALPrimitive* CGALExport::transformPrimitive() const

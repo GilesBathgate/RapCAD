@@ -168,6 +168,7 @@ SOURCES += \
 	src/cgalgroupmodifier.cpp \
 	src/cgalsanitizer.cpp \
 	src/codedocdeclaration.cpp \
+	src/export.cpp \
 	src/function/assertfunction.cpp \
 	src/function/circumcenterfunction.cpp \
 	src/function/fragmentsfunction.cpp \
@@ -194,6 +195,7 @@ SOURCES += \
 	src/module/threadmodule.cpp \
 	src/namedvalue.cpp \
 	src/node/solidnode.cpp \
+	src/renderexport.cpp \
 	src/tokenreader.cpp \
 	src/ui/camera.cpp \
 	src/ui/commitdialog.cpp \
@@ -447,6 +449,7 @@ HEADERS  += \
 	src/cgalsanitizer.h \
 	src/cgaltrace.h \
 	src/codedocdeclaration.h \
+	src/export.h \
 	src/function/assertfunction.h \
 	src/function/circumcenterfunction.h \
 	src/function/fragmentsfunction.h \
@@ -473,6 +476,7 @@ HEADERS  += \
 	src/namedvalue.h \
 	src/node/solidnode.h \
 	src/operators.h \
+	src/renderexport.h \
 	src/tokenreader.h \
 	src/ui/camera.h \
 	src/ui/commitdialog.h \

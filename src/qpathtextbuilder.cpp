@@ -17,9 +17,11 @@
  */
 
 #include "qpathtextbuilder.h"
+
+#include "application.h"
 #include "node/primitivenode.h"
 #include "onceonly.h"
-#include <QApplication>
+
 #include <QFontMetrics>
 #include <QMutexLocker>
 #include <QPainterPath>
@@ -68,20 +70,9 @@ QFont QPathTextBuilder::getFont() const
 	return f;
 }
 
-/* Hack: in headless mode we need to initalise QApplication
- * before we can use fonts */
-static QCoreApplication* headlessOverride()
-{
-	int c=0;
-	static auto* instance {
-		QApplication::instance() ?: new QApplication(c,nullptr)
-	};
-	return instance;
-}
-
 Primitive* QPathTextBuilder::buildPrimitive() const
 {
-	headlessOverride();
+	Application::headlessOverride();
 
 	QPainterPath painterPath;
 	painterPath.addText(location,getFont(),text);

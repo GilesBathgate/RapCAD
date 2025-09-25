@@ -59,6 +59,15 @@ Application::~Application()
 	delete strategy;
 }
 
+QCoreApplication* Application::headlessOverride()
+{
+	int c=0;
+	static auto* instance {
+		QApplication::instance() ?: new QApplication(c,nullptr)
+	};
+	return instance;
+}
+
 #if defined (USE_INTEGTEST) || defined (USE_READLINE)
 static void showVersion(QTextStream& out)
 {
