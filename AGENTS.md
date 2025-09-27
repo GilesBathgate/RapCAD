@@ -8,7 +8,7 @@ Do not combine commands for example `command1 && command2`. Use separate run_in_
 Before building its a essential to remove the old application binary. This will prevent false test results
 
 ```bash
-rm -vf /build/rapcad
+rm -vf /build/rapcad-desktop/rapcad
 ```
 
 ## Configuring
@@ -47,7 +47,7 @@ If the log appears to simply be saying that its compiling files, you must **repe
 After a successful build, you can run the test suite with the following command:
 
 ```bash
-/build/rapcad -t /app/test
+/build/rapcad-desktop/rapcad -t /app/test
 ```
 
 ## Workflow state diagram:
@@ -88,7 +88,7 @@ After making small code changes, you can perform a much faster incremental build
 For an incremental build, you must **not** clean the entire build directory. Instead, only remove the final binary:
 
 ```bash
-rm -f /build/rapcad
+rm -f /build/rapcad-desktop/rapcad
 ```
 
 After removing the binary, follow the exact same background build and monitoring process described in the "Building" section. The process has been verified to work correctly for this scenario, and the build should complete much more quickly.
