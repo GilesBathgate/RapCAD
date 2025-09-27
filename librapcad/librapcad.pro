@@ -22,7 +22,7 @@
 #
 #-------------------------------------------------
 
-QT       -= core gui
+QT       += core
 
 TARGET = rapcad
 TEMPLATE = lib
