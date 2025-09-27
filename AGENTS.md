@@ -50,6 +50,37 @@ After a successful build, you can run the test suite with the following command:
 /build/rapcad -t /app/test
 ```
 
+## Workflow state diagram:
+
+```mermaid
+stateDiagram-v2
+
+    [*] --> remove: Start
+    remove --> configure: Remove Old Binary Finished
+    configure --> build: Configure Finished
+    build --> monitor_build: Build Started
+
+    monitor_build --> build_success: Build Complete (Zero Errors)
+    monitor_build --> compile_error: Build Failed (Compile/Linker Errors)
+    monitor_build --> timeout: Build Timeout Occurred
+
+    timeout --> monitor_build: Re-check Status
+
+    compile_error --> compile_fix_code: Analyze Logs
+    compile_fix_code --> build: Code Edited
+
+    build_success --> test: Build Success
+    test --> success: All Tests Passed
+    test --> test_error: Test Failure
+
+    test_error --> fix_code: Analyze Test Failures
+    fix_code --> remove_binary: Code Edited
+    remove_binary --> build: Remove Old Binary Finished
+    success --> [*]: Workflow Complete
+
+    state success <<end>>
+```
+
 ## Incremental Building
 
 After making small code changes, you can perform a much faster incremental build.
