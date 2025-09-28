@@ -6,23 +6,23 @@ InstallDir $PROGRAMFILES64\RapCAD
 DirText "This will install RapCAD on your computer. Choose a directory"
 Section "install"
 SetOutPath $INSTDIR
-File release\rapcad.exe
-File release\Qt6Core.dll
-File release\Qt6Gui.dll
-File release\Qt6OpenGL.dll
-File release\Qt6Widgets.dll
-File release\Qt6Concurrent.dll
-File release\Qt6OpenGLWidgets.dll
-File release\libgcc_s_seh-1.dll
-File release\libgmp-10.dll
-File release\libmpfr-4.dll
-File release\libstdc++-6.dll
-File release\libwinpthread-1.dll
-File release\opengl32sw.dll
-File release\libgit2.dll
-File release\user_guide.html
-File /r release\platforms
-File /r release\styles
+File ${BUILDDIR}\rapcad.exe
+File ${BUILDDIR}\Qt6Core.dll
+File ${BUILDDIR}\Qt6Gui.dll
+File ${BUILDDIR}\Qt6OpenGL.dll
+File ${BUILDDIR}\Qt6Widgets.dll
+File ${BUILDDIR}\Qt6Concurrent.dll
+File ${BUILDDIR}\Qt6OpenGLWidgets.dll
+File ${BUILDDIR}\libgcc_s_seh-1.dll
+File ${BUILDDIR}\libgmp-10.dll
+File ${BUILDDIR}\libmpfr-4.dll
+File ${BUILDDIR}\libstdc++-6.dll
+File ${BUILDDIR}\libwinpthread-1.dll
+File ${BUILDDIR}\opengl32sw.dll
+File ${BUILDDIR}\libgit2.dll
+File ${BUILDDIR}\user_guide.html
+File /r ${BUILDDIR}\platforms
+File /r ${BUILDDIR}\styles
 CreateShortCut $SMPROGRAMS\RapCAD.lnk $INSTDIR\rapcad.exe
 WriteUninstaller $INSTDIR\Uninstall.exe
 WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\RapCAD" "DisplayName" "RapCAD (remove only)"

@@ -110,7 +110,6 @@ jobs:
         Invoke-WebRequest https://github.com/CGAL/cgal/releases/download/v5.4/CGAL-5.4-win64-auxiliary-libraries-gmp-mpfr.zip -OutFile "$env:TEMP\CGAL-gmp-mpfr.zip"
         7z x -o"$env:CGAL_DIR" "$env:TEMP\CGAL-gmp-mpfr.zip" -aoa
     - name: Install asciidoc/source-highlight
-      if: ${{ matrix.config == 'official' }}
       run: |
         Invoke-WebRequest https://github.com/asciidoc-py/asciidoc-py/releases/download/9.1.0/asciidoc-9.1.0.zip -OutFile "$env:TEMP\asciidoc.zip"
         7z x -oC:\ "$env:TEMP\asciidoc.zip"
@@ -118,8 +117,7 @@ jobs:
         7z x -oC:\source-highlight "$env:TEMP\src-highlite.zip"
         mv C:\source-highlight\bin\source-highlight.exe C:\source-highlight\bin\source-highlight-exe.exe
         cp scripts\source-highlight.bat C:\source-highlight\bin
-        Invoke-WebRequest https://www.gnu.org/software/src-highlite/lang_files/csharp.lang -OutFile csharp.lang
-        cp csharp.lang C:\source-highlight\share\source-highlight
+        cp doc\csharp.lang C:\source-highlight\share\source-highlight
         echo "`ncsharp = csharp.lang" >> C:\source-highlight\share\source-highlight\lang.map
         echo "C:\source-highlight\bin" >> $env:GITHUB_PATH
     - name: Configure pagefile
@@ -128,6 +126,9 @@ jobs:
         minimum-size: 16GB
         maximum-size: 16GB
         disk-root: "C:"
+    - name: Install nsis
+      run: |
+        choco install -y nsis
     - name: Version
       run: |
         echo "VERSION=$(cat VERSION)" >> $env:GITHUB_ENV
@@ -140,10 +141,9 @@ jobs:
     - name: Clean
       run: mingw32-make -C build clean
     - name: Build documentation
-      if: ${{ matrix.config == 'official' }}
       run: |
         mingw32-make -C build user_guide.html
-        cp user_guide.html release
+        cp build\user_guide.html build\release
     - name: Package
       run: |
         cp "$env:GMP\lib\libgmp-10.dll" build\release
@@ -154,12 +154,11 @@ jobs:
         cp "$env:MINGW\libwinpthread-1.dll" build\release
         cp "$env:LIBGIT2_DIR\lib\libgit2.dll" build\release
     - name: Build installer
-      if: ${{ matrix.config == 'official' }}
       run: |
-        rm -Recurse release\imageformats
-        makensis installer.nsi
+        rm -Recurse build\release\imageformats
+        & 'C:\Program Files (x86)\NSIS\Bin\makensis.exe' /DBUILDDIR=build\release installer.nsi
         mv rapcad_setup.exe "rapcad_$($env:VERSION)_setup.exe"
-        mv release "rapcad_$env:VERSION"
+        cp -Recurse build\release "rapcad_$env:VERSION"
         7z a -tzip "rapcad_$env:VERSION.zip" "rapcad_$env:VERSION"
     - name: Test
       if: ${{ matrix.config == 'coverage' }}
