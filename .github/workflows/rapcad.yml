@@ -128,12 +128,13 @@ jobs:
         minimum-size: 16GB
         maximum-size: 16GB
         disk-root: "C:"
-    - name: Configure
+    - name: Version
       run: |
         echo "VERSION=$(cat VERSION)" >> $env:GITHUB_ENV
+    - name: Configure
+      run: |
         qmake CONFIG+=${{ matrix.config }}
-        rm VERSION
-        touch version
+        rm VERSION && touch version
     - name: Build
       run: mingw32-make -j $env:NUMBER_OF_PROCESSORS -f Makefile.Release
     - name: Clean
@@ -205,12 +206,13 @@ jobs:
         echo "GMP=$(brew --prefix gmp)" >> $GITHUB_ENV
         echo "MPFR=$(brew --prefix mpfr)" >> $GITHUB_ENV
         echo "LIBGIT2_DIR=$(brew --prefix libgit2)" >> $GITHUB_ENV
-    - name: Configure
+    - name: Version
       run: |
         echo "VERSION=$(cat VERSION)" >> $GITHUB_ENV
+    - name: Configure
+      run: |
         qmake CONFIG+=${{ matrix.config }}
-        rm VERSION
-        touch version
+        rm VERSION && touch version
     - name: Build
       run: make -j$(sysctl -n hw.ncpu)
     - name: Package
