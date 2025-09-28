@@ -22,10 +22,11 @@
 #
 #-------------------------------------------------
 
-QT       -= core gui
+QT       += core
 
 TARGET = rapcad
 TEMPLATE = lib
+CONFIG += staticlib
 
 DEFINES += LIBRAPCAD_LIBRARY
 
