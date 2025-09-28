@@ -40,12 +40,12 @@ jobs:
     - name: Install Dependencies
       run: sudo apt-get install -y libboost-dev libcgal-dev libglu1-mesa-dev libxkbcommon-x11-0 libxcb-cursor0 libreadline-dev libgit2-dev
     - name: Configure
-      run: qmake CONFIG+=${{ matrix.config }}
+      run: qmake -o build/Makefile CONFIG+=${{ matrix.config }}
     - name: Build
-      run: make -j$(nproc)
+      run: make -C build -j$(nproc)
     - name: Test
       if: ${{ matrix.config == 'coverage' }}
-      run: xvfb-run --server-args="-screen 0 1024x768x24" ./rapcad -t test
+      run: xvfb-run --server-args="-screen 0 1024x768x24" build/rapcad -t test
     - name: Coverage
       if: ${{ matrix.config == 'coverage' }}
       run: find . -type f -name '*.gcno' -exec gcov -p -r {} +
@@ -133,26 +133,26 @@ jobs:
         echo "VERSION=$(cat VERSION)" >> $env:GITHUB_ENV
     - name: Configure
       run: |
-        qmake CONFIG+=${{ matrix.config }}
+        qmake -o build\Makefile CONFIG+=${{ matrix.config }}
         rm VERSION && touch version
     - name: Build
-      run: mingw32-make -j $env:NUMBER_OF_PROCESSORS -f Makefile.Release
+      run: mingw32-make -C build -j $env:NUMBER_OF_PROCESSORS release
     - name: Clean
-      run: mingw32-make clean -f Makefile.Release
+      run: mingw32-make -C build clean
     - name: Build documentation
       if: ${{ matrix.config == 'official' }}
       run: |
-        mingw32-make user_guide.html -f Makefile.Release
+        mingw32-make -C build user_guide.html
         cp user_guide.html release
     - name: Package
       run: |
-        cp "$env:GMP\lib\libgmp-10.dll" release
-        cp "$env:GMP\lib\libmpfr-4.dll" release
-        windeployqt --no-svg --no-translations release\rapcad.exe
-        cp "$env:MINGW\libgcc_s_seh-1.dll" release
-        cp "$env:MINGW\libstdc++-6.dll" release
-        cp "$env:MINGW\libwinpthread-1.dll" release
-        cp "$env:LIBGIT2_DIR\lib\libgit2.dll" release
+        cp "$env:GMP\lib\libgmp-10.dll" build\release
+        cp "$env:GMP\lib\libmpfr-4.dll" build\release
+        windeployqt --no-svg --no-translations build\release\rapcad.exe
+        cp "$env:MINGW\libgcc_s_seh-1.dll" build\release
+        cp "$env:MINGW\libstdc++-6.dll" build\release
+        cp "$env:MINGW\libwinpthread-1.dll" build\release
+        cp "$env:LIBGIT2_DIR\lib\libgit2.dll" build\release
     - name: Build installer
       if: ${{ matrix.config == 'official' }}
       run: |
@@ -163,7 +163,7 @@ jobs:
         7z a -tzip "rapcad_$env:VERSION.zip" "rapcad_$env:VERSION"
     - name: Test
       if: ${{ matrix.config == 'coverage' }}
-      run: .\release\rapcad.exe -t test
+      run: build\release\rapcad.exe -t test
     - name: Store
       if: ${{ matrix.config == 'official' }}
       uses: actions/upload-artifact@v4
@@ -211,17 +211,17 @@ jobs:
         echo "VERSION=$(cat VERSION)" >> $GITHUB_ENV
     - name: Configure
       run: |
-        qmake CONFIG+=${{ matrix.config }}
+        qmake -o build/Makefile CONFIG+=${{ matrix.config }}
         rm VERSION && touch version
     - name: Build
-      run: make -j$(sysctl -n hw.ncpu)
+      run: make -C build -j$(sysctl -n hw.ncpu)
     - name: Package
       run: |
-        macdeployqt rapcad.app -dmg
-        mv rapcad.dmg rapcad_${{ env.VERSION }}.dmg
+        macdeployqt build/rapcad.app -dmg
+        mv build/rapcad.dmg rapcad_${{ env.VERSION }}.dmg
     - name: Test
       if: ${{ matrix.config == 'coverage' }}
-      run: ./rapcad.app/Contents/MacOS/rapcad -t test
+      run: build/rapcad.app/Contents/MacOS/rapcad -t test
     - name: Store
       if: ${{ matrix.config == 'official' }}
       uses: actions/upload-artifact@v4
