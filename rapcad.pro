@@ -748,9 +748,6 @@ FORMS += \
 	src/ui/aboutdialog.ui \
 	src/ui/searchwidget.ui
 
-OTHER_FILES += \
-	COPYING
-
 userguide.target = user_guide.html
 userguide.depends = $$PWD/doc/user_guide.asciidoc
 
@@ -799,3 +796,8 @@ win32 {
 
 RESOURCES += \
 src/rapcad.qrc
+
+OTHER_FILES += \
+	COPYING \
+	README.asciidoc \
+	VERSION
