@@ -23,6 +23,11 @@
 #-------------------------------------------------
 VERSION = $$cat(VERSION)
 
+# Windows and macx builds use alternative: version.txt
+exists(version.txt) {
+	VERSION = $$cat(version.txt)
+}
+
 QT  += core gui openglwidgets concurrent
 
 CONFIG += c++17
