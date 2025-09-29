@@ -137,8 +137,8 @@ jobs:
       run: mingw32-make -C build clean
     - name: Build documentation
       run: |
-        mingw32-make -C build user_guide.html
-        ls build\user_guide.html
+        mingw32-make -C build\doc user_guide.html
+        mv build\doc\user_guide.html build\
     - name: Package
       run: |
         cp "$env:GMP\lib\libgmp-10.dll" build

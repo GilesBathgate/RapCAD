@@ -21,16 +21,26 @@
 # Project created by QtCreator 2010-10-25T09:57:37
 #
 #-------------------------------------------------
-TEMPLATE = subdirs
+include(../common.pri)
 
-SUBDIRS = \
-	lib \
-	gui \
-	doc
+TEMPLATE = aux
 
-gui.depends = lib
+OTHER_FILES = user_guide.asciidoc
 
-OTHER_FILES += \
-	COPYING \
-	README.asciidoc \
-	VERSION
+userguide.target = user_guide.html
+userguide.depends = $$PWD/user_guide.asciidoc
+
+win32 {
+	userguide.commands = python $$(ASCIIDOC)\\asciidoc.py -o $$userguide.target $$userguide.depends
+} else {
+	userguide.commands = asciidoc -o $$userguide.target $$userguide.depends
+}
+
+QMAKE_EXTRA_TARGETS += userguide
+
+documentation.depends = $$userguide.target
+documentation.files += $$userguide.target
+documentation.path = $$DOCDIR
+documentation.CONFIG += no_check_exist
+
+INSTALLS += documentation
