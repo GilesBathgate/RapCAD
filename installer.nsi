@@ -1,6 +1,6 @@
 Name "RapCAD"
-Icon "rapcad.ico"
-UninstallIcon "rapcad.ico"
+Icon "gui\rapcad.ico"
+UninstallIcon "gui\rapcad.ico"
 OutFile "rapcad_setup.exe"
 InstallDir $PROGRAMFILES64\RapCAD
 DirText "This will install RapCAD on your computer. Choose a directory"

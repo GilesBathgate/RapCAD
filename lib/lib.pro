@@ -21,16 +21,18 @@
 # Project created by QtCreator 2011-03-07T21:24:06
 #
 #-------------------------------------------------
+include(../common.pri)
 
 QT       += core
 
 TARGET = rapcad
 TEMPLATE = lib
 CONFIG += staticlib
+INCLUDEPATH += src
 
 DEFINES += LIBRAPCAD_LIBRARY
 
-SOURCES += rapcad.cpp
+SOURCES += src/rapcad.cpp
 
-HEADERS += rapcad.h\
-        librapcad_global.h
+HEADERS += src/rapcad.h\
+        src/librapcad_global.h

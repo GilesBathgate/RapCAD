@@ -16,21 +16,26 @@
 #	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------
 
-#-------------------------------------------------
-#
-# Project created by QtCreator 2010-10-25T09:57:37
-#
-#-------------------------------------------------
-TEMPLATE = subdirs
+VERSION = $$cat(VERSION)
 
-SUBDIRS = \
-	lib \
-	gui \
-	doc
+# Windows and macx builds use alternative: version.txt
+exists(version.txt) {
+	VERSION = $$cat(version.txt)
+}
 
-gui.depends = lib
+unix {
+	isEmpty(PREFIX) {
+		PREFIX = /usr
+	}
+	isEmpty(BINDIR) {
+		BINDIR = $$PREFIX/bin
+	}
+	isEmpty(DATAROOTDIR) {
+		DATAROOTDIR=$$PREFIX/share
+	}
+	isEmpty(DOCDIR) {
+		DOCDIR=$$DATAROOTDIR/doc/rapcad
+	}
+}
 
-OTHER_FILES += \
-	COPYING \
-	README.asciidoc \
-	VERSION
+CONFIG += c++17
