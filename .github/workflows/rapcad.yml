@@ -143,26 +143,26 @@ jobs:
     - name: Build documentation
       run: |
         mingw32-make -C build user_guide.html
-        cp build\user_guide.html build\release
+        ls build\user_guide.html
     - name: Package
       run: |
-        cp "$env:GMP\lib\libgmp-10.dll" build\release
-        cp "$env:GMP\lib\libmpfr-4.dll" build\release
-        windeployqt --no-svg --no-translations build\release\rapcad.exe
-        cp "$env:MINGW\libgcc_s_seh-1.dll" build\release
-        cp "$env:MINGW\libstdc++-6.dll" build\release
-        cp "$env:MINGW\libwinpthread-1.dll" build\release
-        cp "$env:LIBGIT2_DIR\lib\libgit2.dll" build\release
+        cp "$env:GMP\lib\libgmp-10.dll" build
+        cp "$env:GMP\lib\libmpfr-4.dll" build
+        windeployqt --no-svg --no-translations build\rapcad.exe
+        cp "$env:MINGW\libgcc_s_seh-1.dll" build
+        cp "$env:MINGW\libstdc++-6.dll" build
+        cp "$env:MINGW\libwinpthread-1.dll" build
+        cp "$env:LIBGIT2_DIR\lib\libgit2.dll" build
     - name: Build installer
       run: |
-        rm -Recurse build\release\imageformats
-        & 'C:\Program Files (x86)\NSIS\Bin\makensis.exe' /DBUILDDIR=build\release installer.nsi
+        rm -Recurse build\imageformats
+        & 'C:\Program Files (x86)\NSIS\Bin\makensis.exe' /DBUILDDIR=build installer.nsi
         mv rapcad_setup.exe "rapcad_$($env:VERSION)_setup.exe"
-        cp -Recurse build\release "rapcad_$env:VERSION"
+        cp -Recurse build "rapcad_$env:VERSION"
         7z a -tzip "rapcad_$env:VERSION.zip" "rapcad_$env:VERSION"
     - name: Test
       if: ${{ matrix.config == 'coverage' }}
-      run: build\release\rapcad.exe -t test
+      run: build\rapcad.exe -t test
     - name: Store
       if: ${{ matrix.config == 'official' }}
       uses: actions/upload-artifact@v4
