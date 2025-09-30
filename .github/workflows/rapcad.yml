@@ -68,7 +68,7 @@ jobs:
       BOOST_ROOT: C:\boost_1_83_0
       ASCIIDOC: C:\asciidoc-9.1.0\
       MINGW: C:\mingw64\bin
-      LIBGIT2_DIR: C:\libgit2-1.9.0\
+      LIBGIT2_DIR: C:\libgit2-1.9.1\
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -77,10 +77,10 @@ jobs:
         choco install -y winflexbison3
     - name: Install LibGIT2
       run: |
-        choco install -y libgit2
-        Invoke-WebRequest "https://github.com/libgit2/libgit2/archive/refs/tags/v1.9.0.zip" -OutFile "$env:TEMP\libgit2.zip"
+        Invoke-WebRequest "https://github.com/libgit2/libgit2/archive/refs/tags/v1.9.1.zip" -OutFile "$env:TEMP\libgit2.zip"
         7z x -oC:\ "$env:TEMP\libgit2.zip"
         mkdir "$env:LIBGIT2_DIR\lib"
+        choco install -y libgit2
         cp "C:\ProgramData\chocolatey\lib\libgit2\tools\libgit2.dll" "$env:LIBGIT2_DIR\lib"
         gendef "$env:LIBGIT2_DIR\lib\libgit2.dll"
         dlltool -d libgit2.def --dllname libgit2.dll --output-lib "$env:LIBGIT2_DIR\lib\libgit2.lib"
