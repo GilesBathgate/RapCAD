@@ -74,13 +74,13 @@ jobs:
       uses: actions/checkout@v3
     - name: Install Flex/Bison
       run: |
-        choco install -y winflexbison3
+        choco install --no-progress -y winflexbison3
     - name: Install LibGIT2
       run: |
         Invoke-WebRequest "https://github.com/libgit2/libgit2/archive/refs/tags/v1.9.1.zip" -OutFile "$env:TEMP\libgit2.zip"
         7z x -oC:\ "$env:TEMP\libgit2.zip"
         mkdir "$env:LIBGIT2_DIR\lib"
-        choco install -y libgit2
+        choco install --no-progress -y libgit2
         cp "C:\ProgramData\chocolatey\lib\libgit2\tools\libgit2.dll" "$env:LIBGIT2_DIR\lib"
         gendef "$env:LIBGIT2_DIR\lib\libgit2.dll"
         dlltool -d libgit2.def --dllname libgit2.dll --output-lib "$env:LIBGIT2_DIR\lib\libgit2.lib"
@@ -123,7 +123,7 @@ jobs:
         disk-root: "C:"
     - name: Install nsis
       run: |
-        choco install -y nsis
+        choco install --no-progress -y nsis
     - name: Version
       run: |
         echo "VERSION=$(cat VERSION)" >> $env:GITHUB_ENV
