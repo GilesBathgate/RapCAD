@@ -16,11 +16,6 @@
 #	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------
 
-#-------------------------------------------------
-#
-# Project created by QtCreator 2010-10-25T09:57:37
-#
-#-------------------------------------------------
 include(../common.pri)
 
 QT  += core gui openglwidgets concurrent
