@@ -222,79 +222,39 @@ void GLView::drawAxes()
 	glEnd();
 }
 
-void GLView::drawBase()
+void GLView::drawBaseGrid()
 {
-	glEnable(GL_CULL_FACE);
-
-	const GLfloat z=-0.01F;
-	switch(appearance) {
-		case BedAppearance::MK42: {
-			const GLfloat baseX=-2.0F;
-			const GLfloat baseY=-9.4F;
-			const GLfloat baseWidth=254.0F;
-			const GLfloat baseLength=235.0F;
-			const GLfloat chamfer=4.0F;
-			glLineWidth(2);
-			glColor3f(0.2F,0.2F,0.2F);
-			glBegin(GL_QUADS);
-			glVertex3f(printX+baseX,printY+baseY+chamfer,z);
-			glVertex3f(printX+baseX+chamfer,printY+baseY,z);
-			glVertex3f(printX+baseX+baseWidth-chamfer,printY+baseY,z);
-			glVertex3f(printX+baseX+baseWidth,printY+baseY+chamfer,z);
-
-			glVertex3f(printX+baseX+baseWidth,printY+baseY+baseLength-chamfer,z);
-			glVertex3f(printX+baseX+baseWidth-chamfer,printY+baseY+baseLength,z);
-			glVertex3f(printX+baseX+chamfer,printY+baseY+baseLength,z);
-			glVertex3f(printX+baseX,printY+baseY+baseLength-chamfer,z);
-
-			glVertex3f(printX+baseX,printY+baseY+chamfer,z);
-			glVertex3f(printX+baseX+baseWidth,printY+baseY+chamfer,z);
-			glVertex3f(printX+baseX+baseWidth,printY+baseY+baseLength-chamfer,z);
-			glVertex3f(printX+baseX,printY+baseY+baseLength-chamfer,z);
-			glEnd();
-
-			glLineWidth(2);
-			glColor3f(0.6F,0.6F,0.6F);
-			glBegin(GL_LINES);
-			for(GLint o=0; o<printWidth; o+=10) {
-				glVertex3f(printX+o,printY,z);
-				glVertex3f(printX+o,printY+printLength,z);
-			}
-			for(GLint j=5; j<printLength; j+=10) {
-				glVertex3f(printX,printY+j,z);
-				glVertex3f(printX+printWidth,printY+j,z);
-			}
-			glEnd();
-
-			glLineWidth(4);
-			glColor3f(0.8F,0.8F,0.8F);
-			glBegin(GL_LINES);
-			for(GLint o=0; o<printWidth; o+=50) {
-				glVertex3f(printX+o,printY,z);
-				glVertex3f(printX+o,printY+printLength,z);
-			}
-			for(GLint j=5; j<printLength; j+=50) {
-				glVertex3f(printX,printY+j,z);
-				glVertex3f(printX+printWidth,printY+j,z);
-			}
-			glEnd();
-		}
-		break;
-		case BedAppearance::MK2: {
-			const GLfloat baseXY=-7.5;
-			const GLfloat baseWL=215.0F;
-			glLineWidth(2);
-			glColor3f(0.6F,0.2F,0.2F);
-			glBegin(GL_QUADS);
-			glVertex3f(printX+baseXY,printY+baseXY,z);
-			glVertex3f(printX+baseXY+baseWL,printY+baseXY,z);
-			glVertex3f(printX+baseXY+baseWL,printY+baseXY+baseWL,z);
-			glVertex3f(printX+baseXY,printY+baseXY+baseWL,z);
-			glEnd();
-		}
-		break;
+	const GLfloat z=0.0F;
+	glLineWidth(2);
+	glColor3f(0.6F,0.6F,0.6F);
+	glBegin(GL_LINES);
+	for(GLint o=0; o<printWidth; o+=10) {
+		glVertex3f(printX+o,printY,z);
+		glVertex3f(printX+o,printY+printLength,z);
 	}
+	for(GLint j=5; j<printLength; j+=10) {
+		glVertex3f(printX,printY+j,z);
+		glVertex3f(printX+printWidth,printY+j,z);
+	}
+	glEnd();
 
+	glLineWidth(4);
+	glColor3f(0.8F,0.8F,0.8F);
+	glBegin(GL_LINES);
+	for(GLint o=0; o<printWidth; o+=50) {
+		glVertex3f(printX+o,printY,z);
+		glVertex3f(printX+o,printY+printLength,z);
+	}
+	for(GLint j=5; j<printLength; j+=50) {
+		glVertex3f(printX,printY+j,z);
+		glVertex3f(printX+printWidth,printY+j,z);
+	}
+	glEnd();
+}
+
+void GLView::drawBaseOutline()
+{
+	const GLfloat z=0.0F;
 	glLineWidth(4);
 	glColor3f(0.8F,0.8F,0.8F);
 	glBegin(GL_LINE_LOOP);
@@ -303,8 +263,77 @@ void GLView::drawBase()
 	glVertex3f(printX+printWidth,printY+printLength,z);
 	glVertex3f(printX,printY+printLength,z);
 	glEnd();
+}
 
+void GLView::drawMK42Base()
+{
+	const GLfloat z=0.0F;
+	const GLfloat baseX=-2.0F;
+	const GLfloat baseY=-9.4F;
+	const GLfloat baseWidth=254.0F;
+	const GLfloat baseLength=235.0F;
+	const GLfloat chamfer=4.0F;
+	glLineWidth(2);
+	glColor3f(0.2F,0.2F,0.2F);
+	glBegin(GL_QUADS);
+	glVertex3f(printX+baseX,printY+baseY+chamfer,z);
+	glVertex3f(printX+baseX+chamfer,printY+baseY,z);
+	glVertex3f(printX+baseX+baseWidth-chamfer,printY+baseY,z);
+	glVertex3f(printX+baseX+baseWidth,printY+baseY+chamfer,z);
+
+	glVertex3f(printX+baseX+baseWidth,printY+baseY+baseLength-chamfer,z);
+	glVertex3f(printX+baseX+baseWidth-chamfer,printY+baseY+baseLength,z);
+	glVertex3f(printX+baseX+chamfer,printY+baseY+baseLength,z);
+	glVertex3f(printX+baseX,printY+baseY+baseLength-chamfer,z);
+
+	glVertex3f(printX+baseX,printY+baseY+chamfer,z);
+	glVertex3f(printX+baseX+baseWidth,printY+baseY+chamfer,z);
+	glVertex3f(printX+baseX+baseWidth,printY+baseY+baseLength-chamfer,z);
+	glVertex3f(printX+baseX,printY+baseY+baseLength-chamfer,z);
+	glEnd();
+}
+
+void GLView::drawMK2Base()
+{
+	const GLfloat z=0.0F;
+	const GLfloat baseXY=-7.5;
+	const GLfloat baseWL=215.0F;
+	glLineWidth(2);
+	glColor3f(0.6F,0.2F,0.2F);
+	glBegin(GL_QUADS);
+	glVertex3f(printX+baseXY,printY+baseXY,z);
+	glVertex3f(printX+baseXY+baseWL,printY+baseXY,z);
+	glVertex3f(printX+baseXY+baseWL,printY+baseXY+baseWL,z);
+	glVertex3f(printX+baseXY,printY+baseXY+baseWL,z);
+	glEnd();
+}
+
+void GLView::drawBase()
+{
+	glEnable(GL_CULL_FACE);
+
+	glEnable(GL_POLYGON_OFFSET_FILL);
+	glPolygonOffset(1.0F,1.0F);
+	switch(appearance) {
+		case BedAppearance::MK42:
+			drawMK42Base();
+		break;
+		case BedAppearance::MK2:
+			drawMK2Base();
+		break;
+	}
+	glDisable(GL_POLYGON_OFFSET_FILL);
 	glDisable(GL_CULL_FACE);
+
+	switch(appearance) {
+		case BedAppearance::MK42:
+			drawBaseGrid();
+			drawBaseOutline();
+		break;
+		case BedAppearance::MK2:
+			drawBaseOutline();
+		break;
+	}
 }
 
 void GLView::drawPrintArea()

@@ -72,6 +72,10 @@ private:
 	void drawGradientBackground();
 	void drawAxes();
 	void drawBase();
+	void drawBaseGrid();
+	void drawBaseOutline();
+	void drawMK42Base();
+	void drawMK2Base();
 	void drawPrintArea();
 	void drawRulers();
 	void drawCross();
