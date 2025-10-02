@@ -28,7 +28,31 @@ DESTDIR = $$OUT_PWD
 
 DEFINES += LIBRAPCAD_LIBRARY
 
-SOURCES += src/rapcad.cpp
+win32 {
+    INCLUDEPATH += $$(LIBGIT2_DIR)/include
+}
+
+macx {
+    INCLUDEPATH += $$(LIBGIT2_DIR)/include
+}
+
+SOURCES += src/rapcad.cpp \
+    src/git/commit.cpp \
+    src/git/gitexception.cpp \
+    src/git/index.cpp \
+    src/git/oid.cpp \
+    src/git/repository.cpp \
+    src/git/repositorymanager.cpp \
+    src/git/signature.cpp \
+    src/git/tree.cpp
 
 HEADERS += src/rapcad.h\
-        src/librapcad_global.h
+    src/git/commit.h \
+    src/git/gitexception.h \
+    src/git/index.h \
+    src/git/oid.h \
+    src/git/repository.h \
+    src/git/repositorymanager.h \
+    src/git/signature.h \
+    src/git/tree.h \
+    src/librapcad_global.h
