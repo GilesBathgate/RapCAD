@@ -33,6 +33,8 @@ unix {
 	DEFINES += DOCDIR=$$DOCDIR
 }
 
+LIBS += -L$$clean_path($$OUT_PWD/../lib) -lrapcad
+
 win32 {
 	DEFINES -= USE_READLINE
 
@@ -113,8 +115,6 @@ greaterThan(BISON_MAJOR_VERSION, 2) {
 	}
 }
 
-LIBS += -L$$clean_path($$OUT_PWD/../lib) -lrapcad
-
 CONFIG(fuzzing){
 	QMAKE_LINK = afl-clang-fast
 	QMAKE_LFLAGS += -lstdc++ -lm
@@ -176,14 +176,6 @@ SOURCES += \
 	src/function/isundeffunction.cpp \
 	src/function/ordinalfunction.cpp \
 	src/geometryevaluator.cpp \
-	src/git/commit.cpp \
-	src/git/gitexception.cpp \
-	src/git/index.cpp \
-	src/git/oid.cpp \
-	src/git/repository.cpp \
-	src/git/repositorymanager.cpp \
-	src/git/signature.cpp \
-	src/git/tree.cpp \
 	src/intervalexpression.cpp \
 	src/intervalvalue.cpp \
 	src/main.cpp \
@@ -457,14 +449,6 @@ HEADERS  += \
 	src/function/isundeffunction.h \
 	src/function/ordinalfunction.h \
 	src/geometryevaluator.h \
-	src/git/commit.h \
-	src/git/gitexception.h \
-	src/git/index.h \
-	src/git/oid.h \
-	src/git/repository.h \
-	src/git/repositorymanager.h \
-	src/git/signature.h \
-	src/git/tree.h \
 	src/intervalexpression.h \
 	src/intervalvalue.h \
 	src/module/assertmodule.h \
