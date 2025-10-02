@@ -32,7 +32,7 @@ jobs:
         path: /usr/Qt
         key: ${{ runner.os }}-QtCache-6
     - name: Install Qt
-      uses: jurplel/install-qt-action@v3.0.0
+      uses: jurplel/install-qt-action@v4.3.0
       with:
         version: '6.5.*'
         dir: /usr
@@ -98,7 +98,7 @@ jobs:
         path: ../Qt
         key: ${{ runner.os }}-QtCache-6
     - name: Install Qt
-      uses: jurplel/install-qt-action@v3.0.0
+      uses: jurplel/install-qt-action@v4.3.0
       with:
         version: '6.5.*'
         cache: ${{ steps.cache-qt.outputs.cache-hit }}
@@ -194,7 +194,7 @@ jobs:
         path: ../Qt
         key: ${{ runner.os }}-QtCache-6
     - name: Install Qt
-      uses: jurplel/install-qt-action@v3.0.0
+      uses: jurplel/install-qt-action@v4.3.0
       with:
         version: '6.5.*'
         cache: ${{ steps.cache-qt.outputs.cache-hit }}
