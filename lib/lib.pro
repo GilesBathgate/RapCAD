@@ -24,6 +24,7 @@ TARGET = rapcad
 TEMPLATE = lib
 CONFIG += staticlib
 INCLUDEPATH += src
+DESTDIR = $$OUT_PWD
 
 DEFINES += LIBRAPCAD_LIBRARY
 

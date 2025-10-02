@@ -23,7 +23,8 @@ QT  += core gui openglwidgets concurrent
 TARGET = rapcad
 TEMPLATE = app
 INCLUDEPATH += src
-DESTDIR = $$OUT_PWD/..
+INCLUDEPATH += $$clean_path($$PWD/../lib/src)
+DESTDIR = $$clean_path($$OUT_PWD/..)
 
 DEFINES += USE_CGAL
 DEFINES += USE_READLINE
@@ -112,7 +113,7 @@ greaterThan(BISON_MAJOR_VERSION, 2) {
 	}
 }
 
-#LIBS += -Wl,-rpath,./librapcad -L./librapcad -lrapcad
+LIBS += -L$$clean_path($$OUT_PWD/../lib) -lrapcad
 
 CONFIG(fuzzing){
 	QMAKE_LINK = afl-clang-fast
