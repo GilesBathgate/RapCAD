@@ -36,7 +36,7 @@ macx {
     INCLUDEPATH += $$(LIBGIT2_DIR)/include
 }
 
-SOURCES += src/rapcad.cpp \
+SOURCES += \
     src/git/commit.cpp \
     src/git/gitexception.cpp \
     src/git/index.cpp \
@@ -46,7 +46,7 @@ SOURCES += src/rapcad.cpp \
     src/git/signature.cpp \
     src/git/tree.cpp
 
-HEADERS += src/rapcad.h\
+HEADERS +=\
     src/git/commit.h \
     src/git/gitexception.h \
     src/git/index.h \
@@ -54,5 +54,4 @@ HEADERS += src/rapcad.h\
     src/git/repository.h \
     src/git/repositorymanager.h \
     src/git/signature.h \
-    src/git/tree.h \
-    src/librapcad_global.h
+    src/git/tree.h
