@@ -25,18 +25,13 @@ jobs:
       run: |
         sudo mkdir /usr/Qt
         sudo chown $(whoami) /usr/Qt
-    - name: Cache Qt
-      id: cache-qt
-      uses: actions/cache@v3
-      with:
-        path: /usr/Qt
-        key: ${{ runner.os }}-QtCache-6
     - name: Install Qt
       uses: jurplel/install-qt-action@v4.3.0
       with:
         version: '6.5.*'
         dir: /usr
-        cache: ${{ steps.cache-qt.outputs.cache-hit }}
+        cache: true
+        cache-key-prefix: Qt
     - name: Install Dependencies
       run: sudo apt-get install -y libboost-dev libcgal-dev libglu1-mesa-dev libxkbcommon-x11-0 libxcb-cursor0 libreadline-dev libgit2-dev
     - name: Configure
@@ -91,17 +86,13 @@ jobs:
       run: |
         Invoke-WebRequest "https://archives.boost.io/release/1.83.0/source/boost_1_83_0.7z" -OutFile "$env:TEMP\boost.7z"
         7z x -oC:\ "$env:TEMP\boost.7z"
-    - name: Cache Qt
-      id: cache-qt
-      uses: actions/cache@v3
-      with:
-        path: ../Qt
-        key: ${{ runner.os }}-QtCache-6
     - name: Install Qt
       uses: jurplel/install-qt-action@v4.3.0
       with:
         version: '6.5.*'
-        cache: ${{ steps.cache-qt.outputs.cache-hit }}
+        dir: C:\
+        cache: true
+        cache-key-prefix: Qt
         arch: win64_mingw
     - name: Install CGAL
       run: |
@@ -187,17 +178,17 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-    - name: Cache Qt
-      id: cache-qt
-      uses: actions/cache@v3
-      with:
-        path: ../Qt
-        key: ${{ runner.os }}-QtCache-6
+    - name: Create Qt Directory
+      run: |
+        sudo mkdir /opt/Qt
+        sudo chown $(whoami) /opt/Qt
     - name: Install Qt
       uses: jurplel/install-qt-action@v4.3.0
       with:
         version: '6.5.*'
-        cache: ${{ steps.cache-qt.outputs.cache-hit }}
+        dir: /opt
+        cache: true
+        cache-key-prefix: Qt
     - name: Install Dependencies
       run: |
         brew install cgal bison libgit2
