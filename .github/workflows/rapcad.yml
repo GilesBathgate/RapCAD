@@ -51,7 +51,9 @@ jobs:
       run: find . -type f -name '*.gcno' -exec gcov -p -r {} +
     - name: Upload Coverage
       if: ${{ matrix.config == 'coverage' }}
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v5
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   windows:
     runs-on: windows-latest
