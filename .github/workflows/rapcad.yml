@@ -43,7 +43,9 @@ jobs:
       run: xvfb-run --server-args="-screen 0 1024x768x24" build/rapcad -t test
     - name: Coverage
       if: ${{ matrix.config == 'coverage' }}
-      run: find . -type f -name '*.gcno' -exec gcov -p -r {} +
+      run: |
+        pushd build
+        find . -type f -name '*.gcno' -exec gcov -p -r {} +
     - name: Upload Coverage
       if: ${{ matrix.config == 'coverage' }}
       uses: codecov/codecov-action@v5
