@@ -116,8 +116,7 @@ decimal parse_numberexp(const QString& s, bool* ok)
 	if(i<0)
 		return to_decimal(s);
 
-	const QString& e=s.mid(i+1).remove('+');
-	const decimal& p=to_decimal(e,ok);
+	const decimal& p=to_decimal(s.mid(i+1).remove('+'),ok);
 	return to_decimal(s.left(i),ok) * r_pow(decimal(10),p);
 }
 
