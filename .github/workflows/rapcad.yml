@@ -211,7 +211,7 @@ jobs:
       run: make -C build -j$(sysctl -n hw.ncpu)
     - name: Package
       run: |
-        macdeployqt build/rapcad.app -dmg
+        sudo macdeployqt build/rapcad.app -dmg
         mv build/rapcad.dmg rapcad_${{ env.VERSION }}.dmg
     - name: Test
       if: ${{ matrix.config == 'coverage' }}
