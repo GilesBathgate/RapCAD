@@ -25,12 +25,12 @@
 #include "viewdirections.h"
 #include <QMatrix4x4>
 #include <QMouseEvent>
-#include <QOpenGLFunctions_1_0>
+#include <QOpenGLFunctions_2_0>
 #include <QOpenGLWidget>
 #include <QWheelEvent>
 
 class GLView :
-	public QOpenGLWidget, private QOpenGLFunctions_1_0
+	public QOpenGLWidget, private QOpenGLFunctions_2_0
 {
 	Q_OBJECT
 	Q_DISABLE_COPY_MOVE(GLView)
