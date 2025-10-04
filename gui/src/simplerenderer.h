@@ -26,14 +26,14 @@ class SimpleRenderer : public Renderer
 {
 public:
 	explicit SimpleRenderer(const Primitive&);
-	void paint(QOpenGLFunctions_1_0&,bool,bool) override;
+	void paint(QOpenGLFunctions_2_0&,bool,bool) override;
 	void locate(const QVector3D&,const QVector3D&) override;
 	void preferencesUpdated() override;
 	void setCompiling(bool) override;
 private:
-	void descendChildren(QOpenGLFunctions_1_0&,const Primitive&);
+	void descendChildren(QOpenGLFunctions_2_0&,const Primitive&);
 	const Primitive& primitive;
-	void drawPoint(QOpenGLFunctions_1_0&,const Point&);
+	void drawPoint(QOpenGLFunctions_2_0&,const Point&);
 };
 
 #endif // SIMPLERENDERER_H

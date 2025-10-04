@@ -5,11 +5,11 @@
 #include "renderer.h"
 
 #include <QOffscreenSurface>
-#include <QOpenGLFunctions_1_0>
+#include <QOpenGLFunctions_2_0>
 #include <QOpenGLContext>
 #include <QMatrix4x4>
 
-class RenderExport : public Export, public QOffscreenSurface, private QOpenGLFunctions_1_0
+class RenderExport : public Export, public QOffscreenSurface, private QOpenGLFunctions_2_0
 {
 public:
 	RenderExport(Primitive*,Reporter&);

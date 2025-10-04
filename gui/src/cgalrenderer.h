@@ -35,16 +35,16 @@ class CGALRenderer : public Renderer
 public:
 	explicit CGALRenderer(Reporter&,Primitive&);
 	~CGALRenderer() override;
-	void paint(QOpenGLFunctions_1_0&,bool,bool) override;
+	void paint(QOpenGLFunctions_2_0&,bool,bool) override;
 	void locate(const QVector3D&,const QVector3D&) override;
 	void preferencesUpdated() override;
 	void setCompiling(bool) override;
 
 private:
-	void fillDisplayLists(QOpenGLFunctions_1_0&);
-	void drawVertices(QOpenGLFunctions_1_0&) const;
-	void drawEdges(QOpenGLFunctions_1_0&) const;
-	void drawFacets(QOpenGLFunctions_1_0&) const;
+	void fillDisplayLists(QOpenGLFunctions_2_0&);
+	void drawVertices(QOpenGLFunctions_2_0&) const;
+	void drawEdges(QOpenGLFunctions_2_0&) const;
+	void drawFacets(QOpenGLFunctions_2_0&) const;
 	friend class NefConverter;
 	void appendVertex(const PointF&);
 	void appendEdge(const SegmentF&);

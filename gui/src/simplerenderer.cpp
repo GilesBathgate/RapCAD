@@ -23,7 +23,7 @@ SimpleRenderer::SimpleRenderer(const Primitive& pr) :
 {
 }
 
-void SimpleRenderer::paint(QOpenGLFunctions_1_0& f,bool, bool)
+void SimpleRenderer::paint(QOpenGLFunctions_2_0& f,bool, bool)
 {
 	f.glLineWidth(1);
 	f.glColor4f(0.0,0.0,1.0,0.5);
@@ -45,7 +45,7 @@ void SimpleRenderer::setCompiling(bool)
 
 }
 
-void SimpleRenderer::descendChildren(QOpenGLFunctions_1_0& f,const Primitive& p)
+void SimpleRenderer::descendChildren(QOpenGLFunctions_2_0& f,const Primitive& p)
 {
 	for(Primitive* c: p.getChildren()) {
 		descendChildren(f,*c);
@@ -72,7 +72,7 @@ void SimpleRenderer::descendChildren(QOpenGLFunctions_1_0& f,const Primitive& p)
 	}
 }
 
-void SimpleRenderer::drawPoint(QOpenGLFunctions_1_0& f,const Point& pt)
+void SimpleRenderer::drawPoint(QOpenGLFunctions_2_0& f,const Point& pt)
 {
 #ifndef USE_CGAL
 	f.glVertex3f(pt.x(),pt.y(),pt.z());

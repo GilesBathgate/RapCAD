@@ -219,12 +219,12 @@ class DisplayList
 {
 	Q_DISABLE_COPY_MOVE(DisplayList)
 
-	QOpenGLFunctions_1_0& functions;
+	QOpenGLFunctions_2_0& functions;
 	GLuint listId;
 	GLsizei range;
 
 public:
-	DisplayList(QOpenGLFunctions_1_0& f,GLsizei r) :
+	DisplayList(QOpenGLFunctions_2_0& f,GLsizei r) :
 		functions(f),
 		range(r)
 	{
@@ -313,7 +313,7 @@ void CGALRenderer::desaturate(QColor& c)
 	c=QColor::fromHsv(c.hue(),0,c.value());
 }
 
-void CGALRenderer::drawVertices(QOpenGLFunctions_1_0& f) const
+void CGALRenderer::drawVertices(QOpenGLFunctions_2_0& f) const
 {
 	const float p=getVertexSize();
 	if(p==0) return;
@@ -327,7 +327,7 @@ void CGALRenderer::drawVertices(QOpenGLFunctions_1_0& f) const
 	}
 }
 
-void CGALRenderer::drawEdges(QOpenGLFunctions_1_0& f) const
+void CGALRenderer::drawEdges(QOpenGLFunctions_2_0& f) const
 {
 	const float w=getEdgeSize();
 	if(w==0) return;
@@ -345,7 +345,7 @@ void CGALRenderer::drawEdges(QOpenGLFunctions_1_0& f) const
 
 struct PolygonData {
 	Reporter& reporter;
-	QOpenGLFunctions_1_0& functions;
+	QOpenGLFunctions_2_0& functions;
 	QList<PointF>& extraPoints;
 	const FacetF& facet;
 };
@@ -384,7 +384,7 @@ inline void errorCallback(GLenum errorCode,GLvoid* data)
 	r.reportTesselationError(QString::fromLocal8Bit(gluErrorString(errorCode)));
 }
 
-void CGALRenderer::drawFacets(QOpenGLFunctions_1_0& f) const
+void CGALRenderer::drawFacets(QOpenGLFunctions_2_0& f) const
 {
 	GLUtesselator* t=gluNewTess();
 	using Callback=void (GLAPIENTRY*)(void);
@@ -449,7 +449,7 @@ const QList<FacetF>& CGALRenderer::getFacets() const
 	return facets;
 }
 
-void CGALRenderer::fillDisplayLists(QOpenGLFunctions_1_0& f)
+void CGALRenderer::fillDisplayLists(QOpenGLFunctions_2_0& f)
 {
 	f.glNewList(displayList->getId(0),GL_COMPILE);
 	drawVertices(f);
@@ -464,7 +464,7 @@ void CGALRenderer::fillDisplayLists(QOpenGLFunctions_1_0& f)
 	f.glEndList();
 }
 
-void CGALRenderer::paint(QOpenGLFunctions_1_0& f,bool skeleton,bool showedges)
+void CGALRenderer::paint(QOpenGLFunctions_2_0& f,bool skeleton,bool showedges)
 {
 	if(!displayList) {
 		displayList=new DisplayList(f,3);
