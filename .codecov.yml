@@ -1,5 +1,5 @@
 coverage:
   range: 40..70
 ignore:
-  - "contrib/.*"
-  - "src/tester.cpp"
+  - "gui/contrib/.*"
+  - "gui/src/tester.cpp"
