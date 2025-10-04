@@ -44,8 +44,11 @@ jobs:
     - name: Coverage
       if: ${{ matrix.config == 'coverage' }}
       run: |
-        pushd build
-        find . -type f -name '*.gcno' -exec gcov -p -r {} +
+        for dir in build/{gui,lib}; do \
+          pushd $dir; \
+          find . -type f -name '*.gcno' -exec gcov -p -r {} +; \
+          popd; \
+        done
     - name: Upload Coverage
       if: ${{ matrix.config == 'coverage' }}
       uses: codecov/codecov-action@v5
