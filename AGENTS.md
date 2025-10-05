@@ -8,7 +8,7 @@ Do not combine commands for example `command1 && command2`. Use separate run_in_
 Before building its a essential to remove the old application binary. This will prevent false test results
 
 ```bash
-rm -vf /build/rapcad
+rm -vf /app/build/rapcad
 ```
 
 ## Configuring
@@ -16,18 +16,19 @@ rm -vf /build/rapcad
 To configure the build, run the following command:
 
 ```bash
-qmake6 /app/rapcad.pro -o /build/Makefile CONFIG+=test CONFIG+=silent
+qmake6 /app/rapcad.pro -o /app/build/Makefile CONFIG+=test CONFIG+=silent
 ```
 
 This command configures the project with `test` support. We use `silent` to provide clean output for the incremental build workflow discussed below.
 
 ## Building
 
-This project uses an backgroud compile strategy to avoid timeouts. There must be no jobs running when starting a build as it will comsume to many resources.
-Jobs can be queried using the `jobs` command with empty output indicating no jobs.
+This project uses an backgroud compile strategy to avoid timeouts. There must be no jobs running when starting a build as it will comsume too many resources.
+Jobs can be queried using the `jobs` command with empty output indicating no jobs. To stop any running jobs the `stop_jobs` command must be used which will
+safely terminate all make jobs
 
 ```bash
-make -C /build > /build/build.log 2>&1 &
+make -C /app/build > /app/build/build.log 2>&1 &
 ```
 
 When the build is running, we can monitor the logs. The build process takes a significant amount of time, potentially longer than the system's default timeout of 400 seconds.
@@ -35,19 +36,19 @@ When the build is running, we can monitor the logs. The build process takes a si
 To avoid this system timeout, we use a deliberate strategy of monitoring the build in chunks.
 
 ```bash
-timeout 300 tail -f /build/build.log --pid $(jobs -p %make)
+timeout 300 tail -f /app/build/build.log --pid $(jobs -p %make)
 ```
 
-**IMPORTANT:** This command is **expected to time out** after 300 seconds (5 minutes). This is not an error. After it times out, you should check the end of the log file (`/build/build.log`) for a success message (e.g., "linking rapcad", "make: Nothing to be done for 'first'." ) or a compile error. When the build is complete the log might simply end with "make: Leaving directory '/build'" look for error messages in the full log.
+**IMPORTANT:** This command is **expected to time out** after 300 seconds (5 minutes). This is not an error. After it times out, you should check the end of the log file (`/app/build/build.log`) for a success message (e.g., "linking rapcad", "make: Nothing to be done for 'first'." ) or a compile error. When the build is complete the log might simply end with "make: Leaving directory '/app/build'" look for error messages in the full log.
 
-If the log appears to simply be saying that its compiling files, you must **repeat the `timeout 300 tail -f /build/build.log --pid $(jobs -p %make)` command** to continue monitoring the build. Repeat this step until the build is confirmed as complete or has failed.
+If the log appears to simply be saying that its compiling files, you must **repeat the `timeout 300 tail -f /app/build/build.log --pid $(jobs -p %make)` command** to continue monitoring the build. Repeat this step until the build is confirmed as complete or has failed.
 
 ## Testing
 
 After a successful build, you can run the test suite with the following command:
 
 ```bash
-/build/rapcad -t /app/test
+xvfb-run --server-args="-screen 0 1024x768x24" /app/build/rapcad --test /app/test
 ```
 
 ## Workflow state diagram:
@@ -88,7 +89,7 @@ After making small code changes, you can perform a much faster incremental build
 For an incremental build, you must **not** clean the entire build directory. Instead, only remove the final binary:
 
 ```bash
-rm -f /build/rapcad
+rm -vf /app/build/rapcad
 ```
 
 After removing the binary, follow the exact same background build and monitoring process described in the "Building" section. The process has been verified to work correctly for this scenario, and the build should complete much more quickly.
