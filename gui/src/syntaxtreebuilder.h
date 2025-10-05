@@ -52,6 +52,7 @@ public:
 	Statement* buildStatement(QList<Statement*>*) override;
 	Statement* buildStatement(Variable*,Expression*) override;
 	Statement* buildStatement(QString*,Storage,Expression*) override;
+	Statement* buildStatement(QString*,Storage,QString*,Expression*) override;
 	Statement* buildReturnStatement(Expression*) override;
 	Statement* buildIfElseStatement(Expression*,Statement*) override;
 	Statement* buildIfElseStatement(Expression*,Statement*,Statement*) override;

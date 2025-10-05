@@ -222,6 +222,20 @@ Statement* SyntaxTreeBuilder::buildStatement(QString* name,Storage c, Expression
 	return result;
 }
 
+Statement* SyntaxTreeBuilder::buildStatement(QString* name,Storage c,QString* type,Expression* exp)
+{
+	auto* result = new AssignStatement();
+	auto* var = new Variable();
+	var->setName(*name);
+	delete name;
+	var->setType(*type);
+	delete type;
+	var->setStorage(c);
+	result->setVariable(var);
+	result->setExpression(exp);
+	return result;
+}
+
 Statement* SyntaxTreeBuilder::buildReturnStatement(Expression* exp)
 {
 	auto* result = new ReturnStatement();

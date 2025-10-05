@@ -445,13 +445,18 @@ void TreePrinter::visit(const Variable& var)
 		case Storage::Parametric:
 			result << "param ";
 			break;
+		case Storage::Special:
+			result << "$";
+			break;
 		default:
 			break;
 	}
 
-	if(var.getStorage()==Storage::Special)
-		result << "$";
 	result << var.getName();
+
+	const QString& type = var.getType();
+	if(!type.isEmpty())
+		result << ":" << type;
 }
 
 void TreePrinter::visit(const CodeDocParam& cd)

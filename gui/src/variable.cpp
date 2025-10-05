@@ -33,6 +33,16 @@ void Variable::setName(const QString& n)
 	name = n;
 }
 
+void Variable::setType(const QString& t)
+{
+	type = t;
+}
+
+QString Variable::getType() const
+{
+	return type;
+}
+
 void Variable::setStorage(Storage c)
 {
 	storage = c;
