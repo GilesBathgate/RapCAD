@@ -211,7 +211,7 @@ Value& VectorValue::operation(VectorValue& vec,Operators e)
 		return *total;
 	}
 	if(e==Operators::Divide) {
-		//TODO vector division?
+		// vector/vector division is undefined
 		return ValueFactory::createUndefined();
 	}
 	if(e==Operators::Length) {
