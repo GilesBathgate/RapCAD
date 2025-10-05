@@ -40,8 +40,11 @@ public:
 	void setStorage(Storage);
 	Storage getStorage() const;
 	void accept(TreeVisitor&) override;
+	void setType(const QString&);
+	QString getType() const;
 private:
 	QString name;
+	QString type;
 	Storage storage;
 };
 

@@ -62,6 +62,7 @@ public:
 	virtual Statement* buildStatement(QList<Statement*>*)=0;
 	virtual Statement* buildStatement(Variable*,Expression*)=0;
 	virtual Statement* buildStatement(QString*,Storage,Expression*)=0;
+	virtual Statement* buildStatement(QString*,Storage,QString*,Expression*)=0;
 	virtual Statement* buildReturnStatement(Expression*)=0;
 	virtual Statement* buildIfElseStatement(Expression*,Statement*)=0;
 	virtual Statement* buildIfElseStatement(Expression*,Statement*,Statement*)=0;

@@ -130,6 +130,11 @@ Statement* DependencyBuilder::buildStatement(QString*,Storage,Expression*)
 	return nullptr;
 }
 
+Statement *DependencyBuilder::buildStatement(QString*,Storage,QString*,Expression*)
+{
+	return nullptr;
+}
+
 Statement* DependencyBuilder::buildReturnStatement(Expression*)
 {
 	return nullptr;

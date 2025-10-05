@@ -260,6 +260,8 @@ assign_statement
 	{ $$ = builder.buildStatement($2,Storage::Constant,$4); }
 	| PARAM IDENTIFIER '=' expression
 	{ $$ = builder.buildStatement($2,Storage::Parametric,$4); }
+	| PARAM IDENTIFIER ':' IDENTIFIER '=' expression
+	{ $$ = builder.buildStatement($2,Storage::Parametric,$4,$6); }
 	;
 
 ifelse_statement
