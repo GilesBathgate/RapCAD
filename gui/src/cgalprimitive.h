@@ -77,7 +77,7 @@ public:
 	Primitive* symmetric_difference(Primitive*) override;
 	Primitive* triangulate() override;
 	Primitive* solidify() override;
-	PrimitiveTypes getType() override;
+	PrimitiveTypes getType() const override;
 	/* Don't call this method instead use getCGALPolygons */
 	Q_DECL_DEPRECATED const QList<Polygon*>& getPolygons() const override;
 	void align(bool,QList<ViewDirections>) override;
