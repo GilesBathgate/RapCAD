@@ -33,6 +33,7 @@ public:
 	void setChildren(const QList<Node*>&);
 	const QList<Node*>& getChildren() const;
 	size_type childCount() const;
+	void clearChildren();
 private:
 	QList<Node*> children;
 };

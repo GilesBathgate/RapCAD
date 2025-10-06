@@ -18,10 +18,28 @@
 
 #include "node.h"
 
+#include <QSet>
+
+static void descend(Node* node,QSet<Node*>& collect)
+{
+	for(auto child: node->getChildren())
+	{
+		auto size=collect.size();
+		collect.insert(child);
+		if(collect.size()>size)
+			descend(child,collect);
+	}
+	node->clearChildren();
+}
+
 Node::~Node()
 {
-	qDeleteAll(children);
-	children.clear();
+	if(children.isEmpty()) return;
+
+	QSet<Node*> collect;
+	descend(this,collect);
+	collect.remove(this);
+	qDeleteAll(collect);
 }
 
 void Node::addChild(Node* n)
@@ -42,4 +60,9 @@ const QList<Node*>& Node::getChildren() const
 Node::size_type Node::childCount() const
 {
 	return children.count();
+}
+
+void Node::clearChildren()
+{
+	children.clear();
 }
