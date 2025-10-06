@@ -47,7 +47,7 @@ void Polyhedron::setType(PrimitiveTypes t)
 	type=t;
 }
 
-PrimitiveTypes Polyhedron::getType()
+PrimitiveTypes Polyhedron::getType() const
 {
 	return type;
 }

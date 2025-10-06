@@ -103,7 +103,7 @@ void CGALPrimitive::setType(PrimitiveTypes t)
 	type=t;
 }
 
-PrimitiveTypes CGALPrimitive::getType()
+PrimitiveTypes CGALPrimitive::getType() const
 {
 	return type;
 }

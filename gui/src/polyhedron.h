@@ -57,7 +57,7 @@ public:
 	Primitive* symmetric_difference(Primitive*) override;
 	Primitive* solidify() override { return this; }
 	Primitive* triangulate() override { return this; }
-	PrimitiveTypes getType() override;
+	PrimitiveTypes getType() const override;
 	QList<Point> getPoints() const override;
 	const QList<Polygon*>& getPolygons() const override;
 	const QList<Primitive*>& getChildren() const override;

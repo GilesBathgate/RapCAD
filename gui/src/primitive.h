@@ -69,7 +69,7 @@ public:
 	virtual Primitive* symmetric_difference(Primitive*)=0;
 	virtual Primitive* solidify()=0;
 	virtual Primitive* triangulate()=0;
-	virtual PrimitiveTypes getType()=0;
+	virtual PrimitiveTypes getType() const=0;
 	virtual QList<Point> getPoints() const=0;
 	virtual const QList<Polygon*>& getPolygons() const=0;
 	virtual const QList<Primitive*>& getChildren() const=0;
