@@ -148,10 +148,14 @@ CONFIG(coverage){
 CONFIG(official){
 	DEFINES += RAPCAD_VERSION=$$VERSION
 } else {
-	VERSIONS = $$split(VERSION, ".")
-	MAJOR = $$member(VERSIONS, 0)
-	MINOR = $$member(VERSIONS, 1)
-	DEFINES += RAPCAD_VERSION=$$MAJOR"."$$MINOR".git."$$system(git log -1 --pretty=format:%h)
+	CONFIG(ccache) {
+		DEFINES += RAPCAD_VERSION=ccache.0.0.0
+	} else {
+		VERSIONS = $$split(VERSION, ".")
+		MAJOR = $$member(VERSIONS, 0)
+		MINOR = $$member(VERSIONS, 1)
+		DEFINES += RAPCAD_VERSION=$$MAJOR"."$$MINOR".git."$$system(git log -1 --pretty=format:%h)
+	}
 }
 
 LEXSOURCES += \
