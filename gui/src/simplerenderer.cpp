@@ -28,7 +28,8 @@ void SimpleRenderer::paint(QOpenGLFunctions_2_0& f,bool, bool)
 	f.glLineWidth(1);
 	f.glColor4f(0.0,0.0,1.0,0.5);
 	f.glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
-	descendChildren(f,primitive);
+	QSet<Primitive*> visited;
+	descendChildren(f,primitive,visited);
 }
 
 void SimpleRenderer::locate(const QVector3D&,const QVector3D&)
@@ -45,10 +46,14 @@ void SimpleRenderer::setCompiling(bool)
 
 }
 
-void SimpleRenderer::descendChildren(QOpenGLFunctions_2_0& f,const Primitive& p)
+void SimpleRenderer::descendChildren(QOpenGLFunctions_2_0& f,const Primitive& p,QSet<Primitive*>& visited)
 {
 	for(Primitive* c: p.getChildren()) {
-		descendChildren(f,*c);
+
+		auto size=visited.size();
+		visited.insert(c);
+		if(visited.size()>size)
+			descendChildren(f,*c,visited);
 
 		if(c->getType()!=PrimitiveTypes::Lines) {
 			f.glEnable(GL_BLEND);

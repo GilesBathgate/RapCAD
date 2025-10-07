@@ -22,6 +22,8 @@
 #include "renderer.h"
 #include "primitive.h"
 
+#include <QSet>
+
 class SimpleRenderer : public Renderer
 {
 public:
@@ -31,7 +33,7 @@ public:
 	void preferencesUpdated() override;
 	void setCompiling(bool) override;
 private:
-	void descendChildren(QOpenGLFunctions_2_0&,const Primitive&);
+	void descendChildren(QOpenGLFunctions_2_0&, const Primitive&, QSet<Primitive*>& visited);
 	const Primitive& primitive;
 	void drawPoint(QOpenGLFunctions_2_0&,const Point&);
 };
