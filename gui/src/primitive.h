@@ -76,6 +76,7 @@ public:
 	virtual void align(bool,QList<ViewDirections>)=0;
 	virtual void appendChild(Primitive*)=0;
 	virtual void appendChildren(QList<Primitive*>)=0;
+	virtual void clearChildren()=0;
 	virtual void createVertex(const Point&)=0;
 	virtual void discrete(int)=0;
 	virtual void groupLater(Primitive*)=0;

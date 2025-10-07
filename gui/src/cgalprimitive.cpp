@@ -76,6 +76,18 @@ CGALPrimitive::CGALPrimitive(const CGAL::NefPolyhedron3& nef) : CGALPrimitive()
 	nefPolyhedron=new CGAL::NefPolyhedron3(nef);
 }
 
+static void descend(Primitive* parent, QSet<Primitive*>& collect)
+{
+	for(auto child: parent->getChildren())
+	{
+		auto size=collect.size();
+		collect.insert(child);
+		if(collect.size()>size)
+			descend(child,collect);
+	}
+	parent->clearChildren();
+}
+
 CGALPrimitive::~CGALPrimitive()
 {
 	delete nefPolyhedron;
@@ -88,8 +100,12 @@ CGALPrimitive::~CGALPrimitive()
 	pointMap.clear();
 	points.clear();
 
-	qDeleteAll(children);
-	children.clear();
+	if(children.isEmpty()) return;
+
+	QSet<Primitive*> collect;
+	descend(this,collect);
+	collect.remove(this);
+	qDeleteAll(collect);
 }
 
 void CGALPrimitive::clearPolygons()
@@ -1080,7 +1096,13 @@ void CGALPrimitive::appendChild(Primitive* p)
 
 void CGALPrimitive::appendChildren(QList<Primitive*> p)
 {
-	children.append(p);
+	for(auto c: p)
+		appendChild(c);
+}
+
+void CGALPrimitive::clearChildren()
+{
+	children.clear();
 }
 
 void CGALPrimitive::discrete(int places)
