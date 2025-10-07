@@ -64,6 +64,7 @@ public:
 	void align(bool,QList<ViewDirections>) override {}
 	void appendChild(Primitive*) override;
 	void appendChildren(QList<Primitive*>) override;
+	void clearChildren() override;
 	void createVertex(const Point&) override;
 	void discrete(int) override;
 	void groupLater(Primitive*) override;

@@ -83,6 +83,7 @@ public:
 	void align(bool,QList<ViewDirections>) override;
 	void appendChild(Primitive*) override;
 	void appendChildren(QList<Primitive*>) override;
+	void clearChildren() override;
 	void createVertex(const CGAL::Point3&) override;
 	void discrete(int) override;
 	void groupLater(Primitive*) override;
