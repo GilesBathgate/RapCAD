@@ -27,6 +27,7 @@ ScaleModule::ScaleModule(Reporter& r) : Module(r,"scale")
 	addDescription(tr("Scales its children by the given vector."));
 	addParameter("size","num",tr("The factor by which to scale the object."));
 	addParameter("reference","vec3",tr("A center reference point for the scaling."));
+	addExample("scale([1,2,1]) cube(10);");
 }
 
 Node* ScaleModule::evaluate(const Context& ctx) const
