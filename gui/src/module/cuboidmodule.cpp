@@ -27,7 +27,7 @@ CuboidModule::CuboidModule(Reporter& r) : PrimitiveModule(r,"cuboid")
 	addParameter("width","num",tr("The width (x) of the cuboid."));
 	addParameter("depth","num",tr("The depth (y) of the cuboid."));
 	addParameter("height","num",tr("The height (z) of the cuboid."));
-	addExample("cuboid(1cm,2cm,3cm);");
+	addExample("cuboid(10,20,30);");
 }
 
 Node* CuboidModule::evaluate(const Context& ctx) const
