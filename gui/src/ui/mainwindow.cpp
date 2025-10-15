@@ -47,6 +47,7 @@ MainWindow::MainWindow(QWidget* parent) :
 	worker(nullptr),
 	interact(nullptr),
 	aboutDialog(nullptr),
+	breadboardDesigner(nullptr),
 	repositoryManager(new RepositoryManager)
 {
 	setTheme();
@@ -282,6 +283,7 @@ void MainWindow::setupActions()
 	connect(ui->actionAbout,&QAction::triggered,this,&MainWindow::showAbout);
 	connect(ui->actionAboutQt,&QAction::triggered,this,&MainWindow::showAboutQt);
 	connect(ui->actionShowBuiltins,&QAction::triggered,this,&MainWindow::showBuiltins);
+	connect(ui->actionBreadboardDesigner,&QAction::triggered,this,&MainWindow::showBreadboard);
 
 	connect(ui->actionUserGuide,&QAction::triggered,this,&MainWindow::showUserGuide);
 
@@ -823,6 +825,14 @@ void MainWindow::showAbout()
 		aboutDialog = new AboutDialog(this);
 
 	aboutDialog->show();
+}
+
+void MainWindow::showBreadboard()
+{
+	if(!breadboardDesigner)
+		breadboardDesigner = new BreadboardDesigner(this);
+
+	breadboardDesigner->show();
 }
 
 void MainWindow::showAboutQt()

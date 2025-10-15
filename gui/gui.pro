@@ -427,7 +427,8 @@ SOURCES += \
 	src/module/pointsmodule.cpp \
 	src/cgalprojection.cpp \
 	src/function/cbrtfunction.cpp \
-	src/ui/searchwidget.cpp
+	src/ui/searchwidget.cpp \
+	src/ui/breadboarddesigner.cpp
 
 HEADERS  += \
 	contrib/fragments.h \
@@ -719,7 +720,8 @@ HEADERS  += \
 	src/function/isvecfunction.h \
 	src/cgalprojection.h \
 	src/function/cbrtfunction.h \
-	src/ui/searchwidget.h
+	src/ui/searchwidget.h \
+	src/ui/breadboarddesigner.h
 
 FORMS += \
 	src/ui/commitdialog.ui \
@@ -728,7 +730,8 @@ FORMS += \
 	src/ui/saveitemsdialog.ui \
 	src/ui/printconsole.ui \
 	src/ui/aboutdialog.ui \
-	src/ui/searchwidget.ui
+	src/ui/searchwidget.ui \
+	src/ui/breadboarddesigner.ui
 
 win32|macx {
 	RESOURCES += \

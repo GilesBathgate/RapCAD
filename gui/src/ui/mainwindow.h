@@ -20,6 +20,7 @@
 #define MAINWINDOW_H
 
 #include "aboutdialog.h"
+#include "breadboarddesigner.h"
 #include "backgroundworker.h"
 #include "codeeditor.h"
 #include "git/repositorymanager.h"
@@ -79,6 +80,7 @@ private slots:
 	void showAbout();
 	void showAboutQt();
 	void showBuiltins();
+	void showBreadboard();
 	static void showUserGuide();
 	static void flushCaches();
 	void sendToCAM();
@@ -114,6 +116,7 @@ private:
 	BackgroundWorker* worker;
 	Interactive* interact;
 	AboutDialog* aboutDialog;
+	BreadboardDesigner* breadboardDesigner;
 	QList<QTemporaryFile*> temporyFiles;
 	RepositoryManager* repositoryManager;
 };
