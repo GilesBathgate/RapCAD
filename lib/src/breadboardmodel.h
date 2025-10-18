@@ -64,14 +64,13 @@ public:
     int holeSize = 12;
     int holeGap = 18;
 
-private:
-    QString movingConnectionId;
-    QString movingComponentId;
-
-public:
     void setMovingConnectionId(const QString& id);
     void setMovingComponentId(const QString& id);
     void moveConnection(const QString& connectionId, const QString& originalPinId, const QString& newPinId);
+
+private:
+    QString movingConnectionId;
+    QString movingComponentId;
 };
 
 #endif // BREADBOARDMODEL_H

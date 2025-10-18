@@ -74,16 +74,18 @@ Hole* BreadboardModel::findHole(const QString& id)
 bool BreadboardModel::isHoleOccupied(const QString& id) const
 {
     for(const auto& c : connections) {
-        if (c.id == movingConnectionId) continue;
-        if(c.a == id || c.b == id) {
-            return true;
+        if (c.id != movingConnectionId) {
+            if(c.a == id || c.b == id) {
+                return true;
+            }
         }
     }
     for(const auto& c : components) {
-        if (c.id == movingComponentId) continue;
-        for(const auto& p : c.pins) {
-            if(p == id) {
-                return true;
+        if (c.id != movingComponentId) {
+            for(const auto& p : c.pins) {
+                if(p == id) {
+                    return true;
+                }
             }
         }
     }
