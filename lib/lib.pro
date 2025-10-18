@@ -45,10 +45,12 @@ SOURCES += \
     src/git/repositorymanager.cpp \
     src/git/signature.cpp \
     src/git/tree.cpp \
-    src/breadboardmodel.cpp
+    src/breadboardmodel.cpp \
+    src/breadboardcontroller.cpp
 
 HEADERS +=\
     src/breadboardmodel.h \
+    src/breadboardcontroller.h \
     src/git/commit.h \
     src/git/gitexception.h \
     src/git/index.h \

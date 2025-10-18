@@ -146,6 +146,7 @@ void BreadboardModel::moveConnection(const QString& connectionId, const QString&
             } else {
                 c.b = newPinId;
             }
+            setMovingConnectionId(QString());
             return;
         }
     }
