@@ -7,24 +7,24 @@ BreadboardModel::BreadboardModel(QObject *parent)
     holes = buildHoles();
 }
 
-QList<QList<Hole>> BreadboardModel::getHoles() const
+const QVector<QVector<Hole>>& BreadboardModel::getHoles() const
 {
     return holes;
 }
 
-QList<Connection> BreadboardModel::getConnections() const
+const QVector<Connection>& BreadboardModel::getConnections() const
 {
     return connections;
 }
 
-QList<Component> BreadboardModel::getComponents() const
+const QVector<Component>& BreadboardModel::getComponents() const
 {
     return components;
 }
 
-QList<QList<Hole>> BreadboardModel::buildHoles()
+QVector<QVector<Hole>> BreadboardModel::buildHoles()
 {
-    QList<QList<Hole>> rows;
+    QVector<QVector<Hole>> rows;
     int startX = 60;
     int startY = 60;
     int y = startY;
@@ -32,7 +32,7 @@ QList<QList<Hole>> BreadboardModel::buildHoles()
 
     auto makeRow = [&](const QString& band, int numRows) {
         for(int r = 0; r < numRows; ++r) {
-            QList<Hole> row;
+            QVector<Hole> row;
             int x = startX;
             for(int c = 0; c < columns; ++c) {
                 row.push_back({band, r, c, x, y});
@@ -90,12 +90,12 @@ bool BreadboardModel::isHoleOccupied(const QString& id) const
     return false;
 }
 
-void BreadboardModel::addConnection(const QString& a, const QString& b, const QString& color, const QList<QPoint>& waypoints)
+void BreadboardModel::addConnection(const QString& a, const QString& b, const QString& color, const QVector<QPoint>& waypoints)
 {
     connections.append({QUuid::createUuid().toString(), a, b, color, waypoints});
 }
 
-void BreadboardModel::addComponent(const QList<QString>& pins)
+void BreadboardModel::addComponent(const QVector<QString>& pins)
 {
     components.append({QUuid::createUuid().toString(), pins});
 }
@@ -119,6 +119,23 @@ void BreadboardModel::deleteComponent(const QString& componentId)
     components.erase(std::remove_if(components.begin(), components.end(), [&](const Component& c) {
         return c.id == componentId;
     }), components.end());
+}
+
+void BreadboardModel::updateConnectionColor(const QString& connectionId, const QString& color)
+{
+    for (auto& c : connections) {
+        if (c.id == connectionId) {
+            c.color = color;
+            return;
+        }
+    }
+}
+
+void BreadboardModel::deleteConnection(const QString& connectionId)
+{
+    connections.erase(std::remove_if(connections.begin(), connections.end(), [&](const Connection& c) {
+        return c.id == connectionId;
+    }), connections.end());
 }
 
 void BreadboardModel::clear()

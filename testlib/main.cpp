@@ -20,6 +20,7 @@ private slots:
     void testClear();
     void testIsHoleOccupied_moving();
     void testMoveConnection();
+    void testDeleteConnection();
 
 private:
     BreadboardModel* m_model;
@@ -133,6 +134,15 @@ void TestBreadboardModel::testMoveConnection()
     m_model->moveConnection(connectionId, "power-top:0:1", "power-top:0:2");
     QVERIFY(!m_model->isHoleOccupied("power-top:0:1"));
     QVERIFY(m_model->isHoleOccupied("power-top:0:2"));
+}
+
+void TestBreadboardModel::testDeleteConnection()
+{
+    m_model->addConnection("power-top:0:0", "power-top:0:1", "#ff0000", {});
+    QString connectionId = m_model->getConnections()[0].id;
+    m_model->deleteConnection(connectionId);
+    QCOMPARE(m_model->getConnections().size(), 0);
+    QVERIFY(!m_model->isHoleOccupied("power-top:0:0"));
 }
 
 QTEST_MAIN(TestBreadboardModel)

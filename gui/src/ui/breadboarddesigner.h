@@ -26,28 +26,13 @@
 #include <QTimer>
 #include <QColor>
 
+#include "breadboardmodel.h"
+#include "breadboardcontroller.h"
+
 namespace Ui
 {
 class BreadboardDesigner;
 } // namespace Ui
-
-struct Hole {
-	QString band;
-	int r, c;
-	int x, y;
-};
-
-struct Connection {
-	QString id;
-	QString a, b;
-	QColor color;
-	std::vector<QPoint> waypoints;
-};
-
-struct Component {
-	QString id;
-	std::vector<QString> pins;
-};
 
 class BreadboardDesigner : public QDialog
 {
@@ -67,45 +52,13 @@ private slots:
 	void clearConnections();
 
 private:
-	enum CreationMode { NotCreating, CreatingTwoPin, CreatingMultiPin };
-
-	Ui::BreadboardDesigner* ui;
-	std::vector<std::vector<Hole>> buildHoles();
-	QString holeId(const Hole& h) const;
-	Hole* findHole(const QString& id);
-	bool isHoleOccupied(const QString& id) const;
-	bool sameGroup(const Hole& h1, const Hole& h2) const;
 	QPainterPath makePath(const QPointF& a, const QPointF& b) const;
-	QPainterPath makeWaypointPath(const QPointF& a, const QPointF& b, const std::vector<QPoint>& waypoints) const;
-	bool isPositiveHole(const Hole& h) const;
-	bool isNegativeHole(const Hole& h);
-	void handleComponentCreationClick(Hole& clickedHole, Qt::KeyboardModifiers modifiers);
-	void handleStandardClick(Hole& clickedHole);
-	void cancelCreation();
-
-
-private slots:
-	void toggleFlashColor();
+	QPainterPath makeWaypointPath(const QPointF& a, const QPointF& b, const QVector<QPoint>& waypoints) const;
 
 private:
-	std::vector<QPoint> temporaryWaypoints;
-	std::vector<std::vector<Hole>> holes;
-	std::vector<Connection> connections;
-	std::vector<Component> components;
-	CreationMode creationMode = NotCreating;
-	std::vector<Hole*> pinsForNewComponent;
-	Hole* firstHole = nullptr;
-	Hole* hoverHole = nullptr;
-	QPoint mousePos;
-	QString movingConnectionId;
-	QString movingComponentId;
-	QString originalHoleId;
-	QColor temporaryWireColor = QColorConstants::White;
-	QTimer* flashTimer;
-	bool flashState = false;
-	int columns = 30;
-	int holeSize = 12;
-	int holeGap = 18;
+	Ui::BreadboardDesigner* ui;
+	BreadboardModel* m_model;
+	BreadboardController* m_controller;
 };
 
 #endif // BREADBOARDDESIGNER_H

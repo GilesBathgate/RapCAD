@@ -28,9 +28,9 @@ void BreadboardController::handleMousePressEvent(QMouseEvent* event)
 
     Hole* clickedHole = nullptr;
     for(auto& row : m_model->getHoles()) {
-        for(auto& h : row) {
+        for (const auto& h : row) {
             if(QVector2D(event->pos() - QPoint(h.x, h.y)).length() < m_model->holeSize / 2.0) {
-                clickedHole = &h;
+                clickedHole = m_model->findHole(m_model->holeId(h));
                 break;
             }
         }
@@ -57,10 +57,10 @@ void BreadboardController::handleMouseMoveEvent(QMouseEvent* event)
     mousePos = event->pos();
     Hole* lastHoverHole = hoverHole;
     hoverHole = nullptr;
-    for(auto& row : m_model->getHoles()) {
-        for(auto& h : row) {
+    for (const auto& row : m_model->getHoles()) {
+        for (const auto& h : row) {
             if(QVector2D(event->pos() - QPoint(h.x, h.y)).length() < m_model->holeSize / 2.0) {
-                hoverHole = &h;
+                hoverHole = m_model->findHole(m_model->holeId(h));
                 break;
             }
         }
@@ -134,7 +134,7 @@ void BreadboardController::handleStandardClick(Hole& clickedHole)
 
             if((creationMode == CreatingTwoPin && pinsForNewComponent.size() == 2) ||
                (creationMode == CreatingMultiPin && pinsForNewComponent.size() >= 2)) {
-                QList<QString> pinIds;
+                QVector<QString> pinIds;
                 for(const auto& pin : pinsForNewComponent) {
                     pinIds.push_back(m_model->holeId(*pin));
                 }
@@ -150,22 +150,14 @@ void BreadboardController::handleStandardClick(Hole& clickedHole)
                 m_model->moveComponent(movingComponentId, originalHoleId, m_model->holeId(clickedHole));
             }
         } else if(!movingConnectionId.isNull()) {
-            Connection* movingConn = nullptr;
-            for(auto& c : m_model->getConnections()) {
-                if(c.id == movingConnectionId) {
-                    movingConn = &c;
-                    break;
-                }
-            }
             if(m_model->holeId(*firstHole) == m_model->holeId(clickedHole)) {
-                m_model->getConnections().erase(std::remove_if(m_model->getConnections().begin(), m_model->getConnections().end(), [&](const Connection& c) {
-                    return c.id == movingConn->id;
-                }), m_model->getConnections().end());
+                m_model->deleteConnection(movingConnectionId);
             } else if(!m_model->isHoleOccupied(m_model->holeId(clickedHole)) && !flashTimer->isActive()) {
                 m_model->moveConnection(movingConnectionId, originalHoleId, m_model->holeId(clickedHole));
+                m_model->updateConnectionColor(movingConnectionId, temporaryWireColor.name());
             }
         } else if(!m_model->isHoleOccupied(m_model->holeId(clickedHole)) && !flashTimer->isActive()) {
-            QList<QPoint> waypoints;
+            QVector<QPoint> waypoints;
             for(const auto& p : temporaryWaypoints) {
                 waypoints.append(p);
             }
@@ -174,11 +166,12 @@ void BreadboardController::handleStandardClick(Hole& clickedHole)
         cancelCreation();
     } else {
         bool foundComponent = false;
-        for(auto& c : m_model->getComponents()) {
+        for(const auto& c : m_model->getComponents()) {
             auto it = std::find(c.pins.begin(), c.pins.end(), m_model->holeId(clickedHole));
             if(it != c.pins.end()) {
                 movingComponentId = c.id;
                 originalHoleId = *it;
+                m_model->setMovingComponentId(movingComponentId);
                 for(const auto& pin : c.pins) {
                     if(pin != originalHoleId) {
                         firstHole = m_model->findHole(pin);
@@ -191,11 +184,12 @@ void BreadboardController::handleStandardClick(Hole& clickedHole)
         }
         if(!foundComponent) {
             bool foundConnection = false;
-            for(auto& c : m_model->getConnections()) {
+            for(const auto& c : m_model->getConnections()) {
                 if(c.a == m_model->holeId(clickedHole)) {
                     firstHole = m_model->findHole(c.b);
                     movingConnectionId = c.id;
                     originalHoleId = c.a;
+                    m_model->setMovingConnectionId(movingConnectionId);
                     foundConnection = true;
                     break;
                 }
@@ -203,6 +197,7 @@ void BreadboardController::handleStandardClick(Hole& clickedHole)
                     firstHole = m_model->findHole(c.a);
                     movingConnectionId = c.id;
                     originalHoleId = c.b;
+                    m_model->setMovingConnectionId(movingConnectionId);
                     foundConnection = true;
                     break;
                 }

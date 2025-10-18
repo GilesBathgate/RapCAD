@@ -2,7 +2,7 @@
 #define BREADBOARDMODEL_H
 
 #include <QObject>
-#include <QList>
+#include <QVector>
 #include <QString>
 #include <QPoint>
 
@@ -18,13 +18,13 @@ public:
     QString id;
     QString a, b;
     QString color;
-    QList<QPoint> waypoints;
+    QVector<QPoint> waypoints;
 };
 
 class Component {
 public:
     QString id;
-    QList<QString> pins;
+    QVector<QString> pins;
 };
 
 class BreadboardModel : public QObject
@@ -33,9 +33,9 @@ class BreadboardModel : public QObject
 public:
     explicit BreadboardModel(QObject *parent = nullptr);
 
-    QList<QList<Hole>> getHoles() const;
-    QList<Connection> getConnections() const;
-    QList<Component> getComponents() const;
+    const QVector<QVector<Hole>>& getHoles() const;
+    const QVector<Connection>& getConnections() const;
+    const QVector<Component>& getComponents() const;
 
     Hole* findHole(const QString& id);
     bool isHoleOccupied(const QString& id) const;
@@ -45,17 +45,19 @@ public:
     QString holeId(const Hole& h) const;
 
 private:
-    QList<QList<Hole>> buildHoles();
+    QVector<QVector<Hole>> buildHoles();
 
-    QList<QList<Hole>> holes;
-    QList<Connection> connections;
-    QList<Component> components;
+    QVector<QVector<Hole>> holes;
+    QVector<Connection> connections;
+    QVector<Component> components;
 
 public:
-    void addConnection(const QString& a, const QString& b, const QString& color, const QList<QPoint>& waypoints);
-    void addComponent(const QList<QString>& pins);
+    void addConnection(const QString& a, const QString& b, const QString& color, const QVector<QPoint>& waypoints);
+    void addComponent(const QVector<QString>& pins);
     void moveComponent(const QString& componentId, const QString& originalPinId, const QString& newPinId);
+    void updateConnectionColor(const QString& connectionId, const QString& color);
     void deleteComponent(const QString& componentId);
+    void deleteConnection(const QString& connectionId);
     void clear();
 
     int columns = 30;
