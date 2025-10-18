@@ -21,9 +21,11 @@ TEMPLATE = subdirs
 SUBDIRS = \
 	lib \
 	gui \
-	doc
+	doc \
+	testlib
 
 gui.depends = lib
+testlib.depends = lib
 
 OTHER_FILES += \
 	COPYING \
