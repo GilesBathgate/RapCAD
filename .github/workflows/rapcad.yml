@@ -56,7 +56,7 @@ jobs:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   windows:
-    runs-on: windows-latest
+    runs-on: windows-2022
     strategy:
       matrix:
         config: ['coverage', 'official']
