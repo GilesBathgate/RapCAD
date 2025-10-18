@@ -148,12 +148,12 @@ void BreadboardDesigner::paintEvent(QPaintEvent* event)
     }
 
     // Draw temporary component placement
-    if (controller->getCreationMode() != BreadboardController::NotCreating && !controller->getPinsForNewComponent().empty()) {
+    if (controller->getCreationMode() != BreadboardController::CreationMode::NotCreating && !controller->getPinsForNewComponent().empty()) {
         painter.setPen(QPen(QColorConstants::White, 1));
         painter.setBrush(QColor(128, 128, 128, 128));
         painter.setOpacity(0.8);
 
-        if (controller->getCreationMode() == BreadboardController::CreatingTwoPin || (controller->getCreationMode() == BreadboardController::CreatingMultiPin && controller->getPinsForNewComponent().size() == 1)) {
+        if (controller->getCreationMode() == BreadboardController::CreationMode::CreatingTwoPin || (controller->getCreationMode() == BreadboardController::CreationMode::CreatingMultiPin && controller->getPinsForNewComponent().size() == 1)) {
             QPointF start(controller->getPinsForNewComponent()[0]->x, controller->getPinsForNewComponent()[0]->y);
             QPointF end = controller->getMousePos();
             if (abs(start.x() - end.x()) > abs(start.y() - end.y())) {
@@ -162,7 +162,7 @@ void BreadboardDesigner::paintEvent(QPaintEvent* event)
                 end.setX(start.x());
             }
             drawComponent(start, end);
-        } else if (controller->getCreationMode() == BreadboardController::CreatingMultiPin && controller->getPinsForNewComponent().size() > 1) {
+        } else if (controller->getCreationMode() == BreadboardController::CreationMode::CreatingMultiPin && controller->getPinsForNewComponent().size() > 1) {
             int minX = controller->getPinsForNewComponent()[0]->x;
             int minY = controller->getPinsForNewComponent()[0]->y;
             int maxX = controller->getPinsForNewComponent()[0]->x;

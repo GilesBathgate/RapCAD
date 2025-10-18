@@ -15,7 +15,7 @@ class BreadboardController : public QObject
 {
     Q_OBJECT
 public:
-    enum CreationMode { NotCreating, CreatingTwoPin, CreatingMultiPin };
+    enum class CreationMode { NotCreating, CreatingTwoPin, CreatingMultiPin };
 
     explicit BreadboardController(BreadboardModel *model, QObject *parent = nullptr);
 
@@ -46,7 +46,7 @@ private:
 
     BreadboardModel *m_model;
 
-    CreationMode creationMode = NotCreating;
+    CreationMode creationMode = CreationMode::NotCreating;
     std::vector<Hole*> pinsForNewComponent;
     Hole* firstHole = nullptr;
     Hole* hoverHole = nullptr;

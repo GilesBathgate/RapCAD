@@ -5,6 +5,7 @@
 #include <QVector>
 #include <QString>
 #include <QPoint>
+#include <QHash>
 
 class Hole {
 public:
@@ -32,6 +33,7 @@ class BreadboardModel : public QObject
     Q_OBJECT
 public:
     explicit BreadboardModel(QObject *parent = nullptr);
+    ~BreadboardModel();
 
     const QVector<QVector<Hole>>& getHoles() const;
     const QVector<Connection>& getConnections() const;
@@ -48,6 +50,7 @@ private:
     QVector<QVector<Hole>> buildHoles();
 
     QVector<QVector<Hole>> holes;
+    QHash<QString, Hole*> holeMap;
     QVector<Connection> connections;
     QVector<Component> components;
 

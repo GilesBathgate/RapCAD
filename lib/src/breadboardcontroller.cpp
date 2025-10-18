@@ -94,7 +94,7 @@ void BreadboardController::handleMouseMoveEvent(QMouseEvent* event)
 
 void BreadboardController::cancelCreation()
 {
-    creationMode = NotCreating;
+    creationMode = CreationMode::NotCreating;
     pinsForNewComponent.clear();
     temporaryWaypoints.clear();
     firstHole = nullptr;
@@ -106,12 +106,12 @@ void BreadboardController::handleComponentCreationClick(Hole& clickedHole, Qt::K
 {
     if(m_model->isHoleOccupied(m_model->holeId(clickedHole))) return;
 
-    if(creationMode == NotCreating) {
+    if(creationMode == CreationMode::NotCreating) {
         if(modifiers.testFlag(Qt::ControlModifier)) {
-            creationMode = CreatingMultiPin;
+            creationMode = CreationMode::CreatingMultiPin;
             pinsForNewComponent.push_back(&clickedHole);
         }
-    } else if(creationMode == CreatingMultiPin && modifiers.testFlag(Qt::ControlModifier)) {
+    } else if(creationMode == CreationMode::CreatingMultiPin && modifiers.testFlag(Qt::ControlModifier)) {
         auto it = std::find_if(pinsForNewComponent.begin(), pinsForNewComponent.end(), [&](const Hole* pin) {
             return m_model->holeId(*pin) == m_model->holeId(clickedHole);
         });
@@ -123,7 +123,7 @@ void BreadboardController::handleComponentCreationClick(Hole& clickedHole, Qt::K
 
 void BreadboardController::handleStandardClick(Hole& clickedHole)
 {
-    if(creationMode != NotCreating) {
+    if(creationMode != CreationMode::NotCreating) {
         if(!m_model->isHoleOccupied(m_model->holeId(clickedHole))) {
             auto it = std::find_if(pinsForNewComponent.begin(), pinsForNewComponent.end(), [&](const Hole* pin) {
                 return m_model->holeId(*pin) == m_model->holeId(clickedHole);
@@ -132,8 +132,8 @@ void BreadboardController::handleStandardClick(Hole& clickedHole)
                 pinsForNewComponent.push_back(&clickedHole);
             }
 
-            if((creationMode == CreatingTwoPin && pinsForNewComponent.size() == 2) ||
-               (creationMode == CreatingMultiPin && pinsForNewComponent.size() >= 2)) {
+            if((creationMode == CreationMode::CreatingTwoPin && pinsForNewComponent.size() == 2) ||
+               (creationMode == CreationMode::CreatingMultiPin && pinsForNewComponent.size() >= 2)) {
                 QVector<QString> pinIds;
                 for(const auto& pin : pinsForNewComponent) {
                     pinIds.push_back(m_model->holeId(*pin));

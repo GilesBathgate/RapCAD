@@ -7,6 +7,11 @@ BreadboardModel::BreadboardModel(QObject *parent)
     holes = buildHoles();
 }
 
+BreadboardModel::~BreadboardModel()
+{
+    holeMap.clear();
+}
+
 const QVector<QVector<Hole>>& BreadboardModel::getHoles() const
 {
     return holes;
@@ -51,6 +56,12 @@ QVector<QVector<Hole>> BreadboardModel::buildHoles()
     y += holeGap * 2;
     makeRow("power-bottom", 2);
 
+    for(auto& row : rows) {
+        for(auto& h : row) {
+            holeMap.insert(holeId(h), &h);
+        }
+    }
+
     return rows;
 }
 
@@ -61,14 +72,7 @@ QString BreadboardModel::holeId(const Hole& h) const
 
 Hole* BreadboardModel::findHole(const QString& id)
 {
-    for(auto& row : holes) {
-        for(auto& h : row) {
-            if(holeId(h) == id) {
-                return &h;
-            }
-        }
-    }
-    return nullptr;
+    return holeMap.value(id, nullptr);
 }
 
 bool BreadboardModel::isHoleOccupied(const QString& id) const
@@ -144,6 +148,9 @@ void BreadboardModel::clear()
 {
     connections.clear();
     components.clear();
+    holeMap.clear();
+    holes.clear();
+    holes = buildHoles();
 }
 
 void BreadboardModel::setMovingConnectionId(const QString& id)
