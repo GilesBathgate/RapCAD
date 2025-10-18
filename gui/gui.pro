@@ -26,7 +26,6 @@ INCLUDEPATH += src
 INCLUDEPATH += $$clean_path($$PWD/../lib/src)
 DESTDIR = $$clean_path($$OUT_PWD/..)
 
-DEFINES += USE_CGAL
 DEFINES += USE_READLINE
 
 unix {
@@ -37,17 +36,8 @@ LIBS += -L$$clean_path($$OUT_PWD/../lib) -lrapcad
 
 win32 {
 	DEFINES -= USE_READLINE
-
 	DXFLIBROOT = ../dxflib-3.3.4-src
-	INCLUDEPATH += $$(CGAL_DIR)/include
-	INCLUDEPATH += $$(CGAL_DIR)/auxiliary/gmp/include
-	INCLUDEPATH += $$(BOOST_ROOT)
 	INCLUDEPATH += $$(LIBGIT2_DIR)/include
-	LIBS += -L$$(CGAL_DIR)/lib
-	exists( $$(CGAL_DIR)/lib/libCGAL* ) {
-		LIBS +=  -lCGAL -lCGAL_Core
-	}
-	LIBS += -L$$(CGAL_DIR)/auxiliary/gmp/lib -lmpfr-4 -lgmp-10
 	LIBS += -L$$(LIBGIT2_DIR)/lib -lgit2
 	LIBS += -lglu32
 	contains(DEFINES,USE_READLINE) {
@@ -58,14 +48,6 @@ win32 {
 	LIBS += -L$$DXFLIBROOT/release -ldxflib
 	}
 } else {
-
-	exists( /usr/lib/x86_64-linux-gnu/libCGAL* ) {
-		LIBS += -lCGAL -lCGAL_Core
-	}
-	exists( /usr/lib/i386-linux-gnu/libCGAL* ) {
-		LIBS += -lCGAL -lCGAL_Core
-	}
-	LIBS += -lmpfr -lgmp -lgmpxx
 	contains(DEFINES,USE_READLINE) {
 	LIBS+= -lreadline
 	}
@@ -75,16 +57,8 @@ win32 {
 	LIBS += -lgit2
   macx {
 	ICON = icons/AppIcon.icns
-	INCLUDEPATH += $$(CGAL_DIR)/include
-	INCLUDEPATH += $$(GMP)/include
-	INCLUDEPATH += $$(MPFR)/include
 	INCLUDEPATH += $$(BOOST_ROOT)/include
 	INCLUDEPATH += $$(LIBGIT2_DIR)/include
-	LIBS += -L$$(GMP)/lib
-	LIBS += -L$$(MPFR)/lib
-	exists( /usr/local/lib/libCGAL* ) {
-		LIBS += -lCGAL -lCGAL_Core
-	}
 	LIBS += -L$$(LIBGIT2_DIR)/lib -lgit2
   } else {
 	LIBS += -lboost_thread -lGLU
@@ -298,7 +272,6 @@ SOURCES += \
 	src/cgalpolygon.cpp \
 	src/module/beziersurfacemodule.cpp \
 	src/ui/preferencesdialog.cpp \
-	src/preferences.cpp \
 	src/cgalexport.cpp \
 	src/module/prismmodule.cpp \
 	src/function/sqrtfunction.cpp \
@@ -366,7 +339,6 @@ SOURCES += \
 	src/cgalfragment.cpp \
 	src/function/concatfunction.cpp \
 	src/node/groupnode.cpp \
-	src/decimal.cpp \
 	src/polyhedron.cpp \
 	src/module/decomposemodule.cpp \
 	src/node/decomposenode.cpp \
@@ -383,7 +355,6 @@ SOURCES += \
 	src/node/volumesnode.cpp \
 	src/cgalvolume.cpp \
 	src/function/numfunction.cpp \
-	src/rmath.cpp \
 	src/module/triangulatemodule.cpp \
 	src/node/triangulatenode.cpp \
 	src/function/normfunction.cpp \
@@ -435,16 +406,13 @@ HEADERS  += \
 	contrib/mpfr-impl.h \
 	contrib/Copy_polyhedron_to.h \
 	contrib/qtcompat.h \
-	src/abstractsettings.h \
 	src/application.h \
 	src/assertexception.h \
-	src/bedappearance.h \
 	src/builtinmanager.h \
 	src/cgalauxiliarybuilder.h \
 	src/cgaldiscretemodifier.h \
 	src/cgalgroupmodifier.h \
 	src/cgalsanitizer.h \
-	src/cgaltrace.h \
 	src/codedocdeclaration.h \
 	src/export.h \
 	src/function/assertfunction.h \
@@ -521,7 +489,6 @@ HEADERS  += \
 	src/vectoriterator.h \
 	src/rangeiterator.h \
 	src/scriptimport.h \
-	src/cgal.h \
 	src/node/primitivenode.h \
 	src/module/cubemodule.h \
 	src/module/differencemodule.h \
@@ -581,7 +548,6 @@ HEADERS  += \
 	src/cgalpolygon.h \
 	src/module/beziersurfacemodule.h \
 	src/ui/preferencesdialog.h \
-	src/preferences.h \
 	src/cgalexport.h \
 	src/module/prismmodule.h \
 	src/function/sqrtfunction.h \
@@ -643,7 +609,6 @@ HEADERS  += \
 	src/module/projectionmodule.h \
 	src/node/projectionnode.h \
 	src/tester.h \
-	src/cgalassert.h \
 	src/strategy.h \
 	src/comparer.h \
 	src/module/multmatrixmodule.h \
@@ -653,7 +618,6 @@ HEADERS  += \
 	src/cgalfragment.h \
 	src/function/concatfunction.h \
 	src/node/groupnode.h \
-	src/decimal.h \
 	src/polyhedron.h \
 	src/module/decomposemodule.h \
 	src/node/decomposenode.h \
@@ -672,7 +636,6 @@ HEADERS  += \
 	src/node/volumesnode.h \
 	src/cgalvolume.h \
 	src/function/numfunction.h \
-	src/rmath.h \
 	src/module/triangulatemodule.h \
 	src/node/triangulatenode.h \
 	src/function/normfunction.h \
@@ -715,7 +678,6 @@ HEADERS  += \
 	src/module/textmodule.h \
 	src/module/boundarymodule.h \
 	src/node/boundarynode.h \
-	src/config.h \
 	src/function/isvecfunction.h \
 	src/cgalprojection.h \
 	src/function/cbrtfunction.h \

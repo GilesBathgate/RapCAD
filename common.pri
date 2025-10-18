@@ -39,3 +39,38 @@ unix {
 }
 
 CONFIG += c++17
+
+DEFINES += USE_CGAL
+
+win32 {
+	INCLUDEPATH += $$(CGAL_DIR)/include
+	INCLUDEPATH += $$(CGAL_DIR)/auxiliary/gmp/include
+	INCLUDEPATH += $$(BOOST_ROOT)
+	LIBS += -L$$(CGAL_DIR)/lib
+	exists( $$(CGAL_DIR)/lib/libCGAL* ) {
+	        LIBS +=  -lCGAL -lCGAL_Core
+	}
+	LIBS += -L$$(CGAL_DIR)/auxiliary/gmp/lib -lmpfr-4 -lgmp-10
+} else {
+	exists( /usr/lib/x86_64-linux-gnu/libCGAL* ) {
+	        LIBS += -lCGAL -lCGAL_Core
+	}
+	exists( /usr/lib/i386-linux-gnu/libCGAL* ) {
+	        LIBS += -lCGAL -lCGAL_Core
+	}
+	LIBS += -lmpfr -lgmp -lgmpxx
+  macx {
+	INCLUDEPATH += $$(CGAL_DIR)/include
+	INCLUDEPATH += $$(GMP)/include
+	INCLUDEPATH += $$(MPFR)/include
+	INCLUDEPATH += $$(BOOST_ROOT)/include
+	LIBS += -L$$(GMP)/lib
+	LIBS += -L$$(MPFR)/lib
+	exists( /usr/local/lib/libCGAL* ) {
+	        LIBS += -lCGAL -lCGAL_Core
+	}
+  } else {
+	LIBS += -lboost_thread
+  }
+}
+

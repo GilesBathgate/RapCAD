@@ -44,7 +44,10 @@ SOURCES += \
     src/git/repository.cpp \
     src/git/repositorymanager.cpp \
     src/git/signature.cpp \
-    src/git/tree.cpp
+    src/git/tree.cpp \
+    src/decimal.cpp \
+    src/preferences.cpp \
+    src/rmath.cpp
 
 HEADERS +=\
     src/git/commit.h \
@@ -54,4 +57,13 @@ HEADERS +=\
     src/git/repository.h \
     src/git/repositorymanager.h \
     src/git/signature.h \
-    src/git/tree.h
+    src/git/tree.h \
+    src/abstractsettings.h \
+    src/bedappearance.h \
+    src/cgal.h \
+    src/cgalassert.h \
+    src/cgaltrace.h \
+    src/config.h \
+    src/decimal.h \
+    src/preferences.h \
+    src/rmath.h
