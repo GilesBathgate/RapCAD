@@ -57,8 +57,8 @@ private:
 
 private:
 	Ui::BreadboardDesigner* ui;
-	BreadboardModel* m_model;
-	BreadboardController* m_controller;
+	BreadboardModel* model;
+	BreadboardController* controller;
 };
 
 #endif // BREADBOARDDESIGNER_H

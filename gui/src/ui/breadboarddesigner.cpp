@@ -26,9 +26,9 @@ BreadboardDesigner::BreadboardDesigner(QWidget* parent) :
 {
     ui->setupUi(this);
     setMouseTracking(true);
-    m_model = new BreadboardModel(this);
-    m_controller = new BreadboardController(m_model, this);
-    connect(m_controller, &BreadboardController::viewNeedsUpdate, this, QOverload<>::of(&BreadboardDesigner::update));
+    model = new BreadboardModel(this);
+    controller = new BreadboardController(model, this);
+    connect(controller, &BreadboardController::viewNeedsUpdate, this, QOverload<>::of(&BreadboardDesigner::update));
     connect(ui->actionNew, &QAction::triggered, this, &BreadboardDesigner::clearConnections);
 }
 
@@ -46,29 +46,29 @@ void BreadboardDesigner::paintEvent(QPaintEvent* event)
 	auto drawComponent = [&](QPointF start, QPointF end) {
 		painter.drawLine(start, end);
 		if(start.x() == end.x()) {  // vertical
-			int boxHeight = abs(start.y() - end.y()) - m_model->holeSize * 2;
-			painter.drawRect(start.x() - m_model->holeSize/2, std::min(start.y(), end.y()) + m_model->holeSize, m_model->holeSize, boxHeight);
+			int boxHeight = abs(start.y() - end.y()) - model->holeSize * 2;
+			painter.drawRect(start.x() - model->holeSize/2, std::min(start.y(), end.y()) + model->holeSize, model->holeSize, boxHeight);
 		} else { // horizontal
-			int boxWidth = abs(start.x() - end.x()) - m_model->holeSize * 2;
-			painter.drawRect(std::min(start.x(), end.x()) + m_model->holeSize, start.y() - m_model->holeSize/2, boxWidth, m_model->holeSize);
+			int boxWidth = abs(start.x() - end.x()) - model->holeSize * 2;
+			painter.drawRect(std::min(start.x(), end.x()) + model->holeSize, start.y() - model->holeSize/2, boxWidth, model->holeSize);
 		}
 	};
 
     // Draw holes
-    for (const auto& row : m_model->getHoles()) {
+    for (const auto& row : model->getHoles()) {
         for (const auto& h : row) {
-            bool sameGroupHover = m_controller->getHoverHole() && m_model->sameGroup(*m_controller->getHoverHole(), h);
-            QColor fillColor = sameGroupHover ? QColor("#bfdbfe") : (m_controller->getHoverHole() && m_model->holeId(*m_controller->getHoverHole()) == m_model->holeId(h)) ? QColor("#fde68a") : QColorConstants::Gray;
+            bool sameGroupHover = controller->getHoverHole() && model->sameGroup(*controller->getHoverHole(), h);
+            QColor fillColor = sameGroupHover ? QColor("#bfdbfe") : (controller->getHoverHole() && model->holeId(*controller->getHoverHole()) == model->holeId(h)) ? QColor("#fde68a") : QColorConstants::Gray;
             painter.setBrush(fillColor);
             painter.setPen(QColor(0,0,0,76));
-            painter.drawEllipse(QPoint(h.x, h.y), m_model->holeSize / 2, m_model->holeSize / 2);
+            painter.drawEllipse(QPoint(h.x, h.y), model->holeSize / 2, model->holeSize / 2);
         }
     }
 
     // Draw polarity lines
-    if (m_model->getHoles().size() >= 14) {
+    if (model->getHoles().size() >= 14) {
         auto drawLine = [&](int rowIndex, const QColor& color, int y_offset) {
-            const auto& row = m_model->getHoles()[rowIndex];
+            const auto& row = model->getHoles()[rowIndex];
             if (!row.empty()) {
                 QPen pen(color);
                 pen.setWidth(1);
@@ -78,7 +78,7 @@ void BreadboardDesigner::paintEvent(QPaintEvent* event)
             }
         };
 
-        int offset = (m_model->holeGap / 2) + 2;
+        int offset = (model->holeGap / 2) + 2;
         drawLine(0, Qt::red, -offset);    // Top positive
         drawLine(1, Qt::black, offset);   // Top negative
         drawLine(12, Qt::black, -offset); // Bottom negative
@@ -86,10 +86,10 @@ void BreadboardDesigner::paintEvent(QPaintEvent* event)
     }
 
     // Draw wires
-    for (const auto& c : m_model->getConnections()) {
-        if (!m_controller->getMovingConnectionId().isNull() && c.id == m_controller->getMovingConnectionId()) continue;
-        Hole* a = m_model->findHole(c.a);
-        Hole* b = m_model->findHole(c.b);
+    for (const auto& c : model->getConnections()) {
+        if (!controller->getMovingConnectionId().isNull() && c.id == controller->getMovingConnectionId()) continue;
+        Hole* a = model->findHole(c.a);
+        Hole* b = model->findHole(c.b);
         if (a && b) {
             QPen pen(QColor(c.color));
             pen.setWidth(3);
@@ -105,8 +105,8 @@ void BreadboardDesigner::paintEvent(QPaintEvent* event)
     }
 
     // Draw components
-    for (const auto& c : m_model->getComponents()) {
-        if (!m_controller->getMovingComponentId().isNull() && c.id == m_controller->getMovingComponentId()) continue;
+    for (const auto& c : model->getComponents()) {
+        if (!controller->getMovingComponentId().isNull() && c.id == controller->getMovingComponentId()) continue;
         if (c.pins.empty()) continue;
 
         painter.setPen(QPen(QColorConstants::White, 1));
@@ -114,8 +114,8 @@ void BreadboardDesigner::paintEvent(QPaintEvent* event)
 
         if (c.pins.size() >= 2) {
             if (c.pins.size() == 2) {  // Draw as a resistor
-                Hole* a = m_model->findHole(c.pins[0]);
-                Hole* b = m_model->findHole(c.pins[1]);
+                Hole* a = model->findHole(c.pins[0]);
+                Hole* b = model->findHole(c.pins[1]);
                 if (a && b) {
                     if (a->r == b->r || a->c == b->c) {
                         drawComponent(QPointF(a->x, a->y), QPointF(b->x, b->y));
@@ -124,7 +124,7 @@ void BreadboardDesigner::paintEvent(QPaintEvent* event)
             } else { // Draw as a bounding box
                 int minX = -1, minY = -1, maxX = -1, maxY = -1;
                 for (const auto& pinId : c.pins) {
-                    Hole* h = m_model->findHole(pinId);
+                    Hole* h = model->findHole(pinId);
                     if (h) {
                         if (minX == -1 || h->x < minX) minX = h->x;
                         if (minY == -1 || h->y < minY) minY = h->y;
@@ -133,13 +133,13 @@ void BreadboardDesigner::paintEvent(QPaintEvent* event)
                     }
                 }
                 if (minX != -1) {
-                    painter.drawRect(QRect(QPoint(minX - m_model->holeSize/2, minY - m_model->holeSize/2), QPoint(maxX + m_model->holeSize/2, maxY + m_model->holeSize/2)));
+                    painter.drawRect(QRect(QPoint(minX - model->holeSize/2, minY - model->holeSize/2), QPoint(maxX + model->holeSize/2, maxY + model->holeSize/2)));
                     // Also draw the pins
                     painter.setBrush(QColorConstants::Gray);
                     for (const auto& pinId : c.pins) {
-                        Hole* h = m_model->findHole(pinId);
+                        Hole* h = model->findHole(pinId);
                         if (h) {
-                            painter.drawEllipse(QPoint(h->x, h->y), m_model->holeSize / 2, m_model->holeSize / 2);
+                            painter.drawEllipse(QPoint(h->x, h->y), model->holeSize / 2, model->holeSize / 2);
                         }
                     }
                 }
@@ -148,67 +148,67 @@ void BreadboardDesigner::paintEvent(QPaintEvent* event)
     }
 
     // Draw temporary component placement
-    if (m_controller->getCreationMode() != BreadboardController::NotCreating && !m_controller->getPinsForNewComponent().empty()) {
+    if (controller->getCreationMode() != BreadboardController::NotCreating && !controller->getPinsForNewComponent().empty()) {
         painter.setPen(QPen(QColorConstants::White, 1));
         painter.setBrush(QColor(128, 128, 128, 128));
         painter.setOpacity(0.8);
 
-        if (m_controller->getCreationMode() == BreadboardController::CreatingTwoPin || (m_controller->getCreationMode() == BreadboardController::CreatingMultiPin && m_controller->getPinsForNewComponent().size() == 1)) {
-            QPointF start(m_controller->getPinsForNewComponent()[0]->x, m_controller->getPinsForNewComponent()[0]->y);
-            QPointF end = m_controller->getMousePos();
+        if (controller->getCreationMode() == BreadboardController::CreatingTwoPin || (controller->getCreationMode() == BreadboardController::CreatingMultiPin && controller->getPinsForNewComponent().size() == 1)) {
+            QPointF start(controller->getPinsForNewComponent()[0]->x, controller->getPinsForNewComponent()[0]->y);
+            QPointF end = controller->getMousePos();
             if (abs(start.x() - end.x()) > abs(start.y() - end.y())) {
                 end.setY(start.y());
             } else {
                 end.setX(start.x());
             }
             drawComponent(start, end);
-        } else if (m_controller->getCreationMode() == BreadboardController::CreatingMultiPin && m_controller->getPinsForNewComponent().size() > 1) {
-            int minX = m_controller->getPinsForNewComponent()[0]->x;
-            int minY = m_controller->getPinsForNewComponent()[0]->y;
-            int maxX = m_controller->getPinsForNewComponent()[0]->x;
-            int maxY = m_controller->getPinsForNewComponent()[0]->y;
+        } else if (controller->getCreationMode() == BreadboardController::CreatingMultiPin && controller->getPinsForNewComponent().size() > 1) {
+            int minX = controller->getPinsForNewComponent()[0]->x;
+            int minY = controller->getPinsForNewComponent()[0]->y;
+            int maxX = controller->getPinsForNewComponent()[0]->x;
+            int maxY = controller->getPinsForNewComponent()[0]->y;
 
-            for (size_t i = 1; i < m_controller->getPinsForNewComponent().size(); ++i) {
-                minX = std::min(minX, m_controller->getPinsForNewComponent()[i]->x);
-                minY = std::min(minY, m_controller->getPinsForNewComponent()[i]->y);
-                maxX = std::max(maxX, m_controller->getPinsForNewComponent()[i]->x);
-                maxY = std::max(maxY, m_controller->getPinsForNewComponent()[i]->y);
+            for (size_t i = 1; i < controller->getPinsForNewComponent().size(); ++i) {
+                minX = std::min(minX, controller->getPinsForNewComponent()[i]->x);
+                minY = std::min(minY, controller->getPinsForNewComponent()[i]->y);
+                maxX = std::max(maxX, controller->getPinsForNewComponent()[i]->x);
+                maxY = std::max(maxY, controller->getPinsForNewComponent()[i]->y);
             }
 
-            minX = std::min(minX, (int)m_controller->getMousePos().x());
-            minY = std::min(minY, (int)m_controller->getMousePos().y());
-            maxX = std::max(maxX, (int)m_controller->getMousePos().x());
-            maxY = std::max(maxY, (int)m_controller->getMousePos().y());
+            minX = std::min(minX, (int)controller->getMousePos().x());
+            minY = std::min(minY, (int)controller->getMousePos().y());
+            maxX = std::max(maxX, (int)controller->getMousePos().x());
+            maxY = std::max(maxY, (int)controller->getMousePos().y());
 
             int inflation = 5;
             painter.drawRect(QRect(QPoint(minX - inflation, minY - inflation), QPoint(maxX + inflation, maxY + inflation)));
         }
     }
 
-    if (m_controller->getFirstHole()) {
-        if (m_controller->getMovingComponentId().isNull()) {  // Drawing a temporary wire
-            QPen pen(m_controller->getTemporaryWireColor());
+    if (controller->getFirstHole()) {
+        if (controller->getMovingComponentId().isNull()) {  // Drawing a temporary wire
+            QPen pen(controller->getTemporaryWireColor());
             pen.setWidth(3);
             pen.setCapStyle(Qt::RoundCap);
             painter.setPen(pen);
             painter.setBrush(Qt::NoBrush);
             painter.setOpacity(0.8);
 
-            if (m_controller->getTemporaryWaypoints().empty()) {
-                painter.drawPath(makePath(QPointF(m_controller->getFirstHole()->x, m_controller->getFirstHole()->y), m_controller->getMousePos()));
+            if (controller->getTemporaryWaypoints().empty()) {
+                painter.drawPath(makePath(QPointF(controller->getFirstHole()->x, controller->getFirstHole()->y), controller->getMousePos()));
             } else {
                 QVector<QPoint> waypoints;
-                for(const auto& p : m_controller->getTemporaryWaypoints()) {
+                for(const auto& p : controller->getTemporaryWaypoints()) {
                     waypoints.append(p);
                 }
-                painter.drawPath(makeWaypointPath(QPointF(m_controller->getFirstHole()->x, m_controller->getFirstHole()->y), m_controller->getMousePos(), waypoints));
+                painter.drawPath(makeWaypointPath(QPointF(controller->getFirstHole()->x, controller->getFirstHole()->y), controller->getMousePos(), waypoints));
             }
         } else { // Drawing a temporary component (while moving)
             painter.setPen(QPen(QColorConstants::White, 1));
             painter.setBrush(QColorConstants::White);
             painter.setOpacity(0.8);
-            QPointF start(m_controller->getFirstHole()->x, m_controller->getFirstHole()->y);
-            QPointF end = m_controller->getMousePos();
+            QPointF start(controller->getFirstHole()->x, controller->getFirstHole()->y);
+            QPointF end = controller->getMousePos();
             if (abs(start.x() - end.x()) > abs(start.y() - end.y())) {
                 end.setY(start.y());
             } else {
@@ -221,17 +221,17 @@ void BreadboardDesigner::paintEvent(QPaintEvent* event)
 
 void BreadboardDesigner::mousePressEvent(QMouseEvent* event)
 {
-    m_controller->handleMousePressEvent(event);
+    controller->handleMousePressEvent(event);
 }
 
 void BreadboardDesigner::mouseMoveEvent(QMouseEvent* event)
 {
-    m_controller->handleMouseMoveEvent(event);
+    controller->handleMouseMoveEvent(event);
 }
 
 void BreadboardDesigner::clearConnections()
 {
-    m_model->clear();
+    model->clear();
     update();
 }
 
@@ -263,7 +263,7 @@ QPainterPath BreadboardDesigner::makeWaypointPath(const QPointF& a, const QPoint
         QPointF p2 = points[i]; // The waypoint
         QPointF p3 = points[i+1];
 
-        qreal rad = m_model->holeSize;
+        qreal rad = model->holeSize;
 
         // Calculate the point on the line from p1 to p2, just before p2
         QLineF line1(p2, p1);
