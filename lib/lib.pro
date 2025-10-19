@@ -28,14 +28,7 @@ DESTDIR = $$OUT_PWD
 
 DEFINES += LIBRAPCAD_LIBRARY
 
-win32 {
-    INCLUDEPATH += $$(LIBGIT2_DIR)/include
-}
-
-macx {
-    INCLUDEPATH += $$(LIBGIT2_DIR)/include
-}
-
+include(../git.pri)
 include(../cgal.pri)
 
 SOURCES += \
