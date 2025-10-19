@@ -16,18 +16,18 @@
 #	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------
 
-TEMPLATE = subdirs
+include(../common.pri)
 
-SUBDIRS = \
-	lib \
-	gui \
-	doc \
-	test
+QT += testlib
+QT -= gui
 
-gui.depends = lib
-test.depends = lib
+CONFIG += qt console warn_on depend_includepath testcase
+CONFIG -= app_bundle
 
-OTHER_FILES += \
-	COPYING \
-	README.asciidoc \
-	VERSION
+TEMPLATE = app
+
+SOLUTIONDIR=$$clean_path($$OUT_PWD/..)
+LIBS += -L$$SOLUTIONDIR/lib -lrapcad
+PRE_TARGETDEPS += $$SOLUTIONDIR/lib/librapcad.a
+
+SOURCES += test.cpp
