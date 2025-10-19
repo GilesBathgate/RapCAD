@@ -32,7 +32,8 @@ unix {
 	DEFINES += DOCDIR=$$DOCDIR
 }
 
-LIBS += -L$$clean_path($$OUT_PWD/../lib) -lrapcad
+LIBS += -L$$DESTDIR/lib -lrapcad
+PRE_TARGETDEPS += $$DESTDIR/lib/librapcad.a
 
 include(../git.pri)
 include(../cgal.pri)
