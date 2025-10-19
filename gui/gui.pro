@@ -34,13 +34,12 @@ unix {
 
 LIBS += -L$$clean_path($$OUT_PWD/../lib) -lrapcad
 
+include(../git.pri)
 include(../cgal.pri)
 
 win32 {
 	DEFINES -= USE_READLINE
 	DXFLIBROOT = ../dxflib-3.3.4-src
-	INCLUDEPATH += $$(LIBGIT2_DIR)/include
-	LIBS += -L$$(LIBGIT2_DIR)/lib -lgit2
 	LIBS += -lglu32
 	contains(DEFINES,USE_READLINE) {
 	LIBS += -lreadline
@@ -56,12 +55,9 @@ win32 {
 	contains(DEFINES,USE_DXF) {
 	LIBS += -ldxflib
 	}
-	LIBS += -lgit2
   macx {
 	ICON = icons/AppIcon.icns
 	INCLUDEPATH += $$(BOOST_ROOT)/include
-	INCLUDEPATH += $$(LIBGIT2_DIR)/include
-	LIBS += -L$$(LIBGIT2_DIR)/lib -lgit2
   } else {
 	LIBS += -lboost_thread -lGLU
   }
