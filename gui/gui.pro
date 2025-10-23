@@ -64,30 +64,6 @@ win32 {
   }
 }
 
-# Configure yacc/lex
-win32 {
-	QMAKE_YACC = win_bison
-	QMAKE_YACCFLAGS += "-b y"
-	QMAKE_LEX = win_flex
-} else {
-	QMAKE_YACC = bison
-	QMAKE_LEX = flex
-}
-
-BISON_VERSION = $$system($$QMAKE_YACC --version)
-BISON_VERSION = $$find(BISON_VERSION, [0-9]+.[0-9]+.[0-9]+)
-BISON_VERSIONS = $$split(BISON_VERSION, ".")
-BISON_MAJOR_VERSION = $$member(BISON_VERSIONS, 0)
-BISON_MINOR_VERSION = $$member(BISON_VERSIONS, 1)
-
-# Check for Bison Version 3.6 and above
-# (so Major > 2 && Minor > 5)
-greaterThan(BISON_MAJOR_VERSION, 2) {
-	greaterThan(BISON_MINOR_VERSION, 5) | greaterThan(BISON_MAJOR_VERSION, 3) {
-		QMAKE_YACCFLAGS += "-D api.header.include={\\\"parser_yacc.h\\\"}"
-	}
-}
-
 CONFIG(fuzzing){
 	QMAKE_LINK = afl-clang-fast
 	QMAKE_LFLAGS += -lstdc++ -lm
@@ -108,44 +84,13 @@ CONFIG(test){
 	DEFINES += USE_INTEGTEST
 }
 
-CONFIG(coverage){
-	QT += testlib
-	DEFINES += USE_INTEGTEST
-	CONFIG += debug
-  !macx {
-	QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage
-	LIBS += -lgcov
-  }
-}
-
-CONFIG(official){
-	DEFINES += RAPCAD_VERSION=$$VERSION
-} else {
-	CONFIG(ccache) {
-		DEFINES += RAPCAD_VERSION=ccache.0.0.0
-	} else {
-		VERSIONS = $$split(VERSION, ".")
-		MAJOR = $$member(VERSIONS, 0)
-		MINOR = $$member(VERSIONS, 1)
-		DEFINES += RAPCAD_VERSION=$$MAJOR"."$$MINOR".git."$$system(git log -1 --pretty=format:%h)
-	}
-}
-
-LEXSOURCES += \
-	src/lexer.l
-
-YACCSOURCES += \
-	src/parser.y
-
 SOURCES += \
 	src/application.cpp \
-	src/assertexception.cpp \
 	src/builtinmanager.cpp \
 	src/cgalauxiliarybuilder.cpp \
 	src/cgaldiscretemodifier.cpp \
 	src/cgalgroupmodifier.cpp \
 	src/cgalsanitizer.cpp \
-	src/codedocdeclaration.cpp \
 	src/export.cpp \
 	src/function/assertfunction.cpp \
 	src/function/circumcenterfunction.cpp \
@@ -153,8 +98,6 @@ SOURCES += \
 	src/function/isundeffunction.cpp \
 	src/function/ordinalfunction.cpp \
 	src/geometryevaluator.cpp \
-	src/intervalexpression.cpp \
-	src/intervalvalue.cpp \
 	src/main.cpp \
 	src/module/assertmodule.cpp \
 	src/module/colormodule.cpp \
@@ -163,68 +106,24 @@ SOURCES += \
 	src/module/regularpolygonmodule.cpp \
 	src/module/solidmodule.cpp \
 	src/module/threadmodule.cpp \
-	src/namedvalue.cpp \
 	src/node/solidnode.cpp \
 	src/renderexport.cpp \
-	src/tokenreader.cpp \
 	src/ui/camera.cpp \
 	src/ui/commitdialog.cpp \
 	src/ui/mainwindow.cpp \
-	src/module.cpp \
-	src/syntaxtreebuilder.cpp \
-	src/parameter.cpp \
-	src/expression.cpp \
-	src/binaryexpression.cpp \
-	src/literal.cpp \
-	src/valuefactory.cpp \
-	src/variable.cpp \
-	src/declaration.cpp \
-	src/scope.cpp \
-	src/modulescope.cpp \
 	src/dependencybuilder.cpp \
-	src/instance.cpp \
-	src/argument.cpp \
-	src/function.cpp \
-	src/functionscope.cpp \
-	src/compoundstatement.cpp \
-	src/assignstatement.cpp \
-	src/vectorexpression.cpp \
-	src/ifelsestatement.cpp \
-	src/forstatement.cpp \
-	src/rangeexpression.cpp \
-	src/unaryexpression.cpp \
-	src/invocation.cpp \
-	src/returnstatement.cpp \
-	src/ternaryexpression.cpp \
-	src/moduleimport.cpp \
-	src/treeprinter.cpp \
-	src/script.cpp \
 	src/syntaxhighlighter.cpp \
-	src/tokenbuilder.cpp \
 	src/treeevaluator.cpp \
-	src/context.cpp \
-	src/value.cpp \
 	src/module/echomodule.cpp \
-	src/numbervalue.cpp \
-	src/booleanvalue.cpp \
-	src/textvalue.cpp \
-	src/vectorvalue.cpp \
-	src/rangevalue.cpp \
-	src/valueiterator.cpp \
-	src/vectoriterator.cpp \
-	src/rangeiterator.cpp \
-	src/scriptimport.cpp \
 	src/node/primitivenode.cpp \
 	src/module/cubemodule.cpp \
 	src/module/differencemodule.cpp \
 	src/module/polyhedronmodule.cpp \
 	src/module/cylindermodule.cpp \
 	src/module/primitivemodule.cpp \
-	src/node.cpp \
 	src/node/transformationnode.cpp \
 	src/ui/glview.cpp \
 	src/cgalrenderer.cpp \
-	src/point.cpp \
 	src/nodeprinter.cpp \
 	src/nodeevaluator.cpp \
 	src/texteditiodevice.cpp \
@@ -248,8 +147,6 @@ SOURCES += \
 	src/module/scalemodule.cpp \
 	src/module/spheremodule.cpp \
 	src/worker.cpp \
-	src/reporter.cpp \
-	src/codedocparam.cpp \
 	src/dxfbuilder.cpp \
 	src/module/shearmodule.cpp \
 	src/module/groupmodule.cpp \
@@ -320,22 +217,14 @@ SOURCES += \
 	src/function/logfunction.cpp \
 	src/module/writemodule.cpp \
 	src/module/writelnmodule.cpp \
-	src/callback.cpp \
-	src/product.cpp \
-	src/node/productnode.cpp \
 	src/function/radfunction.cpp \
 	src/function/degfunction.cpp \
-	src/layout.cpp \
 	src/module/projectionmodule.cpp \
 	src/node/projectionnode.cpp \
 	src/tester.cpp \
 	src/strategy.cpp \
 	src/comparer.cpp \
 	src/module/multmatrixmodule.cpp \
-	src/polygon.cpp \
-	src/onceonly.cpp \
-	src/fragment.cpp \
-	src/cgalfragment.cpp \
 	src/function/concatfunction.cpp \
 	src/node/groupnode.cpp \
 	src/polyhedron.cpp \
@@ -357,10 +246,7 @@ SOURCES += \
 	src/module/triangulatemodule.cpp \
 	src/node/triangulatenode.cpp \
 	src/function/normfunction.cpp \
-	src/complexexpression.cpp \
-	src/complexvalue.cpp \
 	src/function/angfunction.cpp \
-	src/transformmatrix.cpp \
 	src/module/materialmodule.cpp \
 	src/node/materialnode.cpp \
 	src/simplerenderer.cpp \
@@ -383,10 +269,8 @@ SOURCES += \
 	src/function/israngefunction.cpp \
 	src/function/isintfunction.cpp \
 	src/function/chrfunction.cpp \
-	src/textiterator.cpp \
 	src/node/childrennode.cpp \
 	src/function/ismat4x4function.cpp \
-	src/asciidocprinter.cpp \
 	src/generator.cpp \
 	src/qpathtextbuilder.cpp \
 	src/module/textmodule.cpp \
@@ -400,17 +284,14 @@ SOURCES += \
 	src/ui/searchwidget.cpp
 
 HEADERS  += \
-	contrib/fragments.h \
-	contrib/Copy_polyhedron_to.h \
 	contrib/qtcompat.h \
+	contrib/Copy_polyhedron_to.h \
 	src/application.h \
-	src/assertexception.h \
 	src/builtinmanager.h \
 	src/cgalauxiliarybuilder.h \
 	src/cgaldiscretemodifier.h \
 	src/cgalgroupmodifier.h \
 	src/cgalsanitizer.h \
-	src/codedocdeclaration.h \
 	src/export.h \
 	src/function/assertfunction.h \
 	src/function/circumcenterfunction.h \
@@ -418,8 +299,6 @@ HEADERS  += \
 	src/function/isundeffunction.h \
 	src/function/ordinalfunction.h \
 	src/geometryevaluator.h \
-	src/intervalexpression.h \
-	src/intervalvalue.h \
 	src/module/assertmodule.h \
 	src/module/colormodule.h \
 	src/module/cuboidmodule.h \
@@ -427,81 +306,26 @@ HEADERS  += \
 	src/module/regularpolygonmodule.h \
 	src/module/solidmodule.h \
 	src/module/threadmodule.h \
-	src/namedvalue.h \
 	src/node/solidnode.h \
-	src/operators.h \
 	src/renderexport.h \
-	src/tokenreader.h \
 	src/ui/camera.h \
 	src/ui/commitdialog.h \
 	src/ui/mainwindow.h \
-	src/module.h \
-	src/syntaxtreebuilder.h \
-	src/parameter.h \
-	src/expression.h \
-	src/binaryexpression.h \
-	src/literal.h \
-	src/valuefactory.h \
-	src/variable.h \
-	src/declaration.h \
-	src/scope.h \
-	src/modulescope.h \
-	src/abstractsyntaxtreebuilder.h \
 	src/dependencybuilder.h \
-	src/instance.h \
-	src/argument.h \
-	src/statement.h \
-	src/function.h \
-	src/functionscope.h \
-	src/compoundstatement.h \
-	src/assignstatement.h \
-	src/vectorexpression.h \
-	src/ifelsestatement.h \
-	src/forstatement.h \
-	src/rangeexpression.h \
-	src/unaryexpression.h \
-	src/invocation.h \
-	src/returnstatement.h \
-	src/ternaryexpression.h \
-	src/moduleimport.h \
-	src/treevisitor.h \
-	src/treeprinter.h \
-	src/viewdirections.h \
-	src/visitabletree.h \
-	src/script.h \
 	src/syntaxhighlighter.h \
-	src/tokenbuilder.h \
-	src/abstracttokenbuilder.h \
 	src/treeevaluator.h \
-	src/context.h \
-	src/value.h \
 	src/module/echomodule.h \
-	src/numbervalue.h \
-	src/booleanvalue.h \
-	src/textvalue.h \
-	src/vectorvalue.h \
-	src/rangevalue.h \
-	src/iterator.h \
-	src/valueiterator.h \
-	src/vectoriterator.h \
-	src/rangeiterator.h \
-	src/scriptimport.h \
 	src/node/primitivenode.h \
 	src/module/cubemodule.h \
 	src/module/differencemodule.h \
 	src/module/polyhedronmodule.h \
 	src/module/cylindermodule.h \
 	src/module/primitivemodule.h \
-	src/node.h \
 	src/node/transformationnode.h \
 	src/cgalrenderer.h \
 	src/renderer.h \
-	src/point.h \
-	src/nodevisitor.h \
-	src/visitablenode.h \
 	src/nodeprinter.h \
 	src/nodeevaluator.h \
-	src/polygon.h \
 	src/texteditiodevice.h \
 	src/backgroundworker.h \
 	src/cgalbuilder.h \
@@ -523,8 +347,6 @@ HEADERS  += \
 	src/module/scalemodule.h \
 	src/module/spheremodule.h \
 	src/worker.h \
-	src/reporter.h \
-	src/codedocparam.h \
 	src/dxfbuilder.h \
 	src/module/shearmodule.h \
 	src/module/groupmodule.h \
@@ -591,28 +413,20 @@ HEADERS  += \
 	src/node/pointsnode.h \
 	src/module/slicemodule.h \
 	src/node/slicenode.h \
-	src/primitive.h \
 	src/module/conemodule.h \
 	src/function/lnfunction.h \
 	src/function/logfunction.h \
 	src/module/writemodule.h \
 	src/module/writelnmodule.h \
-	src/callback.h \
-	src/product.h \
-	src/node/productnode.h \
 	src/function/radfunction.h \
 	src/function/degfunction.h \
-	src/layout.h \
 	src/module/projectionmodule.h \
 	src/node/projectionnode.h \
 	src/tester.h \
 	src/strategy.h \
 	src/comparer.h \
 	src/module/multmatrixmodule.h \
-	src/onceonly.h \
 	src/ui/glview.h \
-	src/fragment.h \
-	src/cgalfragment.h \
 	src/function/concatfunction.h \
 	src/node/groupnode.h \
 	src/polyhedron.h \
@@ -636,10 +450,7 @@ HEADERS  += \
 	src/module/triangulatemodule.h \
 	src/node/triangulatenode.h \
 	src/function/normfunction.h \
-	src/complexexpression.h \
-	src/complexvalue.h \
 	src/function/angfunction.h \
-	src/transformmatrix.h \
 	src/module/materialmodule.h \
 	src/node/materialnode.h \
 	src/simplerenderer.h \
@@ -666,10 +477,8 @@ HEADERS  += \
 	src/function/israngefunction.h \
 	src/function/isintfunction.h \
 	src/function/chrfunction.h \
-	src/textiterator.h \
 	src/node/childrennode.h \
 	src/function/ismat4x4function.h \
-	src/asciidocprinter.h \
 	src/generator.h \
 	src/qpathtextbuilder.h \
 	src/module/textmodule.h \
