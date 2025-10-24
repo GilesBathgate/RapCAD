@@ -92,11 +92,6 @@ SOURCES += \
 	src/cgalgroupmodifier.cpp \
 	src/cgalsanitizer.cpp \
 	src/export.cpp \
-	src/function/assertfunction.cpp \
-	src/function/circumcenterfunction.cpp \
-	src/function/fragmentsfunction.cpp \
-	src/function/isundeffunction.cpp \
-	src/function/ordinalfunction.cpp \
 	src/geometryevaluator.cpp \
 	src/main.cpp \
 	src/module/assertmodule.cpp \
@@ -170,9 +165,6 @@ SOURCES += \
 	src/ui/preferencesdialog.cpp \
 	src/cgalexport.cpp \
 	src/module/prismmodule.cpp \
-	src/function/sqrtfunction.cpp \
-	src/function/sumfunction.cpp \
-	src/function/randfunction.cpp \
 	src/module/cylindersurfacemodule.cpp \
 	src/module/importmodule.cpp \
 	src/builtincreator.cpp \
@@ -183,49 +175,22 @@ SOURCES += \
 	src/module/rotateextrudemodule.cpp \
 	src/node/rotateextrudenode.cpp \
 	src/ui/saveitemsdialog.cpp \
-	src/function/versionfunction.cpp \
 	src/module/polygonmodule.cpp \
-	src/function/lengthfunction.cpp \
 	src/ui/printconsole.cpp \
-	src/function/strfunction.cpp \
 	src/project.cpp \
-	src/function/sinfunction.cpp \
-	src/function/cosfunction.cpp \
-	src/function/tanfunction.cpp \
-	src/function/absfunction.cpp \
-	src/function/signfunction.cpp \
-	src/function/minfunction.cpp \
-	src/function/maxfunction.cpp \
-	src/function/roundfunction.cpp \
-	src/function/ceilfunction.cpp \
-	src/function/floorfunction.cpp \
-	src/function/powfunction.cpp \
-	src/function/expfunction.cpp \
-	src/function/asinfunction.cpp \
-	src/function/acosfunction.cpp \
-	src/function/atan2function.cpp \
-	src/function/atanfunction.cpp \
-	src/function/coshfunction.cpp \
-	src/function/sinhfunction.cpp \
-	src/function/tanhfunction.cpp \
 	src/module/centermodule.cpp \
 	src/ui/aboutdialog.cpp \
 	src/module/slicemodule.cpp \
 	src/node/slicenode.cpp \
 	src/module/conemodule.cpp \
-	src/function/lnfunction.cpp \
-	src/function/logfunction.cpp \
 	src/module/writemodule.cpp \
 	src/module/writelnmodule.cpp \
-	src/function/radfunction.cpp \
-	src/function/degfunction.cpp \
 	src/module/projectionmodule.cpp \
 	src/node/projectionnode.cpp \
 	src/tester.cpp \
 	src/strategy.cpp \
 	src/comparer.cpp \
 	src/module/multmatrixmodule.cpp \
-	src/function/concatfunction.cpp \
 	src/node/groupnode.cpp \
 	src/polyhedron.cpp \
 	src/module/decomposemodule.cpp \
@@ -242,11 +207,8 @@ SOURCES += \
 	src/module/volumesmodule.cpp \
 	src/node/volumesnode.cpp \
 	src/cgalvolume.cpp \
-	src/function/numfunction.cpp \
 	src/module/triangulatemodule.cpp \
 	src/node/triangulatenode.cpp \
-	src/function/normfunction.cpp \
-	src/function/angfunction.cpp \
 	src/module/materialmodule.cpp \
 	src/node/materialnode.cpp \
 	src/simplerenderer.cpp \
@@ -255,32 +217,21 @@ SOURCES += \
 	src/cachemanager.cpp \
 	src/cache.cpp \
 	src/cgalcache.cpp \
-	src/function/crossfunction.cpp \
 	src/module/childrenmodule.cpp \
 	src/node/normalsnode.cpp \
 	src/module/normalsmodule.cpp \
 	src/module/simplifymodule.cpp \
 	src/node/simplifynode.cpp \
 	src/module/chainhullmodule.cpp \
-	src/function/isnumfunction.cpp \
-	src/function/isboolfunction.cpp \
-	src/function/isstrfunction.cpp \
-	src/function/islistfunction.cpp \
-	src/function/israngefunction.cpp \
-	src/function/isintfunction.cpp \
-	src/function/chrfunction.cpp \
 	src/node/childrennode.cpp \
-	src/function/ismat4x4function.cpp \
 	src/generator.cpp \
 	src/qpathtextbuilder.cpp \
 	src/module/textmodule.cpp \
 	src/module/boundarymodule.cpp \
 	src/node/boundarynode.cpp \
-	src/function/isvecfunction.cpp \
 	src/node/pointsnode.cpp \
 	src/module/pointsmodule.cpp \
 	src/cgalprojection.cpp \
-	src/function/cbrtfunction.cpp \
 	src/ui/searchwidget.cpp
 
 HEADERS  += \
@@ -293,11 +244,6 @@ HEADERS  += \
 	src/cgalgroupmodifier.h \
 	src/cgalsanitizer.h \
 	src/export.h \
-	src/function/assertfunction.h \
-	src/function/circumcenterfunction.h \
-	src/function/fragmentsfunction.h \
-	src/function/isundeffunction.h \
-	src/function/ordinalfunction.h \
 	src/geometryevaluator.h \
 	src/module/assertmodule.h \
 	src/module/colormodule.h \
@@ -369,9 +315,6 @@ HEADERS  += \
 	src/ui/preferencesdialog.h \
 	src/cgalexport.h \
 	src/module/prismmodule.h \
-	src/function/sqrtfunction.h \
-	src/function/sumfunction.h \
-	src/function/randfunction.h \
 	src/module/cylindersurfacemodule.h \
 	src/module/importmodule.h \
 	src/builtincreator.h \
@@ -382,31 +325,9 @@ HEADERS  += \
 	src/module/rotateextrudemodule.h \
 	src/node/rotateextrudenode.h \
 	src/ui/saveitemsdialog.h \
-	src/function/versionfunction.h \
 	src/module/polygonmodule.h \
-	src/function/lengthfunction.h \
 	src/ui/printconsole.h \
-	src/function/strfunction.h \
 	src/project.h \
-	src/function/sinfunction.h \
-	src/function/cosfunction.h \
-	src/function/tanfunction.h \
-	src/function/absfunction.h \
-	src/function/signfunction.h \
-	src/function/minfunction.h \
-	src/function/maxfunction.h \
-	src/function/roundfunction.h \
-	src/function/ceilfunction.h \
-	src/function/floorfunction.h \
-	src/function/powfunction.h \
-	src/function/expfunction.h \
-	src/function/asinfunction.h \
-	src/function/acosfunction.h \
-	src/function/atan2function.h \
-	src/function/atanfunction.h \
-	src/function/coshfunction.h \
-	src/function/sinhfunction.h \
-	src/function/tanhfunction.h \
 	src/module/centermodule.h \
 	src/ui/aboutdialog.h \
 	src/module/pointsmodule.h \
@@ -414,12 +335,8 @@ HEADERS  += \
 	src/module/slicemodule.h \
 	src/node/slicenode.h \
 	src/module/conemodule.h \
-	src/function/lnfunction.h \
-	src/function/logfunction.h \
 	src/module/writemodule.h \
 	src/module/writelnmodule.h \
-	src/function/radfunction.h \
-	src/function/degfunction.h \
 	src/module/projectionmodule.h \
 	src/node/projectionnode.h \
 	src/tester.h \
@@ -427,7 +344,6 @@ HEADERS  += \
 	src/comparer.h \
 	src/module/multmatrixmodule.h \
 	src/ui/glview.h \
-	src/function/concatfunction.h \
 	src/node/groupnode.h \
 	src/polyhedron.h \
 	src/module/decomposemodule.h \
@@ -446,11 +362,8 @@ HEADERS  += \
 	src/module/volumesmodule.h \
 	src/node/volumesnode.h \
 	src/cgalvolume.h \
-	src/function/numfunction.h \
 	src/module/triangulatemodule.h \
 	src/node/triangulatenode.h \
-	src/function/normfunction.h \
-	src/function/angfunction.h \
 	src/module/materialmodule.h \
 	src/node/materialnode.h \
 	src/simplerenderer.h \
@@ -461,7 +374,6 @@ HEADERS  += \
 	src/cache.h \
 	src/cgalcache.h \
 	src/emptycache.h \
-	src/function/crossfunction.h \
 	src/module/childrenmodule.h \
 	src/node/normalsnode.h \
 	src/module/normalsmodule.h \
@@ -470,23 +382,13 @@ HEADERS  += \
 	contrib/qzipreader_p.h \
 	contrib/qzipwriter_p.h \
 	src/module/chainhullmodule.h \
-	src/function/isnumfunction.h \
-	src/function/isboolfunction.h \
-	src/function/isstrfunction.h \
-	src/function/islistfunction.h \
-	src/function/israngefunction.h \
-	src/function/isintfunction.h \
-	src/function/chrfunction.h \
 	src/node/childrennode.h \
-	src/function/ismat4x4function.h \
 	src/generator.h \
 	src/qpathtextbuilder.h \
 	src/module/textmodule.h \
 	src/module/boundarymodule.h \
 	src/node/boundarynode.h \
-	src/function/isvecfunction.h \
 	src/cgalprojection.h \
-	src/function/cbrtfunction.h \
 	src/ui/searchwidget.h
 
 FORMS += \
