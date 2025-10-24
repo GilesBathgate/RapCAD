@@ -39,6 +39,55 @@ YACCSOURCES += \
     src/parser.y
 
 SOURCES += \
+    src/function/absfunction.cpp \
+    src/function/acosfunction.cpp \
+    src/function/angfunction.cpp \
+    src/function/asinfunction.cpp \
+    src/function/assertfunction.cpp \
+    src/function/atan2function.cpp \
+    src/function/atanfunction.cpp \
+    src/function/cbrtfunction.cpp \
+    src/function/ceilfunction.cpp \
+    src/function/chrfunction.cpp \
+    src/function/circumcenterfunction.cpp \
+    src/function/concatfunction.cpp \
+    src/function/cosfunction.cpp \
+    src/function/coshfunction.cpp \
+    src/function/crossfunction.cpp \
+    src/function/degfunction.cpp \
+    src/function/expfunction.cpp \
+    src/function/floorfunction.cpp \
+    src/function/fragmentsfunction.cpp \
+    src/function/isboolfunction.cpp \
+    src/function/isintfunction.cpp \
+    src/function/islistfunction.cpp \
+    src/function/ismat4x4function.cpp \
+    src/function/isnumfunction.cpp \
+    src/function/israngefunction.cpp \
+    src/function/isstrfunction.cpp \
+    src/function/isundeffunction.cpp \
+    src/function/isvecfunction.cpp \
+    src/function/lengthfunction.cpp \
+    src/function/lnfunction.cpp \
+    src/function/logfunction.cpp \
+    src/function/maxfunction.cpp \
+    src/function/minfunction.cpp \
+    src/function/normfunction.cpp \
+    src/function/numfunction.cpp \
+    src/function/ordinalfunction.cpp \
+    src/function/powfunction.cpp \
+    src/function/radfunction.cpp \
+    src/function/randfunction.cpp \
+    src/function/roundfunction.cpp \
+    src/function/signfunction.cpp \
+    src/function/sinfunction.cpp \
+    src/function/sinhfunction.cpp \
+    src/function/sqrtfunction.cpp \
+    src/function/strfunction.cpp \
+    src/function/sumfunction.cpp \
+    src/function/tanfunction.cpp \
+    src/function/tanhfunction.cpp \
+    src/function/versionfunction.cpp \
     src/git/commit.cpp \
     src/git/gitexception.cpp \
     src/git/index.cpp \
@@ -119,6 +168,55 @@ HEADERS +=\
     contrib/mpfr-get_q.h \
     contrib/mpfr-impl.h \
     contrib/qtcompat.h \
+    src/function/absfunction.h \
+    src/function/acosfunction.h \
+    src/function/angfunction.h \
+    src/function/asinfunction.h \
+    src/function/assertfunction.h \
+    src/function/atan2function.h \
+    src/function/atanfunction.h \
+    src/function/cbrtfunction.h \
+    src/function/ceilfunction.h \
+    src/function/chrfunction.h \
+    src/function/circumcenterfunction.h \
+    src/function/concatfunction.h \
+    src/function/cosfunction.h \
+    src/function/coshfunction.h \
+    src/function/crossfunction.h \
+    src/function/degfunction.h \
+    src/function/expfunction.h \
+    src/function/floorfunction.h \
+    src/function/fragmentsfunction.h \
+    src/function/isboolfunction.h \
+    src/function/isintfunction.h \
+    src/function/islistfunction.h \
+    src/function/ismat4x4function.h \
+    src/function/isnumfunction.h \
+    src/function/israngefunction.h \
+    src/function/isstrfunction.h \
+    src/function/isundeffunction.h \
+    src/function/isvecfunction.h \
+    src/function/lengthfunction.h \
+    src/function/lnfunction.h \
+    src/function/logfunction.h \
+    src/function/maxfunction.h \
+    src/function/minfunction.h \
+    src/function/normfunction.h \
+    src/function/numfunction.h \
+    src/function/ordinalfunction.h \
+    src/function/powfunction.h \
+    src/function/radfunction.h \
+    src/function/randfunction.h \
+    src/function/roundfunction.h \
+    src/function/signfunction.h \
+    src/function/sinfunction.h \
+    src/function/sinhfunction.h \
+    src/function/sqrtfunction.h \
+    src/function/strfunction.h \
+    src/function/sumfunction.h \
+    src/function/tanfunction.h \
+    src/function/tanhfunction.h \
+    src/function/versionfunction.h \
     src/git/commit.h \
     src/git/gitexception.h \
     src/git/index.h \
