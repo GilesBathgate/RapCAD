@@ -23,7 +23,6 @@
 #include <QFile>
 #include <QStringList>
 #include <QTextStream>
-#include <QCoreApplication>
 
 class Application
 {
@@ -32,7 +31,6 @@ public:
 	Application();
 	int run(int argc,char* argv[]);
 	~Application();
-	static QCoreApplication* headlessOverride();
 private:
 	Strategy* parseArguments(int,char*[]);
 	int runUserInterface(int,char*[]);

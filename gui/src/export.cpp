@@ -1,6 +1,6 @@
 #include "export.h"
 
-#include "application.h"
+#include "headless.h"
 #include "cgalexport.h"
 #include "renderexport.h"
 
@@ -14,7 +14,8 @@ void Export::exportResult(const QFileInfo& fileInfo) const
 {
 	const QString& suffix=fileInfo.suffix().toLower();
 	if(suffix=="png" || suffix=="jpg") {
-		Application::headlessOverride();
+		Headless h;
+		h.headlessOverride();
 		RenderExport r(primitive,reporter);
 		r.exportRenderImage(fileInfo);
 	} else {

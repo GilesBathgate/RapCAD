@@ -27,6 +27,8 @@
 #include "stringify.h"
 #include "ui/mainwindow.h"
 #include "worker.h"
+#include "headlessapplication.h"
+
 #include <QApplication>
 #include <QCommandLineOption>
 #include <QCommandLineParser>
@@ -51,21 +53,13 @@ Application::Application() :
 	if(p.getSoftwareOpenGL()) {
 		QCoreApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
 	}
+	HeadlessApplication::create();
 }
 
 Application::~Application()
 {
 	delete redirectFile;
 	delete strategy;
-}
-
-QCoreApplication* Application::headlessOverride()
-{
-	int c=0;
-	static auto* instance {
-		QApplication::instance() ?: new QApplication(c,nullptr)
-	};
-	return instance;
 }
 
 #if defined (USE_INTEGTEST) || defined (USE_READLINE)
