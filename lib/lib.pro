@@ -96,7 +96,6 @@ SOURCES += \
     src/git/repositorymanager.cpp \
     src/git/signature.cpp \
     src/git/tree.cpp \
-    src/headless.cpp \
     src/module/alignmodule.cpp \
     src/module/assertmodule.cpp \
     src/module/beziersurfacemodule.cpp \
@@ -222,6 +221,7 @@ SOURCES += \
     src/fragment.cpp \
     src/function.cpp \
     src/functionscope.cpp \
+    src/headless.cpp \
     src/ifelsestatement.cpp \
     src/instance.cpp \
     src/intervalexpression.cpp \
@@ -330,7 +330,6 @@ HEADERS +=\
     src/git/repositorymanager.h \
     src/git/signature.h \
     src/git/tree.h \
-    src/headless.h \
     src/module/alignmodule.h \
     src/module/assertmodule.h \
     src/module/beziersurfacemodule.h \
@@ -464,6 +463,7 @@ HEADERS +=\
     src/fragment.h \
     src/function.h \
     src/functionscope.h \
+    src/headless.h \
     src/ifelsestatement.h \
     src/instance.h \
     src/intervalexpression.h \
