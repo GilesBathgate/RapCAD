@@ -18,7 +18,7 @@
 
 #include "qpathtextbuilder.h"
 
-#include "application.h"
+#include "headless.h"
 #include "node/primitivenode.h"
 #include "onceonly.h"
 
@@ -72,7 +72,8 @@ QFont QPathTextBuilder::getFont() const
 
 Primitive* QPathTextBuilder::buildPrimitive() const
 {
-	Application::headlessOverride();
+	Headless h;
+	h.headlessOverride();
 
 	QPainterPath painterPath;
 	painterPath.addText(location,getFont(),text);

@@ -96,6 +96,7 @@ SOURCES += \
     src/git/repositorymanager.cpp \
     src/git/signature.cpp \
     src/git/tree.cpp \
+    src/headless.cpp \
     src/node/productnode.cpp \
     src/argument.cpp \
     src/asciidocprinter.cpp \
@@ -225,6 +226,7 @@ HEADERS +=\
     src/git/repositorymanager.h \
     src/git/signature.h \
     src/git/tree.h \
+    src/headless.h \
     src/node/productnode.h \
     src/abstractsettings.h \
     src/abstractsyntaxtreebuilder.h \

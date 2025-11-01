@@ -93,6 +93,7 @@ SOURCES += \
 	src/cgalsanitizer.cpp \
 	src/export.cpp \
 	src/geometryevaluator.cpp \
+	src/headlessapplication.cpp \
 	src/main.cpp \
 	src/module/assertmodule.cpp \
 	src/module/colormodule.cpp \
@@ -245,6 +246,7 @@ HEADERS  += \
 	src/cgalsanitizer.h \
 	src/export.h \
 	src/geometryevaluator.h \
+	src/headlessapplication.h \
 	src/module/assertmodule.h \
 	src/module/colormodule.h \
 	src/module/cuboidmodule.h \
