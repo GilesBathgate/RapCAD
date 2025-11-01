@@ -97,7 +97,101 @@ SOURCES += \
     src/git/signature.cpp \
     src/git/tree.cpp \
     src/headless.cpp \
+    src/module/alignmodule.cpp \
+    src/module/assertmodule.cpp \
+    src/module/beziersurfacemodule.cpp \
+    src/module/boundarymodule.cpp \
+    src/module/boundsmodule.cpp \
+    src/module/centermodule.cpp \
+    src/module/chainhullmodule.cpp \
+    src/module/childrenmodule.cpp \
+    src/module/circlemodule.cpp \
+    src/module/colormodule.cpp \
+    src/module/complementmodule.cpp \
+    src/module/conemodule.cpp \
+    src/module/cubemodule.cpp \
+    src/module/cuboidmodule.cpp \
+    src/module/cylindermodule.cpp \
+    src/module/cylindersurfacemodule.cpp \
+    src/module/datummodule.cpp \
+    src/module/decomposemodule.cpp \
+    src/module/differencemodule.cpp \
+    src/module/discretemodule.cpp \
+    src/module/echomodule.cpp \
+    src/module/glidemodule.cpp \
+    src/module/groupmodule.cpp \
+    src/module/hullmodule.cpp \
+    src/module/importmodule.cpp \
+    src/module/intersectionmodule.cpp \
+    src/module/linearextrudemodule.cpp \
+    src/module/materialmodule.cpp \
+    src/module/minkowskimodule.cpp \
+    src/module/mirrormodule.cpp \
+    src/module/multmatrixmodule.cpp \
+    src/module/normalsmodule.cpp \
+    src/module/offsetmodule.cpp \
+    src/module/pointsmodule.cpp \
+    src/module/polygonmodule.cpp \
+    src/module/polyhedronmodule.cpp \
+    src/module/primitivemodule.cpp \
+    src/module/prismmodule.cpp \
+    src/module/projectionmodule.cpp \
+    src/module/radialsmodule.cpp \
+    src/module/regularpolygonmodule.cpp \
+    src/module/resizemodule.cpp \
+    src/module/rotateextrudemodule.cpp \
+    src/module/rotatemodule.cpp \
+    src/module/scalemodule.cpp \
+    src/module/shearmodule.cpp \
+    src/module/simplifymodule.cpp \
+    src/module/slicemodule.cpp \
+    src/module/solidmodule.cpp \
+    src/module/spheremodule.cpp \
+    src/module/squaremodule.cpp \
+    src/module/subdivisionmodule.cpp \
+    src/module/symmetricdifferencemodule.cpp \
+    src/module/textmodule.cpp \
+    src/module/threadmodule.cpp \
+    src/module/translatemodule.cpp \
+    src/module/triangulatemodule.cpp \
+    src/module/unionmodule.cpp \
+    src/module/volumesmodule.cpp \
+    src/module/writelnmodule.cpp \
+    src/module/writemodule.cpp \
+    src/node/alignnode.cpp \
+    src/node/boundarynode.cpp \
+    src/node/boundsnode.cpp \
+    src/node/childrennode.cpp \
+    src/node/complementnode.cpp \
+    src/node/decomposenode.cpp \
+    src/node/differencenode.cpp \
+    src/node/discretenode.cpp \
+    src/node/glidenode.cpp \
+    src/node/groupnode.cpp \
+    src/node/hullnode.cpp \
+    src/node/importnode.cpp \
+    src/node/intersectionnode.cpp \
+    src/node/linearextrudenode.cpp \
+    src/node/materialnode.cpp \
+    src/node/minkowskinode.cpp \
+    src/node/normalsnode.cpp \
+    src/node/offsetnode.cpp \
+    src/node/pointsnode.cpp \
+    src/node/primitivenode.cpp \
     src/node/productnode.cpp \
+    src/node/projectionnode.cpp \
+    src/node/radialsnode.cpp \
+    src/node/resizenode.cpp \
+    src/node/rotateextrudenode.cpp \
+    src/node/simplifynode.cpp \
+    src/node/slicenode.cpp \
+    src/node/solidnode.cpp \
+    src/node/subdivisionnode.cpp \
+    src/node/symmetricdifferencenode.cpp \
+    src/node/transformationnode.cpp \
+    src/node/triangulatenode.cpp \
+    src/node/unionnode.cpp \
+    src/node/volumesnode.cpp \
     src/argument.cpp \
     src/asciidocprinter.cpp \
     src/assertexception.cpp \
@@ -105,7 +199,16 @@ SOURCES += \
     src/binaryexpression.cpp \
     src/booleanvalue.cpp \
     src/callback.cpp \
+    src/cgalbuilder.cpp \
+    src/cgaldiscretemodifier.cpp \
+    src/cgalexplorer.cpp \
     src/cgalfragment.cpp \
+    src/cgalgroupmodifier.cpp \
+    src/cgalpolygon.cpp \
+    src/cgalprimitive.cpp \
+    src/cgalprojection.cpp \
+    src/cgalsanitizer.cpp \
+    src/cgalvolume.cpp \
     src/codedocparam.cpp \
     src/codedocdeclaration.cpp \
     src/complexexpression.cpp \
@@ -138,6 +241,7 @@ SOURCES += \
     src/polygon.cpp \
     src/preferences.cpp \
     src/product.cpp \
+    src/qpathtextbuilder.cpp \
     src/rangeexpression.cpp \
     src/rangeiterator.cpp \
     src/rangevalue.cpp \
@@ -227,7 +331,101 @@ HEADERS +=\
     src/git/signature.h \
     src/git/tree.h \
     src/headless.h \
+    src/module/alignmodule.h \
+    src/module/assertmodule.h \
+    src/module/beziersurfacemodule.h \
+    src/module/boundarymodule.h \
+    src/module/boundsmodule.h \
+    src/module/centermodule.h \
+    src/module/chainhullmodule.h \
+    src/module/childrenmodule.h \
+    src/module/circlemodule.h \
+    src/module/colormodule.h \
+    src/module/complementmodule.h \
+    src/module/conemodule.h \
+    src/module/cubemodule.h \
+    src/module/cuboidmodule.h \
+    src/module/cylindermodule.h \
+    src/module/cylindersurfacemodule.h \
+    src/module/datummodule.h \
+    src/module/decomposemodule.h \
+    src/module/differencemodule.h \
+    src/module/discretemodule.h \
+    src/module/echomodule.h \
+    src/module/glidemodule.h \
+    src/module/groupmodule.h \
+    src/module/hullmodule.h \
+    src/module/importmodule.h \
+    src/module/intersectionmodule.h \
+    src/module/linearextrudemodule.h \
+    src/module/materialmodule.h \
+    src/module/minkowskimodule.h \
+    src/module/mirrormodule.h \
+    src/module/multmatrixmodule.h \
+    src/module/normalsmodule.h \
+    src/module/offsetmodule.h \
+    src/module/pointsmodule.h \
+    src/module/polygonmodule.h \
+    src/module/polyhedronmodule.h \
+    src/module/primitivemodule.h \
+    src/module/prismmodule.h \
+    src/module/projectionmodule.h \
+    src/module/radialsmodule.h \
+    src/module/regularpolygonmodule.h \
+    src/module/resizemodule.h \
+    src/module/rotateextrudemodule.h \
+    src/module/rotatemodule.h \
+    src/module/scalemodule.h \
+    src/module/shearmodule.h \
+    src/module/simplifymodule.h \
+    src/module/slicemodule.h \
+    src/module/solidmodule.h \
+    src/module/spheremodule.h \
+    src/module/squaremodule.h \
+    src/module/subdivisionmodule.h \
+    src/module/symmetricdifferencemodule.h \
+    src/module/textmodule.h \
+    src/module/threadmodule.h \
+    src/module/translatemodule.h \
+    src/module/triangulatemodule.h \
+    src/module/unionmodule.h \
+    src/module/volumesmodule.h \
+    src/module/writelnmodule.h \
+    src/module/writemodule.h \
+    src/node/alignnode.h \
+    src/node/boundarynode.h \
+    src/node/boundsnode.h \
+    src/node/childrennode.h \
+    src/node/complementnode.h \
+    src/node/decomposenode.h \
+    src/node/differencenode.h \
+    src/node/discretenode.h \
+    src/node/glidenode.h \
+    src/node/groupnode.h \
+    src/node/hullnode.h \
+    src/node/importnode.h \
+    src/node/intersectionnode.h \
+    src/node/linearextrudenode.h \
+    src/node/materialnode.h \
+    src/node/minkowskinode.h \
+    src/node/normalsnode.h \
+    src/node/offsetnode.h \
+    src/node/pointsnode.h \
+    src/node/primitivenode.h \
     src/node/productnode.h \
+    src/node/projectionnode.h \
+    src/node/radialsnode.h \
+    src/node/resizenode.h \
+    src/node/rotateextrudenode.h \
+    src/node/simplifynode.h \
+    src/node/slicenode.h \
+    src/node/solidnode.h \
+    src/node/subdivisionnode.h \
+    src/node/symmetricdifferencenode.h \
+    src/node/transformationnode.h \
+    src/node/triangulatenode.h \
+    src/node/unionnode.h \
+    src/node/volumesnode.h \
     src/abstractsettings.h \
     src/abstractsyntaxtreebuilder.h \
     src/abstracttokenbuilder.h \
@@ -241,8 +439,17 @@ HEADERS +=\
     src/callback.h \
     src/cgal.h \
     src/cgalassert.h \
+    src/cgalbuilder.h \
+    src/cgaldiscretemodifier.h \
+    src/cgalexplorer.h \
     src/cgalfragment.h \
+    src/cgalgroupmodifier.h \
+    src/cgalpolygon.h \
+    src/cgalprimitive.h \
+    src/cgalprojection.h \
+    src/cgalsanitizer.h \
     src/cgaltrace.h \
+    src/cgalvolume.h \
     src/codedocdeclaration.h \
     src/codedocparam.h \
     src/complexexpression.h \
@@ -280,6 +487,7 @@ HEADERS +=\
     src/preferences.h \
     src/primitive.h \
     src/product.h \
+    src/qpathtextbuilder.h \
     src/rangeexpression.h \
     src/rangeiterator.h \
     src/rangevalue.h \
@@ -292,6 +500,7 @@ HEADERS +=\
     src/statement.h \
     src/syntaxtreebuilder.h \
     src/ternaryexpression.h \
+    src/textbuilder.h \
     src/textiterator.h \
     src/textvalue.h \
     src/tokenbuilder.h \
