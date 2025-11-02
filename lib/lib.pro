@@ -197,8 +197,11 @@ SOURCES += \
     src/assignstatement.cpp \
     src/binaryexpression.cpp \
     src/booleanvalue.cpp \
+    src/cache.cpp \
+    src/cachemanager.cpp \
     src/callback.cpp \
     src/cgalbuilder.cpp \
+    src/cgalcache.cpp \
     src/cgaldiscretemodifier.cpp \
     src/cgalexplorer.cpp \
     src/cgalfragment.cpp \
@@ -435,10 +438,13 @@ HEADERS +=\
     src/bedappearance.h \
     src/binaryexpression.h \
     src/booleanvalue.h \
+    src/cache.h \
+    src/cachemanager.h \
     src/callback.h \
     src/cgal.h \
     src/cgalassert.h \
     src/cgalbuilder.h \
+    src/cgalcache.h \
     src/cgaldiscretemodifier.h \
     src/cgalexplorer.h \
     src/cgalfragment.h \
@@ -458,6 +464,7 @@ HEADERS +=\
     src/context.h \
     src/decimal.h \
     src/declaration.h \
+    src/emptycache.h \
     src/expression.h \
     src/forstatement.h \
     src/fragment.h \
