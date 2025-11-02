@@ -86,7 +86,6 @@ CONFIG(test){
 
 SOURCES += \
 	src/application.cpp \
-	src/builtinmanager.cpp \
 	src/cgalauxiliarybuilder.cpp \
 	src/export.cpp \
 	src/geometryevaluator.cpp \
@@ -111,7 +110,6 @@ SOURCES += \
 	src/ui/linenumberarea.cpp \
 	src/ui/preferencesdialog.cpp \
 	src/cgalexport.cpp \
-	src/builtincreator.cpp \
 	src/cgalimport.cpp \
 	src/ui/saveitemsdialog.cpp \
 	src/ui/printconsole.cpp \
@@ -132,7 +130,6 @@ HEADERS  += \
 	contrib/qtcompat.h \
 	contrib/Copy_polyhedron_to.h \
 	src/application.h \
-	src/builtinmanager.h \
 	src/cgalauxiliarybuilder.h \
 	src/export.h \
 	src/geometryevaluator.h \
@@ -155,7 +152,6 @@ HEADERS  += \
 	src/ui/linenumberarea.h \
 	src/ui/preferencesdialog.h \
 	src/cgalexport.h \
-	src/builtincreator.h \
 	src/cgalimport.h \
 	src/ui/saveitemsdialog.h \
 	src/ui/printconsole.h \
