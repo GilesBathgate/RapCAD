@@ -125,9 +125,6 @@ SOURCES += \
 	src/interactive.cpp \
 	src/ui/console.cpp \
 	src/simplerenderer.cpp \
-	src/cachemanager.cpp \
-	src/cache.cpp \
-	src/cgalcache.cpp \
 	src/generator.cpp \
 	src/ui/searchwidget.cpp
 
@@ -175,10 +172,6 @@ HEADERS  += \
 	src/ui/console.h \
 	src/simplerenderer.h \
 	src/stringify.h \
-	src/cachemanager.h \
-	src/cache.h \
-	src/cgalcache.h \
-	src/emptycache.h \
 	contrib/qzipreader_p.h \
 	contrib/qzipwriter_p.h \
 	src/generator.h \
