@@ -197,6 +197,8 @@ SOURCES += \
     src/assignstatement.cpp \
     src/binaryexpression.cpp \
     src/booleanvalue.cpp \
+    src/builtincreator.cpp \
+    src/builtinmanager.cpp \
     src/cache.cpp \
     src/cachemanager.cpp \
     src/callback.cpp \
@@ -438,6 +440,8 @@ HEADERS +=\
     src/bedappearance.h \
     src/binaryexpression.h \
     src/booleanvalue.h \
+    src/builtincreator.h \
+    src/builtinmanager.h \
     src/cache.h \
     src/cachemanager.h \
     src/callback.h \
