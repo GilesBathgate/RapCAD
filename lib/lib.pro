@@ -18,7 +18,7 @@
 
 include(../common.pri)
 
-QT       += core
+QT       += core concurrent
 
 TARGET = rapcad
 TEMPLATE = lib
@@ -202,12 +202,14 @@ SOURCES += \
     src/cache.cpp \
     src/cachemanager.cpp \
     src/callback.cpp \
+    src/cgalauxiliarybuilder.cpp \
     src/cgalbuilder.cpp \
     src/cgalcache.cpp \
     src/cgaldiscretemodifier.cpp \
     src/cgalexplorer.cpp \
     src/cgalfragment.cpp \
     src/cgalgroupmodifier.cpp \
+    src/cgalimport.cpp \
     src/cgalpolygon.cpp \
     src/cgalprimitive.cpp \
     src/cgalprojection.cpp \
@@ -226,6 +228,7 @@ SOURCES += \
     src/fragment.cpp \
     src/function.cpp \
     src/functionscope.cpp \
+    src/geometryevaluator.cpp \
     src/headless.cpp \
     src/ifelsestatement.cpp \
     src/instance.cpp \
@@ -239,11 +242,13 @@ SOURCES += \
     src/modulescope.cpp \
     src/namedvalue.cpp \
     src/node.cpp \
+    src/nodeevaluator.cpp \
     src/numbervalue.cpp \
     src/onceonly.cpp \
     src/parameter.cpp \
     src/point.cpp \
     src/polygon.cpp \
+    src/polyhedron.cpp \
     src/preferences.cpp \
     src/product.cpp \
     src/qpathtextbuilder.cpp \
@@ -256,6 +261,7 @@ SOURCES += \
     src/scope.cpp \
     src/script.cpp \
     src/scriptimport.cpp \
+    src/simpletextbuilder.cpp \
     src/syntaxtreebuilder.cpp \
     src/ternaryexpression.cpp \
     src/textiterator.cpp \
@@ -263,6 +269,7 @@ SOURCES += \
     src/tokenbuilder.cpp \
     src/tokenreader.cpp \
     src/transformmatrix.cpp \
+    src/treeevaluator.cpp \
     src/treeprinter.cpp \
     src/unaryexpression.cpp \
     src/value.cpp \
@@ -278,6 +285,7 @@ HEADERS +=\
     contrib/mpfr-get_q.h \
     contrib/mpfr-impl.h \
     contrib/qtcompat.h \
+    contrib/qzipreader_p.h \
     src/function/absfunction.h \
     src/function/acosfunction.h \
     src/function/angfunction.h \
@@ -447,12 +455,14 @@ HEADERS +=\
     src/callback.h \
     src/cgal.h \
     src/cgalassert.h \
+    src/cgalauxiliarybuilder.h \
     src/cgalbuilder.h \
     src/cgalcache.h \
     src/cgaldiscretemodifier.h \
     src/cgalexplorer.h \
     src/cgalfragment.h \
     src/cgalgroupmodifier.h \
+    src/cgalimport.h \
     src/cgalpolygon.h \
     src/cgalprimitive.h \
     src/cgalprojection.h \
@@ -474,6 +484,7 @@ HEADERS +=\
     src/fragment.h \
     src/function.h \
     src/functionscope.h \
+    src/geometryevaluator.h \
     src/headless.h \
     src/ifelsestatement.h \
     src/instance.h \
@@ -488,6 +499,7 @@ HEADERS +=\
     src/modulescope.h \
     src/namedvalue.h \
     src/node.h \
+    src/nodeevaluator.h \
     src/nodevisitor.h \
     src/numbervalue.h \
     src/onceonly.h \
@@ -495,6 +507,7 @@ HEADERS +=\
     src/parameter.h \
     src/point.h \
     src/polygon.h \
+    src/polyhedron.h \
     src/preferences.h \
     src/primitive.h \
     src/product.h \
@@ -508,6 +521,7 @@ HEADERS +=\
     src/scope.h \
     src/script.h \
     src/scriptimport.h \
+    src/simpletextbuilder.h \
     src/statement.h \
     src/syntaxtreebuilder.h \
     src/ternaryexpression.h \
@@ -517,6 +531,7 @@ HEADERS +=\
     src/tokenbuilder.h \
     src/tokenreader.h \
     src/transformmatrix.h \
+    src/treeevaluator.h \
     src/treeprinter.h \
     src/treevisitor.h \
     src/unaryexpression.h \
