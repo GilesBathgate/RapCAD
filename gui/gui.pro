@@ -86,9 +86,7 @@ CONFIG(test){
 
 SOURCES += \
 	src/application.cpp \
-	src/cgalauxiliarybuilder.cpp \
 	src/export.cpp \
-	src/geometryevaluator.cpp \
 	src/headlessapplication.cpp \
 	src/main.cpp \
 	src/renderexport.cpp \
@@ -97,11 +95,9 @@ SOURCES += \
 	src/ui/mainwindow.cpp \
 	src/dependencybuilder.cpp \
 	src/syntaxhighlighter.cpp \
-	src/treeevaluator.cpp \
 	src/ui/glview.cpp \
 	src/cgalrenderer.cpp \
 	src/nodeprinter.cpp \
-	src/nodeevaluator.cpp \
 	src/texteditiodevice.cpp \
 	src/backgroundworker.cpp \
 	src/worker.cpp \
@@ -110,7 +106,6 @@ SOURCES += \
 	src/ui/linenumberarea.cpp \
 	src/ui/preferencesdialog.cpp \
 	src/cgalexport.cpp \
-	src/cgalimport.cpp \
 	src/ui/saveitemsdialog.cpp \
 	src/ui/printconsole.cpp \
 	src/project.cpp \
@@ -118,8 +113,6 @@ SOURCES += \
 	src/tester.cpp \
 	src/strategy.cpp \
 	src/comparer.cpp \
-	src/polyhedron.cpp \
-	src/simpletextbuilder.cpp \
 	src/interactive.cpp \
 	src/ui/console.cpp \
 	src/simplerenderer.cpp \
@@ -130,9 +123,7 @@ HEADERS  += \
 	contrib/qtcompat.h \
 	contrib/Copy_polyhedron_to.h \
 	src/application.h \
-	src/cgalauxiliarybuilder.h \
 	src/export.h \
-	src/geometryevaluator.h \
 	src/headlessapplication.h \
 	src/renderexport.h \
 	src/ui/camera.h \
@@ -140,11 +131,9 @@ HEADERS  += \
 	src/ui/mainwindow.h \
 	src/dependencybuilder.h \
 	src/syntaxhighlighter.h \
-	src/treeevaluator.h \
 	src/cgalrenderer.h \
 	src/renderer.h \
 	src/nodeprinter.h \
-	src/nodeevaluator.h \
 	src/texteditiodevice.h \
 	src/backgroundworker.h \
 	src/worker.h \
@@ -152,7 +141,6 @@ HEADERS  += \
 	src/ui/linenumberarea.h \
 	src/ui/preferencesdialog.h \
 	src/cgalexport.h \
-	src/cgalimport.h \
 	src/ui/saveitemsdialog.h \
 	src/ui/printconsole.h \
 	src/project.h \
@@ -161,14 +149,11 @@ HEADERS  += \
 	src/strategy.h \
 	src/comparer.h \
 	src/ui/glview.h \
-	src/polyhedron.h \
-	src/simpletextbuilder.h \
 	src/interactive.h \
 	src/ui/codeeditor.h \
 	src/ui/console.h \
 	src/simplerenderer.h \
 	src/stringify.h \
-	contrib/qzipreader_p.h \
 	contrib/qzipwriter_p.h \
 	src/generator.h \
 	src/ui/searchwidget.h
