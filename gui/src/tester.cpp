@@ -421,7 +421,7 @@ void Tester::exportTest(const QDir& dir)
 		n->accept(ne);
 		p=ne.getResult();
 
-		const Export e(p,r);
+		Export e(p,r);
 		e.exportResult(origPath);
 #endif
 
@@ -454,7 +454,7 @@ void Tester::exportTest(Primitive* p,const QFileInfo& origPath,const QFileInfo& 
 
 	const QDir path(file.absolutePath());
 	const QFileInfo newPath(path.filePath(newName));
-	const Export e(p,*nullreport);
+	Export e(p,*nullreport);
 	e.exportResult(newPath);
 	Comparer c(*nullreport);
 	c.setup(origPath.absoluteFilePath(),newPath.absoluteFilePath());

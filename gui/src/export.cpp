@@ -2,7 +2,6 @@
 
 #include "headless.h"
 #include "cgalexport.h"
-#include "renderexport.h"
 
 Export::Export(Primitive* p,Reporter& r)
 	: primitive(p),
@@ -10,14 +9,14 @@ Export::Export(Primitive* p,Reporter& r)
 {
 }
 
-void Export::exportResult(const QFileInfo& fileInfo) const
+void Export::exportResult(const QFileInfo& fileInfo)
 {
 	const QString& suffix=fileInfo.suffix().toLower();
 	if(suffix=="png" || suffix=="jpg") {
 		Headless h;
-		h.headlessOverride();
-		RenderExport r(primitive,reporter);
-		r.exportRenderImage(fileInfo);
+		Export* exporter=h.getExporter(primitive,reporter);
+		if(!exporter) return;
+		exporter->exportResult(fileInfo);
 	} else {
 #ifdef USE_CGAL
 		CGALExport ce(fileInfo, primitive,reporter);
