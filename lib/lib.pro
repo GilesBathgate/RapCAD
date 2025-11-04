@@ -18,7 +18,7 @@
 
 include(../common.pri)
 
-QT       += core concurrent
+QT       += core opengl concurrent
 
 TARGET = rapcad
 TEMPLATE = lib
@@ -214,6 +214,7 @@ SOURCES += \
     src/cgalpolygon.cpp \
     src/cgalprimitive.cpp \
     src/cgalprojection.cpp \
+    src/cgalrenderer.cpp \
     src/cgalsanitizer.cpp \
     src/cgalvolume.cpp \
     src/codedocparam.cpp \
@@ -263,6 +264,7 @@ SOURCES += \
     src/scope.cpp \
     src/script.cpp \
     src/scriptimport.cpp \
+    src/simplerenderer.cpp \
     src/simpletextbuilder.cpp \
     src/syntaxtreebuilder.cpp \
     src/ternaryexpression.cpp \
@@ -468,6 +470,7 @@ HEADERS +=\
     src/cgalpolygon.h \
     src/cgalprimitive.h \
     src/cgalprojection.h \
+    src/cgalrenderer.h \
     src/cgalsanitizer.h \
     src/cgaltrace.h \
     src/cgalvolume.h \
@@ -518,12 +521,14 @@ HEADERS +=\
     src/rangeexpression.h \
     src/rangeiterator.h \
     src/rangevalue.h \
+    src/renderer.h \
     src/reporter.h \
     src/returnstatement.h \
     src/rmath.h \
     src/scope.h \
     src/script.h \
     src/scriptimport.h \
+    src/simplerenderer.h \
     src/simpletextbuilder.h \
     src/statement.h \
     src/syntaxtreebuilder.h \

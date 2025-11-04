@@ -89,7 +89,6 @@ SOURCES += \
 	src/dependencybuilder.cpp \
 	src/syntaxhighlighter.cpp \
 	src/ui/glview.cpp \
-	src/cgalrenderer.cpp \
 	src/nodeprinter.cpp \
 	src/texteditiodevice.cpp \
 	src/backgroundworker.cpp \
@@ -107,7 +106,6 @@ SOURCES += \
 	src/comparer.cpp \
 	src/interactive.cpp \
 	src/ui/console.cpp \
-	src/simplerenderer.cpp \
 	src/generator.cpp \
 	src/ui/searchwidget.cpp
 
@@ -123,8 +121,6 @@ HEADERS  += \
 	src/ui/mainwindow.h \
 	src/dependencybuilder.h \
 	src/syntaxhighlighter.h \
-	src/cgalrenderer.h \
-	src/renderer.h \
 	src/nodeprinter.h \
 	src/texteditiodevice.h \
 	src/backgroundworker.h \
@@ -143,7 +139,6 @@ HEADERS  += \
 	src/interactive.h \
 	src/ui/codeeditor.h \
 	src/ui/console.h \
-	src/simplerenderer.h \
 	src/stringify.h \
 	contrib/qzipwriter_p.h \
 	src/generator.h \
