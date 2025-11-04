@@ -28,6 +28,7 @@ DESTDIR = $$OUT_PWD
 
 DEFINES += LIBRAPCAD_LIBRARY
 
+include(../dxf.pri)
 include(../git.pri)
 include(../cgal.pri)
 include(../bison.pri)
@@ -223,6 +224,7 @@ SOURCES += \
     src/context.cpp \
     src/decimal.cpp \
     src/declaration.cpp \
+    src/dxfbuilder.cpp \
     src/expression.cpp \
     src/forstatement.cpp \
     src/fragment.cpp \
@@ -478,6 +480,7 @@ HEADERS +=\
     src/context.h \
     src/decimal.h \
     src/declaration.h \
+    src/dxfbuilder.h \
     src/emptycache.h \
     src/expression.h \
     src/forstatement.h \

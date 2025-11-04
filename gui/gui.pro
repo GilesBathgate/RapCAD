@@ -35,26 +35,19 @@ unix {
 LIBS += -L$$DESTDIR/lib -lrapcad
 PRE_TARGETDEPS += $$DESTDIR/lib/librapcad.a
 
+include(../dxf.pri)
 include(../git.pri)
 include(../cgal.pri)
 
 win32 {
 	DEFINES -= USE_READLINE
-	DXFLIBROOT = ../dxflib-3.3.4-src
 	LIBS += -lglu32
 	contains(DEFINES,USE_READLINE) {
 	LIBS += -lreadline
 	}
-	contains(DEFINES,USE_DXF) {
-	INCLUDEPATH += $$DXFLIBROOT
-	LIBS += -L$$DXFLIBROOT/release -ldxflib
-	}
 } else {
 	contains(DEFINES,USE_READLINE) {
 	LIBS+= -lreadline
-	}
-	contains(DEFINES,USE_DXF) {
-	LIBS += -ldxflib
 	}
   macx {
 	ICON = icons/AppIcon.icns
@@ -101,7 +94,6 @@ SOURCES += \
 	src/texteditiodevice.cpp \
 	src/backgroundworker.cpp \
 	src/worker.cpp \
-	src/dxfbuilder.cpp \
 	src/ui/codeeditor.cpp \
 	src/ui/linenumberarea.cpp \
 	src/ui/preferencesdialog.cpp \
@@ -137,7 +129,6 @@ HEADERS  += \
 	src/texteditiodevice.h \
 	src/backgroundworker.h \
 	src/worker.h \
-	src/dxfbuilder.h \
 	src/ui/linenumberarea.h \
 	src/ui/preferencesdialog.h \
 	src/cgalexport.h \
