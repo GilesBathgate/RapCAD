@@ -57,7 +57,7 @@ private:
 	void addDimDiametric(const DL_DimensionData& data,
 						 const DL_DimDiametricData& edata);
 	void addDimAngular(const DL_DimensionData& data,
-					   const DL_DimAngularData& edata);
+						const DL_DimAngular2LData& edata);
 	void addDimAngular3P(const DL_DimensionData& data,
 						 const DL_DimAngular3PData& edata);
 	void addDimOrdinate(const DL_DimensionData& data,
