@@ -14,8 +14,9 @@
 
 static const GLfloat farfarAway=100000.0F;
 
-RenderExport::RenderExport(Primitive* p,Reporter& r)
-	: Export(p,r)
+RenderExport::RenderExport(Primitive* p,Reporter& r,QObject* parent)
+	: QOffscreenSurface(nullptr, parent),
+	  Export(p,r)
 {
 }
 
@@ -67,7 +68,7 @@ void RenderExport::resizeGL(int w,int h)
 
 }
 
-void RenderExport::exportRenderImage(const QFileInfo& fileInfo)
+void RenderExport::exportResult(const QFileInfo& fileInfo)
 {
 	const auto width = 640;
 	const auto height = 480;

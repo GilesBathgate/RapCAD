@@ -2,6 +2,7 @@
 #include <QApplication>
 
 HeadlessApplication::HeadlessApplication()
+	: exporter(nullptr)
 {
 	setInstance();
 }
@@ -19,4 +20,13 @@ QCoreApplication* HeadlessApplication::headlessOverride() const
 		QApplication::instance() ?: new QApplication(c,nullptr)
 	};
 	return instance;
+}
+
+Export* HeadlessApplication::getExporter(Primitive* p,Reporter& r) const
+{
+	if (!exporter) {
+		const auto instance=headlessOverride();
+		exporter=new RenderExport(p,r,instance);
+	}
+	return exporter;
 }

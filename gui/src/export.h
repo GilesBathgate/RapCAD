@@ -11,7 +11,7 @@ class Export
 {
 public:
 	Export(Primitive*,Reporter&);
-	void exportResult(const QFileInfo&) const;
+	virtual void exportResult(const QFileInfo&);
 protected:
 	Primitive* primitive;
 	Reporter& reporter;
