@@ -208,6 +208,7 @@ SOURCES += \
     src/cgalcache.cpp \
     src/cgaldiscretemodifier.cpp \
     src/cgalexplorer.cpp \
+    src/cgalexport.cpp \
     src/cgalfragment.cpp \
     src/cgalgroupmodifier.cpp \
     src/cgalimport.cpp \
@@ -226,6 +227,7 @@ SOURCES += \
     src/decimal.cpp \
     src/declaration.cpp \
     src/dxfbuilder.cpp \
+    src/export.cpp \
     src/expression.cpp \
     src/forstatement.cpp \
     src/fragment.cpp \
@@ -290,6 +292,7 @@ HEADERS +=\
     contrib/mpfr-impl.h \
     contrib/qtcompat.h \
     contrib/qzipreader_p.h \
+    contrib/qzipwriter_p.h \
     src/function/absfunction.h \
     src/function/acosfunction.h \
     src/function/angfunction.h \
@@ -464,6 +467,7 @@ HEADERS +=\
     src/cgalcache.h \
     src/cgaldiscretemodifier.h \
     src/cgalexplorer.h \
+    src/cgalexport.h \
     src/cgalfragment.h \
     src/cgalgroupmodifier.h \
     src/cgalimport.h \
@@ -485,6 +489,7 @@ HEADERS +=\
     src/declaration.h \
     src/dxfbuilder.h \
     src/emptycache.h \
+    src/export.h \
     src/expression.h \
     src/forstatement.h \
     src/fragment.h \

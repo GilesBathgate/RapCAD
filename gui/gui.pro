@@ -79,7 +79,6 @@ CONFIG(test){
 
 SOURCES += \
 	src/application.cpp \
-	src/export.cpp \
 	src/headlessapplication.cpp \
 	src/main.cpp \
 	src/renderexport.cpp \
@@ -96,7 +95,6 @@ SOURCES += \
 	src/ui/codeeditor.cpp \
 	src/ui/linenumberarea.cpp \
 	src/ui/preferencesdialog.cpp \
-	src/cgalexport.cpp \
 	src/ui/saveitemsdialog.cpp \
 	src/ui/printconsole.cpp \
 	src/project.cpp \
@@ -113,7 +111,6 @@ HEADERS  += \
 	contrib/qtcompat.h \
 	contrib/Copy_polyhedron_to.h \
 	src/application.h \
-	src/export.h \
 	src/headlessapplication.h \
 	src/renderexport.h \
 	src/ui/camera.h \
@@ -127,7 +124,6 @@ HEADERS  += \
 	src/worker.h \
 	src/ui/linenumberarea.h \
 	src/ui/preferencesdialog.h \
-	src/cgalexport.h \
 	src/ui/saveitemsdialog.h \
 	src/ui/printconsole.h \
 	src/project.h \
@@ -140,7 +136,6 @@ HEADERS  += \
 	src/ui/codeeditor.h \
 	src/ui/console.h \
 	src/stringify.h \
-	contrib/qzipwriter_p.h \
 	src/generator.h \
 	src/ui/searchwidget.h
 
