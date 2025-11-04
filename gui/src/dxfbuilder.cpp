@@ -128,7 +128,7 @@ void DXFBuilder::addDimDiametric(const DL_DimensionData&,
 }
 
 void DXFBuilder::addDimAngular(const DL_DimensionData&,
-							   const DL_DimAngularData&)
+							   const DL_DimAngular2LData&)
 {
 }
 
