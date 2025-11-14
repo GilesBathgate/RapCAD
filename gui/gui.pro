@@ -85,10 +85,8 @@ SOURCES += \
 	src/ui/camera.cpp \
 	src/ui/commitdialog.cpp \
 	src/ui/mainwindow.cpp \
-	src/dependencybuilder.cpp \
 	src/syntaxhighlighter.cpp \
 	src/ui/glview.cpp \
-	src/nodeprinter.cpp \
 	src/texteditiodevice.cpp \
 	src/backgroundworker.cpp \
 	src/worker.cpp \
@@ -116,9 +114,7 @@ HEADERS  += \
 	src/ui/camera.h \
 	src/ui/commitdialog.h \
 	src/ui/mainwindow.h \
-	src/dependencybuilder.h \
 	src/syntaxhighlighter.h \
-	src/nodeprinter.h \
 	src/texteditiodevice.h \
 	src/backgroundworker.h \
 	src/worker.h \
