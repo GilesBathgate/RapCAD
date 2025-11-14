@@ -226,6 +226,7 @@ SOURCES += \
     src/context.cpp \
     src/decimal.cpp \
     src/declaration.cpp \
+    src/dependencybuilder.cpp \
     src/dxfbuilder.cpp \
     src/export.cpp \
     src/expression.cpp \
@@ -248,6 +249,7 @@ SOURCES += \
     src/namedvalue.cpp \
     src/node.cpp \
     src/nodeevaluator.cpp \
+    src/nodeprinter.cpp \
     src/numbervalue.cpp \
     src/onceonly.cpp \
     src/parameter.cpp \
@@ -487,6 +489,7 @@ HEADERS +=\
     src/context.h \
     src/decimal.h \
     src/declaration.h \
+    src/dependencybuilder.h \
     src/dxfbuilder.h \
     src/emptycache.h \
     src/export.h \
@@ -511,6 +514,7 @@ HEADERS +=\
     src/namedvalue.h \
     src/node.h \
     src/nodeevaluator.h \
+    src/nodeprinter.h \
     src/nodevisitor.h \
     src/numbervalue.h \
     src/onceonly.h \
