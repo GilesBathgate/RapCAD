@@ -220,6 +220,7 @@ SOURCES += \
     src/cgalvolume.cpp \
     src/codedocparam.cpp \
     src/codedocdeclaration.cpp \
+    src/comparer.cpp \
     src/complexexpression.cpp \
     src/complexvalue.cpp \
     src/compoundstatement.cpp \
@@ -234,6 +235,7 @@ SOURCES += \
     src/fragment.cpp \
     src/function.cpp \
     src/functionscope.cpp \
+    src/generator.cpp \
     src/geometryevaluator.cpp \
     src/headless.cpp \
     src/ifelsestatement.cpp \
@@ -270,6 +272,7 @@ SOURCES += \
     src/scriptimport.cpp \
     src/simplerenderer.cpp \
     src/simpletextbuilder.cpp \
+    src/strategy.cpp \
     src/syntaxtreebuilder.cpp \
     src/ternaryexpression.cpp \
     src/textiterator.cpp \
@@ -286,7 +289,8 @@ SOURCES += \
     src/variable.cpp \
     src/vectorexpression.cpp \
     src/vectoriterator.cpp \
-    src/vectorvalue.cpp
+    src/vectorvalue.cpp \
+    src/worker.cpp
 
 HEADERS +=\
     contrib/fragments.h \
@@ -482,6 +486,7 @@ HEADERS +=\
     src/cgalvolume.h \
     src/codedocdeclaration.h \
     src/codedocparam.h \
+    src/comparer.h \
     src/complexexpression.h \
     src/complexvalue.h \
     src/compoundstatement.h \
@@ -498,6 +503,7 @@ HEADERS +=\
     src/fragment.h \
     src/function.h \
     src/functionscope.h \
+    src/generator.h \
     src/geometryevaluator.h \
     src/headless.h \
     src/ifelsestatement.h \
@@ -540,6 +546,7 @@ HEADERS +=\
     src/simplerenderer.h \
     src/simpletextbuilder.h \
     src/statement.h \
+    src/strategy.h \
     src/syntaxtreebuilder.h \
     src/ternaryexpression.h \
     src/textbuilder.h \
@@ -561,4 +568,5 @@ HEADERS +=\
     src/vectorvalue.h \
     src/viewdirections.h \
     src/visitablenode.h \
-    src/visitabletree.h
+    src/visitabletree.h \
+    src/worker.h

@@ -89,7 +89,6 @@ SOURCES += \
 	src/ui/glview.cpp \
 	src/texteditiodevice.cpp \
 	src/backgroundworker.cpp \
-	src/worker.cpp \
 	src/ui/codeeditor.cpp \
 	src/ui/linenumberarea.cpp \
 	src/ui/preferencesdialog.cpp \
@@ -98,11 +97,8 @@ SOURCES += \
 	src/project.cpp \
 	src/ui/aboutdialog.cpp \
 	src/tester.cpp \
-	src/strategy.cpp \
-	src/comparer.cpp \
 	src/interactive.cpp \
 	src/ui/console.cpp \
-	src/generator.cpp \
 	src/ui/searchwidget.cpp
 
 HEADERS  += \
@@ -117,7 +113,6 @@ HEADERS  += \
 	src/syntaxhighlighter.h \
 	src/texteditiodevice.h \
 	src/backgroundworker.h \
-	src/worker.h \
 	src/ui/linenumberarea.h \
 	src/ui/preferencesdialog.h \
 	src/ui/saveitemsdialog.h \
@@ -125,14 +120,11 @@ HEADERS  += \
 	src/project.h \
 	src/ui/aboutdialog.h \
 	src/tester.h \
-	src/strategy.h \
-	src/comparer.h \
 	src/ui/glview.h \
 	src/interactive.h \
 	src/ui/codeeditor.h \
 	src/ui/console.h \
 	src/stringify.h \
-	src/generator.h \
 	src/ui/searchwidget.h
 
 FORMS += \
