@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "unionnode.h"
+#include "node/unionnode.h"
 
 void UnionNode::accept(NodeVisitor& v)
 {

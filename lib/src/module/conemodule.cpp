@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "conemodule.h"
+#include "module/conemodule.h"
 #include "context.h"
 #include "node/alignnode.h"
 #include "node/primitivenode.h"

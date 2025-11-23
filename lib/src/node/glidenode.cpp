@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "glidenode.h"
+#include "node/glidenode.h"
 
 void GlideNode::accept(NodeVisitor& v)
 {

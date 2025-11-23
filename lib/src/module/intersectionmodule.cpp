@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "intersectionmodule.h"
+#include "module/intersectionmodule.h"
 #include "context.h"
 #include "node/intersectionnode.h"
 

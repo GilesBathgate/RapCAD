@@ -1,4 +1,4 @@
-#include "colormodule.h"
+#include "module/colormodule.h"
 #include "context.h"
 #include "node/childrennode.h"
 

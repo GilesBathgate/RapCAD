@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "importmodule.h"
+#include "module/importmodule.h"
 #include "context.h"
 #include "node/importnode.h"
 #include "textvalue.h"

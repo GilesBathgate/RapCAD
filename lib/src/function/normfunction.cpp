@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "normfunction.h"
+#include "function/normfunction.h"
 #include "complexvalue.h"
 #include "context.h"
 #include "numbervalue.h"

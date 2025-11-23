@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "mirrormodule.h"
+#include "module/mirrormodule.h"
 #include "context.h"
 #include "node/transformationnode.h"
 #include "rmath.h"

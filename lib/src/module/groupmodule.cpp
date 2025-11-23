@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "groupmodule.h"
+#include "module/groupmodule.h"
 #include "context.h"
 #include "node/groupnode.h"
 

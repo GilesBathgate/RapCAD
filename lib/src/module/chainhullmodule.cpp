@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "chainhullmodule.h"
+#include "module/chainhullmodule.h"
 #include "booleanvalue.h"
 #include "context.h"
 #include "node/hullnode.h"

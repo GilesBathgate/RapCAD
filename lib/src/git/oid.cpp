@@ -1,4 +1,4 @@
-#include "oid.h"
+#include "git/oid.h"
 
 Oid::Oid()
 {

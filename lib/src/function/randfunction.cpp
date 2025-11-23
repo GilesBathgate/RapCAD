@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "randfunction.h"
+#include "function/randfunction.h"
 #include "context.h"
 #include "numbervalue.h"
 #include "rmath.h"

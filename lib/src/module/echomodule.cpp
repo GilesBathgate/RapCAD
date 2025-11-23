@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "echomodule.h"
+#include "module/echomodule.h"
 #include "context.h"
 #include "onceonly.h"
 #include "textvalue.h"

@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "absfunction.h"
+#include "function/absfunction.h"
 #include "context.h"
 #include "numbervalue.h"
 #include "valuefactory.h"

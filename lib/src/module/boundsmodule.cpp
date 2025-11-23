@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "boundsmodule.h"
+#include "module/boundsmodule.h"
 #include "context.h"
 #include "node/boundsnode.h"
 

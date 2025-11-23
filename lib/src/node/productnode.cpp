@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "productnode.h"
+#include "node/productnode.h"
 
 ProductNode::ProductNode() :
 	primitive(nullptr)

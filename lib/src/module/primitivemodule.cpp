@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "primitivemodule.h"
+#include "module/primitivemodule.h"
 
 #include "rmath.h"
 

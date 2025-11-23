@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "lengthfunction.h"
+#include "function/lengthfunction.h"
 #include "context.h"
 #include "rangevalue.h"
 #include "textvalue.h"

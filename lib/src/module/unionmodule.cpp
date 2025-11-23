@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "unionmodule.h"
+#include "module/unionmodule.h"
 #include "context.h"
 #include "node/unionnode.h"
 

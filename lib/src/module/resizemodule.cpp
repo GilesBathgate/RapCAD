@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "resizemodule.h"
+#include "module/resizemodule.h"
 #include "booleanvalue.h"
 #include "context.h"
 #include "node/resizenode.h"

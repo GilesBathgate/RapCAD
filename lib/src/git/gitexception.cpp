@@ -1,4 +1,4 @@
-#include "gitexception.h"
+#include "git/gitexception.h"
 
 GitException::GitException(const QString& message)
 	: std::runtime_error(message.toUtf8())

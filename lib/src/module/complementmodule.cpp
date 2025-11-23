@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "complementmodule.h"
+#include "module/complementmodule.h"
 #include "context.h"
 #include "node/complementnode.h"
 

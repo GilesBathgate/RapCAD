@@ -15,7 +15,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "assertmodule.h"
+#include "module/assertmodule.h"
 #include "assertexception.h"
 
 AssertModule::AssertModule(Reporter& r) : Module(r,"assert")

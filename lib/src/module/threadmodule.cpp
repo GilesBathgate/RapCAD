@@ -1,4 +1,4 @@
-#include "threadmodule.h"
+#include "module/threadmodule.h"
 #include "node/primitivenode.h"
 #include "node/intersectionnode.h"
 #include "module/cubemodule.h"

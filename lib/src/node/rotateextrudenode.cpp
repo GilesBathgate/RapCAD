@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "rotateextrudenode.h"
+#include "node/rotateextrudenode.h"
 
 RotateExtrudeNode::RotateExtrudeNode() :
 	axis(0,0,0),

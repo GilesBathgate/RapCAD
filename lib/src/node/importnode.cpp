@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "importnode.h"
+#include "node/importnode.h"
 
 ImportNode::ImportNode(const QString& imp) :
 	import(imp)

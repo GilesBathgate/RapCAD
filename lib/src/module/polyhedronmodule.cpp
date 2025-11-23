@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "polyhedronmodule.h"
+#include "module/polyhedronmodule.h"
 #include "context.h"
 #include "node/primitivenode.h"
 #include "numbervalue.h"

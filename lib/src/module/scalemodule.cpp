@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "scalemodule.h"
+#include "module/scalemodule.h"
 #include "context.h"
 #include "node/pointsnode.h"
 #include "node/transformationnode.h"

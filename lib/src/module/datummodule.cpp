@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "datummodule.h"
+#include "module/datummodule.h"
 #include "context.h"
 #include "node/transformationnode.h"
 #include "numbervalue.h"

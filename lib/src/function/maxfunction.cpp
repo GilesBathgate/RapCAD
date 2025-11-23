@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "maxfunction.h"
+#include "function/maxfunction.h"
 #include "context.h"
 
 MaxFunction::MaxFunction() : Function("max")

@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "minkowskinode.h"
+#include "node/minkowskinode.h"
 
 void MinkowskiNode::accept(NodeVisitor& v)
 {

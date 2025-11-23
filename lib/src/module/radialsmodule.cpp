@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "radialsmodule.h"
+#include "module/radialsmodule.h"
 #include "context.h"
 #include "node/radialsnode.h"
 

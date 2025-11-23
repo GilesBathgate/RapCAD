@@ -15,7 +15,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "solidmodule.h"
+#include "module/solidmodule.h"
 
 #include "context.h"
 #include "node/solidnode.h"

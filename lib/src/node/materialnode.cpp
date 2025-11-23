@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "materialnode.h"
+#include "node/materialnode.h"
 
 void MaterialNode::accept(NodeVisitor& v)
 {

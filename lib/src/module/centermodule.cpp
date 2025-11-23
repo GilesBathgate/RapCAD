@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "centermodule.h"
+#include "module/centermodule.h"
 #include "context.h"
 #include "node/alignnode.h"
 

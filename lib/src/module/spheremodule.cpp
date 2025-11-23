@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "spheremodule.h"
+#include "module/spheremodule.h"
 #include "context.h"
 #include "node/pointsnode.h"
 #include "numbervalue.h"

@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "isvecfunction.h"
+#include "function/isvecfunction.h"
 #include "booleanvalue.h"
 #include "context.h"
 #include "valuefactory.h"

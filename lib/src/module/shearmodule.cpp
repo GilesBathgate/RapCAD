@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "shearmodule.h"
+#include "module/shearmodule.h"
 #include "context.h"
 #include "node/transformationnode.h"
 #include "vectorvalue.h"

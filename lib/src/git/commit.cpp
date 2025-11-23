@@ -1,6 +1,6 @@
-#include "commit.h"
-#include "repository.h"
-#include "gitexception.h"
+#include "git/commit.h"
+#include "git/repository.h"
+#include "git/gitexception.h"
 
 Commit::Commit()
 	: commit(nullptr)
