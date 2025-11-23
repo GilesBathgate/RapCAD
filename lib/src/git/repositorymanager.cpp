@@ -1,4 +1,4 @@
-#include "repositorymanager.h"
+#include "git/repositorymanager.h"
 
 RepositoryManager::RepositoryManager()
 {

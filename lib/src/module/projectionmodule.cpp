@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "projectionmodule.h"
+#include "module/projectionmodule.h"
 #include "booleanvalue.h"
 #include "context.h"
 #include "node/projectionnode.h"

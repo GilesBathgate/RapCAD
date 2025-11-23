@@ -1,5 +1,5 @@
-#include "signature.h"
-#include "gitexception.h"
+#include "git/signature.h"
+#include "git/gitexception.h"
 
 Signature::Signature(const Repository& r)
 {

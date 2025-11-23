@@ -23,7 +23,7 @@ QT  += core gui openglwidgets concurrent
 TARGET = rapcad
 TEMPLATE = app
 INCLUDEPATH += src
-INCLUDEPATH += $$clean_path($$PWD/../lib/src)
+INCLUDEPATH += $$clean_path($$PWD/../lib/include)
 DESTDIR = $$clean_path($$OUT_PWD/..)
 
 DEFINES += USE_READLINE

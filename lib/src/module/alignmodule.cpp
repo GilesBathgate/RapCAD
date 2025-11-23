@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "alignmodule.h"
+#include "module/alignmodule.h"
 #include "booleanvalue.h"
 #include "context.h"
 #include "node/alignnode.h"

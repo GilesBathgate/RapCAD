@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "decomposenode.h"
+#include "node/decomposenode.h"
 
 void DecomposeNode::accept(NodeVisitor& v)
 {

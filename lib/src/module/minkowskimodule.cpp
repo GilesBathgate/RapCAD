@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "minkowskimodule.h"
+#include "module/minkowskimodule.h"
 #include "context.h"
 #include "node/minkowskinode.h"
 

@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "boundarymodule.h"
+#include "module/boundarymodule.h"
 #include "context.h"
 #include "node/boundarynode.h"
 #include "onceonly.h"

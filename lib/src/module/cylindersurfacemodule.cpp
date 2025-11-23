@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cylindersurfacemodule.h"
+#include "module/cylindersurfacemodule.h"
 #include "context.h"
 #include "node/alignnode.h"
 #include "node/primitivenode.h"

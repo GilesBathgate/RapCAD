@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "islistfunction.h"
+#include "function/islistfunction.h"
 #include "booleanvalue.h"
 #include "valuefactory.h"
 #include "vectorvalue.h"

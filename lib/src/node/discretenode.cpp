@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "discretenode.h"
+#include "node/discretenode.h"
 
 DiscreteNode::DiscreteNode() :
 	places(1)

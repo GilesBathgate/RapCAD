@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "pointsnode.h"
+#include "node/pointsnode.h"
 #include "point.h"
 
 PointsNode::PointsNode() :

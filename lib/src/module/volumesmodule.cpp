@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "volumesmodule.h"
+#include "module/volumesmodule.h"
 #include "booleanvalue.h"
 #include "context.h"
 #include "node/volumesnode.h"

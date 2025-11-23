@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "complementnode.h"
+#include "node/complementnode.h"
 
 void ComplementNode::accept(NodeVisitor& v)
 {

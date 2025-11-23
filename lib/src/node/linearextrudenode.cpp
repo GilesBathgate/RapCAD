@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "linearextrudenode.h"
+#include "node/linearextrudenode.h"
 
 LinearExtrudeNode::LinearExtrudeNode() :
 	axis(0,0,0)

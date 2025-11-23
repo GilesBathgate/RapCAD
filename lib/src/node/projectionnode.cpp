@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "projectionnode.h"
+#include "node/projectionnode.h"
 
 ProjectionNode::ProjectionNode() :
 	base(false)

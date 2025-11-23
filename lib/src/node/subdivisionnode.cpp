@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "subdivisionnode.h"
+#include "node/subdivisionnode.h"
 
 SubDivisionNode::SubDivisionNode() :
 	level(1)

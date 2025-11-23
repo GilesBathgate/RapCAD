@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "simplifynode.h"
+#include "node/simplifynode.h"
 
 SimplifyNode::SimplifyNode() :
 	ratio(0.1)

@@ -15,7 +15,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "cbrtfunction.h"
+#include "function/cbrtfunction.h"
 #include "context.h"
 #include "numbervalue.h"
 #include "rmath.h"

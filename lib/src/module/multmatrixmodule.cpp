@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "multmatrixmodule.h"
+#include "module/multmatrixmodule.h"
 #include "context.h"
 #include "node/transformationnode.h"
 #include "numbervalue.h"

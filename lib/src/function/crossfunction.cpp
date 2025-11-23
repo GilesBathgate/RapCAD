@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "crossfunction.h"
+#include "function/crossfunction.h"
 #include "context.h"
 #include "valuefactory.h"
 #include "vectorvalue.h"

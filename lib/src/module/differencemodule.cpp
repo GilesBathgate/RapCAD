@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "differencemodule.h"
+#include "module/differencemodule.h"
 #include "context.h"
 #include "node/differencenode.h"
 

@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "primitivenode.h"
+#include "node/primitivenode.h"
 #ifdef USE_CGAL
 #include "cgalprimitive.h"
 #else

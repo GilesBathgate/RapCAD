@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "circumcenterfunction.h"
+#include "function/circumcenterfunction.h"
 #include "context.h"
 #include "point.h"
 #include "valuefactory.h"

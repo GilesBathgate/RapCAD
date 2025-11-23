@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "materialmodule.h"
+#include "module/materialmodule.h"
 #include "context.h"
 #include "node/materialnode.h"
 

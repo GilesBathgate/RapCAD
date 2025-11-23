@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "concatfunction.h"
+#include "function/concatfunction.h"
 #include "context.h"
 #include "valuefactory.h"
 #include "vectorvalue.h"

@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cosfunction.h"
+#include "function/cosfunction.h"
 #include "context.h"
 #include "numbervalue.h"
 #include "rmath.h"

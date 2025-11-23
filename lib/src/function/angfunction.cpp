@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "angfunction.h"
+#include "function/angfunction.h"
 #include "complexvalue.h"
 #include "context.h"
 #include "numbervalue.h"

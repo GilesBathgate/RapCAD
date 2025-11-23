@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "resizenode.h"
+#include "node/resizenode.h"
 
 ResizeNode::ResizeNode() :
 	size(0,0,0),

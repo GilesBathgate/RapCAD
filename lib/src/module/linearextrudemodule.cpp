@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "linearextrudemodule.h"
+#include "module/linearextrudemodule.h"
 #include "context.h"
 #include "node/linearextrudenode.h"
 #include "numbervalue.h"

@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "triangulatemodule.h"
+#include "module/triangulatemodule.h"
 #include "context.h"
 #include "node/triangulatenode.h"
 

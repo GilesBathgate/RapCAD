@@ -1,6 +1,6 @@
-#include "repository.h"
-#include "signature.h"
-#include "gitexception.h"
+#include "git/repository.h"
+#include "git/signature.h"
+#include "git/gitexception.h"
 
 Repository::Repository(const QDir& directory)
 	: directory(directory)

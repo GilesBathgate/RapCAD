@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "transformationnode.h"
+#include "node/transformationnode.h"
 
 TransformationNode::TransformationNode() :
 	matrix(nullptr),

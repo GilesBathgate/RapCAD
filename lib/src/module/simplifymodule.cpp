@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "simplifymodule.h"
+#include "module/simplifymodule.h"
 #include "context.h"
 #include "node/simplifynode.h"
 #include "numbervalue.h"

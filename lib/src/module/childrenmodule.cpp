@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "childrenmodule.h"
+#include "module/childrenmodule.h"
 #include "context.h"
 #include "node/childrennode.h"
 #include "numbervalue.h"

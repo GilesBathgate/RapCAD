@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "pointsmodule.h"
+#include "module/pointsmodule.h"
 #include "context.h"
 #include "node/pointsnode.h"
 #include "vectorvalue.h"

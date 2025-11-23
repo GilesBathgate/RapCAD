@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "writelnmodule.h"
+#include "module/writelnmodule.h"
 #include <contrib/qtcompat.h>
 
 WriteLnModule::WriteLnModule(Reporter& r) : WriteModule(r,"writeln")

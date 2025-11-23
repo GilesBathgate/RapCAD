@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "radialsnode.h"
+#include "node/radialsnode.h"
 
 void RadialsNode::accept(NodeVisitor& v)
 {

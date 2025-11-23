@@ -1,6 +1,6 @@
-#include "index.h"
-#include "repository.h"
-#include "gitexception.h"
+#include "git/index.h"
+#include "git/repository.h"
+#include "git/gitexception.h"
 
 Index::Index(const Repository& r)
 {

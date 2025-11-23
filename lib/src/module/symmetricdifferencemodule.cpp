@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "symmetricdifferencemodule.h"
+#include "module/symmetricdifferencemodule.h"
 #include "context.h"
 #include "node/symmetricdifferencenode.h"
 

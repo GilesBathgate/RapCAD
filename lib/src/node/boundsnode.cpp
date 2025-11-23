@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "boundsnode.h"
+#include "node/boundsnode.h"
 
 void BoundsNode::accept(NodeVisitor& v)
 {

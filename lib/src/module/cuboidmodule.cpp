@@ -15,9 +15,9 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "cuboidmodule.h"
+#include "module/cuboidmodule.h"
 #include "context.h"
-#include "cubemodule.h"
+#include "module/cubemodule.h"
 #include "node/primitivenode.h"
 #include "numbervalue.h"
 

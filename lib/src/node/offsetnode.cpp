@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "offsetnode.h"
+#include "node/offsetnode.h"
 
 void OffsetNode::setAmount(const decimal& a)
 {

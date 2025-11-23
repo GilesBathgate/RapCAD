@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "glidemodule.h"
+#include "module/glidemodule.h"
 #include "context.h"
 #include "node/glidenode.h"
 

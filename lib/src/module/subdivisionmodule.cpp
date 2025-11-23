@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "subdivisionmodule.h"
+#include "module/subdivisionmodule.h"
 #include "context.h"
 #include "node/subdivisionnode.h"
 #include "numbervalue.h"

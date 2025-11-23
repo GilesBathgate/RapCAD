@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "beziersurfacemodule.h"
+#include "module/beziersurfacemodule.h"
 #include "context.h"
 #include "fragment.h"
 #include "node/primitivenode.h"

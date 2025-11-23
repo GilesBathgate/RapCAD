@@ -15,7 +15,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "assertfunction.h"
+#include "function/assertfunction.h"
 #include "assertexception.h"
 #include "context.h"
 #include "valuefactory.h"

@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "radfunction.h"
+#include "function/radfunction.h"
 #include "context.h"
 #include "numbervalue.h"
 #include "rmath.h"

@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "israngefunction.h"
+#include "function/israngefunction.h"
 #include "booleanvalue.h"
 #include "rangevalue.h"
 #include "valuefactory.h"
