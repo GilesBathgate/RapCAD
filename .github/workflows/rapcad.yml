@@ -40,6 +40,9 @@ jobs:
       run: make -C build -j$(nproc)
     - name: Test
       if: ${{ matrix.config == 'coverage' }}
+      run: build/test/test --test test/assets
+    - name: Test GUI
+      if: ${{ matrix.config == 'coverage' }}
       run: xvfb-run --server-args="-screen 0 1024x768x24" build/rapcad --test test/assets
     - name: Coverage
       if: ${{ matrix.config == 'coverage' }}
@@ -160,7 +163,12 @@ jobs:
         7z a -tzip "rapcad_$env:VERSION.zip" "rapcad_$env:VERSION"
     - name: Test
       if: ${{ matrix.config == 'coverage' }}
-      run: build\rapcad.exe --test test/assets
+      run: |
+        mv .\build\test\release\test.exe .\build
+        .\build\test.exe --test test/assets
+    - name: Test GUI
+      if: ${{ matrix.config == 'coverage' }}
+      run: .\build\rapcad.exe --test test/assets
     - name: Store
       if: ${{ matrix.config == 'official' }}
       uses: actions/upload-artifact@v4
@@ -217,6 +225,9 @@ jobs:
         sudo macdeployqt build/rapcad.app -dmg
         mv build/rapcad.dmg rapcad_${{ env.VERSION }}.dmg
     - name: Test
+      if: ${{ matrix.config == 'coverage' }}
+      run: build/test/test --test test/assets
+    - name: Test GUI
       if: ${{ matrix.config == 'coverage' }}
       run: build/rapcad.app/Contents/MacOS/rapcad --test test/assets
     - name: Store
