@@ -18,16 +18,24 @@
 
 include(../common.pri)
 
-QT += testlib
-QT -= gui
+QT += testlib concurrent
 
 CONFIG += qt console warn_on depend_includepath testcase
 CONFIG -= app_bundle
 
 TEMPLATE = app
+INCLUDEPATH += src
+INCLUDEPATH += $$clean_path($$PWD/../lib/include)
 
 SOLUTIONDIR=$$clean_path($$OUT_PWD/..)
 LIBS += -L$$SOLUTIONDIR/lib -lrapcad
 PRE_TARGETDEPS += $$SOLUTIONDIR/lib/librapcad.a
 
-SOURCES += test.cpp
+include(../cgal.pri)
+
+SOURCES += \
+    src/main.cpp \
+    src/tester.cpp
+
+HEADERS += \
+    src/tester.h
