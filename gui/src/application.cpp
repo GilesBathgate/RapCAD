@@ -112,7 +112,7 @@ Strategy* Application::parseArguments(int argc,char* argv[])
 	p.addPositionalArgument("filename", QCoreApplication::translate("main","File to open or process."));
 
 #ifdef USE_INTEGTEST
-	const QCommandLineOption testOption(QStringList() << "t" << "test", QCoreApplication::translate("main","Run through tests in working directory."),"directory");
+	const QCommandLineOption testOption(QStringList() << "t" << "test", QCoreApplication::translate("main","Run UI tests"));
 	p.addOption(testOption);
 
 	const QCommandLineOption generateOption(QStringList() << "g" << "generate", QCoreApplication::translate("main","Generate documentation."));
@@ -179,7 +179,7 @@ Strategy* Application::parseArguments(int argc,char* argv[])
 #ifdef USE_INTEGTEST
 	if(p.isSet(testOption)) {
 		showVersion(reporter.output);
-		return new Tester(reporter,p.value(testOption));
+		return new Tester(reporter);
 	}
 	if(p.isSet(generateOption)) {
 		return new Generator(reporter);
