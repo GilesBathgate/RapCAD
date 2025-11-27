@@ -43,7 +43,7 @@ jobs:
       run: build/test/test --test test/assets
     - name: Test GUI
       if: ${{ matrix.config == 'coverage' }}
-      run: xvfb-run --server-args="-screen 0 1024x768x24" build/rapcad --test test/assets
+      run: xvfb-run --server-args="-screen 0 1024x768x24" build/rapcad --test
     - name: Coverage
       if: ${{ matrix.config == 'coverage' }}
       run: |
@@ -168,7 +168,7 @@ jobs:
         .\build\test.exe --test test/assets
     - name: Test GUI
       if: ${{ matrix.config == 'coverage' }}
-      run: .\build\rapcad.exe --test test/assets
+      run: .\build\rapcad.exe --test
     - name: Store
       if: ${{ matrix.config == 'official' }}
       uses: actions/upload-artifact@v4
@@ -229,7 +229,7 @@ jobs:
       run: build/test/test --test test/assets
     - name: Test GUI
       if: ${{ matrix.config == 'coverage' }}
-      run: build/rapcad.app/Contents/MacOS/rapcad --test test/assets
+      run: build/rapcad.app/Contents/MacOS/rapcad --test
     - name: Store
       if: ${{ matrix.config == 'official' }}
       uses: actions/upload-artifact@v4

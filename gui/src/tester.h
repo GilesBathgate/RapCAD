@@ -27,41 +27,20 @@ class Tester : public QObject,public Strategy
 	Q_OBJECT
 	Q_DISABLE_COPY_MOVE(Tester)
 public:
-	Tester(Reporter&,const QString&,QObject* parent=nullptr);
-	~Tester() override;
+	Tester(Reporter &r,QObject* parent=nullptr);
 	int evaluate() override;
 private slots:
 	void runUiTests();
 	void handleSaveItemsDialog();
 	void handlePreferencesDialog();
 private:
-	void writeHeader(const QString& name, int num);
-	void writePass();
-	void writeFail();
-	void writeSkip();
-	static bool testFunctionExists(Script&);
-	void testModule(Script&,const QFileInfo&);
-	void testFunction(Script&);
-	void exportTest(const QDir&);
-#if USE_CGAL
-	void exportTest(Primitive* p,const QFileInfo&,const QFileInfo&,const QString&);
-#endif
-	void runTestPhase(Module*,int,int&);
 	void builtinsTest();
 	void consoleTest();
 	void renderingTest();
 	void searchTest();
 	void aboutTest();
 	void preferencesTest();
-	void writeTestTime();
 
-	QString directory;
-	QString* nullout;
-	QTextStream* nullstream;
-	Reporter* nullreport;
-	int testcount;
-	int passcount;
-	int failcount;
 	MainWindow* ui;
 	QElapsedTimer testTimer;
 };

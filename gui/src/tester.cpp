@@ -17,131 +17,28 @@
  */
 #ifdef USE_INTEGTEST
 
-#include "asciidocprinter.h"
-#include "booleanvalue.h"
-#include "builtincreator.h"
-#include "cachemanager.h"
-#include "export.h"
-#include "comparer.h"
-#include "geometryevaluator.h"
-#include "module/cubemodule.h"
-#include "module/squaremodule.h"
-#include "nodeevaluator.h"
-#include "nodeprinter.h"
-#include "preferences.h"
 #include "tester.h"
-#include "treeevaluator.h"
-#include "treeprinter.h"
-#include "ui/codeeditor.h"
 #include "ui/console.h"
+#include "preferences.h"
+
 #include <QApplication>
-#include <QDir>
 #include <QLineEdit>
 #include <QMenu>
 #include <QTimer>
 #include <QtTest/QTest>
 #include <boost/version.hpp>
-#include <contrib/qtcompat.h>
 #include <gmp.h>
 #include <mpfr.h>
 
-Tester::Tester(Reporter& r,const QString& d,QObject* parent) :
+Tester::Tester(Reporter& r,QObject* parent) :
 	QObject(parent),
 	Strategy(r),
-	directory(d),
-	nullout(new QString()),
-	nullstream(new QTextStream(nullout)),
-	nullreport(new Reporter(*nullstream)),
-	testcount(0),
-	passcount(0),
-	failcount(0),
 	ui(nullptr)
 {
 }
 
-Tester::~Tester()
-{
-	delete nullout;
-	delete nullstream;
-	delete nullreport;
-}
-
-void Tester::writeHeader(const QString& name, int num)
-{
-	testTimer.start();
-	output << "Test #" << QString().setNum(num).rightJustified(3,'0') << ": ";
-	output << name.leftJustified(50,'.',true);
-	output.flush();
-}
-
-void Tester::writeTestTime()
-{
-	const float timeTaken=static_cast<float>(testTimer.nsecsElapsed())*1e-6F;
-#ifndef Q_OS_WIN
-	output << "\e[0;33m";
-#endif
-	output << QString("%1ms").arg(timeTaken,10,'f',2);
-#ifndef Q_OS_WIN
-	output << "\e[0m";
-#endif
-	testTimer.invalidate();
-}
-
-void Tester::writePass()
-{
-#ifdef Q_OS_WIN
-	output << " Passed";
-#else
-	output << " \e[0;32mPassed\e[0m";
-#endif
-	writeTestTime();
-	output << Qt::endl;
-}
-
-void Tester::writeFail()
-{
-#ifdef Q_OS_WIN
-	output << " FAILED" << Qt::endl;
-#else
-	output << " \e[0;31mFAILED\e[0m" << Qt::endl;
-#endif
-	testTimer.invalidate();
-}
-
-void Tester::writeSkip()
-{
-#ifdef Q_OS_WIN
-	output << " Skipped" << Qt::endl;
-#else
-	output << " \e[0;33mSkipped\e[0m" << Qt::endl;
-#endif
-	testTimer.invalidate();
-}
-
-static bool skipDir(const QString& dir)
-{
-#ifndef USE_OFFSET
-	if(dir=="051_offset") return true;
-#endif
-#ifndef USE_SIMPLIFY
-	if(dir=="087_simplify") return true;
-#endif
-#ifdef Q_OS_WIN
-	if(dir=="063_rands") return true;
-#endif
-#ifndef USE_SUBDIV
-	if(dir=="090_subdiv") return true;
-#endif
-	return (dir=="");
-}
-
 int Tester::evaluate()
 {
-	reporter.startTiming();
-
-	auto& cm=CacheManager::getInstance();
-	cm.disableCaches();
-
 	output << QString("Qt:\t %1").arg(QT_VERSION_STR) << Qt::endl;
 #ifdef USE_CGAL
 	output << QString("CGAL:\t %1").arg(CGAL_VERSION_STR)<< Qt::endl;
@@ -150,73 +47,7 @@ int Tester::evaluate()
 	output << QString("MPFR:\t %1").arg(MPFR_VERSION_STRING)<< Qt::endl;
 	output << QString("GMP:\t %1").arg(gmp_version)<< Qt::endl;
 
-	writeHeader("000_treeprinter",testcount);
-
-	auto& cr=BuiltinCreator::getInstance(*nullreport);
-
-	TreePrinter nulldocs(*nullstream);
-	cr.generateDocs(nulldocs);
-
-	AsciidocPrinter nullasciidocs(*nullstream,*nullstream);
-	cr.generateDocs(nullasciidocs);
-
-	writePass();
-
-	const QDir testDir(directory);
-	/* This hard coded filter need to be addressed
-	 * but it will do for now. */
-	const auto entries=testDir.entryInfoList(QStringList("*_*"));
-	for(const auto& entry: entries) {
-
-		const QDir dir(entry.absoluteFilePath());
-		const QString& testDirName=entry.fileName();
-		if(testDirName=="061_export") {
-			exportTest(dir);
-			continue;
-		}
-
-		const auto files=dir.entryInfoList(QStringList("*.rcad"), QDir::Files);
-		for(const auto& file: files) {
-
-			writeHeader(file.fileName(),++testcount);
-
-			if(skipDir(testDirName)) {
-				writeSkip();
-				continue;
-			}
-
-			Script s(*nullreport);
-			s.parse(file);
-			if(s.isEmpty()) {
-				writeFail();
-				failcount++;
-				continue;
-			} else if(testFunctionExists(s)) {
-				testFunction(s);
-			} else {
-				testModule(s,file);
-			}
-		}
-	}
-	reporter.setReturnCode(failcount);
-
-	reporter.stopTiming("testing");
-
-	reporter.startTiming();
-	QThreadPool::globalInstance()->setMaxThreadCount(10);
-	const QList<Declaration*> builtins=BuiltinCreator::getInstance(*nullreport).getBuiltins();
-	int modulecount=0;
-	for(int testphase=0; testphase<=2; ++testphase) {
-		for(auto& b: builtins) {
-			auto* m=dynamic_cast<Module*>(b);
-			if(m)
-				runTestPhase(m,testphase,modulecount);
-		}
-	}
-	reporter.setReturnCode(failcount);
-
-	output << "Total: " << testcount << " Passed: " << passcount << " Failed: " << failcount << Qt::endl;
-	reporter.stopTiming("multithread testing");
+	reporter.setReturnCode(EXIT_SUCCESS);
 
 #if !defined(Q_OS_WIN) && !defined(Q_OS_MACOS) && !defined(USE_VALGRIND)
 	reporter.startTiming();
@@ -239,52 +70,6 @@ int Tester::evaluate()
 #endif
 	reporter.reportTimings();
 	return reporter.getReturnCode();
-}
-
-void Tester::runTestPhase(Module* m,int testphase,int& modulecount)
-{
-	QString multithread_nullout;
-	QTextStream multithread_nullstream(&multithread_nullout);
-	Reporter multithread_nullreport(multithread_nullstream);
-
-	Context ctx;
-	switch(testphase)
-	{
-		case 0:
-			break;
-		case 1:
-			{
-				const CubeModule cube(multithread_nullreport);
-				Node* cubeNode = cube.evaluate(ctx);
-				const QList<Node*> inputNodes { cubeNode };
-				ctx.setInputNodes(inputNodes);
-			}
-			break;
-		case 2:
-			{
-				const SquareModule square(multithread_nullreport);
-				Node* squareNode = square.evaluate(ctx);
-				const QList<Node*> inputNodes { squareNode };
-				ctx.setInputNodes(inputNodes);
-			}
-			break;
-	}
-	Node* node=m->evaluate(ctx);
-	if(node) {
-		auto testname=QString("%1_phase%2_multithread_%3").arg(++modulecount,3,10,QChar('0')).arg(testphase+1).arg(m->getFullName());
-		writeHeader(testname,++testcount);
-#ifdef Q_OS_WIN
-		if(testphase) {
-			writeSkip();
-			return;
-		}
-#endif
-		GeometryEvaluator ge(multithread_nullreport);
-		node->accept(ge);
-		const QScopedPointer<Primitive> r(ge.getResult());
-		writePass();
-		passcount++;
-	}
 }
 
 void Tester::runUiTests()
@@ -402,147 +187,4 @@ void Tester::handleSaveItemsDialog()
 	}
 }
 
-void Tester::exportTest(const QDir& dir)
-{
-#if USE_CGAL
-	const auto files=dir.entryInfoList(QStringList("*.rcad"), QDir::Files);
-	for(const auto& file: files) {
-		const QDir path(file.absolutePath());
-		const QFileInfo origPath(path.filePath(file.baseName()+".csg"));
-		Primitive* p=nullptr;
-#ifndef Q_OS_WIN
-		Reporter& r=*nullreport;
-		Script s(r);
-		s.parse(file);
-		TreeEvaluator te(r);
-		s.accept(te);
-		NodeEvaluator ne(r);
-		Node* n=te.getRootNode();
-		n->accept(ne);
-		p=ne.getResult();
-
-		Export e(p,r);
-		e.exportResult(origPath);
-#endif
-
-		exportTest(p,origPath,file,".stl");
-		exportTest(p,origPath,file,".obj");
-		exportTest(p,origPath,file,".off");
-		exportTest(p,origPath,file,".amf");
-		exportTest(p,origPath,file,".3mf");
-		exportTest(p,origPath,file,".nef");
-
-#ifndef Q_OS_WIN
-		QFile::remove(origPath.absoluteFilePath());
-		delete p;
-		delete n;
-#endif
-	}
-#endif
-}
-
-#if USE_CGAL
-void Tester::exportTest(Primitive* p,const QFileInfo& origPath,const QFileInfo& file,const QString& ext)
-{
-	const QString& newName=file.baseName()+ext;
-
-	writeHeader(newName,++testcount);
-#ifdef Q_OS_WIN
-	writeSkip();
-	return;
-#endif
-
-	const QDir path(file.absolutePath());
-	const QFileInfo newPath(path.filePath(newName));
-	Export e(p,*nullreport);
-	e.exportResult(newPath);
-	Comparer c(*nullreport);
-	c.setup(origPath.absoluteFilePath(),newPath.absoluteFilePath());
-	c.evaluate();
-	if(c.evaluate()==EXIT_SUCCESS) {
-		writePass();
-		passcount++;
-	} else {
-		writeFail();
-		failcount++;
-	}
-
-	QFile::remove(newPath.absoluteFilePath());
-}
-#endif
-
-void Tester::testFunction(Script& s)
-{
-	TreeEvaluator te(*nullreport);
-	//If a test function exists check it returns true
-	const QList<Argument*> args;
-	Callback* c = addCallback("test",s,args);
-	s.accept(te);
-	auto* v = dynamic_cast<BooleanValue*>(c->getResult());
-	if(v && v->isTrue()) {
-		writePass();
-		passcount++;
-	} else {
-		writeFail();
-		failcount++;
-	}
-	delete v;
-
-	Node* n=te.getRootNode();
-	delete n;
-}
-
-void Tester::testModule(Script& s,const QFileInfo& file)
-{
-#ifdef Q_OS_WIN
-	writeSkip();
-	return;
-#endif
-	TreeEvaluator te(*nullreport);
-
-	const QString& basename=file.baseName();
-	const QString& examFileName=basename + ".exam.csg";
-	const QString& csgFileName=basename + ".csg";
-	const QFileInfo examFileInfo(file.absoluteDir(),examFileName);
-	const QFileInfo csgFileInfo(file.absoluteDir(),csgFileName);
-	QFile examFile(examFileInfo.absoluteFilePath());
-	s.accept(te);
-
-	//Create exam file
-	examFile.open(QFile::WriteOnly);
-	QTextStream examout(&examFile);
-	NodePrinter p(examout);
-	Node* n=te.getRootNode();
-	n->accept(p);
-	delete n;
-	examout.flush();
-	examFile.close();
-
-	const QFile csgFile(csgFileInfo.absoluteFilePath());
-	if(csgFile.exists()) {
-		Comparer co(*nullreport);
-		co.setup(examFileInfo.absoluteFilePath(),csgFileInfo.absoluteFilePath());
-		if(co.evaluate()==EXIT_SUCCESS) {
-			writePass();
-			passcount++;
-		} else {
-			writeFail();
-			failcount++;
-		}
-		examFile.remove();
-	} else {
-		output << "Created" << Qt::endl;
-	}
-}
-
-bool Tester::testFunctionExists(Script& s)
-{
-	for(Declaration* d: s.getDeclarations()) {
-		auto* func=dynamic_cast<Function*>(d);
-		if(func && func->getName()=="test")
-			return true;
-	}
-
-	return false;
-}
 #endif
