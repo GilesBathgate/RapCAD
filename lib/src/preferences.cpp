@@ -242,6 +242,16 @@ void Preferences::setTranslateOrigin(bool value)
 	settings->setValue("TranslateOrigin",value);
 }
 
+bool Preferences::getDarkSyntaxHighlight() const
+{
+	return settings->value("DarkSyntaxHighlight",false).toBool();
+}
+
+void Preferences::setDarkSyntaxHighlight(bool b)
+{
+	settings->setValue("DarkSyntaxHighlight",b);
+}
+
 bool Preferences::getDarkTheme() const
 {
 	return settings->value("DarkTheme",false).toBool();

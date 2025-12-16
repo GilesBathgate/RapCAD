@@ -49,6 +49,7 @@ void PreferencesDialog::setupWidgets()
 			c.setCurrentIndex(c.count()-1);
 	}
 	ui->visibleWhiteSpacdCheckBox->setChecked(preferences.getVisibleWhiteSpace());
+	ui->darkSyntaxHighlightCheckBox->setChecked(preferences.getDarkSyntaxHighlight());
 	ui->darkThemeCheckBox->setChecked(preferences.getDarkTheme());
 	ui->softwareOpenGLCheckBox->setChecked(preferences.getSoftwareOpenGL());
 #ifndef Q_OS_WIN
@@ -198,6 +199,7 @@ void PreferencesDialog::setupButtons()
 	connect(ui->appearanceComboBox,QOverload<int>::of(&QComboBox::currentIndexChanged),this,&PreferencesDialog::appearanceChanged);
 
 	connect(ui->visibleWhiteSpacdCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::visibleWhiteSpaceChanged);
+	connect(ui->darkSyntaxHighlightCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::darkSyntaxHighlightChanged);
 	connect(ui->darkThemeCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::darkThemeChanged);
 	connect(ui->softwareOpenGLCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::softwareOpenGLChanged);
 	connect(ui->tooltipsCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::showTooltipsChanged);
@@ -275,6 +277,11 @@ void PreferencesDialog::autoSaveOnCompileChanged(int s)
 void PreferencesDialog::visibleWhiteSpaceChanged(int s)
 {
 	preferences.setVisibleWhiteSpace(s == Qt::Checked);
+}
+
+void PreferencesDialog::darkSyntaxHighlightChanged(int s)
+{
+	preferences.setDarkSyntaxHighlight(s == Qt::Checked);
 }
 
 void PreferencesDialog::darkThemeChanged(int s)

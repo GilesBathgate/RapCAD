@@ -185,6 +185,8 @@ public:
 	void setNamedPreference(QString);
 	void setNamedPreference(QString,QVariant);
 
+	bool getDarkSyntaxHighlight() const;
+	void setDarkSyntaxHighlight(bool);
 private:
 	Preferences(AbstractSettings*);
 	~Preferences();
