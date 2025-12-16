@@ -43,6 +43,7 @@ public:
 	void setModuleNames(const QHash<QString,Module*>&);
 	void increaseSelectionIndent();
 	void decreaseSelectionIndent();
+	void resetSyntaxHighlight();
 signals:
 	void fileNameChanged(const QString&);
 protected:

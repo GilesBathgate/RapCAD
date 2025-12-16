@@ -35,7 +35,7 @@ SyntaxHighlighter::SyntaxHighlighter(QTextDocument* parent) :
 	scanner(nullptr)
 {
 	auto& p=Preferences::getInstance();
-	if(p.getDarkTheme()) {
+	if(p.getDarkSyntaxHighlight()) {
 		keywordFormat.setForeground(QColorConstants::Svg::dodgerblue);
 		keywordFormat.setFontWeight(QFont::Bold);
 

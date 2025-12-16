@@ -27,6 +27,7 @@
 #include <QTextDocumentWriter>
 #include <QToolTip>
 #include <QtGlobal>
+#include <utility>
 
 CodeEditor::CodeEditor(QWidget* parent) :
 	QPlainTextEdit(parent),
@@ -46,6 +47,13 @@ CodeEditor::CodeEditor(QWidget* parent) :
 
 CodeEditor::~CodeEditor()
 {
+	delete highlighter;
+}
+
+void CodeEditor::resetSyntaxHighlight()
+{
+	auto highlighter=new SyntaxHighlighter(document());
+	std::swap(this->highlighter,highlighter);
 	delete highlighter;
 }
 
@@ -159,6 +167,7 @@ void CodeEditor::preferencesUpdated()
 	highlightLine = p.getHighlightLine();
 	highlightCurrentLine();
 	setVisibleWhiteSpace(p.getVisibleWhiteSpace());
+	resetSyntaxHighlight();
 }
 
 void CodeEditor::setVisibleWhiteSpace(bool enabled)
