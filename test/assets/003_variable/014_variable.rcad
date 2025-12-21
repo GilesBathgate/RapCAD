@@ -1,0 +1,6 @@
+const a=20;
+
+function test() {
+a=10;
+return a==10;
+}

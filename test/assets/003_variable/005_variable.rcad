@@ -1,0 +1,6 @@
+a=10;
+
+function test() {
+a=20;
+return a==20;
+}
