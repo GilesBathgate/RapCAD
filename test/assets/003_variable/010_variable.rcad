@@ -1,0 +1,11 @@
+module nested() {
+function private() {
+a=10;
+}
+b=private();
+}
+
+function test() {
+nested();
+return a!=10;
+}

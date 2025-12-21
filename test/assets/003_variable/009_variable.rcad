@@ -1,0 +1,8 @@
+function private() {
+a=10;
+}
+
+function test() {
+b=private();
+return a!=10;
+}

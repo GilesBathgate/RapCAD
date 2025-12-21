@@ -1,0 +1,9 @@
+a=20;
+
+function private() {
+return a==20;
+}
+
+function test() {
+return private();
+}

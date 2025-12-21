@@ -1,0 +1,6 @@
+function test() {
+a=30;
+const b=a;
+a=10;
+return b==30;
+}
