@@ -1,0 +1,4 @@
+function test() {
+a=10[1,1];
+return a==10[1,1];
+}
