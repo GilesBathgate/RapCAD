@@ -1,0 +1,3 @@
+function test() {
+	return false?1:2==2==true;
+}
