@@ -1,0 +1,7 @@
+function add1(x)=x+1;
+function mul2(x)=x*2;
+function sub3(x)=x-3;
+
+function test() {
+return add1(mul2(sub3(10)))==15;
+}

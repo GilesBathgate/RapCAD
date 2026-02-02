@@ -1,0 +1,9 @@
+a=1;
+function test_function() {
+a=2;
+return a;
+}
+
+function test() {
+return test_function()==2&&a==1;
+}
