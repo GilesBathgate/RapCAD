@@ -1,0 +1,10 @@
+function test() {
+  if (true) {
+    if (false) {
+      return false;
+    }
+  } else {
+    return false;
+  }
+  return true;
+}

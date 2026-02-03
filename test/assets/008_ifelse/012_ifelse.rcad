@@ -1,0 +1,7 @@
+// Truthiness coverage is mostly handled in 002_equality
+function test() {
+  if (1) {
+    return true;
+  }
+  return false;
+}

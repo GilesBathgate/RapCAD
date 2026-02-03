@@ -1,0 +1,9 @@
+function test() {
+  a = 1;
+  if (true) {
+    a = 2;
+    b = 3;
+    return a + b == 5;
+  }
+  return false;
+}

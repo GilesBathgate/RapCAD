@@ -1,0 +1,6 @@
+function test() {
+  if (undef)
+    return false;
+  else
+    return true;
+}

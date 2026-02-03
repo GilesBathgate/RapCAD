@@ -1,0 +1,9 @@
+function test() {
+  a = 3;
+  if (a == 1)
+    return false;
+  else if (a == 2)
+    return false;
+  else
+    return true;
+}

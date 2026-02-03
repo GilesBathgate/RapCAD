@@ -1,0 +1,12 @@
+function test() {
+  a = 2;
+  if (a == 1) {
+    return false;
+  } else if (a == 2) {
+    return true;
+  } else if (a == 3) {
+    return false;
+  } else {
+    return false;
+  }
+}
