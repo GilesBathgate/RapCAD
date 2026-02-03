@@ -1,0 +1,4 @@
+function test() {
+  a = 1 / 1e100;
+  return a != 0;
+}
