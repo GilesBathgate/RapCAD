@@ -1,0 +1,7 @@
+function test() {
+ a=0;
+ for(i=[1:3]) {
+  a=a+i;
+ }
+ return a==6;
+}
