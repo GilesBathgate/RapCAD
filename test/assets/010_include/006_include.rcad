@@ -1,0 +1,8 @@
+function f(){
+ include <006_included.rcad.data>
+ return f_val;
+}
+
+function test() {
+ return (f()==6);
+}

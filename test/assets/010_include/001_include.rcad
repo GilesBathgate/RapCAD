@@ -1,5 +1,5 @@
-include <001_include.data>
+include <001_included.rcad.data>
 
 function test() {
-return a==12345;
+ return a==12345;
 }

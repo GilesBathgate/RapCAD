@@ -1,0 +1,6 @@
+function test() {
+ include <005_included.rcad.data>
+ if(e==5) e=4;
+ include <005_included.rcad.data>
+ return e==5;
+}
