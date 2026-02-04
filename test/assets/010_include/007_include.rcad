@@ -1,0 +1,6 @@
+include <./007_included.rcad.data>
+include <dir/../007_included_2.rcad.data>
+
+function test() {
+ return (g==7&&h==77);
+}

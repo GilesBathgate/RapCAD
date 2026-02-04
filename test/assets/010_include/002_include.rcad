@@ -1,0 +1,5 @@
+include <002_included_a.rcad.data>
+
+function test() {
+ return (a==1&&b==2);
+}
