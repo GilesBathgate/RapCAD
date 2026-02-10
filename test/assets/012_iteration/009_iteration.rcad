@@ -1,7 +1,7 @@
 function test() {
-a="";
-for(i="abc")
-a~=i;
+ a="";
+ for(i="abc")
+  a~=i;
 
-return a=="abc";
+ return a=="abc";
 }

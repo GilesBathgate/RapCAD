@@ -1,7 +1,7 @@
 function test() {
-a=1;
-for(i=[1:10])
-a++;
+ a=1;
+ for(i=[1:10])
+  a++;
 
-return a==11;
+ return a==11;
 }

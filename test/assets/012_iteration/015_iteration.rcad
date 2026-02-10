@@ -1,0 +1,6 @@
+function test() {
+ for(i=[1:3])
+  a=i;
+
+ return i==3;
+}

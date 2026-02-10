@@ -1,0 +1,8 @@
+function test() {
+ s=0;
+ for(i=[1,undef,2])
+  if(i!=undef)
+   s+=i;
+
+ return s==3;
+}

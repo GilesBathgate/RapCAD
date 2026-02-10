@@ -1,0 +1,7 @@
+function test() {
+ s="";
+ for(i=["a","b","c"])
+  s~=i;
+
+ return s=="abc";
+}
