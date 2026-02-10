@@ -1,0 +1,7 @@
+function test() {
+ s="";
+ for(i=[1,"a",true])
+  s~=str(i);
+
+ return s=="1atrue";
+}

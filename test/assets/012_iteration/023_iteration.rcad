@@ -1,6 +1,6 @@
 function test() {
  a=1;
- for(i="abc")
+ for([1:3])
   a++;
 
  return a==4;

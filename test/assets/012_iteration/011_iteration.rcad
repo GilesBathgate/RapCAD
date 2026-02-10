@@ -1,7 +1,7 @@
 function test() {
  a=1;
- for(i="abc")
+ for(i=[])
   a++;
 
- return a==4;
+ return a==1;
 }
