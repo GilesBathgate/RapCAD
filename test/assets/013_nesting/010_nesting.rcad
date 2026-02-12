@@ -1,0 +1,11 @@
+function test_func(x) = x>5?x:0;
+
+function test() {
+ s=0;
+ for(i=[1:10]) {
+  if(i%2==0) {
+   s=s+test_func(i);
+  }
+ }
+ return s==24;
+}

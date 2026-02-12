@@ -1,0 +1,19 @@
+function test() {
+ s=0;
+ if(true) {
+  for(i=[1:2]) {
+   if(i>0){
+    for(j=[1:2]) {
+     if(j>0){
+      for(k=[1:2]) {
+       if(k>0){
+        s=s+1;
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+ return s==8;
+}

@@ -1,7 +1,7 @@
 function test_function(r) {
-for(i=1) {
-return i;
-}
+ for(i=1) {
+  return i;
+ }
 }
 
 function test() {

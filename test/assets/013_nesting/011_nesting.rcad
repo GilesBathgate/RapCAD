@@ -1,0 +1,7 @@
+function a(x) = b(x)+1;
+function b(x) = c(x)*2;
+function c(x) = x-3;
+
+function test() {
+ return a(10)==15;
+}
