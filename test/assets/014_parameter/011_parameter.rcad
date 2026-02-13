@@ -1,0 +1,5 @@
+function factorial(n,acc=1) = (n<=1?acc:factorial(n-1,acc*n));
+
+function test() {
+ return (factorial(5)==120);
+}

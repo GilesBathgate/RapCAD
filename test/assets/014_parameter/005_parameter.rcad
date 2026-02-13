@@ -1,0 +1,5 @@
+function extra(a) = (a==1);
+
+function test() {
+ return extra(1,2,3)&&extra(a=1,b=2);
+}

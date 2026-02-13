@@ -1,0 +1,6 @@
+function base() = 5;
+function defaults(x=base()) = (x==5);
+
+function test() {
+ return defaults();
+}

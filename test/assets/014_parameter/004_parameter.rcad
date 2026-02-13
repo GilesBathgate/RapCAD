@@ -1,0 +1,5 @@
+function mixed(a,b,c) = (a==undef&&b==2&&c==3);
+
+function test() {
+ return mixed(b=2,1,c=3);
+}
