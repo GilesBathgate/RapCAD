@@ -1,4 +1,5 @@
 default=9;
+
 function test(x=default,y=default,z=default) {
-return x==9&&y==9&&z==9;
+ return x==9&&y==9&&z==9;
 }

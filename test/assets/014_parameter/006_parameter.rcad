@@ -1,0 +1,5 @@
+function missing(a,b) = (a==1&&b==undef);
+
+function test() {
+ return missing(1);
+}

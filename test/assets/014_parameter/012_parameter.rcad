@@ -1,0 +1,5 @@
+function check_undef(x) = (x==undef);
+
+function test() {
+ return check_undef(undef);
+}

@@ -1,0 +1,6 @@
+x=10;
+function shadow(x) = (x==5);
+
+function test() {
+ return shadow(5)&&x==10;
+}

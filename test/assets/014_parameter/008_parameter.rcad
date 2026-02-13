@@ -1,0 +1,5 @@
+function typed(x:number=1,y:string="hi") = (x==1&&y=="hi");
+
+function test() {
+ return typed(1,"hi")&&typed();
+}

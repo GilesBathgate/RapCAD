@@ -1,4 +1,5 @@
 function test_function() = true;
+
 function test() {
-return test_function(,0);
+ return test_function(,0);
 }

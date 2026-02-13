@@ -1,0 +1,5 @@
+function f(a,b=1) = a+b;
+
+function test() {
+ return f(10)==11&&f(10,2)==12;
+}
