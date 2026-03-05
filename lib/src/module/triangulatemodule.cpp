@@ -27,7 +27,7 @@ TriangulateModule::TriangulateModule(Reporter& r) : Module(r,"triangulate")
 
 Node* TriangulateModule::evaluate(const Context& ctx) const
 {
-	auto* n=new TriangulateNode();
+	auto* n=new TriangulateNode(*this);
 	n->setChildren(ctx.getInputNodes());
 	return n;
 }

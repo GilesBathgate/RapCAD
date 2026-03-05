@@ -19,7 +19,8 @@
 #include "product.h"
 #include "node/productnode.h"
 
-Product::Product() :
+Product::Product(Reporter& r) :
+	Module(r, "product"),
 	primitive(nullptr)
 {
 }
@@ -39,9 +40,9 @@ void Product::accept(TreeVisitor& v)
 	v.visit(*this);
 }
 
-Node* Product::evaluate(Context*)
+Node* Product::evaluate(const Context&) const
 {
-	auto* p=new ProductNode();
+	auto* p=new ProductNode(*this);
 	p->setPrimitive(primitive);
 	return p;
 }

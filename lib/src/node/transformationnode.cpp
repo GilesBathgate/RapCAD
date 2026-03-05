@@ -18,7 +18,8 @@
 
 #include "node/transformationnode.h"
 
-TransformationNode::TransformationNode() :
+TransformationNode::TransformationNode(const Module& m) :
+	Node(m),
 	matrix(nullptr),
 	datumAxis(Axis::None)
 {

@@ -18,6 +18,10 @@
 
 #include "node/groupnode.h"
 
+GroupNode::GroupNode(const Module& m) : Node(m)
+{
+}
+
 void GroupNode::accept(NodeVisitor& v)
 {
 	v.visit(*this);

@@ -18,6 +18,10 @@
 
 #include "node/radialsnode.h"
 
+RadialsNode::RadialsNode(const Module& m) : Node(m)
+{
+}
+
 void RadialsNode::accept(NodeVisitor& v)
 {
 	v.visit(*this);

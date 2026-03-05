@@ -28,7 +28,7 @@ RadialsModule::RadialsModule(Reporter& r) : Module(r,"radial")
 
 Node* RadialsModule::evaluate(const Context& ctx) const
 {
-	auto* n=new RadialsNode();
+	auto* n=new RadialsNode(*this);
 	n->setChildren(ctx.getInputNodes());
 	return n;
 }

@@ -33,7 +33,7 @@ Node* TranslateModule::evaluate(const Context& ctx) const
 	Point v(0,0,0);
 	auto* vec=getParameterArgument<VectorValue>(ctx,0);
 
-	auto* n=new TransformationNode();
+	auto* n=new TransformationNode(*this);
 	n->setChildren(ctx.getInputNodes());
 
 	if(!vec)

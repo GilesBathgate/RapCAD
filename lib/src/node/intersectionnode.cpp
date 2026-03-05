@@ -18,6 +18,10 @@
 
 #include "node/intersectionnode.h"
 
+IntersectionNode::IntersectionNode(const Module& m) : Node(m)
+{
+}
+
 void IntersectionNode::accept(NodeVisitor& v)
 {
 	v.visit(*this);

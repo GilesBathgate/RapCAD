@@ -24,7 +24,7 @@
 class HullNode : public Node
 {
 public:
-	HullNode();
+	explicit HullNode(const Module&);
 
 	bool getChain() const;
 	void setChain(bool value);

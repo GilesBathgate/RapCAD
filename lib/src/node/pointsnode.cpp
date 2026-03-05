@@ -19,7 +19,8 @@
 #include "node/pointsnode.h"
 #include "point.h"
 
-PointsNode::PointsNode() :
+PointsNode::PointsNode(const Module& m) :
+	PrimitiveNode(m),
 	visibleChildren(true)
 {
 }

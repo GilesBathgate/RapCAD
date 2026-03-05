@@ -24,7 +24,7 @@
 class GroupNode : public Node
 {
 public:
-	GroupNode() = default;
+	explicit GroupNode(const Module&);
 	void accept(NodeVisitor&) override;
 };
 

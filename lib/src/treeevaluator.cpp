@@ -31,7 +31,8 @@ TreeEvaluator::TreeEvaluator(Reporter& r) :
 	context(nullptr),
 	layout(nullptr),
 	descendDone(false),
-	rootNode(nullptr)
+	rootNode(nullptr),
+	unionModule(nullptr)
 {
 }
 
@@ -153,7 +154,7 @@ void TreeEvaluator::visit(const Instance& inst)
 		if(scp) {
 			scp->accept(*this);
 			childnodes=context->getCurrentNodes();
-			node=UnionModule::createUnion(childnodes);
+			node=unionModule->createUnion(childnodes);
 		} else {
 			node=mod->evaluate(*context);
 		}
@@ -643,6 +644,7 @@ void TreeEvaluator::visit(const CodeDocDeclaration&)
 void TreeEvaluator::visit(Script& sc)
 {
 	const BuiltinManager m(sc,reporter);
+	unionModule=&m.getUnionModule();
 
 	/* Use the location of the current script as the root for all imports */
 	const QDir& loc=sc.getFileLocation();
@@ -663,13 +665,12 @@ void TreeEvaluator::visit(Script& sc)
 	if(context->getReturnValue())
 		reporter.reportWarning(tr("return statement not valid inside global scope."));
 
-	rootNode=UnionModule::createUnion(childnodes);
-
+	rootNode=unionModule->createUnion(childnodes);
 }
 
 void TreeEvaluator::visit(Product& p)
 {
-	Node* r=p.evaluate(context);
+	Node* r=p.evaluate(*context);
 	QList<Node*> childnodes=context->getCurrentNodes();
 	childnodes.append(r);
 	context->setCurrentNodes(childnodes);

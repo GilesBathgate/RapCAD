@@ -103,17 +103,19 @@ public:
 	Primitive* getResult() const override { return nullptr; }
 private:
 	QTextStream& result;
+	void printName(const Node&);
 	void collectChildren(const Node&);
 	void printChildren(const Node&);
-	void printArguments(const QList<Point>&);
-	void printArguments(const Polygon&);
 	void printPrimitive(Primitive*);
 	void printPolygon(const Polygon&);
-	void printArguments(const QList<ViewDirections>&);
-	void printArguments(const QString&,bool);
+	void printArguments();
 	void printArguments(int);
 	void printArguments(const decimal&);
+	void printArguments(const Polygon&);
+	void printArguments(const QList<Point>&);
+	void printArguments(const QString&,bool);
 	void printArguments(const QList<int>& list);
+	void printArguments(const QList<ViewDirections>&);
 	QList<Primitive*> primitives;
 };
 

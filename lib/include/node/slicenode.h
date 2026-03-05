@@ -25,7 +25,7 @@
 class SliceNode : public Node
 {
 public:
-	SliceNode();
+	explicit SliceNode(const Module&);
 	void setHeight(const decimal&);
 	decimal getHeight() const;
 	void setThickness(const decimal&);

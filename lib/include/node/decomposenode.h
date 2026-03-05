@@ -24,7 +24,7 @@
 class DecomposeNode : public Node
 {
 public:
-	DecomposeNode() = default;
+	explicit DecomposeNode(const Module&);
 	void accept(NodeVisitor&) override;
 };
 

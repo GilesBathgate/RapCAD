@@ -31,9 +31,9 @@ Node* ImportModule::evaluate(const Context& ctx) const
 {
 	auto* fileVal=getParameterArgument<TextValue>(ctx,0);
 	if(fileVal)
-		return new ImportNode(fileVal->getValueString());
+		return new ImportNode(*this,fileVal->getValueString());
 
-	return new ImportNode(import);
+	return new ImportNode(*this,import);
 }
 
 void ImportModule::setImport(const QString& imp)

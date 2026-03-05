@@ -18,7 +18,8 @@
 
 #include "node/simplifynode.h"
 
-SimplifyNode::SimplifyNode() :
+SimplifyNode::SimplifyNode(const Module& m) :
+	Node(m),
 	ratio(0.1)
 {
 }

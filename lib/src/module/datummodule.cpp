@@ -36,7 +36,7 @@ Node* DatumModule::evaluate(const Context& ctx) const
 	auto* yVal=dynamic_cast<NumberValue*>(ctx.getArgument(0,"y"));
 	auto* zVal=dynamic_cast<NumberValue*>(ctx.getArgument(0,"z"));
 
-	auto* n=new TransformationNode();
+	auto* n=new TransformationNode(*this);
 	n->setChildren(ctx.getInputNodes());
 
 	if(!xVal&&!yVal&&!zVal)

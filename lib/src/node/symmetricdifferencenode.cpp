@@ -18,6 +18,10 @@
 
 #include "node/symmetricdifferencenode.h"
 
+SymmetricDifferenceNode::SymmetricDifferenceNode(const Module& m) : Node(m)
+{
+}
+
 void SymmetricDifferenceNode::accept(NodeVisitor& v)
 {
 	v.visit(*this);

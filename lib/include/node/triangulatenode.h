@@ -24,7 +24,7 @@
 class TriangulateNode : public Node
 {
 public:
-	TriangulateNode() = default;
+	explicit TriangulateNode(const Module&);
 	void accept(NodeVisitor&) override;
 };
 

@@ -39,6 +39,7 @@
 #include "literal.h"
 #include "module.h"
 #include "module/importmodule.h"
+#include "module/unionmodule.h"
 #include "moduleimport.h"
 #include "modulescope.h"
 #include "parameter.h"
@@ -113,6 +114,7 @@ private:
 	QList<ImportModule*> modules;
 	QHash<const ScriptImport*,Script*> imports;
 	QStack<QDir> importLocations;
+	const UnionModule* unionModule;
 };
 
 #endif // TREEEVALUATOR_H

@@ -95,7 +95,7 @@ Node* AlignModule::evaluate(const Context& ctx) const
 		}
 	}
 
-	auto* n=new AlignNode();
+	auto* n=new AlignNode(*this);
 	n->setChildren(ctx.getInputNodes());
 	n->setAlign(align);
 

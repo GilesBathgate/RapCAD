@@ -11,7 +11,7 @@ Node* ColorModule::evaluate(const Context& ctx) const
 {
 	reporter.reportWarning(tr("'color' module has no effect\n"));
 
-	auto* n=new ChildrenNode();
+	auto* n=new ChildrenNode(*this);
 	n->setChildren(ctx.getInputNodes());
 	return n;
 }

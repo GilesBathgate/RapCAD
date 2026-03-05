@@ -24,7 +24,7 @@
 class ChildrenNode : public Node
 {
 public:
-	ChildrenNode() = default;
+	explicit ChildrenNode(const Module&);
 
 	void addIndex(int);
 	QList<int> getIndexes() const;

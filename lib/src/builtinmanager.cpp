@@ -37,3 +37,8 @@ BuiltinManager::~BuiltinManager()
 	for(Declaration* d: creator.getBuiltins())
 		script.removeDeclaration(d);
 }
+
+const UnionModule& BuiltinManager::getUnionModule() const
+{
+	return creator.getUnionModule();
+}

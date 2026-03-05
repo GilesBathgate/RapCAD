@@ -43,7 +43,7 @@ Node* ScaleModule::evaluate(const Context& ctx) const
 	const decimal& y=s.y();
 	const decimal& z=s.z();
 	if(x==0.0||y==0.0||z==0.0) {
-		auto* pn=new PointsNode();
+		auto* pn=new PointsNode(*this);
 		pn->createSinglePoint();
 		pn->setVisibleChildren(false);
 		pn->setChildren(ctx.getInputNodes());
@@ -78,7 +78,7 @@ Node* ScaleModule::evaluate(const Context& ctx) const
 			m->setType(TransformType::UniformScaling);
 	}
 
-	auto* n=new TransformationNode();
+	auto* n=new TransformationNode(*this);
 	n->setChildren(ctx.getInputNodes());
 	n->setMatrix(m);
 	return n;

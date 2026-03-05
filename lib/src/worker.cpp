@@ -179,9 +179,9 @@ QList<Argument*> Worker::getArgs(const decimal& value)
 
 Instance* Worker::addProductInstance(const QString& name,Script& s)
 {
-	auto* m = new Instance();
+	auto* m=new Instance();
 	m->setName(name);
-	auto* r=new Product();
+	auto* r=new Product(reporter);
 	r->setPrimitive(primitive);
 	QList<Statement*> children;
 	children.append(r);

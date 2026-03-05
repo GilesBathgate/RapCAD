@@ -24,7 +24,7 @@
 class GlideNode : public Node
 {
 public:
-	GlideNode() = default;
+	explicit GlideNode(const Module&);
 	void accept(NodeVisitor&) override;
 };
 

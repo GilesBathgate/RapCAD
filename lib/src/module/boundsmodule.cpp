@@ -28,7 +28,7 @@ BoundsModule::BoundsModule(Reporter& r) : Module(r,"bound")
 
 Node* BoundsModule::evaluate(const Context& ctx) const
 {
-	auto* n=new BoundsNode();
+	auto* n=new BoundsNode(*this);
 	n->setChildren(ctx.getInputNodes());
 	return n;
 }

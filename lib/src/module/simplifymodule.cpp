@@ -34,7 +34,7 @@ Node* SimplifyModule::evaluate(const Context& ctx) const
 	if(numVal)
 		ratio=numVal->getNumber();
 
-	auto* n=new SimplifyNode();
+	auto* n=new SimplifyNode(*this);
 	n->setRatio(ratio);
 	n->setChildren(ctx.getInputNodes());
 	return n;
