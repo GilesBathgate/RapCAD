@@ -27,7 +27,7 @@ SolidModule::SolidModule(Reporter& r) : Module(r,"solid")
 
 Node* SolidModule::evaluate(const Context& ctx) const
 {
-	auto* n = new SolidNode();
+	auto* n = new SolidNode(*this);
 	n->setChildren(ctx.getInputNodes());
 	return n;
 }

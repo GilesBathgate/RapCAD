@@ -43,7 +43,7 @@ Node* PointsModule::evaluate(const Context& ctx) const
 		}
 	}
 
-	auto* n=new PointsNode();
+	auto* n=new PointsNode(*this);
 	n->setChildren(ctx.getInputNodes());
 	if(points.isEmpty()) {
 		n->createSinglePoint();

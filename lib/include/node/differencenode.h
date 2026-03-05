@@ -24,7 +24,7 @@
 class DifferenceNode : public Node
 {
 public:
-	DifferenceNode() = default;
+	explicit DifferenceNode(const Module&);
 	void accept(NodeVisitor&) override;
 };
 

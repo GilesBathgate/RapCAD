@@ -79,7 +79,7 @@ Node* BezierSurfaceModule::evaluate(const Context& ctx) const
 	Mesh mesh;
 	auto* meshVec=getParameterArgument<VectorValue>(ctx,0);
 
-	auto* pn=new PrimitiveNode();
+	auto* pn=new PrimitiveNode(*this);
 	Primitive* p=pn->createPrimitive();
 	p->setType(PrimitiveTypes::Surface);
 	pn->setChildren(ctx.getInputNodes());

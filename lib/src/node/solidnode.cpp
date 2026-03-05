@@ -17,6 +17,10 @@
  */
 #include "node/solidnode.h"
 
+SolidNode::SolidNode(const Module& m) : Node(m)
+{
+}
+
 void SolidNode::accept(NodeVisitor& v)
 {
 	v.visit(*this);

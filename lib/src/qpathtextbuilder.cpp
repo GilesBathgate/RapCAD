@@ -26,8 +26,9 @@
 #include <QMutexLocker>
 #include <QPainterPath>
 
-QPathTextBuilder::QPathTextBuilder() :
-	size(0)
+QPathTextBuilder::QPathTextBuilder(const Module& m) :
+	size(0),
+	module(m)
 {
 }
 
@@ -78,10 +79,10 @@ Primitive* QPathTextBuilder::buildPrimitive() const
 	QPainterPath painterPath;
 	painterPath.addText(location,getFont(),text);
 
-	const QList<QPolygonF> paths = painterPath.toSubpathPolygons();
+	const QList<QPolygonF> paths=painterPath.toSubpathPolygons();
 
 	int index=0;
-	PrimitiveNode pn;
+	PrimitiveNode pn(module);
 	Primitive* p=pn.createPrimitive();
 	for(const auto& path: paths) {
 		Polygon& pg=p->createPolygon();

@@ -24,7 +24,7 @@
 class PointsNode : public PrimitiveNode
 {
 public:
-	PointsNode();
+	explicit PointsNode(const Module&);
 	void createSinglePoint();
 	bool getVisibleChildren() const;
 	void setVisibleChildren(bool value);

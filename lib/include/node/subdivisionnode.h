@@ -24,7 +24,7 @@
 class SubDivisionNode : public Node
 {
 public:
-	SubDivisionNode();
+	explicit SubDivisionNode(const Module&);
 	void setLevel(int);
 	int getLevel() const;
 	void accept(NodeVisitor&) override;

@@ -22,15 +22,16 @@
 #include "instance.h"
 #include "context.h"
 #include "primitive.h"
+#include "module.h"
 
-class Product : public Instance
+class Product : public Instance, private Module
 {
 public:
-	Product();
+	explicit Product(Reporter&);
 	void setPrimitive(Primitive*);
 	Primitive* getPrimitive() const;
 	void accept(TreeVisitor&) override;
-	Node* evaluate(Context*);
+	Node* evaluate(const Context&) const override;
 private:
 	Primitive* primitive;
 };

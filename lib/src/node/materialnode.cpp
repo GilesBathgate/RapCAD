@@ -18,6 +18,10 @@
 
 #include "node/materialnode.h"
 
+MaterialNode::MaterialNode(const Module& m) : Node(m)
+{
+}
+
 void MaterialNode::accept(NodeVisitor& v)
 {
 	v.visit(*this);

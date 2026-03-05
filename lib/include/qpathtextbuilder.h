@@ -20,6 +20,8 @@
 #define QPATHTEXTBUILDER_H
 
 #include "textbuilder.h"
+#include "module.h"
+
 #include <QFont>
 #include <QPointF>
 #include <QString>
@@ -28,7 +30,7 @@ class QPathTextBuilder : public TextBuilder
 {
 	Q_DISABLE_COPY_MOVE(QPathTextBuilder)
 public:
-	QPathTextBuilder();
+	explicit QPathTextBuilder(const Module&);
 	~QPathTextBuilder() override = default;
 	void setText(const QString&) override;
 	void setFamily(const QString& value);
@@ -42,6 +44,7 @@ private:
 	QString family;
 	int size;
 	QPointF location;
+	const Module& module;
 };
 
 #endif // QPATHTEXTBUILDER_H

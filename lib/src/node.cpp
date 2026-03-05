@@ -17,8 +17,13 @@
  */
 
 #include "node.h"
+#include "module.h"
 
 #include <QSet>
+
+Node::Node(const Module& m) : module(m)
+{
+}
 
 static void descend(Node* node,QSet<Node*>& collect)
 {
@@ -65,4 +70,9 @@ Node::size_type Node::childCount() const
 void Node::clearChildren()
 {
 	children.clear();
+}
+
+QString Node::getModuleName() const
+{
+	return module.getFullName();
 }

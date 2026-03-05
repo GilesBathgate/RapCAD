@@ -37,7 +37,7 @@ ChildrenModule::ChildrenModule(Reporter& r,bool l) :
 
 Node* ChildrenModule::evaluate(const Context& ctx) const
 {
-	auto* n=new ChildrenNode();
+	auto* n=new ChildrenNode(*this);
 
 	auto* val=getParameterArgument<Value>(ctx,0);
 	if(!legacy) {

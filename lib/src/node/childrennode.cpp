@@ -18,6 +18,10 @@
 
 #include "node/childrennode.h"
 
+ChildrenNode::ChildrenNode(const Module& m) : Node(m)
+{
+}
+
 void ChildrenNode::addIndex(int i)
 {
 	indexes.append(i);

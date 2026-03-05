@@ -18,6 +18,10 @@
 
 #include "node/differencenode.h"
 
+DifferenceNode::DifferenceNode(const Module& m) : Node(m)
+{
+}
+
 void DifferenceNode::accept(NodeVisitor& v)
 {
 	v.visit(*this);

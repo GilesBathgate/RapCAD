@@ -44,14 +44,14 @@ Node* CubeModule::evaluate(const Context& ctx) const
 		pt=size.getPoint();
 	}
 
-	auto* pn=new PrimitiveNode();
+	auto* pn=new PrimitiveNode(*this);
 	Primitive* p=pn->createPrimitive();
 	pn->setChildren(ctx.getInputNodes());
 
 	createCuboid<Point,decimal>(p,0.0,pt.x(),0.0,pt.y(),0.0,pt.z());
 
 	if(center) {
-		auto* an=new AlignNode();
+		auto* an=new AlignNode(*this);
 		an->setCenter(true);
 		an->addChild(pn);
 		return an;

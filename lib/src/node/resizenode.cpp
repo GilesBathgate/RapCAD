@@ -18,7 +18,8 @@
 
 #include "node/resizenode.h"
 
-ResizeNode::ResizeNode() :
+ResizeNode::ResizeNode(const Module& m) :
+	Node(m),
 	size(0,0,0),
 	autosize(false)
 {

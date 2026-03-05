@@ -44,7 +44,7 @@ Node* PrismModule::evaluate(const Context& ctx) const
 	if(sidesVal)
 		s=sidesVal->toInteger();
 
-	auto* pn=new PrimitiveNode();
+	auto* pn=new PrimitiveNode(*this);
 	Primitive* p=pn->createPrimitive();
 	pn->setChildren(ctx.getInputNodes());
 
@@ -99,7 +99,7 @@ Node* PrismModule::evaluate(const Context& ctx) const
 	}
 
 	if(center) {
-		auto* an=new AlignNode();
+		auto* an=new AlignNode(*this);
 		an->setCenterVertical();
 		an->addChild(pn);
 		return an;

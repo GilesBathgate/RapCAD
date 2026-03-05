@@ -18,7 +18,8 @@
 
 #include "node/hullnode.h"
 
-HullNode::HullNode() :
+HullNode::HullNode(const Module& m) :
+	Node(m),
 	chain(false),
 	closed(false),
 	concave(false)

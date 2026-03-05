@@ -32,7 +32,7 @@ public:
 		Y,
 		Z
 	};
-	TransformationNode();
+	explicit TransformationNode(const Module&);
 	~TransformationNode() override;
 	void accept(NodeVisitor&) override;
 	TransformMatrix* getMatrix() const;

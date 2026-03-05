@@ -34,7 +34,7 @@ Node* SubDivisionModule::evaluate(const Context& ctx) const
 	if(levelVal)
 		level=levelVal->toInteger();
 
-	auto* d = new SubDivisionNode();
+	auto* d = new SubDivisionNode(*this);
 	d->setChildren(ctx.getInputNodes());
 	d->setLevel(level);
 	return d;

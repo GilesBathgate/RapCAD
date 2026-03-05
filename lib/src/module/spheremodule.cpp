@@ -41,7 +41,7 @@ Node* SphereModule::evaluate(const Context& ctx) const
 			r=(dValue->getNumber()/2.0);
 	}
 	if(r==0.0) {
-		auto* p=new PointsNode();
+		auto* p=new PointsNode(*this);
 		p->createSinglePoint();
 		p->setChildren(ctx.getInputNodes());
 		return p;
@@ -51,7 +51,7 @@ Node* SphereModule::evaluate(const Context& ctx) const
 
 	const int ringCount=f/2;
 
-	auto* pn=new PrimitiveNode();
+	auto* pn=new PrimitiveNode(*this);
 	Primitive* p=pn->createPrimitive();
 	pn->setChildren(ctx.getInputNodes());
 

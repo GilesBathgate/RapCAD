@@ -25,7 +25,7 @@
 class ProductNode : public Node
 {
 public:
-	ProductNode();
+	explicit ProductNode(const Module&);
 	void setPrimitive(Primitive*);
 	Primitive* getPrimitive() const;
 	void accept(NodeVisitor&) override;

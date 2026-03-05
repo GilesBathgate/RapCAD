@@ -18,6 +18,10 @@
 
 #include "node/unionnode.h"
 
+UnionNode::UnionNode(const Module& m) : Node(m)
+{
+}
+
 void UnionNode::accept(NodeVisitor& v)
 {
 	v.visit(*this);

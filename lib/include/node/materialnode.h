@@ -24,7 +24,7 @@
 class MaterialNode : public Node
 {
 public:
-	MaterialNode() = default;
+	explicit MaterialNode(const Module&);
 	void accept(NodeVisitor&) override;
 };
 

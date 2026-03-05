@@ -57,7 +57,7 @@ Node* CylinderSurfaceModule::evaluate(const Context& ctx) const
 	const QList<Point> c1=getCircle(r,f,z1);
 	const QList<Point> c2=getCircle(r,f,z2);
 
-	auto* pn=new PrimitiveNode();
+	auto* pn=new PrimitiveNode(*this);
 	Primitive* p=pn->createPrimitive();
 	p->setType(PrimitiveTypes::Surface);
 	pn->setChildren(ctx.getInputNodes());
@@ -78,7 +78,7 @@ Node* CylinderSurfaceModule::evaluate(const Context& ctx) const
 	}
 
 	if(center) {
-		auto* an=new AlignNode();
+		auto* an=new AlignNode(*this);
 		an->setCenterVertical();
 		an->addChild(pn);
 		return an;

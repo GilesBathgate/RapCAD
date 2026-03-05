@@ -133,6 +133,9 @@
 
 BuiltinCreator::BuiltinCreator(Reporter& r)
 {
+	unionModule=new UnionModule(r);
+	builtins.append(unionModule);
+
 	builtins.append(new AbsFunction());
 	builtins.append(new AcosFunction());
 	builtins.append(new AngFunction());
@@ -244,7 +247,6 @@ BuiltinCreator::BuiltinCreator(Reporter& r)
 	builtins.append(new ThreadModule(r));
 	builtins.append(new TranslateModule(r));
 	builtins.append(new TriangulateModule(r));
-	builtins.append(new UnionModule(r));
 	builtins.append(new VolumesModule(r));
 	builtins.append(new WriteLnModule(r));
 	builtins.append(new WriteModule(r));
@@ -265,6 +267,11 @@ BuiltinCreator::~BuiltinCreator()
 const QList<Declaration*>& BuiltinCreator::getBuiltins() const
 {
 	return builtins;
+}
+
+const UnionModule& BuiltinCreator::getUnionModule() const
+{
+	return *unionModule;
 }
 
 void BuiltinCreator::generateDocs(QTextStream& out) const

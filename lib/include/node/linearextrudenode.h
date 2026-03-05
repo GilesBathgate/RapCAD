@@ -26,7 +26,7 @@
 class LinearExtrudeNode : public Node
 {
 public:
-	LinearExtrudeNode();
+	explicit LinearExtrudeNode(const Module&);
 	void setHeight(const decimal&);
 	decimal getHeight() const;
 	Point getAxis() const;

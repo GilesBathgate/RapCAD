@@ -42,7 +42,7 @@ Node* BoundaryModule::evaluate(const Context& ctx) const
 	if(legacy&&depricateWarning())
 		reporter.reportWarning(tr("'outline' module is deprecated please use 'boundary'\n"));
 
-	auto* n = new BoundaryNode();
+	auto* n = new BoundaryNode(*this);
 	n->setChildren(ctx.getInputNodes());
 	return n;
 }

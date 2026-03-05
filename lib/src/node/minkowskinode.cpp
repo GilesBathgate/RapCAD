@@ -18,6 +18,10 @@
 
 #include "node/minkowskinode.h"
 
+MinkowskiNode::MinkowskiNode(const Module& m) : Node(m)
+{
+}
+
 void MinkowskiNode::accept(NodeVisitor& v)
 {
 	v.visit(*this);
