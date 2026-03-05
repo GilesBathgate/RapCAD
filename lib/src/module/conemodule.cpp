@@ -76,7 +76,7 @@ Node* ConeModule::evaluate(const Context& ctx) const
 	const QList<Point> c1=getCircle(r1,f,z1);
 	const QList<Point> c2=getCircle(r2,f,z2);
 
-	auto* pn=new PrimitiveNode();
+	auto* pn=new PrimitiveNode(*this);
 	Primitive* p=pn->createPrimitive();
 	pn->setChildren(ctx.getInputNodes());
 
@@ -134,7 +134,7 @@ Node* ConeModule::evaluate(const Context& ctx) const
 	}
 
 	if(center) {
-		auto* an=new AlignNode();
+		auto* an=new AlignNode(*this);
 		an->setCenterVertical();
 		an->addChild(pn);
 		return an;

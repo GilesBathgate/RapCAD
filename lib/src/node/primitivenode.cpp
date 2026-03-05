@@ -23,7 +23,8 @@
 #include "polyhedron.h"
 #endif
 
-PrimitiveNode::PrimitiveNode() :
+PrimitiveNode::PrimitiveNode(const Module& m) :
+	Node(m),
 	primitive(nullptr)
 {
 }

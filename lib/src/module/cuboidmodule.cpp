@@ -40,7 +40,7 @@ Node* CuboidModule::evaluate(const Context& ctx) const
 	const decimal& d=depthVal?depthVal->getNumber():1.0;
 	const decimal& h=heightVal?heightVal->getNumber():1.0;
 
-	auto* pn=new PrimitiveNode();
+	auto* pn=new PrimitiveNode(*this);
 	Primitive* p=pn->createPrimitive();
 	pn->setChildren(ctx.getInputNodes());
 

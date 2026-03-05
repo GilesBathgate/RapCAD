@@ -18,7 +18,8 @@
 
 #include "node/alignnode.h"
 
-AlignNode::AlignNode() :
+AlignNode::AlignNode(const Module& m) :
+	Node(m),
 	center(false)
 {
 }

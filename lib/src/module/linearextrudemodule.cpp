@@ -41,7 +41,7 @@ Node* LinearExtrudeModule::evaluate(const Context& ctx) const
 	if(vecVal)
 		axis=vecVal->getPoint();
 
-	auto* d = new LinearExtrudeNode();
+	auto* d = new LinearExtrudeNode(*this);
 	d->setHeight(h);
 	d->setAxis(axis);
 	d->setChildren(ctx.getInputNodes());

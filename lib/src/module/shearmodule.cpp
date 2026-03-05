@@ -46,7 +46,7 @@ Node* ShearModule::evaluate(const Context& ctx) const
 	if(zVal)
 		sz=zVal->getPoint();
 
-	auto* n=new TransformationNode();
+	auto* n=new TransformationNode(*this);
 	n->setChildren(ctx.getInputNodes());
 	if(!xVal&&!yVal&&!zVal)
 		return n;

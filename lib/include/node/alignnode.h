@@ -25,7 +25,7 @@
 class AlignNode : public Node
 {
 public:
-	AlignNode();
+	explicit AlignNode(const Module&);
 
 	bool getCenter() const;
 	void setCenter(bool value);

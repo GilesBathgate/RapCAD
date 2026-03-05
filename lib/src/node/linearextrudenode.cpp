@@ -18,7 +18,8 @@
 
 #include "node/linearextrudenode.h"
 
-LinearExtrudeNode::LinearExtrudeNode() :
+LinearExtrudeNode::LinearExtrudeNode(const Module& m) :
+	Node(m),
 	axis(0,0,0)
 {
 }

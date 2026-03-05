@@ -34,7 +34,7 @@ Node* OffsetModule::evaluate(const Context& ctx) const
 	if(amountVal)
 		a=amountVal->getNumber();
 
-	auto* n = new OffsetNode();
+	auto* n = new OffsetNode(*this);
 	n->setAmount(a);
 	n->setChildren(ctx.getInputNodes());
 	return n;

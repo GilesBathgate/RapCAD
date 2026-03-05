@@ -24,7 +24,7 @@
 class ProjectionNode : public Node
 {
 public:
-	ProjectionNode();
+	explicit ProjectionNode(const Module&);
 	void setBase(bool);
 	bool getBase() const;
 	void accept(NodeVisitor&) override;

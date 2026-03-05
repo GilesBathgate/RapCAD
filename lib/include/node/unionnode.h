@@ -24,7 +24,7 @@
 class UnionNode : public Node
 {
 public:
-	UnionNode() = default;
+	explicit UnionNode(const Module&);
 	void accept(NodeVisitor&) override;
 };
 

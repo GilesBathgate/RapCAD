@@ -24,7 +24,7 @@
 class VolumesNode : public Node
 {
 public:
-	VolumesNode();
+	explicit VolumesNode(const Module&);
 	void accept(NodeVisitor&) override;
 	bool getCalcMass() const;
 	void setCalcMass(bool value);

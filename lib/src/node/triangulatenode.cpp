@@ -18,6 +18,10 @@
 
 #include "node/triangulatenode.h"
 
+TriangulateNode::TriangulateNode(const Module& m) : Node(m)
+{
+}
+
 void TriangulateNode::accept(NodeVisitor& v)
 {
 	v.visit(*this);

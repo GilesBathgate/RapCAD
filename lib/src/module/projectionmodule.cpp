@@ -32,7 +32,7 @@ Node* ProjectionModule::evaluate(const Context& ctx) const
 {
 	BooleanValue* cut=dynamic_cast<BooleanValue*>(ctx.getArgumentDeprecatedModule(0,"cut","'slice' module",reporter));
 	if(cut&&cut->isTrue()) {
-		auto* n=new SliceNode();
+		auto* n=new SliceNode(*this);
 		n->setChildren(ctx.getInputNodes());
 		return n;
 	}
@@ -43,7 +43,7 @@ Node* ProjectionModule::evaluate(const Context& ctx) const
 		base=baseVal->isTrue();
 
 
-	auto* d = new ProjectionNode();
+	auto* d = new ProjectionNode(*this);
 	d->setChildren(ctx.getInputNodes());
 	d->setBase(base);
 	return d;

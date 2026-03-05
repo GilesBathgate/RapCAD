@@ -18,6 +18,10 @@
 
 #include "node/boundarynode.h"
 
+BoundaryNode::BoundaryNode(const Module& m) : Node(m)
+{
+}
+
 void BoundaryNode::accept(NodeVisitor& v)
 {
 	v.visit(*this);

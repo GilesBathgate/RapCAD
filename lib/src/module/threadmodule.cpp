@@ -55,7 +55,7 @@ Node *ThreadModule::evaluate(const Context& ctx) const
 
 	const QList<QList<Point>> spirals {s0,s1,s2,s3};
 
-	auto* pn=new PrimitiveNode();
+	auto* pn=new PrimitiveNode(*this);
 	Primitive* pr=pn->createPrimitive();
 	pn->setChildren(ctx.getInputNodes());
 
@@ -108,11 +108,11 @@ Node *ThreadModule::evaluate(const Context& ctx) const
 	createTriangle(pr,tn,tn-1,(n*1)-1);
 	createTriangle(pr,c1,tn,(n*1)-1);
 
-	auto cn=new PrimitiveNode();
+	auto cn=new PrimitiveNode(*this);
 	auto cb=cn->createPrimitive();
 	CubeModule::createCuboid<Point,decimal>(cb,-d,d,-d,d,0,h);
 
-	auto* is=new IntersectionNode();
+	auto* is=new IntersectionNode(*this);
 	is->addChild(cn);
 	is->addChild(pn);
 

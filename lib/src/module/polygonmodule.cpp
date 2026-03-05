@@ -36,7 +36,7 @@ Node* PolygonModule::evaluate(const Context& ctx) const
 	auto* pointsVec=getParameterArgument<VectorValue>(ctx,0);
 	VectorValue* linesVec=dynamic_cast<VectorValue*>(ctx.getArgumentDeprecated(1,"lines","paths",reporter));
 
-	auto* pn=new PrimitiveNode();
+	auto* pn=new PrimitiveNode(*this);
 	Primitive* p=pn->createPrimitive();
 	p->setType(type);
 	p->setSanitized(false);

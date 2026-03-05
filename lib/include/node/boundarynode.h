@@ -24,7 +24,7 @@
 class BoundaryNode : public Node
 {
 public:
-	BoundaryNode() = default;
+	explicit BoundaryNode(const Module&);
 	void accept(NodeVisitor&) override;
 };
 

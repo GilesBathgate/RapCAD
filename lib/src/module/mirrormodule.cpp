@@ -33,7 +33,7 @@ Node* MirrorModule::evaluate(const Context& ctx) const
 	Point p(0,0,0);
 	auto* vecVal=getParameterArgument<VectorValue>(ctx,0);
 
-	auto* n=new TransformationNode();
+	auto* n=new TransformationNode(*this);
 	n->setChildren(ctx.getInputNodes());
 
 	if(!vecVal)

@@ -27,7 +27,7 @@ MaterialModule::MaterialModule(Reporter& r) : Module(r,"material")
 
 Node* MaterialModule::evaluate(const Context& ctx) const
 {
-	auto* n=new MaterialNode();
+	auto* n=new MaterialNode(*this);
 	n->setChildren(ctx.getInputNodes());
 	return n;
 }

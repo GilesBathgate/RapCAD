@@ -40,7 +40,7 @@ Node* SliceModule::evaluate(const Context& ctx) const
 	if(thick)
 		t=thick->getNumber();
 
-	auto* d = new SliceNode();
+	auto* d = new SliceNode(*this);
 	d->setHeight(h);
 	d->setThickness(t);
 	d->setChildren(ctx.getInputNodes());

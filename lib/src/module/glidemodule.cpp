@@ -27,7 +27,7 @@ GlideModule::GlideModule(Reporter& r) : Module(r,"glide")
 
 Node* GlideModule::evaluate(const Context& ctx) const
 {
-	auto* n=new GlideNode();
+	auto* n=new GlideNode(*this);
 	n->setChildren(ctx.getInputNodes());
 	return n;
 }

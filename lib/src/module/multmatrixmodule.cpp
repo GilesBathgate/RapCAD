@@ -32,7 +32,7 @@ Node* MultMatrixModule::evaluate(const Context& ctx) const
 {
 	auto* matrixVec=getParameterArgument<VectorValue>(ctx,0);
 
-	auto* n=new TransformationNode();
+	auto* n=new TransformationNode(*this);
 	n->setChildren(ctx.getInputNodes());
 
 	if(!matrixVec)

@@ -18,7 +18,8 @@
 
 #include "node/volumesnode.h"
 
-VolumesNode::VolumesNode() :
+VolumesNode::VolumesNode(const Module& m) :
+	Node(m),
 	calcMass(false)
 {
 }

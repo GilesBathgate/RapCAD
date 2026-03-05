@@ -34,7 +34,7 @@ Node* ChainHullModule::evaluate(const Context& ctx) const
 	if(bVal)
 		closed=bVal->isTrue();
 
-	auto* h=new HullNode();
+	auto* h=new HullNode(*this);
 	h->setChain(true);
 	h->setClosed(closed);
 	h->setChildren(ctx.getInputNodes());

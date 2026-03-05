@@ -57,7 +57,7 @@ Node* RotateExtrudeModule::evaluate(const Context& ctx) const
 	if(heightVal)
 		height=heightVal->getNumber();
 
-	auto* n=new RotateExtrudeNode();
+	auto* n=new RotateExtrudeNode(*this);
 	n->setSweep(angle);
 	n->setAxis(axis);
 	n->setRadius(radius);
@@ -73,7 +73,7 @@ Node* RotateExtrudeModule::evaluate(const Context& ctx) const
 			0.0,0.0,-1.0,0.0,
 			0.0,1.0, 0.0,0.0,
 			0.0,0.0, 0.0,1.0);
-		auto* t=new TransformationNode();
+		auto* t=new TransformationNode(*this);
 		t->setMatrix(Rx90);
 		t->setChildren(ctx.getInputNodes());
 		n->addChild(t);

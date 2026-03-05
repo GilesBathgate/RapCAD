@@ -41,7 +41,7 @@ Node* ResizeModule::evaluate(const Context& ctx) const
 	if(autoSizeVal)
 		autoSize=autoSizeVal->isTrue();
 
-	auto* n=new ResizeNode();
+	auto* n=new ResizeNode(*this);
 	n->setSize(size);
 	n->setChildren(ctx.getInputNodes());
 	n->setAutoSize(autoSize);

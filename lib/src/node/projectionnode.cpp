@@ -18,7 +18,8 @@
 
 #include "node/projectionnode.h"
 
-ProjectionNode::ProjectionNode() :
+ProjectionNode::ProjectionNode(const Module& m) :
+	Node(m),
 	base(false)
 {
 }

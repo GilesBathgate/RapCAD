@@ -24,7 +24,7 @@
 class DiscreteNode : public Node
 {
 public:
-	DiscreteNode();
+	explicit DiscreteNode(const Module&);
 	int getPlaces() const;
 	void setPlaces(int value);
 	void accept(NodeVisitor&) override;

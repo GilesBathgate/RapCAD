@@ -40,7 +40,7 @@ Node* RotateModule::evaluate(const Context& ctx) const
 		Quaternion
 	};
 
-	auto* n=new TransformationNode();
+	auto* n=new TransformationNode(*this);
 	n->setChildren(ctx.getInputNodes());
 
 	RotationTypes rotation=RotationTypes::Axis;

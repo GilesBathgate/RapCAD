@@ -18,7 +18,8 @@
 
 #include "node/slicenode.h"
 
-SliceNode::SliceNode() :
+SliceNode::SliceNode(const Module& m) :
+	Node(m),
 	height(0),
 	thickness(0)
 {

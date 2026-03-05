@@ -18,7 +18,8 @@
 
 #include "node/discretenode.h"
 
-DiscreteNode::DiscreteNode() :
+DiscreteNode::DiscreteNode(const Module& m) :
+	Node(m),
 	places(1)
 {
 }

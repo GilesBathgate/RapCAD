@@ -22,20 +22,24 @@
 #include "visitablenode.h"
 #include <QList>
 
+class Module;
+
 class Node : public VisitableNode
 {
 	Q_DISABLE_COPY_MOVE(Node)
 	using size_type=QList<Node*>::size_type;
 public:
-	Node() = default;
+	explicit Node(const Module&);
 	~Node() override;
 	void addChild(Node*);
 	void setChildren(const QList<Node*>&);
 	const QList<Node*>& getChildren() const;
 	size_type childCount() const;
 	void clearChildren();
+	QString getModuleName() const;
 private:
 	QList<Node*> children;
+	const Module& module;
 };
 
 #endif // NODE_H

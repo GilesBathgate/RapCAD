@@ -18,6 +18,10 @@
 
 #include "node/boundsnode.h"
 
+BoundsNode::BoundsNode(const Module& m) : Node(m)
+{
+}
+
 void BoundsNode::accept(NodeVisitor& v)
 {
 	v.visit(*this);

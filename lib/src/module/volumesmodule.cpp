@@ -35,7 +35,7 @@ Node* VolumesModule::evaluate(const Context& ctx) const
 	if(massVal)
 		mass=massVal->isTrue();
 
-	auto* n=new VolumesNode();
+	auto* n=new VolumesNode(*this);
 	n->setCalcMass(mass);
 	n->setChildren(ctx.getInputNodes());
 	return n;

@@ -20,6 +20,7 @@
 #include "node/importnode.h"
 #include "node/symmetricdifferencenode.h"
 #include "nodeevaluator.h"
+#include "module.h"
 
 Comparer::Comparer(Reporter& r) : Strategy(r)
 {
@@ -35,14 +36,15 @@ int Comparer::evaluate()
 {
 	reporter.startTiming();
 
-	auto* a=new ImportNode(aFile);
-	auto* b=new ImportNode(bFile);
+	Module m(reporter,"compare");
+	auto* a=new ImportNode(m,aFile);
+	auto* b=new ImportNode(m,bFile);
 
 	QList<Node*> children;
 	children.append(a);
 	children.append(b);
 
-	auto* d=new SymmetricDifferenceNode();
+	auto* d=new SymmetricDifferenceNode(m);
 	d->setChildren(children);
 
 	NodeEvaluator ne(reporter);

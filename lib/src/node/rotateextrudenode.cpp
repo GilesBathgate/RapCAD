@@ -18,7 +18,8 @@
 
 #include "node/rotateextrudenode.h"
 
-RotateExtrudeNode::RotateExtrudeNode() :
+RotateExtrudeNode::RotateExtrudeNode(const Module& m) :
+	Node(m),
 	axis(0,0,0),
 	fragments(nullptr)
 {

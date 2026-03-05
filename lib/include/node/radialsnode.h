@@ -24,7 +24,7 @@
 class RadialsNode : public Node
 {
 public:
-	RadialsNode() = default;
+	explicit RadialsNode(const Module&);
 	void accept(NodeVisitor&) override;
 };
 

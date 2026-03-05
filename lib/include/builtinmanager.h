@@ -20,6 +20,7 @@
 
 #include "script.h"
 #include "builtincreator.h"
+#include "module/unionmodule.h"
 
 class BuiltinManager
 {
@@ -27,6 +28,7 @@ class BuiltinManager
 public:
 	BuiltinManager(Script&,Reporter&);
 	~BuiltinManager();
+	const UnionModule& getUnionModule() const;
 private:
 	Script& script;
 	BuiltinCreator& creator;

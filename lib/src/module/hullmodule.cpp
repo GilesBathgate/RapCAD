@@ -34,7 +34,7 @@ Node* HullModule::evaluate(const Context& ctx) const
 	if(concaveVal)
 		concave=concaveVal->isTrue();
 
-	auto* d = new HullNode();
+	auto* d = new HullNode(*this);
 	d->setConcave(concave);
 	d->setChildren(ctx.getInputNodes());
 	return d;

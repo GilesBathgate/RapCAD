@@ -31,13 +31,13 @@ Node* UnionModule::evaluate(const Context& ctx) const
 	return createUnion(ctx.getInputNodes());
 }
 
-Node* UnionModule::createUnion(const QList<Node*>& childnodes)
+Node* UnionModule::createUnion(const QList<Node*>& childnodes) const
 {
 	if(childnodes.size()==1) {
 		return childnodes.at(0);
 	}
 
-	auto* u=new UnionNode();
+	auto* u=new UnionNode(*this);
 	u->setChildren(childnodes);
 	return u;
 }

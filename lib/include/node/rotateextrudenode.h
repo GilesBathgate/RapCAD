@@ -27,7 +27,7 @@ class RotateExtrudeNode : public Node
 {
 	Q_DISABLE_COPY_MOVE(RotateExtrudeNode)
 public:
-	RotateExtrudeNode();
+	explicit RotateExtrudeNode(const Module&);
 	~RotateExtrudeNode() override;
 	decimal getRadius() const;
 	void setRadius(const decimal&);

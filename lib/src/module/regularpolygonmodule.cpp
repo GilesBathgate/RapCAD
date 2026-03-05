@@ -36,7 +36,7 @@ Node* RegularPolygonModule::evaluate(const Context& ctx) const
 	if(sidesVal)
 		s=sidesVal->toInteger();
 
-	auto* pn=new PrimitiveNode();
+	auto* pn=new PrimitiveNode(*this);
 	Primitive* p=pn->createPrimitive();
 	p->setType(PrimitiveTypes::Surface);
 	pn->setChildren(ctx.getInputNodes());

@@ -18,7 +18,8 @@
 
 #include "node/subdivisionnode.h"
 
-SubDivisionNode::SubDivisionNode() :
+SubDivisionNode::SubDivisionNode(const Module& m) :
+	Node(m),
 	level(1)
 {
 }

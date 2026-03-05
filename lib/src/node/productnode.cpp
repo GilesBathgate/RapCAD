@@ -18,7 +18,8 @@
 
 #include "node/productnode.h"
 
-ProductNode::ProductNode() :
+ProductNode::ProductNode(const Module& m) :
+	Node(m),
 	primitive(nullptr)
 {
 }

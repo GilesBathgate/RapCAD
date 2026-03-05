@@ -25,7 +25,7 @@
 class ImportNode : public Node
 {
 public:
-	explicit ImportNode(const QString&);
+	ImportNode(const Module&,const QString&);
 	void accept(NodeVisitor&) override;
 	QString getImport() const;
 private:

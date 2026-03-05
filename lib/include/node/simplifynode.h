@@ -25,7 +25,7 @@
 class SimplifyNode : public Node
 {
 public:
-	SimplifyNode();
+	explicit SimplifyNode(const Module&);
 	void accept(NodeVisitor&) override;
 
 	decimal getRatio() const;

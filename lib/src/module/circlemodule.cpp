@@ -44,7 +44,7 @@ Node* CircleModule::evaluate(const Context& ctx) const
 
 	const QList<Point> c = getCircle(r,f,0);
 
-	auto* pn=new PrimitiveNode();
+	auto* pn=new PrimitiveNode(*this);
 	Primitive* p=pn->createPrimitive();
 	pn->setChildren(ctx.getInputNodes());
 

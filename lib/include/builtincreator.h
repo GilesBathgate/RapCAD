@@ -21,6 +21,7 @@
 
 #include "declaration.h"
 #include "module.h"
+#include "module/unionmodule.h"
 #include "reporter.h"
 #include <QHash>
 
@@ -33,9 +34,11 @@ public:
 	void generateDocs(TreeVisitor&) const;
 	QHash<QString,Module*> getModuleNames() const;
 	const QList<Declaration*>& getBuiltins() const;
+	const UnionModule& getUnionModule() const;
 private:
 	explicit BuiltinCreator(Reporter&);
 	~BuiltinCreator();
 	QList<Declaration*> builtins;
+	UnionModule* unionModule;
 };
 #endif // BUILTINCREATOR_H

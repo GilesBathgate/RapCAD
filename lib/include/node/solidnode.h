@@ -23,7 +23,7 @@
 class SolidNode : public Node
 {
 public:
-	SolidNode()=default;
+	explicit SolidNode(const Module&);
 	void accept(NodeVisitor&) override;
 };
 

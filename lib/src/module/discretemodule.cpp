@@ -35,7 +35,7 @@ Node* DiscreteModule::evaluate(const Context& ctx) const
 	if(numVal)
 		places=numVal->toInteger();
 
-	auto* n=new DiscreteNode();
+	auto* n=new DiscreteNode(*this);
 	n->setPlaces(places);
 	n->setChildren(ctx.getInputNodes());
 	return n;

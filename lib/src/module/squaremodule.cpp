@@ -46,7 +46,7 @@ Node* SquareModule::evaluate(const Context& ctx) const
 		y=pt.y();
 	}
 
-	auto* pn=new PrimitiveNode();
+	auto* pn=new PrimitiveNode(*this);
 	Primitive* p=pn->createPrimitive();
 	pn->setChildren(ctx.getInputNodes());
 
@@ -61,7 +61,7 @@ Node* SquareModule::evaluate(const Context& ctx) const
 	pg.append(3);
 
 	if(center) {
-		auto* an=new AlignNode();
+		auto* an=new AlignNode(*this);
 		an->setCenter(true);
 		an->addChild(pn);
 		return an;
