@@ -35,7 +35,8 @@ class Worker : public Strategy
 public:
 	explicit Worker(Reporter&);
 	~Worker() override;
-	void setup(const QString&,const QString&,bool);
+	void setup(const QString&,const QString&);
+	void setup(const QString&,const QString&,NodeVisitor*,bool);
 	int evaluate() override;
 	void exportResult(const QString&);
 	bool resultAvailable();
@@ -45,8 +46,8 @@ protected:
 	virtual void update() {}
 	virtual void finish() {}
 private:
-	NodeVisitor* getNodeVisitor();
-	Instance* addProductInstance(const QString&, Script&);
+	NodeVisitor* createEvaluator();
+	Instance* addProductInstance(const QString&,Script&);
 	static QList<Argument*> getArgs(const decimal&);
 	decimal getBoundsHeight() const;
 	void generation();
@@ -60,6 +61,7 @@ private:
 	QFileInfo inputFile;
 	QString outputFile;
 	bool generate;
+	NodeVisitor* visualiser;
 };
 
 #endif // WORKER_H

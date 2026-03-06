@@ -71,6 +71,16 @@
          </item>
         </layout>
        </widget>
+       <widget class="QWidget" name="nodePage">
+        <attribute name="label">
+         <string>Nodes</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item>
+          <widget class="QTreeView" name="nodeTreeView"/>
+         </item>
+        </layout>
+       </widget>
       </widget>
       <widget class="QTabWidget" name="tabWidget">
        <property name="tabShape">

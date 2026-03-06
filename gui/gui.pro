@@ -81,6 +81,7 @@ SOURCES += \
 	src/application.cpp \
 	src/headlessapplication.cpp \
 	src/main.cpp \
+	src/nodetreevisualiser.cpp \
 	src/renderexport.cpp \
 	src/ui/camera.cpp \
 	src/ui/commitdialog.cpp \
@@ -106,6 +107,7 @@ HEADERS  += \
 	contrib/Copy_polyhedron_to.h \
 	src/application.h \
 	src/headlessapplication.h \
+	src/nodetreevisualiser.h \
 	src/renderexport.h \
 	src/ui/camera.h \
 	src/ui/commitdialog.h \

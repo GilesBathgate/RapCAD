@@ -24,6 +24,7 @@
 #include "codeeditor.h"
 #include "git/repositorymanager.h"
 #include "interactive.h"
+#include "nodetreevisualiser.h"
 #include "project.h"
 #include "texteditiodevice.h"
 #include <QMainWindow>
@@ -116,6 +117,7 @@ private:
 	AboutDialog* aboutDialog;
 	QList<QTemporaryFile*> temporyFiles;
 	RepositoryManager* repositoryManager;
+	NodeTreeVisualiser* visualiser;
 };
 
 #endif // MAINWINDOW_H

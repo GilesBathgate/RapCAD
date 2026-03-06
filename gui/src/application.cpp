@@ -187,7 +187,7 @@ Strategy* Application::parseArguments(int argc,char* argv[])
 #endif
 	if(p.isSet(outputOption)) {
 		auto* w=new Worker(reporter);
-		w->setup(inputFile,p.value(outputOption),false);
+		w->setup(inputFile,p.value(outputOption));
 		return w;
 	}
 #ifdef USE_READLINE
