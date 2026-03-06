@@ -47,7 +47,8 @@ MainWindow::MainWindow(QWidget* parent) :
 	worker(nullptr),
 	interact(nullptr),
 	aboutDialog(nullptr),
-	repositoryManager(new RepositoryManager)
+	repositoryManager(new RepositoryManager),
+	visualiser(nullptr)
 {
 	setTheme();
 
@@ -87,6 +88,7 @@ MainWindow::~MainWindow()
 	delete interact;
 	delete aboutDialog;
 	delete repositoryManager;
+	delete visualiser;
 	delete ui;
 }
 
@@ -433,6 +435,10 @@ void MainWindow::setupTreeview()
 {
 	projectModel=new Project(this);
 	ui->treeView->setModel(projectModel);
+
+	visualiser=new NodeTreeVisualiser(this);
+	ui->nodeTreeView->setModel(visualiser);
+	connect(visualiser,&NodeTreeVisualiser::expandNodes,ui->nodeTreeView,&QTreeView::expandAll);
 }
 
 void MainWindow::newProject()
@@ -730,9 +736,12 @@ void MainWindow::compileOrGenerate(bool generate)
 		const QString& file=e->getFileName();
 		if(!file.isEmpty()) {
 			ui->view->setCompiling(!generate);
-			worker->setup(file,"",generate);
 
+			visualiser->reset();
+
+			worker->setup(file,"",visualiser,generate);
 			worker->evaluate();
+
 			ui->actionCompileAndRender->setEnabled(false);
 			ui->actionGenerateGcode->setEnabled(false);
 		}

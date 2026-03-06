@@ -40,7 +40,8 @@ Worker::Worker(Reporter& r) :
 	previous(nullptr),
 	inputFile(""),
 	outputFile(""),
-	generate(false)
+	generate(false),
+	visualiser(nullptr)
 {
 }
 
@@ -49,10 +50,16 @@ Worker::~Worker()
 	delete primitive;
 }
 
-void Worker::setup(const QString& i,const QString& o,bool g)
+void Worker::setup(const QString& i,const QString& o)
 {
 	inputFile=QFileInfo(i);
 	outputFile=o;
+}
+
+void Worker::setup(const QString& i,const QString& o,NodeVisitor* v,bool g)
+{
+	setup(i,o);
+	visualiser=v;
 	generate=g;
 }
 
@@ -95,7 +102,9 @@ void Worker::primary()
 	output.flush();
 
 	const QScopedPointer<Node> n(e.getRootNode());
-	const QScopedPointer<NodeVisitor> ne(getNodeVisitor());
+	if(visualiser)
+		n->accept(*visualiser);
+	const QScopedPointer<NodeVisitor> ne(createEvaluator());
 	n->accept(*ne);
 	updatePrimitive(ne->getResult());
 
@@ -255,7 +264,7 @@ Renderer* Worker::getRenderer()
 
 }
 
-NodeVisitor* Worker::getNodeVisitor()
+NodeVisitor* Worker::createEvaluator()
 {
 	auto& p=Preferences::getInstance();
 	const int threads=p.getThreadPoolSize();
