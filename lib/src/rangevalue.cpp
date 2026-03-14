@@ -65,8 +65,9 @@ bool RangeValue::inRange(Value& index)
 
 Value& RangeValue::getIndex(NumberValue& n)
 {
+	NumberValue& ni=ValueFactory::createNumber(n.toInteger());
 	Value& x=reverse?Value::evaluate(step,Operators::Subtract):step;
-	Value& a=Value::evaluate(n,Operators::Multiply,x);
+	Value& a=Value::evaluate(ni,Operators::Multiply,x);
 	Value& b=Value::evaluate(start,reverse?Operators::Subtract:Operators::Add,a);
 
 	if(inRange(b))
