@@ -1,0 +1,4 @@
+function test() {
+ u=undef;
+ return u[0]==undef;
+}

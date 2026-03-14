@@ -1,0 +1,4 @@
+function test() {
+ n=123;
+ return n[0]==123;
+}
