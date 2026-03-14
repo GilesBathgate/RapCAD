@@ -1,0 +1,4 @@
+function test() {
+ s = "abc";
+ return s[3] == undef;
+}

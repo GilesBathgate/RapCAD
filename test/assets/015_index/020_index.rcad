@@ -1,0 +1,4 @@
+function test() {
+ r = [0:2:10];
+ return r[2.1] == 4;
+}

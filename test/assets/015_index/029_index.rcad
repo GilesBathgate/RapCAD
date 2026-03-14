@@ -1,0 +1,4 @@
+function test() {
+ n = 123;
+ return n[1] == 123;
+}

@@ -1,0 +1,4 @@
+function test() {
+ b = true;
+ return b[0] == undef;
+}
