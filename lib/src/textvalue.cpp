@@ -99,8 +99,13 @@ Value& TextValue::operation(TextValue& that,Operators e)
 
 Value& TextValue::operation(NumberValue& num,Operators e)
 {
-	if(e==Operators::Index)
-		return ValueFactory::createText(text.at(num.toInteger()));
+	if(e==Operators::Index) {
+		const int position=num.toInteger();
+		if(position<0||position>=text.length())
+			return ValueFactory::createUndefined();
+
+		return ValueFactory::createText(text.at(position));
+	}
 
 	return Value::operation(num,e);
 }
