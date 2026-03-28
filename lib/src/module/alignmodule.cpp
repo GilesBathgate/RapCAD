@@ -95,6 +95,14 @@ Node* AlignModule::evaluate(const Context& ctx) const
 		}
 	}
 
+	if(align.isEmpty()) {
+		align.append(ViewDirections::Bottom);
+		align.append(ViewDirections::North);
+		align.append(ViewDirections::South);
+		align.append(ViewDirections::East);
+		align.append(ViewDirections::West);
+	}
+
 	auto* n=new AlignNode();
 	n->setChildren(ctx.getInputNodes());
 	n->setAlign(align);
