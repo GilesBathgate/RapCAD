@@ -106,7 +106,7 @@ public:
 	void createVertex(const CGAL::Scalar&,const CGAL::Scalar&,const CGAL::Scalar&);
 	void detectPerimeterHoles();
 private:
-	bool overlaps(Primitive*,Primitive*) const;
+	bool overlaps(const CGAL::Cuboid3&) const;
 	Primitive* groupAppend(Primitive*);
 	Primitive* groupAll(const QList<Primitive*>&) const;
 	Primitive* joinAll(const QList<Primitive*>&) const;
