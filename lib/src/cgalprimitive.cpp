@@ -399,15 +399,14 @@ void CGALPrimitive::appendVertex(CGALPolygon* pg,const CGAL::Point3& p,bool dire
 
 bool CGALPrimitive::overlaps(Primitive* pr)
 {
-	return overlaps(this,pr);
+	auto* pb=dynamic_cast<CGALPrimitive*>(pr);
+	if(!pb) return false;
+	return overlaps(pb->getBounds());
 }
 
-bool CGALPrimitive::overlaps(Primitive* a,Primitive* b) const
+bool CGALPrimitive::overlaps(const CGAL::Cuboid3& b) const
 {
-	auto* pa=dynamic_cast<CGALPrimitive*>(a);
-	auto* pb=dynamic_cast<CGALPrimitive*>(b);
-	if(!pa||!pb) return false;
-	return CGAL::do_intersect(pa->getBounds(),pb->getBounds());
+	return CGAL::do_intersect(getBounds(),b);
 }
 
 Primitive* CGALPrimitive::groupAppend(Primitive* pr)
@@ -523,11 +522,18 @@ CGAL::Cuboid3 CGALPrimitive::getBounds() const
 
 void CGALPrimitive::groupLater(Primitive* pr)
 {
-	for(const auto& l: {joinable,groupable}) {
-		for(const auto& o: l) {
-			if(overlaps(o,pr)) {
-				joinable.append(pr);
-				return;
+	if(!joinable.empty() || !groupable.empty()) {
+		auto* cp=dynamic_cast<CGALPrimitive*>(pr);
+		if(cp) {
+			const auto& bounds=cp->getBounds();
+			for(const auto& l: {joinable,groupable}) {
+				for(const auto& o: l) {
+					auto* co=dynamic_cast<CGALPrimitive*>(o);
+					if(co&&co->overlaps(bounds)) {
+						joinable.append(pr);
+						return;
+					}
+				}
 			}
 		}
 	}
