@@ -19,14 +19,14 @@
 #ifndef SIGNFUNCTION_H
 #define SIGNFUNCTION_H
 
-#include "function.h"
+#include "function/componentwisefunction.h"
 
-class SignFunction : public Function
+class SignFunction : public ComponentWiseFunction
 {
 	Q_DECLARE_TR_FUNCTIONS(SignFunction)
 public:
 	SignFunction();
-	Value& evaluate(const Context&) const override;
+	Value& evaluate(NumberValue&,const Context&) const override;
 };
 
 #endif // SIGNFUNCTION_H

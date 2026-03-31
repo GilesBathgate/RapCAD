@@ -19,14 +19,14 @@
 #ifndef ABSFUNCTION_H
 #define ABSFUNCTION_H
 
-#include "function.h"
+#include "function/componentwisefunction.h"
 
-class AbsFunction : public Function
+class AbsFunction : public ComponentWiseFunction
 {
 	Q_DECLARE_TR_FUNCTIONS(AbsFunction)
 public:
 	AbsFunction();
-	Value& evaluate(const Context&) const override;
+	Value& evaluate(NumberValue&,const Context&) const override;
 };
 
 #endif // ABSFUNCTION_H

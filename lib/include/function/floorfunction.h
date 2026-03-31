@@ -19,14 +19,14 @@
 #ifndef FLOORFUNCTION_H
 #define FLOORFUNCTION_H
 
-#include "function.h"
+#include "function/componentwisefunction.h"
 
-class FloorFunction : public Function
+class FloorFunction : public ComponentWiseFunction
 {
 	Q_DECLARE_TR_FUNCTIONS(FloorFunction)
 public:
 	FloorFunction();
-	Value& evaluate(const Context&) const override;
+	Value& evaluate(NumberValue&,const Context&) const override;
 };
 
 #endif // FLOORFUNCTION_H

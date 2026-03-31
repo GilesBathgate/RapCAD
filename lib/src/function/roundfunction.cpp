@@ -22,26 +22,21 @@
 #include "rmath.h"
 #include "valuefactory.h"
 
-RoundFunction::RoundFunction() : Function("round")
+RoundFunction::RoundFunction() : ComponentWiseFunction("round")
 {
-	addDescription(tr("Returns the number value rounded up, or down, to the nearest integer."));
-	addParameter("value","num",tr("The value for which to find the nearest integer."));
+	addDescription(tr("Returns the value rounded up, or down, to the nearest integer."));
+	addParameter("value","num|list",tr("The value for which to find the nearest integer."));
 	addParameter("places","int",tr("The number of decimal places."));
 }
 
-Value& RoundFunction::evaluate(const Context& ctx) const
+Value& RoundFunction::evaluate(NumberValue& val,const Context& ctx) const
 {
-	auto* numVal=getParameterArgument<NumberValue>(ctx,0);
-	if(numVal) {
-		const decimal& num=numVal->getNumber();
-
-		auto* placesVal=getParameterArgument<NumberValue>(ctx,1);
-		if(placesVal) {
-			const int places=placesVal->toInteger();
-			return ValueFactory::createNumber(r_round(num,places));
-		}
-
-		return ValueFactory::createNumber(r_round(num));
+	const decimal& num=val.getNumber();
+	auto* placesVal=getParameterArgument<NumberValue>(ctx,1);
+	if(placesVal) {
+		const int places=placesVal->toInteger();
+		return ValueFactory::createNumber(r_round(num,places));
 	}
-	return ValueFactory::createUndefined();
+
+	return ValueFactory::createNumber(r_round(num));
 }

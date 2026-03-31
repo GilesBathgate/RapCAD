@@ -22,19 +22,13 @@
 #include "rmath.h"
 #include "valuefactory.h"
 
-SignFunction::SignFunction() : Function("sign")
+SignFunction::SignFunction() : ComponentWiseFunction("sign")
 {
-	addDescription(tr("Returns a number value of -1 or 1 depending on the sign of the given number value."));
-	addParameter("value","num",tr("The value for which to find the sign."));
+	addDescription(tr("Returns a value of -1 or 1 depending on the sign of the given value."));
+	addParameter("value","num|list",tr("The value for which to find the sign."));
 }
 
-Value& SignFunction::evaluate(const Context& ctx) const
+Value& SignFunction::evaluate(NumberValue& val,const Context&) const
 {
-	auto* numVal=getParameterArgument<NumberValue>(ctx,0);
-	if(numVal) {
-		const decimal& num=numVal->getNumber();
-
-		return ValueFactory::createNumber(r_sign(num));
-	}
-	return ValueFactory::createUndefined();
+	return ValueFactory::createNumber(r_sign(val.getNumber()));
 }

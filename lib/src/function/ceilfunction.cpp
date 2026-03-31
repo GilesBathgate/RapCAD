@@ -22,19 +22,13 @@
 #include "rmath.h"
 #include "valuefactory.h"
 
-CeilFunction::CeilFunction() : Function("ceil")
+CeilFunction::CeilFunction() : ComponentWiseFunction("ceil")
 {
-	addDescription(tr("Returns the number value rounded up to the nearest integer."));
-	addParameter("value","num",tr("The value for which to find the nearest integer."));
+	addDescription(tr("Returns the value rounded up to the nearest integer."));
+	addParameter("value","num|list",tr("The value for which to find the nearest integer."));
 }
 
-Value& CeilFunction::evaluate(const Context& ctx) const
+Value& CeilFunction::evaluate(NumberValue& val,const Context&) const
 {
-	auto* numVal=getParameterArgument<NumberValue>(ctx,0);
-	if(numVal) {
-		const decimal& num=numVal->getNumber();
-
-		return ValueFactory::createNumber(r_ceil(num));
-	}
-	return ValueFactory::createUndefined();
+	return ValueFactory::createNumber(r_ceil(val.getNumber()));
 }

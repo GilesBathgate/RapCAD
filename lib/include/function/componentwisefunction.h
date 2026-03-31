@@ -16,17 +16,22 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ROUNDFUNCTION_H
-#define ROUNDFUNCTION_H
+#ifndef COMPONENTWISEFUNCTION_H
+#define COMPONENTWISEFUNCTION_H
 
-#include "function/componentwisefunction.h"
+#include "function.h"
+#include "numbervalue.h"
 
-class RoundFunction : public ComponentWiseFunction
+class ComponentWiseFunction : public Function
 {
-	Q_DECLARE_TR_FUNCTIONS(RoundFunction)
+	Q_DISABLE_COPY_MOVE(ComponentWiseFunction)
 public:
-	RoundFunction();
-	Value& evaluate(NumberValue&,const Context&) const override;
+	explicit ComponentWiseFunction(const QString&);
+	Value& evaluate(const Context&) const override;
+protected:
+	virtual Value& evaluate(NumberValue&,const Context&) const=0;
+private:
+	Value& descend(Value&,const Context&) const;
 };
 
-#endif // ROUNDFUNCTION_H
+#endif // COMPONENTWISEFUNCTION_H

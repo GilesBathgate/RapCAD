@@ -19,14 +19,14 @@
 #ifndef CEILFUNCTION_H
 #define CEILFUNCTION_H
 
-#include "function.h"
+#include "function/componentwisefunction.h"
 
-class CeilFunction : public Function
+class CeilFunction : public ComponentWiseFunction
 {
 	Q_DECLARE_TR_FUNCTIONS(CeilFunction)
 public:
 	CeilFunction();
-	Value& evaluate(const Context&) const override;
+	Value& evaluate(NumberValue&,const Context&) const override;
 };
 
 #endif // CEILFUNCTION_H

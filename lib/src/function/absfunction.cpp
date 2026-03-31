@@ -18,20 +18,15 @@
 
 #include "function/absfunction.h"
 #include "context.h"
-#include "numbervalue.h"
 #include "valuefactory.h"
 
-AbsFunction::AbsFunction() : Function("abs")
+AbsFunction::AbsFunction() : ComponentWiseFunction("abs")
 {
-	addDescription(tr("Returns the absolute value of the number value."));
-	addParameter("value","num",tr("The value for which to find the absolute value."));
+	addDescription(tr("Returns the absolute value of the value."));
+	addParameter("value","num|list",tr("The value for which to find the absolute value."));
 }
 
-Value& AbsFunction::evaluate(const Context& ctx) const
+Value& AbsFunction::evaluate(NumberValue& val,const Context&) const
 {
-	auto* numVal=getParameterArgument<NumberValue>(ctx,0);
-	if(numVal) {
-		return Value::evaluate(*numVal,Operators::Length);
-	}
-	return ValueFactory::createUndefined();
+	return Value::evaluate(val,Operators::Length);
 }
