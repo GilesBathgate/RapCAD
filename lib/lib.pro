@@ -41,6 +41,7 @@ YACCSOURCES += \
 
 SOURCES += \
     src/function/absfunction.cpp \
+    src/function/componentwisefunction.cpp \
     src/function/acosfunction.cpp \
     src/function/angfunction.cpp \
     src/function/asinfunction.cpp \
@@ -300,6 +301,7 @@ HEADERS +=\
     contrib/qzipreader_p.h \
     contrib/qzipwriter_p.h \
     include/function/absfunction.h \
+    include/function/componentwisefunction.h \
     include/function/acosfunction.h \
     include/function/angfunction.h \
     include/function/asinfunction.h \

@@ -16,19 +16,44 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "function/floorfunction.h"
+#include "function/componentwisefunction.h"
 #include "context.h"
 #include "numbervalue.h"
-#include "rmath.h"
 #include "valuefactory.h"
+#include "vectorvalue.h"
 
-FloorFunction::FloorFunction() : ComponentWiseFunction("floor")
+ComponentWiseFunction::ComponentWiseFunction(const QString& n) :
+	Function(n)
 {
-	addDescription(tr("Returns the value rounded down to the nearest integer."));
-	addParameter("value","num|list",tr("The value for which to find the nearest integer."));
 }
 
-Value& FloorFunction::evaluate(NumberValue& val,const Context&) const
+Value& ComponentWiseFunction::evaluate(const Context& ctx) const
 {
-	return ValueFactory::createNumber(r_floor(val.getNumber()));
+	Value* val=getParameterArgument<Value>(ctx,0);
+	if(val)
+		return descend(*val,ctx);
+
+	return ValueFactory::createUndefined();
+}
+
+Value& ComponentWiseFunction::descend(Value& val,const Context& ctx) const
+{
+	auto* numVal=dynamic_cast<NumberValue*>(&val);
+	if(numVal)
+		return evaluate(*numVal,ctx);
+
+	auto* vecVal=dynamic_cast<VectorValue*>(&val);
+	if(vecVal) {
+		QList<Value*> result;
+		for(auto* c : vecVal->getElements()) {
+			if(c) {
+				result.append(&descend(*c,ctx));
+			} else {
+				result.append(&ValueFactory::createUndefined());
+			}
+		}
+		return ValueFactory::createVector(result);
+	}
+
+	return ValueFactory::createUndefined();
 }
