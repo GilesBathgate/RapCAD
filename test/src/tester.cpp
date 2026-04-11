@@ -194,6 +194,7 @@ int Tester::evaluate()
 
 	reporter.stopTiming("testing");
 
+#ifdef USE_MULTITHREADED_TESTS
 	reporter.startTiming();
 	QThreadPool::globalInstance()->setMaxThreadCount(10);
 	const QList<Declaration*> builtins=BuiltinCreator::getInstance(*nullreport).getBuiltins();
@@ -209,6 +210,7 @@ int Tester::evaluate()
 
 	output << "Total: " << testcount << " Passed: " << passcount << " Failed: " << failcount << Qt::endl;
 	reporter.stopTiming("multithread testing");
+#endif
 
 	reporter.reportTimings();
 	return reporter.getReturnCode();
