@@ -32,6 +32,8 @@ static int parserlex(union YYSTYPE*,AbstractSyntaxTreeBuilder&);
 
 %param {class AbstractSyntaxTreeBuilder& builder}
 
+%initial-action { (void)yynerrs; }
+
 %union {
 	QString* text;
 	decimal* number;
