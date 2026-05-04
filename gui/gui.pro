@@ -64,14 +64,6 @@ CONFIG(fuzzing){
 	QMAKE_CXX = afl-clang-fast++
 }
 
-CONFIG(valgrind){
-	DEFINES += USE_VALGRIND
-	DEFINES -= CGAL_USE_GMPXX
-	QMAKE_CXXFLAGS += -fno-rounding-math -fdebug-default-version=4
-} else:!macx {
-	QMAKE_CXXFLAGS += -frounding-math
-}
-
 CONFIG(test){
 	QT += testlib
 	DEFINES += USE_INTEGTEST
