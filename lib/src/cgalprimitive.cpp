@@ -30,6 +30,7 @@
 
 #include <CGAL/Alpha_shape_3.h>
 #include <CGAL/Alpha_shape_vertex_base_3.h>
+#include <CGAL/box_intersection_d.h>
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/Min_circle_2.h>
 #include <CGAL/Min_circle_2_traits_2.h>
@@ -220,19 +221,41 @@ static bool connected(const CGAL::Segment3& a,const CGAL::Segment3& b)
 	return (a.source()==b.source()||a.source()==b.target()||a.target()==b.source()||a.target()==b.target());
 }
 
-static bool validPolyLine(const QList<CGAL::Segment3>& segments)
+static bool identical(const CGAL::Segment3& a,const CGAL::Segment3& b)
 {
-	for(const auto& segment: segments)
-		for(const auto& other: segments)
 #ifndef USE_VALGRIND
-			if(!segment.identical(other))
+	return a.identical(b);
 #else
-			if(segment!=other)
+	return &a==&b;
 #endif
-				if(!connected(segment,other) && do_intersect(segment,other))
-					return false;
+}
 
-	return true;
+static bool hasSelfIntersection(const QList<CGAL::Segment3> segments)
+{
+	if(segments.size()<2)
+		return false;
+
+	using Box=CGAL::Box_intersection_d::Box_with_handle_d<double,3,const CGAL::Segment3*>;
+	QList<Box> boxes;
+	for(const auto& s: segments)
+		boxes.emplace_back(s.bbox(),&s);
+
+	bool found=false;
+	auto callback=[&found](const Box& b1,const Box& b2) {
+		if(found) return;
+
+		const auto& s1=*b1.handle();
+		const auto& s2=*b2.handle();
+
+		if(identical(s1,s2)||connected(s1,s2))
+			return;
+
+		if(CGAL::do_intersect(s1,s2))
+			found=true;
+	};
+
+	CGAL::box_self_intersection_d(boxes.begin(),boxes.end(),callback);
+	return found;
 }
 
 CGAL::NefPolyhedron3* CGALPrimitive::createPolyline()
@@ -246,7 +269,7 @@ CGAL::NefPolyhedron3* CGALPrimitive::createPolyline()
 
 		if(!sanitized) {
 			const auto segments=pg->getSegments();
-			if(!validPolyLine(segments)) {
+			if(hasSelfIntersection(segments)) {
 				directConstruction=false;
 				for(const auto& segment: segments) {
 					if(!result) {
