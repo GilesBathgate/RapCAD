@@ -242,9 +242,12 @@ CGAL::NefPolyhedron3* CGALPrimitive::createPolyline()
 
 	CGAL::NefPolyhedron3* result=nullptr;
 	for(CGALPolygon* pg: getCGALPolygons()) {
+		bool directConstruction=true;
+
 		if(!sanitized) {
 			const auto segments=pg->getSegments();
 			if(!validPolyLine(segments)) {
+				directConstruction=false;
 				for(const auto& segment: segments) {
 					if(!result) {
 						result=createPolyline(segment);
@@ -257,12 +260,14 @@ CGAL::NefPolyhedron3* CGALPrimitive::createPolyline()
 			}
 		}
 
-		if(!result) {
-			result=createPolyline(pg);
-		} else {
-			auto* np=createPolyline(pg);
-			*result=result->join(*np);
-			delete np;
+		if(directConstruction) {
+			if(!result) {
+				result=createPolyline(pg);
+			} else {
+				auto* np=createPolyline(pg);
+				*result=result->join(*np);
+				delete np;
+			}
 		}
 	}
 	if(!result)
