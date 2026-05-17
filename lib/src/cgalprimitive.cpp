@@ -28,6 +28,14 @@
 #include "onceonly.h"
 #include "rmath.h"
 
+#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(6,0,0)
+#include <boost/optional.hpp>
+#include <boost/variant.hpp>
+#else
+#include <optional>
+#include <variant>
+#endif
+
 #include <CGAL/Alpha_shape_3.h>
 #include <CGAL/Alpha_shape_vertex_base_3.h>
 #include <CGAL/box_intersection_d.h>
@@ -59,6 +67,23 @@
 #include <CGAL/convex_hull_3.h>
 #include <CGAL/minkowski_sum_3.h>
 #include <QPair>
+
+namespace CGAL {
+
+template <typename T,typename... Ts>
+#if CGAL_VERSION_NR < CGAL_VERSION_NUMBER(6,0,0)
+inline bool assign(T& t,const boost::optional<boost::variant<Ts...>>& o) {
+	const T* p=o?boost::get<T>(&*o):nullptr;
+#else
+inline bool assign(T& t,const std::optional<std::variant<Ts...>>& o) {
+	const T* p=o?std::get_if<T>(&*o):nullptr;
+#endif
+	if(!p) return false;
+	t=*p;
+	return true;
+}
+
+}
 
 CGALPrimitive::CGALPrimitive() :
 	nefPolyhedron(nullptr),
