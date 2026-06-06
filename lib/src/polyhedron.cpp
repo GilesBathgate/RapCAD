@@ -167,3 +167,8 @@ void Polyhedron::clearChildren()
 void Polyhedron::discrete(int)
 {
 }
+
+Primitive* Polyhedron::taper(const decimal&)
+{
+	return this;
+}

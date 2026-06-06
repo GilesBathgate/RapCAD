@@ -58,6 +58,8 @@
 #include <CGAL/convex_hull_3.h>
 #include <CGAL/minkowski_sum_3.h>
 #include <QPair>
+#include <QSet>
+#include <cmath>
 
 CGALPrimitive::CGALPrimitive() :
 	nefPolyhedron(nullptr),
@@ -1206,6 +1208,87 @@ Primitive* CGALPrimitive::slice(const CGAL::Scalar& h,const CGAL::Scalar& t)
 	CubeModule::createCuboid<CGAL::Point3>(cp,xmin,xmax,ymin,ymax,h,h+t);
 
 	return intersection(cp);
+}
+
+Primitive* CGALPrimitive::taper(const CGAL::Scalar& amount)
+{
+	CGALExplorer explorer(this);
+	CGALPrimitive* surface = explorer.getPrimitive();
+	if (!surface) return nullptr;
+
+	QList<CGALPolygon*> basePolygons = explorer.getBase();
+	if (basePolygons.isEmpty()) {
+		delete surface;
+		return this->copy();
+	}
+
+	using Edge = QPair<int, int>;
+	QMap<Edge, int> edgeCount;
+	for (CGALPolygon* pg : basePolygons) {
+		const auto& indices = pg->getIndexes();
+		for (int i = 0; i < indices.size(); ++i) {
+			int v1 = indices[i];
+			int v2 = indices[(i + 1) % indices.size()];
+			Edge e = (v1 < v2) ? Edge(v1, v2) : Edge(v2, v1);
+			edgeCount[e]++;
+		}
+	}
+
+	QMap<int, QList<int>> boundaryAdj;
+	for (auto it = edgeCount.begin(); it != edgeCount.end(); ++it) {
+		if (it.value() == 1) {
+			Edge e = it.key();
+			boundaryAdj[e.first].append(e.second);
+			boundaryAdj[e.second].append(e.first);
+		}
+	}
+
+	QList<CGAL::Point3>& pts = surface->points;
+	QMap<int, CGAL::Vector3> movements;
+
+	for (auto it = boundaryAdj.begin(); it != boundaryAdj.end(); ++it) {
+		int v_idx = it.key();
+		const QList<int>& neighbors = it.value();
+		if (neighbors.size() == 2) {
+			int prev_idx = neighbors[0];
+			int next_idx = neighbors[1];
+
+			const CGAL::Point3& p = pts[v_idx];
+			const CGAL::Point3& p_prev = pts[prev_idx];
+			const CGAL::Point3& p_next = pts[next_idx];
+
+			CGAL::Vector3 d1 = p - p_prev;
+			CGAL::Vector3 d2 = p_next - p;
+
+			CGAL::Scalar l1_sq = d1.x()*d1.x() + d1.y()*d1.y();
+			CGAL::Scalar l2_sq = d2.x()*d2.x() + d2.y()*d2.y();
+
+			if (l1_sq > 0.0 && l2_sq > 0.0) {
+				CGAL::Scalar l1 = r_sqrt(l1_sq, false);
+				CGAL::Scalar l2 = r_sqrt(l2_sq, false);
+
+				CGAL::Vector3 n1(-d1.y() / l1, d1.x() / l1, 0);
+				CGAL::Vector3 n2(-d2.y() / l2, d2.x() / l2, 0);
+
+				CGAL::Scalar dot = n1.x() * n2.x() + n1.y() * n2.y();
+				if (dot > -0.999) {
+					CGAL::Scalar k = amount / (1.0 + dot);
+					movements[v_idx] = CGAL::Vector3(k * (n1.x() + n2.x()), k * (n1.y() + n2.y()), 0);
+				}
+			}
+		}
+	}
+
+	for (auto it = movements.begin(); it != movements.end(); ++it) {
+		pts[it.key()] = pts[it.key()] + it.value();
+	}
+
+	surface->setType(PrimitiveTypes::Volume);
+	surface->setSanitized(false);
+	surface->solidify();
+	surface->appendChild(this);
+
+	return surface;
 }
 
 static CGAL::Point3 flatten(const CGAL::Point3& p)

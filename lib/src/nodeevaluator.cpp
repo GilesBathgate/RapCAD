@@ -316,6 +316,13 @@ void NodeEvaluator::visit(const OffsetNode& n)
 	result=result->inset(n.getAmount());
 }
 
+void NodeEvaluator::visit(const TaperNode& n)
+{
+	if(!evaluate(n,Operations::Union)) return;
+
+	result=result->taper(n.getAmount());
+}
+
 void NodeEvaluator::visit(const BoundaryNode& op)
 {
 	if(!evaluate(op,Operations::Union)) return;

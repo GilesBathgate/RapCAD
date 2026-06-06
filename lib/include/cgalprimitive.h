@@ -73,6 +73,7 @@ public:
 	Primitive* rotate_extrude(const CGAL::Scalar&,const CGAL::Scalar&,const CGAL::Scalar&,const Fragment*,const CGAL::Point3&) override;
 	Primitive* simplify(const CGAL::Scalar&) override;
 	Primitive* slice(const CGAL::Scalar&,const CGAL::Scalar&) override;
+	Primitive* taper(const CGAL::Scalar&) override;
 	Primitive* subdivide(int) override;
 	Primitive* symmetric_difference(Primitive*) override;
 	Primitive* triangulate() override;

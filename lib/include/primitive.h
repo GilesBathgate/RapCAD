@@ -65,6 +65,7 @@ public:
 	virtual	Primitive* rotate_extrude(const decimal&,const decimal&,const decimal&,const Fragment*,const Point&)=0;
 	virtual Primitive* simplify(const decimal&)=0;
 	virtual Primitive* slice(const decimal&,const decimal&)=0;
+	virtual Primitive* taper(const decimal&)=0;
 	virtual Primitive* subdivide(int)=0;
 	virtual Primitive* symmetric_difference(Primitive*)=0;
 	virtual Primitive* solidify()=0;

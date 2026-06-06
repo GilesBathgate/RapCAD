@@ -17,6 +17,7 @@
  */
 
 #include "nodeprinter.h"
+#include "node/tapernode.h"
 #include "onceonly.h"
 #include "polyhedron.h"
 
@@ -117,6 +118,15 @@ void NodePrinter::visit(const LinearExtrudeNode& n)
 	printName(n);
 	result << "(";
 	result << to_string(n.getHeight());
+	result << ")";
+	printChildren(n);
+}
+
+void NodePrinter::visit(const TaperNode& n)
+{
+	printName(n);
+	result << "(";
+	result << to_string(n.getAmount());
 	result << ")";
 	printChildren(n);
 }

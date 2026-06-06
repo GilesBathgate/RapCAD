@@ -41,6 +41,7 @@ public:
 	virtual void visit(const class RotateExtrudeNode&)=0;
 	virtual void visit(const class BoundsNode&)=0;
 	virtual void visit(const class SubDivisionNode&)=0;
+	virtual void visit(const class TaperNode&)=0;
 	virtual void visit(const class OffsetNode&)=0;
 	virtual void visit(const class BoundaryNode&)=0;
 	virtual void visit(const class ImportNode&)=0;

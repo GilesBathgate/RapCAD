@@ -53,6 +53,7 @@ public:
 	Primitive* rotate_extrude(const decimal&,const decimal&,const decimal&,const Fragment*,const Point&) override { return this; }
 	Primitive* simplify(const decimal&) override { return this; }
 	Primitive* slice(const decimal&,const decimal&) override { return this; }
+	Primitive* taper(const decimal&) override;
 	Primitive* subdivide(int) override { return this; }
 	Primitive* symmetric_difference(Primitive*) override;
 	Primitive* solidify() override { return this; }

@@ -161,6 +161,11 @@ void NodeTreeVisualiser::visit(const SubDivisionNode& n)
 	addNode(n);
 }
 
+void NodeTreeVisualiser::visit(const TaperNode& n)
+{
+	addNode(n);
+}
+
 void NodeTreeVisualiser::visit(const SymmetricDifferenceNode& n)
 {
 	addNode(n);

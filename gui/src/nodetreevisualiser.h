@@ -30,6 +30,7 @@
 #include "node/slicenode.h"
 #include "node/solidnode.h"
 #include "node/subdivisionnode.h"
+#include "node/tapernode.h"
 #include "node/symmetricdifferencenode.h"
 #include "node/transformationnode.h"
 #include "node/triangulatenode.h"
@@ -75,6 +76,7 @@ public:
 	void visit(const SliceNode&) override;
 	void visit(const SolidNode&) override;
 	void visit(const SubDivisionNode&) override;
+	void visit(const TaperNode&) override;
 	void visit(const SymmetricDifferenceNode&) override;
 	void visit(const TransformationNode&) override;
 	void visit(const TriangulateNode&) override;

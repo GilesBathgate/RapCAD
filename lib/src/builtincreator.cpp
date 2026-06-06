@@ -120,6 +120,7 @@
 #include "module/squaremodule.h"
 #include "module/subdivisionmodule.h"
 #include "module/symmetricdifferencemodule.h"
+#include "module/tapermodule.h"
 #include "module/textmodule.h"
 #include "module/threadmodule.h"
 #include "module/translatemodule.h"
@@ -243,6 +244,7 @@ BuiltinCreator::BuiltinCreator(Reporter& r)
 	builtins.append(new SquareModule(r));
 	builtins.append(new SubDivisionModule(r));
 	builtins.append(new SymmetricDifferenceModule(r));
+	builtins.append(new TaperModule(r));
 	builtins.append(new TextModule(r));
 	builtins.append(new ThreadModule(r));
 	builtins.append(new TranslateModule(r));

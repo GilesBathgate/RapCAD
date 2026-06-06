@@ -151,6 +151,7 @@ SOURCES += \
     src/module/squaremodule.cpp \
     src/module/subdivisionmodule.cpp \
     src/module/symmetricdifferencemodule.cpp \
+    src/module/tapermodule.cpp \
     src/module/textmodule.cpp \
     src/module/threadmodule.cpp \
     src/module/translatemodule.cpp \
@@ -189,6 +190,7 @@ SOURCES += \
     src/node/solidnode.cpp \
     src/node/subdivisionnode.cpp \
     src/node/symmetricdifferencenode.cpp \
+    src/node/tapernode.cpp \
     src/node/transformationnode.cpp \
     src/node/triangulatenode.cpp \
     src/node/unionnode.cpp \
@@ -411,6 +413,7 @@ HEADERS +=\
     include/module/squaremodule.h \
     include/module/subdivisionmodule.h \
     include/module/symmetricdifferencemodule.h \
+    include/module/tapermodule.h \
     include/module/textmodule.h \
     include/module/threadmodule.h \
     include/module/translatemodule.h \
@@ -449,6 +452,7 @@ HEADERS +=\
     include/node/solidnode.h \
     include/node/subdivisionnode.h \
     include/node/symmetricdifferencenode.h \
+    include/node/tapernode.h \
     include/node/transformationnode.h \
     include/node/triangulatenode.h \
     include/node/unionnode.h \

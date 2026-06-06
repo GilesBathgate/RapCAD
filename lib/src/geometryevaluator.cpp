@@ -331,6 +331,14 @@ void GeometryEvaluator::visit(const OffsetNode& n)
 	});
 }
 
+void GeometryEvaluator::visit(const TaperNode& n)
+{
+	result=QtConcurrent::run(pool,[&n,this]() -> Primitive* {
+		Primitive* p=unionChildren(n);
+		return p?p->taper(n.getAmount()):noResult();
+	});
+}
+
 void GeometryEvaluator::visit(const BoundaryNode& n)
 {
 	result=QtConcurrent::run(pool,[&n,this]() {
