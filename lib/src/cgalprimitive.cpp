@@ -41,19 +41,11 @@
 #include <CGAL/Subdivision_method_3/subdivision_methods_3.h>
 #endif
 //Mesh simplification
-#ifdef USE_OFFSET
-#include <CGAL/create_straight_skeleton_2.h>
-#include <CGAL/create_straight_skeleton_2.h>
-#include <CGAL/Polygon_2.h>
-#include <CGAL/create_offset_polygons_2.h>
-#include <CGAL/Polygon_offset_builder_2.h>
+#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,6,0)
 #include <CGAL/create_straight_skeleton_2.h>
 #include <CGAL/Polygon_2.h>
 #include <CGAL/create_offset_polygons_2.h>
 #include <CGAL/Polygon_offset_builder_2.h>
-#include <CGAL/create_offset_polygons_2.h>
-#include <CGAL/Polygon_offset_builder_2.h>
-#include <CGAL/Polygon_2.h>
 #include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Edge_count_ratio_stop_predicate.h>
 #else
 #include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Count_ratio_stop_predicate.h>
@@ -768,7 +760,7 @@ Primitive* CGALPrimitive::simplify(const CGAL::Scalar& ratio)
 
 	namespace SMS=CGAL::Surface_mesh_simplification;
 	CGAL::Polyhedron3* p=getPolyhedron();
-#ifdef USE_OFFSET
+#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,6,0)
 	const SMS::Edge_count_ratio_stop_predicate<CGAL::Polyhedron3> stop(to_double(ratio));
 #else
 	const SMS::Count_ratio_stop_predicate<CGAL::Polyhedron3> stop(to_double(ratio));
@@ -1253,14 +1245,17 @@ Primitive* CGALPrimitive::taper(const CGAL::Scalar& amount)
 			}
 
 			bool isHole = (i > 0);
-			bool shrink = isHole ? (amount > 0.0) : (amount < 0.0);
+			// Positive amount should expand the shape.
+			// For outer contour, positive amount is exterior.
+			// For hole, positive amount is interior (shrinking the hole expands the shape).
+			bool exterior = isHole ? (amount < 0.0) : (amount > 0.0);
 			CGAL::Scalar abs_amount = amount < 0.0 ? -amount : amount;
 
 			boost::shared_ptr<CGAL::Straight_skeleton_2<CGAL::Kernel3>> ss;
-			if (shrink) {
-				ss = CGAL::create_interior_straight_skeleton_2(polygon, CGAL::Kernel3());
-			} else {
+			if (exterior) {
 				ss = CGAL::create_exterior_straight_skeleton_2(abs_amount, polygon, CGAL::Kernel3());
+			} else {
+				ss = CGAL::create_interior_straight_skeleton_2(polygon, CGAL::Kernel3());
 			}
 
 			if (!ss) continue;
@@ -1298,6 +1293,9 @@ Primitive* CGALPrimitive::taper(const CGAL::Scalar& amount)
 	surface->appendChild(this);
 	return surface;
 }
+
+static CGAL::Point3 flatten(const CGAL::Point3& p)
+{
 	return CGAL::Point3(p.x(),p.y(),0.0);
 }
 

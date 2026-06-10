@@ -197,6 +197,8 @@ void ShellExplorer::visit(ShellExplorer::HalfFacetHandle f)
 	const bool facet = !f->is_twin();
 	if(facet) {
 		OnceOnly first;
+		bool faceIsBase = false;
+		bool faceIsBaseSet = false;
 		HalfFacetCycleIterator fc;
 		CGAL_forall_facet_cycles_of(fc,f) {
 			/* When there is more than one facet cycle we have holes */
@@ -205,9 +207,13 @@ void ShellExplorer::visit(ShellExplorer::HalfFacetHandle f)
 
 			if(fc.is_shalfedge()) {
 				CGALPolygon& pg=primitive->createPolygon();
-				if(first()) baseFaces.append(QList<CGALPolygon*>());
 				pg.setPlane(f->plane());
-				if(isBase(pg)) {
+				if(!faceIsBaseSet) {
+					faceIsBase = isBase(pg);
+					if(faceIsBase) baseFaces.append(QList<CGALPolygon*>());
+					faceIsBaseSet = true;
+				}
+				if(faceIsBase) {
 					basePolygons.append(&pg);
 					baseFaces.last().append(&pg);
 				}
@@ -231,14 +237,11 @@ void ShellExplorer::visit(ShellExplorer::SHalfEdgeHandle hc)
 	perimeterMap[h]++;
 }
 
+QList<QList<CGALPolygon*>> ShellExplorer::getBaseFaces() { return baseFaces; }
+
 QList<CGALPolygon*> ShellExplorer::getBase()
 {
 	return basePolygons;
-}
-
-QList<QList<CGALPolygon*>> ShellExplorer::getBaseFaces()
-{
-	return baseFaces;
 }
 
 CGALPrimitive* ShellExplorer::getPrimitive() const
@@ -342,20 +345,20 @@ CGALPrimitive* CGALExplorer::getPrimitive()
 	return explorer->getPrimitive();
 }
 
-QList<CGALPolygon*> CGALExplorer::getBase()
-{
-	if(!explore())
-		return QList<CGALPolygon*>();
-
-	return explorer->getBase();
-}
-
 QList<QList<CGALPolygon*>> CGALExplorer::getBaseFaces()
 {
 	if(!explore())
 		return QList<QList<CGALPolygon*>>();
 
 	return explorer->getBaseFaces();
+}
+
+QList<CGALPolygon*> CGALExplorer::getBase()
+{
+	if(!explore())
+		return QList<CGALPolygon*>();
+
+	return explorer->getBase();
 }
 
 CGALVolume CGALExplorer::getVolume(bool calcMass)
