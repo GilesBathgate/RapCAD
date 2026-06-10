@@ -62,6 +62,7 @@ public:
 	void visit(SFaceHandle) {}
 
 	QList<CGALPolygon*> getBase();
+	QList<QList<CGALPolygon*>> getBaseFaces();
 	CGALPrimitive* getPrimitive() const;
 	CGALVolume getVolume(bool) const;
 
@@ -76,6 +77,7 @@ private:
 	QList<CGAL::Point3> points;
 	QHash<HalfEdgeHandle,int> perimeterMap;
 	QList<CGALPolygon*> basePolygons;
+	QList<QList<CGALPolygon*>> baseFaces;
 	using Points = QList<CGAL::Point3>;
 	QList<Points> volumePoints;
 };
@@ -203,9 +205,12 @@ void ShellExplorer::visit(ShellExplorer::HalfFacetHandle f)
 
 			if(fc.is_shalfedge()) {
 				CGALPolygon& pg=primitive->createPolygon();
+				if(first()) baseFaces.append(QList<CGALPolygon*>());
 				pg.setPlane(f->plane());
-				if(isBase(pg))
+				if(isBase(pg)) {
 					basePolygons.append(&pg);
+					baseFaces.last().append(&pg);
+				}
 
 				SHalfEdgeHandle h = fc;
 				SHalfEdgeCirculator hc(h);
@@ -229,6 +234,11 @@ void ShellExplorer::visit(ShellExplorer::SHalfEdgeHandle hc)
 QList<CGALPolygon*> ShellExplorer::getBase()
 {
 	return basePolygons;
+}
+
+QList<QList<CGALPolygon*>> ShellExplorer::getBaseFaces()
+{
+	return baseFaces;
 }
 
 CGALPrimitive* ShellExplorer::getPrimitive() const
@@ -338,6 +348,14 @@ QList<CGALPolygon*> CGALExplorer::getBase()
 		return QList<CGALPolygon*>();
 
 	return explorer->getBase();
+}
+
+QList<QList<CGALPolygon*>> CGALExplorer::getBaseFaces()
+{
+	if(!explore())
+		return QList<QList<CGALPolygon*>>();
+
+	return explorer->getBaseFaces();
 }
 
 CGALVolume CGALExplorer::getVolume(bool calcMass)

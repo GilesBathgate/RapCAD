@@ -17,7 +17,6 @@
  */
 
 #include "nodeprinter.h"
-#include "node/tapernode.h"
 #include "onceonly.h"
 #include "polyhedron.h"
 

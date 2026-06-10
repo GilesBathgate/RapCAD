@@ -31,6 +31,7 @@ public:
 	~CGALExplorer();
 	CGALPrimitive* getPrimitive();
 	QList<CGALPolygon*> getBase();
+	QList<QList<CGALPolygon*>> getBaseFaces();
 	CGALVolume getVolume(bool);
 private:
 	bool explore();

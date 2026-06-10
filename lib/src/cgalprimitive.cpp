@@ -41,7 +41,19 @@
 #include <CGAL/Subdivision_method_3/subdivision_methods_3.h>
 #endif
 //Mesh simplification
-#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,6,0)
+#ifdef USE_OFFSET
+#include <CGAL/create_straight_skeleton_2.h>
+#include <CGAL/create_straight_skeleton_2.h>
+#include <CGAL/Polygon_2.h>
+#include <CGAL/create_offset_polygons_2.h>
+#include <CGAL/Polygon_offset_builder_2.h>
+#include <CGAL/create_straight_skeleton_2.h>
+#include <CGAL/Polygon_2.h>
+#include <CGAL/create_offset_polygons_2.h>
+#include <CGAL/Polygon_offset_builder_2.h>
+#include <CGAL/create_offset_polygons_2.h>
+#include <CGAL/Polygon_offset_builder_2.h>
+#include <CGAL/Polygon_2.h>
 #include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Edge_count_ratio_stop_predicate.h>
 #else
 #include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Count_ratio_stop_predicate.h>
@@ -756,7 +768,7 @@ Primitive* CGALPrimitive::simplify(const CGAL::Scalar& ratio)
 
 	namespace SMS=CGAL::Surface_mesh_simplification;
 	CGAL::Polyhedron3* p=getPolyhedron();
-#if CGAL_VERSION_NR >= CGAL_VERSION_NUMBER(5,6,0)
+#ifdef USE_OFFSET
 	const SMS::Edge_count_ratio_stop_predicate<CGAL::Polyhedron3> stop(to_double(ratio));
 #else
 	const SMS::Count_ratio_stop_predicate<CGAL::Polyhedron3> stop(to_double(ratio));
@@ -1216,83 +1228,76 @@ Primitive* CGALPrimitive::taper(const CGAL::Scalar& amount)
 	CGALPrimitive* surface = explorer.getPrimitive();
 	if (!surface) return nullptr;
 
-	QList<CGALPolygon*> basePolygons = explorer.getBase();
-	if (basePolygons.isEmpty()) {
+	QList<QList<CGALPolygon*>> baseFaces = explorer.getBaseFaces();
+	if (baseFaces.isEmpty()) {
 		delete surface;
 		return this->copy();
 	}
 
-	using Edge = QPair<int, int>;
-	QMap<Edge, int> edgeCount;
-	for (CGALPolygon* pg : basePolygons) {
-		const auto& indices = pg->getIndexes();
-		for (int i = 0; i < indices.size(); ++i) {
-			int v1 = indices[i];
-			int v2 = indices[(i + 1) % indices.size()];
-			Edge e = (v1 < v2) ? Edge(v1, v2) : Edge(v2, v1);
-			edgeCount[e]++;
-		}
-	}
-
-	QMap<int, QList<int>> boundaryAdj;
-	for (auto it = edgeCount.begin(); it != edgeCount.end(); ++it) {
-		if (it.value() == 1) {
-			Edge e = it.key();
-			boundaryAdj[e.first].append(e.second);
-			boundaryAdj[e.second].append(e.first);
-		}
-	}
-
 	QList<CGAL::Point3>& pts = surface->points;
-	QMap<int, CGAL::Vector3> movements;
+	QMap<CGAL::Point3, CGAL::Vector3> movements;
 
-	for (auto it = boundaryAdj.begin(); it != boundaryAdj.end(); ++it) {
-		int v_idx = it.key();
-		const QList<int>& neighbors = it.value();
-		if (neighbors.size() == 2) {
-			int prev_idx = neighbors[0];
-			int next_idx = neighbors[1];
+	for (const auto& faces : baseFaces) {
+		for (int i = 0; i < faces.size(); ++i) {
+			CGALPolygon* pg = faces[i];
+			CGAL::Polygon_2<CGAL::Kernel3> polygon;
+			const auto& pgPoints = pg->getPoints();
+			int n = pgPoints.size();
+			if (n > 1 && pgPoints[0] == pgPoints[n-1]) n--;
+			for (int j = 0; j < n; ++j) {
+				polygon.push_back(CGAL::Point2(pgPoints[j].x(), pgPoints[j].y()));
+			}
 
-			const CGAL::Point3& p = pts[v_idx];
-			const CGAL::Point3& p_prev = pts[prev_idx];
-			const CGAL::Point3& p_next = pts[next_idx];
+			if (polygon.is_clockwise_oriented()) {
+				polygon.reverse_orientation();
+			}
 
-			CGAL::Vector3 d1 = p - p_prev;
-			CGAL::Vector3 d2 = p_next - p;
+			bool isHole = (i > 0);
+			bool shrink = isHole ? (amount > 0.0) : (amount < 0.0);
+			CGAL::Scalar abs_amount = amount < 0.0 ? -amount : amount;
 
-			CGAL::Scalar l1_sq = d1.x()*d1.x() + d1.y()*d1.y();
-			CGAL::Scalar l2_sq = d2.x()*d2.x() + d2.y()*d2.y();
+			boost::shared_ptr<CGAL::Straight_skeleton_2<CGAL::Kernel3>> ss;
+			if (shrink) {
+				ss = CGAL::create_interior_straight_skeleton_2(polygon, CGAL::Kernel3());
+			} else {
+				ss = CGAL::create_exterior_straight_skeleton_2(abs_amount, polygon, CGAL::Kernel3());
+			}
 
-			if (l1_sq > 0.0 && l2_sq > 0.0) {
-				CGAL::Scalar l1 = r_sqrt(l1_sq, false);
-				CGAL::Scalar l2 = r_sqrt(l2_sq, false);
+			if (!ss) continue;
 
-				CGAL::Vector3 n1(-d1.y() / l1, d1.x() / l1, 0);
-				CGAL::Vector3 n2(-d2.y() / l2, d2.x() / l2, 0);
+			typedef CGAL::Straight_skeleton_2<CGAL::Kernel3> Ss;
+			CGAL::Polygon_offset_builder_traits_2<CGAL::Kernel3> traits;
+			CGAL::Polygon_offset_builder_2<Ss, decltype(traits), CGAL::Polygon_2<CGAL::Kernel3>> ob(*ss, traits);
 
-				CGAL::Scalar dot = n1.x() * n2.x() + n1.y() * n2.y();
-				if (dot > -0.999) {
-					CGAL::Scalar k = amount / (1.0 + dot);
-					movements[v_idx] = CGAL::Vector3(k * (n1.x() + n2.x()), k * (n1.y() + n2.y()), 0);
+			for (auto it = ss->halfedges_begin(); it != ss->halfedges_end(); ++it) {
+				if (it->is_bisector() && it->opposite()->vertex()->is_contour()) {
+					auto cv = it->opposite()->vertex();
+					auto be = it;
+
+					auto opt_p = ob.Construct_offset_point(abs_amount, be);
+					if (opt_p) {
+						CGAL::Point2 p2 = *opt_p;
+						CGAL::Vector3 dir(p2.x() - cv->point().x(), p2.y() - cv->point().y(), 0);
+						CGAL::Point3 p3(cv->point().x(), cv->point().y(), pgPoints.first().z());
+						movements[p3] = dir;
+					}
 				}
 			}
 		}
 	}
 
-	for (auto it = movements.begin(); it != movements.end(); ++it) {
-		pts[it.key()] = pts[it.key()] + it.value();
+	for (int i = 0; i < pts.size(); ++i) {
+		if (movements.contains(pts[i])) {
+			pts[i] = pts[i] + movements[pts[i]];
+		}
 	}
 
 	surface->setType(PrimitiveTypes::Volume);
 	surface->setSanitized(false);
 	surface->solidify();
 	surface->appendChild(this);
-
 	return surface;
 }
-
-static CGAL::Point3 flatten(const CGAL::Point3& p)
-{
 	return CGAL::Point3(p.x(),p.y(),0.0);
 }
 
