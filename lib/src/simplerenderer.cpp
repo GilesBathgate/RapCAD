@@ -27,7 +27,6 @@ void SimpleRenderer::paint(QOpenGLFunctions_2_0& f,bool, bool)
 {
 	f.glLineWidth(1);
 	f.glColor4f(0.0,0.0,1.0,0.5);
-	f.glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
 	QSet<Primitive*> visited;
 	descendChildren(f,primitive,visited);
 }
