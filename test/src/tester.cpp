@@ -366,7 +366,8 @@ void Tester::testModule(Script& s,const QFileInfo& file)
 	s.accept(te);
 
 	//Create exam file
-	examFile.open(QFile::WriteOnly);
+	if(!examFile.open(QFile::WriteOnly))
+		return;
 	QTextStream examout(&examFile);
 	NodePrinter p(examout);
 	Node* n=te.getRootNode();
