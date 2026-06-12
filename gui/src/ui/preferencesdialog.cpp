@@ -180,7 +180,7 @@ void PreferencesDialog::setupButtons()
 	connect(ui->doubleRadio,&QRadioButton::toggled,this,&PreferencesDialog::precisionType);
 	connect(ui->singleRadio,&QRadioButton::toggled,this,&PreferencesDialog::precisionType);
 
-	connect(ui->checkBox,&QCheckBox::stateChanged,this,&PreferencesDialog::autoSaveOnCompileChanged);
+	connect(ui->checkBox,&QCheckBox::checkStateChanged,this,&PreferencesDialog::autoSaveOnCompileChanged);
 	connect(ui->noRoundingRadio,&QRadioButton::toggled,this,&PreferencesDialog::functionRoundingChanged);
 	connect(ui->decimalRoundingRadio,&QRadioButton::toggled,this,&PreferencesDialog::functionRoundingChanged);
 	connect(ui->base2RoundingRadio,&QRadioButton::toggled,this,&PreferencesDialog::functionRoundingChanged);
@@ -198,25 +198,25 @@ void PreferencesDialog::setupButtons()
 
 	connect(ui->appearanceComboBox,QOverload<int>::of(&QComboBox::currentIndexChanged),this,&PreferencesDialog::appearanceChanged);
 
-	connect(ui->visibleWhiteSpacdCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::visibleWhiteSpaceChanged);
-	connect(ui->darkSyntaxHighlightCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::darkSyntaxHighlightChanged);
-	connect(ui->darkThemeCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::darkThemeChanged);
-	connect(ui->softwareOpenGLCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::softwareOpenGLChanged);
-	connect(ui->tooltipsCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::showTooltipsChanged);
-	connect(ui->highlightLineCheckbox,&QCheckBox::stateChanged,this,&PreferencesDialog::highlightLineChanged);
+	connect(ui->visibleWhiteSpacdCheckBox,&QCheckBox::checkStateChanged,this,&PreferencesDialog::visibleWhiteSpaceChanged);
+	connect(ui->darkSyntaxHighlightCheckBox,&QCheckBox::checkStateChanged,this,&PreferencesDialog::darkSyntaxHighlightChanged);
+	connect(ui->darkThemeCheckBox,&QCheckBox::checkStateChanged,this,&PreferencesDialog::darkThemeChanged);
+	connect(ui->softwareOpenGLCheckBox,&QCheckBox::checkStateChanged,this,&PreferencesDialog::softwareOpenGLChanged);
+	connect(ui->tooltipsCheckBox,&QCheckBox::checkStateChanged,this,&PreferencesDialog::showTooltipsChanged);
+	connect(ui->highlightLineCheckbox,&QCheckBox::checkStateChanged,this,&PreferencesDialog::highlightLineChanged);
 
 	connect(ui->launchCommandLineEdit,&QLineEdit::textChanged,this,&PreferencesDialog::launchCommandChanged);
 	connect(ui->launchCommandLineEdit,&QLineEdit::editingFinished,this,&PreferencesDialog::launchCommandUpdated);
 
-	connect(ui->showGCODEButtonCheckbox,&QCheckBox::stateChanged,this,&PreferencesDialog::showGCODEButtonChanged);
-	connect(ui->translateCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::translateChanged);
+	connect(ui->showGCODEButtonCheckbox,&QCheckBox::checkStateChanged,this,&PreferencesDialog::showGCODEButtonChanged);
+	connect(ui->translateCheckBox,&QCheckBox::checkStateChanged,this,&PreferencesDialog::translateChanged);
 	connect(ui->processingScriptlineEdit,&QLineEdit::editingFinished,this,&PreferencesDialog::processingScriptUpdated);
 
 	connect(ui->tabsRadioButton,&QRadioButton::toggled,this,&PreferencesDialog::indentRadioChanged);
 	connect(ui->spacesSpinBox,QOverload<int>::of(&QSpinBox::valueChanged),this,&PreferencesDialog::indentSpacesChanged);
 
-	connect(ui->UseMultipleThreadsCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::threadPoolSizeChanged);
-	connect(ui->useCGALAssertionsCheckBox,&QCheckBox::stateChanged,this,&PreferencesDialog::useCGALAssertionsChanged);
+	connect(ui->UseMultipleThreadsCheckBox,&QCheckBox::checkStateChanged,this,&PreferencesDialog::threadPoolSizeChanged);
+	connect(ui->useCGALAssertionsCheckBox,&QCheckBox::checkStateChanged,this,&PreferencesDialog::useCGALAssertionsChanged);
 }
 
 void PreferencesDialog::updatePrecision()
