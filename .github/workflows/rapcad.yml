@@ -26,9 +26,9 @@ jobs:
         sudo mkdir /usr/Qt
         sudo chown $(whoami) /usr/Qt
     - name: Install Qt
-      uses: jurplel/install-qt-action@v4.3.0
+      uses: jurplel/install-qt-action@v4
       with:
-        version: '6.5.*'
+        version: '6.12.*'
         dir: /usr
         cache: true
         cache-key-prefix: Qt
@@ -95,9 +95,9 @@ jobs:
         Invoke-WebRequest "https://archives.boost.io/release/1.83.0/source/boost_1_83_0.7z" -OutFile "$env:TEMP\boost.7z"
         7z x -oC:\ "$env:TEMP\boost.7z"
     - name: Install Qt
-      uses: jurplel/install-qt-action@v4.3.0
+      uses: jurplel/install-qt-action@v4
       with:
-        version: '6.5.*'
+        version: '6.10.*'
         dir: C:\
         cache: true
         cache-key-prefix: Qt
@@ -196,9 +196,9 @@ jobs:
         sudo mkdir /opt/Qt
         sudo chown $(whoami) /opt/Qt
     - name: Install Qt
-      uses: jurplel/install-qt-action@v4.3.0
+      uses: jurplel/install-qt-action@v4
       with:
-        version: '6.5.*'
+        version: '6.12.*'
         dir: /opt
         cache: true
         cache-key-prefix: Qt
