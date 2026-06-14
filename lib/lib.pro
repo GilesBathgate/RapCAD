@@ -210,6 +210,7 @@ SOURCES += \
     src/cgalbuilder.cpp \
     src/cgalcache.cpp \
     src/cgaldiscretemodifier.cpp \
+    src/cgaltapermodifier.cpp \
     src/cgalexplorer.cpp \
     src/cgalexport.cpp \
     src/cgalfragment.cpp \
@@ -477,6 +478,7 @@ HEADERS +=\
     include/cgalauxiliarybuilder.h \
     include/cgalbuilder.h \
     include/cgalcache.h \
+    include/cgaltapermodifier.h \
     include/cgaldiscretemodifier.h \
     include/cgalexplorer.h \
     include/cgalexport.h \

@@ -20,6 +20,7 @@
 #include "cgalprimitive.h"
 
 #include "cgalbuilder.h"
+#include "cgaltapermodifier.h"
 #include "cgaldiscretemodifier.h"
 #include "cgalexplorer.h"
 #include "cgalgroupmodifier.h"
@@ -1217,16 +1218,11 @@ Primitive* CGALPrimitive::slice(const CGAL::Scalar& h,const CGAL::Scalar& t)
 Primitive* CGALPrimitive::taper(const CGAL::Scalar& amount)
 {
 	CGALExplorer explorer(this);
-	CGALPrimitive* surface = explorer.getPrimitive();
-	if (!surface) return nullptr;
-
 	QList<QList<CGALPolygon*>> baseFaces = explorer.getBaseFaces();
 	if (baseFaces.isEmpty()) {
-		delete surface;
-		return this->copy();
+		return this;
 	}
 
-	QList<CGAL::Point3>& pts = surface->points;
 	QMap<CGAL::Point3, CGAL::Vector3> movements;
 
 	for (const auto& faces : baseFaces) {
@@ -1245,9 +1241,6 @@ Primitive* CGALPrimitive::taper(const CGAL::Scalar& amount)
 			}
 
 			bool isHole = (i > 0);
-			// Positive amount should expand the shape.
-			// For outer contour, positive amount is exterior.
-			// For hole, positive amount is interior (shrinking the hole expands the shape).
 			bool exterior = isHole ? (amount < 0.0) : (amount > 0.0);
 			CGAL::Scalar abs_amount = amount < 0.0 ? -amount : amount;
 
@@ -1281,17 +1274,11 @@ Primitive* CGALPrimitive::taper(const CGAL::Scalar& amount)
 		}
 	}
 
-	for (int i = 0; i < pts.size(); ++i) {
-		if (movements.contains(pts[i])) {
-			pts[i] = pts[i] + movements[pts[i]];
-		}
-	}
+	this->buildPrimitive();
+	CGALTaperModifier n(movements);
+	nefPolyhedron->delegate(n, false, false);
 
-	surface->setType(PrimitiveTypes::Volume);
-	surface->setSanitized(false);
-	surface->solidify();
-	surface->appendChild(this);
-	return surface;
+	return this;
 }
 
 static CGAL::Point3 flatten(const CGAL::Point3& p)
