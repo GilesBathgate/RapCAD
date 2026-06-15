@@ -32,13 +32,13 @@ using NefPolyhedron3 = Nef_polyhedron_3<Kernel3>;
 
 class CGALTaperModifier final : public CGAL::Modifier_base<CGAL::NefPolyhedron3::SNC_structure>
 {
-	Q_DISABLE_COPY_MOVE(CGALTaperModifier)
 public:
-	explicit CGALTaperModifier(const QMap<CGAL::Point3, CGAL::Vector3>&);
+	Q_DISABLE_COPY_MOVE(CGALTaperModifier)
+	explicit CGALTaperModifier(const QMap<int, CGAL::Vector3>&);
 	~CGALTaperModifier() override=default;
 	void operator()(CGAL::NefPolyhedron3::SNC_structure&) override;
 private:
-	const QMap<CGAL::Point3, CGAL::Vector3>& movements;
+	const QMap<int, CGAL::Vector3>& movements;
 };
 
 #endif // CGALTAPERMODIFIER_H

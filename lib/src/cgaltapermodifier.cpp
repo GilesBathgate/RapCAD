@@ -19,17 +19,19 @@
 
 #include "cgaltapermodifier.h"
 
-CGALTaperModifier::CGALTaperModifier(const QMap<CGAL::Point3, CGAL::Vector3>& m) : movements(m)
+CGALTaperModifier::CGALTaperModifier(const QMap<int, CGAL::Vector3>& m) : movements(m)
 {
 }
 
 void CGALTaperModifier::operator()(CGAL::NefPolyhedron3::SNC_structure& snc)
 {
+	int vertexCounter = 0;
 	CGAL::NefPolyhedron3::Vertex_iterator v;
 	CGAL_forall_vertices(v,snc) {
-		if (movements.contains(v->point())) {
-			v->point() = v->point() + movements[v->point()];
+		if (movements.contains(vertexCounter)) {
+			v->point() = v->point() + movements[vertexCounter];
 		}
+		vertexCounter++;
 	}
 }
 
