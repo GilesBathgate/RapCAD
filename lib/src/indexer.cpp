@@ -16,38 +16,9 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "polygon.h"
-#include "primitive.h"
+#include "indexer.h"
 
-Polygon::Polygon(Primitive& p) : parent(p)
+qsizetype Indexer::getIndex() const
 {
-}
-
-void Polygon::append(qsizetype i)
-{
-	indexes.append(i);
-}
-
-void Polygon::prepend(qsizetype i)
-{
-	indexes.prepend(i);
-}
-
-QList<Point> Polygon::getPoints() const
-{
-	const QList<Point>& parentPoints=parent.getPoints();
-	QList<Point> points;
-	for(auto i: indexes)
-		points.append(parentPoints.at(i));
-	return points;
-}
-
-const QList<qsizetype>& Polygon::getIndexes() const
-{
-	return indexes;
-}
-
-void Polygon::setIndexes(const QList<qsizetype>& value)
-{
-	indexes=value;
+	return index;
 }

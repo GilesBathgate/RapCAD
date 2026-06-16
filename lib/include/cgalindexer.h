@@ -16,38 +16,25 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "polygon.h"
-#include "primitive.h"
+#ifndef CGALINDEXER_H
+#define CGALINDEXER_H
 
-Polygon::Polygon(Primitive& p) : parent(p)
-{
-}
+#include "indexer.h"
 
-void Polygon::append(qsizetype i)
-{
-	indexes.append(i);
-}
+#include "cgal.h"
+#include <QMap>
 
-void Polygon::prepend(qsizetype i)
-{
-	indexes.prepend(i);
-}
+class CGALPrimitive;
 
-QList<Point> Polygon::getPoints() const
+class CGALIndexer : public Indexer
 {
-	const QList<Point>& parentPoints=parent.getPoints();
-	QList<Point> points;
-	for(auto i: indexes)
-		points.append(parentPoints.at(i));
-	return points;
-}
+public:
+	CGALIndexer(CGALPrimitive&);
+	void create(const CGAL::Point3&);
+	void calculateIndex(const CGAL::Point3&);
+private:
+	QMap<CGAL::Point3,qsizetype> pointMap;
+	CGALPrimitive& primitive;
+};
 
-const QList<qsizetype>& Polygon::getIndexes() const
-{
-	return indexes;
-}
-
-void Polygon::setIndexes(const QList<qsizetype>& value)
-{
-	indexes=value;
-}
+#endif // CGALINDEXER_H

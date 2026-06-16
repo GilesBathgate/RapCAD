@@ -113,7 +113,7 @@ struct VertexInfo {
 		return index != -1;
 	}
 
-	Polygon::size_type index;
+	qsizetype index;
 };
 
 template <class CT, class FaceHandle, class Edge>

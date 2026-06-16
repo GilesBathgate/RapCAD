@@ -213,6 +213,7 @@ SOURCES += \
     src/cgalfragment.cpp \
     src/cgalgroupmodifier.cpp \
     src/cgalimport.cpp \
+    src/cgalindexer.cpp \
     src/cgalpolygon.cpp \
     src/cgalprimitive.cpp \
     src/cgalprojection.cpp \
@@ -240,6 +241,7 @@ SOURCES += \
     src/geometryevaluator.cpp \
     src/headless.cpp \
     src/ifelsestatement.cpp \
+    src/indexer.cpp \
     src/instance.cpp \
     src/intervalexpression.cpp \
     src/intervalvalue.cpp \
@@ -479,6 +481,7 @@ HEADERS +=\
     include/cgalfragment.h \
     include/cgalgroupmodifier.h \
     include/cgalimport.h \
+    include/cgalindexer.h \
     include/cgalpolygon.h \
     include/cgalprimitive.h \
     include/cgalprojection.h \
@@ -509,6 +512,7 @@ HEADERS +=\
     include/geometryevaluator.h \
     include/headless.h \
     include/ifelsestatement.h \
+    include/indexer.h \
     include/instance.h \
     include/intervalexpression.h \
     include/intervalvalue.h \

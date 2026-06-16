@@ -151,6 +151,13 @@ void ShellExplorer::createPerimeters()
 void ShellExplorer::explore()
 {
 	primitive=new CGALPrimitive();
+
+	auto& indexer=primitive->getIndexer();
+	VertexHandle v;
+	CGAL_forall_vertices(v,nefPolyhedron) {
+		indexer.create(v->point());
+	}
+
 	VolumeIterator vi;
 	OnceOnly first_v;
 	CGAL_forall_volumes(vi,nefPolyhedron) {

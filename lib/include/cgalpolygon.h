@@ -22,6 +22,7 @@
 #include "cgal.h"
 
 #include "cgalprojection.h"
+#include "indexer.h"
 #include "polygon.h"
 #include <QList>
 
@@ -39,6 +40,7 @@ public:
 
 	void appendVertex(const CGAL::Point3&);
 	void appendVertex(const CGAL::Point3&,bool);
+	void appendVertex(const Indexer&,bool);
 
 	QList<CGAL::Point3> getPoints() const;
 	QList<CGAL::Point2> getProjectedPoints();
