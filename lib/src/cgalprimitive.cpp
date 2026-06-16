@@ -23,6 +23,7 @@
 #include "cgaldiscretemodifier.h"
 #include "cgalexplorer.h"
 #include "cgalgroupmodifier.h"
+#include "cgalindexer.h"
 #include "cgalsanitizer.h"
 #include "module/cubemodule.h"
 #include "onceonly.h"
@@ -87,6 +88,7 @@ inline bool assign(T& t,const std::optional<std::variant<Ts...>>& o) {
 
 CGALPrimitive::CGALPrimitive() :
 	nefPolyhedron(nullptr),
+	indexer(nullptr),
 	type(PrimitiveTypes::Volume),
 	sanitized(true)
 {
@@ -123,7 +125,7 @@ CGALPrimitive::~CGALPrimitive()
 	qDeleteAll(perimeters);
 	perimeters.clear();
 
-	pointMap.clear();
+	delete indexer;
 	points.clear();
 
 	if(children.isEmpty()) return;
@@ -422,32 +424,23 @@ void CGALPrimitive::createVertex(const CGAL::Point3& p)
 	points.append(p);
 }
 
-CGALPrimitive::size_type CGALPrimitive::findIndex(const CGAL::Point3& p)
+qsizetype CGALPrimitive::pointsSize() const
 {
-	/* Using pointMap.find allows to check whether the map contains the value
-	 * whilst also providing a way to access it instead of doing two lookups */
-	const auto& it=pointMap.constFind(p);
-	if(it!=pointMap.constEnd()) return *it;
+	return points.size();
+}
 
-	const auto i=points.size();
-	pointMap.insert(p,i);
-	createVertex(p);
-	return i;
+CGALIndexer& CGALPrimitive::getIndexer()
+{
+	if(!indexer)
+		indexer=new CGALIndexer(*this);
+
+	return *indexer;
 }
 
 void CGALPrimitive::appendVertex(const CGAL::Point3& p)
 {
 	if(!polygons.empty())
-		appendVertex(polygons.constLast(),p,true);
-}
-
-void CGALPrimitive::appendVertex(CGALPolygon* pg,const CGAL::Point3& p,bool direction)
-{
-	const auto i = findIndex(p);
-	if(direction)
-		pg->append(i);
-	else
-		pg->prepend(i);
+		polygons.constLast()->appendVertex(p);
 }
 
 bool CGALPrimitive::overlaps(Primitive* pr)

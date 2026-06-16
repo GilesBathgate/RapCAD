@@ -42,7 +42,18 @@ void CGALPolygon::appendVertex(const CGAL::Point3& pt)
 void CGALPolygon::appendVertex(const CGAL::Point3& pt, bool direction)
 {
 	auto& pr=dynamic_cast<CGALPrimitive&>(parent);
-	pr.appendVertex(this,pt,direction);
+	auto& indexer=pr.getIndexer();
+	indexer.calculateIndex(pt);
+	appendVertex(indexer,direction);
+}
+
+void CGALPolygon::appendVertex(const Indexer& indexer,bool direction)
+{
+	const auto i=indexer.getIndex();
+	if(direction)
+		append(i);
+	else
+		prepend(i);
 }
 
 QList<CGAL::Point3> CGALPolygon::getPoints() const

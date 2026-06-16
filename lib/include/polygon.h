@@ -34,16 +34,15 @@ class Polygon
 {
 	Q_DISABLE_COPY_MOVE(Polygon)
 public:
-	using size_type=QList<Point>::size_type;
 	explicit Polygon(Primitive&);
 	virtual ~Polygon()=default;
-	void append(size_type);
-	void prepend(size_type);
+	void append(qsizetype);
+	void prepend(qsizetype);
 	QList<Point> getPoints() const;
-	const QList<size_type>& getIndexes() const;
-	void setIndexes(const QList<size_type>& value);
+	const QList<qsizetype>& getIndexes() const;
+	void setIndexes(const QList<qsizetype>&);
 protected:
-	QList<size_type> indexes;
+	QList<qsizetype> indexes;
 	Primitive& parent;
 };
 

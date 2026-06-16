@@ -21,13 +21,14 @@
 
 #include "cgal.h"
 
+#include "cgalindexer.h"
 #include "cgalpolygon.h"
 #include "cgalvolume.h"
 #include "primitive.h"
+
 #include <CGAL/Nef_nary_union_3.h>
 #include <CGAL/Nef_polyhedron_3.h>
 #include <CGAL/Polyhedron_3.h>
-#include <QMap>
 #include <QVector>
 
 namespace CGAL
@@ -100,10 +101,11 @@ public:
 	const CGAL::NefPolyhedron3& getNefPolyhedron();
 	const QList<CGALPolygon*>& getCGALPerimeter() const;
 	const QList<CGALPolygon*>& getCGALPolygons() const;
-	void appendVertex(CGALPolygon*,const CGAL::Point3&,bool);
 	void appendVertex(const CGAL::Point3&);
 	void clearPolygons();
 	void createVertex(const CGAL::Scalar&,const CGAL::Scalar&,const CGAL::Scalar&);
+	qsizetype pointsSize() const;
+	CGALIndexer& getIndexer();
 	void detectPerimeterHoles();
 private:
 	bool overlaps(const CGAL::Cuboid3&) const;
@@ -122,20 +124,12 @@ private:
 	bool detectHoles(QList<CGALPolygon*>,bool);
 	bool hasHoles();
 
-	/**
-	 * @brief Find the index of the point or add it to the points list
-	 * @param p The point to find or add.
-	 * @return The index of the point.
-	 */
-	using size_type=QList<CGAL::Point3>::size_type;
-	size_type findIndex(const CGAL::Point3& p);
-
 	QList<Primitive*> children;
 	QList<CGAL::Point3> points;
-	QMap<CGAL::Point3,size_type> pointMap;
 	QList<CGALPolygon*> polygons;
 	QList<CGALPolygon*> perimeters;
 	CGAL::NefPolyhedron3* nefPolyhedron;
+	CGALIndexer* indexer;
 	PrimitiveTypes type;
 	bool sanitized;
 	QList<Primitive*> joinable;

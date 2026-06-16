@@ -16,38 +16,30 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "polygon.h"
-#include "primitive.h"
+#include "cgalindexer.h"
+#include "cgalprimitive.h"
 
-Polygon::Polygon(Primitive& p) : parent(p)
+CGALIndexer::CGALIndexer(CGALPrimitive & p) :
+	primitive(p)
 {
 }
 
-void Polygon::append(qsizetype i)
+void CGALIndexer::create(const CGAL::Point3& p)
 {
-	indexes.append(i);
+	index=primitive.pointsSize();
+	pointMap.insert(p,index);
+	primitive.createVertex(p);
 }
 
-void Polygon::prepend(qsizetype i)
+void CGALIndexer::calculateIndex(const CGAL::Point3& p)
 {
-	indexes.prepend(i);
-}
+	/* Using pointMap.find allows to check whether the map contains the value
+	 * whilst also providing a way to access it instead of doing two lookups */
+	const auto& it=pointMap.constFind(p);
+	if(it!=pointMap.constEnd()) {
+		index=*it;
+		return;
+	}
 
-QList<Point> Polygon::getPoints() const
-{
-	const QList<Point>& parentPoints=parent.getPoints();
-	QList<Point> points;
-	for(auto i: indexes)
-		points.append(parentPoints.at(i));
-	return points;
-}
-
-const QList<qsizetype>& Polygon::getIndexes() const
-{
-	return indexes;
-}
-
-void Polygon::setIndexes(const QList<qsizetype>& value)
-{
-	indexes=value;
+	create(p);
 }
