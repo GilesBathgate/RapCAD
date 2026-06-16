@@ -287,7 +287,7 @@ HalfEdgeHandle ShellExplorer::getID(HalfEdgeHandle h)
 bool ShellExplorer::isBase(const CGALPolygon& p) const
 {
 	const CGAL::Vector3& v=p.getNormal();
-	return (v.x()==0.0&&v.y()==0.0)&&direction?v.z()<0.0:v.z()>0.0;
+	return (v.x()==0.0)&&(v.y()==0.0)&&(direction?v.z()<0.0:v.z()>0.0);
 }
 
 CGALExplorer::CGALExplorer(Primitive* p) :
