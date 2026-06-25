@@ -34,14 +34,19 @@ CGALPolygon::~CGALPolygon()
 	delete projection;
 }
 
+CGALPrimitive& CGALPolygon::getParent() const
+{
+	return static_cast<CGALPrimitive&>(parent);
+}
+
 void CGALPolygon::appendVertex(const CGAL::Point3& pt)
 {
 	appendVertex(pt,true);
 }
 
-void CGALPolygon::appendVertex(const CGAL::Point3& pt, bool direction)
+void CGALPolygon::appendVertex(const CGAL::Point3& pt,bool direction)
 {
-	auto& pr=dynamic_cast<CGALPrimitive&>(parent);
+	auto& pr=getParent();
 	auto& indexer=pr.getIndexer();
 	indexer.calculateIndex(pt);
 	appendVertex(indexer,direction);
@@ -59,7 +64,7 @@ void CGALPolygon::appendVertex(const Indexer& indexer,bool direction)
 QList<CGAL::Point3> CGALPolygon::getPoints() const
 {
 	QList<CGAL::Point3> points;
-	const auto& pr=dynamic_cast<const CGALPrimitive&>(parent);
+	const auto& pr=getParent();
 	const QList<CGAL::Point3> parentPoints=pr.getPoints();
 	for(auto i: indexes)
 		points.append(parentPoints.at(i));
@@ -70,7 +75,7 @@ QList<CGAL::Point2> CGALPolygon::getProjectedPoints()
 {
 	CGALProjection* pro=getProjection();
 	QList<CGAL::Point2> points;
-	const auto& pr=dynamic_cast<const CGALPrimitive&>(parent);
+	const auto& pr=getParent();
 	const QList<CGAL::Point3>& parentPoints=pr.getPoints();
 	for(auto i: getIndexes()) {
 		const CGAL::Point3& p3=parentPoints.at(i);
