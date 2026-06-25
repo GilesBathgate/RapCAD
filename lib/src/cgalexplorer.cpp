@@ -17,7 +17,7 @@
  */
 #ifdef USE_CGAL
 #include "cgalexplorer.h"
-
+#include "cgalvertexindexer.h"
 #include "onceonly.h"
 #include <CGAL/Triangulation_3.h>
 #include <CGAL/bounding_box.h>
@@ -50,6 +50,8 @@ class ShellExplorer
 
 public:
 	explicit ShellExplorer(const CGAL::NefPolyhedron3&);
+	~ShellExplorer();
+
 	void createPerimeters();
 	void explore();
 	void evaluate();
@@ -73,6 +75,7 @@ private:
 	bool direction;
 	const CGAL::NefPolyhedron3& nefPolyhedron;
 	CGALPrimitive* primitive;
+	CGALVertexIndexer* indexer;
 	QList<CGAL::Point3> points;
 	QHash<HalfEdgeHandle,int> perimeterMap;
 	QList<CGALPolygon*> basePolygons;
@@ -83,8 +86,14 @@ private:
 ShellExplorer::ShellExplorer(const CGAL::NefPolyhedron3& n) :
 	direction(true),
 	nefPolyhedron(n),
-	primitive(nullptr)
+	primitive(nullptr),
+	indexer(nullptr)
 {
+}
+
+ShellExplorer::~ShellExplorer()
+{
+	delete indexer;
 }
 
 void ShellExplorer::createPerimeters()
@@ -151,11 +160,11 @@ void ShellExplorer::createPerimeters()
 void ShellExplorer::explore()
 {
 	primitive=new CGALPrimitive();
+	indexer=new CGALVertexIndexer(*primitive);
 
-	auto& indexer=primitive->getIndexer();
 	VertexHandle v;
 	CGAL_forall_vertices(v,nefPolyhedron) {
-		indexer.create(v->point());
+		indexer->create(v);
 	}
 
 	VolumeIterator vi;
@@ -219,8 +228,8 @@ void ShellExplorer::visit(ShellExplorer::HalfFacetHandle f)
 				SHalfEdgeCirculator he(hc);
 				CGAL_For_all(hc,he) {
 					SVertexHandle sv = hc->source();
-					const CGAL::Point3& sp = sv->source()->point();
-					pg.appendVertex(sp,direction);
+					indexer->calculateIndex(sv->source());
+					pg.appendVertex(*indexer,direction);
 				}
 			}
 		}

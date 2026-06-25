@@ -219,6 +219,7 @@ SOURCES += \
     src/cgalprojection.cpp \
     src/cgalrenderer.cpp \
     src/cgalsanitizer.cpp \
+    src/cgalvertexindexer.cpp \
     src/cgalvolume.cpp \
     src/codedocparam.cpp \
     src/codedocdeclaration.cpp \
@@ -488,6 +489,7 @@ HEADERS +=\
     include/cgalrenderer.h \
     include/cgalsanitizer.h \
     include/cgaltrace.h \
+    include/cgalvertexindexer.h \
     include/cgalvolume.h \
     include/codedocdeclaration.h \
     include/codedocparam.h \

@@ -19,6 +19,7 @@
 #include "cgalpolygon.h"
 
 #include "cgalprimitive.h"
+#include "cgalindexer.h"
 #include "onceonly.h"
 #include <CGAL/normal_vector_newell_3.h>
 
