@@ -26,6 +26,8 @@
 #include "polygon.h"
 #include <QList>
 
+class CGALPrimitive;
+
 namespace CGAL
 {
 using Segment3 = CGAL::Segment_3<CGAL::Kernel3>;
@@ -35,7 +37,7 @@ class CGALPolygon : public Polygon
 {
 	Q_DISABLE_COPY_MOVE(CGALPolygon)
 public:
-	explicit CGALPolygon(class CGALPrimitive&);
+	explicit CGALPolygon(CGALPrimitive&);
 	~CGALPolygon() override;
 
 	void appendVertex(const CGAL::Point3&);
@@ -60,7 +62,7 @@ public:
 
 private:
 	void calculateProjection();
-
+	CGALPrimitive& getParent() const;
 	CGAL::Plane3 plane;
 	CGALProjection* projection;
 	CGAL::Orientation orientation;
