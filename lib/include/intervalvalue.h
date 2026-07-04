@@ -18,6 +18,7 @@
 #ifndef INTERVALVALUE_H
 #define INTERVALVALUE_H
 
+class NumberValue;
 #include "value.h"
 
 class IntervalValue : public Value
@@ -29,6 +30,7 @@ private:
 	Value& operation(Operators) override;
 	Value& operation(Value&,Operators) override;
 	Value& operation(IntervalValue&,Operators);
+	Value& operation(NumberValue&,Operators);
 	Value& lower;
 	Value& upper;
 };

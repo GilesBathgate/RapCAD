@@ -16,6 +16,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "intervalvalue.h"
+#include "numbervalue.h"
 #include "valuefactory.h"
 
 IntervalValue::IntervalValue(Value& l, Value& u) :
@@ -51,6 +52,10 @@ Value& IntervalValue::operation(Value& v,Operators op)
 	auto* i=dynamic_cast<IntervalValue*>(&v);
 	if(i)
 		return operation(*i,op);
+
+	auto* num=dynamic_cast<NumberValue*>(&v);
+	if(num)
+		return operation(*num,op);
 
 	return Value::operation(v,op);
 }
@@ -95,4 +100,10 @@ Value& IntervalValue::operation(IntervalValue& i,Operators op)
 	}
 
 	return ValueFactory::createUndefined();
+}
+
+Value& IntervalValue::operation(NumberValue& num,Operators e)
+{
+	auto& result=ValueFactory::createInterval(num,num);
+	return Value::evaluate(*this,e,result);
 }
