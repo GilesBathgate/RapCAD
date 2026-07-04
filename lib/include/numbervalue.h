@@ -20,6 +20,7 @@
 #define NUMBERVALUE_H
 
 class BooleanValue;
+class IntervalValue;
 #include "value.h"
 
 class NumberValue : public Value
@@ -37,6 +38,7 @@ private:
 	Value& operation(NumberValue&,Operators);
 	Value& operation(VectorValue&,Operators);
 	Value& operation(BooleanValue&,Operators);
+	Value& operation(IntervalValue&,Operators);
 	decimal number;
 };
 

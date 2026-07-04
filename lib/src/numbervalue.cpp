@@ -18,6 +18,7 @@
 
 #include "numbervalue.h"
 #include "booleanvalue.h"
+#include "intervalvalue.h"
 #include "valuefactory.h"
 #include "vectorvalue.h"
 
@@ -72,6 +73,10 @@ Value& NumberValue::operation(Value& v, Operators e)
 	auto* flag=dynamic_cast<BooleanValue*>(&v);
 	if(flag)
 		return operation(*flag,e);
+
+	auto* i=dynamic_cast<IntervalValue*>(&v);
+	if(i)
+		return operation(*i,e);
 
 	return Value::operation(v,e);
 }
@@ -132,4 +137,10 @@ Value& NumberValue::operation(BooleanValue& flag,Operators e)
 	}
 
 	return Value::operation(flag,e);
+}
+
+Value& NumberValue::operation(IntervalValue& i,Operators e)
+{
+	auto& result=ValueFactory::createInterval(*this,*this);
+	return Value::evaluate(result,e,i);
 }
