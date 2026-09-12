@@ -346,7 +346,7 @@ void CGALRenderer::drawEdges(QOpenGLFunctions_2_0& f) const
 struct PolygonData {
 	Reporter& reporter;
 	QOpenGLFunctions_2_0& functions;
-	QList<PointF>& extraPoints;
+	QList<PointF*>& extraPoints;
 	const FacetF& facet;
 };
 
@@ -363,7 +363,9 @@ inline void vertexCallback(GLvoid* vertexData,GLvoid* polygonData)
 inline void combineCallback(GLdouble v[3],GLvoid*[4],GLfloat[4],GLvoid** dataOut,GLvoid* polygonData)
 {
 	auto& points=static_cast<PolygonData*>(polygonData)->extraPoints;
-	*dataOut=&points.emplaceBack(v[0],v[1],v[2],Mark());
+	auto* newPoint=new PointF(v[0],v[1],v[2],Mark());
+	points.append(newPoint);
+	*dataOut=newPoint;
 }
 
 inline void beginCallback(GLenum which,GLvoid* data)
@@ -399,8 +401,9 @@ void CGALRenderer::drawFacets(QOpenGLFunctions_2_0& f) const
 		const QColor& c=getFacetColor(fc.getMark());
 		f.glColor3ub(c.red(),c.green(),c.blue());
 
-		QList<PointF> extraPoints;
+		QList<PointF*> extraPoints;
 		PolygonData data{reporter,f,extraPoints,fc};
+
 		gluTessBeginPolygon(t,&data);
 		gluTessNormal(t,fc.dx(),fc.dy(),fc.dz());
 		for(uint i=0; i<fc.facetCyclesSize(); ++i) {
@@ -413,6 +416,8 @@ void CGALRenderer::drawFacets(QOpenGLFunctions_2_0& f) const
 			gluTessEndContour(t);
 		}
 		gluTessEndPolygon(t);
+
+		qDeleteAll(extraPoints);
 	}
 
 	gluDeleteTess(t);
