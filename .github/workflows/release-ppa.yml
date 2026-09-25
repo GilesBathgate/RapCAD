@@ -21,7 +21,7 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y debhelper devscripts qt6-base-dev qmake6 libqt6opengl6-dev libglu1-mesa-dev libboost-dev libcgal-dev asciidoc source-highlight
+          sudo apt-get install -y build-essential debhelper devscripts qt6-base-dev qmake6 libqt6opengl6-dev libglu1-mesa-dev libboost-dev libcgal-dev libreadline-dev asciidoc source-highlight
       - name: Import GPG
         uses: crazy-max/ghaction-import-gpg@v5
         with:
