@@ -32,7 +32,7 @@ unix {
 	DEFINES += DOCDIR=$$DOCDIR
 }
 
-LIBS += -L$$DESTDIR/lib -lrapcad
+LIBS += -L$$DESTDIR/lib -lrapcad -lvulkan
 PRE_TARGETDEPS += $$DESTDIR/lib/librapcad.a
 
 include(../dxf.pri)
@@ -80,6 +80,7 @@ SOURCES += \
 	src/ui/mainwindow.cpp \
 	src/syntaxhighlighter.cpp \
 	src/ui/glview.cpp \
+	src/ui/vkview.cpp \
 	src/texteditiodevice.cpp \
 	src/backgroundworker.cpp \
 	src/ui/codeeditor.cpp \
@@ -115,6 +116,7 @@ HEADERS  += \
 	src/ui/aboutdialog.h \
 	src/tester.h \
 	src/ui/glview.h \
+	src/ui/vkview.h \
 	src/interactive.h \
 	src/ui/codeeditor.h \
 	src/ui/console.h \
