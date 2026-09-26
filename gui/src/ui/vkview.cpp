@@ -51,7 +51,6 @@ void VKViewRenderer::initResources()
 	m_devFuncs = m_window->vulkanInstance()->deviceFunctions(m_device);
 
 	buildGeometry();
-	createRenderPass();
 	createPipeline();
 	createBuffers();
 	createDescriptorSet();
@@ -102,10 +101,6 @@ void VKViewRenderer::releaseResources()
 		m_pipelineLayout = VK_NULL_HANDLE;
 	}
 
-	if(m_renderPass != VK_NULL_HANDLE) {
-		m_devFuncs->vkDestroyRenderPass(m_device, m_renderPass, nullptr);
-		m_renderPass = VK_NULL_HANDLE;
-	}
 }
 
 void VKViewRenderer::buildGeometry()
@@ -467,7 +462,7 @@ void VKViewRenderer::createPipeline()
 	pipelineInfo.pColorBlendState = &colorBlending;
 	pipelineInfo.pDynamicState = &dynamicState;
 	pipelineInfo.layout = m_pipelineLayout;
-	pipelineInfo.renderPass = m_renderPass;
+	pipelineInfo.renderPass = m_window->defaultRenderPass();
 	pipelineInfo.subpass = 0;
 
 	m_devFuncs->vkCreateGraphicsPipelines(m_device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_pipeline);
@@ -618,7 +613,7 @@ void VKViewRenderer::startNextFrame()
 
 	VkRenderPassBeginInfo passBeginInfo = {};
 	passBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-	passBeginInfo.renderPass = m_renderPass;
+	passBeginInfo.renderPass = m_window->defaultRenderPass();
 	passBeginInfo.framebuffer = m_window->currentFramebuffer();
 	passBeginInfo.renderArea.extent = {static_cast<uint32_t>(sz.width()), static_cast<uint32_t>(sz.height())};
 	passBeginInfo.clearValueCount = 2;
