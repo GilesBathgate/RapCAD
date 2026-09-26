@@ -152,17 +152,19 @@ unix {
 
 # SPIR-V Shader Compilation via glslangValidator
 glsl_vert.input = GLSL_VERT_SOURCES
-glsl_vert.output = ${QMAKE_FILE_BASE}.vert.spv
+glsl_vert.output = ${QMAKE_FILE_IN_PATH}/${QMAKE_FILE_BASE}.vert.spv
 glsl_vert.commands = glslangValidator -V ${QMAKE_FILE_NAME} -o ${QMAKE_FILE_OUT}
 glsl_vert.name = GLSL Vertex Shader ${QMAKE_FILE_NAME}
 glsl_vert.variable_out = PRE_TARGETDEPS
+glsl_vert.CONFIG += target_predeps
 QMAKE_EXTRA_COMPILERS += glsl_vert
 
 glsl_frag.input = GLSL_FRAG_SOURCES
-glsl_frag.output = ${QMAKE_FILE_BASE}.frag.spv
+glsl_frag.output = ${QMAKE_FILE_IN_PATH}/${QMAKE_FILE_BASE}.frag.spv
 glsl_frag.commands = glslangValidator -V ${QMAKE_FILE_NAME} -o ${QMAKE_FILE_OUT}
 glsl_frag.name = GLSL Fragment Shader ${QMAKE_FILE_NAME}
 glsl_frag.variable_out = PRE_TARGETDEPS
+glsl_frag.CONFIG += target_predeps
 QMAKE_EXTRA_COMPILERS += glsl_frag
 
 GLSL_VERT_SOURCES += src/ui/shaders/shader.vert
