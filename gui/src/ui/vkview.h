@@ -58,6 +58,7 @@ private:
 	};
 
 	void buildGeometry();
+	void updateVertexBuffer();
 	void createRenderPass();
 	void createPipeline();
 	void createBuffers();
@@ -74,6 +75,7 @@ private:
 
 	VkBuffer m_vertexBuffer = VK_NULL_HANDLE;
 	VkDeviceMemory m_vertexBufferMemory = VK_NULL_HANDLE;
+	VkDeviceSize m_vertexBufferSize = 0;
 	uint32_t m_vertexCount = 0;
 
 	VkBuffer m_uniformBuffer = VK_NULL_HANDLE;
