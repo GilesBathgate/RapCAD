@@ -114,68 +114,142 @@ void VKViewRenderer::buildGeometry()
 
 	const float printX = static_cast<float>(m_window->printX);
 	const float printY = static_cast<float>(m_window->printY);
-	const float printWidth = static_cast<float>(m_window->printWidth);
-	const float printLength = static_cast<float>(m_window->printLength);
-	const float printHeight = static_cast<float>(m_window->printHeight);
+	const float printWidth = static_cast<float>(m_window->printWidth > 0 ? m_window->printWidth : 200);
+	const float printLength = static_cast<float>(m_window->printLength > 0 ? m_window->printLength : 200);
+	const float printHeight = static_cast<float>(m_window->printHeight > 0 ? m_window->printHeight : 200);
 
-	// Axes
+	auto addLine = [this](float x1, float y1, float z1, float x2, float y2, float z2, float r, float g, float b) {
+		m_vertices.push_back({x1, y1, z1, r, g, b});
+		m_vertices.push_back({x2, y2, z2, r, g, b});
+	};
+
+	auto renderX = [&addLine](float x, float y, float z) {
+		const float d = 2.0F;
+		addLine(x - d, y, z - d, x + d, y, z + d, 1.0F, 0.0F, 0.0F);
+		addLine(x - d, y, z + d, x + d, y, z - d, 1.0F, 0.0F, 0.0F);
+	};
+
+	auto renderY = [&addLine](float x, float y, float z) {
+		const float d = 2.0F;
+		addLine(x + d, y, z + d, x, y, z, 0.0F, 1.0F, 0.0F);
+		addLine(x - d, y, z + d, x, y, z, 0.0F, 1.0F, 0.0F);
+		addLine(x, y, z - d, x, y, z, 0.0F, 1.0F, 0.0F);
+	};
+
+	auto renderZ = [&addLine](float x, float y, float z) {
+		const float d = 2.0F;
+		addLine(x - d, y, z - d, x + d, y, z - d, 0.0F, 0.0F, 1.0F);
+		addLine(x - d, y, z + d, x + d, y, z + d, 0.0F, 0.0F, 1.0F);
+		addLine(x - d, y, z - d, x + d, y, z + d, 0.0F, 0.0F, 1.0F);
+	};
+
+	// 1. Axes
 	if(m_window->showAxes) {
-		const float c = fmaxf(m_window->camera.getPositionY() / 2.0F, static_cast<float>(rulerLength));
-		// X axis
-		m_vertices.push_back({-c, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F});
-		m_vertices.push_back({+c, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F});
-		// Y axis
-		m_vertices.push_back({0.0F, -c, 0.0F, 0.0F, 0.0F, 0.0F});
-		m_vertices.push_back({0.0F, +c, 0.0F, 0.0F, 0.0F, 0.0F});
-		// Z axis
-		m_vertices.push_back({0.0F, 0.0F, -c, 0.0F, 0.0F, 0.0F});
-		m_vertices.push_back({0.0F, 0.0F, +c, 0.0F, 0.0F, 0.0F});
+		const float distance = m_window->camera.getPositionY();
+		const float c = fmaxf(distance / 2.0F, static_cast<float>(rulerLength));
+		addLine(-c, 0.0F, 0.0F, +c, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+		addLine(0.0F, -c, 0.0F, 0.0F, +c, 0.0F, 0.0F, 0.0F, 0.0F);
+		addLine(0.0F, 0.0F, -c, 0.0F, 0.0F, +c, 0.0F, 0.0F, 0.0F);
 	}
 
-	// Cross / Origin indicator
-	if(m_window->showCross) {
-		const float n = 0.2F;
-		// X line - red
-		m_vertices.push_back({printX, printY, n, 1.0F, 0.0F, 0.0F});
-		m_vertices.push_back({printX + 10.0F, printY, n, 1.0F, 0.0F, 0.0F});
-		// Y line - green
-		m_vertices.push_back({printX, printY, n, 0.0F, 1.0F, 0.0F});
-		m_vertices.push_back({printX, printY + 10.0F, n, 0.0F, 1.0F, 0.0F});
-		// Z line - blue
-		m_vertices.push_back({printX - n, printY - n, n, 0.0F, 0.0F, 1.0F});
-		m_vertices.push_back({printX - n, printY - n, 10.0F, 0.0F, 0.0F, 1.0F});
-	}
-
-	// Base Grid & Outline
+	// 2. Base Grid & Outline & Bed Appearance
 	if(m_window->showBase) {
 		const float z = 0.0F;
-		// Base Outline Box
-		m_vertices.push_back({printX, printY, z, 0.8F, 0.8F, 0.8F});
-		m_vertices.push_back({printX + printWidth, printY, z, 0.8F, 0.8F, 0.8F});
+		// Bed Outline depending on appearance
+		if(m_window->appearance == BedAppearance::MK42) {
+			const float baseX = -2.0F;
+			const float baseY = -9.4F;
+			const float baseWidth = 254.0F;
+			const float baseLength = 235.0F;
+			const float chamfer = 4.0F;
+			const float bx = printX + baseX;
+			const float by = printY + baseY;
+			// Chamfered boundary polygon lines
+			addLine(bx, by + chamfer, z, bx + chamfer, by, z, 0.2F, 0.2F, 0.2F);
+			addLine(bx + chamfer, by, z, bx + baseWidth - chamfer, by, z, 0.2F, 0.2F, 0.2F);
+			addLine(bx + baseWidth - chamfer, by, z, bx + baseWidth, by + chamfer, z, 0.2F, 0.2F, 0.2F);
+			addLine(bx + baseWidth, by + chamfer, z, bx + baseWidth, by + baseLength - chamfer, z, 0.2F, 0.2F, 0.2F);
+			addLine(bx + baseWidth, by + baseLength - chamfer, z, bx + baseWidth - chamfer, by + baseLength, z, 0.2F, 0.2F, 0.2F);
+			addLine(bx + baseWidth - chamfer, by + baseLength, z, bx + chamfer, by + baseLength, z, 0.2F, 0.2F, 0.2F);
+			addLine(bx + chamfer, by + baseLength, z, bx, by + baseLength - chamfer, z, 0.2F, 0.2F, 0.2F);
+			addLine(bx, by + baseLength - chamfer, z, bx, by + chamfer, z, 0.2F, 0.2F, 0.2F);
+		} else if(m_window->appearance == BedAppearance::MK2) {
+			const float baseXY = -7.5F;
+			const float baseWL = 215.0F;
+			const float bx = printX + baseXY;
+			const float by = printY + baseXY;
+			addLine(bx, by, z, bx + baseWL, by, z, 0.6F, 0.2F, 0.2F);
+			addLine(bx + baseWL, by, z, bx + baseWL, by + baseWL, z, 0.6F, 0.2F, 0.2F);
+			addLine(bx + baseWL, by + baseWL, z, bx, by + baseWL, z, 0.6F, 0.2F, 0.2F);
+			addLine(bx, by + baseWL, z, bx, by, z, 0.6F, 0.2F, 0.2F);
+		}
 
-		m_vertices.push_back({printX + printWidth, printY, z, 0.8F, 0.8F, 0.8F});
-		m_vertices.push_back({printX + printWidth, printY + printLength, z, 0.8F, 0.8F, 0.8F});
+		// Grid lines (minor 10mm)
+		for(float o = 0; o < printWidth; o += 10.0F) {
+			addLine(printX + o, printY, z, printX + o, printY + printLength, z, 0.6F, 0.6F, 0.6F);
+		}
+		for(float j = 5; j < printLength; j += 10.0F) {
+			addLine(printX, printY + j, z, printX + printWidth, printY + j, z, 0.6F, 0.6F, 0.6F);
+		}
+		// Grid lines (major 50mm)
+		for(float o = 0; o < printWidth; o += 50.0F) {
+			addLine(printX + o, printY, z, printX + o, printY + printLength, z, 0.8F, 0.8F, 0.8F);
+		}
+		for(float j = 5; j < printLength; j += 50.0F) {
+			addLine(printX, printY + j, z, printX + printWidth, printY + j, z, 0.8F, 0.8F, 0.8F);
+		}
 
-		m_vertices.push_back({printX + printWidth, printY + printLength, z, 0.8F, 0.8F, 0.8F});
-		m_vertices.push_back({printX, printY + printLength, z, 0.8F, 0.8F, 0.8F});
-
-		m_vertices.push_back({printX, printY + printLength, z, 0.8F, 0.8F, 0.8F});
-		m_vertices.push_back({printX, printY, z, 0.8F, 0.8F, 0.8F});
+		// Print bed outline loop
+		addLine(printX, printY, z, printX + printWidth, printY, z, 0.8F, 0.8F, 0.8F);
+		addLine(printX + printWidth, printY, z, printX + printWidth, printY + printLength, z, 0.8F, 0.8F, 0.8F);
+		addLine(printX + printWidth, printY + printLength, z, printX, printY + printLength, z, 0.8F, 0.8F, 0.8F);
+		addLine(printX, printY + printLength, z, printX, printY, z, 0.8F, 0.8F, 0.8F);
 	}
 
-	// Print Area Box
+	// 3. Print Area Box
 	if(m_window->showPrintArea) {
-		m_vertices.push_back({printX, printY, 0.0F, 0.8F, 0.8F, 0.8F});
-		m_vertices.push_back({printX, printY, printHeight, 0.8F, 0.8F, 0.8F});
+		// Bottom loop
+		addLine(printX, printY, 0.0F, printX + printWidth, printY, 0.0F, 0.8F, 0.8F, 0.8F);
+		addLine(printX + printWidth, printY, 0.0F, printX + printWidth, printY + printLength, 0.0F, 0.8F, 0.8F, 0.8F);
+		addLine(printX + printWidth, printY + printLength, 0.0F, printX, printY + printLength, 0.0F, 0.8F, 0.8F, 0.8F);
+		addLine(printX, printY + printLength, 0.0F, printX, printY, 0.0F, 0.8F, 0.8F, 0.8F);
 
-		m_vertices.push_back({printX + printWidth, printY + printLength, 0.0F, 0.8F, 0.8F, 0.8F});
-		m_vertices.push_back({printX + printWidth, printY + printLength, printHeight, 0.8F, 0.8F, 0.8F});
+		// Vertical posts
+		addLine(printX, printY, 0.0F, printX, printY, printHeight, 0.8F, 0.8F, 0.8F);
+		addLine(printX + printWidth, printY + printLength, 0.0F, printX + printWidth, printY + printLength, printHeight, 0.8F, 0.8F, 0.8F);
+		addLine(printX, printY + printLength, 0.0F, printX, printY + printLength, printHeight, 0.8F, 0.8F, 0.8F);
+		addLine(printX + printWidth, printY, 0.0F, printX + printWidth, printY, printHeight, 0.8F, 0.8F, 0.8F);
 
-		m_vertices.push_back({printX, printY + printLength, 0.0F, 0.8F, 0.8F, 0.8F});
-		m_vertices.push_back({printX, printY + printLength, printHeight, 0.8F, 0.8F, 0.8F});
+		// Top loop
+		addLine(printX, printY, printHeight, printX + printWidth, printY, printHeight, 0.8F, 0.8F, 0.8F);
+		addLine(printX + printWidth, printY, printHeight, printX + printWidth, printY + printLength, printHeight, 0.8F, 0.8F, 0.8F);
+		addLine(printX + printWidth, printY + printLength, printHeight, printX, printY + printLength, printHeight, 0.8F, 0.8F, 0.8F);
+		addLine(printX, printY + printLength, printHeight, printX, printY, printHeight, 0.8F, 0.8F, 0.8F);
+	}
 
-		m_vertices.push_back({printX + printWidth, printY, 0.0F, 0.8F, 0.8F, 0.8F});
-		m_vertices.push_back({printX + printWidth, printY, printHeight, 0.8F, 0.8F, 0.8F});
+	// 4. Rulers
+	if(m_window->showRulers) {
+		const float distance = m_window->camera.getPositionY();
+		const int k = distance < 200 ? 1 : 10;
+		for(int i = -rulerLength; i < rulerLength; i += k) {
+			const float j = static_cast<float>(i % 10 ? 2 : 5);
+			const float fi = static_cast<float>(i);
+			addLine(fi, 0.0F, 0.0F, fi, j, 0.0F, 0.2F, 0.2F, 0.2F);
+			addLine(0.0F, fi, 0.0F, j, fi, 0.0F, 0.2F, 0.2F, 0.2F);
+			addLine(0.0F, 0.0F, fi, j, 0.0F, fi, 0.2F, 0.2F, 0.2F);
+		}
+	}
+
+	// 5. Cross / Origin indicator
+	if(m_window->showCross) {
+		const float n = 0.2F;
+		addLine(printX, printY, n, printX + 10.0F, printY, n, 1.0F, 0.0F, 0.0F);
+		addLine(printX, printY, n, printX, printY + 10.0F, n, 0.0F, 1.0F, 0.0F);
+		addLine(printX - n, printY - n, n, printX - n, printY - n, 10.0F, 0.0F, 0.0F, 1.0F);
+
+		renderX(printX + 15.0F, printY, 3.0F);
+		renderY(printX, printY + 15.0F, 3.0F);
+		renderZ(printX - n, printY - n, 15.0F);
 	}
 
 	m_vertexCount = static_cast<uint32_t>(m_vertices.size());
@@ -197,15 +271,32 @@ void VKViewRenderer::createRenderPass()
 	colorAttachmentRef.attachment = 0;
 	colorAttachmentRef.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
+	VkAttachmentDescription depthAttachment = {};
+	depthAttachment.format = m_window->depthStencilFormat();
+	depthAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
+	depthAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+	depthAttachment.storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+	depthAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+	depthAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+	depthAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+	depthAttachment.finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+
+	VkAttachmentReference depthAttachmentRef = {};
+	depthAttachmentRef.attachment = 1;
+	depthAttachmentRef.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+
 	VkSubpassDescription subpass = {};
 	subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
 	subpass.colorAttachmentCount = 1;
 	subpass.pColorAttachments = &colorAttachmentRef;
+	subpass.pDepthStencilAttachment = &depthAttachmentRef;
+
+	VkAttachmentDescription attachments[] = {colorAttachment, depthAttachment};
 
 	VkRenderPassCreateInfo renderPassInfo = {};
 	renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
-	renderPassInfo.attachmentCount = 1;
-	renderPassInfo.pAttachments = &colorAttachment;
+	renderPassInfo.attachmentCount = 2;
+	renderPassInfo.pAttachments = attachments;
 	renderPassInfo.subpassCount = 1;
 	renderPassInfo.pSubpasses = &subpass;
 
@@ -300,6 +391,12 @@ void VKViewRenderer::createPipeline()
 	multisampling.sampleShadingEnable = VK_FALSE;
 	multisampling.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
 
+	VkPipelineDepthStencilStateCreateInfo depthStencil = {};
+	depthStencil.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
+	depthStencil.depthTestEnable = VK_TRUE;
+	depthStencil.depthWriteEnable = VK_TRUE;
+	depthStencil.depthCompareOp = VK_COMPARE_OP_LESS;
+
 	VkPipelineColorBlendAttachmentState colorBlendAttachment = {};
 	colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
 	colorBlendAttachment.blendEnable = VK_FALSE;
@@ -344,6 +441,7 @@ void VKViewRenderer::createPipeline()
 	pipelineInfo.pViewportState = &viewportState;
 	pipelineInfo.pRasterizationState = &rasterizer;
 	pipelineInfo.pMultisampleState = &multisampling;
+	pipelineInfo.pDepthStencilState = &depthStencil;
 	pipelineInfo.pColorBlendState = &colorBlending;
 	pipelineInfo.pDynamicState = &dynamicState;
 	pipelineInfo.layout = m_pipelineLayout;
@@ -488,18 +586,20 @@ void VKViewRenderer::updateUniformBuffer()
 
 void VKViewRenderer::startNextFrame()
 {
-	VkClearColorValue clearColor = {{0.46F, 0.46F, 0.46F, 1.0F}};
-	VkClearValue clearValues[1];
-	clearValues[0].color = clearColor;
+	updateVertexBuffer();
+
+	VkClearValue clearValues[2];
+	clearValues[0].color = {{0.46F, 0.46F, 0.46F, 1.0F}};
+	clearValues[1].depthStencil = {1.0f, 0};
 
 	const QSize sz = m_window->swapChainImageSize();
 
 	VkRenderPassBeginInfo passBeginInfo = {};
-	passBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+	passBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
 	passBeginInfo.renderPass = m_renderPass;
 	passBeginInfo.framebuffer = m_window->currentFramebuffer();
 	passBeginInfo.renderArea.extent = {static_cast<uint32_t>(sz.width()), static_cast<uint32_t>(sz.height())};
-	passBeginInfo.clearValueCount = 1;
+	passBeginInfo.clearValueCount = 2;
 	passBeginInfo.pClearValues = clearValues;
 
 	VkCommandBuffer cb = m_window->currentCommandBuffer();
@@ -521,7 +621,6 @@ void VKViewRenderer::startNextFrame()
 	scissor.extent = {static_cast<uint32_t>(sz.width()), static_cast<uint32_t>(sz.height())};
 	m_devFuncs->vkCmdSetScissor(cb, 0, 1, &scissor);
 
-	updateVertexBuffer();
 	updateUniformBuffer();
 
 	m_devFuncs->vkCmdBindDescriptorSets(cb, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipelineLayout, 0, 1, &m_descriptorSet, 0, nullptr);
@@ -549,9 +648,9 @@ VKViewWindow::VKViewWindow()
 	  skeleton(false),
 	  printX(0),
 	  printY(0),
-	  printWidth(0),
-	  printLength(0),
-	  printHeight(0),
+	  printWidth(200),
+	  printLength(200),
+	  printHeight(200),
 	  appearance(BedAppearance::MK42),
 	  render(nullptr)
 {
@@ -578,6 +677,9 @@ VKView::VKView(QWidget *parent)
 	layout->setContentsMargins(0, 0, 0, 0);
 	layout->addWidget(m_vkContainer);
 	setLayout(layout);
+
+	m_vkContainer->installEventFilter(this);
+	m_vkWindow->installEventFilter(this);
 
 	setCursor(Qt::CrossCursor);
 }
@@ -740,4 +842,27 @@ void VKView::wheelEvent(QWheelEvent *event)
 #endif
 	m_vkWindow->camera.zoom(static_cast<float>(delta) / 12.0F);
 	m_vkWindow->requestUpdate();
+}
+
+bool VKView::eventFilter(QObject *watched, QEvent *event)
+{
+	if(watched == m_vkContainer || watched == m_vkWindow) {
+		switch(event->type()) {
+			case QEvent::MouseButtonPress:
+				mousePressEvent(static_cast<QMouseEvent*>(event));
+				return true;
+			case QEvent::MouseMove:
+				mouseMoveEvent(static_cast<QMouseEvent*>(event));
+				return true;
+			case QEvent::MouseButtonRelease:
+				mouseReleaseEvent(static_cast<QMouseEvent*>(event));
+				return true;
+			case QEvent::Wheel:
+				wheelEvent(static_cast<QWheelEvent*>(event));
+				return true;
+			default:
+				break;
+		}
+	}
+	return QWidget::eventFilter(watched, event);
 }

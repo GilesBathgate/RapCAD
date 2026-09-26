@@ -148,6 +148,7 @@ private:
 	void mouseMoveEvent(QMouseEvent *event) override;
 	void mouseReleaseEvent(QMouseEvent *event) override;
 	void wheelEvent(QWheelEvent *event) override;
+	bool eventFilter(QObject *watched, QEvent *event) override;
 
 	QVulkanInstance m_vkInstance;
 	VKViewWindow *m_vkWindow;
