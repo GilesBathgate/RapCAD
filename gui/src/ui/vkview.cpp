@@ -257,15 +257,17 @@ void VKViewRenderer::buildGeometry()
 
 void VKViewRenderer::createRenderPass()
 {
+	const VkSampleCountFlagBits samples = m_window->sampleCountFlagBits();
+
 	VkAttachmentDescription colorAttachment = {};
 	colorAttachment.format = m_window->colorFormat();
-	colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
+	colorAttachment.samples = samples;
 	colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-	colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+	colorAttachment.storeOp = (samples > VK_SAMPLE_COUNT_1_BIT) ? VK_ATTACHMENT_STORE_OP_DONT_CARE : VK_ATTACHMENT_STORE_OP_STORE;
 	colorAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 	colorAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
 	colorAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-	colorAttachment.finalLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+	colorAttachment.finalLayout = (samples > VK_SAMPLE_COUNT_1_BIT) ? VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL : VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
 	VkAttachmentReference colorAttachmentRef = {};
 	colorAttachmentRef.attachment = 0;
@@ -273,7 +275,7 @@ void VKViewRenderer::createRenderPass()
 
 	VkAttachmentDescription depthAttachment = {};
 	depthAttachment.format = m_window->depthStencilFormat();
-	depthAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
+	depthAttachment.samples = samples;
 	depthAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
 	depthAttachment.storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
 	depthAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
@@ -285,18 +287,38 @@ void VKViewRenderer::createRenderPass()
 	depthAttachmentRef.attachment = 1;
 	depthAttachmentRef.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 
+	VkAttachmentDescription resolveAttachment = {};
+	VkAttachmentReference resolveAttachmentRef = {};
+	if(samples > VK_SAMPLE_COUNT_1_BIT) {
+		resolveAttachment.format = m_window->colorFormat();
+		resolveAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
+		resolveAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+		resolveAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+		resolveAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+		resolveAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+		resolveAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+		resolveAttachment.finalLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+
+		resolveAttachmentRef.attachment = 2;
+		resolveAttachmentRef.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+	}
+
 	VkSubpassDescription subpass = {};
 	subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
 	subpass.colorAttachmentCount = 1;
 	subpass.pColorAttachments = &colorAttachmentRef;
+	subpass.pResolveAttachments = (samples > VK_SAMPLE_COUNT_1_BIT) ? &resolveAttachmentRef : nullptr;
 	subpass.pDepthStencilAttachment = &depthAttachmentRef;
 
-	VkAttachmentDescription attachments[] = {colorAttachment, depthAttachment};
+	std::vector<VkAttachmentDescription> attachments = {colorAttachment, depthAttachment};
+	if(samples > VK_SAMPLE_COUNT_1_BIT) {
+		attachments.push_back(resolveAttachment);
+	}
 
 	VkRenderPassCreateInfo renderPassInfo = {};
 	renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
-	renderPassInfo.attachmentCount = 2;
-	renderPassInfo.pAttachments = attachments;
+	renderPassInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
+	renderPassInfo.pAttachments = attachments.data();
 	renderPassInfo.subpassCount = 1;
 	renderPassInfo.pSubpasses = &subpass;
 
@@ -389,7 +411,7 @@ void VKViewRenderer::createPipeline()
 	VkPipelineMultisampleStateCreateInfo multisampling = {};
 	multisampling.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
 	multisampling.sampleShadingEnable = VK_FALSE;
-	multisampling.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
+	multisampling.rasterizationSamples = m_window->sampleCountFlagBits();
 
 	VkPipelineDepthStencilStateCreateInfo depthStencil = {};
 	depthStencil.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
@@ -595,7 +617,7 @@ void VKViewRenderer::startNextFrame()
 	const QSize sz = m_window->swapChainImageSize();
 
 	VkRenderPassBeginInfo passBeginInfo = {};
-	passBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+	passBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 	passBeginInfo.renderPass = m_renderPass;
 	passBeginInfo.framebuffer = m_window->currentFramebuffer();
 	passBeginInfo.renderArea.extent = {static_cast<uint32_t>(sz.width()), static_cast<uint32_t>(sz.height())};
@@ -671,6 +693,8 @@ VKView::VKView(QWidget *parent)
 	if(m_vkInstance.create()) {
 		m_vkWindow->setVulkanInstance(&m_vkInstance);
 	}
+
+	m_vkWindow->setSampleCount(4);
 
 	m_vkContainer = QWidget::createWindowContainer(m_vkWindow, this);
 	auto *layout = new QVBoxLayout(this);
