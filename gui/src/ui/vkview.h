@@ -72,6 +72,10 @@ private:
 	VkRenderPass m_renderPass = VK_NULL_HANDLE;
 	VkPipelineLayout m_pipelineLayout = VK_NULL_HANDLE;
 	VkPipeline m_pipeline = VK_NULL_HANDLE;
+	VkPipeline m_bgPipeline = VK_NULL_HANDLE;
+
+	VkBuffer m_bgVertexBuffer = VK_NULL_HANDLE;
+	VkDeviceMemory m_bgVertexBufferMemory = VK_NULL_HANDLE;
 
 	VkBuffer m_vertexBuffer = VK_NULL_HANDLE;
 	VkDeviceMemory m_vertexBufferMemory = VK_NULL_HANDLE;
@@ -80,6 +84,10 @@ private:
 
 	VkBuffer m_uniformBuffer = VK_NULL_HANDLE;
 	VkDeviceMemory m_uniformBufferMemory = VK_NULL_HANDLE;
+	VkBuffer m_bgUniformBuffer = VK_NULL_HANDLE;
+	VkDeviceMemory m_bgUniformBufferMemory = VK_NULL_HANDLE;
+
+	VkDescriptorSet m_bgDescriptorSet = VK_NULL_HANDLE;
 
 	VkDescriptorPool m_descriptorPool = VK_NULL_HANDLE;
 	VkDescriptorSetLayout m_descriptorSetLayout = VK_NULL_HANDLE;

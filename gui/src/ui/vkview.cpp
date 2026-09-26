@@ -69,6 +69,18 @@ void VKViewRenderer::releaseResources()
 	if(!m_devFuncs)
 		return;
 
+	if(m_bgVertexBuffer != VK_NULL_HANDLE) {
+		m_devFuncs->vkDestroyBuffer(m_device, m_bgVertexBuffer, nullptr);
+		m_devFuncs->vkFreeMemory(m_device, m_bgVertexBufferMemory, nullptr);
+		m_bgVertexBuffer = VK_NULL_HANDLE;
+	}
+
+	if(m_bgUniformBuffer != VK_NULL_HANDLE) {
+		m_devFuncs->vkDestroyBuffer(m_device, m_bgUniformBuffer, nullptr);
+		m_devFuncs->vkFreeMemory(m_device, m_bgUniformBufferMemory, nullptr);
+		m_bgUniformBuffer = VK_NULL_HANDLE;
+	}
+
 	if(m_vertexBuffer != VK_NULL_HANDLE) {
 		m_devFuncs->vkDestroyBuffer(m_device, m_vertexBuffer, nullptr);
 		m_devFuncs->vkFreeMemory(m_device, m_vertexBufferMemory, nullptr);
@@ -89,6 +101,11 @@ void VKViewRenderer::releaseResources()
 	if(m_descriptorSetLayout != VK_NULL_HANDLE) {
 		m_devFuncs->vkDestroyDescriptorSetLayout(m_device, m_descriptorSetLayout, nullptr);
 		m_descriptorSetLayout = VK_NULL_HANDLE;
+	}
+
+	if(m_bgPipeline != VK_NULL_HANDLE) {
+		m_devFuncs->vkDestroyPipeline(m_device, m_bgPipeline, nullptr);
+		m_bgPipeline = VK_NULL_HANDLE;
 	}
 
 	if(m_pipeline != VK_NULL_HANDLE) {
@@ -467,6 +484,13 @@ void VKViewRenderer::createPipeline()
 
 	m_devFuncs->vkCreateGraphicsPipelines(m_device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_pipeline);
 
+	// Create Background Triangle Pipeline
+	inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+	depthStencil.depthTestEnable = VK_FALSE;
+	depthStencil.depthWriteEnable = VK_FALSE;
+
+	m_devFuncs->vkCreateGraphicsPipelines(m_device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_bgPipeline);
+
 	m_devFuncs->vkDestroyShaderModule(m_device, fragShaderModule, nullptr);
 	m_devFuncs->vkDestroyShaderModule(m_device, vertShaderModule, nullptr);
 }
@@ -518,10 +542,49 @@ void VKViewRenderer::createBuffers()
 {
 	updateVertexBuffer();
 
-	// Uniform buffer
+	// Create Background Quad Vertex Buffer
+	const float bR = 119.0F / 255.0F;
+	const float bG = 119.0F / 255.0F;
+	const float bB = 119.0F / 255.0F;
+	const float tR = 186.0F / 255.0F;
+	const float tG = 186.0F / 255.0F;
+	const float tB = 186.0F / 255.0F;
+
+	Vertex bgVertices[6] = {
+		{-1.0F, -1.0F, 0.999F, bR, bG, bB},
+		{ 1.0F, -1.0F, 0.999F, bR, bG, bB},
+		{ 1.0F,  1.0F, 0.999F, tR, tG, tB},
+		{-1.0F, -1.0F, 0.999F, bR, bG, bB},
+		{ 1.0F,  1.0F, 0.999F, tR, tG, tB},
+		{-1.0F,  1.0F, 0.999F, tR, tG, tB}
+	};
+
+	VkDeviceSize bgBufferSize = sizeof(bgVertices);
+	VkBufferCreateInfo bgBufferInfo = {};
+	bgBufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+	bgBufferInfo.size = bgBufferSize;
+	bgBufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+	bgBufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+
+	m_devFuncs->vkCreateBuffer(m_device, &bgBufferInfo, nullptr, &m_bgVertexBuffer);
+
 	VkMemoryRequirements memRequirements;
+	m_devFuncs->vkGetBufferMemoryRequirements(m_device, m_bgVertexBuffer, &memRequirements);
+
 	VkMemoryAllocateInfo allocInfo = {};
 	allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+	allocInfo.allocationSize = memRequirements.size;
+	allocInfo.memoryTypeIndex = m_window->hostVisibleMemoryIndex();
+
+	m_devFuncs->vkAllocateMemory(m_device, &allocInfo, nullptr, &m_bgVertexBufferMemory);
+	m_devFuncs->vkBindBufferMemory(m_device, m_bgVertexBuffer, m_bgVertexBufferMemory, 0);
+
+	void *data;
+	m_devFuncs->vkMapMemory(m_device, m_bgVertexBufferMemory, 0, bgBufferSize, 0, &data);
+	memcpy(data, bgVertices, sizeof(bgVertices));
+	m_devFuncs->vkUnmapMemory(m_device, m_bgVertexBufferMemory);
+
+	// Uniform buffer
 	VkBufferCreateInfo uboInfo = {};
 	uboInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
 	uboInfo.size = sizeof(UniformBufferObject);
@@ -537,19 +600,37 @@ void VKViewRenderer::createBuffers()
 
 	m_devFuncs->vkAllocateMemory(m_device, &allocInfo, nullptr, &m_uniformBufferMemory);
 	m_devFuncs->vkBindBufferMemory(m_device, m_uniformBuffer, m_uniformBufferMemory, 0);
+
+	// Background Uniform buffer (identity matrix)
+	m_devFuncs->vkCreateBuffer(m_device, &uboInfo, nullptr, &m_bgUniformBuffer);
+	m_devFuncs->vkGetBufferMemoryRequirements(m_device, m_bgUniformBuffer, &memRequirements);
+
+	allocInfo.allocationSize = memRequirements.size;
+	allocInfo.memoryTypeIndex = m_window->hostVisibleMemoryIndex();
+
+	m_devFuncs->vkAllocateMemory(m_device, &allocInfo, nullptr, &m_bgUniformBufferMemory);
+	m_devFuncs->vkBindBufferMemory(m_device, m_bgUniformBuffer, m_bgUniformBufferMemory, 0);
+
+	UniformBufferObject identityUbo;
+	QMatrix4x4 identity;
+	memcpy(identityUbo.mvp, identity.constData(), 16 * sizeof(float));
+
+	m_devFuncs->vkMapMemory(m_device, m_bgUniformBufferMemory, 0, sizeof(identityUbo), 0, &data);
+	memcpy(data, &identityUbo, sizeof(identityUbo));
+	m_devFuncs->vkUnmapMemory(m_device, m_bgUniformBufferMemory);
 }
 
 void VKViewRenderer::createDescriptorSet()
 {
 	VkDescriptorPoolSize poolSize = {};
 	poolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-	poolSize.descriptorCount = 1;
+	poolSize.descriptorCount = 2;
 
 	VkDescriptorPoolCreateInfo poolInfo = {};
 	poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
 	poolInfo.poolSizeCount = 1;
 	poolInfo.pPoolSizes = &poolSize;
-	poolInfo.maxSets = 1;
+	poolInfo.maxSets = 2;
 
 	m_devFuncs->vkCreateDescriptorPool(m_device, &poolInfo, nullptr, &m_descriptorPool);
 
@@ -560,6 +641,7 @@ void VKViewRenderer::createDescriptorSet()
 	allocInfo.pSetLayouts = &m_descriptorSetLayout;
 
 	m_devFuncs->vkAllocateDescriptorSets(m_device, &allocInfo, &m_descriptorSet);
+	m_devFuncs->vkAllocateDescriptorSets(m_device, &allocInfo, &m_bgDescriptorSet);
 
 	VkDescriptorBufferInfo bufferInfo = {};
 	bufferInfo.buffer = m_uniformBuffer;
@@ -576,6 +658,22 @@ void VKViewRenderer::createDescriptorSet()
 	descriptorWrite.pBufferInfo = &bufferInfo;
 
 	m_devFuncs->vkUpdateDescriptorSets(m_device, 1, &descriptorWrite, 0, nullptr);
+
+	VkDescriptorBufferInfo bgBufferInfo = {};
+	bgBufferInfo.buffer = m_bgUniformBuffer;
+	bgBufferInfo.offset = 0;
+	bgBufferInfo.range = sizeof(UniformBufferObject);
+
+	VkWriteDescriptorSet bgDescriptorWrite = {};
+	bgDescriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+	bgDescriptorWrite.dstSet = m_bgDescriptorSet;
+	bgDescriptorWrite.dstBinding = 0;
+	bgDescriptorWrite.dstArrayElement = 0;
+	bgDescriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+	bgDescriptorWrite.descriptorCount = 1;
+	bgDescriptorWrite.pBufferInfo = &bgBufferInfo;
+
+	m_devFuncs->vkUpdateDescriptorSets(m_device, 1, &bgDescriptorWrite, 0, nullptr);
 }
 
 void VKViewRenderer::updateUniformBuffer()
@@ -622,8 +720,6 @@ void VKViewRenderer::startNextFrame()
 	VkCommandBuffer cb = m_window->currentCommandBuffer();
 	m_devFuncs->vkCmdBeginRenderPass(cb, &passBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
 
-	m_devFuncs->vkCmdBindPipeline(cb, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipeline);
-
 	VkViewport viewport = {};
 	viewport.x = 0;
 	viewport.y = 0;
@@ -638,12 +734,21 @@ void VKViewRenderer::startNextFrame()
 	scissor.extent = {static_cast<uint32_t>(sz.width()), static_cast<uint32_t>(sz.height())};
 	m_devFuncs->vkCmdSetScissor(cb, 0, 1, &scissor);
 
+	VkDeviceSize offsets[] = {0};
+
+	// 1. Draw Screen-Space Gradient Background Quad
+	m_devFuncs->vkCmdBindPipeline(cb, VK_PIPELINE_BIND_POINT_GRAPHICS, m_bgPipeline);
+	m_devFuncs->vkCmdBindDescriptorSets(cb, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipelineLayout, 0, 1, &m_bgDescriptorSet, 0, nullptr);
+	m_devFuncs->vkCmdBindVertexBuffers(cb, 0, 1, &m_bgVertexBuffer, offsets);
+	m_devFuncs->vkCmdDraw(cb, 6, 1, 0, 0);
+
+	// 2. Draw 3D View Geometry Lines
 	updateUniformBuffer();
 
+	m_devFuncs->vkCmdBindPipeline(cb, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipeline);
 	m_devFuncs->vkCmdBindDescriptorSets(cb, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipelineLayout, 0, 1, &m_descriptorSet, 0, nullptr);
 
 	if(m_vertexCount > 0) {
-		VkDeviceSize offsets[] = {0};
 		m_devFuncs->vkCmdBindVertexBuffers(cb, 0, 1, &m_vertexBuffer, offsets);
 		m_devFuncs->vkCmdDraw(cb, m_vertexCount, 1, 0, 0);
 	}
