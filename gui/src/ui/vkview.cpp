@@ -50,7 +50,6 @@ void VKViewRenderer::initResources()
 	m_device = m_window->device();
 	m_devFuncs = m_window->vulkanInstance()->deviceFunctions(m_device);
 
-	buildGeometry();
 	createPipeline();
 	createBuffers();
 	createDescriptorSet();
@@ -209,10 +208,14 @@ void VKViewRenderer::buildGeometry()
 			addLine(bx + chamfer, by + baseLength, z, bx, by + baseLength - chamfer, z, 0.2F, 0.2F, 0.2F);
 			addLine(bx, by + baseLength - chamfer, z, bx, by + chamfer, z, 0.2F, 0.2F, 0.2F);
 
-			// Solid MK42 Bed Plate Quads (Counter-Clockwise CCW for Top View)
+			// Solid MK42 Bed Plate Quads matching GLView::drawMK42Base (CCW for Top View)
 			const float cr = 0.2F, cg = 0.2F, cb = 0.2F;
+			// Quad 1: Bottom trapezoid
+			addBaseQuadCCW(bx, by + chamfer, bx + chamfer, by, bx + baseWidth - chamfer, by, bx + baseWidth, by + chamfer, cr, cg, cb);
+			// Quad 2: Top trapezoid
+			addBaseQuadCCW(bx + baseWidth, by + baseLength - chamfer, bx + baseWidth - chamfer, by + baseLength, bx + chamfer, by + baseLength, bx, by + baseLength - chamfer, cr, cg, cb);
+			// Quad 3: Middle rectangle
 			addBaseQuadCCW(bx, by + chamfer, bx + baseWidth, by + chamfer, bx + baseWidth, by + baseLength - chamfer, bx, by + baseLength - chamfer, cr, cg, cb);
-			addBaseQuadCCW(bx + chamfer, by, bx + baseWidth - chamfer, by, bx + baseWidth - chamfer, by + baseLength, bx + chamfer, by + baseLength, cr, cg, cb);
 		} else if(m_window->appearance == BedAppearance::MK2) {
 			const float baseXY = -7.5F;
 			const float baseWL = 215.0F;
@@ -612,10 +615,14 @@ void VKViewRenderer::updateVertexBuffer()
 			addLine(bx + chamfer, by + baseLength, z, bx, by + baseLength - chamfer, z, 0.2F, 0.2F, 0.2F);
 			addLine(bx, by + baseLength - chamfer, z, bx, by + chamfer, z, 0.2F, 0.2F, 0.2F);
 
-			// Solid MK42 Bed Plate Quads (Counter-Clockwise CCW for Top View)
+			// Solid MK42 Bed Plate Quads matching GLView::drawMK42Base (CCW for Top View)
 			const float cr = 0.2F, cg = 0.2F, cb = 0.2F;
+			// Quad 1: Bottom trapezoid
+			addBaseQuadCCW(bx, by + chamfer, bx + chamfer, by, bx + baseWidth - chamfer, by, bx + baseWidth, by + chamfer, cr, cg, cb);
+			// Quad 2: Top trapezoid
+			addBaseQuadCCW(bx + baseWidth, by + baseLength - chamfer, bx + baseWidth - chamfer, by + baseLength, bx + chamfer, by + baseLength, bx, by + baseLength - chamfer, cr, cg, cb);
+			// Quad 3: Middle rectangle
 			addBaseQuadCCW(bx, by + chamfer, bx + baseWidth, by + chamfer, bx + baseWidth, by + baseLength - chamfer, bx, by + baseLength - chamfer, cr, cg, cb);
-			addBaseQuadCCW(bx + chamfer, by, bx + baseWidth - chamfer, by, bx + baseWidth - chamfer, by + baseLength, bx + chamfer, by + baseLength, cr, cg, cb);
 		} else if(m_window->appearance == BedAppearance::MK2) {
 			const float baseXY = -7.5F;
 			const float baseWL = 215.0F;
