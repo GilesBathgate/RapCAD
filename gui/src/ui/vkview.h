@@ -73,9 +73,15 @@ private:
 	VkPipelineLayout m_pipelineLayout = VK_NULL_HANDLE;
 	VkPipeline m_pipeline = VK_NULL_HANDLE;
 	VkPipeline m_bgPipeline = VK_NULL_HANDLE;
+	VkPipeline m_baseTriPipeline = VK_NULL_HANDLE;
 
 	VkBuffer m_bgVertexBuffer = VK_NULL_HANDLE;
 	VkDeviceMemory m_bgVertexBufferMemory = VK_NULL_HANDLE;
+
+	VkBuffer m_baseTriVertexBuffer = VK_NULL_HANDLE;
+	VkDeviceMemory m_baseTriVertexBufferMemory = VK_NULL_HANDLE;
+	VkDeviceSize m_baseTriVertexBufferSize = 0;
+	uint32_t m_baseTriVertexCount = 0;
 
 	VkBuffer m_vertexBuffer = VK_NULL_HANDLE;
 	VkDeviceMemory m_vertexBufferMemory = VK_NULL_HANDLE;

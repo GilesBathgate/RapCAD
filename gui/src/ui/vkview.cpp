@@ -75,6 +75,12 @@ void VKViewRenderer::releaseResources()
 		m_bgVertexBuffer = VK_NULL_HANDLE;
 	}
 
+	if(m_baseTriVertexBuffer != VK_NULL_HANDLE) {
+		m_devFuncs->vkDestroyBuffer(m_device, m_baseTriVertexBuffer, nullptr);
+		m_devFuncs->vkFreeMemory(m_device, m_baseTriVertexBufferMemory, nullptr);
+		m_baseTriVertexBuffer = VK_NULL_HANDLE;
+	}
+
 	if(m_bgUniformBuffer != VK_NULL_HANDLE) {
 		m_devFuncs->vkDestroyBuffer(m_device, m_bgUniformBuffer, nullptr);
 		m_devFuncs->vkFreeMemory(m_device, m_bgUniformBufferMemory, nullptr);
@@ -108,6 +114,11 @@ void VKViewRenderer::releaseResources()
 		m_bgPipeline = VK_NULL_HANDLE;
 	}
 
+	if(m_baseTriPipeline != VK_NULL_HANDLE) {
+		m_devFuncs->vkDestroyPipeline(m_device, m_baseTriPipeline, nullptr);
+		m_baseTriPipeline = VK_NULL_HANDLE;
+	}
+
 	if(m_pipeline != VK_NULL_HANDLE) {
 		m_devFuncs->vkDestroyPipeline(m_device, m_pipeline, nullptr);
 		m_pipeline = VK_NULL_HANDLE;
@@ -123,6 +134,7 @@ void VKViewRenderer::releaseResources()
 void VKViewRenderer::buildGeometry()
 {
 	m_vertices.clear();
+	std::vector<Vertex> baseTriVertices;
 
 	const float printX = static_cast<float>(m_window->printX);
 	const float printY = static_cast<float>(m_window->printY);
@@ -133,6 +145,17 @@ void VKViewRenderer::buildGeometry()
 	auto addLine = [this](float x1, float y1, float z1, float x2, float y2, float z2, float r, float g, float b) {
 		m_vertices.push_back({x1, y1, z1, r, g, b});
 		m_vertices.push_back({x2, y2, z2, r, g, b});
+	};
+
+	auto addBaseQuadCCW = [&baseTriVertices](float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, float r, float g, float b) {
+		const float z = 0.0f;
+		baseTriVertices.push_back({x1, y1, z, r, g, b});
+		baseTriVertices.push_back({x2, y2, z, r, g, b});
+		baseTriVertices.push_back({x3, y3, z, r, g, b});
+
+		baseTriVertices.push_back({x1, y1, z, r, g, b});
+		baseTriVertices.push_back({x3, y3, z, r, g, b});
+		baseTriVertices.push_back({x4, y4, z, r, g, b});
 	};
 
 	auto renderX = [&addLine](float x, float y, float z) {
@@ -185,6 +208,11 @@ void VKViewRenderer::buildGeometry()
 			addLine(bx + baseWidth - chamfer, by + baseLength, z, bx + chamfer, by + baseLength, z, 0.2F, 0.2F, 0.2F);
 			addLine(bx + chamfer, by + baseLength, z, bx, by + baseLength - chamfer, z, 0.2F, 0.2F, 0.2F);
 			addLine(bx, by + baseLength - chamfer, z, bx, by + chamfer, z, 0.2F, 0.2F, 0.2F);
+
+			// Solid MK42 Bed Plate Quads (Counter-Clockwise CCW for Top View)
+			const float cr = 0.2F, cg = 0.2F, cb = 0.2F;
+			addBaseQuadCCW(bx, by + chamfer, bx + baseWidth, by + chamfer, bx + baseWidth, by + baseLength - chamfer, bx, by + baseLength - chamfer, cr, cg, cb);
+			addBaseQuadCCW(bx + chamfer, by, bx + baseWidth - chamfer, by, bx + baseWidth - chamfer, by + baseLength, bx + chamfer, by + baseLength, cr, cg, cb);
 		} else if(m_window->appearance == BedAppearance::MK2) {
 			const float baseXY = -7.5F;
 			const float baseWL = 215.0F;
@@ -194,6 +222,9 @@ void VKViewRenderer::buildGeometry()
 			addLine(bx + baseWL, by, z, bx + baseWL, by + baseWL, z, 0.6F, 0.2F, 0.2F);
 			addLine(bx + baseWL, by + baseWL, z, bx, by + baseWL, z, 0.6F, 0.2F, 0.2F);
 			addLine(bx, by + baseWL, z, bx, by, z, 0.6F, 0.2F, 0.2F);
+
+			// Solid MK2 Bed Plate Quad (CCW for Top View)
+			addBaseQuadCCW(bx, by, bx + baseWL, by, bx + baseWL, by + baseWL, bx, by + baseWL, 0.6F, 0.2F, 0.2F);
 		}
 
 		// Grid lines (minor 10mm)
@@ -491,25 +522,194 @@ void VKViewRenderer::createPipeline()
 
 	m_devFuncs->vkCreateGraphicsPipelines(m_device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_bgPipeline);
 
+	// Create Base Plate Solid Triangle Pipeline with Backface Culling enabled
+	depthStencil.depthTestEnable = VK_TRUE;
+	depthStencil.depthWriteEnable = VK_TRUE;
+	rasterizer.cullMode = VK_CULL_MODE_BACK_BIT;
+	rasterizer.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
+
+	m_devFuncs->vkCreateGraphicsPipelines(m_device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_baseTriPipeline);
+
 	m_devFuncs->vkDestroyShaderModule(m_device, fragShaderModule, nullptr);
 	m_devFuncs->vkDestroyShaderModule(m_device, vertShaderModule, nullptr);
 }
 
 void VKViewRenderer::updateVertexBuffer()
 {
-	buildGeometry();
+	m_vertices.clear();
+	std::vector<Vertex> baseTriVertices;
 
+	const float printX = static_cast<float>(m_window->printX);
+	const float printY = static_cast<float>(m_window->printY);
+	const float printWidth = static_cast<float>(m_window->printWidth > 0 ? m_window->printWidth : 200);
+	const float printLength = static_cast<float>(m_window->printLength > 0 ? m_window->printLength : 200);
+	const float printHeight = static_cast<float>(m_window->printHeight > 0 ? m_window->printHeight : 200);
+
+	auto addLine = [this](float x1, float y1, float z1, float x2, float y2, float z2, float r, float g, float b) {
+		m_vertices.push_back({x1, y1, z1, r, g, b});
+		m_vertices.push_back({x2, y2, z2, r, g, b});
+	};
+
+	auto addBaseQuadCCW = [&baseTriVertices](float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, float r, float g, float b) {
+		const float z = 0.0f;
+		baseTriVertices.push_back({x1, y1, z, r, g, b});
+		baseTriVertices.push_back({x2, y2, z, r, g, b});
+		baseTriVertices.push_back({x3, y3, z, r, g, b});
+
+		baseTriVertices.push_back({x1, y1, z, r, g, b});
+		baseTriVertices.push_back({x3, y3, z, r, g, b});
+		baseTriVertices.push_back({x4, y4, z, r, g, b});
+	};
+
+	auto renderX = [&addLine](float x, float y, float z) {
+		const float d = 2.0F;
+		addLine(x - d, y, z - d, x + d, y, z + d, 1.0F, 0.0F, 0.0F);
+		addLine(x - d, y, z + d, x + d, y, z - d, 1.0F, 0.0F, 0.0F);
+	};
+
+	auto renderY = [&addLine](float x, float y, float z) {
+		const float d = 2.0F;
+		addLine(x + d, y, z + d, x, y, z, 0.0F, 1.0F, 0.0F);
+		addLine(x - d, y, z + d, x, y, z, 0.0F, 1.0F, 0.0F);
+		addLine(x, y, z - d, x, y, z, 0.0F, 1.0F, 0.0F);
+	};
+
+	auto renderZ = [&addLine](float x, float y, float z) {
+		const float d = 2.0F;
+		addLine(x - d, y, z - d, x + d, y, z - d, 0.0F, 0.0F, 1.0F);
+		addLine(x - d, y, z + d, x + d, y, z + d, 0.0F, 0.0F, 1.0F);
+		addLine(x - d, y, z - d, x + d, y, z + d, 0.0F, 0.0F, 1.0F);
+	};
+
+	// 1. Axes
+	if(m_window->showAxes) {
+		const float distance = m_window->camera.getPositionY();
+		const float c = fmaxf(distance / 2.0F, static_cast<float>(rulerLength));
+		addLine(-c, 0.0F, 0.0F, +c, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+		addLine(0.0F, -c, 0.0F, 0.0F, +c, 0.0F, 0.0F, 0.0F, 0.0F);
+		addLine(0.0F, 0.0F, -c, 0.0F, 0.0F, +c, 0.0F, 0.0F, 0.0F);
+	}
+
+	// 2. Base Grid & Outline & Bed Appearance
+	if(m_window->showBase) {
+		const float z = 0.0F;
+		// Bed Outline depending on appearance
+		if(m_window->appearance == BedAppearance::MK42) {
+			const float baseX = -2.0F;
+			const float baseY = -9.4F;
+			const float baseWidth = 254.0F;
+			const float baseLength = 235.0F;
+			const float chamfer = 4.0F;
+			const float bx = printX + baseX;
+			const float by = printY + baseY;
+			// Chamfered boundary polygon lines
+			addLine(bx, by + chamfer, z, bx + chamfer, by, z, 0.2F, 0.2F, 0.2F);
+			addLine(bx + chamfer, by, z, bx + baseWidth - chamfer, by, z, 0.2F, 0.2F, 0.2F);
+			addLine(bx + baseWidth - chamfer, by, z, bx + baseWidth, by + chamfer, z, 0.2F, 0.2F, 0.2F);
+			addLine(bx + baseWidth, by + chamfer, z, bx + baseWidth, by + baseLength - chamfer, z, 0.2F, 0.2F, 0.2F);
+			addLine(bx + baseWidth, by + baseLength - chamfer, z, bx + baseWidth - chamfer, by + baseLength, z, 0.2F, 0.2F, 0.2F);
+			addLine(bx + baseWidth - chamfer, by + baseLength, z, bx + chamfer, by + baseLength, z, 0.2F, 0.2F, 0.2F);
+			addLine(bx + chamfer, by + baseLength, z, bx, by + baseLength - chamfer, z, 0.2F, 0.2F, 0.2F);
+			addLine(bx, by + baseLength - chamfer, z, bx, by + chamfer, z, 0.2F, 0.2F, 0.2F);
+
+			// Solid MK42 Bed Plate Quads (Counter-Clockwise CCW for Top View)
+			const float cr = 0.2F, cg = 0.2F, cb = 0.2F;
+			addBaseQuadCCW(bx, by + chamfer, bx + baseWidth, by + chamfer, bx + baseWidth, by + baseLength - chamfer, bx, by + baseLength - chamfer, cr, cg, cb);
+			addBaseQuadCCW(bx + chamfer, by, bx + baseWidth - chamfer, by, bx + baseWidth - chamfer, by + baseLength, bx + chamfer, by + baseLength, cr, cg, cb);
+		} else if(m_window->appearance == BedAppearance::MK2) {
+			const float baseXY = -7.5F;
+			const float baseWL = 215.0F;
+			const float bx = printX + baseXY;
+			const float by = printY + baseXY;
+			addLine(bx, by, z, bx + baseWL, by, z, 0.6F, 0.2F, 0.2F);
+			addLine(bx + baseWL, by, z, bx + baseWL, by + baseWL, z, 0.6F, 0.2F, 0.2F);
+			addLine(bx + baseWL, by + baseWL, z, bx, by + baseWL, z, 0.6F, 0.2F, 0.2F);
+			addLine(bx, by + baseWL, z, bx, by, z, 0.6F, 0.2F, 0.2F);
+
+			// Solid MK2 Bed Plate Quad (CCW for Top View)
+			addBaseQuadCCW(bx, by, bx + baseWL, by, bx + baseWL, by + baseWL, bx, by + baseWL, 0.6F, 0.2F, 0.2F);
+		}
+
+		// Grid lines (minor 10mm)
+		for(float o = 0; o < printWidth; o += 10.0F) {
+			addLine(printX + o, printY, z, printX + o, printY + printLength, z, 0.6F, 0.6F, 0.6F);
+		}
+		for(float j = 5; j < printLength; j += 10.0F) {
+			addLine(printX, printY + j, z, printX + printWidth, printY + j, z, 0.6F, 0.6F, 0.6F);
+		}
+		// Grid lines (major 50mm)
+		for(float o = 0; o < printWidth; o += 50.0F) {
+			addLine(printX + o, printY, z, printX + o, printY + printLength, z, 0.8F, 0.8F, 0.8F);
+		}
+		for(float j = 5; j < printLength; j += 50.0F) {
+			addLine(printX, printY + j, z, printX + printWidth, printY + j, z, 0.8F, 0.8F, 0.8F);
+		}
+
+		// Print bed outline loop
+		addLine(printX, printY, z, printX + printWidth, printY, z, 0.8F, 0.8F, 0.8F);
+		addLine(printX + printWidth, printY, z, printX + printWidth, printY + printLength, z, 0.8F, 0.8F, 0.8F);
+		addLine(printX + printWidth, printY + printLength, z, printX, printY + printLength, z, 0.8F, 0.8F, 0.8F);
+		addLine(printX, printY + printLength, z, printX, printY, z, 0.8F, 0.8F, 0.8F);
+	}
+
+	// 3. Print Area Box
+	if(m_window->showPrintArea) {
+		// Bottom loop
+		addLine(printX, printY, 0.0F, printX + printWidth, printY, 0.0F, 0.8F, 0.8F, 0.8F);
+		addLine(printX + printWidth, printY, 0.0F, printX + printWidth, printY + printLength, 0.0F, 0.8F, 0.8F, 0.8F);
+		addLine(printX + printWidth, printY + printLength, 0.0F, printX, printY + printLength, 0.0F, 0.8F, 0.8F, 0.8F);
+		addLine(printX, printY + printLength, 0.0F, printX, printY, 0.0F, 0.8F, 0.8F, 0.8F);
+
+		// Vertical posts
+		addLine(printX, printY, 0.0F, printX, printY, printHeight, 0.8F, 0.8F, 0.8F);
+		addLine(printX + printWidth, printY + printLength, 0.0F, printX + printWidth, printY + printLength, printHeight, 0.8F, 0.8F, 0.8F);
+		addLine(printX, printY + printLength, 0.0F, printX, printY + printLength, printHeight, 0.8F, 0.8F, 0.8F);
+		addLine(printX + printWidth, printY, 0.0F, printX + printWidth, printY, printHeight, 0.8F, 0.8F, 0.8F);
+
+		// Top loop
+		addLine(printX, printY, printHeight, printX + printWidth, printY, printHeight, 0.8F, 0.8F, 0.8F);
+		addLine(printX + printWidth, printY, printHeight, printX + printWidth, printY + printLength, printHeight, 0.8F, 0.8F, 0.8F);
+		addLine(printX + printWidth, printY + printLength, printHeight, printX, printY + printLength, printHeight, 0.8F, 0.8F, 0.8F);
+		addLine(printX, printY + printLength, printHeight, printX, printY, printHeight, 0.8F, 0.8F, 0.8F);
+	}
+
+	// 4. Rulers
+	if(m_window->showRulers) {
+		const float distance = m_window->camera.getPositionY();
+		const int k = distance < 200 ? 1 : 10;
+		for(int i = -rulerLength; i < rulerLength; i += k) {
+			const float j = static_cast<float>(i % 10 ? 2 : 5);
+			const float fi = static_cast<float>(i);
+			addLine(fi, 0.0F, 0.0F, fi, j, 0.0F, 0.2F, 0.2F, 0.2F);
+			addLine(0.0F, fi, 0.0F, j, fi, 0.0F, 0.2F, 0.2F, 0.2F);
+			addLine(0.0F, 0.0F, fi, j, 0.0F, fi, 0.2F, 0.2F, 0.2F);
+		}
+	}
+
+	// 5. Cross / Origin indicator
+	if(m_window->showCross) {
+		const float n = 0.2F;
+		addLine(printX, printY, n, printX + 10.0F, printY, n, 1.0F, 0.0F, 0.0F);
+		addLine(printX, printY, n, printX, printY + 10.0F, n, 0.0F, 1.0F, 0.0F);
+		addLine(printX - n, printY - n, n, printX - n, printY - n, 10.0F, 0.0F, 0.0F, 1.0F);
+
+		renderX(printX + 15.0F, printY, 3.0F);
+		renderY(printX, printY + 15.0F, 3.0F);
+		renderZ(printX - n, printY - n, 15.0F);
+	}
+
+	m_vertexCount = static_cast<uint32_t>(m_vertices.size());
+	m_baseTriVertexCount = static_cast<uint32_t>(baseTriVertices.size());
+
+	// Line Vertex Buffer
 	VkDeviceSize bufferSize = sizeof(Vertex) * (m_vertices.empty() ? 1 : m_vertices.size());
-
 	if(m_vertexBuffer != VK_NULL_HANDLE && bufferSize > m_vertexBufferSize) {
 		m_devFuncs->vkDestroyBuffer(m_device, m_vertexBuffer, nullptr);
 		m_devFuncs->vkFreeMemory(m_device, m_vertexBufferMemory, nullptr);
 		m_vertexBuffer = VK_NULL_HANDLE;
 	}
-
 	if(m_vertexBuffer == VK_NULL_HANDLE) {
 		m_vertexBufferSize = bufferSize;
-
 		VkBufferCreateInfo bufferInfo = {};
 		bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
 		bufferInfo.size = bufferSize;
@@ -529,12 +729,46 @@ void VKViewRenderer::updateVertexBuffer()
 		m_devFuncs->vkAllocateMemory(m_device, &allocInfo, nullptr, &m_vertexBufferMemory);
 		m_devFuncs->vkBindBufferMemory(m_device, m_vertexBuffer, m_vertexBufferMemory, 0);
 	}
-
 	if(!m_vertices.empty()) {
 		void *data;
 		m_devFuncs->vkMapMemory(m_device, m_vertexBufferMemory, 0, bufferSize, 0, &data);
 		memcpy(data, m_vertices.data(), (size_t)bufferSize);
 		m_devFuncs->vkUnmapMemory(m_device, m_vertexBufferMemory);
+	}
+
+	// Base Triangles Vertex Buffer
+	VkDeviceSize baseTriBufferSize = sizeof(Vertex) * (baseTriVertices.empty() ? 1 : baseTriVertices.size());
+	if(m_baseTriVertexBuffer != VK_NULL_HANDLE && baseTriBufferSize > m_baseTriVertexBufferSize) {
+		m_devFuncs->vkDestroyBuffer(m_device, m_baseTriVertexBuffer, nullptr);
+		m_devFuncs->vkFreeMemory(m_device, m_baseTriVertexBufferMemory, nullptr);
+		m_baseTriVertexBuffer = VK_NULL_HANDLE;
+	}
+	if(m_baseTriVertexBuffer == VK_NULL_HANDLE) {
+		m_baseTriVertexBufferSize = baseTriBufferSize;
+		VkBufferCreateInfo bufferInfo = {};
+		bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+		bufferInfo.size = baseTriBufferSize;
+		bufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+		bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+
+		m_devFuncs->vkCreateBuffer(m_device, &bufferInfo, nullptr, &m_baseTriVertexBuffer);
+
+		VkMemoryRequirements memRequirements;
+		m_devFuncs->vkGetBufferMemoryRequirements(m_device, m_baseTriVertexBuffer, &memRequirements);
+
+		VkMemoryAllocateInfo allocInfo = {};
+		allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+		allocInfo.allocationSize = memRequirements.size;
+		allocInfo.memoryTypeIndex = m_window->hostVisibleMemoryIndex();
+
+		m_devFuncs->vkAllocateMemory(m_device, &allocInfo, nullptr, &m_baseTriVertexBufferMemory);
+		m_devFuncs->vkBindBufferMemory(m_device, m_baseTriVertexBuffer, m_baseTriVertexBufferMemory, 0);
+	}
+	if(!baseTriVertices.empty()) {
+		void *data;
+		m_devFuncs->vkMapMemory(m_device, m_baseTriVertexBufferMemory, 0, baseTriBufferSize, 0, &data);
+		memcpy(data, baseTriVertices.data(), (size_t)baseTriBufferSize);
+		m_devFuncs->vkUnmapMemory(m_device, m_baseTriVertexBufferMemory);
 	}
 }
 
@@ -742,9 +976,17 @@ void VKViewRenderer::startNextFrame()
 	m_devFuncs->vkCmdBindVertexBuffers(cb, 0, 1, &m_bgVertexBuffer, offsets);
 	m_devFuncs->vkCmdDraw(cb, 6, 1, 0, 0);
 
-	// 2. Draw 3D View Geometry Lines
+	// 2. Draw Backface-Culled Base Plate Triangles
 	updateUniformBuffer();
 
+	if(m_baseTriVertexCount > 0) {
+		m_devFuncs->vkCmdBindPipeline(cb, VK_PIPELINE_BIND_POINT_GRAPHICS, m_baseTriPipeline);
+		m_devFuncs->vkCmdBindDescriptorSets(cb, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipelineLayout, 0, 1, &m_descriptorSet, 0, nullptr);
+		m_devFuncs->vkCmdBindVertexBuffers(cb, 0, 1, &m_baseTriVertexBuffer, offsets);
+		m_devFuncs->vkCmdDraw(cb, m_baseTriVertexCount, 1, 0, 0);
+	}
+
+	// 3. Draw 3D View Geometry Lines
 	m_devFuncs->vkCmdBindPipeline(cb, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipeline);
 	m_devFuncs->vkCmdBindDescriptorSets(cb, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipelineLayout, 0, 1, &m_descriptorSet, 0, nullptr);
 
