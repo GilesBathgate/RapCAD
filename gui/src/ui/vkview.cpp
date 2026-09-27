@@ -22,18 +22,46 @@
 #include <QFile>
 #include <cmath>
 #include <cstring>
-#include <vector>
+#include <QtShaderTools/private/qshaderbaker_p.h>
+#include <QDebug>
 
 static const float farfarAway = 100000.0F;
 static const int rulerLength = 200;
 
-static QByteArray loadShaderSpv(const QString &fileName)
+static const char *vertShaderGlsl =
+	"#version 450\n"
+	"layout(location = 0) in vec3 inPos;\n"
+	"layout(location = 1) in vec3 inColor;\n"
+	"layout(location = 0) out vec3 fragColor;\n"
+	"layout(binding = 0) uniform UniformBufferObject {\n"
+	"    mat4 mvp;\n"
+	"} ubo;\n"
+	"void main() {\n"
+	"    gl_Position = ubo.mvp * vec4(inPos, 1.0);\n"
+	"    fragColor = inColor;\n"
+	"}\n";
+
+static const char *fragShaderGlsl =
+	"#version 450\n"
+	"layout(location = 0) in vec3 fragColor;\n"
+	"layout(location = 0) out vec4 outColor;\n"
+	"void main() {\n"
+	"    outColor = vec4(fragColor, 1.0);\n"
+	"}\n";
+
+static QByteArray compileGlslToSpirv(const QByteArray &glslSource, QShader::Stage stage)
 {
-	QFile file(fileName);
-	if(!file.open(QIODevice::ReadOnly)) {
+	QShaderBaker baker;
+	baker.setSourceString(glslSource, stage);
+	baker.setGeneratedShaderVariants({QShader::StandardShader});
+	baker.setGeneratedShaders({{QShader::SpirvShader, QShaderVersion(100)}});
+
+	QShader shader = baker.bake();
+	if(!shader.isValid()) {
+		qWarning("QShaderBaker compile error: %s", qPrintable(baker.errorMessage()));
 		return QByteArray();
 	}
-	return file.readAll();
+	return shader.shader({QShader::SpirvShader, QShaderVersion(100)}).shader();
 }
 
 VKViewRenderer::VKViewRenderer(VKViewWindow *window)
@@ -130,257 +158,10 @@ void VKViewRenderer::releaseResources()
 
 }
 
-void VKViewRenderer::buildGeometry()
-{
-	m_vertices.clear();
-	std::vector<Vertex> baseTriVertices;
-
-	const float printX = static_cast<float>(m_window->printX);
-	const float printY = static_cast<float>(m_window->printY);
-	const float printWidth = static_cast<float>(m_window->printWidth > 0 ? m_window->printWidth : 200);
-	const float printLength = static_cast<float>(m_window->printLength > 0 ? m_window->printLength : 200);
-	const float printHeight = static_cast<float>(m_window->printHeight > 0 ? m_window->printHeight : 200);
-
-	auto addLine = [this](float x1, float y1, float z1, float x2, float y2, float z2, float r, float g, float b) {
-		m_vertices.push_back({x1, y1, z1, r, g, b});
-		m_vertices.push_back({x2, y2, z2, r, g, b});
-	};
-
-	auto addBaseQuadCCW = [&baseTriVertices](float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, float r, float g, float b) {
-		const float z = 0.0f;
-		baseTriVertices.push_back({x1, y1, z, r, g, b});
-		baseTriVertices.push_back({x2, y2, z, r, g, b});
-		baseTriVertices.push_back({x3, y3, z, r, g, b});
-
-		baseTriVertices.push_back({x1, y1, z, r, g, b});
-		baseTriVertices.push_back({x3, y3, z, r, g, b});
-		baseTriVertices.push_back({x4, y4, z, r, g, b});
-	};
-
-	auto renderX = [&addLine](float x, float y, float z) {
-		const float d = 2.0F;
-		addLine(x - d, y, z - d, x + d, y, z + d, 1.0F, 0.0F, 0.0F);
-		addLine(x - d, y, z + d, x + d, y, z - d, 1.0F, 0.0F, 0.0F);
-	};
-
-	auto renderY = [&addLine](float x, float y, float z) {
-		const float d = 2.0F;
-		addLine(x + d, y, z + d, x, y, z, 0.0F, 1.0F, 0.0F);
-		addLine(x - d, y, z + d, x, y, z, 0.0F, 1.0F, 0.0F);
-		addLine(x, y, z - d, x, y, z, 0.0F, 1.0F, 0.0F);
-	};
-
-	auto renderZ = [&addLine](float x, float y, float z) {
-		const float d = 2.0F;
-		addLine(x - d, y, z - d, x + d, y, z - d, 0.0F, 0.0F, 1.0F);
-		addLine(x - d, y, z + d, x + d, y, z + d, 0.0F, 0.0F, 1.0F);
-		addLine(x - d, y, z - d, x + d, y, z + d, 0.0F, 0.0F, 1.0F);
-	};
-
-	// 1. Axes
-	if(m_window->showAxes) {
-		const float distance = m_window->camera.getPositionY();
-		const float c = fmaxf(distance / 2.0F, static_cast<float>(rulerLength));
-		addLine(-c, 0.0F, 0.0F, +c, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-		addLine(0.0F, -c, 0.0F, 0.0F, +c, 0.0F, 0.0F, 0.0F, 0.0F);
-		addLine(0.0F, 0.0F, -c, 0.0F, 0.0F, +c, 0.0F, 0.0F, 0.0F);
-	}
-
-	// 2. Base Grid & Outline & Bed Appearance
-	if(m_window->showBase) {
-		const float z = 0.0F;
-		// Bed Outline depending on appearance
-		if(m_window->appearance == BedAppearance::MK42) {
-			const float baseX = -2.0F;
-			const float baseY = -9.4F;
-			const float baseWidth = 254.0F;
-			const float baseLength = 235.0F;
-			const float chamfer = 4.0F;
-			const float bx = printX + baseX;
-			const float by = printY + baseY;
-			// Chamfered boundary polygon lines
-			addLine(bx, by + chamfer, z, bx + chamfer, by, z, 0.2F, 0.2F, 0.2F);
-			addLine(bx + chamfer, by, z, bx + baseWidth - chamfer, by, z, 0.2F, 0.2F, 0.2F);
-			addLine(bx + baseWidth - chamfer, by, z, bx + baseWidth, by + chamfer, z, 0.2F, 0.2F, 0.2F);
-			addLine(bx + baseWidth, by + chamfer, z, bx + baseWidth, by + baseLength - chamfer, z, 0.2F, 0.2F, 0.2F);
-			addLine(bx + baseWidth, by + baseLength - chamfer, z, bx + baseWidth - chamfer, by + baseLength, z, 0.2F, 0.2F, 0.2F);
-			addLine(bx + baseWidth - chamfer, by + baseLength, z, bx + chamfer, by + baseLength, z, 0.2F, 0.2F, 0.2F);
-			addLine(bx + chamfer, by + baseLength, z, bx, by + baseLength - chamfer, z, 0.2F, 0.2F, 0.2F);
-			addLine(bx, by + baseLength - chamfer, z, bx, by + chamfer, z, 0.2F, 0.2F, 0.2F);
-
-			// Solid MK42 Bed Plate Quads matching GLView::drawMK42Base (CCW for Top View)
-			const float cr = 0.2F, cg = 0.2F, cb = 0.2F;
-			// Quad 1: Bottom trapezoid
-			addBaseQuadCCW(bx, by + chamfer, bx + chamfer, by, bx + baseWidth - chamfer, by, bx + baseWidth, by + chamfer, cr, cg, cb);
-			// Quad 2: Top trapezoid
-			addBaseQuadCCW(bx + baseWidth, by + baseLength - chamfer, bx + baseWidth - chamfer, by + baseLength, bx + chamfer, by + baseLength, bx, by + baseLength - chamfer, cr, cg, cb);
-			// Quad 3: Middle rectangle
-			addBaseQuadCCW(bx, by + chamfer, bx + baseWidth, by + chamfer, bx + baseWidth, by + baseLength - chamfer, bx, by + baseLength - chamfer, cr, cg, cb);
-		} else if(m_window->appearance == BedAppearance::MK2) {
-			const float baseXY = -7.5F;
-			const float baseWL = 215.0F;
-			const float bx = printX + baseXY;
-			const float by = printY + baseXY;
-			addLine(bx, by, z, bx + baseWL, by, z, 0.6F, 0.2F, 0.2F);
-			addLine(bx + baseWL, by, z, bx + baseWL, by + baseWL, z, 0.6F, 0.2F, 0.2F);
-			addLine(bx + baseWL, by + baseWL, z, bx, by + baseWL, z, 0.6F, 0.2F, 0.2F);
-			addLine(bx, by + baseWL, z, bx, by, z, 0.6F, 0.2F, 0.2F);
-
-			// Solid MK2 Bed Plate Quad (CCW for Top View)
-			addBaseQuadCCW(bx, by, bx + baseWL, by, bx + baseWL, by + baseWL, bx, by + baseWL, 0.6F, 0.2F, 0.2F);
-		}
-
-		// Grid lines (minor 10mm)
-		for(float o = 0; o < printWidth; o += 10.0F) {
-			addLine(printX + o, printY, z, printX + o, printY + printLength, z, 0.6F, 0.6F, 0.6F);
-		}
-		for(float j = 5; j < printLength; j += 10.0F) {
-			addLine(printX, printY + j, z, printX + printWidth, printY + j, z, 0.6F, 0.6F, 0.6F);
-		}
-		// Grid lines (major 50mm)
-		for(float o = 0; o < printWidth; o += 50.0F) {
-			addLine(printX + o, printY, z, printX + o, printY + printLength, z, 0.8F, 0.8F, 0.8F);
-		}
-		for(float j = 5; j < printLength; j += 50.0F) {
-			addLine(printX, printY + j, z, printX + printWidth, printY + j, z, 0.8F, 0.8F, 0.8F);
-		}
-
-		// Print bed outline loop
-		addLine(printX, printY, z, printX + printWidth, printY, z, 0.8F, 0.8F, 0.8F);
-		addLine(printX + printWidth, printY, z, printX + printWidth, printY + printLength, z, 0.8F, 0.8F, 0.8F);
-		addLine(printX + printWidth, printY + printLength, z, printX, printY + printLength, z, 0.8F, 0.8F, 0.8F);
-		addLine(printX, printY + printLength, z, printX, printY, z, 0.8F, 0.8F, 0.8F);
-	}
-
-	// 3. Print Area Box
-	if(m_window->showPrintArea) {
-		// Bottom loop
-		addLine(printX, printY, 0.0F, printX + printWidth, printY, 0.0F, 0.8F, 0.8F, 0.8F);
-		addLine(printX + printWidth, printY, 0.0F, printX + printWidth, printY + printLength, 0.0F, 0.8F, 0.8F, 0.8F);
-		addLine(printX + printWidth, printY + printLength, 0.0F, printX, printY + printLength, 0.0F, 0.8F, 0.8F, 0.8F);
-		addLine(printX, printY + printLength, 0.0F, printX, printY, 0.0F, 0.8F, 0.8F, 0.8F);
-
-		// Vertical posts
-		addLine(printX, printY, 0.0F, printX, printY, printHeight, 0.8F, 0.8F, 0.8F);
-		addLine(printX + printWidth, printY + printLength, 0.0F, printX + printWidth, printY + printLength, printHeight, 0.8F, 0.8F, 0.8F);
-		addLine(printX, printY + printLength, 0.0F, printX, printY + printLength, printHeight, 0.8F, 0.8F, 0.8F);
-		addLine(printX + printWidth, printY, 0.0F, printX + printWidth, printY, printHeight, 0.8F, 0.8F, 0.8F);
-
-		// Top loop
-		addLine(printX, printY, printHeight, printX + printWidth, printY, printHeight, 0.8F, 0.8F, 0.8F);
-		addLine(printX + printWidth, printY, printHeight, printX + printWidth, printY + printLength, printHeight, 0.8F, 0.8F, 0.8F);
-		addLine(printX + printWidth, printY + printLength, printHeight, printX, printY + printLength, printHeight, 0.8F, 0.8F, 0.8F);
-		addLine(printX, printY + printLength, printHeight, printX, printY, printHeight, 0.8F, 0.8F, 0.8F);
-	}
-
-	// 4. Rulers
-	if(m_window->showRulers) {
-		const float distance = m_window->camera.getPositionY();
-		const int k = distance < 200 ? 1 : 10;
-		for(int i = -rulerLength; i < rulerLength; i += k) {
-			const float j = static_cast<float>(i % 10 ? 2 : 5);
-			const float fi = static_cast<float>(i);
-			addLine(fi, 0.0F, 0.0F, fi, j, 0.0F, 0.2F, 0.2F, 0.2F);
-			addLine(0.0F, fi, 0.0F, j, fi, 0.0F, 0.2F, 0.2F, 0.2F);
-			addLine(0.0F, 0.0F, fi, j, 0.0F, fi, 0.2F, 0.2F, 0.2F);
-		}
-	}
-
-	// 5. Cross / Origin indicator
-	if(m_window->showCross) {
-		const float n = 0.2F;
-		addLine(printX, printY, n, printX + 10.0F, printY, n, 1.0F, 0.0F, 0.0F);
-		addLine(printX, printY, n, printX, printY + 10.0F, n, 0.0F, 1.0F, 0.0F);
-		addLine(printX - n, printY - n, n, printX - n, printY - n, 10.0F, 0.0F, 0.0F, 1.0F);
-
-		renderX(printX + 15.0F, printY, 3.0F);
-		renderY(printX, printY + 15.0F, 3.0F);
-		renderZ(printX - n, printY - n, 15.0F);
-	}
-
-	m_vertexCount = static_cast<uint32_t>(m_vertices.size());
-}
-
-void VKViewRenderer::createRenderPass()
-{
-	const VkSampleCountFlagBits samples = m_window->sampleCountFlagBits();
-
-	VkAttachmentDescription colorAttachment = {};
-	colorAttachment.format = m_window->colorFormat();
-	colorAttachment.samples = samples;
-	colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-	colorAttachment.storeOp = (samples > VK_SAMPLE_COUNT_1_BIT) ? VK_ATTACHMENT_STORE_OP_DONT_CARE : VK_ATTACHMENT_STORE_OP_STORE;
-	colorAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-	colorAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-	colorAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-	colorAttachment.finalLayout = (samples > VK_SAMPLE_COUNT_1_BIT) ? VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL : VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-
-	VkAttachmentReference colorAttachmentRef = {};
-	colorAttachmentRef.attachment = 0;
-	colorAttachmentRef.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-
-	VkAttachmentDescription depthAttachment = {};
-	depthAttachment.format = m_window->depthStencilFormat();
-	depthAttachment.samples = samples;
-	depthAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-	depthAttachment.storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-	depthAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-	depthAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-	depthAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-	depthAttachment.finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-
-	VkAttachmentReference depthAttachmentRef = {};
-	depthAttachmentRef.attachment = 1;
-	depthAttachmentRef.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-
-	VkAttachmentDescription resolveAttachment = {};
-	VkAttachmentReference resolveAttachmentRef = {};
-	if(samples > VK_SAMPLE_COUNT_1_BIT) {
-		resolveAttachment.format = m_window->colorFormat();
-		resolveAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
-		resolveAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-		resolveAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
-		resolveAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-		resolveAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-		resolveAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-		resolveAttachment.finalLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-
-		resolveAttachmentRef.attachment = 2;
-		resolveAttachmentRef.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-	}
-
-	VkSubpassDescription subpass = {};
-	subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
-	subpass.colorAttachmentCount = 1;
-	subpass.pColorAttachments = &colorAttachmentRef;
-	subpass.pResolveAttachments = (samples > VK_SAMPLE_COUNT_1_BIT) ? &resolveAttachmentRef : nullptr;
-	subpass.pDepthStencilAttachment = &depthAttachmentRef;
-
-	std::vector<VkAttachmentDescription> attachments = {colorAttachment, depthAttachment};
-	if(samples > VK_SAMPLE_COUNT_1_BIT) {
-		attachments.push_back(resolveAttachment);
-	}
-
-	VkRenderPassCreateInfo renderPassInfo = {};
-	renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
-	renderPassInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
-	renderPassInfo.pAttachments = attachments.data();
-	renderPassInfo.subpassCount = 1;
-	renderPassInfo.pSubpasses = &subpass;
-
-	m_devFuncs->vkCreateRenderPass(m_device, &renderPassInfo, nullptr, &m_renderPass);
-}
-
 void VKViewRenderer::createPipeline()
 {
-	QByteArray vertSpv = loadShaderSpv(":/shaders/shader.vert.spv");
-	if(vertSpv.isEmpty()) {
-		vertSpv = loadShaderSpv("shader.vert.spv");
-	}
-	QByteArray fragSpv = loadShaderSpv(":/shaders/shader.frag.spv");
-	if(fragSpv.isEmpty()) {
-		fragSpv = loadShaderSpv("shader.frag.spv");
-	}
+	const QByteArray vertSpv = compileGlslToSpirv(vertShaderGlsl, QShader::VertexStage);
+	const QByteArray fragSpv = compileGlslToSpirv(fragShaderGlsl, QShader::FragmentStage);
 
 	VkShaderModuleCreateInfo vertInfo = {};
 	vertInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;

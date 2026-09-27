@@ -57,9 +57,7 @@ private:
 		float mvp[16];
 	};
 
-	void buildGeometry();
 	void updateVertexBuffer();
-	void createRenderPass();
 	void createPipeline();
 	void createBuffers();
 	void createDescriptorSet();
